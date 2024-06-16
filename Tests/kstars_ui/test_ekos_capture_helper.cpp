@@ -188,7 +188,7 @@ void TestEkosCaptureHelper::cleanupScheduler()
 double TestEkosCaptureHelper::readCurrentTemperature(Ekos::Capture *captureModule)
 {
     // check if the capture module is available
-    QString tempText = captureModule->cameraUI->temperatureOUT->text();
+    QString tempText = captureModule->mainCamera()->temperatureOUT->text();
     tempText.chop(1);
     return tempText.toDouble();
 }

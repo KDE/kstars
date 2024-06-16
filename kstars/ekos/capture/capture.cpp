@@ -6,8 +6,8 @@
 
 #include "capture.h"
 
-#include "captureprocess.h"
-#include "capturemodulestate.h"
+#include "cameraprocess.h"
+#include "camerastate.h"
 #include "capturedeviceadaptor.h"
 #include "captureadaptor.h"
 #include "refocusstate.h"
@@ -53,15 +53,12 @@ Capture::Capture(bool standAlone)
         qDBusRegisterMetaType<CaptureState>();
     }
     new CaptureAdaptor(this);
-    m_captureModuleState.reset(new CaptureModuleState());
-    m_captureDeviceAdaptor.reset(new CaptureDeviceAdaptor());
-    m_captureProcess.reset(new CaptureProcess(state(), m_captureDeviceAdaptor));
 
     // Add a single camera
-    cameraUI = addCamera();
-    cameraUI->m_standAlone = standAlone;
+    setMainCamera(addCamera());
+    mainCamera()->m_standAlone = standAlone;
 
-    if (!cameraUI->m_standAlone)
+    if (!mainCamera()->m_standAlone)
     {
         QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
         QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
@@ -78,36 +75,7 @@ Capture::Capture(bool standAlone)
     DarkLibrary::Instance()->setCaptureModule(this);
 
     // display the capture status in the UI
-    connect(this, &Capture::newStatus, cameraUI->captureStatusWidget, &LedStatusWidget::setCaptureState);
-
-    // forward signals from capture module state
-    connect(m_captureModuleState.data(), &CaptureModuleState::newStatus, this, &Capture::newStatus);
-    connect(m_captureModuleState.data(), &CaptureModuleState::guideAfterMeridianFlip, this,
-            &Capture::guideAfterMeridianFlip);
-    connect(m_captureModuleState.data(), &CaptureModuleState::newMeridianFlipStage, this, &Capture::updateMeridianFlipStage);
-    connect(m_captureModuleState.data(), &CaptureModuleState::meridianFlipStarted, this, &Capture::meridianFlipStarted);
-
-    // forward signals from capture process
-    connect(m_captureProcess.data(), &CaptureProcess::refreshCamera, this, &Capture::updateCamera);
-    connect(m_captureProcess.data(), &CaptureProcess::updateMeridianFlipStage, this, &Capture::updateMeridianFlipStage);
-    connect(m_captureProcess.data(), &CaptureProcess::suspendGuiding, this, &Capture::suspendGuiding);
-    connect(m_captureProcess.data(), &CaptureProcess::resumeGuiding, this, &Capture::resumeGuiding);
-    connect(m_captureProcess.data(), &CaptureProcess::driverTimedout, this, &Capture::driverTimedout);
-
-    // connections between state machine and device adaptor
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::scopeStatusChanged,
-            m_captureModuleState.data(), &CaptureModuleState::setScopeState);
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::pierSideChanged,
-            m_captureModuleState.data(), &CaptureModuleState::setPierSide);
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::scopeParkStatusChanged,
-            m_captureModuleState.data(), &CaptureModuleState::setScopeParkState);
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::domeStatusChanged,
-            m_captureModuleState.data(), &CaptureModuleState::setDomeState);
-    connect(m_captureDeviceAdaptor.data(), &CaptureDeviceAdaptor::dustCapStatusChanged,
-            m_captureModuleState.data(), &CaptureModuleState::dustCapStateChanged);
-
-    // Generate Meridian Flip State
-    getMeridianFlipState();
+    connect(this, &Capture::newStatus, mainCamera()->captureStatusWidget, &LedStatusWidget::setCaptureState);
 }
 
 
@@ -116,13 +84,9 @@ Camera* Capture::addCamera()
     Camera *camera = new Camera();
     cameraTabs->addTab(camera, "new Camera");
 
-    camera->setDeviceAdaptor(m_captureDeviceAdaptor);
-    camera->setCaptureProcess(m_captureProcess);
-    camera->setCaptureModuleState(m_captureModuleState);
-    camera->initCamera();
-
     // forward signals from the camera
     connect(camera, &Camera::newLog, this, &Capture::appendLogText);
+    connect(camera, &Camera::refreshCamera, this, &Capture::updateCamera);
     connect(camera, &Camera::sequenceChanged, this, &Capture::sequenceChanged);
     connect(camera, &Camera::newLocalPreview, this, &Capture::newLocalPreview);
     connect(camera, &Camera::dslrInfoRequested, this, &Capture::dslrInfoRequested);
@@ -142,36 +106,37 @@ Camera* Capture::addCamera()
     connect(camera, &Camera::abortFocus, this, &Capture::abortFocus);
     connect(camera, &Camera::adaptiveFocus, this, &Capture::adaptiveFocus);
     connect(camera, &Camera::captureTarget, this, &Capture::captureTarget);
+    connect(camera, &Camera::guideAfterMeridianFlip, this, &Capture::guideAfterMeridianFlip);
+    connect(camera, &Camera::newStatus, this, &Capture::newStatus);
+    connect(camera, &Camera::suspendGuiding, this, &Capture::suspendGuiding);
+    connect(camera, &Camera::resumeGuiding, this, &Capture::resumeGuiding);
+    connect(camera, &Camera::driverTimedout, this, &Capture::driverTimedout);
 
     return camera;
 }
 
-bool Capture::updateCamera()
+void Capture::updateCamera(bool isValid)
 {
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
 
-    if (cameraUI->updateCamera() && activeCamera() && trainID.isValid())
+    if (isValid)
     {
-        auto name = activeCamera()->getDeviceName();
+        auto name = mainCamera()->activeCamera()->getDeviceName();
         cameraTabs->setTabText(cameraTabs->currentIndex(), name);
     }
     else
-    {
         cameraTabs->setTabText(cameraTabs->currentIndex(), "no camera");
-        return false;
-    }
-    return true;
 }
 
 
 bool Capture::setDome(ISD::Dome *device)
 {
-    return m_captureProcess->setDome(device);
+    return process()->setDome(device);
 }
 
 void Capture::registerNewModule(const QString &name)
 {
-    if (cameraUI->m_standAlone)
+    if (mainCamera()->m_standAlone)
         return;
     if (name == "Mount" && mountInterface == nullptr)
     {
@@ -217,7 +182,7 @@ bool Capture::setFilter(const QString &filter)
 {
     if (devices()->filterWheel())
     {
-        cameraUI->FilterPosCombo->setCurrentText(filter);
+        mainCamera()->FilterPosCombo->setCurrentText(filter);
         return true;
     }
 
@@ -226,7 +191,7 @@ bool Capture::setFilter(const QString &filter)
 
 QString Capture::filter()
 {
-    return cameraUI->FilterPosCombo->currentText();
+    return mainCamera()->FilterPosCombo->currentText();
 }
 
 
@@ -265,36 +230,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
 }
 
-void Capture::updateMeridianFlipStage(MeridianFlipState::MFStage stage)
-{
-    // update UI
-    if (getMeridianFlipState()->getMeridianFlipStage() != stage)
-    {
-        switch (stage)
-        {
-            case MeridianFlipState::MF_READY:
-                if (state()->getCaptureState() == CAPTURE_PAUSED)
-                {
-                    // paused after meridian flip requested
-                    cameraUI->captureStatusWidget->setStatus(i18n("Paused..."), Qt::yellow);
-                }
-                break;
-
-            case MeridianFlipState::MF_INITIATED:
-                cameraUI->captureStatusWidget->setStatus(i18n("Meridian Flip..."), Qt::yellow);
-                KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::Capture);
-                break;
-
-            case MeridianFlipState::MF_COMPLETED:
-                cameraUI->captureStatusWidget->setStatus(i18n("Flip complete."), Qt::yellow);
-                break;
-
-            default:
-                break;
-        }
-    }
-}
-
 void Capture::ignoreSequenceHistory()
 {
     // This function is called independently from the Scheduler or the UI, so honor the change
@@ -328,22 +263,22 @@ void Capture::setMountStatus(ISD::Mount::Status newState)
         case ISD::Mount::MOUNT_PARKING:
         case ISD::Mount::MOUNT_SLEWING:
         case ISD::Mount::MOUNT_MOVING:
-            cameraUI->previewB->setEnabled(false);
-            cameraUI->liveVideoB->setEnabled(false);
+            mainCamera()->previewB->setEnabled(false);
+            mainCamera()->liveVideoB->setEnabled(false);
             // Only disable when button is "Start", and not "Stopped"
             // If mount is in motion, Stopped button should always be enabled to terminate
             // the sequence
             if (state()->isBusy() == false)
-                cameraUI->startB->setEnabled(false);
+                mainCamera()->startB->setEnabled(false);
             break;
 
         default:
             if (state()->isBusy() == false)
             {
-                cameraUI->previewB->setEnabled(true);
+                mainCamera()->previewB->setEnabled(true);
                 if (devices()->getActiveCamera())
-                    cameraUI->liveVideoB->setEnabled(devices()->getActiveCamera()->hasVideoStream());
-                cameraUI->startB->setEnabled(true);
+                    mainCamera()->liveVideoB->setEnabled(devices()->getActiveCamera()->hasVideoStream());
+                mainCamera()->startB->setEnabled(true);
             }
 
             break;
@@ -355,8 +290,8 @@ void Capture::setAlignResults(double solverPA, double ra, double de, double pixs
     Q_UNUSED(ra)
     Q_UNUSED(de)
     Q_UNUSED(pixscale)
-    if (devices()->rotator() && cameraUI->m_RotatorControlPanel)
-        cameraUI->m_RotatorControlPanel->refresh(solverPA);
+    if (devices()->rotator() && mainCamera()->m_RotatorControlPanel)
+        mainCamera()->m_RotatorControlPanel->refresh(solverPA);
 }
 
 void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)

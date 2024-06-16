@@ -109,7 +109,7 @@ class SequenceJob : public QObject
         /// Constructors
         ////////////////////////////////////////////////////////////////////////
         SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
-                    const QSharedPointer<CaptureModuleState> sharedState,
+                    const QSharedPointer<CameraState> sharedState,
                     SequenceJobType jobType, XMLEle *root = nullptr, QString targetName = "");
         SequenceJob(XMLEle *root, QString targetName);
         ~SequenceJob() = default;
@@ -399,13 +399,13 @@ class SequenceJob : public QObject
 
         void saveTo(QTextStream &outstream, const QLocale &cLocale) const;
         void loadFrom(XMLEle *root, const QString &targetName, SequenceJobType jobType,
-                      QSharedPointer<CaptureModuleState> sharedState);
+                      QSharedPointer<CameraState> sharedState);
 
     signals:
         // All preparations necessary for capturing are completed
         void prepareComplete(bool success = true);
         // Manage the result when capturing has been started
-        void captureStarted(CaptureModuleState::CAPTUREResult rc);
+        void captureStarted(CameraState::CAPTUREResult rc);
         // Abort capturing
         void abortCapture();
         // log entry
@@ -421,7 +421,7 @@ private:
         /**
          * @brief init Initialize the sequence job from its XML representation
          */
-        void init(SequenceJobType jobType, XMLEle *root, QSharedPointer<CaptureModuleState> sharedState, const QString &targetName);
+        void init(SequenceJobType jobType, XMLEle *root, QSharedPointer<CameraState> sharedState, const QString &targetName);
 
         // job type (batch, preview, ...)
         SequenceJobType m_jobType;

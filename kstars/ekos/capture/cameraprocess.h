@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "capturemodulestate.h"
+#include "camerastate.h"
 #include "sequencejob.h"
 
 #include "indiapi.h"
@@ -22,8 +22,8 @@ class CaptureDeviceAdaptor;
 class DarkProcessor;
 
 /**
- * @class CaptureProcess
- * @brief The CaptureProcess class holds the entire business logic to control capturing execution.
+ * @class CameraProcess
+ * @brief The CameraProcess class holds the entire business logic to control capturing execution.
  *
  * Capture Execution
  * =================
@@ -85,7 +85,7 @@ class DarkProcessor;
  *  =========
  *  Capture has three ways that trigger autofocus during a capturing sequence: HFR based, temperature drift based,
  *  timer based and post meridian flip based. Each time the capture execution reaches the preparation of caturing
- *  a single frame (3. above) (see {@see CaptureModuleState#startFocusIfRequired()} and
+ *  a single frame (3. above) (see {@see CameraState#startFocusIfRequired()} and
  *  {@see RefocusState#checkFocusRequired()}).
  *
  *  Meridian Flip
@@ -98,7 +98,7 @@ class DarkProcessor;
  *     {@see #updateMFMountState(MeridianFlipState::MeridianFlipMountState)}, the meridian flip state is set
  *     to MF_REQUESTED.
  *     - If capturing is running the state remains in this state until the frame has been captured. As soon as
- *       the capturing state changes to id, suspended or aborted (see {@see CaptureModuleState::setCaptureState(CaptureState)}),
+ *       the capturing state changes to id, suspended or aborted (see {@see CameraState::setCaptureState(CaptureState)}),
  *       the meridian flip state is set to MF_ACCEPTED (see {@see MeridianFlipState::updateMeridianFlipStage(const MFStage)}).
  *       This is triggered from {@see #checkLightFramePendingTasks()}, i.e. this function is looping once per second until
  *       the meridian flip has been completed.
@@ -109,7 +109,7 @@ class DarkProcessor;
  *     takes over the control and executes all necessary tasks: aligning, re-focusing, guiding, etc. This happens all through
  *     {@see #checkLightFramePendingTasks()}. As soon as all has recovered, capturing continues.
  */
-class CaptureProcess : public QObject
+class CameraProcess : public QObject
 {
     Q_OBJECT
 
@@ -131,7 +131,7 @@ public:
     } FitsvViewerTabIDs;
 
 
-    CaptureProcess(QSharedPointer<CaptureModuleState> newModuleState, QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor);
+    CameraProcess(QSharedPointer<CameraState> newModuleState, QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor);
 
     // ////////////////////////////////////////////////////////////////////
     // handle connectivity to modules and devices
@@ -262,7 +262,7 @@ public:
 
     /**
      * @brief startJob Start the execution of a selected sequence job:
-     * - Initialize the state for capture preparation ({@see CaptureModuleState#initCapturePreparation()}
+     * - Initialize the state for capture preparation ({@see CameraState#initCapturePreparation()}
      * - Prepare the selected job ({@see #prepareJob(SequenceJob *)})
      * @param job selected sequence job
      */
@@ -297,7 +297,7 @@ public:
      * SequenceJob checks, if it has reached the target value and if yes, sets this action as as completed.
      *
      * As soon as all actions are completed, SequenceJob emits a prepareComplete() event, which triggers
-     * executeJob() from the CaptureProcess.
+     * executeJob() from the CameraProcess.
      */
     void prepareJobExecution();
 
@@ -319,7 +319,7 @@ public:
      *  1. Are there any pending jobs that failed? If yes, return with IPS_ALERT.
      *  2. Has pausing been initiated (@see checkPausing()).
      *  3. Is a meridian flip already running (@see m_MeridianFlipState->checkMeridianFlipRunning()) or ready
-     *     for execution (@see CaptureModuleState::checkMeridianFlipReady()).
+     *     for execution (@see CameraState#checkMeridianFlipReady()).
      *  4. check guide deviation for non meridian flip stages if the initial guide limit is set.
      *     Wait until the guide deviation is reported to be below the limit
      *     (@see Capture::setGuideDeviation(double, double)).
@@ -356,7 +356,7 @@ public:
     /**
      * @brief captureStarted Manage the result when capturing has been started
      */
-    void captureStarted(CaptureModuleState::CAPTUREResult rc);
+    void captureStarted(CameraState::CAPTUREResult rc);
 
     /**
      * @brief checkNextExposure Try to start capturing the next exposure (@see startNextExposure()).
@@ -613,7 +613,7 @@ public:
      * @param continueAction action to be executed when resume after pausing
      * @return true iff capturing has been paused
      */
-    bool checkPausing(CaptureModuleState::ContinueAction continueAction);
+    bool checkPausing(CameraState::ContinueAction continueAction);
 
     /**
      * @brief findExecutableJob find next job to be executed
@@ -711,7 +711,7 @@ signals:
     void darkFrameCompleted();
     void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
     void cameraReady();
-    void refreshCamera();
+    void refreshCamera(bool isValid);
     void refreshCameraSettings();
     void refreshFilterSettings();
     void processingFITSfinished(bool success);
@@ -730,7 +730,7 @@ signals:
 
 
 private:
-    QSharedPointer<CaptureModuleState> m_State;
+    QSharedPointer<CameraState> m_State;
     QSharedPointer<CaptureDeviceAdaptor> m_DeviceAdaptor;
     QPointer<DarkProcessor> m_DarkProcessor;
     QSharedPointer<FITSViewer> m_FITSViewerWindow;
@@ -747,7 +747,7 @@ private:
     /**
      * @brief activeJob Shortcut for the module state
      */
-    QSharedPointer<CaptureModuleState> state() const
+    QSharedPointer<CameraState> state() const
     {
         return m_State;
     }

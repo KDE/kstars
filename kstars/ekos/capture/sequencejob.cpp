@@ -35,8 +35,8 @@ const QStringList SequenceJob::StatusStrings()
 SequenceJob::SequenceJob(XMLEle * root, QString targetName)
 {
     // set own unconnected state machine
-    QSharedPointer<CaptureModuleState> sharedState;
-    sharedState.reset(new CaptureModuleState);
+    QSharedPointer<CameraState> sharedState;
+    sharedState.reset(new CameraState);
     state.reset(new SequenceJobState(sharedState));
     // set simple device adaptor
     devices.reset(new CaptureDeviceAdaptor());
@@ -45,7 +45,7 @@ SequenceJob::SequenceJob(XMLEle * root, QString targetName)
 }
 
 SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
-                         const QSharedPointer<CaptureModuleState> sharedState,
+                         const QSharedPointer<CameraState> sharedState,
                          SequenceJobType jobType, XMLEle *root, QString targetName)
 {
     devices = cp;
@@ -53,7 +53,7 @@ SequenceJob::SequenceJob(const QSharedPointer<CaptureDeviceAdaptor> cp,
 }
 
 void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root,
-                             QSharedPointer<CaptureModuleState> sharedState,
+                             QSharedPointer<Ekos::CameraState> sharedState,
                              const QString &targetName)
 {
     // initialize the state machine
@@ -334,7 +334,7 @@ void SequenceJob::capture(FITSMode mode)
         {
             qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set binning to " << "x =" << binning.x() << ", y =" << binning.y();
             setStatus(JOB_ERROR);
-            emit captureStarted(CaptureModuleState::CAPTURE_BIN_ERROR);
+            emit captureStarted(CameraState::CAPTURE_BIN_ERROR);
         }
         else
             logentry.append(QString(", binning = %1x%2").arg(binning.x()).arg(binning.y()));
@@ -356,7 +356,7 @@ void SequenceJob::capture(FITSMode mode)
             qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set ROI to " << "x =" << roi.x() << ", y =" << roi.y() << ", widht =" <<
                                              roi.width() << "height =" << roi.height();
             setStatus(JOB_ERROR);
-            emit captureStarted(CaptureModuleState::CAPTURE_FRAME_ERROR);
+            emit captureStarted(CameraState::CAPTURE_FRAME_ERROR);
         }
         else
             logentry.append(QString(", ROI = (%1+%2, %3+%4)").arg(roi.x()).arg(roi.width()).arg(roi.y()).arg(roi.width()));
@@ -380,7 +380,7 @@ void SequenceJob::capture(FITSMode mode)
     // create log entry with settings
     qCInfo(KSTARS_EKOS_CAPTURE()) << logentry;
 
-    emit captureStarted(CaptureModuleState::CAPTURE_OK);
+    emit captureStarted(CameraState::CAPTURE_OK);
 }
 
 void SequenceJob::setTargetFilter(int pos, const QString &name)
@@ -412,12 +412,12 @@ void SequenceJob::setCaptureRetires(int value)
 
 int SequenceJob::getCurrentFilter() const
 {
-    return state->m_CaptureModuleState->currentFilterID;
+    return state->m_CameraState->currentFilterID;
 }
 
 ISD::Mount::PierSide SequenceJob::getPierSide() const
 {
-    return state->m_CaptureModuleState->getPierSide();
+    return state->m_CameraState->getPierSide();
 }
 
 // Setter: Set upload mode
@@ -484,22 +484,22 @@ void SequenceJob::updateDeviceStates()
 
 void SequenceJob::setLightBox(ISD::LightBox * lightBox)
 {
-    state->m_CaptureModuleState->hasLightBox = (lightBox != nullptr);
+    state->m_CameraState->hasLightBox = (lightBox != nullptr);
 }
 
 void SequenceJob::setDustCap(ISD::DustCap * dustCap)
 {
-    state->m_CaptureModuleState->hasDustCap = (dustCap != nullptr);
+    state->m_CameraState->hasDustCap = (dustCap != nullptr);
 }
 
 void SequenceJob::addMount(ISD::Mount * scope)
 {
-    state->m_CaptureModuleState->hasTelescope = (scope != nullptr);
+    state->m_CameraState->hasTelescope = (scope != nullptr);
 }
 
 void SequenceJob::setDome(ISD::Dome * dome)
 {
-    state->m_CaptureModuleState->hasDome = (dome != nullptr);
+    state->m_CameraState->hasDome = (dome != nullptr);
 }
 
 double SequenceJob::currentTemperature() const
@@ -591,7 +591,7 @@ QVariant SequenceJob::getCoreProperty(PropertyID id) const
 }
 
 void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobType jobType,
-                           QSharedPointer<CaptureModuleState> sharedState)
+                           QSharedPointer<CameraState> sharedState)
 {
     setJobType(jobType);
 
@@ -1022,7 +1022,7 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
         outstream << "<Tolerance>" << cLocale.toString(getCoreProperty(SequenceJob::SJ_TargetADUTolerance).toDouble()) <<
                   "</Tolerance>" << Qt::endl;
         outstream << "<SkyFlat>" << (getCoreProperty(SequenceJob::SJ_SkyFlat).toBool() ? "true" : "false") <<
-                     "</SkyFlat>" << Qt::endl;
+                  "</SkyFlat>" << Qt::endl;
     }
     outstream << "</FlatDuration>" << Qt::endl;
     outstream << "</Calibration>" << Qt::endl;

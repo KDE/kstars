@@ -49,7 +49,7 @@ class SequenceQueue;
 class CaptureDeviceAdaptor;
 class RefocusState;
 
-class CaptureModuleState: public QObject
+class CameraState: public QObject
 {
         Q_OBJECT
     public:
@@ -115,7 +115,7 @@ class CaptureModuleState: public QObject
             double min, max;
         } DoubleRange;
 
-        CaptureModuleState(QObject *parent = nullptr);
+        CameraState(QObject *parent = nullptr);
 
         // ////////////////////////////////////////////////////////////////////
         // sequence jobs
@@ -723,7 +723,7 @@ class CaptureModuleState: public QObject
          * @brief Slot that listens to guiding deviations reported by the Guide module.
          *
          * Depending on the current status, it triggers several actions:
-         * - If there is no active job, it calls {@see m_captureModuleState->checkMeridianFlipReady()}, which may initiate a meridian flip.
+         * - If there is no active job, it calls {@see CameraState::checkMeridianFlipReady()}, which may initiate a meridian flip.
          * - If guiding has been started after a meridian flip and the deviation is within the expected limits,
          *   the meridian flip is regarded as completed by setMeridianFlipStage(MF_NONE) (@see setMeridianFlipStage()).
          * - If the deviation is beyond the defined limit, capturing is suspended (@see suspend()) and the

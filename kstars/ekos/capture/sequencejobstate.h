@@ -8,7 +8,7 @@
 
 #include "indi/indicommon.h"
 #include "skypoint.h"
-#include "capturemodulestate.h"
+#include "camerastate.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "fitsviewer/fitscommon.h"
 
@@ -86,7 +86,7 @@ class SequenceJobState: public QObject
             FS_COMPLETED  /* completed                                  */
         } FlatSyncStatus;
 
-        SequenceJobState(const QSharedPointer<CaptureModuleState> &sharedState);
+        SequenceJobState(const QSharedPointer<CameraState> &sharedState);
 
         /**
          * @brief Initialize the state machine.
@@ -301,11 +301,11 @@ class SequenceJobState: public QObject
         // ////////////////////////////////////////////////////////////////////
 
         // Mapping PrepareActions --> bool marks whether a certain action is completed (=true) or not (=false)
-        QMap<CaptureModuleState::PrepareActions, bool> prepareActions;
+        QMap<CameraState::PrepareActions, bool> prepareActions;
         // This is a workaround for a specific INDI behaviour. If a INDI property is set, it sends this value
         // back to the clients. If the value does not immediately change to the target value (like e.g. the CCD
         // temperature), the first value after setting a property must be ignored.
-        QMap<CaptureModuleState::PrepareActions, bool> ignoreNextValue;
+        QMap<CameraState::PrepareActions, bool> ignoreNextValue;
 
         // capture frame type (light, flat, dark, bias)
         CCDFrameType m_frameType { FRAME_NONE };
@@ -377,11 +377,11 @@ class SequenceJobState: public QObject
         /**
          * @brief Check if a certain action has already been initialized
          */
-        bool isInitialized(CaptureModuleState::PrepareActions action);
+        bool isInitialized(CameraState::PrepareActions action);
         /**
          * @brief Set a certain action as initialized
          */
-        void setInitialized(CaptureModuleState::PrepareActions action, bool init);
+        void setInitialized(CameraState::PrepareActions action, bool init);
 
         // ////////////////////////////////////////////////////////////////////
         // flats preparation state
@@ -464,7 +464,7 @@ class SequenceJobState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // Attributes shared across all sequence jobs
         // ////////////////////////////////////////////////////////////////////
-        QSharedPointer<CaptureModuleState>  m_CaptureModuleState;
+        QSharedPointer<CameraState>  m_CameraState;
 
         // ////////////////////////////////////////////////////////////////////
         // sequence job specific states

@@ -4,7 +4,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "capturemodulestate.h"
+#include "camerastate.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/sequencejob.h"
 #include "ekos/capture/sequencequeue.h"
@@ -17,15 +17,15 @@
 
 namespace Ekos
 {
-CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
+CameraState::CameraState(QObject *parent): QObject{parent}
 {
     m_sequenceQueue.reset(new SequenceQueue());
     m_refocusState.reset(new RefocusState());
     m_TargetADUTolerance = Options::calibrationADUValueTolerance();
-    connect(m_refocusState.get(), &RefocusState::newLog, this, &CaptureModuleState::newLog);
+    connect(m_refocusState.get(), &RefocusState::newLog, this, &CameraState::newLog);
 
     getGuideDeviationTimer().setInterval(GD_TIMER_TIMEOUT);
-    connect(&m_guideDeviationTimer, &QTimer::timeout, this, &CaptureModuleState::checkGuideDeviationTimeout);
+    connect(&m_guideDeviationTimer, &QTimer::timeout, this, &CameraState::checkGuideDeviationTimeout);
 
     setCalibrationPreAction(Options::calibrationPreActionIndex());
     setFlatFieldDuration(static_cast<FlatFieldDuration>(Options::calibrationFlatDurationIndex()));
@@ -35,23 +35,23 @@ CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
     setSkyFlat(Options::calibrationSkyFlat());
 }
 
-QList<SequenceJob *> &CaptureModuleState::allJobs()
+QList<SequenceJob *> &CameraState::allJobs()
 {
     return m_sequenceQueue->allJobs();
 }
 
-const QUrl &CaptureModuleState::sequenceURL() const
+const QUrl &CameraState::sequenceURL() const
 {
     return m_sequenceQueue->sequenceURL();
 }
 
-void CaptureModuleState::setSequenceURL(const QUrl &newSequenceURL)
+void CameraState::setSequenceURL(const QUrl &newSequenceURL)
 {
     m_sequenceQueue->setSequenceURL(newSequenceURL);
     placeholderPath().setSeqFilename(newSequenceURL.toLocalFile());
 }
 
-void CaptureModuleState::setActiveJob(SequenceJob *value)
+void CameraState::setActiveJob(SequenceJob *value)
 {
     // do nothing if active job is not changed
     if (m_activeJob == value)
@@ -75,9 +75,9 @@ void CaptureModuleState::setActiveJob(SequenceJob *value)
         // connect job with device adaptor events
         m_activeJob->connectDeviceAdaptor();
         // forward signals to the sequence job
-        connect(this, &CaptureModuleState::newGuiderDrift, m_activeJob, &SequenceJob::updateGuiderDrift);
+        connect(this, &CameraState::newGuiderDrift, m_activeJob, &SequenceJob::updateGuiderDrift);
         // react upon sequence job signals
-        connect(m_activeJob, &SequenceJob::prepareState, this, &CaptureModuleState::updatePrepareState);
+        connect(m_activeJob, &SequenceJob::prepareState, this, &CameraState::updatePrepareState);
         connect(m_activeJob, &SequenceJob::prepareComplete, this, [this](bool success)
         {
             if (success)
@@ -92,9 +92,9 @@ void CaptureModuleState::setActiveJob(SequenceJob *value)
                 emit abortCapture();
             }
         }, Qt::UniqueConnection);
-        connect(m_activeJob, &SequenceJob::abortCapture, this, &CaptureModuleState::abortCapture);
-        connect(m_activeJob, &SequenceJob::captureStarted, this, &CaptureModuleState::captureStarted);
-        connect(m_activeJob, &SequenceJob::newLog, this, &CaptureModuleState::newLog);
+        connect(m_activeJob, &SequenceJob::abortCapture, this, &CameraState::abortCapture);
+        connect(m_activeJob, &SequenceJob::captureStarted, this, &CameraState::captureStarted);
+        connect(m_activeJob, &SequenceJob::newLog, this, &CameraState::newLog);
         // forward the devices and attributes
         m_activeJob->updateDeviceStates();
         m_activeJob->setAutoFocusReady(getRefocusState()->isAutoFocusReady());
@@ -102,7 +102,7 @@ void CaptureModuleState::setActiveJob(SequenceJob *value)
 
 }
 
-int CaptureModuleState::activeJobID()
+int CameraState::activeJobID()
 {
     if (m_activeJob == nullptr)
         return -1;
@@ -117,7 +117,7 @@ int CaptureModuleState::activeJobID()
 
 }
 
-void CaptureModuleState::initCapturePreparation()
+void CameraState::initCapturePreparation()
 {
     setStartingCapture(false);
 
@@ -152,7 +152,7 @@ void CaptureModuleState::initCapturePreparation()
         emit newLog(i18n("Warning: Guide deviation is selected but autoguide process was not started."));
 }
 
-void CaptureModuleState::setCaptureState(CaptureState value)
+void CameraState::setCaptureState(CaptureState value)
 {
     bool pause_planned = false;
     // handle new capture state
@@ -192,7 +192,7 @@ void CaptureModuleState::setCaptureState(CaptureState value)
     }
 }
 
-void CaptureModuleState::setGuideState(GuideState state)
+void CameraState::setGuideState(GuideState state)
 {
     if (state != m_GuideState)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Guiding state changed from" <<
@@ -271,7 +271,7 @@ void CaptureModuleState::setGuideState(GuideState state)
 
 
 
-void CaptureModuleState::setCurrentFilterPosition(int position, const QString &name, const QString &focusFilterName)
+void CameraState::setCurrentFilterPosition(int position, const QString &name, const QString &focusFilterName)
 {
     m_CurrentFilterPosition = position;
     if (position > 0)
@@ -286,32 +286,32 @@ void CaptureModuleState::setCurrentFilterPosition(int position, const QString &n
     }
 }
 
-void CaptureModuleState::dustCapStateChanged(ISD::DustCap::Status status)
+void CameraState::dustCapStateChanged(ISD::DustCap::Status status)
 {
     switch (status)
     {
         case ISD::DustCap::CAP_ERROR:
-            setDustCapState(CaptureModuleState::CAP_ERROR);
+            setDustCapState(CameraState::CAP_ERROR);
             emit newLog(i18n("Dust cap error."));
             break;
         case ISD::DustCap::CAP_PARKED:
-            setDustCapState(CaptureModuleState::CAP_PARKED);
+            setDustCapState(CameraState::CAP_PARKED);
             emit newLog(i18n("Dust cap parked."));
             break;
         case ISD::DustCap::CAP_IDLE:
-            setDustCapState(CaptureModuleState::CAP_IDLE);
+            setDustCapState(CameraState::CAP_IDLE);
             emit newLog(i18n("Dust cap unparked."));
             break;
         case ISD::DustCap::CAP_UNPARKING:
-            setDustCapState(CaptureModuleState::CAP_UNPARKING);
+            setDustCapState(CameraState::CAP_UNPARKING);
             break;
         case ISD::DustCap::CAP_PARKING:
-            setDustCapState(CaptureModuleState::CAP_PARKING);
+            setDustCapState(CameraState::CAP_PARKING);
             break;
     }
 }
 
-QSharedPointer<MeridianFlipState> CaptureModuleState::getMeridianFlipState()
+QSharedPointer<MeridianFlipState> CameraState::getMeridianFlipState()
 {
     // lazy instantiation
     if (mf_state.isNull())
@@ -320,7 +320,7 @@ QSharedPointer<MeridianFlipState> CaptureModuleState::getMeridianFlipState()
     return mf_state;
 }
 
-void CaptureModuleState::setMeridianFlipState(QSharedPointer<MeridianFlipState> state)
+void CameraState::setMeridianFlipState(QSharedPointer<MeridianFlipState> state)
 {
     // clear old state machine
     if (! mf_state.isNull())
@@ -330,17 +330,17 @@ void CaptureModuleState::setMeridianFlipState(QSharedPointer<MeridianFlipState> 
     }
 
     mf_state = state;
-    connect(mf_state.data(), &Ekos::MeridianFlipState::newMountMFStatus, this, &Ekos::CaptureModuleState::updateMFMountState,
+    connect(mf_state.data(), &Ekos::MeridianFlipState::newMountMFStatus, this, &Ekos::CameraState::updateMFMountState,
             Qt::UniqueConnection);
 }
 
-void CaptureModuleState::setObserverName(const QString &value)
+void CameraState::setObserverName(const QString &value)
 {
     m_ObserverName = value;
     Options::setDefaultObserver(value);
 }
 
-void CaptureModuleState::setBusy(bool busy)
+void CameraState::setBusy(bool busy)
 {
     m_Busy = busy;
     emit captureBusy(busy);
@@ -348,7 +348,7 @@ void CaptureModuleState::setBusy(bool busy)
 
 
 
-bool CaptureModuleState::generateFilename(const QString &extension, QString *filename)
+bool CameraState::generateFilename(const QString &extension, QString *filename)
 {
     *filename = placeholderPath().generateOutputFilename(true, true, nextSequenceID(), extension, "");
 
@@ -375,13 +375,13 @@ bool CaptureModuleState::generateFilename(const QString &extension, QString *fil
     return true;
 }
 
-void CaptureModuleState::decreaseDitherCounter()
+void CameraState::decreaseDitherCounter()
 {
     if (m_ditherCounter > 0)
         --m_ditherCounter;
 }
 
-void CaptureModuleState::resetDitherCounter()
+void CameraState::resetDitherCounter()
 {
     uint value = 0;
     if (m_activeJob)
@@ -393,7 +393,7 @@ void CaptureModuleState::resetDitherCounter()
         m_ditherCounter = Options::ditherFrames();
 }
 
-bool CaptureModuleState::checkDithering()
+bool CameraState::checkDithering()
 {
     // No need if preview only
     if (m_activeJob && m_activeJob->jobType() == SequenceJob::JOBTYPE_PREVIEW)
@@ -424,7 +424,7 @@ bool CaptureModuleState::checkDithering()
     return false;
 }
 
-void CaptureModuleState::updateMFMountState(MeridianFlipState::MeridianFlipMountState status)
+void CameraState::updateMFMountState(MeridianFlipState::MeridianFlipMountState status)
 {
     qCDebug(KSTARS_EKOS_CAPTURE) << "updateMFMountState: " << MeridianFlipState::meridianFlipStatusString(status);
 
@@ -471,7 +471,7 @@ void CaptureModuleState::updateMFMountState(MeridianFlipState::MeridianFlipMount
     }
 }
 
-void CaptureModuleState::updateMeridianFlipStage(const MeridianFlipState::MFStage &stage)
+void CameraState::updateMeridianFlipStage(const MeridianFlipState::MFStage &stage)
 {
     // forward the stage to the module state
     getMeridianFlipState()->updateMeridianFlipStage(stage);
@@ -523,14 +523,14 @@ void CaptureModuleState::updateMeridianFlipStage(const MeridianFlipState::MFStag
     emit newMeridianFlipStage(stage);
 }
 
-bool CaptureModuleState::checkMeridianFlipActive()
+bool CameraState::checkMeridianFlipActive()
 {
     return (getMeridianFlipState()->checkMeridianFlipRunning() ||
             checkPostMeridianFlipActions() ||
             checkMeridianFlipReady());
 }
 
-bool CaptureModuleState::checkMeridianFlipReady()
+bool CameraState::checkMeridianFlipReady()
 {
     if (hasTelescope == false)
         return false;
@@ -559,7 +559,7 @@ bool CaptureModuleState::checkMeridianFlipReady()
     return true;
 }
 
-bool CaptureModuleState::checkPostMeridianFlipActions()
+bool CameraState::checkPostMeridianFlipActions()
 {
     // step 1: check if post flip alignment is running
     if (m_CaptureState == CAPTURE_ALIGNING || checkAlignmentAfterFlip())
@@ -587,7 +587,7 @@ bool CaptureModuleState::checkPostMeridianFlipActions()
     return false;
 }
 
-bool CaptureModuleState::checkGuidingAfterFlip()
+bool CameraState::checkGuidingAfterFlip()
 {
     // if no meridian flip has completed, we do not touch guiding
     if (getMeridianFlipState()->getMeridianFlipStage() < MeridianFlipState::MF_COMPLETED)
@@ -632,7 +632,7 @@ bool CaptureModuleState::checkGuidingAfterFlip()
         return false;
 }
 
-void CaptureModuleState::processGuidingFailed()
+void CameraState::processGuidingFailed()
 {
     if (m_FocusState > FOCUS_PROGRESS)
     {
@@ -658,7 +658,7 @@ void CaptureModuleState::processGuidingFailed()
     }
 }
 
-void CaptureModuleState::updateAdaptiveFocusState(bool success)
+void CameraState::updateAdaptiveFocusState(bool success)
 {
     m_refocusState->setAdaptiveFocusDone(true);
 
@@ -677,7 +677,7 @@ void CaptureModuleState::updateAdaptiveFocusState(bool success)
     emit newLog(i18n(success ? "Adaptive focus complete." : "Adaptive focus failed. Continuing..."));
 }
 
-void CaptureModuleState::updateFocusState(FocusState state)
+void CameraState::updateFocusState(FocusState state)
 {
     if (state != m_FocusState)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Focus State changed from" <<
@@ -729,7 +729,7 @@ void CaptureModuleState::updateFocusState(FocusState state)
         m_activeJob->setFocusStatus(state);
 }
 
-AutofocusReason CaptureModuleState::getAFReason(RefocusState::RefocusReason state, QString &reasonInfo)
+AutofocusReason CameraState::getAFReason(RefocusState::RefocusReason state, QString &reasonInfo)
 {
     AutofocusReason afReason;
     reasonInfo = "";
@@ -755,7 +755,7 @@ AutofocusReason CaptureModuleState::getAFReason(RefocusState::RefocusReason stat
     return afReason;
 }
 
-bool CaptureModuleState::startFocusIfRequired()
+bool CameraState::startFocusIfRequired()
 {
     // Do not start focus or adaptive focus if:
     // 1. There is no active job, or
@@ -826,7 +826,7 @@ bool CaptureModuleState::startFocusIfRequired()
     return true;
 }
 
-void CaptureModuleState::updateHFRThreshold()
+void CameraState::updateHFRThreshold()
 {
     // For Ficed algo no need to update the HFR threshold
     if (Options::hFRCheckAlgorithm() == HFR_CHECK_FIXED)
@@ -855,7 +855,7 @@ void CaptureModuleState::updateHFRThreshold()
     emit newLimitFocusHFR(value); // Updates the limits UI with the new HFR threshold
 }
 
-QString CaptureModuleState::getFocusFilterName()
+QString CameraState::getFocusFilterName()
 {
     QString finalFilter;
     if (m_CurrentFilterPosition > 0)
@@ -870,7 +870,7 @@ QString CaptureModuleState::getFocusFilterName()
     return finalFilter;
 }
 
-bool CaptureModuleState::checkAlignmentAfterFlip()
+bool CameraState::checkAlignmentAfterFlip()
 {
     // if no meridian flip has completed, we do not touch guiding
     if (getMeridianFlipState()->getMeridianFlipStage() < MeridianFlipState::MF_COMPLETED)
@@ -895,7 +895,7 @@ bool CaptureModuleState::checkAlignmentAfterFlip()
         return false;
 }
 
-void CaptureModuleState::checkGuideDeviationTimeout()
+void CameraState::checkGuideDeviationTimeout()
 {
     if (m_activeJob && m_activeJob->getStatus() == JOB_ABORTED
             && isGuidingDeviationDetected())
@@ -911,7 +911,7 @@ void CaptureModuleState::checkGuideDeviationTimeout()
     }
 }
 
-void CaptureModuleState::setGuideDeviation(double deviation_rms)
+void CameraState::setGuideDeviation(double deviation_rms)
 {
     // communicate the new guiding deviation
     emit newGuiderDrift(deviation_rms);
@@ -1090,13 +1090,13 @@ void CaptureModuleState::setGuideDeviation(double deviation_rms)
     }
 }
 
-void CaptureModuleState::addDownloadTime(double time)
+void CameraState::addDownloadTime(double time)
 {
     totalDownloadTime += time;
     downloadsCounter++;
 }
 
-int CaptureModuleState::pendingJobCount()
+int CameraState::pendingJobCount()
 {
     int completedJobs = 0;
 
@@ -1110,7 +1110,7 @@ int CaptureModuleState::pendingJobCount()
 
 }
 
-QString CaptureModuleState::jobState(int id)
+QString CameraState::jobState(int id)
 {
     if (id < allJobs().count())
     {
@@ -1122,7 +1122,7 @@ QString CaptureModuleState::jobState(int id)
 
 }
 
-QString CaptureModuleState::jobFilterName(int id)
+QString CameraState::jobFilterName(int id)
 {
     if (id < allJobs().count())
     {
@@ -1134,7 +1134,7 @@ QString CaptureModuleState::jobFilterName(int id)
 
 }
 
-CCDFrameType CaptureModuleState::jobFrameType(int id)
+CCDFrameType CameraState::jobFrameType(int id)
 {
     if (id < allJobs().count())
     {
@@ -1145,7 +1145,7 @@ CCDFrameType CaptureModuleState::jobFrameType(int id)
     return FRAME_NONE;
 }
 
-int CaptureModuleState::jobImageProgress(int id)
+int CameraState::jobImageProgress(int id)
 {
     if (id < allJobs().count())
     {
@@ -1156,7 +1156,7 @@ int CaptureModuleState::jobImageProgress(int id)
     return -1;
 }
 
-int CaptureModuleState::jobImageCount(int id)
+int CameraState::jobImageCount(int id)
 {
     if (id < allJobs().count())
     {
@@ -1167,7 +1167,7 @@ int CaptureModuleState::jobImageCount(int id)
     return -1;
 }
 
-double CaptureModuleState::jobExposureProgress(int id)
+double CameraState::jobExposureProgress(int id)
 {
     if (id < allJobs().count())
     {
@@ -1178,7 +1178,7 @@ double CaptureModuleState::jobExposureProgress(int id)
     return -1;
 }
 
-double CaptureModuleState::jobExposureDuration(int id)
+double CameraState::jobExposureDuration(int id)
 {
     if (id < allJobs().count())
     {
@@ -1189,7 +1189,7 @@ double CaptureModuleState::jobExposureDuration(int id)
     return -1;
 }
 
-double CaptureModuleState::progressPercentage()
+double CameraState::progressPercentage()
 {
     int totalImageCount     = 0;
     int totalImageCompleted = 0;
@@ -1206,12 +1206,12 @@ double CaptureModuleState::progressPercentage()
         return -1;
 }
 
-bool CaptureModuleState::isActiveJobPreview()
+bool CameraState::isActiveJobPreview()
 {
     return m_activeJob && m_activeJob->jobType() == SequenceJob::JOBTYPE_PREVIEW;
 }
 
-int CaptureModuleState::activeJobRemainingTime()
+int CameraState::activeJobRemainingTime()
 {
     if (m_activeJob == nullptr)
         return -1;
@@ -1219,7 +1219,7 @@ int CaptureModuleState::activeJobRemainingTime()
     return m_activeJob->getJobRemainingTime(averageDownloadTime());
 }
 
-int CaptureModuleState::overallRemainingTime()
+int CameraState::overallRemainingTime()
 {
     int remaining = 0;
     double estimatedDownloadTime = averageDownloadTime();
@@ -1230,7 +1230,7 @@ int CaptureModuleState::overallRemainingTime()
     return remaining;
 }
 
-QString CaptureModuleState::sequenceQueueStatus()
+QString CameraState::sequenceQueueStatus()
 {
     if (allJobs().count() == 0)
         return "Invalid";
@@ -1285,7 +1285,7 @@ QString CaptureModuleState::sequenceQueueStatus()
     return "Invalid";
 }
 
-QJsonObject CaptureModuleState::calibrationSettings()
+QJsonObject CameraState::calibrationSettings()
 {
     QJsonObject settings =
     {
@@ -1301,7 +1301,7 @@ QJsonObject CaptureModuleState::calibrationSettings()
     return settings;
 }
 
-void CaptureModuleState::setCalibrationSettings(const QJsonObject &settings)
+void CameraState::setCalibrationSettings(const QJsonObject &settings)
 {
     const int preAction = settings["preAction"].toInt(calibrationPreAction());
     const int duration = settings["duration"].toInt(flatFieldDuration());
@@ -1320,7 +1320,7 @@ void CaptureModuleState::setCalibrationSettings(const QJsonObject &settings)
     setSkyFlat(skyflat);
 }
 
-bool CaptureModuleState::setDarkFlatExposure(SequenceJob *job)
+bool CameraState::setDarkFlatExposure(SequenceJob *job)
 {
     const auto darkFlatFilter = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
     const auto darkFlatBinning = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
@@ -1358,7 +1358,7 @@ bool CaptureModuleState::setDarkFlatExposure(SequenceJob *job)
     return false;
 }
 
-void CaptureModuleState::checkSeqBoundary()
+void CameraState::checkSeqBoundary()
 {
     // No updates during meridian flip
     if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
@@ -1367,7 +1367,7 @@ void CaptureModuleState::checkSeqBoundary()
     setNextSequenceID(placeholderPath().checkSeqBoundary(*getActiveJob()));
 }
 
-bool CaptureModuleState::isModelinDSLRInfo(const QString &model)
+bool CameraState::isModelinDSLRInfo(const QString &model)
 {
     auto pos = std::find_if(m_DSLRInfos.begin(), m_DSLRInfos.end(), [model](QMap<QString, QVariant> &oneDSLRInfo)
     {
@@ -1377,7 +1377,7 @@ bool CaptureModuleState::isModelinDSLRInfo(const QString &model)
     return (pos != m_DSLRInfos.end());
 }
 
-void CaptureModuleState::setCapturedFramesCount(const QString &signature, uint16_t count)
+void CameraState::setCapturedFramesCount(const QString &signature, uint16_t count)
 {
     m_capturedFramesMap[signature] = count;
     qCDebug(KSTARS_EKOS_CAPTURE) <<
@@ -1386,7 +1386,7 @@ void CaptureModuleState::setCapturedFramesCount(const QString &signature, uint16
     setIgnoreJobProgress(false);
 }
 
-void CaptureModuleState::changeSequenceValue(int index, QString key, QString value)
+void CameraState::changeSequenceValue(int index, QString key, QString value)
 {
     QJsonArray seqArray = getSequence();
     QJsonObject oneSequence = seqArray[index].toObject();
@@ -1396,7 +1396,7 @@ void CaptureModuleState::changeSequenceValue(int index, QString key, QString val
     emit sequenceChanged(seqArray);
 }
 
-void CaptureModuleState::addCapturedFrame(const QString &signature)
+void CameraState::addCapturedFrame(const QString &signature)
 {
     CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
     if (m_capturedFramesMap.end() != frame_item)
@@ -1404,7 +1404,7 @@ void CaptureModuleState::addCapturedFrame(const QString &signature)
     else m_capturedFramesMap[signature] = 1;
 }
 
-void CaptureModuleState::removeCapturedFrameCount(const QString &signature, uint16_t count)
+void CameraState::removeCapturedFrameCount(const QString &signature, uint16_t count)
 {
     CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
     if (m_capturedFramesMap.end() != frame_item)
@@ -1420,13 +1420,13 @@ void CaptureModuleState::removeCapturedFrameCount(const QString &signature, uint
 
 
 
-void CaptureModuleState::appendLogText(const QString &message)
+void CameraState::appendLogText(const QString &message)
 {
     qCInfo(KSTARS_EKOS_CAPTURE()) << message;
     emit newLog(message);
 }
 
-bool CaptureModuleState::isGuidingOn()
+bool CameraState::isGuidingOn()
 {
     // In case we are doing non guiding dither, then we are not performing autoguiding.
     if (Options::ditherNoGuiding())
@@ -1447,12 +1447,12 @@ bool CaptureModuleState::isGuidingOn()
            );
 }
 
-bool CaptureModuleState::isActivelyGuiding()
+bool CameraState::isActivelyGuiding()
 {
     return isGuidingOn() && (m_GuideState == GUIDE_GUIDING);
 }
 
-void CaptureModuleState::setAlignState(AlignState value)
+void CameraState::setAlignState(AlignState value)
 {
     if (value != m_AlignState)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Align State changed from" << Ekos::getAlignStatusString(

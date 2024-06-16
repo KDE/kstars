@@ -60,25 +60,26 @@ void SequenceEditor::showEvent(QShowEvent* event)
 {
     QWidget::showEvent(event);
     onStandAloneShow();
-    m_capture->cameraUI->onStandAloneShow(event);
+    m_capture->mainCamera()->onStandAloneShow(event);
 }
 
 void SequenceEditor::initStandAlone()
 {
-    m_capture->cameraUI->processGrid->setVisible(false);
-    m_capture->cameraUI->loadSaveBox->setVisible(true);
-    m_capture->cameraUI->loadSaveBox->setEnabled(true);
-    m_capture->cameraUI->horizontalSpacer_SQ2->changeSize(0, 0);
+    QSharedPointer<Camera> mainCam = m_capture->mainCamera();
+    mainCam->processGrid->setVisible(false);
+    mainCam->loadSaveBox->setVisible(true);
+    mainCam->loadSaveBox->setEnabled(true);
+    mainCam->horizontalSpacer_SQ2->changeSize(0, 0);
 
     QList<QWidget*> unusedWidgets =
     {
-        m_capture->cameraUI->opticalTrainCombo, m_capture->cameraUI->trainB, m_capture->cameraUI->restartCameraB, m_capture->cameraUI->clearConfigurationB, m_capture->cameraUI->resetFrameB, m_capture->cameraUI->opticalTrainLabel,
-        m_capture->cameraUI->coolerOnB, m_capture->cameraUI->coolerOffB, m_capture->cameraUI->setTemperatureB, m_capture->cameraUI->temperatureRegulationB, m_capture->cameraUI->temperatureOUT,
-        m_capture->cameraUI->previewB, m_capture->cameraUI->loopB, m_capture->cameraUI->liveVideoB, m_capture->cameraUI->startB, m_capture->cameraUI->pauseB,
-        m_capture->cameraUI->previewLabel, m_capture->cameraUI->loopLabel, m_capture->cameraUI->videoLabel,
-        m_capture->cameraUI->resetB,  m_capture->cameraUI->queueLoadB, m_capture->cameraUI->queueSaveB, m_capture->cameraUI->queueSaveAsB,
-        m_capture->cameraUI->darkB, m_capture->cameraUI->darkLibraryB, m_capture->cameraUI->darksLibraryLabel, m_capture->cameraUI->exposureCalcB, m_capture->cameraUI->exposureCalculationLabel,
-        m_capture->cameraUI->filterManagerB
+        mainCam->opticalTrainCombo, mainCam->trainB, mainCam->restartCameraB, mainCam->clearConfigurationB, mainCam->resetFrameB, mainCam->opticalTrainLabel,
+        mainCam->coolerOnB, mainCam->coolerOffB, mainCam->setTemperatureB, mainCam->temperatureRegulationB, mainCam->temperatureOUT,
+        mainCam->previewB, mainCam->loopB, mainCam->liveVideoB, mainCam->startB, mainCam->pauseB,
+        mainCam->previewLabel, mainCam->loopLabel, mainCam->videoLabel,
+        mainCam->resetB,  mainCam->queueLoadB, mainCam->queueSaveB, mainCam->queueSaveAsB,
+        mainCam->darkB, mainCam->darkLibraryB, mainCam->darksLibraryLabel, mainCam->exposureCalcB, mainCam->exposureCalculationLabel,
+        mainCam->filterManagerB
     };
     for (auto &widget : unusedWidgets)
     {
@@ -110,50 +111,51 @@ void SequenceEditor::onStandAloneShow()
     sequenceEditorComment->setText(comment);
 
     // Add extra load and save buttons at the bottom of the window.
-    m_capture->cameraUI->loadSaveBox->setEnabled(true);
-    m_capture->cameraUI->loadSaveBox->setVisible(true);
-    connect(m_capture->cameraUI->esqSaveAsB, &QPushButton::clicked, m_capture.get()->cameraUI, &Camera::saveSequenceQueueAs);
-    connect(m_capture->cameraUI->esqLoadB, &QPushButton::clicked, m_capture.get()->cameraUI,
+    m_capture->mainCamera()->loadSaveBox->setEnabled(true);
+    m_capture->mainCamera()->loadSaveBox->setVisible(true);
+    connect(m_capture->mainCamera()->esqSaveAsB, &QPushButton::clicked, m_capture->mainCamera().get(),
+            &Camera::saveSequenceQueueAs);
+    connect(m_capture->mainCamera()->esqLoadB, &QPushButton::clicked, m_capture->mainCamera().get(),
             static_cast<void(Camera::*)()>(&Camera::loadSequenceQueue));
 
-    m_capture->cameraUI->FilterPosCombo->clear();
+    m_capture->mainCamera()->FilterPosCombo->clear();
     if (m_Settings.contains(KEY_FILTERS))
-        addToCombo(m_capture->cameraUI->FilterPosCombo, m_Settings[KEY_FILTERS].toStringList());
+        addToCombo(m_capture->mainCamera()->FilterPosCombo, m_Settings[KEY_FILTERS].toStringList());
 
-    if (m_capture->cameraUI->FilterPosCombo->count() > 0)
+    if (m_capture->mainCamera()->FilterPosCombo->count() > 0)
     {
-        m_capture->cameraUI->filterEditB->setEnabled(true);
-        m_capture->cameraUI->filterManagerB->setEnabled(true);
+        m_capture->mainCamera()->filterEditB->setEnabled(true);
+        m_capture->mainCamera()->filterManagerB->setEnabled(true);
     }
 
-    m_capture->cameraUI->captureGainN->setEnabled(true);
-    m_capture->cameraUI->captureGainN->setSpecialValueText(i18n("--"));
+    m_capture->mainCamera()->captureGainN->setEnabled(true);
+    m_capture->mainCamera()->captureGainN->setSpecialValueText(i18n("--"));
 
-    m_capture->cameraUI->captureOffsetN->setEnabled(true);
-    m_capture->cameraUI->captureOffsetN->setSpecialValueText(i18n("--"));
+    m_capture->mainCamera()->captureOffsetN->setEnabled(true);
+    m_capture->mainCamera()->captureOffsetN->setSpecialValueText(i18n("--"));
 
     // Always add these strings to the types menu. Might also add other ones
     // that were used in the last capture session.
     const QStringList frameTypes = {"Light", "Dark", "Bias", "Flat"};
-    m_capture->cameraUI->captureTypeS->clear();
-    m_capture->cameraUI->captureTypeS->addItems(frameTypes);
+    m_capture->mainCamera()->captureTypeS->clear();
+    m_capture->mainCamera()->captureTypeS->addItems(frameTypes);
 
     // Always add these strings to the encodings menu. Might also add other ones
     // that were used in the last capture session.
     const QStringList frameEncodings = {"FITS", "Native", "XISF"};
-    m_capture->cameraUI->captureEncodingS->clear();
-    m_capture->cameraUI->captureEncodingS->addItems(frameEncodings);
+    m_capture->mainCamera()->captureEncodingS->clear();
+    m_capture->mainCamera()->captureEncodingS->addItems(frameEncodings);
 
     if (m_Settings.contains(KEY_FORMATS))
     {
-        m_capture->cameraUI->captureFormatS->clear();
-        addToCombo(m_capture->cameraUI->captureFormatS, m_Settings[KEY_FORMATS].toStringList());
+        m_capture->mainCamera()->captureFormatS->clear();
+        addToCombo(m_capture->mainCamera()->captureFormatS, m_Settings[KEY_FORMATS].toStringList());
     }
 
-    m_capture->cameraUI->cameraTemperatureN->setEnabled(true);
-    m_capture->cameraUI->cameraTemperatureN->setReadOnly(false);
-    m_capture->cameraUI->cameraTemperatureN->setSingleStep(1);
-    m_capture->cameraUI->cameraTemperatureS->setEnabled(true);
+    m_capture->mainCamera()->cameraTemperatureN->setEnabled(true);
+    m_capture->mainCamera()->cameraTemperatureN->setReadOnly(false);
+    m_capture->mainCamera()->cameraTemperatureN->setSingleStep(1);
+    m_capture->mainCamera()->cameraTemperatureS->setEnabled(true);
 
     double minTemp = -50, maxTemp = 50;
     if (m_Settings.contains(KEY_TEMPERATURE))
@@ -165,8 +167,8 @@ void SequenceEditor::onStandAloneShow()
             maxTemp = temperatureList[1].toDouble();
         }
     }
-    m_capture->cameraUI->cameraTemperatureN->setMinimum(minTemp);
-    m_capture->cameraUI->cameraTemperatureN->setMaximum(maxTemp);
+    m_capture->mainCamera()->cameraTemperatureN->setMinimum(minTemp);
+    m_capture->mainCamera()->cameraTemperatureN->setMaximum(maxTemp);
 
     // No pre-configured ISOs are available--would be too much of a guess, but
     // we will use ISOs from the last live capture session.
@@ -174,38 +176,38 @@ void SequenceEditor::onStandAloneShow()
     if (m_Settings.contains(KEY_ISOS))
     {
         QStringList isoList = m_Settings[KEY_ISOS].toStringList();
-        m_capture->cameraUI->captureISOS->clear();
+        m_capture->mainCamera()->captureISOS->clear();
         if (isoList.size() > 0)
         {
-            m_capture->cameraUI->captureISOS->addItems(isoList);
+            m_capture->mainCamera()->captureISOS->addItems(isoList);
             if (m_Settings.contains(KEY_INDEX))
-                m_capture->cameraUI->captureISOS->setCurrentIndex(m_Settings[KEY_INDEX].toString().toInt());
+                m_capture->mainCamera()->captureISOS->setCurrentIndex(m_Settings[KEY_INDEX].toString().toInt());
             else
-                m_capture->cameraUI->captureISOS->setCurrentIndex(0);
-            m_capture->cameraUI->captureISOS->blockSignals(false);
-            m_capture->cameraUI->captureISOS->setEnabled(true);
+                m_capture->mainCamera()->captureISOS->setCurrentIndex(0);
+            m_capture->mainCamera()->captureISOS->blockSignals(false);
+            m_capture->mainCamera()->captureISOS->setEnabled(true);
         }
     }
     else
     {
-        m_capture->cameraUI->captureISOS->blockSignals(true);
-        m_capture->cameraUI->captureISOS->clear();
-        m_capture->cameraUI->captureISOS->setEnabled(false);
+        m_capture->mainCamera()->captureISOS->blockSignals(true);
+        m_capture->mainCamera()->captureISOS->clear();
+        m_capture->mainCamera()->captureISOS->setEnabled(false);
     }
 
     // Remember the sensor width and height from the last live session.
     // The user can always edit the input box.
     constexpr int maxFrame = 20000;
-    m_capture->cameraUI->captureFrameXN->setMaximum(static_cast<int>(maxFrame));
-    m_capture->cameraUI->captureFrameYN->setMaximum(static_cast<int>(maxFrame));
-    m_capture->cameraUI->captureFrameWN->setMaximum(static_cast<int>(maxFrame));
-    m_capture->cameraUI->captureFrameHN->setMaximum(static_cast<int>(maxFrame));
+    m_capture->mainCamera()->captureFrameXN->setMaximum(static_cast<int>(maxFrame));
+    m_capture->mainCamera()->captureFrameYN->setMaximum(static_cast<int>(maxFrame));
+    m_capture->mainCamera()->captureFrameWN->setMaximum(static_cast<int>(maxFrame));
+    m_capture->mainCamera()->captureFrameHN->setMaximum(static_cast<int>(maxFrame));
 
     if (m_Settings.contains(KEY_H))
-        m_capture->cameraUI->captureFrameHN->setValue(m_Settings[KEY_H].toUInt());
+        m_capture->mainCamera()->captureFrameHN->setValue(m_Settings[KEY_H].toUInt());
 
     if (m_Settings.contains(KEY_W))
-        m_capture->cameraUI->captureFrameWN->setValue(m_Settings[KEY_W].toUInt());
+        m_capture->mainCamera()->captureFrameWN->setValue(m_Settings[KEY_W].toUInt());
 }
 
 }

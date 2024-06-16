@@ -18,7 +18,7 @@
 #include "ekos/guide/guide.h"
 #include "ekos/align/align.h"
 #include "ekos/capture/capture.h"
-#include "ekos/capture/captureprocess.h"
+#include "ekos/capture/cameraprocess.h"
 #include "kspaths.h"
 #include "Options.h"
 
@@ -562,7 +562,7 @@ void Media::registerCameras()
 
     auto process = captureModule->process().get();
     process->disconnect(this);
-    connect(process, &Ekos::CaptureProcess::newView, this, [this](const QSharedPointer<FITSView> &view)
+    connect(process, &Ekos::CameraProcess::newView, this, [this](const QSharedPointer<FITSView> &view)
     {
         // Set UUID for each view
         QString uuid = QUuid::createUuid().toString();

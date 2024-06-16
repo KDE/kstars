@@ -92,8 +92,8 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     m_currentFrame.height      = data->height();
 
     const auto ISOIndex = job->getCoreProperty(SequenceJob::SJ_Offset).toInt();
-    if (ISOIndex >= 0 && ISOIndex <= m_captureModule->cameraUI->captureISOS->count())
-        m_currentFrame.iso = m_captureModule->cameraUI->captureISOS->itemText(ISOIndex);
+    if (ISOIndex >= 0 && ISOIndex <= m_captureModule->mainCamera()->captureISOS->count())
+        m_currentFrame.iso = m_captureModule->mainCamera()->captureISOS->itemText(ISOIndex);
     else
         m_currentFrame.iso = "";
 

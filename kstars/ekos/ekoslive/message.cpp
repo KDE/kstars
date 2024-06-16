@@ -410,7 +410,7 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
 
     if (command == commands[CAPTURE_PREVIEW])
     {
-        capture->cameraUI->capturePreview();
+        capture->mainCamera()->capturePreview();
     }
     else if (command == commands[CAPTURE_TOGGLE_VIDEO])
     {
@@ -423,7 +423,7 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
         capture->stop();
     else if (command == commands[CAPTURE_LOOP])
     {
-        capture->cameraUI->startFraming();
+        capture->mainCamera()->startFraming();
     }
     else if (command == commands[CAPTURE_GET_SEQUENCES])
     {
@@ -432,11 +432,11 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     else if (command == commands[CAPTURE_ADD_SEQUENCE])
     {
         // Now add job
-        capture->cameraUI->createJob();
+        capture->mainCamera()->createJob();
     }
     else if (command == commands[CAPTURE_REMOVE_SEQUENCE])
     {
-        if (capture->cameraUI->removeJob(payload["index"].toInt()) == false)
+        if (capture->mainCamera()->removeJob(payload["index"].toInt()) == false)
             sendCaptureSequence(capture->getSequence());
     }
     else if (command == commands[CAPTURE_CLEAR_SEQUENCES])
@@ -478,17 +478,17 @@ void Message::processCaptureCommands(const QString &command, const QJsonObject &
     }
     else if (command == commands[CAPTURE_GET_ALL_SETTINGS])
     {
-        sendCaptureSettings(capture->cameraUI->getAllSettings());
+        sendCaptureSettings(capture->mainCamera()->getAllSettings());
     }
     else if (command == commands[CAPTURE_SET_ALL_SETTINGS])
     {
         auto settings = payload.toVariantMap();
-        capture->cameraUI->setAllSettings(settings);
+        capture->mainCamera()->setAllSettings(settings);
         KSUtils::setGlobalSettings(settings);
     }
     else if (command == commands[CAPTURE_GENERATE_DARK_FLATS])
     {
-        capture->cameraUI->generateDarkFlats();
+        capture->mainCamera()->generateDarkFlats();
     }
 }
 
@@ -1353,7 +1353,7 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
     if (command == commands[DSLR_SET_INFO])
     {
         if (m_Manager->captureModule())
-            m_Manager->captureModule()->cameraUI->addDSLRInfo(
+            m_Manager->captureModule()->mainCamera()->addDSLRInfo(
                 payload["model"].toString(),
                 payload["width"].toInt(),
                 payload["height"].toInt(),
@@ -1454,7 +1454,7 @@ void Message::processFilterManagerCommands(const QString &command, const QJsonOb
 {
     QSharedPointer<Ekos::FilterManager> manager;
     if (m_Manager->captureModule())
-        manager = m_Manager->captureModule()->cameraUI->filterManager();
+        manager = m_Manager->captureModule()->mainCamera()->filterManager();
 
     if (manager.isNull())
         return;

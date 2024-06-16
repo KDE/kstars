@@ -37,8 +37,8 @@ namespace Ekos
 
 class Capture;
 class CaptureDeviceAdaptor;
-class CaptureProcess;
-class CaptureModuleState;
+class CameraProcess;
+class CameraState;
 class ScriptsManager;
 class FilterManager;
 class SequenceJob;
@@ -295,30 +295,16 @@ public:
     {
         return m_DeviceAdaptor;
     }
-    // TODO: remove this when refactoring Capture --> Camera is finished
-    void setDeviceAdaptor(QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor)
-    {
-        m_DeviceAdaptor = newDeviceAdaptor;
-    }
 
-    QSharedPointer<CaptureProcess> process()
+    QSharedPointer<CameraProcess> process()
     {
-        return m_captureProcess;
-    }
-    void setCaptureProcess(QSharedPointer<CaptureProcess> newCaptureProcess)
-    {
-        m_captureProcess = newCaptureProcess;
+        return m_cameraProcess;
     }
 
     // shortcut for the module state
-    QSharedPointer<CaptureModuleState> state() const
+    QSharedPointer<CameraState> state() const
     {
-        return m_captureModuleState;
-    }
-
-    void setCaptureModuleState(QSharedPointer<CaptureModuleState> newCaptureModuleState)
-    {
-        m_captureModuleState = newCaptureModuleState;
+        return m_cameraState;
     }
 
     // shortcut for the active job
@@ -350,6 +336,9 @@ public:
     {
         cameraTemperatureS->setChecked(enabled);
     }
+
+    // Propagate meridian flip state changes to the UI
+    void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
 
     // ////////////////////////////////////////////////////////////////////
     // sub dialogs
@@ -419,6 +408,7 @@ public:
 signals:
     // communication with other modules
     void ready();
+    void refreshCamera(bool isValid);
     void newExposureProgress(SequenceJob *job);
     void newDownloadProgress(double);
     void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
@@ -443,6 +433,12 @@ signals:
 
     // communication with other modules
     void checkFocus(double);
+    void meridianFlipStarted();
+    void guideAfterMeridianFlip();
+    void newStatus(CaptureState status);
+    void suspendGuiding();
+    void resumeGuiding();
+    void driverTimedout(const QString &deviceName);
 
 private slots:
     // ////////////////////////////////////////////////////////////////////
@@ -504,11 +500,10 @@ private:
     }
 
     /**
-     * @brief Add new Camera
-     * @param device pointer to camera device.
-     * @return True if added successfully, false if duplicate or failed to add.
+     * @brief New camera selected
+     * @param isValid is the selected camera valid.
     */
-    bool updateCamera();
+    void updateCamera(bool isValid);
 
     /**
      * @brief checkCamera Refreshes the CCD information in the capture module.
@@ -795,8 +790,8 @@ private:
     QUrl m_dirPath;
 
     QSharedPointer<CaptureDeviceAdaptor> m_DeviceAdaptor;
-    QSharedPointer<CaptureProcess> m_captureProcess;
-    QSharedPointer<CaptureModuleState> m_captureModuleState;
+    QSharedPointer<CameraProcess> m_cameraProcess;
+    QSharedPointer<CameraState> m_cameraState;
 
     // Controls
     double GainSpinSpecialValue { INVALID_VALUE };

@@ -24,7 +24,7 @@ namespace Ekos
 
 class SequenceJob;
 class CaptureDeviceAdaptor;
-class CaptureModuleState;
+class CameraState;
 
 class SequenceQueue : public QObject
 {
@@ -35,7 +35,7 @@ class SequenceQueue : public QObject
 
         bool load(const QString &fileURL, const QString &targetName,
                   const QSharedPointer<CaptureDeviceAdaptor> devices,
-                  const QSharedPointer<CaptureModuleState> sharedState);
+                  const QSharedPointer<CameraState> sharedState);
 
         bool save(const QString &path, const QString &observerName);
 

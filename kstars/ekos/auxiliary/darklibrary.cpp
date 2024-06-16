@@ -580,7 +580,7 @@ void DarkLibrary::closeEvent(QCloseEvent *ev)
     {
         m_JobsGenerated = false;
         m_CaptureModule->clearSequenceQueue();
-        m_CaptureModule->cameraUI->setAllSettings(m_CaptureModuleSettings);
+        m_CaptureModule->mainCamera()->setAllSettings(m_CaptureModuleSettings);
     }
 }
 
@@ -598,7 +598,7 @@ void DarkLibrary::setCompleted()
     {
         m_JobsGenerated = false;
         m_CaptureModule->clearSequenceQueue();
-        m_CaptureModule->cameraUI->setAllSettings(m_CaptureModuleSettings);
+        m_CaptureModule->mainCamera()->setAllSettings(m_CaptureModuleSettings);
     }
 
     m_Camera->disconnect(this);
@@ -1120,7 +1120,7 @@ void DarkLibrary::generateDarkJobs()
     if (m_JobsGenerated == false)
     {
         m_JobsGenerated = true;
-        m_CaptureModuleSettings = m_CaptureModule->cameraUI->getAllSettings();
+        m_CaptureModuleSettings = m_CaptureModule->mainCamera()->getAllSettings();
     }
 
     QList<double> temperatures;
@@ -1133,12 +1133,12 @@ void DarkLibrary::generateDarkJobs()
         }
 
         // Enforce temperature set
-        m_CaptureModule->cameraUI->setForceTemperature(true);
+        m_CaptureModule->mainCamera()->setForceTemperature(true);
     }
     else
     {
         // Disable temperature set
-        m_CaptureModule->cameraUI->setForceTemperature(false);
+        m_CaptureModule->mainCamera()->setForceTemperature(false);
         temperatures << INVALID_VALUE;
     }
 
@@ -1184,8 +1184,8 @@ void DarkLibrary::generateDarkJobs()
                 settings["fileDirectoryT"] = QString(prefix + QString("sequence_%1").arg(sequence));
                 settings["captureCountN"] = countSpin->value();
 
-                m_CaptureModule->cameraUI->setAllSettings(settings);
-                m_CaptureModule->cameraUI->createJob();
+                m_CaptureModule->mainCamera()->setAllSettings(settings);
+                m_CaptureModule->mainCamera()->createJob();
             }
         }
     }

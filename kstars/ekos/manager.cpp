@@ -30,7 +30,7 @@
 #include "auxiliary/ksmessagebox.h"
 #include "auxiliary/profilesettings.h"
 #include "capture/sequencejob.h"
-#include "capture/captureprocess.h"
+#include "capture/cameraprocess.h"
 #include "fitsviewer/fitsview.h"
 #include "fitsviewer/fitsdata.h"
 #include "indi/clientmanager.h"

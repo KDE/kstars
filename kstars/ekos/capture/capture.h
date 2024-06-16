@@ -62,10 +62,6 @@ class QTableWidgetItem;
 namespace Ekos
 {
 
-class Capture;
-class CaptureDeviceAdaptor;
-class CaptureModuleState;
-class CaptureProcess;
 class ScriptsManager;
 
 /**
@@ -83,9 +79,9 @@ class ScriptsManager;
  * Controlling the capturing execution is a complex process, that is controlled by
  * these classes:
  * - this class, that controll the UI and is the interface for all DBUS functions
- * - {@see CaptureModuleState} holds all state informations
- * - {@see CaptureProcess} holds the business logic that controls the process
- * For ore details about the capturing execution process, please visit {@see CaptureProcess}.
+ * - {@see CameraState} holds all state informations
+ * - {@see CameraProcess} holds the business logic that controls the process
+ * For ore details about the capturing execution process, please visit {@see CameraProcess}.
  *
  *@author Jasem Mutlaq
  *@version 1.4
@@ -137,7 +133,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void clearSequenceQueue()
         {
-            cameraUI->clearSequenceQueue();
+            mainCamera()->clearSequenceQueue();
         }
 
         /** DBUS interface function.
@@ -156,7 +152,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString targetName = "")
         {
-            return cameraUI->loadSequenceQueue(fileURL, targetName);
+            return mainCamera()->loadSequenceQueue(fileURL, targetName);
         }
 
         /** DBUS interface function.
@@ -165,7 +161,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE bool saveSequenceQueue(const QString &path)
         {
-            return cameraUI->saveSequenceQueue(path);
+            return mainCamera()->saveSequenceQueue(path);
         }
 
         /** DBUS interface function.
@@ -175,7 +171,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void setMaximumGuidingDeviation(bool enable, double value)
         {
-            cameraUI->setMaximumGuidingDeviation(enable, value);
+            mainCamera()->setMaximumGuidingDeviation(enable, value);
         }
 
         /** DBUS interface function.
@@ -185,7 +181,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR)
         {
-            cameraUI->setInSequenceFocus(enable, HFR);
+            mainCamera()->setInSequenceFocus(enable, HFR);
         }
 
         /** DBUS interface function.
@@ -212,7 +208,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE bool isActiveJobPreview()
         {
-            return cameraUI->isActiveJobPreview();
+            return mainCamera()->isActiveJobPreview();
         }
 
         /** DBUS interface function.
@@ -323,7 +319,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void clearAutoFocusHFR()
         {
-            cameraUI->clearAutoFocusHFR();
+            mainCamera()->clearAutoFocusHFR();
         }
 
         /** DBUS interface function.
@@ -369,23 +365,24 @@ class Capture : public QWidget, public Ui::Capture
         }
         /** @} end of group CaptureDBusInterface */
 
-
         // ////////////////////////////////////////////////////////////////////
-        // UI controls
+        // Access to the main camera
         // ////////////////////////////////////////////////////////////////////
 
-        // TODO: This is only available during refactoring towards multi camera handling
-        Camera *cameraUI;
+        QSharedPointer<Camera> mainCamera() const
+        {
+            return m_mainCamera;
+        }
 
         // ////////////////////////////////////////////////////////////////////
         // Changing the devices used by Capture
         // ////////////////////////////////////////////////////////////////////
 
         /**
-         * @brief Add new Camera
-         * @return True if added successfully, false if duplicate or failed to add.
+         * @brief Update the camera
+         * @param current camera is valid
         */
-        bool updateCamera();
+        void updateCamera(bool isValid);
 
         /**
          * @brief setDome Set dome device
@@ -412,11 +409,11 @@ class Capture : public QWidget, public Ui::Capture
 
         QString opticalTrain() const
         {
-            return cameraUI->opticalTrainCombo->currentText();
+            return mainCamera()->opticalTrainCombo->currentText();
         }
         void setOpticalTrain(const QString &value)
         {
-            cameraUI->opticalTrainCombo->setCurrentText(value);
+            mainCamera()->opticalTrainCombo->setCurrentText(value);
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -440,9 +437,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         bool setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS);
 
-        QSharedPointer<CaptureDeviceAdaptor> m_captureDeviceAdaptor;
-
-    public slots:
+public slots:
         // ////////////////////////////////////////////////////////////////////
         // Main capturing actions
         // ////////////////////////////////////////////////////////////////////
@@ -466,7 +461,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void start()
         {
-            cameraUI->start();
+            mainCamera()->start();
         }
 
         /** DBUS interface function.
@@ -480,7 +475,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void stop(CaptureState targetState = CAPTURE_IDLE)
         {
-            cameraUI->stop(targetState);
+            mainCamera()->stop(targetState);
         }
 
         /** DBUS interface function.
@@ -488,7 +483,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void abort()
         {
-            cameraUI->abort();
+            mainCamera()->abort();
         }
 
         /** DBUS interface function.
@@ -500,14 +495,14 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void suspend()
         {
-            cameraUI->suspend();
+            mainCamera()->suspend();
         }
         /** DBUS interface function.
          * @brief pause Pauses the Sequence Queue progress AFTER the current capture is complete.
          */
         Q_SCRIPTABLE Q_NOREPLY void pause()
         {
-            cameraUI->pause();
+            mainCamera()->pause();
         }
 
         /** DBUS interface function.
@@ -518,7 +513,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE Q_NOREPLY void toggleSequence()
         {
-            cameraUI->toggleSequence();
+            mainCamera()->toggleSequence();
         }
 
 
@@ -528,7 +523,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE Q_NOREPLY void toggleVideo(bool enabled)
         {
-            cameraUI->toggleVideo(enabled);
+            mainCamera()->toggleVideo(enabled);
         }
 
 
@@ -539,7 +534,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE Q_NOREPLY void restartCamera(const QString &name)
         {
-            cameraUI->restartCamera(name);
+            mainCamera()->restartCamera(name);
         }
 
         /** DBus interface function
@@ -547,7 +542,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &newTargetName)
         {
-            cameraUI->setTargetName(newTargetName);
+            mainCamera()->setTargetName(newTargetName);
         }
 
         Q_SCRIPTABLE QString getTargetName();
@@ -557,11 +552,11 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE Q_NOREPLY void setObserverName(const QString &value)
         {
-            cameraUI->setObserverName(value);
+            mainCamera()->setObserverName(value);
         };
         Q_SCRIPTABLE QString getObserverName()
         {
-            return cameraUI->getObserverName();
+            return mainCamera()->getObserverName();
         }
 
         /** @}*/
@@ -569,9 +564,9 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief process shortcut for the process engine
          */
-        QSharedPointer<CaptureProcess> process() const
+        QSharedPointer<CameraProcess> process() const
         {
-            return m_captureProcess;
+            return mainCamera()->process();
         }
 
         // ////////////////////////////////////////////////////////////////////
@@ -583,17 +578,9 @@ class Capture : public QWidget, public Ui::Capture
          */
         void updateTargetDistance(double targetDiff)
         {
-            cameraUI->updateTargetDistance(targetDiff);
+            mainCamera()->updateTargetDistance(targetDiff);
         }
 
-
-        /**
-         * @brief MeridianFlipState Access to the meridian flip state machine
-         */
-        QSharedPointer<MeridianFlipState> getMeridianFlipState()
-        {
-            return state()->getMeridianFlipState();
-        }
         void setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate);
 
         // ////////////////////////////////////////////////////////////////////
@@ -617,7 +604,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         void setFocusStatus(FocusState newstate)
         {
-            cameraUI->setFocusStatus(newstate);
+            mainCamera()->setFocusStatus(newstate);
         }
 
 
@@ -628,7 +615,7 @@ class Capture : public QWidget, public Ui::Capture
         void focusAdaptiveComplete(bool success)
         {
             // directly forward it to the state machine
-            cameraUI->focusAdaptiveComplete(success);
+            mainCamera()->focusAdaptiveComplete(success);
         }
 
         /**
@@ -715,36 +702,32 @@ class Capture : public QWidget, public Ui::Capture
          */
         Camera *addCamera();
 
-        // ////////////////////////////////////////////////////////////////////
-        // capture process steps
-        // ////////////////////////////////////////////////////////////////////
-
-        // Propagate meridian flip state changes to the UI
-        void updateMeridianFlipStage(MeridianFlipState::MFStage stage);
+        /**
+         * @brief setMainCamera Define the main camera
+         */
+        void setMainCamera(Camera *cam)
+        {
+            m_mainCamera.reset(cam);
+        }
 
         // ////////////////////////////////////////////////////////////////////
         // helper functions
         // ////////////////////////////////////////////////////////////////////
 
         // shortcut for the module state
-        QSharedPointer<CaptureModuleState> state() const
+        QSharedPointer<CameraState> state() const
         {
-            return m_captureModuleState;
+            return mainCamera()->state();
         }
         // shortcut to device adapter
         QSharedPointer<CaptureDeviceAdaptor> devices()
         {
-            return m_captureDeviceAdaptor;
+            return mainCamera()->devices();
         }
         // shortcut for the active job
         SequenceJob *activeJob() const
         {
             return state()->getActiveJob();
-        }
-        // Shortcut to the active camera held in the device adaptor
-        ISD::Camera *activeCamera()
-        {
-            return cameraUI->activeCamera();
         }
 
         /**
@@ -769,8 +752,8 @@ class Capture : public QWidget, public Ui::Capture
         int seqTotalCount;
         int seqCurrentCount { 0 };
 
-        QSharedPointer<CaptureProcess> m_captureProcess;
-        QSharedPointer<CaptureModuleState> m_captureModuleState;
+
+        QSharedPointer<Camera> m_mainCamera;
 
         QPointer<QDBusInterface> mountInterface;
 

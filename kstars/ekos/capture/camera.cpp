@@ -18,7 +18,7 @@
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/auxiliary/rotatorutils.h"
 #include "capturedeviceadaptor.h"
-#include "captureprocess.h"
+#include "cameraprocess.h"
 #include "sequencequeue.h"
 #include "scriptsmanager.h"
 #include "dslrinfodialog.h"
@@ -52,6 +52,10 @@ Camera::Camera(bool standAlone, QWidget *parent)
     : QWidget{parent}, m_standAlone(standAlone)
 {
     setupUi(this);
+    m_cameraState.reset(new CameraState());
+    m_DeviceAdaptor.reset(new CaptureDeviceAdaptor());
+    m_cameraProcess.reset(new CameraProcess(state(), m_DeviceAdaptor));
+
     m_customPropertiesDialog.reset(new CustomProperties());
     m_LimitsDialog = new QDialog(this);
     m_LimitsUI.reset(new Ui::Limits());
@@ -143,6 +147,9 @@ Camera::Camera(bool standAlone, QWidget *parent)
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
+
+    // init connections and load settings
+    initCamera();
 }
 
 Camera::~Camera()
@@ -163,6 +170,9 @@ void Camera::initCamera()
     }
 
     setupOpticalTrainManager();
+
+    // Generate Meridian Flip State
+    state()->getMeridianFlipState();
 
     m_dirPath = QUrl::fromLocalFile(QDir::homePath());
 
@@ -209,7 +219,7 @@ void Camera::initCamera()
         moveJob(false);
     });
 
-    connect(resetFrameB, &QPushButton::clicked, m_captureProcess.get(), &CaptureProcess::resetFrame);
+    connect(resetFrameB, &QPushButton::clicked, m_cameraProcess.get(), &CameraProcess::resetFrame);
     connect(calibrationB, &QPushButton::clicked, m_CalibrationDialog, &QDialog::show);
 
     connect(generateDarkFlatsB, &QPushButton::clicked, this, &Camera::generateDarkFlats);
@@ -290,18 +300,18 @@ void Camera::initCamera()
     connect(removeFromQueueB, &QPushButton::clicked, this, &Camera::removeJobFromQueue);
     connect(selectFileDirectoryB, &QPushButton::clicked, this, &Camera::saveFITSDirectory);
 
-    connect(m_captureModuleState.get(), &CaptureModuleState::newLimitFocusHFR, this, [this](double hfr)
+    connect(m_cameraState.get(), &CameraState::newLimitFocusHFR, this, [this](double hfr)
     {
         m_LimitsUI->hFRDeviation->setValue(hfr);
     });
 
     state()->getCaptureDelayTimer().setSingleShot(true);
-    connect(&state()->getCaptureDelayTimer(), &QTimer::timeout, m_captureProcess.get(), &CaptureProcess::captureImage);
+    connect(&state()->getCaptureDelayTimer(), &QTimer::timeout, m_cameraProcess.get(), &CameraProcess::captureImage);
 
     // Exposure Timeout
     state()->getCaptureTimeout().setSingleShot(true);
-    connect(&state()->getCaptureTimeout(), &QTimer::timeout, m_captureProcess.get(),
-            &CaptureProcess::processCaptureTimeout);
+    connect(&state()->getCaptureTimeout(), &QTimer::timeout, m_cameraProcess.get(),
+            &CameraProcess::processCaptureTimeout);
 
     // Remote directory
     connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
@@ -370,62 +380,71 @@ void Camera::initCamera()
     });
 
     // state machine connections
-    connect(m_captureModuleState.data(), &CaptureModuleState::captureBusy, this, &Camera::setBusy);
-    connect(m_captureModuleState.data(), &CaptureModuleState::startCapture, this, &Camera::start);
-    connect(m_captureModuleState.data(), &CaptureModuleState::abortCapture, this, &Camera::abort);
-    connect(m_captureModuleState.data(), &CaptureModuleState::suspendCapture, this, &Camera::suspend);
-    connect(m_captureModuleState.data(), &CaptureModuleState::newLog, this, &Camera::appendLogText);
-    connect(m_captureModuleState.data(), &CaptureModuleState::sequenceChanged, this, &Camera::sequenceChanged);
-    connect(m_captureModuleState.data(), &CaptureModuleState::updatePrepareState, this, &Camera::updatePrepareState);
-    connect(m_captureModuleState.data(), &CaptureModuleState::newFocusStatus, this, &Camera::updateFocusStatus);
-    connect(m_captureModuleState.data(), &CaptureModuleState::runAutoFocus, this, &Camera::runAutoFocus);
-    connect(m_captureModuleState.data(), &CaptureModuleState::resetFocus, this, &Camera::resetFocus);
-    connect(m_captureModuleState.data(), &CaptureModuleState::adaptiveFocus, this, &Camera::adaptiveFocus);
+    connect(m_cameraState.data(), &CameraState::captureBusy, this, &Camera::setBusy);
+    connect(m_cameraState.data(), &CameraState::startCapture, this, &Camera::start);
+    connect(m_cameraState.data(), &CameraState::abortCapture, this, &Camera::abort);
+    connect(m_cameraState.data(), &CameraState::suspendCapture, this, &Camera::suspend);
+    connect(m_cameraState.data(), &CameraState::newLog, this, &Camera::appendLogText);
+    connect(m_cameraState.data(), &CameraState::sequenceChanged, this, &Camera::sequenceChanged);
+    connect(m_cameraState.data(), &CameraState::updatePrepareState, this, &Camera::updatePrepareState);
+    connect(m_cameraState.data(), &CameraState::newFocusStatus, this, &Camera::updateFocusStatus);
+    connect(m_cameraState.data(), &CameraState::runAutoFocus, this, &Camera::runAutoFocus);
+    connect(m_cameraState.data(), &CameraState::resetFocus, this, &Camera::resetFocus);
+    connect(m_cameraState.data(), &CameraState::adaptiveFocus, this, &Camera::adaptiveFocus);
+    connect(m_cameraState.data(), &CameraState::newMeridianFlipStage, this, &Camera::updateMeridianFlipStage);
+    connect(m_cameraState.data(), &CameraState::guideAfterMeridianFlip, this, &Camera::guideAfterMeridianFlip);
+    connect(m_cameraState.data(), &CameraState::newStatus, this, &Camera::newStatus);
+    connect(m_cameraState.data(), &CameraState::meridianFlipStarted, this, &Camera::meridianFlipStarted);
     // process engine connections
-    connect(m_captureProcess.data(), &CaptureProcess::sequenceChanged, this, &Camera::sequenceChanged);
-    connect(m_captureProcess.data(), &CaptureProcess::addJob, this, &Camera::addJob);
-    connect(m_captureProcess.data(), &CaptureProcess::newExposureProgress, this, &Camera::newExposureProgress);
-    connect(m_captureProcess.data(), &CaptureProcess::newDownloadProgress, this, &Camera::updateDownloadProgress);
-    connect(m_captureProcess.data(), &CaptureProcess::newImage, this, &Camera::newImage);
-    connect(m_captureProcess.data(), &CaptureProcess::captureComplete, this, &Camera::captureComplete);
-    connect(m_captureProcess.data(), &CaptureProcess::updateCaptureCountDown, this, &Camera::updateCaptureCountDown);
-    connect(m_captureProcess.data(), &CaptureProcess::processingFITSfinished, this, &Camera::processingFITSfinished);
-    connect(m_captureProcess.data(), &CaptureProcess::captureStopped, this, &Camera::captureStopped);
-    connect(m_captureProcess.data(), &CaptureProcess::darkFrameCompleted, this, &Camera::imageCapturingCompleted);
-    connect(m_captureProcess.data(), &CaptureProcess::syncGUIToJob, this, &Camera::syncGUIToJob);
-    connect(m_captureProcess.data(), &CaptureProcess::refreshCameraSettings, this, &Camera::refreshCameraSettings);
-    connect(m_captureProcess.data(), &CaptureProcess::updateFrameProperties, this, &Camera::updateFrameProperties);
-    connect(m_captureProcess.data(), &CaptureProcess::rotatorReverseToggled, this, &Camera::setRotatorReversed);
-    connect(m_captureProcess.data(), &CaptureProcess::refreshFilterSettings, this, &Camera::refreshFilterSettings);
-    connect(m_captureProcess.data(), &CaptureProcess::createJob, [this](SequenceJob::SequenceJobType jobType)
+    connect(m_cameraProcess.data(), &CameraProcess::refreshCamera, this, &Camera::updateCamera);
+    connect(m_cameraProcess.data(), &CameraProcess::sequenceChanged, this, &Camera::sequenceChanged);
+    connect(m_cameraProcess.data(), &CameraProcess::addJob, this, &Camera::addJob);
+    connect(m_cameraProcess.data(), &CameraProcess::newExposureProgress, this, &Camera::newExposureProgress);
+    connect(m_cameraProcess.data(), &CameraProcess::newDownloadProgress, this, &Camera::updateDownloadProgress);
+    connect(m_cameraProcess.data(), &CameraProcess::newImage, this, &Camera::newImage);
+    connect(m_cameraProcess.data(), &CameraProcess::captureComplete, this, &Camera::captureComplete);
+    connect(m_cameraProcess.data(), &CameraProcess::updateCaptureCountDown, this, &Camera::updateCaptureCountDown);
+    connect(m_cameraProcess.data(), &CameraProcess::processingFITSfinished, this, &Camera::processingFITSfinished);
+    connect(m_cameraProcess.data(), &CameraProcess::captureStopped, this, &Camera::captureStopped);
+    connect(m_cameraProcess.data(), &CameraProcess::darkFrameCompleted, this, &Camera::imageCapturingCompleted);
+    connect(m_cameraProcess.data(), &CameraProcess::updateMeridianFlipStage, this, &Camera::updateMeridianFlipStage);
+    connect(m_cameraProcess.data(), &CameraProcess::syncGUIToJob, this, &Camera::syncGUIToJob);
+    connect(m_cameraProcess.data(), &CameraProcess::refreshCameraSettings, this, &Camera::refreshCameraSettings);
+    connect(m_cameraProcess.data(), &CameraProcess::updateFrameProperties, this, &Camera::updateFrameProperties);
+    connect(m_cameraProcess.data(), &CameraProcess::rotatorReverseToggled, this, &Camera::setRotatorReversed);
+    connect(m_cameraProcess.data(), &CameraProcess::refreshFilterSettings, this, &Camera::refreshFilterSettings);
+    connect(m_cameraProcess.data(), &CameraProcess::suspendGuiding, this, &Camera::suspendGuiding);
+    connect(m_cameraProcess.data(), &CameraProcess::resumeGuiding, this, &Camera::resumeGuiding);
+    connect(m_cameraProcess.data(), &CameraProcess::driverTimedout, this, &Camera::driverTimedout);
+    connect(m_cameraProcess.data(), &CameraProcess::createJob, [this](SequenceJob::SequenceJobType jobType)
     {
         // report the result back to the process
         process()->jobCreated(createJob(jobType));
     });
-    connect(m_captureProcess.data(), &CaptureProcess::updateJobTable, this, &Camera::updateJobTable);
-    connect(m_captureProcess.data(), &CaptureProcess::newLog, this, &Camera::appendLogText);
-    connect(m_captureProcess.data(), &CaptureProcess::stopCapture, this, &Camera::stop);
-    connect(m_captureProcess.data(), &CaptureProcess::jobStarting, this, &Camera::jobStarting);
-    connect(m_captureProcess.data(), &CaptureProcess::abortFocus, this, &Camera::abortFocus);
-    connect(m_captureProcess.data(), &CaptureProcess::cameraReady, this, &Camera::ready);
-    connect(m_captureProcess.data(), &CaptureProcess::captureAborted, this, &Camera::captureAborted);
-    connect(m_captureProcess.data(), &CaptureProcess::captureRunning, this, &Camera::captureRunning);
-    connect(m_captureProcess.data(), &CaptureProcess::captureImageStarted, this, &Camera::captureImageStarted);
-    connect(m_captureProcess.data(), &CaptureProcess::jobExecutionPreparationStarted, this,
+    connect(m_cameraProcess.data(), &CameraProcess::updateJobTable, this, &Camera::updateJobTable);
+    connect(m_cameraProcess.data(), &CameraProcess::newLog, this, &Camera::appendLogText);
+    connect(m_cameraProcess.data(), &CameraProcess::stopCapture, this, &Camera::stop);
+    connect(m_cameraProcess.data(), &CameraProcess::jobStarting, this, &Camera::jobStarting);
+    connect(m_cameraProcess.data(), &CameraProcess::abortFocus, this, &Camera::abortFocus);
+    connect(m_cameraProcess.data(), &CameraProcess::cameraReady, this, &Camera::ready);
+    connect(m_cameraProcess.data(), &CameraProcess::captureAborted, this, &Camera::captureAborted);
+    connect(m_cameraProcess.data(), &CameraProcess::captureRunning, this, &Camera::captureRunning);
+    connect(m_cameraProcess.data(), &CameraProcess::captureImageStarted, this, &Camera::captureImageStarted);
+    connect(m_cameraProcess.data(), &CameraProcess::jobExecutionPreparationStarted, this,
             &Camera::jobExecutionPreparationStarted);
-    connect(m_captureProcess.data(), &CaptureProcess::jobPrepared, this, &Camera::jobPrepared);
-    connect(m_captureProcess.data(), &CaptureProcess::captureTarget, this, &Camera::setTargetName);
-    connect(m_captureProcess.data(), &CaptureProcess::downloadingFrame, this, [this]()
+    connect(m_cameraProcess.data(), &CameraProcess::jobPrepared, this, &Camera::jobPrepared);
+    connect(m_cameraProcess.data(), &CameraProcess::captureTarget, this, &Camera::setTargetName);
+    connect(m_cameraProcess.data(), &CameraProcess::downloadingFrame, this, [this]()
     {
         captureStatusWidget->setStatus(i18n("Downloading..."), Qt::yellow);
     });
 
     // connections between state machine and process engine
-    connect(m_captureModuleState.data(), &CaptureModuleState::executeActiveJob, m_captureProcess.data(),
-            &CaptureProcess::executeJob);
-    connect(m_captureModuleState.data(), &CaptureModuleState::captureStarted, m_captureProcess.data(),
-            &CaptureProcess::captureStarted);
-    connect(m_captureModuleState.data(), &CaptureModuleState::checkFocus, this, &Camera::checkFocus);
+    connect(m_cameraState.data(), &CameraState::executeActiveJob, m_cameraProcess.data(),
+            &CameraProcess::executeJob);
+    connect(m_cameraState.data(), &CameraState::captureStarted, m_cameraProcess.data(),
+            &CameraProcess::captureStarted);
+    connect(m_cameraState.data(), &CameraState::checkFocus, this, &Camera::checkFocus);
 
     // device adaptor connections
     connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::newCCDTemperatureValue, this,
@@ -453,10 +472,22 @@ void Camera::initCamera()
     connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::newFilterWheel, this, &Camera::setFilterWheel);
 
     // connections between state machine and device adaptor
-    connect(m_captureModuleState.data(), &CaptureModuleState::newFilterPosition,
+    connect(m_cameraState.data(), &CameraState::newFilterPosition,
             m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::setFilterPosition);
-    connect(m_captureModuleState.data(), &CaptureModuleState::abortFastExposure,
+    connect(m_cameraState.data(), &CameraState::abortFastExposure,
             m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::abortFastExposure);
+
+    // connections between state machine and device adaptor
+    connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::scopeStatusChanged,
+            m_cameraState.data(), &CameraState::setScopeState);
+    connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::pierSideChanged,
+            m_cameraState.data(), &CameraState::setPierSide);
+    connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::scopeParkStatusChanged,
+            m_cameraState.data(), &CameraState::setScopeParkState);
+    connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::domeStatusChanged,
+            m_cameraState.data(), &CameraState::setDomeState);
+    connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::dustCapStatusChanged,
+            m_cameraState.data(), &CameraState::dustCapStateChanged);
 }
 
 void Camera::updateRotatorAngle(double value)
@@ -519,7 +550,7 @@ void Camera::updateFocusStatus(FocusState newstate)
     }
 }
 
-bool Camera::updateCamera()
+void Camera::updateCamera(bool isValid)
 {
     auto isConnected = activeCamera() && activeCamera()->isConnected();
     CaptureSettingsGroup->setEnabled(isConnected);
@@ -528,23 +559,16 @@ bool Camera::updateCamera()
     for (auto &oneChild : sequenceControlsButtonGroup->buttons())
         oneChild->setEnabled(isConnected);
 
-    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
-
-    if (activeCamera() && trainID.isValid())
+    if (isValid)
     {
         auto name = activeCamera()->getDeviceName();
         opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(name, currentScope()["name"].toString()));
+        emit settingsUpdated(getAllSettings());
+        emit refreshCamera(true);
     }
     else
-        return false;
+        emit refreshCamera(false);
 
-    if (devices()->filterWheel())
-        process()->updateFilterInfo();
-
-    process()->checkCamera();
-    emit settingsUpdated(getAllSettings());
-
-    return true;
 }
 
 void Camera::refreshCameraSettings()
@@ -591,7 +615,7 @@ void Camera::refreshCameraSettings()
     connect(camera, &ISD::Camera::coolerToggled, this, &Camera::setCoolerToggled, Qt::UniqueConnection);
     connect(camera, &ISD::Camera::videoStreamToggled, this, &Camera::setVideoStreamEnabled, Qt::UniqueConnection);
     connect(camera, &ISD::Camera::ready, this, &Camera::ready, Qt::UniqueConnection);
-    connect(camera, &ISD::Camera::error, m_captureProcess.data(), &CaptureProcess::processCaptureError,
+    connect(camera, &ISD::Camera::error, m_cameraProcess.data(), &CameraProcess::processCaptureError,
             Qt::UniqueConnection);
 
     syncCameraInfo();
@@ -2624,6 +2648,8 @@ void Camera::updateFrameProperties(int reset)
     }
 }
 
+
+
 void Camera::setGain(double value)
 {
     if (m_standAlone)
@@ -3317,6 +3343,36 @@ double Camera::currentAperture()
         aperture = focalLength * focalRatio;
 
     return aperture;
+}
+
+void Camera::updateMeridianFlipStage(MeridianFlipState::MFStage stage)
+{
+    // update UI
+    if (state()->getMeridianFlipState()->getMeridianFlipStage() != stage)
+    {
+        switch (stage)
+        {
+            case MeridianFlipState::MF_READY:
+                if (state()->getCaptureState() == CAPTURE_PAUSED)
+                {
+                    // paused after meridian flip requested
+                    captureStatusWidget->setStatus(i18n("Paused..."), Qt::yellow);
+                }
+                break;
+
+            case MeridianFlipState::MF_INITIATED:
+                captureStatusWidget->setStatus(i18n("Meridian Flip..."), Qt::yellow);
+                KSNotification::event(QLatin1String("MeridianFlipStarted"), i18n("Meridian flip started"), KSNotification::Capture);
+                break;
+
+            case MeridianFlipState::MF_COMPLETED:
+                captureStatusWidget->setStatus(i18n("Flip complete."), Qt::yellow);
+                break;
+
+            default:
+                break;
+        }
+    }
 }
 
 void Camera::openExposureCalculatorDialog()

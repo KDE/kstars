@@ -3,7 +3,7 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-#include "captureprocess.h"
+#include "cameraprocess.h"
 #include "capturedeviceadaptor.h"
 #include "refocusstate.h"
 #include "sequencejob.h"
@@ -36,31 +36,31 @@
 
 namespace Ekos
 {
-CaptureProcess::CaptureProcess(QSharedPointer<CaptureModuleState> newModuleState,
-                               QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor) : QObject(KStars::Instance())
+CameraProcess::CameraProcess(QSharedPointer<CameraState> newModuleState,
+                             QSharedPointer<CaptureDeviceAdaptor> newDeviceAdaptor) : QObject(KStars::Instance())
 {
-    setObjectName("CaptureProcess");
+    setObjectName("CameraProcess");
     m_State = newModuleState;
     m_DeviceAdaptor = newDeviceAdaptor;
 
     // connect devices to processes
-    connect(devices().data(), &CaptureDeviceAdaptor::newCamera, this, &CaptureProcess::selectCamera);
+    connect(devices().data(), &CaptureDeviceAdaptor::newCamera, this, &CameraProcess::selectCamera);
 
     //This Timer will update the Exposure time in the capture module to display the estimated download time left
     //It will also update the Exposure time left in the Summary Screen.
     //It fires every 100 ms while images are downloading.
     state()->downloadProgressTimer().setInterval(100);
-    connect(&state()->downloadProgressTimer(), &QTimer::timeout, this, &CaptureProcess::setDownloadProgress);
+    connect(&state()->downloadProgressTimer(), &QTimer::timeout, this, &CameraProcess::setDownloadProgress);
 
     // configure dark processor
     m_DarkProcessor = new DarkProcessor(this);
-    connect(m_DarkProcessor, &DarkProcessor::newLog, this, &CaptureProcess::newLog);
-    connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, &CaptureProcess::darkFrameCompleted);
+    connect(m_DarkProcessor, &DarkProcessor::newLog, this, &CameraProcess::newLog);
+    connect(m_DarkProcessor, &DarkProcessor::darkFrameCompleted, this, &CameraProcess::darkFrameCompleted);
 
     // Pre/post capture/job scripts
     connect(&m_CaptureScript,
             static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
-            this, &CaptureProcess::scriptFinished);
+            this, &CameraProcess::scriptFinished);
     connect(&m_CaptureScript, &QProcess::errorOccurred, this, [this](QProcess::ProcessError error)
     {
         Q_UNUSED(error)
@@ -79,7 +79,7 @@ CaptureProcess::CaptureProcess(QSharedPointer<CaptureModuleState> newModuleState
     });
 }
 
-bool CaptureProcess::setMount(ISD::Mount *device)
+bool CameraProcess::setMount(ISD::Mount *device)
 {
     if (devices()->mount() && devices()->mount() == device)
     {
@@ -96,13 +96,13 @@ bool CaptureProcess::setMount(ISD::Mount *device)
         return false;
 
     devices()->mount()->disconnect(this);
-    connect(devices()->mount(), &ISD::Mount::newTargetName, this, &CaptureProcess::captureTarget);
+    connect(devices()->mount(), &ISD::Mount::newTargetName, this, &CameraProcess::captureTarget);
 
     updateTelescopeInfo();
     return true;
 }
 
-bool CaptureProcess::setRotator(ISD::Rotator *device)
+bool CameraProcess::setRotator(ISD::Rotator *device)
 {
     // do nothing if *real* rotator is already connected
     if ((devices()->rotator() == device) && (device != nullptr))
@@ -115,12 +115,12 @@ bool CaptureProcess::setRotator(ISD::Rotator *device)
             devices()->rotator()->disconnect(this);
 
         // clear initialisation.
-        state()->isInitialized[CaptureModuleState::ACTION_ROTATOR] = false;
+        state()->isInitialized[CameraState::ACTION_ROTATOR] = false;
 
         if (device)
         {
             Manager::Instance()->createRotatorController(device);
-            connect(devices().data(), &CaptureDeviceAdaptor::rotatorReverseToggled, this, &CaptureProcess::rotatorReverseToggled,
+            connect(devices().data(), &CaptureDeviceAdaptor::rotatorReverseToggled, this, &CameraProcess::rotatorReverseToggled,
                     Qt::UniqueConnection);
         }
         devices()->setRotator(device);
@@ -129,31 +129,31 @@ bool CaptureProcess::setRotator(ISD::Rotator *device)
     return false;
 }
 
-bool CaptureProcess::setDustCap(ISD::DustCap *device)
+bool CameraProcess::setDustCap(ISD::DustCap *device)
 {
     if (devices()->dustCap() && devices()->dustCap() == device)
         return false;
 
     devices()->setDustCap(device);
-    state()->setDustCapState(CaptureModuleState::CAP_UNKNOWN);
+    state()->setDustCapState(CameraState::CAP_UNKNOWN);
 
     updateFilterInfo();
     return true;
 
 }
 
-bool CaptureProcess::setLightBox(ISD::LightBox *device)
+bool CameraProcess::setLightBox(ISD::LightBox *device)
 {
     if (devices()->lightBox() == device)
         return false;
 
     devices()->setLightBox(device);
-    state()->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_UNKNOWN);
+    state()->setLightBoxLightState(CameraState::CAP_LIGHT_UNKNOWN);
 
     return true;
 }
 
-bool CaptureProcess::setDome(ISD::Dome *device)
+bool CameraProcess::setDome(ISD::Dome *device)
 {
     if (devices()->dome() == device)
         return false;
@@ -163,7 +163,7 @@ bool CaptureProcess::setDome(ISD::Dome *device)
     return true;
 }
 
-bool CaptureProcess::setCamera(ISD::Camera *device)
+bool CameraProcess::setCamera(ISD::Camera *device)
 {
     if (devices()->getActiveCamera() == device)
         return false;
@@ -172,13 +172,13 @@ bool CaptureProcess::setCamera(ISD::Camera *device)
 
     // If we capturing, then we need to process capture timeout immediately since this is a crash recovery
     if (state()->getCaptureTimeout().isActive() && state()->getCaptureState() == CAPTURE_CAPTURING)
-        QTimer::singleShot(100, this, &CaptureProcess::processCaptureTimeout);
+        QTimer::singleShot(100, this, &CameraProcess::processCaptureTimeout);
 
     return true;
 
 }
 
-void CaptureProcess::toggleVideo(bool enabled)
+void CameraProcess::toggleVideo(bool enabled)
 {
     if (devices()->getActiveCamera() == nullptr)
         return;
@@ -207,7 +207,7 @@ void CaptureProcess::toggleVideo(bool enabled)
 
 }
 
-void CaptureProcess::toggleSequence()
+void CameraProcess::toggleSequence()
 {
     const CaptureState capturestate = state()->getCaptureState();
     if (capturestate == CAPTURE_PAUSE_PLANNED || capturestate == CAPTURE_PAUSED)
@@ -221,10 +221,10 @@ void CaptureProcess::toggleSequence()
         // Call from where ever we have left of when we paused
         switch (state()->getContinueAction())
         {
-            case CaptureModuleState::CONTINUE_ACTION_CAPTURE_COMPLETE:
+            case CameraState::CONTINUE_ACTION_CAPTURE_COMPLETE:
                 resumeSequence();
                 break;
-            case CaptureModuleState::CONTINUE_ACTION_NEXT_EXPOSURE:
+            case CameraState::CONTINUE_ACTION_NEXT_EXPOSURE:
                 startNextExposure();
                 break;
             default:
@@ -241,7 +241,7 @@ void CaptureProcess::toggleSequence()
     }
 }
 
-void CaptureProcess::startNextPendingJob()
+void CameraProcess::startNextPendingJob()
 {
     if (state()->allJobs().count() > 0)
     {
@@ -262,7 +262,7 @@ void CaptureProcess::startNextPendingJob()
     }
 }
 
-void CaptureProcess::jobCreated(SequenceJob *newJob)
+void CameraProcess::jobCreated(SequenceJob *newJob)
 {
     if (newJob == nullptr)
     {
@@ -285,7 +285,7 @@ void CaptureProcess::jobCreated(SequenceJob *newJob)
     }
 }
 
-void CaptureProcess::capturePreview(bool loop)
+void CameraProcess::capturePreview(bool loop)
 {
     if (state()->getFocusState() >= FOCUS_PROGRESS)
     {
@@ -308,7 +308,7 @@ void CaptureProcess::capturePreview(bool loop)
     }
 }
 
-void CaptureProcess::stopCapturing(CaptureState targetState)
+void CameraProcess::stopCapturing(CaptureState targetState)
 {
     clearFlatCache();
 
@@ -408,7 +408,7 @@ void CaptureProcess::stopCapturing(CaptureState targetState)
     emit captureStopped();
 }
 
-void CaptureProcess::pauseCapturing()
+void CameraProcess::pauseCapturing()
 {
     if (state()->getCaptureState() != CAPTURE_CAPTURING)
     {
@@ -420,18 +420,18 @@ void CaptureProcess::pauseCapturing()
         return;
     }
     // we do not decide at this stage how to resume, since pause is only planned here
-    state()->setContinueAction(CaptureModuleState::CONTINUE_ACTION_NONE);
+    state()->setContinueAction(CameraState::CONTINUE_ACTION_NONE);
     state()->setCaptureState(CAPTURE_PAUSE_PLANNED);
     emit newLog(i18n("Sequence shall be paused after current exposure is complete."));
 }
 
-void CaptureProcess::startJob(SequenceJob *job)
+void CameraProcess::startJob(SequenceJob *job)
 {
     state()->initCapturePreparation();
     prepareJob(job);
 }
 
-void CaptureProcess::prepareJob(SequenceJob * job)
+void CameraProcess::prepareJob(SequenceJob * job)
 {
     state()->setActiveJob(job);
 
@@ -602,7 +602,7 @@ void CaptureProcess::prepareJob(SequenceJob * job)
 
 }
 
-void CaptureProcess::prepareActiveJobStage1()
+void CameraProcess::prepareActiveJobStage1()
 {
     if (activeJob() == nullptr)
     {
@@ -618,7 +618,7 @@ void CaptureProcess::prepareActiveJobStage1()
     prepareActiveJobStage2();
 }
 
-void CaptureProcess::prepareActiveJobStage2()
+void CameraProcess::prepareActiveJobStage2()
 {
     // Just notification of active job stating up
     if (activeJob() == nullptr)
@@ -645,7 +645,7 @@ void CaptureProcess::prepareActiveJobStage2()
     prepareJobExecution();
 }
 
-void CaptureProcess::executeJob()
+void CameraProcess::executeJob()
 {
     if (activeJob() == nullptr)
     {
@@ -657,7 +657,7 @@ void CaptureProcess::executeJob()
     if (!activeCamera() || !devices()->getActiveChip())
     {
         checkCamera();
-        QTimer::singleShot(1000, this, &CaptureProcess::executeJob);
+        QTimer::singleShot(1000, this, &CameraProcess::executeJob);
         return;
     }
 
@@ -699,7 +699,7 @@ void CaptureProcess::executeJob()
 
 }
 
-void CaptureProcess::prepareJobExecution()
+void CameraProcess::prepareJobExecution()
 {
     if (activeJob() == nullptr)
     {
@@ -721,7 +721,7 @@ void CaptureProcess::prepareJobExecution()
     emit jobExecutionPreparationStarted();
 }
 
-void CaptureProcess::refreshOpticalTrain(QString name)
+void CameraProcess::refreshOpticalTrain(QString name)
 {
     auto mount = OpticalTrainManager::Instance()->getMount(name);
     setMount(mount);
@@ -745,14 +745,14 @@ void CaptureProcess::refreshOpticalTrain(QString name)
     setLightBox(lightbox);
 }
 
-IPState CaptureProcess::checkLightFramePendingTasks()
+IPState CameraProcess::checkLightFramePendingTasks()
 {
     // step 1: did one of the pending jobs fail or has the user aborted the capture?
     if (state()->getCaptureState() == CAPTURE_ABORTED)
         return IPS_ALERT;
 
     // step 2: check if pausing has been requested
-    if (checkPausing(CaptureModuleState::CONTINUE_ACTION_NEXT_EXPOSURE) == true)
+    if (checkPausing(CameraState::CONTINUE_ACTION_NEXT_EXPOSURE) == true)
         return IPS_BUSY;
 
     // step 3: check if a meridian flip is active
@@ -794,11 +794,11 @@ IPState CaptureProcess::checkLightFramePendingTasks()
 
 }
 
-void CaptureProcess::captureStarted(CaptureModuleState::CAPTUREResult rc)
+void CameraProcess::captureStarted(CameraState::CAPTUREResult rc)
 {
     switch (rc)
     {
-        case CaptureModuleState::CAPTURE_OK:
+        case CameraState::CAPTURE_OK:
         {
             state()->setCaptureState(CAPTURE_CAPTURING);
             state()->getCaptureTimeout().start(static_cast<int>(activeJob()->getCoreProperty(
@@ -825,33 +825,33 @@ void CaptureProcess::captureStarted(CaptureModuleState::CAPTUREResult rc)
         }
         break;
 
-        case CaptureModuleState::CAPTURE_FRAME_ERROR:
+        case CameraState::CAPTURE_FRAME_ERROR:
             emit newLog(i18n("Failed to set sub frame."));
             emit stopCapturing(CAPTURE_ABORTED);
             break;
 
-        case CaptureModuleState::CAPTURE_BIN_ERROR:
+        case CameraState::CAPTURE_BIN_ERROR:
             emit newLog((i18n("Failed to set binning.")));
             emit stopCapturing(CAPTURE_ABORTED);
             break;
 
-        case CaptureModuleState::CAPTURE_FOCUS_ERROR:
+        case CameraState::CAPTURE_FOCUS_ERROR:
             emit newLog((i18n("Cannot capture while focus module is busy.")));
             emit stopCapturing(CAPTURE_ABORTED);
             break;
     }
 }
 
-void CaptureProcess::checkNextExposure()
+void CameraProcess::checkNextExposure()
 {
     IPState started = startNextExposure();
     // if starting the next exposure did not succeed due to pending jobs running,
     // we retry after 1 second
     if (started == IPS_BUSY)
-        QTimer::singleShot(1000, this, &CaptureProcess::checkNextExposure);
+        QTimer::singleShot(1000, this, &CameraProcess::checkNextExposure);
 }
 
-IPState CaptureProcess::captureImageWithDelay()
+IPState CameraProcess::captureImageWithDelay()
 {
     auto theJob = activeJob();
 
@@ -868,7 +868,7 @@ IPState CaptureProcess::captureImageWithDelay()
     return IPS_OK;
 }
 
-IPState CaptureProcess::startNextExposure()
+IPState CameraProcess::startNextExposure()
 {
     // Since this function is looping while pending tasks are running in parallel
     // it might happen that one of them leads to abort() which sets the #activeJob() to nullptr.
@@ -892,10 +892,10 @@ IPState CaptureProcess::startNextExposure()
     return IPS_OK;
 }
 
-IPState CaptureProcess::resumeSequence()
+IPState CameraProcess::resumeSequence()
 {
     // before we resume, we will check if pausing is requested
-    if (checkPausing(CaptureModuleState::CONTINUE_ACTION_CAPTURE_COMPLETE) == true)
+    if (checkPausing(CameraState::CONTINUE_ACTION_CAPTURE_COMPLETE) == true)
         return IPS_BUSY;
 
     // If no job is active, we have to find if there are more pending jobs in the queue
@@ -976,7 +976,7 @@ IPState CaptureProcess::resumeSequence()
 
 }
 
-bool Ekos::CaptureProcess::checkSavingReceivedImage(const QSharedPointer<FITSData> &data, const QString &extension,
+bool Ekos::CameraProcess::checkSavingReceivedImage(const QSharedPointer<FITSData> &data, const QString &extension,
         QString &filename)
 {
     // trigger saving the FITS file for batch jobs that aren't calibrating
@@ -1008,7 +1008,7 @@ bool Ekos::CaptureProcess::checkSavingReceivedImage(const QSharedPointer<FITSDat
     return true;
 }
 
-void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const QString &extension)
+void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const QString &extension)
 {
     ISD::CameraChip * tChip = nullptr;
 
@@ -1141,7 +1141,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
     if (activeCamera()->isFastExposureEnabled() == false && state()->isLooping() == false)
     {
         disconnect(activeCamera(), &ISD::Camera::newExposureValue, this,
-                   &CaptureProcess::setExposureProgress);
+                   &CameraProcess::setExposureProgress);
         DarkLibrary::Instance()->disconnect(this);
     }
 
@@ -1216,7 +1216,7 @@ void CaptureProcess::processFITSData(const QSharedPointer<FITSData> &data, const
     emit processingFITSfinished(true);
 }
 
-void CaptureProcess::processNewRemoteFile(QString file)
+void CameraProcess::processNewRemoteFile(QString file)
 {
     emit newLog(i18n("Remote image saved to %1", file));
     // call processing steps without image data if the image is stored only remotely
@@ -1228,7 +1228,7 @@ void CaptureProcess::processNewRemoteFile(QString file)
     }
 }
 
-IPState CaptureProcess::processPreCaptureCalibrationStage()
+IPState CameraProcess::processPreCaptureCalibrationStage()
 {
     // in some rare cases it might happen that activeJob() has been cleared by a concurrent thread
     if (activeJob() == nullptr)
@@ -1268,7 +1268,7 @@ IPState CaptureProcess::processPreCaptureCalibrationStage()
 
 }
 
-void CaptureProcess::updatePreCaptureCalibrationStatus()
+void CameraProcess::updatePreCaptureCalibrationStatus()
 {
     // If process was aborted or stopped by the user
     if (state()->isBusy() == false)
@@ -1283,14 +1283,14 @@ void CaptureProcess::updatePreCaptureCalibrationStatus()
         return;
     else if (rc == IPS_BUSY)
     {
-        QTimer::singleShot(1000, this, &CaptureProcess::updatePreCaptureCalibrationStatus);
+        QTimer::singleShot(1000, this, &CameraProcess::updatePreCaptureCalibrationStatus);
         return;
     }
 
     captureImageWithDelay();
 }
 
-void CaptureProcess::processJobCompletion1()
+void CameraProcess::processJobCompletion1()
 {
     if (activeJob() == nullptr)
     {
@@ -1306,7 +1306,7 @@ void CaptureProcess::processJobCompletion1()
     processJobCompletion2();
 }
 
-void CaptureProcess::processJobCompletion2()
+void CameraProcess::processJobCompletion2()
 {
     if (activeJob() == nullptr)
     {
@@ -1352,7 +1352,7 @@ void CaptureProcess::processJobCompletion2()
 
 }
 
-IPState CaptureProcess::startNextJob()
+IPState CameraProcess::startNextJob()
 {
     SequenceJob * next_job = nullptr;
 
@@ -1388,7 +1388,7 @@ IPState CaptureProcess::startNextJob()
     }
 }
 
-void CaptureProcess::captureImage()
+void CameraProcess::captureImage()
 {
     if (activeJob() == nullptr)
         return;
@@ -1511,7 +1511,7 @@ void CaptureProcess::captureImage()
     emit captureImageStarted();
 }
 
-void CaptureProcess::resetFrame()
+void CameraProcess::resetFrame()
 {
     devices()->setActiveChip(state()->useGuideHead() ?
                              devices()->getActiveCamera()->getChip(
@@ -1521,7 +1521,7 @@ void CaptureProcess::resetFrame()
     emit updateFrameProperties(1);
 }
 
-void CaptureProcess::setExposureProgress(ISD::CameraChip *tChip, double value, IPState ipstate)
+void CameraProcess::setExposureProgress(ISD::CameraChip *tChip, double value, IPState ipstate)
 {
     // ignore values if not capturing
     if (state()->checkCapturing() == false)
@@ -1595,7 +1595,7 @@ void CaptureProcess::setExposureProgress(ISD::CameraChip *tChip, double value, I
     }
 }
 
-void CaptureProcess::setDownloadProgress()
+void CameraProcess::setDownloadProgress()
 {
     if (activeJob())
     {
@@ -1611,7 +1611,7 @@ void CaptureProcess::setDownloadProgress()
 
 }
 
-IPState CaptureProcess::continueFramingAction(const QSharedPointer<FITSData> &imageData)
+IPState CameraProcess::continueFramingAction(const QSharedPointer<FITSData> &imageData)
 {
     emit newImage(activeJob(), imageData);
     // If fast exposure is on, do not capture again, it will be captured by the driver.
@@ -1634,7 +1634,7 @@ IPState CaptureProcess::continueFramingAction(const QSharedPointer<FITSData> &im
 
 }
 
-IPState CaptureProcess::updateDownloadTimesAction()
+IPState CameraProcess::updateDownloadTimesAction()
 {
     // Do not calculate download time for images stored on server.
     // Only calculate for longer exposures.
@@ -1654,7 +1654,7 @@ IPState CaptureProcess::updateDownloadTimesAction()
     return IPS_OK;
 }
 
-IPState CaptureProcess::previewImageCompletedAction()
+IPState CameraProcess::previewImageCompletedAction()
 {
     if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
     {
@@ -1672,7 +1672,7 @@ IPState CaptureProcess::previewImageCompletedAction()
 
 }
 
-void CaptureProcess::updateCompletedCaptureCountersAction()
+void CameraProcess::updateCompletedCaptureCountersAction()
 {
     // stop timers
     state()->getCaptureTimeout().stop();
@@ -1719,7 +1719,7 @@ void CaptureProcess::updateCompletedCaptureCountersAction()
                      activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
 }
 
-IPState CaptureProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageData)
+IPState CameraProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageData)
 {
     double hfr = -1, eccentricity = -1;
     int numStars = -1, median = -1;
@@ -1778,7 +1778,7 @@ IPState CaptureProcess::updateImageMetadataAction(QSharedPointer<FITSData> image
     return IPS_OK;
 }
 
-IPState CaptureProcess::runCaptureScript(ScriptTypes scriptType, bool precond)
+IPState CameraProcess::runCaptureScript(ScriptTypes scriptType, bool precond)
 {
     if (activeJob())
     {
@@ -1796,7 +1796,7 @@ IPState CaptureProcess::runCaptureScript(ScriptTypes scriptType, bool precond)
     return IPS_OK;
 }
 
-void CaptureProcess::scriptFinished(int exitCode, QProcess::ExitStatus status)
+void CameraProcess::scriptFinished(int exitCode, QProcess::ExitStatus status)
 {
     Q_UNUSED(status)
 
@@ -1849,15 +1849,26 @@ void CaptureProcess::scriptFinished(int exitCode, QProcess::ExitStatus status)
 
 }
 
-void CaptureProcess::selectCamera(QString name)
+void CameraProcess::selectCamera(QString name)
 {
-    if (activeCamera() && activeCamera()->getDeviceName() == name)
-        checkCamera();
 
-    emit refreshCamera();
+    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
+    if (activeCamera() && trainID.isValid())
+    {
+
+        if (devices()->filterWheel())
+            updateFilterInfo();
+        if (activeCamera() && activeCamera()->getDeviceName() == name)
+            checkCamera();
+
+        emit refreshCamera(true);
+    }
+    else
+        emit refreshCamera(false);
+
 }
 
-void CaptureProcess::checkCamera()
+void CameraProcess::checkCamera()
 {
     // Do not update any camera settings while capture is in progress.
     if (state()->getCaptureState() == CAPTURE_CAPTURING)
@@ -1866,7 +1877,7 @@ void CaptureProcess::checkCamera()
     // If camera is restarted, try again in 1 second
     if (!activeCamera())
     {
-        QTimer::singleShot(1000, this, &CaptureProcess::checkCamera);
+        QTimer::singleShot(1000, this, &CameraProcess::checkCamera);
         return;
     }
 
@@ -1888,7 +1899,7 @@ void CaptureProcess::checkCamera()
     emit refreshCameraSettings();
 }
 
-void CaptureProcess::syncDSLRToTargetChip(const QString &model)
+void CameraProcess::syncDSLRToTargetChip(const QString &model)
 {
     auto pos = std::find_if(state()->DSLRInfos().begin(),
                             state()->DSLRInfos().end(), [model](const QMap<QString, QVariant> &oneDSLRInfo)
@@ -1908,7 +1919,7 @@ void CaptureProcess::syncDSLRToTargetChip(const QString &model)
     }
 }
 
-void CaptureProcess::reconnectCameraDriver(const QString &camera, const QString &filterWheel)
+void CameraProcess::reconnectCameraDriver(const QString &camera, const QString &filterWheel)
 {
     if (activeCamera() && activeCamera()->getDeviceName() == camera)
     {
@@ -1935,7 +1946,7 @@ void CaptureProcess::reconnectCameraDriver(const QString &camera, const QString 
     });
 }
 
-void CaptureProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
+void CameraProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
 {
     auto name = device->getDeviceName();
     device->disconnect(this);
@@ -1969,7 +1980,7 @@ void CaptureProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &devi
         devices()->dustCap()->disconnect(this);
         devices()->setDustCap(nullptr);
         state()->hasDustCap = false;
-        state()->setDustCapState(CaptureModuleState::CAP_UNKNOWN);
+        state()->setDustCapState(CameraState::CAP_UNKNOWN);
     }
 
     // Light Boxes
@@ -1978,7 +1989,7 @@ void CaptureProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &devi
         devices()->lightBox()->disconnect(this);
         devices()->setLightBox(nullptr);
         state()->hasLightBox = false;
-        state()->setLightBoxLightState(CaptureModuleState::CAP_LIGHT_UNKNOWN);
+        state()->setLightBoxLightState(CameraState::CAP_LIGHT_UNKNOWN);
     }
 
     // Cameras
@@ -2011,7 +2022,7 @@ void CaptureProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &devi
     }
 }
 
-void CaptureProcess::processCaptureTimeout()
+void CameraProcess::processCaptureTimeout()
 {
     state()->setCaptureTimeoutCounter(state()->captureTimeoutCounter() + 1);
 
@@ -2064,7 +2075,7 @@ void CaptureProcess::processCaptureTimeout()
         else if (state()->captureTimeoutCounter() < 40)
         {
             qCDebug(KSTARS_EKOS_CAPTURE) << "Unable to restart exposure as camera is missing, trying again in 5 seconds...";
-            QTimer::singleShot(5000, this, &CaptureProcess::processCaptureTimeout);
+            QTimer::singleShot(5000, this, &CameraProcess::processCaptureTimeout);
         }
         else
         {
@@ -2078,7 +2089,7 @@ void CaptureProcess::processCaptureTimeout()
 
 }
 
-void CaptureProcess::processCaptureError(ISD::Camera::ErrorType type)
+void CameraProcess::processCaptureError(ISD::Camera::ErrorType type)
 {
     if (!activeJob())
         return;
@@ -2110,7 +2121,7 @@ void CaptureProcess::processCaptureError(ISD::Camera::ErrorType type)
     }
 }
 
-bool CaptureProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, double exp_min, double exp_max)
+bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, double exp_min, double exp_max)
 {
     // nothing to do
     if (imageData.isNull())
@@ -2234,7 +2245,7 @@ bool CaptureProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, do
 
 }
 
-double CaptureProcess::calculateFlatExpTime(double currentADU)
+double CameraProcess::calculateFlatExpTime(double currentADU)
 {
     if (activeJob() == nullptr)
     {
@@ -2345,13 +2356,13 @@ double CaptureProcess::calculateFlatExpTime(double currentADU)
 
 }
 
-void CaptureProcess::clearFlatCache()
+void CameraProcess::clearFlatCache()
 {
     ADURaw.clear();
     ExpRaw.clear();
 }
 
-void CaptureProcess::updateTelescopeInfo()
+void CameraProcess::updateTelescopeInfo()
 {
     if (devices()->mount() && activeCamera() && devices()->mount()->isConnected())
     {
@@ -2370,7 +2381,7 @@ void CaptureProcess::updateTelescopeInfo()
 
 }
 
-void CaptureProcess::updateFilterInfo()
+void CameraProcess::updateFilterInfo()
 {
     QList<ISD::ConcreteDevice *> all_devices;
     if (activeCamera())
@@ -2408,7 +2419,7 @@ void CaptureProcess::updateFilterInfo()
     }
 }
 
-QString Ekos::CaptureProcess::createTabTitle(const FITSMode &captureMode, const QString &deviceName)
+QString Ekos::CameraProcess::createTabTitle(const FITSMode &captureMode, const QString &deviceName)
 {
     const bool isPreview = (activeJob() && activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW);
     if (isPreview && Options::singlePreviewFITS())
@@ -2437,8 +2448,8 @@ QString Ekos::CaptureProcess::createTabTitle(const FITSMode &captureMode, const 
     return "";
 }
 
-void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const FITSMode &captureMode,
-                                      const FITSScale &captureFilter, const QString &filename, const QString &deviceName)
+void CameraProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const FITSMode &captureMode,
+                                     const FITSScale &captureFilter, const QString &filename, const QString &deviceName)
 {
     // do nothing in case of empty data
     if (data.isNull())
@@ -2503,15 +2514,15 @@ void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, const
     }
 }
 
-void CaptureProcess::updateFITSViewer(const QSharedPointer<FITSData> data, ISD::CameraChip *tChip, const QString &filename)
+void CameraProcess::updateFITSViewer(const QSharedPointer<FITSData> data, ISD::CameraChip *tChip, const QString &filename)
 {
     FITSMode captureMode = tChip == nullptr ? FITS_UNKNOWN : tChip->getCaptureMode();
     FITSScale captureFilter = tChip == nullptr ? FITS_NONE : tChip->getCaptureFilter();
     updateFITSViewer(data, captureMode, captureFilter, filename, data->property("device").toString());
 }
 
-bool CaptureProcess::loadSequenceQueue(const QString &fileURL,
-                                       const QString &targetName, bool setOptions)
+bool CameraProcess::loadSequenceQueue(const QString &fileURL,
+                                      const QString &targetName, bool setOptions)
 {
     state()->clearCapturedFramesMap();
     auto queue = state()->getSequenceQueue();
@@ -2535,36 +2546,36 @@ bool CaptureProcess::loadSequenceQueue(const QString &fileURL,
     return true;
 }
 
-bool CaptureProcess::saveSequenceQueue(const QString &path, bool loadOptions)
+bool CameraProcess::saveSequenceQueue(const QString &path, bool loadOptions)
 {
     if (loadOptions)
         state()->getSequenceQueue()->loadOptions();
     return state()->getSequenceQueue()->save(path, state()->observerName());
 }
 
-void CaptureProcess::setCamera(bool connection)
+void CameraProcess::setCamera(bool connection)
 {
     if (connection)
     {
         // TODO: do not simply forward the newExposureValue
-        connect(activeCamera(), &ISD::Camera::newExposureValue, this, &CaptureProcess::setExposureProgress, Qt::UniqueConnection);
-        connect(activeCamera(), &ISD::Camera::newImage, this, &CaptureProcess::processFITSData, Qt::UniqueConnection);
-        connect(activeCamera(), &ISD::Camera::newRemoteFile, this, &CaptureProcess::processNewRemoteFile, Qt::UniqueConnection);
-        connect(activeCamera(), &ISD::Camera::ready, this, &CaptureProcess::cameraReady, Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::newExposureValue, this, &CameraProcess::setExposureProgress, Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::processFITSData, Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::newRemoteFile, this, &CameraProcess::processNewRemoteFile, Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::ready, this, &CameraProcess::cameraReady, Qt::UniqueConnection);
     }
     else
     {
         // TODO: do not simply forward the newExposureValue
-        disconnect(activeCamera(), &ISD::Camera::newExposureValue, this, &CaptureProcess::setExposureProgress);
-        disconnect(activeCamera(), &ISD::Camera::newImage, this, &CaptureProcess::processFITSData);
-        disconnect(activeCamera(), &ISD::Camera::newRemoteFile, this, &CaptureProcess::processNewRemoteFile);
+        disconnect(activeCamera(), &ISD::Camera::newExposureValue, this, &CameraProcess::setExposureProgress);
+        disconnect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::processFITSData);
+        disconnect(activeCamera(), &ISD::Camera::newRemoteFile, this, &CameraProcess::processNewRemoteFile);
         //    disconnect(m_Camera, &ISD::Camera::previewFITSGenerated, this, &Capture::setGeneratedPreviewFITS);
-        disconnect(activeCamera(), &ISD::Camera::ready, this, &CaptureProcess::cameraReady);
+        disconnect(activeCamera(), &ISD::Camera::ready, this, &CameraProcess::cameraReady);
     }
 
 }
 
-bool CaptureProcess::setFilterWheel(ISD::FilterWheel * device)
+bool CameraProcess::setFilterWheel(ISD::FilterWheel * device)
 {
     if (devices()->filterWheel() && devices()->filterWheel() == device)
         return false;
@@ -2577,7 +2588,7 @@ bool CaptureProcess::setFilterWheel(ISD::FilterWheel * device)
     return (device != nullptr);
 }
 
-bool CaptureProcess::checkPausing(CaptureModuleState::ContinueAction continueAction)
+bool CameraProcess::checkPausing(CameraState::ContinueAction continueAction)
 {
     if (state()->getCaptureState() == CAPTURE_PAUSE_PLANNED)
     {
@@ -2594,7 +2605,7 @@ bool CaptureProcess::checkPausing(CaptureModuleState::ContinueAction continueAct
     return false;
 }
 
-SequenceJob *CaptureProcess::findNextPendingJob()
+SequenceJob *CameraProcess::findNextPendingJob()
 {
     SequenceJob * first_job = nullptr;
 
@@ -2652,7 +2663,7 @@ SequenceJob *CaptureProcess::findNextPendingJob()
     return first_job;
 }
 
-void CaptureProcess::resetJobStatus(JOBStatus newStatus)
+void CameraProcess::resetJobStatus(JOBStatus newStatus)
 {
     if (activeJob() != nullptr)
     {
@@ -2661,7 +2672,7 @@ void CaptureProcess::resetJobStatus(JOBStatus newStatus)
     }
 }
 
-void CaptureProcess::resetAllJobs()
+void CameraProcess::resetAllJobs()
 {
     for (auto &job : state()->allJobs())
     {
@@ -2673,13 +2684,13 @@ void CaptureProcess::resetAllJobs()
     emit updateJobTable(nullptr);
 }
 
-void CaptureProcess::updatedCaptureCompleted(int count)
+void CameraProcess::updatedCaptureCompleted(int count)
 {
     activeJob()->setCompleted(count);
     emit updateJobTable(activeJob());
 }
 
-void CaptureProcess::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
+void CameraProcess::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
 {
     double bot;
     int i;
@@ -2725,13 +2736,13 @@ void CaptureProcess::llsq(QVector<double> x, QVector<double> y, double &a, doubl
 
 }
 
-QStringList CaptureProcess::generateScriptArguments() const
+QStringList CameraProcess::generateScriptArguments() const
 {
     // TODO based on user feedback on what paramters are most useful to pass
     return QStringList();
 }
 
-bool CaptureProcess::hasCoolerControl()
+bool CameraProcess::hasCoolerControl()
 {
     if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasCoolerControl())
         return true;
@@ -2739,7 +2750,7 @@ bool CaptureProcess::hasCoolerControl()
     return false;
 }
 
-bool CaptureProcess::setCoolerControl(bool enable)
+bool CameraProcess::setCoolerControl(bool enable)
 {
     if (devices()->getActiveCamera() && devices()->getActiveCamera()->hasCoolerControl())
         return devices()->getActiveCamera()->setCoolerControl(enable);
@@ -2747,7 +2758,7 @@ bool CaptureProcess::setCoolerControl(bool enable)
     return false;
 }
 
-void CaptureProcess::restartCamera(const QString &name)
+void CameraProcess::restartCamera(const QString &name)
 {
     connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, name]()
     {
@@ -2764,7 +2775,7 @@ void CaptureProcess::restartCamera(const QString &name)
                                             i18n("Driver Restart"), 5);
 }
 
-QStringList CaptureProcess::frameTypes()
+QStringList CameraProcess::frameTypes()
 {
     if (!activeCamera())
         return QStringList();
@@ -2774,7 +2785,7 @@ QStringList CaptureProcess::frameTypes()
     return tChip->getFrameTypes();
 }
 
-QStringList CaptureProcess::filterLabels()
+QStringList CameraProcess::filterLabels()
 {
     if (devices()->getFilterManager().isNull())
         return QStringList();
@@ -2782,7 +2793,7 @@ QStringList CaptureProcess::filterLabels()
     return devices()->getFilterManager()->getFilterLabels();
 }
 
-void CaptureProcess::updateGain(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap)
+void CameraProcess::updateGain(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap)
 {
     if (devices()->getActiveCamera()->getProperty("CCD_GAIN"))
     {
@@ -2816,7 +2827,7 @@ void CaptureProcess::updateGain(double value, QMap<QString, QMap<QString, QVaria
     }
 }
 
-void CaptureProcess::updateOffset(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap)
+void CameraProcess::updateOffset(double value, QMap<QString, QMap<QString, QVariant> > &propertyMap)
 {
     if (devices()->getActiveCamera()->getProperty("CCD_OFFSET"))
     {
@@ -2850,7 +2861,7 @@ void CaptureProcess::updateOffset(double value, QMap<QString, QMap<QString, QVar
     }
 }
 
-QSharedPointer<FITSViewer> CaptureProcess::getFITSViewer()
+QSharedPointer<FITSViewer> CameraProcess::getFITSViewer()
 {
     // if the FITS viewer exists, return it
     if (!m_FITSViewerWindow.isNull() && ! m_FITSViewerWindow.isNull())
@@ -2886,7 +2897,7 @@ QSharedPointer<FITSViewer> CaptureProcess::getFITSViewer()
     return m_FITSViewerWindow;
 }
 
-ISD::Camera *CaptureProcess::activeCamera()
+ISD::Camera *CameraProcess::activeCamera()
 {
     return devices()->getActiveCamera();
 }

@@ -9,7 +9,7 @@
 #include <KNotifications/KNotification>
 #include <ekos_capture_debug.h>
 
-#include "capturemodulestate.h"
+#include "camerastate.h"
 #include "capturedeviceadaptor.h"
 #include "ksnotification.h"
 #include "sequencejob.h"
@@ -24,7 +24,7 @@ namespace Ekos
 
 bool SequenceQueue::load(const QString &fileURL, const QString &targetName,
                          const QSharedPointer<CaptureDeviceAdaptor> devices,
-                         const QSharedPointer<CaptureModuleState> state)
+                         const QSharedPointer<CameraState> state)
 {
     QFile sFile(fileURL);
     if (!sFile.open(QIODevice::ReadOnly))
