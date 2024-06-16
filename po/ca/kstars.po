@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-14 01:37+0000\n"
+"POT-Creation-Date: 2024-06-16 01:42+0000\n"
 "PO-Revision-Date: 2024-06-12 13:06+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -567,8 +567,8 @@ msgstr "Cancel·la"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1099 ekos/manager.cpp:1114
-#: ekos/manager.cpp:1144 ekos/scheduler/scheduler.cpp:1333
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1101 ekos/manager.cpp:1116
+#: ekos/manager.cpp:1146 ekos/scheduler/scheduler.cpp:1333
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
 #: indi/indimount.cpp:33 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
@@ -1524,7 +1524,7 @@ msgstr ""
 "L'Xplanet ha fallat en generar la imatge per a l'objecte %1 abans que expiri "
 "el temps d'espera."
 
-#: auxiliary/xplanetimageviewer.cpp:791 indi/servermanager.cpp:88
+#: auxiliary/xplanetimageviewer.cpp:791 indi/servermanager.cpp:89
 #, kde-format
 msgid "Error making FIFO file %1: %2."
 msgstr "S'ha produït un error en crear el fitxer FIFO %1: %2."
@@ -6441,7 +6441,7 @@ msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4115
 #: ekos/capture/capture.cpp:236 ekos/focus/focus.cpp:4340
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1936 ekos/mount/mount.cpp:767
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3342
 #, kde-format
@@ -10481,7 +10481,7 @@ msgstr "No s'ha pogut mostrar el fitxer temporal d'imatge: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:377
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2077
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2079
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
 #: fitsviewer/fitsviewer.cpp:469
@@ -10492,7 +10492,7 @@ msgstr "Enfocament"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
-#: ekos/manager.cpp:2041 ekos/scheduler/framingassistant.ui:1262
+#: ekos/manager.cpp:2043 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:395 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitsviewer.cpp:477
 #, kde-format
@@ -10505,7 +10505,7 @@ msgstr "Alinea"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2246
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2248
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:473
 #, kde-format
@@ -10521,7 +10521,7 @@ msgstr "Inverteix"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2171 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:420 ekos/manager.cpp:2173 ekos/manager.ui:665
 #, kde-format
 msgid "Mount"
 msgstr "Muntura"
@@ -12800,7 +12800,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2296
+#: ekos/auxiliary/opslogs.ui:328 ekos/manager.cpp:2298
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -23745,7 +23745,7 @@ msgstr "Ekos"
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr "L'Ekos necessita almenys un CCD o sistema de guiatge per a funcionar."
 
-#: ekos/manager.cpp:928
+#: ekos/manager.cpp:930
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -23755,17 +23755,17 @@ msgstr ""
 "una càmera Canon o Nikon es connecti amb l'Ekos. Voleu sortir ara de la "
 "càmera PTP?"
 
-#: ekos/manager.cpp:929
+#: ekos/manager.cpp:931
 #, kde-format
 msgid "PTP Camera"
 msgstr "Càmera PTP"
 
-#: ekos/manager.cpp:944
+#: ekos/manager.cpp:946
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "S'han iniciat els serveis INDI..."
 
-#: ekos/manager.cpp:975
+#: ekos/manager.cpp:977
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23775,48 +23775,48 @@ msgstr ""
 "fer el tancament de la instància existent abans d'iniciar-ne una de nova?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:977 indi/opsindi.ui:284
+#: ekos/manager.cpp:979 indi/opsindi.ui:284
 #, kde-format
 msgid "INDI Server"
 msgstr "Servidor INDI"
 
-#: ekos/manager.cpp:992
+#: ekos/manager.cpp:994
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "S'està connectant amb el servidor INDI %1 al port %2..."
 
-#: ekos/manager.cpp:1012
+#: ekos/manager.cpp:1014
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Ha fallat en iniciar el perfil en el Gestor web remot de l'INDI."
 
-#: ekos/manager.cpp:1016
+#: ekos/manager.cpp:1018
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "S'està iniciant el perfil en el Gestor web remot de l'INDI..."
 
-#: ekos/manager.cpp:1029
+#: ekos/manager.cpp:1031
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "S'està establint la comunicació amb el Gestor web remot de l'INDI..."
 
-#: ekos/manager.cpp:1049
+#: ekos/manager.cpp:1051
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "Avís: El Gestor web remot de l'INDI no està connectat."
 
-#: ekos/manager.cpp:1072
+#: ekos/manager.cpp:1074
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "S'han iniciat els serveis INDI al port %1."
 
-#: ekos/manager.cpp:1075
+#: ekos/manager.cpp:1077
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 "S'han iniciat els serveis INDI al port %1. Podeu connectar els dispositius."
 
-#: ekos/manager.cpp:1080
+#: ekos/manager.cpp:1082
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -23825,27 +23825,27 @@ msgstr ""
 "S'han iniciat els serveis INDI. La connexió amb el servidor INDI remot %1:%2 "
 "ha tingut èxit. En espera dels dispositius..."
 
-#: ekos/manager.cpp:1090
+#: ekos/manager.cpp:1092
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Ha fallat en connectar amb el servidor INDI remot %1:%2"
 
-#: ekos/manager.cpp:1092
+#: ekos/manager.cpp:1094
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Ha fallat en connectar amb el servidor INDI remot %1:%2"
 
-#: ekos/manager.cpp:1105
+#: ekos/manager.cpp:1107
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "S'ha perdut la connexió amb el servidor INDI local %1:%2"
 
-#: ekos/manager.cpp:1107
+#: ekos/manager.cpp:1109
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "S'ha perdut la connexió amb el servidor INDI remot %1:%2"
 
-#: ekos/manager.cpp:1184
+#: ekos/manager.cpp:1186
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
@@ -23853,7 +23853,7 @@ msgstr ""
 "Ha fallat en connectar a %1. Assegureu-vos que el dispositiu està connectat "
 "i engegat."
 
-#: ekos/manager.cpp:1186
+#: ekos/manager.cpp:1188
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -23864,7 +23864,7 @@ msgstr ""
 "%1\n"
 "Assegureu-vos que el dispositiu està connectat i engegat."
 
-#: ekos/manager.cpp:1214
+#: ekos/manager.cpp:1216
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -23875,13 +23875,13 @@ msgstr ""
 "%1\n"
 "Assegureu-vos que el dispositiu està connectat i engegat."
 
-#: ekos/manager.cpp:1218 ekos/manager.cpp:1226 ekos/manager.cpp:1256
-#: ekos/manager.cpp:1264
+#: ekos/manager.cpp:1220 ekos/manager.cpp:1228 ekos/manager.cpp:1258
+#: ekos/manager.cpp:1266
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Error d'inici a l'Ekos"
 
-#: ekos/manager.cpp:1222
+#: ekos/manager.cpp:1224
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -23892,7 +23892,7 @@ msgstr ""
 "%1\n"
 "Si us plau, assegureu-vos que el dispositiu està connectat i en funcionament."
 
-#: ekos/manager.cpp:1252
+#: ekos/manager.cpp:1254
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -23903,7 +23903,7 @@ msgstr ""
 "%1\n"
 "Assegureu-vos que el dispositiu està connectat i engegat."
 
-#: ekos/manager.cpp:1260
+#: ekos/manager.cpp:1262
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -23914,33 +23914,33 @@ msgstr ""
 "%1\n"
 "Si us plau, assegureu-vos que el dispositiu està connectat i en funcionament."
 
-#: ekos/manager.cpp:1315
+#: ekos/manager.cpp:1317
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Els dispositius INDI s'estan connectant..."
 
-#: ekos/manager.cpp:1326
+#: ekos/manager.cpp:1328
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "S'estan desconnectant els dispositius INDI..."
 
-#: ekos/manager.cpp:1365
+#: ekos/manager.cpp:1367
 #, kde-format
 msgid "INDI services stopped."
 msgstr "S'han aturat els serveis INDI."
 
-#: ekos/manager.cpp:1438
+#: ekos/manager.cpp:1440
 #, kde-format
 msgid "Remote devices established."
 msgstr "S'han establert els dispositius remots."
 
-#: ekos/manager.cpp:1440
+#: ekos/manager.cpp:1442
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 "S'han establert els dispositius remots. Podeu connectar els dispositius."
 
-#: ekos/manager.cpp:1501
+#: ekos/manager.cpp:1503
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -23949,107 +23949,107 @@ msgstr ""
 "Ha fallat en connectar a %1.\n"
 "Assegureu-vos que el dispositiu està connectat i engegat."
 
-#: ekos/manager.cpp:1508
+#: ekos/manager.cpp:1510
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "El %1 està desconnectat."
 
-#: ekos/manager.cpp:1527 ekos/manager.cpp:1536 ekos/manager.cpp:1569
+#: ekos/manager.cpp:1529 ekos/manager.cpp:1538 ekos/manager.cpp:1571
 #: indi/indistd.cpp:706
 #, kde-format
 msgid "%1 is online."
 msgstr "El %1 està en línia."
 
-#: ekos/manager.cpp:1544
+#: ekos/manager.cpp:1546
 #, kde-format
 msgid "%1 filter is online."
 msgstr "El filtre del %1 està en línia."
 
-#: ekos/manager.cpp:1553
+#: ekos/manager.cpp:1555
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "L'enfocador del %1 està en línia."
 
-#: ekos/manager.cpp:1560
+#: ekos/manager.cpp:1562
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "El rotor %1 està en línia."
 
-#: ekos/manager.cpp:1576
+#: ekos/manager.cpp:1578
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "La meteorologia de %1 està en línia."
 
-#: ekos/manager.cpp:1583
+#: ekos/manager.cpp:1585
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "El GPS %1 està en línia."
 
-#: ekos/manager.cpp:1592
+#: ekos/manager.cpp:1594
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "La tapa per la pols %1 està en línia."
 
 # skip-rule: kct-box
-#: ekos/manager.cpp:1599
+#: ekos/manager.cpp:1601
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "La caixa de llum %1 està en línia."
 
-#: ekos/manager.cpp:1749
+#: ekos/manager.cpp:1751
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 està fora de línia."
 
-#: ekos/manager.cpp:1988
+#: ekos/manager.cpp:1990
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2313
+#: ekos/manager.cpp:2315
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "El port del sistema de guiatge del %1 està a punt."
 
-#: ekos/manager.cpp:2502
+#: ekos/manager.cpp:2504
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Segur que voleu eliminar el perfil?"
 
-#: ekos/manager.cpp:2503
+#: ekos/manager.cpp:2505
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirmació de la supressió"
 
-#: ekos/manager.cpp:2555
+#: ekos/manager.cpp:2557
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
 
-#: ekos/manager.cpp:2557
+#: ekos/manager.cpp:2559
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "Ha fallat en actualitzar l'emplaçament del lloc a %1. No s'ha trobat la "
 "ciutat."
 
-#: ekos/manager.cpp:2812
+#: ekos/manager.cpp:2814
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "S'activa el registre de depuració del %1..."
 
-#: ekos/manager.cpp:2820
+#: ekos/manager.cpp:2822
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Es desactiva el registre de depuració del %1..."
 
-#: ekos/manager.cpp:2848
+#: ekos/manager.cpp:2850
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Es torna a activar el registre de depuració del %1..."
 
-#: ekos/manager.cpp:2860
+#: ekos/manager.cpp:2862
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració del %1..."
@@ -32496,23 +32496,23 @@ msgstr "Fins que s'atura"
 msgid "File name:"
 msgstr "Nom de fitxer:"
 
-#: indi/servermanager.cpp:97
+#: indi/servermanager.cpp:98
 #, kde-format
 msgid "Unable to create INDI FIFO file %1"
 msgstr "No s'ha pogut crear el fitxer FIFO de l'INDI %1"
 
-#: indi/servermanager.cpp:125
+#: indi/servermanager.cpp:126
 #, kde-format
 msgid "INDI server failed to start: %1"
 msgstr "El servidor INDI ha fallat en iniciar: %1"
 
-#: indi/servermanager.cpp:203
+#: indi/servermanager.cpp:204
 #, kde-format
 msgid "Pre driver startup script failed with exit code: %1"
 msgstr ""
 "L'script d'inici del precontrolador ha fallat amb el codi de sortida: %1"
 
-#: indi/servermanager.cpp:227
+#: indi/servermanager.cpp:228
 #, kde-format
 msgid ""
 "Driver %1 was not found on the system. Please make sure the package that "
@@ -32521,23 +32521,23 @@ msgstr ""
 "El controlador %1 no s'ha trobat al sistema. Assegureu-vos que el paquet que "
 "proporciona el binari «%1» està instal·lat."
 
-#: indi/servermanager.cpp:273
+#: indi/servermanager.cpp:275
 #, kde-format
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 "L'script d'inici del postcontrolador ha fallat amb el codi de sortida: %1"
 
-#: indi/servermanager.cpp:433
+#: indi/servermanager.cpp:435
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "La connexió amb el servidor INDI %1:%2 ha finalitzat: %3."
 
-#: indi/servermanager.cpp:479
+#: indi/servermanager.cpp:481
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "El controlador INDI <b>%1</b> ha fallat. El reinicio?"
 
-#: indi/servermanager.cpp:480
+#: indi/servermanager.cpp:482
 #, kde-format
 msgid "Driver crash"
 msgstr "Fallada del controlador"
