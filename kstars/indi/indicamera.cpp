@@ -662,7 +662,7 @@ bool Camera::processBLOB(INDI::Property prop)
     QByteArray buffer = QByteArray::fromRawData(reinterpret_cast<char *>(bp->getBlob()), bp->getSize());
     QSharedPointer<FITSData> imageData;
     imageData.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);
-    imageData->setExtension(format);
+    imageData->setExtension(shortFormat);
     if (!imageData->loadFromBuffer(buffer))
     {
         emit error(ERROR_LOAD);
