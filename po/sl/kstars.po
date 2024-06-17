@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-16 01:42+0000\n"
+"POT-Creation-Date: 2024-06-17 01:46+0000\n"
 "PO-Revision-Date: 2024-06-14 22:28+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -417,7 +417,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1127
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1151
 #: ekos/scheduler/scheduler.cpp:1811
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2614,7 +2614,7 @@ msgstr "URL ni veljaven. Ali naj v spletnem brskalniku odprem iskalnik Google?"
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3949
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/capture/camera.cpp:1081 ekos/capture/camera.cpp:1136
+#: ekos/capture/camera.cpp:1105 ekos/capture/camera.cpp:1160
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1711
 #: ekos/scheduler/scheduler.cpp:1821 fitsviewer/fitstab.cpp:530
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -2912,9 +2912,8 @@ msgstr "Vrsta preslikave"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
-#: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2422 fitsviewer/fitsviewer.cpp:726
-#: fitsviewer/fitsviewer.cpp:727
+#: ekos/capture/cameraprocess.cpp:2433 ekos/capture/capturecountswidget.cpp:278
+#: fitsviewer/fitsviewer.cpp:726 fitsviewer/fitsviewer.cpp:727
 #, kde-format
 msgid "Preview"
 msgstr "Predogled"
@@ -3805,9 +3804,9 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1588 ekos/capture/camera.cpp:1628
+#: ekos/capture/camera.cpp:1612 ekos/capture/camera.cpp:1652
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
-#: ekos/capture/sequenceeditor.cpp:130 ekos/capture/sequenceeditor.cpp:133
+#: ekos/capture/sequenceeditor.cpp:132 ekos/capture/sequenceeditor.cpp:135
 #: ekos/focus/focus.cpp:456 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -6192,8 +6191,8 @@ msgstr ""
 msgid "Error: lost connection to filter wheel."
 msgstr "Napaka: povezava s kolesom s filtri izgubljena."
 
-#: ekos/align/align.cpp:1494 ekos/capture/captureprocess.cpp:199
-#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5282
+#: ekos/align/align.cpp:1494 ekos/capture/cameraprocess.cpp:199
+#: ekos/capture/cameraprocess.cpp:592 ekos/focus/focus.cpp:5282
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6395,7 +6394,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Reševalnik je prekinil po %1 sekundah."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4115
-#: ekos/capture/capture.cpp:236 ekos/focus/focus.cpp:4340
+#: ekos/capture/capture.cpp:201 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -6508,8 +6507,8 @@ msgstr "Svetovni koordinatni sistem (WCS) je onemogočen."
 msgid "Capture error. Aborting..."
 msgstr "Napaka zajemanja! Prekinjam…"
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1560
-#: ekos/capture/captureprocess.cpp:2100
+#: ekos/align/align.cpp:3288 ekos/capture/cameraprocess.cpp:1560
+#: ekos/capture/cameraprocess.cpp:2111
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Ponovno zaganjanje zajemanja (poskus št. %1)"
@@ -6556,24 +6555,24 @@ msgstr "dRekt. (ločne s)"
 msgid "dDE (arcsec)"
 msgstr "dDekl. (ločne s)"
 
-#: ekos/align/align.cpp:3632 ekos/capture/camera.cpp:3179
+#: ekos/align/align.cpp:3632 ekos/capture/camera.cpp:3205
 #: ekos/focus/focus.cpp:5170
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Operacija filtra ni uspela."
 
-#: ekos/align/align.cpp:3644 ekos/capture/camera.cpp:3641
+#: ekos/align/align.cpp:3644 ekos/capture/camera.cpp:3697
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Spreminjanje izostritve za %1 s…"
 
 #: ekos/align/align.cpp:3651 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3646
+#: ekos/capture/camera.cpp:3702
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Spreminjanje filtra v %1 …"
 
-#: ekos/align/align.cpp:3656 ekos/capture/camera.cpp:3651
+#: ekos/align/align.cpp:3656 ekos/capture/camera.cpp:3707
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Samodejno ostrenje ob spremembi filtra…"
@@ -6590,8 +6589,8 @@ msgid "Export Solution Points"
 msgstr "Izvozi točke rešitve"
 
 #: ekos/align/align.cpp:3948 ekos/align/mountmodel.cpp:264
-#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1080
-#: ekos/capture/camera.cpp:1135 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1104
+#: ekos/capture/camera.cpp:1159 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1710 ekos/scheduler/scheduler.cpp:1820
 #: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6608,8 +6607,8 @@ msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
-#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2716
-#: ekos/capture/captureprocess.cpp:2521 ekos/capture/sequencequeue.cpp:33
+#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2742
+#: ekos/capture/cameraprocess.cpp:2532 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
 #: ekos/scheduler/schedulerprocess.cpp:4438
@@ -7256,8 +7255,8 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Odpri seznam razporejevalnika Ekos"
 
-#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
-#: ekos/capture/captureprocess.cpp:2520 ekos/capture/sequencequeue.cpp:32
+#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2741
+#: ekos/capture/cameraprocess.cpp:2531 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4457
 #, kde-format
@@ -12369,8 +12368,7 @@ msgstr "Pripravljanje …"
 msgid "Waiting..."
 msgstr "Čakanje …"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:416
+#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:416
 #, kde-format
 msgid "Dithering..."
 msgstr "Razprševanje …"
@@ -12390,7 +12388,7 @@ msgstr "Spreminjanje filtra …"
 msgid "Aligning..."
 msgstr "Poravnavanje …"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:716
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:740
 #, kde-format
 msgid "Calibrating..."
 msgstr "Umerjanje …"
@@ -14371,42 +14369,42 @@ msgstr ""
 msgid "Sky flats"
 msgstr "Ploske slike neba"
 
-#: ekos/capture/camera.cpp:69 ekos/capture/camera.cpp:71
+#: ekos/capture/camera.cpp:73 ekos/capture/camera.cpp:75
 #, kde-format
 msgid "Capture Sequence Editor: %1"
 msgstr "Urejevalnik zaporedja zajemov: %1"
 
-#: ekos/capture/camera.cpp:126 ekos/capture/camera.cpp:3763
+#: ekos/capture/camera.cpp:130 ekos/capture/camera.cpp:3819
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Dodaj posel v čakalno vrsto zaporedja"
 
-#: ekos/capture/camera.cpp:127 ekos/capture/camera.cpp:3764
+#: ekos/capture/camera.cpp:131 ekos/capture/camera.cpp:3820
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Odstrani posel iz čakalne vrste zaporedja"
 
-#: ekos/capture/camera.cpp:420
+#: ekos/capture/camera.cpp:439
 #, kde-format
 msgid "Downloading..."
 msgstr "Prejemanje …"
 
-#: ekos/capture/camera.cpp:508 ekos/capture/camera.cpp:509
+#: ekos/capture/camera.cpp:539 ekos/capture/camera.cpp:540
 #, kde-format
 msgid "Focus complete."
 msgstr "Ostrenje zaključeno."
 
-#: ekos/capture/camera.cpp:513
+#: ekos/capture/camera.cpp:544
 #, kde-format
 msgid "Autofocus failed."
 msgstr "Neuspelo samodejno ostrenje."
 
-#: ekos/capture/camera.cpp:699
+#: ekos/capture/camera.cpp:723
 #, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "Zajemanje %1-sekundne slike %2 …"
 
-#: ekos/capture/camera.cpp:770
+#: ekos/capture/camera.cpp:794
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
@@ -14415,7 +14413,7 @@ msgstr ""
 "Opozorilo: izostritev v zaporedju je izbrana, vendar proces samodejnega "
 "ostrenja ni bil zagnan."
 
-#: ekos/capture/camera.cpp:773
+#: ekos/capture/camera.cpp:797
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
@@ -14424,7 +14422,7 @@ msgstr ""
 "Opozorilo: izbrano je preverjanje delte temperature, vendar postopek "
 "samodejnega ostrenja ni bil zagnan."
 
-#: ekos/capture/camera.cpp:808
+#: ekos/capture/camera.cpp:832
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -14433,122 +14431,142 @@ msgstr[1] "Ustvarjeno je bilo %1 opravilo ploske teme."
 msgstr[2] "Ustvarjeni sta bili %1 opravili ploske teme."
 msgstr[3] "Ustvarjena so bila %1 opravila ploske teme."
 
-#: ekos/capture/camera.cpp:853
+#: ekos/capture/camera.cpp:877
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "Uveljavljene spremembe %1. posla."
 
-#: ekos/capture/camera.cpp:866
+#: ekos/capture/camera.cpp:890
 #, kde-format
 msgid "Framing..."
 msgstr "Okvirjanje …"
 
-#: ekos/capture/camera.cpp:877
+#: ekos/capture/camera.cpp:901
 #, kde-format
 msgid "Captured image received"
 msgstr "Zajeta slika prejeta"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:895 ekos/capture/camera.ui:2612
+#: ekos/capture/camera.cpp:919 ekos/capture/camera.ui:2612
 #, kde-format
 msgid "Expose (-/-):"
 msgstr "Osvetlitev (-/-):"
 
-#: ekos/capture/camera.cpp:929
+#: ekos/capture/camera.cpp:953
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Zaustavi zaporedje"
 
-#: ekos/capture/camera.cpp:935
+#: ekos/capture/camera.cpp:959
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Nadaljuj zaporedje"
 
-#: ekos/capture/camera.cpp:966
+#: ekos/capture/camera.cpp:990
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Nastavljanje temperature na %1 °C …"
 
-#: ekos/capture/camera.cpp:967
+#: ekos/capture/camera.cpp:991
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Nastavi temperaturo na %1 °C …"
 
-#: ekos/capture/camera.cpp:971
+#: ekos/capture/camera.cpp:995
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Čakanje na zdrs vodnika pod %1 …"
 
-#: ekos/capture/camera.cpp:972
+#: ekos/capture/camera.cpp:996
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "Počakaj na vodnika < %1 …"
 
-#: ekos/capture/camera.cpp:976
+#: ekos/capture/camera.cpp:1000
 #, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Nastavljanje kamere na %1 stopinj V od S …"
 
-#: ekos/capture/camera.cpp:977
+#: ekos/capture/camera.cpp:1001
 #, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "Nastavi kamero na %1 stopinj …"
 
-#: ekos/capture/camera.cpp:1072
+#: ekos/capture/camera.cpp:1096
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Odpri čakalno vrsto zaporedja Ekos"
 
-#: ekos/capture/camera.cpp:1105
+#: ekos/capture/camera.cpp:1129
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Shrani čakalno vrsto zaporedja Ekos"
 
-#: ekos/capture/camera.cpp:1127
+#: ekos/capture/camera.cpp:1151
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Ni bilo mogoče shraniti čakalne vrste zaporedja"
 
-#: ekos/capture/camera.cpp:1184 ekos/capture/camera.cpp:2202
+#: ekos/capture/camera.cpp:1208 ekos/capture/camera.cpp:2226
 #, kde-format
 msgid "Dark Flat"
 msgstr "Ploska tema"
 
-#: ekos/capture/camera.cpp:1897 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:1921 ekos/scheduler/framingassistant.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Mapa za shranjevanje FITS"
 
-#: ekos/capture/camera.cpp:1994
+#: ekos/capture/camera.cpp:2018
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Ali želite ponastaviti prilagoditev %1 na privzeto?"
 
-#: ekos/capture/camera.cpp:1996
+#: ekos/capture/camera.cpp:2020
 #, kde-format
 msgid "Confirmation"
 msgstr "Potrditev"
 
-#: ekos/capture/camera.cpp:2179
+#: ekos/capture/camera.cpp:2203
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr "Nastaviti morate oddaljeni imenik za načina Krajevno in Oboje."
 
-#: ekos/capture/camera.cpp:2185
+#: ekos/capture/camera.cpp:2209
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr "Nastaviti morate krajevni imenik za načina Odjemalec in Oboje."
 
-#: ekos/capture/camera.cpp:3373
+#: ekos/capture/camera.cpp:3359
+#, kde-format
+msgid "Paused..."
+msgstr "V premoru …"
+
+#: ekos/capture/camera.cpp:3364
+#, kde-format
+msgid "Meridian Flip..."
+msgstr "Obrat čez poldnevnik…"
+
+#: ekos/capture/camera.cpp:3365
+#, kde-format
+msgid "Meridian flip started"
+msgstr "Začetek obrata čez poldnevnik"
+
+#: ekos/capture/camera.cpp:3369
+#, kde-format
+msgid "Flip complete."
+msgstr "Obrat končan."
+
+#: ekos/capture/camera.cpp:3429
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Rampa (°C/min):"
 
-#: ekos/capture/camera.cpp:3379
+#: ekos/capture/camera.cpp:3435
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14559,13 +14577,13 @@ msgstr ""
 "segrevanju kamere. Nastavite na nič, da onemogočite.<p>Ta nastavitev je "
 "prebrana iz in se shrani v nastavitev gonilnika kamere INDI.</body></html>"
 
-#: ekos/capture/camera.cpp:3384
+#: ekos/capture/camera.cpp:3440
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Prag (°C):"
 
-#: ekos/capture/camera.cpp:3390
+#: ekos/capture/camera.cpp:3446
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14576,70 +14594,70 @@ msgstr ""
 "temperaturo, ki sproži regulacijo.<p>Ta nastavitev se prebere iz nastavitev "
 "gonilnika kamere INDI in se vanjo tudi shrani.</body></html>"
 
-#: ekos/capture/camera.cpp:3403
+#: ekos/capture/camera.cpp:3459
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Nastavite uravnavanje temperature"
 
-#: ekos/capture/camera.cpp:3443
+#: ekos/capture/camera.cpp:3499
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Izberite trenutnega opazovalca"
 
-#: ekos/capture/camera.cpp:3445
+#: ekos/capture/camera.cpp:3501
 #, kde-format
 msgid "Current Observer:"
 msgstr "Trenutni opazovalec:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3456 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3512 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Upravljanje z opazovalci"
 
-#: ekos/capture/camera.cpp:3628
+#: ekos/capture/camera.cpp:3684
 #, kde-format
 msgid "Cooler is on"
 msgstr "Hladilnik je prižgan"
 
-#: ekos/capture/camera.cpp:3628
+#: ekos/capture/camera.cpp:3684
 #, kde-format
 msgid "Cooler is off"
 msgstr "Hladilnik je ugasnjen"
 
-#: ekos/capture/camera.cpp:3658
+#: ekos/capture/camera.cpp:3714
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Filter nastavljen na %1."
 
-#: ekos/capture/camera.cpp:3688
+#: ekos/capture/camera.cpp:3744
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ali zares želite ponastaviti stanje vseh opravil?"
 
-#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2635
+#: ekos/capture/camera.cpp:3744 ekos/capture/cameraprocess.cpp:2646
 #, kde-format
 msgid "Reset job status"
 msgstr "Ponastavi stanje opravil"
 
-#: ekos/capture/camera.cpp:3741
+#: ekos/capture/camera.cpp:3797
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Urejanje %1. opravila …"
 
-#: ekos/capture/camera.cpp:3744 ekos/scheduler/scheduler.cpp:1171
+#: ekos/capture/camera.cpp:3800 ekos/scheduler/scheduler.cpp:1171
 #, kde-format
 msgid "Apply job changes."
 msgstr "Uveljavi spremembe opravil."
 
-#: ekos/capture/camera.cpp:3745
+#: ekos/capture/camera.cpp:3801
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Prekliči spremembe opravil."
 
-#: ekos/capture/camera.cpp:3758
+#: ekos/capture/camera.cpp:3814
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Urejanje opravila preklicano."
@@ -14894,7 +14912,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Možnosti samodejnega umerjanja ploskih virov in posnetkov teme"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1227 ekos/capture/captureprocess.cpp:2435
+#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2446
 #: ekos/guide/guide.cpp:69
 #, kde-format
 msgid "Calibration"
@@ -15510,25 +15528,504 @@ msgstr "Shranite v novo datoteko zaporedja"
 msgid "Save As..."
 msgstr "Shrani kot …"
 
-#: ekos/capture/capture.cpp:279
+#: ekos/capture/cameraprocess.cpp:200 ekos/capture/cameraprocess.cpp:593
 #, kde-format
-msgid "Paused..."
-msgstr "V premoru …"
+msgid "Image Transfer"
+msgstr "Prenos slike"
 
-#: ekos/capture/capture.cpp:284
+#: ekos/capture/cameraprocess.cpp:219
 #, kde-format
-msgid "Meridian Flip..."
-msgstr "Obrat čez poldnevnik…"
+msgid "Sequence resumed."
+msgstr "Zaporedje se nadaljuje."
 
-#: ekos/capture/capture.cpp:285
+#: ekos/capture/cameraprocess.cpp:255
 #, kde-format
-msgid "Meridian flip started"
-msgstr "Začetek obrata čez poldnevnik"
+msgid "No pending jobs found. Please add a job to the sequence queue."
+msgstr ""
+"Ni bilo najdenega nobenega čakajočega opravila. Dodajte opravilo v vrsto "
+"zaporedja."
 
-#: ekos/capture/capture.cpp:289
+#: ekos/capture/cameraprocess.cpp:269
 #, kde-format
-msgid "Flip complete."
-msgstr "Obrat končan."
+msgid "No new job created."
+msgstr "Ustvarjeno ni bilo nobeno novo opravilo."
+
+#: ekos/capture/cameraprocess.cpp:292 ekos/capture/cameraprocess.cpp:839
+#, kde-format
+msgid "Cannot capture while focus module is busy."
+msgstr "Ni mogoče zajemati, dokler je modul za ostrenje zaposlen."
+
+#: ekos/capture/cameraprocess.cpp:299
+#, kde-format
+msgid "Starting framing..."
+msgstr "Začetek okvirjanja …"
+
+#: ekos/capture/cameraprocess.cpp:329
+#, kde-format
+msgid "CCD capture suspended"
+msgstr "Zajem CCD zaustavljen"
+
+#: ekos/capture/cameraprocess.cpp:334
+#, kde-format
+msgid "CCD capture complete"
+msgstr "Zajem CCD zaključen"
+
+#: ekos/capture/cameraprocess.cpp:339
+#, kde-format
+msgid "Framing stopped"
+msgstr "Okvirjanje ustavljeno"
+
+#: ekos/capture/cameraprocess.cpp:339 ekos/capture/cameraprocess.cpp:344
+#, kde-format
+msgid "CCD capture stopped"
+msgstr "Zajem CCD ustavljen"
+
+#: ekos/capture/cameraprocess.cpp:418
+#, kde-format
+msgid "Pausing only possible while frame capture is running."
+msgstr "Premor je možen le, ko poteka zajemanje slik."
+
+#: ekos/capture/cameraprocess.cpp:425
+#, kde-format
+msgid "Sequence shall be paused after current exposure is complete."
+msgstr "Zaporedje bo prestavljeno v premor po zaključku trenutne osvetlitve."
+
+#: ekos/capture/cameraprocess.cpp:456
+#, kde-format
+msgid "No view available for previews. Enable FITS viewer?"
+msgstr ""
+"Za predoglede ni na voljo nobenega pogleda. Ali želite omogočiti "
+"pregledovalnik FITS?"
+
+#: ekos/capture/cameraprocess.cpp:457
+#, kde-format
+msgid "Display preview"
+msgstr "Prikaži predogled"
+
+#: ekos/capture/cameraprocess.cpp:541
+#, kde-format
+msgid ""
+"Job requires %1-second %2 images, has already %3/%4 captures and does not "
+"need to run."
+msgstr ""
+"Opravilo zahteva %1-sekundne slike %2, ima že %3/%4 zajemov in ga ni treba "
+"zagnati."
+
+#: ekos/capture/cameraprocess.cpp:554
+#, kde-format
+msgid ""
+"Job requires %1-second %2 images, has %3/%4 frames captured and will be "
+"processed."
+msgstr ""
+"Opravilo zahteva %1-sekundne slike %2, ima %3/%4 zajemov in bo obdelano."
+
+#: ekos/capture/cameraprocess.cpp:785
+#, kde-format
+msgid "Autoguiding resumed."
+msgstr "Vodenje se spet nadaljuje."
+
+#: ekos/capture/cameraprocess.cpp:829
+#, kde-format
+msgid "Failed to set sub frame."
+msgstr "Podposnetka ni bilo mogoče nastaviti."
+
+#: ekos/capture/cameraprocess.cpp:834
+#, kde-format
+msgid "Failed to set binning."
+msgstr "Združevanja ni bilo mogoče nastaviti."
+
+#: ekos/capture/cameraprocess.cpp:991
+#, kde-format
+msgid "file saved to %1"
+msgstr "datoteka shranjena v %1"
+
+#: ekos/capture/cameraprocess.cpp:1001
+#, kde-format
+msgid ""
+"Failed writing image to %1\n"
+"Please check folder, filename & permissions."
+msgstr ""
+"Pisanja slike v %1 ni uspelo\n"
+"Preverite mapo, ime datoteke & dovoljenja."
+
+#: ekos/capture/cameraprocess.cpp:1003
+#, kde-format
+msgid "Image Write Failed"
+msgstr "Zapisovanje slike ni uspelo"
+
+#: ekos/capture/cameraprocess.cpp:1221
+#, kde-format
+msgid "Remote image saved to %1"
+msgstr "Oddaljena slika shranjena v %1"
+
+#: ekos/capture/cameraprocess.cpp:1247
+#, kde-format
+msgid "Autoguiding suspended."
+msgstr "Samodejno vodenje v pripravljenosti."
+
+#: ekos/capture/cameraprocess.cpp:1276
+#, kde-format
+msgid "Warning: Calibration process was prematurely terminated."
+msgstr "Opozorilo: postopek umerjanja je bil predčasno končan."
+
+#. i18n("CCD capture sequence completed"));
+#: ekos/capture/cameraprocess.cpp:1342
+#, kde-format
+msgid "CCD capture sequence completed"
+msgstr "Zaporedje zajemov CCD-ja zaključeno"
+
+#: ekos/capture/cameraprocess.cpp:1399
+#, kde-format
+msgid "Error: Lost connection to CCD."
+msgstr "Napaka: povezava s CCD-jem izgubljena."
+
+#: ekos/capture/cameraprocess.cpp:1427
+#, kde-format
+msgid "Cannot calculate ADU levels in non-FITS images."
+msgstr "Ravni ADE ni mogoče izračunati v slikah, ki niso v zapisu FITS."
+
+#: ekos/capture/cameraprocess.cpp:1552 ekos/capture/cameraprocess.cpp:2103
+#, kde-format
+msgid "Capture failed. Check INDI Control Panel for details."
+msgstr "Zajem ni uspel. Če želite podrobnosti, preverite nadzorno ploščo INDI."
+
+#: ekos/capture/cameraprocess.cpp:1652
+#, kde-format
+msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
+msgstr "Čas prejemanja: %1 s, ocena novega časa prejemanja: %2 s."
+
+#: ekos/capture/cameraprocess.cpp:1718
+#, kde-format
+msgid "Received image %1 out of %2."
+msgstr "Prejeta slika %1 od %2."
+
+#: ekos/capture/cameraprocess.cpp:1752
+#, kde-format
+msgid "Captured %1"
+msgstr "Zajeto %1"
+
+#: ekos/capture/cameraprocess.cpp:1758
+#, kde-format
+msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
+msgstr "OPOZORILO: preostale in morebiti neznane zamenljive oznake %1 v %2"
+
+#: ekos/capture/cameraprocess.cpp:1791
+#, kde-format
+msgid "Executing capture script %1"
+msgstr "Izvajanje skripta zajemanja %1"
+
+#: ekos/capture/cameraprocess.cpp:1806
+#, kde-format
+msgid "Pre capture script finished with code %1."
+msgstr "Skript pred zajemanjem se je končal s kodo %1."
+
+#: ekos/capture/cameraprocess.cpp:1814
+#, kde-format
+msgid "Post capture script finished with code %1."
+msgstr "Skript po zajemanju se je končal s kodo %1."
+
+#: ekos/capture/cameraprocess.cpp:1826
+#, kde-format
+msgid "Processing meridian flip..."
+msgstr "Obdelovanje obrata čez poldnevnik …"
+
+#: ekos/capture/cameraprocess.cpp:1836
+#, kde-format
+msgid "Pre job script finished with code %1."
+msgstr "Skript pred opravilom se je končal s kodo %1."
+
+#: ekos/capture/cameraprocess.cpp:1841
+#, kde-format
+msgid "Post job script finished with code %1."
+msgstr "Skript po opravilu se je končal s kodo %1."
+
+#: ekos/capture/cameraprocess.cpp:2033 ekos/focus/focus.cpp:5334
+#: ekos/focus/focus.cpp:5358
+#, kde-format
+msgid "Exposure timeout. Aborting..."
+msgstr "Čas za osvetlitev je potekel. Prekinjanje …"
+
+#: ekos/capture/cameraprocess.cpp:2040
+#, fuzzy, kde-format
+msgid "Exposure timeout. More than 3 have been detected, will restart driver."
+msgstr ""
+"Časovna omejitev ekspozicije. Zaznane so bile več kot 3, gonilnik bo znova "
+"zagnan."
+
+#: ekos/capture/cameraprocess.cpp:2058 ekos/focus/focus.cpp:5339
+#: ekos/guide/guide.cpp:992
+#, kde-format
+msgid "Exposure timeout. Restarting exposure..."
+msgstr "Čas za osvetlitev je potekel. Ponovno zaganjanje osvetljevanja …"
+
+#: ekos/capture/cameraprocess.cpp:2084
+#, kde-format
+msgid "Exposure timeout. Too many. Aborting..."
+msgstr "Čas za osvetlitev je potekel. Preveč. Prekinjanje..."
+
+#: ekos/capture/cameraprocess.cpp:2162
+#, kde-format
+msgid ""
+"Flat calibration failed. Captured image is only %1-bit while requested ADU "
+"is %2."
+msgstr ""
+"Plosko umerjanje ni uspelo. Posneta slika je samo %1-bitna, medtem ko je "
+"zahtevani ADE %2."
+
+#: ekos/capture/cameraprocess.cpp:2173
+#, kde-format
+msgid "Current image is saturated (%1). Next exposure is %2 seconds."
+msgstr ""
+"Trenutna fotografija je nasičena (%1). Naslednja osvetlitev je %2 sekund."
+
+#: ekos/capture/cameraprocess.cpp:2195
+#, kde-format
+msgid "Current ADU %1 within target ADU tolerance range."
+msgstr "Trenutna ADE %1 je znotraj območja tolerance ciljne ADE."
+
+#: ekos/capture/cameraprocess.cpp:2224
+#, kde-format
+msgid ""
+"Unable to calculate optimal exposure settings, please capture the flats "
+"manually."
+msgstr ""
+"Ni mogoče izračunati optimalnih nastavitev za osvetlitev. Ročno zajemite "
+"ploske slike."
+
+#: ekos/capture/cameraprocess.cpp:2232
+#, kde-format
+msgid "Current ADU is %1 Next exposure is %2 seconds."
+msgstr "Trenutna ADE je %1. Naslednja osvetlitev je %2 sekund."
+
+#: ekos/capture/cameraprocess.cpp:2430
+#, kde-format
+msgid "%1 Preview"
+msgstr "Predogled %1"
+
+#: ekos/capture/cameraprocess.cpp:2441 ekos/capture/cameraprocess.cpp:2443
+#, kde-format
+msgid "Flat Calibration"
+msgstr "Plosko umerjanje"
+
+#: ekos/capture/cameraprocess.cpp:2595
+#, kde-format
+msgid "Sequence paused."
+msgstr "Zaporedje v premoru."
+
+#: ekos/capture/cameraprocess.cpp:2645
+#, kde-format
+msgid ""
+"All jobs are complete. Do you want to reset the status of all jobs and "
+"restart capturing?"
+msgstr ""
+"Vsi posli so zaključeni. Ali želite ponastaviti stanje vseh poslov in znova "
+"zagnati zajemanje?"
+
+#: ekos/capture/cameraprocess.cpp:2659
+#, kde-format
+msgid ""
+"Warning: option \"Always Reset Sequence When Starting\" is enabled and "
+"resets the sequence counts."
+msgstr ""
+"Opozorilo: možnost »Pri zagonu vedno ponastavi zaporedje« je omogočena in "
+"ponastavi štetje zaporedja."
+
+#: ekos/capture/cameraprocess.cpp:2774
+#, kde-format
+msgid "Are you sure you want to restart %1 camera driver?"
+msgstr "Ali ste prepričani, da želite znova zagnati gonilnik kamere %1?"
+
+#: ekos/capture/cameraprocess.cpp:2775
+#, kde-format
+msgid "Driver Restart"
+msgstr "Ponovni zagon gonilnika"
+
+#: ekos/capture/camerastate.cpp:152
+#, kde-format
+msgid ""
+"Warning: Guide deviation is selected but autoguide process was not started."
+msgstr ""
+"Opozorilo: izbran je odklon vodenja, vendar postopek samodejnega vodenja ni "
+"bil zagnan."
+
+#: ekos/capture/camerastate.cpp:217
+#, kde-format
+msgid "Dithering succeeded."
+msgstr "Razprševanje uspešno."
+
+#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
+#: ekos/capture/camerastate.cpp:224
+#, kde-format
+msgid "Dither complete. Resuming in %1 seconds..."
+msgstr "Razprševanje uspešno. Nadaljevanje po %1 sekundah …"
+
+#: ekos/capture/camerastate.cpp:232
+#, kde-format
+msgid "Dither complete."
+msgstr "Razprševanje zaključeno."
+
+#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
+#: ekos/capture/camerastate.cpp:246
+#, kde-format
+msgid "Warning: Dithering failed. Resuming in %1 seconds..."
+msgstr "Opozorilo: Razprševanje ni uspelo. Nadaljevanje po %1 sekundah …"
+
+#: ekos/capture/camerastate.cpp:255
+#, kde-format
+msgid "Warning: Dithering failed."
+msgstr "Opozorilo: Razprševanje ni uspelo."
+
+#: ekos/capture/camerastate.cpp:295
+#, kde-format
+msgid "Dust cap error."
+msgstr "Napaka proti-prašnega pokrova."
+
+#: ekos/capture/camerastate.cpp:299
+#, kde-format
+msgid "Dust cap parked."
+msgstr "Proti-prašni pokrov parkiran."
+
+#: ekos/capture/camerastate.cpp:303
+#, kde-format
+msgid "Dust cap unparked."
+msgstr "Proti-prašni pokrov ni več parkiran."
+
+#: ekos/capture/camerastate.cpp:510
+#, kde-format
+msgid "Meridian flip is successfully completed"
+msgstr "Obrat čez poldnevnik je uspešno zaključen"
+
+#: ekos/capture/camerastate.cpp:606
+#, kde-format
+msgid "Performing post flip re-calibration and guiding..."
+msgstr "Izvajanje ponovnega umerjanja in vodenja po obratu …"
+
+#: ekos/capture/camerastate.cpp:619
+#, kde-format
+msgid "Post meridian flip calibration error. Restarting..."
+msgstr "Napaka umerjanja po obratu čez poldnevnik. Ponovno zaganjanje …"
+
+#: ekos/capture/camerastate.cpp:639
+#, kde-format
+msgid "Autoguiding stopped. Waiting for autofocus to finish..."
+msgstr ""
+"Samodejno vodenje zaustavljeno. Čakanje na zaključek samodejnega ostrenja …"
+
+#: ekos/capture/camerastate.cpp:648
+#, kde-format
+msgid "Autoguiding stopped. Aborting..."
+msgstr "Samodejno vodenje zaustavljeno. Prekinjanje …"
+
+#: ekos/capture/camerastate.cpp:655
+#, kde-format
+msgid "Post meridian flip calibration error. Aborting..."
+msgstr "Napaka umerjanja po obratu čez poldnevnik. Prekinjanje …"
+
+#: ekos/capture/camerastate.cpp:677
+#, kde-format
+msgid "Adaptive focus complete."
+msgstr "Prilagodljivo ostrenje zaključeno."
+
+#: ekos/capture/camerastate.cpp:701
+#, kde-format
+msgid "Autofocus failed. Aborting exposure..."
+msgstr "Samodejno ostrenje ni uspelo. Prekinjanje osvetljevanja …"
+
+#: ekos/capture/camerastate.cpp:743
+#, kde-format
+msgid "Limit: %1 °C"
+msgstr "Omejitev: %1 °C"
+
+#: ekos/capture/camerastate.cpp:747
+#, kde-format
+msgid "Limit: %1 mins"
+msgstr "Omejitev: %1min."
+
+#: ekos/capture/camerastate.cpp:885
+#, kde-format
+msgid "Performing post flip re-alignment..."
+msgstr "Izvajanje ponovne poravnave po obratu …"
+
+#: ekos/capture/camerastate.cpp:903
+#, kde-format
+msgid "Guide module timed out."
+msgstr "Časovna omejitev modula vodenja je pretekla."
+
+#: ekos/capture/camerastate.cpp:935
+#, kde-format
+msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
+msgstr "Začetni odklon vodenja %1 je pod mejno vrednostjo %2 ločnih sekund"
+
+#: ekos/capture/camerastate.cpp:944
+#, kde-format
+msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+msgstr "Začetni odklon vodenja %1 je presegel mejno vrednost %2 ločnih sekund"
+
+#: ekos/capture/camerastate.cpp:966
+#, kde-format
+msgid "Post meridian flip calibration completed successfully."
+msgstr "Umerjanje po obratu čez poldnevnik se je uspešno zaključilo."
+
+#: ekos/capture/camerastate.cpp:980
+#, kde-format
+msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
+msgstr ""
+"Odklon vodenja na začetku zajema %1 je presegel mejno vrednost %2 ločnih "
+"sekund."
+
+#: ekos/capture/camerastate.cpp:994
+#, kde-format
+msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
+msgstr ""
+"Odklon vodenja na začetku zajema %1 je pod mejno vrednostjo %2 ločnih sekund"
+
+#: ekos/capture/camerastate.cpp:1021
+#, kde-format
+msgid ""
+"Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
+"samples, suspending exposure and waiting for guider up to %3 seconds."
+msgstr ""
+"Odklon vodenja %1 je presegel mejno vrednost %2 ločnih sekund pri %4 "
+"zaporednih vzorcih. Osvetlitev je prekinjena, čakanje na vodnika za največ "
+"%3 s."
+
+#: ekos/capture/camerastate.cpp:1068
+#, kde-format
+msgid ""
+"Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
+"exposure."
+msgstr ""
+"Odklon vodenja %1 je sedaj manj kot %2 ločnih sekund, nadaljevanje "
+"osvetljevanja."
+
+#: ekos/capture/camerastate.cpp:1072
+#, kde-format
+msgid ""
+"Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
+"exposure in %3 seconds."
+msgstr ""
+"Odklon vodenja %1 je sedaj manj kot %2 ločnih sekund, nadaljevanje "
+"osvetljevanja čez %3 sekunde."
+
+#: ekos/capture/camerastate.cpp:1087
+#, kde-format
+msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
+msgstr "Odklon vodenja %1 še vedno presega mejno vrednost %2 ločnih sekund."
+
+#: ekos/capture/camerastate.cpp:1469
+#, kde-format
+msgid "Post flip re-alignment completed successfully."
+msgstr "Ponovna poravnava po obratu se je uspešno zaključila."
+
+#: ekos/capture/camerastate.cpp:1488
+#, kde-format
+msgid "Post-flip alignment failed."
+msgstr "Poravnava po obratu ni uspela."
+
+#: ekos/capture/camerastate.cpp:1493
+#, kde-format
+msgid "Post-flip alignment failed. Retrying..."
+msgstr "Poravnava po obratu ni uspela. Poskušanje znova …"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
@@ -15681,193 +16178,6 @@ msgstr "Ali ima %1 zaslonko?"
 msgid "Dark Exposure"
 msgstr "Osvetlitev teme"
 
-#: ekos/capture/capturemodulestate.cpp:152
-#, kde-format
-msgid ""
-"Warning: Guide deviation is selected but autoguide process was not started."
-msgstr ""
-"Opozorilo: izbran je odklon vodenja, vendar postopek samodejnega vodenja ni "
-"bil zagnan."
-
-#: ekos/capture/capturemodulestate.cpp:217
-#, kde-format
-msgid "Dithering succeeded."
-msgstr "Razprševanje uspešno."
-
-#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:224
-#, kde-format
-msgid "Dither complete. Resuming in %1 seconds..."
-msgstr "Razprševanje uspešno. Nadaljevanje po %1 sekundah …"
-
-#: ekos/capture/capturemodulestate.cpp:232
-#, kde-format
-msgid "Dither complete."
-msgstr "Razprševanje zaključeno."
-
-#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:246
-#, kde-format
-msgid "Warning: Dithering failed. Resuming in %1 seconds..."
-msgstr "Opozorilo: Razprševanje ni uspelo. Nadaljevanje po %1 sekundah …"
-
-#: ekos/capture/capturemodulestate.cpp:255
-#, kde-format
-msgid "Warning: Dithering failed."
-msgstr "Opozorilo: Razprševanje ni uspelo."
-
-#: ekos/capture/capturemodulestate.cpp:295
-#, kde-format
-msgid "Dust cap error."
-msgstr "Napaka proti-prašnega pokrova."
-
-#: ekos/capture/capturemodulestate.cpp:299
-#, kde-format
-msgid "Dust cap parked."
-msgstr "Proti-prašni pokrov parkiran."
-
-#: ekos/capture/capturemodulestate.cpp:303
-#, kde-format
-msgid "Dust cap unparked."
-msgstr "Proti-prašni pokrov ni več parkiran."
-
-#: ekos/capture/capturemodulestate.cpp:510
-#, kde-format
-msgid "Meridian flip is successfully completed"
-msgstr "Obrat čez poldnevnik je uspešno zaključen"
-
-#: ekos/capture/capturemodulestate.cpp:606
-#, kde-format
-msgid "Performing post flip re-calibration and guiding..."
-msgstr "Izvajanje ponovnega umerjanja in vodenja po obratu …"
-
-#: ekos/capture/capturemodulestate.cpp:619
-#, kde-format
-msgid "Post meridian flip calibration error. Restarting..."
-msgstr "Napaka umerjanja po obratu čez poldnevnik. Ponovno zaganjanje …"
-
-#: ekos/capture/capturemodulestate.cpp:639
-#, kde-format
-msgid "Autoguiding stopped. Waiting for autofocus to finish..."
-msgstr ""
-"Samodejno vodenje zaustavljeno. Čakanje na zaključek samodejnega ostrenja …"
-
-#: ekos/capture/capturemodulestate.cpp:648
-#, kde-format
-msgid "Autoguiding stopped. Aborting..."
-msgstr "Samodejno vodenje zaustavljeno. Prekinjanje …"
-
-#: ekos/capture/capturemodulestate.cpp:655
-#, kde-format
-msgid "Post meridian flip calibration error. Aborting..."
-msgstr "Napaka umerjanja po obratu čez poldnevnik. Prekinjanje …"
-
-#: ekos/capture/capturemodulestate.cpp:677
-#, kde-format
-msgid "Adaptive focus complete."
-msgstr "Prilagodljivo ostrenje zaključeno."
-
-#: ekos/capture/capturemodulestate.cpp:701
-#, kde-format
-msgid "Autofocus failed. Aborting exposure..."
-msgstr "Samodejno ostrenje ni uspelo. Prekinjanje osvetljevanja …"
-
-#: ekos/capture/capturemodulestate.cpp:743
-#, kde-format
-msgid "Limit: %1 °C"
-msgstr "Omejitev: %1 °C"
-
-#: ekos/capture/capturemodulestate.cpp:747
-#, kde-format
-msgid "Limit: %1 mins"
-msgstr "Omejitev: %1min."
-
-#: ekos/capture/capturemodulestate.cpp:885
-#, kde-format
-msgid "Performing post flip re-alignment..."
-msgstr "Izvajanje ponovne poravnave po obratu …"
-
-#: ekos/capture/capturemodulestate.cpp:903
-#, kde-format
-msgid "Guide module timed out."
-msgstr "Časovna omejitev modula vodenja je pretekla."
-
-#: ekos/capture/capturemodulestate.cpp:935
-#, kde-format
-msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
-msgstr "Začetni odklon vodenja %1 je pod mejno vrednostjo %2 ločnih sekund"
-
-#: ekos/capture/capturemodulestate.cpp:944
-#, kde-format
-msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
-msgstr "Začetni odklon vodenja %1 je presegel mejno vrednost %2 ločnih sekund"
-
-#: ekos/capture/capturemodulestate.cpp:966
-#, kde-format
-msgid "Post meridian flip calibration completed successfully."
-msgstr "Umerjanje po obratu čez poldnevnik se je uspešno zaključilo."
-
-#: ekos/capture/capturemodulestate.cpp:980
-#, kde-format
-msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
-msgstr ""
-"Odklon vodenja na začetku zajema %1 je presegel mejno vrednost %2 ločnih "
-"sekund."
-
-#: ekos/capture/capturemodulestate.cpp:994
-#, kde-format
-msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
-msgstr ""
-"Odklon vodenja na začetku zajema %1 je pod mejno vrednostjo %2 ločnih sekund"
-
-#: ekos/capture/capturemodulestate.cpp:1021
-#, kde-format
-msgid ""
-"Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
-"samples, suspending exposure and waiting for guider up to %3 seconds."
-msgstr ""
-"Odklon vodenja %1 je presegel mejno vrednost %2 ločnih sekund pri %4 "
-"zaporednih vzorcih. Osvetlitev je prekinjena, čakanje na vodnika za največ "
-"%3 s."
-
-#: ekos/capture/capturemodulestate.cpp:1068
-#, kde-format
-msgid ""
-"Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
-"exposure."
-msgstr ""
-"Odklon vodenja %1 je sedaj manj kot %2 ločnih sekund, nadaljevanje "
-"osvetljevanja."
-
-#: ekos/capture/capturemodulestate.cpp:1072
-#, kde-format
-msgid ""
-"Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
-"exposure in %3 seconds."
-msgstr ""
-"Odklon vodenja %1 je sedaj manj kot %2 ločnih sekund, nadaljevanje "
-"osvetljevanja čez %3 sekunde."
-
-#: ekos/capture/capturemodulestate.cpp:1087
-#, kde-format
-msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
-msgstr "Odklon vodenja %1 še vedno presega mejno vrednost %2 ločnih sekund."
-
-#: ekos/capture/capturemodulestate.cpp:1469
-#, kde-format
-msgid "Post flip re-alignment completed successfully."
-msgstr "Ponovna poravnava po obratu se je uspešno zaključila."
-
-#: ekos/capture/capturemodulestate.cpp:1488
-#, kde-format
-msgid "Post-flip alignment failed."
-msgstr "Poravnava po obratu ni uspela."
-
-#: ekos/capture/capturemodulestate.cpp:1493
-#, kde-format
-msgid "Post-flip alignment failed. Retrying..."
-msgstr "Poravnava po obratu ni uspela. Poskušanje znova …"
-
 #: ekos/capture/capturepreviewwidget.cpp:143
 #, kde-format
 msgid "Delete directly, do not move to trash."
@@ -15897,318 +16207,6 @@ msgstr "Izbriši"
 #, kde-format
 msgid "Target: "
 msgstr "Cilj: "
-
-#: ekos/capture/captureprocess.cpp:200 ekos/capture/captureprocess.cpp:593
-#, kde-format
-msgid "Image Transfer"
-msgstr "Prenos slike"
-
-#: ekos/capture/captureprocess.cpp:219
-#, kde-format
-msgid "Sequence resumed."
-msgstr "Zaporedje se nadaljuje."
-
-#: ekos/capture/captureprocess.cpp:255
-#, kde-format
-msgid "No pending jobs found. Please add a job to the sequence queue."
-msgstr ""
-"Ni bilo najdenega nobenega čakajočega opravila. Dodajte opravilo v vrsto "
-"zaporedja."
-
-#: ekos/capture/captureprocess.cpp:269
-#, kde-format
-msgid "No new job created."
-msgstr "Ustvarjeno ni bilo nobeno novo opravilo."
-
-#: ekos/capture/captureprocess.cpp:292 ekos/capture/captureprocess.cpp:839
-#, kde-format
-msgid "Cannot capture while focus module is busy."
-msgstr "Ni mogoče zajemati, dokler je modul za ostrenje zaposlen."
-
-#: ekos/capture/captureprocess.cpp:299
-#, kde-format
-msgid "Starting framing..."
-msgstr "Začetek okvirjanja …"
-
-#: ekos/capture/captureprocess.cpp:329
-#, kde-format
-msgid "CCD capture suspended"
-msgstr "Zajem CCD zaustavljen"
-
-#: ekos/capture/captureprocess.cpp:334
-#, kde-format
-msgid "CCD capture complete"
-msgstr "Zajem CCD zaključen"
-
-#: ekos/capture/captureprocess.cpp:339
-#, kde-format
-msgid "Framing stopped"
-msgstr "Okvirjanje ustavljeno"
-
-#: ekos/capture/captureprocess.cpp:339 ekos/capture/captureprocess.cpp:344
-#, kde-format
-msgid "CCD capture stopped"
-msgstr "Zajem CCD ustavljen"
-
-#: ekos/capture/captureprocess.cpp:418
-#, kde-format
-msgid "Pausing only possible while frame capture is running."
-msgstr "Premor je možen le, ko poteka zajemanje slik."
-
-#: ekos/capture/captureprocess.cpp:425
-#, kde-format
-msgid "Sequence shall be paused after current exposure is complete."
-msgstr "Zaporedje bo prestavljeno v premor po zaključku trenutne osvetlitve."
-
-#: ekos/capture/captureprocess.cpp:456
-#, kde-format
-msgid "No view available for previews. Enable FITS viewer?"
-msgstr ""
-"Za predoglede ni na voljo nobenega pogleda. Ali želite omogočiti "
-"pregledovalnik FITS?"
-
-#: ekos/capture/captureprocess.cpp:457
-#, kde-format
-msgid "Display preview"
-msgstr "Prikaži predogled"
-
-#: ekos/capture/captureprocess.cpp:541
-#, kde-format
-msgid ""
-"Job requires %1-second %2 images, has already %3/%4 captures and does not "
-"need to run."
-msgstr ""
-"Opravilo zahteva %1-sekundne slike %2, ima že %3/%4 zajemov in ga ni treba "
-"zagnati."
-
-#: ekos/capture/captureprocess.cpp:554
-#, kde-format
-msgid ""
-"Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-"processed."
-msgstr ""
-"Opravilo zahteva %1-sekundne slike %2, ima %3/%4 zajemov in bo obdelano."
-
-#: ekos/capture/captureprocess.cpp:785
-#, kde-format
-msgid "Autoguiding resumed."
-msgstr "Vodenje se spet nadaljuje."
-
-#: ekos/capture/captureprocess.cpp:829
-#, kde-format
-msgid "Failed to set sub frame."
-msgstr "Podposnetka ni bilo mogoče nastaviti."
-
-#: ekos/capture/captureprocess.cpp:834
-#, kde-format
-msgid "Failed to set binning."
-msgstr "Združevanja ni bilo mogoče nastaviti."
-
-#: ekos/capture/captureprocess.cpp:991
-#, kde-format
-msgid "file saved to %1"
-msgstr "datoteka shranjena v %1"
-
-#: ekos/capture/captureprocess.cpp:1001
-#, kde-format
-msgid ""
-"Failed writing image to %1\n"
-"Please check folder, filename & permissions."
-msgstr ""
-"Pisanja slike v %1 ni uspelo\n"
-"Preverite mapo, ime datoteke & dovoljenja."
-
-#: ekos/capture/captureprocess.cpp:1003
-#, kde-format
-msgid "Image Write Failed"
-msgstr "Zapisovanje slike ni uspelo"
-
-#: ekos/capture/captureprocess.cpp:1221
-#, kde-format
-msgid "Remote image saved to %1"
-msgstr "Oddaljena slika shranjena v %1"
-
-#: ekos/capture/captureprocess.cpp:1247
-#, kde-format
-msgid "Autoguiding suspended."
-msgstr "Samodejno vodenje v pripravljenosti."
-
-#: ekos/capture/captureprocess.cpp:1276
-#, kde-format
-msgid "Warning: Calibration process was prematurely terminated."
-msgstr "Opozorilo: postopek umerjanja je bil predčasno končan."
-
-#. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1342
-#, kde-format
-msgid "CCD capture sequence completed"
-msgstr "Zaporedje zajemov CCD-ja zaključeno"
-
-#: ekos/capture/captureprocess.cpp:1399
-#, kde-format
-msgid "Error: Lost connection to CCD."
-msgstr "Napaka: povezava s CCD-jem izgubljena."
-
-#: ekos/capture/captureprocess.cpp:1427
-#, kde-format
-msgid "Cannot calculate ADU levels in non-FITS images."
-msgstr "Ravni ADE ni mogoče izračunati v slikah, ki niso v zapisu FITS."
-
-#: ekos/capture/captureprocess.cpp:1552 ekos/capture/captureprocess.cpp:2092
-#, kde-format
-msgid "Capture failed. Check INDI Control Panel for details."
-msgstr "Zajem ni uspel. Če želite podrobnosti, preverite nadzorno ploščo INDI."
-
-#: ekos/capture/captureprocess.cpp:1652
-#, kde-format
-msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
-msgstr "Čas prejemanja: %1 s, ocena novega časa prejemanja: %2 s."
-
-#: ekos/capture/captureprocess.cpp:1718
-#, kde-format
-msgid "Received image %1 out of %2."
-msgstr "Prejeta slika %1 od %2."
-
-#: ekos/capture/captureprocess.cpp:1752
-#, kde-format
-msgid "Captured %1"
-msgstr "Zajeto %1"
-
-#: ekos/capture/captureprocess.cpp:1758
-#, kde-format
-msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
-msgstr "OPOZORILO: preostale in morebiti neznane zamenljive oznake %1 v %2"
-
-#: ekos/capture/captureprocess.cpp:1791
-#, kde-format
-msgid "Executing capture script %1"
-msgstr "Izvajanje skripta zajemanja %1"
-
-#: ekos/capture/captureprocess.cpp:1806
-#, kde-format
-msgid "Pre capture script finished with code %1."
-msgstr "Skript pred zajemanjem se je končal s kodo %1."
-
-#: ekos/capture/captureprocess.cpp:1814
-#, kde-format
-msgid "Post capture script finished with code %1."
-msgstr "Skript po zajemanju se je končal s kodo %1."
-
-#: ekos/capture/captureprocess.cpp:1826
-#, kde-format
-msgid "Processing meridian flip..."
-msgstr "Obdelovanje obrata čez poldnevnik …"
-
-#: ekos/capture/captureprocess.cpp:1836
-#, kde-format
-msgid "Pre job script finished with code %1."
-msgstr "Skript pred opravilom se je končal s kodo %1."
-
-#: ekos/capture/captureprocess.cpp:1841
-#, kde-format
-msgid "Post job script finished with code %1."
-msgstr "Skript po opravilu se je končal s kodo %1."
-
-#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5334
-#: ekos/focus/focus.cpp:5358
-#, kde-format
-msgid "Exposure timeout. Aborting..."
-msgstr "Čas za osvetlitev je potekel. Prekinjanje …"
-
-#: ekos/capture/captureprocess.cpp:2029
-#, fuzzy, kde-format
-msgid "Exposure timeout. More than 3 have been detected, will restart driver."
-msgstr ""
-"Časovna omejitev ekspozicije. Zaznane so bile več kot 3, gonilnik bo znova "
-"zagnan."
-
-#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5339
-#: ekos/guide/guide.cpp:992
-#, kde-format
-msgid "Exposure timeout. Restarting exposure..."
-msgstr "Čas za osvetlitev je potekel. Ponovno zaganjanje osvetljevanja …"
-
-#: ekos/capture/captureprocess.cpp:2073
-#, kde-format
-msgid "Exposure timeout. Too many. Aborting..."
-msgstr "Čas za osvetlitev je potekel. Preveč. Prekinjanje..."
-
-#: ekos/capture/captureprocess.cpp:2151
-#, kde-format
-msgid ""
-"Flat calibration failed. Captured image is only %1-bit while requested ADU "
-"is %2."
-msgstr ""
-"Plosko umerjanje ni uspelo. Posneta slika je samo %1-bitna, medtem ko je "
-"zahtevani ADE %2."
-
-#: ekos/capture/captureprocess.cpp:2162
-#, kde-format
-msgid "Current image is saturated (%1). Next exposure is %2 seconds."
-msgstr ""
-"Trenutna fotografija je nasičena (%1). Naslednja osvetlitev je %2 sekund."
-
-#: ekos/capture/captureprocess.cpp:2184
-#, kde-format
-msgid "Current ADU %1 within target ADU tolerance range."
-msgstr "Trenutna ADE %1 je znotraj območja tolerance ciljne ADE."
-
-#: ekos/capture/captureprocess.cpp:2213
-#, kde-format
-msgid ""
-"Unable to calculate optimal exposure settings, please capture the flats "
-"manually."
-msgstr ""
-"Ni mogoče izračunati optimalnih nastavitev za osvetlitev. Ročno zajemite "
-"ploske slike."
-
-#: ekos/capture/captureprocess.cpp:2221
-#, kde-format
-msgid "Current ADU is %1 Next exposure is %2 seconds."
-msgstr "Trenutna ADE je %1. Naslednja osvetlitev je %2 sekund."
-
-#: ekos/capture/captureprocess.cpp:2419
-#, kde-format
-msgid "%1 Preview"
-msgstr "Predogled %1"
-
-#: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
-#, kde-format
-msgid "Flat Calibration"
-msgstr "Plosko umerjanje"
-
-#: ekos/capture/captureprocess.cpp:2584
-#, kde-format
-msgid "Sequence paused."
-msgstr "Zaporedje v premoru."
-
-#: ekos/capture/captureprocess.cpp:2634
-#, kde-format
-msgid ""
-"All jobs are complete. Do you want to reset the status of all jobs and "
-"restart capturing?"
-msgstr ""
-"Vsi posli so zaključeni. Ali želite ponastaviti stanje vseh poslov in znova "
-"zagnati zajemanje?"
-
-#: ekos/capture/captureprocess.cpp:2648
-#, kde-format
-msgid ""
-"Warning: option \"Always Reset Sequence When Starting\" is enabled and "
-"resets the sequence counts."
-msgstr ""
-"Opozorilo: možnost »Pri zagonu vedno ponastavi zaporedje« je omogočena in "
-"ponastavi štetje zaporedja."
-
-#: ekos/capture/captureprocess.cpp:2763
-#, kde-format
-msgid "Are you sure you want to restart %1 camera driver?"
-msgstr "Ali ste prepričani, da želite znova zagnati gonilnik kamere %1?"
-
-#: ekos/capture/captureprocess.cpp:2764
-#, kde-format
-msgid "Driver Restart"
-msgstr "Ponovni zagon gonilnika"
 
 #: ekos/capture/captureprocessoverlay.cpp:106
 #, kde-format
@@ -17226,7 +17224,7 @@ msgstr "Skript po zajemanju:"
 msgid "Post-job script:"
 msgstr "Skript po opravilu:"
 
-#: ekos/capture/sequenceeditor.cpp:99
+#: ekos/capture/sequenceeditor.cpp:100
 #, kde-format
 msgid ""
 "<b><font color=\"red\">Please run the Capture tab connected to INDI with "
@@ -17237,7 +17235,7 @@ msgstr ""
 "zaženite zavihek Zajemi, ki je prek vmesnika INDI povezan z želeno kamero/"
 "naborom filtrov.</font></b><p>"
 
-#: ekos/capture/sequenceeditor.cpp:103
+#: ekos/capture/sequenceeditor.cpp:104
 #, kde-format
 msgid ""
 "<b>Using camera and filterwheel attributes from Capture session started at "

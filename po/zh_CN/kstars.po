@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-16 01:42+0000\n"
+"POT-Creation-Date: 2024-06-17 01:46+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -401,7 +401,7 @@ msgstr "反转图像颜色。需要加强对比时该功能会比较有用。该
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1127
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1151
 #: ekos/scheduler/scheduler.cpp:1811
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2559,7 +2559,7 @@ msgstr "该 URL 无效。您是否想要打开浏览器窗口用 Google 搜索�
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3949
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/capture/camera.cpp:1081 ekos/capture/camera.cpp:1136
+#: ekos/capture/camera.cpp:1105 ekos/capture/camera.cpp:1160
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1711
 #: ekos/scheduler/scheduler.cpp:1821 fitsviewer/fitstab.cpp:530
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -2852,9 +2852,8 @@ msgstr "类型映射"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
-#: ekos/capture/capturecountswidget.cpp:278
-#: ekos/capture/captureprocess.cpp:2422 fitsviewer/fitsviewer.cpp:726
-#: fitsviewer/fitsviewer.cpp:727
+#: ekos/capture/cameraprocess.cpp:2433 ekos/capture/capturecountswidget.cpp:278
+#: fitsviewer/fitsviewer.cpp:726 fitsviewer/fitsviewer.cpp:727
 #, kde-format
 msgid "Preview"
 msgstr "预览"
@@ -3741,9 +3740,9 @@ msgstr "0.0 秒差距"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1588 ekos/capture/camera.cpp:1628
+#: ekos/capture/camera.cpp:1612 ekos/capture/camera.cpp:1652
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
-#: ekos/capture/sequenceeditor.cpp:130 ekos/capture/sequenceeditor.cpp:133
+#: ekos/capture/sequenceeditor.cpp:132 ekos/capture/sequenceeditor.cpp:135
 #: ekos/focus/focus.cpp:456 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -6074,8 +6073,8 @@ msgstr "CCD 像素尺寸缺失。请检查您的驱动设置并重试。"
 msgid "Error: lost connection to filter wheel."
 msgstr "错误：与滤镜轮的连接中断。"
 
-#: ekos/align/align.cpp:1494 ekos/capture/captureprocess.cpp:199
-#: ekos/capture/captureprocess.cpp:592 ekos/focus/focus.cpp:5282
+#: ekos/align/align.cpp:1494 ekos/capture/cameraprocess.cpp:199
+#: ekos/capture/cameraprocess.cpp:592 ekos/focus/focus.cpp:5282
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6262,7 +6261,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "解析中止，用时 %1 秒。"
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4115
-#: ekos/capture/capture.cpp:236 ekos/focus/focus.cpp:4340
+#: ekos/capture/capture.cpp:201 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -6368,8 +6367,8 @@ msgstr "世界坐标系统（WCS）被禁用。"
 msgid "Capture error. Aborting..."
 msgstr "拍摄失败。中止..."
 
-#: ekos/align/align.cpp:3288 ekos/capture/captureprocess.cpp:1560
-#: ekos/capture/captureprocess.cpp:2100
+#: ekos/align/align.cpp:3288 ekos/capture/cameraprocess.cpp:1560
+#: ekos/capture/cameraprocess.cpp:2111
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "尝试重新启动拍摄 #%1"
@@ -6416,24 +6415,24 @@ msgstr "赤经误差(角秒)"
 msgid "dDE (arcsec)"
 msgstr "赤纬误差(角秒)"
 
-#: ekos/align/align.cpp:3632 ekos/capture/camera.cpp:3179
+#: ekos/align/align.cpp:3632 ekos/capture/camera.cpp:3205
 #: ekos/focus/focus.cpp:5170
 #, kde-format
 msgid "Filter operation failed."
 msgstr "滤镜操作失败。"
 
-#: ekos/align/align.cpp:3644 ekos/capture/camera.cpp:3641
+#: ekos/align/align.cpp:3644 ekos/capture/camera.cpp:3697
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "更改焦点偏移 %1 步..."
 
 #: ekos/align/align.cpp:3651 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3646
+#: ekos/capture/camera.cpp:3702
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "更改滤镜至 %1..."
 
-#: ekos/align/align.cpp:3656 ekos/capture/camera.cpp:3651
+#: ekos/align/align.cpp:3656 ekos/capture/camera.cpp:3707
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "更换滤镜后自动对焦..."
@@ -6450,8 +6449,8 @@ msgid "Export Solution Points"
 msgstr "导出已解析的点"
 
 #: ekos/align/align.cpp:3948 ekos/align/mountmodel.cpp:264
-#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1080
-#: ekos/capture/camera.cpp:1135 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1104
+#: ekos/capture/camera.cpp:1159 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1710 ekos/scheduler/scheduler.cpp:1820
 #: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6468,8 +6467,8 @@ msgid "Unable to write to file %1"
 msgstr "无法写入到文件 %1"
 
 #: ekos/align/align.cpp:3958 ekos/align/mountmodel.cpp:284
-#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2716
-#: ekos/capture/captureprocess.cpp:2521 ekos/capture/sequencequeue.cpp:33
+#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2742
+#: ekos/capture/cameraprocess.cpp:2532 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2894
 #: ekos/scheduler/schedulerprocess.cpp:3207
 #: ekos/scheduler/schedulerprocess.cpp:4438
@@ -7097,8 +7096,8 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "打开 Ekos 校准列表"
 
-#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2715
-#: ekos/capture/captureprocess.cpp:2520 ekos/capture/sequencequeue.cpp:32
+#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2741
+#: ekos/capture/cameraprocess.cpp:2531 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3206
 #: ekos/scheduler/schedulerprocess.cpp:4457
 #, kde-format
@@ -11978,8 +11977,7 @@ msgstr "准备中..."
 msgid "Waiting..."
 msgstr "请稍等..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46
-#: ekos/capture/capturemodulestate.cpp:416
+#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:416
 #, kde-format
 msgid "Dithering..."
 msgstr "像素偏移..."
@@ -11999,7 +11997,7 @@ msgstr "更换滤镜..."
 msgid "Aligning..."
 msgstr "对准..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:716
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:740
 #, kde-format
 msgid "Calibrating..."
 msgstr "校准..."
@@ -13863,177 +13861,197 @@ msgstr ""
 msgid "Sky flats"
 msgstr ""
 
-#: ekos/capture/camera.cpp:69 ekos/capture/camera.cpp:71
+#: ekos/capture/camera.cpp:73 ekos/capture/camera.cpp:75
 #, kde-format
 msgid "Capture Sequence Editor: %1"
 msgstr ""
 
-#: ekos/capture/camera.cpp:126 ekos/capture/camera.cpp:3763
+#: ekos/capture/camera.cpp:130 ekos/capture/camera.cpp:3819
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "将作业添加到序列队列"
 
-#: ekos/capture/camera.cpp:127 ekos/capture/camera.cpp:3764
+#: ekos/capture/camera.cpp:131 ekos/capture/camera.cpp:3820
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "从序列队列中删除作业"
 
-#: ekos/capture/camera.cpp:420
+#: ekos/capture/camera.cpp:439
 #, kde-format
 msgid "Downloading..."
 msgstr "下载中..."
 
-#: ekos/capture/camera.cpp:508 ekos/capture/camera.cpp:509
+#: ekos/capture/camera.cpp:539 ekos/capture/camera.cpp:540
 #, kde-format
 msgid "Focus complete."
 msgstr "对焦完成。"
 
-#: ekos/capture/camera.cpp:513
+#: ekos/capture/camera.cpp:544
 #, kde-format
 msgid "Autofocus failed."
 msgstr "自动对焦失败."
 
-#: ekos/capture/camera.cpp:699
+#: ekos/capture/camera.cpp:723
 #, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "正在拍摄 %1-秒 %2 图像..."
 
-#: ekos/capture/camera.cpp:770
+#: ekos/capture/camera.cpp:794
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr "警告：选择了 in-sequence 对焦，但自动对焦进程尚未启动"
 
-#: ekos/capture/camera.cpp:773
+#: ekos/capture/camera.cpp:797
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr "警告：选择了温度漂移检查，但自动导星进程尚未启动"
 
-#: ekos/capture/camera.cpp:808
+#: ekos/capture/camera.cpp:832
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
 msgstr[0] "已创建 %1 个暗场任务。"
 
-#: ekos/capture/camera.cpp:853
+#: ekos/capture/camera.cpp:877
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "任务 #%1 更改生效。"
 
-#: ekos/capture/camera.cpp:866
+#: ekos/capture/camera.cpp:890
 #, kde-format
 msgid "Framing..."
 msgstr "连续曝光中..."
 
-#: ekos/capture/camera.cpp:877
+#: ekos/capture/camera.cpp:901
 #, kde-format
 msgid "Captured image received"
 msgstr "收到拍摄的图像"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:895 ekos/capture/camera.ui:2612
+#: ekos/capture/camera.cpp:919 ekos/capture/camera.ui:2612
 #, kde-format
 msgid "Expose (-/-):"
 msgstr "曝光(-/-):"
 
-#: ekos/capture/camera.cpp:929
+#: ekos/capture/camera.cpp:953
 #, kde-format
 msgid "Stop Sequence"
 msgstr "停止序列"
 
-#: ekos/capture/camera.cpp:935
+#: ekos/capture/camera.cpp:959
 #, kde-format
 msgid "Resume Sequence"
 msgstr "继续序列"
 
-#: ekos/capture/camera.cpp:966
+#: ekos/capture/camera.cpp:990
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "正在设置温度至 %1 摄氏度..."
 
-#: ekos/capture/camera.cpp:967
+#: ekos/capture/camera.cpp:991
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "设置温度至 %1 摄氏度..."
 
-#: ekos/capture/camera.cpp:971
+#: ekos/capture/camera.cpp:995
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:972
+#: ekos/capture/camera.cpp:996
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "等待导星 < “%1”..."
 
-#: ekos/capture/camera.cpp:976
+#: ekos/capture/camera.cpp:1000
 #, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:977
+#: ekos/capture/camera.cpp:1001
 #, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "设置相机为 %1 度..."
 
-#: ekos/capture/camera.cpp:1072
+#: ekos/capture/camera.cpp:1096
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "打开 Ekos 序列队列"
 
-#: ekos/capture/camera.cpp:1105
+#: ekos/capture/camera.cpp:1129
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "保存 Ekos 序列队列"
 
-#: ekos/capture/camera.cpp:1127
+#: ekos/capture/camera.cpp:1151
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "保存序列队列失败"
 
-#: ekos/capture/camera.cpp:1184 ekos/capture/camera.cpp:2202
+#: ekos/capture/camera.cpp:1208 ekos/capture/camera.cpp:2226
 #, kde-format
 msgid "Dark Flat"
 msgstr "暗平场"
 
-#: ekos/capture/camera.cpp:1897 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:1921 ekos/scheduler/framingassistant.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS 保存目录"
 
-#: ekos/capture/camera.cpp:1994
+#: ekos/capture/camera.cpp:2018
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "重置 %1 配置为默认值吗？"
 
-#: ekos/capture/camera.cpp:1996
+#: ekos/capture/camera.cpp:2020
 #, kde-format
 msgid "Confirmation"
 msgstr "确认"
 
-#: ekos/capture/camera.cpp:2179
+#: ekos/capture/camera.cpp:2203
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr "您必须为”当地 & 均存放“模式设置远程目录。"
 
-#: ekos/capture/camera.cpp:2185
+#: ekos/capture/camera.cpp:2209
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr "您必须为“客户端” 和“两端”模式设置本地目录。"
 
-#: ekos/capture/camera.cpp:3373
+#: ekos/capture/camera.cpp:3359
+#, kde-format
+msgid "Paused..."
+msgstr "暂停..."
+
+#: ekos/capture/camera.cpp:3364
+#, kde-format
+msgid "Meridian Flip..."
+msgstr "中天翻转..."
+
+#: ekos/capture/camera.cpp:3365
+#, kde-format
+msgid "Meridian flip started"
+msgstr "开始中天翻转"
+
+#: ekos/capture/camera.cpp:3369
+#, kde-format
+msgid "Flip complete."
+msgstr "翻转完成。"
+
+#: ekos/capture/camera.cpp:3429
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Ramp (°C/min):"
 
-#: ekos/capture/camera.cpp:3379
+#: ekos/capture/camera.cpp:3435
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14043,13 +14061,13 @@ msgstr ""
 "<html><body><p>制冷或加热相机时，每分钟最大的温度变化 。 设0禁用。<p>该设定读"
 "取及存储于 INDI 相机配置。</body></html>"
 
-#: ekos/capture/camera.cpp:3384
+#: ekos/capture/camera.cpp:3440
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "阈值(°C)："
 
-#: ekos/capture/camera.cpp:3390
+#: ekos/capture/camera.cpp:3446
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14059,70 +14077,70 @@ msgstr ""
 "<html><body><p>相机与目标最大温差，大于该温差时启动调节。<p>该设定读取及存储"
 "于 INDI 相机配置。</body></html>"
 
-#: ekos/capture/camera.cpp:3403
+#: ekos/capture/camera.cpp:3459
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "设置温度管控"
 
-#: ekos/capture/camera.cpp:3443
+#: ekos/capture/camera.cpp:3499
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "选择当前观测员"
 
-#: ekos/capture/camera.cpp:3445
+#: ekos/capture/camera.cpp:3501
 #, kde-format
 msgid "Current Observer:"
 msgstr "当前观测员："
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3456 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3512 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "管理观测员"
 
-#: ekos/capture/camera.cpp:3628
+#: ekos/capture/camera.cpp:3684
 #, kde-format
 msgid "Cooler is on"
 msgstr "制冷已打开"
 
-#: ekos/capture/camera.cpp:3628
+#: ekos/capture/camera.cpp:3684
 #, kde-format
 msgid "Cooler is off"
 msgstr "制冷已关闭"
 
-#: ekos/capture/camera.cpp:3658
+#: ekos/capture/camera.cpp:3714
 #, kde-format
 msgid "Filter set to %1."
 msgstr "设置过滤器为 %1。"
 
-#: ekos/capture/camera.cpp:3688
+#: ekos/capture/camera.cpp:3744
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "您确定要重置所有任务状态吗？"
 
-#: ekos/capture/camera.cpp:3688 ekos/capture/captureprocess.cpp:2635
+#: ekos/capture/camera.cpp:3744 ekos/capture/cameraprocess.cpp:2646
 #, kde-format
 msgid "Reset job status"
 msgstr "重置任务状态"
 
-#: ekos/capture/camera.cpp:3741
+#: ekos/capture/camera.cpp:3797
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "编辑任务 #%1..."
 
-#: ekos/capture/camera.cpp:3744 ekos/scheduler/scheduler.cpp:1171
+#: ekos/capture/camera.cpp:3800 ekos/scheduler/scheduler.cpp:1171
 #, kde-format
 msgid "Apply job changes."
 msgstr "应用作业更改。"
 
-#: ekos/capture/camera.cpp:3745
+#: ekos/capture/camera.cpp:3801
 #, kde-format
 msgid "Cancel job changes."
 msgstr "取消作业更改"
 
-#: ekos/capture/camera.cpp:3758
+#: ekos/capture/camera.cpp:3814
 #, kde-format
 msgid "Editing job canceled."
 msgstr "取消编辑任务"
@@ -14375,7 +14393,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "暗场与平场自动校准选项"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1227 ekos/capture/captureprocess.cpp:2435
+#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2446
 #: ekos/guide/guide.cpp:69
 #, kde-format
 msgid "Calibration"
@@ -14975,25 +14993,473 @@ msgstr ""
 msgid "Save As..."
 msgstr "另存为..."
 
-#: ekos/capture/capture.cpp:279
+#: ekos/capture/cameraprocess.cpp:200 ekos/capture/cameraprocess.cpp:593
 #, kde-format
-msgid "Paused..."
-msgstr "暂停..."
+msgid "Image Transfer"
+msgstr "图像传输"
 
-#: ekos/capture/capture.cpp:284
+#: ekos/capture/cameraprocess.cpp:219
 #, kde-format
-msgid "Meridian Flip..."
-msgstr "中天翻转..."
+msgid "Sequence resumed."
+msgstr "序列已恢复"
 
-#: ekos/capture/capture.cpp:285
+#: ekos/capture/cameraprocess.cpp:255
 #, kde-format
-msgid "Meridian flip started"
-msgstr "开始中天翻转"
+msgid "No pending jobs found. Please add a job to the sequence queue."
+msgstr "未找到挂起的任务。请添加任务至序列队列中。"
 
-#: ekos/capture/capture.cpp:289
+#: ekos/capture/cameraprocess.cpp:269
 #, kde-format
-msgid "Flip complete."
-msgstr "翻转完成。"
+msgid "No new job created."
+msgstr "未创建新作业。"
+
+#: ekos/capture/cameraprocess.cpp:292 ekos/capture/cameraprocess.cpp:839
+#, kde-format
+msgid "Cannot capture while focus module is busy."
+msgstr "对焦模块忙，无法拍摄。"
+
+#: ekos/capture/cameraprocess.cpp:299
+#, kde-format
+msgid "Starting framing..."
+msgstr "开始连续曝光..."
+
+#: ekos/capture/cameraprocess.cpp:329
+#, kde-format
+msgid "CCD capture suspended"
+msgstr "CCD 拍摄挂起"
+
+#: ekos/capture/cameraprocess.cpp:334
+#, kde-format
+msgid "CCD capture complete"
+msgstr "CCD 拍摄完成"
+
+#: ekos/capture/cameraprocess.cpp:339
+#, kde-format
+msgid "Framing stopped"
+msgstr ""
+
+#: ekos/capture/cameraprocess.cpp:339 ekos/capture/cameraprocess.cpp:344
+#, kde-format
+msgid "CCD capture stopped"
+msgstr "CCD 拍摄中止"
+
+#: ekos/capture/cameraprocess.cpp:418
+#, kde-format
+msgid "Pausing only possible while frame capture is running."
+msgstr "只有在拍摄时才能暂停。"
+
+#: ekos/capture/cameraprocess.cpp:425
+#, kde-format
+msgid "Sequence shall be paused after current exposure is complete."
+msgstr "当前曝光完毕后将暂停序列。"
+
+#: ekos/capture/cameraprocess.cpp:456
+#, kde-format
+msgid "No view available for previews. Enable FITS viewer?"
+msgstr "无用于预览的视图。是否已启用 FITS 查看器？"
+
+#: ekos/capture/cameraprocess.cpp:457
+#, kde-format
+msgid "Display preview"
+msgstr "显示预览"
+
+#: ekos/capture/cameraprocess.cpp:541
+#, kde-format
+msgid ""
+"Job requires %1-second %2 images, has already %3/%4 captures and does not "
+"need to run."
+msgstr "作业需要 %1秒的图像 %2 张，已经拍摄 %3/%4 ，无需运行。"
+
+#: ekos/capture/cameraprocess.cpp:554
+#, kde-format
+msgid ""
+"Job requires %1-second %2 images, has %3/%4 frames captured and will be "
+"processed."
+msgstr "作业需要 %1秒图像 %2 张，已经拍摄 %3/%4 帧并将被处理。"
+
+#: ekos/capture/cameraprocess.cpp:785
+#, kde-format
+msgid "Autoguiding resumed."
+msgstr "自动导星恢复。"
+
+#: ekos/capture/cameraprocess.cpp:829
+#, kde-format
+msgid "Failed to set sub frame."
+msgstr "设置子帧失败。"
+
+#: ekos/capture/cameraprocess.cpp:834
+#, kde-format
+msgid "Failed to set binning."
+msgstr "设置合并像素失败。"
+
+#: ekos/capture/cameraprocess.cpp:991
+#, kde-format
+msgid "file saved to %1"
+msgstr ""
+
+#: ekos/capture/cameraprocess.cpp:1001
+#, kde-format
+msgid ""
+"Failed writing image to %1\n"
+"Please check folder, filename & permissions."
+msgstr ""
+"将图像写入到 %1失败\n"
+"请检查文件夹、文件名和权限。"
+
+#: ekos/capture/cameraprocess.cpp:1003
+#, kde-format
+msgid "Image Write Failed"
+msgstr "图像写入失败"
+
+#: ekos/capture/cameraprocess.cpp:1221
+#, kde-format
+msgid "Remote image saved to %1"
+msgstr "远程图像保存到 %1"
+
+#: ekos/capture/cameraprocess.cpp:1247
+#, kde-format
+msgid "Autoguiding suspended."
+msgstr "暂停导星。"
+
+#: ekos/capture/cameraprocess.cpp:1276
+#, kde-format
+msgid "Warning: Calibration process was prematurely terminated."
+msgstr "警告： 校准过程被提前终止。"
+
+#. i18n("CCD capture sequence completed"));
+#: ekos/capture/cameraprocess.cpp:1342
+#, kde-format
+msgid "CCD capture sequence completed"
+msgstr "CCD 拍摄队列完毕"
+
+#: ekos/capture/cameraprocess.cpp:1399
+#, kde-format
+msgid "Error: Lost connection to CCD."
+msgstr "错误：与 CCD 的连接中断。"
+
+#: ekos/capture/cameraprocess.cpp:1427
+#, kde-format
+msgid "Cannot calculate ADU levels in non-FITS images."
+msgstr "非 FITS 图像无法计算 ADU 强度。"
+
+#: ekos/capture/cameraprocess.cpp:1552 ekos/capture/cameraprocess.cpp:2103
+#, kde-format
+msgid "Capture failed. Check INDI Control Panel for details."
+msgstr "拍摄失败。请检查 INDI 控制面板获得详细信息。"
+
+#: ekos/capture/cameraprocess.cpp:1652
+#, kde-format
+msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
+msgstr "下载时间: %1 s, 新下载时间预估: %2 s."
+
+#: ekos/capture/cameraprocess.cpp:1718
+#, kde-format
+msgid "Received image %1 out of %2."
+msgstr "接收到图像 %2 张中的 %1 张。"
+
+#: ekos/capture/cameraprocess.cpp:1752
+#, kde-format
+msgid "Captured %1"
+msgstr "已拍摄 %1"
+
+#: ekos/capture/cameraprocess.cpp:1758
+#, kde-format
+msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
+msgstr "警告：遗留着可能在 %2 的未知占位符  %1 "
+
+#: ekos/capture/cameraprocess.cpp:1791
+#, kde-format
+msgid "Executing capture script %1"
+msgstr "正在执行拍摄脚本 %1"
+
+#: ekos/capture/cameraprocess.cpp:1806
+#, kde-format
+msgid "Pre capture script finished with code %1."
+msgstr "预拍摄脚本以代码 %1 完成"
+
+#: ekos/capture/cameraprocess.cpp:1814
+#, kde-format
+msgid "Post capture script finished with code %1."
+msgstr "后拍摄脚本以代码 %1 完成。"
+
+#: ekos/capture/cameraprocess.cpp:1826
+#, kde-format
+msgid "Processing meridian flip..."
+msgstr "正在中天翻转..."
+
+#: ekos/capture/cameraprocess.cpp:1836
+#, kde-format
+msgid "Pre job script finished with code %1."
+msgstr "预作业脚本以代码 %1 完成。"
+
+#: ekos/capture/cameraprocess.cpp:1841
+#, kde-format
+msgid "Post job script finished with code %1."
+msgstr "后作业脚本以代码 %1 完成。"
+
+#: ekos/capture/cameraprocess.cpp:2033 ekos/focus/focus.cpp:5334
+#: ekos/focus/focus.cpp:5358
+#, kde-format
+msgid "Exposure timeout. Aborting..."
+msgstr "曝光超时。终止..."
+
+#: ekos/capture/cameraprocess.cpp:2040
+#, kde-format
+msgid "Exposure timeout. More than 3 have been detected, will restart driver."
+msgstr ""
+
+#: ekos/capture/cameraprocess.cpp:2058 ekos/focus/focus.cpp:5339
+#: ekos/guide/guide.cpp:992
+#, kde-format
+msgid "Exposure timeout. Restarting exposure..."
+msgstr "曝光超时。重新启动曝光..."
+
+#: ekos/capture/cameraprocess.cpp:2084
+#, kde-format
+msgid "Exposure timeout. Too many. Aborting..."
+msgstr ""
+
+#: ekos/capture/cameraprocess.cpp:2162
+#, kde-format
+msgid ""
+"Flat calibration failed. Captured image is only %1-bit while requested ADU "
+"is %2."
+msgstr "平场校准失败，需要的 ADU 是 %2 但捕获图像仅为 %1位。"
+
+#: ekos/capture/cameraprocess.cpp:2173
+#, kde-format
+msgid "Current image is saturated (%1). Next exposure is %2 seconds."
+msgstr "当前图像已饱和(%1)，下一次曝光是 %2 秒。"
+
+#: ekos/capture/cameraprocess.cpp:2195
+#, kde-format
+msgid "Current ADU %1 within target ADU tolerance range."
+msgstr "当前 ADU %1 在目标 ADU 容忍范围内。"
+
+#: ekos/capture/cameraprocess.cpp:2224
+#, kde-format
+msgid ""
+"Unable to calculate optimal exposure settings, please capture the flats "
+"manually."
+msgstr "无法计算最佳曝光设置，请手动拍摄平场。"
+
+#: ekos/capture/cameraprocess.cpp:2232
+#, kde-format
+msgid "Current ADU is %1 Next exposure is %2 seconds."
+msgstr "当前 ADU 是 %1， 下一次曝光是 %2 秒。"
+
+#: ekos/capture/cameraprocess.cpp:2430
+#, kde-format
+msgid "%1 Preview"
+msgstr "%1 的预览"
+
+#: ekos/capture/cameraprocess.cpp:2441 ekos/capture/cameraprocess.cpp:2443
+#, kde-format
+msgid "Flat Calibration"
+msgstr ""
+
+#: ekos/capture/cameraprocess.cpp:2595
+#, kde-format
+msgid "Sequence paused."
+msgstr "序列已暂停。"
+
+#: ekos/capture/cameraprocess.cpp:2645
+#, kde-format
+msgid ""
+"All jobs are complete. Do you want to reset the status of all jobs and "
+"restart capturing?"
+msgstr "所有任务都已完成。您想重置所有任务的状态并重新开始拍摄吗？"
+
+#: ekos/capture/cameraprocess.cpp:2659
+#, kde-format
+msgid ""
+"Warning: option \"Always Reset Sequence When Starting\" is enabled and "
+"resets the sequence counts."
+msgstr "警告：启用了“启动时总是重置序列”选项，将会重置序列计数器。"
+
+#: ekos/capture/cameraprocess.cpp:2774
+#, kde-format
+msgid "Are you sure you want to restart %1 camera driver?"
+msgstr "您确定要重新启动相机 %1 驱动吗？"
+
+#: ekos/capture/cameraprocess.cpp:2775
+#, kde-format
+msgid "Driver Restart"
+msgstr "重启设备"
+
+#: ekos/capture/camerastate.cpp:152
+#, kde-format
+msgid ""
+"Warning: Guide deviation is selected but autoguide process was not started."
+msgstr "警告：选择了导星，但自动导星进程尚未启动"
+
+#: ekos/capture/camerastate.cpp:217
+#, kde-format
+msgid "Dithering succeeded."
+msgstr "抖动成功。"
+
+#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
+#: ekos/capture/camerastate.cpp:224
+#, kde-format
+msgid "Dither complete. Resuming in %1 seconds..."
+msgstr "像素偏移完成。在 %1 秒后恢复..."
+
+#: ekos/capture/camerastate.cpp:232
+#, kde-format
+msgid "Dither complete."
+msgstr "像素偏移完毕。"
+
+#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
+#: ekos/capture/camerastate.cpp:246
+#, kde-format
+msgid "Warning: Dithering failed. Resuming in %1 seconds..."
+msgstr "警告: 像素偏移失败。在 %1 秒后恢复..."
+
+#: ekos/capture/camerastate.cpp:255
+#, kde-format
+msgid "Warning: Dithering failed."
+msgstr "警告: 像素偏移失败。"
+
+#: ekos/capture/camerastate.cpp:295
+#, kde-format
+msgid "Dust cap error."
+msgstr ""
+
+#: ekos/capture/camerastate.cpp:299
+#, kde-format
+msgid "Dust cap parked."
+msgstr "防尘盖已关闭。"
+
+#: ekos/capture/camerastate.cpp:303
+#, kde-format
+msgid "Dust cap unparked."
+msgstr "防尘盖已开启。"
+
+#: ekos/capture/camerastate.cpp:510
+#, kde-format
+msgid "Meridian flip is successfully completed"
+msgstr "成功完成过中天翻转"
+
+#: ekos/capture/camerastate.cpp:606
+#, kde-format
+msgid "Performing post flip re-calibration and guiding..."
+msgstr "正在执行翻转后重校准及导星..."
+
+#: ekos/capture/camerastate.cpp:619
+#, kde-format
+msgid "Post meridian flip calibration error. Restarting..."
+msgstr "过中天翻转后校准错误。正在重新启动..."
+
+#: ekos/capture/camerastate.cpp:639
+#, kde-format
+msgid "Autoguiding stopped. Waiting for autofocus to finish..."
+msgstr "自动导星停止，正在等待自动对焦完成..."
+
+#: ekos/capture/camerastate.cpp:648
+#, kde-format
+msgid "Autoguiding stopped. Aborting..."
+msgstr "导星停止。中止..."
+
+#: ekos/capture/camerastate.cpp:655
+#, kde-format
+msgid "Post meridian flip calibration error. Aborting..."
+msgstr "过中天翻转后校准错误。中止..."
+
+#: ekos/capture/camerastate.cpp:677
+#, kde-format
+msgid "Adaptive focus complete."
+msgstr "Adaptive focus 完成。"
+
+#: ekos/capture/camerastate.cpp:701
+#, kde-format
+msgid "Autofocus failed. Aborting exposure..."
+msgstr "自动对焦失败。中止曝光..."
+
+#: ekos/capture/camerastate.cpp:743
+#, kde-format
+msgid "Limit: %1 °C"
+msgstr ""
+
+#: ekos/capture/camerastate.cpp:747
+#, kde-format
+msgid "Limit: %1 mins"
+msgstr ""
+
+#: ekos/capture/camerastate.cpp:885
+#, kde-format
+msgid "Performing post flip re-alignment..."
+msgstr "正在执行翻转后重新对齐..."
+
+#: ekos/capture/camerastate.cpp:903
+#, kde-format
+msgid "Guide module timed out."
+msgstr "导星模块超时。"
+
+#: ekos/capture/camerastate.cpp:935
+#, kde-format
+msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
+msgstr "初始导星偏差 %1 低于极限值 %2 角秒"
+
+#: ekos/capture/camerastate.cpp:944
+#, kde-format
+msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+msgstr "初始导星偏差 %1 超过极限值 %2 角秒"
+
+#: ekos/capture/camerastate.cpp:966
+#, kde-format
+msgid "Post meridian flip calibration completed successfully."
+msgstr "过中天翻转校准成功完成。"
+
+#: ekos/capture/camerastate.cpp:980
+#, kde-format
+msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
+msgstr "初始导星偏差在拍摄启动时 %1 超过极限值 %2 角秒"
+
+#: ekos/capture/camerastate.cpp:994
+#, kde-format
+msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
+msgstr ""
+
+#: ekos/capture/camerastate.cpp:1021
+#, kde-format
+msgid ""
+"Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
+"samples, suspending exposure and waiting for guider up to %3 seconds."
+msgstr ""
+
+#: ekos/capture/camerastate.cpp:1068
+#, kde-format
+msgid ""
+"Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
+"exposure."
+msgstr "导星偏离 %1 小于 %2 角秒的限定值，重新开始曝光。"
+
+#: ekos/capture/camerastate.cpp:1072
+#, kde-format
+msgid ""
+"Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
+"exposure in %3 seconds."
+msgstr "导星偏离 %1 小于 %2 角秒的限定值，%3 秒后重新开始曝光。"
+
+#: ekos/capture/camerastate.cpp:1087
+#, kde-format
+msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
+msgstr "导星偏差 %1 仍高于限制值 %2 角秒。"
+
+#: ekos/capture/camerastate.cpp:1469
+#, kde-format
+msgid "Post flip re-alignment completed successfully."
+msgstr "翻转后重新对准成功。"
+
+#: ekos/capture/camerastate.cpp:1488
+#, kde-format
+msgid "Post-flip alignment failed."
+msgstr "翻转后对准失败。"
+
+#: ekos/capture/camerastate.cpp:1493
+#, kde-format
+msgid "Post-flip alignment failed. Retrying..."
+msgstr "翻转后对准失败。正在重试..."
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
@@ -15141,180 +15607,6 @@ msgstr "%1 有快门吗？"
 msgid "Dark Exposure"
 msgstr "暗场曝光"
 
-#: ekos/capture/capturemodulestate.cpp:152
-#, kde-format
-msgid ""
-"Warning: Guide deviation is selected but autoguide process was not started."
-msgstr "警告：选择了导星，但自动导星进程尚未启动"
-
-#: ekos/capture/capturemodulestate.cpp:217
-#, kde-format
-msgid "Dithering succeeded."
-msgstr "抖动成功。"
-
-#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:224
-#, kde-format
-msgid "Dither complete. Resuming in %1 seconds..."
-msgstr "像素偏移完成。在 %1 秒后恢复..."
-
-#: ekos/capture/capturemodulestate.cpp:232
-#, kde-format
-msgid "Dither complete."
-msgstr "像素偏移完毕。"
-
-#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/capturemodulestate.cpp:246
-#, kde-format
-msgid "Warning: Dithering failed. Resuming in %1 seconds..."
-msgstr "警告: 像素偏移失败。在 %1 秒后恢复..."
-
-#: ekos/capture/capturemodulestate.cpp:255
-#, kde-format
-msgid "Warning: Dithering failed."
-msgstr "警告: 像素偏移失败。"
-
-#: ekos/capture/capturemodulestate.cpp:295
-#, kde-format
-msgid "Dust cap error."
-msgstr ""
-
-#: ekos/capture/capturemodulestate.cpp:299
-#, kde-format
-msgid "Dust cap parked."
-msgstr "防尘盖已关闭。"
-
-#: ekos/capture/capturemodulestate.cpp:303
-#, kde-format
-msgid "Dust cap unparked."
-msgstr "防尘盖已开启。"
-
-#: ekos/capture/capturemodulestate.cpp:510
-#, kde-format
-msgid "Meridian flip is successfully completed"
-msgstr "成功完成过中天翻转"
-
-#: ekos/capture/capturemodulestate.cpp:606
-#, kde-format
-msgid "Performing post flip re-calibration and guiding..."
-msgstr "正在执行翻转后重校准及导星..."
-
-#: ekos/capture/capturemodulestate.cpp:619
-#, kde-format
-msgid "Post meridian flip calibration error. Restarting..."
-msgstr "过中天翻转后校准错误。正在重新启动..."
-
-#: ekos/capture/capturemodulestate.cpp:639
-#, kde-format
-msgid "Autoguiding stopped. Waiting for autofocus to finish..."
-msgstr "自动导星停止，正在等待自动对焦完成..."
-
-#: ekos/capture/capturemodulestate.cpp:648
-#, kde-format
-msgid "Autoguiding stopped. Aborting..."
-msgstr "导星停止。中止..."
-
-#: ekos/capture/capturemodulestate.cpp:655
-#, kde-format
-msgid "Post meridian flip calibration error. Aborting..."
-msgstr "过中天翻转后校准错误。中止..."
-
-#: ekos/capture/capturemodulestate.cpp:677
-#, kde-format
-msgid "Adaptive focus complete."
-msgstr "Adaptive focus 完成。"
-
-#: ekos/capture/capturemodulestate.cpp:701
-#, kde-format
-msgid "Autofocus failed. Aborting exposure..."
-msgstr "自动对焦失败。中止曝光..."
-
-#: ekos/capture/capturemodulestate.cpp:743
-#, kde-format
-msgid "Limit: %1 °C"
-msgstr ""
-
-#: ekos/capture/capturemodulestate.cpp:747
-#, kde-format
-msgid "Limit: %1 mins"
-msgstr ""
-
-#: ekos/capture/capturemodulestate.cpp:885
-#, kde-format
-msgid "Performing post flip re-alignment..."
-msgstr "正在执行翻转后重新对齐..."
-
-#: ekos/capture/capturemodulestate.cpp:903
-#, kde-format
-msgid "Guide module timed out."
-msgstr "导星模块超时。"
-
-#: ekos/capture/capturemodulestate.cpp:935
-#, kde-format
-msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
-msgstr "初始导星偏差 %1 低于极限值 %2 角秒"
-
-#: ekos/capture/capturemodulestate.cpp:944
-#, kde-format
-msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
-msgstr "初始导星偏差 %1 超过极限值 %2 角秒"
-
-#: ekos/capture/capturemodulestate.cpp:966
-#, kde-format
-msgid "Post meridian flip calibration completed successfully."
-msgstr "过中天翻转校准成功完成。"
-
-#: ekos/capture/capturemodulestate.cpp:980
-#, kde-format
-msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
-msgstr "初始导星偏差在拍摄启动时 %1 超过极限值 %2 角秒"
-
-#: ekos/capture/capturemodulestate.cpp:994
-#, kde-format
-msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
-msgstr ""
-
-#: ekos/capture/capturemodulestate.cpp:1021
-#, kde-format
-msgid ""
-"Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
-"samples, suspending exposure and waiting for guider up to %3 seconds."
-msgstr ""
-
-#: ekos/capture/capturemodulestate.cpp:1068
-#, kde-format
-msgid ""
-"Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
-"exposure."
-msgstr "导星偏离 %1 小于 %2 角秒的限定值，重新开始曝光。"
-
-#: ekos/capture/capturemodulestate.cpp:1072
-#, kde-format
-msgid ""
-"Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
-"exposure in %3 seconds."
-msgstr "导星偏离 %1 小于 %2 角秒的限定值，%3 秒后重新开始曝光。"
-
-#: ekos/capture/capturemodulestate.cpp:1087
-#, kde-format
-msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
-msgstr "导星偏差 %1 仍高于限制值 %2 角秒。"
-
-#: ekos/capture/capturemodulestate.cpp:1469
-#, kde-format
-msgid "Post flip re-alignment completed successfully."
-msgstr "翻转后重新对准成功。"
-
-#: ekos/capture/capturemodulestate.cpp:1488
-#, kde-format
-msgid "Post-flip alignment failed."
-msgstr "翻转后对准失败。"
-
-#: ekos/capture/capturemodulestate.cpp:1493
-#, kde-format
-msgid "Post-flip alignment failed. Retrying..."
-msgstr "翻转后对准失败。正在重试..."
-
 #: ekos/capture/capturepreviewwidget.cpp:143
 #, kde-format
 msgid "Delete directly, do not move to trash."
@@ -15344,300 +15636,6 @@ msgstr "删除"
 #, kde-format
 msgid "Target: "
 msgstr "目标: "
-
-#: ekos/capture/captureprocess.cpp:200 ekos/capture/captureprocess.cpp:593
-#, kde-format
-msgid "Image Transfer"
-msgstr "图像传输"
-
-#: ekos/capture/captureprocess.cpp:219
-#, kde-format
-msgid "Sequence resumed."
-msgstr "序列已恢复"
-
-#: ekos/capture/captureprocess.cpp:255
-#, kde-format
-msgid "No pending jobs found. Please add a job to the sequence queue."
-msgstr "未找到挂起的任务。请添加任务至序列队列中。"
-
-#: ekos/capture/captureprocess.cpp:269
-#, kde-format
-msgid "No new job created."
-msgstr "未创建新作业。"
-
-#: ekos/capture/captureprocess.cpp:292 ekos/capture/captureprocess.cpp:839
-#, kde-format
-msgid "Cannot capture while focus module is busy."
-msgstr "对焦模块忙，无法拍摄。"
-
-#: ekos/capture/captureprocess.cpp:299
-#, kde-format
-msgid "Starting framing..."
-msgstr "开始连续曝光..."
-
-#: ekos/capture/captureprocess.cpp:329
-#, kde-format
-msgid "CCD capture suspended"
-msgstr "CCD 拍摄挂起"
-
-#: ekos/capture/captureprocess.cpp:334
-#, kde-format
-msgid "CCD capture complete"
-msgstr "CCD 拍摄完成"
-
-#: ekos/capture/captureprocess.cpp:339
-#, kde-format
-msgid "Framing stopped"
-msgstr ""
-
-#: ekos/capture/captureprocess.cpp:339 ekos/capture/captureprocess.cpp:344
-#, kde-format
-msgid "CCD capture stopped"
-msgstr "CCD 拍摄中止"
-
-#: ekos/capture/captureprocess.cpp:418
-#, kde-format
-msgid "Pausing only possible while frame capture is running."
-msgstr "只有在拍摄时才能暂停。"
-
-#: ekos/capture/captureprocess.cpp:425
-#, kde-format
-msgid "Sequence shall be paused after current exposure is complete."
-msgstr "当前曝光完毕后将暂停序列。"
-
-#: ekos/capture/captureprocess.cpp:456
-#, kde-format
-msgid "No view available for previews. Enable FITS viewer?"
-msgstr "无用于预览的视图。是否已启用 FITS 查看器？"
-
-#: ekos/capture/captureprocess.cpp:457
-#, kde-format
-msgid "Display preview"
-msgstr "显示预览"
-
-#: ekos/capture/captureprocess.cpp:541
-#, kde-format
-msgid ""
-"Job requires %1-second %2 images, has already %3/%4 captures and does not "
-"need to run."
-msgstr "作业需要 %1秒的图像 %2 张，已经拍摄 %3/%4 ，无需运行。"
-
-#: ekos/capture/captureprocess.cpp:554
-#, kde-format
-msgid ""
-"Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-"processed."
-msgstr "作业需要 %1秒图像 %2 张，已经拍摄 %3/%4 帧并将被处理。"
-
-#: ekos/capture/captureprocess.cpp:785
-#, kde-format
-msgid "Autoguiding resumed."
-msgstr "自动导星恢复。"
-
-#: ekos/capture/captureprocess.cpp:829
-#, kde-format
-msgid "Failed to set sub frame."
-msgstr "设置子帧失败。"
-
-#: ekos/capture/captureprocess.cpp:834
-#, kde-format
-msgid "Failed to set binning."
-msgstr "设置合并像素失败。"
-
-#: ekos/capture/captureprocess.cpp:991
-#, kde-format
-msgid "file saved to %1"
-msgstr ""
-
-#: ekos/capture/captureprocess.cpp:1001
-#, kde-format
-msgid ""
-"Failed writing image to %1\n"
-"Please check folder, filename & permissions."
-msgstr ""
-"将图像写入到 %1失败\n"
-"请检查文件夹、文件名和权限。"
-
-#: ekos/capture/captureprocess.cpp:1003
-#, kde-format
-msgid "Image Write Failed"
-msgstr "图像写入失败"
-
-#: ekos/capture/captureprocess.cpp:1221
-#, kde-format
-msgid "Remote image saved to %1"
-msgstr "远程图像保存到 %1"
-
-#: ekos/capture/captureprocess.cpp:1247
-#, kde-format
-msgid "Autoguiding suspended."
-msgstr "暂停导星。"
-
-#: ekos/capture/captureprocess.cpp:1276
-#, kde-format
-msgid "Warning: Calibration process was prematurely terminated."
-msgstr "警告： 校准过程被提前终止。"
-
-#. i18n("CCD capture sequence completed"));
-#: ekos/capture/captureprocess.cpp:1342
-#, kde-format
-msgid "CCD capture sequence completed"
-msgstr "CCD 拍摄队列完毕"
-
-#: ekos/capture/captureprocess.cpp:1399
-#, kde-format
-msgid "Error: Lost connection to CCD."
-msgstr "错误：与 CCD 的连接中断。"
-
-#: ekos/capture/captureprocess.cpp:1427
-#, kde-format
-msgid "Cannot calculate ADU levels in non-FITS images."
-msgstr "非 FITS 图像无法计算 ADU 强度。"
-
-#: ekos/capture/captureprocess.cpp:1552 ekos/capture/captureprocess.cpp:2092
-#, kde-format
-msgid "Capture failed. Check INDI Control Panel for details."
-msgstr "拍摄失败。请检查 INDI 控制面板获得详细信息。"
-
-#: ekos/capture/captureprocess.cpp:1652
-#, kde-format
-msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
-msgstr "下载时间: %1 s, 新下载时间预估: %2 s."
-
-#: ekos/capture/captureprocess.cpp:1718
-#, kde-format
-msgid "Received image %1 out of %2."
-msgstr "接收到图像 %2 张中的 %1 张。"
-
-#: ekos/capture/captureprocess.cpp:1752
-#, kde-format
-msgid "Captured %1"
-msgstr "已拍摄 %1"
-
-#: ekos/capture/captureprocess.cpp:1758
-#, kde-format
-msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
-msgstr "警告：遗留着可能在 %2 的未知占位符  %1 "
-
-#: ekos/capture/captureprocess.cpp:1791
-#, kde-format
-msgid "Executing capture script %1"
-msgstr "正在执行拍摄脚本 %1"
-
-#: ekos/capture/captureprocess.cpp:1806
-#, kde-format
-msgid "Pre capture script finished with code %1."
-msgstr "预拍摄脚本以代码 %1 完成"
-
-#: ekos/capture/captureprocess.cpp:1814
-#, kde-format
-msgid "Post capture script finished with code %1."
-msgstr "后拍摄脚本以代码 %1 完成。"
-
-#: ekos/capture/captureprocess.cpp:1826
-#, kde-format
-msgid "Processing meridian flip..."
-msgstr "正在中天翻转..."
-
-#: ekos/capture/captureprocess.cpp:1836
-#, kde-format
-msgid "Pre job script finished with code %1."
-msgstr "预作业脚本以代码 %1 完成。"
-
-#: ekos/capture/captureprocess.cpp:1841
-#, kde-format
-msgid "Post job script finished with code %1."
-msgstr "后作业脚本以代码 %1 完成。"
-
-#: ekos/capture/captureprocess.cpp:2022 ekos/focus/focus.cpp:5334
-#: ekos/focus/focus.cpp:5358
-#, kde-format
-msgid "Exposure timeout. Aborting..."
-msgstr "曝光超时。终止..."
-
-#: ekos/capture/captureprocess.cpp:2029
-#, kde-format
-msgid "Exposure timeout. More than 3 have been detected, will restart driver."
-msgstr ""
-
-#: ekos/capture/captureprocess.cpp:2047 ekos/focus/focus.cpp:5339
-#: ekos/guide/guide.cpp:992
-#, kde-format
-msgid "Exposure timeout. Restarting exposure..."
-msgstr "曝光超时。重新启动曝光..."
-
-#: ekos/capture/captureprocess.cpp:2073
-#, kde-format
-msgid "Exposure timeout. Too many. Aborting..."
-msgstr ""
-
-#: ekos/capture/captureprocess.cpp:2151
-#, kde-format
-msgid ""
-"Flat calibration failed. Captured image is only %1-bit while requested ADU "
-"is %2."
-msgstr "平场校准失败，需要的 ADU 是 %2 但捕获图像仅为 %1位。"
-
-#: ekos/capture/captureprocess.cpp:2162
-#, kde-format
-msgid "Current image is saturated (%1). Next exposure is %2 seconds."
-msgstr "当前图像已饱和(%1)，下一次曝光是 %2 秒。"
-
-#: ekos/capture/captureprocess.cpp:2184
-#, kde-format
-msgid "Current ADU %1 within target ADU tolerance range."
-msgstr "当前 ADU %1 在目标 ADU 容忍范围内。"
-
-#: ekos/capture/captureprocess.cpp:2213
-#, kde-format
-msgid ""
-"Unable to calculate optimal exposure settings, please capture the flats "
-"manually."
-msgstr "无法计算最佳曝光设置，请手动拍摄平场。"
-
-#: ekos/capture/captureprocess.cpp:2221
-#, kde-format
-msgid "Current ADU is %1 Next exposure is %2 seconds."
-msgstr "当前 ADU 是 %1， 下一次曝光是 %2 秒。"
-
-#: ekos/capture/captureprocess.cpp:2419
-#, kde-format
-msgid "%1 Preview"
-msgstr "%1 的预览"
-
-#: ekos/capture/captureprocess.cpp:2430 ekos/capture/captureprocess.cpp:2432
-#, kde-format
-msgid "Flat Calibration"
-msgstr ""
-
-#: ekos/capture/captureprocess.cpp:2584
-#, kde-format
-msgid "Sequence paused."
-msgstr "序列已暂停。"
-
-#: ekos/capture/captureprocess.cpp:2634
-#, kde-format
-msgid ""
-"All jobs are complete. Do you want to reset the status of all jobs and "
-"restart capturing?"
-msgstr "所有任务都已完成。您想重置所有任务的状态并重新开始拍摄吗？"
-
-#: ekos/capture/captureprocess.cpp:2648
-#, kde-format
-msgid ""
-"Warning: option \"Always Reset Sequence When Starting\" is enabled and "
-"resets the sequence counts."
-msgstr "警告：启用了“启动时总是重置序列”选项，将会重置序列计数器。"
-
-#: ekos/capture/captureprocess.cpp:2763
-#, kde-format
-msgid "Are you sure you want to restart %1 camera driver?"
-msgstr "您确定要重新启动相机 %1 驱动吗？"
-
-#: ekos/capture/captureprocess.cpp:2764
-#, kde-format
-msgid "Driver Restart"
-msgstr "重启设备"
 
 #: ekos/capture/captureprocessoverlay.cpp:106
 #, kde-format
@@ -16571,7 +16569,7 @@ msgstr ""
 msgid "Post-job script:"
 msgstr ""
 
-#: ekos/capture/sequenceeditor.cpp:99
+#: ekos/capture/sequenceeditor.cpp:100
 #, kde-format
 msgid ""
 "<b><font color=\"red\">Please run the Capture tab connected to INDI with "
@@ -16579,7 +16577,7 @@ msgid ""
 "Editor. </font></b><p>"
 msgstr ""
 
-#: ekos/capture/sequenceeditor.cpp:103
+#: ekos/capture/sequenceeditor.cpp:104
 #, kde-format
 msgid ""
 "<b>Using camera and filterwheel attributes from Capture session started at "
