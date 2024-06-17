@@ -523,6 +523,7 @@ class Analyze : public QWidget, public Ui::Analyze
 
         // FITS Viewer to display FITS images.
         QSharedPointer<FITSViewer> fitsViewer;
+        int fitsViewerTabID { 0 };
 
         // The vertical line in the stats plot.
         QCPItemLine *statsCursor { nullptr };

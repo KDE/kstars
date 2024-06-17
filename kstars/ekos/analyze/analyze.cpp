@@ -2918,9 +2918,19 @@ void Analyze::displayFITS(const QString &filename)
         {
             fitsViewer.clear();
         });
+        fitsViewerTabID = 0;
+        if (!Options::singleWindowCapturedFITS())
+        {
+            auto connection = std::make_shared<QMetaObject::Connection>();
+            *connection = connect(fitsViewer.get(), &FITSViewer::loaded, this, [this, connection](int id)
+            {
+                fitsViewerTabID = id;
+                QObject::disconnect(*connection);
+            });
+        }
     }
     else
-        fitsViewer->updateFile(url, 0);
+        fitsViewer->updateFile(url, fitsViewerTabID);
 
     fitsViewer->show();
 }
