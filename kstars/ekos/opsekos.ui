@@ -267,19 +267,6 @@
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="settingAltitudeCutoffLabel">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled less than this many degrees before the altitude restriction. Actual execution proceeds until the altitude limit.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Setting altitude cutoff:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="kcfg_SettingAltitudeCutoff"/>
-       </item>
-       <item row="4" column="0">
         <widget class="QLabel" name="duskOffsetLabel">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dusk by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -289,7 +276,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="3" column="1">
         <widget class="QDoubleSpinBox" name="kcfg_DuskOffset">
          <property name="minimum">
           <double>-24.000000000000000</double>
@@ -302,7 +289,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="dawnOffsetLabel">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dawn by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -312,7 +299,7 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="4" column="1">
         <widget class="QDoubleSpinBox" name="kcfg_DawnOffset">
          <property name="minimum">
           <double>-24.000000000000000</double>

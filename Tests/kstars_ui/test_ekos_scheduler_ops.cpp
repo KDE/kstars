@@ -127,7 +127,6 @@ void TestEkosSchedulerOps::init()
 
     Options::setDawnOffset(0);
     Options::setDuskOffset(0);
-    Options::setSettingAltitudeCutoff(0);
     Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
     Options::setGreedyScheduling(true);
 }
@@ -639,7 +638,6 @@ void TestEkosSchedulerOps::testDawnShutdown()
     // remove the various options that play with the dawn/dusk times
     Options::setDawnOffset(0);
     Options::setDuskOffset(0);
-    Options::setSettingAltitudeCutoff(0);
     Options::setPreDawnTime(0);
 
     // This test will iterate the scheduler every 40 simulated seconds (to save testing time).
@@ -1578,11 +1576,12 @@ void TestEkosSchedulerOps::testArtificialCeiling()
     scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 }
 
+// This test checked the old settingAltitudeCutoff option, which has been removed,
+// but the test is still worthwhile for checking general scheduling.
 void TestEkosSchedulerOps::testSettingAltitudeBug()
 {
     Options::setDawnOffset(0);
     Options::setDuskOffset(0);
-    Options::setSettingAltitudeCutoff(3);
     Options::setPreDawnTime(0);
 
     Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
@@ -1671,7 +1670,6 @@ void TestEkosSchedulerOps::testEstimateTimeBug()
 {
     Options::setDawnOffset(0);
     Options::setDuskOffset(0);
-    Options::setSettingAltitudeCutoff(3);
     Options::setPreDawnTime(0);
     Options::setRememberJobProgress(true);
     Options::setDitherEnabled(true);
@@ -1785,7 +1783,6 @@ void TestEkosSchedulerOps::testGreedyMessier()
 
     Options::setDawnOffset(0);
     Options::setDuskOffset(0);
-    Options::setSettingAltitudeCutoff(3);
     Options::setPreDawnTime(0);
     Options::setRememberJobProgress(false);
     Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);

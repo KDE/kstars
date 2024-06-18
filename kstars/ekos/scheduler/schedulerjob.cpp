@@ -587,8 +587,6 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
     // Calculate the UT at the argument time
     KStarsDateTime const ut = SchedulerModuleState::getGeo()->LTtoUT(ltWhen);
 
-    double const SETTING_ALTITUDE_CUTOFF = Options::settingAltitudeCutoff();
-
     auto maxMinute = 1e8;
     if (!runningJob && until.isValid())
         maxMinute = when.secsTo(until) / 60;
@@ -650,25 +648,8 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
                 }
             }
 
-            // Continue searching if target is setting and under the cutoff
             if (checkIfConstraintsAreMet)
-            {
-                if (!runningJob)
-                {
-                    double offset = LST.Hours() - o.ra().Hours();
-                    if (24.0 <= offset)
-                        offset -= 24.0;
-                    else if (offset < 0.0)
-                        offset += 24.0;
-                    if (0.0 <= offset && offset < 12.0)
-                    {
-                        bool const settingAltitudeOK = satisfiesAltitudeConstraint(azimuth, altitude - SETTING_ALTITUDE_CUTOFF);
-                        if (!settingAltitudeOK)
-                            continue;
-                    }
-                }
                 return ltOffset;
-            }
         }
         else if (!checkIfConstraintsAreMet)
             return ltOffset;
