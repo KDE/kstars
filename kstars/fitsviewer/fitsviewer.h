@@ -55,7 +55,9 @@ class FITSViewer : public KXmlGuiWindow
         explicit FITSViewer(QWidget *parent);
         ~FITSViewer() override;
 
-        void loadFile(const QUrl &imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
+        // Returns the tab id for the tab to be loaded (could be used in updateFile/Data).
+        // It may be that the id is not used if the load fails.
+        int loadFile(const QUrl &imageName, FITSMode mode = FITS_NORMAL, FITSScale filter = FITS_NONE,
                       const QString &previewText = QString());
 
         bool loadData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int *tab_uid,
@@ -82,6 +84,9 @@ class FITSViewer : public KXmlGuiWindow
         }
         bool getView(int fitsUID, QSharedPointer<FITSView> &view);
         bool getCurrentView(QSharedPointer<FITSView> &view);
+
+        // Checks if the tab is in the fitsMap;
+        bool tabExists(int tab_uid);
 
         static QStringList filterTypes;
 

@@ -575,7 +575,7 @@ void FITSViewer::loadFiles()
     tab->loadFile(imageName, FITS_NORMAL, FITS_NONE);
 }
 
-void FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter, const QString &previewText)
+int FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter, const QString &previewText)
 {
     led.setColor(Qt::yellow);
     QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -583,6 +583,7 @@ void FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter
     QSharedPointer<FITSTab> tab(new FITSTab(this));
 
     m_Tabs.push_back(tab);
+    const int id = fitsID;
 
     connect(tab.get(), &FITSTab::failed, this, [ this ](const QString & errorMessage)
     {
@@ -606,6 +607,7 @@ void FITSViewer::loadFile(const QUrl &imageName, FITSMode mode, FITSScale filter
     });
 
     tab->loadFile(imageName, mode, filter);
+    return id;
 }
 
 bool FITSViewer::loadData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int *tab_uid, FITSMode mode,
@@ -1643,4 +1645,10 @@ bool FITSViewer::getCurrentView(QSharedPointer<FITSView> &view)
 void FITSViewer::setDebayerAction(bool enable)
 {
     actionCollection()->addAction("fits_debayer")->setEnabled(enable);
+}
+
+bool FITSViewer::tabExists(int fitsUID)
+{
+    auto tab = fitsMap.value(fitsUID);
+    return (!tab.isNull() && tab.data() != nullptr);
 }

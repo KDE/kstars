@@ -2913,24 +2913,19 @@ void Analyze::displayFITS(const QString &filename)
     if (fitsViewer.isNull())
     {
         fitsViewer = KStars::Instance()->createFITSViewer();
-        fitsViewer->loadFile(url);
+        fitsViewerTabID = fitsViewer->loadFile(url);
         connect(fitsViewer.get(), &FITSViewer::terminated, this, [this]()
         {
             fitsViewer.clear();
         });
-        fitsViewerTabID = 0;
-        if (!Options::singleWindowCapturedFITS())
-        {
-            auto connection = std::make_shared<QMetaObject::Connection>();
-            *connection = connect(fitsViewer.get(), &FITSViewer::loaded, this, [this, connection](int id)
-            {
-                fitsViewerTabID = id;
-                QObject::disconnect(*connection);
-            });
-        }
     }
     else
-        fitsViewer->updateFile(url, fitsViewerTabID);
+    {
+        if (fitsViewer->tabExists(fitsViewerTabID))
+            fitsViewer->updateFile(url, fitsViewerTabID);
+        else
+            fitsViewerTabID = fitsViewer->loadFile(url);
+    }
 
     fitsViewer->show();
 }
