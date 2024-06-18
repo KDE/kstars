@@ -4971,7 +4971,7 @@ void Focus::adjustFocusOffset(int value, bool useAbsoluteOffset)
             return;
         }
 
-        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst %1 in progress. Ignoring...", str;
+        qCDebug(KSTARS_EKOS_FOCUS) << "adjustFocusOffset called whilst" << str << "in progress. Ignoring...";
         emit focusPositionAdjusted();
         return;
     }

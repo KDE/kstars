@@ -22,7 +22,7 @@ void ImageMask::setImageGeometry(const uint16_t width, const uint16_t height)
 
 bool ImageMask::isVisible(uint16_t posX, uint16_t posY)
 {
-    return posX >= 0 && posX < m_width && posY >= 0 && posY < m_height;
+    return posX < m_width && posY < m_height;
 }
 
 uint16_t ImageMask::width() const

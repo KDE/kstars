@@ -153,7 +153,8 @@ QVector3D GuideStars::selectGuideStar(const QList<Edge> &stars,
         return QVector3D(-1, -1, -1);
     }
 
-    int maxIndex = Options::maxMultistarReferenceStars() < stars.count() ? Options::maxMultistarReferenceStars() :
+    int maxIndex = Options::maxMultistarReferenceStars() < static_cast<uint>(stars.count()) ?
+                   Options::maxMultistarReferenceStars() :
                    stars.count();
     QVector<int> scores(Options::maxMultistarReferenceStars());
 
@@ -498,10 +499,14 @@ void GuideStars::findTopStars(const QSharedPointer<FITSData> &imageData, int num
                               QList<double> *outputScores, QList<double> *minDistances)
 {
     if (roi == nullptr)
+    {
         DLOG(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars" << num;
+    }
     else
+    {
         DLOG(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars" << num <<
                                 QString("Roi(%1,%2 %3x%4)").arg(roi->x()).arg(roi->y()).arg(roi->width()).arg(roi->height());
+    }
 
     stars->clear();
     if (imageData == nullptr)

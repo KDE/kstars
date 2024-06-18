@@ -170,7 +170,7 @@ class SliderResetEventFilter : public QObject
             }
         }
 
-        bool eventFilter(QObject *obj, QEvent *event)
+        bool eventFilter(QObject *obj, QEvent *event) override
         {
             if (obj == m_slider && event->type() == QEvent::MouseButtonDblClick)
             {

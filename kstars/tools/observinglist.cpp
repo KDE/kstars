@@ -1094,7 +1094,7 @@ void ObservingList::slotLoadWishList()
     addingObjectsProgress->show();
 
     QStringList failedObjects;
-    for (std::size_t idx = 0; idx < objects.size(); ++idx)
+    for (int idx = 0; idx < objects.size(); ++idx)
     {
         const auto &objectName = objects[idx];
 

@@ -59,7 +59,7 @@ void Ekos::SequenceJob::init(SequenceJobType jobType, XMLEle *root,
     // initialize the state machine
     state.reset(new SequenceJobState(sharedState));
 
-    loadFrom(root, targetName, jobType, sharedState);
+    loadFrom(root, targetName, jobType);
 
     // signal forwarding between this and the state machine
     connect(state.data(), &SequenceJobState::prepareState, this, &SequenceJob::prepareState);
@@ -590,8 +590,7 @@ QVariant SequenceJob::getCoreProperty(PropertyID id) const
     return m_CoreProperties[id];
 }
 
-void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobType jobType,
-                           QSharedPointer<CameraState> sharedState)
+void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobType jobType)
 {
     setJobType(jobType);
 

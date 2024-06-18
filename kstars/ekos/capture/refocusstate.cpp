@@ -12,10 +12,10 @@
 namespace Ekos
 {
 
-int RefocusState::getRefocusEveryNTimerElapsedSec()
+uint RefocusState::getRefocusEveryNTimerElapsedSec()
 {
     /* If timer isn't valid, consider there is no focus to be done, that is, that focus was just done */
-    return m_refocusEveryNTimer.isValid() ? static_cast<int>(m_refocusEveryNTimer.elapsed() / 1000) : 0;
+    return m_refocusEveryNTimer.isValid() ? static_cast<uint>(m_refocusEveryNTimer.elapsed() / 1000) : 0;
 }
 
 RefocusState::RefocusReason RefocusState::checkFocusRequired()

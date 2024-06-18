@@ -961,7 +961,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QWidget" name="layoutWidget_1">
       <layout class="QVBoxLayout" name="RightLayout" stretch="2,0">
        <property name="spacing">
         <number>1</number>

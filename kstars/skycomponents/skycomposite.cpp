@@ -51,8 +51,10 @@ void SkyComposite::removeComponent(SkyComponent *const component)
 void SkyComposite::draw(SkyPainter *skyp)
 {
     if (selected())
+    {
         foreach (SkyComponent *component, components())
             component->draw(skyp);
+    }
 }
 
 void SkyComposite::update(KSNumbers *num)

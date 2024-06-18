@@ -144,8 +144,10 @@ void SolarSystemComposite::updateMoons(KSNumbers *num)
 void SolarSystemComposite::drawTrails(SkyPainter *skyp)
 {
     if (selected())
+    {
         foreach (SkyComponent *comp, components())
             comp->drawTrails(skyp);
+    }
 }
 
 const QList<SkyObject *> &SolarSystemComposite::asteroids() const

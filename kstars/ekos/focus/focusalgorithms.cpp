@@ -1167,7 +1167,7 @@ int LinearFocusAlgorithm::finishFirstPass(int position, double value)
         {
             // Build a vector of the square of the curve deltas
             std::vector<double> curveDeltasX2Vec;
-            for (int i = 0; i < curveDeltas.size(); i++)
+            for (ulong i = 0; i < curveDeltas.size(); i++)
                 curveDeltasX2Vec.push_back(pow(curveDeltas[i].second, 2.0));
 
             auto curveDeltasX2Mean = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_MEAN,
@@ -1197,7 +1197,7 @@ int LinearFocusAlgorithm::finishFirstPass(int position, double value)
 
             // Work out how many outliers to exclude
             int outliers = 0;
-            for (int i = 0; i < curveDeltas.size(); i++)
+            for (ulong i = 0; i < curveDeltas.size(); i++)
             {
                 if(curveDeltas[i].second <= pc_threshold)
                     break;

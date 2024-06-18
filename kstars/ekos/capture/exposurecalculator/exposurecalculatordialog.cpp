@@ -41,10 +41,10 @@ ExposureCalculatorDialog::ExposureCalculatorDialog(QWidget *parent,
         double aPreferredFocalRatioValue,
         const QString &aPreferredCameraId) :
     QDialog(parent),
+    ui(new Ui::ExposureCalculatorDialog),
     aPreferredSkyQualityValue(aPreferredSkyQualityValue),
     aPreferredFocalRatioValue(aPreferredFocalRatioValue),
-    aPreferredCameraId(aPreferredCameraId),
-    ui(new Ui::ExposureCalculatorDialog)
+    aPreferredCameraId(aPreferredCameraId)
 {
     ui->setupUi(this);
 

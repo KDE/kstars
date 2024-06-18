@@ -18,9 +18,8 @@ namespace Ekos
 class MosaicTilesManager : public QObject, public QGraphicsItem
 {
     Q_OBJECT
-
+    Q_INTERFACES(QGraphicsItem)
     public:
-        // TODO: make this struct a QGraphicsItem
         typedef struct
         {
             QPointF pos;

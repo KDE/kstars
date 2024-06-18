@@ -55,7 +55,7 @@ class RefocusState : public QObject
             return m_refocusEveryNTimer.restart();
         }
 
-        int getRefocusEveryNTimerElapsedSec();
+        uint getRefocusEveryNTimerElapsedSec();
 
         double getFocusHFR() const
         {

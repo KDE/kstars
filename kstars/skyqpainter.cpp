@@ -150,7 +150,7 @@ void SkyQPainter::begin()
     QPainter::begin(m_pd);
     bool aa = !SkyMap::Instance()->isSlewing() && Options::useAntialias();
     setRenderHint(QPainter::Antialiasing, aa);
-    setRenderHint(QPainter::HighQualityAntialiasing, aa);
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing, aa);
     m_proj = SkyMap::Instance()->projector();
 }
 

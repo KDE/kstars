@@ -398,8 +398,7 @@ class SequenceJob : public QObject
         double currentOffset() const;
 
         void saveTo(QTextStream &outstream, const QLocale &cLocale) const;
-        void loadFrom(XMLEle *root, const QString &targetName, SequenceJobType jobType,
-                      QSharedPointer<CameraState> sharedState);
+        void loadFrom(XMLEle *root, const QString &targetName, SequenceJobType jobType);
 
     signals:
         // All preparations necessary for capturing are completed

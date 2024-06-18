@@ -267,11 +267,11 @@ class CameraState: public QObject
             m_SuspendGuidingOnDownload = value;
         }
 
-        int SpikesDetected() const
+        uint SpikesDetected() const
         {
             return m_SpikesDetected;
         }
-        int increaseSpikesDetected()
+        uint increaseSpikesDetected()
         {
             return ++m_SpikesDetected;
         }
@@ -1047,7 +1047,7 @@ signals:
         // suspend guiding when downloading a captured image
         bool m_SuspendGuidingOnDownload { false };
         // Guiding spikes
-        int m_SpikesDetected { 0 };
+        uint m_SpikesDetected { 0 };
         // Timer for guiding recovery
         QTimer m_guideDeviationTimer;
         // Capture timeout timer

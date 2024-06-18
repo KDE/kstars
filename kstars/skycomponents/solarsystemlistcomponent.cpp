@@ -65,7 +65,9 @@ void SolarSystemListComponent::drawTrails(SkyPainter *skyp)
 {
     //FIXME: here for all objects trails are drawn this could be source of inefficiency
     if (selected())
+    {
         foreach (SkyObject *obj, m_ObjectList)
             // Will segfault if not TrailObject
             dynamic_cast<TrailObject *>(obj)->drawTrail(skyp);
+    }
 }

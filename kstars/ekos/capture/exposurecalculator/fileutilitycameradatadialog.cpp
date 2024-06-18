@@ -15,8 +15,8 @@ FileUtilityCameraDataDialog::FileUtilityCameraDataDialog(
     QWidget *parent,
     const QString &aPreferredCameraId) :
     QDialog(parent),
-    aPreferredCameraId(aPreferredCameraId),
-    ui(new Ui::FileUtilityCameraDataDialog)
+    ui(new Ui::FileUtilityCameraDataDialog),
+    aPreferredCameraId(aPreferredCameraId)
 {
     ui->setupUi(this);
 

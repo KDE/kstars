@@ -259,8 +259,6 @@ void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
     delete (downloadJob);
     downloadJob    = new FileDownloader();
-    auto shownames = Options::showSupernovaNames();
-    auto age       = Options::supernovaDetectionAge();
     QString url    = Options::supernovaDownloadUrl();
     QString output = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
                      .filePath(tnsDataFilenameZip);

@@ -795,6 +795,11 @@ QString OpticalTrainManager::findTrainContainingDevice(const QString &name, Role
                 if (oneTrain["lightbox"].toString() == name)
                     return train;
                 break;
+            case Dome:
+            case Weather:
+            case GPS:
+                // for those not part of an image train: do nothing
+                break;
         }
 
     }

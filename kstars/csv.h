@@ -140,7 +140,7 @@ public:
     std::setvbuf(file, 0, _IONBF, 0);
   }
 
-  int read(char *buffer, int size) { return std::fread(buffer, 1, size, file); }
+  int read(char *buffer, int size) override { return std::fread(buffer, 1, size, file); }
 
   ~OwningStdIOByteSourceBase() { std::fclose(file); }
 
@@ -152,7 +152,7 @@ class NonOwningIStreamByteSource : public ByteSourceBase {
 public:
   explicit NonOwningIStreamByteSource(std::istream &in) : in(in) {}
 
-  int read(char *buffer, int size) {
+  int read(char *buffer, int size) override {
     in.read(buffer, size);
     return in.gcount();
   }
@@ -168,7 +168,7 @@ public:
   NonOwningStringByteSource(const char *str, long long size)
       : str(str), remaining_byte_count(size) {}
 
-  int read(char *buffer, int desired_byte_count) {
+  int read(char *buffer, int desired_byte_count) override {
     int to_copy_byte_count = desired_byte_count;
     if (remaining_byte_count < to_copy_byte_count)
       to_copy_byte_count = remaining_byte_count;

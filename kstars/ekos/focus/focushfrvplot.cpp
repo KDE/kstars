@@ -339,7 +339,6 @@ void FocusHFRVPlot::drawCFZ(double solutionPosition, double solutionValue, int c
         CFZ->left->setType(QCPItemPosition::ptPlotCoords);
         CFZ->right->setType(QCPItemPosition::ptPlotCoords);
 
-        double displayValue = getDisplayValue(solutionValue);
         double y;
         if (m_Minimum)
             y = (7 * minValue - maxValue) / 6;

@@ -184,7 +184,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 
     roiActionMenu = new KActionMenu(QIcon(":/icons/select_stat"), "Selection Statistics", action );
     roiActionMenu->setText(i18n("&Selection Statistics"));
-    roiActionMenu->setDelayed(false);
+    roiActionMenu->setPopupMode(QToolButton::InstantPopup);
     roiActionMenu->addSeparator();
     connect(roiActionMenu, &QAction::triggered, this, &FITSViewer::toggleSelectionMode);
 
@@ -748,8 +748,8 @@ bool FITSViewer::updateFITSCommon(const QSharedPointer<FITSTab> &tab, const QUrl
     return true;
 }
 
-bool FITSViewer::updateData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int fitsUID, int *tab_uid, FITSMode mode,
-                            FITSScale filter, const QString &tabTitle)
+bool FITSViewer::updateData(const QSharedPointer<FITSData> &data, const QUrl &imageName, int fitsUID, int *tab_uid,
+                            FITSMode mode, FITSScale filter, const QString &tabTitle)
 {
     auto tab = fitsMap.value(fitsUID);
 

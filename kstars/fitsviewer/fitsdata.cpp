@@ -555,6 +555,7 @@ bool FITSData::loadXISFImage(const QByteArray &buffer)
     }
     return true;
 #else
+    Q_UNUSED(buffer)
     return false;
 #endif
 
@@ -606,6 +607,7 @@ bool FITSData::saveXISFImage(const QString &newFilename)
     }
     return true;
 #else
+    Q_UNUSED(newFilename)
     return false;
 #endif
 }
@@ -2960,7 +2962,7 @@ bool FITSData::findWCSBounds(double &minRA, double &maxRA, double &minDec, doubl
     // Check if either pole is in the image
     SkyPoint NCP(0, 90);
     SkyPoint SCP(0, -90);
-    QPointF pixelPoint, imagePoint, pPoint;
+    QPointF imagePoint, pPoint;
     if (wcsToPixel(NCP, pPoint, imagePoint))
     {
         if (pPoint.x() > 0 && pPoint.x() < width() && pPoint.y() > 0 && pPoint.y() < height())

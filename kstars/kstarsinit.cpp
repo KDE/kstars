@@ -376,7 +376,7 @@ void KStars::initActions()
     //Add FOV Symbol actions
     fovActionMenu = actionCollection()->add<KActionMenu>("fovsymbols");
     fovActionMenu->setText(i18n("&FOV Symbols"));
-    fovActionMenu->setDelayed(false);
+    fovActionMenu->setPopupMode(QToolButton::InstantPopup);
     fovActionMenu->setIcon(QIcon::fromTheme("crosshairs"));
     FOVManager::readFOVs();
     repopulateFOV();
@@ -384,7 +384,7 @@ void KStars::initActions()
     //Add Views menu actions
     viewsActionMenu = actionCollection()->add<KActionMenu>("views");
     viewsActionMenu->setText(i18n("&Views"));
-    viewsActionMenu->setDelayed(false);
+    viewsActionMenu->setPopupMode(QToolButton::InstantPopup);
     viewsActionMenu->setIcon(QIcon::fromTheme("text_rotation"));
     SkyMapViewManager::readViews();
     repopulateViews();
@@ -392,14 +392,14 @@ void KStars::initActions()
     //Add HIPS Sources actions
     hipsActionMenu = actionCollection()->add<KActionMenu>("hipssources");
     hipsActionMenu->setText(i18n("HiPS All Sky Overlay"));
-    hipsActionMenu->setDelayed(false);
+    hipsActionMenu->setPopupMode(QToolButton::InstantPopup);
     hipsActionMenu->setIcon(QIcon::fromTheme("view-preview"));
     HIPSManager::Instance()->readSources();
     repopulateHIPS();
 
     orientationActionMenu = actionCollection()->add<KActionMenu>("skymap_orientation");
     orientationActionMenu->setText(i18n("Skymap Orientation"));
-    orientationActionMenu->setDelayed(false);
+    orientationActionMenu->setPopupMode(QToolButton::InstantPopup);
     orientationActionMenu->setIcon(QIcon::fromTheme("screen-rotate-auto-on"));
     repopulateOrientation();
 

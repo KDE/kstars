@@ -1011,9 +1011,6 @@
      <zorder>indiCameraReadMode</zorder>
      <zorder>calculationResult</zorder>
      <zorder>downloadCameraB</zorder>
-     <zorder>horizontalSpacer</zorder>
-     <zorder>horizontalSpacer_2</zorder>
-     <zorder>horizontalSpacer_5</zorder>
      <zorder>SensorType</zorder>
      <zorder>filterBandwidth</zorder>
      <zorder>allowableNoiseLabel</zorder>

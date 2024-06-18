@@ -46,8 +46,9 @@ class NotEditableDelegate2dp : public QStyledItemDelegate
             : QStyledItemDelegate(parent)
         {}
 
-        QString displayText(const QVariant &value, const QLocale &locale) const
+        QString displayText(const QVariant &value, const QLocale &locale) const override
         {
+            Q_UNUSED(locale)
             QString str = QString::number(value.toDouble(), 'f', 2);
             return str;
         }

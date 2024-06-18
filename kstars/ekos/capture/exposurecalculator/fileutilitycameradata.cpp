@@ -165,7 +165,7 @@ void OptimalExposure::FileUtilityCameraData::downloadRepositoryCameraDataFileLis
         }
 
         // Find the camera file name
-        for(int i = 0; i < tokens.size(); i++)
+        for(std::size_t i = 0; i < tokens.size(); i++)
         {
             if(tokens[i].find("path") != std::string::npos)
             {
@@ -184,20 +184,17 @@ void OptimalExposure::FileUtilityCameraData::downloadRepositoryCameraDataFileLis
     });
 
     activeDialog->connect(activeReply, &QNetworkReply::downloadProgress,
-                          activeDialog,
-                          [availableCameraDataFiles, activeReply, activeDialog]
+                          activeDialog, []
     {
         qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File List download is in progress";
     });
     activeDialog->connect(activeReply, &QNetworkReply::errorOccurred,
-                          activeDialog,
-                          [availableCameraDataFiles, activeReply, activeDialog]
+                          activeDialog, []
     {
         qCCritical(KSTARS_EKOS_CAPTURE) << "The Camera Data File List download had an error";
     });
     activeDialog->connect(activeReply, &QNetworkReply::destroyed,
-                          activeDialog,
-                          [availableCameraDataFiles, activeReply, activeDialog]
+                          activeDialog, []
     {
         qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File List connection was destroyed";
     });
@@ -279,22 +276,19 @@ void OptimalExposure::FileUtilityCameraData::downloadCameraDataFile(
         }
     });
     activeDialog->connect(activeReply, &QNetworkReply::downloadProgress,
-                          activeDialog,
-                          [aCameraDataLocalFileName, activeReply, activeDialog]
+                          activeDialog, [aCameraDataLocalFileName]
     {
         qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File download of "
                                     << aCameraDataLocalFileName << " is in progress";
     });
     activeDialog->connect(activeReply, &QNetworkReply::errorOccurred,
-                          activeDialog,
-                          [aCameraDataLocalFileName, activeReply, activeDialog]
+                          activeDialog, [aCameraDataLocalFileName]
     {
         qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File download of "
                                     << aCameraDataLocalFileName << " had an error";
     });
     activeDialog->connect(activeReply, &QNetworkReply::destroyed,
-                          activeDialog,
-                          [aCameraDataLocalFileName, activeReply, activeDialog]
+                          activeDialog, [aCameraDataLocalFileName]
     {
         qCInfo(KSTARS_EKOS_CAPTURE) << "The Camera Data File connection for " << aCameraDataLocalFileName << " was destroyed";
     });
