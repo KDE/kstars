@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-17 01:46+0000\n"
+"POT-Creation-Date: 2024-06-18 01:50+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1956,7 +1956,7 @@ msgstr "状态："
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
-#: ekos/analyze/analyze.cpp:3460 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:3470 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6260,7 +6260,7 @@ msgstr "拍摄已中止。"
 msgid "Solver aborted after %1 seconds."
 msgstr "解析中止，用时 %1 秒。"
 
-#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4115
+#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4125
 #: ekos/capture/capture.cpp:201 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:982
@@ -10151,7 +10151,7 @@ msgstr ""
 "未设置 KStars FITS 选项菜单中的“自动计算 HFR”选项， 无法获知拍摄图像中的星点"
 "数。设置后，将会探测新拍摄图像中的星点。"
 
-#: ekos/analyze/analyze.cpp:3462 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:3472 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1332
@@ -10159,97 +10159,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "中止"
 
-#: ekos/analyze/analyze.cpp:3464 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:3474 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "已连接"
 
-#: ekos/analyze/analyze.cpp:3466 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:3476 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "已断开连接"
 
-#: ekos/analyze/analyze.cpp:3468 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:3478 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1996
 #, kde-format
 msgid "Capturing"
 msgstr "正在捕获"
 
-#: ekos/analyze/analyze.cpp:3470 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:3480 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "循环"
 
-#: ekos/analyze/analyze.cpp:3472 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:3482 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "减去"
 
-#: ekos/analyze/analyze.cpp:3474 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:3484 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "子帧"
 
-#: ekos/analyze/analyze.cpp:3476 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:3486 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "选择恒星"
 
-#: ekos/analyze/analyze.cpp:3478 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:3488 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "校准"
 
-#: ekos/analyze/analyze.cpp:3480 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "校准错误"
 
-#: ekos/analyze/analyze.cpp:3482 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:3492 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "已校准"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:3484 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:3494 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:1994
 #, kde-format
 msgid "Guiding"
 msgstr "导星中"
 
-#: ekos/analyze/analyze.cpp:3486 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:3496 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "已暂停"
 
-#: ekos/analyze/analyze.cpp:3488 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "重新获取中"
 
-#: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:3500 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "像素偏移"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:3492 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:3502 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "手动抖动中"
 
-#: ekos/analyze/analyze.cpp:3494 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:3504 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "像素偏移错误"
 
-#: ekos/analyze/analyze.cpp:3496 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:3506 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "像素偏移成功"
 
-#: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:3508 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "稳定"

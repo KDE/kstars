@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-17 01:46+0000\n"
+"POT-Creation-Date: 2024-06-18 01:50+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -2029,7 +2029,7 @@ msgstr "Status:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
-#: ekos/analyze/analyze.cpp:3460 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:3470 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -6499,7 +6499,7 @@ msgstr "Aufnahme abgebrochen."
 msgid "Solver aborted after %1 seconds."
 msgstr "Lösung abgebrochen nach %1 Sekunden."
 
-#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4115
+#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4125
 #: ekos/capture/capture.cpp:201 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:982
@@ -10549,7 +10549,7 @@ msgid ""
 "newly captured images will have their stars detected."
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3462 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:3472 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1332
@@ -10557,103 +10557,103 @@ msgstr ""
 msgid "Aborted"
 msgstr "Abgebrochen"
 
-#: ekos/analyze/analyze.cpp:3464 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:3474 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "Verbunden"
 
-#: ekos/analyze/analyze.cpp:3466 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:3476 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Getrennt"
 
-#: ekos/analyze/analyze.cpp:3468 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:3478 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1996
 #, kde-format
 msgid "Capturing"
 msgstr "Aufnahme läuft"
 
-#: ekos/analyze/analyze.cpp:3470 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:3480 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3472 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:3482 ekos/ekos.h:26
 #, fuzzy, kde-format
 #| msgid "Calibrating"
 msgid "Subtracting"
 msgstr "Kalibrierung"
 
-#: ekos/analyze/analyze.cpp:3474 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:3484 ekos/ekos.h:27
 #, fuzzy, kde-format
 #| msgid "Subframe"
 msgid "Subframing"
 msgstr "Unterbild"
 
-#: ekos/analyze/analyze.cpp:3476 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:3486 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Stern auswählen"
 
-#: ekos/analyze/analyze.cpp:3478 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:3488 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "Kalibrierung"
 
-#: ekos/analyze/analyze.cpp:3480 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Kalibrierungsfehler"
 
-#: ekos/analyze/analyze.cpp:3482 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:3492 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Kalibriert"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:3484 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:3494 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:1994
 #, kde-format
 msgid "Guiding"
 msgstr "Nachführung"
 
-#: ekos/analyze/analyze.cpp:3486 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:3496 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "Angehalten"
 
-#: ekos/analyze/analyze.cpp:3488 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:34
 #, fuzzy, kde-format
 #| msgid "Capturing"
 msgid "Reacquiring"
 msgstr "Aufnahme läuft"
 
-#: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:3500 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Dithering"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:3492 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:3502 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Manual Dithering"
 msgstr "Dithering ..."
 
-#: ekos/analyze/analyze.cpp:3494 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:3504 ekos/ekos.h:37
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dithering error"
 msgstr "Dome Creek"
 
-#: ekos/analyze/analyze.cpp:3496 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:3506 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr ""
 
-#: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:3508 ekos/ekos.h:39
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Settling"
