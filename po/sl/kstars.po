@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-18 01:50+0000\n"
+"POT-Creation-Date: 2024-06-19 01:42+0000\n"
 "PO-Revision-Date: 2024-06-14 22:28+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -734,7 +734,7 @@ msgstr "Napaka med branjem nastavitvene datoteke Astrometry."
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Napaka med pisanjem v notranjo nastavitveno datoteko Astrometry."
 
-#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:732
+#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:734
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -1433,7 +1433,7 @@ msgstr "mesecev"
 msgid "days"
 msgstr "dni"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:982
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:963
 #, kde-format
 msgid "hours"
 msgstr "ur"
@@ -1441,7 +1441,7 @@ msgstr "ur"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:980
+#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:961
 #, kde-format
 msgid "minutes"
 msgstr "minut"
@@ -1461,8 +1461,8 @@ msgstr "minut"
 #: ekos/guide/opsdither.ui:126 ekos/guide/opsgpg.ui:139
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
-#: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:638 ekos/opsekos.ui:678
-#: ekos/opsekos.ui:721 ekos/scheduler/schedulerjob.cpp:978
+#: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:625 ekos/opsekos.ui:665
+#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:959
 #, kde-format
 msgid "seconds"
 msgstr "sekund"
@@ -1993,7 +1993,7 @@ msgstr "Stanje:"
 #. i18n: ectx: property (text), widget (QLabel, jobStatus)
 #: data/qml/mount/mountbox.qml:1054 ekos/align/polaralignmentassistant.cpp:28
 #: ekos/analyze/analyze.cpp:127 ekos/analyze/analyze.cpp:146
-#: ekos/analyze/analyze.cpp:3470 ekos/auxiliary/buildfilteroffsets.cpp:153
+#: ekos/analyze/analyze.cpp:3465 ekos/auxiliary/buildfilteroffsets.cpp:153
 #: ekos/auxiliary/darklibrary.cpp:46 ekos/auxiliary/ledstatuswidget.cpp:19
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
@@ -2913,7 +2913,7 @@ msgstr "Vrsta preslikave"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
 #: ekos/capture/cameraprocess.cpp:2433 ekos/capture/capturecountswidget.cpp:278
-#: fitsviewer/fitsviewer.cpp:726 fitsviewer/fitsviewer.cpp:727
+#: fitsviewer/fitsviewer.cpp:728 fitsviewer/fitsviewer.cpp:729
 #, kde-format
 msgid "Preview"
 msgstr "Predogled"
@@ -6393,7 +6393,7 @@ msgstr "Zajem prekinjen."
 msgid "Solver aborted after %1 seconds."
 msgstr "Reševalnik je prekinil po %1 sekundah."
 
-#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4125
+#: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4120
 #: ekos/capture/capture.cpp:201 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:982
@@ -10219,7 +10219,7 @@ msgstr "Začni"
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
 #: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2277
 #: ekos/auxiliary/opslogs.ui:285 ekos/capture/capturepreviewwidget.ui:79
-#: ekos/guide/guide.ui:137 ekos/opsekos.ui:551
+#: ekos/guide/guide.ui:137 ekos/opsekos.ui:538
 #, kde-format
 msgid "Capture"
 msgstr "Zajemi"
@@ -10439,7 +10439,7 @@ msgstr ""
 "nastavljena. Brez nje ne boste dobili števila zvezd v zajetih slikah. Ko jo "
 "nastavite, bodo na novo zajetih slikah zaznane zvezde."
 
-#: ekos/analyze/analyze.cpp:3472 ekos/auxiliary/ledstatuswidget.cpp:78
+#: ekos/analyze/analyze.cpp:3467 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
 #: ekos/scheduler/scheduler.cpp:1332
@@ -10447,97 +10447,97 @@ msgstr ""
 msgid "Aborted"
 msgstr "Prekinjeno"
 
-#: ekos/analyze/analyze.cpp:3474 ekos/ekos.h:22
+#: ekos/analyze/analyze.cpp:3469 ekos/ekos.h:22
 #, kde-format
 msgid "Connected"
 msgstr "Povezano"
 
-#: ekos/analyze/analyze.cpp:3476 ekos/ekos.h:23
+#: ekos/analyze/analyze.cpp:3471 ekos/ekos.h:23
 #, kde-format
 msgid "Disconnected"
 msgstr "Povezava prekinjena"
 
-#: ekos/analyze/analyze.cpp:3478 ekos/auxiliary/ledstatuswidget.cpp:68
+#: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
 #: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1996
 #, kde-format
 msgid "Capturing"
 msgstr "Zajemanje"
 
-#: ekos/analyze/analyze.cpp:3480 ekos/ekos.h:25
+#: ekos/analyze/analyze.cpp:3475 ekos/ekos.h:25
 #, kde-format
 msgid "Looping"
 msgstr "Ponavljanje"
 
-#: ekos/analyze/analyze.cpp:3482 ekos/ekos.h:26
+#: ekos/analyze/analyze.cpp:3477 ekos/ekos.h:26
 #, kde-format
 msgid "Subtracting"
 msgstr "Odštevanje"
 
-#: ekos/analyze/analyze.cpp:3484 ekos/ekos.h:27
+#: ekos/analyze/analyze.cpp:3479 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
 msgstr "Ustvarjanje podposnetka"
 
-#: ekos/analyze/analyze.cpp:3486 ekos/ekos.h:28
+#: ekos/analyze/analyze.cpp:3481 ekos/ekos.h:28
 #, kde-format
 msgid "Selecting star"
 msgstr "Izbiranje zvezde"
 
-#: ekos/analyze/analyze.cpp:3488 ekos/ekos.h:29 ekos/ekos.h:74
+#: ekos/analyze/analyze.cpp:3483 ekos/ekos.h:29 ekos/ekos.h:74
 #, kde-format
 msgid "Calibrating"
 msgstr "Umerjanje"
 
-#: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:30
+#: ekos/analyze/analyze.cpp:3485 ekos/ekos.h:30
 #, kde-format
 msgid "Calibration error"
 msgstr "Napaka umerjanja"
 
-#: ekos/analyze/analyze.cpp:3492 ekos/ekos.h:31
+#: ekos/analyze/analyze.cpp:3487 ekos/ekos.h:31
 #, kde-format
 msgid "Calibrated"
 msgstr "Umerjeno"
 
 #. i18n("Calibrating");
-#: ekos/analyze/analyze.cpp:3494 ekos/ekos.h:32
+#: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
 #: ekos/scheduler/scheduler.cpp:1994
 #, kde-format
 msgid "Guiding"
 msgstr "Vodenje"
 
-#: ekos/analyze/analyze.cpp:3496 ekos/auxiliary/ledstatuswidget.cpp:33
+#: ekos/analyze/analyze.cpp:3491 ekos/auxiliary/ledstatuswidget.cpp:33
 #: ekos/ekos.h:33 ekos/ekos.h:72 ekos/ekos.h:141
 #, kde-format
 msgid "Suspended"
 msgstr "V pripravljenosti"
 
-#: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:34
+#: ekos/analyze/analyze.cpp:3493 ekos/ekos.h:34
 #, kde-format
 msgid "Reacquiring"
 msgstr "Ponovno zajemanje"
 
-#: ekos/analyze/analyze.cpp:3500 ekos/ekos.h:35 ekos/ekos.h:73
+#: ekos/analyze/analyze.cpp:3495 ekos/ekos.h:35 ekos/ekos.h:73
 #, kde-format
 msgid "Dithering"
 msgstr "Razprševanje"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualDither)
-#: ekos/analyze/analyze.cpp:3502 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
+#: ekos/analyze/analyze.cpp:3497 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
 msgstr "Ročno razprševanje"
 
-#: ekos/analyze/analyze.cpp:3504 ekos/ekos.h:37
+#: ekos/analyze/analyze.cpp:3499 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
 msgstr "Napaka razprševanja"
 
-#: ekos/analyze/analyze.cpp:3506 ekos/ekos.h:38
+#: ekos/analyze/analyze.cpp:3501 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
 msgstr "Razprševanje uspešno"
 
-#: ekos/analyze/analyze.cpp:3508 ekos/ekos.h:39
+#: ekos/analyze/analyze.cpp:3503 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
 msgstr "Umirjanje"
@@ -12120,7 +12120,7 @@ msgstr "Počisti vse"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/auxiliary/darklibrary.ui:1122 ekos/opsekos.ui:618
+#: ekos/auxiliary/darklibrary.ui:1122 ekos/opsekos.ui:605
 #, kde-format
 msgid "° C"
 msgstr "° C"
@@ -12637,7 +12637,7 @@ msgstr "Beleži dejavnost modula za poravnavo Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
-#: ekos/auxiliary/opslogs.ui:315 ekos/opsekos.ui:428
+#: ekos/auxiliary/opslogs.ui:315 ekos/opsekos.ui:415
 #, kde-format
 msgid "Alignment"
 msgstr "Poravnava"
@@ -12836,7 +12836,7 @@ msgstr "Drugotna"
 msgid "Tertiary"
 msgstr "Terciarna"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1232
+#: ekos/auxiliary/opticaltrainmanager.cpp:1237
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -12845,7 +12845,7 @@ msgstr ""
 "Zaznana je manjkajoča naprava (%1). Preden nadaljujete, ponovno prilagodite "
 "optike."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1239
+#: ekos/auxiliary/opticaltrainmanager.cpp:1244
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -16655,7 +16655,7 @@ msgstr "Meje vodenja"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/capture/limits.ui:57 ekos/guide/opsdither.ui:170 ekos/opsekos.ui:490
+#: ekos/capture/limits.ui:57 ekos/guide/opsdither.ui:170 ekos/opsekos.ui:477
 #, kde-format
 msgid "frames"
 msgstr "posnetkov"
@@ -18544,7 +18544,7 @@ msgstr "Urejevalnik profilov nastavitev ostrenja"
 #. i18n: ectx: property (title), widget (QGroupBox, analyzeGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
 #: ekos/focus/focus.cpp:192 ekos/guide/opscalibration.ui:34
-#: ekos/guide/opsgpg.ui:103 ekos/opsekos.ui:899 options/opsimageoverlay.ui:38
+#: ekos/guide/opsgpg.ui:103 ekos/opsekos.ui:886 options/opsimageoverlay.ui:38
 #, kde-format
 msgid "Settings"
 msgstr "Nastavitve"
@@ -23472,7 +23472,7 @@ msgid "Logging"
 msgstr "Beleženje"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:370 ekos/opsekos.ui:878
+#: ekos/manager.cpp:370 ekos/opsekos.ui:865
 #, kde-format
 msgid "Analyze"
 msgstr "Analiziraj"
@@ -25231,26 +25231,8 @@ msgstr "Vnaprejšnji izklop:"
 msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
 msgstr "<html><head/><body><p>Ure do vnaprejšnjega izklopa</p></body></html>"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, settingAltitudeCutoffLabel)
-#: ekos/opsekos.ui:272
-#, fuzzy, kde-format
-msgid ""
-"<html><body><p>Do not permit jobs to be scheduled less than this many "
-"degrees before the altitude restriction. Actual execution proceeds until the "
-"altitude limit.</p></body></html>"
-msgstr ""
-"<html><body><p>Ne dovolite, da se delovna mesta razporedijo manj kot toliko "
-"stopinj pred omejitev nadmorske višine. Dejanska usmrtitev se nadaljuje do "
-"višine.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, settingAltitudeCutoffLabel)
-#: ekos/opsekos.ui:275
-#, fuzzy, kde-format
-msgid "Setting altitude cutoff:"
-msgstr "Nastavitev odklopa nadmorske višine:"
-
 #. i18n: ectx: property (toolTip), widget (QLabel, duskOffsetLabel)
-#: ekos/opsekos.ui:285
+#: ekos/opsekos.ui:272
 #, fuzzy, kde-format
 msgid ""
 "<html><body><p>Offset astronomical dusk by this many hours. This positive or "
@@ -25260,14 +25242,14 @@ msgstr ""
 "negativna vrednost prilagodi omejitev somraka.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, duskOffsetLabel)
-#: ekos/opsekos.ui:288
+#: ekos/opsekos.ui:275
 #, fuzzy, kde-format
 #| msgid "UT offset:"
 msgid "Dusk offset:"
 msgstr "Odmik od UČ:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dawnOffsetLabel)
-#: ekos/opsekos.ui:308
+#: ekos/opsekos.ui:295
 #, fuzzy, kde-format
 msgid ""
 "<html><body><p>Offset astronomical dawn by this many hours. This positive or "
@@ -25277,33 +25259,33 @@ msgstr ""
 "ali negativna vrednost prilagodi omejitev somraka.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, dawnOffsetLabel)
-#: ekos/opsekos.ui:311
+#: ekos/opsekos.ui:298
 #, fuzzy, kde-format
 #| msgid "UT offset:"
 msgid "Dawn offset:"
 msgstr "Odmik od UČ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
-#: ekos/opsekos.ui:334
+#: ekos/opsekos.ui:321
 #, fuzzy, kde-format
 #| msgid "Clear"
 msgid "Cleanup"
 msgstr "Čiščenje"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
-#: ekos/opsekos.ui:355
+#: ekos/opsekos.ui:342
 #, fuzzy, kde-format
 msgid "After shutdown procedure is successfully executed, stop INDI and Ekos."
 msgstr "Po uspešno izvedenem postopku zaustavitve ustavite INDI in Ekos."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
-#: ekos/opsekos.ui:358
+#: ekos/opsekos.ui:345
 #, fuzzy, kde-format
 msgid "Stop Ekos after shutdown"
 msgstr "Ustavite Ekos po zaustavitvi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
-#: ekos/opsekos.ui:365
+#: ekos/opsekos.ui:352
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>If the shutdown script terminates INDI server, enable "
@@ -25314,20 +25296,20 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
-#: ekos/opsekos.ui:368
+#: ekos/opsekos.ui:355
 #, fuzzy, kde-format
 #| msgid "Shutdown Script Terminates INDI"
 msgid "Shutdown script terminates INDI"
 msgstr "Skript izklopa zaključi INDI"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
-#: ekos/opsekos.ui:378
+#: ekos/opsekos.ui:365
 #, fuzzy, kde-format
 msgid "Jobs"
 msgstr "Opravila"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RememberJobProgress)
-#: ekos/opsekos.ui:399
+#: ekos/opsekos.ui:386
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>When processing a scheduled job, resume the sequence "
@@ -25337,14 +25319,14 @@ msgstr ""
 "ki se začne od zadnje slike, ki je prisotna v shrambi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RememberJobProgress)
-#: ekos/opsekos.ui:402
+#: ekos/opsekos.ui:389
 #, fuzzy, kde-format
 #| msgid "Remember Job Progress"
 msgid "Remember job progress"
 msgstr "Zapomni si napredek posla"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
-#: ekos/opsekos.ui:412
+#: ekos/opsekos.ui:399
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
 msgid ""
@@ -25353,7 +25335,7 @@ msgid ""
 msgstr "<html><head/><body><p>Ure do vnaprejšnjega izklopa</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
-#: ekos/opsekos.ui:415
+#: ekos/opsekos.ui:402
 #, fuzzy, kde-format
 msgid "Use greedy scheduling"
 msgstr "Uporabi pohlepno razporejanje"
@@ -25361,13 +25343,13 @@ msgstr "Uporabi pohlepno razporejanje"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
 #. i18n: ectx: property (text), widget (QLabel, DSSPaddingUnitLabel)
-#: ekos/opsekos.ui:449 options/opsadvanced.ui:163 options/opsadvanced.ui:205
+#: ekos/opsekos.ui:436 options/opsadvanced.ui:163 options/opsadvanced.ui:205
 #, kde-format
 msgid "arcminutes"
 msgstr "ločne minute"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ForceAlignmentBeforeJob)
-#: ekos/opsekos.ui:463
+#: ekos/opsekos.ui:450
 #, fuzzy, kde-format
 msgid ""
 "If Align is enabled, scheduler would initiate a realignment procedure before "
@@ -25378,7 +25360,7 @@ msgstr ""
 "vodenje aktivno."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForceAlignmentBeforeJob)
-#: ekos/opsekos.ui:466
+#: ekos/opsekos.ui:453
 #, fuzzy, kde-format
 #| msgid "Telescope completed the meridian flip."
 msgid "Force re-alignment before re-starting jobs"
@@ -25386,7 +25368,7 @@ msgstr "Daljnogled je uspešno izvedel zrcaljenje poldnevnika."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #. i18n: ectx: label, entry (AlignCheckFrequency), group (Scheduler)
-#: ekos/opsekos.ui:473 kstars.kcfg:3055
+#: ekos/opsekos.ui:460 kstars.kcfg:3051
 #, kde-format
 msgid ""
 "When calculating position after captures, compute it every Nth capture. Set "
@@ -25396,14 +25378,14 @@ msgstr ""
 "Nastavite na 0, da onemogočite."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/opsekos.ui:476
+#: ekos/opsekos.ui:463
 #, fuzzy, kde-format
 #| msgid "If checked, flags will be drawn on the sky map"
 msgid "Verify captured image position every:"
 msgstr "Če je označeno, bodo zastavice izrisane na zvezdni karti"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelBeforeJob)
-#: ekos/opsekos.ui:483
+#: ekos/opsekos.ui:470
 #, fuzzy, kde-format
 #| msgid "Telescope completed the meridian flip."
 msgid "Reset mount model before starting each job:"
@@ -25411,7 +25393,7 @@ msgstr "Daljnogled je uspešno izvedel zrcaljenje poldnevnika."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
-#: ekos/opsekos.ui:497 kstars.kcfg:3059
+#: ekos/opsekos.ui:484 kstars.kcfg:3055
 #, fuzzy, kde-format
 msgid ""
 "If captured position exceeds target position by more this many arcminutes, "
@@ -25421,21 +25403,21 @@ msgstr ""
 "prekinite zajemanje in prestavite cevovod."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/opsekos.ui:500
+#: ekos/opsekos.ui:487
 #, fuzzy, kde-format
 #| msgid "Reset pipeline if verified image delta exceeds"
 msgid "Reset pipeline if verified image delta exceeds:"
 msgstr "Ponastavi cevovod, če delta preverjene slike presega"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelOnAlignFail)
-#: ekos/opsekos.ui:507
+#: ekos/opsekos.ui:494
 #, fuzzy, kde-format
 #| msgid "Astrometry alignment failed"
 msgid "Reset mount model on alignment failure"
 msgstr "Poravnava Astrometry ni uspela"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
-#: ekos/opsekos.ui:524
+#: ekos/opsekos.ui:511
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>If guiding calibration fails then restart alignment "
@@ -25449,7 +25431,7 @@ msgstr ""
 "kalibracije zašla predaleč.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
-#: ekos/opsekos.ui:527
+#: ekos/opsekos.ui:514
 #, fuzzy, kde-format
 #| msgid "Restarting %1 calibration procedure..."
 msgid "Restart alignment on guiding calibration failure"
@@ -25457,13 +25439,13 @@ msgstr "Ponovno zaganjanje postopka umerjanja %1 …"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ObsListMiscOptions)
-#: ekos/opsekos.ui:572 options/opsadvanced.ui:924
+#: ekos/opsekos.ui:559 options/opsadvanced.ui:924
 #, kde-format
 msgid "Miscellaneous"
 msgstr "Razno"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
-#: ekos/opsekos.ui:598
+#: ekos/opsekos.ui:585
 #, fuzzy, kde-format
 msgid "Cover or uncover telescope dialog timeout in seconds"
 msgstr ""
@@ -25471,13 +25453,13 @@ msgstr ""
 "sekundah"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/opsekos.ui:601
+#: ekos/opsekos.ui:588
 #, kde-format
 msgid "Dialog timeout:"
 msgstr "Časovna omejitev okna:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: ekos/opsekos.ui:608
+#: ekos/opsekos.ui:595
 #, kde-format
 msgid ""
 "Maximum acceptable difference between requested and measured temperature set "
@@ -25489,13 +25471,13 @@ msgstr ""
 "nastavitveno točko temperature uspešna."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/opsekos.ui:611
+#: ekos/opsekos.ui:598
 #, kde-format
 msgid "Temperature threshold:"
 msgstr "Prag temperature:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
-#: ekos/opsekos.ui:645
+#: ekos/opsekos.ui:632
 #, fuzzy, kde-format
 msgid "Wait this many seconds after guiding is resumed before starting capture"
 msgstr ""
@@ -25503,7 +25485,7 @@ msgstr ""
 "zajemati"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_13)
-#: ekos/opsekos.ui:668
+#: ekos/opsekos.ui:655
 #, fuzzy, kde-format
 msgid ""
 "Wait this many seconds after guiding is resumed to stabilize the guiding "
@@ -25513,14 +25495,14 @@ msgstr ""
 "predstavo pred zajemom."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: ekos/opsekos.ui:671
+#: ekos/opsekos.ui:658
 #, fuzzy, kde-format
 #| msgid "Guiding rate"
 msgid "Guiding settle:"
 msgstr "Hitrost premikanja"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
-#: ekos/opsekos.ui:698
+#: ekos/opsekos.ui:685
 #, fuzzy, no-c-format, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
@@ -25538,14 +25520,14 @@ msgstr ""
 "trajanje ne mine od začetka obrata čez poldnevnik.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/opsekos.ui:701
+#: ekos/opsekos.ui:688
 #, fuzzy, kde-format
 #| msgid "Meridian flip in %1"
 msgid "Minimal meridian flip duration: "
 msgstr "Obrat čez poldnevnik čez %1"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
-#: ekos/opsekos.ui:730
+#: ekos/opsekos.ui:717
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>When starting to process a sequence list, reset all "
@@ -25557,43 +25539,43 @@ msgstr ""
 "omogočen napredek projekta Zapomni si.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
-#: ekos/opsekos.ui:733
+#: ekos/opsekos.ui:720
 #, kde-format
 msgid "Always reset sequence when starting"
 msgstr "Pri zagonu vedno ponastavi zaporedje"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
-#: ekos/opsekos.ui:743
+#: ekos/opsekos.ui:730
 #, kde-format
 msgid "Reset mount model after meridian flip"
 msgstr "Ponastavi model montaže po obratu čez poldnevnik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
-#: ekos/opsekos.ui:750
+#: ekos/opsekos.ui:737
 #, fuzzy, kde-format
 msgid "Use flip command if supported by mount"
 msgstr "Uporabi ukaz flip, če ga podpira namestitev"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
-#: ekos/opsekos.ui:762
+#: ekos/opsekos.ui:749
 #, kde-format
 msgid "Display received FITS in the Summary screen preview window."
 msgstr "Prikaz prejetih FITS v oknu predogledu zaslona povzetka."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
-#: ekos/opsekos.ui:765
+#: ekos/opsekos.ui:752
 #, kde-format
 msgid "Summary screen preview"
 msgstr "Predogled zaslona povzetka"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ekos/opsekos.ui:790
+#: ekos/opsekos.ui:777
 #, kde-format
 msgid "DSLR"
 msgstr "DZR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ForceDSLRPresets)
-#: ekos/opsekos.ui:808
+#: ekos/opsekos.ui:795
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Force exposure times to align with DSLR exposure "
@@ -25605,37 +25587,37 @@ msgstr ""
 "za izpostavljenosti pod sekundo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForceDSLRPresets)
-#: ekos/opsekos.ui:811
+#: ekos/opsekos.ui:798
 #, kde-format
 msgid "Force DSLR presets"
 msgstr "Vsili prednastavitve DZR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
-#: ekos/opsekos.ui:818
+#: ekos/opsekos.ui:805
 #, fuzzy, kde-format
 msgid "Display received DSLR images in the Image Viewer"
 msgstr "Prikaži prejete slike DZR v pregledovalniku slik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
-#: ekos/opsekos.ui:821
+#: ekos/opsekos.ui:808
 #, kde-format
 msgid "DSLR image viewer"
 msgstr "Pregledovalnik slik DZR"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearDSLRInfoB)
-#: ekos/opsekos.ui:828
+#: ekos/opsekos.ui:815
 #, kde-format
 msgid "Clear saved DSLR sizes"
 msgstr "Počisti shranjene velikosti DZR"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDSLRInfoB)
-#: ekos/opsekos.ui:831
+#: ekos/opsekos.ui:818
 #, kde-format
 msgid "Clear DSLR Info"
 msgstr "Počisti informacije o DZR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
-#: ekos/opsekos.ui:920
+#: ekos/opsekos.ui:907
 #, kde-format
 msgid ""
 "<html><head/><body><p>If Analyze is running and Ekos is disconnected then "
@@ -25644,20 +25626,20 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
-#: ekos/opsekos.ui:923
+#: ekos/opsekos.ui:910
 #, fuzzy, kde-format
 msgid "Restart Analyze when Ekos Restarts"
 msgstr "Vnovično zaženi analizo ob ponovnem zagonu Ekosa"
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
-#: ekos/opsekos.ui:947
+#: ekos/opsekos.ui:934
 #, fuzzy, kde-format
 #| msgid "Set alternative image-file base directory"
 msgid "Alternative Image Directory: "
 msgstr "Nadomestni osnovni imenik slikovnih datotek"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, analyzeAlternativeDirectoryB)
-#: ekos/opsekos.ui:966
+#: ekos/opsekos.ui:953
 #, fuzzy, kde-format
 #| msgid "Set alternative image-file base directory"
 msgid "Set the alternative image directory for Analyze"
@@ -27749,15 +27731,16 @@ msgstr "Ni bilo mogoče shraniti seznama razporejevalnika Ekos"
 #| "to run during daylight. This can cause irreversible damage to your "
 #| "equipment!"
 msgid ""
-"Turning off astronomial twilight check may cause the observatory to run "
+"Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 "Opozorilo! Izklop preverjanja za astronomski somrak bo morda povzročil, da "
 "bo opazovalnica tekla podnevi. To lahko nepovratno poškoduje vašo opremo!"
 
 #: ekos/scheduler/scheduler.cpp:1958
-#, kde-format
-msgid "Astronomial Twilight Warning"
+#, fuzzy, kde-format
+#| msgid "Astronomial Twilight Warning"
+msgid "Astronomical Twilight Warning"
 msgstr "Opozorilo astronomskega somraka"
 
 #: ekos/scheduler/scheduler.cpp:1984
@@ -28532,13 +28515,13 @@ msgstr "Odpri pokrov"
 msgid "Ekos job failed (%1)"
 msgstr "Interpretiranje bayerjeve matrike je spodletelo (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:958
+#: ekos/scheduler/schedulerjob.cpp:939
 #, fuzzy, kde-format
 #| msgid "Dark Flat"
 msgid "DarkFlat"
 msgstr "Ploska tema"
 
-#: ekos/scheduler/schedulerjob.cpp:989
+#: ekos/scheduler/schedulerjob.cpp:970
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Images"
@@ -29563,7 +29546,7 @@ msgstr "Napaka med odpiranjem datoteke FITS (fits_get_img_param): %1"
 msgid "1D FITS images are not supported in KStars."
 msgstr "1D slike FITS v KStars niso podprte."
 
-#: fitsviewer/fitsdata.cpp:370 fitsviewer/fitsdata.cpp:589
+#: fitsviewer/fitsdata.cpp:370 fitsviewer/fitsdata.cpp:590
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr "Bitna globina %1 ni podprta."
@@ -29597,130 +29580,130 @@ msgstr "Bitna globina %1 ni podprta."
 msgid "XISF file open error: "
 msgstr "Napaka pisanja na datoteko."
 
-#: fitsviewer/fitsdata.cpp:604
+#: fitsviewer/fitsdata.cpp:605
 #, fuzzy, kde-format
 #| msgid "Error reading image."
 msgid "Error saving XISF image"
 msgstr "Napaka pri branju slike."
 
-#: fitsviewer/fitsdata.cpp:695 fitsviewer/fitsdata.cpp:807
+#: fitsviewer/fitsdata.cpp:697 fitsviewer/fitsdata.cpp:809
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 "FitsData: nezadosten pomnilnik za kanal image_buffer. Zahtevano: %1 bajtov "
 
-#: fitsviewer/fitsdata.cpp:746
+#: fitsviewer/fitsdata.cpp:748
 #, kde-format
 msgid "Cannot open file %1: %2"
 msgstr "Datoteke %1 mogoče odpreti: %2"
 
-#: fitsviewer/fitsdata.cpp:759
+#: fitsviewer/fitsdata.cpp:761
 #, fuzzy, kde-format
 #| msgid "Cannot open %1: %2"
 msgid "Cannot open buffer: %1"
 msgstr "Ni mogoče odpreti %1: %2"
 
-#: fitsviewer/fitsdata.cpp:770
+#: fitsviewer/fitsdata.cpp:772
 #, fuzzy, kde-format
 #| msgid "Cannot unpack_thumb %1: %2"
 msgid "Cannot unpack_thumb: %1"
 msgstr "Ni mogoče razširiti sličice %1: %2"
 
-#: fitsviewer/fitsdata.cpp:777
+#: fitsviewer/fitsdata.cpp:779
 #, fuzzy, kde-format
 #| msgid "Cannot write %s %1: %2"
 msgid "Cannot dcraw_process: %1"
 msgstr "Ni mogoče zapisati %s  %1: %2"
 
-#: fitsviewer/fitsdata.cpp:785
+#: fitsviewer/fitsdata.cpp:787
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr "Nalaganje v pomnilnik ni mogoče: %1"
 
-#: fitsviewer/fitsdata.cpp:928
+#: fitsviewer/fitsdata.cpp:930
 #, fuzzy, kde-format
 #| msgid "Executing remote scripts is not supported."
 msgid "Saving compressed files is not supported."
 msgstr "Izvajanje oddaljenih skriptov ni podprto."
 
-#: fitsviewer/fitsdata.cpp:988
+#: fitsviewer/fitsdata.cpp:990
 #, fuzzy, kde-format
 #| msgid "Unable to open file %1"
 msgid "Failed to close file: %1"
 msgstr "Ni bilo mogoče odpreti datoteke %1"
 
-#: fitsviewer/fitsdata.cpp:995
+#: fitsviewer/fitsdata.cpp:997
 #, fuzzy, kde-format
 msgid "Failed to create file: %1"
 msgstr "Shranjevanje glavnega okvirja ni uspelo: %1"
 
-#: fitsviewer/fitsdata.cpp:1010
+#: fitsviewer/fitsdata.cpp:1012
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to create image: %1"
 msgstr "Ni mogoče naložiti slike v %1"
 
-#: fitsviewer/fitsdata.cpp:1019 fitsviewer/fitsdata.cpp:1026
+#: fitsviewer/fitsdata.cpp:1021 fitsviewer/fitsdata.cpp:1028
 #, fuzzy, kde-format
 msgid "Failed to update key: %1"
 msgstr "Shranjevanje glavnega okvirja ni uspelo: %1"
 
-#: fitsviewer/fitsdata.cpp:1115
+#: fitsviewer/fitsdata.cpp:1117
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to update date: %1"
 msgstr "Ni mogoče naložiti slike v %1"
 
-#: fitsviewer/fitsdata.cpp:1124
+#: fitsviewer/fitsdata.cpp:1126
 #, fuzzy, kde-format
 #| msgid "Failed to edit city"
 msgid "Failed to update history: %1"
 msgstr "Urejanje mesta ni uspelo"
 
-#: fitsviewer/fitsdata.cpp:1146
+#: fitsviewer/fitsdata.cpp:1148
 #, fuzzy, kde-format
 #| msgid "Failed to load image at %1"
 msgid "Failed to write image: %1"
 msgstr "Ni mogoče naložiti slike v %1"
 
-#: fitsviewer/fitsdata.cpp:2791 fitsviewer/fitsdata.cpp:2802
-#: fitsviewer/fitsdata.cpp:2838 fitsviewer/fitsdata.cpp:2874
-#: fitsviewer/fitsdata.cpp:2921
+#: fitsviewer/fitsdata.cpp:2793 fitsviewer/fitsdata.cpp:2804
+#: fitsviewer/fitsdata.cpp:2840 fitsviewer/fitsdata.cpp:2876
+#: fitsviewer/fitsdata.cpp:2923
 #, fuzzy, kde-format
 #| msgid "Use horizontal coordinate system?"
 msgid "No world coordinate systems found."
 msgstr "Uporaba horizontalnega koordinatnega sistema?"
 
-#: fitsviewer/fitsdata.cpp:3643
+#: fitsviewer/fitsdata.cpp:3645
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Podprte so le 8- in 16-bitne slike z bayerjevo matriko."
 
-#: fitsviewer/fitsdata.cpp:3676
+#: fitsviewer/fitsdata.cpp:3678
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Nepodprt bayerjev vzorec %1."
 
-#: fitsviewer/fitsdata.cpp:3707
+#: fitsviewer/fitsdata.cpp:3709
 #, fuzzy, kde-format
 #| msgid "Unsupported bayer pattern %1."
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Nepodprt bayerjev vzorec %1."
 
-#: fitsviewer/fitsdata.cpp:3775 fitsviewer/fitsdata.cpp:3822
-#: fitsviewer/fitsdata.cpp:3867 fitsviewer/fitsdata.cpp:3914
+#: fitsviewer/fitsdata.cpp:3777 fitsviewer/fitsdata.cpp:3824
+#: fitsviewer/fitsdata.cpp:3869 fitsviewer/fitsdata.cpp:3916
 #, fuzzy, kde-format
 #| msgid "Unable to allocate memory for temporary bayer buffer."
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Ni mogoče dodeliti pomnilnika za začasni bayerjev medpomnilnik."
 
-#: fitsviewer/fitsdata.cpp:3785 fitsviewer/fitsdata.cpp:3877
+#: fitsviewer/fitsdata.cpp:3787 fitsviewer/fitsdata.cpp:3879
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Ni mogoče dodeliti pomnilnika za začasni bayerjev medpomnilnik."
 
-#: fitsviewer/fitsdata.cpp:3805 fitsviewer/fitsdata.cpp:3897
+#: fitsviewer/fitsdata.cpp:3807 fitsviewer/fitsdata.cpp:3899
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Interpretiranje bayerjeve matrike je spodletelo (%1)"
@@ -29820,7 +29803,7 @@ msgstr "Odmik Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
 #: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:505
-#: fitsviewer/fitsviewer.cpp:1619
+#: fitsviewer/fitsviewer.cpp:1621
 #, kde-format
 msgid "Ready."
 msgstr "Pripravljeno."
@@ -30186,13 +30169,13 @@ msgid "View Star Profile..."
 msgstr "Pokaži profil zvezde"
 
 #: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
-#: fitsviewer/fitsviewer.cpp:1307
+#: fitsviewer/fitsviewer.cpp:1309
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Pokaži ekvatorialno mrežo"
 
 #: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
-#: fitsviewer/fitsviewer.cpp:1309
+#: fitsviewer/fitsviewer.cpp:1311
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Pokaži objekte v sliki"
@@ -30280,7 +30263,7 @@ msgstr "&Statistika izbora"
 msgid "Show Clipping"
 msgstr "Pokaži porezavo"
 
-#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1318
+#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1320
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30333,13 +30316,13 @@ msgstr "Približaj vse zavihke"
 msgid "Zoom all tabs out"
 msgstr "Oddalji vse zavihke"
 
-#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1592
+#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1594
 #, kde-format
 msgid "Mark Stars"
 msgstr "Označi zvezde"
 
-#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:833
-#: fitsviewer/fitsviewer.cpp:1555
+#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:835
+#: fitsviewer/fitsviewer.cpp:1557
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Ogled 3D-grafa"
@@ -30369,49 +30352,49 @@ msgstr[1] "%1 zvezda"
 msgstr[2] "%1 zvezda"
 msgstr[3] "%1 zvezda"
 
-#: fitsviewer/fitsviewer.cpp:678
+#: fitsviewer/fitsviewer.cpp:680
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr "V pregledovalniku FITS ni mogoče najti zavihka z UID %1"
 
-#: fitsviewer/fitsviewer.cpp:815
+#: fitsviewer/fitsviewer.cpp:817
 #, fuzzy, kde-format
 #| msgid "View 3D Graph"
 msgid "currentView 3D Graph"
 msgstr "Ogled 3D-grafa"
 
-#: fitsviewer/fitsviewer.cpp:816 fitsviewer/fitsviewer.cpp:1463
+#: fitsviewer/fitsviewer.cpp:818 fitsviewer/fitsviewer.cpp:1465
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "Pokaži nitne križe"
 
-#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1477
+#: fitsviewer/fitsviewer.cpp:819 fitsviewer/fitsviewer.cpp:1479
 #, kde-format
 msgid "Clipping"
 msgstr "Porezava"
 
-#: fitsviewer/fitsviewer.cpp:818 fitsviewer/fitsviewer.cpp:1490
+#: fitsviewer/fitsviewer.cpp:820 fitsviewer/fitsviewer.cpp:1492
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Ekvatorialna mreža"
 
-#: fitsviewer/fitsviewer.cpp:819 fitsviewer/fitsviewer.cpp:1529
+#: fitsviewer/fitsviewer.cpp:821 fitsviewer/fitsviewer.cpp:1531
 #, kde-format
 msgid "Objects in Image"
 msgstr "Predmeti na sliki"
 
-#: fitsviewer/fitsviewer.cpp:820 fitsviewer/fitsviewer.cpp:1542
+#: fitsviewer/fitsviewer.cpp:822 fitsviewer/fitsviewer.cpp:1544
 #, fuzzy, kde-format
 msgid "Pixel Gridlines"
 msgstr "Mreža slikovnih točk"
 
-#: fitsviewer/fitsviewer.cpp:821 fitsviewer/fitsviewer.cpp:1503
+#: fitsviewer/fitsviewer.cpp:823 fitsviewer/fitsviewer.cpp:1505
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "Prekrivanje HiPS"
 
-#: fitsviewer/fitsviewer.cpp:873
+#: fitsviewer/fitsviewer.cpp:875
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Select Jobs Directory"
@@ -30419,23 +30402,23 @@ msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Izberite mapo opravil"
 
-#: fitsviewer/fitsviewer.cpp:1001
+#: fitsviewer/fitsviewer.cpp:1003
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Odpri sliko"
 
-#: fitsviewer/fitsviewer.cpp:1284
+#: fitsviewer/fitsviewer.cpp:1286
 #, kde-format
 msgid "Hide %1"
 msgstr "Skrij %1"
 
-#: fitsviewer/fitsviewer.cpp:1289
+#: fitsviewer/fitsviewer.cpp:1291
 #, kde-format
 msgid "Show %1"
 msgstr "Pokaži %1"
 
-#: fitsviewer/fitsviewer.cpp:1313
+#: fitsviewer/fitsviewer.cpp:1315
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30444,7 +30427,7 @@ msgstr ""
 "Usredini daljnogled\n"
 "*Pripravljen*"
 
-#: fitsviewer/fitsviewer.cpp:1325
+#: fitsviewer/fitsviewer.cpp:1327
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -30453,7 +30436,7 @@ msgstr ""
 "Pokaži ekvatorialno mrežo\n"
 "*Ni podatkov WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1327
+#: fitsviewer/fitsviewer.cpp:1329
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30462,7 +30445,7 @@ msgstr ""
 "Usredini daljnogled\n"
 "*Ni podatkov WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1329
+#: fitsviewer/fitsviewer.cpp:1331
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -30471,36 +30454,36 @@ msgstr ""
 "Pokaži objekte v sliki\n"
 "*Ni podatkov WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1361 fitsviewer/fitsviewer.cpp:1516
+#: fitsviewer/fitsviewer.cpp:1363 fitsviewer/fitsviewer.cpp:1518
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Izbirni pravokotnik"
 
-#: fitsviewer/fitsviewer.cpp:1390 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1392 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Velikost"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1398 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1400 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Width"
 msgstr "Širina"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1399 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1401 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Height"
 msgstr "Višina"
 
-#: fitsviewer/fitsviewer.cpp:1597
+#: fitsviewer/fitsviewer.cpp:1599
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Odstrani oznake zvezd"
 
-#: fitsviewer/fitsviewer.cpp:1613
+#: fitsviewer/fitsviewer.cpp:1615
 #, kde-format
 msgid "Processing %1..."
 msgstr "Obdelava %1 …"
@@ -39439,18 +39422,8 @@ msgstr ""
 "Ne dovoli poslom, da bodo razporejeni ali izvedeni v manj kot toliko minutah "
 "do zore."
 
-#. i18n: ectx: label, entry (SettingAltitudeCutoff), group (Scheduler)
-#: kstars.kcfg:3003
-#, fuzzy, kde-format
-msgid ""
-"Do not permit jobs to be scheduled less than this many degrees before the "
-"altitude restriction. Actual execution proceeds until the altitude limit."
-msgstr ""
-"Ne dovolite, da se delovna mesta razporedijo manj kot toliko stopinj pred "
-"omejitev nadmorske višine. Dejanska usmrtitev se nadaljuje do višine."
-
 #. i18n: ectx: label, entry (DawnOffset), group (Scheduler)
-#: kstars.kcfg:3007
+#: kstars.kcfg:3003
 #, fuzzy, kde-format
 msgid ""
 "Offset astronomical dawn by this many hours to relax twilight restriction "
@@ -39460,7 +39433,7 @@ msgstr ""
 "uporabi ozkopasovnih filtrov."
 
 #. i18n: ectx: label, entry (DuskOffset), group (Scheduler)
-#: kstars.kcfg:3011
+#: kstars.kcfg:3007
 #, fuzzy, kde-format
 msgid ""
 "Offset astronomical dusk by this many hours to relax twilight restriction "
@@ -39470,55 +39443,55 @@ msgstr ""
 "uporabi ozkopasovnih filtrov."
 
 #. i18n: ectx: label, entry (TelescopeFocalLength), group (Scheduler)
-#: kstars.kcfg:3015
+#: kstars.kcfg:3011
 #, kde-format
 msgid "Telescope focal length in millimeters."
 msgstr "Goriščna razdalja daljnogleda v milimetrih."
 
 #. i18n: ectx: label, entry (TelescopeFocalReducer), group (Scheduler)
-#: kstars.kcfg:3019
+#: kstars.kcfg:3015
 #, kde-format
 msgid "Focal Reducer ratio"
 msgstr "Razmerje skrajševalnika"
 
 #. i18n: ectx: label, entry (CameraPixelWidth), group (Scheduler)
-#: kstars.kcfg:3023
+#: kstars.kcfg:3019
 #, kde-format
 msgid "Camera pixel size width in micrometers."
 msgstr "Širina slikovne točke fotoaparata v mikrometrih."
 
 #. i18n: ectx: label, entry (CameraPixelHeight), group (Scheduler)
-#: kstars.kcfg:3027
+#: kstars.kcfg:3023
 #, kde-format
 msgid "Camera pixel size height in micrometers."
 msgstr "Višina slikovne točke fotoaparata v mikrometrih."
 
 #. i18n: ectx: label, entry (CameraWidth), group (Scheduler)
-#: kstars.kcfg:3031
+#: kstars.kcfg:3027
 #, kde-format
 msgid "Camera Width in pixels."
 msgstr "Širina fotoaparata v slikovnih točkah."
 
 #. i18n: ectx: label, entry (CameraHeight), group (Scheduler)
-#: kstars.kcfg:3035
+#: kstars.kcfg:3031
 #, kde-format
 msgid "Camera Height in pixels."
 msgstr "Višina fotoaparata v slikovnih točkah."
 
 #. i18n: ectx: label, entry (CameraRotation), group (Scheduler)
-#: kstars.kcfg:3039
+#: kstars.kcfg:3035
 #, kde-format
 msgid "Position angle of the camera with respect to north."
 msgstr "Položajni kot fotoaparata glede na sever."
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategy), group (Scheduler)
-#: kstars.kcfg:3043
+#: kstars.kcfg:3039
 #, fuzzy, kde-format
 msgid "Strategy how to react, when a job aborts or steps into an error."
 msgstr "Strategija, kako reagirati, ko se delo konča ali stopi v napako."
 
 #. i18n: ectx: label, entry (ErrorHandlingStrategyDelay), group (Scheduler)
-#: kstars.kcfg:3047
+#: kstars.kcfg:3043
 #, fuzzy, kde-format
 msgid ""
 "Delay in minutes how long the scheduler should pause before restarting an "
@@ -39528,20 +39501,20 @@ msgstr ""
 "zagnate ugasnjena opravila ali delo, ki je naletelo na napako."
 
 #. i18n: ectx: label, entry (RescheduleErrors), group (Scheduler)
-#: kstars.kcfg:3051
+#: kstars.kcfg:3047
 #, fuzzy, kde-format
 msgid "Re-schedule jobs that ran into errors."
 msgstr "Ponovno razporedite opravila, ki so naletela na napake."
 
 #. i18n: ectx: label, entry (SchedulerParkDome), group (Scheduler)
-#: kstars.kcfg:3063
+#: kstars.kcfg:3059
 #, kde-format
 msgid "Default scheduler checkbox for parking dome on shutdown."
 msgstr ""
 "Privzeto potrditveno polje razporejevalnika za parkiranje kupole ob izklopu."
 
 #. i18n: ectx: label, entry (SchedulerParkMount), group (Scheduler)
-#: kstars.kcfg:3067
+#: kstars.kcfg:3063
 #, fuzzy, kde-format
 msgid "Default scheduler checkbox for parking mount on shutdown."
 msgstr ""
@@ -39549,7 +39522,7 @@ msgstr ""
 "izklopu."
 
 #. i18n: ectx: label, entry (SchedulerCloseDustCover), group (Scheduler)
-#: kstars.kcfg:3071
+#: kstars.kcfg:3067
 #, kde-format
 msgid "Default scheduler checkbox for closing dust cover on shutdown."
 msgstr ""
@@ -39557,7 +39530,7 @@ msgstr ""
 "pokrivala ob izklopu."
 
 #. i18n: ectx: label, entry (SchedulerWarmCCD), group (Scheduler)
-#: kstars.kcfg:3075
+#: kstars.kcfg:3071
 #, kde-format
 msgid "Default scheduler checkbox for warming the CCD on shutdown."
 msgstr ""
@@ -39565,14 +39538,14 @@ msgstr ""
 "izklopu."
 
 #. i18n: ectx: label, entry (SchedulerUnparkDome), group (Scheduler)
-#: kstars.kcfg:3079
+#: kstars.kcfg:3075
 #, kde-format
 msgid "Default scheduler checkbox for unparking dome on startup."
 msgstr ""
 "Privzeto potrditveno polje razporejevalnika za odparkiranje kupole ob vklopu."
 
 #. i18n: ectx: label, entry (SchedulerUnparkMount), group (Scheduler)
-#: kstars.kcfg:3083
+#: kstars.kcfg:3079
 #, fuzzy, kde-format
 msgid "Default scheduler checkbox for unparking mount on startup."
 msgstr ""
@@ -39580,7 +39553,7 @@ msgstr ""
 "ob vklopu."
 
 #. i18n: ectx: label, entry (SchedulerOpenDustCover), group (Scheduler)
-#: kstars.kcfg:3087
+#: kstars.kcfg:3083
 #, kde-format
 msgid "Default scheduler checkbox for opening dust cover on startup."
 msgstr ""
@@ -39588,7 +39561,7 @@ msgstr ""
 "pokrivala ob vklopu."
 
 #. i18n: ectx: label, entry (SchedulerTrackStep), group (Scheduler)
-#: kstars.kcfg:3091
+#: kstars.kcfg:3087
 #, kde-format
 msgid "Default scheduler checkbox for starting mount tracking on job startup."
 msgstr ""
@@ -39596,19 +39569,19 @@ msgstr ""
 "zagonu posla."
 
 #. i18n: ectx: label, entry (SchedulerStartupScript), group (Scheduler)
-#: kstars.kcfg:3095
+#: kstars.kcfg:3091
 #, kde-format
 msgid "Execute this script when starting the scheduler."
 msgstr "Izvrši ta skript ob zagonu razporejevalnika."
 
 #. i18n: ectx: label, entry (SchedulerShutdownScript), group (Scheduler)
-#: kstars.kcfg:3098
+#: kstars.kcfg:3094
 #, kde-format
 msgid "Execute this script when shutting down the scheduler."
 msgstr "Izvrši ta skript ob zapiranju razporejevalnika."
 
 #. i18n: ectx: label, entry (SchedulerFocusStep), group (Scheduler)
-#: kstars.kcfg:3101
+#: kstars.kcfg:3097
 #, kde-format
 msgid "Default scheduler checkbox for running autofocus on job startup."
 msgstr ""
@@ -39616,42 +39589,42 @@ msgstr ""
 "posla."
 
 #. i18n: ectx: label, entry (SchedulerGuideStep), group (Scheduler)
-#: kstars.kcfg:3105
+#: kstars.kcfg:3101
 #, fuzzy, kde-format
 msgid "Default scheduler checkbox for starting guiding on job startup."
 msgstr ""
 "Privzeto potrditveno polje razporejevalnika za zagon vodenja ob zagonu posla."
 
 #. i18n: ectx: label, entry (SchedulerAlignStep), group (Scheduler)
-#: kstars.kcfg:3109
+#: kstars.kcfg:3105
 #, kde-format
 msgid "Default scheduler checkbox for aligning on job startup."
 msgstr ""
 "Privzeto potrditveno polje razporejevalnika za poravnavanje ob zagonu posla."
 
 #. i18n: ectx: label, entry (SchedulerAltitude), group (Scheduler)
-#: kstars.kcfg:3113
+#: kstars.kcfg:3109
 #, kde-format
 msgid "Default scheduler checkbox for job altitude constraints."
 msgstr ""
 "Privzeto potrditveno polje razporejevalnika za višinske omejitve posla."
 
 #. i18n: ectx: label, entry (SchedulerAltitudeValue), group (Scheduler)
-#: kstars.kcfg:3117
+#: kstars.kcfg:3113
 #, fuzzy, kde-format
 #| msgid "Default maximum mount altitude limit."
 msgid "Default scheduler job altitude constraint."
 msgstr "Privzeta najvišja meja višine stojala."
 
 #. i18n: ectx: label, entry (SchedulerHorizon), group (Scheduler)
-#: kstars.kcfg:3121
+#: kstars.kcfg:3117
 #, fuzzy, kde-format
 #| msgid "The color for the artificial horizon region."
 msgid "Default scheduler checkbox for job artificial horizon constraints."
 msgstr "Barva območja navideznega obzorja."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
-#: kstars.kcfg:3125
+#: kstars.kcfg:3121
 #, kde-format
 msgid "Default scheduler checkbox for job moon separation constraints."
 msgstr ""
@@ -39659,34 +39632,34 @@ msgstr ""
 "odmika."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
-#: kstars.kcfg:3129
+#: kstars.kcfg:3125
 #, kde-format
 msgid "Default scheduler job moon separation constraint."
 msgstr "Privzeta omejitev posla glede luninega odmika."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
-#: kstars.kcfg:3133
+#: kstars.kcfg:3129
 #, kde-format
 msgid "Default scheduler checkbox for job weather constraints."
 msgstr ""
 "Privzeto potrditveno polje razporejevalnika za vremenske omejitve posla."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
-#: kstars.kcfg:3137
+#: kstars.kcfg:3133
 #, kde-format
 msgid "Default scheduler checkbox for job twilight constraints."
 msgstr ""
 "Privzeto potrditveno polje razporejevalnika za omejitve posla glede somraka."
 
 #. i18n: ectx: label, entry (SchedulerCompleteSequences), group (Scheduler)
-#: kstars.kcfg:3141
+#: kstars.kcfg:3137
 #, fuzzy, kde-format
 #| msgid "The observation job is completed when the sequence is complete."
 msgid "Scheduler is complete once all sequences are complete."
 msgstr "Posel opazovanja je zaključen, ko je zaključeno zaporedje."
 
 #. i18n: ectx: label, entry (SchedulerRepeatEverything), group (Scheduler)
-#: kstars.kcfg:3145
+#: kstars.kcfg:3141
 #, fuzzy, kde-format
 msgid "Restart all scheduler jobs when all scheduler jobs have completed."
 msgstr ""
@@ -39694,7 +39667,7 @@ msgstr ""
 "dokončani ali ugasnjeni."
 
 #. i18n: ectx: label, entry (SchedulerRepeatSequences), group (Scheduler)
-#: kstars.kcfg:3149
+#: kstars.kcfg:3145
 #, fuzzy, kde-format
 msgid "Restart sequences as soon as all sequences have been completed."
 msgstr ""
@@ -39702,32 +39675,32 @@ msgstr ""
 "dokončani ali ugasnjeni."
 
 #. i18n: ectx: label, entry (SchedulerUntilTerminated), group (Scheduler)
-#: kstars.kcfg:3153
+#: kstars.kcfg:3149
 #, fuzzy, kde-format
 msgid "Restart sequences until manually terminated."
 msgstr "Snemanje toka, dokler se ročno ne ustavi"
 
 #. i18n: ectx: label, entry (SchedulerUntil), group (Scheduler)
-#: kstars.kcfg:3157
+#: kstars.kcfg:3153
 #, kde-format
 msgid "Loop sequences until specific time is up."
 msgstr "Zankaj zaporedja, dokler navedeni čas ne poteče."
 
 #. i18n: ectx: label, entry (SchedulerUntilValue), group (Scheduler)
-#: kstars.kcfg:3161
+#: kstars.kcfg:3157
 #, fuzzy, kde-format
 #| msgid "Limit how many times the scheduler should execute all sequences."
 msgid "Time when scheduler should stop repeating sequences."
 msgstr "Omejite, kolikokrat naj razporejevalnik izvede vsa zaporedja."
 
 #. i18n: ectx: label, entry (SchedulerExecutionSequencesLimit), group (Scheduler)
-#: kstars.kcfg:3164
+#: kstars.kcfg:3160
 #, kde-format
 msgid "Limit how many times the scheduler should execute all sequences."
 msgstr "Omejite, kolikokrat naj razporejevalnik izvede vsa zaporedja."
 
 #. i18n: ectx: label, entry (AnalyzeRestartWithEkos), group (Analyze)
-#: kstars.kcfg:3170
+#: kstars.kcfg:3166
 #, kde-format
 msgid ""
 "If Analyze is running and Ekos is disconnected then reconnected, a new ."
@@ -39736,19 +39709,19 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (AnalyzeAlternativeImageDirectory), group (Analyze)
-#: kstars.kcfg:3174
+#: kstars.kcfg:3170
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
-#: kstars.kcfg:3178
+#: kstars.kcfg:3174
 #, fuzzy, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
 msgstr "Prikaz HFR na analitičnem načrtu."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
-#: kstars.kcfg:3182
+#: kstars.kcfg:3178
 #, fuzzy, kde-format
 msgid ""
 "Display number of stars detected in the capture on the Analyze Statistics "
@@ -39757,7 +39730,7 @@ msgstr ""
 "Prikaz števila zvezd, odkritih v zajemu na analitičnem prikazu statistike."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMedian), group (Analyze)
-#: kstars.kcfg:3186
+#: kstars.kcfg:3182
 #, fuzzy, kde-format
 msgid ""
 "Display median sample value for the capture on the Analyze Statistics Plot."
@@ -39766,7 +39739,7 @@ msgstr ""
 "statistike."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeEccentricity), group (Analyze)
-#: kstars.kcfg:3190
+#: kstars.kcfg:3186
 #, fuzzy, kde-format
 msgid ""
 "Display the median eccentricity for the stars in the capture on the Analyze "
@@ -39776,74 +39749,74 @@ msgstr ""
 "ploskev."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTemperature), group (Analyze)
-#: kstars.kcfg:3194
+#: kstars.kcfg:3190
 #, fuzzy, kde-format
 msgid "Display the ambient temperature on the Analyze Statistics Plot."
 msgstr "Prikažite temperaturo okolice na analitičnem načrtu statistike."
 
 #. i18n: ectx: whatsthis, entry (FocusPosition), group (Analyze)
-#: kstars.kcfg:3198
+#: kstars.kcfg:3194
 #, fuzzy, kde-format
 #| msgid "Display the focus InfoBox?"
 msgid "Display the autofocus solution position."
 msgstr "Ali naj bo prikazan okvir s smerjo pogleda?"
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumStars), group (Analyze)
-#: kstars.kcfg:3202
+#: kstars.kcfg:3198
 #, fuzzy, kde-format
 msgid "Display NumStars on the Analyze Statistics Plot."
 msgstr "Prikažite NumStars na analitični statistiki."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSkyBg), group (Analyze)
-#: kstars.kcfg:3206
+#: kstars.kcfg:3202
 #, fuzzy, kde-format
 msgid "Display SkyBackground on the Analyze Statistics Plot."
 msgstr "Prikaži skyBackground na analizni statistični načrt."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeSNR), group (Analyze)
-#: kstars.kcfg:3210
+#: kstars.kcfg:3206
 #, fuzzy, kde-format
 msgid "Display SNR on the Analyze Statistics Plot."
 msgstr "Prikaz SNR na analitični statistiki."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRA), group (Analyze)
-#: kstars.kcfg:3214
+#: kstars.kcfg:3210
 #, fuzzy, kde-format
 msgid "Display RA on the Analyze Statistics Plot."
 msgstr "Prikaz RA na analitičnem načrtu."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDEC), group (Analyze)
-#: kstars.kcfg:3218
+#: kstars.kcfg:3214
 #, fuzzy, kde-format
 msgid "Display DEC on the Analyze Statistics Plot."
 msgstr "Prikaz DEC na analitičnem prikazu statistike."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRAp), group (Analyze)
-#: kstars.kcfg:3222
+#: kstars.kcfg:3218
 #, fuzzy, kde-format
 msgid "Display RA Pulses on the Analyze Statistics Plot."
 msgstr "Prikaz ra impulzov na analizi statističnega načrta."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDECp), group (Analyze)
-#: kstars.kcfg:3226
+#: kstars.kcfg:3222
 #, fuzzy, kde-format
 msgid "Display DEC Pulses on the Analyze Statistics Plot."
 msgstr "Prikaz DEC impulzov na analizi statističnega načrta."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeDrift), group (Analyze)
-#: kstars.kcfg:3230
+#: kstars.kcfg:3226
 #, fuzzy, kde-format
 msgid "Display Drift on the Analyze Statistics Plot."
 msgstr "Prikaz drifta na analizah statističnega načrta."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMS), group (Analyze)
-#: kstars.kcfg:3234
+#: kstars.kcfg:3230
 #, fuzzy, kde-format
 msgid "Display RMS Error on the Analyze Statistics Plot."
 msgstr "Prikaže napako RMS na analitičnem načrtu statistike."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeTargetDistance), group (Analyze)
-#: kstars.kcfg:3238
+#: kstars.kcfg:3234
 #, fuzzy, kde-format
 msgid ""
 "Display the arc-seconds distance between the target position and the plate-"
@@ -39853,74 +39826,74 @@ msgstr ""
 "ploskev."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeRMSC), group (Analyze)
-#: kstars.kcfg:3242
+#: kstars.kcfg:3238
 #, fuzzy, kde-format
 msgid "Display RMS Error (during capture) on the Analyze Statistics Plot."
 msgstr "Prikaže napako RMS (med zajemanjem) na analitičnem prikazu statistike."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountRA), group (Analyze)
-#: kstars.kcfg:3246
+#: kstars.kcfg:3242
 #, fuzzy, kde-format
 msgid "Display Mount RA on the Analyze Statistics Plot."
 msgstr "Prikažite mount RA na analizni statistični ploskov."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountDEC), group (Analyze)
-#: kstars.kcfg:3250
+#: kstars.kcfg:3246
 #, fuzzy, kde-format
 msgid "Display Mount DEC on the Analyze Statistics Plot."
 msgstr "Prikažite mount DEC na analizni statistični načrt."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeMountHA), group (Analyze)
-#: kstars.kcfg:3254
+#: kstars.kcfg:3250
 #, fuzzy, kde-format
 msgid "Display Mount Hour Angle on the Analyze Statistics Plot."
 msgstr "Prikažite kot ure mounta na analitični statistični plot."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAz), group (Analyze)
-#: kstars.kcfg:3258
+#: kstars.kcfg:3254
 #, fuzzy, kde-format
 msgid "Display Azimuth on the Analyze Statistics Plot."
 msgstr "Prikažite Azimuth na analizi statističnega načrta."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeAlt), group (Analyze)
-#: kstars.kcfg:3262
+#: kstars.kcfg:3258
 #, fuzzy, kde-format
 msgid "Display Altitude on the Analyze Statistics Plot."
 msgstr "Prikaz nadmorske višine na analizah statističnih načrtov."
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
-#: kstars.kcfg:3266
+#: kstars.kcfg:3262
 #, fuzzy, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
 msgstr "Prikaz PierSide na analizi statističnega načrta."
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
-#: kstars.kcfg:3270
+#: kstars.kcfg:3266
 #, fuzzy, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
 msgstr "Prikaz drifta na analizah statističnega načrta."
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
-#: kstars.kcfg:3275
+#: kstars.kcfg:3271
 #, kde-format
 msgid "The address of last used server"
 msgstr "Naslov zadnje uporabljenega strežnika"
 
 #. i18n: ectx: label, entry (LastServerPort), group (INDI Lite)
-#: kstars.kcfg:3278
+#: kstars.kcfg:3274
 #, kde-format
 msgid "The port of last used server"
 msgstr "Vrata zadnje uporabljenega strežnika"
 
 #. i18n: ectx: label, entry (LastWebManagerPort), group (INDI Lite)
-#: kstars.kcfg:3282
+#: kstars.kcfg:3278
 #, fuzzy, kde-format
 #| msgid "The port of last used server"
 msgid "The port of last used Web Manager"
 msgstr "Vrata zadnje uporabljenega strežnika"
 
 #. i18n: ectx: label, entry (HIPSMemoryCache), group (HIPS)
-#: kstars.kcfg:3288
+#: kstars.kcfg:3284
 #, fuzzy, kde-format
 msgid "RAM cache size in MB used to store cached HIPS images."
 msgstr ""
@@ -39928,7 +39901,7 @@ msgstr ""
 "predpomnjenih slik HIPS."
 
 #. i18n: ectx: label, entry (HIPSNetCache), group (HIPS)
-#: kstars.kcfg:3292
+#: kstars.kcfg:3288
 #, fuzzy, kde-format
 msgid "Hard disk cache size in MB used to store cached HIPS images."
 msgstr ""
@@ -39936,170 +39909,170 @@ msgstr ""
 "predpomnjenih HIPS slik."
 
 #. i18n: ectx: label, entry (HIPSSource), group (HIPS)
-#: kstars.kcfg:3296
+#: kstars.kcfg:3292
 #, fuzzy, kde-format
 msgid "HIPS source catalog title."
 msgstr "Naslov izvornega kataloga HIPS."
 
 #. i18n: ectx: label, entry (HIPSBiLinearInterpolation), group (HIPS)
-#: kstars.kcfg:3300
+#: kstars.kcfg:3296
 #, fuzzy, kde-format
 msgid "Use Bilinear interpolation when rendering HiPS images?"
 msgstr "Uporabite bilinearno interpolacijo pri urujanju HiPS slik?"
 
 #. i18n: ectx: label, entry (HIPSShowGrid), group (HIPS)
-#: kstars.kcfg:3304
+#: kstars.kcfg:3300
 #, fuzzy, kde-format
 #| msgid "Draw Sun in the sky map?"
 msgid "Show HiPS grid on the sky map."
 msgstr "Izris Sonca na zvezdni karti?"
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
-#: kstars.kcfg:3308
+#: kstars.kcfg:3304
 #, fuzzy, kde-format
 msgid "Redraw HiPS while panning."
 msgstr "Redraw HiPS med panning."
 
 #. i18n: ectx: label, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3312
+#: kstars.kcfg:3308
 #, fuzzy, kde-format
 #| msgid "Draw stars in the sky map?"
 msgid "Draw HiPS sources in the sky map?"
 msgstr "Izris zvezd na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowHIPS), group (HIPS)
-#: kstars.kcfg:3313
+#: kstars.kcfg:3309
 #, fuzzy, kde-format
 #| msgid "Toggle whether stars are drawn in the sky map."
 msgid "Toggle whether the HIPS sources are drawn in the sky map."
 msgstr "Preklopi izris zvezd na zvezdni karti."
 
 #. i18n: ectx: label, entry (HIPSUseOfflineSource), group (HIPS)
-#: kstars.kcfg:3317
+#: kstars.kcfg:3313
 #, fuzzy, kde-format
 msgid "Use offline storage to load HiPS?"
 msgstr "Ali želite uporabiti nepovezano shrambo za nalaganje HiPS?"
 
 #. i18n: ectx: label, entry (HIPSOfflinePath), group (HIPS)
-#: kstars.kcfg:3321
+#: kstars.kcfg:3317
 #, fuzzy, kde-format
 msgid "HIPS offline full path."
 msgstr "Seznam poti kazalne mape."
 
 #. i18n: ectx: label, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3326
+#: kstars.kcfg:3322
 #, fuzzy, kde-format
 msgid "Terrain Filename."
 msgstr "Ime terenske datoteke."
 
 #. i18n: ectx: whatsthis, entry (TerrainSource), group (Terrain)
-#: kstars.kcfg:3327
+#: kstars.kcfg:3323
 #, fuzzy, kde-format
 msgid "Terrain source filename."
 msgstr "Ime vira terenov."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3331
+#: kstars.kcfg:3327
 #, fuzzy, kde-format
 msgid "Terrain Azimuth Correction."
 msgstr "Popravek terenske azimute."
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAz), group (Terrain)
-#: kstars.kcfg:3332
+#: kstars.kcfg:3328
 #, fuzzy, kde-format
 msgid "Terrain source azimuth correction."
 msgstr "Popravek vira azimuta."
 
 #. i18n: ectx: label, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3336
+#: kstars.kcfg:3332
 #, fuzzy, kde-format
 #| msgid "Altitude Direction:"
 msgid "Terrain Altitude Correction."
 msgstr "Smer višine:"
 
 #. i18n: ectx: whatsthis, entry (TerrainSourceCorrectAlt), group (Terrain)
-#: kstars.kcfg:3337
+#: kstars.kcfg:3333
 #, fuzzy, kde-format
 msgid "Terrain source altitude correction."
 msgstr "Popravek višine vira terenov."
 
 #. i18n: ectx: label, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3341
+#: kstars.kcfg:3337
 #, fuzzy, kde-format
 #| msgid "Download all Images"
 msgid "Terrain Downsampling"
 msgstr "Prejmi vse slike"
 
 #. i18n: ectx: whatsthis, entry (TerrainDownsampling), group (Terrain)
-#: kstars.kcfg:3342
+#: kstars.kcfg:3338
 #, fuzzy, kde-format
 msgid "Speed quality tradeoff for rendering the terrain image."
 msgstr "Menjava kakovosti hitrosti za prikaz slike na terenu."
 
 #. i18n: ectx: label, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3346
+#: kstars.kcfg:3342
 #, fuzzy, kde-format
 msgid "Terrain While panning."
 msgstr "Teren med pomikanjem."
 
 #. i18n: ectx: whatsthis, entry (TerrainPanning), group (Terrain)
-#: kstars.kcfg:3347
+#: kstars.kcfg:3343
 #, fuzzy, kde-format
 msgid "Redraw terrain while panning."
 msgstr "Ponovno narahlajte teren med panningom."
 
 #. i18n: ectx: label, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3351
+#: kstars.kcfg:3347
 #, fuzzy, kde-format
 msgid "Draw terrain"
 msgstr "Nariši teren"
 
 #. i18n: ectx: whatsthis, entry (ShowTerrain), group (Terrain)
-#: kstars.kcfg:3352
+#: kstars.kcfg:3348
 #, fuzzy, kde-format
 #| msgid "Toggle whether the Sun is drawn in the sky map."
 msgid "Toggle whether the terrain is drawn in the sky map."
 msgstr "Preklopi izris Sonca na zvezdni karti."
 
 #. i18n: ectx: label, entry (TerrainSkipSpeedup), group (Terrain)
-#: kstars.kcfg:3356
+#: kstars.kcfg:3352
 #, fuzzy, kde-format
 msgid "Terrain Skip Speedup"
 msgstr "Teren Preskoči pospešitev"
 
 #. i18n: ectx: whatsthis, entry (TerrainSkipSpeedup), group (Terrain)
 #. i18n: ectx: whatsthis, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3357 kstars.kcfg:3362
+#: kstars.kcfg:3353 kstars.kcfg:3358
 #, fuzzy, kde-format
 msgid "Enable a one of the terrain drawing speedups."
 msgstr "Omogočite eno od hitrosti risanja terenov."
 
 #. i18n: ectx: label, entry (TerrainTransparencySpeedup), group (Terrain)
-#: kstars.kcfg:3361
+#: kstars.kcfg:3357
 #, fuzzy, kde-format
 msgid "Terrain Transparency Speedup."
 msgstr "Hitrost preglednosti terenov."
 
 #. i18n: ectx: label, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3366
+#: kstars.kcfg:3362
 #, fuzzy, kde-format
 msgid "Terrain Smooth Pixels."
 msgstr "Teren gladki piksli."
 
 #. i18n: ectx: whatsthis, entry (TerrainSmoothPixels), group (Terrain)
-#: kstars.kcfg:3367
+#: kstars.kcfg:3363
 #, fuzzy, kde-format
 msgid "Smooth pixels for a more pleasant, but slower rendering."
 msgstr "Gladki piksli za prijetnejše, a počasnejše uglajevanje."
 
 #. i18n: ectx: label, entry (ShowImageOverlays), group (ImageOverlay)
-#: kstars.kcfg:3373
+#: kstars.kcfg:3369
 #, kde-format
 msgid "Display Image Overlays."
 msgstr "Prikaz prekrivanja slik."
 
 #. i18n: ectx: whatsthis, entry (ShowImageOverlays), group (ImageOverlay)
-#: kstars.kcfg:3374
+#: kstars.kcfg:3370
 #, kde-format
 msgid "Toggle whether to display image overlays."
 msgstr "Preklopi prikaz prekrivanja slik."
@@ -40107,20 +40080,20 @@ msgstr "Preklopi prikaz prekrivanja slik."
 #. i18n: ectx: label, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: whatsthis, entry (ShowImageOverlaysBelowCatalogs), group (ImageOverlay)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
-#: kstars.kcfg:3378 kstars.kcfg:3379 options/opsimageoverlay.ui:81
+#: kstars.kcfg:3374 kstars.kcfg:3375 options/opsimageoverlay.ui:81
 #, fuzzy, kde-format
 #| msgid "Display Image Overlays."
 msgid "Display Image Overlays below catalogs."
 msgstr "Prikaz prekrivanja slik."
 
 #. i18n: ectx: label, entry (ShowSelectedImageOverlay), group (ImageOverlay)
-#: kstars.kcfg:3383
+#: kstars.kcfg:3379
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
 msgstr "Zemljevid SkyMap se osredini nad izbrano prekrivno sliko."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
-#: kstars.kcfg:3384
+#: kstars.kcfg:3380
 #, kde-format
 msgid ""
 "Center SkyMap over the selected overlay image in the image overlay table (if "
@@ -40130,71 +40103,71 @@ msgstr ""
 "slik (če je rešena)."
 
 #. i18n: ectx: label, entry (ImageOverlayMaxDimension), group (ImageOverlay)
-#: kstars.kcfg:3388
+#: kstars.kcfg:3384
 #, fuzzy, kde-format
 #| msgid "Image has invalid dimensions %1x%2"
 msgid "Image overlay max dimension"
 msgstr "Slika ima neveljavne mere %1x%2"
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayMaxDimension), group (ImageOverlay)
-#: kstars.kcfg:3389
+#: kstars.kcfg:3385
 #, fuzzy, kde-format
 #| msgid "Maximum distance for comet names"
 msgid "Maximum dimension for image overlay images."
 msgstr "Največja oddaljenost za imena kometov"
 
 #. i18n: ectx: label, entry (ImageOverlayTimeout), group (ImageOverlay)
-#: kstars.kcfg:3393
+#: kstars.kcfg:3389
 #, kde-format
 msgid "Image overlay plate-solving timeout."
 msgstr "Časovna omejitev reševanja slikovnega prekrivanja plošč."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayTimeout), group (ImageOverlay)
-#: kstars.kcfg:3394
+#: kstars.kcfg:3390
 #, kde-format
 msgid "Timeout for plate-solving an image overlay."
 msgstr "Časovna omejitev za reševanje prekrivanja slike s ploščo."
 
 #. i18n: ectx: label, entry (ImageOverlayDefaultScale), group (ImageOverlay)
-#: kstars.kcfg:3398
+#: kstars.kcfg:3394
 #, kde-format
 msgid "Image overlay default plate-solving scale."
 msgstr "Privzeto merilo za reševanje plošč s prekrivanjem slik."
 
 #. i18n: ectx: whatsthis, entry (ImageOverlayDefaultScale), group (ImageOverlay)
-#: kstars.kcfg:3399
+#: kstars.kcfg:3395
 #, kde-format
 msgid "Default scale (arcseconds/pixel) for image-overlay plate solving."
 msgstr ""
 "Privzeto merilo (arkus sekund/sl. točko) za reševanje prekrivne plošče slike."
 
 #. i18n: ectx: label, entry (DefaultObservatoryWeatherSource), group (Observatory)
-#: kstars.kcfg:3405
+#: kstars.kcfg:3401
 #, fuzzy, kde-format
 #| msgid "Default align module CCD."
 msgid "Default observatory module weather source."
 msgstr "Privzeti modul CCD za poravnavo."
 
 #. i18n: ectx: label, entry (warningActionsActive), group (Observatory)
-#: kstars.kcfg:3408
+#: kstars.kcfg:3404
 #, fuzzy, kde-format
 msgid "Will be reacted upon warnings?"
 msgstr "Se bo odzvalo na opozorila?"
 
 #. i18n: ectx: label, entry (alertActionsActive), group (Observatory)
-#: kstars.kcfg:3412
+#: kstars.kcfg:3408
 #, fuzzy, kde-format
 msgid "Will be reacted upon alerts?"
 msgstr "Se bo odzvalo na opozorila?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseDome), group (Observatory)
-#: kstars.kcfg:3416
+#: kstars.kcfg:3412
 #, fuzzy, kde-format
 msgid "Shall the dome being closed when a weather warning occurs?"
 msgstr "Ali bo kupola zaprta, ko se pojavi opozorilo o vremenu?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseShutter), group (Observatory)
-#: kstars.kcfg:3420
+#: kstars.kcfg:3416
 #, fuzzy, kde-format
 msgid "Shall the shutter being closed when a weather warning occurs?"
 msgstr "Ali naj se zaklop zapre, ko se pojavi opozorilo o vremenu?"
@@ -40202,63 +40175,63 @@ msgstr "Ali naj se zaklop zapre, ko se pojavi opozorilo o vremenu?"
 #. i18n: ectx: label, entry (weatherWarningStopScheduler), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertCloseShutter), group (Observatory)
 #. i18n: ectx: label, entry (weatherAlertStopScheduler), group (Observatory)
-#: kstars.kcfg:3424 kstars.kcfg:3436 kstars.kcfg:3440
+#: kstars.kcfg:3420 kstars.kcfg:3432 kstars.kcfg:3436
 #, fuzzy, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
 msgstr "Naj se zaklop zapre, ko pride do vremenskega opozorila?"
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
-#: kstars.kcfg:3428
+#: kstars.kcfg:3424
 #, fuzzy, kde-format
 msgid "Delay for reacting upon a weather warning."
 msgstr "Zamuda pri odzivu na vremensko opozorilo."
 
 #. i18n: ectx: label, entry (weatherAlertCloseDome), group (Observatory)
-#: kstars.kcfg:3432
+#: kstars.kcfg:3428
 #, fuzzy, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
 msgstr "Ali bo kupola zaprta, ko pride do vremenskega opozorila?"
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
-#: kstars.kcfg:3444
+#: kstars.kcfg:3440
 #, fuzzy, kde-format
 msgid "Delay for reacting upon a weather alert."
 msgstr "Zamuda za odziv na vremensko opozorilo."
 
 #. i18n: ectx: label, entry (observatoryStatusUseDome), group (Observatory)
-#: kstars.kcfg:3448
+#: kstars.kcfg:3444
 #, fuzzy, kde-format
 msgid "Dome status relevant for the Observatory status."
 msgstr "Status kupole, ki je pomemben za stanje observatorja."
 
 #. i18n: ectx: label, entry (observatoryStatusUseShutter), group (Observatory)
-#: kstars.kcfg:3452
+#: kstars.kcfg:3448
 #, fuzzy, kde-format
 msgid "Shutter status relevant for the Observatory status."
 msgstr "Stanje zaklopa, pomembno za stanje observatorja."
 
 #. i18n: ectx: label, entry (observatoryStatusUseWeather), group (Observatory)
-#: kstars.kcfg:3456
+#: kstars.kcfg:3452
 #, fuzzy, kde-format
 msgid "Weather status relevant for the Observatory status."
 msgstr "Vremenska stanja, pomembna za stanje observatorijev."
 
 #. i18n: ectx: label, entry (weatherAutoScaleValues), group (Observatory)
-#: kstars.kcfg:3460
+#: kstars.kcfg:3456
 #, fuzzy, kde-format
 #| msgid "Set the color named %1 to the value %2."
 msgid "Scale the sensor graph value axis to the values range."
 msgstr "Nastavi barvo z imenom %1 na vrednost %2."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
-#: kstars.kcfg:3466
+#: kstars.kcfg:3462
 #, fuzzy, kde-format
 msgid "Full path to the ASTAP executable."
 msgstr "Popolna pot do izvršilne ASTAP."
 
 #. i18n: ectx: label, entry (ASTAPDownSample), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPDownSampleValue), group (ASTAP)
-#: kstars.kcfg:3470 kstars.kcfg:3474
+#: kstars.kcfg:3466 kstars.kcfg:3470
 #, fuzzy, kde-format
 msgid ""
 "Down sample prior to solving. Also called binning. A value 0 will result in "
@@ -40269,7 +40242,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ASTAPSearchRadius), group (ASTAP)
 #. i18n: ectx: label, entry (ASTAPSearchRadiusValue), group (ASTAP)
-#: kstars.kcfg:3478 kstars.kcfg:3482
+#: kstars.kcfg:3474 kstars.kcfg:3478
 #, fuzzy, kde-format
 msgid ""
 "The program will search in a square spiral around the start position up to "
@@ -40279,26 +40252,26 @@ msgstr ""
 "polmera."
 
 #. i18n: ectx: label, entry (ASTAPUpdateFITS), group (ASTAP)
-#: kstars.kcfg:3486
+#: kstars.kcfg:3482
 #, fuzzy, kde-format
 #| msgid "Update the table and the plot for the new date and location."
 msgid "Update the fits header with the found solution."
 msgstr "Posodobi razpredelnico in izris za nov datum in novo lego."
 
 #. i18n: ectx: label, entry (ASTAPLargeSearchWindow), group (ASTAP)
-#: kstars.kcfg:3490
+#: kstars.kcfg:3486
 #, fuzzy, kde-format
 msgid "Increase search window size."
 msgstr "Povečajte velikost okna za iskanje."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyAuto), group (Mosaic)
-#: kstars.kcfg:3496
+#: kstars.kcfg:3492
 #, fuzzy, kde-format
 msgid "Manage the mosaic panel transparency level automatically."
 msgstr "Upravljajte samodejno z ravnjo prosojnosti plošče mozaika."
 
 #. i18n: ectx: whatsthis, entry (MosaicTransparencyLevel), group (Mosaic)
-#: kstars.kcfg:3500
+#: kstars.kcfg:3496
 #, fuzzy, kde-format
 msgid "Control mosaic panel transparency level."
 msgstr "Nadzirajte raven prosojnosti plošče mozaika."
@@ -79144,17 +79117,17 @@ msgstr "Nalaganje zvezd"
 msgid "Please wait while re-indexing stars..."
 msgstr "Počakajte med ponovnim izgrajevanjem kazala zvezd …"
 
-#: skycomponents/supernovaecomponent.cpp:271
+#: skycomponents/supernovaecomponent.cpp:269
 #, kde-format
 msgid "Supernovae Update"
 msgstr "Posodobitev supernov"
 
-#: skycomponents/supernovaecomponent.cpp:272
+#: skycomponents/supernovaecomponent.cpp:270
 #, kde-format
 msgid "Downloading Supernovae updates..."
 msgstr "Prejemanje posodobitev supernov …"
 
-#: skycomponents/supernovaecomponent.cpp:350
+#: skycomponents/supernovaecomponent.cpp:348
 #, fuzzy, kde-format
 #| msgid "Error downloading asteroids data: %1"
 msgid "Error downloading supernova data: %1"
@@ -86794,6 +86767,28 @@ msgstr "Barva ozadja:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavite barvo ozadja."
+
+#, fuzzy
+#~ msgid ""
+#~ "<html><body><p>Do not permit jobs to be scheduled less than this many "
+#~ "degrees before the altitude restriction. Actual execution proceeds until "
+#~ "the altitude limit.</p></body></html>"
+#~ msgstr ""
+#~ "<html><body><p>Ne dovolite, da se delovna mesta razporedijo manj kot "
+#~ "toliko stopinj pred omejitev nadmorske višine. Dejanska usmrtitev se "
+#~ "nadaljuje do višine.</p></body></html>"
+
+#, fuzzy
+#~ msgid "Setting altitude cutoff:"
+#~ msgstr "Nastavitev odklopa nadmorske višine:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Do not permit jobs to be scheduled less than this many degrees before the "
+#~ "altitude restriction. Actual execution proceeds until the altitude limit."
+#~ msgstr ""
+#~ "Ne dovolite, da se delovna mesta razporedijo manj kot toliko stopinj pred "
+#~ "omejitev nadmorske višine. Dejanska usmrtitev se nadaljuje do višine."
 
 #~ msgid ""
 #~ "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
