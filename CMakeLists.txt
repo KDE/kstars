@@ -213,6 +213,12 @@ endif()
 MACRO_BOOL_TO_01(CFITSIO_FOUND HAVE_CFITSIO)
 set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "https://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
 
+## cfitsio cURL dependency
+if(CFITSIO_FOUND)
+    find_package(CURL)
+    set(CFITSIO_LIBRARIES ${CFITSIO_LIBRARIE} CURL::libcurl)
+endif(CFITSIO_FOUND)
+
 ## INDI Library
 if (ANDROID)
     set(QT_ANDROID $ENV{QT_ANDROID})

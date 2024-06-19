@@ -98,7 +98,7 @@ microsoftstore_qt515:
     - add-apt-repository --remove ppa:mutlaqja/indinightly
     - add-apt-repository ppa:mutlaqja/ppa
     - apt update
-    - apt -y --no-install-recommends install libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libstellarsolver libstellarsolver-dev
+    - apt -y --no-install-recommends install libindi1 libindi-dev libindi-data indi-bin xplanet gsc phd2 libstellarsolver libstellarsolver-dev libcurl4-openssl-dev
     - mkdir -p kstars-build
   after_script:
     - ccache -s
