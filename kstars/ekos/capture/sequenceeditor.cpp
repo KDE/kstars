@@ -6,7 +6,8 @@
 
 #include "sequenceeditor.h"
 
-#include "capture.h"
+#include "camera.h"
+#include "ekos/auxiliary/opticaltrainsettings.h"
 #include <kstars_debug.h>
 
 // These strings are used to store information in the optical train
@@ -51,21 +52,21 @@ SequenceEditor::SequenceEditor(QWidget * parent) : QDialog(parent)
 #endif
     setupUi(this);
 
-    // initialize capture standalone
-    m_capture.reset(new Capture(true));
+    // initialize standalone camera
+    m_camera.reset(new Camera(true));
     initStandAlone();
-    sequenceEditorLayout->insertWidget(1, m_capture.get());
+    sequenceEditorLayout->insertWidget(1, m_camera.get());
 }
 void SequenceEditor::showEvent(QShowEvent* event)
 {
     QWidget::showEvent(event);
     onStandAloneShow();
-    m_capture->mainCamera()->onStandAloneShow(event);
+    m_camera->onStandAloneShow(event);
 }
 
 void SequenceEditor::initStandAlone()
 {
-    QSharedPointer<Camera> mainCam = m_capture->mainCamera();
+    QSharedPointer<Camera> mainCam = m_camera;
     mainCam->processGrid->setVisible(false);
     mainCam->loadSaveBox->setVisible(true);
     mainCam->loadSaveBox->setEnabled(true);
@@ -111,51 +112,51 @@ void SequenceEditor::onStandAloneShow()
     sequenceEditorComment->setText(comment);
 
     // Add extra load and save buttons at the bottom of the window.
-    m_capture->mainCamera()->loadSaveBox->setEnabled(true);
-    m_capture->mainCamera()->loadSaveBox->setVisible(true);
-    connect(m_capture->mainCamera()->esqSaveAsB, &QPushButton::clicked, m_capture->mainCamera().get(),
+    m_camera->loadSaveBox->setEnabled(true);
+    m_camera->loadSaveBox->setVisible(true);
+    connect(m_camera->esqSaveAsB, &QPushButton::clicked, m_camera.get(),
             &Camera::saveSequenceQueueAs);
-    connect(m_capture->mainCamera()->esqLoadB, &QPushButton::clicked, m_capture->mainCamera().get(),
+    connect(m_camera->esqLoadB, &QPushButton::clicked, m_camera.get(),
             static_cast<void(Camera::*)()>(&Camera::loadSequenceQueue));
 
-    m_capture->mainCamera()->FilterPosCombo->clear();
+    m_camera->FilterPosCombo->clear();
     if (m_Settings.contains(KEY_FILTERS))
-        addToCombo(m_capture->mainCamera()->FilterPosCombo, m_Settings[KEY_FILTERS].toStringList());
+        addToCombo(m_camera->FilterPosCombo, m_Settings[KEY_FILTERS].toStringList());
 
-    if (m_capture->mainCamera()->FilterPosCombo->count() > 0)
+    if (m_camera->FilterPosCombo->count() > 0)
     {
-        m_capture->mainCamera()->filterEditB->setEnabled(true);
-        m_capture->mainCamera()->filterManagerB->setEnabled(true);
+        m_camera->filterEditB->setEnabled(true);
+        m_camera->filterManagerB->setEnabled(true);
     }
 
-    m_capture->mainCamera()->captureGainN->setEnabled(true);
-    m_capture->mainCamera()->captureGainN->setSpecialValueText(i18n("--"));
+    m_camera->captureGainN->setEnabled(true);
+    m_camera->captureGainN->setSpecialValueText(i18n("--"));
 
-    m_capture->mainCamera()->captureOffsetN->setEnabled(true);
-    m_capture->mainCamera()->captureOffsetN->setSpecialValueText(i18n("--"));
+    m_camera->captureOffsetN->setEnabled(true);
+    m_camera->captureOffsetN->setSpecialValueText(i18n("--"));
 
     // Always add these strings to the types menu. Might also add other ones
     // that were used in the last capture session.
     const QStringList frameTypes = {"Light", "Dark", "Bias", "Flat"};
-    m_capture->mainCamera()->captureTypeS->clear();
-    m_capture->mainCamera()->captureTypeS->addItems(frameTypes);
+    m_camera->captureTypeS->clear();
+    m_camera->captureTypeS->addItems(frameTypes);
 
     // Always add these strings to the encodings menu. Might also add other ones
     // that were used in the last capture session.
     const QStringList frameEncodings = {"FITS", "Native", "XISF"};
-    m_capture->mainCamera()->captureEncodingS->clear();
-    m_capture->mainCamera()->captureEncodingS->addItems(frameEncodings);
+    m_camera->captureEncodingS->clear();
+    m_camera->captureEncodingS->addItems(frameEncodings);
 
     if (m_Settings.contains(KEY_FORMATS))
     {
-        m_capture->mainCamera()->captureFormatS->clear();
-        addToCombo(m_capture->mainCamera()->captureFormatS, m_Settings[KEY_FORMATS].toStringList());
+        m_camera->captureFormatS->clear();
+        addToCombo(m_camera->captureFormatS, m_Settings[KEY_FORMATS].toStringList());
     }
 
-    m_capture->mainCamera()->cameraTemperatureN->setEnabled(true);
-    m_capture->mainCamera()->cameraTemperatureN->setReadOnly(false);
-    m_capture->mainCamera()->cameraTemperatureN->setSingleStep(1);
-    m_capture->mainCamera()->cameraTemperatureS->setEnabled(true);
+    m_camera->cameraTemperatureN->setEnabled(true);
+    m_camera->cameraTemperatureN->setReadOnly(false);
+    m_camera->cameraTemperatureN->setSingleStep(1);
+    m_camera->cameraTemperatureS->setEnabled(true);
 
     double minTemp = -50, maxTemp = 50;
     if (m_Settings.contains(KEY_TEMPERATURE))
@@ -167,8 +168,8 @@ void SequenceEditor::onStandAloneShow()
             maxTemp = temperatureList[1].toDouble();
         }
     }
-    m_capture->mainCamera()->cameraTemperatureN->setMinimum(minTemp);
-    m_capture->mainCamera()->cameraTemperatureN->setMaximum(maxTemp);
+    m_camera->cameraTemperatureN->setMinimum(minTemp);
+    m_camera->cameraTemperatureN->setMaximum(maxTemp);
 
     // No pre-configured ISOs are available--would be too much of a guess, but
     // we will use ISOs from the last live capture session.
@@ -176,38 +177,38 @@ void SequenceEditor::onStandAloneShow()
     if (m_Settings.contains(KEY_ISOS))
     {
         QStringList isoList = m_Settings[KEY_ISOS].toStringList();
-        m_capture->mainCamera()->captureISOS->clear();
+        m_camera->captureISOS->clear();
         if (isoList.size() > 0)
         {
-            m_capture->mainCamera()->captureISOS->addItems(isoList);
+            m_camera->captureISOS->addItems(isoList);
             if (m_Settings.contains(KEY_INDEX))
-                m_capture->mainCamera()->captureISOS->setCurrentIndex(m_Settings[KEY_INDEX].toString().toInt());
+                m_camera->captureISOS->setCurrentIndex(m_Settings[KEY_INDEX].toString().toInt());
             else
-                m_capture->mainCamera()->captureISOS->setCurrentIndex(0);
-            m_capture->mainCamera()->captureISOS->blockSignals(false);
-            m_capture->mainCamera()->captureISOS->setEnabled(true);
+                m_camera->captureISOS->setCurrentIndex(0);
+            m_camera->captureISOS->blockSignals(false);
+            m_camera->captureISOS->setEnabled(true);
         }
     }
     else
     {
-        m_capture->mainCamera()->captureISOS->blockSignals(true);
-        m_capture->mainCamera()->captureISOS->clear();
-        m_capture->mainCamera()->captureISOS->setEnabled(false);
+        m_camera->captureISOS->blockSignals(true);
+        m_camera->captureISOS->clear();
+        m_camera->captureISOS->setEnabled(false);
     }
 
     // Remember the sensor width and height from the last live session.
     // The user can always edit the input box.
     constexpr int maxFrame = 20000;
-    m_capture->mainCamera()->captureFrameXN->setMaximum(static_cast<int>(maxFrame));
-    m_capture->mainCamera()->captureFrameYN->setMaximum(static_cast<int>(maxFrame));
-    m_capture->mainCamera()->captureFrameWN->setMaximum(static_cast<int>(maxFrame));
-    m_capture->mainCamera()->captureFrameHN->setMaximum(static_cast<int>(maxFrame));
+    m_camera->captureFrameXN->setMaximum(static_cast<int>(maxFrame));
+    m_camera->captureFrameYN->setMaximum(static_cast<int>(maxFrame));
+    m_camera->captureFrameWN->setMaximum(static_cast<int>(maxFrame));
+    m_camera->captureFrameHN->setMaximum(static_cast<int>(maxFrame));
 
     if (m_Settings.contains(KEY_H))
-        m_capture->mainCamera()->captureFrameHN->setValue(m_Settings[KEY_H].toUInt());
+        m_camera->captureFrameHN->setValue(m_Settings[KEY_H].toUInt());
 
     if (m_Settings.contains(KEY_W))
-        m_capture->mainCamera()->captureFrameWN->setValue(m_Settings[KEY_W].toUInt());
+        m_camera->captureFrameWN->setValue(m_Settings[KEY_W].toUInt());
 }
 
 }

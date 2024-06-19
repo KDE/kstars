@@ -13,7 +13,7 @@
 namespace Ekos
 {
 
-class Capture;
+class Camera;
 
 class SequenceEditor : public QDialog, public Ui::SequenceEditorUI
 {
@@ -32,7 +32,7 @@ class SequenceEditor : public QDialog, public Ui::SequenceEditorUI
     private slots:
 
     private:
-        QSharedPointer<Capture> m_capture;
+        QSharedPointer<Camera> m_camera;
         QVariantMap m_Settings;
 
         // Disable all the widgets that aren't used in stand-alone mode.

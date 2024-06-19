@@ -101,7 +101,7 @@ class Capture : public QWidget, public Ui::Capture
         Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
     public:
-        Capture(bool standAlone = false);
+        Capture();
 
         /** @defgroup CaptureDBusInterface Ekos DBus Interface - Capture Module
              * Ekos::Capture interface provides advanced scripting capabilities to capture image sequences.

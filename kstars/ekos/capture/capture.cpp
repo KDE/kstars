@@ -43,34 +43,27 @@
 namespace Ekos
 {
 
-Capture::Capture(bool standAlone)
+Capture::Capture()
 {
     setupUi(this);
 
-    if (!standAlone)
-    {
-        qRegisterMetaType<CaptureState>("CaptureState");
-        qDBusRegisterMetaType<CaptureState>();
-    }
+    qRegisterMetaType<CaptureState>("CaptureState");
+    qDBusRegisterMetaType<CaptureState>();
     new CaptureAdaptor(this);
 
     // Add a single camera
     setMainCamera(addCamera());
-    mainCamera()->m_standAlone = standAlone;
 
-    if (!mainCamera()->m_standAlone)
-    {
-        QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
-        QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
-                QDBusConnection::sessionBus(), this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
+    QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
+            QDBusConnection::sessionBus(), this);
 
-        // Connecting DBus signals
-        QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this,
-                                              SLOT(registerNewModule(QString)));
+    // Connecting DBus signals
+    QDBusConnection::sessionBus().connect("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos", "newModule", this,
+                                          SLOT(registerNewModule(QString)));
 
-        // ensure that the mount interface is present
-        registerNewModule("Mount");
-    }
+    // ensure that the mount interface is present
+    registerNewModule("Mount");
 
     DarkLibrary::Instance()->setCaptureModule(this);
 
