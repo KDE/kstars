@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-19 01:42+0000\n"
-"PO-Revision-Date: 2024-06-12 21:11+0300\n"
+"POT-Creation-Date: 2024-06-20 01:47+0000\n"
+"PO-Revision-Date: 2024-06-20 02:09+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -392,7 +392,7 @@ msgstr "Görsel dışa aktarılamadı: %1 URL’si geçersiz"
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars image viewer: %1"
-msgstr "K Yıldızlar görsel görüntüleyici: %1"
+msgstr "K Yıldızlar görsel görüntüleyicisi: %1"
 
 #: auxiliary/imageviewer.cpp:131 tools/eyepiecefield.cpp:78
 #, kde-format
@@ -845,7 +845,7 @@ msgstr "Yukarı Köşegenli SCT"
 msgctxt ""
 "Set the sky-map view to match the view through a typical Dobsonian telescope"
 msgid "Typical Dobsonian"
-msgstr "Tipik Dobsonian"
+msgstr "Tipik Dobson"
 
 #: auxiliary/thememanager.cpp:62
 #, kde-format
@@ -3617,7 +3617,7 @@ msgstr "Batmayan Yıldız"
 #: printing/detailstable.cpp:629 tools/observinglist.cpp:189
 #, kde-format
 msgid "Never rises"
-msgstr "Yükselmez"
+msgstr "Hiç doğmaz"
 
 #: dialogs/detaildialog.cpp:668 dialogs/detaildialog.cpp:669
 #: ekos/observatory/observatory.cpp:171
@@ -3806,7 +3806,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/camera.cpp:1612 ekos/capture/camera.cpp:1652
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
-#: ekos/capture/sequenceeditor.cpp:132 ekos/capture/sequenceeditor.cpp:135
+#: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:456 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -4121,7 +4121,7 @@ msgstr "Saat açısı:"
 #: printing/detailstable.cpp:648
 #, kde-format, kde-kuit-format
 msgid "Rise/Set/Transit"
-msgstr "Yükselme/Batma/Geçiş"
+msgstr "Doğuş/Batış/Geçiş"
 
 #. i18n: ectx: property (text), widget (QLabel, TimeSetLabel)
 #: dialogs/details_position.ui:637 printing/detailstable.cpp:660
@@ -4139,7 +4139,7 @@ msgstr "Geçiş zamanı:"
 #: dialogs/details_position.ui:669 printing/detailstable.cpp:651
 #, kde-format
 msgid "Rise time:"
-msgstr "Yükselme zamanı:"
+msgstr "Doğma zamanı:"
 
 #. i18n: ectx: property (text), widget (QLabel, TimeRise)
 #. i18n: ectx: property (text), widget (QLabel, TimeTransit)
@@ -4173,7 +4173,7 @@ msgstr "00:00"
 #: dialogs/details_position.ui:774 printing/detailstable.cpp:672
 #, kde-format
 msgid "Azimuth at set:"
-msgstr "Batma anında güney açısı:"
+msgstr "Batış anında güney açısı:"
 
 #. i18n: ectx: property (text), widget (QLabel, AltTransitLabel)
 #: dialogs/details_position.ui:790 printing/detailstable.cpp:668
@@ -4185,7 +4185,7 @@ msgstr "Geçiş anında güney açısı:"
 #: dialogs/details_position.ui:806 printing/detailstable.cpp:664
 #, kde-format
 msgid "Azimuth at rise:"
-msgstr "Yükselme anında güney açısı:"
+msgstr "Doğuş anındaki güney açısı:"
 
 #: dialogs/exportimagedialog.cpp:48
 #, kde-format
@@ -4440,7 +4440,7 @@ msgstr "Geçersiz Çığır Biçimi"
 #: dialogs/focusdialog.cpp:186
 #, kde-format
 msgid "The Azimuth value must be between 0.0 and 360.0."
-msgstr "Güney Aaısı değeri 0,0 ile 360,0 arasında olmalı."
+msgstr "Güney açışı değeri 0,0 ile 360,0 arasında olmalı."
 
 #: dialogs/focusdialog.cpp:188
 #, kde-format
@@ -5625,7 +5625,7 @@ msgstr "Ekvatoryal"
 #: dialogs/newview.ui:63
 #, kde-format
 msgid "Altazimuth"
-msgstr "Altazimut"
+msgstr "Alt güney açısı"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/newview.ui:86
@@ -6394,7 +6394,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Çözücü %1 saniye ardından iptal edildi."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:201 ekos/focus/focus.cpp:4340
+#: ekos/capture/capture.cpp:194 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -9439,7 +9439,7 @@ msgstr "Linux öntanımlısı"
 #: ekos/align/opsprograms.ui:37
 #, kde-format
 msgid "Linux KStars Internal "
-msgstr "Linux K Yıldızlar iç"
+msgstr "Linux K Yıldızlar içsel "
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:42
@@ -11601,7 +11601,7 @@ msgstr "(ΔS=%1)"
 #: ekos/auxiliary/buildfilteroffsets.cpp:615
 #, kde-format
 msgid "(%1 ticks)"
-msgstr "(%1 tik)"
+msgstr "(%1 tık)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:614
 #, kde-format
@@ -12257,13 +12257,13 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
-"Sıcaklıktaki °C artımı başına tik sayısı. Dışa doğru odaklama hareketi için "
+"Sıcaklıktaki °C artımı başına tık sayısı. Dışa doğru odaklama hareketi için "
 "+ve"
 
 #: ekos/auxiliary/filtermanager.cpp:139
 #, kde-format
 msgid "Ticks / °C"
-msgstr "Tikler / °C"
+msgstr "Tıklar / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:142
 #, kde-format
@@ -12271,13 +12271,13 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
-"Yükseklikteki derece artımı başına tik sayısı. Dışa doğru odaklama hareketi "
+"Yükseklikteki derece artımı başına tık sayısı. Dışa doğru odaklama hareketi "
 "için +ve"
 
 #: ekos/auxiliary/filtermanager.cpp:143
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr "Tikler / °Alt"
+msgstr "Tıklar / °Alt"
 
 #: ekos/auxiliary/filtermanager.cpp:145
 #, kde-format
@@ -17241,7 +17241,7 @@ msgstr "Yakalama sonrası betiği:"
 msgid "Post-job script:"
 msgstr "İş sonrası betiği:"
 
-#: ekos/capture/sequenceeditor.cpp:100
+#: ekos/capture/sequenceeditor.cpp:101
 #, kde-format
 msgid ""
 "<b><font color=\"red\">Please run the Capture tab connected to INDI with "
@@ -17252,7 +17252,7 @@ msgstr ""
 "INDI'ye bağlı Yakalama sekmesini istediğiniz kamerayla/süzgeç bankasıyla en "
 "az bir kez çalıştırın.</font></b><p>"
 
-#: ekos/capture/sequenceeditor.cpp:104
+#: ekos/capture/sequenceeditor.cpp:105
 #, kde-format
 msgid ""
 "<b>Using camera and filterwheel attributes from Capture session started at "
@@ -17610,7 +17610,7 @@ msgstr "Çözüm"
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
 msgid "Delta (ticks)"
-msgstr "Fark (Tikler)"
+msgstr "Fark (Tıklar)"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
@@ -17640,7 +17640,7 @@ msgstr "Odaklayıcı Çözümü"
 #: ekos/focus/aberrationinspector.cpp:101
 #, kde-format
 msgid "Delta from central tile in ticks"
-msgstr "Tik türünden merkezi karodan olan fark"
+msgstr "Tık türünden merkezi karodan olan fark"
 
 #: ekos/focus/aberrationinspector.cpp:102
 #, kde-format
@@ -19162,13 +19162,13 @@ msgstr ""
 "için ekstra çalışma yapmanız gerekir. Bunlar, nasıl ayarlanacağına ilişkin "
 "temel bir açıklamayla birlikte aşağıda belirtilmiştir.\n"
 "\n"
-"İlk adım geri tepmeyi ayarlamaktır. Odaklama kılavuzunuz büyük olasılıkla "
-"bunun nasıl yapılacağını açıklayacaktır. Sisteminiz için bir boşluk değeri "
-"belirledikten sonra, geri tepme alanını sürücünün geri tepme telafisi "
-"yapması için veya AF Aşırı Tarama alanını kendiliğinden odaklamanın geri "
-"tepme telafisi yapması için ayarlayın. Yalnızca bir alanı ayarlayın ve "
-"diğerini 0 yapın. Hangisini ayarlayacağınızdan emin değilseniz AF Aşırı "
-"Tarama önerilir.\n"
+"İlk adım dişli yanak boşluğunu ayarlamaktır. Odaklama kılavuzunuz büyük "
+"olasılıkla bunun nasıl yapılacağını açıklayacaktır. Sisteminiz için bir "
+"boşluk değeri belirledikten sonra, dişli yanak boşluğu alanını sürücünün "
+"dişli yanak boşluğu telafisi yapması için veya AF Aşırı Tarama alanını "
+"kendiliğinden odaklamanın dişli telafisi yapması için ayarlayın. Yalnızca "
+"bir alanı ayarlayın ve diğerini 0 yapın. Hangisini ayarlayacağınızdan emin "
+"değilseniz AF Aşırı Tarama önerilir.\n"
 "\n"
 "İkinci adım, adım boyutunu ayarlamaktır. Yaklaşık bir değer biliyorsanız "
 "buraya girin, aksi halde bu, ekipmanınız için Kritik Odak Bölgesi'nden (CFZ) "
@@ -19574,11 +19574,12 @@ msgid ""
 "field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Geri tepmeye duyarlı odaklayıcılar için hareket yönü "
-"tersine çevrildiğinde uygulanacak geri tepme miktarı. Devre dışı bırakmak "
-"için 0'a ayarlayın.</p><p>Genellikle Odaklayıcı Geri Tepmesi veya AF Aşırı "
-"Taraması ayarlanır.</p><p>Bu alan, Indi Odaklayıcısı Boşluğu alanını ayarlar "
-"ve buradan veya Indi Denetim Panelinden ayarlanabilir.</p></body></html>"
+"<html><head/><body><p>Dişli yanak boşluğuna duyarlı odaklayıcılar için "
+"hareket yönü tersine çevrildiğinde uygulanacak dişli yanak boşluğu miktarı. "
+"Devre dışı bırakmak için 0'a ayarlayın.</p><p>Genellikle Odaklayıcı Dişli "
+"Yanak Boşluğu veya AF Aşırı Taraması ayarlanır.</p><p>Bu alan, Indi "
+"Odaklayıcısı Boşluğu alanını ayarlar ve buradan veya Indi Denetim Panelinden "
+"ayarlanabilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/focus/opsfocusmechanics.ui:81
@@ -19659,6 +19660,9 @@ msgid ""
 "outward steps the Linear Focus algorithm moves away from the initial "
 "position at the start of focusing.</p></body></html>"
 msgstr ""
+"<html><body><p>Bu sayının başlangıç ​​adımı boyutuyla çarpımı, Doğrusal "
+"Odaklama algoritmasının odaklanma başlangıcında başlangıç ​​konumundan "
+"uzaklaştığı dışarı doğru adımların sayısıdır.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/opsfocusmechanics.ui:166
@@ -19671,20 +19675,26 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kendiliğinden Odaklama çalışması sırasında dışa doğru "
+"odaklayıcı hareketleri için işaretlerde boşluklu aşırı tarama sağlar. Bu, "
+"aygıt sürücüsü tarafından sağlanan ve Sürücü Boşluğu alanında ayarlanan tüm "
+"Sürücü Boşluğu'na ek olarak verilir. Devre dışı bırakmak için 0'a ayarlayın."
+"</p><p>Ayarlanırsa AF Aşırı Taraması, odak modülü tarafından başlatılan tüm "
+"odaklayıcı hareketlerine uygulanır.</p><p>Tipik olarak Odaklayıcı Boşluğu "
+"veya AF Aşırı Taraması ayarlanır.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/opsfocusmechanics.ui:185
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Settle time (in seconds) after moving the focuser "
 "before capturing the next image during Auto Focus and after an Adaptive "
 "Focus movement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kendiliğinden Odaklama sırasında ve Uyarlanabilir "
+"Odaklama hareketinden sonra bir sonraki görseli yakalamadan önce "
+"odaklayıcıyı hareket ettirdikten sonra bekleme süresini (saniye olarak) "
+"ayarlayın.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusOverscanDelay)
@@ -19693,22 +19703,19 @@ msgstr ""
 #: ekos/focus/opsfocussettings.ui:180
 #, kde-format
 msgid " s"
-msgstr ""
+msgstr " sn"
 
 #. i18n: ectx: property (text), widget (QLabel, focusWalkLabel)
 #: ekos/focus/opsfocusmechanics.ui:210
-#, fuzzy, kde-format
-#| msgctxt "City in Louisiana USA"
-#| msgid "Walker"
+#, kde-format
 msgid "Walk:"
-msgstr "Walker"
+msgstr "Yürüme:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusmechanics.ui:232
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Initial Step Size:"
-msgstr "Adımlar:"
+msgstr "Başlangıç adımı boyutu:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
 #: ekos/focus/opsfocusmechanics.ui:248
@@ -19718,13 +19725,15 @@ msgid ""
 "to command as it searches for the critical focus zone. The calculated step "
 "size would be limited to this maximum value.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Algoritmanın kritik odak bölgesini ararken komut "
+"vermesine izin verilen en büyük tek adım boyutu. Hesaplanan adım boyutu bu "
+"en büyük değerle sınırlı olacaktır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/focus/opsfocusmechanics.ui:270
-#, fuzzy, kde-format
-#| msgid "Focuser:"
+#, kde-format
 msgid "Focuser Settle:"
-msgstr "Odaklayıcı:"
+msgstr "Odaklayıcı yerleşimi:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/opsfocusmechanics.ui:286
@@ -19735,6 +19744,11 @@ msgid ""
 "focuser, it is the initial time in milliseconds to move the focuser inward "
 "or outward</p></body></html>"
 msgstr ""
+"<html><head/><body><p>HFR değerinde gözle görülür bir değişikliğe neden "
+"olacak biçimde tıklamalardaki <span style=\" font-weight:600;\">başlangıç "
+"adımı boyutu</span>. Zamanlayıcı tabanlı odaklayıcı için odaklayıcıyı içe "
+"veya dışa doğru hareket ettirmenin milisaniye türünden ilk zamanıdır.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
 #. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
@@ -19744,106 +19758,97 @@ msgid ""
 "Maximum time in seconds to wait for a captured image to be received before "
 "declaring a timeout."
 msgstr ""
+"Bir zaman aşımı bildirilmeden önce çekilen bir görselin alınması için "
+"beklenecek saniye türünden en büyük süre."
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/focus/opsfocusmechanics.ui:333
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver Backlash:"
-msgstr "Sürücü:"
+msgstr "Sürücü boşluğu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/opsfocusmechanics.ui:349
 #, kde-format
 msgid "AF Overscan:"
-msgstr ""
+msgstr "AF aşırı taraması:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:368
 #, kde-format
 msgid "Out Step Multiple:"
-msgstr ""
+msgstr "Çoklu çıkış adımı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/focus/opsfocusmechanics.ui:387
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Max Step Size:"
-msgstr "Adımlar:"
+msgstr "En büyük adım boyutu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/focus/opsfocusmechanics.ui:403
-#, fuzzy, kde-format
-#| msgid "Timeout:"
+#, kde-format
 msgid "Motion Timeout:"
-msgstr "Zaman aşımı:"
+msgstr "Hareket zaman aşımı:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #: ekos/focus/opsfocusmechanics.ui:419
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
 "move to the desired position before declaring a timeout.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Bir zaman aşımı bildirmeden önce odaklayıcının istenen "
+"konuma hareket etmesini beklemek için saniye türünden en çok süre.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusmechanics.ui:441
 #, kde-format
 msgid "AF Overscan Delay:"
-msgstr ""
+msgstr "AF aşırı taraması gecikmesi:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:457
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Delay between completing the outward motion of an "
 "Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Aşırı Taramanın dışa doğru hareketinin tamamlanması "
+"ile içe doğru hareketin başlatılması arasındaki gecikme. Çoğu odaklayıcı "
+"için 0 saniye iyidir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:476
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Number Steps:"
-msgstr "Adımlar:"
+msgstr "Adım sayısı:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/opsfocusmechanics.ui:492
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The total number of steps to use when Walk is set to "
 "one of the fixed number of steps walks and Algorithm is Linear 1 Pass.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Yürüyüş, sabit sayıdaki yürüyüş adımlarından birine "
+"ayarlandığında ve Algoritma Doğrusal 1 Geçiş olduğunda kullanılacak toplam "
+"adım sayısı.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
-#, fuzzy, kde-format
-#| msgid "Measure Az Error"
+#, kde-format
 msgid "Measure:"
-msgstr "Az Hatasını Ölç"
+msgstr "Ölçü:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarPSFLabel)
 #: ekos/focus/opsfocusprocess.ui:86
 #, kde-format
 msgid "PSF:"
-msgstr ""
+msgstr "PSF:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/opsfocusprocess.ui:96
@@ -19856,48 +19861,47 @@ msgid ""
 "indent:0px;\"><span style=\" font-weight:600;\">Gaussian</span>: Uses a 2D "
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Ölçü FWHM olarak ayarlandığında kullanılacak PSF türü:"
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Gaus</span>: 2 boyutlu Gaus "
+"kullanır. Bu deneysel bir özelliktir.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/opsfocusprocess.ui:117
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Direction"
+#, kde-format
 msgid "Detection:"
-msgstr "Yön"
+msgstr "Algılama:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusFramesCountLabel)
 #: ekos/focus/opsfocusprocess.ui:136
-#, fuzzy, kde-format
-#| msgid "Plot average:"
+#, kde-format
 msgid "Average Over:"
-msgstr "Ortalamayı işaretle:"
+msgstr "Ortalama üzeri:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/focus/opsfocusprocess.ui:155
-#, fuzzy, kde-format
-#| msgid "Profile:"
+#, kde-format
 msgid "SEP Profile:"
-msgstr "Profil:"
+msgstr "SEP profili:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusFramesCount)
 #: ekos/focus/opsfocusprocess.ui:171
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of frames to capture at each focuser position.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Her odaklayıcı konumunda yakalanacak kare sayısı.</p></"
+"body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusHFRFramesCount)
 #: ekos/focus/opsfocusprocess.ui:174 ekos/focus/opsfocusprocess.ui:423
 #, kde-format
 msgid " frames"
-msgstr " Kareler"
+msgstr " kare"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/opsfocusprocess.ui:190
@@ -19909,6 +19913,13 @@ msgid ""
 "to improve the R². Currently only available for the Linear 1 Pass algorithm "
 "when using a Curve Fit of Hyperbola or Parabola. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kendiliğinden Odaklama çalıştırması gerçekleştirirken "
+"kabul edilebilir R² için bir en düşük değer ayarlayın. Değer 0 (uyum yok) "
+"ile 1 (mükemmel uyum) arasındadır. 0,8 iyi bir başlangıçtır. En düşük değer "
+"karşılanmazsa Kendiliğinden Odaklama, R²'yi iyileştirmeye çalışmak için bir "
+"kez yeniden çalıştırılır. Şu anda yalnızca Doğrusal 1 Geçişli algoritma için "
+"Hiperbol veya Parabolün Eğri Uyumu kullanıldığında kullanılabilir.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/opsfocusprocess.ui:215
@@ -19920,13 +19931,18 @@ msgid ""
 "Field (multiple stars) and a Curve Fit of Hyperbola or Parabola under the "
 "Linear 1 Pass algorithm. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Eğri uydurma algoritmasına ağırlıklandırma olarak "
+"yıldız HFR veya FWHM'nin standart sapmasını kullanmak için işaretleyin. "
+"İşaretlenmezse tüm veri noktalarına eşit ağırlık verilir. Şu anda yalnızca "
+"Doğrusal 1 Geçiş algoritması altında Tam Alan (birden fazla yıldız) ve "
+"Hiperbol veya Parabolün Eğri Uyumu kullanıldığında kullanılabilir.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/opsfocusprocess.ui:218
-#, fuzzy, kde-format
-#| msgid "Use images"
+#, kde-format
 msgid "Use Weights"
-msgstr "Resimleri kullan"
+msgstr "Ağırlıkları kullan"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusCurveFit)
 #: ekos/focus/opsfocusprocess.ui:225
@@ -19948,30 +19964,39 @@ msgid ""
 "parabola to the data points. This is currently only available for the Linear "
 "1 Pass Algorithm.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Verilere uyacak eğri türünü seçin:</p><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">İkinci derece</span>: 2. derece polinom uyumunu "
+"kullanır. Bu şu anda öntanımlı seçenektir ve şu anda Doğrusal 1 Geçiş "
+"dışındaki tüm algoritmalar için tek seçenektir.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Hiperbol</"
+"span>: Veri noktalarına bir hiperbol sığdırır. Bu, şu anda yalnızca Doğrusal "
+"1 Geçiş Algoritması için kullanılabilir.</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Parabol</span>: Veri "
+"noktalarına bir parabol sığdırır. Bu, şu anda yalnızca Doğrusal 1 Geçiş "
+"Algoritması için kullanılabilir.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/opsfocusprocess.ui:232
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Paradis"
+#, kde-format
 msgid "Quadratic"
-msgstr "Paradis"
+msgstr "İkinci derece"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/opsfocusprocess.ui:237
-#, fuzzy, kde-format
-#| msgctxt "Eyepiece Design / Brand / Name; Optional"
-#| msgid "Baader Hyperion"
+#, kde-format
 msgid "Hyperbola"
-msgstr "Baader Hyperion"
+msgstr "Hiperbol"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCurveFit)
 #: ekos/focus/opsfocusprocess.ui:242
-#, fuzzy, kde-format
-#| msgctxt "City in Wisconsin USA"
-#| msgid "Baraboo"
+#, kde-format
 msgid "Parabola"
-msgstr "Baraboo"
+msgstr "Parabol"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:250
@@ -20005,35 +20030,58 @@ msgid ""
 "the power in frequency space [result of the fourier transform] will be a "
 "maximum. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Doğrusal 1 Geçiş için bir eğri uydururken kullanılacak "
+"ölçüyü seçin:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</span>: "
+"Yarım Akı Yarıçapı. Yıldız akışının yarısını kapsayan, yıldız merkezi "
+"üzerinde ortalanan bir dairenin yarıçapını hesaplamak için bir algoritma "
+"kullanır.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Uyarlamalı HFR</span>: "
+"Uyarlanmış Yarım Akı Yarıçapı. Tepe yoğunluğu için HFR'yi normalleştirir. Bu "
+"deneysel bir özelliktir.</li></ul><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">FWHM</span>: Tam Genişlik "
+"Maksimum Yarı. Eğri, her yıldız merkezine bir PSF yerleştirir ve FWHM'yi "
+"hesaplamak için eğriyi kullanır. Bu deneysel bir özelliktir.</li><li style="
+"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
+"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Yıldız sayısı</span>: Yıldız sayısı. En iyi odaklamada tespit edilen "
+"yıldızların sayısı en büyük olacaktır. Bu deneysel bir özelliktir.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Fourier</span>: Fourier güç hesabı. Tan ve Schulz tarafından "
+"https://arxiv.org/pdf/2201.12466.pdf adresinde geliştirilen Fourier Dönüşüm "
+"Gücü yaklaşımını kullanır. En iyi odaklanmada frekans uzayındaki güç "
+"(Fourier dönüşümünün sonucu) en büyük olacaktır. Bu deneysel bir özelliktir."
+"</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:259
 #, kde-format
 msgid "HFR Adj"
-msgstr ""
+msgstr "Uyarlamalı HFR"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:264
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FWHM"
+#, kde-format
 msgid "FWHM"
 msgstr "FWHM"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:269
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "# Stars"
-msgstr "Yıldızlar"
+msgstr "Yıldız sayısı"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:274
-#, fuzzy, kde-format
-#| msgctxt "City in Quebec Canada"
-#| msgid "Mont-Laurier"
+#, kde-format
 msgid "Fourier"
-msgstr "Mont-Laurier"
+msgstr "Fourier"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:288
@@ -20061,51 +20109,65 @@ msgid ""
 "span>: a single source detection based on pixel values. Initial or full-"
 "field analysis will use SEP instead of this method.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Yıldız algılama yöntemi:</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">SEP:</span> Kaynak Çıkarıcı ve Fotometri, Kaynak "
+"Çıkarıcıyı temel alan etkili bir kaynak tespit yöntemidir (Bertin ve Arnouts "
+"1996; Bertin 2016). Journal of Open Source Software'de <a href=\"https://"
+"joss.theoj.org/papers/10.21105/joss.00058.pdf\"><span style=\" text-"
+"decoration: underline; color:#0000ff;\">SEP: Source Extractor as a library</"
+"span></a> yazısına bakın.</li><li style=\" margin-top:12px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Ağırlık merkezi</span>: "
+"Sinyal tepe noktaları etrafındaki yıldız kütlesinin tahmin edilmesine "
+"dayanan bir kaynak tespiti.</li><li style=\" margin-top:12px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Gradyan</span>: Sobel "
+"süzgecini temel alan tek kaynak tespiti. İlk veya tam alan çözümlemesinde bu "
+"yöntem yerine SEP kullanılacaktır.</li><li style=\" margin-top:12px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Eşik</span>: Piksel "
+"değerlerine dayalı tek kaynak tespiti. İlk veya tam alan çözümlemesinde bu "
+"yöntem yerine SEP kullanılacaktır.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:295
-#, fuzzy, kde-format
-#| msgctxt "City in Nevada USA"
-#| msgid "Caliente"
+#, kde-format
 msgid "Gradient"
-msgstr "Caliente"
+msgstr "Gradyan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:300
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Centroid"
-msgstr "Ortala"
+msgstr "Ağırlık merkezi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:305
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "Freehold"
+#, kde-format
 msgid "Threshold"
-msgstr "Freehold"
+msgstr "Eşik"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_GuideAlgorithm)
 #: ekos/focus/opsfocusprocess.ui:310 ekos/guide/opsguide.ui:456
-#, fuzzy, kde-format
-#| msgid "SE"
+#, kde-format
 msgid "SEP"
-msgstr "GD"
+msgstr "SEP"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:315
-#, fuzzy, kde-format
-#| msgctxt "City in Finland"
-#| msgid "Lahti"
+#, kde-format
 msgid "Bahtinov"
-msgstr "Lahti"
+msgstr "Bahtinov"
 
 #. i18n: ectx: property (text), widget (QLabel, focusCurveFitLabel)
 #: ekos/focus/opsfocusprocess.ui:332
 #, kde-format
 msgid "Curve Fit:"
-msgstr ""
+msgstr "Eğri uyumu:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusAlgorithm)
 #: ekos/focus/opsfocusprocess.ui:348
@@ -20139,35 +20201,58 @@ msgid ""
 "doing a 2nd pass,  moves straight to the minimum HFR value calculated.  Use "
 "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Odaklanma süreci algoritmasını seçin:</p><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Yinelemeli</span>: Odaklayıcıyı başlangıçta adım "
+"boyutuna göre belirlenen gizli adımlarla hareket ettirir. Bir eğri eğimi "
+"hesaplandıktan sonra, en iyi çözüme ulaşmak için diğer adım boyutları da "
+"hesaplanır. Algoritma, ölçülen HFR, prosedürde kaydedilen minimum HFR'nin "
+"tolerans yüzdesi içinde olduğunda durur.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Polinom</span>: "
+"Yinelemeli yöntemle başlar. V Eğrisi'nin diğer tarafına geçildiğinde polinom "
+"uyum katsayıları ve olası en düşük çözüm hesaplanır. Bu algoritma, iyi bir "
+"veri kümesi verildiğinde tümüyle yinelemeli yaklaşımdan daha hızlı olabilir."
+"</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Doğrusal</span>: Örneklemler 2 geçiş kullanarak düzenli bir "
+"şekilde içe doğru odaklanır. Algoritma yavaş olabilir; ancak tepkilere karşı "
+"daha dayanıklıdır. Odaklayıcıyı iyi odağa yakın konumlandırarak başlayın. "
+"İstenilen örnekleme aralığı ve başlangıç ​​odak konumu etrafındaki aralık için "
+"Başlangıç ​​Adım Boyutu ve En Büyük Hareket'i ayarlayın. Tolerans %​5 civarında "
+"olmalıdır.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Doğrusal 1 Geçiş</span>: <span style=\" font-"
+"weight:600;\">Doğrusal</span> gibi başlar; ancak birinci geçişi "
+"tamamladıktan sonra ikinci bir geçiş yapmak yerine doğrudan en düşük "
+"hesaplanan HFR değerine hareket eder. Hiperbol veya Parabolün Eğri Uyumu'nu "
+"kullanın.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/opsfocusprocess.ui:355
-#, fuzzy, kde-format
-#| msgid "Interactive Mode"
+#, kde-format
 msgid "Iterative"
-msgstr "Etkileşimli Yöntem"
+msgstr "Yinelemeli"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/opsfocusprocess.ui:360
-#, fuzzy, kde-format
-#| msgctxt "Sky Culture"
-#| msgid "Polynesian"
+#, kde-format
 msgid "Polynomial"
-msgstr "Polinezyaca"
+msgstr "Polinom"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/opsfocusprocess.ui:365
-#, fuzzy, kde-format
-#| msgid "Linear"
+#, kde-format
 msgid "Linear"
 msgstr "Doğrusal"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/opsfocusprocess.ui:370
-#, fuzzy, kde-format
-#| msgid "Linear Scale"
+#, kde-format
 msgid "Linear 1 Pass"
-msgstr "Doğrusal Ölçek"
+msgstr "Doğrusal 1 Geçiş"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/opsfocusprocess.ui:378
@@ -20179,27 +20264,30 @@ msgid ""
 "is improved by the process then this new dataset is used and outliers "
 "highlighted on the v-curve. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Tüm veri noktaları alındığında aykırı değer geçişini "
+"çalıştırmak için işaretleyin. Geçiş, aykırı eşik tespiti için Peirce "
+"Kriterlerini kullanır. Aykırı değerler varsa bunlar kaldırılır ve eğri "
+"uydurma yeniden çalıştırılır. Eğer R² süreç tarafından iyileştirilirse bu "
+"yeni veri kümesi kullanılır ve aykırı değerler V eğrisi üzerinde vurgulanır."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusRefineCurveFit)
 #: ekos/focus/opsfocusprocess.ui:381
 #, kde-format
 msgid "Refine Curve Fit"
-msgstr ""
+msgstr "Eğri Uyumunu İyileştir"
 
 #. i18n: ectx: property (text), widget (QLabel, focusR2LimitLabel)
 #: ekos/focus/opsfocusprocess.ui:394
-#, fuzzy, kde-format
-#| msgid "RA limits:"
+#, kde-format
 msgid "R² Limit:"
-msgstr "SA sınırları:"
+msgstr "R² sınırı:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusHFRFramesCountLabel)
 #: ekos/focus/opsfocusprocess.ui:407
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Average (1 sec.)"
+#, kde-format
 msgid "Average HFR Check:"
-msgstr "Ortalama (1 sn.)"
+msgstr "Ortalama HFR denetimi:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusHFRFramesCount)
 #: ekos/focus/opsfocusprocess.ui:420
@@ -20209,81 +20297,71 @@ msgid ""
 "Linear 1 Pass, the point of optimum focus will also capture this number of "
 "frames."
 msgstr ""
+"Sıralı HFR denetimi çalıştırıldığında yakalanacak kare sayısı. Doğrusal 1 "
+"Geçiş kullanılıyorsa en iyi odak noktası da bu sayıda kareyi yakalayacaktır."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/opsfocusprocess.ui:465
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The gaussian blur kernel size. Used for blurring the "
 "image before for instance the Bahtinov edge detection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Gauss bulanıklığı çekirdek boyutu. Örneğin Bahtinov "
+"kenar algılamasından önce görseli bulanıklaştırmak için kullanılır.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusGaussianKernelSizeLabel)
 #: ekos/focus/opsfocusprocess.ui:490
-#, fuzzy, kde-format
-#| msgid "Square size:"
+#, kde-format
 msgid "Kernel size:"
-msgstr "Kare boyutu:"
+msgstr "Çekirdek boyutu:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusGaussianSigmaLabel)
 #: ekos/focus/opsfocusprocess.ui:506
-#, fuzzy, kde-format
-#| msgid "sigma"
+#, kde-format
 msgid "Sigma:"
-msgstr "sigma"
+msgstr "Sigma:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusMultiRowAverageLabel)
 #: ekos/focus/opsfocusprocess.ui:522
-#, fuzzy, kde-format
-#| msgctxt "City in Philippines"
-#| msgid "Cubi Point"
+#, kde-format
 msgid "Num. of rows:"
-msgstr "Cubi Point"
+msgstr "Satır sayısı:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusThreshold)
 #: ekos/focus/opsfocusprocess.ui:541
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><body><p>Increase to restrict the centroid to bright cores. Decrease "
 "to enclose fuzzy stars.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><body><p>Merkez noktasını parlak çekirdeklerle sınırlamak için "
+"artırın. Bulanık yıldızları çevrelemek için azaltın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMultiRowAverage)
 #: ekos/focus/opsfocusprocess.ui:569
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Combine this number of rows in the Bahtinov max "
 "average calculation. Change this value might help to match the Bahtinov "
 "lines on the star pattern more accurate.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Bu satır sayısını Bahtinov en yüksek ortalama "
+"hesaplamasında birleştirin. Bu değeri değiştirmek, yıldız desenindeki "
+"Bahtinov çizgilerinin daha doğru biçimde eşleştirilmesine yardımcı olabilir."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGaussianSigma)
 #: ekos/focus/opsfocusprocess.ui:594
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The gaussian blur sigma value. Used for blurring the "
 "image before for instance the Bahtinov edge detection.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Gauss bulanıklığı sigma değeri. Örneğin Bahtinov kenar "
+"algılamasından önce görseli bulanıklaştırmak için kullanılır.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTolerance)
 #: ekos/focus/opsfocusprocess.ui:638
@@ -20292,6 +20370,8 @@ msgid ""
 "Decrease value to narrow optimal focus point solution radius. Increase to "
 "expand solution radius"
 msgstr ""
+"En iyi odak noktası çözüm yarıçapını daraltmak için değeri azaltın. Çözüm "
+"yarıçapını genişletmek için artırın."
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:668
@@ -20302,40 +20382,39 @@ msgid ""
 "defocused.</p><p>This is a currently an experimental feature that should be "
 "used with caution.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Donut Buster işlevini etkinleştirmek için işaretleyin. "
+"Odaklanmadığında halka şeklinde yıldızlar oluşturan merkezi bir engel "
+"bulunan teleskoplarda kullanın.</p><p>Bu, şu anda dikkatli kullanılması "
+"gereken deneysel bir özelliktir.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:671
 #, kde-format
 msgid "Donut Buster (WARNING: Experimental Feature)"
-msgstr ""
+msgstr "Donut Buster (UYARI: Deneysel özellik)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:695
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Time Factor"
+#, kde-format
 msgid "Time Dilation x:"
-msgstr "Zaman Faktörü"
+msgstr "Zaman genişlemesi X:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:705
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to scan for a start position. The algorithm will "
 "look for a minimum data point using Num Datapoints.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Bir başlangıç ​​konumu taramak için işaretleyin. "
+"Algoritma, veri noktası sayısını kullanarak en düşük veri noktasını "
+"arayacaktır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanStartPos)
 #: ekos/focus/opsfocusprocess.ui:708
-#, fuzzy, kde-format
-#| msgid "Reset Position"
+#, kde-format
 msgid "Scan for Start Position"
-msgstr "Konumu Sıfırla"
+msgstr "Başlangıç Konumunu Tara"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:715
@@ -20344,6 +20423,8 @@ msgid ""
 "When Scan for Start Position is checked this is the number of datapoints to "
 "use."
 msgstr ""
+"Başlangıç ​​Konumunu Tara işaretlendiğinde bu, kullanılacak veri noktası "
+"sayısıdır."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusTimeDilation)
 #: ekos/focus/opsfocusprocess.ui:737
@@ -20354,19 +20435,22 @@ msgid ""
 "Intermediate points have their exposures scaled appropriately.</p><p>Set to "
 "1 to disable this option.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>En uzaktaki veri noktalarının pozlama süreleri bu "
+"çarpanla artar. Odaktaki veri noktası pozlaması artırılmaz. Ara noktaların "
+"pozlama durumları uygun şekilde ölçeklendirilmiştir.</p><p>Bu seçeneği devre "
+"dışı bırakmak için 1'e ayarlayın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:762
 #, kde-format
 msgid "Num Datapoints:"
-msgstr ""
+msgstr "Sayı veri noktaları:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/opsfocusprocess.ui:775
-#, fuzzy, kde-format
-#| msgid "Direction:"
+#, kde-format
 msgid "Outlier Rejection:"
-msgstr "Yön:"
+msgstr "Aykırı değer reddi:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutlierRejection)
 #: ekos/focus/opsfocusprocess.ui:785
@@ -20376,6 +20460,10 @@ msgid ""
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Aykırı Değer Reddi'nin ne kadar agresif bir şekilde "
+"uygulanacağı. Daha yüksek değerler daha fazla aykırı değeri reddeder.</"
+"p><p>Bu seçeneğin etkin olması için Eğri Uyumunu İyileştir ayarının "
+"yapılması gerekir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:807
@@ -20384,13 +20472,14 @@ msgid ""
 "When Scan for Start Position is checked, the scan uses a step size = Initial "
 "Step Size multiplier by Initial Step Size x."
 msgstr ""
+"Başlangıç ​​Konumunu Tara işaretlendiğinde, tarama bir adım boyutu = İlk Adım "
+"Boyutu çarpanı ile Başlangıç ​​Adımı Boyutu x değerini kullanır."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/focus/opsfocusprocess.ui:810
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Initial Step Size x:"
-msgstr "Adımlar:"
+msgstr "Başlangıç adımı boyutu X:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -20400,16 +20489,16 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bu seçenek yalnızca Alt Çerçeve seçildiğinde etkindir. "
-"Ekos'un odak için tek bir yıldız seçmesine izin vermek için işaretleyin; "
-"kullanıcının FITS Görüntüleyicisi'nde kullanılacak yıldızı seçmesine izin "
-"vermek için işareti kaldırın.</p></body></html>"
+"<html><head/><body><p>Bu seçenek yalnızca \"Alt kare\" seçildiğinde "
+"etkindir. Ekos'un odak için tek bir yıldız seçmesine izin vermek için "
+"işaretleyin; kullanıcının FITS Görüntüleyicisi'nde kullanılacak yıldızı "
+"seçmesine izin vermek için işareti kaldırın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:38
 #, kde-format
 msgid "Auto Select Star"
-msgstr "Yıldızı Otomatik Seç"
+msgstr "Yıldızı kendiliğinden seç"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/opsfocussettings.ui:54
@@ -20420,45 +20509,42 @@ msgid ""
 "select multiple stars during Autofocus and,  for example,  average the HFR "
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
+"<html><head/><body><p>Odağın birden fazla yıldız kullanmasına izin vermek "
+"için \"Tam alan\"ı seçin (Not: Alt Kare tek bir yıldız kullanır). Bu kipte "
+"Ekos, Kendiliğinden Odaklama sırasında birden fazla yıldızı kendiliğinden "
+"seçecek ve örneğin odaklamayı gerçekleştirmek için tespit edilen tüm "
+"yıldızların HFR'sinin ortalamasını alacaktır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/opsfocussettings.ui:57
-#, fuzzy, kde-format
-#| msgid "Full legend"
+#, kde-format
 msgid "Full Field"
-msgstr "Tam gösterge"
+msgstr "Tam alan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/focus/opsfocussettings.ui:73
 #, kde-format
 msgid "Box:"
-msgstr ""
+msgstr "Kutu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/focus/opsfocussettings.ui:92
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "Guide Settle:"
-msgstr "Benzetici Ayarları"
+msgstr "Kılavuz yerleşimi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/focus/opsfocussettings.ui:111
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display Units:"
-msgstr "Görüntü"
+msgstr "Görüntüleme birimleri:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/opsfocussettings.ui:130
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Alt karenin piksel türünden boyutu.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
@@ -20478,94 +20564,84 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tek bir yıldız kullanmaya odaklanmak için Alt "
-"Çerçeve'yi seçin (not: Tam Alan birden fazla yıldız kullanır). Bu kipte, "
+"<html><head/><body><p>Tek bir yıldız kullanmaya odaklanmak için \"Alt kare"
+"\"yi seçin (Not: \"Tam alan\" birden fazla yıldız kullanır). Bu kipte, "
 "Ekos'un bir yıldız seçmesine (işaretlendiğinde) veya kullanıcının yıldızı "
 "FITS Görüntüleyicisi'nde elle seçmesine (işaretlenmediğinde) izin vermek "
-"için Yıldızı Otomatik Seç onay kutusu etkin duruma gelir.</p></body></html >"
+"için \"Yıldızı kendiliğinden seç\" onay kutusu etkin duruma gelir.</p></"
+"body></html >"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/opsfocussettings.ui:161
 #, kde-format
 msgid "Sub Frame"
-msgstr "Alt Çerçeve"
+msgstr "Alt kare"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGuideSettleTime)
 #: ekos/focus/opsfocussettings.ui:177
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds after autofocus completes "
 "before resuming guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kendiliğinden odaklama tamamlandıktan sonra "
+"kılavuzluğu sürdürmeden önce birkaç saniye bekleyin.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/opsfocussettings.ui:196
 #, kde-format
 msgid "Suspend Guiding while autofocus in progress"
-msgstr "Otomatik odaklama sürerken Kılavuzluk Bekletilmesi"
+msgstr "Kendiliğinden odaklama sürerken kılavuzluğu askıya al"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/opsfocussettings.ui:199
 #, kde-format
 msgid "Suspend Guiding"
-msgstr "Kılavuzluğu Bekletme"
+msgstr "Kılavuzluğu askıya al"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useFocusDarkFrame)
 #: ekos/focus/opsfocussettings.ui:215
-#, fuzzy, kde-format
-#| msgid "Use Dark Frame"
+#, kde-format
 msgid "Dark Frame"
-msgstr "Karanlık Çerçeve Kullan"
+msgstr "Karanlık kare"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
 #: ekos/focus/opsfocussettings.ui:222
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>HFR ve FWHM için görüntüleme birimleri.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/opsfocussettings.ui:226
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels"
-msgstr "piksel"
+msgstr "Piksel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/opsfocussettings.ui:231
-#, fuzzy, kde-format
-#| msgid "arc seconds"
+#, kde-format
 msgid "Arc Seconds"
-msgstr "arksaniye"
+msgstr "Yay saniyesi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
 #: ekos/focus/opsfocussettings.ui:242
 #, kde-format
 msgid "Mask"
-msgstr ""
+msgstr "Maske"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:257
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Aberration inspector style mask with a 3x3 mosaic "
 "formed with tiles from the center, the corners and the edges.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Merkezi, köşeleri ve kenarlarından karolarla "
+"oluşturulmuş 3 × 3 mozaikli, görüntü sapması denetçisi tarzı maske.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:260
@@ -20582,17 +20658,17 @@ msgid ""
 "Set inner % to zero to include the centre of the sensor and set outer % to "
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tam Alan odaklama sırasında, bu, işleme için "
-"içerilecek algılayıcının ortasında ortalanmış bir Halkanın boyutunu "
-"denetler. Algılayıcının merkezini içermek için iç %'yi sıfır olarak ve "
-"algılayıcının dış kenarlarını içermek için dış %'yi 100 olarak ayarlayın. </"
+"<html><head/><body><p>Tam Alan odaklama sırasında bu, algılayıcının "
+"ortasında ortalanan bir Annulus'un işleme dahil edilecek boyutunu denetler. "
+"Algılayıcının merkezini içerecek şekilde iç yüzdeyi sıfıra ayarlayın ve "
+"algılayıcının dış kenarlarını içerecek şekilde dış yüzdeyi 100'e ayarlayın.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusRingMaskRB)
 #: ekos/focus/opsfocussettings.ui:276
 #, kde-format
 msgid "Ring Mask:"
-msgstr ""
+msgstr "Halka maske:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMosaicSpace)
 #: ekos/focus/opsfocussettings.ui:292
@@ -24825,10 +24901,9 @@ msgstr "CCD"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/observatory/observatory.ui:327
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Slaving"
-msgstr "%1 yükleniyor"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, slavingEnableButton)
 #: ekos/observatory/observatory.ui:359
@@ -27773,10 +27848,9 @@ msgid "Skipped checking for duplicates."
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:1078
-#, fuzzy, kde-format
-#| msgid "%1, %2 and %3"
+#, kde-format
 msgid "%1 %2 %3"
-msgstr "%1, %2 ve %3"
+msgstr "%1 %2 %3"
 
 #: ekos/scheduler/scheduler.cpp:1147
 #, kde-format
@@ -30442,11 +30516,10 @@ msgid "Blink Top Directory"
 msgstr "Dizin:"
 
 #: fitsviewer/fitsviewer.cpp:1003
-#, fuzzy, kde-format
-#| msgid "Open FITS Image"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
-msgstr "FITS Görüntüsü Aç"
+msgstr "Görsel Aç"
 
 #: fitsviewer/fitsviewer.cpp:1286
 #, kde-format
@@ -33142,10 +33215,9 @@ msgid "Stop &Tracking"
 msgstr "İzlemeyi &Durdur"
 
 #: kstars.cpp:323 kstarsactions.cpp:1756 kstarsinit.cpp:271
-#, fuzzy, kde-format
-#| msgid "Switch to star globe view (Equatorial &Coordinates)"
+#, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
-msgstr "Yıldız görünümüne geç (Ekvatoryal &Koordinatlar)"
+msgstr "Yıldız Küresi Görünümüne Geç (Ekvatoryal &Koordinatlar)"
 
 #: kstars.cpp:324 kstarsactions.cpp:1737 kstarsinit.cpp:272
 #, fuzzy, kde-format
@@ -68754,10 +68826,9 @@ msgid "Hide Image Overlays"
 msgstr "Kutupsal Hizalama"
 
 #: kstarsactions.cpp:1197 kstarsactions.cpp:2041 kstarsinit.cpp:287
-#, fuzzy, kde-format
-#| msgid "Show satellites"
+#, kde-format
 msgid "Show Image Overlays"
-msgstr "Uyduları göster"
+msgstr "Görsel Kaplamalarını Göster"
 
 #: kstarsactions.cpp:1321
 #, kde-format
@@ -68828,7 +68899,7 @@ msgstr ""
 #: kstarsactions.cpp:1455
 #, kde-format
 msgid "Switch to Star Chart Colors?"
-msgstr "Yıldız Haritası renklerine geçilsin mi?"
+msgstr "Yıldız Haritası Renklerine Geç?"
 
 #: kstarsactions.cpp:1456
 #, kde-format
@@ -68970,22 +69041,22 @@ msgstr "Veritabanından şehir tablosu eksik."
 #: kstarsdata.cpp:185
 #, kde-format
 msgid "Loading city data"
-msgstr "Şehir verisi yükleniyor"
+msgstr "Şehir verisi yükleniyor…"
 
 #: kstarsdata.cpp:193
 #, kde-format
 msgid "Loading User Information"
-msgstr "Kullanıcı bilgisi yükleniyor"
+msgstr "Kullanıcı bilgisi yükleniyor…"
 
 #: kstarsdata.cpp:197
 #, kde-format
 msgid "Loading sky objects"
-msgstr "Gökyüzü nesneleri yükleniyor"
+msgstr "Gökyüzü nesneleri yükleniyor…"
 
 #: kstarsdata.cpp:202
 #, kde-format
 msgid "Loading Image URLs"
-msgstr "Görsel URL'leri yükleniyor"
+msgstr "Görsel URL'leri yükleniyor…"
 
 #: kstarsdata.cpp:793
 #, kde-format
@@ -69112,10 +69183,9 @@ msgid "Downloads new data"
 msgstr "Yeni veri indirir"
 
 #: kstarsinit.cpp:155
-#, fuzzy, kde-format
-#| msgid "Open Image..."
+#, kde-format
 msgid "Open Image(s)..."
-msgstr "Görsel Aç..."
+msgstr "Görseller Aç…"
 
 #: kstarsinit.cpp:164
 #, kde-format
@@ -69150,10 +69220,9 @@ msgid "Stop &Clock"
 msgstr "&Saati Durdur"
 
 #: kstarsinit.cpp:199
-#, fuzzy, kde-format
-#| msgid "Run clock"
+#, kde-format
 msgid "Run clock in realtime"
-msgstr "Saati çalıştır"
+msgstr "Saati Gerçek Zamanlı Çalıştır"
 
 #: kstarsinit.cpp:219
 #, kde-format
@@ -69224,7 +69293,7 @@ msgstr "Açısal Boyuta &Yakınlaştır..."
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr ""
+msgstr "Yansıtılmış Görünüm"
 
 #: kstarsinit.cpp:291
 #, kde-format
@@ -69341,10 +69410,9 @@ msgid "&FOV Symbols"
 msgstr "&Görüş Alanı Sembolleri"
 
 #: kstarsinit.cpp:386
-#, fuzzy, kde-format
-#| msgid "&View"
+#, kde-format
 msgid "&Views"
-msgstr "&Görünüm"
+msgstr "&Görünümler"
 
 #: kstarsinit.cpp:394
 #, kde-format
@@ -69943,20 +70011,15 @@ msgstr ""
 "bırakılır. Genellikle bunu Başucu Aşağı yönüyle birleştirmek mantıklıdır."
 
 #: kstarsinit.cpp:817
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Orientation of the sky map is arbitrary as it has been adjusted by the "
-#| "user"
-#| msgid "Arbitrary"
+#, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "Keyfi"
 
 #: kstarsinit.cpp:820
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "Edit Views..."
-msgstr "Bağlantıyı Düzenle…"
+msgstr "Görünümleri Düzenle…"
 
 #: kstarsinit.cpp:847
 #, kde-format
@@ -70143,7 +70206,7 @@ msgstr "Hava kütlesi"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:292
 #, kde-kuit-format
 msgid "Rise time"
-msgstr "Yükselme zamanı"
+msgstr "Doğma zamanı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:297
 #, kde-kuit-format
@@ -71283,7 +71346,7 @@ msgstr "Alt  D:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Alt/Dec Anti-backlash"
-msgstr "Alt/Dec Geri Tepme Karşıtı"
+msgstr "Alt/Dec Dişli Yanak Boşluğu Karşıtı"
 
 #: libindi_strings.cpp:27
 #, kde-kuit-format
@@ -74521,6 +74584,9 @@ msgid ""
 "\n"
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 msgstr ""
+" (c), KStars Takımı\n"
+"\n"
+"Gauss Süreç Kılavuzu Algoritması: (c) 2014-2017 Max Planck Society"
 
 #: main.cpp:109
 #, kde-format
@@ -74532,6 +74598,11 @@ msgid ""
 "\n"
 "%3"
 msgstr ""
+"Yapı: %1\n"
+"\n"
+"%2\n"
+"\n"
+"%3"
 
 #: main.cpp:116
 #, kde-format
@@ -74541,7 +74612,7 @@ msgstr "Jason Harris"
 #: main.cpp:116
 #, kde-format
 msgid "Original Author"
-msgstr "Asıl Yazar"
+msgstr "Özgün yazar"
 
 #: main.cpp:118
 #, kde-format
@@ -74551,7 +74622,7 @@ msgstr "Jasem Mutlaq"
 #: main.cpp:118
 #, kde-format
 msgid "Current Maintainer"
-msgstr "Mevcut Proje Yürütücüsü"
+msgstr "Geçerli bakımcı"
 
 #: main.cpp:122
 #, kde-format
@@ -74567,7 +74638,7 @@ msgstr "Robert Lancaster"
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr ""
-"FITS Görüntüleyicisi ve Ekos iyileştirmeleri. KStars OSX Bağlantı Noktası"
+"FITS Görüntüleyicisi ve Ekos iyileştirmeleri. K Yıldızlar macOS aktarımı"
 
 #: main.cpp:127
 #, kde-format
@@ -74575,10 +74646,9 @@ msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
 #: main.cpp:128
-#, fuzzy, kde-format
-#| msgid "Open Ekos Scheduler List"
+#, kde-format
 msgid "Ekos Scheduler Improvements"
-msgstr "Ekos Zamanlayıcı Listesini Aç"
+msgstr "Ekos Zamanlayıcısı iyileştirmeleri"
 
 #: main.cpp:129
 #, kde-format
@@ -74586,34 +74656,29 @@ msgid "Wolfgang Reissenberger"
 msgstr "Wolfgang Reissenberger"
 
 #: main.cpp:131
-#, fuzzy, kde-format
-#| msgid "Open Ekos Scheduler List"
+#, kde-format
 msgid "Ekos Scheduler & Observatory Improvements"
-msgstr "Ekos Zamanlayıcı Listesini Aç"
+msgstr "Ekos Zamanlayıcısı ve gözlemevi iyileştirmeleri"
 
 #: main.cpp:132
 #, kde-format
 msgid "Hy Murveit"
-msgstr ""
+msgstr "Hy Murveit"
 
 #: main.cpp:133
-#, fuzzy, kde-format
-#| msgid "Open Ekos Scheduler List"
+#, kde-format
 msgid "FITS, Focus, Guide Improvements"
-msgstr "Ekos Zamanlayıcı Listesini Aç"
+msgstr "FITS, odak, kılavuz iyileştirmeleri"
 
 #: main.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "City in Colorado USA"
-#| msgid "Mount Evans Obs."
+#, kde-format
 msgid "John Evans"
-msgstr "Mount Evans Obs."
+msgstr "John Evans"
 
 #: main.cpp:135
-#, fuzzy, kde-format
-#| msgid "Scheduler"
+#, kde-format
 msgid "Focus algorithms"
-msgstr "Zamanlayıcı"
+msgstr "Odak algoritmaları"
 
 #: main.cpp:138
 #, kde-format
@@ -74623,7 +74688,7 @@ msgstr "Csaba Kertesz"
 #: main.cpp:140
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
-msgstr ""
+msgstr "İkili asteroit listesi, DSO veritabanı ve katalogları"
 
 #: main.cpp:141
 #, kde-format
@@ -74683,7 +74748,7 @@ msgstr "J&eacute;r&ocirc;me Sonrier"
 #: main.cpp:155
 #, kde-format
 msgid "Prakash Mohan"
-msgstr "Prakash Mohan"
+msgstr "Prakaş Mohan"
 
 #: main.cpp:156
 #, kde-format
@@ -74708,18 +74773,19 @@ msgstr "Rafał Kułaga"
 #: main.cpp:161
 #, kde-format
 msgid "Rishab Arora"
-msgstr "Rishab Arora"
+msgstr "Rişab Arora"
 
 #: main.cpp:165
 #, kde-format
 msgid "Valery Kharitonov"
-msgstr "Valery Kharitonov"
+msgstr "Valeriy Haritonov"
 
 #: main.cpp:166
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
-"Belgelendirmeye bağlamak için teknik terimler içeren etiketler dönüştürüldü"
+"Teknik terimler içeren etiketlerin belgelendirme bağlantısı olarak "
+"dönüşümleri"
 
 #: main.cpp:167
 #, kde-format
@@ -74739,7 +74805,7 @@ msgstr "Andrew Stepanenko"
 #: main.cpp:170
 #, kde-format
 msgid "Guiding code based on lin_guider"
-msgstr "lin_guider temelli kılavuz codu"
+msgstr "lin_guider temelli kılavuz kodu"
 
 #: main.cpp:171
 #, kde-format
@@ -74749,17 +74815,17 @@ msgstr "Nuno Pinheiro"
 #: main.cpp:171
 #, kde-format
 msgid "Artwork"
-msgstr "Sanatsal İşler"
+msgstr "Sanatsal işler"
 
 #: main.cpp:173
 #, kde-format
 msgid "Utkarsh Simha"
-msgstr "Akarsh Simha"
+msgstr "Akarş Simha"
 
 #: main.cpp:174
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
-msgstr "Plan çalışması, yıldız mavnası vb. gözlemlemek için geliştirmeler."
+msgstr "Gözlem planı çalışması, yıldız mavnası vb. iyileştirmeleri"
 
 #: main.cpp:175
 #, kde-format
@@ -74769,7 +74835,7 @@ msgstr "Daniel Holler"
 #: main.cpp:176
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
-msgstr "Ekos/INDI için yaygın test ve öneriler."
+msgstr "Ekos/INDI için geniş sınama işlemleri ve öneriler"
 
 #: main.cpp:178
 #, kde-format
@@ -74777,20 +74843,20 @@ msgid "Stephane Lucas"
 msgstr "Stephane Lucas"
 
 #: main.cpp:179
-#, fuzzy, kde-format
-#| msgid "Extensive testing and suggestions for Ekos/INDI."
+#, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
-msgstr "Ekos/INDI için yaygın test ve öneriler."
+msgstr ""
+"Ekos Zamanlayıcısı, K Yıldızlar macOS sürümü için geniş sınama ve öneriler"
 
 #: main.cpp:180
 #, kde-format
 msgid "Yuri Fabirovsky"
-msgstr "Yuri Fabirovsky"
+msgstr "Yuriy Fabirovskiy"
 
 #: main.cpp:181
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
-msgstr ""
+msgstr "Hem K Yıldızlar hem de K Yıldızlar Temel için açılış ekranı"
 
 #: main.cpp:182
 #, kde-format
@@ -74800,71 +74866,67 @@ msgstr "Jamie Smith"
 #: main.cpp:182
 #, kde-format
 msgid "KStars OSX Port."
-msgstr ""
+msgstr "K Yıldızlar macOS sürümü"
 
 #: main.cpp:183
-#, fuzzy, kde-format
-#| msgid "Mount"
+#, kde-format
 msgid "Patrick Molenaar"
-msgstr "Montaj"
+msgstr "Patrick Molenaar"
 
 #: main.cpp:183
 #, kde-format
 msgid "Bahtinov Focus Assistant."
-msgstr ""
+msgstr "Bahtinov odağı yardımcısı"
 
 #: main.cpp:184
 #, kde-format
 msgid "Philipp Auersperg-Castell"
-msgstr ""
+msgstr "Philipp Auersperg-Castell"
 
 #: main.cpp:184
-#, fuzzy, kde-format
-#| msgid "Supernovae Update"
+#, kde-format
 msgid "Supernovae daily updates"
-msgstr "Süpernova Güncellemesi"
+msgstr "Günlük üstnova güncellemeleri"
 
 #: main.cpp:185
 #, kde-format
 msgid "Tony Schriber"
-msgstr ""
+msgstr "Tony Schriber"
 
 #: main.cpp:185
 #, kde-format
 msgid "Rotator Dialog improvements"
-msgstr ""
+msgstr "Döndürücü iletişim kutusu iyileştirmeleri"
 
 #: main.cpp:186
 #, kde-format
 msgid "Joseph McGee"
-msgstr ""
+msgstr "Joseph McGee"
 
 #: main.cpp:186
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
-msgstr ""
+msgstr "Dr. Robin Glover'in çalışması temelli alt pozlama hesaplayıcısı"
 
 #: main.cpp:195
-#, fuzzy, kde-format
-#| msgid "Dump sky image to file"
+#, kde-format
 msgid "Dump sky image to file."
-msgstr "Gökyüzü resmini dosyaya indir"
+msgstr "Gökyüzü görselini dosyaya dökün."
 
 #: main.cpp:196
-#, fuzzy, kde-format
-#| msgid "Script to execute"
+#, kde-format
 msgid "Script to execute."
-msgstr "Çalıştırılacak betik"
+msgstr "Yürütülecek betik."
 
 #: main.cpp:197
 #, kde-format
 msgid "Width of sky image."
-msgstr "Gökyüzü görüntüsünün genişliği."
+msgstr "Gökyüzü görselinin genişliği."
 
 #: main.cpp:198
 #, kde-format
 msgid "Height of sky image."
-msgstr "Gökyüzü görüntüsünün yüksekliği."
+msgstr "Gökyüzü görselinin yüksekliği."
 
 #: main.cpp:199
 #, kde-format
@@ -74872,48 +74934,47 @@ msgid "Date and time."
 msgstr "Tarih ve zaman."
 
 #: main.cpp:200
-#, fuzzy, kde-format
-#| msgid "Start with clock paused"
+#, kde-format
 msgid "Start with clock paused."
-msgstr "Saat duraklatılmış olarak başla"
+msgstr "Saat duraklatılmış olarak başlayın."
 
 #: main.cpp:203
 #, kde-format
 msgid "FITS file(s) to open."
-msgstr ""
+msgstr "Açılacak FITS dosyaları."
 
 #: main.cpp:239 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
-msgstr "%1 İçin resim biçimi ayrıştırılamadı; PNG varsayılıyor."
+msgstr "%1 görsel biçimi ayrıştırılamıyor; PNG olduğu varsayılıyor."
 
 #: main.cpp:297
-#, fuzzy, kde-format
-#| msgid "Using CPU date/time instead."
+#, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
-msgstr "CPU tarih/saati kullanılıyor."
+msgstr ""
+"Sağlanan tarih dizisi geçersiz: %1. Bunun yerine CPU tarihi/zamanı "
+"kullanılıyor."
 
 #: main.cpp:328
 #, kde-format
 msgid "Script executed."
-msgstr "Betik çalıştırıldı."
+msgstr "Betik yürütüldü."
 
 #: main.cpp:332
 #, kde-format
 msgid "Could not execute script."
-msgstr "Betik çalıştırılamadı."
+msgstr "Betik yürütülemedi."
 
 #: main.cpp:356
 #, kde-format
 msgid "Using CPU date/time instead."
-msgstr "CPU tarih/saati kullanılıyor."
+msgstr "CPU tarihi/zamanı kullanılıyor."
 
 #: oal/equipmentwriter.cpp:32
-#, fuzzy, kde-format
-#| msgid "Configure Equipment"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure Equipment"
-msgstr "Donanımı Yapılandır"
+msgstr "Ekipmanı Yapılandır"
 
 #. i18n: ectx: attribute (title), widget (QWidget, Scope)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TelescopeCheck)
@@ -74938,13 +74999,13 @@ msgstr "Kimlik:"
 #: oal/equipmentwriter.ui:84 tools/eyepiecefield.cpp:105
 #, kde-format
 msgid "Refractor"
-msgstr "Işık Kırıcı"
+msgstr "Işık Kırıcısı"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Type)
 #: oal/equipmentwriter.ui:89
 #, kde-format
 msgid "Newtonian"
-msgstr "Newtonian"
+msgstr "Newton"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Type)
 #: oal/equipmentwriter.ui:94
@@ -74974,7 +75035,7 @@ msgstr "Cassegrain"
 #: oal/equipmentwriter.ui:114
 #, kde-format
 msgid "Ritchey-Chretien"
-msgstr ""
+msgstr "Ritchey-Chretien"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -76836,10 +76897,9 @@ msgstr "Hizalama Seçenekleri Profilleri Düzenleyicisi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
-#, fuzzy, kde-format
-#| msgid "Show image of "
+#, kde-format
 msgid "Show image overlays"
-msgstr "Resmini göster:"
+msgstr "Görsel kaplamalarını göster:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:71
@@ -78317,7 +78377,7 @@ msgstr ""
 #: skycomponents/asteroidscomponent.cpp:90
 #, kde-format
 msgid "Loading asteroids"
-msgstr "Küçük Gezegenler yükleniyor"
+msgstr "Asteroitler yükleniyor…"
 
 #: skycomponents/asteroidscomponent.cpp:108
 #, kde-format
@@ -78393,7 +78453,7 @@ msgstr[1] "Uzak INDI uzaklayıcı aygıtının adı."
 #: skycomponents/cometscomponent.cpp:83
 #, kde-format
 msgid "Loading comets"
-msgstr "Kuyrukluyıldızlar yükleniyor"
+msgstr "Kuyruklu yıldızlar yükleniyor…"
 
 #: skycomponents/cometscomponent.cpp:315
 #, kde-format
@@ -78414,7 +78474,7 @@ msgstr "Takımyıldız Sınırları"
 #: skycomponents/constellationboundarylines.cpp:61
 #, kde-format
 msgid "Loading Constellation Boundaries"
-msgstr "Takımyıldız Sınırları Yükleniyor"
+msgstr "Takımyıldız sınırları yükleniyor…"
 
 #: skycomponents/constellationlines.cpp:101
 #, kde-format
@@ -78424,7 +78484,7 @@ msgstr "HD %1 yıldızı bulunamadı."
 #: skycomponents/constellationnamescomponent.cpp:37
 #, kde-format
 msgid "Loading constellation names"
-msgstr "Takımyıldız isimleri yükleniyor"
+msgstr "Takımyıldız adları yükleniyor…"
 
 #: skycomponents/flagcomponent.cpp:31
 #, kde-format
@@ -78526,10 +78586,9 @@ msgid "Image Overlays.  %1 images, %2 available."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:455
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading image files..."
-msgstr "Görseller yükleniyor..."
+msgstr "Görsel dosyaları yükleniyor…"
 
 #: skycomponents/imageoverlaycomponent.cpp:461
 #, kde-format
@@ -78579,10 +78638,9 @@ msgid "Solving: %1. %2 in queue."
 msgstr ""
 
 #: skycomponents/imageoverlaycomponent.cpp:603
-#, fuzzy, kde-format
-#| msgid "Loading %1"
+#, kde-format
 msgid "Solving: %1."
-msgstr "%1 yükleniyor"
+msgstr "Çözülüyor: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:668
 #, kde-format
@@ -78640,7 +78698,7 @@ msgstr ""
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
 msgid "Loading %1"
-msgstr "%1 yükleniyor"
+msgstr "%1 yükleniyor…"
 
 #: skycomponents/localmeridiancomponent.cpp:20
 #, kde-format
@@ -78655,17 +78713,17 @@ msgstr ""
 #: skycomponents/milkyway.cpp:35
 #, kde-format
 msgid "Loading Milky Way"
-msgstr "Samanyolu Yükleniyor"
+msgstr "Samanyolu yükleniyor…"
 
 #: skycomponents/milkyway.cpp:36
 #, kde-format
 msgid "Loading Large Magellanic Clouds"
-msgstr "Büyük Macellan Bulutları Yükleniyor"
+msgstr "Büyük Macellan Bulutları yükleniyor…"
 
 #: skycomponents/milkyway.cpp:37
 #, kde-format
 msgid "Loading Small Magellanic Clouds"
-msgstr "Küçük Macellan Bulutları yükleniyor"
+msgstr "Küçük Macellan Bulutları yükleniyor…"
 
 #: skycomponents/notifyupdatesui.cpp:21
 #, fuzzy, kde-format
@@ -78715,7 +78773,7 @@ msgstr "Yeni süpernovalar bulundu!"
 #: skycomponents/satellitescomponent.cpp:43
 #, kde-format
 msgid "Loading satellites"
-msgstr "Uydular yükleniyor"
+msgstr "Uydular yükleniyor…"
 
 #: skycomponents/satellitescomponent.cpp:143
 #, kde-format
@@ -78751,12 +78809,12 @@ msgstr ""
 #: skycomponents/solarsystemcomposite.cpp:25
 #, kde-format
 msgid "Loading solar system"
-msgstr "Güneş Sistemi yükleniyor"
+msgstr "Güneş Sistemi yükleniyor…"
 
 #: skycomponents/starcomponent.cpp:65
 #, kde-format
 msgid "Loading stars"
-msgstr "Yıldızlar yükleniyor"
+msgstr "Yıldızlar yükleniyor…"
 
 #: skycomponents/starcomponent.cpp:166
 #, kde-format
@@ -83908,7 +83966,7 @@ msgstr ""
 #: tools/obslistwizard.ui:919
 #, kde-format
 msgid "Select objects brighter than:"
-msgstr "Bundan daha parlak cisimleri seç:"
+msgstr "Bundan daha parlak nesneleri seç:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IncludeNoMag)
 #: tools/obslistwizard.ui:991
@@ -85045,7 +85103,7 @@ msgstr ""
 #: tools/starhopper.cpp:340
 #, kde-format
 msgid " within %1% of FOV of the marked star"
-msgstr ""
+msgstr " imlenen yıldızın %​%1 görüş alanında"
 
 #: tools/starhopperdialog.cpp:64
 #, kde-format
@@ -85202,7 +85260,7 @@ msgstr "%1 konumunda"
 #: tools/wutdialog.cpp:70 tools/wutdialog.cpp:628
 #, kde-format
 msgid "The night of %1"
-msgstr "%1 ögesinin gecesi"
+msgstr "%1 gecesi"
 
 #: tools/wutdialog.cpp:100
 #, kde-format
@@ -85225,13 +85283,13 @@ msgstr "doğmayan"
 #, kde-format
 msgctxt "Sunset at time %1 on date %2"
 msgid "Sunset: %1 on %2"
-msgstr "Günbatımı: %2 üzerinde %1"
+msgstr "Günbatımı: %2, %1"
 
 #: tools/wutdialog.cpp:181
 #, kde-format
 msgctxt "Sunrise at time %1 on date %2"
 msgid "Sunrise: %1 on %2"
-msgstr "Gündoğumu: %2 üzerinde %1"
+msgstr "Gündoğumu: %2, %1"
 
 #: tools/wutdialog.cpp:184
 #, kde-format
@@ -85261,12 +85319,12 @@ msgstr "Gece süresi: %1 dakika"
 #: tools/wutdialog.cpp:222
 #, kde-format
 msgid "Moon rises at: %1 on %2"
-msgstr "Ay'ın yükselme zamanı: %2 üzerinde %1"
+msgstr "Ay'ın doğma zamanı: %2, %1"
 
 #: tools/wutdialog.cpp:230 tools/wutdialog.cpp:234
 #, kde-format
 msgid "Moon sets at: %1 on %2"
-msgstr "Ay'ın batma zamanı: %2 üzerinde %1"
+msgstr "Ay'ın batma zamanı: %2, %1"
 
 #: tools/wutdialog.cpp:497
 #, kde-format
@@ -85281,7 +85339,7 @@ msgstr "Cisim Blunamadı"
 #: tools/wutdialog.cpp:541
 #, kde-format
 msgid "Rises at: %1"
-msgstr "Yükselme zamanı: %1"
+msgstr "Doğma zamanı: %1"
 
 #: tools/wutdialog.cpp:542
 #, kde-format
@@ -85359,7 +85417,7 @@ msgstr "Konumu Değiştir..."
 #: tools/wutdialog.ui:105
 #, kde-format
 msgid "Show objects which are up:"
-msgstr "Yükselen cisimleri göster:"
+msgstr "Doğmuş nesneleri göster:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:121
@@ -85411,7 +85469,7 @@ msgstr "Bu gece herhangi bir zaman"
 #: tools/wutdialog.ui:146
 #, kde-format
 msgid "Show objects brighter than magnitude:"
-msgstr "Bundan daha parlak cisimleri göster:"
+msgstr "Bundan daha parlak nesneleri göster:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonRiseLabel)
 #: tools/wutdialog.ui:202
@@ -85551,7 +85609,7 @@ msgstr "Vurgulanmış cismin seçilen tarihte ufuktan doğduğu zamanı gösteri
 #: tools/wutdialog.ui:412
 #, kde-format
 msgid "Rises at:  22:12"
-msgstr "Yükselme zamanı: 22:12"
+msgstr "Doğma zamanı: 22:12"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, ObjectTransitLabel)
 #: tools/wutdialog.ui:422
@@ -85604,7 +85662,7 @@ msgstr ""
 #: tools/wutdialog.ui:467
 #, kde-format
 msgid "Center Object"
-msgstr "cismi ortala"
+msgstr "Nesneyi Ortala"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DetailButton)
 #: tools/wutdialog.ui:474
@@ -85621,10 +85679,9 @@ msgstr "Vurgulanmış cisim ile ilgili Ayrıntılar penceresini acar."
 
 #. i18n: ectx: property (text), widget (QPushButton, DetailButton)
 #: tools/wutdialog.ui:480
-#, fuzzy, kde-format
-#| msgid "Object Details"
+#, kde-format
 msgid "Object Details..."
-msgstr "Cisim Özellikleri"
+msgstr "Nesne Ayrıntıları..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ObslistButton)
 #: tools/wutdialog.ui:487
@@ -86517,20 +86574,3 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarlayın."
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Enforce temperature value before capturing an "
-#~| "image</p></body></html>"
-#~ msgid ""
-#~ "<html><body><p>Do not permit jobs to be scheduled less than this many "
-#~ "degrees before the altitude restriction. Actual execution proceeds until "
-#~ "the altitude limit.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini "
-#~ "ayarla</p></body></html>"
-
-#, fuzzy
-#~| msgid "Minimum Altitude:"
-#~ msgid "Setting altitude cutoff:"
-#~ msgstr "Asgari Yükseklik:"

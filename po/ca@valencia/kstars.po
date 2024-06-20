@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-19 01:42+0000\n"
-"PO-Revision-Date: 2024-06-12 15:14+0200\n"
+"POT-Creation-Date: 2024-06-20 01:47+0000\n"
+"PO-Revision-Date: 2024-06-20 00:32+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3848,7 +3848,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/camera.cpp:1612 ekos/capture/camera.cpp:1652
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
-#: ekos/capture/sequenceeditor.cpp:132 ekos/capture/sequenceeditor.cpp:135
+#: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:456 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -6495,7 +6495,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:201 ekos/focus/focus.cpp:4340
+#: ekos/capture/capture.cpp:194 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -17682,7 +17682,7 @@ msgstr "Script posterior a la captura:"
 msgid "Post-job script:"
 msgstr "Script posterior a la tasca:"
 
-#: ekos/capture/sequenceeditor.cpp:100
+#: ekos/capture/sequenceeditor.cpp:101
 #, kde-format
 msgid ""
 "<b><font color=\"red\">Please run the Capture tab connected to INDI with "
@@ -17693,7 +17693,7 @@ msgstr ""
 "amb INDI amb la vostra càmera o banc de filtres com a mínim una vegada abans "
 "d'utilitzar l'«Editor de la seqüència de captura».</font></b><p>"
 
-#: ekos/capture/sequenceeditor.cpp:104
+#: ekos/capture/sequenceeditor.cpp:105
 #, kde-format
 msgid ""
 "<b>Using camera and filterwheel attributes from Capture session started at "
@@ -28234,10 +28234,7 @@ msgid "Failed to save scheduler list"
 msgstr "No s'ha pogut guardar la llista del programador"
 
 #: ekos/scheduler/scheduler.cpp:1956
-#, fuzzy, kde-format
-#| msgid ""
-#| "Turning off astronomial twilight check may cause the observatory to run "
-#| "during daylight. This can cause irreversible damage to your equipment!"
+#, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
@@ -28247,8 +28244,7 @@ msgstr ""
 "irreversibles a l'equip!"
 
 #: ekos/scheduler/scheduler.cpp:1958
-#, fuzzy, kde-format
-#| msgid "Astronomial Twilight Warning"
+#, kde-format
 msgid "Astronomical Twilight Warning"
 msgstr "Avís de crepuscle astronòmic"
 
@@ -87296,22 +87292,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "<html><body><p>Do not permit jobs to be scheduled less than this many "
-#~ "degrees before the altitude restriction. Actual execution proceeds until "
-#~ "the altitude limit.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>No permet que es programen tasques amb menys graus "
-#~ "que estos abans de la restricció d'altitud. L'execució real continuarà "
-#~ "fins al límit d'altitud.</p></body></html>"
-
-#~ msgid "Setting altitude cutoff:"
-#~ msgstr "Configureu el tall de l'altitud:"
-
-#~ msgid ""
-#~ "Do not permit jobs to be scheduled less than this many degrees before the "
-#~ "altitude restriction. Actual execution proceeds until the altitude limit."
-#~ msgstr ""
-#~ "No permet que es programen tasques amb menys graus que estos abans de la "
-#~ "restricció d'altitud. L'execució real continuarà fins al límit d'altitud."

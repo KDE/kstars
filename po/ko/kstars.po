@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-19 01:42+0000\n"
+"POT-Creation-Date: 2024-06-20 01:47+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3905,7 +3905,7 @@ msgstr "0.0파섹"
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
 #: ekos/capture/camera.cpp:1612 ekos/capture/camera.cpp:1652
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
-#: ekos/capture/sequenceeditor.cpp:132 ekos/capture/sequenceeditor.cpp:135
+#: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:456 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
@@ -6500,7 +6500,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "FITS 파일을 %1로 저장"
 
 #: ekos/align/align.cpp:2600 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:201 ekos/focus/focus.cpp:4340
+#: ekos/capture/capture.cpp:194 ekos/focus/focus.cpp:4340
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:767
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3342
@@ -17338,7 +17338,7 @@ msgstr "현재 스크립트"
 msgid "Post-job script:"
 msgstr "스크립트 테스트"
 
-#: ekos/capture/sequenceeditor.cpp:100
+#: ekos/capture/sequenceeditor.cpp:101
 #, kde-format
 msgid ""
 "<b><font color=\"red\">Please run the Capture tab connected to INDI with "
@@ -17346,7 +17346,7 @@ msgid ""
 "Editor. </font></b><p>"
 msgstr ""
 
-#: ekos/capture/sequenceeditor.cpp:104
+#: ekos/capture/sequenceeditor.cpp:105
 #, kde-format
 msgid ""
 "<b>Using camera and filterwheel attributes from Capture session started at "
