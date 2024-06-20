@@ -12,6 +12,8 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 
+#include <KLocalizedString>
+
 #include <QApplication>
 #include <QDebug>
 #include <QFile>
@@ -78,7 +80,7 @@ void KSFileReader::showProgress()
     //printf("%8d %8d %3d\n", m_curLine, m_totalLines, percent );
     if (percent > 100)
         percent = 100;
-    emit progressText(QString("%1 (%2%)").arg(m_label).arg(percent));
+    emit progressText(i18nc("%2 is the value, % is the percent sign", "%1 (%2%)", m_label, percent));
     //#ifdef ANDROID
     // Can cause crashes on Android
     qApp->processEvents();

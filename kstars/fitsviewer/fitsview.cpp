@@ -29,6 +29,7 @@
 #endif
 
 #include <KActionCollection>
+#include <KLocalizedString>
 
 #include <QtConcurrent>
 #include <QScrollBar>
@@ -698,7 +699,7 @@ void FITSView::emitZoom()
 {
     // Don't need to display full float precision. Limit to 2 decimal places at most.
     double zoom = std::round(currentZoom * 100.0) / 100.0;
-    emit newStatus(QString("%1%").arg(zoom), FITS_ZOOM);
+    emit newStatus(i18nc("%1 is the value, % is the percent sign", "%1%", zoom), FITS_ZOOM);
 }
 
 void FITSView::ZoomIn()
