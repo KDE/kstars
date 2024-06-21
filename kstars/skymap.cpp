@@ -87,7 +87,7 @@ QBitmap zoomCursorBitmap(int width)
 QBitmap rotationCursorBitmap(int width)
 {
     constexpr int size = 32;
-    constexpr int mx = size / 2, my = size / 2;
+    constexpr int mx = size / 2;
     QBitmap b(size, size);
     b.fill(Qt::color0);
     const int pad = 4;

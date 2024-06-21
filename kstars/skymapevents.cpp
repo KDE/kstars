@@ -787,7 +787,7 @@ void SkyMap::mousePressEvent(QMouseEvent *e)
     if (projector()->unusablePoint(e->pos()))
         return;
 
-    if (!midMouseButtonDown && e->button() == Qt::MidButton)
+    if (!midMouseButtonDown && e->button() == Qt::MiddleButton)
     {
         y0                 = 0.5 * height() - e->y(); //record y pixel coordinate for middle-button zooming
         midMouseButtonDown = true;

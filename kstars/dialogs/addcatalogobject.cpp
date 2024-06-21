@@ -282,8 +282,9 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
     else if (nonOverlappingMatchCount > 2)
     {
         qCDebug(KSTARS) << "Found more than 2 coordinate matches. Trying to match J2000 line.";
-        if ((coordTextIndex = indexOf(text, matchJ2000Line, 0, &rmatch)) >= 0)
+        if (indexOf(text, matchJ2000Line, 0, &rmatch) >= 0)
         {
+            coordTextIndex = indexOf(text, matchJ2000Line, 0, &rmatch);
             coordText = rmatch.captured(1) + rmatch.captured(2);
             qCDebug(KSTARS) << "Found a J2000 line match: " << coordText;
         }
