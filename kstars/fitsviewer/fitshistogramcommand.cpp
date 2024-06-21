@@ -260,7 +260,7 @@ QString FITSHistogramCommand::text() const
 
         default:
             if (type - 1 <= FITSViewer::filterTypes.count())
-                return FITSViewer::filterTypes.at(type - 1);
+                return FITSViewer::filterTypes[type - 1].toString();
             break;
     }
 

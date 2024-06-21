@@ -5,7 +5,6 @@
 */
 
 #include <basedevice.h>
-#include <KLocalizedString>
 #include <qdbusmetatype.h>
 
 #include "indidustcap.h"
@@ -14,9 +13,9 @@
 namespace ISD
 {
 
-const QList<const char *> DustCap::capStates = { I18N_NOOP("Idle"), I18N_NOOP("Parking"), I18N_NOOP("UnParking"),
-                                                 I18N_NOOP("Parked"), I18N_NOOP("Error")
-                                               };
+const QList<KLocalizedString> DustCap::capStates = { ki18n("Idle"), ki18n("Parking"), ki18n("UnParking"),
+                                                     ki18n("Parked"), ki18n("Error")
+                                                   };
 
 DustCap::DustCap(GenericDevice *parent): ConcreteDevice(parent)
 {
@@ -161,7 +160,7 @@ bool DustCap::unpark()
 
 const QString DustCap::getStatusString(DustCap::Status status, bool translated)
 {
-    return translated ? i18n(capStates[status]) : capStates[status];
+    return translated ? capStates[status].toString() : capStates[status].untranslatedText();
 }
 
 }

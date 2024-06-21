@@ -9,6 +9,8 @@
 #include <QDBusArgument>
 #include <QTimer>
 
+#include <KLocalizedString>
+
 #include "indiconcretedevice.h"
 #include "skypoint.h"
 
@@ -62,7 +64,7 @@ class Mount : public ConcreteDevice
         typedef enum { TRACK_SIDEREAL, TRACK_SOLAR, TRACK_LUNAR, TRACK_CUSTOM } TrackModes;
 
 
-        static const QList<const char *> mountStates;
+        static const QList<KLocalizedString> mountStates;
 
         void registerProperty(INDI::Property prop) override;
         void processSwitch(INDI::Property prop) override;

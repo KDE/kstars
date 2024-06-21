@@ -2625,7 +2625,7 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
 
     QJsonObject cStatus =
     {
-        {"status", captureStates[status]},
+        {"status", QString::fromLatin1(captureStates[status].untranslatedText())},
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
     };

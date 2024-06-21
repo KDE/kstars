@@ -17,26 +17,26 @@
 namespace Ekos
 {
 // Guide States
-static const QList<const char *> guideStates = { I18N_NOOP("Idle"),
-                                                 I18N_NOOP("Aborted"),
-                                                 I18N_NOOP("Connected"),
-                                                 I18N_NOOP("Disconnected"),
-                                                 I18N_NOOP("Capturing"),
-                                                 I18N_NOOP("Looping"),
-                                                 I18N_NOOP("Subtracting"),
-                                                 I18N_NOOP("Subframing"),
-                                                 I18N_NOOP("Selecting star"),
-                                                 I18N_NOOP("Calibrating"),
-                                                 I18N_NOOP("Calibration error"),
-                                                 I18N_NOOP("Calibrated"),
-                                                 I18N_NOOP("Guiding"),
-                                                 I18N_NOOP("Suspended"),
-                                                 I18N_NOOP("Reacquiring"),
-                                                 I18N_NOOP("Dithering"),
-                                                 I18N_NOOP("Manual Dithering"),
-                                                 I18N_NOOP("Dithering error"),
-                                                 I18N_NOOP("Dithering successful"),
-                                                 I18N_NOOP("Settling")
+static const QList<KLocalizedString> guideStates = { ki18n("Idle"),
+                                                 ki18n("Aborted"),
+                                                 ki18n("Connected"),
+                                                 ki18n("Disconnected"),
+                                                 ki18n("Capturing"),
+                                                 ki18n("Looping"),
+                                                 ki18n("Subtracting"),
+                                                 ki18n("Subframing"),
+                                                 ki18n("Selecting star"),
+                                                 ki18n("Calibrating"),
+                                                 ki18n("Calibration error"),
+                                                 ki18n("Calibrated"),
+                                                 ki18n("Guiding"),
+                                                 ki18n("Suspended"),
+                                                 ki18n("Reacquiring"),
+                                                 ki18n("Dithering"),
+                                                 ki18n("Manual Dithering"),
+                                                 ki18n("Dithering error"),
+                                                 ki18n("Dithering successful"),
+                                                 ki18n("Settling")
                                                };
 
 typedef enum
@@ -66,13 +66,13 @@ typedef enum
 const QString getGuideStatusString(GuideState state, bool translated = true);
 
 // Capture States
-static const QList<const char *> captureStates =
+static const QList<KLocalizedString> captureStates =
 {
-    I18N_NOOP("Idle"), I18N_NOOP("In Progress"), I18N_NOOP("Capturing"), I18N_NOOP("Pause Planned"), I18N_NOOP("Paused"),
-    I18N_NOOP("Suspended"), I18N_NOOP("Aborted"), I18N_NOOP("Waiting"), I18N_NOOP("Image Received"),
-    I18N_NOOP("Dithering"), I18N_NOOP("Focusing"), I18N_NOOP("Filter Focus"), I18N_NOOP("Changing Filter"), I18N_NOOP("Guider Settling"),
-    I18N_NOOP("Setting Temperature"), I18N_NOOP("Setting Rotator"), I18N_NOOP("Aligning"), I18N_NOOP("Calibrating"),
-    I18N_NOOP("Meridian Flip"), I18N_NOOP("Complete")
+    ki18n("Idle"), ki18n("In Progress"), ki18n("Capturing"), ki18n("Pause Planned"), ki18n("Paused"),
+    ki18n("Suspended"), ki18n("Aborted"), ki18n("Waiting"), ki18n("Image Received"),
+    ki18n("Dithering"), ki18n("Focusing"), ki18n("Filter Focus"), ki18n("Changing Filter"), ki18n("Guider Settling"),
+    ki18n("Setting Temperature"), ki18n("Setting Rotator"), ki18n("Aligning"), ki18n("Calibrating"),
+    ki18n("Meridian Flip"), ki18n("Complete")
 };
 
 /**
@@ -115,9 +115,9 @@ typedef enum
 const QString getCaptureStatusString(CaptureState state, bool translated = true);
 
 // Focus States
-static const QList<const char *> focusStates = { I18N_NOOP("Idle"),    I18N_NOOP("Complete"),       I18N_NOOP("Failed"),
-                                                 I18N_NOOP("Aborted"), I18N_NOOP("User Input"),     I18N_NOOP("In Progress"),
-                                                 I18N_NOOP("Framing"), I18N_NOOP("Changing Filter")
+static const QList<KLocalizedString> focusStates = { ki18n("Idle"),    ki18n("Complete"),       ki18n("Failed"),
+                                                 ki18n("Aborted"), ki18n("User Input"),     ki18n("In Progress"),
+                                                 ki18n("Framing"), ki18n("Changing Filter")
                                                };
 
 typedef enum
@@ -135,10 +135,10 @@ typedef enum
 const QString getFocusStatusString(FocusState state, bool translated = true);
 
 // Align States
-static const QList<const char *> alignStates = { I18N_NOOP("Idle"),    I18N_NOOP("Complete"),  I18N_NOOP("Failed"),
-                                                 I18N_NOOP("Aborted"), I18N_NOOP("In Progress"), I18N_NOOP("Successful"),
-                                                 I18N_NOOP("Syncing"), I18N_NOOP("Slewing"), I18N_NOOP("Rotating"),
-                                                 I18N_NOOP("Suspended")
+static const QList<KLocalizedString> alignStates = { ki18n("Idle"),    ki18n("Complete"),  ki18n("Failed"),
+                                                 ki18n("Aborted"), ki18n("In Progress"), ki18n("Successful"),
+                                                 ki18n("Syncing"), ki18n("Slewing"), ki18n("Rotating"),
+                                                 ki18n("Suspended")
                                                };
 
 typedef enum
@@ -158,8 +158,8 @@ typedef enum
 const QString getAlignStatusString(AlignState state, bool translated = true);
 
 // Filter Manager States
-static const QList<const char *> filterStates = { I18N_NOOP("Idle"), I18N_NOOP("Changing Filter"), I18N_NOOP("Focus Offset"),
-                                                  I18N_NOOP("Auto Focus")
+static const QList<KLocalizedString> filterStates = { ki18n("Idle"), ki18n("Changing Filter"), ki18n("Focus Offset"),
+                                                  ki18n("Auto Focus")
                                                 };
 typedef enum
 {
@@ -195,9 +195,9 @@ typedef enum
 
 const QString getSchedulerStatusString(SchedulerState state, bool translated = true);
 
-static const QList<const char *> schedulerStates = { I18N_NOOP("Idle"), I18N_NOOP("Startup"), I18N_NOOP("Running"),
-                                                     I18N_NOOP("Paused"), I18N_NOOP("Shutdown"), I18N_NOOP("Aborted"),
-                                                     I18N_NOOP("Loading")
+static const QList<KLocalizedString> schedulerStates = { ki18n("Idle"), ki18n("Startup"), ki18n("Running"),
+                                                     ki18n("Paused"), ki18n("Shutdown"), ki18n("Aborted"),
+                                                     ki18n("Loading")
                                                    };
 typedef enum
 {

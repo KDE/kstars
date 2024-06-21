@@ -318,7 +318,7 @@ void MoonPhaseCalendar::paintCell(QPainter *painter, int row, int col, const KCo
 unsigned short MoonPhaseCalendar::computeMoonPhase(const KStarsDateTime &date)
 {
     KSNumbers num(date.djd());
-    KSPlanet earth(I18N_NOOP("Earth"), QString(), QColor("white"), 12756.28 /*diameter in km*/);
+    KSPlanet earth(i18n("Earth"), QString(), QColor("white"), 12756.28 /*diameter in km*/);
     earth.findPosition(&num);
 
     m_Sun.findPosition(

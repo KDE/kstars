@@ -152,25 +152,25 @@ QString toDirectionString(dms angle)
     // languages that have special names for the intercardinal points)
     // -- asimha
 
-    static const char *directions[] =
+    static const KLocalizedString directions[] =
     {
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "N"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NNE"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NE"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "ENE"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "E"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "ESE"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SE"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SSE"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "S"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SSW"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "SW"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "WSW"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "W"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "WNW"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NW"),
-        I18N_NOOP2("Abbreviated cardinal / intercardinal etc. direction", "NNW"),
-        I18N_NOOP2("Unknown cardinal / intercardinal direction", "???")
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "N"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "NNE"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "NE"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "ENE"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "E"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "ESE"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "SE"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "SSE"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "S"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "SSW"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "SW"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "WSW"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "W"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "WNW"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "NW"),
+        ki18nc("Abbreviated cardinal / intercardinal etc. direction", "NNW"),
+        ki18nc("Unknown cardinal / intercardinal direction", "???")
     };
 
     int index = (int)((angle.reduce().Degrees() + 11.25) /
@@ -181,8 +181,7 @@ QString toDirectionString(dms angle)
     else
         index = (index == 16 ? 0 : index);
 
-    return i18nc("Abbreviated cardinal / intercardinal etc. direction",
-                 directions[index]);
+    return directions[index].toString();
 }
 
 QList<SkyObject *> *castStarObjListToSkyObjList(QList<StarObject *> *starObjList)

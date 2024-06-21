@@ -9,6 +9,8 @@
 #include <memory>
 #include <QTimer>
 
+#include <KLocalizedString>
+
 #include "indiconcretedevice.h"
 
 namespace ISD
@@ -202,7 +204,7 @@ class Dome : public ConcreteDevice
         bool m_CanPark { false };
         bool m_CanAbort { false };
         bool m_HasShutter { false };
-        static const QList<const char *> domeStates;
+        static const QList<KLocalizedString> domeStates;
 };
 }
 

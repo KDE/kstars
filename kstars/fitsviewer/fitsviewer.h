@@ -88,7 +88,7 @@ class FITSViewer : public KXmlGuiWindow
         // Checks if the tab is in the fitsMap;
         bool tabExists(int tab_uid);
 
-        static QStringList filterTypes;
+        static QList<KLocalizedString> filterTypes;
 
     protected:
         void closeEvent(QCloseEvent *) override;

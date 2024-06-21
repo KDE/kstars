@@ -322,7 +322,7 @@ void MeridianFlipState::startMeridianFlip()
 
         // no meridian flip necessary
         qCInfo(KSTARS_EKOS_MOUNT) << "No meridian flip: mount not tracking, current state:" <<
-                                  ISD::Mount::mountStates[m_MountStatus];
+                                  ISD::Mount::mountStates[m_MountStatus].untranslatedText();
         return;
     }
 
@@ -483,7 +483,7 @@ QString MeridianFlipState::meridianFlipStatusString(MeridianFlipMountState statu
 
 void MeridianFlipState::setMountStatus(ISD::Mount::Status status)
 {
-    qCDebug(KSTARS_EKOS_MOUNT) << "New mount state for MF:" << ISD::Mount::mountStates[status];
+    qCDebug(KSTARS_EKOS_MOUNT) << "New mount state for MF:" << ISD::Mount::mountStates[status].untranslatedText();
     m_PrevMountStatus = m_MountStatus;
     m_MountStatus = status;
 }

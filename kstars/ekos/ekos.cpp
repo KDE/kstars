@@ -17,27 +17,27 @@ namespace Ekos
 {
 const QString getGuideStatusString(GuideState state, bool translated)
 {
-    return translated ? i18n(guideStates[state]) : guideStates[state];
+    return translated ?  guideStates[state].toString() : guideStates[state].untranslatedText();
 }
 const QString getCaptureStatusString(CaptureState state, bool translated)
 {
-    return translated ? i18n(captureStates[state]) : captureStates[state];
+    return translated ? captureStates[state].toString() : captureStates[state].untranslatedText();
 }
 const QString getFocusStatusString(FocusState state, bool translated)
 {
-    return translated ? i18n(focusStates[state]) : focusStates[state];
+    return translated ? focusStates[state].toString() : focusStates[state].untranslatedText();
 }
 const QString getAlignStatusString(AlignState state, bool translated)
 {
-    return translated ? i18n(alignStates[state]) : alignStates[state];
+    return translated ? alignStates[state].toString() : alignStates[state].untranslatedText();
 }
 const QString getFilterStatusString(FilterState state, bool translated)
 {
-    return translated ? i18n(filterStates[state]) : filterStates[state];
+    return translated ? filterStates[state].toString() : filterStates[state].untranslatedText();
 }
 const QString getSchedulerStatusString(SchedulerState state, bool translated)
 {
-    return translated ? i18n(schedulerStates[state]) : schedulerStates[state];
+    return translated ? schedulerStates[state].toString() : schedulerStates[state].untranslatedText();
 }
 
 /* Taken from https://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */

@@ -37,11 +37,10 @@
 
 bool FITSViewer::m_BlinkBusy = false;
 
-QStringList FITSViewer::filterTypes =
-    QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast") << I18N_NOOP("Equalize")
-    << I18N_NOOP("High Pass") << I18N_NOOP("Median") << I18N_NOOP("Gaussian blur")
-    << I18N_NOOP("Rotate Right") << I18N_NOOP("Rotate Left") << I18N_NOOP("Flip Horizontal")
-    << I18N_NOOP("Flip Vertical");
+QList<KLocalizedString> FITSViewer::filterTypes = {ki18n("Auto Stretch"), ki18n("High Contrast"), ki18n("Equalize"),
+                                                   ki18n("High Pass"), ki18n("Median"), ki18n("Gaussian blur"), ki18n("Rotate Right"), ki18n("Rotate Left"), ki18n("Flip Horizontal"),
+                                                   ki18n("Flip Vertical")
+                                                  };
 
 FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 {
@@ -323,7 +322,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     for (auto &filter : FITSViewer::filterTypes)
     {
         action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
-        action->setText(i18n(filter.toUtf8().constData()));
+        action->setText(i18n(filter.toString().toUtf8().constData()));
         connect(action, &QAction::triggered, this, [this, filterCounter] { applyFilter(filterCounter);});
         filterCounter++;
     }

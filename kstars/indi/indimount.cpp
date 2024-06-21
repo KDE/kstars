@@ -15,7 +15,6 @@
 #include "ksnotification.h"
 
 #include <KActionCollection>
-#include <KLocalizedString>
 
 #include <QAction>
 #include <qdbusmetatype.h>
@@ -28,10 +27,10 @@
 namespace ISD
 {
 
-const QList<const char *> Mount::mountStates = { I18N_NOOP("Idle"),  I18N_NOOP("Moving"), I18N_NOOP("Slewing"),
-                                                 I18N_NOOP("Tracking"), I18N_NOOP("Parking"), I18N_NOOP("Parked"),
-                                                 I18N_NOOP("Error")
-                                               };
+const QList<KLocalizedString> Mount::mountStates = { ki18n("Idle"),  ki18n("Moving"), ki18n("Slewing"),
+                                                     ki18n("Tracking"), ki18n("Parking"), ki18n("Parked"),
+                                                     ki18n("Error")
+                                                   };
 
 Mount::Mount(GenericDevice *parent) : ConcreteDevice(parent)
 {
@@ -1335,9 +1334,10 @@ const QString Mount::statusString(Mount::Status status, bool translated) const
     switch (status)
     {
         case ISD::Mount::MOUNT_MOVING:
-            return (translated ? i18n(mountStates[status]) : mountStates[status]) + QString(" %1").arg(getManualMotionString());
+            return (translated ? mountStates[status].toString() : mountStates[status].untranslatedText() + QString(" %1").arg(
+                        getManualMotionString()));
         default:
-            return translated ? i18n(mountStates[status]) : mountStates[status];
+            return translated ? mountStates[status].toString() : mountStates[status].untranslatedText();
     }
 }
 

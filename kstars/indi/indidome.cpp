@@ -17,10 +17,10 @@
 namespace ISD
 {
 
-const QList<const char *> Dome::domeStates = { I18N_NOOP("Idle"), I18N_NOOP("Moving clockwise"), I18N_NOOP("Moving counter clockwise"),
-                                               I18N_NOOP("Tracking"), I18N_NOOP("Parking"), I18N_NOOP("UnParking"), I18N_NOOP("Parked"),
-                                               I18N_NOOP("Error")
-                                             };
+const QList<KLocalizedString> Dome::domeStates = { ki18n("Idle"), ki18n("Moving clockwise"), ki18n("Moving counter clockwise"),
+                                                   ki18n("Tracking"), ki18n("Parking"), ki18n("UnParking"), ki18n("Parked"),
+                                                   ki18n("Error")
+                                                 };
 
 Dome::Dome(GenericDevice *parent) : ConcreteDevice(parent)
 {
@@ -477,7 +477,7 @@ Dome::ShutterStatus Dome::parseShutterStatus(INDI::Property prop)
 
 const QString Dome::getStatusString(Dome::Status status, bool translated)
 {
-    return translated ? i18n(domeStates[status]) : domeStates[status];
+    return translated ? domeStates[status].toString() : domeStates[status].untranslatedText();
 }
 
 }

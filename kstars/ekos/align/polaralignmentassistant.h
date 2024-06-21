@@ -140,7 +140,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         // Return current active stage label
         QString getPAHStageString(bool translated = true) const
         {
-            return translated ? i18n(PAHStages[m_PAHStage]) : PAHStages[m_PAHStage];
+            return translated ? PAHStages[m_PAHStage].toString() : PAHStages[m_PAHStage].untranslatedText();
         }
         // Return last message
         QString getPAHMessage() const;
@@ -261,7 +261,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         QSharedPointer<AlignView> m_AlignView;
 
         // PAH Stage Map
-        static const QMap<Stage, const char *> PAHStages;
+        static const QMap<Stage, KLocalizedString> PAHStages;
 
         // Threshold to stop PAH rotation in degrees
         static constexpr uint8_t PAH_ROTATION_THRESHOLD { 5 };

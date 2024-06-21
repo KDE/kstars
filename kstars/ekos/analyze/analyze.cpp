@@ -3691,7 +3691,7 @@ AlignState convertAlignState(const QString &str)
 {
     for (int i = 0; i < alignStates.size(); ++i)
     {
-        if (str == i18n(alignStates[i]))
+        if (str == alignStates[i].toString())
             return static_cast<AlignState>(i);
     }
     return ALIGN_IDLE;

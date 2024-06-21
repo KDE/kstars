@@ -23,23 +23,23 @@
 namespace Ekos
 {
 
-const QMap<PolarAlignmentAssistant::Stage, const char *> PolarAlignmentAssistant::PAHStages =
+const QMap<PolarAlignmentAssistant::Stage, KLocalizedString> PolarAlignmentAssistant::PAHStages =
 {
-    {PAH_IDLE, I18N_NOOP("Idle")},
-    {PAH_FIRST_CAPTURE, I18N_NOOP("First Capture")},
-    {PAH_FIRST_SOLVE, I18N_NOOP("First Solve")},
-    {PAH_FIND_CP, I18N_NOOP("Finding CP")},
-    {PAH_FIRST_ROTATE, I18N_NOOP("First Rotation")},
-    {PAH_FIRST_SETTLE, I18N_NOOP("First Settle")},
-    {PAH_SECOND_CAPTURE, I18N_NOOP("Second Capture")},
-    {PAH_SECOND_SOLVE, I18N_NOOP("Second Solve")},
-    {PAH_SECOND_ROTATE, I18N_NOOP("Second Rotation")},
-    {PAH_SECOND_SETTLE, I18N_NOOP("Second Settle")},
-    {PAH_THIRD_CAPTURE, I18N_NOOP("Third Capture")},
-    {PAH_THIRD_SOLVE, I18N_NOOP("Third Solve")},
-    {PAH_STAR_SELECT, I18N_NOOP("Select Star")},
-    {PAH_REFRESH, I18N_NOOP("Refreshing")},
-    {PAH_POST_REFRESH, I18N_NOOP("Refresh Complete")},
+    {PAH_IDLE, ki18n("Idle")},
+    {PAH_FIRST_CAPTURE, ki18n("First Capture")},
+    {PAH_FIRST_SOLVE, ki18n("First Solve")},
+    {PAH_FIND_CP, ki18n("Finding CP")},
+    {PAH_FIRST_ROTATE, ki18n("First Rotation")},
+    {PAH_FIRST_SETTLE, ki18n("First Settle")},
+    {PAH_SECOND_CAPTURE, ki18n("Second Capture")},
+    {PAH_SECOND_SOLVE, ki18n("Second Solve")},
+    {PAH_SECOND_ROTATE, ki18n("Second Rotation")},
+    {PAH_SECOND_SETTLE, ki18n("Second Settle")},
+    {PAH_THIRD_CAPTURE, ki18n("Third Capture")},
+    {PAH_THIRD_SOLVE, ki18n("Third Solve")},
+    {PAH_STAR_SELECT, ki18n("Select Star")},
+    {PAH_REFRESH, ki18n("Refreshing")},
+    {PAH_POST_REFRESH, ki18n("Refresh Complete")},
 };
 
 PolarAlignmentAssistant::PolarAlignmentAssistant(Align *parent, const QSharedPointer<AlignView> &view) : QWidget(parent)

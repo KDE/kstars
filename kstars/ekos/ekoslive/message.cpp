@@ -866,7 +866,7 @@ void Message::setAlignStatus(Ekos::AlignState newState)
 
     QJsonObject alignState =
     {
-        {"status", Ekos::alignStates[newState]}
+        {"status", QString::fromLatin1(Ekos::alignStates[newState].untranslatedText())}
     };
 
     sendResponse(commands[NEW_ALIGN_STATE], alignState);

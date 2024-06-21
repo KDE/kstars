@@ -9,6 +9,8 @@
 #include <memory>
 #include <QTimer>
 
+#include <KLocalizedString>
+
 #include "indiconcretedevice.h"
 
 namespace ISD
@@ -78,7 +80,7 @@ class DustCap : public ConcreteDevice
     private:
         Status m_Status { CAP_IDLE };
         ParkStatus m_ParkStatus { PARK_UNKNOWN };
-        static const QList<const char *> capStates;
+        static const QList<KLocalizedString> capStates;
 };
 
 }
