@@ -67,7 +67,7 @@ SkyObject *SkyComposite::findByName(const QString &name, bool exact)
 {
     for (const auto &oneComponent : components())
     {
-        SkyObject *o = oneComponent->findByName(name, exact);
+        auto o = oneComponent->findByName(name, exact);
         if (o)
             return o;
     }

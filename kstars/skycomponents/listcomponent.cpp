@@ -60,9 +60,10 @@ void ListComponent::update(KSNumbers *num)
 
 SkyObject *ListComponent::findByName(const QString &name, bool exact)
 {
-    if (exact)
-        return m_ObjectHash[name.toLower()];
-    else
+    auto object = m_ObjectHash[name.toLower()];
+    if (object)
+        return object;
+    else if (!exact)
     {
         auto object = std::find_if(m_ObjectHash.begin(), m_ObjectHash.end(), [name](const auto & oneObject)
         {

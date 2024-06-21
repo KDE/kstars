@@ -131,10 +131,11 @@ void CatalogsComponent::draw(SkyPainter *skyp)
 
     // Helper lambda to fill the appropriate cache for a given trixel
     auto fillCache = [&](
-        TrixelCache<ObjectList>::element& cacheElement,
-        ObjectList (CatalogsDB::DBManager::*fillFunction)(const int),
-        Trixel trixel
-        ) -> void {
+                         TrixelCache<ObjectList>::element & cacheElement,
+                         ObjectList (CatalogsDB::DBManager::*fillFunction)(const int),
+                         Trixel trixel
+                     ) -> void
+    {
         if (!cacheElement.is_set())
         {
             try
@@ -144,8 +145,8 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             catch (const CatalogsDB::DatabaseError &e)
             {
                 qCCritical(KSTARS)
-                    << "Could not load catalog objects in trixel: " << trixel << ", "
-                    << e.what();
+                        << "Could not load catalog objects in trixel: " << trixel << ", "
+                        << e.what();
 
                 KMessageBox::detailedError(
                     nullptr, i18n("Could not load catalog objects in trixel: %1", trixel),
@@ -157,11 +158,13 @@ void CatalogsComponent::draw(SkyPainter *skyp)
     };
 
     // Helper lambda to JIT update and draw
-    auto drawObjects = [&](std::vector<CatalogObject*>& objects) {
+    auto drawObjects = [&](std::vector<CatalogObject*> &objects)
+    {
         // TODO: If we are sure that JITupdate has no side effects
         // that may cause races etc, it will be worth parallelizing
 
-        for (CatalogObject *object : objects) {
+        for (CatalogObject *object : objects)
+        {
             object->JITupdate();
             auto &color = m_catalog_colors[object->catalogId()][color_scheme];
             if (!color.isValid())
@@ -212,7 +215,7 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             if (!magCriterion)
             {
                 break; // the known-mag objects are strictly sorted by
-                       // magnitude, unknown magnitude first
+                // magnitude, unknown magnitude first
             }
 
             bool sizeCriterion =
@@ -248,29 +251,29 @@ void CatalogsComponent::draw(SkyPainter *skyp)
             // Filter
             QtConcurrent::blockingMap(
                 objectsUnknownMag.data(),
-                [&](const auto &object)
-                {
-                    auto a            = object.a(); // major axis
-                    double size = a * sizeScale;
+                [&](const auto & object)
+            {
+                auto a            = object.a(); // major axis
+                double size = a * sizeScale;
 
-                    // For objects of unknown mag but known size, adjust
-                    // display behavior as if it were 22 mags/arcsec² =
-                    // 13.1 mag/arcmin² surface brightness, comparing it
-                    // to the magnitude limit.
-                    bool magCriterion = (a <= 0.0 || (13.1 - 5*log10(a)) < maglim);
+                // For objects of unknown mag but known size, adjust
+                // display behavior as if it were 22 mags/arcsec² =
+                // 13.1 mag/arcmin² surface brightness, comparing it
+                // to the magnitude limit.
+                bool magCriterion = (a <= 0.0 || (13.1 - 5 * log10(a)) < maglim);
 
-                    if (!magCriterion)
-                        return;
+                if (!magCriterion)
+                    return;
 
-                    bool sizeCriterion =
-                        (size > 1.0 || (size == 0 && object.type() != SkyObject::GALAXY) || zoomFactor > 10000.);
+                bool sizeCriterion =
+                    (size > 1.0 || (size == 0 && object.type() != SkyObject::GALAXY) || zoomFactor > 10000.);
 
-                    if (!sizeCriterion)
-                        return;
+                if (!sizeCriterion)
+                    return;
 
-                    QMutexLocker _{&drawListUnknownMagLock};
-                    drawListUnknownMag.push_back(const_cast<CatalogObject*>(&object));
-                });
+                QMutexLocker _{&drawListUnknownMagLock};
+                drawListUnknownMag.push_back(const_cast<CatalogObject*>(&object));
+            });
 
             // JIT update and draw
             drawObjects(drawListUnknownMag);
@@ -330,8 +333,9 @@ CatalogObject &CatalogsComponent::insertStaticObject(const CatalogObject &obj)
 
 SkyObject *CatalogsComponent::findByName(const QString &name, bool exact)
 {
-    auto objects = exact ? m_db_manager.find_objects_by_name(name, 1, true)
-                   : m_db_manager.find_objects_by_name(name);
+    auto objects = m_db_manager.find_objects_by_name(name, 1, true);
+    if (objects.empty() && !exact)
+        objects = m_db_manager.find_objects_by_name(name);
 
     if (objects.size() == 0)
         return nullptr;
