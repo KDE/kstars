@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-20 01:47+0000\n"
-"PO-Revision-Date: 2024-06-12 10:14+0200\n"
+"PO-Revision-Date: 2024-06-19 11:41+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -27588,10 +27588,7 @@ msgid "Failed to save scheduler list"
 msgstr "Opslaan planlijst is mislukt"
 
 #: ekos/scheduler/scheduler.cpp:1956
-#, fuzzy, kde-format
-#| msgid ""
-#| "Turning off astronomial twilight check may cause the observatory to run "
-#| "during daylight. This can cause irreversible damage to your equipment!"
+#, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
@@ -27601,10 +27598,9 @@ msgstr ""
 "beschadigen!"
 
 #: ekos/scheduler/scheduler.cpp:1958
-#, fuzzy, kde-format
-#| msgid "Astronomial Twilight Warning"
+#, kde-format
 msgid "Astronomical Twilight Warning"
-msgstr "Waarschuwing astronomische schemering"
+msgstr "Waarschuwing voor astronomische schemering"
 
 #: ekos/scheduler/scheduler.cpp:1984
 #, kde-format
