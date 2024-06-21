@@ -70,7 +70,7 @@ enum QueueTableColumns
     END_TIME_COLUMN,
 };
 
-QString CAPTURE_COUNT_TOOLTIP = i18n("Count of captures stored for the job, based on its sequence job.\n"
+KLocalizedString CAPTURE_COUNT_TOOLTIP = ki18n("Count of captures stored for the job, based on its sequence job.\n"
                                      "This is a summary, additional specific frame types may be required to complete the job.");
 }
 
@@ -155,7 +155,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
                                           "You may specify a fixed time to limit duration of looping jobs. "
                                           "A warning symbol indicates the altitude at completion may cause the job to abort before completion.\n"));
     if (captureCountHeader != nullptr)
-        captureCountHeader->setToolTip(CAPTURE_COUNT_TOOLTIP);
+        captureCountHeader->setToolTip(CAPTURE_COUNT_TOOLTIP.toString());
 
     /* Set first button mode to add observation job from left-hand fields */
     setJobAddApply(true);
@@ -1459,7 +1459,7 @@ void Scheduler::updateJobTable(SchedulerJob *job)
         }
 
         QString tooltip = job->getProgressSummary();
-        if (tooltip.size() == 0) tooltip = CAPTURE_COUNT_TOOLTIP;
+        if (tooltip.size() == 0) tooltip = CAPTURE_COUNT_TOOLTIP.toString();
         captureCountCell->setToolTip(tooltip);
 
         updateCellStyle(job, captureCountCell);
