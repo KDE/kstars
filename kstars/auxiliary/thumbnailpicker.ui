@@ -49,6 +49,9 @@
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
+         <property name="format">
+          <string>%p%</string>
+         </property>
         </widget>
        </item>
       </layout>
@@ -71,7 +74,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KUrlRequester" name="ImageURLBox" native="true"/>
+      <widget class="KUrlRequester" name="ImageURLBox"/>
      </item>
     </layout>
    </item>
@@ -229,7 +232,7 @@
  <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>
-   <extends></extends>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>

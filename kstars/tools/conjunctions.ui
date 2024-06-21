@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>534</width>
+    <width>549</width>
     <height>445</height>
    </rect>
   </property>
@@ -140,7 +140,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="sizePolicy">
@@ -223,6 +223,9 @@
          <property name="value">
           <number>0</number>
          </property>
+         <property name="format">
+          <string>%p%</string>
+         </property>
         </widget>
        </item>
       </layout>
@@ -255,11 +258,11 @@
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>true</bool>
         </attribute>
-        <attribute name="horizontalHeaderDefaultSectionSize">
-         <number>160</number>
-        </attribute>
         <attribute name="horizontalHeaderMinimumSectionSize">
          <number>100</number>
+        </attribute>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>160</number>
         </attribute>
         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
          <bool>false</bool>

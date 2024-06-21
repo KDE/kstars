@@ -468,6 +468,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             <property name="value">
              <number>0</number>
             </property>
+            <property name="format">
+             <string>%p%</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -533,6 +536,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             </property>
             <property name="value">
              <number>0</number>
+            </property>
+            <property name="format">
+             <string>%p%</string>
             </property>
            </widget>
           </item>
@@ -888,6 +894,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           <property name="value">
            <number>0</number>
           </property>
+          <property name="format">
+           <string>%p%</string>
+          </property>
          </widget>
         </item>
         <item row="13" column="1">
@@ -1152,6 +1161,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             <property name="value">
              <number>0</number>
             </property>
+            <property name="format">
+             <string>%p%</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -1203,6 +1215,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             </property>
             <property name="value">
              <number>0</number>
+            </property>
+            <property name="format">
+             <string>%p%</string>
             </property>
            </widget>
           </item>
@@ -1262,6 +1277,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             </property>
             <property name="value">
              <number>0</number>
+            </property>
+            <property name="format">
+             <string>%p%</string>
             </property>
            </widget>
           </item>
@@ -1718,6 +1736,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           <property name="value">
            <number>0</number>
           </property>
+          <property name="format">
+           <string>%p%</string>
+          </property>
          </widget>
         </item>
         <item row="13" column="7">
@@ -2051,6 +2072,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             <property name="value">
              <number>0</number>
             </property>
+            <property name="format">
+             <string>%p%</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -2283,6 +2307,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             <property name="value">
              <number>0</number>
             </property>
+            <property name="format">
+             <string>%p%</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -2398,6 +2425,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           </property>
           <property name="value">
            <number>0</number>
+          </property>
+          <property name="format">
+           <string>%p%</string>
           </property>
          </widget>
         </item>
@@ -2656,6 +2686,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             <property name="value">
              <number>0</number>
             </property>
+            <property name="format">
+             <string>%p%</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -2714,6 +2747,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             </property>
             <property name="value">
              <number>0</number>
+            </property>
+            <property name="format">
+             <string>%p%</string>
             </property>
            </widget>
           </item>
@@ -2774,6 +2810,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             <property name="value">
              <number>0</number>
             </property>
+            <property name="format">
+             <string>%p%</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -2820,6 +2859,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           </property>
           <property name="value">
            <number>0</number>
+          </property>
+          <property name="format">
+           <string>%p%</string>
           </property>
          </widget>
         </item>
@@ -3400,6 +3442,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             <property name="value">
              <number>0</number>
             </property>
+            <property name="format">
+             <string>%p%</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -3463,6 +3508,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           </property>
           <property name="value">
            <number>0</number>
+          </property>
+          <property name="format">
+           <string>%p%</string>
           </property>
          </widget>
         </item>
@@ -3708,6 +3756,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             <property name="value">
              <number>0</number>
             </property>
+            <property name="format">
+             <string>%p%</string>
+            </property>
            </widget>
           </item>
           <item>
@@ -3747,6 +3798,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           </property>
           <property name="value">
            <number>0</number>
+          </property>
+          <property name="format">
+           <string>%p%</string>
           </property>
          </widget>
         </item>
@@ -3949,6 +4003,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
             </property>
             <property name="value">
              <number>0</number>
+            </property>
+            <property name="format">
+             <string>%p%</string>
             </property>
            </widget>
           </item>
@@ -4473,6 +4530,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           <property name="value">
            <number>0</number>
           </property>
+          <property name="format">
+           <string>%p%</string>
+          </property>
          </widget>
         </item>
         <item row="26" column="5">
@@ -4503,6 +4563,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           </property>
           <property name="value">
            <number>0</number>
+          </property>
+          <property name="format">
+           <string>%p%</string>
           </property>
          </widget>
         </item>
@@ -4535,6 +4598,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           <property name="value">
            <number>0</number>
           </property>
+          <property name="format">
+           <string>%p%</string>
+          </property>
          </widget>
         </item>
         <item row="28" column="5">
@@ -4565,6 +4631,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           </property>
           <property name="value">
            <number>0</number>
+          </property>
+          <property name="format">
+           <string>%p%</string>
           </property>
          </widget>
         </item>
@@ -4597,6 +4666,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           <property name="value">
            <number>0</number>
           </property>
+          <property name="format">
+           <string>%p%</string>
+          </property>
          </widget>
         </item>
         <item row="30" column="5">
@@ -4628,6 +4700,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           <property name="value">
            <number>0</number>
           </property>
+          <property name="format">
+           <string>%p%</string>
+          </property>
          </widget>
         </item>
         <item row="31" column="5">
@@ -4658,6 +4733,9 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
           </property>
           <property name="value">
            <number>0</number>
+          </property>
+          <property name="format">
+           <string>%p%</string>
           </property>
          </widget>
         </item>

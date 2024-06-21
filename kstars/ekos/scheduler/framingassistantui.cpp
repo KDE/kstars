@@ -20,6 +20,8 @@
 #include "skymapcomposite.h"
 #include "ksparser.h"
 
+#include <KLocalizedString>
+
 #include <QDBusReply>
 
 namespace Ekos
@@ -230,7 +232,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     tiles->setPainterAlpha(Options::mosaicTransparencyLevel());
     connect(ui->transparencySlider, QOverload<int>::of(&QSlider::valueChanged), this, [&](int v)
     {
-        ui->transparencySlider->setToolTip(QString("%1%").arg(v));
+        ui->transparencySlider->setToolTip(i18nc("%1 is the value, % is the percent sign", "%1%", v));
         Options::setMosaicTransparencyLevel(v);
         auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
         tiles->setPainterAlpha(v);

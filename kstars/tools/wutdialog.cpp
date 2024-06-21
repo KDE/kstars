@@ -18,6 +18,8 @@
 #include "catalogsdb.h"
 #include "Options.h"
 
+#include <KLocalizedString>
+
 WUTDialogUI::WUTDialogUI(QWidget *p) : QFrame(p)
 {
     setupUi(this);
@@ -234,8 +236,7 @@ void WUTDialog::init()
             i18n("Moon sets at: %1 on %2", sSet,
                  QLocale().toString(Tomorrow.date(), QLocale::LongFormat)));
     oMoon->findPhase(nullptr);
-    WUT->MoonIllumLabel->setText(oMoon->phaseName() +
-                                 QString(" (%1%)").arg(int(100.0 * oMoon->illum())));
+    WUT->MoonIllumLabel->setText(i18nc("%2 is the value, % is the percent sign", "%1 (%2%)", oMoon->phaseName(), int(100.0 * oMoon->illum())));
 
     //Restore Sun's and Moon's coordinates, and recompute Moon's original Phase
     oMoon->updateCoords(oldNum, true, geo->lat(), data->lst(), true);

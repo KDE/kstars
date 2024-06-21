@@ -178,6 +178,9 @@
          <property name="value">
           <number>0</number>
          </property>
+         <property name="format">
+          <string>%p%</string>
+         </property>
         </widget>
        </item>
        <item>
