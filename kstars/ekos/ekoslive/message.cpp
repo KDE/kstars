@@ -727,7 +727,7 @@ void Message::processMountCommands(const QString &command, const QJsonObject &pa
     }
     else if (command == commands[MOUNT_GOTO_TARGET])
     {
-        mount->gotoTarget(payload["target"].toString());
+        mount->gotoTarget(ki18n(payload["target"].toString().toLatin1()).toString());
     }
     else if (command == commands[MOUNT_SET_SLEW_RATE])
     {
