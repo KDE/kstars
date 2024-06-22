@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-20 01:47+0000\n"
+"POT-Creation-Date: 2024-06-22 01:50+0000\n"
 "PO-Revision-Date: 2024-06-19 10:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -418,7 +418,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1151
-#: ekos/scheduler/scheduler.cpp:1811
+#: ekos/scheduler/scheduler.cpp:1812
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -568,9 +568,9 @@ msgstr "Cancel·la"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1101 ekos/manager.cpp:1116
-#: ekos/manager.cpp:1146 ekos/scheduler/scheduler.cpp:1333
-#: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
-#: indi/indimount.cpp:33 kstarsactions.cpp:499 kstarsactions.cpp:507
+#: ekos/manager.cpp:1146 ekos/scheduler/scheduler.cpp:1332
+#: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
+#: indi/indimount.cpp:32 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
 #, kde-format
 msgid "Error"
@@ -692,7 +692,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1350
+#: auxiliary/ksutils.cpp:1349
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -703,18 +703,18 @@ msgstr ""
 " %1 \n"
 " no existeix. Voleu crear el directori?"
 
-#: auxiliary/ksutils.cpp:1353
+#: auxiliary/ksutils.cpp:1352
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
 msgstr "Creo el directori per als fitxers d'índex d'astrometria?"
 
-#: auxiliary/ksutils.cpp:1358
+#: auxiliary/ksutils.cpp:1357
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
 msgstr ""
 "S'ha creat la ubicació predeterminada dels fitxers d'índex d'astrometria."
 
-#: auxiliary/ksutils.cpp:1363
+#: auxiliary/ksutils.cpp:1362
 #, kde-format
 msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
@@ -723,19 +723,19 @@ msgstr ""
 "El directori predeterminat dels fitxers d'índex d'astrometria no existeix i "
 "no s'ha pogut crear."
 
-#: auxiliary/ksutils.cpp:1384 auxiliary/ksutils.cpp:1540
-#: auxiliary/ksutils.cpp:1605
+#: auxiliary/ksutils.cpp:1383 auxiliary/ksutils.cpp:1539
+#: auxiliary/ksutils.cpp:1604
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
 msgstr "Error de lectura del fitxer de configuració d'astrometria."
 
-#: auxiliary/ksutils.cpp:1398 auxiliary/ksutils.cpp:1583
-#: auxiliary/ksutils.cpp:1625
+#: auxiliary/ksutils.cpp:1397 auxiliary/ksutils.cpp:1582
+#: auxiliary/ksutils.cpp:1624
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Error d'escriptura en el fitxer de configuració intern d'astrometria."
 
-#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:734
+#: auxiliary/ksutils.cpp:1670 fitsviewer/fitsdata.cpp:734
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -744,22 +744,22 @@ msgstr ""
 "No s'ha pogut trobar ni el «dcraw» ni el «cjpeg». Si us plau, instal·leu les "
 "eines requerides per a convertir des de CR2/NEF a JPEG."
 
-#: auxiliary/ksutils.cpp:1682
+#: auxiliary/ksutils.cpp:1681
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "No s'ha pogut obrir %1: %2"
 
-#: auxiliary/ksutils.cpp:1690
+#: auxiliary/ksutils.cpp:1689
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "No s'ha pogut fer el «unpack_thumb» de %1: %2"
 
-#: auxiliary/ksutils.cpp:1701
+#: auxiliary/ksutils.cpp:1700
 #, kde-format
 msgid "Cannot write %s %1: %2"
 msgstr "No s'ha pogut escriure %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:181
+#: auxiliary/ksutils.cpp:1824 ekos/scheduler/framingassistantui.cpp:181
 #: ekos/scheduler/framingassistantui.cpp:196
 #: ekos/scheduler/framingassistantui.cpp:854
 #: ekos/scheduler/framingassistantui.cpp:873 skyobjects/ksplanetbase.h:60
@@ -971,7 +971,7 @@ msgstr "Simulador del sistema solar Xplanet: %1"
 #: data/qml/whatisinteresting/wiview.qml:144
 #: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:795 indi/indimount.cpp:810 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -2021,11 +2021,11 @@ msgstr "Estat:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1326
-#: ekos/scheduler/scheduler.cpp:1982 ekos/scheduler/scheduler.cpp:2219
-#: ekos/scheduler/scheduler.cpp:2227 ekos/scheduler/scheduler.cpp:2237
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1325
+#: ekos/scheduler/scheduler.cpp:1983 ekos/scheduler/scheduler.cpp:2220
+#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
-#: indi/indidustcap.cpp:17 indi/indimount.cpp:31
+#: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
 msgid "Idle"
 msgstr "En espera"
@@ -2397,8 +2397,8 @@ msgid "Check if magnitude is unknown"
 msgstr "Marqueu-ho si es desconeix la magnitud"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1334
-#: ekos/scheduler/scheduler.cpp:1997 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1333
+#: ekos/scheduler/scheduler.cpp:1998 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2645,8 +2645,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3949
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/camera.cpp:1105 ekos/capture/camera.cpp:1160
-#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1711
-#: ekos/scheduler/scheduler.cpp:1821 fitsviewer/fitstab.cpp:530
+#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1712
+#: ekos/scheduler/scheduler.cpp:1822 fitsviewer/fitstab.cpp:530
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2941,7 +2941,7 @@ msgstr "Tipus de mapatge"
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
 #: ekos/capture/cameraprocess.cpp:2433 ekos/capture/capturecountswidget.cpp:278
-#: fitsviewer/fitsviewer.cpp:728 fitsviewer/fitsviewer.cpp:729
+#: fitsviewer/fitsviewer.cpp:727 fitsviewer/fitsviewer.cpp:728
 #, kde-format
 msgid "Preview"
 msgstr "Vista prèvia"
@@ -6643,7 +6643,7 @@ msgstr "Exportació dels punts de la solució"
 #: ekos/align/align.cpp:3948 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1104
 #: ekos/capture/camera.cpp:1159 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:1710 ekos/scheduler/scheduler.cpp:1820
+#: ekos/scheduler/scheduler.cpp:1711 ekos/scheduler/scheduler.cpp:1821
 #: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10410,33 +10410,33 @@ msgstr "Ha fallat en trobar la configuració del solucionador."
 
 #: ekos/analyze/analyze.cpp:129 ekos/analyze/analyze.cpp:148
 #: ekos/observatory/observatory.cpp:363 indi/indidome.cpp:21
-#: indi/indidustcap.cpp:18 indi/indimount.cpp:32
+#: indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format
 msgid "Parked"
 msgstr "Aparcada"
 
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:150
 #: ekos/observatory/observatory.cpp:290 ekos/observatory/observatory.cpp:306
-#: indi/indidome.cpp:21 indi/indidustcap.cpp:17 indi/indimount.cpp:32
+#: indi/indidome.cpp:21 indi/indidustcap.cpp:16 indi/indimount.cpp:31
 #, kde-format
 msgid "Parking"
 msgstr "Aparcant"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1983 indi/indimount.cpp:31
+#: ekos/scheduler/scheduler.cpp:1984 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "S'està orientant"
 
 #: ekos/analyze/analyze.cpp:135 ekos/analyze/analyze.cpp:154
-#: indi/indimount.cpp:31
+#: indi/indimount.cpp:30
 #, kde-format
 msgid "Moving"
 msgstr "S'està movent"
 
 #. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/analyze/analyze.cpp:137 ekos/analyze/analyze.cpp:156
-#: ekos/mount/mount.ui:771 indi/indidome.cpp:21 indi/indimount.cpp:32
+#: ekos/mount/mount.ui:771 indi/indidome.cpp:21 indi/indimount.cpp:31
 #, kde-format
 msgid "Tracking"
 msgstr "Seguiment"
@@ -10483,7 +10483,7 @@ msgstr "No s'ha pogut mostrar el fitxer temporal d'imatge: %1"
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2079
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
-#: fitsviewer/fitsviewer.cpp:469
+#: fitsviewer/fitsviewer.cpp:468
 #, kde-format
 msgid "Focus"
 msgstr "Enfocament"
@@ -10493,7 +10493,7 @@ msgstr "Enfocament"
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
 #: ekos/manager.cpp:2043 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:395 fitsviewer/fitscommon.h:16
-#: fitsviewer/fitsviewer.cpp:477
+#: fitsviewer/fitsviewer.cpp:476
 #, kde-format
 msgid "Align"
 msgstr "Alinea"
@@ -10506,7 +10506,7 @@ msgstr "Alinea"
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2248
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:473
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:472
 #, kde-format
 msgid "Guide"
 msgstr "Guia"
@@ -10557,7 +10557,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3467 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1332
+#: ekos/scheduler/scheduler.cpp:1331
 #, kde-format
 msgid "Aborted"
 msgstr "Interromput"
@@ -10573,7 +10573,7 @@ msgid "Disconnected"
 msgstr "Desconnectat"
 
 #: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1996
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1997
 #, kde-format
 msgid "Capturing"
 msgstr "S'està capturant"
@@ -10615,7 +10615,7 @@ msgstr "Calibrat"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1994
+#: ekos/scheduler/scheduler.cpp:1995
 #, kde-format
 msgid "Guiding"
 msgstr "Guiatge"
@@ -10754,7 +10754,7 @@ msgstr "Ajuda..."
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
 #: ekos/analyze/analyze.ui:302 fitsviewer/fitstab.cpp:162
-#: fitsviewer/fitsviewer.cpp:180 fitsviewer/solveInfo.ui:14
+#: fitsviewer/fitsviewer.cpp:179 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
 msgid "Statistics"
@@ -14839,7 +14839,7 @@ msgstr "Restableix l'estat de les tasques"
 msgid "Editing job #%1..."
 msgstr "S'està editant la tasca núm. %1..."
 
-#: ekos/capture/camera.cpp:3800 ekos/scheduler/scheduler.cpp:1171
+#: ekos/capture/camera.cpp:3800 ekos/scheduler/scheduler.cpp:1170
 #, kde-format
 msgid "Apply job changes."
 msgstr "S'han aplicat els canvis a la tasca."
@@ -17505,7 +17505,7 @@ msgid "In Progress"
 msgstr "En curs"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1331
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1330
 #, kde-format
 msgid "Complete"
 msgstr "Finalitzat"
@@ -17630,7 +17630,7 @@ msgstr "En espera"
 msgid "Image Received"
 msgstr "Imatge rebuda"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1986
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1987
 #, kde-format
 msgid "Focusing"
 msgstr "S'està enfocant"
@@ -17660,7 +17660,7 @@ msgstr "S'està establint la temperatura"
 msgid "Setting Rotator"
 msgstr "Configuració del rotor"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1989
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1990
 #, kde-format
 msgid "Aligning"
 msgstr "S'està alineant"
@@ -17711,7 +17711,7 @@ msgstr "Desplaçament de l'enfocament"
 msgid "Startup"
 msgstr "Inici"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1329
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1328
 #, kde-format
 msgid "Running"
 msgstr "En execució"
@@ -17795,6 +17795,12 @@ msgstr "Connectat"
 #, kde-format
 msgid "Offline"
 msgstr "Desconnectat"
+
+#: ekos/ekoslive/message.cpp:730
+#, fuzzy, kde-format
+#| msgid "Target"
+msgid "target"
+msgstr "Objectiu"
 
 #: ekos/ekoslive/message.cpp:963
 #, kde-format
@@ -25166,7 +25172,7 @@ msgstr "Tanca l'obturador"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2144
+#: ekos/scheduler/scheduler.cpp:2145
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Atura el programador"
@@ -27574,13 +27580,13 @@ msgstr "Repeteix fins que &finalitzin"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Crea les tasques del programador per a executar el pla del mosaic"
 
-#: ekos/scheduler/framingassistantui.cpp:693 ekos/scheduler/scheduler.cpp:680
+#: ekos/scheduler/framingassistantui.cpp:693 ekos/scheduler/scheduler.cpp:679
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Selecció d'una cua de seqüències"
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:682
+#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:681
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Cua de seqüències de l'Ekos (*.esq)"
@@ -27612,19 +27618,7 @@ msgstr "Selecció del directori de tasques"
 msgid "Job '%1' has no more batches remaining."
 msgstr "La tasca «%1» no té cap més execució romanent."
 
-#: ekos/scheduler/scheduler.cpp:73
-#, kde-format
-msgid ""
-"Count of captures stored for the job, based on its sequence job.\n"
-"This is a summary, additional specific frame types may be required to "
-"complete the job."
-msgstr ""
-"Comptador de captures emmagatzemades de la tasca, basat en la seva tasca de "
-"seqüències.\n"
-"Això és un resum, es poden requerir tipus de fotogrames addicionals per a "
-"completar la tasca."
-
-#: ekos/scheduler/scheduler.cpp:133
+#: ekos/scheduler/scheduler.cpp:131
 #, kde-format
 msgid ""
 "Job scheduler list.\n"
@@ -27635,7 +27629,7 @@ msgstr ""
 "Feu clic per a editar una tasca.\n"
 "Feu doble clic per a reiniciar l'estat d'una tasca."
 
-#: ekos/scheduler/scheduler.cpp:141
+#: ekos/scheduler/scheduler.cpp:139
 #, kde-format
 msgid ""
 "Current status of the job, managed by the Scheduler.\n"
@@ -27654,7 +27648,7 @@ msgstr ""
 "Si és completa, el programador verificarà que totes les captures de "
 "seqüència sol·licitades s'han emmagatzemat, incloent-hi les repeticions."
 
-#: ekos/scheduler/scheduler.cpp:146
+#: ekos/scheduler/scheduler.cpp:144
 #, kde-format
 msgid ""
 "Current altitude of the target of the job.\n"
@@ -27665,7 +27659,7 @@ msgstr ""
 "Un objectiu que ascendeix s'indica amb una fletxa cap amunt.\n"
 "Un objectiu que es pon s'indica amb una fletxa cap avall."
 
-#: ekos/scheduler/scheduler.cpp:150
+#: ekos/scheduler/scheduler.cpp:148
 #, kde-format
 msgid ""
 "Startup time of the job, as estimated by the Scheduler.\n"
@@ -27677,7 +27671,7 @@ msgstr ""
 "Hora fixada per l'usuari o hora de culminació, està marcada amb el símbol "
 "d'un cronòmetre."
 
-#: ekos/scheduler/scheduler.cpp:154
+#: ekos/scheduler/scheduler.cpp:152
 #, kde-format
 msgid ""
 "Completion time for the job, as estimated by the Scheduler.\n"
@@ -27690,7 +27684,19 @@ msgstr ""
 "repetides. Un símbol d'avís indica que l'altitud a la compleció pot fer que "
 "la tasca s'interrompi abans de la compleció.\n"
 
-#: ekos/scheduler/scheduler.cpp:165
+#: ekos/scheduler/scheduler.cpp:156 ekos/scheduler/scheduler.cpp:1462
+#, kde-format
+msgid ""
+"Count of captures stored for the job, based on its sequence job.\n"
+"This is a summary, additional specific frame types may be required to "
+"complete the job."
+msgstr ""
+"Comptador de captures emmagatzemades de la tasca, basat en la seva tasca de "
+"seqüències.\n"
+"Això és un resum, es poden requerir tipus de fotogrames addicionals per a "
+"completar la tasca."
+
+#: ekos/scheduler/scheduler.cpp:164
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
@@ -27700,23 +27706,23 @@ msgstr ""
 "Les propietats de la tasca es copiaran als camps d'edició abans de "
 "l'eliminació."
 
-#: ekos/scheduler/scheduler.cpp:169
+#: ekos/scheduler/scheduler.cpp:168
 #, kde-format
 msgid "Move selected job one line up in the list.\n"
 msgstr "Mou la tasca seleccionada una línia cap amunt en la llista.\n"
 
-#: ekos/scheduler/scheduler.cpp:172
+#: ekos/scheduler/scheduler.cpp:171
 #, kde-format
 msgid "Move selected job one line down in the list.\n"
 msgstr "Mou la tasca seleccionada una línia cap avall en la llista.\n"
 
-#: ekos/scheduler/scheduler.cpp:176
+#: ekos/scheduler/scheduler.cpp:175
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 "Restableix l'estat i força la reavaluació de totes les tasques d'observació."
 
-#: ekos/scheduler/scheduler.cpp:180
+#: ekos/scheduler/scheduler.cpp:179
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -27733,7 +27739,7 @@ msgstr ""
 "Cal tenir en compte que l'algorisme primer calcula totes les elevacions "
 "usant la mateixa hora, després avalua les tasques."
 
-#: ekos/scheduler/scheduler.cpp:343 ekos/scheduler/scheduler.cpp:1937
+#: ekos/scheduler/scheduler.cpp:342 ekos/scheduler/scheduler.cpp:1938
 #: ekos/scheduler/schedulerprocess.cpp:3250
 #, kde-format
 msgid ""
@@ -27743,65 +27749,65 @@ msgstr ""
 "Avís: L'algorisme Clàssic del programador s'ha retirat. S'ha canviat per "
 "l'algorisme Voraç."
 
-#: ekos/scheduler/scheduler.cpp:570
+#: ekos/scheduler/scheduler.cpp:569
 #, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "Selecció d'una imatge FITS/XISF"
 
-#: ekos/scheduler/scheduler.cpp:620
+#: ekos/scheduler/scheduler.cpp:619
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "Capçalera FITS: no s'ha pogut trobar OBJCTRA (%1)."
 
-#: ekos/scheduler/scheduler.cpp:639
+#: ekos/scheduler/scheduler.cpp:638
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "Capçalera FITS: no s'ha pogut trobar OBJCTDEC (%1)."
 
-#: ekos/scheduler/scheduler.cpp:690
+#: ekos/scheduler/scheduler.cpp:689
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Selecció de l'script d'inici"
 
-#: ekos/scheduler/scheduler.cpp:692 ekos/scheduler/scheduler.cpp:707
+#: ekos/scheduler/scheduler.cpp:691 ekos/scheduler/scheduler.cpp:706
 #, kde-format
 msgid "Script (*)"
 msgstr "Script (*)"
 
-#: ekos/scheduler/scheduler.cpp:705
+#: ekos/scheduler/scheduler.cpp:704
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Selecció de l'script de tancament"
 
-#: ekos/scheduler/scheduler.cpp:755
+#: ekos/scheduler/scheduler.cpp:754
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "Avís: es requereix el nom de l'objectiu."
 
-#: ekos/scheduler/scheduler.cpp:761
+#: ekos/scheduler/scheduler.cpp:760
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "Avís: es requereix el fitxer de seqüències."
 
-#: ekos/scheduler/scheduler.cpp:768
+#: ekos/scheduler/scheduler.cpp:767
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "Avís: es requereixen les coordenades de l'objectiu."
 
-#: ekos/scheduler/scheduler.cpp:778
+#: ekos/scheduler/scheduler.cpp:777
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "Avís: el valor %1 de l'AR no és vàlid."
 
-#: ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/scheduler.cpp:783
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Avís: el valor %1 de la Dec no és vàlid."
 
-#: ekos/scheduler/scheduler.cpp:899
+#: ekos/scheduler/scheduler.cpp:898
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
@@ -27810,7 +27816,7 @@ msgstr ""
 "Avís: la tasca «%1» de la fila %2 té un objectiu duplicat a la fila %3, el "
 "programador podria considerar el mateix emmagatzematge per a les captures."
 
-#: ekos/scheduler/scheduler.cpp:907
+#: ekos/scheduler/scheduler.cpp:906
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -27821,91 +27827,91 @@ msgstr ""
 "repetició diferent, ja que es completaran simultàniament després de %4 de "
 "lots (o desactiveu l'opció «Recorda el progrés de la tasca»)"
 
-#: ekos/scheduler/scheduler.cpp:915
+#: ekos/scheduler/scheduler.cpp:914
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr "S'ha omès la comprovació de duplicats."
 
-#: ekos/scheduler/scheduler.cpp:1078
+#: ekos/scheduler/scheduler.cpp:1077
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1147
+#: ekos/scheduler/scheduler.cpp:1146
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr "S'atura l'edició de la tasca núm. %1. Es restaura al valor original."
 
-#: ekos/scheduler/scheduler.cpp:1165
+#: ekos/scheduler/scheduler.cpp:1164
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 "Useu els camps d'edició per a crear una tasca nova a la llista d'observació."
 
-#: ekos/scheduler/scheduler.cpp:1327
+#: ekos/scheduler/scheduler.cpp:1326
 #, kde-format
 msgid "Evaluating"
 msgstr "S'està avaluant"
 
-#: ekos/scheduler/scheduler.cpp:1328
+#: ekos/scheduler/scheduler.cpp:1327
 #, kde-format
 msgid "Scheduled"
 msgstr "Programada"
 
-#: ekos/scheduler/scheduler.cpp:1330
+#: ekos/scheduler/scheduler.cpp:1329
 #, kde-format
 msgid "Invalid"
 msgstr "No vàlida"
 
-#: ekos/scheduler/scheduler.cpp:1610
+#: ekos/scheduler/scheduler.cpp:1611
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr "Pausa planificada del programador..."
 
-#: ekos/scheduler/scheduler.cpp:1614
+#: ekos/scheduler/scheduler.cpp:1615
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "El programador es reprèn"
 
-#: ekos/scheduler/scheduler.cpp:1629
+#: ekos/scheduler/scheduler.cpp:1630
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "L'observatori es troba en el procés de tancament"
 
-#: ekos/scheduler/scheduler.cpp:1659
+#: ekos/scheduler/scheduler.cpp:1660
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "El programador s'ha interromput."
 
-#: ekos/scheduler/scheduler.cpp:1668
+#: ekos/scheduler/scheduler.cpp:1669
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "El programador farà el tancament quan s'enllesteixi la tasca següent"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1676 ekos/scheduler/scheduler.ui:1151
+#: ekos/scheduler/scheduler.cpp:1677 ekos/scheduler/scheduler.ui:1151
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Inicia el programador"
 
-#: ekos/scheduler/scheduler.cpp:1699
+#: ekos/scheduler/scheduler.cpp:1700
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Obertura de la llista del programador de l'Ekos"
 
-#: ekos/scheduler/scheduler.cpp:1792
+#: ekos/scheduler/scheduler.cpp:1793
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Desament de la llista del programador de l'Ekos"
 
-#: ekos/scheduler/scheduler.cpp:1811
+#: ekos/scheduler/scheduler.cpp:1812
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Ha fallat en desar la llista del programador"
 
-#: ekos/scheduler/scheduler.cpp:1956
+#: ekos/scheduler/scheduler.cpp:1957
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
@@ -27915,80 +27921,80 @@ msgstr ""
 "l'observatori funcioni durant la llum diürna. Això pot provocar desperfectes "
 "irreversibles a l'equip!"
 
-#: ekos/scheduler/scheduler.cpp:1958
+#: ekos/scheduler/scheduler.cpp:1959
 #, kde-format
 msgid "Astronomical Twilight Warning"
 msgstr "Avís de crepuscle astronòmic"
 
-#: ekos/scheduler/scheduler.cpp:1984
+#: ekos/scheduler/scheduler.cpp:1985
 #, kde-format
 msgid "Slew complete"
 msgstr "L'orientació s'ha completat"
 
-#: ekos/scheduler/scheduler.cpp:1988
+#: ekos/scheduler/scheduler.cpp:1989
 #, kde-format
 msgid "Focus complete"
 msgstr "Ha finalitzat l'enfocament"
 
-#: ekos/scheduler/scheduler.cpp:1990
+#: ekos/scheduler/scheduler.cpp:1991
 #, kde-format
 msgid "Align complete"
 msgstr "Alineació completada"
 
-#: ekos/scheduler/scheduler.cpp:1991
+#: ekos/scheduler/scheduler.cpp:1992
 #, kde-format
 msgid "Repositioning"
 msgstr "S'està reposicionant"
 
-#: ekos/scheduler/scheduler.cpp:1992
+#: ekos/scheduler/scheduler.cpp:1993
 #, kde-format
 msgid "Repositioning complete"
 msgstr "S'ha completat el reposicionament"
 
-#: ekos/scheduler/scheduler.cpp:1995
+#: ekos/scheduler/scheduler.cpp:1996
 #, kde-format
 msgid "Guiding complete"
 msgstr "S'ha completat el guiatge"
 
-#: ekos/scheduler/scheduler.cpp:2074
+#: ekos/scheduler/scheduler.cpp:2075
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Les condicions meteorològiques són BONES."
 
-#: ekos/scheduler/scheduler.cpp:2078
+#: ekos/scheduler/scheduler.cpp:2079
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Avís: les condicions meteorològiques es troben a la zona d'ALERTA."
 
-#: ekos/scheduler/scheduler.cpp:2082
+#: ekos/scheduler/scheduler.cpp:2083
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 "Precaució: les condicions meteorològiques es troben a la zona de PERILL!"
 
-#: ekos/scheduler/scheduler.cpp:2100
+#: ekos/scheduler/scheduler.cpp:2101
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Les condicions meteorològiques es troben a la zona d'alerta"
 
-#: ekos/scheduler/scheduler.cpp:2109
+#: ekos/scheduler/scheduler.cpp:2110
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 "Les condicions meteorològiques són crítiques. El tancament de l'observatori "
 "és imminent"
 
-#: ekos/scheduler/scheduler.cpp:2132
+#: ekos/scheduler/scheduler.cpp:2133
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "El programador està en el mode de repòs"
 
-#: ekos/scheduler/scheduler.cpp:2195
+#: ekos/scheduler/scheduler.cpp:2196
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "El procediment d'inici manual s'ha completat amb èxit."
 
-#: ekos/scheduler/scheduler.cpp:2199
+#: ekos/scheduler/scheduler.cpp:2200
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "El procediment d'inici manual ha finalitzat a causa d'errors."
@@ -29908,15 +29914,15 @@ msgid "Y Offset:"
 msgstr "Desplaçament Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:505
-#: fitsviewer/fitsviewer.cpp:1621
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:504
+#: fitsviewer/fitsviewer.cpp:1620
 #, kde-format
 msgid "Ready."
 msgstr "Preparat."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
 #: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:170
-#: fitsviewer/fitsviewer.cpp:145
+#: fitsviewer/fitsviewer.cpp:144
 #, kde-format
 msgid "FITS Header"
 msgstr "Capçalera FITS"
@@ -29977,7 +29983,7 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
 #: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:167
-#: fitsviewer/fitsviewer.cpp:121
+#: fitsviewer/fitsviewer.cpp:120
 #, kde-format
 msgid "Histogram"
 msgstr "Histograma"
@@ -30232,12 +30238,12 @@ msgstr "Zoom fins que ajusti"
 msgid "Toggle Stretch"
 msgstr "Alterna l'estirament"
 
-#: fitsviewer/fitsview.cpp:2480 fitsviewer/fitsviewer.cpp:220
+#: fitsviewer/fitsview.cpp:2480 fitsviewer/fitsviewer.cpp:219
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Mostra el punt de mira"
 
-#: fitsviewer/fitsview.cpp:2484 fitsviewer/fitsviewer.cpp:233
+#: fitsviewer/fitsview.cpp:2484 fitsviewer/fitsviewer.cpp:232
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Mostra les línies de la quadrícula de píxels"
@@ -30252,14 +30258,14 @@ msgstr "Detecta les estrelles a la imatge"
 msgid "View Star Profile..."
 msgstr "Perfil de vista d'estrella..."
 
-#: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
-#: fitsviewer/fitsviewer.cpp:1309
+#: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:238
+#: fitsviewer/fitsviewer.cpp:1308
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostra les línies de la quadrícula equatorial"
 
-#: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
-#: fitsviewer/fitsviewer.cpp:1311
+#: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:245
+#: fitsviewer/fitsviewer.cpp:1310
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostra els objectes a la imatge"
@@ -30269,84 +30275,84 @@ msgstr "Mostra els objectes a la imatge"
 msgid "Center Telescope"
 msgstr "Centra el telescopi"
 
-#: fitsviewer/fitsview.cpp:2523 fitsviewer/fitsviewer.cpp:253
+#: fitsviewer/fitsview.cpp:2523 fitsviewer/fitsviewer.cpp:252
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Mostra la superposició del HiPS"
 
-#: fitsviewer/fitsviewer.cpp:41
+#: fitsviewer/fitsviewer.cpp:40
 #, kde-format
 msgid "Auto Stretch"
 msgstr "Estirament automàtic"
 
-#: fitsviewer/fitsviewer.cpp:41
+#: fitsviewer/fitsviewer.cpp:40
 #, kde-format
 msgid "High Contrast"
 msgstr "Contrast alt"
 
-#: fitsviewer/fitsviewer.cpp:41
+#: fitsviewer/fitsviewer.cpp:40
 #, kde-format
 msgid "Equalize"
 msgstr "Equalitza"
 
-#: fitsviewer/fitsviewer.cpp:42
+#: fitsviewer/fitsviewer.cpp:41
 #, kde-format
 msgid "High Pass"
 msgstr "Passaalt"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:42 fitsviewer/statform.ui:101
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/statform.ui:101
 #, kde-format
 msgid "Median"
 msgstr "Mediana"
 
-#: fitsviewer/fitsviewer.cpp:42
+#: fitsviewer/fitsviewer.cpp:41
 #, kde-format
 msgid "Gaussian blur"
 msgstr "Difuminat gaussià"
 
-#: fitsviewer/fitsviewer.cpp:43 fitsviewer/fitsviewer.cpp:104
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:103
 #, kde-format
 msgid "Rotate Right"
 msgstr "Gira a la dreta"
 
-#: fitsviewer/fitsviewer.cpp:43 fitsviewer/fitsviewer.cpp:108
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:107
 #, kde-format
 msgid "Rotate Left"
 msgstr "Gira a l'esquerra"
 
-#: fitsviewer/fitsviewer.cpp:43 fitsviewer/fitsviewer.cpp:112
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:111
 #, kde-format
 msgid "Flip Horizontal"
 msgstr "Inverteix horitzontalment"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:117
+#: fitsviewer/fitsviewer.cpp:42 fitsviewer/fitsviewer.cpp:116
 #, kde-format
 msgid "Flip Vertical"
 msgstr "Inverteix verticalment"
 
 # NdT: From https://invent.kde.org/education/kstars/-/merge_requests/1127, "Blink" in this context is "compare multiple images".
-#: fitsviewer/fitsviewer.cpp:132 kstarsinit.cpp:159
+#: fitsviewer/fitsviewer.cpp:131 kstarsinit.cpp:159
 #, kde-format
 msgid "Open/Blink Directory"
 msgstr "Obre/Compara un directori"
 
-#: fitsviewer/fitsviewer.cpp:151
+#: fitsviewer/fitsviewer.cpp:150
 #, kde-format
 msgid "Debayer..."
 msgstr "Reconstrueix des de Bayer..."
 
-#: fitsviewer/fitsviewer.cpp:186
+#: fitsviewer/fitsviewer.cpp:185
 #, kde-format
 msgid "&Selection Statistics"
 msgstr "Estadístiques de &selecció"
 
-#: fitsviewer/fitsviewer.cpp:227
+#: fitsviewer/fitsviewer.cpp:226
 #, kde-format
 msgid "Show Clipping"
 msgstr "Mostra el retallat"
 
-#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1320
+#: fitsviewer/fitsviewer.cpp:259 fitsviewer/fitsviewer.cpp:1319
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30355,141 +30361,141 @@ msgstr ""
 "Centra el telescopi\n"
 "*No s'ha detectat cap telescopi*"
 
-#: fitsviewer/fitsviewer.cpp:267
+#: fitsviewer/fitsviewer.cpp:266
 #, kde-format
 msgid "Zoom To Fit"
 msgstr "Zoom fins que ajusti"
 
-#: fitsviewer/fitsviewer.cpp:272
+#: fitsviewer/fitsviewer.cpp:271
 #, kde-format
 msgid "Fit Page to Zoom"
 msgstr "Ajusta la pàgina al zoom"
 
-#: fitsviewer/fitsviewer.cpp:277
+#: fitsviewer/fitsviewer.cpp:276
 #, kde-format
 msgid "Next Tab"
 msgstr "Pestanya següent"
 
-#: fitsviewer/fitsviewer.cpp:282
+#: fitsviewer/fitsviewer.cpp:281
 #, kde-format
 msgid "Previous Tab"
 msgstr "Pestanya anterior"
 
-#: fitsviewer/fitsviewer.cpp:287
+#: fitsviewer/fitsviewer.cpp:286
 #, kde-format
 msgid "Next Blink Image"
 msgstr "Imatge següent a comparar"
 
-#: fitsviewer/fitsviewer.cpp:292
+#: fitsviewer/fitsviewer.cpp:291
 #, kde-format
 msgid "Previous Blink Image"
 msgstr "Imatge anterior a comparar"
 
-#: fitsviewer/fitsviewer.cpp:297
+#: fitsviewer/fitsviewer.cpp:296
 #, kde-format
 msgid "Zoom all tabs in"
 msgstr "Amplia totes les pestanyes"
 
-#: fitsviewer/fitsviewer.cpp:302
+#: fitsviewer/fitsviewer.cpp:301
 #, kde-format
 msgid "Zoom all tabs out"
 msgstr "Redueix totes les pestanyes"
 
-#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1594
+#: fitsviewer/fitsviewer.cpp:306 fitsviewer/fitsviewer.cpp:1593
 #, kde-format
 msgid "Mark Stars"
 msgstr "Marca estrelles"
 
-#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:835
-#: fitsviewer/fitsviewer.cpp:1557
+#: fitsviewer/fitsviewer.cpp:314 fitsviewer/fitsviewer.cpp:834
+#: fitsviewer/fitsviewer.cpp:1556
 #, kde-format
 msgid "View 3D Graph"
 msgstr "Visualitza el gràfic en 3D"
 
-#: fitsviewer/fitsviewer.cpp:335
+#: fitsviewer/fitsviewer.cpp:334
 #, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Visualitzador de FITS del KStars"
 
-#: fitsviewer/fitsviewer.cpp:413
+#: fitsviewer/fitsviewer.cpp:412
 #, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
 msgstr[0] "HFR:%2 Ecc:%3 %1 estrella."
 msgstr[1] "HFR:%2 Ecc:%3 %1 estrelles."
 
-#: fitsviewer/fitsviewer.cpp:419
+#: fitsviewer/fitsviewer.cpp:418
 #, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
 msgstr[0] "HFR:%2, %1 estrella."
 msgstr[1] "HFR:%2, %1 estrelles."
 
-#: fitsviewer/fitsviewer.cpp:680
+#: fitsviewer/fitsviewer.cpp:679
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 "No s'ha pogut trobar la pestanya amb l'UID %1 en el visualitzador de FITS"
 
-#: fitsviewer/fitsviewer.cpp:817
+#: fitsviewer/fitsviewer.cpp:816
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr "Gràfic en 3D de la vista actual"
 
-#: fitsviewer/fitsviewer.cpp:818 fitsviewer/fitsviewer.cpp:1465
+#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1464
 #, kde-format
 msgid "Cross Hairs"
 msgstr "Punt de mira"
 
-#: fitsviewer/fitsviewer.cpp:819 fitsviewer/fitsviewer.cpp:1479
+#: fitsviewer/fitsviewer.cpp:818 fitsviewer/fitsviewer.cpp:1478
 #, kde-format
 msgid "Clipping"
 msgstr "Retallat"
 
-#: fitsviewer/fitsviewer.cpp:820 fitsviewer/fitsviewer.cpp:1492
+#: fitsviewer/fitsviewer.cpp:819 fitsviewer/fitsviewer.cpp:1491
 #, kde-format
 msgid "Equatorial Gridlines"
 msgstr "Línies de la quadrícula equatorial"
 
-#: fitsviewer/fitsviewer.cpp:821 fitsviewer/fitsviewer.cpp:1531
+#: fitsviewer/fitsviewer.cpp:820 fitsviewer/fitsviewer.cpp:1530
 #, kde-format
 msgid "Objects in Image"
 msgstr "Objectes a la imatge"
 
-#: fitsviewer/fitsviewer.cpp:822 fitsviewer/fitsviewer.cpp:1544
+#: fitsviewer/fitsviewer.cpp:821 fitsviewer/fitsviewer.cpp:1543
 #, kde-format
 msgid "Pixel Gridlines"
 msgstr "Línies de la quadrícula de píxels"
 
-#: fitsviewer/fitsviewer.cpp:823 fitsviewer/fitsviewer.cpp:1505
+#: fitsviewer/fitsviewer.cpp:822 fitsviewer/fitsviewer.cpp:1504
 #, kde-format
 msgid "HiPS Overlay"
 msgstr "Superposició del HiPS"
 
-#: fitsviewer/fitsviewer.cpp:875
+#: fitsviewer/fitsviewer.cpp:874
 #, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Compara el directori superior"
 
-#: fitsviewer/fitsviewer.cpp:1003
+#: fitsviewer/fitsviewer.cpp:1002
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Obertura d'una imatge"
 
-#: fitsviewer/fitsviewer.cpp:1286
+#: fitsviewer/fitsviewer.cpp:1285
 #, kde-format
 msgid "Hide %1"
 msgstr "Oculta %1"
 
-#: fitsviewer/fitsviewer.cpp:1291
+#: fitsviewer/fitsviewer.cpp:1290
 #, kde-format
 msgid "Show %1"
 msgstr "Mostra %1"
 
-#: fitsviewer/fitsviewer.cpp:1315
+#: fitsviewer/fitsviewer.cpp:1314
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30498,7 +30504,7 @@ msgstr ""
 "Centra el telescopi\n"
 "*Preparat*"
 
-#: fitsviewer/fitsviewer.cpp:1327
+#: fitsviewer/fitsviewer.cpp:1326
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -30507,7 +30513,7 @@ msgstr ""
 "Mostra les línies de la quadrícula equatorial\n"
 "*Sense informació WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1329
+#: fitsviewer/fitsviewer.cpp:1328
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30516,7 +30522,7 @@ msgstr ""
 "Centra el telescopi\n"
 "*Sense informació WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1331
+#: fitsviewer/fitsviewer.cpp:1330
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -30525,36 +30531,36 @@ msgstr ""
 "Mostra els objectes a la imatge\n"
 "*Sense informació WCS*"
 
-#: fitsviewer/fitsviewer.cpp:1363 fitsviewer/fitsviewer.cpp:1518
+#: fitsviewer/fitsviewer.cpp:1362 fitsviewer/fitsviewer.cpp:1517
 #, kde-format
 msgid "Selection Rectangle"
 msgstr "Rectangle de selecció"
 
-#: fitsviewer/fitsviewer.cpp:1392 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1391 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Mida"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1400 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1399 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Width"
 msgstr "Amplada"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1401 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1400 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, kde-format
 msgid "Height"
 msgstr "Alçada"
 
-#: fitsviewer/fitsviewer.cpp:1599
+#: fitsviewer/fitsviewer.cpp:1598
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Desmarca estrelles"
 
-#: fitsviewer/fitsviewer.cpp:1615
+#: fitsviewer/fitsviewer.cpp:1614
 #, kde-format
 msgid "Processing %1..."
 msgstr "S'està processant %1..."
@@ -31961,7 +31967,7 @@ msgstr "S'està movent en sentit horari"
 msgid "Moving counter clockwise"
 msgstr "S'està movent en sentit antihorari"
 
-#: indi/indidome.cpp:21 indi/indidustcap.cpp:17
+#: indi/indidome.cpp:21 indi/indidustcap.cpp:16
 #, kde-format
 msgid "UnParking"
 msgstr "Desaparcant"
@@ -32036,47 +32042,47 @@ msgstr "No hi ha memòria suficient per al fitxer %1"
 msgid "INDI Server Message"
 msgstr "Missatge del servidor INDI"
 
-#: indi/indimount.cpp:246
+#: indi/indimount.cpp:245
 #, kde-format
 msgid "Mount is slewing to target location"
 msgstr "La muntura s'està orientant cap a la ubicació de l'objectiu"
 
-#: indi/indimount.cpp:262
+#: indi/indimount.cpp:261
 #, kde-format
 msgid "Mount arrived at target location"
 msgstr "La muntura ha arribat a la ubicació de l'objectiu"
 
-#: indi/indimount.cpp:336
+#: indi/indimount.cpp:335
 #, kde-format
 msgid "Mount motion was aborted"
 msgstr "El moviment de la muntura s'ha interromput"
 
-#: indi/indimount.cpp:457
+#: indi/indimount.cpp:456
 #, kde-format
 msgid "Mount parking failed"
 msgstr "Ha fallat en aparcar la muntura"
 
-#: indi/indimount.cpp:463
+#: indi/indimount.cpp:462
 #, kde-format
 msgid "Mount parking is in progress"
 msgstr "L'aparcament de la muntura es troba en curs"
 
-#: indi/indimount.cpp:471
+#: indi/indimount.cpp:470
 #, kde-format
 msgid "Mount unparking is in progress"
 msgstr "El desaparcament de la muntura es troba en curs"
 
-#: indi/indimount.cpp:478
+#: indi/indimount.cpp:477
 #, kde-format
 msgid "Mount parked"
 msgstr "La muntura està aparcada"
 
-#: indi/indimount.cpp:497
+#: indi/indimount.cpp:496
 #, kde-format
 msgid "Mount unparked"
 msgstr "La muntura està desaparcada"
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:823
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -32085,12 +32091,12 @@ msgstr ""
 "Avís! Mirar el Sol sense una protecció adequada pot provocar danys oculars "
 "irreversibles!"
 
-#: indi/indimount.cpp:825
+#: indi/indimount.cpp:824
 #, kde-format
 msgid "Sun Warning"
 msgstr "Avís del Sol"
 
-#: indi/indimount.cpp:843
+#: indi/indimount.cpp:842
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
@@ -32098,7 +32104,7 @@ msgid ""
 msgstr ""
 "L'altitud requerida %1 està fora dels límits d'altitud especificats (%2, %3)."
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -32106,7 +32112,7 @@ msgstr ""
 "L'altitud requerida es troba per sota de l'horitzó. Segur que voleu "
 "continuar?"
 
-#: indi/indimount.cpp:878
+#: indi/indimount.cpp:877
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Moviment del telescopi"
@@ -78533,14 +78539,14 @@ msgstr "S'estan baixant les actualitzacions dels asteroides..."
 msgid "Error downloading asteroids data: %1"
 msgstr "Error en baixar dades dels asteroides: %1"
 
-#: skycomponents/catalogscomponent.cpp:151
-#: skycomponents/catalogscomponent.cpp:364
-#: skycomponents/catalogscomponent.cpp:406
+#: skycomponents/catalogscomponent.cpp:152
+#: skycomponents/catalogscomponent.cpp:368
+#: skycomponents/catalogscomponent.cpp:410
 #, kde-format
 msgid "Could not load catalog objects in trixel: %1"
 msgstr "No s'ha pogut carregar els objectes del catàleg en el «trixel»: %1"
 
-#: skycomponents/catalogscomponent.cpp:436
+#: skycomponents/catalogscomponent.cpp:440
 #, kde-format
 msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
@@ -78549,13 +78555,13 @@ msgstr ""
 "Importo els objectes personalitzats i els resolts per Internet des de la "
 "base de dades DSO antiga a la nova?"
 
-#: skycomponents/catalogscomponent.cpp:447
-#: skycomponents/catalogscomponent.cpp:454
+#: skycomponents/catalogscomponent.cpp:451
+#: skycomponents/catalogscomponent.cpp:458
 #, kde-format
 msgid "Could not import the objects."
 msgstr "No s'ha pogut importar els objectes."
 
-#: skycomponents/catalogscomponent.cpp:459
+#: skycomponents/catalogscomponent.cpp:463
 #, kde-format
 msgid "Successfully added %1 object to the user catalog."
 msgid_plural "Successfully added %1 objects to the user catalog."

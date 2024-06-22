@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-20 01:47+0000\n"
+"POT-Creation-Date: 2024-06-22 01:50+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -415,7 +415,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1151
-#: ekos/scheduler/scheduler.cpp:1811
+#: ekos/scheduler/scheduler.cpp:1812
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -574,9 +574,9 @@ msgstr "Zrušiť"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1101 ekos/manager.cpp:1116
-#: ekos/manager.cpp:1146 ekos/scheduler/scheduler.cpp:1333
-#: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:18
-#: indi/indimount.cpp:33 kstarsactions.cpp:499 kstarsactions.cpp:507
+#: ekos/manager.cpp:1146 ekos/scheduler/scheduler.cpp:1332
+#: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
+#: indi/indimount.cpp:32 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
 #, kde-format
 msgid "Error"
@@ -698,7 +698,7 @@ msgctxt "Unknown cardinal / intercardinal direction"
 msgid "???"
 msgstr "???"
 
-#: auxiliary/ksutils.cpp:1350
+#: auxiliary/ksutils.cpp:1349
 #, kde-format
 msgid ""
 "The selected Astrometry Index File Location:\n"
@@ -706,19 +706,19 @@ msgid ""
 " does not exist.  Do you want to make the directory?"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1353
+#: auxiliary/ksutils.cpp:1352
 #, fuzzy, kde-format
 #| msgid "Astrometry alignment failed"
 msgid "Make Astrometry Index File Directory?"
 msgstr "Astrometrické zarovnanie zlyhalo"
 
-#: auxiliary/ksutils.cpp:1358
+#: auxiliary/ksutils.cpp:1357
 #, fuzzy, kde-format
 #| msgid "Astrometry alignment failed"
 msgid "The Default Astrometry Index File Location was created."
 msgstr "Astrometrické zarovnanie zlyhalo"
 
-#: auxiliary/ksutils.cpp:1363
+#: auxiliary/ksutils.cpp:1362
 #, fuzzy, kde-format
 #| msgid "Astrometry alignment failed"
 msgid ""
@@ -726,21 +726,21 @@ msgid ""
 "to be created."
 msgstr "Astrometrické zarovnanie zlyhalo"
 
-#: auxiliary/ksutils.cpp:1384 auxiliary/ksutils.cpp:1540
-#: auxiliary/ksutils.cpp:1605
+#: auxiliary/ksutils.cpp:1383 auxiliary/ksutils.cpp:1539
+#: auxiliary/ksutils.cpp:1604
 #, fuzzy, kde-format
 #| msgid "Astrometry.net configuration file"
 msgid "Astrometry Configuration File Read Error."
 msgstr "Konfiguračný súbor astrometry.net"
 
-#: auxiliary/ksutils.cpp:1398 auxiliary/ksutils.cpp:1583
-#: auxiliary/ksutils.cpp:1625
+#: auxiliary/ksutils.cpp:1397 auxiliary/ksutils.cpp:1582
+#: auxiliary/ksutils.cpp:1624
 #, fuzzy, kde-format
 #| msgid "Astrometry.net configuration file"
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr "Konfiguračný súbor astrometry.net"
 
-#: auxiliary/ksutils.cpp:1671 fitsviewer/fitsdata.cpp:734
+#: auxiliary/ksutils.cpp:1670 fitsviewer/fitsdata.cpp:734
 #, fuzzy, kde-format
 #| msgid ""
 #| "Unable to find dcraw and cjpeg. Please install the required tools to "
@@ -752,23 +752,23 @@ msgstr ""
 "Nemôžem nájsť dcraw a cjpeg. Prosím, nainštalujte potrebné nástroje na "
 "prevod CR2 do JPEG."
 
-#: auxiliary/ksutils.cpp:1682
+#: auxiliary/ksutils.cpp:1681
 #, kde-format
 msgid "Cannot open %1: %2"
 msgstr "Nie je možné otvoriť %1: %2"
 
-#: auxiliary/ksutils.cpp:1690
+#: auxiliary/ksutils.cpp:1689
 #, kde-format
 msgid "Cannot unpack_thumb %1: %2"
 msgstr "Nemôžem rozbaliť miniatúru %1: %2"
 
-#: auxiliary/ksutils.cpp:1701
+#: auxiliary/ksutils.cpp:1700
 #, fuzzy, kde-format
 #| msgid "Cannot write to user log file"
 msgid "Cannot write %s %1: %2"
 msgstr "Nie je možné zapísať do súboru záznamu používateľa"
 
-#: auxiliary/ksutils.cpp:1825 ekos/scheduler/framingassistantui.cpp:181
+#: auxiliary/ksutils.cpp:1824 ekos/scheduler/framingassistantui.cpp:181
 #: ekos/scheduler/framingassistantui.cpp:196
 #: ekos/scheduler/framingassistantui.cpp:854
 #: ekos/scheduler/framingassistantui.cpp:873 skyobjects/ksplanetbase.h:60
@@ -991,7 +991,7 @@ msgstr "Prehliadač slnečnej sústavy"
 #: data/qml/whatisinteresting/wiview.qml:144
 #: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:795 indi/indimount.cpp:810 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -2070,11 +2070,11 @@ msgstr "Stav:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1326
-#: ekos/scheduler/scheduler.cpp:1982 ekos/scheduler/scheduler.cpp:2219
-#: ekos/scheduler/scheduler.cpp:2227 ekos/scheduler/scheduler.cpp:2237
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1325
+#: ekos/scheduler/scheduler.cpp:1983 ekos/scheduler/scheduler.cpp:2220
+#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
-#: indi/indidustcap.cpp:17 indi/indimount.cpp:31
+#: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
 msgid "Idle"
 msgstr "Nečinné"
@@ -2427,8 +2427,8 @@ msgid "Check if magnitude is unknown"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1334
-#: ekos/scheduler/scheduler.cpp:1997 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1333
+#: ekos/scheduler/scheduler.cpp:1998 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2678,8 +2678,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3949
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/camera.cpp:1105 ekos/capture/camera.cpp:1160
-#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1711
-#: ekos/scheduler/scheduler.cpp:1821 fitsviewer/fitstab.cpp:530
+#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1712
+#: ekos/scheduler/scheduler.cpp:1822 fitsviewer/fitstab.cpp:530
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2995,7 +2995,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
 #: ekos/capture/cameraprocess.cpp:2433 ekos/capture/capturecountswidget.cpp:278
-#: fitsviewer/fitsviewer.cpp:728 fitsviewer/fitsviewer.cpp:729
+#: fitsviewer/fitsviewer.cpp:727 fitsviewer/fitsviewer.cpp:728
 #, kde-format
 msgid "Preview"
 msgstr "Náhľad"
@@ -6804,7 +6804,7 @@ msgstr "Vyčistiť všetky body"
 #: ekos/align/align.cpp:3948 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1104
 #: ekos/capture/camera.cpp:1159 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:1710 ekos/scheduler/scheduler.cpp:1820
+#: ekos/scheduler/scheduler.cpp:1711 ekos/scheduler/scheduler.cpp:1821
 #: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10536,26 +10536,26 @@ msgstr "Zlyhalo nastavenie analýzy chybovosti."
 
 #: ekos/analyze/analyze.cpp:129 ekos/analyze/analyze.cpp:148
 #: ekos/observatory/observatory.cpp:363 indi/indidome.cpp:21
-#: indi/indidustcap.cpp:18 indi/indimount.cpp:32
+#: indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format
 msgid "Parked"
 msgstr "Zaparkované"
 
 #: ekos/analyze/analyze.cpp:131 ekos/analyze/analyze.cpp:150
 #: ekos/observatory/observatory.cpp:290 ekos/observatory/observatory.cpp:306
-#: indi/indidome.cpp:21 indi/indidustcap.cpp:17 indi/indimount.cpp:32
+#: indi/indidome.cpp:21 indi/indidustcap.cpp:16 indi/indimount.cpp:31
 #, kde-format
 msgid "Parking"
 msgstr "Parkovanie"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1983 indi/indimount.cpp:31
+#: ekos/scheduler/scheduler.cpp:1984 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "Stočenie"
 
 #: ekos/analyze/analyze.cpp:135 ekos/analyze/analyze.cpp:154
-#: indi/indimount.cpp:31
+#: indi/indimount.cpp:30
 #, fuzzy, kde-format
 #| msgid "Loading %1"
 msgid "Moving"
@@ -10563,7 +10563,7 @@ msgstr "Načítavanie %1"
 
 #. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/analyze/analyze.cpp:137 ekos/analyze/analyze.cpp:156
-#: ekos/mount/mount.ui:771 indi/indidome.cpp:21 indi/indimount.cpp:32
+#: ekos/mount/mount.ui:771 indi/indidome.cpp:21 indi/indimount.cpp:31
 #, kde-format
 msgid "Tracking"
 msgstr "Trasovanie"
@@ -10616,7 +10616,7 @@ msgstr "Nepodarilo sa odstrániť súbor: %1"
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2079
 #: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
 #: ekos/scheduler/scheduler.ui:442 fitsviewer/fitscommon.h:15
-#: fitsviewer/fitsviewer.cpp:469
+#: fitsviewer/fitsviewer.cpp:468
 #, kde-format
 msgid "Focus"
 msgstr "Zameranie"
@@ -10626,7 +10626,7 @@ msgstr "Zameranie"
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
 #: ekos/manager.cpp:2043 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:395 fitsviewer/fitscommon.h:16
-#: fitsviewer/fitsviewer.cpp:477
+#: fitsviewer/fitsviewer.cpp:476
 #, kde-format
 msgid "Align"
 msgstr "Zarovnať"
@@ -10639,7 +10639,7 @@ msgstr "Zarovnať"
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2248
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:417
-#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:473
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:472
 #, kde-format
 msgid "Guide"
 msgstr "Usmerňovať"
@@ -10684,7 +10684,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3467 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1332
+#: ekos/scheduler/scheduler.cpp:1331
 #, kde-format
 msgid "Aborted"
 msgstr "Prerušené"
@@ -10700,7 +10700,7 @@ msgid "Disconnected"
 msgstr "Odpojený"
 
 #: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1996
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1997
 #, kde-format
 msgid "Capturing"
 msgstr "Zachytávanie"
@@ -10747,7 +10747,7 @@ msgstr "Kalibrovať"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1994
+#: ekos/scheduler/scheduler.cpp:1995
 #, kde-format
 msgid "Guiding"
 msgstr "Navádzanie"
@@ -10893,7 +10893,7 @@ msgstr "&Pomocník"
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
 #: ekos/analyze/analyze.ui:302 fitsviewer/fitstab.cpp:162
-#: fitsviewer/fitsviewer.cpp:180 fitsviewer/solveInfo.ui:14
+#: fitsviewer/fitsviewer.cpp:179 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
 msgid "Statistics"
@@ -14960,7 +14960,7 @@ msgstr "Vynulovať stav úlohy"
 msgid "Editing job #%1..."
 msgstr "Upravujem úlohu #%1..."
 
-#: ekos/capture/camera.cpp:3800 ekos/scheduler/scheduler.cpp:1171
+#: ekos/capture/camera.cpp:3800 ekos/scheduler/scheduler.cpp:1170
 #, kde-format
 msgid "Apply job changes."
 msgstr "Použiť zmeny úlohy."
@@ -17633,7 +17633,7 @@ msgid "In Progress"
 msgstr "Prebieha"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1331
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1330
 #, kde-format
 msgid "Complete"
 msgstr "Dokončené"
@@ -17761,7 +17761,7 @@ msgstr "Čakanie"
 msgid "Image Received"
 msgstr "Obrázok prijatý"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1986
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1987
 #, kde-format
 msgid "Focusing"
 msgstr "Zaostrovanie"
@@ -17796,7 +17796,7 @@ msgstr "Nastavujem teplotu"
 msgid "Setting Rotator"
 msgstr "Vybrať začiatočnú hviezdu:"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1989
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1990
 #, kde-format
 msgid "Aligning"
 msgstr "Zarovnávam"
@@ -17853,7 +17853,7 @@ msgstr "Nezaostriť"
 msgid "Startup"
 msgstr "Spustenie"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1329
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1328
 #, kde-format
 msgid "Running"
 msgstr "Beží"
@@ -17947,6 +17947,12 @@ msgstr "Online"
 #, kde-format
 msgid "Offline"
 msgstr "Offline"
+
+#: ekos/ekoslive/message.cpp:730
+#, fuzzy, kde-format
+#| msgid "Target"
+msgid "target"
+msgstr "Cieľ"
 
 #: ekos/ekoslive/message.cpp:963
 #, fuzzy, kde-format
@@ -25218,7 +25224,7 @@ msgstr "Zatvoriť prachový kryt"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2144
+#: ekos/scheduler/scheduler.cpp:2145
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Zastaviť plánovač"
@@ -27612,14 +27618,14 @@ msgstr "Opakovať do ukončenia"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Vytvoriť úlohy plánovača na snímanie mozaikového obrázku"
 
-#: ekos/scheduler/framingassistantui.cpp:693 ekos/scheduler/scheduler.cpp:680
+#: ekos/scheduler/framingassistantui.cpp:693 ekos/scheduler/scheduler.cpp:679
 #, fuzzy, kde-format
 #| msgid "Select Sequence Queue"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Vybrať frontu sekvencií"
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:682
+#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:681
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Fronta sekvencie Ekos (*.esq)"
@@ -27655,15 +27661,7 @@ msgid "Job '%1' has no more batches remaining."
 msgstr ""
 "%1 pozorovacia úloha je naplánovaná na spustenie hneď, ako to bude možné."
 
-#: ekos/scheduler/scheduler.cpp:73
-#, kde-format
-msgid ""
-"Count of captures stored for the job, based on its sequence job.\n"
-"This is a summary, additional specific frame types may be required to "
-"complete the job."
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:133
+#: ekos/scheduler/scheduler.cpp:131
 #, fuzzy, kde-format
 #| msgid ""
 #| "Job scheduler list. Click to edit a job. Double click to reset a job "
@@ -27676,7 +27674,7 @@ msgstr ""
 "Zoznam plánovača úloh. Kliknite na úpravu úlohy. Dvakrát kliknite na "
 "vynulovanie stavu úlohy."
 
-#: ekos/scheduler/scheduler.cpp:141
+#: ekos/scheduler/scheduler.cpp:139
 #, kde-format
 msgid ""
 "Current status of the job, managed by the Scheduler.\n"
@@ -27688,7 +27686,7 @@ msgid ""
 "were stored, including repeats."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:146
+#: ekos/scheduler/scheduler.cpp:144
 #, kde-format
 msgid ""
 "Current altitude of the target of the job.\n"
@@ -27696,7 +27694,7 @@ msgid ""
 "A setting target is indicated with an arrow going down."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:150
+#: ekos/scheduler/scheduler.cpp:148
 #, kde-format
 msgid ""
 "Startup time of the job, as estimated by the Scheduler.\n"
@@ -27704,7 +27702,7 @@ msgid ""
 "Fixed time from user or culmination time is marked with a chronometer symbol."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:154
+#: ekos/scheduler/scheduler.cpp:152
 #, kde-format
 msgid ""
 "Completion time for the job, as estimated by the Scheduler.\n"
@@ -27713,31 +27711,39 @@ msgid ""
 "before completion.\n"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:165
+#: ekos/scheduler/scheduler.cpp:156 ekos/scheduler/scheduler.cpp:1462
+#, kde-format
+msgid ""
+"Count of captures stored for the job, based on its sequence job.\n"
+"This is a summary, additional specific frame types may be required to "
+"complete the job."
+msgstr ""
+
+#: ekos/scheduler/scheduler.cpp:164
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
 "Job properties are copied in the edition fields before removal."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:169
+#: ekos/scheduler/scheduler.cpp:168
 #, fuzzy, kde-format
 #| msgid "Clear all selected items in the list"
 msgid "Move selected job one line up in the list.\n"
 msgstr "Vymazať všetky vybrané položky v zozname"
 
-#: ekos/scheduler/scheduler.cpp:172
+#: ekos/scheduler/scheduler.cpp:171
 #, fuzzy, kde-format
 #| msgid "Clear all selected items in the list"
 msgid "Move selected job one line down in the list.\n"
 msgstr "Vymazať všetky vybrané položky v zozname"
 
-#: ekos/scheduler/scheduler.cpp:176
+#: ekos/scheduler/scheduler.cpp:175
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:180
+#: ekos/scheduler/scheduler.cpp:179
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -27748,7 +27754,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:343 ekos/scheduler/scheduler.cpp:1937
+#: ekos/scheduler/scheduler.cpp:342 ekos/scheduler/scheduler.cpp:1938
 #: ekos/scheduler/schedulerprocess.cpp:3250
 #, kde-format
 msgid ""
@@ -27756,82 +27762,82 @@ msgid ""
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:570
+#: ekos/scheduler/scheduler.cpp:569
 #, fuzzy, kde-format
 #| msgid "Select FITS Image"
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "Vybrať obrázok FITS"
 
-#: ekos/scheduler/scheduler.cpp:620
+#: ekos/scheduler/scheduler.cpp:619
 #, fuzzy, kde-format
 #| msgid "FITS header: Cannot find FOCALLEN."
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "FITS hlavička: Nemôžem nájsť FOCALLEN."
 
-#: ekos/scheduler/scheduler.cpp:639
+#: ekos/scheduler/scheduler.cpp:638
 #, fuzzy, kde-format
 #| msgid "FITS header: Cannot find FOCALLEN."
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "FITS hlavička: Nemôžem nájsť FOCALLEN."
 
-#: ekos/scheduler/scheduler.cpp:690
+#: ekos/scheduler/scheduler.cpp:689
 #, fuzzy, kde-format
 #| msgid "Select Startup Script"
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Vybrať skript spustenia"
 
-#: ekos/scheduler/scheduler.cpp:692 ekos/scheduler/scheduler.cpp:707
+#: ekos/scheduler/scheduler.cpp:691 ekos/scheduler/scheduler.cpp:706
 #, kde-format
 msgid "Script (*)"
 msgstr "Skript (*)"
 
-#: ekos/scheduler/scheduler.cpp:705
+#: ekos/scheduler/scheduler.cpp:704
 #, fuzzy, kde-format
 #| msgid "Select Shutdown Script"
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Vybrať skript vypnutia"
 
-#: ekos/scheduler/scheduler.cpp:755
+#: ekos/scheduler/scheduler.cpp:754
 #, fuzzy, kde-format
 #| msgid "Target name is required."
 msgid "Warning: Target name is required."
 msgstr "Vyžaduje sa cieľový názov."
 
-#: ekos/scheduler/scheduler.cpp:761
+#: ekos/scheduler/scheduler.cpp:760
 #, fuzzy, kde-format
 #| msgid "Sequence file is required."
 msgid "Warning: Sequence file is required."
 msgstr "Vyžaduje sa súbor sekvencie."
 
-#: ekos/scheduler/scheduler.cpp:768
+#: ekos/scheduler/scheduler.cpp:767
 #, fuzzy, kde-format
 #| msgid "Target coordinates are required."
 msgid "Warning: Target coordinates are required."
 msgstr "Vyžadujú sa cieľové súradnice."
 
-#: ekos/scheduler/scheduler.cpp:778
+#: ekos/scheduler/scheduler.cpp:777
 #, fuzzy, kde-format
 #| msgid "RA value %1 is invalid."
 msgid "Warning: RA value %1 is invalid."
 msgstr "RA hodnota %1 je neplatná."
 
-#: ekos/scheduler/scheduler.cpp:784
+#: ekos/scheduler/scheduler.cpp:783
 #, fuzzy, kde-format
 #| msgid "DEC value %1 is invalid."
 msgid "Warning: DEC value %1 is invalid."
 msgstr "DEC hodnota %1 je neplatná."
 
-#: ekos/scheduler/scheduler.cpp:899
+#: ekos/scheduler/scheduler.cpp:898
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
 "may consider the same storage for captures."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:907
+#: ekos/scheduler/scheduler.cpp:906
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -27839,12 +27845,12 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:915
+#: ekos/scheduler/scheduler.cpp:914
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1078
+#: ekos/scheduler/scheduler.cpp:1077
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "%1 magnitude of object, %2 type of sky object (planet, asteroid etc), %3 "
@@ -27853,83 +27859,83 @@ msgstr ""
 msgid "%1 %2 %3"
 msgstr "%1 mag %2 v %3"
 
-#: ekos/scheduler/scheduler.cpp:1147
+#: ekos/scheduler/scheduler.cpp:1146
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1165
+#: ekos/scheduler/scheduler.cpp:1164
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1327
+#: ekos/scheduler/scheduler.cpp:1326
 #, kde-format
 msgid "Evaluating"
 msgstr "Vyhodnocovanie"
 
-#: ekos/scheduler/scheduler.cpp:1328
+#: ekos/scheduler/scheduler.cpp:1327
 #, kde-format
 msgid "Scheduled"
 msgstr "Naplánované"
 
-#: ekos/scheduler/scheduler.cpp:1330
+#: ekos/scheduler/scheduler.cpp:1329
 #, kde-format
 msgid "Invalid"
 msgstr "Neplatné"
 
-#: ekos/scheduler/scheduler.cpp:1610
+#: ekos/scheduler/scheduler.cpp:1611
 #, fuzzy, kde-format
 #| msgid "Scheduler paused."
 msgid "Scheduler pause planned..."
 msgstr "Plánovač pozastavený.."
 
-#: ekos/scheduler/scheduler.cpp:1614
+#: ekos/scheduler/scheduler.cpp:1615
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "Znovu spustiť plánovač"
 
-#: ekos/scheduler/scheduler.cpp:1629
+#: ekos/scheduler/scheduler.cpp:1630
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "Observatórium je v procese zatvárania"
 
-#: ekos/scheduler/scheduler.cpp:1659
+#: ekos/scheduler/scheduler.cpp:1660
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "Plánovač prerušený."
 
-#: ekos/scheduler/scheduler.cpp:1668
+#: ekos/scheduler/scheduler.cpp:1669
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "Plánovač sa vypína do začiatku ďalšej úlohy"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1676 ekos/scheduler/scheduler.ui:1151
+#: ekos/scheduler/scheduler.cpp:1677 ekos/scheduler/scheduler.ui:1151
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Spustiť plánovač"
 
-#: ekos/scheduler/scheduler.cpp:1699
+#: ekos/scheduler/scheduler.cpp:1700
 #, fuzzy, kde-format
 #| msgid "Open Ekos Scheduler List"
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Otvoriť zoznam plánovača Ekos"
 
-#: ekos/scheduler/scheduler.cpp:1792
+#: ekos/scheduler/scheduler.cpp:1793
 #, fuzzy, kde-format
 #| msgid "Save Ekos Scheduler List"
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Uložiť zoznam plánovača Ekos"
 
-#: ekos/scheduler/scheduler.cpp:1811
+#: ekos/scheduler/scheduler.cpp:1812
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Zlyhalo uloženie zoznamu plánovača"
 
-#: ekos/scheduler/scheduler.cpp:1956
+#: ekos/scheduler/scheduler.cpp:1957
 #, fuzzy, kde-format
 #| msgid ""
 #| "Warning! Turning off astronomial twilight check may cause the observatory "
@@ -27943,81 +27949,81 @@ msgstr ""
 "observatórium sa bude používať cez deň. Toto môže spôsobiť nevratné "
 "poškodenie vášho zariadenia!"
 
-#: ekos/scheduler/scheduler.cpp:1958
+#: ekos/scheduler/scheduler.cpp:1959
 #, fuzzy, kde-format
 #| msgid "Astronomial Twilight Warning"
 msgid "Astronomical Twilight Warning"
 msgstr "Upozornenie astronomického súmraku"
 
-#: ekos/scheduler/scheduler.cpp:1984
+#: ekos/scheduler/scheduler.cpp:1985
 #, kde-format
 msgid "Slew complete"
 msgstr "Stočenie ukončené"
 
-#: ekos/scheduler/scheduler.cpp:1988
+#: ekos/scheduler/scheduler.cpp:1989
 #, kde-format
 msgid "Focus complete"
 msgstr "Ostrenie dokončené"
 
-#: ekos/scheduler/scheduler.cpp:1990
+#: ekos/scheduler/scheduler.cpp:1991
 #, kde-format
 msgid "Align complete"
 msgstr "Zarovnanie dokončené"
 
-#: ekos/scheduler/scheduler.cpp:1991
+#: ekos/scheduler/scheduler.cpp:1992
 #, kde-format
 msgid "Repositioning"
 msgstr "Zmena pozície"
 
-#: ekos/scheduler/scheduler.cpp:1992
+#: ekos/scheduler/scheduler.cpp:1993
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Zmena polohy ukončená"
 
-#: ekos/scheduler/scheduler.cpp:1995
+#: ekos/scheduler/scheduler.cpp:1996
 #, fuzzy, kde-format
 #| msgid "Align complete"
 msgid "Guiding complete"
 msgstr "Zarovnanie dokončené"
 
-#: ekos/scheduler/scheduler.cpp:2074
+#: ekos/scheduler/scheduler.cpp:2075
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Poveternostné podmienky sú OK."
 
-#: ekos/scheduler/scheduler.cpp:2078
+#: ekos/scheduler/scheduler.cpp:2079
 #, fuzzy, kde-format
 #| msgid "Warning! Weather conditions are in the WARNING zone."
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Upozornenie: Poveternostné podmienky sú v zóne varovania."
 
-#: ekos/scheduler/scheduler.cpp:2082
+#: ekos/scheduler/scheduler.cpp:2083
 #, fuzzy, kde-format
 #| msgid "Caution! Weather conditions are in the DANGER zone!"
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Pozor: Poveternostné podmienky sú v nebezpečnej zóne!"
 
-#: ekos/scheduler/scheduler.cpp:2100
+#: ekos/scheduler/scheduler.cpp:2101
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Podmienky počasia sú v zóne varovania"
 
-#: ekos/scheduler/scheduler.cpp:2109
+#: ekos/scheduler/scheduler.cpp:2110
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "Podmienky počasia sú kritické. Hrozí zatvorenie observatória."
 
-#: ekos/scheduler/scheduler.cpp:2132
+#: ekos/scheduler/scheduler.cpp:2133
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Plánovač je v režime spánku"
 
-#: ekos/scheduler/scheduler.cpp:2195
+#: ekos/scheduler/scheduler.cpp:2196
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Ručná procedúra spustenia ukončená úspešne."
 
-#: ekos/scheduler/scheduler.cpp:2199
+#: ekos/scheduler/scheduler.cpp:2200
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Ručná procedúra spustenia ukončená kvôli chybám."
@@ -29924,15 +29930,15 @@ msgid "Y Offset:"
 msgstr "Posun Y:"
 
 #. i18n: ectx: property (text), widget (QLineEdit, statusEdit)
-#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:505
-#: fitsviewer/fitsviewer.cpp:1621
+#: fitsviewer/fitsdebayer.ui:130 fitsviewer/fitsviewer.cpp:504
+#: fitsviewer/fitsviewer.cpp:1620
 #, kde-format
 msgid "Ready."
 msgstr "Pripravený."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
 #: fitsviewer/fitsheaderdialog.ui:14 fitsviewer/fitstab.cpp:170
-#: fitsviewer/fitsviewer.cpp:145
+#: fitsviewer/fitsviewer.cpp:144
 #, kde-format
 msgid "FITS Header"
 msgstr "FITS hlavička"
@@ -29988,7 +29994,7 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
 #: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:167
-#: fitsviewer/fitsviewer.cpp:121
+#: fitsviewer/fitsviewer.cpp:120
 #, kde-format
 msgid "Histogram"
 msgstr "Histogram"
@@ -30271,13 +30277,13 @@ msgstr "Prispôsobiť veľkosti"
 msgid "Toggle Stretch"
 msgstr "Automatické roztiahnutie"
 
-#: fitsviewer/fitsview.cpp:2480 fitsviewer/fitsviewer.cpp:220
+#: fitsviewer/fitsview.cpp:2480 fitsviewer/fitsviewer.cpp:219
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Show Cross Hairs"
 msgstr "Nitkový kríž"
 
-#: fitsviewer/fitsview.cpp:2484 fitsviewer/fitsviewer.cpp:233
+#: fitsviewer/fitsview.cpp:2484 fitsviewer/fitsviewer.cpp:232
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Pixel Gridlines"
@@ -30295,15 +30301,15 @@ msgstr "Vybrať obrázok FITS"
 msgid "View Star Profile..."
 msgstr "Oblúkový súbor"
 
-#: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:239
-#: fitsviewer/fitsviewer.cpp:1309
+#: fitsviewer/fitsview.cpp:2505 fitsviewer/fitsviewer.cpp:238
+#: fitsviewer/fitsviewer.cpp:1308
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Rovníkové súradnice"
 
-#: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:246
-#: fitsviewer/fitsviewer.cpp:1311
+#: fitsviewer/fitsview.cpp:2511 fitsviewer/fitsviewer.cpp:245
+#: fitsviewer/fitsviewer.cpp:1310
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
@@ -30315,87 +30321,87 @@ msgstr "Zobraziť objekty"
 msgid "Center Telescope"
 msgstr "Centrum v teleskope"
 
-#: fitsviewer/fitsview.cpp:2523 fitsviewer/fitsviewer.cpp:253
+#: fitsviewer/fitsview.cpp:2523 fitsviewer/fitsviewer.cpp:252
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show HiPS Overlay"
 msgstr "Zobraziť satelity"
 
-#: fitsviewer/fitsviewer.cpp:41
+#: fitsviewer/fitsviewer.cpp:40
 #, kde-format
 msgid "Auto Stretch"
 msgstr "Automatické roztiahnutie"
 
-#: fitsviewer/fitsviewer.cpp:41
+#: fitsviewer/fitsviewer.cpp:40
 #, kde-format
 msgid "High Contrast"
 msgstr "Vysoký kontrast"
 
-#: fitsviewer/fitsviewer.cpp:41
+#: fitsviewer/fitsviewer.cpp:40
 #, kde-format
 msgid "Equalize"
 msgstr "Vyrovnať"
 
-#: fitsviewer/fitsviewer.cpp:42
+#: fitsviewer/fitsviewer.cpp:41
 #, kde-format
 msgid "High Pass"
 msgstr "Horný priepust"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:42 fitsviewer/statform.ui:101
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/statform.ui:101
 #, kde-format
 msgid "Median"
 msgstr "Medián"
 
-#: fitsviewer/fitsviewer.cpp:42
+#: fitsviewer/fitsviewer.cpp:41
 #, kde-format
 msgid "Gaussian blur"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:43 fitsviewer/fitsviewer.cpp:104
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:103
 #, kde-format
 msgid "Rotate Right"
 msgstr "Otočiť vpravo"
 
-#: fitsviewer/fitsviewer.cpp:43 fitsviewer/fitsviewer.cpp:108
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:107
 #, kde-format
 msgid "Rotate Left"
 msgstr "Otočiť vľavo"
 
-#: fitsviewer/fitsviewer.cpp:43 fitsviewer/fitsviewer.cpp:112
+#: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:111
 #, kde-format
 msgid "Flip Horizontal"
 msgstr "Prevrátiť horizontálne"
 
-#: fitsviewer/fitsviewer.cpp:44 fitsviewer/fitsviewer.cpp:117
+#: fitsviewer/fitsviewer.cpp:42 fitsviewer/fitsviewer.cpp:116
 #, kde-format
 msgid "Flip Vertical"
 msgstr "Prevrátiť vertikálne"
 
-#: fitsviewer/fitsviewer.cpp:132 kstarsinit.cpp:159
+#: fitsviewer/fitsviewer.cpp:131 kstarsinit.cpp:159
 #, fuzzy, kde-format
 #| msgid "Directory:"
 msgid "Open/Blink Directory"
 msgstr "Adresár:"
 
-#: fitsviewer/fitsviewer.cpp:151
+#: fitsviewer/fitsviewer.cpp:150
 #, kde-format
 msgid "Debayer..."
 msgstr "Debayer..."
 
-#: fitsviewer/fitsviewer.cpp:186
+#: fitsviewer/fitsviewer.cpp:185
 #, fuzzy, kde-format
 #| msgid "Statistics"
 msgid "&Selection Statistics"
 msgstr "Štatistiky"
 
-#: fitsviewer/fitsviewer.cpp:227
+#: fitsviewer/fitsviewer.cpp:226
 #, fuzzy, kde-format
 #| msgid "Show print dialog"
 msgid "Show Clipping"
 msgstr "Zobraziť dialóg pre tlač"
 
-#: fitsviewer/fitsviewer.cpp:260 fitsviewer/fitsviewer.cpp:1320
+#: fitsviewer/fitsviewer.cpp:259 fitsviewer/fitsviewer.cpp:1319
 #, kde-format
 msgid ""
 "Center Telescope\n"
@@ -30404,71 +30410,71 @@ msgstr ""
 "Vycentrovať ďalekohľad\n"
 "*nenašiel sa ďalekohľad*"
 
-#: fitsviewer/fitsviewer.cpp:267
+#: fitsviewer/fitsviewer.cpp:266
 #, kde-format
 msgid "Zoom To Fit"
 msgstr "Prispôsobiť veľkosti"
 
-#: fitsviewer/fitsviewer.cpp:272
+#: fitsviewer/fitsviewer.cpp:271
 #, kde-format
 msgid "Fit Page to Zoom"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:277
+#: fitsviewer/fitsviewer.cpp:276
 #, fuzzy, kde-format
 #| msgid "Next >"
 msgid "Next Tab"
 msgstr "Ďalej >"
 
-#: fitsviewer/fitsviewer.cpp:282
+#: fitsviewer/fitsviewer.cpp:281
 #, fuzzy, kde-format
 #| msgid "Previous Year"
 msgid "Previous Tab"
 msgstr "Predchádzajúci rok"
 
-#: fitsviewer/fitsviewer.cpp:287
+#: fitsviewer/fitsviewer.cpp:286
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Next Blink Image"
 msgstr "Zobraziť objekty"
 
-#: fitsviewer/fitsviewer.cpp:292
+#: fitsviewer/fitsviewer.cpp:291
 #, fuzzy, kde-format
 #| msgid "Preview image"
 msgid "Previous Blink Image"
 msgstr "Náhľad"
 
-#: fitsviewer/fitsviewer.cpp:297
+#: fitsviewer/fitsviewer.cpp:296
 #, fuzzy, kde-format
 #| msgid "Zoom To Fit"
 msgid "Zoom all tabs in"
 msgstr "Prispôsobiť veľkosti"
 
-#: fitsviewer/fitsviewer.cpp:302
+#: fitsviewer/fitsviewer.cpp:301
 #, fuzzy, kde-format
 #| msgid "Zoom To Fit"
 msgid "Zoom all tabs out"
 msgstr "Prispôsobiť veľkosti"
 
-#: fitsviewer/fitsviewer.cpp:307 fitsviewer/fitsviewer.cpp:1594
+#: fitsviewer/fitsviewer.cpp:306 fitsviewer/fitsviewer.cpp:1593
 #, kde-format
 msgid "Mark Stars"
 msgstr "Označiť hviezdy"
 
-#: fitsviewer/fitsviewer.cpp:315 fitsviewer/fitsviewer.cpp:835
-#: fitsviewer/fitsviewer.cpp:1557
+#: fitsviewer/fitsviewer.cpp:314 fitsviewer/fitsviewer.cpp:834
+#: fitsviewer/fitsviewer.cpp:1556
 #, kde-format
 msgid "View 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:335
+#: fitsviewer/fitsviewer.cpp:334
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
 msgstr "Prehliadač FITS KStars"
 
-#: fitsviewer/fitsviewer.cpp:413
+#: fitsviewer/fitsviewer.cpp:412
 #, fuzzy, kde-format
 #| msgid "%1 star"
 msgid "HFR:%2 Ecc:%3 %1 star."
@@ -30477,7 +30483,7 @@ msgstr[0] "%1 hviezda"
 msgstr[1] "%1 hviezda"
 msgstr[2] "%1 hviezda"
 
-#: fitsviewer/fitsviewer.cpp:419
+#: fitsviewer/fitsviewer.cpp:418
 #, fuzzy, kde-format
 #| msgid "%1 star"
 msgid "HFR:%2, %1 star."
@@ -30486,79 +30492,79 @@ msgstr[0] "%1 hviezda"
 msgstr[1] "%1 hviezda"
 msgstr[2] "%1 hviezda"
 
-#: fitsviewer/fitsviewer.cpp:680
+#: fitsviewer/fitsviewer.cpp:679
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:817
+#: fitsviewer/fitsviewer.cpp:816
 #, kde-format
 msgid "currentView 3D Graph"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:818 fitsviewer/fitsviewer.cpp:1465
+#: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1464
 #, fuzzy, kde-format
 #| msgid "Crosshairs"
 msgid "Cross Hairs"
 msgstr "Nitkový kríž"
 
-#: fitsviewer/fitsviewer.cpp:819 fitsviewer/fitsviewer.cpp:1479
+#: fitsviewer/fitsviewer.cpp:818 fitsviewer/fitsviewer.cpp:1478
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Philippines"
 msgid "Clipping"
 msgstr "Filipíny"
 
-#: fitsviewer/fitsviewer.cpp:820 fitsviewer/fitsviewer.cpp:1492
+#: fitsviewer/fitsviewer.cpp:819 fitsviewer/fitsviewer.cpp:1491
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Equatorial Gridlines"
 msgstr "Rovníkové súradnice"
 
-#: fitsviewer/fitsviewer.cpp:821 fitsviewer/fitsviewer.cpp:1531
+#: fitsviewer/fitsviewer.cpp:820 fitsviewer/fitsviewer.cpp:1530
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Objects in Image"
 msgstr "Zobraziť objekty"
 
-#: fitsviewer/fitsviewer.cpp:822 fitsviewer/fitsviewer.cpp:1544
+#: fitsviewer/fitsviewer.cpp:821 fitsviewer/fitsviewer.cpp:1543
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Pixel Gridlines"
 msgstr "Zobraziť satelity"
 
-#: fitsviewer/fitsviewer.cpp:823 fitsviewer/fitsviewer.cpp:1505
+#: fitsviewer/fitsviewer.cpp:822 fitsviewer/fitsviewer.cpp:1504
 #, fuzzy, kde-format
 #| msgid "Polar Alignment"
 msgid "HiPS Overlay"
 msgstr "Polárne vyrovnanie"
 
-#: fitsviewer/fitsviewer.cpp:875
+#: fitsviewer/fitsviewer.cpp:874
 #, fuzzy, kde-format
 #| msgid "Directory:"
 msgctxt "@title:window"
 msgid "Blink Top Directory"
 msgstr "Adresár:"
 
-#: fitsviewer/fitsviewer.cpp:1003
+#: fitsviewer/fitsviewer.cpp:1002
 #, fuzzy, kde-format
 #| msgid "Open FITS Image"
 msgctxt "@title:window"
 msgid "Open Image"
 msgstr "Otvoriť obrázok FITS"
 
-#: fitsviewer/fitsviewer.cpp:1286
+#: fitsviewer/fitsviewer.cpp:1285
 #, kde-format
 msgid "Hide %1"
 msgstr ""
 
-#: fitsviewer/fitsviewer.cpp:1291
+#: fitsviewer/fitsviewer.cpp:1290
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show %1"
 msgstr "Show"
 
-#: fitsviewer/fitsviewer.cpp:1315
+#: fitsviewer/fitsviewer.cpp:1314
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -30566,7 +30572,7 @@ msgid ""
 "*Ready*"
 msgstr "Centrum v teleskope"
 
-#: fitsviewer/fitsviewer.cpp:1327
+#: fitsviewer/fitsviewer.cpp:1326
 #, kde-format
 msgid ""
 "Show Equatorial Gridlines\n"
@@ -30575,7 +30581,7 @@ msgstr ""
 "Zobraziť rovníkové mriežky\n"
 "*žiadne WCS info*"
 
-#: fitsviewer/fitsviewer.cpp:1329
+#: fitsviewer/fitsviewer.cpp:1328
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid ""
@@ -30583,7 +30589,7 @@ msgid ""
 "*No WCS Info*"
 msgstr "Centrum v teleskope"
 
-#: fitsviewer/fitsviewer.cpp:1331
+#: fitsviewer/fitsviewer.cpp:1330
 #, kde-format
 msgid ""
 "Show Objects in Image\n"
@@ -30592,19 +30598,19 @@ msgstr ""
 "Zobraziť objekty v obrázku\n"
 "*žiadne WCS info*"
 
-#: fitsviewer/fitsviewer.cpp:1363 fitsviewer/fitsviewer.cpp:1518
+#: fitsviewer/fitsviewer.cpp:1362 fitsviewer/fitsviewer.cpp:1517
 #, fuzzy, kde-format
 #| msgid "Select begin star:"
 msgid "Selection Rectangle"
 msgstr "Vybrať začiatočnú hviezdu:"
 
-#: fitsviewer/fitsviewer.cpp:1392 kstarslite/qml/dialogs/DetailsDialog.qml:153
+#: fitsviewer/fitsviewer.cpp:1391 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Veľkosť"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1400 fitsviewer/statform.ui:66
+#: fitsviewer/fitsviewer.cpp:1399 fitsviewer/statform.ui:66
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -30613,7 +30619,7 @@ msgid "Width"
 msgstr "Šírka"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: fitsviewer/fitsviewer.cpp:1401 fitsviewer/statform.ui:71
+#: fitsviewer/fitsviewer.cpp:1400 fitsviewer/statform.ui:71
 #: skycomponents/imageoverlaycomponent.cpp:65
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -30621,12 +30627,12 @@ msgstr "Šírka"
 msgid "Height"
 msgstr "Výška"
 
-#: fitsviewer/fitsviewer.cpp:1599
+#: fitsviewer/fitsviewer.cpp:1598
 #, kde-format
 msgid "Unmark Stars"
 msgstr "Odznačiť hviezdy"
 
-#: fitsviewer/fitsviewer.cpp:1615
+#: fitsviewer/fitsviewer.cpp:1614
 #, kde-format
 msgid "Processing %1..."
 msgstr "Spracúva sa %1..."
@@ -32080,7 +32086,7 @@ msgstr "Rýchlosť uzávierky"
 msgid "Moving counter clockwise"
 msgstr "Rýchlosť uzávierky"
 
-#: indi/indidome.cpp:21 indi/indidustcap.cpp:17
+#: indi/indidome.cpp:21 indi/indidustcap.cpp:16
 #, fuzzy, kde-format
 #| msgid "Parking"
 msgid "UnParking"
@@ -32167,74 +32173,74 @@ msgstr "Nedostatok pamäti na načítanie %1"
 msgid "INDI Server Message"
 msgstr "INDI Server"
 
-#: indi/indimount.cpp:246
+#: indi/indimount.cpp:245
 #, kde-format
 msgid "Mount is slewing to target location"
 msgstr "Montáž sa otáča na cieľovú polohu"
 
-#: indi/indimount.cpp:262
+#: indi/indimount.cpp:261
 #, kde-format
 msgid "Mount arrived at target location"
 msgstr "Montáž dorazila do cieľovej polohy"
 
-#: indi/indimount.cpp:336
+#: indi/indimount.cpp:335
 #, kde-format
 msgid "Mount motion was aborted"
 msgstr "Pohyb montáže bol prerušený"
 
-#: indi/indimount.cpp:457
+#: indi/indimount.cpp:456
 #, kde-format
 msgid "Mount parking failed"
 msgstr "Parkovanie montáže zlyhalo"
 
-#: indi/indimount.cpp:463
+#: indi/indimount.cpp:462
 #, kde-format
 msgid "Mount parking is in progress"
 msgstr "Parkovanie montáže prebieha"
 
-#: indi/indimount.cpp:471
+#: indi/indimount.cpp:470
 #, fuzzy, kde-format
 #| msgid "Unparking mount in progress..."
 msgid "Mount unparking is in progress"
 msgstr "Prebieha odparkovanie montáže..."
 
-#: indi/indimount.cpp:478
+#: indi/indimount.cpp:477
 #, kde-format
 msgid "Mount parked"
 msgstr "Montáž zaparkovaná"
 
-#: indi/indimount.cpp:497
+#: indi/indimount.cpp:496
 #, kde-format
 msgid "Mount unparked"
 msgstr "Montáž odparkovaná"
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:823
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
 
-#: indi/indimount.cpp:825
+#: indi/indimount.cpp:824
 #, fuzzy, kde-format
 #| msgid "Warning"
 msgid "Sun Warning"
 msgstr "Upozornenie"
 
-#: indi/indimount.cpp:843
+#: indi/indimount.cpp:842
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr "Požadovaná výška %1 je mimo určenej hranice (%2, %3)."
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:876
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr "Požadovaná pozícia je pod horizontom. Chcete sa tam presunúť aj tak?"
 
-#: indi/indimount.cpp:878
+#: indi/indimount.cpp:877
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Pohyb ďalekohľadu"
@@ -78858,29 +78864,29 @@ msgstr "Chyba sťahovania údajov asteroidov: %1"
 msgid "Error downloading asteroids data: %1"
 msgstr "Chyba sťahovania údajov asteroidov: %1"
 
-#: skycomponents/catalogscomponent.cpp:151
-#: skycomponents/catalogscomponent.cpp:364
-#: skycomponents/catalogscomponent.cpp:406
+#: skycomponents/catalogscomponent.cpp:152
+#: skycomponents/catalogscomponent.cpp:368
+#: skycomponents/catalogscomponent.cpp:410
 #, fuzzy, kde-format
 #| msgid "Could not download the file."
 msgid "Could not load catalog objects in trixel: %1"
 msgstr "Nepodarilo sa stiahnuť súbor."
 
-#: skycomponents/catalogscomponent.cpp:436
+#: skycomponents/catalogscomponent.cpp:440
 #, kde-format
 msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
 "the new one?"
 msgstr ""
 
-#: skycomponents/catalogscomponent.cpp:447
-#: skycomponents/catalogscomponent.cpp:454
+#: skycomponents/catalogscomponent.cpp:451
+#: skycomponents/catalogscomponent.cpp:458
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not import the objects."
 msgstr "Nepodarilo sa odstrániť súbor: %1"
 
-#: skycomponents/catalogscomponent.cpp:459
+#: skycomponents/catalogscomponent.cpp:463
 #, fuzzy, kde-format
 #| msgid "Successfully connected to the server"
 msgid "Successfully added %1 object to the user catalog."
