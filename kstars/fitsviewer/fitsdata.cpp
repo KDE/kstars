@@ -74,6 +74,8 @@ bool FITSData::readableFilename(const QString &filename)
 
 FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
 {
+    static const QRegularExpression re("[-{}]");
+
     qRegisterMetaType<FITSMode>("FITSMode");
 
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
@@ -85,10 +87,16 @@ FITSData::FITSData(FITSMode fitsMode): m_Mode(fitsMode)
     m_HistogramBinWidth.resize(3);
     m_HistogramFrequency.resize(3);
     m_HistogramIntensity.resize(3);
+
+    // Set UUID for each view
+    QString uuid = QUuid::createUuid().toString();
+    uuid = uuid.remove(re);
+    setObjectName(uuid);
 }
 
 FITSData::FITSData(const QSharedPointer<FITSData> &other)
 {
+    static const QRegularExpression re("[-{}]");
     qRegisterMetaType<FITSMode>("FITSMode");
 
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
@@ -103,6 +111,11 @@ FITSData::FITSData(const QSharedPointer<FITSData> &other)
     m_ImageBuffer = new uint8_t[m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel];
     memcpy(m_ImageBuffer, other->m_ImageBuffer,
            m_Statistics.samples_per_channel * m_Statistics.channels * m_Statistics.bytesPerPixel);
+
+    // Set UUID for each view
+    QString uuid = QUuid::createUuid().toString();
+    uuid = uuid.remove(re);
+    setObjectName(uuid);
 }
 
 FITSData::~FITSData()
