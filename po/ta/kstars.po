@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-22 01:50+0000\n"
+"POT-Creation-Date: 2024-06-23 01:45+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -804,7 +804,7 @@ msgstr ""
 msgid "Internal Astrometry Configuration File Write Error."
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1670 fitsviewer/fitsdata.cpp:734
+#: auxiliary/ksutils.cpp:1670 fitsviewer/fitsdata.cpp:747
 #, kde-format
 msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
@@ -28662,194 +28662,194 @@ msgstr "நார்மென்"
 msgid "Calibrate"
 msgstr "காலியென்ட்"
 
-#: fitsviewer/fitsdata.cpp:249
+#: fitsviewer/fitsdata.cpp:262
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1."
 msgstr "பிழை:படத்தை சேமிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:262
+#: fitsviewer/fitsdata.cpp:275
 #, kde-format
 msgid "Failed to unpack compressed fits"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:278
+#: fitsviewer/fitsdata.cpp:291
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error opening fits file %1 : %2"
 msgstr "பிழை:படத்தை சேமிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:291
+#: fitsviewer/fitsdata.cpp:304
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading fits buffer: %1"
 msgstr "பிழை:படத்தை சேமிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:303
+#: fitsviewer/fitsdata.cpp:316
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not locate image HDU: %1"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
 
-#: fitsviewer/fitsdata.cpp:310
+#: fitsviewer/fitsdata.cpp:323
 #, fuzzy, kde-format
 msgid "FITS file open error (fits_get_img_param): %1"
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
-#: fitsviewer/fitsdata.cpp:324
+#: fitsviewer/fitsdata.cpp:337
 #, kde-format
 msgid "1D FITS images are not supported in KStars."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:370 fitsviewer/fitsdata.cpp:590
+#: fitsviewer/fitsdata.cpp:383 fitsviewer/fitsdata.cpp:603
 #, kde-format
 msgid "Bit depth %1 is not supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:380
+#: fitsviewer/fitsdata.cpp:393
 #, kde-format
 msgid "Image has invalid dimensions %1x%2"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:425
+#: fitsviewer/fitsdata.cpp:438
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error reading image: %1"
 msgstr "பிழை:படத்தை சேமிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:486
+#: fitsviewer/fitsdata.cpp:499
 #, fuzzy, kde-format
 msgid "File contain no images"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:515
+#: fitsviewer/fitsdata.cpp:528
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Sample format %1 is not supported."
 msgstr "முடிந்தது"
 
-#: fitsviewer/fitsdata.cpp:553
+#: fitsviewer/fitsdata.cpp:566
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "XISF file open error: "
 msgstr "வழிகாட்டிகள்"
 
-#: fitsviewer/fitsdata.cpp:605
+#: fitsviewer/fitsdata.cpp:618
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
 msgid "Error saving XISF image"
 msgstr "பிழை:படத்தை சேமிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:697 fitsviewer/fitsdata.cpp:809
+#: fitsviewer/fitsdata.cpp:710 fitsviewer/fitsdata.cpp:822
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:748
+#: fitsviewer/fitsdata.cpp:761
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open file %1: %2"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை"
 
-#: fitsviewer/fitsdata.cpp:761
+#: fitsviewer/fitsdata.cpp:774
 #, fuzzy, kde-format
 #| msgid "Could not open file: %1"
 msgid "Cannot open buffer: %1"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை"
 
-#: fitsviewer/fitsdata.cpp:772
+#: fitsviewer/fitsdata.cpp:785
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:779
+#: fitsviewer/fitsdata.cpp:792
 #, kde-format
 msgid "Cannot dcraw_process: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:787
+#: fitsviewer/fitsdata.cpp:800
 #, kde-format
 msgid "Cannot load to memory: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:930
+#: fitsviewer/fitsdata.cpp:943
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Saving compressed files is not supported."
 msgstr "முடிந்தது"
 
-#: fitsviewer/fitsdata.cpp:990
+#: fitsviewer/fitsdata.cpp:1003
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to close file: %1"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
 
-#: fitsviewer/fitsdata.cpp:997
+#: fitsviewer/fitsdata.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to create file: %1"
 msgstr "%1 கோப்பினை திறக்க இயலவில்லை."
 
-#: fitsviewer/fitsdata.cpp:1012
+#: fitsviewer/fitsdata.cpp:1025
 #, fuzzy, kde-format
 msgid "Failed to create image: %1"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:1021 fitsviewer/fitsdata.cpp:1028
+#: fitsviewer/fitsdata.cpp:1034 fitsviewer/fitsdata.cpp:1041
 #, fuzzy, kde-format
 msgid "Failed to update key: %1"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:1117
+#: fitsviewer/fitsdata.cpp:1130
 #, fuzzy, kde-format
 msgid "Failed to update date: %1"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:1126
+#: fitsviewer/fitsdata.cpp:1139
 #, fuzzy, kde-format
 msgid "Failed to update history: %1"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:1148
+#: fitsviewer/fitsdata.cpp:1161
 #, fuzzy, kde-format
 msgid "Failed to write image: %1"
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: fitsviewer/fitsdata.cpp:2793 fitsviewer/fitsdata.cpp:2804
-#: fitsviewer/fitsdata.cpp:2840 fitsviewer/fitsdata.cpp:2876
-#: fitsviewer/fitsdata.cpp:2923
+#: fitsviewer/fitsdata.cpp:2806 fitsviewer/fitsdata.cpp:2817
+#: fitsviewer/fitsdata.cpp:2853 fitsviewer/fitsdata.cpp:2889
+#: fitsviewer/fitsdata.cpp:2936
 #, fuzzy, kde-format
 msgid "No world coordinate systems found."
 msgstr "இடம் வலமான ஒருங்கிணைப்புகள்"
 
-#: fitsviewer/fitsdata.cpp:3645
+#: fitsviewer/fitsdata.cpp:3658
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3678
+#: fitsviewer/fitsdata.cpp:3691
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3709
+#: fitsviewer/fitsdata.cpp:3722
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3777 fitsviewer/fitsdata.cpp:3824
-#: fitsviewer/fitsdata.cpp:3869 fitsviewer/fitsdata.cpp:3916
+#: fitsviewer/fitsdata.cpp:3790 fitsviewer/fitsdata.cpp:3837
+#: fitsviewer/fitsdata.cpp:3882 fitsviewer/fitsdata.cpp:3929
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3787 fitsviewer/fitsdata.cpp:3879
+#: fitsviewer/fitsdata.cpp:3800 fitsviewer/fitsdata.cpp:3892
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:3807 fitsviewer/fitsdata.cpp:3899
+#: fitsviewer/fitsdata.cpp:3820 fitsviewer/fitsdata.cpp:3912
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
