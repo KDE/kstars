@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-23 01:45+0000\n"
-"PO-Revision-Date: 2024-06-20 00:32+0200\n"
+"PO-Revision-Date: 2024-06-24 11:27+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18019,8 +18019,7 @@ msgid "Offline"
 msgstr "Desconnectat"
 
 #: ekos/ekoslive/message.cpp:730
-#, fuzzy, kde-format
-#| msgid "Target"
+#, kde-format
 msgid "target"
 msgstr "Objectiu"
 

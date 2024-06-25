@@ -16455,10 +16455,9 @@ msgid "Offline"
 msgstr "Odpojen"
 
 #: ekos/ekoslive/message.cpp:730
-#, fuzzy, kde-format
-#| msgid "Target"
+#, kde-format
 msgid "target"
-msgstr "Cíl"
+msgstr "cíl"
 
 #: ekos/ekoslive/message.cpp:963
 #, kde-format
