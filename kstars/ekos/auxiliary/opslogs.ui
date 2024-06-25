@@ -289,13 +289,6 @@
         </attribute>
        </widget>
       </item>
-      <item row="10" column="1">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Astrometry:</string>
-        </property>
-       </widget>
-      </item>
       <item row="16" column="5">
        <widget class="QCheckBox" name="kcfg_INDIGPSLogging">
         <property name="text">
@@ -422,65 +415,6 @@
         <attribute name="buttonGroup">
          <string notr="true">modulesGroup</string>
         </attribute>
-       </widget>
-      </item>
-      <item row="10" column="2">
-       <widget class="QComboBox" name="kcfg_LoggerLevel">
-        <property name="toolTip">
-         <string>The Logging Level for StellarSolver and Astrometry.net</string>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <item>
-         <property name="text">
-          <string>LOG_NONE</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>LOG_ERROR</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>LOG_MSG</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>LOG_VERB</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>LOG_ALL</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="10" column="5" colspan="2">
-       <widget class="QCheckBox" name="kcfg_AstrometryLogToFile">
-        <property name="toolTip">
-         <string>Option to log astrometry messages to a separate file.  If you select LOG_ALL you REALLY want to check this box.</string>
-        </property>
-        <property name="text">
-         <string> Separate Log File:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="7" colspan="4">
-       <widget class="QLineEdit" name="kcfg_AstrometryLogFilepath">
-        <property name="toolTip">
-         <string>The external Log File for astrometry logging</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0" colspan="13">
-       <widget class="Line" name="line_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
        </widget>
       </item>
      </layout>
