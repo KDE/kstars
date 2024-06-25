@@ -56,7 +56,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable Logs to diagnose issues with Ekos and INDI. Only enable the necessary logs to help in diagnosing specific problems. Logs consume resources and may slow the system down. Turn off logs when no longer used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable Logs to diagnose issues with Ekos and INDI. If your system is resource limited, e.g. Raspberry Pi with SD Card, then only enable the necessary logs to help in diagnosing specific problems and turn them off when no longer needed. Logs consume resources and may slow the system down.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
