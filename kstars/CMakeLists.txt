@@ -388,16 +388,6 @@ if (CFITSIO_FOUND)
         ekos/guide/internalguide/MPI_IS_gaussian_process/src/gaussian_process.cpp
         ekos/guide/internalguide/MPI_IS_gaussian_process/src/gaussian_process_guider.cpp
         )
-    set (sep_SRCS
-        fitsviewer/sep/analyse.c
-        fitsviewer/sep/aperture.c
-        fitsviewer/sep/background.c
-        fitsviewer/sep/convolve.c
-        fitsviewer/sep/deblend.c
-        fitsviewer/sep/extract.c
-        fitsviewer/sep/lutz.c
-        fitsviewer/sep/util.c
-        )
 
     set (hough_SRCS
         fitsviewer/hough/houghline.cpp
@@ -472,13 +462,6 @@ IF (CFITSIO_FOUND)
         ELSE ()
             SET_SOURCE_FILES_PROPERTIES(fitsviewer/bayer.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
         ENDIF ()
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/analyse.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/aperture.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-pointer-arith")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/background.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/deblend.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align -Wno-incompatible-pointer-types-discards-qualifiers")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/extract.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/lutz.c PROPERTIES COMPILE_FLAGS "-Wno-cast-align")
-        SET_SOURCE_FILES_PROPERTIES(fitsviewer/sep/util.c PROPERTIES COMPILE_FLAGS "-Wno-incompatible-pointer-types-discards-qualifiers")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpack.c PROPERTIES COMPILE_FLAGS "-Wno-error")
         SET_SOURCE_FILES_PROPERTIES(fitsviewer/fpackutil.c PROPERTIES COMPILE_FLAGS "-Wno-error")
     ELSEIF (NOT WIN32)
@@ -1227,8 +1210,8 @@ IF (UNITY_BUILD)
     ENABLE_UNITY_BUILD(kstarslite kstarslite_SRCS 10 cpp)
 ENDIF ()
 
-set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${sep_SRCS} ${gpg_SRCS} ${hough_SRCS} ${hips_manager_SRCS})
-set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${sep_SRCS} ${hough_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
+set(kstars_SRCS ${kstars_SRCS} ${fits2_SRCS} ${gpg_SRCS} ${hough_SRCS} ${hips_manager_SRCS})
+set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${hough_SRCS} ${fits2_klite_SRCS} ${kstarslite_libtess_SRC})
 
 IF (NOT ANDROID)
     # GSL
