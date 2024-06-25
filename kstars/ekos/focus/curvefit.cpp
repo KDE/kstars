@@ -281,6 +281,16 @@ double hypfx(double x, double a, double b, double c, double d)
     return b * hypPhi(x, a, c) + d;
 }
 
+// Function to calculate x for the passed in y and hyperbola parameters
+// y = b * sqrt(1 + ((x - c) / a) ^ 2) + d
+// ((y - d) / b) ^ 2 - 1 = ((x - c) / a) ^ 2
+// x = c + a.sqrt(((y - d) / b) ^ 2 - 1)
+// Note the larger x solution is returned
+double hypfy(double y, double a, double b, double c, double d)
+{
+    return c + a * sqrt(std::pow(((y - d) / b), 2.0) - 1);
+}
+
 // Calculates F(x) for each data point on the hyperbola
 int hypFx(const gsl_vector * X, void * inParams, gsl_vector * outResultVec)
 {
@@ -397,6 +407,15 @@ int hypFxx(const gsl_vector* X,  const gsl_vector* v, void* inParams, gsl_vector
 double parfx(double x, double a, double b, double c)
 {
     return a + b * pow((x - c), 2.0);
+}
+
+// Function to calculate x for passed in t and parabola parameters
+// y = a + b.(x - c) ^ 2
+// x = c + sqrt((y - a) / b)
+// Note: the larger x solution is returned
+double parfy(double y, double a, double b, double c)
+{
+    return c + sqrt((y - a) / b);
 }
 
 // Calculates f(x) for each data point in the parabola.
@@ -868,6 +887,20 @@ double CurveFitting::f(double x)
                                    .arg(m_CurveType).arg(m_coefficients.size());
 
     return y;
+}
+
+double CurveFitting::fy(double y)
+{
+    double x = 0;
+    if (m_CurveType == FOCUS_HYPERBOLA && m_coefficients.size() == NUM_HYPERBOLA_PARAMS)
+        x = hypfy(y, m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX], m_coefficients[D_IDX]);
+    else if (m_CurveType == FOCUS_PARABOLA && m_coefficients.size() == NUM_PARABOLA_PARAMS)
+        x = parfy(y, m_coefficients[A_IDX], m_coefficients[B_IDX], m_coefficients[C_IDX]);
+    else
+        qCDebug(KSTARS_EKOS_FOCUS) << QString("Error: CurveFitting::fy called with m_CurveType = %1 m_coefficients.size = %2")
+                                   .arg(m_CurveType).arg(m_coefficients.size());
+
+    return x;
 }
 
 double CurveFitting::f3D(double x, double y)

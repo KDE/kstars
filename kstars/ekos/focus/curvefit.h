@@ -203,7 +203,10 @@ class CurveFitting
 
         // f calculates the value of y for a given x using the appropriate curve algorithm
         double f(double x);
-        // f calculates the value of z for a given x and y using the appropriate curve algorithm
+        // fy calculates the value of x for a given y using the appropriate curve algorithm
+        // Note: the larger x solution is returned
+        double fy(double y);
+        // f3D calculates the value of z for a given x and y using the appropriate curve algorithm
         double f3D(double x, double y);
         // Calculates the R-squared which is a measure of how well the curve fits the datapoints
         double calculateR2(CurveFit curveFit);

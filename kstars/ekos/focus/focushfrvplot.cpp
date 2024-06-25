@@ -197,7 +197,7 @@ void FocusHFRVPlot::drawHFRPlot(double currentValue, int pulseDuration)
 
     double minVal = currentDisplayValue / 2.5;
     if (m_displayValue.size() > 0)
-        minVal = std::max(0.0, std::min(minValue, *std::min_element(m_displayValue.begin(), m_displayValue.end())));
+        minVal = std::min(minValue, *std::min_element(m_displayValue.begin(), m_displayValue.end()));
 
     // True for the position-based algorithms and those that simulate position.
     if (m_showPositions)

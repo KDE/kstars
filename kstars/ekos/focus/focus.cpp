@@ -5,6 +5,7 @@
 */
 
 #include "adaptivefocus.h"
+#include "focusadvisor.h"
 #include "focusadaptor.h"
 #include "focusalgorithms.h"
 #include "focusfwhm.h"
@@ -63,8 +64,6 @@
 #define MAX_RECAPTURE_RETRIES      3
 #define MINIMUM_POLY_SOLUTIONS     2
 
-const QString FOCUSER_SIMULATOR = "Focuser Simulator";
-
 namespace Ekos
 {
 Focus::Focus() : QWidget()
@@ -101,6 +100,9 @@ Focus::Focus() : QWidget()
 
     // #9 Init Adaptive Focus
     adaptFocus.reset(new AdaptiveFocus(this));
+
+    // #10 Init Focus Advisor
+    focusAdvisor.reset(new FocusAdvisor(this));
 
     connect(&m_StarFinderWatcher, &QFutureWatcher<bool>::finished, this, &Focus::starDetectionFinished);
 
@@ -206,14 +208,6 @@ void Focus::prepareGUI()
     m_CFZUI->setupUi(m_CFZDialog);
 #ifdef Q_OS_OSX
     m_CFZDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
-#endif
-
-    // The Focus Advisor is a tool so has its own dialog box.
-    m_AdvisorDialog = new QDialog(this);
-    m_AdvisorUI.reset(new Ui::focusAdvisorDialog());
-    m_AdvisorUI->setupUi(m_AdvisorDialog);
-#ifdef Q_OS_OSX
-    m_AdvisorDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
     // Remove all widgets from the temporary bucket. These will then be loaded as required
@@ -1273,6 +1267,12 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
             // Donut Buster
             if (initDonutProcessing())
                 return;
+            // Focus Advisor
+            if (m_AutofocusReason == FOCUS_FOCUS_ADVISOR)
+            {
+                focusAdvisor->initControl();
+                return;
+            }
         }
 
         // Setup the focuser
@@ -1313,14 +1313,7 @@ bool Focus::initDonutProcessing()
 
     if (m_OpsFocusProcess->focusScanStartPos->isChecked())
     {
-        inScanStartPos = true;
-        initialFocuserAbsPosition = currentPosition;
-        m_scanMeasure.clear();
-        m_scanPosition.clear();
-
-        appendLogText(i18n("Starting scan for initial focuser position."));
-        emit setTitle(QString(i18n("Scanning for starting position...")), true);
-        capture();
+        initScanStartPos(currentPosition);
         return true;
     }
     return false;
@@ -1447,6 +1440,7 @@ void Focus::stop(Ekos::FocusState completionState)
     adaptFocus->setInAdaptiveFocus(false);
     inBuildOffsets = false;
     inScanStartPos = false;
+    focusAdvisor->reset();
     m_AutofocusReason = AutofocusReason::FOCUS_NONE;
     m_AutofocusReasonInfo = "";
     focuserAdditionalMovement = 0;
@@ -2228,7 +2222,8 @@ bool Focus::appendMeasure(double newMeasure)
 
     // Return whether we need more frame based on user requirement
     int framesCount = m_OpsFocusProcess->focusFramesCount->value();
-    if ((minimumRequiredHFR > 0) || (inAutoFocus && !inBuildOffsets && !inScanStartPos && m_FocusAlgorithm == FOCUS_LINEAR1PASS
+    if ((minimumRequiredHFR > 0) || (inAutoFocus && !inBuildOffsets && !inScanStartPos && !focusAdvisor->inFocusAdvisor()
+                                     && m_FocusAlgorithm == FOCUS_LINEAR1PASS
                                      && linearFocuser && !linearFocuser->isInFirstPass()))
         // If in-sequence HFR Check or L1P autofocus and doing the last (in focus) datapoint use focusHFRFramesCount
         framesCount = m_OpsFocusProcess->focusHFRFramesCount->value();
@@ -2315,13 +2310,15 @@ QString Focus::getAnalyzeData()
 void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReason failCode, QString failCodeInfo,
                                    bool plot)
 {
-    if (inAutoFocus)
+    // On an Advisor complete, Autofocus wasn't run so don't update values / modules as per normal AF success
+    if (inAutoFocus && failCode != Ekos::FOCUS_FAIL_ADVISOR_COMPLETE)
     {
         // Update the plot vectors (used by Analyze)
         updatePlotPosition();
 
         if (completionState == Ekos::FOCUS_COMPLETE)
         {
+            // Usually we'll record the AF information except for certain FocusAdvisor activities that are not complete AF runs
             if (plot)
                 emit redrawHFRPlot(polynomialFit.get(), currentPosition, currentHFR);
 
@@ -2353,16 +2350,16 @@ void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReas
                                .arg(filter())
                                .arg(QString::number(currentHFR, 'f', 3))
                                .arg(QString::number(m_LastSourceAutofocusAlt, 'f', 1)));
-
             // Replace user position with optimal position
             absTicksSpin->setValue(currentPosition);
         }
         // In case of failure, go back to last position if the focuser is absolute
-        else if (canAbsMove && initialFocuserAbsPosition >= 0 && resetFocusIteration <= MAXIMUM_RESET_ITERATIONS
-                 && m_RestartState != RESTART_ABORT)
+        else if (canAbsMove && initialFocuserAbsPosition >= 0 && resetFocusIteration <= MAXIMUM_RESET_ITERATIONS &&
+                 m_RestartState != RESTART_ABORT)
         {
             // If we're doing in-sequence focusing using an absolute focuser, retry focusing once, starting from last known good position
-            bool const retry_focusing = m_RestartState == RESTART_NONE && ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS;
+            bool const retry_focusing = m_RestartState == RESTART_NONE &&
+                                        (failCode == Ekos::FOCUS_FAIL_ADVISOR_RERUN || ++resetFocusIteration < MAXIMUM_RESET_ITERATIONS);
 
             // If retrying, before moving, reset focus frame in case the star in subframe was lost
             if (retry_focusing)
@@ -2537,7 +2534,7 @@ void Focus::setCurrentMeasure()
 
     setHFRComplete();
 
-    if (m_abInsOn && !inScanStartPos)
+    if (m_abInsOn && !inScanStartPos && !focusAdvisor->inFocusAdvisor())
         calculateAbInsData();
 }
 
@@ -2553,16 +2550,25 @@ void Focus::saveFocusFrame()
         dir.mkpath(path);
 
         // To help identify focus frames add run number, step and frame (for multiple frames at each step)
-        QString detail;
-        if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && !inScanStartPos && linearFocuser)
+        // If FocusAdvisor is manipuling Autofocus then annote frame appropriately
+        QString prefix;
+        if (focusAdvisor->inFocusAdvisor())
+            prefix = focusAdvisor->getFocusFramePrefix();
+        else if (inScanStartPos)
+            prefix = QString("_ssp_%1_%2").arg(m_AFRun).arg(absIterations + 1);
+        else if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && linearFocuser)
         {
             const int currentStep = linearFocuser->currentStep() + 1;
-            detail = QString("_%1_%2_%3").arg(m_AFRun).arg(currentStep).arg(starMeasureFrames.count());
+            prefix = QString("_%1_%2").arg(m_AFRun).arg(currentStep);
         }
+
+        if (!prefix.isEmpty())
+            // Add the frame count
+            prefix.append(QString("_%1").arg(starMeasureFrames.count()));
 
         // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
-        QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + detail + ".fits";
+        QString name     = "autofocus_frame_" + now.toString("HH-mm-ss") + prefix + ".fits";
         QString filename = path + QStringLiteral("/") + name;
         m_ImageData->saveImage(filename);
     }
@@ -2926,7 +2932,9 @@ void Focus::setHFRComplete()
     // Now let's kick in the algorithms
     if (inScanStartPos)
         scanStartPos();
-    else if (m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
+    else if(focusAdvisor->inFocusAdvisor())
+        focusAdvisor->control();
+    else if(m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS)
         autoFocusLinear();
     else if (canAbsMove || canRelMove)
         // Position-based algorithms
@@ -3242,6 +3250,21 @@ void Focus::startAberrationInspector()
 #endif
 }
 
+// Initialise the Scan Start Position algorithm
+void Focus::initScanStartPos(int initialPosition)
+{
+    inScanStartPos = true;
+    initialFocuserAbsPosition = initialPosition;
+    m_scanMeasure.clear();
+    m_scanPosition.clear();
+
+    appendLogText(i18n("Starting scan for initial focuser position."));
+    emit setTitle(QString(i18n("Scanning for starting position...")), true);
+
+    if (!changeFocus(initialPosition - currentPosition))
+        completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE);
+}
+
 // Algorithm to scan for an optimum start position for Autofocus
 void Focus::scanStartPos()
 {
@@ -3304,6 +3327,9 @@ void Focus::scanStartPos()
         else
         {
             // We have a minimum so kick in Autofocus
+            if (m_AutofocusReason == FOCUS_FOCUS_ADVISOR)
+                focusAdvisor->setInFocusAdvisor(false);
+
             const int initialPosition = m_scanPosition[min];
             setupLinearFocuser(initialPosition);
             inScanStartPos = false;
@@ -3356,13 +3382,21 @@ void Focus::autoFocusLinear()
     {
         if (linearFocuser->solution() != -1)
         {
-            // Now test that the curve fit was acceptable. If not retry the focus process using standard retry process
-            // R2 check is only available for Linear 1 Pass for Hyperbola and Parabola
-            if (m_CurveFit == CurveFitting::FOCUS_QUADRATIC)
+            // If we're running under Focus Advisor analyse results and, if necessary, rerun
+            if (m_AutofocusReason == FOCUS_FOCUS_ADVISOR)
+            {
+                if (focusAdvisor->analyseAF())
+                    completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_ADVISOR_RERUN, "", false);
+                else
+                    completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE, "", false);
+            }
+            else if (m_CurveFit == CurveFitting::FOCUS_QUADRATIC)
                 // Linear only uses Quadratic so no need to do the R2 check, just complete
                 completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE, "", false);
             else if (R2 >= m_OpsFocusProcess->focusR2Limit->value())
             {
+                // Now test that the curve fit was acceptable. If not retry the focus process using standard retry process
+                // R2 check is only available for Linear 1 Pass for Hyperbola and Parabola
                 qCDebug(KSTARS_EKOS_FOCUS) << QString("Linear Curve Fit check passed R2=%1 focusR2Limit=%2").arg(R2).arg(
                                                m_OpsFocusProcess->focusR2Limit->value());
                 completeFocusProcedure(Ekos::FOCUS_COMPLETE, FOCUS_FAIL_NONE, "", false);
@@ -3765,9 +3799,9 @@ void Focus::updatePlotPosition()
     if (m_FocusAlgorithm == FOCUS_LINEAR1PASS)
     {
         QVector<int> positions;
-        if (inScanStartPos)
+        if (inScanStartPos || focusAdvisor->inFocusAdvisor())
         {
-            // If we are inScanStartPos then there is no focus data
+            // If we are inScanStartPos, or inFocusAdvisor then there is no focus data to save off
             plot_position.clear();
             plot_value.clear();
             plot_weight.clear();
@@ -3957,7 +3991,7 @@ void Focus::autoFocusProcessPositionChange(IPState state)
 // This routine adjusts capture exposure during Autofocus depending on donut parameter settings
 void Focus::donutTimeDilation()
 {
-    if (m_OpsFocusProcess->focusTimeDilation->value() == 1.0 || inScanStartPos)
+    if (m_OpsFocusProcess->focusTimeDilation->value() == 1.0 || inScanStartPos || focusAdvisor->inFocusAdvisor())
         return;
 
     // Get the max distance from focus to outer points
@@ -4086,6 +4120,7 @@ void Focus::updateProperty(INDI::Property prop)
                     m_RestartState = RESTART_NONE;
                     inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                     adaptFocus->setInAdaptiveFocus(false);
+                    focusAdvisor->setInFocusAdvisor(false);
                     appendLogText(i18n("Restarting autofocus process..."));
                     runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
                     return;
@@ -4101,6 +4136,7 @@ void Focus::updateProperty(INDI::Property prop)
                 m_RestartState = RESTART_NONE;
                 inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
+                focusAdvisor->setInFocusAdvisor(false);
                 return;
             }
         }
@@ -4170,6 +4206,7 @@ void Focus::updateProperty(INDI::Property prop)
                 m_RestartState = RESTART_NONE;
                 inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
+                focusAdvisor->setInFocusAdvisor(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
                 return;
@@ -4182,6 +4219,7 @@ void Focus::updateProperty(INDI::Property prop)
             m_RestartState = RESTART_NONE;
             inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
             adaptFocus->setInAdaptiveFocus(false);
+            focusAdvisor->setInFocusAdvisor(false);
             return;
         }
 
@@ -4239,6 +4277,7 @@ void Focus::updateProperty(INDI::Property prop)
                 m_RestartState = RESTART_NONE;
                 inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
+                focusAdvisor->setInFocusAdvisor(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
                 return;
@@ -4251,6 +4290,7 @@ void Focus::updateProperty(INDI::Property prop)
             m_RestartState = RESTART_NONE;
             inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
             adaptFocus->setInAdaptiveFocus(false);
+            focusAdvisor->setInFocusAdvisor(false);
             return;
         }
 
@@ -4277,6 +4317,7 @@ void Focus::updateProperty(INDI::Property prop)
                 m_RestartState = RESTART_NONE;
                 inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
+                focusAdvisor->setInFocusAdvisor(false);
                 appendLogText(i18n("Restarting autofocus process..."));
                 runAutoFocus(m_AutofocusReason, m_AutofocusReasonInfo);
                 return;
@@ -4289,6 +4330,7 @@ void Focus::updateProperty(INDI::Property prop)
             m_RestartState = RESTART_NONE;
             inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
             adaptFocus->setInAdaptiveFocus(false);
+            focusAdvisor->setInFocusAdvisor(false);
             return;
         }
 
@@ -4455,7 +4497,7 @@ void Focus::resetButtons()
             AFDisable(m_OpsFocusSettings, false);
             AFDisable(m_OpsFocusProcess, false);
             AFDisable(m_OpsFocusMechanics, false);
-            AFDisable(m_AdvisorDialog, false);
+            AFDisable(focusAdvisor->focusAdvGroupBox, false);
             AFDisable(m_CFZDialog, false);
 
             // Enable the "stop" button so the user can abort an AF run
@@ -5802,8 +5844,12 @@ void Focus::initConnections()
     });
     connect(advisorB, &QPushButton::clicked, this, [this]()
     {
-        m_AdvisorDialog->show();
-        m_AdvisorDialog->raise();
+        if (focusAdvisor)
+        {
+            focusAdvisor->setButtons(false);
+            focusAdvisor->show();
+            focusAdvisor->raise();
+        }
     });
 
     connect(forceInSeqAF, &QCheckBox::toggled, this, [&](bool enabled)
@@ -5919,14 +5965,6 @@ void Focus::initConnections()
         Q_UNUSED(d);
         calcCFZ();
     });
-
-    // Focus Advisor Panel
-    connect(m_AdvisorUI->focusAdvReset, &QPushButton::clicked, this, [this]()
-    {
-        focusAdvisorAction(false);
-    });
-
-    connect(m_AdvisorUI->focusAdvHelp, &QPushButton::clicked, this, &Ekos::Focus::focusAdvisorHelp);
 }
 
 void Focus::setFocusDetection(StarAlgorithm starAlgorithm)
@@ -6838,602 +6876,6 @@ void Focus::resetCFZToOT()
     calcCFZ();
 }
 
-// Load up the Focus Advisor recommendations
-void Focus::focusAdvisorSetup(const QString OTName)
-{
-    // See if there is another OT that can be used to default parameters
-    m_AdvisorMap = focusAdvisorOTDefaults(OTName);
-    bool noDefaults = m_AdvisorMap.isEmpty();
-
-    bool longFL = m_FocalLength > 1500;
-    double imageScale = getStarUnits(FOCUS_STAR_HFR, FOCUS_UNITS_ARCSEC);
-    QString str;
-    bool centralObstruction = scopeHasObstruction(m_ScopeType);
-
-    // Set the FA label based on the optical train
-    m_AdvisorUI->focusAdvLabel->setText(QString("Recommendations: %1 FL=%2 ImageScale=%3")
-                                        .arg(m_ScopeType).arg(m_FocalLength).arg(imageScale, 0, 'f', 2));
-
-    bool ok;
-    // Step Size
-    int stepSize = 250;
-    if (noDefaults)
-    {
-        // The Simulator is special so use 5000 whcih works well
-        if (m_Focuser && m_Focuser->getDeviceName() == FOCUSER_SIMULATOR)
-            stepSize = 5000;
-        m_AdvisorMap.insert("focusTicks", stepSize);
-    }
-    else
-    {
-        stepSize = m_AdvisorMap.value("focusTicks", stepSize).toInt(&ok);
-        if (!ok || stepSize <= 0)
-            stepSize = 250;
-    }
-    m_AdvisorUI->focusAdvSteps->setValue(stepSize);
-
-    // Camera options
-    str = "Camera & Filter Wheel Parameters:\n";
-
-    // Exposure
-    double exposure = longFL ? 4.0 : 2.0;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusExposure", exposure);
-    else
-    {
-        exposure = m_AdvisorMap.value("focusExposure", 2.0).toDouble(&ok);
-        if (!ok || exposure <= 0)
-            exposure = 2.0;
-    }
-    str.append(QString("Exp=%1\n").arg(exposure, 0, 'f', 1));
-
-    // Binning
-    QString binning = "";
-    if (noDefaults)
-    {
-        if (focusBinning->isEnabled())
-        {
-            // Only try and update binning if camera supports it (binning field enabled)
-            QString binTarget = (imageScale < 1.0) ? "2x2" : "1x1";
-
-            for (int i = 0; i < focusBinning->count(); i++)
-            {
-                if (focusBinning->itemText(i) == binTarget)
-                {
-                    binning = binTarget;
-                    m_AdvisorMap.insert("focusBinning", binning);
-                    break;
-                }
-            }
-        }
-    }
-    else
-        binning = m_AdvisorMap.value("focusBinning", "").toString();
-    str.append(QString("Bin=%1\n").arg(binning));
-
-    // Gain - don't know a generic way to set to Unity gain for all cameras
-    // If map has a value we'll use that otherwise we just use the current value
-    str.append("Gain ***Set Manually to Unity Gain***\n");
-
-    // Filter
-    // If map has a value we'll use that otherwise we just use the current value
-    str.append("Filter ***Set Manually***");
-    m_AdvisorUI->focusAdvCameraLabel->setToolTip(str);
-
-    // Settings
-    str = "Settings Parameters:\n";
-
-    // Auto Select Star
-    bool autoSelectStar = false;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusAutoStarEnabled", autoSelectStar);
-    else
-        autoSelectStar = m_AdvisorMap.value("focusAutoStarEnabled", false).toBool();
-    str.append(QString("Auto Select Star=%1\n").arg(autoSelectStar ? "on" : "off"));
-
-    // Suspend Guiding - leave as default
-
-    // Use Dark Frame
-    bool darkFrame = false;
-    if (noDefaults)
-        m_AdvisorMap.insert("useFocusDarkFrame", darkFrame);
-    else
-        darkFrame = m_AdvisorMap.value("useFocusDarkFrame", false).toBool();
-    str.append(QString("Dark Frame=%1\n").arg(darkFrame ? "on" : "off"));
-
-    // Full Field & Subframe
-    bool fullFrame = true;
-    if (noDefaults)
-    {
-        m_AdvisorMap.insert("focusUseFullField", fullFrame);
-        m_AdvisorMap.insert("focusSubFrame", !fullFrame);
-    }
-    else
-        fullFrame = m_AdvisorMap.value("focusUseFullField", false).toBool();
-    str.append(QString("Full Frame=%1\n").arg(fullFrame ? "on" : "off"));
-
-    // Display Units - leave as default
-    // Guide Settle - leave as default
-
-    // Mask
-    double inner = 0.0;
-    double outer = 80.0;
-    if (noDefaults)
-    {
-        // Set a Ring Mask 0% - 80%
-        m_AdvisorMap.insert("focusNoMaskRB", false);
-        m_AdvisorMap.insert("focusRingMaskRB", true);
-        m_AdvisorMap.insert("focusMosaicMaskRB", false);
-        m_AdvisorMap.insert("focusFullFieldInnerRadius", inner);
-        m_AdvisorMap.insert("focusFullFieldOuterRadius", outer);
-        str.append(QString("Ring Mask %1%-%2%\n").arg(inner, 0, 'f', 1).arg(outer, 0, 'f', 1));
-    }
-    else
-    {
-        bool noMask = m_AdvisorMap.value("focusNoMaskRB", false).toBool();
-        bool ringMask = m_AdvisorMap.value("focusRingMaskRB", false).toBool();
-        bool mosaicMask = m_AdvisorMap.value("focusMosaicMaskRB", false).toBool();
-        if (noMask)
-            str.append(QString("No Mask (use all stars)\n"));
-        else if (ringMask)
-        {
-            inner = m_AdvisorMap.value("focusFullFieldInnerRadius", inner).toDouble(&ok);
-            if (!ok || inner < 0.0 || inner > 100.0)
-                inner = 0.0;
-            outer = m_AdvisorMap.value("focusFullFieldOuterRadius", outer).toDouble(&ok);
-            if (!ok || outer < 0.0 || outer > 100.0)
-                outer = 80.0;
-            str.append(QString("Ring Mask %1%%-%2%%\n").arg(inner, 0, 'f', 1).arg(outer, 0, 'f', 1));
-        }
-        else if (mosaicMask)
-            str.append(QString("Mosaic Mask\n"));
-    }
-
-    // Suspend Guilding, Guide Settle and Display Units won't affect Autofocus so don't set
-
-    // Adaptive Focus
-    bool adaptiveFocus = false;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusAdaptive", adaptiveFocus);
-    else
-        adaptiveFocus = m_AdvisorMap.value("focusAdaptive", false).toBool();
-    str.append(QString("Adaptive Focus=%1\n").arg(adaptiveFocus ? "on" : "off"));
-
-    // Adapt Start Pos
-    bool adaptiveStartPos = false;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusAdaptStart", adaptiveStartPos);
-    else
-        adaptiveStartPos = m_AdvisorMap.value("focusAdaptStart", false).toBool();
-    str.append(QString("Adapt Start Pos=%1").arg(adaptiveStartPos ? "on" : "off"));
-
-    m_AdvisorUI->focusAdvSettingsLabel->setToolTip(str);
-
-    // Process
-    str = "Process Parameters:\n";
-
-    // Detection method
-    QString detection = "SEP";
-    if (noDefaults)
-        m_AdvisorMap.insert("focusDetection", detection);
-    else
-        detection = m_AdvisorMap.value("focusDetection", false).toString();
-    str.append(QString("Detection=%1\n").arg(detection));
-
-    // SEP Profile - dealt with separately (see below)
-
-    // Algorithm
-    QString algorithm = "Linear 1 Pass";
-    if (noDefaults)
-        m_AdvisorMap.insert("focusAlgorithm", algorithm);
-    else
-        algorithm = m_AdvisorMap.value("focusAlgorithm", algorithm).toString();
-    str.append(QString("Algorithm=%1\n").arg(algorithm));
-
-    // Curve Fit
-    QString curveFit = "Hyperbola";
-    if (noDefaults)
-        m_AdvisorMap.insert("focusCurveFit", curveFit);
-    else
-        curveFit = m_AdvisorMap.value("focusCurveFit", curveFit).toString();
-    str.append(QString("Curve Fit=%1\n").arg(curveFit));
-
-    // Measure
-    QString measure = "HFR";
-    if (noDefaults)
-        m_AdvisorMap.insert("focusStarMeasure", measure);
-    else
-        measure = m_AdvisorMap.value("focusStarMeasure", measure).toString();
-    str.append(QString("Measure=%1\n").arg(measure));
-
-    // Use Weights
-    bool useWeights = true;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusUseWeights", useWeights);
-    else
-        useWeights = m_AdvisorMap.value("focusUseWeights", useWeights).toBool();
-    str.append(QString("Use Weights=%1\n").arg(useWeights ? "on" : "off"));
-
-    // R2 limit
-    double r2 = 0.8;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusR2Limit", r2);
-    else
-    {
-        r2 = m_AdvisorMap.value("focusR2Limit", r2).toDouble(&ok);
-        if (!ok || r2 < 0 || r2 > 1.0)
-            r2 = 0.8;
-    }
-    str.append(QString("R² Limit=%1\n").arg(r2, 0, 'f', 2));
-
-    // Refine Curve Fit
-    bool refineCurveFit = true;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusRefineCurveFit", refineCurveFit);
-    else
-        refineCurveFit = m_AdvisorMap.value("focusRefineCurveFit", refineCurveFit).toBool();
-    str.append(QString("Refine Curve Fit=%1\n").arg(refineCurveFit ? "on" : "off"));
-
-    // Frames Count
-    int frameCount = 1;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusFramesCount", frameCount);
-    else
-    {
-        frameCount = m_AdvisorMap.value("focusFramesCount", frameCount).toInt(&ok);
-        if (!ok || frameCount < 1)
-            frameCount = 1;
-    }
-    str.append(QString("Average Over=%1\n").arg(frameCount));
-
-    // HFR Frames Count
-    int HFRFrameCount = 1;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusHFRFramesCount", HFRFrameCount);
-    else
-    {
-        HFRFrameCount = m_AdvisorMap.value("focusHFRFramesCount", HFRFrameCount).toInt(&ok);
-        if (!ok || HFRFrameCount < 1)
-            HFRFrameCount = 1;
-    }
-    str.append(QString("Average HFR Check Over=%1\n").arg(HFRFrameCount));
-
-    // Donut buster
-    bool donutBuster = centralObstruction;
-    double timeDilation = 1.0;
-    double outlierRejection = 0.2;
-    bool scanForStartPos = false;
-    if (noDefaults)
-    {
-        m_AdvisorMap.insert("focusDonut", donutBuster);
-        m_AdvisorMap.insert("focusTimeDilation", timeDilation);
-        m_AdvisorMap.insert("focusOutlierRejection", outlierRejection);
-        m_AdvisorMap.insert("focusScanStartPos", scanForStartPos);
-    }
-    else
-        donutBuster = m_AdvisorMap.value("focusDonut", donutBuster).toBool();
-    str.append(QString("Donut Buster=%1").arg(donutBuster ? "on" : "off"));
-
-    m_AdvisorUI->focusAdvProcessLabel->setToolTip(str);
-
-    // Mechanics
-    str = "Mechanics Parameters:\n";
-
-    // Walk
-    QString walk = "Fixed Steps";
-    if (noDefaults)
-        m_AdvisorMap.insert("focusWalk", walk);
-    else
-        walk = m_AdvisorMap.value("focusWalk", measure).toString();
-    str.append(QString("Walk=%1\n").arg(walk));
-
-    // Settle Time
-    double settleTime = 1.0;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusSettleTime", settleTime);
-    else
-    {
-        settleTime = m_AdvisorMap.value("focusSettleTime", settleTime).toDouble(&ok);
-        if (!ok || settleTime < 0.0)
-            settleTime = 1.0;
-    }
-    str.append(QString("Focuser Settle=%1\n").arg(settleTime, 0, 'f', 1));
-
-    // Number of steps
-    int numSteps = 11;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusNumSteps", numSteps);
-    else
-    {
-        numSteps = m_AdvisorMap.value("focusNumSteps", numSteps).toInt(&ok);
-        if (!ok || numSteps < 5)
-            numSteps = 11;
-    }
-    str.append(QString("Number Steps=%1\n").arg(numSteps));
-
-    // Max Travel
-    int maxTravel = m_OpsFocusMechanics->focusMaxTravel->maximum();
-    if (noDefaults)
-        m_AdvisorMap.insert("focusMaxTravel", maxTravel);
-    else
-    {
-        maxTravel = m_AdvisorMap.value("focusMaxTravel", maxTravel).toInt(&ok);
-        if (!ok || maxTravel < 0)
-            maxTravel = m_OpsFocusMechanics->focusMaxTravel->maximum();
-    }
-    str.append(QString("Max Travel=%1\n").arg(maxTravel));
-
-    // Driver Backlash and AF Overscan are dealt with separately so inform user to do this
-    str.append("Backlash ***Set Manually***\n");
-    str.append("AF Overscan ***Set Manually***\n");
-
-    // Overscan Delay
-    double overscanDelay = 0.0;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusOverscanDelay", overscanDelay);
-    else
-    {
-        overscanDelay = m_AdvisorMap.value("focusOverscanDelay", overscanDelay).toDouble(&ok);
-        if (!ok || overscanDelay < 0)
-            overscanDelay = 0.0;
-    }
-    str.append(QString("Overscan Delay=%1\n").arg(overscanDelay, 0, 'f', 1));
-
-    // Capture timeout
-    int captureTimeout = 30;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusCaptureTimeout", captureTimeout);
-    else
-    {
-        captureTimeout = m_AdvisorMap.value("focusCaptureTimeout", captureTimeout).toInt(&ok);
-        if (!ok || captureTimeout < 0)
-            captureTimeout = 30;
-    }
-    str.append(QString("Capture Timeout=%1\n").arg(captureTimeout));
-
-    // Capture timeout
-    int motionTimeout = 30;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusMotionTimeout", motionTimeout);
-    else
-    {
-        motionTimeout = m_AdvisorMap.value("focusMotionTimeout", motionTimeout).toInt(&ok);
-        if (!ok || motionTimeout < 0)
-            motionTimeout = 30;
-    }
-    str.append(QString("Motion Timeout=%1").arg(motionTimeout));
-
-    m_AdvisorUI->focusAdvMechanicsLabel->setToolTip(str);
-
-    // SEP profile
-    QString profile = centralObstruction ? FOCUS_DEFAULT_DONUT_NAME : FOCUS_DEFAULT_NAME;
-    if (noDefaults)
-        m_AdvisorMap.insert("focusSEPProfile", profile);
-    else
-        profile = m_AdvisorMap.value("focusSEPProfile", profile).toString();
-    str = QString("SEP Profile=%1").arg(profile);
-    m_AdvisorUI->focusAdvSEPLabel->setToolTip(str);
-}
-
-// Find similar OTs to seed defaults
-QVariantMap Focus::focusAdvisorOTDefaults(const QString OTName)
-{
-    QVariantMap map;
-
-    // If a blank OTName is passed in return an empty map
-    if (OTName == "")
-        return map;
-
-    for (auto tName : OpticalTrainManager::Instance()->getTrainNames())
-    {
-        if (tName == OTName)
-            continue;
-        auto tFocuser = OpticalTrainManager::Instance()->getFocuser(tName);
-        if (tFocuser != m_Focuser)
-            continue;
-        auto tScope = OpticalTrainManager::Instance()->getScope(tName);
-        auto tScopeType = tScope["type"].toString();
-        if (tScopeType != m_ScopeType)
-            continue;
-
-        // We have an OT with the same Focuser and scope type so see if we have any parameters
-        auto tID = OpticalTrainManager::Instance()->id(tName);
-        OpticalTrainSettings::Instance()->setOpticalTrainID(tID);
-        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
-        if (settings.isValid())
-        {
-            // We have a set of parameters
-            map = settings.toJsonObject().toVariantMap();
-            // We will adjust the step size here
-            // We will use the CFZ. The CFZ scales with f#^2, so adjust step size in the same way
-            auto tAperture = tScope["aperture"].toDouble(-1);
-            auto tFocalLength = tScope["focal_length"].toDouble(-1);
-            auto tFocalRatio = tScope["focal_ratio"].toDouble(-1);
-            auto tReducer = OpticalTrainManager::Instance()->getReducer(tName);
-            if (tFocalLength > 0.0)
-                tFocalLength *= tReducer;
-
-            // Use the adjusted focal length to calculate an adjusted focal ratio
-            if (tFocalRatio <= 0.0)
-                // For a scope, FL and aperture are specified so calc the F#
-                tFocalRatio = (tAperture > 0.001) ? tFocalLength / tAperture : 0.0f;
-            else if (tAperture < 0.0)
-                // DSLR Lens. FL and F# are specified so calc the aperture
-                tAperture = tFocalLength / tFocalRatio;
-
-            int stepSize = 250;
-            if (m_Focuser && m_Focuser->getDeviceName() == FOCUSER_SIMULATOR)
-                // The Simulator is a special case so use 5000 as that works well
-                stepSize = 5000;
-            else
-                stepSize = map.value("focusTicks", stepSize).toInt() * pow(m_FocalRatio, 2.0) / pow(tFocalRatio, 2.0);
-            // Add the value to map if one doesn't exist or update it if it does
-            map.insert("focusTicks", stepSize);
-            break;
-        }
-    }
-    // Reset Optical Train Manager to the original OT
-    auto id = OpticalTrainManager::Instance()->id(OTName);
-    OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-    return map;
-}
-
-// Focus Advisor help popup
-void Focus::focusAdvisorHelp()
-{
-    QString str = i18n("Focus Advisor (FA) is designed to help you with focus parameters.\n"
-                       "It will not necessarily give you the perfect combination of parameters, you will "
-                       "need to experiment yourself, but it will give you a basic set of parameters to "
-                       "achieve focus.\n\n"
-                       "FA will recommend values for the majority of parameters. A few, however, will need "
-                       "extra work from you to setup. These are identified below along with a basic explanation "
-                       "of how to set them.\n\n"
-                       "The first step is to set backlash. Your focuser manual will likely explain how to do "
-                       "this. Once you have a value for backlash for your system, set either the Backlash field "
-                       "to have the driver perform backlash compensation or the AF Overscan field to have Autofocus "
-                       "perform backlash compensation. Set only one field and set the other to 0. If you are "
-                       "unsure which to set, AF Overscan is recommended.\n\n"
-                       "The second step is to set Step Size. If you are aware of an approximate value enter it here "
-                       "otherwise this can be defaulted from the Critical Focus Zone (CFZ) for your equipment - so "
-                       "configure this now in the CFZ tab and restart Focus Advisor.\n\n");
-
-    str.append(i18n("The third step is to set the remaining focus parameters to sensible values. Focus Advisor "
-                    "will suggest values for 5 categories of parameters. Check the associated Update box to "
-                    "accept these recommendations when you press Update Params.\n"
-                    "1. Camera Properties - Note you need to ensure Gain is set appropriately, e.g. unity gain.\n"
-                    "2. Focus Settings (Options Popup): These all have recommendations.\n"
-                    "3. Focus Process (Options Popup): These all have recommendations.\n"
-                    "4. Focus Mechanics (Options Popup): Note Step Size is dealt with above.\n"
-                    "5. SEP Parameters (Options Popup): Set the appropriate profile to its default values.\n\n"
-                    "Now move the focuser to approximate focus and select a broadband filter, e.g. Luminance\n"
-                    "You are now ready to start an Autofocus run."));
-
-    KMessageBox::information(nullptr, str, i18n("Focus Advisor"));
-}
-
-// Action the focus params recommendations
-void Focus::focusAdvisorAction(bool forceAll)
-{
-    if (forceAll)
-    {
-        setAllSettings(m_AdvisorMap);
-        return;
-    }
-
-    // Disconnect settings that we don't end up calling syncSettings while
-    // performing the changes.
-    disconnectSyncSettings();
-
-    if (m_AdvisorUI->focusAdvStepSize->isChecked())
-        m_OpsFocusMechanics->focusTicks->setValue(m_AdvisorUI->focusAdvSteps->value());
-
-    if (m_AdvisorUI->focusAdvCamera->isChecked())
-    {
-        syncControl(m_AdvisorMap, "focusExposure", focusExposure);
-        // Update the Filter Manager with the new value as callbacks that normally do this are suspended
-        if (m_FilterManager)
-            m_FilterManager->setFilterExposure(focusFilter->currentIndex(), focusExposure->value());
-
-        if (focusBinning->isEnabled())
-            // Only try and update the binning field if camera supports it (binning field enabled)
-            syncControl(m_AdvisorMap, "focusBinning", focusBinning);
-    }
-
-    if (m_AdvisorUI->focusAdvSettingsTab->isChecked())
-    {
-        // Settings
-        syncControl(m_AdvisorMap, "focusAutoStarEnabled", m_OpsFocusSettings->focusAutoStarEnabled);
-        syncControl(m_AdvisorMap, "useFocusDarkFrame", m_OpsFocusSettings->useFocusDarkFrame);
-        syncControl(m_AdvisorMap, "focusUseFullField", m_OpsFocusSettings->focusUseFullField);
-        syncControl(m_AdvisorMap, "focusSubFrame", m_OpsFocusSettings->focusSubFrame);
-        syncControl(m_AdvisorMap, "focusNoMaskRB", m_OpsFocusSettings->focusNoMaskRB);
-        if (m_AdvisorMap.value("focusRingMaskRB", false).toBool())
-        {
-            syncControl(m_AdvisorMap, "focusRingMaskRB", m_OpsFocusSettings->focusRingMaskRB);
-            syncControl(m_AdvisorMap, "focusFullFieldInnerRadius", m_OpsFocusSettings->focusFullFieldInnerRadius);
-            syncControl(m_AdvisorMap, "focusFullFieldOuterRadius", m_OpsFocusSettings->focusFullFieldOuterRadius);
-        }
-        syncControl(m_AdvisorMap, "focusMosaicMaskRB", m_OpsFocusSettings->focusMosaicMaskRB);
-        syncControl(m_AdvisorMap, "focusAdaptive", m_OpsFocusSettings->focusAdaptive);
-        syncControl(m_AdvisorMap, "focusAdaptStart", m_OpsFocusSettings->focusAdaptStart);
-    }
-
-    if (m_AdvisorUI->focusAdvProcessTab->isChecked())
-    {
-        // Process
-        syncControl(m_AdvisorMap, "focusDetection", m_OpsFocusProcess->focusDetection);
-        syncControl(m_AdvisorMap, "focusAlgorithm", m_OpsFocusProcess->focusAlgorithm);
-        syncControl(m_AdvisorMap, "focusCurveFit", m_OpsFocusProcess->focusCurveFit);
-        syncControl(m_AdvisorMap, "focusStarMeasure", m_OpsFocusProcess->focusStarMeasure);
-        syncControl(m_AdvisorMap, "focusUseWeights", m_OpsFocusProcess->focusUseWeights);
-        syncControl(m_AdvisorMap, "focusR2Limit", m_OpsFocusProcess->focusR2Limit);
-        syncControl(m_AdvisorMap, "focusRefineCurveFit", m_OpsFocusProcess->focusRefineCurveFit);
-        syncControl(m_AdvisorMap, "focusFramesCount", m_OpsFocusProcess->focusFramesCount);
-        syncControl(m_AdvisorMap, "focusHFRFramesCount", m_OpsFocusProcess->focusHFRFramesCount);
-        syncControl(m_AdvisorMap, "focusDonut", m_OpsFocusProcess->focusDonut);
-        syncControl(m_AdvisorMap, "focusTimeDilation", m_OpsFocusProcess->focusTimeDilation);
-        syncControl(m_AdvisorMap, "focusOutlierRejection", m_OpsFocusProcess->focusOutlierRejection);
-        syncControl(m_AdvisorMap, "focusScanStartPos", m_OpsFocusProcess->focusScanStartPos);
-    }
-
-    if (m_AdvisorUI->focusAdvMechanicsTab->isChecked())
-    {
-        // Mechanics
-        syncControl(m_AdvisorMap, "focusWalk", m_OpsFocusMechanics->focusWalk);
-        syncControl(m_AdvisorMap, "focusSettleTime", m_OpsFocusMechanics->focusSettleTime);
-        syncControl(m_AdvisorMap, "focusNumSteps", m_OpsFocusMechanics->focusNumSteps);
-        syncControl(m_AdvisorMap, "focusMaxTravel", m_OpsFocusMechanics->focusMaxTravel);
-        syncControl(m_AdvisorMap, "focusOverscanDelay", m_OpsFocusMechanics->focusOverscanDelay);
-        syncControl(m_AdvisorMap, "focusCaptureTimeout", m_OpsFocusMechanics->focusCaptureTimeout);
-        syncControl(m_AdvisorMap, "focusMotionTimeout", m_OpsFocusMechanics->focusMotionTimeout);
-    }
-
-    if (m_AdvisorUI->focusAdvSEP->isChecked())
-    {
-        // SEP
-        // JEE Should we delete and reinstate default profile?
-        syncControl(m_AdvisorMap, "focusSEPProfile", m_OpsFocusProcess->focusSEPProfile);
-    }
-
-    // Sync to options
-    for (auto &key : m_AdvisorMap.keys())
-    {
-        auto value = m_AdvisorMap[key];
-        // Save immediately
-        Options::self()->setProperty(key.toLatin1(), value);
-
-        m_Settings[key] = value;
-        m_GlobalSettings[key] = value;
-    }
-
-    // Save to optical train specific settings as well
-    OpticalTrainSettings::Instance()->setOpticalTrainID(OpticalTrainManager::Instance()->id(opticalTrainCombo->currentText()));
-    OpticalTrainSettings::Instance()->setOneSetting(OpticalTrainSettings::Focus, m_Settings);
-
-    // Restablish connections
-    connectSyncSettings();
-
-    // Once settings have been loaded run through routines to set state variables
-    m_CurveFit = static_cast<CurveFitting::CurveFit> (m_OpsFocusProcess->focusCurveFit->currentIndex());
-    setFocusDetection(static_cast<StarAlgorithm> (m_OpsFocusProcess->focusDetection->currentIndex()));
-    setCurveFit(static_cast<CurveFitting::CurveFit>(m_OpsFocusProcess->focusCurveFit->currentIndex()));
-    setStarMeasure(static_cast<StarMeasure>(m_OpsFocusProcess->focusStarMeasure->currentIndex()));
-    setWalk(static_cast<FocusWalk>(m_OpsFocusMechanics->focusWalk->currentIndex()));
-    selectImageMask();
-}
-
-// Returns whether or not the passed in scopeType has a central obstruction or not. The scopeTypes
-// are defined in the equipmentWriter code. It would be better, probably, if that code included
-// a flag for central obstruction, rather than hard coding strings for the scopeType that are compared
-// in this routine.
-bool Focus::scopeHasObstruction(QString scopeType)
-{
-    if (scopeType == "Refractor" || scopeType == "Kutter (Schiefspiegler)")
-        return false;
-    else
-        return true;
-}
-
 void Focus::setState(FocusState newState)
 {
     qCDebug(KSTARS_EKOS_FOCUS) << "Focus State changes from" << getFocusStatusString(m_state) << "to" << getFocusStatusString(
@@ -7755,10 +7197,9 @@ void Focus::refreshOpticalTrain()
         // JM 2024.03.16 Also use focus advisor on new profiles
         if (!validSettings)
         {
-            focusAdvisorSetup(name);
-            focusAdvisorAction(true);
+            focusAdvisor->setupParams(name);
+            focusAdvisor->updateParams();
         }
-        focusAdvisorSetup("");
     }
 
     opticalTrainCombo->blockSignals(false);

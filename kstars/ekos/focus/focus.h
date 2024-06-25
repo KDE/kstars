@@ -22,7 +22,6 @@
 #include "opsfocusprocess.h"
 #include "opsfocusmechanics.h"
 #include "ui_cfz.h"
-#include "ui_advisor.h"
 #include "focusutils.h"
 
 class FocusProfilePlot;
@@ -38,6 +37,7 @@ class FocusAlgorithmInterface;
 class FocusFWHM;
 class PolynomialFit;
 class AdaptiveFocus;
+class FocusAdvisor;
 class StellarSolverProfileEditor;
 
 /**
@@ -61,8 +61,9 @@ class Focus : public QWidget, public Ui::Focus
         Q_PROPERTY(double HFR READ getHFR NOTIFY newHFR)
         Q_PROPERTY(double exposure READ exposure WRITE setExposure)
 
-        // AdaptiveFocus is a friend class so it can access methods in Focus
+        // AdaptiveFocus and FocusAdvisor are friend classes so they can access methods in Focus
         friend class AdaptiveFocus;
+        friend class FocusAdvisor;
 
     public:
         Focus();
@@ -766,18 +767,6 @@ class Focus : public QWidget, public Ui::Focus
         // Reset the CFZ parameters from the current Optical Train
         void resetCFZToOT();
 
-        // Setup the Focus Advisor recommendations
-        void focusAdvisorSetup(const QString OTName);
-
-        // Look at similar Optical Trains to get parameters
-        QVariantMap focusAdvisorOTDefaults(const QString OTName);
-
-        // Update parameters based on Focus Advisor recommendations
-        void focusAdvisorAction(bool forceAll);
-
-        // Update parameters based on Focus Advisor recommendations
-        void focusAdvisorHelp();
-
         // Move the focuser in (negative) or out (positive amount).
         bool changeFocus(int amount, bool updateDir = true);
 
@@ -890,13 +879,6 @@ class Focus : public QWidget, public Ui::Focus
         bool isFocusSubFrameEnabled();
 
         /**
-         * @brief returns whether the optical train telescope has a central obstruction
-         * @param scopeType is the type of telescope
-         * @return whether scope has an obstruction
-         */
-        bool scopeHasObstruction(QString scopeType);
-
-        /**
          * @brief Save the focus frame for later dubugging
          */
         void saveFocusFrame();
@@ -912,6 +894,12 @@ class Focus : public QWidget, public Ui::Focus
          * @param initialPosition of the focuser
          */
         void setupLinearFocuser(int initialPosition);
+
+        /**
+         * @brief Initialise the Scan Start Position algorithm
+         * @param startPosition
+         */
+        void initScanStartPos(const int initialPosition);
 
         /**
          * @brief Process the scan for the Autofocus starting position
@@ -1168,6 +1156,9 @@ class Focus : public QWidget, public Ui::Focus
         // Adaptive Focus processing.
         std::unique_ptr<AdaptiveFocus> adaptFocus;
 
+        // Focus Advisor processing.
+        std::unique_ptr<FocusAdvisor> focusAdvisor;
+
         // Capture timers
         QTimer captureTimer;
         QTimer captureTimeout;
@@ -1254,11 +1245,6 @@ class Focus : public QWidget, public Ui::Focus
         std::unique_ptr<Ui::focusCFZDialog> m_CFZUI;
         QPointer<QDialog> m_CFZDialog;
 
-        // Focus Advisor popup
-        std::unique_ptr<Ui::focusAdvisorDialog> m_AdvisorUI;
-        QPointer<QDialog> m_AdvisorDialog;
-        QVariantMap m_AdvisorMap;
-
         // CFZ
         double m_cfzSteps = 0.0f;
 
@@ -1280,4 +1266,5 @@ class Focus : public QWidget, public Ui::Focus
         QVector<double> m_scanMeasure;
         QString m_AFfilter = NULL_FILTER;
 };
+
 }

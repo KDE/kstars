@@ -310,6 +310,9 @@
        <property name="toolTip">
         <string>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</string>
        </property>
+       <property name="suffix">
+        <string> s</string>
+       </property>
        <property name="minimum">
         <number>5</number>
        </property>
@@ -417,6 +420,9 @@
        </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum time in seconds to wait for the focuser to move to the desired position before declaring a timeout.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="suffix">
+        <string> s</string>
        </property>
        <property name="minimum">
         <number>5</number>

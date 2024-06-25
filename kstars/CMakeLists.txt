@@ -159,7 +159,8 @@ if (INDI_FOUND)
             ekos/focus/opsfocusprocess.ui
             ekos/focus/opsfocusmechanics.ui
             ekos/focus/cfz.ui
-            ekos/focus/advisor.ui
+            ekos/focus/focusadvisor.ui
+            ekos/focus/focusadvisorhelp.ui
             # Mount
             ekos/mount/mount.ui
             ekos/mount/mountcontrolpanel.ui
@@ -291,6 +292,7 @@ if (INDI_FOUND)
             ekos/focus/focusfwhm.cpp
             ekos/focus/focusfourierpower.cpp
             ekos/focus/adaptivefocus.cpp
+            ekos/focus/focusadvisor.cpp
             ekos/focus/opsfocussettings.cpp
             ekos/focus/opsfocusprocess.cpp
             ekos/focus/opsfocusmechanics.cpp

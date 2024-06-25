@@ -26,6 +26,7 @@ typedef enum { FOCUS_NONE,
                FOCUS_ABERRATION_INSPECTOR,
                FOCUS_SCHEDULER,
                FOCUS_USER_REQUEST,
+               FOCUS_FOCUS_ADVISOR,
                FOCUS_MAX_REASONS
              } AutofocusReason;
 
@@ -42,7 +43,8 @@ static const QString AutofocusReasonStr[FOCUS_MAX_REASONS] =
     "Build Filter Offsets",
     "Aberration Inspector",
     "Scheduler Initiated",
-    "User Request (In-Seq)"
+    "User Request (In-Seq)",
+    "Focus Advisor"
 };
 
 // Reason codes for Autofocus failure
@@ -67,6 +69,8 @@ typedef enum { FOCUS_FAIL_NONE,
                FOCUS_FAIL_INTERNAL,
                FOCUS_FAIL_ABORT,
                FOCUS_FAIL_CURVEFIT,
+               FOCUS_FAIL_ADVISOR_COMPLETE,
+               FOCUS_FAIL_ADVISOR_RERUN,
                FOCUS_FAIL_MAX_REASONS
              } AutofocusFailReason;
 
@@ -93,6 +97,8 @@ static const QString AutofocusFailReasonStr[FOCUS_FAIL_MAX_REASONS] =
     "Pulse Value Too Low",
     "Internal Error",
     "Abort Requested",
-    "Unable to Fit Curve"
+    "Unable to Fit Curve",
+    "Focus Advisor Complete",
+    "Focus Advisor Rerun"
 };
 }

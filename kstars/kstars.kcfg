@@ -2300,36 +2300,24 @@
          <default>5.0</default>
       </entry>
 
-      <entry name="focusAdvSteps" type="UInt">
-         <whatsthis>Focus Advisor recommended step size</whatsthis>
-         <default>1</default>
-      </entry>
-      <entry name="focusAdvNumSteps" type="UInt">
-         <whatsthis>Focus Advisor recommended Out Step Multiple</whatsthis>
-         <default>11</default>
-      </entry>
-      <entry name="focusAdvStepSize" type="Bool">
-         <whatsthis>Whether to accept Focus Advisor recommendation on Step Size.</whatsthis>
+      <entry name="focusAdvHelpOnlyChanges" type="Bool">
+         <whatsthis>Focus Advisor Help shows only changes.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="focusAdvCamera" type="Bool">
-         <whatsthis>Whether to accept Focus Advisor recommendation on Camera and Filter Wheel Parameters.</whatsthis>
+      <entry name="focusAdvUpdateParams" type="Bool">
+         <whatsthis>Whether to run the Focus Advisor Update Parameters function.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="focusAdvSettingsTab" type="Bool">
-         <whatsthis>Whether to accept Focus Advisor recommendation on Settings Tab Parameters.</whatsthis>
+      <entry name="focusAdvFindStars" type="Bool">
+         <whatsthis>Whether to run the Focus Advisor Find Stars function.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="focusAdvProcessTab" type="Bool">
-         <whatsthis>Whether to accept Focus Advisor recommendation on Process Tab Parameters.</whatsthis>
+      <entry name="focusAdvCourseAdj" type="Bool">
+         <whatsthis>Whether to run the Focus Advisor Course Adjustment function.</whatsthis>
          <default>true</default>
       </entry>
-      <entry name="focusAdvMechanicsTab" type="Bool">
-         <whatsthis>Whether to accept Focus Advisor recommendation on Mechanics Tab Parameters.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="focusAdvSEP" type="Bool">
-         <whatsthis>Whether to accept Focus Advisor recommendation on SEP Parameters.</whatsthis>
+      <entry name="focusAdvFineAdj" type="Bool">
+         <whatsthis>Whether to run the Focus Advisor Fine Adjustment function.</whatsthis>
          <default>true</default>
       </entry>
 
