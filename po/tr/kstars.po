@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 01:44+0000\n"
-"PO-Revision-Date: 2024-06-21 22:59+0300\n"
+"PO-Revision-Date: 2024-06-27 01:41+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2392,7 +2392,7 @@ msgstr "İsteğe bağlı"
 #: dialogs/addcatalogobject.ui:131
 #, kde-format
 msgid "Size Info in Arcminutes"
-msgstr "Yay dakikası türünden boyut bilgisi"
+msgstr "Yaydakika türünden boyut bilgisi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: dialogs/addcatalogobject.ui:146
@@ -5105,7 +5105,7 @@ msgstr "Göz merceği görünen görüş alanı:"
 #: dialogs/newfov.ui:272
 #, kde-format
 msgid "field-of-view of the eyepiece, in arcminutes"
-msgstr "yay dakikası türünden göz merceğinin görüş alanı"
+msgstr "yaydakika türünden göz merceğinin görüş alanı"
 
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, EyeFOV)
 #: dialogs/newfov.ui:277
@@ -5116,7 +5116,7 @@ msgid ""
 "This is one of the data fields required for defining a field-of-view (FOV) "
 "symbol which matches the field-of-view of a telescope eyepiece."
 msgstr ""
-"Göz merceğinin görüş alanı açısını yay dakikası türünden girin.\n"
+"Göz merceğinin görüş alanı açısını yaydakika olarak girin.\n"
 "\n"
 "Burası bir teleskopun göz merceğinin görüş alanına karşılık gelen görüş "
 "alanı (FOV) simgesini tanımlamak için gerekli olan veri alanlarından biridir."
@@ -5171,8 +5171,8 @@ msgstr ""
 "teleskopun ve göz merceğinin odak uzaklıklarını ve göz merceğinin görüş "
 "alanı açısını belirtmeniz gerekir.\n"
 "\n"
-"Hesaplanan FOV açısı (yay dakikası türünden), ‘Görüş alanı’ düzenleme "
-"kutusunda görüntülenecektir."
+"Hesaplanan FOV açısı (yaydakika olarak), ‘Görüş alanı’ düzenleme kutusunda "
+"görüntülenecektir."
 
 #. i18n: ectx: property (text), widget (QPushButton, ComputeEyeFOV)
 #. i18n: ectx: property (text), widget (QPushButton, ComputeCameraFOV)
@@ -5292,10 +5292,10 @@ msgid ""
 "view\" edit box."
 msgstr ""
 "Bu düğme, belirli bir kamera/teleskop kombinasyonu için görüş alanı (FOV) "
-"açısını hesaplayacaktır. Öncelikle teleskobun odak uzaklığını ve CCD "
+"açısını hesaplayacaktır. Öncelikle teleskopun odak uzaklığını ve CCD "
 "yongasının veya film negatifinin boyutunu belirtmelisiniz.\n"
 "\n"
-"Hesaplanan görüş alanı açısı (yay dakikası türünden) ‘Görüş alanı’ düzenleme "
+"Hesaplanan görüş alanı açısı (yaydakika olarak) ‘Görüş alanı’ düzenleme "
 "kutusunda görüntülenecektir."
 
 #. i18n: ectx: property (text), widget (QPushButton, DetectFromINDI)
@@ -5336,7 +5336,7 @@ msgstr ""
 "Doğrusal görüş alanını dürbün üzerinde belirtildiği gibi belirtmeniz "
 "gerekir.\n"
 "\n"
-"Hesaplanan görüş alanı açısı (yay dakikası türünden) ‘Görüş alanı’ düzenleme "
+"Hesaplanan görüş alanı açısı (yaydakika türünden) ‘Görüş alanı’ düzenleme "
 "kutusunda görüntülenecektir."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab4)
@@ -5393,8 +5393,8 @@ msgstr ""
 "Genişliği (HPBW) açısını hesaplayacaktır. Öncelikle radyoteleskobun çapını "
 "ve gözlemlenen dalga boyunu belirtmelisiniz.\n"
 "\n"
-"Hesaplanan HPBW açısı (yay dakikası türünden) ‘Görüş alanı’ düzenleme "
-"kutusunda görüntülenecektir."
+"Hesaplanan HPBW açısı (yaydakika olarak) ‘Görüş alanı’ düzenleme kutusunda "
+"görüntülenecektir."
 
 #. i18n: ectx: property (text), widget (QPushButton, ComputeHPBW)
 #: dialogs/newfov.ui:999
@@ -5463,7 +5463,7 @@ msgstr "0"
 #: dialogs/newfov.ui:1068
 #, kde-format
 msgid "Desired vertical offset in arcminutes"
-msgstr "Yay dakikası türünden istenen dikey ofset"
+msgstr "Yaydakika türünden istenen dikey ofset"
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_3)
 #: dialogs/newfov.ui:1081
@@ -5481,7 +5481,7 @@ msgstr "K’nin D derecesi"
 #: dialogs/newfov.ui:1102
 #, kde-format
 msgid "Desired field-of-view size, in arcminutes"
-msgstr "Yay dakikası türünden istenen görüş alanı boyutu"
+msgstr "Yaydakika türünden istenen görüş alanı boyutu"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, FOVEditX)
 #: dialogs/newfov.ui:1107
@@ -5514,7 +5514,7 @@ msgstr " × "
 #: dialogs/newfov.ui:1131
 #, kde-format
 msgid "Desired horizontal offset in arcminutes"
-msgstr "Yay dakikası türünden istenen yatay ofset"
+msgstr "Yaydakika türünden istenen yatay ofset"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, FOVLockCP)
 #: dialogs/newfov.ui:1144
@@ -6145,14 +6145,14 @@ msgid ""
 "solve once to measure the effective FOV or enter the values manually.</"
 "p><p>Calculated FOV: %1</p>"
 msgstr ""
-"<p>Yay dakikası türünden etkin görüş alanı boyutu.</p><p>Efektif görüş "
-"alanını ölçmek için lütfen bir kez yakalayıp çözün veya değerleri elle girin."
-"</p><p>Hesaplanan görüş alanı: %1</p>"
+"<p>Yaydakika türünden etkin görüş alanı boyutu.</p><p>Efektif görüş alanını "
+"ölçmek için lütfen bir kez yakalayıp çözün veya değerleri elle girin.</"
+"p><p>Hesaplanan görüş alanı: %1</p>"
 
 #: ekos/align/align.cpp:1135
 #, kde-format
 msgid "<p>Effective field of view size in arcminutes.</p>"
-msgstr "<p>Yay dakikası türünden efektif görüş alanı boyutu.</p>"
+msgstr "<p>Yaydakika türünden efektif görüş alanı boyutu.</p>"
 
 #: ekos/align/align.cpp:1418
 #, kde-format
@@ -6775,7 +6775,7 @@ msgid ""
 "Plate solver shall be repeatedly executed until the solution coordinates are "
 "below the accuracy threshold"
 msgstr ""
-"Çözüm ve hedef koordinatlar arasındaki yay saniyesi türünden doğruluk eşiği. "
+"Çözüm ve hedef koordinatlar arasındaki yaysaniye türünden doğruluk eşiği. "
 "Plaka çözücüsü, çözüm koordinatları doğruluk eşiğinin altına düşene kadar "
 "hep çalıştırılacaktır."
 
@@ -6813,7 +6813,7 @@ msgstr "Çözüm Koordinatları (JNow)"
 #: ekos/align/align.ui:368 ekos/align/align.ui:503
 #, kde-format
 msgid "Effective field of view size in arcminutes."
-msgstr "Yay dakikası türünden etkili görüş alanı boyutu"
+msgstr "Yaydakika türünden etkili görüş alanı boyutu"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, err)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, errOut)
@@ -6822,8 +6822,8 @@ msgstr "Yay dakikası türünden etkili görüş alanı boyutu"
 msgid ""
 "Difference between telescope coordinates and solution coordinates in arcsec"
 msgstr ""
-"Yay saniyesi türünden teleskop koordinatları ile çözüm koordinatları "
-"arasındaki fark"
+"Yaysaniye türünden teleskop koordinatları ile çözüm koordinatları arasındaki "
+"fark"
 
 #. i18n: ectx: property (text), widget (QLabel, err)
 #: ekos/align/align.ui:395
@@ -7960,7 +7960,7 @@ msgid ""
 "FITS position angle is below this value, the [Load &amp; Slew] operation is "
 "considered successful.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>[Yükle ve Çevir] kullanılırken yay dakikası türünden "
+"<html><head/><body><p>[Yükle ve Çevir] kullanılırken yaydakika türünden "
 "dönüş sapması eşiği. Ölçülen konum açısı ile FITS konum açısı arasındaki "
 "fark bu değerin altında ise [Yükle ve Çevir] işlemi başarılı sayılır.</p></"
 "body></html>"
@@ -8197,7 +8197,7 @@ msgstr ""
 "<p>Yukarıdaki görüntüleyici ölçeğinin birimleri sınırları.</p>\n"
 "<ul>\n"
 "<li>dw: Derece genişliği</li>\n"
-"<li>aw: Yay dakikası genişliği</li>\n"
+"<li>aw: Yaydakika genişliği</li>\n"
 "</ul>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_50)
@@ -8286,8 +8286,8 @@ msgstr ""
 "<p>Yukarıdaki görselleyici ölçeği sınırlarının birimleri.</p>\n"
 "<ul>\n"
 "<li>dw: Derece genişliği</li>\n"
-"<li>aw: Yay dakikası genişliği</li>\n"
-"<li>app: Piksel başına yay saniyesi</li>\n"
+"<li>aw: Yaydakika genişliği</li>\n"
+"<li>app: Piksel başına yaysaniye</li>\n"
 "</ul>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -9203,7 +9203,7 @@ msgstr "(156 M)"
 #: ekos/align/opsastrometryindexfiles.ui:2857
 #, kde-format
 msgid "(arcminutes)"
-msgstr "(yay dakikası)"
+msgstr "(yaydakika)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_47)
 #: ekos/align/opsastrometryindexfiles.ui:2864
@@ -9958,8 +9958,8 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Devre dışı: Görüş "
-"açısı 10 yay dakikası veya daha geniş olmalıdır. +60 yay dakikası tavsiye "
-"edilir.</span></p></body></html>"
+"açısı 10 yaydakika veya daha geniş olmalıdır. +60 yaydakika tavsiye edilir.</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, directionLabel)
 #: ekos/align/polaralignmentassistant.ui:106
@@ -10772,7 +10772,7 @@ msgid ""
 "<html><head/><body><p>Plot the right ascension (RA) drift error in arc-"
 "seconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sağ Açıklık (RA) kayma hatasını yay saniyesi türünden "
+"<html><head/><body><p>Sağ Açıklık (RA) kayma hatasını yaysaniye türünden "
 "çizin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raCB)
@@ -10790,10 +10790,10 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Yay saniyesi türünden sağ açıklık (RA) kayma hatası. "
-"Bu ekseni sol eksen değerlerinde görüntülemek için buraya tıklayın. Ekseni "
-"RA/DEC hatası, kayma ve RMS değerleriyle paylaşır. Ekseni güncellemek için "
-"çift tıklayın.</p></body></html>"
+"<html><head/><body><p>Yaysaniye türünden sağ açıklık (RA) kayma hatası. Bu "
+"ekseni sol eksen değerlerinde görüntülemek için buraya tıklayın. Ekseni RA/"
+"DEC hatası, kayma ve RMS değerleriyle paylaşır. Ekseni güncellemek için çift "
+"tıklayın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decCB)
 #: ekos/analyze/analyze.ui:586
@@ -10802,8 +10802,8 @@ msgid ""
 "<html><head/><body><p>Plot the declination (DEC) drift error in arc-seconds."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sapma (DEC) kayma hatasını yay saniyesi türünden çizin."
-"</p></body></html>"
+"<html><head/><body><p>Sapma (DEC) kayma hatasını yaysaniye türünden çizin.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, decCB)
 #. i18n: ectx: property (text), widget (QCheckBox, decPulseCB)
@@ -10822,10 +10822,10 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sapma (DEC) kayma hatasını yay saniyesi türünden "
-"çizin. Bu ekseni sol eksen değerlerinde görüntülemek için buraya tıklayın. "
-"Ekseni RA/DEC hatası, kayma ve RMS değerleriyle paylaşır. Ekseni güncellemek "
-"için çift tıklayın.</p></body></html>"
+"<html><head/><body><p>Sapma (DEC) kayma hatasını yaysaniye türünden çizin. "
+"Bu ekseni sol eksen değerlerinde görüntülemek için buraya tıklayın. Ekseni "
+"RA/DEC hatası, kayma ve RMS değerleriyle paylaşır. Ekseni güncellemek için "
+"çift tıklayın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raPulseCB)
 #: ekos/analyze/analyze.ui:627
@@ -10884,8 +10884,8 @@ msgid ""
 "<html><head/><body><p>Plot the combined RA and DEC drift error in arc-"
 "seconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Birleşik RA ve DEC kayma hatasını yay saniyesi "
-"türünden çizin.</p></body></html>"
+"<html><head/><body><p>Birleşik RA ve DEC kayma hatasını yaysaniye türünden "
+"çizin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, driftCB)
 #: ekos/analyze/analyze.ui:727
@@ -10901,10 +10901,10 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Yay saniyesi türünden birleşik RA ve DEC kayma hatası. "
-"Bu ekseni sol eksen değerlerinde görüntülemek için buraya tıklayın. Ekseni "
-"RA/DEC hatası, kayma ve RMS değerleriyle paylaşır. Ekseni güncellemek için "
-"çift tıklayın.</p></body></html>"
+"<html><head/><body><p>Yaysaniye türünden birleşik RA ve DEC kayma hatası. Bu "
+"ekseni sol eksen değerlerinde görüntülemek için buraya tıklayın. Ekseni RA/"
+"DEC hatası, kayma ve RMS değerleriyle paylaşır. Ekseni güncellemek için çift "
+"tıklayın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCB)
 #: ekos/analyze/analyze.ui:768
@@ -10915,7 +10915,7 @@ msgid ""
 "samples.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Yaklaşık son 40 örneğin ortalaması alınarak, "
-"birleştirilmiş RA ve DEC kaymasının yay saniyesi türünden ortalama karekök "
+"birleştirilmiş RA ve DEC kaymasının yaysaniye türünden ortalama karekök "
 "(RMS) değerini çizin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCB)
@@ -10934,7 +10934,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Birleşik RA ve DEC kaymasının yay saniyesi türünden "
+"<html><head/><body><p>Birleşik RA ve DEC kaymasının yaysaniye türünden "
 "ortalama karekök (RMS) değeri, yaklaşık olarak son 40 örneklemin "
 "ortalamasıdır. Bu ekseni sol eksen değerlerinde görüntülemek için buraya "
 "tıklayın. Ekseni RA/DEC hatası, kayma ve RMS değerleriyle paylaşır. Ekseni "
@@ -11073,10 +11073,9 @@ msgid ""
 "seconds where the telescope is pointing. Click here to view this axis on "
 "left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun işaret ettiği derece:yay dakikası:yay "
-"saniyesi türünden sapma (DEC). Bu ekseni sol eksen değerlerinde görüntülemek "
-"için buraya tıklayın. Ekseni güncellemek için çift tıklayın.</p></body></"
-"html>"
+"<html><head/><body><p>Teleskopun işaret ettiği derece:yaydakika:yaysaniye "
+"türünden sapma (DEC). Bu ekseni sol eksen değerlerinde görüntülemek için "
+"buraya tıklayın. Ekseni güncellemek için çift tıklayın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:1044
@@ -11322,7 +11321,7 @@ msgid ""
 "samples, but only in during capture.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Birleşik RA ve DEC kaymasının ortalama karekök (RMS) "
-"değerini yay saniyesi türünden çizin; yaklaşık son 40 örneklemin ortalaması "
+"değerini yaysaniye olarak çizin; yaklaşık son 40 örneklemin ortalaması "
 "yalnızca yakalama sırasında alınır.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsCOut)
@@ -11335,7 +11334,7 @@ msgid ""
 "values. Shares axis with RA/DEC error, drift, and RMS values. Double click "
 "to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Yay saniyesi türünden birleşik RA ve DEC kaymasının "
+"<html><head/><body><p>Yaysaniye türünden birleşik RA ve DEC kaymasının "
 "ortalama karekökü (RMS) değeri, yaklaşık olarak son 40 örneklemin "
 "ortalamasıdır; ancak yalnızca yakalama sırasında alınmıştır. Bu ekseni sol "
 "eksen değerlerinde görüntülemek için buraya tıklayın. Ekseni RA/DEC hatası, "
@@ -11351,7 +11350,7 @@ msgid ""
 "options.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Plakayla çözülmüş yakalanan görsel ile hedef konum "
-"arasındaki uzaklığı yay saniyesi türünden çizin. Zamanlayıcı seçeneklerinde "
+"arasındaki uzaklığı yaysaniye olarak çizin. Zamanlayıcı seçeneklerinde "
 "etkinleştirilmelidir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, targetDistanceCB)
@@ -11370,7 +11369,7 @@ msgid ""
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Plakayla çözülmüş yakalanan görsel ile hedef konum "
-"arasındaki uzaklığı yay saniyesi türünden çizin. Zamanlayıcı seçeneklerinde "
+"arasındaki uzaklığı yaysaniye türünden çizin. Zamanlayıcı seçeneklerinde "
 "etkinleştirilmelidir. Bu ekseni sol eksen değerlerinde görüntülemek için "
 "buraya tıklayın. Ekseni güncellemek için çift tıklayın.</p></body></html>"
 
@@ -12451,12 +12450,7 @@ msgstr "Tüm Günlükleri Temizle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/opslogs.ui:59
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. "
-#| "Only enable the necessary logs to help in diagnosing specific problems. "
-#| "Logs consume resources and may slow the system down. Turn off logs when "
-#| "no longer used.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. If "
 "your system is resource limited, e.g. Raspberry Pi with SD Card, then only "
@@ -12465,10 +12459,11 @@ msgid ""
 "system down.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ekos ve INDI ile ilgili sorunları tanılamak için "
-"günlükleri etkinleştirin. Yalnızca belirli sorunların tanılanmasına yardımcı "
-"olması için gerekli günlükleri etkinleştirin. Günlükler özkaynakları tüketir "
-"ve sistemi yavaşlatabilir. Artık kullanılmadığında günlükleri kapatın.</p></"
-"body></html>"
+"günlükleri etkinleştirin. Sisteminizin özkaynakları sınırlıysa; örneğin, SD "
+"Kartlı bir Raspberry Pi'niz varsa yalnızca belirli sorunların tanısına "
+"yardımcı olması için gerekli günlükleri etkinleştirin ve artık "
+"gerekmediğinde bunları kapatın. Günlükler özkaynakları tüketir ve sistemi "
+"yavaşlatabilir.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/auxiliary/opslogs.ui:71
@@ -15911,13 +15906,12 @@ msgstr "Kılavuz modülü zaman aşımına uğradı."
 #: ekos/capture/camerastate.cpp:935
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
-msgstr ""
-"Başlangıç kılavuzluk sapması %1, %2 yay saniyesi sınır değerinin altında"
+msgstr "Başlangıç kılavuzluk sapması %1, %2 yaysaniye sınır değerinin altında"
 
 #: ekos/capture/camerastate.cpp:944
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
-msgstr "Başlangıç kılavuzluk sapması %1, %2 yay saniyesi sınır değerini aştı"
+msgstr "Başlangıç kılavuzluk sapması %1, %2 yaysaniye sınır değerini aştı"
 
 #: ekos/capture/camerastate.cpp:966
 #, kde-format
@@ -15928,13 +15922,13 @@ msgstr "Meridyen geçişi sonrası kalibrasyonu başarıyla tamamlandı."
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
-"%1 yakalama başlangıcındaki kılavuzluk sapması %2 yay saniyesi sınırını aştı."
+"%1 yakalama başlangıcındaki kılavuzluk sapması %2 yaysaniye sınırını aştı."
 
 #: ekos/capture/camerastate.cpp:994
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
-"%1 yakalama başlangıcındaki kılavuzluk sapması %2 yay saniyesi değerinin "
+"%1 yakalama başlangıcındaki kılavuzluk sapması %2 yaysaniye değerinin "
 "altında."
 
 #: ekos/capture/camerastate.cpp:1021
@@ -15943,7 +15937,7 @@ msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
-"%1 kılavuzluk sapması ardışık %4 örnek için %2 yay saniyelik sınır değerini "
+"%1 kılavuzluk sapması ardışık %4 örnek için %2 yaysaniyelik sınır değerini "
 "aştı, pozlama askıya alındı ve kılavuz %3 saniyeye kadar bekleniyor."
 
 #: ekos/capture/camerastate.cpp:1068
@@ -15952,7 +15946,7 @@ msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
-"%1 kılavuzluk sapması artık %2 yay saniyelik sınır değerinden daha düşük, "
+"%1 kılavuzluk sapması artık %2 yaysaniyelik sınır değerinden daha düşük, "
 "pozlama sürdürülüyor."
 
 #: ekos/capture/camerastate.cpp:1072
@@ -15961,13 +15955,13 @@ msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
-"%1 kılavuzluk sapması artık %2 yay saniyelik sınır değerinden daha düşük, "
+"%1 kılavuzluk sapması artık %2 yaysaniyelik sınır değerinden daha düşük, "
 "pozlama %3 saniye içinde sürdürülecek."
 
 #: ekos/capture/camerastate.cpp:1087
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
-msgstr "%1 kılavuzluk sapması hâlâ %2 yay saniyelik sınır değerinden yüksek."
+msgstr "%1 kılavuzluk sapması hâlâ %2 yaysaniyelik sınır değerinden yüksek."
 
 #: ekos/capture/camerastate.cpp:1469
 #, kde-format
@@ -17513,10 +17507,9 @@ msgid "Offline"
 msgstr "Çevrimdışı"
 
 #: ekos/ekoslive/message.cpp:730
-#, fuzzy, kde-format
-#| msgid "Target"
+#, kde-format
 msgid "target"
-msgstr "Hedef"
+msgstr "hedef"
 
 #: ekos/ekoslive/message.cpp:963
 #, kde-format
@@ -18261,8 +18254,8 @@ msgid ""
 "<html><head/><body><p>The total seeing FWHM (in arc-seconds).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Toplam görülen FWHM (yay saniyesi türünden).</p></"
-"body></html>"
+"<html><head/><body><p>Toplam görülen FWHM (yaysaniye türünden).</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetToOTB)
 #: ekos/focus/cfz.ui:447
@@ -19257,74 +19250,64 @@ msgid "Clear"
 msgstr "Temizle"
 
 #: ekos/focus/focusadvisor.cpp:76
-#, fuzzy, kde-format
-#| msgid "SEP Parameters:"
+#, kde-format
 msgid "Parameter"
-msgstr "SEP parametreleri:"
+msgstr "Parametre"
 
 #: ekos/focus/focusadvisor.cpp:77
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Parameter Name"
-msgstr "Gezegen Adı"
+msgstr "Parametre Adı"
 
 #: ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Current Altitude"
+#, kde-format
 msgid "Current Value"
-msgstr "Mevcut Rakım"
+msgstr "Geçerli Değer"
 
 #: ekos/focus/focusadvisor.cpp:81
-#, fuzzy, kde-format
-#| msgid "Current application theme"
+#, kde-format
 msgid "Current value of the parameter"
-msgstr "Mevcut uygulama teması"
+msgstr "Parametrenin geçerli değeri"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgid "Pixel Values"
+#, kde-format
 msgid "Proposed Value"
-msgstr "Piksel Değerleri"
+msgstr "Önerilen Değer"
 
 #: ekos/focus/focusadvisor.cpp:85
 #, kde-format
 msgid "Focus Advisor proposed value for the parameter"
-msgstr ""
+msgstr "Parametre için odak danışmanının önerdiği değer"
 
 #: ekos/focus/focusadvisor.cpp:118
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Another focus action in progress. Please try again."
-msgstr "Yıldız algılaması sürüyor, 1 saniye içinde yeniden denenecek..."
+msgstr "Başka bir odak eylemi sürüyor. Lütfen yeniden deneyin."
 
 #: ekos/focus/focusadvisor.cpp:136
 #, kde-format
 msgid "Focus Advisor cannot run with current params."
-msgstr ""
+msgstr "Odak danışmanı geçerli parametrelerle çalışamıyor."
 
 #: ekos/focus/focusadvisor.cpp:142
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor stopped"
-msgstr "Odak Danışmanı"
+msgstr "Odak danışmanı durdu."
 
 #: ekos/focus/focusadvisor.cpp:213
-#, fuzzy, kde-format
-#| msgid "Update Params"
+#, kde-format
 msgid "Updated base parameters"
-msgstr "Parametreleri Güncelle"
+msgstr "Temel parametreler güncellendi"
 
 #: ekos/focus/focusadvisor.cpp:242
-#, fuzzy, kde-format
-#| msgid "Camera & Filter Wheel Parameters:"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
-msgstr "Kamera ve süzgeç tekerleği parametreleri:"
+msgstr "Kamera ve Süzgeç Tekerleği Parametreleri"
 
 #: ekos/focus/focusadvisor.cpp:276
-#, fuzzy, kde-format
-#| msgid "Settings Parameters:"
+#, kde-format
 msgid "Settings Parameters"
-msgstr "Ayar parametreleri:"
+msgstr "Ayar Parametreleri"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
 #: ekos/focus/focusadvisor.cpp:358 ekos/focus/opsfocussettings.ui:242
@@ -19333,184 +19316,173 @@ msgid "Mask"
 msgstr "Maske"
 
 #: ekos/focus/focusadvisor.cpp:375
-#, fuzzy, kde-format
-#| msgid "Process Parameters:"
+#, kde-format
 msgid "Process Parameters"
-msgstr "Süreç parametreleri:"
+msgstr "Süreç Parametreleri"
 
 #: ekos/focus/focusadvisor.cpp:417
-#, fuzzy, kde-format
-#| msgid "Mechanics Parameters:"
+#, kde-format
 msgid "Mechanics Parameters"
-msgstr "Mekanikler parametreleri:"
+msgstr "Mekanikler Parametreleri"
 
 #: ekos/focus/focusadvisor.cpp:585
 #, kde-format
 msgid "Focus Advisor aborted due to internal error"
-msgstr ""
+msgstr "Odak danışmanı bir iç hata nedeniyle durdu"
 
 #: ekos/focus/focusadvisor.cpp:594 ekos/focus/focusadvisor.cpp:899
 #: ekos/focus/focusadvisor.cpp:1193
 #, kde-format
 msgid "Focus Advisor cannot run with current params"
-msgstr ""
+msgstr "Odak danışmanı geçerli parametrelerle çalışamıyor"
 
 #: ekos/focus/focusadvisor.cpp:627
 #, kde-format
 msgid "Find Stars: Starting scan for stars..."
-msgstr ""
+msgstr "Yıldızları Bul: Yıldız taramasına başlanılıyor..."
 
 #: ekos/focus/focusadvisor.cpp:628
 #, kde-format
 msgid "Find Stars: Jump size %1"
-msgstr ""
+msgstr "Yıldızları Bul: Atlama boyutu %1"
 
 #: ekos/focus/focusadvisor.cpp:629
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Find Stars: Scanning for stars..."
-msgstr "Yıldızlar bulunuyor..."
+msgstr "Yıldızları Bul: Yıldızlar taranıyor..."
 
 #: ekos/focus/focusadvisor.cpp:631
 #, kde-format
 msgid "Find Stars: Failed"
-msgstr ""
+msgstr "Yıldızları Bul: Başarısız"
 
 #: ekos/focus/focusadvisor.cpp:706
 #, kde-format
 msgid "Stars detected, range centre %1"
-msgstr ""
+msgstr "Yıldızlar algılandı, erim merkezi %1"
 
 #: ekos/focus/focusadvisor.cpp:707
-#, fuzzy, kde-format
-#| msgid "Completed"
+#, kde-format
 msgid "Find Stars: Completed"
-msgstr "Tamamlandı"
+msgstr "Yıldızları Bul: Tamamlandı"
 
 #: ekos/focus/focusadvisor.cpp:725
 #, kde-format
 msgid "Detected %1 stars at %2"
-msgstr ""
+msgstr "%2 konumunda %1 yıldız algılandı"
 
 #: ekos/focus/focusadvisor.cpp:756
-#, fuzzy, kde-format
-#| msgid "Scan Start Pos: exceeded max iterations %1"
+#, kde-format
 msgid "Find Stars: exceeded max iterations %1"
-msgstr "Tarama başlangıcı konumu: En yüksek yineleme sayısı %1 aşıldı"
+msgstr "Yıldızları Bul: En çok %1 yineleme sayısı aşıldı"
 
 #: ekos/focus/focusadvisor.cpp:764
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Stars detected, centring range"
-msgstr "Algılanan yıldız yok, yeniden yakalanıyor..."
+msgstr "Yıldızlar algılandı, erim ortalanıyor"
 
 #: ekos/focus/focusadvisor.cpp:765
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Find Stars: Stars detected, centring range"
-msgstr "Algılanan yıldız yok, yeniden yakalanıyor..."
+msgstr "Yıldızları Bul: Yıldızlar algılandı, erim ortalanıyor..."
 
 #: ekos/focus/focusadvisor.cpp:786
 #, kde-format
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
-msgstr ""
+msgstr "Yıldızları Bul %1. Pas: %2 başlangıcında yıldız yok, taranıyor..."
 
 #: ekos/focus/focusadvisor.cpp:792
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: Scanning %3/%4"
-msgstr ""
+msgstr "Yıldızları Bul %1. Pas Sektör %2: %3/%4 taranıyor"
 
 #: ekos/focus/focusadvisor.cpp:794
 #, kde-format
 msgid "Find Stars Run %1: Scanning Sector %2"
-msgstr ""
+msgstr "Yıldızları Bul %1. Pas: Sektör %2 taranıyor"
 
 #: ekos/focus/focusadvisor.cpp:812
-#, fuzzy, kde-format
-#| msgid "Star hopper failed to find path"
+#, kde-format
 msgid "Find Stars Run %1: failed to find any stars"
-msgstr "Yıldız sekme yol bulamadı"
+msgstr "Yıldızları Bul %1. Pas: Hiçbir yıldız bulunamadı"
 
 #: ekos/focus/focusadvisor.cpp:877
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
-msgstr ""
+msgstr "Yıldızları Bul %1. Pas Sektör %2: %3/%4 taranıyor"
 
 #: ekos/focus/focusadvisor.cpp:884
 #, kde-format
 msgid "Find Stars Run %1: Failed"
-msgstr ""
+msgstr "Yıldızları Bul %1. Pas: Başarısız"
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
 #, kde-format
 msgid "Course Adjustment Scan..."
-msgstr ""
+msgstr "Rota ayarı taraması..."
 
 #: ekos/focus/focusadvisor.cpp:947
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "Pre Autofocus: Failed"
-msgstr "Kendiliğinden odaklanılamadı."
+msgstr "Ön Kendiliğinden Odak: Başarısız"
 
 #: ekos/focus/focusadvisor.cpp:957
-#, fuzzy, kde-format
-#| msgid "Autofocus failed: exceeded max iterations %1"
+#, kde-format
 msgid "Pre Autofocus: exceeded max iterations %1"
-msgstr ""
-"Kendiliğinden odaklama başarısız oldu: En yüksek yineleme sayısı %1 aşıldı"
+msgstr "Ön Kendiliğinden Odak: En çok %1 yineleme sayısı aşıldı"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
 #, kde-format
 msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
+"Rota Ayarı Taraması: %1 Başlangıç: %2 Aşırı Tarama: %3: Adım Boyutu: %4"
 
 #: ekos/focus/focusadvisor.cpp:1016
 #, kde-format
 msgid "Course Adjustment Run %1 scan..."
-msgstr ""
+msgstr "Rota Ayarı Pası %1 taraması..."
 
 #: ekos/focus/focusadvisor.cpp:1024
 #, kde-format
 msgid "Course Adjustment Run %1: insufficient data to proceed"
-msgstr ""
+msgstr "Rota Ayarı Pası %1: Sürdürmek için yetersiz veri"
 
 #: ekos/focus/focusadvisor.cpp:1074
 #, kde-format
 msgid "Overscan estimate: %1 ticks"
-msgstr ""
+msgstr "Aşırı Tarama Tahmini: %1 tık"
 
 #: ekos/focus/focusadvisor.cpp:1119
 #, kde-format
 msgid "Course Adj: data quality too poor to continue"
-msgstr ""
+msgstr "Rota Ayarı: Sürdürmek için veri kalitesi pek düşük"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Course Adj: Failed"
-msgstr "Çözücü Başarısız."
+msgstr "Rota Ayarı: Başarısız"
 
 #: ekos/focus/focusadvisor.cpp:1211
-#, fuzzy, kde-format
-#| msgid "Autofocus operation started"
+#, kde-format
 msgid "Autofocus parameter adjustment"
-msgstr "Kendiliğinden odaklama işlemi başladı"
+msgstr "Kendiliğinden odak parametresi ayarı"
 
 #: ekos/focus/focusadvisor.cpp:1302
 #, kde-format
 msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
-msgstr ""
+msgstr "Odak danışmanı ayar adımı boyutu: %1 -> %2 AF Aşırı Taraması: %3 -> %4"
 
 #: ekos/focus/focusadvisor.cpp:1313
 #, kde-format
 msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
 msgstr ""
+"Kendiliğinden odak yeniden deneniyor: Adım Boyutu %1 AF Aşırı Taraması %2"
 
 #: ekos/focus/focusadvisor.cpp:1318
 #, kde-format
 msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-msgstr ""
+msgstr "Kendiliğinden odak tamamlandı: Adım Boyutu %1 AF Aşırı Taraması %2"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -19525,11 +19497,12 @@ msgid ""
 "Check to have Focus Advisor update Focus parameters. Click Help to view the "
 "proposed changes."
 msgstr ""
+"Odak danışmanının odak parametrelerini güncellemesi için işaretleyin. "
+"Önerilen değişiklikleri görüntülemek için Yardım'a tıklayın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
 #: ekos/focus/focusadvisor.ui:50
-#, fuzzy, kde-format
-#| msgid "Update Params"
+#, kde-format
 msgid "Update Parameters"
 msgstr "Parametreleri Güncelle"
 
@@ -19540,13 +19513,14 @@ msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not neccessary."
 msgstr ""
+"Odak danışmanının yıldızları araması için işaretleyin. Odak karesindeki "
+"yıldızları görecek kadar odağa yakınsanız bu adım gerekli değildir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:69
-#, fuzzy, kde-format
-#| msgid "Any Stars"
+#, kde-format
 msgid "Find Stars"
-msgstr "Herhangi bir yıldız"
+msgstr "Yıldızları bul"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCourseAdj)
 #: ekos/focus/focusadvisor.ui:105
@@ -19555,12 +19529,14 @@ msgid ""
 "Check to have Focus Advisor find course focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
+"Odak danışmanının rota odağını bulması için işaretleyin. Bu, kendiliğinden "
+"odaklamayı çalıştırmaya yetecek kadar bir ortalama odak konumunu bulacaktır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCourseAdj)
 #: ekos/focus/focusadvisor.ui:108
 #, kde-format
 msgid "Course Adjustment (without Autofocus)"
-msgstr ""
+msgstr "Rota ayarı (kendiliğinden odak olmadan)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
@@ -19569,46 +19545,44 @@ msgid ""
 "Check to have Focus Advisor run Autofocus to make fine adjustments to focus "
 "parameters."
 msgstr ""
+"Odak parametrelerinde ince ayarlamalar yapmak için odak danışmanının "
+"kendiliğinden odaklamayı çalıştırmasını sağlamak için işaretleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:127
 #, kde-format
 msgid "Fine Adjustment (using Autofocus)"
-msgstr ""
+msgstr "İnce ayar (kendiliğinden odak kullanılarak)"
 
 #. i18n: ectx: property (toolTip), widget (QDialogButtonBox, focusAdvButtonBox)
 #: ekos/focus/focusadvisor.ui:160
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Close Focus Advisor"
-msgstr "Odak Danışmanı"
+msgstr "Odak Danışmanını Kapat"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorHelpDialog)
 #: ekos/focus/focusadvisorhelp.ui:14
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor Help"
-msgstr "Odak Danışmanı"
+msgstr "Odak Danışmanı Yardımı"
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/focus/focusadvisorhelp.ui:26
-#, fuzzy, kde-format
-#| msgid "Recommended"
+#, kde-format
 msgid "Recommendations:"
-msgstr "Önerilen"
+msgstr "Öneriler:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:68
 #, kde-format
 msgid "Check to display only recommended changes"
-msgstr ""
+msgstr "Yalnızca önerilen değişiklikleri görüntülemek için işaretleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:71
-#, fuzzy, kde-format
-#| msgid "Draw planets as images in the sky map?"
+#, kde-format
 msgid "Show Only Changes"
-msgstr "Gezegenler gökyüzü haritasında resim olarak gösterilsin mi?"
+msgstr "Yalnızca değişiklikleri göster"
 
 #: ekos/focus/focusalgorithms.cpp:520
 #, kde-format
@@ -20734,7 +20708,7 @@ msgstr "Piksel"
 #: ekos/focus/opsfocussettings.ui:231
 #, kde-format
 msgid "Arc Seconds"
-msgstr "Yay saniyesi"
+msgstr "Yaysaniye"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:257
@@ -21229,7 +21203,7 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:889
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
-msgstr "PHD2: Piksel ölçeği %1 piksel/yay saniyesi"
+msgstr "PHD2: Piksel ölçeği %1 piksel/yaysaniye"
 
 #: ekos/guide/externalguide/phd2.cpp:1004
 #, kde-format
@@ -21692,7 +21666,7 @@ msgstr "Dürbün/Mercek Bilgisi"
 #: ekos/guide/guide.ui:566
 #, kde-format
 msgid "Field of View (arcmin)"
-msgstr "Görüş Alanı (Yay Dakikası)"
+msgstr "Görüş Alanı (Yaydakika)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_Aperture)
 #: ekos/guide/guide.ui:620
@@ -21746,13 +21720,13 @@ msgstr "Üretilen DEC darbesi"
 #: ekos/guide/guide.ui:816
 #, kde-format
 msgid "Immediate Guiding RA deviation in arcseconds"
-msgstr "Yay saniyesi türünden anlık kılavuz RA sapması"
+msgstr "Yaysaniye türünden anlık kılavuz RA sapması"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_DeltaDEC)
 #: ekos/guide/guide.ui:829
 #, kde-format
 msgid "Immediate Guiding DEC deviation in arcseconds"
-msgstr "Yay saniyesi türünden anlık kılavuz DEC sapması"
+msgstr "Yaysaniye türünden anlık kılavuz DEC sapması"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_17b)
 #: ekos/guide/guide.ui:844
@@ -21809,152 +21783,118 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1136
-#, fuzzy, kde-format
-#| msgctxt "City in Ontario Canada"
-#| msgid "Driftwood"
+#, kde-format
 msgid "Drift Plot"
-msgstr "Driftwood"
+msgstr "Kayma Grafiği"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1171
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Calibration Plot"
-msgstr "Ayarlama"
+msgstr "Kalibrasyon Grafiği"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rADisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1227
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the RA graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kayma grafiğinde RA grafiğini görüntüleyin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rADisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1230
-#, fuzzy, kde-format
-#| msgid "RA"
+#, kde-format
 msgid "RA "
 msgstr "RA"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1240
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the RA Corrections graph in the Drift Graphics "
 "plot.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kayma grafiğinde RA düzeltmeleri grafiğini "
+"görüntüleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rACorrDisplayedOnGuideGraph)
 #. i18n: ectx: property (text), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1243 ekos/guide/guide.ui:1276
 #, kde-format
 msgid "Corr"
-msgstr ""
+msgstr "Düzeltme"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dEDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1260
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display DEC graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kayma grafiğinde DEC grafiğini görüntüleyin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dECorrDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1273
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display the DEC Corrections graph in the Drift "
 "Graphics plot.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kayma grafiğinde DEC düzeltmeleri grafiğini "
+"görüntüleyin.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, sNRDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1293
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display SNR graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kayma grafiğinde SNR grafiğini görüntüleyin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, sNRDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1296
-#, fuzzy, kde-format
-#| msgid "LSR"
+#, kde-format
 msgid "SNR"
-msgstr "LSR"
+msgstr "SNR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rMSDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1306
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display RMS graph in the Drift Graphics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kayma grafiğinde RMS grafiğini görüntüleyin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rMSDisplayedOnGuideGraph)
 #: ekos/guide/guide.ui:1309
 #, kde-format
 msgid "RMS"
-msgstr ""
+msgstr "RMS"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomInXB)
 #: ekos/guide/guide.ui:1349
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>X ekseni için yakınlaştırın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomOutXB)
 #: ekos/guide/guide.ui:1377
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>X ekseni için uzaklaştırın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/guide/guide.ui:1403
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid "Trace:"
-msgstr "Yörünge"
+msgstr "İz:"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, guideSlider)
 #: ekos/guide/guide.ui:1410
@@ -21972,22 +21912,19 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, latestCheck)
 #: ekos/guide/guide.ui:1426
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the latest guide data and autoscroll "
 "the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>En son kılavuz verilerini görüntülemek ve grafiği "
+"kendiliğinden sarmak için işaretleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
 #: ekos/guide/guide.ui:1429
 #, kde-format
 msgid "Max "
-msgstr ""
+msgstr "En yüksek"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideAutoScaleGraphB)
 #: ekos/guide/guide.ui:1449
@@ -21998,31 +21935,30 @@ msgid ""
 "them (with the exception of the time axis in the drift graphics).</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Her iki Kılavuz Grafiği de öntanımlı ölçeklerine göre "
+"kendiliğinden ölçeklendirin. Bu erimin dışında herhangi bir nokta bulunursa "
+"görünüm bunları içerecek şekilde genişletilir (sürüklenme grafiğindeki zaman "
+"ekseni dışında).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
 #: ekos/guide/guide.ui:1471
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Export the guide data from the current session to a "
 "CSV file readable by a spreadsheet program.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kılavuz verilerini geçerli oturumdan bir elektronik "
+"tablo programı tarafından okunabilen bir CSV dosyasına dışa aktarın.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideDataClearB)
 #: ekos/guide/guide.ui:1493
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Tüm son kullanılan kılavuz verisini temizleyin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guiderAccuracyThreshold)
 #: ekos/guide/guide.ui:1509
@@ -22032,19 +21968,19 @@ msgid ""
 "The number represents the radius of the green concentric circle in "
 "arcseconds.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kayma grafiğinde istenen kılavuz doğruluğunu "
+"ayarlayın. Sayı, yaysaniye türünden yeşil eşmerkezli dairenin yarıçapını "
+"temsil eder.</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (arcmin)"
+#, kde-format
 msgid "drift (arcsec)"
-msgstr "RA (arcmin)"
+msgstr "kayma (yaysan)"
 
 #: ekos/guide/guidedriftgraph.cpp:68
-#, fuzzy, kde-format
-#| msgid "Focal Length (mm)"
+#, kde-format
 msgid "pulse (ms)"
-msgstr "Odak Uzaklığı (mm)"
+msgstr "darbe (ms.)"
 
 #: ekos/guide/guidedriftgraph.cpp:224 ekos/guide/guidedriftgraph.cpp:626
 #: ekos/guide/guidedriftgraph.cpp:701
@@ -22057,6 +21993,9 @@ msgid ""
 "tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
 "tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 msgstr ""
+"<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>RA:   </td><td>%2 \"</td></"
+"tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
+"tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 
 #: ekos/guide/guidedriftgraph.cpp:243 ekos/guide/guidedriftgraph.cpp:642
 #: ekos/guide/guidedriftgraph.cpp:717
@@ -22071,6 +22010,10 @@ msgid ""
 "tr><tr><td>SNR:   </td><td>%5 \"</td></tr><tr><td>RA Pulse:   </td><td>%6 "
 "ms</td></tr><tr><td>DE Pulse:   </td><td>%7 ms</td></tr></table>"
 msgstr ""
+"<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>RA:   </td><td>%2 \"</td></"
+"tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
+"tr><tr><td>SNR:   </td><td>%5 \"</td></tr><tr><td>RA darbesi:   </td><td>%6 "
+"ms</td></tr><tr><td>DE darbesi:   </td><td>%7 ms</td></tr></table>"
 
 #: ekos/guide/guidedriftgraph.cpp:282 ekos/guide/guidetargetplot.cpp:200
 #: kstarslite/skyitems/horizonitem.cpp:29
@@ -22112,10 +22055,9 @@ msgstr "Kılavuz Verisini Dışa Aktar"
 
 #. i18n: ectx: property (text), widget (QLabel, preparingStateLabel)
 #: ekos/guide/guidestatewidget.ui:51
-#, fuzzy, kde-format
-#| msgid "Separation"
+#, kde-format
 msgid "Prep"
-msgstr "Ayırma"
+msgstr "Hazırla"
 
 #. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
 #. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
@@ -22129,65 +22071,53 @@ msgid "Run"
 msgstr "Çalıştır"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:178
-#, fuzzy, kde-format
-#| msgid "GUIDE_RA Drifting..."
+#, kde-format
 msgid "RA drifting forward..."
-msgstr "KILAVUZ_RA Sürükleniyor..."
+msgstr "RA ileri kayıyor..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:182
-#, fuzzy, kde-format
-#| msgid "Guider"
+#, kde-format
 msgid "Guide Star found."
-msgstr "Kılavuz"
+msgstr "Kılavuz yıldız bulundu."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:202
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating RA Out"
-msgstr "Ayarlanıyor"
+msgstr "RA çıkışı kalibre ediliyor"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:241
-#, fuzzy, kde-format
-#| msgid "GUIDE_RA Drifting..."
+#, kde-format
 msgid "RA drifting reverse..."
-msgstr "KILAVUZ_RA Sürükleniyor..."
+msgstr "RA geri kayıyor..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:247
 #: ekos/guide/internalguide/calibrationprocess.cpp:385
 #: ekos/guide/internalguide/calibrationprocess.cpp:603
-#, fuzzy, kde-format
-#| msgid "Calibration rejected. Star drift is too short."
+#, kde-format
 msgid ""
 "Calibration rejected. Star drift is too short. Check for mount, cable, or "
 "backlash problems."
-msgstr "Kalibrasyon reddedildi. Yıldız sürükleme çok yavaş."
+msgstr ""
+"Kalibrasyon reddedildi. Yıldız kayması pek kısa. Kaide, kablo veya boşluk "
+"sorunları var mı diye bir bakın."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:250
-#, fuzzy, kde-format
-#| msgid "%1 calibration failed!"
+#, kde-format
 msgid "Calibration Failed: Drift too short."
-msgstr "%1 kalibrasyon başarısız oldu!"
+msgstr "Kalibrasyon başarısız: Kayma pek kısa."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:279
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating RA In"
-msgstr "Ayarlanıyor"
+msgstr "RA girişi kalibre ediliyor"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:336
-#, fuzzy, kde-format
-#| msgid "%1 calibration failed!"
+#, kde-format
 msgid "Calibration Failed: couldn't reach start."
-msgstr "%1 kalibrasyon başarısız oldu!"
+msgstr "Kalibrasyon başarısız: Başlangıca ulaşılamadı."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:337
-#, fuzzy, kde-format
-#| msgid ""
-#| "GUIDE_RA: Scope cannot reach the start point after %1 iteration. Possible "
-#| "mount or drive problems..."
-#| msgid_plural ""
-#| "GUIDE_RA: Scope cannot reach the start point after %1 iterations. "
-#| "Possible mount or drive problems..."
+#, kde-format
 msgid ""
 "Guide RA: Scope cannot reach the start point after %1 iteration. Possible "
 "mount or backlash problems..."
@@ -22195,68 +22125,54 @@ msgid_plural ""
 "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible "
 "mount or backlash problems..."
 msgstr[0] ""
-"KILAVUZ_RA: %1 yinelemeden sonra, alan başlangıç noktasını alamıyor...Olası "
-"bir montaj veya sürücü problemi..."
+"Guide RA: Dürbün, %1 yineleme sonrası başlangıç noktasına ulaşamıyor. Olası "
+"kaide veya boşluk sorunu..."
 msgstr[1] ""
-"KILAVUZ_RA: %1 yinelemeden sonra, alan başlangıç noktasını alamıyor...Olası "
-"bir montaj veya sürücü problemi..."
+"Guide RA: Dürbün, %1 yineleme sonrası başlangıç noktasına ulaşamıyor. Olası "
+"kaide veya boşluk sorunu..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:356
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Backlash"
+#, kde-format
 msgid "DEC backlash..."
-msgstr "Boşluk"
+msgstr "DEC boşluğu..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:369
 #: ekos/guide/internalguide/calibrationprocess.cpp:422
-#, fuzzy, kde-format
-#| msgid "GUIDE_DEC drifting..."
+#, kde-format
 msgid "DEC drifting forward..."
-msgstr "KILAVUZ_DEC sürükleniyor..."
+msgstr "DEC ileri kayıyor..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:388
 #: ekos/guide/internalguide/calibrationprocess.cpp:604
-#, fuzzy, kde-format
-#| msgid "%1 calibration failed!"
+#, kde-format
 msgid "Calibration Failed: drift too short."
-msgstr "%1 kalibrasyon başarısız oldu!"
+msgstr "Kalibrasyon başarısız: Kayma pek kısa."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:408
 #: ekos/guide/internalguide/calibrationprocess.cpp:425
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating DEC Backlash"
-msgstr "Ayarlanıyor"
+msgstr "DEC boşluğu kalibre ediliyor"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:434
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating DEC Out"
-msgstr "Ayarlanıyor"
+msgstr "DEC çıkışı kalibre ediliyor"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:470
-#, fuzzy, kde-format
-#| msgid "GUIDE_DEC drifting..."
+#, kde-format
 msgid "DEC drifting reverse..."
-msgstr "KILAVUZ_DEC sürükleniyor..."
+msgstr "DEC geri kayıyor..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:480
 #: ekos/guide/internalguide/calibrationprocess.cpp:568
-#, fuzzy, kde-format
-#| msgid "%1 calibration failed!"
+#, kde-format
 msgid "Calibration Failed: couldn't reach start point."
-msgstr "%1 kalibrasyon başarısız oldu!"
+msgstr "Kalibrasyon başarısız: Başlangıç noktasına ulaşılamadı."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:481
 #: ekos/guide/internalguide/calibrationprocess.cpp:570
-#, fuzzy, kde-format
-#| msgid ""
-#| "GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\n"
-#| "Possible mount or drive problems..."
-#| msgid_plural ""
-#| "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\n"
-#| "Possible mount or drive problems..."
+#, kde-format
 msgid ""
 "Guide DEC: Scope cannot reach the start point after %1 iteration.\n"
 "Possible mount or backlash problems..."
@@ -22264,33 +22180,31 @@ msgid_plural ""
 "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
-"KILAVUZ_DEC: %1 yinelemeden sonra, alan başlangıç noktasını alamıyor.\n"
-"Olası bir montaj veya sürücü problemi..."
+"Kılavuz DEC: Dürbün, %1 yineleme sonrası başlangıç noktasına ulaşamıyor.\n"
+"Olası kaide veya boşluk sorunu..."
 msgstr[1] ""
-"KILAVUZ_DEC: %1 yinelemeden sonra, alan başlangıç noktasını alamıyor.\n"
-"Olası bir montaj veya sürücü problemi..."
+"Kılavuz DEC: Dürbün, %1 yineleme sonrası başlangıç noktasına ulaşamıyor.\n"
+"Olası kaide veya boşluk sorunu..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:513
-#, fuzzy, kde-format
-#| msgid "Calibrating"
+#, kde-format
 msgid "Calibrating DEC In"
-msgstr "Ayarlanıyor"
+msgstr "DEC girişi kalibre ediliyor"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:586
 #, kde-format
 msgid "DEC swap enabled."
-msgstr "DEC takas etkin."
+msgstr "DEC takası etkin."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:588
 #, kde-format
 msgid "DEC swap disabled."
-msgstr "DEC takas kapatıldı."
+msgstr "DEC takası devre dışı."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:592
-#, fuzzy, kde-format
-#| msgid "Calibration"
+#, kde-format
 msgid "Calibration Successful"
-msgstr "Ayarlama"
+msgstr "Kalibrasyon Başarılı"
 
 #: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
@@ -22309,19 +22223,17 @@ msgstr "Uyarı: Elle kıpırdatma başarısız."
 #: ekos/guide/internalguide/internalguider.cpp:659
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
-msgstr "%1 bilgisi eksik. Değerleri, INDI Denetim Panelinden ayarlayın."
+msgstr "%1 bilgisi eksik. Değerleri, INDI Denetim Paneli'nden ayarlayın."
 
 #: ekos/guide/internalguide/internalguider.cpp:660
-#, fuzzy, kde-format
-#| msgid "Information"
+#, kde-format
 msgid "Missing Information"
-msgstr "Bilgiler"
+msgstr "Eksik Bilgi"
 
 #: ekos/guide/internalguide/internalguider.cpp:685
-#, fuzzy, kde-format
-#| msgid "Auto calibration failed."
+#, kde-format
 msgid "Guiding calibration restored"
-msgstr "Otomatik kalibrasyon başarısız."
+msgstr "Kılavuz kalibrasyonu geri yüklendi"
 
 #: ekos/guide/internalguide/internalguider.cpp:737
 #, kde-format
@@ -22329,44 +22241,38 @@ msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
-"Kılavuz yıldızın kayıp izi. Kare boyutunu düşürmeyi deneyin veya sinyal "
-"süresini azaltın."
+"Kılavuz yıldızın izi kaybedildi. Kare boyutunu artırmayı veya darbe süresini "
+"azaltmayı deneyin."
 
 #: ekos/guide/internalguide/internalguider.cpp:740
-#, fuzzy, kde-format
-#| msgid "Guider"
+#, kde-format
 msgid "Guide Star lost."
-msgstr "Kılavuz"
+msgstr "Kılavuz yıldız kayboldu."
 
 #: ekos/guide/internalguide/internalguider.cpp:772
-#, fuzzy, kde-format
-#| msgid "Auto calibration failed."
+#, kde-format
 msgid "Guiding calibration failed"
-msgstr "Otomatik kalibrasyon başarısız."
+msgstr "Kılavuz kalibrasyonu başarısız"
 
 #: ekos/guide/internalguide/internalguider.cpp:779
-#, fuzzy, kde-format
-#| msgid "Post meridian flip calibration completed successfully."
+#, kde-format
 msgid "Guiding calibration completed successfully"
-msgstr "Öğleden sonra kalibrasyonu tamamlandı."
+msgstr "Kılavuz kalibrasyonu başarıyla tamamlandı"
 
 #: ekos/guide/internalguide/internalguider.cpp:1107
-#, fuzzy, kde-format
-#| msgid "Lost track of the guide star. Aborting guiding..."
+#, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
-msgstr "Kılavuz yıldızın kayıp izi. Kılavuzluk iptal ediliyor..."
+msgstr "Kılavuz yıldızın izi kaybedildi. Kılavuz yıldızlar aranıyor..."
 
 #: ekos/guide/internalguide/internalguider.cpp:1109
-#, fuzzy, kde-format
-#| msgid "Lost track of the guide star. Aborting guiding..."
+#, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
-msgstr "Kılavuz yıldızın kayıp izi. Kılavuzluk iptal ediliyor..."
+msgstr "RMS fark eşiği aşıldı. Kılavuz yıldızlar aranıyor..."
 
 #: ekos/guide/internalguide/internalguider.cpp:1293
-#, fuzzy, kde-format
-#| msgid "Failed to set sub frame."
+#, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
-msgstr "Alt çerçeve ayarlama başarısız."
+msgstr "Uygun bir kılavuz yıldız bulunamaı. İptal ediliyor..."
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
 #: ekos/guide/manualdither.ui:22 kstarslite/qml/dialogs/DetailsDialog.qml:138
@@ -22376,82 +22282,71 @@ msgstr "Büyüklük"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualPulse)
 #: ekos/guide/manualpulse.ui:14
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Manual Blue"
+#, kde-format
 msgid "Manual Pulse"
-msgstr "Elle Mavi"
+msgstr "Elle Darbe"
 
 #. i18n: ectx: property (text), widget (QPushButton, northPulseB)
 #: ekos/guide/manualpulse.ui:37
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgid "North / DE+"
-msgstr "Kuzey"
+msgstr "Kuzey / DE+"
 
 #. i18n: ectx: property (text), widget (QPushButton, westPulseB)
 #: ekos/guide/manualpulse.ui:46
 #, kde-format
 msgid "West / RA-"
-msgstr ""
+msgstr "Batı / RA-"
 
 #. i18n: ectx: property (text), widget (QPushButton, eastPulseB)
 #: ekos/guide/manualpulse.ui:66
 #, kde-format
 msgid "East / RA+"
-msgstr ""
+msgstr "Doğu / RA+"
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
 #: ekos/guide/manualpulse.ui:75
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "South"
+#, kde-format
 msgid "South / DE-"
-msgstr "Güney"
+msgstr "Güney / DE-"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_29)
 #: ekos/guide/manualpulse.ui:86 ekos/guide/opscalibration.ui:60
 #, kde-format
 msgid "Pulse:"
-msgstr "Sinyal:"
+msgstr "Darbe:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, pulseDuration)
 #: ekos/guide/manualpulse.ui:93
-#, fuzzy, kde-format
-#| msgid "m"
+#, kde-format
 msgid " ms"
-msgstr "m"
+msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/manualpulse.ui:112
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "RA Offset\":"
-msgstr "X Ofset:"
+msgstr "RA ofseti\":"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "DE Offset\":"
-msgstr "X Ofset:"
+msgstr "DE ofseti\":"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
 #: ekos/guide/opscalibration.ui:57 ekos/guide/opscalibration.ui:83
-#, fuzzy, kde-format
-#| msgid "Initial declination:"
+#, kde-format
 msgid "Initial pulse size for calibration."
-msgstr "İlk dik açıklık:"
+msgstr "Kalibrasyon için başlangıç darbesi boyutu."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_AutoModeIterations)
 #: ekos/guide/opscalibration.ui:67
-#, fuzzy, kde-format
-#| msgid "Number of automode iterations for calibration process."
+#, kde-format
 msgid "Maximum number of iterations calibration should use per phase."
-msgstr "Kalibrasyon işlemi için yinelemenin otomatik kipinin sayısı."
+msgstr "Evre başına kalibrasyonun kullanması gereken en çok yineleme sayısı."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/guide/opscalibration.ui:102
@@ -22460,13 +22355,14 @@ msgid ""
 "Maximum number of iterations calibration should use per phase. It may use "
 "fewer (if max move is reached)."
 msgstr ""
+"Evre başına kalibrasyonun kullanması gereken en çok yineleme sayısı. En "
+"yüksek hareket sayısına ulaşılırsa daha az kullanabilir."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/opscalibration.ui:105
-#, fuzzy, kde-format
-#| msgid "Iterations"
+#, kde-format
 msgid "Max Iterations:"
-msgstr "Yinelemeler"
+msgstr "En çok yineleme:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label1)
 #: ekos/guide/opscalibration.ui:112
@@ -22476,19 +22372,22 @@ msgid ""
 "amount, it will finish the calibration phase.  It may move less if  max "
 "iterations is reached."
 msgstr ""
+"Kalibrasyonun taşıması gereken en çok piksel sayısı. Bu miktarı aştığında "
+"kalibrasyon aşamasını tamamlayacaktır. En çok yinelemeye ulaşıldığında daha "
+"az taşıyabilir."
 
 #. i18n: ectx: property (text), widget (QLabel, label1)
 #: ekos/guide/opscalibration.ui:115
 #, kde-format
 msgid "Max move (px):"
-msgstr ""
+msgstr "En çok hareket (pks):"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationMaxMove)
 #. i18n: ectx: label, entry (CalibrationMaxMove), group (Guide)
 #: ekos/guide/opscalibration.ui:122 kstars.kcfg:2675
 #, kde-format
 msgid "Maximum number of pixels the calibration should move (approximate)."
-msgstr ""
+msgstr "Kalibrasyonun taşıması gereken en çok piksel sayısı (aşağı yukarı)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TwoAxisEnabled)
 #: ekos/guide/opscalibration.ui:143
@@ -22502,41 +22401,37 @@ msgstr "İki eksen"
 #, kde-format
 msgid "Automatically select the square size based on the selected star width."
 msgstr ""
-"Seçili yıldızın genişliğini baz alarak kare boyutunu otomatik olarak seç."
+"Seçili yıldızın genişliğini baz alarak kare boyutunu kendiliğinden seçin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideAutoSquareSizeEnabled)
 #: ekos/guide/opscalibration.ui:159
 #, kde-format
 msgid "Auto Square Size"
-msgstr "Otomatik Kare Boyutu"
+msgstr "Kendiliğinden kare boyutu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opscalibration.ui:169
-#, fuzzy, kde-format
-#| msgid "reticle-X"
+#, kde-format
 msgid "Reticle"
-msgstr "retikül-X"
+msgstr "Retikül"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_26)
 #: ekos/guide/opscalibration.ui:175
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "X position of the guide star"
-msgstr "Zaman BilgiKutusunun konumu."
+msgstr "Kılavuz yıldızın X konumu"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_27)
 #: ekos/guide/opscalibration.ui:192
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Y position of the guide star"
-msgstr "Zaman BilgiKutusunun konumu."
+msgstr "Kılavuz yıldızın Y konumu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/guide/opscalibration.ui:223
-#, fuzzy, kde-format
-#| msgid "Calibrate"
+#, kde-format
 msgid "Calibrated Values"
-msgstr "Kalibrasyon"
+msgstr "Kalibre Edilen Değerler"
 
 #. i18n: ectx: property (text), widget (QLabel, ra_cal_degrees)
 #. i18n: ectx: property (text), widget (QLabel, ra_cal_mspp)
@@ -22552,35 +22447,31 @@ msgstr "xxxx"
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/guide/opscalibration.ui:287 ekos/guide/opscalibration.ui:358
-#, fuzzy, kde-format
-#| msgid "arcsecs"
+#, kde-format
 msgid "ms/arcsec"
-msgstr "yay saniye"
+msgstr "ms/yaysan"
 
 #. i18n: ectx: property (text), widget (QLabel, dec_cal_degrees_unit)
 #: ekos/guide/opscalibration.ui:332
 #, kde-format
 msgid "degrees (swapped)"
-msgstr ""
+msgstr "açı (takaslı)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
 #: ekos/guide/opscalibration.ui:366
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Remove the effect of DEC backlash when calibrating "
 "guider.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kılavuzu kalibre ederken DEC boşluğunun etkisini "
+"kaldırın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
 #: ekos/guide/opscalibration.ui:372
 #, kde-format
 msgid "Remove DEC backlash in guide calibration"
-msgstr ""
+msgstr "Kılavuz kalibrasyonunda DEC boşluğu etkisini kaldır"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
@@ -22591,12 +22482,16 @@ msgid ""
 "previously been done and the guide camera has not been rotated or re-"
 "installed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>İşaretliyse, kılavuzluk başlatıldığında her zaman "
+"yeniden kalibre edin. Daha önce iyi kalitede bir kalibrasyon yapıldığında ve "
+"kılavuz kamera döndürülmediğinde veya yeniden kurulmadığında bu genellikle "
+"gerekli değildir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
 #, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
-msgstr "Her Bir Kaide Çevirmeden Sonra Kılavuz Kalibrasyonunu Sıfırla"
+msgstr "Her bir kaide çevriminde kılavuz kalibrasyonunu sıfırla"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
@@ -22607,32 +22502,32 @@ msgid ""
 "automatically determined from your mount. The \"Reset Guide on Slew\" option "
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Kalibrasyonları saklayın ve yeniden kullanmayı "
-"deneyin. Bu, yalnızca iskele tarafı kaidenizden otomatik olarak "
-"belirlenebiliyorsa meridyenin zıt taraflarında çalışır. Bunun denenmesi için "
-"yukarıdaki \"Çevirmede Kılavuzu Sıfırla\" seçeneğinin işareti "
-"kaldırılmalıdır.</p></body></html>"
+"<html><head/><body><p>Kalibrasyonları depolayın ve yeniden kullanmayı "
+"deneyin. Bu yalnızca iskele tarafının kaidenizden kendiliğinden "
+"belirlenebilmesi durumunda meridyenin karşıt taraflarında işe yarar. Bunun "
+"denenmesi için yukarıdaki \"Her bir kaide çevriminde kılavuz kalibrasyonunu "
+"sıfırla\" seçeneğinin işareti kaldırılmalıdır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
 #, kde-format
 msgid "Store and reuse guide calibration when possible."
-msgstr ""
+msgstr "Olanaklıysa kılavuz kalibrasyonunu depola ve yeniden kullan"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When re-using a calibration, reverse the DEC angle if "
 "the current pier side differs from the one at calibration. This only applies "
 "when re-using calibrations. The value you need is a property of your mount "
 "that should be researched. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Bir kalibrasyonu yeniden kullanırken, geçerli iskele "
+"tarafı kalibrasyondaki taraftan farklıysa DEC açısını ters çevirin. Bu "
+"yalnızca kalibrasyonlar yeniden kullanıldığında geçerlidir. Gereksiniminiz "
+"olan değer, kaidenizin araştırılması gereken bir özelliğidir.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
@@ -22640,12 +22535,14 @@ msgstr ""
 #, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
 msgstr ""
+"Kalibrasyonu yeniden kullanırken iskele tarafındaki değişiklikte DEC'yi "
+"tersine çevir"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
 #, kde-format
 msgid "Number of pixels to move the guiding square in a random direction."
-msgstr ""
+msgstr "Kılavuz karenin rastgele bir yönde taşınacak piksel sayısı."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherSettle)
@@ -22655,90 +22552,81 @@ msgstr ""
 msgid ""
 "After dither is successful, wait for this many seconds before proceeding."
 msgstr ""
+"Kıpırdatma başarılı olduktan sonra sürdürmeden önce bu kadar saniye bekleyin."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/guide/opsdither.ui:65
-#, fuzzy, kde-format
-#| msgctxt "City in Washington USA"
-#| msgid "Seattle"
+#, kde-format
 msgid "Settle"
-msgstr "Seattle"
+msgstr "Yerleş"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/guide/opsdither.ui:82
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "Freehold"
+#, kde-format
 msgid "PHD2 Dither Threshold"
-msgstr "Freehold"
+msgstr "PHD2 kıpırdatma eşiği"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherTimeout)
 #: ekos/guide/opsdither.ui:89
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum allowable distance for dithering to be "
 "considered settled (PHD2 only).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kıpırdatmanın yerleşmiş sayılabilmesi için izin "
+"verilebilir en büyük uzaklık (yalnızca PHD2).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/opsdither.ui:99
 #, kde-format
 msgid "Move locked guiding square location after frame capture"
-msgstr ""
+msgstr "Kare yakalaması sonrası kilitli kılavuz karesi konumunu taşı"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherThreshold)
 #: ekos/guide/opsdither.ui:116
-#, fuzzy, kde-format
-#| msgid "The maximum solar distance for drawing comets."
+#, kde-format
 msgid ""
 "Maximum allowable distance for guiding to be considered settled (PHD2 only)."
-msgstr "Kuyruklu yıldızların gösterilmesi için güneşe olan en fazla uzaklık."
+msgstr ""
+"Kılavuzluğun yerleşmiş sayılabilmesi için izin verilebilir en büyük uzaklık "
+"(yalnızca PHD2)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/guide/opsdither.ui:140
 #, kde-format
 msgid "PHD2 Dither Timeout"
-msgstr ""
+msgstr "PHD2 kıpırdatma zaman aşımı"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherFrames)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
 #: ekos/guide/opsdither.ui:157 ekos/guide/opsdither.ui:177
 #, kde-format
 msgid "Dither after this many captured frames in the CCD module"
-msgstr ""
+msgstr "CCD modülündeki bu kadar yakalanan kareden sonra kıpırdat"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/guide/opsdither.ui:180 fitsviewer/fitshistogram.cpp:431
 #: fitsviewer/fitshistogramview.cpp:138
 #, kde-format
 msgid "Frequency"
-msgstr "Frekans"
+msgstr "Sıklık"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherMaxIterations)
 #: ekos/guide/opsdither.ui:187 ekos/guide/opsdither.ui:197
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum dithering iteration attempts before giving up</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Vazgeçmeden önceki en çok kıpırdatma yinelemesi "
+"denemesi</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/guide/opsdither.ui:190
-#, fuzzy, kde-format
-#| msgid "Iterations"
+#, kde-format
 msgid "Max. Iterations"
-msgstr "Yinelemeler"
+msgstr "En çok yineleme"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherWithOnePulse)
 #: ekos/guide/opsdither.ui:212
@@ -22750,27 +22638,29 @@ msgid ""
 "dither amount is random anyway. It is necessary when 2-D dither is required "
 "but guiding is only done in one axis.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>İşaretlenirse kıpırdatma miktarı rastgele oluşturulur, "
+"darbeler gönderilir; ancak ortaya çıkan piksel kıpırdatması miktarı "
+"uygulanmaz, dolayısıyla yalnızca bir kıpırdatma darbesi gönderilir. Bu daha "
+"hızlıdır ve titreşim miktarı yine de rastgele olduğundan önerilir. 2 boyutlu "
+"kıpırdatma gerektiğinde gereklidir; ancak yönlendirme yalnızca bir eksende "
+"yapılır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherWithOnePulse)
 #: ekos/guide/opsdither.ui:215
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Manual Red"
+#, kde-format
 msgid "One Pulse Dither"
-msgstr "Elle Kırmızı"
+msgstr "Tek darbelik kıpırdatma"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherFailAbortsAutoGuide)
 #: ekos/guide/opsdither.ui:222
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked, autoguiding is aborted when dithering "
 "fails. Otherwise, guiding resumes normally.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>İşaretlenirse kıpırdatma başarısız olduğunda "
+"kendiliğinden kılavuzluk iptal edilir. Aksi takdirde kılavuzluk normal bir "
+"biçimde sürer.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherFailAbortsAutoGuide)
 #: ekos/guide/opsdither.ui:225
@@ -23365,7 +23255,7 @@ msgstr "Çok Yıldız"
 #: ekos/guide/opsguide.ui:414
 #, kde-format
 msgid "arcsecs"
-msgstr "yay saniye"
+msgstr "yaysaniye"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:424
@@ -31035,10 +30925,9 @@ msgstr "Resim genişliği:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:124
-#, fuzzy, kde-format
-#| msgid "arcsecs"
+#, kde-format
 msgid "arcsec/pixel"
-msgstr "yay saniye"
+msgstr "yaysan/piksel"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverUsePosition)
 #: fitsviewer/platesolve.ui:145
@@ -41293,7 +41182,7 @@ msgstr "ÇİFTLİK"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "STAR"
-msgstr "Yıldız"
+msgstr "YILDIZ"
 
 #: kstars_i18n.cpp:177
 #, kde-kuit-format
@@ -41305,7 +41194,7 @@ msgstr "HAYALETLER"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "XUANYUAN"
-msgstr "XUANYUAN"
+msgstr "ŞÜENYÜEN"
 
 #: kstars_i18n.cpp:179
 #, kde-kuit-format
@@ -41497,7 +41386,7 @@ msgstr "SU YILDIZLARI"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "C Inuit"
-msgstr "C İnüvit Dili "
+msgstr "C İnüvit Dili"
 
 #: kstars_i18n.cpp:213
 #, kde-kuit-format
@@ -42607,7 +42496,7 @@ msgstr "EŞİTLİK VE ADALET"
 #, kde-kuit-format
 msgctxt "Constellation name (optional)"
 msgid "EMPEROR HEONWON"
-msgstr "İMPARATOR HEONWON"
+msgstr "İMPARATOR HEONVON"
 
 #: kstars_i18n.cpp:410
 #, kde-kuit-format
@@ -68926,13 +68815,13 @@ msgstr "Yaklaşık görüş alanı: %1 derece"
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
-msgstr "Yaklaşık görüş alanı: %1 yay dakika"
+msgstr "Yaklaşık görüş alanı: %1 yaydakika"
 
 #: kstarsactions.cpp:1691
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
-msgstr "Yaklaşık görüş alanı: %1 yay saniye"
+msgstr "Yaklaşık görüş alanı: %1 yaysaniye"
 
 #: kstarsactions.cpp:1708
 #, kde-format
@@ -71568,13 +71457,13 @@ msgstr "Renk"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Comet DEC motion arcmin/day"
-msgstr "Kuyruklu yıldız DEC hareketi yay dakika/gün"
+msgstr "Kuyruklu yıldız DEC hareketi yaydak/gün"
 
 #: libindi_strings.cpp:69
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Comet RA motion arcmin/day"
-msgstr "Kuyruklu yıldız RA hareketi yay dakika/gün"
+msgstr "Kuyruklu yıldız RA hareketi yaydak/gün"
 
 #: libindi_strings.cpp:70
 #, kde-kuit-format
@@ -71712,7 +71601,7 @@ msgstr "Özel"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "DE (arcsecs/s)"
-msgstr "DE (yay saniyesi/sn)"
+msgstr "DE (yaysan/sn)"
 
 #: libindi_strings.cpp:93
 #, kde-kuit-format
@@ -71760,19 +71649,19 @@ msgstr "Hata Ayıklama"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dec (arcmin)"
-msgstr "Dec (yay dakika)"
+msgstr "DEC (yaydak)"
 
 #: libindi_strings.cpp:101
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dec (dd:mm:ss)"
-msgstr "Dec (dd:mm:ss)"
+msgstr "DEC (dd:mm:ss)"
 
 #: libindi_strings.cpp:102
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dec D:M:S"
-msgstr "Dec D:M:S"
+msgstr "DEC D:M:S"
 
 #: libindi_strings.cpp:103
 #, kde-kuit-format
@@ -72063,7 +71952,7 @@ msgstr "FITS Üstbilgisi"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FWHM (arcseconds)"
-msgstr "FWHM (yay saniye)"
+msgstr "FWHM (yaysaniye)"
 
 #: libindi_strings.cpp:150
 #, kde-kuit-format
@@ -73175,7 +73064,7 @@ msgstr "OTA Güncellemesi"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Oag Offset (arcminutes)"
-msgstr "Oag Ofseti (Yay Dakika)"
+msgstr "Oag Ofseti (Yaydakika)"
 
 #: libindi_strings.cpp:332
 #, kde-kuit-format
@@ -73241,7 +73130,7 @@ msgstr "Dışarı"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "PAE (arcminutes)"
-msgstr "PAE (Yay Dakika)"
+msgstr "PAE (Yaydakika)"
 
 #: libindi_strings.cpp:343
 #, kde-kuit-format
@@ -73445,13 +73334,13 @@ msgstr "RA  S:D:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "RA (arcmin)"
-msgstr "RA (Yay Dakika)"
+msgstr "RA (Yaydak)"
 
 #: libindi_strings.cpp:377
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "RA (arcsecs/s)"
-msgstr "RA (Yay Dakika/sn)"
+msgstr "RA (Yaydak/sn)"
 
 #: libindi_strings.cpp:378
 #, kde-kuit-format
@@ -74430,7 +74319,7 @@ msgstr "Teleskopu Çevir"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "arcseconds"
-msgstr "yay saniye"
+msgstr "yaysaniye"
 
 #: libindi_strings.cpp:539
 #, kde-kuit-format
@@ -78892,7 +78781,7 @@ msgstr "Yıldız Sekmesi: Kullanılacak görüş alanı girin"
 #: skymap.cpp:736
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
-msgstr "Yıldız sekmesi için kullanılacak FOV (yay dakika cinsinden):"
+msgstr "Yıldız sekmesi için kullanılacak FOV (yaydakika türünden):"
 
 #: skymap.cpp:903
 #, kde-format
@@ -80466,10 +80355,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Derin uzay cisimlerinin ve gezegenlerin görünüm boyutları yay dakika "
-"cinsinden ölçülür. Bir yay dakika, 1/60 derecedir. Yıldızlar daha küçük "
-"görünüm boyutlarına sahiptir ve mili yay saniye cinsinden ölçülürler "
-"(1/3600000 derecedir)!\n"
+"\t\t<p>Derin gökyüzü nesnelerinin ve gezegenlerin görünen boyutları "
+"yaydakika türünden ölçülür. Bir yaydakika, bir derecenin 1/60'ıdır. "
+"Yıldızların görünür boyutları, miliyaysaniye (bir derecenin 1/3600000'i) "
+"olarak ölçülen daha da küçük görünür boyutlara sahiptir!\n"
 "\t\t</p>\n"
 "\t\n"
 

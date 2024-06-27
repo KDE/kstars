@@ -12054,12 +12054,7 @@ msgstr "清除所有日志"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/opslogs.ui:59
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. "
-#| "Only enable the necessary logs to help in diagnosing specific problems. "
-#| "Logs consume resources and may slow the system down. Turn off logs when "
-#| "no longer used.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. If "
 "your system is resource limited, e.g. Raspberry Pi with SD Card, then only "
@@ -12067,9 +12062,6 @@ msgid ""
 "them off when no longer needed. Logs consume resources and may slow the "
 "system down.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>启用日志来诊断 Ekos 和 INDI 的问题。 请只启用必要的日志"
-"来帮助诊断具体问题。 日志功能会消耗资源，可能会拖慢系统。当您不再需要时，最好"
-"关闭日志。</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/auxiliary/opslogs.ui:71
@@ -18424,34 +18416,29 @@ msgid "Clear"
 msgstr "清除"
 
 #: ekos/focus/focusadvisor.cpp:76
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Parameter"
-msgstr "输入参数"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:77
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Parameter Name"
-msgstr "行星名称"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Current Altitude"
+#, kde-format
 msgid "Current Value"
-msgstr "当前高度"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:81
-#, fuzzy, kde-format
-#| msgid "Current application theme"
+#, kde-format
 msgid "Current value of the parameter"
-msgstr "当前程序主题"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgid "Pixel Values"
+#, kde-format
 msgid "Proposed Value"
-msgstr "像素值"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:85
 #, kde-format
@@ -18459,10 +18446,9 @@ msgid "Focus Advisor proposed value for the parameter"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:118
-#, fuzzy, kde-format
-#| msgid "Connection in progress. Click to abort."
+#, kde-format
 msgid "Another focus action in progress. Please try again."
-msgstr "连接正在进行中，点击中止。"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:136
 #, kde-format
@@ -18475,22 +18461,19 @@ msgid "Focus Advisor stopped"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:213
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Updated base parameters"
-msgstr "输入参数"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:242
-#, fuzzy, kde-format
-#| msgid "Camera && Filter Wheel"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
-msgstr "相机和滤镜轮"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:276
-#, fuzzy, kde-format
-#| msgid "Sextractor Parameters"
+#, kde-format
 msgid "Settings Parameters"
-msgstr "Sextractor 参数"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
 #: ekos/focus/focusadvisor.cpp:358 ekos/focus/opsfocussettings.ui:242
@@ -18499,16 +18482,14 @@ msgid "Mask"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:375
-#, fuzzy, kde-format
-#| msgid "Control Parameters"
+#, kde-format
 msgid "Process Parameters"
-msgstr "控制参数"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:417
-#, fuzzy, kde-format
-#| msgid "Sextractor Parameters"
+#, kde-format
 msgid "Mechanics Parameters"
-msgstr "Sextractor 参数"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:585
 #, kde-format
@@ -18532,10 +18513,9 @@ msgid "Find Stars: Jump size %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:629
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Find Stars: Scanning for stars..."
-msgstr "查找星点..."
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:631
 #, kde-format
@@ -18548,10 +18528,9 @@ msgid "Stars detected, range centre %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:707
-#, fuzzy, kde-format
-#| msgid "Completed"
+#, kde-format
 msgid "Find Stars: Completed"
-msgstr "已完成"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:725
 #, kde-format
@@ -18564,16 +18543,14 @@ msgid "Find Stars: exceeded max iterations %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:764
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Stars detected, centring range"
-msgstr "未检测到星点，正在重新拍摄图像..."
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:765
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Find Stars: Stars detected, centring range"
-msgstr "未检测到星点，正在重新拍摄图像..."
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:786
 #, kde-format
@@ -18591,10 +18568,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:812
-#, fuzzy, kde-format
-#| msgid "Star hopper failed to find path"
+#, kde-format
 msgid "Find Stars Run %1: failed to find any stars"
-msgstr "星间跳跃查找路径失败"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:877
 #, kde-format
@@ -18613,10 +18589,9 @@ msgid "Course Adjustment Scan..."
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:947
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "Pre Autofocus: Failed"
-msgstr "自动对焦失败."
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:957
 #, kde-format
@@ -18654,10 +18629,9 @@ msgid "Course Adj: Failed"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1211
-#, fuzzy, kde-format
-#| msgid "Autofocus operation started"
+#, kde-format
 msgid "Autofocus parameter adjustment"
-msgstr "启动自动对焦"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1302
 #, kde-format
@@ -18690,10 +18664,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
 #: ekos/focus/focusadvisor.ui:50
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Update Parameters"
-msgstr "输入参数"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
@@ -18705,10 +18678,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:69
-#, fuzzy, kde-format
-#| msgid "Any Stars"
+#, kde-format
 msgid "Find Stars"
-msgstr "任意星星"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCourseAdj)
 #: ekos/focus/focusadvisor.ui:105
@@ -18740,10 +18712,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDialogButtonBox, focusAdvButtonBox)
 #: ekos/focus/focusadvisor.ui:160
-#, fuzzy, kde-format
-#| msgid "Close dust cover"
+#, kde-format
 msgid "Close Focus Advisor"
-msgstr "关闭防尘盖"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorHelpDialog)
 #: ekos/focus/focusadvisorhelp.ui:14
@@ -18753,10 +18724,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/focus/focusadvisorhelp.ui:26
-#, fuzzy, kde-format
-#| msgid "Recommended"
+#, kde-format
 msgid "Recommendations:"
-msgstr "推荐"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:68
@@ -18766,10 +18736,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:71
-#, fuzzy, kde-format
-#| msgid "Show inline images"
+#, kde-format
 msgid "Show Only Changes"
-msgstr "显示内嵌图像"
+msgstr ""
 
 #: ekos/focus/focusalgorithms.cpp:520
 #, kde-format
@@ -82804,36 +82773,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "The Logging Level for StellarSolver and Astrometry.net"
-#~ msgstr "StellarSolver 和 Astrometry.net 的日志级别"
-
-#~ msgid "LOG_NONE"
-#~ msgstr "LOG_NOE"
-
-#~ msgid "LOG_ERROR"
-#~ msgstr "LOG_ERROR"
-
-#~ msgid "LOG_MSG"
-#~ msgstr "LOG_MSG"
-
-#~ msgid "LOG_VERB"
-#~ msgstr "LOG_VERB"
-
-#~ msgid "LOG_ALL"
-#~ msgstr "所有LOG_LIMITED"
-
-#~ msgid ""
-#~ "Option to log astrometry messages to a separate file.  If you select "
-#~ "LOG_ALL you REALLY want to check this box."
-#~ msgstr ""
-#~ "记录 astrometry 信息到单独文件。您若勾选了 LOG_ALL，您想必也会勾选此选项。"
-
-#~ msgid " Separate Log File:"
-#~ msgstr " 单独的日志文件:"
-
-#~ msgid "The external Log File for astrometry logging"
-#~ msgstr "记录 astrometry 消息的外部日志"
-
-#~ msgid "Step Size:"
-#~ msgstr "步长:"

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 01:44+0000\n"
-"PO-Revision-Date: 2024-06-19 15:49+0200\n"
+"PO-Revision-Date: 2024-06-26 15:14+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17993,32 +17993,29 @@ msgid "Clear"
 msgstr "Vymazat"
 
 #: ekos/focus/focusadvisor.cpp:76
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Parameter"
-msgstr "Vstupní parametry"
+msgstr "Parametr"
 
 #: ekos/focus/focusadvisor.cpp:77
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Parameter Name"
-msgstr "Název planety"
+msgstr "Název parametru"
 
 #: ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Current day"
+#, kde-format
 msgid "Current Value"
-msgstr "Tento den"
+msgstr "Současná hodnota"
 
 #: ekos/focus/focusadvisor.cpp:81
 #, kde-format
 msgid "Current value of the parameter"
-msgstr ""
+msgstr "Současná hodnota parametru"
 
 #: ekos/focus/focusadvisor.cpp:84
 #, kde-format
 msgid "Proposed Value"
-msgstr ""
+msgstr "Navržená hodnota"
 
 #: ekos/focus/focusadvisor.cpp:85
 #, kde-format
@@ -18041,10 +18038,9 @@ msgid "Focus Advisor stopped"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:213
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Updated base parameters"
-msgstr "Vstupní parametry"
+msgstr "Aktualizované základní parametry"
 
 #: ekos/focus/focusadvisor.cpp:242
 #, kde-format
@@ -18052,10 +18048,9 @@ msgid "Camera & Filter Wheel Parameters"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:276
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Settings Parameters"
-msgstr "Vstupní parametry"
+msgstr "Parametry nastavení"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
 #: ekos/focus/focusadvisor.cpp:358 ekos/focus/opsfocussettings.ui:242
@@ -18064,16 +18059,14 @@ msgid "Mask"
 msgstr "Maska"
 
 #: ekos/focus/focusadvisor.cpp:375
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Process Parameters"
-msgstr "Vstupní parametry"
+msgstr "Parametry procesu"
 
 #: ekos/focus/focusadvisor.cpp:417
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Mechanics Parameters"
-msgstr "Vstupní parametry"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:585
 #, kde-format
@@ -18097,10 +18090,9 @@ msgid "Find Stars: Jump size %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:629
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Find Stars: Scanning for stars..."
-msgstr "Hledám hvězdy..."
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:631
 #, kde-format
@@ -18113,10 +18105,9 @@ msgid "Stars detected, range centre %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:707
-#, fuzzy, kde-format
-#| msgid "Completed"
+#, kde-format
 msgid "Find Stars: Completed"
-msgstr "Dokončeno"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:725
 #, kde-format
@@ -18175,10 +18166,9 @@ msgid "Course Adjustment Scan..."
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:947
-#, fuzzy, kde-format
-#| msgid "Autofocus"
+#, kde-format
 msgid "Pre Autofocus: Failed"
-msgstr "Autofocus"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:957
 #, kde-format
@@ -18251,10 +18241,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
 #: ekos/focus/focusadvisor.ui:50
-#, fuzzy, kde-format
-#| msgid "Input Parameters"
+#, kde-format
 msgid "Update Parameters"
-msgstr "Vstupní parametry"
+msgstr "Aktualizovat parametry"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
@@ -18266,10 +18255,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:69
-#, fuzzy, kde-format
-#| msgid "Any Stars"
+#, kde-format
 msgid "Find Stars"
-msgstr "Jakékoliv hvězdy"
+msgstr "Najít hvězdy"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCourseAdj)
 #: ekos/focus/focusadvisor.ui:105
@@ -18313,10 +18301,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/focus/focusadvisorhelp.ui:26
-#, fuzzy, kde-format
-#| msgid "Recommended"
+#, kde-format
 msgid "Recommendations:"
-msgstr "Doporučeno"
+msgstr "Doporučení:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:68
@@ -18326,10 +18313,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:71
-#, fuzzy, kde-format
-#| msgid "Show names"
+#, kde-format
 msgid "Show Only Changes"
-msgstr "Zobrazovat názvy"
+msgstr "Zobrazit pouze změny"
 
 #: ekos/focus/focusalgorithms.cpp:520
 #, kde-format
@@ -81865,6 +81851,3 @@ msgstr "Barva pozadí:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte barvu pozadí."
-
-#~ msgid "Step Size:"
-#~ msgstr "Velikost kroku:"
