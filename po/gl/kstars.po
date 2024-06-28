@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 01:44+0000\n"
-"PO-Revision-Date: 2024-06-23 09:48+0200\n"
+"PO-Revision-Date: 2024-06-27 21:20+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -19385,16 +19385,14 @@ msgid "Clear"
 msgstr "Limpar"
 
 #: ekos/focus/focusadvisor.cpp:76
-#, fuzzy, kde-format
-#| msgid "SEP Parameters:"
+#, kde-format
 msgid "Parameter"
-msgstr "Parámetros de SEP:"
+msgstr "Parámetro"
 
 #: ekos/focus/focusadvisor.cpp:77
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Parameter Name"
-msgstr "Nome do planeta"
+msgstr "Nome do parámetro"
 
 #: ekos/focus/focusadvisor.cpp:80
 #, fuzzy, kde-format

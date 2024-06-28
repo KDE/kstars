@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 01:44+0000\n"
-"PO-Revision-Date: 2024-06-04 14:21+0200\n"
+"PO-Revision-Date: 2024-06-27 19:47+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12527,12 +12527,7 @@ msgstr "Изчистване на всички журнални записи"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/opslogs.ui:59
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. "
-#| "Only enable the necessary logs to help in diagnosing specific problems. "
-#| "Logs consume resources and may slow the system down. Turn off logs when "
-#| "no longer used.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. If "
 "your system is resource limited, e.g. Raspberry Pi with SD Card, then only "
@@ -12540,11 +12535,12 @@ msgid ""
 "them off when no longer needed. Logs consume resources and may slow the "
 "system down.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Активиране на записване в дневник за диагностициране "
-"на проблеми с Ekos и INDI. Разрешавайте само необходимите дневници, които "
-"помагат при диагностицирането на конкретни проблеми. Дневниците консумират "
-"ресурси и могат да забавят работата на системата. Изключете дневници, които "
-"вече не се използват.</p></body></html>"
+"<html><head/><body><p>Активирайте регистрационни файлове за диагностициране "
+"на проблеми с Ekos и INDI. Ако вашата система е с ограничен ресурс, напр. "
+"Raspberry Pi със SD карта, тогава активирайте само необходимите "
+"регистрационни файлове, за да помогнете при диагностицирането на конкретни "
+"проблеми, и ги изключете, когато вече не са необходими. Дневниците "
+"консумират ресурси и могат да забавят системата.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/auxiliary/opslogs.ui:71
@@ -17647,10 +17643,9 @@ msgid "Offline"
 msgstr "Изключен"
 
 #: ekos/ekoslive/message.cpp:730
-#, fuzzy, kde-format
-#| msgid "Target"
+#, kde-format
 msgid "target"
-msgstr "Назначение"
+msgstr "цел"
 
 #: ekos/ekoslive/message.cpp:963
 #, kde-format
@@ -18624,10 +18619,9 @@ msgstr "Извършва се процес на фокусиране, автоф
 
 #: ekos/focus/focus.cpp:1066 ekos/focus/focus.cpp:4761
 #: ekos/focus/focus.cpp:5005
-#, fuzzy, kde-format
-#| msgid "Auto Focus"
+#, kde-format
 msgid "Adjust Focus"
-msgstr "Автоматично фокусиране"
+msgstr "Регулиране на фокуса"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
@@ -18639,20 +18633,16 @@ msgid "Adaptive Focus"
 msgstr "Адаптивно фокусиране"
 
 #: ekos/focus/focus.cpp:1069
-#, fuzzy, kde-format
-#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Заявка за стартиране на автофокус - Изчаква се 10 секунди за завършване на "
-"корекция на фокуса."
+"%1."
 
 #: ekos/focus/focus.cpp:1077
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
-msgstr ""
-"Отхвърляне на заявка за стартиране на автофокус - извършва се корекция на "
-"фокуса."
+msgstr "Отхвърляне на заявка за стартиране на автофокус - в процес е %1."
 
 #: ekos/focus/focus.cpp:1235
 #, kde-format
@@ -19066,26 +19056,20 @@ msgid "Focus star is selected."
 msgstr "Звездата за фокус е избрана."
 
 #: ekos/focus/focus.cpp:4759
-#, fuzzy, kde-format
-#| msgid "Auto focus:"
+#, kde-format
 msgid "Autofocus"
-msgstr "Автоматично фокусиране:"
+msgstr "Автоматично фокусиране"
 
 #: ekos/focus/focus.cpp:4767
-#, fuzzy, kde-format
-#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
-"Заявка за стартиране на автофокус - Изчаква се 10 секунди за завършване на "
-"корекция на фокуса."
+"Заявка за проверка на фокус - Изчаква се 10 секунди за завършване на %1."
 
 #: ekos/focus/focus.cpp:4775
-#, fuzzy, kde-format
-#| msgid "Discarding Autofocus start request - AdjustFocus in progress."
+#, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
-msgstr ""
-"Отхвърляне на заявка за стартиране на автофокус - извършва се корекция на "
-"фокуса."
+msgstr "Отхвърляне на заявка за проверка на фокуса - в процес е %1."
 
 #: ekos/focus/focus.cpp:4912
 #, kde-format
@@ -19103,12 +19087,10 @@ msgid "Focuser already at %1..."
 msgstr "Фокусерът е вече на %1..."
 
 #: ekos/focus/focus.cpp:5008
-#, fuzzy, kde-format
-#| msgid "Autofocus start request - Waiting 10sec for AdjustFocus to complete."
+#, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
-"Заявка за стартиране на автофокус - Изчаква се 10 секунди за завършване на "
-"корекция на фокуса."
+"Заявка за регулиране на фокус - Изчаква се 10 секунди за завършване на %1."
 
 #: ekos/focus/focus.cpp:5042
 #, kde-format
@@ -19424,74 +19406,64 @@ msgid "Clear"
 msgstr "Изчистване"
 
 #: ekos/focus/focusadvisor.cpp:76
-#, fuzzy, kde-format
-#| msgid "SEP Parameters:"
+#, kde-format
 msgid "Parameter"
-msgstr "Параметри на SEP"
+msgstr "Параметър"
 
 #: ekos/focus/focusadvisor.cpp:77
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Parameter Name"
-msgstr "Име на планета"
+msgstr "Име на параметър"
 
 #: ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Current Altitude"
+#, kde-format
 msgid "Current Value"
-msgstr "Текуща височина"
+msgstr "Текуща стойност"
 
 #: ekos/focus/focusadvisor.cpp:81
-#, fuzzy, kde-format
-#| msgid "Current application theme"
+#, kde-format
 msgid "Current value of the parameter"
-msgstr "Текуща тема на приложението"
+msgstr "Текуща стойност на параметъра"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgid "Pixel Values"
+#, kde-format
 msgid "Proposed Value"
-msgstr "Стойности на пикселите"
+msgstr "Предложена стойност"
 
 #: ekos/focus/focusadvisor.cpp:85
 #, kde-format
 msgid "Focus Advisor proposed value for the parameter"
-msgstr ""
+msgstr "Предложена от помощника за фокусиране стойност за параметъра"
 
 #: ekos/focus/focusadvisor.cpp:118
-#, fuzzy, kde-format
-#| msgid "Detection in progress, please wait."
+#, kde-format
 msgid "Another focus action in progress. Please try again."
-msgstr "Откриването е в ход, моля изчакайте."
+msgstr "Извършва се друго фокусно действие. Моля, опитайте отново."
 
 #: ekos/focus/focusadvisor.cpp:136
 #, kde-format
 msgid "Focus Advisor cannot run with current params."
-msgstr ""
+msgstr "Помощник за фокусирането не може да работи с текущите параметри."
 
 #: ekos/focus/focusadvisor.cpp:142
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor stopped"
-msgstr "Помощник за фокусиране"
+msgstr "Помощникът за фокусиране е спрян"
 
 #: ekos/focus/focusadvisor.cpp:213
-#, fuzzy, kde-format
-#| msgid "Update Params"
+#, kde-format
 msgid "Updated base parameters"
-msgstr "Обновяване на параметри"
+msgstr "Обновяване на основните параметри"
 
 #: ekos/focus/focusadvisor.cpp:242
-#, fuzzy, kde-format
-#| msgid "Camera & Filter Wheel Parameters:"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
 msgstr "Параметри на камерата и филтърното колело:"
 
 #: ekos/focus/focusadvisor.cpp:276
-#, fuzzy, kde-format
-#| msgid "Settings Parameters:"
+#, kde-format
 msgid "Settings Parameters"
-msgstr "Настройки на параметрите:"
+msgstr "Настройки на параметрите"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
 #: ekos/focus/focusadvisor.cpp:358 ekos/focus/opsfocussettings.ui:242
@@ -19500,185 +19472,181 @@ msgid "Mask"
 msgstr "Маска"
 
 #: ekos/focus/focusadvisor.cpp:375
-#, fuzzy, kde-format
-#| msgid "Process Parameters:"
+#, kde-format
 msgid "Process Parameters"
-msgstr "Параметри на процеса:"
+msgstr "Параметри на процеса"
 
 #: ekos/focus/focusadvisor.cpp:417
-#, fuzzy, kde-format
-#| msgid "Mechanics Parameters:"
+#, kde-format
 msgid "Mechanics Parameters"
-msgstr "Параметри на механиката:"
+msgstr "Параметри на механиката"
 
 #: ekos/focus/focusadvisor.cpp:585
 #, kde-format
 msgid "Focus Advisor aborted due to internal error"
-msgstr ""
+msgstr "Съветникът за фокусиране е прекъснат поради вътрешна грешка"
 
 #: ekos/focus/focusadvisor.cpp:594 ekos/focus/focusadvisor.cpp:899
 #: ekos/focus/focusadvisor.cpp:1193
 #, kde-format
 msgid "Focus Advisor cannot run with current params"
-msgstr ""
+msgstr "Помощник за фокусирането не може да работи с текущи параметри"
 
 #: ekos/focus/focusadvisor.cpp:627
 #, kde-format
 msgid "Find Stars: Starting scan for stars..."
-msgstr ""
+msgstr "Намиране на звезди: Стартиране на сканиране за звезди..."
 
 #: ekos/focus/focusadvisor.cpp:628
 #, kde-format
 msgid "Find Stars: Jump size %1"
-msgstr ""
+msgstr "Намиране на звезди: Размер на скока %1"
 
 #: ekos/focus/focusadvisor.cpp:629
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Find Stars: Scanning for stars..."
-msgstr "Търсене на звезди..."
+msgstr "Намиране на звезди: Сканиране за звезди..."
 
 #: ekos/focus/focusadvisor.cpp:631
 #, kde-format
 msgid "Find Stars: Failed"
-msgstr ""
+msgstr "Намиране на звезди: Неуспешно"
 
 #: ekos/focus/focusadvisor.cpp:706
 #, kde-format
 msgid "Stars detected, range centre %1"
-msgstr ""
+msgstr "Открити звезди, център на обхват %1"
 
 #: ekos/focus/focusadvisor.cpp:707
-#, fuzzy, kde-format
-#| msgid "Completed"
+#, kde-format
 msgid "Find Stars: Completed"
-msgstr "Завършено"
+msgstr "Намиране на звезди: Завършено"
 
 #: ekos/focus/focusadvisor.cpp:725
 #, kde-format
 msgid "Detected %1 stars at %2"
-msgstr ""
+msgstr "Открити са %1 звезди на %2"
 
 #: ekos/focus/focusadvisor.cpp:756
-#, fuzzy, kde-format
-#| msgid "Scan Start Pos: exceeded max iterations %1"
+#, kde-format
 msgid "Find Stars: exceeded max iterations %1"
-msgstr ""
-"Сканиране на начална позиция: надхвърлен е максималния брой итерации %1"
+msgstr "Намиране на звезди: надхвърлен е максималния брой итерации %1"
 
 #: ekos/focus/focusadvisor.cpp:764
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Stars detected, centring range"
-msgstr "Не са открити звезди, заснемане отново..."
+msgstr "Открити са звезди, обхват на центриране..."
 
 #: ekos/focus/focusadvisor.cpp:765
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Find Stars: Stars detected, centring range"
-msgstr "Не са открити звезди, заснемане отново..."
+msgstr "Намиране на звезди: Открити са звезди, обхват на центриране..."
 
 #: ekos/focus/focusadvisor.cpp:786
 #, kde-format
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
 msgstr ""
+"Намиране на звезди, Изпълнение %1: Няма звезди в началото %2, сканира се..."
 
 #: ekos/focus/focusadvisor.cpp:792
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: Scanning %3/%4"
-msgstr ""
+msgstr "Намиране на звезди Изпълнение %1 Сектор %2: Сканиране на %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:794
 #, kde-format
 msgid "Find Stars Run %1: Scanning Sector %2"
-msgstr ""
+msgstr "Намиране на звезди, Изпълнение %1: Сканиране на сектор %2"
 
 #: ekos/focus/focusadvisor.cpp:812
-#, fuzzy, kde-format
-#| msgid "Star hopper failed to find path"
+#, kde-format
 msgid "Find Stars Run %1: failed to find any stars"
-msgstr "Ориентацията по звездите не успя да намери път"
+msgstr "Намиране на звезди Изпълнение %1: неуспешно намиране на звезди"
 
 #: ekos/focus/focusadvisor.cpp:877
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
-msgstr ""
+msgstr "Намиране на звезди Изпълнение %1 Сектор %2: сканиране %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:884
 #, kde-format
 msgid "Find Stars Run %1: Failed"
-msgstr ""
+msgstr "Намиране на звезди, Изпълнение %1: Неуспешно"
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
 #, kde-format
 msgid "Course Adjustment Scan..."
-msgstr ""
+msgstr "Сканиране на корекция на курса..."
 
 #: ekos/focus/focusadvisor.cpp:947
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "Pre Autofocus: Failed"
-msgstr "Автофокусирането е неуспешено."
+msgstr "Предварителното автофокусиране е неуспешно."
 
 #: ekos/focus/focusadvisor.cpp:957
-#, fuzzy, kde-format
-#| msgid "Autofocus failed: exceeded max iterations %1"
+#, kde-format
 msgid "Pre Autofocus: exceeded max iterations %1"
 msgstr ""
-"Автофокусирането е неуспешно: надхвърлен е максималния брой итерации %1"
+"Предварителният автофокус е неуспешен: надхвърлен е максималния брой "
+"итерации %1"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
 #, kde-format
 msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
+"Изпълнение на корекция на курса: %1 Начало: %2 Надсканиране: %3 Размер на "
+"стъпката: %4"
 
 #: ekos/focus/focusadvisor.cpp:1016
 #, kde-format
 msgid "Course Adjustment Run %1 scan..."
-msgstr ""
+msgstr "Корекция на курса Изпълнение %1 сканиране..."
 
 #: ekos/focus/focusadvisor.cpp:1024
 #, kde-format
 msgid "Course Adjustment Run %1: insufficient data to proceed"
 msgstr ""
+"Изпълнение на коригиране на курса %1: няма достатъчно данни за продължаване"
 
 #: ekos/focus/focusadvisor.cpp:1074
 #, kde-format
 msgid "Overscan estimate: %1 ticks"
-msgstr ""
+msgstr "Прогноза за надсканиране: %1 деления"
 
 #: ekos/focus/focusadvisor.cpp:1119
 #, kde-format
 msgid "Course Adj: data quality too poor to continue"
 msgstr ""
+"Регулиране на курс: качеството на данните е твърде лошо, за да се продължи"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Solve Failed"
+#, kde-format
 msgid "Course Adj: Failed"
-msgstr "Неуспех на решаването."
+msgstr "Регулация на курса: Неуспешна"
 
 #: ekos/focus/focusadvisor.cpp:1211
-#, fuzzy, kde-format
-#| msgid "Autofocus operation started"
+#, kde-format
 msgid "Autofocus parameter adjustment"
-msgstr "Започнала е операция за автоматично фокусиране"
+msgstr "Регулиране на параметрите за автоматично фокусиране"
 
 #: ekos/focus/focusadvisor.cpp:1302
 #, kde-format
 msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
 msgstr ""
+"Размер на стъпката на съветника за фокусиране: %1->%2 AF Overscan: %3->%4"
 
 #: ekos/focus/focusadvisor.cpp:1313
 #, kde-format
 msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
 msgstr ""
+"Повторен опит за автоматично фокусиране: Размер на стъпката %1 AF "
+"Надсканиране %2"
 
 #: ekos/focus/focusadvisor.cpp:1318
 #, kde-format
 msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-msgstr ""
+msgstr "Автофокусът завършен: Размер на стъпката %1 AF Overscan %2"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -19693,11 +19661,13 @@ msgid ""
 "Check to have Focus Advisor update Focus parameters. Click Help to view the "
 "proposed changes."
 msgstr ""
+"Поставете отметка, за да имате Помощник за фокусирането да актуализира "
+"параметрите на Focus. Щракнете върху Помощ, за да видите предложените "
+"промени."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
 #: ekos/focus/focusadvisor.ui:50
-#, fuzzy, kde-format
-#| msgid "Update Params"
+#, kde-format
 msgid "Update Parameters"
 msgstr "Обновяване на параметри"
 
@@ -19708,13 +19678,15 @@ msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not neccessary."
 msgstr ""
+"Поставете отметка, за да накарате Помощник за фокусирането да търси звезди. "
+"Ако сте достатъчно близо до фокуса, за да видите звезди в рамката на фокуса, "
+"тази стъпка не е необходима."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:69
-#, fuzzy, kde-format
-#| msgid "Any Stars"
+#, kde-format
 msgid "Find Stars"
-msgstr "Произволна звезда"
+msgstr "Намиране на звезди"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCourseAdj)
 #: ekos/focus/focusadvisor.ui:105
@@ -19723,64 +19695,61 @@ msgid ""
 "Check to have Focus Advisor find course focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
+"Поставете отметка, за да накарате Помощник за фокусирането да намери фокуса "
+"на курса. Това ще намери приблизителна позиция на фокуса, достатъчно добра "
+"за стартиране на автофокуса."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCourseAdj)
 #: ekos/focus/focusadvisor.ui:108
 #, kde-format
 msgid "Course Adjustment (without Autofocus)"
-msgstr ""
+msgstr "Регулиране на курса (без автофокус)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor run Autofocus to make fine adjustments to focus "
 "parameters."
 msgstr ""
-"Дали да се приеме препоръката на помощника за фокусиране за параметрите на "
-"раздела Process."
+"Поставете отметка, за да накарате Помощник за фокусирането да стартира "
+"Autofocus, за да направи фини настройки на параметрите на фокуса."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:127
 #, kde-format
 msgid "Fine Adjustment (using Autofocus)"
-msgstr ""
+msgstr "Фина настройка (с помощта на автофокус)"
 
 #. i18n: ectx: property (toolTip), widget (QDialogButtonBox, focusAdvButtonBox)
 #: ekos/focus/focusadvisor.ui:160
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Close Focus Advisor"
-msgstr "Помощник за фокусиране"
+msgstr "Затваряне на Помощник за фокусиране"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorHelpDialog)
 #: ekos/focus/focusadvisorhelp.ui:14
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor Help"
-msgstr "Помощник за фокусиране"
+msgstr "Помощ за Помощника за фокусиране"
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/focus/focusadvisorhelp.ui:26
-#, fuzzy, kde-format
-#| msgid "Recommended"
+#, kde-format
 msgid "Recommendations:"
-msgstr "Препоръчани"
+msgstr "Препоръки:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:68
 #, kde-format
 msgid "Check to display only recommended changes"
-msgstr ""
+msgstr "Поставете отметка, за да показвате само препоръчаните промени"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:71
-#, fuzzy, kde-format
-#| msgid "Show inline images"
+#, kde-format
 msgid "Show Only Changes"
-msgstr "Показване на вградени изображения"
+msgstr "Показване само на промените"
 
 #: ekos/focus/focusalgorithms.cpp:520
 #, kde-format
@@ -24766,7 +24735,7 @@ msgstr "Скорост"
 #: ekos/mount/mounttargetwidget.ui:168
 #, kde-format
 msgid "Alt/AZ"
-msgstr ""
+msgstr "Alt/AZ"
 
 #: ekos/observatory/observatory.cpp:250
 #, kde-format
@@ -27929,10 +27898,7 @@ msgid "Failed to save scheduler list"
 msgstr "Неуспешно запазване на списъка с график"
 
 #: ekos/scheduler/scheduler.cpp:1957
-#, fuzzy, kde-format
-#| msgid ""
-#| "Turning off astronomial twilight check may cause the observatory to run "
-#| "during daylight. This can cause irreversible damage to your equipment!"
+#, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
@@ -27942,8 +27908,7 @@ msgstr ""
 "необратими повреди на оборудването ви!"
 
 #: ekos/scheduler/scheduler.cpp:1959
-#, fuzzy, kde-format
-#| msgid "Astronomial Twilight Warning"
+#, kde-format
 msgid "Astronomical Twilight Warning"
 msgstr "Предупреждение за астрономически полумрак"
 
@@ -38352,43 +38317,36 @@ msgstr "Размер на  отместването на фокусера в м�
 #: kstars.kcfg:2304
 #, kde-format
 msgid "Focus Advisor Help shows only changes."
-msgstr ""
+msgstr "Помощта на Помощник за фокусирането показва само промени."
 
 #. i18n: ectx: whatsthis, entry (focusAdvUpdateParams), group (Focus)
 #: kstars.kcfg:2308
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on SEP Parameters."
+#, kde-format
 msgid "Whether to run the Focus Advisor Update Parameters function."
 msgstr ""
-"Дали да се приеме препоръката на Помощника за фокусиране за параметрите на "
-"SEP."
+"Дали да се изпълни функцията за актуализиране на параметрите на Помощник за "
+"фокусирането."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFindStars), group (Focus)
 #: kstars.kcfg:2312
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Find Stars function."
-msgstr ""
-"Дали да се приеме препоръката на помощника за фокусиране за размера на "
-"стъпката."
+msgstr "Дали да се стартира функцията Помощник за фокусирането Find Stars."
 
 #. i18n: ectx: whatsthis, entry (focusAdvCourseAdj), group (Focus)
 #: kstars.kcfg:2316
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Course Adjustment function."
 msgstr ""
-"Дали да се приеме препоръката на помощника за фокусиране за размера на "
-"стъпката."
+"Дали да се стартира функцията за настройка на курса на Помощник за "
+"фокусирането."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFineAdj), group (Focus)
 #: kstars.kcfg:2320
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Fine Adjustment function."
 msgstr ""
-"Дали да се приеме препоръката на помощника за фокусиране за размера на "
-"стъпката."
+"Дали да се стартира функцията за фина настройка на Помощник за фокусирането."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2325
@@ -58772,9 +58730,7 @@ msgid "Preston"
 msgstr "Престън"
 
 #: kstars_i18n.cpp:3196
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Preston"
+#, kde-kuit-format
 msgctxt "City in Lancashire United Kingdom"
 msgid "Preston"
 msgstr "Престън"
@@ -64918,12 +64874,10 @@ msgid "Komárom-Esztergom"
 msgstr "Комаром-Естергом"
 
 #: kstars_i18n.cpp:4220
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in New Hampshire USA"
-#| msgid "Lancaster"
+#, kde-kuit-format
 msgctxt "Region/state in United Kingdom"
 msgid "Lancashire"
-msgstr "Ланкастър"
+msgstr "Ланкашир"
 
 #: kstars_i18n.cpp:4221
 #, kde-kuit-format
