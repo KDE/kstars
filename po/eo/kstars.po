@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 01:44+0000\n"
-"PO-Revision-Date: 2024-06-16 07:39+0200\n"
+"PO-Revision-Date: 2024-06-28 21:02+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -12407,12 +12407,7 @@ msgstr "Forigi ĉiujn protokolojn"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/opslogs.ui:59
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. "
-#| "Only enable the necessary logs to help in diagnosing specific problems. "
-#| "Logs consume resources and may slow the system down. Turn off logs when "
-#| "no longer used.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. If "
 "your system is resource limited, e.g. Raspberry Pi with SD Card, then only "
@@ -12420,16 +12415,17 @@ msgid ""
 "them off when no longer needed. Logs consume resources and may slow the "
 "system down.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ebligu Protokolojn por diagnozi problemojn kun Ekos "
-"kaj INDI. Nur ebligi la necesajn protokolojn por helpi diagnozi specifajn "
-"problemojn. Registroj konsumas rimedojn kaj povas malrapidigi la sistemon. "
-"Malŝaltu protokolojn kiam ne plu uzata.</p></body></html>"
+"<html><head/><body><p>Ebligi Protokolojn por diagnozi problemojn kun Ekos "
+"kaj INDI. Se via sistemo estas rimede limigita, ekz. Raspberry Pi kun SD-"
+"Karto, nur ebligi la necesajn protokolojn por helpi diagnozi specifajn "
+"problemojn kaj malŝalti ilin kiam ne plu bezonate. Registraĵoj konsumas "
+"rimedojn kaj povas malrapidigi la sistemon.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/auxiliary/opslogs.ui:71
 #, kde-format
 msgid "Logs"
-msgstr "Ŝtipoj"
+msgstr "Registraĵoj"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SchedulerLogging)
 #: ekos/auxiliary/opslogs.ui:87
@@ -17453,10 +17449,9 @@ msgid "Offline"
 msgstr "Senrete"
 
 #: ekos/ekoslive/message.cpp:730
-#, fuzzy, kde-format
-#| msgid "Target"
+#, kde-format
 msgid "target"
-msgstr "Celo"
+msgstr "celo"
 
 #: ekos/ekoslive/message.cpp:963
 #, kde-format
@@ -19174,34 +19169,29 @@ msgid "Clear"
 msgstr "Forviŝi"
 
 #: ekos/focus/focusadvisor.cpp:76
-#, fuzzy, kde-format
-#| msgid "SEP Parameters:"
+#, kde-format
 msgid "Parameter"
-msgstr "SEP-Parametroj:"
+msgstr "Parametro"
 
 #: ekos/focus/focusadvisor.cpp:77
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Parameter Name"
-msgstr "Planeda nomo"
+msgstr "Parametra Nomo"
 
 #: ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Current Altitude"
+#, kde-format
 msgid "Current Value"
-msgstr "Nuna Alteco"
+msgstr "Aktuala Valoro"
 
 #: ekos/focus/focusadvisor.cpp:81
-#, fuzzy, kde-format
-#| msgid "Current application theme"
+#, kde-format
 msgid "Current value of the parameter"
-msgstr "Aktuala aplikaĵa etoso"
+msgstr "Aktuala valoro de la parametro"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgid "Pixel Values"
+#, kde-format
 msgid "Proposed Value"
-msgstr "Rastrumeraj Valoroj"
+msgstr "Proponita Valoroj"
 
 #: ekos/focus/focusadvisor.cpp:85
 #, kde-format
@@ -19209,10 +19199,9 @@ msgid "Focus Advisor proposed value for the parameter"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:118
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Another focus action in progress. Please try again."
-msgstr "Steldetekto progresadas, reprovonte post 1s..."
+msgstr "Alia fokus-ago progresadas. Bonvolu reprovi."
 
 #: ekos/focus/focusadvisor.cpp:136
 #, kde-format
@@ -19220,28 +19209,24 @@ msgid "Focus Advisor cannot run with current params."
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:142
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor stopped"
-msgstr "Fokus-konsililo"
+msgstr "Fokus-Konsililo haltis"
 
 #: ekos/focus/focusadvisor.cpp:213
-#, fuzzy, kde-format
-#| msgid "Update Params"
+#, kde-format
 msgid "Updated base parameters"
-msgstr "Ĝisdatigi Param-ojn"
+msgstr "Ĝisdatis bazajn parametrojn"
 
 #: ekos/focus/focusadvisor.cpp:242
-#, fuzzy, kde-format
-#| msgid "Camera & Filter Wheel Parameters:"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
-msgstr "Parametroj de Fotilo & Filtrila Rado:"
+msgstr "Parametroj de Fotilo & Filtrila Rado"
 
 #: ekos/focus/focusadvisor.cpp:276
-#, fuzzy, kde-format
-#| msgid "Settings Parameters:"
+#, kde-format
 msgid "Settings Parameters"
-msgstr "Agordaj Parametroj:"
+msgstr "Agordaj Parametroj"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
 #: ekos/focus/focusadvisor.cpp:358 ekos/focus/opsfocussettings.ui:242
@@ -19250,16 +19235,14 @@ msgid "Mask"
 msgstr "Masko"
 
 #: ekos/focus/focusadvisor.cpp:375
-#, fuzzy, kde-format
-#| msgid "Process Parameters:"
+#, kde-format
 msgid "Process Parameters"
-msgstr "Procezaj Parametroj:"
+msgstr "Procezaj Parametroj"
 
 #: ekos/focus/focusadvisor.cpp:417
-#, fuzzy, kde-format
-#| msgid "Mechanics Parameters:"
+#, kde-format
 msgid "Mechanics Parameters"
-msgstr "Mekanikaj Parametroj:"
+msgstr "Mekanikaj Parametroj"
 
 #: ekos/focus/focusadvisor.cpp:585
 #, kde-format
@@ -19283,10 +19266,9 @@ msgid "Find Stars: Jump size %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:629
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Find Stars: Scanning for stars..."
-msgstr "Trovante stelojn..."
+msgstr "Trovi Stelojn: Skanante pri steloj..."
 
 #: ekos/focus/focusadvisor.cpp:631
 #, kde-format
@@ -19299,10 +19281,9 @@ msgid "Stars detected, range centre %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:707
-#, fuzzy, kde-format
-#| msgid "Completed"
+#, kde-format
 msgid "Find Stars: Completed"
-msgstr "Kompletigita"
+msgstr "Trovi Stelojn: Kompletigita"
 
 #: ekos/focus/focusadvisor.cpp:725
 #, kde-format
@@ -19310,22 +19291,19 @@ msgid "Detected %1 stars at %2"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:756
-#, fuzzy, kde-format
-#| msgid "Scan Start Pos: exceeded max iterations %1"
+#, kde-format
 msgid "Find Stars: exceeded max iterations %1"
-msgstr "Skana Komencpozicio: transpasis maks iteraciojn %1"
+msgstr "Trovi Stelojn: transpasis maks iteraciojn %1"
 
 #: ekos/focus/focusadvisor.cpp:764
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Stars detected, centring range"
 msgstr "Neniuj steloj detektitaj, kaptante denove..."
 
 #: ekos/focus/focusadvisor.cpp:765
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Find Stars: Stars detected, centring range"
-msgstr "Neniuj steloj detektitaj, kaptante denove..."
+msgstr "Trovi Stelojn: Steloj detektitaj, centrigante gamon..."
 
 #: ekos/focus/focusadvisor.cpp:786
 #, kde-format
@@ -19343,10 +19321,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:812
-#, fuzzy, kde-format
-#| msgid "Star hopper failed to find path"
+#, kde-format
 msgid "Find Stars Run %1: failed to find any stars"
-msgstr "Stelhopper ne trovis vojon"
+msgstr "Trovi Stelojn Rulo %1: malsukcesis trovi ajn stelojn"
 
 #: ekos/focus/focusadvisor.cpp:877
 #, kde-format
@@ -19365,16 +19342,14 @@ msgid "Course Adjustment Scan..."
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:947
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "Pre Autofocus: Failed"
-msgstr "Aŭtomata fokuso malsukcesis."
+msgstr "Antaŭ-Aŭtomatfokuso: Malsukcesis"
 
 #: ekos/focus/focusadvisor.cpp:957
-#, fuzzy, kde-format
-#| msgid "Autofocus failed: exceeded max iterations %1"
+#, kde-format
 msgid "Pre Autofocus: exceeded max iterations %1"
-msgstr "Aŭtomata fokusado malsukcesis: transpasis maks iteraciojn %1"
+msgstr "Antaŭ-Aŭtomatfokusado: transpasis maks iteraciojn %1"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
 #, kde-format
@@ -19402,16 +19377,14 @@ msgid "Course Adj: data quality too poor to continue"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Solve Failed"
+#, kde-format
 msgid "Course Adj: Failed"
-msgstr "Solvado Malsukcesis"
+msgstr "Kurs-Alĝust: Malsukcesis"
 
 #: ekos/focus/focusadvisor.cpp:1211
-#, fuzzy, kde-format
-#| msgid "Autofocus operation started"
+#, kde-format
 msgid "Autofocus parameter adjustment"
-msgstr "Aŭtomata fokusa operacio komenciĝis"
+msgstr "Alĝustigo de aŭtomatfokusa parametro"
 
 #: ekos/focus/focusadvisor.cpp:1302
 #, kde-format
@@ -19444,10 +19417,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
 #: ekos/focus/focusadvisor.ui:50
-#, fuzzy, kde-format
-#| msgid "Update Params"
+#, kde-format
 msgid "Update Parameters"
-msgstr "Ĝisdatigi Param-ojn"
+msgstr "Ĝisdatigi Parametrojn"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
@@ -19459,10 +19431,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:69
-#, fuzzy, kde-format
-#| msgid "Any Stars"
+#, kde-format
 msgid "Find Stars"
-msgstr "Ajna Steloj"
+msgstr "Trovi Stelojn"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCourseAdj)
 #: ekos/focus/focusadvisor.ui:105
@@ -19480,13 +19451,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor run Autofocus to make fine adjustments to focus "
 "parameters."
-msgstr "Ĉu akcepti rekomendon de Focus Advisor pri Process Tab Parameters."
+msgstr ""
+"Marku por ke Focus Advisor lanĉu Aŭtomat-fokusadon por fari fajn-alĝustigojn "
+"al fokusparametroj."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:127
@@ -19496,24 +19467,21 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDialogButtonBox, focusAdvButtonBox)
 #: ekos/focus/focusadvisor.ui:160
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Close Focus Advisor"
-msgstr "Fokus-konsililo"
+msgstr "Fermi Fokus-Konsililon"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorHelpDialog)
 #: ekos/focus/focusadvisorhelp.ui:14
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor Help"
-msgstr "Fokus-konsililo"
+msgstr "Fokus-konsilila Helpo"
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/focus/focusadvisorhelp.ui:26
-#, fuzzy, kde-format
-#| msgid "Recommended"
+#, kde-format
 msgid "Recommendations:"
-msgstr "Rekomendita"
+msgstr "Rekomendoj:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:68
@@ -19523,10 +19491,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:71
-#, fuzzy, kde-format
-#| msgid "Show inline images"
+#, kde-format
 msgid "Show Only Changes"
-msgstr "Montri enliniajn bildojn"
+msgstr "Montri Nur Ŝanĝojn"
 
 #: ekos/focus/focusalgorithms.cpp:520
 #, kde-format
@@ -27522,10 +27489,7 @@ msgid "Failed to save scheduler list"
 msgstr "Malsukcesis konservi planliston"
 
 #: ekos/scheduler/scheduler.cpp:1957
-#, fuzzy, kde-format
-#| msgid ""
-#| "Turning off astronomial twilight check may cause the observatory to run "
-#| "during daylight. This can cause irreversible damage to your equipment!"
+#, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
@@ -27534,8 +27498,7 @@ msgstr ""
 "dum taglumo. Ĉi tio povas kaŭzi nemaligeblan damaĝon al via ekipaĵo!"
 
 #: ekos/scheduler/scheduler.cpp:1959
-#, fuzzy, kde-format
-#| msgid "Astronomial Twilight Warning"
+#, kde-format
 msgid "Astronomical Twilight Warning"
 msgstr "Astronomia Krepuska Averto"
 
@@ -37652,31 +37615,27 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusAdvUpdateParams), group (Focus)
 #: kstars.kcfg:2308
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on SEP Parameters."
+#, kde-format
 msgid "Whether to run the Focus Advisor Update Parameters function."
-msgstr "Ĉu akcepti rekomendon de Focus Advisor pri SEP-Parametroj."
+msgstr "Ĉu lanĉi la Paramtro-Ĝisdatigan funkcion de Focus Advisor."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFindStars), group (Focus)
 #: kstars.kcfg:2312
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Find Stars function."
-msgstr "Ĉu akcepti fokusilkonsilantan rekomendon pri paŝgrandeco."
+msgstr "Ĉu lanĉi la Stel-Trovan funkcion de Focus Advisor."
 
 #. i18n: ectx: whatsthis, entry (focusAdvCourseAdj), group (Focus)
 #: kstars.kcfg:2316
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Course Adjustment function."
-msgstr "Ĉu akcepti fokusilkonsilantan rekomendon pri paŝgrandeco."
+msgstr "Ĉu lanĉi la Kurs-Alĝustigan funkcion de Fokuskonsilanto."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFineAdj), group (Focus)
 #: kstars.kcfg:2320
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Fine Adjustment function."
-msgstr "Ĉu akcepti fokusilkonsilantan rekomendon pri paŝgrandeco."
+msgstr "Ĉu lanĉi la Fajn-Alĝustigan funkcion de Fokuskonsilanto."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2325
@@ -85499,196 +85458,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Astrometry:"
-#~ msgstr "Astrometrio:"
-
-#~ msgid "The Logging Level for StellarSolver and Astrometry.net"
-#~ msgstr "La Protokolada Nivelo por StellarSolver kaj Astrometry.net"
-
-#~ msgid "LOG_NONE"
-#~ msgstr "LOG_NONE"
-
-#~ msgid "LOG_ERROR"
-#~ msgstr "LOG_ERROR"
-
-#~ msgid "LOG_MSG"
-#~ msgstr "LOG_MSG"
-
-#~ msgid "LOG_VERB"
-#~ msgstr "LOG_VERBO"
-
-#~ msgid "LOG_ALL"
-#~ msgstr "LOG_ALL"
-
-#~ msgid ""
-#~ "Option to log astrometry messages to a separate file.  If you select "
-#~ "LOG_ALL you REALLY want to check this box."
-#~ msgstr ""
-#~ "Elekteblo por registri astrometriajn mesaĝojn al aparta dosiero. Se vi "
-#~ "elektas LOG_ALL vi VERE volas marki ĉi tiun skatolon."
-
-#~ msgid " Separate Log File:"
-#~ msgstr " Aparta protokolo-dosiero:"
-
-#~ msgid "The external Log File for astrometry logging"
-#~ msgstr "La ekstera Protokolo-Dosiero por astrometria protokolado"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone. Make sure you configure the CFZ tab to give an appropriate value "
-#~ "for your system.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Paŝa grandeco povas esti defaŭlta al la Kritika "
-#~ "Fokusa Zono. Certigu, ke vi agordas la langeton CFZ por doni taŭgan "
-#~ "valoron por via sistemo.</p></body></html>"
-
-#~ msgid "Focus Advisor:"
-#~ msgstr "Fokus-konsilisto:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone..</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Paŝgrando povas esti defaŭltigita al la Kritika "
-#~ "Fokus-Zono.</p></body></html>"
-
-#~ msgid "Step Size:"
-#~ msgstr "Paŝa grandeco:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Update Focus Parameters to Focus Advisor "
-#~ "suggestions where the associated Update box is checked.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Ĝisdatigi Fokusparametrojn al sugestoj de Fokus-"
-#~ "konsilanto kie la rilata Ĝisdatigi-kesto estas markita.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Launch the Focus Advisor Help dialog.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Lanĉi la Fokuskonsilantan helpdialogon.</p></body></"
-#~ "html>"
-
-#~ msgid ""
-#~ "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#~ "It will not necessarily give you the perfect combination of parameters, "
-#~ "you will need to experiment yourself, but it will give you a basic set of "
-#~ "parameters to achieve focus.\n"
-#~ "\n"
-#~ "FA will recommend values for the majority of parameters. A few, however, "
-#~ "will need extra work from you to setup. These are identified below along "
-#~ "with a basic explanation of how to set them.\n"
-#~ "\n"
-#~ "The first step is to set backlash. Your focuser manual will likely "
-#~ "explain how to do this. Once you have a value for backlash for your "
-#~ "system, set either the Backlash field to have the driver perform backlash "
-#~ "compensation or the AF Overscan field to have Autofocus perform backlash "
-#~ "compensation. Set only one field and set the other to 0. If you are "
-#~ "unsure which to set, AF Overscan is recommended.\n"
-#~ "\n"
-#~ "The second step is to set Step Size. If you are aware of an approximate "
-#~ "value enter it here otherwise this can be defaulted from the Critical "
-#~ "Focus Zone (CFZ) for your equipment - so configure this now in the CFZ "
-#~ "tab and restart Focus Advisor.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Focus Advisor (FA) estas desegnita por helpi vin pri fokusaj parametroj.\n"
-#~ "Ĝi ne nepre donos al vi la perfektan kombinaĵon de parametroj, vi devos "
-#~ "mem eksperimenti, sed ĝi donos al vi bazan aron da parametroj por atingi "
-#~ "fokuson.\n"
-#~ "\n"
-#~ "FA rekomendos valorojn por la plimulto de parametroj. Kelkaj, tamen, "
-#~ "bezonos kroman laboron de vi por aranĝi. Ĉi tiuj estas identigitaj sube "
-#~ "kune kun baza klarigo pri kiel agordi ilin.\n"
-#~ "\n"
-#~ "La unua paŝo estas agordi kontraŭreagon. Via fokusa manlibro verŝajne "
-#~ "klarigos kiel fari tion. Post kiam vi havas valoron por kontraŭreago por "
-#~ "via sistemo, agordu aŭ la kampon Backlash por ke la pelilo realigu "
-#~ "kontraŭreagon kompenson aŭ la AF Overscan kampon por ke Aŭtomatfokuso "
-#~ "realigu kontraŭreagan kompenson. Agordu nur unu kampon kaj metu la alian "
-#~ "al 0. Se vi malcertas kiun meti, AF-Overscan estas rekomendita.\n"
-#~ "\n"
-#~ "La dua paŝo estas agordi Paŝograndon. Se vi konscias pri proksimuma "
-#~ "valoro enigu ĝin ĉi tie, alikaze ĉi tio povas esti defaŭltigita de la "
-#~ "Kritika Fokus-Zono (CFZ) por via ekipaĵo - do agordu ĉi tion nun en la "
-#~ "langeto CFZ kaj rekomencu Fokus-Konsilanton.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "The third step is to set the remaining focus parameters to sensible "
-#~ "values. Focus Advisor will suggest values for 5 categories of parameters. "
-#~ "Check the associated Update box to accept these recommendations when you "
-#~ "press Update Params.\n"
-#~ "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#~ "e.g. unity gain.\n"
-#~ "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#~ "3. Focus Process (Options Popup): These all have recommendations.\n"
-#~ "4. Focus Mechanics (Options Popup): Note Step Size is dealt with above.\n"
-#~ "5. SEP Parameters (Options Popup): Set the appropriate profile to its "
-#~ "default values.\n"
-#~ "\n"
-#~ "Now move the focuser to approximate focus and select a broadband filter, "
-#~ "e.g. Luminance\n"
-#~ "You are now ready to start an Autofocus run."
-#~ msgstr ""
-#~ "La tria paŝo estas agordi la ceterajn fokusajn parametrojn al prudentaj "
-#~ "valoroj. Focus Advisor sugestos valorojn por 4 kategorioj da parametroj. "
-#~ "Marku la rilatan Ĝisdatigu skatolon por akcepti ĉi tiujn rekomendojn kaj "
-#~ "premu Ĝisdatigi Params.\n"
-#~ "1. Fotilaj Proprecoj - Rimarku, ke vi devas certigi, ke Gajno estas "
-#~ "agordita taŭge, ekz. unueca gajno.\n"
-#~ "2. Fokus-Agordoj (Ŝprucfenestro Opcioj): Ĉi tiuj ĉiuj havas rekomendojn.\n"
-#~ "3. Fokusa Procezo (Ŝprucfenestro Opcioj): Ĉi tiuj ĉiuj havas "
-#~ "rekomendojn.\n"
-#~ "4. Fokusa Mekaniko (Ŝprucfenestro Opcioj): Rimarku ke Paŝa Grandeco estas "
-#~ "traktataj supre.\n"
-#~ "5. SEP-Parametroj (Ŝprucfenestro Opcioj): Meti la respektivan profilon al "
-#~ "ĝiaj defaŭltaj valoroj.\n"
-#~ "\n"
-#~ "Nun movu la fokusilon al proksimuma fokuso kaj elektu larĝbendan "
-#~ "filtrilon, ekz. Lumineco\n"
-#~ "Vi nun pretas komenci Aŭtomatfokusan rulon."
-
-#~ msgid "Focus Advisor recommended step size"
-#~ msgstr "Rekomendita paŝgrandeco de fokusila konsilanto"
-
-#~ msgid "Focus Advisor recommended Out Step Multiple"
-#~ msgstr "Rekomendita Out-Step-Multiple de fokusila konsilanto"
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Camera and Filter Wheel "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Ĉu akcepti rekomendon de Focus Advisor pri Fotilaj kaj Filtrilaj Radaj "
-#~ "Parametroj."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Settings Tab Parameters."
-#~ msgstr ""
-#~ "Ĉu akcepti rekomendon de Focus Advisor pri parametroj en agordolangeto."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Mechanics Tab "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Ĉu akcepti rekomendon de Fokuso-Konsilisto pri Mekanikaj Tab Parametroj."
-
-#~ msgid ""
-#~ "<html><body><p>Do not permit jobs to be scheduled less than this many "
-#~ "degrees before the altitude restriction. Actual execution proceeds until "
-#~ "the altitude limit.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Ne permesi ke taskoj estu planitaj malpli ol tiom da "
-#~ "gradoj antaŭ la altlimigo. La efektiva plenumo procedas ĝis la limo de "
-#~ "alteco.</p></body></html>"
-
-#~ msgid "Setting altitude cutoff:"
-#~ msgstr "Agordo de altitudotranĉo:"
-
-#~ msgid ""
-#~ "Do not permit jobs to be scheduled less than this many degrees before the "
-#~ "altitude restriction. Actual execution proceeds until the altitude limit."
-#~ msgstr ""
-#~ "Ne permesu ke taskoj estu planitaj malpli ol tiom da gradoj antaŭ la "
-#~ "altlimigo. Fakta plenumo procedas ĝis la altlimo."
