@@ -689,6 +689,7 @@ void FITSTab::extractImage()
     setupSolver(true);
 
     m_PlateSolveUI.FitsSolverAngle->setText("");
+    m_PlateSolveUI.FitsSolverIndexfile->setText("");
     m_PlateSolveUI.Solution1->setText(i18n("Extracting..."));
     m_PlateSolveUI.Solution2->setText("");
 
@@ -803,6 +804,16 @@ void FITSTab::solverDone(bool timedOut, bool success, const FITSImage::Solution 
         const QString result = QString("Solved in %1s").arg(elapsedSeconds, 0, 'f', 1);
         const double solverPA = KSUtils::rotationToPositionAngle(solution.orientation);
         m_PlateSolveUI.FitsSolverAngle->setText(QString("%1º").arg(solverPA, 0, 'f', 2));
+
+        int indexUsed = -1, healpixUsed = -1;
+        m_Solver->getSolutionHealpix(&indexUsed, &healpixUsed);
+        if (indexUsed < 0)
+            m_PlateSolveUI.FitsSolverIndexfile->setText("");
+        else
+            m_PlateSolveUI.FitsSolverIndexfile->setText(
+                QString("%1%2")
+                .arg(indexUsed)
+                .arg(healpixUsed >= 0 ? QString("-%1").arg(healpixUsed) : QString("")));;
 
         // Set the scale widget to the current result
         const int imageWidth = m_View->imageData()->width();
