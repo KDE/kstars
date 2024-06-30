@@ -25,7 +25,7 @@ namespace Ekos
 //                       settings.
 // - Find stars -        Searches the range of travel of the focuser to find some stars. If the user knows roughtly where they
 //                       are then set the focuser to this position and Find Stars will search around this area first.
-// - Course adjustment - This tool will attempt to adjust parameters (step size and backlash) in order get a reasonable V-curve
+// - Coarse adjustment - This tool will attempt to adjust parameters (step size and backlash) in order get a reasonable V-curve
 //                       without curve fitting. This is a preparatory step before running Autofocus to make sure parameters are
 //                       good enough to allow Autofocus to complete.
 // - Fine adjustment -   This tool runs Autofocus and adjusts step size and backlash by analysing the results of Autofocus. If
@@ -260,7 +260,7 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
         void initPreAFAdj(const int startPos);
 
         /**
-         * @brief Algorithm for course parameter adjustment prior to running Autofocus
+         * @brief Algorithm for coarse parameter adjustment prior to running Autofocus
          */
         void preAFAdj();
 

@@ -126,7 +126,7 @@ void FocusAdvisor::launchAlgo()
     }
 
     m_inFindStars = focusAdvFindStars->isChecked();
-    m_inPreAFAdj = focusAdvCourseAdj->isChecked();
+    m_inPreAFAdj = focusAdvCoarseAdj->isChecked();
     m_inAFAdj = focusAdvFineAdj->isChecked();
     if (m_inFindStars || m_inPreAFAdj || m_inAFAdj)
     {
@@ -900,7 +900,7 @@ void FocusAdvisor::initPreAFAdj(const int startPos)
         return;
     }
 
-    focusAdvCourseAdjLabel->setText(i18n("In progress..."));
+    focusAdvCoarseAdjLabel->setText(i18n("In progress..."));
 
     m_focus->initialFocuserAbsPosition = startPos;
     m_focus->absIterations = 0;
@@ -912,9 +912,9 @@ void FocusAdvisor::initPreAFAdj(const int startPos)
 
     // Reset the v-curve - otherwise there's too much data to see what's going on
     m_focus->clearDataPoints();
-    m_focus->appendLogText(i18n("Course Adjustment Scan..."));
-    focusAdvStatusBar->showMessage(i18n("Course Adjustment Scan..."));
-    emit m_focus->setTitle(QString(i18n("Course Adjustment Scan...")), true);
+    m_focus->appendLogText(i18n("Coarse Adjustment Scan..."));
+    focusAdvStatusBar->showMessage(i18n("Coarse Adjustment Scan..."));
+    emit m_focus->setTitle(QString(i18n("Coarse Adjustment Scan...")), true);
 
     // Setup a sweep of m_jumpSize either side of startPos
     m_jumpSize = m_focus->m_OpsFocusMechanics->focusTicks->value() * NUM_STEPS_PRE_AF;
@@ -947,7 +947,7 @@ void FocusAdvisor::initPreAFAdj(const int startPos)
         abort(Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE, i18n("Pre Autofocus: Failed"));
 }
 
-// Pre Autofocus course adjustment algorithm.
+// Pre Autofocus coarse adjustment algorithm.
 // Move the focuser until we get a reasonable movement in measure (x2)
 void FocusAdvisor::preAFAdj()
 {
@@ -1011,9 +1011,9 @@ void FocusAdvisor::preAFAdj()
     if (m_focus->currentPosition - step >= m_preAFInner)
     {
         // Collect more data in the current sweep
-        focusAdvStatusBar->showMessage(i18n("Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4", m_preAFRunNum,
+        focusAdvStatusBar->showMessage(i18n("Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4", m_preAFRunNum,
                                             m_focus->initialFocuserAbsPosition, m_focus->m_OpsFocusMechanics->focusAFOverscan->value(), step));
-        emit m_focus->setTitle(QString(i18n("Course Adjustment Run %1 scan...", m_preAFRunNum)), true);
+        emit m_focus->setTitle(QString(i18n("Coarse Adjustment Run %1 scan...", m_preAFRunNum)), true);
         deltaPos = -step;
     }
     else
@@ -1021,7 +1021,7 @@ void FocusAdvisor::preAFAdj()
         // We've completed the current sweep, so analyse the data...
         if (m_position.size() < 5)
         {
-            abort(Ekos::FOCUS_FAIL_NO_STARS, i18n("Course Adjustment Run %1: insufficient data to proceed", m_preAFRunNum));
+            abort(Ekos::FOCUS_FAIL_NO_STARS, i18n("Coarse Adjustment Run %1: insufficient data to proceed", m_preAFRunNum));
             return;
         }
         else
@@ -1077,9 +1077,9 @@ void FocusAdvisor::preAFAdj()
             // Is everything good enough to proceed, or do we need to run again?
             if (nearCenter && maxMinRatioOK(INITIAL_MAXMIN_HFR_RATIO, measureRatio) && !hitNoStarsRegion)
             {
-                // We're done with the course adjustment step so prepare for the next step
+                // We're done with the coarse adjustment step so prepare for the next step
                 m_inPreAFAdj = false;
-                focusAdvCourseAdjLabel->setText(i18n("Done"));
+                focusAdvCoarseAdjLabel->setText(i18n("Done"));
                 m_focus->absIterations = 0;
                 m_position.clear();
                 m_measure.clear();
@@ -1094,7 +1094,7 @@ void FocusAdvisor::preAFAdj()
                 else
                 {
                     m_focus->absTicksSpin->setValue(minPos);
-                    complete(false, i18n("Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4", m_preAFRunNum,
+                    complete(false, i18n("Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4", m_preAFRunNum,
                                          m_focus->initialFocuserAbsPosition, m_focus->m_OpsFocusMechanics->focusAFOverscan->value(), step));
                 }
                 return;
@@ -1116,7 +1116,7 @@ void FocusAdvisor::preAFAdj()
                     if (newStepSize < 1)
                     {
                         // Looks like data is inconsistent so stop here
-                        abort(Ekos::FOCUS_FAIL_INTERNAL, i18n("Course Adj: data quality too poor to continue"));
+                        abort(Ekos::FOCUS_FAIL_INTERNAL, i18n("Coarse Adj: data quality too poor to continue"));
                         return;
                     }
                 }
@@ -1158,7 +1158,7 @@ void FocusAdvisor::preAFAdj()
     }
     m_focus->linearRequestedPosition = m_focus->currentPosition + deltaPos;
     if (!m_focus->changeFocus(deltaPos))
-        abort(Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE, i18n("Course Adj: Failed"));
+        abort(Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE, i18n("Coarse Adj: Failed"));
 }
 
 // Check whether the Max / Min star measure ratio is good enough
@@ -1356,7 +1356,7 @@ void FocusAdvisor::reset()
     setButtons(false);
     focusAdvUpdateParamsLabel->setText("");
     focusAdvFindStarsLabel->setText("");
-    focusAdvCourseAdjLabel->setText("");
+    focusAdvCoarseAdjLabel->setText("");
     focusAdvFineAdjLabel->setText("");
 }
 
