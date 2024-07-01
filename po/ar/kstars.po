@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-26 01:44+0000\n"
+"POT-Creation-Date: 2024-07-01 01:43+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -540,7 +540,7 @@ msgstr "تابع"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:706
+#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:707
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10059,7 +10059,7 @@ msgstr "الالتقاط"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:736
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:737
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -17079,7 +17079,7 @@ msgstr "الوصف"
 
 #. i18n: ectx: property (title), widget (QGroupBox, SolutionGroupBox)
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:458
+#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:494
 #: fitsviewer/solveInfo.ui:91
 #, kde-format
 msgid "Solution"
@@ -18948,9 +18948,9 @@ msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
-#, kde-format
-msgid "Course Adjustment Scan..."
-msgstr ""
+#, fuzzy, kde-format
+msgid "Coarse Adjustment Scan..."
+msgstr "تضبيطات الصورة"
 
 #: ekos/focus/focusadvisor.cpp:947
 #, fuzzy, kde-format
@@ -18965,17 +18965,17 @@ msgstr "مكتمل"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
 #, kde-format
-msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1016
 #, kde-format
-msgid "Course Adjustment Run %1 scan..."
+msgid "Coarse Adjustment Run %1 scan..."
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1024
 #, kde-format
-msgid "Course Adjustment Run %1: insufficient data to proceed"
+msgid "Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1074
@@ -18985,13 +18985,13 @@ msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1119
 #, kde-format
-msgid "Course Adj: data quality too poor to continue"
+msgid "Coarse Adj: data quality too poor to continue"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1161
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
-msgid "Course Adj: Failed"
+msgid "Coarse Adj: Failed"
 msgstr "رمز رؤية المحلل"
 
 #: ekos/focus/focusadvisor.cpp:1211
@@ -19051,18 +19051,18 @@ msgstr ""
 msgid "Find Stars"
 msgstr "نجوم"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCourseAdj)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
 #, kde-format
 msgid ""
-"Check to have Focus Advisor find course focus. This will find an approximate "
+"Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, focusAdvCourseAdj)
+#. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
 #, kde-format
-msgid "Course Adjustment (without Autofocus)"
+msgid "Coarse Adjustment (without Autofocus)"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
@@ -24235,7 +24235,7 @@ msgid "Slaving deactivated."
 msgstr "أخرى"
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
-#: fitsviewer/fitstab.cpp:702
+#: fitsviewer/fitstab.cpp:703
 #, kde-format
 msgid "Aborting..."
 msgstr "يجهض..."
@@ -24885,7 +24885,7 @@ msgstr "منفذ مدير INDI للشبكة"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverProfileLabel)
-#: ekos/profileeditor.ui:32 fitsviewer/platesolve.ui:369
+#: ekos/profileeditor.ui:32 fitsviewer/platesolve.ui:405
 #, kde-format
 msgid "Profile"
 msgstr "منظومة الأجهزة"
@@ -28875,50 +28875,50 @@ msgstr "صورة تنسيق"
 msgid "File saved to %1"
 msgstr "تم حفظ ملف FITS الى %1"
 
-#: fitsviewer/fitstab.cpp:692
+#: fitsviewer/fitstab.cpp:693
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Extracting..."
 msgstr "ينتظر..."
 
-#: fitsviewer/fitstab.cpp:710
+#: fitsviewer/fitstab.cpp:711
 #, fuzzy, kde-format
 msgid "Solving..."
 msgstr "رسوب"
 
-#: fitsviewer/fitstab.cpp:723
+#: fitsviewer/fitstab.cpp:724
 #, fuzzy, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "جاري التّحميل"
 
-#: fitsviewer/fitstab.cpp:732
+#: fitsviewer/fitstab.cpp:733
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Extractor failed: %1s"
 msgstr "رمز رؤية المحلل"
 
-#: fitsviewer/fitstab.cpp:741
+#: fitsviewer/fitstab.cpp:742
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:789
+#: fitsviewer/fitstab.cpp:790
 #, fuzzy, kde-format
 msgid "Solver timed out: %1s"
 msgstr "جاري التّحميل"
 
-#: fitsviewer/fitstab.cpp:794
+#: fitsviewer/fitstab.cpp:795
 #, fuzzy, kde-format
 #| msgid "Solver FOV"
 msgid "Solver failed: %1s"
 msgstr "رمز رؤية المحلل"
 
-#: fitsviewer/fitstab.cpp:954
+#: fitsviewer/fitstab.cpp:965
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:955
+#: fitsviewer/fitstab.cpp:966
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -29760,15 +29760,28 @@ msgstr ""
 msgid "The solved image position angle, East of North (degrees)."
 msgstr "جغرافي خط الطول بوصة درجات."
 
+#. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
+#. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
+#: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
+#, kde-format
+msgid "The index file used to solve the image."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
+#: fitsviewer/platesolve.ui:363
+#, fuzzy, kde-format
+msgid "Index file"
+msgstr "غير صحيح ملف"
+
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
-#: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
+#: fitsviewer/platesolve.ui:402 fitsviewer/platesolve.ui:424
 #, kde-format
 msgid "Selects the Options Profile to use for plate solving"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
-#: fitsviewer/platesolve.ui:410
+#: fitsviewer/platesolve.ui:446
 #, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
@@ -29776,7 +29789,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
-#: fitsviewer/platesolve.ui:432
+#: fitsviewer/platesolve.ui:468
 #, fuzzy, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
 msgstr "دليل FITS الافتراضي:"

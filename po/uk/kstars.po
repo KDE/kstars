@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-26 01:44+0000\n"
+"POT-Creation-Date: 2024-07-01 01:43+0000\n"
 "PO-Revision-Date: 2024-06-26 08:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -541,7 +541,7 @@ msgstr "Продовжити"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:706
+#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:707
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10297,7 +10297,7 @@ msgstr "Захоплення"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:736
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:737
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -17712,7 +17712,7 @@ msgstr "Опис"
 
 #. i18n: ectx: property (title), widget (QGroupBox, SolutionGroupBox)
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:458
+#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:494
 #: fitsviewer/solveInfo.ui:91
 #, kde-format
 msgid "Solution"
@@ -19606,8 +19606,9 @@ msgstr "Запуск пошуку зірок %1: помилка"
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
-#, kde-format
-msgid "Course Adjustment Scan..."
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Scan..."
+msgid "Coarse Adjustment Scan..."
 msgstr "Сканування коригування курсу…"
 
 #: ekos/focus/focusadvisor.cpp:947
@@ -19622,20 +19623,23 @@ msgstr ""
 "Попереднє автофокусування: перевищено максимальну кількість ітерацій, %1"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
-#, kde-format
-msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
 "Запуск коригування курсу: %1, початок: %2, пересканування: %3, розмір кроку: "
 "%4"
 
 #: ekos/focus/focusadvisor.cpp:1016
-#, kde-format
-msgid "Course Adjustment Run %1 scan..."
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Run %1 scan..."
+msgid "Coarse Adjustment Run %1 scan..."
 msgstr "Запуск коригування курсу %1, сканування…"
 
 #: ekos/focus/focusadvisor.cpp:1024
-#, kde-format
-msgid "Course Adjustment Run %1: insufficient data to proceed"
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Run %1: insufficient data to proceed"
+msgid "Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr "Запуск коригування курсу %1: недостатньо даних для продовження"
 
 #: ekos/focus/focusadvisor.cpp:1074
@@ -19644,13 +19648,15 @@ msgid "Overscan estimate: %1 ticks"
 msgstr "Оцінка пересканування: %1 поділок"
 
 #: ekos/focus/focusadvisor.cpp:1119
-#, kde-format
-msgid "Course Adj: data quality too poor to continue"
+#, fuzzy, kde-format
+#| msgid "Course Adj: data quality too poor to continue"
+msgid "Coarse Adj: data quality too poor to continue"
 msgstr "Коригування курсу: якість даних є надто низькою для продовження"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, kde-format
-msgid "Course Adj: Failed"
+#, fuzzy, kde-format
+#| msgid "Course Adj: Failed"
+msgid "Coarse Adj: Failed"
 msgstr "Коригування курсу: помилка"
 
 #: ekos/focus/focusadvisor.cpp:1211
@@ -19717,21 +19723,25 @@ msgstr ""
 msgid "Find Stars"
 msgstr "Пошук зірок"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCourseAdj)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Check to have Focus Advisor find course focus. This will find an "
+#| "approximate focus position good enough to run Autofocus."
 msgid ""
-"Check to have Focus Advisor find course focus. This will find an approximate "
+"Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
 "Позначте, щоб радник з фокусування шукав курс фокусування. У результаті буде "
 "виявлено приблизну позицію фокусування, яка є достатньо доброю для запуску "
 "автофокусування."
 
-#. i18n: ectx: property (text), widget (QCheckBox, focusAdvCourseAdj)
+#. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
-#, kde-format
-msgid "Course Adjustment (without Autofocus)"
+#, fuzzy, kde-format
+#| msgid "Course Adjustment (without Autofocus)"
+msgid "Coarse Adjustment (without Autofocus)"
 msgstr "Коригування курсу (без автофокусування)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
@@ -25242,7 +25252,7 @@ msgid "Slaving deactivated."
 msgstr "Вимкнено підпорядкування."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
-#: fitsviewer/fitstab.cpp:702
+#: fitsviewer/fitstab.cpp:703
 #, kde-format
 msgid "Aborting..."
 msgstr "Переривання…"
@@ -25921,7 +25931,7 @@ msgstr "Знайдено засіб вебкерування INDI — %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverProfileLabel)
-#: ekos/profileeditor.ui:32 fitsviewer/platesolve.ui:369
+#: ekos/profileeditor.ui:32 fitsviewer/platesolve.ui:405
 #, kde-format
 msgid "Profile"
 msgstr "Профіль"
@@ -30133,49 +30143,49 @@ msgstr "Збереження зображення"
 msgid "File saved to %1"
 msgstr "Файл збережено до %1"
 
-#: fitsviewer/fitstab.cpp:692
+#: fitsviewer/fitstab.cpp:693
 #, kde-format
 msgid "Extracting..."
 msgstr "Видобування…"
 
-#: fitsviewer/fitstab.cpp:710
+#: fitsviewer/fitstab.cpp:711
 #, kde-format
 msgid "Solving..."
 msgstr "Розв'язування…"
 
-#: fitsviewer/fitstab.cpp:723
+#: fitsviewer/fitstab.cpp:724
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Перевищено час видобування: %1 с"
 
-#: fitsviewer/fitstab.cpp:732
+#: fitsviewer/fitstab.cpp:733
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Помилка засобу видобування: %1 с"
 
-#: fitsviewer/fitstab.cpp:741
+#: fitsviewer/fitstab.cpp:742
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Видобуто %1 зірок (%2 без фільтрування) за %3 с"
 
-#: fitsviewer/fitstab.cpp:789
+#: fitsviewer/fitstab.cpp:790
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Час очікування на розв'язок вичерпано: %1 с "
 
-#: fitsviewer/fitstab.cpp:794
+#: fitsviewer/fitstab.cpp:795
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Помилка розв'язувача: %1 с"
 
-#: fitsviewer/fitstab.cpp:954
+#: fitsviewer/fitstab.cpp:965
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Увага! У цьому інструменті передбачено підтримку лише вбудованого засобу "
 "розв'язування StellarSolver."
 
-#: fitsviewer/fitstab.cpp:955
+#: fitsviewer/fitstab.cpp:966
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Замінити на дані з меню параметрів вирівнювання Ekos."
@@ -31000,9 +31010,24 @@ msgid "The solved image position angle, East of North (degrees)."
 msgstr ""
 "Позиційний кут із розв'язаного зображення, зі сходу на північ (у градусах)."
 
+#. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
+#. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
+#: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
+#, fuzzy, kde-format
+#| msgid "RAM cache size in MB used to store cached HIPS images."
+msgid "The index file used to solve the image."
+msgstr "Розмір кешу в оперативній пам'яті у МБ для зберігання зображень HIPS."
+
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
+#: fitsviewer/platesolve.ui:363
+#, fuzzy, kde-format
+#| msgid "Index Files"
+msgid "Index file"
+msgstr "Файли покажчика"
+
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
-#: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
+#: fitsviewer/platesolve.ui:402 fitsviewer/platesolve.ui:424
 #, kde-format
 msgid "Selects the Options Profile to use for plate solving"
 msgstr ""
@@ -31010,7 +31035,7 @@ msgstr ""
 "зображення"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
-#: fitsviewer/platesolve.ui:410
+#: fitsviewer/platesolve.ui:446
 #, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
@@ -31020,7 +31045,7 @@ msgstr ""
 "для розв'язання кадру"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
-#: fitsviewer/platesolve.ui:432
+#: fitsviewer/platesolve.ui:468
 #, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
 msgstr "Відкриває поточний вибраний профіль у редакторі профілів параметрів"

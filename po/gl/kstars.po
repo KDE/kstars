@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-26 01:44+0000\n"
-"PO-Revision-Date: 2024-06-27 21:20+0200\n"
+"POT-Creation-Date: 2024-07-01 01:43+0000\n"
+"PO-Revision-Date: 2024-06-29 07:31+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -543,7 +543,7 @@ msgstr "Continuar"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:706
+#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:707
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10268,7 +10268,7 @@ msgstr "Capturar"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:736
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:737
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -12504,12 +12504,7 @@ msgstr "Baleirar todos os rexistros"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/opslogs.ui:59
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. "
-#| "Only enable the necessary logs to help in diagnosing specific problems. "
-#| "Logs consume resources and may slow the system down. Turn off logs when "
-#| "no longer used.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. If "
 "your system is resource limited, e.g. Raspberry Pi with SD Card, then only "
@@ -12518,9 +12513,11 @@ msgid ""
 "system down.</p></body></html>"
 msgstr ""
 "<html><head/><body> <p>Activar os rexistros para diagnosticar problemas con "
-"Ekos e INDI. Só activar os rexistros necesarios para axudar a diagnosticar "
-"problemas concretos. Os rexistros consumen recursos e poderían ralentizar o "
-"sistema. Desactive os rexistros cando xa non se usen.</p></body></html>"
+"Ekos e INDI. Se os recursos do seu sistema son limitados, p. ex. usa unha "
+"Raspberry Pi cunha tarxeta SD, active só os rexistros necesarios para axudar "
+"a diagnosticar problemas concretos e desactíveos cando deixe de necesitalos. "
+"Os rexistros consumen recursos e poderían lentificar o sistema.</p></body></"
+"html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/auxiliary/opslogs.ui:71
@@ -17655,7 +17652,7 @@ msgstr "Descrición"
 
 #. i18n: ectx: property (title), widget (QGroupBox, SolutionGroupBox)
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:458
+#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:494
 #: fitsviewer/solveInfo.ui:91
 #, kde-format
 msgid "Solution"
@@ -19395,62 +19392,54 @@ msgid "Parameter Name"
 msgstr "Nome do parámetro"
 
 #: ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Current Altitude"
+#, kde-format
 msgid "Current Value"
-msgstr "Altitude actual"
+msgstr "Valor actual"
 
 #: ekos/focus/focusadvisor.cpp:81
-#, fuzzy, kde-format
-#| msgid "Current application theme"
+#, kde-format
 msgid "Current value of the parameter"
-msgstr "Tema actual da aplicación"
+msgstr "Valor actual do parámetro"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgid "Pixel Values"
+#, kde-format
 msgid "Proposed Value"
-msgstr "Valores de píxel"
+msgstr "Valor proposto"
 
 #: ekos/focus/focusadvisor.cpp:85
 #, kde-format
 msgid "Focus Advisor proposed value for the parameter"
-msgstr ""
+msgstr "Valor que o asistente de enfoque propuxo para o parámetro."
 
 #: ekos/focus/focusadvisor.cpp:118
-#, fuzzy, kde-format
-#| msgid "Detection in progress, please wait."
+#, kde-format
 msgid "Another focus action in progress. Please try again."
-msgstr "Hai unha detección en progreso, agarde."
+msgstr "Hai outra acción de enfoque en progreso. Inténteo de novo máis tarde."
 
 #: ekos/focus/focusadvisor.cpp:136
 #, kde-format
 msgid "Focus Advisor cannot run with current params."
-msgstr ""
+msgstr "O asistente de enfoque non pode executarse cos parámetros actuais."
 
 #: ekos/focus/focusadvisor.cpp:142
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor stopped"
-msgstr "Asistente de enfoque"
+msgstr "O asistente de enfoque detívose."
 
 #: ekos/focus/focusadvisor.cpp:213
-#, fuzzy, kde-format
-#| msgid "Input parameters"
+#, kde-format
 msgid "Updated base parameters"
-msgstr "Parámetros de entrada"
+msgstr "Os parámetros base actualizáronse."
 
 #: ekos/focus/focusadvisor.cpp:242
-#, fuzzy, kde-format
-#| msgid "Camera & Filter Wheel Parameters:"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
-msgstr "Parámetros da cámara e da roda de filtro:"
+msgstr "Parámetros da cámara e da roda de filtro."
 
 #: ekos/focus/focusadvisor.cpp:276
-#, fuzzy, kde-format
-#| msgid "Settings Parameters:"
+#, kde-format
 msgid "Settings Parameters"
-msgstr "Parámetros de configuración:"
+msgstr "Parámetros de configuración"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
 #: ekos/focus/focusadvisor.cpp:358 ekos/focus/opsfocussettings.ui:242
@@ -19459,183 +19448,186 @@ msgid "Mask"
 msgstr "Máscara"
 
 #: ekos/focus/focusadvisor.cpp:375
-#, fuzzy, kde-format
-#| msgid "Process Parameters:"
+#, kde-format
 msgid "Process Parameters"
-msgstr "Parámetros de procesamento:"
+msgstr "Parámetros de procesamento"
 
 #: ekos/focus/focusadvisor.cpp:417
-#, fuzzy, kde-format
-#| msgid "Mechanics Parameters:"
+#, kde-format
 msgid "Mechanics Parameters"
-msgstr "Parámetros de mecánicas:"
+msgstr "Parámetros de mecánicas"
 
 #: ekos/focus/focusadvisor.cpp:585
 #, kde-format
 msgid "Focus Advisor aborted due to internal error"
-msgstr ""
+msgstr "Interrompeuse o asistente de enfoque por mor dun erro interno."
 
 #: ekos/focus/focusadvisor.cpp:594 ekos/focus/focusadvisor.cpp:899
 #: ekos/focus/focusadvisor.cpp:1193
 #, kde-format
 msgid "Focus Advisor cannot run with current params"
-msgstr ""
+msgstr "O asistente de enfoque non pode executarse cos parámetros actuais."
 
 #: ekos/focus/focusadvisor.cpp:627
 #, kde-format
 msgid "Find Stars: Starting scan for stars..."
-msgstr ""
+msgstr "Atopar estrelas: iniciando a busca de estrelas…"
 
 #: ekos/focus/focusadvisor.cpp:628
 #, kde-format
 msgid "Find Stars: Jump size %1"
-msgstr ""
+msgstr "Atopar estrelas: tamaño de salto %1."
 
 #: ekos/focus/focusadvisor.cpp:629
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Find Stars: Scanning for stars..."
-msgstr "Atopando estrelas…"
+msgstr "Atopar estrelas: buscando estrelas…"
 
 #: ekos/focus/focusadvisor.cpp:631
 #, kde-format
 msgid "Find Stars: Failed"
-msgstr ""
+msgstr "Atopar estrelas: fallou."
 
 #: ekos/focus/focusadvisor.cpp:706
 #, kde-format
 msgid "Stars detected, range centre %1"
-msgstr ""
+msgstr "Detectáronse estrelas, o centro do alcance é %1."
 
 #: ekos/focus/focusadvisor.cpp:707
-#, fuzzy, kde-format
-#| msgid "Completed"
+#, kde-format
 msgid "Find Stars: Completed"
-msgstr "Completouse"
+msgstr "Atopar estrelas: completouse."
 
 #: ekos/focus/focusadvisor.cpp:725
 #, kde-format
 msgid "Detected %1 stars at %2"
-msgstr ""
+msgstr "Detectáronse %1 estrelas en %2."
 
 #: ekos/focus/focusadvisor.cpp:756
-#, fuzzy, kde-format
-#| msgid "Scan Start Pos: exceeded max iterations %1"
+#, kde-format
 msgid "Find Stars: exceeded max iterations %1"
-msgstr "Atopar a posición inicial: superáronse as iteracións máximas, %1."
+msgstr "Atopar estrelas: superáronse as iteracións máximas, %1."
 
 #: ekos/focus/focusadvisor.cpp:764
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Stars detected, centring range"
-msgstr "Non se detectou ningunha estrela; capturando de novo…"
+msgstr "Detectáronse estrelas, centrando o alcance."
 
 #: ekos/focus/focusadvisor.cpp:765
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Find Stars: Stars detected, centring range"
-msgstr "Non se detectou ningunha estrela; capturando de novo…"
+msgstr "Atopar estrelas: detectáronse estrelas, centrando o alcance."
 
 #: ekos/focus/focusadvisor.cpp:786
 #, kde-format
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
 msgstr ""
+"Execución %1 de atopar estrelas: non hai estrelas no inicio %2, buscando…"
 
 #: ekos/focus/focusadvisor.cpp:792
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: Scanning %3/%4"
-msgstr ""
+msgstr "Execución %1, sector %2 de atopar estrelas: buscando %3/%4."
 
 #: ekos/focus/focusadvisor.cpp:794
 #, kde-format
 msgid "Find Stars Run %1: Scanning Sector %2"
-msgstr ""
+msgstr "Execución %1 de atopar estrelas: examinando o sector %2."
 
 #: ekos/focus/focusadvisor.cpp:812
-#, fuzzy, kde-format
-#| msgid "Star hopper failed to find path"
+#, kde-format
 msgid "Find Stars Run %1: failed to find any stars"
-msgstr "O saltador de estrelas non puido atopar a ruta"
+msgstr "Execución %1 de atopar estrelas: non foi posíbel atopar ningunha."
 
 #: ekos/focus/focusadvisor.cpp:877
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
-msgstr ""
+msgstr "Execución %1, sector %2 de atopar estrelas: buscando %3/%4."
 
 #: ekos/focus/focusadvisor.cpp:884
 #, kde-format
 msgid "Find Stars Run %1: Failed"
-msgstr ""
+msgstr "Execución %1 de atopar estrelas: fallou."
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
-#, kde-format
-msgid "Course Adjustment Scan..."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Scan..."
+msgid "Coarse Adjustment Scan..."
+msgstr "Busca de axuste de rumbo…"
 
 #: ekos/focus/focusadvisor.cpp:947
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "Pre Autofocus: Failed"
-msgstr "O enfoque automático fallou."
+msgstr "Pre enfoque automático: fallou."
 
 #: ekos/focus/focusadvisor.cpp:957
-#, fuzzy, kde-format
-#| msgid "Autofocus failed: exceeded max iterations %1"
+#, kde-format
 msgid "Pre Autofocus: exceeded max iterations %1"
-msgstr "O enfoque automático fallou: superou as iteracións máximas, %1."
+msgstr "Pre enfoque automático: superáronse as iteracións máximas, %1."
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
-#, kde-format
-msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
+"Execución de axuste de rumbo: %1 Inicio: %2 Sobrebusca: %3 Tañamo de paso: "
+"%4."
 
 #: ekos/focus/focusadvisor.cpp:1016
-#, kde-format
-msgid "Course Adjustment Run %1 scan..."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Run %1 scan..."
+msgid "Coarse Adjustment Run %1 scan..."
+msgstr "Busca da execución %1 de axuste de rumbo…"
 
 #: ekos/focus/focusadvisor.cpp:1024
-#, kde-format
-msgid "Course Adjustment Run %1: insufficient data to proceed"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Run %1: insufficient data to proceed"
+msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+msgstr "Execución %1 de axuste de rumbo: non hai datos dabondo para proceder."
 
 #: ekos/focus/focusadvisor.cpp:1074
 #, kde-format
 msgid "Overscan estimate: %1 ticks"
-msgstr ""
+msgstr "Estimación de sobrebusca: %1 marcas."
 
 #: ekos/focus/focusadvisor.cpp:1119
-#, kde-format
-msgid "Course Adj: data quality too poor to continue"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adj: data quality too poor to continue"
+msgid "Coarse Adj: data quality too poor to continue"
+msgstr "Axuste de rumbo: a calidade dos datos é mala de máis para continuar."
 
 #: ekos/focus/focusadvisor.cpp:1161
 #, fuzzy, kde-format
-#| msgid "Solve Failed"
-msgid "Course Adj: Failed"
-msgstr "A resolución fallou"
+#| msgid "Course Adj: Failed"
+msgid "Coarse Adj: Failed"
+msgstr "Axuste de rumbo: fallou."
 
 #: ekos/focus/focusadvisor.cpp:1211
-#, fuzzy, kde-format
-#| msgid "Autofocus operation started"
+#, kde-format
 msgid "Autofocus parameter adjustment"
-msgstr "Iniciouse a operación de enfoque automático"
+msgstr "Axuste de parámetros de enfoque automático."
 
 #: ekos/focus/focusadvisor.cpp:1302
 #, kde-format
 msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
 msgstr ""
+"O asistente de enfoque está axustando o tamaño de paso: %1 → %2 Sobrebusca "
+"de enfoque automático: %3 → %4."
 
 #: ekos/focus/focusadvisor.cpp:1313
 #, kde-format
 msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
 msgstr ""
+"O enfoque automático estase intentando de novo: Tamaño de paso: %1 "
+"Sobrebusca do enfoque automático: %2."
 
 #: ekos/focus/focusadvisor.cpp:1318
 #, kde-format
 msgid "Autofocus complete: Step Size %1 AF Overscan %2"
 msgstr ""
+"O enfoque automático completouse: Tamaño de paso: %1 Sobrebusca do enfoque "
+"automático: %2."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -19650,11 +19642,12 @@ msgid ""
 "Check to have Focus Advisor update Focus parameters. Click Help to view the "
 "proposed changes."
 msgstr ""
+"Marcar para que o asistente de enfoque actualice os parámetros de enfoque. "
+"Prema «Axuda» para ver os cambios propostos."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
 #: ekos/focus/focusadvisor.ui:50
-#, fuzzy, kde-format
-#| msgid "Update Params"
+#, kde-format
 msgid "Update Parameters"
 msgstr "Actualizar os parámetros"
 
@@ -19665,79 +19658,82 @@ msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not neccessary."
 msgstr ""
+"Marcar para que o asistente de enfoque busque estrelas. Non necesita este "
+"paso se está preto dabondo do enfoque para ver estrelas no fotograma do "
+"enfoque."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:69
-#, fuzzy, kde-format
-#| msgid "Any Stars"
-msgid "Find Stars"
-msgstr "Calquera estrela"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCourseAdj)
-#: ekos/focus/focusadvisor.ui:105
 #, kde-format
+msgid "Find Stars"
+msgstr "Atopar estrelas."
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
+#: ekos/focus/focusadvisor.ui:105
+#, fuzzy, kde-format
+#| msgid ""
+#| "Check to have Focus Advisor find course focus. This will find an "
+#| "approximate focus position good enough to run Autofocus."
 msgid ""
-"Check to have Focus Advisor find course focus. This will find an approximate "
+"Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
+"Marcar para que o asistente de enfoque atope o enfoque de rumbo. Isto "
+"atopará unha posición de enfoque aproximada suficiente para executar o "
+"enfoque automático."
 
-#. i18n: ectx: property (text), widget (QCheckBox, focusAdvCourseAdj)
+#. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
-#, kde-format
-msgid "Course Adjustment (without Autofocus)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adjustment (without Autofocus)"
+msgid "Coarse Adjustment (without Autofocus)"
+msgstr "Axuste de rumbo (sen enfoque automático)."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor run Autofocus to make fine adjustments to focus "
 "parameters."
 msgstr ""
-"Se aceptar a recomendación do asistente de enfoque sobre os parámetros da "
-"lapela do proceso."
+"Marcar para que o asistente de enfoque execute o enfoque automático para "
+"aplicar pequenos axustes nos parámetros de enfoques."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:127
 #, kde-format
 msgid "Fine Adjustment (using Autofocus)"
-msgstr ""
+msgstr "Atopar o axuste (usando o enfoque automático)."
 
 #. i18n: ectx: property (toolTip), widget (QDialogButtonBox, focusAdvButtonBox)
 #: ekos/focus/focusadvisor.ui:160
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Close Focus Advisor"
-msgstr "Asistente de enfoque"
+msgstr "Pechar o asistente de enfoque."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorHelpDialog)
 #: ekos/focus/focusadvisorhelp.ui:14
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor Help"
-msgstr "Asistente de enfoque"
+msgstr "Axuda do asistente de enfoque"
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/focus/focusadvisorhelp.ui:26
-#, fuzzy, kde-format
-#| msgid "Recommended"
+#, kde-format
 msgid "Recommendations:"
-msgstr "Recomendado"
+msgstr "Recomendacións:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:68
 #, kde-format
 msgid "Check to display only recommended changes"
-msgstr ""
+msgstr "Marcar para amosar só os cambios recomendados."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:71
-#, fuzzy, kde-format
-#| msgid "Show inline images"
+#, kde-format
 msgid "Show Only Changes"
-msgstr "Amosar imaxes in situ."
+msgstr "Só amosar cambios."
 
 #: ekos/focus/focusalgorithms.cpp:520
 #, kde-format
@@ -25164,7 +25160,7 @@ msgid "Slaving deactivated."
 msgstr "Desactivouse a imitación."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
-#: fitsviewer/fitstab.cpp:702
+#: fitsviewer/fitstab.cpp:703
 #, kde-format
 msgid "Aborting..."
 msgstr "Interrompendo…"
@@ -25839,7 +25835,7 @@ msgstr "Atopouse un xestor web de INDI en %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverProfileLabel)
-#: ekos/profileeditor.ui:32 fitsviewer/platesolve.ui:369
+#: ekos/profileeditor.ui:32 fitsviewer/platesolve.ui:405
 #, kde-format
 msgid "Profile"
 msgstr "Perfil"
@@ -30038,48 +30034,48 @@ msgstr "Garda de imaxe"
 msgid "File saved to %1"
 msgstr "O ficheiro gardouse en %1."
 
-#: fitsviewer/fitstab.cpp:692
+#: fitsviewer/fitstab.cpp:693
 #, kde-format
 msgid "Extracting..."
 msgstr "Extraendo…"
 
-#: fitsviewer/fitstab.cpp:710
+#: fitsviewer/fitstab.cpp:711
 #, kde-format
 msgid "Solving..."
 msgstr "Resolvendo…"
 
-#: fitsviewer/fitstab.cpp:723
+#: fitsviewer/fitstab.cpp:724
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "O extractor esgotou o tempo límite: %1 s."
 
-#: fitsviewer/fitstab.cpp:732
+#: fitsviewer/fitstab.cpp:733
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "O extractor fallou: %1 s"
 
-#: fitsviewer/fitstab.cpp:741
+#: fitsviewer/fitstab.cpp:742
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Extraéronse %1 estrelas (%2 sen filtrar) en %3 s."
 
-#: fitsviewer/fitstab.cpp:789
+#: fitsviewer/fitstab.cpp:790
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "A actualización do resolvedor esgotou o tempo límite: %1 s."
 
-#: fitsviewer/fitstab.cpp:794
+#: fitsviewer/fitstab.cpp:795
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "O resolvedor fallou: %1 s."
 
-#: fitsviewer/fitstab.cpp:954
+#: fitsviewer/fitstab.cpp:965
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Aviso! Esta ferramenta só permite o resolvedor interno de StellarSolver."
 
-#: fitsviewer/fitstab.cpp:955
+#: fitsviewer/fitstab.cpp:966
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Cambiar a iso no menú de opcións de aliñamento de Ekos."
@@ -30895,15 +30891,32 @@ msgstr ""
 msgid "The solved image position angle, East of North (degrees)."
 msgstr "O ángulo de posición da imaxe resolto, leste do norte (graos)."
 
+#. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
+#. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
+#: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
+#, fuzzy, kde-format
+#| msgid "RAM cache size in MB used to store cached HIPS images."
+msgid "The index file used to solve the image."
+msgstr ""
+"Tamaño da caché en RAM en MB que se usa para almacenar as imaxes HIPS en "
+"caché."
+
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
+#: fitsviewer/platesolve.ui:363
+#, fuzzy, kde-format
+#| msgid "Index Files"
+msgid "Index file"
+msgstr "Ficheiros de índice"
+
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
-#: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
+#: fitsviewer/platesolve.ui:402 fitsviewer/platesolve.ui:424
 #, kde-format
 msgid "Selects the Options Profile to use for plate solving"
 msgstr "Selecciona o perfil de opcións para usar para resolver placas."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
-#: fitsviewer/platesolve.ui:410
+#: fitsviewer/platesolve.ui:446
 #, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
@@ -30913,7 +30926,7 @@ msgstr ""
 "resolver placas."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
-#: fitsviewer/platesolve.ui:432
+#: fitsviewer/platesolve.ui:468
 #, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
 msgstr "Abre o perfil seleccionado no editor de perfís de opcións."
@@ -38173,40 +38186,32 @@ msgstr "O tamaño dunha marca de focalizador en micrómetros."
 #: kstars.kcfg:2304
 #, kde-format
 msgid "Focus Advisor Help shows only changes."
-msgstr ""
+msgstr "A axuda do asistente de enfoque só amosa cambios."
 
 #. i18n: ectx: whatsthis, entry (focusAdvUpdateParams), group (Focus)
 #: kstars.kcfg:2308
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on SEP Parameters."
+#, kde-format
 msgid "Whether to run the Focus Advisor Update Parameters function."
 msgstr ""
-"Se aceptar a recomendación do asistente de enfoque sobre os parámetros de "
-"SEP."
+"Se executar a función de actualización de parámetros do asistente de enfoque."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFindStars), group (Focus)
 #: kstars.kcfg:2312
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Find Stars function."
-msgstr ""
-"Se aceptar a recomendación do asistente de enfoque sobre o tamaño de paso."
+msgstr "Se executar a función de atopar estrelas do asistente de enfoque."
 
 #. i18n: ectx: whatsthis, entry (focusAdvCourseAdj), group (Focus)
 #: kstars.kcfg:2316
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Course Adjustment function."
-msgstr ""
-"Se aceptar a recomendación do asistente de enfoque sobre o tamaño de paso."
+msgstr "Se executar a función de axuste de rumbo do asistente de enfoque."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFineAdj), group (Focus)
 #: kstars.kcfg:2320
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Fine Adjustment function."
-msgstr ""
-"Se aceptar a recomendación do asistente de enfoque sobre o tamaño de paso."
+msgstr "Se executar a función de pequenos axustes do asistente de enfoque."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2325

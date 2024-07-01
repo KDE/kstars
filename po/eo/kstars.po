@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-26 01:44+0000\n"
-"PO-Revision-Date: 2024-06-28 21:02+0200\n"
+"POT-Creation-Date: 2024-07-01 01:43+0000\n"
+"PO-Revision-Date: 2024-06-30 17:15+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -541,7 +541,7 @@ msgstr "Daŭrigi"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:706
+#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:707
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10192,7 +10192,7 @@ msgstr "Kapto"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:736
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:737
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -17488,7 +17488,7 @@ msgstr "Priskribo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, SolutionGroupBox)
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:458
+#: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:494
 #: fitsviewer/solveInfo.ui:91
 #, kde-format
 msgid "Solution"
@@ -19196,7 +19196,7 @@ msgstr "Proponita Valoroj"
 #: ekos/focus/focusadvisor.cpp:85
 #, kde-format
 msgid "Focus Advisor proposed value for the parameter"
-msgstr ""
+msgstr "Focus Advisor proponis valoron por la parametro"
 
 #: ekos/focus/focusadvisor.cpp:118
 #, kde-format
@@ -19206,7 +19206,7 @@ msgstr "Alia fokus-ago progresadas. Bonvolu reprovi."
 #: ekos/focus/focusadvisor.cpp:136
 #, kde-format
 msgid "Focus Advisor cannot run with current params."
-msgstr ""
+msgstr "Focus Advisor ne povas funkcii kun aktualaj parametroj."
 
 #: ekos/focus/focusadvisor.cpp:142
 #, kde-format
@@ -19247,23 +19247,23 @@ msgstr "Mekanikaj Parametroj"
 #: ekos/focus/focusadvisor.cpp:585
 #, kde-format
 msgid "Focus Advisor aborted due to internal error"
-msgstr ""
+msgstr "Fokuso-Konsilisto ĉesigita pro interna eraro"
 
 #: ekos/focus/focusadvisor.cpp:594 ekos/focus/focusadvisor.cpp:899
 #: ekos/focus/focusadvisor.cpp:1193
 #, kde-format
 msgid "Focus Advisor cannot run with current params"
-msgstr ""
+msgstr "Focus Advisor ne povas funkcii kun aktualaj parametroj"
 
 #: ekos/focus/focusadvisor.cpp:627
 #, kde-format
 msgid "Find Stars: Starting scan for stars..."
-msgstr ""
+msgstr "Trovu Stelojn: Komencante skanadon por steloj..."
 
 #: ekos/focus/focusadvisor.cpp:628
 #, kde-format
 msgid "Find Stars: Jump size %1"
-msgstr ""
+msgstr "Trovi Stelojn: Salta grandeco %1"
 
 #: ekos/focus/focusadvisor.cpp:629
 #, kde-format
@@ -19273,12 +19273,12 @@ msgstr "Trovi Stelojn: Skanante pri steloj..."
 #: ekos/focus/focusadvisor.cpp:631
 #, kde-format
 msgid "Find Stars: Failed"
-msgstr ""
+msgstr "Trovi Stelojn: Malsukcesis"
 
 #: ekos/focus/focusadvisor.cpp:706
 #, kde-format
 msgid "Stars detected, range centre %1"
-msgstr ""
+msgstr "Steloj detektitaj, intervalcentro %1"
 
 #: ekos/focus/focusadvisor.cpp:707
 #, kde-format
@@ -19288,7 +19288,7 @@ msgstr "Trovi Stelojn: Kompletigita"
 #: ekos/focus/focusadvisor.cpp:725
 #, kde-format
 msgid "Detected %1 stars at %2"
-msgstr ""
+msgstr "Detektis %1 stelojn ĉe %2"
 
 #: ekos/focus/focusadvisor.cpp:756
 #, kde-format
@@ -19308,17 +19308,17 @@ msgstr "Trovi Stelojn: Steloj detektitaj, centrigante gamon..."
 #: ekos/focus/focusadvisor.cpp:786
 #, kde-format
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
-msgstr ""
+msgstr "Trovi Stelojn Rulo %1: Neniuj steloj ĉe la komenco %2, skanante..."
 
 #: ekos/focus/focusadvisor.cpp:792
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: Scanning %3/%4"
-msgstr ""
+msgstr "Trovi Stelojn Kuru %1 Sektoro %2: Skanante %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:794
 #, kde-format
 msgid "Find Stars Run %1: Scanning Sector %2"
-msgstr ""
+msgstr "Trovi Stelojn Rulo %1: Skananta Sektoro %2"
 
 #: ekos/focus/focusadvisor.cpp:812
 #, kde-format
@@ -19328,18 +19328,19 @@ msgstr "Trovi Stelojn Rulo %1: malsukcesis trovi ajn stelojn"
 #: ekos/focus/focusadvisor.cpp:877
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
-msgstr ""
+msgstr "Trovi Stelojn Rulo %1 Sektoro %2: skanante %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:884
 #, kde-format
 msgid "Find Stars Run %1: Failed"
-msgstr ""
+msgstr "Trovi Stelojn Rulo %1: Malsukcesis"
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
-#, kde-format
-msgid "Course Adjustment Scan..."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Scan..."
+msgid "Coarse Adjustment Scan..."
+msgstr "Skanado de Kursa Alĝustigo..."
 
 #: ekos/focus/focusadvisor.cpp:947
 #, kde-format
@@ -19352,33 +19353,39 @@ msgid "Pre Autofocus: exceeded max iterations %1"
 msgstr "Antaŭ-Aŭtomatfokusado: transpasis maks iteraciojn %1"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
-#, kde-format
-msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
+"Rulo de Kursa Alĝustigo: %1 Komenco: %2 Troskanado: %3 Paŝa Grandeco: %4"
 
 #: ekos/focus/focusadvisor.cpp:1016
-#, kde-format
-msgid "Course Adjustment Run %1 scan..."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Run %1 scan..."
+msgid "Coarse Adjustment Run %1 scan..."
+msgstr "Kursa Alĝustig-Rulo %1 skanado..."
 
 #: ekos/focus/focusadvisor.cpp:1024
-#, kde-format
-msgid "Course Adjustment Run %1: insufficient data to proceed"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adjustment Run %1: insufficient data to proceed"
+msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+msgstr "Kursa Alĝustig-Rulo %1: nesufiĉaj datumoj por daŭrigi"
 
 #: ekos/focus/focusadvisor.cpp:1074
 #, kde-format
 msgid "Overscan estimate: %1 ticks"
-msgstr ""
+msgstr "Troskanita takso: %1 tiktakoj"
 
 #: ekos/focus/focusadvisor.cpp:1119
-#, kde-format
-msgid "Course Adj: data quality too poor to continue"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adj: data quality too poor to continue"
+msgid "Coarse Adj: data quality too poor to continue"
+msgstr "Kursa Alĝ: datumkvalito tro malbona por daŭrigi"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, kde-format
-msgid "Course Adj: Failed"
+#, fuzzy, kde-format
+#| msgid "Course Adj: Failed"
+msgid "Coarse Adj: Failed"
 msgstr "Kurs-Alĝust: Malsukcesis"
 
 #: ekos/focus/focusadvisor.cpp:1211
@@ -19390,16 +19397,17 @@ msgstr "Alĝustigo de aŭtomatfokusa parametro"
 #, kde-format
 msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
 msgstr ""
+"Fokuso-Konsilisto ĝustiganta Paŝgrandecon: %1->%2 AF Troskanado: %3->%4"
 
 #: ekos/focus/focusadvisor.cpp:1313
 #, kde-format
 msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
-msgstr ""
+msgstr "Reprovado de aŭtomata fokuso: Paŝa grandeco %1 AF Troskanado %2"
 
 #: ekos/focus/focusadvisor.cpp:1318
 #, kde-format
 msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-msgstr ""
+msgstr "Aŭtomata fokuso kompleta: Paŝa grandeco %1 AF Troskanado %2"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -19414,6 +19422,8 @@ msgid ""
 "Check to have Focus Advisor update Focus parameters. Click Help to view the "
 "proposed changes."
 msgstr ""
+"Kontrolu ke Focus Advisor ĝisdatigu la parametrojn de Focus. Alklaku Helpon "
+"por vidi la proponitajn ŝanĝojn."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
 #: ekos/focus/focusadvisor.ui:50
@@ -19428,6 +19438,8 @@ msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not neccessary."
 msgstr ""
+"Kontrolu ke Focus Advisor serĉu stelojn. Se vi estas sufiĉe proksima al "
+"Fokuso por vidi stelojn en la Foksa kadro, tiam ĉi tiu paŝo ne estas necesa."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:69
@@ -19435,19 +19447,25 @@ msgstr ""
 msgid "Find Stars"
 msgstr "Trovi Stelojn"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCourseAdj)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Check to have Focus Advisor find course focus. This will find an "
+#| "approximate focus position good enough to run Autofocus."
 msgid ""
-"Check to have Focus Advisor find course focus. This will find an approximate "
+"Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
+"Kontrolu ke Focus Advisor trovu kursfokuson. Ĉi tio trovos proksimuman "
+"fokusan pozicion sufiĉe bona por ruli Aŭtofokuson."
 
-#. i18n: ectx: property (text), widget (QCheckBox, focusAdvCourseAdj)
+#. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
-#, kde-format
-msgid "Course Adjustment (without Autofocus)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Course Adjustment (without Autofocus)"
+msgid "Coarse Adjustment (without Autofocus)"
+msgstr "Kursa Ĝustigo (sen Aŭtomata fokuso)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
@@ -19463,7 +19481,7 @@ msgstr ""
 #: ekos/focus/focusadvisor.ui:127
 #, kde-format
 msgid "Fine Adjustment (using Autofocus)"
-msgstr ""
+msgstr "Fajn-Alĝustigo (uzante Aŭtomatan fokuson)"
 
 #. i18n: ectx: property (toolTip), widget (QDialogButtonBox, focusAdvButtonBox)
 #: ekos/focus/focusadvisor.ui:160
@@ -19487,7 +19505,7 @@ msgstr "Rekomendoj:"
 #: ekos/focus/focusadvisorhelp.ui:68
 #, kde-format
 msgid "Check to display only recommended changes"
-msgstr ""
+msgstr "Marku por montri nur rekomenditajn ŝanĝojn"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:71
@@ -24861,7 +24879,7 @@ msgid "Slaving deactivated."
 msgstr "Sklavo malaktivigita."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
-#: fitsviewer/fitstab.cpp:702
+#: fitsviewer/fitstab.cpp:703
 #, kde-format
 msgid "Aborting..."
 msgstr "Abortante..."
@@ -25527,7 +25545,7 @@ msgstr "Trovis INDI-Retan Administranton ĉe %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverProfileLabel)
-#: ekos/profileeditor.ui:32 fitsviewer/platesolve.ui:369
+#: ekos/profileeditor.ui:32 fitsviewer/platesolve.ui:405
 #, kde-format
 msgid "Profile"
 msgstr "Profilo"
@@ -29618,47 +29636,47 @@ msgstr "Konservi bildon"
 msgid "File saved to %1"
 msgstr "Dosiero konservita al %1"
 
-#: fitsviewer/fitstab.cpp:692
+#: fitsviewer/fitstab.cpp:693
 #, kde-format
 msgid "Extracting..."
 msgstr "Ĉerpante..."
 
-#: fitsviewer/fitstab.cpp:710
+#: fitsviewer/fitstab.cpp:711
 #, kde-format
 msgid "Solving..."
 msgstr "Solvante..."
 
-#: fitsviewer/fitstab.cpp:723
+#: fitsviewer/fitstab.cpp:724
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Ekstraktilo eltempiĝis: %1s"
 
-#: fitsviewer/fitstab.cpp:732
+#: fitsviewer/fitstab.cpp:733
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Ekstraktilo malsukcesis: %1s"
 
-#: fitsviewer/fitstab.cpp:741
+#: fitsviewer/fitstab.cpp:742
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Ĉerpis %1 stelojn (%2 nefiltritaj) en %3s"
 
-#: fitsviewer/fitstab.cpp:789
+#: fitsviewer/fitstab.cpp:790
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Solvanto eltempiĝis: %1s"
 
-#: fitsviewer/fitstab.cpp:794
+#: fitsviewer/fitstab.cpp:795
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Solvanto malsukcesis: %1s"
 
-#: fitsviewer/fitstab.cpp:954
+#: fitsviewer/fitstab.cpp:965
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr "Averto! Ĉi tiu ilo nur subtenas la internan StellarSolver-solvilon."
 
-#: fitsviewer/fitstab.cpp:955
+#: fitsviewer/fitstab.cpp:966
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Ŝanĝi al tiu en la Ekos-Align elekteblomenuo."
@@ -30465,15 +30483,31 @@ msgstr ""
 msgid "The solved image position angle, East of North (degrees)."
 msgstr "La solvita bildpozicia angulo, Oriente de Nordo (gradoj)."
 
+#. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
+#. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
+#: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
+#, fuzzy, kde-format
+#| msgid "RAM cache size in MB used to store cached HIPS images."
+msgid "The index file used to solve the image."
+msgstr ""
+"RAM-kaŝmemorgrandeco en MB uzata por konservi kaŝmemorigitajn HIPS-bildojn."
+
+#. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
+#: fitsviewer/platesolve.ui:363
+#, fuzzy, kde-format
+#| msgid "Index Files"
+msgid "Index file"
+msgstr "Indeksaj Dosieroj"
+
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
-#: fitsviewer/platesolve.ui:366 fitsviewer/platesolve.ui:388
+#: fitsviewer/platesolve.ui:402 fitsviewer/platesolve.ui:424
 #, kde-format
 msgid "Selects the Options Profile to use for plate solving"
 msgstr "Elektas la Opcioj-Profilon uzendan por pletsolvado"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
-#: fitsviewer/platesolve.ui:410
+#: fitsviewer/platesolve.ui:446
 #, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
@@ -30483,7 +30517,7 @@ msgstr ""
 "pletsolvado"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
-#: fitsviewer/platesolve.ui:432
+#: fitsviewer/platesolve.ui:468
 #, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
 msgstr ""
@@ -37611,7 +37645,7 @@ msgstr "La grandeco de fokusila paŝero en mikrometroj."
 #: kstars.kcfg:2304
 #, kde-format
 msgid "Focus Advisor Help shows only changes."
-msgstr ""
+msgstr "Helpo de Focus Advisor montras nur ŝanĝojn."
 
 #. i18n: ectx: whatsthis, entry (focusAdvUpdateParams), group (Focus)
 #: kstars.kcfg:2308
