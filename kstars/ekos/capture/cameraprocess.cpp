@@ -168,11 +168,19 @@ bool CameraProcess::setCamera(ISD::Camera *device)
     if (devices()->getActiveCamera() == device)
         return false;
 
+    // disable passing through new frames to the FITS viewer
+    if (activeCamera())
+        disconnect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::showFITSPreview);
+
     devices()->setActiveCamera(device);
 
     // If we capturing, then we need to process capture timeout immediately since this is a crash recovery
     if (state()->getCaptureTimeout().isActive() && state()->getCaptureState() == CAPTURE_CAPTURING)
         QTimer::singleShot(100, this, &CameraProcess::processCaptureTimeout);
+
+    // enable passing through new frames to the FITS viewer
+    if (activeCamera())
+        connect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::showFITSPreview);
 
     return true;
 
@@ -1214,6 +1222,13 @@ void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const 
 
     // hand over to the capture module
     emit processingFITSfinished(true);
+}
+
+void CameraProcess::showFITSPreview(const QSharedPointer<FITSData> &data)
+{
+    ISD::CameraChip * tChip  = activeCamera()->getChip(static_cast<ISD::CameraChip::ChipType>(data->property("chip").toInt()));
+
+    updateFITSViewer(data, tChip->getCaptureMode(), tChip->getCaptureFilter(), "", data->property("device").toString());
 }
 
 void CameraProcess::processNewRemoteFile(QString file)
@@ -2421,7 +2436,7 @@ void CameraProcess::updateFilterInfo()
 
 QString Ekos::CameraProcess::createTabTitle(const FITSMode &captureMode, const QString &deviceName)
 {
-    const bool isPreview = (activeJob() && activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW);
+    const bool isPreview = (activeJob() == nullptr || (activeJob() && activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW));
     if (isPreview && Options::singlePreviewFITS())
     {
         // If we are displaying all images from all cameras in a single FITS
@@ -2562,9 +2577,13 @@ void CameraProcess::setCamera(bool connection)
         connect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::processFITSData, Qt::UniqueConnection);
         connect(activeCamera(), &ISD::Camera::newRemoteFile, this, &CameraProcess::processNewRemoteFile, Qt::UniqueConnection);
         connect(activeCamera(), &ISD::Camera::ready, this, &CameraProcess::cameraReady, Qt::UniqueConnection);
+        // disable passing through new frames to the FITS viewer
+        disconnect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::showFITSPreview);
     }
     else
     {
+        // enable passing through new frames to the FITS viewer
+        connect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::showFITSPreview);
         // TODO: do not simply forward the newExposureValue
         disconnect(activeCamera(), &ISD::Camera::newExposureValue, this, &CameraProcess::setExposureProgress);
         disconnect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::processFITSData);

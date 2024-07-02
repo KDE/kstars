@@ -418,6 +418,12 @@ public:
     void processFITSData(const QSharedPointer<FITSData> &data, const QString &extension);
 
     /**
+     * @brief showFITSPreview Directly show the FITS data as preview
+     * @param data pointer to blob containing FITS data
+     */
+    void showFITSPreview(const QSharedPointer<FITSData> &data);
+
+    /**
      * @brief setNewRemoteFile A new image has been stored as remote file
      * @param file local file path
      */
