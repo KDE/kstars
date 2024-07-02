@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-01 01:43+0000\n"
-"PO-Revision-Date: 2024-06-26 08:33+0300\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian\n"
+"PO-Revision-Date: 2024-07-01 09:36+0300\n"
+"Last-Translator: Fracture dept <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19606,10 +19606,9 @@ msgstr "Запуск пошуку зірок %1: помилка"
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment Scan..."
-msgstr "Сканування коригування курсу…"
+msgstr "Сканування грубого коригування…"
 
 #: ekos/focus/focusadvisor.cpp:947
 #, kde-format
@@ -19623,24 +19622,21 @@ msgstr ""
 "Попереднє автофокусування: перевищено максимальну кількість ітерацій, %1"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#, kde-format
 msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
-"Запуск коригування курсу: %1, початок: %2, пересканування: %3, розмір кроку: "
-"%4"
+"Запуск грубого коригування: %1, початок: %2, пересканування: %3, розмір "
+"кроку: %4"
 
 #: ekos/focus/focusadvisor.cpp:1016
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1 scan..."
+#, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
-msgstr "Запуск коригування курсу %1, сканування…"
+msgstr "Запуск грубого коригування %1, сканування…"
 
 #: ekos/focus/focusadvisor.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1: insufficient data to proceed"
+#, kde-format
 msgid "Coarse Adjustment Run %1: insufficient data to proceed"
-msgstr "Запуск коригування курсу %1: недостатньо даних для продовження"
+msgstr "Запуск грубого коригування %1: недостатньо даних для продовження"
 
 #: ekos/focus/focusadvisor.cpp:1074
 #, kde-format
@@ -19648,16 +19644,14 @@ msgid "Overscan estimate: %1 ticks"
 msgstr "Оцінка пересканування: %1 поділок"
 
 #: ekos/focus/focusadvisor.cpp:1119
-#, fuzzy, kde-format
-#| msgid "Course Adj: data quality too poor to continue"
+#, kde-format
 msgid "Coarse Adj: data quality too poor to continue"
-msgstr "Коригування курсу: якість даних є надто низькою для продовження"
+msgstr "Грубе коригування: якість даних є надто низькою для продовження"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Course Adj: Failed"
+#, kde-format
 msgid "Coarse Adj: Failed"
-msgstr "Коригування курсу: помилка"
+msgstr "Грубе коригування: помилка"
 
 #: ekos/focus/focusadvisor.cpp:1211
 #, kde-format
@@ -19725,24 +19719,20 @@ msgstr "Пошук зірок"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to have Focus Advisor find course focus. This will find an "
-#| "approximate focus position good enough to run Autofocus."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
-"Позначте, щоб радник з фокусування шукав курс фокусування. У результаті буде "
-"виявлено приблизну позицію фокусування, яка є достатньо доброю для запуску "
-"автофокусування."
+"Позначте, щоб радник з фокусування шукав грубе фокусування. У результаті "
+"буде виявлено приблизну позицію фокусування, яка є достатньо доброю для "
+"запуску автофокусування."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
-#, fuzzy, kde-format
-#| msgid "Course Adjustment (without Autofocus)"
+#, kde-format
 msgid "Coarse Adjustment (without Autofocus)"
-msgstr "Коригування курсу (без автофокусування)"
+msgstr "Грубе коригування (без автофокусування)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
@@ -31013,17 +31003,15 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
 #: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
-#, fuzzy, kde-format
-#| msgid "RAM cache size in MB used to store cached HIPS images."
+#, kde-format
 msgid "The index file used to solve the image."
-msgstr "Розмір кешу в оперативній пам'яті у МБ для зберігання зображень HIPS."
+msgstr "Файл покажчика, який використано для розв'язування зображення."
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:363
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "Файли покажчика"
+msgstr "Файл покажчика"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)

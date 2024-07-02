@@ -18584,11 +18584,9 @@ msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Coarse Adjustment Scan..."
-msgstr "图像调节"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:947
 #, kde-format
@@ -28986,17 +28984,15 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
 #: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
-#, fuzzy, kde-format
-#| msgid "RAM cache size in MB used to store cached HIPS images."
+#, kde-format
 msgid "The index file used to solve the image."
-msgstr "RAM 缓存大小（以 MB 为单位），用于存储 HiPS 图像缓存。"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:363
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "索引文件"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)

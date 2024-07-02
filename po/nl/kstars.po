@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-01 01:43+0000\n"
-"PO-Revision-Date: 2024-06-26 11:47+0200\n"
+"PO-Revision-Date: 2024-07-01 22:11+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -19462,10 +19462,9 @@ msgstr "Sterren zoeken run %1: mislukt"
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment Scan..."
-msgstr "Scan voor grove aanpassing..."
+msgstr "Scan voor ruwe aanpassing..."
 
 #: ekos/focus/focusadvisor.cpp:947
 #, kde-format
@@ -19478,23 +19477,20 @@ msgid "Pre Autofocus: exceeded max iterations %1"
 msgstr "Pre-autofocus: maximale iteraties %1 overschreden"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#, kde-format
 msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
-msgstr "Run voor grove aanpassing: %1 Start: %2 Overscan: %3 Stapgrootte: %4"
+msgstr "Run voor ruwe aanpassing: %1 Start: %2 Overscan: %3 Stapgrootte: %4"
 
 #: ekos/focus/focusadvisor.cpp:1016
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1 scan..."
+#, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
-msgstr "Scan voor grove aanpassing run %1..."
+msgstr "Scan voor ruwe aanpassing run %1..."
 
 #: ekos/focus/focusadvisor.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1: insufficient data to proceed"
+#, kde-format
 msgid "Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr ""
-"Scan voor grove aanpassing run %1: onvoldoende gegevens om verder te gaan"
+"Scan voor ruwe aanpassing run %1: onvoldoende gegevens om verder te gaan"
 
 #: ekos/focus/focusadvisor.cpp:1074
 #, kde-format
@@ -19502,16 +19498,14 @@ msgid "Overscan estimate: %1 ticks"
 msgstr "Schatting voor overscan: %1 streepjes"
 
 #: ekos/focus/focusadvisor.cpp:1119
-#, fuzzy, kde-format
-#| msgid "Course Adj: data quality too poor to continue"
+#, kde-format
 msgid "Coarse Adj: data quality too poor to continue"
-msgstr "Grove aanpassing: gegevenskwaliteit te slecht om door te gaan"
+msgstr "Ruwe aanpassing: gegevenskwaliteit te slecht om door te gaan"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Course Adj: Failed"
+#, kde-format
 msgid "Coarse Adj: Failed"
-msgstr "Grove afstelling: mislukt"
+msgstr "Ruwe afstelling: mislukt"
 
 #: ekos/focus/focusadvisor.cpp:1211
 #, kde-format
@@ -19574,24 +19568,19 @@ msgstr "Sterren zoeken"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to have Focus Advisor find course focus. This will find an "
-#| "approximate focus position good enough to run Autofocus."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
-"Activeer om focusadviseur autofocus uit te laten voeren voor grove focus. "
-"Dit zal een benaderde focuspositie zoeken goed genoeg om autofocus uit te "
-"voeren."
+"Activeer om focusadviseur autofocus uit te laten voeren voor ruwe focus. Dit "
+"zal een benaderde focuspositie zoeken goed genoeg om autofocus uit te voeren."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
-#, fuzzy, kde-format
-#| msgid "Course Adjustment (without Autofocus)"
+#, kde-format
 msgid "Coarse Adjustment (without Autofocus)"
-msgstr "Grove aanpassing (zonder autofocus)"
+msgstr "Ruwe aanpassing (zonder autofocus)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
@@ -30712,17 +30701,15 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
 #: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
-#, fuzzy, kde-format
-#| msgid "RAM cache size in MB used to store cached HIPS images."
+#, kde-format
 msgid "The index file used to solve the image."
-msgstr "Grootte RAM cache in MB voor opslaan van HIPS-afbeeldingen."
+msgstr "Het gebruikte indexbestand om de afbeelding op te lossen."
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:363
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "Indexbestanden"
+msgstr "Indexbestand"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)

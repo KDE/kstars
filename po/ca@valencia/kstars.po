@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-01 01:43+0000\n"
-"PO-Revision-Date: 2024-06-24 11:27+0200\n"
+"PO-Revision-Date: 2024-07-01 21:06+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -12688,12 +12688,7 @@ msgstr "Neteja tots els registres"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/opslogs.ui:59
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. "
-#| "Only enable the necessary logs to help in diagnosing specific problems. "
-#| "Logs consume resources and may slow the system down. Turn off logs when "
-#| "no longer used.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. If "
 "your system is resource limited, e.g. Raspberry Pi with SD Card, then only "
@@ -12702,9 +12697,11 @@ msgid ""
 "system down.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Activeu els registres per a diagnosticar problemes amb "
-"Ekos o INDI. Activeu només els registres necessaris per a ajudar a "
-"diagnosticar problemes concrets. Els registres consumixen recursos i poden "
-"alentir el sistema. Desactiveu-los quan ja no s'utilitzen.</p></body></html>"
+"Ekos o INDI. Si el vostre sistema té recursos limitats, &pex;, una Raspberry "
+"Pi amb una targeta SD, activeu només els registres necessaris per a ajudar a "
+"diagnosticar problemes concrets i desactiveu-los quan ja no siguen "
+"necessaris. Els registres consumixen recursos i poden alentir el sistema.</"
+"p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/auxiliary/opslogs.ui:71
@@ -19759,74 +19756,64 @@ msgid "Clear"
 msgstr "Neteja"
 
 #: ekos/focus/focusadvisor.cpp:76
-#, fuzzy, kde-format
-#| msgid "SEP Parameters:"
+#, kde-format
 msgid "Parameter"
-msgstr "Paràmetres del SEP:"
+msgstr "Paràmetre"
 
 #: ekos/focus/focusadvisor.cpp:77
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Parameter Name"
-msgstr "Nom del planeta"
+msgstr "Nom del paràmetre"
 
 #: ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Current Altitude"
+#, kde-format
 msgid "Current Value"
-msgstr "Altitud actual"
+msgstr "Valor actual"
 
 #: ekos/focus/focusadvisor.cpp:81
-#, fuzzy, kde-format
-#| msgid "Current application theme"
+#, kde-format
 msgid "Current value of the parameter"
-msgstr "Tema de l'aplicació actual"
+msgstr "Valor actual del paràmetre"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgid "Pixel Values"
+#, kde-format
 msgid "Proposed Value"
-msgstr "Valors de píxel"
+msgstr "Valors proposat"
 
 #: ekos/focus/focusadvisor.cpp:85
 #, kde-format
 msgid "Focus Advisor proposed value for the parameter"
-msgstr ""
+msgstr "Valor proposat del paràmetre per a l'Assessor d'enfocament"
 
 #: ekos/focus/focusadvisor.cpp:118
-#, fuzzy, kde-format
-#| msgid "Star detection in progress, retrying in 1s..."
+#, kde-format
 msgid "Another focus action in progress. Please try again."
-msgstr "La detecció d'estreles està en curs, es tornarà a intentar en 1 segon…"
+msgstr "Hi ha una altra acció d'enfocament en curs. Torneu-ho a provar."
 
 #: ekos/focus/focusadvisor.cpp:136
 #, kde-format
 msgid "Focus Advisor cannot run with current params."
-msgstr ""
+msgstr "L'Assessor d'enfocament no es pot executar amb els paràmetres actuals."
 
 #: ekos/focus/focusadvisor.cpp:142
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor stopped"
-msgstr "Assessor d'enfocament"
+msgstr "S'ha parat l'Assessor d'enfocament"
 
 #: ekos/focus/focusadvisor.cpp:213
-#, fuzzy, kde-format
-#| msgid "Update Params"
+#, kde-format
 msgid "Updated base parameters"
-msgstr "Actualitza els paràmetres"
+msgstr "S'han actualitzat els paràmetres base"
 
 #: ekos/focus/focusadvisor.cpp:242
-#, fuzzy, kde-format
-#| msgid "Camera & Filter Wheel Parameters:"
+#, kde-format
 msgid "Camera & Filter Wheel Parameters"
-msgstr "Paràmetres de la càmera i la roda de filtres:"
+msgstr "Paràmetres de la càmera i la roda de filtres"
 
 #: ekos/focus/focusadvisor.cpp:276
-#, fuzzy, kde-format
-#| msgid "Settings Parameters:"
+#, kde-format
 msgid "Settings Parameters"
-msgstr "Paràmetres de la configuració:"
+msgstr "Paràmetres de la configuració"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
 #: ekos/focus/focusadvisor.cpp:358 ekos/focus/opsfocussettings.ui:242
@@ -19835,188 +19822,178 @@ msgid "Mask"
 msgstr "Màscara"
 
 #: ekos/focus/focusadvisor.cpp:375
-#, fuzzy, kde-format
-#| msgid "Process Parameters:"
+#, kde-format
 msgid "Process Parameters"
-msgstr "Paràmetres del processament:"
+msgstr "Paràmetres del processament"
 
 #: ekos/focus/focusadvisor.cpp:417
-#, fuzzy, kde-format
-#| msgid "Mechanics Parameters:"
+#, kde-format
 msgid "Mechanics Parameters"
-msgstr "Paràmetres de la mecànica:"
+msgstr "Paràmetres de la mecànica"
 
 #: ekos/focus/focusadvisor.cpp:585
 #, kde-format
 msgid "Focus Advisor aborted due to internal error"
-msgstr ""
+msgstr "S'ha interromput l'Assessor d'enfocament a causa d'un error intern"
 
 #: ekos/focus/focusadvisor.cpp:594 ekos/focus/focusadvisor.cpp:899
 #: ekos/focus/focusadvisor.cpp:1193
 #, kde-format
 msgid "Focus Advisor cannot run with current params"
-msgstr ""
+msgstr "L'Assessor d'enfocament no es pot executar amb els paràmetres actuals"
 
 #: ekos/focus/focusadvisor.cpp:627
 #, kde-format
 msgid "Find Stars: Starting scan for stars..."
-msgstr ""
+msgstr "Troba les estreles: s'ha començat la busca d'estreles…"
 
 #: ekos/focus/focusadvisor.cpp:628
 #, kde-format
 msgid "Find Stars: Jump size %1"
-msgstr ""
+msgstr "Troba les estreles: salta la mida %1"
 
 #: ekos/focus/focusadvisor.cpp:629
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Find Stars: Scanning for stars..."
-msgstr "S'estan buscant les estreles…"
+msgstr "Troba les estreles: s'estan buscant les estreles…"
 
 #: ekos/focus/focusadvisor.cpp:631
 #, kde-format
 msgid "Find Stars: Failed"
-msgstr ""
+msgstr "Troba les estreles: ha fallat"
 
 #: ekos/focus/focusadvisor.cpp:706
 #, kde-format
 msgid "Stars detected, range centre %1"
-msgstr ""
+msgstr "S'han detectat estreles, centre de l'interval %1"
 
 #: ekos/focus/focusadvisor.cpp:707
-#, fuzzy, kde-format
-#| msgid "Completed"
+#, kde-format
 msgid "Find Stars: Completed"
-msgstr "Completada"
+msgstr "Troba les estreles: s'ha completat"
 
 #: ekos/focus/focusadvisor.cpp:725
 #, kde-format
 msgid "Detected %1 stars at %2"
-msgstr ""
+msgstr "S'han detectat %1 estreles a %2"
 
 #: ekos/focus/focusadvisor.cpp:756
-#, fuzzy, kde-format
-#| msgid "Scan Start Pos: exceeded max iterations %1"
+#, kde-format
 msgid "Find Stars: exceeded max iterations %1"
-msgstr ""
-"Posició d'inici de l'exploració: s'ha excedit el nombre màxim d'iteracions %1"
+msgstr "Troba les estreles: s'ha excedit el nombre màxim d'iteracions %1"
 
 #: ekos/focus/focusadvisor.cpp:764
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Stars detected, centring range"
-msgstr "No s'ha detectat cap estrela. S'està tornant a capturar…"
+msgstr "S'han detectat estreles, s'està centrant l'interval"
 
 #: ekos/focus/focusadvisor.cpp:765
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Find Stars: Stars detected, centring range"
-msgstr "No s'ha detectat cap estrela. S'està tornant a capturar…"
+msgstr ""
+"Troba les estreles: s'han detectat estreles, s'està centrant l'interval"
 
 #: ekos/focus/focusadvisor.cpp:786
 #, kde-format
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
 msgstr ""
+"Execució %1 de Trobar les estreles: no hi ha cap estreles al començament de "
+"%2, s'està buscant"
 
 #: ekos/focus/focusadvisor.cpp:792
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: Scanning %3/%4"
-msgstr ""
+msgstr "Execució %1 de Trobar les estreles al sector %2: s'està buscant %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:794
 #, kde-format
 msgid "Find Stars Run %1: Scanning Sector %2"
-msgstr ""
+msgstr "Execució %1 de Trobar les estreles: s'està buscant al sector %2"
 
 #: ekos/focus/focusadvisor.cpp:812
-#, fuzzy, kde-format
-#| msgid "Star hopper failed to find path"
+#, kde-format
 msgid "Find Stars Run %1: failed to find any stars"
-msgstr "El saltador entre estreles no ha pogut trobar cap trajecte"
+msgstr "Execució %1 de Trobar les estreles: ha fallat en trobar cap estrela"
 
 #: ekos/focus/focusadvisor.cpp:877
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
-msgstr ""
+msgstr "Execució %1 de Trobar les estreles al sector %2: s'està buscant %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:884
 #, kde-format
 msgid "Find Stars Run %1: Failed"
-msgstr ""
+msgstr "Execució %1 de Trobar les estreles: ha fallat"
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Coarse Adjustment Scan..."
-msgstr "Ajustaments de la imatge"
+msgstr "Explora l'ajust del curs…"
 
 #: ekos/focus/focusadvisor.cpp:947
-#, fuzzy, kde-format
-#| msgid "Autofocus failed."
+#, kde-format
 msgid "Pre Autofocus: Failed"
-msgstr "No s'ha pogut fer l'enfocament automàtic."
+msgstr "Preenfocament automàtic: ha fallat"
 
 #: ekos/focus/focusadvisor.cpp:957
-#, fuzzy, kde-format
-#| msgid "Autofocus failed: exceeded max iterations %1"
+#, kde-format
 msgid "Pre Autofocus: exceeded max iterations %1"
-msgstr ""
-"No s'ha pogut fer l'enfocament automàtic: s'ha excedit el nombre màxim "
-"d'iteracions %1"
+msgstr "Preenfocament automàtic: s'ha excedit el nombre màxim d'iteracions %1"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
 #, kde-format
 msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
+"Execució d'ajust del curs: %1 Inici: %2 Sobreexploració: %3 Mida del pas: %4"
 
 #: ekos/focus/focusadvisor.cpp:1016
 #, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
-msgstr ""
+msgstr "Execució %1 de la busca d'ajust del curs…"
 
 #: ekos/focus/focusadvisor.cpp:1024
 #, kde-format
 msgid "Coarse Adjustment Run %1: insufficient data to proceed"
-msgstr ""
+msgstr "Execució %1 d'ajust del curs: dades insuficients per a continuar"
 
 #: ekos/focus/focusadvisor.cpp:1074
 #, kde-format
 msgid "Overscan estimate: %1 ticks"
-msgstr ""
+msgstr "Estimació de la sobreexploració: %1 marques"
 
 #: ekos/focus/focusadvisor.cpp:1119
 #, kde-format
 msgid "Coarse Adj: data quality too poor to continue"
 msgstr ""
+"Ajust del curs: la qualitat de les dades és massa roïna per a continuar"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Solve Failed"
+#, kde-format
 msgid "Coarse Adj: Failed"
-msgstr "La resolució ha fallat"
+msgstr "Ajust del curs: ha fallat"
 
 #: ekos/focus/focusadvisor.cpp:1211
-#, fuzzy, kde-format
-#| msgid "Autofocus operation started"
+#, kde-format
 msgid "Autofocus parameter adjustment"
-msgstr "S'ha iniciat l'operació d'enfocament automàtic"
+msgstr "Ajust dels paràmetres d'enfocament automàtic"
 
 #: ekos/focus/focusadvisor.cpp:1302
 #, kde-format
 msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
 msgstr ""
+"Assessor d'enfocament ajustant la mida del pas: %1->%2 EA excessiu: %3->%4"
 
 #: ekos/focus/focusadvisor.cpp:1313
 #, kde-format
 msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
 msgstr ""
+"Es torna a intentar l'enfocament automàtic: mida del pas %1 EA excessiu %2"
 
 #: ekos/focus/focusadvisor.cpp:1318
 #, kde-format
 msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-msgstr ""
+msgstr "S'ha completat l'enfocament automàtic: mida del pas %1 EA excessiu %2"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -20031,11 +20008,13 @@ msgid ""
 "Check to have Focus Advisor update Focus parameters. Click Help to view the "
 "proposed changes."
 msgstr ""
+"Marqueu-la per a tindre actualitzats els paràmetres d'enfocament per a "
+"l'Assessor d'enfocament. Feu clic en «Ajuda» per a veure els canvis "
+"proposats."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
 #: ekos/focus/focusadvisor.ui:50
-#, fuzzy, kde-format
-#| msgid "Update Params"
+#, kde-format
 msgid "Update Parameters"
 msgstr "Actualitza els paràmetres"
 
@@ -20046,13 +20025,15 @@ msgid ""
 "Check to have Focus Advisor search for stars. If you are close enough to "
 "Focus to see stars in the Focus frame then this step is not neccessary."
 msgstr ""
+"Marqueu-la perquè l'Assessor d'enfocament busque estreles. Si esteu prou a "
+"prop del focus per a veure les estreles a l'Enquadreu l'enfocament, este pas "
+"no serà necessari."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:69
-#, fuzzy, kde-format
-#| msgid "Any Stars"
+#, kde-format
 msgid "Find Stars"
-msgstr "Qualsevol estrela"
+msgstr "Troba les estreles"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
@@ -20061,64 +20042,61 @@ msgid ""
 "Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
+"Marqueu-la perquè l'Assessor d'enfocament trobe l'enfocament en curs. "
+"Trobarà una posició d'enfocament aproximada prou bona per a executar "
+"l'enfocament automàtic."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
 #, kde-format
 msgid "Coarse Adjustment (without Autofocus)"
-msgstr ""
+msgstr "Ajust del curs (sense enfocament automàtic)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "Whether to accept Focus Advisor recommendation on Process Tab Parameters."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor run Autofocus to make fine adjustments to focus "
 "parameters."
 msgstr ""
-"Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre els "
-"«Paràmetres de la pestanya Processament»."
+"Marqueu-la perquè l'Assessor d'enfocament execute l'enfocament automàtic per "
+"a fer ajustos fins als paràmetres d'enfocament."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:127
 #, kde-format
 msgid "Fine Adjustment (using Autofocus)"
-msgstr ""
+msgstr "Ajust fi (utilitzant enfocament automàtic)"
 
 #. i18n: ectx: property (toolTip), widget (QDialogButtonBox, focusAdvButtonBox)
 #: ekos/focus/focusadvisor.ui:160
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Close Focus Advisor"
-msgstr "Assessor d'enfocament"
+msgstr "Tanca l'Assessor d'enfocament"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorHelpDialog)
 #: ekos/focus/focusadvisorhelp.ui:14
-#, fuzzy, kde-format
-#| msgid "Focus Advisor"
+#, kde-format
 msgid "Focus Advisor Help"
-msgstr "Assessor d'enfocament"
+msgstr "Ajuda de l'Assessor d'enfocament"
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/focus/focusadvisorhelp.ui:26
-#, fuzzy, kde-format
-#| msgid "Recommended"
+#, kde-format
 msgid "Recommendations:"
-msgstr "Recomanat"
+msgstr "Recomanacions:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:68
 #, kde-format
 msgid "Check to display only recommended changes"
-msgstr ""
+msgstr "Marqueu-la per a mostrar només els canvis recomanats"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:71
-#, fuzzy, kde-format
-#| msgid "Show inline images"
+#, kde-format
 msgid "Show Only Changes"
-msgstr "Mostra les imatges en línia"
+msgstr "Mostra només els canvis"
 
 #: ekos/focus/focusalgorithms.cpp:520
 #, kde-format
@@ -20196,7 +20174,7 @@ msgstr ""
 "<html><head/><body><p>Per a enfocadors amb compensació del rebot, la "
 "quantitat de rebot que s'aplicarà en invertir la direcció del moviment. "
 "Establiu-lo a 0 per a desactivar-ho.</p><p>Normalment s'establix el «Rebot» "
-"o l'«EA excessiva:» de l'enfocador.</p><p>Este camp establix el rebot de "
+"o l'«EA excessiu:» de l'enfocador.</p><p>Este camp establix el rebot de "
 "l'enfocador d'INDI i es pot establir ací o en el Quadro de control INDI.</"
 "p></body></html>"
 
@@ -20300,7 +20278,7 @@ msgstr ""
 "del dispositiu i establida en el camp «Compensació de rebot del "
 "controlador:». Establiu-lo a 0 per a desactivar.</p><p>Si s'establix, l'«EA "
 "excessiu:» s'aplicarà a tots els moviments d'enfocament iniciats pel mòdul "
-"«Enfocament».</p><p>Normalment s'establix el «Rebot» o l'«EA excessiva:» de "
+"«Enfocament».</p><p>Normalment s'establix el «Rebot» o l'«EA excessiu:» de "
 "l'enfocador.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
@@ -20393,7 +20371,7 @@ msgstr "Compensació de rebot del controlador:"
 #: ekos/focus/opsfocusmechanics.ui:352
 #, kde-format
 msgid "AF Overscan:"
-msgstr "EA excessiva:"
+msgstr "EA excessiu:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:371
@@ -20428,7 +20406,7 @@ msgstr ""
 #: ekos/focus/opsfocusmechanics.ui:447
 #, kde-format
 msgid "AF Overscan Delay:"
-msgstr "Retard de l'EA excessiva:"
+msgstr "Retard de l'EA excessiu:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
 #: ekos/focus/opsfocusmechanics.ui:463
@@ -29370,7 +29348,7 @@ msgstr "La captura de la tasca «%1» està en curs (iteració núm. %2)…"
 #: ekos/scheduler/schedulerprocess.cpp:1106
 #, kde-format
 msgid "Job '%1' capture is in progress..."
-msgstr "La captura de la tasca «%1» està en curs…"
+msgstr "La captura de la tasca «%1» es troba en curs…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1128
 #, kde-format
@@ -31450,19 +31428,15 @@ msgstr "L'angle de posició de la imatge resolta, est del nord (en graus)."
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
 #: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
-#, fuzzy, kde-format
-#| msgid "RAM cache size in MB used to store cached HIPS images."
+#, kde-format
 msgid "The index file used to solve the image."
-msgstr ""
-"Mida en MB de la memòria cau RAM que s'utilitza per a emmagatzemar les "
-"imatges de HiPS en la memòria cau."
+msgstr "El fitxer d'índex emprat per a resoldre la imatge."
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:363
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "Fitxers d'índex"
+msgstr "Fitxer d'índex"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
@@ -38963,43 +38937,35 @@ msgstr "La mida en micròmetres d'una marca de l'enfocador."
 #: kstars.kcfg:2304
 #, kde-format
 msgid "Focus Advisor Help shows only changes."
-msgstr ""
+msgstr "L'ajuda de l'Assessor d'enfocament només mostrarà els canvis."
 
 #. i18n: ectx: whatsthis, entry (focusAdvUpdateParams), group (Focus)
 #: kstars.kcfg:2308
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on SEP Parameters."
+#, kde-format
 msgid "Whether to run the Focus Advisor Update Parameters function."
 msgstr ""
-"Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre els "
-"«Paràmetres del SEP»."
+"Si s'ha d'executar la funció d'actualització dels paràmetres de l'Assessor "
+"d'enfocament."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFindStars), group (Focus)
 #: kstars.kcfg:2312
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Find Stars function."
 msgstr ""
-"Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre la «Mida "
-"del pas»."
+"Si s'ha d'executar la funció Troba les estreles de l'Assessor d'enfocament."
 
 #. i18n: ectx: whatsthis, entry (focusAdvCourseAdj), group (Focus)
 #: kstars.kcfg:2316
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Course Adjustment function."
 msgstr ""
-"Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre la «Mida "
-"del pas»."
+"Si s'ha d'executar la funció Ajust del curs de l'Assessor d'enfocament."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFineAdj), group (Focus)
 #: kstars.kcfg:2320
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Whether to run the Focus Advisor Fine Adjustment function."
-msgstr ""
-"Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre la «Mida "
-"del pas»."
+msgstr "Si s'ha d'executar la funció Ajust fi de l'Assessor d'enfocament."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2325
@@ -87402,189 +87368,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Astrometry:"
-#~ msgstr "Astrometria:"
-
-# skip-rule: punctuation-period-no
-#~ msgid "The Logging Level for StellarSolver and Astrometry.net"
-#~ msgstr "El nivell de gravació per a StellarSolver i Astrometry.net."
-
-#~ msgid "LOG_NONE"
-#~ msgstr "LOG_NONE"
-
-#~ msgid "LOG_ERROR"
-#~ msgstr "LOG_ERROR"
-
-#~ msgid "LOG_MSG"
-#~ msgstr "LOG_MSG"
-
-#~ msgid "LOG_VERB"
-#~ msgstr "LOG_VERB"
-
-#~ msgid "LOG_ALL"
-#~ msgstr "LOG_ALL"
-
-#~ msgid ""
-#~ "Option to log astrometry messages to a separate file.  If you select "
-#~ "LOG_ALL you REALLY want to check this box."
-#~ msgstr ""
-#~ "Opció per a enregistrar els missatges de l'astrometria a un fitxer "
-#~ "separat. Si se selecciona LOG_ALL, «segur» que voldreu seleccionar esta "
-#~ "casella."
-
-#~ msgid " Separate Log File:"
-#~ msgstr " Fitxer de registre separat:"
-
-# skip-rule: punctuation-period-no
-#~ msgid "The external Log File for astrometry logging"
-#~ msgstr "Camí cap al fitxer extern per a la gravació de l'astrometria."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone. Make sure you configure the CFZ tab to give an appropriate value "
-#~ "for your system.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>La mida del pas es pot predeterminar a la «Zona "
-#~ "crítica de l'enfocament». Assegureu-vos de configurar la pestanya ZCE per "
-#~ "a donar un valor adequat per al vostre sistema.</p></body></html>"
-
-#~ msgid "Focus Advisor:"
-#~ msgstr "Assessor d'enfocament:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone..</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>La mida del pas es pot informar de manera "
-#~ "predeterminada a la «Zona crítica de l'enfocament».</p></body></html>"
-
-#~ msgid "Step Size:"
-#~ msgstr "Mida del pas:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Update Focus Parameters to Focus Advisor "
-#~ "suggestions where the associated Update box is checked.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body>Actualitza els paràmetres d'enfocament als suggerits "
-#~ "per l'Assessor d'enfocament on la casella «Actualitza» associada estiga "
-#~ "seleccionada.<p></p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Launch the Focus Advisor Help dialog.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Inicia el diàleg d'ajuda de l'assessor d'enfocament."
-#~ "</p></body></html>"
-
-#~ msgid ""
-#~ "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#~ "It will not necessarily give you the perfect combination of parameters, "
-#~ "you will need to experiment yourself, but it will give you a basic set of "
-#~ "parameters to achieve focus.\n"
-#~ "\n"
-#~ "FA will recommend values for the majority of parameters. A few, however, "
-#~ "will need extra work from you to setup. These are identified below along "
-#~ "with a basic explanation of how to set them.\n"
-#~ "\n"
-#~ "The first step is to set backlash. Your focuser manual will likely "
-#~ "explain how to do this. Once you have a value for backlash for your "
-#~ "system, set either the Backlash field to have the driver perform backlash "
-#~ "compensation or the AF Overscan field to have Autofocus perform backlash "
-#~ "compensation. Set only one field and set the other to 0. If you are "
-#~ "unsure which to set, AF Overscan is recommended.\n"
-#~ "\n"
-#~ "The second step is to set Step Size. If you are aware of an approximate "
-#~ "value enter it here otherwise this can be defaulted from the Critical "
-#~ "Focus Zone (CFZ) for your equipment - so configure this now in the CFZ "
-#~ "tab and restart Focus Advisor.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "L'assessor d'enfocament (AE) està dissenyat per a ajudar-vos amb els "
-#~ "paràmetres d'enfocament.\n"
-#~ "No vos donarà necessàriament la combinació perfecta de paràmetres, haureu "
-#~ "d'experimentar, però vos donarà un conjunt bàsic de paràmetres per a "
-#~ "aconseguir l'enfocament.\n"
-#~ "\n"
-#~ "L'AE recomanarà valors per a la majoria dels paràmetres. No obstant açò, "
-#~ "alguns necessitaran més treball per la vostra part. Estos s'identifiquen "
-#~ "a continuació juntament amb una explicació bàsica de com establir-los.\n"
-#~ "\n"
-#~ "El primer pas és establir el rebot. El manual de l'enfocador probablement "
-#~ "explicarà com fer-ho. Una vegada es tinga un valor per al rebot del "
-#~ "sistema, establiu el camp de rebot perquè el controlador realitze la "
-#~ "compensació o el camp d'EA excessiva perquè l'enfocament automàtic "
-#~ "realitze la compensació. Establiu només un camp i deixeu l'altre a 0. Si "
-#~ "no esteu segur de quin establir, es recomana l'«EA excessiva:»\n"
-#~ "\n"
-#~ "El segon pas és establir la «Mida del pas». Si coneixeu un valor "
-#~ "aproximat, introduïu-lo ací. En cas contrari el podeu predeterminar a "
-#~ "partir de la «Zona crítica de l'enfocament (ZCE)» per al vostre equip, de "
-#~ "manera que configureu-ho ara a la pestanya ZCE i reinicieu l'Assessor "
-#~ "d'enfocament.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "The third step is to set the remaining focus parameters to sensible "
-#~ "values. Focus Advisor will suggest values for 5 categories of parameters. "
-#~ "Check the associated Update box to accept these recommendations when you "
-#~ "press Update Params.\n"
-#~ "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#~ "e.g. unity gain.\n"
-#~ "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#~ "3. Focus Process (Options Popup): These all have recommendations.\n"
-#~ "4. Focus Mechanics (Options Popup): Note Step Size is dealt with above.\n"
-#~ "5. SEP Parameters (Options Popup): Set the appropriate profile to its "
-#~ "default values.\n"
-#~ "\n"
-#~ "Now move the focuser to approximate focus and select a broadband filter, "
-#~ "e.g. Luminance\n"
-#~ "You are now ready to start an Autofocus run."
-#~ msgstr ""
-#~ "El tercer pas és establir els paràmetres d'enfocament restants a uns "
-#~ "valors adequats. L'assessor d'enfocament suggerirà valors per a 5 "
-#~ "categories de paràmetres. Seleccioneu la casella «Actualitza» associada "
-#~ "per a acceptar estes recomanacions i premeu «Actualitza els paràmetres».\n"
-#~ "1. Propietats de la càmera: Cal tindre en compte que cal assegurar-se que "
-#~ "el «Guany» s'establix de manera adequada, p. ex., guany d'unitat.\n"
-#~ "2. Configuració de l'enfocament (menú emergent d'opcions): Totes tenen "
-#~ "recomanacions.\n"
-#~ "3. Procés d'enfocament (menú emergent d'opcions): Totes tenen "
-#~ "recomanacions.\n"
-#~ "4. Mecànica de l'enfocament (menú emergent d'opcions): Cal tindre en "
-#~ "compte que la «Mida del pas» es tracta a dalt.\n"
-#~ "5. Paràmetres del SEP (menú emergent d'opcions): Establix el perfil "
-#~ "adequat als seus valors predeterminats.\n"
-#~ "\n"
-#~ "Ara moveu l'enfocador per a aproximar l'enfocament i seleccioneu un "
-#~ "filtre de banda ampla, p. ex., Luminància\n"
-#~ "Ara esteu preparat/da per a iniciar una execució d'enfocament automàtic."
-
-# skip-rule: punctuation-period-no
-#~ msgid "Focus Advisor recommended step size"
-#~ msgstr "Mida de pas recomanada per l'«Assessor d'enfocament»."
-
-# skip-rule: punctuation-period-no
-#~ msgid "Focus Advisor recommended Out Step Multiple"
-#~ msgstr ""
-#~ "Múltiples passos cap enfora recomanats per l'«Assessor d'enfocament»."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Camera and Filter Wheel "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre els "
-#~ "«Paràmetres de la càmera i la roda de filtres»."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Settings Tab Parameters."
-#~ msgstr ""
-#~ "Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre els "
-#~ "«Paràmetres de la pestanya Configuració»."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Mechanics Tab "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Si s'ha d'acceptar la recomanació de l'Assessor d'enfocament sobre els "
-#~ "«Paràmetres de la pestanya Mecànica»."

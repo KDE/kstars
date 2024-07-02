@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-01 01:43+0000\n"
-"PO-Revision-Date: 2024-06-26 13:41+0200\n"
+"PO-Revision-Date: 2024-07-01 08:42+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.05.1\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -19685,10 +19685,9 @@ msgstr "Execució de la cerca d'estrelles %1: ha fallat"
 
 #: ekos/focus/focusadvisor.cpp:915 ekos/focus/focusadvisor.cpp:916
 #: ekos/focus/focusadvisor.cpp:917
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment Scan..."
-msgstr "Exploració de l'ajust del curs..."
+msgstr "Exploració de l'ajust tosc..."
 
 #: ekos/focus/focusadvisor.cpp:947
 #, kde-format
@@ -19701,24 +19700,20 @@ msgid "Pre Autofocus: exceeded max iterations %1"
 msgstr "Preenfocament automàtic: ha excedit el nombre màxim d'iteracions %1"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1097
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#, kde-format
 msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
-"Execució de l'ajust del curs: %1 Inici: %2 Sobreexploració: %3 Mida del pas: "
-"%4"
+"Execució de l'ajust tosc: %1 Inici: %2 Sobreexploració: %3 Mida del pas: %4"
 
 #: ekos/focus/focusadvisor.cpp:1016
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1 scan..."
+#, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
-msgstr "Execució de l'exploració de l'ajust del curs %1..."
+msgstr "Execució de l'exploració de l'ajust tosc %1..."
 
 #: ekos/focus/focusadvisor.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1: insufficient data to proceed"
+#, kde-format
 msgid "Coarse Adjustment Run %1: insufficient data to proceed"
-msgstr "Execució de l'ajust del curs %1: dades insuficients per a continuar"
+msgstr "Execució de l'ajust tosc %1: dades insuficients per a continuar"
 
 #: ekos/focus/focusadvisor.cpp:1074
 #, kde-format
@@ -19726,17 +19721,14 @@ msgid "Overscan estimate: %1 ticks"
 msgstr "Estimació de la sobreexploració: %1 marques"
 
 #: ekos/focus/focusadvisor.cpp:1119
-#, fuzzy, kde-format
-#| msgid "Course Adj: data quality too poor to continue"
+#, kde-format
 msgid "Coarse Adj: data quality too poor to continue"
-msgstr ""
-"Ajust del curs: la qualitat de les dades és massa dolenta per a continuar"
+msgstr "Ajust tosc: la qualitat de les dades és massa dolenta per a continuar"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Course Adj: Failed"
+#, kde-format
 msgid "Coarse Adj: Failed"
-msgstr "Ajust del curs: ha fallat"
+msgstr "Ajust tosc: ha fallat"
 
 #: ekos/focus/focusadvisor.cpp:1211
 #, kde-format
@@ -19804,24 +19796,20 @@ msgstr "Cerca d'estrelles"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to have Focus Advisor find course focus. This will find an "
-#| "approximate focus position good enough to run Autofocus."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
-"Marqueu-ho perquè l'assessor d'enfocament trobi el focus del curs. Això "
-"trobarà una posició d'enfocament aproximada prou bona per a executar "
-"l'enfocament automàtic."
+"Marqueu-ho perquè l'assessor d'enfocament trobi el focus tosc. Això trobarà "
+"una posició d'enfocament aproximada prou bona per a executar l'enfocament "
+"automàtic."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
-#, fuzzy, kde-format
-#| msgid "Course Adjustment (without Autofocus)"
+#, kde-format
 msgid "Coarse Adjustment (without Autofocus)"
-msgstr "Ajust del curs (sense enfocament automàtic)"
+msgstr "Ajust tosc (sense enfocament automàtic)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
@@ -31107,19 +31095,15 @@ msgstr "Angle de posició de la imatge solucionada, est del nord (graus)."
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
 #: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
-#, fuzzy, kde-format
-#| msgid "RAM cache size in MB used to store cached HIPS images."
+#, kde-format
 msgid "The index file used to solve the image."
-msgstr ""
-"Mida en MB de la memòria cau RAM que s'usa per a emmagatzemar les imatges "
-"del HiPS a la memòria cau."
+msgstr "El fitxer d'índex que es fa servir per a solucionar la imatge."
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:363
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "Fitxers d'índex"
+msgstr "Fitxer d'índex"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
