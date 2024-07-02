@@ -512,6 +512,10 @@ class Focus : public QWidget, public Ui::Focus
         void autofocusAborted(const QString &filter, const QString &points, const bool useWeights,
                               const AutofocusFailReason failCode, const QString &failCodeInfo);
 
+        // Focus Advisor
+        void newFocusAdvisorStage(int stage);
+        void newFocusAdvisorMessage(QString name);
+
         /**
          * @brief Signal Analyze that an Adaptive Focus iteration is complete
          * @param Active filter

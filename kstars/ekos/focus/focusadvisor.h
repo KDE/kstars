@@ -41,6 +41,15 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
         FocusAdvisor(QWidget *parent = nullptr);
         ~FocusAdvisor();
 
+        typedef enum
+        {
+            Idle,
+            UpdatingParameters,
+            FindingStars,
+            CoarseAdjustments,
+            FineAdjustments
+        } Stage;
+
         /**
          * @brief Initialise the Focus Advisor Control
          */
@@ -65,7 +74,7 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
          * @brief Setup the Focus Advisor recommendations
          * @param Optical Train name
          */
-        void setupParams(const QString OTName);
+        void setupParams(const QString &OTName);
 
         /**
          * @brief Return whether Focus Advisor is running
@@ -97,7 +106,18 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
         /**
          * @brief Reset Focus Advisor
          */
-        void reset();
+        Q_INVOKABLE void reset();
+
+        /**
+         * @brief Launch the focus advisor algorithm
+         */
+        Q_INVOKABLE bool start();
+
+        /**
+         * @brief Stop the focus advisor algorithm
+         */
+        Q_INVOKABLE void stop();
+
 
     private:
 
@@ -126,7 +146,7 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
          * @param last used row in table
          * @param section name
          */
-        void addSectionToHelpTable(int &row, const QString section);
+        void addSectionToHelpTable(int &row, const QString &section);
 
         /**
          * @brief addParamToHelpTable
@@ -135,7 +155,7 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
          * @param currentValue of parameter
          * @param newValue of parameter
          */
-        void addParamToHelpTable(int &row, const QString parameter, const QString currentValue, const QString newValue);
+        void addParamToHelpTable(int &row, const QString &parameter, const QString &currentValue, const QString &newValue);
 
         /**
          * @brief resizeHelpDialog based on contents
@@ -219,28 +239,18 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
         }
 
         /**
-         * @brief Launch the focus advisor algorithm
-         */
-        void launchAlgo();
-
-        /**
-         * @brief Stop the focus advisor algorithm
-         */
-        void stopAlgo();
-
-        /**
          * @brief Look at similar Optical Trains to get parameters
          * @param Optical Train name
          * @return Parameter map
          */
-        QVariantMap getOTDefaults(const QString OTName);
+        QVariantMap getOTDefaults(const QString &OTName);
 
         /**
          * @brief returns whether the optical train telescope has a central obstruction
          * @param scopeType is the type of telescope
          * @return whether scope has an obstruction
          */
-        bool scopeHasObstruction(QString scopeType);
+        bool scopeHasObstruction(const QString &scopeType);
 
         /**
          * @brief Initialise the find stars algorithm
@@ -300,14 +310,14 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
          * @param failCode
          * @param message msg
          */
-        void abort(const AutofocusFailReason failCode, const QString msg);
+        void abort(const AutofocusFailReason failCode, const QString &msg);
 
         /**
          * @brief Abort Focus Advisor
          * @param whether Autofocus was run
          * @param message msg
          */
-        void complete(const bool autofocus, const QString msg);
+        void complete(const bool autofocus, const QString &msg);
 
         Focus *m_focus { nullptr };
         QVariantMap m_map;
@@ -376,6 +386,10 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
             HELP_NEW_VALUE,
             HELP_MAX_COLS
         } HelpColID;
+
+      signals:
+        void newMessage(QString);
+        void newStage(Stage);
 };
 
 }

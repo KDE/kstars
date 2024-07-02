@@ -1998,8 +1998,7 @@ void Manager::initCapture()
         toolsWidget->setTabIcon(index, icon);
     }
     connect(captureModule(), &Ekos::Capture::newLog, this, &Ekos::Manager::updateLog);
-    connect(captureModule(), &Ekos::Capture::newLog, ekosLiveClient.get()->message(),
-            [this]()
+    connect(captureModule(), &Ekos::Capture::newLog, this, [this]()
     {
         QJsonObject cStatus =
         {
@@ -2042,8 +2041,7 @@ void Manager::initAlign()
     int index = addModuleTab(EkosModule::Align, alignModule(), QIcon(":/icons/ekos_align.png"));
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
     connect(alignModule(), &Ekos::Align::newLog, this, &Ekos::Manager::updateLog);
-    connect(alignModule(), &Ekos::Align::newLog, ekosLiveClient.get()->message(),
-            [this]()
+    connect(alignModule(), &Ekos::Align::newLog, this, [this]()
     {
         QJsonObject cStatus =
         {
@@ -2084,12 +2082,30 @@ void Manager::initFocus()
     connect(focusModule(), &Ekos::Focus::newStarPixmap, focusManager, &Ekos::FocusManager::updateFocusStarPixmap);
     connect(focusModule(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
     connect(focusModule(), &Ekos::Focus::focuserTimedout, this, &Ekos::Manager::restartDriver);
-    connect(focusModule(), &Ekos::Focus::newLog, ekosLiveClient.get()->message(),
-            [this]()
+    connect(focusModule(), &Ekos::Focus::newLog, this, [this]()
     {
         QJsonObject cStatus =
         {
             {"log", focusModule()->getLogText()}
+        };
+
+        ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
+    });
+    connect(focusModule(), &Ekos::Focus::newFocusAdvisorMessage, this, [this](const QString & message)
+    {
+        QJsonObject cStatus =
+        {
+            {"focusAdvisorMessage", message}
+        };
+
+        ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
+    });
+    connect(focusModule(), &Ekos::Focus::newFocusAdvisorStage, ekosLiveClient.get()->message(),
+            [this](int stage)
+    {
+        QJsonObject cStatus =
+        {
+            {"focusAdvisorStage", stage}
         };
 
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);

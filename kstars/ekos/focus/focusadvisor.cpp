@@ -12,16 +12,16 @@
 #include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
 
-const QString FOCUSER_SIMULATOR = "Focuser Simulator";
+namespace Ekos
+{
+
+const char * FOCUSER_SIMULATOR = "Focuser Simulator";
 const int MAXIMUM_FOCUS_ADVISOR_ITERATIONS = 1001;
 const int NUM_JUMPS_PER_SECTOR = 10;
 const int FIND_STARS_MIN_STARS = 2;
 const double TARGET_MAXMIN_HFR_RATIO = 3.0;
 const double INITIAL_MAXMIN_HFR_RATIO = 2.0;
 const int NUM_STEPS_PRE_AF = 11;
-
-namespace Ekos
-{
 
 FocusAdvisor::FocusAdvisor(QWidget *parent) : QDialog(parent)
 {
@@ -60,14 +60,16 @@ void FocusAdvisor::processUI()
     m_helpButton->setToolTip("List parameter settings");
 
     // Connect up button callbacks
-    connect(m_runButton, &QPushButton::clicked, this, &FocusAdvisor::launchAlgo);
-    connect(m_stopButton, &QPushButton::clicked, this, &FocusAdvisor::stopAlgo);
+    connect(m_runButton, &QPushButton::clicked, this, &FocusAdvisor::start);
+    connect(m_stopButton, &QPushButton::clicked, this, &FocusAdvisor::stop);
     connect(m_helpButton, &QPushButton::clicked, this, &FocusAdvisor::help);
 
     // Initialise buttons
     setButtons(false);
 
     // Display an initial message in the status bar
+    // Connect message
+    connect(focusAdvStatusBar, &QStatusBar::messageChanged, this, &FocusAdvisor::newMessage);
     focusAdvStatusBar->showMessage(i18n("Idle."));
 }
 
@@ -110,19 +112,20 @@ bool FocusAdvisor::canFocusAdvisorRun()
            (m_focus->m_CurveFit == CurveFitting::FOCUS_HYPERBOLA || m_focus->m_CurveFit == CurveFitting::FOCUS_PARABOLA);
 }
 
-void FocusAdvisor::launchAlgo()
+bool FocusAdvisor::start()
 {
     if (!m_focus || m_focus->inFocusLoop || m_focus->inAdjustFocus || m_focus->inAutoFocus || m_focus->inBuildOffsets
             || m_focus->inScanStartPos || inFocusAdvisor())
     {
         focusAdvStatusBar->showMessage(i18n("Another focus action in progress. Please try again."));
-        return;
+        return false;
     }
 
     if (focusAdvUpdateParams->isChecked())
     {
         updateParams();
         focusAdvUpdateParamsLabel->setText(i18n("Done"));
+        emit newStage(UpdatingParameters);
     }
 
     m_inFindStars = focusAdvFindStars->isChecked();
@@ -133,13 +136,19 @@ void FocusAdvisor::launchAlgo()
         if (canFocusAdvisorRun())
             m_focus->runAutoFocus(FOCUS_FOCUS_ADVISOR, "");
         else
+        {
             focusAdvStatusBar->showMessage(i18n("Focus Advisor cannot run with current params."));
+            return false;
+        }
     }
+
+    return true;
 }
 
-void FocusAdvisor::stopAlgo()
+void FocusAdvisor::stop()
 {
     abort(Ekos::FOCUS_FAIL_ABORT, i18n("Focus Advisor stopped"));
+    emit newStage(Idle);
 }
 
 // Focus Advisor help popup
@@ -150,7 +159,7 @@ void FocusAdvisor::help()
     m_helpDialog->raise();
 }
 
-void FocusAdvisor::addSectionToHelpTable(int &row, const QString section)
+void FocusAdvisor::addSectionToHelpTable(int &row, const QString &section)
 {
     if (++row >= m_helpUI->table->rowCount())
         m_helpUI->table->setRowCount(row + 1);
@@ -163,8 +172,8 @@ void FocusAdvisor::addSectionToHelpTable(int &row, const QString section)
     m_helpUI->table->setItem(row, HELP_PARAMETER, item);
 }
 
-void FocusAdvisor::addParamToHelpTable(int &row, const QString parameter, const QString currentValue,
-                                       const QString newValue)
+void FocusAdvisor::addParamToHelpTable(int &row, const QString &parameter, const QString &currentValue,
+                                       const QString &newValue)
 {
     if (m_helpUI->focusAdvHelpOnlyChanges->isChecked() && newValue == currentValue)
         return;
@@ -214,7 +223,7 @@ void FocusAdvisor::updateParams()
 }
 
 // Load up the Focus Advisor recommendations
-void FocusAdvisor::setupParams(const QString OTName)
+void FocusAdvisor::setupParams(const QString &OTName)
 {
     // See if there is another OT that can be used to default parameters
     m_map = getOTDefaults(OTName);
@@ -226,7 +235,6 @@ void FocusAdvisor::setupParams(const QString OTName)
 
     bool longFL = m_focus->m_FocalLength > 1500;
     double imageScale = m_focus->getStarUnits(Focus::FOCUS_STAR_HFR, Focus::FOCUS_UNITS_ARCSEC);
-    QString str;
     bool centralObstruction = scopeHasObstruction(m_focus->m_ScopeType);
 
     // Set the label based on the optical train
@@ -246,7 +254,7 @@ void FocusAdvisor::setupParams(const QString OTName)
     processParam(exposure, row, m_map, m_focus->focusExposure, "Exposure");
 
     // Binning
-    QString binning = "";
+    QString binning;
     if (m_focus->focusBinning->isEnabled())
     {
         // Only try and update binning if camera supports it (binning field enabled)
@@ -479,15 +487,15 @@ QString FocusAdvisor::getFocusFramePrefix()
 }
 
 // Find similar OTs to seed defaults
-QVariantMap FocusAdvisor::getOTDefaults(const QString OTName)
+QVariantMap FocusAdvisor::getOTDefaults(const QString &OTName)
 {
     QVariantMap map;
 
     // If a blank OTName is passed in return an empty map
-    if (OTName == "")
+    if (OTName.isEmpty())
         return map;
 
-    for (auto tName : OpticalTrainManager::Instance()->getTrainNames())
+    for (auto &tName : OpticalTrainManager::Instance()->getTrainNames())
     {
         if (tName == OTName)
             continue;
@@ -520,11 +528,11 @@ QVariantMap FocusAdvisor::getOTDefaults(const QString OTName)
             if (tFocalRatio <= 0.0)
                 // For a scope, FL and aperture are specified so calc the F#
                 tFocalRatio = (tAperture > 0.001) ? tFocalLength / tAperture : 0.0f;
-            else if (tAperture < 0.0)
-                // DSLR Lens. FL and F# are specified so calc the aperture
-                tAperture = tFocalLength / tFocalRatio;
+            // else if (tAperture < 0.0)
+            //     // DSLR Lens. FL and F# are specified so calc the aperture
+            //     tAperture = tFocalLength / tFocalRatio;
 
-            int stepSize;
+            int stepSize = 5000;
             if (m_focus->m_Focuser && m_focus->m_Focuser->getDeviceName() == FOCUSER_SIMULATOR)
                 // The Simulator is a special case so use 5000 as that works well
                 stepSize = 5000;
@@ -545,12 +553,9 @@ QVariantMap FocusAdvisor::getOTDefaults(const QString OTName)
 // are defined in the equipmentWriter code. It would be better, probably, if that code included
 // a flag for central obstruction, rather than hard coding strings for the scopeType that are compared
 // in this routine.
-bool FocusAdvisor::scopeHasObstruction(QString scopeType)
+bool FocusAdvisor::scopeHasObstruction(const QString &scopeType)
 {
-    if (scopeType == "Refractor" || scopeType == "Kutter (Schiefspiegler)")
-        return false;
-    else
-        return true;
+    return (scopeType != "Refractor" && scopeType != "Kutter (Schiefspiegler)");
 }
 
 // Focus Advisor control function initialiser
@@ -596,6 +601,7 @@ void FocusAdvisor::initFindStars(const int startPos)
     }
 
     focusAdvFindStarsLabel->setText(i18n("In progress..."));
+    emit newStage(FindingStars);
 
     // Set the initial position, which we'll fallback to in case of failure
     m_focus->initialFocuserAbsPosition = startPos;
@@ -901,6 +907,7 @@ void FocusAdvisor::initPreAFAdj(const int startPos)
     }
 
     focusAdvCoarseAdjLabel->setText(i18n("In progress..."));
+    emit newStage(CoarseAdjustments);
 
     m_focus->initialFocuserAbsPosition = startPos;
     m_focus->absIterations = 0;
@@ -1195,6 +1202,7 @@ void FocusAdvisor::initAFAdj(const int startPos, const bool retryOverscan)
     }
 
     focusAdvFineAdjLabel->setText(i18n("In progress..."));
+    emit newStage(FineAdjustments);
 
     // The preAF routine will have estimated AF Overscan but because its a crude measure its likely to be an overestimate.
     // We will try and refine the estimate by halving the current Overscan
@@ -1315,6 +1323,7 @@ bool FocusAdvisor::analyseAF()
     {
         m_inAFAdj = false;
         focusAdvFineAdjLabel->setText(i18n("Done"));
+        emit newStage(Idle);
         focusAdvStatusBar->showMessage(i18n("Autofocus complete: Step Size %1 AF Overscan %2", newStepSize, newOverscan));
     }
     return runAgain;
@@ -1361,7 +1370,7 @@ void FocusAdvisor::reset()
 }
 
 // Abort the Focus Advisor
-void FocusAdvisor::abort(const AutofocusFailReason failCode, const QString msg)
+void FocusAdvisor::abort(const AutofocusFailReason failCode, const QString &msg)
 {
     m_focus->appendLogText(msg);
     focusAdvStatusBar->showMessage(msg);
@@ -1376,7 +1385,7 @@ void FocusAdvisor::abort(const AutofocusFailReason failCode, const QString msg)
 
 // Focus Advisor completed successfully
 // If Autofocus was run then do the usual processing / notification of success, otherwise treat it as an autofocus fail
-void FocusAdvisor::complete(const bool autofocus, const QString msg)
+void FocusAdvisor::complete(const bool autofocus, const QString &msg)
 {
     m_focus->m_OpsFocusProcess->focusUseWeights->setChecked(m_initialUseWeights);
 

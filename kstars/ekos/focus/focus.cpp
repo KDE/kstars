@@ -104,6 +104,9 @@ Focus::Focus() : QWidget()
     // #10 Init Focus Advisor
     focusAdvisor.reset(new FocusAdvisor(this));
 
+    connect(focusAdvisor.get(), &FocusAdvisor::newStage, this, &Focus::newFocusAdvisorStage);
+    connect(focusAdvisor.get(), &FocusAdvisor::newMessage, this, &Focus::newFocusAdvisorMessage);
+
     connect(&m_StarFinderWatcher, &QFutureWatcher<bool>::finished, this, &Focus::starDetectionFinished);
 
     //Note:  This is to prevent a button from being called the default button
