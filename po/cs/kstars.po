@@ -1,6 +1,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023 Vít Pelčák <vit@pelcak.org>
+# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023, 2024 Vít Pelčák <vit@pelcak.org>
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
 # SPDX-FileCopyrightText: 2021, 2022, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 #
@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-03 01:44+0000\n"
-"PO-Revision-Date: 2024-06-26 15:14+0200\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"PO-Revision-Date: 2024-07-03 16:20+0200\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -489,7 +489,7 @@ msgstr "Prosím vyčkejte, než se obrázek DSS stáhne..."
 #, kde-format
 msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
-msgstr ""
+msgstr "%1 (%2%)"
 
 #: auxiliary/ksmessagebox.cpp:132
 #, kde-format
@@ -973,7 +973,7 @@ msgstr "Výběr náhledu"
 #: tools/eclipsetool.ui:183
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:72
@@ -25241,12 +25241,10 @@ msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
 #: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:702
-#, fuzzy, kde-format
-#| msgctxt "Message shown in Ekos Mount module"
-#| msgid "%1"
+#, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
-msgstr "%1"
+msgstr "%1%"
 
 #: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:679
 #, kde-format
@@ -28348,10 +28346,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:363
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "Indexové soubory"
+msgstr "Soubor indexu"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)

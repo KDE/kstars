@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-03 01:44+0000\n"
-"PO-Revision-Date: 2024-07-01 22:11+0200\n"
+"PO-Revision-Date: 2024-07-03 11:04+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -500,7 +500,7 @@ msgstr "Momentje: DSS-afbeelding wordt gedownload..."
 #, kde-format
 msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
-msgstr ""
+msgstr "%1 (%2%)"
 
 #: auxiliary/ksmessagebox.cpp:132
 #, kde-format
@@ -993,7 +993,7 @@ msgstr "Miniatuur kiezen"
 #: tools/eclipsetool.ui:183
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:72
@@ -27419,12 +27419,10 @@ msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Takenindeler aanmaken voor uitvoeren van het mozaïekplan"
 
 #: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:702
-#, fuzzy, kde-format
-#| msgctxt "Message shown in Ekos Mount module"
-#| msgid "%1"
+#, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
-msgstr "%1"
+msgstr "%1%"
 
 #: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:679
 #, kde-format

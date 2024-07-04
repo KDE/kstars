@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-03 01:44+0000\n"
-"PO-Revision-Date: 2024-06-27 19:47+0200\n"
+"PO-Revision-Date: 2024-07-03 23:33+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -492,7 +492,7 @@ msgstr "Моля, изчакайте, докато DSS изображениет�
 #, kde-format
 msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
-msgstr ""
+msgstr "%1 (%2%)"
 
 #: auxiliary/ksmessagebox.cpp:132
 #, kde-format
@@ -987,7 +987,7 @@ msgstr "Избор на умалени изображения"
 #: tools/eclipsetool.ui:183
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:72
@@ -19646,8 +19646,7 @@ msgstr "Намиране на звезди, Изпълнение %1: Неусп�
 
 #: ekos/focus/focusadvisor.cpp:922 ekos/focus/focusadvisor.cpp:923
 #: ekos/focus/focusadvisor.cpp:924
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment Scan..."
 msgstr "Сканиране на корекция на курса..."
 
@@ -19664,22 +19663,19 @@ msgstr ""
 "итерации %1"
 
 #: ekos/focus/focusadvisor.cpp:1021 ekos/focus/focusadvisor.cpp:1104
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#, kde-format
 msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 msgstr ""
 "Изпълнение на корекция на курса: %1 Начало: %2 Надсканиране: %3 Размер на "
 "стъпката: %4"
 
 #: ekos/focus/focusadvisor.cpp:1023
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1 scan..."
+#, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
 msgstr "Корекция на курса Изпълнение %1 сканиране..."
 
 #: ekos/focus/focusadvisor.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1: insufficient data to proceed"
+#, kde-format
 msgid "Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr ""
 "Изпълнение на коригиране на курса %1: няма достатъчно данни за продължаване"
@@ -19690,15 +19686,13 @@ msgid "Overscan estimate: %1 ticks"
 msgstr "Прогноза за надсканиране: %1 деления"
 
 #: ekos/focus/focusadvisor.cpp:1126
-#, fuzzy, kde-format
-#| msgid "Course Adj: data quality too poor to continue"
+#, kde-format
 msgid "Coarse Adj: data quality too poor to continue"
 msgstr ""
 "Регулиране на курс: качеството на данните е твърде лошо, за да се продължи"
 
 #: ekos/focus/focusadvisor.cpp:1168
-#, fuzzy, kde-format
-#| msgid "Course Adj: Failed"
+#, kde-format
 msgid "Coarse Adj: Failed"
 msgstr "Регулация на курса: Неуспешна"
 
@@ -19767,10 +19761,7 @@ msgstr "Намиране на звезди"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to have Focus Advisor find course focus. This will find an "
-#| "approximate focus position good enough to run Autofocus."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
@@ -19781,8 +19772,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
-#, fuzzy, kde-format
-#| msgid "Course Adjustment (without Autofocus)"
+#, kde-format
 msgid "Coarse Adjustment (without Autofocus)"
 msgstr "Регулиране на курса (без автофокус)"
 
@@ -27644,12 +27634,10 @@ msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Създаване на задачи за планиране за изпълнение на мозаечния план"
 
 #: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:702
-#, fuzzy, kde-format
-#| msgctxt "Message shown in Ekos Mount module"
-#| msgid "%1"
+#, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
-msgstr "%1"
+msgstr "%1%"
 
 #: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:679
 #, kde-format
@@ -31069,19 +31057,15 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
 #: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
-#, fuzzy, kde-format
-#| msgid "RAM cache size in MB used to store cached HIPS images."
+#, kde-format
 msgid "The index file used to solve the image."
-msgstr ""
-"Размер на кеша на оперативната памет в MB, използван за съхраняване на "
-"кешираните изображения на HIPS."
+msgstr "Индексният файл, използван за решаване на изображението."
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:363
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "Индексни файлове"
+msgstr "Индексен файл"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
