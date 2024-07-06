@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-03 01:44+0000\n"
-"PO-Revision-Date: 2024-06-29 11:42+0100\n"
+"PO-Revision-Date: 2024-07-05 14:14+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -492,7 +492,7 @@ msgstr "Please wait while DSS image is being downloaded..."
 #, kde-format
 msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
-msgstr ""
+msgstr "%1 (%2%)"
 
 #: auxiliary/ksmessagebox.cpp:132
 #, kde-format
@@ -985,7 +985,7 @@ msgstr "Thumbnail Picker"
 #: tools/eclipsetool.ui:183
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:72
@@ -19365,10 +19365,9 @@ msgstr "Find Stars Run %1: Failed"
 
 #: ekos/focus/focusadvisor.cpp:922 ekos/focus/focusadvisor.cpp:923
 #: ekos/focus/focusadvisor.cpp:924
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment Scan..."
-msgstr "Course Adjustment Scan..."
+msgstr "Coarse Adjustment Scan..."
 
 #: ekos/focus/focusadvisor.cpp:954
 #, kde-format
@@ -19381,22 +19380,19 @@ msgid "Pre Autofocus: exceeded max iterations %1"
 msgstr "Pre Autofocus: exceeded max iterations %1"
 
 #: ekos/focus/focusadvisor.cpp:1021 ekos/focus/focusadvisor.cpp:1104
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#, kde-format
 msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
-msgstr "Course Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+msgstr "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
 
 #: ekos/focus/focusadvisor.cpp:1023
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1 scan..."
+#, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
-msgstr "Course Adjustment Run %1 scan..."
+msgstr "Coarse Adjustment Run %1 scan..."
 
 #: ekos/focus/focusadvisor.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Course Adjustment Run %1: insufficient data to proceed"
+#, kde-format
 msgid "Coarse Adjustment Run %1: insufficient data to proceed"
-msgstr "Course Adjustment Run %1: insufficient data to proceed"
+msgstr "Coarse Adjustment Run %1: insufficient data to proceed"
 
 #: ekos/focus/focusadvisor.cpp:1081
 #, kde-format
@@ -19404,16 +19400,14 @@ msgid "Overscan estimate: %1 ticks"
 msgstr "Overscan estimate: %1 ticks"
 
 #: ekos/focus/focusadvisor.cpp:1126
-#, fuzzy, kde-format
-#| msgid "Course Adj: data quality too poor to continue"
+#, kde-format
 msgid "Coarse Adj: data quality too poor to continue"
-msgstr "Course Adj: data quality too poor to continue"
+msgstr "Coarse Adj: data quality too poor to continue"
 
 #: ekos/focus/focusadvisor.cpp:1168
-#, fuzzy, kde-format
-#| msgid "Course Adj: Failed"
+#, kde-format
 msgid "Coarse Adj: Failed"
-msgstr "Course Adj: Failed"
+msgstr "Coarse Adj: Failed"
 
 #: ekos/focus/focusadvisor.cpp:1219
 #, kde-format
@@ -19475,23 +19469,19 @@ msgstr "Find Stars"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to have Focus Advisor find course focus. This will find an "
-#| "approximate focus position good enough to run Autofocus."
+#, kde-format
 msgid ""
 "Check to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 msgstr ""
-"Check to have Focus Advisor find course focus. This will find an approximate "
+"Tick to have Focus Advisor find coarse focus. This will find an approximate "
 "focus position good enough to run Autofocus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:108
-#, fuzzy, kde-format
-#| msgid "Course Adjustment (without Autofocus)"
+#, kde-format
 msgid "Coarse Adjustment (without Autofocus)"
-msgstr "Course Adjustment (without Autofocus)"
+msgstr "Coarse Adjustment (without Autofocus)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFineAdj)
 #: ekos/focus/focusadvisor.ui:124
@@ -27186,12 +27176,10 @@ msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Create scheduler jobs to execute the mosaic plan"
 
 #: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:702
-#, fuzzy, kde-format
-#| msgctxt "Message shown in Ekos Mount module"
-#| msgid "%1"
+#, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
-msgstr "%1"
+msgstr "%1%"
 
 #: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:679
 #, kde-format
@@ -30491,17 +30479,15 @@ msgstr "The solved image position angle, East of North (degrees)."
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
 #: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
-#, fuzzy, kde-format
-#| msgid "RAM cache size in MB used to store cached HIPS images."
+#, kde-format
 msgid "The index file used to solve the image."
-msgstr "RAM cache size in MB used to store cached HIPS images."
+msgstr "The index file used to solve the image."
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:363
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "Index Files"
+msgstr "Index file"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
