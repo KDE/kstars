@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-03 01:44+0000\n"
-"PO-Revision-Date: 2024-07-03 23:12+0300\n"
+"PO-Revision-Date: 2024-07-06 21:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7110,9 +7110,9 @@ msgid ""
 "alignment, leave unchecked and select the filter manually.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>İşaretlenirse hizalama için halihazırda seçili olan "
-"süzgeç kullanılacaktır. </p><p>Hizalama için belirli (sabit) bir süzgeç "
+"süzgeç kullanılacaktır.</p><p>Hizalama için belirli (sabit) bir süzgeç "
 "kullanmak istiyorsanız işareti kaldırmadan bırakın ve süzgeci elle seçin.</"
-"p><body></html>"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:744
@@ -16193,7 +16193,7 @@ msgstr "Teleskop Örtülü"
 #: ekos/capture/capturedeviceadaptor.cpp:796
 #, kde-format
 msgid "Does %1 have a shutter?"
-msgstr "%1 üzerinde bir deklanşör var mı?"
+msgstr "%1 üzerinde bir kepenk var mı?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:797
 #: ekos/capture/sequencejobstate.cpp:403
@@ -16947,7 +16947,7 @@ msgstr ""
 #: ekos/capture/refocusstate.cpp:45
 #, kde-format
 msgid "Scheduled refocus starting after %1 seconds..."
-msgstr "Zamanlanan yeniden odaklama %1 saniye sonra başlatılıyor..."
+msgstr "Planlı yeniden odaklama %1 saniye sonra başlatılıyor..."
 
 #: ekos/capture/refocusstate.cpp:59
 #, kde-format
@@ -24151,39 +24151,33 @@ msgid "Meridian Flip Status"
 msgstr "Meridyen geçişi durumu"
 
 #: ekos/mount/mount.cpp:100
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to clear all mount configurations?"
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "Tüm kaide yapılandırmalarını temizlemek istediğinizden emin misiniz?"
 
 #: ekos/mount/mount.cpp:101
-#, fuzzy, kde-format
-#| msgid "Configuration"
+#, kde-format
 msgid "Mount Configuration"
-msgstr "Yapılandırma"
+msgstr "Kaide Yapılandırması"
 
 #: ekos/mount/mount.cpp:476 ekos/mount/mount.cpp:484
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "Kaide izlemesini kapatmak istediğinizden emin misiniz?"
 
 #: ekos/mount/mount.cpp:477 ekos/mount/mount.cpp:485
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid "Mount Tracking"
-msgstr "Yörünge"
+msgstr "Kaide İzleme"
 
 #: ekos/mount/mount.cpp:478
-#, fuzzy, kde-format
-#| msgid "Yes"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Evet"
 
 #: ekos/mount/mount.cpp:479
-#, fuzzy, kde-format
-#| msgid "No"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "Hayır"
@@ -24193,27 +24187,24 @@ msgstr "Hayır"
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
-"Teleskopun yüksekliği, %1 asgari yükseklik sınırının altında. Hareket iptal "
-"ediliyor..."
+"Teleskop yüksekliği %1 olan en düşük yükseklik sınırının altında. Hareket "
+"iptal ediliyor..."
 
 #: ekos/mount/mount.cpp:557
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
-"Teleskopun yüksekliği, %1 azami yükseklik sınırının üstünde. Hareket iptal "
-"ediliyor..."
+"Teleskop yüksekliği %1 olan en yüksek yükseklik sınırının üstünde. Hareket "
+"iptal ediliyor..."
 
 #: ekos/mount/mount.cpp:609
-#, fuzzy, kde-format
-#| msgid ""
-#| "Telescope altitude is above maximum altitude limit of %1. Aborting "
-#| "motion..."
+#, kde-format
 msgid ""
 "Telescope hour angle is more than the maximum hour angle of %1. Aborting "
 "motion..."
 msgstr ""
-"Teleskopun yüksekliği, %1 azami yükseklik sınırının üstünde. Hareket iptal "
+"Teleskop saat açısı en yüksek %1 saat açısından daha fazla. Hareket iptal "
 "ediliyor..."
 
 #: ekos/mount/mount.cpp:744
@@ -24234,70 +24225,65 @@ msgid "%1"
 msgstr "%1"
 
 #: ekos/mount/mount.cpp:1167
-#, fuzzy, kde-format
-#| msgid "%1 alignment is complete."
+#, kde-format
 msgid "Alignment Model cleared."
-msgstr "%1 hizalaması tamamlandı."
+msgstr "Hizalama modeli temizlendi."
 
 #: ekos/mount/mount.cpp:1171
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgid "Failed to clear Alignment Model."
-msgstr "Kutupsal Hizalama"
+msgstr "Hizalama modeli temizlenemedi."
 
 #: ekos/mount/mount.cpp:1281 ekos/scheduler/schedulerprocess.cpp:3887
 #, kde-format
 msgid "Mount already parked."
-msgstr "Montaj zaten park edilmiş."
+msgstr "Kaide halihazırda park edilmiş."
 
 #: ekos/mount/mount.cpp:1306
-#, fuzzy, kde-format
-#| msgid "The Name field cannot be empty"
+#, kde-format
 msgid "Parking time cannot be in the past."
-msgstr "İsim alanı boş bırakılamaz"
+msgstr "Park zamanı geçmişte olamaz."
 
 #: ekos/mount/mount.cpp:1315
 #, kde-format
 msgid "Parking time must be within 24 hours of current time."
-msgstr ""
+msgstr "Park zamanı, geçerli saate göre 24 saat içinde olmalıdır."
 
 #: ekos/mount/mount.cpp:1320
 #, kde-format
 msgid "Warning! Parking time is more than 12 hours away."
-msgstr ""
+msgstr "Uyarı! Park saatine 12 saatten daha fazla var."
 
 #: ekos/mount/mount.cpp:1322
-#, fuzzy, kde-format
-#| msgid "You cannot add or modify a job while the scheduler is running."
+#, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
-msgstr "Zamanlayıcı çalışırken, bir iş ekleyemez ve düzenlemessiniz."
+msgstr ""
+"Dikkat: Zamanlayıcı etkinken kendiliğinden park özelliğini kullanmayın."
 
 #: ekos/mount/mount.cpp:1342
-#, fuzzy, kde-format
-#| msgid "Parking dome..."
+#, kde-format
 msgid "Parking timer is up."
-msgstr "Dom park ediliyor."
+msgstr "Park zamanlayıcısı doldu."
 
 #: ekos/mount/mount.cpp:1352
-#, fuzzy, kde-format
-#| msgid "Starting solver..."
+#, kde-format
 msgid "Starting auto park..."
-msgstr "Çözücü başlatılıyor..."
+msgstr "Kendiliğinden park başlatılıyor..."
 
 #: ekos/mount/mount.cpp:1845
 #, kde-format
 msgid "Updating master time source to %1."
-msgstr ""
+msgstr "Ana zaman kaynağı %1 olarak güncelleniyor..."
 
 #: ekos/mount/mount.cpp:1866
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
-msgstr ""
+msgstr "Ana konum kaynağı %1 olarak güncelleniyor. GPS güncelleniyor..."
 
 #: ekos/mount/mount.cpp:1874
 #, kde-format
 msgid "Updating master location source to %1."
-msgstr ""
+msgstr "Ana konum kaynağı %1 olarak güncelleniyor..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:110
@@ -24313,10 +24299,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:113
-#, fuzzy, kde-format
-#| msgid "Meridian Flip if HA >"
+#, kde-format
 msgid "Flip if HA >:"
-msgstr "Meridyen Döndürme eğer HA >"
+msgstr "SA şundan büyükse geçir:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, meridianFlipOffsetDegrees)
 #: ekos/mount/mount.ui:129
@@ -24337,27 +24322,19 @@ msgstr "derece"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, LimitGroup)
 #: ekos/mount/mount.ui:180
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p><br/></p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p><br/></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minimumAltLimit)
 #: ekos/mount/mount.ui:213
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Minimum telescope altitude limit. If the telescope is "
 "below this limit, it will be commanded to stop.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun azami yükseklik sınırı. Teleskop bu sınırın "
-"üstünde olursa, kendi kendini durduracaktır.</p></body></html>"
+"<html><head/><body><p>En düşük teleskop yükseklik sınırı. Teleskop bu "
+"sınırın altındaysa durma komutu verilecektir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
 #. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
@@ -24367,14 +24344,14 @@ msgid ""
 "Minimum telescope altitude limit. If the telescope is below this limit, it "
 "will be commanded to stop."
 msgstr ""
-"Asgari teleskop yükseklik sınırı. Teleskop bu sınırın altındaysa, "
-"durdurulacaktır."
+"En düşük teleskop yükseklik sınırı. Teleskop bu sınırın altındaysa durma "
+"komutu verilecektir."
 
 #. i18n: ectx: property (text), widget (QLabel, minAltLabel)
 #: ekos/mount/mount.ui:235
 #, kde-format
 msgid "Min. Alt:"
-msgstr "Asgari Yükseklik:"
+msgstr "En düşük yükseklik:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
@@ -24384,8 +24361,8 @@ msgid ""
 "<html><head/><body><p>Maximum telescope altitude limit. If the telescope is "
 "above this limit, it will be commanded to stop.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun azami yükseklik sınırı. Teleskop bu sınırın "
-"üstünde olursa, kendi kendini durduracaktır.</p></body></html>"
+"<html><head/><body><p>En yüksek teleskop yükseklik sınırı. Teleskop bu "
+"sınırın üstündeyse durma komutu verilecektir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableAltitudeLimits)
 #: ekos/mount/mount.ui:267
@@ -24396,34 +24373,35 @@ msgid ""
 "the mount slews/tracks below or above the limits, it shall be commanded to "
 "stop and tracking will be turned off.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kaide hareket erimi sınırlarını etkinleştirin veya "
+"devre dışı bırakın. Etkinleştirildiğinde Ekos, dönüş veya takip sırasında "
+"kaidenin yüksekliğini izler. Kaidenin sınırların altında veya üstünde "
+"dönmesi/izlenmesi durumunda, durma komutu verilecek ve izleme kapatılacaktır."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
 #: ekos/mount/mount.ui:270
-#, fuzzy, kde-format
-#| msgid "Enable Limits"
+#, kde-format
 msgid "Enable Alt limits"
-msgstr "Sınırları Etkinleştir"
+msgstr "Yükseklik sınırlarını etkinleştir"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
 #: ekos/mount/mount.ui:286 ekos/mount/mount.ui:331
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum Hour Angle limit if the mount has not flipped. "
 "If the telescope is above this limit, it will be commanded to stop.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun azami yükseklik sınırı. Teleskop bu sınırın "
-"üstünde olursa, kendi kendini durduracaktır.</p></body></html>"
+"<html><head/><body><p>Kaide ters çevrilmemişse en yüksek saat açısı sınırı. "
+"Teleskop bu sınırın üstündeyse durma komutu verilecektir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
 #: ekos/mount/mount.ui:311
 #, kde-format
 msgid "Max. Alt:"
-msgstr "Azami Yükseklik:"
+msgstr "En çok yükseklik:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:318
@@ -24436,41 +24414,42 @@ msgid ""
 "turned off. Requires a mount that reports the pier side correctly.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Kaide saat açısı sınırını etkinleştirin veya devre "
+"dışı Bırakın. Etkinleştirildiğinde Ekos, dönerken veya takip ederken "
+"kaidenin saat açısını izler. İskele tarafı buna izin vermeyecek durumdayken "
+"kaidenin sınırı aşması/izlemesi durumunda, durma komutu verilecek ve takip "
+"kapatılacaktır. İskele tarafını doğru şekilde bildiren bir kaide parçası "
+"gerektirir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:321
-#, fuzzy, kde-format
-#| msgid "Enable Limits"
+#, kde-format
 msgid "Enable HA limits"
-msgstr "Sınırları Etkinleştir"
+msgstr "Saat açısı sınırlarını etkinleştir"
 
 #. i18n: ectx: property (text), widget (QLabel, maxHaLabel)
 #: ekos/mount/mount.ui:334
 #, kde-format
 msgid "Max. HA (hours):"
-msgstr ""
+msgstr "En büyük saat açısı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:513
-#, fuzzy, kde-format
-#| msgid "Mount"
+#, kde-format
 msgid "Park at:"
-msgstr "Montaj"
+msgstr "Şurada park et:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, parkEveryDay)
 #: ekos/mount/mount.ui:531
-#, fuzzy, kde-format
-#| msgid "Automatically select the calibration star."
+#, kde-format
 msgid "Automatically start the park timer on startup"
-msgstr "Kalibrasyon yıldızını otomatik olarak seç."
+msgstr "Başlangıçta park zamanlayıcısını kendiliğinden başlat"
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkEveryDay)
 #: ekos/mount/mount.ui:534
-#, fuzzy, kde-format
-#| msgid " day"
-#| msgid_plural " days"
+#, kde-format
 msgid "Every day"
-msgstr " gün"
+msgstr "Her gün"
 
 #. i18n: ectx: property (text), widget (QPushButton, trackOffB)
 #: ekos/mount/mount.ui:668
@@ -24503,11 +24482,9 @@ msgstr "Parktan Çık"
 
 #. i18n: ectx: property (text), widget (QLabel, parkingLabel)
 #: ekos/mount/mount.ui:778
-#, fuzzy, kde-format
-#| msgctxt "City in China"
-#| msgid "Peking"
+#, kde-format
 msgid "Parking Status"
-msgstr "Peking"
+msgstr "Park durumu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
@@ -24536,42 +24513,34 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAlignmentModelB)
 #: ekos/mount/mount.ui:844
-#, fuzzy, kde-format
-#| msgid "Calculating azimuth alignment error..."
+#, kde-format
 msgid "Deletes all mount alignment points"
-msgstr "Güney açısı hizalama hesaplama hatası..."
+msgstr "Tüm kaide hizalama noktalarını sil"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearAlignmentModelB)
 #: ekos/mount/mount.ui:847
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Camera Model"
+#, kde-format
 msgid "Clear  Model"
-msgstr "Kamera Modeli"
+msgstr "Modeli Temizle"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearParkingB)
 #: ekos/mount/mount.ui:864
-#, fuzzy, kde-format
-#| msgctxt "City in China"
-#| msgid "Peking"
+#, kde-format
 msgid "Clear Parking"
-msgstr "Peking"
+msgstr "Park Durumunu Temizle"
 
 #. i18n: ectx: property (text), widget (QPushButton, purgeConfigB)
 #. i18n: ectx: property (text), widget (QPushButton, purgeAllConfigB)
 #: ekos/mount/mount.ui:881 options/opsadvanced.ui:387
-#, fuzzy, kde-format
-#| msgid "Legend Configuration"
+#, kde-format
 msgid "Purge All Configuration"
-msgstr "Gösterge Yapılandırma"
+msgstr "Tüm Yapılandırmayı Sil"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
 #: ekos/mount/mount.ui:922
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Movement Control"
+#, kde-format
 msgid "Mount Control"
-msgstr "Haraket Denetimi"
+msgstr "Kaide Denetimi"
 
 #. i18n: ectx: property (shortcut), widget (QPushButton, mountToolBoxB)
 #: ekos/mount/mount.ui:935
@@ -24585,23 +24554,19 @@ msgstr "Kontrol+S"
 #. i18n: ectx: property (windowTitle), widget (QWidget, MountTargetWidget)
 #: ekos/mount/mountcontrolpanel.ui:17 ekos/mount/mountmotionwidget.ui:23
 #: ekos/mount/mountpositionwidget.ui:29 ekos/mount/mounttargetwidget.ui:17
-#, fuzzy, kde-format
-#| msgid "Toggle Mount Control Panel"
+#, kde-format
 msgid "Mount Control Panel"
-msgstr "Kaide Denetim Masası'nı aç/kapat"
+msgstr "Kaide Denetim Masası"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
 #: ekos/mount/mountcontrolpanel.ui:103
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Status: Idle"
-msgstr "Durum:"
+msgstr "Durum: Boşta"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
 #: ekos/mount/mountmotionwidget.ui:459
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Speed"
+#, kde-format
 msgid "Speed"
 msgstr "Hız"
 
@@ -24609,102 +24574,87 @@ msgstr "Hız"
 #: ekos/mount/mounttargetwidget.ui:168
 #, kde-format
 msgid "Alt/AZ"
-msgstr ""
+msgstr "Alt/AZ"
 
 #: ekos/observatory/observatory.cpp:250
 #, kde-format
 msgid "%1 error. See INDI log for details."
-msgstr ""
+msgstr "%1 hatası. Ayrıntılar için INDI günlüğüne bakın."
 
 #: ekos/observatory/observatory.cpp:251 ekos/observatory/observatory.cpp:262
 #: ekos/observatory/observatory.cpp:302 ekos/observatory/observatory.cpp:317
 #: ekos/observatory/observatory.cpp:332 ekos/observatory/observatory.cpp:339
 #, kde-format
 msgid "Rolloff roof"
-msgstr ""
+msgstr "Kayan tavan"
 
 #: ekos/observatory/observatory.cpp:262
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "%1 is idle."
-msgstr "Dome Creek"
+msgstr "%1 boşta."
 
 #: ekos/observatory/observatory.cpp:272 ekos/observatory/observatory.cpp:325
 #: ekos/observatory/observatory.cpp:394
-#, fuzzy, kde-format
-#| msgid "FITS Open"
+#, kde-format
 msgid "Opening"
-msgstr "FITS Aç"
+msgstr "Açılıyor..."
 
 #: ekos/observatory/observatory.cpp:273 ekos/observatory/observatory.cpp:321
-#, fuzzy, kde-format
-#| msgctxt "City in China"
-#| msgid "Peking"
+#, kde-format
 msgid "Unparking"
-msgstr "Peking"
+msgstr "Parktan çıkılıyor..."
 
 #: ekos/observatory/observatory.cpp:274
-#, fuzzy, kde-format
-#| msgid "Processing..."
+#, kde-format
 msgid "Rolloff roof opening..."
-msgstr "İşleniyor..."
+msgstr "Kayan tavan açılıyor..."
 
 #: ekos/observatory/observatory.cpp:278
-#, fuzzy, kde-format
-#| msgid "Processing..."
+#, kde-format
 msgid "Dome is moving clockwise..."
-msgstr "İşleniyor..."
+msgstr "Kubbe saat yönünde hareket ediyor..."
 
 #: ekos/observatory/observatory.cpp:289 ekos/observatory/observatory.cpp:310
 #: ekos/observatory/observatory.cpp:404
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "Closing"
-msgstr "Kapat"
+msgstr "Kapanıyor..."
 
 #: ekos/observatory/observatory.cpp:290 ekos/observatory/observatory.cpp:306
 #: ekos/observatory/observatory.cpp:364
-#, fuzzy, kde-format
-#| msgid "UnPark"
+#, kde-format
 msgid "Unpark"
 msgstr "Parktan Çık"
 
 #: ekos/observatory/observatory.cpp:291
-#, fuzzy, kde-format
-#| msgid "Processing..."
+#, kde-format
 msgid "Rolloff roof is closing..."
-msgstr "İşleniyor..."
+msgstr "Kayan tavan kapanıyor..."
 
 #: ekos/observatory/observatory.cpp:295
-#, fuzzy, kde-format
-#| msgid "Processing..."
+#, kde-format
 msgid "Dome is moving counter clockwise..."
-msgstr "İşleniyor..."
+msgstr "Kubbe saat yönünün tersine hareket ediyor..."
 
 #: ekos/observatory/observatory.cpp:302
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "%1 is parked."
-msgstr "Dome Creek"
+msgstr "%1 park edildi."
 
 #: ekos/observatory/observatory.cpp:317
 #, kde-format
 msgid "%1 is parking..."
-msgstr "%1 park ediyor ..."
+msgstr "%1 park ediliyor..."
 
 #: ekos/observatory/observatory.cpp:332
 #, kde-format
 msgid "%1 is unparking..."
-msgstr "%1 park etmiyor ..."
+msgstr "%1 parktan çıkıyor..."
 
 #: ekos/observatory/observatory.cpp:339
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "%1 is tracking."
-msgstr "Dome Creek"
+msgstr "%1 izliyor..."
 
 #: ekos/observatory/observatory.cpp:351
 #, kde-format
@@ -24719,38 +24669,32 @@ msgstr "Kapalı"
 #: ekos/observatory/observatory.cpp:388
 #, kde-format
 msgid "Opened"
-msgstr "Açıldı"
+msgstr "Açık"
 
 #: ekos/observatory/observatory.cpp:390
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Shutter Speed"
+#, kde-format
 msgid "Shutter is open."
-msgstr "Objektif Kapak Hızı"
+msgstr "Kepenk açık."
 
 #: ekos/observatory/observatory.cpp:395
 #, kde-format
 msgid "Shutter is opening..."
-msgstr ""
+msgstr "Kepenk açılıyor..."
 
 #: ekos/observatory/observatory.cpp:401
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Shutter Speed"
+#, kde-format
 msgid "Shutter is closed."
-msgstr "Objektif Kapak Hızı"
+msgstr "Kepenk kapatıldı."
 
 #: ekos/observatory/observatory.cpp:405
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgid "Shutter is closing..."
-msgstr "Ayarlar"
+msgstr "Kepenk kapatılıyor..."
 
 #: ekos/observatory/observatory.cpp:710
-#, fuzzy, kde-format
-#| msgid "%1, %2 and %3"
+#, kde-format
 msgid "%1 = %2 @ %3"
-msgstr "%1, %2 ve %3"
+msgstr "%1 = %2 @ %3"
 
 #: ekos/observatory/observatory.cpp:761
 #, kde-format
@@ -24760,12 +24704,12 @@ msgstr "Hava iyi"
 #: ekos/observatory/observatory.cpp:767
 #, kde-format
 msgid "Weather Warning"
-msgstr "Hava Durumu Uyarısı"
+msgstr "Hava durumu uyarısı"
 
 #: ekos/observatory/observatory.cpp:773
 #, kde-format
 msgid "Weather Alert"
-msgstr "Hava Durumu Uyarısı"
+msgstr "Hava durumu ikazı"
 
 #: ekos/observatory/observatory.cpp:1055 ekos/observatory/observatory.cpp:1066
 #: ekos/observatory/observatoryweathermodel.cpp:156
@@ -24773,14 +24717,12 @@ msgstr "Hava Durumu Uyarısı"
 #, kde-format
 msgid "%1 second remaining"
 msgid_plural "%1 seconds remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 saniye kaldı"
+msgstr[1] "%1 saniye kaldı"
 
 #. i18n: ectx: property (text), widget (QLabel, motionLabel)
 #: ekos/observatory/observatory.ui:141
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion"
+#, kde-format
 msgid "Motion"
 msgstr "Hareket"
 
@@ -24788,40 +24730,37 @@ msgstr "Hareket"
 #: ekos/observatory/observatory.ui:151
 #, kde-format
 msgid "Absolute position the dome should move."
-msgstr ""
+msgstr "Kubbenin hareket etmesi gereken mutlak konum."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionMoveAbsButton)
 #: ekos/observatory/observatory.ui:176
-#, fuzzy, kde-format
-#| msgid "Slew the telescope to the target coordinates"
+#, kde-format
 msgid "Move the dome to the given absolute position."
-msgstr "Teleskopu, hedef koordinatlarına döndür"
+msgstr "Kubbeyi verilen mutlak konuma hareket ettirin."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionMoveAbsButton)
 #: ekos/observatory/observatory.ui:179
 #, kde-format
 msgid "Move (abs)"
-msgstr ""
+msgstr "Hareket Et (Mutlak)"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, relativeMotionSB)
 #: ekos/observatory/observatory.ui:189
 #, kde-format
 msgid "Relative position the dome should move."
-msgstr ""
+msgstr "Kubbenin hareket etmesi gereken göreceli konum."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionMoveRelButton)
 #: ekos/observatory/observatory.ui:217
 #, kde-format
 msgid "Move the dome for the given degrees and direction."
-msgstr ""
+msgstr "Kubbeyi verilen derece ve yöne göre hareket ettirin."
 
 #. i18n: ectx: property (text), widget (QPushButton, motionMoveRelButton)
 #: ekos/observatory/observatory.ui:228
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Move to rate"
+#, kde-format
 msgid "Move (rel)"
-msgstr "Değere taşı"
+msgstr "Hareket Et (Göreceli)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionCWButton)
 #: ekos/observatory/observatory.ui:250
@@ -24833,86 +24772,73 @@ msgstr "Saat yönünde döndür"
 #: ekos/observatory/observatory.ui:261
 #, kde-format
 msgid "&CW"
-msgstr ""
+msgstr "&Saat Yönü"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionCCWButton)
 #: ekos/observatory/observatory.ui:286
 #, kde-format
 msgid "Rotate counter clockwise"
-msgstr ""
+msgstr "Saat yönünün tersine döndür"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionCCWButton)
 #: ekos/observatory/observatory.ui:297
-#, fuzzy, kde-format
-#| msgid "CCD"
+#, kde-format
 msgid "CCW"
-msgstr "CCD"
+msgstr "Saat Yönü Tersi"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/observatory/observatory.ui:327
 #, kde-format
 msgid "Slaving"
-msgstr ""
+msgstr "Bağımlı çalıştırma"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, slavingEnableButton)
 #: ekos/observatory/observatory.ui:359
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable slaving, dome motion <span style=\" font-"
 "weight:600;\">follows telescope motion</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Bağımlı çalıştırmayı etkinleştirin; kubbe hareketi "
+"<span style=\" font-weight:600;\">teleskop hareketini izler</span>.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, slavingDisableButton)
 #: ekos/observatory/observatory.ui:392
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Disable slaving, dome <span style=\" font-weight:600;"
 "\">does not follow telescope motion</span>.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Bağımlı çalıştırmayı devre dışı bırakın; kubbe "
+"hareketi <span style=\" font-weight:600;\">teleskop hareketini izlemez</"
+"span>.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, domePark)
 #: ekos/observatory/observatory.ui:445
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Park the dome. For advanced control of the dome please "
 "use the INDI tab.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kubbeyi park edin. Kubbenin gelişmiş denetimi için "
+"lütfen INDI sekmesini kullanın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, domeUnpark)
 #: ekos/observatory/observatory.ui:487
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Unpark the dome. For advanced control of the dome "
 "please use the INDI tab.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kubbeyi parktan çıkarın. Kubbenin gelişmiş denetimi "
+"için lütfen INDI sekmesini kullanın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, motionAbortButton)
 #: ekos/observatory/observatory.ui:539
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Motion"
+#, kde-format
 msgid "Abort dome motion"
-msgstr "Hareketi İptal Et"
+msgstr "Kubbe hareketini iptal et"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
@@ -24926,37 +24852,29 @@ msgstr "Vazgeç"
 #. i18n: ectx: property (title), widget (QGroupBox, shutterBox)
 #. i18n: ectx: property (text), widget (QCheckBox, useShutterCB)
 #: ekos/observatory/observatory.ui:571 ekos/observatory/observatory.ui:732
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Shutter Speed"
+#, kde-format
 msgid "Shutter"
-msgstr "Objektif Kapak Hızı"
+msgstr "Kepenk"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, shutterClosed)
 #: ekos/observatory/observatory.ui:620
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Close the shutter of the dome. For advanced control of "
 "the dome please use the INDI tab.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kubbenin kepengini kapatın. Kubbenin gelişmiş denetimi "
+"için lütfen INDI sekmesini kullanın.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, shutterOpen)
 #: ekos/observatory/observatory.ui:662
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Open the shutter of the dome. For advanced control of "
 "the dome please use the INDI tab.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kubbenin kepengini açın. Kubbenin gelişmiş denetimi "
+"için lütfen INDI sekmesini kullanın.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, statusDefinitionBox)
 #: ekos/observatory/observatory.ui:698
@@ -24966,42 +24884,33 @@ msgstr "Gözlemevi Durumu"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useDomeCB)
 #: ekos/observatory/observatory.ui:719
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If selected, the dome needs to be unparked for the "
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Seçilirse gözlemevi durumunun \"HAZIR\" olması için "
+"kubbenin parktan çıkarılması gerekir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useShutterCB)
 #: ekos/observatory/observatory.ui:729
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If selected, the shutter needs to be open for the "
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Seçilirse gözlemevi durumunun \"HAZIR\" olması için "
+"kepengin açık olması gerekir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useWeatherCB)
 #: ekos/observatory/observatory.ui:739
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If selected, the weather needs to be OK for the "
 "observatory status being &quot;READY&quot;.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Seçilirse gözlemevi durumunun \"HAZIR\" olması için "
+"hava durumunun iyi olması gerekir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, statusReadyButton)
 #: ekos/observatory/observatory.ui:770
@@ -25016,6 +24925,14 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body><p>Gözlemevi durumu. Durumla ilgili gözlemevi ögelerini "
+"seçin:</p>\n"
+"<ul>\n"
+"<li><b>Kubbe</b>: Parkta değil → Hazır</li>\n"
+"<li><b>Kepenk</b>: Açık → Hazır</li>\n"
+"<li><b>Hava durumu</b>: İyi → Hazır</li>\n"
+"</ul>\n"
+"</body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, statusReadyButton)
 #: ekos/observatory/observatory.ui:781
@@ -25025,15 +24942,12 @@ msgstr "Hazır"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, autoscaleValuesCB)
 #: ekos/observatory/observatory.ui:834
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scale the value axis to the current value range.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
+"<html><head/><body><p>Değer eksenini geçerli değer erimine ölçeklendirin.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoscaleValuesCB)
@@ -25041,7 +24955,7 @@ msgstr ""
 #: fitsviewer/fitshistogramcommand.cpp:253
 #, kde-format
 msgid "Auto Scale"
-msgstr "Otomaik Ölçeklendirme"
+msgstr "Kendiliğinden ölçeklendir"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearGraphHistory)
 #: ekos/observatory/observatory.ui:859
@@ -25052,54 +24966,48 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, weatherActionsBox)
 #: ekos/observatory/observatory.ui:892
-#, fuzzy, kde-format
-#| msgid "Action:"
+#, kde-format
 msgid "Actions"
-msgstr "Eylem:"
+msgstr "Eylemler"
 
 #. i18n: ectx: property (title), widget (QGroupBox, weatherAlertBox)
 #: ekos/observatory/observatory.ui:913
 #, kde-format
 msgid "Ale&rt"
-msgstr ""
+msgstr "İk&az"
 
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertShutterCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningShutterCB)
 #: ekos/observatory/observatory.ui:937 ekos/observatory/observatory.ui:1093
 #, kde-format
 msgid "Close Shutter"
-msgstr ""
+msgstr "Kepengi kapat"
 
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
 #: ekos/scheduler/scheduler.cpp:2145
-#, fuzzy, kde-format
-#| msgid "&Start Sequence"
+#, kde-format
 msgid "Stop Scheduler"
-msgstr "Seri &Başlat"
+msgstr "Zamanlayıcıyı durdur"
 
 #. i18n: ectx: property (text), widget (QLabel, weatherAlertStatusLabel)
 #. i18n: ectx: property (text), widget (QLabel, weatherWarningStatusLabel)
 #: ekos/observatory/observatory.ui:963 ekos/observatory/observatory.ui:1037
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-style:italic;\">Status: inactive</"
 "span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p><span style=\" font-style:italic;\">Durum: Etkin "
+"değil</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, weatherAlertDelayLabel)
 #. i18n: ectx: property (text), widget (QLabel, weatherWarningDelayLabel)
 #: ekos/observatory/observatory.ui:986 ekos/observatory/observatory.ui:1060
-#, fuzzy, kde-format
-#| msgid "Delay:"
+#, kde-format
 msgid "Delay (sec):"
-msgstr "Gecikme:"
+msgstr "Gecikme (san):"
 
 #. i18n: ectx: property (title), widget (QGroupBox, weatherWarningBox)
 #: ekos/observatory/observatory.ui:1008
@@ -25122,7 +25030,7 @@ msgstr ""
 #: ekos/observatory/observatorydomemodel.cpp:67
 #, kde-format
 msgid "rolloff roof"
-msgstr ""
+msgstr "kayan tavan"
 
 #: ekos/observatory/observatorydomemodel.cpp:57
 #: ekos/observatory/observatorydomemodel.cpp:67
@@ -25131,28 +25039,24 @@ msgid "dome"
 msgstr "kubbe"
 
 #: ekos/observatory/observatorydomemodel.cpp:57
-#, fuzzy, kde-format
-#| msgid "Parking dome..."
+#, kde-format
 msgid "Parking %1..."
-msgstr "Dom park ediliyor."
+msgstr "%1 park ediliyor..."
 
 #: ekos/observatory/observatorydomemodel.cpp:67
-#, fuzzy, kde-format
-#| msgid "Unparking dome..."
+#, kde-format
 msgid "Unparking %1..."
-msgstr "Dome kaldırılıyor..."
+msgstr "%1 parktan çıkarılıyor..."
 
 #: ekos/observatory/observatorydomemodel.cpp:94
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Slaving activated."
-msgstr "Kıpırdatılıyor..."
+msgstr "Bağımlı çalıştırma etkinleştirildi."
 
 #: ekos/observatory/observatorydomemodel.cpp:94
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Slaving deactivated."
-msgstr "Kıpırdatılıyor..."
+msgstr "Bağımlı çalıştırma devre dışı bırakıldı."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
 #: fitsviewer/fitstab.cpp:703
@@ -25161,56 +25065,46 @@ msgid "Aborting..."
 msgstr "Sonlandırılıyor..."
 
 #: ekos/observatory/observatorydomemodel.cpp:112
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Opening shutter..."
-msgstr "Yıldızlar bulunuyor..."
+msgstr "Kepenk açılıyor..."
 
 #: ekos/observatory/observatorydomemodel.cpp:121
-#, fuzzy, kde-format
-#| msgid "Focusing outward..."
+#, kde-format
 msgid "Closing shutter..."
-msgstr "Dışa doğru odaklanıyor..."
+msgstr "Kepenk kapatılıyor..."
 
 #: ekos/observatory/observatorydomemodel.cpp:131
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Motion"
+#, kde-format
 msgctxt "%2 dome or rolloff roof motion %1..."
 msgid "%2 rolloff roof %1..."
-msgstr "Hareketi İptal Et"
+msgstr "%2: Kayan tavan %1..."
 
 #: ekos/observatory/observatorydomemodel.cpp:132
-#, fuzzy, kde-format
-#| msgid "FITS Open"
+#, kde-format
 msgid "opening"
-msgstr "FITS Aç"
+msgstr "açılışı"
 
 #: ekos/observatory/observatorydomemodel.cpp:132
-#, fuzzy, kde-format
-#| msgid "Close"
+#, kde-format
 msgid "closing"
-msgstr "Kapat"
+msgstr "kapanışı"
 
 #: ekos/observatory/observatorydomemodel.cpp:134
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Motion"
+#, kde-format
 msgctxt "%2 dome or rolloff roof motion %1..."
 msgid "%2 dome motion %1..."
-msgstr "Hareketi İptal Et"
+msgstr "%2: %1 kubbe hareketi..."
 
 #: ekos/observatory/observatorydomemodel.cpp:135
 #, kde-format
 msgid "clockwise"
-msgstr "saat yönünde"
+msgstr "Saat yönünde"
 
 #: ekos/observatory/observatorydomemodel.cpp:135
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Shutter Speed"
+#, kde-format
 msgid "counter clockwise"
-msgstr "Objektif Kapak Hızı"
+msgstr "Saat yönünün tersine"
 
 #: ekos/opsekos.cpp:32
 #, kde-format
@@ -25219,18 +25113,16 @@ msgstr ""
 "Bu değişikliğin etkin olması için K Yıldızlar'ı yeniden başlatmalısınız."
 
 #: ekos/opsekos.cpp:43
-#, fuzzy, kde-format
-#| msgid "Set an alternate base directory for your captured images"
+#, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
-msgstr "Yakalanan görselleri için alternatif taban dizin ayarla"
+msgstr ""
+"Çözümlemenin yakalanan görselleri için alternatif bir temel dizin ayarla"
 
 #. i18n: ectx: property (windowTitle), widget (QTabWidget, OpsEkos)
 #: ekos/opsekos.ui:14
-#, fuzzy, kde-format
-#| msgctxt "City in United Kingdom"
-#| msgid "Cambridge"
+#, kde-format
 msgid "TabWidget"
-msgstr "Cambridge"
+msgstr "Sekme Araç Takımı"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:47
@@ -25240,10 +25132,9 @@ msgstr "Yapılandırma"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/opsekos.ui:68
-#, fuzzy, kde-format
-#| msgid "Load Device Configuration:"
+#, kde-format
 msgid "Load device configuration:"
-msgstr "Aygıt Yapılandırmasını Yükle:"
+msgstr "Aygıt yapılandırması yükle:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
 #: ekos/opsekos.ui:75
@@ -25253,38 +25144,32 @@ msgstr "&Asla"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_loadConfigOnConnection)
 #: ekos/opsekos.ui:85
-#, fuzzy, kde-format
-#| msgid "On connection"
+#, kde-format
 msgid "O&n connection"
-msgstr "Bağlantı var"
+msgstr "Bağlantı&da"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_loadDefaultConfig)
 #: ekos/opsekos.ui:92
-#, fuzzy, kde-format
-#| msgid "Always &load defaults"
+#, kde-format
 msgid "Alwa&ys load defaults"
-msgstr "Her zaman varsayılanları &yükle"
+msgstr "Her zaman öntanımlıları &yükle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/opsekos.ui:109
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Instrumentation"
+#, kde-format
 msgid "Icons orientation:"
-msgstr "Alet kullanma"
+msgstr "Simgelerin yönelimi:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_EkosTopIcons)
 #. i18n: ectx: label, entry (EkosTopIcons), group (Ekos)
 #: ekos/opsekos.ui:116 kstars.kcfg:1626
 #, kde-format
 msgid "Ekos modules icons are placed on the top of pages"
-msgstr ""
+msgstr "Ekos modülü simgeleri sayfaların üstüne yerleştirilir"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_EkosTopIcons)
 #: ekos/opsekos.ui:119
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Top"
+#, kde-format
 msgid "Top"
 msgstr "Üst"
 
@@ -25292,7 +25177,7 @@ msgstr "Üst"
 #: ekos/opsekos.ui:132
 #, kde-format
 msgid "Ekos module icons are placed to the left of pages"
-msgstr ""
+msgstr "Ekos modülü simgeleri sayfaların soluna yerleştirilir"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_EkosLeftIcons)
 #: ekos/opsekos.ui:135
@@ -25307,24 +25192,22 @@ msgid ""
 "Make Ekos window independent from KStars main window. Requires restart to "
 "take effect."
 msgstr ""
+"Ekos penceresini K Yıldızlar ana penceresinden bağımsız yapın. Değişikliğin "
+"etkin olması için yeniden başlatma gerekir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowEkos)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowFITS)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowINDI)
 #: ekos/opsekos.ui:163 fitsviewer/opsfits.ui:125 indi/opsindi.ui:463
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Independence"
+#, kde-format
 msgid "Independent window"
-msgstr "Independence"
+msgstr "Bağımsız pencere"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #: ekos/opsekos.ui:205
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Offset"
+#, kde-format
 msgid "Offsets"
-msgstr "Konum"
+msgstr "Ofsetler"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, leadTimeLabel)
 #: ekos/opsekos.ui:229
@@ -25336,6 +25219,11 @@ msgid ""
 "guiding procedures may take prolonged periods to time to complete.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Tedarik süresi, işler arasındaki dakika türünden en az "
+"süredir. Zamanlayıcı, bir işin yürütülmesine, bu tedarik süresine kadar "
+"planlanan başlangıç ​​zamanından önce başlar. Odaklanma, hizalama ve "
+"yönlendirme prosedürlerinin tamamlanması uzun zaman alabileceğinden erken "
+"yürütme yararlıdır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, leadTimeLabel)
 #: ekos/opsekos.ui:232
@@ -25345,22 +25233,19 @@ msgstr "Tedarik süresi:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, preDawnLabel)
 #: ekos/opsekos.ui:242
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Do not permit jobs to be scheduled or executed past "
 "this many minutes before dawn.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>İşlerin tan vaktinden bu kadar dakika önce "
+"planlanmasına veya yürütülmesine izin vermeyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, preDawnLabel)
 #: ekos/opsekos.ui:245
 #, kde-format
 msgid "Pre-dawn:"
-msgstr ""
+msgstr "Tan öncesi:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PreemptiveShutdown)
 #: ekos/opsekos.ui:255
@@ -25370,23 +25255,22 @@ msgid ""
 "hours, perform a complete shutdown procedure and restart observatory "
 "operations once the next job is ready.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Bu kadar saat boyunca hiçbir zamanlayıcı işinin "
+"planlanmaması durumunda, tam bir kapatma prosedürünü gerçekleştirin ve bir "
+"sonraki iş hazır olduğunda gözlemevi operasyonlarını yeniden başlatın.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PreemptiveShutdown)
 #: ekos/opsekos.ui:258
 #, kde-format
 msgid "Pre-emptive shutdown:"
-msgstr ""
+msgstr "Önleyici kapatma:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_PreemptiveShutdownTime)
 #: ekos/opsekos.ui:265
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Önleyici kapatma saatleri</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, duskOffsetLabel)
 #: ekos/opsekos.ui:272
@@ -25395,13 +25279,14 @@ msgid ""
 "<html><body><p>Offset astronomical dusk by this many hours. This positive or "
 "negative value adjusts the twilight restriction.</p></body></html>"
 msgstr ""
+"<html><body><p>Astronomik günbatımını bu kadar saat ofsetle. Bu pozitif veya "
+"negatif değer alacakaranlık kısıtlamasını ayarlar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, duskOffsetLabel)
 #: ekos/opsekos.ui:275
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Dusk offset:"
-msgstr "Bulanıklaştır"
+msgstr "Günbatımı ofseti:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, dawnOffsetLabel)
 #: ekos/opsekos.ui:295
@@ -25410,19 +25295,18 @@ msgid ""
 "<html><body><p>Offset astronomical dawn by this many hours. This positive or "
 "negative value adjusts the twilight restriction.</p></body></html>"
 msgstr ""
+"<html><body><p>Astronomik gündoğumunu bu kadar saat ofsetle. Bu pozitif veya "
+"negatif değer alacakaranlık kısıtlamasını ayarlar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, dawnOffsetLabel)
 #: ekos/opsekos.ui:298
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Offset"
+#, kde-format
 msgid "Dawn offset:"
-msgstr "Konum"
+msgstr "Gündoğumu ofseti:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
 #: ekos/opsekos.ui:321
-#, fuzzy, kde-format
-#| msgid "Clear"
+#, kde-format
 msgid "Cleanup"
 msgstr "Temizle"
 
@@ -25431,78 +25315,69 @@ msgstr "Temizle"
 #, kde-format
 msgid "After shutdown procedure is successfully executed, stop INDI and Ekos."
 msgstr ""
+"Kapatma prosedürü başarıyla yürütüldükten sonra INDI'yi ve Ekos'u durdurun."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/opsekos.ui:345
-#, fuzzy, kde-format
-#| msgid "Declination of focus position"
+#, kde-format
 msgid "Stop Ekos after shutdown"
-msgstr "Odak konumunun Dik Açıklığı"
+msgstr "Kapanma sonrası Ekos'u durdur"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
 #: ekos/opsekos.ui:352
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Weather conditions must remain safe. When weather "
-#| "conditions become dangerous, shutdown procedure is initiated.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If the shutdown script terminates INDI server, enable "
 "this option so that no disconnection errors are generated.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Hava koşulları güvenli kalmalıdır. Hava koşulları "
-"tehlikeli hale geldiğinde, kapatma işlemi başlatılır.</p></body></html>"
+"<html><head/><body><p>Kapatma betiği INDI sunucusunu sonlandırırsa bir "
+"bağlantı kesme hatası üretilmemesi için bu seçeneği etkinleştirin.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
 #: ekos/opsekos.ui:355
-#, fuzzy, kde-format
-#| msgid "Shutdown Procedure"
+#, kde-format
 msgid "Shutdown script terminates INDI"
-msgstr "Kapatma Yöntemi"
+msgstr "Kapatma betiği INDI'yi sonlandırır"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #: ekos/opsekos.ui:365
 #, kde-format
 msgid "Jobs"
-msgstr ""
+msgstr "İşler"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RememberJobProgress)
 #: ekos/opsekos.ui:386
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When processing a scheduled job, resume the sequence "
 "starting from the last image present in storage.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Planlı bir işi işlerken, depolamadaki son görselden "
+"başlayarak sekansı sürdürün.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RememberJobProgress)
 #: ekos/opsekos.ui:389
 #, kde-format
 msgid "Remember job progress"
-msgstr ""
+msgstr "İş ilerlemesini anımsa"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:399
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When checked the scheduler tries to run lower priority "
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>İşaretlendiğinde zamanlayıcı, daha yüksek öncelikli "
+"bir iş çalıştırılamadığında daha düşük öncelikli işleri çalıştırmaya "
+"çalışır. Önerilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:402
 #, kde-format
 msgid "Use greedy scheduling"
-msgstr ""
+msgstr "Açgözlü zamanlama kullan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
@@ -25510,7 +25385,7 @@ msgstr ""
 #: ekos/opsekos.ui:436 options/opsadvanced.ui:163 options/opsadvanced.ui:205
 #, kde-format
 msgid "arcminutes"
-msgstr "arkdakika"
+msgstr "yaydakika"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ForceAlignmentBeforeJob)
 #: ekos/opsekos.ui:450
@@ -25519,13 +25394,14 @@ msgid ""
 "If Align is enabled, scheduler would initiate a realignment procedure before "
 "restarting any jobs even if guiding is active."
 msgstr ""
+"Hizalama etkinleştirilirse yönlendirme etkin olsa bile zamanlayıcı herhangi "
+"bir işi yeniden başlatmadan önce bir yeniden hizalama prosedürünü başlatır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForceAlignmentBeforeJob)
 #: ekos/opsekos.ui:453
-#, fuzzy, kde-format
-#| msgid "Meridian Flip..."
+#, kde-format
 msgid "Force re-alignment before re-starting jobs"
-msgstr "Meridyen Döndürme..."
+msgstr "İşleri yeniden başlatmadan önce yeniden hizalamayı zorla"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #. i18n: ectx: label, entry (AlignCheckFrequency), group (Scheduler)
@@ -25535,20 +25411,20 @@ msgid ""
 "When calculating position after captures, compute it every Nth capture. Set "
 "to 0 to disable."
 msgstr ""
+"Yakalamalardan sonra konumu hesaplarken, bunu her N. yakalamada hesaplayın. "
+"Devre dışı bırakmak için 0'a ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/opsekos.ui:463
-#, fuzzy, kde-format
-#| msgid "If checked, flags will be drawn on the sky map"
+#, kde-format
 msgid "Verify captured image position every:"
-msgstr "İşaretlenirse, haritada bayraklar gösterilecek"
+msgstr "Yakalanan görselin konumunu doğrulama aralığı:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelBeforeJob)
 #: ekos/opsekos.ui:470
-#, fuzzy, kde-format
-#| msgid "Telescope completed the meridian flip."
+#, kde-format
 msgid "Reset mount model before starting each job:"
-msgstr "Teleskop, meridyen döndürmeyi tamamladı."
+msgstr "Her bir işe başlamadan önce kaide modelini sıfırla:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
@@ -25558,19 +25434,20 @@ msgid ""
 "If captured position exceeds target position by more this many arcminutes, "
 "abort capture and reschedule the pipeline."
 msgstr ""
+"Yakalanan konum hedef konumu bu kadar yaydakikadan daha fazla aşarsa "
+"yakalamayı iptal edin ve iş programını yeniden planlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/opsekos.ui:487
 #, kde-format
 msgid "Reset pipeline if verified image delta exceeds:"
-msgstr ""
+msgstr "Doğrulanan görsel farkı şunu aşarsa iş programını sıfırla:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelOnAlignFail)
 #: ekos/opsekos.ui:494
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgid "Reset mount model on alignment failure"
-msgstr "Kutupsal Hizalama"
+msgstr "Hizalama başarısız olursa kaide modelini sıfırla"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
 #: ekos/opsekos.ui:511
@@ -25581,13 +25458,17 @@ msgid ""
 "help recenter the target object in the field of view if the calibration "
 "process strayed too far off.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kılavuz kalibrasyonu başarısız olursa kılavuz yeniden "
+"kalibrasyon işlemine bir kez daha geçmeden önce hizalama işlemini yeniden "
+"başlatın. Bu, kalibrasyon işleminin çok uzağa sapması durumunda hedef "
+"nesnenin görüş alanında yeniden konumlandırılmasına yardımcı olabilir.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
 #: ekos/opsekos.ui:514
-#, fuzzy, kde-format
-#| msgid "Restarting autofocus process..."
+#, kde-format
 msgid "Restart alignment on guiding calibration failure"
-msgstr "Otomatik odaklama işlemi yeniden başlatılıyor..."
+msgstr "Kılavuz kalibrasyon hatasında hizalamayı yeniden başlat"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ObsListMiscOptions)
@@ -25600,14 +25481,13 @@ msgstr "Çeşitli"
 #: ekos/opsekos.ui:585
 #, kde-format
 msgid "Cover or uncover telescope dialog timeout in seconds"
-msgstr ""
+msgstr "Teleskop iletişim kutusu zaman aşımını saniye olarak kapat veya aç"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/opsekos.ui:588
-#, fuzzy, kde-format
-#| msgid "Timeout:"
+#, kde-format
 msgid "Dialog timeout:"
-msgstr "Zaman aşımı:"
+msgstr "İletişim kutusu zaman aşımı:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/opsekos.ui:595
@@ -25617,20 +25497,23 @@ msgid ""
 "point. When the temperature threshold is below this value, the temperature "
 "set point request is deemed successful."
 msgstr ""
+"Talep edilen ve ölçülen sıcaklık ayar noktası arasındaki kabul edilebilir en "
+"büyük fark. Sıcaklık eşiği bu değerin altına düştüğünde sıcaklık ayar "
+"noktası talebi başarılı kabul edilir."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/opsekos.ui:598
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Temperature K"
+#, kde-format
 msgid "Temperature threshold:"
-msgstr "Sıcaklık K"
+msgstr "Sıcaklık eşiği:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
 #: ekos/opsekos.ui:632
 #, kde-format
 msgid "Wait this many seconds after guiding is resumed before starting capture"
 msgstr ""
+"Yakalamaya başlamadan önce kılavuzluk sürdürüldükten sonra bu kadar saniye "
+"bekle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_13)
 #: ekos/opsekos.ui:655
@@ -25639,13 +25522,14 @@ msgid ""
 "Wait this many seconds after guiding is resumed to stabilize the guiding "
 "performance before capture."
 msgstr ""
+"Yakalamadan önce yönlendirme başarımını dengelemek için yönlendirme yeniden "
+"başlatıldıktan sonra birkaç saniye bekleyin."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/opsekos.ui:658
-#, fuzzy, kde-format
-#| msgid "Guiding"
+#, kde-format
 msgid "Guiding settle:"
-msgstr "Kılavuzluk"
+msgstr "Kılavuzluk yerleşimi:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #: ekos/opsekos.ui:685
@@ -25676,6 +25560,10 @@ msgid ""
 "capture counts to zero. Scheduler overrides this option when Remember job "
 "progress is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Bir sekans listesini işlemeye başladığınızda tüm "
+"yakalama sayılarını sıfırlayın. \"İş ilerlemesini anımsa\" "
+"etkinleştirildiğinde zamanlayıcı bu seçeneği geçersiz kılar.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/opsekos.ui:720
@@ -25693,24 +25581,19 @@ msgstr "Meridyen geçişi sonrası kaide modelini sıfırla"
 #: ekos/opsekos.ui:737
 #, kde-format
 msgid "Use flip command if supported by mount"
-msgstr ""
+msgstr "Kaide tarafından destekleniyorsa ters çevir komutunu kullan"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/opsekos.ui:749
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display all captured FITS images in a single tab instead of multiple tabs "
-#| "per image."
+#, kde-format
 msgid "Display received FITS in the Summary screen preview window."
-msgstr ""
-"Tüm yakalanmış FITS görüntülerini, her bir görüntü için çoklu sekme yerine "
-"tek bir sekme içinde göster."
+msgstr "Alınan FITS'leri özet ekranı önizleme penceresinde görüntüleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/opsekos.ui:752
 #, kde-format
 msgid "Summary screen preview"
-msgstr ""
+msgstr "Özet ekranı önizlemesi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/opsekos.ui:777
@@ -25726,38 +25609,39 @@ msgid ""
 "presets. This insures accurate exposure times for sub-second exposures.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Pozlama sürelerini DSLR pozlama önayarlarıyla uyumlu "
+"olacak biçimde zorlayın. Bu, bir saniyenin altındaki pozlamalar için doğru "
+"pozlama sürelerini garanti eder.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForceDSLRPresets)
 #: ekos/opsekos.ui:798
 #, kde-format
 msgid "Force DSLR presets"
-msgstr ""
+msgstr "DSLR önayarlarını zorla"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/opsekos.ui:805
 #, kde-format
 msgid "Display received DSLR images in the Image Viewer"
-msgstr "Alınan DSLR görsellerini Görsel Görüntüleyicisinde göster"
+msgstr "Alınan DSLR görsellerini Görsel Görüntüleyicisi'nde göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/opsekos.ui:808
-#, fuzzy, kde-format
-#| msgid "FITS Viewer"
+#, kde-format
 msgid "DSLR image viewer"
-msgstr "FITS Görüntüleyici"
+msgstr "DSLR görsel görüntüleyicisi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearDSLRInfoB)
 #: ekos/opsekos.ui:815
 #, kde-format
 msgid "Clear saved DSLR sizes"
-msgstr ""
+msgstr "Kaydedilmiş DSLR boyutlarını temizle"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDSLRInfoB)
 #: ekos/opsekos.ui:818
-#, fuzzy, kde-format
-#| msgid "Clear"
+#, kde-format
 msgid "Clear DSLR Info"
-msgstr "Temizle"
+msgstr "DSLR Bilgisini Temizle"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
 #: ekos/opsekos.ui:907
@@ -25767,26 +25651,28 @@ msgid ""
 "reconnected, a new .analyze file will be created and written to, and the "
 "graphs in Analyze will only show the new session.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Çözümleme çalışıyorsa ve Ekos'un bağlantısı kesilip "
+"yeniden bağlanırsa yeni bir .analyze dosyası oluşturulacak ve bu dosyaya "
+"yazılacaktır ve çözümlemedeki grafikler yalnızca yeni oturumu gösterecektir."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
 #: ekos/opsekos.ui:910
 #, kde-format
 msgid "Restart Analyze when Ekos Restarts"
-msgstr ""
+msgstr "Ekos yeniden başlatıldığında çözümlemeyi yeniden başlat"
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
 #: ekos/opsekos.ui:934
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Alternative Image Directory: "
-msgstr "Alternatif dosya-görsel taban dizinini ayarla"
+msgstr "Alternatif görsel dizini: "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, analyzeAlternativeDirectoryB)
 #: ekos/opsekos.ui:953
-#, fuzzy, kde-format
-#| msgid "Set alternative image-file base directory"
+#, kde-format
 msgid "Set the alternative image directory for Analyze"
-msgstr "Alternatif dosya-görsel taban dizinini ayarla"
+msgstr "Çözümleme için olan alternatif görsel dizinini ayarla"
 
 #: ekos/profileeditor.cpp:47
 #, kde-format
@@ -25795,16 +25681,14 @@ msgid "Profile Editor"
 msgstr "Profil Düzenleyicisi"
 
 #: ekos/profileeditor.cpp:115
-#, fuzzy, kde-format
-#| msgid "Open an observation session list"
+#, kde-format
 msgid "Cannot save an empty profile."
-msgstr "Gözlemleme oturum listesi aç"
+msgstr "Boş bir profil kaydedilemez."
 
 #: ekos/profileeditor.cpp:127
-#, fuzzy, kde-format
-#| msgid "A file named \"%1\" already exists. Overwrite it?"
+#, kde-format
 msgid "Profile name already exists."
-msgstr "\"%1\" isimli bir dosya zaten var. Üstüne yazılsın mı?"
+msgstr "Profil adı halihazırda var."
 
 #: ekos/profileeditor.cpp:504
 #, kde-format
@@ -25812,6 +25696,8 @@ msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
+"<nobr><b>Uzak</b> sürücü olarak kullanılabilir. Yerel olarak kullanmak için "
+"gerekli sürücüyü kurun.<nobr/>"
 
 #: ekos/profileeditor.cpp:506
 #, kde-format
@@ -25819,32 +25705,30 @@ msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
 "%3<nobr/>"
 msgstr ""
+"<nobr><b>Etiket</b>: %1 &#9473; <b>Sürücü</b>: %2 &#9473; <b>Yürütme</b>: "
+"%3<nobr/>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #: ekos/profileeditor.cpp:807 ekos/profileeditor.ui:369
-#, fuzzy, kde-format
-#| msgid "Interval:"
+#, kde-format
 msgid "Internal"
-msgstr "Aralık:"
+msgstr "İçsel"
 
 #: ekos/profileeditor.cpp:898
-#, fuzzy, kde-format
-#| msgid "Artwork"
+#, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
-msgstr "Sanatsal İşler"
+msgstr "Ağ Taranıyor"
 
 #: ekos/profileeditor.cpp:899
-#, fuzzy, kde-format
-#| msgid "Name of the remote INDI focuser device."
+#, kde-format
 msgid "Scanning network for INDI Web Managers..."
-msgstr "Uzak INDI uzaklayıcı aygıtının adı."
+msgstr "INDI web yöneticileri için ağ taranıyor..."
 
 #: ekos/profileeditor.cpp:963
-#, fuzzy, kde-format
-#| msgid "INDI Filter port"
+#, kde-format
 msgid "Found INDI Web Manager at %1"
-msgstr "INDI Süzgeci bağlantı noktası"
+msgstr "%1 konumunda INDI web yöneticisi bulundu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverProfileLabel)
@@ -25855,23 +25739,19 @@ msgstr "Profil"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, autoConnectCheck)
 #: ekos/profileeditor.ui:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>After establishing connection with INDI server, "
 "automatically connect all devices.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>INDI sunucusuyla bağlantı kurulduktan sonra tüm "
+"aygıtları kendiliğinden bağlayın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoConnectCheck)
 #: ekos/profileeditor.ui:68
-#, fuzzy, kde-format
-#| msgid "Connect"
+#, kde-format
 msgid "Auto Connect"
-msgstr "Bağlan"
+msgstr "Kendiliğinden bağlan"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, portSelectorCheck)
 #: ekos/profileeditor.ui:91
@@ -25880,14 +25760,14 @@ msgid ""
 "Show port selector dialog when first connecting to equipment. It is "
 "automatically disabled after connection is established."
 msgstr ""
+"Ekipmana ilk kez bağlanıldığında kapı seçicisi iletişim kutusunu göster. "
+"Bağlantı kurulduktan sonra kendiliğinden devre dışı bırakılır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, portSelectorCheck)
 #: ekos/profileeditor.ui:94
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Port Salerno"
+#, kde-format
 msgid "Port Selector"
-msgstr "Port Salerno"
+msgstr "Kapı seçicisi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, loadSiteCheck)
 #: ekos/profileeditor.ui:110
@@ -25900,33 +25780,34 @@ msgid ""
 "site.</p>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body>\n"
+"<p>Ekos çevrimiçi olduğunda geçerli K Yıldızlar coğrafi site ayarlarını "
+"sürücülere gönderin.</p>\n"
+"<p>Bu seçenek yalnızca uzak bir coğrafi siteye bağlanırken kullanılmalıdır.</"
+"p>\n"
+"</body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, loadSiteCheck)
 #: ekos/profileeditor.ui:113
-#, fuzzy, kde-format
-#| msgid "Save Telescope Info"
+#, kde-format
 msgid "Site Info"
-msgstr "Teleskop Bilgisini Kaydet"
+msgstr "Site Bilgisi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guidingTypeLabel)
 #: ekos/profileeditor.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><body><p>Select which plug-in the Guider module should use.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><body><p>Kılavuz modülünün hangi eklentiyi kullanması gerektiğini "
+"seçin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, guidingTypeLabel)
 #: ekos/profileeditor.ui:127
-#, fuzzy, kde-format
-#| msgid "Guiding"
+#, kde-format
 msgid "Guiding:"
-msgstr "Kılavuzluk"
+msgstr "Kılavuzluk:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:138
@@ -25940,6 +25821,13 @@ msgid ""
 "INDI server that is already running.</p>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body>\n"
+"<p>INDI sunucusuyla kullanılacak bağlantı kipi:</p>\n"
+"<p><span style=\"font-weight:600\">Yerel</span><br/>Ekos başlatıldığında "
+"oluşturulan yerel bir INDI sunucusuna bağlanın.</p>\n"
+"<p><span style=\"font-weight:600\">Uzak</span><br/>Halihazırda çalışmakta "
+"olan uzak bir INDI sunucusuna bağlanın.</p>\n"
+"</body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, modeLabel)
 #: ekos/profileeditor.ui:141
@@ -25958,7 +25846,7 @@ msgstr "Kip:"
 #: ekos/profilewizard.ui:718 indi/indihostconf.ui:40
 #, kde-format
 msgid "Port:"
-msgstr "Port:"
+msgstr "Kapı:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, remoteMode)
 #: ekos/profileeditor.ui:174
@@ -25975,18 +25863,13 @@ msgstr "Uz&ak"
 #: ekos/profilewizard.ui:512 ekos/profilewizard.ui:691 indi/indihostconf.ui:30
 #, kde-format
 msgid "Host:"
-msgstr "Bilgisayar:"
+msgstr "Makine:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, INDIWebManagerPort)
 #: ekos/profileeditor.ui:216
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><body><p>INDI Web Manager port.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><body><p>INDI web yöneticisi kapısı.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, INDIWebManagerPort)
 #: ekos/profileeditor.ui:219
@@ -25996,25 +25879,16 @@ msgstr "8624"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remoteHost)
 #: ekos/profileeditor.ui:235
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><body><p>Remote INDI server host or address.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><body><p>Uzak INDI sunucusu makinesi veya adresi.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, remotePort)
 #: ekos/profileeditor.ui:254
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><body><p>Remote INDI Server Port.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><body><p>Uzak INDI sunucusu kapısı.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, remotePort)
 #. i18n: ectx: property (text), widget (QLineEdit, remotePortEdit)
@@ -26027,38 +25901,27 @@ msgstr "7624"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuideHost)
 #: ekos/profileeditor.ui:273
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><body><p>External guider host or address.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><body><p>Dış kılavuz makinesi veya adresi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, externalGuideHost)
 #: ekos/profileeditor.ui:276
 #, kde-format
 msgid "localhost"
-msgstr "yerel birim"
+msgstr "localhost"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indihubB)
 #: ekos/profileeditor.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Configure INDIHub.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>INDIHub'ı yapılandırın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, indihubB)
 #: ekos/profileeditor.ui:286
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "INDI Hub"
-msgstr "Kip"
+msgstr "INDIHub"
 
 #. i18n: ectx: property (text), widget (QRadioButton, localMode)
 #: ekos/profileeditor.ui:303
@@ -26068,26 +25931,18 @@ msgstr "&Yerel"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, externalGuidePort)
 #: ekos/profileeditor.ui:322
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><body><p>External guider port.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><body><p>Dış kılavuz kapısı.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scanB)
 #: ekos/profileeditor.ui:329
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><body><p>Scan local network for INDI web managers.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><body><p>INDI web yöneticileri için yerel ağı tarayın.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, scanB)
 #: ekos/profileeditor.ui:332
@@ -26100,14 +25955,13 @@ msgstr "Tara"
 #: ekos/profileeditor.ui:374 ekos/profilewizard.ui:978
 #, kde-format
 msgid "PHD2"
-msgstr ""
+msgstr "PHD2"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #: ekos/profileeditor.ui:379
-#, fuzzy, kde-format
-#| msgid "Guider:"
+#, kde-format
 msgid "LinGuider"
-msgstr "Kılavuz:"
+msgstr "LinGuider"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, INDIWebManagerCheck)
 #: ekos/profileeditor.ui:390
@@ -26116,44 +25970,39 @@ msgid ""
 "<html><body><p>Store profile on remote INDI Web Manager. Use INDI Web "
 "Manager on the remote device to start/stop INDI server.</p></body></html>"
 msgstr ""
+"<html><body><p>Profili uzak INDI web yöneticisinde saklayın. INDI sunucusunu "
+"başlatmak/durdurmak için uzak aygıttaki INDI web yöneticisini kullanın.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, INDIWebManagerCheck)
 #: ekos/profileeditor.ui:393
-#, fuzzy, kde-format
-#| msgid "Device Manager"
+#, kde-format
 msgid "INDI Web Manager"
-msgstr "Aygıt Yöneticisi"
+msgstr "INDI web yöneticisi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, openWebManagerB)
 #: ekos/profileeditor.ui:409
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><body><p>Open Web Manager in browser.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><body><p>Web yöneticisini tarayıcıda açın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, openWebManagerB)
 #: ekos/profileeditor.ui:412
-#, fuzzy, kde-format
-#| msgid "Device Manager"
+#, kde-format
 msgid "Web Manager"
-msgstr "Aygıt Yöneticisi"
+msgstr "Web Yöneticisi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, driversGroupBox)
 #: ekos/profileeditor.ui:434
 #, kde-format
 msgid "Select Devices"
-msgstr "Cihazları Seçin"
+msgstr "Aygıtlar Seç"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux3Label)
 #: ekos/profileeditor.ui:440
-#, fuzzy, kde-format
-#| msgid "Auxliary #3"
+#, kde-format
 msgid "Auxiliary #3"
-msgstr "Yedek #3"
+msgstr "Yedek №3"
 
 #. i18n: ectx: property (text), widget (QLabel, aux3Label)
 #: ekos/profileeditor.ui:443
@@ -26163,10 +26012,9 @@ msgstr "Yedek 3:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux4Label)
 #: ekos/profileeditor.ui:450
-#, fuzzy, kde-format
-#| msgid "Auxliary #4"
+#, kde-format
 msgid "Auxiliary #4"
-msgstr "Yedek #1"
+msgstr "Yedek №4"
 
 #. i18n: ectx: property (text), widget (QLabel, aux4Label)
 #: ekos/profileeditor.ui:453
@@ -26176,17 +26024,15 @@ msgstr "Yedek 4:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/profileeditor.ui:460
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "Camera 2:"
-msgstr "Kamera:"
+msgstr "Kamera 2:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:467
-#, fuzzy, kde-format
-#| msgid "Auxliary #1"
+#, kde-format
 msgid "Auxiliary #1"
-msgstr "Yedek #1"
+msgstr "Yedek №1"
 
 #. i18n: ectx: property (text), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:470
@@ -26212,32 +26058,45 @@ msgid ""
 "port defaults to 7624.<br/>Remote INDI drivers must be already running for "
 "the connection to succeed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Bu profil tarafından yapılandırılan yerel INDI "
+"sunucusuyla zincire uzak INDI sürücüleri ekleyin. Bu alanı, alıntılanan "
+"sürücü adı, makine adı/adresi ve isteğe bağlı kapıdan oluşan virgülle "
+"ayrılmış bir liste olarak biçimlendirin:</p><p><span style=\" font-"
+"weight:600;\">\"ZWO ASI120MC\"@192.168.1.50:8000</span><br/>192.168.1.50, "
+"8000 numaralı kapıda adı geçen kameraya bağlanın.</p><p><span style=\" font-"
+"weight:600;\">\"EQMod Mount\"@192.168.1.50</span><br/>192.168.1.50, 7624 "
+"numaralı kapıda adı geçen kaideye bağlanın.</p><p><span style=\" font-"
+"weight:600;\">@192.168.1.50:8000</span><br/>192.168.1.50, 8000 numaralı "
+"kapıda bulunan tüm sürücülere bağlanın.</p><p><span style=\" font-weight:600;"
+"\">@192.168.1.50</span><br/>192.168.1.50, 7624 numaralı kapıda bulunan tüm "
+"sürücülere bağlanın.</p><p>Atlandığında, makine öntanımlı olarak localhost'a "
+"ve kapı öntanımlı olarak 7624'e ayarlanır.<br/>Bağlantının başarılı olması "
+"için uzak INDI sürücülerinin halihazırda çalışıyor olması gerekir.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, domeLabel)
 #: ekos/profileeditor.ui:500
 #, kde-format
 msgid "Dome Controller"
-msgstr "Kubbe Denetleyici"
+msgstr "Kubbe Denetleyicisi"
 
 #. i18n: ectx: property (text), widget (QLabel, domeLabel)
 #: ekos/profileeditor.ui:503
 #, kde-format
 msgid "Dome:"
-msgstr "Dom:"
+msgstr "Kubbe:"
 
 #. i18n: ectx: property (text), widget (QLabel, AOLabel)
 #: ekos/profileeditor.ui:539
-#, fuzzy, kde-format
-#| msgid "RA:"
+#, kde-format
 msgid "AO:"
-msgstr "SA:"
+msgstr "AO:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux2Label)
 #: ekos/profileeditor.ui:572
-#, fuzzy, kde-format
-#| msgid "Auxliary #2"
+#, kde-format
 msgid "Auxiliary #2"
-msgstr "Yedek #2"
+msgstr "Yedek №2"
 
 #. i18n: ectx: property (text), widget (QLabel, aux2Label)
 #: ekos/profileeditor.ui:575
@@ -26247,16 +26106,15 @@ msgstr "Yedek 2:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/profileeditor.ui:621
-#, fuzzy, kde-format
-#| msgid "Camera:"
+#, kde-format
 msgid "Camera 1:"
-msgstr "Kamera:"
+msgstr "Kamera 1:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, weatherLabel)
 #: ekos/profileeditor.ui:691
 #, kde-format
 msgid "Weather Station"
-msgstr "Hava Durumu İstasyonu"
+msgstr "Hava Tahmin İstasyonu"
 
 #. i18n: ectx: property (text), widget (QLabel, weatherLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerWeather)
@@ -26264,19 +26122,18 @@ msgstr "Hava Durumu İstasyonu"
 #: ekos/profileeditor.ui:694 ekos/scheduler/scheduler.ui:1675 oal/execute.ui:65
 #, kde-format
 msgid "Weather:"
-msgstr "Hava Durumu:"
+msgstr "Hava durumu:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, remoteDrivers)
 #: ekos/profileeditor.ui:714
 #, kde-format
 msgid "driver@host:port,driver@host,@host:port,@host,driver"
-msgstr ""
+msgstr "sürücü@makine:kapı,sürücü@makine,@makine:kapı,@makine,sürücü"
 
 #: ekos/profilescript.cpp:38
-#, fuzzy, kde-format
-#| msgid "Delay in seconds between consecutive images"
+#, kde-format
 msgid "Delay this many seconds before executing pre driver script."
-msgstr "Ardışık resimler arasındaki saniye olarak gecikme"
+msgstr "Sürücü öncesi betiğini yürütmeden önce bu kadar saniye geciktirin."
 
 #: ekos/profilescript.cpp:47
 #, kde-format
@@ -26284,30 +26141,30 @@ msgid ""
 "Delay this many seconds after driver startup before executing post driver "
 "script."
 msgstr ""
+"Sürücü başlangıcı sonrası, sürücü sonrası betiğini yürütmeden önce bu kadar "
+"saniye geciktirin."
 
 #: ekos/profilescript.cpp:57
 #, kde-format
 msgid "Select script to execute before starting the driver"
-msgstr ""
+msgstr "Sürücüyü çalıştırmadan önce yürütülecek betiği seç"
 
 #: ekos/profilescript.cpp:66
 #, kde-format
 msgid "Select script to execute after starting the driver"
-msgstr ""
+msgstr "Sürücüyü başlattıktan sonra yürütülecek betiği seç"
 
 #: ekos/profilescript.cpp:115
-#, fuzzy, kde-format
-#| msgid "Select Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
-msgstr "Başlangıç Betiği Seç"
+msgstr "Sürücü Öncesi Başlangıç Betiği Seç"
 
 #: ekos/profilescript.cpp:121
-#, fuzzy, kde-format
-#| msgid "Select Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
-msgstr "Başlangıç Betiği Seç"
+msgstr "Sürücü Sonrası Başlangıç Betiği Seç"
 
 #: ekos/profilescriptdialog.cpp:24
 #, kde-format
@@ -26315,57 +26172,50 @@ msgid "Profile Scripts Editor"
 msgstr "Profil Betikleri Düzenleyicisi"
 
 #: ekos/profilescriptdialog.cpp:34
-#, fuzzy, kde-format
-#| msgid "Add Region"
+#, kde-format
 msgid "Add Rule"
-msgstr "Bölge Ekle"
+msgstr "Kural Ekle"
 
 #: ekos/profilewizard.cpp:142
-#, fuzzy, kde-format
-#| msgid "Invalid Input"
+#, kde-format
 msgid "Invalid port."
-msgstr "Geçersiz Girdi"
+msgstr "Geçersiz kapı."
 
 #: ekos/profilewizard.cpp:148 ekos/profilewizard.cpp:179
-#, fuzzy, kde-format
-#| msgid "The Name field cannot be empty"
+#, kde-format
 msgid "Host name cannot be empty."
-msgstr "İsim alanı boş bırakılamaz"
+msgstr "Makine adı boş olamaz."
 
 #: ekos/profilewizard.cpp:221
-#, fuzzy, kde-format
-#| msgid "The Name field cannot be empty"
+#, kde-format
 msgid "Profile name cannot be empty."
-msgstr "İsim alanı boş bırakılamaz"
+msgstr "Profil adı boş olamaz."
 
 #: ekos/profilewizard.cpp:273
-#, fuzzy, kde-format
-#| msgid "Downloading..."
+#, kde-format
 msgctxt "@title:window"
 msgid "Detecting StellarMate..."
-msgstr "İndiriliyor..."
+msgstr "StellarMate algılanıyor..."
 
 #: ekos/profilewizard.cpp:274
-#, fuzzy, kde-format
-#| msgid "Please wait while re-indexing stars..."
+#, kde-format
 msgid "Please wait while searching for StellarMate..."
-msgstr "Yıldızlar yeniden dizinlenirken lütfen bekleyin..."
+msgstr "StellarMate aranırken lütfen bekleyin..."
 
 #: ekos/profilewizard.cpp:299
-#, fuzzy, kde-format
-#| msgid ""
-#| "Failed to automatically select a star. Please select a star manually."
+#, kde-format
 msgid ""
 "Failed to detect any StellarMate gadget. Make sure it is powered and on the "
 "same network."
-msgstr "Bir yıldızı otomatik seçme başarısız. Lütfen elle bir yıldız seçin."
+msgstr ""
+"Herhangi bir StellarMate gereci algılanamadı. Açık ve aynı ağda olduğundan "
+"emin olun."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfileWizard)
 #: ekos/profilewizard.ui:26
-#, fuzzy, kde-format
-#| msgid "Ekos Sequence File"
+#, kde-format
 msgid "Ekos Profile Wizard"
-msgstr "Ekos Seri Dosyası"
+msgstr "Ekos Profil Sihirbazı"
 
 #. i18n: ectx: property (text), widget (QLabel, intoPageLabel)
 #: ekos/profilewizard.ui:119
@@ -26378,28 +26228,33 @@ msgid ""
 "will be asked to verify some basic information. </p><p>Please click <span "
 "style=\" font-weight:600;\">next</span> to continue. </p></body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">Ekos Profil "
+"Sihirbazı</span>'na hoş geldiniz.</p><p>Ekos, önde gelen gözlemevi denetim "
+"ve otomasyon platformudur. Ekos ile kolaylıkla görseller yakalayabilir ve "
+"bilimsel veriler toplayabilirsiniz. Bu sihirbaz, ekipman profilinizi "
+"oluşturmanıza yardımcı olacaktır. Bazı temel bilgileri doğrulamanız "
+"istenecektir.</p><p>Sürdürmek için <span style=\" font-weight:600;"
+"\">Sonraki</span>'ye tıklayın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/profilewizard.ui:155
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Online Resources:</"
 "span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Çevrimiçi "
+"özkaynaklar:</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, INDIInfoB)
 #: ekos/profilewizard.ui:171
-#, fuzzy, kde-format
-#| msgid "Start INDI"
+#, kde-format
 msgid ""
 "What is\n"
 "INDI?"
-msgstr "INDI başlat"
+msgstr ""
+"INDI\n"
+"nedir?"
 
 #. i18n: ectx: property (text), widget (QPushButton, discoverEkosB)
 #: ekos/profilewizard.ui:194
@@ -26408,6 +26263,8 @@ msgid ""
 "Discover\n"
 "Ekos"
 msgstr ""
+"Ekos'u\n"
+"Keşfet"
 
 #. i18n: ectx: property (text), widget (QPushButton, videoTutorialsB)
 #: ekos/profilewizard.ui:217
@@ -26423,7 +26280,7 @@ msgstr ""
 #: ekos/profilewizard.ui:276
 #, kde-format
 msgid "Where is your equipment connected?"
-msgstr ""
+msgstr "Ekipmanınız nereye bağlı?"
 
 #. i18n: ectx: property (text), widget (QPushButton, localEquipmentB)
 #: ekos/profilewizard.ui:299
@@ -26432,6 +26289,8 @@ msgid ""
 "Equipment is attached\n"
 "to this device"
 msgstr ""
+"Ekipman, bu\n"
+"aygıta bağlı"
 
 #. i18n: ectx: property (text), widget (QPushButton, remoteEquipmentB)
 #: ekos/profilewizard.ui:343
@@ -26440,27 +26299,24 @@ msgid ""
 "Equipment is attached to\n"
 "a remote device"
 msgstr ""
+"Ekipman, uzak bir\n"
+"aygıta bağlı"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/profilewizard.ui:381
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Which <span style=\" color:#ff5500;\">remote</span> "
 "device is the equipment connected to?</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Ekipmanın bağlı olduğu <span style=\" color:#ff5500;"
+"\">uzak</span> aygıt hangisi?</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, equipmentAtikbaseB)
 #: ekos/profilewizard.ui:404
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Atik"
+#, kde-format
 msgid "AtikBase"
-msgstr "Atik"
+msgstr "AtikBase"
 
 #. i18n: ectx: property (text), widget (QPushButton, equipmentOtherB)
 #: ekos/profilewizard.ui:432
@@ -26470,50 +26326,40 @@ msgstr "Diğer"
 
 #. i18n: ectx: property (text), widget (QToolButton, equipmentStellarmateB)
 #: ekos/profilewizard.ui:451
-#, fuzzy, kde-format
-#| msgid "Satellite"
+#, kde-format
 msgid "StellarMate"
-msgstr "Uydu"
+msgstr "StellarMate"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/profilewizard.ui:503
-#, fuzzy, kde-format
-#| msgid "Failed to save telescope information."
+#, kde-format
 msgid "Enter the remote computer information:"
-msgstr "Teleskop bilgisini kaydetme başarısız."
+msgstr "Uzak bilgisayar bilgisini gir:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, remoteHostEdit)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, PiHost)
 #: ekos/profilewizard.ui:519 ekos/profilewizard.ui:701
-#, fuzzy, kde-format
-#| msgid "Enter author's name"
+#, kde-format
 msgid "Enter IP address or host name"
-msgstr "Yazarın adını girin"
+msgstr "IP adresini veya makine adını gir"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/profilewizard.ui:548
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"right\">For help: <a href=\"http://en."
-#| "wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-"
-#| "decoration: underline; color:#004183;\">Wikipedia Link for Bortle dark-"
-#| "sky scale</span></a></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><a href=\"https://github.com/knro/indiwebmanager"
 "\"><span style=\" text-decoration: underline; color:#007af4;\">INDI Web "
 "Manager</span></a> running on the Remote Computer?</p></body></html>"
 msgstr ""
-"<p align=\"right\">Yardım için: <a href=\"http://en.wikipedia.org/wiki/"
-"Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: underline; color:"
-"#004183;\">Bortle kara gökyüzü ölçüsü için Wikipedia bağlantısı</span></a></"
-"p></body></html>"
+"<html><head/><body><p><a href=\"https://github.com/knro/indiwebmanager"
+"\"><span style=\" text-decoration: underline; color:#007af4;\">INDI web "
+"yöneticisi</span></a>, uzak bilgisayarda mı çalışıyor?</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerNotSureB)
 #: ekos/profilewizard.ui:574
-#, fuzzy, kde-format
-#| msgid "Does not rise"
+#, kde-format
 msgid "Not Sure"
-msgstr "Yükselmez"
+msgstr "Emin değilim"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/profilewizard.ui:604
@@ -26524,70 +26370,69 @@ msgid ""
 "on remote devices to help you start and stop INDI services remotely.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:600;\">İpucu</span>: <span "
+"style=\" font-style:italic;\">INDI web yöneticisi</span>, INDI hizmetlerini "
+"uzaktan başlatmanıza veya durdurmanıza yardımcı olmak için uzak aygıtlarda "
+"çalışan bir hizmettir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/profilewizard.ui:679
 #, kde-format
 msgid "Enter host name and port. If you do not know, leave as is."
-msgstr ""
+msgstr "Makine adını veya kapıyı girin. Bilmiyorsanız olduğu gibi bırakın."
 
 #. i18n: ectx: property (text), widget (QLineEdit, PiHost)
 #: ekos/profilewizard.ui:698
 #, kde-format
 msgid "stellarmate.local"
-msgstr ""
+msgstr "stellarmate.local"
 
 #. i18n: ectx: property (text), widget (QPushButton, PiAutoDetectB)
 #: ekos/profilewizard.ui:711
 #, kde-format
 msgid "Auto Detect"
-msgstr "Otomatik Algılama"
+msgstr "Kendiliğinden Algıla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/profilewizard.ui:789
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Using Ekos locally on Windows is not supported. You "
 "must connect to a remote gadget to control devices.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Ekos'u yerel olarak Windows üzerinde çalıştırma "
+"desteklenmemektedir. Aygıtları denetlemek için bir uzak gerece "
+"bağlanmalısınız.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/profilewizard.ui:809
 #, kde-format
 msgid "Which INDI Server do you want to use?"
-msgstr ""
+msgstr "Hangi INDI sunucusunu kullanmak istiyorsunuz?"
 
 #. i18n: ectx: property (text), widget (QPushButton, useInternalINDIB)
 #: ekos/profilewizard.ui:832
-#, fuzzy, kde-format
-#| msgid "INDI Server"
+#, kde-format
 msgid ""
 "Internal INDI\n"
 "Server"
-msgstr "INDI Sunucusu"
+msgstr ""
+"İç INDI\n"
+"Sunucusu"
 
 #. i18n: ectx: property (text), widget (QPushButton, useExternalINDIB)
 #: ekos/profilewizard.ui:868
-#, fuzzy, kde-format
-#| msgid "INDI Server"
+#, kde-format
 msgid ""
 "External INDI\n"
 "Server"
-msgstr "INDI Sunucusu"
+msgstr ""
+"Dış INDI\n"
+"Sunucusu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/profilewizard.ui:893
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"right\">For help: <a href=\"http://en."
-#| "wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-"
-#| "decoration: underline; color:#004183;\">Wikipedia Link for Bortle dark-"
-#| "sky scale</span></a></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Tip</span>: External "
 "INDI Server can be <a href=\"http://www.cloudmakers.eu/indigoserver/\"><span "
@@ -26595,67 +26440,53 @@ msgid ""
 "span></a> or an INDI Server launched manually locally. If unsure, select "
 "Internal INDI Server.</p></body></html>"
 msgstr ""
-"<p align=\"right\">Yardım için: <a href=\"http://en.wikipedia.org/wiki/"
-"Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: underline; color:"
-"#004183;\">Bortle kara gökyüzü ölçüsü için Wikipedia bağlantısı</span></a></"
-"p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">İpucu</span>: Dış "
+"INDI sunucusu <a href=\"http://www.cloudmakers.eu/indigoserver/\"><span "
+"style=\" text-decoration: underline; color:#007af4;\">macOS için INDI "
+"Sunucusu</span></a> veya elle yerel olarak başlatılmış bir INDI sunucusu "
+"olabilir. Emin değilseniz \"İç INDI Sunucusu\"nu seçin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/profilewizard.ui:915
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>You're almost done...</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Neredeyse bitti...</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/profilewizard.ui:928
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>What do you want to name your profile?</p></body></"
 "html>"
-msgstr ""
-"<html><head/><body><p>Teleskopun azami yükseklik sınırı. Teleskop bu sınırın "
-"üstünde olursa, kendi kendini durduracaktır.</p></body></html>"
+msgstr "<html><head/><body><p>Profilinizin adını ne koyalım?</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, profileNameEdit)
 #: ekos/profilewizard.ui:944
 #, kde-format
 msgid "My Astro Gear"
-msgstr ""
+msgstr "Gökyüzü Malzemelerim"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/profilewizard.ui:959
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Which guider application do you want to use?</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
+"<html><head/><body><p>Hangi kılavuz uygulamasını kullanmak istiyorsunuz?</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, useInternalGuiderR)
 #: ekos/profilewizard.ui:968
-#, fuzzy, kde-format
-#| msgid "Interval dividers"
+#, kde-format
 msgid "Internal Guider"
-msgstr "Aralık bölücüler"
+msgstr "İç Kılavuz"
 
 #. i18n: ectx: property (text), widget (QRadioButton, useLinGuiderR)
 #: ekos/profilewizard.ui:985
-#, fuzzy, kde-format
-#| msgid "Guider:"
+#, kde-format
 msgid "Lin Guider"
-msgstr "Kılavuz:"
+msgstr "Lin Kılavuzu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/profilewizard.ui:1012
@@ -34421,25 +34252,25 @@ msgstr ""
 #: kstars.kcfg:532
 #, kde-format
 msgid "Show supernova alerts?"
-msgstr "Süpernova uyarıları gösterilsin mi?"
+msgstr "Üstnova ikazları gösterilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:533
 #, kde-format
 msgid "Toggle supernova alerts."
-msgstr "Süpernova uyarılarını aç/kapat."
+msgstr "Üstnova ikazlarını açın/kapatın."
 
 #. i18n: ectx: label, entry (MagnitudeLimitAlertSupernovae), group (View)
 #: kstars.kcfg:537
 #, kde-format
 msgid "Set magnitude limit for supernovae to be alerted"
-msgstr "Süpernova uyarısı için büyüklük sınırını ayarla"
+msgstr "Üstnova ikazı için büyüklük sınırını ayarla"
 
 #. i18n: ectx: whatsthis, entry (MagnitudeLimitAlertSupernovae), group (View)
 #: kstars.kcfg:538
 #, kde-format
 msgid "Set magnitude limit for supernovae to be alerted."
-msgstr "Süpernova uyarısı için büyüklük sınırını ayarla."
+msgstr "Üstnova ikazı için olan büyüklük sınırını ayarlayın."
 
 #. i18n: ectx: label, entry (ShowCBounds), group (View)
 #: kstars.kcfg:542
