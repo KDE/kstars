@@ -686,6 +686,11 @@ class Focus : public QWidget, public Ui::Focus
          */
         void addMissingStellarSolverProfile(const QString profilesPath, const QString profile);
 
+        /**
+         * @brief Perform the processing to abort an in-flight focus procedure
+         */
+        void processAbort();
+
         // HFR Plot
         void initPlots();
 

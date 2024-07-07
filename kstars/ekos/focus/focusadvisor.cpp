@@ -134,7 +134,12 @@ bool FocusAdvisor::start()
     if (m_inFindStars || m_inPreAFAdj || m_inAFAdj)
     {
         if (canFocusAdvisorRun())
+        {
+            // Deselect ScanStartPos to stop interference with Focus Advisor
+            m_initialScanStartPos = m_focus->m_OpsFocusProcess->focusScanStartPos->isChecked();
+            m_focus->m_OpsFocusProcess->focusScanStartPos->setChecked(false);
             m_focus->runAutoFocus(FOCUS_FOCUS_ADVISOR, "");
+        }
         else
         {
             focusAdvStatusBar->showMessage(i18n("Focus Advisor cannot run with current params."));
@@ -147,7 +152,7 @@ bool FocusAdvisor::start()
 
 void FocusAdvisor::stop()
 {
-    abort(Ekos::FOCUS_FAIL_ABORT, i18n("Focus Advisor stopped"));
+    abort(i18n("Focus Advisor stopped"));
     emit newStage(Idle);
 }
 
@@ -587,7 +592,7 @@ void FocusAdvisor::control()
     else if (m_inPreAFAdj)
         preAFAdj();
     else
-        abort(Ekos::FOCUS_FAIL_INTERNAL, i18n("Focus Advisor aborted due to internal error"));
+        abort(i18n("Focus Advisor aborted due to internal error"));
 }
 
 // Prepare the Find Stars algorithm
@@ -596,7 +601,7 @@ void FocusAdvisor::initFindStars(const int startPos)
     // check whether Focus Advisor can run with the current parameters
     if (!canFocusAdvisorRun())
     {
-        abort(Ekos::FOCUS_FAIL_ABORT, i18n("Focus Advisor cannot run with current params"));
+        abort(i18n("Focus Advisor cannot run with current params"));
         return;
     }
 
@@ -634,7 +639,7 @@ void FocusAdvisor::initFindStars(const int startPos)
     focusAdvStatusBar->showMessage(i18n("Find Stars: Jump size %1", m_jumpSize));
     emit m_focus->setTitle(QString(i18n("Find Stars: Scanning for stars...")), true);
     if (!m_focus->changeFocus(startPos - m_focus->currentPosition))
-        abort(Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE, i18n("Find Stars: Failed"));
+        abort(i18n("Find Stars: Failed"));
 }
 
 // Algorithm to scan the focuser's range of motion to find stars
@@ -759,7 +764,7 @@ void FocusAdvisor::findStars()
     // Cap the maximum number of iterations before failing
     if (++m_focus->absIterations > MAXIMUM_FOCUS_ADVISOR_ITERATIONS)
     {
-        abort(Ekos::FOCUS_FAIL_MAX_ITERS, i18n("Find Stars: exceeded max iterations %1", MAXIMUM_FOCUS_ADVISOR_ITERATIONS));
+        abort(i18n("Find Stars: exceeded max iterations %1", MAXIMUM_FOCUS_ADVISOR_ITERATIONS));
         return;
     }
 
@@ -815,7 +820,7 @@ void FocusAdvisor::findStars()
                 initFindStars(m_focus->initialFocuserAbsPosition);
             }
             else
-                abort(Ekos::FOCUS_FAIL_INTERNAL, i18n("Find Stars Run %1: failed to find any stars", m_findStarsRunNum));
+                abort(i18n("Find Stars Run %1: failed to find any stars", m_findStarsRunNum));
             return;
         }
 
@@ -887,7 +892,7 @@ void FocusAdvisor::findStars()
         m_jumpsToGo--;
     m_focus->linearRequestedPosition = m_focus->currentPosition + deltaPos;
     if (!m_focus->changeFocus(deltaPos))
-        abort(Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE, i18n("Find Stars Run %1: Failed", m_findStarsRunNum));
+        abort(i18n("Find Stars Run %1: Failed", m_findStarsRunNum));
 }
 
 bool FocusAdvisor::starsFound()
@@ -902,7 +907,14 @@ void FocusAdvisor::initPreAFAdj(const int startPos)
     // check whether Focus Advisor can run with the current parameters
     if (!canFocusAdvisorRun())
     {
-        abort(Ekos::FOCUS_FAIL_ABORT, i18n("Focus Advisor cannot run with current params"));
+        abort(i18n("Focus Advisor cannot run with current params"));
+        return;
+    }
+
+    // Check we're not looping
+    if (m_preAFRunNum > 50)
+    {
+        abort(i18n("Focus Advisor Coarse Adjustment aborted after %1 runs", m_preAFRunNum));
         return;
     }
 
@@ -951,7 +963,7 @@ void FocusAdvisor::initPreAFAdj(const int startPos)
 
     m_focus->linearRequestedPosition = m_focus->currentPosition + deltaPos;
     if (!m_focus->changeFocus(deltaPos))
-        abort(Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE, i18n("Pre Autofocus: Failed"));
+        abort(i18n("Pre Autofocus: Failed"));
 }
 
 // Pre Autofocus coarse adjustment algorithm.
@@ -961,7 +973,7 @@ void FocusAdvisor::preAFAdj()
     // Cap the maximum number of iterations before failing
     if (++m_focus->absIterations > MAXIMUM_FOCUS_ADVISOR_ITERATIONS)
     {
-        abort(Ekos::FOCUS_FAIL_MAX_ITERS, i18n("Pre Autofocus: exceeded max iterations %1", MAXIMUM_FOCUS_ADVISOR_ITERATIONS));
+        abort(i18n("Pre Autofocus: exceeded max iterations %1", MAXIMUM_FOCUS_ADVISOR_ITERATIONS));
         return;
     }
 
@@ -1028,7 +1040,7 @@ void FocusAdvisor::preAFAdj()
         // We've completed the current sweep, so analyse the data...
         if (m_position.size() < 5)
         {
-            abort(Ekos::FOCUS_FAIL_NO_STARS, i18n("Coarse Adjustment Run %1: insufficient data to proceed", m_preAFRunNum));
+            abort(i18n("Coarse Adjustment Run %1: insufficient data to proceed", m_preAFRunNum));
             return;
         }
         else
@@ -1123,7 +1135,7 @@ void FocusAdvisor::preAFAdj()
                     if (newStepSize < 1)
                     {
                         // Looks like data is inconsistent so stop here
-                        abort(Ekos::FOCUS_FAIL_INTERNAL, i18n("Coarse Adj: data quality too poor to continue"));
+                        abort(i18n("Coarse Adj: data quality too poor to continue"));
                         return;
                     }
                 }
@@ -1165,7 +1177,7 @@ void FocusAdvisor::preAFAdj()
     }
     m_focus->linearRequestedPosition = m_focus->currentPosition + deltaPos;
     if (!m_focus->changeFocus(deltaPos))
-        abort(Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE, i18n("Coarse Adj: Failed"));
+        abort(i18n("Coarse Adj: Failed"));
 }
 
 // Check whether the Max / Min star measure ratio is good enough
@@ -1197,7 +1209,7 @@ void FocusAdvisor::initAFAdj(const int startPos, const bool retryOverscan)
     // check whether Focus Advisor can run with the current parameters
     if (!canFocusAdvisorRun())
     {
-        abort(Ekos::FOCUS_FAIL_ABORT, i18n("Focus Advisor cannot run with current params"));
+        abort(i18n("Focus Advisor cannot run with current params"));
         return;
     }
 
@@ -1323,8 +1335,8 @@ bool FocusAdvisor::analyseAF()
     {
         m_inAFAdj = false;
         focusAdvFineAdjLabel->setText(i18n("Done"));
+        complete(true, i18n("Autofocus complete: Step Size %1 AF Overscan %2", newStepSize, newOverscan));
         emit newStage(Idle);
-        focusAdvStatusBar->showMessage(i18n("Autofocus complete: Step Size %1 AF Overscan %2", newStepSize, newOverscan));
     }
     return runAgain;
 }
@@ -1337,6 +1349,7 @@ void FocusAdvisor::reset()
     m_initialBacklash = -1;
     m_initialAFOverscan = -1;
     m_initialUseWeights = false;
+    m_initialScanStartPos = false;
     m_position.clear();
     m_measure.clear();
     m_inFindStars = false;
@@ -1370,34 +1383,44 @@ void FocusAdvisor::reset()
 }
 
 // Abort the Focus Advisor
-void FocusAdvisor::abort(const AutofocusFailReason failCode, const QString &msg)
+void FocusAdvisor::abort(const QString &msg)
 {
     m_focus->appendLogText(msg);
     focusAdvStatusBar->showMessage(msg);
 
     // Restore settings to initial value
-    if (m_initialStepSize > -1) m_focus->m_OpsFocusMechanics->focusTicks->setValue(m_initialStepSize);
-    if (m_initialBacklash > -1) m_focus->m_OpsFocusMechanics->focusBacklash->setValue(m_initialBacklash);
-    if (m_initialAFOverscan > -1) m_focus->m_OpsFocusMechanics->focusAFOverscan->setValue(m_initialAFOverscan);
-    m_focus->m_OpsFocusProcess->focusUseWeights->setChecked(m_initialUseWeights);
-    m_focus->abort();
+    resetSavedSettings(false);
+    m_focus->processAbort();
 }
 
 // Focus Advisor completed successfully
 // If Autofocus was run then do the usual processing / notification of success, otherwise treat it as an autofocus fail
 void FocusAdvisor::complete(const bool autofocus, const QString &msg)
 {
-    m_focus->m_OpsFocusProcess->focusUseWeights->setChecked(m_initialUseWeights);
-
     m_focus->appendLogText(msg);
     focusAdvStatusBar->showMessage(msg);
-    if (autofocus)
-        m_focus->completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE);
-    else
+    // Restore settings to initial value
+    resetSavedSettings(true);
+
+    if (!autofocus)
     {
         if (m_initialBacklash > -1) m_focus->m_OpsFocusMechanics->focusBacklash->setValue(m_initialBacklash);
         if (m_initialAFOverscan > -1) m_focus->m_OpsFocusMechanics->focusAFOverscan->setValue(m_initialAFOverscan);
         m_focus->completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_ADVISOR_COMPLETE);
+    }
+}
+
+void FocusAdvisor::resetSavedSettings(const bool success)
+{
+    m_focus->m_OpsFocusProcess->focusUseWeights->setChecked(m_initialUseWeights);
+    m_focus->m_OpsFocusProcess->focusScanStartPos->setChecked(m_initialScanStartPos);
+
+    if (!success)
+    {
+        // Restore settings to initial value since Focus Advisor failed
+        if (m_initialStepSize > -1) m_focus->m_OpsFocusMechanics->focusTicks->setValue(m_initialStepSize);
+        if (m_initialBacklash > -1) m_focus->m_OpsFocusMechanics->focusBacklash->setValue(m_initialBacklash);
+        if (m_initialAFOverscan > -1) m_focus->m_OpsFocusMechanics->focusAFOverscan->setValue(m_initialAFOverscan);
     }
 }
 

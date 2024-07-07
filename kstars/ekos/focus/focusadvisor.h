@@ -310,7 +310,7 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
          * @param failCode
          * @param message msg
          */
-        void abort(const AutofocusFailReason failCode, const QString &msg);
+        void abort(const QString &msg);
 
         /**
          * @brief Abort Focus Advisor
@@ -318,6 +318,12 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
          * @param message msg
          */
         void complete(const bool autofocus, const QString &msg);
+
+        /**
+         * @brief Reset settings temporarily adjusted by Focus Advisor
+         * @param success of Focus Advisor
+         */
+        void resetSavedSettings(const bool success);
 
         Focus *m_focus { nullptr };
         QVariantMap m_map;
@@ -339,6 +345,7 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
         int m_initialBacklash = -1;
         int m_initialAFOverscan = -1;
         bool m_initialUseWeights = false;
+        bool m_initialScanStartPos = false;
 
         // Vectors to use to analyse position/measure results
         QVector<int> m_position;

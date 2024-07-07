@@ -1418,6 +1418,17 @@ void Focus::abort()
     if (state() <= FOCUS_ABORTED)
         return;
 
+    // JEE If Focus Advisor is running let it handle the abort
+    if (focusAdvisor->inFocusAdvisor())
+    {
+        focusAdvisor->stop();
+        return;
+    }
+    processAbort();
+}
+
+void Focus::processAbort()
+{
     bool focusLoop = inFocusLoop;
     checkStopFocus(true);
     appendLogText(i18n("Autofocus aborted."));
@@ -3325,7 +3336,7 @@ void Focus::scanStartPos()
             deltaPos = m_scanPosition[min] - currentPosition;
             m_scanPosition.clear();
             m_scanMeasure.clear();
-            emit setTitle(QString(i18n("No scan minimum - widening search...", step, maxSteps)), true);
+            emit setTitle(QString(i18n("No scan minimum - widening search...")), true);
         }
         else
         {
