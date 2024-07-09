@@ -44,6 +44,24 @@
 #define KEY_INDEX       "isoIndex"
 #define KEY_GAIN_KWD    "ccdGainKeyword"
 #define KEY_OFFSET_KWD  "ccdOffsetKeyword"
+namespace
+{
+const QStringList standAloneKeys = {KEY_FORMATS, KEY_GAIN_KWD, KEY_OFFSET_KWD,
+                                    KEY_TEMPERATURE, KEY_TIMESTAMP, KEY_FILTERS,
+                                    KEY_ISOS, KEY_INDEX, KEY_GAIN_KWD, KEY_OFFSET_KWD
+                                   };
+QVariantMap copyStandAloneSettings(const QVariantMap &settings)
+{
+    QVariantMap foundSettings;
+    for (const auto &k : standAloneKeys)
+    {
+        auto v = settings.find(k);
+        if (v != settings.end())
+            foundSettings[k] = *v;
+    }
+    return foundSettings;
+}
+}  // namespace
 
 namespace Ekos
 {
@@ -2826,7 +2844,7 @@ QVariantMap Camera::getAllSettings() const
     return settings;
 }
 
-void Camera::setAllSettings(const QVariantMap &settings)
+void Camera::setAllSettings(const QVariantMap &settings, const QVariantMap *standAloneSettings)
 {
     // Disconnect settings that we don't end up calling syncSettings while
     // performing the changes.
@@ -2902,6 +2920,12 @@ void Camera::setAllSettings(const QVariantMap &settings)
         m_GlobalSettings[key] = value;
     }
 
+    if (standAloneSettings && standAloneSettings->size() > 0)
+    {
+        for (const auto &k : standAloneSettings->keys())
+            m_settings[k] = (*standAloneSettings)[k];
+    }
+
     emit settingsUpdated(getAllSettings());
 
     // Save to optical train specific settings as well
@@ -2969,8 +2993,9 @@ void Camera::refreshOpticalTrain()
             auto map = settings.toJsonObject().toVariantMap();
             if (map != m_settings)
             {
+                QVariantMap standAloneSettings = copyStandAloneSettings(m_settings);
                 m_settings.clear();
-                setAllSettings(map);
+                setAllSettings(map, &standAloneSettings);
             }
         }
         else
@@ -3220,6 +3245,7 @@ void Camera::setupFilterManager()
         FilterPosCombo->addItems(filterManager()->getFilterLabels());
         FilterPosCombo->setCurrentIndex(filterManager()->getFilterPosition() - 1);
         updateCurrentFilterPosition();
+        storeTrainKey(KEY_FILTERS, filterManager()->getFilterLabels());
     });
 
     connect(filterManager().get(), &FilterManager::positionChanged, this, [this]()

@@ -246,7 +246,7 @@ public:
     void saveSequenceQueueAs();
 
     QVariantMap getAllSettings() const;
-    void setAllSettings(const QVariantMap &settings);
+    void setAllSettings(const QVariantMap &settings, const QVariantMap *standAloneSettings = nullptr);
 
     // ////////////////////////////////////////////////////////////////////
     // Optical Train handling
