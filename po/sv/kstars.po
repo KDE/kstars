@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-08 01:42+0000\n"
-"PO-Revision-Date: 2024-07-03 22:07+0200\n"
+"PO-Revision-Date: 2024-07-08 17:24+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -19461,10 +19461,9 @@ msgid "Find Stars Run %1: Failed"
 msgstr "Finn stjärnor Omgång %1: Misslyckades"
 
 #: ekos/focus/focusadvisor.cpp:917
-#, fuzzy, kde-format
-#| msgid "Focus Advisor proposed value for the parameter"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
-msgstr "Fokuseringsrådgivarens föreslagna värde för parametern"
+msgstr "Fokuseringsrådgivarens justering avbröts efter %1 omgångar"
 
 #: ekos/focus/focusadvisor.cpp:934 ekos/focus/focusadvisor.cpp:935
 #: ekos/focus/focusadvisor.cpp:936
