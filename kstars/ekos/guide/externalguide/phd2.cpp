@@ -655,6 +655,7 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
                 case DITHERING:
                     emit newLog(i18n("PHD2: Dithering successful."));
                     abortTimer->stop();
+                    ditherTimer->stop(); // stop immediately, since pausing could interrupt settling
                     emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
                     break;
                 default:
