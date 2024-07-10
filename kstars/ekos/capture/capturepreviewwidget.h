@@ -38,7 +38,7 @@ public:
      * @brief display information about the currently running job
      * @param currently active job
      */
-    void updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data);
+    void updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename);
 
     /**
      * @brief Show the next frame from the capture history
@@ -78,9 +78,8 @@ public:
 public slots:
     /**
      * @brief update display when the capture status changes
-     * @param status current capture status
      */
-    void updateCaptureStatus(Ekos::CaptureState status, bool isPreview);
+    void updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &devicename);
 
     /**
      * @brief Slot receiving the update of the current target distance.
@@ -94,13 +93,25 @@ public slots:
      */
     void updateCaptureCountDown(int delta);
 
+    /**
+     * @brief React upon changed camera device selection
+     */
+    void currentCameraDeviceNameChanged(QString newName);
+
 private:
+
+    void updateExposureProgress(Ekos::SequenceJob *job, const QString &devicename);
+    void updateDownloadProgress(double downloadTimeLeft, const QString &devicename);
+
     QSharedPointer<Ekos::SchedulerModuleState> m_schedulerModuleState = nullptr;
     Ekos::Capture *m_captureModule = nullptr;
     Ekos::Mount *m_mountModule = nullptr;
 
     // cache frame data
-    CaptureProcessOverlay::FrameData m_currentFrame;
+    QMap<QString, CaptureProcessOverlay::FrameData> m_currentFrame;
+
+    // known camera device names
+    QList<QString> m_cameraNames;
 
     // target the mount is pointing to (may be different to the scheduler job name)
     QString m_mountTarget = "";
@@ -108,8 +119,7 @@ private:
     // summary FITS view
     SummaryFITSView *m_fitsPreview = nullptr;
     // FITS data overlay
-    CaptureProcessOverlay *m_overlay
-    = nullptr;
+    CaptureProcessOverlay *m_overlay = nullptr;
 
     // move to trash or delete finally
     bool m_permanentlyDelete {false};

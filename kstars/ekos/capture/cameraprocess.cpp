@@ -634,7 +634,7 @@ void CameraProcess::prepareActiveJobStage2()
         qWarning(KSTARS_EKOS_CAPTURE) << "prepareActiveJobStage2 with null activeJob().";
     }
     else
-        emit newImage(activeJob(), state()->imageData());
+        emit newImage(activeJob(), state()->imageData(), (activeCamera() == nullptr ? "" : activeCamera()->getDeviceName()));
 
 
     /* Disable this restriction, let the sequence run even if focus did not run prior to the capture.
@@ -1210,7 +1210,7 @@ void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const 
 
     // JM 2020-06-17: Emit newImage for LOCAL images (stored on remote host)
     //if (m_Camera->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
-    emit newImage(thejob, state()->imageData());
+    emit newImage(thejob, state()->imageData(), (activeCamera() == nullptr ? "" : activeCamera()->getDeviceName()));
 
     // Check if we need to execute post capture script first
     if (runCaptureScript(SCRIPT_POST_CAPTURE) == IPS_BUSY)
@@ -1555,7 +1555,7 @@ void CameraProcess::setExposureProgress(ISD::CameraChip *tChip, double value, IP
     {
         activeJob()->setExposeLeft(value);
 
-        emit newExposureProgress(activeJob());
+        emit newExposureProgress(activeJob(), (activeCamera() == nullptr ? "" : activeCamera()->getDeviceName()));
     }
 
     if (activeJob() && ipstate == IPS_ALERT)
@@ -1620,7 +1620,7 @@ void CameraProcess::setDownloadProgress()
         {
             state()->imageCountDown().setHMS(0, 0, 0);
             state()->imageCountDownAddMSecs(int(std::ceil(downloadTimeLeft * 1000)));
-            emit newDownloadProgress(downloadTimeLeft);
+            emit newDownloadProgress(downloadTimeLeft, (activeCamera() == nullptr ? "" : activeCamera()->getDeviceName()));
         }
     }
 
@@ -1628,7 +1628,7 @@ void CameraProcess::setDownloadProgress()
 
 IPState CameraProcess::continueFramingAction(const QSharedPointer<FITSData> &imageData)
 {
-    emit newImage(activeJob(), imageData);
+    emit newImage(activeJob(), imageData, (activeCamera() == nullptr ? "" : activeCamera()->getDeviceName()));
     // If fast exposure is on, do not capture again, it will be captured by the driver.
     if (activeCamera()->isFastExposureEnabled() == false)
     {

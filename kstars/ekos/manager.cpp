@@ -2619,9 +2619,9 @@ void Manager::updateMountCoords(const SkyPoint position, ISD::Mount::PierSide pi
     ekosLiveClient.get()->message()->updateMountStatus(cStatus, true);
 }
 
-void Manager::updateCaptureStatus(Ekos::CaptureState status)
+void Manager::updateCaptureStatus(Ekos::CaptureState status, const QString &devicename)
 {
-    capturePreview->updateCaptureStatus(status, captureModule()->isActiveJobPreview());
+    capturePreview->updateCaptureStatus(status, captureModule()->isActiveJobPreview(), devicename);
 
     switch (status)
     {
@@ -2643,15 +2643,17 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status)
     {
         {"status", QString::fromLatin1(captureStates[status].untranslatedText())},
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
-        {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()}
+        {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()},
+        {"dev", devicename}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
 }
 
-void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointer<FITSData> &data)
+void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointer<FITSData> &data,
+                                    const QString &devicename)
 {
-    capturePreview->updateJobProgress(job, data);
+    capturePreview->updateJobProgress(job, data, devicename);
 
     QJsonObject status =
     {
@@ -2674,12 +2676,13 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
     }
 }
 
-void Manager::updateExposureProgress(Ekos::SequenceJob * job)
+void Manager::updateExposureProgress(Ekos::SequenceJob * job, const QString &devicename)
 {
     QJsonObject status
     {
         {"expv", job->getExposeLeft()},
-        {"expr", job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()}
+        {"expr", job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()},
+        {"dev", devicename}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);

@@ -1066,8 +1066,23 @@ void SchedulerProcess::startCapture(bool restart)
                 activeJob()->setState(SCHEDJOB_ERROR);
             return;
         }
-    }
 
+        // determine main camera name
+        QDBusReply<QString> const nameReply = captureInterface()->call(QDBus::AutoDetect, "mainCameraDeviceName");
+        if (nameReply.error().type() != QDBusError::NoError)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                              QString("Warning: job '%1' mainCameraDeviceName request received DBUS error: %1").arg(activeJob()->getName()).arg(
+                                                  nameReply.error().message());
+            if (!manageConnectionLoss())
+                activeJob()->setState(SCHEDJOB_ERROR);
+            return;
+        }
+        else
+        {
+            moduleState()->setMainCameraDeviceName(nameReply.value());
+        }
+    }
 
     CapturedFramesMap fMap = activeJob()->getCapturedFramesMap();
 
@@ -3487,9 +3502,9 @@ void SchedulerProcess::setGuideStatus(GuideState status)
     }
 }
 
-void SchedulerProcess::setCaptureStatus(CaptureState status)
+void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &devicename)
 {
-    if (activeJob() == nullptr)
+    if (activeJob() == nullptr || devicename != moduleState()->mainCameraDeviceName())
         return;
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << "Capture State" << Ekos::getCaptureStatusString(status);
@@ -4290,8 +4305,8 @@ void SchedulerProcess::registerNewModule(const QString &name)
                                                QDBusConnection::sessionBus(), this));
 
         connect(captureInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-        connect(captureInterface(), SIGNAL(newStatus(Ekos::CaptureState)), this,
-                SLOT(setCaptureStatus(Ekos::CaptureState)),
+        connect(captureInterface(), SIGNAL(newStatus(Ekos::CaptureState, const QString)), this,
+                SLOT(setCaptureStatus(Ekos::CaptureState, const QString)),
                 Qt::UniqueConnection);
         connect(captureInterface(), SIGNAL(captureComplete(QVariantMap)), this, SLOT(checkAlignment(QVariantMap)),
                 Qt::UniqueConnection);

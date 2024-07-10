@@ -66,10 +66,11 @@ QVariantMap copyStandAloneSettings(const QVariantMap &settings)
 namespace Ekos
 {
 
-Camera::Camera(bool standAlone, QWidget *parent)
+Camera::Camera(int id, bool standAlone, QWidget *parent)
     : QWidget{parent}, m_standAlone(standAlone)
 {
     setupUi(this);
+    m_cameraId = id;
     m_cameraState.reset(new CameraState());
     m_DeviceAdaptor.reset(new CaptureDeviceAdaptor());
     m_cameraProcess.reset(new CameraProcess(state(), m_DeviceAdaptor));
@@ -168,6 +169,7 @@ Camera::Camera(bool standAlone, QWidget *parent)
 
     // init connections and load settings
     initCamera();
+    refreshOpticalTrain();
 }
 
 Camera::~Camera()
@@ -354,6 +356,9 @@ void Camera::initCamera()
             captureOffsetN->setValue(newOffset);
     });
 
+    // display the capture status in the UI
+    connect(m_cameraState.data(), &CameraState::newStatus, captureStatusWidget, &LedStatusWidget::setCaptureState);
+
     ////////////////////////////////////////////////////////////////////////
     /// Settings
     ////////////////////////////////////////////////////////////////////////
@@ -411,7 +416,7 @@ void Camera::initCamera()
     connect(m_cameraState.data(), &CameraState::adaptiveFocus, this, &Camera::adaptiveFocus);
     connect(m_cameraState.data(), &CameraState::newMeridianFlipStage, this, &Camera::updateMeridianFlipStage);
     connect(m_cameraState.data(), &CameraState::guideAfterMeridianFlip, this, &Camera::guideAfterMeridianFlip);
-    connect(m_cameraState.data(), &CameraState::newStatus, this, &Camera::newStatus);
+    connect(m_cameraState.data(), &CameraState::newStatus, this, &Camera::updateCameraStatus);
     connect(m_cameraState.data(), &CameraState::meridianFlipStarted, this, &Camera::meridianFlipStarted);
     // process engine connections
     connect(m_cameraProcess.data(), &CameraProcess::refreshCamera, this, &Camera::updateCamera);
@@ -582,10 +587,10 @@ void Camera::updateCamera(bool isValid)
         auto name = activeCamera()->getDeviceName();
         opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(name, currentScope()["name"].toString()));
         emit settingsUpdated(getAllSettings());
-        emit refreshCamera(true);
+        emit refreshCamera(m_cameraId, true);
     }
     else
-        emit refreshCamera(false);
+        emit refreshCamera(m_cameraId, false);
 
 }
 
@@ -851,10 +856,10 @@ void Camera::generateDarkFlats()
     }
 }
 
-void Camera::updateDownloadProgress(double downloadTimeLeft)
+void Camera::updateDownloadProgress(double downloadTimeLeft, const QString &devicename)
 {
     frameRemainingTime->setText(state()->imageCountDown().toString("hh:mm:ss"));
-    emit newDownloadProgress(downloadTimeLeft);
+    emit newDownloadProgress(downloadTimeLeft, devicename);
 }
 
 void Camera::updateCaptureCountDown(int deltaMillis)
@@ -2789,6 +2794,12 @@ bool Camera::saveSequenceQueue(const QString &path)
     return process()->saveSequenceQueue(path);
 }
 
+void Camera::updateCameraStatus(CaptureState status)
+{
+    // forward a status change
+    emit newStatus(status, (activeCamera() == nullptr ? "" : activeCamera()->getDeviceName()));
+}
+
 void Camera::clearSequenceQueue()
 {
     state()->setActiveJob(nullptr);
@@ -3196,15 +3207,15 @@ void Camera::storeTrainKeyString(const QString &key, const QString &str)
 
 void Camera::setupFilterManager()
 {
-    // Do we have an existing filter manager?
+    // Clear connections if there was an existing filter manager
     if (filterManager())
         filterManager()->disconnect(this);
 
-    // Create new or refresh device
+    // Create new global filter manager or refresh its filter wheel
     Manager::Instance()->createFilterManager(devices()->filterWheel());
 
-    // Return global filter manager for this filter wheel.
-    Manager::Instance()->getFilterManager(devices()->filterWheel()->getDeviceName(), filterManager());
+    // Set the filter manager for this filter wheel.
+    Manager::Instance()->getFilterManager(devices()->filterWheel()->getDeviceName(), m_FilterManager);
 
     devices()->setFilterManager(filterManager());
 
@@ -3235,10 +3246,6 @@ void Camera::setupFilterManager()
     // filter changes
     connect(filterManager().get(), &FilterManager::newStatus, this, &Camera::setFilterStatus);
 
-    // display capture status changes
-    connect(filterManager().get(), &FilterManager::newStatus, captureStatusWidget,
-            &LedStatusWidget::setFilterState);
-
     connect(filterManager().get(), &FilterManager::labelsChanged, this, [this]()
     {
         FilterPosCombo->clear();
@@ -3255,6 +3262,17 @@ void Camera::setupFilterManager()
     });
 }
 
+void Camera::clearFilterManager()
+{
+    // Clear connections if there was an existing filter manager
+    if (filterManager())
+        filterManager()->disconnect(this);
+
+    // clear the filter manager for this camera
+    filterManager().clear();
+    devices()->setFilterManager(filterManager());
+}
+
 void Camera::refreshFilterSettings()
 {
     FilterPosCombo->clear();
@@ -3266,7 +3284,7 @@ void Camera::refreshFilterSettings()
         filterEditB->setEnabled(false);
         filterManagerB->setEnabled(false);
 
-        devices()->setFilterManager(filterManager());
+        clearFilterManager();
         return;
     }
 
@@ -3747,6 +3765,8 @@ void Camera::setFilterStatus(FilterState filterState)
         }
     }
     state()->setFilterManagerState(filterState);
+    // display capture status changes
+    captureStatusWidget->setFilterState(filterState);
 }
 
 void Camera::resetJobs()

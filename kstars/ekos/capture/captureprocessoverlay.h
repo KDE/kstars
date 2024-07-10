@@ -7,6 +7,7 @@
 #pragma once
 
 #include "ui_captureprocessoverlay.h"
+#include "sequencejob.h"
 
 #include "indi/indicommon.h"
 
@@ -26,6 +27,7 @@ public:
     {
         QString target;
         CCDFrameType frameType;
+        Ekos::SequenceJob::SequenceJobType jobType;
         QString filterName;
         QString filename;
         double exptime;
@@ -36,6 +38,7 @@ public:
         double gain;
         double offset;
         QString iso;
+        int count, completed;
     };
 
     // structs for frame statistics
@@ -117,7 +120,7 @@ public:
         void countNewFrame(QString target, CCDFrameType frameType, QString filter, double exptime);
     };
 
-    bool addFrameData(FrameData data);
+    bool addFrameData(FrameData data, const QString &devicename);
     /**
      * @brief Update the overlay with the meta data of the current frame and add it to the history
      */
@@ -132,17 +135,17 @@ public:
     /**
      * @brief Obtain the position of the current frame from the history
      */
-    int currentPosition() {return m_captureHistory.position();}
+    int currentPosition() {return captureHistory().position();}
 
     /**
      * @brief Retrieve the currently selected frame
      */
-    const FrameData currentFrame() {return m_captureHistory.currentFrame();}
+    const FrameData currentFrame() {return captureHistory().currentFrame();}
 
     /**
      * @brief Obtain the frame from the given position in the history
      */
-    const FrameData getFrame(int pos) {return m_captureHistory.getFrame(pos);}
+    const FrameData getFrame(int pos) {return captureHistory().getFrame(pos);}
 
     /**
      * @brief Obtain the position of the current frame from the history
@@ -151,7 +154,7 @@ public:
     /**
      * @brief Returns true iff there are frames in the capture history
      */
-    bool hasFrames() {return m_captureHistory.size() > 0;}
+    bool hasFrames();
 
     /**
      * @brief Update the statistics display for captured frames
@@ -162,7 +165,7 @@ public:
      * @brief Loads a new frame into the view and displays meta data in the overlay
      * @param data pointer to FITSData object
      */
-    bool addFrame(const QSharedPointer<FITSData> &data);
+    bool addFrame(const QString &devicename, const QSharedPointer<FITSData> &data);
 
     /**
      * @brief Show the next frame from the capture history
@@ -179,8 +182,25 @@ public:
      */
     bool deleteFrame(int pos);
 
+    void setCurrentCameraDeviceName(const QString &devicename);
+
+    /**
+     * @brief Capture history of the current camera device
+     */
+    CaptureHistory &captureHistory()
+    {
+        return m_captureHistory[m_currentCameraDeviceName];
+    }
+
+    /**
+     * @brief refresh frame data and statistics
+     */
+    void refresh();
+
 private:
     //capture history
-    CaptureHistory m_captureHistory;
+    QMap<QString, CaptureHistory> m_captureHistory;
+    // current camera device name
+    QString m_currentCameraDeviceName = "";
 
 };

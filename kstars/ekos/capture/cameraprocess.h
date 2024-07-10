@@ -710,8 +710,8 @@ signals:
     void captureImageStarted();
     void captureTarget(QString targetName);
     void captureRunning();
-    void newExposureProgress(SequenceJob *job);
-    void newDownloadProgress(double downloadTimeLeft);
+    void newExposureProgress(SequenceJob *job, const QString &devicename);
+    void newDownloadProgress(double downloadTimeLeft, const QString &devicename);
     void downloadingFrame();
     void updateCaptureCountDown(int deltaMS);
     void darkFrameCompleted();
@@ -723,7 +723,7 @@ signals:
     void processingFITSfinished(bool success);
     void rotatorReverseToggled(bool enabled);
     // communication with other modules
-    void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
+    void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename = "");
     void newView(const QSharedPointer<FITSView> &view);
     void suspendGuiding();
     void resumeGuiding();

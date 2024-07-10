@@ -670,7 +670,7 @@ private slots:
     // ////////////////////////////////////////////////////////////////////
     void setAlignStatus(Ekos::AlignState status);
     void setGuideStatus(Ekos::GuideState status);
-    void setCaptureStatus(Ekos::CaptureState status);
+    void setCaptureStatus(Ekos::CaptureState status, const QString &devicename);
     void setFocusStatus(Ekos::FocusState status);
     void setMountStatus(ISD::Mount::Status status);
     void setWeatherStatus(ISD::Weather::Status status);

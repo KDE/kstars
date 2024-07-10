@@ -102,6 +102,15 @@ public:
     // state attributes accessors
     // ////////////////////////////////////////////////////////////////////
 
+    const QString &mainCameraDeviceName() const
+    {
+        return m_mainCameraDeviceName;
+    }
+    void setMainCameraDeviceName(const QString &newMainCameraDeviceName)
+    {
+        m_mainCameraDeviceName = newMainCameraDeviceName;
+    }
+
     bool dirty() const
     {
         return m_dirty;
@@ -630,6 +639,8 @@ private:
     QList<SchedulerJob *> m_jobs;
     // Active job
     SchedulerJob *m_activeJob { nullptr };
+    // main camera (for multi camera setups)
+    QString m_mainCameraDeviceName;
 
     // ////////////////////////////////////////////////////////////////////
     // state attributes

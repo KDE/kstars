@@ -366,13 +366,14 @@ class Capture : public QWidget, public Ui::Capture
         /** @} end of group CaptureDBusInterface */
 
         // ////////////////////////////////////////////////////////////////////
-        // Access to the main camera
+        // Access to the cameras
         // ////////////////////////////////////////////////////////////////////
 
-        QSharedPointer<Camera> mainCamera() const
-        {
-            return m_mainCamera;
-        }
+        QSharedPointer<Camera> &camera(int i);
+
+        void checkCloseCameraTab(int tabIndex);
+
+        QSharedPointer<Camera> mainCamera() const;
 
         // ////////////////////////////////////////////////////////////////////
         // Changing the devices used by Capture
@@ -380,9 +381,10 @@ class Capture : public QWidget, public Ui::Capture
 
         /**
          * @brief Update the camera
+         * @param ID that holds the camera
          * @param current camera is valid
         */
-        void updateCamera(bool isValid);
+        void updateCamera(int tabID, bool isValid);
 
         /**
          * @brief setDome Set dome device
@@ -436,6 +438,11 @@ class Capture : public QWidget, public Ui::Capture
          * @return True if value is updated, false otherwise.
          */
         bool setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS);
+
+        const QList<QSharedPointer<Camera>> &cameras() const
+        {
+            return m_Cameras;
+        }
 
 public slots:
         // ////////////////////////////////////////////////////////////////////
@@ -559,6 +566,14 @@ public slots:
             return mainCamera()->getObserverName();
         }
 
+        /**
+         * @brief Name of the main camera's device
+         */
+        Q_SCRIPTABLE QString mainCameraDeviceName()
+        {
+            return mainCamera()->activeCamera()->getDeviceName();
+        }
+
         /** @}*/
 
         /**
@@ -657,7 +672,7 @@ public slots:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void meridianFlipStarted();
         Q_SCRIPTABLE void guideAfterMeridianFlip();
-        Q_SCRIPTABLE void newStatus(CaptureState status);
+        Q_SCRIPTABLE void newStatus(CaptureState status, const QString &devicename);
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
         void newFilterStatus(FilterState state);
@@ -673,9 +688,9 @@ public slots:
         void suspendGuiding();
         void resumeGuiding();
         void captureTarget(QString targetName);
-        void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
-        void newExposureProgress(SequenceJob *job);
-        void newDownloadProgress(double);
+        void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename = "");
+        void newExposureProgress(SequenceJob *job, const QString &devicename);
+        void newDownloadProgress(double, const QString &devicename);
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QVariantMap &settings);        
         void newLocalPreview(const QString &preview);
@@ -700,15 +715,7 @@ public slots:
         /**
          * @brief addCamera Add a new camera under capture control
          */
-        Camera *addCamera();
-
-        /**
-         * @brief setMainCamera Define the main camera
-         */
-        void setMainCamera(Camera *cam)
-        {
-            m_mainCamera.reset(cam);
-        }
+        QSharedPointer<Camera> addCamera();
 
         // ////////////////////////////////////////////////////////////////////
         // helper functions
@@ -752,8 +759,7 @@ public slots:
         int seqTotalCount;
         int seqCurrentCount { 0 };
 
-
-        QSharedPointer<Camera> m_mainCamera;
+        QList<QSharedPointer<Camera>> m_Cameras;
 
         QPointer<QDBusInterface> mountInterface;
 
@@ -767,6 +773,7 @@ public slots:
         double OffsetSpinSpecialValue { INVALID_VALUE };
 
         QVariantMap m_Metadata;
+        void closeCameraTab(int tabIndex);
 };
 
 }

@@ -993,7 +993,7 @@ signals:
         // guiding should be started after a successful meridian flip
         void guideAfterMeridianFlip();
         // new capture state
-        void newStatus(Ekos::CaptureState status);
+        void newStatus(CaptureState status);
         // forward new focus status
         void newFocusStatus(FocusState status);
         // forward new adaptive focus status

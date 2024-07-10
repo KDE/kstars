@@ -120,13 +120,16 @@
       <arg name="count" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="mainCameraDeviceName">
+      <arg type="s" direction="out"/>
+    </method>
     <signal name="newLog">
         <arg name="text" type="s" direction="out"/>
     </signal>
     <signal name="meridianFlipStarted"/>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CaptureState"/>
+        <arg name="devicename" type="s" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CaptureState"/>
     </signal>
     <signal name="captureComplete">

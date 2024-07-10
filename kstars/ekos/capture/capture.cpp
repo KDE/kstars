@@ -19,6 +19,7 @@
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/auxiliary/profilesettings.h"
+#include "auxiliary/ksmessagebox.h"
 
 #include "scriptsmanager.h"
 #include "fitsviewer/fitsdata.h"
@@ -38,7 +39,8 @@
 // Qt version calming
 #include <qtendl.h>
 
-#define KEY_FILTERS     "filtersList"
+#define KEY_FILTERS "filtersList"
+#define TAB_BUTTON_SIZE 20
 
 namespace Ekos
 {
@@ -51,8 +53,19 @@ Capture::Capture()
     qDBusRegisterMetaType<CaptureState>();
     new CaptureAdaptor(this);
 
-    // Add a single camera
-    setMainCamera(addCamera());
+    // Adding the "New Tab" tab
+    QWidget *newTab = new QWidget;
+    QPushButton *addButton = new QPushButton;
+    addButton->setIcon(QIcon::fromTheme("list-add"));
+    addButton->setFixedSize(TAB_BUTTON_SIZE, TAB_BUTTON_SIZE);
+    addButton->setToolTip(i18n("<p>Add additional camera</p><p><b>WARNING</b>: This feature is experimental!</p>"));
+    connect(addButton, &QPushButton::clicked, this, &Capture::addCamera);
+
+    cameraTabs->addTab(newTab, "");
+    cameraTabs->tabBar()->setTabButton(0, QTabBar::RightSide, addButton);
+
+    // Create main camera
+    addCamera();
 
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture", this);
     QPointer<QDBusInterface> ekosInterface = new QDBusInterface("org.kde.kstars", "/KStars/Ekos", "org.kde.kstars.Ekos",
@@ -66,56 +79,75 @@ Capture::Capture()
     registerNewModule("Mount");
 
     DarkLibrary::Instance()->setCaptureModule(this);
-
-    // display the capture status in the UI
-    connect(this, &Capture::newStatus, mainCamera()->captureStatusWidget, &LedStatusWidget::setCaptureState);
 }
 
 
-Camera* Capture::addCamera()
+QSharedPointer<Camera> Capture::addCamera()
 {
-    Camera *camera = new Camera();
-    cameraTabs->addTab(camera, "new Camera");
+    QSharedPointer<Camera> newCamera;
+    newCamera.reset(new Camera(m_Cameras.count()));
+
+    // create the new tab and bring it to front
+    const int tabIndex = cameraTabs->insertTab(std::max(0, cameraTabs->count() - 1), newCamera.get(), "new Camera");
+    cameraTabs->setCurrentIndex(tabIndex);
+    // make the tab closeable if it's not the first one
+    if (tabIndex > 0)
+    {
+        QPushButton *closeButton = new QPushButton();
+        closeButton->setIcon(QIcon::fromTheme("window-close"));
+        closeButton->setFixedSize(TAB_BUTTON_SIZE, TAB_BUTTON_SIZE);
+        cameraTabs->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, closeButton);
+        connect(closeButton, &QPushButton::clicked, this, [this, tabIndex]()
+        {
+            checkCloseCameraTab(tabIndex);
+        });
+    }
 
     // forward signals from the camera
-    connect(camera, &Camera::newLog, this, &Capture::appendLogText);
-    connect(camera, &Camera::refreshCamera, this, &Capture::updateCamera);
-    connect(camera, &Camera::sequenceChanged, this, &Capture::sequenceChanged);
-    connect(camera, &Camera::newLocalPreview, this, &Capture::newLocalPreview);
-    connect(camera, &Camera::dslrInfoRequested, this, &Capture::dslrInfoRequested);
-    connect(camera, &Camera::trainChanged, this, &Capture::trainChanged);
-    connect(camera, &Camera::settingsUpdated, this, &Capture::settingsUpdated);
-    connect(camera, &Camera::filterManagerUpdated, this, &Capture::filterManagerUpdated);
-    connect(camera, &Camera::newFilterStatus, this, &Capture::newFilterStatus);
-    connect(camera, &Camera::ready, this, &Capture::ready);
-    connect(camera, &Camera::newExposureProgress, this, &Capture::newExposureProgress);
-    connect(camera, &Camera::captureComplete, this, &Capture::captureComplete);
-    connect(camera, &Camera::captureStarting, this, &Capture::captureStarting);
-    connect(camera, &Camera::captureAborted, this, &Capture::captureAborted);
-    connect(camera, &Camera::checkFocus, this, &Capture::checkFocus);
-    connect(camera, &Camera::newImage, this, &Capture::newImage);
-    connect(camera, &Camera::runAutoFocus, this, &Capture::runAutoFocus);
-    connect(camera, &Camera::resetFocus, this, &Capture::resetFocus);
-    connect(camera, &Camera::abortFocus, this, &Capture::abortFocus);
-    connect(camera, &Camera::adaptiveFocus, this, &Capture::adaptiveFocus);
-    connect(camera, &Camera::captureTarget, this, &Capture::captureTarget);
-    connect(camera, &Camera::guideAfterMeridianFlip, this, &Capture::guideAfterMeridianFlip);
-    connect(camera, &Camera::newStatus, this, &Capture::newStatus);
-    connect(camera, &Camera::suspendGuiding, this, &Capture::suspendGuiding);
-    connect(camera, &Camera::resumeGuiding, this, &Capture::resumeGuiding);
-    connect(camera, &Camera::driverTimedout, this, &Capture::driverTimedout);
+    connect(newCamera.get(), &Camera::newLog, this, &Capture::appendLogText);
+    connect(newCamera.get(), &Camera::refreshCamera, this, &Capture::updateCamera);
+    connect(newCamera.get(), &Camera::sequenceChanged, this, &Capture::sequenceChanged);
+    connect(newCamera.get(), &Camera::newLocalPreview, this, &Capture::newLocalPreview);
+    connect(newCamera.get(), &Camera::dslrInfoRequested, this, &Capture::dslrInfoRequested);
+    connect(newCamera.get(), &Camera::trainChanged, this, &Capture::trainChanged);
+    connect(newCamera.get(), &Camera::settingsUpdated, this, &Capture::settingsUpdated);
+    connect(newCamera.get(), &Camera::filterManagerUpdated, this, &Capture::filterManagerUpdated);
+    connect(newCamera.get(), &Camera::newFilterStatus, this, &Capture::newFilterStatus);
+    connect(newCamera.get(), &Camera::ready, this, &Capture::ready);
+    connect(newCamera.get(), &Camera::newExposureProgress, this, &Capture::newExposureProgress);
+    connect(newCamera.get(), &Camera::captureComplete, this, &Capture::captureComplete);
+    connect(newCamera.get(), &Camera::captureStarting, this, &Capture::captureStarting);
+    connect(newCamera.get(), &Camera::captureAborted, this, &Capture::captureAborted);
+    connect(newCamera.get(), &Camera::checkFocus, this, &Capture::checkFocus);
+    connect(newCamera.get(), &Camera::newImage, this, &Capture::newImage);
+    connect(newCamera.get(), &Camera::runAutoFocus, this, &Capture::runAutoFocus);
+    connect(newCamera.get(), &Camera::resetFocus, this, &Capture::resetFocus);
+    connect(newCamera.get(), &Camera::abortFocus, this, &Capture::abortFocus);
+    connect(newCamera.get(), &Camera::adaptiveFocus, this, &Capture::adaptiveFocus);
+    connect(newCamera.get(), &Camera::captureTarget, this, &Capture::captureTarget);
+    connect(newCamera.get(), &Camera::guideAfterMeridianFlip, this, &Capture::guideAfterMeridianFlip);
+    connect(newCamera.get(), &Camera::newStatus, this, &Capture::newStatus);
+    connect(newCamera.get(), &Camera::suspendGuiding, this, &Capture::suspendGuiding);
+    connect(newCamera.get(), &Camera::resumeGuiding, this, &Capture::resumeGuiding);
+    connect(newCamera.get(), &Camera::driverTimedout, this, &Capture::driverTimedout);
 
-    return camera;
+    m_Cameras.append(newCamera);
+    // update the tab text
+    updateCamera(tabIndex, true);
+    return newCamera;
 }
 
-void Capture::updateCamera(bool isValid)
+void Capture::updateCamera(int tabID, bool isValid)
 {
-    QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
-
     if (isValid)
     {
-        auto name = mainCamera()->activeCamera()->getDeviceName();
-        cameraTabs->setTabText(cameraTabs->currentIndex(), name);
+        if (tabID < cameraTabs->count() && tabID < m_Cameras.count() && m_Cameras[tabID]->activeCamera() != nullptr)
+        {
+            auto name = m_Cameras[tabID]->activeCamera()->getDeviceName();
+            cameraTabs->setTabText(tabID, name);
+        }
+        else
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Unknown camera ID:" << tabID;
     }
     else
         cameraTabs->setTabText(cameraTabs->currentIndex(), "no camera");
@@ -247,6 +279,60 @@ bool Capture::setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
         return false;
 
     return devices()->getActiveCamera()->setStreamLimits(maxBufferSize, maxPreviewFPS);
+}
+
+QSharedPointer<Camera> &Capture::camera(int i)
+{
+    if (i < m_Cameras.count())
+        return m_Cameras[i];
+    else
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE) << "Unknown camera ID:" << i;
+        return m_Cameras[0];
+    }
+}
+
+void Ekos::Capture::closeCameraTab(int tabIndex)
+{
+    cameraTabs->removeTab(tabIndex);
+    camera(tabIndex).clear();
+    m_Cameras.removeAt(tabIndex);
+    // select the next one on the left
+    cameraTabs->setCurrentIndex(std::max(0, tabIndex - 1));
+}
+
+void Capture::checkCloseCameraTab(int tabIndex)
+{
+    if (m_Cameras[tabIndex]->state()->isBusy())
+    {
+        // if accept has been clicked, abort and close the tab
+        connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, &tabIndex]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+            m_Cameras[tabIndex]->abort();
+            closeCameraTab(tabIndex);
+        });
+        // if cancel has been clicked, do not close the tab
+        connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
+        {
+            KSMessageBox::Instance()->disconnect(this);
+        });
+
+        KSMessageBox::Instance()->warningContinueCancel(i18n("Camera %1 is busy. Abort to close?",
+                m_Cameras[tabIndex]->activeCamera()->getDeviceName()), i18n("Stop capturing"), 30, false, i18n("Abort"));
+    }
+    else
+    {
+        closeCameraTab(tabIndex);
+    }
+}
+
+QSharedPointer<Camera> Capture::mainCamera() const
+{
+    if (m_Cameras.size() > 0)
+        return m_Cameras[0];
+    else
+        return QSharedPointer<Camera>(new Camera());
 }
 
 void Capture::setMountStatus(ISD::Mount::Status newState)

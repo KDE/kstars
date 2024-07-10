@@ -12,6 +12,7 @@
 #include <QTime>
 
 #include "ui_capturecountswidget.h"
+#include "captureprocessoverlay.h"
 #include "ekos/ekos.h"
 
 namespace Ekos
@@ -29,19 +30,22 @@ public:
 
     explicit CaptureCountsWidget(QWidget *parent = nullptr);
 
+    void setCurrentCameraDeviceName(const QString &name);
+
 public slots:
 
     /**
      * @brief display the progress of the current exposure (remaining time etc.)
      * @param job currently active job
+     * @param devicename device name of the camera reporting exposure process
      */
-    void updateExposureProgress(Ekos::SequenceJob *job);
+    void updateExposureProgress(Ekos::SequenceJob *job, const QString &devicename);
 
     /**
      * @brief display the download progress
      * @param timeLeft time left until the download is finished
      */
-    void updateDownloadProgress(double timeLeft);
+    void updateDownloadProgress(double timeLeft, const QString &devicename);
 
 
 private:
@@ -56,15 +60,15 @@ private:
 
     /**
      * @brief update display when the capture status changes
-     * @param status current capture status
      */
-    void updateCaptureStatus(Ekos::CaptureState status, bool isPreview);
+    void updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &devicename);
 
     /**
      * @brief display information about the currently running job
-     * @param currently active job
+     * @param job currently active job
+     * @param devicename name of the used camera device
      */
-    void updateJobProgress(Ekos::SequenceJob *job);
+    void updateJobProgress(CaptureProcessOverlay::FrameData data, const QString &devicename);
 
     /**
      * @brief enable / disable display widgets
@@ -79,12 +83,21 @@ private:
     // informations about the current frame
     void setFrameInfo(const QString frametype, const QString filter = "", const double exptime = -1, const int xBin = -1, const int yBin = -1, const double gain = -1);
 
+    /**
+     * @brief showCurrentCameraInfo Display the capturing status informations for the selected camera device
+     */
+    void showCurrentCameraInfo();
 
     QSharedPointer<Ekos::SchedulerModuleState> m_schedulerModuleState;
     Ekos::Capture *m_captureProcess = nullptr;
 
-    QTime imageCountDown;
-    QTime sequenceCountDown;
-    QTime jobCountDown;
-    QTime overallCountDown;
+    QMap<QString, QTime> imageCountDown;
+    QMap<QString, QTime> sequenceCountDown;
+    QMap<QString, QTime> jobCountDown;
+    QMap<QString, QTime> overallCountDown;
+    // current camera device name
+    QString m_currentCameraDeviceName = "";
+
+    // cache frame data
+    QMap<QString, CaptureProcessOverlay::FrameData> m_currentFrame;
 };

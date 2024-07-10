@@ -26,6 +26,8 @@ CapturePreviewWidget::CapturePreviewWidget(QWidget *parent) : QWidget(parent)
     setupUi(this);
     m_overlay = new CaptureProcessOverlay();
     m_overlay->setVisible(false);
+    // capture device selection
+    connect(cameraSelectionCB, &QComboBox::currentTextChanged, this, &CapturePreviewWidget::currentCameraDeviceNameChanged);
     // history navigation
     connect(m_overlay->historyBackwardButton, &QPushButton::clicked, this, &CapturePreviewWidget::showPreviousFrame);
     connect(m_overlay->historyForwardButton, &QPushButton::clicked, this, &CapturePreviewWidget::showNextFrame);
@@ -37,13 +39,12 @@ void CapturePreviewWidget::shareCaptureModule(Ekos::Capture *module)
 {
     m_captureModule = module;
     captureCountsWidget->shareCaptureProcess(module);
+    m_cameraNames.clear();
 
     if (m_captureModule != nullptr)
     {
-        connect(m_captureModule, &Ekos::Capture::newDownloadProgress, captureCountsWidget,
-                &CaptureCountsWidget::updateDownloadProgress);
-        connect(m_captureModule, &Ekos::Capture::newExposureProgress, captureCountsWidget,
-                &CaptureCountsWidget::updateExposureProgress);
+        connect(m_captureModule, &Ekos::Capture::newDownloadProgress, this, &CapturePreviewWidget::updateDownloadProgress);
+        connect(m_captureModule, &Ekos::Capture::newExposureProgress, this, &CapturePreviewWidget::updateExposureProgress);
         connect(m_captureModule, &Ekos::Capture::captureTarget, this, &CapturePreviewWidget::setTargetName);
     }
 }
@@ -60,49 +61,69 @@ void CapturePreviewWidget::shareMountModule(Ekos::Mount *module)
     connect(m_mountModule, &Ekos::Mount::newTargetName, this, &CapturePreviewWidget::setTargetName);
 }
 
-void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data)
+void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data,
+        const QString &devicename)
 {
-    // forward first to the counting widget
-    captureCountsWidget->updateJobProgress(job);
-
-    // without FITS data, we do nothing
-    if (data == nullptr)
-        return;
-
-    // cache frame meta data
-    m_currentFrame.frameType = job->getFrameType();
-    if (job->getFrameType() == FRAME_LIGHT)
+    // ensure that we have all camera device names in the selection
+    if (!m_cameraNames.contains(devicename))
     {
-        if (m_schedulerModuleState != nullptr && m_schedulerModuleState->activeJob() != nullptr)
-            m_currentFrame.target = m_schedulerModuleState->activeJob()->getName();
-        else
-            m_currentFrame.target = m_mountTarget;
+        m_cameraNames.append(devicename);
+        cameraSelectionCB->addItem(devicename);
     }
-    else
-        m_currentFrame.target = "";
 
-    m_currentFrame.filterName  = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
-    m_currentFrame.exptime     = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
-    m_currentFrame.targetdrift = -1.0; // will be updated later
-    m_currentFrame.binning     = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
-    m_currentFrame.gain        = job->getCoreProperty(SequenceJob::SJ_Gain).toDouble();
-    m_currentFrame.offset      = job->getCoreProperty(SequenceJob::SJ_Offset).toDouble();
-    m_currentFrame.filename    = data->filename();
-    m_currentFrame.width       = data->width();
-    m_currentFrame.height      = data->height();
+    if (job != nullptr)
+    {
+        // cache frame meta data
+        m_currentFrame[devicename].frameType = job->getFrameType();
+        if (job->getFrameType() == FRAME_LIGHT)
+        {
+            if (m_schedulerModuleState != nullptr && m_schedulerModuleState->activeJob() != nullptr)
+                m_currentFrame[devicename].target = m_schedulerModuleState->activeJob()->getName();
+            else
+                m_currentFrame[devicename].target = m_mountTarget;
+        }
+        else
+        {
+            m_currentFrame[devicename].target = "";
+        }
 
-    const auto ISOIndex = job->getCoreProperty(SequenceJob::SJ_Offset).toInt();
-    if (ISOIndex >= 0 && ISOIndex <= m_captureModule->mainCamera()->captureISOS->count())
-        m_currentFrame.iso = m_captureModule->mainCamera()->captureISOS->itemText(ISOIndex);
-    else
-        m_currentFrame.iso = "";
+        m_currentFrame[devicename].filterName  = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
+        m_currentFrame[devicename].exptime     = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+        m_currentFrame[devicename].targetdrift = -1.0; // will be updated later
+        m_currentFrame[devicename].binning     = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();
+        m_currentFrame[devicename].gain        = job->getCoreProperty(SequenceJob::SJ_Gain).toDouble();
+        m_currentFrame[devicename].offset      = job->getCoreProperty(SequenceJob::SJ_Offset).toDouble();
+        m_currentFrame[devicename].jobType     = job->jobType();
+        m_currentFrame[devicename].frameType   = job->getFrameType();
+        m_currentFrame[devicename].count       = job->getCoreProperty(SequenceJob::SJ_Count).toInt();
+        m_currentFrame[devicename].completed   = job->getCompleted();
 
-    // add it to the overlay
-    m_overlay->addFrameData(m_currentFrame);
-    m_overlay->setVisible(true);
+        if (data != nullptr)
+        {
+            m_currentFrame[devicename].filename    = data->filename();
+            m_currentFrame[devicename].width       = data->width();
+            m_currentFrame[devicename].height      = data->height();
+        }
+
+        const auto ISOIndex = job->getCoreProperty(SequenceJob::SJ_Offset).toInt();
+        if (ISOIndex >= 0 && ISOIndex <= m_captureModule->mainCamera()->captureISOS->count())
+            m_currentFrame[devicename].iso = m_captureModule->mainCamera()->captureISOS->itemText(ISOIndex);
+        else
+            m_currentFrame[devicename].iso = "";
+    }
+
+    // forward first to the counting widget
+    captureCountsWidget->updateJobProgress(m_currentFrame[devicename], devicename);
+
+    // add it to the overlay if data is present
+    if (!data.isNull())
+    {
+        m_overlay->addFrameData(m_currentFrame[devicename], devicename);
+        m_overlay->setVisible(true);
+    }
 
     // load frame
-    if (m_fitsPreview != nullptr && Options::useSummaryPreview())
+    if (m_fitsPreview != nullptr && Options::useSummaryPreview() && cameraSelectionCB->currentText() == devicename)
         m_fitsPreview->loadData(data);
 }
 
@@ -177,7 +198,8 @@ void CapturePreviewWidget::deleteCurrentFrame()
         }
         else
         {
-            qCWarning(KSTARS_EKOS_CAPTURE) << "Deleting" << m_overlay->currentFrame().filename << "failed!";
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Deleting" << m_overlay->currentFrame().filename <<
+                                           "failed!";
             // give up
             m_overlay->setEnabled(true);
         }
@@ -243,11 +265,11 @@ void CapturePreviewWidget::reset()
     captureCountsWidget->reset();
 }
 
-void CapturePreviewWidget::updateCaptureStatus(Ekos::CaptureState status, bool isPreview)
+void CapturePreviewWidget::updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &devicename)
 {
     // forward to sub widgets
     captureStatusWidget->setCaptureState(status);
-    captureCountsWidget->updateCaptureStatus(status, isPreview);
+    captureCountsWidget->updateCaptureStatus(status, isPreview, devicename);
 }
 
 void CapturePreviewWidget::updateTargetDistance(double targetDiff)
@@ -262,12 +284,42 @@ void CapturePreviewWidget::updateCaptureCountDown(int delta)
     captureCountsWidget->updateCaptureCountDown(delta);
 }
 
+void CapturePreviewWidget::currentCameraDeviceNameChanged(QString newName)
+{
+    m_overlay->setCurrentCameraDeviceName(newName);
+    captureCountsWidget->setCurrentCameraDeviceName(newName);
+
+    m_overlay->setEnabled(false);
+    if (m_overlay->hasFrames())
+    {
+        // Hint: since the FITSView loads in the background, we have to wait for FITSView::load() to enable the layer
+        m_fitsPreview->loadFile(m_overlay->currentFrame().filename);
+    }
+    else
+    {
+        m_fitsPreview->clearData();
+        m_overlay->setEnabled(true);
+    }
+}
+
+void CapturePreviewWidget::updateExposureProgress(Ekos::SequenceJob *job, const QString &devicename)
+{
+    if (devicename == cameraSelectionCB->currentText())
+        captureCountsWidget->updateExposureProgress(job, devicename);
+}
+
+void CapturePreviewWidget::updateDownloadProgress(double downloadTimeLeft, const QString &devicename)
+{
+    if (devicename == cameraSelectionCB->currentText())
+        captureCountsWidget->updateDownloadProgress(downloadTimeLeft, devicename);
+}
+
 void CapturePreviewWidget::setTargetName(QString name)
 {
     targetLabel->setVisible(!name.isEmpty());
     mountTarget->setVisible(!name.isEmpty());
     mountTarget->setText(name);
     m_mountTarget = name;
-    m_currentFrame.target = name;
+    m_currentFrame[cameraSelectionCB->currentText()].target = name;
 }
 

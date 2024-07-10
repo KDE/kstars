@@ -13,6 +13,8 @@
 #include "ekos/capture/capture.h"
 #include "ekos/capture/sequencejob.h"
 
+#include <ekos_capture_debug.h>
+
 using Ekos::SequenceJob;
 
 CaptureCountsWidget::CaptureCountsWidget(QWidget *parent) : QWidget(parent)
@@ -43,27 +45,33 @@ CaptureCountsWidget::CaptureCountsWidget(QWidget *parent) : QWidget(parent)
     reset();
 }
 
-void CaptureCountsWidget::updateExposureProgress(Ekos::SequenceJob *job)
+void CaptureCountsWidget::setCurrentCameraDeviceName(const QString &name)
 {
-    imageCountDown.setHMS(0, 0, 0);
-    imageCountDown = imageCountDown.addSecs(int(std::round(job->getExposeLeft())));
-    if (imageCountDown.hour() == 23)
-        imageCountDown.setHMS(0, 0, 0);
+    m_currentCameraDeviceName = name;
+    showCurrentCameraInfo();
+}
+
+void CaptureCountsWidget::updateExposureProgress(Ekos::SequenceJob *job, const QString &devicename)
+{
+    imageCountDown[devicename].setHMS(0, 0, 0);
+    imageCountDown[devicename] = imageCountDown[devicename].addSecs(int(std::round(job->getExposeLeft())));
+    if (imageCountDown[devicename].hour() == 23)
+        imageCountDown[devicename].setHMS(0, 0, 0);
 
     imageProgress->setRange(0, int(std::ceil(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble())));
     imageProgress->setValue(int(std::ceil(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() - job->getExposeLeft())));
     gr_imageProgress->setRange(0, int(std::ceil(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble())));
     gr_imageProgress->setValue(imageProgress->value());
 
-    frameRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
+    frameRemainingTime->setText(imageCountDown[devicename].toString("hh:mm:ss"));
     gr_frameRemainingTime->setText(frameRemainingTime->text());
 }
 
-void CaptureCountsWidget::updateDownloadProgress(double timeLeft)
+void CaptureCountsWidget::updateDownloadProgress(double timeLeft, const QString &devicename)
 {
-    imageCountDown.setHMS(0, 0, 0);
-    imageCountDown = imageCountDown.addSecs(int(std::ceil(timeLeft)));
-    frameRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
+    imageCountDown[devicename].setHMS(0, 0, 0);
+    imageCountDown[devicename] = imageCountDown[devicename].addSecs(int(std::ceil(timeLeft)));
+    frameRemainingTime->setText(imageCountDown[devicename].toString("hh:mm:ss"));
 }
 
 void CaptureCountsWidget::shareSchedulerState(QSharedPointer<Ekos::SchedulerModuleState> state)
@@ -73,29 +81,33 @@ void CaptureCountsWidget::shareSchedulerState(QSharedPointer<Ekos::SchedulerModu
 
 void CaptureCountsWidget::updateCaptureCountDown(int delta)
 {
-    overallCountDown  = overallCountDown.addSecs(delta);
-    jobCountDown      = jobCountDown.addSecs(delta);
-    sequenceCountDown = sequenceCountDown.addSecs(delta);
+    // update counters of all devices
+    for (const QString &devicename : overallCountDown.keys())
+    {
+        overallCountDown[devicename]  = overallCountDown[devicename].addSecs(delta);
+        jobCountDown[devicename]      = jobCountDown[devicename].addSecs(delta);
+        sequenceCountDown[devicename] = sequenceCountDown[devicename].addSecs(delta);
 
-    // ensure that count downs do not overshoot
-    if (overallCountDown.hour() == 23)
-        overallCountDown.setHMS(0, 0, 0);
-    if (jobCountDown.hour() == 23)
-        jobCountDown.setHMS(0, 0, 0);
-    if (sequenceCountDown.hour() == 23)
-        sequenceCountDown.setHMS(0, 0, 0);
+        // ensure that count downs do not overshoot
+        if (overallCountDown[devicename].hour() == 23)
+            overallCountDown[devicename].setHMS(0, 0, 0);
+        if (jobCountDown[devicename].hour() == 23)
+            jobCountDown[devicename].setHMS(0, 0, 0);
+        if (sequenceCountDown[devicename].hour() == 23)
+            sequenceCountDown[devicename].setHMS(0, 0, 0);
+    }
 
     // do not change overall remaining time if scheduler is in endless loop
     if (m_schedulerModuleState == nullptr || m_schedulerModuleState->activeJob() == nullptr ||
             m_schedulerModuleState->activeJob()->getCompletionCondition() != Ekos::FINISH_LOOP)
     {
-        overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
+        overallRemainingTime->setText(overallCountDown[m_currentCameraDeviceName].toString("hh:mm:ss"));
         gr_overallRemainingTime->setText(overallRemainingTime->text());
     }
     if (!m_captureProcess->isActiveJobPreview())
     {
-        jobRemainingTime->setText(jobCountDown.toString("hh:mm:ss"));
-        sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
+        jobRemainingTime->setText(jobCountDown[m_currentCameraDeviceName].toString("hh:mm:ss"));
+        sequenceRemainingTime->setText(sequenceCountDown[m_currentCameraDeviceName].toString("hh:mm:ss"));
         gr_sequenceRemainingTime->setText(sequenceRemainingTime->text());
     }
     else
@@ -179,25 +191,42 @@ void CaptureCountsWidget::setFrameInfo(const QString frametype, const QString fi
     }
 }
 
-void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool isPreview)
+void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &devicename)
 {
-    overallCountDown.setHMS(0, 0, 0);
+    overallCountDown[devicename].setHMS(0, 0, 0);
     bool infinite_loop = false;
     int total_remaining_time = 0, total_completed = 0, total_count = 0;
     double total_percentage = 0;
     // use this value if no scheduler is running and job name otherwise
     QString total_label = "Total";
 
+    // find the corresponding camera
+    QSharedPointer<Ekos::Camera> selected_cam;
+    for (QSharedPointer<Ekos::Camera> camera : m_captureProcess->cameras())
+    {
+        if (camera->activeCamera() != nullptr && camera->activeCamera()->getDeviceName() == devicename)
+        {
+            selected_cam = camera;
+            break;
+        }
+    }
+
+    if (selected_cam.isNull())
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE) << "No matching camera found" << m_currentCameraDeviceName;
+        return;
+    }
+
     // determine total number of frames and completed ones - used either for
     // total numbers if scheduler is not used - and for job figures in the text
     // display if the scheduler is used
-    double capture_total_percentage = m_captureProcess->getProgressPercentage();
-    int    capture_remaining_time   = m_captureProcess->getOverallRemainingTime();
+    double capture_total_percentage = selected_cam->state()->progressPercentage();
+    int    capture_remaining_time   = selected_cam->state()->overallRemainingTime();
     int capture_total_count = 0, capture_total_completed = 0;
-    for (int i = 0; i < m_captureProcess->getJobCount(); i++)
+    for (int i = 0; i < selected_cam->state()->allJobs().count(); i++)
     {
-        capture_total_count     += m_captureProcess->getJobImageCount(i);
-        capture_total_completed += m_captureProcess->getJobImageProgress(i);
+        capture_total_count     += selected_cam->state()->jobImageCount(i);
+        capture_total_completed += selected_cam->state()->jobImageProgress(i);
     }
 
 
@@ -238,7 +267,7 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
             }
             else
             {
-                overallCountDown = overallCountDown.addSecs(total_remaining_time);
+                overallCountDown[devicename] = overallCountDown[devicename].addSecs(total_remaining_time);
                 gr_overallProgressBar->setValue(total_percentage);
             }
 
@@ -258,44 +287,56 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
             jobRemainingTime->setVisible(show_job_progress);
             if (show_job_progress)
             {
-                jobCountDown.setHMS(0, 0, 0);
-                jobCountDown = jobCountDown.addSecs(m_captureProcess->getOverallRemainingTime());
+                jobCountDown[devicename].setHMS(0, 0, 0);
+                jobCountDown[devicename] = jobCountDown[devicename].addSecs(selected_cam->state()->overallRemainingTime());
                 jobLabel->setText(QString("Job (%1/%2)")
                                   .arg(capture_total_completed)
                                   .arg(capture_total_count));
             }
 
             // update sequence remaining time
-            sequenceCountDown.setHMS(0, 0, 0);
-            sequenceCountDown = sequenceCountDown.addSecs(m_captureProcess->getActiveJobRemainingTime());
+            sequenceCountDown[devicename].setHMS(0, 0, 0);
+            sequenceCountDown[devicename] = sequenceCountDown[devicename].addSecs(selected_cam->state()->activeJobRemainingTime());
     }
 }
 
-void CaptureCountsWidget::updateJobProgress(Ekos::SequenceJob *job)
+void CaptureCountsWidget::updateJobProgress(CaptureProcessOverlay::FrameData data, const QString &devicename)
 {
-    // display informations about the current active capture
-    if (job->jobType() == SequenceJob::JOBTYPE_PREVIEW)
-        setFrameInfo(i18n("Preview"),  job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
-                     job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x(),
-                     job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y(), job->getCoreProperty(SequenceJob::SJ_Gain).toDouble());
+    m_currentFrame[devicename] = data;
+
+    // display informations if they come frome the currently selected camera device
+    if (devicename == m_currentCameraDeviceName)
+        showCurrentCameraInfo();
+}
+
+void CaptureCountsWidget::showCurrentCameraInfo()
+{
+    if (!m_currentFrame.contains(m_currentCameraDeviceName))
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE) << "No frame info available for" << m_currentCameraDeviceName;
+        return;
+    }
+
+    auto data = m_currentFrame[m_currentCameraDeviceName];
+
+    if (data.jobType == SequenceJob::JOBTYPE_PREVIEW)
+        setFrameInfo(i18n("Preview"), data.filterName, data.exptime, data.binning.x(), data.binning.y(), data.gain);
     else
-        setFrameInfo(CCDFrameTypeNames[job->getFrameType()], job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
-                     job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x(),
-                     job->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y(), job->getCoreProperty(SequenceJob::SJ_Gain).toDouble());
+        setFrameInfo(CCDFrameTypeNames[data.frameType], data.filterName, data.exptime, data.binning.x(),
+                     data.binning.y(), data.gain);
 
     // display sequence progress in the graphical view
-    gr_sequenceProgressBar->setRange(0, job->getCoreProperty(SequenceJob::SJ_Count).toInt());
-    gr_sequenceProgressBar->setValue(job->getCompleted());
-    if (job->jobType() == SequenceJob::JOBTYPE_PREVIEW)
-        sequenceLabel->setText(QString("%1").arg(frameLabel(CCDFrameTypeNames[job->getFrameType()],
-                               job->getCoreProperty(SequenceJob::SJ_Filter).toString())));
+    gr_sequenceProgressBar->setRange(0, data.count);
+    gr_sequenceProgressBar->setValue(data.completed);
+    if (data.jobType == SequenceJob::JOBTYPE_PREVIEW)
+        sequenceLabel->setText(QString("%1").arg(frameLabel(CCDFrameTypeNames[data.frameType], data.filterName)));
     else
         sequenceLabel->setText(QString("%1 (%3/%4)")
-                               .arg(frameLabel(CCDFrameTypeNames[job->getFrameType()],
-                                               job->getCoreProperty(SequenceJob::SJ_Filter).toString()))
-                               .arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+                               .arg(frameLabel(CCDFrameTypeNames[data.frameType], data.filterName)).arg(data.completed).arg(data.count));
+
     gr_sequenceLabel->setText(sequenceLabel->text());
 }
+
 
 void CaptureCountsWidget::setEnabled(bool enabled)
 {

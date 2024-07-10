@@ -55,7 +55,7 @@ public:
         REMOTE_PREVIEW
     } FilenamePreviewType;
 
-    explicit Camera(bool standAlone = false, QWidget *parent = nullptr);
+    explicit Camera(int id = 0, bool standAlone = false, QWidget *parent = nullptr);
     ~Camera();
 
     // ////////////////////////////////////////////////////////////////////
@@ -180,7 +180,7 @@ public:
      * @brief setDownloadProgress update the Capture Module and Summary
      *        Screen's estimate of how much time is left in the download
      */
-    void updateDownloadProgress(double downloadTimeLeft);
+    void updateDownloadProgress(double downloadTimeLeft, const QString &devicename);
 
     void updateCaptureCountDown(int deltaMillis);
 
@@ -236,6 +236,11 @@ public:
     bool saveSequenceQueue(const QString &path);
 
     /**
+     * @brief Update the camera's capture state
+     */
+    void updateCameraStatus(CaptureState status);
+
+    /**
      * Aborts any current jobs and remove all sequence queue jobs.
      */
     void clearSequenceQueue();
@@ -262,6 +267,7 @@ public:
     // Filter Manager and filters
     // ////////////////////////////////////////////////////////////////////
     void setupFilterManager();
+    void clearFilterManager();
 
     /**
      * @brief checkFilter Refreshes the filter wheel information in the capture module.
@@ -408,10 +414,10 @@ public:
 signals:
     // communication with other modules
     void ready();
-    void refreshCamera(bool isValid);
-    void newExposureProgress(SequenceJob *job);
-    void newDownloadProgress(double);
-    void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
+    void refreshCamera(uint id, bool isValid);
+    void newExposureProgress(SequenceJob *job, const QString &devicename);
+    void newDownloadProgress(double, const QString &devicename);
+    void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename = "");
     void captureTarget(QString targetName);
     void captureComplete(const QVariantMap &metadata);
     void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
@@ -435,7 +441,7 @@ signals:
     void checkFocus(double);
     void meridianFlipStarted();
     void guideAfterMeridianFlip();
-    void newStatus(CaptureState status);
+    void newStatus(CaptureState status, const QString &devicename);
     void suspendGuiding();
     void resumeGuiding();
     void driverTimedout(const QString &deviceName);
@@ -778,6 +784,7 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // Attributes
     // ////////////////////////////////////////////////////////////////////
+    int m_cameraId;
     QVariantMap m_settings;
     QVariantMap m_GlobalSettings;
     std::unique_ptr<CustomProperties> m_customPropertiesDialog;

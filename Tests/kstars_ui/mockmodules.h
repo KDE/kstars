@@ -257,9 +257,14 @@ class MockCapture : public QObject
             fprintf(stderr, "%d @@@MockCapture::start()\n", __LINE__);
             setStatus(CAPTURE_CAPTURING);
         }
+        Q_SCRIPTABLE QString mainCameraDeviceName()
+        {
+            fprintf(stderr, "%d @@@MockCapture::mainCameraDeviceName()\n", __LINE__);
+            return "MockCamera";
+        }
 
     signals:
-        Q_SCRIPTABLE void newStatus(Ekos::CaptureState status);
+        Q_SCRIPTABLE void newStatus(Ekos::CaptureState status, const QString &devicename = "MockCamera");
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
         void ready();
 
