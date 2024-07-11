@@ -1206,7 +1206,11 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
                                << " Tolerance:" << m_OpsFocusProcess->focusTolerance->value()
                                << " Donut Buster:" << ( m_OpsFocusProcess->focusDonut->isChecked() ? "yes" : "no" )
                                << " Donut Time Dilation:" << m_OpsFocusProcess->focusTimeDilation->value()
-                               << " Outlier Rejection:" << m_OpsFocusProcess->focusOutlierRejection->value();
+                               << " Outlier Rejection:" << m_OpsFocusProcess->focusOutlierRejection->value()
+                               << " Scan Start Pos:" << ( m_OpsFocusProcess->focusScanStartPos->isChecked() ? "yes" : "no" )
+                               << " Scan Always On:" << ( m_OpsFocusProcess->focusScanAlwaysOn->isChecked() ? "yes" : "no" )
+                               << " Num Datapoints:" << m_OpsFocusProcess->focusScanDatapoints->value()
+                               << " Scan Step Factor:" << m_OpsFocusProcess->focusScanStepSizeFactor->value();
     qCInfo(KSTARS_EKOS_FOCUS)  << "Mechanics Tab."
                                << " Initial Step Size:" << m_OpsFocusMechanics->focusTicks->value()
                                << " Out Step Multiple:" << m_OpsFocusMechanics->focusOutSteps->value()
@@ -1268,7 +1272,9 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
             focusFWHM.reset(new FocusFWHM(m_ScaleCalc));
             focusFourierPower.reset(new FocusFourierPower(m_ScaleCalc));
             // Donut Buster
-            if (initDonutProcessing())
+            initDonutProcessing();
+            // Scan for Start Position
+            if (initScanStartPos(false, currentPosition))
                 return;
             // Focus Advisor
             if (m_AutofocusReason == FOCUS_FOCUS_ADVISOR)
@@ -1307,19 +1313,12 @@ void Focus::setupLinearFocuser(int initialPosition)
 }
 
 // Initialise donut buster
-bool Focus::initDonutProcessing()
+void Focus::initDonutProcessing()
 {
     if (!m_OpsFocusProcess->focusDonut->isChecked())
-        return false;
+        return;
 
     m_donutOrigExposure = focusExposure->value();
-
-    if (m_OpsFocusProcess->focusScanStartPos->isChecked())
-    {
-        initScanStartPos(currentPosition);
-        return true;
-    }
-    return false;
 }
 
 // Reset donut buster
@@ -1418,7 +1417,7 @@ void Focus::abort()
     if (state() <= FOCUS_ABORTED)
         return;
 
-    // JEE If Focus Advisor is running let it handle the abort
+    // If Focus Advisor is running let it handle the abort
     if (focusAdvisor->inFocusAdvisor())
     {
         focusAdvisor->stop();
@@ -1470,6 +1469,7 @@ void Focus::stop(Ekos::FocusState completionState)
     starMeasureFrames.clear();
     m_abInsOn = false;
     m_StartRetries = 0;
+    m_AFRerun = false;
 
     // Check if CCD was not removed due to crash or other reasons.
     if (m_Camera)
@@ -3265,8 +3265,18 @@ void Focus::startAberrationInspector()
 }
 
 // Initialise the Scan Start Position algorithm
-void Focus::initScanStartPos(int initialPosition)
+bool Focus::initScanStartPos(const bool force, const int initialPosition)
 {
+    if (!force)
+    {
+        if (!m_OpsFocusProcess->focusScanStartPos->isChecked())
+            return false;
+
+        if (!m_OpsFocusProcess->focusScanAlwaysOn->isChecked() && !m_AFRerun)
+            // Only activate Scan Start Pos if "Always On" is set or we are rerunning after an AF failure
+            return false;
+    }
+
     inScanStartPos = true;
     initialFocuserAbsPosition = initialPosition;
     m_scanMeasure.clear();
@@ -3277,6 +3287,7 @@ void Focus::initScanStartPos(int initialPosition)
 
     if (!changeFocus(initialPosition - currentPosition))
         completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FOCUSER_NO_MOVE);
+    return true;
 }
 
 // Algorithm to scan for an optimum start position for Autofocus
@@ -3294,7 +3305,6 @@ void Focus::scanStartPos()
         }
         else
         {
-            // Carry on for donut detection
             appendLogText(i18n("Failed to detect any stars. Aborting..."));
             completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_NO_STARS);
             return;
@@ -4132,6 +4142,7 @@ void Focus::updateProperty(INDI::Property prop)
                 if (focuserAdditionalMovement == 0)
                 {
                     m_RestartState = RESTART_NONE;
+                    m_AFRerun = true;
                     inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                     adaptFocus->setInAdaptiveFocus(false);
                     focusAdvisor->setInFocusAdvisor(false);
@@ -4218,6 +4229,7 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
+                m_AFRerun = true;
                 inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 focusAdvisor->setInFocusAdvisor(false);
@@ -4289,6 +4301,7 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
+                m_AFRerun = true;
                 inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 focusAdvisor->setInFocusAdvisor(false);
@@ -4329,6 +4342,7 @@ void Focus::updateProperty(INDI::Property prop)
             if (focuserAdditionalMovement == 0)
             {
                 m_RestartState = RESTART_NONE;
+                m_AFRerun = true;
                 inAutoFocus = inBuildOffsets = inAdjustFocus = inScanStartPos = false;
                 adaptFocus->setInAdaptiveFocus(false);
                 focusAdvisor->setInFocusAdvisor(false);
@@ -6073,8 +6087,13 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusCurveFit);
             m_OpsFocusProcess->focusCurveFit->hide();
 
+            // Donut Buster not available
             m_OpsFocusProcess->focusDonut->hide();
             m_OpsFocusProcess->focusDonut->setChecked(false);
+
+            // Scan Start Pos not available
+            m_OpsFocusProcess->focusScanStartPos->hide();
+            m_OpsFocusProcess->focusScanStartPos->setChecked(false);
 
             // Although CurveFit is not used by Iterative setting to Quadratic will configure other widgets
             m_OpsFocusProcess->focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_QUADRATIC);
@@ -6197,6 +6216,10 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             // Donut buster not available
             m_OpsFocusProcess->focusDonut->hide();
             m_OpsFocusProcess->focusDonut->setChecked(false);
+
+            // Scan Start Pos not available
+            m_OpsFocusProcess->focusScanStartPos->hide();
+            m_OpsFocusProcess->focusScanStartPos->setChecked(false);
 
             // Set Measure to just HFR
             if (m_OpsFocusProcess->focusStarMeasure->count() != 1)
@@ -6323,6 +6346,10 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             // Donut buster not available
             m_OpsFocusProcess->focusDonut->hide();
             m_OpsFocusProcess->focusDonut->setChecked(false);
+
+            // Scan Start Pos not available
+            m_OpsFocusProcess->focusScanStartPos->hide();
+            m_OpsFocusProcess->focusScanStartPos->setChecked(false);
 
             // Set Measure to just HFR
             if (m_OpsFocusProcess->focusStarMeasure->count() != 1)
@@ -6517,6 +6544,10 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             // Donut Buster
             m_OpsFocusProcess->focusDonut->show();
             m_OpsFocusProcess->focusDonut->setEnabled(true);
+
+            // Scan Start Pos
+            m_OpsFocusProcess->focusScanStartPos->show();
+            m_OpsFocusProcess->focusScanStartPos->setEnabled(true);
 
             // Aberration Inspector button
             startAbInsB->setEnabled(canAbInsStart());

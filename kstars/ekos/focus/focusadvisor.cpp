@@ -422,7 +422,10 @@ void FocusAdvisor::setupParams(const QString &OTName)
     processParam(centralObstruction, row, m_map, m_focus->m_OpsFocusProcess->focusDonut, "Donut Buster");
     processParam(1.0, row, m_map, m_focus->m_OpsFocusProcess->focusTimeDilation, "Time Dilation x");
     processParam(0.2, row, m_map, m_focus->m_OpsFocusProcess->focusOutlierRejection, "Outlier Rejection");
-    processParam(false, row, m_map, m_focus->m_OpsFocusProcess->focusScanStartPos, "Scan for Start Position");
+
+    // Scan for Start Position
+    processParam(true, row, m_map, m_focus->m_OpsFocusProcess->focusScanStartPos, "Scan for Start Position");
+    processParam(false, row, m_map, m_focus->m_OpsFocusProcess->focusScanAlwaysOn, "Always On");
     processParam(5, row, m_map, m_focus->m_OpsFocusProcess->focusScanDatapoints, "Num Datapoints");
     processParam(1.0, row, m_map, m_focus->m_OpsFocusProcess->focusScanStepSizeFactor, "Initial Step Sixe x");
 
@@ -1245,7 +1248,7 @@ void FocusAdvisor::startAF(const int startPos)
     else
     {
         m_nearFocus = true;
-        m_focus->initScanStartPos(startPos);
+        m_focus->initScanStartPos(true, startPos);
     }
 }
 

@@ -1215,7 +1215,7 @@ void CurveFitting::hypMakeGuess(const int attempt, const DataPointT &dataPoints,
                 minX = dataPoints.dps[i].x;
                 minY = dataPoints.dps[i].y;
             }
-            if(maxY <= 0.0 || dataPoints.dps[0].y > maxY)
+            if(maxY <= 0.0 || dataPoints.dps[i].y > maxY)
             {
                 maxX = dataPoints.dps[i].x;
                 maxY = dataPoints.dps[i].y;

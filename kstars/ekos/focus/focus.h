@@ -680,6 +680,11 @@ class Focus : public QWidget, public Ui::Focus
         void setDonutBuster();
 
         /**
+         * @brief setScanForStartPos sets the scanForStartPos checkbox
+         */
+        void setScanForStartPos();
+
+        /**
          * @brief addMissingStellarSolverProfiles
          * @param profile to add
          * @param profilePath file pathname
@@ -894,9 +899,8 @@ class Focus : public QWidget, public Ui::Focus
 
         /**
          * @brief Initialise donut processing
-         * @return whether scanStartPos has been kicked off
          */
-        bool initDonutProcessing();
+        void initDonutProcessing();
 
         /**
          * @brief Setup Linear Focuser
@@ -906,9 +910,11 @@ class Focus : public QWidget, public Ui::Focus
 
         /**
          * @brief Initialise the Scan Start Position algorithm
+         * @param force Scan Start Pos
          * @param startPosition
+         * @return whether Scan for Start Position was initiated
          */
-        void initScanStartPos(const int initialPosition);
+        bool initScanStartPos(const bool force, const int initialPosition);
 
         /**
          * @brief Process the scan for the Autofocus starting position
@@ -1080,6 +1086,8 @@ class Focus : public QWidget, public Ui::Focus
         QString m_AutofocusReasonInfo;
         // Autofocus run number - to help with debugging logs
         int m_AFRun = 0;
+        // Rerun flag indicating a rerun due to AF failing
+        bool m_AFRerun = false;
 
         /// Autofocus log file info.
         QStringList m_LogText;

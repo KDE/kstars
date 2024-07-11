@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
+    <width>516</width>
     <height>420</height>
    </rect>
   </property>
@@ -665,10 +665,10 @@
       </sizepolicy>
      </property>
      <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to enable Donut Busting functionality. Use on telescopes with a central obstruction that create donut shaped stars when defocused.&lt;/p&gt;&lt;p&gt;This is a currently an experimental feature that should be used with caution.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to enable Donut Busting functionality. Use on telescopes with a central obstruction that create donut shaped stars when defocused.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="title">
-      <string>Donut Buster (WARNING: Experimental Feature)</string>
+      <string>Donut Buster</string>
      </property>
      <property name="flat">
       <bool>true</bool>
@@ -677,13 +677,13 @@
       <bool>true</bool>
      </property>
      <property name="checked">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="enabled">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -699,39 +699,16 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="focusScanStartPos">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to scan for a start position. The algorithm will look for a minimum data point using Num Datapoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Scan for Start Position</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QSpinBox" name="focusScanDatapoints">
-        <property name="toolTip">
-         <string>When Scan for Start Position is checked this is the number of datapoints to use.</string>
-        </property>
-        <property name="readOnly">
-         <bool>false</bool>
-        </property>
-        <property name="minimum">
-         <number>5</number>
-        </property>
-        <property name="maximum">
-         <number>11</number>
-        </property>
-        <property name="singleStep">
-         <number>2</number>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="1">
        <widget class="QDoubleSpinBox" name="focusTimeDilation">
         <property name="enabled">
-         <bool>true</bool>
+         <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The furthest datapoints have their exposure times increased by this factor. The in focus datapoint exposure is not increased. Intermediate points have their exposures scaled appropriately.&lt;/p&gt;&lt;p&gt;Set to 1 to disable this option.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -747,19 +724,6 @@
         </property>
         <property name="value">
          <double>1.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Num Datapoints:</string>
         </property>
        </widget>
       </item>
@@ -781,6 +745,12 @@
       </item>
       <item row="0" column="3">
        <widget class="QDoubleSpinBox" name="focusOutlierRejection">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How aggressively to apply Outlier Rejection. Higher values reject more outliers.&lt;/p&gt;&lt;p&gt;Refine Curve Fit must be set for this option to be active.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -795,7 +765,34 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="2">
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="focusScanStartPos">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check to scan for a start position. The algorithm will look for a minimum data point using Num Datapoints.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="title">
+      <string>Scan for Start Position</string>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="2">
        <widget class="QLabel" name="label_4">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -804,15 +801,24 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>When Scan for Start Position is checked, the scan uses a step size = Initial Step Size multiplier by Initial Step Size x.</string>
+         <string/>
         </property>
         <property name="text">
          <string>Initial Step Size x:</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="3">
+      <item row="1" column="3">
        <widget class="QDoubleSpinBox" name="focusScanStepSizeFactor">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Scan for Start Position uses a step size = Initial Step Size multiplied by Initial Step Size x.</string>
+        </property>
         <property name="minimum">
          <double>0.100000000000000</double>
         </property>
@@ -821,6 +827,63 @@
         </property>
         <property name="value">
          <double>1.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="focusScanAlwaysOn">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Check to always run Scan for Start Position, uncheck to only run after a failed Autofocus.</string>
+        </property>
+        <property name="text">
+         <string>Always On</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Num Datapoints:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QSpinBox" name="focusScanDatapoints">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>The number of datapoints to use during Scan for Start Position.</string>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="minimum">
+         <number>5</number>
+        </property>
+        <property name="maximum">
+         <number>11</number>
+        </property>
+        <property name="singleStep">
+         <number>2</number>
         </property>
        </widget>
       </item>

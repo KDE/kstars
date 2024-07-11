@@ -2191,8 +2191,12 @@
          <default>1.0</default>
       </entry>
       <entry name="focusScanStartPos" type="Bool">
-         <whatsthis>Check to force a scan for optimum start position at the start of Autofocus.</whatsthis>
+         <whatsthis>Whether to use scan for optimum start position at the start of Autofocus.</whatsthis>
          <default>false</default>
+      </entry>
+      <entry name="focusScanAlwaysOn" type="Bool">
+         <whatsthis>Whether scan for start position is always used or just after an Autofocus failure.</whatsthis>
+         <default>true</default>
       </entry>
       <entry name="focusScanDatapoints" type="UInt">
          <whatsthis>Number of datapoints to use during scan when focusScanStartPos is checked.</whatsthis>
