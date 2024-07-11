@@ -84,7 +84,8 @@ SSolver::Parameters getFocusOptionsProfileDefault()
     focusDefault.keepNum = 100;
     focusDefault.minarea = 20;
     focusDefault.maxEllipse = 1.5;
-    focusDefault.convFilterType = SSolver::CONV_GAUSSIAN;
+    focusDefault.convFilterType = SSolver::CONV_DEFAULT;
+    focusDefault.deblend_contrast = 1.0; // Turns off deblending - no benefit for focus and sometimes causes issues
     focusDefault.fwhm = 1;
     focusDefault.r_min = 5;
     focusDefault.maxSize = 10;
