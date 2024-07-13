@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-12 01:41+0000\n"
-"PO-Revision-Date: 2024-07-11 12:47+0300\n"
+"PO-Revision-Date: 2024-07-12 08:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -19976,29 +19976,7 @@ msgstr "Час очікування на захоплення:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:113
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of walk for the focuser to take "
-#| "when using <span style=\" font-weight:600;\">Linear 1 Pass</span>.  For "
-#| "<span style=\" font-weight:600;\">Linear</span> only <span style=\" font-"
-#| "weight:600;\">Classic</span> is available.</p><p><span style=\" font-"
-#| "weight:600;\">Classic</span>: Focuser steps out &quot;Out Step "
-#| "Multiple&quot; steps, takes a frame and then steps in through focus at a "
-#| "constant step size taking and analysing frames at each step. The exact "
-#| "point at which the pass stops is dependent on the data so this walk is "
-#| "tolerant of starting further away from focus, but at the expense of extra "
-#| "steps.</p><p><span style=\" font-weight:600;\">Fixed Steps</span>: "
-#| "Focuser steps out half of &quot;Number Steps&quot;, takes a frame and "
-#| "then steps in exactly &quot;Number Steps&quot;. This walk must be started "
-#| "close to focus to be effective but is predictable in the number of steps "
-#| "taken. This walk is experimental.</p><p><span style=\" font-weight:600;"
-#| "\">CFZ Shuffle</span>: Similar to <span style=\" font-weight:600;\">Fixed "
-#| "Steps</span> except this walk takes half steps near the focus point to "
-#| "try to give more weight to points nearer to focus in the curve fitting. "
-#| "As with <span style=\" font-weight:600;\">Fixed Steps</span> this walk "
-#| "must be started close to focus to be effective but is predictable in the "
-#| "number of steps taken. This walk is experimental.</p><p><br/></p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of walk for the focuser to take when "
 "using <span style=\" font-weight:600;\">Linear 1 Pass</span>.  For <span "
@@ -20034,15 +20012,15 @@ msgstr ""
 "\">Фіксовані кроки</span>: засіб фокусування відступає на половину &quot;"
 "Кількість кроків&quot;, робить кадр і потім наближається точно на &quot;"
 "Кількість кроків&quot;. Цей перехід слід розпочинати близько до фокуса, щоб "
-"він був ефективним, але він передбачуваний щодо кількості кроків. Цей "
-"перехід є експериментальним.</p><p><span style=\" font-weight:600;"
-"\">Перемішати КЗФ</span>: подібний до <span style=\" font-weight:600;"
-"\">Фіксовані кроки</span>, але при цьому переході програма робить половинні "
-"кроки поруч із точкою фокусування у спробі отримати більшу ваду для точок, "
-"які ближчі до фокуса, при апроксимації кривої. Як і <span style=\" font-"
-"weight:600;\">Фіксовані кроки</span> цей перехід слід розпочинати близько до "
-"фокуса, щоб він був ефективним, але він передбачуваний щодо кількості "
-"кроків. Цей перехід є експериментальним.</p><p><br/></p></body></html>"
+"він був ефективним, але він передбачуваний щодо кількості кроків.</"
+"p><p><span style=\" font-weight:600;\">Перемішати КЗФ</span>: подібний до "
+"<span style=\" font-weight:600;\">Фіксовані кроки</span>, але при цьому "
+"переході програма робить половинні кроки поруч із точкою фокусування у "
+"спробі отримати більшу ваду для точок, які ближчі до фокуса, при "
+"апроксимації кривої. Як і <span style=\" font-weight:600;\">Фіксовані кроки</"
+"span> цей перехід слід розпочинати близько до фокуса, щоб він був "
+"ефективним, але він передбачуваний щодо кількості кроків.</p><p><br/></p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:122
@@ -20791,12 +20769,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:668
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to enable Donut Busting functionality. Use on "
-#| "telescopes with a central obstruction that create donut shaped stars when "
-#| "defocused.</p><p>This is a currently an experimental feature that should "
-#| "be used with caution.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable Donut Busting functionality. Use on "
 "telescopes with a central obstruction that create donut shaped stars when "
@@ -20805,14 +20778,13 @@ msgstr ""
 "<html><head/><body><p>Позначте, щоб увімкнути функціональні можливості "
 "«пончикового підсилення». Скористайтеся ним для телескопів із центральною "
 "перешкодою, яка призводить до пончикової форми зірок, які перебувають поза "
-"фокусом.</p><p>У поточній версії ця можливість є експериментальною, якою "
-"слід користуватися з осторогою.</p></body></html>"
+"фокусом.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:671
 #, kde-format
 msgid "Donut Buster"
-msgstr ""
+msgstr "Пончикове підсилення"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:695
@@ -20879,36 +20851,29 @@ msgstr "Коефіцієнт початкового кроку:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusScanStepSizeFactor)
 #: ekos/focus/opsfocusprocess.ui:820
-#, fuzzy, kde-format
-#| msgid ""
-#| "When Scan for Start Position is checked, the scan uses a step size = "
-#| "Initial Step Size multiplier by Initial Step Size x."
+#, kde-format
 msgid ""
 "Scan for Start Position uses a step size = Initial Step Size multiplied by "
 "Initial Step Size x."
 msgstr ""
-"Якщо позначено пункт «Шукати початкову позицію», засіб сканування використає "
-"розмір кроку, що дорівнює добутку коефіцієнта розміру початкового кроку на "
-"розмір початкового кроку."
+"При пошуку початкової позиції використовують розмір кроку, що дорівнює "
+"добутку коефіцієнта розміру початкового кроку на розмір початкового кроку."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanAlwaysOn)
 #: ekos/focus/opsfocusprocess.ui:842
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Check to always run Scan for Start Position, uncheck to only run after a "
 "failed Autofocus."
 msgstr ""
-"Увімкніть для примусового пошуку оптимальної початкової позиції на початку "
-"автоматичного фокусування."
+"Увімкніть для пошуку початкової позиції завжди, вимкніть для пошуку, лише "
+"після невдалого автоматичного фокусування."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanAlwaysOn)
 #: ekos/focus/opsfocusprocess.ui:845
 #, kde-format
 msgid "Always On"
-msgstr ""
+msgstr "Завжди ввімкнено"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:861
@@ -20918,13 +20883,11 @@ msgstr "К-ть точок даних:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:874
-#, fuzzy, kde-format
-#| msgid ""
-#| "Number of datapoints to use during scan when focusScanStartPos is checked."
+#, kde-format
 msgid "The number of datapoints to use during Scan for Start Position."
 msgstr ""
-"Кількість точок даних, якими слід скористатися під час сканування, якщо "
-"увімкнено focusScanStartPos."
+"Кількість точок даних, якими слід скористатися під час пошуку початкової "
+"позиції."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -38225,28 +38188,22 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2194
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Whether to use scan for optimum start position at the start of Autofocus."
 msgstr ""
-"Увімкніть для примусового пошуку оптимальної початкової позиції на початку "
-"автоматичного фокусування."
+"Визначає, чи слід використовувати сканування для пошуку оптимальної "
+"початкової позиції на початку автоматичного фокусування."
 
 #. i18n: ectx: whatsthis, entry (focusScanAlwaysOn), group (Focus)
 #: kstars.kcfg:2198
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Whether scan for start position is always used or just after an Autofocus "
 "failure."
 msgstr ""
-"Увімкніть для примусового пошуку оптимальної початкової позиції на початку "
-"автоматичного фокусування."
+"Визначає, чи слід використовувати пошук початкової позиції завжди чи лише "
+"після невдалого автоматичного сканування"
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2202

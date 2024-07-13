@@ -15482,10 +15482,9 @@ msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
 #: ekos/capture/capture.cpp:322
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stop capturing"
-msgstr "停止录像"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:322 ekos/observatory/observatory.ui:550

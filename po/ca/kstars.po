@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-12 01:41+0000\n"
-"PO-Revision-Date: 2024-07-11 08:19+0200\n"
+"PO-Revision-Date: 2024-07-12 08:45+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -20054,29 +20054,7 @@ msgstr "Temps d'espera de la captura:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:113
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of walk for the focuser to take "
-#| "when using <span style=\" font-weight:600;\">Linear 1 Pass</span>.  For "
-#| "<span style=\" font-weight:600;\">Linear</span> only <span style=\" font-"
-#| "weight:600;\">Classic</span> is available.</p><p><span style=\" font-"
-#| "weight:600;\">Classic</span>: Focuser steps out &quot;Out Step "
-#| "Multiple&quot; steps, takes a frame and then steps in through focus at a "
-#| "constant step size taking and analysing frames at each step. The exact "
-#| "point at which the pass stops is dependent on the data so this walk is "
-#| "tolerant of starting further away from focus, but at the expense of extra "
-#| "steps.</p><p><span style=\" font-weight:600;\">Fixed Steps</span>: "
-#| "Focuser steps out half of &quot;Number Steps&quot;, takes a frame and "
-#| "then steps in exactly &quot;Number Steps&quot;. This walk must be started "
-#| "close to focus to be effective but is predictable in the number of steps "
-#| "taken. This walk is experimental.</p><p><span style=\" font-weight:600;"
-#| "\">CFZ Shuffle</span>: Similar to <span style=\" font-weight:600;\">Fixed "
-#| "Steps</span> except this walk takes half steps near the focus point to "
-#| "try to give more weight to points nearer to focus in the curve fitting. "
-#| "As with <span style=\" font-weight:600;\">Fixed Steps</span> this walk "
-#| "must be started close to focus to be effective but is predictable in the "
-#| "number of steps taken. This walk is experimental.</p><p><br/></p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of walk for the focuser to take when "
 "using <span style=\" font-weight:600;\">Linear 1 Pass</span>.  For <span "
@@ -20111,14 +20089,13 @@ msgstr ""
 "\">Passos fixos</span>: L'enfocador avança la meitat del «Nombre de passos», "
 "pren un fotograma i després avança exactament en el «Nombre de passos». "
 "Aquest camí ha de començar prop de l'enfocament per a ser efectiu, però és "
-"previsible en el nombre de passos que es prenen. Aquest camí és experimental."
-"</p><p><span style=\" font-weight:600;\">Barreja ZCE</span>: Similar a <span "
-"style=\" font-weight:600;\">Passos fixos</span> excepte que aquest camí fa "
-"mig pas a prop del punt d'enfocament per a intentar donar més pes als punts "
-"més a prop del focus en l'ajust de la corba. Igual que amb <span style=\" "
-"font-weight:600;\">Passos fixos</span>, aquest camí s'ha d'iniciar a prop "
-"del focus per a ser efectiu, però és previsible en el nombre de passos fets. "
-"Aquest camí és experimental.</p><p><br/></p></body></html>"
+"previsible en el nombre de passos que es prenen. </p><p><span style=\" font-"
+"weight:600;\">Barreja ZCE</span>: Similar a <span style=\" font-weight:600;"
+"\">Passos fixos</span> excepte que aquest camí fa mig pas a prop del punt "
+"d'enfocament per a intentar donar més pes als punts més a prop del focus en "
+"l'ajust de la corba. Igual que amb <span style=\" font-weight:600;\">Passos "
+"fixos</span>, aquest camí s'ha d'iniciar a prop del focus per a ser efectiu, "
+"però és previsible en el nombre de passos fets.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:122
@@ -20865,12 +20842,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:668
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to enable Donut Busting functionality. Use on "
-#| "telescopes with a central obstruction that create donut shaped stars when "
-#| "defocused.</p><p>This is a currently an experimental feature that should "
-#| "be used with caution.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable Donut Busting functionality. Use on "
 "telescopes with a central obstruction that create donut shaped stars when "
@@ -20878,15 +20850,13 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Marqueu-ho per a activar la característica de reducció "
 "de dònuts. Utilitzeu-la en telescopis amb una obstrucció central que crea "
-"estrelles en forma de dònuts quan estan desenfocades.</p><p>Actualment, "
-"aquesta és una característica experimental que s'ha d'utilitzar amb "
-"precaució.</p></body></html>"
+"estrelles en forma de dònuts quan estan desenfocades.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:671
 #, kde-format
 msgid "Donut Buster"
-msgstr ""
+msgstr "Reductor de dònuts"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:695
@@ -20953,35 +20923,30 @@ msgstr "x mida inicial del pas:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusScanStepSizeFactor)
 #: ekos/focus/opsfocusprocess.ui:820
-#, fuzzy, kde-format
-#| msgid ""
-#| "When Scan for Start Position is checked, the scan uses a step size = "
-#| "Initial Step Size multiplier by Initial Step Size x."
+#, kde-format
 msgid ""
 "Scan for Start Position uses a step size = Initial Step Size multiplied by "
 "Initial Step Size x."
 msgstr ""
-"Quan està marcat Escaneja per a la posició d'inici, l'escaneig fa servir una "
-"mida de pas = Mida inicial del pas multiplicat per «x mida inicial del pas»."
+"Escaneja per a la posició d'inici, l'escaneig fa servir una mida de pas = "
+"Mida inicial del pas multiplicat per «x mida inicial del pas»."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanAlwaysOn)
 #: ekos/focus/opsfocusprocess.ui:842
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Check to always run Scan for Start Position, uncheck to only run after a "
 "failed Autofocus."
 msgstr ""
-"Marqueu-ho per a forçar un escaneig per a una posició d'inici òptima al "
-"començament de l'enfocament automàtic."
+"Marqueu-ho per a executar sempre un escaneig per a una posició d'inici, "
+"desmarqueu-ho per a exetura només després d'un enfocament automàtic que hagi "
+"fallat."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanAlwaysOn)
 #: ekos/focus/opsfocusprocess.ui:845
 #, kde-format
 msgid "Always On"
-msgstr ""
+msgstr "Sempre actiu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:861
@@ -20991,13 +20956,11 @@ msgstr "Nombre de punts de dades:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:874
-#, fuzzy, kde-format
-#| msgid ""
-#| "Number of datapoints to use during scan when focusScanStartPos is checked."
+#, kde-format
 msgid "The number of datapoints to use during Scan for Start Position."
 msgstr ""
-"Nombre de punts de dades a utilitzar durant l'escaneig quan es marqui "
-"«focusScanStartPos»."
+"El nombre de punts de dades a utilitzar durant l'escaneig per a la posició "
+"d'inici."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -38450,28 +38413,22 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2194
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Whether to use scan for optimum start position at the start of Autofocus."
 msgstr ""
-"Marqueu-ho per a forçar un escaneig per a una posició d'inici òptima al "
+"Si s'ha de fer servir un escaneig per a una posició d'inici òptima al "
 "començament de l'enfocament automàtic."
 
 #. i18n: ectx: whatsthis, entry (focusScanAlwaysOn), group (Focus)
 #: kstars.kcfg:2198
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Whether scan for start position is always used or just after an Autofocus "
 "failure."
 msgstr ""
-"Marqueu-ho per a forçar un escaneig per a una posició d'inici òptima al "
-"començament de l'enfocament automàtic."
+"Si s'ha de fer sempre un escaneig per a una posició d'inici o només després "
+"d'un enfocament automàtic que hagi fallat."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2202
