@@ -782,8 +782,9 @@ IPState CameraProcess::checkLightFramePendingTasks()
     // step 6: check if re-focusing is required
     //         Needs to be checked after dithering checks to avoid dithering in parallel
     //         to focusing, since @startFocusIfRequired() might change its value over time
-    if ((state()->getCaptureState() == CAPTURE_FOCUSING && state()->checkFocusRunning())
-            || state()->startFocusIfRequired())
+    // Hint: CAPTURE_FOCUSING is not reliable, snce it might temporarily change to CAPTURE_CHANGING_FILTER
+    //       Therefore, state()->getCaptureState() is not used here
+    if (state()->checkFocusRunning() || state()->startFocusIfRequired())
         return IPS_BUSY;
 
     // step 7: resume guiding if it was suspended
