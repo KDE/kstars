@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-14 01:40+0000\n"
-"PO-Revision-Date: 2024-07-12 22:25+0300\n"
+"PO-Revision-Date: 2024-07-15 23:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -28338,27 +28338,43 @@ msgid ""
 "scheduling errors is selected, errors are handled like aborts. Otherwise, "
 "jobs that step into an error are never re-scheduled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Bir iş hataya düştüğünde veya iptal edildiğinde ne "
+"olması gerektiğini tanımlayın:</p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Yeniden planlama yapma</span>: Bir hata veya iptal durumunda "
+"işi yeniden başlatmayın.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Tümü sonlandırıldıktan sonra yeniden "
+"planla</span>: Bir iş iptal edilirse zamanlayıcı bunu yalnızca tüm işler "
+"bittiğinde veya iptal edildiğinde yeniden planlayacaktır. Durum böyleyse "
+"zamanlayıcı iptal edilen tüm işleri yeniden planlar ve verilen gecikme "
+"boyunca uyur.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Anında yeniden planla</span>: Bir iş durdurulur "
+"durdurulmaz, zamanlayıcı onu yeniden planlayacak ve verilen gecikmeyi "
+"bekleyecektir.</li></ul><p>Hataları yeniden planlama seçeneği seçilirse "
+"hatalar iptaller gibi işlenir. Aksi halde hataya yol açan işler hiçbir zaman "
+"yeniden planlanmaz.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, errorHandlingGroup)
 #: ekos/scheduler/scheduler.ui:1973
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Site Management"
+#, kde-format
 msgid "Aborted Job Management"
-msgstr "Mevki Yönetimi"
+msgstr "İptal Edilen İş Yönetimi"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingDontRestartButton)
 #: ekos/scheduler/scheduler.ui:2005
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Do not re-schedule aborted jobs."
-msgstr "Dosya şuraya kaydedildi, %1"
+msgstr "İptal edilen işleri yeniden planlamayın."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingDontRestartButton)
 #: ekos/scheduler/scheduler.ui:2008
 #, kde-format
 msgid "&None"
-msgstr "&Hiçbiri"
+msgstr "&Yok"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartQueueButton)
 #: ekos/scheduler/scheduler.ui:2024
@@ -28367,51 +28383,50 @@ msgid ""
 "Re-schedule aborted jobs as soon as all executable jobs are either completed "
 "or aborted."
 msgstr ""
+"Yürütülebilir tüm işler tamamlanır tamamlanmaz veya iptal edilir edilmez "
+"durdurulan işleri yeniden planlayın."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartQueueButton)
 #: ekos/scheduler/scheduler.ui:2027
 #, kde-format
 msgid "&Queue"
-msgstr ""
+msgstr "&Kuyruğa ekle"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
 #: ekos/scheduler/scheduler.ui:2043
 #, kde-format
 msgid "Re-schedule an aborted job immediately."
-msgstr ""
+msgstr "İptal edilen bir işi anında yeniden planlayın."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
 #: ekos/scheduler/scheduler.ui:2046
 #, kde-format
 msgid "I&mmediate"
-msgstr ""
+msgstr "Anında"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
 #: ekos/scheduler/scheduler.ui:2069
 #, kde-format
 msgid "Treat errors like aborts."
-msgstr ""
+msgstr "Hatalara iptal gibi davranın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
 #: ekos/scheduler/scheduler.ui:2072
-#, fuzzy, kde-format
-#| msgid "Scheduler"
+#, kde-format
 msgid "Re-schedule errors:"
-msgstr "Zamanlayıcı"
+msgstr "Hataları yeniden planla:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingStrategyDelay)
 #: ekos/scheduler/scheduler.ui:2085
 #, kde-format
 msgid "Delay in seconds."
-msgstr "Saniyede gecikme."
+msgstr "Saniyede türünden gecikme."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, errorHandlingStrategyDelay)
 #: ekos/scheduler/scheduler.ui:2088
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Kuwait"
+#, kde-format
 msgid " s wait"
-msgstr "Kuveyt"
+msgstr " sn bekle"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, startupGroupBox)
 #: ekos/scheduler/scheduler.ui:2106
@@ -28422,6 +28437,10 @@ msgid ""
 "decoration: underline;\">before</span> the startup procedures (e.g. unpark "
 "scope), if selected, are executed.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ekos'u başlatma öncesi bir kez yürütülecek olan "
+"başlangıç prosedürü. Betik, başlangıç prosedürlerinden (örn. dürbünü çıkar) "
+"<span style=\" font-weight:600; text-decoration: underline;\">önce</span> "
+"yürütülür.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroupBox)
 #: ekos/scheduler/scheduler.ui:2109
@@ -28431,129 +28450,117 @@ msgstr "Gözlemevi Başlangıç Prosedürü"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerUnparkDome)
 #: ekos/scheduler/scheduler.ui:2147
-#, fuzzy, kde-format
-#| msgid "UnPark"
+#, kde-format
 msgid "UnPark Dome"
-msgstr "Parktan Çık"
+msgstr "Kubbeyi Parktan Çıkar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerUnparkMount)
 #: ekos/scheduler/scheduler.ui:2169
-#, fuzzy, kde-format
-#| msgid "UnPark"
+#, kde-format
 msgid "UnPark Mount"
-msgstr "Parktan Çık"
+msgstr "Kaideyi Parktan Çıkar"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerOpenDustCover)
 #: ekos/scheduler/scheduler.ui:2185
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#, kde-format
 msgid "Open dust cover"
-msgstr "Açık Küme"
+msgstr "Toz kapağını aç"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerOpenDustCover)
 #: ekos/scheduler/scheduler.ui:2188
 #, kde-format
 msgid "UnCap"
-msgstr ""
+msgstr "Kapağı çıkar"
 
 #: ekos/scheduler/schedulerjob.cpp:321
-#, fuzzy, kde-format
-#| msgid "Debayer failed (%1)"
+#, kde-format
 msgid "Ekos job failed (%1)"
-msgstr "Debayer başarısız (%1)"
+msgstr "Ekos işi başarısız (%1)"
 
 #: ekos/scheduler/schedulerjob.cpp:939
-#, fuzzy, kde-format
-#| msgid "Use Dark Frame"
+#, kde-format
 msgid "DarkFlat"
-msgstr "Karanlık Çerçeve Kullan"
+msgstr "Koyu Düz"
 
 #: ekos/scheduler/schedulerjob.cpp:970
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Images"
+#, kde-format
 msgid "images"
-msgstr "Görseller"
+msgstr "görseller"
 
 #: ekos/scheduler/schedulermodulestate.cpp:144
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
-msgstr ""
+msgstr "Şu anda çalışan \"%1\" işi silinemiyor."
 
 #: ekos/scheduler/schedulermodulestate.cpp:150
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
-msgstr ""
+msgstr "İş silinemiyor. Zamanlayıcı durumu: %1"
 
 #: ekos/scheduler/schedulerprocess.cpp:86
-#, fuzzy, kde-format
-#| msgid "Startup script failed, aborting..."
+#, kde-format
 msgid "Warning: startup script URL %1 is not valid."
-msgstr "Başlangıç betiği başarısız oldu, iptal ediliyor..."
+msgstr "Uyarı: Başlangıç betiği URL'si %1 geçerli değil."
 
 #: ekos/scheduler/schedulerprocess.cpp:94
-#, fuzzy, kde-format
-#| msgid "Shutdown script failed, aborting..."
+#, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
-msgstr "Kapanma betiği başarısız, iptal ediliyor..."
+msgstr "Uyarı: Kapanış betiği URL'si %1 geçerli değil."
 
 #: ekos/scheduler/schedulerprocess.cpp:105
 #, kde-format
 msgid "Scheduler started."
-msgstr ""
+msgstr "Zamanlayıcı başlatıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:113
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Scheduler resuming."
-msgstr "Dosya şuraya kaydedildi, %1"
+msgstr "Zamanlayıcı sürüyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:156
 #, kde-format
 msgid "Job '%1' is terminated due to errors."
-msgstr ""
+msgstr "\"%1\" işi hatalardan dolayı sonlandırıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:158
 #, kde-format
 msgid "Job '%1' is aborted."
-msgstr "'%1' işi iptal edildi."
+msgstr "\"%1\" işi iptal edildi."
 
 #: ekos/scheduler/schedulerprocess.cpp:171
 #, kde-format
 msgid "Waiting %1 seconds to restart job '%2'."
-msgstr ""
+msgstr "\"%2\" işini yeniden başlatmak için %1 saniye bekleniyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:177
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Scheduler waits for a retry."
-msgstr "Dosya şuraya kaydedildi, %1"
+msgstr "Zamanlayıcı bir yeniden denemeyi bekliyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:211
 #, kde-format
 msgid "Job '%1' is complete."
-msgstr "'%1' işi tamamlandı."
+msgstr "\"%1\" işi tamamlandı."
 
 #: ekos/scheduler/schedulerprocess.cpp:255
-#, fuzzy, kde-format
-#| msgid "Autofocus complete."
+#, kde-format
 msgid "Job '%1' is complete after #%2 batch."
 msgid_plural "Job '%1' is complete after #%2 batches."
-msgstr[0] "Otomatik odaklanma tamamlandı"
-msgstr[1] "Otomatik odaklanma tamamlandı"
+msgstr[0] "\"%1\" işi №%2 paketten sonra tamamlandı."
+msgstr[1] "\"%1\" işi №%2 paketten sonra tamamlandı."
 
 #: ekos/scheduler/schedulerprocess.cpp:303
 #: ekos/scheduler/schedulerprocess.cpp:345
 #, kde-format
 msgid "Job '%1' is repeating, #%2 batch remaining."
 msgid_plural "Job '%1' is repeating, #%2 batches remaining."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "\"%1\" işi yineleniyor, №%2 paket kaldı."
+msgstr[1] "\"%1\" işi yineleniyor, №%2 paket kaldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:349
 #, kde-format
 msgid "Job '%1' is repeating, looping indefinitely."
-msgstr ""
+msgstr "\"%1\" işi, sürekli bir döngüde yineleniyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:368
 #, kde-format
@@ -28561,7 +28568,11 @@ msgid "Job '%1' stopping, reached completion time with #%2 batch done."
 msgid_plural ""
 "Job '%1' stopping, reached completion time with #%2 batches done."
 msgstr[0] ""
+"\"%1\" işi durduruluyor; №%2 paket bittikten sonra tamamlanma süresine "
+"ulaştı."
 msgstr[1] ""
+"\"%1\" işi durduruluyor; №%2 paket bittikten sonra tamamlanma süresine "
+"ulaştı."
 
 #: ekos/scheduler/schedulerprocess.cpp:397
 #, kde-format
@@ -28569,59 +28580,55 @@ msgid "Job '%1' completed #%2 batch before completion time, restarted."
 msgid_plural ""
 "Job '%1' completed #%2 batches before completion time, restarted."
 msgstr[0] ""
+"\"%1\" işi tamamlanma süresine ulaşmadan önce №%2 paket bittikten sonra "
+"tamamlandı, yeniden başlatıldı."
 msgstr[1] ""
+"\"%1\" işi tamamlanma süresine ulaşmadan önce №%2 paket bittikten sonra "
+"tamamlandı, yeniden başlatıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:465
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Scheduler is awake."
-msgstr "Dosya şuraya kaydedildi, %1"
+msgstr "Zamanlayıcı uyanık."
 
 #: ekos/scheduler/schedulerprocess.cpp:471
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
-msgstr ""
+msgstr "Zamanlayıcı uyanık. İşler hazır olduklarında başlatılacaklar..."
 
 #: ekos/scheduler/schedulerprocess.cpp:473
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
-msgstr ""
+msgstr "Zamanlayıcı uyanık. Zamanlayıcı sürdürüldüğünde işler başlatılacak."
 
 #: ekos/scheduler/schedulerprocess.cpp:510
-#, fuzzy, kde-format
-#| msgid "%1 observation job completed and will restart now..."
+#, kde-format
 msgid "Job '%1' has not been processed upon scheduler stop, marking aborted."
-msgstr "%1 gözlem işi tamamlandı ve şimdi yeniden başlatılacak..."
+msgstr ""
+"\"%1\" işi zamanlayıcı durmasında işlenmedi, iptal edilmiş olarak imleniyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:636
-#, fuzzy, kde-format
-#| msgid ""
-#| "%1 observation job is scheduled for execution at %2. Parking the mount "
-#| "until the job is ready."
+#, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Observatory scheduled for shutdown "
 "until next job is ready."
 msgstr ""
-"%1 gözlem işi şu zamanda çalışması için programlandı, %2. Park montajı işten "
-"sonra hazır."
+"\"%1\" işi %2 olduğunda yürütme için planlandı. Sonraki iş hazır oluncaya "
+"dek gözlemevi kapanma için zamanlandı."
 
 #: ekos/scheduler/schedulerprocess.cpp:658
-#, fuzzy, kde-format
-#| msgid ""
-#| "%1 observation job is scheduled for execution at %2. Parking the mount "
-#| "until the job is ready."
+#, kde-format
 msgid ""
 "Job '%1' scheduled for execution at %2. Parking the mount until the job is "
 "ready."
 msgstr ""
-"%1 gözlem işi şu zamanda çalışması için programlandı, %2. Park montajı işten "
-"sonra hazır."
+"\"%1\" işi %2 olduğunda yürütme için planlandı. İş hazır oluncaya dek kaide "
+"park ediliyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:668
-#, fuzzy, kde-format
-#| msgid "%1 observation job is scheduled at %2"
+#, kde-format
 msgid "Sleeping until observation job %1 is ready at %2..."
-msgstr "%1 gözlem işi %2 olarak zamanlandı"
+msgstr "%1 gözlem işi %2 iken hazır olana dek uyutuluyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:676
 #, kde-format
@@ -28629,106 +28636,102 @@ msgid ""
 "Warning: Job '%1' is %2 away from now, you may want to enable Preemptive "
 "Shutdown."
 msgstr ""
+"Uyarı: \"%1\" işine %2 kadar kaldı, önleyici kapatmayı etkinleştirmek "
+"isteyebilirsiniz."
 
 #: ekos/scheduler/schedulerprocess.cpp:729
 #, kde-format
 msgid "Job '%1' is slewing to target."
-msgstr "İş '%1' hedefe doğru ilerliyor."
+msgstr "\"%1\" işi hedefe doğru çevriliyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:769
 #, kde-format
 msgid "Warning: job '%1' is unable to proceed with autofocus, not supported."
 msgstr ""
+"Uyarı: \"%1\" işi kendiliğinden odak ile sürdürülemiyor, bu desteklenmiyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:835
 #, kde-format
 msgid "Job '%1' is focusing."
-msgstr ""
+msgstr "\"%1\" işi odaklanıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:862
-#, fuzzy, kde-format
-#| msgid "%1 alignment failed!"
+#, kde-format
 msgid "Warning: job '%1' target FITS file does not exist."
-msgstr "%1 hizalaması başarısız oldu!"
+msgstr "Uyarı: \"%1\" işi hedef FITS dosyası yok."
 
 #: ekos/scheduler/schedulerprocess.cpp:874
 #, kde-format
 msgid "Warning: job '%1' loadAndSlew request received DBUS error: %2"
-msgstr ""
+msgstr "Uyarı: \"%1\" işi loadAndSlew isteği DBUS hatası aldı: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:885
-#, fuzzy, kde-format
-#| msgid "%1 alignment failed!"
+#, kde-format
 msgid "Warning: job '%1' loadAndSlew request failed."
-msgstr "%1 hizalaması başarısız oldu!"
+msgstr "Uyarı: \"%1\" işi loadAndSlew isteği başarısız oldu."
 
 #: ekos/scheduler/schedulerprocess.cpp:891
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Job '%1' is plate solving %2."
-msgstr "Görüntü yakalanıyor..."
+msgstr "\"%1\" işi %2 plaka çözümünü yapıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:905
 #, kde-format
 msgid "Warning: job '%1' setTargetCoords request received DBUS error: %2"
-msgstr ""
+msgstr "Uyarı: \"%1\" işi setTargetCoords isteği DBUS hatası aldı: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:921
 #, kde-format
 msgid ""
 "Warning: job '%1' setTargetPositionAngle request received DBUS error: %2"
-msgstr ""
+msgstr "Uyarı: \"%1\" işi setTargetPositionAngle isteği DBUS hatası aldı: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:934
-#, fuzzy, kde-format
-#| msgid "%1 alignment failed!"
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request received DBUS error: %2"
-msgstr "%1 hizalaması başarısız oldu!"
+msgstr "Uyarı: \"%1\" işi captureAndSolve isteği DBUS hatası aldı: %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:945
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' calibration failed."
+#, kde-format
 msgid "Warning: job '%1' captureAndSolve request failed."
-msgstr "Uyarı: '%1' işi kalibrasyonu başarısız oldu."
+msgstr "Uyarı: \"%1\" işi captureAndSolve isteği başarısız oldu."
 
 #: ekos/scheduler/schedulerprocess.cpp:951
 #, kde-format
 msgid "Job '%1' is capturing and plate solving."
-msgstr "İş '%1' yakalama ve kalıp çözme."
+msgstr "\"%1\" işi yakalıyor ve plaka çözme yapıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:967
-#, fuzzy, kde-format
-#| msgid "Guiding already running for %1 ..."
+#, kde-format
 msgid "Guiding already running for %1, starting next scheduler action..."
-msgstr "Rehberlik zaten %1 için çalışıyor ..."
+msgstr ""
+"%1 için kılavuzluk halihazırda sürüyor, sonraki zamanlayıcı eylemi "
+"başlatılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:991
 #, kde-format
 msgid "Starting guiding procedure for %1 ..."
-msgstr "%1 için rehberlik prosedürü başlatılıyor ..."
+msgstr "%1 için kılavuzluk prosedürü başlatılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1115
 #, kde-format
 msgid "Ekos job (%1) - Capture started"
-msgstr ""
+msgstr "Ekos işi (%1) - Yakalama başlatıldı"
 
 #: ekos/scheduler/schedulerprocess.cpp:1118
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
-msgstr "Otomatik odaklama yapılıyor..."
+msgstr "\"%1\" işi yakalaması sürüyor (paket №%2)..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1121
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Job '%1' capture is in progress..."
-msgstr "Otomatik odaklama yapılıyor..."
+msgstr "\"%1\" işi yakalaması sürüyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1143
-#, fuzzy, kde-format
-#| msgid "Executing script %1 ..."
+#, kde-format
 msgid "Executing script %1..."
-msgstr "Çalışan betik %1 ..."
+msgstr "%1 betiği yürütülüyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1188
 #, kde-format
@@ -28736,96 +28739,93 @@ msgid "Ekos started."
 msgstr "Ekos başlatıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1197
-#, fuzzy, kde-format
-#| msgid "Ekos failed to start."
+#, kde-format
 msgid "Starting Ekos failed. Retrying..."
-msgstr "Ekos başlatma başarısız."
+msgstr "Ekos başlatılamadı. Yeniden deneniyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1202
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Starting Ekos failed."
-msgstr "Kıpırdatılıyor..."
+msgstr "Ekos başlatılamadı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1213
-#, fuzzy, kde-format
-#| msgid "Ekos failed to start."
+#, kde-format
 msgid "Starting Ekos timed out. Retrying..."
-msgstr "Ekos başlatma başarısız."
+msgstr "Ekos'u başlatma zaman aşımına uğradı. Yeniden deneniyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1223
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Starting Ekos timed out."
-msgstr "Çözücü zaman aşımı."
+msgstr "Ekos'u başlatma zaman aşımına uğradı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1234
-#, fuzzy, kde-format
-#| msgid "Ekos started."
+#, kde-format
 msgid "Ekos stopped."
-msgstr "Ekos başlatıldı."
+msgstr "Ekos durduruldu."
 
 #: ekos/scheduler/schedulerprocess.cpp:1277
 #, kde-format
 msgid "INDI devices connected."
-msgstr "INDI cihazları bağlandı."
+msgstr "INDI aygıtları bağlandı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1284
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
-msgstr ""
+msgstr "Bir veya daha çok INDI aygıtı bağlanamadı. Yeniden deneniyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1289
-#, fuzzy, kde-format
-#| msgid ""
-#| "INDI devices failed to connect. Check INDI control panel for details."
+#, kde-format
 msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
 "details."
 msgstr ""
-"INDI cihazları bağlanması başarısız. Ayrıntılar için INDI denetim panelini "
-"kontrol edin."
+"Bir veya daha çok INDI aygıtı bağlanamadı. Ayrıntılar için INDI denetim "
+"masasına bakın."
 
 #: ekos/scheduler/schedulerprocess.cpp:1298
 #, kde-format
 msgid "One or more INDI devices timed out. Retrying..."
 msgstr ""
+"Bir veya daha çok INDI aygıtı zaman aşımına uğradı. Yeniden deneniyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1304
-#, fuzzy, kde-format
-#| msgid ""
-#| "INDI devices failed to connect. Check INDI control panel for details."
+#, kde-format
 msgid ""
 "One or more INDI devices timed out. Check INDI control panel for details."
 msgstr ""
-"INDI cihazları bağlanması başarısız. Ayrıntılar için INDI denetim panelini "
-"kontrol edin."
+"Bir veya daha çok INDI aygıtı zaman aşımına uğradı. Ayrıntılar için INDI "
+"denetim masasına bakın."
 
 #: ekos/scheduler/schedulerprocess.cpp:1315
-#, fuzzy, kde-format
-#| msgid "INDI devices connected."
+#, kde-format
 msgid "INDI devices disconnected."
-msgstr "INDI cihazları bağlandı."
+msgstr "INDI aygıtları bağlantısı kesildi."
 
 #: ekos/scheduler/schedulerprocess.cpp:1331
 #, kde-format
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
+"Uyarı: Zaman aşımı sonrası kubbe aygıtı hazır değil, kurtarmaya "
+"çalışılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1336
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
-msgstr ""
+msgstr "Kubbeyi parktan çıkarma gerekli; ancak kubbe henüz hazır değil."
 
 #: ekos/scheduler/schedulerprocess.cpp:1346
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
 msgstr ""
+"Uyarı: Zaman aşımı sonrası kaide aygıtı hazır değil, kurtarmaya "
+"çalışılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1361
 #, kde-format
 msgid "Warning: cap device not ready after timeout, attempting to recover..."
 msgstr ""
+"Uyarı: Zaman aşımı sonrası kapak aygıtı hazır değil, kurtarmaya "
+"çalışılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1423
 #, kde-format
@@ -28833,58 +28833,45 @@ msgid "Shutdown complete."
 msgstr "Kapanma tamamlandı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1425
-#, fuzzy, kde-format
-#| msgid "FITS image failed to load, aborting..."
+#, kde-format
 msgid "Shutdown procedure failed, aborting..."
-msgstr "FITS görüntüsü yükleme başarısız oldu, iptal ediliyor..."
+msgstr "Kapanma prosedürü başarısız oldu, iptal ediliyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1529
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Cap parked."
-msgstr "Dome Creek"
+msgstr "Kapak parkedildi."
 
 #: ekos/scheduler/schedulerprocess.cpp:1539
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
+#, kde-format
 msgid "Cap unparked."
-msgstr "Mount Ekar"
+msgstr "Kapak parktan çıkarıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1551
 #: ekos/scheduler/schedulerprocess.cpp:1780
 #, kde-format
 msgid "Operation timeout. Restarting operation..."
-msgstr ""
+msgstr "İşlem zaman aşımı. İşlem yeniden başlatılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1564
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Cap parking error."
-msgstr "Dome Creek"
+msgstr "Kapak park hatası."
 
 #: ekos/scheduler/schedulerprocess.cpp:1569
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
+#, kde-format
 msgid "Cap unparking error."
-msgstr "Mount Ekar"
+msgstr "Kapağı parktan çıkarma hatası."
 
 #: ekos/scheduler/schedulerprocess.cpp:1611
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
+#, kde-format
 msgid "Mount parked."
-msgstr "Mount Ekar"
+msgstr "Kaide park edildi."
 
 #: ekos/scheduler/schedulerprocess.cpp:1626
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
+#, kde-format
 msgid "Mount unparked."
-msgstr "Mount Ekar"
+msgstr "Kaide parktan çıkarıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1638
 #, kde-format
@@ -28892,11 +28879,14 @@ msgid ""
 "Warning: mount unpark operation timed out on attempt %1/%2. Restarting "
 "operation..."
 msgstr ""
+"Uyarı: Kaideyi parktan çıkarma işlemi %1/%2. denemede zaman aşımına uğradı. "
+"İşlem yeniden başlatılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1644
 #, kde-format
 msgid "Warning: mount unpark operation timed out on last attempt."
 msgstr ""
+"Uyarı: Kaideyi parktan çıkarma işlemi son denemede zaman aşımına uğradı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1658
 #, kde-format
@@ -28904,19 +28894,19 @@ msgid ""
 "Warning: mount park operation timed out on attempt %1/%2. Restarting "
 "operation..."
 msgstr ""
+"Uyarı: Kaideyi park etme işlemi %1/%2. denemede zaman aşımına uğradı. İşlem "
+"yeniden başlatılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1665
 #, kde-format
 msgid "Warning: mount park operation timed out on last attempt."
-msgstr ""
+msgstr "Uyarı: Kaideyi park etme işlemi son denemede zaman aşımına uğradı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1677
 #: ekos/scheduler/schedulerprocess.cpp:1706
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
+#, kde-format
 msgid "Mount unparking error."
-msgstr "Mount Ekar"
+msgstr "Kaideyi parktan çıkarma hatası."
 
 #: ekos/scheduler/schedulerprocess.cpp:1685
 #, kde-format
@@ -28924,151 +28914,134 @@ msgid ""
 "Warning: mount park operation failed on attempt %1/%2. Restarting "
 "operation..."
 msgstr ""
+"Uyarı: Kaideyi park etme işlemi %1/%2. denemede başarısız oldu. İşlem "
+"yeniden başlatılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1692
 #: ekos/scheduler/schedulerprocess.cpp:1700
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
+#, kde-format
 msgid "Mount parking error."
-msgstr "Mount Ekar"
+msgstr "Kaideyi park etme hatası."
 
 #: ekos/scheduler/schedulerprocess.cpp:1757
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dome parked."
-msgstr "Dome Creek"
+msgstr "Kubbe park edildi."
 
 #: ekos/scheduler/schedulerprocess.cpp:1768
 #, kde-format
 msgid "Dome unparked."
-msgstr ""
+msgstr "Kubbe parktan çıkarıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:1795
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
+#, kde-format
 msgid "Dome parking failed. Restarting operation..."
-msgstr "Otomatik odaklama başarısız. Pozlama iptal ediliyor..."
+msgstr "Kubbeyi park etme başarısız. İşlem yeniden başlatılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1800
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dome parking error."
-msgstr "Dome Creek"
+msgstr "Kubbeyi park etme hatası."
 
 #: ekos/scheduler/schedulerprocess.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Autofocus failed. Aborting exposure..."
+#, kde-format
 msgid "Dome unparking failed. Restarting operation..."
-msgstr "Otomatik odaklama başarısız. Pozlama iptal ediliyor..."
+msgstr "Kubbeyi parktan çıkarma başarısız. İşlem yeniden başlatılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1814
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dome unparking error."
-msgstr "Dome Creek"
+msgstr "Kubbeyi parktan çıkarma hatası."
 
 #: ekos/scheduler/schedulerprocess.cpp:1837
 #, kde-format
 msgid "Observatory is in the startup process"
-msgstr ""
+msgstr "Gözlemevi başlangıç sürecinde"
 
 #: ekos/scheduler/schedulerprocess.cpp:1850
 #, kde-format
 msgid "Ekos is already started, skipping startup script..."
-msgstr ""
+msgstr "Ekos halihazırda başlatılmış, başlangıç betiği atlanıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1955
-#, fuzzy, kde-format
-#| msgid "Parking telescope..."
+#, kde-format
 msgid "Warming up CCD..."
-msgstr "Teleskop park ediliyor..."
+msgstr "CCD ısıtılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:1988
 #, kde-format
 msgid "Warning: Bypassing parking procedures, no INDI connection."
-msgstr ""
+msgstr "Uyarı: Park etme prosedürleri atlanıyor, INDI bağlantısı yok."
 
 #: ekos/scheduler/schedulerprocess.cpp:2112
-#, fuzzy, kde-format
-#| msgid "FITS image failed to load, aborting..."
+#, kde-format
 msgid "park/unpark wait procedure failed, aborting..."
-msgstr "FITS görüntüsü yükleme başarısız oldu, iptal ediliyor..."
+msgstr ""
+"Park et/Parktan çıkar bekleme prosedürü başarısız oldu, iptal ediliyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2131
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Warning: executing startup procedure manually..."
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "Uyarı: Başlangıç prosedürü elle yürütülüyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to execute the startup procedure manually?"
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "Başlangıç prosedürünü elle yürütmek istediğinizden emin misiniz?"
 
 #: ekos/scheduler/schedulerprocess.cpp:2182
-#, fuzzy, kde-format
-#| msgid "Start Focus"
+#, kde-format
 msgid "Startup procedure terminated."
-msgstr "Odaklamaya Başla"
+msgstr "Başlangıç prosedürü sonlandırıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:2196
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Warning: executing shutdown procedure manually..."
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "Uyarı: Kapanış prosedürü elle yürütülüyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2202
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to execute the shutdown procedure manually?"
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "Kapanış prosedürünü elle yürütmek istediğinizden emin misiniz?"
 
 #: ekos/scheduler/schedulerprocess.cpp:2247
-#, fuzzy, kde-format
-#| msgid "Shutdown Procedure"
+#, kde-format
 msgid "Shutdown procedure terminated."
-msgstr "Kapatma Yöntemi"
+msgstr "Kapanış prosedürü sonlandırıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:2254
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "Scheduler paused."
-msgstr "Dosya şuraya kaydedildi, %1"
+msgstr "Zamanlayıcı duraklatıldı."
 
 #: ekos/scheduler/schedulerprocess.cpp:2290
-#, fuzzy, kde-format
-#| msgid "Scheduler complete. Starting shutdown procedure..."
+#, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
-msgstr "Zamanlayıcı tamamlandı. Kapatma yordamı başlatılıyor..."
+msgstr "Değerlendirme sonrası zamanlayıcı kuyruğunda kalan iş yok."
 
 #: ekos/scheduler/schedulerprocess.cpp:2298
-#, fuzzy, kde-format
-#| msgid "Scheduler complete. Starting shutdown procedure..."
+#, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
-msgstr "Zamanlayıcı tamamlandı. Kapatma yordamı başlatılıyor..."
+msgstr ""
+"Değerlendirme sonrası zamanlayıcı kuyruğunda yalnızca iptal edilen işler "
+"var, onlar yeniden planlanıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:2312
-#, fuzzy, kde-format
-#| msgid "Scheduler complete. Starting shutdown procedure..."
+#, kde-format
 msgid "No jobs scheduled."
-msgstr "Zamanlayıcı tamamlandı. Kapatma yordamı başlatılıyor..."
+msgstr "Planlanan iş yok."
 
 #: ekos/scheduler/schedulerprocess.cpp:2425
 #, kde-format
 msgid "Starting job sequence iteration #%1"
-msgstr ""
+msgstr "İş dizisi yinelemesi №%1 başlatılıyor..."
 
 #: ekos/scheduler/schedulerprocess.cpp:2507
 #, kde-format
 msgid "Guiding already running, directly start capturing."
-msgstr ""
+msgstr "Kılavuzluk halihazırda çalışıyor, doğrudan yakalamayı başlatın."
 
 #: ekos/scheduler/schedulerprocess.cpp:2519
 #, kde-format
@@ -86365,167 +86338,3 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarlayın."
-
-#~ msgid "Donut Buster (WARNING: Experimental Feature)"
-#~ msgstr "Donut Buster (UYARI: Deneysel özellik)"
-
-#~ msgid ""
-#~ "When Scan for Start Position is checked this is the number of datapoints "
-#~ "to use."
-#~ msgstr ""
-#~ "Başlangıç ​​Konumunu Tara işaretlendiğinde bu, kullanılacak veri noktası "
-#~ "sayısıdır."
-
-#~ msgid "Astrometry:"
-#~ msgstr "Astrometri:"
-
-#~ msgid "The Logging Level for StellarSolver and Astrometry.net"
-#~ msgstr "StellarSolver ve Astrometry.net için günlükleme düzeyi"
-
-#~ msgid "LOG_NONE"
-#~ msgstr "LOG_NONE"
-
-#~ msgid "LOG_ERROR"
-#~ msgstr "LOG_ERROR"
-
-#~ msgid "LOG_MSG"
-#~ msgstr "LOG_MSG"
-
-#~ msgid "LOG_VERB"
-#~ msgstr "LOG_VERB"
-
-#~ msgid "LOG_ALL"
-#~ msgstr "LOG_ALL"
-
-#~ msgid ""
-#~ "Option to log astrometry messages to a separate file.  If you select "
-#~ "LOG_ALL you REALLY want to check this box."
-#~ msgstr ""
-#~ "Astrometri iletilerini başka bir dosyaya günlüklemek için seçenek. "
-#~ "LOG_ALL'u seçerseniz bunu GERÇEKTEN işaretlemeniz gerekir."
-
-#~ msgid " Separate Log File:"
-#~ msgstr " Ayrı günlük dosyası:"
-
-#~ msgid "The external Log File for astrometry logging"
-#~ msgstr "Astrometri günlüklemesi için dış günlük dosyası"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone. Make sure you configure the CFZ tab to give an appropriate value "
-#~ "for your system.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Adım boyutu, öntanımlı olarak Kritik Odak Bölgesi "
-#~ "olarak ayarlanabilir. Sisteminiz için uygun bir değer verecek biçimde KOB "
-#~ "sekmesini yapılandırdığınızdan emin olun.</p></body></html>"
-
-#~ msgid "Focus Advisor:"
-#~ msgstr "Odak danışmanı:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone..</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Adım boyutu, öntanımlı olarak Kritik Odak Bölgesi "
-#~ "olarak ayarlanabilir.</p></body></html>"
-
-#~ msgid "Step Size:"
-#~ msgstr "Adım boyutu:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Update Focus Parameters to Focus Advisor "
-#~ "suggestions where the associated Update box is checked.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>İlgili güncelleme kutusunun işaretlendiği odak "
-#~ "parametrelerini Odak Danışmanı önerilerine güncelleyin.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Launch the Focus Advisor Help dialog.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Odak Danışmanı Yardımı iletişim kutusunu başlatın.</"
-#~ "p></body></html>"
-
-#~ msgid ""
-#~ "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#~ "It will not necessarily give you the perfect combination of parameters, "
-#~ "you will need to experiment yourself, but it will give you a basic set of "
-#~ "parameters to achieve focus.\n"
-#~ "\n"
-#~ "FA will recommend values for the majority of parameters. A few, however, "
-#~ "will need extra work from you to setup. These are identified below along "
-#~ "with a basic explanation of how to set them.\n"
-#~ "\n"
-#~ "The first step is to set backlash. Your focuser manual will likely "
-#~ "explain how to do this. Once you have a value for backlash for your "
-#~ "system, set either the Backlash field to have the driver perform backlash "
-#~ "compensation or the AF Overscan field to have Autofocus perform backlash "
-#~ "compensation. Set only one field and set the other to 0. If you are "
-#~ "unsure which to set, AF Overscan is recommended.\n"
-#~ "\n"
-#~ "The second step is to set Step Size. If you are aware of an approximate "
-#~ "value enter it here otherwise this can be defaulted from the Critical "
-#~ "Focus Zone (CFZ) for your equipment - so configure this now in the CFZ "
-#~ "tab and restart Focus Advisor.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Odak Danışmanı (FA), odak parametreleri konusunda size yardımcı olmak "
-#~ "için tasarlanmıştır.\n"
-#~ "Size mutlaka mükemmel parametre kombinasyonunu sağlamayacaktır. Kendi "
-#~ "başınıza denemeler yapmanız gerekecektir; ancak odaklanmayı başarmanız "
-#~ "için size temel bir parametre kümesi verecektir.\n"
-#~ "\n"
-#~ "FA, parametrelerin çoğunluğu için değerler önerir. Ancak birkaçının "
-#~ "kurulumu için ekstra çalışma yapmanız gerekir. Bunlar, nasıl "
-#~ "ayarlanacağına ilişkin temel bir açıklamayla birlikte aşağıda "
-#~ "belirtilmiştir.\n"
-#~ "\n"
-#~ "İlk adım dişli yanak boşluğunu ayarlamaktır. Odaklama kılavuzunuz büyük "
-#~ "olasılıkla bunun nasıl yapılacağını açıklayacaktır. Sisteminiz için bir "
-#~ "boşluk değeri belirledikten sonra, dişli yanak boşluğu alanını sürücünün "
-#~ "dişli yanak boşluğu telafisi yapması için veya AF Aşırı Tarama alanını "
-#~ "kendiliğinden odaklamanın dişli telafisi yapması için ayarlayın. Yalnızca "
-#~ "bir alanı ayarlayın ve diğerini 0 yapın. Hangisini ayarlayacağınızdan "
-#~ "emin değilseniz AF Aşırı Tarama önerilir.\n"
-#~ "\n"
-#~ "İkinci adım, adım boyutunu ayarlamaktır. Yaklaşık bir değer biliyorsanız "
-#~ "buraya girin, aksi halde bu, ekipmanınız için Kritik Odak Bölgesi'nden "
-#~ "(CFZ) öntanımlı olarak ayarlanabilir; bu nedenle bunu şimdi CFZ "
-#~ "sekmesinde yapılandırın ve Odak Danışmanı'nı yeniden başlatın.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "The third step is to set the remaining focus parameters to sensible "
-#~ "values. Focus Advisor will suggest values for 5 categories of parameters. "
-#~ "Check the associated Update box to accept these recommendations when you "
-#~ "press Update Params.\n"
-#~ "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#~ "e.g. unity gain.\n"
-#~ "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#~ "3. Focus Process (Options Popup): These all have recommendations.\n"
-#~ "4. Focus Mechanics (Options Popup): Note Step Size is dealt with above.\n"
-#~ "5. SEP Parameters (Options Popup): Set the appropriate profile to its "
-#~ "default values.\n"
-#~ "\n"
-#~ "Now move the focuser to approximate focus and select a broadband filter, "
-#~ "e.g. Luminance\n"
-#~ "You are now ready to start an Autofocus run."
-#~ msgstr ""
-#~ "Üçüncü adım, kalan odak parametrelerini makul değerlere ayarlamaktır. "
-#~ "Odak Tanışmanı, 5 parametre kategorisi için değerler önerecektir. "
-#~ "Parametreleri Güncelle'ye bastığınızda bu önerileri kabul etmek için "
-#~ "ilgili güncelleme kutusunu işaretleyin.\n"
-#~ "1. Kamera Özellikleri - Kazancın uygun şekilde ayarlandığından emin "
-#~ "olmanız gerektiğini unutmayın; örneğin, birlik kazancı.\n"
-#~ "2. Odak Ayarları (Seçenekler Açılır Penceresi): Bunların tümünde öneriler "
-#~ "bulunur.\n"
-#~ "3. Odak Süreci (Seçenekler Açılır Penceresi): Bunların tümünde öneriler "
-#~ "bulunur.\n"
-#~ "4. Odak Mekanikleri (Seçenekler Açılır Penceresi): Adım Boyutu'nun "
-#~ "yukarıda ele alındığına dikkat edin.\n"
-#~ "5. SEP Parametreleri (Seçenekler Açılır Penceresi): Uygun profili "
-#~ "öntanımlı değerlerine ayarlayın.\n"
-#~ "\n"
-#~ "Şimdi odaklayıcıyı yaklaşık odağa taşıyın ve bir geniş bant süzgeci "
-#~ "seçin; Parlaklık\n"
-#~ "Artık kendiliğinden odaklamayı başlatmaya hazırsınız."
