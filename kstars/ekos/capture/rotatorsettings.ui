@@ -154,7 +154,7 @@
              </font>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The rotator gauge displays the actual camera position angle (yellow) and the raw rotator angle (gray). Be sure to calibrate the rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount of the rotator in order to have a reasonable display.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string/>
             </property>
             <property name="frame">
              <bool>false</bool>
@@ -446,7 +446,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Setting the camera position angle shall move the rotator. The gauge reflects the state of the rotator. Depending on the accuracy of the rotator there can be some deviation in the ending position angle.&lt;/p&gt;&lt;p&gt;If &lt;span style=&quot; font-weight:700;&quot;&gt;Save Camera Position Angle to Sequence Job&lt;/span&gt; is toggled, any subsequent jobs added to the sequence queue would always rotate to this position angle before capture begins.&lt;/p&gt;&lt;p&gt;The position angle is measured East of North in degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Setting the camera position angle shall move the rotator. The gauge reflects the state of the rotator. Depending on the accuracy of the rotator there can be some deviation in the ending position angle.&lt;/p&gt;&lt;p&gt;The position angle is measured East of North in degrees.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="text">
          <string>Camera Position Angle</string>
@@ -468,7 +468,7 @@
          </size>
         </property>
         <property name="toolTip">
-         <string/>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Current Camera Position Angle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">color: rgb(150, 120, 0);</string>
