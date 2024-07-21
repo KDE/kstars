@@ -1951,16 +1951,8 @@ void Scheduler::checkTwilightWarning(bool enabled)
 {
     if (enabled)
         return;
-
-    if (KMessageBox::warningContinueCancel(
-                nullptr,
-                i18n("Turning off astronomical twilight check may cause the observatory "
-                     "to run during daylight. This can cause irreversible damage to your equipment!"),
-                i18n("Astronomical Twilight Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                "astronomical_twilight_warning") == KMessageBox::Cancel)
-    {
-        schedulerTwilight->setChecked(true);
-    }
+    else
+        process()->appendLogText(i18n("Turning off astronomical twilight check may cause the observatory to run during daylight. This can cause irreversible damage to your equipment!"));;
 }
 
 void Scheduler::updateProfiles()
