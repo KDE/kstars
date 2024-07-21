@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-14 01:40+0000\n"
+"POT-Creation-Date: 2024-07-21 01:45+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -9480,9 +9480,10 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
 #, fuzzy, kde-format
-#| msgid "URL:"
-msgid "API URL"
-msgstr "عنوان:"
+msgid ""
+"<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
+"astrometry.net)</p></body></html>"
+msgstr "حدّد بوصة دَخْل ملفّ."
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -16585,16 +16586,6 @@ msgid ""
 "capture and solve an image in the Align module.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QLineEdit, CurrentRotatorAngle)
-#: ekos/capture/rotatorsettings.ui:157
-#, kde-format
-msgid ""
-"<html><head/><body><p>The rotator gauge displays the actual camera position "
-"angle (yellow) and the raw rotator angle (gray). Be sure to calibrate the "
-"rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount "
-"of the rotator in order to have a reasonable display.</p></body></html>"
-msgstr ""
-
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
 #, fuzzy, kde-format
@@ -16700,11 +16691,8 @@ msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
 "accuracy of the rotator there can be some deviation in the ending position "
-"angle.</p><p>If <span style=\" font-weight:700;\">Save Camera Position Angle "
-"to Sequence Job</span> is toggled, any subsequent jobs added to the sequence "
-"queue would always rotate to this position angle before capture begins.</"
-"p><p>The position angle is measured East of North in degrees.</p></body></"
-"html>"
+"angle.</p><p>The position angle is measured East of North in degrees.</p></"
+"body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -16713,6 +16701,13 @@ msgstr ""
 #| msgid "Position Angle"
 msgid "Camera Position Angle"
 msgstr "زاوية الموقع"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
+#: ekos/capture/rotatorsettings.ui:471
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
+msgstr "لقد انتهيت من الإعداد تقريباً ..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -84086,6 +84081,11 @@ msgstr "لون الخلفية:"
 #, fuzzy, kde-format
 msgid "Set the color for the background."
 msgstr "الـ اللّون لـ الخلفية."
+
+#, fuzzy
+#~| msgid "URL:"
+#~ msgid "API URL"
+#~ msgstr "عنوان:"
 
 #, fuzzy
 #~| msgid "Astrometry"

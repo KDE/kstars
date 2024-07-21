@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-14 01:40+0000\n"
+"POT-Creation-Date: 2024-07-21 01:45+0000\n"
 "PO-Revision-Date: 2024-07-12 08:33+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -9691,9 +9691,14 @@ msgstr "Astrometry.net у інтернеті або віддалена ANSVR"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, kde-format
-msgid "API URL"
-msgstr "Адреса API"
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
+#| "body></html>"
+msgid ""
+"<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
+"astrometry.net)</p></body></html>"
+msgstr "<html><head/><body><p>Розмір інтервалу між плитками.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -17202,21 +17207,6 @@ msgstr ""
 "angle (yellow) and the raw rotator angle (gray). To calibrate the rotator, "
 "capture and solve an image in the Align module.</p></body></html>"
 
-#. i18n: ectx: property (toolTip), widget (QLineEdit, CurrentRotatorAngle)
-#: ekos/capture/rotatorsettings.ui:157
-#, kde-format
-msgid ""
-"<html><head/><body><p>The rotator gauge displays the actual camera position "
-"angle (yellow) and the raw rotator angle (gray). Be sure to calibrate the "
-"rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount "
-"of the rotator in order to have a reasonable display.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Датчик засобу обертання показує справжній позиційний "
-"кут камери (жовтим) та необроблений кут засобу обертання (сірим). Виконайте "
-"калібрування засобу обертання (синхронізувавши кут засобу обертання до нуля "
-"при позиціюванні на ЗАХІД) після монтування засобу обертання з метою "
-"отримання прийнятних даних для показу.</p></body></html>"
-
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
 #, kde-format
@@ -17331,16 +17321,22 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Setting the camera position angle shall move the "
+#| "rotator. The gauge reflects the state of the rotator. Depending on the "
+#| "accuracy of the rotator there can be some deviation in the ending "
+#| "position angle.</p><p>If <span style=\" font-weight:700;\">Save Camera "
+#| "Position Angle to Sequence Job</span> is toggled, any subsequent jobs "
+#| "added to the sequence queue would always rotate to this position angle "
+#| "before capture begins.</p><p>The position angle is measured East of North "
+#| "in degrees.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
 "accuracy of the rotator there can be some deviation in the ending position "
-"angle.</p><p>If <span style=\" font-weight:700;\">Save Camera Position Angle "
-"to Sequence Job</span> is toggled, any subsequent jobs added to the sequence "
-"queue would always rotate to this position angle before capture begins.</"
-"p><p>The position angle is measured East of North in degrees.</p></body></"
-"html>"
+"angle.</p><p>The position angle is measured East of North in degrees.</p></"
+"body></html>"
 msgstr ""
 "<html><head/><body><p>Встановлення позиційного кута камери призведе до "
 "зміщення засобу обертання. Датчик вказує на стан засобу обертання. Залежно "
@@ -17357,6 +17353,13 @@ msgstr ""
 #, kde-format
 msgid "Camera Position Angle"
 msgstr "Позиційний кут камери"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
+#: ekos/capture/rotatorsettings.ui:471
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
+msgstr "<html><head/><body><p>Кут зсуву камери</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -86484,6 +86487,23 @@ msgstr "Колір тла:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
+
+#~ msgid "API URL"
+#~ msgstr "Адреса API"
+
+#~ msgid ""
+#~ "<html><head/><body><p>The rotator gauge displays the actual camera "
+#~ "position angle (yellow) and the raw rotator angle (gray). Be sure to "
+#~ "calibrate the rotator (syncing rotator angle to zero at piersie WEST) "
+#~ "after a fresh mount of the rotator in order to have a reasonable display."
+#~ "</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Датчик засобу обертання показує справжній "
+#~ "позиційний кут камери (жовтим) та необроблений кут засобу обертання "
+#~ "(сірим). Виконайте калібрування засобу обертання (синхронізувавши кут "
+#~ "засобу обертання до нуля при позиціюванні на ЗАХІД) після монтування "
+#~ "засобу обертання з метою отримання прийнятних даних для показу.</p></"
+#~ "body></html>"
 
 #~ msgid "Donut Buster (WARNING: Experimental Feature)"
 #~ msgstr "Пончикове підсилення (УВАГА! Експериментальна можливість)"

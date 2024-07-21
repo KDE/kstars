@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-14 01:40+0000\n"
+"POT-Creation-Date: 2024-07-21 01:45+0000\n"
 "PO-Revision-Date: 2024-07-15 08:26+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -9825,12 +9825,18 @@ msgstr "Camí cap al binari del programa Watney."
 msgid "Online Astrometry.net or Remote ANSVR"
 msgstr "Astrometry.net en línia o ANSVR remot"
 
-# skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, kde-format
-msgid "API URL"
-msgstr "URL de l'API."
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
+#| "body></html>"
+msgid ""
+"<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
+"astrometry.net)</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Mida del separador entre les tessel·les.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -17481,21 +17487,6 @@ msgstr ""
 "calibrar el rotor, captureu i resoleu una imatge en el mòdul «Alinea».</p></"
 "body></html>"
 
-#. i18n: ectx: property (toolTip), widget (QLineEdit, CurrentRotatorAngle)
-#: ekos/capture/rotatorsettings.ui:157
-#, kde-format
-msgid ""
-"<html><head/><body><p>The rotator gauge displays the actual camera position "
-"angle (yellow) and the raw rotator angle (gray). Be sure to calibrate the "
-"rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount "
-"of the rotator in order to have a reasonable display.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>L'indicador del rotor mostra l'angle de posició real "
-"de la càmera (en groc) i l'angle sense processar del rotor (en gris). "
-"Assegureu-vos de calibrar el rotor (sincronitzant l'angle del rotor a zero "
-"al costat del moll OEST) després de muntar de nou el rotor per tal de tindre "
-"una visualització raonable.</p></body></html>"
-
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
 #, kde-format
@@ -17613,16 +17604,22 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Setting the camera position angle shall move the "
+#| "rotator. The gauge reflects the state of the rotator. Depending on the "
+#| "accuracy of the rotator there can be some deviation in the ending "
+#| "position angle.</p><p>If <span style=\" font-weight:700;\">Save Camera "
+#| "Position Angle to Sequence Job</span> is toggled, any subsequent jobs "
+#| "added to the sequence queue would always rotate to this position angle "
+#| "before capture begins.</p><p>The position angle is measured East of North "
+#| "in degrees.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
 "accuracy of the rotator there can be some deviation in the ending position "
-"angle.</p><p>If <span style=\" font-weight:700;\">Save Camera Position Angle "
-"to Sequence Job</span> is toggled, any subsequent jobs added to the sequence "
-"queue would always rotate to this position angle before capture begins.</"
-"p><p>The position angle is measured East of North in degrees.</p></body></"
-"html>"
+"angle.</p><p>The position angle is measured East of North in degrees.</p></"
+"body></html>"
 msgstr ""
 "<html><head/><body><p>En establir l'angle de posició de la càmera es mourà "
 "el rotor. L'indicador reflectix l'estat del rotor. Depenent de la precisió "
@@ -17638,6 +17635,14 @@ msgstr ""
 #, kde-format
 msgid "Camera Position Angle"
 msgstr "Angle de posició de la càmera"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
+#: ekos/capture/rotatorsettings.ui:471
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Angle de desplaçament de la càmera.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -87490,3 +87495,20 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
+
+# skip-rule: punctuation-period-no
+#~ msgid "API URL"
+#~ msgstr "URL de l'API."
+
+#~ msgid ""
+#~ "<html><head/><body><p>The rotator gauge displays the actual camera "
+#~ "position angle (yellow) and the raw rotator angle (gray). Be sure to "
+#~ "calibrate the rotator (syncing rotator angle to zero at piersie WEST) "
+#~ "after a fresh mount of the rotator in order to have a reasonable display."
+#~ "</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>L'indicador del rotor mostra l'angle de posició "
+#~ "real de la càmera (en groc) i l'angle sense processar del rotor (en "
+#~ "gris). Assegureu-vos de calibrar el rotor (sincronitzant l'angle del "
+#~ "rotor a zero al costat del moll OEST) després de muntar de nou el rotor "
+#~ "per tal de tindre una visualització raonable.</p></body></html>"

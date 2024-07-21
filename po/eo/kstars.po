@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-14 01:40+0000\n"
-"PO-Revision-Date: 2024-07-06 16:50+0200\n"
+"POT-Creation-Date: 2024-07-21 01:45+0000\n"
+"PO-Revision-Date: 2024-07-20 22:55+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -9604,9 +9604,16 @@ msgstr "Enreta Astrometry.net aŭ Remote ANSVR"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, kde-format
-msgid "API URL"
-msgstr "API URL"
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
+#| "body></html>"
+msgid ""
+"<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
+"astrometry.net)</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Grandeco de la apartigilo inter la kadroj.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -16003,10 +16010,9 @@ msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
 #: ekos/capture/capture.cpp:322
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stop capturing"
-msgstr "Haltigi registradon"
+msgstr "Haltigi kapturadon"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:322 ekos/observatory/observatory.ui:550
@@ -16985,21 +16991,6 @@ msgstr ""
 "angulon (flave) kaj la krudan rotaciilan angulon (grize). Por kalibri la "
 "rotaciilon, kaptu kaj solvu bildon en la Ailgn-modulo.</p></body></html>"
 
-#. i18n: ectx: property (toolTip), widget (QLineEdit, CurrentRotatorAngle)
-#: ekos/capture/rotatorsettings.ui:157
-#, kde-format
-msgid ""
-"<html><head/><body><p>The rotator gauge displays the actual camera position "
-"angle (yellow) and the raw rotator angle (gray). Be sure to calibrate the "
-"rotator (syncing rotator angle to zero at piersie WEST) after a fresh mount "
-"of the rotator in order to have a reasonable display.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>La rotaciila mezurilo montras la faktan kamerapozician "
-"angulon (flave) kaj la krudan rotaciilan angulon (grize). Certigu kalibri la "
-"rotaciilon (sinkronigante rotaciilan angulon al nulo ĉe kajoflanko WEST) "
-"post freŝa munto de la rotaciilo por ekhavi racian bildigon.</p></body></"
-"html>"
-
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
 #, kde-format
@@ -17113,16 +17104,22 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Setting the camera position angle shall move the "
+#| "rotator. The gauge reflects the state of the rotator. Depending on the "
+#| "accuracy of the rotator there can be some deviation in the ending "
+#| "position angle.</p><p>If <span style=\" font-weight:700;\">Save Camera "
+#| "Position Angle to Sequence Job</span> is toggled, any subsequent jobs "
+#| "added to the sequence queue would always rotate to this position angle "
+#| "before capture begins.</p><p>The position angle is measured East of North "
+#| "in degrees.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
 "accuracy of the rotator there can be some deviation in the ending position "
-"angle.</p><p>If <span style=\" font-weight:700;\">Save Camera Position Angle "
-"to Sequence Job</span> is toggled, any subsequent jobs added to the sequence "
-"queue would always rotate to this position angle before capture begins.</"
-"p><p>The position angle is measured East of North in degrees.</p></body></"
-"html>"
+"angle.</p><p>The position angle is measured East of North in degrees.</p></"
+"body></html>"
 msgstr ""
 "<html><head/><body><p>Agordo de la fotila pozicio-angulo movos la "
 "rotaciilon. La mezurilo reflektas la staton de la rotaciilo. Depende de la "
@@ -17138,6 +17135,13 @@ msgstr ""
 #, kde-format
 msgid "Camera Position Angle"
 msgstr "Kamerapozicia Angulo"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
+#: ekos/capture/rotatorsettings.ui:471
+#, fuzzy, kde-format
+#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
+msgstr "<html><head/><body><p>Kameradeŝova angulo</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -19394,7 +19398,7 @@ msgstr "Trovi Stelojn: transpasis maks iteraciojn %1"
 #: ekos/focus/focusadvisor.cpp:778
 #, kde-format
 msgid "Stars detected, centring range"
-msgstr "Neniuj steloj detektitaj, kaptante denove..."
+msgstr "Steloj detektitaj, centrigante gamon..."
 
 #: ekos/focus/focusadvisor.cpp:779
 #, kde-format
@@ -19432,10 +19436,9 @@ msgid "Find Stars Run %1: Failed"
 msgstr "Trovi Stelojn Rulo %1: Malsukcesis"
 
 #: ekos/focus/focusadvisor.cpp:920
-#, fuzzy, kde-format
-#| msgid "Focus Advisor proposed value for the parameter"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
-msgstr "Focus Advisor proponis valoron por la parametro"
+msgstr "Focus Advisor Kruda Alĝustigo ĉesigita post %1 ruloj"
 
 #: ekos/focus/focusadvisor.cpp:937 ekos/focus/focusadvisor.cpp:938
 #: ekos/focus/focusadvisor.cpp:939
@@ -20495,12 +20498,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:668
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to enable Donut Busting functionality. Use on "
-#| "telescopes with a central obstruction that create donut shaped stars when "
-#| "defocused.</p><p>This is a currently an experimental feature that should "
-#| "be used with caution.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable Donut Busting functionality. Use on "
 "telescopes with a central obstruction that create donut shaped stars when "
@@ -20508,8 +20506,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Marku por ebligi la funkcion de Donut Busting. Uzu je "
 "teleskopoj kun centra obstrukco kiuj kreas benjetformajn stelojn kiam "
-"malfokusitaj.</p><p>Aktuale ĉi tio estas eksperimenta trajto kiu devus esti "
-"uzata kun singardemo.</p></body></html>"
+"malfokusitaj.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:671
@@ -20579,29 +20576,23 @@ msgstr "Komenca Paŝgrandeco x:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusScanStepSizeFactor)
 #: ekos/focus/opsfocusprocess.ui:820
-#, fuzzy, kde-format
-#| msgid ""
-#| "When Scan for Start Position is checked, the scan uses a step size = "
-#| "Initial Step Size multiplier by Initial Step Size x."
+#, kde-format
 msgid ""
 "Scan for Start Position uses a step size = Initial Step Size multiplied by "
 "Initial Step Size x."
 msgstr ""
-"Kiam Skanado por Komenca Pozicio estas markita, la skano uzas paŝgrandon = "
-"Komenc-Paŝgranda multiplikanto oble Komenca Paŝgrando x."
+"Skanado por Komenca Pozicio uzas paŝgrandon = Komenc-Paŝgrando oble Komenca "
+"Paŝgrando x."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanAlwaysOn)
 #: ekos/focus/opsfocusprocess.ui:842
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Check to always run Scan for Start Position, uncheck to only run after a "
 "failed Autofocus."
 msgstr ""
-"Marku por devigi skanon pri optimuma komencpozicio komence de Aŭtomata "
-"fokuso."
+"Marku por ĉiam ruli Skanon pri Komencpozicio, malmarku nur post malsukcesa "
+"Aŭtomata fokuso."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanAlwaysOn)
 #: ekos/focus/opsfocusprocess.ui:845
@@ -20617,12 +20608,9 @@ msgstr "Num Datapoints:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:874
-#, fuzzy, kde-format
-#| msgid ""
-#| "Number of datapoints to use during scan when focusScanStartPos is checked."
+#, kde-format
 msgid "The number of datapoints to use during Scan for Start Position."
-msgstr ""
-"Nombro da datumpunktoj uzenda dum skano kiam focusScanStartPos estas markita."
+msgstr "La nombro da datumpunktoj uzenda dum Skano pri Komanca Pozicio."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -37570,28 +37558,19 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2194
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Whether to use scan for optimum start position at the start of Autofocus."
-msgstr ""
-"Marku por devigi skanon pri optimuma komencpozicio komence de Aŭtomata "
-"fokuso."
+msgstr "Ĉu uzi skanon pri optimuma komencpozicio komence de Aŭtomata fokusado."
 
 #. i18n: ectx: whatsthis, entry (focusScanAlwaysOn), group (Focus)
 #: kstars.kcfg:2198
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Whether scan for start position is always used or just after an Autofocus "
 "failure."
 msgstr ""
-"Marku por devigi skanon pri optimuma komencpozicio komence de Aŭtomata "
-"fokuso."
+"Ĉu skano pri komencpozicio estas ĉiam uzata aŭ nur post Aŭtomata fokusado."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2202
@@ -85641,12 +85620,18 @@ msgstr "Fona koloro:"
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
 
-#~ msgid "Donut Buster (WARNING: Experimental Feature)"
-#~ msgstr "Benjet-Rompilo (AVERTO: Esperimenta Kapablo)"
+#~ msgid "API URL"
+#~ msgstr "API URL"
 
 #~ msgid ""
-#~ "When Scan for Start Position is checked this is the number of datapoints "
-#~ "to use."
+#~ "<html><head/><body><p>The rotator gauge displays the actual camera "
+#~ "position angle (yellow) and the raw rotator angle (gray). Be sure to "
+#~ "calibrate the rotator (syncing rotator angle to zero at piersie WEST) "
+#~ "after a fresh mount of the rotator in order to have a reasonable display."
+#~ "</p></body></html>"
 #~ msgstr ""
-#~ "Kiam Skanado por Komenca Pozicio estas markita, ĉi tiu estas la nombro da "
-#~ "datumpunktoj uzenda."
+#~ "<html><head/><body><p>La rotaciila mezurilo montras la faktan "
+#~ "kamerapozician angulon (flave) kaj la krudan rotaciilan angulon (grize). "
+#~ "Certigu kalibri la rotaciilon (sinkronigante rotaciilan angulon al nulo "
+#~ "ĉe kajoflanko WEST) post freŝa munto de la rotaciilo por ekhavi racian "
+#~ "bildigon.</p></body></html>"
