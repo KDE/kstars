@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-21 01:45+0000\n"
+"POT-Creation-Date: 2024-07-22 01:46+0000\n"
 "PO-Revision-Date: 2024-05-18 23:22+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -2085,8 +2085,8 @@ msgstr "Stato:"
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1325
-#: ekos/scheduler/scheduler.cpp:1983 ekos/scheduler/scheduler.cpp:2220
-#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
+#: ekos/scheduler/scheduler.cpp:1975 ekos/scheduler/scheduler.cpp:2212
+#: ekos/scheduler/scheduler.cpp:2220 ekos/scheduler/scheduler.cpp:2230
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2467,7 +2467,7 @@ msgstr "Verifica se la magnitudine è sconosciuta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1333
-#: ekos/scheduler/scheduler.cpp:1998 fitsviewer/fitscommon.h:16
+#: ekos/scheduler/scheduler.cpp:1990 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -10470,7 +10470,7 @@ msgid "Parking"
 msgstr "Parcheggio"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1984 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:1976 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "Rotazione"
@@ -10620,7 +10620,7 @@ msgid "Disconnected"
 msgstr "Disconnesso"
 
 #: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1997
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1989
 #, kde-format
 msgid "Capturing"
 msgstr "Cattura"
@@ -10662,7 +10662,7 @@ msgstr "Calibrato"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1995
+#: ekos/scheduler/scheduler.cpp:1987
 #, kde-format
 msgid "Guiding"
 msgstr "Guida automatica"
@@ -17603,7 +17603,7 @@ msgstr "Attendi"
 msgid "Image Received"
 msgstr "Immagine ricevuta"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1987
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1979
 #, kde-format
 msgid "Focusing"
 msgstr "Messa a fuoco"
@@ -17633,7 +17633,7 @@ msgstr "Impostazione della temperatura"
 msgid "Setting Rotator"
 msgstr "Impostazione del rotatore"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1990
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1982
 #, kde-format
 msgid "Aligning"
 msgstr "Allineamento"
@@ -25352,7 +25352,7 @@ msgstr "Chiudi otturatore"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2145
+#: ekos/scheduler/scheduler.cpp:2137
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Arresta pianificatore"
@@ -28048,7 +28048,7 @@ msgstr "Salva lista del pianificatore di Ekos"
 msgid "Failed to save scheduler list"
 msgstr "Impossibile salvare la lista del pianificatore"
 
-#: ekos/scheduler/scheduler.cpp:1957
+#: ekos/scheduler/scheduler.cpp:1955
 #, fuzzy, kde-format
 #| msgid ""
 #| "Turning off astronomial twilight check may cause the observatory to run "
@@ -28061,80 +28061,74 @@ msgstr ""
 "funzionare l'osservatorio alla luce del giorno. Ciò può causare danni "
 "irreversibili all'attrezzatura!"
 
-#: ekos/scheduler/scheduler.cpp:1959
-#, fuzzy, kde-format
-#| msgid "Astronomial Twilight Warning"
-msgid "Astronomical Twilight Warning"
-msgstr "Allarme crepuscolo astronomico"
-
-#: ekos/scheduler/scheduler.cpp:1985
+#: ekos/scheduler/scheduler.cpp:1977
 #, kde-format
 msgid "Slew complete"
 msgstr "Rotazione completata"
 
-#: ekos/scheduler/scheduler.cpp:1989
+#: ekos/scheduler/scheduler.cpp:1981
 #, kde-format
 msgid "Focus complete"
 msgstr "Messa a fuoco completata"
 
-#: ekos/scheduler/scheduler.cpp:1991
+#: ekos/scheduler/scheduler.cpp:1983
 #, kde-format
 msgid "Align complete"
 msgstr "Allineamento completato"
 
-#: ekos/scheduler/scheduler.cpp:1992
+#: ekos/scheduler/scheduler.cpp:1984
 #, kde-format
 msgid "Repositioning"
 msgstr "Riposizionamento"
 
-#: ekos/scheduler/scheduler.cpp:1993
+#: ekos/scheduler/scheduler.cpp:1985
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Riposizionamento completato"
 
-#: ekos/scheduler/scheduler.cpp:1996
+#: ekos/scheduler/scheduler.cpp:1988
 #, kde-format
 msgid "Guiding complete"
 msgstr "Guida completata"
 
-#: ekos/scheduler/scheduler.cpp:2075
+#: ekos/scheduler/scheduler.cpp:2067
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Le condizioni meteorologiche sono ok."
 
-#: ekos/scheduler/scheduler.cpp:2079
+#: ekos/scheduler/scheduler.cpp:2071
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Attenzione: le condizioni meteorologiche sono in zona di AVVISO."
 
-#: ekos/scheduler/scheduler.cpp:2083
+#: ekos/scheduler/scheduler.cpp:2075
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Attenzione: le condizioni meteorologiche sono nella zona di PERICOLO."
 
-#: ekos/scheduler/scheduler.cpp:2101
+#: ekos/scheduler/scheduler.cpp:2093
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Condizioni meteorologiche in zona di avviso"
 
-#: ekos/scheduler/scheduler.cpp:2110
+#: ekos/scheduler/scheduler.cpp:2102
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 "Condizioni meteorologiche critiche. Lo spegnimento dell'osservatorio è "
 "imminente"
 
-#: ekos/scheduler/scheduler.cpp:2133
+#: ekos/scheduler/scheduler.cpp:2125
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Il pianificatore è in modalità risparmio"
 
-#: ekos/scheduler/scheduler.cpp:2196
+#: ekos/scheduler/scheduler.cpp:2188
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "La procedura di avvio manuale è stata completata correttamente."
 
-#: ekos/scheduler/scheduler.cpp:2200
+#: ekos/scheduler/scheduler.cpp:2192
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "La procedura di avvio manuale è terminata a causa di errori."
@@ -86338,6 +86332,11 @@ msgstr "Colore di fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Imposta il colore dello sfondo."
+
+#, fuzzy
+#~| msgid "Astronomial Twilight Warning"
+#~ msgid "Astronomical Twilight Warning"
+#~ msgstr "Allarme crepuscolo astronomico"
 
 #~ msgid "API URL"
 #~ msgstr "URL delle API"

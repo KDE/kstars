@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars-gu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-21 01:45+0000\n"
+"POT-Creation-Date: 2024-07-22 01:46+0000\n"
 "PO-Revision-Date: 2009-07-10 16:23+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -2153,8 +2153,8 @@ msgstr "સ્થિતિ"
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1325
-#: ekos/scheduler/scheduler.cpp:1983 ekos/scheduler/scheduler.cpp:2220
-#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
+#: ekos/scheduler/scheduler.cpp:1975 ekos/scheduler/scheduler.cpp:2212
+#: ekos/scheduler/scheduler.cpp:2220 ekos/scheduler/scheduler.cpp:2230
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2497,7 +2497,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1333
-#: ekos/scheduler/scheduler.cpp:1998 fitsviewer/fitscommon.h:16
+#: ekos/scheduler/scheduler.cpp:1990 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -10212,7 +10212,7 @@ msgid "Parking"
 msgstr "બેઇજિંગ"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1984 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:1976 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr ""
@@ -10362,7 +10362,7 @@ msgid "Disconnected"
 msgstr "જોડાઓ"
 
 #: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1997
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1989
 #, fuzzy, kde-format
 msgid "Capturing"
 msgstr "ચિત્ર દર્શક"
@@ -10410,7 +10410,7 @@ msgstr "કેન્દ્ર"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1995
+#: ekos/scheduler/scheduler.cpp:1987
 #, fuzzy, kde-format
 msgid "Guiding"
 msgstr "વાક્ય"
@@ -17008,7 +17008,7 @@ msgstr "બીજા"
 msgid "Image Received"
 msgstr "ચિત્ર દર્શક"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1987
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1979
 #, fuzzy, kde-format
 msgid "Focusing"
 msgstr "બચાવ સ્થિતિ"
@@ -17039,7 +17039,7 @@ msgstr "ઇનપુટ ક્રિયાઓ"
 msgid "Setting Rotator"
 msgstr "તારો પસંદ કરો"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1990
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1982
 #, fuzzy, kde-format
 msgid "Aligning"
 msgstr "બચાવ સ્થિતિ"
@@ -24196,7 +24196,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2145
+#: ekos/scheduler/scheduler.cpp:2137
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Stop Scheduler"
@@ -26755,85 +26755,80 @@ msgstr "સૂચન યાદી"
 msgid "Failed to save scheduler list"
 msgstr "ચિત્ર લાવવામાં અસક્ષમ"
 
-#: ekos/scheduler/scheduler.cpp:1957
+#: ekos/scheduler/scheduler.cpp:1955
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1959
-#, kde-format
-msgid "Astronomical Twilight Warning"
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:1985
+#: ekos/scheduler/scheduler.cpp:1977
 #, fuzzy, kde-format
 msgid "Slew complete"
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: ekos/scheduler/scheduler.cpp:1989
+#: ekos/scheduler/scheduler.cpp:1981
 #, fuzzy, kde-format
 msgid "Focus complete"
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: ekos/scheduler/scheduler.cpp:1991
+#: ekos/scheduler/scheduler.cpp:1983
 #, fuzzy, kde-format
 msgid "Align complete"
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: ekos/scheduler/scheduler.cpp:1992
+#: ekos/scheduler/scheduler.cpp:1984
 #, fuzzy, kde-format
 msgid "Repositioning"
 msgstr "સહીની જગ્યા:"
 
-#: ekos/scheduler/scheduler.cpp:1993
+#: ekos/scheduler/scheduler.cpp:1985
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Repositioning complete"
 msgstr "કેન્દ્ર"
 
-#: ekos/scheduler/scheduler.cpp:1996
+#: ekos/scheduler/scheduler.cpp:1988
 #, fuzzy, kde-format
 msgid "Guiding complete"
 msgstr "પરિવહન પ્રક્રિયા પૂરી થઇ છે"
 
-#: ekos/scheduler/scheduler.cpp:2075
+#: ekos/scheduler/scheduler.cpp:2067
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2079
+#: ekos/scheduler/scheduler.cpp:2071
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2083
+#: ekos/scheduler/scheduler.cpp:2075
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2101
+#: ekos/scheduler/scheduler.cpp:2093
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2110
+#: ekos/scheduler/scheduler.cpp:2102
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2133
+#: ekos/scheduler/scheduler.cpp:2125
 #, fuzzy, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "પરિણામો ફાઇલમાં સંગ્રહાઇ ગયા\n"
 
-#: ekos/scheduler/scheduler.cpp:2196
+#: ekos/scheduler/scheduler.cpp:2188
 #, fuzzy, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "પાસવર્ડ દાખલ કરવામાં ક્ષતિ"
 
-#: ekos/scheduler/scheduler.cpp:2200
+#: ekos/scheduler/scheduler.cpp:2192
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""

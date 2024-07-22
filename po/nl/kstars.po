@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-21 01:45+0000\n"
-"PO-Revision-Date: 2024-07-12 11:12+0200\n"
+"POT-Creation-Date: 2024-07-22 01:46+0000\n"
+"PO-Revision-Date: 2024-07-21 15:21+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -2073,8 +2073,8 @@ msgstr "Status:"
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1325
-#: ekos/scheduler/scheduler.cpp:1983 ekos/scheduler/scheduler.cpp:2220
-#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
+#: ekos/scheduler/scheduler.cpp:1975 ekos/scheduler/scheduler.cpp:2212
+#: ekos/scheduler/scheduler.cpp:2220 ekos/scheduler/scheduler.cpp:2230
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2449,7 +2449,7 @@ msgstr "Controleer of magnitude onbekend is"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1333
-#: ekos/scheduler/scheduler.cpp:1998 fitsviewer/fitscommon.h:16
+#: ekos/scheduler/scheduler.cpp:1990 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -9663,15 +9663,13 @@ msgstr "Online Astrometry.net of externe ANSVR"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
 "astrometry.net)</p></body></html>"
 msgstr ""
-"<html><body><p>Grootte van de scheiding tussen de vakken.</p></body></html>"
+"<html><head/><body><p>Schema en autoriteitsonderdeel van URL (bijv. https://"
+"nova.astrometry.net)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -10415,7 +10413,7 @@ msgid "Parking"
 msgstr "Parkeren"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1984 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:1976 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "Draaien"
@@ -10565,7 +10563,7 @@ msgid "Disconnected"
 msgstr "Verbinding verbroken"
 
 #: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1997
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1989
 #, kde-format
 msgid "Capturing"
 msgstr "Vastleggen"
@@ -10607,7 +10605,7 @@ msgstr "Gecalibreerd"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1995
+#: ekos/scheduler/scheduler.cpp:1987
 #, kde-format
 msgid "Guiding"
 msgstr "Volgen"
@@ -17203,16 +17201,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Setting the camera position angle shall move the "
-#| "rotator. The gauge reflects the state of the rotator. Depending on the "
-#| "accuracy of the rotator there can be some deviation in the ending "
-#| "position angle.</p><p>If <span style=\" font-weight:700;\">Save Camera "
-#| "Position Angle to Sequence Job</span> is toggled, any subsequent jobs "
-#| "added to the sequence queue would always rotate to this position angle "
-#| "before capture begins.</p><p>The position angle is measured East of North "
-#| "in degrees.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
@@ -17223,11 +17212,8 @@ msgstr ""
 "<html><head/><body><p>De positiehoek van de camera instellen moet de rotator "
 "laten bewegen. De wijzer laat de status van de rotator zien. Afhankelijk van "
 "de nauwkeurigheid van de rotator kan er enige afwijking in de "
-"eindpositiehoek zijn.</p><p>Als <span style=\" font-weight:700;"
-"\">Positiehoek van de camera naar jobreeks</span> is omgeschakeld, zou elke "
-"opvolgende jobs toegevoegd aan de rij in de jobreeks altijd draaien naar "
-"deze positiehoek alvorens opnemen begint.</p><p>De positiehoek wordt gemeten "
-"Oost van Noord in graden.</p></body></html>"
+"eindpositiehoek zijn.</p><p>De positiehoek wordt gemeten Oost van Noord in "
+"graden.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -17237,10 +17223,9 @@ msgstr "Positiehoek van camera"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
 #: ekos/capture/rotatorsettings.ui:471
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
-msgstr "<html><head/><body><p>Offsethoek van de camera</p></body></html>"
+msgstr "<html><head/><body><p>Huidige positiehoek van camera</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -17482,7 +17467,7 @@ msgstr "Wachten"
 msgid "Image Received"
 msgstr "Afbeelding ontvangen"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1987
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1979
 #, kde-format
 msgid "Focusing"
 msgstr "Focuseren"
@@ -17512,7 +17497,7 @@ msgstr "Temperatuur instellen"
 msgid "Setting Rotator"
 msgstr "Rotator instellen"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1990
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1982
 #, kde-format
 msgid "Aligning"
 msgstr "Uitlijnen"
@@ -25067,7 +25052,7 @@ msgstr "Sluiter sluiten"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2145
+#: ekos/scheduler/scheduler.cpp:2137
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Taakplanner stoppen"
@@ -27783,7 +27768,7 @@ msgstr "Planlijst Ekos opslaan"
 msgid "Failed to save scheduler list"
 msgstr "Opslaan planlijst is mislukt"
 
-#: ekos/scheduler/scheduler.cpp:1957
+#: ekos/scheduler/scheduler.cpp:1955
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
@@ -27793,78 +27778,73 @@ msgstr ""
 "waarnemingen bij daglicht doorgaan. Dit kan uw apparatuur onherstelbaar "
 "beschadigen!"
 
-#: ekos/scheduler/scheduler.cpp:1959
-#, kde-format
-msgid "Astronomical Twilight Warning"
-msgstr "Waarschuwing voor astronomische schemering"
-
-#: ekos/scheduler/scheduler.cpp:1985
+#: ekos/scheduler/scheduler.cpp:1977
 #, kde-format
 msgid "Slew complete"
 msgstr "Draaien voltooid"
 
-#: ekos/scheduler/scheduler.cpp:1989
+#: ekos/scheduler/scheduler.cpp:1981
 #, kde-format
 msgid "Focus complete"
 msgstr "Focusseren voltooid"
 
-#: ekos/scheduler/scheduler.cpp:1991
+#: ekos/scheduler/scheduler.cpp:1983
 #, kde-format
 msgid "Align complete"
 msgstr "Uitlijnen voltooid"
 
-#: ekos/scheduler/scheduler.cpp:1992
+#: ekos/scheduler/scheduler.cpp:1984
 #, kde-format
 msgid "Repositioning"
 msgstr "Weer positioneren"
 
-#: ekos/scheduler/scheduler.cpp:1993
+#: ekos/scheduler/scheduler.cpp:1985
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Weer positioneren voltooid"
 
-#: ekos/scheduler/scheduler.cpp:1996
+#: ekos/scheduler/scheduler.cpp:1988
 #, kde-format
 msgid "Guiding complete"
 msgstr "Volgen voltooid"
 
-#: ekos/scheduler/scheduler.cpp:2075
+#: ekos/scheduler/scheduler.cpp:2067
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Weercondities zijn OK."
 
-#: ekos/scheduler/scheduler.cpp:2079
+#: ekos/scheduler/scheduler.cpp:2071
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Waarschuwing: SLECHTE weercondities."
 
-#: ekos/scheduler/scheduler.cpp:2083
+#: ekos/scheduler/scheduler.cpp:2075
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Opgepast: GEVAARLIJKE weercondities!"
 
-#: ekos/scheduler/scheduler.cpp:2101
+#: ekos/scheduler/scheduler.cpp:2093
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Weercondities in waarschuwingszone"
 
-#: ekos/scheduler/scheduler.cpp:2110
+#: ekos/scheduler/scheduler.cpp:2102
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 "Weersomstandigheden zijn kritiek. Afsluiten waarneemstation is aanstaande"
 
-#: ekos/scheduler/scheduler.cpp:2133
+#: ekos/scheduler/scheduler.cpp:2125
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Het plannen wordt even onderbroken"
 
-#: ekos/scheduler/scheduler.cpp:2196
+#: ekos/scheduler/scheduler.cpp:2188
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Handmatige startprocedure met succes voltooid."
 
-#: ekos/scheduler/scheduler.cpp:2200
+#: ekos/scheduler/scheduler.cpp:2192
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Handmatige startprocedure wegens fouten afgebroken."
@@ -86138,6 +86118,9 @@ msgstr "Achtergrondkleur:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
+
+#~ msgid "Astronomical Twilight Warning"
+#~ msgstr "Waarschuwing voor astronomische schemering"
 
 #~ msgid "API URL"
 #~ msgstr "API URL"

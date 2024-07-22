@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-21 01:45+0000\n"
+"POT-Creation-Date: 2024-07-22 01:46+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -2036,8 +2036,8 @@ msgstr "Status"
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1325
-#: ekos/scheduler/scheduler.cpp:1983 ekos/scheduler/scheduler.cpp:2220
-#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
+#: ekos/scheduler/scheduler.cpp:1975 ekos/scheduler/scheduler.cpp:2212
+#: ekos/scheduler/scheduler.cpp:2220 ekos/scheduler/scheduler.cpp:2230
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2377,7 +2377,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1333
-#: ekos/scheduler/scheduler.cpp:1998 fitsviewer/fitscommon.h:16
+#: ekos/scheduler/scheduler.cpp:1990 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, fuzzy, kde-format
@@ -9896,7 +9896,7 @@ msgid "Parking"
 msgstr "Bandar nama"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1984 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:1976 indi/indimount.cpp:30
 #, fuzzy, kde-format
 msgid "Slewing"
 msgstr "Skop"
@@ -10041,7 +10041,7 @@ msgid "Disconnected"
 msgstr "Putus"
 
 #: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1997
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1989
 #, fuzzy, kde-format
 msgid "Capturing"
 msgstr "Imej NFS"
@@ -10084,7 +10084,7 @@ msgstr "Bandar nama"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1995
+#: ekos/scheduler/scheduler.cpp:1987
 #, fuzzy, kde-format
 msgid "Guiding"
 msgstr "Bandar nama"
@@ -16374,7 +16374,7 @@ msgstr "Lanjutan URL uketerangan atau"
 msgid "Image Received"
 msgstr "Memulakan proses perakaunan: "
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1987
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1979
 #, fuzzy, kde-format
 msgid "Focusing"
 msgstr "Pada Ahli:"
@@ -16404,7 +16404,7 @@ msgstr "penapis."
 msgid "Setting Rotator"
 msgstr "Kaedah Masukan"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1990
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1982
 #, fuzzy, kde-format
 msgid "Aligning"
 msgstr "Pada Ahli:"
@@ -23214,7 +23214,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2145
+#: ekos/scheduler/scheduler.cpp:2137
 #, fuzzy, kde-format
 msgid "Stop Scheduler"
 msgstr "Memulakan VNC"
@@ -25659,85 +25659,80 @@ msgstr "Senarai Dibenarkan"
 msgid "Failed to save scheduler list"
 msgstr "Gagal untuk muatkan imej \"%1\"\n"
 
-#: ekos/scheduler/scheduler.cpp:1957
+#: ekos/scheduler/scheduler.cpp:1955
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1959
-#, kde-format
-msgid "Astronomical Twilight Warning"
-msgstr ""
-
-#: ekos/scheduler/scheduler.cpp:1985
+#: ekos/scheduler/scheduler.cpp:1977
 #, fuzzy, kde-format
 msgid "Slew complete"
 msgstr "Selesai"
 
-#: ekos/scheduler/scheduler.cpp:1989
+#: ekos/scheduler/scheduler.cpp:1981
 #, fuzzy, kde-format
 msgid "Focus complete"
 msgstr "Selesai"
 
-#: ekos/scheduler/scheduler.cpp:1991
+#: ekos/scheduler/scheduler.cpp:1983
 #, fuzzy, kde-format
 msgid "Align complete"
 msgstr "Selesai"
 
-#: ekos/scheduler/scheduler.cpp:1992
+#: ekos/scheduler/scheduler.cpp:1984
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Repositioning"
 msgstr "Kedudukan"
 
-#: ekos/scheduler/scheduler.cpp:1993
+#: ekos/scheduler/scheduler.cpp:1985
 #, fuzzy, kde-format
 msgid "Repositioning complete"
 msgstr "Bandar nama"
 
-#: ekos/scheduler/scheduler.cpp:1996
+#: ekos/scheduler/scheduler.cpp:1988
 #, fuzzy, kde-format
 msgid "Guiding complete"
 msgstr "Selesai"
 
-#: ekos/scheduler/scheduler.cpp:2075
+#: ekos/scheduler/scheduler.cpp:2067
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2079
+#: ekos/scheduler/scheduler.cpp:2071
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2083
+#: ekos/scheduler/scheduler.cpp:2075
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2101
+#: ekos/scheduler/scheduler.cpp:2093
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2110
+#: ekos/scheduler/scheduler.cpp:2102
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2133
+#: ekos/scheduler/scheduler.cpp:2125
 #, fuzzy, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Tidak dapat memuatkan fail!"
 
-#: ekos/scheduler/scheduler.cpp:2196
+#: ekos/scheduler/scheduler.cpp:2188
 #, fuzzy, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Kordinat Bulan"
 
-#: ekos/scheduler/scheduler.cpp:2200
+#: ekos/scheduler/scheduler.cpp:2192
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""

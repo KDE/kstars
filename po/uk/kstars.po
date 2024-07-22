@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-21 01:45+0000\n"
-"PO-Revision-Date: 2024-07-12 08:33+0300\n"
+"POT-Creation-Date: 2024-07-22 01:46+0000\n"
+"PO-Revision-Date: 2024-07-21 09:00+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -2062,8 +2062,8 @@ msgstr "Стан:"
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1325
-#: ekos/scheduler/scheduler.cpp:1983 ekos/scheduler/scheduler.cpp:2220
-#: ekos/scheduler/scheduler.cpp:2228 ekos/scheduler/scheduler.cpp:2238
+#: ekos/scheduler/scheduler.cpp:1975 ekos/scheduler/scheduler.cpp:2212
+#: ekos/scheduler/scheduler.cpp:2220 ekos/scheduler/scheduler.cpp:2230
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2439,7 +2439,7 @@ msgstr "Позначте, якщо величина є невідомою"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1333
-#: ekos/scheduler/scheduler.cpp:1998 fitsviewer/fitscommon.h:16
+#: ekos/scheduler/scheduler.cpp:1990 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -9691,14 +9691,13 @@ msgstr "Astrometry.net у інтернеті або віддалена ANSVR"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
 "astrometry.net)</p></body></html>"
-msgstr "<html><head/><body><p>Розмір інтервалу між плитками.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Частина адреси, пов'язана із схемою та належністю "
+"(наприклад, https://nova.astrometry.net)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -10450,7 +10449,7 @@ msgid "Parking"
 msgstr "Паркування"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1984 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:1976 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "Обертання"
@@ -10600,7 +10599,7 @@ msgid "Disconnected"
 msgstr "Від'єднано"
 
 #: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1997
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1989
 #, kde-format
 msgid "Capturing"
 msgstr "Захоплення"
@@ -10642,7 +10641,7 @@ msgstr "Калібровано"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1995
+#: ekos/scheduler/scheduler.cpp:1987
 #, kde-format
 msgid "Guiding"
 msgstr "Наведення"
@@ -17321,16 +17320,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Setting the camera position angle shall move the "
-#| "rotator. The gauge reflects the state of the rotator. Depending on the "
-#| "accuracy of the rotator there can be some deviation in the ending "
-#| "position angle.</p><p>If <span style=\" font-weight:700;\">Save Camera "
-#| "Position Angle to Sequence Job</span> is toggled, any subsequent jobs "
-#| "added to the sequence queue would always rotate to this position angle "
-#| "before capture begins.</p><p>The position angle is measured East of North "
-#| "in degrees.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
@@ -17341,12 +17331,8 @@ msgstr ""
 "<html><head/><body><p>Встановлення позиційного кута камери призведе до "
 "зміщення засобу обертання. Датчик вказує на стан засобу обертання. Залежно "
 "від точності засобу обертання, можливе певне відхилення у кінцевому "
-"позиційному куті.</p><p>Якщо позначено пункт <span style=\" font-weight:700;"
-"\">Зберігати позиційний кут камери до завдання послідовності</span>, усі "
-"наступні завдання, які буде додано до черги послідовності, завжди "
-"враховуватимуть обертання до цього позиційного кута до того, яка камера "
-"почне знімати.</p><p>Позиційний кут вимірюється зі сходу півночі у градусах."
-"</p></body></html>"
+"позиційному куті.</p><p>Позиційний кут вимірюється зі сходу півночі у "
+"градусах.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -17356,10 +17342,9 @@ msgstr "Позиційний кут камери"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
 #: ekos/capture/rotatorsettings.ui:471
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
-msgstr "<html><head/><body><p>Кут зсуву камери</p></body></html>"
+msgstr "<html><head/><body><p>Поточний позиційний кут камери</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -17606,7 +17591,7 @@ msgstr "Очікуємо"
 msgid "Image Received"
 msgstr "Зображення отримано"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1987
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1979
 #, kde-format
 msgid "Focusing"
 msgstr "Фокусування"
@@ -17636,7 +17621,7 @@ msgstr "Встановлюємо температуру"
 msgid "Setting Rotator"
 msgstr "Встановлюємо засіб обертання"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1990
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1982
 #, kde-format
 msgid "Aligning"
 msgstr "Вирівнюємо"
@@ -25276,7 +25261,7 @@ msgstr "Закрити затвор"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2145
+#: ekos/scheduler/scheduler.cpp:2137
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Припинити виконання плану"
@@ -28028,7 +28013,7 @@ msgstr "Збереження списку планування Ekos"
 msgid "Failed to save scheduler list"
 msgstr "Не вдалося зберегти список планування"
 
-#: ekos/scheduler/scheduler.cpp:1957
+#: ekos/scheduler/scheduler.cpp:1955
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
@@ -28038,77 +28023,72 @@ msgstr ""
 "обсерваторії в умовах денного освітлення. Така робота може призвести до "
 "невиправного ушкодження вашого обладнання!"
 
-#: ekos/scheduler/scheduler.cpp:1959
-#, kde-format
-msgid "Astronomical Twilight Warning"
-msgstr "Попередження щодо астрономічних сутінок"
-
-#: ekos/scheduler/scheduler.cpp:1985
+#: ekos/scheduler/scheduler.cpp:1977
 #, kde-format
 msgid "Slew complete"
 msgstr "Обертання завершено"
 
-#: ekos/scheduler/scheduler.cpp:1989
+#: ekos/scheduler/scheduler.cpp:1981
 #, kde-format
 msgid "Focus complete"
 msgstr "Фокусування завершено"
 
-#: ekos/scheduler/scheduler.cpp:1991
+#: ekos/scheduler/scheduler.cpp:1983
 #, kde-format
 msgid "Align complete"
 msgstr "Вирівнювання завершено"
 
-#: ekos/scheduler/scheduler.cpp:1992
+#: ekos/scheduler/scheduler.cpp:1984
 #, kde-format
 msgid "Repositioning"
 msgstr "Зміна позиції"
 
-#: ekos/scheduler/scheduler.cpp:1993
+#: ekos/scheduler/scheduler.cpp:1985
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Зміну позиції завершено"
 
-#: ekos/scheduler/scheduler.cpp:1996
+#: ekos/scheduler/scheduler.cpp:1988
 #, kde-format
 msgid "Guiding complete"
 msgstr "Наведення завершено"
 
-#: ekos/scheduler/scheduler.cpp:2075
+#: ekos/scheduler/scheduler.cpp:2067
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Погодні умови є СПРИЯТЛИВИМИ."
 
-#: ekos/scheduler/scheduler.cpp:2079
+#: ekos/scheduler/scheduler.cpp:2071
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Попередження! Погодні умови можуть змінитися на НЕСПРИЯТЛИВІ!"
 
-#: ekos/scheduler/scheduler.cpp:2083
+#: ekos/scheduler/scheduler.cpp:2075
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Увага! Погодні умови перебувають у зоні РИЗИКУ!"
 
-#: ekos/scheduler/scheduler.cpp:2101
+#: ekos/scheduler/scheduler.cpp:2093
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Погодні умови близькі до несприятливих"
 
-#: ekos/scheduler/scheduler.cpp:2110
+#: ekos/scheduler/scheduler.cpp:2102
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "Погодні умови є критичними. Вимикання обсерваторії не уникнути."
 
-#: ekos/scheduler/scheduler.cpp:2133
+#: ekos/scheduler/scheduler.cpp:2125
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Планувальник перебуває у режимі сну"
 
-#: ekos/scheduler/scheduler.cpp:2196
+#: ekos/scheduler/scheduler.cpp:2188
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Процедуру запуску вручну успішно завершено."
 
-#: ekos/scheduler/scheduler.cpp:2200
+#: ekos/scheduler/scheduler.cpp:2192
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Процедуру запуску вручну перервано через помилки."
@@ -86487,6 +86467,9 @@ msgstr "Колір тла:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
+
+#~ msgid "Astronomical Twilight Warning"
+#~ msgstr "Попередження щодо астрономічних сутінок"
 
 #~ msgid "API URL"
 #~ msgstr "Адреса API"
