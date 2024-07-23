@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-22 01:46+0000\n"
-"PO-Revision-Date: 2024-07-12 18:06+0200\n"
+"PO-Revision-Date: 2024-07-22 19:33+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -9661,15 +9661,13 @@ msgstr "Astrometry.net por Internet ou ANSVR remoto"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
 "astrometry.net)</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tamaño do separador entre teselas.</p></body></html>"
+"<html><head/><body><p>Parte do URL co esquema e a autoridade (p. ex. https://"
+"nova.astrometry.net)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -17269,16 +17267,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Setting the camera position angle shall move the "
-#| "rotator. The gauge reflects the state of the rotator. Depending on the "
-#| "accuracy of the rotator there can be some deviation in the ending "
-#| "position angle.</p><p>If <span style=\" font-weight:700;\">Save Camera "
-#| "Position Angle to Sequence Job</span> is toggled, any subsequent jobs "
-#| "added to the sequence queue would always rotate to this position angle "
-#| "before capture begins.</p><p>The position angle is measured East of North "
-#| "in degrees.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
@@ -17288,12 +17277,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Definir o ángulo de posición da cámara move o rotor. O "
 "calibrador amosa o estado do rotor. Segundo a precisión do rotor, pode que "
-"exista algo de desviación no ángulo de posición final.</p><p>Se <span style="
-"\" font-weight:700;\">Gardar o ángulo de posición da cámara no traballo de "
-"secuencia</span> está cativado, os seguintes traballos que se engadan á cola "
-"da secuencia rotarán sempre a este ángulo de posición antes de iniciar a "
-"captura.</p><p>O ángulo de posición mídese en graos nordeste.</p></body></"
-"html>"
+"exista algo de desviación no ángulo de posición final.</p><p>O ángulo de "
+"posición mídese en graos nordeste.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -17303,11 +17288,10 @@ msgstr "Ángulo de posición da cámara"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
 #: ekos/capture/rotatorsettings.ui:471
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ángulo de desprazamento da cámara</p></body></html>"
+"<html><head/><body><p>Ángulo de posición actual da cámara.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
