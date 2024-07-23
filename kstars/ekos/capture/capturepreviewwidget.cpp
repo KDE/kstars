@@ -33,6 +33,9 @@ CapturePreviewWidget::CapturePreviewWidget(QWidget *parent) : QWidget(parent)
     connect(m_overlay->historyForwardButton, &QPushButton::clicked, this, &CapturePreviewWidget::showNextFrame);
     // deleting of captured frames
     connect(m_overlay->deleteCurrentFrameButton, &QPushButton::clicked, this, &CapturePreviewWidget::deleteCurrentFrame);
+
+    // make invisible until we have at least two cameras active
+    cameraSelectionCB->setVisible(false);
 }
 
 void CapturePreviewWidget::shareCaptureModule(Ekos::Capture *module)
@@ -69,6 +72,9 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     {
         m_cameraNames.append(devicename);
         cameraSelectionCB->addItem(devicename);
+
+        cameraSelectionCB->setVisible(m_cameraNames.count() >= 2);
+        captureLabel->setVisible(m_cameraNames.count() < 2);
     }
 
     if (job != nullptr)

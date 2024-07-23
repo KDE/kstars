@@ -54,13 +54,20 @@
     <number>4</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="captureStatusLayout" stretch="1,1,0,0,1,0">
+    <layout class="QHBoxLayout" name="captureStatusLayout" stretch="1,1,1,0,0,1,0">
      <property name="spacing">
       <number>2</number>
      </property>
      <property name="bottomMargin">
       <number>4</number>
      </property>
+     <item>
+      <widget class="QLabel" name="captureLabel">
+       <property name="text">
+        <string>Capture</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QComboBox" name="cameraSelectionCB"/>
      </item>
