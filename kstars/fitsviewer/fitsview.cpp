@@ -606,7 +606,11 @@ FITSView::CursorMode FITSView::getCursorMode()
     return cursorMode;
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void FITSView::enterEvent(QEnterEvent *event)
+#else
+void FITSView::enterEvent(QEvent * event)
+#endif
 {
     Q_UNUSED(event)
 
