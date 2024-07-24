@@ -9,7 +9,7 @@
 #include <QHash>
 #include <QList>
 
-class QStringList;
+//class QStringList;
 
 class SkyPoint;
 class StarObject;

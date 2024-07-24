@@ -39,6 +39,8 @@
 
 #include <KConfigDialog>
 #include <KActionCollection>
+#include <QFileDialog>
+#include <QScrollBar>
 
 #include <fitsio.h>
 #include <ekos_scheduler_debug.h>

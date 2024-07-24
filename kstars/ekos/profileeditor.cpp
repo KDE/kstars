@@ -19,6 +19,8 @@
 #include "ekos_debug.h"
 
 #include <QNetworkInterface>
+#include <QListView>
+#include <QDesktopServices>
 
 ProfileEditorUI::ProfileEditorUI(QWidget *p) : QFrame(p)
 {
@@ -28,7 +30,7 @@ ProfileEditorUI::ProfileEditorUI(QWidget *p) : QFrame(p)
 ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 {
     setObjectName("profileEditorDialog");
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     ui = new ProfileEditorUI(this);

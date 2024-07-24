@@ -645,7 +645,7 @@ void KStars::loadColorScheme(const QString &name)
             //Note:  This uses style sheets to set the dark colors, this is cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
             //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
             //This is also in KStars.cpp.  If you change it, change it in BOTH places.
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
             qDebug() << Q_FUNC_INFO << "setting dark stylesheet";
             qApp->setStyleSheet(
                 "QWidget { background-color: black; color:red; "
@@ -684,7 +684,7 @@ void KStars::loadColorScheme(const QString &name)
             if (KStars::Instance()->wiView())
                 KStars::Instance()->wiView()->setNightVisionOn(false);
             QApplication::setPalette(OriginalPalette);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
             qDebug() << Q_FUNC_INFO << "setting light stylesheet";
             qApp->setStyleSheet("");
             qDebug() << Q_FUNC_INFO << "stylesheet set";

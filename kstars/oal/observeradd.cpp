@@ -92,7 +92,7 @@ void ObserverAdd::slotAddObserver()
     if (KStarsData::Instance()->userdb()->FindObserver(ui.Name->text(), ui.Surname->text()))
     {
         if (OAL::warningOverwrite(
-                    i18n("Another Observer already exists with the given Name and Surname, Overwrite?")) == KMessageBox::No)
+                    i18n("Another Observer already exists with the given Name and Surname, Overwrite?")) == KMessageBox::Cancel)
             return;
     }
 

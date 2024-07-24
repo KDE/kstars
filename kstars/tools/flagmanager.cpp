@@ -38,7 +38,7 @@ FlagManagerUI::FlagManagerUI(QWidget *p) : QFrame(p)
 
 FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     QList<QStandardItem *> itemList;

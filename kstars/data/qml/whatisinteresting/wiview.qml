@@ -5,10 +5,10 @@
 
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+
 
 Rectangle {
     id: container
@@ -1081,14 +1081,18 @@ Rectangle {
                                 }
                             }
                         }
-                        TabView {
+                        TabBar{
+
+                        }
+                        StackLayout {
                             id: tabbedView
                             y: 170
                             width: parent.width
                             height: parent.height - 170 - 50
-                            frameVisible: false
+                            visible: false
+                            /*
 
-                            property Component nightTabs: TabViewStyle {
+                            property Component nightTabs: StackedLayoutStyle {
                                 tabsAlignment: Qt.AlignHCenter
                                 frameOverlap: 1
                                 tab: Rectangle {
@@ -1105,9 +1109,9 @@ Rectangle {
                                     }
                                 }
                             }
-
-                            Tab {
-                                title: xi18n("Object Information")
+*/
+                            Item {
+                                //text: xi18n("Object Information")
 
 
                                 Rectangle {
@@ -1188,11 +1192,11 @@ Rectangle {
                                 } //rectangle
                             } //tab
 
-                            Tab {
+                            Item {
                                 id: infoBoxTab
-                                title: xi18n("Wikipedia Infotext")
+                                //text: xi18n("Wikipedia Infotext")
 
-                                active: true
+                                //active: true
                                 Rectangle {
                                     id: descTextBox2
                                     color: "#010a14"

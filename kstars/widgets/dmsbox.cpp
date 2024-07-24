@@ -8,7 +8,7 @@
 
 #include <QApplication>
 #include <QFocusEvent>
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include <KLocalizedString>
 

@@ -23,8 +23,8 @@
 #include "ekos/auxiliary/stellarsolverprofile.h"
 #include <ekos_scheduler_debug.h>
 
-#include <QDBusReply>
-#include <QDBusInterface>
+#include <QtDBus/QDBusReply>
+#include <QtDBus/QDBusInterface>
 
 #define RESTART_GUIDING_DELAY_MS  5000
 

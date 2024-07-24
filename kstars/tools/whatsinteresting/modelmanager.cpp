@@ -37,7 +37,11 @@ ModelManager::ModelManager(ObsConditions *obs)
         m_ObjectList.append(QList<SkyObjItem *>());
     }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QtConcurrent::run(&ModelManager::loadLists, this);
+#else
     QtConcurrent::run(this, &ModelManager::loadLists);
+#endif
 }
 
 ModelManager::~ModelManager()

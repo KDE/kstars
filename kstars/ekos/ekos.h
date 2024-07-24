@@ -9,7 +9,7 @@
 #include <KLocalizedString>
 
 #include <QMetaType>
-#include <QDBusArgument>
+#include <QtDBus/QDBusArgument>
 #include <QString>
 
 #include <vector>

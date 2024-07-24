@@ -182,7 +182,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     // to allow for more zooming on smaller images.
     zoomMax = ZOOM_MAX;
 
-#if defined (Q_OS_LINUX) || defined (Q_OS_OSX)
+#if defined (Q_OS_LINUX) || defined (Q_OS_MACOS)
     const long numPages = sysconf(_SC_PAGESIZE);
     const long pageSize = sysconf(_SC_PHYS_PAGES);
 
@@ -342,7 +342,11 @@ void FITSView::setCursorMode(CursorMode mode)
     {
         if (m_ImageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
         {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            QFuture<bool> future = QtConcurrent::run(&FITSData::loadWCS, m_ImageData.data());
+#else
             QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS);
+#endif
             wcsWatcher.setFuture(future);
         }
     }
@@ -531,7 +535,11 @@ bool FITSView::processData()
             Options::autoWCS() &&
             !wcsWatcher.isRunning())
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QFuture<bool> future = QtConcurrent::run(&FITSData::loadWCS, m_ImageData.data());
+#else
         QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS);
+#endif
         wcsWatcher.setFuture(future);
     }
     else
@@ -598,7 +606,7 @@ FITSView::CursorMode FITSView::getCursorMode()
     return cursorMode;
 }
 
-void FITSView::enterEvent(QEvent * event)
+void FITSView::enterEvent(QEnterEvent *event)
 {
     Q_UNUSED(event)
 
@@ -2012,7 +2020,11 @@ void FITSView::toggleEQGrid()
 
     if (m_ImageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QFuture<bool> future = QtConcurrent::run(&FITSData::loadWCS, m_ImageData.data());
+#else
         QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS);
+#endif
         wcsWatcher.setFuture(future);
         return;
     }
@@ -2027,7 +2039,11 @@ void FITSView::toggleHiPSOverlay()
 
     if (m_ImageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QFuture<bool> future = QtConcurrent::run(&FITSData::loadWCS, m_ImageData.data());
+#else
         QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS);
+#endif
         wcsWatcher.setFuture(future);
         return;
     }
@@ -2061,7 +2077,11 @@ void FITSView::toggleObjects()
 
     if (m_ImageData->getWCSState() == FITSData::Idle && !wcsWatcher.isRunning())
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QFuture<bool> future = QtConcurrent::run(&FITSData::loadWCS, m_ImageData.data());
+#else
         QFuture<bool> future = QtConcurrent::run(m_ImageData.data(), &FITSData::loadWCS);
+#endif
         wcsWatcher.setFuture(future);
         return;
     }

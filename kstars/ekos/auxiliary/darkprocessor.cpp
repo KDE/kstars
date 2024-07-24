@@ -232,8 +232,11 @@ void DarkProcessor::denoise(int trainID, ISD::CameraChip *m_TargetChip, const QS
     auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::DarkLibrary);
     if (settings.isValid())
         useDefect = settings.toMap().contains("preferDefectsRadio");
-
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QFuture<bool> result = QtConcurrent::run(&DarkProcessor::denoiseInternal, this, useDefect);
+#else
     QFuture<bool> result = QtConcurrent::run(this, &DarkProcessor::denoiseInternal, useDefect);
+#endif
     m_Watcher.setFuture(result);
 }
 

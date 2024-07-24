@@ -95,7 +95,7 @@ void OpsFITS::setupHFROptions()
     {
         KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
         optionsProfileEditor = new Ekos::StellarSolverProfileEditor(this, Ekos::HFRProfiles, optionsEditor);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
         optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
         KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("HFR Options Profile Editor"));

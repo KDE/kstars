@@ -13,6 +13,7 @@
 #include "Options.h"
 
 #include <KConfigDialog>
+#include <QFileDialog>
 
 OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
 {

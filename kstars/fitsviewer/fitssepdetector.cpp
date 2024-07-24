@@ -55,7 +55,11 @@
 
 QFuture<bool> FITSSEPDetector::findSources(QRect const &boundary)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return QtConcurrent::run(&FITSSEPDetector::findSourcesAndBackground, this, boundary);
+#else
     return QtConcurrent::run(this, &FITSSEPDetector::findSourcesAndBackground, boundary);
+#endif
 }
 
 bool FITSSEPDetector::findSourcesAndBackground(QRect const &boundary)

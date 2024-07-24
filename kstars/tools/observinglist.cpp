@@ -46,10 +46,13 @@
 #include "ekos/manager.h"
 #endif
 
-#include <KPlotting/KPlotAxis>
-#include <KPlotting/KPlotObject>
+#include <kplotaxis.h>
+#include <kplotobject.h>
 #include <KMessageBox>
 #include <QMessageBox>
+#include <QStatusBar>
+#include <QProgressDialog>
+#include <QInputDialog>
 
 #include <kstars_debug.h>
 
@@ -68,7 +71,7 @@ ObservingList::ObservingList()
     : QDialog((QWidget *)KStars::Instance()), LogObject(nullptr), m_CurrentObject(nullptr), isModified(false), m_dl(nullptr),
       m_manager{ CatalogsDB::dso_db_path() }
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     ui                      = new ObservingListUI(this);
@@ -962,7 +965,7 @@ void ObservingList::slotClearList()
         return;
 
     QString message = i18n("Are you sure you want to clear all objects?");
-    if (KMessageBox::questionYesNo(this, message, i18n("Clear all?")) == KMessageBox::Yes)
+    if (KMessageBox::warningContinueCancel(this, message, i18n("Clear all?")) == KMessageBox::Continue)
     {
         // Did I forget anything else to remove?
         ui->avt->removeAllPlotObjects();
@@ -996,8 +999,8 @@ void ObservingList::saveCurrentList()
         if (isModified)
         {
             QString message = i18n("Do you want to save the current session?");
-            if (KMessageBox::questionYesNo(this, message, i18n("Save Current session?"), KStandardGuiItem::save(),
-                                           KStandardGuiItem::discard()) == KMessageBox::Yes)
+            if (KMessageBox::warningContinueCancel(this, message, i18n("Save Current session?"), KStandardGuiItem::save(),
+                                           KStandardGuiItem::discard()) == KMessageBox::Continue)
                 slotSaveSession();
         }
     }
@@ -1173,8 +1176,8 @@ void ObservingList::slotSaveSession(bool nativeSave)
     if (!f.open(QIODevice::WriteOnly))
     {
         QString message = i18n("Could not open file %1.  Try a different filename?", f.fileName());
-        if (KMessageBox::warningYesNo(nullptr, message, i18n("Could Not Open File"), KGuiItem(i18n("Try Different")),
-                                      KGuiItem(i18n("Do Not Try"))) == KMessageBox::Yes)
+        if (KMessageBox::warningContinueCancel(nullptr, message, i18n("Could Not Open File"), KGuiItem(i18n("Try Different")),
+                                      KGuiItem(i18n("Do Not Try"))) == KMessageBox::Continue)
         {
             m_listFileName.clear();
             slotSaveSessionAs(nativeSave);
@@ -1515,8 +1518,8 @@ void ObservingList::slotImageViewer()
 
 void ObservingList::slotDeleteAllImages()
 {
-    if (KMessageBox::warningYesNo(nullptr, i18n("This will delete all saved images. Are you sure you want to do this?"),
-                                  i18n("Delete All Images")) == KMessageBox::No)
+    if (KMessageBox::warningContinueCancel(nullptr, i18n("This will delete all saved images. Are you sure you want to do this?"),
+                                  i18n("Delete All Images")) == KMessageBox::Cancel)
         return;
     ui->ImagePreview->setCursor(Qt::ArrowCursor);
     ui->SearchImage->setEnabled(false);

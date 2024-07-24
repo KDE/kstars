@@ -436,11 +436,11 @@ void CatalogsComponent::tryImportSkyComponents()
         QFile::rename(path, new_path);
     };
 
-    const auto resp = KMessageBox::questionYesNoCancel(
+    const auto resp = KMessageBox::warningContinueCancel(
                           nullptr, i18n("Import custom and internet resolved objects "
                                         "from the old DSO database into the new one?"));
 
-    if (resp != KMessageBox::Yes)
+    if (resp != KMessageBox::Continue)
     {
         move_skycompdb();
         return;

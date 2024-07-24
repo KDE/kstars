@@ -12,7 +12,7 @@
 #include "skycalendar.h"
 
 #include <KLocalizedString>
-#include <KPlotting/KPlotObject>
+#include <kplotobject.h>
 
 #include <QPainter>
 #include <QDebug>

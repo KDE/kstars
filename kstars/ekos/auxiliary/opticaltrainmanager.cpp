@@ -54,7 +54,7 @@ void OpticalTrainManager::release()
 ////////////////////////////////////////////////////////////////////////////
 OpticalTrainManager::OpticalTrainManager() : QDialog(KStars::Instance())
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 

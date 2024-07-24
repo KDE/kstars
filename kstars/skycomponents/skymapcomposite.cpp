@@ -128,9 +128,9 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
                                    e.what());
 
         const auto &backup_path =
-            QString("%1.%2").arg(path).arg(QDateTime::currentDateTime().toTime_t());
+            QString("%1.%2").arg(path).arg(QDateTime::currentDateTime().toSecsSinceEpoch());
 
-        const auto &answer = KMessageBox::questionYesNo(
+        const auto &answer = KMessageBox::warningContinueCancel(
                                  nullptr,
                                  i18n("Do you want to start over with an empty database?\n"
                                       "This will move the current DSO database \"%1\"\n"
@@ -138,7 +138,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent)
                                       path, backup_path),
                                  "Start over?");
 
-        if (answer == KMessageBox::Yes)
+        if (answer == KMessageBox::Continue)
         {
             QFile::rename(path, backup_path);
             addComponent(m_Catalogs = new CatalogsComponent(this, path, true), 5);

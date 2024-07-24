@@ -15,7 +15,11 @@
 #include "Options.h"
 #include "widgets/dmsbox.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <KNSWidgets/dialog.h>
+#else
 #include <kns3/downloaddialog.h>
+#endif
 
 #include <QDesktopServices>
 #include <QFile>
@@ -50,7 +54,7 @@ WizDownloadUI::WizDownloadUI(QWidget *parent) : QFrame(parent)
     setupUi(this);
 }
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
 WizDataUI::WizDataUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
@@ -83,14 +87,14 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
     mainLayout->addWidget(buttonBox);
 
     welcome = new WizWelcomeUI(wizardStack);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     data       = new WizDataUI(wizardStack);
 #endif
     location                = new WizLocationUI(wizardStack);
     WizDownloadUI *download = new WizDownloadUI(wizardStack);
 
     wizardStack->addWidget(welcome);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     wizardStack->addWidget(data);
 #endif
     wizardStack->addWidget(location);
@@ -114,7 +118,7 @@ KSWizard::KSWizard(QWidget *parent) : QDialog(parent)
                      "/wzdownload.png"))
         download->Banner->setPixmap(im);
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (im.load(KSPaths::locate(QStandardPaths::AppLocalDataLocation, "wzdownload.png")))
         data->Banner->setPixmap(im);
     else if (im.load(QDir(QCoreApplication::applicationDirPath() + "/../Resources/kstars").absolutePath() +
@@ -164,7 +168,7 @@ void KSWizard::setButtonsEnabled()
     backB->setEnabled(wizardStack->currentIndex() > 0);
     completeB->setVisible(wizardStack->currentIndex() == wizardStack->count() - 1);
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if ((wizardStack->currentWidget() == data) && (!dataDirExists()))
     {
         nextB->setEnabled(false);
@@ -251,13 +255,14 @@ void KSWizard::slotFilterCities()
 
 void KSWizard::slotDownload()
 {
-    KNS3::DownloadDialog dlg;
-    dlg.exec();
+    //FIX ME, this doesn't work
+    //KNSWidgets::Dialog dlg;
+    //dlg.exec();
 }
 
 void KSWizard::slotOpenOrCopyKStarsDataDirectory()
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     QString dataLocation =
         QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     if (dataLocation.isEmpty())
@@ -293,7 +298,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory()
 
 void KSWizard::slotInstallGSC()
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
 
     QNetworkAccessManager *manager = new QNetworkAccessManager();
 
@@ -402,7 +407,7 @@ void KSWizard::slotInstallGSC()
 
 void KSWizard::slotExtractGSC()
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     QString location =
         QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     QProcess *gscExtractor = new QProcess();
@@ -417,7 +422,7 @@ void KSWizard::slotExtractGSC()
 
 void KSWizard::slotGSCInstallerFinished()
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (downloadMonitor)
     {
         downloadMonitor->stop();
@@ -433,7 +438,7 @@ void KSWizard::slotGSCInstallerFinished()
 #endif
 }
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
 bool KSWizard::dataDirExists()
 {
     QString dataLocation =
@@ -452,7 +457,7 @@ bool KSWizard::GSCExists()
 
 void KSWizard::slotUpdateDataButtons()
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     data->dataDirFound->setChecked(dataDirExists());
     if (dataDirExists())
     {

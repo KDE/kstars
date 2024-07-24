@@ -98,9 +98,19 @@
 #endif
 #include <KActionCollection>
 #include <KActionMenu>
+
+//Fix ME KTipDialog no longer exists.
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KTipDialog>
+#endif
+
 #include <KToggleAction>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <KNSWidgets/dialog.h>
+#else
 #include <kns3/downloaddialog.h>
+#endif
 
 #include <QQuickWindow>
 #include <QQuickView>
@@ -469,7 +479,11 @@ void KStars::slotDownload()
              "Please uninstall and reinstall them to update."));
 
     // 2017-07-04: Explicitly load kstars.knsrc from resources file
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    auto dlg = std::make_unique<KNSWidgets::Dialog>(":/kconfig/kstars.knsrc", this);
+    #else
     auto dlg = std::make_unique<KNS3::DownloadDialog>(":/kconfig/kstars.knsrc", this);
+    #endif
 
     if (!dlg)
         return;
@@ -480,13 +494,20 @@ void KStars::slotDownload()
     const auto changed_entries = dlg->changedEntries();
 
     CatalogsDB::DBManager manager{ CatalogsDB::dso_db_path() };
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    for (const KNSCore::Entry &entry : changed_entries)
+    #else
     for (const KNS3::Entry &entry : changed_entries)
+    #endif
     {
         if (entry.category() != "dso")
             continue;
-        const auto id = entry.id().toInt();
-
+        const auto id = entry.uniqueId().toInt();
+        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        if (entry.status() == KNSCore::Entry::Installed)
+        #else
         if (entry.status() == KNS3::Entry::Installed)
+        #endif
             for (const QString &name : entry.installedFiles())
             {
                 if (name.endsWith(CatalogsDB::db_file_extension))
@@ -519,8 +540,11 @@ void KStars::slotDownload()
                                  entry.name(), success.second));
                 }
             }
-
+        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        if (entry.status() == KNSCore::Entry::Deleted)
+        #else
         if (entry.status() == KNS3::Entry::Deleted)
+        #endif
         {
             manager.remove_catalog(id);
         }
@@ -665,7 +689,7 @@ void KStars::slotTelescopeWizard()
 
     QString indiServerDir = Options::indiServer();
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::indiServerIsInternal())
         indiServerDir = QCoreApplication::applicationDirPath();
     else
@@ -701,7 +725,7 @@ void KStars::slotINDIPanel()
 
     QString indiServerDir = Options::indiServer();
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::indiServerIsInternal())
         indiServerDir = QCoreApplication::applicationDirPath();
     else
@@ -744,7 +768,7 @@ void KStars::slotINDIDriver()
 
     QString indiServerDir = Options::indiServer();
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::indiServerIsInternal())
         indiServerDir = QCoreApplication::applicationDirPath();
     else
@@ -783,7 +807,7 @@ void KStars::slotEkos()
 
     QString indiServerDir = Options::indiServer();
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::indiServerIsInternal())
         indiServerDir = QCoreApplication::applicationDirPath();
     else
@@ -1098,7 +1122,7 @@ KConfigDialog *KStars::prepareOps()
     // For some reason the dialog does not resize to contents
     // so we set initial 'resonable' size here. Any better way to do this?
     dialog->resize(800, 600);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
@@ -1175,7 +1199,7 @@ KConfigDialog *KStars::prepareOps()
     page = dialog->addPage(opsdeveloper, i18n("Developer"), "kstars_developer");
     page->setIcon(QIcon::fromTheme("kstars_developer", QIcon(":/icons/kstars_developer.png")));
 
-#ifdef Q_OS_OSX // This is because KHelpClient doesn't seem to be working right on MacOS
+#ifdef Q_OS_MACOS // This is because KHelpClient doesn't seem to be working right on MacOS
     dialog->button(QDialogButtonBox::Help)->disconnect();
     connect(dialog->button(QDialogButtonBox::Help), &QPushButton::clicked, this, []()
     {
@@ -1451,14 +1475,14 @@ void KStars::slotPrint()
                  "color scheme, which uses a white background. Would you like to "
                  "temporarily switch to the Star Chart color scheme for printing?");
 
-        int answer = KMessageBox::questionYesNoCancel(
+        int answer = KMessageBox::warningTwoActionsCancel(
                          nullptr, message, i18n("Switch to Star Chart Colors?"),
                          KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")),
                          KStandardGuiItem::cancel(), "askAgainPrintColors");
 
         if (answer == KMessageBox::Cancel)
             return;
-        if (answer == KMessageBox::Yes)
+        if (answer == KMessageBox::PrimaryAction)
             switchColors = true;
     }
 
@@ -2005,7 +2029,10 @@ void KStars::slotPolarisHourAngle()
 //Help Menu
 void KStars::slotTipOfDay()
 {
-    KTipDialog::showTip(this, "kstars/tips", true);
+    //Fix ME: KTipDialog no longer exists.
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        KTipDialog::showTip(this, "kstars/tips", true);
+    #endif
 }
 
 // Toggle to and from full screen mode
@@ -2141,7 +2168,7 @@ void KStars::slotAboutToQuit()
     writeConfig();
 
     //Terminate Child Processes if on OS X
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     QProcess *quit = new QProcess(this);
     quit->start("killall kdeinit5");
     quit->waitForFinished(1000);

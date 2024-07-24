@@ -6,7 +6,7 @@
 
 #include "sequencejob.h"
 
-#include <KNotifications/KNotification>
+#include <knotification.h>
 #include <ekos_capture_debug.h>
 #include "capturedeviceadaptor.h"
 #include "skyobjects/skypoint.h"
@@ -625,10 +625,10 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         if (!strcmp(tagXMLEle(ep), "Exposure"))
             setCoreProperty(SequenceJob::SJ_Exposure, cLocale.toDouble(pcdataXMLEle(ep)));
         else if (!strcmp(tagXMLEle(ep), "Format"))
-            setCoreProperty(SequenceJob::SJ_Format, pcdataXMLEle(ep));
+            setCoreProperty(SequenceJob::SJ_Format, *pcdataXMLEle(ep));
         else if (!strcmp(tagXMLEle(ep), "Encoding"))
         {
-            setCoreProperty(SequenceJob::SJ_Encoding, pcdataXMLEle(ep));
+            setCoreProperty(SequenceJob::SJ_Encoding, *pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "Binning"))
         {
@@ -673,7 +673,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         else if (!strcmp(tagXMLEle(ep), "Filter"))
         {
             const auto name = pcdataXMLEle(ep);
-            const auto index = std::max(1, filterLabels().indexOf(name) + 1);
+            const auto index = std::max(1, (int)(filterLabels().indexOf(name) + 1));
             setTargetFilter(index, name);
         }
         else if (!strcmp(tagXMLEle(ep), "Type"))
@@ -687,7 +687,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
 
             if (targetName == "")
                 // use the target from the XML document
-                setCoreProperty(SequenceJob::SJ_TargetName, jobTarget);
+                setCoreProperty(SequenceJob::SJ_TargetName, *jobTarget);
             else if (strcmp(jobTarget, "") != 0)
                 // issue a warning that target from the XML document is ignored
                 qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job target name %1 ignored.").arg(jobTarget);
@@ -702,7 +702,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
 
                 if (targetName == "")
                     // use the target from the XML document
-                    setCoreProperty(SequenceJob::SJ_TargetName, jobTarget);
+                    setCoreProperty(SequenceJob::SJ_TargetName, *jobTarget);
                 else if (strcmp(jobTarget, "") != 0)
                     // issue a warning that target from the XML document is ignored
                     qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(jobTarget);
@@ -751,11 +751,11 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
-            setCoreProperty(SequenceJob::SJ_LocalDirectory, pcdataXMLEle(ep));
+            setCoreProperty(SequenceJob::SJ_LocalDirectory, *pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "PlaceholderFormat"))
         {
-            setCoreProperty(SequenceJob::SJ_PlaceholderFormat, pcdataXMLEle(ep));
+            setCoreProperty(SequenceJob::SJ_PlaceholderFormat, *pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "PlaceholderSuffix"))
         {
@@ -763,7 +763,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         }
         else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
         {
-            setCoreProperty(SequenceJob::SJ_RemoteDirectory, pcdataXMLEle(ep));
+            setCoreProperty(SequenceJob::SJ_RemoteDirectory, *pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "UploadMode"))
         {
@@ -796,7 +796,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
                     if (ok)
                         elements[name] = value;
                     else
-                        elements[name] = xmlValue;
+                        elements[name] = *xmlValue;
                 }
 
                 const char * name = findXMLAttValu(subEP, "name");

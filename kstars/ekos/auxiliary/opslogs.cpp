@@ -147,7 +147,7 @@ qint64 OpsLogs::getDirSize(const QString &dirPath)
 
 void OpsLogs::slotClearLogs()
 {
-    if (KMessageBox::questionYesNo(nullptr, i18n("Are you sure you want to delete all logs?")) == KMessageBox::Yes)
+    if (KMessageBox::warningContinueCancel(nullptr, i18n("Are you sure you want to delete all logs?")) == KMessageBox::Continue)
     {
         QDir logDir(QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("logs"));
         logDir.removeRecursively();

@@ -1313,18 +1313,18 @@ void Message::processOptionsCommands(const QString &command, const QJsonObject &
     {
         const QJsonArray options = payload["options"].toArray();
         for (const auto &oneOption : options)
-            Options::self()->setProperty(oneOption["name"].toString().toLatin1(), oneOption["value"].toVariant());
+            Options::self()->setProperty(oneOption[QString("name")].toString().toLatin1(), oneOption[QString("value")].toVariant());
 
         Options::self()->save();
         emit optionsUpdated();
     }
     else if (command == commands[OPTION_GET])
     {
-        const QJsonArray options = payload["options"].toArray();
+        const QJsonArray options = payload[QString("options")].toArray();
         QJsonArray result;
         for (const auto &oneOption : options)
         {
-            const auto name = oneOption["name"].toString();
+            const auto name = oneOption[QString("name")].toString();
             QVariant value = Options::self()->property(name.toLatin1());
             QVariantMap map;
             map["name"] = name;
@@ -2704,9 +2704,9 @@ QObject *Message::findObject(const QString &name)
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-bool Message::parseArgument(QVariant::Type type, const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types)
+bool Message::parseArgument(QVariant::Type type, const QVariant &arg, QMetaMethodArgument &genericArg, SimpleTypes &types)
 {
-    QGenericArgument genericArgument;
+    QMetaMethodArgument genericArgument;
 
     switch (type)
     {
@@ -2754,7 +2754,7 @@ bool Message::parseArgument(QVariant::Type type, const QVariant &arg, QGenericAr
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::invokeMethod(QObject *context, const QJsonObject &payload)
 {
-    QList<QGenericArgument> argsList;
+    QList<QMetaMethodArgument> argsList;
     QList<SimpleTypes> typesList;
 
     auto name = payload["name"].toString().toLatin1();
@@ -2766,7 +2766,7 @@ void Message::invokeMethod(QObject *context, const QJsonObject &payload)
         for (auto oneArg : args)
         {
             auto argObject = oneArg.toObject();
-            QGenericArgument genericArgument;
+            QMetaMethodArgument genericArgument;
             SimpleTypes genericType;
             argsList.append(genericArgument);
             typesList.append(genericType);

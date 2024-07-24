@@ -48,23 +48,23 @@
 Satellite::Satellite(const QString &name, const QString &line1, const QString &line2)
 {
     //m_name          = name;
-    m_number      = line1.midRef(2, 5).toInt();
+    m_number      = line1.mid(2, 5).toInt();
     m_class       = line1.at(7);
     m_id          = line1.mid(9, 8);
-    m_epoch       = line1.midRef(18, 14).toDouble();
-    m_first_deriv = line1.midRef(33, 10).toDouble() / (XPDOTP * MINPD);
+    m_epoch       = line1.mid(18, 14).toDouble();
+    m_first_deriv = line1.mid(33, 10).toDouble() / (XPDOTP * MINPD);
     m_second_deriv =
-        line1.midRef(44, 6).toDouble() * (1.0e-5 / pow(10.0, line1.midRef(51, 1).toDouble())) / (XPDOTP * MINPD * MINPD);
-    m_bstar         = line1.midRef(53, 6).toDouble() * 1.0e-5 / pow(10.0, line1.midRef(60, 1).toDouble());
-    m_ephem_type    = line1.midRef(62, 1).toInt();
-    m_elem_number   = line1.midRef(64, 4).toInt();
-    m_inclination   = line2.midRef(8, 8).toDouble() * DEG2RAD;
-    m_ra            = line2.midRef(17, 8).toDouble() * DEG2RAD;
-    m_eccentricity  = line2.midRef(26, 7).toDouble() * 1.0e-7;
-    m_arg_perigee   = line2.midRef(34, 8).toDouble() * DEG2RAD;
-    m_mean_anomaly  = line2.midRef(43, 8).toDouble() * DEG2RAD;
-    m_mean_motion   = line2.midRef(52, 11).toDouble() * TWOPI / MINPD;
-    m_nb_revolution = line2.midRef(63, 5).toInt();
+        line1.mid(44, 6).toDouble() * (1.0e-5 / pow(10.0, line1.mid(51, 1).toDouble())) / (XPDOTP * MINPD * MINPD);
+    m_bstar         = line1.mid(53, 6).toDouble() * 1.0e-5 / pow(10.0, line1.mid(60, 1).toDouble());
+    m_ephem_type    = line1.mid(62, 1).toInt();
+    m_elem_number   = line1.mid(64, 4).toInt();
+    m_inclination   = line2.mid(8, 8).toDouble() * DEG2RAD;
+    m_ra            = line2.mid(17, 8).toDouble() * DEG2RAD;
+    m_eccentricity  = line2.mid(26, 7).toDouble() * 1.0e-7;
+    m_arg_perigee   = line2.mid(34, 8).toDouble() * DEG2RAD;
+    m_mean_anomaly  = line2.mid(43, 8).toDouble() * DEG2RAD;
+    m_mean_motion   = line2.mid(52, 11).toDouble() * TWOPI / MINPD;
+    m_nb_revolution = line2.mid(63, 5).toInt();
     m_tle           = name + "\n" + line1 + "\n" + line2;
 
     setName(name);

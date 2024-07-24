@@ -86,11 +86,11 @@ ConstellationBoundaryLines::ConstellationBoundaryLines(SkyComposite *parent)
         }
 
         // read in the data from the line
-        ra = line.midRef(0, 12).toDouble(&ok);
+        ra = line.mid(0, 12).toDouble(&ok);
         if (ok)
-            dec = line.midRef(13, 12).toDouble(&ok);
+            dec = line.mid(13, 12).toDouble(&ok);
         if (ok)
-            flag = line.midRef(26, 1).toInt(&ok);
+            flag = line.mid(26, 1).toInt(&ok);
         if (!ok)
         {
             fprintf(stderr, "%s: conversion error on line: %d\n", fname, fileReader.lineNumber());

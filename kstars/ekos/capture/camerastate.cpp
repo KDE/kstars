@@ -54,7 +54,7 @@ const QUrl &CameraState::sequenceURL() const
 void CameraState::setSequenceURL(const QUrl &newSequenceURL)
 {
     m_sequenceQueue->setSequenceURL(newSequenceURL);
-    placeholderPath().setSeqFilename(newSequenceURL.toLocalFile());
+    placeholderPath().setSeqFilename(QFileInfo(newSequenceURL.toLocalFile()));
 }
 
 void CameraState::setActiveJob(SequenceJob *value)
@@ -371,7 +371,7 @@ bool CameraState::generateFilename(const QString &extension, QString *filename)
     {
         QString oldFilename = *filename;
         *filename = placeholderPath().repairFilename(*filename);
-        if (filename != oldFilename)
+        if (*filename != oldFilename)
             qCWarning(KSTARS_EKOS_CAPTURE) << "File over-write detected: changing" << oldFilename << "to" << *filename;
         else
             qCWarning(KSTARS_EKOS_CAPTURE) << "File over-write detected for" << oldFilename << "but could not correct filename";

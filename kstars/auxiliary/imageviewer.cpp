@@ -173,9 +173,8 @@ ImageViewer::~ImageViewer()
     if (filename.startsWith(QLatin1String("/tmp/")) || filename.contains("/Temp"))
     {
         if (m_ImageUrl.isEmpty() == false ||
-                KMessageBox::questionYesNo(nullptr, i18n("Remove temporary file %1 from disk?", filename),
-                                           i18n("Confirm Removal"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-                                           "imageviewer_temporary_file_removal") == KMessageBox::Yes)
+                KMessageBox::warningContinueCancel(nullptr, i18n("Remove temporary file %1 from disk?", filename),
+                                           i18n("Confirm Removal")) == KMessageBox::Continue)
             QFile::remove(filename);
     }
 

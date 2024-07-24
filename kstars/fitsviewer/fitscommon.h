@@ -12,8 +12,8 @@
 typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE, FITS_CALIBRATE, FITS_ALIGN, FITS_UNKNOWN } FITSMode;
 
 // Focus States
-static const QStringList FITSModes =   { I18N_NOOP("Normal"),  I18N_NOOP("Focus"), I18N_NOOP("Guide"),
-                                         I18N_NOOP("Calibrate"), I18N_NOOP("Align"), I18N_NOOP("Unknown")
+static const QStringList FITSModes =   { ki18n("Normal").toString(),  ki18n("Focus").toString(), ki18n("Guide").toString(),
+                                         ki18n("Calibrate").toString(), ki18n("Align").toString(), ki18n("Unknown").toString()
                                        };
 
 const QString &getFITSModeStringString(FITSMode mode);

@@ -11,7 +11,7 @@
 #include <QTime>
 #include <QElapsedTimer>
 #include <QTimer>
-#include <qtdbusglobal.h>
+#include <QtDBus/qtdbusglobal.h>
 
 /** @class SimClock
 	*@short kstars simulation clock

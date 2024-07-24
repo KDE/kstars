@@ -13,13 +13,17 @@
 #include "fitsviewer/stretch.h"
 
 #include <KLed>
-#include <KXmlGui/KXmlGuiWindow>
+#include <kxmlguiwindow.h>
 #include <KActionMenu>
 
 #include <QLabel>
 #include <QList>
 #include <QMap>
 #include <QUrl>
+
+#ifndef KSTARS_LITE
+#include "fitshistogrameditor.h"
+#endif
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h

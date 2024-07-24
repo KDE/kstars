@@ -185,7 +185,11 @@ QFuture<bool> FITSData::loadFromFile(const QString &inFilename)
     QFileInfo info(m_Filename);
     m_Extension = info.completeSuffix().toLower();
     qCDebug(KSTARS_FITS) << "Loading file " << m_Filename;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return QtConcurrent::run(&FITSData::privateLoad, this, QByteArray());
+#else
     return QtConcurrent::run(this, &FITSData::privateLoad, QByteArray());
+#endif
 }
 
 namespace
@@ -1673,8 +1677,13 @@ void FITSData::calculateMinMax(bool roi)
         for (int i = 0; i < nThreads; i++)
         {
             // Run threads
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            futures.append(QtConcurrent::run(&FITSData::getParitionMinMax<T>, this, tStart, (i == (nThreads - 1)) ? fStride : tStride,
+                                             roi));
+#else
             futures.append(QtConcurrent::run(this, &FITSData::getParitionMinMax<T>, tStart, (i == (nThreads - 1)) ? fStride : tStride,
                                              roi));
+#endif
             tStart += tStride;
         }
 
@@ -1907,7 +1916,7 @@ bool FITSData::parseHeader()
         Record oneRecord;
         // Quotes cause issues for simplified below so we're removing them.
         QString record = recordList.mid(i * 80, 80).remove("'");
-        QStringList properties = record.split(QRegExp("[=/]"));
+        QStringList properties = record.split(QRegularExpression("[=/]"));
         // If it is only a comment
         if (properties.size() == 1)
         {

@@ -22,7 +22,32 @@ QFuture<bool> FITSGradientDetector::findSources(const QRect &boundary)
     FITSImage::Statistic const &stats = m_ImageData->getStatistics();
     switch (stats.dataType)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case TBYTE:
+        default:
+            return QtConcurrent::run(&FITSGradientDetector::findSources<uint8_t>, this, boundary);
 
+        case TSHORT:
+            return QtConcurrent::run(&FITSGradientDetector::findSources<int16_t>, this, boundary);
+
+        case TUSHORT:
+            return QtConcurrent::run(&FITSGradientDetector::findSources<uint16_t>, this, boundary);
+
+        case TLONG:
+            return QtConcurrent::run(&FITSGradientDetector::findSources<int32_t>, this, boundary);
+
+        case TULONG:
+            return QtConcurrent::run(&FITSGradientDetector::findSources<uint16_t>, this, boundary);
+
+        case TFLOAT:
+            return QtConcurrent::run(&FITSGradientDetector::findSources<float>, this, boundary);
+
+        case TLONGLONG:
+            return QtConcurrent::run(&FITSGradientDetector::findSources<int64_t>, this, boundary);
+
+        case TDOUBLE:
+            return QtConcurrent::run(&FITSGradientDetector::findSources<double>, this, boundary);
+#else
         case TBYTE:
         default:
             return QtConcurrent::run(this, &FITSGradientDetector::findSources<uint8_t>, boundary);
@@ -47,6 +72,7 @@ QFuture<bool> FITSGradientDetector::findSources(const QRect &boundary)
 
         case TDOUBLE:
             return QtConcurrent::run(this, &FITSGradientDetector::findSources<double>, boundary);
+#endif
     }
 }
 

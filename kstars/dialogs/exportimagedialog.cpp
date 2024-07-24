@@ -15,7 +15,7 @@
 
 #include <KMessageBox>
 
-#include <QDesktopWidget>
+//#include <QDesktopWidget>
 #include <QDir>
 #include <QPushButton>
 #include <QtSvg/QSvgGenerator>
@@ -28,7 +28,7 @@ ExportImageDialogUI::ExportImageDialogUI(QWidget *parent) : QFrame(parent)
 ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter)
     : QDialog((QWidget *)KStars::Instance()), m_KStars(KStars::Instance()), m_Url(url), m_Size(size)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     m_DialogUI = new ExportImageDialogUI(this);

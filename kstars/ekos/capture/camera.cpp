@@ -32,6 +32,8 @@
 
 #include <ekos_capture_debug.h>
 
+#include <QFileDialog>
+
 // These strings are used to store information in the optical train
 // for later use in the stand-alone esq editor.
 

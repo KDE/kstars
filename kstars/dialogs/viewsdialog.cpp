@@ -33,7 +33,7 @@ Qt::ItemFlags ViewsDialogStringListModel::flags(const QModelIndex &index) const
 //---------ViewsDialog---------------//
 ViewsDialog::ViewsDialog(QWidget *p) : QDialog(p)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     ui = new ViewsDialogUI(this);
@@ -369,7 +369,7 @@ void NewView::updateViewingAnglePreviews()
                              viewingAngleSlider->value() > 0 ? m_topPreview->width() - m_observerPixmap->width() : 0,
                              m_topPreview->height() - m_observerPixmap->height()),
                          viewingAngleSlider->value() < 0 ?
-                         m_observerPixmap->transformed(QMatrix(-1, 0, 0, 1, 0, 0)) :
+                         m_observerPixmap->transformed(QTransform(-1, 0, 0, 1, 0, 0)) :
                          *m_observerPixmap);
         }
         p.end();
@@ -407,7 +407,7 @@ void NewView::updateViewingAnglePreviews()
                              viewingAngleSlider->value() < 0 ? m_bottomPreview->width() - m_observerPixmap->width() : 0,
                              m_bottomPreview->height() - m_observerPixmap->height()),
                          viewingAngleSlider->value() > 0 ?
-                         m_observerPixmap->transformed(QMatrix(-1, 0, 0, 1, 0, 0)) :
+                         m_observerPixmap->transformed(QTransform(-1, 0, 0, 1, 0, 0)) :
                          *m_observerPixmap);
         }
 

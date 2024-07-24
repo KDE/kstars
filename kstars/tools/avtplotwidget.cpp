@@ -16,7 +16,7 @@
 #include <QLinearGradient>
 
 #include <KLocalizedString>
-#include <KPlotting/KPlotObject>
+#include <kplotobject.h>
 #include <QDebug>
 
 AVTPlotWidget::AVTPlotWidget(QWidget *parent) : KPlotWidget(parent)

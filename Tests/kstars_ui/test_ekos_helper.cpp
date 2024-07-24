@@ -874,7 +874,7 @@ bool TestEkosHelper::stopFocusing()
 
 int TestEkosHelper::secondsToMF(QString message)
 {
-    QRegExp mfPattern("Meridian flip in (\\d+):(\\d+):(\\d+)");
+    QRegularExpression mfPattern("Meridian flip in (\\d+):(\\d+):(\\d+)");
 
     int pos = mfPattern.indexIn(message);
     if (pos > -1)

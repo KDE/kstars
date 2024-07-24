@@ -41,7 +41,7 @@
 
 RecordOptions::RecordOptions(QWidget *parent) : QDialog(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
@@ -104,7 +104,7 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
 
     setWindowTitle(i18nc("@title:window", "%1 Live Video", ccd->getDeviceName()));
 
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #else
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);

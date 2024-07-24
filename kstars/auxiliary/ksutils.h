@@ -255,7 +255,7 @@ class Logging
 
 QString getDefaultPath(const QString &option);
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
 void copyResourcesFolderFromAppBundle(QString folder);
 bool setupMacKStarsIfNeeded(); //The boolean returns true if the data folders are good to go.
 bool configureAstrometry();

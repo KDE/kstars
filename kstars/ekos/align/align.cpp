@@ -63,6 +63,10 @@
 #include <indicom.h>
 #include <memory>
 
+//Qt Includes
+#include <QToolTip>
+#include <QFileDialog>
+
 // Qt version calming
 #include <qtendl.h>
 
@@ -1490,9 +1494,9 @@ bool Align::captureAndSolve(bool initialCall)
     auto clientManager = m_Camera->getDriverInfo()->getClientManager();
     if (clientManager && clientManager->getBLOBMode(m_Camera->getDeviceName().toLatin1().constData(), "CCD1") == B_NEVER)
     {
-        if (KMessageBox::questionYesNo(
+        if (KMessageBox::warningContinueCancel(
                     nullptr, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) ==
-                KMessageBox::Yes)
+                KMessageBox::Continue)
         {
             clientManager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD1");
             clientManager->setBLOBMode(B_ONLY, m_Camera->getDeviceName().toLatin1().constData(), "CCD2");
@@ -1672,14 +1676,14 @@ bool Align::captureAndSolve(bool initialCall)
         ObjNameReport->setTextAlignment(Qt::AlignHCenter);
         ObjNameReport->setFlags(Qt::ItemIsSelectable);
         solutionTable->setItem(currentRow, 2, ObjNameReport);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
         repaint(); //This is a band-aid for a bug in QT 5.10.0
 #endif
 
         QProgressIndicator *alignIndicator = new QProgressIndicator(this);
         solutionTable->setCellWidget(currentRow, 3, alignIndicator);
         alignIndicator->startAnimation();
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
         repaint(); //This is a band-aid for a bug in QT 5.10.0
 #endif
     }
@@ -3491,7 +3495,7 @@ void Align::setupOptions()
 {
     KConfigDialog *dialog = new KConfigDialog(this, "alignsettings", Options::self());
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 

@@ -7,6 +7,7 @@
 #pragma once
 
 #include "fitscommon.h"
+#include "fitshistogrameditor.h"
 
 #include <QUndoStack>
 #include <QSplitter>

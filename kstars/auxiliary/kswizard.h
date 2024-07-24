@@ -125,7 +125,7 @@ class KSWizard : public QDialog
         /** @short set enabled/disable state of Next/Prev buttins based on current page */
         void setButtonsEnabled();
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
 
         bool GSCExists();
         bool dataDirExists();

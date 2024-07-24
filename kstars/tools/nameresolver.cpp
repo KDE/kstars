@@ -109,7 +109,7 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
         {
             qCDebug(KSTARS) << "Parsing token with name " << xml.name();
 
-            if (xml.name() == "Resolver")
+            if (xml.name().toString() == "Resolver")
             {
                 found = true;
                 // This is the section we want
@@ -134,20 +134,20 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
                 // Start reading the data to pick out the relevant ones
                 while (xml.readNextStartElement())
                 {
-                    if (xml.name() == "otype")
+                    if (xml.name().toString() == "otype")
                     {
                         const QString typeString = xml.readElementText();
                         data.setType(interpretObjectType(typeString));
                     }
-                    else if (xml.name() == "jradeg")
+                    else if (xml.name().toString() == "jradeg")
                     {
                         data.setRA0(dms{ xml.readElementText().toDouble() });
                     }
-                    else if (xml.name() == "jdedeg")
+                    else if (xml.name().toString() == "jdedeg")
                     {
                         data.setDec0(dms{ xml.readElementText().toDouble() });
                     }
-                    else if (xml.name() == "mag")
+                    else if (xml.name().toString() == "mag")
                     {
                         attributes = xml.attributes();
                         char band;
@@ -171,7 +171,7 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
                         }
                         else if (xml.isStartElement())
                         {
-                            while (xml.name() != "v")
+                            while (xml.name().toString() != "v")
                             {
                                 qCDebug(KSTARS) << "element: " << xml.name();
                                 xml.readNextStartElement();
@@ -179,7 +179,7 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
                             mag = xml.readElementText().toFloat();
                             qCDebug(KSTARS)
                                 << "Got " << xml.tokenString() << " mag = " << mag;
-                            while (!xml.atEnd() && xml.readNext() && xml.name() != "mag")
+                            while (!xml.atEnd() && xml.readNext() && xml.name().toString() != "mag")
                                 ; // finish reading the <mag> tag all the way to </mag>
                         }
                         else
@@ -199,7 +199,7 @@ NameResolver::NameResolverInternals::sesameResolver(const QString &name)
                         }
                         // Don't know what to do with other magnitudes, until we have a magnitude hash
                     }
-                    else if (xml.name() == "oname") // Primary identifier
+                    else if (xml.name().toString() == "oname") // Primary identifier
                     {
                         QString contents = xml.readElementText();
                         data.setCatalogIdentifier(contents);

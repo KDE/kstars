@@ -57,7 +57,7 @@
 #include <KConfigDialog>
 #include <KMessageBox>
 #include <KActionCollection>
-#include <KNotifications/KNotification>
+#include <knotification.h>
 
 #include <QFutureWatcher>
 #include <QComboBox>
@@ -91,7 +91,7 @@ void Manager::release()
 
 Manager::Manager(QWidget * parent) : QDialog(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
 
     if (Options::independentWindowEkos())
         setWindowFlags(Qt::Window);
@@ -1011,16 +1011,14 @@ void Manager::start()
     connect(INDIListener::Instance(), &INDIListener::deviceRemoved, this, &Ekos::Manager::removeDevice, Qt::DirectConnection);
 
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (m_LocalMode || m_CurrentProfile->host == "localhost")
     {
         if (isRunning("PTPCamera"))
         {
-            if (KMessageBox::Yes ==
-                    (KMessageBox::questionYesNo(nullptr,
+            if (KMessageBox::Continue == KMessageBox::warningContinueCancel(nullptr,
                                                 i18n("Ekos detected that PTP Camera is running and may prevent a Canon or Nikon camera from connecting to Ekos. Do you want to quit PTP Camera now?"),
-                                                i18n("PTP Camera"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-                                                "ekos_shutdown_PTPCamera")))
+                                                i18n("PTP Camera")))
             {
                 //TODO is there a better way to do this.
                 QProcess p;
@@ -2043,7 +2041,7 @@ void Manager::updateLog()
     else if (currentWidget == analyzeProcess.get())
         ekosLogOut->setPlainText(analyzeProcess->getLogText());
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     repaint(); //This is a band-aid for a bug in QT 5.10.0
 #endif
 }
@@ -2500,7 +2498,7 @@ void Manager::removeTabs()
 bool Manager::isRunning(const QString &process)
 {
     QProcess ps;
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     ps.start("pgrep", QStringList() << process);
     ps.waitForFinished();
     QString output = ps.readAllStandardOutput();

@@ -22,7 +22,7 @@ AddLinkDialogUI::AddLinkDialogUI(QWidget *parent) : QFrame(parent)
 
 AddLinkDialog::AddLinkDialog(QWidget *parent, const QString &oname) : QDialog(parent), ObjectName(oname)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     ald = new AddLinkDialogUI(this);
@@ -58,8 +58,8 @@ void AddLinkDialog::checkURL(void)
         QString message =
             i18n("The URL is not valid. Would you like to open a browser window\nto the Google search engine?");
         QString caption = i18n("Invalid URL");
-        if (KMessageBox::warningYesNo(nullptr, message, caption, KGuiItem(i18n("Browse Google")),
-                                      KGuiItem(i18n("Do Not Browse"))) == KMessageBox::Yes)
+        if (KMessageBox::warningContinueCancel(nullptr, message, caption, KGuiItem(i18n("Browse Google")),
+                                      KGuiItem(i18n("Do Not Browse"))) == KMessageBox::Continue)
         {
             QDesktopServices::openUrl(QUrl("https://www.google.com"));
         }

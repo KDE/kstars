@@ -41,7 +41,7 @@ class Lens;
 inline int warningOverwrite(QString message)
 {
 #ifndef KSTARS_LITE
-    return KMessageBox::warningYesNo(nullptr, message, xi18n("Overwrite"), KStandardGuiItem::overwrite(),
+    return KMessageBox::warningContinueCancel(nullptr, message, xi18n("Overwrite"), KStandardGuiItem::overwrite(),
                                      KStandardGuiItem::cancel());
 #else
     return 0;

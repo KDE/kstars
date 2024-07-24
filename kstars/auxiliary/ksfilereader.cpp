@@ -27,7 +27,7 @@ KSFileReader::KSFileReader(QFile &file, qint64 maxLen)
 {
     QIODevice *device = (QIODevice *)&file;
     QTextStream::setDevice(device);
-    QTextStream::setCodec("UTF-8");
+    QTextStream::setEncoding(QStringConverter::Utf8);
 }
 
 bool KSFileReader::open(const QString &fname)
@@ -38,7 +38,7 @@ bool KSFileReader::open(const QString &fname)
         return false;
     }
     QTextStream::setDevice(&m_file);
-    QTextStream::setCodec("UTF-8");
+    QTextStream::setEncoding(QStringConverter::Utf8);
     return true;
 }
 
@@ -51,7 +51,7 @@ bool KSFileReader::openFullPath(const QString &fname)
             return false;
     }
     QTextStream::setDevice(&m_file);
-    QTextStream::setCodec("UTF-8");
+    QTextStream::setEncoding(QStringConverter::Utf8);
     return true;
 }
 

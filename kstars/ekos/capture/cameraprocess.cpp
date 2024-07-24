@@ -4,6 +4,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "cameraprocess.h"
+#include "QtWidgets/qstatusbar.h"
 #include "capturedeviceadaptor.h"
 #include "refocusstate.h"
 #include "sequencejob.h"

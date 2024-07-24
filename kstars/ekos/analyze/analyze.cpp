@@ -6,7 +6,7 @@
 
 #include "analyze.h"
 
-#include <KNotifications/KNotification>
+#include <knotification.h>
 #include <QDateTime>
 #include <QShortcut>
 #include <QtGlobal>
@@ -27,6 +27,7 @@
 #include <ekos_analyze_debug.h>
 #include <KHelpClient>
 #include <version.h>
+#include <QFileDialog>
 
 // Subclass QCPAxisTickerDateTime, so that times are offset from the start
 // of the log, instead of being offset from the UNIX 0-seconds time.
@@ -2428,7 +2429,7 @@ bool Analyze::restoreYAxes(const QString &encoding)
 {
     constexpr int headerSize = 2;
     constexpr int itemSize = 5;
-    QVector<QStringRef> items = encoding.splitRef(',');
+    QVector<QString> items = encoding.split(',');
     if (items.size() <= headerSize) return false;
     if ((items.size() - headerSize) % itemSize != 0) return false;
     if (items[0] != "AnalyzeStatsYAxis1.0") return false;
@@ -2436,7 +2437,7 @@ bool Analyze::restoreYAxes(const QString &encoding)
     // Restore the active Y axis
     const QString leftID = "left=";
     if (!items[1].startsWith(leftID)) return false;
-    QStringRef left = items[1].mid(leftID.size());
+    QString left = items[1].mid(leftID.size());
     if (left.size() <= 0) return false;
     for (const auto &pair : yAxisMap)
     {
@@ -2450,7 +2451,7 @@ bool Analyze::restoreYAxes(const QString &encoding)
     // Restore the various upper/lower/rescale axis values.
     for (int i = headerSize; i < items.size(); i += itemSize)
     {
-        const QString shortName = items[i].toString();
+        const QString shortName = items[i];
         const double lower = items[i + 1].toDouble();
         const double upper = items[i + 2].toDouble();
         const bool rescale = items[i + 3] == "T";
@@ -2932,7 +2933,7 @@ void Analyze::displayFITS(const QString &filename)
 
 void Analyze::helpMessage()
 {
-#ifdef Q_OS_OSX  // This is because KHelpClient doesn't seem to be working right on MacOS
+#ifdef Q_OS_MACOS  // This is because KHelpClient doesn't seem to be working right on MacOS
     KStars::Instance()->appHelpActivated();
 #else
     KHelpClient::invokeHelp(QStringLiteral("tool-ekos.html#ekos-analyze"), QStringLiteral("kstars"));

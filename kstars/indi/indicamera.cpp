@@ -20,7 +20,7 @@
 #include "fitsviewer/fitsdata.h"
 #endif
 
-#include <KNotifications/KNotification>
+#include <knotification.h>
 #include "auxiliary/ksmessagebox.h"
 #include "ksnotification.h"
 #include <QImageReader>
@@ -201,7 +201,7 @@ void Camera::registerProperty(INDI::Property prop)
                     if (oneValue > max)
                         max = oneValue;
                 }
-                m_ExposurePresetsMinMax = qMakePair<double, double>(min, max);
+                m_ExposurePresetsMinMax = qMakePair(min, max);
             }
         }
     }
@@ -587,8 +587,13 @@ bool Camera::saveCurrentImage(QString &filename)
         }
 
         // Wait until the file is written before overwritting the filename.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        fileWriteThread = QtConcurrent::run(&ISD::Camera::WriteImageFileInternal, this, filename, fileWriteBuffer,
+                                            fileWriteBufferSize);
+#else
         fileWriteThread = QtConcurrent::run(this, &ISD::Camera::WriteImageFileInternal, filename, fileWriteBuffer,
                                             fileWriteBufferSize);
+#endif
     }
     else if (!WriteImageFileInternal(filename, static_cast<char*>(fileWriteBuffer), fileWriteBufferSize))
         return false;

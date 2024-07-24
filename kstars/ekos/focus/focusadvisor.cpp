@@ -12,6 +12,8 @@
 #include "ekos/auxiliary/opticaltrainsettings.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
 
+#include <QScrollBar>
+
 namespace Ekos
 {
 
@@ -25,7 +27,7 @@ const int NUM_STEPS_PRE_AF = 11;
 
 FocusAdvisor::FocusAdvisor(QWidget *parent) : QDialog(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
@@ -46,7 +48,7 @@ void FocusAdvisor::processUI()
     m_helpDialog = new QDialog(this);
     m_helpUI.reset(new Ui::focusAdvisorHelpDialog());
     m_helpUI->setupUi(m_helpDialog);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     m_helpDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 

@@ -309,7 +309,7 @@ void SkyQPainter::initStarImages()
 
         if (Options::starColorMode() == 0)
         {
-            qreal h, s, v, a;
+            float h, s, v, a;
             p.setRenderHint(QPainter::Antialiasing, false);
             QColor starColor = ColorMap[color];
             starColor.getHsvF(&h, &s, &v, &a);

@@ -56,7 +56,7 @@ bool INDIDBus::stop(const QString &port)
 
     foreach (QSharedPointer<DriverInfo>di, DriverManager::Instance()->getDrivers())
     {
-        if (di->getClientState() && di->getPort() == port)
+        if (di->getClientState() && QString::number(di->getPort()) == port)
             stopDrivers.append(di);
     }
 

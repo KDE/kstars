@@ -49,6 +49,32 @@ QFuture<bool> FITSBahtinovDetector::findSources(QRect const &boundary)
     FITSImage::Statistic const &stats = m_ImageData->getStatistics();
     switch (stats.dataType)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case TSHORT:
+            return QtConcurrent::run(&FITSBahtinovDetector::findBahtinovStar<int16_t>, this, boundary);
+
+        case TUSHORT:
+            return QtConcurrent::run(&FITSBahtinovDetector::findBahtinovStar<uint16_t>, this, boundary);
+
+        case TLONG:
+            return QtConcurrent::run(&FITSBahtinovDetector::findBahtinovStar<int32_t>, this, boundary);
+
+        case TULONG:
+            return QtConcurrent::run(&FITSBahtinovDetector::findBahtinovStar<uint32_t>, this, boundary);
+
+        case TFLOAT:
+            return QtConcurrent::run(&FITSBahtinovDetector::findBahtinovStar<float>, this, boundary);
+
+        case TLONGLONG:
+            return QtConcurrent::run(&FITSBahtinovDetector::findBahtinovStar<int64_t>, this, boundary);
+
+        case TDOUBLE:
+            return QtConcurrent::run(&FITSBahtinovDetector::findBahtinovStar<double>, this, boundary);
+
+        default:
+        case TBYTE:
+            return QtConcurrent::run(&FITSBahtinovDetector::findBahtinovStar<uint8_t>, this, boundary);
+#else
         case TSHORT:
             return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<int16_t>, boundary);
 
@@ -73,7 +99,7 @@ QFuture<bool> FITSBahtinovDetector::findSources(QRect const &boundary)
         default:
         case TBYTE:
             return QtConcurrent::run(this, &FITSBahtinovDetector::findBahtinovStar<uint8_t>, boundary);
-
+#endif
     }
 }
 

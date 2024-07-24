@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <QDBusArgument>
+#include <QtDBus/QDBusArgument>
 #include <QTimer>
 
 #include <KLocalizedString>

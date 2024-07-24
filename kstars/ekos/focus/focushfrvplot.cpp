@@ -10,6 +10,7 @@
 #include "klocalizedstring.h"
 
 #include "curvefit.h"
+#include <QToolTip>
 
 #define DEFAULT_BASIC_FONT_SIZE 10
 

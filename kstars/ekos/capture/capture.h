@@ -22,7 +22,7 @@
 
 #include <QTimer>
 #include <QUrl>
-#include <QDBusInterface>
+#include <QtDBus/QDBusInterface>
 
 #include <memory>
 

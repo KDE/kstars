@@ -289,7 +289,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             QToolTip::showText(e->globalPos(), hfrStr, this);
         else
         {
-            QRegExp hfrRegEx("HFR\\: \\d+\\.\\d\\d");
+            QRegularExpression hfrRegEx("HFR\\: \\d+\\.\\d\\d");
             if (tip.contains(hfrRegEx))
                 QToolTip::showText(e->globalPos(), tip.replace(hfrRegEx, hfrStr), this);
             else

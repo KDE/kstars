@@ -5,7 +5,7 @@
 */
 
 #include <basedevice.h>
-#include <qdbusmetatype.h>
+#include <QtDBus/qdbusmetatype.h>
 
 #include "indidustcap.h"
 #include "dustcapadaptor.h"

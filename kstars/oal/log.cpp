@@ -544,15 +544,15 @@ void OAL::Log::readLog()
 
         if (reader->isStartElement())
         {
-            if (reader->name() == "targets")
+            if (reader->name().toString() == "targets")
                 readTargets();
-            else if (reader->name() == "sites")
+            else if (reader->name().toString() == "sites")
                 readSites();
-            else if (reader->name() == "sessions")
+            else if (reader->name().toString() == "sessions")
                 readSessions();
-            else if (reader->name() == "observation")
+            else if (reader->name().toString() == "observation")
                 readObservation(reader->attributes().value("id").toString());
-            else if (reader->name() == "geodate")
+            else if (reader->name().toString() == "geodate")
                 readGeoDate();
             else
                 readUnknownElement();
@@ -571,7 +571,7 @@ void OAL::Log::readTargets()
 
         if (reader->isStartElement())
         {
-            if (reader->name() == "target")
+            if (reader->name().toString() == "target")
                 readTarget();
             else
                 readUnknownElement();
@@ -595,7 +595,7 @@ void OAL::Log::readSites()
 
         if (reader->isStartElement())
         {
-            if (reader->name() == "site")
+            if (reader->name().toString() == "site")
                 readSite(reader->attributes().value("id").toString());
             else
                 readUnknownElement();
@@ -614,7 +614,7 @@ void OAL::Log::readSessions()
 
         if (reader->isStartElement())
         {
-            if (reader->name() == "session")
+            if (reader->name().toString() == "session")
                 readSession(reader->attributes().value("id").toString(), reader->attributes().value("lang").toString());
             else
                 readUnknownElement();
@@ -662,7 +662,7 @@ void OAL::Log::readTarget()
 
         if (reader->isStartElement())
         {
-            if (reader->name() == "name")
+            if (reader->name().toString() == "name")
             {
                 name = reader->readElementText();
                 if (name != "star")
@@ -676,7 +676,7 @@ void OAL::Log::readTarget()
                         targetList().append(QSharedPointer<SkyObject>(o->clone()));
                 }
             }
-            else if (!o && reader->name() == "position")
+            else if (!o && reader->name().toString() == "position")
             {
                 pos = readPosition(posOK);
                 if (posOK)
@@ -694,13 +694,13 @@ void OAL::Log::readTarget()
                         targetList().append(QSharedPointer<SkyObject>(o->clone()));
                 }
             }
-            else if (reader->name() == "time")
+            else if (reader->name().toString() == "time")
             {
                 time = reader->readElementText();
                 if (o)
                     TimeHash.insert(o->name(), QTime::fromString(time, "h:mm:ss AP"));
             }
-            else if (reader->name() == "notes")
+            else if (reader->name().toString() == "notes")
             {
                 notes = reader->readElementText();
                 if (o)
@@ -732,16 +732,16 @@ void OAL::Log::readSite(const QString &id)
 
         if (reader->isStartElement())
         {
-            if (reader->name() == "name")
+            if (reader->name().toString() == "name")
             {
                 name = reader->readElementText();
             }
-            else if (reader->name() == "latitude")
+            else if (reader->name().toString() == "latitude")
             {
                 lat     = reader->readElementText();
                 latUnit = reader->attributes().value("unit").toString();
             }
-            else if (reader->name() == "longitude")
+            else if (reader->name().toString() == "longitude")
             {
                 lon     = reader->readElementText();
                 lonUnit = reader->attributes().value("unit").toString();
@@ -767,29 +767,29 @@ void OAL::Log::readSession(const QString &id, const QString &lang)
 
         if (reader->isStartElement())
         {
-            if (reader->name() == "site")
+            if (reader->name().toString() == "site")
             {
                 site = reader->readElementText();
             }
-            else if (reader->name() == "begin")
+            else if (reader->name().toString() == "begin")
             {
                 begin = reader->readElementText();
                 beginDT.fromString(begin);
             }
-            else if (reader->name() == "end")
+            else if (reader->name().toString() == "end")
             {
                 end = reader->readElementText();
                 endDT.fromString(begin);
             }
-            else if (reader->name() == "weather")
+            else if (reader->name().toString() == "weather")
             {
                 weather = reader->readElementText();
             }
-            else if (reader->name() == "equipment")
+            else if (reader->name().toString() == "equipment")
             {
                 equipment = reader->readElementText();
             }
-            else if (reader->name() == "comments")
+            else if (reader->name().toString() == "comments")
             {
                 comments = reader->readElementText();
             }
@@ -814,22 +814,22 @@ SkyPoint OAL::Log::readPosition(bool &OK)
 
         if (reader->isStartElement())
         {
-            if (reader->name() == "ra")
+            if (reader->name().toString() == "ra")
             {
                 qDebug() << reader->readElementText() << reader->attributes().value("unit");
                 dms ra;
-                if (reader->attributes().value("unit") == "rad")
+                if (reader->attributes().value("unit").toString() == "rad")
                     ra.setRadians(reader->readElementText().toDouble(&RAOK));
                 else
                     ra.setD(reader->readElementText().toDouble(&RAOK));
 
                 p.setRA(ra);
             }
-            else if (reader->name() == "dec")
+            else if (reader->name().toString() == "dec")
             {
                 qDebug() << reader->readElementText() << reader->attributes().value("unit");
                 dms de;
-                if (reader->attributes().value("unit") == "rad")
+                if (reader->attributes().value("unit").toString() == "rad")
                     de.setRadians(reader->readElementText().toDouble(&DEOK));
                 else
                     de.setD(reader->readElementText().toDouble(&DEOK));
@@ -857,29 +857,29 @@ void OAL::Log::readObservation(const QString &id)
             break;
         if (reader->isStartElement())
         {
-            if (reader->name() == "observer")
+            if (reader->name().toString() == "observer")
                 observer = reader->readElementText();
-            else if (reader->name() == "site")
+            else if (reader->name().toString() == "site")
                 site = reader->readElementText();
-            else if (reader->name() == "session")
+            else if (reader->name().toString() == "session")
                 session = reader->readElementText();
-            else if (reader->name() == "target")
+            else if (reader->name().toString() == "target")
                 target = reader->readElementText();
-            else if (reader->name() == "begin")
+            else if (reader->name().toString() == "begin")
                 begin.fromString(reader->readElementText());
-            else if (reader->name() == "faintestStar")
+            else if (reader->name().toString() == "faintestStar")
                 faintestStar = reader->readElementText();
-            else if (reader->name() == "seeing")
+            else if (reader->name().toString() == "seeing")
                 seeing = reader->readElementText();
-            else if (reader->name() == "scope")
+            else if (reader->name().toString() == "scope")
                 scope = reader->readElementText();
-            else if (reader->name() == "eyepiece")
+            else if (reader->name().toString() == "eyepiece")
                 eyepiece = reader->readElementText();
-            else if (reader->name() == "lens")
+            else if (reader->name().toString() == "lens")
                 lens = reader->readElementText();
-            else if (reader->name() == "filter")
+            else if (reader->name().toString() == "filter")
                 filter = reader->readElementText();
-            else if (reader->name() == "result")
+            else if (reader->name().toString() == "result")
             {
                 lang   = reader->attributes().value("lang").toString();
                 result = readResult();
@@ -904,7 +904,7 @@ QString OAL::Log::readResult()
             break;
         if (reader->isStartElement())
         {
-            if (reader->name() == "description")
+            if (reader->name().toString() == "description")
                 result = reader->readElementText();
             else
                 readUnknownElement();
@@ -925,13 +925,13 @@ void OAL::Log::readGeoDate()
 
         if (reader->isStartElement())
         {
-            if (reader->name() == "name")
+            if (reader->name().toString() == "name")
                 name = reader->readElementText();
-            else if (reader->name() == "province")
+            else if (reader->name().toString() == "province")
                 province = reader->readElementText();
-            else if (reader->name() == "country")
+            else if (reader->name().toString() == "country")
                 country = reader->readElementText();
-            else if (reader->name() == "date")
+            else if (reader->name().toString() == "date")
             {
                 date = reader->readElementText();
             }

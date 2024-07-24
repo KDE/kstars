@@ -8,7 +8,7 @@
 
 #include <QLocale>
 
-#include <QRegExp>
+#include <QRegularExpression>>
 
 // Qt version calming
 #include <qtskipemptyparts.h>
@@ -51,7 +51,7 @@ bool dms::setFromString(const QString &str, bool isDeg)
     double s(0.0);
     bool checkValue(false), badEntry(false), negative(false);
     QString entry = str.trimmed();
-    entry.remove(QRegExp("[hdms'\"°]"));
+    entry.remove(QRegularExpression("[hdms'\"°]"));
 
     //Account for localized decimal-point settings
     //QString::toDouble() requires that the decimal symbol is "."

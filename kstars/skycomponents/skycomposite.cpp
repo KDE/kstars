@@ -33,8 +33,7 @@ void SkyComposite::addComponent(SkyComponent *component, int priority)
 void SkyComposite::removeComponent(SkyComponent *const component)
 {
     // qDebug() << Q_FUNC_INFO << "Removing sky component " << component << " of type " << typeid( *component ).name();
-    QMap<int, SkyComponent *>::iterator it;
-    for (it = m_Components.begin(); it != m_Components.end();)
+    for (auto it = m_Components.begin(); it != m_Components.end();)
     {
         if (it.value() == component)
             it = m_Components.erase(it);

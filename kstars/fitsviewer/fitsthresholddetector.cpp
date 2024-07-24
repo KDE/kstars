@@ -28,6 +28,32 @@ QFuture<bool> FITSThresholdDetector::findSources(QRect const &boundary)
     FITSImage::Statistic const &stats = m_ImageData->getStatistics();
     switch (stats.dataType)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case TSHORT:
+            return QtConcurrent::run(&FITSThresholdDetector::findOneStar<int16_t>, this, boundary);
+
+        case TUSHORT:
+            return QtConcurrent::run(&FITSThresholdDetector::findOneStar<uint16_t>, this, boundary);
+
+        case TLONG:
+            return QtConcurrent::run(&FITSThresholdDetector::findOneStar<int32_t>, this, boundary);
+
+        case TULONG:
+            return QtConcurrent::run(&FITSThresholdDetector::findOneStar<uint32_t>, this, boundary);
+
+        case TFLOAT:
+            return QtConcurrent::run(&FITSThresholdDetector::findOneStar<float>, this, boundary);
+
+        case TLONGLONG:
+            return QtConcurrent::run(&FITSThresholdDetector::findOneStar<int64_t>, this, boundary);
+
+        case TDOUBLE:
+            return QtConcurrent::run(&FITSThresholdDetector::findOneStar<double>, this, boundary);
+
+        case TBYTE:
+        default:
+            return QtConcurrent::run(&FITSThresholdDetector::findOneStar<uint8_t>, this, boundary);
+#else
         case TSHORT:
             return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<int16_t>, boundary);
 
@@ -52,6 +78,8 @@ QFuture<bool> FITSThresholdDetector::findSources(QRect const &boundary)
         case TBYTE:
         default:
             return QtConcurrent::run(this, &FITSThresholdDetector::findOneStar<uint8_t>, boundary);
+#endif
+
     }
 
 }

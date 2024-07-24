@@ -13,7 +13,7 @@
 #include <QLabel>
 
 #include <QDockWidget>
-#include <qtdbusglobal.h>
+#include <QtDBus/qtdbusglobal.h>
 #ifdef HAVE_CFITSIO
 #include <QPointer>
 #endif

@@ -140,10 +140,11 @@ void FindDialogLite::selectObject(int index)
 // Process the search box text to replace equivalent names like "m93" with "m 93"
 QString FindDialogLite::processSearchText(QString text)
 {
-    QRegExp re;
+    QRegularExpression re;
     QString searchtext = text;
 
-    re.setCaseSensitivity(Qt::CaseInsensitive);
+
+    re.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");

@@ -15,6 +15,7 @@
 
 #include <QString>
 #include <QUrl>
+#include <QDateTime>
 
 class SkyPoint;
 

@@ -21,9 +21,9 @@ class KSPopupMenu;
 
 namespace {
     constexpr const char *emptyString = "";
-    constexpr const char *unnamedString       = I18N_NOOP("unnamed");
-    constexpr const char *unnamedObjectString = I18N_NOOP("unnamed object");
-    constexpr const char *starString          = I18N_NOOP("star");
+    const char *unnamedString = ki18n("unnamed").toString().toUtf8().constData();
+    const char *unnamedObjectString = ki18n("unnamed object").toString().toUtf8().constData();
+    const char *starString = ki18n("star").toString().toUtf8().constData();
 }
 
 // Set the faintest sane magnitude to 36.0 (faintest visual magnitude visible with E-ELT, acc. to Wikipedia on Apparent Magnitude.)

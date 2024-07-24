@@ -24,6 +24,8 @@
 
 #define AL_FORMAT_VERSION 1.0
 
+#include <QFileDialog>
+
 // Qt version calming
 #include <qtendl.h>
 
@@ -856,8 +858,8 @@ void MountModel::slotClearAllAlignPoints()
     if (alignTable->rowCount() == 0)
         return;
 
-    if (KMessageBox::questionYesNo(this, i18n("Are you sure you want to clear all the alignment points?"),
-                                   i18n("Clear Align Points")) == KMessageBox::Yes)
+    if (KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to clear all the alignment points?"),
+                                   i18n("Clear Align Points")) == KMessageBox::Continue)
         alignTable->setRowCount(0);
 
     if (previewShowing)

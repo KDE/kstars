@@ -388,7 +388,7 @@ void Manager::setIconTheme(IconTheme theme)
     }
 
     QStringList themeSearchPaths = (QStringList() << QIcon::themeSearchPaths());
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     themeSearchPaths = themeSearchPaths << QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons").absolutePath();
     QString resourcePath = QDir(QCoreApplication::applicationDirPath() + "/../Resources/icons/" + rccFile).absolutePath();
     QResource::registerResource(resourcePath, "/icons/" + iconTheme);

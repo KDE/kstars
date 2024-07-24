@@ -1948,7 +1948,7 @@ void KSUserDB::readScopes()
 
         if (reader_->isStartElement())
         {
-            if (reader_->name() == "scope")
+            if (reader_->name().toString() == "scope")
                 readScope();
         }
     }
@@ -1968,7 +1968,7 @@ void KSUserDB::readEyepieces()
 
         if (reader_->isStartElement())
         {
-            if (reader_->name() == "eyepiece")
+            if (reader_->name().toString() == "eyepiece")
                 readEyepiece();
         }
     }
@@ -1988,7 +1988,7 @@ void KSUserDB::readLenses()
 
         if (reader_->isStartElement())
         {
-            if (reader_->name() == "lens")
+            if (reader_->name().toString() == "lens")
                 readLens();
         }
     }
@@ -2008,7 +2008,7 @@ void KSUserDB::readFilters()
 
         if (reader_->isStartElement())
         {
-            if (reader_->name() == "filter")
+            if (reader_->name().toString() == "filter")
                 readFilter();
         }
     }
@@ -2031,15 +2031,15 @@ void KSUserDB::readScope()
 
         if (reader_->isStartElement())
         {
-            if (reader_->name() == "model")
+            if (reader_->name().toString() == "model")
             {
                 model = reader_->readElementText();
             }
-            else if (reader_->name() == "vendor")
+            else if (reader_->name().toString() == "vendor")
             {
                 vendor = reader_->readElementText();
             }
-            else if (reader_->name() == "type")
+            else if (reader_->name().toString() == "type")
             {
                 type = reader_->readElementText();
                 if (type == "N")
@@ -2057,11 +2057,11 @@ void KSUserDB::readScope()
                 if (type == "RC")
                     type = "Ritchey-Chretien";
             }
-            else if (reader_->name() == "focalLength")
+            else if (reader_->name().toString() == "focalLength")
             {
                 focalLength = (reader_->readElementText()).toDouble();
             }
-            else if (reader_->name() == "aperture")
+            else if (reader_->name().toString() == "aperture")
                 aperture = (reader_->readElementText()).toDouble();
         }
     }
@@ -2084,20 +2084,20 @@ void KSUserDB::readEyepiece()
 
         if (reader_->isStartElement())
         {
-            if (reader_->name() == "model")
+            if (reader_->name().toString() == "model")
             {
                 model = reader_->readElementText();
             }
-            else if (reader_->name() == "vendor")
+            else if (reader_->name().toString() == "vendor")
             {
                 vendor = reader_->readElementText();
             }
-            else if (reader_->name() == "apparentFOV")
+            else if (reader_->name().toString() == "apparentFOV")
             {
                 fov     = reader_->readElementText();
                 fovUnit = reader_->attributes().value("unit").toString();
             }
-            else if (reader_->name() == "focalLength")
+            else if (reader_->name().toString() == "focalLength")
             {
                 focalLength = reader_->readElementText();
             }
@@ -2122,15 +2122,15 @@ void KSUserDB::readLens()
 
         if (reader_->isStartElement())
         {
-            if (reader_->name() == "model")
+            if (reader_->name().toString() == "model")
             {
                 model = reader_->readElementText();
             }
-            else if (reader_->name() == "vendor")
+            else if (reader_->name().toString() == "vendor")
             {
                 vendor = reader_->readElementText();
             }
-            else if (reader_->name() == "factor")
+            else if (reader_->name().toString() == "factor")
             {
                 factor = reader_->readElementText();
             }
@@ -2156,59 +2156,59 @@ void KSUserDB::readFilter()
 
         if (reader_->isStartElement())
         {
-            if (reader_->name() == "model")
+            if (reader_->name().toString() == "model")
             {
                 fp->model = reader_->readElementText();
             }
-            else if (reader_->name() == "vendor")
+            else if (reader_->name().toString() == "vendor")
             {
                 fp->vendor = reader_->readElementText();
             }
-            else if (reader_->name() == "type")
+            else if (reader_->name().toString() == "type")
             {
                 fp->type = reader_->readElementText();
             }
-            else if (reader_->name() == "offset")
+            else if (reader_->name().toString() == "offset")
             {
                 fp->offset = reader_->readElementText().toInt();
             }
-            else if (reader_->name() == "color")
+            else if (reader_->name().toString() == "color")
             {
                 fp->color = reader_->readElementText();
             }
-            else if (reader_->name() == "exposure")
+            else if (reader_->name().toString() == "exposure")
             {
                 fp->exposure = reader_->readElementText().toDouble();
             }
-            else if (reader_->name() == "lockedFilter")
+            else if (reader_->name().toString() == "lockedFilter")
             {
                 fp->lockedFilter = reader_->readElementText();
             }
-            else if (reader_->name() == "useAutoFocus")
+            else if (reader_->name().toString() == "useAutoFocus")
             {
                 fp->useAutoFocus = (reader_->readElementText() == "1");
             }
-            else if (reader_->name() == "AbsoluteAutoFocus")
+            else if (reader_->name().toString() == "AbsoluteAutoFocus")
             {
                 fp->absFocusPos = (reader_->readElementText().toInt());
             }
-            else if (reader_->name() == "FocusTemperature")
+            else if (reader_->name().toString() == "FocusTemperature")
             {
                 fp->focusTemperature = (reader_->readElementText().toDouble());
             }
-            else if (reader_->name() == "FocusAltitude")
+            else if (reader_->name().toString() == "FocusAltitude")
             {
                 fp->focusAltitude = (reader_->readElementText().toDouble());
             }
-            else if (reader_->name() == "FocusTicksPerTemp")
+            else if (reader_->name().toString() == "FocusTicksPerTemp")
             {
                 fp->focusTicksPerTemp = (reader_->readElementText().toDouble());
             }
-            else if (reader_->name() == "FocusTicksPerAlt")
+            else if (reader_->name().toString() == "FocusTicksPerAlt")
             {
                 fp->focusTicksPerAlt = (reader_->readElementText().toDouble());
             }
-            else if (reader_->name() == "Wavelength")
+            else if (reader_->name().toString() == "Wavelength")
             {
                 fp->wavelength = (reader_->readElementText().toDouble());
             }

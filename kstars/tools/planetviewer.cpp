@@ -15,10 +15,10 @@
 #include "widgets/timespinbox.h"
 
 #include <KLocalizedString>
-#include <KPlotting/KPlotAxis>
-#include <KPlotting/KPlotObject>
-#include <KPlotting/KPlotPoint>
-#include <KPlotting/KPlotWidget>
+#include <kplotaxis.h>
+#include <kplotobject.h>
+#include <kplotpoint.h>
+#include <kplotwidget.h>
 
 #include <QFile>
 #include <QKeyEvent>
@@ -36,7 +36,7 @@ PlanetViewerUI::PlanetViewerUI(QWidget *p) : QFrame(p)
 
 PlanetViewer::PlanetViewer(QWidget *parent) : QDialog(parent), scale(1.0), isClockRunning(false), tmr(this)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     KStarsData *data = KStarsData::Instance();

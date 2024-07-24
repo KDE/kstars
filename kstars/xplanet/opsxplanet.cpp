@@ -16,7 +16,7 @@ OpsXplanet::OpsXplanet(KStars *_ks) : QFrame(_ks), ksw(_ks)
 {
     setupUi(this);
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     connect(kcfg_xplanetIsInternal, SIGNAL(clicked()), this, SLOT(toggleXPlanetInternal()));
     kcfg_xplanetIsInternal->setToolTip(i18n("Internal or External XPlanet?"));
 

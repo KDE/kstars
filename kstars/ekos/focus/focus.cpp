@@ -130,7 +130,7 @@ Focus::Focus(int id) : QWidget()
     {
         KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
         optionsProfileEditor = new StellarSolverProfileEditor(this, Ekos::FocusProfiles, optionsEditor);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
         optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
         KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Focus Options Profile Editor"));
@@ -188,7 +188,7 @@ void Focus::prepareGUI()
     // is not used in Focus
     KConfigDialog *dialog = new KConfigDialog(this, "focussettings", Options::self());
     m_OpsFocusSettings = new OpsFocusSettings();
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
@@ -207,7 +207,7 @@ void Focus::prepareGUI()
     m_CFZDialog = new QDialog(this);
     m_CFZUI.reset(new Ui::focusCFZDialog());
     m_CFZUI->setupUi(m_CFZDialog);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     m_CFZDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 

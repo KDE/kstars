@@ -47,7 +47,7 @@ class SkyObjectListModel : public QAbstractListModel
      * @param regEx Regex
      * @return Filtered string list
      */
-    QStringList filter(const QRegExp &regEx);
+    QStringList filter(const QRegularExpression &regEx);
 
     void setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects);
 
