@@ -502,10 +502,12 @@ void KStars::slotDownload()
     {
         if (entry.category() != "dso")
             continue;
-        const auto id = entry.uniqueId().toInt();
+
         #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        const auto id = entry.uniqueId().toInt();
         if (entry.status() == KNSCore::Entry::Installed)
         #else
+        const auto id = entry.id().toInt();
         if (entry.status() == KNS3::Entry::Installed)
         #endif
             for (const QString &name : entry.installedFiles())

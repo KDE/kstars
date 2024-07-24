@@ -548,7 +548,7 @@ void KStars::initActions()
     //Help Menu:
     //Fix ME Tip of the day no longer exists as an action
     #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    ka = actionCollection()->addAction(KStandardAction::, "help_tipofday", this, SLOT(slotTipOfDay()));
+    ka = actionCollection()->addAction(KStandardAction::TipofDay, "help_tipofday", this, SLOT(slotTipOfDay()));
     ka->setWhatsThis(i18n("Displays the Tip of the Day"));
     ka->setIcon(QIcon::fromTheme("help-hint"));
     #endif
