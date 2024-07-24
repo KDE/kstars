@@ -8,7 +8,7 @@
 
 #include "fitsviewer.h"
 
-#include "QtGui/qundogroup.h"
+#include <QtGui/QUndoGroup>
 #include "QtWidgets/qmenu.h"
 #include "QtWidgets/qstatusbar.h"
 #include "config-kstars.h"
