@@ -8,7 +8,10 @@
 
 #include "fitsviewer.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QUndoGroup>
+#endif
+
 #include "QtWidgets/qmenu.h"
 #include "QtWidgets/qstatusbar.h"
 #include "config-kstars.h"
