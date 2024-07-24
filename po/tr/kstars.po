@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-22 01:46+0000\n"
+"POT-Creation-Date: 2024-07-24 01:43+0000\n"
 "PO-Revision-Date: 2024-07-15 23:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -10295,11 +10295,13 @@ msgstr "Başlat"
 #. i18n: ectx: property (text), widget (QLabel, PAc2)
 #. i18n: ectx: property (text), widget (QLabel, PAc3)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CaptureLogging)
+#. i18n: ectx: property (text), widget (QLabel, captureLabel)
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
 #: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2277
-#: ekos/auxiliary/opslogs.ui:285 ekos/guide/guide.ui:137 ekos/opsekos.ui:538
+#: ekos/auxiliary/opslogs.ui:285 ekos/capture/capturepreviewwidget.ui:67
+#: ekos/guide/guide.ui:137 ekos/opsekos.ui:538
 #, kde-format
 msgid "Capture"
 msgstr "Yakala"
@@ -16231,23 +16233,23 @@ msgstr "%1 üzerinde bir kepenk var mı?"
 msgid "Dark Exposure"
 msgstr "Karanlık Pozlama"
 
-#: ekos/capture/capturepreviewwidget.cpp:164
+#: ekos/capture/capturepreviewwidget.cpp:170
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr "Çöp kutusuna taşımadan doğrudan silin."
 
-#: ekos/capture/capturepreviewwidget.cpp:222
+#: ekos/capture/capturepreviewwidget.cpp:228
 #, kde-format
 msgid "Do you really want to delete %1 from the file system?"
 msgstr "%1 ögesini dosya sisteminizden silmeyi gerçekten istiyor musunuz?"
 
-#: ekos/capture/capturepreviewwidget.cpp:224
+#: ekos/capture/capturepreviewwidget.cpp:230
 #, kde-format
 msgid "Delete %1"
 msgstr "Sil: %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, delButton)
-#: ekos/capture/capturepreviewwidget.cpp:224
+#: ekos/capture/capturepreviewwidget.cpp:230
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:54
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:82
 #: tools/flagmanager.ui:223
@@ -16256,7 +16258,7 @@ msgid "Delete"
 msgstr "Sil"
 
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
-#: ekos/capture/capturepreviewwidget.ui:95
+#: ekos/capture/capturepreviewwidget.ui:102
 #, kde-format
 msgid "Target: "
 msgstr "Hedef: "

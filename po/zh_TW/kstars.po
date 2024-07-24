@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-22 01:46+0000\n"
+"POT-Creation-Date: 2024-07-24 01:43+0000\n"
 "PO-Revision-Date: 2019-01-03 18:34+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -10584,11 +10584,13 @@ msgstr "開始"
 #. i18n: ectx: property (text), widget (QLabel, PAc2)
 #. i18n: ectx: property (text), widget (QLabel, PAc3)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CaptureLogging)
+#. i18n: ectx: property (text), widget (QLabel, captureLabel)
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
 #. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
 #: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2277
-#: ekos/auxiliary/opslogs.ui:285 ekos/guide/guide.ui:137 ekos/opsekos.ui:538
+#: ekos/auxiliary/opslogs.ui:285 ekos/capture/capturepreviewwidget.ui:67
+#: ekos/guide/guide.ui:137 ekos/opsekos.ui:538
 #, kde-format
 msgid "Capture"
 msgstr "抓取"
@@ -16776,25 +16778,25 @@ msgstr ""
 msgid "Dark Exposure"
 msgstr "黑暗曝光"
 
-#: ekos/capture/capturepreviewwidget.cpp:164
+#: ekos/capture/capturepreviewwidget.cpp:170
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr ""
 
-#: ekos/capture/capturepreviewwidget.cpp:222
+#: ekos/capture/capturepreviewwidget.cpp:228
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Do you really want to delete %1 from the file system?"
 msgstr "您確定要移除用戶端 %1 嗎？"
 
-#: ekos/capture/capturepreviewwidget.cpp:224
+#: ekos/capture/capturepreviewwidget.cpp:230
 #, fuzzy, kde-format
 #| msgid "Delete"
 msgid "Delete %1"
 msgstr "刪除"
 
 #. i18n: ectx: property (text), widget (QPushButton, delButton)
-#: ekos/capture/capturepreviewwidget.cpp:224
+#: ekos/capture/capturepreviewwidget.cpp:230
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:54
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:82
 #: tools/flagmanager.ui:223
@@ -16803,7 +16805,7 @@ msgid "Delete"
 msgstr "刪除"
 
 #. i18n: ectx: property (text), widget (QLabel, targetLabel)
-#: ekos/capture/capturepreviewwidget.ui:95
+#: ekos/capture/capturepreviewwidget.ui:102
 #, fuzzy, kde-format
 #| msgctxt "City in Nebraska USA"
 #| msgid "Sargent"
