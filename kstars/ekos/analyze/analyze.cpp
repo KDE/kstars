@@ -2429,7 +2429,7 @@ bool Analyze::restoreYAxes(const QString &encoding)
 {
     constexpr int headerSize = 2;
     constexpr int itemSize = 5;
-    QVector<QString> items = encoding.split(',');
+    QStringList items = encoding.split(',');
     if (items.size() <= headerSize) return false;
     if ((items.size() - headerSize) % itemSize != 0) return false;
     if (items[0] != "AnalyzeStatsYAxis1.0") return false;

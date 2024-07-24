@@ -382,7 +382,7 @@ bool parseInt(const QString &ref, const QString &id, int *result)
 
 bool Calibration::restore(const QString &encoding)
 {
-    QVector<QString> items = encoding.split(',');
+    QStringList items = encoding.split(',');
     if (items.size() != 17) return false;
     int i = 0;
     if (items[i] != "Cal v1.0") return false;
