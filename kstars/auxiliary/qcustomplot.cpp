@@ -7388,13 +7388,15 @@ QVector<double> QCPAxisTickerText::createTickVector(double tickStep, const QCPRa
   QVector<double> result;
   if (mTicks.isEmpty())
     return result;
+
+  const QMap<double, QString> constTicks(mTicks);
   
-  auto start = mTicks.lowerBound(range.lower);
-  auto end = mTicks.upperBound(range.upper);
+  QMap<double, QString>::const_iterator start = constTicks.lowerBound(range.lower);
+  QMap<double, QString>::const_iterator end = constTicks.upperBound(range.upper);
   // this method should try to give one tick outside of range so proper subticks can be generated:
   if (start != mTicks.constBegin()) --start;
   if (end != mTicks.constEnd()) ++end;
-  for (auto it = start; it != end; ++it)
+  for (QMap<double, QString>::const_iterator it = start; it != end; ++it)
     result.append(it.key());
   
   return result;
