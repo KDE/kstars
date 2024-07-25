@@ -10,7 +10,9 @@
 #include "starprofileviewer.h"
 #include <KLocalizedString>
 
-//using namespace QtDataVisualization;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+using namespace QtDataVisualization;
+#endif
 
 StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
 {
