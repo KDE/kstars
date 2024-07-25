@@ -60,7 +60,7 @@
 //    Petzval surface.
 //
 
-using namespace QtDataVisualization;
+//using namespace QtDataVisualization;
 
 namespace Ekos
 {

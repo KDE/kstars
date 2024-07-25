@@ -38,7 +38,7 @@
 #include <QtDataVisualization/qabstract3dseries.h>
 #include <qmath.h>
 
-using namespace QtDataVisualization;
+//using namespace QtDataVisualization;
 
 class StarProfileViewer : public QDialog
 {

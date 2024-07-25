@@ -10,12 +10,12 @@
 #include "starprofileviewer.h"
 #include <KLocalizedString>
 
-using namespace QtDataVisualization;
+//using namespace QtDataVisualization;
 
 StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
 {
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
@@ -334,7 +334,7 @@ StarProfileViewer::StarProfileViewer(QWidget *parent) : QDialog(parent)
 
     //Note:  This is to prevent a button from being called the default button
     //and then executing when the user hits the enter key such as when on a Text Box
-    #ifdef Q_OS_OSX
+    #ifdef Q_OS_MACOS
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
