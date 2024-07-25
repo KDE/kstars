@@ -24,7 +24,14 @@
 
 #include <QFuture>
 #include <QtConcurrentRun>
+
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#else
 #include <QTest>
+#endif
+
 #include <QPoint>
 #include <QModelIndex>
 

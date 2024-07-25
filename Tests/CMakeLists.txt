@@ -16,11 +16,30 @@ if(WCSLIB_FOUND)
   include_directories( ${WCSLIB_INCLUDE_DIR} )
 endif(WCSLIB_FOUND)
 
-FIND_PACKAGE(Qt5Test REQUIRED)
-
-SET( TEST_LIBRARIES
+if (BUILD_QT5)
+    FIND_PACKAGE(Qt5Test REQUIRED)
+    SET( TEST_LIBRARIES
         Qt5::Core
         Qt5::Test
+    )
+    SET( TEST_KSLITE_LIBRARIES
+        Qt5::Core
+        Qt5::Test
+    )
+else(BUILD_QT5)
+    FIND_PACKAGE(Qt6Test REQUIRED)
+    SET( TEST_LIBRARIES
+        Qt6::Core
+        Qt6::Test
+    )
+    SET( TEST_KSLITE_LIBRARIES
+        Qt6::Core
+        Qt6::Test
+    )
+endif(BUILD_QT5)
+
+SET( TEST_LIBRARIES
+        ${TEST_LIBRARIES}
         LibKSDataHandlers
         htmesh
         ${ZLIB_LIBRARIES}
@@ -28,8 +47,7 @@ SET( TEST_LIBRARIES
 )
 
 SET( TEST_KSLITE_LIBRARIES
-        Qt5::Core
-        Qt5::Test
+        ${TEST_KSLITE_LIBRARIES}
         LibKSDataHandlers
         htmesh
         ${ZLIB_LIBRARIES}

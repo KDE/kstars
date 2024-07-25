@@ -3,14 +3,18 @@
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
-
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#else
 #include <QTest>
+#endif
+
 #include <memory>
 #include "testfitsdata.h"
 #include "Options.h"
 #include "ekos/auxiliary/solverutils.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
-#include <QtGlobal>
 
 Q_DECLARE_METATYPE(FITSMode);
 

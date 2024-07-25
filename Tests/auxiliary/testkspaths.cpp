@@ -51,7 +51,7 @@ void TestKSPaths::testStandardPaths_data()
     QTest::addRow("PicturesLocation")       << QStandardPaths::PicturesLocation         << isStandard   << isWritable;
     QTest::addRow("TempLocation")           << QStandardPaths::TempLocation             << isStandard   << isWritable;
     QTest::addRow("HomeLocation")           << QStandardPaths::HomeLocation             << isStandard   << isWritable;
-    QTest::addRow("DataLocation")           << QStandardPaths::DataLocation             << isStandard   << isWritable;
+    QTest::addRow("DataLocation")           << QStandardPaths::AppDataLocation             << isStandard   << isWritable;
     QTest::addRow("CacheLocation")          << QStandardPaths::CacheLocation            << isStandard   << isWritable;
     QTest::addRow("GenericCacheLocation")   << QStandardPaths::GenericCacheLocation     << isStandard   << isWritable;
     QTest::addRow("GenericDataLocation")    << QStandardPaths::GenericDataLocation      << isStandard   << isWritable;

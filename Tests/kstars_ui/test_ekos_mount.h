@@ -21,7 +21,14 @@
 #include <QDoubleSpinBox>
 #include <QSpinBox>
 #include <QCheckBox>
+
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#else
 #include <QTest>
+#endif
+
 #include <QDialog>
 
 /** @brief Helper to retrieve a gadget in the Mount tab specifically.

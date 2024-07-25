@@ -7,7 +7,13 @@
 #ifndef TEST_POLEAXIS_H
 #define TEST_POLEAXIS_H
 
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#else
 #include <QTest>
+#endif
+
 #include <QDebug>
 #include <QString>
 

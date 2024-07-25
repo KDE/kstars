@@ -7,7 +7,13 @@
 #ifndef TESTFOV_H
 #define TESTFOV_H
 
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#else
 #include <QTest>
+#endif
+
 #include <QObject>
 
 class TestFOV : public QObject

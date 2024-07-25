@@ -16,7 +16,14 @@
 #include <QComboBox>
 #include <QTimer>
 #include <QPushButton>
+
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#else
 #include <QTest>
+#endif
+
 #include "ekos/manager.h"
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/mount/mount.h"
