@@ -38,6 +38,7 @@ void Node::connectServer()
     QUrl requestURL(m_URL);
 
     QUrlQuery query;
+    query.addQueryItem("observatory", Options::ekosLiveObservatory());
     query.addQueryItem("username", m_AuthResponse["username"].toString());
     query.addQueryItem("token", m_AuthResponse["token"].toString());
     if (m_AuthResponse.contains("remoteToken"))

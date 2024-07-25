@@ -1667,6 +1667,10 @@
        <entry name="EkosLiveUsername" type="String">
           <label>EkosLive username</label>
        </entry>
+       <entry name="EkosLiveObservatory" type="String">
+          <label>EkosLive Observatory Name</label>
+          <default>Home Observatory</default>
+       </entry>
        <entry name="EkosLiveOfflineServer" type="String">
           <label>EkosLive Offline Server</label>
           <default>http://localhost:3000</default>

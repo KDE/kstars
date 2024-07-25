@@ -252,20 +252,31 @@ void Client::showSelectServersDialog()
     dialog.setMinimumWidth(300);
     dialog.setWindowTitle(i18nc("@title:window", "Select EkosLive Servers"));
 
+    QLabel observatory(i18n("Observatory:"));
     QLabel offline(i18n("Offline:"));
     QLabel online(i18n("Online:"));
+    QLabel id(i18n("Machine ID:"));
 
+    QLineEdit observatoryEdit(&dialog);
     QLineEdit offlineEdit(&dialog);
     QLineEdit onlineEdit(&dialog);
+    QLineEdit machineID(&dialog);
+    machineID.setReadOnly(true);
+    machineID.setText(QString::fromUtf8(QSysInfo::machineUniqueId()));
+
+    observatoryEdit.setText(Options::ekosLiveObservatory());
     offlineEdit.setText(Options::ekosLiveOfflineServer());
     onlineEdit.setText(Options::ekosLiveOnlineServer());
 
     QFormLayout * layout = new QFormLayout;
+    layout->addRow(&observatory, &observatoryEdit);
     layout->addRow(&offline, &offlineEdit);
     layout->addRow(&online, &onlineEdit);
+    layout->addRow(&id, &machineID);
     dialog.setLayout(layout);
     dialog.exec();
 
+    Options::setEkosLiveObservatory(observatoryEdit.text());
     Options::setEkosLiveOfflineServer(offlineEdit.text());
     Options::setEkosLiveOnlineServer(onlineEdit.text());
 
