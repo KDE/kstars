@@ -118,8 +118,8 @@ void ModelManager::loadLists()
     }
 
     emit loadProgressUpdated(0.20);
-
-    loadObjectList(m_ObjectList[Asteroids], SkyObject::ASTEROID);
+    //Asteroids Loading is causing a crash.  FIX ME!!
+    //loadObjectList(m_ObjectList[Asteroids], SkyObject::ASTEROID);
     emit loadProgressUpdated(0.30);
     loadObjectList(m_ObjectList[Comets], SkyObject::COMET);
     emit loadProgressUpdated(0.40);

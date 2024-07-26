@@ -769,7 +769,7 @@ Rectangle {
                                             pointSize: 20
                                         }
                                     }
-                                    visible: (soListView.count > 0 || container.state == "singleItemSelected") ? false : true
+                                    visible: (soListView.count > 0 || container.state === "singleItemSelected") ? false : true
                                 }
 
                                 Rectangle {
@@ -797,7 +797,7 @@ Rectangle {
                                 delegate: Item {
                                     id: soListItem
                                     x: 8
-                                    width: parent.width
+                                    width: soListView.width
                                     height: (dispSummary.height >= 130) ? dispSummary.height + 20 : 160
 
                                     Rectangle{
@@ -822,8 +822,9 @@ Rectangle {
                                             renderType: Text.QtRendering
                                             textFormat: Text.RichText
                                             x: image.width + 5
+                                            topPadding: 15
                                             width: parent.width - image.width - 30
-                                            color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "gray"
+                                            color: (nightVision.state === "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state === "active") ? "red" : (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "gray"
 
                                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                             font{
@@ -864,7 +865,7 @@ Rectangle {
                                         objectName: dispName
                                         text: dispName
                                         renderType: Text.QtRendering
-                                        color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "white"
+                                        color: (nightVision.state === "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state === "active") ? "red" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "white"
 
                                         font.bold: true
                                     }
@@ -991,8 +992,8 @@ Rectangle {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     anchors.fill: parent
-                                    onEntered: detailsButton.color = (nightVision.state == "active") ? "red" : "yellow"
-                                    onExited: detailsButton.color = (nightVision.state == "active") ? "red" : "white"
+                                    onEntered: detailsButton.color = (nightVision.state === "active") ? "red" : "yellow"
+                                    onExited: detailsButton.color = (nightVision.state === "active") ? "red" : "white"
                                     onClicked: detailsButton.detailsButtonClicked()
                                 }
                             }
@@ -1018,8 +1019,8 @@ Rectangle {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     anchors.fill: parent
-                                    onEntered: centerButton.color = (nightVision.state == "active") ? "red" : "yellow"
-                                    onExited: centerButton.color = (nightVision.state == "active") ? "red" : "white"
+                                    onEntered: centerButton.color = (nightVision.state === "active") ? "red" : "yellow"
+                                    onExited: centerButton.color = (nightVision.state === "active") ? "red" : "white"
                                     onClicked: centerButton.centerButtonClicked()
                                 }
 
@@ -1075,21 +1076,31 @@ Rectangle {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     anchors.fill: parent
-                                    onEntered: slewTelescopeButton.color = (nightVision.state == "active") ? "red" : "yellow"
-                                    onExited: slewTelescopeButton.color = (nightVision.state == "active") ? "red" : "white"
+                                    onEntered: slewTelescopeButton.color = (nightVision.state === "active") ? "red" : "yellow"
+                                    onExited: slewTelescopeButton.color = (nightVision.state === "active") ? "red" : "white"
                                     onClicked: slewTelescopeButton.slewTelescopeButtonClicked()
                                 }
                             }
                         }
                         TabBar{
-
+                            id: tabBarObjectInfo
+                            visible: true
+                            width: parent.width
+                            currentIndex: tabBarObjectInfo.currentIndex
+                            TabButton {
+                                text: xi18n("Object Information")
+                            }
+                            TabButton {
+                                text: xi18n("Wikipedia Infotext")
+                            }
                         }
                         StackLayout {
                             id: tabbedView
                             y: 170
                             width: parent.width
+                            currentIndex: tabBarObjectInfo.currentIndex
                             height: parent.height - 170 - 50
-                            visible: false
+                            visible: true
                             /*
 
                             property Component nightTabs: StackedLayoutStyle {
@@ -1111,9 +1122,6 @@ Rectangle {
                             }
 */
                             Item {
-                                //text: xi18n("Object Information")
-
-
                                 Rectangle {
                                     id: descTextBox
                                     height: parent.height
@@ -1194,9 +1202,8 @@ Rectangle {
 
                             Item {
                                 id: infoBoxTab
-                                //text: xi18n("Wikipedia Infotext")
 
-                                //active: true
+                                visible: true
                                 Rectangle {
                                     id: descTextBox2
                                     color: "#010a14"
@@ -1205,7 +1212,7 @@ Rectangle {
                                     states: [
                                         State {
                                             name: "outOfTab"
-                                            when: ( (container.state == "singleItemSelected" && detailsView.width >= 600)||(container.state != "singleItemSelected" && detailsView.width >= 600 && detailsView.width < 900))
+                                            when: ( (container.state === "singleItemSelected" && detailsView.width >= 600)||(container.state !== "singleItemSelected" && detailsView.width >= 600 && detailsView.width < 900))
                                             PropertyChanges{target:descTextBox2; parent: detailsView}
                                             PropertyChanges{target:descTextBox2; width: detailsView.width / 2}
                                             PropertyChanges{target:descTextBox2; anchors{
@@ -1217,12 +1224,12 @@ Rectangle {
                                             }
                                                            }
                                             PropertyChanges{target:tabbedView; currentIndex: 0}
-                                            PropertyChanges{target:tabbedView; tabsVisible: false}
+                                            PropertyChanges{target:tabBarObjectInfo; visible: false}
                                             PropertyChanges{target:tabbedView; width: detailsView.width / 2}
                                         },
                                         State {
                                             name: "includeList"
-                                            when: (detailsView.width >= 900 && container.state!="singleItemSelected")
+                                            when: (detailsView.width >= 900 && container.state!=="singleItemSelected")
                                             PropertyChanges{target: soListViewContainer; parent: detailsView}
                                             PropertyChanges{target: soListViewContainer; anchors{
                                                 top: detailsView.top
@@ -1248,7 +1255,7 @@ Rectangle {
                                             PropertyChanges{target:detailItemsCol; x: 150 + detailsView.width / 3}
                                             PropertyChanges{target:tabbedView; width: detailsView.width / 3}
                                             PropertyChanges{target:tabbedView; currentIndex: 0}
-                                            PropertyChanges{target:tabbedView; tabsVisible: false}
+                                            PropertyChanges{target:tabBarObjectInfo; visible: false}
                                             PropertyChanges{target:skyObjView; flipped: true}
                                         }
                                     ]
@@ -1353,11 +1360,11 @@ Rectangle {
                                 hoverEnabled: true
                                 onEntered: {
                                     nextObjForeground.opacity = 0.1
-                                    nextObjText.color = (nightVision.state == "active") ? "red" : "yellow"
+                                    nextObjText.color = (nightVision.state === "active") ? "red" : "yellow"
                                 }
                                 onExited: {
                                     nextObjForeground.opacity = 0.0
-                                    nextObjText.color = (nightVision.state == "active") ? "red" : "white"
+                                    nextObjText.color = (nightVision.state === "active") ? "red" : "white"
                                 }
                                 onClicked: {
                                     nextObjRect.nextObjClicked()
@@ -1430,11 +1437,11 @@ Rectangle {
                                 hoverEnabled: true
                                 onEntered: {
                                     prevObjForeground.opacity = 0.1
-                                    prevObjText.color = (nightVision.state == "active") ? "red" : "yellow"
+                                    prevObjText.color = (nightVision.state === "active") ? "red" : "yellow"
                                 }
                                 onExited: {
                                     prevObjForeground.opacity = 0.0
-                                    prevObjText.color = (nightVision.state == "active") ? "red" : "white"
+                                    prevObjText.color = (nightVision.state === "active") ? "red" : "white"
                                 }
                                 onClicked: {
                                     prevObjRect.prevObjClicked()
@@ -1495,7 +1502,7 @@ Rectangle {
                                 pointSize: 20
                             }
                         }
-                        visible: (soListView.count > 0 || container.state == "singleItemSelected") ? false : true
+                        visible: (soListView.count > 0 || container.state === "singleItemSelected") ? false : true
                     }
 
                 } //end of detailsViewContainer
@@ -1503,12 +1510,12 @@ Rectangle {
                 focus:true
 
                 Keys.onPressed: {
-                    if (event.key == Qt.Key_Left||event.key == Qt.Key_Up) {
+                    if (event.key === Qt.Key_Left||event.key === Qt.Key_Up) {
                         prevObjRect.prevObjClicked();
                         event.accepted = true;
                         soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
                     }
-                    if (event.key == Qt.Key_Right||event.key == Qt.Key_Down) {
+                    if (event.key === Qt.Key_Right||event.key === Qt.Key_Down) {
                         nextObjRect.nextObjClicked();
                         event.accepted = true;
                         soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
@@ -1804,16 +1811,16 @@ Rectangle {
             onEntered: goBackForeground.opacity = buttonOpacity
             onExited: goBackForeground.opacity = 0.0
             onClicked: {
-                if(helpMessage.state == "helpDisplayed"){
+                if(helpMessage.state === "helpDisplayed"){
                     helpMessage.state = ""
-                } else if (container.state == "objectFromListSelected") {
+                } else if (container.state === "objectFromListSelected") {
                     if (!skyObjView.flipped||container.width>=900) {
                         container.state = "base"
                         catTitle.text = ""
                     } else if (skyObjView.flipped) {
                         skyObjView.flipped = false
                     }
-                } else if (container.state == "singleItemSelected") {
+                } else if (container.state === "singleItemSelected") {
                     container.state = "base"
                     catTitle.text = ""
                     if (container.width>=900) {
@@ -1893,8 +1900,8 @@ Rectangle {
             onEntered: inspectForeground.opacity = buttonOpacity
             onExited: inspectForeground.opacity = 0.0
             onClicked: {
-                inspectIcon.inspectIconClicked(inspectIcon.state == "checked")
-                inspectIcon.state = (inspectIcon.state == "checked") ?  "" : "checked"
+                inspectIcon.inspectIconClicked(inspectIcon.state === "checked")
+                inspectIcon.state = (inspectIcon.state === "checked") ?  "" : "checked"
             }
         }
 
@@ -1953,7 +1960,7 @@ Rectangle {
         states: [
             State {
                 name: "invisible"
-                when:  (container.state != "objectFromListSelected" && container.state != "singleItemSelected")
+                when:  (container.state !== "objectFromListSelected" && container.state !== "singleItemSelected")
                 PropertyChanges {target: reloadMouseArea; enabled: false}
                 PropertyChanges {target: reloadIcon; opacity: 0}
             }
@@ -1990,8 +1997,8 @@ Rectangle {
             onEntered: visibleForeground.opacity = buttonOpacity
             onExited: visibleForeground.opacity = 0.0
             onClicked: {
-                visibleIcon.visibleIconClicked(visibleIcon.state == "unchecked")
-                visibleIcon.state = (visibleIcon.state == "unchecked") ?  "" : "unchecked"
+                visibleIcon.visibleIconClicked(visibleIcon.state === "unchecked")
+                visibleIcon.state = (visibleIcon.state === "unchecked") ?  "" : "unchecked"
             }
         }
 
@@ -2004,7 +2011,7 @@ Rectangle {
         states: [
             State {
                 name: "invisible"
-                when: container.state != "objectFromListSelected"
+                when: container.state !== "objectFromListSelected"
                 PropertyChanges {target: visibleMouseArea; enabled: false}
                 PropertyChanges {target: visibleIcon; opacity: 0}
             },
@@ -2044,8 +2051,8 @@ Rectangle {
             onEntered: favoriteForeground.opacity = buttonOpacity
             onExited: favoriteForeground.opacity = 0.0
             onClicked: {
-                favoriteIcon.favoriteIconClicked(favoriteIcon.state == "unchecked")
-                favoriteIcon.state = (favoriteIcon.state == "unchecked") ?  "" : "unchecked"
+                favoriteIcon.favoriteIconClicked(favoriteIcon.state === "unchecked")
+                favoriteIcon.state = (favoriteIcon.state === "unchecked") ?  "" : "unchecked"
             }
         }
         /**
@@ -2064,7 +2071,7 @@ Rectangle {
         states: [
             State {
                 name: "invisible"
-                when:  container.state != "objectFromListSelected"
+                when:  container.state !== "objectFromListSelected"
                 PropertyChanges {target: favoriteMouseArea; enabled: false}
                 PropertyChanges {target: favoriteIcon; opacity: 0}
             },
@@ -2114,7 +2121,7 @@ Rectangle {
         states: [
             State {
                 name: "invisible"
-                when: container.state == "base" || container.state == ""
+                when: container.state === "base" || container.state === ""
                 PropertyChanges {target: downloadMouseArea; enabled: false}
                 PropertyChanges {target: downloadIcon; opacity: 0}
             }
@@ -2145,7 +2152,7 @@ Rectangle {
             hoverEnabled: true
             onEntered: helpForeground.opacity = buttonOpacity
             onExited: helpForeground.opacity = 0.0
-            onClicked: (helpMessage.state == "helpDisplayed") ? helpMessage.state = "" : helpMessage.state = "helpDisplayed"
+            onClicked: (helpMessage.state === "helpDisplayed") ? helpMessage.state = "" : helpMessage.state = "helpDisplayed"
         }
 
         Rectangle {
