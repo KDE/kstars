@@ -7,13 +7,12 @@
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # David Gil, <al016950@yahoo.es>, 2004.
 # Orestes Mas Casals <orestes@tsc.upc.edu>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
-# Josep M. Ferrer <txemaq@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-26 01:42+0000\n"
-"PO-Revision-Date: 2024-07-21 09:11+0200\n"
+"PO-Revision-Date: 2024-07-26 07:39+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -17764,10 +17763,9 @@ msgid "Select EkosLive Servers"
 msgstr "Selecció dels servidors Ekos Live"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Observatory"
+#, kde-format
 msgid "Observatory:"
-msgstr "Observatori"
+msgstr "Observatori:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
 #, kde-format
@@ -17780,11 +17778,9 @@ msgid "Online:"
 msgstr "Connectat:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Malchin"
+#, kde-format
 msgid "Machine ID:"
-msgstr "Malchin"
+msgstr "ID de la màquina:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -37411,10 +37407,9 @@ msgstr "Nom d'usuari de l'Ekos Live"
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1671
-#, fuzzy, kde-format
-#| msgid "EkosLive username"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "Nom d'usuari de l'Ekos Live"
+msgstr "Nom d'observatori de l'EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1675

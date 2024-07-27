@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-26 01:42+0000\n"
-"PO-Revision-Date: 2024-07-21 15:21+0200\n"
+"PO-Revision-Date: 2024-07-26 10:36+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -17572,10 +17572,9 @@ msgid "Select EkosLive Servers"
 msgstr "Ekos-livedervers selecteren"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Observatory"
+#, kde-format
 msgid "Observatory:"
-msgstr "Waarneemstation"
+msgstr "Sterrenwacht:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
 #, kde-format
@@ -17588,11 +17587,9 @@ msgid "Online:"
 msgstr "Online:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Malchin"
+#, kde-format
 msgid "Machine ID:"
-msgstr "Malchin"
+msgstr "Machine-ID:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -36890,10 +36887,9 @@ msgstr "EkosLive gebruikersnaam"
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1671
-#, fuzzy, kde-format
-#| msgid "EkosLive username"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "EkosLive gebruikersnaam"
+msgstr "EkosLive-sterrenwachtnaam"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1675

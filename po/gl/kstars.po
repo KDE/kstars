@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-26 01:42+0000\n"
-"PO-Revision-Date: 2024-07-22 19:33+0200\n"
+"PO-Revision-Date: 2024-07-26 23:12+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -17637,10 +17637,9 @@ msgid "Select EkosLive Servers"
 msgstr "Seleccione servidores de EkosLive"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Observatory"
+#, kde-format
 msgid "Observatory:"
-msgstr "Observatorio"
+msgstr "Observatorio:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
 #, kde-format
@@ -17653,11 +17652,9 @@ msgid "Online:"
 msgstr "Conectado:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Malchin"
+#, kde-format
 msgid "Machine ID:"
-msgstr "Malchin"
+msgstr "Identificador de máquina:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -37069,10 +37066,9 @@ msgstr "Nome de usuaria de EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1671
-#, fuzzy, kde-format
-#| msgid "EkosLive username"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "Nome de usuaria de EkosLive"
+msgstr "Nome de observatorio de EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1675

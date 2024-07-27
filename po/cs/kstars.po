@@ -16426,10 +16426,9 @@ msgid "Select EkosLive Servers"
 msgstr ""
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Observatory"
+#, kde-format
 msgid "Observatory:"
-msgstr "Observatoř"
+msgstr ""
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
 #, kde-format
@@ -16442,11 +16441,9 @@ msgid "Online:"
 msgstr "Online:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Malchin"
+#, kde-format
 msgid "Machine ID:"
-msgstr "Malchin"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -34082,11 +34079,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1671
-#, fuzzy, kde-format
-#| msgctxt "City in Tennessee USA"
-#| msgid "Dyer Observatory"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "Observatoř Dyer"
+msgstr ""
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1675
