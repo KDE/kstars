@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-26 01:42+0000\n"
-"PO-Revision-Date: 2024-07-20 22:55+0200\n"
+"PO-Revision-Date: 2024-07-27 16:22+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -9604,16 +9604,13 @@ msgstr "Enreta Astrometry.net aŭ Remote ANSVR"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
 "astrometry.net)</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Grandeco de la apartigilo inter la kadroj.</p></body></"
-"html>"
+"<html><head/><body><p>Skema kaj Aŭtoritata parto de la URL (ekz. https://"
+"nova.astrometry.net)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -16005,11 +16002,13 @@ msgid ""
 "<p>Add additional camera</p><p><b>WARNING</b>: This feature is experimental!"
 "</p>"
 msgstr ""
+"<p>Aldoni pluan fotilon</p><p><b>AVERTO</b>: Ĉi kapablo estas eksperimenta!</"
+"p>"
 
 #: ekos/capture/capture.cpp:321
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
-msgstr ""
+msgstr "Fotilo %1 estas okupata. Ĉu ĉesigi por fermi?"
 
 #: ekos/capture/capture.cpp:322
 #, kde-format
@@ -17106,16 +17105,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Setting the camera position angle shall move the "
-#| "rotator. The gauge reflects the state of the rotator. Depending on the "
-#| "accuracy of the rotator there can be some deviation in the ending "
-#| "position angle.</p><p>If <span style=\" font-weight:700;\">Save Camera "
-#| "Position Angle to Sequence Job</span> is toggled, any subsequent jobs "
-#| "added to the sequence queue would always rotate to this position angle "
-#| "before capture begins.</p><p>The position angle is measured East of North "
-#| "in degrees.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
@@ -17125,12 +17115,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Agordo de la fotila pozicio-angulo movos la "
 "rotaciilon. La mezurilo reflektas la staton de la rotaciilo. Depende de la "
-"precizeco de la rotaciilo povas esti ia devio en la fina pozicio-angulo.</"
-"p><p>Se <span style=\" font-weight:700;\">Konservi Fotilan Pozician Angulon "
-"al Sekvenca Labortasko</span> estas ŝanĝita, ĉiuj postaj laboroj aldonitaj "
-"al la sekvencovico ĉiam turniĝus al ĉi tiu pozicia angulo antaŭ ol la kapto "
-"komenciĝas.</p><p>La pozicia angulo estas mezurita oriente de Nordo en "
-"gradoj.</p></body></html>"
+"precizeco de la rotaciilo, povas esti ia devio en la fina pozici-angulo.</"
+"p><p>La pozicia angulo estas mezurita oriente de nordo en gradoj.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -17140,10 +17127,9 @@ msgstr "Kamerapozicia Angulo"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
 #: ekos/capture/rotatorsettings.ui:471
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
-msgstr "<html><head/><body><p>Kameradeŝova angulo</p></body></html>"
+msgstr "<html><head/><body><p>Aktuala Fotilpozicia Angulo</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -17487,10 +17473,9 @@ msgid "Select EkosLive Servers"
 msgstr "Elekti EkosLive Servilojn"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Observatory"
+#, kde-format
 msgid "Observatory:"
-msgstr "Observejo"
+msgstr "Observejo:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
 #, kde-format
@@ -17503,11 +17488,9 @@ msgid "Online:"
 msgstr "Enrete:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Malchin"
+#, kde-format
 msgid "Machine ID:"
-msgstr "Malchin"
+msgstr "Malŝin-ID:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -20527,7 +20510,7 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:671
 #, kde-format
 msgid "Donut Buster"
-msgstr ""
+msgstr "Benjet-Rompilo"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:695
@@ -20613,7 +20596,7 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:845
 #, kde-format
 msgid "Always On"
-msgstr ""
+msgstr "Ĉiam Ŝaltita"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:861
@@ -36609,10 +36592,9 @@ msgstr "EkosLive uzantnomo"
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1671
-#, fuzzy, kde-format
-#| msgid "EkosLive username"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "EkosLive uzantnomo"
+msgstr "EkosLive Observeja Nomo"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1675
