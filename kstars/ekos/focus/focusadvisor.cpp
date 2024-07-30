@@ -1409,7 +1409,7 @@ void FocusAdvisor::complete(const bool autofocus, const QString &msg)
     {
         if (m_initialBacklash > -1) m_focus->m_OpsFocusMechanics->focusBacklash->setValue(m_initialBacklash);
         if (m_initialAFOverscan > -1) m_focus->m_OpsFocusMechanics->focusAFOverscan->setValue(m_initialAFOverscan);
-        m_focus->completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_ADVISOR_COMPLETE);
+        m_focus->completeFocusProcedure(Ekos::FOCUS_IDLE, Ekos::FOCUS_FAIL_ADVISOR_COMPLETE);
     }
 }
 
