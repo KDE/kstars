@@ -35,7 +35,7 @@ craft_appimage_qt515_x86_64:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: always
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
       when: always
     - when: manual
       allow_failure: true
@@ -46,7 +46,7 @@ craft_windows_qt515_x86_64:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: always
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
       when: always
     - when: manual
       allow_failure: true
@@ -59,14 +59,18 @@ craft_macos_x86_64:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       allow_failure: true # MacOS build is unstable
       when: always
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
       when: always
     - when: manual
       allow_failure: true
 
 # Publishing to Windows store is being discussed
 microsoftstore_qt515:
+  needs:
+    - craft_windows_qt515_x86_64
   rules:
+    - if: $CI_COMMIT_BRANCH =~ /^stable-.*/
+      when: always
     - when: manual
       allow_failure: true
 
