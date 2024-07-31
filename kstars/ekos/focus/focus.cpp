@@ -2254,8 +2254,9 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
     {
         if (completionState == Ekos::FOCUS_COMPLETE)
         {
-            KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"),
-                                  KSNotification::Focus);
+            if (failCode != FOCUS_FAIL_ADVISOR_COMPLETE)
+                KSNotification::event(QLatin1String("FocusSuccessful"), i18n("Autofocus operation completed successfully"),
+                                      KSNotification::Focus);
             // Pass consistent Autofocus temperature to analyze
             if (m_FocusAlgorithm == FOCUS_LINEAR1PASS && curveFitting != nullptr)
                 emit autofocusComplete(m_LastSourceAutofocusTemperature, filter(), getAnalyzeData(),
@@ -2267,8 +2268,9 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
         }
         else
         {
-            KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed"),
-                                  KSNotification::Focus, KSNotification::Alert);
+            if (failCode != FOCUS_FAIL_ADVISOR_COMPLETE)
+                KSNotification::event(QLatin1String("FocusFailed"), i18n("Autofocus operation failed"),
+                                      KSNotification::Focus, KSNotification::Alert);
             emit autofocusAborted(filter(), getAnalyzeData(), m_OpsFocusProcess->focusUseWeights->isChecked(), failCode, failCodeInfo);
         }
     }
