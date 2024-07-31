@@ -2111,12 +2111,21 @@ void Manager::initFocus()
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
 
+    connect(focusModule(), &Ekos::Focus::setTitle, [this](const QString & title, bool plot)
+    {
+        focusManager->hfrVPlot->setTitle(title, plot);
+        QJsonObject cStatus =
+        {
+            {"focusTitle", title}
+        };
+
+        ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
+    });
     // connect HFR plot widget
     connect(focusModule(), &Ekos::Focus::initHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::init);
     connect(focusModule(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
     connect(focusModule(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
     connect(focusModule(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
-    connect(focusModule(), &Ekos::Focus::setTitle, focusManager->hfrVPlot, &FocusHFRVPlot::setTitle);
     connect(focusModule(), &Ekos::Focus::finalUpdates, focusManager->hfrVPlot, &FocusHFRVPlot::finalUpdates);
     connect(focusModule(), &Ekos::Focus::minimumFound, focusManager->hfrVPlot, &FocusHFRVPlot::drawMinimum);
     // setup signal/slots for Linear 1 Pass focus algo
