@@ -2122,7 +2122,17 @@ void Manager::initFocus()
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
     // connect HFR plot widget
-    connect(focusModule(), &Ekos::Focus::initHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::init);
+    connect(focusModule(), &Ekos::Focus::initHFRPlot, [this](QString str, double starUnits, bool minimum, bool useWeights,
+            bool showPosition)
+    {
+        focusManager->hfrVPlot->init(str, starUnits, minimum, useWeights, showPosition);
+        QJsonObject cStatus =
+        {
+            {"hfrPlotTimestamp", QDateTime::currentDateTime().toString(Qt::ISODate)}
+        };
+
+        ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
+    });
     connect(focusModule(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
     connect(focusModule(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
     connect(focusModule(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
