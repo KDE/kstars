@@ -2111,16 +2111,7 @@ void Manager::initFocus()
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
 
-    connect(focusModule(), &Ekos::Focus::setTitle, [this](const QString & title, bool plot)
-    {
-        focusManager->hfrVPlot->setTitle(title, plot);
-        QJsonObject cStatus =
-        {
-            {"focusTitle", title}
-        };
 
-        ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
-    });
     // connect HFR plot widget
     connect(focusModule(), &Ekos::Focus::initHFRPlot, [this](QString str, double starUnits, bool minimum, bool useWeights,
             bool showPosition)
@@ -2128,11 +2119,13 @@ void Manager::initFocus()
         focusManager->hfrVPlot->init(str, starUnits, minimum, useWeights, showPosition);
         QJsonObject cStatus =
         {
-            {"hfrPlotTimestamp", QDateTime::currentDateTime().toString(Qt::ISODate)}
+            {"focusinitHFRPlot", true}
         };
 
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
+
+    connect(focusModule(), &Ekos::Focus::setTitle, focusManager->hfrVPlot, &FocusHFRVPlot::setTitle);
     connect(focusModule(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
     connect(focusModule(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
     connect(focusModule(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
@@ -2175,7 +2168,8 @@ void Manager::updateCurrentHFR(double newHFR, int position, bool inAutofocus)
     QJsonObject cStatus =
     {
         {"hfr", newHFR},
-        {"pos", position}
+        {"pos", position},
+        {"title", focusManager->hfrVPlot->title()}
     };
 
     ekosLiveClient.get()->message()->updateFocusStatus(cStatus);

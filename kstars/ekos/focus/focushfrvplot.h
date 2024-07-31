@@ -34,6 +34,7 @@ class FocusHFRVPlot : public QCustomPlot
          * @param title the new plot title
          */
         void setTitle(const QString &title, bool plot = true);
+        QString title() const;
 
         /**
          * @brief updates the plot title

@@ -253,6 +253,13 @@ void FocusHFRVPlot::setTitle(const QString &title, bool plot)
     if (plot) replot();
 }
 
+QString FocusHFRVPlot::title() const
+{
+    if (plotTitle)
+        return plotTitle->text();
+    return QString();
+}
+
 void FocusHFRVPlot::finalUpdates(const QString &title, bool plot)
 {
     // Update a previously set title without having to redraw everything
