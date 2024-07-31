@@ -3117,9 +3117,7 @@ void Camera::connectSyncSettings()
 {
     // All Combo Boxes
     for (auto &oneWidget : findChildren<QComboBox*>())
-        // Don't sync Optical Train combo
-        if (oneWidget != opticalTrainCombo)
-            connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Camera::syncSettings);
+        connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Camera::syncSettings);
 
     // All Double Spin Boxes
     for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
@@ -3149,6 +3147,9 @@ void Camera::connectSyncSettings()
             continue;
         connect(oneWidget, &QLineEdit::textChanged, this, &Camera::syncSettings);
     }
+
+    // Train combo box should NOT be synced.
+    disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Camera::syncSettings);
 }
 
 void Camera::disconnectSyncSettings()
