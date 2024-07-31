@@ -330,7 +330,7 @@ void Device::updateProperty(INDI::Property prop)
     else if (prop.isNameMatch("CONNECTION_TYPE") || prop.isNameMatch("SYSTEM_PORTS") ||
              prop.isNameMatch("DEVICE_BAUD_RATE") || prop.isNameMatch("DEVICE_PORT"))
         syncGUI();
-    else if (prop.isNameMatch("CONNECTION"))
+    else if (prop.isNameMatch("CONNECTION") && m_ConnectB)
     {
         if (m_Device->isConnected())
         {
