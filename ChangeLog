@@ -4,6 +4,61 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.2 (ADVISOR):
+
+0da71b1ff 2024-07-31 Jasem Mutlaq         Send title to EkosLive
+bf0792c9e 2024-07-25 Jasem Mutlaq         Add observatory name and machine ID to EkosLive
+d20ed89d1 2024-07-23 Wolfgang Reissenberger Camera selection combo box only if more than one camera active
+75a63d92a 2024-07-21 Jasem Mutlaq         Disable the astronomical twilight pop up and just log the same message to the log view. The popup sometimes keeps repeating and causing havoc on use..
+41bdbfdb3 2024-07-20 Toni Schriber        Tooltips emendation in rotatorsettings & opsprograms
+085e5f445 2024-07-13 Wolfgang Reissenberger Bug fix: Check for focus running fixed in calibration phase
+9b9998089 2024-07-11 John Evans           Focus SEP defaults no longer deboned
+2138a4745 2024-07-11 John Evans           Focus Fail Bugs
+32d5b4146 2024-07-10 Wolfgang Reissenberger Multiple cameras | step 8
+08ed69269 2024-07-10 Wolfgang Reissenberger Stop dither timer when guiding is detected
+d755e650b 2024-07-09 Hy Murveit           Fix broken sequence editor
+d7bf3b954 2024-07-07 John Evans           Focus Advisor 4 Bugs 1
+013389d89 2024-06-19 Boudhayan Bhattacharya Add launchable and developer name to appdata
+11d0dc4dc 2024-06-22 Emir SARI            Apply i18n to percent values
+eea44264d 2024-07-02 Jasem Mutlaq         Fix warnings and add stage and message signals to FocusAdvisor
+f99c36238 2024-07-02 Wolfgang Reissenberger Create a pass through for capturing directly from INDI
+4cda831e0 2024-06-30 John Evans           Focus Advisor 4 Typo Correction
+42b6cf2a0 2024-06-29 Hy Murveit           Add info about index file used to the fits solver.
+057a54402 2024-06-25 Hy Murveit           Remove the fitsviewer/sep directory and contents. It is not used--was moved to StellarSolver.
+943e9d216 2024-06-25 Hy Murveit           Reword the warning at the top of the logs menu.
+7b6cf2a06 2024-06-25 John Evans           Focus Advisor Phase 4
+c05bbb26d 2024-06-25 Hy Murveit           Remove solver logging from the logs menu--it is disabled.
+b58fa0ecb 2024-06-22 Jasem Mutlaq         FITSData should have its unique UUID
+f1dc3d887 2024-06-21 Jasem Mutlaq         Perform an exact search first. If no objects are found, we try inexact search if it is required
+9eaa76f4b 2024-06-21 Jasem Mutlaq         Use KLocalizedString instead of I18N_NOOP
+33637a667 2024-06-21 Jasem Mutlaq         Fix bug that caused KStars selected program language to not load properly.
+22cd49294 2024-06-21 Wolfgang Reissenberger Bugfix compiler warnings 2
+77fbbbe05 2024-06-19 Wolfgang Reissenberger Multiple cameras | step 7
+07d65a961 2024-06-18 Hy Murveit           Remove the SettingAltitudeCutoff option
+33d128d95 2024-06-18 Hy Murveit           Continue to fix Analyze fits display
+491a7c2bd 2024-06-18 Wolfgang Reissenberger Bugfixes for compiler warnings
+31cae62cd 2024-06-18 Jasem Mutlaq         Fix typo
+58b955534 2024-06-17 Hy Murveit           Analyze bugfix--did not display fits files when fits single window capture was set
+2dae0ae4f 2024-06-17 Jasem Mutlaq         Use shortFormat otherwise all native loaders would fail. This fixes a serious regression introduced with 3.7.1
+d0a30160b 2024-06-16 Wolfgang Reissenberger Multiple cameras | step 6
+4f5270e45 2024-06-15 Jasem Mutlaq         Protect against crash by assigning weather source in case it was never set before
+8f65f020a 2024-06-15 Jasem Mutlaq         Fix issue where remote drivers field have multiple drivers
+68cb99ce5 2024-06-15 Jasem Mutlaq         Fix issue where script driver are not connected after startup
+565b202a6 2024-06-15 Jasem Mutlaq         Remote drivers should be now selectable in profile scripts
+d56244bee 2024-06-14 Eric Dejouhanet      fix(ci): increase MacOS build timeout.
+f4f445838 2024-06-13 Hy Murveit           Adjust Analyze legend
+32a71b49d 2024-06-13 Jasem Mutlaq         Make sure combo box has elements before trying to set a value
+636bc437f 2024-06-13 Jasem Mutlaq         Fix observatory weather switching and fix connection to scheduler. Instead of relying on Weather device, we now rely on observatory overall status s..
+0eddd6ff7 2024-06-12 Jasem Mutlaq         Fix minor issue with missing sync controls
+f2fd781ac 2024-06-11 Jasem Mutlaq         Add Preston, England
+61817bb4e 2024-06-10 John Evans           Hanging bug due to multiple adjust focus requests
+55cf23a1a 2024-06-07 Antonio Escriban     Bugfix camera UI
+03470ee7f 2024-06-08 Wolfgang Reissenberger Widgets from mount controller used on mount tab
+ddb818ffa 2024-06-08 Wolfgang Reissenberger Multiple cameras | step 5
+bb9913ae5 2024-06-07 Eric Dejouhanet      feat(ci): build and sign on push to the default branch
+1275121a4 2024-06-07 Jasem Mutlaq         Starting KStars 3.7.2 development cycle
+e9b49f3a7 2024-06-07 Jasem Mutlaq         Add machine id to node manager
+
 3.7.1 (MULTI):
 
 df6cce9f0 2024-05-30 Wolfgang Reissenberger Making target labels dependent on the selected coordinates mode
