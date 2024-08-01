@@ -836,7 +836,7 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
     // If altitude limits is enabled, then reject motion immediately.
     double targetAlt = ScopeTarget->altRefracted().Degrees();
 
-    if ((-90 <= minAlt && maxAlt <= 90) && (targetAlt < minAlt || targetAlt > maxAlt))
+    if ((-90 <= minAlt && maxAlt <= 90) && (targetAlt < minAlt || targetAlt > maxAlt) && !altLimitsTrackingOnly)
     {
         KSNotification::event(QLatin1String("IndiServerMessage"),
                               i18n("Requested altitude %1 is outside the specified altitude limit boundary (%2,%3).",
@@ -1205,10 +1205,11 @@ int Mount::getSlewRate() const
     return slewRateSP->findOnSwitchIndex();
 }
 
-void Mount::setAltLimits(double minAltitude, double maxAltitude)
+void Mount::setAltLimits(double minAltitude, double maxAltitude, bool trackingOnly)
 {
     minAlt = minAltitude;
     maxAlt = maxAltitude;
+    altLimitsTrackingOnly = trackingOnly;
 }
 
 bool Mount::setAlignmentModelEnabled(bool enable)

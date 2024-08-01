@@ -261,16 +261,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0" colspan="2">
-           <widget class="QCheckBox" name="enableAltitudeLimits">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Enable Alt limits</string>
-            </property>
-           </widget>
-          </item>
           <item row="5" column="1">
            <widget class="QDoubleSpinBox" name="maximumHaLimit">
             <property name="enabled">
@@ -339,6 +329,29 @@
            <widget class="Line" name="line_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="enableAltitudeLimits">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable or Disable the mount travel range limits. Once enabled, Ekos monitors the mount's altitude while slewing or tracking. If the mount slews/tracks below or above the limits, it shall be commanded to stop and tracking will be turned off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Enable Alt limits</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="enableAltitudeLimitsTrackingOnly">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use altitude limits only while the mount tracking. This is necessary for some mounts that intentionally pass this limit, e.g. for parking.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;WARNING&lt;/span&gt;: leave unchecked if unsure, use only if you know what you are doing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Tracking only</string>
             </property>
            </widget>
           </item>

@@ -118,6 +118,11 @@ Mount::Mount()
         setAltitudeLimits(toggled);
 
     });
+    connect(enableAltitudeLimitsTrackingOnly, &QCheckBox::toggled, this, [this]()
+    {
+        setAltitudeLimits(enableAltitudeLimits->isChecked());
+    });
+
     m_AltitudeLimitEnabled = enableAltitudeLimits->isChecked();
     connect(enableHaLimit, &QCheckBox::toggled, this, &Mount::enableHourAngleLimits);
 
@@ -283,9 +288,9 @@ bool Mount::setMount(ISD::Mount *device)
     if (m_Mount->isReady())
     {
         if (enableAltitudeLimits->isChecked())
-            m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
+            m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value(), enableAltitudeLimitsTrackingOnly->isChecked());
         else
-            m_Mount->setAltLimits(-91, +91);
+            m_Mount->setAltLimits(-91, +91, false);
 
         syncTelescopeInfo();
 
@@ -303,9 +308,9 @@ bool Mount::setMount(ISD::Mount *device)
         connect(m_Mount, &ISD::Mount::ready, this, [this]()
         {
             if (enableAltitudeLimits->isChecked())
-                m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
+                m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value(), enableAltitudeLimitsTrackingOnly->isChecked());
             else
-                m_Mount->setAltLimits(-91, +91);
+                m_Mount->setAltLimits(-91, +91, false);
 
             syncTelescopeInfo();
 
@@ -529,14 +534,13 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
 
     double currentAlt = telescopeCoord.altRefracted().Degrees();
 
-    if (minimumAltLimit->isEnabled() && (currentAlt < minimumAltLimit->value() || currentAlt > maximumAltLimit->value()))
+    if (minimumAltLimit->isEnabled() && (currentAlt < minimumAltLimit->value() || currentAlt > maximumAltLimit->value()) &&
+            (m_Mount->isTracking() || (!enableAltitudeLimitsTrackingOnly->isChecked() && m_Mount->isInMotion())))
     {
         if (currentAlt < minimumAltLimit->value())
         {
             // Only stop if current altitude is less than last altitude indicate worse situation
-            if (currentAlt < m_LastAltitude &&
-                    (m_AbortAltDispatch == -1 ||
-                     (m_Mount->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
+            if (currentAlt < m_LastAltitude && m_AbortAltDispatch == -1)
             {
                 appendLogText(i18n("Telescope altitude is below minimum altitude limit of %1. Aborting motion...",
                                    QString::number(minimumAltLimit->value(), 'g', 3)));
@@ -547,21 +551,16 @@ void Mount::updateTelescopeCoords(const SkyPoint &position, ISD::Mount::PierSide
                 m_AbortAltDispatch++;
             }
         }
-        else
+        else if (currentAlt > m_LastAltitude && m_AbortAltDispatch == -1)
         {
             // Only stop if current altitude is higher than last altitude indicate worse situation
-            if (currentAlt > m_LastAltitude &&
-                    (m_AbortAltDispatch == -1 ||
-                     (m_Mount->isInMotion() /* && ++abortDispatch > ABORT_DISPATCH_LIMIT*/)))
-            {
-                appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...",
-                                   QString::number(maximumAltLimit->value(), 'g', 3)));
-                m_Mount->abort();
-                m_Mount->setTrackEnabled(false);
-                //KNotification::event( QLatin1String( "OperationFailed" ));
-                KNotification::beep();
-                m_AbortAltDispatch++;
-            }
+            appendLogText(i18n("Telescope altitude is above maximum altitude limit of %1. Aborting motion...",
+                               QString::number(maximumAltLimit->value(), 'g', 3)));
+            m_Mount->abort();
+            m_Mount->setTrackEnabled(false);
+            //KNotification::event( QLatin1String( "OperationFailed" ));
+            KNotification::beep();
+            m_AbortAltDispatch++;
         }
     }
     else
@@ -821,32 +820,25 @@ void Mount::saveLimits()
     if (m_Mount == nullptr)
         return;
 
-    m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
+    m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value(), enableAltitudeLimitsTrackingOnly->isChecked());
 }
 
 void Mount::setAltitudeLimits(bool enable)
 {
-    if (enable)
+    minAltLabel->setEnabled(enable);
+    maxAltLabel->setEnabled(enable);
+
+    minimumAltLimit->setEnabled(enable);
+    maximumAltLimit->setEnabled(enable);
+
+    enableAltitudeLimitsTrackingOnly->setEnabled(enable);
+
+    if (m_Mount)
     {
-        minAltLabel->setEnabled(true);
-        maxAltLabel->setEnabled(true);
-
-        minimumAltLimit->setEnabled(true);
-        maximumAltLimit->setEnabled(true);
-
-        if (m_Mount)
-            m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value());
-    }
-    else
-    {
-        minAltLabel->setEnabled(false);
-        maxAltLabel->setEnabled(false);
-
-        minimumAltLimit->setEnabled(false);
-        maximumAltLimit->setEnabled(false);
-
-        if (m_Mount)
-            m_Mount->setAltLimits(-91, +91);
+        if (enable)
+            m_Mount->setAltLimits(minimumAltLimit->value(), maximumAltLimit->value(), enableAltitudeLimitsTrackingOnly->isChecked());
+        else
+            m_Mount->setAltLimits(-91, +91, false);
     }
 }
 

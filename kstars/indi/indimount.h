@@ -162,7 +162,7 @@ class Mount : public ConcreteDevice
         const QString statusString(Status status, bool translated = true) const;
 
         // Altitude Limits
-        void setAltLimits(double minAltitude, double maxAltitude);
+        void setAltLimits(double minAltitude, double maxAltitude, bool trackingOnly);
 
         // Alignment Model
         bool setAlignmentModelEnabled(bool enable);
@@ -305,6 +305,7 @@ class Mount : public ConcreteDevice
     private:
         SkyPoint currentCoords;
         double minAlt {0}, maxAlt = 90;
+        bool altLimitsTrackingOnly = false;
         ParkStatus m_ParkStatus = PARK_UNKNOWN;
         IPState EqCoordPreviousState {IPS_IDLE};
         QTimer centerLockTimer;

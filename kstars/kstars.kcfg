@@ -1732,6 +1732,10 @@
          <label>Enable mount altitude limits.</label>
          <default>false</default>
       </entry>
+      <entry name="EnableAltitudeLimitsTrackingOnly" type="Bool">
+         <label>Restrict altitude limits to tracking mode only.</label>
+         <default>false</default>
+      </entry>
       <entry name="ConfirmBelowHorizon" type="Bool">
          <label>Warn user before command mount to go to a target below horizon.</label>
          <default>true</default>
