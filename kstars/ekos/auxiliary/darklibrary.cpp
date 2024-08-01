@@ -1422,7 +1422,7 @@ void DarkLibrary::setCaptureState(CaptureState state)
 ///////////////////////////////////////////////////////////////////////////////////////
 void DarkLibrary::saveDefectMap()
 {
-    if (!m_CurrentDarkFrame)
+    if (!m_CurrentDarkFrame || !m_CurrentDefectMap)
         return;
 
     QString filename = m_CurrentDefectMap->filename();
