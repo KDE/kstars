@@ -1041,8 +1041,7 @@
       </listitem>
 
       <listitem>
-        <para><guilabel>Donut Buster</guilabel>: This is an experimental feature and should be used with caution. The
-        intention of Donut Buster is to improve focusing for telescopes with central obstructions that create donut shaped
+        <para><guilabel>Donut Buster</guilabel>: The intention of Donut Buster is to improve focusing for telescopes with central obstructions that create donut shaped
         stars when defocused, e.g. Newtonians, SCTs, RASAs, Ritchey-Cretiens, etc.</para>
 
         <para> <guilabel>Donut Buster</guilabel> is only available for Linear 1 Pass, walks of Fixed and CFZ Shuffle,
@@ -1071,22 +1070,30 @@
             algorithm when <guilabel>Refine Curve Fit</guilabel> is checked. The higher the value the more outliers will be
             excluded from the curve fitting process. The default value is 0.2.</para>
           </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para> <guilabel>Scan for Start Position</guilabel> is only available for Linear 1 Pass, walks of Fixed and CFZ Shuffle,
+        curves fits of Hyperbola and Parabola, and focus measures of: HFR, HFR Adj and FWHM.</para>
+
+        <para> Check this option to have Focus scan around the current focuser position to find an approximate optimum
+        focus position. The purpose of this is to ensure that Autofocus starts near to the focus position. The
+        following sub-options are available:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para> <guilabel>Always On</guilabel>: When checked Scan for Start Position is always run at the start of
+            Autofocus. When unchecked, it is only run when Autofocus fails and is rerun.</para>
+          </listitem>
 
           <listitem>
-            <para> <guilabel>Scan for Start Position</guilabel>: Check this option to have Focus scan around the current
-            focuser position to find an approximate optimum focus position. The purpose of this is to ensure that Autofocus starts
-            near to the focus position. The following sub-options are available:</para>
+            <para> <guilabel>Num Datapoints</guilabel>: The number of datapoints to use in each scan. 5 is a good place to start.</para>
+          </listitem>
 
-            <itemizedlist>
-              <listitem>
-                <para> <guilabel>Num Datapoints</guilabel>: The number of datapoints to use in each scan. 5 is a good place to start.</para>
-              </listitem>
-
-              <listitem>
-                <para> <guilabel>Initial Step size x</guilabel>: A multiplicative factor to apply to the <guilabel>Initial
-                Step size</guilabel> for use in the Scan for Start Position. Default is 1.0.</para>
-              </listitem>
-            </itemizedlist>
+          <listitem>
+            <para> <guilabel>Initial Step size x</guilabel>: A multiplicative factor to apply to the <guilabel>Initial
+            Step size</guilabel> for use in the Scan for Start Position. Default is 1.0.</para>
           </listitem>
         </itemizedlist>
       </listitem>
@@ -1474,70 +1481,152 @@
       </mediaobject>
     </screenshot>
 
-    <para> This is the Focus Advisor dialog. It is a feature to assist with management of focus parameters.</para>
-
-    <para> The purpose of Focus Advisor is to help people struggling to use the Focus module within Ekos. The Focus module is
+    <para>The Focus Advisor dialog is a feature to assist with setting up of focus parameters. To use, select the
+    required options and press <guilabel>Run</guilabel>. This is currently an <emphasis role="bold">experimental feature.</emphasis></para>
+    <para> The purpose of Focus Advisor is to help people to use the Focus module within Ekos. The Focus module is
     functionally rich and contains a lot of parameters that need to be set self-consistently to achieve good results. Focus
     Advisor is designed to help with basic parameter setup that should achieve focus. It is not designed to achieve the best possible
     focus for your equipment; you will have to experiment with your setup to achieve that. But Focus Advisor provides a place to
     start that experimentation.</para>
-
-    <para> So Focus Advisor is aimed towards the less experienced users.</para>
+    <para> Focus Advisor is aimed towards the less experienced users.</para>
     <para> If Focus Advisor does not appear to give good results on your setup why not start a discussion on the forum so it can
     be enhanced to give better results in the future. This way it will build over time to be more useful.</para>
     <para> When you click on Focus Advisor it works out a series of parameter recommendations based on the Optical
     Train you are using in Focus.</para>
-    <para> At the top of the dialog it displays information about the connected Optical Train. Then it displays 6 lines relating
-    to various sets of parameters used within Focus. Against each line is a checkbox to update the associated Focus fields
-    with Focus Advisor's recommendations.</para>
-    <para> Focus parameters are broken into the following groupings:</para>
-
+    <para> There are 4 checkboxes on display that by default are all checked. Some can be toggled off if required. For
+    example, Update Parameters will reset most parameters to standard settings. Once run, it is not necessary to repeatedly
+    run this option so the associated checkbox can be toggled off for subsequent runs.</para>
+    <para>The following buttons are available:</para>
     <itemizedlist>
     <listitem>
-    <para> <guilabel>Step Size</guilabel>: This is the suggested focus step size to use. This is a critical parameter. It can
-    be defaulted from the Critical Focus Zone (CFZ) dialog if you know how to set that up. Alternatively, if you know a reasonable
-    value for your equipment from other sources you can just enter that.</para>
+    <para> <guilabel>Help</guilabel>: Press this button to launch the Focus Advisor Help dialog:</para>
+    <screenshot>
+      <screeninfo> Focus Advisor - Help</screeninfo>
+      <mediaobject>
+        <imageobject><imagedata fileref="focus_advisor_help.png" format="PNG" width="50%"/></imageobject>
+        <textobject><phrase>Focus Advisor - Help</phrase></textobject>
+      </mediaobject>
+    </screenshot>
+    <para> The Help dialog shows details of the current Optical Train at the top. Then comes a table comparison of the value of
+    each Focus parameter in <link linkend="focus-settings">Focus Settings</link> versus the value suggested by Focus
+    Advisor. This allows you to see what Focus Advisor would update if Update Parameters were checked and Focus Advisor run.</para>
+    <para>The <guilabel>Show Only Changes</guilabel> checkbox determines whether all parameters are listed or only those that differ
+    from the Focus Advisor recommendation. The <guilabel>Close</guilabel> button closes the Help dialog.</para>
     </listitem>
 
     <listitem>
-    <para> <guilabel>Camera &amp; Filter Wheel Parameters</guilabel>: This sets the parameters in the
-    <link linkend="focus-ccd-filter-wheel">CCD &amp; Filter Wheel</link> section of the Focus screen. By hovering the mouse over this
-    label you can see in the tooltip what values Focus Advisor is recommending.</para>
+    <para> <guilabel>Run</guilabel>: Press this button to run Focus Advisor for the checked options. The V-Curve will be
+    dynamically updated with progress, as will the Focus Advisor dialog.</para>
     </listitem>
 
     <listitem>
-    <para> <guilabel>Settings Parameters</guilabel>: This sets the parameters in
-    <link linkend="focus-settings">Focus Settings</link>. By hovering the mouse over this
-    label you can see in the tooltip what values Focus Advisor is recommending.</para>
+    <para> <guilabel>Stop</guilabel>: Press this button to stop Focus Advisor. Note that the <guilabel>Stop</guilabel>
+    button on the main Focus panel does the same thing.</para>
     </listitem>
 
     <listitem>
-    <para> <guilabel>Process Parameters</guilabel>: This sets the parameters in
-    <link linkend="focus-process">Focus Process</link>. By hovering the mouse over this
-    label you can see in the tooltip what values Focus Advisor is recommending.</para>
+    <para> <guilabel>Close</guilabel>: Press this button to close the Focus Advisor dialog.</para>
+    </listitem>
+    </itemizedlist>
+
+    <para> The following checkbox options are available:</para>
+    <itemizedlist>
+    <listitem>
+    <para> <emphasis role="bold">Update Parameters</emphasis>: This sets the parameters in
+    <link linkend="focus-settings">Focus Settings</link> to standard values that
+    should enable Autofocus to successfully complete. Note that parameters are stored per Optical Train so it is a good
+    idea to set this option when starting. Note that some parameters, e.g. step size are better defaulted from a trial and error
+    approach by running Autofocus. So these parameters can be better set by some other options below.</para>
+    <para>Note that when a new Optical Train is created, Focus Advisor will setup default parameters when the Optical Train
+    is used for the first time in Focus.</para>
+    <para>A way to check whether parameters are set appropriately for Focus Advisor is to hit the <guilabel>Help
+    </guilabel> button. See the Focus Advisor Help section for more details.</para>
+    <para>Also note that subsequent Focus Advisor functions depend on certain parameters being selected, for example the
+    Linear 1 Pass focus algorithm, so it is recommended to run Update Parameters at the start of using Focus Advisor.</para>
     </listitem>
 
     <listitem>
-    <para> <guilabel>Mechanics Parameters</guilabel>: This sets the parameters in
-    <link linkend="focus-mechanics">Focus Mechanics</link>. By hovering the mouse over this
-    label you can see in the tooltip what values Focus Advisor is recommending.</para>
+    <para> <emphasis role="bold">Find Stars</emphasis>: This function is designed to search the range of motion of the focuser to
+    locate stars. If stars are already visible in subframes then there is no need to run this function.</para>
+    <para>The algorithm will start at the current focuser position and search an area outward then inward of the
+    starting position looking for stars. If no stars are found it will continue expending the search area whilst staying
+    within the allowed range of motion of the focuser.</para>
+    <para>Eventually either stars will be located or the whole range of motion of the focuser will have been
+    searched without locating any stars. In this latter case, the step size will be halved and the search restarted from
+    the beginning.</para>
+    <para>The search process uses a series of jumps of 10 x step size to try and locate stars.</para>
+    <para>To use this function start the focuser as near to where stars are likely to be found as possible. If you have
+    no idea then the algorithm will locate stars but the search will likely take longer. In addition, use a step size
+    as close as possible to a good value for your equipment. If a value too small is chosen then the number of steps
+    will be larger and the search will take longer. If a value too large is chosen then its possible that the range of
+    focus positions where stars are visible will be "jumped over" in the search and it will appear that there are no stars
+    visible anywhere. If you have no idea what a good starting value is then use the default and let Focus Advisor try to
+    figure it out.</para>
+    <para>Here is an example run of Find Stars:</para>
+    <screenshot>
+      <screeninfo> Focus Advisor - Find Stars</screeninfo>
+      <mediaobject>
+        <imageobject><imagedata fileref="focus_advisor_find_stars.png" format="PNG" width="50%"/></imageobject>
+        <textobject><phrase>Focus Advisor - Find Stars</phrase></textobject>
+      </mediaobject>
+    </screenshot>
+    <para>The results table in the Focus Advisor dialog shows a single line for Find Stars. In this case, Find Stars
+    was started at position 70,000 and the Step Size was 250 (giving a Jump Size of 2,500).</para>
+    <para>No stars were found at 70,000 (point 1 on the V-Curve) so an outward sweep started at 95,000 and moved in 2,500
+    jump by jump until 70,000 was reached (points 2-11) when the inward sweep started. Stars were first detected at 60,000
+    (point 15).</para>
+    <para>The algorithm then continues to Jump inwards until no stars are found (point 34). This gives the range of positions where
+    stars were located as 15,000 (point 33) to 60,000 (point 15) with a centre at 37,500.</para>
     </listitem>
 
     <listitem>
-    <para> <guilabel>SEP Parameters</guilabel>: This sets the SEP parameter profile appropriate
-    for the scope type attached in the selected Optical Train. By hovering the mouse over this
-    label you can see in the tooltip what values Focus Advisor is recommending.</para>
+    <para> <emphasis role="bold">Coarse Adjustment (without Autofocus)</emphasis>: This function is designed to provide coarse
+    adjustment to the start position, Step Size and AF Overscan (or backlash) fields. The purpose is to provide "good
+    enough" values for these parameters in order for the next stage, Fine Adjustment to work. An iterative process is used
+    to home in on acceptable values.</para>
+    <para>Here is an example to describe how it works:</para>
+    <screenshot>
+      <screeninfo> Focus Advisor - Coarse Adjustment</screeninfo>
+      <mediaobject>
+        <imageobject><imagedata fileref="focus_advisor_coarse_adj.png" format="PNG" width="50%"/></imageobject>
+        <textobject><phrase>Focus Advisor - Coarse Adjustment</phrase></textobject>
+      </mediaobject>
+    </screenshot>
+    <para>Coarse Adjustment was run from a starting position of 37,500 with a Step Size of 250 and AF Overscan of 0.
+    This is recorded in Run 1 in the results table in the Focus Advisor dialog. The comment column says that the Max/Min Ratio = 0.9
+    which means that the "Max HFR" / "Min HFR" of the datapoints is 0.9 which is too low. So Focus Advisor starts Run 2
+    from position 38,875 with an increased Step Size of 803 and Overscan of 250.</para>
+    <para>Run 2 again had a Max/Min ratio too low, so Run 3 was started.</para>
+    <para>Run 3 (which is shown in the V-Curve) started from 35548 with Step Size of 2544 and Overscan of 7477. This
+    resulted in a Max/Min of 2.0 which is good enough at this stage. The datapoints form a V-Curve with no obvious
+    uncorrected backlash (this would show as a flat spot on the right hand side of the curve if there was any). So
+    the Coarse Adjustment completes after Run 3.</para>
     </listitem>
 
     <listitem>
-    <para> <guilabel>Help</guilabel>: Press this button to get help on using Focus Advisor.</para>
+    <para> <emphasis role="bold">Fine Adjustment (with Autofocus)</emphasis>: : This function is designed to provide fine
+    adjustment to the start position, Step Size and AF Overscan (or backlash) fields. Fine Adjustment runs Autofocus
+    including curve fitting and analyses the result to determine whether or not it can be improved. If so, it adjusts
+    parameters and re-runs. An iterative process is used to home in on parameter values.</para>
+    <para>Here is an example to describe how it works:</para>
+    <screenshot>
+      <screeninfo> Focus Advisor - Fine Adjustment</screeninfo>
+      <mediaobject>
+        <imageobject><imagedata fileref="focus_advisor_fine_adj.png" format="PNG" width="50%"/></imageobject>
+        <textobject><phrase>Focus Advisor - Fine Adjustment</phrase></textobject>
+      </mediaobject>
+    </screenshot>
+    <para>Fine Adjustment was run from a starting position of 35,548 with a Step Size of 2544 and AF Overscan of 7477.
+    This is recorded in Run 1 in the results table in the Focus Advisor dialog. The comment column says that the Max/Min Ratio = 1.9
+    which means that the "Max HFR" / "Min HFR" of the datapoints is 1.9 which could be improved. So Focus Advisor starts Run 2
+    from position 38,092 with an increased Step Size of 4888 and Overscan of 3738. The Overscan value is reduced here to see
+    if a smaller number would adequately compensate backlash.</para>
+    <para>Run 2 had a Max/Min ratio of 4 which is a little high, and calculated an Overscan value of 8626 so Run 3 was started.</para>
+    <para>Run 3 (which is shown in the V-Curve) started from 38092 with Step Size of 4254 and Overscan of 8626. This
+    resulted in a Max/Min of 3.1 which is good. The datapoints form a V-Curve with no obvious
+    uncorrected backlash (this would show as a flat spot on the right hand side of the curve if there was any). The R2 of the
+    curve fit is 0.999 which is also good so the Fine Adjustment completes after Run 3.</para>
     </listitem>
-
-    <listitem>
-    <para> <guilabel>Update Params</guilabel>: Press this button to accept the Focus Advisor recommendations and update
-    the Focus parameters where the associated <guilabel>Update</guilabel> checkbox is checked..</para>
-    </listitem>
-
   </itemizedlist>
   </sect2>
 

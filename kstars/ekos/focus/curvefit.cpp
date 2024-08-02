@@ -284,11 +284,11 @@ double hypfx(double x, double a, double b, double c, double d)
 // Function to calculate x for the passed in y and hyperbola parameters
 // y = b * sqrt(1 + ((x - c) / a) ^ 2) + d
 // ((y - d) / b) ^ 2 - 1 = ((x - c) / a) ^ 2
-// x = c + a.sqrt(((y - d) / b) ^ 2 - 1)
+// x = c +/- a.sqrt(((y - d) / b) ^ 2 - 1)
 // Note the larger x solution is returned
 double hypfy(double y, double a, double b, double c, double d)
 {
-    return c + a * sqrt(std::pow(((y - d) / b), 2.0) - 1);
+    return c + std::abs(a) * sqrt(std::pow(((y - d) / b), 2.0) - 1);
 }
 
 // Calculates F(x) for each data point on the hyperbola
@@ -411,7 +411,7 @@ double parfx(double x, double a, double b, double c)
 
 // Function to calculate x for passed in t and parabola parameters
 // y = a + b.(x - c) ^ 2
-// x = c + sqrt((y - a) / b)
+// x = c +/- sqrt((y - a) / b)
 // Note: the larger x solution is returned
 double parfy(double y, double a, double b, double c)
 {

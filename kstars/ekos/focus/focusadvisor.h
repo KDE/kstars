@@ -127,6 +127,11 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
         void processUI();
 
         /**
+         * @brief setup the results table
+         */
+        void setupResultsTable();
+
+        /**
          * @brief setup the help dialog table
          */
         void setupHelpTable();
@@ -325,6 +330,28 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
          */
         void resetSavedSettings(const bool success);
 
+        /**
+         * @brief Add a row to the results table
+         * @param section of Focus Advisor being run, e.g. find stars
+         * @param run number
+         * @param startPos of the focuser
+         * @param stepSize being used
+         * @param overscan value being used
+         * @param additional text for the row
+         */
+        void addResultsTable(QString section, int run, int startPos, int stepSize, int overscan, QString text);
+
+        /**
+         * @brief Update the text of the current row in the results table
+         * @param text to update
+         */
+        void updateResultsTable(QString text);
+
+        /**
+         * @brief Resize the dialog box
+         */
+        void resizeDialog();
+
         Focus *m_focus { nullptr };
         QVariantMap m_map;
 
@@ -381,9 +408,22 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
         int m_jumpSize = 0;
 
         // Autofocus algorithm analysis
-        bool m_minOverscan = false;
+        bool m_overscanFound = false;
         bool m_runAgainR2 = false;
         bool m_nearFocus = false;
+        int m_AFRunCount = 0;
+
+        // Results table Cols
+        typedef enum
+        {
+            RESULTS_SECTION = 0,
+            RESULTS_RUN_NUMBER,
+            RESULTS_START_POSITION,
+            RESULTS_STEP_SIZE,
+            RESULTS_AFOVERSCAN,
+            RESULTS_TEXT,
+            RESULTS_MAX_COLS
+        } ResultsColID;
 
         // Help table Cols
         typedef enum
@@ -394,7 +434,7 @@ class FocusAdvisor : public QDialog, public Ui::focusAdvisorDialog
             HELP_MAX_COLS
         } HelpColID;
 
-      signals:
+    signals:
         void newMessage(QString);
         void newStage(Stage);
 };

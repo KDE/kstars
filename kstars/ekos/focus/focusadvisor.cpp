@@ -67,11 +67,44 @@ void FocusAdvisor::processUI()
     // Initialise buttons
     setButtons(false);
 
-    // Display an initial message in the status bar
-    // Connect message
-    connect(focusAdvStatusBar, &QStatusBar::messageChanged, this, &FocusAdvisor::newMessage);
-    focusAdvStatusBar->showMessage(i18n("Idle."));
+    // Setup the results table
+    setupResultsTable();
 }
+
+void FocusAdvisor::setupResultsTable()
+{
+    focusAdvTable->setColumnCount(RESULTS_MAX_COLS);
+    focusAdvTable->setRowCount(0);
+
+    QTableWidgetItem *itemSection = new QTableWidgetItem(i18n ("Section"));
+    itemSection->setToolTip(i18n("Section"));
+    focusAdvTable->setHorizontalHeaderItem(RESULTS_SECTION, itemSection);
+
+    QTableWidgetItem *itemRunNumber = new QTableWidgetItem(i18n ("Run"));
+    itemRunNumber->setToolTip(i18n("Run number"));
+    focusAdvTable->setHorizontalHeaderItem(RESULTS_RUN_NUMBER, itemRunNumber);
+
+    QTableWidgetItem *itemStartPosition = new QTableWidgetItem(i18n ("Start Pos"));
+    itemStartPosition->setToolTip(i18n("Start position"));
+    focusAdvTable->setHorizontalHeaderItem(RESULTS_START_POSITION, itemStartPosition);
+
+    QTableWidgetItem *itemStepSize = new QTableWidgetItem(i18n ("Step/Jump Size"));
+    itemStepSize->setToolTip(i18n("Step Size"));
+    focusAdvTable->setHorizontalHeaderItem(RESULTS_STEP_SIZE, itemStepSize);
+
+    QTableWidgetItem *itemAFOverscan = new QTableWidgetItem(i18n ("Overscan"));
+    itemAFOverscan->setToolTip(i18n("AF Overscan"));
+    focusAdvTable->setHorizontalHeaderItem(RESULTS_AFOVERSCAN, itemAFOverscan);
+
+    QTableWidgetItem *itemText = new QTableWidgetItem(i18n ("Comments"));
+    itemText->setToolTip(i18n("Additional Text"));
+    focusAdvTable->setHorizontalHeaderItem(RESULTS_TEXT, itemText);
+
+    focusAdvTable->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
+    focusAdvTable->hide();
+    resizeDialog();
+}
+
 
 void FocusAdvisor::setupHelpTable()
 {
@@ -114,10 +147,17 @@ bool FocusAdvisor::canFocusAdvisorRun()
 
 bool FocusAdvisor::start()
 {
-    if (!m_focus || m_focus->inFocusLoop || m_focus->inAdjustFocus || m_focus->inAutoFocus || m_focus->inBuildOffsets
+    // Reset the results table
+    focusAdvTable->setRowCount(0);
+    focusAdvTable->sizePolicy();
+
+    if (!m_focus)
+        return false;
+
+    if (m_focus->inFocusLoop || m_focus->inAdjustFocus || m_focus->inAutoFocus || m_focus->inBuildOffsets
             || m_focus->inScanStartPos || inFocusAdvisor())
     {
-        focusAdvStatusBar->showMessage(i18n("Another focus action in progress. Please try again."));
+        m_focus->appendLogText(i18n("Focus Advisor: another focus action in progress. Please try again."));
         return false;
     }
 
@@ -142,7 +182,7 @@ bool FocusAdvisor::start()
         }
         else
         {
-            focusAdvStatusBar->showMessage(i18n("Focus Advisor cannot run with current params."));
+            m_focus->appendLogText(i18n("Focus Advisor cannot run with current params."));
             return false;
         }
     }
@@ -224,7 +264,7 @@ void FocusAdvisor::resizeHelpDialog()
 void FocusAdvisor::updateParams()
 {
     m_focus->setAllSettings(m_map);
-    focusAdvStatusBar->showMessage(i18n("Updated base parameters"));
+    addResultsTable(i18n("Update Parameters"), -1, -1, -1, -1, "Done");
 }
 
 // Load up the Focus Advisor recommendations
@@ -638,8 +678,8 @@ void FocusAdvisor::initFindStars(const int startPos)
     m_focus->m_OpsFocusMechanics->focusBacklash->setValue(0);
     m_focus->m_OpsFocusMechanics->focusAFOverscan->setValue(0);
 
-    m_focus->appendLogText(i18n("Find Stars: Starting scan for stars..."));
-    focusAdvStatusBar->showMessage(i18n("Find Stars: Jump size %1", m_jumpSize));
+    addResultsTable(i18n("Find Stars"), m_findStarsRunNum, startPos, m_jumpSize,
+                    m_focus->m_OpsFocusMechanics->focusAFOverscan->value(), "");
     emit m_focus->setTitle(QString(i18n("Find Stars: Scanning for stars...")), true);
     if (!m_focus->changeFocus(startPos - m_focus->currentPosition))
         abort(i18n("Find Stars: Failed"));
@@ -709,6 +749,7 @@ void FocusAdvisor::findStars()
                 m_findStarsOutRange = m_focus->currentPosition;
             const int zoneCentre = (m_findStarsInRange + m_findStarsOutRange) / 2;
             focusAdvFindStarsLabel->setText(i18n("Done"));
+            updateResultsTable(i18n("Stars detected, range center %1", QString::number(zoneCentre)));
             // Now move onto the next stage or stop if nothing more to do
             if (m_inPreAFAdj)
                 initPreAFAdj(zoneCentre);
@@ -718,7 +759,7 @@ void FocusAdvisor::findStars()
             {
                 m_focus->absTicksSpin->setValue(zoneCentre);
                 emit m_focus->setTitle(QString(i18n("Stars detected, range centre %1", zoneCentre)), true);
-                complete(false, i18n("Find Stars: Completed"));
+                complete(false, i18n("Focus Advisor Find Stars completed"));
             }
             return;
         }
@@ -736,7 +777,6 @@ void FocusAdvisor::findStars()
         if (!m_findStarsRange)
         {
             m_findStarsRange = true;
-            m_focus->appendLogText(i18n("Detected %1 stars at %2", m_focus->currentNumStars, m_focus->currentPosition));
 
             // If stars found first position we don't know where we are in the zone so explore both ends
             // Otherwise we know where 1 boundary is so we only need to expore the other
@@ -775,8 +815,8 @@ void FocusAdvisor::findStars()
     if (m_findStarsRange)
     {
         // Collect more data to find the range of focuser motion with stars
-        emit m_focus->setTitle(QString(i18n("Stars detected, centring range", m_focus->currentPosition)), true);
-        focusAdvStatusBar->showMessage(i18n("Find Stars: Stars detected, centring range"));
+        emit m_focus->setTitle(QString(i18n("Stars detected, centering range", m_focus->currentPosition)), true);
+        updateResultsTable(i18n("Stars detected, centering range"));
         int nextPos;
         if (m_findStarsRangeIn)
             nextPos = std::max(m_focus->currentPosition + offset - m_jumpSize, static_cast<int>(m_focus->absMotionMin));
@@ -805,7 +845,7 @@ void FocusAdvisor::findStars()
         // Collect more data in the current sweep
         emit m_focus->setTitle(QString(i18n("Find Stars Run %1 Sector %2: Scanning %3/%4", m_findStarsRunNum, m_findStarsSector,
                                             m_jumpsToGo, m_findStarsJumpsInSector)), true);
-        focusAdvStatusBar->showMessage(i18n("Find Stars Run %1: Scanning Sector %2", m_findStarsRunNum, m_findStarsSector));
+        updateResultsTable(i18n("Find Stars Run %1: Scanning Sector %2", m_findStarsRunNum, m_findStarsSector));
         int nextPos = std::max(m_focus->currentPosition - m_jumpSize, static_cast<int>(m_focus->absMotionMin));
         deltaPos = nextPos - m_focus->currentPosition;
     }
@@ -816,6 +856,7 @@ void FocusAdvisor::findStars()
         {
             // We're out of road... covered the entire focuser range of motion but couldn't find any stars
             // halve the step size and go again
+            updateResultsTable(i18n("No stars detected"));
             int newStepSize = m_focus->m_OpsFocusMechanics->focusTicks->value() / 2;
             if (newStepSize > 1)
             {
@@ -895,7 +936,7 @@ void FocusAdvisor::findStars()
         m_jumpsToGo--;
     m_focus->linearRequestedPosition = m_focus->currentPosition + deltaPos;
     if (!m_focus->changeFocus(deltaPos))
-        abort(i18n("Find Stars Run %1: Failed", m_findStarsRunNum));
+        abort(i18n("Focus Advisor Find Stars run %1: failed to move focuser", m_findStarsRunNum));
 }
 
 bool FocusAdvisor::starsFound()
@@ -934,8 +975,6 @@ void FocusAdvisor::initPreAFAdj(const int startPos)
 
     // Reset the v-curve - otherwise there's too much data to see what's going on
     m_focus->clearDataPoints();
-    m_focus->appendLogText(i18n("Coarse Adjustment Scan..."));
-    focusAdvStatusBar->showMessage(i18n("Coarse Adjustment Scan..."));
     emit m_focus->setTitle(QString(i18n("Coarse Adjustment Scan...")), true);
 
     // Setup a sweep of m_jumpSize either side of startPos
@@ -964,9 +1003,13 @@ void FocusAdvisor::initPreAFAdj(const int startPos)
         m_focus->m_OpsFocusProcess->focusUseWeights->setChecked(m_initialUseWeights);
     }
 
+    addResultsTable(i18n("Coarse Adjustment"), m_preAFRunNum, startPos,
+                    m_focus->m_OpsFocusMechanics->focusTicks->value(),
+                    m_focus->m_OpsFocusMechanics->focusAFOverscan->value(), "");
+
     m_focus->linearRequestedPosition = m_focus->currentPosition + deltaPos;
     if (!m_focus->changeFocus(deltaPos))
-        abort(i18n("Pre Autofocus: Failed"));
+        abort(i18n("Focus Advisor Coarse Adjustment failed to move focuser"));
 }
 
 // Pre Autofocus coarse adjustment algorithm.
@@ -976,7 +1019,7 @@ void FocusAdvisor::preAFAdj()
     // Cap the maximum number of iterations before failing
     if (++m_focus->absIterations > MAXIMUM_FOCUS_ADVISOR_ITERATIONS)
     {
-        abort(i18n("Pre Autofocus: exceeded max iterations %1", MAXIMUM_FOCUS_ADVISOR_ITERATIONS));
+        abort(i18n("Focus Advisor Coarse Adjustment: exceeded max iterations %1", MAXIMUM_FOCUS_ADVISOR_ITERATIONS));
         return;
     }
 
@@ -1033,8 +1076,6 @@ void FocusAdvisor::preAFAdj()
     if (m_focus->currentPosition - step >= m_preAFInner)
     {
         // Collect more data in the current sweep
-        focusAdvStatusBar->showMessage(i18n("Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4", m_preAFRunNum,
-                                            m_focus->initialFocuserAbsPosition, m_focus->m_OpsFocusMechanics->focusAFOverscan->value(), step));
         emit m_focus->setTitle(QString(i18n("Coarse Adjustment Run %1 scan...", m_preAFRunNum)), true);
         deltaPos = -step;
     }
@@ -1043,7 +1084,7 @@ void FocusAdvisor::preAFAdj()
         // We've completed the current sweep, so analyse the data...
         if (m_position.size() < 5)
         {
-            abort(i18n("Coarse Adjustment Run %1: insufficient data to proceed", m_preAFRunNum));
+            abort(i18n("Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed", m_preAFRunNum));
             return;
         }
         else
@@ -1093,13 +1134,14 @@ void FocusAdvisor::preAFAdj()
             }
             overscan = std::max(overscan, step);
             m_focus->m_OpsFocusMechanics->focusAFOverscan->setValue(overscan);
-            m_focus->appendLogText(i18n("Overscan estimate: %1 ticks", overscan));
 
             const bool hitNoStarsRegion = m_preAFNoStarsIn || m_preAFNoStarsOut;
+
             // Is everything good enough to proceed, or do we need to run again?
             if (nearCenter && maxMinRatioOK(INITIAL_MAXMIN_HFR_RATIO, measureRatio) && !hitNoStarsRegion)
             {
                 // We're done with the coarse adjustment step so prepare for the next step
+                updateResultsTable(i18n("Max/Min Ratio: %1", QString::number(measureRatio, 'f', 1)));
                 m_inPreAFAdj = false;
                 focusAdvCoarseAdjLabel->setText(i18n("Done"));
                 m_focus->absIterations = 0;
@@ -1116,8 +1158,7 @@ void FocusAdvisor::preAFAdj()
                 else
                 {
                     m_focus->absTicksSpin->setValue(minPos);
-                    complete(false, i18n("Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4", m_preAFRunNum,
-                                         m_focus->initialFocuserAbsPosition, m_focus->m_OpsFocusMechanics->focusAFOverscan->value(), step));
+                    complete(false, i18n("Focus Advisor Coarse Adjustment completed."));
                 }
                 return;
             }
@@ -1138,7 +1179,7 @@ void FocusAdvisor::preAFAdj()
                     if (newStepSize < 1)
                     {
                         // Looks like data is inconsistent so stop here
-                        abort(i18n("Coarse Adj: data quality too poor to continue"));
+                        abort(i18n("Focus Advisor Coarse Adjustment: data quality too poor to continue"));
                         return;
                     }
                 }
@@ -1172,6 +1213,8 @@ void FocusAdvisor::preAFAdj()
                     // Set the start position to the previous minimum
                     startPosition = minPos;
 
+                updateResultsTable(i18n("Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3", QString::number(measureRatio, 'f', 1),
+                                        QString::number(newStepSize), QString::number(overscan)));
                 m_focus->m_OpsFocusMechanics->focusTicks->setValue(newStepSize);
                 initPreAFAdj(startPosition);
                 return;
@@ -1180,7 +1223,7 @@ void FocusAdvisor::preAFAdj()
     }
     m_focus->linearRequestedPosition = m_focus->currentPosition + deltaPos;
     if (!m_focus->changeFocus(deltaPos))
-        abort(i18n("Coarse Adj: Failed"));
+        abort(i18n("Focus Advisor Coarse Adjustment failed to move focuser"));
 }
 
 // Check whether the Max / Min star measure ratio is good enough
@@ -1231,7 +1274,10 @@ void FocusAdvisor::initAFAdj(const int startPos, const bool retryOverscan)
     // Reset useWeights setting
     m_focus->m_OpsFocusProcess->focusUseWeights->setChecked(m_initialUseWeights);
 
-    focusAdvStatusBar->showMessage(i18n("Autofocus parameter adjustment"));
+    addResultsTable(i18n("Fine Adjustment"), ++m_AFRunCount, startPos,
+                    m_focus->m_OpsFocusMechanics->focusTicks->value(),
+                    m_focus->m_OpsFocusMechanics->focusAFOverscan->value(), "");
+
     startAF(startPos);
 }
 
@@ -1288,57 +1334,56 @@ bool FocusAdvisor::analyseAF()
 
     // Look at the backlash
     // So assume flatness of curve at the outward point is all due to backlash.
-    double backlashPoints = 0.0;
-    for (int i = 0; i < positions.size() / 2; i++)
+    if (!m_overscanFound)
     {
-        double deltaAct = measures[i] - measures[i + 1];
-        double deltaExp = m_focus->curveFitting->f(positions[i]) - m_focus->curveFitting->f(positions[i + 1]);
-        double delta = std::abs(deltaAct / deltaExp);
-        // May have to play around with this threshold
-        if (delta > 0.75)
-            break;
-        if (delta > 0.5)
-            backlashPoints += 0.5;
-        else
-            backlashPoints++;
+        double backlashPoints = 0.0;
+        for (int i = 0; i < positions.size() / 2; i++)
+        {
+            double deltaAct = measures[i] - measures[i + 1];
+            double deltaExp = m_focus->curveFitting->f(positions[i]) - m_focus->curveFitting->f(positions[i + 1]);
+            double delta = std::abs(deltaAct / deltaExp);
+            // May have to play around with this threshold
+            if (delta > 0.75)
+                break;
+            if (delta > 0.5)
+                backlashPoints += 0.5;
+            else
+                backlashPoints++;
+        }
+
+        const int overscan = m_focus->m_OpsFocusMechanics->focusAFOverscan->value();
+        int newOverscan = overscan;
+
+        if (backlashPoints > 0.0)
+        {
+            // We've found some additional Overscan so we know the current value is too low and now have a reasonable estimate
+            newOverscan = overscan + (stepSize * backlashPoints);
+            m_overscanFound = true;
+        }
+        else if (overscan == 0)
+            m_overscanFound = true;
+        else if (!m_overscanFound)
+            // No additional Overscan was detected so the current Overscan estimate may be too high so try reducing it
+            newOverscan = overscan <= 2 * stepSize ? 0 : overscan / 2;
+
+        m_focus->m_OpsFocusMechanics->focusAFOverscan->setValue(newOverscan);
     }
-
-    const int overscan = m_focus->m_OpsFocusMechanics->focusAFOverscan->value();
-    int newOverscan = overscan;
-
-    if (backlashPoints > 0.0)
-    {
-        // We've found some additional Overscan so we know the current value is too low and now have a reasonable estimate
-        newOverscan = overscan + (stepSize * backlashPoints);
-        m_minOverscan = true;
-    }
-    else if (overscan == 0)
-        m_minOverscan = true;
-    else if (!m_minOverscan)
-        // No additional Overscan was detected so the current Overscan estimate may be too high so try reducing it
-        newOverscan = overscan <= 2 * stepSize ? 0 : overscan / 2;
-
-    // run again until backlash values stabilises
-    bool runAgainOverscan = (newOverscan != overscan);
-
-    m_focus->m_OpsFocusMechanics->focusAFOverscan->setValue(newOverscan);
-    m_focus->appendLogText(i18n("Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4", stepSize, newStepSize,
-                                overscan, newOverscan));
 
     // Try again for a poor R2 - but retry just once (unless something else changes so we don't get stuck in a loop
     if (m_runAgainR2)
         m_runAgainR2 = false;
     else
         m_runAgainR2 = m_focus->R2 < m_focus->m_OpsFocusProcess->focusR2Limit->value();
-    bool runAgain = runAgainRatio || m_runAgainR2 || runAgainOverscan;
+    bool runAgain = runAgainRatio || m_runAgainR2 || !m_overscanFound;
 
-    if (runAgain)
-        focusAdvStatusBar->showMessage(i18n("Autofocus retrying: Step Size %1 AF Overscan %2", newStepSize, newOverscan));
-    else
+    updateResultsTable(i18n("Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4", QString::number(measureRatio, 'f', 1),
+                            QString::number(m_focus->R2, 'f', 3), QString::number(newStepSize),
+                            QString::number(m_focus->m_OpsFocusMechanics->focusAFOverscan->value())));
+    if (!runAgain)
     {
         m_inAFAdj = false;
         focusAdvFineAdjLabel->setText(i18n("Done"));
-        complete(true, i18n("Autofocus complete: Step Size %1 AF Overscan %2", newStepSize, newOverscan));
+        complete(true, i18n("Focus Advisor Fine Adjustment completed"));
         emit newStage(Idle);
     }
     return runAgain;
@@ -1375,9 +1420,10 @@ void FocusAdvisor::reset()
     m_preAFNoStarsIn = false;
     m_preAFMaxRange = false;
     m_preAFRunNum = 0;
-    m_minOverscan = false;
+    m_overscanFound = false;
     m_runAgainR2 = false;
     m_nearFocus = false;
+    m_AFRunCount = 0;
     setButtons(false);
     focusAdvUpdateParamsLabel->setText("");
     focusAdvFindStarsLabel->setText("");
@@ -1389,7 +1435,6 @@ void FocusAdvisor::reset()
 void FocusAdvisor::abort(const QString &msg)
 {
     m_focus->appendLogText(msg);
-    focusAdvStatusBar->showMessage(msg);
 
     // Restore settings to initial value
     resetSavedSettings(false);
@@ -1401,7 +1446,6 @@ void FocusAdvisor::abort(const QString &msg)
 void FocusAdvisor::complete(const bool autofocus, const QString &msg)
 {
     m_focus->appendLogText(msg);
-    focusAdvStatusBar->showMessage(msg);
     // Restore settings to initial value
     resetSavedSettings(true);
 
@@ -1427,4 +1471,58 @@ void FocusAdvisor::resetSavedSettings(const bool success)
     }
 }
 
+// Add a new row to the results table
+void FocusAdvisor::addResultsTable(QString section, int run, int startPos, int stepSize, int overscan, QString text)
+{
+    focusAdvTable->insertRow(0);
+    QTableWidgetItem *itemSection = new QTableWidgetItem(section);
+    focusAdvTable->setItem(0, RESULTS_SECTION, itemSection);
+    QString runStr = (run >= 0) ? QString("%1").arg(run) : "N/A";
+    QTableWidgetItem *itemRunNumber = new QTableWidgetItem(runStr);
+    itemRunNumber->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    focusAdvTable->setItem(0, RESULTS_RUN_NUMBER, itemRunNumber);
+    QString startPosStr = (startPos >= 0) ? QString("%1").arg(startPos) : "N/A";
+    QTableWidgetItem *itemStartPos = new QTableWidgetItem(startPosStr);
+    itemStartPos->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    focusAdvTable->setItem(0, RESULTS_START_POSITION, itemStartPos);
+    QString stepSizeStr = (stepSize >= 0) ? QString("%1").arg(stepSize) : "N/A";
+    QTableWidgetItem *itemStepSize = new QTableWidgetItem(stepSizeStr);
+    itemStepSize->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    focusAdvTable->setItem(0, RESULTS_STEP_SIZE, itemStepSize);
+    QString overscanStr = (stepSize >= 0) ? QString("%1").arg(overscan) : "N/A";
+    QTableWidgetItem *itemAFOverscan = new QTableWidgetItem(overscanStr);
+    itemAFOverscan->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    focusAdvTable->setItem(0, RESULTS_AFOVERSCAN, itemAFOverscan);
+    QTableWidgetItem *itemText = new QTableWidgetItem(text);
+    focusAdvTable->setItem(0, RESULTS_TEXT, itemText);
+
+    if (focusAdvTable->rowCount() == 1)
+    {
+        focusAdvTable->show();
+        resizeDialog();
+    }
+}
+
+// Update text for current row (0) in the results table with the passed in value
+void FocusAdvisor::updateResultsTable(QString text)
+{
+    QTableWidgetItem *itemText = new QTableWidgetItem(text);
+    focusAdvTable->setItem(0, RESULTS_TEXT, itemText);
+    focusAdvTable->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
+}
+
+void FocusAdvisor::resizeDialog()
+{
+    focusAdvTable->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
+    int left, right, top, bottom;
+    this->verticalLayout->layout()->getContentsMargins(&left, &top, &right, &bottom);
+
+    int width = left + right;
+    for (int i = 0; i < focusAdvTable->horizontalHeader()->count(); i++)
+        width += focusAdvTable->columnWidth(i);
+    const int height = focusAdvGroupBox->height() + focusAdvTable->height() + focusAdvButtonBox->height();
+    focusAdvTable->horizontalHeader()->height() + focusAdvTable->rowHeight(0);
+    // JEE what if no rows
+    this->resize(width, height);
+}
 }
