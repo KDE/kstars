@@ -33,11 +33,11 @@
         </device>
         <device label="LX200 OnStep" manufacturer="OnStep">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.22</version>
+            <version>1.23</version>
         </device>
         <device label="WARPDRIVE" manufacturer="WarpAstron">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.22</version>
+            <version>1.23</version>
         </device>
         <device label="LX200 OpenAstroTech" manufacturer="OpenAstroTech">
             <driver name="LX200 OpenAstroTech">indi_lx200_OpenAstroTech</driver>
@@ -77,15 +77,15 @@
         </device>
         <device label="Pegasus NYX-101" manufacturer="Pegasus Astro">
             <driver name="Pegasus NYX-101">indi_lx200_pegasus_nyx101</driver>
-            <version>2.1</version>
+            <version>2.2</version>
         </device>
         <device label="ZWO AM5 WiFi" manufacturer="ZWO">
             <driver name="ZWO AM5">indi_lx200am5</driver>
-            <version>1.1</version>
+            <version>1.2</version>
         </device>
         <device label="ZWO AM5 USB" manufacturer="ZWO">
             <driver name="ZWO AM5">indi_lx200am5</driver>
-            <version>1.1</version>
+            <version>1.2</version>
         </device>
         <device label="Celestron GPS" manufacturer="Celestron">
             <driver name="Celestron GPS">indi_celestron_gps</driver>
@@ -260,8 +260,8 @@
             <version>1.7</version>
         </device>
         <device label="iOptron AZ Pro" manufacturer="iOptron">
-            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
-            <version>1.7</version>
+            <driver name="iEQ">indi_ieq_telescope</driver>
+            <version>1.9</version>
         </device>
         <device label="Pulsar2" manufacturer="GTD">
             <driver name="Pulsar2">indi_lx200pulsar2</driver>
@@ -435,6 +435,10 @@
         </device>
         <device label="Pegasus Falcon" manufacturer="Pegasus Astro">
             <driver name="Pegasus Falcon">indi_falcon_rotator</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Pegasus FalconV2" manufacturer="Pegasus Astro">
+            <driver name="Pegasus FalconV2">indi_falconv2_rotator</driver>
             <version>1.0</version>
         </device>
         <device label="Integra 85" manufacturer="Gemini Telescope">
@@ -779,10 +783,22 @@
         </device>
         <device label="WandererCover V4-EC" manufacturer="Wanderer Astro">
             <driver name="WandererCover V4-EC">indi_wanderercover_v4_ec</driver>
-            <version>1.0</version>
+            <version>1.2</version>
         </device>
         <device label="DragonLIGHT" manufacturer="Dark Dragons Astro">
             <driver name="DragonLIGHT">indi_dragon_light</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Terrans PowerBoxPro V2" manufacturer="Terrans Industry">
+            <driver name="Terrans PowerBoxPro V2">indi_terrans_powerboxpro_v2</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Terrans PowerBoxGo V2" manufacturer="Terrans Industry">
+            <driver name="Terrans PowerBoxGo V2">indi_terrans_powerboxgo_v2</driver>
+            <version>1.0</version>
+        </device>
+        <device label="Waveshare Relay" manufacturer="Waveshare">
+            <driver name="Waveshare Relay">indi_wavesharemodbus_relay</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -826,6 +842,10 @@
         <device label="DragonLAIR" manufacturer="Dark Dragons Astro">
             <driver name="DragonLAIR">indi_dragonlair_dome</driver>
             <version>1.0</version>
+        </device>
+        <device label="Universal ROR" manufacturer="Others">
+            <driver name="Universal ROR">indi_universalror_dome</driver>
+            <version>0.1</version>
         </device>
     </devGroup>
     <devGroup group="Weather">
@@ -1021,7 +1041,7 @@
     <devGroup group="Telescopes">
         <device label="Avalon StarGo" manufacturer="Avalon-Instruments">
             <driver name="LX200 StarGo">indi_lx200stargo</driver>
-            <version>1.13</version>
+            <version>1.14</version>
         </device>
     </devGroup>
 </driversList>
@@ -1167,27 +1187,27 @@
     <devGroup group="Telescopes">
         <device label="EQMod Mount" manufacturer="SkyWatcher">
             <driver name="EQMod Mount">indi_eqmod_telescope</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="Star Adventurer GTi" manufacturer="SkyWatcher">
             <driver name="Star Adventurer GTi">indi_staradventurergti_telescope</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="AZ-GTi Equatorial WiFi" manufacturer="SkyWatcher">
             <driver name="AZ-GTi">indi_azgti_telescope</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="Star Adventurer 2i WiFi" manufacturer="SkyWatcher">
             <driver name="Star Adventurer 2i">indi_staradventurer2i_telescope</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="Star Adventurer 2i USB" manufacturer="SkyWatcher">
             <driver name="Star Adventurer 2i">indi_staradventurer2i_telescope</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="AHP GT Mount" manufacturer="AHP">
             <driver name="AHP GT Mount">indi_ahpgt_telescope</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
     </devGroup>
 </driversList>
@@ -1251,27 +1271,35 @@
     <devGroup group="CCDs">
         <device label="Canon DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Canon DSLR">indi_canon_ccd</driver>
-            <version>3.2</version>
+            <version>3.3</version>
         </device>
         <device label="Nikon DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Nikon DSLR">indi_nikon_ccd</driver>
-            <version>3.2</version>
+            <version>3.3</version>
         </device>
         <device label="Pentax DSLR Legacy" mdpd="true" manufacturer="DSLRs">
             <driver name="Pentax DSLR">indi_pentax_ccd</driver>
-            <version>3.2</version>
+            <version>3.3</version>
         </device>
         <device label="Sony DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Sony DSLR">indi_sony_ccd</driver>
-            <version>3.2</version>
+            <version>3.3</version>
         </device>
         <device label="Fuji DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Fuji DSLR">indi_fuji_ccd</driver>
-            <version>3.2</version>
+            <version>3.3</version>
         </device>
         <device label="GPhoto CCD" manufacturer="DSLRs">
             <driver name="GPhoto CCD">indi_gphoto_ccd</driver>
-            <version>3.2</version>
+            <version>3.3</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Auxiliary">
+        <device label="GPIO">
+            <driver name="GPIO">indi_gpio</driver>
+            <version>0.1</version>
         </device>
     </devGroup>
 </driversList>
@@ -1315,27 +1343,31 @@
     <devGroup group="Focusers">
         <device label="Armadillo focuser" manufacturer="Lunatico">
             <driver name="Armadillo focuser">indi_armadillo_focus</driver>
-            <version>2.1</version>
+            <version>2.2</version>
         </device>
         <device label="Platypus focuser" manufacturer="Lunatico">
             <driver name="Platypus focuser">indi_platypus_focus</driver>
-            <version>2.1</version>
+            <version>2.2</version>
         </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="Seletek Rotator" manufacturer="Lunatico">
             <driver name="Seletek Rotator">indi_seletek_rotator</driver>
-            <version>2.1</version>
+            <version>2.2</version>
+        </device>
+        <device label="DragonFly Controller" manufacturer="Lunatico">
+            <driver name="DragonFly Controller">indi_dragonfly</driver>
+            <version>2.2</version>
         </device>
     </devGroup>
     <devGroup group="Domes">
         <device label="DragonFly Dome" manufacturer="Lunatico">
             <driver name="DragonFly Dome">indi_dragonfly_dome</driver>
-            <version>2.1</version>
+            <version>2.2</version>
         </device>
         <device label="Beaver Dome" manufacturer="Lunatico">
             <driver name="Beaver Dome">indi_beaver_dome</driver>
-            <version>2.1</version>
+            <version>2.2</version>
         </device>
     </devGroup>
 </driversList>
@@ -1413,7 +1445,7 @@
     <devGroup group="CCDs">
         <device label="Pentax DSLR Native" mdpd="true" manufacturer="DSLRs">
             <driver name="Pentax DSLR">indi_pentax</driver>
-            <version>1.1</version>
+            <version>1.2</version>
         </device>
     </devGroup>
 </driversList>
@@ -1421,25 +1453,25 @@
     <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-            <version>1.14</version>
+            <version>1.15</version>
         </device>
         <device label="PlayerOne Camera 1" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.14</version>
+            <version>1.15</version>
         </device>
         <device label="PlayerOne Camera 2" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.14</version>
+            <version>1.15</version>
         </device>
         <device label="PlayerOne Camera 3" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.14</version>
+            <version>1.15</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="PlayerOne EFW" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne EFW">indi_playerone_wheel</driver>
-            <version>1.14</version>
+            <version>1.15</version>
         </device>
     </devGroup>
 </driversList>
@@ -1603,10 +1635,6 @@
             <driver name="MALLINCAM">indi_mallincam_ccd</driver>
             <version>2.1</version>
         </device>
-        <device label="Meadecam" mdpd="true" manufacturer="Meade">
-            <driver name="Meade">indi_meadecam_ccd</driver>
-            <version>2.1</version>
-        </device>
         <device label="Nncam" mdpd="true" manufacturer="Nn">
             <driver name="Nn">indi_nncam_ccd</driver>
             <version>2.1</version>
@@ -1625,6 +1653,10 @@
         </device>
         <device label="Tscam" mdpd="true" manufacturer="Teleskop">
             <driver name="Teleskop">indi_tscam_ccd</driver>
+            <version>2.1</version>
+        </device>
+        <device label="Meadecam" mdpd="true" manufacturer="Meade">
+            <driver name="Meade">indi_meadecam_ccd</driver>
             <version>2.1</version>
         </device>
     </devGroup>
@@ -1665,6 +1697,10 @@
             <driver name="Teleskop">indi_tscam_wheel</driver>
             <version>2.1</version>
         </device>
+        <device label="Meadecam EFW" mdpd="true" manufacturer="Meade">
+            <driver name="Meade">indi_meadecam_wheel</driver>
+            <version>2.1</version>
+        </device>
     </devGroup>
 </driversList>
 <driversList>
@@ -1692,10 +1728,10 @@
     </devGroup>
 </driversList>
 <driversList>
-  <devGroup group="CCDs">
-    <device label="LibCamera" manufacturer="Raspberry PI">
-      <driver name="LibCamera">indi_libcamera_ccd</driver>
-      <version>1.1</version>
-    </device>
-  </devGroup>
+    <devGroup group="CCDs">
+        <device label="LibCamera" manufacturer="Raspberry PI">
+            <driver name="LibCamera">indi_libcamera_ccd</driver>
+            <version>1.1</version>
+        </device>
+    </devGroup>
 </driversList>
