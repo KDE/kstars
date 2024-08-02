@@ -60,7 +60,7 @@ Description: desktop planetarium for KDE
  This package is part of the KDE education module.
 
 Package: kstars-bleeding-data
-Architecture: all
+Architecture: any
 Multi-Arch: allowed
 Section: science
 conflicts: kstars-data
