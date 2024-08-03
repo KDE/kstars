@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-02 01:49+0000\n"
-"PO-Revision-Date: 2024-08-01 23:05+0300\n"
+"POT-Creation-Date: 2024-08-03 01:48+0000\n"
+"PO-Revision-Date: 2024-08-03 01:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -787,9 +787,9 @@ msgstr "< &Geri"
 
 #. i18n: ectx: property (text), widget (QPushButton, PAHManualDone)
 #: auxiliary/kswizard.cpp:76 ekos/align/manualrotator.cpp:47
-#: ekos/align/polaralignmentassistant.ui:278 ekos/focus/focusadvisor.cpp:127
-#: ekos/focus/focusadvisor.cpp:711 ekos/focus/focusadvisor.cpp:1104
-#: ekos/focus/focusadvisor.cpp:1340
+#: ekos/align/polaralignmentassistant.ui:278 ekos/focus/focusadvisor.cpp:167
+#: ekos/focus/focusadvisor.cpp:751 ekos/focus/focusadvisor.cpp:1146
+#: ekos/focus/focusadvisor.cpp:1385
 #, kde-format
 msgid "Done"
 msgstr "Bitti"
@@ -11802,8 +11802,8 @@ msgstr ""
 "Tüm karanlık kare görsellerini ve verilerini silmek istediğinizden emin "
 "misiniz?"
 
-#: ekos/auxiliary/darklibrary.cpp:1211 ekos/focus/focusadvisor.cpp:611
-#: ekos/focus/focusadvisor.cpp:924 ekos/focus/focusadvisor.cpp:1219
+#: ekos/auxiliary/darklibrary.cpp:1211 ekos/focus/focusadvisor.cpp:651
+#: ekos/focus/focusadvisor.cpp:965 ekos/focus/focusadvisor.cpp:1262
 #, kde-format
 msgid "In progress..."
 msgstr "Sürüyor..."
@@ -18481,7 +18481,7 @@ msgstr ""
 msgid " nm"
 msgstr " nm"
 
-#: ekos/focus/focus.cpp:118 ekos/focus/focusadvisor.cpp:73
+#: ekos/focus/focus.cpp:118
 #, kde-format
 msgid "Idle."
 msgstr "Boşta."
@@ -19346,244 +19346,325 @@ msgstr "Profil..."
 msgid "Clear"
 msgstr "Temizle"
 
-#: ekos/focus/focusadvisor.cpp:78
+#: ekos/focus/focusadvisor.cpp:79 ekos/focus/focusadvisor.cpp:80
+#, fuzzy, kde-format
+#| msgid "Selection:"
+msgid "Section"
+msgstr "Seçim:"
+
+#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
+#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
+#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
+#: ekos/focus/focusadvisor.cpp:83 ekos/guide/guidestatewidget.ui:64
+#: tools/modcalcangdist.ui:666 tools/modcalcapcoord.ui:720
+#: tools/modcalcgalcoord.ui:418 tools/modcalcgeod.ui:572
+#: tools/modcalcplanets.ui:932 tools/modcalcvlsr.ui:750
+#, kde-format
+msgid "Run"
+msgstr "Çalıştır"
+
+#: ekos/focus/focusadvisor.cpp:84
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Number"
+msgid "Run number"
+msgstr "Numara"
+
+#: ekos/focus/focusadvisor.cpp:87
+#, fuzzy, kde-format
+#| msgid "Adapt Start Pos"
+msgid "Start Pos"
+msgstr "Başlangıç konumunu uyarla"
+
+#: ekos/focus/focusadvisor.cpp:88
+#, fuzzy, kde-format
+#| msgid "Chart position:"
+msgid "Start position"
+msgstr "Grafik konumu:"
+
+#: ekos/focus/focusadvisor.cpp:91
+#, fuzzy, kde-format
+#| msgid "Max Step Size:"
+msgid "Step/Jump Size"
+msgstr "En büyük adım boyutu:"
+
+#: ekos/focus/focusadvisor.cpp:92
+#, fuzzy, kde-format
+#| msgid "Max Step Size:"
+msgid "Step Size"
+msgstr "En büyük adım boyutu:"
+
+#: ekos/focus/focusadvisor.cpp:95
+#, fuzzy, kde-format
+#| msgid "AF Overscan:"
+msgid "Overscan"
+msgstr "AF aşırı taraması:"
+
+#: ekos/focus/focusadvisor.cpp:96
+#, fuzzy, kde-format
+#| msgid "AF Overscan:"
+msgid "AF Overscan"
+msgstr "AF aşırı taraması:"
+
+#: ekos/focus/focusadvisor.cpp:99
+#, fuzzy, kde-format
+#| msgid "Comments:"
+msgid "Comments"
+msgstr "Yorumlar:"
+
+#: ekos/focus/focusadvisor.cpp:100
+#, kde-format
+msgid "Additional Text"
+msgstr ""
+
+#: ekos/focus/focusadvisor.cpp:111
 #, kde-format
 msgid "Parameter"
 msgstr "Parametre"
 
-#: ekos/focus/focusadvisor.cpp:79
+#: ekos/focus/focusadvisor.cpp:112
 #, kde-format
 msgid "Parameter Name"
 msgstr "Parametre Adı"
 
-#: ekos/focus/focusadvisor.cpp:82
+#: ekos/focus/focusadvisor.cpp:115
 #, kde-format
 msgid "Current Value"
 msgstr "Geçerli Değer"
 
-#: ekos/focus/focusadvisor.cpp:83
+#: ekos/focus/focusadvisor.cpp:116
 #, kde-format
 msgid "Current value of the parameter"
 msgstr "Parametrenin geçerli değeri"
 
-#: ekos/focus/focusadvisor.cpp:86
+#: ekos/focus/focusadvisor.cpp:119
 #, kde-format
 msgid "Proposed Value"
 msgstr "Önerilen Değer"
 
-#: ekos/focus/focusadvisor.cpp:87
+#: ekos/focus/focusadvisor.cpp:120
 #, kde-format
 msgid "Focus Advisor proposed value for the parameter"
 msgstr "Parametre için odak danışmanının önerdiği değer"
 
-#: ekos/focus/focusadvisor.cpp:120
-#, kde-format
-msgid "Another focus action in progress. Please try again."
+#: ekos/focus/focusadvisor.cpp:160
+#, fuzzy, kde-format
+#| msgid "Another focus action in progress. Please try again."
+msgid "Focus Advisor: another focus action in progress. Please try again."
 msgstr "Başka bir odak eylemi sürüyor. Lütfen yeniden deneyin."
 
-#: ekos/focus/focusadvisor.cpp:145
+#: ekos/focus/focusadvisor.cpp:185
 #, kde-format
 msgid "Focus Advisor cannot run with current params."
 msgstr "Odak danışmanı geçerli parametrelerle çalışamıyor."
 
-#: ekos/focus/focusadvisor.cpp:155
+#: ekos/focus/focusadvisor.cpp:195
 #, kde-format
 msgid "Focus Advisor stopped"
 msgstr "Odak danışmanı durdu."
 
-#: ekos/focus/focusadvisor.cpp:227
+#. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
+#: ekos/focus/focusadvisor.cpp:267 ekos/focus/focusadvisor.ui:50
 #, kde-format
-msgid "Updated base parameters"
-msgstr "Temel parametreler güncellendi"
+msgid "Update Parameters"
+msgstr "Parametreleri Güncelle"
 
-#: ekos/focus/focusadvisor.cpp:255
+#: ekos/focus/focusadvisor.cpp:295
 #, kde-format
 msgid "Camera & Filter Wheel Parameters"
 msgstr "Kamera ve Süzgeç Tekerleği Parametreleri"
 
-#: ekos/focus/focusadvisor.cpp:289
+#: ekos/focus/focusadvisor.cpp:329
 #, kde-format
 msgid "Settings Parameters"
 msgstr "Ayar Parametreleri"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
-#: ekos/focus/focusadvisor.cpp:371 ekos/focus/opsfocussettings.ui:242
+#: ekos/focus/focusadvisor.cpp:411 ekos/focus/opsfocussettings.ui:242
 #, kde-format
 msgid "Mask"
 msgstr "Maske"
 
-#: ekos/focus/focusadvisor.cpp:388
+#: ekos/focus/focusadvisor.cpp:428
 #, kde-format
 msgid "Process Parameters"
 msgstr "Süreç Parametreleri"
 
-#: ekos/focus/focusadvisor.cpp:433
+#: ekos/focus/focusadvisor.cpp:473
 #, kde-format
 msgid "Mechanics Parameters"
 msgstr "Mekanikler Parametreleri"
 
-#: ekos/focus/focusadvisor.cpp:598
+#: ekos/focus/focusadvisor.cpp:638
 #, kde-format
 msgid "Focus Advisor aborted due to internal error"
 msgstr "Odak danışmanı bir iç hata nedeniyle durdu"
 
-#: ekos/focus/focusadvisor.cpp:607 ekos/focus/focusadvisor.cpp:913
-#: ekos/focus/focusadvisor.cpp:1215
+#: ekos/focus/focusadvisor.cpp:647 ekos/focus/focusadvisor.cpp:954
+#: ekos/focus/focusadvisor.cpp:1258
 #, kde-format
 msgid "Focus Advisor cannot run with current params"
 msgstr "Odak danışmanı geçerli parametrelerle çalışamıyor"
 
-#: ekos/focus/focusadvisor.cpp:641
+#. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
+#: ekos/focus/focusadvisor.cpp:681 ekos/focus/focusadvisor.ui:69
 #, kde-format
-msgid "Find Stars: Starting scan for stars..."
-msgstr "Yıldızları Bul: Yıldız taramasına başlanılıyor..."
+msgid "Find Stars"
+msgstr "Yıldızları bul"
 
-#: ekos/focus/focusadvisor.cpp:642
-#, kde-format
-msgid "Find Stars: Jump size %1"
-msgstr "Yıldızları Bul: Atlama boyutu %1"
-
-#: ekos/focus/focusadvisor.cpp:643
+#: ekos/focus/focusadvisor.cpp:683
 #, kde-format
 msgid "Find Stars: Scanning for stars..."
 msgstr "Yıldızları Bul: Yıldızlar taranıyor..."
 
-#: ekos/focus/focusadvisor.cpp:645
+#: ekos/focus/focusadvisor.cpp:685
 #, kde-format
 msgid "Find Stars: Failed"
 msgstr "Yıldızları Bul: Başarısız"
 
-#: ekos/focus/focusadvisor.cpp:720
+#: ekos/focus/focusadvisor.cpp:752
+#, fuzzy, kde-format
+#| msgid "Stars detected, range centre %1"
+msgid "Stars detected, range center %1"
+msgstr "Yıldızlar algılandı, erim merkezi %1"
+
+#: ekos/focus/focusadvisor.cpp:761
 #, kde-format
 msgid "Stars detected, range centre %1"
 msgstr "Yıldızlar algılandı, erim merkezi %1"
 
-#: ekos/focus/focusadvisor.cpp:721
-#, kde-format
-msgid "Find Stars: Completed"
+#: ekos/focus/focusadvisor.cpp:762
+#, fuzzy, kde-format
+#| msgid "Find Stars: Completed"
+msgid "Focus Advisor Find Stars completed"
 msgstr "Yıldızları Bul: Tamamlandı"
 
-#: ekos/focus/focusadvisor.cpp:739
-#, kde-format
-msgid "Detected %1 stars at %2"
-msgstr "%2 konumunda %1 yıldız algılandı"
-
-#: ekos/focus/focusadvisor.cpp:770
+#: ekos/focus/focusadvisor.cpp:810
 #, kde-format
 msgid "Find Stars: exceeded max iterations %1"
 msgstr "Yıldızları Bul: En çok %1 yineleme sayısı aşıldı"
 
-#: ekos/focus/focusadvisor.cpp:778
-#, kde-format
-msgid "Stars detected, centring range"
+#: ekos/focus/focusadvisor.cpp:818 ekos/focus/focusadvisor.cpp:819
+#, fuzzy, kde-format
+#| msgid "Stars detected, centring range"
+msgid "Stars detected, centering range"
 msgstr "Yıldızlar algılandı, erim ortalanıyor"
 
-#: ekos/focus/focusadvisor.cpp:779
-#, kde-format
-msgid "Find Stars: Stars detected, centring range"
-msgstr "Yıldızları Bul: Yıldızlar algılandı, erim ortalanıyor..."
-
-#: ekos/focus/focusadvisor.cpp:800
+#: ekos/focus/focusadvisor.cpp:840
 #, kde-format
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
 msgstr "Yıldızları Bul %1. Pas: %2 başlangıcında yıldız yok, taranıyor..."
 
-#: ekos/focus/focusadvisor.cpp:806
+#: ekos/focus/focusadvisor.cpp:846
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: Scanning %3/%4"
 msgstr "Yıldızları Bul %1. Pas Sektör %2: %3/%4 taranıyor"
 
-#: ekos/focus/focusadvisor.cpp:808
+#: ekos/focus/focusadvisor.cpp:848
 #, kde-format
 msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr "Yıldızları Bul %1. Pas: Sektör %2 taranıyor"
 
-#: ekos/focus/focusadvisor.cpp:826
+#: ekos/focus/focusadvisor.cpp:859
+#, fuzzy, kde-format
+#| msgid "Auto star selected."
+msgid "No stars detected"
+msgstr "Kendiliğinden yıldız seçildi."
+
+#: ekos/focus/focusadvisor.cpp:867
 #, kde-format
 msgid "Find Stars Run %1: failed to find any stars"
 msgstr "Yıldızları Bul %1. Pas: Hiçbir yıldız bulunamadı"
 
-#: ekos/focus/focusadvisor.cpp:891
+#: ekos/focus/focusadvisor.cpp:932
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr "Yıldızları Bul %1. Pas Sektör %2: %3/%4 taranıyor"
 
-#: ekos/focus/focusadvisor.cpp:898
-#, kde-format
-msgid "Find Stars Run %1: Failed"
-msgstr "Yıldızları Bul %1. Pas: Başarısız"
+#: ekos/focus/focusadvisor.cpp:939
+#, fuzzy, kde-format
+#| msgid "Find Stars Run %1: failed to find any stars"
+msgid "Focus Advisor Find Stars run %1: failed to move focuser"
+msgstr "Yıldızları Bul %1. Pas: Hiçbir yıldız bulunamadı"
 
-#: ekos/focus/focusadvisor.cpp:920
+#: ekos/focus/focusadvisor.cpp:961
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
 msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
 
-#: ekos/focus/focusadvisor.cpp:937 ekos/focus/focusadvisor.cpp:938
-#: ekos/focus/focusadvisor.cpp:939
+#: ekos/focus/focusadvisor.cpp:978
 #, kde-format
 msgid "Coarse Adjustment Scan..."
 msgstr "Kaba ayar taraması..."
 
-#: ekos/focus/focusadvisor.cpp:969
-#, kde-format
-msgid "Pre Autofocus: Failed"
-msgstr "Ön Kendiliğinden Odak: Başarısız"
+#: ekos/focus/focusadvisor.cpp:1006
+#, fuzzy, kde-format
+#| msgid "Coarse Adjustment Scan..."
+msgid "Coarse Adjustment"
+msgstr "Kaba ayar taraması..."
 
-#: ekos/focus/focusadvisor.cpp:979
-#, kde-format
-msgid "Pre Autofocus: exceeded max iterations %1"
-msgstr "Ön Kendiliğinden Odak: En çok %1 yineleme sayısı aşıldı"
+#: ekos/focus/focusadvisor.cpp:1012 ekos/focus/focusadvisor.cpp:1226
+#, fuzzy, kde-format
+#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+msgid "Focus Advisor Coarse Adjustment failed to move focuser"
+msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
 
-#: ekos/focus/focusadvisor.cpp:1036 ekos/focus/focusadvisor.cpp:1119
-#, kde-format
-msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
-msgstr "Kaba Ayar Taraması: %1 Başlangıç: %2 Aşırı Tarama: %3: Adım Boyutu: %4"
+#: ekos/focus/focusadvisor.cpp:1022
+#, fuzzy, kde-format
+#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+msgid "Focus Advisor Coarse Adjustment: exceeded max iterations %1"
+msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
 
-#: ekos/focus/focusadvisor.cpp:1038
+#: ekos/focus/focusadvisor.cpp:1079
 #, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
 msgstr "Kaba Ayar Pası %1 taraması..."
 
-#: ekos/focus/focusadvisor.cpp:1046
-#, kde-format
-msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+#: ekos/focus/focusadvisor.cpp:1087
+#, fuzzy, kde-format
+#| msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr "Kaba Ayar Pası %1: Sürdürmek için yetersiz veri"
 
-#: ekos/focus/focusadvisor.cpp:1096
+#: ekos/focus/focusadvisor.cpp:1144
 #, kde-format
-msgid "Overscan estimate: %1 ticks"
-msgstr "Aşırı Tarama Tahmini: %1 tık"
+msgid "Max/Min Ratio: %1"
+msgstr ""
 
-#: ekos/focus/focusadvisor.cpp:1141
-#, kde-format
-msgid "Coarse Adj: data quality too poor to continue"
+#: ekos/focus/focusadvisor.cpp:1161
+#, fuzzy, kde-format
+#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+msgid "Focus Advisor Coarse Adjustment completed."
+msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
+
+#: ekos/focus/focusadvisor.cpp:1182
+#, fuzzy, kde-format
+#| msgid "Coarse Adj: data quality too poor to continue"
+msgid "Focus Advisor Coarse Adjustment: data quality too poor to continue"
 msgstr "Kaba Ayar: Sürdürmek için veri kalitesi pek düşük"
 
-#: ekos/focus/focusadvisor.cpp:1183
+#: ekos/focus/focusadvisor.cpp:1216
 #, kde-format
-msgid "Coarse Adj: Failed"
-msgstr "Kaba Ayar: Başarısız"
-
-#: ekos/focus/focusadvisor.cpp:1234
-#, kde-format
-msgid "Autofocus parameter adjustment"
-msgstr "Kendiliğinden odak parametresi ayarı"
-
-#: ekos/focus/focusadvisor.cpp:1325
-#, kde-format
-msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
-msgstr "Odak danışmanı ayar adımı boyutu: %1 -> %2 AF Aşırı Taraması: %3 -> %4"
-
-#: ekos/focus/focusadvisor.cpp:1336
-#, kde-format
-msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
+msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 msgstr ""
-"Kendiliğinden odak yeniden deneniyor: Adım Boyutu %1 AF Aşırı Taraması %2"
 
-#: ekos/focus/focusadvisor.cpp:1341
+#: ekos/focus/focusadvisor.cpp:1277
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Image Adjustments"
+msgid "Fine Adjustment"
+msgstr "Görüntü Ayarlamaları"
+
+#: ekos/focus/focusadvisor.cpp:1379
 #, kde-format
-msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-msgstr "Kendiliğinden odak tamamlandı: Adım Boyutu %1 AF Aşırı Taraması %2"
+msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
+msgstr ""
+
+#: ekos/focus/focusadvisor.cpp:1386
+#, fuzzy, kde-format
+#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+msgid "Focus Advisor Fine Adjustment completed"
+msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -19601,12 +19682,6 @@ msgstr ""
 "Odak danışmanının odak parametrelerini güncellemesi için işaretleyin. "
 "Önerilen değişiklikleri görüntülemek için Yardım'a tıklayın."
 
-#. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
-#: ekos/focus/focusadvisor.ui:50
-#, kde-format
-msgid "Update Parameters"
-msgstr "Parametreleri Güncelle"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
 #, kde-format
@@ -19616,12 +19691,6 @@ msgid ""
 msgstr ""
 "Odak danışmanının yıldızları araması için işaretleyin. Odak karesindeki "
 "yıldızları görecek kadar odağa yakınsanız bu adım gerekli değildir."
-
-#. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
-#: ekos/focus/focusadvisor.ui:69
-#, kde-format
-msgid "Find Stars"
-msgstr "Yıldızları bul"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
@@ -19656,7 +19725,7 @@ msgid "Fine Adjustment (using Autofocus)"
 msgstr "İnce ayar (kendiliğinden odak kullanılarak)"
 
 #. i18n: ectx: property (toolTip), widget (QDialogButtonBox, focusAdvButtonBox)
-#: ekos/focus/focusadvisor.ui:160
+#: ekos/focus/focusadvisor.ui:200
 #, kde-format
 msgid "Close Focus Advisor"
 msgstr "Odak Danışmanını Kapat"
@@ -22169,17 +22238,6 @@ msgstr "Kılavuz Verisini Dışa Aktar"
 #, kde-format
 msgid "Prep"
 msgstr "Hazırla"
-
-#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
-#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
-#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
-#: ekos/guide/guidestatewidget.ui:64 tools/modcalcangdist.ui:666
-#: tools/modcalcapcoord.ui:720 tools/modcalcgalcoord.ui:418
-#: tools/modcalcgeod.ui:572 tools/modcalcplanets.ui:932
-#: tools/modcalcvlsr.ui:750
-#, kde-format
-msgid "Run"
-msgstr "Çalıştır"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:178
 #, kde-format
@@ -29494,132 +29552,119 @@ msgid "XISF file open error: "
 msgstr "XISF dosyası açma hatası: "
 
 #: fitsviewer/fitsdata.cpp:618
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error saving XISF image"
-msgstr "Resim okuma hatası: %1"
+msgstr "XISF görseli kaydedilirken hata"
 
 #: fitsviewer/fitsdata.cpp:710 fitsviewer/fitsdata.cpp:822
 #, kde-format
 msgid ""
 "FITSData: Not enough memory for image_buffer channel. Requested: %1 bytes "
 msgstr ""
+"FITSData: image_buffer channel için yeterli bellek yok. %1 bayt istendi "
 
 #: fitsviewer/fitsdata.cpp:761
-#, fuzzy, kde-format
-#| msgid "Could not open file: %1"
+#, kde-format
 msgid "Cannot open file %1: %2"
-msgstr "%1 dosyası açılamadı"
+msgstr "%1 dosyası açılamıyor: %2"
 
 #: fitsviewer/fitsdata.cpp:774
-#, fuzzy, kde-format
-#| msgid "Could not open file: %1"
+#, kde-format
 msgid "Cannot open buffer: %1"
-msgstr "%1 dosyası açılamadı"
+msgstr "Arabellek açılamıyor: %1"
 
 #: fitsviewer/fitsdata.cpp:785
 #, kde-format
 msgid "Cannot unpack_thumb: %1"
-msgstr ""
+msgstr "unpack_thumb yapılamıyor: %1"
 
 #: fitsviewer/fitsdata.cpp:792
-#, fuzzy, kde-format
-#| msgid "Cannot write to user log file"
+#, kde-format
 msgid "Cannot dcraw_process: %1"
-msgstr "Kullanıcı günlük dosyasına yazılamadı"
+msgstr "dcraw_process yapılamıyor: %1"
 
 #: fitsviewer/fitsdata.cpp:800
 #, kde-format
 msgid "Cannot load to memory: %1"
-msgstr ""
+msgstr "Belleğe yüklenemiyor: %1"
 
 #: fitsviewer/fitsdata.cpp:943
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
+#, kde-format
 msgid "Saving compressed files is not supported."
-msgstr "Otomatik odaklama yapılıyor..."
+msgstr "Sıkıştırılmış dosyaları kaydetme desteklenmiyor."
 
 #: fitsviewer/fitsdata.cpp:1003
-#, fuzzy, kde-format
-#| msgid "Failed to open file %1. %2"
+#, kde-format
 msgid "Failed to close file: %1"
-msgstr "%1 dosyası açılamadı. %2"
+msgstr "Dosya kapatılamadı: %1"
 
 #: fitsviewer/fitsdata.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Failed to open file %1. %2"
+#, kde-format
 msgid "Failed to create file: %1"
-msgstr "%1 dosyası açılamadı. %2"
+msgstr "Dosya oluşturulamadı: %1"
 
 #: fitsviewer/fitsdata.cpp:1025
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to create image: %1"
-msgstr "%1 konumundaki resim yüklenemedi"
+msgstr "Görsel oluşturulamadı: %1"
 
 #: fitsviewer/fitsdata.cpp:1034 fitsviewer/fitsdata.cpp:1041
-#, fuzzy, kde-format
-#| msgid "Failed to set sub frame."
+#, kde-format
 msgid "Failed to update key: %1"
-msgstr "Alt çerçeve ayarlama başarısız."
+msgstr "Anahtar güncellenemedi: %1"
 
 #: fitsviewer/fitsdata.cpp:1130
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to update date: %1"
-msgstr "%1 konumundaki resim yüklenemedi"
+msgstr "Tarih güncellenemedi: %1"
 
 #: fitsviewer/fitsdata.cpp:1139
-#, fuzzy, kde-format
-#| msgid "Failed to edit city"
+#, kde-format
 msgid "Failed to update history: %1"
-msgstr "Şehir düzenlenemedi"
+msgstr "Geçmiş güncellenemedi: %1"
 
 #: fitsviewer/fitsdata.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to write image: %1"
-msgstr "%1 konumundaki resim yüklenemedi"
+msgstr "Görsel yazılamadı: %1"
 
 #: fitsviewer/fitsdata.cpp:2806 fitsviewer/fitsdata.cpp:2817
 #: fitsviewer/fitsdata.cpp:2853 fitsviewer/fitsdata.cpp:2889
 #: fitsviewer/fitsdata.cpp:2936
-#, fuzzy, kde-format
-#| msgid "Use horizontal coordinate system?"
+#, kde-format
 msgid "No world coordinate systems found."
-msgstr "Yatay koordinat sistemi kullanılsın mı?"
+msgstr "Bir dünya koordinat sistemi bulunamadı."
 
 #: fitsviewer/fitsdata.cpp:3658
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
-msgstr "Yalnızca 8 ve 16 bitlik bayer görüntüleri desteklenmektedir."
+msgstr "Yalnızca 8 ve 16 bitlik bayer görselleri desteklenir."
 
 #: fitsviewer/fitsdata.cpp:3691
 #, kde-format
 msgid "Unsupported bayer pattern %1."
-msgstr ""
+msgstr "Desteklenmeyen bayer deseni %1"
 
 #: fitsviewer/fitsdata.cpp:3722
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
-msgstr ""
+msgstr "Desteklenmeyen bayer ofsetleri %1 %2"
 
 #: fitsviewer/fitsdata.cpp:3790 fitsviewer/fitsdata.cpp:3837
 #: fitsviewer/fitsdata.cpp:3882 fitsviewer/fitsdata.cpp:3929
-#, fuzzy, kde-format
-#| msgid "Unable to allocate memory for temporary bayer buffer."
+#, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
-msgstr "Geçici bayer tamponu için bellek ayrılamadı."
+msgstr "Geçici bayer arabelleği için bellek ayrılamadı: %1"
 
 #: fitsviewer/fitsdata.cpp:3800 fitsviewer/fitsdata.cpp:3892
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
-msgstr "Geçici bayer tamponu için bellek ayrılamadı."
+msgstr "Geçici bayer arabelleği için bellek ayrılamıyor."
 
 #: fitsviewer/fitsdata.cpp:3820 fitsviewer/fitsdata.cpp:3912
 #, kde-format
 msgid "Debayer failed (%1)"
-msgstr "Debayer başarısız (%1)"
+msgstr "Bayeri kaldırma başarısız (%1)"
 
 #: fitsviewer/fitsdebayer.cpp:52
 #, kde-format
@@ -29629,18 +29674,18 @@ msgstr "İşleniyor..."
 #: fitsviewer/fitsdebayer.cpp:58
 #, kde-format
 msgid "Complete."
-msgstr "Tamamlanma."
+msgstr "Tamamlandı."
 
 #: fitsviewer/fitsdebayer.cpp:63
 #, kde-format
 msgid "Debayer failed."
-msgstr "Debayer başarısız oldu."
+msgstr "Bayeri kaldırma başarısız oldu."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSDebayerDialog)
 #: fitsviewer/fitsdebayer.ui:14
 #, kde-format
 msgid "Image Debayering"
-msgstr "Görüntü Debayer İşlemi"
+msgstr "Görsel Bayerini Kaldırma"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, filterCombo)
 #: fitsviewer/fitsdebayer.ui:30
@@ -29688,13 +29733,13 @@ msgstr "Basit"
 #: fitsviewer/fitsdebayer.ui:71
 #, kde-format
 msgid "BILinear"
-msgstr "İki Doğrulu"
+msgstr "BILinear"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, methodCombo)
 #: fitsviewer/fitsdebayer.ui:76
 #, kde-format
 msgid "HQLinear"
-msgstr "HQ Doğrusal"
+msgstr "HQLinear"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, methodCombo)
 #: fitsviewer/fitsdebayer.ui:81
@@ -29767,6 +29812,8 @@ msgid ""
 "<table><tr><td>Intensity:   </td><td>%1</td></tr><tr><td>R Frequency:   </"
 "td><td>%2</td></tr></table>"
 msgstr ""
+"<table><tr><td>Yoğunluk:   </td><td>%1</td></tr><tr><td>R sıklığı:   </"
+"td><td>%2</td></tr></table>"
 
 #: fitsviewer/fitshistogram.cpp:830 fitsviewer/fitshistogramview.cpp:214
 #, kde-format
@@ -29776,38 +29823,37 @@ msgid ""
 "td><td>%2</td></tr><tr><td>G Frequency:   </td><td>%3</td></tr><tr><td>B "
 "Frequency:   </td><td>%4</td></tr></table>"
 msgstr ""
+"<table><tr><td>Yoğunluk:   </td><td>%1</td></tr><tr><td>R sıklığı:   </"
+"td><td>%2</td></tr><tr><td>G sıklığı:   </td><td>%3</td></tr><tr><td>B "
+"sıklığı:   </td><td>%4</td></tr></table>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
 #: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:167
 #: fitsviewer/fitsviewer.cpp:120
 #, kde-format
 msgid "Histogram"
-msgstr "Sütun Grafiği"
+msgstr "Histogram"
 
 #. i18n: ectx: property (text), widget (QLabel, GLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitshistogramui.ui:96 fitsviewer/statform.ui:116
 #, kde-format
 msgid "G"
-msgstr ""
+msgstr "G"
 
 #. i18n: ectx: property (text), widget (QLabel, RLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitshistogramui.ui:109 fitsviewer/statform.ui:111
-#, fuzzy, kde-format
-#| msgctxt "First letter in 'Remove'"
-#| msgid "R"
+#, kde-format
 msgid "R"
-msgstr "K"
+msgstr "R"
 
 #. i18n: ectx: property (text), widget (QLabel, BLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitshistogramui.ui:123 fitsviewer/statform.ui:121
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "TOMB"
+#, kde-format
 msgid "B"
-msgstr "MEZAR"
+msgstr "B"
 
 #. i18n: ectx: property (text), widget (QPushButton, applyB)
 #: fitsviewer/fitshistogramui.ui:197
@@ -29816,84 +29862,76 @@ msgid "Apply"
 msgstr "Uygula"
 
 #: fitsviewer/fitslabel.cpp:353 tools/whatsinteresting/wiview.cpp:332
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Abort Slew"
+#, kde-format
 msgid "Continue Slew"
-msgstr "Döndürmeyi İptal Et"
+msgstr "Çevirmeyi Sürdür"
 
 #: fitsviewer/fitslabel.cpp:436 fitsviewer/fitslabel.cpp:463
-#, fuzzy, kde-format
-#| msgid "KStars did not find any active telescopes."
+#, kde-format
 msgid "KStars did not find any active mounts."
-msgstr "KStarts etkin bir teleskop bulamadı."
+msgstr "K Yıldızlar etkin bir kaide bulamadı."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stretchButton)
 #: fitsviewer/fitsstretchui.ui:87
 #, kde-format
 msgid "Stretch (or disable stretching) the image."
-msgstr ""
+msgstr "Görseli gerin (veya germeyi devre dışı bırakın)."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, shadowsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, shadowsVal)
 #: fitsviewer/fitsstretchui.ui:130 fitsviewer/fitsstretchui.ui:151
 #, kde-format
 msgid "Set shadows value for the image stretch."
-msgstr ""
+msgstr "Görsel gerimi için gölgeler değerini ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, shadowsLabel)
 #: fitsviewer/fitsstretchui.ui:133
 #, kde-format
 msgid "Shadows"
-msgstr ""
+msgstr "Gölgeler"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, midtonesLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, midtonesVal)
 #: fitsviewer/fitsstretchui.ui:194 fitsviewer/fitsstretchui.ui:215
 #, kde-format
 msgid "Set midtones value for the image stretch."
-msgstr ""
+msgstr "Görsel gerimi için ara tonlar değerini ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, midtonesLabel)
 #: fitsviewer/fitsstretchui.ui:197
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Micronesia"
+#, kde-format
 msgid "Midtones"
-msgstr "Mikronezya"
+msgstr "Ara Tonlar"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, highlightsLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, highlightsVal)
 #: fitsviewer/fitsstretchui.ui:264 fitsviewer/fitsstretchui.ui:291
 #, kde-format
 msgid "Set highlights value for the image stretch."
-msgstr ""
+msgstr "Görsel gerimi için vurgular değerini ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, highlightsLabel)
 #: fitsviewer/fitsstretchui.ui:267
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Highlights"
-msgstr "Işık"
+msgstr "Vurgular"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleHistoButton)
 #: fitsviewer/fitsstretchui.ui:341
 #, kde-format
 msgid "Enable or disable the histogram display."
-msgstr ""
+msgstr "Histogram görüntülemesini etkinleştirin veya devre dışı bırakın."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoButton)
 #: fitsviewer/fitsstretchui.ui:369
-#, fuzzy, kde-format
-#| msgid "Automatically select the calibration star."
+#, kde-format
 msgid "Automatically find stretch parameter."
-msgstr "Kalibrasyon yıldızını otomatik olarak seç."
+msgstr "Germe parametresini kendiliğinden bulun."
 
 #: fitsviewer/fitstab.cpp:61
 #, kde-format
 msgid "Save Changes to FITS?"
-msgstr "Değişiklikler FITS dosyasına kaydedilsin mi?"
+msgstr "Değişiklikleri FITS'e Kaydet?"
 
 #: fitsviewer/fitstab.cpp:62
 #, kde-format
@@ -29901,133 +29939,119 @@ msgid ""
 "The current FITS file has unsaved changes.  Would you like to save before "
 "closing it?"
 msgstr ""
-"Mevcut FITS dosyası kaydedilmemiş değişiklikler içermekte.  Kapatmadan once "
+"Geçerli FITS dosyası kaydedilmemiş değişiklikler içermekte. Kapatmadan once "
 "değişiklikleri kaydetmek ister misiniz?"
 
 #: fitsviewer/fitstab.cpp:133
-#, fuzzy, kde-format
-#| msgid "Align Options Profiles Editor"
+#, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
-msgstr "Hizalama Seçenekleri Profilleri Düzenleyicisi"
+msgstr "FITS Görüntüleyicisi Çözücü Profilleri Düzenleyicisi"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:164 fitsviewer/platesolve.ui:14
-#, fuzzy, kde-format
-#| msgid "Online Solver"
+#, kde-format
 msgid "Plate Solving"
-msgstr "Çevrim İçi Çözücü"
+msgstr "Plaka Çözümü"
 
 #: fitsviewer/fitstab.cpp:175
 #, kde-format
 msgid "Recent Images"
-msgstr "Son Görüntüler"
+msgstr "Son Kullanılan Görseller"
 
 #: fitsviewer/fitstab.cpp:402
-#, fuzzy, kde-format
-#| msgctxt "First letter in 'Remove'"
-#| msgid "R"
+#, kde-format
 msgctxt "Red"
 msgid "R"
-msgstr "K"
+msgstr "R"
 
 #: fitsviewer/fitstab.cpp:483 fitsviewer/fitstab.cpp:487
-#, fuzzy, kde-format
-#| msgid "Save FITS"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
-msgstr "FITS Kaydet"
+msgstr "FITS'i Kaydet"
 
 #: fitsviewer/fitstab.cpp:519
 #, kde-format
 msgid "Image save error: %1"
-msgstr "Görüntü kaydetme hatası: %1"
+msgstr "Görsel kaydetme hatası: %1"
 
 #: fitsviewer/fitstab.cpp:519
 #, kde-format
 msgid "Image Save"
-msgstr "Görüntü Kaydet"
+msgstr "Görseli Kaydet"
 
 #: fitsviewer/fitstab.cpp:523
 #, kde-format
 msgid "File saved to %1"
-msgstr "Dosya şuraya kaydedildi, %1"
+msgstr "Dosya %1 konumuna kaydedildi"
 
 #: fitsviewer/fitstab.cpp:693
-#, fuzzy, kde-format
-#| msgid "Waiting..."
+#, kde-format
 msgid "Extracting..."
-msgstr "Bekleniyor..."
+msgstr "Çıkarılıyor..."
 
 #: fitsviewer/fitstab.cpp:711
-#, fuzzy, kde-format
-#| msgid "Settings"
+#, kde-format
 msgid "Solving..."
-msgstr "Ayarlar"
+msgstr "Çözülüyor..."
 
 #: fitsviewer/fitstab.cpp:724
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Extractor timed out: %1s"
-msgstr "Çözücü zaman aşımı."
+msgstr "Çıkarıcı zaman aşımına uğradı: %1 sn"
 
 #: fitsviewer/fitstab.cpp:733
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Extractor failed: %1s"
-msgstr "Çözücü Başarısız."
+msgstr "Çıkarıcı başarısız oldu: %1 sn"
 
 #: fitsviewer/fitstab.cpp:742
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
-msgstr ""
+msgstr "%3 saniyede %1 yıldız çıkarıldı (%2 süzülmedi)"
 
 #: fitsviewer/fitstab.cpp:790
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Solver timed out: %1s"
-msgstr "Çözücü zaman aşımı."
+msgstr "Çözücü zaman aşımına uğradı: %1 sn"
 
 #: fitsviewer/fitstab.cpp:795
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solver failed: %1s"
-msgstr "Çözücü Başarısız."
+msgstr "Çözücü başarısız oldu: %1 sn"
 
 #: fitsviewer/fitstab.cpp:965
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
-msgstr ""
+msgstr "Uyarı! Bu araç yalnızca içsel StellarSolver çözücüsünü destekler."
 
 #: fitsviewer/fitstab.cpp:966
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
-msgstr ""
+msgstr "Ekos Hizalama seçenekleri menüsünden ona geçiş yapın."
 
 #: fitsviewer/fitsview.cpp:511 fitsviewer/fitsview.cpp:521
 #, kde-format
 msgid "Rescaling image failed."
-msgstr "Görüntü yeniden ölçeklenemedi."
+msgstr "Görsel yeniden ölçeklenemedi."
 
 #: fitsviewer/fitsview.cpp:712
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
+"Etkin sınırlı özkaynaklar kipi nedeniyle daha fazla yakınlaştırılamıyor."
 
 #: fitsviewer/fitsview.cpp:1748
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "NGC"
+#, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
-msgstr "NGC"
+msgstr "NCP"
 
 #: fitsviewer/fitsview.cpp:1765
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "NGC"
+#, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
-msgstr "NGC"
+msgstr "SCP"
 
 #: fitsviewer/fitsview.cpp:2220
 #, kde-format
@@ -30037,78 +30061,74 @@ msgstr "Yıldızlar bulunuyor..."
 #: fitsviewer/fitsview.cpp:2461
 #, kde-format
 msgid "Zoom In"
-msgstr ""
+msgstr "Yakınlaştır"
 
 #: fitsviewer/fitsview.cpp:2464
 #, kde-format
 msgid "Zoom Out"
-msgstr ""
+msgstr "Uzaklaştır"
 
 #: fitsviewer/fitsview.cpp:2467
 #, kde-format
 msgid "Default Zoom"
-msgstr "Default Zoom"
+msgstr "Öntanımlı Yakınlaştırma"
 
 #: fitsviewer/fitsview.cpp:2470
 #, kde-format
 msgid "Zoom to Fit"
-msgstr ""
+msgstr "Sığdıracak Biçimde Yakınlaştır"
 
 #: fitsviewer/fitsview.cpp:2473
-#, fuzzy, kde-format
-#| msgid "Auto Stretch"
+#, kde-format
 msgid "Toggle Stretch"
-msgstr "Otomatik Genişletme"
+msgstr "Germeyi Aç/Kapat"
 
 #: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:219
-#, fuzzy, kde-format
-#| msgid "Crosshairs"
+#, kde-format
 msgid "Show Cross Hairs"
-msgstr "Artılar"
+msgstr "Artı İşaretlerini Göster"
 
 #: fitsviewer/fitsview.cpp:2485 fitsviewer/fitsviewer.cpp:232
 #, kde-format
 msgid "Show Pixel Gridlines"
-msgstr "Piksel Kılavuz Çizgilerini Göster"
+msgstr "Piksel Izgara Çizgilerini Göster"
 
 #: fitsviewer/fitsview.cpp:2490 fitsviewer/fitsview.cpp:2599
 #, kde-format
 msgid "Detect Stars in Image"
-msgstr "Görüntüdeki Yıldızları Algıla"
+msgstr "Görseldeki Yıldızları Algıla"
 
 #: fitsviewer/fitsview.cpp:2496
-#, fuzzy, kde-format
-#| msgid "View Star Profile"
+#, kde-format
 msgid "View Star Profile..."
-msgstr "Yıldız Profilini Görüntüle"
+msgstr "Yıldız Profilini Görüntüle..."
 
 #: fitsviewer/fitsview.cpp:2506 fitsviewer/fitsviewer.cpp:238
 #: fitsviewer/fitsviewer.cpp:1308
 #, kde-format
 msgid "Show Equatorial Gridlines"
-msgstr "Ekvator Kılavuz Çizgilerini Göster"
+msgstr "Ekvator Izgara Çizgilerini Göster"
 
 #: fitsviewer/fitsview.cpp:2512 fitsviewer/fitsviewer.cpp:245
 #: fitsviewer/fitsviewer.cpp:1310
 #, kde-format
 msgid "Show Objects in Image"
-msgstr "Nesneleri Görüntüde Göster"
+msgstr "Görseldeki Nesneleri Göster"
 
 #: fitsviewer/fitsview.cpp:2518
 #, kde-format
 msgid "Center Telescope"
-msgstr "Merkez Teleskop"
+msgstr "Teleskopu Ortala"
 
 #: fitsviewer/fitsview.cpp:2524 fitsviewer/fitsviewer.cpp:252
-#, fuzzy, kde-format
-#| msgid "Show satellites"
+#, kde-format
 msgid "Show HiPS Overlay"
-msgstr "Uyduları göster"
+msgstr "HIPS Kaplamasını Göster"
 
 #: fitsviewer/fitsviewer.cpp:40
 #, kde-format
 msgid "Auto Stretch"
-msgstr "Otomatik Genişletme"
+msgstr "Kendiliğinden Ger"
 
 #: fitsviewer/fitsviewer.cpp:40
 #, kde-format
@@ -30127,16 +30147,14 @@ msgstr "Yüksek Geçiş"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitsviewer.cpp:41 fitsviewer/statform.ui:101
-#, fuzzy, kde-format
-#| msgctxt "City in Mississippi USA"
-#| msgid "Meridian"
+#, kde-format
 msgid "Median"
-msgstr "Meridian"
+msgstr "Ortanca"
 
 #: fitsviewer/fitsviewer.cpp:41
 #, kde-format
 msgid "Gaussian blur"
-msgstr ""
+msgstr "Gauss Bulanıklaştırması"
 
 #: fitsviewer/fitsviewer.cpp:41 fitsviewer/fitsviewer.cpp:103
 #, kde-format
@@ -30159,27 +30177,24 @@ msgid "Flip Vertical"
 msgstr "Dikey Çevir"
 
 #: fitsviewer/fitsviewer.cpp:131 kstarsinit.cpp:159
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Open/Blink Directory"
-msgstr "Dizin:"
+msgstr "Aç/Blink Dizini"
 
 #: fitsviewer/fitsviewer.cpp:150
 #, kde-format
 msgid "Debayer..."
-msgstr "Debayer..."
+msgstr "Bayer Kaldırıcısı..."
 
 #: fitsviewer/fitsviewer.cpp:185
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgid "&Selection Statistics"
-msgstr "İstatistikler"
+msgstr "&Seçim İstatistikleri"
 
 #: fitsviewer/fitsviewer.cpp:226
-#, fuzzy, kde-format
-#| msgid "Show print dialog"
+#, kde-format
 msgid "Show Clipping"
-msgstr "Yazdırma iletişim kutusunu göster"
+msgstr "Kırpmayı Göster"
 
 #: fitsviewer/fitsviewer.cpp:259 fitsviewer/fitsviewer.cpp:1319
 #, kde-format
@@ -30187,68 +30202,65 @@ msgid ""
 "Center Telescope\n"
 "*No Telescopes Detected*"
 msgstr ""
+"Teleskopu Ortala\n"
+"*Algılanan Teleskop Yok*"
 
 #: fitsviewer/fitsviewer.cpp:266
 #, kde-format
 msgid "Zoom To Fit"
-msgstr ""
+msgstr "Sığacak Biçimde Yakınlaştır"
 
 #: fitsviewer/fitsviewer.cpp:271
 #, kde-format
 msgid "Fit Page to Zoom"
-msgstr ""
+msgstr "Sayfayı Yakınlaştırmaya Sığdır"
 
 #: fitsviewer/fitsviewer.cpp:276
-#, fuzzy, kde-format
-#| msgid "Next >"
+#, kde-format
 msgid "Next Tab"
-msgstr "Sonraki >"
+msgstr "Sonraki Sekme"
 
 #: fitsviewer/fitsviewer.cpp:281
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous Tab"
-msgstr "Önceki Yıl"
+msgstr "Önceki Sekme"
 
 #: fitsviewer/fitsviewer.cpp:286
-#, fuzzy, kde-format
-#| msgid "Objects in Image"
+#, kde-format
 msgid "Next Blink Image"
-msgstr "Görüntüdeki Nesneler"
+msgstr "Sonraki Blink Görseli"
 
 #: fitsviewer/fitsviewer.cpp:291
-#, fuzzy, kde-format
-#| msgid "Preview image"
+#, kde-format
 msgid "Previous Blink Image"
-msgstr "Resmi önizle"
+msgstr "Önceki Blink Görseli"
 
 #: fitsviewer/fitsviewer.cpp:296
 #, kde-format
 msgid "Zoom all tabs in"
-msgstr ""
+msgstr "Tüm Sekmeleri Yakınlaştır"
 
 #: fitsviewer/fitsviewer.cpp:301
 #, kde-format
 msgid "Zoom all tabs out"
-msgstr ""
+msgstr "Tüm Sekmeleri Uzaklaştır"
 
 #: fitsviewer/fitsviewer.cpp:306 fitsviewer/fitsviewer.cpp:1593
 #, kde-format
 msgid "Mark Stars"
-msgstr "Yıldızları İşaretle"
+msgstr "Yıldızları İmle"
 
 #: fitsviewer/fitsviewer.cpp:314 fitsviewer/fitsviewer.cpp:834
 #: fitsviewer/fitsviewer.cpp:1556
 #, kde-format
 msgid "View 3D Graph"
-msgstr ""
+msgstr "3B Grafiği Görüntüle"
 
 #: fitsviewer/fitsviewer.cpp:334
-#, fuzzy, kde-format
-#| msgid "KStars FITS Viewer"
+#, kde-format
 msgctxt "@title:window"
 msgid "KStars FITS Viewer"
-msgstr "KStart FITS Görüntüleyici"
+msgstr "K Yıldızlar FITS Görüntüleyicisi"
 
 #: fitsviewer/fitsviewer.cpp:412
 #, fuzzy, kde-format
@@ -86360,3 +86372,51 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarlayın."
+
+#~ msgid "Updated base parameters"
+#~ msgstr "Temel parametreler güncellendi"
+
+#~ msgid "Find Stars: Starting scan for stars..."
+#~ msgstr "Yıldızları Bul: Yıldız taramasına başlanılıyor..."
+
+#~ msgid "Find Stars: Jump size %1"
+#~ msgstr "Yıldızları Bul: Atlama boyutu %1"
+
+#~ msgid "Detected %1 stars at %2"
+#~ msgstr "%2 konumunda %1 yıldız algılandı"
+
+#~ msgid "Find Stars: Stars detected, centring range"
+#~ msgstr "Yıldızları Bul: Yıldızlar algılandı, erim ortalanıyor..."
+
+#~ msgid "Find Stars Run %1: Failed"
+#~ msgstr "Yıldızları Bul %1. Pas: Başarısız"
+
+#~ msgid "Pre Autofocus: Failed"
+#~ msgstr "Ön Kendiliğinden Odak: Başarısız"
+
+#~ msgid "Pre Autofocus: exceeded max iterations %1"
+#~ msgstr "Ön Kendiliğinden Odak: En çok %1 yineleme sayısı aşıldı"
+
+#~ msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#~ msgstr ""
+#~ "Kaba Ayar Taraması: %1 Başlangıç: %2 Aşırı Tarama: %3: Adım Boyutu: %4"
+
+#~ msgid "Overscan estimate: %1 ticks"
+#~ msgstr "Aşırı Tarama Tahmini: %1 tık"
+
+#~ msgid "Coarse Adj: Failed"
+#~ msgstr "Kaba Ayar: Başarısız"
+
+#~ msgid "Autofocus parameter adjustment"
+#~ msgstr "Kendiliğinden odak parametresi ayarı"
+
+#~ msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
+#~ msgstr ""
+#~ "Odak danışmanı ayar adımı boyutu: %1 -> %2 AF Aşırı Taraması: %3 -> %4"
+
+#~ msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
+#~ msgstr ""
+#~ "Kendiliğinden odak yeniden deneniyor: Adım Boyutu %1 AF Aşırı Taraması %2"
+
+#~ msgid "Autofocus complete: Step Size %1 AF Overscan %2"
+#~ msgstr "Kendiliğinden odak tamamlandı: Adım Boyutu %1 AF Aşırı Taraması %2"

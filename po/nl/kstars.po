@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-02 01:49+0000\n"
-"PO-Revision-Date: 2024-07-26 10:36+0200\n"
+"POT-Creation-Date: 2024-08-03 01:48+0000\n"
+"PO-Revision-Date: 2024-08-02 13:22+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -789,9 +789,9 @@ msgstr "<&Vorige"
 
 #. i18n: ectx: property (text), widget (QPushButton, PAHManualDone)
 #: auxiliary/kswizard.cpp:76 ekos/align/manualrotator.cpp:47
-#: ekos/align/polaralignmentassistant.ui:278 ekos/focus/focusadvisor.cpp:127
-#: ekos/focus/focusadvisor.cpp:711 ekos/focus/focusadvisor.cpp:1104
-#: ekos/focus/focusadvisor.cpp:1340
+#: ekos/align/polaralignmentassistant.ui:278 ekos/focus/focusadvisor.cpp:167
+#: ekos/focus/focusadvisor.cpp:751 ekos/focus/focusadvisor.cpp:1146
+#: ekos/focus/focusadvisor.cpp:1385
 #, kde-format
 msgid "Done"
 msgstr "Klaar"
@@ -11827,8 +11827,8 @@ msgstr "Afbeeldingen %1/%2 ontvangen."
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Wilt u werkelijk alle donker-frames-afbeeldingen en gegevens wissen?"
 
-#: ekos/auxiliary/darklibrary.cpp:1211 ekos/focus/focusadvisor.cpp:611
-#: ekos/focus/focusadvisor.cpp:924 ekos/focus/focusadvisor.cpp:1219
+#: ekos/auxiliary/darklibrary.cpp:1211 ekos/focus/focusadvisor.cpp:651
+#: ekos/focus/focusadvisor.cpp:965 ekos/focus/focusadvisor.cpp:1262
 #, kde-format
 msgid "In progress..."
 msgstr "In uitvoering..."
@@ -18531,7 +18531,7 @@ msgstr ""
 msgid " nm"
 msgstr " nm"
 
-#: ekos/focus/focus.cpp:118 ekos/focus/focusadvisor.cpp:73
+#: ekos/focus/focus.cpp:118
 #, kde-format
 msgid "Idle."
 msgstr "In rust."
@@ -19390,245 +19390,326 @@ msgstr "Profiel..."
 msgid "Clear"
 msgstr "Wissen"
 
-#: ekos/focus/focusadvisor.cpp:78
+#: ekos/focus/focusadvisor.cpp:79 ekos/focus/focusadvisor.cpp:80
+#, fuzzy, kde-format
+#| msgid "Selection:"
+msgid "Section"
+msgstr "Selectie:"
+
+#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
+#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
+#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
+#: ekos/focus/focusadvisor.cpp:83 ekos/guide/guidestatewidget.ui:64
+#: tools/modcalcangdist.ui:666 tools/modcalcapcoord.ui:720
+#: tools/modcalcgalcoord.ui:418 tools/modcalcgeod.ui:572
+#: tools/modcalcplanets.ui:932 tools/modcalcvlsr.ui:750
+#, kde-format
+msgid "Run"
+msgstr "Starten"
+
+#: ekos/focus/focusadvisor.cpp:84
+#, fuzzy, kde-format
+#| msgid "ID Number"
+msgid "Run number"
+msgstr "ID-nummer"
+
+#: ekos/focus/focusadvisor.cpp:87
+#, fuzzy, kde-format
+#| msgid "Adapt Start Pos"
+msgid "Start Pos"
+msgstr "Startpositie aanpassen"
+
+#: ekos/focus/focusadvisor.cpp:88
+#, fuzzy, kde-format
+#| msgid "Chart position:"
+msgid "Start position"
+msgstr "Plaats schaal en magnituden:"
+
+#: ekos/focus/focusadvisor.cpp:91
+#, fuzzy, kde-format
+#| msgid "Step Size:"
+msgid "Step/Jump Size"
+msgstr "Stapgrootte:"
+
+#: ekos/focus/focusadvisor.cpp:92
+#, fuzzy, kde-format
+#| msgid "Step Size:"
+msgid "Step Size"
+msgstr "Stapgrootte:"
+
+#: ekos/focus/focusadvisor.cpp:95
+#, fuzzy, kde-format
+#| msgid "AF Overscan:"
+msgid "Overscan"
+msgstr "AF-overscan:"
+
+#: ekos/focus/focusadvisor.cpp:96
+#, fuzzy, kde-format
+#| msgid "AF Overscan:"
+msgid "AF Overscan"
+msgstr "AF-overscan:"
+
+#: ekos/focus/focusadvisor.cpp:99
+#, fuzzy, kde-format
+#| msgid "Comments:"
+msgid "Comments"
+msgstr "Commentaar:"
+
+#: ekos/focus/focusadvisor.cpp:100
+#, kde-format
+msgid "Additional Text"
+msgstr ""
+
+#: ekos/focus/focusadvisor.cpp:111
 #, kde-format
 msgid "Parameter"
 msgstr "Parameter"
 
-#: ekos/focus/focusadvisor.cpp:79
+#: ekos/focus/focusadvisor.cpp:112
 #, kde-format
 msgid "Parameter Name"
 msgstr "Parameternaam"
 
-#: ekos/focus/focusadvisor.cpp:82
+#: ekos/focus/focusadvisor.cpp:115
 #, kde-format
 msgid "Current Value"
 msgstr "Huidige waarde"
 
-#: ekos/focus/focusadvisor.cpp:83
+#: ekos/focus/focusadvisor.cpp:116
 #, kde-format
 msgid "Current value of the parameter"
 msgstr "Huidige waarde van een parameter"
 
-#: ekos/focus/focusadvisor.cpp:86
+#: ekos/focus/focusadvisor.cpp:119
 #, kde-format
 msgid "Proposed Value"
 msgstr "Voorgestelde waarde"
 
-#: ekos/focus/focusadvisor.cpp:87
+#: ekos/focus/focusadvisor.cpp:120
 #, kde-format
 msgid "Focus Advisor proposed value for the parameter"
 msgstr "Voorgestelde waarde van parameter door focusadviseur"
 
-#: ekos/focus/focusadvisor.cpp:120
-#, kde-format
-msgid "Another focus action in progress. Please try again."
+#: ekos/focus/focusadvisor.cpp:160
+#, fuzzy, kde-format
+#| msgid "Another focus action in progress. Please try again."
+msgid "Focus Advisor: another focus action in progress. Please try again."
 msgstr "Een andere actie voor focusseren is bezig. Probeer opnieuw."
 
-#: ekos/focus/focusadvisor.cpp:145
+#: ekos/focus/focusadvisor.cpp:185
 #, kde-format
 msgid "Focus Advisor cannot run with current params."
 msgstr "Focusadviseur kan niet draaien met huidige parameters."
 
-#: ekos/focus/focusadvisor.cpp:155
+#: ekos/focus/focusadvisor.cpp:195
 #, kde-format
 msgid "Focus Advisor stopped"
 msgstr "Focusadviseur is gestopt"
 
-#: ekos/focus/focusadvisor.cpp:227
+#. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
+#: ekos/focus/focusadvisor.cpp:267 ekos/focus/focusadvisor.ui:50
 #, kde-format
-msgid "Updated base parameters"
-msgstr "Basisparameters bijgewerkt"
+msgid "Update Parameters"
+msgstr "Parameters bijwerken"
 
-#: ekos/focus/focusadvisor.cpp:255
+#: ekos/focus/focusadvisor.cpp:295
 #, kde-format
 msgid "Camera & Filter Wheel Parameters"
 msgstr "Parameters voor camera & filterwiel"
 
-#: ekos/focus/focusadvisor.cpp:289
+#: ekos/focus/focusadvisor.cpp:329
 #, kde-format
 msgid "Settings Parameters"
 msgstr "Parameters in Instellingen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
-#: ekos/focus/focusadvisor.cpp:371 ekos/focus/opsfocussettings.ui:242
+#: ekos/focus/focusadvisor.cpp:411 ekos/focus/opsfocussettings.ui:242
 #, kde-format
 msgid "Mask"
 msgstr "Masker"
 
-#: ekos/focus/focusadvisor.cpp:388
+#: ekos/focus/focusadvisor.cpp:428
 #, kde-format
 msgid "Process Parameters"
 msgstr "Parameters in Verwerk"
 
-#: ekos/focus/focusadvisor.cpp:433
+#: ekos/focus/focusadvisor.cpp:473
 #, kde-format
 msgid "Mechanics Parameters"
 msgstr "Parameters in Mechaniek"
 
-#: ekos/focus/focusadvisor.cpp:598
+#: ekos/focus/focusadvisor.cpp:638
 #, kde-format
 msgid "Focus Advisor aborted due to internal error"
 msgstr "Focusadviseur afgebroken vanwege interne fout"
 
-#: ekos/focus/focusadvisor.cpp:607 ekos/focus/focusadvisor.cpp:913
-#: ekos/focus/focusadvisor.cpp:1215
+#: ekos/focus/focusadvisor.cpp:647 ekos/focus/focusadvisor.cpp:954
+#: ekos/focus/focusadvisor.cpp:1258
 #, kde-format
 msgid "Focus Advisor cannot run with current params"
 msgstr "Focusadviseur kan niet draaien met huidige parameters"
 
-#: ekos/focus/focusadvisor.cpp:641
+#. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
+#: ekos/focus/focusadvisor.cpp:681 ekos/focus/focusadvisor.ui:69
 #, kde-format
-msgid "Find Stars: Starting scan for stars..."
-msgstr "Sterren zoeken: scan wordt gestart voor zoek naar sterren..."
+msgid "Find Stars"
+msgstr "Sterren zoeken"
 
-#: ekos/focus/focusadvisor.cpp:642
-#, kde-format
-msgid "Find Stars: Jump size %1"
-msgstr "Sterren zoeken: spronggrootte %1"
-
-#: ekos/focus/focusadvisor.cpp:643
+#: ekos/focus/focusadvisor.cpp:683
 #, kde-format
 msgid "Find Stars: Scanning for stars..."
 msgstr "Sterren zoeken: scannen op sterren..."
 
-#: ekos/focus/focusadvisor.cpp:645
+#: ekos/focus/focusadvisor.cpp:685
 #, kde-format
 msgid "Find Stars: Failed"
 msgstr "Sterren zoeken: mislukt"
 
-#: ekos/focus/focusadvisor.cpp:720
+#: ekos/focus/focusadvisor.cpp:752
+#, fuzzy, kde-format
+#| msgid "Stars detected, range centre %1"
+msgid "Stars detected, range center %1"
+msgstr "Sterren gedetecteerd, centrum van reeks %1"
+
+#: ekos/focus/focusadvisor.cpp:761
 #, kde-format
 msgid "Stars detected, range centre %1"
 msgstr "Sterren gedetecteerd, centrum van reeks %1"
 
-#: ekos/focus/focusadvisor.cpp:721
-#, kde-format
-msgid "Find Stars: Completed"
+#: ekos/focus/focusadvisor.cpp:762
+#, fuzzy, kde-format
+#| msgid "Find Stars: Completed"
+msgid "Focus Advisor Find Stars completed"
 msgstr "Sterren zoeken: voltooid"
 
-#: ekos/focus/focusadvisor.cpp:739
-#, kde-format
-msgid "Detected %1 stars at %2"
-msgstr "Gedetecteerd %1 sterren op %2"
-
-#: ekos/focus/focusadvisor.cpp:770
+#: ekos/focus/focusadvisor.cpp:810
 #, kde-format
 msgid "Find Stars: exceeded max iterations %1"
 msgstr "Sterren zoeken: overschreed maximum iteraties %1"
 
-#: ekos/focus/focusadvisor.cpp:778
-#, kde-format
-msgid "Stars detected, centring range"
+#: ekos/focus/focusadvisor.cpp:818 ekos/focus/focusadvisor.cpp:819
+#, fuzzy, kde-format
+#| msgid "Stars detected, centring range"
+msgid "Stars detected, centering range"
 msgstr "Sterren gedetecteerd, reeks wordt gecentreerd"
 
-#: ekos/focus/focusadvisor.cpp:779
-#, kde-format
-msgid "Find Stars: Stars detected, centring range"
-msgstr "Sterren zoeken: sterren gedetecteerd, reeks wordt gecentreerd"
-
-#: ekos/focus/focusadvisor.cpp:800
+#: ekos/focus/focusadvisor.cpp:840
 #, kde-format
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
 msgstr ""
 "Sterren zoeken run %1: geen sterren bij starten op %2, bezig met scannen..."
 
-#: ekos/focus/focusadvisor.cpp:806
+#: ekos/focus/focusadvisor.cpp:846
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: Scanning %3/%4"
 msgstr "Sterren zoeken run %1 sector %2: bezig met scannen %3/%4"
 
-#: ekos/focus/focusadvisor.cpp:808
+#: ekos/focus/focusadvisor.cpp:848
 #, kde-format
 msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr "Sterren zoeken run %1: bezig met scannen van sector %2"
 
-#: ekos/focus/focusadvisor.cpp:826
+#: ekos/focus/focusadvisor.cpp:859
+#, fuzzy, kde-format
+#| msgid "Auto star selected."
+msgid "No stars detected"
+msgstr "Autoster geselecteerd."
+
+#: ekos/focus/focusadvisor.cpp:867
 #, kde-format
 msgid "Find Stars Run %1: failed to find any stars"
 msgstr "Sterren zoeken run %1: geen enkele ster gevonden"
 
-#: ekos/focus/focusadvisor.cpp:891
+#: ekos/focus/focusadvisor.cpp:932
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr "Sterren zoeken run %1 sector %2: bezig met scannen %3/%4"
 
-#: ekos/focus/focusadvisor.cpp:898
-#, kde-format
-msgid "Find Stars Run %1: Failed"
-msgstr "Sterren zoeken run %1: mislukt"
+#: ekos/focus/focusadvisor.cpp:939
+#, fuzzy, kde-format
+#| msgid "Find Stars Run %1: failed to find any stars"
+msgid "Focus Advisor Find Stars run %1: failed to move focuser"
+msgstr "Sterren zoeken run %1: geen enkele ster gevonden"
 
-#: ekos/focus/focusadvisor.cpp:920
+#: ekos/focus/focusadvisor.cpp:961
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
 msgstr "Ruwe aanpassing van focusadviseur afgebroken na %1 runs"
 
-#: ekos/focus/focusadvisor.cpp:937 ekos/focus/focusadvisor.cpp:938
-#: ekos/focus/focusadvisor.cpp:939
+#: ekos/focus/focusadvisor.cpp:978
 #, kde-format
 msgid "Coarse Adjustment Scan..."
 msgstr "Scan voor ruwe aanpassing..."
 
-#: ekos/focus/focusadvisor.cpp:969
-#, kde-format
-msgid "Pre Autofocus: Failed"
-msgstr "Pre-autofocus: mislukt"
+#: ekos/focus/focusadvisor.cpp:1006
+#, fuzzy, kde-format
+#| msgid "Coarse Adjustment Scan..."
+msgid "Coarse Adjustment"
+msgstr "Scan voor ruwe aanpassing..."
 
-#: ekos/focus/focusadvisor.cpp:979
-#, kde-format
-msgid "Pre Autofocus: exceeded max iterations %1"
-msgstr "Pre-autofocus: maximale iteraties %1 overschreden"
+#: ekos/focus/focusadvisor.cpp:1012 ekos/focus/focusadvisor.cpp:1226
+#, fuzzy, kde-format
+#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+msgid "Focus Advisor Coarse Adjustment failed to move focuser"
+msgstr "Ruwe aanpassing van focusadviseur afgebroken na %1 runs"
 
-#: ekos/focus/focusadvisor.cpp:1036 ekos/focus/focusadvisor.cpp:1119
-#, kde-format
-msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
-msgstr "Run voor ruwe aanpassing: %1 Start: %2 Overscan: %3 Stapgrootte: %4"
+#: ekos/focus/focusadvisor.cpp:1022
+#, fuzzy, kde-format
+#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+msgid "Focus Advisor Coarse Adjustment: exceeded max iterations %1"
+msgstr "Ruwe aanpassing van focusadviseur afgebroken na %1 runs"
 
-#: ekos/focus/focusadvisor.cpp:1038
+#: ekos/focus/focusadvisor.cpp:1079
 #, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
 msgstr "Scan voor ruwe aanpassing run %1..."
 
-#: ekos/focus/focusadvisor.cpp:1046
-#, kde-format
-msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+#: ekos/focus/focusadvisor.cpp:1087
+#, fuzzy, kde-format
+#| msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr ""
 "Scan voor ruwe aanpassing run %1: onvoldoende gegevens om verder te gaan"
 
-#: ekos/focus/focusadvisor.cpp:1096
+#: ekos/focus/focusadvisor.cpp:1144
 #, kde-format
-msgid "Overscan estimate: %1 ticks"
-msgstr "Schatting voor overscan: %1 streepjes"
+msgid "Max/Min Ratio: %1"
+msgstr ""
 
-#: ekos/focus/focusadvisor.cpp:1141
-#, kde-format
-msgid "Coarse Adj: data quality too poor to continue"
+#: ekos/focus/focusadvisor.cpp:1161
+#, fuzzy, kde-format
+#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+msgid "Focus Advisor Coarse Adjustment completed."
+msgstr "Ruwe aanpassing van focusadviseur afgebroken na %1 runs"
+
+#: ekos/focus/focusadvisor.cpp:1182
+#, fuzzy, kde-format
+#| msgid "Coarse Adj: data quality too poor to continue"
+msgid "Focus Advisor Coarse Adjustment: data quality too poor to continue"
 msgstr "Ruwe aanpassing: gegevenskwaliteit te slecht om door te gaan"
 
-#: ekos/focus/focusadvisor.cpp:1183
+#: ekos/focus/focusadvisor.cpp:1216
 #, kde-format
-msgid "Coarse Adj: Failed"
-msgstr "Ruwe afstelling: mislukt"
+msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
+msgstr ""
 
-#: ekos/focus/focusadvisor.cpp:1234
-#, kde-format
-msgid "Autofocus parameter adjustment"
-msgstr "Aanpassing van autofocusparameter"
+#: ekos/focus/focusadvisor.cpp:1277
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Image Adjustments"
+msgid "Fine Adjustment"
+msgstr "Aanpassingen afbeelding"
 
-#: ekos/focus/focusadvisor.cpp:1325
+#: ekos/focus/focusadvisor.cpp:1379
 #, kde-format
-msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
-msgstr "Focusadviseur past de stapgrootte aan: %1->%2 AF-overscan: %3->%4"
+msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
+msgstr ""
 
-#: ekos/focus/focusadvisor.cpp:1336
-#, kde-format
-msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
-msgstr "Autofocus opnieuw proberen: stapgrootte %1 AF-overscan %2"
-
-#: ekos/focus/focusadvisor.cpp:1341
-#, kde-format
-msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-msgstr "Autofocus voltooid: stapgrootte %1 AF-overscan %2"
+#: ekos/focus/focusadvisor.cpp:1386
+#, fuzzy, kde-format
+#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+msgid "Focus Advisor Fine Adjustment completed"
+msgstr "Ruwe aanpassing van focusadviseur afgebroken na %1 runs"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -19646,12 +19727,6 @@ msgstr ""
 "Activeer om focusadviseur focusparameters bij te laten werken. Klik op Help "
 "om voorgestelde wijzigingen te bekijken."
 
-#. i18n: ectx: property (text), widget (QCheckBox, focusAdvUpdateParams)
-#: ekos/focus/focusadvisor.ui:50
-#, kde-format
-msgid "Update Parameters"
-msgstr "Parameters bijwerken"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvFindStars)
 #: ekos/focus/focusadvisor.ui:66
 #, kde-format
@@ -19662,12 +19737,6 @@ msgstr ""
 "Activeer om focusadviseur naar sterren te laten zoeken. Als u dicht genoeg "
 "bij focus bent om sterren in het focusframe te zien dan is deze stap niet "
 "nodig."
-
-#. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
-#: ekos/focus/focusadvisor.ui:69
-#, kde-format
-msgid "Find Stars"
-msgstr "Sterren zoeken"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
@@ -19702,7 +19771,7 @@ msgid "Fine Adjustment (using Autofocus)"
 msgstr "Fijn afstemming (met gebruik van autofocus)"
 
 #. i18n: ectx: property (toolTip), widget (QDialogButtonBox, focusAdvButtonBox)
-#: ekos/focus/focusadvisor.ui:160
+#: ekos/focus/focusadvisor.ui:200
 #, kde-format
 msgid "Close Focus Advisor"
 msgstr "Focusadviseur sluiten"
@@ -22208,17 +22277,6 @@ msgstr "Volggegevens exporteren"
 msgid "Prep"
 msgstr "Prep"
 
-#. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
-#. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
-#. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
-#: ekos/guide/guidestatewidget.ui:64 tools/modcalcangdist.ui:666
-#: tools/modcalcapcoord.ui:720 tools/modcalcgalcoord.ui:418
-#: tools/modcalcgeod.ui:572 tools/modcalcplanets.ui:932
-#: tools/modcalcvlsr.ui:750
-#, kde-format
-msgid "Run"
-msgstr "Starten"
-
 #: ekos/guide/internalguide/calibrationprocess.cpp:178
 #, kde-format
 msgid "RA drifting forward..."
@@ -24535,14 +24593,17 @@ msgid ""
 "unchecked if unsure, use only if you know what you are doing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Alleen hoogte beperken tijdens volgen van opstelling. "
+"Dit is nodig voor sommige opstellingen die bedoeld over deze beperking gaan, "
+"Bijv. voor parkeren.</p><p><span style=\" font-weight:600;\">WAARSCHUWING</"
+"span>: laat niet geactiveerd indien onzeker, alleen gebruiken als u weet wat "
+"u doet.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
 #: ekos/mount/mount.ui:354
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Tracking Mode"
+#, kde-format
 msgid "Tracking only"
-msgstr "Volgmodus"
+msgstr "Allen volgen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:526
@@ -36975,7 +37036,7 @@ msgstr "Hoogtegrenzen voor opstelling aanzetten."
 #: kstars.kcfg:1736
 #, kde-format
 msgid "Restrict altitude limits to tracking mode only."
-msgstr ""
+msgstr "Grenzen aan hoogte alleen beperken tot modus volgen."
 
 #. i18n: ectx: label, entry (ConfirmBelowHorizon), group (Mount)
 #: kstars.kcfg:1740
@@ -86162,6 +86223,51 @@ msgstr "Achtergrondkleur:"
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
 
+#~ msgid "Updated base parameters"
+#~ msgstr "Basisparameters bijgewerkt"
+
+#~ msgid "Find Stars: Starting scan for stars..."
+#~ msgstr "Sterren zoeken: scan wordt gestart voor zoek naar sterren..."
+
+#~ msgid "Find Stars: Jump size %1"
+#~ msgstr "Sterren zoeken: spronggrootte %1"
+
+#~ msgid "Detected %1 stars at %2"
+#~ msgstr "Gedetecteerd %1 sterren op %2"
+
+#~ msgid "Find Stars: Stars detected, centring range"
+#~ msgstr "Sterren zoeken: sterren gedetecteerd, reeks wordt gecentreerd"
+
+#~ msgid "Find Stars Run %1: Failed"
+#~ msgstr "Sterren zoeken run %1: mislukt"
+
+#~ msgid "Pre Autofocus: Failed"
+#~ msgstr "Pre-autofocus: mislukt"
+
+#~ msgid "Pre Autofocus: exceeded max iterations %1"
+#~ msgstr "Pre-autofocus: maximale iteraties %1 overschreden"
+
+#~ msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
+#~ msgstr "Run voor ruwe aanpassing: %1 Start: %2 Overscan: %3 Stapgrootte: %4"
+
+#~ msgid "Overscan estimate: %1 ticks"
+#~ msgstr "Schatting voor overscan: %1 streepjes"
+
+#~ msgid "Coarse Adj: Failed"
+#~ msgstr "Ruwe afstelling: mislukt"
+
+#~ msgid "Autofocus parameter adjustment"
+#~ msgstr "Aanpassing van autofocusparameter"
+
+#~ msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
+#~ msgstr "Focusadviseur past de stapgrootte aan: %1->%2 AF-overscan: %3->%4"
+
+#~ msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
+#~ msgstr "Autofocus opnieuw proberen: stapgrootte %1 AF-overscan %2"
+
+#~ msgid "Autofocus complete: Step Size %1 AF Overscan %2"
+#~ msgstr "Autofocus voltooid: stapgrootte %1 AF-overscan %2"
+
 #~ msgid "Astronomical Twilight Warning"
 #~ msgstr "Waarschuwing voor astronomische schemering"
 
@@ -86243,9 +86349,6 @@ msgstr "Instellen van de kleur van de achtergrond."
 #~ msgstr ""
 #~ "<html><head/><body><p>Stapgrootte kan standaard de kritische focuszone "
 #~ "zijn...</p></body></html>"
-
-#~ msgid "Step Size:"
-#~ msgstr "Stapgrootte:"
 
 #~ msgid ""
 #~ "<html><head/><body><p>Update Focus Parameters to Focus Advisor "
@@ -110164,9 +110267,6 @@ msgstr "Instellen van de kleur van de achtergrond."
 #~ msgctxt "Index Catalog object"
 #~ msgid "IC Object"
 #~ msgstr "IC-object"
-
-#~ msgid "ID Number"
-#~ msgstr "ID-nummer"
 
 #~ msgid "Object Type"
 #~ msgstr "Objecttype"
