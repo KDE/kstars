@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-03 01:48+0000\n"
-"PO-Revision-Date: 2024-08-03 01:25+0300\n"
+"PO-Revision-Date: 2024-08-04 00:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -19347,10 +19347,9 @@ msgid "Clear"
 msgstr "Temizle"
 
 #: ekos/focus/focusadvisor.cpp:79 ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Selection:"
+#, kde-format
 msgid "Section"
-msgstr "Seçim:"
+msgstr "Bölüm"
 
 #. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
 #. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
@@ -19364,58 +19363,49 @@ msgid "Run"
 msgstr "Çalıştır"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Number"
+#, kde-format
 msgid "Run number"
-msgstr "Numara"
+msgstr "Pas Numarası"
 
 #: ekos/focus/focusadvisor.cpp:87
-#, fuzzy, kde-format
-#| msgid "Adapt Start Pos"
+#, kde-format
 msgid "Start Pos"
-msgstr "Başlangıç konumunu uyarla"
+msgstr "Başlangıç Konumu"
 
 #: ekos/focus/focusadvisor.cpp:88
-#, fuzzy, kde-format
-#| msgid "Chart position:"
+#, kde-format
 msgid "Start position"
-msgstr "Grafik konumu:"
+msgstr "Başlangıç Konumu"
 
 #: ekos/focus/focusadvisor.cpp:91
-#, fuzzy, kde-format
-#| msgid "Max Step Size:"
+#, kde-format
 msgid "Step/Jump Size"
-msgstr "En büyük adım boyutu:"
+msgstr "Adım/Atlama Boyutu"
 
 #: ekos/focus/focusadvisor.cpp:92
-#, fuzzy, kde-format
-#| msgid "Max Step Size:"
+#, kde-format
 msgid "Step Size"
-msgstr "En büyük adım boyutu:"
+msgstr "Adım Boyutu"
 
 #: ekos/focus/focusadvisor.cpp:95
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "Overscan"
-msgstr "AF aşırı taraması:"
+msgstr "Aşırı Tarama"
 
 #: ekos/focus/focusadvisor.cpp:96
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan"
-msgstr "AF aşırı taraması:"
+msgstr "AF Aşırı Taraması"
 
 #: ekos/focus/focusadvisor.cpp:99
-#, fuzzy, kde-format
-#| msgid "Comments:"
+#, kde-format
 msgid "Comments"
-msgstr "Yorumlar:"
+msgstr "Yorumlar"
 
 #: ekos/focus/focusadvisor.cpp:100
 #, kde-format
 msgid "Additional Text"
-msgstr ""
+msgstr "Ek Metin"
 
 #: ekos/focus/focusadvisor.cpp:111
 #, kde-format
@@ -19448,10 +19438,9 @@ msgid "Focus Advisor proposed value for the parameter"
 msgstr "Parametre için odak danışmanının önerdiği değer"
 
 #: ekos/focus/focusadvisor.cpp:160
-#, fuzzy, kde-format
-#| msgid "Another focus action in progress. Please try again."
+#, kde-format
 msgid "Focus Advisor: another focus action in progress. Please try again."
-msgstr "Başka bir odak eylemi sürüyor. Lütfen yeniden deneyin."
+msgstr "Odak danışmanı: Başka bir odak eylemi sürüyor. Lütfen yeniden deneyin."
 
 #: ekos/focus/focusadvisor.cpp:185
 #, kde-format
@@ -19523,8 +19512,7 @@ msgid "Find Stars: Failed"
 msgstr "Yıldızları Bul: Başarısız"
 
 #: ekos/focus/focusadvisor.cpp:752
-#, fuzzy, kde-format
-#| msgid "Stars detected, range centre %1"
+#, kde-format
 msgid "Stars detected, range center %1"
 msgstr "Yıldızlar algılandı, erim merkezi %1"
 
@@ -19534,10 +19522,9 @@ msgid "Stars detected, range centre %1"
 msgstr "Yıldızlar algılandı, erim merkezi %1"
 
 #: ekos/focus/focusadvisor.cpp:762
-#, fuzzy, kde-format
-#| msgid "Find Stars: Completed"
+#, kde-format
 msgid "Focus Advisor Find Stars completed"
-msgstr "Yıldızları Bul: Tamamlandı"
+msgstr "Odak danışmanı yıldız bulumu tamamlandı"
 
 #: ekos/focus/focusadvisor.cpp:810
 #, kde-format
@@ -19545,8 +19532,7 @@ msgid "Find Stars: exceeded max iterations %1"
 msgstr "Yıldızları Bul: En çok %1 yineleme sayısı aşıldı"
 
 #: ekos/focus/focusadvisor.cpp:818 ekos/focus/focusadvisor.cpp:819
-#, fuzzy, kde-format
-#| msgid "Stars detected, centring range"
+#, kde-format
 msgid "Stars detected, centering range"
 msgstr "Yıldızlar algılandı, erim ortalanıyor"
 
@@ -19566,10 +19552,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr "Yıldızları Bul %1. Pas: Sektör %2 taranıyor"
 
 #: ekos/focus/focusadvisor.cpp:859
-#, fuzzy, kde-format
-#| msgid "Auto star selected."
+#, kde-format
 msgid "No stars detected"
-msgstr "Kendiliğinden yıldız seçildi."
+msgstr "Algılanan yıldız yok"
 
 #: ekos/focus/focusadvisor.cpp:867
 #, kde-format
@@ -19582,10 +19567,9 @@ msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr "Yıldızları Bul %1. Pas Sektör %2: %3/%4 taranıyor"
 
 #: ekos/focus/focusadvisor.cpp:939
-#, fuzzy, kde-format
-#| msgid "Find Stars Run %1: failed to find any stars"
+#, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
-msgstr "Yıldızları Bul %1. Pas: Hiçbir yıldız bulunamadı"
+msgstr "Odak Danışmanı Yıldızları Bul %1. Pas: Odaklayıcı hareket ettirilemedi"
 
 #: ekos/focus/focusadvisor.cpp:961
 #, kde-format
@@ -19598,73 +19582,64 @@ msgid "Coarse Adjustment Scan..."
 msgstr "Kaba ayar taraması..."
 
 #: ekos/focus/focusadvisor.cpp:1006
-#, fuzzy, kde-format
-#| msgid "Coarse Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment"
-msgstr "Kaba ayar taraması..."
+msgstr "Kaba Ayar"
 
 #: ekos/focus/focusadvisor.cpp:1012 ekos/focus/focusadvisor.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment failed to move focuser"
-msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
+msgstr "Odak danışmanı kaba ayarı odaklayıcıyı hareket ettiremedi"
 
 #: ekos/focus/focusadvisor.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: exceeded max iterations %1"
-msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
+msgstr "Odak Danışmanı Kaba Ayarı: %1 en çok deneme aşıldı"
 
 #: ekos/focus/focusadvisor.cpp:1079
 #, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
-msgstr "Kaba Ayar Pası %1 taraması..."
+msgstr "Kaba ayar pası %1 taraması..."
 
 #: ekos/focus/focusadvisor.cpp:1087
-#, fuzzy, kde-format
-#| msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
-msgstr "Kaba Ayar Pası %1: Sürdürmek için yetersiz veri"
+msgstr "Odak Danışmanı Kaba Ayar Pası %1: Sürdürmek için yetersiz veri"
 
 #: ekos/focus/focusadvisor.cpp:1144
 #, kde-format
 msgid "Max/Min Ratio: %1"
-msgstr ""
+msgstr "En az/çok oranı: %1"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment completed."
-msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
+msgstr "Odak danışmanı kaba ayarı tamamlandı."
 
 #: ekos/focus/focusadvisor.cpp:1182
-#, fuzzy, kde-format
-#| msgid "Coarse Adj: data quality too poor to continue"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: data quality too poor to continue"
-msgstr "Kaba Ayar: Sürdürmek için veri kalitesi pek düşük"
+msgstr "Odak Danışmanı Kaba Ayarı: Sürdürmek için veri kalitesi pek düşük"
 
 #: ekos/focus/focusadvisor.cpp:1216
 #, kde-format
 msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
-msgstr ""
+msgstr "En az/çok oranı: %1, sonraki adım boyutu: %2, sonraki aşırı tarama: %3"
 
 #: ekos/focus/focusadvisor.cpp:1277
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Fine Adjustment"
-msgstr "Görüntü Ayarlamaları"
+msgstr "İnce Ayar"
 
 #: ekos/focus/focusadvisor.cpp:1379
 #, kde-format
 msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
-msgstr ""
+msgstr "En az/çok oranı: %1, R2: %2, adım boyutu: %3, aşırı tarama: %4"
 
 #: ekos/focus/focusadvisor.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Fine Adjustment completed"
-msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
+msgstr "Odak danışmanı kaba ayarı tamamlandı."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -24542,14 +24517,17 @@ msgid ""
 "unchecked if unsure, use only if you know what you are doing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Kaide izlemesi sırasında yalnızca yükseklik "
+"sınırlarını kullanın. Bu, örneğin park için bu sınırı özellikle aşan bazı "
+"kaideler için gereklidir.</p><p><span style=\" font-weight:600;\">UYARI</"
+"span>: Emin değilseniz boş bırakın; yalnızca ne yaptığınızı biliyorsanız "
+"kullanın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
 #: ekos/mount/mount.ui:354
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Tracking Mode"
+#, kde-format
 msgid "Tracking only"
-msgstr "İzleme Kipi"
+msgstr "Yalnızca izleme"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:526
@@ -30263,43 +30241,38 @@ msgid "KStars FITS Viewer"
 msgstr "K Yıldızlar FITS Görüntüleyicisi"
 
 #: fitsviewer/fitsviewer.cpp:412
-#, fuzzy, kde-format
-#| msgid "star"
+#, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
-msgstr[0] "yıldız"
-msgstr[1] "yıldız"
+msgstr[0] "HFR: %2 Ecc: %3 %1 yıldız."
+msgstr[1] "HFR: %2 Ecc: %3 %1 yıldız."
 
 #: fitsviewer/fitsviewer.cpp:418
-#, fuzzy, kde-format
-#| msgid "star"
+#, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
-msgstr[0] "yıldız"
-msgstr[1] "yıldız"
+msgstr[0] "HFR: %2, %1 yıldız."
+msgstr[1] "HFR:%2, %1 yıldız."
 
 #: fitsviewer/fitsviewer.cpp:679
 #, kde-format
 msgid "Cannot find tab with UID %1 in the FITS Viewer"
-msgstr "FITS Görüntüleyicisi'nde %1 UID'li sekme bulunamıyor"
+msgstr "FITS Görüntüleyicisi'nde UID'si %1 olan sekme bulunamıyor"
 
 #: fitsviewer/fitsviewer.cpp:816
 #, kde-format
 msgid "currentView 3D Graph"
-msgstr ""
+msgstr "currentView 3B Grafik"
 
 #: fitsviewer/fitsviewer.cpp:817 fitsviewer/fitsviewer.cpp:1464
-#, fuzzy, kde-format
-#| msgid "Crosshairs"
+#, kde-format
 msgid "Cross Hairs"
-msgstr "Artılar"
+msgstr "Artı İşaretleri"
 
 #: fitsviewer/fitsviewer.cpp:818 fitsviewer/fitsviewer.cpp:1478
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Philippines"
+#, kde-format
 msgid "Clipping"
-msgstr "Filipinler"
+msgstr "Kırpma"
 
 #: fitsviewer/fitsviewer.cpp:819 fitsviewer/fitsviewer.cpp:1491
 #, kde-format
@@ -30309,7 +30282,7 @@ msgstr "Ekvator Kılavuz Çizgileri"
 #: fitsviewer/fitsviewer.cpp:820 fitsviewer/fitsviewer.cpp:1530
 #, kde-format
 msgid "Objects in Image"
-msgstr "Görüntüdeki Nesneler"
+msgstr "Görseldeki Nesneler"
 
 #: fitsviewer/fitsviewer.cpp:821 fitsviewer/fitsviewer.cpp:1543
 #, kde-format
@@ -30317,17 +30290,15 @@ msgid "Pixel Gridlines"
 msgstr "Piksel Kılavuz Çizgileri"
 
 #: fitsviewer/fitsviewer.cpp:822 fitsviewer/fitsviewer.cpp:1504
-#, fuzzy, kde-format
-#| msgid "Polar Alignment"
+#, kde-format
 msgid "HiPS Overlay"
-msgstr "Kutupsal Hizalama"
+msgstr "HiPS Kaplaması"
 
 #: fitsviewer/fitsviewer.cpp:874
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgctxt "@title:window"
 msgid "Blink Top Directory"
-msgstr "Dizin:"
+msgstr "Blink Üst Dizini"
 
 #: fitsviewer/fitsviewer.cpp:1002
 #, kde-format
@@ -30338,12 +30309,12 @@ msgstr "Görsel Aç"
 #: fitsviewer/fitsviewer.cpp:1285
 #, kde-format
 msgid "Hide %1"
-msgstr ""
+msgstr "Gizle: %1"
 
 #: fitsviewer/fitsviewer.cpp:1290
 #, kde-format
 msgid "Show %1"
-msgstr ""
+msgstr "Göster: %1"
 
 #: fitsviewer/fitsviewer.cpp:1314
 #, kde-format
@@ -30351,7 +30322,7 @@ msgid ""
 "Center Telescope\n"
 "*Ready*"
 msgstr ""
-"Merkez Teleskop\n"
+"Teleskopu Ortala\n"
 "*Hazır*"
 
 #: fitsviewer/fitsviewer.cpp:1326
@@ -30360,6 +30331,8 @@ msgid ""
 "Show Equatorial Gridlines\n"
 "*No WCS Info*"
 msgstr ""
+"Ekvator Kılavuz Çizgilerini Göster\n"
+"*WCS Bilgisi Yok*"
 
 #: fitsviewer/fitsviewer.cpp:1328
 #, kde-format
@@ -30367,7 +30340,7 @@ msgid ""
 "Center Telescope\n"
 "*No WCS Info*"
 msgstr ""
-"Merkez Teleskop \n"
+"Teleskopu Ortala\n"
 "*WCS Bilgisi Yok*"
 
 #: fitsviewer/fitsviewer.cpp:1330
@@ -30376,12 +30349,13 @@ msgid ""
 "Show Objects in Image\n"
 "*No WCS Info*"
 msgstr ""
+"Görseldeki Nesneleri Göster\n"
+"*WCS Bilgisi Yok*"
 
 #: fitsviewer/fitsviewer.cpp:1362 fitsviewer/fitsviewer.cpp:1517
-#, fuzzy, kde-format
-#| msgid "Select begin star:"
+#, kde-format
 msgid "Selection Rectangle"
-msgstr "Başlangıç yıldızı seç:"
+msgstr "Seçim Dörtgeni"
 
 #: fitsviewer/fitsviewer.cpp:1391 kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
@@ -30405,37 +30379,35 @@ msgstr "Yükseklik"
 #: fitsviewer/fitsviewer.cpp:1598
 #, kde-format
 msgid "Unmark Stars"
-msgstr "Yıldızların İşaretini Kaldır"
+msgstr "Yıldızların İmini Kaldır"
 
 #: fitsviewer/fitsviewer.cpp:1614
 #, kde-format
 msgid "Processing %1..."
-msgstr "İşleniyor %1..."
+msgstr "%1 işleniyor..."
 
 #: fitsviewer/opsfits.cpp:101
 #, kde-format
 msgid "HFR Options Profile Editor"
-msgstr "HFR Seçenekleri Profil Düzenleyicisi"
+msgstr "HFR Seçenekleri Profili Düzenleyicisi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, FITSViewerGroup)
 #: fitsviewer/opsfits.ui:45
-#, fuzzy, kde-format
-#| msgid "Look and &Feel"
+#, kde-format
 msgid "Look && Feel"
-msgstr "&Görünüm"
+msgstr "Görünüm ve His"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useFITSViewer)
 #: fitsviewer/opsfits.ui:51
 #, kde-format
 msgid "Automatically display received images in the FITS Viewer"
-msgstr "Alınan görüntüleri FITS Görüntüleyicide otomatik olarak görüntüleyin"
+msgstr "Alınan görselleri FITS Görüntüleyicisi'nde kendiliğinden görüntüle"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useFITSViewer)
 #: fitsviewer/opsfits.ui:54
-#, fuzzy, kde-format
-#| msgid "FITS Viewer"
+#, kde-format
 msgid "Use FITS viewer"
-msgstr "FITS Görüntüleyici"
+msgstr "FITS Görüntüleyicisi'ni kullan"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_singlePreviewFITS)
 #. i18n: ectx: whatsthis, entry (singlePreviewFITS), group (FITSViewer)
@@ -30445,55 +30417,46 @@ msgid ""
 "Display all captured FITS images in a single tab instead of multiple tabs "
 "per image."
 msgstr ""
-"Tüm yakalanmış FITS görüntülerini, her bir görüntü için çoklu sekme yerine "
-"tek bir sekme içinde göster."
+"Görsel başına birden çok sekme yerine, tüm yakalanan FITS görsellerini tek "
+"bir sekmede görüntüleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singlePreviewFITS)
 #: fitsviewer/opsfits.ui:70
-#, fuzzy, kde-format
-#| msgid "Single Preview FITS"
+#, kde-format
 msgid "Single preview tab"
-msgstr "FITS Tek Ön İzleme"
+msgstr "Tek önizleme sekmesi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_singleWindowCapturedFITS)
 #: fitsviewer/opsfits.ui:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display FITS images from all cameras in a single FITS Viewer window "
-#| "instead of a dedicated window to each camera."
+#, kde-format
 msgid ""
 "Display captured FITS images from all cameras in a single FITS Viewer window "
 "instead of a dedicated window to each camera."
 msgstr ""
-"Tüm kameralardaki FITS görüntülerini, her bir kamera için ayrılmış bir "
-"pencere yerine, tek bir FITS Görüntüleyici penceresinde göster."
+"Her kameraya özel bir pencere açmak yerine, tüm kameralardan yakalanan FITS "
+"görsellerini tek bir FITS Görüntüleyicisi penceresinde görüntüleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowCapturedFITS)
 #: fitsviewer/opsfits.ui:86
-#, fuzzy, kde-format
-#| msgid "Single Window FITS"
+#, kde-format
 msgid "Single window capture"
-msgstr "FITS Tek Pencere"
+msgstr "Tek pencereli yakalama"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_singleWindowOpenedFITS)
 #: fitsviewer/opsfits.ui:96
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display FITS images from all cameras in a single FITS Viewer window "
-#| "instead of a dedicated window to each camera."
+#, kde-format
 msgid ""
 "Display opened FITS images in a single FITS Viewer window instead of a "
 "dedicated window to each file."
 msgstr ""
-"Tüm kameralardaki FITS görüntülerini, her bir kamera için ayrılmış bir "
-"pencere yerine, tek bir FITS Görüntüleyici penceresinde göster."
+"Her dosyaya özel bir pencere açmak yerine, açılan FITS görsellerini tek bir "
+"FITS Görüntüleyicisi penceresinde görüntüleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowOpenedFITS)
 #: fitsviewer/opsfits.ui:102
-#, fuzzy, kde-format
-#| msgid "Single Window FITS"
+#, kde-format
 msgid "Single window open"
-msgstr "FITS Tek Pencere"
+msgstr "Tek pencere aç"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_focusFITSOnNewImage)
 #: fitsviewer/opsfits.ui:112
@@ -30501,60 +30464,54 @@ msgstr "FITS Tek Pencere"
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image"
 msgstr ""
-"Yeni bir görsel alırken FITS Görüntüleyicisi penceresini ön plana getir"
+"Yeni bir görsel alındığında FITS Görüntüleyicis penceresini ön plana getirin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_focusFITSOnNewImage)
 #: fitsviewer/opsfits.ui:115
 #, kde-format
 msgid "Focus on receiving an image"
-msgstr ""
+msgstr "Görsel alındığında odaklan"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_independentWindowFITS)
 #: fitsviewer/opsfits.ui:122
 #, kde-format
 msgid "Make FITS Viewer window independent from KStars"
-msgstr "FITS Görüntüleyicisi penceresini K Yıldızlar'dan bağımsız yap"
+msgstr ""
+"FITS Görüntüleyicisi penceresini K Yıldızlar'dan bağımsız hale getirin."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: fitsviewer/opsfits.ui:134
-#, fuzzy, kde-format
-#| msgid "Update"
+#, kde-format
 msgid "HiPS opacity:"
-msgstr "Güncelle"
+msgstr "HiPS matlığı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: fitsviewer/opsfits.ui:141
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "HiPS offset:"
-msgstr "X Ofset:"
+msgstr "HiPS ofseti:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: fitsviewer/opsfits.ui:195
-#, fuzzy, kde-format
-#| msgid "Delete all Images"
+#, kde-format
 msgid "Down Sampling"
-msgstr "Tüm resimleri Sil"
+msgstr "Aşağı Örnekleme"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AdaptiveSampling)
 #: fitsviewer/opsfits.ui:216
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically down sample images based on available "
 "resources.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Var olan özkaynaklara göre örnek görselleri "
+"kendiliğinden küçültün.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdaptiveSampling)
 #: fitsviewer/opsfits.ui:219
-#, fuzzy, kde-format
-#| msgid "Adaptive Optics"
+#, kde-format
 msgid "Adaptive sampling"
-msgstr "Uyarlanabilir Optikler"
+msgstr "Uyarlanır örnekleme"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, stretchPreviewSamplingLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StretchPreviewSampling)
@@ -30566,64 +30523,57 @@ msgid ""
 "stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be "
 "coarse resolution and fast."
 msgstr ""
-"FITS Görüntüleyicisi'nin streç parametre sürgülerini kaydırırken gösterilen "
+"FITS Görüntüleyicisi'nin germe parametre sürgülerini kaydırırken gösterilen "
 "önizlemenin kabalığını ayarlayın. 1 tam çözünürlüktür; ancak yavaş olabilir, "
 "4 kaba çözünürlüktür ve hızlı olacaktır."
 
 #. i18n: ectx: property (text), widget (QLabel, stretchPreviewSamplingLabel)
 #: fitsviewer/opsfits.ui:229
-#, fuzzy, kde-format
-#| msgid "Print preview"
+#, kde-format
 msgid "Stretch preview:"
-msgstr "Yazdırma Ön izlemesi"
+msgstr "Germe önizlemesi:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clippingBox)
 #: fitsviewer/opsfits.ui:255
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Philippines"
+#, kde-format
 msgid "Clipping Limits"
-msgstr "Filipinler"
+msgstr "Kırpma Sınırları"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:276
 #, kde-format
 msgid "Clipping value for 16-bit values."
-msgstr ""
+msgstr "16 bit değerler için kırpma değeri."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:279
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "Freehold"
+#, kde-format
 msgid "16bit threshold:"
-msgstr "Freehold"
+msgstr "16 bit eşiği:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping64KValue)
 #: fitsviewer/opsfits.ui:286
 #, kde-format
 msgid "64K Clipping value."
-msgstr ""
+msgstr "64 K kırpma değeri."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:302
 #, kde-format
 msgid "Clipping value for 8-bit values."
-msgstr ""
+msgstr "8 bit değerler için kırpma değeri."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:305
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "Freehold"
+#, kde-format
 msgid "8Bit threshold:"
-msgstr "Freehold"
+msgstr "8 bit eşiği:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping256Value)
 #: fitsviewer/opsfits.ui:312
 #, kde-format
 msgid "Byte Clipping value."
-msgstr ""
+msgstr "Bayt kırpma değeri."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: fitsviewer/opsfits.ui:333
@@ -30635,14 +30585,14 @@ msgstr "İşleniyor"
 #: fitsviewer/opsfits.ui:354
 #, kde-format
 msgid "Always apply auto stretch to images in FITS Viewer"
-msgstr "FITS Görüntüleyicisi'ndeki görsellere her zaman otomatik uzatma uygula"
+msgstr ""
+"FITS Görüntüleyicisi'ndeki görsellere her zaman kendiliğinden germe uygula"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStretch)
 #: fitsviewer/opsfits.ui:357
-#, fuzzy, kde-format
-#| msgid "Auto Stretch"
+#, kde-format
 msgid "Auto stretch"
-msgstr "Otomatik Genişletme"
+msgstr "Kendiliğinden ger"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_LimitedResourcesMode)
 #: fitsviewer/opsfits.ui:364
@@ -30664,26 +30614,41 @@ msgid ""
 "\"><span style=\" font-weight:600;\">3D Cube</span>: RGB images will not be "
 "processed. Only grayscale images are shown.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Fazla özkaynak yoğun işlemleri kapatmak için sınırlı "
+"özkaynak kipini etkinleştirin:</p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Kendiliğinden bayer kaldırıcısı</span>: Bayerlenen görsellerin "
+"bayeri kaldırılmaz. Yalnızca gri tonlu görseller gösterilir.</li><li style="
+"\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Kendiliğinden WCS</span>: Dünya Koordinat Sistemi verileri "
+"işlenmeyecektir. WCS gökyüzü koordinatlarını görsel koordinatlarına "
+"eşlemler. Ekvatoral ızgara çizgileri, nesne tanımlama ve bir görsel içindeki "
+"teleskop çevrilmesi devre dışıdır.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">3B Küp</span>: RGB görseller "
+"işlenmezler. Yalnızca gri tonlu görseller gösterilir.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_LimitedResourcesMode)
 #: fitsviewer/opsfits.ui:367
-#, fuzzy, kde-format
-#| msgid "Limited Resources Mode"
+#, kde-format
 msgid "Limited resources mode"
-msgstr "Sınırlı Kaynaklar Modu"
+msgstr "Sınırlı özkaynaklar kipi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoDebayer)
 #: fitsviewer/opsfits.ui:374
 #, kde-format
 msgid "Automatically debayer captured image if it contains a bayer pattern"
 msgstr ""
+"Bir bayer deseni içeriyorsa yakalanan görselin bayerini kendiliğinden kaldır"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoDebayer)
 #: fitsviewer/opsfits.ui:377
-#, fuzzy, kde-format
-#| msgid "Auto Star"
+#, kde-format
 msgid "Auto debayer"
-msgstr "Otomatik Yıldız"
+msgstr "Kendiliğinden bayeri kaldır"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoWCS)
 #: fitsviewer/opsfits.ui:387
@@ -30695,13 +30660,17 @@ msgid ""
 "unpredictable behavior resulting in crashes on slower machines.</span></p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p>Bir FITS dosyası açarken Dünya Koordinat Sistemi (WCS) "
+"verisini kendiliğinden yükleyin.</p><p><span style=\" font-weight:600;"
+"\">Uyarı: Bu seçeneği yalnızca hızlı makinelerde etkinleştirin; yavaş "
+"makinelerde çökmelere yol açabilen tahmin edilemez durumlara neden olabilir."
+"</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoWCS)
 #: fitsviewer/opsfits.ui:390
-#, fuzzy, kde-format
-#| msgid "Auto Star"
+#, kde-format
 msgid "Auto WCS"
-msgstr "Otomatik Yıldız"
+msgstr "Kendiliğinden WCS"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_Auto3DCube)
 #: fitsviewer/opsfits.ui:397
@@ -30709,32 +30678,30 @@ msgstr "Otomatik Yıldız"
 msgid ""
 "Process 3D (RGB) FITS images. If unchecked, only first channel is processed."
 msgstr ""
+"3B (RGB) FITS görsellerini işleyin. İşaretlenmemişse yalnızca ilk kanal "
+"işlenir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Auto3DCube)
 #: fitsviewer/opsfits.ui:400
 #, kde-format
 msgid "3D cube"
-msgstr ""
+msgstr "3B küp"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_NonLinearHistogram)
 #: fitsviewer/opsfits.ui:410
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Display histogram for the stretched non-linear image.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Gerilmiş doğrusal olmayan görselin histogramını "
+"görüntüleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_NonLinearHistogram)
 #: fitsviewer/opsfits.ui:413
-#, fuzzy, kde-format
-#| msgid "Histogram"
+#, kde-format
 msgid "Non linear histogram"
-msgstr "Sütun Grafiği"
+msgstr "Doğrusal olmayan histogram"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:420
@@ -30753,26 +30720,26 @@ msgstr "HFR'yi kendiliğinden hesapla"
 #, no-c-format, kde-format
 msgid ""
 "When computing the HFR, run it quickly by only looking at 25% of the image."
-msgstr ""
+msgstr "HFR'yi hesaplarken görselin yalnızca %​25'ine bakarak tez çalıştırın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:436
 #, kde-format
 msgid "Quick HFR"
-msgstr ""
+msgstr "Tez HFR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, hfrSepLabel)
 #: fitsviewer/opsfits.ui:451
 #, kde-format
 msgid "Set the StellarSolver SEP profile for Capture-image HFR calculations."
 msgstr ""
+"Görsel yakalama HFR hesaplamaları için StellarSolver SEP profilini ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, hfrSepLabel)
 #: fitsviewer/opsfits.ui:454
-#, fuzzy, kde-format
-#| msgid "Profile:"
+#, kde-format
 msgid "HFR SEP profile:"
-msgstr "Profil:"
+msgstr "HFR SEP profili:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StellarSolverPartition)
 #. i18n: ectx: label, entry (StellarSolverPartition), group (FITSViewer)
@@ -30783,40 +30750,39 @@ msgid ""
 "speed up detecting stars. This may significantly speed up source extraction "
 "but may result in unstable operation."
 msgstr ""
+"StellarSolver bölüntüsünü ayarlayın. Görseli birden çok iş parçacığına "
+"bölerek yıldız algılamasını hızlandırır. Bu, kaynak çıkarımını önemli ölçüde "
+"hızlandırabilir; ancak kararsız bir işleme neden olabilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StellarSolverPartition)
 #: fitsviewer/opsfits.ui:482
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-format
 msgid "StellarSolver partitioning"
-msgstr "Benzetici Ayarları"
+msgstr "StellarSolver bölüntülemesi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SolveButton)
 #: fitsviewer/platesolve.ui:47
 #, kde-format
 msgid "Plate solve the image using the parameters below."
-msgstr ""
+msgstr "Aşağıdaki parametreleri kullanarak görselin plakasını çözün."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:107
 #, kde-format
 msgid "<p>The units of the imager scale bounds."
-msgstr ""
+msgstr "<p>Görüntüleyici ölçeği sınırlarının birimleri.</p>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:114
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width º"
-msgstr "Resim genişliği:"
+msgstr "görsel genişliği º"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:119
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width '"
-msgstr "Resim genişliği:"
+msgstr "görsel genişliği '"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:124
@@ -30826,16 +30792,13 @@ msgstr "yaysan/piksel"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverUsePosition)
 #: fitsviewer/platesolve.ui:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "Use the given position to speed up astrometry solver as it does not have to "
 "search in other areas of the sky."
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"Astrometri çözücünün gökyüzünün diğer alanlarında arama yapmasına gerek "
+"kalmaması için verilen konumu kullanarak çözüm hızını artırın."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpdatePosition)
 #: fitsviewer/platesolve.ui:170
@@ -30843,96 +30806,85 @@ msgstr ""
 msgid ""
 "Set the approximate RA/DEC positions using the center position of the SkyMap."
 msgstr ""
+"SkyMap'in merkez konumunu kullanarak yaklaşık RA/DEC konumlarını ayarlayın."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:324 fitsviewer/platesolve.ui:340
-#, fuzzy, kde-format
-#| msgid "Longitude in degrees"
+#, kde-format
 msgid "The solved image position angle, East of North (degrees)."
-msgstr "Derece olarak boylam"
+msgstr "Çözülen görsel konumu açısı, Kuzeyin Doğusu (derece)."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
 #: fitsviewer/platesolve.ui:360 fitsviewer/platesolve.ui:376
 #, kde-format
 msgid "The index file used to solve the image."
-msgstr ""
+msgstr "Görseli çözmede kullanılan indeks dosyası."
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:363
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "İndeks Dosyaları"
+msgstr "İndeks dosyası"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
 #: fitsviewer/platesolve.ui:402 fitsviewer/platesolve.ui:424
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile to use for plate solving"
-msgstr "Plaka Çözümü için olan seçenekler profilini seçer"
+msgstr "Plaka çözümü için kullanılacak seçenek profilini seçer"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
 #: fitsviewer/platesolve.ui:446
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
 "solving"
-msgstr "Plaka Çözümü için olan seçenekler profilini seçer"
+msgstr ""
+"Plaka çözümünde kullanılacak seçenek profillerinin alındığı modülü seçer"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
 #: fitsviewer/platesolve.ui:468
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
-msgstr ""
-"Seçenekler profili düzenleyicisinde şu anda seçili olan seçenekler profilini "
-"açar"
+msgstr "Seçenek Profil Düzenleyicisi'nde şu anda seçili olan profili açar"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
-#, fuzzy, kde-format
-#| msgid "DEC:"
+#, kde-format
 msgid "DE"
-msgstr "DEC:"
+msgstr "DE"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:76
-#, fuzzy, kde-format
-#| msgid "Auto Scale"
+#, kde-format
 msgid "PixScale"
-msgstr "Otomaik Ölçeklendirme"
+msgstr "PixScale"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:81
-#, fuzzy, kde-format
-#| msgid "Rotation:"
+#, kde-format
 msgid "Rotation"
-msgstr "Dönme:"
+msgstr "Döndürme"
 
 #. i18n: ectx: property (text), widget (QPushButton, solveB)
 #: fitsviewer/solveInfo.ui:99
 #, kde-format
 msgid "Solve Image"
-msgstr "Görüntüyü Çöz"
+msgstr "Görseli Çöz"
 
 #. i18n: ectx: property (text), widget (QPushButton, optionsB)
 #: fitsviewer/solveInfo.ui:106
-#, fuzzy, kde-format
-#| msgid "Plate Solve Options"
+#, kde-format
 msgid "Solve Options"
-msgstr "Tabaka Çözme Seçenekleri"
+msgstr "Çözme Seçenekleri"
 
 #. i18n: ectx: property (text), widget (QPushButton, logB)
 #: fitsviewer/solveInfo.ui:113
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display Log"
-msgstr "Görüntü"
+msgstr "Görüntüleme Günlüğü"
 
 #: fitsviewer/starprofileviewer.cpp:27
 #, kde-format
@@ -30942,11 +30894,10 @@ msgstr "Piksel Değerleri"
 #: fitsviewer/starprofileviewer.cpp:49
 #, kde-format
 msgid "Couldn't initialize the OpenGL context."
-msgstr ""
+msgstr "OpenGL bağlamı ilklendirilemedi."
 
 #: fitsviewer/starprofileviewer.cpp:60
-#, fuzzy, kde-format
-#| msgid "View Star Profile"
+#, kde-format
 msgctxt "@title:window"
 msgid "View Star Profile"
 msgstr "Yıldız Profilini Görüntüle"
@@ -30954,50 +30905,52 @@ msgstr "Yıldız Profilini Görüntüle"
 #: fitsviewer/starprofileviewer.cpp:77
 #, kde-format
 msgid "Maximum Value on the graph"
-msgstr ""
+msgstr "Grafikteki en büyük değer"
 
 #: fitsviewer/starprofileviewer.cpp:79
 #, kde-format
 msgid "Cuttoff Maximum for eliminating hot pixels and bright stars."
 msgstr ""
+"Sıcak pikselleri ve parlak yıldızları ortadan kaldırmak için en çok kesme."
 
 #: fitsviewer/starprofileviewer.cpp:82
 #, kde-format
 msgid "Enable or Disable the Max Value Cutoff"
-msgstr ""
+msgstr "En Büyük Değer Kesmesini Aç/Kapat"
 
 #: fitsviewer/starprofileviewer.cpp:83
-#, fuzzy, kde-format
-#| msgid "Toggle stars"
+#, kde-format
 msgid "Toggle Cutoff"
-msgstr "Yıldızları aç/kapat"
+msgstr "Kesmeyi Aç/Kapat"
 
 #: fitsviewer/starprofileviewer.cpp:87
 #, kde-format
 msgid "Sets the Minimum Value on the graph"
-msgstr ""
+msgstr "Grafikteki en küçük değeri ayarlar"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/starprofileviewer.cpp:89 fitsviewer/statform.ui:86
 #, kde-format
 msgid "Min"
-msgstr "Asgari"
+msgstr "En küçük"
 
 #: fitsviewer/starprofileviewer.cpp:92
 #, kde-format
 msgid "Sets the Maximum Value on the graph"
-msgstr ""
+msgstr "Grafikteki en büyük değeri ayarlar"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/starprofileviewer.cpp:94 fitsviewer/statform.ui:91
 #, kde-format
 msgid "Max"
-msgstr "Azami"
+msgstr "En büyük"
 
 #: fitsviewer/starprofileviewer.cpp:97
 #, kde-format
 msgid "Sets the Cuttoff Maximum for eliminating hot pixels and bright stars."
 msgstr ""
+"Sıcak pikselleri ve parlak yıldızları ortadan kaldırmak için en çok kesmeyi "
+"ayarlar."
 
 #: fitsviewer/starprofileviewer.cpp:99
 #, kde-format
@@ -31007,12 +30960,12 @@ msgstr "Kes"
 #: fitsviewer/starprofileviewer.cpp:103
 #, kde-format
 msgid "Minimum Value on the graph"
-msgstr ""
+msgstr "Grafikteki en küçük değer"
 
 #: fitsviewer/starprofileviewer.cpp:106
 #, kde-format
 msgid "AutoScale"
-msgstr "Otomatik Ölçeklendirme"
+msgstr "Kendiliğinden Ölçeklendir"
 
 #: fitsviewer/starprofileviewer.cpp:107
 #, kde-format
@@ -31026,37 +30979,37 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:115
 #, kde-format
 msgid "Hides and shows the scaling side panel"
-msgstr ""
+msgstr "Ölçeklendirme yan panelini gizler ve gösterir"
 
 #: fitsviewer/starprofileviewer.cpp:126
 #, kde-format
 msgid "Changes the type of selection"
-msgstr ""
+msgstr "Seçimin türünü değiştirir"
 
 #: fitsviewer/starprofileviewer.cpp:137
 #, kde-format
 msgid "Toggles the slice view when horizontal or vertical items are selected"
-msgstr ""
+msgstr "Yatay veya dikey ögeler seçildiğinde dilim görünümünü açar/kapatır"
 
 #: fitsviewer/starprofileviewer.cpp:148
 #, kde-format
 msgid "Shows the x, y coordinates of star centers in the frame"
-msgstr ""
+msgstr "Karedeki yıldız merkezlerinin X ve Y koordinatlarını gösterir"
 
 #: fitsviewer/starprofileviewer.cpp:152
 #, kde-format
 msgid "Shows the HFR of stars in the frame"
-msgstr "Çerçevedeki yıldızların HFR'sini gösterir"
+msgstr "Karedeki yıldızların HFR'sini gösterir"
 
 #: fitsviewer/starprofileviewer.cpp:166
 #, kde-format
 msgid "Shows the peak values of star centers in the frame"
-msgstr ""
+msgstr "Karedeki yıldız merkezlerinin tavan değerlerini gösterir"
 
 #: fitsviewer/starprofileviewer.cpp:170
 #, kde-format
 msgid "Changes the sample size shown in the graph"
-msgstr "Grafikte gösterilen örnek boyutunu değiştirir"
+msgstr "Grafikte gösterilen örneklem boyutunu değiştirir"
 
 #: fitsviewer/starprofileviewer.cpp:181
 #, kde-format
@@ -31066,7 +31019,7 @@ msgstr "Görünümü önceden ayarlanmış konumlara yakınlaştırır."
 #: fitsviewer/starprofileviewer.cpp:182
 #, kde-format
 msgid "ZoomTo"
-msgstr ""
+msgstr "Şuna Yakınlaştır"
 
 #: fitsviewer/starprofileviewer.cpp:183
 #, kde-format
@@ -31079,25 +31032,24 @@ msgid "Front High"
 msgstr "Ön Yüksek"
 
 #: fitsviewer/starprofileviewer.cpp:185
-#, fuzzy, kde-format
-#| msgid "Overview"
+#, kde-format
 msgid "Overhead"
-msgstr "Genel Bakış"
+msgstr "Tepe Üstü"
 
 #: fitsviewer/starprofileviewer.cpp:186
 #, kde-format
 msgid "Iso. L"
-msgstr ""
+msgstr "İzom. Sol"
 
 #: fitsviewer/starprofileviewer.cpp:187
 #, kde-format
 msgid "Iso. R"
-msgstr ""
+msgstr "İzom. Sağ"
 
 #: fitsviewer/starprofileviewer.cpp:188
 #, kde-format
 msgid "Selected"
-msgstr "Seçildi"
+msgstr "Seçili"
 
 #: fitsviewer/starprofileviewer.cpp:196
 #, kde-format
@@ -31107,12 +31059,12 @@ msgstr "Yatay ve dikey seçim sürgülerini gösterir ve gizler"
 #: fitsviewer/starprofileviewer.cpp:219
 #, kde-format
 msgid "Selects the Vertical Value"
-msgstr ""
+msgstr "Dikey değeri seçer"
 
 #: fitsviewer/starprofileviewer.cpp:221
 #, kde-format
 msgid "Selects the Horizontal Value"
-msgstr ""
+msgstr "Yatay değeri seçer"
 
 #: fitsviewer/starprofileviewer.cpp:223
 #, kde-format
@@ -31130,46 +31082,41 @@ msgid "Zooms automatically as the sliders change"
 msgstr "Sürgüler değişirken kendiliğinden yakınlaştırır"
 
 #: fitsviewer/starprofileviewer.cpp:250
-#, fuzzy, kde-format
-#| msgid "The name of the color scheme"
+#, kde-format
 msgid "Changes the color scheme"
-msgstr "Renk şemasının adı"
+msgstr "Renk şemasını değiştirir"
 
 #: fitsviewer/starprofileviewer.cpp:504 fitsviewer/starprofileviewer.cpp:704
-#, fuzzy, kde-format
-#| msgid "P: %1"
+#, kde-format
 msgid "Cut: %1"
-msgstr "P: %1"
+msgstr "Kes: %1"
 
 #: fitsviewer/starprofileviewer.cpp:512 fitsviewer/starprofileviewer.cpp:519
 #: fitsviewer/starprofileviewer.cpp:876
 #, kde-format
 msgid "Max: %1"
-msgstr "Azami: %1"
+msgstr "En büyük: %1"
 
 #: fitsviewer/starprofileviewer.cpp:513 fitsviewer/starprofileviewer.cpp:520
 #: fitsviewer/starprofileviewer.cpp:877
 #, kde-format
 msgid "Min: %1"
-msgstr ""
+msgstr "En küçük: %1"
 
 #: fitsviewer/starprofileviewer.cpp:667
 #, kde-format
 msgid "Selected Pixel: (%1, %2): %3"
-msgstr ""
+msgstr "Seçili piksel: (%1, %2): %3"
 
 #: fitsviewer/starprofileviewer.cpp:706
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Disable"
+#, kde-format
 msgid "Cut Disabled"
-msgstr "Devre Dışı Bırak"
+msgstr "Kesme Devre Dışı"
 
 #: fitsviewer/starprofileviewer.cpp:902
-#, fuzzy, kde-format
-#| msgid "Star map:"
+#, kde-format
 msgid "Star %1: "
-msgstr "Yıldız haritası:"
+msgstr "Yıldız %1: "
 
 #: fitsviewer/starprofileviewer.cpp:905
 #, kde-format
@@ -31177,49 +31124,42 @@ msgid "(%1, %2) "
 msgstr "(%1, %2) "
 
 #: fitsviewer/starprofileviewer.cpp:909
-#, fuzzy, kde-format
-#| msgctxt "Half Flux Radius"
-#| msgid "HFR: %1"
+#, kde-format
 msgid "HFR: %1  "
-msgstr "HFR: %1"
+msgstr "HFR: %1  "
 
 #: fitsviewer/starprofileviewer.cpp:913
-#, fuzzy, kde-format
-#| msgid "P: %1"
+#, kde-format
 msgid "Peak: %1"
-msgstr "P: %1"
+msgstr "Tavan: %1"
 
 #: fitsviewer/starprofileviewer.cpp:928
-#, fuzzy, kde-format
-#| msgid "Star"
+#, kde-format
 msgid "Star %1"
-msgstr "Yıldız"
+msgstr "Yıldız %1"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/statform.ui:76
-#, fuzzy, kde-format
-#| msgid "Bitpix:"
+#, kde-format
 msgid "Bitpix"
-msgstr "Bitpix:"
+msgstr "Bit Pikseli"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/statform.ui:96
-#, fuzzy, kde-format
-#| msgid "Mean:"
+#, kde-format
 msgid "Mean"
-msgstr "Ortalama:"
+msgstr "Ortalama"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/statform.ui:106
-#, fuzzy, kde-format
-#| msgid "Std. dev:"
+#, kde-format
 msgid "Std. Dev"
-msgstr "Std aygıtı:"
+msgstr "Std. Sapma"
 
 #: fitsviewer/summaryfitsview.cpp:26
 #, kde-format
 msgid "Show Capture Process Information"
-msgstr ""
+msgstr "Yakalama Süreci Bilgisini Göster"
 
 #. i18n: ectx: property (title), widget (QGroupBox, displayGroup)
 #: hips/hipsmanager.cpp:96 indi/opsindi.ui:406
@@ -31228,35 +31168,30 @@ msgid "Display"
 msgstr "Görüntü"
 
 #: hips/hipsmanager.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Aachen"
+#, kde-format
 msgid "Cache"
-msgstr "Aachen"
+msgstr "Önbellek"
 
 #: hips/opships.cpp:42
 #, kde-format
 msgctxt "@title:window"
 msgid "HiPS Offline Storage"
-msgstr ""
+msgstr "HiPS Çevrimiçi Depolaması"
 
 #: hips/opships.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update"
+#, kde-format
 msgid "HiPS Update"
-msgstr "Güncelle"
+msgstr "HiPS Güncellemesi"
 
 #: hips/opships.cpp:82
-#, fuzzy, kde-format
-#| msgid "Downloading..."
+#, kde-format
 msgid "Downloading HiPS sources..."
-msgstr "İndiriliyor..."
+msgstr "HiPS kaynakları indiriliyor..."
 
 #: hips/opships.cpp:156
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error downloading HiPS sources: %1"
-msgstr "Resim okuma hatası: %1"
+msgstr "HiPS kaynakları indirilirken hata: %1"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSNetCache)
@@ -31264,12 +31199,13 @@ msgstr "Resim okuma hatası: %1"
 #, kde-format
 msgid "Cache space on hard disk used to store HiPS images."
 msgstr ""
+"HiPS görsellerini depolamak için kullanılan sabit diskteki önbellek alanı."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: hips/opshipscache.ui:45
 #, kde-format
 msgid "Disk:"
-msgstr ""
+msgstr "Disk:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -31283,7 +31219,7 @@ msgstr "MB"
 #: hips/opshipscache.ui:75 hips/opshipscache.ui:85
 #, kde-format
 msgid "Cache space in RAM used to store HiPS images."
-msgstr ""
+msgstr "HiPS görsellerini depolamak için kullanılan bellekteki önbellek alanı."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: hips/opshipscache.ui:78
@@ -31298,32 +31234,32 @@ msgid ""
 "Do not download HiPS from Internet. Use DSS offline storage path to load all "
 "data."
 msgstr ""
+"HiPS verisini internetten indirme, tüm veriyi yüklemek için DSS çevrimiçi "
+"depolamasını kullanın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSUseOfflineSource)
 #: hips/opshipscache.ui:133
 #, kde-format
 msgid "DSS Offline Source"
-msgstr ""
+msgstr "DSS çevrimdışı kaynağı"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSShowGrid)
 #: hips/opshipsdisplay.ui:17
-#, fuzzy, kde-format
-#| msgid "Show satellites"
+#, kde-format
 msgid "Show HiPS grid"
-msgstr "Uyduları göster"
+msgstr "HiPS ızgarasını göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSPanning)
 #: hips/opshipsdisplay.ui:24
 #, kde-format
 msgid "Show HiPS While Panning"
-msgstr ""
+msgstr "Kaydırırken HiPS'i göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSBiLinearInterpolation)
 #: hips/opshipsdisplay.ui:31
-#, fuzzy, kde-format
-#| msgid "Loading User Information"
+#, kde-format
 msgid "Linear interpolation"
-msgstr "Kullanıcı Bilgisi Yükleme"
+msgstr "Doğrusal aradeğerleme"
 
 #: indi/clientmanager.cpp:323
 #, kde-format
@@ -31380,59 +31316,56 @@ msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2 to JPEG."
 msgstr ""
-"dcraw ve cjpeg bulunamadı. Lütfen CR2 'den JPEG 'e dönüştürmek için gerekli "
+"dcraw ve cjpeg bulunamadı. Lütfen CR2'yi JPEG'e dönüştürmek için gerekli "
 "araçları kurun."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, collimationOptions)
 #: indi/collimationOptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation Overlay Options"
-msgstr "Takımyıldız İsim Seçenekleri"
+msgstr "Kollimasyon Kaplaması Seçenekleri"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: indi/collimationOptions.ui:55
 #, kde-format
 msgid "Create a new Collimation Overlay Element"
-msgstr ""
+msgstr "Yeni bir Kollimasyon Kaplaması oluştur"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removeB)
 #: indi/collimationOptions.ui:78
 #, kde-format
 msgid "Delete the selected Collimation Overlay Element"
-msgstr ""
+msgstr "Seçili Kollimasyon Kaplaması Ögesi'ni sil"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, elementNamesList)
 #: indi/collimationOptions.ui:123
 #, kde-format
 msgid "Collimation Overlay Element name (double click to edit)"
-msgstr ""
+msgstr "Kollimasyon Kaplaması Ögesi adı (düzenlemek için çift tıkla)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, elementConfigBox)
 #: indi/collimationOptions.ui:143
 #, kde-format
 msgid "Collimation Overlay Element"
-msgstr ""
+msgstr "Kollimasyon Kaplaması Ögesi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:164
 #, kde-format
 msgid "Select whether this Element is enabled or not"
-msgstr ""
+msgstr "Bu ögenin etkinleştirilip etkinleştirilmeyeceğini seç"
 
 #. i18n: ectx: property (text), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:167
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable:"
-msgstr "Etkinleştir"
+msgstr "Etkinleştir:"
 
 #. i18n: ectx: property (text), widget (QPushButton, renameB)
 #: indi/collimationOptions.ui:192
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Rename"
-msgstr "Dosya adı"
+msgstr "Yeniden Adlandır"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nameLabel)
 #: indi/collimationOptions.ui:211
@@ -31441,43 +31374,39 @@ msgid ""
 "Enter a name for this Collimation Overlay Element. If left empty a name will "
 "be generated based on the Type selected."
 msgstr ""
+"Bu Kollimasyon Kaplaması Ögesi için bir ad girin. Boş bırakılırsa seçili "
+"türe bakılarak bir adı üretilecektir."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
 #: indi/collimationOptions.ui:231
-#, fuzzy, kde-format
-#| msgid "Select color for the FOV symbol"
+#, kde-format
 msgid "Select color for the Element"
-msgstr "FOV sembolü için renk seçin"
+msgstr "Öge için renk seç"
 
 #. i18n: ectx: property (text), widget (QLabel, offsetYLabel)
 #. i18n: ectx: property (text), widget (QLabel, sizeYLabel)
 #: indi/collimationOptions.ui:263 indi/collimationOptions.ui:399
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Y"
+#, kde-format
 msgid "Y"
 msgstr "Y"
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, colourButton)
 #: indi/collimationOptions.ui:293
-#, fuzzy, kde-format
-#| msgid "The color for the constellation names."
+#, kde-format
 msgid "Select a color for the Collimation Overlay Element."
-msgstr "Takımyıldız isimleri için renk."
+msgstr "Kollimasyon Kaplaması Ögesi için bir renk seçin."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:310
 #, kde-format
 msgid "Set the line thickness used to draw the element."
-msgstr ""
+msgstr "Ögeyi çizmek için kullanılan çizgi kalınlığını seçin."
 
 #. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:313
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Whiteness"
+#, kde-format
 msgid "Thickness:"
-msgstr "Beyazlık"
+msgstr "Kalınlık:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
@@ -31486,37 +31415,38 @@ msgid ""
 "Set the Element's offset from its Anchor. For an Anchor Element this is from "
 "the center of the image."
 msgstr ""
+"Ögenin sabitleyicisinden olan ofsetini ayarlayın. Bir sabitleyici ögesi için "
+"bu, görselin merkezinden başlar."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sizeLabel)
 #: indi/collimationOptions.ui:339
-#, fuzzy, kde-format
-#| msgid "Set the width of window"
+#, kde-format
 msgid "Set the size of the Element"
-msgstr "Pencere enini ayarla"
+msgstr "Ögenin boyutunu ayarla"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, linkXYB)
 #: indi/collimationOptions.ui:389
 #, kde-format
 msgid "Link X & Y sizes"
-msgstr ""
+msgstr "X ve Y boyutlarını bağlantıla"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, typeLabel)
 #: indi/collimationOptions.ui:424
 #, kde-format
 msgid "Select the type of Collimation Overlay Element"
-msgstr ""
+msgstr "Kollimasyon Kaplaması Ögesi'nin türünü seç"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, countLabel)
 #: indi/collimationOptions.ui:437
 #, kde-format
 msgid "Select number of occurrences of the object type within this element"
-msgstr ""
+msgstr "Bu ögeden olan nesne türünün oluş sayısını seç"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
 #: indi/collimationOptions.ui:459
 #, kde-format
 msgid "If there is more than one occurrence set the base rotation angle."
-msgstr ""
+msgstr "Birden çok oluş varsa taban döndürme açısını ayarlayın."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:487
@@ -31524,17 +31454,18 @@ msgstr ""
 msgid ""
 "Set the Pitch Circle Diameter where there are multiple occurrences (Count >1)"
 msgstr ""
+"Birden çok oluşun olduğu yerdeki Adım Dairesi Çapı'nı ayarla (Sayı > 1)"
 
 #. i18n: ectx: property (text), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:490
 #, kde-format
 msgid "PCD:"
-msgstr ""
+msgstr "PCD:"
 
 #: indi/customdrivers.cpp:106
 #, kde-format
 msgid "Label already exists. Label must be unique."
-msgstr "Etiket halihazırda var. Etiket, benzersiz olmalıdır."
+msgstr "Etiket halihazırda var. Etiket benzersiz olmalıdır."
 
 #: indi/customdrivers.cpp:122
 #, kde-format
@@ -31543,10 +31474,9 @@ msgstr "Yeni sürücü eklenemedi. Etiket benzersiz mi?"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CustomDrivers)
 #: indi/customdrivers.ui:14
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Custom Drivers"
-msgstr "Sürücü:"
+msgstr "Özel Sürücüler"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: indi/customdrivers.ui:55
@@ -31604,19 +31534,20 @@ msgid ""
 "change the <span style=\" font-weight:600;\">Label </span>then press<span "
 "style=\" font-weight:600;\"> Add.</span></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Var olan bir sürücüden bir <span style=\" font-"
+"weight:600;\">arma</span> oluşturmak için var olan bir sürücüyü seçin ve "
+"yalnızca <span style=\" font-weight:600;\">etiketi</span> değiştirip <span "
+"style=\" font-weight:600;\">Ekle</span> düğmesine basın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/customdrivers.ui:246
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>KStars must be restarted for new drivers to take "
 "effect.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Teleskopun azami yükseklik sınırı. Teleskop bu sınırın "
-"üstünde olursa, kendi kendini durduracaktır.</p></body></html>"
+"<html><head/><body><p>Yeni sürücülerin etkili olması için K Yıldızlar "
+"yeniden başlatılmalıdır.</p></body></html>"
 
 #: indi/drivermanager.cpp:106
 #, kde-format
@@ -31636,21 +31567,19 @@ msgid "Cannot start INDI server: port error."
 msgstr "INDI sunucusu başlatılamıyor: Kapı hatası."
 
 #: indi/drivermanager.cpp:365
-#, fuzzy, kde-format
-#| msgid "Name of the remote INDI focuser device."
+#, kde-format
 msgid "Failed to create local INDI server"
-msgstr "Uzak INDI uzaklayıcı aygıtının adı."
+msgstr "Yerel INDI sunucusu oluşturulamadı"
 
 #: indi/drivermanager.cpp:621 indi/indidriver.cpp:291
 #, kde-format, kde-kuit-format
 msgid "Invalid port entry: %1"
-msgstr "Geçersiz bağlantı noktası girişi: %1"
+msgstr "Geçersiz kapı girdisi: %1"
 
 #: indi/drivermanager.cpp:817
-#, fuzzy, kde-format
-#| msgid "Connect"
+#, kde-format
 msgid "Connected to INDI server"
-msgstr "Bağlan"
+msgstr "INDI sunucusuna bağlanıldı"
 
 #: indi/drivermanager.cpp:1009 indi/indidriver.cpp:487
 #, kde-format, kde-kuit-format
@@ -31664,36 +31593,34 @@ msgstr ""
 #: indi/drivermanager.cpp:1040 indi/indidriver.cpp:528
 #, kde-format, kde-kuit-format
 msgid "Failed to open INDI Driver file: %1"
-msgstr "INDI Sürücü dosyası açılamadı: %1"
+msgstr "INDI Sürücüsü dosyası açılamadı: %1"
 
 #: indi/drivermanager.cpp:1406
-#, fuzzy, kde-format
-#| msgid "Add Host"
+#, kde-format
 msgctxt "@title:window"
 msgid "Add Host"
-msgstr "Ana bilgisayar Ekle"
+msgstr "Makine Ekle"
 
 #: indi/drivermanager.cpp:1417 indi/indidriver.cpp:812
 #, kde-format, kde-kuit-format
 msgid "Error: the port number is invalid."
-msgstr "Hata: bağlantı noktası numarası geçersiz."
+msgstr "Hata: Kapı numarası geçersiz."
 
 #: indi/drivermanager.cpp:1430 indi/indidriver.cpp:822
 #, kde-format, kde-kuit-format
 msgid "Host: %1 Port: %2 already exists."
-msgstr "Ana Bilgisayar: %1 Bağlantı noktası: %2 zaten var."
+msgstr "Makine: Kapı %1: %2 halihazırda var."
 
 #: indi/drivermanager.cpp:1458
-#, fuzzy, kde-format
-#| msgid "Modify Host"
+#, kde-format
 msgctxt "@title:window"
 msgid "Modify Host"
-msgstr "Ana Bilgisayarda değişiklik yap"
+msgstr "Makinede Değişiklik Yap"
 
 #: indi/drivermanager.cpp:1504 indi/indidriver.cpp:890
 #, kde-format, kde-kuit-format
 msgid "You need to disconnect the client before removing it."
-msgstr "İstemciyi kaldırmadan önce, istemciyle olan bağlantıyı kesmelisiniz."
+msgstr "İstemciyi kaldırmadan önce bağlantısını kesmelisiniz."
 
 #: indi/drivermanager.cpp:1510 indi/indidriver.cpp:895
 #, kde-format, kde-kuit-format
@@ -31778,16 +31705,15 @@ msgstr "Makineler"
 
 #. i18n: ectx: property (text), widget (QPushButton, addB)
 #: indi/drivermanager.ui:297
-#, fuzzy, kde-format
-#| msgid "Find..."
+#, kde-format
 msgid "Add..."
-msgstr "Bul..."
+msgstr "Ekle..."
 
 #. i18n: ectx: property (text), widget (QPushButton, modifyB)
 #: indi/drivermanager.ui:304
 #, kde-format
 msgid "Modify..."
-msgstr "Düzenle..."
+msgstr "Değiştir..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: indi/drivermanager.ui:340
@@ -31796,8 +31722,7 @@ msgid "Connection"
 msgstr "Bağlantı"
 
 #: indi/guimanager.cpp:72
-#, fuzzy, kde-format
-#| msgid "INDI Control Panel"
+#, kde-format
 msgctxt "@title:window"
 msgid "INDI Control Panel"
 msgstr "INDI Denetim Masası"
@@ -31808,23 +31733,23 @@ msgid ""
 "No INDI devices currently running. To run devices, please select devices "
 "from the Device Manager in the devices menu."
 msgstr ""
-"Şu anda herhangi bir INDI aygıtı çalışmamaktadır. Aygıtları çalıştırmak için "
-"lütfen Aygıt Yöneticisindeki aygıt seçenek listesinden seçim yapınız. "
+"Çalışan bir INDI aygıtı yok. Aygıtları çalıştırmak için Aygıtlar menüsündeki "
+"Aygıt Yöneticisi'nden aygıtlar seçin."
 
 #: indi/indicamera.cpp:440
 #, kde-format
 msgid "Video Recording Stopped"
-msgstr ""
+msgstr "Video Kaydı Durduruldu"
 
 #: indi/indicamera.cpp:445
 #, kde-format
 msgid "Video Recording Started"
-msgstr ""
+msgstr "Video Kaydı Başlatıldı"
 
 #: indi/indicamera.cpp:658
 #, kde-format
 msgid "Image file is received"
-msgstr "Görüntü dosyası alındı"
+msgstr "Görsel dosyası alındı"
 
 #: indi/indidevice.cpp:337
 #, kde-format
@@ -31841,81 +31766,67 @@ msgstr "%1"
 #: indi/indidome.cpp:20
 #, kde-format
 msgid "Moving clockwise"
-msgstr "Saat yönünde hareket"
+msgstr "Saat yönünde hareket ediyor"
 
 #: indi/indidome.cpp:20
 #, kde-format
 msgid "Moving counter clockwise"
-msgstr "Saat yönünün tersine hareket"
+msgstr "Saat yönünün tersine hareket ediyor"
 
 #: indi/indidome.cpp:21 indi/indidustcap.cpp:16
-#, fuzzy, kde-format
-#| msgctxt "City in China"
-#| msgid "Peking"
+#, kde-format
 msgid "UnParking"
-msgstr "Peking"
+msgstr "Parktan çıkarılıyor"
 
 #: indi/indidome.cpp:120
-#, fuzzy, kde-format
-#| msgid "Unparking mount..."
+#, kde-format
 msgid "Dome parking is in progress"
-msgstr "Montaj kaldırılıyor..."
+msgstr "Kubbe parkı sürüyor..."
 
 #: indi/indidome.cpp:132
-#, fuzzy, kde-format
-#| msgid "Unparking mount..."
+#, kde-format
 msgid "Dome unparking is in progress"
-msgstr "Montaj kaldırılıyor..."
+msgstr "Kubbeyi parktan çıkarma sürüyor..."
 
 #: indi/indidome.cpp:144
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dome parked"
-msgstr "Dome Creek"
+msgstr "Kubbe park edildi"
 
 #: indi/indidome.cpp:164
-#, fuzzy, kde-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-format
 msgid "Dome unparked"
-msgstr "Dome Creek"
+msgstr "Kubbe parktan çıkarıldı"
 
 #: indi/indidome.cpp:241
-#, fuzzy, kde-format
-#| msgid "Unparking mount..."
+#, kde-format
 msgid "Shutter closing is in progress"
-msgstr "Montaj kaldırılıyor..."
+msgstr "Kepenk kapanışı sürüyor..."
 
 #: indi/indidome.cpp:249
-#, fuzzy, kde-format
-#| msgid "Unparking mount..."
+#, kde-format
 msgid "Shutter opening is in progress"
-msgstr "Montaj kaldırılıyor..."
+msgstr "Kepenk açılışı sürüyor..."
 
 #: indi/indidome.cpp:257
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Shutter Speed"
+#, kde-format
 msgid "Shutter closed"
-msgstr "Objektif Kapak Hızı"
+msgstr "Kepenk kapatıldı"
 
 #: indi/indidome.cpp:265
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Shutter Speed"
+#, kde-format
 msgid "Shutter opened"
-msgstr "Objektif Kapak Hızı"
+msgstr "Kepenk açıldı"
 
 #: indi/indidriver.cpp:796
 #, kde-kuit-format
 msgid "Add Host"
-msgstr "Ana bilgisayar Ekle"
+msgstr "Makine Ekle"
 
 #: indi/indidriver.cpp:843
 #, kde-kuit-format
 msgid "Modify Host"
-msgstr "Ana Bilgisayarda değişiklik yap"
+msgstr "Makinede Değişiklik Yap"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -31925,69 +31836,57 @@ msgstr "INDI VERİ AKIŞI"
 #: indi/indielement.cpp:624
 #, kde-format
 msgid "Cannot open file %1 for reading"
-msgstr "%1 dosyası okumak için açılamadı"
+msgstr "%1 dosyası okumak için açılamıyor"
 
 #: indi/indielement.cpp:633
-#, fuzzy, kde-format
-#| msgid "Not enough memory to load %1"
+#, kde-format
 msgid "Not enough memory for file %1"
-msgstr "%1 ögesini yüklemek için yeterli bellek yok"
+msgstr "%1 dosyası için yeterli bellek yok"
 
 #: indi/indilistener.cpp:236
-#, fuzzy, kde-format
-#| msgid "INDI Server"
+#, kde-format
 msgid "INDI Server Message"
-msgstr "INDI Sunucusu"
+msgstr "INDI Sunucusu İletisi"
 
 #: indi/indimount.cpp:245
-#, fuzzy, kde-format
-#| msgid "Slewing back to original position..."
+#, kde-format
 msgid "Mount is slewing to target location"
-msgstr "Özgün konumuna geri döndürülüyor..."
+msgstr "Kaide hedef konuma çevriliyor..."
 
 #: indi/indimount.cpp:261
 #, kde-format
 msgid "Mount arrived at target location"
-msgstr ""
+msgstr "Kaide hedef konuma vardı"
 
 #: indi/indimount.cpp:335
-#, fuzzy, kde-format
-#| msgid "%1 calibration is complete."
+#, kde-format
 msgid "Mount motion was aborted"
-msgstr "%1 kalibrasyonu tamamlandı."
+msgstr "Kaide hareketi iptal edildi"
 
 #: indi/indimount.cpp:456
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
+#, kde-format
 msgid "Mount parking failed"
-msgstr "Mount Ekar"
+msgstr "Kaide parkı başarısız oldu"
 
 #: indi/indimount.cpp:462
-#, fuzzy, kde-format
-#| msgid "Unparking mount..."
+#, kde-format
 msgid "Mount parking is in progress"
-msgstr "Montaj kaldırılıyor..."
+msgstr "Kaide parkı sürüyor..."
 
 #: indi/indimount.cpp:470
-#, fuzzy, kde-format
-#| msgid "Unparking mount..."
+#, kde-format
 msgid "Mount unparking is in progress"
-msgstr "Montaj kaldırılıyor..."
+msgstr "Kaideyi parktan çıkarma sürüyor..."
 
 #: indi/indimount.cpp:477
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
+#, kde-format
 msgid "Mount parked"
-msgstr "Mount Ekar"
+msgstr "Kaide park edildi"
 
 #: indi/indimount.cpp:496
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
+#, kde-format
 msgid "Mount unparked"
-msgstr "Mount Ekar"
+msgstr "Kaide parktan çıkarıldı"
 
 #: indi/indimount.cpp:823
 #, kde-format
@@ -36832,6 +36731,7 @@ msgstr "Seçili eksenleri otomatik olarak kalibre et."
 msgid ""
 "Compute the HFRs of normal images quickly by looking at the center 25% only."
 msgstr ""
+"Yalnızca merkez %​25'ine bakarak normal görsellerin HFR'lerini hesaplayın."
 
 #. i18n: ectx: label, entry (AutoWCS), group (FITSViewer)
 #: kstars.kcfg:1537
@@ -39884,7 +39784,7 @@ msgstr ""
 #: kstars.kcfg:3379
 #, kde-format
 msgid "Center SkyMap over selected image overlay."
-msgstr ""
+msgstr "SkyMap'i seçili görsel kaplamasının üzerine ortalayın."
 
 #. i18n: ectx: whatsthis, entry (ShowSelectedImageOverlay), group (ImageOverlay)
 #: kstars.kcfg:3380

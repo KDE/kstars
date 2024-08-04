@@ -18518,11 +18518,9 @@ msgid "Clear"
 msgstr "清除"
 
 #: ekos/focus/focusadvisor.cpp:79 ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Direction"
+#, kde-format
 msgid "Section"
-msgstr "方向"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
 #. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
@@ -18536,23 +18534,19 @@ msgid "Run"
 msgstr "运行"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Number"
+#, kde-format
 msgid "Run number"
-msgstr "数量"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:87
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Start Pos"
-msgstr "启动"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:88
-#, fuzzy, kde-format
-#| msgid "Chart position:"
+#, kde-format
 msgid "Start position"
-msgstr "图表位置："
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:91
 #, kde-format
@@ -18560,16 +18554,14 @@ msgid "Step/Jump Size"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:92
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Step Size"
-msgstr "字体大小"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:95
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Overscan"
-msgstr "叠加"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:96
 #, kde-format
@@ -18577,10 +18569,9 @@ msgid "AF Overscan"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:99
-#, fuzzy, kde-format
-#| msgid "Comments:"
+#, kde-format
 msgid "Comments"
-msgstr "注释："
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:100
 #, kde-format
@@ -18712,10 +18703,9 @@ msgid "Find Stars: exceeded max iterations %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:818 ekos/focus/focusadvisor.cpp:819
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Stars detected, centering range"
-msgstr "未检测到星点，正在重新拍摄图像..."
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:840
 #, kde-format
@@ -18733,10 +18723,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:859
-#, fuzzy, kde-format
-#| msgid "Auto star selected."
+#, kde-format
 msgid "No stars detected"
-msgstr "自动选中被导星。"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:867
 #, kde-format
@@ -18749,10 +18738,9 @@ msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:939
-#, fuzzy, kde-format
-#| msgid "Adaptive Focus unable to move focuser"
+#, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
-msgstr "自适应对焦无法移动电调"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:961
 #, kde-format
@@ -18765,17 +18753,14 @@ msgid "Coarse Adjustment Scan..."
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1006
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Coarse Adjustment"
-msgstr "图像调节"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1012 ekos/focus/focusadvisor.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Adaptive Focus unable to move focuser"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment failed to move focuser"
-msgstr "自适应对焦无法移动电调"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1022
 #, kde-format
@@ -18813,11 +18798,9 @@ msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1277
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Fine Adjustment"
-msgstr "图像调节"
+msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1379
 #, kde-format

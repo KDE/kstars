@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-03 01:48+0000\n"
-"PO-Revision-Date: 2024-08-02 12:33+0200\n"
+"PO-Revision-Date: 2024-08-03 17:09+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -19611,10 +19611,9 @@ msgid "Clear"
 msgstr "Neteja"
 
 #: ekos/focus/focusadvisor.cpp:79 ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Selection:"
+#, kde-format
 msgid "Section"
-msgstr "Selecció:"
+msgstr "Secció"
 
 #. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
 #. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
@@ -19628,58 +19627,49 @@ msgid "Run"
 msgstr "Executa"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Number"
+#, kde-format
 msgid "Run number"
-msgstr "Nombre"
+msgstr "Número d'execució"
 
 #: ekos/focus/focusadvisor.cpp:87
-#, fuzzy, kde-format
-#| msgid "Adapt Start Pos"
+#, kde-format
 msgid "Start Pos"
-msgstr "Pos. d'inici adaptativa"
+msgstr "Pos. d'inici"
 
 #: ekos/focus/focusadvisor.cpp:88
-#, fuzzy, kde-format
-#| msgid "Chart position:"
+#, kde-format
 msgid "Start position"
-msgstr "Posició del gràfic:"
+msgstr "Posició d'inici"
 
 #: ekos/focus/focusadvisor.cpp:91
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Step/Jump Size"
-msgstr "Mida del pas:"
+msgstr "Mida del pas/salt"
 
 #: ekos/focus/focusadvisor.cpp:92
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Step Size"
-msgstr "Mida del pas:"
+msgstr "Mida del pas"
 
 #: ekos/focus/focusadvisor.cpp:95
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "Overscan"
-msgstr "Sobreexploració de l'EA:"
+msgstr "Sobreexploració"
 
 #: ekos/focus/focusadvisor.cpp:96
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan"
-msgstr "Sobreexploració de l'EA:"
+msgstr "Sobreexploració de l'EA"
 
 #: ekos/focus/focusadvisor.cpp:99
-#, fuzzy, kde-format
-#| msgid "Comments:"
+#, kde-format
 msgid "Comments"
-msgstr "Comentaris:"
+msgstr "Comentaris"
 
 #: ekos/focus/focusadvisor.cpp:100
 #, kde-format
 msgid "Additional Text"
-msgstr ""
+msgstr "Text addicional"
 
 #: ekos/focus/focusadvisor.cpp:111
 #, kde-format
@@ -19712,10 +19702,11 @@ msgid "Focus Advisor proposed value for the parameter"
 msgstr "Valor proposat del paràmetre per l'assessor d'enfocament"
 
 #: ekos/focus/focusadvisor.cpp:160
-#, fuzzy, kde-format
-#| msgid "Another focus action in progress. Please try again."
+#, kde-format
 msgid "Focus Advisor: another focus action in progress. Please try again."
-msgstr "Hi ha una altra acció d'enfocament en curs. Torneu-ho a provar."
+msgstr ""
+"Assessor d'enfocament: ai ha una altra acció d'enfocament en curs. Torneu-ho "
+"a provar."
 
 #: ekos/focus/focusadvisor.cpp:185
 #, kde-format
@@ -19787,8 +19778,7 @@ msgid "Find Stars: Failed"
 msgstr "Cerca d'estrelles: ha fallat"
 
 #: ekos/focus/focusadvisor.cpp:752
-#, fuzzy, kde-format
-#| msgid "Stars detected, range centre %1"
+#, kde-format
 msgid "Stars detected, range center %1"
 msgstr "S'han detectat estrelles, centre de l'interval %1"
 
@@ -19798,10 +19788,9 @@ msgid "Stars detected, range centre %1"
 msgstr "S'han detectat estrelles, centre de l'interval %1"
 
 #: ekos/focus/focusadvisor.cpp:762
-#, fuzzy, kde-format
-#| msgid "Find Stars: Completed"
+#, kde-format
 msgid "Focus Advisor Find Stars completed"
-msgstr "Cerca d'estrelles: completada"
+msgstr "S'ha completat la cerca d'estrelles de l'assessor d'enfocament"
 
 #: ekos/focus/focusadvisor.cpp:810
 #, kde-format
@@ -19809,8 +19798,7 @@ msgid "Find Stars: exceeded max iterations %1"
 msgstr "Cerca d'estrelles: ha excedit el nombre màxim d'iteracions %1"
 
 #: ekos/focus/focusadvisor.cpp:818 ekos/focus/focusadvisor.cpp:819
-#, fuzzy, kde-format
-#| msgid "Stars detected, centring range"
+#, kde-format
 msgid "Stars detected, centering range"
 msgstr "S'han detectat estrelles, s'està centrant l'interval"
 
@@ -19832,10 +19820,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr "Execució de la cerca d'estrelles %1: s'està explorant el sector %2"
 
 #: ekos/focus/focusadvisor.cpp:859
-#, fuzzy, kde-format
-#| msgid "Auto star selected."
+#, kde-format
 msgid "No stars detected"
-msgstr "Estrella seleccionada automàticament."
+msgstr "No s'ha detectat cap estrella"
 
 #: ekos/focus/focusadvisor.cpp:867
 #, kde-format
@@ -19849,17 +19836,18 @@ msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr "Execució de la cerca d'estrelles %1 sector %2: explorant %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:939
-#, fuzzy, kde-format
-#| msgid "Find Stars Run %1: failed to find any stars"
+#, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
 msgstr ""
-"Execució de la cerca d'estrelles %1: ha fallat en trobar qualsevol estrella"
+"Execució de la cerca d'estrelles %1 de l'assessor d'enfocament: ha fallat en "
+"moure l'enfocador"
 
 #: ekos/focus/focusadvisor.cpp:961
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
 msgstr ""
-"L'ajust tosc de l'assessor de focus s'ha interromput després de %1 execucions"
+"L'ajust tosc de l'assessor d'enfocament s'ha interromput després de %1 "
+"execucions"
 
 #: ekos/focus/focusadvisor.cpp:978
 #, kde-format
@@ -19867,24 +19855,21 @@ msgid "Coarse Adjustment Scan..."
 msgstr "Exploració de l'ajust tosc..."
 
 #: ekos/focus/focusadvisor.cpp:1006
-#, fuzzy, kde-format
-#| msgid "Coarse Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment"
-msgstr "Exploració de l'ajust tosc..."
+msgstr "Ajust tosc"
 
 #: ekos/focus/focusadvisor.cpp:1012 ekos/focus/focusadvisor.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment failed to move focuser"
-msgstr ""
-"L'ajust tosc de l'assessor de focus s'ha interromput després de %1 execucions"
+msgstr "L'ajust tosc de l'assessor d'enfocament ha fallat en more l'enfocador"
 
 #: ekos/focus/focusadvisor.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: exceeded max iterations %1"
 msgstr ""
-"L'ajust tosc de l'assessor de focus s'ha interromput després de %1 execucions"
+"Ajust tosc de l'assessor d'enfocament: ha excedit el nombre màxim "
+"d'iteracions %1"
 
 #: ekos/focus/focusadvisor.cpp:1079
 #, kde-format
@@ -19892,52 +19877,49 @@ msgid "Coarse Adjustment Run %1 scan..."
 msgstr "Execució de l'exploració de l'ajust tosc %1..."
 
 #: ekos/focus/focusadvisor.cpp:1087
-#, fuzzy, kde-format
-#| msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
-msgstr "Execució de l'ajust tosc %1: dades insuficients per a continuar"
+msgstr ""
+"Execució de l'ajust tosc %1 de l'assessor d'enfocament: dades insuficients "
+"per a continuar"
 
 #: ekos/focus/focusadvisor.cpp:1144
 #, kde-format
 msgid "Max/Min Ratio: %1"
-msgstr ""
+msgstr "Relació màx./mín.: %1"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment completed."
-msgstr ""
-"L'ajust tosc de l'assessor de focus s'ha interromput després de %1 execucions"
+msgstr "L'ajust tosc de l'assessor d'enfocament s'ha completat."
 
 #: ekos/focus/focusadvisor.cpp:1182
-#, fuzzy, kde-format
-#| msgid "Coarse Adj: data quality too poor to continue"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: data quality too poor to continue"
-msgstr "Ajust tosc: la qualitat de les dades és massa dolenta per a continuar"
+msgstr ""
+"Ajust tosc de l'assessor d'enfocament: la qualitat de les dades és massa "
+"dolenta per a continuar"
 
 #: ekos/focus/focusadvisor.cpp:1216
 #, kde-format
 msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 msgstr ""
+"Relació màx./mín.: %1, Mida del pas següent: %2, Següent sobreexploració: %3"
 
 #: ekos/focus/focusadvisor.cpp:1277
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Fine Adjustment"
-msgstr "Configuració de la imatge"
+msgstr "Ajust fi"
 
 #: ekos/focus/focusadvisor.cpp:1379
 #, kde-format
 msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
-msgstr ""
+msgstr "Relació màx./mín.: %1, R2: %2, Mida del pas: %3, Sobreexploració: %4"
 
 #: ekos/focus/focusadvisor.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Fine Adjustment completed"
-msgstr ""
-"L'ajust tosc de l'assessor de focus s'ha interromput després de %1 execucions"
+msgstr "L'ajust fi de l'assessor d'enfocament s'ha completat"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14

@@ -1167,7 +1167,7 @@
         <para
 ><guilabel
 >Borttagning av ringar</guilabel
->: Det är en experimentell funktion och bör användas med försiktighet. Syftet med borttagning av ringar är att förbättra fokusering för teleskop med en central obstruktion som skapar ringformade stjärnor när de är ur fokus, t.ex. Newton-, SCT-, RASA-, Ritchey-Cretiens-teleskop, etc.</para>
+>: Syftet med borttagning av ringar är att förbättra fokusering för teleskop med en central obstruktion som skapar ringformade stjärnor när de är ur fokus, t.ex. Newton-, SCT-, RASA-, Ritchey-Cretiens-teleskop, etc.</para>
 
         <para
 ><guilabel
@@ -1203,30 +1203,40 @@
 >Förfina kurvanpassning</guilabel
 > är markerat. Ju större värdet är desto fler extremvärden exkluderas från kurvanpassningsprocessen. Förvalt värde är 0,2.</para>
           </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Sök efter startposition</guilabel
+> är bara tillgängligt för engångslinjär, fasta steganta och KFZ-gång, kurvanpassning av hyperbel och parabel, och fokuseringsmätningar av HFR, justerad HFR och FBHM.</para>
+
+        <para
+>Markera alternativet för att få en fokuseringsökning omkring fokuseringsenhetens nuvarande position för att hitta en ungefärlig optimal fokuseringsposition. Syftet med det är att säkerställa att automatisk fokusering startar nära fokuseringspositionen. Följande delalternativ är tillgängliga:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><guilabel
+>Alltid på</guilabel
+>: När markerad utförs Sök efter startposition alltid i början av automatisk fokusering. När den inte är markerad utförs den bara när automatisk fokusering misslyckas och körs om.</para>
+          </listitem>
 
           <listitem>
             <para
 ><guilabel
->Sök efter startposition</guilabel
->: Markera alternativet för att få en fokuseringsökning omkring fokuseringsenhetens nuvarande position för att hitta en ungefärlig optimal fokuseringsposition. Syftet med det är att säkerställa att automatisk fokusering startar nära fokuseringspositionen. Följande delalternativ är tillgängliga:</para>
-
-            <itemizedlist>
-              <listitem>
-                <para
-><guilabel
 >Antal datapunkter</guilabel
 >: Antal datapunkter att använda i varje sökning. Ett bra värde att börja med är 5.</para>
-              </listitem>
+          </listitem>
 
-              <listitem>
-                <para
+          <listitem>
+            <para
 ><guilabel
 >Initial stegstorlek x</guilabel
 >: En multiplikativ faktor att använda för <guilabel
 >Initial stegstorlek</guilabel
 > för användning i Sök efter startposition. Förval är 1,0.</para>
-              </listitem>
-            </itemizedlist>
           </listitem>
         </itemizedlist>
       </listitem>
@@ -1756,89 +1766,185 @@
     </screenshot>
 
     <para
->Det här är fokuseringsrådgivarens dialogruta. Det är funktion för att hjälpa till med hantering av fokuseringsparametrar.</para>
-
+>Dialogrutan Fokuseringsrådgivaren är en funktion som hjälper dig att ställa in fokuseringsparametrar. För att använda den, välj önskade alternativ och tryck på <guilabel 
+>Kör</guilabel 
+>. Det är för närvarande en <emphasis role="bold"
+>experimentell funktion.</emphasis
+></para>
     <para
->Syftet med fokuseringsrådgivaren är att hjälpa personer som kämpar med att använda fokuseringsmodulen i Ekos. Fokuseringsmodulen är funktionsrik och innehåller en hel del parametrar som måste ställas in självständigt för att uppnå bra resultat. Fokuseringsrådgivaren är utformad för att hjälpa till med grundläggande parameterinställning för att uppnå fokus. Den är inte utformad för att uppnå bästa möjliga fokus för utrustningen. Du måste experimentera med inställningarna för att uppnå det. Men fokuseringsrådgivaren ger en grund att börja experimentera med.</para>
-
+>Syftet med fokuseringsrådgivaren är att hjälpa personer att använda fokuseringsmodulen i Ekos. Fokuseringsmodulen är funktionsrik och innehåller en hel del parametrar som måste ställas in självständigt för att uppnå bra resultat. Fokuseringsrådgivaren är utformad för att hjälpa till med grundläggande parameterinställning för att uppnå fokus. Den är inte utformad för att uppnå bästa möjliga fokus för utrustningen. Du måste experimentera med inställningarna för att uppnå det. Men fokuseringsrådgivaren ger en grund att börja experimentera med.</para>
     <para
->Så fokuseringsrådgivaren är avsedd för mindre erfarna användare.</para>
+>Fokuseringsrådgivaren är avsedd för mindre erfarna användare.</para>
     <para
 >Om fokuseringsrådgivaren inte verkar ge bra resultat för din installation, varför inte starta en diskussion på forumet så att den kan förbättras för att ge bättre resultat i framtiden. På så sätt kommer den att förbättras med tiden för att bli mer användbar.</para>
     <para
 >När du klickar på fokuseringsrådgivarens ruta utarbetar den en serie parameterrekommendationer baserat på optiken du använder för fokusering.</para>
     <para
->Överst i dialogrutan visas information om den anslutna optiken. Sedan visas sex rader relaterade till olika uppsättningar av parametrar som används inom fokusering. Vid varje rad finns en kryssruta för att uppdatera de tillhörande fokuseringsfälten med fokuseringsrådgivarens rekommendationer.</para>
+>Det finns fyra visande kryssrutor som alla normalt är markerade. Vissa kan stängas av vid behov. Till exempel återställer Uppdatera parametrar de flesta parametrar till normala inställningar. När det väl har körts är det inte nödvändigt att använda alternativet upprepade gånger så den tillhörande kryssrutan kan stängas av vid efterföljande körningar.</para>
     <para
->Fokuseringsparametrarna är uppdelade i följande grupperingar:</para>
-
+>Följande knappar är tillgängliga:</para>
     <itemizedlist>
     <listitem>
     <para
 ><guilabel
->Stegstorlek</guilabel
->: Det är föreslagen storleken på fokuseringssteget som ska användas. Det är en kritisk parameter. Den kan förinställas från dialogrutan Kritisk fokuseringszon (KFZ) om du vet hur man ställer in den. Alternativt, om du vet ett rimligt värde för din utrustning från andra källor kan du bara ange det.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Parametrar för kamera och filterhjul</guilabel
->: Det ställer in parametrarna för sektionen <link linkend="focus-ccd-filter-wheel"
->CCD och filterhjul</link
-> på fokuseringsskärmen. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Inställningsflikens parametrar</guilabel
->: Det ställer in parametrarna för rutan <link linkend="focus-settings"
->Fokuseringsinställningar</link
->. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Processflikens parametrar</guilabel
->: Det ställer in parametrarna för rutan <link linkend="focus-process"
->Fokuseringsprocess</link
->. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Mekanikflikens parametrar</guilabel
->: Det ställer in parametrarna för rutan <link linkend="focus-mechanics"
->Fokuseringsmekanik</link
->. Genom att hålla musen över texten kan du se vilka värden fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->SEP-parametrar</guilabel
->: Ställer in lämplig SEP-parameterprofil för teleskoptypen som är ansluten i vald optik. Genom att hålla musen över beteckningen kan du se vilka värden som fokuseringsrådgivaren rekommenderar i verktygstipset.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
 >Hjälp</guilabel
->: Tryck på knappen för att få hjälp med att använda fokuseringsrådgivaren.</para>
+>: Tryck på knappen för att starta fokuseringsrådgivaren.</para>
+    <screenshot>
+      <screeninfo
+>Fokuseringsrådgivaren: Hjälp</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_help.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Fokuseringsrådgivaren: Hjälp</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>Hjälpdialogrutan visar detaljer om det aktuella optiken överst. Sedan kommer en tabell med jämförelse av värdet på varje fokuseringsparameter i <link linkend="focus-settings"
+>Fokuseringsinställningar</link
+> mot värdet som föreslås av Fokuseringsrådgivaren. Det låter dig se vad Fokuseringsrådgivaren skulle uppdatera om Uppdatera parametrar markerats och Fokuseringsrådgivaren kördes.</para>
+    <para
+>Kryssrutan <guilabel 
+>Visa bara ändringar</guilabel 
+> avgör om alla parametrar är listade eller bara de som skiljer sig från Fokuseringsrådgivarens rekommendationer. Knappen <guilabel 
+>Stäng</guilabel 
+> stänger hjälpdialogen.</para>
     </listitem>
 
     <listitem>
     <para
 ><guilabel
->Uppdatera parametrar</guilabel
->: Tryck på knappen för att acceptera fokuseringsrådgivarens rekommendationerna och uppdatera fokuseringsparametrarna där motsvarande kryssruta <guilabel
->Uppdatera</guilabel
-> är markerad.</para>
+>Kör</guilabel
+>: Tryck på knappen för att köra Fokuseringsrådgivaren för de markerade alternativen. V-kurvan uppdateras dynamiskt med förloppet, liksom dialogrutan Fokuseringsrådgivaren.</para>
     </listitem>
 
+    <listitem>
+    <para
+><guilabel
+>Stopp</guilabel
+>: Tryck på knappen för att stoppa Fokuseringsrådgivaren. Observera att knappen <guilabel 
+>Stopp</guilabel 
+> på den vanliga fokuseringspanelen gör samma sak.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><guilabel
+>Stäng§</guilabel
+>: Tryck på knappen för att stänga fokuseringsrådgivaren.</para>
+    </listitem>
+    </itemizedlist>
+
+    <para
+>Följande alternativ är tillgängliga i kryssrutor:</para>
+    <itemizedlist>
+    <listitem>
+    <para
+><emphasis role="bold"
+>Uppdatera parametrar</emphasis
+>: Det ställer in parametrarna i <link linkend="focus-settings"
+>Fokuseringsinställningar</link
+> till standardvärden som ska göra det möjligt för automatisk fokusering att slutföras. Observera att parametrar lagras per optisk så det är en bra idé att ställa in det alternativet från början. Observera att för vissa parametrar, t.ex. stegstorlek, är det bättre att prova sig fram till standardvärdet genom att köra automatisk fokusering. Så de parametrarna går bättre att ställa in med några andra alternativ nedan.</para>
+    <para
+>Observera att när en ny optisk skapas ställer Fokuseringsrådgivaren in standardparametrar när optiken används för första gången under fokusering.</para>
+    <para
+>Ett sätt att kontrollera om parametrarna är korrekt inställda för Fokuseringsrådgivaren är att trycka på knappen <guilabel
+>Hjälp</guilabel
+>. Se avsnittet Fokuseringsrådgivaren Hjälp för mer information.</para>
+    <para
+>Observera också att efterföljande funktioner i Fokuseringsrådgivaren beror på att vissa parametrar väljs, till exempel den engångslinjära fokuseringsalgoritmen, så det rekommenderas att använda Uppdatera parametrar när Fokuseringsrådgivaren börjar användas.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><emphasis role="bold"
+>Finn stjärnor</emphasis
+>: Funktionen är utformad för att söka i fokuseringsenhetens rörelseintervall för att lokalisera stjärnor. Om stjärnor redan är synliga i delbilder behöver funktionen inte användas.</para>
+    <para
+>Algoritmen startar vid den aktuella fokuseringspositionen och söker i ett område utåt och sedan inåt från startpositionen och letar efter stjärnor. Om inga stjärnor hittas fortsätter den att utöka sökområdet samtidigt som den håller sig inom fokuseringsenhetens tillåtna rörelseintervall.</para>
+    <para
+>Så småningom lokaliseras antingen stjärnor eller så har hela fokuseringsområdets rörelseomfång genomsökts utan att hitta några stjärnor. I det senare fallet halveras stegstorleken och sökningen startas om från början.</para>
+    <para
+>Sökprocessen använder en serie hopp med 10 gångers stegstorlek för att försöka hitta stjärnor.</para>
+    <para
+>För att använda funktionen, starta fokuseringsenheten så nära som möjligt där stjärnor sannolikt finns. Om du inte har någon aning hittar algoritmen stjärnor men sökningen tar troligen längre tid. Använd dessutom en stegstorlek så nära ett bra värde för utrustningen som möjligt. Om ett för litet värde väljs kommer antalet steg att bli större och sökningen tar längre tid. Om ett för stort värde väljs är det möjligt att området av fokuseringspositioner där stjärnor är synliga "hoppas över" i sökningen och det visar sig att det inte finns några stjärnor synliga någonstans. Om du inte har någon aning om vad ett bra startvärde är, använd standardvärdet och låt Fokuseringsrådgivaren försöka ta reda på det.</para>
+    <para
+>Här är ett exempel på Finn stjärnor:</para>
+    <screenshot>
+      <screeninfo
+>Fokuseringsrådgivaren: Finn stjärnor</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_find_stars.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Fokuseringsrådgivaren: Finn stjärnor</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>Resultattabellen i dialogrutan Fokuseringsrådgivare visar en enda rad för Finn stjärnor. I det här fallet startades Finn stjärnor vid position 70000 och stegstorleken var 250 (vilket ger en hoppstorlek på 2500).</para>
+    <para
+>Inga stjärnor hittades vid 70000 (punkt 1 på V-kurvan) så ett utåtgående svep började på 95000 och flyttade in 2500 hopp för hopp tills 70000 nåddes (punkterna 2-11) då svepet inåt startade. Stjärnor upptäcktes först vid 60000 (punkt 15).</para>
+    <para
+>Algoritmen fortsätter sedan att hoppa inåt tills inga stjärnor hittas (punkt 34). Det ger intervallet för positioner där stjärnor hittades från 15000 (punkt 33) till 60000 (punkt 15) med ett centrum på 37500.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><emphasis role="bold"
+>Grovinriktning (utan automatisk fokusering)</emphasis
+>: Funktionen är utformad för att ge en grov inriktning av startpositionen, stegstorlek och AF-översvep (eller spel). Syftet är att tillhandahålla "tillräckligt bra" värden för parametrarna för att nästa steg, Fininriktning, ska fungera. En iterativ process används för att hitta acceptabla värden.</para>
+    <para
+>Här är ett exempel som  beskriver hur det fungerar:</para>
+    <screenshot>
+      <screeninfo
+>Fokuseringsrådgivaren: Grovinriktning</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_coarse_adj.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Fokuseringsrådgivaren: Grovinriktning</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>Grovjustering utfördes från startposition 37 500 med stegstorlek 250 och AF-översvep 0. Det registreras i omgång 1 i resultattabellen på dialogrutan Fokuseringsrådgivare. Kommentarkolumnen anger att Max/Min-förhållandet = 0,9 vilket betyder att "Max HFR" och "Min HFR" för datapunkterna är 0,9 vilket är för lågt. Så Fokuseringsrådgivaren startar omgång 2 från position 38875 med den ökade stegstorleken 803 och översvep 250.</para>
+    <para
+>Omgång 2 hade återigen ett för lågt Max/Min-förhållande, så omgång 3 startades.</para>
+    <para
+>Omgång 3 (som visas i V-kurvan) startade från 35548 med stegstorlek 2544 och översvep 7477. Det resulterade i Max/Min 2,0 vilket är tillräckligt bra i detta skede. Datapunkterna bildar en V-kurva utan uppenbart okorrigerat spel (det skulle visa sig som en platt fläck på höger sida av kurvan om det fanns någon). Så grovjusteringen slutförs efter omgång 3.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><emphasis role="bold"
+>Fininriktning (med automatisk fokusering)</emphasis
+>: Funktionen är utformad för att ge fininriktning av startposition, stegstorlek och AF-översvep (eller spel). Fininriktning utför automatisk fokusering inklusive kurvanpassning och analyserar resultatet för att avgöra om det kan förbättras eller inte. Om så är fallet justerar den parametrarna och upprepas. En iterativ process används för att närma sig parametervärden.</para>
+    <para
+>Här är ett exempel som  beskriver hur det fungerar:</para>
+    <screenshot>
+      <screeninfo
+>Fokuseringsrådgivaren: Fininriktning</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_fine_adj.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Fokuseringsrådgivaren: Fininriktning</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>Fininriktning utfördes från startposition 35548 med stegstorlek 2544 och AF-översvep 7477. Det registreras i omgång 1 i resultattabellen på dialogrutan Fokuseringsrådgivare. Kommentarkolumnen anger att Max/Min-förhållandet = 1,9 vilket betyder att "Max HFR" och "Min HFR" för datapunkterna är 1,9, vilket skulle kunna förbättras. Så Fokuseringsrådgivaren startar omgång 2 från position 38092 med den ökade stegstorleken 4888 och översvep 3738. Översvepet reduceras här för att se om ett mindre värde skulle kompensera för spel.</para>
+    <para
+>Omgång 2 hade Max/Min-förhållandet 4 vilket är lite högt, och beräknade översvepet 8626 så Omgång 3 startades.</para>
+    <para
+>Omgång 3 (som visas i V-kurvan) startade från 38092 med stegstorlek 4254 och översvep 8626. Det resulterade i ett Max/Min på 3,1 vilket är bra. Datapunkterna bildar en V-kurva utan uppenbart okorrigerat spel (det skulle visa sig som en platt fläck på höger sida av kurvan om det fanns någon). R2 för kurvanpassningen är 0,999 vilket också är bra, så fininriktning slutförs efter omgång 3.</para>
+    </listitem>
   </itemizedlist>
   </sect2>
 
@@ -2138,7 +2244,7 @@
       <para
 >Ändra kryssrutan <guilabel
 >Adaptiv fokusering</guilabel
-> när som helst under bearbetningen för att byta mellan uppmätta automatiska fokuseringsresultat och resultat efter att adaptiva fokuseringsjusteringar har utförts. Se avsnittet <link linkend="focus-adaptive"
+> när som helst under bearbetningen för att byta mellan uppmätta automatiska fokuseringsresultat och resultat efter att adaptiva fokuseringsinriktning har utförts. Se avsnittet <link linkend="focus-adaptive"
 >Adaptiv fokusering</link
 > för mer information om vad adaptiv fokusering är. </para>
       <para

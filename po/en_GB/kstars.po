@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-03 01:48+0000\n"
-"PO-Revision-Date: 2024-07-05 14:14+0100\n"
+"PO-Revision-Date: 2024-08-03 13:20+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -9602,16 +9602,13 @@ msgstr "Online Astrometry.net or Remote ANSVR"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
 "astrometry.net)</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Size of the separator between the tiles.</p></body></"
-"html>"
+"<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
+"astrometry.net)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -15980,17 +15977,18 @@ msgid ""
 "<p>Add additional camera</p><p><b>WARNING</b>: This feature is experimental!"
 "</p>"
 msgstr ""
+"<p>Add additional camera</p><p><b>WARNING</b>: This feature is experimental!"
+"</p>"
 
 #: ekos/capture/capture.cpp:321
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
-msgstr ""
+msgstr "Camera %1 is busy. Abort to close?"
 
 #: ekos/capture/capture.cpp:322
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stop capturing"
-msgstr "Stop recording"
+msgstr "Stop capturing"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:322 ekos/observatory/observatory.ui:550
@@ -17077,16 +17075,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Setting the camera position angle shall move the "
-#| "rotator. The gauge reflects the state of the rotator. Depending on the "
-#| "accuracy of the rotator there can be some deviation in the ending "
-#| "position angle.</p><p>If <span style=\" font-weight:700;\">Save Camera "
-#| "Position Angle to Sequence Job</span> is toggled, any subsequent jobs "
-#| "added to the sequence queue would always rotate to this position angle "
-#| "before capture begins.</p><p>The position angle is measured East of North "
-#| "in degrees.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
@@ -17097,11 +17086,8 @@ msgstr ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
 "accuracy of the rotator there can be some deviation in the ending position "
-"angle.</p><p>If <span style=\" font-weight:700;\">Save Camera Position Angle "
-"to Sequence Job</span> is toggled, any subsequent jobs added to the sequence "
-"queue would always rotate to this position angle before capture begins.</"
-"p><p>The position angle is measured East of North in degrees.</p></body></"
-"html>"
+"angle.</p><p>The position angle is measured East of North in degrees.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -17111,10 +17097,9 @@ msgstr "Camera Position Angle"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
 #: ekos/capture/rotatorsettings.ui:471
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
-msgstr "<html><head/><body><p>You are almost done...</p></body></html>"
+msgstr "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -17458,10 +17443,9 @@ msgid "Select EkosLive Servers"
 msgstr "Select EkosLive Servers"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Observatory"
+#, kde-format
 msgid "Observatory:"
-msgstr "Observatory"
+msgstr "Observatory:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
 #, kde-format
@@ -17474,11 +17458,9 @@ msgid "Online:"
 msgstr "Online:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Malchin"
+#, kde-format
 msgid "Machine ID:"
-msgstr "Malchin"
+msgstr "Machine ID:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -19243,10 +19225,9 @@ msgid "Clear"
 msgstr "Clear"
 
 #: ekos/focus/focusadvisor.cpp:79 ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Selection:"
+#, kde-format
 msgid "Section"
-msgstr "Selection:"
+msgstr "Section"
 
 #. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
 #. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
@@ -19260,57 +19241,49 @@ msgid "Run"
 msgstr "Run"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgid "ID Number"
+#, kde-format
 msgid "Run number"
-msgstr "ID Number"
+msgstr "Run number"
 
 #: ekos/focus/focusadvisor.cpp:87
-#, fuzzy, kde-format
-#| msgid "Adapt Start Pos"
+#, kde-format
 msgid "Start Pos"
-msgstr "Adapt Start Pos"
+msgstr "Start Pos"
 
 #: ekos/focus/focusadvisor.cpp:88
-#, fuzzy, kde-format
-#| msgid "Chart position:"
+#, kde-format
 msgid "Start position"
-msgstr "Chart position:"
+msgstr "Start position"
 
 #: ekos/focus/focusadvisor.cpp:91
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Step/Jump Size"
-msgstr "Step Size:"
+msgstr "Step/Jump Size"
 
 #: ekos/focus/focusadvisor.cpp:92
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Step Size"
-msgstr "Step Size:"
+msgstr "Step Size"
 
 #: ekos/focus/focusadvisor.cpp:95
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "Overscan"
-msgstr "AF Overscan:"
+msgstr "Overscan"
 
 #: ekos/focus/focusadvisor.cpp:96
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan"
-msgstr "AF Overscan:"
+msgstr "AF Overscan"
 
 #: ekos/focus/focusadvisor.cpp:99
-#, fuzzy, kde-format
-#| msgid "Comments:"
+#, kde-format
 msgid "Comments"
-msgstr "Comments:"
+msgstr "Comments"
 
 #: ekos/focus/focusadvisor.cpp:100
 #, kde-format
 msgid "Additional Text"
-msgstr ""
+msgstr "Additional Text"
 
 #: ekos/focus/focusadvisor.cpp:111
 #, kde-format
@@ -19343,10 +19316,9 @@ msgid "Focus Advisor proposed value for the parameter"
 msgstr "Focus Advisor proposed value for the parameter"
 
 #: ekos/focus/focusadvisor.cpp:160
-#, fuzzy, kde-format
-#| msgid "Another focus action in progress. Please try again."
+#, kde-format
 msgid "Focus Advisor: another focus action in progress. Please try again."
-msgstr "Another focus action in progress. Please try again."
+msgstr "Focus Adviser: another focus action in progress. Please try again."
 
 #: ekos/focus/focusadvisor.cpp:185
 #, kde-format
@@ -19418,8 +19390,7 @@ msgid "Find Stars: Failed"
 msgstr "Find Stars: Failed"
 
 #: ekos/focus/focusadvisor.cpp:752
-#, fuzzy, kde-format
-#| msgid "Stars detected, range centre %1"
+#, kde-format
 msgid "Stars detected, range center %1"
 msgstr "Stars detected, range centre %1"
 
@@ -19429,10 +19400,9 @@ msgid "Stars detected, range centre %1"
 msgstr "Stars detected, range centre %1"
 
 #: ekos/focus/focusadvisor.cpp:762
-#, fuzzy, kde-format
-#| msgid "Find Stars: Completed"
+#, kde-format
 msgid "Focus Advisor Find Stars completed"
-msgstr "Find Stars: Completed"
+msgstr "Focus Adviser Find Stars completed"
 
 #: ekos/focus/focusadvisor.cpp:810
 #, kde-format
@@ -19440,8 +19410,7 @@ msgid "Find Stars: exceeded max iterations %1"
 msgstr "Find Stars: exceeded max iterations %1"
 
 #: ekos/focus/focusadvisor.cpp:818 ekos/focus/focusadvisor.cpp:819
-#, fuzzy, kde-format
-#| msgid "Stars detected, centring range"
+#, kde-format
 msgid "Stars detected, centering range"
 msgstr "Stars detected, centring range"
 
@@ -19461,10 +19430,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr "Find Stars Run %1: Scanning Sector %2"
 
 #: ekos/focus/focusadvisor.cpp:859
-#, fuzzy, kde-format
-#| msgid "Auto star selected."
+#, kde-format
 msgid "No stars detected"
-msgstr "Auto star selected."
+msgstr "No stars detected"
 
 #: ekos/focus/focusadvisor.cpp:867
 #, kde-format
@@ -19477,16 +19445,14 @@ msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr "Find Stars Run %1 Sector %2: scanning %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:939
-#, fuzzy, kde-format
-#| msgid "Find Stars Run %1: failed to find any stars"
+#, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
-msgstr "Find Stars Run %1: failed to find any stars"
+msgstr "Focus Adviser Find Stars run %1: failed to move focuser"
 
 #: ekos/focus/focusadvisor.cpp:961
-#, fuzzy, kde-format
-#| msgid "Focus Advisor proposed value for the parameter"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
-msgstr "Focus Advisor proposed value for the parameter"
+msgstr "Focus Adviser Coarse Adjustment aborted after %1 runs"
 
 #: ekos/focus/focusadvisor.cpp:978
 #, kde-format
@@ -19494,22 +19460,19 @@ msgid "Coarse Adjustment Scan..."
 msgstr "Coarse Adjustment Scan..."
 
 #: ekos/focus/focusadvisor.cpp:1006
-#, fuzzy, kde-format
-#| msgid "Coarse Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment"
-msgstr "Coarse Adjustment Scan..."
+msgstr "Coarse Adjustment"
 
 #: ekos/focus/focusadvisor.cpp:1012 ekos/focus/focusadvisor.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Focus Advisor proposed value for the parameter"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment failed to move focuser"
-msgstr "Focus Advisor proposed value for the parameter"
+msgstr "Focus Adviser Coarse Adjustment failed to move focuser"
 
 #: ekos/focus/focusadvisor.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Focus Advisor proposed value for the parameter"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: exceeded max iterations %1"
-msgstr "Focus Advisor proposed value for the parameter"
+msgstr "Focus Adviser Coarse Adjustment: exceeded max iterations %1"
 
 #: ekos/focus/focusadvisor.cpp:1079
 #, kde-format
@@ -19517,50 +19480,44 @@ msgid "Coarse Adjustment Run %1 scan..."
 msgstr "Coarse Adjustment Run %1 scan..."
 
 #: ekos/focus/focusadvisor.cpp:1087
-#, fuzzy, kde-format
-#| msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
-msgstr "Coarse Adjustment Run %1: insufficient data to proceed"
+msgstr "Focus Adviser Coarse Adjustment Run %1: insufficient data to proceed"
 
 #: ekos/focus/focusadvisor.cpp:1144
 #, kde-format
 msgid "Max/Min Ratio: %1"
-msgstr ""
+msgstr "Max/Min Ratio: %1"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Focus Advisor proposed value for the parameter"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment completed."
-msgstr "Focus Advisor proposed value for the parameter"
+msgstr "Focus Adviser Coarse Adjustment completed."
 
 #: ekos/focus/focusadvisor.cpp:1182
-#, fuzzy, kde-format
-#| msgid "Coarse Adj: data quality too poor to continue"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: data quality too poor to continue"
-msgstr "Coarse Adj: data quality too poor to continue"
+msgstr "Focus Adviser Coarse Adjustment: data quality too poor to continue"
 
 #: ekos/focus/focusadvisor.cpp:1216
 #, kde-format
 msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
-msgstr ""
+msgstr "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 
 #: ekos/focus/focusadvisor.cpp:1277
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Fine Adjustment"
-msgstr "Image Adjustments"
+msgstr "Fine Adjustment"
 
 #: ekos/focus/focusadvisor.cpp:1379
 #, kde-format
 msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
-msgstr ""
+msgstr "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
 
 #: ekos/focus/focusadvisor.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Focus Advisor proposed value for the parameter"
+#, kde-format
 msgid "Focus Advisor Fine Adjustment completed"
-msgstr "Focus Advisor proposed value for the parameter"
+msgstr "Focus Adviser Fine Adjustment completed"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -19743,29 +19700,7 @@ msgstr "Capture Timeout:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:113
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of walk for the focuser to take "
-#| "when using <span style=\" font-weight:600;\">Linear 1 Pass</span>.  For "
-#| "<span style=\" font-weight:600;\">Linear</span> only <span style=\" font-"
-#| "weight:600;\">Classic</span> is available.</p><p><span style=\" font-"
-#| "weight:600;\">Classic</span>: Focuser steps out &quot;Out Step "
-#| "Multiple&quot; steps, takes a frame and then steps in through focus at a "
-#| "constant step size taking and analysing frames at each step. The exact "
-#| "point at which the pass stops is dependent on the data so this walk is "
-#| "tolerant of starting further away from focus, but at the expense of extra "
-#| "steps.</p><p><span style=\" font-weight:600;\">Fixed Steps</span>: "
-#| "Focuser steps out half of &quot;Number Steps&quot;, takes a frame and "
-#| "then steps in exactly &quot;Number Steps&quot;. This walk must be started "
-#| "close to focus to be effective but is predictable in the number of steps "
-#| "taken. This walk is experimental.</p><p><span style=\" font-weight:600;"
-#| "\">CFZ Shuffle</span>: Similar to <span style=\" font-weight:600;\">Fixed "
-#| "Steps</span> except this walk takes half steps near the focus point to "
-#| "try to give more weight to points nearer to focus in the curve fitting. "
-#| "As with <span style=\" font-weight:600;\">Fixed Steps</span> this walk "
-#| "must be started close to focus to be effective but is predictable in the "
-#| "number of steps taken. This walk is experimental.</p><p><br/></p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of walk for the focuser to take when "
 "using <span style=\" font-weight:600;\">Linear 1 Pass</span>.  For <span "
@@ -19799,14 +19734,13 @@ msgstr ""
 "p><p><span style=\" font-weight:600;\">Fixed Steps</span>: Focuser steps out "
 "half of &quot;Number Steps&quot;, takes a frame and then steps in exactly "
 "&quot;Number Steps&quot;. This walk must be started close to focus to be "
-"effective but is predictable in the number of steps taken. This walk is "
-"experimental.</p><p><span style=\" font-weight:600;\">CFZ Shuffle</span>: "
-"Similar to <span style=\" font-weight:600;\">Fixed Steps</span> except this "
-"walk takes half steps near the focus point to try to give more weight to "
-"points nearer to focus in the curve fitting. As with <span style=\" font-"
-"weight:600;\">Fixed Steps</span> this walk must be started close to focus to "
-"be effective but is predictable in the number of steps taken. This walk is "
-"experimental.</p><p><br/></p></body></html>"
+"effective but is predictable in the number of steps taken.</p><p><span style="
+"\" font-weight:600;\">CFZ Shuffle</span>: Similar to <span style=\" font-"
+"weight:600;\">Fixed Steps</span> except this walk takes half steps near the "
+"focus point to try to give more weight to points nearer to focus in the "
+"curve fitting. As with <span style=\" font-weight:600;\">Fixed Steps</span> "
+"this walk must be started close to focus to be effective but is predictable "
+"in the number of steps taken.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:122
@@ -20533,29 +20467,21 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:668
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to enable Donut Busting functionality. Use on "
-#| "telescopes with a central obstruction that create donut shaped stars when "
-#| "defocused.</p><p>This is a currently an experimental feature that should "
-#| "be used with caution.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to enable Donut Busting functionality. Use on "
 "telescopes with a central obstruction that create donut shaped stars when "
 "defocused.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tick to enable Donut Busting functionality. Use on "
-"telescopes with a central obstruction that create donut shaped stars when "
-"defocused.</p><p>This is a currently an experimental feature that should be "
-"used with caution.</p></body></html>"
+"<html><head/><body><p>Tick to enable Doughnut Busting functionality. Use on "
+"telescopes with a central obstruction that create doughnut shaped stars when "
+"defocused.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:671
-#, fuzzy, kde-format
-#| msgctxt "object name (optional)"
-#| msgid "Dragonfly Cluster"
+#, kde-format
 msgid "Donut Buster"
-msgstr "Dragonfly Cluster"
+msgstr "Doughnut Buster"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:695
@@ -20619,34 +20545,29 @@ msgstr "Initial Step Size x:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusScanStepSizeFactor)
 #: ekos/focus/opsfocusprocess.ui:820
-#, fuzzy, kde-format
-#| msgid ""
-#| "When Scan for Start Position is checked, the scan uses a step size = "
-#| "Initial Step Size multiplier by Initial Step Size x."
+#, kde-format
 msgid ""
 "Scan for Start Position uses a step size = Initial Step Size multiplied by "
 "Initial Step Size x."
 msgstr ""
-"When Scan for Start Position is checked, the scan uses a step size = Initial "
-"Step Size multiplier by Initial Step Size x."
+"Scan for Start Position uses a step size = Initial Step Size multiplied by "
+"Initial Step Size x."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanAlwaysOn)
 #: ekos/focus/opsfocusprocess.ui:842
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Check to always run Scan for Start Position, uncheck to only run after a "
 "failed Autofocus."
 msgstr ""
-"Tick to force a scan for optimum start position at the start of Autofocus."
+"Tick to always run Scan for Start Position, untick to only run after a "
+"failed Autofocus."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusScanAlwaysOn)
 #: ekos/focus/opsfocusprocess.ui:845
 #, kde-format
 msgid "Always On"
-msgstr ""
+msgstr "Always On"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:861
@@ -20656,12 +20577,9 @@ msgstr "Num Datapoints:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusScanDatapoints)
 #: ekos/focus/opsfocusprocess.ui:874
-#, fuzzy, kde-format
-#| msgid ""
-#| "Number of datapoints to use during scan when focusScanStartPos is checked."
+#, kde-format
 msgid "The number of datapoints to use during Scan for Start Position."
-msgstr ""
-"Number of datapoints to use during scan when focusScanStartPos is checked."
+msgstr "The number of datapoints to use during Scan for Start Position."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:35
@@ -24431,14 +24349,17 @@ msgid ""
 "unchecked if unsure, use only if you know what you are doing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Use altitude limits only while the mount tracking. "
+"This is necessary for some mounts that intentionally pass this limit, e.g. "
+"for parking.</p><p><span style=\" font-weight:600;\">WARNING</span>: leave "
+"unticked if unsure, use only if you know what you are doing.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
 #: ekos/mount/mount.ui:354
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Tracking Mode"
+#, kde-format
 msgid "Tracking only"
-msgstr "Tracking Mode"
+msgstr "Tracking only"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:526
@@ -36601,10 +36522,9 @@ msgstr "EkosLive username"
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1671
-#, fuzzy, kde-format
-#| msgid "EkosLive username"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "EkosLive username"
+msgstr "EkosLive Observatory Name"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1675
@@ -36672,7 +36592,7 @@ msgstr "Enable mount altitude limits."
 #: kstars.kcfg:1736
 #, kde-format
 msgid "Restrict altitude limits to tracking mode only."
-msgstr ""
+msgstr "Restrict altitude limits to tracking mode only."
 
 #. i18n: ectx: label, entry (ConfirmBelowHorizon), group (Mount)
 #: kstars.kcfg:1740
@@ -37567,26 +37487,21 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2202
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Whether to use scan for optimum start position at the start of Autofocus."
 msgstr ""
-"Tick to force a scan for optimum start position at the start of Autofocus."
+"Whether to use scan for optimum start position at the start of Autofocus."
 
 #. i18n: ectx: whatsthis, entry (focusScanAlwaysOn), group (Focus)
 #: kstars.kcfg:2206
-#, fuzzy, kde-format
-#| msgid ""
-#| "Check to force a scan for optimum start position at the start of "
-#| "Autofocus."
+#, kde-format
 msgid ""
 "Whether scan for start position is always used or just after an Autofocus "
 "failure."
 msgstr ""
-"Tick to force a scan for optimum start position at the start of Autofocus."
+"Whether scan for start position is always used or just after an Autofocus "
+"failure."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2210

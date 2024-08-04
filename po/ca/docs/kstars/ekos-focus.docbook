@@ -1165,7 +1165,7 @@
         <para
 ><guilabel
 >Reductor de dònuts</guilabel
->: Aquesta és una característica experimental i s'ha d'utilitzar amb precaució. La intenció del Reductor de dònuts és millorar l'enfocament per als telescopis amb obstruccions centrals que creen estrelles en forma de donut quan està desenfocat, p. ex. un newtonià, SCT, RASA, Ritchey-Cretien, etc.</para>
+>: La intenció del Reductor de dònuts és millorar l'enfocament per als telescopis amb obstruccions centrals que creen estrelles en forma de donut quan està desenfocat, p. ex. un newtonià, SCT, RASA, Ritchey-Cretien, etc.</para>
 
         <para
 ><guilabel
@@ -1201,30 +1201,40 @@
 >Refina l'ajust de la corba</guilabel
 > està marcat. Com més alt sigui el valor, més valors atípics s'exclouran del procés d'ajustament de la corba. El valor predeterminat és 0,2.</para>
           </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Escaneja per a la posició d'inici</guilabel
+> només està disponible per al lineal d'1 pas, rutes de barreja fixa i ZCE, corbes ajustades d'hipèrbola i paràbola, i mesures de focus de: HFR, HFR Adj i FWHM.</para>
+
+        <para
+>Marqueu aquesta opció per a fer un escaneig de l'enfocament a prop de la posició actual de l'enfocador per a trobar una posició òptima aproximada d'enfocament. El propòsit d'això és assegurar que l'enfocament automàtic comença prop de la posició d'enfocament. Hi ha disponibles les subopcions següents:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><guilabel
+>Sempre actiu</guilabel
+>: Quan està marcada, sempre s'executarà l'escaneig per a la posició inicial al començament de l'enfocament automàtic. Quan no està marcada, només s'executarà quan falli l'enfocament automàtic i es torni a executar.</para>
+          </listitem>
 
           <listitem>
             <para
 ><guilabel
->Escaneja per a la posició d'inici</guilabel
->: Marqueu aquesta opció per a fer un escaneig de l'enfocament a prop de la posició actual de l'enfocador per a trobar una posició òptima aproximada d'enfocament. El propòsit d'això és assegurar que l'enfocament automàtic comença prop de la posició d'enfocament. Hi ha disponibles les subopcions següents:</para>
-
-            <itemizedlist>
-              <listitem>
-                <para
-><guilabel
 >Nombre de punts de dades</guilabel
 >: El nombre de punts de dades que es faran servir en cada exploració. 5 és un valor bo per a començar.</para>
-              </listitem>
+          </listitem>
 
-              <listitem>
-                <para
+          <listitem>
+            <para
 ><guilabel
 >x mida inicial del pas</guilabel
 >: Un factor multiplicatiu per a aplicar a la <guilabel
 >Mida inicial del pas</guilabel
 > per a utilitzar-lo a l'escaneig de la posició d'inici. El valor predeterminat és 1,0.</para>
-              </listitem>
-            </itemizedlist>
           </listitem>
         </itemizedlist>
       </listitem>
@@ -1754,89 +1764,185 @@
     </screenshot>
 
     <para
->Aquest és el diàleg de l'assessor d'enfocament. És una característica per a ajudar a la gestió dels paràmetres d'enfocament.</para>
-
+>El diàleg de l'assessor d'enfocament és una característica que ajuda a configurar els paràmetres de l'enfocament. Per a utilitzar-lo, seleccioneu les opcions requerides i premeu <guilabel
+>Executa</guilabel
+>. Aquesta és actualment una <emphasis role="bold"
+>característica experimental.</emphasis
+></para>
     <para
->El propòsit de l'assessor d'enfocament és ajudar les persones que malden per utilitzar el mòdul d'enfocament dins de l'Ekos. El mòdul d'enfocament és ric en funcionalitats i té molts paràmetres que necessiten ser establerts de manera coherent per a aconseguir bons resultats. L'assessor d'enfocament està dissenyat per a ajudar a la configuració bàsica dels paràmetres que haurien d'aconseguir l'enfocament. No està dissenyat per a aconseguir el millor enfocament possible per al vostre equip; haureu d'experimentar amb la configuració per a aconseguir-ho. Però l'assessor d'enfocament proporciona un lloc per a iniciar l'experimentació.</para>
-
+>El propòsit de l'assessor d'enfocament és ajudar les persones a utilitzar el mòdul d'enfocament dins de l'Ekos. El mòdul d'enfocament és ric en funcionalitats i té molts paràmetres que necessiten ser establerts de manera coherent per a aconseguir bons resultats. L'assessor d'enfocament està dissenyat per a ajudar a la configuració bàsica dels paràmetres que haurien d'aconseguir l'enfocament. No està dissenyat per a aconseguir el millor enfocament possible per al vostre equip; haureu d'experimentar amb la configuració per a aconseguir-ho. Però l'assessor d'enfocament proporciona un lloc per a iniciar l'experimentació.</para>
     <para
->Per tant, l'assessor d'enfocament està dirigit als usuaris menys experimentats.</para>
+>L'assessor d'enfocament està dirigit als usuaris menys experimentats.</para>
     <para
 >Si l'assessor d'enfocament no sembla donar bons resultats per a la vostra configuració, per què no iniciar un debat al fòrum perquè es pugui millorar per a donar millors resultats en el futur. D'aquesta manera, amb el temps es farà que sigui més útil.</para>
     <para
 >Quan feu clic a l'assessor d'enfocament, s'elaboren una sèrie de recomanacions de paràmetres basades en el tren òptic que esteu utilitzant a l'enfocament.</para>
     <para
->A la part superior del diàleg es mostra informació sobre el tren òptic connectat. A continuació, mostra 6 línies relacionades amb diversos conjunts de paràmetres utilitzats en l'enfocament. A cada línia hi ha una casella de selecció per a actualitzar els camps associats d'enfocament amb les recomanacions de l'assessor d'enfocament.</para>
+>Hi ha 4 caselles de selecció a la pantalla que de manera predeterminada estan totes marcades. Alguns es poden desactivar si cal. Per exemple, els paràmetres d'actualització restabliran la majoria dels paràmetres a la configuració estàndard. Un cop executada, no és necessari executar repetidament aquesta opció de manera que la casella de selecció associada es pot desactivar per a les execucions posteriors.</para>
     <para
->Els paràmetres d'enfocament es divideixen en els grups següents:</para>
-
+>Hi ha disponibles els botons següents:</para>
     <itemizedlist>
     <listitem>
     <para
 ><guilabel
->Mida del pas</guilabel
->: Aquesta és la mida suggerida del pas d'enfocament a utilitzar. Aquest és un paràmetre crític. Està predeterminat en el diàleg de la Zona crítica d'enfocament (ZCE) si sabeu com definir-ho. Alternativament, si coneixeu un valor raonable per al vostre equip a partir d'altres fonts, podeu introduir-lo.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Paràmetres de la càmera i la roda de filtres</guilabel
->: Això estableix els paràmetres a la secció <link linkend="focus-ccd-filter-wheel"
->CCD i roda de filtres</link
-> de la pantalla d'enfocament. En passar el ratolí per sobre d'aquesta etiqueta, podeu veure en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Paràmetres de la configuració</guilabel
->: Això estableix els paràmetres de la <link linkend="focus-settings"
->Configuració de l'enfocament</link
->. En passar el ratolí per sobre d'aquesta etiqueta, veureu en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Paràmetres de procés</guilabel
->: Això estableix els paràmetres del <link linkend="focus-process"
->Procés d'enfocament</link
->. En passar el ratolí per sobre d'aquesta etiqueta, veureu en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Paràmetres de la mecànica</guilabel
->: Això estableix els paràmetres de <link linkend="focus-mechanics"
->Mecànica de l'enfocament</link
->. En passar el ratolí per sobre d'aquesta etiqueta, podeu veure en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
->Paràmetres SEP</guilabel
->: Això estableix el perfil dels paràmetres SEP apropiats per al tipus de telescopi connectat en el tren òptic seleccionat. En passar el ratolí per sobre d'aquesta etiqueta, podeu veure en el consell d'eina quins valors recomana l'assessor d'enfocament.</para>
-    </listitem>
-
-    <listitem>
-    <para
-><guilabel
 >Ajuda</guilabel
->: Premeu aquest botó per a obtenir ajuda sobre l'ús de l'assessor d'enfocament.</para>
+>: Premeu aquest botó per a llançar el diàleg d'ajuda de l'assessor d'enfocament:</para>
+    <screenshot>
+      <screeninfo
+>Assessor d'enfocament - Ajuda</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_help.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Assessor d'enfocament - Ajuda</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>El diàleg Ajuda mostra els detalls del tren òptic actual a la part superior. Després ve una taula de comparació del valor de cada paràmetre de l'enfocament a la <link linkend="focus-settings"
+>Configuració de l'enfocament</link
+> versus el valor suggerit per l'assessor d'enfocament. Això permet veure què actualitzaria l'assessor d'enfocament si es marquessin els paràmetres d'actualització i s'executa l'assessor d'enfocament.</para>
+    <para
+>La casella de selecció <guilabel
+>Mostra només els canvis</guilabel
+> determina si es llsiten tots els paràmetres o només els que difereixen de la recomanació de l'assessor d'enfocament. El botó <guilabel
+>Tanca</guilabel
+> tanca el diàleg d'ajuda.</para>
     </listitem>
 
     <listitem>
     <para
 ><guilabel
->Actualitza els paràmetres</guilabel
->: Premeu aquest botó per a acceptar les recomanacions de l'assessor d'enfocament i actualitzeu els paràmetres d'enfocament on està marcada la casella de selecció associada <guilabel
->Actualitza</guilabel
->.</para>
+>Executa</guilabel
+>: premeu aquest botó per a executar l'assessor d'enfocament per a les opcions marcades. La corba V s'actualitzarà dinàmicament amb el progrés, igual que el diàleg assessor de l'enfocament.</para>
     </listitem>
 
+    <listitem>
+    <para
+><guilabel
+>Atura</guilabel
+>: premeu aquest botó per a aturar l'assessor d'enfocament. Tingueu en compte que el botó <guilabel
+>Atura</guilabel
+> al plafó principal de l'enfocament fa el mateix.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><guilabel
+>Tanca</guilabel
+>: Premeu aquest botó per a tancar el diàleg de l'assessor d'enfocament.</para>
+    </listitem>
+    </itemizedlist>
+
+    <para
+>Hi ha disponibles les opcions següents de la casella de selecció:</para>
+    <itemizedlist>
+    <listitem>
+    <para
+><emphasis role="bold"
+>Actualitza els paràmetres</emphasis
+>: això estableix els paràmetres de <link linkend="focus-settings"
+>Paràmetres d'enfocament</link
+> als valors estàndard que haurien d'habilitar l'enfocament automàtic per completar-se correctament. Tingueu en compte que els paràmetres s'emmagatzemen per tren òptic, per la qual cosa és una bona idea establir aquesta opció a l'inici. Tingueu en compte que alguns paràmetres, per exemple, la mida del pas es per defecte d'un enfocament de prova i error executant l'enfocament automàtic. Per tant, aquests paràmetres es poden definir millor amb altres opcions a continuació.</para>
+    <para
+>Tingueu en compte que quan es crea un tren òptic nou, l'assessor d'enfocament configurarà els paràmetres predeterminats quan el tren òptic s'utilitzi per primera vegada en l'enfocament.</para>
+    <para
+>Una manera de comprovar si els paràmetres s'estableixen adequadament per a l'assessor d'enfocament és prémer el botó <guilabel
+>Ajuda </guilabel
+>. Vegeu la secció Ajuda de l'assessor d'enfocament per a més detalls.</para>
+    <para
+>Tingueu en compte també que les funcions posteriors de l'assessor d'enfocament depenen de certs paràmetres seleccionats, per exemple l'algorisme d'enfocament Lineal 1, de manera que es recomana executar els paràmetres d'actualització al començament d'utilitzar l'assessor d'enfocament.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><emphasis role="bold"
+>Cerca d'estrelles</emphasis
+>: aquesta funció està dissenyada per a cercar l'interval de moviment de l'enfocador per a localitzar estrelles. Si les estrelles ja són visibles en els submarcs, llavors no cal executar aquesta funció.</para>
+    <para
+>L'algorisme començarà a la posició actual de l'enfocador i cercarà una àrea cap a fora i cap a dins de la posició inicial cercant estrelles. Si no es troben estrelles, continuarà exhaurint l'àrea de cerca mentre romangui dins de l'interval de moviment permès de l'enfocador.</para>
+    <para
+>Finalment, o bé es localitzaran les estrelles o bé s'haurà cercat tot l'interval de moviment de l'enfocador sense localitzar cap estrella. En aquest últim cas, la mida del pas es reduirà a la meitat i la cerca es reiniciarà des del principi.</para>
+    <para
+>El procés de cerca utilitza una sèrie de salts de 10 x mida de pas per a intentar localitzar estrelles.</para>
+    <para
+>Per utilitzar aquesta funció, inicieu l'enfocador tan a prop com sigui possible d'on és probable que es trobin les estrelles. Si no en teniu idea, l'algoritme localitzarà estrelles, però la cerca probablement trigarà més temps. A més, feu servir una mida de pas el més propera possible a un valor bo de l'equip. Si es tria un valor massa petit, el nombre de passos serà més gran i la cerca trigarà més temps. Si es tria un valor massa gran, llavors és possible que l'interval de posicions d'enfocament on les estrelles són visibles «salti» en la cerca i semblarà que no hi ha estrelles visibles enlloc. Si no teniu idea d'un bon valor inicial, utilitzeu el valor predeterminat i deixeu que l'assessor d'enfocament intenti esbrinar-ho.</para>
+    <para
+>Aquí hi ha un exemple d'execució de la Cerca d'estrelles:</para>
+    <screenshot>
+      <screeninfo
+>Assessor d'enfocament - Cerca d'estrelles</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_find_stars.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Assessor d'enfocament - Cerca d'estrelles</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>La taula de resultats en el diàleg de l'assessor d'enfocament mostra una única línia per a Cerca d'estrelles. En aquest cas, Cerca d'estrelles es va iniciar en la posició 70.000 i la mida de pas era 250 (donant una mida de salt de 2.500).</para>
+    <para
+>No s'ha trobat cap estrella a 70.000 (punt 1 a la corba V) de manera ha començat un escombrat cap a fora a 95.000 i es va moure a salts de 2.500 fins que s'ha assolit 70.000 (punts 2-11) quan ha començat l'escombrat cap a dins. Les estrelles s'han detectat per primera vegada a 60.000 (punt 15).</para>
+    <para
+>L'algorisme continua saltant cap endins fins que no es troben estrelles (punt 34). Això dona l'interval de posicions on les estrelles estaven situades en 15.000 (punt 33) a 60.000 (punt 15) amb un centre en 37.500.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><emphasis role="bold"
+>Ajustament tosc (sense enfocament automàtic)</emphasis
+>: aquesta funció està dissenyada per a proporcionar un ajust tosc als camps de la posició inicial, mida del pas i sobreexploració de l'EA (o rebot). L'objectiu és proporcionar valors «bons» per a aquests paràmetres perquè l'etapa següent, Ajust fi, funcioni. S'utilitza un procés iteratiu per a trobar valors acceptables.</para>
+    <para
+>Aquí hi ha un exemple que descriu com funciona:</para>
+    <screenshot>
+      <screeninfo
+>Assessor d'enfocament - Ajust tosc</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_coarse_adj.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Assessor d'enfocament - Ajust tosc</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>L'ajust tosc es va executar des d'una posició inicial de 37.500 amb una mida de pas de 250 i una sobreexploració d'EA de 0. Això es registra a Executa 1 a la taula de resultats al diàleg Assessor d'enfocament. La columna de comentaris diu que la relació màx./mín. = 0,9 el que significa que el «Màx. HFR» / «Mín. HFR» dels punts de dades és 0.9, que és massa baix. Així doncs, l'aasessor d'enfocament comença la 2a execució a partir de la posició 38.875 amb un increment de la mida de pas de 803 i una sobreexploració de 250.</para>
+    <para
+>La 2a execució va tornar a tenir una relació màx./mín. massa baixa, de manera que es va iniciar la 3 execució.</para>
+    <para
+>La 3a execució (que es mostra a la corba V) va començar a partir de 35548 amb una mida de pas de 2544 i una sobreexploració de 7477. Això va donar com a resultat un Màx./Mín. de 2,0 que és prou bo en aquesta fase. Els punts de dades formen una corba V sense cap rebot obvi no corregit (això es mostraria com un punt pla al costat dret de la corba si n'hi hagués). Per tant, l'ajust tosc es completa després de la cursa 3.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><emphasis role="bold"
+>Ajustament fi (amb enfocament automàtic)</emphasis
+>: aquesta funció està dissenyada per a proporcionar un ajust fi als camps de posició inicial, mida del pas i sobreexploració de l'EA (o rebot). L'ajust fi executa l'enfocament automàtic, incloent-hi l'ajust de la corba i analitza el resultat per determinar si es pot millorar o no. Si és així, ajusta els paràmetres i torna a executar-se. S'utilitza un procés iteratiu per a trobar els valors dels paràmetres.</para>
+    <para
+>Aquí hi ha un exemple que descriu com funciona:</para>
+    <screenshot>
+      <screeninfo
+>Assessor d'enfocament - Ajust fit</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_fine_adj.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Assessor d'enfocament - Ajust fit</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>L'ajust fi es va executar des d'una posició inicial de 35.548 amb una mida de pas de 2544 i la sobreexploració d'EA de 7477. Això es registra a l'execució 1 a la taula de resultats del diàleg de l'assessor d'enfocament. La columna de comentaris diu que la relació Màx./Mín. = 1,9 que significa que el «Màx. HFR» / «Mín. HFR» dels punts de dades és 1,9 que es podria millorar. Així doncs, l'assessor de'enfocament comença la 2a execució a partir de la posició 38.092 amb un augment de la mida del pas de 4888 i una sobreexploració de 3738. El valor de sobreexploració es redueix aquí per veure si un nombre més petit compensaria adequadament el rebot.</para>
+    <para
+>La 2a execució tenia una relació Màx./Mín. de 4, que és una mica alta, i va calcular un valor de sobreexploració de 8626, de manera que es va iniciar la 3a sobreexploració.</para>
+    <para
+>La 3a execució (que es mostra a la corba V) va començar a partir de 38092 amb una mida de pas de 4254 i una sobreexploració de 8626. Això va donar lloc a un Màx./Mín. de 3,1 que és bo. Els punts de dades formen una corba V sense cap rebot obvi no corregit (això es mostraria com un punt pla al costat dret de la corba si n'hi hagués). L'R2 de l'ajust de la corba és 0,999, el que també és bo, de manera que l'ajust fi es completa després de la 3a execució.</para>
+    </listitem>
   </itemizedlist>
   </sect2>
 
@@ -2093,7 +2199,7 @@
 > per a llançar l'eina Construcció de desplaçaments. Els desplaçaments de filtre es poden introduir manualment a la taula en la finestra emergent Configuració del filtre o es pot utilitzar aquesta eina per a ajudar a crear-los. </para>
       <para>
           <emphasis
->Nota: Aquesta utilitat no s'ha d'executar durant una sessió de processament d'imatges, ja que pren el control exclusiu del procés de focus mentre s'està executant.</emphasis>
+>Nota: Aquesta utilitat no s'ha d'executar durant una sessió de processament d'imatges, ja que pren el control exclusiu del procés d'enfocament mentre s'està executant.</emphasis>
       </para>
       <para
 >Per a començar, configureu els paràmetres de cada filtre de la taula a la finestra emergent Configuració del filtre i després inicieu Construcció de desplaçaments de filtres. La finestra emergent es llança amb una taula de dades amb les columnes següents. </para>
@@ -2222,9 +2328,9 @@
       <para
 >Si està marcada la casella <guilabel
 >Enfocament adaptatiu</guilabel
->, les execucions de l'AF s'actualitzen per a l'enfocament adaptatiu. Vegeu la secció d'<link linkend="focus-adaptive"
+>, les execucions de l'EA s'actualitzen per a l'enfocament adaptatiu. Vegeu la secció d'<link linkend="focus-adaptive"
 >enfocament adaptatiu</link
-> per a més detalls sobre la teoria de l'enfocament adaptatiu. La primera execució de l'AF (en aquest exemple execució d'EA 1 sobre Lum) és la base de les adaptacions. Per tant, la temperatura i l'altitud de l'execució d'EA 1 a Lum s'utilitza com a base per a totes les altres execucions d'EA i les dades s'adapten al que hauria estat la solució d'EA, si s'hagués executat a la temperatura i altitud de l'execució d'EA 1 a Lum. </para>
+> per a més detalls sobre la teoria de l'enfocament adaptatiu. La primera execució de l'EA (en aquest exemple execució d'EA 1 sobre Lum) és la base de les adaptacions. Per tant, la temperatura i l'altitud de l'execució d'EA 1 a Lum s'utilitza com a base per a totes les altres execucions d'EA i les dades s'adapten al que hauria estat la solució d'EA, si s'hagués executat a la temperatura i altitud de l'execució d'EA 1 a Lum. </para>
       <para
 >En aquest exemple, l'enfocament adaptatiu està configurat per als ajustaments de l'altitud en el filtre vermell només a la configuració del filtre. Per tant, els valors d'execució d'EA adaptat són els mateixos que els valors no adaptats per a tots els altres filtres. </para>
 
@@ -2830,7 +2936,7 @@
     <para
 >Un mètode senzill és començar amb una petita quantitat de dades, diguem d'1 nit i utilitzeu-la per a calcular les Marques / grau C. Executeu amb això i ajusteu-lo amb el temps a mesura que recopileu més dades. Una manera de comprovar com de bé funciona l'EA seria utilitzar l'anàlisi per a revisar com l'EA hauria mogut l'enfocament més d'1 hora. Si tot és correcte, cada cop que l'EA havia posicionat l'enfocador després d'1 hora coincidiria amb el resultat de l'enfocament automàtic. On hi ha una discrepància, serà a causa de l'aleatorietat en el resultat de l'enfocament automàtic i la calibració incorrecta en les <guilabel
 >Marques / °C</guilabel
-> de l'AF. Fent això regularment construireu el coneixement del vostre equip i podreu afinar l'EA. A continuació es mostra una captura de pantalla de l'anàlisi configurada per a l'enfocament, on podeu veure com canvia la posició d'enfocament durant la sessió de processament d'imatges: <screenshot>
+> de l'EA. Fent això regularment construireu el coneixement del vostre equip i podreu afinar l'EA. A continuació es mostra una captura de pantalla de l'anàlisi configurada per a l'enfocament, on podeu veure com canvia la posició d'enfocament durant la sessió de processament d'imatges: <screenshot>
       <screeninfo
 >Anàlisi de l'enfocament </screeninfo>
       <mediaobject

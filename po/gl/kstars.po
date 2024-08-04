@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-03 01:48+0000\n"
-"PO-Revision-Date: 2024-07-26 23:12+0200\n"
+"PO-Revision-Date: 2024-08-03 12:31+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -24702,14 +24702,17 @@ msgid ""
 "unchecked if unsure, use only if you know what you are doing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Só usar límites de altitude ao facer seguimento da "
+"montura. É necesario para algunhas monturas que superan o límite de maneira "
+"intencional, p. ex. para estacionar.</p><p><span style=\" font-weight:600;"
+"\">Aviso:</span> déixeo sen marcar se non o ten claro, úseo só se sabe o que "
+"fai.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
 #: ekos/mount/mount.ui:354
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Tracking Mode"
+#, kde-format
 msgid "Tracking only"
-msgstr "Modo de seguimento"
+msgstr "Só seguimento"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:526
@@ -37209,7 +37212,7 @@ msgstr "Activar os límites da altura da montura."
 #: kstars.kcfg:1736
 #, kde-format
 msgid "Restrict altitude limits to tracking mode only."
-msgstr ""
+msgstr "Restrinxir os límites de altitude ao modo de seguimento."
 
 #. i18n: ectx: label, entry (ConfirmBelowHorizon), group (Mount)
 #: kstars.kcfg:1740
