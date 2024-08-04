@@ -353,7 +353,7 @@ void SchedulerProcess::findNextJob()
     }
     else if (activeJob()->getCompletionCondition() == FINISH_AT)
     {
-        if (SchedulerModuleState::getLocalTime().secsTo(activeJob()->getCompletionTime()) <= 0)
+        if (SchedulerModuleState::getLocalTime().secsTo(activeJob()->getFinishAtTime()) <= 0)
         {
             emit jobEnded(activeJob()->getName(), activeJob()->getStopReason());
 
@@ -2997,7 +2997,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
         if (job->getFileStartupCondition() == START_ASAP)
             outstream << "<Condition>ASAP</Condition>" << Qt::endl;
         else if (job->getFileStartupCondition() == START_AT)
-            outstream << "<Condition value='" << job->getFileStartupTime().toString(Qt::ISODate) << "'>At</Condition>"
+            outstream << "<Condition value='" << job->getStartAtTime().toString(Qt::ISODate) << "'>At</Condition>"
                       << Qt::endl;
         outstream << "</StartupCondition>" << Qt::endl;
 
@@ -3024,7 +3024,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
         else if (job->getCompletionCondition() == FINISH_LOOP)
             outstream << "<Condition>Loop</Condition>" << Qt::endl;
         else if (job->getCompletionCondition() == FINISH_AT)
-            outstream << "<Condition value='" << job->getCompletionTime().toString(Qt::ISODate) << "'>At</Condition>"
+            outstream << "<Condition value='" << job->getFinishAtTime().toString(Qt::ISODate) << "'>At</Condition>"
                       << Qt::endl;
         outstream << "</CompletionCondition>" << Qt::endl;
 
