@@ -237,13 +237,13 @@ void Mount::processNumber(INDI::Property prop)
         if (! updateCoordinatesTimer.isActive())
             updateCoordinatesTimer.start();
 
+        // update current status
         auto currentStatus = status(nvp);
 
         if (nvp->getState() == IPS_BUSY && EqCoordPreviousState != IPS_BUSY)
         {
             if (currentStatus == MOUNT_SLEWING)
                 KSNotification::event(QLatin1String("SlewStarted"), i18n("Mount is slewing to target location"), KSNotification::Mount);
-            emit newStatus(currentStatus);
         }
         else if (EqCoordPreviousState == IPS_BUSY && nvp->getState() == IPS_OK && slewDefined())
         {
@@ -260,7 +260,6 @@ void Mount::processNumber(INDI::Property prop)
                 // mount reports when starting to track is exactly that one where the slew went to.
                 KSNotification::event(QLatin1String("SlewCompleted"), i18n("Mount arrived at target location"), KSNotification::Mount);
             }
-            emit newStatus(currentStatus);
         }
 
         EqCoordPreviousState = nvp->getState();
@@ -1474,19 +1473,21 @@ bool Mount::sendParkingOptionCommand(ParkOptionCommand command)
 
 Mount::Status Mount::status(INumberVectorProperty * nvp)
 {
+    Status newMountStatus = MOUNT_ERROR;
     switch (nvp->s)
     {
         case IPS_IDLE:
             if (inManualMotion)
-                return MOUNT_MOVING;
+                newMountStatus = MOUNT_MOVING;
             else if (isParked())
-                return MOUNT_PARKED;
+                newMountStatus = MOUNT_PARKED;
             else
-                return MOUNT_IDLE;
+                newMountStatus = MOUNT_IDLE;
+            break;
 
         case IPS_OK:
             if (inManualMotion)
-                return MOUNT_MOVING;
+                newMountStatus = MOUNT_MOVING;
             else if (inCustomParking)
             {
                 inCustomParking = false;
@@ -1495,29 +1496,35 @@ Mount::Status Mount::status(INumberVectorProperty * nvp)
                 // Write data to disk
                 sendParkingOptionCommand(PARK_OPTION_WRITE_DATA);
 
-                return MOUNT_TRACKING;
+                newMountStatus = MOUNT_TRACKING;
             }
             else
-                return MOUNT_TRACKING;
+                newMountStatus = MOUNT_TRACKING;
+            break;
 
         case IPS_BUSY:
-        {
             if (inManualMotion)
-                return MOUNT_MOVING;
-
-            auto parkSP = getSwitch("TELESCOPE_PARK");
-            if (parkSP && parkSP->getState() == IPS_BUSY)
-                return MOUNT_PARKING;
+                newMountStatus = MOUNT_MOVING;
             else
-                return MOUNT_SLEWING;
-        }
+            {
+                auto parkSP = getSwitch("TELESCOPE_PARK");
+                if (parkSP && parkSP->getState() == IPS_BUSY)
+                    newMountStatus = MOUNT_PARKING;
+                else
+                    newMountStatus = MOUNT_SLEWING;
+            }
+            break;
 
         case IPS_ALERT:
             inCustomParking = false;
-            return MOUNT_ERROR;
+            newMountStatus = MOUNT_ERROR;
     }
 
-    return MOUNT_ERROR;
+    if (previousMountStatus != newMountStatus)
+        emit newStatus(newMountStatus);
+
+    previousMountStatus = newMountStatus;
+    return newMountStatus;
 }
 
 const dms Mount::hourAngle() const

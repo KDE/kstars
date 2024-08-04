@@ -308,6 +308,7 @@ class Mount : public ConcreteDevice
         bool altLimitsTrackingOnly = false;
         ParkStatus m_ParkStatus = PARK_UNKNOWN;
         IPState EqCoordPreviousState {IPS_IDLE};
+        Status previousMountStatus {MOUNT_IDLE};
         QTimer centerLockTimer;
         QTimer updateCoordinatesTimer;
         SkyObject *currentObject = nullptr;
