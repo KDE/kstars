@@ -167,11 +167,11 @@ class SchedulerJob
 
         /** @brief Original time at which the job must start, as entered by the user. */
         /** @{ */
-        QDateTime getFileStartupTime() const
+        QDateTime getStartAtTime() const
         {
-            return fileStartupTime;
+            return startAtTime;
         }
-        void setFileStartupTime(const QDateTime &value);
+        void setStartAtTime(const QDateTime &value);
         /** @} */
 
         /** @brief Whether this job requires re-focus while running its capture sequence. */
@@ -290,15 +290,15 @@ class SchedulerJob
         void setStartupTime(const QDateTime &value);
         /** @} */
 
-        /** @brief Time after which the job is considered complete. */
+        /** @brief Time after which the job is considered to finish. */
         /** @{ */
-        QDateTime getCompletionTime() const
+        QDateTime getFinishAtTime() const
         {
-            return completionTime;
+            return finishAtTime;
         }
-        QDateTime getGreedyCompletionTime() const
+        QDateTime getStopTime() const
         {
-            return greedyCompletionTime;
+            return stopTime;
         }
         const QString &getStopReason() const
         {
@@ -308,9 +308,9 @@ class SchedulerJob
         {
             stopReason = reason;
         }
-        void setCompletionTime(const QDateTime &value);
+        void setFinishAtTime(const QDateTime &value);
         /** @} */
-        void setGreedyCompletionTime(const QDateTime &value);
+        void setStopTime(const QDateTime &value);
 
         /** @brief Estimation of the time the job will take to process. */
         /** @{ */
@@ -522,17 +522,17 @@ class SchedulerJob
         {
             return altitudeAtStartup;
         }
-        double getAltitudeAtCompletion() const
+        double getAltitudeAtStop() const
         {
-            return altitudeAtCompletion;
+            return altitudeAtStop;
         }
         bool isSettingAtStartup() const
         {
             return settingAtStartup;
         }
-        bool isSettingAtCompletion() const
+        bool isSettingAtStop() const
         {
-            return settingAtCompletion;
+            return settingAtStop;
         }
 
 private:
@@ -584,20 +584,24 @@ private:
         int sequenceCount { 0 };
         int completedCount { 0 };
 
-        QDateTime fileStartupTime;
+        // Defined startup time, used for the StartupCondition START_AT.
+        QDateTime startAtTime;
+        // Startup time calculated by the scheduler.
         QDateTime startupTime;
-        QDateTime completionTime;
-        // An alternative completionTime field used by the greedy scheduler algorithm.
-        QDateTime greedyCompletionTime;
+        // Completion constraint when the job must finish, used for the CompletionCondition FINISH_AT.
+        QDateTime finishAtTime;
+        // Next time when the scheduler will stop the job, either because its
+        // completed, its constraints aren't met or another job has higher priority.
+        QDateTime stopTime;
         // The reason this job is stopping/will-be stopped.
         QString stopReason;
 
         /* @internal Caches to optimize cell rendering. */
         /* @{ */
         double altitudeAtStartup { 0 };
-        double altitudeAtCompletion { 0 };
+        double altitudeAtStop { 0 };
         bool settingAtStartup { false };
-        bool settingAtCompletion { false };
+        bool settingAtStop { false };
         /* @} */
 
         QUrl sequenceFile;

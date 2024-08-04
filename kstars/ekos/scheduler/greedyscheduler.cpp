@@ -152,7 +152,7 @@ void GreedyScheduler::prepareJobsForEvaluation(
         {
             case FINISH_AT:
                 /* If planned finishing time has passed, the job is set to IDLE waiting for a next chance to run */
-                if (job->getCompletionTime().isValid() && job->getCompletionTime() < now)
+                if (job->getFinishAtTime().isValid() && job->getFinishAtTime() < now)
                 {
                     job->setState(SCHEDJOB_COMPLETE);
                     continue;
@@ -306,7 +306,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
 
     // Don't interrupt START_AT jobs unless they can no longer run, or they're interrupted by another START_AT.
     bool currentJobIsStartAt = (currentJob && currentJob->getFileStartupCondition() == START_AT &&
-                                currentJob->getFileStartupTime().isValid());
+                                currentJob->getStartAtTime().isValid());
     QDateTime nextStart;
     SchedulerJob * nextJob = nullptr;
     QString interruptStr;
@@ -388,7 +388,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
             SchedulerJob * const atJob = jobs[i];
             if (atJob == nextJob)
                 continue;
-            const QDateTime atTime = atJob->getFileStartupTime();
+            const QDateTime atTime = atJob->getStartAtTime();
             if (atJob->getFileStartupCondition() == START_AT && atTime.isValid())
             {
                 if (!allowJob(atJob, rescheduleAbortsImmediate, rescheduleAbortsQueue, rescheduleErrors))
@@ -544,7 +544,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         // Make sure the copied class pointers aren't affected!
         *newJob = *job;
         copiedJobs.append(newJob);
-        job->setGreedyCompletionTime(QDateTime());
+        job->setStopTime(QDateTime());
     }
 
     // The number of jobs we have that can be scheduled,
@@ -732,20 +732,20 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         {
             numStartups++;
             selectedJob->setStartupTime(jobStartTime);
-            selectedJob->setGreedyCompletionTime(jobStopTime);
+            selectedJob->setStopTime(jobStopTime);
             selectedJob->setStopReason(stopReason);
             selectedJob->setState(SCHEDJOB_SCHEDULED);
             scheduledJobs.append(selectedJob);
             TEST_PRINT(stderr, "%d  %s\n", __LINE__, QString("  Scheduled: %1 %2 -> %3 %4 work done %5s")
                        .arg(selectedJob->getName()).arg(selectedJob->getStartupTime().toString("MM/dd hh:mm"))
-                       .arg(selectedJob->getGreedyCompletionTime().toString("MM/dd hh:mm")).arg(selectedJob->getStopReason())
+                       .arg(selectedJob->getStopTime().toString("MM/dd hh:mm")).arg(selectedJob->getStopReason())
                        .arg(workDone[selectedJob]).toLatin1().data());
         }
         else
         {
             TEST_PRINT(stderr, "%d  %s\n", __LINE__, QString("  Added: %1 %2 -> %3 %4 work done %5s")
                        .arg(selectedJob->getName()).arg(selectedJob->getStartupTime().toString("MM/dd hh:mm"))
-                       .arg(selectedJob->getGreedyCompletionTime().toString("MM/dd hh:mm")).arg(selectedJob->getStopReason())
+                       .arg(selectedJob->getStopTime().toString("MM/dd hh:mm")).arg(selectedJob->getStopReason())
                        .arg(workDone[selectedJob]).toLatin1().data());
         }
 
@@ -808,7 +808,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
                 jobs[i]->setStartupTime(copiedJobs[i]->getStartupTime());
             }
             // Can't set the standard completionTime as it affects getEstimatedTime()
-            jobs[i]->setGreedyCompletionTime(copiedJobs[i]->getGreedyCompletionTime());
+            jobs[i]->setStopTime(copiedJobs[i]->getStopTime());
             jobs[i]->setStopReason(copiedJobs[i]->getStopReason());
         }
     }

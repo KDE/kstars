@@ -187,22 +187,22 @@ void TestSchedulerUnit::runSetupJob(Ekos::SchedulerJob &job, GeoLocation *geo, K
     switch (eCond)
     {
         case Ekos::FINISH_AT:
-            QVERIFY(eTime == job.getCompletionTime());
+            QVERIFY(eTime == job.getFinishAtTime());
             QVERIFY(0 == job.getRepeatsRequired());
             QVERIFY(0 == job.getRepeatsRemaining());
             break;
         case Ekos::FINISH_REPEAT:
-            QVERIFY(QDateTime() == job.getCompletionTime());
+            QVERIFY(QDateTime() == job.getFinishAtTime());
             QVERIFY(eReps == job.getRepeatsRequired());
             QVERIFY(eReps == job.getRepeatsRemaining());
             break;
         case Ekos::FINISH_SEQUENCE:
-            QVERIFY(QDateTime() == job.getCompletionTime());
+            QVERIFY(QDateTime() == job.getFinishAtTime());
             QVERIFY(1 == job.getRepeatsRequired());
             QVERIFY(1 == job.getRepeatsRemaining());
             break;
         case Ekos::FINISH_LOOP:
-            QVERIFY(QDateTime() == job.getCompletionTime());
+            QVERIFY(QDateTime() == job.getFinishAtTime());
             QVERIFY(0 == job.getRepeatsRequired());
             QVERIFY(0 == job.getRepeatsRemaining());
             break;
@@ -411,7 +411,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
     // Perhaps it should estimate the max of that and the FINISH_SEQUENCE time??
     job.setCompletionCondition(Ekos::FINISH_AT);
     KStarsDateTime stopTime(QDateTime(QDate(2021, 4, 17), QTime(1, 0, 0), QTimeZone(-7 * 3600)));
-    job.setCompletionTime(stopTime);
+    job.setFinishAtTime(stopTime);
     QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
     QVERIFY(midNight.secsTo(stopTime) == job.getEstimatedTime());
 
@@ -495,7 +495,7 @@ void TestSchedulerUnit::evaluateJobsTest()
     // The job should start now.
     QVERIFY(job.getStartupTime().secsTo(now) == 0);
     // It should finish when its exposures are done.
-    QVERIFY(compareTimes(job.getCompletionTime(),
+    QVERIFY(compareTimes(job.getFinishAtTime(),
                          now.addSecs(Ekos::SchedulerUtils::timeHeuristics(&job) +
                                      computeExposureDurations(details9Filters))));
 
@@ -546,10 +546,10 @@ void TestSchedulerUnit::evaluateJobsTest()
     QVERIFY(jobs[0] == &job1);
     QVERIFY(jobs[1] == &job2);
     QVERIFY(compareTimes(jobs[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
-    QVERIFY(compareTimes(jobs[0]->getCompletionTime(), midNight.addSecs(43 * 60), 300));
+    QVERIFY(compareTimes(jobs[0]->getFinishAtTime(), midNight.addSecs(43 * 60), 300));
 
     QVERIFY(compareTimes(jobs[1]->getStartupTime(), localTime8pm, 300));
-    QVERIFY(compareTimes(jobs[1]->getCompletionTime(), localTime8pm.addSecs(48 * 60), 300));
+    QVERIFY(compareTimes(jobs[1]->getFinishAtTime(), localTime8pm.addSecs(48 * 60), 300));
 
     state.calculateDawnDusk();
 
@@ -594,10 +594,10 @@ void TestSchedulerUnit::evaluateJobsTest()
     QVERIFY(jobs[0] == &job3);
     QVERIFY(jobs[1] == &job4);
     QVERIFY(compareTimes(jobs[0]->getStartupTime(), midNight.addSecs(-50 * 60), 300));
-    QVERIFY(compareTimes(jobs[0]->getCompletionTime(), midNight.addSecs(6 * 3600 + 39 * 60), 300));
+    QVERIFY(compareTimes(jobs[0]->getFinishAtTime(), midNight.addSecs(6 * 3600 + 39 * 60), 300));
 
     QVERIFY(compareTimes(jobs[1]->getStartupTime(), midNight.addSecs(18 * 3600 + 54 * 60), 300));
-    QVERIFY(compareTimes(jobs[1]->getCompletionTime(), midNight.addSecs(19 * 3600 + 44 * 60), 300));
+    QVERIFY(compareTimes(jobs[1]->getFinishAtTime(), midNight.addSecs(19 * 3600 + 44 * 60), 300));
 
     jobs.clear();
 }

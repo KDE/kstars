@@ -191,7 +191,7 @@ void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, const QStr
     }
     /* Store the original startup condition */
     job.setFileStartupCondition(job.getStartupCondition());
-    job.setFileStartupTime(job.getStartupTime());
+    job.setStartAtTime(job.getStartupTime());
 
     // #2 Constraints
 
@@ -206,7 +206,7 @@ void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, const QStr
 
     job.setCompletionCondition(completion);
     if (completion == FINISH_AT)
-        job.setCompletionTime(completionTime);
+        job.setFinishAtTime(completionTime);
     else if (completion == FINISH_REPEAT)
     {
         job.setRepeatsRequired(completionRepeats);
@@ -225,7 +225,7 @@ void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, const QStr
 
     /* Store the original startup condition */
     job.setFileStartupCondition(job.getStartupCondition());
-    job.setFileStartupTime(job.getStartupTime());
+    job.setStartAtTime(job.getStartupTime());
 
     /* Reset job state to evaluate the changes */
     job.reset();
@@ -629,7 +629,7 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob *schedJob, const QMap<QString,
              schedJob->getCompletionCondition() == FINISH_AT)
     {
         // FIXME: SchedulerJob is probably doing this already
-        qint64 const diff = schedJob->getStartupTime().secsTo(schedJob->getCompletionTime());
+        qint64 const diff = schedJob->getStartupTime().secsTo(schedJob->getFinishAtTime());
         schedJob->setEstimatedTime(diff);
 
         qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' has a startup time and fixed completion time, will run for %2.")
@@ -640,7 +640,7 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob *schedJob, const QMap<QString,
     else if (schedJob->getStartupCondition() != START_AT &&
              schedJob->getCompletionCondition() == FINISH_AT)
     {
-        qint64 const diff = SchedulerModuleState::getLocalTime().secsTo(schedJob->getCompletionTime());
+        qint64 const diff = SchedulerModuleState::getLocalTime().secsTo(schedJob->getFinishAtTime());
         schedJob->setEstimatedTime(diff);
         qCDebug(KSTARS_EKOS_SCHEDULER) <<
                                        QString("Job '%1' has no startup time but fixed completion time, will run for %2 if started now.")

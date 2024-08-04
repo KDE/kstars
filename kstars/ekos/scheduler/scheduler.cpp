@@ -1019,7 +1019,7 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
         case FINISH_AT:
             schedulerUntil->setChecked(true);
-            schedulerUntilValue->setDateTime(job->getCompletionTime());
+            schedulerUntilValue->setDateTime(job->getFinishAtTime());
             break;
     }
 
@@ -1397,40 +1397,34 @@ void Scheduler::updateJobTable(SchedulerJob *job)
 
     if (nullptr != completionCell)
     {
-        if (job->getGreedyCompletionTime().isValid())
+        /* Display stop time if it is valid */
+        if (job->getStopTime().isValid())
         {
-            completionCell->setText(QString("%1")
-                                    .arg(job->getGreedyCompletionTime().toString("hh:mm")));
+            completionCell->setText(QString("%1%2%L3° %4")
+                                    .arg(job->getAltitudeAtStop() < job->getMinAltitude() ? QString(QChar(0x26A0)) : "")
+                                    .arg(QChar(job->isSettingAtStop() ? 0x2193 : 0x2191))
+                                    .arg(job->getAltitudeAtStop(), 0, 'f', 1)
+                                    .arg(job->getStopTime().toString(startupTimeEdit->displayFormat())));
+
+            switch (job->getCompletionCondition())
+            {
+                case FINISH_AT:
+                    completionCell->setIcon(QIcon::fromTheme("chronometer"));
+                    break;
+
+                case FINISH_SEQUENCE:
+                case FINISH_REPEAT:
+                default:
+                    completionCell->setIcon(QIcon());
+                    break;
+            }
         }
-        else
-            /* Display completion time if it is valid and job is not looping */
-            if (FINISH_LOOP != job->getCompletionCondition() && job->getCompletionTime().isValid())
-            {
-                completionCell->setText(QString("%1%2%L3° %4")
-                                        .arg(job->getAltitudeAtCompletion() < job->getMinAltitude() ? QString(QChar(0x26A0)) : "")
-                                        .arg(QChar(job->isSettingAtCompletion() ? 0x2193 : 0x2191))
-                                        .arg(job->getAltitudeAtCompletion(), 0, 'f', 1)
-                                        .arg(job->getCompletionTime().toString(startupTimeEdit->displayFormat())));
-
-                switch (job->getCompletionCondition())
-                {
-                    case FINISH_AT:
-                        completionCell->setIcon(QIcon::fromTheme("chronometer"));
-                        break;
-
-                    case FINISH_SEQUENCE:
-                    case FINISH_REPEAT:
-                    default:
-                        completionCell->setIcon(QIcon());
-                        break;
-                }
-            }
         /* Else do not display any completion time */
-            else
-            {
-                completionCell->setText("-");
-                completionCell->setIcon(QIcon());
-            }
+        else
+        {
+            completionCell->setText("-");
+            completionCell->setIcon(QIcon());
+        }
 
         updateCellStyle(job, completionCell);
         if (nullptr != completionCell->tableWidget())
@@ -1952,7 +1946,9 @@ void Scheduler::checkTwilightWarning(bool enabled)
     if (enabled)
         return;
     else
-        process()->appendLogText(i18n("Turning off astronomical twilight check may cause the observatory to run during daylight. This can cause irreversible damage to your equipment!"));;
+        process()->appendLogText(
+            i18n("Turning off astronomical twilight check may cause the observatory to run during daylight. This can cause irreversible damage to your equipment!"));
+    ;
 }
 
 void Scheduler::updateProfiles()

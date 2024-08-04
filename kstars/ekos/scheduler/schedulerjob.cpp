@@ -99,7 +99,7 @@ QString SchedulerJob::jobStartupConditionString(StartupCondition condition) cons
         case START_ASAP:
             return "ASAP";
         case START_AT:
-            return QString("AT %1").arg(getFileStartupTime().toString("MM/dd hh:mm"));
+            return QString("AT %1").arg(getStartAtTime().toString("MM/dd hh:mm"));
     }
     return QString("????");
 }
@@ -115,7 +115,7 @@ QString SchedulerJob::jobCompletionConditionString(CompletionCondition condition
         case FINISH_LOOP:
             return "LOOP";
         case FINISH_AT:
-            return QString("AT %1").arg(getCompletionTime().toString("MM/dd hh:mm"));
+            return QString("AT %1").arg(getFinishAtTime().toString("MM/dd hh:mm"));
     }
     return QString("????");
 }
@@ -233,42 +233,42 @@ void SchedulerJob::setEnforceWeather(bool value)
     enforceWeather = value;
 }
 
-void SchedulerJob::setGreedyCompletionTime(const QDateTime &value)
+void SchedulerJob::setStopTime(const QDateTime &value)
 {
-    greedyCompletionTime = value;
+    stopTime = value;
+    // update altitude and setting at stop time
+    if (value.isValid())
+        altitudeAtStop = SchedulerUtils::findAltitude(targetCoords, stopTime, &settingAtStop);
 }
 
-void SchedulerJob::setCompletionTime(const QDateTime &value)
+void SchedulerJob::setFinishAtTime(const QDateTime &value)
 {
-    setGreedyCompletionTime(QDateTime());
+    setStopTime(QDateTime());
 
     /* If completion time is valid, automatically switch condition to FINISH_AT */
     if (value.isValid())
     {
         setCompletionCondition(FINISH_AT);
-        completionTime = value;
-        altitudeAtCompletion = SchedulerUtils::findAltitude(targetCoords, completionTime, &settingAtCompletion);
+        finishAtTime = value;
         setEstimatedTime(-1);
     }
     /* If completion time is invalid, and job is looping, keep completion time undefined */
     else if (FINISH_LOOP == completionCondition)
     {
-        completionTime = QDateTime();
-        altitudeAtCompletion = SchedulerUtils::findAltitude(targetCoords, completionTime, &settingAtCompletion);
+        finishAtTime = QDateTime();
         setEstimatedTime(-1);
     }
     /* If completion time is invalid, deduce completion from startup and duration */
     else if (startupTime.isValid())
     {
-        completionTime = startupTime.addSecs(estimatedTime);
-        altitudeAtCompletion = SchedulerUtils::findAltitude(targetCoords, completionTime, &settingAtCompletion);
+        finishAtTime = startupTime.addSecs(estimatedTime);
     }
     /* Else just refresh estimated time - which update job cells */
     else setEstimatedTime(estimatedTime);
 
 
     /* Invariants */
-    Q_ASSERT_X(completionTime.isValid() ?
+    Q_ASSERT_X(finishAtTime.isValid() ?
                (FINISH_AT == completionCondition || FINISH_REPEAT == completionCondition || FINISH_SEQUENCE == completionCondition) :
                FINISH_LOOP == completionCondition,
                __FUNCTION__, "Valid completion time implies job is FINISH_AT/REPEAT/SEQUENCE, else job is FINISH_LOOP.");
@@ -282,7 +282,7 @@ void SchedulerJob::setCompletionCondition(const CompletionCondition &value)
     switch (completionCondition)
     {
         case FINISH_LOOP:
-            setCompletionTime(QDateTime());
+            setFinishAtTime(QDateTime());
         /* Fall through */
         case FINISH_AT:
             if (0 < getRepeatsRequired())
@@ -325,7 +325,7 @@ void SchedulerJob::setState(const SchedulerJobStatus &value)
     if (SCHEDJOB_INVALID == value || SCHEDJOB_IDLE == value)
     {
         setStartupCondition(fileStartupCondition);
-        setStartupTime(fileStartupTime);
+        setStartupTime(startAtTime);
         setEstimatedTime(-1);
     }
 
@@ -360,9 +360,9 @@ void SchedulerJob::setFileStartupCondition(const StartupCondition &value)
     fileStartupCondition = value;
 }
 
-void SchedulerJob::setFileStartupTime(const QDateTime &value)
+void SchedulerJob::setStartAtTime(const QDateTime &value)
 {
-    fileStartupTime = value;
+    startAtTime = value;
 }
 
 void SchedulerJob::setEstimatedTime(const int64_t &value)
@@ -378,14 +378,13 @@ void SchedulerJob::setEstimatedTime(const int64_t &value)
     /* If startup and completion times are fixed, estimated time cannot change - disregard the argument */
     if (START_ASAP != fileStartupCondition && FINISH_AT == completionCondition)
     {
-        estimatedTime = startupTime.secsTo(completionTime);
+        estimatedTime = startupTime.secsTo(finishAtTime);
     }
     /* If completion time isn't fixed, estimated time adjusts completion time */
     else if (FINISH_AT != completionCondition && FINISH_LOOP != completionCondition)
     {
         estimatedTime = value;
-        completionTime = startupTime.addSecs(value);
-        altitudeAtCompletion = SchedulerUtils::findAltitude(targetCoords, completionTime, &settingAtCompletion);
+        finishAtTime = startupTime.addSecs(value);
     }
     /* Else estimated time is simply stored as is - covers FINISH_LOOP from setCompletionTime */
     else estimatedTime = value;
@@ -471,12 +470,12 @@ void SchedulerJob::reset()
     lastErrorTime = QDateTime();
     estimatedTime = -1;
     startupCondition = fileStartupCondition;
-    startupTime = fileStartupCondition == START_AT ? fileStartupTime : QDateTime();
+    startupTime = fileStartupCondition == START_AT ? startAtTime : QDateTime();
 
     /* Refresh dawn and dusk for startup date */
     SchedulerModuleState::calculateDawnDusk(startupTime, nextDawn, nextDusk);
 
-    greedyCompletionTime = QDateTime();
+    stopTime = QDateTime();
     stopReason.clear();
 
     /* No change to culmination offset */
@@ -819,17 +818,17 @@ QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int incr
 
     if (!runningJob && START_AT == getFileStartupCondition())
     {
-        int secondsFromNow = ltWhen.secsTo(getFileStartupTime());
+        int secondsFromNow = ltWhen.secsTo(getStartAtTime());
         if (secondsFromNow < -500)
             // We missed it.
             return QDateTime();
-        ltWhen = secondsFromNow > 0 ? getFileStartupTime() : ltWhen;
+        ltWhen = secondsFromNow > 0 ? getStartAtTime() : ltWhen;
     }
 
     // Can't start if we're past the finish time.
     if (getCompletionCondition() == FINISH_AT)
     {
-        const QDateTime &t = getCompletionTime();
+        const QDateTime &t = getFinishAtTime();
         if (t.isValid() && t < ltWhen)
             return QDateTime(); // return an invalid time.
     }
@@ -864,7 +863,7 @@ QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QS
 
     if (START_AT == getFileStartupCondition())
     {
-        if (getFileStartupTime().secsTo(ltStart) < -120)
+        if (getStartAtTime().secsTo(ltStart) < -120)
         {
             // if the file startup time is in the future, then end now.
             // This case probably wouldn't happen in the running code.
@@ -877,17 +876,17 @@ QDateTime SchedulerJob::getNextEndTime(const QDateTime &start, int increment, QS
     // Can't start if we're past the finish time.
     if (getCompletionCondition() == FINISH_AT)
     {
-        const QDateTime &t = getCompletionTime();
+        const QDateTime &t = getFinishAtTime();
         if (t.isValid() && t < ltStart)
         {
             if (reason) *reason = "end-at time";
             return QDateTime(); // return an invalid time.
         }
         auto result = calculateNextTime(ltStart, false, increment, reason, false, until);
-        if (!result.isValid() || result.secsTo(getCompletionTime()) < 0)
+        if (!result.isValid() || result.secsTo(getFinishAtTime()) < 0)
         {
             if (reason) *reason = "end-at time";
-            return getCompletionTime();
+            return getFinishAtTime();
         }
         else return result;
     }
@@ -1004,7 +1003,7 @@ QJsonObject SchedulerJob::toJson() const
         {"repeatsRemaining", repeatsRemaining},
         {"inSequenceFocus", inSequenceFocus},
         {"startupTime", startupTime.isValid() ? startupTime.toString() : "--"},
-        {"completionTime", completionTime.isValid() ? completionTime.toString() : "--"},
+        {"completionTime", finishAtTime.isValid() ? finishAtTime.toString() : "--"},
         {"altitude", alt},
         {"sequence", sequenceFile.toString() },
     };
