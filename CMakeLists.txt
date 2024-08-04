@@ -9,6 +9,7 @@ PROJECT(kstars
 set (KStars_VERSION_MAJOR ${kstars_VERSION_MAJOR})
 set (KStars_VERSION_MINOR ${kstars_VERSION_MINOR})
 set (KStars_VERSION_REVISION ${kstars_VERSION_PATCH})
+
 set (KSTARS_BUILD_RELEASE "Stable")
 set (CMAKE_CXX_STANDARD 17)
 
