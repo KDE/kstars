@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-03 01:48+0000\n"
+"POT-Creation-Date: 2024-08-05 01:44+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -418,7 +418,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1174
-#: ekos/scheduler/scheduler.cpp:1812
+#: ekos/scheduler/scheduler.cpp:1806
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -1052,7 +1052,7 @@ msgstr "Xplanet-Sonnensystemsimulator: %1"
 #: data/qml/whatisinteresting/wiview.qml:144
 #: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:794 indi/indimount.cpp:809 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:793 indi/indimount.cpp:808 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -1509,7 +1509,7 @@ msgstr "Monate"
 msgid "days"
 msgstr "Tage"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:963
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:962
 #, kde-format
 msgid "hours"
 msgstr "Stunden"
@@ -1517,7 +1517,7 @@ msgstr "Stunden"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:961
+#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:960
 #, kde-format
 msgid "minutes"
 msgstr "Minuten"
@@ -1538,7 +1538,7 @@ msgstr "Minuten"
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
 #: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:625 ekos/opsekos.ui:665
-#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:959
+#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:958
 #, kde-format
 msgid "seconds"
 msgstr "Sekunden"
@@ -2109,8 +2109,8 @@ msgstr "Status:"
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1325
-#: ekos/scheduler/scheduler.cpp:1975 ekos/scheduler/scheduler.cpp:2212
-#: ekos/scheduler/scheduler.cpp:2220 ekos/scheduler/scheduler.cpp:2230
+#: ekos/scheduler/scheduler.cpp:1971 ekos/scheduler/scheduler.cpp:2208
+#: ekos/scheduler/scheduler.cpp:2216 ekos/scheduler/scheduler.cpp:2226
 #: ekos/scheduler/scheduler.ui:1279 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2453,7 +2453,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1333
-#: ekos/scheduler/scheduler.cpp:1990 fitsviewer/fitscommon.h:16
+#: ekos/scheduler/scheduler.cpp:1986 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2704,8 +2704,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3949
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/camera.cpp:1128 ekos/capture/camera.cpp:1183
-#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1712
-#: ekos/scheduler/scheduler.cpp:1822 fitsviewer/fitstab.cpp:530
+#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1706
+#: ekos/scheduler/scheduler.cpp:1816 fitsviewer/fitstab.cpp:530
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -6780,7 +6780,7 @@ msgstr "Lösungspunkte exportieren"
 #: ekos/align/align.cpp:3948 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1127
 #: ekos/capture/camera.cpp:1182 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:1711 ekos/scheduler/scheduler.cpp:1821
+#: ekos/scheduler/scheduler.cpp:1705 ekos/scheduler/scheduler.cpp:1815
 #: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10497,7 +10497,7 @@ msgid "Parking"
 msgstr "Peking"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:1976 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:1972 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "Schwenken"
@@ -10646,7 +10646,7 @@ msgid "Disconnected"
 msgstr "Getrennt"
 
 #: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1989
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:1985
 #, kde-format
 msgid "Capturing"
 msgstr "Aufnahme läuft"
@@ -10690,7 +10690,7 @@ msgstr "Kalibriert"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:1987
+#: ekos/scheduler/scheduler.cpp:1983
 #, kde-format
 msgid "Guiding"
 msgstr "Nachführung"
@@ -17646,7 +17646,7 @@ msgstr "Warten"
 msgid "Image Received"
 msgstr "Bild erhalten"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1979
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:1975
 #, kde-format
 msgid "Focusing"
 msgstr "Fokussierung"
@@ -17680,7 +17680,7 @@ msgstr "Temperatur wird eingestellt"
 msgid "Setting Rotator"
 msgstr "Stern auswählen"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1982
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:1978
 #, kde-format
 msgid "Aligning"
 msgstr "Ausrichtung"
@@ -25630,7 +25630,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2137
+#: ekos/scheduler/scheduler.cpp:2133
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Stop Scheduler"
@@ -28073,7 +28073,7 @@ msgid ""
 "before completion.\n"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:156 ekos/scheduler/scheduler.cpp:1462
+#: ekos/scheduler/scheduler.cpp:156 ekos/scheduler/scheduler.cpp:1456
 #, kde-format
 msgid ""
 "Count of captures stored for the job, based on its sequence job.\n"
@@ -28116,7 +28116,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:342 ekos/scheduler/scheduler.cpp:1938
+#: ekos/scheduler/scheduler.cpp:342 ekos/scheduler/scheduler.cpp:1932
 #: ekos/scheduler/schedulerprocess.cpp:3265
 #, kde-format
 msgid ""
@@ -28241,140 +28241,140 @@ msgstr "Zeitplan"
 msgid "Invalid"
 msgstr "Ungültig"
 
-#: ekos/scheduler/scheduler.cpp:1611
+#: ekos/scheduler/scheduler.cpp:1605
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler pause planned..."
 msgstr "Die Datei wurde nach %1 gespeichert"
 
-#: ekos/scheduler/scheduler.cpp:1615
+#: ekos/scheduler/scheduler.cpp:1609
 #, fuzzy, kde-format
 #| msgid "Scheduler"
 msgid "Resume Scheduler"
 msgstr "Planer"
 
-#: ekos/scheduler/scheduler.cpp:1630
+#: ekos/scheduler/scheduler.cpp:1624
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1660
+#: ekos/scheduler/scheduler.cpp:1654
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler aborted."
 msgstr "Die Datei wurde nach %1 gespeichert"
 
-#: ekos/scheduler/scheduler.cpp:1669
+#: ekos/scheduler/scheduler.cpp:1663
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1677 ekos/scheduler/scheduler.ui:1151
+#: ekos/scheduler/scheduler.cpp:1671 ekos/scheduler/scheduler.ui:1151
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Start Scheduler"
 msgstr "Bildfolge &starten"
 
-#: ekos/scheduler/scheduler.cpp:1700
+#: ekos/scheduler/scheduler.cpp:1694
 #, fuzzy, kde-format
 #| msgid "Open Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Ekos-Warteschlange öffnen"
 
-#: ekos/scheduler/scheduler.cpp:1793
+#: ekos/scheduler/scheduler.cpp:1787
 #, fuzzy, kde-format
 #| msgid "Save Ekos Sequence Queue"
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Ekos-Warteschlange speichern"
 
-#: ekos/scheduler/scheduler.cpp:1812
+#: ekos/scheduler/scheduler.cpp:1806
 #, fuzzy, kde-format
 #| msgid "Failed to save sequence queue"
 msgid "Failed to save scheduler list"
 msgstr "Das Speichern der Warteschlange ist fehlgeschlagen."
 
-#: ekos/scheduler/scheduler.cpp:1955
+#: ekos/scheduler/scheduler.cpp:1950
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1977
+#: ekos/scheduler/scheduler.cpp:1973
 #, kde-format
 msgid "Slew complete"
 msgstr "Schwenken beendet"
 
-#: ekos/scheduler/scheduler.cpp:1981
+#: ekos/scheduler/scheduler.cpp:1977
 #, kde-format
 msgid "Focus complete"
 msgstr "Fokussierung ist abgeschlossen"
 
-#: ekos/scheduler/scheduler.cpp:1983
+#: ekos/scheduler/scheduler.cpp:1979
 #, kde-format
 msgid "Align complete"
 msgstr "Ausrichtung beendet"
 
-#: ekos/scheduler/scheduler.cpp:1984
+#: ekos/scheduler/scheduler.cpp:1980
 #, fuzzy, kde-format
 #| msgid "Opposition"
 msgid "Repositioning"
 msgstr "Opposition"
 
-#: ekos/scheduler/scheduler.cpp:1985
+#: ekos/scheduler/scheduler.cpp:1981
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Repositioning complete"
 msgstr "Kalibrierung abgeschlossen."
 
-#: ekos/scheduler/scheduler.cpp:1988
+#: ekos/scheduler/scheduler.cpp:1984
 #, fuzzy, kde-format
 #| msgid "Align complete"
 msgid "Guiding complete"
 msgstr "Ausrichtung beendet"
 
-#: ekos/scheduler/scheduler.cpp:2067
+#: ekos/scheduler/scheduler.cpp:2063
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Die Wetterbedingungen sind in Ordnung."
 
-#: ekos/scheduler/scheduler.cpp:2071
+#: ekos/scheduler/scheduler.cpp:2067
 #, fuzzy, kde-format
 #| msgid "Weather conditions are OK."
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Die Wetterbedingungen sind in Ordnung."
 
-#: ekos/scheduler/scheduler.cpp:2075
+#: ekos/scheduler/scheduler.cpp:2071
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2093
+#: ekos/scheduler/scheduler.cpp:2089
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2102
+#: ekos/scheduler/scheduler.cpp:2098
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2125
+#: ekos/scheduler/scheduler.cpp:2121
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler is in sleep mode"
 msgstr "Die Datei wurde nach %1 gespeichert"
 
-#: ekos/scheduler/scheduler.cpp:2188
+#: ekos/scheduler/scheduler.cpp:2184
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Manual startup procedure completed successfully."
 msgstr "Der Teleskop-Assistent wurde erfolgreich abgeschlossen."
 
-#: ekos/scheduler/scheduler.cpp:2192
+#: ekos/scheduler/scheduler.cpp:2188
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""
@@ -29046,13 +29046,13 @@ msgstr ""
 msgid "Ekos job failed (%1)"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:939
+#: ekos/scheduler/schedulerjob.cpp:938
 #, fuzzy, kde-format
 #| msgid "Dark Frame"
 msgid "DarkFlat"
 msgstr "Dunkelbild"
 
-#: ekos/scheduler/schedulerjob.cpp:970
+#: ekos/scheduler/schedulerjob.cpp:969
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Images"
@@ -32596,7 +32596,7 @@ msgstr "Es ist nicht genug Arbeitsspeicher für die Datei %1 vorhanden"
 msgid "INDI Server Message"
 msgstr "INDI-Servermeldung"
 
-#: indi/indimount.cpp:245
+#: indi/indimount.cpp:246
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is slewing to target location"
@@ -32608,66 +32608,66 @@ msgstr "Bewegung zurück zur ursprünglichen Position ..."
 msgid "Mount arrived at target location"
 msgstr "Datum, Zeit und Standort: "
 
-#: indi/indimount.cpp:335
+#: indi/indimount.cpp:334
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Mount motion was aborted"
 msgstr "Kalibrierung abgeschlossen."
 
-#: indi/indimount.cpp:456
+#: indi/indimount.cpp:455
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount parking failed"
 msgstr "Mount Ekar"
 
-#: indi/indimount.cpp:462
+#: indi/indimount.cpp:461
 #, fuzzy, kde-format
 #| msgid "Suspend guiding while autofocus in progress."
 msgid "Mount parking is in progress"
 msgstr "Nachführung während der automatische Fokussierung aussetzen."
 
-#: indi/indimount.cpp:470
+#: indi/indimount.cpp:469
 #, fuzzy, kde-format
 #| msgid "Suspend guiding while autofocus in progress."
 msgid "Mount unparking is in progress"
 msgstr "Nachführung während der automatische Fokussierung aussetzen."
 
-#: indi/indimount.cpp:477
+#: indi/indimount.cpp:476
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount parked"
 msgstr "Mount Ekar"
 
-#: indi/indimount.cpp:496
+#: indi/indimount.cpp:495
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount unparked"
 msgstr "Mount Ekar"
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:822
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
 
-#: indi/indimount.cpp:824
+#: indi/indimount.cpp:823
 #, fuzzy, kde-format
 #| msgid "Warning"
 msgid "Sun Warning"
 msgstr "Warnung"
 
-#: indi/indimount.cpp:842
+#: indi/indimount.cpp:841
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr ""
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:875
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
@@ -32675,7 +32675,7 @@ msgstr ""
 "Die angeforderte Höhe liegt unterhalb des Horizonts. Möchten Sie wirklich "
 "fortfahren?"
 
-#: indi/indimount.cpp:877
+#: indi/indimount.cpp:876
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Teleskop-Bewegung"
