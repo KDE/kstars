@@ -47,7 +47,7 @@
 
 DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     setupUi(this);
@@ -477,7 +477,7 @@ bool INDIDriver::readXMLDrivers()
     QString driverName;
 
     QString driversDir = Options::indiDriversDir();
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::indiDriversAreInternal())
         QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
 #endif
