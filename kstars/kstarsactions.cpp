@@ -1477,14 +1477,13 @@ void KStars::slotPrint()
                  "color scheme, which uses a white background. Would you like to "
                  "temporarily switch to the Star Chart color scheme for printing?");
 
-        int answer = KMessageBox::warningTwoActionsCancel(
+        int answer = KMessageBox::warningContinueCancel(
                          nullptr, message, i18n("Switch to Star Chart Colors?"),
-                         KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")),
-                         KStandardGuiItem::cancel(), "askAgainPrintColors");
+                         KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")), "askAgainPrintColors");
 
         if (answer == KMessageBox::Cancel)
             return;
-        if (answer == KMessageBox::PrimaryAction)
+        if (answer == KMessageBox::Continue)
             switchColors = true;
     }
 
