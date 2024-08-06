@@ -1496,6 +1496,8 @@ void FocusAdvisor::addResultsTable(QString section, int run, int startPos, int s
     QTableWidgetItem *itemText = new QTableWidgetItem(text);
     focusAdvTable->setItem(0, RESULTS_TEXT, itemText);
 
+    emit newMessage(text);
+
     if (focusAdvTable->rowCount() == 1)
     {
         focusAdvTable->show();
