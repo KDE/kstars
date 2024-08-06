@@ -2125,7 +2125,17 @@ void Manager::initFocus()
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
 
-    connect(focusModule(), &Ekos::Focus::setTitle, focusManager->hfrVPlot, &FocusHFRVPlot::setTitle);
+    // Update title
+    connect(focusModule(), &Ekos::Focus::setTitle, [this](const QString & title, bool plot)
+    {
+        focusManager->hfrVPlot->setTitle(title, plot);
+        QJsonObject cStatus =
+        {
+            {"title", title}
+        };
+
+        ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
+    });
     connect(focusModule(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
     connect(focusModule(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
     connect(focusModule(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
@@ -2168,8 +2178,7 @@ void Manager::updateCurrentHFR(double newHFR, int position, bool inAutofocus)
     QJsonObject cStatus =
     {
         {"hfr", newHFR},
-        {"pos", position},
-        {"title", focusManager->hfrVPlot->title()}
+        {"pos", position}
     };
 
     ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
