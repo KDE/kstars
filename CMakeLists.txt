@@ -1,10 +1,16 @@
 cmake_minimum_required (VERSION 3.16.0 FATAL_ERROR)
 
-PROJECT(kstars CXX C)
-set (KStars_VERSION_MAJOR 3)
-set (KStars_VERSION_MINOR 7)
-set (KStars_VERSION_REVISION 2)
+PROJECT(kstars
+        VERSION 3.7.2
+        DESCRIPTION "A Desktop Planetarium for KDE"
+        HOMEPAGE_URL "https://edu.kde.org/kstars"
+        LANGUAGES CXX C)
+
+set (KStars_VERSION_MAJOR ${kstars_VERSION_MAJOR})
+set (KStars_VERSION_MINOR ${kstars_VERSION_MINOR})
+set (KStars_VERSION_REVISION ${kstars_VERSION_PATCH})
 set (KSTARS_BUILD_RELEASE "Stable")
+
 set (CMAKE_CXX_STANDARD 17)
 
 # Option to choose between Qt5 and Qt6
