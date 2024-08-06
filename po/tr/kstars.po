@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-05 01:44+0000\n"
-"PO-Revision-Date: 2024-08-04 00:58+0300\n"
+"PO-Revision-Date: 2024-08-05 22:37+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31894,6 +31894,8 @@ msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
+"Uyarı: Uygun koruma olmadan güneşe doğrudan bakmak düzeltilemez göz "
+"sorunlarına neden olabilir!"
 
 #: indi/indimount.cpp:823
 #, kde-format
@@ -31946,13 +31948,12 @@ msgstr "Gönder"
 #: indi/indistd.cpp:408
 #, kde-format
 msgid "GPS Location"
-msgstr ""
+msgstr "GPS Konumu"
 
 #: indi/indistd.cpp:410
-#, fuzzy, kde-format
-#| msgid "Set Location..."
+#, kde-format
 msgid "Mount Location"
-msgstr "Konumu Ayarla..."
+msgstr "Kaide Konumu"
 
 #: indi/indistd.cpp:655
 #, kde-format
@@ -31960,22 +31961,19 @@ msgid "Data file saved to %1"
 msgstr "Veri dosyası %1 konumuna kaydedildi"
 
 #: indi/indiwebmanager.cpp:239
-#, fuzzy, kde-format
-#| msgid "Name of the remote INDI focuser device."
+#, kde-format
 msgid "Driver %1 failed to start on the remote INDI server."
-msgstr "Uzak INDI uzaklayıcı aygıtının adı."
+msgstr "Uzak INDI sunucusunda %1 sürücüsü başlatılamadı."
 
 #: indi/opsindi.cpp:41
-#, fuzzy, kde-format
-#| msgid "Options passed to the astrometry solver."
+#, kde-format
 msgid "Internal or external INDI server?"
-msgstr "Astrometry çözücüsüne geçirilen seçenekler."
+msgstr "İç INDI sunucusu mu yoksa dış INDI sunucusu mu?"
 
 #: indi/opsindi.cpp:43
-#, fuzzy, kde-format
-#| msgid "Options passed to the astrometry solver."
+#, kde-format
 msgid "Internal or external INDI drivers?"
-msgstr "Astrometry çözücüsüne geçirilen seçenekler."
+msgstr "İç INDI sürücüleri mi yoksa dış INDI sürücüleri mi?"
 
 #: indi/opsindi.cpp:83 indi/opsindi.cpp:103
 #, kde-format
@@ -31985,94 +31983,84 @@ msgstr ""
 "gerekiyor."
 
 #: indi/opsindi.cpp:89
-#, fuzzy, kde-format
-#| msgid "FITS Default Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "FITS Default Directory"
-msgstr "FITS Öntanımlı Dizin"
+msgstr "FITS Öntanımlı Dizini"
 
 #: indi/opsindi.cpp:97
-#, fuzzy, kde-format
-#| msgid "INDI Drivers Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "INDI Drivers Directory"
 msgstr "INDI Sürücüleri Dizini"
 
 #: indi/opsindi.cpp:109
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Settings"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select INDIHub Agent"
-msgstr "Ayarlar"
+msgstr "INDIHub Aracısını Seç"
 
 #: indi/opsindi.cpp:134
 #, kde-format
 msgid "%1 is not a valid INDI server binary."
-msgstr ""
+msgstr "%1 geçerli bir INDI sunucusu ikilisi değil."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_indiServerIsInternal)
 #: indi/opsindi.ui:55
 #, kde-format
 msgid "INDI Server binary is internal to the application bundle"
-msgstr ""
+msgstr "INDI sunucusu ikilisi, uygulama demetinin içinde kullanılabilir"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_2)
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_3)
 #: indi/opsindi.ui:65 indi/opsindi.ui:102
 #, kde-format
 msgid "Default INDI video port"
-msgstr "Öntanımlı INDI video portu"
+msgstr "Öntanımlı INDI video kapısı"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_2)
 #: indi/opsindi.ui:68
-#, fuzzy, kde-format
-#| msgid "INDI Server:"
+#, kde-format
 msgid "INDI server:"
-msgstr "INDI Sunucusu:"
+msgstr "INDI sunucusu:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiServer)
 #: indi/opsindi.ui:75
-#, fuzzy, kde-format
-#| msgid "PATH to indiserver binary"
+#, kde-format
 msgid "Path to the indiserver binary"
-msgstr "Indi sunucu ikilileri YOLU"
+msgstr "INDI sunucusu ikilisine olan yol"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_indiDriversAreInternal)
 #: indi/opsindi.ui:92
 #, kde-format
 msgid "INDI Drivers are internal to the application bundle"
-msgstr ""
+msgstr "INDI sürücüleri, uygulama demetinin içinde kullanılabilir"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_3)
 #: indi/opsindi.ui:105
-#, fuzzy, kde-format
-#| msgid "INDI Drivers Directory:"
+#, kde-format
 msgid "INDI drivers XML directory:"
-msgstr "INDI Sürücü Dizini:"
+msgstr "INDI sürücüleri XML dizini:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiDriversDir)
 #: indi/opsindi.ui:112
-#, fuzzy, kde-format
-#| msgid "INDI Drivers Directory"
+#, kde-format
 msgid "Path to the INDI drivers XML directory"
-msgstr "INDI Sürücüleri Dizini"
+msgstr "INDI sürücülerinin XML dizinine olan yol"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/opsindi.ui:154
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Settings"
+#, kde-format
 msgid "INDIHub agent:"
-msgstr "Ayarlar"
+msgstr "INDIHub aracısı:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, fitsLabel)
 #: indi/opsindi.ui:193
 #, kde-format
 msgid "Specify where new FITS images are saved once captured and downloaded"
 msgstr ""
-"Yakalandıktan ve yüklendikten sonra FITS resimlerinin nereye kaydedileceğini "
-"belirtin."
+"Yakalandıktan ve indirildikten sonra FITS görsellerinin nereye "
+"kaydedileceğini belirtin."
 
 #. i18n: ectx: property (text), widget (QLabel, fitsLabel)
 #: indi/opsindi.ui:196
@@ -32084,13 +32072,13 @@ msgstr "Öntanımlı FITS dizini:"
 #: indi/opsindi.ui:240 kstarslite/qml/main.qml:162
 #, kde-format, kde-kuit-format
 msgid "Sky Map"
-msgstr ""
+msgstr "Gökyüzü Haritası"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:258
 #, kde-format
 msgid "External Sky Map (experimental)"
-msgstr ""
+msgstr "Dış gökyüzü haritası (deneysel)"
 
 #. i18n: ectx: property (whatsThis), widget (QGroupBox, indiServerGroup)
 #: indi/opsindi.ui:281
@@ -32099,30 +32087,26 @@ msgid ""
 "Specify range of ports that INDI Server will bind to when starting new "
 "drivers"
 msgstr ""
-"Yeni sürücüler başlatılırken INDI Sunucusunun bağlanacağı bağlantı noktaları "
-"dizisi belirleyin."
+"INDI sunucusunun yeni sürücüler başlatılırken bağlanacağı kapı erimini "
+"belirtin."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: indi/opsindi.ui:307
-#, fuzzy, kde-format
-#| msgid "INDI Server Start Port"
+#, kde-format
 msgid "Transfer buffer (MB):"
-msgstr "INDI Sunucusu Başlangıç Portu"
+msgstr "Aktarım arabelleği (MB):"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/opsindi.ui:314
-#, fuzzy, kde-format
-#| msgctxt "City in Michigan USA"
-#| msgid "Port Huron"
+#, kde-format
 msgid "Port from:"
-msgstr "Port Huron"
+msgstr "Şu kapıdan:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/opsindi.ui:321
-#, fuzzy, kde-format
-#| msgid "Port:"
+#, kde-format
 msgid "Port to:"
-msgstr "Port:"
+msgstr "Şu kapıya:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showTargetCrosshair)
 #: indi/opsindi.ui:412
@@ -32151,14 +32135,13 @@ msgstr "&Teleskop artı işareti"
 #: indi/opsindi.ui:450
 #, kde-format
 msgid "Open INDI window on EKOS startup"
-msgstr ""
+msgstr "EKOS başlangıcında INDI penceresini aç"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIwindowInitially)
 #: indi/opsindi.ui:453
-#, fuzzy, kde-format
-#| msgid "INDI Video port"
+#, kde-format
 msgid "INDI window on startup"
-msgstr "INDI Video portu"
+msgstr "Başlangıçta INDI penceresini aç"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_messageNotificationINDI)
 #. i18n: ectx: whatsthis, entry (messageNotificationINDI), group (indi)
@@ -32166,6 +32149,8 @@ msgstr "INDI Video portu"
 #, kde-format
 msgid "Show INDI messages as desktop notifications instead of dialogs."
 msgstr ""
+"INDI iletilerini iletişim kutularında değil de masaüstü bildirimlerinde "
+"gösterin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_messageNotificationINDI)
 #: indi/opsindi.ui:473
@@ -32175,10 +32160,9 @@ msgstr "İleti bildirimleri"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: indi/opsindi.ui:496
-#, fuzzy, kde-format
-#| msgid "Show &long names"
+#, kde-format
 msgid "Show INDI Logs..."
-msgstr "Uzun isi&mleri göster"
+msgstr "INDI Günlüklerini Göster..."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, recordingOptions)
 #: indi/recordingoptions.ui:14
@@ -32189,23 +32173,21 @@ msgstr "Kayıt Seçenekleri"
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
 #: indi/recordingoptions.ui:37 indi/recordingoptions.ui:47
-#, fuzzy, kde-format
-#| msgid "Start Camera/CCD exposure. The duration is in seconds."
+#, kde-format
 msgid "Record stream for specified duration in seconds"
-msgstr "Kamera/CCD ışıklandırmasını başlat. Süre saniye türünden."
+msgstr "Belirtilen süre boyunca saniye türünden kayıt akışı"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
 #: indi/recordingoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Duration:"
-msgstr "Süre"
+msgstr "Süre:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/recordingoptions.ui:65
 #, kde-format
 msgid "Record:"
-msgstr ""
+msgstr "Kayıt:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, recordDirectoryEdit)
@@ -32226,6 +32208,20 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body>\n"
+"<p><b>Uzak</b> SER videosu dizini adını ayarlayın. INDI sunucusu yerel "
+"olarak çalışıyors bir yerel dizin seçilebilir. Ancak uzak bir INDI "
+"sunucusuna bağlandıysanız dizin, kaydedildiği dosya sistemindeki geçerli bir "
+"dizin olmalıdır.</p>\n"
+"<p>Kayıt dizinleri, onları devingen yapmak üzere bazı dizgiler içerebilir:</"
+"p>\n"
+"<ul>\n"
+"<li><b>_D_</b> YYYY-AA-GG olarak tarih</li>\n"
+"<li><b>_H_</b> SS:DD:SS olarak zaman</li>\n"
+"<li><b>_T_</b> ISO8601 olarak zaman damgası</li>\n"
+"<li><b>_F_</b> varsa süzgeç adı</li>\n"
+"</ul>\n"
+"</body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectDirB)
 #: indi/recordingoptions.ui:134
@@ -32249,33 +32245,41 @@ msgid ""
 "</ul>\n"
 "</body></html>"
 msgstr ""
+"<html><head/><body>\n"
+"<p>SER videosu dosya adını ayarlayın. Kayıt dizinleri, onları devingen "
+"yapmak üzere bazı dizgiler içerebilir:</p>\n"
+"<ul>\n"
+"<li><b>_D_</b> YYYY-AA-GG olarak tarih</li>\n"
+"<li><b>_H_</b> SS:DD:SS olarak zaman</li>\n"
+"<li><b>_T_</b> ISO8601 olarak zaman damgası</li>\n"
+"<li><b>_F_</b> varsa süzgeç adı</li>\n"
+"</ul>\n"
+"</body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordFramesR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, framesSpin)
 #: indi/recordingoptions.ui:163 indi/recordingoptions.ui:173
 #, kde-format
 msgid "Record stream until this many frames are captured"
-msgstr ""
+msgstr "Bu kadar kare yakalanana dek akışı kaydet"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
 #: indi/recordingoptions.ui:166
-#, fuzzy, kde-format
-#| msgid "Frames"
+#, kde-format
 msgid "Frames:"
-msgstr "Kareler"
+msgstr "Kare:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:191
 #, kde-format
 msgid "Record stream until manually stopped"
-msgstr ""
+msgstr "Elle durdurulana kadar akışı kaydet"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:194
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Until stopped"
-msgstr "Dur"
+msgstr "Durdurulana dek"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -32285,21 +32289,19 @@ msgid "File name:"
 msgstr "Dosya adı:"
 
 #: indi/servermanager.cpp:98
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to create INDI FIFO file %1"
-msgstr "%1 dosyasına yazılamadı"
+msgstr "INDI FIFO dosyası %1 oluşturulamadı"
 
 #: indi/servermanager.cpp:126
-#, fuzzy, kde-format
-#| msgid "Ekos failed to start."
+#, kde-format
 msgid "INDI server failed to start: %1"
-msgstr "Ekos başlatma başarısız."
+msgstr "INDI sunucusu başlatılamadı: %1"
 
 #: indi/servermanager.cpp:204
 #, kde-format
 msgid "Pre driver startup script failed with exit code: %1"
-msgstr ""
+msgstr "Sürücü öncesi başlangıç betiği şu çıkış koduyla başarısız oldu: %1"
 
 #: indi/servermanager.cpp:228
 #, kde-format
@@ -32307,32 +32309,28 @@ msgid ""
 "Driver %1 was not found on the system. Please make sure the package that "
 "provides the '%1' binary is installed."
 msgstr ""
-"%1 sürücüsü sistemde bulunamadı. Lütfen '%1' ikili dosyasını sağlayan "
-"paketin kurulu olduğundan emin olun."
+"%1 sürücüsü sistemde bulunamadı. Lütfen \"%1\" ikilisini sağlayan paketin "
+"kurulu olduğundan emin olun."
 
 #: indi/servermanager.cpp:275
 #, kde-format
 msgid "Post driver startup script failed with exit code: %1"
-msgstr ""
+msgstr "Sürücü sonrası başlangıç betiği şu çıkış koduyla başarısız oldu: %1"
 
 #: indi/servermanager.cpp:435
-#, fuzzy, kde-format
-#| msgid "Connection to INDI server at host %1 with port %2 failed."
+#, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
-msgstr ""
-"%2 bağlantı noktasıyla, %1 makinasındaki INDI sunucuna bağlantı başarısız "
-"oldu."
+msgstr "%1 INDI sunucusu bağlantısı: %2 sonlandırıldı. %3."
 
 #: indi/servermanager.cpp:481
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
-msgstr ""
+msgstr "INDI sunucusu <b>%1</b> çöktü. Rapor edilsin mi?"
 
 #: indi/servermanager.cpp:482
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver crash"
-msgstr "Sürücü:"
+msgstr "Sürücü Çöktü"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, streamForm)
 #: indi/streamform.ui:20
@@ -32342,45 +32340,39 @@ msgstr "Video Akışı"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recordB)
 #: indi/streamform.ui:58
-#, fuzzy, kde-format
-#| msgid "Start Framing"
+#, kde-format
 msgid "Start Recording"
-msgstr "Çerçevelemeyi Başlat"
+msgstr "Kaydı Başlat"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: indi/streamform.ui:86
-#, fuzzy, kde-format
-#| msgid "Recording Options"
+#, kde-format
 msgid "Recording Options..."
-msgstr "Kayıt Seçenekleri"
+msgstr "Kayıt Seçenekleri..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: indi/streamform.ui:114
-#, fuzzy, kde-format
-#| msgid "Reset Frame"
+#, kde-format
 msgid "Reset Frame"
-msgstr "Çerçeveyi Sıfırla"
+msgstr "Kareyi Sıfırla"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
 #: indi/streamform.ui:143
-#, fuzzy, kde-format
-#| msgid "Toggle stars"
+#, kde-format
 msgid "Toggle Debayer"
-msgstr "Yıldızları aç/kapat"
+msgstr "Bayer Kaldırıcısını Aç/Kapat"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
-#, fuzzy, kde-format
-#| msgid "Toggle constellation lines"
+#, kde-format
 msgid "Toggle Collimation Overlay"
-msgstr "Takımyıldız çizgilerini aç/kapat"
+msgstr "Kolimasyon Kaplamasını Aç/Kapat"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:193
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation Overlay Options..."
-msgstr "Takımyıldız İsim Seçenekleri"
+msgstr "Kolimasyon Kaplaması Seçenekleri..."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:215
@@ -32392,69 +32384,65 @@ msgstr "Yakınlaştırma düzeyi"
 #: indi/streamform.ui:224
 #, kde-format
 msgid "5x"
-msgstr "5x"
+msgstr "5×"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:229
 #, kde-format
 msgid "10x"
-msgstr "10x"
+msgstr "10×"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, NSSlider)
 #: indi/streamform.ui:257
 #, kde-format
 msgid "Move zoomed view Up/Down"
-msgstr ""
+msgstr "Yakınlaştırılmış görünümü yukarı/aşağı taşı"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, WESlider)
 #: indi/streamform.ui:282
 #, kde-format
 msgid "Move zoomed view Left/Right"
-msgstr ""
+msgstr "Yakınlaştırılmış görünümü sağa/sola taşı"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetFrameDurationSpin)
 #: indi/streamform.ui:326 indi/streamform.ui:342
-#, fuzzy, kde-format
-#| msgid "Start Camera/CCD exposure. The duration is in seconds."
+#, kde-format
 msgid "Video frame duration in seconds"
-msgstr "Kamera/CCD ışıklandırmasını başlat. Süre saniye türünden."
+msgstr "Saniye türünden videonun kare süresi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/streamform.ui:329
-#, fuzzy, kde-format
-#| msgid "Frames"
+#, kde-format
 msgid "Frame(s):"
-msgstr "Kareler"
+msgstr "Kare:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
 #: indi/streamform.ui:370
 #, kde-format
 msgid "Apply FPS and restart stream"
-msgstr ""
+msgstr "FPS'yi uygula ve akışı yeniden başlat"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/streamform.ui:393
 #, kde-format
 msgid "FPS:"
-msgstr ""
+msgstr "FPS:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, avgFPS)
 #: indi/streamform.ui:406
 #, kde-format
 msgid "Average FPS"
-msgstr ""
+msgstr "Ortalama FPS"
 
 #: indi/streamwg.cpp:60
-#, fuzzy, kde-format
-#| msgid "FITS Save Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "SER Record Directory"
-msgstr "FITS Kayıt Dizini"
+msgstr "SER Kayıt Dizini"
 
 #: indi/streamwg.cpp:105
-#, fuzzy, kde-format
-#| msgid "%1 Live Video"
+#, kde-format
 msgctxt "@title:window"
 msgid "%1 Live Video"
 msgstr "%1 Canlı Video"
@@ -32465,10 +32453,9 @@ msgid "Stop recording"
 msgstr "Kaydı durdur"
 
 #: indi/streamwg.cpp:349 indi/streamwg.cpp:359
-#, fuzzy, kde-format
-#| msgid "Start Framing"
+#, kde-format
 msgid "Start recording"
-msgstr "Çerçevelemeyi Başlat"
+msgstr "Kaydı başlat"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, telescopeWizard)
 #: indi/telescopewizard.ui:31
@@ -32505,13 +32492,13 @@ msgstr ""
 "<b>K Yıldızlar Teleskop Kurulum Sihirbazı</b>'na hoş geldiniz\n"
 "<br><br>\n"
 "Bu sihirbaz, teleskopunuza bağlanmanıza ve onu K Yıldızlar'dan denetlemenize "
-"yardımcı olacaktır. Bazı temel bilgileri doğrulamanız istenecek.\n"
+"yardımcı olacaktır. Bazı temel bilgileri doğrulamanız istenir.\n"
 "<br>\n"
 "<br>Sihirbaz sırasında herhangi bir noktada <tt>Yardım</tt> düğmesine "
 "basarak K Yıldızlar'daki teleskop desteği hakkında kapsamlı bilgi "
 "alabilirsiniz.\n"
 "<br><br>\n"
-"Sürdürmek için lütfen Sonraki'ye tıklayın."
+"Sürdürmek için lütfen \"Sonraki\"ye tıklayın."
 
 #. i18n: ectx: property (text), widget (QLabel, modelPageLabel)
 #: indi/telescopewizard.ui:199
@@ -32525,7 +32512,7 @@ msgstr ""
 "<h3>1. Teleskop Modeli</h3>\n"
 "\n"
 "Lütfen aşağıdaki listeden teleskopunuzun modelini seçin. Bir model seçtikten "
-"sonra ileri'yi tıklayın."
+"sonra \"Sonraki\"ye tıklayın."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: indi/telescopewizard.ui:274
@@ -32537,8 +32524,8 @@ msgid ""
 msgstr ""
 "<b>İpucu</b>\n"
 "<br>Bazı Meade marka olmayan teleskoplar LX200 alt küme komut takımını "
-"destekliyor. Bu tür aygıtları denetleyebilmek için <tt>LX200 Basic</tt> "
-"seçin."
+"destekler. Bu tür aygıtları denetleyebilmek için <tt>LX200 Basic</tt> "
+"seçeneğini seçin."
 
 #. i18n: ectx: property (text), widget (QLabel, telescopePageInfo)
 #: indi/telescopewizard.ui:313
@@ -32561,7 +32548,7 @@ msgstr ""
 "<br><br>\n"
 "Başarılı bir hizalamanın ardından teleskopunuzun RS232 arayüzünü "
 "bilgisayarınızın seri veya USB kapısına bağlayın.\n"
-"<br><br><br>Sürdürmek için Sonraki'ye tıklayın."
+"<br><br><br>Sürdürmek için \"Sonraki\"ye tıklayın."
 
 #. i18n: ectx: property (text), widget (QLabel, localPageLabel)
 #: indi/telescopewizard.ui:347
@@ -32576,8 +32563,8 @@ msgstr ""
 "<h3>3. Yerel Ayarları Doğrula</h3>\n"
 "\n"
 "Aşağıdaki zaman, tarih ve konum bilgilerinin doğruluğunu denetleyin. Eğer "
-"bilgilerden herhangi biri doğru değil ise <tt>Zamanı Ayarla</tt> ve "
-"<tt>Konumu Ayarla</tt> düğmelerini kullanarak düzeltebilirsiniz.\n"
+"bilgilerden herhangi biri doğru değilse <tt>Zamanı Ayarla</tt> ve <tt>Konumu "
+"Ayarla</tt> düğmelerini kullanarak düzeltebilirsiniz.\n"
 
 #. i18n: ectx: property (text), widget (QLabel, locationLabel)
 #: indi/telescopewizard.ui:410
@@ -32621,20 +32608,20 @@ msgid ""
 "empty and KStars will try to scan the ports for attached telescopes. Beware "
 "that the autoscan process might take a few minutes to complete. "
 msgstr ""
-"<h3>4. Kapıyı Belirleyin</h3>\n"
+"<h3>4. Bağlantı Kapısını Belirleyin</h3>\n"
 "\n"
 "Teleskopunuzun bağlı olduğu kapı numarasını girin. Bilgisayarınızda yalnızca "
-"bir seri bağlantı noktası varsa bağlantı noktası genellikle <tt>/dev/"
-"ttyUSB0</tt> biçimindedir.\n"
+"bir seri kapı varsa bağlantı noktası genellikle <tt>/dev/ttyUSB0</tt> "
+"biçimindedir.\n"
 "<br><br>Kapı numarasından emin değilseniz alanı boş bırakın, K Yıldızlar "
-"bağlı teleskoplar için kapıları taramaya çalışacaktır. Otomatik tarama "
+"bağlı teleskoplar için kapıları taramaya çalışacaktır. Kendiliğinden tarama "
 "işleminin tamamlanmasının birkaç dakika sürebileceğini unutmayın."
 
 #. i18n: ectx: property (text), widget (QLabel, portLabel)
 #: indi/telescopewizard.ui:575
 #, kde-format
 msgid "<b>Port:</b>"
-msgstr "<b>Port:</b>"
+msgstr "<b>Kapı:</b>"
 
 #: indi/telescopewizardprocess.cpp:103
 #, kde-format
@@ -32673,7 +32660,7 @@ msgstr "Teleskop Sihirbazı başarıyla tamamlandı."
 #: kspopupmenu.cpp:87
 #, kde-format
 msgid "Rise time: %1"
-msgstr "Doğma Zamanı: %1"
+msgstr "Doğuş zamanı: %1"
 
 #: kspopupmenu.cpp:89
 #, kde-format
@@ -32684,27 +32671,27 @@ msgstr "Batış zamanı: %1"
 #: kspopupmenu.cpp:92
 #, kde-format
 msgid "No rise time: Circumpolar"
-msgstr "Doğma zamanı yok: Kutup yöresi"
+msgstr "Doğuş zamanı yok: Kutup yöresi"
 
 #: kspopupmenu.cpp:93
 #, kde-format
 msgid "No set time: Circumpolar"
-msgstr "Batma zamanı yok: Kutup yöresi"
+msgstr "Batış zamanı yok: Kutup yöresi"
 
 #: kspopupmenu.cpp:95
 #, kde-format
 msgid "No rise time: Never rises"
-msgstr "Doğma zamanı yok: Hiç doğmaz"
+msgstr "Doğuş zamanı yok: Hiç doğmaz"
 
 #: kspopupmenu.cpp:96
 #, kde-format
 msgid "No set time: Never rises"
-msgstr "Batma zamanı yok: Hiç doğmaz"
+msgstr "Batış zamanı yok: Hiç doğmaz"
 
 #: kspopupmenu.cpp:106
 #, kde-format
 msgid "Transit time: %1"
-msgstr "Geçiş Zamanı: %1"
+msgstr "Geçiş zamanı: %1"
 
 #: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:825
 #, kde-format
@@ -32715,13 +32702,13 @@ msgstr "Boş gökyüzü"
 #, kde-format
 msgctxt "Sloan Digital Sky Survey"
 msgid "Show SDSS Image"
-msgstr "SDSS Resmini Göster"
+msgstr "SDSS Görselini Göster"
 
 #: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:591
 #, kde-format
 msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
-msgstr "DSS Resmini Göster"
+msgstr "DSS Görselini Göster"
 
 #: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:994
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
@@ -32735,12 +32722,12 @@ msgstr "yıldız"
 #: kspopupmenu.cpp:213
 #, kde-format
 msgid "%1<sup>m</sup>, %2"
-msgstr "%1<sup>m</sup>, %2"
+msgstr "%1 <sup>m</sup>, %2"
 
 #: kspopupmenu.cpp:251
 #, kde-format
 msgid "Solar system object"
-msgstr "Güneş sistemi cismi"
+msgstr "Güneş sistemi nesnesi"
 
 #: kspopupmenu.cpp:275
 #, kde-format
@@ -32760,7 +32747,7 @@ msgstr "Yükseklik: %1 km"
 #: kspopupmenu.cpp:285
 #, kde-format
 msgid "Range: %1 km"
-msgstr "Menzil: %1 km"
+msgstr "Erim: %1 km"
 
 #: kspopupmenu.cpp:290 kspopupmenu.cpp:371
 #, kde-format
@@ -32770,17 +32757,17 @@ msgstr "Ortala ve İzle"
 #: kspopupmenu.cpp:295 kspopupmenu.cpp:383
 #, kde-format
 msgid "Angular Distance To...            ["
-msgstr ".... Cismine olan Açısal Uzaklık            ["
+msgstr "Nesneye Açısal Uzaklık...         ["
 
 #: kspopupmenu.cpp:298 kspopupmenu.cpp:386
 #, kde-format
 msgid "Starhop from here to...            "
-msgstr "Burada yıldız sekmesi...            "
+msgstr "Buradan şuraya sek...              "
 
 #: kspopupmenu.cpp:300
 #, kde-format
 msgid "Copy TLE to Clipboard"
-msgstr ""
+msgstr "TLE'yi Panoya Kopyala"
 
 #: kspopupmenu.cpp:305 kspopupmenu.cpp:402
 #, kde-format
@@ -32800,7 +32787,7 @@ msgstr "süpernova"
 #: kspopupmenu.cpp:367
 #, kde-format
 msgid "Select this object"
-msgstr "Bu cismi seç"
+msgstr "Bu Nesneyi Seç"
 
 #: kspopupmenu.cpp:391 tools/obslistpopupmenu.cpp:49
 #, kde-format
@@ -32826,24 +32813,22 @@ msgstr "Gözlemleme İsteği Listesine Ekle"
 #: kspopupmenu.cpp:427
 #, kde-format
 msgid "Remove Trail"
-msgstr "Yol Kaldır"
+msgstr "İzi Kaldır"
 
 #: kspopupmenu.cpp:429
 #, kde-format
 msgid "Add Trail"
-msgstr "Yol Ekle"
+msgstr "İz Ekle"
 
 #: kspopupmenu.cpp:432
-#, fuzzy, kde-format
-#| msgid "Eyepiece view (Beta)"
+#, kde-format
 msgid "Simulate Eyepiece View"
-msgstr "Göz merceği görünümü (Beta)"
+msgstr "Göz Merceği Görünümüne Benzet"
 
 #: kspopupmenu.cpp:441
-#, fuzzy, kde-format
-#| msgid "Minor Planets"
+#, kde-format
 msgid "View in XPlanet"
-msgstr "Küçük Gezegenler"
+msgstr "XPlanet'te Görüntüle"
 
 #: kspopupmenu.cpp:446
 #, kde-format
@@ -32851,83 +32836,71 @@ msgid "View in What's Interesting"
 msgstr "İlginç Neler Var'da Görüntüle"
 
 #: kspopupmenu.cpp:459
-#, fuzzy, kde-format
-#| msgid "Add flag..."
+#, kde-format
 msgid "Add Flag..."
-msgstr "Bayrak ekle..."
+msgstr "Bayrak Ekle..."
 
 #: kspopupmenu.cpp:466
-#, fuzzy, kde-format
-#| msgid "Edit flag"
+#, kde-format
 msgid "Edit Flag"
-msgstr "Bayrağı düzenle"
+msgstr "Bayrağı Düzenle"
 
 #: kspopupmenu.cpp:468
-#, fuzzy, kde-format
-#| msgid "Delete flag"
+#, kde-format
 msgid "Delete Flag"
-msgstr "Bayrağı sil"
+msgstr "Bayrağı Sil"
 
 #: kspopupmenu.cpp:477
-#, fuzzy, kde-format
-#| msgid "Edit flag..."
+#, kde-format
 msgid "Edit Flag..."
-msgstr "Bayrağı düzenle..."
+msgstr "Bayrağı Düzenle..."
 
 #: kspopupmenu.cpp:479
-#, fuzzy, kde-format
-#| msgid "Delete flag..."
+#, kde-format
 msgid "Delete Flag..."
-msgstr "Bayrağı sil..."
+msgstr "Bayrağı Sil..."
 
 #: kspopupmenu.cpp:538
 #, kde-format
 msgid "Image Resources"
-msgstr "Görüntü Kaynakları"
+msgstr "Görsel Özkaynakları"
 
 #: kspopupmenu.cpp:539
-#, fuzzy, kde-format
-#| msgid "Links"
+#, kde-format
 msgid "Web Links"
-msgstr "Bağlantılar"
+msgstr "Web Bağlantıları"
 
 #: kspopupmenu.cpp:581
-#, fuzzy, kde-format
-#| msgid "Remove Catalog..."
+#, kde-format
 msgid "Remove From Local Catalog"
-msgstr "Kataloğu Kaldır..."
+msgstr "Yerel Katalogdan Kaldır"
 
 #: kspopupmenu.cpp:624
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Goto"
+#, kde-format
 msgctxt "Move mount to target"
 msgid "Goto"
 msgstr "Git"
 
 #: kspopupmenu.cpp:633
-#, fuzzy, kde-format
-#| msgid "Sync"
+#, kde-format
 msgctxt "Synchronize mount to target"
 msgid "Sync"
-msgstr "Eşle"
+msgstr "Eşzamanla"
 
 #: kspopupmenu.cpp:674
-#, fuzzy, kde-format
-#| msgid "Search satellites"
+#, kde-format
 msgid "Track satellite"
-msgstr "Uyduları ara"
+msgstr "Uyduyu İzle"
 
 #: kspopupmenu.cpp:688
 #, kde-format
 msgid "Goto && Set As Parking Position"
-msgstr ""
+msgstr "Git ve Park Konumu Olarak Ayarla"
 
 #: kspopupmenu.cpp:695
-#, fuzzy, kde-format
-#| msgid "Guide Telescope"
+#, kde-format
 msgid "Find Telescope"
-msgstr "Kılavuz Teleskopu"
+msgstr "Teleskopu Bul"
 
 #: kstars.cpp:61
 #, kde-format
@@ -32946,22 +32919,21 @@ msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Yıldız Küresi Görünümüne Geç (Ekvatoryal &Koordinatlar)"
 
 #: kstars.cpp:324 kstarsactions.cpp:1737 kstarsinit.cpp:272
-#, fuzzy, kde-format
-#| msgid "Switch to horizonal view (Horizontal &Coordinates)"
+#, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
-msgstr "Yatay görünüme geç (Yatay &Koordinatlar)"
+msgstr "Yatay Görünüme Geç (Yatay &Koordinatlar)"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)
 #: kstars.kcfg:10
 #, kde-format
 msgid "Position of the time InfoBox."
-msgstr "Zaman BilgiKutusunun konumu."
+msgstr "Zaman bilgisi kutusunun konumu"
 
 #. i18n: ectx: whatsthis, entry (PositionTimeBox), group (GUI)
 #: kstars.kcfg:11
 #, kde-format
 msgid "The screen coordinates of the Time InfoBox."
-msgstr "Zaman BilgiKutusunun ekran koordinatları."
+msgstr "Zaman bilgisi kutusunun ekran koordinatları."
 
 #. i18n: ectx: label, entry (PositionFocusBox), group (GUI)
 #: kstars.kcfg:15
@@ -84766,37 +84738,37 @@ msgstr "gün"
 #, kde-format
 msgid " Slew %1 degrees %2 to find an %3 star of mag %4 "
 msgstr ""
+" %4 büyüklüğünde bir %3 yıldızı bulmak için %2 yönünde %1 derece çevirin "
 
 #: tools/starhopper.cpp:110
 #, kde-format
 msgid " Slew %1 degrees %2 to find a(n) %3"
-msgstr ""
+msgstr " Bir %3 bulmak için %2 yönünde %1 derece çevirin"
 
 #: tools/starhopper.cpp:297
 #, kde-format
 msgid "triangle (of similar magnitudes)"
-msgstr ""
+msgstr "üçgen (benzer büyüklükte)"
 
 #: tools/starhopper.cpp:314
 #, kde-format
 msgid "right-angled triangle"
-msgstr ""
+msgstr "sağ açılı üçgen"
 
 #: tools/starhopper.cpp:321
 #, kde-format
 msgid "isosceles triangle"
-msgstr ""
+msgstr "ikizkenar üçgen"
 
 #: tools/starhopper.cpp:325
-#, fuzzy, kde-format
-#| msgid "Faint limit for stars"
+#, kde-format
 msgid "straight line of 3 stars"
-msgstr "Yıldızlar için solgunluk sınırı"
+msgstr "3 yıldızdan oluşan düz çizgi"
 
 #: tools/starhopper.cpp:333
 #, kde-format
 msgid "equilateral triangle"
-msgstr ""
+msgstr "eşkenar üçgen"
 
 #: tools/starhopper.cpp:340
 #, kde-format
@@ -84809,8 +84781,8 @@ msgid ""
 "Star-hopper algorithm failed. If you're trying a large star hop, try using a "
 "smaller FOV or changing the source point"
 msgstr ""
-"Yıkdız sekme algoritması başarısız oldu. Büyük bir yıldız sekmesi "
-"denerseniz, daha küçük bir FOV kullanın veya kaynak noktasını değiştirin."
+"Yıkdız sekme algoritması başarısız oldu. Büyük bir yıldız sekmesi denerseniz "
+"daha küçük bir görüş açısı kullanın veya kaynak noktasını değiştirin."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, StarHopperDialog)
 #: tools/starhopperdialog.ui:14
