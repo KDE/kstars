@@ -17,21 +17,14 @@ ListComponent::ListComponent(SkyComposite *parent) : SkyComponent(parent)
 
 ListComponent::~ListComponent()
 {
-    qDeleteAll(m_ObjectList);
-    m_ObjectList.clear();
-    m_ObjectHash.clear();
-
     clear();
 }
 
 void ListComponent::clear()
 {
-    while (!m_ObjectList.isEmpty())
-    {
-        SkyObject *o = m_ObjectList.takeFirst();
-        removeFromNames(o);
-        delete o;
-    }
+    qDeleteAll(m_ObjectList);
+    m_ObjectList.clear();
+    m_ObjectHash.clear();
 }
 
 void ListComponent::appendListObject(SkyObject *object)
@@ -49,12 +42,12 @@ void ListComponent::update(KSNumbers *num)
 {
     if (!selected())
         return;
-    KStarsData *data = KStarsData::Instance();
-    foreach (SkyObject *o, m_ObjectList)
+    auto data = KStarsData::Instance();
+    for (auto &object : m_ObjectList)
     {
         if (num)
-            o->updateCoords(num);
-        o->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+            object->updateCoords(num);
+        object->EquatorialToHorizontal(data->lst(), data->geo()->lat());
     }
 }
 
@@ -82,12 +75,12 @@ SkyObject *ListComponent::objectNearest(SkyPoint *p, double &maxrad)
         return nullptr;
 
     SkyObject *oBest = nullptr;
-    foreach (SkyObject *o, m_ObjectList)
+    for (auto &object : m_ObjectList)
     {
-        double r = o->angularDistanceTo(p).Degrees();
+        double r = object->angularDistanceTo(p).Degrees();
         if (r < maxrad)
         {
-            oBest  = o;
+            oBest  = object;
             maxrad = r;
         }
     }
