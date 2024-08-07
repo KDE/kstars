@@ -21,10 +21,11 @@ SchedulerUtils::SchedulerUtils()
 
 }
 
-SchedulerJob *SchedulerUtils::createJob(XMLEle *root)
+SchedulerJob *SchedulerUtils::createJob(XMLEle *root, SchedulerJob *leadJob)
 {
     SchedulerJob *job = new SchedulerJob();
-    QString name, group;
+    QString name, group, train;
+    bool isLead = true;
     dms ra, dec;
     double rotation = 0.0, minimumAltitude = 0.0, minimumMoonSeparation = 0.0;
     QUrl sequenceURL, fitsURL;
@@ -44,8 +45,16 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root)
     {
         if (!strcmp(tagXMLEle(ep), "Name"))
             name = pcdataXMLEle(ep);
+        else if (!strcmp(tagXMLEle(ep), "JobType"))
+        {
+            isLead = (QString(findXMLAttValu(ep, "lead")) == "true");
+            if (isLead == false)
+                job->setLeadJob(leadJob);
+        }
         else if (!strcmp(tagXMLEle(ep), "Group"))
             group = pcdataXMLEle(ep);
+        else if (!strcmp(tagXMLEle(ep), "OpticalTrain"))
+            train = pcdataXMLEle(ep);
         else if (!strcmp(tagXMLEle(ep), "Coordinates"))
         {
             subEP = findXMLEle(ep, "J2000RA");
@@ -143,7 +152,7 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root)
             }
         }
     }
-    SchedulerUtils::setupJob(*job, name, group, ra, dec,
+    SchedulerUtils::setupJob(*job, name, isLead, group, train, ra, dec,
                              KStarsData::Instance()->ut().djd(),
                              rotation, sequenceURL, fitsURL,
 
@@ -164,45 +173,67 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root)
     return job;
 }
 
-void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, const QString &group, const dms &ra, const dms &dec,
-                              double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl, StartupCondition startup,
-                              const QDateTime &startupTime, CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
-                              double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
-                              bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
+void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, bool isLead, const QString &group,
+                              const QString &train, const dms &ra, const dms &dec, double djd, double rotation, const QUrl &sequenceUrl,
+                              const QUrl &fitsUrl, StartupCondition startup, const QDateTime &startupTime, CompletionCondition completion,
+                              const QDateTime &completionTime, int completionRepeats, double minimumAltitude, double minimumMoonSeparation,
+                              bool enforceWeather, bool enforceTwilight, bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
 {
     /* Configure or reconfigure the observation job */
 
-    job.setName(name);
-    job.setGroup(group);
-    // djd should be ut.djd
-    job.setTargetCoords(ra, dec, djd);
+    job.setIsLead(isLead);
+    job.setOpticalTrain(train);
     job.setPositionAngle(rotation);
+
+    if (isLead)
+    {
+        job.setName(name);
+        job.setGroup(group);
+        job.setLeadJob(nullptr);
+        // djd should be ut.djd
+        job.setTargetCoords(ra, dec, djd);
+        job.setFITSFile(fitsUrl);
+
+        // #1 Startup conditions
+        job.setStartupCondition(startup);
+        if (startup == START_AT)
+        {
+            job.setStartupTime(startupTime);
+        }
+        /* Store the original startup condition */
+        job.setFileStartupCondition(job.getStartupCondition());
+        job.setStartAtTime(job.getStartupTime());
+
+        // #2 Constraints
+
+        job.setMinAltitude(minimumAltitude);
+        job.setMinMoonSeparation(minimumMoonSeparation);
+
+        // Check enforce weather constraints
+        job.setEnforceWeather(enforceWeather);
+        // twilight constraints
+        job.setEnforceTwilight(enforceTwilight);
+        job.setEnforceArtificialHorizon(enforceArtificialHorizon);
+
+        // Job steps
+        job.setStepPipeline(SchedulerJob::USE_NONE);
+        if (track)
+            job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_TRACK));
+        if (focus)
+            job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_FOCUS));
+        if (align)
+            job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_ALIGN));
+        if (guide)
+            job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_GUIDE));
+
+        /* Store the original startup condition */
+        job.setFileStartupCondition(job.getStartupCondition());
+        job.setStartAtTime(job.getStartupTime());
+    }
 
     /* Consider sequence file is new, and clear captured frames map */
     job.setCapturedFramesMap(CapturedFramesMap());
     job.setSequenceFile(sequenceUrl);
-    job.setFITSFile(fitsUrl);
-    // #1 Startup conditions
-
-    job.setStartupCondition(startup);
-    if (startup == START_AT)
-    {
-        job.setStartupTime(startupTime);
-    }
-    /* Store the original startup condition */
-    job.setFileStartupCondition(job.getStartupCondition());
-    job.setStartAtTime(job.getStartupTime());
-
-    // #2 Constraints
-
-    job.setMinAltitude(minimumAltitude);
-    job.setMinMoonSeparation(minimumMoonSeparation);
-
-    // Check enforce weather constraints
-    job.setEnforceWeather(enforceWeather);
-    // twilight constraints
-    job.setEnforceTwilight(enforceTwilight);
-    job.setEnforceArtificialHorizon(enforceArtificialHorizon);
 
     job.setCompletionCondition(completion);
     if (completion == FINISH_AT)
@@ -212,20 +243,6 @@ void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, const QStr
         job.setRepeatsRequired(completionRepeats);
         job.setRepeatsRemaining(completionRepeats);
     }
-    // Job steps
-    job.setStepPipeline(SchedulerJob::USE_NONE);
-    if (track)
-        job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_TRACK));
-    if (focus)
-        job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_FOCUS));
-    if (align)
-        job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_ALIGN));
-    if (guide)
-        job.setStepPipeline(static_cast<SchedulerJob::StepPipeline>(job.getStepPipeline() | SchedulerJob::USE_GUIDE));
-
-    /* Store the original startup condition */
-    job.setFileStartupCondition(job.getStartupCondition());
-    job.setStartAtTime(job.getStartupTime());
 
     /* Reset job state to evaluate the changes */
     job.reset();
@@ -295,7 +312,7 @@ uint16_t SchedulerUtils::fillCapturedFramesMap(const QMap<QString, uint16_t> &ex
     return totalCompletedCount;
 }
 
-void SchedulerUtils::updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs,
+void SchedulerUtils::updateLightFramesRequired(SchedulerJob * oneJob, const QList<SequenceJob *> &seqjobs,
         const CapturedFramesMap &framesCount)
 {
     bool lightFramesRequired = false;
@@ -326,7 +343,7 @@ void SchedulerUtils::updateLightFramesRequired(SchedulerJob *oneJob, const QList
     oneJob->setLightFramesRequired(lightFramesRequired);
 }
 
-SequenceJob *SchedulerUtils::processSequenceJobInfo(XMLEle *root, SchedulerJob *schedJob)
+SequenceJob *SchedulerUtils::processSequenceJobInfo(XMLEle * root, SchedulerJob * schedJob)
 {
     SequenceJob *job = new SequenceJob(root, schedJob->getName());
     if (schedJob)
@@ -343,8 +360,8 @@ SequenceJob *SchedulerUtils::processSequenceJobInfo(XMLEle *root, SchedulerJob *
     return job;
 }
 
-bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs,
-                                       bool &hasAutoFocus, ModuleLogger *logger)
+bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob * schedJob, QList<SequenceJob *> &jobs,
+                                       bool &hasAutoFocus, ModuleLogger * logger)
 {
     QFile sFile;
     sFile.setFileName(fileURL);
@@ -400,8 +417,8 @@ bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *sch
     return true;
 }
 
-bool SchedulerUtils::estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint16_t> &capturedFramesCount,
-                                     ModuleLogger *logger)
+bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const QMap<QString, uint16_t> &capturedFramesCount,
+                                     ModuleLogger * logger)
 {
     static SchedulerJob *jobWarned = nullptr;
 
@@ -675,7 +692,7 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob *schedJob, const QMap<QString,
     return true;
 }
 
-int SchedulerUtils::timeHeuristics(const SchedulerJob *schedJob)
+int SchedulerUtils::timeHeuristics(const SchedulerJob * schedJob)
 {
     double imagingTime = 0;
     /* FIXME: estimation should base on actual measure of each step, eventually with preliminary data as what it used now */
@@ -724,7 +741,7 @@ uint16_t SchedulerUtils::calculateExpectedCapturesMap(const QList<SequenceJob *>
     return capturesPerRepeat;
 }
 
-double SchedulerUtils::findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting, bool debug)
+double SchedulerUtils::findAltitude(const SkyPoint &target, const QDateTime &when, bool * is_setting, bool debug)
 {
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
 
@@ -770,6 +787,16 @@ double SchedulerUtils::findAltitude(const SkyPoint &target, const QDateTime &whe
         *is_setting = passed_meridian;
 
     return o.alt().Degrees();
+}
+
+QList<SchedulerJob *> SchedulerUtils::filterLeadJobs(const QList<SchedulerJob *> &jobs)
+{
+    QList<SchedulerJob *> result;
+    for (auto job : jobs)
+        if (job->isLead())
+            result.append(job);
+
+    return result;
 }
 
 } // namespace

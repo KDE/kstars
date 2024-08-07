@@ -300,7 +300,7 @@ protected slots:
         /**
              * @brief setJobManipulation Enable or disable job manipulation buttons.
              */
-        void setJobManipulation(bool can_reorder, bool can_delete);
+        void setJobManipulation(bool can_reorder, bool can_delete, bool is_lead);
 
         /**
          * @brief set all GUI fields to the values of the given scheduler job
@@ -478,6 +478,11 @@ private:
          */
         bool syncControl(const QVariantMap &settings, const QString &key, QWidget * widget);
 
+        // ////////////////////////////////////////////////////////////////////
+        // Optical Train handling
+        // ////////////////////////////////////////////////////////////////////
+        void refreshOpticalTrain();
+
         /**
          * @brief checkJobInputComplete Check if all inputs are filled such that a new job could be added.
          */
@@ -500,6 +505,7 @@ private:
         // react upon changes of EKOS and INDI state
         void ekosStateChanged(EkosState state);
         void indiStateChanged(INDIState state);
+        void indiCommunicationStatusChanged(CommunicationStatus status);
 
         // react upon state changes
         void startupStateChanged(StartupState state);

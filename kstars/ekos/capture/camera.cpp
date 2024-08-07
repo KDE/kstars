@@ -44,6 +44,11 @@
 #define KEY_INDEX       "isoIndex"
 #define KEY_GAIN_KWD    "ccdGainKeyword"
 #define KEY_OFFSET_KWD  "ccdOffsetKeyword"
+
+#define QCDEBUG   qCDebug(KSTARS_EKOS_CAPTURE) << QString("[%1]").arg(getCameraName())
+#define QCINFO    qCInfo(KSTARS_EKOS_CAPTURE) << QString("[%1]").arg(getCameraName())
+#define QCWARNING qCWarning(KSTARS_EKOS_CAPTURE) << QString("[%1]").arg(getCameraName())
+
 namespace
 {
 const QStringList standAloneKeys = {KEY_FORMATS, KEY_GAIN_KWD, KEY_OFFSET_KWD,
@@ -185,8 +190,8 @@ void Camera::initCamera()
 
     if (state()->DSLRInfos().count() > 0)
     {
-        qCDebug(KSTARS_EKOS_CAPTURE) << "DSLR Cameras Info:";
-        qCDebug(KSTARS_EKOS_CAPTURE) << state()->DSLRInfos();
+        QCDEBUG << "DSLR Cameras Info:";
+        QCDEBUG << state()->DSLRInfos();
     }
 
     setupOpticalTrainManager();
@@ -393,7 +398,7 @@ void Camera::initCamera()
     connect(targetNameT, &QLineEdit::textEdited, this, [ = ]()
     {
         generatePreviewFilename();
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Changed target to" << targetNameT->text() << "because of user edit";
+        QCDEBUG << "Changed target to" << targetNameT->text() << "because of user edit";
     });
     connect(captureTypeS, &QComboBox::currentTextChanged, this, &Camera::generatePreviewFilename);
     placeholderFormatT->setText(Options::placeholderFormat());
@@ -882,7 +887,7 @@ void Camera::addJob(SequenceJob *job)
 void Camera::editJobFinished()
 {
     if (queueTable->currentRow() < 0)
-        qCWarning(KSTARS_EKOS_CAPTURE()) << "Editing finished, but no row selected!";
+        QCWARNING << "Editing finished, but no row selected!";
 
     int currentRow = queueTable->currentRow();
     SequenceJob *job = state()->allJobs().at(currentRow);
@@ -2124,7 +2129,7 @@ void Camera::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
+            QCDEBUG << "Option" << key << "not found!";
     }
 
     // All Double Spin Boxes
@@ -2138,7 +2143,7 @@ void Camera::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
+            QCDEBUG << "Option" << key << "not found!";
     }
 
     // All Spin Boxes
@@ -2152,7 +2157,7 @@ void Camera::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
+            QCDEBUG << "Option" << key << "not found!";
     }
 
     // All Checkboxes
@@ -2166,7 +2171,7 @@ void Camera::loadGlobalSettings()
             settings[key] = value;
         }
         else
-            qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
+            QCDEBUG << "Option" << key << "not found!";
     }
 
     // All Checkable Groupboxes
@@ -2182,7 +2187,7 @@ void Camera::loadGlobalSettings()
                 settings[key] = value;
             }
             else
-                qCDebug(KSTARS_EKOS_CAPTURE) << "Option" << key << "not found!";
+                QCDEBUG << "Option" << key << "not found!";
         }
     }
 
@@ -3016,6 +3021,11 @@ void Camera::refreshOpticalTrain()
     opticalTrainCombo->blockSignals(false);
 }
 
+void Camera::selectOpticalTrain(QString name)
+{
+    opticalTrainCombo->setCurrentText(name);
+}
+
 void Camera::syncLimitSettings()
 {
     m_LimitsUI->enforceStartGuiderDrift->setChecked(Options::enforceStartGuiderDrift());
@@ -3422,7 +3432,7 @@ void Camera::updateMeridianFlipStage(MeridianFlipState::MFStage stage)
 
 void Camera::openExposureCalculatorDialog()
 {
-    qCInfo(KSTARS_EKOS_CAPTURE) << "Instantiating an Exposure Calculator";
+    QCINFO << "Instantiating an Exposure Calculator";
 
     // Learn how to read these from indi
     double preferredSkyQuality = 20.5;
@@ -3436,8 +3446,8 @@ void Camera::openExposureCalculatorDialog()
 
     if (devices()->getActiveCamera() != nullptr)
     {
-        qCInfo(KSTARS_EKOS_CAPTURE) << "set ExposureCalculator preferred camera to active camera id: "
-                                    << devices()->getActiveCamera()->getDeviceName();
+        QCINFO << "set ExposureCalculator preferred camera to active camera id: "
+               << devices()->getActiveCamera()->getDeviceName();
     }
 
     QPointer<ExposureCalculatorDialog> anExposureCalculatorDialog(new ExposureCalculatorDialog(KStars::Instance(),
@@ -3732,8 +3742,8 @@ void Camera::setCoolerToggled(bool enabled)
 void Camera::setFilterStatus(FilterState filterState)
 {
     if (filterState != state()->getFilterManagerState())
-        qCDebug(KSTARS_EKOS_CAPTURE) << "Filter state changed from" << Ekos::getFilterStatusString(
-                                         state()->getFilterManagerState()) << "to" << Ekos::getFilterStatusString(filterState);
+        QCDEBUG << "Filter state changed from" << Ekos::getFilterStatusString(
+                    state()->getFilterManagerState()) << "to" << Ekos::getFilterStatusString(filterState);
     if (state()->getCaptureState() == CAPTURE_CHANGING_FILTER)
     {
         switch (filterState)

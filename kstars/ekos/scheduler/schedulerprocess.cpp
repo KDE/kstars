@@ -415,6 +415,37 @@ void SchedulerProcess::findNextJob()
     }
 }
 
+void Ekos::SchedulerProcess::stopCapturing(QString train, bool followersOnly)
+{
+    if (train == "" && followersOnly)
+    {
+        for (auto key : m_activeJobs.keys())
+        {
+            // abort capturing of all jobs except for the lead job
+            SchedulerJob *job = m_activeJobs[key];
+            if (! job->isLead())
+            {
+                QList<QVariant> dbusargs;
+                dbusargs.append(job->getOpticalTrain());
+                captureInterface()->callWithArgumentList(QDBus::BlockWithGui, "abort", dbusargs);
+                job->setState(SCHEDJOB_ABORTED);
+            }
+        }
+    }
+    else
+    {
+        QList<QVariant> dbusargs;
+        dbusargs.append(train);
+        captureInterface()->callWithArgumentList(QDBus::BlockWithGui, "abort", dbusargs);
+        if (train == "")
+            activeJob()->setState(SCHEDJOB_ABORTED);
+        else
+            for (auto job : m_activeJobs.values())
+                if (job->getOpticalTrain() == train)
+                    job->setState(SCHEDJOB_ABORTED);
+    }
+}
+
 void SchedulerProcess::stopCurrentJobAction()
 {
     if (nullptr != activeJob())
@@ -442,7 +473,7 @@ void SchedulerProcess::stopCurrentJobAction()
             // N.B. Need to use BlockWithGui as proposed by Wolfgang
             // to ensure capture is properly aborted before taking any further actions.
             case SCHEDSTAGE_CAPTURING:
-                captureInterface()->call(QDBus::BlockWithGui, "abort");
+                stopCapturing();
                 break;
 
             default:
@@ -1034,80 +1065,20 @@ void SchedulerProcess::startCapture(bool restart)
         return;
     }
 
-    captureInterface()->setProperty("targetName", activeJob()->getName());
+    // clear the mapping camera name --> scheduler job
+    m_activeJobs.clear();
 
-    QString url = activeJob()->getSequenceFile().toLocalFile();
-
-    if (restart == false)
+    startSingleCapture(activeJob(), restart);
+    for (auto follower : activeJob()->followerJobs())
     {
-        QList<QVariant> dbusargs;
-        dbusargs.append(url);
-        // override targets from sequence queue file
-        QVariant targetName(activeJob()->getName());
-        dbusargs.append(targetName);
-        QDBusReply<bool> const captureReply = captureInterface()->callWithArgumentList(QDBus::AutoDetect,
-                                              "loadSequenceQueue",
-                                              dbusargs);
-        if (captureReply.error().type() != QDBusError::NoError)
+        // start follower jobs that scheduled
+        if (follower->getState() == SCHEDJOB_SCHEDULED)
         {
-            qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                              QString("Warning: job '%1' loadSequenceQueue request received DBUS error: %1").arg(activeJob()->getName()).arg(
-                                                  captureReply.error().message());
-            if (!manageConnectionLoss())
-                activeJob()->setState(SCHEDJOB_ERROR);
-            return;
-        }
-        // Check if loading sequence fails for whatever reason
-        else if (captureReply.value() == false)
-        {
-            qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                              QString("Warning: job '%1' loadSequenceQueue request failed").arg(activeJob()->getName());
-            if (!manageConnectionLoss())
-                activeJob()->setState(SCHEDJOB_ERROR);
-            return;
-        }
-
-        // determine main camera name
-        QDBusReply<QString> const nameReply = captureInterface()->call(QDBus::AutoDetect, "mainCameraDeviceName");
-        if (nameReply.error().type() != QDBusError::NoError)
-        {
-            qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                              QString("Warning: job '%1' mainCameraDeviceName request received DBUS error: %1").arg(activeJob()->getName()).arg(
-                                                  nameReply.error().message());
-            if (!manageConnectionLoss())
-                activeJob()->setState(SCHEDJOB_ERROR);
-            return;
-        }
-        else
-        {
-            moduleState()->setMainCameraDeviceName(nameReply.value());
+            follower->setState(SCHEDJOB_BUSY);
+            follower->setStage(SCHEDSTAGE_CAPTURING);
+            startSingleCapture(follower, restart);
         }
     }
-
-    CapturedFramesMap fMap = activeJob()->getCapturedFramesMap();
-
-    for (auto &e : fMap.keys())
-    {
-        QList<QVariant> dbusargs;
-        QDBusMessage reply;
-
-        dbusargs.append(e);
-        dbusargs.append(fMap.value(e));
-        if ((reply = captureInterface()->callWithArgumentList(QDBus::AutoDetect, "setCapturedFramesMap",
-                     dbusargs)).type() ==
-                QDBusMessage::ErrorMessage)
-        {
-            qCCritical(KSTARS_EKOS_SCHEDULER) <<
-                                              QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(activeJob()->getName()).arg(
-                                                  reply.errorMessage());
-            if (!manageConnectionLoss())
-                activeJob()->setState(SCHEDJOB_ERROR);
-            return;
-        }
-    }
-
-    // Start capture process
-    captureInterface()->call(QDBus::AutoDetect, "start");
 
     moduleState()->updateJobStage(SCHEDSTAGE_CAPTURING);
 
@@ -1121,6 +1092,90 @@ void SchedulerProcess::startCapture(bool restart)
         appendLogText(i18n("Job '%1' capture is in progress...", activeJob()->getName()));
 
     moduleState()->startCurrentOperationTimer();
+}
+
+void SchedulerProcess::startSingleCapture(SchedulerJob *job, bool restart)
+{
+    captureInterface()->setProperty("targetName", job->getName());
+
+    QString url = job->getSequenceFile().toLocalFile();
+    QVariant train(job->getOpticalTrain());
+
+    if (restart == false)
+    {
+        QList<QVariant> dbusargs;
+        QVariant isLead(job->isLead());
+        // override targets from sequence queue file
+        QVariant targetName(job->getName());
+        dbusargs.append(url);
+        dbusargs.append(train);
+        dbusargs.append(isLead);
+        dbusargs.append(targetName);
+        QDBusReply<bool> const captureReply = captureInterface()->callWithArgumentList(QDBus::AutoDetect,
+                                              "loadSequenceQueue",
+                                              dbusargs);
+        if (captureReply.error().type() != QDBusError::NoError)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                              QString("Warning: job '%1' loadSequenceQueue request received DBUS error: %1").arg(job->getName()).arg(
+                                                  captureReply.error().message());
+            if (!manageConnectionLoss())
+                job->setState(SCHEDJOB_ERROR);
+            return;
+        }
+        // Check if loading sequence fails for whatever reason
+        else if (captureReply.value() == false)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                              QString("Warning: job '%1' loadSequenceQueue request failed").arg(job->getName());
+            if (!manageConnectionLoss())
+                job->setState(SCHEDJOB_ERROR);
+            return;
+        }
+    }
+
+    const CapturedFramesMap fMap = job->getCapturedFramesMap();
+
+    for (auto &e : fMap.keys())
+    {
+        QList<QVariant> dbusargs;
+        QDBusMessage reply;
+        dbusargs.append(e);
+        dbusargs.append(fMap.value(e));
+        dbusargs.append(train);
+
+        if ((reply = captureInterface()->callWithArgumentList(QDBus::Block, "setCapturedFramesMap",
+                     dbusargs)).type() ==
+                QDBusMessage::ErrorMessage)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                              QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(job->getName()).arg(
+                                                  reply.errorMessage());
+            if (!manageConnectionLoss())
+                job->setState(SCHEDJOB_ERROR);
+            return;
+        }
+    }
+
+    // Start capture process
+    QList<QVariant> dbusargs;
+    dbusargs.append(train);
+
+    QDBusReply<QString> const startReply = captureInterface()->callWithArgumentList(QDBus::AutoDetect, "start",
+                                           dbusargs);
+
+    if (startReply.error().type() != QDBusError::NoError)
+    {
+        qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                          QString("Warning: job '%1' start request received DBUS error: %1").arg(job->getName()).arg(
+                                              startReply.error().message());
+        if (!manageConnectionLoss())
+            job->setState(SCHEDJOB_ERROR);
+        return;
+    }
+    // read the camera name from the DBus call response
+    QString cameraName = startReply.value();
+    m_activeJobs[cameraName] = job;
 }
 
 void SchedulerProcess::setSolverAction(Align::GotoMode mode)
@@ -2313,6 +2368,13 @@ void SchedulerProcess::selectActiveJob(const QList<SchedulerJob *> &jobs)
         moduleState()->setActiveJob(nullptr);
         return;
     }
+    if (activeJob() != nullptr && scheduledJob != activeJob())
+    {
+        // Changing lead, therefore abort all follower jobs that are still running
+        for (auto job : m_activeJobs.values())
+            if (!job->isLead() && job->getState() == SCHEDJOB_BUSY)
+                stopCapturing(job->getOpticalTrain(), false);
+    }
     moduleState()->setActiveJob(scheduledJob);
 
 }
@@ -2347,6 +2409,7 @@ void SchedulerProcess::evaluateJobs(bool evaluateOnly)
 
     getGreedyScheduler()->scheduleJobs(moduleState()->jobs(), SchedulerModuleState::getLocalTime(),
                                        moduleState()->capturedFramesCount(), this);
+
     // schedule or job states might have been changed, update the table
 
     if (!evaluateOnly && moduleState()->schedulerState() == SCHEDULER_RUNNING)
@@ -2657,7 +2720,7 @@ void SchedulerProcess::checkJobStage()
     }
 
     emit syncGreedyParams();
-    if (!getGreedyScheduler()->checkJob(moduleState()->jobs(), SchedulerModuleState::getLocalTime(), activeJob()))
+    if (!getGreedyScheduler()->checkJob(moduleState()->leadJobs(), SchedulerModuleState::getLocalTime(), activeJob()))
     {
         activeJob()->setState(SCHEDJOB_IDLE);
         stopCurrentJobAction();
@@ -2916,7 +2979,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
     QLocale cLocale = QLocale::c();
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << Qt::endl;
-    outstream << "<SchedulerList version='1.6'>" << Qt::endl;
+    outstream << "<SchedulerList version='2.0'>" << Qt::endl;
     // ensure to escape special XML characters
     outstream << "<Profile>" << QString(entityXML(strdup(moduleState()->currentProfile().toStdString().c_str()))) <<
               "</Profile>" << Qt::endl;
@@ -2969,14 +3032,22 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
         outstream << "<Job>" << Qt::endl;
 
         // ensure to escape special XML characters
-        outstream << "<Name>" << QString(entityXML(strdup(job->getName().toStdString().c_str()))) << "</Name>" << Qt::endl;
-        outstream << "<Group>" << QString(entityXML(strdup(job->getGroup().toStdString().c_str()))) << "</Group>" << Qt::endl;
-        outstream << "<Coordinates>" << Qt::endl;
-        outstream << "<J2000RA>" << cLocale.toString(job->getTargetCoords().ra0().Hours()) << "</J2000RA>" << Qt::endl;
-        outstream << "<J2000DE>" << cLocale.toString(job->getTargetCoords().dec0().Degrees()) << "</J2000DE>" << Qt::endl;
-        outstream << "</Coordinates>" << Qt::endl;
+        outstream << "<JobType lead='" << (job->isLead() ? "true" : "false") << "'/>" << Qt::endl;
+        if (job->isLead())
+        {
+            outstream << "<Name>" << QString(entityXML(strdup(job->getName().toStdString().c_str()))) << "</Name>" << Qt::endl;
+            outstream << "<Group>" << QString(entityXML(strdup(job->getGroup().toStdString().c_str()))) << "</Group>" << Qt::endl;
+            outstream << "<Coordinates>" << Qt::endl;
+            outstream << "<J2000RA>" << cLocale.toString(job->getTargetCoords().ra0().Hours()) << "</J2000RA>" << Qt::endl;
+            outstream << "<J2000DE>" << cLocale.toString(job->getTargetCoords().dec0().Degrees()) << "</J2000DE>" << Qt::endl;
+            outstream << "</Coordinates>" << Qt::endl;
+        }
 
-        if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
+        if (! job->getOpticalTrain().isEmpty())
+            outstream << "<OpticalTrain>" << QString(entityXML(strdup(job->getOpticalTrain().toStdString().c_str()))) <<
+                      "</OpticalTrain>" << Qt::endl;
+
+        if (job->isLead() && job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
             outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << Qt::endl;
         else
             outstream << "<PositionAngle>" << job->getPositionAngle() << "</PositionAngle>" << Qt::endl;
@@ -2993,28 +3064,31 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
             outstream << "</TileCenter>" << Qt::endl;
         }
 
-        outstream << "<StartupCondition>" << Qt::endl;
-        if (job->getFileStartupCondition() == START_ASAP)
-            outstream << "<Condition>ASAP</Condition>" << Qt::endl;
-        else if (job->getFileStartupCondition() == START_AT)
-            outstream << "<Condition value='" << job->getStartAtTime().toString(Qt::ISODate) << "'>At</Condition>"
-                      << Qt::endl;
-        outstream << "</StartupCondition>" << Qt::endl;
+        if (job->isLead())
+        {
+            outstream << "<StartupCondition>" << Qt::endl;
+            if (job->getFileStartupCondition() == START_ASAP)
+                outstream << "<Condition>ASAP</Condition>" << Qt::endl;
+            else if (job->getFileStartupCondition() == START_AT)
+                outstream << "<Condition value='" << job->getStartAtTime().toString(Qt::ISODate) << "'>At</Condition>"
+                          << Qt::endl;
+            outstream << "</StartupCondition>" << Qt::endl;
 
-        outstream << "<Constraints>" << Qt::endl;
-        if (job->hasMinAltitude())
-            outstream << "<Constraint value='" << cLocale.toString(job->getMinAltitude()) << "'>MinimumAltitude</Constraint>" <<
-                      Qt::endl;
-        if (job->getMinMoonSeparation() > 0)
-            outstream << "<Constraint value='" << cLocale.toString(job->getMinMoonSeparation()) << "'>MoonSeparation</Constraint>"
-                      << Qt::endl;
-        if (job->getEnforceWeather())
-            outstream << "<Constraint>EnforceWeather</Constraint>" << Qt::endl;
-        if (job->getEnforceTwilight())
-            outstream << "<Constraint>EnforceTwilight</Constraint>" << Qt::endl;
-        if (job->getEnforceArtificialHorizon())
-            outstream << "<Constraint>EnforceArtificialHorizon</Constraint>" << Qt::endl;
-        outstream << "</Constraints>" << Qt::endl;
+            outstream << "<Constraints>" << Qt::endl;
+            if (job->hasMinAltitude())
+                outstream << "<Constraint value='" << cLocale.toString(job->getMinAltitude()) << "'>MinimumAltitude</Constraint>" <<
+                          Qt::endl;
+            if (job->getMinMoonSeparation() > 0)
+                outstream << "<Constraint value='" << cLocale.toString(job->getMinMoonSeparation()) << "'>MoonSeparation</Constraint>"
+                          << Qt::endl;
+            if (job->getEnforceWeather())
+                outstream << "<Constraint>EnforceWeather</Constraint>" << Qt::endl;
+            if (job->getEnforceTwilight())
+                outstream << "<Constraint>EnforceTwilight</Constraint>" << Qt::endl;
+            if (job->getEnforceArtificialHorizon())
+                outstream << "<Constraint>EnforceArtificialHorizon</Constraint>" << Qt::endl;
+            outstream << "</Constraints>" << Qt::endl;
+        }
 
         outstream << "<CompletionCondition>" << Qt::endl;
         if (job->getCompletionCondition() == FINISH_SEQUENCE)
@@ -3028,17 +3102,19 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
                       << Qt::endl;
         outstream << "</CompletionCondition>" << Qt::endl;
 
-        outstream << "<Steps>" << Qt::endl;
-        if (job->getStepPipeline() & SchedulerJob::USE_TRACK)
-            outstream << "<Step>Track</Step>" << Qt::endl;
-        if (job->getStepPipeline() & SchedulerJob::USE_FOCUS)
-            outstream << "<Step>Focus</Step>" << Qt::endl;
-        if (job->getStepPipeline() & SchedulerJob::USE_ALIGN)
-            outstream << "<Step>Align</Step>" << Qt::endl;
-        if (job->getStepPipeline() & SchedulerJob::USE_GUIDE)
-            outstream << "<Step>Guide</Step>" << Qt::endl;
-        outstream << "</Steps>" << Qt::endl;
-
+        if (job->isLead())
+        {
+            outstream << "<Steps>" << Qt::endl;
+            if (job->getStepPipeline() & SchedulerJob::USE_TRACK)
+                outstream << "<Step>Track</Step>" << Qt::endl;
+            if (job->getStepPipeline() & SchedulerJob::USE_FOCUS)
+                outstream << "<Step>Focus</Step>" << Qt::endl;
+            if (job->getStepPipeline() & SchedulerJob::USE_ALIGN)
+                outstream << "<Step>Align</Step>" << Qt::endl;
+            if (job->getStepPipeline() & SchedulerJob::USE_GUIDE)
+                outstream << "<Step>Guide</Step>" << Qt::endl;
+            outstream << "</Steps>" << Qt::endl;
+        }
         outstream << "</Job>" << Qt::endl;
     }
 
@@ -3234,6 +3310,9 @@ bool SchedulerProcess::appendEkosScheduleList(const QString &fileURL)
     // We expect all data read from the XML to be in the C locale - QLocale::c()
     QLocale cLocale = QLocale::c();
 
+    // remember previous job
+    SchedulerJob *lastLead = nullptr;
+
     while (sFile.getChar(&c))
     {
         root = readXMLEle(xmlParser, c, errmsg);
@@ -3245,7 +3324,11 @@ bool SchedulerProcess::appendEkosScheduleList(const QString &fileURL)
                 const char *tag = tagXMLEle(ep);
                 if (!strcmp(tag, "Job"))
                 {
-                    emit addJob(SchedulerUtils::createJob(ep));
+                    SchedulerJob *newJob = SchedulerUtils::createJob(ep, lastLead);
+                    // remember new lead if such one has been created
+                    if (newJob->isLead())
+                        lastLead = newJob;
+                    emit addJob(newJob);
                 }
                 else if (!strcmp(tag, "Mosaic"))
                 {
@@ -3504,76 +3587,114 @@ void SchedulerProcess::setGuideStatus(GuideState status)
 
 void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &devicename)
 {
-    if (activeJob() == nullptr || devicename != moduleState()->mainCameraDeviceName())
+    if (activeJob() == nullptr || !m_activeJobs.contains(devicename))
         return;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Capture State" << Ekos::getCaptureStatusString(status);
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Capture State" << Ekos::getCaptureStatusString(status) << "device =" << devicename;
+
+    SchedulerJob *job = m_activeJobs[devicename];
 
     /* If current job is scheduled and has not started yet, wait */
-    if (SCHEDJOB_SCHEDULED == activeJob()->getState())
+    if (SCHEDJOB_SCHEDULED == job->getState())
     {
         QDateTime const now = SchedulerModuleState::getLocalTime();
-        if (now < activeJob()->getStartupTime())
+        if (now < job->getStartupTime())
             return;
     }
 
-    if (activeJob()->getStage() == SCHEDSTAGE_CAPTURING)
+    if (job->getStage() == SCHEDSTAGE_CAPTURING)
     {
-        if (status == Ekos::CAPTURE_PROGRESS && (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN))
+        if (status == Ekos::CAPTURE_PROGRESS && (job->getStepPipeline() & SchedulerJob::USE_ALIGN))
         {
-            // JM 2021.09.20
-            // Re-set target coords in align module
-            // When capture starts, alignment module automatically rests target coords to mount coords.
-            // However, we want to keep align module target synced with the scheduler target and not
-            // the mount coord
-            const SkyPoint targetCoords = activeJob()->getTargetCoords();
-            QList<QVariant> targetArgs;
-            targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
-            alignInterface()->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords", targetArgs);
+            // alignment is only relevant for the lead job
+            if (job->isLead())
+            {
+                // JM 2021.09.20
+                // Re-set target coords in align module
+                // When capture starts, alignment module automatically rests target coords to mount coords.
+                // However, we want to keep align module target synced with the scheduler target and not
+                // the mount coord
+                const SkyPoint targetCoords = activeJob()->getTargetCoords();
+                QList<QVariant> targetArgs;
+                targetArgs << targetCoords.ra0().Hours() << targetCoords.dec0().Degrees();
+                alignInterface()->callWithArgumentList(QDBus::AutoDetect, "setTargetCoords", targetArgs);
+            }
         }
         else if (status == Ekos::CAPTURE_ABORTED)
         {
-            appendLogText(i18n("Warning: job '%1' failed to capture target.", activeJob()->getName()));
+            appendLogText(i18n("[%2] Warning: job '%1' failed to capture target.", job->getName(), devicename));
 
-            if (moduleState()->increaseCaptureFailureCount())
+            if (job->isLead())
             {
-                // If capture failed due to guiding error, let's try to restart that
-                if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
+                // if capturing on the lead has failed for less than MAX_FAILURE_ATTEMPTS times
+                if (moduleState()->increaseCaptureFailureCount())
                 {
-                    // Check if it is guiding related.
-                    Ekos::GuideState gStatus = getGuidingStatus();
-                    if (gStatus == Ekos::GUIDE_ABORTED ||
-                            gStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
-                            gStatus == GUIDE_DITHERING_ERROR)
-                    {
-                        appendLogText(i18n("Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 of %3).",
-                                           activeJob()->getName(),
-                                           moduleState()->captureFailureCount(), moduleState()->maxFailureAttempts()));
-                        startGuiding(true);
-                        return;
-                    }
-                }
+                    // abort follower capture jobs as well
+                    stopCapturing("", true);
 
-                /* FIXME: it's not clear whether it is actually possible to continue capturing when capture fails this way */
-                appendLogText(i18n("Warning: job '%1' failed its capture procedure, restarting capture.", activeJob()->getName()));
-                startCapture(true);
+                    // If capture failed due to guiding error, let's try to restart that
+                    if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
+                    {
+                        // Check if it is guiding related.
+                        Ekos::GuideState gStatus = getGuidingStatus();
+                        if (gStatus == Ekos::GUIDE_ABORTED ||
+                                gStatus == Ekos::GUIDE_CALIBRATION_ERROR ||
+                                gStatus == GUIDE_DITHERING_ERROR)
+                        {
+                            appendLogText(i18n("[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 of %4).",
+                                               activeJob()->getName(), devicename,
+                                               moduleState()->captureFailureCount(), moduleState()->maxFailureAttempts()));
+                            startGuiding(true);
+                            return;
+                        }
+                    }
+
+                    /* FIXME: it's not clear whether it is actually possible to continue capturing when capture fails this way */
+                    appendLogText(i18n("Warning: job '%1' failed its capture procedure, restarting capture.", activeJob()->getName()));
+                    startCapture(true);
+                }
+                else
+                {
+                    /* FIXME: it's not clear whether this situation can be recovered at all */
+                    appendLogText(i18n("[%2] Warning: job '%1' failed its capture procedure, marking aborted.", job->getName(), devicename));
+                    activeJob()->setState(SCHEDJOB_ABORTED);
+                    // abort follower capture jobs as well
+                    stopCapturing("", true);
+
+                    findNextJob();
+                }
             }
             else
             {
-                /* FIXME: it's not clear whether this situation can be recovered at all */
-                appendLogText(i18n("Warning: job '%1' failed its capture procedure, marking aborted.", activeJob()->getName()));
-                activeJob()->setState(SCHEDJOB_ABORTED);
-
-                findNextJob();
+                appendLogText(i18n("[%2] Follower job '%1' has failed, is restarting.", job->getName(), devicename));
+                startSingleCapture(job, true);
             }
         }
         else if (status == Ekos::CAPTURE_COMPLETE)
         {
             KSNotification::event(QLatin1String("EkosScheduledImagingFinished"),
-                                  i18n("Ekos job (%1) - Capture finished", activeJob()->getName()), KSNotification::Scheduler);
+                                  i18n("[%2] Job (%1) - Capture finished", job->getName(), devicename), KSNotification::Scheduler);
 
-            activeJob()->setState(SCHEDJOB_COMPLETE);
-            findNextJob();
+            if (job->isLead())
+            {
+                activeJob()->setState(SCHEDJOB_COMPLETE);
+                findNextJob();
+            }
+            else
+            {
+                // Re-evaluate all jobs, without selecting a new job
+                evaluateJobs(true);
+
+                if (job->getCompletionCondition() == FINISH_LOOP ||
+                        (job->getCompletionCondition() == FINISH_REPEAT && job->getRepeatsRemaining() > 0))
+                    startSingleCapture(job, false);
+                else
+                {
+                    // follower job is complete
+                    job->setState(SCHEDJOB_COMPLETE);
+                    job->setStage(SCHEDSTAGE_COMPLETE);
+                }
+            }
         }
         else if (status == Ekos::CAPTURE_IMAGE_RECEIVED)
         {
@@ -3588,9 +3709,11 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &devi
             }
             // Else if we don't remember the progress on jobs, increase the completed count for the current job only - no cross-checks
             else
-                activeJob()->setCompletedCount(activeJob()->getCompletedCount() + 1);
+                activeJob()->setCompletedCount(job->getCompletedCount() + 1);
 
-            moduleState()->resetCaptureFailureCount();
+            // reset the failure counter only if the image comes from the lead job
+            if (job->isLead())
+                moduleState()->resetCaptureFailureCount();
         }
     }
 }

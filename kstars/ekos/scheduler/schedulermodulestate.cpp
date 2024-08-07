@@ -67,6 +67,26 @@ void SchedulerModuleState::setActiveJob(SchedulerJob *newActiveJob)
     m_activeJob = newActiveJob;
 }
 
+QList<SchedulerJob *> SchedulerModuleState::leadJobs()
+{
+    QList<SchedulerJob *> result;
+    for (auto job : jobs())
+        if (job->isLead())
+            result.append(job);
+
+    return result;
+}
+
+QList<SchedulerJob *> SchedulerModuleState::followerJobs()
+{
+    QList<SchedulerJob *> result;
+    for (auto job : jobs())
+        if (!job->isLead())
+            result.append(job);
+
+    return result;
+}
+
 void SchedulerModuleState::updateJobStage(SchedulerJobStage stage)
 {
     if (activeJob() == nullptr)
@@ -154,8 +174,29 @@ bool SchedulerModuleState::removeJob(const int currentRow)
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is being deleted.").arg(job->getName()).arg(currentRow + 1);
 
+    // if it was a lead job, re-arrange its follower (if necessary)
+    if (job->isLead() && job->followerJobs().count() > 0)
+    {
+        // search the new lead
+        SchedulerJob *newLead = findLead(currentRow - 1);
+        // if it does not exist, do not allow job deletion
+        if (newLead == nullptr)
+        {
+            return false;
+        }
+        else
+        {
+            // set the new lead and add the follower jobs to the new lead
+            for (auto follower : job->followerJobs())
+            {
+                follower->setLeadJob(newLead);
+                newLead->followerJobs().append(follower);
+            }
+        }
+    }
     /* Remove the job object */
     mutlableJobs().removeOne(job);
+
     delete (job);
 
     // Reduce the current position if the last element has been deleted
@@ -165,6 +206,43 @@ bool SchedulerModuleState::removeJob(const int currentRow)
     setDirty(true);
     // success
     return true;
+}
+
+void SchedulerModuleState::refreshFollowerLists()
+{
+    // clear the follower lists
+    for (auto job : m_jobs)
+        job->followerJobs().clear();
+
+    // iterate over all jobs and append the follower to its lead
+    for (auto job : m_jobs)
+    {
+        SchedulerJob *lead = job->leadJob();
+        if (job->isLead() == false && lead != nullptr)
+        {
+            lead->followerJobs().append(job);
+            lead->updateSharedFollowerAttributes();
+        }
+    }
+}
+
+SchedulerJob *SchedulerModuleState::findLead(int position, bool upward)
+{
+    if (upward)
+    {
+        for (int i = std::min(position, jobs().count()); i >= 0; i--)
+            if (jobs().at(i)->isLead())
+                return jobs().at(i);
+    }
+    else
+    {
+        for (int i = std::min(position, jobs().count() ); i < jobs().count(); i++)
+            if (jobs().at(i)->isLead())
+                return jobs().at(i);
+    }
+
+    // nothing found
+    return nullptr;
 }
 
 void SchedulerModuleState::enablePreemptiveShutdown(const QDateTime &wakeupTime)

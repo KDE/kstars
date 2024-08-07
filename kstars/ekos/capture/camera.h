@@ -259,6 +259,11 @@ public:
     void setupOpticalTrainManager();
     void refreshOpticalTrain();
 
+    /**
+     * @brief Select the optical train
+     */
+    void selectOpticalTrain(QString name);
+
     // Utilities for storing stand-alone variables.
     void storeTrainKey(const QString &key, const QStringList &list);
     void storeTrainKeyString(const QString &key, const QString &str);
@@ -729,6 +734,12 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // helper functions
     // ////////////////////////////////////////////////////////////////////
+    // camera device name
+    QString getCameraName()
+    {
+        return activeCamera() == nullptr ? "" : activeCamera()->getDeviceName();
+    }
+
     // check if the upload paths are filled correctly
     bool checkUploadPaths(FilenamePreviewType filenamePreview);
 
@@ -778,7 +789,7 @@ private:
     // ////////////////////////////////////////////////////////////////////
     void appendLogText(const QString &text)
     {
-        emit newLog(text);
+        emit newLog(QString("[%1] ").arg(getCameraName()) + text);
     }
 
     // ////////////////////////////////////////////////////////////////////

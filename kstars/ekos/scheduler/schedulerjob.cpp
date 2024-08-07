@@ -142,6 +142,8 @@ void SchedulerJob::setGroup(const QString &value)
     group = value;
 }
 
+
+
 void SchedulerJob::setCompletedIterations(int value)
 {
     completedIterations = value;
@@ -179,7 +181,7 @@ void SchedulerJob::setStartupCondition(const StartupCondition &value)
     SchedulerModuleState::calculateDawnDusk(startupTime, nextDawn, nextDusk);
 }
 
-void SchedulerJob::setStartupTime(const QDateTime &value)
+void SchedulerJob::setStartupTime(const QDateTime &value, bool refreshDawnDusk)
 {
     startupTime = value;
 
@@ -190,13 +192,18 @@ void SchedulerJob::setStartupTime(const QDateTime &value)
         startupCondition = fileStartupCondition;
 
     // Refresh altitude - invalid date/time is taken care of when rendering
-    altitudeAtStartup = SchedulerUtils::findAltitude(targetCoords, startupTime, &settingAtStartup);
+    altitudeAtStartup = SchedulerUtils::findAltitude(getTargetCoords(), startupTime, &settingAtStartup);
 
     /* Refresh estimated time - which update job cells */
     setEstimatedTime(estimatedTime);
 
+    /* propagate it to all follower jobs, but avoid unnecessary dawn/dusk refresh */
+    for (auto follower : followerJobs())
+        follower->setStartupTime(value, false);
+
     /* Refresh dawn and dusk for startup date */
-    SchedulerModuleState::calculateDawnDusk(startupTime, nextDawn, nextDusk);
+    if (refreshDawnDusk)
+        SchedulerModuleState::calculateDawnDusk(startupTime, nextDawn, nextDusk);
 }
 
 void SchedulerJob::setSequenceFile(const QUrl &value)
@@ -217,7 +224,7 @@ void SchedulerJob::setMinAltitude(const double &value)
 bool SchedulerJob::hasAltitudeConstraint() const
 {
     return hasMinAltitude() ||
-           (enforceArtificialHorizon && (getHorizon() != nullptr) && getHorizon()->altitudeConstraintsExist()) ||
+           (getEnforceArtificialHorizon() && (getHorizon() != nullptr) && getHorizon()->altitudeConstraintsExist()) ||
            (Options::enableAltitudeLimits() &&
             (Options::minimumAltLimit() > 0 ||
              Options::maximumAltLimit() < 90));
@@ -236,9 +243,21 @@ void SchedulerJob::setEnforceWeather(bool value)
 void SchedulerJob::setStopTime(const QDateTime &value)
 {
     stopTime = value;
+
     // update altitude and setting at stop time
     if (value.isValid())
-        altitudeAtStop = SchedulerUtils::findAltitude(targetCoords, stopTime, &settingAtStop);
+    {
+        altitudeAtStop = SchedulerUtils::findAltitude(getTargetCoords(), stopTime, &settingAtStop);
+
+        /* propagate it to all follower jobs, but avoid unnecessary dawn/dusk refresh */
+        for (auto follower : followerJobs())
+        {
+            // if the lead job completes earlier as the follower would do, set its completion time to the lead job's
+            if (follower->getStartupTime().isValid() && value.isValid()
+                    && (follower->getEstimatedTime() < 0 || follower->getEstimatedTime() > getEstimatedTime()))
+                follower->setEstimatedTime(getEstimatedTime());
+        }
+    }
 }
 
 void SchedulerJob::setFinishAtTime(const QDateTime &value)
@@ -314,28 +333,69 @@ void SchedulerJob::setState(const SchedulerJobStatus &value)
     state = value;
     stateTime = getLocalTime();
 
-    /* FIXME: move this to Scheduler, SchedulerJob is mostly a model */
-    if (SCHEDJOB_ERROR == state)
+    switch (state)
     {
-        lastErrorTime = getLocalTime();
-        KNotification::event(QLatin1String("EkosSchedulerJobFail"), i18n("Ekos job failed (%1)", getName()));
+        case SCHEDJOB_ERROR:
+            /* FIXME: move this to Scheduler, SchedulerJob is mostly a model */
+            lastErrorTime = getLocalTime();
+            KNotification::event(QLatin1String("EkosSchedulerJobFail"), i18n("Ekos job failed (%1)", getName()));
+            break;
+        case SCHEDJOB_INVALID:
+        case SCHEDJOB_IDLE:
+            /* If job becomes invalid or idle, automatically reset its startup characteristics, and force its duration to be reestimated */
+            setStartupCondition(fileStartupCondition);
+            setStartupTime(startAtTime);
+            setEstimatedTime(-1);
+            break;
+        case SCHEDJOB_ABORTED:
+            /* If job is aborted, automatically reset its startup characteristics */
+            lastAbortTime = getLocalTime();
+            setStartupCondition(fileStartupCondition);
+            /* setStartupTime(fileStartupTime); */
+            break;
+        default:
+            /* do nothing */
+            break;
     }
+    // propagate it to the follower jobs
+    if (isLead())
+        setFollowerState(value);
+}
 
-    /* If job becomes invalid or idle, automatically reset its startup characteristics, and force its duration to be reestimated */
-    if (SCHEDJOB_INVALID == value || SCHEDJOB_IDLE == value)
+void SchedulerJob::setFollowerState(const SchedulerJobStatus &value)
+{
+    for (auto follower : followerJobs())
     {
-        setStartupCondition(fileStartupCondition);
-        setStartupTime(startAtTime);
-        setEstimatedTime(-1);
-    }
+        // do not propagate the state if the job is running
+        if (follower->getState() == SCHEDJOB_BUSY)
+            continue;
 
-    /* If job is aborted, automatically reset its startup characteristics */
-    if (SCHEDJOB_ABORTED == value)
-    {
-        lastAbortTime = getLocalTime();
-        setStartupCondition(fileStartupCondition);
-        /* setStartupTime(fileStartupTime); */
+        switch (value)
+        {
+            case SCHEDJOB_SCHEDULED:
+                // if the lead job is scheduled, the follower job will be scheduled unless it is complete
+                follower->setState(follower->getCompletionCondition() == FINISH_LOOP
+                                   || follower->getEstimatedTime() > 0 ? value : SCHEDJOB_COMPLETE);
+                break;
+            case SCHEDJOB_BUSY:
+                // do NOT forward the state, each follower job needs to be started indivudially
+                break;
+            default:
+                follower->setState(value);
+                break;
+        }
     }
+}
+
+void SchedulerJob::updateSharedFollowerAttributes()
+{
+    if (isLead())
+        for (auto follower : followerJobs())
+        {
+            follower->setStartupTime(getStartupTime(), false);
+            follower->setStartAtTime(getStartAtTime());
+            follower->setFollowerState(getState());
+        }
 }
 
 
@@ -384,7 +444,7 @@ void SchedulerJob::setEstimatedTime(const int64_t &value)
     else if (FINISH_AT != completionCondition && FINISH_LOOP != completionCondition)
     {
         estimatedTime = value;
-        finishAtTime = startupTime.addSecs(value);
+        setStopTime(startupTime.addSecs(value));
     }
     /* Else estimated time is simply stored as is - covers FINISH_LOOP from setCompletionTime */
     else estimatedTime = value;
@@ -510,6 +570,9 @@ bool SchedulerJob::decreasingAltitudeOrder(SchedulerJob const *job1, SchedulerJo
 
 bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason) const
 {
+    if (m_LeadJob != nullptr)
+        return m_LeadJob->satisfiesAltitudeConstraint(azimuth, altitude, altitudeReason);
+
     // Check the mount's altitude constraints.
     if (Options::enableAltitudeLimits() &&
             (altitude < Options::minimumAltLimit() ||
@@ -660,6 +723,9 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
 bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time,
         QDateTime *nextPossibleSuccess) const
 {
+    if (m_LeadJob != nullptr)
+        return m_LeadJob->runsDuringAstronomicalNightTime(time, nextPossibleSuccess);
+
     // We call this very frequently in the Greedy Algorithm, and the calls
     // below are expensive. Almost all the calls are redundent (e.g. if it's not nighttime
     // now, it's not nighttime in 10 minutes). So, cache the answer and return it if the next
@@ -701,6 +767,9 @@ bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time,
 bool SchedulerJob::runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk,
         QDateTime *nextPossibleSuccess) const
 {
+    if (m_LeadJob != nullptr)
+        return m_LeadJob->runsDuringAstronomicalNightTimeInternal(time, minDawnDusk, nextPossibleSuccess);
+
     QDateTime t;
     QDateTime nDawn = nextDawn, nDusk = nextDusk;
     if (time.isValid())
@@ -991,8 +1060,8 @@ QJsonObject SchedulerJob::toJson() const
     {
         {"name", name},
         {"pa", m_PositionAngle},
-        {"targetRA", targetCoords.ra0().Hours()},
-        {"targetDEC", targetCoords.dec0().Degrees()},
+        {"targetRA", getTargetCoords().ra0().Hours()},
+        {"targetDEC", getTargetCoords().dec0().Degrees()},
         {"state", state},
         {"stage", stage},
         {"sequenceCount", sequenceCount},

@@ -59,60 +59,14 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,0,0,0,0,0,0,0" columnstretch="0,0,0,0">
+         <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,0,0,0,0,0,0,0,0" columnstretch="0,0,0,0">
           <property name="horizontalSpacing">
            <number>1</number>
           </property>
           <property name="verticalSpacing">
            <number>3</number>
           </property>
-          <item row="3" column="0">
-           <widget class="QLabel" name="sequenceLabel">
-            <property name="toolTip">
-             <string>Ekos Sequence File</string>
-            </property>
-            <property name="text">
-             <string>Sequence:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="rotationLabel">
-            <property name="toolTip">
-             <string>Target Position Angle</string>
-            </property>
-            <property name="text">
-             <string>PA</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label_3">
-            <property name="styleSheet">
-             <string notr="true">color:red</string>
-            </property>
-            <property name="text">
-             <string notr="true">*</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Select the tasks to run at the start of each scheduler job. Executed in order, left to right.</string>
-            </property>
-            <property name="text">
-             <string>Steps:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3">
+          <item row="4" column="3">
            <widget class="QPushButton" name="loadSequenceB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -127,7 +81,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="folder"/>
+             <iconset theme="folder">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
@@ -154,103 +109,7 @@
             </item>
            </layout>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="targetLabel">
-            <property name="text">
-             <string>Target:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="3">
-           <widget class="QPushButton" name="selectFITSB">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset theme="folder"/>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="label_5">
-            <property name="styleSheet">
-             <string notr="true">color:red</string>
-            </property>
-            <property name="text">
-             <string notr="true">*</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="FITSLabel">
-            <property name="toolTip">
-             <string>Select optional FITS file to be used for alignment. When using FITS, specify the object or the estimated coordinates which are used to slew the mount.</string>
-            </property>
-            <property name="text">
-             <string>FITS File:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QDoubleSpinBox" name="positionAngleSpin">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Position Angle in Degrees</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="minimum">
-             <double>-181.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>180.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>5.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>-181.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="groupLabel">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Select a group name. Useful if you want several jobs to repeat together--assign them the same group name, and give them &lt;i&gt;repeat for N&lt;/i&gt; or &lt;i&gt;repeat until terminated&lt;/i&gt; completion conditions. Otherwise leave empty. Only applies to the Greedy scheduler algorithm.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Group:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="2">
-           <widget class="QComboBox" name="schedulerProfileCombo">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <item>
-             <property name="text">
-              <string>Default</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="4" column="2">
+          <item row="5" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <property name="spacing">
              <number>1</number>
@@ -282,13 +141,13 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label">
+          <item row="5" column="0">
+           <widget class="QLabel" name="FITSLabel">
             <property name="toolTip">
-             <string>Target coordinates in J2000 Epoch</string>
+             <string>Select optional FITS file to be used for alignment. When using FITS, specify the object or the estimated coordinates which are used to slew the mount.</string>
             </property>
             <property name="text">
-             <string>J2000:</string>
+             <string>FITS File:</string>
             </property>
            </widget>
           </item>
@@ -304,50 +163,38 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="search"/>
+             <iconset theme="search">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
           </item>
-          <item row="3" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_15">
-            <property name="spacing">
-             <number>1</number>
-            </property>
-            <property name="sizeConstraint">
-             <enum>QLayout::SetDefaultConstraint</enum>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="QLineEdit" name="sequenceEdit">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="toolTip">
-             <string>Ekos Device Profile</string>
+          <item row="0" column="1">
+           <widget class="QLabel" name="targetStarLabel">
+            <property name="styleSheet">
+             <string notr="true">color:red</string>
             </property>
             <property name="text">
-             <string>Profile:</string>
+             <string notr="true">*</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="2">
+          <item row="8" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Select the tasks to run at the start of each scheduler job. Executed in order, left to right.</string>
+            </property>
+            <property name="text">
+             <string>Steps:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="2">
            <layout class="QGridLayout" name="gridLayout_4" columnstretch="1,1,1,1">
             <property name="leftMargin">
              <number>6</number>
@@ -451,69 +298,40 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_17">
-            <property name="spacing">
-             <number>5</number>
+          <item row="4" column="0">
+           <widget class="QLabel" name="sequenceLabel">
+            <property name="toolTip">
+             <string>Ekos Sequence File</string>
             </property>
-            <property name="bottomMargin">
-             <number>0</number>
+            <property name="text">
+             <string>Sequence:</string>
             </property>
-            <item>
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>RA</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="dmsBox" name="raBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>DEC</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="dmsBox" name="decBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string/>
-              </property>
-              <property name="layoutDirection">
-               <enum>Qt::LeftToRight</enum>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           </widget>
           </item>
-          <item row="5" column="2">
-           <widget class="QLineEdit" name="groupEdit">
+          <item row="5" column="3">
+           <widget class="QPushButton" name="selectFITSB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset theme="folder">
+              <normaloff>.</normaloff>.</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="rotationLabel">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Select a group name. Useful if you want several jobs to repeat together--assign them the same group name, and give them &lt;i&gt;repeat for N&lt;/i&gt; or &lt;i&gt;repeat until terminated&lt;/i&gt; completion conditions. Otherwise leave empty. Only applies to the Greedy scheduler algorithm.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>Target Position Angle</string>
+            </property>
+            <property name="text">
+             <string>PA</string>
             </property>
            </widget>
           </item>
@@ -526,9 +344,79 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="snap-orthogonal"/>
+             <iconset theme="snap-orthogonal">
+              <normaloff>.</normaloff>.</iconset>
             </property>
            </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="groupLabel">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Select a group name. Useful if you want several jobs to repeat together--assign them the same group name, and give them &lt;i&gt;repeat for N&lt;/i&gt; or &lt;i&gt;repeat until terminated&lt;/i&gt; completion conditions. Otherwise leave empty. Only applies to the Greedy scheduler algorithm.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Group:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QComboBox" name="leadFollowerSelectionCB">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Define the job's target or select &lt;span style=&quot;font-style:italic&quot;&gt;Follower&lt;/span&gt; if the job should run as multi camera job in combination with the first job above having a target defined.&lt;p&gt;&lt;p&gt;&lt;b&gt;WARNING&lt;/b&gt;: This feature is experimental!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2">
+           <widget class="QLineEdit" name="groupEdit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Select a group name. Useful if you want several jobs to repeat together--assign them the same group name, and give them &lt;i&gt;repeat for N&lt;/i&gt; or &lt;i&gt;repeat until terminated&lt;/i&gt; completion conditions. Otherwise leave empty. Only applies to the Greedy scheduler algorithm.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLabel" name="label_5">
+            <property name="styleSheet">
+             <string notr="true">color:red</string>
+            </property>
+            <property name="text">
+             <string notr="true">*</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_15">
+            <property name="spacing">
+             <number>1</number>
+            </property>
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="sequenceEdit">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item row="1" column="1">
            <widget class="QLabel" name="label_11">
@@ -654,6 +542,145 @@
              <string notr="true">*</string>
             </property>
            </widget>
+          </item>
+          <item row="7" column="2">
+           <widget class="QComboBox" name="schedulerProfileCombo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>Default</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QDoubleSpinBox" name="positionAngleSpin">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Position Angle in Degrees</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="minimum">
+             <double>-181.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>180.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>5.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>-181.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label">
+            <property name="toolTip">
+             <string>Target coordinates in J2000 Epoch</string>
+            </property>
+            <property name="text">
+             <string>J2000:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="toolTip">
+             <string>Ekos Device Profile</string>
+            </property>
+            <property name="text">
+             <string>Profile:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <layout class="QHBoxLayout" name="horizontalLayout_17">
+            <property name="spacing">
+             <number>5</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>RA</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="dmsBox" name="raBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>DEC</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="dmsBox" name="decBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LeftToRight</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="trainLabel">
+            <property name="toolTip">
+             <string>Optical train to be used for this scheduler job within the Capture module.</string>
+            </property>
+            <property name="text">
+             <string>Train:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLabel" name="label_10">
+            <property name="styleSheet">
+             <string notr="true">color:red</string>
+            </property>
+            <property name="text">
+             <string>*</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QComboBox" name="opticalTrainCombo"/>
           </item>
          </layout>
         </item>
@@ -1093,6 +1120,7 @@
            </property>
            <property name="font">
             <font>
+             <weight>50</weight>
              <bold>false</bold>
             </font>
            </property>
@@ -2309,28 +2337,28 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="stepsButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="errorHandlingButtonGroup"/>
-  <buttongroup name="startupProcedureButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="completionButtonGroup"/>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="constraintButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
  </buttongroups>
 </ui>

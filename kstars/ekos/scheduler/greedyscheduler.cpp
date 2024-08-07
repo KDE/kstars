@@ -60,7 +60,10 @@ void GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
 
     prepareJobsForEvaluation(jobs, now, capturedFramesCount, logger);
 
-    scheduledJob = selectNextJob(jobs, now, nullptr, SIMULATE, &when, nullptr, nullptr, &capturedFramesCount);
+    // consider only lead jobs for scheduling, scheduling data is propagated to its follower jobs
+    const QList<SchedulerJob *> leadJobs = SchedulerUtils::filterLeadJobs(jobs);
+
+    scheduledJob = selectNextJob(leadJobs, now, nullptr, SIMULATE, &when, nullptr, nullptr, &capturedFramesCount);
     auto schedule = getSchedule();
     if (logger != nullptr)
     {
@@ -543,6 +546,8 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         SchedulerJob *newJob = new SchedulerJob();
         // Make sure the copied class pointers aren't affected!
         *newJob = *job;
+        // clear follower job lists to avoid links to existing jobs
+        newJob->followerJobs().clear();
         copiedJobs.append(newJob);
         job->setStopTime(QDateTime());
     }

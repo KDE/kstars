@@ -72,6 +72,16 @@ public:
     }
     void setActiveJob(SchedulerJob *newActiveJob);
 
+    /**
+     * @brief Return the master jobs only, slave jobs are ignored
+     */
+    QList<SchedulerJob *> leadJobs();
+
+    /**
+     * @brief Return the slave jobs only, master jobs are ignored
+     */
+    QList<SchedulerJob *> followerJobs();
+
     QList<SchedulerJob *> &mutlableJobs()
     {
         return m_jobs;
@@ -102,14 +112,6 @@ public:
     // state attributes accessors
     // ////////////////////////////////////////////////////////////////////
 
-    const QString &mainCameraDeviceName() const
-    {
-        return m_mainCameraDeviceName;
-    }
-    void setMainCameraDeviceName(const QString &newMainCameraDeviceName)
-    {
-        m_mainCameraDeviceName = newMainCameraDeviceName;
-    }
 
     bool dirty() const
     {
@@ -188,6 +190,16 @@ public:
      * @return true iff removing succeeded
      */
     bool removeJob(const int currentRow);
+
+    /**
+     * @brief refreshSlaveLists walk through the jobs and update the slave lists
+     */
+    void refreshFollowerLists();
+
+    /**
+     * @brief walk through the job list and find the first master job
+     */
+    SchedulerJob *findLead(int position, bool upward = true);
 
 
     // ////////////////////////////////////////////////////////////////////
@@ -293,6 +305,7 @@ public:
     void setIndiCommunicationStatus(CommunicationStatus newINDICommunicationStatus)
     {
         m_INDICommunicationStatus = newINDICommunicationStatus;
+        emit indiCommunicationStatusChanged(m_INDICommunicationStatus);
     }
     // counters for failed INDI connection attempts
     void resetIndiConnectFailureCount(uint8_t newIndiConnectFailureCount = 0)
@@ -609,6 +622,8 @@ signals:
     void ekosStateChanged(EkosState state);
     // State change of INDI
     void indiStateChanged(INDIState state);
+    // High level INDI state changes
+    void indiCommunicationStatusChanged(CommunicationStatus status);
     // overall scheduler state changed
     void schedulerStateChanged(SchedulerState state);
     // startup state
@@ -637,10 +652,8 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // List of all jobs as entered by the user or file
     QList<SchedulerJob *> m_jobs;
-    // Active job
+    // Active master job
     SchedulerJob *m_activeJob { nullptr };
-    // main camera (for multi camera setups)
-    QString m_mainCameraDeviceName;
 
     // ////////////////////////////////////////////////////////////////////
     // state attributes

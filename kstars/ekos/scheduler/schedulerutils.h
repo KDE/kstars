@@ -30,13 +30,15 @@ public:
 
     /**
      * @brief createJob Create job from its XML representation
+     * @param root XML description of the job to be created
+     * @param leadJob candidate for lead (only necessary if the new job's type is follower)
      */
-    static SchedulerJob *createJob(XMLEle *root);
+    static SchedulerJob *createJob(XMLEle *root, SchedulerJob *leadJob);
 
     /**
      * @brief setupJob Initialize a job with all fields accessible from the UI.
      */
-    static void setupJob(SchedulerJob &job, const QString &name, const QString &group, const dms &ra, const dms &dec,
+    static void setupJob(SchedulerJob &job, const QString &name, bool isLead, const QString &group, const QString &train, const dms &ra, const dms &dec,
                          double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl, StartupCondition startup,
                          const QDateTime &startupTime, CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
                          double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
@@ -121,6 +123,11 @@ public:
          * @warning This function uses the current KStars geolocation.
          */
     static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, bool debug = false);
+
+    /**
+     * @brief create a new list with only the master jobs from the input
+     */
+    static QList<SchedulerJob *> filterLeadJobs(const QList<SchedulerJob *> &jobs);
 };
 
 

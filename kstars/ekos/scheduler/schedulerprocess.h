@@ -7,6 +7,7 @@
 #pragma once
 
 #include "schedulertypes.h"
+#include "schedulerjob.h"
 #include "ekos/auxiliary/modulelogger.h"
 #include "ekos/align/align.h"
 #include "ekos/auxiliary/solverutils.h"
@@ -21,7 +22,6 @@
 namespace Ekos
 {
 
-class SchedulerJob;
 class GreedyScheduler;
 class SchedulerModuleState;
 
@@ -162,6 +162,8 @@ public:
      * is not loaded from disk again since that results in erasing all the history of the capture process.
      */
     Q_SCRIPTABLE Q_NOREPLY void startCapture(bool restart = false);
+
+    void startSingleCapture(SchedulerJob *job, bool restart = false);
 
     /**
      * @brief updateCompletedJobsCount For each scheduler job, examine sequence job storage and count captures.
@@ -690,6 +692,10 @@ private:
     QProcess m_scriptProcess;
     // solver for alignment checks
     QSharedPointer<SolverUtils> m_Solver;
+
+    // mapping camera name --> scheduler job
+    QMap<QString, SchedulerJob*> m_activeJobs;
+
     // ////////////////////////////////////////////////////////////////////
     // DBUS interfaces
     // ////////////////////////////////////////////////////////////////////
@@ -809,5 +815,11 @@ private:
     // Prints all the relative state variables set during an iteration. For debugging.
     void printStates(const QString &label);
 
+    /**
+     * @brief Abort capturing
+     * @param train train name, if empty abort the master job, otherwise abort this job's capture
+     * @param followersOnly if true and train name is empty, do not abort the lead, but all its followers
+     */
+    void stopCapturing(QString train = "", bool followersOnly = false);
 };
 } // Ekos namespace

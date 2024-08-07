@@ -13,9 +13,11 @@
         <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::CaptureState"/>
     </property>
     <method name="start">
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg name="train" type="s" direction="in"/>
+      <arg type="s" direction="out"/>
     </method>
     <method name="abort">
+      <arg name="train" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="suspend">
@@ -41,6 +43,8 @@
     <method name="loadSequenceQueue">
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>
+      <arg name="train" type="s" direction="in"/>
+      <arg name="isMaster" type="b" direction="in"/>
       <arg name="targetName" type="s" direction="in"/>
     </method>
     <method name="saveSequenceQueue">
@@ -118,6 +122,7 @@
     <method name="setCapturedFramesMap">
       <arg name="signature" type="s" direction="in"/>
       <arg name="count" type="i" direction="in"/>
+      <arg name="train" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="mainCameraDeviceName">

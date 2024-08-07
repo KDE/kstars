@@ -31,6 +31,7 @@
 #include "ekos/capture/placeholderpath.h"
 #include "skyobjects/starobject.h"
 #include "greedyscheduler.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/solverutils.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
 
@@ -44,6 +45,9 @@
 
 // Qt version calming
 #include <qtendl.h>
+
+#define INDEX_LEAD      0
+#define INDEX_FOLLOWER  1
 
 #define BAD_SCORE                -1000
 #define RESTART_GUIDING_DELAY_MS  5000
@@ -112,6 +116,16 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     startupTimeEdit->setDateTime(currentDateTime);
     schedulerUntilValue->setDateTime(currentDateTime);
 
+    // set up the job type selection combo box
+    QStandardItemModel *model = new QStandardItemModel(leadFollowerSelectionCB);
+    QStandardItem *item = new QStandardItem(i18n("Target"));
+    model->appendRow(item);
+    item = new QStandardItem(i18n("Follower"));
+    QFont font;
+    font.setItalic(true);
+    item->setFont(font);
+    model->appendRow(item);
+    leadFollowerSelectionCB->setModel(model);
 
     sleepLabel->setPixmap(
         QIcon::fromTheme("chronometer").pixmap(QSize(32, 32)));
@@ -217,6 +231,9 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     executionSequenceLimit->setEnabled(Options::rememberJobProgress() == false);
     executionSequenceLimit->setValue(Options::schedulerExecutionSequencesLimit());
 
+    // disable creating follower jobs at the beginning
+    leadFollowerSelectionCB->setEnabled(false);
+
     connect(startupB, &QPushButton::clicked, process().data(), &SchedulerProcess::runStartupProcedure);
     connect(shutdownB, &QPushButton::clicked, process().data(), &SchedulerProcess::runShutdownProcedure);
 
@@ -225,6 +242,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(loadSequenceB, &QPushButton::clicked, this, &Scheduler::selectSequence);
     connect(selectStartupScriptB, &QPushButton::clicked, this, &Scheduler::selectStartupScript);
     connect(selectShutdownScriptB, &QPushButton::clicked, this, &Scheduler::selectShutdownScript);
+    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Scheduler::refreshOpticalTrain);
 
     connect(KStars::Instance()->actionCollection()->action("show_mosaic_panel"), &QAction::triggered, this, [this](bool checked)
     {
@@ -284,6 +302,8 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     // Connect to the state machine
     connect(moduleState().data(), &SchedulerModuleState::ekosStateChanged, this, &Scheduler::ekosStateChanged);
     connect(moduleState().data(), &SchedulerModuleState::indiStateChanged, this, &Scheduler::indiStateChanged);
+    connect(moduleState().data(), &SchedulerModuleState::indiCommunicationStatusChanged, this,
+            &Scheduler::indiCommunicationStatusChanged);
     connect(moduleState().data(), &SchedulerModuleState::schedulerStateChanged, this, &Scheduler::handleSchedulerStateChanged);
     connect(moduleState().data(), &SchedulerModuleState::startupStateChanged, this, &Scheduler::startupStateChanged);
     connect(moduleState().data(), &SchedulerModuleState::shutdownStateChanged, this, &Scheduler::shutdownStateChanged);
@@ -380,6 +400,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
 
     loadGlobalSettings();
     connectSettings();
+    refreshOpticalTrain();
 }
 
 QString Scheduler::getCurrentJobName()
@@ -415,6 +436,8 @@ void Scheduler::watchJobChanges(bool enable)
     QComboBox * const comboBoxes[] =
     {
         schedulerProfileCombo,
+        opticalTrainCombo,
+        leadFollowerSelectionCB
     };
 
     QButtonGroup * const buttonGroups[] =
@@ -468,10 +491,20 @@ void Scheduler::watchJobChanges(bool enable)
             setDirty();
         });
         for (auto * const control : comboBoxes)
-            connect(control, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]()
         {
-            setDirty();
-        });
+            if (control == leadFollowerSelectionCB)
+                connect(leadFollowerSelectionCB, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+                        this, [this](int pos)
+            {
+                setJobManipulation(queueUpB->isEnabled() || queueDownB->isEnabled(), removeFromQueueB->isEnabled(), pos == INDEX_LEAD);
+                setDirty();
+            });
+            else
+                connect(control, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]()
+            {
+                setDirty();
+            });
+        }
         for (auto * const control : buttonGroups)
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             connect(control, static_cast<void (QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, [this](int, bool)
@@ -809,9 +842,12 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
     if (schedulerMoonSeparation->isChecked())
         moonConstraint = schedulerMoonSeparationValue->value();
 
+    QString train = opticalTrainCombo->currentText() == "--" ? "" : opticalTrainCombo->currentText();
+
     // The reason for this kitchen-sink function is to separate the UI from the
     // job setup, to allow for testing.
-    SchedulerUtils::setupJob(*job, nameEdit->text(), groupEdit->text(), ra, dec,
+    SchedulerUtils::setupJob(*job, nameEdit->text(), leadFollowerSelectionCB->currentIndex() == INDEX_LEAD, groupEdit->text(),
+                             train, ra, dec,
                              KStarsData::Instance()->ut().djd(),
                              positionAngleSpin->value(), sequenceURL, fitsURL,
 
@@ -880,39 +916,47 @@ void Scheduler::saveJob(SchedulerJob *job)
         insertJobTableRow(currentRow);
     }
 
+    // update lead/follower relationships
+    if (!job->isLead())
+        job->setLeadJob(moduleState()->findLead(currentRow - 1));
+    moduleState()->refreshFollowerLists();
+
     /* Verifications */
     // Warn user if a duplicated job is in the list - same target, same sequence
     // FIXME: Those duplicated jobs are not necessarily processed in the order they appear in the list!
     int numWarnings = 0;
-    foreach (SchedulerJob *a_job, moduleState()->jobs())
+    if (job->isLead())
     {
-        if (a_job == job)
+        foreach (SchedulerJob *a_job, moduleState()->jobs())
         {
-            break;
-        }
-        else if (a_job->getName() == job->getName())
-        {
-            int const a_job_row = moduleState()->jobs().indexOf(a_job);
-
-            /* FIXME: Warning about duplicate jobs only checks the target name, doing it properly would require checking storage for each sequence job of each scheduler job. */
-            process()->appendLogText(i18n("Warning: job '%1' at row %2 has a duplicate target at row %3, "
-                                          "the scheduler may consider the same storage for captures.",
-                                          job->getName(), currentRow, a_job_row));
-
-            /* Warn the user in case the two jobs are really identical */
-            if (a_job->getSequenceFile() == job->getSequenceFile())
+            if (a_job == job || !a_job->isLead())
             {
-                if (a_job->getRepeatsRequired() == job->getRepeatsRequired() && Options::rememberJobProgress())
-                    process()->appendLogText(i18n("Warning: jobs '%1' at row %2 and %3 probably require a different repeat count "
-                                                  "as currently they will complete simultaneously after %4 batches (or disable option 'Remember job progress')",
-                                                  job->getName(), currentRow, a_job_row, job->getRepeatsRequired()));
-            }
-
-            // Don't need to warn over and over.
-            if (++numWarnings >= 1)
-            {
-                process()->appendLogText(i18n("Skipped checking for duplicates."));
                 break;
+            }
+            else if (a_job->getName() == job->getName())
+            {
+                int const a_job_row = moduleState()->jobs().indexOf(a_job);
+
+                /* FIXME: Warning about duplicate jobs only checks the target name, doing it properly would require checking storage for each sequence job of each scheduler job. */
+                process()->appendLogText(i18n("Warning: job '%1' at row %2 has a duplicate target at row %3, "
+                                              "the scheduler may consider the same storage for captures.",
+                                              job->getName(), currentRow, a_job_row));
+
+                /* Warn the user in case the two jobs are really identical */
+                if (a_job->getSequenceFile() == job->getSequenceFile())
+                {
+                    if (a_job->getRepeatsRequired() == job->getRepeatsRequired() && Options::rememberJobProgress())
+                        process()->appendLogText(i18n("Warning: jobs '%1' at row %2 and %3 probably require a different repeat count "
+                                                      "as currently they will complete simultaneously after %4 batches (or disable option 'Remember job progress')",
+                                                      job->getName(), currentRow, a_job_row, job->getRepeatsRequired()));
+                }
+
+                // Don't need to warn over and over.
+                if (++numWarnings >= 1)
+                {
+                    process()->appendLogText(i18n("Skipped checking for duplicates."));
+                    break;
+                }
             }
         }
     }
@@ -924,7 +968,7 @@ void Scheduler::saveJob(SchedulerJob *job)
     queueSaveB->setEnabled(true);
     startB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
-    setJobManipulation(true, true);
+    setJobManipulation(true, true, job->isLead());
     checkJobInputComplete();
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 was saved.").arg(job->getName()).arg(currentRow + 1);
@@ -947,11 +991,7 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
 
     // fitsURL/sequenceURL are not part of UI, but the UI serves as model, so keep them here for now
     fitsURL = job->getFITSFile().isEmpty() ? QUrl() : job->getFITSFile();
-    sequenceURL = job->getSequenceFile();
     fitsEdit->setText(fitsURL.toLocalFile());
-    sequenceEdit->setText(sequenceURL.toLocalFile());
-
-    positionAngleSpin->setValue(job->getPositionAngle());
 
     schedulerTrackStep->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
     schedulerFocusStep->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
@@ -1002,6 +1042,25 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
     schedulerHorizon->setChecked(job->getEnforceArtificialHorizon());
     schedulerHorizon->blockSignals(false);
 
+    if (job->isLead())
+    {
+        leadFollowerSelectionCB->setCurrentIndex(INDEX_LEAD);
+    }
+    else
+    {
+        leadFollowerSelectionCB->setCurrentIndex(INDEX_FOLLOWER);
+    }
+
+    if (job->getOpticalTrain().isEmpty())
+        opticalTrainCombo->setCurrentIndex(0);
+    else
+        opticalTrainCombo->setCurrentText(job->getOpticalTrain());
+
+    sequenceURL = job->getSequenceFile();
+    sequenceEdit->setText(sequenceURL.toLocalFile());
+
+    positionAngleSpin->setValue(job->getPositionAngle());
+
     switch (job->getCompletionCondition())
     {
         case FINISH_SEQUENCE:
@@ -1024,8 +1083,7 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
     }
 
     updateNightTime(job);
-
-    setJobManipulation(true, true);
+    setJobManipulation(true, true, job->isLead());
 }
 
 void Scheduler::syncGUIToGeneralSettings()
@@ -1101,7 +1159,7 @@ void Scheduler::loadJob(QModelIndex i)
     evaluateOnlyB->setEnabled(false);
 
     /* Don't let the end-user remove a job being edited */
-    setJobManipulation(false, false);
+    setJobManipulation(false, false, job->isLead());
 
     jobUnderEdit = i.row();
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is currently edited.").arg(job->getName()).arg(
@@ -1153,7 +1211,10 @@ void Scheduler::queueTableSelectionChanged(const QItemSelection &selected, const
 
 void Scheduler::clickQueueTable(QModelIndex index)
 {
-    setJobManipulation(index.isValid(), index.isValid());
+    if (index.isValid() && index.row() < moduleState()->jobs().count())
+        setJobManipulation(true, true, moduleState()->jobs().at(index.row())->isLead());
+    else
+        setJobManipulation(index.isValid(), index.isValid(), leadFollowerSelectionCB->currentIndex() == INDEX_LEAD);
 }
 
 void Scheduler::setJobAddApply(bool add_mode)
@@ -1173,13 +1234,21 @@ void Scheduler::setJobAddApply(bool add_mode)
     checkJobInputComplete();
 }
 
-void Scheduler::setJobManipulation(bool can_reorder, bool can_delete)
+void Scheduler::setJobManipulation(bool can_reorder, bool can_delete, bool is_lead)
 {
     if (can_reorder)
     {
         int const currentRow = moduleState()->currentPosition();
-        queueUpB->setEnabled(0 < currentRow);
-        queueDownB->setEnabled(currentRow < queueTable->rowCount() - 1);
+        if (currentRow >= 0)
+        {
+            SchedulerJob *currentJob = moduleState()->jobs().at(currentRow);
+            // Lead jobs may always be shifted, follower jobs only if there is another lead above its current one.
+            queueUpB->setEnabled(0 < currentRow &&
+                                 (currentJob->isLead() || (currentRow > 1 && moduleState()->findLead(currentRow - 2) != nullptr)));
+            // Moving downward leads only if it is not the last lead in the list
+            queueDownB->setEnabled(currentRow < queueTable->rowCount() - 1 &&
+                                   (moduleState()->findLead(currentRow + 1, false) != nullptr));
+        }
     }
     else
     {
@@ -1188,6 +1257,28 @@ void Scheduler::setJobManipulation(bool can_reorder, bool can_delete)
     }
     sortJobsB->setEnabled(can_reorder);
     removeFromQueueB->setEnabled(can_delete);
+
+    nameEdit->setEnabled(is_lead);
+    selectObjectB->setEnabled(is_lead);
+    targetStarLabel->setVisible(is_lead);
+    raBox->setEnabled(is_lead);
+    decBox->setEnabled(is_lead);
+    copySkyCenterB->setEnabled(is_lead);
+    schedulerProfileCombo->setEnabled(is_lead);
+    fitsEdit->setEnabled(is_lead);
+    selectFITSB->setEnabled(is_lead);
+    groupEdit->setEnabled(is_lead);
+    schedulerTrackStep->setEnabled(is_lead);
+    schedulerFocusStep->setEnabled(is_lead);
+    schedulerAlignStep->setEnabled(is_lead);
+    schedulerGuideStep->setEnabled(is_lead);
+    startupGroup->setEnabled(is_lead);
+    contraintsGroup->setEnabled(is_lead);
+
+    // If there is a lead job above, allow creating follower jobs
+    leadFollowerSelectionCB->setEnabled(moduleState()->findLead(queueTable->currentRow()) != nullptr);
+    if (leadFollowerSelectionCB->isEnabled() == false)
+        leadFollowerSelectionCB->setCurrentIndex(INDEX_LEAD);
 }
 
 bool Scheduler::reorderJobs(QList<SchedulerJob*> reordered_sublist)
@@ -1223,26 +1314,69 @@ void Scheduler::moveJobUp()
 {
     int const rowCount = queueTable->rowCount();
     int const currentRow = queueTable->currentRow();
-    int const destinationRow = currentRow - 1;
+    int destinationRow;
+    SchedulerJob *job = moduleState()->jobs().at(currentRow);
+
+    if (moduleState()->jobs().at(currentRow)->isLead())
+    {
+        int const rows = 1 + job->followerJobs().count();
+        // do nothing if there is no other lead job above the job and its follower jobs
+        if (currentRow - rows < 0)
+            return;
+
+        // skip the previous lead job and its follower jobs
+        destinationRow = currentRow - 1 - moduleState()->jobs().at(currentRow - rows)->followerJobs().count();
+    }
+    else
+        destinationRow = currentRow - 1;
 
     /* No move if no job selected, if table has one line or less or if destination is out of table */
     if (currentRow < 0 || rowCount <= 1 || destinationRow < 0)
         return;
 
-    /* Swap jobs in the list */
+    if (moduleState()->jobs().at(currentRow)->isLead())
+    {
+        // remove the job and its follower jobs from the list
+        moduleState()->mutlableJobs().removeOne(job);
+        for (auto follower : job->followerJobs())
+            moduleState()->mutlableJobs().removeOne(follower);
+
+        // add it at the new place
+        moduleState()->mutlableJobs().insert(destinationRow++, job);
+        // add the follower jobs
+        for (auto follower : job->followerJobs())
+            moduleState()->mutlableJobs().insert(destinationRow++, follower);
+        // update the modified positions
+        for (int i = currentRow; i > destinationRow; i--)
+            updateJobTable(moduleState()->jobs().at(i));
+        // Move selection to destination row
+        moduleState()->setCurrentPosition(destinationRow - job->followerJobs().count() - 1);
+    }
+    else
+    {
+        /* Swap jobs in the list */
 #if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
-    moduleState()->mutlableJobs().swapItemsAt(currentRow, destinationRow);
+        moduleState()->mutlableJobs().swapItemsAt(currentRow, destinationRow);
 #else
-    moduleState()->jobs().swap(currentRow, destinationRow);
+        moduleState()->jobs().swap(currentRow, destinationRow);
 #endif
 
-    //Update the two table rows
-    updateJobTable(moduleState()->jobs().at(currentRow));
-    updateJobTable(moduleState()->jobs().at(destinationRow));
+        //Update the two table rows
+        updateJobTable(moduleState()->jobs().at(currentRow));
+        updateJobTable(moduleState()->jobs().at(destinationRow));
 
-    /* Move selection to destination row */
-    moduleState()->setCurrentPosition(destinationRow);
-    setJobManipulation(true, true);
+        /* Move selection to destination row */
+        moduleState()->setCurrentPosition(destinationRow);
+        // check if the follower job belongs to a new lead
+        SchedulerJob *newLead = moduleState()->findLead(destinationRow, true);
+        if (newLead != nullptr)
+        {
+            job->setLeadJob(newLead);
+            moduleState()->refreshFollowerLists();
+        }
+    }
+
+    setJobManipulation(true, true, leadFollowerSelectionCB->currentIndex() == INDEX_LEAD);
 
     /* Make list modified and evaluate jobs */
     moduleState()->setDirty(true);
@@ -1253,26 +1387,66 @@ void Scheduler::moveJobDown()
 {
     int const rowCount = queueTable->rowCount();
     int const currentRow = queueTable->currentRow();
-    int const destinationRow = currentRow + 1;
+    int destinationRow;
+    SchedulerJob *job = moduleState()->jobs().at(currentRow);
+
+    if (moduleState()->jobs().at(currentRow)->isLead())
+    {
+        int const rows = 1 + job->followerJobs().count();
+        // do nothing if there is no other lead job below the job and its follower jobs
+        if (currentRow + rows >= moduleState()->jobs().count())
+            return;
+
+        // skip the next lead job and its follower jobs
+        destinationRow = currentRow + 1 + moduleState()->jobs().at(currentRow + rows)->followerJobs().count();
+    }
+    else
+        destinationRow = currentRow + 1;
 
     /* No move if no job selected, if table has one line or less or if destination is out of table */
     if (currentRow < 0 || rowCount <= 1 || destinationRow >= rowCount)
         return;
 
-    /* Swap jobs in the list */
+    if (moduleState()->jobs().at(currentRow)->isLead())
+    {
+        // remove the job and its follower jobs from the list
+        moduleState()->mutlableJobs().removeOne(job);
+        for (auto follower : job->followerJobs())
+            moduleState()->mutlableJobs().removeOne(follower);
+
+        // add it at the new place
+        moduleState()->mutlableJobs().insert(destinationRow++, job);
+        // add the follower jobs
+        for (auto follower : job->followerJobs())
+            moduleState()->mutlableJobs().insert(destinationRow++, follower);
+        // update the modified positions
+        for (int i = currentRow; i < destinationRow; i++)
+            updateJobTable(moduleState()->jobs().at(i));
+        // Move selection to destination row
+        moduleState()->setCurrentPosition(destinationRow - job->followerJobs().count() - 1);
+    }
+    else
+    {
+        // Swap jobs in the list
 #if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
-    moduleState()->mutlableJobs().swapItemsAt(currentRow, destinationRow);
+        moduleState()->mutlableJobs().swapItemsAt(currentRow, destinationRow);
 #else
-    moduleState()->mutlableJobs().swap(currentRow, destinationRow);
+        moduleState()->mutlableJobs().swap(currentRow, destinationRow);
 #endif
+        // Update the two table rows
+        updateJobTable(moduleState()->jobs().at(currentRow));
+        updateJobTable(moduleState()->jobs().at(destinationRow));
+        // Move selection to destination row
+        moduleState()->setCurrentPosition(destinationRow);
+        // check if the follower job belongs to a new lead
+        if (moduleState()->jobs().at(currentRow)->isLead())
+        {
+            job->setLeadJob(moduleState()->jobs().at(currentRow));
+            moduleState()->refreshFollowerLists();
+        }
+    }
 
-    //Update the two table rows
-    updateJobTable(moduleState()->jobs().at(currentRow));
-    updateJobTable(moduleState()->jobs().at(destinationRow));
-
-    /* Move selection to destination row */
-    moduleState()->setCurrentPosition(destinationRow);
-    setJobManipulation(true, true);
+    setJobManipulation(true, true, leadFollowerSelectionCB->currentIndex() == INDEX_LEAD);
 
     /* Make list modified and evaluate jobs */
     moduleState()->setDirty(true);
@@ -1310,7 +1484,7 @@ void Scheduler::updateJobTable(SchedulerJob *job)
 
     if (nullptr != nameCell)
     {
-        nameCell->setText(job->getName());
+        nameCell->setText(job->isLead() ? job->getName() : "*");
         updateCellStyle(job, nameCell);
         if (nullptr != nameCell->tableWidget())
             nameCell->tableWidget()->resizeColumnToContents(nameCell->column());
@@ -1533,7 +1707,7 @@ void Scheduler::resetJobEdit()
     setJobAddApply(true);
 
     /* Refresh state of job manipulation buttons */
-    setJobManipulation(true, true);
+    setJobManipulation(true, true, leadFollowerSelectionCB->currentIndex() == INDEX_LEAD);
 
     /* Restore scheduler operation buttons */
     evaluateOnlyB->setEnabled(true);
@@ -1549,7 +1723,10 @@ void Scheduler::removeJob()
 
     watchJobChanges(false);
     if (moduleState()->removeJob(currentRow) == false)
+    {
+        watchJobChanges(true);
         return;
+    }
 
     /* removing the job succeeded, update UI */
     /* Remove the job from the table */
@@ -1558,7 +1735,7 @@ void Scheduler::removeJob()
     /* If there are no job rows left, update UI buttons */
     if (queueTable->rowCount() == 0)
     {
-        setJobManipulation(false, false);
+        setJobManipulation(false, false, leadFollowerSelectionCB->currentIndex() == INDEX_LEAD);
         evaluateOnlyB->setEnabled(false);
         queueSaveAsB->setEnabled(false);
         queueSaveB->setEnabled(false);
@@ -1577,10 +1754,11 @@ void Scheduler::removeJob()
         resetJobEdit();
 
     watchJobChanges(true);
+    moduleState()->refreshFollowerLists();
     process()->evaluateJobs(true);
     updateJobTable();
     // disable moving and deleting, since selection is cleared
-    setJobManipulation(false, false);
+    setJobManipulation(false, false, leadFollowerSelectionCB->currentIndex() == INDEX_LEAD);
 }
 
 void Scheduler::removeOneJob(int index)
@@ -1675,7 +1853,7 @@ void Scheduler::schedulerStopped()
     queueLoadB->setEnabled(true);
     queueAppendB->setEnabled(true);
     addToQueueB->setEnabled(true);
-    setJobManipulation(false, false);
+    setJobManipulation(false, false, leadFollowerSelectionCB->currentIndex() == INDEX_LEAD);
     //mosaicB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
 }
@@ -2136,7 +2314,7 @@ void Scheduler::handleSchedulerStateChanged(SchedulerState newState)
 
             /* Disable edit-related buttons */
             queueLoadB->setEnabled(false);
-            setJobManipulation(true, false);
+            setJobManipulation(true, false, leadFollowerSelectionCB->currentIndex() == INDEX_LEAD);
             //mosaicB->setEnabled(false);
             evaluateOnlyB->setEnabled(false);
             startupB->setEnabled(false);
@@ -2228,6 +2406,14 @@ void Scheduler::indiStateChanged(INDIState state)
     }
     else
         jobStatus->setText(indiStateString(state));
+
+    refreshOpticalTrain();
+}
+
+void Scheduler::indiCommunicationStatusChanged(CommunicationStatus status)
+{
+    if (status == Success)
+        refreshOpticalTrain();
 }
 void Scheduler::parkWaitStateChanged(ParkWaitState state)
 {
@@ -2609,6 +2795,15 @@ bool Scheduler::syncControl(const QVariantMap &settings, const QString &key, QWi
     }
 
     return false;
+}
+
+void Scheduler::refreshOpticalTrain()
+{
+    opticalTrainCombo->blockSignals(true);
+    opticalTrainCombo->clear();
+    opticalTrainCombo->addItem("--");
+    opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
+    opticalTrainCombo->blockSignals(false);
 };
 
 void Scheduler::connectSettings()

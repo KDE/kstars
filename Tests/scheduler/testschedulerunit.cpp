@@ -153,7 +153,8 @@ void TestSchedulerUnit::runSetupJob(Ekos::SchedulerJob &job, GeoLocation *geo, K
     QVERIFY(Ekos::SchedulerModuleState::hasLocalTime() && Ekos::SchedulerModuleState::hasGeo());
 
     QString group = "";
-    Ekos::SchedulerUtils::setupJob(job, name, group, ra, dec, ut.djd(), positionAngle,
+    QString train = "";
+    Ekos::SchedulerUtils::setupJob(job, name, true, group, train, ra, dec, ut.djd(), positionAngle,
                                    sequenceUrl, fitsUrl,
                                    sCond, sTime,
                                    eCond, eTime, eReps,

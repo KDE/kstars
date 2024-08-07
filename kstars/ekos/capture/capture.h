@@ -148,12 +148,11 @@ class Capture : public QWidget, public Ui::Capture
         /** DBUS interface function.
              * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
              * @param fileURL full URL of the filename
+             * @param train name of the optical train to be used
+             * @param lead lead or follower job?
              * @param targetName override the target in the sequence queue file (necessary for using the target of the scheduler)
              */
-        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString targetName = "")
-        {
-            return mainCamera()->loadSequenceQueue(fileURL, targetName);
-        }
+        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString train = "", bool isLead = true, QString targetName = "");
 
         /** DBUS interface function.
              * Saves the Sequence Queue to the Ekos Sequence Queue file.
@@ -334,11 +333,7 @@ class Capture : public QWidget, public Ui::Capture
              * is set to 1, then we continue to capture frame #2 even though the number of completed images is already
              * larger than required count (5). It is mostly used in conjunction with Ekos Scheduler.
              */
-        Q_SCRIPTABLE Q_NOREPLY void setCapturedFramesMap(const QString &signature, int count)
-        {
-            state()->setCapturedFramesCount(signature, static_cast<ushort>(count));
-        };
-
+        Q_SCRIPTABLE Q_NOREPLY void setCapturedFramesMap(const QString &signature, int count, QString train = "");
 
         /** DBUS interface function.
          *  List of logging entries for the capture module.
@@ -374,6 +369,14 @@ class Capture : public QWidget, public Ui::Capture
         void checkCloseCameraTab(int tabIndex);
 
         QSharedPointer<Camera> mainCamera() const;
+
+        /**
+         * @brief find the camera using the given train
+         * @param train optical train name
+         * @param addIfNecessary if true, add a new camera with the given train, if none uses this train
+         * @return index in the lost of cameras (@see #camera(int))
+         */
+        int findCamera(QString train, bool addIfNecessary);
 
         // ////////////////////////////////////////////////////////////////////
         // Changing the devices used by Capture
@@ -465,11 +468,9 @@ public slots:
              *    all jobs are are reset (@see reset()) and the first one from the list is selected.
              *    If no, the user is asked whether the jobs should be reset. If the user declines,
              *    starting is aborted.
+             *    @return device name of the camera
              */
-        Q_SCRIPTABLE Q_NOREPLY void start()
-        {
-            mainCamera()->start();
-        }
+        Q_SCRIPTABLE QString start(QString train = "");
 
         /** DBUS interface function.
              * Stops currently running jobs:
@@ -488,10 +489,7 @@ public slots:
         /** DBUS interface function.
              * Aborts all jobs and mark current state as ABORTED. It simply calls stop(CAPTURE_ABORTED)
              */
-        Q_SCRIPTABLE Q_NOREPLY void abort()
-        {
-            mainCamera()->abort();
-        }
+        Q_SCRIPTABLE Q_NOREPLY void abort(QString train = "");
 
         /** DBUS interface function.
              * Aborts all jobs and mark current state as SUSPENDED. It simply calls stop(CAPTURE_SUSPENDED)

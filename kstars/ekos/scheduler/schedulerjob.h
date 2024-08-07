@@ -59,7 +59,10 @@ class SchedulerJob
         /** @{ */
         SkyPoint const &getTargetCoords() const
         {
-            return targetCoords;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getTargetCoords();
+            else
+                return targetCoords;
         }
         void setTargetCoords(const dms &ra, const dms &dec, double djd);
         /** @} */
@@ -83,7 +86,10 @@ class SchedulerJob
         /** @{ */
         QUrl getFITSFile() const
         {
-            return fitsFile;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getFITSFile();
+            else
+                return fitsFile;
         }
         void setFITSFile(const QUrl &value);
         /** @} */
@@ -92,7 +98,10 @@ class SchedulerJob
         /** @{ */
         double getMinAltitude() const
         {
-            return minAltitude;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getMinAltitude();
+            else
+                return minAltitude;
         }
         void setMinAltitude(const double &value);
         /** @} */
@@ -101,7 +110,7 @@ class SchedulerJob
         /** @{ */
         bool hasMinAltitude() const
         {
-            return UNDEFINED_ALTITUDE < minAltitude;
+            return UNDEFINED_ALTITUDE < getMinAltitude();
         }
         static constexpr int UNDEFINED_ALTITUDE = -90;
         /** @} */
@@ -115,7 +124,10 @@ class SchedulerJob
         /** @{ */
         double getMinMoonSeparation() const
         {
-            return minMoonSeparation;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getMinMoonSeparation();
+            else
+                return minMoonSeparation;
         }
         void setMinMoonSeparation(const double &value);
         /** @} */
@@ -124,7 +136,10 @@ class SchedulerJob
         /** @{ */
         bool getEnforceWeather() const
         {
-            return enforceWeather;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getEnforceWeather();
+            else
+                return enforceWeather;
         }
         void setEnforceWeather(bool value);
         /** @} */
@@ -133,7 +148,10 @@ class SchedulerJob
         /** @{ */
         StepPipeline getStepPipeline() const
         {
-            return stepPipeline;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getStepPipeline();
+            else
+                return stepPipeline;
         }
         void setStepPipeline(const StepPipeline &value);
         /** @} */
@@ -142,7 +160,10 @@ class SchedulerJob
         /** @{ */
         StartupCondition getStartupCondition() const
         {
-            return startupCondition;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getStartupCondition();
+            else
+                return startupCondition;
         }
         void setStartupCondition(const StartupCondition &value);
         /** @} */
@@ -160,7 +181,10 @@ class SchedulerJob
         /** @{ */
         StartupCondition getFileStartupCondition() const
         {
-            return fileStartupCondition;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getFileStartupCondition();
+            else
+                return fileStartupCondition;
         }
         void setFileStartupCondition(const StartupCondition &value);
         /** @} */
@@ -169,7 +193,10 @@ class SchedulerJob
         /** @{ */
         QDateTime getStartAtTime() const
         {
-            return startAtTime;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getStartAtTime();
+            else
+                return startAtTime;
         }
         void setStartAtTime(const QDateTime &value);
         /** @} */
@@ -187,7 +214,10 @@ class SchedulerJob
         /** @{ */
         bool getEnforceTwilight() const
         {
-            return enforceTwilight;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getEnforceTwilight();
+            else
+                return enforceTwilight;
         }
         void setEnforceTwilight(bool value);
         /** @} */
@@ -196,7 +226,10 @@ class SchedulerJob
         /** @{ */
         bool getEnforceArtificialHorizon() const
         {
-            return enforceArtificialHorizon;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getEnforceArtificialHorizon();
+            else
+                return enforceArtificialHorizon;
         }
         void setEnforceArtificialHorizon(bool value);
         /** @} */
@@ -205,18 +238,48 @@ class SchedulerJob
         /** @{ */
         QString getName() const
         {
-            return name;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getName();
+            else
+                return name;
         }
         void setName(const QString &value);
+        /** @} */
+
+        /** @brief Flag if the scheduler job is a lead job with its own target or if it is a follower job to another lead job. */
+        /** @{ */
+        bool isLead() const
+        {
+            return m_isLead;
+        }
+        void setIsLead(bool value)
+        {
+            m_isLead = value;
+        }
         /** @} */
 
         /** @brief Group the scheduler job belongs to. */
         /** @{ */
         QString getGroup() const
         {
-            return group;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getGroup();
+            else
+                return group;
         }
         void setGroup(const QString &value);
+        /** @} */
+
+        /** @brief Optical train the scheduler job will be using. */
+        /** @{ */
+        QString getOpticalTrain() const
+        {
+            return opticalTrain;
+        }
+        void setOpticalTrain(const QString &value)
+        {
+            opticalTrain = value;
+        }
         /** @} */
 
         /** @brief Iteration the scheduler job has achieved. This only makes sense for jobs that repeat. */
@@ -252,6 +315,13 @@ class SchedulerJob
             return lastErrorTime;
         }
         void setState(const SchedulerJobStatus &value);
+
+        void setFollowerState(const SchedulerJobStatus &value);
+
+        /**
+         * @brief Update the attributes of all followers that are shared with the lead job
+         */
+        void updateSharedFollowerAttributes();
         /** @} */
 
         /** @brief Current stage of the scheduler job. */
@@ -287,7 +357,7 @@ class SchedulerJob
         {
             return startupTime;
         }
-        void setStartupTime(const QDateTime &value);
+        void setStartupTime(const QDateTime &value, bool refreshDawnDusk = true);
         /** @} */
 
         /** @brief Time after which the job is considered to finish. */
@@ -336,7 +406,10 @@ class SchedulerJob
         /** @{ */
         int64_t getEstimatedStartupTime() const
         {
-            return estimatedStartupTime;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getEstimatedStartupTime();
+            else
+                return estimatedStartupTime;
         }
         void setEstimatedStartupTime(const int64_t &value)
         {
@@ -427,7 +500,7 @@ class SchedulerJob
          */
         bool isDuplicateOf(SchedulerJob const *a_job) const
         {
-            return this != a_job && name == a_job->name && sequenceFile == a_job->sequenceFile;
+            return this != a_job && name == a_job->getName() && sequenceFile == a_job->sequenceFile;
         }
 
         /** @brief Compare ::SchedulerJob instances based on altitude and movement in sky at startup time.
@@ -470,7 +543,10 @@ class SchedulerJob
              */
         QDateTime getDawnAstronomicalTwilight() const
         {
-            return nextDawn;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getDawnAstronomicalTwilight();
+            else
+                return nextDawn;
         };
 
         /**
@@ -480,7 +556,10 @@ class SchedulerJob
              */
         QDateTime getDuskAstronomicalTwilight() const
         {
-            return nextDusk;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getDuskAstronomicalTwilight();
+            else
+                return nextDusk;
         };
 
         /**
@@ -520,7 +599,10 @@ class SchedulerJob
         }
         double getAltitudeAtStartup() const
         {
-            return altitudeAtStartup;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getAltitudeAtStartup();
+            else
+                return altitudeAtStartup;
         }
         double getAltitudeAtStop() const
         {
@@ -528,11 +610,28 @@ class SchedulerJob
         }
         bool isSettingAtStartup() const
         {
-            return settingAtStartup;
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->isSettingAtStartup();
+            else
+                return settingAtStartup;
         }
         bool isSettingAtStop() const
         {
             return settingAtStop;
+        }
+
+        SchedulerJob *leadJob() const
+        {
+            return m_LeadJob;
+        }
+        void setLeadJob(SchedulerJob *newLeadJob)
+        {
+            m_LeadJob = newLeadJob;
+        }
+
+        QList<SchedulerJob *> &followerJobs()
+        {
+            return m_followerJobs;
         }
 
 private:
@@ -564,12 +663,18 @@ private:
         /** @} */
 
         QString name;
+        bool m_isLead { true };
         QString group;
+        QString opticalTrain;
         int completedIterations { 0 };
         SkyPoint targetCoords;
         double m_PositionAngle { -1 };
         SchedulerJobStatus state { SCHEDJOB_IDLE };
         SchedulerJobStage stage { SCHEDSTAGE_IDLE };
+
+        // leader / follower relationship
+        SchedulerJob *m_LeadJob { nullptr };
+        QList <SchedulerJob *> m_followerJobs;
 
         // The time that the job stage was set.
         // Used by the Greedy Algorithm to decide when to run JOB_ABORTED jobs again.

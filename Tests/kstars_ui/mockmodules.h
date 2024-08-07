@@ -204,17 +204,20 @@ class MockCapture : public QObject
     public:
         MockCapture();
         Q_SCRIPTABLE Q_NOREPLY void clearAutoFocusHFR() {}
-        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString targetName = "")
+        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString train = "", bool isMaster = true, QString targetName = "")
         {
+            Q_UNUSED(train)
+            Q_UNUSED(isMaster)
             Q_UNUSED(targetName)
             fprintf(stderr, "%d @@@MockCapture::loadSequenceQueue(%s)\n", __LINE__, fileURL.toLatin1().data());
             m_fileURL = fileURL;
             return true;
         }
-        Q_SCRIPTABLE Q_NOREPLY void setCapturedFramesMap(const QString &signature, int count)
+        Q_SCRIPTABLE Q_NOREPLY void setCapturedFramesMap(const QString &signature, int count, QString train = "")
         {
             Q_UNUSED(signature);
             Q_UNUSED(count);
+            Q_UNUSED(train);
             fprintf(stderr, "%d @@@MockCapture::setCapturedFramesMap(%s,%d)\n", __LINE__, signature.toLatin1().data(), count);
         }
         Q_SCRIPTABLE Ekos::CaptureState status()
@@ -247,20 +250,17 @@ class MockCapture : public QObject
 
     public slots:
 
-        Q_SCRIPTABLE Q_NOREPLY void abort()
+        Q_SCRIPTABLE Q_NOREPLY void abort(QString train = "")
         {
+            Q_UNUSED(train)
             fprintf(stderr, "%d @@@MockCapture::abort()\n", __LINE__);
             setStatus(CAPTURE_ABORTED);
         }
-        Q_SCRIPTABLE Q_NOREPLY void start()
+        Q_SCRIPTABLE QString start(QString train = "")
         {
-            fprintf(stderr, "%d @@@MockCapture::start()\n", __LINE__);
+            fprintf(stderr, "%d @@@MockCapture::start(%s)\n", __LINE__, train.toLocal8Bit().data());
             setStatus(CAPTURE_CAPTURING);
-        }
-        Q_SCRIPTABLE QString mainCameraDeviceName()
-        {
-            fprintf(stderr, "%d @@@MockCapture::mainCameraDeviceName()\n", __LINE__);
-            return "MockCamera";
+            return("MockCamera");
         }
 
     signals:
