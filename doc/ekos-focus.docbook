@@ -1604,7 +1604,7 @@
     </listitem>
 
     <listitem>
-    <para> <emphasis role="bold">Fine Adjustment (with Autofocus)</emphasis>: : This function is designed to provide fine
+    <para> <emphasis role="bold">Fine Adjustment (with Autofocus)</emphasis>: This function is designed to provide fine
     adjustment to the start position, Step Size and AF Overscan (or backlash) fields. Fine Adjustment runs Autofocus
     including curve fitting and analyses the result to determine whether or not it can be improved. If so, it adjusts
     parameters and re-runs. An iterative process is used to home in on parameter values.</para>
