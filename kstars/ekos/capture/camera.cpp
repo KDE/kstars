@@ -2243,7 +2243,7 @@ QJsonObject Camera::createJsonJob(SequenceJob *job, int currentRow)
 
     QJsonObject jsonJob = {{"Status", "Idle"}};
     bool isDarkFlat = job->jobType() == SequenceJob::JOBTYPE_DARKFLAT;
-    jsonJob.insert("Filter", FilterPosCombo->currentText());
+    jsonJob.insert("Filter", FilterPosCombo->itemText(job->getTargetFilter() - 1));
     jsonJob.insert("Count", queueTable->item(currentRow, JOBTABLE_COL_COUNTS)->text());
     jsonJob.insert("Exp", queueTable->item(currentRow, JOBTABLE_COL_EXP)->text());
     jsonJob.insert("Type", isDarkFlat ? i18n("Dark Flat") : queueTable->item(currentRow, JOBTABLE_COL_TYPE)->text());
