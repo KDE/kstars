@@ -217,7 +217,10 @@ void FITSTab::loadFile(const QUrl &imageURL, FITSMode mode, FITSScale filter)
 {
     // check if the address points to an appropriate address
     if (imageURL.isEmpty() || !imageURL.isValid() || !QFileInfo::exists(imageURL.toLocalFile()))
+    {
+        emit failed(i18nc("File not found: %1", imageURL.toString().toLatin1()));
         return;
+    }
 
     if (setupView(mode, filter))
     {
