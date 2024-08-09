@@ -3102,7 +3102,19 @@ void SchedulerProcess::checkAlignment(const QVariantMap &metadata)
         if (solverTimeout >= minSolverSeconds)
         {
             auto profiles = getDefaultAlignOptionsProfiles();
-            auto parameters = profiles.at(Options::solveOptionsProfile());
+
+            SSolver::Parameters parameters;
+            // Get solver parameters
+            // In case of exception, use first profile
+            try
+            {
+                parameters = profiles.at(Options::solveOptionsProfile());
+            }
+            catch (std::out_of_range const &)
+            {
+                parameters = profiles[0];
+            }
+
             // Double search radius
             parameters.search_radius = parameters.search_radius * 2;
             m_Solver.reset(new SolverUtils(parameters, solverTimeout),  &QObject::deleteLater);
