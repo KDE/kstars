@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-08 01:47+0000\n"
+"POT-Creation-Date: 2024-08-09 01:44+0000\n"
 "PO-Revision-Date: 2024-06-01 17:48+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -569,7 +569,7 @@ msgstr "Continuer"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:707
+#: fitsviewer/fitstab.cpp:690 fitsviewer/fitstab.cpp:710
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -2722,7 +2722,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/camera.cpp:1133 ekos/capture/camera.cpp:1188
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1884
-#: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:530
+#: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -6730,7 +6730,7 @@ msgstr "Exporter des points de solution"
 #: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1132
 #: ekos/capture/camera.cpp:1187 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1883 ekos/scheduler/scheduler.cpp:1993
-#: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10428,7 +10428,7 @@ msgstr "Acquisition"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:737
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:740
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -20114,7 +20114,7 @@ msgstr "La solution est en dehors de la course maximale."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:390
+#: fitsviewer/fitstab.cpp:393
 #, kde-format
 msgid "Value"
 msgstr "Valeur"
@@ -25636,8 +25636,8 @@ msgstr "Asservissement activé."
 msgid "Slaving deactivated."
 msgstr "Asservissement désactivé."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
-#: fitsviewer/fitstab.cpp:703
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:686
+#: fitsviewer/fitstab.cpp:706
 #, kde-format
 msgid "Aborting..."
 msgstr "Annulation…"
@@ -30556,74 +30556,74 @@ msgstr "Résolution"
 msgid "Recent Images"
 msgstr "Images récentes"
 
-#: fitsviewer/fitstab.cpp:402
+#: fitsviewer/fitstab.cpp:405
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:483 fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:486 fitsviewer/fitstab.cpp:490
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Enregistrer FITS"
 
-#: fitsviewer/fitstab.cpp:519
+#: fitsviewer/fitstab.cpp:522
 #, kde-format
 msgid "Image save error: %1"
 msgstr "Erreur lors de l'enregistrement de l'image : %1"
 
-#: fitsviewer/fitstab.cpp:519
+#: fitsviewer/fitstab.cpp:522
 #, kde-format
 msgid "Image Save"
 msgstr "Enregistrement d'image"
 
-#: fitsviewer/fitstab.cpp:523
+#: fitsviewer/fitstab.cpp:526
 #, kde-format
 msgid "File saved to %1"
 msgstr "Fichier enregistré dans %1"
 
-#: fitsviewer/fitstab.cpp:693
+#: fitsviewer/fitstab.cpp:696
 #, kde-format
 msgid "Extracting..."
 msgstr "Extraction…"
 
-#: fitsviewer/fitstab.cpp:711
+#: fitsviewer/fitstab.cpp:714
 #, kde-format
 msgid "Solving..."
 msgstr "Résolution…"
 
-#: fitsviewer/fitstab.cpp:724
+#: fitsviewer/fitstab.cpp:727
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Le délai d'extraction a été atteint : %1s"
 
-#: fitsviewer/fitstab.cpp:733
+#: fitsviewer/fitstab.cpp:736
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Échec de l'extraction : %1s"
 
-#: fitsviewer/fitstab.cpp:742
+#: fitsviewer/fitstab.cpp:745
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Extrait %1 étoiles (%2 non filtrées) en %3s"
 
-#: fitsviewer/fitstab.cpp:790
+#: fitsviewer/fitstab.cpp:793
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Fin du délai imparti au résolveur : %1s"
 
-#: fitsviewer/fitstab.cpp:795
+#: fitsviewer/fitstab.cpp:798
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Échec du résolveur : %1s"
 
-#: fitsviewer/fitstab.cpp:965
+#: fitsviewer/fitstab.cpp:968
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr "Attention ! Cet outil ne gère que le résolveur interne StellarSolver."
 
-#: fitsviewer/fitstab.cpp:966
+#: fitsviewer/fitstab.cpp:969
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Modifiez cela dans le menu des options d'alignement de Ekos"

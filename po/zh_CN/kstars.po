@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-08 01:47+0000\n"
+"POT-Creation-Date: 2024-08-09 01:44+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -543,7 +543,7 @@ msgstr "继续"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:707
+#: fitsviewer/fitstab.cpp:690 fitsviewer/fitstab.cpp:710
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -2632,7 +2632,7 @@ msgstr "该 URL 无效。您是否想要打开浏览器窗口用 Google 搜索�
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/camera.cpp:1133 ekos/capture/camera.cpp:1188
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1884
-#: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:530
+#: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -6523,7 +6523,7 @@ msgstr "导出已解析的点"
 #: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1132
 #: ekos/capture/camera.cpp:1187 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1883 ekos/scheduler/scheduler.cpp:1993
-#: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10021,7 +10021,7 @@ msgstr "拍摄"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:737
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:740
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -18917,7 +18917,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:390
+#: fitsviewer/fitstab.cpp:393
 #, kde-format
 msgid "Value"
 msgstr "数值"
@@ -23813,8 +23813,8 @@ msgstr "已激活从动模式。"
 msgid "Slaving deactivated."
 msgstr "已取消激活从动模式。"
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
-#: fitsviewer/fitstab.cpp:703
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:686
+#: fitsviewer/fitstab.cpp:706
 #, kde-format
 msgid "Aborting..."
 msgstr "正在中止..."
@@ -26040,11 +26040,9 @@ msgid "Job '%1' has no more batches remaining."
 msgstr "任务“%1”没有尚未完成的批量任务。"
 
 #: ekos/scheduler/scheduler.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Bellflower"
+#, kde-format
 msgid "Follower"
-msgstr "柏佛劳"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:145
 #, kde-format
@@ -27628,20 +27626,16 @@ msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "任务“%1”正在导星，导星过程将在 %2 秒后重启。"
 
 #: ekos/scheduler/schedulerprocess.cpp:3625
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed to capture target."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
-msgstr "警告：任务“'%1”拍摄目标失败。"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3644
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 "
-#| "of %3)."
+#, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
-msgstr "任务“%1”正在拍摄，且正在重新启动其导星程序 (尝试 #%2 of %3)。"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3653
 #, kde-format
@@ -27649,10 +27643,9 @@ msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "警告：任务“%1”的拍摄过程失败，正在重启拍摄。"
 
 #: ekos/scheduler/schedulerprocess.cpp:3659
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed its capture procedure, marking aborted."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
-msgstr "警告：任务“%1”的拍摄过程失败，标记为已中止。"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3669
 #, kde-format
@@ -27660,10 +27653,9 @@ msgid "[%2] Follower job '%1' has failed, is restarting."
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3676
-#, fuzzy, kde-format
-#| msgid "Ekos job (%1) - Capture finished"
+#, kde-format
 msgid "[%2] Job (%1) - Capture finished"
-msgstr "Ekos 作业 (%1) - 拍摄已完毕"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3741
 #, kde-format
@@ -28331,74 +28323,74 @@ msgstr ""
 msgid "Recent Images"
 msgstr "最近图片"
 
-#: fitsviewer/fitstab.cpp:402
+#: fitsviewer/fitstab.cpp:405
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:483 fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:486 fitsviewer/fitstab.cpp:490
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "保存 FITS"
 
-#: fitsviewer/fitstab.cpp:519
+#: fitsviewer/fitstab.cpp:522
 #, kde-format
 msgid "Image save error: %1"
 msgstr "图像保存错误： %1"
 
-#: fitsviewer/fitstab.cpp:519
+#: fitsviewer/fitstab.cpp:522
 #, kde-format
 msgid "Image Save"
 msgstr "保存图像"
 
-#: fitsviewer/fitstab.cpp:523
+#: fitsviewer/fitstab.cpp:526
 #, kde-format
 msgid "File saved to %1"
 msgstr "文件保存到 %1"
 
-#: fitsviewer/fitstab.cpp:693
+#: fitsviewer/fitstab.cpp:696
 #, kde-format
 msgid "Extracting..."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:711
+#: fitsviewer/fitstab.cpp:714
 #, kde-format
 msgid "Solving..."
 msgstr "解析中..."
 
-#: fitsviewer/fitstab.cpp:724
+#: fitsviewer/fitstab.cpp:727
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:733
+#: fitsviewer/fitstab.cpp:736
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:742
+#: fitsviewer/fitstab.cpp:745
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:790
+#: fitsviewer/fitstab.cpp:793
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "解析器超时：%1s"
 
-#: fitsviewer/fitstab.cpp:795
+#: fitsviewer/fitstab.cpp:798
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "解析器失败： %1s"
 
-#: fitsviewer/fitstab.cpp:965
+#: fitsviewer/fitstab.cpp:968
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/fitstab.cpp:966
+#: fitsviewer/fitstab.cpp:969
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-08 01:47+0000\n"
-"PO-Revision-Date: 2024-08-03 13:34+0200\n"
+"POT-Creation-Date: 2024-08-09 01:44+0000\n"
+"PO-Revision-Date: 2024-08-08 11:22+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -554,7 +554,7 @@ msgstr "Voortzetten"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:707
+#: fitsviewer/fitstab.cpp:690 fitsviewer/fitstab.cpp:710
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -2695,7 +2695,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/camera.cpp:1133 ekos/capture/camera.cpp:1188
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1884
-#: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:530
+#: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -6682,7 +6682,7 @@ msgstr "Oplospunten exporteren"
 #: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1132
 #: ekos/capture/camera.cpp:1187 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1883 ekos/scheduler/scheduler.cpp:1993
-#: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10333,7 +10333,7 @@ msgstr "Opnemen"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:737
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:740
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -10519,7 +10519,7 @@ msgstr "Opstelling"
 #: ekos/analyze/analyze.cpp:2283 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
-msgstr "Job"
+msgstr "Taak"
 
 #: ekos/analyze/analyze.cpp:2574
 #, kde-format
@@ -14493,13 +14493,13 @@ msgstr ""
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
-msgstr[0] "Één donkere flats-job is aangemaakt."
-msgstr[1] "%1 donkere flats-jobs zijn aangemaakt."
+msgstr[0] "Één donkere flats-taak is aangemaakt."
+msgstr[1] "%1 donkere flats-taken zijn aangemaakt."
 
 #: ekos/capture/camera.cpp:905
 #, kde-format
 msgid "Job #%1 changes applied."
-msgstr "Wijzigingen in job #%1 toegepast."
+msgstr "Wijzigingen in taak #%1 toegepast."
 
 #: ekos/capture/camera.cpp:918
 #, kde-format
@@ -14701,17 +14701,17 @@ msgstr "Filter om %1 in te stellen"
 #: ekos/capture/camera.cpp:3801
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
-msgstr "Wilt u status van alle jobs werkelijk terugzetten?"
+msgstr "Wilt u status van alle taken werkelijk terugzetten?"
 
 #: ekos/capture/camera.cpp:3801 ekos/capture/cameraprocess.cpp:2666
 #, kde-format
 msgid "Reset job status"
-msgstr "Jobstatus terugzetten"
+msgstr "Taakstatus terugzetten"
 
 #: ekos/capture/camera.cpp:3854
 #, kde-format
 msgid "Editing job #%1..."
-msgstr "Job #%1 bewerken..."
+msgstr "Taak #%1 bewerken..."
 
 #: ekos/capture/camera.cpp:3857 ekos/scheduler/scheduler.cpp:1231
 #, kde-format
@@ -14726,7 +14726,7 @@ msgstr "Taakwijzigingen annuleren."
 #: ekos/capture/camera.cpp:3871
 #, kde-format
 msgid "Editing job canceled."
-msgstr "Job bewerken geannuleerd."
+msgstr "Taak bewerken geannuleerd."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
 #: ekos/capture/camera.ui:146
@@ -15385,7 +15385,7 @@ msgstr "Wachtrij"
 #: ekos/capture/camera.ui:2063
 #, kde-format
 msgid "Reset status of all jobs"
-msgstr "Status van alle jobs terugzetten"
+msgstr "Status van alle taken terugzetten"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
 #: ekos/capture/camera.ui:2088
@@ -15599,8 +15599,7 @@ msgstr "Serie hervat"
 #: ekos/capture/cameraprocess.cpp:263
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
-msgstr ""
-"Geen opdrachten meer gevonden. Voeg een opdracht toe aan de opdrachtrij."
+msgstr "Geen taken meer gevonden. Voeg een taak toe aan de wachtrij."
 
 #: ekos/capture/cameraprocess.cpp:277
 #, kde-format
@@ -15789,12 +15788,12 @@ msgstr "Meridiaanflip wordt uitgevoerd..."
 #: ekos/capture/cameraprocess.cpp:1852
 #, kde-format
 msgid "Pre job script finished with code %1."
-msgstr "Pre-jobscript beëindigd met code %1."
+msgstr "Pre-taakscript beëindigd met code %1."
 
 #: ekos/capture/cameraprocess.cpp:1857
 #, kde-format
 msgid "Post job script finished with code %1."
-msgstr "Post-jobscript beëindigd met code %1."
+msgstr "Post-taakscript beëindigd met code %1."
 
 #: ekos/capture/cameraprocess.cpp:2049 ekos/focus/focus.cpp:5406
 #: ekos/focus/focus.cpp:5430
@@ -15877,8 +15876,8 @@ msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
 "restart capturing?"
 msgstr ""
-"Alle jobs zijn gedaan. Wilt u de status van alle jobs terugzetten en opnames "
-"herstarten?"
+"Alle taken zijn gedaan. Wilt u de status van alle taken terugzetten en "
+"opnames herstarten?"
 
 #: ekos/capture/cameraprocess.cpp:2679
 #, kde-format
@@ -17243,13 +17242,13 @@ msgstr "Uitlijnopties"
 #, kde-format
 msgctxt "@title:window"
 msgid "Pre Job Script"
-msgstr "Pre-jobscript"
+msgstr "Pre-taakscript"
 
 #: ekos/capture/scriptsmanager.cpp:44
 #, kde-format
 msgctxt "@title:window"
 msgid "Post Job Script"
-msgstr "Post-jobscript"
+msgstr "Post-taakscript"
 
 #: ekos/capture/scriptsmanager.cpp:46
 #, kde-format
@@ -17278,7 +17277,7 @@ msgstr "Scriptbeheerder"
 #: ekos/capture/scriptsmanager.ui:22
 #, kde-format
 msgid "Pre-job script:"
-msgstr "Pre-jobscript:"
+msgstr "Pre-taakscript:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, preJobScript)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, preCaptureScript)
@@ -17306,7 +17305,7 @@ msgstr "Script voor na de opname:"
 #: ekos/capture/scriptsmanager.ui:157
 #, kde-format
 msgid "Post-job script:"
-msgstr "Post-jobscript:"
+msgstr "Post-taakscript:"
 
 #: ekos/capture/sequenceeditor.cpp:101
 #, kde-format
@@ -19806,7 +19805,7 @@ msgstr "Oplossing ligt buiten het maximale bereik."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:390
+#: fitsviewer/fitstab.cpp:393
 #, kde-format
 msgid "Value"
 msgstr "Waarde"
@@ -25194,8 +25193,8 @@ msgstr "Slaving is aan."
 msgid "Slaving deactivated."
 msgstr "Slaving uitgezet."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
-#: fitsviewer/fitstab.cpp:703
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:686
+#: fitsviewer/fitstab.cpp:706
 #, kde-format
 msgid "Aborting..."
 msgstr "Afbreken..."
@@ -25392,7 +25391,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>In geval er geen taken zijn gepland gedurende dit "
 "aantal uren, een volledig afsluiten starten, en weer gereed maken voor "
-"waarnemen wanneer een volgende opdracht klaar staat.</p></body></html>"
+"waarnemen wanneer een volgende taak klaar staat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PreemptiveShutdown)
 #: ekos/opsekos.ui:258
@@ -25506,7 +25505,7 @@ msgid ""
 "jobs when no higher priority job can run. Recommended.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Indien geactiveerd zal de planner lagere prioriteit "
-"jobs proberen te draaien wanneer geen hogere prioriteit job kan draaien.</"
+"taken proberen te draaien wanneer geen hogere prioriteit taak kan draaien.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
@@ -26740,8 +26739,8 @@ msgstr ""
 #, kde-format
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
-msgstr[0] " Planningjob"
-msgstr[1] " Planningjobs"
+msgstr[0] " Planningtaak"
+msgstr[1] " Planningtaken"
 
 #: ekos/scheduler/framingassistant.cpp:541
 #: ekos/scheduler/framingassistantui.cpp:561
@@ -26997,8 +26996,8 @@ msgid ""
 "<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
 "moves minimally between jobs (S-shape).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Indien geactiveerd, ordent mozaïekvakjes zodat het "
-"statief minimaal beweegt tussen jobs (S-vorm).</p></body></html>"
+"<html><head/><body><p>Indien geactiveerd, ordent mozaïekvakjes zodat de "
+"opstelling minimaal beweegt tussen taken (S-vorm).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
 #: ekos/scheduler/framingassistant.ui:525
@@ -27286,7 +27285,7 @@ msgstr "Taken aanmaken"
 #: ekos/scheduler/framingassistant.ui:1211
 #, kde-format
 msgid "↓Create  Scheduler Jobs"
-msgstr "↓Takenindeler aanmaken"
+msgstr "↓Takenplanner aanmaken"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
 #: ekos/scheduler/framingassistant.ui:1223
@@ -27303,7 +27302,7 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Map in bestandssysteem waar de "
-"planningjobs, vereist om het mozaïek te dekken, in zal worden aangemaakt.</"
+"planningtaken, vereist om het mozaïek te dekken, in zal worden aangemaakt.</"
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sequenceLabel)
@@ -27439,7 +27438,7 @@ msgid ""
 "completion conditions. Otherwise leave empty.</p></body></html>"
 msgstr ""
 "<html><head/><body><p align=\"justify\">Selecteer een groepsnaam. Nuttig als "
-"u de mozaïekjobs tezamen wilt herhalen--geef ze een groepsnaam en geef ze "
+"u de mozaïektaken tezamen wilt herhalen--geef ze een groepsnaam en geef ze "
 "voorwaarden voor voltooien <span style=\" font-style:italic;\">N keer "
 "herhalen (N=2 of meer)</span> of <span style=\" font-style:italic;"
 "\">herhalen tot beëindigd</span>. Ander leeg laten.</p></body></html>"
@@ -27504,7 +27503,7 @@ msgstr "Herhalen tot afge&sloten"
 #: ekos/scheduler/framingassistant.ui:1696
 #, kde-format
 msgid "Create scheduler jobs to execute the mosaic plan"
-msgstr "Takenindeler aanmaken voor uitvoeren van het mozaïekplan"
+msgstr "Takenplanner aanmaken voor uitvoeren van het mozaïekplan"
 
 #: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:702
 #, kde-format
@@ -27551,10 +27550,9 @@ msgid "Job '%1' has no more batches remaining."
 msgstr "Voor taak '%1' zijn er geen \"batches\" meer over."
 
 #: ekos/scheduler/scheduler.cpp:123
-#, fuzzy, kde-format
-#| msgid "lower"
+#, kde-format
 msgid "Follower"
-msgstr "lager"
+msgstr "Volger"
 
 #: ekos/scheduler/scheduler.cpp:145
 #, kde-format
@@ -27645,7 +27643,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:182
 #, kde-format
 msgid "Move selected job one line up in the list.\n"
-msgstr "Geselecteerde job één regel in de lijst omhoog verplaatsen.\n"
+msgstr "Geselecteerde taak één regel in de lijst omhoog verplaatsen.\n"
 
 #: ekos/scheduler/scheduler.cpp:185
 #, kde-format
@@ -28043,6 +28041,11 @@ msgid ""
 "combination with the first job above having a target defined."
 "<p><p><b>WARNING</b>: This feature is experimental!</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Definieer het doel van de job of selecteer <span style="
+"\"font-style:italic\">Volger</span> als de job zou moeten draaien als multi-"
+"camera-job in combinatie met de eerst job erboven die een doel heeft "
+"gedefinieerd.<p><p><b>WAARSCHUWING</b>: Deze functie is experimenteel!</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
 #: ekos/scheduler/scheduler.ui:570
@@ -28074,6 +28077,7 @@ msgstr "Profiel apparaat Ekos"
 msgid ""
 "Optical train to be used for this scheduler job within the Capture module."
 msgstr ""
+"Te gebruiken optische trein voor deze planningjob binnen the Opname-module."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -29291,22 +29295,18 @@ msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "Taak '%1' wordt gevolgd, het volgen word in %2 seconden hervat."
 
 #: ekos/scheduler/schedulerprocess.cpp:3625
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed to capture target."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
-msgstr "Waarschuwing: Opname doel door taak '%1'is mislukt."
+msgstr "[%2] Waarschuwing: Opnamedoel door taak '%1'is mislukt."
 
 #: ekos/scheduler/schedulerprocess.cpp:3644
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 "
-#| "of %3)."
+#, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr ""
-"Taak '%1' is aan het opnemen en herstart de volgprocedure (poging #%2 van "
-"%3)."
+"[%2] Taak '%1' is aan het opnemen en herstart de volgprocedure (poging #%3 "
+"van %4)."
 
 #: ekos/scheduler/schedulerprocess.cpp:3653
 #, kde-format
@@ -29315,21 +29315,20 @@ msgstr ""
 "Waarschuwing: Opnameprocedure taak '%1' is mislukt, opnemen wordt herstart."
 
 #: ekos/scheduler/schedulerprocess.cpp:3659
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed its capture procedure, marking aborted."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
-msgstr "Waarschuwing: Opnameprocedure taak '%1'is mislukt, wordt afgebroken."
+msgstr ""
+"[%2] Waarschuwing: Opnameprocedure taak '%1'is mislukt, wordt afgebroken."
 
 #: ekos/scheduler/schedulerprocess.cpp:3669
 #, kde-format
 msgid "[%2] Follower job '%1' has failed, is restarting."
-msgstr ""
+msgstr "[%2] Volgertaak '%1' is mislukt, wordt opnieuw gestart."
 
 #: ekos/scheduler/schedulerprocess.cpp:3676
-#, fuzzy, kde-format
-#| msgid "Ekos job (%1) - Capture finished"
+#, kde-format
 msgid "[%2] Job (%1) - Capture finished"
-msgstr "Ekostaak (%1) - Opnemen klaar"
+msgstr "[%2] Taak (%1) - Opnemen klaar"
 
 #: ekos/scheduler/schedulerprocess.cpp:3741
 #, kde-format
@@ -30014,76 +30013,76 @@ msgstr "Oplossen van platen"
 msgid "Recent Images"
 msgstr "Recente afbeeldingen"
 
-#: fitsviewer/fitstab.cpp:402
+#: fitsviewer/fitstab.cpp:405
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:483 fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:486 fitsviewer/fitstab.cpp:490
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "FITS opslaan"
 
-#: fitsviewer/fitstab.cpp:519
+#: fitsviewer/fitstab.cpp:522
 #, kde-format
 msgid "Image save error: %1"
 msgstr "Fout bij opslaan afbeelding: %1"
 
-#: fitsviewer/fitstab.cpp:519
+#: fitsviewer/fitstab.cpp:522
 #, kde-format
 msgid "Image Save"
 msgstr "Afbeelding opslaan"
 
-#: fitsviewer/fitstab.cpp:523
+#: fitsviewer/fitstab.cpp:526
 #, kde-format
 msgid "File saved to %1"
 msgstr "Bestand opgeslagen in %1"
 
-#: fitsviewer/fitstab.cpp:693
+#: fitsviewer/fitstab.cpp:696
 #, kde-format
 msgid "Extracting..."
 msgstr "Extraheren..."
 
-#: fitsviewer/fitstab.cpp:711
+#: fitsviewer/fitstab.cpp:714
 #, kde-format
 msgid "Solving..."
 msgstr "Oplossen..."
 
-#: fitsviewer/fitstab.cpp:724
+#: fitsviewer/fitstab.cpp:727
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Tijd voor extraheren is verlopen: %1s"
 
-#: fitsviewer/fitstab.cpp:733
+#: fitsviewer/fitstab.cpp:736
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Extraheren is mislukt: %1s"
 
-#: fitsviewer/fitstab.cpp:742
+#: fitsviewer/fitstab.cpp:745
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "%1 sterren geëxtraheerd (%2 ongefilterd) in %3s"
 
-#: fitsviewer/fitstab.cpp:790
+#: fitsviewer/fitstab.cpp:793
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Tijd voor oplossen is verlopen: %1s"
 
-#: fitsviewer/fitstab.cpp:795
+#: fitsviewer/fitstab.cpp:798
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Oplossen is mislukt: %1s"
 
-#: fitsviewer/fitstab.cpp:965
+#: fitsviewer/fitstab.cpp:968
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Waarschuwing! Dit hulpmiddel ondersteunt alleen de interne oplosser "
 "StellarSolver."
 
-#: fitsviewer/fitstab.cpp:966
+#: fitsviewer/fitstab.cpp:969
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Wijzig daarnaar in de het optiemenu Ekos uitlijnen."

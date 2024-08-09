@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-08 01:47+0000\n"
-"PO-Revision-Date: 2024-08-03 20:19+0200\n"
+"POT-Creation-Date: 2024-08-09 01:44+0000\n"
+"PO-Revision-Date: 2024-08-08 22:09+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -558,7 +558,7 @@ msgstr "Continua"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:687 fitsviewer/fitstab.cpp:707
+#: fitsviewer/fitstab.cpp:690 fitsviewer/fitstab.cpp:710
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -2725,7 +2725,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/camera.cpp:1133 ekos/capture/camera.cpp:1188
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1884
-#: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:530
+#: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -6769,7 +6769,7 @@ msgstr "Exporteu els punts de la solució"
 #: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1132
 #: ekos/capture/camera.cpp:1187 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1883 ekos/scheduler/scheduler.cpp:1993
-#: fitsviewer/fitstab.cpp:529 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10517,7 +10517,7 @@ msgstr "Captura"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:737
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:740
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:345
 #: skycomponents/imageoverlaycomponent.cpp:707
@@ -20282,7 +20282,7 @@ msgstr "La solució es troba fora del recorregut màxim."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:42 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:390
+#: fitsviewer/fitstab.cpp:393
 #, kde-format
 msgid "Value"
 msgstr "Valor"
@@ -25782,8 +25782,8 @@ msgstr "S'ha activat el control."
 msgid "Slaving deactivated."
 msgstr "S'ha desactivat el control."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:683
-#: fitsviewer/fitstab.cpp:703
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:686
+#: fitsviewer/fitstab.cpp:706
 #, kde-format
 msgid "Aborting..."
 msgstr "S'interromp…"
@@ -28201,11 +28201,9 @@ msgid "Job '%1' has no more batches remaining."
 msgstr "La tasca «%1» no té cap més execució romanent."
 
 #: ekos/scheduler/scheduler.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Bellflower"
+#, kde-format
 msgid "Follower"
-msgstr "Bellflower"
+msgstr "Seguidor"
 
 #: ekos/scheduler/scheduler.cpp:145
 #, kde-format
@@ -28710,6 +28708,11 @@ msgid ""
 "combination with the first job above having a target defined."
 "<p><p><b>WARNING</b>: This feature is experimental!</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Definiu l'objectiu de la tasca o seleccioneu <span "
+"style=\"font-style:italic\">Seguidor</span> si la tasca s'ha d'executar com "
+"a una tasca amb múltiples càmeres en combinació amb la primera tasca de dalt "
+"que tinga definida un objectiu.<p><p><b>AVÍS</b>: Esta característica és "
+"experimental!</p></body></html>"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
@@ -28744,6 +28747,8 @@ msgstr "Perfil de dispositiu d'Ekos."
 msgid ""
 "Optical train to be used for this scheduler job within the Capture module."
 msgstr ""
+"Tren òptic que s'utilitzarà per a esta tasca del planificador en el mòdul "
+"«Captura»."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -30002,22 +30007,18 @@ msgstr ""
 "en %2 segons."
 
 #: ekos/scheduler/schedulerprocess.cpp:3625
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed to capture target."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
-msgstr "Avís: ha fallat la captura de l'objectiu de la tasca «%1»."
+msgstr "[%2] Avís: ha fallat la captura de l'objectiu de la tasca «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3644
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 "
-#| "of %3)."
+#, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr ""
-"La tasca «%1» està fent la captura, s'està reiniciant el seu procediment de "
-"guiatge (intent núm. %2 de %3)."
+"[%2] La tasca «%1» està fent la captura, s'està reiniciant el seu "
+"procediment de guiatge (intent núm. %3 de %4)."
 
 #: ekos/scheduler/schedulerprocess.cpp:3653
 #, kde-format
@@ -30027,23 +30028,21 @@ msgstr ""
 "captura."
 
 #: ekos/scheduler/schedulerprocess.cpp:3659
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed its capture procedure, marking aborted."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
-"Avís: la tasca «%1» de procediment de captura ha fallat, i es marca com "
-"interrompuda."
+"[%2] Avís: la tasca «%1» de procediment de captura ha fallat, i es marca com "
+"a interrompuda."
 
 #: ekos/scheduler/schedulerprocess.cpp:3669
 #, kde-format
 msgid "[%2] Follower job '%1' has failed, is restarting."
-msgstr ""
+msgstr "[%2] La tasca «%1» del seguidor ha fallat. S'està reiniciant."
 
 #: ekos/scheduler/schedulerprocess.cpp:3676
-#, fuzzy, kde-format
-#| msgid "Ekos job (%1) - Capture finished"
+#, kde-format
 msgid "[%2] Job (%1) - Capture finished"
-msgstr "Tasca d'Ekos (%1): S'ha finalitzat la captura"
+msgstr "[%2] Tasca (%1): S'ha finalitzat la captura"
 
 #: ekos/scheduler/schedulerprocess.cpp:3741
 #, kde-format
@@ -30744,74 +30743,74 @@ msgstr "Resolució de plaques"
 msgid "Recent Images"
 msgstr "Imatges recents"
 
-#: fitsviewer/fitstab.cpp:402
+#: fitsviewer/fitstab.cpp:405
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:483 fitsviewer/fitstab.cpp:487
+#: fitsviewer/fitstab.cpp:486 fitsviewer/fitstab.cpp:490
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Guardada de FITS"
 
-#: fitsviewer/fitstab.cpp:519
+#: fitsviewer/fitstab.cpp:522
 #, kde-format
 msgid "Image save error: %1"
 msgstr "S'ha produït un error en guardar la imatge: %1"
 
-#: fitsviewer/fitstab.cpp:519
+#: fitsviewer/fitstab.cpp:522
 #, kde-format
 msgid "Image Save"
 msgstr "Guardeu la imatge"
 
-#: fitsviewer/fitstab.cpp:523
+#: fitsviewer/fitstab.cpp:526
 #, kde-format
 msgid "File saved to %1"
 msgstr "El fitxer s'ha guardat a %1"
 
-#: fitsviewer/fitstab.cpp:693
+#: fitsviewer/fitstab.cpp:696
 #, kde-format
 msgid "Extracting..."
 msgstr "S'està extraent…"
 
-#: fitsviewer/fitstab.cpp:711
+#: fitsviewer/fitstab.cpp:714
 #, kde-format
 msgid "Solving..."
 msgstr "S'està resolent…"
 
-#: fitsviewer/fitstab.cpp:724
+#: fitsviewer/fitstab.cpp:727
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "L'extractor ha excedit el temps: %1 s"
 
-#: fitsviewer/fitstab.cpp:733
+#: fitsviewer/fitstab.cpp:736
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "L'extractor ha fallat: %1 s"
 
-#: fitsviewer/fitstab.cpp:742
+#: fitsviewer/fitstab.cpp:745
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "S'han extret %1 estreles (%2 sense filtrar) en %3 s"
 
-#: fitsviewer/fitstab.cpp:790
+#: fitsviewer/fitstab.cpp:793
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "El solucionador ha excedit el temps: %1 s"
 
-#: fitsviewer/fitstab.cpp:795
+#: fitsviewer/fitstab.cpp:798
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "El solucionador ha fallat: %1 s"
 
-#: fitsviewer/fitstab.cpp:965
+#: fitsviewer/fitstab.cpp:968
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr "Avís! Esta eina només admet el solucionador intern de StellarSolver."
 
-#: fitsviewer/fitstab.cpp:966
+#: fitsviewer/fitstab.cpp:969
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Canvieu-ho a este en el menú d'opcions «Alinea» d'Ekos."
