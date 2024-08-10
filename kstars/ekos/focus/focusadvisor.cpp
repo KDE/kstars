@@ -815,7 +815,7 @@ void FocusAdvisor::findStars()
     if (m_findStarsRange)
     {
         // Collect more data to find the range of focuser motion with stars
-        emit m_focus->setTitle(QString(i18n("Stars detected, centering range", m_focus->currentPosition)), true);
+        emit m_focus->setTitle(QString(i18n("Stars detected, centering range")), true);
         updateResultsTable(i18n("Stars detected, centering range"));
         int nextPos;
         if (m_findStarsRangeIn)
@@ -1316,7 +1316,7 @@ bool FocusAdvisor::analyseAF()
     int maxPositon = positions[0];
     double maxMeasure = m_focus->curveFitting->f(maxPositon);
 
-    int stepSize = m_focus->m_OpsFocusMechanics->focusTicks->value();
+    const int stepSize = m_focus->m_OpsFocusMechanics->focusTicks->value();
     int newStepSize = stepSize;
     // Firstly check that the step size is giving a good measureRatio
     double measureRatio = maxMeasure / minMeasure;
@@ -1329,6 +1329,12 @@ bool FocusAdvisor::analyseAF()
         // Adjust the step size to try and get the measureRatio around 3
         int pos = m_focus->curveFitting->fy(minMeasure * TARGET_MAXMIN_HFR_RATIO);
         newStepSize = (pos - minPosition) / ((positions.size() - 1.0) / 2.0);
+        // Throttle newStepSize. Usually this stage should be close to good parameters so changes in step size
+        // should be small, but if run with poor parameters changes should be throttled to prevent big swings that
+        // can lead to Autofocus failure.
+        double ratio = static_cast<double>(newStepSize) / static_cast<double>(stepSize);
+        ratio = std::max(std::min(ratio, 2.0), 0.5);
+        newStepSize = stepSize * ratio;
         m_focus->m_OpsFocusMechanics->focusTicks->setValue(newStepSize);
     }
 
@@ -1522,7 +1528,6 @@ void FocusAdvisor::resizeDialog()
         width += focusAdvTable->columnWidth(i);
     const int height = focusAdvGroupBox->height() + focusAdvTable->height() + focusAdvButtonBox->height();
     focusAdvTable->horizontalHeader()->height() + focusAdvTable->rowHeight(0);
-    // JEE what if no rows
     this->resize(width, height);
 }
 }
