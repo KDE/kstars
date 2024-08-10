@@ -527,7 +527,7 @@
 >De knop <guibutton
 >Adviseur</guibutton
 > start het hulpmiddel <link linkend="focus-advisor"
->Focus-adviseur</link
+>Focusadviseur</link
 >. </para>
       </listitem>
       <listitem>
@@ -1165,7 +1165,7 @@
         <para
 ><guilabel
 >Donutbuster</guilabel
->: dit is een experimentele mogelijkheid en moet voorzichtig worden gebruikt. De intentie van Donutbuster is het verbeteren van focusseren voor telescopen met centrale obstructies die donutvormige sterren maken bij niet-in-focus, bijv. Newtonians, SCTs, RASAs, Ritchey-Cretiens, etc.</para>
+>: de intentie van Donutbuster is het verbeteren van focusseren voor telescopen met centrale obstructies die donutvormige sterren maken bij niet-in-focus, bijv. Newtonians, SCT's, RASA's, Ritchey-Cretiens, etc.</para>
 
         <para
 ><guilabel
@@ -1201,30 +1201,40 @@
 >Fitten van krommen verfijnen</guilabel
 > is geactiveerd. Hoe hoger de waarde hoe meer buitenliggers uitgesloten zullen worden uit het proces van fitten van krommen. De standaard waarde is 0,2.</para>
           </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para
+><guilabel
+>Scannen op beginpositie</guilabel
+> is alleen beschikbaar voor Lineair doorgang 1, verlopen van vastgezette en CFZ-shuffle, krommen fitten van hyperbolen en parabolen en focus metingen van: HFR, HFR Adj en FWHM.</para>
+
+        <para
+>Activeer deze optie om scannen voor focus te laten scannen rond de huidige positie van de focuser om een toepasselijke optimale focuspositie te krijgen. Het doel hiervan is om te verzekeren dat autofocus begint dichtbij de focuspositie. De volgende sub-opties zijn beschikbaar:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para
+><guilabel
+>Altijd aan</guilabel
+>: wanneer Scannen voor beginpositie is geactiveerd doe het dan bij het begin van Autofocus. Indien niet geactiveerd, wordt het alleen gedaan wanneer Autofocus mislukt en opnieuw wordt gedaan.</para>
+          </listitem>
 
           <listitem>
             <para
 ><guilabel
->Scan voor startpositie</guilabel
->: activeer deze optie om scannen voor focus te laten scannen rond de huidige positie van de focuser om een toepasselijke optimale focuspositie te krijgen. Het doel hiervan is om te verzekeren dat autofocus begint dichtbij de focuspositie. De volgende sub-opties zijn beschikbaar:</para>
-
-            <itemizedlist>
-              <listitem>
-                <para
-><guilabel
 >Aantal gegevenspunten</guilabel
 >: het te gebruiken gegevenspunten in elke scan. 5 is een goede waarde om te beginnen.</para>
-              </listitem>
+          </listitem>
 
-              <listitem>
-                <para
+          <listitem>
+            <para
 ><guilabel
 >Initiële stapgrootte x</guilabel
 >: een vermenigvuldigingsfactor om toe te passen op de <guilabel
 >Initiële stapgrootte</guilabel
 > om te gebruiken in het scannen voor de startpositie. Standaard is 1,0.</para>
-              </listitem>
-            </itemizedlist>
           </listitem>
         </itemizedlist>
       </listitem>
@@ -1754,89 +1764,185 @@
     </screenshot>
 
     <para
->Dit is de adviesdialoog voor focus. Het is een mogelijkheid om te assisteren bij het beheer van parameters voor focus.</para>
-
+>De dialoog Focusadviseur is een functie om te assisteren met het opzetten van focusparameters. Om te gebruiken, selecteer de vereiste opties en druk op <guilabel
+>Uitvoeren</guilabel
+>. Dit is nu een <emphasis role="bold"
+>experimentele functie.</emphasis
+></para>
     <para
->Het doel van de adviseur van focus is mensen helpen die worstelen met het gebruiken van de module focus in Ekos. De module focus heeft een rijke functionaliteit en bevat heel wat parameters die zelf-consistent ingesteld moeten worden om goede resultaten te bereiken. De adviseur van focus is ontworpen om te helpen met de opzet van de basis parameter die focus zouden moeten bereiken. Het is niet ontworpen om de best mogelijke focus voor uw apparatuur te bereiken; u zult moeten experimenteren met uw opzet om dat te bereiken. Maar de adviseur voor focus biedt een plaats om te beginnen met die experimenten.</para>
-
+>Het doel van de focusadviseur is mensen helpen met het gebruiken van de module focus in Ekos. De module focus heeft een rijke functionaliteit en bevat heel wat parameters die zelf-consistent ingesteld moeten worden om goede resultaten te bereiken. De focusadviseur is ontworpen om te helpen met de opzet van de basis parameter die focus zouden moeten bereiken. Het is niet ontworpen om de best mogelijke focus voor uw apparatuur te bereiken; u zult moeten experimenteren met uw opzet om dat te bereiken. Maar de focusadviseur biedt een plaats om te beginnen met die experimenten.</para>
     <para
->De adviseur voor focus is gericht op de minder ervaren gebruikers.</para>
+>De focusadviseur is gericht op de minder ervaren gebruikers.</para>
     <para
->Als de adviseur voor focus geen goede resultaten lijkt te geven bij uw opzet waarom start u dan geen discussie op het forum zodat het verbeterd kan worden om in de toekomst betere resultaten te geven. Op deze manier zal het in de tijd nuttiger gemaakt kunnen worden.</para>
+>Als de focusadviseur geen goede resultaten lijkt te geven bij uw opzet waarom start u dan geen discussie op het forum zodat het verbeterd kan worden om in de toekomst betere resultaten te geven. Op deze manier zal het in de tijd nuttiger gemaakt kunnen worden.</para>
     <para
 >Wanneer u klikt op het Focusadviseur werkt het een serie parameter uit uit aanbevelingen gebaseerd op de optische trein die u in focus gebruikt.</para>
     <para
->Bovenaan de dialoog toont het informatie over de verbonden optische trein. Daarna toont het 6 regels gerelateerd aan verschillende sets parameters gebruikt binnen focus. Aan elke regel is een keuzevak verbonden om de bijbehorende focusvelden bij te werken met aanbevelingen van de adviseur van focus.</para>
+>Er zijn 4 getoonde keuzevakjes die standaard allemaal zijn geactiveerd. Sommigen kunnen uitgeschakeld worden indien gewenst. Bijvoorbeeld, Parameters bijwerken zal de meeste parameters naar standaard instellingen resetten. Na uitvoeren is het niet noodzakelijk om deze optie te herhalen zodat het bijbehorende keuzevakje uitgeschakeld kan worden voor volgende keren uitvoeren.</para>
     <para
->Focus-parameters zijn opgebroken in de volgende groepen:</para>
-
+>De volgende knoppen zijn beschikbaar:</para>
     <itemizedlist>
     <listitem>
     <para
 ><guilabel
->Stapgrootte</guilabel
->: dit is de gesuggereerde stapgrootte voor de gebruiken focus. Dit is een kritische parameter. De standaard komt uit de dialoog Critical Focus Zone (CFZ) als u weet hoe die op te zetten. Als alternatief, als u een redelijke waarde voor uw apparatuur uit andere bronnen weet dan kunt u die invoeren.</para>
+>Help</guilabel
+>: druk op deze knop om de dialoog van de hulp voor de focusadviseur te starten.</para>
+    <screenshot>
+      <screeninfo
+>Focusadviseur - Help</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_help.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Focusadviseur - Help</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>De dialoog Help toont bovenaan details van de huidige Optische trein. Daarna komt een tabelvergelijking van de waarde van elke focusparameter in <link linkend="focus-settings"
+>Focusinstellingen</link
+> versus de waarde gesuggereerd door Focusadviseur. Dit biedt u het zien van wat Focusadviseur zou bijwerken als Parameters bijwerken was geactiveerd en Focusadviseur uitgevoerd.</para>
+    <para
+>Het keuzevakje <guilabel
+>Alleen wijzigingen tonen</guilabel
+> bepaalt of alle parameters getoond worden of alleen die verschillen van de aanbevelingen van de Focusadviseur. De knop <guilabel
+>Sluiten</guilabel
+> sluit de dialoog Help.</para>
     </listitem>
 
     <listitem>
     <para
 ><guilabel
->Parameters voor Camera &amp; Filterwiel</guilabel
->: dit stelt de parameters in in de sectie <link linkend="focus-ccd-filter-wheel"
->de CCD &amp; het filterwiel</link
-> van het focusscherm. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden geadviseerd.</para>
+>Uitvoeren</guilabel
+>: druk op deze knop om Focusadviseur voor de geactiveerde opties uit te voeren. De V-kromme zal dynamisch bijgewerkt worden tijdens de voorgang, evenals de dialoog Focusadviseur.</para>
     </listitem>
 
     <listitem>
     <para
 ><guilabel
->Parameters in instellingen</guilabel
+>Stop</guilabel
+>: druk op deze knop om de Focusadviseur te stoppen. Merk op dat d knop <guilabel
+>Stop</guilabel
+> in het hoofdpaneel van Focus hetzelfde doet.</para>
+    </listitem>
+
+    <listitem>
+    <para
+><guilabel
+>Sluiten</guilabel
+>: druk op deze knop om de focusadviseur te sluiten.</para>
+    </listitem>
+    </itemizedlist>
+
+    <para
+>De volgende keuzevakjes zijn beschikbaar:</para>
+    <itemizedlist>
+    <listitem>
+    <para
+><emphasis role="bold"
+>Parameters bijwerken</emphasis
 >: dit stelt de parameters in <link linkend="focus-settings"
 >Focusinstellingen</link
-> in. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
+> in op standaard waarden die Autofocus in staat moeten stellen met succes te eindigen. Merk op dat parameters opgeslagen worden per Optische trein het is dus een goed idee om deze optie bij het beginnen in te stellen. Merk op that sommige parameters, bijv. stapgrootte beter de standaard uit een benadering met proberen aannemen door Autofocus uit te voeren. Dus deze parameters kunnen beter ingesteld worden door een andere onderstaande optie.</para>
+    <para
+>Merk op dat wanneer een nieuwe Optische trein wordt aangemaakt, Focusadviseur standaard parameters zal opzetten wanneer de Optische trein voor de eerste keer in Focus wordt gebruikt.</para>
+    <para
+>Een manier om te controleren of parameters juist zijn ingesteld voor de Focusadviseur is op de knop <guilabel
+>Help </guilabel
+> te drukken. Zie de sectie Focusadviseur Help voor meer details.</para>
+    <para
+>Merk ook op dat volgende Focusadviseurfuncties afhangen van de selectie van bepaalde parameters, bijvoorbeeld het focusalgoritme Lineair 1 doorgang, het is dus aanbevolen om Parameters bijwerken uit te voeren bij het begin van het gebruik van Focusadviseur.</para>
     </listitem>
 
     <listitem>
     <para
-><guilabel
->Parameters van Proces</guilabel
->: dit stelt de parameters in <link linkend="focus-process"
->Focusproces</link
-> in. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
+><emphasis role="bold"
+>Sterren zoeken</emphasis
+>: deze functie is ontworpen om de reeks van beweging van de focuser om sterren te zoeken. Als sterren al zichtbaar zijn in subframes dan is er geen noodzaak deze functie uit te voeren.</para>
+    <para
+>Het algoritme zal beginnen op de huidige focuserpositie en een gebied doorzoeken uitwaarts daarna inwaarts van de beginpositie en zoeken naar sterren. Als er geen sterren worden gevonden zal het doorgaan met uitbreiden van het zoekgebied met blijven binnen de toegestane reeks van beweging van de focuser.</para>
+    <para
+>Eventueel zullen sterren ofwel gelokaliseerd worden of de gehele reeks van beweging van de focuser zal doorzocht zijn zonder een enkele ster te lokaliseren. In dit laatste geval zal de stapgrootte gehalveerd worden en het zoeken herstart worden vanaf het begin.</para>
+    <para
+>Het zoekproces gebruikt een serie sprongen van 10 x stapgrootte om te proberen sterren te lokaliseren.</para>
+    <para
+>Om deze functie te gebruiken, start de focuser zo dichtbij waar sterren waarschijnlijk zijn te vinden. Als u geen idee hebt dan zal het algoritme sterren lokaliseren maar zal het zoeken waarschijnlijk langer duren. Gebruik bovendien een stapgrootte zo dicht als mogelijk bij een goede waarde voor ue apparatuur. Als een te kleine waarde wordt gekozen dan zal het aantal stappen groter zijn en het zoeken zal langer duren. Als een te grote waarde wordt gekozen dan is het mogelijk dat de reeks van focusposities waar sterren zichtbaar zullen zijn "wordt overgeslagen" bij het zoeken en zal het lijken dat er nergens sterren zichtbaar zijn. Als u geen idee hebt wat een goede startwaarde is gebruik dan de standaard en laat Focusadviseur het uitvogelen.</para>
+    <para
+>Hier is een voorbeeld van het zoeken naar sterren:</para>
+    <screenshot>
+      <screeninfo
+>Focusadviseur - Sterren zoeken</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_find_stars.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Focusadviseur - Sterren zoeken</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>De resultatentabel in de Focusadviseurdialoog toont een enkele regel voor Sterren zoeken. In dat geval is Sterren zoeken gestart op positie 70.000 en was de Stapgrootte 250 (gegeven een spronggrootte van 2.500).</para>
+    <para
+>Er zijn geen sterren gevonden op 70.000 (punt 1 op de V-kromme) dus een uitwaartse veeg is gestart op 95.000 en verplaatst in 2.500 sprong bij sprong totdat 70.000 was bereikt (punten 2-11) toen de inwaartse veeg begon. Sterren werden als eerste gedetecteerd op 60.000 (punt 15).</para>
+    <para
+>Het algoritme gaat dan door inwaarts te springen totdat geen sterren meer worden gevonden (punt 34). Dit geeft de reeks van positiehoek waar sterren zijn gelokaliseerd als 15.000 (punt 33) tot 60.000 (punt 15) met een centrum op 37.500.</para>
     </listitem>
 
     <listitem>
     <para
-><guilabel
->Parameters in Mechaniek</guilabel
->: dit stelt de parameters in <link linkend="focus-mechanics"
->Focusmechaniek</link
-> in. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
+><emphasis role="bold"
+>Ruwe aanpassing (zonder autofocus)</emphasis
+>: deze functie is ontworpen om ruwe aanpassing te leveren bij de beginpositie, Stapgrootte en AF-overscan (of speling) velden. Het doel is om waarden "goed genoeg" voor deze parameters te leveren om het volgende stadium, Fijne aanpassing te laten werken. Een iteratief proces wordt gebruikt om te komen op acceptabele waarden.</para>
+    <para
+>Hier is een voorbeeld beschreven hoe het werkt:</para>
+    <screenshot>
+      <screeninfo
+>Focusadviseur - Ruwe aanpassing</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_coarse_adj.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Focusadviseur - Ruwe aanpassing</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
+    <para
+>Ruwe aanpassing is uitgevoerd vanaf startpositie 37.500 met een stapgrootte van 250 en AF-overscan van 0. Dit is opgenomen in Run 1 in de resultatentabel in de Focusadviseurdialoog. De commentaarkolom zegt dat de max/minverhouding = 0,9 wat betekent dat de "Max HFR" / "Min HFR" van de gegevenspunten 0,9 is wat te laag is. Dus Focusadviseur start Run 2 vanaf positie 38.875 met een vergrote stapgrootte van 803 en overscan van 250.</para>
+    <para
+>Run 2 had opnieuw een te lage max/min-verhouding, dus Run 3 is gestart.</para>
+    <para
+>Run 3 (die getoond wordt in de V-kromme) is gestart vanaf 35548 met stapgrootte van 2544 en overscan van 7477. Dit resulteerde in een max/min van 2,0 wat goed genoeg is in dit stadium. De gegevenspunten vormen een V-kromme zonder zichtbare niet gecorrigeerde speling (dit zou als een platte vlek aan de rechterkant van de kromme moeten tonen als die er was). Dus de ruwe aanpassing is voltooid na Run 3.</para>
     </listitem>
 
     <listitem>
     <para
-><guilabel
->SEP-parameters</guilabel
->: dit stelt het SEP-parameterprofiel in van toepassing op het type scope in de geselecteerde optische trein. Door de muis over dit label te bewegen kunt u in de tekstballon zien welke waarden door de adviseur voor focus worden aanbevolen.</para>
-    </listitem>
-
-    <listitem>
+><emphasis role="bold"
+>Fine Adjustment (with Autofocus)</emphasis
+>: : This function is designed to provide fine adjustment to the start position, Step Size and AF Overscan (or backlash) fields. Fine Adjustment runs Autofocus including curve fitting and analyses the result to determine whether or not it can be improved. If so, it adjusts parameters and re-runs. An iterative process is used to home in on parameter values.</para>
     <para
-><guilabel
->Help</guilabel
->: druk op deze knop om hulp te krijgen bij gebruik van de adviseur voor focus.</para>
-    </listitem>
-
-    <listitem>
+>Hier is een voorbeeld beschreven hoe het werkt:</para>
+    <screenshot>
+      <screeninfo
+>Focusadviseur - Fijn afstemming</screeninfo>
+      <mediaobject>
+        <imageobject
+><imagedata fileref="focus_advisor_fine_adj.png" format="PNG" width="50%"/></imageobject>
+        <textobject
+><phrase
+>Focusadviseur - Fijn afstemming</phrase
+></textobject>
+      </mediaobject>
+    </screenshot>
     <para
-><guilabel
->Parameters bijwerken</guilabel
->: druk op deze knop om de aanbevelingen van de adviseur voor focus te accepteren en werk de focusparameters bij waar het bijbehorende keuzevak <guilabel
->Bijwerken</guilabel
-> is geactiveerd..</para>
+>Fijn afstemming is uitgevoerd vanaf een beginpositie van 35.548 met een stapgrootte van 2544 en AF-overscan van 7477. Dit is opgenomen in Run 1 in de resultatentabel in de Focusadviseurdialoog. De commentaarkolom zegt dat de max/min-verhouding = 1,9 wat betekent dat de "Max HFR" / "Min HFR" van de gegevenspunten is 1,9 die verbeterd zou kunnen worden. Dus Focusadviseur begint Run 2 vanaf positie 38.092 met een verhoogde stapgrootte van 4888 en overscan van 3738. De waarde van overscan wordt hier gereduceerd om te zien of een kleinere getal adequat speling kan compenseren.</para>
+    <para
+>Run 2 had een max/min-verhouding van 4 wat iets te hoog is en berekend een waarde voor overscan van 8626 dus wordt Run 3 gestart.</para>
+    <para
+>Run 3 (die getoond wordt in de V-kromme) is gestart vanaf 38092 met stapgrootte van 4254 en overscan van 8626 Dit resulteerde in een max/min van 3,1 wat goed is. De gegevenspunten vormen een V-kromme zonder zichtbare niet gecorrigeerde speling (dit zou als een platte vlek aan de rechterkant van de kromme moeten tonen als die er was). De R2 van het fitten van de kromme is 0,999, wat ook goed is dus de fijn afstemming is voltooid na Run 3.</para>
     </listitem>
-
   </itemizedlist>
   </sect2>
 

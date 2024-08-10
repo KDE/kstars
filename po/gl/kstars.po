@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-09 01:44+0000\n"
-"PO-Revision-Date: 2024-08-07 21:48+0200\n"
+"PO-Revision-Date: 2024-08-09 17:56+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -27677,10 +27677,9 @@ msgid "Job '%1' has no more batches remaining."
 msgstr "Ao traballo «%1» non lle quedan lotes."
 
 #: ekos/scheduler/scheduler.cpp:123
-#, fuzzy, kde-format
-#| msgid "lower"
+#, kde-format
 msgid "Follower"
-msgstr "baixar"
+msgstr "Seguimento"
 
 #: ekos/scheduler/scheduler.cpp:145
 #, kde-format
@@ -28175,6 +28174,11 @@ msgid ""
 "combination with the first job above having a target defined."
 "<p><p><b>WARNING</b>: This feature is experimental!</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Defina o destino do traballo ou seleccione <span style="
+"\"font-style:italic\">Seguimento</span> se o traballo debería executarse "
+"como un traballo de varias cámaras en combinación co primeiro traballo de "
+"enriba que ten un destino definido.<p><p><b>Aviso</b>: Esta funcionalidade é "
+"experimental!</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
 #: ekos/scheduler/scheduler.ui:570
@@ -28206,6 +28210,8 @@ msgstr "Perfil de dispositivo de Ekos"
 msgid ""
 "Optical train to be used for this scheduler job within the Capture module."
 msgstr ""
+"Tren óptico que usar para estre traballo do planificador co módulo de "
+"captura."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -29458,22 +29464,18 @@ msgstr ""
 "segundos."
 
 #: ekos/scheduler/schedulerprocess.cpp:3625
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed to capture target."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
-msgstr "Aviso: o traballo «%1» non puido capturar o destino."
+msgstr "[%2] Aviso: o traballo «%1» non puido capturar o destino."
 
 #: ekos/scheduler/schedulerprocess.cpp:3644
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 "
-#| "of %3)."
+#, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr ""
-"O traballo «%1» está capturando, está reiniciando o procedemento de guía "
-"(intento %2 de %3)."
+"[%2] O traballo «%1» está capturando, está reiniciando o procedemento de "
+"guía (intento %3 de %4)."
 
 #: ekos/scheduler/schedulerprocess.cpp:3653
 #, kde-format
@@ -29483,23 +29485,21 @@ msgstr ""
 "captura."
 
 #: ekos/scheduler/schedulerprocess.cpp:3659
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed its capture procedure, marking aborted."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
-"Aviso: o procedemento de captura do traballo «%1» fallou, marcando como "
+"[%2] Aviso: o procedemento de captura do traballo «%1» fallou, marcando como "
 "interrompido."
 
 #: ekos/scheduler/schedulerprocess.cpp:3669
 #, kde-format
 msgid "[%2] Follower job '%1' has failed, is restarting."
-msgstr ""
+msgstr "[%2] O traballo de seguimento «%1» fallou, reiniciándoo."
 
 #: ekos/scheduler/schedulerprocess.cpp:3676
-#, fuzzy, kde-format
-#| msgid "Ekos job (%1) - Capture finished"
+#, kde-format
 msgid "[%2] Job (%1) - Capture finished"
-msgstr "Traballo de Ekos (%1) - A captura rematou"
+msgstr "[%2] Traballo (%1): A captura rematou."
 
 #: ekos/scheduler/schedulerprocess.cpp:3741
 #, kde-format
