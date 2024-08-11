@@ -8,6 +8,7 @@
 
 #include <math.h>
 #include "ekos_guide_debug.h"
+#include "Options.h"
 
 // Finds the star in sortedStars that's closest to x,y and within maxDistance pixels.
 // Returns the index of the closest star in  sortedStars, or -1 if none satisfies the criteria.
@@ -240,7 +241,7 @@ void StarCorrespondence::makeOffsets(const QVector<Offsets> &offsets, QVector<Of
 
 // We create an imaginary star from the ones we did find.
 Edge StarCorrespondence::inventStarPosition(const QList<Edge> &stars, const QVector<int> &starMap,
-        QVector<Offsets> offsets, Offsets offset) const
+        const QVector<Offsets> &offsets, const Offsets &offset) const
 {
     Edge inventedStar;
     inventedStar.invalidate();
@@ -324,7 +325,7 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
     Edge foundStar;
     foundStar.invalidate();
     if (!initialized)  return foundStar;
-    int numFound, numNotFound;
+    int numFound = 0, numNotFound = 0;
 
     // findClosestStar needs an input with stars sorted by their x.
     // Do this outside of the loops.
@@ -332,11 +333,20 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
     QVector<int> sortedToOriginal;
     sortByX(stars, &sortedStars, &sortedToOriginal);
 
-    QVector<int> sortedStarMap;
-    int bestStarIndex = findInternal(sortedStars, maxDistance, &sortedStarMap, guideStarIndex,
-                                     guideStarOffsets, &numFound, &numNotFound, minFraction);
+    const bool alwaysInvent = Options::alwaysInventGuideStar() &&
+                              stars.size() >= minFraction * guideStarOffsets.size();
+    if (!alwaysInvent && Options::alwaysInventGuideStar())
+        qCDebug(KSTARS_EKOS_GUIDE)
+                << QString("Could not use AlwaysInvent--too few stars: %1 < %2 * %3 (%4)").arg(stars.size())
+                .arg(minFraction, 0, 'f', 2).arg(guideStarOffsets.size()).arg(minFraction * guideStarOffsets.size(), 0, 'f', 1);
+    const bool canInvent = allowMissingGuideStar && stars.size() >= minFraction * guideStarOffsets.size();
 
-    if (bestStarIndex > -1)
+    QVector<int> sortedStarMap;
+    int bestStarIndex =
+        alwaysInvent ? -1 : findInternal(sortedStars, maxDistance, &sortedStarMap, guideStarIndex,
+                                         guideStarOffsets, &numFound, &numNotFound, minFraction);
+
+    if (!alwaysInvent && bestStarIndex > -1)
     {
         // Convert back to the unsorted index value.
         bestStarIndex = sortedToOriginal[bestStarIndex];
@@ -348,21 +358,32 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
                 << numFound << numNotFound;
         m_NumReferencesFound = numFound;
     }
-    else if (allowMissingGuideStar && bestStarIndex == -1 &&
-             stars.size() >= minFraction * guideStarOffsets.size())
+    else if (alwaysInvent || canInvent)
     {
-        qCDebug(KSTARS_EKOS_GUIDE)
-                << "Trying in invent. StarCorrespondence did NOT find guideStar. Found/not"
-                << numFound << numNotFound << "minFraction" << minFraction << "maxDistance" << maxDistance;
+        if (!alwaysInvent)
+            qCDebug(KSTARS_EKOS_GUIDE)
+                    << "Trying to invent. StarCorrespondence did NOT find guideStar. Found/not"
+                    << numFound << numNotFound << "minFraction" << minFraction << "maxDistance" << maxDistance;
+        else
+            qCDebug(KSTARS_EKOS_GUIDE)
+                    << "Using AlwaysInvent. #stars" << stars.size() << "minFraction" << minFraction << "maxDistance" << maxDistance;
+
         // If we didn't find a good solution, perhaps the guide star was not detected.
         // See if we can get a reasonable solution from the other stars.
         int bestNumFound = 0;
         int bestNumNotFound = 0;
         Edge bestInvented;
         bestInvented.invalidate();
+        // We take each reference star (other than the guide star) and pretend it was the guide star by
+        // converting the guide-star's offsets to new offsets relative to that reference star.
+        // Then, using that as the guide star we see how many of the other reference stars we can find.
+        // We take the best performing ref star (the one whose offsets match the most other ref stars) and
+        // make a new starmap relative to that. Then, with that map, we find an "invented guide star
+        // position" by translating each found ref star position by its original guide/reference offset,
+        // and finding the median position of those.
         for (int gStarIndex = 0; gStarIndex < guideStarOffsets.size(); gStarIndex++)
         {
-            if (gStarIndex == guideStarIndex)
+            if (!alwaysInvent && gStarIndex == guideStarIndex)
                 continue;
             QVector<Offsets> gStarOffsets;
             makeOffsets(guideStarOffsets, &gStarOffsets, gStarIndex);

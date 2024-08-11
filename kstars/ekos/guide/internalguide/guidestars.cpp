@@ -290,6 +290,8 @@ void GuideStars::plotStars(QSharedPointer<GuideView> &guideView, const QRect &tr
 GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &imageData, const QRect &trackingBox,
         QSharedPointer<GuideView> &guideView, bool firstFrame)
 {
+    QElapsedTimer timer;
+    timer.start();
     // We fall-back to single star guiding if multistar isn't working,
     // but limit this for a number of iterations.
     // If a user doesn't have multiple stars available, the user shouldn't be using multistar.
@@ -354,6 +356,8 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
 
                 if (guideView != nullptr)
                     plotStars(guideView, trackingBox);
+                qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence. findGuideStar took %1s").arg(timer.elapsed() / 1000.0, 0, 'f',
+                                           3);
                 return GuiderUtils::Vector(star.x, star.y, 0);
             }
         }
@@ -367,6 +371,8 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
             qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence invented at" << foundStar.x << foundStar.y << "SNR" << guideStarSNR;
             if (guideView != nullptr)
                 plotStars(guideView, trackingBox);
+            qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence. findGuideStar/invent took %1s").arg(timer.elapsed() / 1000.0, 0,
+                                       'f', 3);
             return GuiderUtils::Vector(foundStar.x, foundStar.y, 0);
         }
     }
@@ -424,6 +430,8 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
         guideStarSNR = SNR;
         guideStarMass = star.sum;
         qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence. Standard method found at " << star.x << star.y << "SNR" << SNR;
+        qCDebug(KSTARS_EKOS_GUIDE) << QString("StarCorrespondence. findGuideStar backoff took %1s").arg(timer.elapsed() / 1000.0, 0,
+                                   'f', 3);
         return GuiderUtils::Vector(star.x, star.y, 0);
     }
     return GuiderUtils::Vector(-1, -1, -1);
@@ -498,6 +506,8 @@ void GuideStars::findTopStars(const QSharedPointer<FITSData> &imageData, int num
                               const double maxHFR, const QRect *roi,
                               QList<double> *outputScores, QList<double> *minDistances)
 {
+    QElapsedTimer timer2;
+    timer2.start();
     if (roi == nullptr)
     {
         DLOG(KSTARS_EKOS_GUIDE) << "Multistar: findTopStars" << num;
@@ -549,6 +559,8 @@ void GuideStars::findTopStars(const QSharedPointer<FITSData> &imageData, int num
     DLOG(KSTARS_EKOS_GUIDE)
             << QString("Multistar: findTopStars returning: %1 stars, %2s")
             .arg(stars->size()).arg(timer.elapsed() / 1000.0, 4, 'f', 2);
+
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("FindTopStars. star detection took %1s").arg(timer2.elapsed() / 1000.0, 0, 'f', 3);
 }
 
 // Scores star detection relative to each other. Uses the star's SNR as the main measure.

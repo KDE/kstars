@@ -125,7 +125,7 @@ class StarCorrespondence
         // StarMap is the map made for that substitude by findInternal().
         // Offset is the offset from the original guide star to that substitute guide star.
         Edge inventStarPosition(const QList<Edge> &stars, const QVector<int> &starMap,
-                                QVector<Offsets> offsets, Offsets offset) const;
+                                const QVector<Offsets> &offsets, const Offsets &offset) const;
 
         // Finds the star closest to x,y. Returns the index in sortedStars.
         // sortedStars should be sorted in x, which allows for a speedup in search.

@@ -464,6 +464,8 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         return;
     }
 
+    QElapsedTimer timer;
+    timer.start();
     GuiderUtils::Vector starPositionArcSec, targetPositionArcSec;
 
     // find guiding star location in the image
@@ -563,6 +565,7 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         emitStats();
         updateCircularBuffers();
     }
+    qCDebug(KSTARS_EKOS_GUIDE) << QString("performProcessing took %1s").arg(timer.elapsed() / 1000.0, 0, 'f', 3);
 
     if (logger != nullptr)
     {
