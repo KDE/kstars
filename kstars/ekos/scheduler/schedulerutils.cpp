@@ -234,7 +234,6 @@ void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, bool isLea
     /* Consider sequence file is new, and clear captured frames map */
     job.setCapturedFramesMap(CapturedFramesMap());
     job.setSequenceFile(sequenceUrl);
-
     job.setCompletionCondition(completion);
     if (completion == FINISH_AT)
         job.setFinishAtTime(completionTime);

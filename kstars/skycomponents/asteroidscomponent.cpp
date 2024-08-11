@@ -80,6 +80,10 @@ bool AsteroidsComponent::selected()
  */
 void AsteroidsComponent::loadDataFromText()
 {
+    clear();
+    objectNames(SkyObject::ASTEROID).clear();
+    objectLists(SkyObject::ASTEROID).clear();
+
     QString name, full_name, orbit_id, orbit_class, dimensions;
     int mJD;
     double q, a, e, dble_i, dble_w, dble_N, dble_M, H, G, earth_moid;
@@ -198,7 +202,7 @@ void AsteroidsComponent::draw(SkyPainter *skyp)
     const double lgmax              = log10(MAXZOOM);
     const double lgz                = log10(Options::zoomFactor());
     const double densityLabelFactor = 10.0; // Value of 10.0 influences the slider mag value [0, 2],
-                                            // where a value 5.0 influences the slider mag value [0, 4].
+    // where a value 5.0 influences the slider mag value [0, 4].
     const double zoomLimit          = (lgz - lgmin) / (lgmax - lgmin); // Min-max normalize into [lgmin, lgmax].
 
     // Map labelMagLimit into interval [0, 20.0 / densityLabelFactor]

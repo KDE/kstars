@@ -1863,7 +1863,18 @@ void Align::startSolving()
         connect(m_StellarSolver.get(), &StellarSolver::ready, this, &Align::solverComplete);
         m_StellarSolver->setIndexFolderPaths(Options::astrometryIndexFolderList());
 
-        auto params = m_StellarSolverProfiles.at(Options::solveOptionsProfile());
+        SSolver::Parameters params;
+        // Get solver parameters
+        // In case of exception, use first profile
+        try
+        {
+            params = m_StellarSolverProfiles.at(Options::solveOptionsProfile());
+        }
+        catch (std::out_of_range const &)
+        {
+            params = m_StellarSolverProfiles[0];
+        }
+
         params.partition = Options::stellarSolverPartition();
         m_StellarSolver->setParameters(params);
 

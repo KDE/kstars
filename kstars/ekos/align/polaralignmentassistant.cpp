@@ -129,7 +129,18 @@ void PolarAlignmentAssistant::setEnabled(bool enabled)
 void PolarAlignmentAssistant::startSolver()
 {
     auto profiles = getDefaultAlignOptionsProfiles();
-    auto parameters = profiles.at(Options::solveOptionsProfile());
+    SSolver::Parameters parameters;
+    // Get solver parameters
+    // In case of exception, use first profile
+    try
+    {
+        parameters = profiles.at(Options::solveOptionsProfile());
+    }
+    catch (std::out_of_range const &)
+    {
+        parameters = profiles[0];
+    }
+
     // Double search radius
     parameters.search_radius = parameters.search_radius * 2;
     constexpr double solverTimeout = 10.0;

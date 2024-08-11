@@ -72,9 +72,7 @@ bool SupernovaeComponent::selected()
 
 void SupernovaeComponent::loadData()
 {
-    qDeleteAll(m_ObjectList);
-    m_ObjectList.clear();
-
+    clear();
     objectNames(SkyObject::SUPERNOVA).clear();
     objectLists(SkyObject::SUPERNOVA).clear();
 

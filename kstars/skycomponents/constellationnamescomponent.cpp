@@ -26,6 +26,10 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
 
 void ConstellationNamesComponent::loadData(CultureList *cultures)
 {
+    clear();
+    objectNames(SkyObject::CONSTELLATION).clear();
+    objectLists(SkyObject::CONSTELLATION).clear();
+
     uint i       = 0;
     bool culture = false;
     KSFileReader fileReader;
