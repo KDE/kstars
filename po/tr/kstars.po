@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-09 01:44+0000\n"
+"POT-Creation-Date: 2024-08-11 01:47+0000\n"
 "PO-Revision-Date: 2024-08-07 23:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -789,7 +789,7 @@ msgstr "< &Geri"
 #: auxiliary/kswizard.cpp:76 ekos/align/manualrotator.cpp:47
 #: ekos/align/polaralignmentassistant.ui:278 ekos/focus/focusadvisor.cpp:167
 #: ekos/focus/focusadvisor.cpp:751 ekos/focus/focusadvisor.cpp:1146
-#: ekos/focus/focusadvisor.cpp:1385
+#: ekos/focus/focusadvisor.cpp:1391
 #, kde-format
 msgid "Done"
 msgstr "Bitti"
@@ -19629,12 +19629,12 @@ msgstr "En az/çok oranı: %1, sonraki adım boyutu: %2, sonraki aşırı tarama
 msgid "Fine Adjustment"
 msgstr "İnce Ayar"
 
-#: ekos/focus/focusadvisor.cpp:1379
+#: ekos/focus/focusadvisor.cpp:1385
 #, kde-format
 msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
 msgstr "En az/çok oranı: %1, R2: %2, adım boyutu: %3, aşırı tarama: %4"
 
-#: ekos/focus/focusadvisor.cpp:1386
+#: ekos/focus/focusadvisor.cpp:1392
 #, kde-format
 msgid "Focus Advisor Fine Adjustment completed"
 msgstr "Odak danışmanı kaba ayarı tamamlandı."

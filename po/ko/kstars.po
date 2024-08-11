@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-09 01:44+0000\n"
+"POT-Creation-Date: 2024-08-11 01:47+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -785,7 +785,7 @@ msgstr "< 이전(&B)"
 #: auxiliary/kswizard.cpp:76 ekos/align/manualrotator.cpp:47
 #: ekos/align/polaralignmentassistant.ui:278 ekos/focus/focusadvisor.cpp:167
 #: ekos/focus/focusadvisor.cpp:751 ekos/focus/focusadvisor.cpp:1146
-#: ekos/focus/focusadvisor.cpp:1385
+#: ekos/focus/focusadvisor.cpp:1391
 #, fuzzy, kde-format
 #| msgctxt "City in Ulster Ireland"
 #| msgid "Donegal"
@@ -19838,12 +19838,12 @@ msgstr ""
 msgid "Fine Adjustment"
 msgstr "지정된 설정 파일 사용."
 
-#: ekos/focus/focusadvisor.cpp:1379
+#: ekos/focus/focusadvisor.cpp:1385
 #, kde-format
 msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
 msgstr ""
 
-#: ekos/focus/focusadvisor.cpp:1386
+#: ekos/focus/focusadvisor.cpp:1392
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus Advisor Fine Adjustment completed"
