@@ -421,7 +421,7 @@
            <bool>true</bool>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked we try to be more resiliant to double stars by inventing a guide star position from the multi-star references.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked we try to be more resilient to double stars by inventing a guide star position from the multi-star references.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
            <string>Invent Multi-Star Guide Star (experimental)</string>
