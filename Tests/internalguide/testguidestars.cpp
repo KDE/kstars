@@ -28,6 +28,7 @@ class TestGuideStars : public QObject
     private slots:
         void basicTest();
         void calibrationTest();
+        void testFindGuideStar();
 };
 
 #include "testguidestars.moc"
@@ -604,6 +605,94 @@ void TestGuideStars::calibrationTest()
     currDec.setD(20, 0, 0);
     cal.restore(encodedCal, side, reverseDecOnPierChange, binning, binning, &currDec);
     CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), raPulseRate);
+}
+
+void TestGuideStars::testFindGuideStar()
+{
+    // Helpful for development/debugging.
+    // The fits files needed below are too large to include at this point.
+#if 0
+    Options::setAlwaysInventGuideStar(false);
+    Options::setMaxMultistarReferenceStars(50);
+    Options::setMinDetectionsSEPMultistar(2);
+    Options::setGuideOptionsProfile(0);
+    Options::setGuideMaxHFR(5.5);
+
+    QSharedPointer<GuideView> view;  // Not set
+
+    // The x,y coordinates of a set of reference stars taken from a guider run.
+    QList<double> xs = { 2048.52, 3980.48, 4546.17, 2554.72, 399.831, 312.933, 3965.32, 3981.4, 1414.81, 1460.85, 59.3435, 1365.59,
+                         1320.91, 1853.8, 1402.75, 1233.19, 1521.91, 1476.17, 1200.38, 1871.45, 1142.82, 1556.88, 1301.77, 1411.87,
+                         1296.59, 1417.35, 1217.52, 1610.88, 1721.06, 1245.83, 1254.56, 3083.38, 1333.77, 258.988, 1552.37, 1257.76,
+                         1447.29, 1425.92, 2399.24, 1440.08, 1247.51, 1587.41, 1191.43, 1270.65, 1225.95, 782.994, 1250.56,
+                         1540.07, 2246.5, 1283.3
+                       };
+    QList<double> ys = { 1344.35, 1612.64, 2100.24, 3349.58, 1334.91, 737.765, 1860.82, 210.059, 2090.72, 1847.37, 927.152, 1868.9,
+                         2135.84, 1975.16, 2121.04, 2097.39, 2097.34, 2111.59, 2081.62, 2737.78, 2041.4, 2193.32, 1983.86, 2161.06,
+                         2133.74, 1944.36, 2113.3, 2291.96, 1982.19, 2148.68, 2018.46, 1362.44, 2247.04, 3369.18, 2179.43, 2116.58,
+                         1953.96, 2099.11, 1289.22, 3302.04, 2080.56, 2058.46, 2176.74, 2438.52, 2048.3, 1973.86, 1998.22, 2219.29,
+                         2669.61, 2279.58
+                       };
+
+    // Setup the reference stars.
+    QList<Edge> refs;
+    for (int i = 0; i < xs.size(); ++i)
+    {
+        Edge e;
+        e.x = xs[i];
+        e.y = ys[i];
+        refs.push_back(e);
+    }
+
+    // Setup the rest of GuideStars.
+    Calibration cal;
+    // Restored calibration--flipped angles. Angle 113.811, swap T ms/as: 102.31 69.3976. Encoding: Cal v1.0,bx=2,by=2,pw=0.0038,ph=0.0038,fl=2030,ang=293.811,angR=294.501,angD=203.121,ramspas=72.0329,decmspas=69.3976,swap=0,ra= 194:36:15,dec=00:00:27,side=1,when=2023-06-01 21:53:02,calEnd"
+    QString serializedCal("Cal v1.0,bx=2,by=2,pw=0.0038,ph=0.0038,fl=2030,ang=293.811,angR=294.501,angD=203.121,ramspas=72.0329,decmspas=69.3976,swap=0,ra= 194:36:15,dec=00:00:27,side=1,when=2023-06-01 21:53:02,calEnd");
+    dms currentDEC(12, 16);
+    cal.restore(serializedCal, ISD::Mount::PierSide::PIER_WEST, false, 1, 1, &currentDEC);
+    GuideStars guideStars;
+    guideStars.setCalibration(cal);
+    guideStars.setupStarCorrespondence(refs, 2);
+
+    // Find the guide star for a set of guide fits files.
+    QStringList files({"guide_frame_23-50-36.fits",
+                       "guide_frame_23-50-44.fits",
+                       "guide_frame_23-50-52.fits",
+                       "guide_frame_23-51-01.fits",
+                       "guide_frame_23-51-09.fits",
+                       "guide_frame_23-51-19.fits",
+                       "guide_frame_23-51-27.fits",
+                       "guide_frame_23-51-35.fits",
+                       "guide_frame_23-51-43.fits",
+                       "guide_frame_23-51-51.fits",
+                       "guide_frame_23-51-59.fits",
+                       "guide_frame_23-52-07.fits",
+                       "guide_frame_23-52-22.fits",
+                       "guide_frame_23-52-31.fits",
+                       "guide_frame_23-52-39.fits",
+                       "guide_frame_23-52-47.fits",
+                       "guide_frame_23-52-55.fits",
+                       "guide_frame_23-53-03.fits",
+                       "guide_frame_23-53-12.fits",
+                       "guide_frame_23-53-20.fits",
+                       "guide_frame_23-53-29.fits"});
+
+    for (const auto &file : files)
+    {
+        // Load the test fits file.
+        const QString FITS_FILENAME(QString("./2024-08-10/%1").arg(file));
+        fprintf(stderr, "Loading %s\n", FITS_FILENAME.toLatin1().data());
+        QSharedPointer<FITSData> fits(new FITSData(FITS_NORMAL));
+        QVERIFY(fits != nullptr);
+        QFuture<bool> worker = fits->loadFromFile(FITS_FILENAME);
+        QTRY_VERIFY_WITH_TIMEOUT(worker.isFinished(), 60000);
+        QVERIFY(worker.result());
+
+        auto v = guideStars.findGuideStar(fits, QRect(), view, false);
+        fprintf(stderr, "findGuideStar returned %.2f,%.2f\n", v.x, v.y);
+        fprintf(stderr, "------------------------------------------------\n");
+    }
+#endif
 }
 
 QTEST_GUILESS_MAIN(TestGuideStars)

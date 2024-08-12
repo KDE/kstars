@@ -360,6 +360,10 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
     }
     else if (alwaysInvent || canInvent)
     {
+        // If we didn't find a good solution in findInternal() above (with alwaysInvent false), perhaps
+        // the guide star was not detected. We try to get around that by getting an estimate of its position
+        // from many reference stars. If alwaysInvent is true, we always wind up here, as that estimate is
+        // likely more robust anyway than consistently finding the one guide star.
         if (!alwaysInvent)
             qCDebug(KSTARS_EKOS_GUIDE)
                     << "Trying to invent. StarCorrespondence did NOT find guideStar. Found/not"
@@ -368,19 +372,18 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
             qCDebug(KSTARS_EKOS_GUIDE)
                     << "Using AlwaysInvent. #stars" << stars.size() << "minFraction" << minFraction << "maxDistance" << maxDistance;
 
-        // If we didn't find a good solution, perhaps the guide star was not detected.
-        // See if we can get a reasonable solution from the other stars.
         int bestNumFound = 0;
         int bestNumNotFound = 0;
         Edge bestInvented;
         bestInvented.invalidate();
-        // We take each reference star (other than the guide star) and pretend it was the guide star by
-        // converting the guide-star's offsets to new offsets relative to that reference star.
-        // Then, using that as the guide star we see how many of the other reference stars we can find.
-        // We take the best performing ref star (the one whose offsets match the most other ref stars) and
-        // make a new starmap relative to that. Then, with that map, we find an "invented guide star
-        // position" by translating each found ref star position by its original guide/reference offset,
-        // and finding the median position of those.
+        // For each reference star, pretend it was the guide star by using makeOffsets() to convert the
+        // original guide-star's offsets to new offsets relative to that reference star.
+        // Then, using findInternal(), map the detected stars to the reference stars.
+        // If we were successful in doing that (i.e. the reference star was actually detected)
+        // then we should know the positions of all (detected) reference stars.
+        // We then use inventStarPosition() to make an "invented guide star position" by reversing the
+        // offsets and translating each found ref star position back to a guide-star position and finding
+        // the median position of those. We only need to do this for one (actually detected) reference star.
         for (int gStarIndex = 0; gStarIndex < guideStarOffsets.size(); gStarIndex++)
         {
             if (!alwaysInvent && gStarIndex == guideStarIndex)
@@ -403,8 +406,9 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
                 bestNumNotFound = numNotFound;
                 sortedStarMap = newStarMap;
 
-                if (numNotFound <= 1)
-                    // We can't do better than this.
+                // If enough of the references were found to reliably estimate the guide-star position
+                // then we can break out of the loop. Nothing special about 7, just a guess.
+                if (numNotFound <= 1 || bestNumFound >= 7)
                     break;
             }
         }
@@ -416,6 +420,10 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
                     << "StarCorrespondence found guideStar (invented) at "
                     << bestInvented.x << bestInvented.y << "found/not" << bestNumFound << bestNumNotFound;
             m_NumReferencesFound = bestNumFound;
+
+            if (alwaysInvent && adapt)
+                adaptOffsets(stars, *starMap, bestInvented.x, bestInvented.y);
+
             return bestInvented;
         }
         else qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence could not invent guideStar.";
@@ -423,7 +431,7 @@ Edge StarCorrespondence::find(const QList<Edge> &stars, double maxDistance,
     else qCDebug(KSTARS_EKOS_GUIDE) << "StarCorrespondence could not find guideStar.";
 
     if (adapt && (bestStarIndex != -1))
-        adaptOffsets(stars, *starMap);
+        adaptOffsets(stars, *starMap, foundStar.x, foundStar.y);
     return foundStar;
 }
 
@@ -441,27 +449,12 @@ void StarCorrespondence::initializeAdaptation()
     originalGuideStarOffsets = guideStarOffsets;
 }
 
-void StarCorrespondence::adaptOffsets(const QList<Edge> &stars, const QVector<int> &starMap)
+void StarCorrespondence::adaptOffsets(const QList<Edge> &stars, const QVector<int> &starMap, double x, double y)
 {
     const int numStars = stars.size();
     if (starMap.size() != numStars)
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "Adapt error: StarMap size != stars.size()" << starMap.size() << numStars;
-        return;
-    }
-    // guideStar will be the index in stars corresponding to the reference guide star.
-    int guideStar = -1;
-    for (int i = 0; i < numStars; ++i)
-    {
-        if (starMap[i] == guideStarIndex)
-        {
-            guideStar = i;
-            break;
-        }
-    }
-    if (guideStar < 0)
-    {
-        qCDebug(KSTARS_EKOS_GUIDE) << "Adapt error: no guide star in map";
         return;
     }
 
@@ -480,8 +473,8 @@ void StarCorrespondence::adaptOffsets(const QList<Edge> &stars, const QVector<in
         }
         // Adapt the x and y offsets using the following IIR filter:
         // output[t] = alpha * offset[t] + (1-alpha) * output[t-1]
-        const double xOffset = stars[i].x - stars[guideStar].x;
-        const double yOffset = stars[i].y - stars[guideStar].y;
+        const double xOffset = stars[i].x - x;
+        const double yOffset = stars[i].y - y;
         const double currentXOffset = guideStarOffsets[refIndex].x;
         const double currentYOffset = guideStarOffsets[refIndex].y;
         const double newXOffset = alpha * xOffset + (1 - alpha) * currentXOffset;

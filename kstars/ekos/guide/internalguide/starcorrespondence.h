@@ -108,7 +108,7 @@ class StarCorrespondence
         // Update the reference-star offsets given the new star positions.
         // The adaption is similar to a 25-sample moving average.
         void initializeAdaptation();
-        void adaptOffsets(const QList<Edge> &stars, const QVector<int> &starMap);
+        void adaptOffsets(const QList<Edge> &stars, const QVector<int> &starMap, double x, double y);
 
         // Utility used by find. Useful for iterating when the guide star is missing.
         int findInternal(const QList<Edge> &stars, double maxDistance, QVector<int> *starMap,

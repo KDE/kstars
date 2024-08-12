@@ -104,11 +104,12 @@ class GuideStars
             starCorrespondence.reset();
         }
 
-    private:
         // Used to initialize the StarCorrespondence object, which ultimately finds
         // the guidestar using the geometry between it and the other stars detected.
+        // Would be private, except for testing
         void setupStarCorrespondence(const QList<Edge> &neighbors, int guideIndex);
 
+private:
         // Evaluates which stars are desirable as guide stars and reference stars.
         void evaluateSEPStars(const QList<Edge *> &starCenters, QVector<double> *scores,
                               const QRect *roi, const double maxHFR) const;
