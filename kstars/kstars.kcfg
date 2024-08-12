@@ -1677,7 +1677,7 @@
        </entry>
        <entry name="EkosLiveOnlineServer" type="String">
           <label>EkosLive Online Server</label>
-          <default>https://live.stellarmate.com</default>
+          <default>https://ekoslive.com</default>
        </entry>
        <entry name="EkosLiveSound" type="Bool">
           <default>true</default>
