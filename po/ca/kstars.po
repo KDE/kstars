@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-12 01:43+0000\n"
-"PO-Revision-Date: 2024-08-08 11:21+0200\n"
+"POT-Creation-Date: 2024-08-13 01:44+0000\n"
+"PO-Revision-Date: 2024-08-12 09:12+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -23763,21 +23763,23 @@ msgstr "seg. d'arc"
 #: ekos/guide/opsguide.ui:424
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>The program will search in a square spiral around "
-#| "the start position up to this radius.</p></body></html>"
+#| "<html><head/><body><p>If checked we try to be more resiliant to double "
+#| "stars by inventing a guide star position from the multi-star references.</"
+#| "p></body></html>"
 msgid ""
-"<html><head/><body><p>If checked we try to be more resiliant to double stars "
+"<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>El programa cercarà en una espiral quadrada al voltant "
-"de la posició inicial fins aquest radi.</p></body></html>"
+"<html><head/><body><p>Si està marcat, el programa intentarà ser més robust "
+"per a les estrelles dobles inventant una posició d'estrella guia a partir de "
+"les referències multiestrella.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:427
 #, kde-format
 msgid "Invent Multi-Star Guide Star (experimental)"
-msgstr ""
+msgstr "Inventa una estralla guia multiestrella (experimental)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:437
@@ -39499,6 +39501,8 @@ msgstr "Nombre màxim d'estrelles usades pel SEP MultiStar com a referència."
 #, kde-format
 msgid "Invent a guide star position from the multi-star references."
 msgstr ""
+"Inventa una posició d'estrella guia a partir de les referències "
+"multiestrella."
 
 #. i18n: ectx: label, entry (TwoAxisEnabled), group (Guide)
 #: kstars.kcfg:2739

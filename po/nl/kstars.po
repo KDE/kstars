@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-12 01:43+0000\n"
-"PO-Revision-Date: 2024-08-08 11:22+0200\n"
+"POT-Creation-Date: 2024-08-13 01:44+0000\n"
+"PO-Revision-Date: 2024-08-12 10:29+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -23488,21 +23488,23 @@ msgstr "boogseconden"
 #: ekos/guide/opsguide.ui:424
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>The program will search in a square spiral around "
-#| "the start position up to this radius.</p></body></html>"
+#| "<html><head/><body><p>If checked we try to be more resiliant to double "
+#| "stars by inventing a guide star position from the multi-star references.</"
+#| "p></body></html>"
 msgid ""
-"<html><head/><body><p>If checked we try to be more resiliant to double stars "
+"<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Tot aan deze straal wordt in een vierkante spiraal "
-"gezocht rondom de startpositie.</p></body></html>"
+"<html><head/><body><p>Indien geactiveerd proberen we schappelijker te zijn "
+"met dubbelsterren door een positie van een gidsster aan te nemen uit de "
+"multi-ster referenties.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:427
 #, kde-format
 msgid "Invent Multi-Star Guide Star (experimental)"
-msgstr ""
+msgstr "Multi-ster gidsster aannemen (experimenteel)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:437
@@ -38932,7 +38934,7 @@ msgstr "Maximum aantal SEP MultiStar sterren gebruikt als referenties."
 #: kstars.kcfg:2735
 #, kde-format
 msgid "Invent a guide star position from the multi-star references."
-msgstr ""
+msgstr "Neem een positie van een gidsster aan uit de multi-ster referenties."
 
 #. i18n: ectx: label, entry (TwoAxisEnabled), group (Guide)
 #: kstars.kcfg:2739

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-12 01:43+0000\n"
-"PO-Revision-Date: 2024-08-07 09:02+0200\n"
+"POT-Creation-Date: 2024-08-13 01:44+0000\n"
+"PO-Revision-Date: 2024-08-12 23:34+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -23657,21 +23657,24 @@ msgstr "дъг/сек"
 #: ekos/guide/opsguide.ui:424
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>The program will search in a square spiral around "
-#| "the start position up to this radius.</p></body></html>"
+#| "<html><head/><body><p>If checked we try to be more resiliant to double "
+#| "stars by inventing a guide star position from the multi-star references.</"
+#| "p></body></html>"
 msgid ""
-"<html><head/><body><p>If checked we try to be more resiliant to double stars "
+"<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Програмата ще търси в квадратна спирала около "
-"началната позиция до достигане на този радиус.</p></body></html>"
+"<html><head/><body><p>Ако е отметнато, ще се опита по-стабилно определяне на "
+"двойни звезди, като се открива позицията на водеща звезда въз основа на "
+"референции с множество звезди..</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:427
 #, kde-format
 msgid "Invent Multi-Star Guide Star (experimental)"
 msgstr ""
+"Определяне на звезда при насочване чрез множество звезди (експериментално)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:437
@@ -27791,11 +27794,9 @@ msgid "Job '%1' has no more batches remaining."
 msgstr "Заданието \"%1\" няма повече оставащи партиди."
 
 #: ekos/scheduler/scheduler.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Bellflower"
+#, kde-format
 msgid "Follower"
-msgstr "Белфлауър"
+msgstr "Следване"
 
 #: ekos/scheduler/scheduler.cpp:145
 #, kde-format
@@ -28294,6 +28295,11 @@ msgid ""
 "combination with the first job above having a target defined."
 "<p><p><b>WARNING</b>: This feature is experimental!</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Определяне на целта на задачата или избиране <span "
+"style=\"font-style:italic\">Следване</span> ако задачата трябва да се "
+"изпълнява като задача с няколко камери в комбинация с първата задача по-"
+"горе, която има зададена цел.<p><p><b>Предупреждение</b>: Тази функция е "
+"експериментална!</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
 #: ekos/scheduler/scheduler.ui:570
@@ -28325,6 +28331,8 @@ msgstr "Профил на устройство Ekos"
 msgid ""
 "Optical train to be used for this scheduler job within the Capture module."
 msgstr ""
+"Оптична система, която да се използва за това задание на планиране в рамките "
+"на модула Заснемане."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -29581,22 +29589,18 @@ msgstr ""
 "рестартирана след %2 секунди."
 
 #: ekos/scheduler/schedulerprocess.cpp:3637
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed to capture target."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
-msgstr "Предупреждение: заданието \"%1\" не успя да улови целта."
+msgstr "[%2] Предупреждение: заданието \"%1\" не успя да заснеме целта."
 
 #: ekos/scheduler/schedulerprocess.cpp:3656
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 "
-#| "of %3)."
+#, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr ""
-"Задание '%1' извършва заснеман и рестартира процедурата за насочване (опит #"
-"%2 на %3)."
+"[%2] Задание '%1' извършва заснеман и рестартира процедурата за насочване "
+"(опит #%3 от %4)."
 
 #: ekos/scheduler/schedulerprocess.cpp:3665
 #, kde-format
@@ -29606,23 +29610,21 @@ msgstr ""
 "рестартиране на заснемането."
 
 #: ekos/scheduler/schedulerprocess.cpp:3671
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed its capture procedure, marking aborted."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
-"Предупреждение: задачата \"%1\" не успя да изпълни процедурата за заснемане, "
-"маркира се като прекратена."
+"[%2] Предупреждение: задание \"%1\" не успя да изпълни процедурата за "
+"заснемане, маркира се като прекратено."
 
 #: ekos/scheduler/schedulerprocess.cpp:3681
 #, kde-format
 msgid "[%2] Follower job '%1' has failed, is restarting."
-msgstr ""
+msgstr "[%2] Задание за следване '%1'е неуспешно и се рестартира."
 
 #: ekos/scheduler/schedulerprocess.cpp:3688
-#, fuzzy, kde-format
-#| msgid "Ekos job (%1) - Capture finished"
+#, kde-format
 msgid "[%2] Job (%1) - Capture finished"
-msgstr "Задача на Ekos (%1) - Заснемането завърши"
+msgstr "[%2] Задание (%1) - Заснемането завърши"
 
 #: ekos/scheduler/schedulerprocess.cpp:3753
 #, kde-format
@@ -39321,6 +39323,8 @@ msgstr "Максимален брой SEP MultiStar брой звезди, из�
 #, kde-format
 msgid "Invent a guide star position from the multi-star references."
 msgstr ""
+"Определяне на позицията на насочващата звезда въз основа на референции с "
+"множество звезди."
 
 #. i18n: ectx: label, entry (TwoAxisEnabled), group (Guide)
 #: kstars.kcfg:2739

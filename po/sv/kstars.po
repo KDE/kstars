@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-12 01:43+0000\n"
-"PO-Revision-Date: 2024-08-08 06:38+0200\n"
+"POT-Creation-Date: 2024-08-13 01:44+0000\n"
+"PO-Revision-Date: 2024-08-12 08:40+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -23391,21 +23391,23 @@ msgstr "bågsekunder"
 #: ekos/guide/opsguide.ui:424
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>The program will search in a square spiral around "
-#| "the start position up to this radius.</p></body></html>"
+#| "<html><head/><body><p>If checked we try to be more resiliant to double "
+#| "stars by inventing a guide star position from the multi-star references.</"
+#| "p></body></html>"
 msgid ""
-"<html><head/><body><p>If checked we try to be more resiliant to double stars "
+"<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Programmet söker i en fyrkantig spiral omkring "
-"startpositionen upp till den här radien.</p></body></html>"
+"<html><head/><body><p>Om markerad försöker vi vara mer motståndskraftiga mot "
+"dubbelstjärnor genom att uppfinna en guidestjärnas position från "
+"flerstjärniga referenser.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:427
 #, kde-format
 msgid "Invent Multi-Star Guide Star (experimental)"
-msgstr ""
+msgstr "Uppfinn flerstjärnig guidestjärna (experimentell)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:437
@@ -38706,7 +38708,7 @@ msgstr ""
 #: kstars.kcfg:2735
 #, kde-format
 msgid "Invent a guide star position from the multi-star references."
-msgstr ""
+msgstr "Uppfinn en guidestjärnas position från flerstjärniga referenser."
 
 #. i18n: ectx: label, entry (TwoAxisEnabled), group (Guide)
 #: kstars.kcfg:2739
