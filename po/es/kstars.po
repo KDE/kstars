@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-13 01:44+0000\n"
-"PO-Revision-Date: 2024-08-03 04:58+0200\n"
+"PO-Revision-Date: 2024-08-13 12:09+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -23749,23 +23749,21 @@ msgstr "segundos de arco"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:424
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The program will search in a square spiral around "
-#| "the start position up to this radius.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>El programa buscará en una espiral cuadrada alrededor "
-"de la posición de inicio hasta este radio.</p></body></html>"
+"<html><head/><body><p>Si está marcada, intentamos ser más resilientes a las "
+"estrellas dobles inventando una posición de estrella guía a partir de las "
+"referencias de estrellas múltiples.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:427
 #, kde-format
 msgid "Invent Multi-Star Guide Star (experimental)"
-msgstr ""
+msgstr "Inventar estrella guía de estrellas múltiples (experimental)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:437
@@ -27896,11 +27894,9 @@ msgid "Job '%1' has no more batches remaining."
 msgstr "El trabajo «%1» no tiene más lotes pendientes."
 
 #: ekos/scheduler/scheduler.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Bellflower"
+#, kde-format
 msgid "Follower"
-msgstr "Bellflower"
+msgstr "Siguiente"
 
 #: ekos/scheduler/scheduler.cpp:145
 #, kde-format
@@ -28402,6 +28398,11 @@ msgid ""
 "combination with the first job above having a target defined."
 "<p><p><b>WARNING</b>: This feature is experimental!</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Defina el objetivo del trabajo o seleccione <span "
+"style=\"font-style:italic\">Siguiente</span> si el trabajo se debe ejecutar "
+"como trabajo multicámara en combinación con el primer trabajo anterior que "
+"tenga definido un objetivo.<p><p><b>Advertencia</b>: esta función es "
+"experimental.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
 #: ekos/scheduler/scheduler.ui:570
@@ -28433,6 +28434,8 @@ msgstr "Perfil de dispositivo de Ekos"
 msgid ""
 "Optical train to be used for this scheduler job within the Capture module."
 msgstr ""
+"Tren óptico que se usará con este trabajo del planificador en el modo de "
+"captura."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -29695,22 +29698,18 @@ msgstr ""
 "segundos."
 
 #: ekos/scheduler/schedulerprocess.cpp:3637
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed to capture target."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
-msgstr "Advertencia: el trabajo «%1» ha fallado al capturar el objetivo."
+msgstr "[%2] Advertencia: el trabajo «%1» ha fallado al capturar el objetivo."
 
 #: ekos/scheduler/schedulerprocess.cpp:3656
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 "
-#| "of %3)."
+#, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr ""
-"El trabajo «%1» está capturando, y está reiniciando el proceso de guiado "
-"(intento #%2 de %3)."
+"[%2] El trabajo «%1» está capturando, y está reiniciando el proceso de "
+"guiado (intento #%3 de %4)."
 
 #: ekos/scheduler/schedulerprocess.cpp:3665
 #, kde-format
@@ -29720,23 +29719,21 @@ msgstr ""
 "reinicia la captura."
 
 #: ekos/scheduler/schedulerprocess.cpp:3671
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed its capture procedure, marking aborted."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
-"Advertencia: el procedimiento de captura del trabajo «%1» ha fallado. Se "
-"marca como interrumpido."
+"[%2] Advertencia: el procedimiento de captura del trabajo «%1» ha fallado. "
+"Se marca como interrumpido."
 
 #: ekos/scheduler/schedulerprocess.cpp:3681
 #, kde-format
 msgid "[%2] Follower job '%1' has failed, is restarting."
-msgstr ""
+msgstr "[%2] El trabajo siguiente «%1» ha fallado y se reinicia."
 
 #: ekos/scheduler/schedulerprocess.cpp:3688
-#, fuzzy, kde-format
-#| msgid "Ekos job (%1) - Capture finished"
+#, kde-format
 msgid "[%2] Job (%1) - Capture finished"
-msgstr "Trabajo de Ekos (%1) - Captura terminada"
+msgstr "[%2] Trabajo (%1) - Captura terminada"
 
 #: ekos/scheduler/schedulerprocess.cpp:3753
 #, kde-format
@@ -39426,6 +39423,8 @@ msgstr ""
 #, kde-format
 msgid "Invent a guide star position from the multi-star references."
 msgstr ""
+"Inventar una posición de estrella guía de las referencias de estrellas "
+"múltiples."
 
 #. i18n: ectx: label, entry (TwoAxisEnabled), group (Guide)
 #: kstars.kcfg:2739

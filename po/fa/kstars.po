@@ -7,14 +7,15 @@
 # zahra dadkhah <dadkhah@itland.ir>, 2006.
 # Tahereh Dadkhahfar <dadkhahfar@itland.ir>, 2006.
 # Mohammad Reza Mirdamadi <mohi@ubuntu.ir>, 2012.
+# SPDX-FileCopyrightText: 2024 Mohi Mirdamadi <mohi.pub@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-13 01:44+0000\n"
-"PO-Revision-Date: 2012-01-12 17:10+0330\n"
-"Last-Translator: Mohammad Reza Mirdamadi <mohi@ubuntu.ir>\n"
-"Language-Team: Farsi (Persian) <>\n"
+"PO-Revision-Date: 2024-08-14 00:39+0330\n"
+"Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
+"Language-Team: fa\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 "#-#-#-#-#  .r1140 (kstars)  #-#-#-#-#\n"
 "#-#-#-#-#  kstars.po (kstars)  #-#-#-#-#\n"
 "#-#-#-#-#  kstars.pot (PACKAGE VERSION)  #-#-#-#-#\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "#-#-#-#-#  kstars.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "X-Generator: KBabel 1.11.4\n"
@@ -230,7 +231,7 @@ msgstr "محمدرضا میردامادی , نسیم دانیارزاده"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "mohi@ubuntu.ir , daniarzadeh@itland.ir"
+msgstr "mohi.pub@gmail.com , daniarzadeh@itland.ir"
 
 #: auxiliary/colorscheme.cpp:29 kstars.cpp:58
 #, kde-format
