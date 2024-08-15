@@ -66,10 +66,11 @@
 
 namespace Ekos
 {
-Focus::Focus() : QWidget()
+Focus::Focus(int id) : QWidget()
 {
     // #1 Set the UI
     setupUi(this);
+    m_focuserId = id;
 
     // #1a Prepare UI
     prepareGUI();
@@ -174,6 +175,8 @@ Focus::Focus() : QWidget()
     });
 
     setupOpticalTrainManager();
+    refreshOpticalTrain();
+
     // Needs to be done once
     connectFilterManager();
 }
@@ -301,6 +304,7 @@ QStringList Focus::getStellarSolverProfiles()
 
     return profiles;
 }
+
 
 Focus::~Focus()
 {
@@ -544,24 +548,23 @@ bool Focus::setFilterWheel(ISD::FilterWheel *device)
     return true;
 }
 
-bool Focus::addTemperatureSource(const QSharedPointer<ISD::GenericDevice> &device)
+void Focus::updateTemperatureSources(const QList<QSharedPointer<ISD::GenericDevice>> &temperatureSources)
 {
-    if (device.isNull())
-        return false;
+    defaultFocusTemperatureSource->blockSignals(true);
+    m_TemperatureSources = temperatureSources;
 
-    for (auto &oneSource : m_TemperatureSources)
+    defaultFocusTemperatureSource->clear();
+    for (auto device : temperatureSources)
     {
-        if (oneSource->getDeviceName() == device->getDeviceName())
-            return false;
+        if (device.isNull())
+            break;
+        defaultFocusTemperatureSource->addItem(device->getDeviceName());
     }
-
-    m_TemperatureSources.append(device);
-    defaultFocusTemperatureSource->addItem(device->getDeviceName());
+    defaultFocusTemperatureSource->blockSignals(false);
 
     auto targetSource = m_Settings["defaultFocusTemperatureSource"];
     if (targetSource.isValid())
         checkTemperatureSource(targetSource.toString());
-    return true;
 }
 
 void Focus::checkTemperatureSource(const QString &name )
@@ -727,6 +730,7 @@ bool Focus::setFocuser(ISD::Focuser *device)
     }
 
     checkFocuser();
+    emit focuserChanged(m_focuserId, device != nullptr);
     return true;
 }
 
@@ -749,8 +753,6 @@ void Focus::checkFocuser()
         setFocusAlgorithm(static_cast<Algorithm> (m_OpsFocusProcess->focusAlgorithm->currentIndex()));
         return;
     }
-    else
-        focuserLabel->setText(m_Focuser->getDeviceName());
 
     if (m_FilterManager)
         m_FilterManager->setFocusReady(m_Focuser->isConnected());
@@ -938,11 +940,11 @@ void Focus::processTemperatureSource(INDI::Property prop)
         if (m_LastSourceAutofocusTemperature != INVALID_VALUE)
         {
             delta = currentTemperatureSourceElement->value - m_LastSourceAutofocusTemperature;
-            emit newFocusTemperatureDelta(abs(delta), currentTemperatureSourceElement->value);
+            emit newFocusTemperatureDelta(abs(delta), currentTemperatureSourceElement->value, opticalTrain());
         }
         else
         {
-            emit newFocusTemperatureDelta(0, currentTemperatureSourceElement->value);
+            emit newFocusTemperatureDelta(0, currentTemperatureSourceElement->value, opticalTrain());
         }
 
         absoluteTemperatureLabel->setText(QString("%1 °C").arg(currentTemperatureSourceElement->value, 0, 'f', 2));
@@ -964,7 +966,7 @@ void Focus::setLastFocusTemperature()
     deltaTemperatureLabel->setText(QString("0 °C"));
     deltaTemperatureLabel->setStyleSheet("color: lightgreen");
 
-    emit newFocusTemperatureDelta(0, -1e6);
+    emit newFocusTemperatureDelta(0, -1e6, opticalTrain());
 }
 
 void Focus::setLastFocusAlt()
@@ -1157,7 +1159,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
     FWHMOut->setText("");
 
     qCInfo(KSTARS_EKOS_FOCUS)  << "Starting Autofocus " << m_AFRun
-                               << " on" << focuserLabel->text()
+                               << " on" << opticalTrain()
                                << " Reason: " << AutofocusReasonStr[m_AutofocusReason]
                                << " Reason Info: " << m_AutofocusReasonInfo
                                << " CanAbsMove: " << (canAbsMove ? "yes" : "no" )
@@ -2298,7 +2300,7 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
         m_FilterManager->setFilterPosition(fallbackFilterPosition, policy);
     }
     else
-        emit newStatus(state());
+        emit newStatus(state(), opticalTrain());
 
     if (autoFocusUsed && buildOffsetsUsed)
         // If we are building filter offsets signal AF run is complete
@@ -2469,9 +2471,9 @@ void Focus::setCurrentMeasure()
     // Let signal the current HFR now depending on whether the focuser is absolute or relative
     // Outside of Focus we continue to rely on HFR and independent of which measure the user selected we always calculate HFR
     if (canAbsMove)
-        emit newHFR(currentHFR, currentPosition, inAutoFocus);
+        emit newHFR(currentHFR, currentPosition, inAutoFocus, opticalTrain());
     else
-        emit newHFR(currentHFR, -1, inAutoFocus);
+        emit newHFR(currentHFR, -1, inAutoFocus, opticalTrain());
 
     // Format the labels under the V-curve
     HFROut->setText(QString("%1").arg(currentHFR * getStarUnits(m_StarMeasure, m_StarUnits), 0, 'f', 2));
@@ -5232,7 +5234,7 @@ void Focus::setupFilterManager()
         else if (fallbackFilterPending)
         {
             fallbackFilterPending = false;
-            emit newStatus(state());
+            emit newStatus(state(), opticalTrain());
         }
     });
 
@@ -6928,7 +6930,7 @@ void Focus::setState(FocusState newState)
     qCDebug(KSTARS_EKOS_FOCUS) << "Focus State changes from" << getFocusStatusString(m_state) << "to" << getFocusStatusString(
                                    newState);
     m_state = newState;
-    emit newStatus(m_state);
+    emit newStatus(m_state, opticalTrain());
 }
 
 void Focus::initView()

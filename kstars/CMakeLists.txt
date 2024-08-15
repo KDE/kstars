@@ -115,7 +115,7 @@ if (INDI_FOUND)
         set(ekosui_SRCS
             ekos/opsekos.ui
             ekos/manager.ui
-            ekos/manager/focusmanager.ui
+            ekos/manager/focusprogresswidget.ui
             ekos/manager/guidemanager.ui
             ekos/profileeditor.ui
             ekos/profilewizard.ui
@@ -155,6 +155,7 @@ if (INDI_FOUND)
             #ekos/align/opsastap.ui
             # Focus
             ekos/focus/focus.ui
+            ekos/focus/focusmodule.ui
             ekos/focus/opsfocussettings.ui
             ekos/focus/opsfocusprocess.ui
             ekos/focus/opsfocusmechanics.ui
@@ -210,7 +211,7 @@ if (INDI_FOUND)
 
             # Manager
             ekos/manager.cpp
-            ekos/manager/focusmanager.cpp
+            ekos/manager/focusprogresswidget.cpp
             ekos/manager/guidemanager.cpp
             ekos/manager/meridianflipstate.cpp
 
@@ -283,6 +284,7 @@ if (INDI_FOUND)
 
             # Focus
             ekos/focus/focus.cpp
+            ekos/focus/focusmodule.cpp
             ekos/focus/focushfrvplot.cpp
             ekos/focus/focusprofileplot.cpp
             ekos/focus/focusalgorithms.cpp

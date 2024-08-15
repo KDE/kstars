@@ -64,9 +64,10 @@ class Focus : public QWidget, public Ui::Focus
         // AdaptiveFocus and FocusAdvisor are friend classes so they can access methods in Focus
         friend class AdaptiveFocus;
         friend class FocusAdvisor;
+        friend class FocusModule;
 
     public:
-        Focus();
+        Focus(int id = 0);
         ~Focus();
 
         typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } Direction;
@@ -219,11 +220,11 @@ class Focus : public QWidget, public Ui::Focus
         void selectImageMask();
 
         /**
-             * @brief addTemperatureSource Add temperature source to the list of available sources.
-             * @param newSource Device with temperature reporting capability
-             * @return True if added successfully, false if duplicate or failed to add.
-             */
-        bool addTemperatureSource(const QSharedPointer<ISD::GenericDevice> &device);
+         * @brief updateTemperatureSources Update list of available temperature sources.
+         * @param temperatureSources Devices with temperature reporting capability
+         * @return True if updated successfully
+         */
+        void updateTemperatureSources(const QList<QSharedPointer<ISD::GenericDevice>> &temperatureSources);
 
         /**
          * @brief removeDevice Remove device from Focus module
@@ -489,15 +490,16 @@ class Focus : public QWidget, public Ui::Focus
 
     signals:
         void newLog(const QString &text);
-        void newStatus(Ekos::FocusState state);
-        void newHFR(double hfr, int position, bool inAutofocus);
-        void newFocusTemperatureDelta(double delta, double absTemperature);
+        void newStatus(Ekos::FocusState state, const QString &trainname);
+        void newHFR(double hfr, int position, bool inAutofocus, const QString &trainname);
+        void newFocusTemperatureDelta(double delta, double absTemperature, const QString &trainname);
 
         void absolutePositionChanged(int value);
         void focusPositionAdjusted();
-        void focusAdaptiveComplete(bool success);
+        void focusAdaptiveComplete(bool success, const QString &trainname);
 
         void trainChanged();
+        void focuserChanged(int id, bool isValid);
 
         void suspendGuiding();
         void resumeGuiding();
@@ -933,6 +935,7 @@ class Focus : public QWidget, public Ui::Focus
 
         /// Focuser device needed for focus operation
         ISD::Focuser *m_Focuser { nullptr };
+        int m_focuserId;
         /// CCD device needed for focus operation
         ISD::Camera *m_Camera { nullptr };
         /// Optional device filter
@@ -1129,6 +1132,11 @@ class Focus : public QWidget, public Ui::Focus
             return m_state;
         }
         void setState(FocusState newState);
+
+        bool isBusy()
+        {
+            return m_state == FOCUS_WAITING || m_state == FOCUS_PROGRESS || m_state == FOCUS_FRAMING || m_state == FOCUS_CHANGING_FILTER;
+        }
 
         /// CCD Chip frame settings
         QMap<ISD::CameraChip *, QVariantMap> frameSettings;

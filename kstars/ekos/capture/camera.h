@@ -259,6 +259,12 @@ public:
     void setupOpticalTrainManager();
     void refreshOpticalTrain();
 
+
+    QString opticalTrain() const
+    {
+        return opticalTrainCombo->currentText();
+    }
+
     /**
      * @brief Select the optical train
      */
@@ -425,10 +431,10 @@ signals:
     void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename = "");
     void captureTarget(QString targetName);
     void captureComplete(const QVariantMap &metadata);
-    void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
-    void resetFocus();
-    void abortFocus();
-    void adaptiveFocus();
+    void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo, const QString &trainname);
+    void resetFocus(const QString &trainname);
+    void abortFocus(const QString &trainname);
+    void adaptiveFocus(const QString &trainname);
     void settingsUpdated(const QVariantMap &settings);
     void sequenceChanged(const QJsonArray &sequence);
     void newLocalPreview(const QString &preview);
@@ -443,8 +449,8 @@ signals:
     void captureAborted(double exposureSeconds);
 
     // communication with other modules
-    void checkFocus(double);
-    void meridianFlipStarted();
+    void checkFocus(double, const QString &trainname);
+    void meridianFlipStarted(const QString &trainname);
     void guideAfterMeridianFlip();
     void newStatus(CaptureState status, const QString &devicename);
     void suspendGuiding();

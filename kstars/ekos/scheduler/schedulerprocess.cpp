@@ -1065,9 +1065,6 @@ void SchedulerProcess::startCapture(bool restart)
         return;
     }
 
-    // clear the mapping camera name --> scheduler job
-    m_activeJobs.clear();
-
     startSingleCapture(activeJob(), restart);
     for (auto follower : activeJob()->followerJobs())
     {
@@ -2374,6 +2371,9 @@ void SchedulerProcess::selectActiveJob(const QList<SchedulerJob *> &jobs)
         for (auto job : m_activeJobs.values())
             if (!job->isLead() && job->getState() == SCHEDJOB_BUSY)
                 stopCapturing(job->getOpticalTrain(), false);
+
+        // clear the mapping camera name --> scheduler job
+        m_activeJobs.clear();
     }
     moduleState()->setActiveJob(scheduledJob);
 
@@ -3699,7 +3699,10 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &devi
 
                 if (job->getCompletionCondition() == FINISH_LOOP ||
                         (job->getCompletionCondition() == FINISH_REPEAT && job->getRepeatsRemaining() > 0))
+                {
+                    job->setState(SCHEDJOB_BUSY);
                     startSingleCapture(job, false);
+                }
                 else
                 {
                     // follower job is complete

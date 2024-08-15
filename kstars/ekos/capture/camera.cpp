@@ -416,13 +416,30 @@ void Camera::initCamera()
     connect(m_cameraState.data(), &CameraState::sequenceChanged, this, &Camera::sequenceChanged);
     connect(m_cameraState.data(), &CameraState::updatePrepareState, this, &Camera::updatePrepareState);
     connect(m_cameraState.data(), &CameraState::newFocusStatus, this, &Camera::updateFocusStatus);
-    connect(m_cameraState.data(), &CameraState::runAutoFocus, this, &Camera::runAutoFocus);
-    connect(m_cameraState.data(), &CameraState::resetFocus, this, &Camera::resetFocus);
-    connect(m_cameraState.data(), &CameraState::adaptiveFocus, this, &Camera::adaptiveFocus);
+    connect(m_cameraState.data(), &CameraState::runAutoFocus, this,
+            [&](AutofocusReason autofocusReason, const QString & reasonInfo)
+    {
+        emit runAutoFocus(autofocusReason, reasonInfo, opticalTrain());
+    });
+    connect(m_cameraState.data(), &CameraState::resetFocus, this, [&]()
+    {
+        emit resetFocus(opticalTrain());
+    });
+    connect(m_cameraState.data(), &CameraState::adaptiveFocus, this, [&]()
+    {
+        emit adaptiveFocus(opticalTrain());
+    });
+    connect(m_cameraProcess.data(), &CameraProcess::abortFocus, this, [&]()
+    {
+        emit abortFocus(opticalTrain());
+    });
     connect(m_cameraState.data(), &CameraState::newMeridianFlipStage, this, &Camera::updateMeridianFlipStage);
     connect(m_cameraState.data(), &CameraState::guideAfterMeridianFlip, this, &Camera::guideAfterMeridianFlip);
     connect(m_cameraState.data(), &CameraState::newStatus, this, &Camera::updateCameraStatus);
-    connect(m_cameraState.data(), &CameraState::meridianFlipStarted, this, &Camera::meridianFlipStarted);
+    connect(m_cameraState.data(), &CameraState::meridianFlipStarted, this, [&]()
+    {
+        emit meridianFlipStarted(opticalTrain());
+    });
     // process engine connections
     connect(m_cameraProcess.data(), &CameraProcess::refreshCamera, this, &Camera::updateCamera);
     connect(m_cameraProcess.data(), &CameraProcess::sequenceChanged, this, &Camera::sequenceChanged);
@@ -453,7 +470,6 @@ void Camera::initCamera()
     connect(m_cameraProcess.data(), &CameraProcess::newLog, this, &Camera::appendLogText);
     connect(m_cameraProcess.data(), &CameraProcess::stopCapture, this, &Camera::stop);
     connect(m_cameraProcess.data(), &CameraProcess::jobStarting, this, &Camera::jobStarting);
-    connect(m_cameraProcess.data(), &CameraProcess::abortFocus, this, &Camera::abortFocus);
     connect(m_cameraProcess.data(), &CameraProcess::cameraReady, this, &Camera::ready);
     connect(m_cameraProcess.data(), &CameraProcess::captureAborted, this, &Camera::captureAborted);
     connect(m_cameraProcess.data(), &CameraProcess::captureRunning, this, &Camera::captureRunning);
@@ -472,7 +488,10 @@ void Camera::initCamera()
             &CameraProcess::executeJob);
     connect(m_cameraState.data(), &CameraState::captureStarted, m_cameraProcess.data(),
             &CameraProcess::captureStarted);
-    connect(m_cameraState.data(), &CameraState::checkFocus, this, &Camera::checkFocus);
+    connect(m_cameraState.data(), &CameraState::checkFocus, this, [&](double hfr)
+    {
+        emit checkFocus(hfr, opticalTrain());
+    });
 
     // device adaptor connections
     connect(m_DeviceAdaptor.data(), &CaptureDeviceAdaptor::newCCDTemperatureValue, this,

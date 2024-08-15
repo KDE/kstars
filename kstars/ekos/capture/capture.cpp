@@ -123,7 +123,7 @@ QSharedPointer<Camera> Capture::addCamera()
     connect(newCamera.get(), &Camera::runAutoFocus, this, &Capture::runAutoFocus);
     connect(newCamera.get(), &Camera::resetFocus, this, &Capture::resetFocus);
     connect(newCamera.get(), &Camera::abortFocus, this, &Capture::abortFocus);
-    connect(newCamera.get(), &Camera::adaptiveFocus, this, &Capture::adaptiveFocus);
+    connect(newCamera.get(), &Camera::meridianFlipStarted, this, &Capture::meridianFlipStarted);
     connect(newCamera.get(), &Camera::captureTarget, this, &Capture::captureTarget);
     connect(newCamera.get(), &Camera::guideAfterMeridianFlip, this, &Capture::guideAfterMeridianFlip);
     connect(newCamera.get(), &Camera::newStatus, this, &Capture::newStatus);
@@ -195,6 +195,22 @@ void Capture::setGuideChip(ISD::CameraChip * guideChip)
                                           devices()->getActiveCamera()->getDriverInfo()->getAuxInfo().value("mdpd", false).toBool()));
 }
 
+void Capture::setFocusStatus(FocusState newstate, const QString &trainname)
+{
+    // publish to all known focusers using the same optical train (should be only one)
+    for (auto &cam : m_Cameras)
+        if (trainname == "" || cam->opticalTrain() == trainname)
+            cam->setFocusStatus(newstate);
+}
+
+void Capture::focusAdaptiveComplete(bool success, const QString &trainname)
+{
+    // publish to all known focusers using the same optical train (should be only one)
+    for (auto &cam : m_Cameras)
+        if (trainname == "" || cam->opticalTrain() == trainname)
+            cam->focusAdaptiveComplete(success);
+}
+
 QString Capture::filterWheel()
 {
     if (devices()->filterWheel())
@@ -227,7 +243,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL, QString train, bool isLe
     else if (isLead)
     {
         // take the main camera, and select the train if necessary
-        if (mainCamera()->opticalTrainCombo->currentText() != train)
+        if (mainCamera()->opticalTrain() != train)
             mainCamera()->selectOpticalTrain(train);
 
         cam = mainCamera();
@@ -263,13 +279,13 @@ void Capture::clearLog()
     emit newLog(QString());
 }
 
-void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperture)
+void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperture, const QString &trainname)
 {
     Q_UNUSED(absTemperture);
-    // This produces too much log spam
-    // Maybe add a threshold to report later?
-    //qCDebug(KSTARS_EKOS_CAPTURE) << "setFocusTemperatureDelta: " << focusTemperatureDelta;
-    state()->getRefocusState()->setFocusTemperatureDelta(focusTemperatureDelta);
+    // publish to all known focusers using the same optical train (should be only one)
+    for (auto &cam : m_Cameras)
+        if (trainname == "" || cam->opticalTrain() == trainname)
+            cam->state()->getRefocusState()->setFocusTemperatureDelta(focusTemperatureDelta);
 }
 
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
@@ -427,7 +443,7 @@ int Capture::findCamera(QString train, bool addIfNecessary)
 {
     for (auto &cam : m_Cameras)
     {
-        if (cam->opticalTrainCombo->currentText() == train)
+        if (cam->opticalTrain() == train)
             return cam->m_cameraId;
     }
 
@@ -509,8 +525,11 @@ QString Capture::getTargetName()
         return "";
 }
 
-void Capture::setHFR(double newHFR, int, bool inAutofocus)
+void Capture::setHFR(double newHFR, int, bool inAutofocus, const QString &trainname)
 {
-    state()->getRefocusState()->setFocusHFR(newHFR, inAutofocus);
+    // publish to all known focusers using the same optical train (should be only one)
+    for (auto &cam : m_Cameras)
+        if (trainname == "" || cam->opticalTrain() == trainname)
+            cam->state()->getRefocusState()->setFocusHFR(newHFR, inAutofocus);
 }
 }

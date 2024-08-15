@@ -213,7 +213,7 @@ void AdaptiveFocus::adaptiveFocusAdmin(const int currentPosition, const bool suc
         // Signal Capture that we are done - honour the focuser settle time after movement.
         QTimer::singleShot(m_focus->m_OpsFocusMechanics->focusSettleTime->value() * 1000, m_focus, [ &, success]()
         {
-            emit m_focus->focusAdaptiveComplete(success);
+            emit m_focus->focusAdaptiveComplete(success, m_focus->opticalTrain());
         });
 
         // Check whether the focuser moved to the requested position or whether we have a positioning error (1 or 2 ticks for example)
@@ -225,7 +225,7 @@ void AdaptiveFocus::adaptiveFocusAdmin(const int currentPosition, const bool suc
         }
     }
     else
-        emit m_focus->focusAdaptiveComplete(success);
+        emit m_focus->focusAdaptiveComplete(success, m_focus->opticalTrain());
 
     // Signal Analyze if success both for focuser moves and zero moves
     bool check = true;

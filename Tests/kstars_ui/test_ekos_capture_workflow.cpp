@@ -15,6 +15,7 @@
 #include "skymapcomposite.h"
 #include "ekos/capture/sequencejobstate.h"
 #include "ekos/capture/capture.h"
+#include "ekos/focus/focusmodule.h"
 
 #define SHUTTER_UNKNOWN -1
 #define SHUTTER_NO       0
@@ -72,13 +73,13 @@ void TestEkosCaptureWorkflow::testCaptureRefocusHFR()
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates,
                                      10000 +  1000 * capture->mainCamera()->captureExposureN->value());
     // now move the focuser twice to increase the HFR
-    KTRY_GADGET(manager->focusModule(), QPushButton, focusOutB);
+    KTRY_GADGET(manager->focusModule()->mainFocuser().get(), QPushButton, focusOutB);
     QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
     KTRY_CLICK(manager->focusModule(), focusOutB);
     QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
     KTRY_CLICK(manager->focusModule(), focusOutB);
     QTRY_VERIFY_WITH_TIMEOUT(focusOutB->isEnabled(), 5000);
-    KTRY_CLICK(manager->focusModule(), focusOutB);
+    KTRY_CLICK(manager->focusModule()->mainFocuser().get(), focusOutB);
     // check if focusing has started, latest after two more frames
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT(m_CaptureHelper->expectedFocusStates,
                                      10000 + 2 * 1000 * capture->mainCamera()->captureExposureN->value());
@@ -847,7 +848,7 @@ void TestEkosCaptureWorkflow::testFlatSyncFocus()
     // run autofocus
     QVERIFY(m_CaptureHelper->executeFocusing());
 
-    Ekos::Focus *focus = Ekos::Manager::Instance()->focusModule();
+    QSharedPointer<Ekos::Focus> focus = Ekos::Manager::Instance()->focusModule()->mainFocuser();
     // update the initial focuser position
     KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QLineEdit, absTicksLabel);
     int focusPosition = absTicksLabel->text().toInt();
@@ -1640,7 +1641,7 @@ void TestEkosCaptureWorkflow::init()
 void TestEkosCaptureWorkflow::cleanup()
 {
     if (Ekos::Manager::Instance()->focusModule() != nullptr)
-        Ekos::Manager::Instance()->focusModule()->abort();
+        Ekos::Manager::Instance()->focusModule()->mainFocuser()->abort();
 
     Ekos::Capture *capture = Ekos::Manager::Instance()->captureModule();
     if (capture != nullptr)

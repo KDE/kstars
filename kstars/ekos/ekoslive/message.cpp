@@ -17,6 +17,7 @@
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "ekos/capture/capture.h"
+#include "ekos/focus/focusmodule.h"
 #include "ekos/guide/guide.h"
 #include "ekos/mount/mount.h"
 #include "ekos/scheduler/scheduler.h"
@@ -262,7 +263,7 @@ void Message::sendStellarSolverProfiles()
     QJsonObject profiles;
 
     if (m_Manager->focusModule())
-        profiles.insert("focus", QJsonArray::fromStringList(m_Manager->focusModule()->getStellarSolverProfiles()));
+        profiles.insert("focus", QJsonArray::fromStringList(m_Manager->focusModule()->mainFocuser()->getStellarSolverProfiles()));
     // TODO
     //    if (m_Manager->guideModule())
     //        profiles.insert("guide", QJsonArray::fromStringList(m_Manager->guideModule()->getStellarSolverProfiles()));
@@ -644,7 +645,7 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processFocusCommands(const QString &command, const QJsonObject &payload)
 {
-    Ekos::Focus *focus = m_Manager->focusModule();
+    QSharedPointer<Ekos::Focus> focus = m_Manager->focusModule()->mainFocuser();
 
     if (focus == nullptr)
     {
@@ -1401,7 +1402,7 @@ void Message::processTrainCommands(const QString &command, const QJsonObject &pa
         else if (module == "focus")
         {
             if (m_Manager->focusModule())
-                m_Manager->focusModule()->setOpticalTrain(name);
+                m_Manager->focusModule()->mainFocuser()->setOpticalTrain(name);
         }
         else if (module == "guide")
         {
@@ -2409,7 +2410,7 @@ void Message::sendStates()
 
     if (m_Manager->focusModule())
     {
-        QJsonObject focusState = {{ "status", getFocusStatusString(m_Manager->focusModule()->status(), false)}};
+        QJsonObject focusState = {{ "status", getFocusStatusString(m_Manager->focusModule()->mainFocuser()->status(), false)}};
         sendResponse(commands[NEW_FOCUS_STATE], focusState);
     }
 
@@ -2615,7 +2616,7 @@ void Message::sendModuleState(const QString &name)
     }
     else if (name == "Focus")
     {
-        QJsonObject focusState = {{ "status", getFocusStatusString(m_Manager->focusModule()->status(), false)}};
+        QJsonObject focusState = {{ "status", getFocusStatusString(m_Manager->focusModule()->mainFocuser()->status(), false)}};
         sendResponse(commands[NEW_FOCUS_STATE], focusState);
     }
     else if (name == "Guide")

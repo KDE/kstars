@@ -19,6 +19,7 @@
 #include "ekos/align/align.h"
 #include "ekos/capture/capture.h"
 #include "ekos/capture/cameraprocess.h"
+#include "ekos/focus/focusmodule.h"
 #include "kspaths.h"
 #include "Options.h"
 
@@ -605,7 +606,7 @@ void Media::sendModuleFrame(const QSharedPointer<FITSView> &view)
 
     if (qobject_cast<Ekos::Align*>(sender()) == m_Manager->alignModule())
         sendView(view, "+A");
-    else if (qobject_cast<Ekos::Focus*>(sender()) == m_Manager->focusModule())
+    else if (qobject_cast<Ekos::FocusModule*>(sender()) == m_Manager->focusModule())
         sendView(view, "+F");
     else if (qobject_cast<Ekos::Guide*>(sender()) == m_Manager->guideModule())
         sendView(view, "+G");

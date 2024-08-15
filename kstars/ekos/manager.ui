@@ -884,7 +884,7 @@
              </widget>
             </item>
             <item>
-             <widget class="Ekos::FocusManager" name="focusManager" native="true"/>
+             <widget class="Ekos::FocusProgressWidget" name="focusProgressWidget" native="true"/>
             </item>
             <item>
              <widget class="Ekos::GuideManager" name="guideManager" native="true"/>
@@ -968,15 +968,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>Ekos::LedStatusWidget</class>
+   <extends>QWidget</extends>
+   <header>ekos/auxiliary/ledstatuswidget.h</header>
+  </customwidget>
+  <customwidget>
    <class>Ekos::MeridianFlipStatusWidget</class>
    <extends>QWidget</extends>
    <header>ekos/mount/meridianflipstatuswidget.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>Ekos::LedStatusWidget</class>
-   <extends>QWidget</extends>
-   <header>ekos/auxiliary/ledstatuswidget.h</header>
   </customwidget>
   <customwidget>
    <class>Ekos::GuideManager</class>
@@ -985,9 +985,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>Ekos::FocusManager</class>
+   <class>Ekos::FocusProgressWidget</class>
    <extends>QWidget</extends>
-   <header>ekos/manager/focusmanager.h</header>
+   <header>ekos/manager/focusprogresswidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

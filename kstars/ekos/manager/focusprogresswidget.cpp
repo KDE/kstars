@@ -5,24 +5,24 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "focusmanager.h"
+#include "focusprogresswidget.h"
 #include "kstarsdata.h"
 #include "Options.h"
 
 namespace Ekos
 {
-FocusManager::FocusManager(QWidget * parent) : QWidget(parent)
+FocusProgressWidget::FocusProgressWidget(QWidget * parent) : QWidget(parent)
 {
     setupUi(this);
 }
 
-void FocusManager::updateCurrentHFR(double newHFR)
+void FocusProgressWidget::updateCurrentHFR(double newHFR)
 {
     currentHFR->setText(QString("%1").arg(newHFR, 0, 'f', 2) + " px");
     profilePlot->drawProfilePlot(newHFR);
 }
 
-void FocusManager::updateFocusDetailView()
+void FocusProgressWidget::updateFocusDetailView()
 {
     const int pos = focusDetailView->currentIndex();
     if (pos == 1 && focusStarPixmap.get() != nullptr)
@@ -32,7 +32,7 @@ void FocusManager::updateFocusDetailView()
     }
 }
 
-void FocusManager::updateFocusStarPixmap(QPixmap &starPixmap)
+void FocusProgressWidget::updateFocusStarPixmap(QPixmap &starPixmap)
 {
     if (starPixmap.isNull())
         return;
@@ -41,12 +41,12 @@ void FocusManager::updateFocusStarPixmap(QPixmap &starPixmap)
     updateFocusDetailView();
 }
 
-void FocusManager::updateFocusStatus(Ekos::FocusState status)
+void FocusProgressWidget::updateFocusStatus(Ekos::FocusState status)
 {
     focusStatus->setFocusState(status);
 }
 
-void FocusManager::init()
+void FocusProgressWidget::init()
 {
 
     // focus details buttons
@@ -72,7 +72,7 @@ void FocusManager::init()
     });
 }
 
-void FocusManager::reset()
+void FocusProgressWidget::reset()
 {
     focusStatus->setFocusState(FOCUS_IDLE);
 }

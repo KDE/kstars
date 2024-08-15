@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FocusManager</class>
+ <widget class="QWidget" name="FocusManager">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>815</width>
+    <height>539</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="wholeLayout" stretch="0">
+   <item>
+    <widget class="QTabWidget" name="focusTabs">
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

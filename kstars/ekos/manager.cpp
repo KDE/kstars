@@ -12,6 +12,7 @@
 #include "scheduler/schedulerprocess.h"
 #include "scheduler/schedulermodulestate.h"
 #include "focus/focus.h"
+#include "focus/focusmodule.h"
 #include "align/align.h"
 #include "guide/guide.h"
 #include "mount/mount.h"
@@ -466,7 +467,7 @@ void Manager::showEvent(QShowEvent * /*event*/)
 
 void Manager::resizeEvent(QResizeEvent *)
 {
-    focusManager->updateFocusDetailView();
+    focusProgressWidget->updateFocusDetailView();
     guideManager->updateGuideDetailView();
 }
 
@@ -601,7 +602,7 @@ void Manager::reset()
     capturePreview->reset();
     mountStatus->setStatus(i18n("Idle"), Qt::gray);
     mountStatus->setStyleSheet(QString());
-    focusManager->reset();
+    focusProgressWidget->reset();
     guideManager->reset();
 
     m_isStarted = false;
@@ -1785,8 +1786,8 @@ void Manager::processUpdateProperty(INDI::Property prop)
             prop.isNameMatch("CCD_FRAME") ||
             prop.isNameMatch("GUIDER_FRAME"))
     {
-        if (focusModule() != nullptr && focusModule()->camera() == prop.getDeviceName())
-            focusModule()->syncCameraInfo();
+        if (focusModule() != nullptr)
+            focusModule()->syncCameraInfo(prop.getDeviceName());
 
         if (guideModule() != nullptr && guideModule()->camera() == prop.getDeviceName())
             guideModule()->syncCameraInfo();
@@ -1870,7 +1871,7 @@ void Manager::processNewProperty(INDI::Property prop)
 
     if (focusModule() != nullptr && strstr(prop.getName(), "FOCUS_"))
     {
-        focusModule()->checkFocuser();
+        focusModule()->checkFocusers();
         return;
     }
 }
@@ -1895,7 +1896,7 @@ void Manager::processTabChange()
     }
     else if (focusProcess && currentWidget == focusModule())
     {
-        focusModule()->checkCamera();
+        focusModule()->checkCameras();
     }
     else if (guideProcess && currentWidget == guideModule())
     {
@@ -1916,7 +1917,7 @@ void Manager::updateLog()
     else if (currentWidget == captureModule())
         ekosLogOut->setPlainText(captureModule()->getLogText());
     else if (currentWidget == focusModule())
-        ekosLogOut->setPlainText(focusModule()->getLogText());
+        ekosLogOut->setPlainText(focusModule()->mainFocuser()->getLogText());
     else if (currentWidget == guideModule())
         ekosLogOut->setPlainText(guideModule()->getLogText());
     else if (currentWidget == mountModule())
@@ -1959,7 +1960,7 @@ void Manager::clearLog()
     else if (currentWidget == captureModule())
         captureModule()->clearLog();
     else if (currentWidget == focusModule())
-        focusModule()->clearLog();
+        focusModule()->clearLogs();
     else if (currentWidget == guideModule())
         guideModule()->clearLog();
     else if (currentWidget == mountModule())
@@ -2068,7 +2069,7 @@ void Manager::initFocus()
     if (focusModule() != nullptr)
         return;
 
-    focusProcess.reset(new Ekos::Focus());
+    focusProcess.reset(new Ekos::FocusModule());
 
     emit newModule("Focus");
 
@@ -2076,22 +2077,23 @@ void Manager::initFocus()
 
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
 
-    // Focus <---> Manager connections
-    connect(focusModule(), &Ekos::Focus::newLog, this, &Ekos::Manager::updateLog);
-    connect(focusModule(), &Ekos::Focus::newStatus, this, &Ekos::Manager::updateFocusStatus);
-    connect(focusModule(), &Ekos::Focus::newStarPixmap, focusManager, &Ekos::FocusManager::updateFocusStarPixmap);
-    connect(focusModule(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
-    connect(focusModule(), &Ekos::Focus::focuserTimedout, this, &Ekos::Manager::restartDriver);
-    connect(focusModule(), &Ekos::Focus::newLog, this, [this]()
+    // Focus <---> Manager connections (restricted to the main focuser)
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newLog, this, &Ekos::Manager::updateLog);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newStatus, this, &Ekos::Manager::updateFocusStatus);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newStarPixmap, focusProgressWidget,
+            &Ekos::FocusProgressWidget::updateFocusStarPixmap);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::focuserTimedout, this, &Ekos::Manager::restartDriver);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newLog, this, [this]()
     {
         QJsonObject cStatus =
         {
-            {"log", focusModule()->getLogText()}
+            {"log", focusModule()->mainFocuser()->getLogText()}
         };
 
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
-    connect(focusModule(), &Ekos::Focus::newFocusAdvisorMessage, this, [this](const QString & message)
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newFocusAdvisorMessage, this, [this](const QString & message)
     {
         QJsonObject cStatus =
         {
@@ -2100,7 +2102,7 @@ void Manager::initFocus()
 
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
-    connect(focusModule(), &Ekos::Focus::newFocusAdvisorStage, ekosLiveClient.get()->message(),
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newFocusAdvisorStage, ekosLiveClient.get()->message(),
             [this](int stage)
     {
         QJsonObject cStatus =
@@ -2113,10 +2115,11 @@ void Manager::initFocus()
 
 
     // connect HFR plot widget
-    connect(focusModule(), &Ekos::Focus::initHFRPlot, [this](QString str, double starUnits, bool minimum, bool useWeights,
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::initHFRPlot, [this](QString str, double starUnits, bool minimum,
+            bool useWeights,
             bool showPosition)
     {
-        focusManager->hfrVPlot->init(str, starUnits, minimum, useWeights, showPosition);
+        focusProgressWidget->hfrVPlot->init(str, starUnits, minimum, useWeights, showPosition);
         QJsonObject cStatus =
         {
             {"focusinitHFRPlot", true}
@@ -2126,9 +2129,9 @@ void Manager::initFocus()
     });
 
     // Update title
-    connect(focusModule(), &Ekos::Focus::setTitle, [this](const QString & title, bool plot)
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::setTitle, [this](const QString & title, bool plot)
     {
-        focusManager->hfrVPlot->setTitle(title, plot);
+        focusProgressWidget->hfrVPlot->setTitle(title, plot);
         QJsonObject cStatus =
         {
             {"title", title}
@@ -2136,14 +2139,22 @@ void Manager::initFocus()
 
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
     });
-    connect(focusModule(), &Ekos::Focus::redrawHFRPlot, focusManager->hfrVPlot, &FocusHFRVPlot::redraw);
-    connect(focusModule(), &Ekos::Focus::newHFRPlotPosition, focusManager->hfrVPlot, &FocusHFRVPlot::addPosition);
-    connect(focusModule(), &Ekos::Focus::drawPolynomial, focusManager->hfrVPlot, &FocusHFRVPlot::drawPolynomial);
-    connect(focusModule(), &Ekos::Focus::finalUpdates, focusManager->hfrVPlot, &FocusHFRVPlot::finalUpdates);
-    connect(focusModule(), &Ekos::Focus::minimumFound, focusManager->hfrVPlot, &FocusHFRVPlot::drawMinimum);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::setTitle, focusProgressWidget->hfrVPlot,
+            &FocusHFRVPlot::setTitle);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::redrawHFRPlot, focusProgressWidget->hfrVPlot,
+            &FocusHFRVPlot::redraw);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newHFRPlotPosition, focusProgressWidget->hfrVPlot,
+            &FocusHFRVPlot::addPosition);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::drawPolynomial, focusProgressWidget->hfrVPlot,
+            &FocusHFRVPlot::drawPolynomial);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::finalUpdates, focusProgressWidget->hfrVPlot,
+            &FocusHFRVPlot::finalUpdates);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::minimumFound, focusProgressWidget->hfrVPlot,
+            &FocusHFRVPlot::drawMinimum);
     // setup signal/slots for Linear 1 Pass focus algo
-    connect(focusModule(), &Ekos::Focus::drawCurve, focusManager->hfrVPlot, &FocusHFRVPlot::drawCurve);
-    connect(focusModule(), &Ekos::Focus::drawCFZ, focusManager->hfrVPlot, &FocusHFRVPlot::drawCFZ);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::drawCurve, focusProgressWidget->hfrVPlot,
+            &FocusHFRVPlot::drawCurve);
+    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::drawCFZ, focusProgressWidget->hfrVPlot, &FocusHFRVPlot::drawCFZ);
 
     if (Options::ekosLeftIcons())
     {
@@ -2155,8 +2166,8 @@ void Manager::initFocus()
         toolsWidget->setTabIcon(index, icon);
     }
 
-    focusManager->init();
-    focusManager->setEnabled(true);
+    focusProgressWidget->init();
+    focusProgressWidget->setEnabled(true);
 
     for (auto &oneDevice : INDIListener::devices())
     {
@@ -2173,7 +2184,7 @@ void Manager::initFocus()
 void Manager::updateCurrentHFR(double newHFR, int position, bool inAutofocus)
 {
     Q_UNUSED(inAutofocus);
-    focusManager->updateCurrentHFR(newHFR);
+    focusProgressWidget->updateCurrentHFR(newHFR);
 
     QJsonObject cStatus =
     {
@@ -2728,7 +2739,7 @@ void Manager::updateCaptureCountDown()
 
 void Manager::updateFocusStatus(Ekos::FocusState status)
 {
-    focusManager->updateFocusStatus(status);
+    focusProgressWidget->updateFocusStatus(status);
 
     QJsonObject cStatus =
     {
@@ -2968,51 +2979,50 @@ void Manager::connectModules()
     if (guideProcess && focusProcess)
     {
         // Suspend
-        connect(focusModule(), &Ekos::Focus::suspendGuiding, guideModule(), &Ekos::Guide::suspend, Qt::UniqueConnection);
-        connect(focusModule(), &Ekos::Focus::resumeGuiding, guideModule(), &Ekos::Guide::resume, Qt::UniqueConnection);
+        connect(focusModule(), &Ekos::FocusModule::suspendGuiding, guideModule(), &Ekos::Guide::suspend,
+                Qt::UniqueConnection);
+        connect(focusModule(), &Ekos::FocusModule::resumeGuiding, guideModule(), &Ekos::Guide::resume,
+                Qt::UniqueConnection);
     }
 
     // Capture <---> Focus connections
     if (captureProcess && focusProcess)
     {
         // Check focus HFR value and if above threshold parameter, run autoFocus
-        connect(captureModule(), &Ekos::Capture::checkFocus, focusModule(), &Ekos::Focus::checkFocus,
+        connect(captureModule(), &Ekos::Capture::checkFocus, focusModule(), &Ekos::FocusModule::checkFocus,
                 Qt::UniqueConnection);
 
         // Run autoFocus
-        connect(captureProcess.get(), &Ekos::Capture::runAutoFocus, focusProcess.get(), &Ekos::Focus::runAutoFocus,
+        connect(captureProcess.get(), &Ekos::Capture::runAutoFocus, focusModule(), &Ekos::FocusModule::runAutoFocus,
                 Qt::UniqueConnection);
 
         // Reset Focus
-        connect(captureModule(), &Ekos::Capture::resetFocus, focusModule(), &Ekos::Focus::resetFrame,
-                Qt::UniqueConnection);
+        connect(captureModule(), &Ekos::Capture::resetFocus, focusModule(), &Ekos::FocusModule::resetFocuser, Qt::UniqueConnection);
 
         // Abort Focus
-        connect(captureModule(), &Ekos::Capture::abortFocus, focusModule(), &Ekos::Focus::abort,
-                Qt::UniqueConnection);
+        connect(captureModule(), &Ekos::Capture::abortFocus, focusModule(), &Ekos::FocusModule::abort, Qt::UniqueConnection);
 
         // New Focus Status
-        connect(focusModule(), &Ekos::Focus::newStatus, captureModule(), &Ekos::Capture::setFocusStatus,
+        connect(focusModule(), &Ekos::FocusModule::newStatus, captureModule(), &Ekos::Capture::setFocusStatus,
                 Qt::UniqueConnection);
 
         // Perform adaptive focus
-        connect(captureModule(), &Ekos::Capture::adaptiveFocus, focusModule(), &Ekos::Focus::adaptiveFocus,
+        connect(captureModule(), &Ekos::Capture::adaptiveFocus, focusModule(), &Ekos::FocusModule::adaptiveFocus,
                 Qt::UniqueConnection);
 
         // New Adaptive Focus Status
-        connect(focusModule(), &Ekos::Focus::focusAdaptiveComplete, captureModule(),
-                &Ekos::Capture::focusAdaptiveComplete,
+        connect(focusModule(), &Ekos::FocusModule::focusAdaptiveComplete, captureModule(), &Ekos::Capture::focusAdaptiveComplete,
                 Qt::UniqueConnection);
 
         // New Focus HFR
-        connect(focusModule(), &Ekos::Focus::newHFR, captureModule(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
+        connect(focusModule(), &Ekos::FocusModule::newHFR, captureModule(), &Ekos::Capture::setHFR, Qt::UniqueConnection);
 
         // New Focus temperature delta
-        connect(focusModule(), &Ekos::Focus::newFocusTemperatureDelta, captureModule(),
+        connect(focusModule(), &Ekos::FocusModule::newFocusTemperatureDelta, captureModule(),
                 &Ekos::Capture::setFocusTemperatureDelta, Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureModule(), &Ekos::Capture::meridianFlipStarted, focusModule(), &Ekos::Focus::meridianFlipStarted,
+        connect(captureModule(), &Ekos::Capture::meridianFlipStarted, focusModule(), &Ekos::FocusModule::meridianFlipStarted,
                 Qt::UniqueConnection);
     }
 
@@ -3078,17 +3088,15 @@ void Manager::connectModules()
     // Focus <---> Align connections
     if (focusProcess && alignProcess)
     {
-        connect(focusModule(), &Ekos::Focus::newStatus, alignModule(), &Ekos::Align::setFocusStatus,
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newStatus, alignModule(), &Ekos::Align::setFocusStatus,
                 Qt::UniqueConnection);
     }
 
     // Focus <---> Mount connections
     if (focusProcess && mountProcess)
     {
-        connect(mountModule(), &Ekos::Mount::newStatus, focusModule(), &Ekos::Focus::setMountStatus,
-                Qt::UniqueConnection);
-        connect(mountModule(), &Ekos::Mount::newCoords, focusModule(), &Ekos::Focus::setMountCoords,
-                Qt::UniqueConnection);
+        connect(mountModule(), &Ekos::Mount::newStatus, focusModule(), &Ekos::FocusModule::setMountStatus, Qt::UniqueConnection);
+        connect(mountModule(), &Ekos::Mount::newCoords, focusModule(), &Ekos::FocusModule::setMountCoords, Qt::UniqueConnection);
     }
 
     // Mount <---> Align connections
@@ -3158,17 +3166,18 @@ void Manager::connectModules()
     // Focus <--> EkosLive Connections
     if (focusProcess && ekosLiveClient)
     {
-        connect(focusModule(), &Ekos::Focus::settingsUpdated, ekosLiveClient.get()->message(),
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::settingsUpdated, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendFocusSettings, Qt::UniqueConnection);
 
-        connect(focusModule(), &Ekos::Focus::newImage, ekosLiveClient.get()->media(), &EkosLive::Media::sendModuleFrame,
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newImage, ekosLiveClient.get()->media(),
+                &EkosLive::Media::sendModuleFrame,
                 Qt::UniqueConnection);
 
-        connect(focusModule(), &Ekos::Focus::trainChanged, ekosLiveClient.get()->message(),
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::trainChanged, ekosLiveClient.get()->message(),
                 &EkosLive::Message::sendTrainProfiles,
                 Qt::UniqueConnection);
 
-        connect(focusModule(), &Ekos::Focus::autofocusAborted,
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusAborted,
                 ekosLiveClient.get()->message(), &EkosLive::Message::autofocusAborted, Qt::UniqueConnection);
     }
 
@@ -3229,15 +3238,15 @@ void Manager::connectModules()
     // Focus <---> Analyze connections
     if (focusProcess && analyzeProcess)
     {
-        connect(focusModule(), &Ekos::Focus::autofocusComplete,
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusComplete,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusComplete, Qt::UniqueConnection);
-        connect(focusModule(), &Ekos::Focus::adaptiveFocusComplete,
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::adaptiveFocusComplete,
                 analyzeProcess.get(), &Ekos::Analyze::adaptiveFocusComplete, Qt::UniqueConnection);
-        connect(focusModule(), &Ekos::Focus::autofocusStarting,
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusStarting,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusStarting, Qt::UniqueConnection);
-        connect(focusModule(), &Ekos::Focus::autofocusAborted,
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusAborted,
                 analyzeProcess.get(), &Ekos::Analyze::autofocusAborted, Qt::UniqueConnection);
-        connect(focusModule(), &Ekos::Focus::newFocusTemperatureDelta,
+        connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newFocusTemperatureDelta,
                 analyzeProcess.get(), &Ekos::Analyze::newTemperature, Qt::UniqueConnection);
     }
 

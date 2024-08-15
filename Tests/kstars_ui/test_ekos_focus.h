@@ -28,14 +28,14 @@
     QTRY_VERIFY_WITH_TIMEOUT(-1 != toolsWidget->indexOf(Ekos::Manager::Instance()->focusModule()), 5000); \
     toolsWidget->setCurrentWidget(Ekos::Manager::Instance()->focusModule()); \
     QTRY_COMPARE_WITH_TIMEOUT(toolsWidget->currentWidget(), Ekos::Manager::Instance()->focusModule(), 5000); \
-    QTRY_VERIFY_WITH_TIMEOUT(!Ekos::Manager::Instance()->focusModule()->focuser().isEmpty(), 5000); } while (false)
+    QTRY_VERIFY_WITH_TIMEOUT(!Ekos::Manager::Instance()->focusModule()->mainFocuser()->focuser().isEmpty(), 5000); } while (false)
 
 /** @brief Helper to retrieve a gadget in the Focus tab specifically.
  * @param klass is the class of the gadget to look for.
  * @param name is the gadget name to look for in the UI configuration.
  * @warning Fails the test if the gadget "name" of class "klass" does not exist in the Focus module
  */
-#define KTRY_FOCUS_GADGET(klass, name) klass * const name = Ekos::Manager::Instance()->focusModule()->findChild<klass*>(#name); \
+#define KTRY_FOCUS_GADGET(klass, name) klass * const name = Ekos::Manager::Instance()->focusModule()->mainFocuser().get()->findChild<klass*>(#name); \
     QVERIFY2(name != nullptr, QString(#klass " '%1' does not exist and cannot be used").arg(#name).toStdString().c_str())
 
 /** @brief Helper to click a button in the Focus tab specifically.

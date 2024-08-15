@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FocusManager</class>
- <widget class="QWidget" name="FocusManager">
+ <class>FocusProgressWidget</class>
+ <widget class="QWidget" name="FocusProgressWidget">
   <property name="enabled">
    <bool>false</bool>
   </property>

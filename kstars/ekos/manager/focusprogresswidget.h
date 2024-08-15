@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "ui_focusmanager.h"
+#include "ui_focusprogresswidget.h"
 
 #include "ekos/ekos.h"
 #include "ekos/focus/focus.h"
@@ -20,12 +20,12 @@ class QProgressIndicator;
 namespace Ekos
 {
 
-class FocusManager : public QWidget, public Ui::FocusManager
+class FocusProgressWidget : public QWidget, public Ui::FocusProgressWidget
 {
     Q_OBJECT
 
 public:
-    FocusManager(QWidget * parent);
+    FocusProgressWidget(QWidget * parent);
     void init();
     void updateFocusDetailView();
     void reset();

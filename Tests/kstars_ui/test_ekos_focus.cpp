@@ -13,6 +13,8 @@
 #include "test_ekos.h"
 #include "test_ekos_simulator.h"
 #include "test_ekos_mount.h"
+#include "ekos/focus/focusmodule.h"
+#include "ekos/focus/focusutils.h"
 #include "Options.h"
 
 class KFocusProcedureSteps: public QObject
@@ -34,29 +36,32 @@ class KFocusProcedureSteps: public QObject
 
     public:
         KFocusProcedureSteps():
-            starting (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusStarting, this, [ & ]()
+            starting (connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusStarting,
+                              this, [ & ]()
         {
             started = true;
         }, Qt::UniqueConnection)),
-        aborting (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusAborted, this, [&]()
+        aborting (connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusAborted, this, [&]()
         {
             started = false;
             aborted = true;
         }, Qt::UniqueConnection)),
-        completing (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusComplete, this, [&]()
+        completing (connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), &Ekos::Focus::autofocusComplete,
+                            this, [&]()
         {
             started = false;
             complete = true;
         }, Qt::UniqueConnection)),
-        notguiding (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::suspendGuiding, this, [&]()
+        notguiding (connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), &Ekos::Focus::suspendGuiding, this, [&]()
         {
             unguided = true;
         }, Qt::UniqueConnection)),
-        guiding (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::resumeGuiding, this, [&]()
+        guiding (connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), &Ekos::Focus::resumeGuiding, this, [&]()
         {
             unguided = false;
         }, Qt::UniqueConnection)),
-        quantifying (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newHFR, this, [&](double _hfr)
+        quantifying (connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), &Ekos::Focus::newHFR,
+                             this, [&](double _hfr)
         {
             hfr = _hfr;
         }, Qt::UniqueConnection))
@@ -79,7 +84,8 @@ class KFocusStateList: public QObject, public QList <Ekos::FocusState>
 
     public:
         KFocusStateList():
-            handler (connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newStatus, this, [ & ](Ekos::FocusState s)
+            handler (connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), &Ekos::Focus::newStatus,
+                             this, [ & ](Ekos::FocusState s)
         {
             append(s);
         }, Qt::UniqueConnection))
@@ -121,7 +127,7 @@ void TestEkosFocus::cleanup()
 {
     if (Ekos::Manager::Instance())
         if (Ekos::Manager::Instance()->focusModule())
-            Ekos::Manager::Instance()->focusModule()->abort();
+            Ekos::Manager::Instance()->focusModule()->mainFocuser()->abort();
     KTELL_HIDE();
 }
 
@@ -215,7 +221,7 @@ void TestEkosFocus::testDuplicateFocusRequest()
     KTELL("Click the autofocus button\nExpect a signal that the procedure starts.\nExpect state change and disabled button.");
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
-    QVERIFY(Ekos::Manager::Instance()->focusModule()->status() != Ekos::FOCUS_IDLE);
+    QVERIFY(Ekos::Manager::Instance()->focusModule()->mainFocuser()->status() != Ekos::FOCUS_IDLE);
     QVERIFY(!startFocusB->isEnabled());
     QVERIFY(stopFocusB->isEnabled());
 
@@ -223,7 +229,7 @@ void TestEkosFocus::testDuplicateFocusRequest()
     for (int i = 0; i < 5; i++)
     {
         autofocus.started = false;
-        Ekos::Manager::Instance()->focusModule()->start();
+        Ekos::Manager::Instance()->focusModule()->mainFocuser()->start();
         QTest::qWait(500);
         QVERIFY(!autofocus.started);
     }
@@ -254,13 +260,15 @@ void TestEkosFocus::testAutofocusSignalEmission()
 
     KTELL("Configure to restart autofocus when it finishes, like Scheduler does.");
     volatile bool ran_once = false;
-    autofocus.completing = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusComplete, &autofocus, [&]()
+    autofocus.completing = connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().data(),
+                                   &Ekos::Focus::autofocusComplete,
+                                   &autofocus, [&]()
     {
         autofocus.complete = true;
         autofocus.started = false;
         if (!ran_once)
         {
-            Ekos::Manager::Instance()->focusModule()->start();
+            Ekos::Manager::Instance()->focusModule()->mainFocuser()->start();
             ran_once = true;
         }
     }, Qt::UniqueConnection);
@@ -300,13 +308,14 @@ void TestEkosFocus::testFocusAbort()
 
     KTELL("Configure to restart autofocus when it finishes, like Scheduler does.");
     volatile bool ran_once = false;
-    autofocus.aborting = connect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::autofocusAborted, this, [&]()
+    autofocus.aborting = connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().data(), &Ekos::Focus::autofocusAborted,
+                                 this, [&]()
     {
         autofocus.aborted = true;
         autofocus.started = false;
         if (!ran_once)
         {
-            Ekos::Manager::Instance()->focusModule()->start();
+            Ekos::Manager::Instance()->focusModule()->mainFocuser()->start();
             ran_once = true;
         }
     }, Qt::UniqueConnection);
@@ -360,7 +369,7 @@ void TestEkosFocus::testGuidingSuspendWhileFocusing()
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
     QVERIFY(autofocus.unguided);
-    Ekos::Manager::Instance()->focusModule()->abort();
+    Ekos::Manager::Instance()->focusModule()->mainFocuser()->abort();
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 5000);
     QVERIFY(!autofocus.unguided);
 
@@ -379,7 +388,7 @@ void TestEkosFocus::testGuidingSuspendWhileFocusing()
     KTRY_FOCUS_CLICK(startFocusB);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 500);
     QVERIFY(!autofocus.unguided);
-    Ekos::Manager::Instance()->focusModule()->abort();
+    Ekos::Manager::Instance()->focusModule()->mainFocuser()->abort();
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.aborted, 5000);
     QVERIFY(!autofocus.unguided);
 
@@ -468,14 +477,14 @@ void TestEkosFocus::testFocusWhenHFRChecking()
 
     KTELL("Wait a little, run a first HFR check while the procedure runs.");
     QTest::qWait(3000);
-    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+    Ekos::Manager::Instance()->focusModule()->mainFocuser()->checkFocus(0.1);
 
     KTELL("Expect procedure to succeed nonetheless.");
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 60000);
 
     KTELL("Run a second HFR check that would start an autofocus.");
     autofocus.complete = false;
-    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+    Ekos::Manager::Instance()->focusModule()->mainFocuser()->checkFocus(0.1);
 
     KTELL("Expect procedure to start properly.\nAbort the procedure manually.\nRun a third HFR check.");
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 10000);
@@ -484,7 +493,7 @@ void TestEkosFocus::testFocusWhenHFRChecking()
 
     KTELL("Expect autofocus to start properly.\nChange settings so that the procedure fails now.\nExpect a failure.");
     autofocus.aborted = autofocus.complete = false;
-    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+    Ekos::Manager::Instance()->focusModule()->mainFocuser()->checkFocus(0.1);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 10000);
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 0.1, 0.1);
     KTRY_FOCUS_EXPOSURE(0.1, 1);
@@ -495,7 +504,7 @@ void TestEkosFocus::testFocusWhenHFRChecking()
     KTRY_FOCUS_CONFIGURE("SEP", "Iterative", 0.0, 100.0, 50);
     KTRY_FOCUS_EXPOSURE(3, 99);
     autofocus.aborted = autofocus.complete = false;
-    Ekos::Manager::Instance()->focusModule()->checkFocus(0.1);
+    Ekos::Manager::Instance()->focusModule()->mainFocuser()->checkFocus(0.1);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.started, 10000);
     QTRY_VERIFY_WITH_TIMEOUT(autofocus.complete, 60000);
 }

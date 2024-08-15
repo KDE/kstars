@@ -614,33 +614,28 @@ public slots:
         // Auto Focus
         /**
          * @brief setFocusStatus Forward the new focus state to the capture module state machine
+         * @param trainname name of the optical train to select the focuser
          */
-        void setFocusStatus(FocusState newstate)
-        {
-            mainCamera()->setFocusStatus(newstate);
-        }
-
+        void setFocusStatus(FocusState newstate, const QString &trainname);
 
         // Adaptive Focus
         /**
          * @brief focusAdaptiveComplete Forward the new focus state to the capture module state machine
+         * @param trainname name of the optical train to select the focuser
          */
-        void focusAdaptiveComplete(bool success)
-        {
-            // directly forward it to the state machine
-            mainCamera()->focusAdaptiveComplete(success);
-        }
+        void focusAdaptiveComplete(bool success, const QString &trainname);
 
         /**
-         * @brief updateAdaptiveFocusStatus Handle new focus state
+         * @brief setFocusTemperatureDelta update the focuser's temperature delta
+         * @param trainname name of the optical train to select the focuser
          */
-
-        void setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperature);
+        void setFocusTemperatureDelta(double focusTemperatureDelta, double absTemperature, const QString &trainname);
 
         /**
          * @brief setHFR Receive the measured HFR value of the latest frame
+         * @param trainname name of the optical train to select the focuser
          */
-        void setHFR(double newHFR, int position, bool inAutofocus);
+        void setHFR(double newHFR, int position, bool inAutofocus, const QString &trainname);
 
         // Guide
         void setGuideStatus(GuideState newstate);
@@ -668,9 +663,9 @@ public slots:
 
     signals:
         Q_SCRIPTABLE void newLog(const QString &text);
-        Q_SCRIPTABLE void meridianFlipStarted();
+        Q_SCRIPTABLE void meridianFlipStarted(const QString &trainname);
         Q_SCRIPTABLE void guideAfterMeridianFlip();
-        Q_SCRIPTABLE void newStatus(CaptureState status, const QString &devicename);
+        Q_SCRIPTABLE void newStatus(CaptureState status, const QString &trainname);
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
         void newFilterStatus(FilterState state);
@@ -678,11 +673,11 @@ public slots:
         void ready();
 
         // communication with other modules
-        void checkFocus(double);
-        void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
-        void resetFocus();
-        void abortFocus();
-        void adaptiveFocus();
+        void checkFocus(double, const QString &opticaltrain);
+        void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo, const QString &trainname);
+        void resetFocus(const QString &trainname);
+        void abortFocus(const QString &trainname);
+        void adaptiveFocus(const QString &trainname);
         void suspendGuiding();
         void resumeGuiding();
         void captureTarget(QString targetName);

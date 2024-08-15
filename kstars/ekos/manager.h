@@ -67,6 +67,7 @@ class Analyze;
 class Capture;
 class Scheduler;
 class Focus;
+class FocusModule;
 class Align;
 class Guide;
 class Mount;
@@ -127,7 +128,7 @@ class Manager : public QDialog, public Ui::Manager
         {
             return mountProcess.get();
         }
-        Focus *focusModule()
+        FocusModule *focusModule()
         {
             return focusProcess.get();
         }
@@ -515,7 +516,7 @@ class Manager : public QDialog, public Ui::Manager
 
         // Smart pointers for the various Ekos Modules
         std::unique_ptr<Capture> captureProcess;
-        std::unique_ptr<Focus> focusProcess;
+        std::unique_ptr<FocusModule> focusProcess;
         std::unique_ptr<Guide> guideProcess;
         std::unique_ptr<Align> alignProcess;
         std::unique_ptr<Mount> mountProcess;

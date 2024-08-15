@@ -14,6 +14,7 @@
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/align/align.h"
 #include "ekos/capture/capture.h"
+#include "ekos/focus/focusmodule.h"
 #include "ekos/scheduler/scheduler.h"
 #include "ekos/auxiliary/filtermanager.h"
 #include "kstarsdata.h"
@@ -238,7 +239,7 @@ void TestEkosHelper::connectModules()
 
     // connect to the focus process to receive focus status changes
     if (m_FocuserDevice != "")
-        connect(ekos->focusModule(), &Ekos::Focus::newStatus, this, &TestEkosHelper::focusStatusChanged,
+        connect(ekos->focusModule(), &Ekos::FocusModule::newStatus, this, &TestEkosHelper::focusStatusChanged,
                 Qt::UniqueConnection);
 
     // connect to the dome process to receive dome status changes
@@ -279,7 +280,7 @@ bool TestEkosHelper::shutdownEkosProfile()
     //    disconnect(Ekos::Manager::Instance()->domeModule(), &Ekos::Dome::newStatus, this,
     //               &TestEkosHelper::domeStatusChanged);
     // disconnect to the focus process to receive focus status changes
-    disconnect(Ekos::Manager::Instance()->focusModule(), &Ekos::Focus::newStatus, this,
+    disconnect(Ekos::Manager::Instance()->focusModule(), &Ekos::FocusModule::newStatus, this,
                &TestEkosHelper::focusStatusChanged);
     // disconnect the guiding process to receive the current guiding status
     disconnect(Ekos::Manager::Instance()->guideModule(), &Ekos::Guide::newStatus, this,
@@ -478,36 +479,36 @@ void TestEkosHelper::prepareFocusModule()
     // set focus mode defaults
     KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->focusModule(), 1000);
     // select the primary train for focusing
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), opticalTrainCombo, m_primaryTrain);
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), opticalTrainCombo, m_primaryTrain);
     // use full field
-    KTRY_SET_RADIOBUTTON(Ekos::Manager::Instance()->focusModule(), focusUseFullField, true);
+    KTRY_SET_RADIOBUTTON(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusUseFullField, true);
     //initial step size 5000
-    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->focusModule(), focusTicks, 5000);
+    KTRY_SET_SPINBOX(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusTicks, 5000);
     // max travel 100000
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusMaxTravel, 100000.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusMaxTravel, 100000.0);
     // focus tolerance 20% - make focus fast and robust, precision does not matter
-    KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QDoubleSpinBox, focusTolerance);
+    KTRY_GADGET(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), QDoubleSpinBox, focusTolerance);
     focusTolerance->setMaximum(20.0);
     focusTolerance->setValue(20.0);
     // use single pass linear algorithm
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusAlgorithm, "Linear 1 Pass");
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusAlgorithm, "Linear 1 Pass");
     // select star detection
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusSEPProfile, "1-Focus-Default");
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusSEPProfile, "1-Focus-Default");
     // set annulus to 0% - 100%
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldInnerRadius, 0.0);
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusFullFieldOuterRadius, 100.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusFullFieldInnerRadius, 0.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusFullFieldOuterRadius, 100.0);
     // try to make focusing fast, precision is not relevant here
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusOutSteps, 3.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusOutSteps, 3.0);
     // select the Luminance filter
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusFilter, "Luminance");
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusFilter, "Luminance");
     // select SEP algorithm for star detection
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusDetection, "SEP");
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusDetection, "SEP");
     // select HFR a star focus measure
-    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule(), focusStarMeasure, "HFR");
+    KTRY_SET_COMBO(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusStarMeasure, "HFR");
     // set exp time for current filter
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusExposure, 1.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusExposure, 1.0);
     // set exposure times for all filters
-    auto filtermanager = Ekos::Manager::Instance()->focusModule()->filterManager();
+    auto filtermanager = Ekos::Manager::Instance()->focusModule()->mainFocuser()->filterManager();
     for (int pos = 0; pos < filtermanager->getFilterLabels().count(); pos++)
     {
         filtermanager->setFilterExposure(pos, 1.0);
@@ -522,9 +523,9 @@ void TestEkosHelper::prepareFocusModule()
     ccd_settings->processSetButton();
 
     // gain 100
-    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule(), focusGain, 100.0);
+    KTRY_SET_DOUBLESPINBOX(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusGain, 100.0);
     // suspend guiding while focusing
-    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule(), focusSuspendGuiding, true);
+    KTRY_SET_CHECKBOX(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), focusSuspendGuiding, true);
 }
 
 void TestEkosHelper::prepareGuidingModule()
@@ -835,14 +836,14 @@ bool TestEkosHelper::executeFocusing(int initialFocusPosition)
     prepareFocusModule();
 
     initialFocusPosition = 40000;
-    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule(), absTicksSpin, initialFocusPosition);
+    KTRY_SET_SPINBOX_SUB(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), absTicksSpin, initialFocusPosition);
     // start focusing
-    KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startGotoB);
+    KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), startGotoB);
     // wait one second for settling
     QTest::qWait(3000);
     // start focusing
     expectedFocusStates.append(Ekos::FOCUS_COMPLETE);
-    KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), startFocusB);
+    KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), startFocusB);
     // wait for successful completion
     KVERIFY_EMPTY_QUEUE_WITH_TIMEOUT_SUB(expectedFocusStates, 180000);
     qCInfo(KSTARS_EKOS_TEST) << "Focusing finished.";
@@ -860,9 +861,9 @@ bool TestEkosHelper::stopFocusing()
     // switch to focus module
     KWRAP_SUB(KTRY_SWITCH_TO_MODULE_WITH_TIMEOUT(Ekos::Manager::Instance()->focusModule(), 1000));
     // stop focusing if necessary
-    KTRY_GADGET_SUB(Ekos::Manager::Instance()->focusModule(), QPushButton, stopFocusB);
+    KTRY_GADGET_SUB(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), QPushButton, stopFocusB);
     if (stopFocusB->isEnabled())
-        KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule(), stopFocusB);
+        KTRY_CLICK_SUB(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), stopFocusB);
     KTRY_VERIFY_WITH_TIMEOUT_SUB(getFocusStatus() == Ekos::FOCUS_IDLE
                                  || getFocusStatus() == Ekos::FOCUS_COMPLETE ||
                                  getFocusStatus() == Ekos::FOCUS_ABORTED || getFocusStatus() == Ekos::FOCUS_FAILED, 15000);

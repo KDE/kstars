@@ -13,6 +13,7 @@
 #include "kstars_ui_tests.h"
 #include "Options.h"
 #include "ekos/capture/capture.h"
+#include "ekos/focus/focusmodule.h"
 
 TestEkosMeridianFlipSpecials::TestEkosMeridianFlipSpecials(QObject *parent) : TestEkosMeridianFlipBase(parent)
 {
@@ -281,7 +282,7 @@ void TestEkosMeridianFlipSpecials::testAbortSchedulerRefocusMF()
     // setup the scheduler
     QVERIFY(prepareSchedulerTestcase(20, false, Ekos::FINISH_LOOP, 1));
     // update the initial focuser position
-    KTRY_GADGET(Ekos::Manager::Instance()->focusModule(), QLineEdit, absTicksLabel);
+    KTRY_GADGET(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), QLineEdit, absTicksLabel);
     initialFocusPosition = absTicksLabel->text().toInt();
     // start the scheduled procedure
     QVERIFY(startScheduler());
