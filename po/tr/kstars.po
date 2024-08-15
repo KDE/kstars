@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-13 01:44+0000\n"
-"PO-Revision-Date: 2024-08-12 20:59+0300\n"
+"PO-Revision-Date: 2024-08-14 21:38+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -13713,7 +13713,7 @@ msgstr ""
 "türü. Bu süzgeçler Sekstraktör kurulumundaki süzgeçlerle "
 "karşılaştırılabilir; ancak burada FWHM'yi değiştirme esnekliğine sahipsiniz. "
 "Öntanımlı süzgeç en hızlı süzgeçtir; ancak FWHM ayarıyla DEĞİŞMEZ ve bu "
-"nedenle küçük yıldızlar için en iyisidir. Gauss Süzgeci soluk nesne tespiti "
+"nedenle küçük yıldızlar için en iyisidir. Gauss Süzgeci sönük nesne tespiti "
 "için en iyisidir. Meksikalı Şapkası süzgeci kalabalık yıldız alanlarında "
 "veya bulutsuların yakınında iyidir. Silindir Şapka süzgeci genişletilmiş, "
 "düşük parlaklıktaki nesneler için iyidir. Not: \"Özel\" süzgeç seçimi sınama "
@@ -23427,11 +23427,7 @@ msgstr "yaysaniye"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:424
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If checked we try to be more resiliant to double "
-#| "stars by inventing a guide star position from the multi-star references.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
@@ -34560,140 +34556,145 @@ msgstr "Ay'ın boyutunu bu çarpan kadar artırın."
 #: kstars.kcfg:670
 #, kde-format
 msgid "Draw Mercury in the sky map?"
-msgstr "Gökyüzü haritasında Merkür gösterilsin mi?"
+msgstr "Gökyüzü haritasında Merkür çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowMercury), group (View)
 #: kstars.kcfg:671
 #, kde-format
 msgid "Toggle whether Mercury is drawn in the sky map."
-msgstr "Gökyüzü haritasında Merkürü göster/gizle."
+msgstr "Gökyüzü haritasında Merkür'ün çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowVenus), group (View)
 #: kstars.kcfg:675
 #, kde-format
 msgid "Draw Venus in the sky map?"
-msgstr "Gökyüzü haritasında Venüs gösterilsin mi?"
+msgstr "Gökyüzü haritasında Venüs çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowVenus), group (View)
 #: kstars.kcfg:676
 #, kde-format
 msgid "Toggle whether Venus is drawn in the sky map."
-msgstr "Gökyüzü haritasında Venüsü göster/gizle."
+msgstr "Gökyüzü haritasında Venüs'ün çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowMars), group (View)
 #: kstars.kcfg:680
 #, kde-format
 msgid "Draw Mars in the sky map?"
-msgstr "Gökyüzü haritasında Mars gösterilsin mi?"
+msgstr "Gökyüzü haritasında Mars çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowMars), group (View)
 #: kstars.kcfg:681
 #, kde-format
 msgid "Toggle whether Mars is drawn in the sky map."
-msgstr "Gökyüzü haritasında Marsı göster/gizle."
+msgstr "Gökyüzü haritasında Mars'ın çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowJupiter), group (View)
 #: kstars.kcfg:685
 #, kde-format
 msgid "Draw Jupiter in the sky map?"
-msgstr "Gökyüzü haritasında Jüpiter gösterilsin mi?"
+msgstr "Gökyüzü haritasında Jüpiter çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowJupiter), group (View)
 #: kstars.kcfg:686
 #, kde-format
 msgid "Toggle whether Jupiter is drawn in the sky map."
-msgstr "Gökyüzü haritasında Jüpiteri göster/gizle."
+msgstr "Gökyüzü haritasında Jüpiter'in çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowSaturn), group (View)
 #: kstars.kcfg:690
 #, kde-format
 msgid "Draw Saturn in the sky map?"
-msgstr "Gökyüzü haritasında Satürn gösterilsin mi?"
+msgstr "Gökyüzü haritasında Satürn çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowSaturn), group (View)
 #: kstars.kcfg:691
 #, kde-format
 msgid "Toggle whether Saturn is drawn in the sky map."
-msgstr "Gökyüzü haritasında Satürnü göster/gizle."
+msgstr "Gökyüzü haritasında Satürn'ün çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowUranus), group (View)
 #: kstars.kcfg:695
 #, kde-format
 msgid "Draw Uranus in the sky map?"
-msgstr "Gökyüzü haritasında Uranüs gösterilsin mi?"
+msgstr "Gökyüzü haritasında Uranüs çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowUranus), group (View)
 #: kstars.kcfg:696
 #, kde-format
 msgid "Toggle whether Uranus is drawn in the sky map."
-msgstr "Gökyüzü haritasında Uranüsü göster/gizle."
+msgstr "Gökyüzü haritasında Uranüs'ün çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowNeptune), group (View)
 #: kstars.kcfg:700
 #, kde-format
 msgid "Draw Neptune in the sky map?"
-msgstr "Gökyüzü haritasında Neptün gösterilsin mi?"
+msgstr "Gökyüzü haritasında Uranüs çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowNeptune), group (View)
 #: kstars.kcfg:701
 #, kde-format
 msgid "Toggle whether Neptune is drawn in the sky map."
-msgstr "Gökyüzü haritasında Neptünü göster/gizle."
+msgstr "Gökyüzü haritasında Neptün'ün çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowPluto), group (View)
 #: kstars.kcfg:705
 #, kde-format
 msgid "Draw Pluto in the sky map?"
-msgstr "Gökyüzü haritasında Plüton gösterilsin mi?"
+msgstr "Gökyüzü haritasında Plüton çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowPluto), group (View)
 #: kstars.kcfg:706
 #, kde-format
 msgid "Toggle whether Pluto is drawn in the sky map."
-msgstr "Gökyüzü haritasında Plütonu göster/gizle."
+msgstr "Gökyüzü haritasında Plüton'un çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowStars), group (View)
 #: kstars.kcfg:710
 #, kde-format
 msgid "Draw stars in the sky map?"
-msgstr "Gökyüzü haritasında yıldızlar gösterilsin mi?"
+msgstr "Gökyüzü haritasında yıldızlar çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowStars), group (View)
 #: kstars.kcfg:711
 #, kde-format
 msgid "Toggle whether stars are drawn in the sky map."
-msgstr "Gökyüzü haritasında yıldızları göster/gizle."
+msgstr "Gökyüzü haritasında yıldızların çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowStarMagnitudes), group (View)
 #: kstars.kcfg:715
 #, kde-format
 msgid "Label star magnitudes in the sky map?"
-msgstr "Gökyüzü haritasında yıldız parlaklıkları etiketlensin mi?"
+msgstr "Gökyüzü haritasında yıldız parlaklıkları çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowStarMagnitudes), group (View)
 #: kstars.kcfg:716
 #, kde-format
 msgid ""
 "Toggle whether star magnitude (brightness) labels are shown in the sky map."
-msgstr "Gökyüzü haritasında yıldız parlaklık etiketlerini göster/gizle."
+msgstr ""
+"Gökyüzü haritasında yıldız parlaklıklarının gösterilip gösterilmeyeceğini "
+"açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowStarNames), group (View)
 #: kstars.kcfg:720
 #, kde-format
 msgid "Label star names in the sky map?"
-msgstr "Gökyüzü haritasında yıldız isimleri etiketlensin mi?"
+msgstr "Gökyüzü haritasında yıldız adları etiketlensin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowStarNames), group (View)
 #: kstars.kcfg:721
 #, kde-format
 msgid "Toggle whether star name labels are shown in the sky map."
-msgstr "Gökyüzü haritasında yıldız isim etiketlerini göster/gizle."
+msgstr ""
+"Gökyüzü haritasında yıldız adları etiketlerinin gösterilip "
+"gösterilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowDeepSkyMagnitudes), group (View)
 #: kstars.kcfg:725
 #, kde-format
 msgid "Label deep-sky object magnitudes in the sky map?"
-msgstr "Gökyüzü haritasında yıldız parlaklıkları etiketlensin mi?"
+msgstr ""
+"Gökyüzü haritasında derin uzay nesnelerinin büyüklükleri etiketlensin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyMagnitudes), group (View)
 #: kstars.kcfg:726
@@ -34702,49 +34703,47 @@ msgid ""
 "Toggle whether deep-sky object magnitude (brightness) labels are shown in "
 "the sky map."
 msgstr ""
-"Gökyüzü haritasında uzak nesnesi cismi parlaklık şiddeti etiketlerini "
-"gösterin/gizleyin."
+"Derin gökyüzü nesnelerinin parlaklık (büyüklük) etiketlerinin gökyüzü "
+"haritasında gösterilip gösterilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:730
 #, kde-format
 msgid "Label deep-sky objects in the sky map?"
-msgstr "Gökyüzü haritasında uzak gök nesneleri etiketlensin mi?"
+msgstr "Gökyüzü haritasında derin uzay nesneleri etiketlensin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:731
 #, kde-format
 msgid "Toggle whether deep-sky object name labels are shown in the sky map."
 msgstr ""
-"Gökyüzü haritasında uzak gök nesnesi adı etiketlerini gösterin/gizleyin."
+"Derin gökyüzü nesnesi ad etiketlerinin gökyüzü haritasında gösterilip "
+"gösterilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:735
-#, fuzzy, kde-format
-#| msgid "Draw Moon in the sky map?"
+#, kde-format
 msgid "Draw Mosaic Panel in the sky map?"
-msgstr "Gökyüzü haritasında Ay gösterilsin mi?"
+msgstr "Gökyüzü haritasında mozaik panel çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:736
-#, fuzzy, kde-format
-#| msgid "Toggle whether the Moon is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether the Mosaic Panel are drawn in the sky map."
-msgstr "Gökyüzü haritasında Ayı göster/gizle."
+msgstr ""
+"Mozaik panelin gökyüzü haritasında çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (SlewTimeScale), group (View)
 #: kstars.kcfg:740
 #, kde-format
 msgid "Minimum timescale for forced-slewing mode"
-msgstr "Zorlanmış döndürme kipi için en küçük zaman ölçeği"
+msgstr "Zorlamalı çevirme kipi için en düşük zaman ölçeği"
 
 #. i18n: ectx: whatsthis, entry (SlewTimeScale), group (View)
 #: kstars.kcfg:741
 #, kde-format
 msgid "The timescale above which slewing mode is forced on at all times."
-msgstr ""
-"Zorlanmış döndürmenin o değerden itibaren her zaman etkin olacağı zaman "
-"ölçeği."
+msgstr "Çevirme kipinin her zaman açık olmaya zorlandığı zaman ölçeği."
 
 #. i18n: ectx: label, entry (BoxBGMode), group (View)
 #: kstars.kcfg:745
@@ -34759,50 +34758,50 @@ msgid ""
 "The background fill mode for the on-screen information boxes: 0=\"no BG\"; 1="
 "\"semi-transparent BG\"; 2=\"opaque BG\""
 msgstr ""
-"Ekran bilgi kutularının Arka Plan dolgusu: 0=\"BG yok\"; 1=\"yarı-şeffaf AP"
-"\"; 2=\"donuk AP\""
+"Ekrandaki bilgi kutuları için arka plan dolgusu kipi: 0=\"arka plan yok\"; 1="
+"\"yarısaydam arka plan\"; 2=\"mat arka plan\""
 
 #. i18n: ectx: label, entry (Projection), group (View)
 #: kstars.kcfg:750
 #, kde-format
 msgid "Mapping projection algorithm"
-msgstr "Projeksiyon algoritması haritalandırılıyor"
+msgstr "Haritalandırma projeksiyonu algoritması"
 
 #. i18n: ectx: whatsthis, entry (Projection), group (View)
 #: kstars.kcfg:751
 #, kde-format
 msgid "Algorithm for the mapping projection."
-msgstr "Haritalandırma projeksiyonu için algoritma"
+msgstr "Haritalandırma projeksiyonu için algoritma."
 
 #. i18n: ectx: label, entry (UseAbbrevConstellNames), group (View)
 #: kstars.kcfg:755
 #, kde-format
 msgid "Use abbreviated constellation names?"
-msgstr "Kısaltılmış takımyıldız isimleri kullanılsın mı?"
+msgstr "Kısaltılmış takımyıldız adları kullanılsın mı?"
 
 #. i18n: ectx: whatsthis, entry (UseAbbrevConstellNames), group (View)
 #: kstars.kcfg:756
 #, kde-format
 msgid "Use official IAU abbreviations for constellation names."
-msgstr "Takımyıldız isimleri için resmi IAU kısaltmaları kullanılsın mı?"
+msgstr "Takımyıldız adları için resmi IAU kısaltmalarını kullanın."
 
 #. i18n: ectx: label, entry (UseLatinConstellNames), group (View)
 #: kstars.kcfg:760
 #, kde-format
 msgid "Use Latin constellation names?"
-msgstr "Latince takımyıldız isimleri kullanılsın mı?"
+msgstr "Latince takımyıldız adlarını mı kullanılsın?"
 
 #. i18n: ectx: whatsthis, entry (UseLatinConstellNames), group (View)
 #: kstars.kcfg:761
 #, kde-format
 msgid "Use Latin constellation names."
-msgstr "Latince takımyıldız isimleri kullanılsın mı?"
+msgstr "Takımyıldızlarının adlarını Latince olarak kullanın."
 
 #. i18n: ectx: label, entry (UseLocalConstellNames), group (View)
 #: kstars.kcfg:765
 #, kde-format
 msgid "Use localized constellation names?"
-msgstr "Yerel takımyıldız isimleri kullanılsın mı?"
+msgstr "Yerelleştirilmiş takımyıldız adları kullanılsın mı?"
 
 #. i18n: ectx: whatsthis, entry (UseLocalConstellNames), group (View)
 #: kstars.kcfg:766
@@ -34811,14 +34810,14 @@ msgid ""
 "Use localized constellation names (if localized names are not available, "
 "default to Latin names)."
 msgstr ""
-"Yerel takımyıldız isimlerini kullan (eğer yerel isimler yoksa, öntanımlı "
-"Latin isimlerine dönülür)."
+"Yerelleştirilmiş takımyıldız adlarını kullanın (yerelleştirilmiş adlar yoksa "
+"öntanımlı olarak Latince adları kullanın)."
 
 #. i18n: ectx: label, entry (UseAltAz), group (View)
 #: kstars.kcfg:770
 #, kde-format
 msgid "Use horizontal coordinate system?"
-msgstr "Yatay koordinat sistemi kullanılsın mı?"
+msgstr "Yatay koordinat sistemi mi kullanılsın?"
 
 #. i18n: ectx: whatsthis, entry (UseAltAz), group (View)
 #: kstars.kcfg:771
@@ -34827,14 +34826,14 @@ msgid ""
 "Display the sky with horizontal coordinates (when false, equatorial "
 "coordinates will be used)."
 msgstr ""
-"Gökyüzünü yatay koordinat sisteminde göster (aksi durumda ekvatoryal "
-"koordinatlar kullanılacak)."
+"Gökyüzünü yatay koordinatlarla gösterin (yanlış olduğunda Ekvator "
+"koordinatları kullanılacaktır)."
 
 #. i18n: ectx: label, entry (UseAutoLabel), group (View)
 #: kstars.kcfg:775
 #, kde-format
 msgid "Automatically label focused object?"
-msgstr "Odaklanan cisim otomatik olarak etiketlendirilsin mi?"
+msgstr "Odaklanan nesne kendiliğinden etiketlensin mi?"
 
 #. i18n: ectx: whatsthis, entry (UseAutoLabel), group (View)
 #: kstars.kcfg:776
@@ -34842,13 +34841,14 @@ msgstr "Odaklanan cisim otomatik olarak etiketlendirilsin mi?"
 msgid ""
 "Toggle whether a centered object automatically gets a name label attached."
 msgstr ""
-"Merkezlenmiş bir cisime otomatik olarak etiket iliştirilmesini aç/kapat."
+"Ortalanmış bir nesneye kendiliğinden bir ad etiketi eklenip eklenmeyeceğini "
+"açın/kapatın."
 
 #. i18n: ectx: label, entry (UseAutoTrail), group (View)
 #: kstars.kcfg:780 tools/scriptbuilder.cpp:664
 #, kde-format
 msgid "Automatically add trail to centered solar system body?"
-msgstr "Merkezlenmiş güneş sistemi cismine otomatik olarak iz ekle."
+msgstr "Güneş sisteminin merkezindeki gövdeye kendiliğinden iz eklensin mi?"
 
 #. i18n: ectx: whatsthis, entry (UseAutoTrail), group (View)
 #: kstars.kcfg:781
@@ -34857,14 +34857,14 @@ msgid ""
 "Toggle whether a centered solar system object automatically gets a trail "
 "attached, as long as it remains centered."
 msgstr ""
-"Merkezlenmiş bir güneş sistemi cismine merkezde kaldığı sürece otomatik "
-"olarak iz eklemeyi aç/kapat."
+"Güneş sisteminin merkezinde bulunan bir nesneye, merkezde kaldığı sürece "
+"kendiliğinden bir iz ekleyip eklemeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (UseHoverLabel), group (View)
 #: kstars.kcfg:785
 #, kde-format
 msgid "Add temporary label on mouse hover?"
-msgstr "Fare üzerinde iken geçici etiket eklensin mi ?"
+msgstr "Fareyle üzerine gelindiğinde geçici bir etiket eklensin mi?"
 
 #. i18n: ectx: whatsthis, entry (UseHoverLabel), group (View)
 #: kstars.kcfg:786
@@ -34872,14 +34872,14 @@ msgstr "Fare üzerinde iken geçici etiket eklensin mi ?"
 msgid ""
 "Toggle whether the object under the mouse cursor gets a transient name label."
 msgstr ""
-"Fare imlecinin altında kalan cisime geçici olarak bir isim etiketi "
-"eklenmesini aç/kapat."
+"Fare imlecinin altındaki nesnenin geçici bir ad etiketi alıp almayacağını "
+"açın/kapatın."
 
 #. i18n: ectx: label, entry (UseRefraction), group (View)
 #: kstars.kcfg:790
 #, kde-format
 msgid "Correct positions for atmospheric refraction?"
-msgstr "Konumlardaki atmosferik sapma düzeltilsin mi?"
+msgstr "Atmosferik kırılma için konumlar düzeltilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (UseRefraction), group (View)
 #: kstars.kcfg:791
@@ -34888,8 +34888,9 @@ msgid ""
 "Toggle whether object positions are corrected for the effects of atmospheric "
 "refraction (only applies when horizontal coordinates are used)."
 msgstr ""
-"Cisimlerin konumlardaki atmosferik sapma düzeltilmesini aç/kapat (yalnızca "
-"yatay koordinatlar kullanıldığında uygulanır)."
+"Nesne konumlarının atmosferik kırılma etkilerine göre düzeltilip "
+"düzeltilmeyeceğini açın/kapatın (yalnızca yatay koordinatlar kullanıldığında "
+"geçerlidir)."
 
 #. i18n: ectx: label, entry (UseRelativistic), group (View)
 #: kstars.kcfg:795
@@ -34898,7 +34899,8 @@ msgid ""
 "Apply relativistic corrections due to the bending of light in sun's "
 "gravitational field"
 msgstr ""
-"Güneşin yerçekimi alanından bükülen ışık için göreceli düzeltmeleri uygula"
+"Güneşin kütle çekim alanındaki ışığın bükülmesinden kaynaklanan göreli "
+"düzeltmeleri uygula"
 
 #. i18n: ectx: whatsthis, entry (UseRelativistic), group (View)
 #: kstars.kcfg:796
@@ -34907,47 +34909,43 @@ msgid ""
 "Toggle whether corrections due to bending of light around the sun are taken "
 "into account"
 msgstr ""
-"Güneş etrafındaki ışığın bükülmesi dolayısıyla yapılan düzeltmelerin hesaba "
-"katılıp katılmayacağını ayarla"
+"Güneş etrafındaki ışığın bükülmesinden kaynaklanan düzeltmelerin hesaba "
+"katılıp katılmayacağını değiştirin."
 
 #. i18n: ectx: label, entry (UseAntialias), group (View)
 #: kstars.kcfg:800
 #, kde-format
 msgid "Use antialiasing when drawing the screen?"
-msgstr "Ekranda görüntü oluştururken görüntü yumuşatma kullanılsın mı?"
+msgstr "Ekranı çizerken kenar yumuşatma kullanılsın mı?"
 
 #. i18n: ectx: whatsthis, entry (UseAntialias), group (View)
 #: kstars.kcfg:801
-#, fuzzy, kde-format
-#| msgid ""
-#| "Toggle whether the sky is rendered using antialiasing.  Lines and shapes "
-#| "are smoother with antialiasing, but rendering the screen will take more "
-#| "time."
+#, kde-format
 msgid ""
 "Toggle whether the sky is rendered using antialiasing. Lines and shapes are "
 "smoother with antialiasing, but rendering the screen will take more time."
 msgstr ""
-"Gökyüzü görüntüsü oluşturulurken yumuşatma kullanılmasını aç/kapat.  "
-"Yumuşatma kullanıldığında çizgiler ve şekiller daha pürüzsüz görünür fakat "
-"ekranın görüntülenmesi daha fazla zaman alır."
+"Gökyüzünün kenar yumuşatma kullanılarak sunulup sunulmayacağını değiştirin. "
+"Çizgiler ve şekiller kenar yumuşatma ile daha pürüzsüzdür; ancak ekranın "
+"sunulması daha fazla zaman alacaktır."
 
 #. i18n: ectx: label, entry (ZoomFactor), group (View)
 #: kstars.kcfg:805
 #, kde-format
 msgid "Zoom Factor, in pixels per radian"
-msgstr "Odak katsayısı. Radyan başına piksel olarak"
+msgstr "Radyan başına piksel olarak yakınlaştırma faktörü"
 
 #. i18n: ectx: whatsthis, entry (ZoomFactor), group (View)
 #: kstars.kcfg:806
 #, kde-format
 msgid "The zoom level, measured in pixels per radian."
-msgstr "Odaklanma düzeyi. Radyan başına piksel olarak ölçülür."
+msgstr "Radyan başına piksel olarak yakınlaştırma düzeyi."
 
 #. i18n: ectx: label, entry (SkyRotation), group (View)
 #: kstars.kcfg:812
 #, kde-format
 msgid "Angle by which the sky map is rotated"
-msgstr ""
+msgstr "Gökyüzü haritasının döndürüldüğü açı"
 
 #. i18n: ectx: whatsthis, entry (SkyRotation), group (View)
 #: kstars.kcfg:813
@@ -34957,13 +34955,15 @@ msgid ""
 "(north up if using equatorial coordinates, zenith up if using horizontal "
 "coordinates)."
 msgstr ""
+"Gökyüzü haritasının standart yöneliminden (ekvator koordinatları "
+"kullanılıyorsa kuzey yukarı, yatay koordinatlar kullanılıyorsa başucu "
+"yukarı) döndürüldüğü açı."
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:819
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "Gökyüzü haritasında Mars gösterilsin mi?"
+msgstr "Gökyüzü haritasını yansıla"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:820
@@ -34972,12 +34972,17 @@ msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
+"Gökyüzü haritasının soldan sağa yansıtılmasını istiyorsanız bunu "
+"etkinleştirin, örneğin dik bir prizmadan görünen görüntüyle eşleşmesini "
+"istiyorsanız."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:824
 #, kde-format
 msgid "Orients the sky-map to account for an erect observer at the eyepiece"
 msgstr ""
+"Gökyüzü haritasını, göz merceğinde dik bir gözlemciyi hesaba katacak şekilde "
+"yönlendirir"
 
 #. i18n: ectx: whatsthis, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:825
@@ -34991,21 +34996,25 @@ msgid ""
 "the telescope the eyepiece appears when looking from the back of the "
 "telescope"
 msgstr ""
+"Altazimut kaideli bir Newton teleskopunda göz merceğinde gözünüzü "
+"kullanıyorsanız bunu etkinleştirin. Bu, gözlemcinin teleskop yukarı ve aşağı "
+"hareket ederken dik durması gerçeğini hesaba katar, böylece gökyüzü "
+"haritasının yönelimi, doğru şekilde ayarlandığında göz merceğinizde "
+"görülenleri takip edecektir. Düzeltmenin sağ eliyle olanını, teleskopun "
+"arkasından bakıldığında göz merceğinin teleskobun hangi tarafında "
+"göründüğüne göre seçin."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:831
-#, fuzzy, kde-format
-#| msgid "&Left"
+#, kde-format
 msgid "Left"
-msgstr "&Sol"
+msgstr "Sol"
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:834
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Right"
-msgstr "Işık"
+msgstr "Sağ"
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:840
@@ -35018,25 +35027,27 @@ msgstr "Yakınlaştırma sarma duyarlılığı."
 #, kde-format
 msgid "When zooming in or out, change zoom speed factor by this multiplier."
 msgstr ""
+"Yakınlaştırma veya uzaklaştırma yaparken yakınlaştırma hızını bu çarpan "
+"kadar değiştirin."
 
 #. i18n: ectx: label, entry (MagLimitAsteroid), group (View)
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitAsteroid)
 #: kstars.kcfg:847 options/opssolarsystem.ui:447
 #, kde-format
 msgid "Faint limit for asteroids"
-msgstr "Küçük gezegenler için solgunluk sınırı"
+msgstr "Asteroitler için sönüklük sınırı"
 
 #. i18n: ectx: whatsthis, entry (MagLimitAsteroid), group (View)
 #: kstars.kcfg:848
 #, kde-format
 msgid "The faint magnitude limit for drawing asteroids."
-msgstr "Küçük gezegenlerin gösterilmesi için asgari solgunluk sınırı."
+msgstr "Asteroitlerin çizilmesinde sönüklük büyüklüğü sınırı."
 
 #. i18n: ectx: label, entry (MagLimitAsteroidDownload), group (View)
 #: kstars.kcfg:852
 #, kde-format
 msgid "Maximum magnitude for asteroids to be downloaded from JPL."
-msgstr ""
+msgstr "JPL'den indirilebilecek asteroitlerin en çok büyüklüğü."
 
 #. i18n: ectx: whatsthis, entry (MagLimitAsteroidDownload), group (View)
 #: kstars.kcfg:853
@@ -35045,25 +35056,26 @@ msgid ""
 "The maximum magnitude (visibility) to filter the asteroid data download from "
 "JPL."
 msgstr ""
+"JPL'den asteroit verisi indirmeyi süzmek için en çok büyüklük (görünürlük)."
 
 #. i18n: ectx: label, entry (AsteroidLabelDensity), group (View)
 #: kstars.kcfg:857
 #, kde-format
 msgid "Label density for asteroid names"
-msgstr "Küçük gezegen isimleri için etiket yoğunluğu"
+msgstr "Asteroit adları etiket yoğunluğu"
 
 #. i18n: ectx: whatsthis, entry (AsteroidLabelDensity), group (View)
 #: kstars.kcfg:858
 #, kde-format
 msgid "Controls the relative number of asteroid name labels drawn in the map."
 msgstr ""
-"Haritada gösterilen küçük gezegen isim etiketlerinin bağıl sayısını denetler."
+"Haritada çizilen asteroit adı etiketlerinin göreceli sayısını denetler."
 
 #. i18n: ectx: label, entry (MagLimitDrawDeepSky), group (View)
 #: kstars.kcfg:862
 #, kde-format
 msgid "Faint limit for deep-sky objects"
-msgstr "Derin-uzay cisimleri için solgunluk sınırı"
+msgstr "Derin uzay nesneleri için sönüklük sınırı"
 
 #. i18n: ectx: whatsthis, entry (MagLimitDrawDeepSky), group (View)
 #: kstars.kcfg:863
@@ -35071,14 +35083,14 @@ msgstr "Derin-uzay cisimleri için solgunluk sınırı"
 msgid ""
 "The faint magnitude limit for drawing deep-sky objects, when fully zoomed in."
 msgstr ""
-"Tam yakınlaştırmada derin-uzay cisimlerinin parlaklıklarındaki solgunluk "
-"sınırı. "
+"Tam yakınlaştırma yapıldığında, derin gökyüzü nesnelerini çizmek için "
+"kullanılan sönüklük büyüklüğü sınırı."
 
 #. i18n: ectx: label, entry (MagLimitDrawDeepSkyZoomOut), group (View)
 #: kstars.kcfg:867
 #, kde-format
 msgid "Faint limit for deep-sky objects when zoomed out"
-msgstr "Uzaklaştırıldıklarında derin-uzay cisimleri için solgunluk sınırı"
+msgstr "Uzaklaştırma yapıldığında derin gökyüzü nesneleri için sönüklük sınırı"
 
 #. i18n: ectx: whatsthis, entry (MagLimitDrawDeepSkyZoomOut), group (View)
 #: kstars.kcfg:868
@@ -35087,14 +35099,14 @@ msgid ""
 "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
 "out."
 msgstr ""
-"Uzaklaştırılırken derin-uzay cisimleri için parlaklıklarındaki solgunluk "
-"sınırı."
+"Tam olarak uzaklaştırıldığında, derin gökyüzü nesnelerini çizmek için "
+"kullanılan sönüklük büyüklüğü sınırı."
 
 #. i18n: ectx: label, entry (ShowUnknownMagObjects), group (View)
 #: kstars.kcfg:872
 #, kde-format
 msgid "Show deep-sky objects of unknown magnitude"
-msgstr "Bilinmeyen şiddetteki derin uzay cisimlerini göster"
+msgstr "Bilinmeyen büyüklükteki derin gökyüzü nesnelerini göster"
 
 #. i18n: ectx: whatsthis, entry (ShowUnknownMagObjects), group (View)
 #: kstars.kcfg:873
@@ -35103,27 +35115,28 @@ msgid ""
 "When enabled, objects whose magnitudes are unknown, or not available to "
 "KStars, are drawn irrespective of the faint limits set."
 msgstr ""
-"Etkinleştirildiğinde, büyüklüğü olan cisimler bilinmeyendir veya KStart "
-"içinde kullanılabilir değildir, buna bakılmaksızın silik sınırlar çizilir."
+"Etkinleştirildiğinde, büyüklükleri bilinmeyen veya K Yıldızlar tarafından "
+"erişilemeyen nesneler, ayarlanan sönük sınırlardan bağımsız olarak çizilir."
 
 #. i18n: ectx: label, entry (ShowInlineImages), group (View)
 #: kstars.kcfg:877
-#, fuzzy, kde-format
-#| msgid "Draw Messier objects in the sky map?"
+#, kde-format
 msgid "Draw inline images for some objects on the sky?"
-msgstr "Gökyüzü haritasında Messier cisimleri gösterilsin mi?"
+msgstr "Gökyüzündeki bazı nesnelerin satır içi görselleri çizilsin mi?"
 
 #. i18n: ectx: label, entry (MagLimitDrawStar), group (View)
 #: kstars.kcfg:882
 #, kde-format
 msgid "Faint limit for stars"
-msgstr "Yıldızlar için solgunluk sınırı"
+msgstr "Yıldızlar için sönüklük sınırı"
 
 #. i18n: ectx: whatsthis, entry (MagLimitDrawStar), group (View)
 #: kstars.kcfg:883
 #, kde-format
 msgid "The faint magnitude limit for drawing stars, when fully zoomed in."
-msgstr "Tam yakınlaştırmada yıldızların parlaklıklarındaki solgunluk sınırı. "
+msgstr ""
+"Tam yakınlaştırma yapıldığında yıldızların çizilmesi için gereken sönüklük "
+"büyüklüğü sınırı."
 
 #. i18n: ectx: label, entry (StarDensity), group (View)
 #: kstars.kcfg:887
@@ -35135,25 +35148,27 @@ msgstr "Görüş alanındaki yıldız yoğunluğu"
 #: kstars.kcfg:888
 #, kde-format
 msgid "Sets the density of stars in the field of view"
-msgstr "Görüş alanındaki yıldız yoğunluğunu ayarlar"
+msgstr "Görüş alanındaki yıldız yoğunluğunu ayarlar."
 
 #. i18n: ectx: label, entry (MagLimitDrawStarZoomOut), group (View)
 #: kstars.kcfg:893
 #, kde-format
 msgid "Faint limit for stars when zoomed out"
-msgstr "Uzaklaştırılırken yıldızların solgunluk sınırı"
+msgstr "Uzaklaştırma yapıldığında yıldızların sönüklük sınırı"
 
 #. i18n: ectx: whatsthis, entry (MagLimitDrawStarZoomOut), group (View)
 #: kstars.kcfg:894
 #, kde-format
 msgid "The faint magnitude limit for drawing stars, when fully zoomed out."
-msgstr "Tam uzaklaştırılmada yıldızların parlaklıklarındaki solgunluk sınırı. "
+msgstr ""
+"Tam olarak uzaklaştırıldığında yıldızların çizimi için sönüklük büyüklüğü "
+"sınırı."
 
 #. i18n: ectx: label, entry (MagLimitHideStar), group (View)
 #: kstars.kcfg:899
 #, kde-format
 msgid "Faint limit for stars when slewing"
-msgstr "Döndürme sırasında yıldızların solgunluk sınırı"
+msgstr "Çevirme sırasında yıldızlar için sönüklük sınırı"
 
 #. i18n: ectx: whatsthis, entry (MagLimitHideStar), group (View)
 #: kstars.kcfg:900
@@ -35162,29 +35177,29 @@ msgid ""
 "The faint magnitude limit for drawing stars, when the map is in motion (only "
 "applicable if faint stars are set to be hidden while the map is in motion)."
 msgstr ""
-"Harita hareket ederken yıldızların gösterilmesi için parlaklıklarındaki "
-"solgunluk sınırı (yalnızca solgun yıldızlar harita hareket ederken "
-"gizlenecek şekilde ayarlanmış ise uygulanabilir)."
+"Harita hareket halindeyken yıldızların çizimi için sönük parlaklık sınırı "
+"(sadece harita hareket halindeyken sönük yıldızların gizlenecek şekilde "
+"ayarlanması durumunda geçerlidir)."
 
 #. i18n: ectx: label, entry (StarLabelDensity), group (View)
 #: kstars.kcfg:904
 #, kde-format
 msgid "Relative density for star name labels and/or magnitudes"
-msgstr "Yıldız isim ve/veya parlaklık etiketlerinin bağıl yoğunluğu"
+msgstr "Yıldız adı etiketleri ve/veya büyüklükler için göreceli yoğunluk"
 
 #. i18n: ectx: whatsthis, entry (StarLabelDensity), group (View)
 #: kstars.kcfg:905
 #, kde-format
 msgid "The relative density for drawing star name and magnitude labels."
-msgstr "Yıldız isim ve parlaklık etiketlerinin gösterimi için bağıl yoğunluk."
+msgstr "Yıldız adı ve parlaklık etiketlerini çizmek için göreceli yoğunluk."
 
 #. i18n: ectx: label, entry (DeepSkyLabelDensity), group (View)
 #: kstars.kcfg:909
 #, kde-format
 msgid "Relative density for deep-sky object name labels and/or magnitudes"
 msgstr ""
-"Uzak gök nesneleri için göreceli yoğunluklu ad ve/veya parlaklık şiddeti "
-"etiketleri"
+"Derin gökyüzü nesnesi adı etiketleri ve/veya büyüklükleri için göreceli "
+"yoğunluk"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyLabelDensity), group (View)
 #: kstars.kcfg:910
@@ -35192,13 +35207,14 @@ msgstr ""
 msgid ""
 "The relative density for drawing deep-sky object name and magnitude labels."
 msgstr ""
-"Uzak gök nesnesi ad ve parlaklık etiketlerinin çizimi için bağıl yoğunluk."
+"Derin gökyüzü nesne adlarını ve büyüklük etiketlerini çizmek için göreceli "
+"yoğunluk."
 
 #. i18n: ectx: label, entry (DeepSkyLongLabels), group (View)
 #: kstars.kcfg:914
 #, kde-format
 msgid "Show long names in deep-sky object name labels?"
-msgstr "Uzak gök nesnelerinin etiketlerinde uzun adları gösterilsin mi?"
+msgstr "Derin gökyüzü nesnesi ad etiketlerinde uzun adlar gösterilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (DeepSkyLongLabels), group (View)
 #: kstars.kcfg:915
@@ -35207,8 +35223,8 @@ msgid ""
 "If true, long names (common names) for deep-sky objects are shown in the "
 "labels."
 msgstr ""
-"Eğer doğruysa uzak gök nesnelerinin tam adlarını (sık kullanılan adlarını) "
-"etiketlerde gösterin."
+"Ayarlanırsa derin gökyüzü nesnelerinin uzun adları (genel adlar) etiketlerde "
+"gösterilir."
 
 #. i18n: ectx: label, entry (LabelFontScaling), group (View)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetFontSize)
@@ -35219,25 +35235,24 @@ msgstr "Etiket yazıtipi boyutu"
 
 #. i18n: ectx: whatsthis, entry (LabelFontScaling), group (View)
 #: kstars.kcfg:920
-#, fuzzy, kde-format
-#| msgid "Select this to use Latin constellation names on the sky map"
+#, kde-format
 msgid "Set this to adjust the font-size of labels placed on the sky map"
 msgstr ""
-"Gökyüzü haritasında Latince takımyıldız isimleri kullanmak için bunu seçin"
+"Gökyüzü haritasına yerleştirilen etiketlerin yazıtipi boyutunu ayarlamak "
+"için bunu ayarlayın."
 
 #. i18n: ectx: label, entry (MaxRadCometName), group (View)
 #: kstars.kcfg:924
 #, kde-format
 msgid "Maximum distance from Sun for labeling comets, in AU"
 msgstr ""
-"Kuruklu yıldızların etiketlenmesi için Güneşe olan en fazla uzaklık, AB "
-"türünden"
+"Kuyrukluyıldızların etiketlenmesi için Güneş'ten en çok uzaklık, AU olarak"
 
 #. i18n: ectx: whatsthis, entry (MaxRadCometName), group (View)
 #: kstars.kcfg:925
 #, kde-format
 msgid "The maximum solar distance for drawing comets."
-msgstr "Kuyruklu yıldızların gösterilmesi için güneşe olan en fazla uzaklık."
+msgstr "Kuyrukluyıldız çizimi için güneşe olan en çok uzaklık."
 
 #. i18n: ectx: label, entry (UseGL), group (View)
 #: kstars.kcfg:929
@@ -35249,7 +35264,7 @@ msgstr "OpenGL arka ucuna geç"
 #: kstars.kcfg:930
 #, kde-format
 msgid "Use experimental OpenGL backend (deprecated)."
-msgstr "Deneysel OpenGL arka ucunu kullan (artık kullanılmıyor.)"
+msgstr "Deneysel OpenGL arka ucunu kullanın (artık kullanılmıyor)."
 
 #. i18n: ectx: label, entry (RunClock), group (View)
 #: kstars.kcfg:934
@@ -35261,27 +35276,26 @@ msgstr "Saati çalıştır"
 #: kstars.kcfg:935
 #, kde-format
 msgid "The state of the clock (running or not)"
-msgstr "Saatin durumu (çalışyor yada çalışmıyor)"
+msgstr "Saatin durumu (çalışıyor veya çalışmıyor)"
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:941
 #, kde-format
 msgid "Use symbols to label observing list objects"
-msgstr "Gözlem listesi cisimlerini etiketlemek için simgeler kullan"
+msgstr "Gözlem listesi nesnelerini etiketlemek için semboller kullan"
 
 #. i18n: ectx: whatsthis, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:942
 #, kde-format
 msgid ""
 "Objects in the observing list will be highlighted with a symbol in the map."
-msgstr ""
-"Gözlem listesindeki cisimler harita üzerinde bir simge ile vurgulanacak."
+msgstr "Gözlem listesindeki nesneler haritada bir sembolle vurgulanacaktır."
 
 #. i18n: ectx: label, entry (ObsListText), group (ObservingList)
 #: kstars.kcfg:946
 #, kde-format
 msgid "Use text to label observing list objects"
-msgstr "Gözlem listesi cisimlerini etiketlemek için metin kullan"
+msgstr "Gözlem listesi nesnelerini etiketlemek için metin kullan"
 
 #. i18n: ectx: whatsthis, entry (ObsListText), group (ObservingList)
 #: kstars.kcfg:947
@@ -35290,33 +35304,36 @@ msgid ""
 "Objects in the observing list will be highlighted with a colored name label "
 "in the map."
 msgstr ""
-"Gözlem listesindeki cisimler harita üzerinde renkli bir isim etiketi ile "
-"vurgulanacak."
+"Gözlem listesindeki nesneler haritada renkli adlı etiketle vurgulanacaktır."
 
 #. i18n: ectx: label, entry (ObsListPreferDSS), group (ObservingList)
 #: kstars.kcfg:951
 #, kde-format
 msgid "Prefer Digitized Sky Survey imagery in the observing list"
 msgstr ""
-"Gözlem listesindeki Sayısallaştırılmış Gökyüzü Araştırma imgesini tercih et"
+"Gözlem listesinde Sayısallaştırılmış Gökyüzü Araştırması görsellerini tercih "
+"et"
 
 #. i18n: ectx: whatsthis, entry (ObsListPreferDSS), group (ObservingList)
 #: kstars.kcfg:952
 #, kde-format
 msgid "The observing list will prefer DSS imagery while downloading imagery."
-msgstr "İmgeler indirilirken, gözleme listesi DSS imgesini tercih edecektir."
+msgstr ""
+"Gözlem listesi görselleri indirirken DSS görsellerini tercih edecektir."
 
 #. i18n: ectx: label, entry (ObsListPreferSDSS), group (ObservingList)
 #: kstars.kcfg:956
 #, kde-format
 msgid "Prefer Sloan Digital Sky Survey imagery in the observing list"
-msgstr "Gözleme listesinde Sloan Digital Sky Survey imgesini tercih et"
+msgstr ""
+"Gözlem listesinde Sloan Sayısal Gökyüzü Araştırması görsellerini tercih et"
 
 #. i18n: ectx: whatsthis, entry (ObsListPreferSDSS), group (ObservingList)
 #: kstars.kcfg:957
 #, kde-format
 msgid "The observing list will prefer SDSS imagery while downloading imagery."
-msgstr "mgeler indirilirken, gözleme listesi SDSS imgesini tercih edecektir. "
+msgstr ""
+"Gözlem listesi görselleri indirirken SDDS görsellerini tercih edecektir."
 
 #. i18n: ectx: label, entry (ObsListDemoteHole), group (ObservingList)
 #: kstars.kcfg:961
@@ -35325,6 +35342,8 @@ msgid ""
 "While sorting by percentage altitude in the observing list, demote objects "
 "present in the Dobsonian hole"
 msgstr ""
+"Gözlem listesindeki yüzdelik yüksekliğine göre sıralama yaparken, Dobsonian "
+"deliğinde bulunan nesneleri küçült"
 
 #. i18n: ectx: whatsthis, entry (ObsListDemoteHole), group (ObservingList)
 #: kstars.kcfg:962
@@ -35340,6 +35359,15 @@ msgid ""
 "the observing list consider objects present in the hole as unfit for "
 "observation."
 msgstr ""
+"Büyük bir Dobson teleskopu kullanıyorsanız bunu işaretleyin. Yüzdelik akım "
+"yüksekliğine göre sıralama, hangi nesnelerin gözlem için iyi "
+"yerleştirildiğini belirlemenin kolay bir yoludur. Ancak, büyük bir Dobson "
+"teleskopu kullanıldığında, başucuna yakın nesneleri gözlemlemek zordur. "
+"Oradaki izleme, güney açısında bir dönüşe karşılık geldiğinden, hem sezgiye "
+"aykırıdır hem de gözlemcinin merdiveni sık sık hareket ettirmesini "
+"gerektirir. Bunun özellikle sinir bozucu olduğu başucu etrafındaki bölgeye "
+"Dobson Deliği denir. Bu onay kutusu, gözlem listesinin delikte bulunan "
+"nesneleri gözlem için uygunsuz olarak değerlendirmesini sağlar."
 
 #. i18n: ectx: label, entry (ObsListHoleSize), group (ObservingList)
 #: kstars.kcfg:966
@@ -35348,6 +35376,8 @@ msgid ""
 "This is the angular distance from the zenith, in degrees, below which you "
 "can easily point your telescope."
 msgstr ""
+"Bu, teleskopunuzu kolayca altına doğrultabileceğiniz, başucundan derece "
+"türünden açısal uzaklıktır."
 
 #. i18n: ectx: whatsthis, entry (ObsListHoleSize), group (ObservingList)
 #: kstars.kcfg:967
@@ -75174,7 +75204,7 @@ msgstr "arksaniye"
 #: oal/execute.ui:396
 #, kde-format
 msgid "Faintest Star:"
-msgstr "En Belirsiz Yıldız:"
+msgstr "En sönük yıldız:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: oal/execute.ui:408
@@ -75580,21 +75610,21 @@ msgstr "Zaman adımı bu değerden daha büyükse ayrıca gizle:"
 #, kde-format
 msgid ""
 "If checked, then fainter stars will be hidden when the map is in motion."
-msgstr "Seçilirse, harita hareket ederken soluk yıldızlar gizlenecek."
+msgstr ""
+"İşaretlenirse harita hareket halindeyken daha sönük yıldızlar gizlenecektir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideStars)
 #: options/opsadvanced.ui:683
-#, fuzzy, kde-format
-#| msgid "Stars fainter than"
+#, kde-format
 msgid "Stars fainter than magnitude:"
-msgstr "Değerinden daha soluk olan yıldızlar"
+msgstr "Şu büyüklükten daha sönük yıldızlar:"
 
 #. i18n: ectx: property (whatsThis), widget (MagnitudeSpinBox, kcfg_MagLimitHideStar)
 #: options/opsadvanced.ui:702
 #, kde-format
 msgid "Stars fainter than this will not be drawn while the map is moving."
 msgstr ""
-"Bundan daha soluk olan yıldızlar harita hareket ederken gösterilmeyecekler."
+"Harita hareket halindeyken bundan daha sönük yıldızlar çizilmeyecektir."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HidePlanets)
 #: options/opsadvanced.ui:711
@@ -75837,31 +75867,25 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitDrawDeepSkyZoomOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMagDeepSkyZoomOut)
 #: options/opscatalog.ui:653 options/opscatalog.ui:663
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "out."
+#, kde-format
 msgid "Set the faint magnitude limit for deep-sky objects when zoomed out."
 msgstr ""
-"Uzaklaştırılırken derin-uzay cisimleri için parlaklıklarındaki solgunluk "
-"sınırı."
+"Uzaklaştırma yapıldığında derin gökyüzü nesneleri için sönük parlaklık "
+"sınırını ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSkyZoomOut)
 #: options/opscatalog.ui:666
 #, kde-format
 msgid "Faint limit zoomed out:"
-msgstr "Uzaklaştırma solukluk sınırı:"
+msgstr "Uzaklaştırma sönüklük sınırı:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMag4)
 #: options/opscatalog.ui:673
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "out."
+#, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed out."
 msgstr ""
-"Uzaklaştırılırken derin-uzay cisimleri için parlaklıklarındaki solgunluk "
-"sınırı."
+"Uzaklaştırıldığında derin gökyüzü nesneleri için sönük parlaklık sınırlarını "
+"ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMag4)
 #. i18n: ectx: property (text), widget (QLabel, LabelMag3)
@@ -75880,20 +75904,17 @@ msgstr "par"
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMag3)
 #: options/opscatalog.ui:683 options/opscatalog.ui:693
 #: options/opscatalog.ui:703
-#, fuzzy, kde-format
-#| msgid ""
-#| "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
-#| "in."
+#, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed in."
 msgstr ""
-"Tam yakınlaştırmada derin-uzay cisimlerinin parlaklıklarındaki solgunluk "
-"sınırı. "
+"Yakınlaştırıldığında derin gökyüzü nesneleri için sönük parlaklık "
+"sınırlarını ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSky)
 #: options/opscatalog.ui:686
 #, kde-format
 msgid "Faint limit zoomed in:"
-msgstr "Yaklaştırma solukluk sınırı:"
+msgstr "Yakınlaştırma sönüklük sınırı:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowUnknownMagObjects)
 #: options/opscatalog.ui:733

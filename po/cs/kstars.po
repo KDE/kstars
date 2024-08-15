@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-13 01:44+0000\n"
-"PO-Revision-Date: 2024-07-12 11:50+0200\n"
+"PO-Revision-Date: 2024-08-14 11:33+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -16426,7 +16426,7 @@ msgstr ""
 #: ekos/ekoslive/ekosliveclient.cpp:255
 #, kde-format
 msgid "Observatory:"
-msgstr ""
+msgstr "Observatoř:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
 #, kde-format
@@ -16441,7 +16441,7 @@ msgstr "Online:"
 #: ekos/ekoslive/ekosliveclient.cpp:258
 #, kde-format
 msgid "Machine ID:"
-msgstr ""
+msgstr "ID stroje:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -18093,10 +18093,9 @@ msgid "Clear"
 msgstr "Vymazat"
 
 #: ekos/focus/focusadvisor.cpp:79 ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Selection:"
+#, kde-format
 msgid "Section"
-msgstr "Výběr:"
+msgstr "Oddíl"
 
 #. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
 #. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
@@ -18110,56 +18109,49 @@ msgid "Run"
 msgstr "Spustit"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Number"
+#, kde-format
 msgid "Run number"
-msgstr "Číslo"
+msgstr "Číslo běhu"
 
 #: ekos/focus/focusadvisor.cpp:87
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Start Pos"
-msgstr "Spustit"
+msgstr "Počáteční pozice"
 
 #: ekos/focus/focusadvisor.cpp:88
-#, fuzzy, kde-format
-#| msgid "Target position:"
+#, kde-format
 msgid "Start position"
-msgstr "Cílová poloha:"
+msgstr "Počáteční pozice"
 
 #: ekos/focus/focusadvisor.cpp:91
 #, kde-format
 msgid "Step/Jump Size"
-msgstr ""
+msgstr "Velikost kroku/skoku:"
 
 #: ekos/focus/focusadvisor.cpp:92
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Step Size"
-msgstr "Velikost písma"
+msgstr "Velikost kroku"
 
 #: ekos/focus/focusadvisor.cpp:95
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Overscan"
-msgstr "Překrytí"
+msgstr "Overscan"
 
 #: ekos/focus/focusadvisor.cpp:96
 #, kde-format
 msgid "AF Overscan"
-msgstr ""
+msgstr "Overscan AF"
 
 #: ekos/focus/focusadvisor.cpp:99
-#, fuzzy, kde-format
-#| msgid "Comments:"
+#, kde-format
 msgid "Comments"
-msgstr "Komentáře:"
+msgstr "Komentáře"
 
 #: ekos/focus/focusadvisor.cpp:100
 #, kde-format
 msgid "Additional Text"
-msgstr ""
+msgstr "Další text"
 
 #: ekos/focus/focusadvisor.cpp:111
 #, kde-format
@@ -18306,10 +18298,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:859
-#, fuzzy, kde-format
-#| msgid "No Object Selected"
+#, kde-format
 msgid "No stars detected"
-msgstr "Nebyl vybrán objekt"
+msgstr "Nebyla nalezena žádná hvězda"
 
 #: ekos/focus/focusadvisor.cpp:867
 #, kde-format
@@ -18339,7 +18330,7 @@ msgstr ""
 #: ekos/focus/focusadvisor.cpp:1006
 #, kde-format
 msgid "Coarse Adjustment"
-msgstr ""
+msgstr "Hrubá úprava"
 
 #: ekos/focus/focusadvisor.cpp:1012 ekos/focus/focusadvisor.cpp:1226
 #, kde-format
@@ -18364,7 +18355,7 @@ msgstr ""
 #: ekos/focus/focusadvisor.cpp:1144
 #, kde-format
 msgid "Max/Min Ratio: %1"
-msgstr ""
+msgstr "Poměr Max/Min: %1"
 
 #: ekos/focus/focusadvisor.cpp:1161
 #, kde-format
@@ -18382,10 +18373,9 @@ msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1277
-#, fuzzy, kde-format
-#| msgid "Function Arguments"
+#, kde-format
 msgid "Fine Adjustment"
-msgstr "Argumenty funkce"
+msgstr "Jemná úprava"
 
 #: ekos/focus/focusadvisor.cpp:1385
 #, kde-format
@@ -22684,10 +22674,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
 #: ekos/mount/mount.ui:354
-#, fuzzy, kde-format
-#| msgid "Tracking"
+#, kde-format
 msgid "Tracking only"
-msgstr "Sledování trasy"
+msgstr "Pouze sledování"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:526
@@ -25397,11 +25386,9 @@ msgid "Job '%1' has no more batches remaining."
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Bellflower"
+#, kde-format
 msgid "Follower"
-msgstr "Bellflower"
+msgstr "Sledující"
 
 #: ekos/scheduler/scheduler.cpp:145
 #, kde-format
@@ -34186,7 +34173,7 @@ msgstr ""
 #: kstars.kcfg:1671
 #, kde-format
 msgid "EkosLive Observatory Name"
-msgstr ""
+msgstr "Název observatoře EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1675
@@ -82104,6 +82091,3 @@ msgstr "Barva pozadí:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte barvu pozadí."
-
-#~ msgid "Updated base parameters"
-#~ msgstr "Aktualizované základní parametry"
