@@ -73,6 +73,9 @@ enum COMMANDS
     TRAIN_CONFIGURATION_REQUESTED,
     TRAIN_ACCEPT,
 
+    // Train Settings
+    TRAIN_SETTINGS_GET,
+
     // Capture
     CAPTURE_PREVIEW,
     CAPTURE_TOGGLE_VIDEO,
@@ -300,6 +303,7 @@ static QMap<COMMANDS, QString> const commands =
     {TRAIN_RESET, "train_reset"},
     {TRAIN_CONFIGURATION_REQUESTED, "train_configuration_requested"},
     {TRAIN_ACCEPT, "train_accept"},
+    {TRAIN_SETTINGS_GET, "train_settings_get"},
 
     {CAPTURE_PREVIEW, "capture_preview"},
     {CAPTURE_TOGGLE_VIDEO, "capture_toggle_video"},

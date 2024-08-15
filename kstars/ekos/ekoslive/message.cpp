@@ -194,6 +194,19 @@ void Message::onTextReceived(const QString &message)
         }
         sendResponse(commands[GET_PROPERTY], QJsonObject::fromVariantMap(map));
     }
+    else if (command == commands[TRAIN_GET_ALL])
+        sendTrains();
+    else if (command == commands[TRAIN_SETTINGS_GET])
+    {
+        auto id = payload["id"].toInt(-1);
+        if (id > 0)
+        {
+            Ekos::OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+            auto settings = Ekos::OpticalTrainSettings::Instance()->getSettings();
+            if (!settings.isEmpty())
+                sendResponse(commands[TRAIN_SETTINGS_GET], QJsonObject::fromVariantMap(settings));
+        }
+    }
     else if (command.startsWith("scope_"))
         processScopeCommands(command, payload);
     else if (command.startsWith("profile_"))
@@ -313,9 +326,6 @@ void Message::sendDevices()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendTrains()
 {
-    if (m_Manager->getEkosStartingStatus() != Ekos::Success)
-        return;
-
     QJsonArray trains;
 
     for(auto &train : Ekos::OpticalTrainManager::Instance()->getOpticalTrains())
@@ -1385,9 +1395,7 @@ void Message::processDSLRCommands(const QString &command, const QJsonObject &pay
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processTrainCommands(const QString &command, const QJsonObject &payload)
 {
-    if (command == commands[TRAIN_GET_ALL])
-        sendTrains();
-    else if (command == commands[TRAIN_GET_PROFILES])
+    if (command == commands[TRAIN_GET_PROFILES])
         sendTrainProfiles();
     else if (command == commands[TRAIN_SET])
     {
