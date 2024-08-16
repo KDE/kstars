@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-13 01:44+0000\n"
+"POT-Creation-Date: 2024-08-16 01:45+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -406,7 +406,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1179
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1198
 #: ekos/scheduler/scheduler.cpp:1984
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -564,8 +564,8 @@ msgstr "취소"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1101 ekos/manager.cpp:1116
-#: ekos/manager.cpp:1146 ekos/scheduler/scheduler.cpp:1506
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1102 ekos/manager.cpp:1117
+#: ekos/manager.cpp:1147 ekos/scheduler/scheduler.cpp:1506
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
 #: indi/indimount.cpp:32 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
@@ -2094,7 +2094,7 @@ msgstr "상태:"
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:603 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1499
 #: ekos/scheduler/scheduler.cpp:2149 ekos/scheduler/scheduler.cpp:2386
 #: ekos/scheduler/scheduler.cpp:2394 ekos/scheduler/scheduler.cpp:2404
@@ -2711,7 +2711,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3960
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/capture/camera.cpp:1133 ekos/capture/camera.cpp:1188
+#: ekos/capture/camera.cpp:1152 ekos/capture/camera.cpp:1207
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1884
 #: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -2826,7 +2826,7 @@ msgstr "별 HD %1을 찾을 수 없음."
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
 #: ekos/scheduler/scheduler.ui:556 ekos/scheduler/schedulermodulestate.cpp:56
-#: ekos/scheduler/schedulerprocess.cpp:1914 skycomponents/flagcomponent.cpp:33
+#: ekos/scheduler/schedulerprocess.cpp:1911 skycomponents/flagcomponent.cpp:33
 #, kde-format
 msgid "Default"
 msgstr "기본값"
@@ -3974,10 +3974,10 @@ msgstr "0.0파섹"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1640 ekos/capture/camera.cpp:1680
+#: ekos/capture/camera.cpp:1659 ekos/capture/camera.cpp:1699
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
-#: ekos/focus/focus.cpp:453 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
+#: ekos/focus/focus.cpp:457 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
@@ -6373,7 +6373,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "연결"
 
 #: ekos/align/align.cpp:1494 ekos/capture/cameraprocess.cpp:207
-#: ekos/capture/cameraprocess.cpp:600 ekos/focus/focus.cpp:5354
+#: ekos/capture/cameraprocess.cpp:600 ekos/focus/focus.cpp:5356
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6407,14 +6407,14 @@ msgstr "별 읽어오는 중"
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1644
+#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1646
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image..."
 msgstr "이미지 읽는 중..."
 
 #: ekos/align/align.cpp:1716 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2684
+#: ekos/focus/focus.cpp:2686
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image received."
@@ -6558,7 +6558,7 @@ msgid "Refresh is complete."
 msgstr "%1 은 온라인"
 
 #: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1409
-#: ekos/focus/focus.cpp:1372
+#: ekos/focus/focus.cpp:1374
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
@@ -6571,8 +6571,8 @@ msgid "Solver aborted after %1 seconds."
 msgstr "FITS 파일을 %1로 저장"
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:252 ekos/focus/focus.cpp:4412
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:766
+#: ekos/capture/capture.cpp:268 ekos/focus/focus.cpp:4414
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1939 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3452
 #, fuzzy, kde-format
@@ -6748,26 +6748,26 @@ msgstr "분"
 msgid "dDE (arcsec)"
 msgstr "초"
 
-#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3252
-#: ekos/focus/focus.cpp:5242
+#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3271
+#: ekos/focus/focus.cpp:5244
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Filter operation failed."
 msgstr "Caliente"
 
-#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3752
+#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3771
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3662 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3757
+#: ekos/capture/camera.cpp:3776
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3762
+#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3781
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
@@ -6787,8 +6787,8 @@ msgid "Export Solution Points"
 msgstr "전체 궤도 궤적 지우기"
 
 #: ekos/align/align.cpp:3959 ekos/align/mountmodel.cpp:264
-#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1132
-#: ekos/capture/camera.cpp:1187 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1151
+#: ekos/capture/camera.cpp:1206 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1883 ekos/scheduler/scheduler.cpp:1993
 #: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6799,19 +6799,19 @@ msgstr "잘못된 URL: %1"
 #: ekos/align/align.cpp:3968 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:2971
-#: ekos/scheduler/schedulerprocess.cpp:4587
+#: ekos/scheduler/schedulerprocess.cpp:4590
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to write to file %1"
 msgstr "이미지를 저장할 수 없음: %1 "
 
 #: ekos/align/align.cpp:3969 ekos/align/mountmodel.cpp:284
-#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2770
+#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2789
 #: ekos/capture/cameraprocess.cpp:2548 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2972
 #: ekos/scheduler/schedulerprocess.cpp:3310
-#: ekos/scheduler/schedulerprocess.cpp:4588
-#: ekos/scheduler/schedulerprocess.cpp:4608 indi/drivermanager.cpp:1537
+#: ekos/scheduler/schedulerprocess.cpp:4591
+#: ekos/scheduler/schedulerprocess.cpp:4611 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1384 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -6898,7 +6898,7 @@ msgstr "카탈로그 읽어오기..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:385 ekos/guide/guide.ui:153 ekos/manager.cpp:228
+#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:229
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -7132,7 +7132,7 @@ msgstr "별자리명 설정"
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: ekos/align/align.ui:554 ekos/auxiliary/darklibrary.ui:477
 #: ekos/capture/camera.ui:869 ekos/capture/captureprocessoverlay.ui:296
-#: ekos/focus/focus.ui:526 ekos/guide/guide.ui:365
+#: ekos/focus/focus.ui:513 ekos/guide/guide.ui:365
 #, kde-format
 msgid "Gain:"
 msgstr ""
@@ -7140,13 +7140,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, focusBinningLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/align.ui:561 ekos/focus/focus.ui:574 ekos/guide/guide.ui:401
+#: ekos/align/align.ui:561 ekos/focus/focus.ui:561 ekos/guide/guide.ui:401
 #, kde-format
 msgid "Bin:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
-#: ekos/align/align.ui:583 ekos/focus/focus.ui:673 ekos/guide/guide.ui:166
+#: ekos/align/align.ui:583 ekos/focus/focus.ui:660 ekos/guide/guide.ui:166
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgid "Show in FITS Viewer..."
@@ -7181,7 +7181,7 @@ msgid "Camera binning"
 msgstr "가시광선"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/align/align.ui:628 ekos/focus/focus.ui:651
+#: ekos/align/align.ui:628 ekos/focus/focus.ui:638
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgid "Toggle Full Screen"
@@ -7211,7 +7211,7 @@ msgstr "가시광선"
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/align/align.ui:685 ekos/capture/camera.ui:741 ekos/focus/focus.ui:732
+#: ekos/align/align.ui:685 ekos/capture/camera.ui:741 ekos/focus/focus.ui:719
 #: ekos/profileeditor.ui:644 fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, kde-format
 msgid "Filter:"
@@ -7229,7 +7229,7 @@ msgstr "카메라"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, focusExposureLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/align/align.ui:699 ekos/focus/focus.ui:551 ekos/guide/guide.ui:375
+#: ekos/align/align.ui:699 ekos/focus/focus.ui:538 ekos/guide/guide.ui:375
 #, kde-format
 msgid "Exp:"
 msgstr ""
@@ -7245,7 +7245,7 @@ msgstr "현재 색상 설정"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
 #: ekos/align/align.ui:734 ekos/auxiliary/darklibrary.ui:506
-#: ekos/capture/camera.ui:846 ekos/focus/focus.ui:864
+#: ekos/capture/camera.ui:846 ekos/focus/focus.ui:851
 #, kde-format
 msgid "ISO:"
 msgstr ""
@@ -7486,10 +7486,10 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "관찰 목록"
 
-#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2769
+#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2788
 #: ekos/capture/cameraprocess.cpp:2547 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3309
-#: ekos/scheduler/schedulerprocess.cpp:4607
+#: ekos/scheduler/schedulerprocess.cpp:4610
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
@@ -10333,7 +10333,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:145 ekos/manager.cpp:234 ekos/manager.cpp:610
+#: ekos/manager.cpp:146 ekos/manager.cpp:235 ekos/manager.cpp:611
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -10385,7 +10385,7 @@ msgid "Slew"
 msgstr "망원경 회전"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:330
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:331
 #, kde-format
 msgid "Setup"
 msgstr ""
@@ -10518,10 +10518,10 @@ msgstr "파일을 삭제할 수 없음: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:370
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2077
-#: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
-#: ekos/scheduler/scheduler.ui:289 fitsviewer/fitscommon.h:15
-#: fitsviewer/fitsviewer.cpp:468
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2078
+#: ekos/manager/focusprogresswidget.ui:101
+#: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:468
 #, kde-format
 msgid "Focus"
 msgstr ""
@@ -10529,7 +10529,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
-#: ekos/manager.cpp:2042 ekos/scheduler/framingassistant.ui:1262
+#: ekos/manager.cpp:2043 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:242 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitsviewer.cpp:476
 #, fuzzy, kde-format
@@ -10543,7 +10543,7 @@ msgstr "일괄작업 모드"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2286
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2297
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:472
 #, fuzzy, kde-format
@@ -10562,7 +10562,7 @@ msgstr "Fairview"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2211 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2222 ekos/manager.ui:665
 #, fuzzy, kde-format
 #| msgid "Count:"
 msgid "Mount"
@@ -10829,7 +10829,7 @@ msgstr "지정된 설정 파일 사용."
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
 #. i18n: ectx: property (text), widget (QPushButton, guideDetailPrevButton)
 #. i18n: ectx: property (text), widget (QPushButton, previousButton)
-#: ekos/analyze/analyze.ui:331 ekos/manager/focusmanager.ui:267
+#: ekos/analyze/analyze.ui:331 ekos/manager/focusprogresswidget.ui:267
 #: ekos/manager/guidemanager.ui:415 printing/foveditordialog.ui:115
 #, kde-format
 msgid "<"
@@ -10885,7 +10885,7 @@ msgstr "지정된 설정 파일 사용."
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
 #. i18n: ectx: property (text), widget (QPushButton, guideDetailNextButton)
 #. i18n: ectx: property (text), widget (QPushButton, nextButton)
-#: ekos/analyze/analyze.ui:405 ekos/manager/focusmanager.ui:339
+#: ekos/analyze/analyze.ui:405 ekos/manager/focusprogresswidget.ui:339
 #: ekos/manager/guidemanager.ui:503 printing/foveditordialog.ui:122
 #, kde-format
 msgid ">"
@@ -12187,7 +12187,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetFrameB)
 #. i18n: ectx: property (text), widget (QPushButton, resetB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:883
+#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:870
 #: ekos/guide/manualpulse.ui:140 ekos/mount/mount.ui:836
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
@@ -12351,7 +12351,7 @@ msgid "Start Auto Focus when filter is activated"
 msgstr "완료됨"
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:119 ekos/ekos.h:162 ekos/focus/focus.ui:292
+#: ekos/auxiliary/filtermanager.cpp:119 ekos/ekos.h:162 ekos/focus/focus.ui:276
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Auto Focus"
@@ -12546,7 +12546,7 @@ msgstr "완료됨"
 msgid "Aligning..."
 msgstr "일괄작업 모드"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:768
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:787
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -12635,7 +12635,7 @@ msgstr "관찰 목록"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:335 ekos/opsekos.ui:184
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:336 ekos/opsekos.ui:184
 #: ekos/scheduler/framingassistantui.cpp:668
 #, fuzzy, kde-format
 #| msgctxt "star name"
@@ -12828,7 +12828,7 @@ msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2336
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2347
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City in Tennessee USA"
@@ -13153,10 +13153,8 @@ msgid "Select a mechanized focuser if any."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_33)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:324 ekos/focus/focus.ui:446
-#: ekos/profileeditor.ui:651
+#: ekos/auxiliary/opticaltrains.ui:324 ekos/profileeditor.ui:651
 #, kde-format
 msgid "Focuser:"
 msgstr ""
@@ -14478,216 +14476,216 @@ msgstr "JPEG 품질"
 msgid "Capture Sequence Editor: %1"
 msgstr ""
 
-#: ekos/capture/camera.cpp:154 ekos/capture/camera.cpp:3876
+#: ekos/capture/camera.cpp:154 ekos/capture/camera.cpp:3895
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:155 ekos/capture/camera.cpp:3877
+#: ekos/capture/camera.cpp:155 ekos/capture/camera.cpp:3896
 #, fuzzy, kde-format
 #| msgid "Select object from a list"
 msgid "Remove job from sequence queue"
 msgstr "목록에서 천체 선택"
 
-#: ekos/capture/camera.cpp:467
+#: ekos/capture/camera.cpp:483
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Downloading..."
 msgstr "새 자료 다운로드..."
 
-#: ekos/capture/camera.cpp:567 ekos/capture/camera.cpp:568
+#: ekos/capture/camera.cpp:586 ekos/capture/camera.cpp:587
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus complete."
 msgstr "완료됨"
 
-#: ekos/capture/camera.cpp:572
+#: ekos/capture/camera.cpp:591
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus failed."
 msgstr "완료됨"
 
-#: ekos/capture/camera.cpp:751
+#: ekos/capture/camera.cpp:770
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing %1-second %2 image..."
 msgstr "이미지 읽는 중..."
 
-#: ekos/capture/camera.cpp:822
+#: ekos/capture/camera.cpp:841
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:825
+#: ekos/capture/camera.cpp:844
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:860
+#: ekos/capture/camera.cpp:879
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
 msgstr[0] ""
 
-#: ekos/capture/camera.cpp:905
+#: ekos/capture/camera.cpp:924
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/camera.cpp:918
+#: ekos/capture/camera.cpp:937
 #, fuzzy, kde-format
 #| msgctxt "City in Massachusetts USA"
 #| msgid "Framingham"
 msgid "Framing..."
 msgstr "Framingham"
 
-#: ekos/capture/camera.cpp:929
+#: ekos/capture/camera.cpp:948
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Captured image received"
 msgstr "이미지 캡처"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:947 ekos/capture/camera.ui:2612
+#: ekos/capture/camera.cpp:966 ekos/capture/camera.ui:2612
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Expose (-/-):"
 msgstr "노출:"
 
-#: ekos/capture/camera.cpp:981
+#: ekos/capture/camera.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Stop Sequence"
 msgstr "주파수:"
 
-#: ekos/capture/camera.cpp:987
+#: ekos/capture/camera.cpp:1006
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "주파수:"
 
-#: ekos/capture/camera.cpp:1018
+#: ekos/capture/camera.cpp:1037
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting temperature to %1 °C..."
 msgstr "대상 CCD 칩 온도 설정."
 
-#: ekos/capture/camera.cpp:1019
+#: ekos/capture/camera.cpp:1038
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set Temp to %1 °C..."
 msgstr "대상 CCD 칩 온도 설정."
 
-#: ekos/capture/camera.cpp:1023
+#: ekos/capture/camera.cpp:1042
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Waiting for guide drift below %1\"..."
 msgstr "별 읽어오는 중"
 
-#: ekos/capture/camera.cpp:1024
+#: ekos/capture/camera.cpp:1043
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:1028
+#: ekos/capture/camera.cpp:1047
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "대상 CCD 칩 온도 설정."
 
-#: ekos/capture/camera.cpp:1029
+#: ekos/capture/camera.cpp:1048
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Camera to %1 deg..."
 msgstr "위치 설정..."
 
-#: ekos/capture/camera.cpp:1124
+#: ekos/capture/camera.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "관찰 목록"
 
-#: ekos/capture/camera.cpp:1157
+#: ekos/capture/camera.cpp:1176
 #, fuzzy, kde-format
 #| msgid "Select object from a list"
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "목록에서 천체 선택"
 
-#: ekos/capture/camera.cpp:1179
+#: ekos/capture/camera.cpp:1198
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:1236 ekos/capture/camera.cpp:2254
+#: ekos/capture/camera.cpp:1255 ekos/capture/camera.cpp:2273
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Dark Flat"
 msgstr "표식 파일 사용"
 
-#: ekos/capture/camera.cpp:1949 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:1968 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS 기본 폴더"
 
-#: ekos/capture/camera.cpp:2046
+#: ekos/capture/camera.cpp:2065
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/camera.cpp:2048
+#: ekos/capture/camera.cpp:2067
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "삭제 확인"
 
-#: ekos/capture/camera.cpp:2231
+#: ekos/capture/camera.cpp:2250
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:2237
+#: ekos/capture/camera.cpp:2256
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3414
+#: ekos/capture/camera.cpp:3433
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3419
+#: ekos/capture/camera.cpp:3438
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian Flip..."
 msgstr "FITS 자동 보이기(&A)"
 
-#: ekos/capture/camera.cpp:3420
+#: ekos/capture/camera.cpp:3439
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian flip started"
 msgstr "FITS 자동 보이기(&A)"
 
-#: ekos/capture/camera.cpp:3424
+#: ekos/capture/camera.cpp:3443
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "완료됨"
 
-#: ekos/capture/camera.cpp:3484
+#: ekos/capture/camera.cpp:3503
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3490
+#: ekos/capture/camera.cpp:3509
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14695,7 +14693,7 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3495
+#: ekos/capture/camera.cpp:3514
 #, fuzzy, kde-format
 #| msgctxt "City in New Jersey USA"
 #| msgid "Freehold"
@@ -14703,7 +14701,7 @@ msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Freehold"
 
-#: ekos/capture/camera.cpp:3501
+#: ekos/capture/camera.cpp:3520
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14711,79 +14709,79 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3514
+#: ekos/capture/camera.cpp:3533
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "대상 CCD 칩 온도 설정."
 
-#: ekos/capture/camera.cpp:3554
+#: ekos/capture/camera.cpp:3573
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "관찰자"
 
-#: ekos/capture/camera.cpp:3556
+#: ekos/capture/camera.cpp:3575
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Current Observer:"
 msgstr "관찰자"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3567 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3586 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"
 msgstr "관찰자"
 
-#: ekos/capture/camera.cpp:3739
+#: ekos/capture/camera.cpp:3758
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3739
+#: ekos/capture/camera.cpp:3758
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3769
+#: ekos/capture/camera.cpp:3788
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/capture/camera.cpp:3801
+#: ekos/capture/camera.cpp:3820
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "%1 링크를 제거하겠습니까?"
 
-#: ekos/capture/camera.cpp:3801 ekos/capture/cameraprocess.cpp:2666
+#: ekos/capture/camera.cpp:3820 ekos/capture/cameraprocess.cpp:2666
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
 msgstr "위치 초기화"
 
-#: ekos/capture/camera.cpp:3854
+#: ekos/capture/camera.cpp:3873
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "링크 편집..."
 
-#: ekos/capture/camera.cpp:3857 ekos/scheduler/scheduler.cpp:1231
+#: ekos/capture/camera.cpp:3876 ekos/scheduler/scheduler.cpp:1231
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3858
+#: ekos/capture/camera.cpp:3877
 #, fuzzy, kde-format
 #| msgid "Save Changes to FITS?"
 msgid "Cancel job changes."
 msgstr "변경 내용을 FITS로 저장할까요?"
 
-#: ekos/capture/camera.cpp:3871
+#: ekos/capture/camera.cpp:3890
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
@@ -14868,7 +14866,7 @@ msgstr "도시명:"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
 #: ekos/capture/camera.ui:419 ekos/capture/limits.ui:115
-#: ekos/capture/limits.ui:375 ekos/focus/focus.ui:726
+#: ekos/capture/limits.ui:375 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "캡처할 이미지 개수"
@@ -15497,7 +15495,7 @@ msgid "Start Sequence"
 msgstr "주파수:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
-#: ekos/capture/camera.ui:2408 ekos/focus/focus.ui:698
+#: ekos/capture/camera.ui:2408 ekos/focus/focus.ui:685
 #, fuzzy, kde-format
 #| msgid "Video port:"
 msgid "Live Video..."
@@ -15843,8 +15841,8 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2049 ekos/focus/focus.cpp:5406
-#: ekos/focus/focus.cpp:5430
+#: ekos/capture/cameraprocess.cpp:2049 ekos/focus/focus.cpp:5408
+#: ekos/focus/focus.cpp:5432
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
@@ -15855,7 +15853,7 @@ msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2074 ekos/focus/focus.cpp:5411
+#: ekos/capture/cameraprocess.cpp:2074 ekos/focus/focus.cpp:5413
 #: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
@@ -16143,20 +16141,21 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:409
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:319
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:410
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
 msgstr "추적 중지(&T)"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:410 ekos/observatory/observatory.ui:550
-#: kspopupmenu.cpp:645 skycomponents/imageoverlaycomponent.cpp:590
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
+#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
+#: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713
 #: skycomponents/satellitescomponent.cpp:143 tools/conjunctions.cpp:350
 #, fuzzy, kde-format
@@ -16184,12 +16183,12 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CaptureCountsWidget)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CapturePreviewWidget)
-#. i18n: ectx: property (windowTitle), widget (QWidget, FocusManager)
+#. i18n: ectx: property (windowTitle), widget (QWidget, FocusProgressWidget)
 #. i18n: ectx: property (windowTitle), widget (QWidget, GuideManager)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Manager)
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
-#: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
+#: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
 #: kstarsactions.cpp:1160 kstarsinit.cpp:474
 #, kde-format
 msgid "Ekos"
@@ -17758,14 +17757,14 @@ msgstr "Moline"
 msgid "Offline"
 msgstr "Moline"
 
-#: ekos/ekoslive/message.cpp:730
+#: ekos/ekoslive/message.cpp:741
 #, fuzzy, kde-format
 #| msgctxt "City in Nebraska USA"
 #| msgid "Sargent"
 msgid "target"
 msgstr "Sargent"
 
-#: ekos/ekoslive/message.cpp:963
+#: ekos/ekoslive/message.cpp:974
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -17889,7 +17888,7 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #. i18n: ectx: property (text), widget (QPushButton, startAbInsB)
-#: ekos/focus/aberrationinspector.ui:23 ekos/focus/focus.ui:921
+#: ekos/focus/aberrationinspector.ui:23 ekos/focus/focus.ui:908
 #, fuzzy, kde-format
 #| msgid "&Observation"
 msgid "Aberration Inspector"
@@ -17960,7 +17959,7 @@ msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
 #. i18n: ectx: property (text), widget (QPushButton, cfzB)
-#: ekos/focus/aberrationinspector.ui:108 ekos/focus/focus.ui:928
+#: ekos/focus/aberrationinspector.ui:108 ekos/focus/focus.ui:915
 #, kde-format
 msgid "CFZ"
 msgstr ""
@@ -18610,12 +18609,12 @@ msgstr "지정된 설정 파일 사용."
 msgid " nm"
 msgstr "mm"
 
-#: ekos/focus/focus.cpp:118
+#: ekos/focus/focus.cpp:119
 #, kde-format
 msgid "Idle."
 msgstr ""
 
-#: ekos/focus/focus.cpp:140
+#: ekos/focus/focus.cpp:141
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Focus Options Profile Editor"
@@ -18625,7 +18624,7 @@ msgstr "썸네일 편집기"
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, analyzeGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
-#: ekos/focus/focus.cpp:197 ekos/guide/opscalibration.ui:34
+#: ekos/focus/focus.cpp:200 ekos/guide/opscalibration.ui:34
 #: ekos/guide/opsgpg.ui:103 ekos/opsekos.ui:886 options/opsimageoverlay.ui:38
 #, fuzzy, kde-format
 #| msgid "&Settings"
@@ -18633,26 +18632,26 @@ msgid "Settings"
 msgstr "설정(&S)"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
-#: ekos/focus/focus.cpp:197 ekos/focus/opsfocussettings.ui:14
+#: ekos/focus/focus.cpp:200 ekos/focus/opsfocussettings.ui:14
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Focus Settings"
 msgstr "설정(&S)"
 
-#: ekos/focus/focus.cpp:201
+#: ekos/focus/focus.cpp:204
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Process"
 msgstr "일괄작업 모드"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
-#: ekos/focus/focus.cpp:201 ekos/focus/opsfocusprocess.ui:14
+#: ekos/focus/focus.cpp:204 ekos/focus/opsfocusprocess.ui:14
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "Focus Process"
 msgstr "호 파일"
 
-#: ekos/focus/focus.cpp:205
+#: ekos/focus/focus.cpp:208
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Buchans"
@@ -18660,54 +18659,54 @@ msgid "Mechanics"
 msgstr "Buchans"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
-#: ekos/focus/focus.cpp:205 ekos/focus/opsfocusmechanics.ui:14
+#: ekos/focus/focus.cpp:208 ekos/focus/opsfocusmechanics.ui:14
 #, fuzzy, kde-format
 #| msgctxt "City in Newfoundland Canada"
 #| msgid "Buchans"
 msgid "Focus Mechanics"
 msgstr "Buchans"
 
-#: ekos/focus/focus.cpp:930
+#: ekos/focus/focus.cpp:932
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Finally found temperature source %1"
 msgstr "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:1022
+#: ekos/focus/focus.cpp:1024
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No Focuser connected."
 msgstr "INDI 기기 연결 포트 설정."
 
-#: ekos/focus/focus.cpp:1029 ekos/focus/focus.cpp:4460
+#: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4462
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "No CCD connected."
 msgstr "INDI 기기 연결 포트 설정."
 
-#: ekos/focus/focus.cpp:1036
+#: ekos/focus/focus.cpp:1038
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1047
+#: ekos/focus/focus.cpp:1049
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1054
+#: ekos/focus/focus.cpp:1056
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1062
+#: ekos/focus/focus.cpp:1064
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1069 ekos/focus/focus.cpp:4791
-#: ekos/focus/focus.cpp:5035
+#: ekos/focus/focus.cpp:1071 ekos/focus/focus.cpp:4793
+#: ekos/focus/focus.cpp:5037
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Adjust Focus"
@@ -18715,518 +18714,583 @@ msgstr "별"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1069 ekos/focus/focus.cpp:4793
-#: ekos/focus/focus.cpp:5035 ekos/focus/opsfocussettings.ui:445
+#: ekos/focus/focus.cpp:1071 ekos/focus/focus.cpp:4795
+#: ekos/focus/focus.cpp:5037 ekos/focus/opsfocussettings.ui:445
 #: ekos/focus/opsfocussettings.ui:525
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Adaptive Focus"
 msgstr "별"
 
-#: ekos/focus/focus.cpp:1072
+#: ekos/focus/focus.cpp:1074
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1080
+#: ekos/focus/focus.cpp:1082
 #, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1242
+#: ekos/focus/focus.cpp:1244
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1244
+#: ekos/focus/focus.cpp:1246
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1258
+#: ekos/focus/focus.cpp:1260
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation started"
 msgstr "입력 좌표 선택"
 
-#: ekos/focus/focus.cpp:1377
+#: ekos/focus/focus.cpp:1379
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Capture in progress, retrying in 1s..."
 msgstr "별 읽어오는 중"
 
-#: ekos/focus/focus.cpp:1389
+#: ekos/focus/focus.cpp:1391
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "별 읽어오는 중"
 
-#: ekos/focus/focus.cpp:1433
+#: ekos/focus/focus.cpp:1435
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus aborted."
 msgstr "완료됨"
 
-#: ekos/focus/focus.cpp:1536
+#: ekos/focus/focus.cpp:1538
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1543
+#: ekos/focus/focus.cpp:1545
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Camera."
 msgstr "연결"
 
-#: ekos/focus/focus.cpp:1564
+#: ekos/focus/focus.cpp:1566
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1570
+#: ekos/focus/focus.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "연결"
 
-#: ekos/focus/focus.cpp:1688
+#: ekos/focus/focus.cpp:1690
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "At minimum focus position %1..."
 msgstr "초점 위치의 적경"
 
-#: ekos/focus/focus.cpp:1699
+#: ekos/focus/focus.cpp:1701
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Moving to minimum focus position %1..."
 msgstr "이미지 읽는 중..."
 
-#: ekos/focus/focus.cpp:1708
+#: ekos/focus/focus.cpp:1710
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "At maximum focus position %1..."
 msgstr "초점 위치의 적경"
 
-#: ekos/focus/focus.cpp:1719
+#: ekos/focus/focus.cpp:1721
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "Moving to maximum focus position %1..."
 msgstr "초점 위치의 적경"
 
-#: ekos/focus/focus.cpp:1746
+#: ekos/focus/focus.cpp:1748
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1753
+#: ekos/focus/focus.cpp:1755
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to Focuser."
 msgstr "연결"
 
-#: ekos/focus/focus.cpp:1767
+#: ekos/focus/focus.cpp:1769
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "outward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1767
+#: ekos/focus/focus.cpp:1769
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "inward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1784
+#: ekos/focus/focus.cpp:1786
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focusing %2 by %1 steps..."
 msgstr "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:1790
+#: ekos/focus/focus.cpp:1792
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:1796
+#: ekos/focus/focus.cpp:1798
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focusing %2 by %1 ms..."
 msgstr "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:1831
+#: ekos/focus/focus.cpp:1833
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Focuser is still timing out. Aborting..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/focus/focus.cpp:1838
+#: ekos/focus/focus.cpp:1840
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:1849
+#: ekos/focus/focus.cpp:1851
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:1895
+#: ekos/focus/focus.cpp:1897
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1904
+#: ekos/focus/focus.cpp:1906
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "이미지 캡처"
 
-#: ekos/focus/focus.cpp:1962
+#: ekos/focus/focus.cpp:1964
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "완료됨"
 
-#: ekos/focus/focus.cpp:2153
+#: ekos/focus/focus.cpp:2155
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Detecting sources..."
 msgstr "새 자료 다운로드..."
 
-#: ekos/focus/focus.cpp:2258
+#: ekos/focus/focus.cpp:2260
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation completed successfully"
 msgstr "입력 좌표 선택"
 
-#: ekos/focus/focus.cpp:2272
+#: ekos/focus/focus.cpp:2274
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Autofocus operation failed"
 msgstr "입력 좌표 선택"
 
-#: ekos/focus/focus.cpp:2341
+#: ekos/focus/focus.cpp:2343
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "완료됨"
 
-#: ekos/focus/focus.cpp:2427
+#: ekos/focus/focus.cpp:2429
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling for %1s..."
 msgstr "설정(&S)"
 
-#: ekos/focus/focus.cpp:2435
+#: ekos/focus/focus.cpp:2437
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "완료됨"
 
-#: ekos/focus/focus.cpp:2448
+#: ekos/focus/focus.cpp:2450
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2485
+#: ekos/focus/focus.cpp:2487
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2770
+#: ekos/focus/focus.cpp:2772
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2864
+#: ekos/focus/focus.cpp:2866
 #, fuzzy, kde-format
 #| msgid "Toggle coordinate grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "좌표 격자 보이기 토글"
 
-#: ekos/focus/focus.cpp:2895
+#: ekos/focus/focus.cpp:2897
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2915
+#: ekos/focus/focus.cpp:2917
 #, fuzzy, kde-format
 #| msgid "Run : %1"
 msgid "HFR %1 > Limit %2"
 msgstr "실행: %1"
 
-#: ekos/focus/focus.cpp:3031
+#: ekos/focus/focus.cpp:3033
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "완료됨"
 
-#: ekos/focus/focus.cpp:3042 ekos/focus/focus.cpp:3304
-#: ekos/focus/focus.cpp:3900
+#: ekos/focus/focus.cpp:3044 ekos/focus/focus.cpp:3306
+#: ekos/focus/focus.cpp:3902
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3048 ekos/focus/focus.cpp:3906
+#: ekos/focus/focus.cpp:3050 ekos/focus/focus.cpp:3908
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "이미지 읽어오기 실패"
 
-#: ekos/focus/focus.cpp:3054 ekos/focus/focus.cpp:3912
+#: ekos/focus/focus.cpp:3056 ekos/focus/focus.cpp:3914
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3241
+#: ekos/focus/focus.cpp:3243
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3261
+#: ekos/focus/focus.cpp:3263
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3287
+#: ekos/focus/focus.cpp:3289
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Starting scan for initial focuser position."
 msgstr "이미지 읽는 중..."
 
-#: ekos/focus/focus.cpp:3288
+#: ekos/focus/focus.cpp:3290
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Scanning for starting position..."
 msgstr "%1 파일을 열 수 없습니다."
 
-#: ekos/focus/focus.cpp:3310
+#: ekos/focus/focus.cpp:3312
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to detect any stars. Aborting..."
 msgstr "이미지 읽어오기 실패"
 
-#: ekos/focus/focus.cpp:3319
+#: ekos/focus/focus.cpp:3321
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "완료됨"
 
-#: ekos/focus/focus.cpp:3337
+#: ekos/focus/focus.cpp:3339
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3351
+#: ekos/focus/focus.cpp:3353
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3364
+#: ekos/focus/focus.cpp:3366
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3365
+#: ekos/focus/focus.cpp:3367
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3434
+#: ekos/focus/focus.cpp:3436
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3436
+#: ekos/focus/focus.cpp:3438
 #, fuzzy, kde-format
 #| msgid "Run : %1"
 msgid "R2=%1 < Limit=%2"
 msgstr "실행: %1"
 
-#: ekos/focus/focus.cpp:3444
+#: ekos/focus/focus.cpp:3446
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3454
+#: ekos/focus/focus.cpp:3456
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3489
+#: ekos/focus/focus.cpp:3491
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3491
+#: ekos/focus/focus.cpp:3493
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3552
+#: ekos/focus/focus.cpp:3554
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3559
+#: ekos/focus/focus.cpp:3561
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3664
+#: ekos/focus/focus.cpp:3666
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3728
+#: ekos/focus/focus.cpp:3730
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3739
+#: ekos/focus/focus.cpp:3741
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3749
+#: ekos/focus/focus.cpp:3751
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3778
+#: ekos/focus/focus.cpp:3780
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3885
+#: ekos/focus/focus.cpp:3887
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3889
+#: ekos/focus/focus.cpp:3891
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3984 ekos/focus/focus.cpp:4007
-#: ekos/focus/focus.cpp:4174 ekos/focus/focus.cpp:4257
-#: ekos/focus/focus.cpp:4329 ekos/focus/focus.cpp:4404
+#: ekos/focus/focus.cpp:3986 ekos/focus/focus.cpp:4009
+#: ekos/focus/focus.cpp:4176 ekos/focus/focus.cpp:4259
+#: ekos/focus/focus.cpp:4331 ekos/focus/focus.cpp:4406
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4068 ekos/focus/focus.cpp:4190
+#: ekos/focus/focus.cpp:4070 ekos/focus/focus.cpp:4192
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Simulate focuser comms failure..."
 msgstr "완료됨"
 
-#: ekos/focus/focus.cpp:4151 ekos/focus/focus.cpp:4238
-#: ekos/focus/focus.cpp:4310 ekos/focus/focus.cpp:4351
+#: ekos/focus/focus.cpp:4153 ekos/focus/focus.cpp:4240
+#: ekos/focus/focus.cpp:4312 ekos/focus/focus.cpp:4353
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Restarting autofocus process..."
 msgstr "시작:"
 
-#: ekos/focus/focus.cpp:4476
+#: ekos/focus/focus.cpp:4478
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Starting continuous exposure..."
 msgstr "시작:"
 
-#: ekos/focus/focus.cpp:4765
+#: ekos/focus/focus.cpp:4767
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4770
+#: ekos/focus/focus.cpp:4772
 #, fuzzy, kde-format
 #| msgid "No object selected."
 msgid "Focus star is selected."
 msgstr "선택된 천체 없음."
 
-#: ekos/focus/focus.cpp:4789
+#: ekos/focus/focus.cpp:4791
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Autofocus"
 msgstr "별"
 
-#: ekos/focus/focus.cpp:4797
+#: ekos/focus/focus.cpp:4799
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4805
+#: ekos/focus/focus.cpp:4807
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4942
+#: ekos/focus/focus.cpp:4944
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4948
+#: ekos/focus/focus.cpp:4950
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4959
+#: ekos/focus/focus.cpp:4961
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focuser already at %1..."
 msgstr "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:5038
+#: ekos/focus/focus.cpp:5040
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5072
+#: ekos/focus/focus.cpp:5074
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "일괄작업 모드"
 
-#: ekos/focus/focus.cpp:5454
+#: ekos/focus/focus.cpp:5456
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save image. Aborting..."
 msgstr "이미지 읽어오기 실패"
 
-#: ekos/focus/focus.cpp:5469 ekos/focus/focus.cpp:5494
+#: ekos/focus/focus.cpp:5471 ekos/focus/focus.cpp:5496
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/focus/focus.cpp:5786
+#: ekos/focus/focus.cpp:5788
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "궤적 삭제"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
+#: ekos/focus/focus.ui:170
+#, fuzzy, kde-format
+#| msgid "Starting on:"
+msgid "Stop Auto Focus process"
+msgstr "시작:"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
+#: ekos/focus/focus.ui:189
+#, fuzzy, kde-format
+#| msgid "Capture Image"
+msgid "Capture image"
+msgstr "이미지 캡처"
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ekos/focus/focus.ui:209 ekos/scheduler/framingassistant.ui:1281
+#: ekos/scheduler/scheduler.ui:193
+#, kde-format
+msgid "Steps:"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
-#: ekos/focus/focus.ui:164
+#: ekos/focus/focus.ui:228
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Start framing"
 msgstr "시작:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_22)
+#: ekos/focus/focus.ui:248
+#, fuzzy, kde-format
+#| msgid "&Start"
+msgid "Start:"
+msgstr "시작(&S)"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
+#: ekos/focus/focus.ui:273
+#, fuzzy, kde-format
+#| msgid "Starting on:"
+msgid "Start Auto Focus process"
+msgstr "시작:"
+
+#. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
+#: ekos/focus/focus.ui:303
+#, fuzzy, kde-format
+#| msgid "Declination of focus position"
+msgid "Current absolute focuser position"
+msgstr "초점 위치의 적위"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
+#: ekos/focus/focus.ui:331
+#, fuzzy, kde-format
+#| msgid "Declination of focus position"
+msgid "Desired absolute focus position"
+msgstr "초점 위치의 적위"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, startGotoB)
+#: ekos/focus/focus.ui:347
+#, fuzzy, kde-format
+#| msgid "Right Ascension of focus position"
+msgid "Go to an absolute focus position"
+msgstr "초점 위치의 적경"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, stopGotoB)
+#: ekos/focus/focus.ui:376
+#, fuzzy, kde-format
+#| msgid "Declination of focus position"
+msgid "Stop focuser motion"
+msgstr "초점 위치의 적위"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
-#: ekos/focus/focus.ui:193
+#: ekos/focus/focus.ui:407
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -19234,66 +19298,8 @@ msgid ""
 "body></html>"
 msgstr "지정된 설정 파일 사용."
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
-#: ekos/focus/focus.ui:225
-#, fuzzy, kde-format
-#| msgid "Capture Image"
-msgid "Capture image"
-msgstr "이미지 캡처"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, stopGotoB)
-#: ekos/focus/focus.ui:254
-#, fuzzy, kde-format
-#| msgid "Declination of focus position"
-msgid "Stop focuser motion"
-msgstr "초점 위치의 적위"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
-#: ekos/focus/focus.ui:289
-#, fuzzy, kde-format
-#| msgid "Starting on:"
-msgid "Start Auto Focus process"
-msgstr "시작:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_16)
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/focus/focus.ui:305 ekos/scheduler/framingassistant.ui:1281
-#: ekos/scheduler/scheduler.ui:193
-#, kde-format
-msgid "Steps:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, startGotoB)
-#: ekos/focus/focus.ui:324
-#, fuzzy, kde-format
-#| msgid "Right Ascension of focus position"
-msgid "Go to an absolute focus position"
-msgstr "초점 위치의 적경"
-
-#. i18n: ectx: property (text), widget (QLabel, label_22)
-#: ekos/focus/focus.ui:357
-#, fuzzy, kde-format
-#| msgid "&Start"
-msgid "Start:"
-msgstr "시작(&S)"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
-#: ekos/focus/focus.ui:382
-#, fuzzy, kde-format
-#| msgid "Starting on:"
-msgid "Stop Auto Focus process"
-msgstr "시작:"
-
-#. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
-#: ekos/focus/focus.ui:401
-#, fuzzy, kde-format
-#| msgid "Declination of focus position"
-msgid "Current absolute focuser position"
-msgstr "초점 위치의 적위"
-
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
-#: ekos/focus/focus.ui:423
+#: ekos/focus/focus.ui:439
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -19301,15 +19307,8 @@ msgid ""
 "body></html>"
 msgstr "지정된 설정 파일 사용."
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
-#: ekos/focus/focus.ui:468
-#, fuzzy, kde-format
-#| msgid "Declination of focus position"
-msgid "Desired absolute focus position"
-msgstr "초점 위치의 적위"
-
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
-#: ekos/focus/focus.ui:484
+#: ekos/focus/focus.ui:471
 #, fuzzy, kde-format
 #| msgid "Filter Wheel"
 msgid "Camera && Filter Wheel"
@@ -19318,35 +19317,35 @@ msgstr "필터 휠"
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, focusExposureLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:523 ekos/focus/focus.ui:548 ekos/guide/guide.ui:372
+#: ekos/focus/focus.ui:510 ekos/focus/focus.ui:535 ekos/guide/guide.ui:372
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure time in seconds"
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
-#: ekos/focus/focus.ui:567
+#: ekos/focus/focus.ui:554
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Select focuser temperature source"
 msgstr "기본 FITS 폴더:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
-#: ekos/focus/focus.ui:605
+#: ekos/focus/focus.ui:592
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Filter Settings..."
 msgstr "현재 색상 설정"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:627
+#: ekos/focus/focus.ui:614
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focuser temperature source"
 msgstr "일괄작업 모드"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:630
+#: ekos/focus/focus.ui:617
 #, fuzzy, kde-format
 #| msgctxt "Map projection method"
 #| msgid "TSC"
@@ -19355,14 +19354,14 @@ msgstr "TSC"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_30)
 #. i18n: ectx: property (toolTip), widget (QLabel, absoluteTemperatureLabel)
-#: ekos/focus/focus.ui:792 ekos/focus/focus.ui:808
+#: ekos/focus/focus.ui:779 ekos/focus/focus.ui:795
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Source temperature in Celsius"
 msgstr "일괄작업 모드"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: ekos/focus/focus.ui:795
+#: ekos/focus/focus.ui:782
 #, fuzzy, kde-format
 #| msgid "Temp:"
 msgid "Temp. ="
@@ -19370,7 +19369,7 @@ msgstr "온도:"
 
 #. i18n: ectx: property (text), widget (QLabel, absoluteTemperatureLabel)
 #. i18n: ectx: property (text), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:814 ekos/focus/focus.ui:849
+#: ekos/focus/focus.ui:801 ekos/focus/focus.ui:836
 #, fuzzy, kde-format
 #| msgctxt "Not Applicable"
 #| msgid "N/A"
@@ -19379,7 +19378,7 @@ msgstr "없음"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_31)
 #. i18n: ectx: property (toolTip), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:824 ekos/focus/focus.ui:843
+#: ekos/focus/focus.ui:811 ekos/focus/focus.ui:830
 #, kde-format
 msgid ""
 "Delta temperature in Celsius. It is the difference between the last recorded "
@@ -19387,26 +19386,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: ekos/focus/focus.ui:827
+#: ekos/focus/focus.ui:814
 #, kde-format
 msgid "ΔT ="
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: ekos/focus/focus.ui:880
+#: ekos/focus/focus.ui:867
 #, kde-format
 msgid "Reset focus subframe to full capture"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, toolsGroup)
-#: ekos/focus/focus.ui:903
+#: ekos/focus/focus.ui:890
 #, fuzzy, kde-format
 #| msgid "&Tools"
 msgid "Tools"
 msgstr "도구(&T)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAbInsB)
-#: ekos/focus/focus.ui:918
+#: ekos/focus/focus.ui:905
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -19416,13 +19415,13 @@ msgid ""
 msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QPushButton, advisorB)
-#: ekos/focus/focus.ui:935
+#: ekos/focus/focus.ui:922
 #, kde-format
 msgid "Advisor"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, forceInSeqAF)
-#: ekos/focus/focus.ui:942
+#: ekos/focus/focus.ui:929
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -19431,26 +19430,26 @@ msgid ""
 msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QCheckBox, forceInSeqAF)
-#: ekos/focus/focus.ui:945
+#: ekos/focus/focus.ui:932
 #, kde-format
 msgid "Force AF"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ekos/focus/focus.ui:1011
+#: ekos/focus/focus.ui:998
 #, kde-format
 msgid "V-Curve"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/focus/focus.ui:1053 ekos/manager/focusmanager.ui:165
+#: ekos/focus/focus.ui:1040 ekos/manager/focusprogresswidget.ui:165
 #, kde-format
 msgid "HFR:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
-#: ekos/focus/focus.ui:1072
+#: ekos/focus/focus.ui:1059
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -19459,13 +19458,13 @@ msgid ""
 msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
-#: ekos/focus/focus.ui:1104
+#: ekos/focus/focus.ui:1091
 #, kde-format
 msgid "  FWHM:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
-#: ekos/focus/focus.ui:1117
+#: ekos/focus/focus.ui:1104
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -19474,14 +19473,14 @@ msgid ""
 msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/focus/focus.ui:1130
+#: ekos/focus/focus.ui:1117
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "  Stars:"
 msgstr "별"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
-#: ekos/focus/focus.ui:1143
+#: ekos/focus/focus.ui:1130
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid ""
@@ -19490,20 +19489,20 @@ msgid ""
 msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: ekos/focus/focus.ui:1169
+#: ekos/focus/focus.ui:1156
 #, kde-format
 msgid "  Iter:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
-#: ekos/focus/focus.ui:1182
+#: ekos/focus/focus.ui:1169
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid "<html><body><p>Focuser iteration.</p></body></html>"
 msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
-#: ekos/focus/focus.ui:1217
+#: ekos/focus/focus.ui:1204
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "Profile..."
@@ -19513,7 +19512,7 @@ msgstr "호 파일"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1224 ekos/manager.ui:957 fitsviewer/fitstab.cpp:178
+#: ekos/focus/focus.ui:1211 ekos/manager.ui:957 fitsviewer/fitstab.cpp:178
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -19983,6 +19982,13 @@ msgctxt ""
 msgid ""
 "<table><tr><td>MIN:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
+msgstr ""
+
+#: ekos/focus/focusmodule.cpp:28
+#, kde-format
+msgid ""
+"<p>Add additional focuser</p><p><b>WARNING</b>: This feature is experimental!"
+"</p>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
@@ -23624,62 +23630,62 @@ msgstr "지정된 설정 파일 사용."
 msgid "Robotic (Experimental)"
 msgstr ""
 
-#: ekos/manager.cpp:229
+#: ekos/manager.cpp:230
 #, fuzzy, kde-format
 #| msgid "Select Filenames"
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "파일명 선택"
 
-#: ekos/manager.cpp:239
+#: ekos/manager.cpp:240
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr ""
 
-#: ekos/manager.cpp:259
+#: ekos/manager.cpp:260
 #, fuzzy, kde-format
 #| msgid "Loading comets"
 msgid "Logging"
 msgstr "혜성 읽어오는 중"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:370 ekos/opsekos.ui:865
+#: ekos/manager.cpp:371 ekos/opsekos.ui:865
 #, kde-format
 msgid "Analyze"
 msgstr ""
 
-#: ekos/manager.cpp:634
+#: ekos/manager.cpp:635
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "일괄작업 모드"
 
-#: ekos/manager.cpp:840 ekos/manager.cpp:866
+#: ekos/manager.cpp:841 ekos/manager.cpp:867
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr ""
 
-#: ekos/manager.cpp:930
+#: ekos/manager.cpp:931
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
 
-#: ekos/manager.cpp:931
+#: ekos/manager.cpp:932
 #, fuzzy, kde-format
 #| msgid "Camera"
 msgid "PTP Camera"
 msgstr "카메라"
 
-#: ekos/manager.cpp:946
+#: ekos/manager.cpp:947
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "Starting INDI services..."
 msgstr "INDI 기기를 연결하거나 연결을 끊습니다."
 
-#: ekos/manager.cpp:977
+#: ekos/manager.cpp:978
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23687,89 +23693,89 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:979 indi/opsindi.ui:284
+#: ekos/manager.cpp:980 indi/opsindi.ui:284
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "INDI Server"
 msgstr "INDI 서버:"
 
-#: ekos/manager.cpp:994
+#: ekos/manager.cpp:995
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "INDI 기기를 연결하거나 연결을 끊습니다."
 
-#: ekos/manager.cpp:1014
+#: ekos/manager.cpp:1015
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "INDI 서버 시작할 수 없음: 포트 오류."
 
-#: ekos/manager.cpp:1018
+#: ekos/manager.cpp:1019
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1031
+#: ekos/manager.cpp:1032
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "INDI 서버 시작할 수 없음: 포트 오류."
 
-#: ekos/manager.cpp:1051
+#: ekos/manager.cpp:1052
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr ""
 
-#: ekos/manager.cpp:1074
+#: ekos/manager.cpp:1075
 #, fuzzy, kde-format
 #| msgid "INDI Server Final Port"
 msgid "INDI services started on port %1."
 msgstr "INDI 서버 마지막 포트"
 
-#: ekos/manager.cpp:1077
+#: ekos/manager.cpp:1078
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1082
+#: ekos/manager.cpp:1083
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1092
+#: ekos/manager.cpp:1093
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "INDI 서버 시작할 수 없음: 포트 오류."
 
-#: ekos/manager.cpp:1094
+#: ekos/manager.cpp:1095
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "INDI 서버 시작할 수 없음: 포트 오류."
 
-#: ekos/manager.cpp:1107
+#: ekos/manager.cpp:1108
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "연결"
 
-#: ekos/manager.cpp:1109
+#: ekos/manager.cpp:1110
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "INDI 서버 시작할 수 없음: 포트 오류."
 
-#: ekos/manager.cpp:1186
+#: ekos/manager.cpp:1187
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1188
+#: ekos/manager.cpp:1189
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -23777,7 +23783,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1216
+#: ekos/manager.cpp:1217
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -23785,14 +23791,14 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1220 ekos/manager.cpp:1228 ekos/manager.cpp:1258
-#: ekos/manager.cpp:1266
+#: ekos/manager.cpp:1221 ekos/manager.cpp:1229 ekos/manager.cpp:1259
+#: ekos/manager.cpp:1267
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Ekos startup error"
 msgstr "별 읽어오는 중"
 
-#: ekos/manager.cpp:1224
+#: ekos/manager.cpp:1225
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -23800,7 +23806,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1254
+#: ekos/manager.cpp:1255
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -23808,7 +23814,7 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1262
+#: ekos/manager.cpp:1263
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -23816,151 +23822,151 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1317
+#: ekos/manager.cpp:1318
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "Connecting INDI devices..."
 msgstr "INDI 기기를 연결하거나 연결을 끊습니다."
 
-#: ekos/manager.cpp:1328
+#: ekos/manager.cpp:1329
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "Disconnecting INDI devices..."
 msgstr "INDI 기기를 연결하거나 연결을 끊습니다."
 
-#: ekos/manager.cpp:1367
+#: ekos/manager.cpp:1368
 #, kde-format
 msgid "INDI services stopped."
 msgstr ""
 
-#: ekos/manager.cpp:1440
+#: ekos/manager.cpp:1441
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Remote devices established."
 msgstr "서버"
 
-#: ekos/manager.cpp:1442
+#: ekos/manager.cpp:1443
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1503
+#: ekos/manager.cpp:1504
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1510
+#: ekos/manager.cpp:1511
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "%1 is disconnected."
 msgstr "연결 끊기"
 
-#: ekos/manager.cpp:1529 ekos/manager.cpp:1538 ekos/manager.cpp:1571
+#: ekos/manager.cpp:1530 ekos/manager.cpp:1539 ekos/manager.cpp:1572
 #: indi/indistd.cpp:706
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 은 온라인"
 
-#: ekos/manager.cpp:1546
+#: ekos/manager.cpp:1547
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 filter is online."
 msgstr "%1 은 온라인"
 
-#: ekos/manager.cpp:1555
+#: ekos/manager.cpp:1556
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 focuser is online."
 msgstr "%1 은 온라인"
 
-#: ekos/manager.cpp:1562
+#: ekos/manager.cpp:1563
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Rotator %1 is online."
 msgstr "%1 은 온라인"
 
-#: ekos/manager.cpp:1578
+#: ekos/manager.cpp:1579
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Weather is online."
 msgstr "%1 은 온라인"
 
-#: ekos/manager.cpp:1585
+#: ekos/manager.cpp:1586
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 GPS is online."
 msgstr "%1 은 온라인"
 
-#: ekos/manager.cpp:1594
+#: ekos/manager.cpp:1595
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Dust cap is online."
 msgstr "%1 은 온라인"
 
-#: ekos/manager.cpp:1601
+#: ekos/manager.cpp:1602
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Light box is online."
 msgstr "%1 은 온라인"
 
-#: ekos/manager.cpp:1751
+#: ekos/manager.cpp:1752
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 is offline."
 msgstr "%1 은 온라인"
 
-#: ekos/manager.cpp:1990
+#: ekos/manager.cpp:1991
 #, fuzzy, kde-format
 #| msgid "CCD B"
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD B"
 
-#: ekos/manager.cpp:2353
+#: ekos/manager.cpp:2364
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2542
+#: ekos/manager.cpp:2553
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "%1 클라이언트를 제거하겠습니까?"
 
-#: ekos/manager.cpp:2543
+#: ekos/manager.cpp:2554
 #, fuzzy, kde-format
 #| msgid "Config file"
 msgid "Confirm Delete"
 msgstr "설정 파일"
 
-#: ekos/manager.cpp:2595
+#: ekos/manager.cpp:2606
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2597
+#: ekos/manager.cpp:2608
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2855
+#: ekos/manager.cpp:2866
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2863
+#: ekos/manager.cpp:2874
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2891
+#: ekos/manager.cpp:2902
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2903
+#: ekos/manager.cpp:2914
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -24104,7 +24110,7 @@ msgid "Options..."
 msgstr "설정"
 
 #. i18n: ectx: property (toolTip), widget (FocusProfilePlot, profilePlot)
-#: ekos/manager/focusmanager.ui:275
+#: ekos/manager/focusprogresswidget.ui:275
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "Focus HFR profile"
@@ -24112,7 +24118,8 @@ msgstr "호 파일"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusStarView)
 #. i18n: ectx: property (text), widget (QLabel, focusStarView)
-#: ekos/manager/focusmanager.ui:293 ekos/manager/focusmanager.ui:300
+#: ekos/manager/focusprogresswidget.ui:293
+#: ekos/manager/focusprogresswidget.ui:300
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focus star"
@@ -24356,7 +24363,7 @@ msgstr "Caliente"
 msgid "Failed to clear Alignment Model."
 msgstr "일괄작업 모드"
 
-#: ekos/mount/mount.cpp:1273 ekos/scheduler/schedulerprocess.cpp:4037
+#: ekos/mount/mount.cpp:1273 ekos/scheduler/schedulerprocess.cpp:4040
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
@@ -28766,344 +28773,344 @@ msgstr "별 읽어오는 중"
 msgid "Starting guiding procedure for %1 ..."
 msgstr "시작:"
 
-#: ekos/scheduler/schedulerprocess.cpp:1086
+#: ekos/scheduler/schedulerprocess.cpp:1083
 #, kde-format
 msgid "Ekos job (%1) - Capture started"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1089
+#: ekos/scheduler/schedulerprocess.cpp:1086
 #, kde-format
 msgid "Job '%1' capture is in progress (batch #%2)..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1092
+#: ekos/scheduler/schedulerprocess.cpp:1089
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Job '%1' capture is in progress..."
 msgstr "전파망원경"
 
-#: ekos/scheduler/schedulerprocess.cpp:1198
+#: ekos/scheduler/schedulerprocess.cpp:1195
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing script %1..."
 msgstr "스크립트 실행 중: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1243
+#: ekos/scheduler/schedulerprocess.cpp:1240
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Ekos started."
 msgstr "별 읽어오는 중"
 
-#: ekos/scheduler/schedulerprocess.cpp:1252
+#: ekos/scheduler/schedulerprocess.cpp:1249
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Starting Ekos failed. Retrying..."
 msgstr "%1 파일을 열 수 없습니다."
 
-#: ekos/scheduler/schedulerprocess.cpp:1257
+#: ekos/scheduler/schedulerprocess.cpp:1254
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Starting Ekos failed."
 msgstr "기타"
 
-#: ekos/scheduler/schedulerprocess.cpp:1268
+#: ekos/scheduler/schedulerprocess.cpp:1265
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Starting Ekos timed out. Retrying..."
 msgstr "%1 파일을 열 수 없습니다."
 
-#: ekos/scheduler/schedulerprocess.cpp:1278
+#: ekos/scheduler/schedulerprocess.cpp:1275
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Starting Ekos timed out."
 msgstr "별 읽어오는 중"
 
-#: ekos/scheduler/schedulerprocess.cpp:1289
+#: ekos/scheduler/schedulerprocess.cpp:1286
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Ekos stopped."
 msgstr "별 읽어오는 중"
 
-#: ekos/scheduler/schedulerprocess.cpp:1332
+#: ekos/scheduler/schedulerprocess.cpp:1329
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "INDI devices connected."
 msgstr "INDI 기기 연결 포트 설정."
 
-#: ekos/scheduler/schedulerprocess.cpp:1339
+#: ekos/scheduler/schedulerprocess.cpp:1336
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1344
+#: ekos/scheduler/schedulerprocess.cpp:1341
 #, kde-format
 msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
 "details."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1353
+#: ekos/scheduler/schedulerprocess.cpp:1350
 #, kde-format
 msgid "One or more INDI devices timed out. Retrying..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1359
+#: ekos/scheduler/schedulerprocess.cpp:1356
 #, kde-format
 msgid ""
 "One or more INDI devices timed out. Check INDI control panel for details."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1370
+#: ekos/scheduler/schedulerprocess.cpp:1367
 #, fuzzy, kde-format
 #| msgid "Set INDI's device connection port."
 msgid "INDI devices disconnected."
 msgstr "INDI 기기 연결 포트 설정."
 
-#: ekos/scheduler/schedulerprocess.cpp:1386
+#: ekos/scheduler/schedulerprocess.cpp:1383
 #, kde-format
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1391
+#: ekos/scheduler/schedulerprocess.cpp:1388
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1401
+#: ekos/scheduler/schedulerprocess.cpp:1398
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1416
+#: ekos/scheduler/schedulerprocess.cpp:1413
 #, kde-format
 msgid "Warning: cap device not ready after timeout, attempting to recover..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1478
+#: ekos/scheduler/schedulerprocess.cpp:1475
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Shutdown complete."
 msgstr "완료됨"
 
-#: ekos/scheduler/schedulerprocess.cpp:1480
+#: ekos/scheduler/schedulerprocess.cpp:1477
 #, kde-format
 msgid "Shutdown procedure failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1584
+#: ekos/scheduler/schedulerprocess.cpp:1581
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Cap parked."
 msgstr "Dome Creek"
 
-#: ekos/scheduler/schedulerprocess.cpp:1594
+#: ekos/scheduler/schedulerprocess.cpp:1591
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Cap unparked."
 msgstr "Mount Ekar"
 
-#: ekos/scheduler/schedulerprocess.cpp:1606
-#: ekos/scheduler/schedulerprocess.cpp:1835
+#: ekos/scheduler/schedulerprocess.cpp:1603
+#: ekos/scheduler/schedulerprocess.cpp:1832
 #, kde-format
 msgid "Operation timeout. Restarting operation..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1619
+#: ekos/scheduler/schedulerprocess.cpp:1616
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Cap parking error."
 msgstr "Dome Creek"
 
-#: ekos/scheduler/schedulerprocess.cpp:1624
+#: ekos/scheduler/schedulerprocess.cpp:1621
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Cap unparking error."
 msgstr "Mount Ekar"
 
-#: ekos/scheduler/schedulerprocess.cpp:1666
+#: ekos/scheduler/schedulerprocess.cpp:1663
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount parked."
 msgstr "Mount Ekar"
 
-#: ekos/scheduler/schedulerprocess.cpp:1681
+#: ekos/scheduler/schedulerprocess.cpp:1678
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount unparked."
 msgstr "Mount Ekar"
 
-#: ekos/scheduler/schedulerprocess.cpp:1693
+#: ekos/scheduler/schedulerprocess.cpp:1690
 #, kde-format
 msgid ""
 "Warning: mount unpark operation timed out on attempt %1/%2. Restarting "
 "operation..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1699
+#: ekos/scheduler/schedulerprocess.cpp:1696
 #, kde-format
 msgid "Warning: mount unpark operation timed out on last attempt."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1713
+#: ekos/scheduler/schedulerprocess.cpp:1710
 #, kde-format
 msgid ""
 "Warning: mount park operation timed out on attempt %1/%2. Restarting "
 "operation..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1720
+#: ekos/scheduler/schedulerprocess.cpp:1717
 #, kde-format
 msgid "Warning: mount park operation timed out on last attempt."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1732
-#: ekos/scheduler/schedulerprocess.cpp:1761
+#: ekos/scheduler/schedulerprocess.cpp:1729
+#: ekos/scheduler/schedulerprocess.cpp:1758
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount unparking error."
 msgstr "Mount Ekar"
 
-#: ekos/scheduler/schedulerprocess.cpp:1740
+#: ekos/scheduler/schedulerprocess.cpp:1737
 #, kde-format
 msgid ""
 "Warning: mount park operation failed on attempt %1/%2. Restarting "
 "operation..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1747
-#: ekos/scheduler/schedulerprocess.cpp:1755
+#: ekos/scheduler/schedulerprocess.cpp:1744
+#: ekos/scheduler/schedulerprocess.cpp:1752
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount parking error."
 msgstr "Mount Ekar"
 
-#: ekos/scheduler/schedulerprocess.cpp:1812
+#: ekos/scheduler/schedulerprocess.cpp:1809
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dome parked."
 msgstr "Dome Creek"
 
-#: ekos/scheduler/schedulerprocess.cpp:1823
+#: ekos/scheduler/schedulerprocess.cpp:1820
 #, kde-format
 msgid "Dome unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1850
+#: ekos/scheduler/schedulerprocess.cpp:1847
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Dome parking failed. Restarting operation..."
 msgstr "%1 파일을 열 수 없습니다."
 
-#: ekos/scheduler/schedulerprocess.cpp:1855
+#: ekos/scheduler/schedulerprocess.cpp:1852
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dome parking error."
 msgstr "Dome Creek"
 
-#: ekos/scheduler/schedulerprocess.cpp:1864
+#: ekos/scheduler/schedulerprocess.cpp:1861
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Dome unparking failed. Restarting operation..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/scheduler/schedulerprocess.cpp:1869
+#: ekos/scheduler/schedulerprocess.cpp:1866
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dome unparking error."
 msgstr "Dome Creek"
 
-#: ekos/scheduler/schedulerprocess.cpp:1892
+#: ekos/scheduler/schedulerprocess.cpp:1889
 #, kde-format
 msgid "Observatory is in the startup process"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1905
+#: ekos/scheduler/schedulerprocess.cpp:1902
 #, kde-format
 msgid "Ekos is already started, skipping startup script..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2010
+#: ekos/scheduler/schedulerprocess.cpp:2007
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Warming up CCD..."
 msgstr "전파망원경"
 
-#: ekos/scheduler/schedulerprocess.cpp:2043
+#: ekos/scheduler/schedulerprocess.cpp:2040
 #, kde-format
 msgid "Warning: Bypassing parking procedures, no INDI connection."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2167
+#: ekos/scheduler/schedulerprocess.cpp:2164
 #, kde-format
 msgid "park/unpark wait procedure failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2186
+#: ekos/scheduler/schedulerprocess.cpp:2183
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Warning: executing startup procedure manually..."
 msgstr "%1 클라이언트를 제거하겠습니까?"
 
-#: ekos/scheduler/schedulerprocess.cpp:2193
+#: ekos/scheduler/schedulerprocess.cpp:2190
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to execute the startup procedure manually?"
 msgstr "%1 클라이언트를 제거하겠습니까?"
 
-#: ekos/scheduler/schedulerprocess.cpp:2237
+#: ekos/scheduler/schedulerprocess.cpp:2234
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Startup procedure terminated."
 msgstr "별"
 
-#: ekos/scheduler/schedulerprocess.cpp:2251
+#: ekos/scheduler/schedulerprocess.cpp:2248
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Warning: executing shutdown procedure manually..."
 msgstr "%1 클라이언트를 제거하겠습니까?"
 
-#: ekos/scheduler/schedulerprocess.cpp:2257
+#: ekos/scheduler/schedulerprocess.cpp:2254
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to execute the shutdown procedure manually?"
 msgstr "%1 클라이언트를 제거하겠습니까?"
 
-#: ekos/scheduler/schedulerprocess.cpp:2302
+#: ekos/scheduler/schedulerprocess.cpp:2299
 #, kde-format
 msgid "Shutdown procedure terminated."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2309
+#: ekos/scheduler/schedulerprocess.cpp:2306
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler paused."
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/scheduler/schedulerprocess.cpp:2345
+#: ekos/scheduler/schedulerprocess.cpp:2342
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2353
+#: ekos/scheduler/schedulerprocess.cpp:2350
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2367
+#: ekos/scheduler/schedulerprocess.cpp:2364
 #, kde-format
 msgid "No jobs scheduled."
 msgstr ""
@@ -29139,7 +29146,7 @@ msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "시작:"
 
 #: ekos/scheduler/schedulerprocess.cpp:2824
-#: ekos/scheduler/schedulerprocess.cpp:3776
+#: ekos/scheduler/schedulerprocess.cpp:3779
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
@@ -29286,168 +29293,168 @@ msgstr ""
 msgid "[%2] Job (%1) - Capture finished"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3753
+#: ekos/scheduler/schedulerprocess.cpp:3756
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' focusing is complete."
 msgstr "%1 은 온라인"
 
-#: ekos/scheduler/schedulerprocess.cpp:3763
+#: ekos/scheduler/schedulerprocess.cpp:3766
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' focusing failed."
 msgstr "%1 은 온라인"
 
-#: ekos/scheduler/schedulerprocess.cpp:3767
+#: ekos/scheduler/schedulerprocess.cpp:3770
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr "시작:"
 
-#: ekos/scheduler/schedulerprocess.cpp:3805
+#: ekos/scheduler/schedulerprocess.cpp:3808
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' slew is complete."
 msgstr "%1 은 온라인"
 
-#: ekos/scheduler/schedulerprocess.cpp:3811
+#: ekos/scheduler/schedulerprocess.cpp:3814
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3817
+#: ekos/scheduler/schedulerprocess.cpp:3820
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "%1 은 온라인"
 
-#: ekos/scheduler/schedulerprocess.cpp:3830
+#: ekos/scheduler/schedulerprocess.cpp:3833
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' repositioning is complete."
 msgstr "%1 은 온라인"
 
-#: ekos/scheduler/schedulerprocess.cpp:3836
+#: ekos/scheduler/schedulerprocess.cpp:3839
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3842
+#: ekos/scheduler/schedulerprocess.cpp:3845
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "%1 은 온라인"
 
-#: ekos/scheduler/schedulerprocess.cpp:3856
-#: ekos/scheduler/schedulerprocess.cpp:3867
+#: ekos/scheduler/schedulerprocess.cpp:3859
+#: ekos/scheduler/schedulerprocess.cpp:3870
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3891
+#: ekos/scheduler/schedulerprocess.cpp:3894
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3916
+#: ekos/scheduler/schedulerprocess.cpp:3919
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Manual shutdown procedure completed successfully."
 msgstr "입력 좌표 선택"
 
-#: ekos/scheduler/schedulerprocess.cpp:3922
+#: ekos/scheduler/schedulerprocess.cpp:3925
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3937
+#: ekos/scheduler/schedulerprocess.cpp:3940
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3960
+#: ekos/scheduler/schedulerprocess.cpp:3963
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking Cap..."
 msgstr "전파망원경"
 
-#: ekos/scheduler/schedulerprocess.cpp:3966
+#: ekos/scheduler/schedulerprocess.cpp:3969
 #, kde-format
 msgid "Cap already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3975
+#: ekos/scheduler/schedulerprocess.cpp:3978
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3997
+#: ekos/scheduler/schedulerprocess.cpp:4000
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking cap..."
 msgstr "전파망원경"
 
-#: ekos/scheduler/schedulerprocess.cpp:4003
+#: ekos/scheduler/schedulerprocess.cpp:4006
 #, kde-format
 msgid "Cap already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4012
+#: ekos/scheduler/schedulerprocess.cpp:4015
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4070
+#: ekos/scheduler/schedulerprocess.cpp:4073
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking mount in progress..."
 msgstr "전파망원경"
 
-#: ekos/scheduler/schedulerprocess.cpp:4084
+#: ekos/scheduler/schedulerprocess.cpp:4087
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4110
+#: ekos/scheduler/schedulerprocess.cpp:4113
 #, kde-format
 msgid "Mount already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4208
+#: ekos/scheduler/schedulerprocess.cpp:4211
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4231
+#: ekos/scheduler/schedulerprocess.cpp:4234
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dome..."
 msgstr "전파망원경"
 
-#: ekos/scheduler/schedulerprocess.cpp:4237
+#: ekos/scheduler/schedulerprocess.cpp:4240
 #, kde-format
 msgid "Dome already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4247
+#: ekos/scheduler/schedulerprocess.cpp:4250
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4267
+#: ekos/scheduler/schedulerprocess.cpp:4270
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dome..."
 msgstr "전파망원경"
 
-#: ekos/scheduler/schedulerprocess.cpp:4273
+#: ekos/scheduler/schedulerprocess.cpp:4276
 #, kde-format
 msgid "Dome already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4354
+#: ekos/scheduler/schedulerprocess.cpp:4357
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -29456,17 +29463,17 @@ msgid ""
 "ready..."
 msgstr "Caliente"
 
-#: ekos/scheduler/schedulerprocess.cpp:4646
+#: ekos/scheduler/schedulerprocess.cpp:4649
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4651
+#: ekos/scheduler/schedulerprocess.cpp:4654
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4712
+#: ekos/scheduler/schedulerprocess.cpp:4715
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"

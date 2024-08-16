@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-13 01:44+0000\n"
+"POT-Creation-Date: 2024-08-16 01:45+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -420,7 +420,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1179
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1198
 #: ekos/scheduler/scheduler.cpp:1984
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -589,8 +589,8 @@ msgstr "Ακύρωση"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1101 ekos/manager.cpp:1116
-#: ekos/manager.cpp:1146 ekos/scheduler/scheduler.cpp:1506
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1102 ekos/manager.cpp:1117
+#: ekos/manager.cpp:1147 ekos/scheduler/scheduler.cpp:1506
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
 #: indi/indimount.cpp:32 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
@@ -2149,7 +2149,7 @@ msgstr "Κατάσταση"
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:602 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:603 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1499
 #: ekos/scheduler/scheduler.cpp:2149 ekos/scheduler/scheduler.cpp:2386
 #: ekos/scheduler/scheduler.cpp:2394 ekos/scheduler/scheduler.cpp:2404
@@ -2769,7 +2769,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3960
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/capture/camera.cpp:1133 ekos/capture/camera.cpp:1188
+#: ekos/capture/camera.cpp:1152 ekos/capture/camera.cpp:1207
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1884
 #: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -2886,7 +2886,7 @@ msgstr "Το άστρο HD%1 δε βρέθηκε."
 #: dialogs/catalogcoloreditor.cpp:109
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:441
 #: ekos/scheduler/scheduler.ui:556 ekos/scheduler/schedulermodulestate.cpp:56
-#: ekos/scheduler/schedulerprocess.cpp:1914 skycomponents/flagcomponent.cpp:33
+#: ekos/scheduler/schedulerprocess.cpp:1911 skycomponents/flagcomponent.cpp:33
 #, kde-format
 msgid "Default"
 msgstr "Προκαθορισμένο"
@@ -4042,10 +4042,10 @@ msgstr "0.0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1640 ekos/capture/camera.cpp:1680
+#: ekos/capture/camera.cpp:1659 ekos/capture/camera.cpp:1699
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
-#: ekos/focus/focus.cpp:453 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
+#: ekos/focus/focus.cpp:457 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
@@ -6514,7 +6514,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Σφάλμα: Απώλεια σύνδεσης με τον Εστιαστή."
 
 #: ekos/align/align.cpp:1494 ekos/capture/cameraprocess.cpp:207
-#: ekos/capture/cameraprocess.cpp:600 ekos/focus/focus.cpp:5354
+#: ekos/capture/cameraprocess.cpp:600 ekos/focus/focus.cpp:5356
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6550,13 +6550,13 @@ msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1644
+#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1646
 #, kde-format
 msgid "Capturing image..."
 msgstr "Σύλληψη εικόνας..."
 
 #: ekos/align/align.cpp:1716 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2684
+#: ekos/focus/focus.cpp:2686
 #, fuzzy, kde-format
 #| msgid "Image captured..."
 msgid "Image received."
@@ -6700,7 +6700,7 @@ msgid "Refresh is complete."
 msgstr "Το %1 είναι σε σύνδεση."
 
 #: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1409
-#: ekos/focus/focus.cpp:1372
+#: ekos/focus/focus.cpp:1374
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
@@ -6713,8 +6713,8 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Το αρχείο FITS αποθηκεύτηκε στο %1"
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:252 ekos/focus/focus.cpp:4412
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1938 ekos/mount/mount.cpp:766
+#: ekos/capture/capture.cpp:268 ekos/focus/focus.cpp:4414
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1939 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3452
 #, kde-format
@@ -6889,25 +6889,25 @@ msgstr "RA (λεπτά του τόξου)"
 msgid "dDE (arcsec)"
 msgstr "δεύτερα του τόξου"
 
-#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3252
-#: ekos/focus/focus.cpp:5242
+#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3271
+#: ekos/focus/focus.cpp:5244
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Filter operation failed."
 msgstr "Βαθμονόμηση"
 
-#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3752
+#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3771
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3662 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3757
+#: ekos/capture/camera.cpp:3776
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3762
+#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3781
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Auto focus on filter change..."
@@ -6927,8 +6927,8 @@ msgid "Export Solution Points"
 msgstr "Καθαρισμός όλων των ιχνών τροχιάς"
 
 #: ekos/align/align.cpp:3959 ekos/align/mountmodel.cpp:264
-#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1132
-#: ekos/capture/camera.cpp:1187 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1151
+#: ekos/capture/camera.cpp:1206 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1883 ekos/scheduler/scheduler.cpp:1993
 #: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6939,19 +6939,19 @@ msgstr "Μη έγκυρο URL: %1"
 #: ekos/align/align.cpp:3968 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:2971
-#: ekos/scheduler/schedulerprocess.cpp:4587
+#: ekos/scheduler/schedulerprocess.cpp:4590
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to write to file %1"
 msgstr "Αδυναμία αποθήκευσης της εικόνας: %1 "
 
 #: ekos/align/align.cpp:3969 ekos/align/mountmodel.cpp:284
-#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2770
+#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2789
 #: ekos/capture/cameraprocess.cpp:2548 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2972
 #: ekos/scheduler/schedulerprocess.cpp:3310
-#: ekos/scheduler/schedulerprocess.cpp:4588
-#: ekos/scheduler/schedulerprocess.cpp:4608 indi/drivermanager.cpp:1537
+#: ekos/scheduler/schedulerprocess.cpp:4591
+#: ekos/scheduler/schedulerprocess.cpp:4611 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1384 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7040,7 +7040,7 @@ msgstr "Φόρτωση καταλόγου..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:385 ekos/guide/guide.ui:153 ekos/manager.cpp:228
+#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:229
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -7275,7 +7275,7 @@ msgstr "Επιλογές βαθμονόμησης"
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: ekos/align/align.ui:554 ekos/auxiliary/darklibrary.ui:477
 #: ekos/capture/camera.ui:869 ekos/capture/captureprocessoverlay.ui:296
-#: ekos/focus/focus.ui:526 ekos/guide/guide.ui:365
+#: ekos/focus/focus.ui:513 ekos/guide/guide.ui:365
 #, kde-format
 msgid "Gain:"
 msgstr ""
@@ -7283,13 +7283,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, focusBinningLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/align/align.ui:561 ekos/focus/focus.ui:574 ekos/guide/guide.ui:401
+#: ekos/align/align.ui:561 ekos/focus/focus.ui:561 ekos/guide/guide.ui:401
 #, kde-format
 msgid "Bin:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFITSViewerB)
-#: ekos/align/align.ui:583 ekos/focus/focus.ui:673 ekos/guide/guide.ui:166
+#: ekos/align/align.ui:583 ekos/focus/focus.ui:660 ekos/guide/guide.ui:166
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgid "Show in FITS Viewer..."
@@ -7323,7 +7323,7 @@ msgid "Camera binning"
 msgstr "Κάθετο πλέγμα"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
-#: ekos/align/align.ui:628 ekos/focus/focus.ui:651
+#: ekos/align/align.ui:628 ekos/focus/focus.ui:638
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgid "Toggle Full Screen"
@@ -7352,7 +7352,7 @@ msgstr "Κάθετο πλέγμα"
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/align/align.ui:685 ekos/capture/camera.ui:741 ekos/focus/focus.ui:732
+#: ekos/align/align.ui:685 ekos/capture/camera.ui:741 ekos/focus/focus.ui:719
 #: ekos/profileeditor.ui:644 fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, kde-format
 msgid "Filter:"
@@ -7370,7 +7370,7 @@ msgstr "Φωτογραφική"
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, focusExposureLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/align/align.ui:699 ekos/focus/focus.ui:551 ekos/guide/guide.ui:375
+#: ekos/align/align.ui:699 ekos/focus/focus.ui:538 ekos/guide/guide.ui:375
 #, kde-format
 msgid "Exp:"
 msgstr ""
@@ -7387,7 +7387,7 @@ msgstr "Ρυθμίσεις εξομοίωσης"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
 #: ekos/align/align.ui:734 ekos/auxiliary/darklibrary.ui:506
-#: ekos/capture/camera.ui:846 ekos/focus/focus.ui:864
+#: ekos/capture/camera.ui:846 ekos/focus/focus.ui:851
 #, kde-format
 msgid "ISO:"
 msgstr ""
@@ -7620,10 +7620,10 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Ουρά ακολουθίας"
 
-#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2769
+#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2788
 #: ekos/capture/cameraprocess.cpp:2547 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3309
-#: ekos/scheduler/schedulerprocess.cpp:4607
+#: ekos/scheduler/schedulerprocess.cpp:4610
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
@@ -10546,7 +10546,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:145 ekos/manager.cpp:234 ekos/manager.cpp:610
+#: ekos/manager.cpp:146 ekos/manager.cpp:235 ekos/manager.cpp:611
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -10597,7 +10597,7 @@ msgid "Slew"
 msgstr "Περιστροφή"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:330
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:331
 #, kde-format
 msgid "Setup"
 msgstr "Εγκατάσταση"
@@ -10727,10 +10727,10 @@ msgstr "Αδυναμία διαγραφής του αρχείου: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:370
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2077
-#: ekos/manager/focusmanager.ui:101 ekos/scheduler/framingassistant.ui:1490
-#: ekos/scheduler/scheduler.ui:289 fitsviewer/fitscommon.h:15
-#: fitsviewer/fitsviewer.cpp:468
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2078
+#: ekos/manager/focusprogresswidget.ui:101
+#: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
+#: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:468
 #, kde-format
 msgid "Focus"
 msgstr "Εστίαση"
@@ -10738,7 +10738,7 @@ msgstr "Εστίαση"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
-#: ekos/manager.cpp:2042 ekos/scheduler/framingassistant.ui:1262
+#: ekos/manager.cpp:2043 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:242 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitsviewer.cpp:476
 #, fuzzy, kde-format
@@ -10752,7 +10752,7 @@ msgstr "Στοίχιση"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2286
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2297
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:472
 #, kde-format
@@ -10768,7 +10768,7 @@ msgstr "Φέρβιου"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2211 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2222 ekos/manager.ui:665
 #, fuzzy, kde-format
 msgid "Mount"
 msgstr "Πλήθος:"
@@ -11030,7 +11030,7 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
 #. i18n: ectx: property (text), widget (QPushButton, guideDetailPrevButton)
 #. i18n: ectx: property (text), widget (QPushButton, previousButton)
-#: ekos/analyze/analyze.ui:331 ekos/manager/focusmanager.ui:267
+#: ekos/analyze/analyze.ui:331 ekos/manager/focusprogresswidget.ui:267
 #: ekos/manager/guidemanager.ui:415 printing/foveditordialog.ui:115
 #, kde-format
 msgid "<"
@@ -11086,7 +11086,7 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
 #. i18n: ectx: property (text), widget (QPushButton, guideDetailNextButton)
 #. i18n: ectx: property (text), widget (QPushButton, nextButton)
-#: ekos/analyze/analyze.ui:405 ekos/manager/focusmanager.ui:339
+#: ekos/analyze/analyze.ui:405 ekos/manager/focusprogresswidget.ui:339
 #: ekos/manager/guidemanager.ui:503 printing/foveditordialog.ui:122
 #, kde-format
 msgid ">"
@@ -12375,7 +12375,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetFrameB)
 #. i18n: ectx: property (text), widget (QPushButton, resetB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:883
+#: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:870
 #: ekos/guide/manualpulse.ui:140 ekos/mount/mount.ui:836
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -12536,7 +12536,7 @@ msgid "Start Auto Focus when filter is activated"
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:119 ekos/ekos.h:162 ekos/focus/focus.ui:292
+#: ekos/auxiliary/filtermanager.cpp:119 ekos/ekos.h:162 ekos/focus/focus.ui:276
 #, fuzzy, kde-format
 #| msgid "Start Focus"
 msgid "Auto Focus"
@@ -12728,7 +12728,7 @@ msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 msgid "Aligning..."
 msgstr "Εκτέλεση..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:768
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:787
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibrating..."
@@ -12814,7 +12814,7 @@ msgstr "Ουρά ακολουθίας"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:335 ekos/opsekos.ui:184
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:336 ekos/opsekos.ui:184
 #: ekos/scheduler/framingassistantui.cpp:668
 #, fuzzy, kde-format
 #| msgctxt "star name"
@@ -13007,7 +13007,7 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2336
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2347
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 msgid "Observatory"
@@ -13325,10 +13325,8 @@ msgid "Select a mechanized focuser if any."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
-#. i18n: ectx: property (text), widget (QLabel, label_33)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/auxiliary/opticaltrains.ui:324 ekos/focus/focus.ui:446
-#: ekos/profileeditor.ui:651
+#: ekos/auxiliary/opticaltrains.ui:324 ekos/profileeditor.ui:651
 #, kde-format
 msgid "Focuser:"
 msgstr "Eστιαστής:"
@@ -14646,217 +14644,217 @@ msgstr "Ποιότητα JPEG"
 msgid "Capture Sequence Editor: %1"
 msgstr ""
 
-#: ekos/capture/camera.cpp:154 ekos/capture/camera.cpp:3876
+#: ekos/capture/camera.cpp:154 ekos/capture/camera.cpp:3895
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Add job to sequence queue"
 msgstr "Σύλληψη ακολουθίας εικόνων..."
 
-#: ekos/capture/camera.cpp:155 ekos/capture/camera.cpp:3877
+#: ekos/capture/camera.cpp:155 ekos/capture/camera.cpp:3896
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Remove job from sequence queue"
 msgstr "Σύλληψη ακολουθίας εικόνων..."
 
-#: ekos/capture/camera.cpp:467
+#: ekos/capture/camera.cpp:483
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Downloading..."
 msgstr "Λήψη νέων δεδομένων..."
 
-#: ekos/capture/camera.cpp:567 ekos/capture/camera.cpp:568
+#: ekos/capture/camera.cpp:586 ekos/capture/camera.cpp:587
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus complete."
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/capture/camera.cpp:572
+#: ekos/capture/camera.cpp:591
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus failed."
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/capture/camera.cpp:751
+#: ekos/capture/camera.cpp:770
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing %1-second %2 image..."
 msgstr "Σύλληψη εικόνας..."
 
-#: ekos/capture/camera.cpp:822
+#: ekos/capture/camera.cpp:841
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:825
+#: ekos/capture/camera.cpp:844
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:860
+#: ekos/capture/camera.cpp:879
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
 msgstr[0] ""
 msgstr[1] ""
 
-#: ekos/capture/camera.cpp:905
+#: ekos/capture/camera.cpp:924
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/camera.cpp:918
+#: ekos/capture/camera.cpp:937
 #, fuzzy, kde-format
 msgid "Framing..."
 msgstr "Φράμινγχαμ"
 
-#: ekos/capture/camera.cpp:929
+#: ekos/capture/camera.cpp:948
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence"
 msgid "Captured image received"
 msgstr "Σύλληψη ακολουθίας εικόνων"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:947 ekos/capture/camera.ui:2612
+#: ekos/capture/camera.cpp:966 ekos/capture/camera.ui:2612
 #, fuzzy, kde-format
 #| msgid "Expose:"
 msgid "Expose (-/-):"
 msgstr "Έκθεση:"
 
-#: ekos/capture/camera.cpp:981
+#: ekos/capture/camera.cpp:1000
 #, fuzzy, kde-format
 #| msgid "&Start Sequence"
 msgid "Stop Sequence"
 msgstr "&Έναρξη ακολουθίας "
 
-#: ekos/capture/camera.cpp:987
+#: ekos/capture/camera.cpp:1006
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "Συχνότητα:"
 
-#: ekos/capture/camera.cpp:1018
+#: ekos/capture/camera.cpp:1037
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting temperature to %1 °C..."
 msgstr "Ορισμός της θερμοκρασίας του τσιπ CCD."
 
-#: ekos/capture/camera.cpp:1019
+#: ekos/capture/camera.cpp:1038
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set Temp to %1 °C..."
 msgstr "Ορισμός της θερμοκρασίας του τσιπ CCD."
 
-#: ekos/capture/camera.cpp:1023
+#: ekos/capture/camera.cpp:1042
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Ρυθμός οδήγησης,x15\"/δευτερόλεπτο"
 
-#: ekos/capture/camera.cpp:1024
+#: ekos/capture/camera.cpp:1043
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:1028
+#: ekos/capture/camera.cpp:1047
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Ορισμός της θερμοκρασίας του τσιπ CCD."
 
-#: ekos/capture/camera.cpp:1029
+#: ekos/capture/camera.cpp:1048
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Camera to %1 deg..."
 msgstr "Ορισμός θέσης..."
 
-#: ekos/capture/camera.cpp:1124
+#: ekos/capture/camera.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Ουρά ακολουθίας"
 
-#: ekos/capture/camera.cpp:1157
+#: ekos/capture/camera.cpp:1176
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Ουρά ακολουθίας"
 
-#: ekos/capture/camera.cpp:1179
+#: ekos/capture/camera.cpp:1198
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:1236 ekos/capture/camera.cpp:2254
+#: ekos/capture/camera.cpp:1255 ekos/capture/camera.cpp:2273
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Dark Flat"
 msgstr "Χρήση αρχείου σημειώσεων"
 
-#: ekos/capture/camera.cpp:1949 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:1968 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Προκαθορισμένος κατάλογος FITS"
 
-#: ekos/capture/camera.cpp:2046
+#: ekos/capture/camera.cpp:2065
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Reset %1 configuration to default?"
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
-#: ekos/capture/camera.cpp:2048
+#: ekos/capture/camera.cpp:2067
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Confirmation"
 msgstr "Διαμόρφωση"
 
-#: ekos/capture/camera.cpp:2231
+#: ekos/capture/camera.cpp:2250
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:2237
+#: ekos/capture/camera.cpp:2256
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3414
+#: ekos/capture/camera.cpp:3433
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3419
+#: ekos/capture/camera.cpp:3438
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian Flip..."
 msgstr "&Αυτόματη εμφάνιση FITS"
 
-#: ekos/capture/camera.cpp:3420
+#: ekos/capture/camera.cpp:3439
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian flip started"
 msgstr "&Αυτόματη εμφάνιση FITS"
 
-#: ekos/capture/camera.cpp:3424
+#: ekos/capture/camera.cpp:3443
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "ολοκληρώθηκαν"
 
-#: ekos/capture/camera.cpp:3484
+#: ekos/capture/camera.cpp:3503
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3490
+#: ekos/capture/camera.cpp:3509
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14864,13 +14862,13 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3495
+#: ekos/capture/camera.cpp:3514
 #, fuzzy, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Φρίχολντ"
 
-#: ekos/capture/camera.cpp:3501
+#: ekos/capture/camera.cpp:3520
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14878,79 +14876,79 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3514
+#: ekos/capture/camera.cpp:3533
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Ορισμός της θερμοκρασίας του τσιπ CCD."
 
-#: ekos/capture/camera.cpp:3554
+#: ekos/capture/camera.cpp:3573
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Παρατηρητής:"
 
-#: ekos/capture/camera.cpp:3556
+#: ekos/capture/camera.cpp:3575
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgid "Current Observer:"
 msgstr "Παρατηρητής:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3567 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3586 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"
 msgstr "Παρατηρητής"
 
-#: ekos/capture/camera.cpp:3739
+#: ekos/capture/camera.cpp:3758
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3739
+#: ekos/capture/camera.cpp:3758
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3769
+#: ekos/capture/camera.cpp:3788
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "Το αρχείο FITS αποθηκεύτηκε στο %1"
 
-#: ekos/capture/camera.cpp:3801
+#: ekos/capture/camera.cpp:3820
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του δεσμού %1;"
 
-#: ekos/capture/camera.cpp:3801 ekos/capture/cameraprocess.cpp:2666
+#: ekos/capture/camera.cpp:3820 ekos/capture/cameraprocess.cpp:2666
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
 msgstr "Επαναφορά θέσης"
 
-#: ekos/capture/camera.cpp:3854
+#: ekos/capture/camera.cpp:3873
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "Επεξεργασία δεσμού..."
 
-#: ekos/capture/camera.cpp:3857 ekos/scheduler/scheduler.cpp:1231
+#: ekos/capture/camera.cpp:3876 ekos/scheduler/scheduler.cpp:1231
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3858
+#: ekos/capture/camera.cpp:3877
 #, fuzzy, kde-format
 #| msgid "Save changes"
 msgid "Cancel job changes."
 msgstr "Αποθήκευση τροποποιήσεων"
 
-#: ekos/capture/camera.cpp:3871
+#: ekos/capture/camera.cpp:3890
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
@@ -15037,7 +15035,7 @@ msgstr "Φίλτρο πόλης:"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
 #: ekos/capture/camera.ui:419 ekos/capture/limits.ui:115
-#: ekos/capture/limits.ui:375 ekos/focus/focus.ui:726
+#: ekos/capture/limits.ui:375 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "Αριθμός των εικόνων για σύλληψη"
@@ -15706,7 +15704,7 @@ msgid "Start Sequence"
 msgstr "&Έναρξη ακολουθίας "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
-#: ekos/capture/camera.ui:2408 ekos/focus/focus.ui:698
+#: ekos/capture/camera.ui:2408 ekos/focus/focus.ui:685
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Video"
@@ -16050,8 +16048,8 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2049 ekos/focus/focus.cpp:5406
-#: ekos/focus/focus.cpp:5430
+#: ekos/capture/cameraprocess.cpp:2049 ekos/focus/focus.cpp:5408
+#: ekos/focus/focus.cpp:5432
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
@@ -16062,7 +16060,7 @@ msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκ�
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2074 ekos/focus/focus.cpp:5411
+#: ekos/capture/cameraprocess.cpp:2074 ekos/focus/focus.cpp:5413
 #: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
@@ -16351,20 +16349,21 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:409
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:319
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:410
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
 msgstr "Σταμάτημα ανί&χνευσης"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:410 ekos/observatory/observatory.ui:550
-#: kspopupmenu.cpp:645 skycomponents/imageoverlaycomponent.cpp:590
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
+#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
+#: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713
 #: skycomponents/satellitescomponent.cpp:143 tools/conjunctions.cpp:350
 #, kde-format
@@ -16390,12 +16389,12 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CaptureCountsWidget)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CapturePreviewWidget)
-#. i18n: ectx: property (windowTitle), widget (QWidget, FocusManager)
+#. i18n: ectx: property (windowTitle), widget (QWidget, FocusProgressWidget)
 #. i18n: ectx: property (windowTitle), widget (QWidget, GuideManager)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Manager)
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
-#: ekos/manager/focusmanager.ui:41 ekos/manager/guidemanager.ui:41
+#: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
 #: kstarsactions.cpp:1160 kstarsinit.cpp:474
 #, kde-format
 msgid "Ekos"
@@ -17987,12 +17986,12 @@ msgstr "Μολίν"
 msgid "Offline"
 msgstr "Μολίν"
 
-#: ekos/ekoslive/message.cpp:730
+#: ekos/ekoslive/message.cpp:741
 #, fuzzy, kde-format
 msgid "target"
 msgstr "Σάρτζεντ"
 
-#: ekos/ekoslive/message.cpp:963
+#: ekos/ekoslive/message.cpp:974
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
@@ -18114,7 +18113,7 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #. i18n: ectx: property (text), widget (QPushButton, startAbInsB)
-#: ekos/focus/aberrationinspector.ui:23 ekos/focus/focus.ui:921
+#: ekos/focus/aberrationinspector.ui:23 ekos/focus/focus.ui:908
 #, fuzzy, kde-format
 #| msgid "Observation Planner"
 msgid "Aberration Inspector"
@@ -18185,7 +18184,7 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
 #. i18n: ectx: property (text), widget (QPushButton, cfzB)
-#: ekos/focus/aberrationinspector.ui:108 ekos/focus/focus.ui:928
+#: ekos/focus/aberrationinspector.ui:108 ekos/focus/focus.ui:915
 #, kde-format
 msgid "CFZ"
 msgstr ""
@@ -18910,12 +18909,12 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 msgid " nm"
 msgstr "mm"
 
-#: ekos/focus/focus.cpp:118
+#: ekos/focus/focus.cpp:119
 #, kde-format
 msgid "Idle."
 msgstr "Αδρανές."
 
-#: ekos/focus/focus.cpp:140
+#: ekos/focus/focus.cpp:141
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Focus Options Profile Editor"
@@ -18925,7 +18924,7 @@ msgstr "Επεξεργαστής εικόνων επισκόπησης"
 #. i18n: ectx: property (title), widget (QGroupBox, settingsGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, analyzeGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
-#: ekos/focus/focus.cpp:197 ekos/guide/opscalibration.ui:34
+#: ekos/focus/focus.cpp:200 ekos/guide/opscalibration.ui:34
 #: ekos/guide/opsgpg.ui:103 ekos/opsekos.ui:886 options/opsimageoverlay.ui:38
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -18934,79 +18933,79 @@ msgid "Settings"
 msgstr "Ρυθμίσεις"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusSettings)
-#: ekos/focus/focus.cpp:197 ekos/focus/opsfocussettings.ui:14
+#: ekos/focus/focus.cpp:200 ekos/focus/opsfocussettings.ui:14
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Focus Settings"
 msgstr "Ρυθμίσεις"
 
-#: ekos/focus/focus.cpp:201
+#: ekos/focus/focus.cpp:204
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Process"
 msgstr "Εστίαση προς τα μέσα..."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusProcess)
-#: ekos/focus/focus.cpp:201 ekos/focus/opsfocusprocess.ui:14
+#: ekos/focus/focus.cpp:204 ekos/focus/opsfocusprocess.ui:14
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "Focus Process"
 msgstr "Αρχείο arc"
 
-#: ekos/focus/focus.cpp:205
+#: ekos/focus/focus.cpp:208
 #, fuzzy, kde-format
 msgid "Mechanics"
 msgstr "Μπουκάνς"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsFocusMechanics)
-#: ekos/focus/focus.cpp:205 ekos/focus/opsfocusmechanics.ui:14
+#: ekos/focus/focus.cpp:208 ekos/focus/opsfocusmechanics.ui:14
 #, fuzzy, kde-format
 msgid "Focus Mechanics"
 msgstr "Μπουκάνς"
 
-#: ekos/focus/focus.cpp:930
+#: ekos/focus/focus.cpp:932
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focuser Simulator"
 msgid "Finally found temperature source %1"
 msgstr "Εξομοιωτής εστιαστή"
 
-#: ekos/focus/focus.cpp:1022
+#: ekos/focus/focus.cpp:1024
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "No Focuser connected."
 msgstr "Οι υπηρεσίες του INDI διακόπηκαν."
 
-#: ekos/focus/focus.cpp:1029 ekos/focus/focus.cpp:4460
+#: ekos/focus/focus.cpp:1031 ekos/focus/focus.cpp:4462
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "No CCD connected."
 msgstr "Οι υπηρεσίες του INDI διακόπηκαν."
 
-#: ekos/focus/focus.cpp:1036
+#: ekos/focus/focus.cpp:1038
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1047
+#: ekos/focus/focus.cpp:1049
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1054
+#: ekos/focus/focus.cpp:1056
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1062
+#: ekos/focus/focus.cpp:1064
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1069 ekos/focus/focus.cpp:4791
-#: ekos/focus/focus.cpp:5035
+#: ekos/focus/focus.cpp:1071 ekos/focus/focus.cpp:4793
+#: ekos/focus/focus.cpp:5037
 #, fuzzy, kde-format
 #| msgid "Start Focus"
 msgid "Adjust Focus"
@@ -19014,130 +19013,130 @@ msgstr "Εκκίνηση εστίασης"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1069 ekos/focus/focus.cpp:4793
-#: ekos/focus/focus.cpp:5035 ekos/focus/opsfocussettings.ui:445
+#: ekos/focus/focus.cpp:1071 ekos/focus/focus.cpp:4795
+#: ekos/focus/focus.cpp:5037 ekos/focus/opsfocussettings.ui:445
 #: ekos/focus/opsfocussettings.ui:525
 #, fuzzy, kde-format
 msgid "Adaptive Focus"
 msgstr "Για προχωρημένους"
 
-#: ekos/focus/focus.cpp:1072
+#: ekos/focus/focus.cpp:1074
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1080
+#: ekos/focus/focus.cpp:1082
 #, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1242
+#: ekos/focus/focus.cpp:1244
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/focus/focus.cpp:1244
+#: ekos/focus/focus.cpp:1246
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1258
+#: ekos/focus/focus.cpp:1260
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation started"
 msgstr "Επιλογές αυτόματης εστίασης"
 
-#: ekos/focus/focus.cpp:1377
+#: ekos/focus/focus.cpp:1379
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/focus/focus.cpp:1389
+#: ekos/focus/focus.cpp:1391
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/focus/focus.cpp:1433
+#: ekos/focus/focus.cpp:1435
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus aborted."
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/focus/focus.cpp:1536
+#: ekos/focus/focus.cpp:1538
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1543
+#: ekos/focus/focus.cpp:1545
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Camera."
 msgstr "Σφάλμα: Απώλεια σύνδεσης με τον Εστιαστή."
 
-#: ekos/focus/focus.cpp:1564
+#: ekos/focus/focus.cpp:1566
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1570
+#: ekos/focus/focus.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Σφάλμα: Απώλεια σύνδεσης με τον Εστιαστή."
 
-#: ekos/focus/focus.cpp:1688
+#: ekos/focus/focus.cpp:1690
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "At minimum focus position %1..."
 msgstr "Ορθή αναφορά της θέσης εστίασης"
 
-#: ekos/focus/focus.cpp:1699
+#: ekos/focus/focus.cpp:1701
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Moving to minimum focus position %1..."
 msgstr "Σύλληψη εικόνας..."
 
-#: ekos/focus/focus.cpp:1708
+#: ekos/focus/focus.cpp:1710
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "At maximum focus position %1..."
 msgstr "Ορθή αναφορά της θέσης εστίασης"
 
-#: ekos/focus/focus.cpp:1719
+#: ekos/focus/focus.cpp:1721
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "Moving to maximum focus position %1..."
 msgstr "Ορθή αναφορά της θέσης εστίασης"
 
-#: ekos/focus/focus.cpp:1746
+#: ekos/focus/focus.cpp:1748
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1753
+#: ekos/focus/focus.cpp:1755
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Σφάλμα: Απώλεια σύνδεσης με τον Εστιαστή."
 
-#: ekos/focus/focus.cpp:1767
+#: ekos/focus/focus.cpp:1769
 #, fuzzy, kde-format
 msgid "outward"
 msgstr "Σιούαρντ"
 
-#: ekos/focus/focus.cpp:1767
+#: ekos/focus/focus.cpp:1769
 #, fuzzy, kde-format
 msgid "inward"
 msgstr "Σιούαρντ"
 
-#: ekos/focus/focus.cpp:1784
+#: ekos/focus/focus.cpp:1786
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 steps..."
 msgstr "Εστίαση προς τα μέσα..."
 
-#: ekos/focus/focus.cpp:1790
+#: ekos/focus/focus.cpp:1792
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 step..."
@@ -19145,66 +19144,66 @@ msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Εστίαση προς τα μέσα..."
 msgstr[1] "Εστίαση προς τα μέσα..."
 
-#: ekos/focus/focus.cpp:1796
+#: ekos/focus/focus.cpp:1798
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 ms..."
 msgstr "Εστίαση προς τα μέσα..."
 
-#: ekos/focus/focus.cpp:1831
+#: ekos/focus/focus.cpp:1833
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκεια είναι σε δευτερόλεπτα."
 
-#: ekos/focus/focus.cpp:1838
+#: ekos/focus/focus.cpp:1840
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Εστίαση προς τα έξω..."
 
-#: ekos/focus/focus.cpp:1849
+#: ekos/focus/focus.cpp:1851
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Εστίαση προς τα έξω..."
 
-#: ekos/focus/focus.cpp:1895
+#: ekos/focus/focus.cpp:1897
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1904
+#: ekos/focus/focus.cpp:1906
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Σύλληψη εικόνας"
 
-#: ekos/focus/focus.cpp:1962
+#: ekos/focus/focus.cpp:1964
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "ολοκληρώθηκαν"
 
-#: ekos/focus/focus.cpp:2153
+#: ekos/focus/focus.cpp:2155
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Detecting sources..."
 msgstr "Λήψη νέων δεδομένων..."
 
-#: ekos/focus/focus.cpp:2258
+#: ekos/focus/focus.cpp:2260
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Autofocus operation completed successfully"
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/focus/focus.cpp:2272
+#: ekos/focus/focus.cpp:2274
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation failed"
 msgstr "Επιλογές αυτόματης εστίασης"
 
-#: ekos/focus/focus.cpp:2341
+#: ekos/focus/focus.cpp:2343
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus procedure completed after %1 iteration."
@@ -19212,161 +19211,161 @@ msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Η αυτόματη εστίαση ολοκληρώθηκε."
 msgstr[1] "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/focus/focus.cpp:2427
+#: ekos/focus/focus.cpp:2429
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Settings"
 msgid "Settling for %1s..."
 msgstr "Ρυθμίσεις"
 
-#: ekos/focus/focus.cpp:2435
+#: ekos/focus/focus.cpp:2437
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "ολοκληρώθηκαν"
 
-#: ekos/focus/focus.cpp:2448
+#: ekos/focus/focus.cpp:2450
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2485
+#: ekos/focus/focus.cpp:2487
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "Έγινε λήψη FITS. Δεν εντοπίστηκαν αστέρες."
 
-#: ekos/focus/focus.cpp:2770
+#: ekos/focus/focus.cpp:2772
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2864
+#: ekos/focus/focus.cpp:2866
 #, fuzzy, kde-format
 #| msgid "Automatically select coordinate grid"
 msgid "Capture complete. Select a star to focus."
 msgstr "Αυτόματη επιλογή πλέγματος συντεταγμένων"
 
-#: ekos/focus/focus.cpp:2895
+#: ekos/focus/focus.cpp:2897
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Δεν εντοπίστηκαν αστέρες, γίνεται νέα σύλληψη..."
 
-#: ekos/focus/focus.cpp:2915
+#: ekos/focus/focus.cpp:2917
 #, fuzzy, kde-format
 #| msgid "HFR:"
 msgid "HFR %1 > Limit %2"
 msgstr "HFR:"
 
-#: ekos/focus/focus.cpp:3031
+#: ekos/focus/focus.cpp:3033
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/focus/focus.cpp:3042 ekos/focus/focus.cpp:3304
-#: ekos/focus/focus.cpp:3900
+#: ekos/focus/focus.cpp:3044 ekos/focus/focus.cpp:3306
+#: ekos/focus/focus.cpp:3902
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Δεν εντοπίστηκαν αστέρες, γίνεται νέα σύλληψη..."
 
-#: ekos/focus/focus.cpp:3048 ekos/focus/focus.cpp:3906
+#: ekos/focus/focus.cpp:3050 ekos/focus/focus.cpp:3908
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Αποτυχία καθορισμού συνένωσης εικονοστοιχείων (binning)"
 
-#: ekos/focus/focus.cpp:3054 ekos/focus/focus.cpp:3912
+#: ekos/focus/focus.cpp:3056 ekos/focus/focus.cpp:3914
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3241
+#: ekos/focus/focus.cpp:3243
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3261
+#: ekos/focus/focus.cpp:3263
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3287
+#: ekos/focus/focus.cpp:3289
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Starting scan for initial focuser position."
 msgstr "Σύλληψη εικόνας..."
 
-#: ekos/focus/focus.cpp:3288
+#: ekos/focus/focus.cpp:3290
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Scanning for starting position..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/focus/focus.cpp:3310
+#: ekos/focus/focus.cpp:3312
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Αποτυχία καθορισμού συνένωσης εικονοστοιχείων (binning)"
 
-#: ekos/focus/focus.cpp:3319
+#: ekos/focus/focus.cpp:3321
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/focus/focus.cpp:3337
+#: ekos/focus/focus.cpp:3339
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3351
+#: ekos/focus/focus.cpp:3353
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3364
+#: ekos/focus/focus.cpp:3366
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3365
+#: ekos/focus/focus.cpp:3367
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3434
+#: ekos/focus/focus.cpp:3436
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3436
+#: ekos/focus/focus.cpp:3438
 #, fuzzy, kde-format
 #| msgid "HFR:"
 msgid "R2=%1 < Limit=%2"
 msgstr "HFR:"
 
-#: ekos/focus/focus.cpp:3444
+#: ekos/focus/focus.cpp:3446
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3454
+#: ekos/focus/focus.cpp:3456
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3489
+#: ekos/focus/focus.cpp:3491
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "Έγινε λήψη FITS.  HFR %1 @ %2. Δέλτα (%3%)"
 
-#: ekos/focus/focus.cpp:3491
+#: ekos/focus/focus.cpp:3493
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "Έγινε λήψη FITS. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3552
+#: ekos/focus/focus.cpp:3554
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19375,44 +19374,44 @@ msgstr ""
 "Η αλλαγή του HFR είναι πολύ μικρή. Προσπαθήστε να αυξήσετε το μέγεθος του "
 "βήματος ή να μειώσετε την ανοχή."
 
-#: ekos/focus/focus.cpp:3559
+#: ekos/focus/focus.cpp:3561
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3664
+#: ekos/focus/focus.cpp:3666
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3728
+#: ekos/focus/focus.cpp:3730
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3739
+#: ekos/focus/focus.cpp:3741
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3749
+#: ekos/focus/focus.cpp:3751
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Αδιέξοδο. Παρακαλώ προσπαθήστε ξανά με διαφορετικές ρυθμίσεις."
 
-#: ekos/focus/focus.cpp:3778
+#: ekos/focus/focus.cpp:3780
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3885
+#: ekos/focus/focus.cpp:3887
 #, fuzzy, kde-format
 #| msgid "FITS received. HFR %1. Delta (%2%)"
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "Έγινε λήψη FITS. HFR %1. Δέλτα (%2%)"
 
-#: ekos/focus/focus.cpp:3889
+#: ekos/focus/focus.cpp:3891
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19420,83 +19419,83 @@ msgstr ""
 "Η αυτόματη εστίαση απέτυχε να επιτύχει την κατάλληλη εστίαση. Προσπαθήστε να "
 "ρυθμίσετε την τιμή ανοχής."
 
-#: ekos/focus/focus.cpp:3984 ekos/focus/focus.cpp:4007
-#: ekos/focus/focus.cpp:4174 ekos/focus/focus.cpp:4257
-#: ekos/focus/focus.cpp:4329 ekos/focus/focus.cpp:4404
+#: ekos/focus/focus.cpp:3986 ekos/focus/focus.cpp:4009
+#: ekos/focus/focus.cpp:4176 ekos/focus/focus.cpp:4259
+#: ekos/focus/focus.cpp:4331 ekos/focus/focus.cpp:4406
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Σφάλμα εστιαστή, ελέγξτε τον πίνακα του INDI."
 
-#: ekos/focus/focus.cpp:4068 ekos/focus/focus.cpp:4190
+#: ekos/focus/focus.cpp:4070 ekos/focus/focus.cpp:4192
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Simulate focuser comms failure..."
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/focus/focus.cpp:4151 ekos/focus/focus.cpp:4238
-#: ekos/focus/focus.cpp:4310 ekos/focus/focus.cpp:4351
+#: ekos/focus/focus.cpp:4153 ekos/focus/focus.cpp:4240
+#: ekos/focus/focus.cpp:4312 ekos/focus/focus.cpp:4353
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Restarting autofocus process..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/focus/focus.cpp:4476
+#: ekos/focus/focus.cpp:4478
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Εκκίνηση συνεχόμενης έκθεσης..."
 
-#: ekos/focus/focus.cpp:4765
+#: ekos/focus/focus.cpp:4767
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4770
+#: ekos/focus/focus.cpp:4772
 #, fuzzy, kde-format
 #| msgid "%1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Focus star is selected."
 msgstr "Ανιχνεύθηκε %1 αστέρας."
 
-#: ekos/focus/focus.cpp:4789
+#: ekos/focus/focus.cpp:4791
 #, fuzzy, kde-format
 #| msgid "Start Focus"
 msgid "Autofocus"
 msgstr "Εκκίνηση εστίασης"
 
-#: ekos/focus/focus.cpp:4797
+#: ekos/focus/focus.cpp:4799
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4805
+#: ekos/focus/focus.cpp:4807
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4942
+#: ekos/focus/focus.cpp:4944
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Using last known position..."
 msgstr "Δεν εντοπίστηκαν αστέρες, γίνεται νέα σύλληψη..."
 
-#: ekos/focus/focus.cpp:4948
+#: ekos/focus/focus.cpp:4950
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Aborting..."
 msgstr "Δεν εντοπίστηκαν αστέρες, γίνεται νέα σύλληψη..."
 
-#: ekos/focus/focus.cpp:4959
+#: ekos/focus/focus.cpp:4961
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focuser already at %1..."
 msgstr "Εστίαση προς τα έξω..."
 
-#: ekos/focus/focus.cpp:5038
+#: ekos/focus/focus.cpp:5040
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5072
+#: ekos/focus/focus.cpp:5074
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focus Timer"
@@ -19504,34 +19503,100 @@ msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Χρονόμετρο εστίασης"
 
-#: ekos/focus/focus.cpp:5454
+#: ekos/focus/focus.cpp:5456
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to save image. Aborting..."
 msgstr "Αποτυχία καθορισμού συνένωσης εικονοστοιχείων (binning)"
 
-#: ekos/focus/focus.cpp:5469 ekos/focus/focus.cpp:5494
+#: ekos/focus/focus.cpp:5471 ekos/focus/focus.cpp:5496
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκεια είναι σε δευτερόλεπτα."
 
-#: ekos/focus/focus.cpp:5786
+#: ekos/focus/focus.cpp:5788
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
 msgid "Relative Profile"
 msgstr "Αφαίρεση ίχνους"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
+#: ekos/focus/focus.ui:170
+#, fuzzy, kde-format
+#| msgid "Autofocus in progress..."
+msgid "Stop Auto Focus process"
+msgstr "Αυτόματη εστίαση σε εξέλιξη..."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
+#: ekos/focus/focus.ui:189
+#, fuzzy, kde-format
+#| msgid "Capture Image"
+msgid "Capture image"
+msgstr "Σύλληψη εικόνας"
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: ekos/focus/focus.ui:209 ekos/scheduler/framingassistant.ui:1281
+#: ekos/scheduler/scheduler.ui:193
+#, fuzzy, kde-format
+#| msgid "Step:"
+msgid "Steps:"
+msgstr "Βήμα:"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
-#: ekos/focus/focus.ui:164
+#: ekos/focus/focus.ui:228
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Start framing"
 msgstr "Αρχή στις:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_22)
+#: ekos/focus/focus.ui:248
+#, fuzzy, kde-format
+#| msgid "Start"
+msgid "Start:"
+msgstr "Εκκίνηση"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
+#: ekos/focus/focus.ui:273
+#, fuzzy, kde-format
+#| msgid "Autofocus in progress..."
+msgid "Start Auto Focus process"
+msgstr "Αυτόματη εστίαση σε εξέλιξη..."
+
+#. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
+#: ekos/focus/focus.ui:303
+#, fuzzy, kde-format
+#| msgid "Declination of focus position"
+msgid "Current absolute focuser position"
+msgstr "Απόκλιση της θέσης εστίασης"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
+#: ekos/focus/focus.ui:331
+#, fuzzy, kde-format
+#| msgid "Declination of focus position"
+msgid "Desired absolute focus position"
+msgstr "Απόκλιση της θέσης εστίασης"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, startGotoB)
+#: ekos/focus/focus.ui:347
+#, fuzzy, kde-format
+#| msgid "Right Ascension of focus position"
+msgid "Go to an absolute focus position"
+msgstr "Ορθή αναφορά της θέσης εστίασης"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, stopGotoB)
+#: ekos/focus/focus.ui:376
+#, fuzzy, kde-format
+#| msgid "Declination of focus position"
+msgid "Stop focuser motion"
+msgstr "Απόκλιση της θέσης εστίασης"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
-#: ekos/focus/focus.ui:193
+#: ekos/focus/focus.ui:407
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -19539,67 +19604,8 @@ msgid ""
 "body></html>"
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
-#: ekos/focus/focus.ui:225
-#, fuzzy, kde-format
-#| msgid "Capture Image"
-msgid "Capture image"
-msgstr "Σύλληψη εικόνας"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, stopGotoB)
-#: ekos/focus/focus.ui:254
-#, fuzzy, kde-format
-#| msgid "Declination of focus position"
-msgid "Stop focuser motion"
-msgstr "Απόκλιση της θέσης εστίασης"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, startFocusB)
-#: ekos/focus/focus.ui:289
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
-msgid "Start Auto Focus process"
-msgstr "Αυτόματη εστίαση σε εξέλιξη..."
-
-#. i18n: ectx: property (text), widget (QLabel, label_16)
-#. i18n: ectx: property (text), widget (QLabel, label_5)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/focus/focus.ui:305 ekos/scheduler/framingassistant.ui:1281
-#: ekos/scheduler/scheduler.ui:193
-#, fuzzy, kde-format
-#| msgid "Step:"
-msgid "Steps:"
-msgstr "Βήμα:"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, startGotoB)
-#: ekos/focus/focus.ui:324
-#, fuzzy, kde-format
-#| msgid "Right Ascension of focus position"
-msgid "Go to an absolute focus position"
-msgstr "Ορθή αναφορά της θέσης εστίασης"
-
-#. i18n: ectx: property (text), widget (QLabel, label_22)
-#: ekos/focus/focus.ui:357
-#, fuzzy, kde-format
-#| msgid "Start"
-msgid "Start:"
-msgstr "Εκκίνηση"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
-#: ekos/focus/focus.ui:382
-#, fuzzy, kde-format
-#| msgid "Autofocus in progress..."
-msgid "Stop Auto Focus process"
-msgstr "Αυτόματη εστίαση σε εξέλιξη..."
-
-#. i18n: ectx: property (toolTip), widget (QLineEdit, absTicksLabel)
-#: ekos/focus/focus.ui:401
-#, fuzzy, kde-format
-#| msgid "Declination of focus position"
-msgid "Current absolute focuser position"
-msgstr "Απόκλιση της θέσης εστίασης"
-
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
-#: ekos/focus/focus.ui:423
+#: ekos/focus/focus.ui:439
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -19607,15 +19613,8 @@ msgid ""
 "body></html>"
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
-#: ekos/focus/focus.ui:468
-#, fuzzy, kde-format
-#| msgid "Declination of focus position"
-msgid "Desired absolute focus position"
-msgstr "Απόκλιση της θέσης εστίασης"
-
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
-#: ekos/focus/focus.ui:484
+#: ekos/focus/focus.ui:471
 #, fuzzy, kde-format
 #| msgid "Filter Wheel"
 msgid "Camera && Filter Wheel"
@@ -19624,21 +19623,21 @@ msgstr "Τροχός φίλτρων"
 #. i18n: ectx: property (toolTip), widget (QLabel, gainLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, focusExposureLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
-#: ekos/focus/focus.ui:523 ekos/focus/focus.ui:548 ekos/guide/guide.ui:372
+#: ekos/focus/focus.ui:510 ekos/focus/focus.ui:535 ekos/guide/guide.ui:372
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure time in seconds"
 msgstr "Έναρξη έκθεσης φωτογραφικής/CCD. Η διάρκεια είναι σε δευτερόλεπτα."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, defaultFocusTemperatureSource)
-#: ekos/focus/focus.ui:567
+#: ekos/focus/focus.ui:554
 #, fuzzy, kde-format
 #| msgid "Default Focuser exposure value"
 msgid "Select focuser temperature source"
 msgstr "Προκαθορισμένη τιμή έκθεσης του εστιαστή:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
-#: ekos/focus/focus.ui:605
+#: ekos/focus/focus.ui:592
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Simulator Settings"
@@ -19646,7 +19645,7 @@ msgid "Filter Settings..."
 msgstr "Ρυθμίσεις εξομοίωσης"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:627
+#: ekos/focus/focus.ui:614
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focuser Simulator"
@@ -19654,7 +19653,7 @@ msgid "Focuser temperature source"
 msgstr "Εξομοιωτής εστιαστή"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
-#: ekos/focus/focus.ui:630
+#: ekos/focus/focus.ui:617
 #, fuzzy, kde-format
 #| msgctxt "Map projection method"
 #| msgid "TSC"
@@ -19663,7 +19662,7 @@ msgstr "TSC"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_30)
 #. i18n: ectx: property (toolTip), widget (QLabel, absoluteTemperatureLabel)
-#: ekos/focus/focus.ui:792 ekos/focus/focus.ui:808
+#: ekos/focus/focus.ui:779 ekos/focus/focus.ui:795
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Focuser Simulator"
@@ -19671,7 +19670,7 @@ msgid "Source temperature in Celsius"
 msgstr "Εξομοιωτής εστιαστή"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: ekos/focus/focus.ui:795
+#: ekos/focus/focus.ui:782
 #, fuzzy, kde-format
 #| msgid "Temp:"
 msgid "Temp. ="
@@ -19679,7 +19678,7 @@ msgstr "Προσωρινό:"
 
 #. i18n: ectx: property (text), widget (QLabel, absoluteTemperatureLabel)
 #. i18n: ectx: property (text), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:814 ekos/focus/focus.ui:849
+#: ekos/focus/focus.ui:801 ekos/focus/focus.ui:836
 #, fuzzy, kde-format
 #| msgctxt "Not Applicable"
 #| msgid "N/A"
@@ -19688,7 +19687,7 @@ msgstr "μη εφαρμόσιμο"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_31)
 #. i18n: ectx: property (toolTip), widget (QLabel, deltaTemperatureLabel)
-#: ekos/focus/focus.ui:824 ekos/focus/focus.ui:843
+#: ekos/focus/focus.ui:811 ekos/focus/focus.ui:830
 #, kde-format
 msgid ""
 "Delta temperature in Celsius. It is the difference between the last recorded "
@@ -19696,26 +19695,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: ekos/focus/focus.ui:827
+#: ekos/focus/focus.ui:814
 #, kde-format
 msgid "ΔT ="
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: ekos/focus/focus.ui:880
+#: ekos/focus/focus.ui:867
 #, kde-format
 msgid "Reset focus subframe to full capture"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, toolsGroup)
-#: ekos/focus/focus.ui:903
+#: ekos/focus/focus.ui:890
 #, fuzzy, kde-format
 #| msgid "&Tools"
 msgid "Tools"
 msgstr "Ερ&γαλεία"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startAbInsB)
-#: ekos/focus/focus.ui:918
+#: ekos/focus/focus.ui:905
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -19725,13 +19724,13 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QPushButton, advisorB)
-#: ekos/focus/focus.ui:935
+#: ekos/focus/focus.ui:922
 #, kde-format
 msgid "Advisor"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, forceInSeqAF)
-#: ekos/focus/focus.ui:942
+#: ekos/focus/focus.ui:929
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -19740,26 +19739,26 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QCheckBox, forceInSeqAF)
-#: ekos/focus/focus.ui:945
+#: ekos/focus/focus.ui:932
 #, kde-format
 msgid "Force AF"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ekos/focus/focus.ui:1011
+#: ekos/focus/focus.ui:998
 #, kde-format
 msgid "V-Curve"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/focus/focus.ui:1053 ekos/manager/focusmanager.ui:165
+#: ekos/focus/focus.ui:1040 ekos/manager/focusprogresswidget.ui:165
 #, kde-format
 msgid "HFR:"
 msgstr "HFR:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, HFROut)
-#: ekos/focus/focus.ui:1072
+#: ekos/focus/focus.ui:1059
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -19768,7 +19767,7 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
-#: ekos/focus/focus.ui:1104
+#: ekos/focus/focus.ui:1091
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "FWHM"
@@ -19776,7 +19775,7 @@ msgid "  FWHM:"
 msgstr "FWHM"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FWHMOut)
-#: ekos/focus/focus.ui:1117
+#: ekos/focus/focus.ui:1104
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -19785,14 +19784,14 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/focus/focus.ui:1130
+#: ekos/focus/focus.ui:1117
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "  Stars:"
 msgstr "Αστέρια"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, starsOut)
-#: ekos/focus/focus.ui:1143
+#: ekos/focus/focus.ui:1130
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -19801,20 +19800,20 @@ msgid ""
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: ekos/focus/focus.ui:1169
+#: ekos/focus/focus.ui:1156
 #, kde-format
 msgid "  Iter:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, iterOut)
-#: ekos/focus/focus.ui:1182
+#: ekos/focus/focus.ui:1169
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><body><p>Focuser iteration.</p></body></html>"
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
-#: ekos/focus/focus.ui:1217
+#: ekos/focus/focus.ui:1204
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "Profile..."
@@ -19824,7 +19823,7 @@ msgstr "Αρχείο arc"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1224 ekos/manager.ui:957 fitsviewer/fitstab.cpp:178
+#: ekos/focus/focus.ui:1211 ekos/manager.ui:957 fitsviewer/fitstab.cpp:178
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -20303,6 +20302,13 @@ msgctxt ""
 msgid ""
 "<table><tr><td>MIN:   </td><td>%1</td></tr><tr><td>VAL:   </td><td>%2</td></"
 "tr></table>"
+msgstr ""
+
+#: ekos/focus/focusmodule.cpp:28
+#, kde-format
+msgid ""
+"<p>Add additional focuser</p><p><b>WARNING</b>: This feature is experimental!"
+"</p>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
@@ -24217,63 +24223,63 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 msgid "Robotic (Experimental)"
 msgstr ""
 
-#: ekos/manager.cpp:229
+#: ekos/manager.cpp:230
 #, fuzzy, kde-format
 #| msgid "Sequence Queue"
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr "Ουρά ακολουθίας"
 
-#: ekos/manager.cpp:239
+#: ekos/manager.cpp:240
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr ""
 
-#: ekos/manager.cpp:259
+#: ekos/manager.cpp:260
 #, fuzzy, kde-format
 #| msgid "Logging Form"
 msgid "Logging"
 msgstr "Φόρμα καταγραφών"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:370 ekos/opsekos.ui:865
+#: ekos/manager.cpp:371 ekos/opsekos.ui:865
 #, kde-format
 msgid "Analyze"
 msgstr ""
 
-#: ekos/manager.cpp:634
+#: ekos/manager.cpp:635
 #, fuzzy, kde-format
 #| msgid "Ekos"
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:840 ekos/manager.cpp:866
+#: ekos/manager.cpp:841 ekos/manager.cpp:867
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr ""
 "Το Ekos χρειάζεται τουλάχιστον ένα CCD ή έναν Οδηγό για να να λειτουργήσει."
 
-#: ekos/manager.cpp:930
+#: ekos/manager.cpp:931
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
 
-#: ekos/manager.cpp:931
+#: ekos/manager.cpp:932
 #, fuzzy, kde-format
 #| msgid "Camera"
 msgid "PTP Camera"
 msgstr "Φωτογραφική"
 
-#: ekos/manager.cpp:946
+#: ekos/manager.cpp:947
 #, fuzzy, kde-format
 #| msgid "Connecting INDI devices..."
 msgid "Starting INDI services..."
 msgstr "Σύνδεση συσκευών του INDI..."
 
-#: ekos/manager.cpp:977
+#: ekos/manager.cpp:978
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -24281,13 +24287,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:979 indi/opsindi.ui:284
+#: ekos/manager.cpp:980 indi/opsindi.ui:284
 #, fuzzy, kde-format
 #| msgid "INDI Server:"
 msgid "INDI Server"
 msgstr "Εξυπηρετητής του INDI:"
 
-#: ekos/manager.cpp:994
+#: ekos/manager.cpp:995
 #, fuzzy, kde-format
 #| msgid "Connection to INDI server at host %1 with port %2 failed."
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
@@ -24295,41 +24301,41 @@ msgstr ""
 "Η σύνδεση με τον εξυπηρετητή του INDI στον υπολογιστή %1 με τη θύρα %2 "
 "απέτυχε."
 
-#: ekos/manager.cpp:1014
+#: ekos/manager.cpp:1015
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1018
+#: ekos/manager.cpp:1019
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1031
+#: ekos/manager.cpp:1032
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1051
+#: ekos/manager.cpp:1052
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr ""
 
-#: ekos/manager.cpp:1074
+#: ekos/manager.cpp:1075
 #, fuzzy, kde-format
 #| msgid "INDI services started. Please connect devices."
 msgid "INDI services started on port %1."
 msgstr "Οι υπηρεσίες του INDI ξεκίνησαν. Παρακαλώ συνδέστε τις συσκευές. "
 
-#: ekos/manager.cpp:1077
+#: ekos/manager.cpp:1078
 #, fuzzy, kde-format
 #| msgid "INDI services started. Please connect devices."
 msgid "INDI services started on port %1. Please connect devices."
 msgstr "Οι υπηρεσίες του INDI ξεκίνησαν. Παρακαλώ συνδέστε τις συσκευές. "
 
-#: ekos/manager.cpp:1082
+#: ekos/manager.cpp:1083
 #, fuzzy, kde-format
 #| msgid "INDI services started. Connection to %1 at %2 is successful."
 msgid ""
@@ -24339,31 +24345,31 @@ msgstr ""
 "Οι υπηρεσίες του INDI ξεκίνησαν. Η σύνδεση του %1 στο %2 πραγματοποιήθηκε με "
 "επιτυχία."
 
-#: ekos/manager.cpp:1092
+#: ekos/manager.cpp:1093
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1094
+#: ekos/manager.cpp:1095
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1107
+#: ekos/manager.cpp:1108
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Σύνδεση"
 
-#: ekos/manager.cpp:1109
+#: ekos/manager.cpp:1110
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Όνομα απομακρυσμένης συσκευής εστιαστή του INDI"
 
-#: ekos/manager.cpp:1186
+#: ekos/manager.cpp:1187
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -24373,7 +24379,7 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1188
+#: ekos/manager.cpp:1189
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -24385,7 +24391,7 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1216
+#: ekos/manager.cpp:1217
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -24397,15 +24403,15 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1220 ekos/manager.cpp:1228 ekos/manager.cpp:1258
-#: ekos/manager.cpp:1266
+#: ekos/manager.cpp:1221 ekos/manager.cpp:1229 ekos/manager.cpp:1259
+#: ekos/manager.cpp:1267
 #, fuzzy, kde-format
 #| msgid "%1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Ekos startup error"
 msgstr "Ανιχνεύθηκε %1 αστέρας."
 
-#: ekos/manager.cpp:1224
+#: ekos/manager.cpp:1225
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -24417,7 +24423,7 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1254
+#: ekos/manager.cpp:1255
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -24429,7 +24435,7 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1262
+#: ekos/manager.cpp:1263
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -24441,33 +24447,33 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1317
+#: ekos/manager.cpp:1318
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Σύνδεση συσκευών του INDI..."
 
-#: ekos/manager.cpp:1328
+#: ekos/manager.cpp:1329
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Αποσύνδεση συσκευών του INDI..."
 
-#: ekos/manager.cpp:1367
+#: ekos/manager.cpp:1368
 #, kde-format
 msgid "INDI services stopped."
 msgstr "Οι υπηρεσίες του INDI διακόπηκαν."
 
-#: ekos/manager.cpp:1440
+#: ekos/manager.cpp:1441
 #, fuzzy, kde-format
 #| msgid "Remote devices established. Please connect devices."
 msgid "Remote devices established."
 msgstr "Οι απομακρυσμένες συσκευές εγκαταστάθηκαν. Παρακαλώ συνδέστε συσκευές."
 
-#: ekos/manager.cpp:1442
+#: ekos/manager.cpp:1443
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Οι απομακρυσμένες συσκευές εγκαταστάθηκαν. Παρακαλώ συνδέστε συσκευές."
 
-#: ekos/manager.cpp:1503
+#: ekos/manager.cpp:1504
 #, fuzzy, kde-format
 #| msgid "Unable to completely establish remote devices. %1 device remaining."
 #| msgid_plural ""
@@ -24478,115 +24484,115 @@ msgid ""
 msgstr ""
 "Αδυναμία πλήρους εγκατάστασης απομακρυσμένων συσκευών. Απομένει %1 συσκευή."
 
-#: ekos/manager.cpp:1510
+#: ekos/manager.cpp:1511
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "%1 is disconnected."
 msgstr "Αποσύνδεση"
 
-#: ekos/manager.cpp:1529 ekos/manager.cpp:1538 ekos/manager.cpp:1571
+#: ekos/manager.cpp:1530 ekos/manager.cpp:1539 ekos/manager.cpp:1572
 #: indi/indistd.cpp:706
 #, kde-format
 msgid "%1 is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1546
+#: ekos/manager.cpp:1547
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 filter is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1555
+#: ekos/manager.cpp:1556
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 focuser is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1562
+#: ekos/manager.cpp:1563
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Rotator %1 is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1578
+#: ekos/manager.cpp:1579
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Weather is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1585
+#: ekos/manager.cpp:1586
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 GPS is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1594
+#: ekos/manager.cpp:1595
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Dust cap is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1601
+#: ekos/manager.cpp:1602
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 Light box is online."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/manager.cpp:1751
+#: ekos/manager.cpp:1752
 #, kde-format
 msgid "%1 is offline."
 msgstr "Το %1 είναι εκτός σύνδεσης."
 
-#: ekos/manager.cpp:1990
+#: ekos/manager.cpp:1991
 #, fuzzy, kde-format
 #| msgid "CCD"
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2353
+#: ekos/manager.cpp:2364
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "Η θύρα του Οδηγού από το %1 είναι έτοιμη."
 
-#: ekos/manager.cpp:2542
+#: ekos/manager.cpp:2553
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πελάτη %1;"
 
-#: ekos/manager.cpp:2543
+#: ekos/manager.cpp:2554
 #, fuzzy, kde-format
 #| msgid "Config file"
 msgid "Confirm Delete"
 msgstr "Αρχείο ρύθμισης"
 
-#: ekos/manager.cpp:2595
+#: ekos/manager.cpp:2606
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2597
+#: ekos/manager.cpp:2608
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2855
+#: ekos/manager.cpp:2866
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2863
+#: ekos/manager.cpp:2874
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2891
+#: ekos/manager.cpp:2902
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2903
+#: ekos/manager.cpp:2914
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -24731,7 +24737,7 @@ msgid "Options..."
 msgstr "Επιλογές..."
 
 #. i18n: ectx: property (toolTip), widget (FocusProfilePlot, profilePlot)
-#: ekos/manager/focusmanager.ui:275
+#: ekos/manager/focusprogresswidget.ui:275
 #, fuzzy, kde-format
 #| msgid "Arc file"
 msgid "Focus HFR profile"
@@ -24739,7 +24745,8 @@ msgstr "Αρχείο arc"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusStarView)
 #. i18n: ectx: property (text), widget (QLabel, focusStarView)
-#: ekos/manager/focusmanager.ui:293 ekos/manager/focusmanager.ui:300
+#: ekos/manager/focusprogresswidget.ui:293
+#: ekos/manager/focusprogresswidget.ui:300
 #, fuzzy, kde-format
 #| msgid "Focus Out"
 msgid "Focus star"
@@ -24981,7 +24988,7 @@ msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 msgid "Failed to clear Alignment Model."
 msgstr "Στοίχιση"
 
-#: ekos/mount/mount.cpp:1273 ekos/scheduler/schedulerprocess.cpp:4037
+#: ekos/mount/mount.cpp:1273 ekos/scheduler/schedulerprocess.cpp:4040
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
@@ -29404,328 +29411,328 @@ msgstr "Η αυτόματη οδήγηση ξεκίνησε."
 msgid "Starting guiding procedure for %1 ..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1086
+#: ekos/scheduler/schedulerprocess.cpp:1083
 #, kde-format
 msgid "Ekos job (%1) - Capture started"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1089
+#: ekos/scheduler/schedulerprocess.cpp:1086
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Job '%1' capture is in progress (batch #%2)..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1092
+#: ekos/scheduler/schedulerprocess.cpp:1089
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Job '%1' capture is in progress..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1198
+#: ekos/scheduler/schedulerprocess.cpp:1195
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing script %1..."
 msgstr "Εκτελούμενο σενάριο: %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:1243
+#: ekos/scheduler/schedulerprocess.cpp:1240
 #, fuzzy, kde-format
 #| msgid "%1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Ekos started."
 msgstr "Ανιχνεύθηκε %1 αστέρας."
 
-#: ekos/scheduler/schedulerprocess.cpp:1252
+#: ekos/scheduler/schedulerprocess.cpp:1249
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Starting Ekos failed. Retrying..."
 msgstr "Δεν ήταν δυνατό το άνοιγμα του αρχείου %1."
 
-#: ekos/scheduler/schedulerprocess.cpp:1257
+#: ekos/scheduler/schedulerprocess.cpp:1254
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Starting Ekos failed."
 msgstr "Άλλο"
 
-#: ekos/scheduler/schedulerprocess.cpp:1268
+#: ekos/scheduler/schedulerprocess.cpp:1265
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Starting Ekos timed out. Retrying..."
 msgstr "Δεν ήταν δυνατό το άνοιγμα του αρχείου %1."
 
-#: ekos/scheduler/schedulerprocess.cpp:1278
+#: ekos/scheduler/schedulerprocess.cpp:1275
 #, fuzzy, kde-format
 #| msgid "Guiding rate,x15\"/sec"
 msgid "Starting Ekos timed out."
 msgstr "Ρυθμός οδήγησης,x15\"/δευτερόλεπτο"
 
-#: ekos/scheduler/schedulerprocess.cpp:1289
+#: ekos/scheduler/schedulerprocess.cpp:1286
 #, fuzzy, kde-format
 #| msgid "%1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Ekos stopped."
 msgstr "Ανιχνεύθηκε %1 αστέρας."
 
-#: ekos/scheduler/schedulerprocess.cpp:1332
+#: ekos/scheduler/schedulerprocess.cpp:1329
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "INDI devices connected."
 msgstr "Οι υπηρεσίες του INDI διακόπηκαν."
 
-#: ekos/scheduler/schedulerprocess.cpp:1339
+#: ekos/scheduler/schedulerprocess.cpp:1336
 #, kde-format
 msgid "One or more INDI devices failed to connect. Retrying..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1344
+#: ekos/scheduler/schedulerprocess.cpp:1341
 #, kde-format
 msgid ""
 "One or more INDI devices failed to connect. Check INDI control panel for "
 "details."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1353
+#: ekos/scheduler/schedulerprocess.cpp:1350
 #, kde-format
 msgid "One or more INDI devices timed out. Retrying..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1359
+#: ekos/scheduler/schedulerprocess.cpp:1356
 #, kde-format
 msgid ""
 "One or more INDI devices timed out. Check INDI control panel for details."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1370
+#: ekos/scheduler/schedulerprocess.cpp:1367
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "INDI devices disconnected."
 msgstr "Οι υπηρεσίες του INDI διακόπηκαν."
 
-#: ekos/scheduler/schedulerprocess.cpp:1386
+#: ekos/scheduler/schedulerprocess.cpp:1383
 #, kde-format
 msgid "Warning: dome device not ready after timeout, attempting to recover..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1391
+#: ekos/scheduler/schedulerprocess.cpp:1388
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1401
+#: ekos/scheduler/schedulerprocess.cpp:1398
 #, kde-format
 msgid "Warning: mount device not ready after timeout, attempting to recover..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1416
+#: ekos/scheduler/schedulerprocess.cpp:1413
 #, kde-format
 msgid "Warning: cap device not ready after timeout, attempting to recover..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1478
+#: ekos/scheduler/schedulerprocess.cpp:1475
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Shutdown complete."
 msgstr "Η αυτόματη εστίαση ολοκληρώθηκε."
 
-#: ekos/scheduler/schedulerprocess.cpp:1480
+#: ekos/scheduler/schedulerprocess.cpp:1477
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Shutdown procedure failed, aborting..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1584
+#: ekos/scheduler/schedulerprocess.cpp:1581
 #, fuzzy, kde-format
 msgid "Cap parked."
 msgstr "Ντομ Κρικ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1594
+#: ekos/scheduler/schedulerprocess.cpp:1591
 #, fuzzy, kde-format
 msgid "Cap unparked."
 msgstr "Μάουντ Έκαρ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1606
-#: ekos/scheduler/schedulerprocess.cpp:1835
+#: ekos/scheduler/schedulerprocess.cpp:1603
+#: ekos/scheduler/schedulerprocess.cpp:1832
 #, kde-format
 msgid "Operation timeout. Restarting operation..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1619
+#: ekos/scheduler/schedulerprocess.cpp:1616
 #, fuzzy, kde-format
 msgid "Cap parking error."
 msgstr "Ντομ Κρικ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1624
+#: ekos/scheduler/schedulerprocess.cpp:1621
 #, fuzzy, kde-format
 msgid "Cap unparking error."
 msgstr "Μάουντ Έκαρ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1666
+#: ekos/scheduler/schedulerprocess.cpp:1663
 #, fuzzy, kde-format
 msgid "Mount parked."
 msgstr "Μάουντ Έκαρ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1681
+#: ekos/scheduler/schedulerprocess.cpp:1678
 #, fuzzy, kde-format
 msgid "Mount unparked."
 msgstr "Μάουντ Έκαρ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1693
+#: ekos/scheduler/schedulerprocess.cpp:1690
 #, kde-format
 msgid ""
 "Warning: mount unpark operation timed out on attempt %1/%2. Restarting "
 "operation..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1699
+#: ekos/scheduler/schedulerprocess.cpp:1696
 #, kde-format
 msgid "Warning: mount unpark operation timed out on last attempt."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1713
+#: ekos/scheduler/schedulerprocess.cpp:1710
 #, kde-format
 msgid ""
 "Warning: mount park operation timed out on attempt %1/%2. Restarting "
 "operation..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1720
+#: ekos/scheduler/schedulerprocess.cpp:1717
 #, kde-format
 msgid "Warning: mount park operation timed out on last attempt."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1732
-#: ekos/scheduler/schedulerprocess.cpp:1761
+#: ekos/scheduler/schedulerprocess.cpp:1729
+#: ekos/scheduler/schedulerprocess.cpp:1758
 #, fuzzy, kde-format
 msgid "Mount unparking error."
 msgstr "Μάουντ Έκαρ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1740
+#: ekos/scheduler/schedulerprocess.cpp:1737
 #, kde-format
 msgid ""
 "Warning: mount park operation failed on attempt %1/%2. Restarting "
 "operation..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1747
-#: ekos/scheduler/schedulerprocess.cpp:1755
+#: ekos/scheduler/schedulerprocess.cpp:1744
+#: ekos/scheduler/schedulerprocess.cpp:1752
 #, fuzzy, kde-format
 msgid "Mount parking error."
 msgstr "Μάουντ Έκαρ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1812
+#: ekos/scheduler/schedulerprocess.cpp:1809
 #, fuzzy, kde-format
 msgid "Dome parked."
 msgstr "Ντομ Κρικ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1823
+#: ekos/scheduler/schedulerprocess.cpp:1820
 #, kde-format
 msgid "Dome unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1850
+#: ekos/scheduler/schedulerprocess.cpp:1847
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Dome parking failed. Restarting operation..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1855
+#: ekos/scheduler/schedulerprocess.cpp:1852
 #, fuzzy, kde-format
 msgid "Dome parking error."
 msgstr "Ντομ Κρικ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1864
+#: ekos/scheduler/schedulerprocess.cpp:1861
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Dome unparking failed. Restarting operation..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:1869
+#: ekos/scheduler/schedulerprocess.cpp:1866
 #, fuzzy, kde-format
 msgid "Dome unparking error."
 msgstr "Ντομ Κρικ"
 
-#: ekos/scheduler/schedulerprocess.cpp:1892
+#: ekos/scheduler/schedulerprocess.cpp:1889
 #, kde-format
 msgid "Observatory is in the startup process"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:1905
+#: ekos/scheduler/schedulerprocess.cpp:1902
 #, kde-format
 msgid "Ekos is already started, skipping startup script..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2010
+#: ekos/scheduler/schedulerprocess.cpp:2007
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Warming up CCD..."
 msgstr "Ραδιοτηλεσκόπιο"
 
-#: ekos/scheduler/schedulerprocess.cpp:2043
+#: ekos/scheduler/schedulerprocess.cpp:2040
 #, kde-format
 msgid "Warning: Bypassing parking procedures, no INDI connection."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2167
+#: ekos/scheduler/schedulerprocess.cpp:2164
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "park/unpark wait procedure failed, aborting..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2186
+#: ekos/scheduler/schedulerprocess.cpp:2183
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Warning: executing startup procedure manually..."
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πελάτη %1;"
 
-#: ekos/scheduler/schedulerprocess.cpp:2193
+#: ekos/scheduler/schedulerprocess.cpp:2190
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to execute the startup procedure manually?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πελάτη %1;"
 
-#: ekos/scheduler/schedulerprocess.cpp:2237
+#: ekos/scheduler/schedulerprocess.cpp:2234
 #, fuzzy, kde-format
 #| msgid "Start Focus"
 msgid "Startup procedure terminated."
 msgstr "Εκκίνηση εστίασης"
 
-#: ekos/scheduler/schedulerprocess.cpp:2251
+#: ekos/scheduler/schedulerprocess.cpp:2248
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Warning: executing shutdown procedure manually..."
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πελάτη %1;"
 
-#: ekos/scheduler/schedulerprocess.cpp:2257
+#: ekos/scheduler/schedulerprocess.cpp:2254
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to execute the shutdown procedure manually?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πελάτη %1;"
 
-#: ekos/scheduler/schedulerprocess.cpp:2302
+#: ekos/scheduler/schedulerprocess.cpp:2299
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Shutdown procedure terminated."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:2309
+#: ekos/scheduler/schedulerprocess.cpp:2306
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler paused."
 msgstr "Το αρχείο FITS αποθηκεύτηκε στο %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:2345
+#: ekos/scheduler/schedulerprocess.cpp:2342
 #, kde-format
 msgid "No jobs left in the scheduler queue after evaluating."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2353
+#: ekos/scheduler/schedulerprocess.cpp:2350
 #, kde-format
 msgid ""
 "Only aborted jobs left in the scheduler queue after evaluating, rescheduling "
 "those."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2367
+#: ekos/scheduler/schedulerprocess.cpp:2364
 #, kde-format
 msgid "No jobs scheduled."
 msgstr ""
@@ -29761,7 +29768,7 @@ msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "Στοίχιση"
 
 #: ekos/scheduler/schedulerprocess.cpp:2824
-#: ekos/scheduler/schedulerprocess.cpp:3776
+#: ekos/scheduler/schedulerprocess.cpp:3779
 #, fuzzy, kde-format
 #| msgid "Align"
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
@@ -29902,168 +29909,168 @@ msgstr ""
 msgid "[%2] Job (%1) - Capture finished"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3753
+#: ekos/scheduler/schedulerprocess.cpp:3756
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' focusing is complete."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:3763
+#: ekos/scheduler/schedulerprocess.cpp:3766
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' focusing failed."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:3767
+#: ekos/scheduler/schedulerprocess.cpp:3770
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Job '%1' is restarting its focusing procedure."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3805
+#: ekos/scheduler/schedulerprocess.cpp:3808
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' slew is complete."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:3811
+#: ekos/scheduler/schedulerprocess.cpp:3814
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3817
+#: ekos/scheduler/schedulerprocess.cpp:3820
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:3830
+#: ekos/scheduler/schedulerprocess.cpp:3833
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Job '%1' repositioning is complete."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:3836
+#: ekos/scheduler/schedulerprocess.cpp:3839
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3842
+#: ekos/scheduler/schedulerprocess.cpp:3845
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/scheduler/schedulerprocess.cpp:3856
-#: ekos/scheduler/schedulerprocess.cpp:3867
+#: ekos/scheduler/schedulerprocess.cpp:3859
+#: ekos/scheduler/schedulerprocess.cpp:3870
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3891
+#: ekos/scheduler/schedulerprocess.cpp:3894
 #, kde-format
 msgid "Starting shutdown procedure due to severe weather."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3916
+#: ekos/scheduler/schedulerprocess.cpp:3919
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Ο οδηγός τηλεσκοπίου ολοκληρώθηκε επιτυχώς."
 
-#: ekos/scheduler/schedulerprocess.cpp:3922
+#: ekos/scheduler/schedulerprocess.cpp:3925
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3937
+#: ekos/scheduler/schedulerprocess.cpp:3940
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3960
+#: ekos/scheduler/schedulerprocess.cpp:3963
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking Cap..."
 msgstr "Ραδιοτηλεσκόπιο"
 
-#: ekos/scheduler/schedulerprocess.cpp:3966
+#: ekos/scheduler/schedulerprocess.cpp:3969
 #, kde-format
 msgid "Cap already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3975
+#: ekos/scheduler/schedulerprocess.cpp:3978
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3997
+#: ekos/scheduler/schedulerprocess.cpp:4000
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking cap..."
 msgstr "Ραδιοτηλεσκόπιο"
 
-#: ekos/scheduler/schedulerprocess.cpp:4003
+#: ekos/scheduler/schedulerprocess.cpp:4006
 #, kde-format
 msgid "Cap already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4012
+#: ekos/scheduler/schedulerprocess.cpp:4015
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4070
+#: ekos/scheduler/schedulerprocess.cpp:4073
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking mount in progress..."
 msgstr "Ραδιοτηλεσκόπιο"
 
-#: ekos/scheduler/schedulerprocess.cpp:4084
+#: ekos/scheduler/schedulerprocess.cpp:4087
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4110
+#: ekos/scheduler/schedulerprocess.cpp:4113
 #, kde-format
 msgid "Mount already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4208
+#: ekos/scheduler/schedulerprocess.cpp:4211
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4231
+#: ekos/scheduler/schedulerprocess.cpp:4234
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dome..."
 msgstr "Ραδιοτηλεσκόπιο"
 
-#: ekos/scheduler/schedulerprocess.cpp:4237
+#: ekos/scheduler/schedulerprocess.cpp:4240
 #, kde-format
 msgid "Dome already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4247
+#: ekos/scheduler/schedulerprocess.cpp:4250
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4267
+#: ekos/scheduler/schedulerprocess.cpp:4270
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dome..."
 msgstr "Ραδιοτηλεσκόπιο"
 
-#: ekos/scheduler/schedulerprocess.cpp:4273
+#: ekos/scheduler/schedulerprocess.cpp:4276
 #, kde-format
 msgid "Dome already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4354
+#: ekos/scheduler/schedulerprocess.cpp:4357
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid ""
@@ -30071,18 +30078,18 @@ msgid ""
 "ready..."
 msgstr "Η βαθμονόμηση ολοκληρώθηκε."
 
-#: ekos/scheduler/schedulerprocess.cpp:4646
+#: ekos/scheduler/schedulerprocess.cpp:4649
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4651
+#: ekos/scheduler/schedulerprocess.cpp:4654
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Shutdown script failed, aborting..."
 msgstr "Αυτόματη εστίαση σε εξέλιξη..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4712
+#: ekos/scheduler/schedulerprocess.cpp:4715
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
