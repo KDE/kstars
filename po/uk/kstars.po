@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-16 01:45+0000\n"
-"PO-Revision-Date: 2024-08-12 09:30+0300\n"
+"PO-Revision-Date: 2024-08-16 09:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -19985,16 +19985,13 @@ msgstr ""
 "tr></table>"
 
 #: ekos/focus/focusmodule.cpp:28
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Add additional camera</p><p><b>WARNING</b>: This feature is "
-#| "experimental!</p>"
+#, kde-format
 msgid ""
 "<p>Add additional focuser</p><p><b>WARNING</b>: This feature is experimental!"
 "</p>"
 msgstr ""
-"<p>Додати додаткову камеру</p><p><b>ПОПЕРЕДЖЕННЯ</b>: ця можливість є "
-"експериментальною!</p>"
+"<p>Додати додатковий засіб фокусування</p><p><b>ПОПЕРЕДЖЕННЯ</b>: ця "
+"можливість є експериментальною!</p>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/opsfocusmechanics.ui:37
