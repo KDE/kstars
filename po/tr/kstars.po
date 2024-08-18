@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-16 01:45+0000\n"
-"PO-Revision-Date: 2024-08-16 12:07+0300\n"
+"PO-Revision-Date: 2024-08-17 22:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -24032,7 +24032,7 @@ msgstr "2. Ekos'u Başlat ve Durdur"
 #: ekos/manager.ui:392
 #, kde-format
 msgid "Ekos Live..."
-msgstr "Ekos Canlı..."
+msgstr "EkosLive..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
 #: ekos/manager.ui:421 kstarsinit.cpp:535
@@ -36098,16 +36098,13 @@ msgstr "Derece olarak enlem"
 
 #. i18n: ectx: whatsthis, entry (XplanetLatitude), group (Xplanet)
 #: kstars.kcfg:1267
-#, fuzzy, kde-format
-#| msgid ""
-#| "Render the target body as seen from above the specified latitude (in "
-#| "degrees).  The default value is 0."
+#, kde-format
 msgid ""
 "Render the target body as seen from above the specified latitude (in "
 "degrees). The default value is 0."
 msgstr ""
-"Hedef cisimin görüntüsünü (derece olarak) belirtilen enlemin üzerinden "
-"göründüğü şekli ile oluştur.  Öntanımlı değer 0."
+"Hedef gövdeyi belirtilen enlemden (derece olarak) yukarıdan görüldüğü gibi "
+"sunun. Öntanımlı değer 0'dır."
 
 #. i18n: ectx: label, entry (XplanetLongitude), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetLongitude)
@@ -36118,19 +36115,16 @@ msgstr "Derece olarak boylam"
 
 #. i18n: ectx: whatsthis, entry (XplanetLongitude), group (Xplanet)
 #: kstars.kcfg:1272
-#, fuzzy, kde-format
-#| msgid ""
-#| "Place the observer above the specified longitude (in degrees).  Longitude "
-#| "is positive going east, negative going west (for the earth and moon), so "
-#| "for example Los Angeles is at -118 or 242.  The default value is 0."
+#, kde-format
 msgid ""
 "Place the observer above the specified longitude (in degrees). Longitude is "
 "positive going east, negative going west (for the earth and moon), so for "
 "example Los Angeles is at -118 or 242. The default value is 0."
 msgstr ""
-"Gözlemciyi (derece olarak) belirtilmiş boylam üzerine yerleştir.  Boylam "
-"için, (dünya ve ay için) artı yönde doğuya veya eksi yönde batıya gidilir. "
-"Örneğin Los Angeles için boylam -118 veya 242 .  Öntanımlı değer 0."
+"Gözlemciyi belirtilen boylamın (derece olarak) üzerine yerleştirin. Boylam "
+"doğuya doğru gidildikçe pozitif, batıya doğru gidildikçe negatiftir (dünya "
+"ve ay için), bu nedenle örneğin Los Angeles −118 veya 242'dir. Öntanımlı "
+"değer 0'dır."
 
 #. i18n: ectx: label, entry (XplanetProjection), group (Xplanet)
 #. i18n: ectx: attribute (title), widget (QWidget, XplanetTabProjection)
@@ -36141,16 +36135,13 @@ msgstr "Projeksiyon"
 
 #. i18n: ectx: whatsthis, entry (XplanetProjection), group (Xplanet)
 #: kstars.kcfg:1277
-#, fuzzy, kde-format
-#| msgid ""
-#| "The default is no projection.  Multiple bodies will not be shown if this "
-#| "option is specified, although shadows will still be drawn."
+#, kde-format
 msgid ""
 "The default is no projection. Multiple bodies will not be shown if this "
 "option is specified, although shadows will still be drawn."
 msgstr ""
-"Öntanımlı değer projeksiyonun olmamasıdır. Bu seçenek belirtilirse çoklu "
-"cisimler gösterilmeyecek fakat gölgeler gösterilecektir."
+"Öntanımlı değer projeksiyon yok olarak ayarlıdır. Bu seçenek belirtilirse "
+"birden fazla gövde gösterilmez; ancak gölgeler yine de çizilecektir."
 
 #. i18n: ectx: label, entry (XplanetBackground), group (Xplanet)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetBackground)
@@ -36167,8 +36158,8 @@ msgid ""
 "it. This option is only meaningful with the -projection option. A color may "
 "also be supplied."
 msgstr ""
-"Gezegenin üzerinde görüneceği bir arka plan dosyası kullan.  Bu seçenek "
-"yalnızca projeksiyon seçeneği ile birlikte anlamlı olur. Ayrıca bir renk "
+"Arka plan görseli olarak bir dosya kullanın ve üzerine gezegeni yerleştirin. "
+"Bu seçenek yalnızca -projection seçeneğiyle anlamlıdır. Bir renk de "
 "sağlanabilir."
 
 #. i18n: ectx: label, entry (XplanetBackgroundImage), group (Xplanet)
@@ -36181,7 +36172,7 @@ msgstr "Arka plan görseli kullan"
 #: kstars.kcfg:1287
 #, kde-format
 msgid "Use a file as the background image."
-msgstr "Bir dosyayı arka plan resmi olarak kullan."
+msgstr "Bir dosyayı arka plan görseli olarak kullanın."
 
 #. i18n: ectx: label, entry (XplanetBackgroundImagePath), group (Xplanet)
 #: kstars.kcfg:1291
@@ -36205,7 +36196,7 @@ msgstr "Arka plan rengi kullan"
 #: kstars.kcfg:1297
 #, kde-format
 msgid "Use a color as the background."
-msgstr "Arka plan olarak renk kullan."
+msgstr "Arka plan olarak renk kullanın."
 
 #. i18n: ectx: label, entry (XplanetBackgroundColorValue), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_XplanetBackgroundColorValue)
@@ -36235,8 +36226,9 @@ msgid ""
 "default value is 10. Stars will be drawn more brightly if this number is "
 "larger."
 msgstr ""
-"Belirtilen kadirdeki bir yıldızın piksel parlaklığı 1 olacaktır. Öntanımlı "
-"değer 10. Bu değer daha büyük olursa yıldızlar daha parlak gösterilecek."
+"Belirtilen büyüklükteki bir yıldızın piksel parlaklığı 1 olacaktır. "
+"Öntanımlı değer 10'dur. Bu sayı daha büyükse yıldızlar daha parlak "
+"çizilecektir."
 
 #. i18n: ectx: label, entry (XplanetArcFile), group (Xplanet)
 #: kstars.kcfg:1311
@@ -36249,7 +36241,8 @@ msgstr "Arc dosyası"
 #, kde-format
 msgid "If checked, use an arc file to be plotted against the background stars."
 msgstr ""
-"Seçilirse. arka plan yıldızlarına karşı çizim için bir arc dosyası kullan."
+"İşaretlenirse arka plandaki yıldızlara karşı çizilecek bir Arc dosyası "
+"kullanın."
 
 #. i18n: ectx: label, entry (XplanetArcFilePath), group (Xplanet)
 #: kstars.kcfg:1316
@@ -36262,7 +36255,7 @@ msgstr "Arc dosyası yolu"
 #: kstars.kcfg:1317 xplanet/opsxplanet.ui:418
 #, kde-format
 msgid "Specify an arc file to be plotted against the background stars."
-msgstr "Arka plan yıldızlarına karşı çizim için bir arc dosyası belirt."
+msgstr "Arka plan yıldızlarına karşı çizim için bir Arc dosyası belirtin."
 
 #. i18n: ectx: label, entry (XplanetConfigFile), group (Xplanet)
 #: kstars.kcfg:1321
@@ -36286,40 +36279,40 @@ msgstr "Yapılandırma dosyası yolu"
 #: kstars.kcfg:1327
 #, kde-format
 msgid "Use the specified configuration file."
-msgstr "Belirtilmiş yapılandırma dosyasını kullan"
+msgstr "Belirtilen yapılandırma dosyasını kullanın."
 
 #. i18n: ectx: label, entry (XplanetFOV), group (Xplanet)
 #: kstars.kcfg:1331
 #, kde-format
 msgid "Use KStars's FOV"
-msgstr "K Yıldızlar'ın FOV'unu Kullan"
+msgstr "K Yıldızlar'ın görüş alanını kullan"
 
 #. i18n: ectx: whatsthis, entry (XplanetFOV), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetFOV)
 #: kstars.kcfg:1332 xplanet/opsxplanet.ui:239
 #, kde-format
 msgid "If checked, use kstars's FOV."
-msgstr "Seçiliyse K Yıldızlar'ın FOV'unu kullanın."
+msgstr "Seçiliyse K Yıldızlar'ın görüş alanını kullanın."
 
 #. i18n: ectx: label, entry (XplanetMarkerFile), group (Xplanet)
 #: kstars.kcfg:1336
 #, kde-format
 msgid "Use marker file"
-msgstr "İşaretleyici dosyayı kullan"
+msgstr "İmleyici dosya kullan"
 
 #. i18n: ectx: whatsthis, entry (XplanetMarkerFile), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetMarkerFile)
 #: kstars.kcfg:1337 xplanet/opsxplanet.ui:810
 #, kde-format
 msgid "If checked, use the specified marker file."
-msgstr "Seçili ise, belirtilmiş işaretleyici dosyayı kullan."
+msgstr "İşaretlenirse belirtilen imleyici dosyayı kullanın."
 
 #. i18n: ectx: label, entry (XplanetMarkerFilePath), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetMarkerFilePath)
 #: kstars.kcfg:1341 xplanet/opsxplanet.ui:820
 #, kde-format
 msgid "Marker file path"
-msgstr "İşaretleyici dosya yolu"
+msgstr "İmleyici dosya yolu"
 
 #. i18n: ectx: whatsthis, entry (XplanetMarkerFilePath), group (Xplanet)
 #: kstars.kcfg:1342
@@ -36328,14 +36321,14 @@ msgid ""
 "Specify a file containing user-defined marker data to display against the "
 "background stars."
 msgstr ""
-"Arka plandaki yıldızlara karşı görüntülenecek kullanıcı tanımlı im verisi "
-"içeren bir dosya belirtin."
+"Arka plandaki yıldızlara karşı görüntülenecek kullanıcı tanımlı imleyici "
+"verisi içeren bir dosyayı belirtin."
 
 #. i18n: ectx: label, entry (XplanetMarkerBounds), group (Xplanet)
 #: kstars.kcfg:1346
 #, kde-format
 msgid "Write marker bounds"
-msgstr "İşaretleyici sınırlarını yaz"
+msgstr "İmleyici sınırlarını yaz"
 
 #. i18n: ectx: whatsthis, entry (XplanetMarkerBounds), group (Xplanet)
 #: kstars.kcfg:1347
@@ -36343,22 +36336,23 @@ msgstr "İşaretleyici sınırlarını yaz"
 msgid ""
 "If checked, write coordinates of the bounding box for each marker in a file."
 msgstr ""
-"Seçili ise, her bir işaretleyici sınır kutusunun koordinatlarını bir dosyaya "
-"yaz."
+"İşaretlenirse dosyadaki her imleyici için sınırlayıcı kutunun "
+"koordinatlarını yazın."
 
 #. i18n: ectx: label, entry (XplanetMarkerBoundsPath), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetMarkerBoundsPath)
 #: kstars.kcfg:1351 xplanet/opsxplanet.ui:843
 #, kde-format
 msgid "Marker bounds file path"
-msgstr "İşaretleyici sınırları dosya yolu"
+msgstr "İmleyici sınırları dosyası yolu"
 
 #. i18n: ectx: whatsthis, entry (XplanetMarkerBoundsPath), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetMarkerBoundsPath)
 #: kstars.kcfg:1352 xplanet/opsxplanet.ui:846
 #, kde-format
 msgid "Write coordinates of the bounding box for each marker to this file."
-msgstr "Bu dosyaya her işaretleyici için sınır kutularının koordnatlarını yaz."
+msgstr ""
+"Her imleyici için sınırlayıcı kutunun koordinatlarını bu dosyaya yazın."
 
 #. i18n: ectx: label, entry (XplanetStarmap), group (Xplanet)
 #: kstars.kcfg:1356
@@ -36372,8 +36366,8 @@ msgstr "Yıldız haritası"
 #, kde-format
 msgid "If checked, use star map file to draw the background stars."
 msgstr ""
-"Seçilirse arka plan yıldızlarının görüntülenmesi için yıldız haritası "
-"dosyası kullanılacak."
+"İşaretlenirse arka plan yıldızlarını çizmek için yıldız haritası dosyasını "
+"kullanın."
 
 #. i18n: ectx: label, entry (XplanetStarmapPath), group (Xplanet)
 #. i18n: ectx: whatsthis, entry (XplanetStarmapPath), group (Xplanet)
@@ -36383,13 +36377,13 @@ msgstr ""
 #: xplanet/opsxplanet.ui:363
 #, kde-format
 msgid "Star map file path"
-msgstr "Yıldız haritası dosya yolu"
+msgstr "Yıldız haritası dosyası yolu"
 
 #. i18n: ectx: label, entry (XplanetQuality), group (Xplanet)
 #: kstars.kcfg:1366
 #, kde-format
 msgid "Output file quality"
-msgstr "Çıktı dosyasının kalitesi"
+msgstr "Çıktı dosyası kalitesi"
 
 #. i18n: ectx: whatsthis, entry (XplanetQuality), group (Xplanet)
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetQuality)
@@ -36399,27 +36393,28 @@ msgid ""
 "This option is only used when creating JPEG images. The quality can range "
 "from 0 to 100. The default value is 80."
 msgstr ""
-"Bu seçenek yalnızca JPEG resim oluşturulurken kullanılır. Kalite 0 ile 100 "
-"arasında değişir. Öntanımlı değer 80."
+"Bu seçenek yalnızca JPEG görselleri oluştururken kullanılır. Kalite 0 ile "
+"100 arasında değişebilir. Öntanımlı değer 80'dir."
 
 #. i18n: ectx: label, entry (ShowSatellites), group (Satellites)
 #: kstars.kcfg:1373
 #, kde-format
 msgid "Draw satellites in the sky map?"
-msgstr "Uydular gökyüzü haritasında gösterilsinler mi?"
+msgstr "Gökyüzü haritasında uydular çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowSatellites), group (Satellites)
 #. i18n: ectx: whatsthis, entry (ShowVisibleSatellites), group (Satellites)
 #: kstars.kcfg:1374 kstars.kcfg:1379
 #, kde-format
 msgid "Toggle whether satellite tracks are drawn in the sky map."
-msgstr "Gökyüzü haritasında uydu yörüngelerini göster/gizle."
+msgstr ""
+"Gökyüzü haritasında uydu izlerinin çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (ShowVisibleSatellites), group (Satellites)
 #: kstars.kcfg:1378
 #, kde-format
 msgid "Draw only visible satellites in the sky map"
-msgstr "Yalnızca görülebilinir uyduları yıldız haritasında göster"
+msgstr "Gökyüzü haritasında yalnızca görünür uyduları çiz"
 
 #. i18n: ectx: label, entry (DrawSatellitesLikeStars), group (Satellites)
 #. i18n: ectx: whatsthis, entry (DrawSatellitesLikeStars), group (Satellites)
@@ -36429,26 +36424,27 @@ msgid ""
 "If selected, satellites will be draw like stars, otherwise, draw satellites "
 "as small colored square."
 msgstr ""
-"Seçiliyse, uydular yıldız gibi çizelecekler, değilse, uydular küçük renkli "
-"kare olarak çizileceklerdir."
+"Seçiliyise uydular yıldız şeklinde çizilecektir, seçilmediği takdirde "
+"uydular küçük renkli kareler şeklinde çizilecektir."
 
 #. i18n: ectx: label, entry (ShowSatellitesLabels), group (Satellites)
 #: kstars.kcfg:1388
 #, kde-format
 msgid "Draw satellite labels?"
-msgstr "Uydu etiketleri gösterilsin mi?"
+msgstr "Uydu etiketleri çizilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (ShowSatellitesLabels), group (Satellites)
 #: kstars.kcfg:1389
 #, kde-format
 msgid "Toggle whether satellite labels are drawn in the sky map."
-msgstr "Gökyüzü haritasında uydu yörüngelerini etiketle."
+msgstr ""
+"Gökyüzü haritasında uydu etiketlerinin çizilip çizilmeyeceğini açın/kapatın."
 
 #. i18n: ectx: label, entry (SelectedSatellites), group (Satellites)
 #: kstars.kcfg:1393
 #, kde-format
 msgid "Selected satellites."
-msgstr "Seçili uydular."
+msgstr "Seçili uydular"
 
 #. i18n: ectx: whatsthis, entry (SelectedSatellites), group (Satellites)
 #: kstars.kcfg:1394
@@ -36460,7 +36456,7 @@ msgstr "Seçili uyduların listesi."
 #: kstars.kcfg:1399
 #, kde-format
 msgid "Is this the first time running KStars?"
-msgstr ""
+msgstr "Bu, K Yıldızlar'ı ilk çalıştırmanız mı?"
 
 #. i18n: ectx: whatsthis, entry (KStarsFirstRun), group (General)
 #: kstars.kcfg:1400
@@ -36469,6 +36465,8 @@ msgid ""
 "This allows KStars to perform several operations if it has never been "
 "installed before."
 msgstr ""
+"Bu, daha önce hiç çalıştırılmamış olsa bile K Yıldızlar'ın çeşitli işlemleri "
+"gerçekleştirmesine olanak tanır."
 
 #. i18n: ectx: label, entry (AlwaysRecomputeCoordinates), group (General)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysRecomputeCoordinates)
@@ -36488,31 +36486,30 @@ msgid ""
 "free. There are known bugs in the rendering of stars when this recomputation "
 "is avoided."
 msgstr ""
-"Bu seçeneği seçmek, haritanın her yeniden çizimi için, katalog "
-"koordinatlarından (örn. devinim uygulaması, yönelim ve sapma düzeltme ) "
-"mevcut ekvatoral koordinatların yeniden hesaplamasına neden olabilir. Çok "
-"fazla yıldız işlendiğinde süreci yavaşlatacaktır, ancak bu hataya açıktır. "
-"Bilinen hatalar, yeniden hesaplama önlendiğindeki yıldızların "
-"gerçeklenmesidir. "
+"Bu seçeneği işaretlemek, haritanın her yeniden çizimi için katalog "
+"koordinatlarından geçerli ekvator koordinatlarının yeniden hesaplanmasına "
+"(yani, presesyon, nutasyon ve sapma düzeltmelerinin uygulanmasına) neden "
+"olur. Bu, işlenecek çok sayıda yıldız olduğunda işlemeyi yavaşlatır; ancak "
+"hatasız olma olasılığı daha yüksektir. Bu yeniden hesaplamadan "
+"kaçınıldığında yıldızların sunulmasında bilinen hatalar ortaya çıkabilir."
 
 #. i18n: ectx: label, entry (DefaultDSSImageSize), group (General)
 #: kstars.kcfg:1409
 #, kde-format
 msgid "Default size for DSS images"
-msgstr "DSS görüntüleri için varsayılan boyut"
+msgstr "DSS görselleri için öntanımlı boyut"
 
 #. i18n: ectx: whatsthis, entry (DefaultDSSImageSize), group (General)
 #: kstars.kcfg:1410
-#, fuzzy, kde-format
-#| msgid "The default size for DSS images downloaded from the internet."
+#, kde-format
 msgid "The default size for DSS images downloaded from the Internet."
-msgstr "İnternetten indirilmiş DSS görüntüleri için varsayılan boyut."
+msgstr "İnternetten indirilen DSS görselleri için öntanımlı boyut."
 
 #. i18n: ectx: label, entry (DSSPadding), group (General)
 #: kstars.kcfg:1414
 #, kde-format
 msgid "Additional padding around DSS Images of deep-sky objects"
-msgstr "Derin uzay cisimlerinin DSS görüntülerinin çevresinde ek boşluklar"
+msgstr "Derin gökyüzü nesnelerinin DSS görselleri etrafında ek dolgu"
 
 #. i18n: ectx: whatsthis, entry (DSSPadding), group (General)
 #: kstars.kcfg:1415
@@ -36522,15 +36519,15 @@ msgid ""
 "images of deep-sky objects. This option configures the total (both sides) "
 "padding added to either dimension of the field."
 msgstr ""
-"Yıldız alanının parçalarını içermek için, derin uzak cisimlerinin DSS "
-"görüntülerinin çevresi fazladan boşluk koyduk. Bu seçenek, alanın boyutu ile "
-"toplam (iki tarafada) eklenen boşluğu yapılandırır."
+"Yıldız alanının parçalarını içermek için derin gökyüzü nesnelerinin DSS "
+"görsellerinin etrafına biraz ek dolgu ekliyoruz. Bu seçenek, alanın her iki "
+"boyutuna eklenen toplam (her iki taraf) dolguyu yapılandırır."
 
 #. i18n: ectx: label, entry (VerboseLogging), group (General)
 #: kstars.kcfg:1419
 #, kde-format
 msgid "Enable Verbose Logging"
-msgstr "Hata Ayıklama Günlüğünü Etkinleştir"
+msgstr "Ayrıntılı günlüklemeyi etkinleştir"
 
 #. i18n: ectx: whatsthis, entry (VerboseLogging), group (General)
 #: kstars.kcfg:1420
@@ -36540,14 +36537,14 @@ msgid ""
 "diagnostic purposes. This may cause slowdown of KStars."
 msgstr ""
 "Bu seçeneği işaretlemek, K Yıldızlar'ın tanılama amaçları için ayrıntılı "
-"hata ayıklama bilgileri oluşturmasını sağlar. Bu, K Yıldızlar'ın "
+"hata ayıklama bilgileri oluşturmasına neden olur. Bu, K Yıldızlar'ın "
 "yavaşlamasına neden olabilir."
 
 #. i18n: ectx: label, entry (RegularLogging), group (General)
 #: kstars.kcfg:1424
 #, kde-format
 msgid "Enable Regular Logging"
-msgstr "Düzenli Günlüklemeyi Etkinleştir"
+msgstr "Düzenli günlüklemeyi etkinleştir"
 
 #. i18n: ectx: whatsthis, entry (RegularLogging), group (General)
 #: kstars.kcfg:1425
@@ -36555,14 +36552,14 @@ msgstr "Düzenli Günlüklemeyi Etkinleştir"
 msgid ""
 "Checking this option causes KStars to generate regular debug information."
 msgstr ""
-"Bu seçeneği işaretlemek, K Yıldızlar'ın düzenli hata ayıklama bilgisi "
-"üretmesini sağlar."
+"Bu seçeneğin işaretlemek K Yıldızlar'ın düzenli hata ayıklama bilgileri "
+"üretmesine neden olur."
 
 #. i18n: ectx: label, entry (DisableLogging), group (General)
 #: kstars.kcfg:1429
 #, kde-format
 msgid "Disable Verbose Logging"
-msgstr "Düzenli Günlüklemeyi Kapat"
+msgstr "Ayrıntılı günlüklemeyi devre dışı bırak"
 
 #. i18n: ectx: whatsthis, entry (DisableLogging), group (General)
 #: kstars.kcfg:1430
@@ -36571,13 +36568,13 @@ msgid ""
 "Checking this option causes KStars to stop generating ANY debug information."
 msgstr ""
 "Bu seçeneği işaretlemek, K Yıldızlar'ın HERHANGİ bir hata ayıklama bilgisi "
-"üretmeyi durdurmasını sağlar."
+"üretmeyi durdurmasına neden olur."
 
 #. i18n: ectx: label, entry (LogToDefault), group (General)
 #: kstars.kcfg:1434
 #, kde-format
 msgid "Log debug message to default output"
-msgstr "Hata ayıklama iletisini varsayılan çıktıya gönder"
+msgstr "Hata ayıklama iletisini öntanımlı çıktıya gönder"
 
 #. i18n: ectx: whatsthis, entry (LogToDefault), group (General)
 #: kstars.kcfg:1435
@@ -36610,96 +36607,86 @@ msgstr ""
 #: kstars.kcfg:1444
 #, kde-format
 msgid "Log FITS Data activity."
-msgstr ""
+msgstr "FITS verisi etkinliğini günlükleyin."
 
 #. i18n: ectx: whatsthis, entry (INDILogging), group (General)
 #: kstars.kcfg:1448
-#, fuzzy, kde-format
-#| msgid "INDI devices connected."
+#, kde-format
 msgid "Log INDI devices activity."
-msgstr "INDI cihazları bağlandı."
+msgstr "INDI aygıtları etkinliğini günlükleyin."
 
 #. i18n: ectx: whatsthis, entry (CaptureLogging), group (General)
 #: kstars.kcfg:1452
 #, kde-format
 msgid "Log Ekos Capture Module activity."
-msgstr ""
+msgstr "Ekos yakalama modülü etkinliğini günlükleyin."
 
 #. i18n: ectx: whatsthis, entry (FocusLogging), group (General)
 #: kstars.kcfg:1456
 #, kde-format
 msgid "Log Ekos Focus Module activity."
-msgstr ""
+msgstr "Ekos odak modülü etkinliğini günlükleyin."
 
 #. i18n: ectx: label, entry (SaveGuideImages), group (General)
 #: kstars.kcfg:1460
-#, fuzzy, kde-format
-#| msgid "Interval dividers"
+#, kde-format
 msgid "Save Internal Guider images on disk?"
-msgstr "Aralık bölücüler"
+msgstr "İç kılavuz görselleri diske kaydedilsin mi?"
 
 #. i18n: ectx: label, entry (SaveAlignImages), group (General)
 #: kstars.kcfg:1464
-#, fuzzy, kde-format
-#| msgid "Interval dividers"
+#, kde-format
 msgid "Save Internal Align images on disk?"
-msgstr "Aralık bölücüler"
+msgstr "İç hizalama görselleri diske kaydedilsin mi?"
 
 #. i18n: ectx: label, entry (SaveFailedAlignImages), group (General)
 #: kstars.kcfg:1468
-#, fuzzy, kde-format
-#| msgid "Interval dividers"
+#, kde-format
 msgid "Save Failed Align images on disk?"
-msgstr "Aralık bölücüler"
+msgstr "Başarısız hizalama görselleri diske kaydedilsin mi?"
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1472
 #, kde-format
 msgid "Log Ekos Guide Module activity."
-msgstr ""
+msgstr "Ekos kılavuz modülü etkinliğini günlükleyin."
 
 #. i18n: ectx: whatsthis, entry (AlignmentLogging), group (General)
 #: kstars.kcfg:1476
 #, kde-format
 msgid "Log Ekos Alignment Module activity."
-msgstr ""
+msgstr "Ekos hizalama modülü etkinliğini günlükleyin."
 
 #. i18n: ectx: whatsthis, entry (MountLogging), group (General)
 #: kstars.kcfg:1480
 #, kde-format
 msgid "Log Ekos Mount Module activity."
-msgstr ""
+msgstr "Ekod kaide modülü etkinliğini günlükleyin."
 
 #. i18n: ectx: whatsthis, entry (ObservatoryLogging), group (General)
 #: kstars.kcfg:1484
-#, fuzzy, kde-format
-#| msgid "Open Ekos Scheduler List"
+#, kde-format
 msgid "Log Ekos Observatory Module activity."
-msgstr "Ekos Zamanlayıcı Listesini Aç"
+msgstr "Ekos gözlemevi modülü etkinliğini günlükleyin."
 
 #. i18n: ectx: label, entry (useFITSViewer), group (FITSViewer)
 #: kstars.kcfg:1490
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display all captured FITS images in a single tab instead of multiple tabs "
-#| "per image."
+#, kde-format
 msgid "Display every image captured in a FITS Viewer window."
 msgstr ""
-"Tüm yakalanmış FITS görüntülerini, her bir görüntü için çoklu sekme yerine "
-"tek bir sekme içinde göster."
+"Yakalanan tüm görselleri bir FITS görüntüleyicisi penceresinde görüntüleyin."
 
 #. i18n: ectx: label, entry (singlePreviewFITS), group (FITSViewer)
 #: kstars.kcfg:1494
 #, kde-format
 msgid "Preview FITS in a single tab?"
-msgstr "Tek bir sekmede FITS ön izlemesi?"
+msgstr "FITS tek bir sekmede mi önizlensin?"
 
 #. i18n: ectx: label, entry (singleWindowCapturedFITS), group (FITSViewer)
 #: kstars.kcfg:1499
-#, fuzzy, kde-format
-#| msgid "Display all FITS in one window?"
+#, kde-format
 msgid "Display all captured FITS in one window?"
-msgstr "Tüm FITS 'leri tek pencerede göster?"
+msgstr "Yakalanan tüm FITS'ler tek bir pencerede mi görüntülensin?"
 
 #. i18n: ectx: whatsthis, entry (singleWindowCapturedFITS), group (FITSViewer)
 #: kstars.kcfg:1500
@@ -36708,27 +36695,23 @@ msgid ""
 "Display all captured FITS images in a single FITS Viewer window. By default "
 "each camera create its own FITS Viewer instance"
 msgstr ""
-"Tüm yakalanmış FITS görüntülerini, tek bir FITS Görüntüleyici penceresinde "
-"göster. Öntanımlı olarak, her bir kamera, kendi FITS Görüntüleyici örneğini "
-"oluşturur"
+"Tüm yakalanan FITS görsellerini tek bir FITS görüntüleyicisi penceresinde "
+"görüntüleyin. Öntanımlı olarak her kamera kendi FITS görüntüleyicisi "
+"örneğini oluşturur"
 
 #. i18n: ectx: label, entry (singleWindowOpenedFITS), group (FITSViewer)
 #: kstars.kcfg:1504
-#, fuzzy, kde-format
-#| msgid "Display all FITS in one window?"
+#, kde-format
 msgid "Display all opened FITS in one window?"
-msgstr "Tüm FITS 'leri tek pencerede göster?"
+msgstr "Tüm açılan FITS'ler tek bir pencerede mi görüntülensin?"
 
 #. i18n: ectx: whatsthis, entry (singleWindowOpenedFITS), group (FITSViewer)
 #: kstars.kcfg:1505
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display all captured FITS images in a single tab instead of multiple tabs "
-#| "per image."
+#, kde-format
 msgid "Display all opened FITS images in a single FITS Viewer window."
 msgstr ""
-"Tüm yakalanmış FITS görüntülerini, her bir görüntü için çoklu sekme yerine "
-"tek bir sekme içinde göster."
+"Tüm açılan FITS görsellerini tek bir FITS görüntüleyicisi penceresinde "
+"görüntüleyin."
 
 #. i18n: ectx: whatsthis, entry (focusFITSOnNewImage), group (FITSViewer)
 #: kstars.kcfg:1509
@@ -36736,33 +36719,35 @@ msgstr ""
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image."
 msgstr ""
-"Yeni bir görsel alırken FITS Görüntüleyicisi penceresini ön plana getirin."
+"Yeni bir görsel alırken FITS görüntüleyicisi penceresini ön plana getirin."
 
 #. i18n: ectx: label, entry (independentWindowFITS), group (FITSViewer)
 #: kstars.kcfg:1513
 #, kde-format
 msgid "Make FITS Viewer window independent of KStars main window"
 msgstr ""
-"FITS Görüntüleyicisi penceresini K Yıldızlar ana penceresinden bağımsız yap"
+"FITS görüntüleyicisi penceresini K Yıldızlar ana penceresinden bağımsız yap"
 
 #. i18n: ectx: label, entry (AutoDebayer), group (FITSViewer)
 #: kstars.kcfg:1517
 #, kde-format
 msgid "Automatically debayer a FITS image if it is contains a bayer pattern"
 msgstr ""
+"Bir bayer deseni içeriyorsa FITS görselinin kendiliğinden bayerini kaldır"
 
 #. i18n: ectx: label, entry (Auto3DCube), group (FITSViewer)
 #: kstars.kcfg:1521
 #, kde-format
 msgid "Process 3D FITS Cube (RGB). If false, only first channel is processed."
 msgstr ""
+"3B FITS Küpü (RGB) işlemini gerçekleştirin. Yanlışsa yalnızca ilk kanal "
+"işlenir."
 
 #. i18n: ectx: label, entry (AutoHFR), group (FITSViewer)
 #: kstars.kcfg:1525
-#, fuzzy, kde-format
-#| msgid "Automatically calibrate selected axes."
+#, kde-format
 msgid "Automatically compute HFRs of fits images"
-msgstr "Seçili eksenleri otomatik olarak kalibre et."
+msgstr "FITS görsellerinin HFR'lerini kendiliğinden hesapla"
 
 #. i18n: ectx: label, entry (QuickHFR), group (FITSViewer)
 #: kstars.kcfg:1529
@@ -36779,6 +36764,8 @@ msgid ""
 "Automatically process World-Coordinate-System (WCS) data when loading a FITS "
 "file."
 msgstr ""
+"FITS dosyası yüklenirken Dünya Koordinat Sistemi (WCS) verilerini "
+"kendiliğinden işleyin."
 
 #. i18n: ectx: label, entry (LimitedResourcesMode), group (FITSViewer)
 #: kstars.kcfg:1541
@@ -36787,8 +36774,8 @@ msgid ""
 "Conserve CPU and memory by disabling all resource-intensive features in FITS "
 "Viewer"
 msgstr ""
-"FITS Görüntüleyicisi'nde yoğun özkaynak kullanan tüm özellikleri devre dışı "
-"bırakarak CPU ve belleği koru"
+"FITS görüntüleyicisinde yoğun özkaynak kullanan tüm özellikleri devre dışı "
+"bırakarak CPU'dan ve bellekten tasarruf et"
 
 #. i18n: ectx: label, entry (NonLinearHistogram), group (FITSViewer)
 #: kstars.kcfg:1545
@@ -36797,46 +36784,38 @@ msgid ""
 "Create histogram from non-linear auto-stretched image rather than linear raw "
 "image data."
 msgstr ""
+"Doğrusal ham görsel verisi yerine doğrusal olmayan kendiliğinden gerilmiş "
+"görselden histogram oluşturun."
 
 #. i18n: ectx: label, entry (HIPSOpacity), group (FITSViewer)
 #: kstars.kcfg:1549
 #, kde-format
 msgid "HiPS overlay opacity"
-msgstr ""
+msgstr "HiPS kaplaması matlığı"
 
 #. i18n: ectx: label, entry (HIPSOffsetX), group (FITSViewer)
 #: kstars.kcfg:1553
 #, kde-format
 msgid "HiPS overlay X Offset"
-msgstr ""
+msgstr "HiPS kaplaması X ofseti"
 
 #. i18n: ectx: label, entry (HIPSOffsetY), group (FITSViewer)
 #: kstars.kcfg:1557
 #, kde-format
 msgid "HiPS overlay Y Offset"
-msgstr ""
+msgstr "HiPS kaplaması Y ofseti"
 
 #. i18n: ectx: label, entry (FitsSolverProfile), group (FITSViewer)
 #: kstars.kcfg:1561
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "Options Profile for Fitsviewer Solving."
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "FITS görüntüleyicisi çözümü için seçenekler profili."
 
 #. i18n: ectx: label, entry (FitsSolverModule), group (FITSViewer)
 #: kstars.kcfg:1565
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "Module from which profile is taken for Fitsviewer Solving."
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "FITS görüntüleyicisi çözümü için profilin alındığı modül."
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1569
@@ -36845,42 +36824,45 @@ msgid ""
 "JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
 msgstr ""
+"FITS Görüntüleyicisi Çözücüsü için profil indislerinin modül profillerine "
+"atanmasını depolayan JSON"
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1574
 #, kde-format
 msgid "Use scale for Fitsviewer Solving."
-msgstr ""
+msgstr "FITS görüntüleyicisi çözümü için ölçek kullanın."
 
 #. i18n: ectx: label, entry (FitsSolverUsePosition), group (FITSViewer)
 #: kstars.kcfg:1578
 #, kde-format
 msgid "Use position for Fitsviewer Solving."
-msgstr ""
+msgstr "FITS görüntüleyicisi çözümü için konum kullanın."
 
 #. i18n: ectx: label, entry (FitsSolverScale), group (FITSViewer)
 #: kstars.kcfg:1582
 #, kde-format
 msgid "Scale to use with Fitsviewer Solving."
-msgstr ""
+msgstr "FITS görüntüleyicisi çözümü ile kullanılacak ölçek."
 
 #. i18n: ectx: label, entry (FitsSolverImageScaleUnits), group (FITSViewer)
 #: kstars.kcfg:1586
 #, kde-format
 msgid "Scale units to use with Fitsviewer Solving."
-msgstr ""
+msgstr "FITS görüntüleyicisi çözümü ile kullanılacak ölçek birimleri."
 
 #. i18n: ectx: label, entry (FitsSolverRadius), group (FITSViewer)
 #: kstars.kcfg:1590
 #, kde-format
 msgid "Radius in position (degrees) to use with Fitsviewer Solving."
 msgstr ""
+"FITS görüntüleyicisi çözümü ile kullanılacak konumdaki yarıçap (derece)."
 
 #. i18n: ectx: label, entry (BortleClass), group (WISettings)
 #: kstars.kcfg:1596
 #, kde-format
 msgid "Bortle dark-sky rating"
-msgstr "Bortle deriz uzay oylaması"
+msgstr "Bortle derin uzay derecelendirmesi"
 
 #. i18n: ectx: label, entry (TelescopeCheck), group (WISettings)
 #: kstars.kcfg:1600
@@ -36904,59 +36886,57 @@ msgstr "Kullanılabilir dürbünlerin açıklığı"
 #: kstars.kcfg:1612
 #, kde-format
 msgid "Index of selected scope from list of scopes"
-msgstr "Alanların listesinden seçilmiş alanın dizini"
+msgstr "Kapsam listesinden seçilen kapsamın indeksi"
 
 #. i18n: ectx: label, entry (EkosWindowWidth), group (Ekos)
 #: kstars.kcfg:1618
 #, kde-format
 msgid "Ekos window width"
-msgstr ""
+msgstr "Ekos penceresi genişliği"
 
 #. i18n: ectx: label, entry (EkosWindowHeight), group (Ekos)
 #: kstars.kcfg:1622
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Rowland Heights"
+#, kde-format
 msgid "Ekos window height"
-msgstr "Rowland Heights"
+msgstr "Ekos penceresi yüksekliği"
 
 #. i18n: ectx: label, entry (EkosLeftIcons), group (Ekos)
 #: kstars.kcfg:1630
 #, kde-format
 msgid "Ekos modules icons are placed to the left of pages"
-msgstr ""
+msgstr "Ekos modüllerinin simgeleri sayfaların soluna yerleştirilir"
 
 #. i18n: ectx: label, entry (independentWindowEkos), group (Ekos)
 #: kstars.kcfg:1634
 #, kde-format
 msgid "Make Ekos window independent of KStars main window"
-msgstr ""
+msgstr "Ekos penceresini K Yıldızlar ana penceresinden bağımsız yap"
 
 #. i18n: ectx: label, entry (profile), group (Ekos)
 #: kstars.kcfg:1638
 #, kde-format
 msgid "Ekos drivers profile"
-msgstr ""
+msgstr "Ekos sürücüleri profili"
 
 #. i18n: ectx: label, entry (neverLoadConfig), group (Ekos)
 #: kstars.kcfg:1642
 #, kde-format
 msgid "Never load device configuration?"
-msgstr "Aygıt yapılandırmasını hiçbir zaman yükleme?"
+msgstr "Aygıt yapılandırması hiçbir zaman yüklenmesin mi?"
 
 #. i18n: ectx: label, entry (loadConfigOnConnection), group (Ekos)
 #: kstars.kcfg:1646
 #, kde-format
 msgid "Load device configuration upon successful connection?"
-msgstr "Başarılı bağlantı sağlanana kadar aygıt yapılandırmasını yükleme?"
+msgstr "Başarılı bağlantı sonrası aygıt yapılandırması yüklensin mi?"
 
 #. i18n: ectx: label, entry (loadDefaultConfig), group (Ekos)
 #: kstars.kcfg:1650
 #, kde-format
 msgid "Always load device default configuration upon successful connection?"
 msgstr ""
-"Bağlantı sağlandığında aygıtın varsayılan yapılandırılması her zaman "
-"yüklensin mi?"
+"Başarılı bağlantı sonrası öntanımlı aygıt yapılandırması her zaman yüklensin "
+"mi?"
 
 #. i18n: ectx: label, entry (autoLoadSerialAssistant), group (Ekos)
 #: kstars.kcfg:1654
@@ -36965,57 +36945,56 @@ msgid ""
 "Automatically load Serial Port Assistant tool when detecting unmapped serial "
 "ports?"
 msgstr ""
+"Eşlemlenmemiş seri kapılar algılandığında Seri Kapı Yardımcısı aracı "
+"kendiliğinden yüklensin mi?"
 
 #. i18n: ectx: label, entry (RememberCredentials), group (EkosLive)
 #: kstars.kcfg:1660
 #, kde-format
 msgid "Remember Ekos Live credentials."
-msgstr ""
+msgstr "EkosLive kimlik bilgilerini anımsa"
 
 #. i18n: ectx: label, entry (AutoStartEkosLive), group (EkosLive)
 #: kstars.kcfg:1664
 #, kde-format
 msgid "Start Ekos Live on KStars startup."
-msgstr ""
+msgstr "K Yıldızlar başlatıldığında EkosLive'ı da başlat"
 
 #. i18n: ectx: label, entry (EkosLiveUsername), group (EkosLive)
 #: kstars.kcfg:1668
 #, kde-format
 msgid "EkosLive username"
-msgstr "EkosLive Kullanıcı Adı"
+msgstr "EkosLive kullanıcı adı"
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1671
-#, fuzzy, kde-format
-#| msgid "EkosLive username"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "EkosLive Kullanıcı Adı"
+msgstr "EkosLive gözlemevi adı"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1675
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Offline Server"
-msgstr "Ekos Live Hizmeti"
+msgstr "EkosLive çevrimdışı sunucusu"
 
 #. i18n: ectx: label, entry (EkosLiveOnlineServer), group (EkosLive)
 #: kstars.kcfg:1679
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Online Server"
-msgstr "Ekos Live Hizmeti"
+msgstr "EkosLive çevrimiçi sunucusu"
 
 #. i18n: ectx: label, entry (shutterfulCCDs), group (DarkLibrary)
 #: kstars.kcfg:1704
 #, kde-format
 msgid "List of CCDs with mechanical or electronic shutters."
-msgstr ""
+msgstr "Mekanik veya elektronik kepenkli CCD'lerin listesi."
 
 #. i18n: ectx: label, entry (shutterlessCCDs), group (DarkLibrary)
 #: kstars.kcfg:1707
 #, kde-format
 msgid "List of CCDs without mechanical or electronic shutters."
-msgstr ""
+msgstr "Mekanik veya elektronik kepengi olmayan CCD'lerin listesi."
 
 #. i18n: ectx: label, entry (UseGraphicalCountsDisplay), group (Manager)
 #: kstars.kcfg:1716
@@ -37024,18 +37003,20 @@ msgid ""
 "Use the graphical version for capture/sequence/total counting using round "
 "progress bars."
 msgstr ""
+"Yuvarlak ilerleme çubuklarıyla yakalama/sıralama/toplam sayımı için "
+"grafiksel sürümü kullanın."
 
 #. i18n: ectx: label, entry (MinimumAltLimit), group (Mount)
 #: kstars.kcfg:1722
 #, kde-format
 msgid "Default minimum mount altitude limit"
-msgstr "Öntanımlı asgari bağlama yükseklik sınırı"
+msgstr "Öntanımlı en düşük kaide yükseklik sınırı"
 
 #. i18n: ectx: label, entry (MaximumAltLimit), group (Mount)
 #: kstars.kcfg:1727
 #, kde-format
 msgid "Default maximum mount altitude limit."
-msgstr "Öntanımlı azami yatak yükseklik sınırı."
+msgstr "Öntanımlı en yüksek kaide yükseklik sınırı"
 
 #. i18n: ectx: whatsthis, entry (MaximumAltLimit), group (Mount)
 #: kstars.kcfg:1728
@@ -37044,33 +37025,34 @@ msgid ""
 "Maximum telescope altitude limit. If the telescope is above this limit, it "
 "will be commanded to stop."
 msgstr ""
-"Teleskopun azami yükseklik sınırı. Eğer bu sınırın üstündeyse, otomatik "
-"olarak kapanacaktır."
+"En çok teleskop yükseklik sınırı. Teleskop bu sınırın üstündeyse durması "
+"emredilir."
 
 #. i18n: ectx: label, entry (EnableAltitudeLimits), group (Mount)
 #: kstars.kcfg:1732
 #, kde-format
 msgid "Enable mount altitude limits."
-msgstr "Yükseklik sınırını etkinleştir."
+msgstr "Kaide yükseklik sınırını etkinleştir"
 
 #. i18n: ectx: label, entry (EnableAltitudeLimitsTrackingOnly), group (Mount)
 #: kstars.kcfg:1736
 #, kde-format
 msgid "Restrict altitude limits to tracking mode only."
-msgstr ""
+msgstr "Yükseklik sınırlarını yalnızca izleme kipiyle sınırla"
 
 #. i18n: ectx: label, entry (ConfirmBelowHorizon), group (Mount)
 #: kstars.kcfg:1740
 #, kde-format
 msgid "Warn user before command mount to go to a target below horizon."
 msgstr ""
+"Ufuk altındaki bir hedefe gitmek için komut vermeden önce kullanıcıyı uyar"
 
 #. i18n: ectx: label, entry (MeridianFlipOffsetDegrees), group (Mount)
 #: kstars.kcfg:1744
 #, kde-format
 msgid "Default hour angle to perform meridian flip in degrees."
 msgstr ""
-"Derece türünden meridyen geçişi gerçekleştirmek için öntanımlı saat açısı."
+"Derece türünden meridyen geçişi gerçekleştirmek için öntanımlı saat açısı"
 
 #. i18n: ectx: whatsthis, entry (MeridianFlipOffsetDegrees), group (Mount)
 #: kstars.kcfg:1745
@@ -37079,14 +37061,14 @@ msgid ""
 "If the target hour angle exceeds this value, Ekos will command a meridian "
 "flip and if successful it will resume guiding and capture operations."
 msgstr ""
-"Hedef saat açısı bu değeri geçiyorsa, Ekos merdiyen dönmesini yaptırırı ve "
-"başarılı olursa, kılavuzluk ve yakalama işlemlerine devam eder."
+"Hedef saat açısı bu değeri aşarsa Ekos meridyen geçişi komutu verecek ve "
+"başarılı olursa kılavuzluk ve yakalama operasyonlarını sürdürecektir."
 
 #. i18n: ectx: label, entry (MaximumHaLimit), group (Mount)
 #: kstars.kcfg:1749
 #, kde-format
 msgid "Default maximum limit for the hour angle."
-msgstr "Saat açısı için öntanımlı en yüksek sınır."
+msgstr "Saat açısı için öntanımlı en yüksek sınır"
 
 #. i18n: ectx: whatsthis, entry (MaximumHaLimit), group (Mount)
 #: kstars.kcfg:1750
@@ -37096,85 +37078,81 @@ msgid ""
 "telescope is above this limit, a meridian flip will be forced."
 msgstr ""
 "Teleskopun saat açısı için en yüksek sınır. Teleskopun saat açısı bu sınırın "
-"üzerindeyse meridyen geçişi zorlanacaktır."
+"üstündeyse bir meridyen geçişi zorlanacaktır."
 
 #. i18n: ectx: label, entry (EnableHaLimit), group (Mount)
 #: kstars.kcfg:1754
-#, fuzzy, kde-format
-#| msgid "Enable mount altitude limits."
+#, kde-format
 msgid "Enable mount hour angle limit."
-msgstr "Yükseklik sınırını etkinleştir."
+msgstr "Kaide saat açısı sınırını etkinleştir"
 
 #. i18n: ectx: label, entry (ExecuteMeridianFlip), group (Mount)
 #: kstars.kcfg:1758
 #, kde-format
 msgid "Flips the mount when reaching the meridian, if supported."
-msgstr "Meridyen alınırken bağlamı döndürür, eğer destekleniyorsa."
+msgstr "Destekleniyorsa meridyene ulaştığında kaideyi çevir"
 
 #. i18n: ectx: label, entry (LeftRightReversed), group (Mount)
 #: kstars.kcfg:1762
 #, kde-format
 msgid "Reverse the direction of right and left buttons in mount control."
-msgstr ""
+msgstr "Mount kontrolünde sağ ve sol tuşların yönünü tersine çevir"
 
 #. i18n: ectx: label, entry (UpDownReversed), group (Mount)
 #: kstars.kcfg:1766
 #, kde-format
 msgid "Reverse the direction of up and down buttons in mount control."
-msgstr ""
+msgstr "Kaide denetiminde yukarı ve aşağı düğmelerinin yönünü tersine çevir"
 
 #. i18n: ectx: label, entry (ParkEveryDay), group (Mount)
 #: kstars.kcfg:1770
-#, fuzzy, kde-format
-#| msgid "Automatically select the calibration star."
+#, kde-format
 msgid "Automatically start parking timer on startup."
-msgstr "Kalibrasyon yıldızını otomatik olarak seç."
+msgstr "Başlangıçta park zamanlayıcısını kendiliğinden başlat"
 
 #. i18n: ectx: label, entry (ParkTime), group (Mount)
 #: kstars.kcfg:1774
 #, kde-format
 msgid "Park mount at this time in 12 hour format."
-msgstr ""
+msgstr "Kaideyi bu 12 saatlik zaman biçiminde park et"
 
 #. i18n: ectx: label, entry (DefaultObserver), group (Capture)
 #: kstars.kcfg:1780
-#, fuzzy, kde-format
-#| msgid "Default Dome driver"
+#, kde-format
 msgid "Default observer full name."
-msgstr "Öntanımlı Dom sürücüsü"
+msgstr "Öntanımlı gözlemci tam adı"
 
 #. i18n: ectx: label, entry (SyncFOVPA), group (Capture)
 #: kstars.kcfg:1783
 #, kde-format
 msgid "Sync FOV indicator Position Angle with Rotator Settings Position Angle"
 msgstr ""
+"Görüş alanı belirteci konum açısını döndürücü ayarları konumu açısıyla "
+"eşzamanla"
 
 #. i18n: ectx: label, entry (PAMultiplier), group (Capture)
 #: kstars.kcfg:1787
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position angle multiplier"
-msgstr "Konum Açısı"
+msgstr "Konum açısı çarpanı"
 
 #. i18n: ectx: label, entry (PAOffset), group (Capture)
 #: kstars.kcfg:1791
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position angle offset"
-msgstr "Konum Açısı"
+msgstr "Konum açısı ofseti"
 
 #. i18n: ectx: label, entry (PAPierSide), group (Capture)
 #: kstars.kcfg:1795
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position angle calibration pier side"
-msgstr "Konum Açısı"
+msgstr "İskele tarafı konum açısı kalibrasyonu"
 
 #. i18n: ectx: label, entry (GuideDeviation), group (Capture)
 #: kstars.kcfg:1798
 #, kde-format
 msgid "Default maximum permittable guide deviation"
-msgstr "Öntanımlı izin verilen en yüksek kılavuz sapması"
+msgstr "Öntanımlı izin verilebilir en yüksek kılavuz sapması"
 
 #. i18n: ectx: whatsthis, entry (GuideDeviation), group (Capture)
 #: kstars.kcfg:1799
@@ -37183,8 +37161,8 @@ msgid ""
 "If guide deviation exceeds this limit, the exposure will be automatically "
 "aborted and only resumed when the deviation is within this limit."
 msgstr ""
-"Kılavuz sapması bu sınırı aşarsa, pozlama otomatik olarak iptal edilir ve "
-"yalnızca sapma bu sınırların arasında olduğunda devam eder."
+"Eğer kılavuz sapması bu sınırı aşarsa pozlama kendiliğinden sonlandırılacak "
+"ve yalnızca sapma bu sınır içinde olduğunda pozlama sürdürülecektir."
 
 #. i18n: ectx: label, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:1803
@@ -37193,6 +37171,8 @@ msgid ""
 "Number of consecutive samples guide deviation needs to be high to abort "
 "capture."
 msgstr ""
+"Yakalamayı iptal etmek için ardışık örnek kılavuz sapmasının yüksek olması "
+"gerekir."
 
 #. i18n: ectx: whatsthis, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:1804
@@ -37201,6 +37181,8 @@ msgid ""
 "Sets the number of consecutive samples guide deviation needs to be high to "
 "abort capture."
 msgstr ""
+"Yakalamayı iptal etmek için ardışık örnek kılavuz sapmasının yüksek olması "
+"gereken sayıyı ayarlar."
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1808
@@ -37210,16 +37192,13 @@ msgstr "Yakalama öncesi öntanımlı izin verilen en yüksek kılavuz sapması"
 
 #. i18n: ectx: whatsthis, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1809
-#, fuzzy, kde-format
-#| msgid ""
-#| "If guide deviation exceeds this limit, the exposure will be automatically "
-#| "aborted and only resumed when the deviation is within this limit."
+#, kde-format
 msgid ""
 "If guide deviation exceeds this limit before capture start, starting an "
 "exposure will be suspended until the deviation is within this limit."
 msgstr ""
-"Kılavuz sapması bu sınırı aşarsa, pozlama otomatik olarak iptal edilir ve "
-"yalnızca sapma bu sınırların arasında olduğunda devam eder."
+"Eğer kılavuz sapması yakalama başlamadan önce bu sınırı aşarsa sapma bu "
+"sınır içinde kalana kadar pozlamayı başlatma işlemi askıya alınır."
 
 #. i18n: ectx: label, entry (GuideDitherPerJobFrequency), group (Capture)
 #: kstars.kcfg:1813
@@ -37228,12 +37207,14 @@ msgid ""
 "Set global dither frequency to this value when starting a job. Set 0 to use "
 "global value."
 msgstr ""
+"Bir işi başlatırken global titreşim frekansını bu değere ayarlayın. Global "
+"değeri kullanmak için 0 olarak ayarlayın."
 
 #. i18n: ectx: label, entry (HFRDeviation), group (Capture)
 #: kstars.kcfg:1817
 #, kde-format
 msgid "Default maximum permittable HFR deviation"
-msgstr "Öntanımlı izin verilen azami HFR sapması"
+msgstr "Öntanımlı izin verilebilir en yüksek HFR sapması"
 
 #. i18n: ectx: whatsthis, entry (HFRDeviation), group (Capture)
 #: kstars.kcfg:1818
@@ -37242,28 +37223,24 @@ msgid ""
 "If HFR deviation exceeds this limit, the autofocus routine will be "
 "automatically started."
 msgstr ""
-"HFR sapması sınırı geçtiyse, otomatik odaklanma yordamı otomatik olarak "
-"başlatılacaktır."
+"Eğer HFR sapması bu sınırı aşarsa kendiliğinden odaklama rutini "
+"kendiliğinden başlatılır."
 
 #. i18n: ectx: label, entry (MaxFocusTemperatureDelta), group (Capture)
 #: kstars.kcfg:1822
-#, fuzzy, kde-format
-#| msgid "Default maximum mount altitude limit."
+#, kde-format
 msgid "Default maximum focus temperature delta"
-msgstr "Öntanımlı azami yatak yükseklik sınırı."
+msgstr "Öntanımlı en yüksek odak sıcaklığı farkı"
 
 #. i18n: ectx: whatsthis, entry (MaxFocusTemperatureDelta), group (Capture)
 #: kstars.kcfg:1823
-#, fuzzy, kde-format
-#| msgid ""
-#| "If HFR deviation exceeds this limit, the autofocus routine will be "
-#| "automatically started."
+#, kde-format
 msgid ""
 "If the temperature change exceeds this limit, the autofocus routine will be "
 "automatically started."
 msgstr ""
-"HFR sapması sınırı geçtiyse, otomatik odaklanma yordamı otomatik olarak "
-"başlatılacaktır."
+"Sıcaklık değişikliği bu sınırı aşarsa kendiliğinden odaklama rutini "
+"kendiliğinden başlatılacaktır."
 
 #. i18n: ectx: label, entry (AutoDark), group (Capture)
 #: kstars.kcfg:1827
@@ -37271,39 +37248,37 @@ msgstr ""
 msgid ""
 "Automatically apply dark subtraction if a suitable dark frame is available."
 msgstr ""
+"Uygun bir karanlık kare varsa karanlık çıkarma işlemini kendiliğinden uygula"
 
 #. i18n: ectx: label, entry (EnforceGuideDeviation), group (Capture)
 #: kstars.kcfg:1831
 #, kde-format
 msgid "Enforce guiding deviation limit."
-msgstr "Kılavuz sapma sınırını ayarla."
+msgstr "Kılavuz sapması sınırını ayarla"
 
 #. i18n: ectx: label, entry (EnforceAutofocusHFR), group (Capture)
 #: kstars.kcfg:1835
-#, fuzzy, kde-format
-#| msgid "Enforce Autofocus HFR limit."
+#, kde-format
 msgid "Enforce Autofocus on HFR limit."
-msgstr "Otomatik odaklama HFR sınırını uygula."
+msgstr "HFR sınırında kendiliğinden odağı zorla"
 
 #. i18n: ectx: label, entry (EnforceAutofocusOnTemperature), group (Capture)
 #: kstars.kcfg:1839
-#, fuzzy, kde-format
-#| msgid "Autofocus complete."
+#, kde-format
 msgid "Enforce Autofocus on temperature change."
-msgstr "Otomatik odaklanma tamamlandı"
+msgstr "Sıcaklık değişikliğinde kendiliğinden odağı zorla"
 
 #. i18n: ectx: label, entry (EnforceRefocusEveryN), group (Capture)
 #: kstars.kcfg:1843
-#, fuzzy, kde-format
-#| msgid "Enforce Autofocus HFR limit."
+#, kde-format
 msgid "Enforce Refocus Every N Minutes."
-msgstr "Otomatik odaklama HFR sınırını uygula."
+msgstr "Her N dakikada bir yeniden odaklanmayı zorla"
 
 #. i18n: ectx: label, entry (RefocusEveryN), group (Capture)
 #: kstars.kcfg:1847
 #, kde-format
 msgid "Number of minute between forced refocus attempts"
-msgstr ""
+msgstr "Zorlanan yeniden odaklanma denemeleri arasındaki süre (dakika)"
 
 #. i18n: ectx: whatsthis, entry (RefocusEveryN), group (Capture)
 #: kstars.kcfg:1848
@@ -37312,6 +37287,8 @@ msgid ""
 "Sets the time interval before forced autofocus attempts during a capture "
 "sequence."
 msgstr ""
+"Bir yakalama sekansı sırasında zorunlu kendiliğinden odaklama "
+"girişimlerinden önceki zaman aralığını ayarlar."
 
 #. i18n: ectx: label, entry (RefocusAfterMeridianFlip), group (Capture)
 #: kstars.kcfg:1852
@@ -37329,34 +37306,29 @@ msgstr "Meridyen geçişi sonrası kaide modelini sıfırla"
 #: kstars.kcfg:1860
 #, kde-format
 msgid "Use Forced meridian flips if supported."
-msgstr "Destekleniyorsa zorlanan meridyen geçişlerini kullanın."
+msgstr "Destekleniyorsa zorlanan meridyen geçişlerini kullan"
 
 #. i18n: ectx: label, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:1864
-#, fuzzy, kde-format
-#| msgid "Desired flat field ADU percentage"
+#, kde-format
 msgid "Desired flat field ADU"
-msgstr "Ayrılmış düz alan ADU yüzdesi"
+msgstr "Arzu edilen düz alan ADU'su"
 
 #. i18n: ectx: whatsthis, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:1865
-#, fuzzy, kde-format
-#| msgid ""
-#| "If set, Ekos will capture a few flat images to determine the optimal "
-#| "exposure time to achieve the desired ADU percentage."
+#, kde-format
 msgid ""
 "If set, Ekos will capture a few flat images to determine the optimal "
 "exposure time to achieve the desired ADU value."
 msgstr ""
-"Eğer ayarlanmışsa, Ekos gerekli ADU yüzdesini elde etmek için, uygun "
-"pozlamayı belirleyerek, birkaç düz görüntüyü yakalayacaktır."
+"Ayarlanmışsa Ekos istenen ADU değerini elde etmek için eniyi pozlama "
+"süresini belirlemek amacıyla birkaç düz görsel yakalayacaktır."
 
 #. i18n: ectx: label, entry (CalibrationADUValueTolerance), group (Capture)
 #: kstars.kcfg:1869
-#, fuzzy, kde-format
-#| msgid "Default Focuser tolerance value"
+#, kde-format
 msgid "ADU Value tolerance"
-msgstr "Öntanımlı Odaklayıcı tolerans değeri"
+msgstr "ADU değeri toleransı"
 
 #. i18n: ectx: whatsthis, entry (CalibrationADUValueTolerance), group (Capture)
 #: kstars.kcfg:1870
@@ -37365,46 +37337,44 @@ msgid ""
 "Maximum difference between measured and target ADU values to deem the value "
 "as acceptable."
 msgstr ""
+"Ölçülen ve hedeflenen ADU değerleri arasındaki en büyük fark, değeri kabul "
+"edilebilir olarak değerlendirmek için gereklidir."
 
 #. i18n: ectx: label, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1874
-#, fuzzy, kde-format
-#| msgid "Use Dark Frame"
+#, kde-format
 msgid "Sky Flat"
-msgstr "Karanlık Çerçeve Kullan"
+msgstr "Gökyüzü düz çekimi"
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:1875
 #, kde-format
 msgid "When shooting flats on sky with changing intensity."
-msgstr ""
+msgstr "Gökyüzünde değişen yoğunlukta düz çekim yaparken."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:1879
-#, fuzzy, kde-format
-#| msgid "Auto calibration failed."
+#, kde-format
 msgid "ORed list of calibration pre-actions."
-msgstr "Otomatik kalibrasyon başarısız."
+msgstr "Kalibrasyon ön eylemlerinin ORed listesi"
 
 #. i18n: ectx: label, entry (CalibrationFlatDurationIndex), group (Capture)
 #: kstars.kcfg:1883
 #, kde-format
 msgid "Index of flat duration option."
-msgstr "Düz süre seçeneği indeksi."
+msgstr "Düz süresi seçeneği indeksi"
 
 #. i18n: ectx: label, entry (CalibrationWallAz), group (Capture)
 #: kstars.kcfg:1887
-#, fuzzy, kde-format
-#| msgid "Auto calibration failed."
+#, kde-format
 msgid "Azimuth of calibration wall location."
-msgstr "Otomatik kalibrasyon başarısız."
+msgstr "Kalibrasyon duvarı konumunun güney açısı"
 
 #. i18n: ectx: label, entry (CalibrationWallAlt), group (Capture)
 #: kstars.kcfg:1891
-#, fuzzy, kde-format
-#| msgid "Auto calibration failed."
+#, kde-format
 msgid "Altitude of calibration wall location."
-msgstr "Otomatik kalibrasyon başarısız."
+msgstr "Kalibrasyon duvarı konumunun yüksekliği"
 
 #. i18n: ectx: label, entry (MaxTemperatureDiff), group (Capture)
 #: kstars.kcfg:1895
@@ -37413,12 +37383,15 @@ msgid ""
 "Maximum acceptable difference between requested and measured temperature set "
 "point."
 msgstr ""
+"İstenen ve ölçülen sıcaklık ayar noktası arasındaki kabul edilebilir en "
+"büyük fark"
 
 #. i18n: ectx: label, entry (MaxStartGuiderDrift), group (Capture)
 #: kstars.kcfg:1899
 #, kde-format
 msgid "Maximum acceptable guider drift allowed before starting capture."
 msgstr ""
+"Yakalama başlamadan önce izin verilen en çok kabul edilebilir kılavuz kayması"
 
 #. i18n: ectx: label, entry (EnforceStartGuiderDrift), group (Capture)
 #: kstars.kcfg:1903
@@ -37426,6 +37399,8 @@ msgstr ""
 msgid ""
 "Enforce maximum acceptable guider drift allowed before starting capture."
 msgstr ""
+"Yakalama işlemine başlamadan önce izin verilen en çok kılavuz kaymasını "
+"uygula"
 
 #. i18n: ectx: label, entry (GuidingSettle), group (Capture)
 #: kstars.kcfg:1907
@@ -37433,6 +37408,8 @@ msgstr ""
 msgid ""
 "Wait this many seconds after guiding is resumed before starting capture."
 msgstr ""
+"Yakalama işlemine başlamadan önce, kılavuzluk sürdürüldükten sonra bu kadar "
+"saniye bekle"
 
 #. i18n: ectx: label, entry (AlwaysResetSequenceWhenStarting), group (Capture)
 #: kstars.kcfg:1911
@@ -37442,12 +37419,15 @@ msgid ""
 "capture counts to zero. Scheduler overrides this option when Remember Job "
 "Progress is enabled.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Bir sekans listesini işlemeye başladığınızda, tüm "
+"yakalama sayılarını sıfırlayın. İş İlerlemesini Anımsa etkinleştirildiğinde "
+"Zamanlayıcı bu seçeneği geçersiz kılar.</p></body></html>"
 
 #. i18n: ectx: label, entry (FlatSyncFocus), group (Capture)
 #: kstars.kcfg:1915
 #, kde-format
 msgid "Capture flat frames at the same focus position of light frames."
-msgstr ""
+msgstr "Işık karelerinin aynı odak noktasında düz kareler yakala"
 
 #. i18n: ectx: label, entry (HFRThresholdPercentage), group (Capture)
 #: kstars.kcfg:1919
@@ -37456,26 +37436,28 @@ msgid ""
 "Increase autofocus HFR value by this percentage gain and store it in Capture "
 "Module."
 msgstr ""
+"Kendiliğinden odak HFR değerini bu yüzdelik kazanç kadar artır ve yakalama "
+"modülüne kaydet"
 
 #. i18n: ectx: whatsthis, entry (HFRCheckAlgorithm), group (Capture)
 #: kstars.kcfg:1923
-#, fuzzy, kde-format
-#| msgid "Sequence Queue"
+#, kde-format
 msgid "Algorithm for In Sequence HFR Check"
-msgstr "Dizi Kuyruğu"
+msgstr "Sıralı HFR denetimi için algoritma"
 
 #. i18n: ectx: label, entry (InSequenceCheckFrames), group (Capture)
 #: kstars.kcfg:1927
 #, kde-format
 msgid "Run In-Sequence HFR check after this many frames."
-msgstr ""
+msgstr "Bu sayıda kareden sonra sıralı HFR denetimini çalıştır"
 
 #. i18n: ectx: label, entry (AutoStretch), group (Capture)
 #: kstars.kcfg:1931
-#, fuzzy, kde-format
-#| msgid "Display captured sequence images in the FITS Viewer"
+#, kde-format
 msgid "Perform auto stretch on captured images in FITS Viewer."
-msgstr "FITS Görüntüleyici içinde yakalanmış seri görüntüleri göster"
+msgstr ""
+"FITS görüntüleyicisinde yakalanan görsellerde kendiliğinden germe işlemi "
+"gerçekleştir"
 
 #. i18n: ectx: label, entry (Clipping64KValue), group (Capture)
 #: kstars.kcfg:1939
@@ -37483,8 +37465,8 @@ msgstr "FITS Görüntüleyici içinde yakalanmış seri görüntüleri göster"
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
-"16 bit görseller için FITS Görüntüleyicisi'nde kırpılmış olarak işaretlenen "
-"piksellerin en düşük değeri."
+"16 bit görseller için FITS görüntüleyicisinde kırpılmış olarak imlenen "
+"piksellerin en düşük değeri"
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:1943
@@ -37492,8 +37474,8 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
-"8 bit görseller için FITS Görüntüleyicisi'nde kırpılmış olarak işaretlenen "
-"piksellerin en düşük değeri."
+"8 bit görseller için FITS görüntüleyicisinde kırpılmış olarak imlenen "
+"piksellerin en düşük değeri"
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
 #: kstars.kcfg:1948
