@@ -334,7 +334,7 @@ void SequenceJob::capture(FITSMode mode)
         {
             qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set binning to " << "x =" << binning.x() << ", y =" << binning.y();
             setStatus(JOB_ERROR);
-            emit captureStarted(CameraState::CAPTURE_BIN_ERROR);
+            emit captureStarted(CAPTURE_BIN_ERROR);
         }
         else
             logentry.append(QString(", binning = %1x%2").arg(binning.x()).arg(binning.y()));
@@ -356,7 +356,7 @@ void SequenceJob::capture(FITSMode mode)
             qCWarning(KSTARS_EKOS_CAPTURE()) << "Cannot set ROI to " << "x =" << roi.x() << ", y =" << roi.y() << ", widht =" <<
                                              roi.width() << "height =" << roi.height();
             setStatus(JOB_ERROR);
-            emit captureStarted(CameraState::CAPTURE_FRAME_ERROR);
+            emit captureStarted(CAPTURE_FRAME_ERROR);
         }
         else
             logentry.append(QString(", ROI = (%1+%2, %3+%4)").arg(roi.x()).arg(roi.width()).arg(roi.y()).arg(roi.width()));
@@ -380,7 +380,7 @@ void SequenceJob::capture(FITSMode mode)
     // create log entry with settings
     qCInfo(KSTARS_EKOS_CAPTURE()) << logentry;
 
-    emit captureStarted(CameraState::CAPTURE_OK);
+    emit captureStarted(CAPTURE_OK);
 }
 
 void SequenceJob::setTargetFilter(int pos, const QString &name)
@@ -818,14 +818,14 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
                 if (typeEP)
                 {
                     setCalibrationPreAction(cLocale.toUInt(pcdataXMLEle(typeEP)));
-                    if (getCalibrationPreAction() & ACTION_WALL)
+                    if (getCalibrationPreAction() & CAPTURE_PREACTION_WALL)
                     {
                         XMLEle * azEP  = findXMLEle(subEP, "Az");
                         XMLEle * altEP = findXMLEle(subEP, "Alt");
 
                         if (azEP && altEP)
                         {
-                            setCalibrationPreAction((getCalibrationPreAction() & ~ACTION_PARK_MOUNT) | ACTION_WALL);
+                            setCalibrationPreAction((getCalibrationPreAction() & ~CAPTURE_PREACTION_PARK_MOUNT) | CAPTURE_PREACTION_WALL);
                             SkyPoint wallCoord;
                             wallCoord.setAz(cLocale.toDouble(pcdataXMLEle(azEP)));
                             wallCoord.setAlt(cLocale.toDouble(pcdataXMLEle(altEP)));
@@ -834,7 +834,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
                         else
                         {
                             qCWarning(KSTARS_EKOS_CAPTURE) << "Wall position coordinates missing, disabling slew to wall position action.";
-                            setCalibrationPreAction((getCalibrationPreAction() & ~ACTION_WALL) | ACTION_NONE);
+                            setCalibrationPreAction((getCalibrationPreAction() & ~CAPTURE_PREACTION_WALL) | CAPTURE_PREACTION_NONE);
                         }
                     }
                 }
@@ -848,7 +848,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
                 if (typeEP)
                 {
                     // default
-                    setCalibrationPreAction(ACTION_NONE);
+                    setCalibrationPreAction(CAPTURE_PREACTION_NONE);
                     if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
                     {
                         XMLEle * azEP  = findXMLEle(subEP, "Az");
@@ -856,7 +856,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
 
                         if (azEP && altEP)
                         {
-                            setCalibrationPreAction((getCalibrationPreAction() & ~ACTION_PARK_MOUNT) | ACTION_WALL);
+                            setCalibrationPreAction((getCalibrationPreAction() & ~CAPTURE_PREACTION_PARK_MOUNT) | CAPTURE_PREACTION_WALL);
                             SkyPoint wallCoord;
                             wallCoord.setAz(cLocale.toDouble(pcdataXMLEle(azEP)));
                             wallCoord.setAlt(cLocale.toDouble(pcdataXMLEle(altEP)));
@@ -869,12 +869,12 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
             // SQ_FORMAT_VERSION < 2.7
             subEP = findXMLEle(ep, "PreMountPark");
             if (subEP && !strcmp(pcdataXMLEle(subEP), "True"))
-                setCalibrationPreAction(getCalibrationPreAction() | ACTION_PARK_MOUNT);
+                setCalibrationPreAction(getCalibrationPreAction() | CAPTURE_PREACTION_PARK_MOUNT);
 
             // SQ_FORMAT_VERSION < 2.7
             subEP = findXMLEle(ep, "PreDomePark");
             if (subEP && !strcmp(pcdataXMLEle(subEP), "True"))
-                setCalibrationPreAction(getCalibrationPreAction() | ACTION_PARK_DOME);
+                setCalibrationPreAction(getCalibrationPreAction() | CAPTURE_PREACTION_PARK_DOME);
 
             subEP = findXMLEle(ep, "FlatDuration");
             if (subEP)
@@ -1002,7 +1002,7 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
     outstream << "<Calibration>" << Qt::endl;
     outstream << "<PreAction>" << Qt::endl;
     outstream << QString("<Type>%1</Type>").arg(getCalibrationPreAction()) << Qt::endl;
-    if (getCalibrationPreAction() & ACTION_WALL)
+    if (getCalibrationPreAction() & CAPTURE_PREACTION_WALL)
     {
         outstream << "<Az>" << cLocale.toString(getWallCoord().az().Degrees()) << "</Az>" << Qt::endl;
         outstream << "<Alt>" << cLocale.toString(getWallCoord().alt().Degrees()) << "</Alt>" << Qt::endl;

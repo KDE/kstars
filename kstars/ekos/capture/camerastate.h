@@ -10,6 +10,7 @@
 
 #include "Options.h"
 
+#include "capturetypes.h"
 #include "ekos/ekos.h"
 #include "indiapi.h"
 #include "indi/indistd.h"
@@ -34,14 +35,6 @@ class FITSData;
 namespace Ekos
 {
 
-// Typedef for HFR Check algorithms.
-typedef enum
-{
-    HFR_CHECK_LAST_AUTOFOCUS, /* Use last Autofocus as reference   */
-    HFR_CHECK_FIXED,          /* User supplied fixed reference     */
-    HFR_CHECK_MEDIAN_MEASURE, /* Use median algorithm as reference */
-    HFR_CHECK_MAX_ALGO        /* Max counter for enum              */
-} HFR_CHECK_ALGORITHM;
 constexpr double HFR_CHECK_DEFAULT_THRESHOLD = 10.0;
 
 class SequenceJob;
@@ -53,62 +46,6 @@ class CameraState: public QObject
 {
         Q_OBJECT
     public:
-        /* Action types to be executed before capturing may start. */
-        typedef enum
-        {
-            ACTION_FILTER,              /* Change the filter and wait until the correct filter is set.                                    */
-            ACTION_TEMPERATURE,         /* Set the camera chip target temperature and wait until the target temperature has been reached. */
-            ACTION_ROTATOR,             /* Set the camera rotator target angle and wait until the target angle has been reached.          */
-            ACTION_PREPARE_LIGHTSOURCE, /* Setup the selected flat lights source.                                                         */
-            ACTION_MOUNT_PARK,          /* Park the mount.                                                                                */
-            ACTION_DOME_PARK,           /* Park the dome.                                                                                 */
-            ACTION_FLAT_SYNC_FOCUS,     /* Move the focuser to the focus position for the selected filter.                                */
-            ACTION_SCOPE_COVER,         /* Ensure that the scope cover (if present) is opened.                                            */
-            ACTION_AUTOFOCUS            /* Execute autofocus (might be triggered due to filter change).                                   */
-        } PrepareActions;
-
-        typedef enum
-        {
-            SHUTTER_YES,    /* the CCD has a shutter                             */
-            SHUTTER_NO,     /* the CCD has no shutter                            */
-            SHUTTER_BUSY,   /* determining whether the CCD has a shutter running */
-            SHUTTER_UNKNOWN /* unknown whether the CCD has a shutter             */
-        } ShutterStatus;
-
-        typedef enum
-        {
-            CAP_IDLE,
-            CAP_PARKING,
-            CAP_UNPARKING,
-            CAP_PARKED,
-            CAP_ERROR,
-            CAP_UNKNOWN
-        } CapState;
-
-        typedef enum
-        {
-            CAP_LIGHT_OFF,     /* light is on               */
-            CAP_LIGHT_ON,      /* light is off              */
-            CAP_LIGHT_UNKNOWN, /* unknown whether on or off */
-            CAP_LIGHT_BUSY     /* light state changing      */
-        } LightState;
-
-        typedef enum
-        {
-            CONTINUE_ACTION_NONE,            /* do nothing              */
-            CONTINUE_ACTION_NEXT_EXPOSURE,   /* start next exposure     */
-            CONTINUE_ACTION_CAPTURE_COMPLETE /* recall capture complete */
-        } ContinueAction;
-
-        /* Result when starting to capture {@see SequenceJob::capture(bool, FITSMode)}. */
-        typedef enum
-        {
-            CAPTURE_OK,               /* Starting a new capture succeeded.                                          */
-            CAPTURE_FRAME_ERROR,      /* Setting frame parameters failed, capture not started.                      */
-            CAPTURE_BIN_ERROR,        /* Setting binning parameters failed, capture not started.                    */
-            CAPTURE_FOCUS_ERROR,      /* NOT USED.                                                                  */
-        } CAPTUREResult;
-
         /* Interval with double lower and upper bound */
         typedef struct
         {
@@ -157,7 +94,7 @@ class CameraState: public QObject
         // With this construct we could do a lazy initialization of current values if setCurrent...()
         // sets this flag to true. This is necessary since we listen to the events, but as long as
         // the value does not change, there won't be an event.
-        QMap<PrepareActions, bool> isInitialized;
+        QMap<CapturePrepareActions, bool> isInitialized;
 
         // ////////////////////////////////////////////////////////////////////
         // flat preparation attributes
@@ -212,11 +149,11 @@ class CameraState: public QObject
             m_StartingCapture = newStartingCapture;
         }
 
-        ContinueAction getContinueAction() const
+        CaptureContinueAction getContinueAction() const
         {
             return m_ContinueAction;
         }
-        void setContinueAction(ContinueAction newPauseFunction)
+        void setContinueAction(CaptureContinueAction newPauseFunction)
         {
             m_ContinueAction = newPauseFunction;
         }
@@ -983,7 +920,7 @@ signals:
         void suspendCapture();
         void executeActiveJob();
         void updatePrepareState(CaptureState state);
-        void captureStarted(CAPTUREResult rc);
+        void captureStarted(CaptureResult rc);
         // mount meridian flip status update event
         void newMeridianFlipStage(MeridianFlipState::MFStage status);
         // meridian flip started
@@ -1075,7 +1012,7 @@ signals:
         // next capture sequence ID
         int m_nextSequenceID { 0 };
         // how to continue after pausing
-        ContinueAction m_ContinueAction { CONTINUE_ACTION_NONE };
+        CaptureContinueAction m_ContinueAction { CAPTURE_CONTINUE_ACTION_NONE };
         // name of the observer
         QString m_ObserverName;
         // ignore already captured files
@@ -1096,7 +1033,7 @@ signals:
         bool m_skyFlat { false };
         SkyPoint m_wallCoord;
         FlatFieldDuration m_flatFieldDuration { DURATION_MANUAL };
-        uint32_t m_CalibrationPreAction { ACTION_NONE };
+        uint32_t m_CalibrationPreAction { CAPTURE_PREACTION_NONE };
         bool m_lightBoxLightEnabled { false };
         // Allowed camera exposure times
         DoubleRange m_ExposureRange;

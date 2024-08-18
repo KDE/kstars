@@ -158,13 +158,6 @@ const QMap<CCDFrameType, QString> CCDFrameTypeNames =
 
 typedef enum { SINGLE_BIN, DOUBLE_BIN, TRIPLE_BIN, QUADRAPLE_BIN } CCDBinType;
 
-typedef enum {
-    ACTION_NONE       = 1 << 0,
-    ACTION_WALL       = 1 << 1,
-    ACTION_PARK_MOUNT = 1 << 2,
-    ACTION_PARK_DOME  = 1 << 3,
-} CalibrationPreActions;
-
 typedef enum { DURATION_MANUAL, DURATION_ADU } FlatFieldDuration;
 
 using Seconds = std::chrono::duration<double>;

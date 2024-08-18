@@ -115,7 +115,7 @@ bool CameraProcess::setRotator(ISD::Rotator *device)
             devices()->rotator()->disconnect(this);
 
         // clear initialisation.
-        state()->isInitialized[CameraState::ACTION_ROTATOR] = false;
+        state()->isInitialized[CAPTURE_ACTION_ROTATOR] = false;
 
         if (device)
         {
@@ -135,7 +135,7 @@ bool CameraProcess::setDustCap(ISD::DustCap *device)
         return false;
 
     devices()->setDustCap(device);
-    state()->setDustCapState(CameraState::CAP_UNKNOWN);
+    state()->setDustCapState(CAP_UNKNOWN);
 
     updateFilterInfo();
     return true;
@@ -148,7 +148,7 @@ bool CameraProcess::setLightBox(ISD::LightBox *device)
         return false;
 
     devices()->setLightBox(device);
-    state()->setLightBoxLightState(CameraState::CAP_LIGHT_UNKNOWN);
+    state()->setLightBoxLightState(CAP_LIGHT_UNKNOWN);
 
     return true;
 }
@@ -229,10 +229,10 @@ void CameraProcess::toggleSequence()
         // Call from where ever we have left of when we paused
         switch (state()->getContinueAction())
         {
-            case CameraState::CONTINUE_ACTION_CAPTURE_COMPLETE:
+            case CAPTURE_CONTINUE_ACTION_CAPTURE_COMPLETE:
                 resumeSequence();
                 break;
-            case CameraState::CONTINUE_ACTION_NEXT_EXPOSURE:
+            case CAPTURE_CONTINUE_ACTION_NEXT_EXPOSURE:
                 startNextExposure();
                 break;
             default:
@@ -428,7 +428,7 @@ void CameraProcess::pauseCapturing()
         return;
     }
     // we do not decide at this stage how to resume, since pause is only planned here
-    state()->setContinueAction(CameraState::CONTINUE_ACTION_NONE);
+    state()->setContinueAction(CAPTURE_CONTINUE_ACTION_NONE);
     state()->setCaptureState(CAPTURE_PAUSE_PLANNED);
     emit newLog(i18n("Sequence shall be paused after current exposure is complete."));
 }
@@ -760,7 +760,7 @@ IPState CameraProcess::checkLightFramePendingTasks()
         return IPS_ALERT;
 
     // step 2: check if pausing has been requested
-    if (checkPausing(CameraState::CONTINUE_ACTION_NEXT_EXPOSURE) == true)
+    if (checkPausing(CAPTURE_CONTINUE_ACTION_NEXT_EXPOSURE) == true)
         return IPS_BUSY;
 
     // step 3: check if a meridian flip is active
@@ -803,11 +803,11 @@ IPState CameraProcess::checkLightFramePendingTasks()
 
 }
 
-void CameraProcess::captureStarted(CameraState::CAPTUREResult rc)
+void CameraProcess::captureStarted(CaptureResult rc)
 {
     switch (rc)
     {
-        case CameraState::CAPTURE_OK:
+        case CAPTURE_OK:
         {
             state()->setCaptureState(CAPTURE_CAPTURING);
             state()->getCaptureTimeout().start(static_cast<int>(activeJob()->getCoreProperty(
@@ -834,17 +834,17 @@ void CameraProcess::captureStarted(CameraState::CAPTUREResult rc)
         }
         break;
 
-        case CameraState::CAPTURE_FRAME_ERROR:
+        case CAPTURE_FRAME_ERROR:
             emit newLog(i18n("Failed to set sub frame."));
             emit stopCapturing(CAPTURE_ABORTED);
             break;
 
-        case CameraState::CAPTURE_BIN_ERROR:
+        case CAPTURE_BIN_ERROR:
             emit newLog((i18n("Failed to set binning.")));
             emit stopCapturing(CAPTURE_ABORTED);
             break;
 
-        case CameraState::CAPTURE_FOCUS_ERROR:
+        case CAPTURE_FOCUS_ERROR:
             emit newLog((i18n("Cannot capture while focus module is busy.")));
             emit stopCapturing(CAPTURE_ABORTED);
             break;
@@ -904,7 +904,7 @@ IPState CameraProcess::startNextExposure()
 IPState CameraProcess::resumeSequence()
 {
     // before we resume, we will check if pausing is requested
-    if (checkPausing(CameraState::CONTINUE_ACTION_CAPTURE_COMPLETE) == true)
+    if (checkPausing(CAPTURE_CONTINUE_ACTION_CAPTURE_COMPLETE) == true)
         return IPS_BUSY;
 
     // If no job is active, we have to find if there are more pending jobs in the queue
@@ -1996,7 +1996,7 @@ void CameraProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &devic
         devices()->dustCap()->disconnect(this);
         devices()->setDustCap(nullptr);
         state()->hasDustCap = false;
-        state()->setDustCapState(CameraState::CAP_UNKNOWN);
+        state()->setDustCapState(CAP_UNKNOWN);
     }
 
     // Light Boxes
@@ -2005,7 +2005,7 @@ void CameraProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &devic
         devices()->lightBox()->disconnect(this);
         devices()->setLightBox(nullptr);
         state()->hasLightBox = false;
-        state()->setLightBoxLightState(CameraState::CAP_LIGHT_UNKNOWN);
+        state()->setLightBoxLightState(CAP_LIGHT_UNKNOWN);
     }
 
     // Cameras
@@ -2608,7 +2608,7 @@ bool CameraProcess::setFilterWheel(ISD::FilterWheel * device)
     return (device != nullptr);
 }
 
-bool CameraProcess::checkPausing(CameraState::ContinueAction continueAction)
+bool CameraProcess::checkPausing(CaptureContinueAction continueAction)
 {
     if (state()->getCaptureState() == CAPTURE_PAUSE_PLANNED)
     {

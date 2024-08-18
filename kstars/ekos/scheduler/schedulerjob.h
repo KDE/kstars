@@ -738,7 +738,7 @@ private:
         bool lightFramesRequired { false };
         bool m_CalibrationMountPark {false};
 
-        QMap<QString, uint16_t> capturedFramesMap;
+        CapturedFramesMap capturedFramesMap;
 
         /// Pointer to Moon object
         KSMoon *moon { nullptr };

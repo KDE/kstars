@@ -8,6 +8,7 @@
 #pragma once
 
 #include "schedulertypes.h"
+#include "ekos/capture/capturetypes.h"
 #include "ekos/auxiliary/modulelogger.h"
 #include "dms.h"
 #include "libindi/lilxml.h"

@@ -9,6 +9,7 @@
 #include "ui_camera.h"
 #include "ui_limits.h"
 #include "ui_calibrationoptions.h"
+#include "capturetypes.h"
 #include "customproperties.h"
 #include "rotatorsettings.h"
 #include "sequencejob.h"
@@ -48,12 +49,6 @@ class Camera : public QWidget, public Ui::Camera
     Q_OBJECT
     friend class Capture;
 public:
-    typedef enum
-    {
-        NOT_PREVIEW,
-        LOCAL_PREVIEW,
-        REMOTE_PREVIEW
-    } FilenamePreviewType;
 
     explicit Camera(int id = 0, bool standAlone = false, QWidget *parent = nullptr);
     ~Camera();
@@ -195,7 +190,7 @@ public:
      * @return pointer to job created or nullptr otherwise.
      */
     SequenceJob *createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH,
-                           Camera::FilenamePreviewType filenamePreview = Camera::NOT_PREVIEW);
+                           FilenamePreviewType filenamePreview = FILENAME_NOT_PREVIEW);
 
         /**
      * @brief removeJob Remove a job sequence from the queue
@@ -634,7 +629,7 @@ private:
     /**
      * @brief updateJobFromUI Update all job attributes from the UI settings.
      */
-    void updateJobFromUI(SequenceJob *job, Camera::FilenamePreviewType filenamePreview = Camera::NOT_PREVIEW);
+    void updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePreview = FILENAME_NOT_PREVIEW);
 
     /**
      * @brief syncGUIToJob Update UI to job settings
@@ -762,7 +757,7 @@ private:
 
     // Filename preview
     void generatePreviewFilename();
-    QString previewFilename(FilenamePreviewType previewType = LOCAL_PREVIEW);
+    QString previewFilename(FilenamePreviewType previewType = FILENAME_LOCAL_PREVIEW);
 
     /**
      * @brief updateJobTableCountCell Update the job counter in the job table of a sigle job

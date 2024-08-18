@@ -264,7 +264,7 @@ void Camera::initCamera()
 
     connect(exposureCalcB, &QPushButton::clicked, this, &Camera::openExposureCalculatorDialog);
 
-    // avoid combination of ACTION_WALL and ACTION_PARK_MOUNT
+    // avoid combination of CAPTURE_PREACTION_WALL and CAPTURE_PREACTION_PARK_MOUNT
     connect(m_CalibrationUI->captureCalibrationWall, &QCheckBox::clicked, [&](bool checked)
     {
         if (checked)
@@ -1062,7 +1062,7 @@ SequenceJob *Camera::createJob(SequenceJob::SequenceJobType jobtype, FilenamePre
     updateJobFromUI(job, filenamePreview);
 
     // Nothing more to do if preview or for placeholder calculations
-    if (jobtype == SequenceJob::JOBTYPE_PREVIEW || filenamePreview != Camera::NOT_PREVIEW)
+    if (jobtype == SequenceJob::JOBTYPE_PREVIEW || filenamePreview != FILENAME_NOT_PREVIEW)
         return job;
 
     // check if the upload paths are correct
@@ -1315,11 +1315,11 @@ void Camera::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrevi
     job->setFlatFieldDuration(m_CalibrationUI->captureCalibrationDurationManual->isChecked() ? DURATION_MANUAL :
                               DURATION_ADU);
 
-    int action = ACTION_NONE;
+    int action = CAPTURE_PREACTION_NONE;
     if (m_CalibrationUI->captureCalibrationParkMount->isChecked())
-        action |= ACTION_PARK_MOUNT;
+        action |= CAPTURE_PREACTION_PARK_MOUNT;
     if (m_CalibrationUI->captureCalibrationParkDome->isChecked())
-        action |= ACTION_PARK_DOME;
+        action |= CAPTURE_PREACTION_PARK_DOME;
     if (m_CalibrationUI->captureCalibrationWall->isChecked())
     {
         bool azOk = false, altOk = false;
@@ -1328,7 +1328,7 @@ void Camera::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrevi
 
         if (azOk && altOk)
         {
-            action = (action & ~ACTION_PARK_MOUNT) | ACTION_WALL;
+            action = (action & ~CAPTURE_PREACTION_PARK_MOUNT) | CAPTURE_PREACTION_WALL;
             SkyPoint wallSkyPoint;
             wallSkyPoint.setAz(wallAz);
             wallSkyPoint.setAlt(wallAlt);
@@ -1378,7 +1378,7 @@ void Camera::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrevi
     placeholderPath.updateFullPrefix(job, placeholderFormatT->text());
 
     QString signature = placeholderPath.generateSequenceFilename(*job,
-                        filenamePreview != Camera::REMOTE_PREVIEW, true, 1,
+                        filenamePreview != FILENAME_REMOTE_PREVIEW, true, 1,
                         ".fits", "", false, true);
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 
@@ -1437,14 +1437,14 @@ void Camera::syncGUIToJob(SequenceJob *job)
 
     // Calibration Pre-Action
     const auto action = job->getCalibrationPreAction();
-    if (action & ACTION_WALL)
+    if (action & CAPTURE_PREACTION_WALL)
     {
         m_CalibrationUI->azBox->setText(job->getWallCoord().az().toDMSString());
         m_CalibrationUI->altBox->setText(job->getWallCoord().alt().toDMSString());
     }
-    m_CalibrationUI->captureCalibrationWall->setChecked(action & ACTION_WALL);
-    m_CalibrationUI->captureCalibrationParkMount->setChecked(action & ACTION_PARK_MOUNT);
-    m_CalibrationUI->captureCalibrationParkDome->setChecked(action & ACTION_PARK_DOME);
+    m_CalibrationUI->captureCalibrationWall->setChecked(action & CAPTURE_PREACTION_WALL);
+    m_CalibrationUI->captureCalibrationParkMount->setChecked(action & CAPTURE_PREACTION_PARK_MOUNT);
+    m_CalibrationUI->captureCalibrationParkDome->setChecked(action & CAPTURE_PREACTION_PARK_DOME);
 
     // Calibration Flat Duration
     switch (job->getFlatFieldDuration())
@@ -2242,7 +2242,7 @@ void Camera::loadGlobalSettings()
 bool Camera::checkUploadPaths(FilenamePreviewType filenamePreview)
 {
     // only relevant if we do not generate file name previews
-    if (filenamePreview != NOT_PREVIEW)
+    if (filenamePreview != FILENAME_NOT_PREVIEW)
         return true;
 
     if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
@@ -2282,11 +2282,11 @@ void Camera::generatePreviewFilename()
 {
     if (state()->isCaptureRunning() == false)
     {
-        placeholderFormatT->setToolTip(previewFilename( Camera::LOCAL_PREVIEW ));
+        placeholderFormatT->setToolTip(previewFilename( FILENAME_LOCAL_PREVIEW ));
         emit newLocalPreview(placeholderFormatT->toolTip());
 
         if (fileUploadModeS->currentIndex() != 0)
-            fileRemoteDirT->setToolTip(previewFilename( Camera::REMOTE_PREVIEW ));
+            fileRemoteDirT->setToolTip(previewFilename( FILENAME_REMOTE_PREVIEW ));
     }
 }
 
@@ -2296,14 +2296,14 @@ QString Camera::previewFilename(FilenamePreviewType previewType)
     QString m_format;
     auto separator = QDir::separator();
 
-    if (previewType == Camera::LOCAL_PREVIEW)
+    if (previewType == FILENAME_LOCAL_PREVIEW)
     {
         if(!fileDirectoryT->text().endsWith(separator) && !placeholderFormatT->text().startsWith(separator))
             placeholderFormatT->setText(separator + placeholderFormatT->text());
         m_format = fileDirectoryT->text() + placeholderFormatT->text() + formatSuffixN->prefix() +
                    formatSuffixN->cleanText();
     }
-    else if (previewType == Camera::REMOTE_PREVIEW)
+    else if (previewType == FILENAME_REMOTE_PREVIEW)
         m_format = fileRemoteDirT->text();
 
     //Guard against an empty format to avoid the empty directory warning pop-up in addjob
@@ -2338,7 +2338,7 @@ QString Camera::previewFilename(FilenamePreviewType previewType)
             extension = ".xisf";
         else
             extension = ".[NATIVE]";
-        previewText = m_placeholderPath.generateSequenceFilename(*m_job, previewType == Camera::LOCAL_PREVIEW, true, 1,
+        previewText = m_placeholderPath.generateSequenceFilename(*m_job, previewType == FILENAME_LOCAL_PREVIEW, true, 1,
                       extension, "", false);
         previewText = QDir::toNativeSeparators(previewText);
         // we do not use it any more
@@ -2346,7 +2346,7 @@ QString Camera::previewFilename(FilenamePreviewType previewType)
     }
 
     // Must change directory separate to UNIX style for remote
-    if (previewType == Camera::REMOTE_PREVIEW)
+    if (previewType == FILENAME_REMOTE_PREVIEW)
         previewText.replace(separator, "/");
 
     return previewText;

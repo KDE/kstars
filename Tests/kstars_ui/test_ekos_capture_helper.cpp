@@ -10,6 +10,7 @@
 
 #include "test_ekos.h"
 #include "ekos/capture/scriptsmanager.h"
+#include "ekos/capture/capturetypes.h"
 #include "ekos/capture/capture.h"
 #include "ekos/scheduler/scheduler.h"
 #include "ekos/scheduler/schedulerprocess.h"
@@ -313,7 +314,7 @@ QStringList TestEkosCaptureHelper::serializeJob(const SimpleCaptureCalibratingJo
     {
         case ESQ_VERSION_2_4:
         case ESQ_VERSION_2_5:
-            if (job.preAction & ACTION_WALL)
+            if (job.preAction & Ekos::CAPTURE_PREACTION_WALL)
             {
                 result.append("<FlatSource><Type>Wall</Type>");
                 result.append(QString("<Az>%1</Az>").arg(job.wall_az));
@@ -323,13 +324,13 @@ QStringList TestEkosCaptureHelper::serializeJob(const SimpleCaptureCalibratingJo
             else
                 result.append("<FlatSource><Type>Manual</Type></FlatSource>");
 
-            result.append({QString("<PreMountPark>%1</PreMountPark>").arg((job.preAction & ACTION_PARK_MOUNT) > 0 ? "True" : "False"),
-                           QString("<PreDomePark>%1</PreDomePark>").arg((job.preAction & ACTION_PARK_DOME) > 0 ? "True" : "False")});
+            result.append({QString("<PreMountPark>%1</PreMountPark>").arg((job.preAction & Ekos::CAPTURE_PREACTION_PARK_MOUNT) > 0 ? "True" : "False"),
+                           QString("<PreDomePark>%1</PreDomePark>").arg((job.preAction & Ekos::CAPTURE_PREACTION_PARK_DOME) > 0 ? "True" : "False")});
             break;
 
         case ESQ_VERSION_2_6:
             result.append(QString("<PreAction><Type>%1</Type>").arg(job.preAction));
-            if (job.preAction & ACTION_WALL)
+            if (job.preAction & Ekos::CAPTURE_PREACTION_WALL)
                 result.append({QString("<Az>%1</Az>").arg(job.wall_az),
                                QString("<Alt>%1</Alt>").arg(job.wall_alt)});
             result.append("</PreAction>");

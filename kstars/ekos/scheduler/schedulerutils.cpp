@@ -349,7 +349,7 @@ SequenceJob *SchedulerUtils::processSequenceJobInfo(XMLEle * root, SchedulerJob 
     {
         if (FRAME_LIGHT == job->getFrameType())
             schedJob->setLightFramesRequired(true);
-        if (job->getCalibrationPreAction() & ACTION_PARK_MOUNT)
+        if (job->getCalibrationPreAction() & CAPTURE_PREACTION_PARK_MOUNT)
             schedJob->setCalibrationMountPark(true);
     }
 

@@ -163,7 +163,7 @@ class SequenceQueue : public QObject
 
         bool m_AutofocusSet { false };
         bool m_EnforceAutofocusHFR { false };
-        HFR_CHECK_ALGORITHM m_HFRCheckAlgorithm { HFR_CHECK_LAST_AUTOFOCUS };
+        HFRCheckAlgorithm m_HFRCheckAlgorithm { HFR_CHECK_LAST_AUTOFOCUS };
         double m_HFRCheckThresholdPercentage = HFR_CHECK_DEFAULT_THRESHOLD;
         int m_HFRCheckFrames = 1;
         double m_HFRDeviation = 0;

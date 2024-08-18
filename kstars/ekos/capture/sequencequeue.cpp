@@ -115,7 +115,7 @@ bool SequenceQueue::load(const QString &fileURL, const QString &targetName,
                             int HFRCheckAlgo = cLocale.toInt(pcdataXMLEle(epHFR));
                             // Set the HFR Check Algo from XML, or reset it to Last Autofocus
                             if (HFRCheckAlgo >= 0 && HFRCheckAlgo < HFR_CHECK_MAX_ALGO)
-                                m_HFRCheckAlgorithm = static_cast<HFR_CHECK_ALGORITHM>(HFRCheckAlgo);
+                                m_HFRCheckAlgorithm = static_cast<HFRCheckAlgorithm>(HFRCheckAlgo);
                         }
                         else if (!strcmp(tagXMLEle(epHFR), "HFRCheckThreshold"))
                         {
@@ -232,7 +232,7 @@ void SequenceQueue::loadOptions()
 
     m_AutofocusSet = true;
     m_EnforceAutofocusHFR = Options::enforceAutofocusHFR();
-    m_HFRCheckAlgorithm = static_cast<HFR_CHECK_ALGORITHM>(Options::hFRCheckAlgorithm());
+    m_HFRCheckAlgorithm = static_cast<HFRCheckAlgorithm>(Options::hFRCheckAlgorithm());
     m_HFRCheckThresholdPercentage = Options::hFRThresholdPercentage();
     m_HFRCheckFrames = Options::inSequenceCheckFrames();
     m_HFRDeviation = Options::hFRDeviation();

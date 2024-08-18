@@ -356,7 +356,7 @@ public:
     /**
      * @brief captureStarted Manage the result when capturing has been started
      */
-    void captureStarted(CameraState::CAPTUREResult rc);
+    void captureStarted(CaptureResult rc);
 
     /**
      * @brief checkNextExposure Try to start capturing the next exposure (@see startNextExposure()).
@@ -619,7 +619,7 @@ public:
      * @param continueAction action to be executed when resume after pausing
      * @return true iff capturing has been paused
      */
-    bool checkPausing(CameraState::ContinueAction continueAction);
+    bool checkPausing(CaptureContinueAction continueAction);
 
     /**
      * @brief findExecutableJob find next job to be executed

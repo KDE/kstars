@@ -404,7 +404,7 @@ class SequenceJob : public QObject
         // All preparations necessary for capturing are completed
         void prepareComplete(bool success = true);
         // Manage the result when capturing has been started
-        void captureStarted(CameraState::CAPTUREResult rc);
+        void captureStarted(CaptureResult rc);
         // Abort capturing
         void abortCapture();
         // log entry

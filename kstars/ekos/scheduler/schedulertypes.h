@@ -127,9 +127,6 @@ typedef enum
     SCHEDSTAGE_COMPLETE
 } SchedulerJobStage;
 
-/** @brief mapping signature --> frames count */
-typedef QMap<QString, uint16_t> CapturedFramesMap;
-
 // Functions to make human-readable debug messages for the various enums.
 
 QString ekosStateString(EkosState state);

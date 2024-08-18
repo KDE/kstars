@@ -14,6 +14,7 @@
 #include "Options.h"
 #include "skymapcomposite.h"
 #include "ekos/capture/sequencejobstate.h"
+#include "ekos/capture/capturetypes.h"
 #include "ekos/capture/capture.h"
 #include "ekos/focus/focusmodule.h"
 
@@ -759,8 +760,8 @@ void TestEkosCaptureWorkflow::testWallSource()
     // switch capture type to flat so that we can set the calibration
     captureTypeS->setCurrentText("Flat");
     // add another sequence to check if wall source may be used twice
-    // select another wall position as flat light source (az=0°, alt=0)
-    KTRY_SELECT_FLAT_WALL(capture, "0", "0");
+    // select another wall position as flat light source (az=80°, alt=0)
+    KTRY_SELECT_FLAT_WALL(capture, "80", "0");
     KTRY_CAPTURE_ADD_FRAME(frametype, 2, 2, 2.0, "Luminance", "test", imagepath);
 
     // start the sequence
@@ -1287,11 +1288,11 @@ bool TestEkosCaptureWorkflow::verifyCalibrationSettings()
         KTRY_GADGET(calibrationDialog, QRadioButton, captureCalibrationUseADU);
         KTRY_GADGET(calibrationDialog, QSpinBox, captureCalibrationADUValue);
         KTRY_GADGET(calibrationDialog, QSpinBox, captureCalibrationADUTolerance);
-        QTRY_COMPARE(captureCalibrationWall->isChecked(), (pre_action & ACTION_WALL) > 0);
-        QTRY_COMPARE(captureCalibrationParkMount->isChecked(), (pre_action & ACTION_PARK_MOUNT) > 0);
-        QTRY_COMPARE(captureCalibrationParkDome->isChecked(), (pre_action & ACTION_PARK_DOME) > 0);
+        QTRY_COMPARE(captureCalibrationWall->isChecked(), (pre_action & Ekos::CAPTURE_PREACTION_WALL) > 0);
+        QTRY_COMPARE(captureCalibrationParkMount->isChecked(), (pre_action & Ekos::CAPTURE_PREACTION_PARK_MOUNT) > 0);
+        QTRY_COMPARE(captureCalibrationParkDome->isChecked(), (pre_action & Ekos::CAPTURE_PREACTION_PARK_DOME) > 0);
 
-        if (pre_action & ACTION_WALL)
+        if (pre_action & Ekos::CAPTURE_PREACTION_WALL)
         {
             dms wallAz, wallAlt;
             bool azOk = false, altOk = false;
@@ -1532,12 +1533,13 @@ void TestEkosCaptureWorkflow::testLoadEsqFileCalibrationSettings_data()
     {
         QTest::newRow(QString("Flat pre_action=wall adu=manual v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit())
                 << version << 1.0 << 2 <<
-                "Flat" << static_cast<uint>(ACTION_WALL) << 180.0 << 85.0 << true << false << 12345 << 1234;
+                "Flat" << static_cast<uint>(Ekos::CAPTURE_PREACTION_WALL) << 180.0 << 85.0 << true << false << 12345 << 1234;
         QTest::newRow(QString("Dark pre_action=none adu=automatic v=%1").arg(
                           m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) << version  << 1.0 << 2 << "Dark" <<
-                                  static_cast<uint>(ACTION_NONE) << 180.0 << 85.0 << false << true <<  12345 << 1234;
+                                  static_cast<uint>(Ekos::CAPTURE_PREACTION_NONE) << 180.0 << 85.0 << false << true <<  12345 << 1234;
         QTest::newRow(QString("Bias pre_action=park_mount v=%1").arg(m_CaptureHelper->esqVersionNames[version]).toLocal8Bit()) <<
-                version  << 1.0 << 2 << "Bias" << static_cast<uint>(ACTION_PARK_MOUNT) << 180.0 << 85.0 << false << true << 12345 << 1234;
+                version  << 1.0 << 2 << "Bias" << static_cast<uint>(Ekos::CAPTURE_PREACTION_PARK_MOUNT) << 180.0 << 85.0 << false << true <<
+                12345 << 1234;
     }
 }
 
@@ -1626,7 +1628,7 @@ void TestEkosCaptureWorkflow::init()
     // reset counters
     image_count  = 0;
     // reset calibration
-    Options::setCalibrationPreActionIndex(ACTION_NONE);
+    Options::setCalibrationPreActionIndex(Ekos::CAPTURE_PREACTION_NONE);
 
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();

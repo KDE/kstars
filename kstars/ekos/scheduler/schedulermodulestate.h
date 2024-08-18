@@ -13,6 +13,7 @@
 #include "kstarsdatetime.h"
 #include "geolocation.h"
 #include "schedulertypes.h"
+#include "ekos/capture/capturetypes.h"
 #include <QDateTime>
 #include <QUrl>
 

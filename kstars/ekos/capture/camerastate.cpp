@@ -291,22 +291,22 @@ void CameraState::dustCapStateChanged(ISD::DustCap::Status status)
     switch (status)
     {
         case ISD::DustCap::CAP_ERROR:
-            setDustCapState(CameraState::CAP_ERROR);
+            setDustCapState(CAP_ERROR);
             emit newLog(i18n("Dust cap error."));
             break;
         case ISD::DustCap::CAP_PARKED:
-            setDustCapState(CameraState::CAP_PARKED);
+            setDustCapState(CAP_PARKED);
             emit newLog(i18n("Dust cap parked."));
             break;
         case ISD::DustCap::CAP_IDLE:
-            setDustCapState(CameraState::CAP_IDLE);
+            setDustCapState(CAP_IDLE);
             emit newLog(i18n("Dust cap unparked."));
             break;
         case ISD::DustCap::CAP_UNPARKING:
-            setDustCapState(CameraState::CAP_UNPARKING);
+            setDustCapState(CAP_UNPARKING);
             break;
         case ISD::DustCap::CAP_PARKING:
-            setDustCapState(CameraState::CAP_PARKING);
+            setDustCapState(CAP_PARKING);
             break;
     }
 }
@@ -513,7 +513,7 @@ void CameraState::updateMeridianFlipStage(const MeridianFlipState::MFStage &stag
             getMeridianFlipState()->processFlipCompleted();
 
             // if the capturing has been paused before the flip, reset the state to paused, otherwise to idle
-            setCaptureState(m_ContinueAction == CONTINUE_ACTION_NONE ? CAPTURE_IDLE : CAPTURE_PAUSED);
+            setCaptureState(m_ContinueAction == CAPTURE_CONTINUE_ACTION_NONE ? CAPTURE_IDLE : CAPTURE_PAUSED);
             break;
 
         default:
@@ -537,7 +537,8 @@ bool CameraState::checkMeridianFlipReady()
 
     // If active job is taking flat field image at a wall source
     // then do not flip.
-    if (m_activeJob && m_activeJob->getFrameType() == FRAME_FLAT && m_activeJob->getCalibrationPreAction() & ACTION_WALL)
+    if (m_activeJob && m_activeJob->getFrameType() == FRAME_FLAT
+            && m_activeJob->getCalibrationPreAction() & CAPTURE_PREACTION_WALL)
         return false;
 
     if (getMeridianFlipState()->getMeridianFlipStage() != MeridianFlipState::MF_REQUESTED)
