@@ -45,9 +45,9 @@ CaptureCountsWidget::CaptureCountsWidget(QWidget *parent) : QWidget(parent)
     reset();
 }
 
-void CaptureCountsWidget::setCurrentCameraDeviceName(const QString &name)
+void CaptureCountsWidget::setCurrentTrainName(const QString &name)
 {
-    m_currentCameraDeviceName = name;
+    m_currentTrainName = name;
     showCurrentCameraInfo();
 }
 
@@ -67,11 +67,11 @@ void CaptureCountsWidget::updateExposureProgress(Ekos::SequenceJob *job, const Q
     gr_frameRemainingTime->setText(frameRemainingTime->text());
 }
 
-void CaptureCountsWidget::updateDownloadProgress(double timeLeft, const QString &devicename)
+void CaptureCountsWidget::updateDownloadProgress(double timeLeft, const QString &trainname)
 {
-    imageCountDown[devicename].setHMS(0, 0, 0);
-    imageCountDown[devicename] = imageCountDown[devicename].addSecs(int(std::ceil(timeLeft)));
-    frameRemainingTime->setText(imageCountDown[devicename].toString("hh:mm:ss"));
+    imageCountDown[trainname].setHMS(0, 0, 0);
+    imageCountDown[trainname] = imageCountDown[trainname].addSecs(int(std::ceil(timeLeft)));
+    frameRemainingTime->setText(imageCountDown[trainname].toString("hh:mm:ss"));
 }
 
 void CaptureCountsWidget::shareSchedulerState(QSharedPointer<Ekos::SchedulerModuleState> state)
@@ -101,13 +101,13 @@ void CaptureCountsWidget::updateCaptureCountDown(int delta)
     if (m_schedulerModuleState == nullptr || m_schedulerModuleState->activeJob() == nullptr ||
             m_schedulerModuleState->activeJob()->getCompletionCondition() != Ekos::FINISH_LOOP)
     {
-        overallRemainingTime->setText(overallCountDown[m_currentCameraDeviceName].toString("hh:mm:ss"));
+        overallRemainingTime->setText(overallCountDown[m_currentTrainName].toString("hh:mm:ss"));
         gr_overallRemainingTime->setText(overallRemainingTime->text());
     }
     if (!m_captureProcess->isActiveJobPreview())
     {
-        jobRemainingTime->setText(jobCountDown[m_currentCameraDeviceName].toString("hh:mm:ss"));
-        sequenceRemainingTime->setText(sequenceCountDown[m_currentCameraDeviceName].toString("hh:mm:ss"));
+        jobRemainingTime->setText(jobCountDown[m_currentTrainName].toString("hh:mm:ss"));
+        sequenceRemainingTime->setText(sequenceCountDown[m_currentTrainName].toString("hh:mm:ss"));
         gr_sequenceRemainingTime->setText(sequenceRemainingTime->text());
     }
     else
@@ -191,9 +191,9 @@ void CaptureCountsWidget::setFrameInfo(const QString frametype, const QString fi
     }
 }
 
-void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &devicename)
+void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &trainname)
 {
-    overallCountDown[devicename].setHMS(0, 0, 0);
+    overallCountDown[trainname].setHMS(0, 0, 0);
     bool infinite_loop = false;
     int total_remaining_time = 0, total_completed = 0, total_count = 0;
     double total_percentage = 0;
@@ -204,7 +204,7 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
     QSharedPointer<Ekos::Camera> selected_cam;
     for (QSharedPointer<Ekos::Camera> camera : m_captureProcess->cameras())
     {
-        if (camera->activeCamera() != nullptr && camera->activeCamera()->getDeviceName() == devicename)
+        if (camera->opticalTrain() == trainname)
         {
             selected_cam = camera;
             break;
@@ -213,7 +213,7 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
 
     if (selected_cam.isNull())
     {
-        qCWarning(KSTARS_EKOS_CAPTURE) << "No matching camera found" << m_currentCameraDeviceName;
+        qCWarning(KSTARS_EKOS_CAPTURE) << "No matching camera found" << m_currentTrainName;
         return;
     }
 
@@ -267,7 +267,7 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
             }
             else
             {
-                overallCountDown[devicename] = overallCountDown[devicename].addSecs(total_remaining_time);
+                overallCountDown[trainname] = overallCountDown[trainname].addSecs(total_remaining_time);
                 gr_overallProgressBar->setValue(total_percentage);
             }
 
@@ -287,37 +287,37 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
             jobRemainingTime->setVisible(show_job_progress);
             if (show_job_progress)
             {
-                jobCountDown[devicename].setHMS(0, 0, 0);
-                jobCountDown[devicename] = jobCountDown[devicename].addSecs(selected_cam->state()->overallRemainingTime());
+                jobCountDown[trainname].setHMS(0, 0, 0);
+                jobCountDown[trainname] = jobCountDown[trainname].addSecs(selected_cam->state()->overallRemainingTime());
                 jobLabel->setText(QString("Job (%1/%2)")
                                   .arg(capture_total_completed)
                                   .arg(capture_total_count));
             }
 
             // update sequence remaining time
-            sequenceCountDown[devicename].setHMS(0, 0, 0);
-            sequenceCountDown[devicename] = sequenceCountDown[devicename].addSecs(selected_cam->state()->activeJobRemainingTime());
+            sequenceCountDown[trainname].setHMS(0, 0, 0);
+            sequenceCountDown[trainname] = sequenceCountDown[trainname].addSecs(selected_cam->state()->activeJobRemainingTime());
     }
 }
 
-void CaptureCountsWidget::updateJobProgress(CaptureProcessOverlay::FrameData data, const QString &devicename)
+void CaptureCountsWidget::updateJobProgress(CaptureProcessOverlay::FrameData data, const QString &trainname)
 {
-    m_currentFrame[devicename] = data;
+    m_currentFrame[trainname] = data;
 
     // display informations if they come frome the currently selected camera device
-    if (devicename == m_currentCameraDeviceName)
+    if (trainname == m_currentTrainName)
         showCurrentCameraInfo();
 }
 
 void CaptureCountsWidget::showCurrentCameraInfo()
 {
-    if (!m_currentFrame.contains(m_currentCameraDeviceName))
+    if (!m_currentFrame.contains(m_currentTrainName))
     {
-        qCWarning(KSTARS_EKOS_CAPTURE) << "No frame info available for" << m_currentCameraDeviceName;
+        qCWarning(KSTARS_EKOS_CAPTURE) << "No frame info available for" << m_currentTrainName;
         return;
     }
 
-    auto data = m_currentFrame[m_currentCameraDeviceName];
+    auto data = m_currentFrame[m_currentTrainName];
 
     if (data.jobType == SequenceJob::JOBTYPE_PREVIEW)
         setFrameInfo(i18n("Preview"), data.filterName, data.exptime, data.binning.x(), data.binning.y(), data.gain);

@@ -421,9 +421,9 @@ signals:
     // communication with other modules
     void ready();
     void refreshCamera(uint id, bool isValid);
-    void newExposureProgress(SequenceJob *job, const QString &devicename);
-    void newDownloadProgress(double, const QString &devicename);
-    void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename = "");
+    void newExposureProgress(SequenceJob *job, const QString &trainname);
+    void newDownloadProgress(double, const QString &trainname);
+    void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &trainname);
     void captureTarget(QString targetName);
     void captureComplete(const QVariantMap &metadata);
     void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo, const QString &trainname);

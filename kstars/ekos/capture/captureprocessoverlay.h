@@ -182,14 +182,14 @@ public:
      */
     bool deleteFrame(int pos);
 
-    void setCurrentCameraDeviceName(const QString &devicename);
+    void setCurrentTrainName(const QString &devicename);
 
     /**
      * @brief Capture history of the current camera device
      */
     CaptureHistory &captureHistory()
     {
-        return m_captureHistory[m_currentCameraDeviceName];
+        return m_captureHistory[m_currentTrainName];
     }
 
     /**
@@ -201,6 +201,6 @@ private:
     //capture history
     QMap<QString, CaptureHistory> m_captureHistory;
     // current camera device name
-    QString m_currentCameraDeviceName = "";
+    QString m_currentTrainName = "";
 
 };

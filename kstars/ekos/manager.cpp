@@ -2652,9 +2652,9 @@ void Manager::updateMountCoords(const SkyPoint position, ISD::Mount::PierSide pi
     ekosLiveClient.get()->message()->updateMountStatus(cStatus, true);
 }
 
-void Manager::updateCaptureStatus(Ekos::CaptureState status, const QString &devicename)
+void Manager::updateCaptureStatus(Ekos::CaptureState status, const QString &trainname)
 {
-    capturePreview->updateCaptureStatus(status, captureModule()->isActiveJobPreview(), devicename);
+    capturePreview->updateCaptureStatus(status, captureModule()->isActiveJobPreview(), trainname);
 
     switch (status)
     {
@@ -2677,16 +2677,16 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status, const QString &devi
         {"status", QString::fromLatin1(captureStates[status].untranslatedText())},
         {"seqt", capturePreview->captureCountsWidget->sequenceRemainingTime->text()},
         {"ovt", capturePreview->captureCountsWidget->overallRemainingTime->text()},
-        {"dev", devicename}
+        {"train", trainname}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
 }
 
 void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointer<FITSData> &data,
-                                    const QString &devicename)
+                                    const QString &trainname)
 {
-    capturePreview->updateJobProgress(job, data, devicename);
+    capturePreview->updateJobProgress(job, data, trainname);
 
     QJsonObject status =
     {
@@ -2709,13 +2709,13 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
     }
 }
 
-void Manager::updateExposureProgress(Ekos::SequenceJob * job, const QString &devicename)
+void Manager::updateExposureProgress(Ekos::SequenceJob * job, const QString &trainname)
 {
     QJsonObject status
     {
         {"expv", job->getExposeLeft()},
         {"expr", job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble()},
-        {"dev", devicename}
+        {"train", trainname}
     };
 
     ekosLiveClient.get()->message()->updateCaptureStatus(status);

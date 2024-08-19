@@ -103,8 +103,8 @@ void CaptureProcessOverlay::updateTargetDistance(double targetDiff)
 
 bool CaptureProcessOverlay::hasFrames()
 {
-    if (m_captureHistory.contains(m_currentCameraDeviceName))
-        return m_captureHistory[m_currentCameraDeviceName].size() > 0;
+    if (m_captureHistory.contains(m_currentTrainName))
+        return m_captureHistory[m_currentTrainName].size() > 0;
 
     return false;
 }
@@ -179,9 +179,9 @@ bool CaptureProcessOverlay::deleteFrame(int pos)
     return false;
 }
 
-void CaptureProcessOverlay::setCurrentCameraDeviceName(const QString &devicename)
+void CaptureProcessOverlay::setCurrentTrainName(const QString &trainname)
 {
-    m_currentCameraDeviceName = devicename;
+    m_currentTrainName = trainname;
     refresh();
 }
 

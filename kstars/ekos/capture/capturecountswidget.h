@@ -30,7 +30,7 @@ public:
 
     explicit CaptureCountsWidget(QWidget *parent = nullptr);
 
-    void setCurrentCameraDeviceName(const QString &name);
+    void setCurrentTrainName(const QString &name);
 
 public slots:
 
@@ -95,8 +95,8 @@ private:
     QMap<QString, QTime> sequenceCountDown;
     QMap<QString, QTime> jobCountDown;
     QMap<QString, QTime> overallCountDown;
-    // current camera device name
-    QString m_currentCameraDeviceName = "";
+    // current camera train name
+    QString m_currentTrainName = "";
 
     // cache frame data
     QMap<QString, CaptureProcessOverlay::FrameData> m_currentFrame;

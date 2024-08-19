@@ -681,9 +681,9 @@ public slots:
         void suspendGuiding();
         void resumeGuiding();
         void captureTarget(QString targetName);
-        void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename = "");
-        void newExposureProgress(SequenceJob *job, const QString &devicename);
-        void newDownloadProgress(double, const QString &devicename);
+        void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &trainname);
+        void newExposureProgress(SequenceJob *job, const QString &trainname);
+        void newDownloadProgress(double, const QString &trainname);
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QVariantMap &settings);        
         void newLocalPreview(const QString &preview);

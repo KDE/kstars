@@ -79,7 +79,7 @@ public slots:
     /**
      * @brief update display when the capture status changes
      */
-    void updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &devicename);
+    void updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &trainname);
 
     /**
      * @brief Slot receiving the update of the current target distance.
@@ -96,7 +96,7 @@ public slots:
     /**
      * @brief React upon changed camera device selection
      */
-    void currentCameraDeviceNameChanged(QString newName);
+    void selectedTrainChanged(QString newName);
 
 private:
 
@@ -110,8 +110,8 @@ private:
     // cache frame data
     QMap<QString, CaptureProcessOverlay::FrameData> m_currentFrame;
 
-    // known camera device names
-    QList<QString> m_cameraNames;
+    // known train names
+    QList<QString> m_trainNames;
 
     // target the mount is pointing to (may be different to the scheduler job name)
     QString m_mountTarget = "";

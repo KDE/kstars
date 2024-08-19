@@ -444,9 +444,18 @@ void Camera::initCamera()
     connect(m_cameraProcess.data(), &CameraProcess::refreshCamera, this, &Camera::updateCamera);
     connect(m_cameraProcess.data(), &CameraProcess::sequenceChanged, this, &Camera::sequenceChanged);
     connect(m_cameraProcess.data(), &CameraProcess::addJob, this, &Camera::addJob);
-    connect(m_cameraProcess.data(), &CameraProcess::newExposureProgress, this, &Camera::newExposureProgress);
-    connect(m_cameraProcess.data(), &CameraProcess::newDownloadProgress, this, &Camera::updateDownloadProgress);
-    connect(m_cameraProcess.data(), &CameraProcess::newImage, this, &Camera::newImage);
+    connect(m_cameraProcess.data(), &CameraProcess::newExposureProgress, this, [&](SequenceJob * job)
+    {
+        emit newExposureProgress(job, opticalTrain());
+    });
+    connect(m_cameraProcess.data(), &CameraProcess::newDownloadProgress, this, [&](double downloadTimeLeft)
+    {
+        emit updateDownloadProgress(downloadTimeLeft, opticalTrain());
+    });
+    connect(m_cameraProcess.data(), &CameraProcess::newImage, this, [&](SequenceJob * job, const QSharedPointer<FITSData> data)
+    {
+        emit newImage(job, data, opticalTrain());
+    });
     connect(m_cameraProcess.data(), &CameraProcess::captureComplete, this, &Camera::captureComplete);
     connect(m_cameraProcess.data(), &CameraProcess::updateCaptureCountDown, this, &Camera::updateCaptureCountDown);
     connect(m_cameraProcess.data(), &CameraProcess::processingFITSfinished, this, &Camera::processingFITSfinished);
@@ -2821,7 +2830,7 @@ bool Camera::saveSequenceQueue(const QString &path)
 void Camera::updateCameraStatus(CaptureState status)
 {
     // forward a status change
-    emit newStatus(status, (activeCamera() == nullptr ? "" : activeCamera()->getDeviceName()));
+    emit newStatus(status, opticalTrain());
 }
 
 void Camera::clearSequenceQueue()
