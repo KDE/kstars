@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-16 01:45+0000\n"
+"POT-Creation-Date: 2024-08-19 01:47+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -6480,7 +6480,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Vistað í skrá: %1"
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:268 ekos/focus/focus.cpp:4414
+#: ekos/capture/capture.cpp:267 ekos/focus/focus.cpp:4414
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1939 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3452
@@ -15424,124 +15424,124 @@ msgstr "Goose Creek"
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:606
+#: ekos/capture/camerastate.cpp:607
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:619
+#: ekos/capture/camerastate.cpp:620
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:639
+#: ekos/capture/camerastate.cpp:640
 #, fuzzy, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Finna hlut"
 
-#: ekos/capture/camerastate.cpp:648
+#: ekos/capture/camerastate.cpp:649
 #, fuzzy, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Finna hlut"
 
-#: ekos/capture/camerastate.cpp:655
+#: ekos/capture/camerastate.cpp:656
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:677
+#: ekos/capture/camerastate.cpp:678
 #, fuzzy, kde-format
 msgid "Adaptive focus complete."
 msgstr "halastjarna"
 
-#: ekos/capture/camerastate.cpp:701
+#: ekos/capture/camerastate.cpp:702
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:743
+#: ekos/capture/camerastate.cpp:744
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:747
+#: ekos/capture/camerastate.cpp:748
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Limit: %1 mins"
 msgstr "Núverandi listastillingar"
 
-#: ekos/capture/camerastate.cpp:885
+#: ekos/capture/camerastate.cpp:886
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:903
+#: ekos/capture/camerastate.cpp:904
 #, fuzzy, kde-format
 msgid "Guide module timed out."
 msgstr "Finna hlut"
 
-#: ekos/capture/camerastate.cpp:935
+#: ekos/capture/camerastate.cpp:936
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:944
+#: ekos/capture/camerastate.cpp:945
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:966
+#: ekos/capture/camerastate.cpp:967
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:980
+#: ekos/capture/camerastate.cpp:981
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:994
+#: ekos/capture/camerastate.cpp:995
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1021
+#: ekos/capture/camerastate.cpp:1022
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1068
+#: ekos/capture/camerastate.cpp:1069
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1072
+#: ekos/capture/camerastate.cpp:1073
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1087
+#: ekos/capture/camerastate.cpp:1088
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1469
+#: ekos/capture/camerastate.cpp:1470
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1488
+#: ekos/capture/camerastate.cpp:1489
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1493
+#: ekos/capture/camerastate.cpp:1494
 #, fuzzy, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Sjónaukaálfur"
@@ -15553,19 +15553,19 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:319
+#: ekos/capture/capture.cpp:424 ekos/focus/focusmodule.cpp:319
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
 msgstr "S&töðva eftirför"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713

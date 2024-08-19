@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-16 01:45+0000\n"
+"POT-Creation-Date: 2024-08-19 01:47+0000\n"
 "PO-Revision-Date: 2024-08-12 23:34+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -6474,7 +6474,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Решаването е прекъснато след %1 секунди."
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:268 ekos/focus/focus.cpp:4414
+#: ekos/capture/capture.cpp:267 ekos/focus/focus.cpp:4414
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1939 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3452
@@ -16029,95 +16029,95 @@ msgstr "Противопраховият капак е разпаркиран."
 msgid "Meridian flip is successfully completed"
 msgstr "Меридианното обръщане е завършено успешно"
 
-#: ekos/capture/camerastate.cpp:606
+#: ekos/capture/camerastate.cpp:607
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Извършване на повторно калибриране след обръщане и насочване..."
 
-#: ekos/capture/camerastate.cpp:619
+#: ekos/capture/camerastate.cpp:620
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Грешка при калибрирането след обръщането на меридиана. Рестартиране..."
 
-#: ekos/capture/camerastate.cpp:639
+#: ekos/capture/camerastate.cpp:640
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Автоматичното насочване спря. Изчаква се автофокусът да приключи..."
 
-#: ekos/capture/camerastate.cpp:648
+#: ekos/capture/camerastate.cpp:649
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Автоматичното насочване спря. Прекъсване..."
 
-#: ekos/capture/camerastate.cpp:655
+#: ekos/capture/camerastate.cpp:656
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Грешка при калибрирането след обръщането на меридиана. Прекъсване..."
 
-#: ekos/capture/camerastate.cpp:677
+#: ekos/capture/camerastate.cpp:678
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Завършен адаптивен фокус."
 
-#: ekos/capture/camerastate.cpp:701
+#: ekos/capture/camerastate.cpp:702
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Автофокусът е неуспешен. Прекъсване на експозицията..."
 
-#: ekos/capture/camerastate.cpp:743
+#: ekos/capture/camerastate.cpp:744
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr "Ограничение: %1 °C"
 
-#: ekos/capture/camerastate.cpp:747
+#: ekos/capture/camerastate.cpp:748
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr "Ограничение: %1 мин"
 
-#: ekos/capture/camerastate.cpp:885
+#: ekos/capture/camerastate.cpp:886
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Извършване на пренастройване след обръщане..."
 
-#: ekos/capture/camerastate.cpp:903
+#: ekos/capture/camerastate.cpp:904
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Времето за изчакване на модула за гидиране изтече."
 
-#: ekos/capture/camerastate.cpp:935
+#: ekos/capture/camerastate.cpp:936
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "Първоначално отклонение в гидирането %1 е под граничната стойност от %2 "
 "дъгови секунди"
 
-#: ekos/capture/camerastate.cpp:944
+#: ekos/capture/camerastate.cpp:945
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "Първоначалното отклонение в гидирането %1 е надвишило граничната стойност от "
 "%2 дъгови секунди"
 
-#: ekos/capture/camerastate.cpp:966
+#: ekos/capture/camerastate.cpp:967
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Калибрирането след обръщането на меридиана е завършено успешно."
 
-#: ekos/capture/camerastate.cpp:980
+#: ekos/capture/camerastate.cpp:981
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Отклонението в гидирането при стартиране на заснемането %1 е надвишило "
 "границата %2 дъгови секунди."
 
-#: ekos/capture/camerastate.cpp:994
+#: ekos/capture/camerastate.cpp:995
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Отклонението в гидирането при стартиране на заснемането %1 е под граничната "
 "стойност от %2 дъгови секунди"
 
-#: ekos/capture/camerastate.cpp:1021
+#: ekos/capture/camerastate.cpp:1022
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16127,7 +16127,7 @@ msgstr ""
 "секунди за %4 последователни проби, спиране на експозицията и изчакване на "
 "гидирането до %3 секунди."
 
-#: ekos/capture/camerastate.cpp:1068
+#: ekos/capture/camerastate.cpp:1069
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16136,7 +16136,7 @@ msgstr ""
 "Отклонението в гидирането %1 вече е по-ниско от граничната стойност от %2 "
 "дъгови секунди, възобновяване на експозицията."
 
-#: ekos/capture/camerastate.cpp:1072
+#: ekos/capture/camerastate.cpp:1073
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16145,24 +16145,24 @@ msgstr ""
 "Отклонението в гидирането %1 сега е по-ниско от граничната стойност от %2 "
 "дъгови секунди, възобновяване на експозицията след %3 секунди."
 
-#: ekos/capture/camerastate.cpp:1087
+#: ekos/capture/camerastate.cpp:1088
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "Отклонението в гидирането %1 все още е по-високо от граничната стойност от "
 "%2 дъгови секунди."
 
-#: ekos/capture/camerastate.cpp:1469
+#: ekos/capture/camerastate.cpp:1470
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Повторното подреждане след обръщането е завършено успешно."
 
-#: ekos/capture/camerastate.cpp:1488
+#: ekos/capture/camerastate.cpp:1489
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Подравняването след обръщане е неуспешно."
 
-#: ekos/capture/camerastate.cpp:1493
+#: ekos/capture/camerastate.cpp:1494
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Неуспешно подравняване след обръщане. Повторен опит..."
@@ -16176,18 +16176,18 @@ msgstr ""
 "<p>Добавяне на допълнителна камера</p><p><b>Предупреждение</b>: Това е "
 "експериментална функция!</p>"
 
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:319
+#: ekos/capture/capture.cpp:424 ekos/focus/focusmodule.cpp:319
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "Камера %1 е заета. Прекъсване за затваряне?"
 
-#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
 #, kde-format
 msgid "Stop capturing"
 msgstr "Спиране на записа"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713

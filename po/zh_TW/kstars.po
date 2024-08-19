@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-16 01:45+0000\n"
+"POT-Creation-Date: 2024-08-19 01:47+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -6617,7 +6617,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "識別器在 %1 秒後中止"
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:268 ekos/focus/focus.cpp:4414
+#: ekos/capture/capture.cpp:267 ekos/focus/focus.cpp:4414
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1939 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3452
@@ -16427,70 +16427,70 @@ msgstr "Dome Creek"
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:606
+#: ekos/capture/camerastate.cpp:607
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "後翻轉重新校準並導引處理中..."
 
-#: ekos/capture/camerastate.cpp:619
+#: ekos/capture/camerastate.cpp:620
 #, fuzzy, kde-format
 #| msgid "Post meridian flip calibration completed successfully."
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "後子午線翻轉調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:639
+#: ekos/capture/camerastate.cpp:640
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "自動引導已停止。"
 
-#: ekos/capture/camerastate.cpp:648
+#: ekos/capture/camerastate.cpp:649
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Aborting..."
 msgstr "自動引導已停止。"
 
-#: ekos/capture/camerastate.cpp:655
+#: ekos/capture/camerastate.cpp:656
 #, fuzzy, kde-format
 #| msgid "Post meridian flip calibration completed successfully."
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "後子午線翻轉調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:677
+#: ekos/capture/camerastate.cpp:678
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Adaptive focus complete."
 msgstr "自動對焦已完成。"
 
-#: ekos/capture/camerastate.cpp:701
+#: ekos/capture/camerastate.cpp:702
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "自動對焦失敗。將中止曝光..."
 
-#: ekos/capture/camerastate.cpp:743
+#: ekos/capture/camerastate.cpp:744
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:747
+#: ekos/capture/camerastate.cpp:748
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Simulator Settings"
 msgid "Limit: %1 mins"
 msgstr "模擬器設定"
 
-#: ekos/capture/camerastate.cpp:885
+#: ekos/capture/camerastate.cpp:886
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "後翻轉重新校準處理中..."
 
-#: ekos/capture/camerastate.cpp:903
+#: ekos/capture/camerastate.cpp:904
 #, fuzzy, kde-format
 #| msgid "Guiding timed out."
 msgid "Guide module timed out."
 msgstr "導引逾時。"
 
-#: ekos/capture/camerastate.cpp:935
+#: ekos/capture/camerastate.cpp:936
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16498,7 +16498,7 @@ msgstr "導引逾時。"
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:944
+#: ekos/capture/camerastate.cpp:945
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16506,12 +16506,12 @@ msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:966
+#: ekos/capture/camerastate.cpp:967
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "後子午線翻轉調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:980
+#: ekos/capture/camerastate.cpp:981
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16519,7 +16519,7 @@ msgstr "後子午線翻轉調校已成功完成。"
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:994
+#: ekos/capture/camerastate.cpp:995
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16527,7 +16527,7 @@ msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1021
+#: ekos/capture/camerastate.cpp:1022
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
@@ -16537,14 +16537,14 @@ msgid ""
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr "引導偏向 %1 超過了 %2 弧秒的限制，將中止曝光。"
 
-#: ekos/capture/camerastate.cpp:1068
+#: ekos/capture/camerastate.cpp:1069
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1072
+#: ekos/capture/camerastate.cpp:1073
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16554,7 +16554,7 @@ msgid ""
 "exposure in %3 seconds."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1087
+#: ekos/capture/camerastate.cpp:1088
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16562,18 +16562,18 @@ msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1469
+#: ekos/capture/camerastate.cpp:1470
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "後翻轉重新調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:1488
+#: ekos/capture/camerastate.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed."
 msgstr "校準逾時。"
 
-#: ekos/capture/camerastate.cpp:1493
+#: ekos/capture/camerastate.cpp:1494
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed. Retrying..."
@@ -16586,19 +16586,19 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:319
+#: ekos/capture/capture.cpp:424 ekos/focus/focusmodule.cpp:319
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
 msgstr "停止追蹤(&T)"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713
