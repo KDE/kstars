@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 01:47+0000\n"
+"POT-Creation-Date: 2024-08-20 02:00+0000\n"
 "PO-Revision-Date: 2024-08-16 09:21+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -416,7 +416,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1198
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1207
 #: ekos/scheduler/scheduler.cpp:1984
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2714,7 +2714,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3960
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/capture/camera.cpp:1152 ekos/capture/camera.cpp:1207
+#: ekos/capture/camera.cpp:1161 ekos/capture/camera.cpp:1216
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1884
 #: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -3903,7 +3903,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1659 ekos/capture/camera.cpp:1699
+#: ekos/capture/camera.cpp:1668 ekos/capture/camera.cpp:1708
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:457 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
@@ -6677,24 +6677,24 @@ msgstr "dAR (seg. d'arc)"
 msgid "dDE (arcsec)"
 msgstr "dDE (seg. d'arc)"
 
-#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3271
+#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3280
 #: ekos/focus/focus.cpp:5244
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Ha fallat l'operació del filtre."
 
-#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3771
+#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3780
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Canvia el desplaçament de l'enfocament en %1 passos..."
 
 #: ekos/align/align.cpp:3662 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3776
+#: ekos/capture/camera.cpp:3785
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "S'està canviant el filtre a %1..."
 
-#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3781
+#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3790
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Enfocament automàtic en el canvi de filtre..."
@@ -6711,8 +6711,8 @@ msgid "Export Solution Points"
 msgstr "Exportació dels punts de la solució"
 
 #: ekos/align/align.cpp:3959 ekos/align/mountmodel.cpp:264
-#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1151
-#: ekos/capture/camera.cpp:1206 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1160
+#: ekos/capture/camera.cpp:1215 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1883 ekos/scheduler/scheduler.cpp:1993
 #: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6729,7 +6729,7 @@ msgid "Unable to write to file %1"
 msgstr "No es pot escriure al fitxer %1"
 
 #: ekos/align/align.cpp:3969 ekos/align/mountmodel.cpp:284
-#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2789
+#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2798
 #: ekos/capture/cameraprocess.cpp:2548 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2972
 #: ekos/scheduler/schedulerprocess.cpp:3310
@@ -7393,7 +7393,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Obertura de la llista d'alineació de l'Ekos"
 
-#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2788
+#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2797
 #: ekos/capture/cameraprocess.cpp:2547 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3309
 #: ekos/scheduler/schedulerprocess.cpp:4610
@@ -12609,7 +12609,7 @@ msgstr "Canvi de filtre..."
 msgid "Aligning..."
 msgstr "S'està alineant..."
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:787
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:796
 #, kde-format
 msgid "Calibrating..."
 msgstr "S'està calibrant..."
@@ -14578,37 +14578,37 @@ msgstr "Fotogrames plans del cel"
 msgid "Capture Sequence Editor: %1"
 msgstr "Editor de seqüències de captura: %1"
 
-#: ekos/capture/camera.cpp:154 ekos/capture/camera.cpp:3895
+#: ekos/capture/camera.cpp:154 ekos/capture/camera.cpp:3904
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Afegeix una tasca a la cua de seqüències"
 
-#: ekos/capture/camera.cpp:155 ekos/capture/camera.cpp:3896
+#: ekos/capture/camera.cpp:155 ekos/capture/camera.cpp:3905
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Suprimeix una tasca de la cua de seqüències"
 
-#: ekos/capture/camera.cpp:483
+#: ekos/capture/camera.cpp:492
 #, kde-format
 msgid "Downloading..."
 msgstr "S'està baixant..."
 
-#: ekos/capture/camera.cpp:586 ekos/capture/camera.cpp:587
+#: ekos/capture/camera.cpp:595 ekos/capture/camera.cpp:596
 #, kde-format
 msgid "Focus complete."
 msgstr "Ha finalitzat l'enfocament."
 
-#: ekos/capture/camera.cpp:591
+#: ekos/capture/camera.cpp:600
 #, kde-format
 msgid "Autofocus failed."
 msgstr "Ha fallat l'enfocament automàtic."
 
-#: ekos/capture/camera.cpp:770
+#: ekos/capture/camera.cpp:779
 #, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "S'està capturant la imatge %2 en %1 segons..."
 
-#: ekos/capture/camera.cpp:841
+#: ekos/capture/camera.cpp:850
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
@@ -14617,7 +14617,7 @@ msgstr ""
 "Avís: S'ha seleccionat l'enfocament en seqüència, però el procés "
 "d'enfocament automàtic no s'ha iniciat."
 
-#: ekos/capture/camera.cpp:844
+#: ekos/capture/camera.cpp:853
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
@@ -14626,149 +14626,149 @@ msgstr ""
 "Avís: s'ha seleccionat la comprovació de la delta de la temperatura, però el "
 "procés d'enfocament automàtic no s'ha iniciat."
 
-#: ekos/capture/camera.cpp:879
+#: ekos/capture/camera.cpp:888
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
 msgstr[0] "S'ha creat una tasca de plans foscos."
 msgstr[1] "S'han creat %1 tasques de plans foscos."
 
-#: ekos/capture/camera.cpp:924
+#: ekos/capture/camera.cpp:933
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "S'han aplicat els canvis de la tasca núm. %1."
 
-#: ekos/capture/camera.cpp:937
+#: ekos/capture/camera.cpp:946
 #, kde-format
 msgid "Framing..."
 msgstr "Capturant..."
 
-#: ekos/capture/camera.cpp:948
+#: ekos/capture/camera.cpp:957
 #, kde-format
 msgid "Captured image received"
 msgstr "S'ha rebut la imatge capturada"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:966 ekos/capture/camera.ui:2612
+#: ekos/capture/camera.cpp:975 ekos/capture/camera.ui:2612
 #, kde-format
 msgid "Expose (-/-):"
 msgstr "Exposició (-/-):"
 
-#: ekos/capture/camera.cpp:1000
+#: ekos/capture/camera.cpp:1009
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Atura la seqüència"
 
-#: ekos/capture/camera.cpp:1006
+#: ekos/capture/camera.cpp:1015
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Reprèn la seqüència"
 
-#: ekos/capture/camera.cpp:1037
+#: ekos/capture/camera.cpp:1046
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "S'està establint la temperatura a %1 °C..."
 
-#: ekos/capture/camera.cpp:1038
+#: ekos/capture/camera.cpp:1047
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Estableix la temperatura a %1 °C..."
 
-#: ekos/capture/camera.cpp:1042
+#: ekos/capture/camera.cpp:1051
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "S'està esperant que la deriva del guiatge estigui per sota de %1\"..."
 
-#: ekos/capture/camera.cpp:1043
+#: ekos/capture/camera.cpp:1052
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "Esperant que el guiatge < %1\"..."
 
-#: ekos/capture/camera.cpp:1047
+#: ekos/capture/camera.cpp:1056
 #, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Estableix la càmera a %1 graus E de N..."
 
-#: ekos/capture/camera.cpp:1048
+#: ekos/capture/camera.cpp:1057
 #, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "Estableix la càmera a %1 graus..."
 
-#: ekos/capture/camera.cpp:1143
+#: ekos/capture/camera.cpp:1152
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Obertura de la cua de seqüències de l'Ekos"
 
-#: ekos/capture/camera.cpp:1176
+#: ekos/capture/camera.cpp:1185
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Desament de la cua de seqüències de l'Ekos"
 
-#: ekos/capture/camera.cpp:1198
+#: ekos/capture/camera.cpp:1207
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Ha fallat el desament de la cua de seqüències"
 
-#: ekos/capture/camera.cpp:1255 ekos/capture/camera.cpp:2273
+#: ekos/capture/camera.cpp:1264 ekos/capture/camera.cpp:2282
 #, kde-format
 msgid "Dark Flat"
 msgstr "Pla fosc"
 
-#: ekos/capture/camera.cpp:1968 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:1977 ekos/scheduler/framingassistant.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Directori FITS per a desar"
 
-#: ekos/capture/camera.cpp:2065
+#: ekos/capture/camera.cpp:2074
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Reinicio la configuració %1 als valors predeterminats?"
 
-#: ekos/capture/camera.cpp:2067
+#: ekos/capture/camera.cpp:2076
 #, kde-format
 msgid "Confirmation"
 msgstr "Confirmació"
 
-#: ekos/capture/camera.cpp:2250
+#: ekos/capture/camera.cpp:2259
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr "Cal establir el directori remot per als modes Local i Ambdós."
 
-#: ekos/capture/camera.cpp:2256
+#: ekos/capture/camera.cpp:2265
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr "Cal establir el directori local per als modes Local i Ambdós."
 
-#: ekos/capture/camera.cpp:3433
+#: ekos/capture/camera.cpp:3442
 #, kde-format
 msgid "Paused..."
 msgstr "En pausa..."
 
-#: ekos/capture/camera.cpp:3438
+#: ekos/capture/camera.cpp:3447
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Inversió del meridià..."
 
-#: ekos/capture/camera.cpp:3439
+#: ekos/capture/camera.cpp:3448
 #, kde-format
 msgid "Meridian flip started"
 msgstr "S'ha iniciat la inversió del meridià"
 
-#: ekos/capture/camera.cpp:3443
+#: ekos/capture/camera.cpp:3452
 #, kde-format
 msgid "Flip complete."
 msgstr "Inversió completada."
 
-#: ekos/capture/camera.cpp:3503
+#: ekos/capture/camera.cpp:3512
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Rampa (°C/min):"
 
-#: ekos/capture/camera.cpp:3509
+#: ekos/capture/camera.cpp:3518
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14780,13 +14780,13 @@ msgstr ""
 "es llegeix i s'emmagatzema en la configuració del controlador INDI de la "
 "càmera.</body></html>"
 
-#: ekos/capture/camera.cpp:3514
+#: ekos/capture/camera.cpp:3523
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Llindar (°C):"
 
-#: ekos/capture/camera.cpp:3520
+#: ekos/capture/camera.cpp:3529
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14798,70 +14798,70 @@ msgstr ""
 "llegeix i s'emmagatzema en la configuració del controlador INDI de la càmera."
 "</body></html>"
 
-#: ekos/capture/camera.cpp:3533
+#: ekos/capture/camera.cpp:3542
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Estableix la regulació de temperatura"
 
-#: ekos/capture/camera.cpp:3573
+#: ekos/capture/camera.cpp:3582
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Selecció de l'observador actual"
 
-#: ekos/capture/camera.cpp:3575
+#: ekos/capture/camera.cpp:3584
 #, kde-format
 msgid "Current Observer:"
 msgstr "Observador actual:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3586 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3595 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Gestió dels observadors"
 
-#: ekos/capture/camera.cpp:3758
+#: ekos/capture/camera.cpp:3767
 #, kde-format
 msgid "Cooler is on"
 msgstr "El refrigerador està encès"
 
-#: ekos/capture/camera.cpp:3758
+#: ekos/capture/camera.cpp:3767
 #, kde-format
 msgid "Cooler is off"
 msgstr "El refrigerador està apagat"
 
-#: ekos/capture/camera.cpp:3788
+#: ekos/capture/camera.cpp:3797
 #, kde-format
 msgid "Filter set to %1."
 msgstr "El filtre s'ha establert a %1."
 
-#: ekos/capture/camera.cpp:3820
+#: ekos/capture/camera.cpp:3829
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Segur que voleu restablir l'estat de totes les tasques?"
 
-#: ekos/capture/camera.cpp:3820 ekos/capture/cameraprocess.cpp:2666
+#: ekos/capture/camera.cpp:3829 ekos/capture/cameraprocess.cpp:2666
 #, kde-format
 msgid "Reset job status"
 msgstr "Restableix l'estat de les tasques"
 
-#: ekos/capture/camera.cpp:3873
+#: ekos/capture/camera.cpp:3882
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "S'està editant la tasca núm. %1..."
 
-#: ekos/capture/camera.cpp:3876 ekos/scheduler/scheduler.cpp:1231
+#: ekos/capture/camera.cpp:3885 ekos/scheduler/scheduler.cpp:1231
 #, kde-format
 msgid "Apply job changes."
 msgstr "S'han aplicat els canvis a la tasca."
 
-#: ekos/capture/camera.cpp:3877
+#: ekos/capture/camera.cpp:3886
 #, kde-format
 msgid "Cancel job changes."
 msgstr "S'han cancel·lat els canvis de la tasca."
 
-#: ekos/capture/camera.cpp:3890
+#: ekos/capture/camera.cpp:3899
 #, kde-format
 msgid "Editing job canceled."
 msgstr "S'ha cancel·lat la tasca d'edició."
