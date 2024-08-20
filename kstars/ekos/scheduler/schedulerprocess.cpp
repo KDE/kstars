@@ -1170,9 +1170,9 @@ void SchedulerProcess::startSingleCapture(SchedulerJob *job, bool restart)
             job->setState(SCHEDJOB_ERROR);
         return;
     }
-    // read the camera name from the DBus call response
-    QString cameraName = startReply.value();
-    m_activeJobs[cameraName] = job;
+
+    QString trainName = startReply.value();
+    m_activeJobs[trainName] = job;
 }
 
 void SchedulerProcess::setSolverAction(Align::GotoMode mode)
@@ -3597,14 +3597,14 @@ void SchedulerProcess::setGuideStatus(GuideState status)
     }
 }
 
-void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &devicename)
+void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &trainname)
 {
-    if (activeJob() == nullptr || !m_activeJobs.contains(devicename))
+    if (activeJob() == nullptr || !m_activeJobs.contains(trainname))
         return;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Capture State" << Ekos::getCaptureStatusString(status) << "device =" << devicename;
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Capture State" << Ekos::getCaptureStatusString(status) << "train =" << trainname;
 
-    SchedulerJob *job = m_activeJobs[devicename];
+    SchedulerJob *job = m_activeJobs[trainname];
 
     /* If current job is scheduled and has not started yet, wait */
     if (SCHEDJOB_SCHEDULED == job->getState())
@@ -3634,7 +3634,7 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &devi
         }
         else if (status == Ekos::CAPTURE_ABORTED)
         {
-            appendLogText(i18n("[%2] Warning: job '%1' failed to capture target.", job->getName(), devicename));
+            appendLogText(i18n("[%2] Warning: job '%1' failed to capture target.", job->getName(), trainname));
 
             if (job->isLead())
             {
@@ -3654,7 +3654,7 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &devi
                                 gStatus == GUIDE_DITHERING_ERROR)
                         {
                             appendLogText(i18n("[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 of %4).",
-                                               activeJob()->getName(), devicename,
+                                               activeJob()->getName(), trainname,
                                                moduleState()->captureFailureCount(), moduleState()->maxFailureAttempts()));
                             startGuiding(true);
                             return;
@@ -3668,7 +3668,7 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &devi
                 else
                 {
                     /* FIXME: it's not clear whether this situation can be recovered at all */
-                    appendLogText(i18n("[%2] Warning: job '%1' failed its capture procedure, marking aborted.", job->getName(), devicename));
+                    appendLogText(i18n("[%2] Warning: job '%1' failed its capture procedure, marking aborted.", job->getName(), trainname));
                     activeJob()->setState(SCHEDJOB_ABORTED);
                     // abort follower capture jobs as well
                     stopCapturing("", true);
@@ -3678,14 +3678,14 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &devi
             }
             else
             {
-                appendLogText(i18n("[%2] Follower job '%1' has failed, is restarting.", job->getName(), devicename));
+                appendLogText(i18n("[%2] Follower job '%1' has failed, is restarting.", job->getName(), trainname));
                 startSingleCapture(job, true);
             }
         }
         else if (status == Ekos::CAPTURE_COMPLETE)
         {
             KSNotification::event(QLatin1String("EkosScheduledImagingFinished"),
-                                  i18n("[%2] Job (%1) - Capture finished", job->getName(), devicename), KSNotification::Scheduler);
+                                  i18n("[%2] Job (%1) - Capture finished", job->getName(), trainname), KSNotification::Scheduler);
 
             if (job->isLead())
             {

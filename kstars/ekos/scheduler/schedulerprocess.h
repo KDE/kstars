@@ -672,7 +672,7 @@ private slots:
     // ////////////////////////////////////////////////////////////////////
     void setAlignStatus(Ekos::AlignState status);
     void setGuideStatus(Ekos::GuideState status);
-    void setCaptureStatus(Ekos::CaptureState status, const QString &devicename);
+    void setCaptureStatus(Ekos::CaptureState status, const QString &trainname);
     void setFocusStatus(Ekos::FocusState status);
     void setMountStatus(ISD::Mount::Status status);
     void setWeatherStatus(ISD::Weather::Status status);
@@ -693,7 +693,7 @@ private:
     // solver for alignment checks
     QSharedPointer<SolverUtils> m_Solver;
 
-    // mapping camera name --> scheduler job
+    // mapping train name --> scheduler job
     QMap<QString, SchedulerJob*> m_activeJobs;
 
     // ////////////////////////////////////////////////////////////////////

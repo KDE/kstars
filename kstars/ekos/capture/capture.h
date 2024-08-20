@@ -468,7 +468,7 @@ public slots:
              *    all jobs are are reset (@see reset()) and the first one from the list is selected.
              *    If no, the user is asked whether the jobs should be reset. If the user declines,
              *    starting is aborted.
-             *    @return device name of the camera
+             *    @return train name of the camera
              */
         Q_SCRIPTABLE QString start(QString train = "");
 

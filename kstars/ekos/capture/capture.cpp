@@ -359,7 +359,8 @@ QString Capture::start(QString train)
     }
     // camera found, start capturing
     cam->start();
-    return cam->getCameraName();
+    // return the real train name
+    return cam->opticalTrain();
 }
 
 void Capture::abort(QString train)
