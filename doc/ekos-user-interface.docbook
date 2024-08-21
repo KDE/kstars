@@ -1,4 +1,4 @@
-<sect1>
+﻿<sect1>
     <title>User Interface</title>
     <indexterm>
         <primary>Tools</primary>
@@ -77,7 +77,7 @@
             <term>Summary &amp; Setup Module</term>
             <listitem>
                 <para>
-                    As its name suggests, this is where you will create and manage your equipment profile, and connect to your devices. It also provides a summary view where the capture progress along with the focus &amp; guide operations is displayed in a compact format to convey the most important information relevant to the user.
+                    As its name suggests, this is where you will create and manage your equipment profile, and connect to your devices. It also provides a summary view where the capture progress along with the focus &amp; guide operations is displayed in a compact format to convey the most important information relevant to the user. If any extensions are installed, the selection and start/stop controls will be shown.
                 </para>
             </listitem>
         </varlistentry>

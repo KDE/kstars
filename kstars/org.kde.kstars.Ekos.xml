@@ -9,6 +9,7 @@
     </property>
     <property name="settleStatus" type="u" access="read"/>
     <property name="ekosLiveStatus" type="b" access="read"/>
+    <property name="extensionStatus" type="i" access="read"/>
     <property name="logText" type="as" access="read"/>
     <method name="connectDevices">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
@@ -62,6 +63,8 @@
     <signal name="ekosLiveStatusChanged">
         <arg name="status" type="b" direction="out"/>
     </signal>
+    <signal name="extensionStatusChanged">
+        <arg name="status" type="b" direction="out"/>
     <signal name="newLog">
         <arg name="text" type="s" direction="out"/>
     </signal>

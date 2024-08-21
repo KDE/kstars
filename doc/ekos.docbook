@@ -1,4 +1,4 @@
-<chapter id="ekos">
+﻿<chapter id="ekos">
 <title>Ekos</title>
 <indexterm><primary>Ekos</primary></indexterm>
 
@@ -136,6 +136,7 @@
 &tool-ekos-align;
 &tool-ekos-scheduler;
 &tool-ekos-analyze;
+&tool-ekos-extensions;
 &tool-ekos-tutorials;
 
 </chapter>

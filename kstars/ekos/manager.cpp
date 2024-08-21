@@ -221,6 +221,8 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         indiControlPanelB->setEnabled(status == Ekos::Success);
         connectB->setEnabled(false);
         disconnectB->setEnabled(false);
+        extensionB->setEnabled(false);
+        extensionCombo->setEnabled(false);
         profileGroup->setEnabled(status == Ekos::Idle || status == Ekos::Error);
         m_isStarted = (status == Ekos::Success || status == Ekos::Pending);
         if (status == Ekos::Success)
@@ -371,6 +373,74 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Analyze"));
 
     numPermanentTabs = index + 1;
+
+    // Extensions
+    extensionTimer.setSingleShot(true);
+    groupBox_4->setHidden(true);
+    extensionB->setIcon(QIcon::fromTheme("media-playback-start"));
+    connect(extensionB, &QPushButton::clicked, this, [this] {
+        if (extensionB->icon().name() == "media-playback-start") {
+            extensionTimer.setInterval(1000);
+            connect(&extensionTimer, &QTimer::timeout, this, [this] {
+                appendLogText(i18n("Extension '%1' failed to start, aborting", extensionCombo->currentText()));
+                m_extensions.kill();
+            });
+            extensionTimer.start();
+            extensionAbort = false;
+            m_extensions.run(extensionCombo->currentText());
+        } else if (extensionB->icon().name() == "media-playback-stop") {
+            if (!extensionAbort) {
+                extensionTimer.setInterval(10000);
+                connect(&extensionTimer, &QTimer::timeout, this, [this] {
+                    appendLogText(i18n("Extension '%1' failed to stop, abort enabled", extensionCombo->currentText()));
+                    extensionB->setEnabled(true);
+                    extensionAbort = true;
+                });
+                extensionTimer.start();
+                m_extensions.stop();
+            } else {
+                appendLogText(i18n("Extension '%1' aborting", extensionCombo->currentText()));
+                m_extensions.kill();
+            }
+        }
+    });
+    connect(&m_extensions, &extensions::extensionStateChanged, this, [this](Ekos::ExtensionState state) {
+        switch (state) {
+            case EXTENSION_START_REQUESTED:
+                appendLogText(i18n("Extension '%1' start requested", extensionCombo->currentText()));
+                extensionB->setEnabled(false);
+                extensionCombo->setEnabled(false);
+            break;
+            case EXTENSION_STARTED:
+                appendLogText(i18n("Extension '%1' started", extensionCombo->currentText()));
+                extensionB->setIcon(QIcon::fromTheme("media-playback-stop"));
+                extensionB->setEnabled(true);
+                extensionCombo->setEnabled(false);
+                extensionTimer.stop();
+                disconnect(&extensionTimer, &QTimer::timeout, this, nullptr);
+            break;
+            case EXTENSION_STOP_REQUESTED:
+                appendLogText(i18n("Extension '%1' stop requested", extensionCombo->currentText()));
+                extensionB->setEnabled(false);
+                extensionCombo->setEnabled(false);
+            break;
+            case EXTENSION_STOPPED:
+                appendLogText(i18n("Extension '%1 stopped", extensionCombo->currentText()));
+                extensionB->setIcon(QIcon::fromTheme("media-playback-start"));
+                extensionB->setEnabled(true);
+                extensionCombo->setEnabled(true);
+                extensionTimer.stop();
+                disconnect(&extensionTimer, &QTimer::timeout, this, nullptr);
+        }
+        m_extensionStatus = state;
+        emit extensionStatusChanged();
+    });
+    connect(extensionCombo, &QComboBox::currentTextChanged, this, [this] (QString text) {
+        extensionCombo->setToolTip(m_extensions.getTooltip(text));
+    });
+    connect(&m_extensions, &extensions::extensionOutput, this, [this] (QString message) {
+        appendLogText(QString(i18n("Extension '%1': %2", extensionCombo->currentText(), message.trimmed())));
+    });
 
     // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
@@ -594,6 +664,8 @@ void Manager::reset()
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
+    extensionB->setEnabled(false);
+    extensionCombo->setEnabled(false);
     //controlPanelB->setEnabled(false);
     processINDIB->setEnabled(true);
 
@@ -633,6 +705,11 @@ void Manager::stop()
     profileGroup->setEnabled(true);
 
     setWindowTitle(i18nc("@title:window", "Ekos"));
+
+    // Clear extensions list ready for rediscovery if start is called again
+    extensionCombo->clear();
+    m_extensions.found->clear();
+    groupBox_4->setHidden(true);
 }
 
 void Manager::start()
@@ -1063,6 +1140,17 @@ void Manager::start()
             runConnection();
         }
     }
+
+    // Search for extensions
+    if (m_extensions.discover()) {
+        foreach (QString extension, m_extensions.found->keys()) {
+            extensions::extDetails m_ext = m_extensions.found->value(extension);
+            extensionCombo->addItem(m_ext.icon, extension);
+        }
+    }
+    if (extensionCombo->count() > 0) {
+        groupBox_4->setHidden(false);
+    }
 }
 
 void Manager::setClientStarted(const QString &host, int port)
@@ -1314,6 +1402,9 @@ void Manager::connectDevices()
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
+    extensionCombo->setEnabled(true);
+    if (extensionCombo->currentText() != "")
+        extensionB->setEnabled(true);
 
     appendLogText(i18n("Connecting INDI devices..."));
 }
@@ -1434,6 +1525,8 @@ void Manager::processNewDevice(const QSharedPointer<ISD::GenericDevice> &device)
 
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
+        extensionCombo->setEnabled(false);
+        extensionB->setEnabled(false);
 
         if (m_LocalMode == false && m_DriverDevicesCount == 0)
         {
@@ -1450,6 +1543,9 @@ void Manager::deviceConnected()
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
     processINDIB->setEnabled(false);
+    extensionCombo->setEnabled(true);
+    if (extensionCombo->currentText() != "")
+        extensionB->setEnabled(true);
 
     auto device = qobject_cast<ISD::GenericDevice *>(sender());
 
@@ -1521,6 +1617,8 @@ void Manager::deviceDisconnected()
     connectB->setEnabled(true);
     disconnectB->setEnabled(false);
     processINDIB->setEnabled(true);
+    extensionCombo->setEnabled(false);
+    extensionB->setEnabled(false);
 }
 
 void Manager::addMount(ISD::Mount *device)
@@ -2009,7 +2107,6 @@ void Manager::initCapture()
         ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
     });
     connect(captureModule(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
-    connect(captureModule(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
     connect(captureModule(), &Ekos::Capture::driverTimedout, this, &Ekos::Manager::restartDriver);
     connect(captureModule(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
     capturePreview->setEnabled(true);

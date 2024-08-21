@@ -207,6 +207,20 @@ typedef enum
     Error
 } CommunicationStatus;
 
+typedef enum
+{
+    EXTENSION_START_REQUESTED,
+    EXTENSION_STARTED,
+    EXTENSION_STOP_REQUESTED,
+    EXTENSION_STOPPED,
+} ExtensionState;
+
+const QString getExtensionStatusString(ExtensionState state, bool translated = true);
+
+static const QList<const char *> extensionStates = { I18N_NOOP("Starting"), I18N_NOOP("Started"), I18N_NOOP("Stopping"),
+    I18N_NOOP("Stopped")
+};
+
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
                                        const int order, double &chisq);
 
@@ -248,3 +262,8 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::AlignState 
 Q_DECLARE_METATYPE(Ekos::SchedulerState)
 QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::SchedulerState &source);
 const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::SchedulerState &dest);
+
+// Extensions
+Q_DECLARE_METATYPE(Ekos::ExtensionState)
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::ExtensionState &source);
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::ExtensionState &dest);

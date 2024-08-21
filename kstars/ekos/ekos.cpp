@@ -39,6 +39,10 @@ const QString getSchedulerStatusString(SchedulerState state, bool translated)
 {
     return translated ? schedulerStates[state].toString() : schedulerStates[state].untranslatedText();
 }
+const QString getExtensionStatusString(ExtensionState state, bool translated)
+{
+    return translated ? i18n(extensionStates[state]) : extensionStates[state];
+}
 
 /* Taken from https://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
@@ -195,5 +199,23 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::SchedulerSt
     argument >> a;
     argument.endStructure();
     dest = static_cast<Ekos::SchedulerState>(a);
+    return argument;
+}
+
+QDBusArgument &operator<<(QDBusArgument &argument, const Ekos::ExtensionState &source)
+{
+    argument.beginStructure();
+    argument << static_cast<int>(source);
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, Ekos::ExtensionState &dest)
+{
+    int a;
+    argument.beginStructure();
+    argument >> a;
+    argument.endStructure();
+    dest = static_cast<Ekos::ExtensionState>(a);
     return argument;
 }

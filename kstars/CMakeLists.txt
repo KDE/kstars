@@ -214,6 +214,7 @@ if (INDI_FOUND)
             ekos/manager/focusprogresswidget.cpp
             ekos/manager/guidemanager.cpp
             ekos/manager/meridianflipstate.cpp
+            ekos/extensions.cpp
 
             # Auxiliary
             ekos/auxiliary/darklibrary.cpp

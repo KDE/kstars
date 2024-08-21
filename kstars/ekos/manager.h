@@ -21,9 +21,11 @@
 #include "ksnotification.h"
 #include "auxiliary/opslogs.h"
 #include "ekos/capture/rotatorsettings.h"
+#include "extensions.h"
 
 #include <QDialog>
 #include <QHash>
+#include <QTimer>
 
 #include <memory>
 
@@ -83,6 +85,7 @@ class Manager : public QDialog, public Ui::Manager
         Q_SCRIPTABLE Q_PROPERTY(Ekos::CommunicationStatus ekosStatus READ ekosStatus NOTIFY ekosStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(Ekos::CommunicationStatus settleStatus READ settleStatus NOTIFY settleStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(bool ekosLiveStatus READ ekosLiveStatus NOTIFY ekosLiveStatusChanged)
+        Q_SCRIPTABLE Q_PROPERTY(Ekos::ExtensionState extensionStatus READ extensionStatus NOTIFY extensionStatusChanged)
         Q_SCRIPTABLE Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
 
         enum class EkosModule
@@ -153,6 +156,8 @@ class Manager : public QDialog, public Ui::Manager
 
         QString getCurrentJobName();
         void announceEvent(const QString &message, KSNotification::EventSource source, KSNotification::EventType event);
+
+        extensions m_extensions;
 
         /**
          * @brief activateModule Switch tab to specific module name (i.e. CCD) and raise Ekos screen to focus.
@@ -317,6 +322,15 @@ class Manager : public QDialog, public Ui::Manager
 
         /**
          * DBUS interface function.
+         * @return Settle status (0 EXTENSION_START_REQUESTED, 1 EXTENSION_STARTED, 2 EXTENSION_STOP_REQUESTED, 3 EXTENSION_STOPPED)
+         */
+        Q_SCRIPTABLE Ekos::ExtensionState extensionStatus()
+        {
+            return m_extensionStatus;
+        };
+
+        /**
+         * DBUS interface function.
          * @param enabled Connect to EkosLive if true, otherwise disconnect.
         */
         Q_SCRIPTABLE void setEkosLiveConnected(bool enabled);
@@ -346,6 +360,7 @@ class Manager : public QDialog, public Ui::Manager
         void indiStatusChanged(Ekos::CommunicationStatus status);
         void settleStatusChanged(Ekos::CommunicationStatus status);
         void ekosLiveStatusChanged(bool status);
+        void extensionStatusChanged(bool = true);
 
         void newLog(const QString &text);
         void newModule(const QString &name);
@@ -540,6 +555,7 @@ class Manager : public QDialog, public Ui::Manager
         // Settle is used to know once all properties from all devices have been defined
         // There is no way to know this for sure so we use a debounace mechanism.
         CommunicationStatus m_settleStatus { Ekos::Idle };
+        ExtensionState m_extensionStatus { Ekos::EXTENSION_STOPPED };
 
         std::unique_ptr<QStandardItemModel> profileModel;
         QList<QSharedPointer<ProfileInfo>> profiles;
@@ -555,6 +571,9 @@ class Manager : public QDialog, public Ui::Manager
         QTimer settleTimer;
         // Preview Frame
         QSharedPointer<SummaryFITSView> m_SummaryView;
+
+        QTimer extensionTimer;
+        bool extensionAbort = false;
 
         QSharedPointer<ProfileInfo> m_CurrentProfile;
         bool profileWizardLaunched { false };

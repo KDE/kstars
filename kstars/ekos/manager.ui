@@ -395,8 +395,7 @@
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset theme="folder-cloud">
-                   <normaloff>.</normaloff>.</iconset>
+                  <iconset theme="folder-cloud"/>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -424,8 +423,7 @@
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset theme="kstars_indi">
-                   <normaloff>.</normaloff>.</iconset>
+                  <iconset theme="kstars_indi"/>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -453,8 +451,7 @@
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset theme="drive-removable-media">
-                   <normaloff>.</normaloff>.</iconset>
+                  <iconset theme="drive-removable-media"/>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -482,8 +479,7 @@
                   <string/>
                  </property>
                  <property name="icon">
-                  <iconset theme="configure">
-                   <normaloff>.</normaloff>.</iconset>
+                  <iconset theme="configure"/>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -581,6 +577,123 @@
                  </property>
                  <property name="text">
                   <string>Disconnect</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox_4">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>1</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>170</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>170</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="title">
+             <string>Extensions</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <property name="spacing">
+              <number>1</number>
+             </property>
+             <property name="leftMargin">
+              <number>3</number>
+             </property>
+             <property name="topMargin">
+              <number>3</number>
+             </property>
+             <property name="rightMargin">
+              <number>3</number>
+             </property>
+             <property name="bottomMargin">
+              <number>3</number>
+             </property>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+               <property name="spacing">
+                <number>1</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QComboBox" name="extensionCombo">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>200</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="extensionB">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>32</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>32</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Start selected extension</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
                  </property>
                 </widget>
                </item>
@@ -730,7 +843,6 @@
                      <widget class="QLabel" name="altLabel">
                       <property name="font">
                        <font>
-                        <weight>75</weight>
                         <bold>true</bold>
                        </font>
                       </property>
@@ -746,7 +858,6 @@
                      <widget class="QLabel" name="azLabel">
                       <property name="font">
                        <font>
-                        <weight>75</weight>
                         <bold>true</bold>
                        </font>
                       </property>
@@ -762,7 +873,6 @@
                      <widget class="QLabel" name="decLabel">
                       <property name="font">
                        <font>
-                        <weight>75</weight>
                         <bold>true</bold>
                        </font>
                       </property>
@@ -778,7 +888,6 @@
                      <widget class="QLabel" name="raLabel">
                       <property name="font">
                        <font>
-                        <weight>75</weight>
                         <bold>true</bold>
                        </font>
                       </property>
