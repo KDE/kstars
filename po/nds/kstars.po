@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 02:00+0000\n"
+"POT-Creation-Date: 2024-08-21 01:56+0000\n"
 "PO-Revision-Date: 2014-06-12 16:56+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -16350,19 +16350,19 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:424 ekos/focus/focusmodule.cpp:319
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:319
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
 msgstr "&Mittrecken anhollen"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713

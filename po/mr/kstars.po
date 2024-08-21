@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 02:00+0000\n"
+"POT-Creation-Date: 2024-08-21 01:56+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -15521,18 +15521,18 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:424 ekos/focus/focusmodule.cpp:319
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:319
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #, fuzzy, kde-format
 msgid "Stop capturing"
 msgstr "कॅपचर: %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713

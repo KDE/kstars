@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 02:00+0000\n"
+"POT-Creation-Date: 2024-08-21 01:56+0000\n"
 "PO-Revision-Date: 2024-08-16 12:12+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -16248,18 +16248,18 @@ msgstr ""
 "<p>Añadir cámara adicional</p><p><b>Advertencia:</b> Esta función es "
 "experimental.</p>"
 
-#: ekos/capture/capture.cpp:424 ekos/focus/focusmodule.cpp:319
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:319
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "La cámara %1 está ocupada. ¿Interrumpir para cerrar?"
 
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #, kde-format
 msgid "Stop capturing"
 msgstr "Detener la captura"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713

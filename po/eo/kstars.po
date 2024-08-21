@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 02:00+0000\n"
+"POT-Creation-Date: 2024-08-21 01:56+0000\n"
 "PO-Revision-Date: 2024-07-28 11:45+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -16001,18 +16001,18 @@ msgstr ""
 "<p>Aldoni pluan fotilon</p><p><b>AVERTO</b>: Ĉi kapablo estas eksperimenta!</"
 "p>"
 
-#: ekos/capture/capture.cpp:424 ekos/focus/focusmodule.cpp:319
+#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:319
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "Fotilo %1 estas okupata. Ĉu ĉesigi por fermi?"
 
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #, kde-format
 msgid "Stop capturing"
 msgstr "Haltigi kapturadon"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:425 ekos/focus/focusmodule.cpp:320
+#: ekos/capture/capture.cpp:426 ekos/focus/focusmodule.cpp:320
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713
