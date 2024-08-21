@@ -79,15 +79,14 @@ class Media : public QObject
         void uploadImage(const QByteArray &image);
 
     private:
-        void upload(const QSharedPointer<FITSView> &view);
+        void dispatch(const QSharedPointer<FITSData> &data, const QString &uuid);
+        void upload(const QSharedPointer<FITSView> &view, const QString &uuid);
 
         Ekos::Manager * m_Manager { nullptr };
         QVector<QSharedPointer<NodeManager>> m_NodeManagers;
-        QString m_UUID;
         QString extension;
         QStringList temporaryFiles;
         QLineF correctionVector;
-        QSharedPointer<FITSView> m_TemporaryView;
 
         bool m_sendBlobs { true};
 
