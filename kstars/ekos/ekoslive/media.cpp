@@ -50,7 +50,6 @@ Media::Media(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &node
     connect(this, &Media::newImage, this, [this](const QByteArray & image)
     {
         uploadImage(image);
-        m_TemporaryView.clear();
     });
 }
 
@@ -284,14 +283,9 @@ void Media::sendDarkLibraryData(const QSharedPointer<FITSData> &data)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
-    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
+    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false || isConnected() == false)
         return;
-
-    m_UUID = uuid;
-
-    m_TemporaryView.reset(new FITSView());
-    m_TemporaryView->loadData(data);
-    QtConcurrent::run(this, &Media::upload, m_TemporaryView);
+    QtConcurrent::run(this, &Media::dispatch, data, uuid);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -299,17 +293,12 @@ void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendFile(const QString &filename, const QString &uuid)
 {
-    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
+    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false || isConnected() == false)
         return;
 
-    m_UUID = uuid;
-
-    QSharedPointer<FITSView> previewImage(new FITSView());
-    connect(previewImage.get(), &FITSView::loaded, this, [this, previewImage]()
-    {
-        QtConcurrent::run(this, &Media::upload, previewImage);
-    });
-    previewImage->loadFile(filename);
+    QSharedPointer<FITSData> data(new FITSData());
+    data->loadFromFile(filename);
+    QtConcurrent::run(this, &Media::dispatch, data, uuid);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -317,18 +306,26 @@ void Media::sendFile(const QString &filename, const QString &uuid)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendView(const QSharedPointer<FITSView> &view, const QString &uuid)
 {
-    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false)
+    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false || isConnected() == false)
         return;
 
-    m_UUID = uuid;
-
-    upload(view);
+    upload(view, uuid);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////////
-void Media::upload(const QSharedPointer<FITSView> &view)
+void Media::dispatch(const QSharedPointer<FITSData> &data, const QString &uuid)
+{
+    QSharedPointer<FITSView> previewImage(new FITSView());
+    previewImage->loadData(data);
+    upload(previewImage, uuid);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Media::upload(const QSharedPointer<FITSView> &view, const QString &uuid)
 {
     const QString ext = "jpg";
     QByteArray jpegData;
@@ -351,6 +348,7 @@ void Media::upload(const QSharedPointer<FITSView> &view)
 
     // Account for binning
     const double binned_pixel = pixel_size.toDouble() * xbin.toInt();
+
     // Send everything as strings
     QJsonObject metadata =
     {
@@ -364,7 +362,7 @@ void Media::upload(const QSharedPointer<FITSView> &view)
         {"max", imageData->getMax()},
         {"bin", QString("%1x%2").arg(xbin.toString(), ybin.toString())},
         {"bpp", QString::number(imageData->bpp())},
-        {"uuid", m_UUID},
+        {"uuid", uuid},
         {"exposure", exposure.toString()},
         {"focal_length", focal_length.toString()},
         {"aperture", aperture.toString()},
@@ -386,7 +384,7 @@ void Media::upload(const QSharedPointer<FITSView> &view)
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
-    auto fastImage = (!Options::ekosLiveHighBandwidth() || m_UUID[0] == "+");
+    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == "+");
     auto scaleWidth = fastImage ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
 
     // For low bandwidth images
@@ -406,6 +404,9 @@ void Media::upload(const QSharedPointer<FITSView> &view)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendUpdatedFrame(const QSharedPointer<FITSView> &view)
 {
+    if (isConnected() == false)
+        return;
+
     QString ext = "jpg";
     QByteArray jpegData;
     QBuffer buffer(&jpegData);
@@ -503,7 +504,10 @@ void Media::sendUpdatedFrame(const QSharedPointer<FITSView> &view)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 {
-    if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false || !frame)
+    if (isConnected() == false ||
+            Options::ekosLiveImageTransfer() == false ||
+            m_sendBlobs == false ||
+            !frame)
         return;
 
     int32_t width = Options::ekosLiveHighBandwidth() ? HB_VIDEO_WIDTH : HB_VIDEO_WIDTH / 2;
