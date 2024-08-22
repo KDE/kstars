@@ -425,7 +425,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
                 extensionCombo->setEnabled(false);
             break;
             case EXTENSION_STOPPED:
-                appendLogText(i18n("Extension '%1 stopped", extensionCombo->currentText()));
+                appendLogText(i18n("Extension '%1' stopped", extensionCombo->currentText()));
                 extensionB->setIcon(QIcon::fromTheme("media-playback-start"));
                 extensionB->setEnabled(true);
                 extensionCombo->setEnabled(true);
