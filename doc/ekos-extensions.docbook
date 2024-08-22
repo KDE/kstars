@@ -77,7 +77,7 @@
           </listitem>
           <listitem>
             <para>
-              All interaction with KStars/Ekos/INDI should be via the DBus interface. See the skeleton example. Useful tools for interrogating, monitoring and understanding DBus include <ulink url="https://wiki.gnome.org/Apps/DFeet>D-Feet</ulink> and <ulink url="https://gitlab.freedesktop.org/bustle/bustle">Bustle</ulink>
+              All interaction with KStars/Ekos/INDI should be via the DBus interface. See the skeleton example. Useful tools for interrogating, monitoring and understanding DBus include <ulink url="https://wiki.gnome.org/Apps/DFeet">D-Feet</ulink> and <ulink url="https://gitlab.freedesktop.org/bustle/bustle">Bustle</ulink>
             </para>
             <para>
             It may appear on initial investigation that using the Qt DBus Adaptors system would be much easier than direct use of the Qt DBus Interfaces/Messages and KStars does provide the required xml definitions. However currently there is heavy use of custom types the definitions of which are combined with other information in the KStars sources. This results in a large set of files from KStars that require inclusion within an extension in order to make use of the Qt DBus Adaptors. Hopefully this will be addressed in the future.
