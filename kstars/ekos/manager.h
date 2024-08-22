@@ -386,6 +386,18 @@ class Manager : public QDialog, public Ui::Manager
          */
         Q_SCRIPTABLE Q_NOREPLY void disconnectDevices();
 
+        /**
+         * DBUS interface function.
+         * Enables loading of preview fits from file rather than Capture data.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void setFITSfromFile(bool previewFromFile);
+
+        /**
+         * DBUS interface function.
+         * Load preview fits from file.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void previewFile(QString filePath);
+
         /** @}*/
 
         void processINDI();
@@ -571,7 +583,7 @@ class Manager : public QDialog, public Ui::Manager
         QTimer settleTimer;
         // Preview Frame
         QSharedPointer<SummaryFITSView> m_SummaryView;
-
+        bool FITSfromFile = false;
         QTimer extensionTimer;
         bool extensionAbort = false;
 

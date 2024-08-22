@@ -101,6 +101,12 @@
       <arg type="i" direction="out"/>
       <arg name="id" type="i" direction="in"/>
     </method>
+    <method name="getJobPlaceholderFormat">
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="getJobPreviewFileName">
+      <arg type="s" direction="out"/>
+    </method>
     <method name="getProgressPercentage">
       <arg type="d" direction="out"/>
     </method>

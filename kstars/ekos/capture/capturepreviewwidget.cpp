@@ -133,6 +133,17 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
         m_fitsPreview->loadData(data);
 }
 
+void CapturePreviewWidget::updateJobPreview(const QString &filePath)
+{
+    // without FITS filePath, we do nothing
+    if (filePath == "")
+        return;
+
+    // load frame
+    if (m_fitsPreview != nullptr && Options::useSummaryPreview())
+        m_fitsPreview->loadFile(filePath);
+}
+
 void CapturePreviewWidget::showNextFrame()
 {
     m_overlay->setEnabled(false);

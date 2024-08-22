@@ -45,6 +45,12 @@
         <arg name="name" type="s" direction="in"/>
         <arg name="enabled" type="b" direction="in"/>
     </method>
+    <method name="setFITSfromFile">
+        <arg name="previewFromFile" type="b" direction="in"/>
+    </method>
+    <method name="previewFile">
+        <arg name="filePath" type="s" direction="in"/>
+    </method>
     <signal name="indiStatusChanged">
         <arg name="status" type="(i)" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::CommunicationStatus"/>

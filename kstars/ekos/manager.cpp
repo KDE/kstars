@@ -3691,4 +3691,24 @@ bool Manager::existRotatorController()
     return (!m_RotatorControllers.empty());
 }
 
+void Manager::setFITSfromFile(bool previewFromFile)
+{
+    if (previewFromFile && !FITSfromFile) {
+        // Prevent preview from Capture module
+        QObject::disconnect(captureModule(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
+        FITSfromFile = previewFromFile;
+        appendLogText(i18n("Preview source set to external"));
+    } else if (!previewFromFile && FITSfromFile) {
+        // Reset preview from Capture module
+        QObject::connect(captureModule(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
+        FITSfromFile = previewFromFile;
+        appendLogText(i18n("Preview source reset to internal"));
+    }
+}
+
+void Manager::previewFile(QString filePath)
+{
+    capturePreview->updateJobPreview(filePath);
+    appendLogText(i18n("Received external preview file"));
+}
 }

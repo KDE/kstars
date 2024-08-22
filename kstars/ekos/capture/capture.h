@@ -314,6 +314,23 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /** DBUS interface function.
+             * @param id job number. Job IDs start from 0 to N-1.
+             * @return Returns the placeholder format of the job.
+             */
+        Q_SCRIPTABLE QString getJobPlaceholderFormat()
+        {
+            return mainCamera()->placeholderFormatT->text();
+        }
+
+        /** DBUS interface function.
+             * @return Returns the Preview Filename of the job.
+             */
+        Q_SCRIPTABLE QString getJobPreviewFileName()
+        {
+            return mainCamera()->previewFilename();
+        }
+
+        /** DBUS interface function.
              * Clear in-sequence focus settings. It sets the autofocus HFR to zero so that next autofocus value is remembered for the in-sequence focusing.
              */
         Q_SCRIPTABLE Q_NOREPLY void clearAutoFocusHFR()

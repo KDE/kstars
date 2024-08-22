@@ -41,6 +41,12 @@ public:
     void updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename);
 
     /**
+     * @brief update the preview image from a file
+     * @param filePath to load
+     */
+    void updateJobPreview(const QString &filePath);
+
+    /**
      * @brief Show the next frame from the capture history
      */
     void showNextFrame();
