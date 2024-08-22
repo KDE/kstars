@@ -65,6 +65,7 @@
     </signal>
     <signal name="extensionStatusChanged">
         <arg name="status" type="b" direction="out"/>
+    </signal>
     <signal name="newLog">
         <arg name="text" type="s" direction="out"/>
     </signal>
