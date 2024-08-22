@@ -48,7 +48,7 @@
 > affiche les secondes depuis le début du fichier journal alors que le graphique des <guilabel
 >Statistiques</guilabel
 > montre le temps de l'horloge. Un zoom avant ou arrière est possible sur cet axe avec le bouton <guibutton
->+/-</guibutton
+>+ / -</guibutton
 > ou la <mousebutton
 >molette</mousebutton
 > de la souris ou encore le raccourci clavier standard (c'est-à-dire zoom avant == <keycombo
@@ -59,7 +59,7 @@
 >.analyze</literal
 > avec la liste déroulante <guilabel
 >Entrée</guilabel
->. Les touches &lt;&lt; permettent d'afficher les fichiers .analyze précédents ou suivants selon un ordre chronologique. En cochant la case <guilabel
+>. Les touches &lt;&lt; permettent d'afficher les fichiers « .analyze » précédents ou suivants selon un ordre chronologique. En cochant la case <guilabel
 >Plein champ</guilabel
 >, vous verrez toutes les données alors que la case <guilabel
 >Dernier</guilabel
@@ -71,9 +71,9 @@
         <title
 >Chronologie</title>
         <para
->Le graphique Chronologie affiche les processus principaux d'Ekos et quand ils étaient actifs. Par exemple, la ligne <guilabel
+>Le graphique Chronologie affiche les processus principaux de Ekos et quand ils étaient actifs. Par exemple, la ligne <guilabel
 >Acquisition</guilabel
-> montre le moment où une image a été prise (verte pour RGB ou une couleur liée au filtre utilisé)) et quand l'acquisition a été arrêtée (en rouge). En cliquant sur une section d'acquisition, vous obtiendrez de l'information sur cette image et en double-cliquant vous ferez apparaître l'image dans l'afficheur FITS, s'il est disponible. </para>
+> montre le moment où une image a été prise (verte pour RGB ou une couleur liée au filtre utilisé)) et quand l'acquisition a été arrêtée (en rouge). En cliquant sur une section d'acquisition, vous obtiendrez de l'information sur cette image et en double-cliquant vous ferez apparaître l'image dans l'afficheur « FITS », s'il est disponible. </para>
         <note>
             <para
 >Si vous avez déplacé vos images vous pouvez configurer un <guilabel
@@ -97,7 +97,7 @@
 >rms</guilabel
 >, <guilabel
 >snr</guilabel
-> (en utilisant le guidage interne avec le SEP mutlistars) et <guilabel
+> (en utilisant le guidage interne avec le SEP multi-étoiles) et <guilabel
 >hfr</guilabel
 > (si vous avez sélectionné l'option de calcul automatique du HFR dans les options FITS). Vous pouvez tester les autres également. </para>
         <para

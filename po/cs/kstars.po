@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-21 01:56+0000\n"
+"POT-Creation-Date: 2024-08-22 01:52+0000\n"
 "PO-Revision-Date: 2024-08-14 11:33+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -558,8 +558,8 @@ msgstr "Zrušit"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1102 ekos/manager.cpp:1117
-#: ekos/manager.cpp:1147 ekos/scheduler/scheduler.cpp:1506
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1190 ekos/manager.cpp:1205
+#: ekos/manager.cpp:1235 ekos/scheduler/scheduler.cpp:1506
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
 #: indi/indimount.cpp:32 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
@@ -1870,7 +1870,7 @@ msgstr "1x"
 #: data/qml/mount/mountbox.qml:545 data/qml/mount/mountbox.qml:737
 #: data/qml/mount/mountbox.qml:826 dialogs/catalogcsvimport.ui:178
 #: dialogs/focusdialog.ui:107 ekos/align/align.ui:327 ekos/align/align.ui:415
-#: ekos/manager.ui:789 ekos/mount/mountpositionwidget.ui:148
+#: ekos/manager.ui:898 ekos/mount/mountpositionwidget.ui:148
 #: ekos/mount/mounttargetwidget.ui:42 tools/altvstime.ui:97
 #: tools/argsetradec.ui:37 tools/modcalcgalcoord.ui:288
 #: tools/modcalcplanets.ui:251 tools/modcalcvlsr.ui:508
@@ -1881,7 +1881,7 @@ msgstr "RA:"
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: data/qml/mount/mountbox.qml:565 data/qml/mount/mountbox.qml:868
-#: ekos/manager.ui:757 ekos/mount/mountpositionwidget.ui:351
+#: ekos/manager.ui:868 ekos/mount/mountpositionwidget.ui:351
 #, kde-format, kde-kuit-format
 msgid "AZ:"
 msgstr ""
@@ -1894,7 +1894,7 @@ msgstr ""
 #: data/qml/mount/mountbox.qml:585 data/qml/mount/mountbox.qml:768
 #: data/qml/mount/mountbox.qml:827 data/qml/mount/mountbox.qml:911
 #: dialogs/focusdialog.ui:64 ekos/align/align.ui:283 ekos/align/align.ui:385
-#: ekos/manager.ui:773 ekos/mount/mountpositionwidget.ui:263
+#: ekos/manager.ui:883 ekos/mount/mountpositionwidget.ui:263
 #: ekos/mount/mounttargetwidget.ui:117
 #, kde-format, kde-kuit-format
 msgid "DE:"
@@ -1903,7 +1903,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: data/qml/mount/mountbox.qml:604 data/qml/mount/mountbox.qml:869
-#: ekos/manager.ui:741 ekos/mount/mountpositionwidget.ui:280
+#: ekos/manager.ui:853 ekos/mount/mountpositionwidget.ui:280
 #, kde-format, kde-kuit-format
 msgid "AL:"
 msgstr ""
@@ -2029,7 +2029,7 @@ msgstr "Stav:"
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:603 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:675 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1499
 #: ekos/scheduler/scheduler.cpp:2149 ekos/scheduler/scheduler.cpp:2386
 #: ekos/scheduler/scheduler.cpp:2394 ekos/scheduler/scheduler.cpp:2404
@@ -4442,7 +4442,7 @@ msgid "RA/Dec"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, decLabel)
-#: dialogs/focusdialog.ui:61 ekos/manager.ui:770
+#: dialogs/focusdialog.ui:61 ekos/manager.ui:880
 #, kde-format
 msgid "Declination"
 msgstr "Deklinace"
@@ -4460,7 +4460,7 @@ msgid "Set Epoch to J2000"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, raLabel)
-#: dialogs/focusdialog.ui:104 ekos/manager.ui:786
+#: dialogs/focusdialog.ui:104 ekos/manager.ui:895
 #, kde-format
 msgid "Right Ascension"
 msgstr "Rektascenze"
@@ -4481,7 +4481,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #. i18n: ectx: property (toolTip), widget (QLabel, azLabel)
-#: dialogs/focusdialog.ui:148 ekos/manager.ui:754
+#: dialogs/focusdialog.ui:148 ekos/manager.ui:865
 #: kstarslite/qml/dialogs/DetailsDialog.qml:264
 #, kde-format, kde-kuit-format
 msgid "Azimuth"
@@ -6294,7 +6294,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
 #: ekos/capture/capture.cpp:267 ekos/focus/focus.cpp:4414
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:1939 ekos/mount/mount.cpp:766
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2037 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3452
 #, kde-format
@@ -6583,7 +6583,7 @@ msgstr "Načíst a otočit..."
 #. i18n: ectx: property (text), widget (QPushButton, stopFocusB)
 #: ekos/align/align.ui:148 ekos/align/polaralignmentassistant.ui:819
 #: ekos/align/polaralignmentassistant.ui:822 ekos/auxiliary/darklibrary.ui:585
-#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:229
+#: ekos/focus/focus.ui:173 ekos/guide/guide.ui:153 ekos/manager.cpp:231
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:137
@@ -9797,7 +9797,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:146 ekos/manager.cpp:235 ekos/manager.cpp:611
+#: ekos/manager.cpp:146 ekos/manager.cpp:237 ekos/manager.cpp:683
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -9845,7 +9845,7 @@ msgid "Slew"
 msgstr "Otáčení"
 
 #. i18n: ectx: property (text), widget (QLabel, PAsetup)
-#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:331
+#: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:333
 #, kde-format
 msgid "Setup"
 msgstr "Nastavení"
@@ -9960,7 +9960,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:370
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2078
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2175
 #: ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:468
@@ -9971,7 +9971,7 @@ msgstr "Zaměření"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
-#: ekos/manager.cpp:2043 ekos/scheduler/framingassistant.ui:1262
+#: ekos/manager.cpp:2140 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:242 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitsviewer.cpp:476
 #, kde-format
@@ -9984,7 +9984,7 @@ msgstr "Zarovnat"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2297
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2394
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:472
 #, kde-format
@@ -10000,7 +10000,7 @@ msgstr "Převrátit"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2222 ekos/manager.ui:665
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2319 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "Připojit"
@@ -11852,7 +11852,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:336 ekos/opsekos.ui:184
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:338 ekos/opsekos.ui:184
 #: ekos/scheduler/framingassistantui.cpp:668
 #, kde-format
 msgid "Scheduler"
@@ -12026,7 +12026,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2347
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2444
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -12410,7 +12410,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
 #: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:212
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
-#: ekos/manager.ui:567 indi/drivermanager.ui:361
+#: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
 msgid "Connect"
@@ -12420,7 +12420,7 @@ msgstr "Připojit"
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
 #: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:179
-#: ekos/guide/guide.ui:391 ekos/manager.ui:583 indi/drivermanager.ui:368
+#: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
 msgid "Disconnect"
@@ -16416,6 +16416,30 @@ msgstr "Vypnutí"
 msgid "Loading"
 msgstr "Načítání"
 
+#: ekos/ekos.h:220
+#, fuzzy, kde-format
+#| msgid "Starting on:"
+msgid "Starting"
+msgstr "Začátek na:"
+
+#: ekos/ekos.h:220
+#, fuzzy, kde-format
+#| msgid "Start"
+msgid "Started"
+msgstr "Spustit"
+
+#: ekos/ekos.h:220
+#, fuzzy, kde-format
+#| msgid "Stop capturing"
+msgid "Stopping"
+msgstr "Zastavit zachytávání"
+
+#: ekos/ekos.h:221
+#, fuzzy, kde-format
+#| msgid "Stop"
+msgid "Stopped"
+msgstr "Zastavit"
+
 #: ekos/ekoslive/ekosliveclient.cpp:253
 #, kde-format
 msgctxt "@title:window"
@@ -18084,7 +18108,7 @@ msgstr "Profil..."
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1211 ekos/manager.ui:957 fitsviewer/fitstab.cpp:178
+#: ekos/focus/focus.ui:1211 ekos/manager.ui:1066 fitsviewer/fitstab.cpp:178
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -21838,57 +21862,97 @@ msgstr ""
 msgid "Robotic (Experimental)"
 msgstr ""
 
-#: ekos/manager.cpp:230
+#: ekos/manager.cpp:232
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos - %1 Profile"
 msgstr ""
 
-#: ekos/manager.cpp:240
+#: ekos/manager.cpp:242
 #, kde-format
 msgid "Connection in progress. Click to abort."
 msgstr ""
 
-#: ekos/manager.cpp:260
+#: ekos/manager.cpp:262
 #, kde-format
 msgid "Logging"
 msgstr "Záznamy"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:371 ekos/opsekos.ui:865
+#: ekos/manager.cpp:373 ekos/opsekos.ui:865
 #, kde-format
 msgid "Analyze"
 msgstr "Analyzovat"
 
-#: ekos/manager.cpp:635
+#: ekos/manager.cpp:385
+#, kde-format
+msgid "Extension '%1' failed to start, aborting"
+msgstr ""
+
+#: ekos/manager.cpp:395
+#, kde-format
+msgid "Extension '%1' failed to stop, abort enabled"
+msgstr ""
+
+#: ekos/manager.cpp:402
+#, kde-format
+msgid "Extension '%1' aborting"
+msgstr ""
+
+#: ekos/manager.cpp:410
+#, kde-format
+msgid "Extension '%1' start requested"
+msgstr ""
+
+#: ekos/manager.cpp:415
+#, kde-format
+msgid "Extension '%1' started"
+msgstr ""
+
+#: ekos/manager.cpp:423
+#, kde-format
+msgid "Extension '%1' stop requested"
+msgstr ""
+
+#: ekos/manager.cpp:428
+#, kde-format
+msgid "Extension '%1 stopped"
+msgstr ""
+
+#: ekos/manager.cpp:442
+#, kde-format
+msgid "Extension '%1': %2"
+msgstr ""
+
+#: ekos/manager.cpp:707
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:841 ekos/manager.cpp:867
+#: ekos/manager.cpp:918 ekos/manager.cpp:944
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr ""
 
-#: ekos/manager.cpp:931
+#: ekos/manager.cpp:1008
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
 
-#: ekos/manager.cpp:932
+#: ekos/manager.cpp:1009
 #, kde-format
 msgid "PTP Camera"
 msgstr ""
 
-#: ekos/manager.cpp:947
+#: ekos/manager.cpp:1024
 #, kde-format
 msgid "Starting INDI services..."
 msgstr ""
 
-#: ekos/manager.cpp:978
+#: ekos/manager.cpp:1055
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -21896,80 +21960,80 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:980 indi/opsindi.ui:284
+#: ekos/manager.cpp:1057 indi/opsindi.ui:284
 #, kde-format
 msgid "INDI Server"
 msgstr "Server INDI"
 
-#: ekos/manager.cpp:995
+#: ekos/manager.cpp:1072
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr ""
 
-#: ekos/manager.cpp:1015
+#: ekos/manager.cpp:1092
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr ""
 
-#: ekos/manager.cpp:1019
+#: ekos/manager.cpp:1096
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1032
+#: ekos/manager.cpp:1109
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr ""
 
-#: ekos/manager.cpp:1052
+#: ekos/manager.cpp:1129
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr ""
 
-#: ekos/manager.cpp:1075
+#: ekos/manager.cpp:1163
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr ""
 
-#: ekos/manager.cpp:1078
+#: ekos/manager.cpp:1166
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1083
+#: ekos/manager.cpp:1171
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr ""
 
-#: ekos/manager.cpp:1093
+#: ekos/manager.cpp:1181
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr ""
 
-#: ekos/manager.cpp:1095
+#: ekos/manager.cpp:1183
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr ""
 
-#: ekos/manager.cpp:1108
+#: ekos/manager.cpp:1196
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr ""
 
-#: ekos/manager.cpp:1110
+#: ekos/manager.cpp:1198
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr ""
 
-#: ekos/manager.cpp:1187
+#: ekos/manager.cpp:1275
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1189
+#: ekos/manager.cpp:1277
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -21977,7 +22041,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1217
+#: ekos/manager.cpp:1305
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -21985,13 +22049,13 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1221 ekos/manager.cpp:1229 ekos/manager.cpp:1259
-#: ekos/manager.cpp:1267
+#: ekos/manager.cpp:1309 ekos/manager.cpp:1317 ekos/manager.cpp:1347
+#: ekos/manager.cpp:1355
 #, kde-format
 msgid "Ekos startup error"
 msgstr ""
 
-#: ekos/manager.cpp:1225
+#: ekos/manager.cpp:1313
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -21999,7 +22063,7 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1255
+#: ekos/manager.cpp:1343
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -22007,7 +22071,7 @@ msgid ""
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1263
+#: ekos/manager.cpp:1351
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -22015,136 +22079,136 @@ msgid ""
 "Please ensure each device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1318
+#: ekos/manager.cpp:1409
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "Připojuji zařízení INDI..."
 
-#: ekos/manager.cpp:1329
+#: ekos/manager.cpp:1420
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "Odpojuji zařízení INDI..."
 
-#: ekos/manager.cpp:1368
+#: ekos/manager.cpp:1459
 #, kde-format
 msgid "INDI services stopped."
 msgstr ""
 
-#: ekos/manager.cpp:1441
+#: ekos/manager.cpp:1534
 #, kde-format
 msgid "Remote devices established."
 msgstr ""
 
-#: ekos/manager.cpp:1443
+#: ekos/manager.cpp:1536
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr ""
 
-#: ekos/manager.cpp:1504
+#: ekos/manager.cpp:1600
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
 
-#: ekos/manager.cpp:1511
+#: ekos/manager.cpp:1607
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 je odpojeno."
 
-#: ekos/manager.cpp:1530 ekos/manager.cpp:1539 ekos/manager.cpp:1572
+#: ekos/manager.cpp:1628 ekos/manager.cpp:1637 ekos/manager.cpp:1670
 #: indi/indistd.cpp:706
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 je připojen."
 
-#: ekos/manager.cpp:1547
+#: ekos/manager.cpp:1645
 #, kde-format
 msgid "%1 filter is online."
 msgstr "%1 filtr je připojen."
 
-#: ekos/manager.cpp:1556
+#: ekos/manager.cpp:1654
 #, kde-format
 msgid "%1 focuser is online."
 msgstr ""
 
-#: ekos/manager.cpp:1563
+#: ekos/manager.cpp:1661
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr ""
 
-#: ekos/manager.cpp:1579
+#: ekos/manager.cpp:1677
 #, kde-format
 msgid "%1 Weather is online."
 msgstr ""
 
-#: ekos/manager.cpp:1586
+#: ekos/manager.cpp:1684
 #, kde-format
 msgid "%1 GPS is online."
 msgstr ""
 
-#: ekos/manager.cpp:1595
+#: ekos/manager.cpp:1693
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr ""
 
-#: ekos/manager.cpp:1602
+#: ekos/manager.cpp:1700
 #, kde-format
 msgid "%1 Light box is online."
 msgstr ""
 
-#: ekos/manager.cpp:1752
+#: ekos/manager.cpp:1850
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 je odpojen."
 
-#: ekos/manager.cpp:1991
+#: ekos/manager.cpp:2089
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2364
+#: ekos/manager.cpp:2461
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2553
+#: ekos/manager.cpp:2650
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Opravdu si přejete smazat tento profil?"
 
-#: ekos/manager.cpp:2554
+#: ekos/manager.cpp:2651
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Potvrdit odstranění"
 
-#: ekos/manager.cpp:2606
+#: ekos/manager.cpp:2703
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2608
+#: ekos/manager.cpp:2705
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:2866
+#: ekos/manager.cpp:2963
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2874
+#: ekos/manager.cpp:2971
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2902
+#: ekos/manager.cpp:2999
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:2914
+#: ekos/manager.cpp:3011
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
@@ -22207,44 +22271,57 @@ msgid "Ekos Live..."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
-#: ekos/manager.ui:421 kstarsinit.cpp:535
+#: ekos/manager.ui:420 kstarsinit.cpp:535
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr "Ovládací panel INDI..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, portSelectorB)
-#: ekos/manager.ui:450
+#: ekos/manager.ui:448
 #, kde-format
 msgid "<html><head/><body><p>Devices Port Selector...</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
-#: ekos/manager.ui:479
+#: ekos/manager.ui:476
 #, kde-format
 msgid "Ekos Options..."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, logsB)
-#: ekos/manager.ui:505
+#: ekos/manager.ui:501
 #, kde-format
 msgid "Logs to diagnose issues with Ekos and INDI."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, logsB)
-#: ekos/manager.ui:508
+#: ekos/manager.ui:504
 #, kde-format
 msgid "Logs..."
 msgstr "Záznamy..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: ekos/manager.ui:532
+#: ekos/manager.ui:528
 #, kde-format
 msgid "3. Connect && Disconnect Devices"
 msgstr "3. Připojte nebo odpojte zařízení"
 
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
+#: ekos/manager.ui:609
+#, fuzzy, kde-format
+#| msgid "Dimensions"
+msgid "Extensions"
+msgstr "Rozměry"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
+#: ekos/manager.ui:687
+#, kde-format
+msgid "Start selected extension"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/manager.ui:738 ekos/scheduler/scheduler.ui:1135
+#: ekos/manager.ui:850 ekos/scheduler/scheduler.ui:1135
 #: kstarslite/qml/dialogs/DetailsDialog.qml:269 tools/altvstime.cpp:97
 #, kde-format, kde-kuit-format
 msgid "Altitude"
@@ -22254,20 +22331,20 @@ msgstr "Výška"
 #. i18n: ectx: property (text), widget (QLabel, decOUT)
 #. i18n: ectx: property (text), widget (QLabel, azOUT)
 #. i18n: ectx: property (text), widget (QLabel, altOUT)
-#: ekos/manager.ui:796 ekos/manager.ui:806 ekos/manager.ui:816
-#: ekos/manager.ui:826
+#: ekos/manager.ui:905 ekos/manager.ui:915 ekos/manager.ui:925
+#: ekos/manager.ui:935
 #, kde-format
 msgid "  --"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:947
+#: ekos/manager.ui:1056
 #, kde-format
 msgid "Advanced Ekos Options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:950
+#: ekos/manager.ui:1059
 #, kde-format
 msgid "Options..."
 msgstr "Možnosti..."
