@@ -76,7 +76,7 @@
 >Mòdul d'Arranjament i Resum</term>
             <listitem>
                 <para
->Com el seu nom indica, aquí és on creareu i gestionareu el perfil del vostre equip i connectareu amb els vostres dispositius. També proporciona una vista de resum on el progrés de la captura juntament amb les operacions d'enfocament i guiatge es mostraran en un format compacte per a transmetre a l'usuari la informació més rellevant. </para>
+>Com el seu nom indica, aquí és on creareu i gestionareu el perfil del vostre equip i connectareu amb els vostres dispositius. També proporciona una vista de resum on el progrés de la captura juntament amb les operacions d'enfocament i guiatge es mostraran en un format compacte per a transmetre a l'usuari la informació més rellevant. Si s'instal·la alguna extensió, es mostraran els controls de selecció i d'inici/aturada. </para>
             </listitem>
         </varlistentry>
         <varlistentry>

@@ -76,7 +76,7 @@
 >Översikts- och inställningsmodul</term>
             <listitem>
                 <para
->Som namnet antyder, är det här man skapar och hanterar utrustningsprofilen, och ansluter till utrustningen. Den tillhandahåller också en översiktsvy där tagningsprocessen tillsammans med fokuserings- och guidningsoperationer visas med ett kompakt format för att meddela den viktigaste informationen relevant för användaren. </para>
+>Som namnet antyder, är det här man skapar och hanterar utrustningsprofilen, och ansluter till utrustningen. Den tillhandahåller också en översiktsvy där tagningsprocessen tillsammans med fokuserings- och guidningsoperationer visas med ett kompakt format för att meddela den viktigaste informationen relevant för användaren. Om några utökningar är installerade, visas de utvalda och start- och stoppåtgärder. </para>
             </listitem>
         </varlistentry>
         <varlistentry>

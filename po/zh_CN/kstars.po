@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-22 01:52+0000\n"
+"POT-Creation-Date: 2024-08-23 01:44+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -15642,23 +15642,23 @@ msgstr "%1 有快门吗？"
 msgid "Dark Exposure"
 msgstr "暗场曝光"
 
-#: ekos/capture/capturepreviewwidget.cpp:170
+#: ekos/capture/capturepreviewwidget.cpp:181
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr ""
 
-#: ekos/capture/capturepreviewwidget.cpp:228
+#: ekos/capture/capturepreviewwidget.cpp:239
 #, kde-format
 msgid "Do you really want to delete %1 from the file system?"
 msgstr "您确定要从文件系统中删除 %1 吗？"
 
-#: ekos/capture/capturepreviewwidget.cpp:230
+#: ekos/capture/capturepreviewwidget.cpp:241
 #, kde-format
 msgid "Delete %1"
 msgstr "删除 %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, delButton)
-#: ekos/capture/capturepreviewwidget.cpp:230
+#: ekos/capture/capturepreviewwidget.cpp:241
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:54
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:82
 #: tools/flagmanager.ui:223
@@ -16843,28 +16843,24 @@ msgid "Loading"
 msgstr "加载中"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Starting"
-msgstr "起始于："
+msgstr ""
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Started"
-msgstr "启动"
+msgstr ""
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop capturing"
+#, kde-format
 msgid "Stopping"
-msgstr "停止拍摄中"
+msgstr ""
 
 #: ekos/ekos.h:221
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stopped"
-msgstr "停止"
+msgstr ""
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
 #, kde-format
@@ -22432,10 +22428,9 @@ msgid "Extension '%1' start requested"
 msgstr ""
 
 #: ekos/manager.cpp:415
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "Extension '%1' started"
-msgstr "任务“%1”已中止。"
+msgstr ""
 
 #: ekos/manager.cpp:423
 #, kde-format
@@ -22444,7 +22439,7 @@ msgstr ""
 
 #: ekos/manager.cpp:428
 #, kde-format
-msgid "Extension '%1 stopped"
+msgid "Extension '%1' stopped"
 msgstr ""
 
 #: ekos/manager.cpp:442
@@ -22746,6 +22741,21 @@ msgstr "为%1重新启用调试日志"
 msgid "Re-disabling debug logging for %1..."
 msgstr "为%1重新禁用调试日志"
 
+#: ekos/manager.cpp:3700
+#, kde-format
+msgid "Preview source set to external"
+msgstr ""
+
+#: ekos/manager.cpp:3705
+#, kde-format
+msgid "Preview source reset to internal"
+msgstr ""
+
+#: ekos/manager.cpp:3712
+#, kde-format
+msgid "Received external preview file"
+msgstr ""
+
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108
 #, kde-format
@@ -22841,17 +22851,15 @@ msgstr "3. 连接及断开设备"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extensions"
-msgstr "维数"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687
-#, fuzzy, kde-format
-#| msgid "value for selected option"
+#, kde-format
 msgid "Start selected extension"
-msgstr "选中项目的值"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)

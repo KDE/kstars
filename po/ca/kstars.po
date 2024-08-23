@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-22 01:52+0000\n"
-"PO-Revision-Date: 2024-08-16 09:21+0200\n"
+"POT-Creation-Date: 2024-08-23 01:44+0000\n"
+"PO-Revision-Date: 2024-08-22 13:54+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -16435,23 +16435,23 @@ msgstr "El %1 té un obturador?"
 msgid "Dark Exposure"
 msgstr "Exposició fosca"
 
-#: ekos/capture/capturepreviewwidget.cpp:170
+#: ekos/capture/capturepreviewwidget.cpp:181
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr "Suprimeix directament, no ho moguis a la paperera."
 
-#: ekos/capture/capturepreviewwidget.cpp:228
+#: ekos/capture/capturepreviewwidget.cpp:239
 #, kde-format
 msgid "Do you really want to delete %1 from the file system?"
 msgstr "Realment voleu suprimir %1 del sistema de fitxers?"
 
-#: ekos/capture/capturepreviewwidget.cpp:230
+#: ekos/capture/capturepreviewwidget.cpp:241
 #, kde-format
 msgid "Delete %1"
 msgstr "Suprimeix %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, delButton)
-#: ekos/capture/capturepreviewwidget.cpp:230
+#: ekos/capture/capturepreviewwidget.cpp:241
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:54
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:82
 #: tools/flagmanager.ui:223
@@ -17754,28 +17754,24 @@ msgid "Loading"
 msgstr "Carregant"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Starting"
-msgstr "Començant el:"
+msgstr "Iniciant"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Started"
-msgstr "Inicia"
+msgstr "Iniciada"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop capturing"
+#, kde-format
 msgid "Stopping"
-msgstr "Atura la captura"
+msgstr "Aturant"
 
 #: ekos/ekos.h:221
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stopped"
-msgstr "Atura"
+msgstr "Aturada"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
 #, kde-format
@@ -24027,43 +24023,43 @@ msgstr "Anàlisi"
 #: ekos/manager.cpp:385
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
-msgstr ""
+msgstr "L'extensió «%1» ha fallat en iniciar-se. S'interromp"
 
 #: ekos/manager.cpp:395
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
-msgstr ""
+msgstr "L'extensió «%1» ha fallat en aturar-se. S'ha activat la interrupció"
 
 #: ekos/manager.cpp:402
 #, kde-format
 msgid "Extension '%1' aborting"
-msgstr ""
+msgstr "L'extensió «%1» està interrompent-se"
 
 #: ekos/manager.cpp:410
 #, kde-format
 msgid "Extension '%1' start requested"
-msgstr ""
+msgstr "S'ha sol·licitat iniciar l'extensió «%1»"
 
 #: ekos/manager.cpp:415
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "Extension '%1' started"
-msgstr "S'ha interromput la tasca «%1»."
+msgstr "S'ha iniciat l'extensió «%1»"
 
 #: ekos/manager.cpp:423
 #, kde-format
 msgid "Extension '%1' stop requested"
-msgstr ""
+msgstr "S'ha sol·licitat aturar l'extensió «%1»"
 
 #: ekos/manager.cpp:428
-#, kde-format
-msgid "Extension '%1 stopped"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Extension '%1 stopped"
+msgid "Extension '%1' stopped"
+msgstr "S'ha aturat l'extensió «%1»"
 
 #: ekos/manager.cpp:442
 #, kde-format
 msgid "Extension '%1': %2"
-msgstr ""
+msgstr "Extensió «%1»: %2"
 
 #: ekos/manager.cpp:707
 #, kde-format
@@ -24385,6 +24381,21 @@ msgstr "Es torna a activar el registre de depuració del %1..."
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració del %1..."
 
+#: ekos/manager.cpp:3700
+#, kde-format
+msgid "Preview source set to external"
+msgstr ""
+
+#: ekos/manager.cpp:3705
+#, kde-format
+msgid "Preview source reset to internal"
+msgstr ""
+
+#: ekos/manager.cpp:3712
+#, kde-format
+msgid "Received external preview file"
+msgstr ""
+
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108
 #, kde-format
@@ -24481,17 +24492,15 @@ msgstr "3. Connecta i desconnecta els dispositius"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extensions"
-msgstr "Dimensions"
+msgstr "Extensions"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687
-#, fuzzy, kde-format
-#| msgid "value for selected option"
+#, kde-format
 msgid "Start selected extension"
-msgstr "valor per a l'opció seleccionada"
+msgstr "Inicia l'extensió seleccionada"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)

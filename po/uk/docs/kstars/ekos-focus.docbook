@@ -1926,8 +1926,8 @@
     <listitem>
     <para
 ><emphasis role="bold"
->Тонке коригування (з автофокусуванням)</emphasis
->: цей пункт створено для забезпечення тонкого коригування початкової позиції, розміру кроку та пересканування (або люфту) автоматичного фокусування. Алгоритм тонкого коригування запускає автоматичне фокусування, зокрема апроксимацію кривою, і аналізує результат для визначення того, чи може бути його удосконалено. Якщо це так, параметри буде скориговано, і алгоритм перезапущено. Для визначення значень параметрів використовують ітеративну процедуру.</para>
+>Fine Adjustment (with Autofocus)</emphasis
+>: : This function is designed to provide fine adjustment to the start position, Step Size and AF Overscan (or backlash) fields. Fine Adjustment runs Autofocus including curve fitting and analyses the result to determine whether or not it can be improved. If so, it adjusts parameters and re-runs. An iterative process is used to home in on parameter values.</para>
     <para
 >Ось приклад опису того, як це працює:</para>
     <screenshot>

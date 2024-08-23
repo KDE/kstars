@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-22 01:52+0000\n"
+"POT-Creation-Date: 2024-08-23 01:44+0000\n"
 "PO-Revision-Date: 2021-10-26 14:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -16723,25 +16723,25 @@ msgstr ""
 msgid "Dark Exposure"
 msgstr "Exposição escura"
 
-#: ekos/capture/capturepreviewwidget.cpp:170
+#: ekos/capture/capturepreviewwidget.cpp:181
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr ""
 
-#: ekos/capture/capturepreviewwidget.cpp:228
+#: ekos/capture/capturepreviewwidget.cpp:239
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to delete the profile?"
 msgid "Do you really want to delete %1 from the file system?"
 msgstr "Deseja realmente excluir este perfil?"
 
-#: ekos/capture/capturepreviewwidget.cpp:230
+#: ekos/capture/capturepreviewwidget.cpp:241
 #, fuzzy, kde-format
 #| msgid "Delete"
 msgid "Delete %1"
 msgstr "Excluir"
 
 #. i18n: ectx: property (text), widget (QPushButton, delButton)
-#: ekos/capture/capturepreviewwidget.cpp:230
+#: ekos/capture/capturepreviewwidget.cpp:241
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:54
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:82
 #: tools/flagmanager.ui:223
@@ -24343,9 +24343,11 @@ msgid "Extension '%1' stop requested"
 msgstr ""
 
 #: ekos/manager.cpp:428
-#, kde-format
-msgid "Extension '%1 stopped"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "%1 job aborted."
+#| msgid_plural "%1 jobs aborted"
+msgid "Extension '%1' stopped"
+msgstr "%1 tarefa cancelada."
 
 #: ekos/manager.cpp:442
 #, kde-format
@@ -24712,6 +24714,21 @@ msgstr "Focagem após o alinhamento para %1 ..."
 #| msgid "Post-alignment focusing for %1 ..."
 msgid "Re-disabling debug logging for %1..."
 msgstr "Focagem após o alinhamento para %1 ..."
+
+#: ekos/manager.cpp:3700
+#, kde-format
+msgid "Preview source set to external"
+msgstr ""
+
+#: ekos/manager.cpp:3705
+#, kde-format
+msgid "Preview source reset to internal"
+msgstr ""
+
+#: ekos/manager.cpp:3712
+#, kde-format
+msgid "Received external preview file"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-22 01:52+0000\n"
-"PO-Revision-Date: 2024-08-16 09:39+0200\n"
+"POT-Creation-Date: 2024-08-23 01:44+0000\n"
+"PO-Revision-Date: 2024-08-22 08:38+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -16198,23 +16198,23 @@ msgstr "Har %1 en slutare?"
 msgid "Dark Exposure"
 msgstr "Mörk exponering"
 
-#: ekos/capture/capturepreviewwidget.cpp:170
+#: ekos/capture/capturepreviewwidget.cpp:181
 #, kde-format
 msgid "Delete directly, do not move to trash."
 msgstr "Ta bort direkt, flytta inte till papperskorgen."
 
-#: ekos/capture/capturepreviewwidget.cpp:228
+#: ekos/capture/capturepreviewwidget.cpp:239
 #, kde-format
 msgid "Do you really want to delete %1 from the file system?"
 msgstr "Vill du verkligen ta bort %1 från filsystemet?"
 
-#: ekos/capture/capturepreviewwidget.cpp:230
+#: ekos/capture/capturepreviewwidget.cpp:241
 #, kde-format
 msgid "Delete %1"
 msgstr "Ta bort %1"
 
 #. i18n: ectx: property (text), widget (QPushButton, delButton)
-#: ekos/capture/capturepreviewwidget.cpp:230
+#: ekos/capture/capturepreviewwidget.cpp:241
 #: kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml:54
 #: kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml:82
 #: tools/flagmanager.ui:223
@@ -17495,28 +17495,24 @@ msgid "Loading"
 msgstr "Läser in"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Starting"
-msgstr "Börjar den:"
+msgstr "Startar"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Started"
-msgstr "Starta"
+msgstr "Startad"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop capturing"
+#, kde-format
 msgid "Stopping"
-msgstr "Stoppa tagning"
+msgstr "Stoppar"
 
 #: ekos/ekos.h:221
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stopped"
-msgstr "Stoppa"
+msgstr "Stoppad"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
 #, kde-format
@@ -23654,43 +23650,43 @@ msgstr "Analysera"
 #: ekos/manager.cpp:385
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
-msgstr ""
+msgstr "Utökning '%1' misslyckades starta, avbryter"
 
 #: ekos/manager.cpp:395
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
-msgstr ""
+msgstr "Utökning '%1' misslyckades stoppa, avbrytning aktiverad"
 
 #: ekos/manager.cpp:402
 #, kde-format
 msgid "Extension '%1' aborting"
-msgstr ""
+msgstr "Utökning '%1' avbryts"
 
 #: ekos/manager.cpp:410
 #, kde-format
 msgid "Extension '%1' start requested"
-msgstr ""
+msgstr "Start av utökning '%1' begärd"
 
 #: ekos/manager.cpp:415
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "Extension '%1' started"
-msgstr "Jobb '%1' avbrutet."
+msgstr "Utökning '%1' startad."
 
 #: ekos/manager.cpp:423
 #, kde-format
 msgid "Extension '%1' stop requested"
-msgstr ""
+msgstr "Stopp av utökning '%1' begärd"
 
 #: ekos/manager.cpp:428
-#, kde-format
-msgid "Extension '%1 stopped"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Extension '%1 stopped"
+msgid "Extension '%1' stopped"
+msgstr "Utökning '%1' stoppad"
 
 #: ekos/manager.cpp:442
 #, kde-format
 msgid "Extension '%1': %2"
-msgstr ""
+msgstr "Utökning '%1': %2"
 
 #: ekos/manager.cpp:707
 #, kde-format
@@ -24007,6 +24003,22 @@ msgstr "Aktiverar felsökningsloggning för %1 igen ..."
 msgid "Re-disabling debug logging for %1..."
 msgstr "Inaktiverar felsökningsloggning för %1 igen ..."
 
+#: ekos/manager.cpp:3700
+#, kde-format
+msgid "Preview source set to external"
+msgstr ""
+
+#: ekos/manager.cpp:3705
+#, kde-format
+msgid "Preview source reset to internal"
+msgstr ""
+
+#: ekos/manager.cpp:3712
+#, fuzzy, kde-format
+#| msgid "Receive external guide frames"
+msgid "Received external preview file"
+msgstr "Ta emot externa guidningsbilder"
+
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108
 #, kde-format
@@ -24102,17 +24114,15 @@ msgstr "3. Koppla upp och koppla ner enheter"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extensions"
-msgstr "Dimensioner"
+msgstr "Utökningar"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687
-#, fuzzy, kde-format
-#| msgid "value for selected option"
+#, kde-format
 msgid "Start selected extension"
-msgstr "värde för valt argument"
+msgstr "Starta utvalda utökningar"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
@@ -111669,9 +111679,6 @@ msgstr "Ange bakgrundens färg."
 #~ msgstr ""
 #~ "Aktivera mottagning av guidningsbilder i Ekos för externa "
 #~ "guidningsfunktioner."
-
-#~ msgid "Receive external guide frames"
-#~ msgstr "Ta emot externa guidningsbilder"
 
 #~ msgid "Please hold while loading FITS file..."
 #~ msgstr "Vänta medan FITS-fil laddas..."
