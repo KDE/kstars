@@ -5,6 +5,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 #include "camera.h"
+#include "capturemodulestate.h"
 
 #include "Options.h"
 #include "kstars.h"
@@ -71,12 +72,25 @@ QVariantMap copyStandAloneSettings(const QVariantMap &settings)
 namespace Ekos
 {
 
-Camera::Camera(int id, bool standAlone, QWidget *parent)
+Camera::Camera(QSharedPointer<CaptureModuleState> cms, int id, bool standAlone, QWidget *parent)
     : QWidget{parent}, m_standAlone(standAlone)
+{
+    init(cms, id, standAlone);
+}
+
+Camera::Camera(bool standAlone, QWidget *parent)
+{
+    QSharedPointer<CaptureModuleState> cms;
+    cms.reset(new CaptureModuleState());
+    init(cms, 0, standAlone);
+}
+
+void Ekos::Camera::init(QSharedPointer<CaptureModuleState> cms, int id, bool standAlone)
 {
     setupUi(this);
     m_cameraId = id;
-    m_cameraState.reset(new CameraState());
+    m_standAlone = standAlone;
+    m_cameraState.reset(new CameraState(cms));
     m_DeviceAdaptor.reset(new CaptureDeviceAdaptor());
     m_cameraProcess.reset(new CameraProcess(state(), m_DeviceAdaptor));
 

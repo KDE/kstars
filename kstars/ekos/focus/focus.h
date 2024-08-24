@@ -52,7 +52,6 @@ class Focus : public QWidget, public Ui::Focus
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Focus")
         Q_PROPERTY(Ekos::FocusState status READ status NOTIFY newStatus)
-        Q_PROPERTY(QStringList logText READ logText NOTIFY newLog)
         Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
         Q_PROPERTY(QString camera READ camera)
         Q_PROPERTY(QString focuser READ focuser)
@@ -239,16 +238,6 @@ class Focus : public QWidget, public Ui::Focus
         void setupFilterManager();
         void connectFilterManager();
 
-        Q_SCRIPTABLE void clearLog();
-        QStringList logText()
-        {
-            return m_LogText;
-        }
-        QString getLogText()
-        {
-            return m_LogText.join("\n");
-        }
-
         // Settings
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
@@ -403,10 +392,9 @@ class Focus : public QWidget, public Ui::Focus
              * @param status If true, the focus process finished successfully. Otherwise, it failed.
              */
         //void setAutoFocusResult(bool status);
-
-        // Logging methods - one for INFO messages to the kstars log, and one for a CSV auto-focus log
-        void appendLogText(const QString &);
-        void appendFocusLogText(const QString &);
+        // Logging
+        void appendLogText(const QString &logtext);
+        void appendFocusLogText(const QString &text);
 
         // Adjust focuser offset, relative or absolute
         void adjustFocusOffset(int value, bool useAbsoluteOffset);
@@ -490,9 +478,11 @@ class Focus : public QWidget, public Ui::Focus
 
     signals:
         void newLog(const QString &text);
+        void newFocusLog(const QString &text);
         void newStatus(Ekos::FocusState state, const QString &trainname);
         void newHFR(double hfr, int position, bool inAutofocus, const QString &trainname);
         void newFocusTemperatureDelta(double delta, double absTemperature, const QString &trainname);
+        void inSequenceAF(bool requested, const QString &trainname);
 
         void absolutePositionChanged(int value);
         void focusPositionAdjusted();
@@ -1091,12 +1081,6 @@ class Focus : public QWidget, public Ui::Focus
         int m_AFRun = 0;
         // Rerun flag indicating a rerun due to AF failing
         bool m_AFRerun = false;
-
-        /// Autofocus log file info.
-        QStringList m_LogText;
-        QFile m_FocusLogFile;
-        QString m_FocusLogFileName;
-        bool m_FocusLogEnabled { false };
 
         ITextVectorProperty *filterName { nullptr };
         INumberVectorProperty *filterSlot { nullptr };

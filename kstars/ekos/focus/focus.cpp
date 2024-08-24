@@ -123,11 +123,6 @@ Focus::Focus(int id) : QWidget()
     m_FocusMotionTimer.setSingleShot(true);
     connect(&m_FocusMotionTimer, &QTimer::timeout, this, &Focus::handleFocusMotionTimeout);
 
-    // Create an autofocus CSV file, dated at startup time
-    m_FocusLogFileName = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("focuslogs/autofocus-" +
-                         QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt");
-    m_FocusLogFile.setFileName(m_FocusLogFileName);
-
     m_OpsFocusProcess->editFocusProfile->setIcon(QIcon::fromTheme("document-edit"));
     m_OpsFocusProcess->editFocusProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
@@ -310,8 +305,6 @@ Focus::~Focus()
 {
     if (focusingWidget->parent() == nullptr)
         toggleFocusingWidgetFullScreen();
-
-    m_FocusLogFile.close();
 }
 
 void Focus::resetFrame()
@@ -1088,7 +1081,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
     if (autofocusReason == AutofocusReason::FOCUS_USER_REQUEST)
     {
         forceInSeqAF->setChecked(false);
-        Options::setFocusForceInSeqAF(false);
+        emit inSequenceAF(false, opticalTrain());
     }
     inAutoFocus = true;
     m_AFRun++;
@@ -4411,47 +4404,16 @@ void Focus::updateProperty(INDI::Property prop)
 
 void Focus::appendLogText(const QString &text)
 {
-    m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
-                              KStarsData::Instance()->lt().toString("yyyy-MM-ddThh:mm:ss"), text));
-
-    qCInfo(KSTARS_EKOS_FOCUS) << text;
-
-    emit newLog(text);
+    const QString logtext(m_Focuser == nullptr ? text : QString("[%1] %2").arg(m_Focuser->getDeviceName()).arg(text));
+    emit newLog(logtext);
 }
 
-void Focus::clearLog()
-{
-    m_LogText.clear();
-    emit newLog(QString());
-}
-
-void Focus::appendFocusLogText(const QString &lines)
+void Focus::appendFocusLogText(const QString &text)
 {
     if (Options::focusLogging())
     {
-
-        if (!m_FocusLogFile.exists())
-        {
-            // Create focus-specific log file and write the header record
-            QDir dir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
-            dir.mkpath("focuslogs");
-            m_FocusLogEnabled = m_FocusLogFile.open(QIODevice::WriteOnly | QIODevice::Text);
-            if (m_FocusLogEnabled)
-            {
-                QTextStream header(&m_FocusLogFile);
-                header << "date, time, position, temperature, filter, HFR, altitude\n";
-                header.flush();
-            }
-            else
-                qCWarning(KSTARS_EKOS_FOCUS) << "Failed to open focus log file: " << m_FocusLogFileName;
-        }
-
-        if (m_FocusLogEnabled)
-        {
-            QTextStream out(&m_FocusLogFile);
-            out << QDateTime::currentDateTime().toString("yyyy-MM-dd, hh:mm:ss, ") << lines;
-            out.flush();
-        }
+        const QString logtext(m_Focuser == nullptr ? text : QString("[%1] %2").arg(m_Focuser->getDeviceName()).arg(text));
+        emit newFocusLog(logtext);
     }
 }
 
@@ -5886,7 +5848,7 @@ void Focus::initConnections()
 
     connect(forceInSeqAF, &QCheckBox::toggled, this, [&](bool enabled)
     {
-        Options::setFocusForceInSeqAF(enabled);
+        emit inSequenceAF(enabled, opticalTrain());
     });
 
     // Update the focuser star detection if the detection algorithm selection changes.

@@ -48,10 +48,11 @@ namespace Ekos
 Capture::Capture()
 {
     setupUi(this);
-
     qRegisterMetaType<CaptureState>("CaptureState");
     qDBusRegisterMetaType<CaptureState>();
     new CaptureAdaptor(this);
+    // initialize the global capture state
+    m_moduleState.reset(new CaptureModuleState());
 
     // Adding the "New Tab" tab
     QWidget *newTab = new QWidget;
@@ -85,7 +86,7 @@ Capture::Capture()
 QSharedPointer<Camera> Capture::addCamera()
 {
     QSharedPointer<Camera> newCamera;
-    newCamera.reset(new Camera(m_Cameras.count()));
+    newCamera.reset(new Camera(moduleState(), m_Cameras.count()));
 
     // create the new tab and bring it to front
     const int tabIndex = cameraTabs->insertTab(std::max(0, cameraTabs->count() - 1), newCamera.get(), "new Camera");
@@ -173,8 +174,8 @@ void Capture::registerNewModule(const QString &name)
 
 QString Capture::camera()
 {
-    if (devices()->getActiveCamera())
-        return devices()->getActiveCamera()->getDeviceName();
+    if (mainCameraDevices()->getActiveCamera())
+        return mainCameraDevices()->getActiveCamera()->getDeviceName();
 
     return QString();
 }
@@ -186,13 +187,13 @@ void Capture::setGuideChip(ISD::CameraChip * guideChip)
     // 2. If we have two CCDs running from ONE driver (Multiple-Devices-Per-Driver mpdp is true). Same issue as above, only one download
     // at a time.
     // After primary CCD download is complete, we resume guiding.
-    if (!devices()->getActiveCamera())
+    if (!mainCameraDevices()->getActiveCamera())
         return;
 
-    state()->setSuspendGuidingOnDownload((devices()->getActiveCamera()->getChip(
-            ISD::CameraChip::GUIDE_CCD) == guideChip) ||
-                                         (guideChip->getCCD() == devices()->getActiveCamera() &&
-                                          devices()->getActiveCamera()->getDriverInfo()->getAuxInfo().value("mdpd", false).toBool()));
+    mainCameraState()->setSuspendGuidingOnDownload((mainCameraDevices()->getActiveCamera()->getChip(
+                ISD::CameraChip::GUIDE_CCD) == guideChip) ||
+            (guideChip->getCCD() == mainCameraDevices()->getActiveCamera() &&
+             mainCameraDevices()->getActiveCamera()->getDriverInfo()->getAuxInfo().value("mdpd", false).toBool()));
 }
 
 void Capture::setFocusStatus(FocusState newstate, const QString &trainname)
@@ -213,15 +214,15 @@ void Capture::focusAdaptiveComplete(bool success, const QString &trainname)
 
 QString Capture::filterWheel()
 {
-    if (devices()->filterWheel())
-        return devices()->filterWheel()->getDeviceName();
+    if (mainCameraDevices()->filterWheel())
+        return mainCameraDevices()->filterWheel()->getDeviceName();
 
     return QString();
 }
 
 bool Capture::setFilter(const QString &filter)
 {
-    if (devices()->filterWheel())
+    if (mainCameraDevices()->filterWheel())
     {
         mainCamera()->FilterPosCombo->setCurrentText(filter);
         return true;
@@ -292,14 +293,14 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     const double deviation_rms = std::hypot(delta_ra, delta_dec);
 
     // forward it to the state machine
-    state()->setGuideDeviation(deviation_rms);
+    mainCameraState()->setGuideDeviation(deviation_rms);
 
 }
 
 void Capture::ignoreSequenceHistory()
 {
     // This function is called independently from the Scheduler or the UI, so honor the change
-    state()->setIgnoreJobProgress(true);
+    mainCameraState()->setIgnoreJobProgress(true);
 }
 
 void Capture::setCapturedFramesMap(const QString &signature, int count, QString train)
@@ -323,21 +324,21 @@ void Capture::setCapturedFramesMap(const QString &signature, int count, QString 
 void Capture::setAlignStatus(AlignState newstate)
 {
     // forward it directly to the state machine
-    state()->setAlignState(newstate);
+    mainCameraState()->setAlignState(newstate);
 }
 
 void Capture::setGuideStatus(GuideState newstate)
 {
     // forward it directly to the state machine
-    state()->setGuideState(newstate);
+    mainCameraState()->setGuideState(newstate);
 }
 
 bool Capture::setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
 {
-    if (devices()->getActiveCamera() == nullptr)
+    if (mainCameraDevices()->getActiveCamera() == nullptr)
         return false;
 
-    return devices()->getActiveCamera()->setStreamLimits(maxBufferSize, maxPreviewFPS);
+    return mainCameraDevices()->getActiveCamera()->setStreamLimits(maxBufferSize, maxPreviewFPS);
 }
 
 QString Capture::start(QString train)
@@ -436,7 +437,11 @@ QSharedPointer<Camera> Capture::mainCamera() const
     if (m_Cameras.size() > 0)
         return m_Cameras[0];
     else
-        return QSharedPointer<Camera>(new Camera());
+    {
+        QSharedPointer<CaptureModuleState> cms;
+        cms.reset(new CaptureModuleState());
+        return QSharedPointer<Camera>(new Camera(cms));
+    }
 }
 
 int Capture::findCamera(QString train, bool addIfNecessary)
@@ -470,16 +475,16 @@ void Capture::setMountStatus(ISD::Mount::Status newState)
             // Only disable when button is "Start", and not "Stopped"
             // If mount is in motion, Stopped button should always be enabled to terminate
             // the sequence
-            if (state()->isBusy() == false)
+            if (mainCameraState()->isBusy() == false)
                 mainCamera()->startB->setEnabled(false);
             break;
 
         default:
-            if (state()->isBusy() == false)
+            if (mainCameraState()->isBusy() == false)
             {
                 mainCamera()->previewB->setEnabled(true);
-                if (devices()->getActiveCamera())
-                    mainCamera()->liveVideoB->setEnabled(devices()->getActiveCamera()->hasVideoStream());
+                if (mainCameraDevices()->getActiveCamera())
+                    mainCamera()->liveVideoB->setEnabled(mainCameraDevices()->getActiveCamera()->hasVideoStream());
                 mainCamera()->startB->setEnabled(true);
             }
 
@@ -492,14 +497,14 @@ void Capture::setAlignResults(double solverPA, double ra, double de, double pixs
     Q_UNUSED(ra)
     Q_UNUSED(de)
     Q_UNUSED(pixscale)
-    if (devices()->rotator() && mainCamera()->m_RotatorControlPanel)
+    if (mainCameraDevices()->rotator() && mainCamera()->m_RotatorControlPanel)
         mainCamera()->m_RotatorControlPanel->refresh(solverPA);
 }
 
 void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)
 {
-    state()->setMeridianFlipState(newstate);
-    connect(state()->getMeridianFlipState().get(), &MeridianFlipState::newLog, this, &Capture::appendLogText);
+    mainCameraState()->setMeridianFlipState(newstate);
+    connect(mainCameraState()->getMeridianFlipState().get(), &MeridianFlipState::newLog, this, &Capture::appendLogText);
 }
 
 bool Capture::hasCoolerControl()
@@ -531,5 +536,13 @@ void Capture::setHFR(double newHFR, int, bool inAutofocus, const QString &trainn
     for (auto &cam : m_Cameras)
         if (trainname == "" || cam->opticalTrain() == trainname)
             cam->state()->getRefocusState()->setFocusHFR(newHFR, inAutofocus);
+}
+
+void Capture::inSequenceAFRequested(bool requested, const QString &trainname)
+{
+    // publish to all known focusers using the same optical train (should be only one)
+    for (auto &cam : m_Cameras)
+        if (trainname == "" || cam->opticalTrain() == trainname)
+            moduleState()->setForceInSeqAF(requested, trainname);
 }
 }

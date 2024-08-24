@@ -20,7 +20,7 @@ class FocusModule : public QWidget, public Ui::FocusManager
 
 public:
         FocusModule();
-
+        ~FocusModule();
 
         // ////////////////////////////////////////////////////////////////////
         // Access to the focusers
@@ -123,23 +123,33 @@ public:
                 focuser->checkCamera();
         }
 
-        /**
-         * @brief clearLogs Clear the logs of all focusers
-         */
-        void clearLogs()
+
+        // ////////////////////////////////////////////////////////////////////
+        // Module logging
+        // ////////////////////////////////////////////////////////////////////
+        void clearLog();
+        void appendLogText(const QString &logtext);
+        void appendFocusLogText(const QString &lines);
+
+        QStringList logText()
         {
-            // iterate over all focusers
-            for (auto focuser : m_Focusers)
-                focuser->clearLog();
+            return m_LogText;
+        }
+        QString getLogText()
+        {
+            return m_LogText.join("\n");
         }
 
+
 signals:
+        void newLog(const QString &text);
         void suspendGuiding();
         void resumeGuiding();
         void newStatus(FocusState state, const QString &trainname);
         void focusAdaptiveComplete(bool success, const QString &trainname);
         void newHFR(double hfr, int position, bool inAutofocus, const QString &trainname);
         void newFocusTemperatureDelta(double delta, double absTemperature, const QString &trainname);
+        void inSequenceAF(bool requested, const QString &trainname);
 
 
 private:
@@ -173,6 +183,15 @@ private:
 
         /// They're generic GDInterface because they could be either ISD::Camera or ISD::FilterWheel or ISD::Weather
         QList<QSharedPointer<ISD::GenericDevice>> m_TemperatureSources;
+
+        // ////////////////////////////////////////////////////////////////////
+        // Logging
+        // ////////////////////////////////////////////////////////////////////
+        QStringList m_LogText;
+        QFile m_FocusLogFile;
+        QString m_FocusLogFileName;
+        bool m_FocusLogEnabled { false };
+
 };
 
 }

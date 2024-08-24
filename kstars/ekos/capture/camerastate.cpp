@@ -5,6 +5,7 @@
 */
 
 #include "camerastate.h"
+#include "capturemodulestate.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/sequencejob.h"
 #include "ekos/capture/sequencequeue.h"
@@ -17,10 +18,11 @@
 
 namespace Ekos
 {
-CameraState::CameraState(QObject *parent): QObject{parent}
+void CameraState::init(QSharedPointer<CaptureModuleState> cms)
 {
+    m_moduleState = cms;
     m_sequenceQueue.reset(new SequenceQueue());
-    m_refocusState.reset(new RefocusState());
+    m_refocusState.reset(new RefocusState(m_moduleState));
     m_TargetADUTolerance = Options::calibrationADUValueTolerance();
     connect(m_refocusState.get(), &RefocusState::newLog, this, &CameraState::newLog);
 
@@ -33,6 +35,19 @@ CameraState::CameraState(QObject *parent): QObject{parent}
     wallCoord().setAlt(Options::calibrationWallAlt());
     setTargetADU(Options::calibrationADUValue());
     setSkyFlat(Options::calibrationSkyFlat());
+}
+
+CameraState::CameraState(QObject *parent)
+{
+    QSharedPointer<CaptureModuleState> cms;
+    cms.reset(new CaptureModuleState(parent));
+    init(cms);
+}
+
+
+CameraState::CameraState(QSharedPointer<CaptureModuleState> cms, QObject *parent): QObject{parent}
+{
+    init(cms);
 }
 
 QList<SequenceJob *> &CameraState::allJobs()
@@ -766,7 +781,7 @@ bool CameraState::startFocusIfRequired()
             || m_activeJob->jobType() == SequenceJob::JOBTYPE_PREVIEW)
         return false;
 
-    RefocusState::RefocusReason reason = m_refocusState->checkFocusRequired();
+    RefocusState::RefocusReason reason = m_refocusState->checkFocusRequired(opticalTrain());
 
     // no focusing necessary
     if (reason == RefocusState::REFOCUS_NONE)
@@ -1418,8 +1433,6 @@ void CameraState::removeCapturedFrameCount(const QString &signature, uint16_t co
             frame_item.value() = frame_item.value() - count;
     }
 }
-
-
 
 void CameraState::appendLogText(const QString &message)
 {

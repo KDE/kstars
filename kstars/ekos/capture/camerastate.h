@@ -41,6 +41,7 @@ class SequenceJob;
 class SequenceQueue;
 class CaptureDeviceAdaptor;
 class RefocusState;
+class CaptureModuleState;
 
 class CameraState: public QObject
 {
@@ -53,6 +54,7 @@ class CameraState: public QObject
         } DoubleRange;
 
         CameraState(QObject *parent = nullptr);
+        CameraState(QSharedPointer<CaptureModuleState> cms, QObject *parent = nullptr);
 
         // ////////////////////////////////////////////////////////////////////
         // sequence jobs
@@ -324,6 +326,11 @@ class CameraState: public QObject
         void setDomeState(ISD::Dome::Status value)
         {
             m_domeState = value;
+        }
+
+        QSharedPointer<CaptureModuleState> moduleState() const
+        {
+            return m_moduleState;
         }
 
         QSharedPointer<MeridianFlipState> getMeridianFlipState();
@@ -912,6 +919,15 @@ class CameraState: public QObject
             return m_DSLRInfos;
         }
 
+        const QString &opticalTrain() const
+        {
+            return m_opticalTrain;
+        }
+        void setOpticalTrain(const QString &newOpticalTrain)
+        {
+            m_opticalTrain = newOpticalTrain;
+        }
+
 signals:
         // controls for capture execution
         void captureBusy(bool busy);
@@ -955,6 +971,9 @@ signals:
         void newLog(const QString &text);
 
     private:
+        // initialize the class
+        void init(QSharedPointer<CaptureModuleState> cms);
+
         // Container for the list of SequenceJobs.
         QSharedPointer<SequenceQueue> m_sequenceQueue;
         // Currently active sequence job.
@@ -966,6 +985,8 @@ signals:
         // DSLR Infos
         QList<QMap<QString, QVariant>> m_DSLRInfos;
 
+        // current optical train
+        QString m_opticalTrain;
         // current filter position
         // TODO: check why we have both currentFilterID and this, seems redundant
         int m_CurrentFilterPosition { -1 };
@@ -1064,6 +1085,8 @@ signals:
         // How many images to capture before dithering operation is executed?
         uint m_ditherCounter { 0 };
 
+        /* overall state */
+        QSharedPointer<CaptureModuleState> m_moduleState;
         /* Refocusing */
         QSharedPointer<RefocusState> m_refocusState;
         /* Meridian Flip */
@@ -1073,7 +1096,6 @@ signals:
              * @brief Add log message
              */
         void appendLogText(const QString &message);
-
 };
 
 }; // namespace

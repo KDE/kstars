@@ -9,6 +9,7 @@
 #include "ui_capture.h"
 
 #include "camera.h"
+#include "capturemodulestate.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/ekos.h"
 #include "ekos/auxiliary/opticaltrainsettings.h"
@@ -142,7 +143,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE QString getSequenceQueueStatus()
         {
-            return state()->sequenceQueueStatus();
+            return mainCameraState()->sequenceQueueStatus();
         }
 
         /** DBUS interface function.
@@ -199,7 +200,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE double getProgressPercentage()
         {
-            return state()->progressPercentage();
+            return mainCameraState()->progressPercentage();
         }
 
         /** DBUS interface function.
@@ -215,7 +216,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE int getJobCount()
         {
-            return state()->allJobs().count();
+            return mainCameraState()->allJobs().count();
         }
 
         /** DBUS interface function.
@@ -223,7 +224,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE int getPendingJobCount()
         {
-            return state()->pendingJobCount();
+            return mainCameraState()->pendingJobCount();
         }
 
         /** DBUS interface function.
@@ -231,7 +232,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE int getActiveJobID()
         {
-            return state()->activeJobID();
+            return mainCameraState()->activeJobID();
         }
 
         /** DBUS interface function.
@@ -239,7 +240,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE int getActiveJobRemainingTime()
         {
-            return state()->activeJobRemainingTime();
+            return mainCameraState()->activeJobRemainingTime();
         }
 
         /** DBUS interface function.
@@ -247,7 +248,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE int getOverallRemainingTime()
         {
-            return state()->overallRemainingTime();
+            return mainCameraState()->overallRemainingTime();
         }
 
         /** DBUS interface function.
@@ -256,7 +257,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE QString getJobState(int id)
         {
-            return state()->jobState(id);
+            return mainCameraState()->jobState(id);
         }
 
         /** DBUS interface function.
@@ -265,7 +266,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE QString getJobFilterName(int id)
         {
-            return state()->jobFilterName(id);
+            return mainCameraState()->jobFilterName(id);
         }
 
         /** DBUS interface function.
@@ -274,7 +275,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE int getJobImageProgress(int id)
         {
-            return state()->jobImageProgress(id);
+            return mainCameraState()->jobImageProgress(id);
         }
 
         /** DBUS interface function.
@@ -283,7 +284,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE int getJobImageCount(int id)
         {
-            return state()->jobImageCount(id);
+            return mainCameraState()->jobImageCount(id);
         }
 
         /** DBUS interface function.
@@ -292,7 +293,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE double getJobExposureProgress(int id)
         {
-            return state()->jobExposureProgress(id);
+            return mainCameraState()->jobExposureProgress(id);
         }
 
         /** DBUS interface function.
@@ -301,7 +302,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE double getJobExposureDuration(int id)
         {
-            return state()->jobExposureDuration(id);
+            return mainCameraState()->jobExposureDuration(id);
         }
 
         /** DBUS interface function.
@@ -310,7 +311,7 @@ class Capture : public QWidget, public Ui::Capture
              */
         Q_SCRIPTABLE CCDFrameType getJobFrameType(int id)
         {
-            return state()->jobFrameType(id);
+            return mainCameraState()->jobFrameType(id);
         }
 
         /** DBUS interface function.
@@ -373,9 +374,14 @@ class Capture : public QWidget, public Ui::Capture
          */
         Q_SCRIPTABLE CaptureState status()
         {
-            return state()->getCaptureState();
+            return mainCameraState()->getCaptureState();
         }
         /** @} end of group CaptureDBusInterface */
+
+        QSharedPointer<CaptureModuleState> moduleState() const
+        {
+            return m_moduleState;
+        }
 
         // ////////////////////////////////////////////////////////////////////
         // Access to the cameras
@@ -448,7 +454,7 @@ class Capture : public QWidget, public Ui::Capture
          */
         const QJsonArray &getSequence() const
         {
-            return state()->getSequence();
+            return mainCameraState()->getSequence();
         }        
 
         /**
@@ -654,6 +660,13 @@ public slots:
          */
         void setHFR(double newHFR, int position, bool inAutofocus, const QString &trainname);
 
+        /**
+         * @brief inSequenceAFRequested Focuser informs that the user wishes an AF run as soon as possible.
+         * @param requested true iff AF is requested.
+         * @param trainname name of the optical train to select the focuser
+         */
+        void inSequenceAFRequested(bool requested, const QString &trainname);
+
         // Guide
         void setGuideStatus(GuideState newstate);
 
@@ -732,19 +745,19 @@ public slots:
         // ////////////////////////////////////////////////////////////////////
 
         // shortcut for the module state
-        QSharedPointer<CameraState> state() const
+        QSharedPointer<CameraState> mainCameraState() const
         {
             return mainCamera()->state();
         }
         // shortcut to device adapter
-        QSharedPointer<CaptureDeviceAdaptor> devices()
+        QSharedPointer<CaptureDeviceAdaptor> mainCameraDevices()
         {
             return mainCamera()->devices();
         }
         // shortcut for the active job
         SequenceJob *activeJob() const
         {
-            return state()->getActiveJob();
+            return mainCameraState()->getActiveJob();
         }
 
         /**
@@ -768,6 +781,10 @@ public slots:
         double seqExpose { 0 };
         int seqTotalCount;
         int seqCurrentCount { 0 };
+
+        // overall state
+        QSharedPointer<CaptureModuleState> m_moduleState;
+
 
         QList<QSharedPointer<Camera>> m_Cameras;
 

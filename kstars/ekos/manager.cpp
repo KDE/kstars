@@ -2015,7 +2015,7 @@ void Manager::updateLog()
     else if (currentWidget == captureModule())
         ekosLogOut->setPlainText(captureModule()->getLogText());
     else if (currentWidget == focusModule())
-        ekosLogOut->setPlainText(focusModule()->mainFocuser()->getLogText());
+        ekosLogOut->setPlainText(focusModule()->getLogText());
     else if (currentWidget == guideModule())
         ekosLogOut->setPlainText(guideModule()->getLogText());
     else if (currentWidget == mountModule())
@@ -2058,7 +2058,7 @@ void Manager::clearLog()
     else if (currentWidget == captureModule())
         captureModule()->clearLog();
     else if (currentWidget == focusModule())
-        focusModule()->clearLogs();
+        focusModule()->clearLog();
     else if (currentWidget == guideModule())
         guideModule()->clearLog();
     else if (currentWidget == mountModule())
@@ -2175,17 +2175,19 @@ void Manager::initFocus()
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
 
     // Focus <---> Manager connections (restricted to the main focuser)
-    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newLog, this, &Ekos::Manager::updateLog);
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newStatus, this, &Ekos::Manager::updateFocusStatus);
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newStarPixmap, focusProgressWidget,
             &Ekos::FocusProgressWidget::updateFocusStarPixmap);
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newHFR, this, &Ekos::Manager::updateCurrentHFR);
     connect(focusModule()->mainFocuser().get(), &Ekos::Focus::focuserTimedout, this, &Ekos::Manager::restartDriver);
-    connect(focusModule()->mainFocuser().get(), &Ekos::Focus::newLog, this, [this]()
+    connect(focusModule(), &Ekos::FocusModule::newLog, this, [this]()
     {
+        // update the logging in the client
+        updateLog();
+
         QJsonObject cStatus =
         {
-            {"log", focusModule()->mainFocuser()->getLogText()}
+            {"log", focusModule()->getLogText()}
         };
 
         ekosLiveClient.get()->message()->updateFocusStatus(cStatus);
@@ -3117,6 +3119,10 @@ void Manager::connectModules()
         // New Focus temperature delta
         connect(focusModule(), &Ekos::FocusModule::newFocusTemperatureDelta, captureModule(),
                 &Ekos::Capture::setFocusTemperatureDelta, Qt::UniqueConnection);
+
+        // User requested AF
+        connect(focusModule(), &Ekos::FocusModule::inSequenceAF, captureModule(),
+                &Ekos::Capture::inSequenceAFRequested, Qt::UniqueConnection);
 
         // Meridian Flip
         connect(captureModule(), &Ekos::Capture::meridianFlipStarted, focusModule(), &Ekos::FocusModule::meridianFlipStarted,

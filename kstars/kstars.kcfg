@@ -2047,10 +2047,6 @@
       <entry name="FocusFilter" type="String">
          <label>Default Filter Wheel filter</label>
       </entry>
-      <entry name="FocusForceInSeqAF" type="Bool">
-         <whatsthis>When In Sequence, force an Autofocus at the end of the current subframe.</whatsthis>
-         <default>false</default>
-      </entry>
       <entry name="UseFocusDarkFrame" type="Bool">
          <label>Take a dark frame and subtract it before running autofocus operation.</label>
          <default>false</default>

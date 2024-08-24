@@ -14,6 +14,8 @@
 namespace Ekos
 {
 
+class CaptureModuleState;
+
 class RefocusState : public QObject
 {
         Q_OBJECT
@@ -29,16 +31,20 @@ class RefocusState : public QObject
             REFOCUS_USER_REQUEST  /* user forced an in sequence Autofocus               */
         } RefocusReason;
 
-        explicit RefocusState(QObject *parent = nullptr): QObject{parent} {}
+        explicit RefocusState(QSharedPointer<CaptureModuleState> cms, QObject *parent = nullptr): QObject{parent}
+        {
+            m_moduleState = cms;
+        }
 
         /**
          * @brief Check if focusing is necessary:
-         * 1. time limit based
-         * 2. temperature based
-         * 3. HFR based in sequence
-         * 4. post meridian flip         *
+         * 1. forced by user
+         * 2. time limit based
+         * 3. temperature based
+         * 4. HFR based in sequence
+         * 5. post meridian flip         *
          */
-        RefocusReason checkFocusRequired();
+        RefocusReason checkFocusRequired(const QString &opticaltrain);
 
         /**
          * @brief Start the timer triggering refosing after the configured time.
@@ -158,12 +164,20 @@ class RefocusState : public QObject
          */
         void addHFRValue(const QString &filter);
 
-    signals:
+        QSharedPointer<CaptureModuleState> moduleState() const
+        {
+            return m_moduleState;
+        }
+
+
+signals:
         // new log text for the module log window
         void newLog(const QString &text);
 
 
     private:
+        // overall state
+        QSharedPointer<CaptureModuleState> m_moduleState;
         // HFR value as received from the Ekos focus module
         double m_focusHFR { 0 };
         // Whether m_focusHFR was taken during Autofocus

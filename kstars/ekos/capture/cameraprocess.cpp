@@ -731,6 +731,8 @@ void CameraProcess::prepareJobExecution()
 
 void CameraProcess::refreshOpticalTrain(QString name)
 {
+    state()->setOpticalTrain(name);
+
     auto mount = OpticalTrainManager::Instance()->getMount(name);
     setMount(mount);
 
@@ -1764,7 +1766,7 @@ IPState CameraProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageD
         filename = imageData->filename();
 
         // avoid logging that we captured a temporary file
-        if (state()->isLooping() == false && activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
+        if (state()->isLooping() == false && activeJob() != nullptr && activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
             emit newLog(i18n("Captured %1", filename));
 
         auto remainingPlaceholders = PlaceholderPath::remainingPlaceholders(filename);

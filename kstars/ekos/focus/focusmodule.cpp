@@ -7,7 +7,10 @@
 #include "focusmodule.h"
 #include "focus.h"
 
+#include "Options.h"
 #include "auxiliary/ksmessagebox.h"
+#include "kstarsdata.h"
+#include "kspaths.h"
 
 #include "ekos_focus_debug.h"
 
@@ -34,8 +37,18 @@ FocusModule::FocusModule()
     focusTabs->addTab(newTab, "");
     focusTabs->tabBar()->setTabButton(0, QTabBar::RightSide, addButton);
 
+    // Create an autofocus CSV file, dated at startup time
+    m_FocusLogFileName = QDir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation)).filePath("focuslogs/autofocus-" +
+                         QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss") + ".txt");
+    m_FocusLogFile.setFileName(m_FocusLogFileName);
+
     // Create main focuser
     addFocuser();
+}
+
+FocusModule::~FocusModule()
+{
+    m_FocusLogFile.close();
 }
 
 QSharedPointer<Focus> &FocusModule::focuser(int i)
@@ -211,6 +224,53 @@ void FocusModule::syncCameraInfo(const char* devicename)
             focuser->syncCameraInfo();
 }
 
+void FocusModule::clearLog()
+{
+    m_LogText.clear();
+    emit newLog(QString());
+}
+
+void FocusModule::appendLogText(const QString &logtext)
+{
+    m_LogText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2",
+                              KStarsData::Instance()->lt().toString("yyyy-MM-ddThh:mm:ss"), logtext));
+
+    qCInfo(KSTARS_EKOS_FOCUS) << logtext;
+
+    emit newLog(logtext);
+}
+
+void FocusModule::appendFocusLogText(const QString &lines)
+{
+    if (Options::focusLogging())
+    {
+
+        if (!m_FocusLogFile.exists())
+        {
+            // Create focus-specific log file and write the header record
+            QDir dir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+            dir.mkpath("focuslogs");
+            m_FocusLogEnabled = m_FocusLogFile.open(QIODevice::WriteOnly | QIODevice::Text);
+            if (m_FocusLogEnabled)
+            {
+                QTextStream header(&m_FocusLogFile);
+                header << "date, time, position, temperature, filter, HFR, altitude\n";
+                header.flush();
+            }
+            else
+                qCWarning(KSTARS_EKOS_FOCUS) << "Failed to open focus log file: " << m_FocusLogFileName;
+        }
+
+        if (m_FocusLogEnabled)
+        {
+            QTextStream out(&m_FocusLogFile);
+            out << QDateTime::currentDateTime().toString("yyyy-MM-dd, hh:mm:ss, ") << lines;
+            out.flush();
+        }
+    }
+
+}
+
 void FocusModule::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceRemoved)
 {
     // Check in Temperature Sources.
@@ -234,6 +294,9 @@ void FocusModule::initFocuser(QSharedPointer<Focus> newFocuser)
     connect(newFocuser.get(), &Focus::focusAdaptiveComplete, this, &FocusModule::focusAdaptiveComplete);
     connect(newFocuser.get(), &Focus::newHFR, this, &FocusModule::newHFR);
     connect(newFocuser.get(), &Focus::newFocusTemperatureDelta, this, &FocusModule::newFocusTemperatureDelta);
+    connect(newFocuser.get(), &Focus::inSequenceAF, this, &FocusModule::inSequenceAF);
+    connect(newFocuser.get(), &Focus::newLog, this, &FocusModule::appendLogText);
+    connect(newFocuser.get(), &Focus::newFocusLog, this, &FocusModule::appendFocusLogText);
 }
 
 QSharedPointer<Focus> FocusModule::addFocuser(const QString &trainname)

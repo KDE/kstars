@@ -50,7 +50,10 @@ class Camera : public QWidget, public Ui::Camera
     friend class Capture;
 public:
 
-    explicit Camera(int id = 0, bool standAlone = false, QWidget *parent = nullptr);
+    // default constructor
+    explicit Camera(QSharedPointer<CaptureModuleState> cms, int id = 0, bool standAlone = false, QWidget *parent = nullptr);
+    // constructor for standalone editor
+    explicit Camera(bool standAlone = false, QWidget *parent = nullptr);
     ~Camera();
 
     // ////////////////////////////////////////////////////////////////////
@@ -735,6 +738,8 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // helper functions
     // ////////////////////////////////////////////////////////////////////
+    // object initializstion
+    void init(QSharedPointer<CaptureModuleState> cms, int id, bool standAlone);
     // camera device name
     QString getCameraName()
     {
