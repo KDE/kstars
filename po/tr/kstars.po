@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-23 01:44+0000\n"
-"PO-Revision-Date: 2024-08-22 21:25+0300\n"
+"PO-Revision-Date: 2024-08-23 21:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23713,8 +23713,7 @@ msgid "Extension '%1' stop requested"
 msgstr "\"%1\" uzantısının durdurulması istendi"
 
 #: ekos/manager.cpp:428
-#, fuzzy, kde-format
-#| msgid "Extension '%1 stopped"
+#, kde-format
 msgid "Extension '%1' stopped"
 msgstr "\"%1\" uzantısı durduruldu"
 
@@ -24041,17 +24040,17 @@ msgstr "%1 için hata ayıklama günlüğü yeniden devre dışı bırakılıyor
 #: ekos/manager.cpp:3700
 #, kde-format
 msgid "Preview source set to external"
-msgstr ""
+msgstr "Önizleme kaynağı dış olarak ayarlandı"
 
 #: ekos/manager.cpp:3705
 #, kde-format
 msgid "Preview source reset to internal"
-msgstr ""
+msgstr "Önizleme kaynağı iç olarak ayarlandı"
 
 #: ekos/manager.cpp:3712
 #, kde-format
 msgid "Received external preview file"
-msgstr ""
+msgstr "Dış önizleme dosyası alındı"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108
@@ -68594,7 +68593,7 @@ msgid "Spectra"
 msgstr "Tayflar"
 
 #: kstars_i18n.cpp:4863
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "Diğer"
@@ -68737,12 +68736,12 @@ msgstr "Görseli Dışa Aktar"
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
-msgstr "K Yıldızlar Betikleri (*.kstars)"
+msgstr "K Yıldızlar betikleri (*.kstars)"
 
 #: kstarsactions.cpp:1375
 #, kde-format
 msgid "Executing remote scripts is not supported."
-msgstr "Uzak betikleri yürütmek desteklenmiyor."
+msgstr "Uzak betikleri yürütme desteklenmiyor."
 
 #: kstarsactions.cpp:1383 oal/execute.cpp:319 tools/observinglist.cpp:909
 #, kde-format
@@ -68779,7 +68778,7 @@ msgstr "Betik çalıştırılıyor: %1"
 #: kstarsactions.cpp:1438
 #, kde-format
 msgid "Script finished."
-msgstr "Betik tamamlandı."
+msgstr "Betik bitti."
 
 #: kstarsactions.cpp:1450
 #, kde-format
@@ -68966,9 +68965,9 @@ msgstr ""
 "Kullanıcı notları günlük dosyası %1, %2 konumunda başlayan girdinin "
 "açılışında hatalı biçimlendirilmiş. K Yıldızlar, bu dosyayı tam olarak "
 "okumadan da çalışabilir. K Yıldızlar'ı, kısımsal okuma başarılı olursa olsun "
-"çalıştırmak için Sürdür’e basın. K Yıldızlar dosyaya daha sonra yazarsa "
+"çalıştırmak için \"Sürdür\"e basın. K Yıldızlar dosyaya daha sonra yazarsa "
 "dosya yarıda kesilebilir. Bunun yerine şimdi iptal etmek ve sorunu elle "
-"düzeltmek için İptal'e basın."
+"düzeltmek için \"İptal\"e basın."
 
 #: kstarsdata.cpp:798
 #, kde-format
@@ -69006,7 +69005,7 @@ msgstr ""
 #: kstarsdata.cpp:1654 kstarsdata.cpp:1676
 #, kde-format
 msgid "Userdata at index %1 does not exist."
-msgstr "%1 indeksinde kullanıcı bilgisi yok."
+msgstr "%1 indeksinde kullanıcı verisi yok."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FocusEdit)
 #: kstarsdbus.cpp:78 tools/arglooktoward.ui:92
@@ -69263,7 +69262,7 @@ msgstr "Durum Çubuğunu Göster"
 #: kstarsinit.cpp:345
 #, kde-format
 msgid "Show Az/Alt Field"
-msgstr "GA/Ra Alanını Göster"
+msgstr "GA/Yükseklik Alanını Göster"
 
 #: kstarsinit.cpp:346
 #, kde-format
@@ -69455,9 +69454,9 @@ msgid ""
 "of 'X'."
 msgstr ""
 "Benzetimin akış hızını ayarlamak için bunu kullanın.\n"
-"10 dakikaya kadar olan 'X' zaman adımı için, zaman saniyede 'X' oranında "
+"10 dakikaya kadar olan \"X\" zaman adımı için, zaman saniyede \"X\" oranında "
 "geçer.\n"
-"10 dakikadan büyük zaman adımları için kareler 'X' aralığında görüntülenir."
+"10 dakikadan büyük zaman adımları için kareler \"X\" aralığında görüntülenir."
 
 #: kstarsinit.cpp:564
 #, kde-format
@@ -69810,9 +69809,9 @@ msgid ""
 "using Shift + Drag mouse action, to inform you that the orientation is "
 "arbitrary"
 msgstr ""
-"Bu kip, yönlendirmenin isteğe bağlı olduğunu size bildirmek için Üst "
-"Karakter + Sürükle fare eylemini kullanarak gökyüzü haritasını elle "
-"döndürdüyseniz kendiliğinden seçilir."
+"Bu kip, yönlendirmenin isteğe bağlı olduğunu size bildirmek için Üst Karakter"
+"+Sürükle fare eylemini kullanarak gökyüzü haritasını elle döndürdüyseniz "
+"kendiliğinden seçilir."
 
 #: kstarsinit.cpp:769
 #, kde-format
@@ -69956,7 +69955,7 @@ msgstr "Yapı: %1"
 #: kstarslite.cpp:117
 #, kde-format
 msgid "(c), The KStars Team"
-msgstr "(c), K Yıldızlar Takımı"
+msgstr "©, K Yıldızlar Takımı"
 
 #: kstarslite.cpp:118
 #, kde-format
@@ -70113,7 +70112,7 @@ msgstr "Bağlantı Ekle"
 #: kstarslite/qml/dialogs/FindDialog.qml:14
 #, kde-kuit-format
 msgid "Find an Object"
-msgstr "Bir Nesne Bul"
+msgstr "Nesne Bul"
 
 #: kstarslite/qml/dialogs/FindDialog.qml:37
 #, kde-kuit-format
@@ -70985,7 +70984,7 @@ msgid ""
 "related to Sky Map. This menu is available only on Sky Map."
 msgstr ""
 "Sağdan sola kaydırarak, Gökyüzü Haritası ile ilgili işlevlere sahip bağlam "
-"çekmecesine erişebilirsiniz. Bu menü sadece Gökyüzü Haritasında vardır."
+"çekmecesine erişebilirsiniz. Bu menü sadece Gökyüzü Haritası'nda vardır."
 
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:30
 #, kde-kuit-format
@@ -71068,43 +71067,43 @@ msgstr "K Yıldızlar'a hoş geldiniz. Yükleme sürerken lütfen bekleyin..."
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "100x"
-msgstr "100x"
+msgstr "100×"
 
 #: libindi_strings.cpp:2
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "10x"
-msgstr "10x"
+msgstr "10×"
 
 #: libindi_strings.cpp:3
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "1200x"
-msgstr "1200x"
+msgstr "1200×"
 
 #: libindi_strings.cpp:4
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "12x"
-msgstr "12x"
+msgstr "12×"
 
 #: libindi_strings.cpp:5
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "600x"
-msgstr "600x"
+msgstr "600×"
 
 #: libindi_strings.cpp:6
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "64x"
-msgstr "64x"
+msgstr "64×"
 
 #: libindi_strings.cpp:7
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "900x"
-msgstr "900x"
+msgstr "900×"
 
 #: libindi_strings.cpp:8
 #, kde-kuit-format
@@ -71260,13 +71259,13 @@ msgstr "Atmosfer"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Auto Search"
-msgstr "Otomatik Arama"
+msgstr "Kendiliğinden Arama"
 
 #: libindi_strings.cpp:34
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Auto"
-msgstr "Otomaik"
+msgstr "Kendiliğinden"
 
 #: libindi_strings.cpp:35
 #, kde-kuit-format
@@ -71278,7 +71277,7 @@ msgstr "Yedek"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Average (1 sec.)"
-msgstr "Ortalama (1 sn.)"
+msgstr "Ortalama (1 san.)"
 
 #: libindi_strings.cpp:37
 #, kde-kuit-format
@@ -71740,44 +71739,37 @@ msgstr "Bağlantıyı Kes"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Divisor"
-msgstr ""
+msgstr "Bölen"
 
 #: libindi_strings.cpp:116
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "CCD Simulator"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome Simulator"
-msgstr "CCD Benzeticisi"
+msgstr "Kubbe Benzetimcisi"
 
 #: libindi_strings.cpp:117
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome control"
-msgstr "Dom denetimi"
+msgstr "Kubbe denetimi"
 
 #: libindi_strings.cpp:118
-#, fuzzy, kde-kuit-format
-#| msgid "Dome"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome locks"
-msgstr "Dom"
+msgstr "Kubbe kilitleri"
 
 #: libindi_strings.cpp:119
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome parking policy"
-msgstr "Dome Creek"
+msgstr "Kubbe park etme politikası"
 
 #: libindi_strings.cpp:120
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in British Columbia Canada"
-#| msgid "Dome Creek"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dome parks"
-msgstr "Dome Creek"
+msgstr "Kubbe parkı"
 
 #: libindi_strings.cpp:121
 #, kde-kuit-format
@@ -71789,66 +71781,61 @@ msgstr "Sürücü Bilgisi"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Duration (s)"
-msgstr "Süre (s)"
+msgstr "Süre (sn)"
 
 #: libindi_strings.cpp:123
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Duration (s)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Duration (sec)"
-msgstr "Süre (s)"
+msgstr "Süre (san)"
 
 #: libindi_strings.cpp:124
-#, fuzzy, kde-kuit-format
-#| msgid "Just solve"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dust Cover"
-msgstr "Yalnızca çözümle"
+msgstr "Toz Kapağı"
 
 #: libindi_strings.cpp:125
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Duty cycle"
-msgstr "Doluluk oranı"
+msgstr "Görev döngüsü"
 
 #: libindi_strings.cpp:126
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "EQ Coord"
-msgstr "EQ Koord"
+msgstr "EK Koord"
 
 #: libindi_strings.cpp:127
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "EQ PEC"
-msgstr "EQ PEC"
+msgstr "EK PEC"
 
 #: libindi_strings.cpp:128
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "East (msec)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "East (ms)"
-msgstr "Batı (ms)"
+msgstr "Doğu (ms)"
 
 #: libindi_strings.cpp:129
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "East (msec)"
-msgstr "Batı (ms)"
+msgstr "Doğu (msan)"
 
 #: libindi_strings.cpp:130
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "East (pointing west)"
-msgstr ""
+msgstr "Doğu (batıya doğru)"
 
 #: libindi_strings.cpp:131
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "East (sec)"
-msgstr "Doğu (s)"
+msgstr "Doğu (san)"
 
 #: libindi_strings.cpp:132
 #, kde-kuit-format
@@ -71863,11 +71850,10 @@ msgid "East/West"
 msgstr "Doğu/Batı"
 
 #: libindi_strings.cpp:134
-#, fuzzy, kde-kuit-format
-#| msgid "Elevation (m):"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Elevation (m)"
-msgstr "Yükseklik (m):"
+msgstr "Yükselti (m)"
 
 #: libindi_strings.cpp:135
 #, kde-kuit-format
@@ -71885,15 +71871,13 @@ msgstr "Etkinleştirildi"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Encoder"
-msgstr ""
+msgstr "Kodlayıcı"
 
 #: libindi_strings.cpp:138
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "EQ PEC"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "EQ PE"
-msgstr "EQ PEC"
+msgstr "EK PE"
 
 #: libindi_strings.cpp:139
 #, kde-kuit-format
@@ -71917,19 +71901,19 @@ msgstr "Ethernet"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Exec"
-msgstr "Çalıştır"
+msgstr "Yürüt"
 
 #: libindi_strings.cpp:143
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Expose Abort"
-msgstr "Poz İptal"
+msgstr "Pozlama İptal"
 
 #: libindi_strings.cpp:144
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Expose"
-msgstr "Poz"
+msgstr "Pozlama"
 
 #: libindi_strings.cpp:145
 #, kde-kuit-format
@@ -71947,7 +71931,7 @@ msgstr "Genişletilmiş GPS Özellikleri"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Extrema"
-msgstr "Uç değerler"
+msgstr "Uç Değerler"
 
 #: libindi_strings.cpp:148
 #, kde-kuit-format
@@ -71971,7 +71955,7 @@ msgstr "FWHM"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Factory"
-msgstr "Üretici"
+msgstr "Fabrika"
 
 #: libindi_strings.cpp:152
 #, kde-kuit-format
@@ -72001,37 +71985,37 @@ msgstr "Geri Bildirim"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Field De-rotator"
-msgstr "Alan ters çevirici"
+msgstr "Alan Ters Döndürücüsü"
 
 #: libindi_strings.cpp:157
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter #1"
-msgstr "Süzgeç #1"
+msgstr "Süzgeç №1"
 
 #: libindi_strings.cpp:158
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter #2"
-msgstr "Süzgeç #2"
+msgstr "Süzgeç №2"
 
 #: libindi_strings.cpp:159
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter #3"
-msgstr "Süzgeç #3"
+msgstr "Süzgeç №3"
 
 #: libindi_strings.cpp:160
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter #4"
-msgstr "Süzgeç #4"
+msgstr "Süzgeç №4"
 
 #: libindi_strings.cpp:161
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter #5"
-msgstr "Süzgeç #5"
+msgstr "Süzgeç №5"
 
 #: libindi_strings.cpp:162
 #, kde-kuit-format
@@ -72043,21 +72027,19 @@ msgstr "Süzgeç Sayısı"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter Simulator"
-msgstr "Süzgeç Benzetici"
+msgstr "Süzgeç Benzetimcisi"
 
 #: libindi_strings.cpp:164
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter Slot"
-msgstr "Süzgeç Sayısı"
+msgstr "Süzgeç Yuvası"
 
 #: libindi_strings.cpp:165
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter Wheel"
-msgstr "Süzgeç Tekeri"
+msgstr "Süzgeç Tekerleği"
 
 #: libindi_strings.cpp:166
 #, kde-kuit-format
@@ -72069,49 +72051,49 @@ msgstr "Süzgeç"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#1"
-msgstr "Süzgeç#1"
+msgstr "Süzgeç№1"
 
 #: libindi_strings.cpp:168
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#2"
-msgstr "Süzgeç#2"
+msgstr "Süzgeç№2"
 
 #: libindi_strings.cpp:169
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#3"
-msgstr "Süzgeç#3"
+msgstr "Süzgeç№3"
 
 #: libindi_strings.cpp:170
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#4"
-msgstr "Süzgeç#3"
+msgstr "Süzgeç№4"
 
 #: libindi_strings.cpp:171
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#5"
-msgstr "Süzgeç#4"
+msgstr "Süzgeç№5"
 
 #: libindi_strings.cpp:172
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#6"
-msgstr "Süzgeç#7"
+msgstr "Süzgeç№6"
 
 #: libindi_strings.cpp:173
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#7"
-msgstr "Süzgeç#8"
+msgstr "Süzgeç№7"
 
 #: libindi_strings.cpp:174
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Filter#8"
-msgstr "Süzgeç#5"
+msgstr "Süzgeç№8"
 
 #: libindi_strings.cpp:175
 #, kde-kuit-format
@@ -72159,7 +72141,7 @@ msgstr "Florasan"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focal Length (mm)"
-msgstr "Odak Uzaklığı (mm)"
+msgstr "Odak Uzunluğu (mm)"
 
 #: libindi_strings.cpp:184
 #, kde-kuit-format
@@ -72171,13 +72153,13 @@ msgstr "Odak Denetimi"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus In"
-msgstr "Odakla"
+msgstr "Odaklan"
 
 #: libindi_strings.cpp:186
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus Out"
-msgstr "Bulanıklaştır"
+msgstr "Odaktan Çık"
 
 #: libindi_strings.cpp:187
 #, kde-kuit-format
@@ -72201,13 +72183,13 @@ msgstr "Odaklan"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus out"
-msgstr "Bulanıklaştır"
+msgstr "Odaktan Çık"
 
 #: libindi_strings.cpp:191
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focuser Simulator"
-msgstr "Odaklayıcı Benzeticisi"
+msgstr "Odaklayıcı Benzetimcisi"
 
 #: libindi_strings.cpp:192
 #, kde-kuit-format
@@ -72222,52 +72204,46 @@ msgid "Focusers"
 msgstr "Odaklayıcılar"
 
 #: libindi_strings.cpp:194
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "NGC"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FPS"
-msgstr "NGC"
+msgstr "FPS"
 
 #: libindi_strings.cpp:195
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame Rate"
-msgstr "Çerçeve Hızı"
+msgstr "Kare Hızı"
 
 #: libindi_strings.cpp:196
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "FrameType"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame Type"
-msgstr "ÇerçeveTürü"
+msgstr "Kare Türü"
 
 #: libindi_strings.cpp:197
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Frame Rate"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame Values"
-msgstr "Çerçeve Hızı"
+msgstr "Kare Değerleri"
 
 #: libindi_strings.cpp:198
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame"
-msgstr "Çerçeve"
+msgstr "Kare"
 
 #: libindi_strings.cpp:199
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FrameType"
-msgstr "ÇerçeveTürü"
+msgstr "Kare Türü"
 
 #: libindi_strings.cpp:200
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frames"
-msgstr ""
+msgstr "Kareler"
 
 #: libindi_strings.cpp:201
 #, kde-kuit-format
@@ -72303,7 +72279,7 @@ msgstr "GPS Gücü"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "GPS Simulator"
-msgstr "GPS Simülatörü"
+msgstr "GPS Benzetimcisi"
 
 #: libindi_strings.cpp:207
 #, kde-kuit-format
@@ -72351,7 +72327,7 @@ msgstr "Genel Video4Linux"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Geographic Location"
-msgstr "Çoğrafik Konum"
+msgstr "Coğrafi Konum"
 
 #: libindi_strings.cpp:216
 #, kde-kuit-format
@@ -72378,12 +72354,10 @@ msgid "Guide Abort"
 msgstr "Kılavuz İptal"
 
 #: libindi_strings.cpp:220
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guide East/West"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide E/W"
-msgstr "Doğu/Batı Kılavuzu"
+msgstr "D/B Kılavuzu"
 
 #: libindi_strings.cpp:221
 #, kde-kuit-format
@@ -72395,39 +72369,37 @@ msgstr "Doğu/Batı Kılavuzu"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide Head"
-msgstr "Baş Kılavuzluğu"
+msgstr "Kılavuz Kafası"
 
 #: libindi_strings.cpp:223
-#, fuzzy, kde-kuit-format
-#| msgid "Save Telescope Info"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide Info"
-msgstr "Teleskop Bilgisini Kaydet"
+msgstr "Kılavuz Bilgisi"
 
 #: libindi_strings.cpp:224
-#, fuzzy, kde-kuit-format
-#| msgid "Guider"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide N/S"
-msgstr "Kılavuz"
+msgstr "K/G Kılavuzu"
 
 #: libindi_strings.cpp:225
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide North/South"
-msgstr "Kuzey/Güney Kılavuz"
+msgstr "Kuzey/Güney Kılavuzu"
 
 #: libindi_strings.cpp:226
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide West/East"
-msgstr "Batı/Doğu Kılavuz"
+msgstr "Batı/Doğu Kılavuzu"
 
 #: libindi_strings.cpp:227
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guide Wheel"
-msgstr "Kılavuz Tekeri"
+msgstr "Kılavuz Tekerleği"
 
 #: libindi_strings.cpp:228
 #, kde-kuit-format
@@ -72451,35 +72423,31 @@ msgstr "Kılavuz Denetimi"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guider Focal Length (mm)"
-msgstr "Kılavuz Odak Uzaklığı (mm)"
+msgstr "Kılavuz Odak Uzunluğu (mm)"
 
 #: libindi_strings.cpp:232
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guide Head"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guider Head"
-msgstr "Baş Kılavuzluğu"
+msgstr "Kılavuz Kafa"
 
 #: libindi_strings.cpp:233
-#, fuzzy, kde-kuit-format
-#| msgid "Rapid Guide"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guider Head Rapid Guide"
-msgstr "Hızlı Kılavuz"
+msgstr "Kılavuz Kafası Hızlı Kılavuzu"
 
 #: libindi_strings.cpp:234
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guider Image"
-msgstr "Kılavuz Görüntüsü"
+msgstr "Kılavuz Görseli"
 
 #: libindi_strings.cpp:235
-#, fuzzy, kde-kuit-format
-#| msgid "Guiding"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Guiding Rate"
-msgstr "Kılavuzluk"
+msgstr "Kılavuzluk Hızı"
 
 #: libindi_strings.cpp:236
 #, kde-kuit-format
@@ -72500,12 +72468,10 @@ msgid "HA H:M:S"
 msgstr "HA H:M:S"
 
 #: libindi_strings.cpp:239
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "H Alpha"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "H_Alpha"
-msgstr "H Alfa"
+msgstr "H_Alfa"
 
 #: libindi_strings.cpp:240
 #, kde-kuit-format
@@ -72547,7 +72513,7 @@ msgstr "Saat ekseni"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Hourangle Coords"
-msgstr "Saat Açıcı Koordinatları"
+msgstr "Saat Açısı Koordinatları"
 
 #: libindi_strings.cpp:247
 #, kde-kuit-format
@@ -72577,7 +72543,7 @@ msgstr "Kubbeyi yok say"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Image Adjustments"
-msgstr "Görüntü Ayarlamaları"
+msgstr "Görsel Ayarlamaları"
 
 #: libindi_strings.cpp:252
 #, kde-kuit-format
@@ -72589,37 +72555,37 @@ msgstr "Görsel Denetimi"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Image Data"
-msgstr "Görüntü Verisi"
+msgstr "Görsel Verisi"
 
 #: libindi_strings.cpp:254
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Image Info"
-msgstr "Görüntü Bilgisi"
+msgstr "Görsel Bilgisi"
 
 #: libindi_strings.cpp:255
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Image Settings"
-msgstr "Görüntü Ayarları"
+msgstr "Görsel Ayarları"
 
 #: libindi_strings.cpp:256
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Image Type"
-msgstr "Resim Türü"
+msgstr "Görsel Türü"
 
 #: libindi_strings.cpp:257
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Image"
-msgstr "Resim"
+msgstr "Görsel"
 
 #: libindi_strings.cpp:258
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Indoor"
-msgstr "Kapalı Alan"
+msgstr "İç Alan"
 
 #: libindi_strings.cpp:259
 #, kde-kuit-format
@@ -72628,26 +72594,22 @@ msgid "Info"
 msgstr "Bilgi"
 
 #: libindi_strings.cpp:260
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Turkey"
-#| msgid "Istanbul"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Instant."
-msgstr "İstanbul"
+msgstr "Anında"
 
 #: libindi_strings.cpp:261
-#, fuzzy, kde-kuit-format
-#| msgid "Interval:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Interface"
-msgstr "Aralık:"
+msgstr "Arayüz"
 
 #: libindi_strings.cpp:262
-#, fuzzy, kde-kuit-format
-#| msgid "ticks"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Joystick"
-msgstr "tıklar"
+msgstr "Oyun Çubuğu"
 
 #: libindi_strings.cpp:263
 #, kde-kuit-format
@@ -72656,11 +72618,10 @@ msgid "Jupiter"
 msgstr "Jüpiter"
 
 #: libindi_strings.cpp:264
-#, fuzzy, kde-kuit-format
-#| msgid "LSR"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "LPR"
-msgstr "LSR"
+msgstr "LPR"
 
 #: libindi_strings.cpp:265
 #, kde-kuit-format
@@ -72672,19 +72633,19 @@ msgstr "LX200 Temel"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Lat (dd:mm:ss)"
-msgstr "Lat (dd:mm:ss)"
+msgstr "Enl (dd:mm:ss)"
 
 #: libindi_strings.cpp:267
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Lat.  D:M:S +N"
-msgstr "Lat.  D:M:S +N"
+msgstr "Enl. D:M:S +N"
 
 #: libindi_strings.cpp:268
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Lat. D:M:S +N"
-msgstr "Lat. D:M:S +N"
+msgstr "Enl. D:M:S +N"
 
 #: libindi_strings.cpp:269
 #, kde-kuit-format
@@ -72708,7 +72669,7 @@ msgstr "Işık"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Limiting Mag"
-msgstr "Şiddet Sınırlama"
+msgstr "Sınırlayıcı Büyüklük"
 
 #: libindi_strings.cpp:273
 #, kde-kuit-format
@@ -72726,13 +72687,13 @@ msgstr "Yerel"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Lon (dd:mm:ss)"
-msgstr "Lon (dd:mm:ss)"
+msgstr "Boy (dd:mm:ss)"
 
 #: libindi_strings.cpp:276
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Long. D:M:S +E"
-msgstr "Long. D:M:S +E"
+msgstr "Boy. D:M:S +E"
 
 #: libindi_strings.cpp:277
 #, kde-kuit-format
@@ -72744,7 +72705,7 @@ msgstr "Düşük"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Luminance"
-msgstr ""
+msgstr "Aydınlık"
 
 #: libindi_strings.cpp:279
 #, kde-kuit-format
@@ -72756,7 +72717,7 @@ msgstr "Parlaklık"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Lunar"
-msgstr "Kameri"
+msgstr "Aysal"
 
 #: libindi_strings.cpp:281
 #, kde-kuit-format
@@ -72798,54 +72759,49 @@ msgstr "Ana alarm"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max slew Rate"
-msgstr "En fazla dönüş hızı"
+msgstr "En çok çevrim hızı"
 
 #: libindi_strings.cpp:288
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max"
-msgstr "Azami"
+msgstr "En çok"
 
 #: libindi_strings.cpp:289
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Height"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Height"
-msgstr "Yükseklik"
+msgstr "En büyük yükseklik"
 
 #: libindi_strings.cpp:290
-#, fuzzy, kde-kuit-format
-#| msgid "Position"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Position"
-msgstr "Konum"
+msgstr "En büyük konum"
 
 #: libindi_strings.cpp:291
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Width"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. Width"
-msgstr "Genişlik"
+msgstr "En büyük genişlik"
 
 #: libindi_strings.cpp:292
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Max. travel"
-msgstr "En fazla yolculuk"
+msgstr "En çok yolculuk"
 
 #: libindi_strings.cpp:293
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Maximum Tick"
-msgstr "En Fazla Kalınlık"
+msgstr "En çok tık"
 
 #: libindi_strings.cpp:294
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Maximum travel"
-msgstr "En fazla yolculuk"
+msgstr "En çok yolculuk"
 
 #: libindi_strings.cpp:295
 #, kde-kuit-format
@@ -72869,7 +72825,7 @@ msgstr "Messier"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Minimum Tick"
-msgstr "En Az Kalınlık"
+msgstr "En az tık"
 
 #: libindi_strings.cpp:299
 #, kde-kuit-format
@@ -72896,20 +72852,16 @@ msgid "Motion Control"
 msgstr "Hareket Denetimi"
 
 #: libindi_strings.cpp:303
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motion N/S"
-msgstr "Hareket"
+msgstr "K/G Hareketi"
 
 #: libindi_strings.cpp:304
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Motion"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motion W/E"
-msgstr "Hareket"
+msgstr "B/D Hareketi"
 
 #: libindi_strings.cpp:305
 #, kde-kuit-format
@@ -72927,19 +72879,19 @@ msgstr "Motor Adımları"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motor steps per tick"
-msgstr "Her tık için motor adımları"
+msgstr "Tık başına motor adımları"
 
 #: libindi_strings.cpp:308
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Mount coordinates"
-msgstr "Dağ koordinatları"
+msgstr "Kaide koordinatları"
 
 #: libindi_strings.cpp:309
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Mount init."
-msgstr "Dağ başlangıcı."
+msgstr "Kaide başlangıcı"
 
 #: libindi_strings.cpp:310
 #, kde-kuit-format
@@ -72951,19 +72903,19 @@ msgstr "Bağlanıyor"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Move to rate"
-msgstr "Değere taşı"
+msgstr "Hareket hızı"
 
 #: libindi_strings.cpp:312
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Movement Control"
-msgstr "Haraket Denetimi"
+msgstr "Hareket denetimi"
 
 #: libindi_strings.cpp:313
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "N/S Rate"
-msgstr "N/S Hızı"
+msgstr "K/G Hızı"
 
 #: libindi_strings.cpp:314
 #, kde-kuit-format
@@ -72975,7 +72927,7 @@ msgstr "NGC"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Name"
-msgstr "İsim"
+msgstr "Ad"
 
 #: libindi_strings.cpp:316
 #, kde-kuit-format
@@ -72987,7 +72939,7 @@ msgstr "Neptün"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Noise Reduction"
-msgstr "Parazit Azaltma"
+msgstr "Gürültü Azaltması"
 
 #: libindi_strings.cpp:318
 #, kde-kuit-format
@@ -73059,7 +73011,7 @@ msgstr "AÇIK"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "OTA Temperature (C)"
-msgstr "OTA Sıcaklığı (C):"
+msgstr "OTA Sıcaklığı (C)"
 
 #: libindi_strings.cpp:330
 #, kde-kuit-format
@@ -73131,7 +73083,7 @@ msgstr "Seçenekler"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Outdoor"
-msgstr "Dışarı"
+msgstr "Dışarısı"
 
 #: libindi_strings.cpp:342
 #, kde-kuit-format
@@ -73185,7 +73137,7 @@ msgstr "Park Et"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Parking"
-msgstr "Park"
+msgstr "Park Ediliyor"
 
 #: libindi_strings.cpp:351
 #, kde-kuit-format
@@ -73335,7 +73287,7 @@ msgstr "Temizle"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "RA  H:M:S"
-msgstr "RA  S:D:S"
+msgstr "RA S:D:S"
 
 #: libindi_strings.cpp:376
 #, kde-kuit-format
@@ -73383,7 +73335,7 @@ msgstr "Hızlı Kılavuz"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Rate"
-msgstr "Oran"
+msgstr "Hız"
 
 #: libindi_strings.cpp:384
 #, kde-kuit-format
@@ -73407,7 +73359,7 @@ msgstr "Kayıt (Kare)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record File"
-msgstr "Dosyayı Kaydet"
+msgstr "Dosya Kaydını Yaz"
 
 #: libindi_strings.cpp:388
 #, kde-kuit-format
@@ -73539,7 +73491,7 @@ msgstr "Satürn"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Save home"
-msgstr "Evi kaydet"
+msgstr "Evi Kaydet"
 
 #: libindi_strings.cpp:410
 #, kde-kuit-format
@@ -73617,7 +73569,7 @@ msgstr "Kayıt Ayarla"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Set home"
-msgstr "Ev ayarla"
+msgstr "Evi ayarla"
 
 #: libindi_strings.cpp:423
 #, kde-kuit-format
@@ -73641,7 +73593,7 @@ msgstr "Ayarlar"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Shutter Speed"
-msgstr "Deklanşör Hızı"
+msgstr "Kepenk Hızı"
 
 #: libindi_strings.cpp:427
 #, kde-kuit-format
@@ -73671,13 +73623,13 @@ msgstr "Benzetim"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Simulator Config"
-msgstr "Benzetici Yapılandırması"
+msgstr "Benzetimci Yapılandırması"
 
 #: libindi_strings.cpp:432
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Simulator Settings"
-msgstr "Benzetici Ayarları"
+msgstr "Benzetimci Ayarları"
 
 #: libindi_strings.cpp:433
 #, kde-kuit-format
@@ -73725,7 +73677,7 @@ msgstr "Mevkiler"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Sky Glow (magnitudes)"
-msgstr "Gökyüzü Yalımı (Parlaklıklar)"
+msgstr "Gökyüzü Yalımı (Büyüklük)"
 
 #: libindi_strings.cpp:441
 #, kde-kuit-format
@@ -73779,19 +73731,19 @@ msgstr "Yavaş"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Snoop dc connection"
-msgstr "Dc bağlantı bak"
+msgstr "DC bağlantısı bak"
 
 #: libindi_strings.cpp:450
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Snoop dc master alarm"
-msgstr "Dc master alarm bak"
+msgstr "DC ana alarmı bak"
 
 #: libindi_strings.cpp:451
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Snoop dc mode"
-msgstr "Dc kipi bak"
+msgstr "DC kipi bak"
 
 #: libindi_strings.cpp:452
 #, kde-kuit-format
@@ -73863,7 +73815,7 @@ msgstr "Adımlar"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Stop"
-msgstr "Dur"
+msgstr "Durdur"
 
 #: libindi_strings.cpp:464
 #, kde-kuit-format
@@ -73881,7 +73833,7 @@ msgstr "Akış Açık"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Streaming"
-msgstr "Akış"
+msgstr "Akış Yapılıyor"
 
 #: libindi_strings.cpp:467
 #, kde-kuit-format
@@ -73923,7 +73875,7 @@ msgstr "Eşzamanla"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Telescope Simulator"
-msgstr "Teleskop Öykünücüsü"
+msgstr "Teleskop Benzetimcisi"
 
 #: libindi_strings.cpp:474
 #, kde-kuit-format
@@ -73959,7 +73911,7 @@ msgstr "Temma"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Temp."
-msgstr "Geçici"
+msgstr "Sıca."
 
 #: libindi_strings.cpp:480
 #, kde-kuit-format
@@ -73989,13 +73941,13 @@ msgstr "Teta D:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Ticks"
-msgstr "İmler"
+msgstr "Tıklar"
 
 #: libindi_strings.cpp:485
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Time Factor"
-msgstr "Zaman Faktörü"
+msgstr "Zaman Çarpanı"
 
 #: libindi_strings.cpp:486
 #, kde-kuit-format
@@ -74034,24 +73986,22 @@ msgid "Track Mode"
 msgstr "İzleme Kipi"
 
 #: libindi_strings.cpp:492
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Track Mode"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Track Rates"
-msgstr "İzleme Kipi"
+msgstr "İzleme Hızı"
 
 #: libindi_strings.cpp:493
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Track"
-msgstr "İzleme"
+msgstr "İzle"
 
 #: libindi_strings.cpp:494
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Tracking Accuracy"
-msgstr "Tık Doğruluğu"
+msgstr "İzleme Kesinliği"
 
 #: libindi_strings.cpp:495
 #, kde-kuit-format
@@ -74072,17 +74022,16 @@ msgid "Tracking mode"
 msgstr "İzleme kipi"
 
 #: libindi_strings.cpp:498
-#, fuzzy, kde-kuit-format
-#| msgid "Track"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Tracking"
-msgstr "Yörünge"
+msgstr "İzleme"
 
 #: libindi_strings.cpp:499
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Transformation"
-msgstr "Dönüştürme"
+msgstr "Dönüşüm"
 
 #: libindi_strings.cpp:500
 #, kde-kuit-format
@@ -74094,13 +74043,13 @@ msgstr "UGC"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "UTC Offset"
-msgstr "UTC Ofset"
+msgstr "UTC Ofseti"
 
 #: libindi_strings.cpp:502
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "UTC Time"
-msgstr "UTC Saati"
+msgstr "UTC Zamanı"
 
 #: libindi_strings.cpp:503
 #, kde-kuit-format
@@ -74109,8 +74058,7 @@ msgid "UTC"
 msgstr "UTC"
 
 #: libindi_strings.cpp:504
-#, fuzzy, kde-kuit-format
-#| msgid "UnPark"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "UnPark"
 msgstr "Parktan Çık"
@@ -74140,18 +74088,16 @@ msgid "Update"
 msgstr "Güncelle"
 
 #: libindi_strings.cpp:509
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Simulator Settings"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Upload Settings"
-msgstr "Benzetici Ayarları"
+msgstr "Karşıya Yükleme Ayarları"
 
 #: libindi_strings.cpp:510
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Upload"
-msgstr "Yükle"
+msgstr "Karşıya Yükle"
 
 #: libindi_strings.cpp:511
 #, kde-kuit-format
@@ -74163,7 +74109,7 @@ msgstr "Uranüs"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Use Pulse Cmd"
-msgstr "Pulse Cmd Kullan"
+msgstr "Darbe Komutu Kullan"
 
 #: libindi_strings.cpp:513
 #, kde-kuit-format
@@ -74199,11 +74145,10 @@ msgstr "Video"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "W/E Rate"
-msgstr "W/E Oranı"
+msgstr "B/D Oranı"
 
 #: libindi_strings.cpp:519
-#, fuzzy, kde-kuit-format
-#| msgid "WCS"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "WCS"
 msgstr "WCS"
@@ -74221,9 +74166,7 @@ msgid "Webcam Name"
 msgstr "Web Kamerası Adı"
 
 #: libindi_strings.cpp:522
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "West (msec)"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "West (ms)"
 msgstr "Batı (ms)"
@@ -74232,19 +74175,19 @@ msgstr "Batı (ms)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "West (msec)"
-msgstr "Batı (ms)"
+msgstr "Batı (msan)"
 
 #: libindi_strings.cpp:524
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "West (pointing east)"
-msgstr ""
+msgstr "West (doğuya doğru)"
 
 #: libindi_strings.cpp:525
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "West (sec)"
-msgstr "Batı (sn)"
+msgstr "Batı (san)"
 
 #: libindi_strings.cpp:526
 #, kde-kuit-format
@@ -74304,23 +74247,19 @@ msgstr "Y"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "app. to refracted"
-msgstr ""
+msgstr "kırılana uygula"
 
 #: libindi_strings.cpp:536
-#, fuzzy, kde-kuit-format
-#| msgctxt "Move the telescope to an object or location"
-#| msgid "Slew Telescope"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "app., refr., tel., observed"
-msgstr "Teleskopu Çevir"
+msgstr "uyg., kırı., tel., gözlenen"
 
 #: libindi_strings.cpp:537
-#, fuzzy, kde-kuit-format
-#| msgctxt "Move the telescope to an object or location"
-#| msgid "Slew Telescope"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "app., refr., telescope"
-msgstr "Teleskopu Çevir"
+msgstr "uyg., kırı., teleskop"
 
 #: libindi_strings.cpp:538
 #, kde-kuit-format
@@ -74338,7 +74277,7 @@ msgstr "soğuk"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "danger"
-msgstr "tehlikeli"
+msgstr "tehlike"
 
 #: libindi_strings.cpp:541
 #, kde-kuit-format
@@ -74350,7 +74289,7 @@ msgstr "decPEC (dd:mm:ss)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "dome control"
-msgstr "dom denetimi"
+msgstr "kubbe denetimi"
 
 #: libindi_strings.cpp:543
 #, kde-kuit-format
@@ -74362,7 +74301,7 @@ msgstr "kimlik"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "lunar"
-msgstr "ay"
+msgstr "aysal"
 
 #: libindi_strings.cpp:545
 #, kde-kuit-format
@@ -74374,13 +74313,13 @@ msgstr "elle"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "max Alt"
-msgstr "azami Alt"
+msgstr "en büyük yükseklik"
 
 #: libindi_strings.cpp:547
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "min Alt"
-msgstr "asgari Alt"
+msgstr "en küçük yükseklik"
 
 #: libindi_strings.cpp:548
 #, kde-kuit-format
@@ -74398,7 +74337,7 @@ msgstr "açık"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "rel. to HA"
-msgstr ""
+msgstr "HA'ya göreceli"
 
 #: libindi_strings.cpp:551
 #, kde-kuit-format
@@ -74428,7 +74367,7 @@ msgstr "tanımsız"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
-msgstr "sıcak"
+msgstr "ılık"
 
 #: main.cpp:50
 #, kde-format
@@ -74444,6 +74383,8 @@ msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr ""
+"Üzgünüm, bir K Yıldızlar veri dizini olmadan K Yıldızlar çalışamaz. Şimdi "
+"çıkılacak."
 
 #: main.cpp:107
 #, kde-format
@@ -74452,9 +74393,9 @@ msgid ""
 "\n"
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 msgstr ""
-" (c), KStars Takımı\n"
+"©, KStars Takımı\n"
 "\n"
-"Gauss Süreç Kılavuzu Algoritması: (c) 2014-2017 Max Planck Society"
+"Gauss Süreç Kılavuzu Algoritması: © 2014-2017 Max Planck Society"
 
 #: main.cpp:109
 #, kde-format
@@ -74506,7 +74447,7 @@ msgstr "Robert Lancaster"
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr ""
-"FITS Görüntüleyicisi ve Ekos iyileştirmeleri. K Yıldızlar macOS aktarımı"
+"FITS Görüntüleyicisi ve Ekos iyileştirmeleri. K Yıldızlar'ın macOS'a aktarımı"
 
 #: main.cpp:127
 #, kde-format
@@ -74601,7 +74542,7 @@ msgstr "Mark Hollomon"
 #: main.cpp:150
 #, kde-format
 msgid "Alexey Khudyakov"
-msgstr "Alexey Khudyakov"
+msgstr "Aleksey Hudyakov"
 
 #: main.cpp:151
 #, kde-format
@@ -74631,7 +74572,7 @@ msgstr "Henry de Valence"
 #: main.cpp:158
 #, kde-format
 msgid "Samikshan Bairagya"
-msgstr "Samikshan Bairagya"
+msgstr "Samikşan Bairagya"
 
 #: main.cpp:160
 #, kde-format
@@ -74873,7 +74814,7 @@ msgstr "Işık Kırıcısı"
 #: oal/equipmentwriter.ui:89
 #, kde-format
 msgid "Newtonian"
-msgstr "Newton"
+msgstr "Newtonyan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Type)
 #: oal/equipmentwriter.ui:94
@@ -74932,12 +74873,13 @@ msgstr "Sağlayıcı:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, FocalLength)
 #: oal/equipmentwriter.ui:157
-#, fuzzy, kde-format
-#| msgid "Telescope focal length in millimeters."
+#, kde-format
 msgid ""
 "Official telescope focal length in millimeters without any reducers or "
 "barlows"
-msgstr "Milimetre cinsinden teleskop odak uzaklığı."
+msgstr ""
+"Herhangi bir redüktör veya barlow olmadan milimetre türünden resmi teleskop "
+"odak uzunluğu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, scopeApertureText)
@@ -74948,10 +74890,9 @@ msgstr "Açıklık:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddScope)
 #: oal/equipmentwriter.ui:288
-#, fuzzy, kde-format
-#| msgid "Failed to save telescope information."
+#, kde-format
 msgid "Save telescope information"
-msgstr "Teleskop bilgisini kaydetme başarısız."
+msgstr "Teleskop bilgisini kaydet"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewScope)
 #: oal/equipmentwriter.ui:321
@@ -74963,7 +74904,7 @@ msgstr "Veriyi temizle ve yeni bir teleskop ekle"
 #: oal/equipmentwriter.ui:341
 #, kde-format
 msgid "Remove current telescope"
-msgstr "Mevcut teleskopu kaldır"
+msgstr "Geçerli teleskopu kaldır"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: oal/equipmentwriter.ui:372
@@ -74981,7 +74922,7 @@ msgstr "Merceği Kaydet"
 #: oal/equipmentwriter.ui:441
 #, kde-format
 msgid "Apparent FOV:"
-msgstr "Görüş Sahası:"
+msgstr "Açık görüş alanı:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
 #: oal/equipmentwriter.ui:507
@@ -74992,82 +74933,61 @@ msgstr "rad"
 #. i18n: ectx: attribute (title), widget (QWidget, DSLRLens)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: oal/equipmentwriter.ui:529 oal/equipmentwriter.ui:561
-#, fuzzy, kde-format
-#| msgid "Save Lens"
+#, kde-format
 msgid "DSLR Lens"
-msgstr "Merceği Kaydet"
+msgstr "DSLR Mercek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #: oal/equipmentwriter.ui:594
-#, fuzzy, kde-format
-#| msgid "Focal Length:"
+#, kde-format
 msgid "Focal Length"
-msgstr "Odak Uzaklığı:"
+msgstr "Odak Uzunluğu"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
 #: oal/equipmentwriter.ui:608
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Mercek odak oranı veya F numarası</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddDSLRLens)
 #: oal/equipmentwriter.ui:699
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>DSLR mercek bilgisini kaydet</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
 #: oal/equipmentwriter.ui:732
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Clear data and add a new DSLR lens</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Veriyi temizle ve yeni bir DSLR mercek ekle</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
 #: oal/equipmentwriter.ui:752
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Remove current DSLR lens</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+msgstr "<html><head/><body><p>Geçerli DSLR merceği kaldır</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
 #: oal/equipmentwriter.ui:777
-#, fuzzy, kde-format
-#| msgid "Save Lens"
+#, kde-format
 msgid "Barlow Lens"
-msgstr "Merceği Kaydet"
+msgstr "Barlow Merceği"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: oal/equipmentwriter.ui:809
-#, fuzzy, kde-format
-#| msgid "Enter details of Barlow/Shapley lenses"
+#, kde-format
 msgid "Enter Details of Barlow/Shapley Lenses"
-msgstr "Barlow/Shapley lens detaylarını giriniz"
+msgstr "Barlow/Shapley merceklerinin ayrıntılarını gir"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51)
 #: oal/equipmentwriter.ui:848
 #, kde-format
 msgid "Magnification factor of the Barlow/Shapley lens"
-msgstr "Barlow/Shapley lensinin büyütme katsayısı"
+msgstr "Barlow/Shapley merceğinin büyütme çarpanı"
 
 #. i18n: ectx: property (text), widget (QLabel, label51)
 #: oal/equipmentwriter.ui:851
@@ -75083,82 +75003,73 @@ msgstr "Merceği Kaydet"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
 #: oal/equipmentwriter.ui:1029
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Filter Count"
+#, kde-format
 msgid "Filter focus offset"
-msgstr "Süzgeç Sayısı"
+msgstr "Odak ofsetini süz"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: oal/equipmentwriter.ui:1058
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Absolute Position"
+#, kde-format
 msgid "Abs. position:"
-msgstr "Mutlak Konum"
+msgstr "Mutlak konum:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: oal/equipmentwriter.ui:1078
-#, fuzzy, kde-format
-#| msgid "Focus Out"
+#, kde-format
 msgid "Focus alt:"
-msgstr "Bulanıklaştır"
+msgstr "Odak yüksekliği:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: oal/equipmentwriter.ui:1101
 #, kde-format
 msgid "Ticks per C:"
-msgstr ""
+msgstr "C başına tık:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1118
 #, kde-format
 msgid "Ticks per Alt:"
-msgstr ""
+msgstr "Yükseklik başına tık:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: oal/equipmentwriter.ui:1142
-#, fuzzy, kde-format
-#| msgid "Auto Focus:"
+#, kde-format
 msgid "Auto focus:"
-msgstr "Otomatik Odaklama:"
+msgstr "Kendiliğinden odak:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: oal/equipmentwriter.ui:1156
-#, fuzzy, kde-format
-#| msgid "Lock Filter"
+#, kde-format
 msgid "Locked filter:"
-msgstr "Süzgeçi Kilitle"
+msgstr "Kilitli süzgeç:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: oal/equipmentwriter.ui:1189
-#, fuzzy, kde-format
-#| msgid "Focuser:"
+#, kde-format
 msgid "Focus temp:"
-msgstr "Odaklayıcı:"
+msgstr "Odak sıcaklığı:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1236
 #, kde-format
 msgid "Save Filter"
-msgstr "Filitreyi Kaydet"
+msgstr "Süzgeci Kaydet"
 
 #: oal/execute.cpp:37
 #, kde-format
 msgid "End Session"
-msgstr "Oturumu Kapat"
+msgstr "Oturumu Sonlandır"
 
 #: oal/execute.cpp:39
 #, kde-format
 msgid "Save and End the current session"
-msgstr "Geçerli oturum kaydedilsin ve bu oturumdan çıkılsın mı?"
+msgstr "Geçerli Oturumu Kaydet ve Sonlandır"
 
 #: oal/execute.cpp:45
-#, fuzzy, kde-format
-#| msgid "Execute Session"
+#, kde-format
 msgctxt "@title:window"
 msgid "Execute Session"
-msgstr "Oturumu Çalıştır"
+msgstr "Oturumu Yürüt"
 
 #: oal/execute.cpp:154 oal/execute.cpp:419
 #, kde-format
@@ -75183,11 +75094,10 @@ msgstr "Sonraki Hedef >"
 #: oal/execute.cpp:286 oal/execute.cpp:291
 #, kde-format
 msgid "observation_"
-msgstr "gözlemleme_"
+msgstr "gözlem_"
 
 #: oal/execute.cpp:306
-#, fuzzy, kde-format
-#| msgid "Save Session"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Session"
 msgstr "Oturumu Kaydet"
@@ -75196,13 +75106,13 @@ msgstr "Oturumu Kaydet"
 #: oal/execute.ui:14
 #, kde-format
 msgid "Execute Session"
-msgstr "Oturumu Çalıştır"
+msgstr "Oturumu Yürüt"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
 #: oal/execute.ui:29
 #, kde-format
 msgid "Enter Session Details:"
-msgstr "Oturum Ayrıntılarını Girin:"
+msgstr "Oturum ayrıntılarını gir:"
 
 #. i18n: ectx: property (text), widget (QPushButton, Location)
 #: oal/execute.ui:48
@@ -75238,14 +75148,13 @@ msgstr "Dil:"
 #: oal/execute.ui:123
 #, kde-format
 msgid "View Object Details:"
-msgstr "Cisim Özelliklerine Bak:"
+msgstr "Nesne ayrıntılarını görüntüle:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
 #: oal/execute.ui:160
-#, fuzzy, kde-format
-#| msgid "Scheduled Time:"
+#, kde-format
 msgid "Scheduled time:"
-msgstr "Ayarlanmış Zaman:"
+msgstr "Planlı zaman:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #. i18n: ectx: property (text), widget (QLabel, raLabel)
@@ -75262,14 +75171,13 @@ msgstr "Ayarlanmış Zaman:"
 #: tools/modcalcgalcoord.ui:73 tools/modcalcvlsr.ui:193
 #, kde-format
 msgid "Right ascension:"
-msgstr "Sağ Açıklık:"
+msgstr "Sağ açıklık:"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget_4)
 #: oal/execute.ui:232
-#, fuzzy, kde-format
-#| msgid "Set observing notes for the object:"
+#, kde-format
 msgid "Set Observing Notes for the Object:"
-msgstr "Cisim için gözlem notlarını ayarlayın:"
+msgstr "Nesnenin gözlem notlarını ayarla:"
 
 #. i18n: ectx: property (text), widget (QPushButton, Slew)
 #: oal/execute.ui:265
@@ -75282,7 +75190,7 @@ msgstr "Teleskopu Çevir"
 #: oal/execute.ui:278
 #, kde-format
 msgid "Enter the Observation Details:"
-msgstr "Gözlem Ayrıntılarını Girin:"
+msgstr "Gözlem ayrıntılarını gir:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: oal/execute.ui:290
@@ -75306,7 +75214,7 @@ msgstr "Göz merceği:"
 #: oal/execute.ui:341
 #, kde-format
 msgid "Lens:"
-msgstr "Mercek: "
+msgstr "Mercek:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: oal/execute.ui:375 printing/loggingform.cpp:45
@@ -75318,7 +75226,7 @@ msgstr "Görünen:"
 #: oal/execute.ui:387
 #, kde-format
 msgid "arc seconds"
-msgstr "arksaniye"
+msgstr "yaysaniye"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: oal/execute.ui:396
@@ -75330,20 +75238,18 @@ msgstr "En sönük yıldız:"
 #: oal/execute.ui:408
 #, kde-format
 msgid "(magnitude)"
-msgstr "(parlaklık)"
+msgstr "(büyüklük)"
 
 #. i18n: ectx: property (text), widget (QLabel, hintLabel)
 #: oal/execute.ui:443
-#, fuzzy, kde-format
-#| msgid ""
-#| "Looks like you haven't listed out your observers / equipment. Please hit "
-#| "Ctrl + 0 and Ctrl + 1 to fix this situation and come back here."
+#, kde-format
 msgid ""
 "Looks like you have not listed out your observers / equipment. Please hit "
 "Ctrl + 0 and Ctrl + 1 to fix this situation and come back here."
 msgstr ""
-"Donanımlarınız/Gözlemcileriniz listeden çıkarılmamış gibi gözüküyor. Durumu "
-"düzeltmek ve geriye almak için Kontrol + 0 ve Kontrol + 1 basın."
+"Gözlemcilerinizi/ekipmanınızı listelememişsiniz gibi görünüyor. Lütfen bu "
+"durumu düzeltmek için Kontrol+0 ve Kontrol+1 düğmelerine basın ve buraya "
+"geri dönün."
 
 #. i18n: ectx: property (text), widget (QPushButton, NextButton)
 #: oal/execute.ui:474
@@ -75361,28 +75267,27 @@ msgstr "Adım 1: Oturum Ayrıntıları"
 #: oal/execute.ui:503
 #, kde-format
 msgid "Add new object to list"
-msgstr "Listeden yeni bir cisim seç"
+msgstr "Listeye yeni nesne ekle"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, RemoveObject)
 #: oal/execute.ui:516
 #, kde-format
 msgid "Remove object from list"
-msgstr "Listeden cismi kaldır"
+msgstr "Listeden nesneyi kaldır"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, ObservationsURL)
 #: oal/execute.ui:538
 #, kde-format
 msgid "Step 2: Observations"
-msgstr "Adım 2: Gözlemlemeler"
+msgstr "Adım 2: Gözlemler"
 
 #: oal/oal.h:44
 #, kde-kuit-format
 msgid "Overwrite"
-msgstr "&Üzerine Yaz"
+msgstr "Üzerine Yaz"
 
 #: oal/observeradd.cpp:24
-#, fuzzy, kde-format
-#| msgid "Manage Observers"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Observers"
 msgstr "Gözlemcileri Yönet"
@@ -75392,27 +75297,24 @@ msgstr "Gözlemcileri Yönet"
 msgid ""
 "Another Observer already exists with the given Name and Surname, Overwrite?"
 msgstr ""
-"Aynı Ad ve Soyada sahip bir gözlemci zaten mevcut. Üzerine yazılsın mı?"
+"Aynı ad ve soyada sahip bir gözlemci halihazırda var. Üzerine yazılsın mı?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: oal/observeradd.ui:63
-#, fuzzy, kde-format
-#| msgid "Surname"
+#, kde-format
 msgid "Surname:"
-msgstr "Soyadı"
+msgstr "Soyadı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: oal/observeradd.ui:73
-#, fuzzy, kde-format
-#| msgid "Contact"
+#, kde-format
 msgid "Contact:"
-msgstr "Contact"
+msgstr "Kişi:"
 
 #: options/opsadvanced.cpp:127
-#, fuzzy, kde-format
-#| msgid "Capture complete. Select a star to focus."
+#, kde-format
 msgid "Purge complete. Please restart KStars."
-msgstr "Yakalama tamamlandı. Odaklanacak bir yıldız seçin."
+msgstr "Temizlik tamamlandı. Lütfen K Yıldızlar'ı yeniden başlatın."
 
 #: options/opsadvanced.cpp:136
 #, kde-format
@@ -75420,12 +75322,12 @@ msgid ""
 "Warning! All KStars configuration is going to be purged. This cannot be "
 "reversed."
 msgstr ""
+"Uyarı! Tüm K Yıldızlar yapılandırması temizlenecek. Bu eylem geri alınamaz."
 
 #: options/opsadvanced.cpp:137
-#, fuzzy, kde-format
-#| msgid "Configuration"
+#, kde-format
 msgid "Clear Configuration"
-msgstr "Yapılandırma"
+msgstr "Yapılandırmayı Temizle"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: options/opsadvanced.ui:36
@@ -75443,7 +75345,7 @@ msgstr "Arka Uçlar"
 #: options/opsadvanced.ui:65
 #, kde-format
 msgid "Correct coordinates of objects for the effects of the atmosphere"
-msgstr "Cisim koordinatlarındaki atmosferik etkileri düzelt"
+msgstr "Atmosferin etkilerine göre nesnelerin koordinatlarını düzelt"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseRefraction)
 #: options/opsadvanced.ui:68
@@ -75454,15 +75356,15 @@ msgid ""
 "Note that this correction is only applied when using the Horizontal "
 "coordinate system."
 msgstr ""
-"Atmosfer içinden geçen ışığı bir mercek gibi eğer.  Eğer bu özellik "
-"seçilirse, bu \"atmosferik sapma\" gökyüzü haritasında taklit edilecek.  "
-"Düzeltmenin yalnızca yatay koordinat sisteminde uygulandığına dikkat ediniz."
+"Atmosfer, içinden geçen ışığı bir mercek gibi büker. Bu öğe işaretlenirse bu "
+"\"atmosferik kırılma\" gökyüzü haritasında benzetilir. Bu düzeltmenin "
+"yalnızca yatay koordinat sistemi kullanıldığında uygulandığını unutmayın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseRefraction)
 #: options/opsadvanced.ui:71
 #, kde-format
 msgid "Correct for atmospheric refraction"
-msgstr "Atmosferik ışık kırılması düzeltilsin mi?"
+msgstr "Atmosferik kırılmayı düzelt"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseRelativistic)
 #: options/opsadvanced.ui:78
@@ -75471,14 +75373,15 @@ msgid ""
 "Correct for the effect of sun's gravity on star positions, as predicted by "
 "General Relativity, and verified by Eddington's experiment."
 msgstr ""
-"Eddington'un deneyleri ve genel görecelik tarafından öngörülmüş, güneşin "
-"yıldız konumları üzerindeki etkisi için doğru."
+"Genel Görelilik tarafından öngörülen ve Eddington deneyi ile doğrulanan, "
+"Güneş'in kütle çekiminin yıldız konumları üzerindeki etkisi için düzeltme "
+"uygulayın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseRelativistic)
 #: options/opsadvanced.ui:81
 #, kde-format
 msgid "General Relativity effects near the sun"
-msgstr "Güneş yakınındaki genel görecelik etkileri"
+msgstr "Güneş'in yakınındaki genel görelilik etkileri"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AlwaysRecomputeCoordinates)
 #: options/opsadvanced.ui:88
@@ -75491,32 +75394,30 @@ msgid ""
 "free. There are known bugs in the rendering of stars when this recomputation "
 "is avoided."
 msgstr ""
-"Bu seçeneği seçmek, haritanın her yeniden çizimi için, katalog "
-"koordinatlarından (örn. devinim uygulaması, yönelim ve sapma düzeltme ) "
-"mevcut ekvatoryal koordinatların yeniden hesaplamasına neden olabilir. Çok "
-"fazla yıldız işlendiğinde süreci yavaşlatacaktır, ancak bu hataya açıktır. "
-"Bilinen hatalar, yeniden hesaplama önlendiğindeki yıldızların "
-"gerçeklenmesidir."
+"Bu seçeneği işaretlemek, haritanın her yeniden çizimi için katalog "
+"koordinatlarından geçerli ekvator koordinatlarının yeniden hesaplanmasına "
+"(yani, presesyon, nutasyon ve sapma düzeltmelerinin uygulanmasına) neden "
+"olur. Bu, işlenecek çok sayıda yıldız olduğunda işlemeyi yavaşlatır; ancak "
+"hatasız olma olasılığı daha yüksektir. Bu yeniden hesaplamadan "
+"kaçınıldığında yıldızların işlenmesinde bilinen hatalar vardır."
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageryGroupBox)
 #: options/opsadvanced.ui:101
 #, kde-format
 msgid "DSS Imagery"
-msgstr "DSS İmgeleri"
+msgstr "DSS Görselleştirmesi"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opsadvanced.ui:122
-#, fuzzy, kde-format
-#| msgid "Default DSS Image Size: "
+#, kde-format
 msgid "Default DSS image size:"
-msgstr "Öntanımlı DSS Görüntü Boyutu: "
+msgstr "Öntanımlı DSS görseli boyutu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opsadvanced.ui:170
-#, fuzzy, kde-format
-#| msgid "Padding around Deep Sky Objects:"
+#, kde-format
 msgid "Padding around deep sky objects:"
-msgstr "Derin Uzak Cisimlerinin çevresindeki Boşluklar:"
+msgstr "Derin gök nesneleri çevresindeki dolgu:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: options/opsadvanced.ui:217
@@ -75526,10 +75427,9 @@ msgstr "Günlükleme Çıktısı"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: options/opsadvanced.ui:283
-#, fuzzy, kde-format
-#| msgid "Show &long names"
+#, kde-format
 msgid "Show Logs..."
-msgstr "Uzun isi&mleri göster"
+msgstr "Günlükleri Göster..."
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_VerboseLogging)
 #: options/opsadvanced.ui:304
@@ -75541,19 +75441,19 @@ msgstr "Ayrıntılı hata ayıklama çıktısını etkinleştir"
 #: options/opsadvanced.ui:384
 #, kde-format
 msgid "Clear all KStars configuration and user database."
-msgstr ""
+msgstr "Tüm K Yıldızlar yapılandırmasını ve kullanıcı veritabanını temizle"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: options/opsadvanced.ui:420
 #, kde-format
 msgid "Look and &Feel"
-msgstr "&Görünüm"
+msgstr "&Görünüm ve His"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: options/opsadvanced.ui:431
 #, kde-format
 msgid "Adjust speed of zooming when scrolling in and out with the mouse wheel"
-msgstr ""
+msgstr "Fare tekerleğiyle içe ve dışa sararken yakınlaştırma hızını ayarla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opsadvanced.ui:434
@@ -75566,7 +75466,7 @@ msgstr "Yakınlaştırma sarma hızı:"
 #: options/opsadvanced.ui:466 options/opsadvanced.ui:521
 #, kde-format
 msgid "Show name label of centered object?"
-msgstr "Ortalanmış cismin isim etiketi gösterilsin mi?"
+msgstr "Ortalanmış nesnenin ad etiketi gösterilsin mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseAutoLabel)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseHoverLabel)
@@ -75585,78 +75485,73 @@ msgstr ""
 #: options/opsadvanced.ui:472
 #, kde-format
 msgid "Attach label to centered object"
-msgstr "Ortalanmış cisime etiket iliştir"
+msgstr "Ortalanmış nesneye etiket iliştir"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseHoverLabel)
 #: options/opsadvanced.ui:527
 #, kde-format
 msgid "Attach temporary label when hovering mouse"
-msgstr "Fare ile üzerinde gezinirken geçici etiket iliştir"
+msgstr "Fareyle üzerinde gezinirken geçici etiket iliştir"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:534
-#, fuzzy, kde-format
-#| msgid "Draw planets as images in the sky map?"
+#, kde-format
 msgid "Show inline images on the sky?"
-msgstr "Gezegenler gökyüzü haritasında resim olarak gösterilsin mi?"
+msgstr "Gökyüzündeki görseller satır içi gösterilsin mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:537
-#, fuzzy, kde-format
-#| msgid "If checked, flags will be drawn on the sky map"
+#, kde-format
 msgid "If checked, inline images will be shown on the skymap."
-msgstr "İşaretlenirse, haritada bayraklar gösterilecek"
+msgstr "İşaretlenirse satır içi görseller gökyüzü haritasında gösterilecektir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowInlineImages)
 #: options/opsadvanced.ui:540
-#, fuzzy, kde-format
-#| msgid "Draw planets as images in the sky map?"
+#, kde-format
 msgid "Show inline images"
-msgstr "Gezegenler gökyüzü haritasında resim olarak gösterilsin mi?"
+msgstr "Satır içi görselleri göster"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DefaultCursor)
 #: options/opsadvanced.ui:548
 #, kde-format
 msgid "Arrow"
-msgstr "Arrow"
+msgstr "Ok"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DefaultCursor)
 #: options/opsadvanced.ui:553
 #, kde-format
 msgid "Cross"
-msgstr "Cross"
+msgstr "Artı"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAntialias)
 #: options/opsadvanced.ui:566
 #, kde-format
 msgid "Select this for smoother (but slower) graphics"
-msgstr "Bunu daha pürüzsüz (ama yavaş) grafikler için seçin"
+msgstr "Daha akıcı (ancak daha yavaş) grafikler için bunu seçin"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAntialias)
 #: options/opsadvanced.ui:569
 #, kde-format
 msgid "Use antialiased drawing"
-msgstr "Yumuşatılmış görüntüleme kullan"
+msgstr "Kenarları yumuşatılmış çizim kullan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_LeftClickSelectsObject)
 #: options/opsadvanced.ui:576
-#, fuzzy, kde-format
-#| msgid "I wish to select objects:"
+#, kde-format
 msgid "Left click selects object"
-msgstr "Bu cisimleri seçmek istiyorum:"
+msgstr "Sol tık nesneleri seçer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: options/opsadvanced.ui:583
-#, fuzzy, kde-format
-#| msgid "Default Cursor:"
+#, kde-format
 msgid "Default cursor:"
-msgstr "Varsayılan İmleç:"
+msgstr "Öntanımlı imleç:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:590
 #, kde-format
 msgid "Show slewing motion when focus changes?"
-msgstr "Odak değiştiğinde döndürme hareketi gösterilsin mi?"
+msgstr "Odak değiştiğinde çevirme hareketi gösterilsin mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:593
@@ -75666,33 +75561,33 @@ msgid ""
 "\"slew\" to the new position.  Otherwise, the display will center on the new "
 "position instantaneously."
 msgstr ""
-"Bu seçilirse, odağın konumu değiştiğinde yeni konuma doğru görsel bir canlı "
-"\"dönüş\" olur."
+"İşaretlenirse odak konumunu değiştirmek yeni konuma görünür bir "
+"canlandırmalar \"çevirme\" ile sonuçlanacaktır. Aksi takdirde, ekran anında "
+"yeni konuma odaklanır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAnimatedSlewing)
 #: options/opsadvanced.ui:596
 #, kde-format
 msgid "Use animated slewing"
-msgstr "Canlandırılmış döndürme kullan"
+msgstr "Canlandırılmış çevirme kullan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: options/opsadvanced.ui:603
 #, kde-format
 msgid "Font size of sky map labels:"
-msgstr ""
+msgstr "Gökyüzü haritası etiketlerinin yazıtipi boyutu:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, hideObjectsWhileSlewing)
 #: options/opsadvanced.ui:628
-#, fuzzy, kde-format
-#| msgid "Hide objects while moving"
+#, kde-format
 msgid "Configure hidden objects while moving"
-msgstr "Hareket eden cisimleri gizle"
+msgstr "Hareket ederken gizli nesneleri yapılandır"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideOnSlew)
 #: options/opsadvanced.ui:649
 #, kde-format
 msgid "Do not draw all objects while the map is moving?"
-msgstr "Harita hareket ederken tüm cisimler çizilmesin mi?"
+msgstr "Harita hareket ederken tüm nesneler çizilmemeli mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideOnSlew)
 #: options/opsadvanced.ui:652
@@ -75702,28 +75597,27 @@ msgid ""
 "has too many objects to draw on the map; check this item to temporarily hide "
 "some of the objects while the display is in motion."
 msgstr ""
-"Harita hareket ederken, program çok fazla cisim görüntülemek zorunda ise "
-"akıcı hareketten ödün verilir. Görüntü hareket halinde iken bazı cisimlerin "
-"gizlenmesi için bunu seçin."
+"Harita hareket halindeyken, program haritada çizilecek çok fazla nesneye "
+"sahipse akıcı canlandırma bozulur; ekran hareket halindeyken bazı nesneleri "
+"geçici olarak gizlemek için bu ögeyi işaretleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideOnSlew)
 #: options/opsadvanced.ui:655
 #, kde-format
 msgid "Hide objects while moving"
-msgstr "Hareket eden cisimleri gizle"
+msgstr "Hareket ederken nesneleri gizle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabelHideTimeStep)
 #: options/opsadvanced.ui:667
-#, fuzzy, kde-format
-#| msgid "Also hide if time step larger than:"
+#, kde-format
 msgid "Hide objects only if time step is larger than threshold"
-msgstr "Zaman adımı bu değerden daha büyükse ayrıca gizle:"
+msgstr "Nesneleri yalnızca zaman adımı eşik değerinden büyükse gizle"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelHideTimeStep)
 #: options/opsadvanced.ui:670
 #, kde-format
 msgid "Also hide if time step larger than:"
-msgstr "Zaman adımı bu değerden daha büyükse ayrıca gizle:"
+msgstr "Ayrıca, zaman adımı şundan büyükse gizle:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideStars)
 #: options/opsadvanced.ui:680
@@ -75759,7 +75653,8 @@ msgid ""
 "If checked, then all solar system bodies will be hidden when the map is in "
 "motion."
 msgstr ""
-"Seçilirse, harita hareket ederken tüm güneş sistemi ögeleri gizlenecek."
+"İşaretlenirse harita hareket halindeyken tüm güneş sistemi gövdeleri "
+"gizlenecektir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HidePlanets)
 #. i18n: ectx: property (text), widget (QPushButton, SolarSystemButton)
@@ -75770,16 +75665,15 @@ msgstr "Güneş Sistemi"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideLabels)
 #: options/opsadvanced.ui:724
-#, fuzzy, kde-format
-#| msgid "Hide object name labels while moving?"
+#, kde-format
 msgid "Hide object labels while moving?"
-msgstr "Hareket ederken cisimlerin isim etiketleri gizlensin mi?"
+msgstr "Hareket ederken nesne etiketleri gizlensin mi?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideLabels)
 #: options/opsadvanced.ui:727
 #, kde-format
 msgid "Object labels"
-msgstr "Cisim etiketleri"
+msgstr "Nesne etiketleri"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideCLines)
 #: options/opsadvanced.ui:737
@@ -75787,13 +75681,14 @@ msgstr "Cisim etiketleri"
 msgid ""
 "If checked, then constellation lines will be hidden when the map is in "
 "motion."
-msgstr "Seçilirse, harita hareket ederken takımyıldız çizgileri gizlenecek."
+msgstr ""
+"İşaretlenirse harita hareket halindeyken takımyıldız çizgileri gizlenecektir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideCLines)
 #: options/opsadvanced.ui:740
 #, kde-format
 msgid "Constellation lines"
-msgstr "Takımyıldız doğruları"
+msgstr "Takımyıldız çizgileri"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideGrids)
 #: options/opsadvanced.ui:750
@@ -75801,7 +75696,8 @@ msgstr "Takımyıldız doğruları"
 msgid ""
 "If checked, then the coordinate grids will be hidden when the map is in "
 "motion."
-msgstr "Seçilirse, harita hareket ederken koordinat ızgaraları gizlenecek."
+msgstr ""
+"İşaretlenirse harita hareket halindeyken koordinat ızgaraları gizlenecektir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideGrids)
 #: options/opsadvanced.ui:753
@@ -75821,13 +75717,14 @@ msgstr "Takımyıldız sınırları"
 msgid ""
 "If checked, then constellation names will be hidden when the map is in "
 "motion."
-msgstr "Seçilirse, harita hareket ederken takımyıldız isimleri gizlenecek."
+msgstr ""
+"İşaretlenirse harita hareket halindeyken takımyıldız adları gizlenecektir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideCNames)
 #: options/opsadvanced.ui:779
 #, kde-format
 msgid "Constellation names"
-msgstr "Takımyıldız isimleri"
+msgstr "Takımyıldız adları"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: options/opsadvanced.ui:803
@@ -75843,8 +75740,7 @@ msgstr "Gözlem Listesi Etiketleri"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_ObsListSymbol)
 #: options/opsadvanced.ui:851
-#, fuzzy, kde-format
-#| msgid "Sy&mbol"
+#, kde-format
 msgid "S&ymbol"
 msgstr "Se&mbol"
 
@@ -75858,20 +75754,19 @@ msgstr "Me&tin"
 #: options/opsadvanced.ui:877
 #, kde-format
 msgid "Preferred Imagery"
-msgstr "Tercih Edile İmge"
+msgstr "Tercih Edilen Görsel"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_ObsListPreferDSS)
 #: options/opsadvanced.ui:901
 #, kde-format
 msgid "Digiti&zed Sky Survey (DSS)"
-msgstr "Sayısalla&ştırılmış Gökyüzü İnceleme (DSS)"
+msgstr "Sayısalla&ştırılmış Gökyüzü İncelemesi (DSS)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_ObsListPreferSDSS)
 #: options/opsadvanced.ui:914
-#, fuzzy, kde-format
-#| msgid "Sloan Digital Sky Sur&vey (SDSS)"
+#, kde-format
 msgid "Sloan &Digital Sky Survey (SDSS)"
-msgstr "&Sloan Sayısal Gökyüzü İnceleme (SDSS)"
+msgstr "&Sloan Sayısal Gökyüzü İncelemesi (SDSS)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObsListDemoteHole)
 #: options/opsadvanced.ui:945

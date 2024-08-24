@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-23 01:44+0000\n"
-"PO-Revision-Date: 2024-08-14 11:33+0200\n"
+"PO-Revision-Date: 2024-08-23 15:33+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -16417,28 +16417,24 @@ msgid "Loading"
 msgstr "Načítání"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Starting"
-msgstr "Začátek na:"
+msgstr "Úvod"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Started"
-msgstr "Spustit"
+msgstr "Spuštěno"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop capturing"
+#, kde-format
 msgid "Stopping"
-msgstr "Zastavit zachytávání"
+msgstr "Zastavuji"
 
 #: ekos/ekos.h:221
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stopped"
-msgstr "Zastavit"
+msgstr "Zastaveno"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
 #, kde-format
@@ -21915,15 +21911,14 @@ msgid "Extension '%1' stop requested"
 msgstr ""
 
 #: ekos/manager.cpp:428
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extension '%1' stopped"
-msgstr "Rozměry"
+msgstr ""
 
 #: ekos/manager.cpp:442
 #, kde-format
 msgid "Extension '%1': %2"
-msgstr ""
+msgstr "Přípona '%1': %2"
 
 #: ekos/manager.cpp:707
 #, kde-format
@@ -22324,10 +22319,9 @@ msgstr "3. Připojte nebo odpojte zařízení"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extensions"
-msgstr "Rozměry"
+msgstr "Rozšíření"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687

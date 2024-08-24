@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-23 01:44+0000\n"
-"PO-Revision-Date: 2024-08-22 08:38+0200\n"
+"PO-Revision-Date: 2024-08-23 08:03+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -23678,8 +23678,7 @@ msgid "Extension '%1' stop requested"
 msgstr "Stopp av utökning '%1' begärd"
 
 #: ekos/manager.cpp:428
-#, fuzzy, kde-format
-#| msgid "Extension '%1 stopped"
+#, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Utökning '%1' stoppad"
 
@@ -24006,18 +24005,17 @@ msgstr "Inaktiverar felsökningsloggning för %1 igen ..."
 #: ekos/manager.cpp:3700
 #, kde-format
 msgid "Preview source set to external"
-msgstr ""
+msgstr "Förhandsgranska källa inställt till extern"
 
 #: ekos/manager.cpp:3705
 #, kde-format
 msgid "Preview source reset to internal"
-msgstr ""
+msgstr "Förhandsgranska källa återställd till intern"
 
 #: ekos/manager.cpp:3712
-#, fuzzy, kde-format
-#| msgid "Receive external guide frames"
+#, kde-format
 msgid "Received external preview file"
-msgstr "Ta emot externa guidningsbilder"
+msgstr "Tog emot extern förhandsgranskningsfil"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-23 01:44+0000\n"
-"PO-Revision-Date: 2024-08-22 18:51+0200\n"
+"PO-Revision-Date: 2024-08-23 16:32+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -23775,8 +23775,7 @@ msgid "Extension '%1' stop requested"
 msgstr "Extensie '%1' stoppen gevraagd"
 
 #: ekos/manager.cpp:428
-#, fuzzy, kde-format
-#| msgid "Extension '%1 stopped"
+#, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Extensie '%1 gestopt"
 
@@ -24102,18 +24101,17 @@ msgstr "Debugs loggen opnieuw afsluiten van %1 ..."
 #: ekos/manager.cpp:3700
 #, kde-format
 msgid "Preview source set to external"
-msgstr ""
+msgstr "Broncode op extern ingesteld bekijken"
 
 #: ekos/manager.cpp:3705
 #, kde-format
 msgid "Preview source reset to internal"
-msgstr ""
+msgstr "Broncode reset op intern bekijken"
 
 #: ekos/manager.cpp:3712
-#, fuzzy, kde-format
-#| msgid "Receive external guide frames"
+#, kde-format
 msgid "Received external preview file"
-msgstr "Ontvangen externe volgframes"
+msgstr "Extern bestand ontvangen om te bekijken"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108

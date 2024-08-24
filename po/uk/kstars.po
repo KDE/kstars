@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-23 01:44+0000\n"
-"PO-Revision-Date: 2024-08-22 09:55+0300\n"
+"PO-Revision-Date: 2024-08-23 08:56+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -23969,8 +23969,7 @@ msgid "Extension '%1' stop requested"
 msgstr "Надіслано запит щодо зупинення роботи розширення «%1»"
 
 #: ekos/manager.cpp:428
-#, fuzzy, kde-format
-#| msgid "Extension '%1 stopped"
+#, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Роботу розширення «%1» зупинено"
 
@@ -24305,17 +24304,17 @@ msgstr "Повторно вимикаємо діагностичний журн�
 #: ekos/manager.cpp:3700
 #, kde-format
 msgid "Preview source set to external"
-msgstr ""
+msgstr "Встановлено зовнішнє джерело попереднього перегляду"
 
 #: ekos/manager.cpp:3705
 #, kde-format
 msgid "Preview source reset to internal"
-msgstr ""
+msgstr "Відновлено внутрішнє джерело попереднього перегляду"
 
 #: ekos/manager.cpp:3712
 #, kde-format
 msgid "Received external preview file"
-msgstr ""
+msgstr "Отримано зовнішній файл попереднього перегляду"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108

@@ -1920,8 +1920,8 @@
     <listitem>
     <para
 ><emphasis role="bold"
->Fine Adjustment (with Autofocus)</emphasis
->: : This function is designed to provide fine adjustment to the start position, Step Size and AF Overscan (or backlash) fields. Fine Adjustment runs Autofocus including curve fitting and analyses the result to determine whether or not it can be improved. If so, it adjusts parameters and re-runs. An iterative process is used to home in on parameter values.</para>
+>Fijn afstemming (met autofocus)</emphasis
+>: deze functie is ontworpen om fijn afstemming op de beginpositie te leveren, stapgrootte en AF-overscan (or speling) velden. Fijn afstemming voert autofocus uit inclusief fitten van krommen en analyse van de resultaten om te bepalen of het al dan niet verbeterd kan worden. Indien ja, het past parameters aan en voert opnieuw uit. Een iteratief proces wordt gebruikt om parameterwaarden beter te bepalen.</para>
     <para
 >Hier is een voorbeeld beschreven hoe het werkt:</para>
     <screenshot>

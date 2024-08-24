@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-23 01:44+0000\n"
-"PO-Revision-Date: 2024-08-22 16:45+0200\n"
+"PO-Revision-Date: 2024-08-24 00:47+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -24040,8 +24040,7 @@ msgid "Extension '%1' stop requested"
 msgstr "Solicitada detención de la extensión «%1»"
 
 #: ekos/manager.cpp:428
-#, fuzzy, kde-format
-#| msgid "Extension '%1 stopped"
+#, kde-format
 msgid "Extension '%1' stopped"
 msgstr "Extensión «%1» detenida"
 
@@ -24373,17 +24372,17 @@ msgstr "Volviendo a desactivar registro de depuración para %1..."
 #: ekos/manager.cpp:3700
 #, kde-format
 msgid "Preview source set to external"
-msgstr ""
+msgstr "Fuente de vista previa establecida a externa"
 
 #: ekos/manager.cpp:3705
 #, kde-format
 msgid "Preview source reset to internal"
-msgstr ""
+msgstr "Fuente de vista previa restablecida a interna"
 
 #: ekos/manager.cpp:3712
 #, kde-format
 msgid "Received external preview file"
-msgstr ""
+msgstr "Recibido archivo externo de vista previa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108

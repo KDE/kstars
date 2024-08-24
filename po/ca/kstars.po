@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-23 01:44+0000\n"
-"PO-Revision-Date: 2024-08-22 13:54+0200\n"
+"PO-Revision-Date: 2024-08-23 11:33+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -24051,8 +24051,7 @@ msgid "Extension '%1' stop requested"
 msgstr "S'ha sol·licitat aturar l'extensió «%1»"
 
 #: ekos/manager.cpp:428
-#, fuzzy, kde-format
-#| msgid "Extension '%1 stopped"
+#, kde-format
 msgid "Extension '%1' stopped"
 msgstr "S'ha aturat l'extensió «%1»"
 
@@ -24384,17 +24383,17 @@ msgstr "Es torna a desactivar el registre de depuració del %1..."
 #: ekos/manager.cpp:3700
 #, kde-format
 msgid "Preview source set to external"
-msgstr ""
+msgstr "Font de vista prèvia definida a externa"
 
 #: ekos/manager.cpp:3705
 #, kde-format
 msgid "Preview source reset to internal"
-msgstr ""
+msgstr "Font de vista prèvia restablerta a interna"
 
 #: ekos/manager.cpp:3712
 #, kde-format
 msgid "Received external preview file"
-msgstr ""
+msgstr "S'ha rebut un fitxer extern de vista prèvia"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108

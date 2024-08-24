@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-23 01:44+0000\n"
-"PO-Revision-Date: 2024-08-22 19:09+0200\n"
+"PO-Revision-Date: 2024-08-23 10:28+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -1179,7 +1179,7 @@ msgstr "Xúpiter"
 #: auxiliary/xplanetimageviewer.cpp:209 tools/jmoontool.cpp:50
 #, kde-format
 msgid "Ganymede"
-msgstr "Ganímedes"
+msgstr "Ganimedes"
 
 #: auxiliary/xplanetimageviewer.cpp:209 tools/jmoontool.cpp:48
 #, kde-format
@@ -5682,7 +5682,7 @@ msgstr "Engadir ou editar a vista"
 #: dialogs/newview.ui:29
 #, kde-format
 msgid "9x50 RACI finder on Dob"
-msgstr "Atopador de RACI 9x50 en Dob"
+msgstr "Buscador de RACI 9x50 en Dob"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/newview.ui:47
@@ -5718,7 +5718,7 @@ msgstr ""
 #, kde-format
 msgid "Correct (e.g. RACI finder or refractor with Amici roof prism)"
 msgstr ""
-"Correcta (p. ex. o atopador RACI ou reflector con prisma de teito de Amici)"
+"Correcta (p. ex. o buscador RACI ou reflector con prisma de teito de Amici)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, mirroredViewType)
 #: dialogs/newview.ui:115
@@ -5730,7 +5730,7 @@ msgstr "Reflectida (p. ex. Cassegrain ou reflector con prisma en erecto)"
 #: dialogs/newview.ui:122
 #, kde-format
 msgid "Inverted (e.g. straight through finder, Newtonian)"
-msgstr "Invertida (p. ex. directamente mediante o atopador, de Newton)"
+msgstr "Invertida (p. ex. directamente mediante o buscador, de Newton)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/newview.ui:129
@@ -6190,7 +6190,7 @@ msgstr "Baleirar os puntos de solución"
 #: ekos/align/align.cpp:548
 #, kde-format
 msgid "Solver timed out."
-msgstr "Esgotouse o tempo límite do resolvedor."
+msgstr "Esgotouse o tempo límite do resolvente."
 
 #: ekos/align/align.cpp:840
 #, kde-format
@@ -6359,13 +6359,13 @@ msgstr "A imaxe cargada tomouse no lado de observación %1."
 #: ekos/align/align.cpp:2086
 #, kde-format
 msgid "Solver completed after %1 seconds."
-msgstr "O resolvedor rematou en %1 segundos."
+msgstr "O resolvente rematou en %1 segundos."
 
 #: ekos/align/align.cpp:2102
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
-"Resolvedor: %1 α, %2 δ, orientación %3, escala de píxeles %4, paridade %5."
+"Resolvente: %1 α, %2 δ, orientación %3, escala de píxeles %4, paridade %5."
 
 #: ekos/align/align.cpp:2169
 #, kde-format
@@ -6404,7 +6404,7 @@ msgstr "Completouse o aliñamento de astrometría."
 #: ekos/align/align.cpp:2287
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
-msgstr "Acadouse o número máximo de iteracións. O resolvedor fallou."
+msgstr "Acadouse o número máximo de iteracións. O resolvente fallou."
 
 #: ekos/align/align.cpp:2316
 #, kde-format
@@ -6414,22 +6414,22 @@ msgstr "O destino está dentro do alcance aceptábel."
 #: ekos/align/align.cpp:2378
 #, kde-format
 msgid "Saving failed solver image to %1"
-msgstr "Non foi posíbel gardar a imaxe do resolvedor en %1."
+msgstr "Non foi posíbel gardar a imaxe do resolvente en %1."
 
 #: ekos/align/align.cpp:2387
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
-msgstr "O resolvedor fallou. Intentarase de novo sen a restrición da escala."
+msgstr "O resolvente fallou. Intentarase de novo sen a restrición da escala."
 
 #: ekos/align/align.cpp:2397
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
-msgstr "O resolvedor fallou. Intentarase de novo sen a restrición da posición."
+msgstr "O resolvente fallou. Intentarase de novo sen a restrición da posición."
 
 #: ekos/align/align.cpp:2405
 #, kde-format
 msgid "Solver Failed."
-msgstr "O resolvedor fallou."
+msgstr "O resolvente fallou."
 
 #: ekos/align/align.cpp:2408
 #, kde-format
@@ -6472,7 +6472,7 @@ msgstr "Interrompeuse a captura."
 #: ekos/align/align.cpp:2568
 #, kde-format
 msgid "Solver aborted after %1 seconds."
-msgstr "O resolvedor interrompeuse despois de %1 segundos."
+msgstr "O resolvente interrompeuse despois de %1 segundos."
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
 #: ekos/capture/capture.cpp:267 ekos/focus/focus.cpp:4414
@@ -6508,7 +6508,7 @@ msgstr "Asentando…"
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 "Completouse o movemento. Non se conseguiu a precisión esperada, executando "
-"de novo o resolvedor…"
+"de novo o resolvente…"
 
 #: ekos/align/align.cpp:2743
 #, kde-format
@@ -6747,7 +6747,7 @@ msgstr "Tren:"
 #: ekos/align/align.ui:93
 #, kde-format
 msgid "Solver Control"
-msgstr "Control do resolvedor"
+msgstr "Control do resolvente"
 
 #. i18n: ectx: property (text), widget (QPushButton, solveB)
 #: ekos/align/align.ui:120
@@ -6800,7 +6800,7 @@ msgstr "Escolla unha acción a realizar cando se atope unha solución."
 #: ekos/align/align.ui:166
 #, kde-format
 msgid "Solver Action"
-msgstr "Acción do resolvedor"
+msgstr "Acción do resolvente"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, syncR)
 #: ekos/align/align.ui:187
@@ -6858,7 +6858,7 @@ msgid ""
 "below the accuracy threshold"
 msgstr ""
 "O límite de precisión, en arcos de segundo, entre a solución e as "
-"coordenadas de destino. O resolvedor de placas execútase continuamente ata "
+"coordenadas de destino. O resolvente de placas execútase continuamente ata "
 "que as coordenadas da solución están por debaixo do límite de exactitude."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
@@ -7134,7 +7134,7 @@ msgstr "Usar o actual."
 #: ekos/align/align.ui:754
 #, kde-format
 msgid "Solver Mode"
-msgstr "Modo do resolvedor"
+msgstr "Modo do resolvente"
 
 #. i18n: ectx: property (text), widget (QRadioButton, localSolverR)
 #: ekos/align/align.ui:775
@@ -7275,26 +7275,26 @@ msgstr "Eixe de α"
 #: ekos/align/astapastrometryparser.cpp:57
 #, kde-format
 msgid "Error starting solver: %1"
-msgstr "Erro ao iniciar o resolvedor: %1"
+msgstr "Erro ao iniciar o resolvente: %1"
 
 #: ekos/align/astapastrometryparser.cpp:70
 #, kde-format
 msgid "Starting solver..."
-msgstr "Iniciando o resolvedor…"
+msgstr "Iniciando o resolvente…"
 
 #: ekos/align/astapastrometryparser.cpp:101
 #: ekos/align/astapastrometryparser.cpp:153
 #: ekos/align/remoteastrometryparser.cpp:248
 #, kde-format
 msgid "Solver failed. Try again."
-msgstr "O resolvedor fallou. Inténteo de novo."
+msgstr "O resolvente fallou. Inténteo de novo."
 
 #: ekos/align/astapastrometryparser.cpp:148
 #, kde-format
 msgid "Solver completed in %1 second."
 msgid_plural "Solver completed in %1 seconds."
-msgstr[0] "O resolvedor rematou en %1 segundo."
-msgstr[1] "O resolvedor rematou en %1 segundos."
+msgstr[0] "O resolvente rematou en %1 segundo."
+msgstr[1] "O resolvente rematou en %1 segundos."
 
 #: ekos/align/manualrotator.cpp:51 ekos/align/manualrotator.cpp:56
 #: ekos/align/manualrotator.cpp:57
@@ -7419,7 +7419,7 @@ msgid ""
 "means that the mount model tool will not sync/align your mount but will only "
 "report the pointing model errors.  Do you wish to continue?"
 msgstr ""
-"No módulo de aliñamento selecciónase «Nada» para a acción de resolvedor. "
+"No módulo de aliñamento selecciónase «Nada» para a acción de resolvente. "
 "Isto significa que a ferramenta de modelo de montaxe non sincronizará ou "
 "aliñará a montaxe senón que só informará dos erros de modelo de apuntamento. "
 "Quere continuar?"
@@ -7913,17 +7913,17 @@ msgstr ""
 "externos.</li><li>«Astrometría local» usa unha instalación local da liña de "
 "ordes de astrometry.net en Linux e Mac ou de ANSVR en Windows. </"
 "li><li>«ASTAP local» usa unha instalación local do programa ASTAP. </"
-"li><li>«Watney local» usa unha instalación local do programa de resolvedor "
+"li><li>«Watney local» usa unha instalación local do programa de resolvente "
 "de astrometría de Watney.</li><li>«Por Internet» usa ou astrometry.net por "
 "Internet ou ANSVR nun computador próximo. <span style=\" font-weight:600;"
 "\">Nota</span>: Se o largo de banda é unha preocupación, considere usar «SEP "
-"interno» en vez do «Método incluído do resolvedor».</li></ul></body></html>"
+"interno» en vez do «Método incluído do resolvente».</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:98
 #, kde-format
 msgid "Internal Solver"
-msgstr "Resolvedor interno"
+msgstr "Resolvente interno"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:103
@@ -7965,7 +7965,7 @@ msgstr "Perfil de opcións:"
 #: ekos/align/opsalign.ui:181
 #, kde-format
 msgid "Selects the Options Profile to use for Plate Solving"
-msgstr "Selecciona o perfil de opcións para usar o resolvedor de placas."
+msgstr "Selecciona o perfil de opcións para usar o resolvente de placas."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSolverProfile)
 #: ekos/align/opsalign.ui:197
@@ -8004,7 +8004,7 @@ msgstr "SCM"
 msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr ""
 "Amosar as imaxes FITS recibidas sobre o rectángulo do campo de visión do "
-"resolvedor no mapa celeste."
+"resolvente no mapa celeste."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
 #: ekos/align/opsalign.ui:243 tools/eyepiecefield.cpp:77
@@ -8259,7 +8259,7 @@ msgid ""
 "Set image scale to speed up solver as it does not have to search index files "
 "of different image scales."
 msgstr ""
-"Definir a escala da imaxe para acelerar o resolvedor xa que non ten que "
+"Definir a escala da imaxe para acelerar o resolvente xa que non ten que "
 "buscar en ficheiros de índice distintas escalas de imaxe."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseImageScale)
@@ -8421,7 +8421,7 @@ msgid ""
 "Set estimated position to speed up astrometry solver as it does not have to "
 "search in other areas of the sky."
 msgstr ""
-"Definir a posición estimada para acelerar o resolvedor de astrometría xa que "
+"Definir a posición estimada para acelerar o resolvente de astrometría xa que "
 "non ten que buscar noutras partes do ceo."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUsePosition)
@@ -8661,7 +8661,7 @@ msgid ""
 "CCD Field of View. Installed index files are checked. Next to each index "
 "file is an icon that represents the following:</p></body></html>"
 msgstr ""
-"<html><head/><body><p>O resolvedor de astrometry.net <span style=\" font-"
+"<html><head/><body><p>O resolvente de astrometry.net <span style=\" font-"
 "weight:600;\">sen Internet</span> require ficheiros de índice para resolver "
 "unha imaxe. Consulte os detalles no <a href=\"http://astrometry.net/doc/"
 "readme.html\"><span style=\" text-decoration: underline; color:#0000ff;"
@@ -8681,7 +8681,7 @@ msgid ""
 "the solver to work correctly.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Este ficheiro de índice é necesario e debe instalarse "
-"para que o resolvedor funcione correctamente.</p></body></html>"
+"para que o resolvente funcione correctamente.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, recommended_legend)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_33)
@@ -8693,7 +8693,7 @@ msgid ""
 "file might help in improving the solver.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Este ficheiro de índice recoméndase. Instalar o "
-"ficheiro de índice pode axudar a mellorar o resolvedor.</p></body></html>"
+"ficheiro de índice pode axudar a mellorar o resolvente.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, optional_legend)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_35)
@@ -9607,7 +9607,7 @@ msgstr "Ruta do executábel «solve-field» de astrometry.net"
 #: ekos/align/opsprograms.ui:132
 #, kde-format
 msgid "solver binary:"
-msgstr "Executábel do resolvedor:"
+msgstr "Executábel do resolvente:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/align/opsprograms.ui:139
@@ -9637,7 +9637,7 @@ msgstr "Ruta do executábel do programa de ASTAP."
 #: ekos/align/opsprograms.ui:175
 #, kde-format
 msgid "Watney Solver"
-msgstr "Resolvedor de Watney"
+msgstr "Resolvente de Watney"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: ekos/align/opsprograms.ui:181
@@ -9684,7 +9684,7 @@ msgstr "Tempo límite:"
 #, kde-format
 msgid "Timeout in seconds to wait for astrometry solver to complete"
 msgstr ""
-"Tempo límite en segundos para agardar a que o resolvedor de astrometría "
+"Tempo límite en segundos para agardar a que o resolvente de astrometría "
 "complete a solución"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIKey)
@@ -9779,23 +9779,23 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:188
 #, kde-format
 msgid "Refresh solver timed out: %1s"
-msgstr "A actualización do resolvedor esgotou o tempo límite: %1 s."
+msgstr "A actualización do resolvente esgotou o tempo límite: %1 s."
 
 #: ekos/align/polaralignmentassistant.cpp:193
 #, kde-format
 msgid "Refresh solver failed: %1s"
-msgstr "A actualización do resolvedor fallou: %1 s."
+msgstr "A actualización do resolvente fallou: %1 s."
 
 #: ekos/align/polaralignmentassistant.cpp:580
 #, kde-format
 msgid "PAA: Solver failed, retrying."
-msgstr "Asistente de aliñamento polar: o resolvedor fallou, reintentarase."
+msgstr "Asistente de aliñamento polar: o resolvente fallou, reintentarase."
 
 #: ekos/align/polaralignmentassistant.cpp:587
 #, kde-format
 msgid "PAA: Stopping, solver failed too many times."
 msgstr ""
-"Asistente de aliñamento polar: deténdoo, o resolvedor fallou demasiadas "
+"Asistente de aliñamento polar: deténdoo, o resolvente fallou demasiadas "
 "veces."
 
 #: ekos/align/polaralignmentassistant.cpp:616
@@ -10377,7 +10377,7 @@ msgid ""
 "Cannot set solver to remote. The Ekos equipment profile must include the "
 "astrometry Auxiliary driver."
 msgstr ""
-"Non é posíbel poñer o resolvedor como remoto. O perfil de equipamento de "
+"Non é posíbel poñer o resolvente como remoto. O perfil de equipamento de "
 "Ekos debe incluír o controlador Auxiliary de astrometría."
 
 #: ekos/align/remoteastrometryparser.cpp:50
@@ -10388,7 +10388,7 @@ msgstr "Non é posíbel abrir o ficheiro %1 para lectura."
 #: ekos/align/remoteastrometryparser.cpp:60
 #, kde-format
 msgid "Failed to find solver properties."
-msgstr "Non foi posíbel atopar as propiedades do resolvedor."
+msgstr "Non foi posíbel atopar as propiedades do resolvente."
 
 #: ekos/align/remoteastrometryparser.cpp:85
 #, kde-format
@@ -10398,12 +10398,12 @@ msgstr "Non hai memoria dabondo para o ficheiro %1."
 #: ekos/align/remoteastrometryparser.cpp:102
 #, kde-format
 msgid "Starting remote solver..."
-msgstr "Iniciando o resolvedor remoto…"
+msgstr "Iniciando o resolvente remoto…"
 
 #: ekos/align/remoteastrometryparser.cpp:112
 #, kde-format
 msgid "Failed to find solver settings."
-msgstr "Non foi posíbel atopar a configuración do resolvedor."
+msgstr "Non foi posíbel atopar a configuración do resolvente."
 
 #: ekos/analyze/analyze.cpp:129 ekos/analyze/analyze.cpp:148
 #: ekos/observatory/observatory.cpp:363 indi/indidome.cpp:21
@@ -27181,7 +27181,7 @@ msgid ""
 "solve an image and use the astrometry solver solution's rotation angle"
 msgstr ""
 "Ángulo de rotación da cámara (leste do norte) en graos. Para medir o ángulo, "
-"resolva unha imaxe e use o ángulo de rotación da solución do resolvedor de "
+"resolva unha imaxe e use o ángulo de rotación da solución do resolvente de "
 "astrometría"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -27570,7 +27570,7 @@ msgstr ""
 msgid ""
 "Perform alignment using astrometry solver before proceeding to the next step."
 msgstr ""
-"Realizar o aliñamento mediante o resolvedor de astrometría antes de pasar ao "
+"Realizar o aliñamento mediante o resolvente de astrometría antes de pasar ao "
 "seguinte paso."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
@@ -28221,7 +28221,7 @@ msgid ""
 "Run alignment using astrometry solver. Done at the start of each scheduler "
 "job."
 msgstr ""
-"Executar o aliñamento mediante o resolvedor de astrometría. Faise ao comezo "
+"Executar o aliñamento mediante o resolvente de astrometría. Faise ao comezo "
 "de cada traballo do planificador."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerGuideStep)
@@ -29520,12 +29520,12 @@ msgstr "A lista do planificador gardouse en %1."
 #: ekos/scheduler/schedulerprocess.cpp:3254
 #, kde-format
 msgid "Solver timed out: %1s %2"
-msgstr "O resolvedor esgotou o tempo límite: %1 s %2"
+msgstr "O resolvente esgotou o tempo límite: %1 s %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:3256
 #, kde-format
 msgid "Solver failed: %1s %2"
-msgstr "O resolvedor fallou: %1 s %2"
+msgstr "O resolvente fallou: %1 s %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:3291
 #, kde-format
@@ -30303,7 +30303,7 @@ msgstr ""
 #: fitsviewer/fitstab.cpp:133
 #, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
-msgstr "Editor de perfís de resolvedor de visor de FITS"
+msgstr "Editor de perfís de resolvente de visor de FITS"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
 #: fitsviewer/fitstab.cpp:164 fitsviewer/platesolve.ui:14
@@ -30371,18 +30371,18 @@ msgstr "Extraéronse %1 estrelas (%2 sen filtrar) en %3 s."
 #: fitsviewer/fitstab.cpp:793
 #, kde-format
 msgid "Solver timed out: %1s"
-msgstr "A actualización do resolvedor esgotou o tempo límite: %1 s."
+msgstr "A actualización do resolvente esgotou o tempo límite: %1 s."
 
 #: fitsviewer/fitstab.cpp:798
 #, kde-format
 msgid "Solver failed: %1s"
-msgstr "O resolvedor fallou: %1 s."
+msgstr "O resolvente fallou: %1 s."
 
 #: fitsviewer/fitstab.cpp:968
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
-"Aviso! Esta ferramenta só permite o resolvedor interno de StellarSolver."
+"Aviso! Esta ferramenta só permite o resolvente interno de StellarSolver."
 
 #: fitsviewer/fitstab.cpp:969
 #, kde-format
@@ -31181,7 +31181,7 @@ msgid ""
 "Use the given position to speed up astrometry solver as it does not have to "
 "search in other areas of the sky."
 msgstr ""
-"Usar a posición indicada para acelerar o resolvedor de astrometría xa que "
+"Usar a posición indicada para acelerar o resolvente de astrometría xa que "
 "non ten que buscar noutras partes do ceo."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpdatePosition)
@@ -33864,7 +33864,7 @@ msgstr "RUTA ao directorio de controladores indi"
 #: kstars.kcfg:262
 #, kde-format
 msgid "Internal or External Astrometry Solver?"
-msgstr "Resolvedor de astrometría interno ou externo?"
+msgstr "Resolvente de astrometría interno ou externo?"
 
 #. i18n: ectx: label, entry (streamWindowWidth), group (indi)
 #: kstars.kcfg:266
@@ -36155,14 +36155,14 @@ msgstr "Erro da cor da guía de declinación (δ) no módulo de guía de Ekos."
 #: kstars.kcfg:1159
 #, kde-format
 msgid "Color of solver FOV box"
-msgstr "Cor da caixa do campo de visión do resolvedor"
+msgstr "Cor da caixa do campo de visión do resolvente"
 
 #. i18n: ectx: whatsthis, entry (SolverFOVColor), group (Colors)
 #: kstars.kcfg:1160
 #, kde-format
 msgid "The color for solver FOV box in Ekos alignment module."
 msgstr ""
-"A cor da caixa do campo de visión do resolvedor no módulo de aliñamento de "
+"A cor da caixa do campo de visión do resolvente no módulo de aliñamento de "
 "Ekos."
 
 #. i18n: ectx: label, entry (xplanetIsInternal), group (Xplanet)
@@ -37129,7 +37129,7 @@ msgid ""
 "FITS Viewer Solver"
 msgstr ""
 "JSON que almacena a asignación de índices de perfís a perfís de módulos para "
-"o resolvedor do visor de FITS."
+"o resolvente do visor de FITS."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1574
@@ -38677,7 +38677,7 @@ msgstr "Sextractor interno, externo ou incluído para resolver."
 #: kstars.kcfg:2424
 #, kde-format
 msgid "Local (0) or Remote (1) solver."
-msgstr "Resolvedor local (0) ou remoto (1)."
+msgstr "Resolvente local (0) ou remoto (1)."
 
 #. i18n: ectx: label, entry (SolverType), group (StellarSolver)
 #: kstars.kcfg:2428
@@ -38686,7 +38686,7 @@ msgid ""
 "Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for "
 "Local ASTAP. 3 for Online Astrometry."
 msgstr ""
-"Método de resolución local. 0 para o resolvedor interno. 1 para astrometría "
+"Método de resolución local. 0 para o resolvente interno. 1 para astrometría "
 "local. 2 para ASTAP local. 3 para astrometría por Internet."
 
 #. i18n: ectx: label, entry (SolveOptionsProfile), group (StellarSolver)
@@ -38820,7 +38820,7 @@ msgstr ""
 msgid "Display received FITS images unto solver FOV rectangle in the sky map."
 msgstr ""
 "Amosar as imaxes FITS recibidas sobre o rectángulo do campo de visión do "
-"resolvedor no mapa celeste."
+"resolvente no mapa celeste."
 
 #. i18n: ectx: label, entry (AstrometryDifferentialSlewing), group (Align)
 #: kstars.kcfg:2503
@@ -38879,7 +38879,7 @@ msgid ""
 "before blindly trying to solve the image. It is recommended to keep it "
 "checked."
 msgstr ""
-"Isto evitará que o resolvedor consulte unha cabeceira existente de SCM antes "
+"Isto evitará que o resolvente consulte unha cabeceira existente de SCM antes "
 "de intentar resolver a imaxe a cegas. Recoméndase deixalo marcado."
 
 #. i18n: ectx: label, entry (AstrometryImageScaleLow), group (Align)
@@ -38919,7 +38919,7 @@ msgstr ""
 msgid "Downsample the image to shrink its size and speed up the solver."
 msgstr ""
 "Reducir a taxa de mostras da imaxe para reducir o seu tamaño e acelerar o "
-"resolvedor."
+"resolvente."
 
 #. i18n: ectx: label, entry (AstrometryDownsample), group (Align)
 #: kstars.kcfg:2549
@@ -38942,7 +38942,7 @@ msgid ""
 "User supplied Right Ascension value in degrees to be passed to the solver."
 msgstr ""
 "Valor de ascensión recta en graos fornecido polo usuario para pasar ao "
-"resolvedor."
+"resolvente."
 
 #. i18n: ectx: label, entry (AstrometryPositionDE), group (Align)
 #: kstars.kcfg:2564
@@ -38950,7 +38950,7 @@ msgstr ""
 msgid "User supplied declination value in degrees to be passed to the solver."
 msgstr ""
 "Valor de declinación en graos fornecido polo usuario para pasar ao "
-"resolvedor."
+"resolvente."
 
 #. i18n: ectx: label, entry (AstrometryAutoUpdatePosition), group (Align)
 #: kstars.kcfg:2567
@@ -38965,7 +38965,7 @@ msgstr ""
 #: kstars.kcfg:2575
 #, kde-format
 msgid "Detect parity and reuse it to speed up solver."
-msgstr "Detectar paridade e usar de novo para acelerar o resolvedor."
+msgstr "Detectar paridade e usar de novo para acelerar o resolvente."
 
 #. i18n: ectx: label, entry (AstrometryCustomOptions), group (Align)
 #: kstars.kcfg:2579
@@ -38983,7 +38983,7 @@ msgstr "Executábel «solve-field» de astrometry.net"
 #: kstars.kcfg:2583
 #, kde-format
 msgid "Path to astrometry.net solver location."
-msgstr "A ruta do resolvedor de astrometry.net."
+msgstr "A ruta do resolvente de astrometry.net."
 
 #. i18n: ectx: label, entry (AstrometryWCSInfo), group (Align)
 #: kstars.kcfg:2587
@@ -39058,7 +39058,7 @@ msgstr ""
 #, kde-format
 msgid "Timeout in seconds to wait for astrometry solver to complete."
 msgstr ""
-"Tempo límite en segundos para agardar a que o resolvedor de astrometría "
+"Tempo límite en segundos para agardar a que o resolvente de astrometría "
 "complete a solución."
 
 #. i18n: ectx: label, entry (PAHMountSpeed), group (Align)
@@ -70090,7 +70090,7 @@ msgstr ""
 "Seleccione isto para unha vista erecta do mapa celeste, onde o norte (no "
 "modo de coordenada ecuatorial) ou o cénit (no modo de coordenada horizontal) "
 "está arriba na vertical. Isto sería a escolla natural para unha mira de "
-"atopador de imaxe erecta ou para a simple vista."
+"buscador de imaxe erecta ou para a simple vista."
 
 #: kstarsinit.cpp:753
 #, kde-format
@@ -70103,7 +70103,7 @@ msgid ""
 msgstr ""
 "Seleccione isto para inverter a vista do mapa celeste, onde o norte (no modo "
 "de coordenada ecuatorial) ou o cénit (no modo de coordenada horizontal) está "
-"abaixo na vertical. Isto sería a escolla natural para unha mira de atopador "
+"abaixo na vertical. Isto sería a escolla natural para unha mira de buscador "
 "de imaxe invertida, refractor ou Cassegrain sen prisma erecto, ou de Dobson."
 
 #: kstarsinit.cpp:758
@@ -78752,17 +78752,17 @@ msgstr "Recargando. As imaxes sobrepostas desactiváronse temporalmente."
 #: skycomponents/imageoverlaycomponent.cpp:797
 #, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Esgotouse o tempo límite do resolvedor en %1 s."
+msgstr "Esgotouse o tempo límite do resolvente en %1 s."
 
 #: skycomponents/imageoverlaycomponent.cpp:803
 #, kde-format
 msgid "Solver failed in %1s"
-msgstr "O resolvedor fallou en %1 s."
+msgstr "O resolvente fallou en %1 s."
 
 #: skycomponents/imageoverlaycomponent.cpp:816
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr "O resolvedor funcionou en %1 s: α %2, δ %3, escala %4, ángulo %5."
+msgstr "O resolvente funcionou en %1 s: α %2, δ %3, escala %4, ángulo %5."
 
 #: skycomponents/imageoverlaycomponent.cpp:848
 #, kde-format
@@ -83110,8 +83110,8 @@ msgid ""
 "will be added to the database."
 msgstr ""
 "Indicar unha lista de obxectos, un por liña, para engadir. KStars debe "
-"coñecer os nomes ou, se o resolvedor de Internet está activado na "
-"configuración, o resolvedor CDS Sesame debe coñecer os nomes. Os obxectos "
+"coñecer os nomes ou, se o resolvente de Internet está activado na "
+"configuración, o resolvente CDS Sesame debe coñecer os nomes. Os obxectos "
 "que se resolvan por Internet engadiranse á base de datos."
 
 #: tools/observinglist.cpp:808
