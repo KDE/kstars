@@ -2107,6 +2107,7 @@ void Manager::initCapture()
         ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
     });
     connect(captureModule(), &Ekos::Capture::newStatus, this, &Ekos::Manager::updateCaptureStatus);
+    connect(captureModule(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
     connect(captureModule(), &Ekos::Capture::driverTimedout, this, &Ekos::Manager::restartDriver);
     connect(captureModule(), &Ekos::Capture::newExposureProgress, this, &Ekos::Manager::updateExposureProgress);
     capturePreview->setEnabled(true);
