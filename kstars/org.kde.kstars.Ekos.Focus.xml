@@ -63,6 +63,7 @@
     </method>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
+        <arg name="trainname" type="s" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::FocusState"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::FocusState"/>
     </signal>
@@ -72,6 +73,8 @@
     <signal name="newHFR">
         <arg name="HFR" type="d" direction="out"/>
         <arg name="position" type="i" direction="out"/>
+        <arg name="inAutofocus" type="b" direction="out"/>
+        <arg name="trainname" type="s" direction="out"/>
     </signal>
   </interface>
 </node>

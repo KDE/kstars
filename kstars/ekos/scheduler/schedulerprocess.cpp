@@ -3733,8 +3733,10 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &trai
     }
 }
 
-void SchedulerProcess::setFocusStatus(FocusState status)
+void SchedulerProcess::setFocusStatus(FocusState status, const QString &trainname)
 {
+    Q_UNUSED(trainname)
+
     if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)
         return;
 
@@ -4433,8 +4435,8 @@ void SchedulerProcess::registerNewModule(const QString &name)
         delete focusInterface();
         setFocusInterface(new QDBusInterface(kstarsInterfaceString, focusPathString, focusInterfaceString,
                                              QDBusConnection::sessionBus(), this));
-        connect(focusInterface(), SIGNAL(newStatus(Ekos::FocusState)), this,
-                SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
+        connect(focusInterface(), SIGNAL(newStatus(Ekos::FocusState, const QString)), this,
+                SLOT(setFocusStatus(Ekos::FocusState, const QString)), Qt::UniqueConnection);
     }
     else if (name == "Capture")
     {

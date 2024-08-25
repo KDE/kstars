@@ -88,7 +88,7 @@ class MockFocus : public QObject
     public slots:
 
     signals:
-        void newStatus(Ekos::FocusState state);
+        void newStatus(Ekos::FocusState state, const QString &trainname = "MockCamera");
     private:
         Ekos::FocusState m_Status = Ekos::FOCUS_IDLE;
 };
@@ -264,7 +264,7 @@ class MockCapture : public QObject
         }
 
     signals:
-        Q_SCRIPTABLE void newStatus(Ekos::CaptureState status, const QString &devicename = "MockCamera");
+        Q_SCRIPTABLE void newStatus(Ekos::CaptureState status, const QString &trainname = "MockCamera");
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
         void ready();
 

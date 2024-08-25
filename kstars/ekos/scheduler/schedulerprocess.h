@@ -673,7 +673,7 @@ private slots:
     void setAlignStatus(Ekos::AlignState status);
     void setGuideStatus(Ekos::GuideState status);
     void setCaptureStatus(Ekos::CaptureState status, const QString &trainname);
-    void setFocusStatus(Ekos::FocusState status);
+    void setFocusStatus(Ekos::FocusState status, const QString &trainname);
     void setMountStatus(ISD::Mount::Status status);
     void setWeatherStatus(ISD::Weather::Status status);
 

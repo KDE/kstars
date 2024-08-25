@@ -85,7 +85,7 @@ class KFocusStateList: public QObject, public QList <Ekos::FocusState>
     public:
         KFocusStateList():
             handler (connect(Ekos::Manager::Instance()->focusModule()->mainFocuser().get(), &Ekos::Focus::newStatus,
-                             this, [ & ](Ekos::FocusState s)
+                             this, [ & ](Ekos::FocusState s, const QString &)
         {
             append(s);
         }, Qt::UniqueConnection))

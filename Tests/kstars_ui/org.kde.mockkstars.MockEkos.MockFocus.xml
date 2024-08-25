@@ -21,9 +21,10 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <signal name="newStatus">
-      <arg name="status" type="(i)" direction="out"/>
-      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::FocusState"/>
-      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::FocusState"/>
+        <arg name="status" type="(i)" direction="out"/>
+        <arg name="trainname" type="s" direction="out"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::FocusState"/>
+        <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::FocusState"/>
     </signal>
   </interface>
 </node>
