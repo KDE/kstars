@@ -177,6 +177,15 @@ private:
         void checkCloseFocuserTab(int tabIndex);
 
         // ////////////////////////////////////////////////////////////////////
+        // Helper functions
+        // ////////////////////////////////////////////////////////////////////
+        /**
+         * @brief findUnusedOpticalTrain Find the name of the first optical train that is not used by another tab
+         * @return
+         */
+        const QString findUnusedOpticalTrain();
+
+        // ////////////////////////////////////////////////////////////////////
         // Attributes
         // ////////////////////////////////////////////////////////////////////
         QList<QSharedPointer<Focus>> m_Focusers;

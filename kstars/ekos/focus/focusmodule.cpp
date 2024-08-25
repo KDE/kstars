@@ -9,6 +9,7 @@
 
 #include "Options.h"
 #include "auxiliary/ksmessagebox.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 #include "kstarsdata.h"
 #include "kspaths.h"
 
@@ -320,7 +321,12 @@ QSharedPointer<Focus> FocusModule::addFocuser(const QString &trainname)
         });
     }
 
+    const QString train = findUnusedOpticalTrain();
+
     m_Focusers.append(newFocuser);
+    // select an unused train
+    if (train != "")
+        newFocuser->opticalTrainCombo->setCurrentText(train);
 
     // set the weather sources
     newFocuser->updateTemperatureSources(m_TemperatureSources);
@@ -387,6 +393,19 @@ void FocusModule::checkCloseFocuserTab(int tabIndex)
         closeFocuserTab(tabIndex);
 
     }
+}
+
+const QString FocusModule::findUnusedOpticalTrain()
+{
+    const auto names = OpticalTrainManager::Instance()->getTrainNames();
+    QSet<QString> trainnames = QSet<QString>(names.begin(), names.end());
+    foreach(auto focuser, m_Focusers)
+        trainnames.remove(focuser->opticalTrain());
+
+    if (trainnames.isEmpty())
+        return "";
+    else
+        return trainnames.values().first();
 }
 
 }

@@ -761,6 +761,12 @@ public slots:
         }
 
         /**
+         * @brief findUnusedOpticalTrain Find the name of the first optical train that is not used by another tab
+         * @return
+         */
+        const QString findUnusedOpticalTrain();
+
+        /**
          * @brief Sync refocus options to the GUI settings
          */
         //void syncRefocusOptionsFromGUI();

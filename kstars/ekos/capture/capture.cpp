@@ -18,6 +18,7 @@
 #include "placeholderpath.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/profilesettings.h"
 #include "auxiliary/ksmessagebox.h"
 
@@ -132,10 +133,28 @@ QSharedPointer<Camera> Capture::addCamera()
     connect(newCamera.get(), &Camera::resumeGuiding, this, &Capture::resumeGuiding);
     connect(newCamera.get(), &Camera::driverTimedout, this, &Capture::driverTimedout);
 
+    const QString train = findUnusedOpticalTrain();
     m_Cameras.append(newCamera);
+    // select an unused train
+    if (train != "")
+        newCamera->opticalTrainCombo->setCurrentText(train);
     // update the tab text
     updateCamera(tabIndex, true);
+
     return newCamera;
+}
+
+const QString Capture::findUnusedOpticalTrain()
+{
+    const auto names = OpticalTrainManager::Instance()->getTrainNames();
+    QSet<QString> trainnames = QSet<QString>(names.begin(), names.end());
+    foreach(auto cam, cameras())
+        trainnames.remove(cam->opticalTrain());
+
+    if (trainnames.isEmpty())
+        return "";
+    else
+        return trainnames.values().first();
 }
 
 void Capture::updateCamera(int tabID, bool isValid)
