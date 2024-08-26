@@ -1161,6 +1161,23 @@ bool Camera::removeJob(int index)
     return true;
 }
 
+bool Camera::modifyJob(int index)
+{
+    if (m_JobUnderEdit)
+    {
+        resetJobEdit(true);
+        return false;
+    }
+
+    if (index < 0 || index >= state()->allJobs().count())
+        return false;
+
+    queueTable->selectRow(index);
+    auto modelIndex = queueTable->model()->index(index, 0);
+    editJob(modelIndex);
+    return true;
+}
+
 void Camera::loadSequenceQueue()
 {
     QUrl fileURL = QFileDialog::getOpenFileUrl(Manager::Instance(), i18nc("@title:window", "Open Ekos Sequence Queue"),
@@ -2297,6 +2314,11 @@ QJsonObject Camera::createJsonJob(SequenceJob *job, int currentRow)
     jsonJob.insert("Bin", queueTable->item(currentRow, JOBTABLE_COL_BINNING)->text());
     jsonJob.insert("ISO/Gain", queueTable->item(currentRow, JOBTABLE_COL_ISO)->text());
     jsonJob.insert("Offset", queueTable->item(currentRow, JOBTABLE_COL_OFFSET)->text());
+    jsonJob.insert("Encoding", job->getCoreProperty(SequenceJob::SJ_Encoding).toJsonValue());
+    jsonJob.insert("Format", job->getCoreProperty(SequenceJob::SJ_Format).toJsonValue());
+    jsonJob.insert("Temperature", job->getTargetTemperature());
+    jsonJob.insert("EnforceTemperature", job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toJsonValue());
+    jsonJob.insert("DitherPerJobFrequency", job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toJsonValue());
 
     return jsonJob;
 }

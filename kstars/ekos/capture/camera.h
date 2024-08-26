@@ -201,7 +201,14 @@ public:
      *        if no row is selected, the last job shall be removed.
      * @param true if sequence is removed. False otherwise.
      */
-    bool removeJob(int index = -1);
+    Q_INVOKABLE bool removeJob(int index = -1);
+
+    /**
+     * @brief modifyJob Select a job and enter edit state
+     * @param index Row index for job to edit, if left as -1 (default), the currently selected row will be edited.
+     * @param true if sequence is in edit state. False otherwise.
+     */
+    Q_INVOKABLE bool modifyJob(int index = -1);
 
     // ////////////////////////////////////////////////////////////////////
     // Process control
@@ -558,38 +565,38 @@ private:
      *        selection in the job table.
      * @return true if job updated succeeded.
      */
-    void editJobFinished();
+    Q_INVOKABLE void editJobFinished();
 
     /**
      * @brief imageCapturingCompleted Capturing a single frame completed
      */
-    void imageCapturingCompleted();
+    Q_INVOKABLE void imageCapturingCompleted();
 
     /**
      * @brief captureStopped Capturing has stopped
      */
-    void captureStopped();
+    Q_INVOKABLE void captureStopped();
 
     /**
      * @brief processFITSfinished processing new FITS data received from camera finished.
      * @param success true iff processing was successful
      */
-    void processingFITSfinished(bool success);
+    Q_INVOKABLE void processingFITSfinished(bool success);
 
     /**
      * @brief captureRunning Manage the result when capturing has been started
      */
-    void captureRunning();
+    Q_INVOKABLE void captureRunning();
 
     /**
      * @brief captureImageStarted Image capturing for the active job has started.
      */
-    void captureImageStarted();
+    Q_INVOKABLE void captureImageStarted();
 
     /**
      * @brief jobPreparationStarted Preparation actions for the current active job have beenstarted.
      */
-    void jobExecutionPreparationStarted();
+    Q_INVOKABLE void jobExecutionPreparationStarted();
 
     /**
      * @brief jobPrepared Select the job that is currently in preparation.
