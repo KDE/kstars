@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 01:58+0000\n"
+"POT-Creation-Date: 2024-08-27 01:48+0000\n"
 "PO-Revision-Date: 2024-06-14 22:28+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -417,7 +417,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1221
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1238
 #: ekos/scheduler/scheduler.cpp:1984
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2685,7 +2685,7 @@ msgstr "URL ni veljaven. Ali naj v spletnem brskalniku odprem iskalnik Google?"
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3960
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/capture/camera.cpp:1175 ekos/capture/camera.cpp:1230
+#: ekos/capture/camera.cpp:1192 ekos/capture/camera.cpp:1247
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1884
 #: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -3875,7 +3875,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1682 ekos/capture/camera.cpp:1722
+#: ekos/capture/camera.cpp:1699 ekos/capture/camera.cpp:1739
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:450 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
@@ -6626,24 +6626,24 @@ msgstr "dRekt. (ločne s)"
 msgid "dDE (arcsec)"
 msgstr "dDekl. (ločne s)"
 
-#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3294
+#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3316
 #: ekos/focus/focus.cpp:5206
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Operacija filtra ni uspela."
 
-#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3794
+#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3816
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Spreminjanje izostritve za %1 s…"
 
 #: ekos/align/align.cpp:3662 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3799
+#: ekos/capture/camera.cpp:3821
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Spreminjanje filtra v %1 …"
 
-#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3804
+#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3826
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Samodejno ostrenje ob spremembi filtra…"
@@ -6660,8 +6660,8 @@ msgid "Export Solution Points"
 msgstr "Izvozi točke rešitve"
 
 #: ekos/align/align.cpp:3959 ekos/align/mountmodel.cpp:264
-#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1174
-#: ekos/capture/camera.cpp:1229 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1191
+#: ekos/capture/camera.cpp:1246 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1883 ekos/scheduler/scheduler.cpp:1993
 #: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6678,7 +6678,7 @@ msgid "Unable to write to file %1"
 msgstr "V datoteko %1 ni mogoče pisati"
 
 #: ekos/align/align.cpp:3969 ekos/align/mountmodel.cpp:284
-#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2812
+#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2834
 #: ekos/capture/cameraprocess.cpp:2550 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2972
 #: ekos/scheduler/schedulerprocess.cpp:3310
@@ -7328,7 +7328,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Odpri seznam razporejevalnika Ekos"
 
-#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2811
+#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2833
 #: ekos/capture/cameraprocess.cpp:2549 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3309
 #: ekos/scheduler/schedulerprocess.cpp:4612
@@ -14391,12 +14391,12 @@ msgstr "Ploske slike neba"
 msgid "Capture Sequence Editor: %1"
 msgstr "Urejevalnik zaporedja zajemov: %1"
 
-#: ekos/capture/camera.cpp:168 ekos/capture/camera.cpp:3918
+#: ekos/capture/camera.cpp:168 ekos/capture/camera.cpp:3940
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Dodaj posel v čakalno vrsto zaporedja"
 
-#: ekos/capture/camera.cpp:169 ekos/capture/camera.cpp:3919
+#: ekos/capture/camera.cpp:169 ekos/capture/camera.cpp:3941
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Odstrani posel iz čakalne vrste zaporedja"
@@ -14509,81 +14509,81 @@ msgstr "Nastavljanje kamere na %1 stopinj V od S …"
 msgid "Set Camera to %1 deg..."
 msgstr "Nastavi kamero na %1 stopinj …"
 
-#: ekos/capture/camera.cpp:1166
+#: ekos/capture/camera.cpp:1183
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Odpri čakalno vrsto zaporedja Ekos"
 
-#: ekos/capture/camera.cpp:1199
+#: ekos/capture/camera.cpp:1216
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Shrani čakalno vrsto zaporedja Ekos"
 
-#: ekos/capture/camera.cpp:1221
+#: ekos/capture/camera.cpp:1238
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Ni bilo mogoče shraniti čakalne vrste zaporedja"
 
-#: ekos/capture/camera.cpp:1278 ekos/capture/camera.cpp:2296
+#: ekos/capture/camera.cpp:1295 ekos/capture/camera.cpp:2313
 #, kde-format
 msgid "Dark Flat"
 msgstr "Ploska tema"
 
-#: ekos/capture/camera.cpp:1991 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:2008 ekos/scheduler/framingassistant.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Mapa za shranjevanje FITS"
 
-#: ekos/capture/camera.cpp:2088
+#: ekos/capture/camera.cpp:2105
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "Ali želite ponastaviti prilagoditev %1 na privzeto?"
 
-#: ekos/capture/camera.cpp:2090
+#: ekos/capture/camera.cpp:2107
 #, kde-format
 msgid "Confirmation"
 msgstr "Potrditev"
 
-#: ekos/capture/camera.cpp:2273
+#: ekos/capture/camera.cpp:2290
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr "Nastaviti morate oddaljeni imenik za načina Krajevno in Oboje."
 
-#: ekos/capture/camera.cpp:2279
+#: ekos/capture/camera.cpp:2296
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr "Nastaviti morate krajevni imenik za načina Odjemalec in Oboje."
 
-#: ekos/capture/camera.cpp:3456
+#: ekos/capture/camera.cpp:3478
 #, kde-format
 msgid "Paused..."
 msgstr "V premoru …"
 
-#: ekos/capture/camera.cpp:3461
+#: ekos/capture/camera.cpp:3483
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Obrat čez poldnevnik…"
 
-#: ekos/capture/camera.cpp:3462
+#: ekos/capture/camera.cpp:3484
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Začetek obrata čez poldnevnik"
 
-#: ekos/capture/camera.cpp:3466
+#: ekos/capture/camera.cpp:3488
 #, kde-format
 msgid "Flip complete."
 msgstr "Obrat končan."
 
-#: ekos/capture/camera.cpp:3526
+#: ekos/capture/camera.cpp:3548
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Rampa (°C/min):"
 
-#: ekos/capture/camera.cpp:3532
+#: ekos/capture/camera.cpp:3554
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14594,13 +14594,13 @@ msgstr ""
 "segrevanju kamere. Nastavite na nič, da onemogočite.<p>Ta nastavitev je "
 "prebrana iz in se shrani v nastavitev gonilnika kamere INDI.</body></html>"
 
-#: ekos/capture/camera.cpp:3537
+#: ekos/capture/camera.cpp:3559
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Prag (°C):"
 
-#: ekos/capture/camera.cpp:3543
+#: ekos/capture/camera.cpp:3565
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14611,70 +14611,70 @@ msgstr ""
 "temperaturo, ki sproži regulacijo.<p>Ta nastavitev se prebere iz nastavitev "
 "gonilnika kamere INDI in se vanjo tudi shrani.</body></html>"
 
-#: ekos/capture/camera.cpp:3556
+#: ekos/capture/camera.cpp:3578
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Nastavite uravnavanje temperature"
 
-#: ekos/capture/camera.cpp:3596
+#: ekos/capture/camera.cpp:3618
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Izberite trenutnega opazovalca"
 
-#: ekos/capture/camera.cpp:3598
+#: ekos/capture/camera.cpp:3620
 #, kde-format
 msgid "Current Observer:"
 msgstr "Trenutni opazovalec:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3609 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3631 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Upravljanje z opazovalci"
 
-#: ekos/capture/camera.cpp:3781
+#: ekos/capture/camera.cpp:3803
 #, kde-format
 msgid "Cooler is on"
 msgstr "Hladilnik je prižgan"
 
-#: ekos/capture/camera.cpp:3781
+#: ekos/capture/camera.cpp:3803
 #, kde-format
 msgid "Cooler is off"
 msgstr "Hladilnik je ugasnjen"
 
-#: ekos/capture/camera.cpp:3811
+#: ekos/capture/camera.cpp:3833
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Filter nastavljen na %1."
 
-#: ekos/capture/camera.cpp:3843
+#: ekos/capture/camera.cpp:3865
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Ali zares želite ponastaviti stanje vseh opravil?"
 
-#: ekos/capture/camera.cpp:3843 ekos/capture/cameraprocess.cpp:2668
+#: ekos/capture/camera.cpp:3865 ekos/capture/cameraprocess.cpp:2668
 #, kde-format
 msgid "Reset job status"
 msgstr "Ponastavi stanje opravil"
 
-#: ekos/capture/camera.cpp:3896
+#: ekos/capture/camera.cpp:3918
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Urejanje %1. opravila …"
 
-#: ekos/capture/camera.cpp:3899 ekos/scheduler/scheduler.cpp:1231
+#: ekos/capture/camera.cpp:3921 ekos/scheduler/scheduler.cpp:1231
 #, kde-format
 msgid "Apply job changes."
 msgstr "Uveljavi spremembe opravil."
 
-#: ekos/capture/camera.cpp:3900
+#: ekos/capture/camera.cpp:3922
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Prekliči spremembe opravil."
 
-#: ekos/capture/camera.cpp:3913
+#: ekos/capture/camera.cpp:3935
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Urejanje opravila preklicano."
