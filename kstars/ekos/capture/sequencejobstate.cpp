@@ -223,7 +223,7 @@ void SequenceJobState::checkAllActionsReady()
 
 void SequenceJobState::setAllActionsReady()
 {
-    QMutableMapIterator<CapturePrepareActions, bool> it(prepareActions);
+    QMutableMapIterator<CaptureWorkflowActionType, bool> it(prepareActions);
 
     while (it.hasNext())
     {
@@ -231,7 +231,7 @@ void SequenceJobState::setAllActionsReady()
         it.setValue(true);
     }
     // reset the initialization state
-    for (CapturePrepareActions action :
+    for (CaptureWorkflowActionType action :
             {
                 CAPTURE_ACTION_FILTER, CAPTURE_ACTION_ROTATOR, CAPTURE_ACTION_TEMPERATURE
             })
@@ -637,12 +637,12 @@ IPState SequenceJobState::checkLightFrameScopeCoverOpen()
     return IPS_OK;
 }
 
-bool SequenceJobState::isInitialized(CapturePrepareActions action)
+bool SequenceJobState::isInitialized(CaptureWorkflowActionType action)
 {
     return m_CameraState.data()->isInitialized[action];
 }
 
-void SequenceJobState::setInitialized(CapturePrepareActions action, bool init)
+void SequenceJobState::setInitialized(CaptureWorkflowActionType action, bool init)
 {
     m_CameraState.data()->isInitialized[action] = init;
 }

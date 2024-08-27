@@ -301,11 +301,11 @@ class SequenceJobState: public QObject
         // ////////////////////////////////////////////////////////////////////
 
         // Mapping PrepareActions --> bool marks whether a certain action is completed (=true) or not (=false)
-        QMap<CapturePrepareActions, bool> prepareActions;
+        QMap<CaptureWorkflowActionType, bool> prepareActions;
         // This is a workaround for a specific INDI behaviour. If a INDI property is set, it sends this value
         // back to the clients. If the value does not immediately change to the target value (like e.g. the CCD
         // temperature), the first value after setting a property must be ignored.
-        QMap<CapturePrepareActions, bool> ignoreNextValue;
+        QMap<CaptureWorkflowActionType, bool> ignoreNextValue;
 
         // capture frame type (light, flat, dark, bias)
         CCDFrameType m_frameType { FRAME_NONE };
@@ -377,11 +377,11 @@ class SequenceJobState: public QObject
         /**
          * @brief Check if a certain action has already been initialized
          */
-        bool isInitialized(CapturePrepareActions action);
+        bool isInitialized(CaptureWorkflowActionType action);
         /**
          * @brief Set a certain action as initialized
          */
-        void setInitialized(CapturePrepareActions action, bool init);
+        void setInitialized(CaptureWorkflowActionType action, bool init);
 
         // ////////////////////////////////////////////////////////////////////
         // flats preparation state

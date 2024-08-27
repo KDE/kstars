@@ -41,7 +41,6 @@ class SequenceJob;
 class SequenceQueue;
 class CaptureDeviceAdaptor;
 class RefocusState;
-class CaptureModuleState;
 
 class CameraState: public QObject
 {
@@ -54,7 +53,6 @@ class CameraState: public QObject
         } DoubleRange;
 
         CameraState(QObject *parent = nullptr);
-        CameraState(QSharedPointer<CaptureModuleState> cms, QObject *parent = nullptr);
 
         // ////////////////////////////////////////////////////////////////////
         // sequence jobs
@@ -96,7 +94,7 @@ class CameraState: public QObject
         // With this construct we could do a lazy initialization of current values if setCurrent...()
         // sets this flag to true. This is necessary since we listen to the events, but as long as
         // the value does not change, there won't be an event.
-        QMap<CapturePrepareActions, bool> isInitialized;
+        QMap<CaptureWorkflowActionType, bool> isInitialized;
 
         // ////////////////////////////////////////////////////////////////////
         // flat preparation attributes
@@ -326,11 +324,6 @@ class CameraState: public QObject
         void setDomeState(ISD::Dome::Status value)
         {
             m_domeState = value;
-        }
-
-        QSharedPointer<CaptureModuleState> moduleState() const
-        {
-            return m_moduleState;
         }
 
         QSharedPointer<MeridianFlipState> getMeridianFlipState();
@@ -834,7 +827,18 @@ class CameraState: public QObject
 
         bool isCaptureRunning()
         {
-            return (m_CaptureState != CAPTURE_IDLE && m_CaptureState != CAPTURE_COMPLETE && m_CaptureState != CAPTURE_ABORTED);
+            return (m_CaptureState == CAPTURE_PROGRESS || m_CaptureState == CAPTURE_CAPTURING || m_CaptureState == CAPTURE_PAUSE_PLANNED ||
+                    m_CaptureState == CAPTURE_IMAGE_RECEIVED || m_CaptureState == CAPTURE_CHANGING_FILTER || m_CaptureState == CAPTURE_CALIBRATING);
+        }
+
+        bool isCaptureStopped()
+        {
+            return (m_CaptureState == CAPTURE_IDLE || m_CaptureState == CAPTURE_ABORTED || m_CaptureState == CAPTURE_SUSPENDED);
+        }
+
+        bool isCapturePausing()
+        {
+            return (m_CaptureState == CAPTURE_PAUSE_PLANNED || m_CaptureState == CAPTURE_PAUSED);
         }
 
         ScriptTypes captureScriptType() const
@@ -937,6 +941,8 @@ signals:
         void executeActiveJob();
         void updatePrepareState(CaptureState state);
         void captureStarted(CaptureResult rc);
+        // request the execution of an action orchestrated by the capture module
+        void requestAction(CaptureWorkflowActionType action);
         // mount meridian flip status update event
         void newMeridianFlipStage(MeridianFlipState::MFStage status);
         // meridian flip started
@@ -945,6 +951,8 @@ signals:
         void newGuiderDrift(double deviation_rms);
         // guiding should be started after a successful meridian flip
         void guideAfterMeridianFlip();
+        // reset non guided dithering properties
+        void resetNonGuidedDither();
         // new capture state
         void newStatus(CaptureState status);
         // forward new focus status
@@ -972,7 +980,7 @@ signals:
 
     private:
         // initialize the class
-        void init(QSharedPointer<CaptureModuleState> cms);
+        void init();
 
         // Container for the list of SequenceJobs.
         QSharedPointer<SequenceQueue> m_sequenceQueue;
@@ -1085,8 +1093,6 @@ signals:
         // How many images to capture before dithering operation is executed?
         uint m_ditherCounter { 0 };
 
-        /* overall state */
-        QSharedPointer<CaptureModuleState> m_moduleState;
         /* Refocusing */
         QSharedPointer<RefocusState> m_refocusState;
         /* Meridian Flip */

@@ -356,6 +356,12 @@ void CameraProcess::stopCapturing(CaptureState targetState)
             emit captureAborted(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
             KSNotification::event(QLatin1String("CaptureFailed"), stopText, KSNotification::Capture, KSNotification::Alert);
             emit newLog(stopText);
+
+            // special case: if pausing has been requested, we pause
+            if (state()->getCaptureState() == CAPTURE_PAUSE_PLANNED &&
+                    checkPausing(CAPTURE_CONTINUE_ACTION_NEXT_EXPOSURE))
+                return;
+            // in all other cases, abort
             activeJob()->abort();
             if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
             {
@@ -418,7 +424,7 @@ void CameraProcess::stopCapturing(CaptureState targetState)
 
 void CameraProcess::pauseCapturing()
 {
-    if (state()->getCaptureState() != CAPTURE_CAPTURING)
+    if (state()->isCaptureRunning() == false)
     {
         // Ensure that the pause function is only called during frame capturing
         // Handling it this way is by far easier than trying to enable/disable the pause button

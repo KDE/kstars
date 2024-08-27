@@ -35,7 +35,8 @@
     <signal name="meridianFlipStarted"/>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
-        <arg name="devicename" type="s" direction="out"/>
+        <arg name="trainname" type="s" direction="out"/>
+        <arg name="cameraID" type="i" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::CaptureState"/>
     </signal>
     <signal name="captureComplete">

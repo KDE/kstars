@@ -30,9 +30,13 @@ typedef enum
     HFR_CHECK_MAX_ALGO        /* Max counter for enum              */
 } HFRCheckAlgorithm;
 
-/* Action types to be executed before capturing may start. */
+/* Action types to be executed within the capturing workflow. */
 typedef enum
 {
+    CAPTURE_ACTION_NONE,                /* Do nothing.                                                                                    */
+    CAPTURE_ACTION_START,               /* Start capturing.                                                                               */
+    CAPTURE_ACTION_PAUSE,               /* Pause capturing.                                                                               */
+    CAPTURE_ACTION_SUSPEND,             /* Suspend capturing.                                                                             */
     CAPTURE_ACTION_FILTER,              /* Change the filter and wait until the correct filter is set.                                    */
     CAPTURE_ACTION_TEMPERATURE,         /* Set the camera chip target temperature and wait until the target temperature has been reached. */
     CAPTURE_ACTION_ROTATOR,             /* Set the camera rotator target angle and wait until the target angle has been reached.          */
@@ -41,8 +45,10 @@ typedef enum
     CAPTURE_ACTION_DOME_PARK,           /* Park the dome.                                                                                 */
     CAPTURE_ACTION_FLAT_SYNC_FOCUS,     /* Move the focuser to the focus position for the selected filter.                                */
     CAPTURE_ACTION_SCOPE_COVER,         /* Ensure that the scope cover (if present) is opened.                                            */
-    CAPTURE_ACTION_AUTOFOCUS            /* Execute autofocus (might be triggered due to filter change).                                   */
-} CapturePrepareActions;
+    CAPTURE_ACTION_AUTOFOCUS,           /* Execute autofocus (might be triggered due to filter change).                                   */
+    CAPTURE_ACTION_DITHER_REQUEST,      /* Request for dither execution.                                                                  */
+    CAPTURE_ACTION_DITHER,              /* Execute dithering.                                                                             */
+} CaptureWorkflowActionType;
 
 typedef enum {
     CAPTURE_PREACTION_NONE       = 1 << 0,

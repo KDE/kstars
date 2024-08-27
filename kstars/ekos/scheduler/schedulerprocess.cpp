@@ -4445,9 +4445,8 @@ void SchedulerProcess::registerNewModule(const QString &name)
                                                QDBusConnection::sessionBus(), this));
 
         connect(captureInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
-        connect(captureInterface(), SIGNAL(newStatus(Ekos::CaptureState, const QString)), this,
-                SLOT(setCaptureStatus(Ekos::CaptureState, const QString)),
-                Qt::UniqueConnection);
+        connect(captureInterface(), SIGNAL(newStatus(Ekos::CaptureState, const QString, int)), this,
+                SLOT(setCaptureStatus(Ekos::CaptureState, const QString)), Qt::UniqueConnection);
         connect(captureInterface(), SIGNAL(captureComplete(QVariantMap)), this, SLOT(checkAlignment(QVariantMap)),
                 Qt::UniqueConnection);
         checkInterfaceReady(captureInterface());

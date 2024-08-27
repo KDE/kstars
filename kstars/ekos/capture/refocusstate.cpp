@@ -5,7 +5,6 @@
 */
 
 #include "refocusstate.h"
-#include "capturemodulestate.h"
 #include "klocalizedstring.h"
 
 #include <ekos_capture_debug.h>
@@ -19,13 +18,13 @@ uint RefocusState::getRefocusEveryNTimerElapsedSec()
     return m_refocusEveryNTimer.isValid() ? static_cast<uint>(m_refocusEveryNTimer.elapsed() / 1000) : 0;
 }
 
-RefocusState::RefocusReason RefocusState::checkFocusRequired(const QString &opticaltrain)
+RefocusState::RefocusReason RefocusState::checkFocusRequired()
 {
     setRefocusing(false);
     setInSequenceFocus(isAutoFocusReady() && Options::enforceAutofocusHFR());
 
     // 1. check if user requested an ad-hoc in-sequence Autofocus
-    if (moduleState()->forceInSeqAF(opticaltrain))
+    if (forceInSeqAF())
     {
         qCDebug(KSTARS_EKOS_CAPTURE) << "User initiated ad-hoc in-sequence Autofocus";
 

@@ -243,6 +243,13 @@ class Guide : public QWidget, public Ui::Guide
              */
         Q_SCRIPTABLE bool dither();
 
+        /**
+         * @brief Reset non guided dithering properties and initialize the random generator seed if not already done.
+         *         Should be called in Guide::Guide() for initial seed initialization, and then every time to reset accumulated drift
+         *        every time a capture task is completed or aborted.
+         */
+        void resetNonGuidedDither();
+
         /** DBUS interface function.
              * @brief suspend Suspend autoguiding
              * @return True if successful, false otherwise.
@@ -684,11 +691,6 @@ class Guide : public QWidget, public Ui::Guide
 
         // Flag to check if random generator for non guided dithering is initialized.
         bool isNonGuidedDitherInitialized = false;
-
-        // Reset non guided dithering properties and initialize the random generator seed if not already done.
-        // Should be called in Guide::Guide() for initial seed initialization, and then in setCaptureStatus to reset accumulated drift
-        // every time a capture task is completed or aborted.
-        void resetNonGuidedDither();
 
         QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;

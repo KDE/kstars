@@ -72,25 +72,21 @@ QVariantMap copyStandAloneSettings(const QVariantMap &settings)
 namespace Ekos
 {
 
-Camera::Camera(QSharedPointer<CaptureModuleState> cms, int id, bool standAlone, QWidget *parent)
-    : QWidget{parent}, m_standAlone(standAlone)
+Camera::Camera(int id, bool standAlone, QWidget *parent)
+    : QWidget{parent}, m_standAlone(standAlone), m_cameraId(id)
 {
-    init(cms, id, standAlone);
+    init();
 }
 
-Camera::Camera(bool standAlone, QWidget *parent)
+Camera::Camera(bool standAlone, QWidget *parent) : QWidget{parent}, m_standAlone(standAlone), m_cameraId(0)
 {
-    QSharedPointer<CaptureModuleState> cms;
-    cms.reset(new CaptureModuleState());
-    init(cms, 0, standAlone);
+    init();
 }
 
-void Ekos::Camera::init(QSharedPointer<CaptureModuleState> cms, int id, bool standAlone)
+void Ekos::Camera::init()
 {
     setupUi(this);
-    m_cameraId = id;
-    m_standAlone = standAlone;
-    m_cameraState.reset(new CameraState(cms));
+    m_cameraState.reset(new CameraState());
     m_DeviceAdaptor.reset(new CaptureDeviceAdaptor());
     m_cameraProcess.reset(new CameraProcess(state(), m_DeviceAdaptor));
 
@@ -193,7 +189,9 @@ void Ekos::Camera::init(QSharedPointer<CaptureModuleState> cms, int id, bool sta
 
 Camera::~Camera()
 {
-    qDeleteAll(state()->allJobs());
+    foreach (auto job, state()->allJobs())
+        job->deleteLater();
+
     state()->allJobs().clear();
 }
 
@@ -449,6 +447,12 @@ void Camera::initCamera()
     });
     connect(m_cameraState.data(), &CameraState::newMeridianFlipStage, this, &Camera::updateMeridianFlipStage);
     connect(m_cameraState.data(), &CameraState::guideAfterMeridianFlip, this, &Camera::guideAfterMeridianFlip);
+    connect(m_cameraState.data(), &CameraState::resetNonGuidedDither, this, [&]()
+    {
+        // only the main camera sends guiding controls
+        if (cameraId() == 0)
+            emit resetNonGuidedDither();
+    });
     connect(m_cameraState.data(), &CameraState::newStatus, this, &Camera::updateCameraStatus);
     connect(m_cameraState.data(), &CameraState::meridianFlipStarted, this, [&]()
     {
@@ -505,15 +509,28 @@ void Camera::initCamera()
     {
         captureStatusWidget->setStatus(i18n("Downloading..."), Qt::yellow);
     });
+    connect(m_cameraProcess.data(), &CameraProcess::requestAction, this, [&](CaptureWorkflowActionType action)
+    {
+        emit requestAction(m_cameraId, action);
+    });
 
     // connections between state machine and process engine
     connect(m_cameraState.data(), &CameraState::executeActiveJob, m_cameraProcess.data(),
             &CameraProcess::executeJob);
     connect(m_cameraState.data(), &CameraState::captureStarted, m_cameraProcess.data(),
             &CameraProcess::captureStarted);
+    connect(m_cameraState.data(), &CameraState::requestAction, this, [&](CaptureWorkflowActionType action)
+    {
+        emit requestAction(m_cameraId, action);
+    });
     connect(m_cameraState.data(), &CameraState::checkFocus, this, [&](double hfr)
     {
         emit checkFocus(hfr, opticalTrain());
+    });
+    connect(m_cameraState.data(), &CameraState::resetNonGuidedDither, this, [&]()
+    {
+        if (m_cameraId == 0)
+            emit resetNonGuidedDither();
     });
 
     // device adaptor connections
@@ -2866,7 +2883,7 @@ bool Camera::saveSequenceQueue(const QString &path)
 void Camera::updateCameraStatus(CaptureState status)
 {
     // forward a status change
-    emit newStatus(status, opticalTrain());
+    emit newStatus(status, opticalTrain(), cameraId());
 }
 
 void Camera::clearSequenceQueue()

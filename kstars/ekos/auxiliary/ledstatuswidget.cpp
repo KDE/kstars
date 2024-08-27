@@ -43,7 +43,7 @@ void LedStatusWidget::setCaptureState(CaptureState status)
             setStatus(i18n("Waiting..."), Qt::yellow);
             break;
         case CAPTURE_DITHERING:
-            setStatus(i18n("Dithering..."), Qt::yellow);
+            setStatus(i18n("Dithering requested..."), Qt::yellow);
             break;
         case CAPTURE_FOCUSING:
             setStatus(i18n("Focusing..."), Qt::yellow);

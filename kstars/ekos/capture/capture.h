@@ -391,7 +391,7 @@ class Capture : public QWidget, public Ui::Capture
 
         void checkCloseCameraTab(int tabIndex);
 
-        QSharedPointer<Camera> mainCamera() const;
+        const QSharedPointer<Camera> mainCamera() const;
 
         /**
          * @brief find the camera using the given train
@@ -467,7 +467,7 @@ class Capture : public QWidget, public Ui::Capture
 
         const QList<QSharedPointer<Camera>> &cameras() const
         {
-            return m_Cameras;
+            return moduleState()->cameras();
         }
 
 public slots:
@@ -695,7 +695,7 @@ public slots:
         Q_SCRIPTABLE void newLog(const QString &text);
         Q_SCRIPTABLE void meridianFlipStarted(const QString &trainname);
         Q_SCRIPTABLE void guideAfterMeridianFlip();
-        Q_SCRIPTABLE void newStatus(CaptureState status, const QString &trainname);
+        Q_SCRIPTABLE void newStatus(CaptureState status, const QString &trainname, int cameraID);
         Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
 
         void newFilterStatus(FilterState state);
@@ -710,6 +710,8 @@ public slots:
         void adaptiveFocus(const QString &trainname);
         void suspendGuiding();
         void resumeGuiding();
+        void dither();
+        void resetNonGuidedDither();
         void captureTarget(QString targetName);
         void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &trainname);
         void newExposureProgress(SequenceJob *job, const QString &trainname);
@@ -790,9 +792,6 @@ public slots:
 
         // overall state
         QSharedPointer<CaptureModuleState> m_moduleState;
-
-
-        QList<QSharedPointer<Camera>> m_Cameras;
 
         QPointer<QDBusInterface> mountInterface;
 

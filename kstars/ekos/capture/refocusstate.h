@@ -14,8 +14,6 @@
 namespace Ekos
 {
 
-class CaptureModuleState;
-
 class RefocusState : public QObject
 {
         Q_OBJECT
@@ -31,10 +29,7 @@ class RefocusState : public QObject
             REFOCUS_USER_REQUEST  /* user forced an in sequence Autofocus               */
         } RefocusReason;
 
-        explicit RefocusState(QSharedPointer<CaptureModuleState> cms, QObject *parent = nullptr): QObject{parent}
-        {
-            m_moduleState = cms;
-        }
+        explicit RefocusState(QObject *parent = nullptr): QObject{parent}{}
 
         /**
          * @brief Check if focusing is necessary:
@@ -44,7 +39,7 @@ class RefocusState : public QObject
          * 4. HFR based in sequence
          * 5. post meridian flip         *
          */
-        RefocusReason checkFocusRequired(const QString &opticaltrain);
+        RefocusReason checkFocusRequired();
 
         /**
          * @brief Start the timer triggering refosing after the configured time.
@@ -164,11 +159,14 @@ class RefocusState : public QObject
          */
         void addHFRValue(const QString &filter);
 
-        QSharedPointer<CaptureModuleState> moduleState() const
+        bool forceInSeqAF() const
         {
-            return m_moduleState;
+            return m_ForceInSeqAF;
         }
-
+        void setForceInSeqAF(bool newForceInSeqAF)
+        {
+            m_ForceInSeqAF = newForceInSeqAF;
+        }
 
 signals:
         // new log text for the module log window
@@ -176,8 +174,6 @@ signals:
 
 
     private:
-        // overall state
-        QSharedPointer<CaptureModuleState> m_moduleState;
         // HFR value as received from the Ekos focus module
         double m_focusHFR { 0 };
         // Whether m_focusHFR was taken during Autofocus
@@ -188,6 +184,8 @@ signals:
         bool m_AutoFocusReady { false };
         // focusing during the capture sequence
         bool m_InSequenceFocus { false };
+        // User has requested an autofocus run as soon as possible
+        bool m_ForceInSeqAF {false};
         // adaptive focusing complete
         bool m_AdaptiveFocusDone { false };
         // counter how many captures to be executed until focusing is triggered

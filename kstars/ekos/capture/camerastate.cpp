@@ -5,7 +5,6 @@
 */
 
 #include "camerastate.h"
-#include "capturemodulestate.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/capture/sequencejob.h"
 #include "ekos/capture/sequencequeue.h"
@@ -18,11 +17,10 @@
 
 namespace Ekos
 {
-void CameraState::init(QSharedPointer<CaptureModuleState> cms)
+void CameraState::init()
 {
-    m_moduleState = cms;
     m_sequenceQueue.reset(new SequenceQueue());
-    m_refocusState.reset(new RefocusState(m_moduleState));
+    m_refocusState.reset(new RefocusState());
     m_TargetADUTolerance = Options::calibrationADUValueTolerance();
     connect(m_refocusState.get(), &RefocusState::newLog, this, &CameraState::newLog);
 
@@ -37,17 +35,9 @@ void CameraState::init(QSharedPointer<CaptureModuleState> cms)
     setSkyFlat(Options::calibrationSkyFlat());
 }
 
-CameraState::CameraState(QObject *parent)
+CameraState::CameraState(QObject *parent): QObject{parent}
 {
-    QSharedPointer<CaptureModuleState> cms;
-    cms.reset(new CaptureModuleState(parent));
-    init(cms);
-}
-
-
-CameraState::CameraState(QSharedPointer<CaptureModuleState> cms, QObject *parent): QObject{parent}
-{
-    init(cms);
+    init();
 }
 
 QList<SequenceJob *> &CameraState::allJobs()
@@ -175,6 +165,8 @@ void CameraState::setCaptureState(CaptureState value)
     {
         case CAPTURE_IDLE:
         case CAPTURE_ABORTED:
+            emit resetNonGuidedDither();
+        /* Fall through */
         case CAPTURE_SUSPENDED:
         case CAPTURE_PAUSED:
             // meridian flip may take place if requested
@@ -185,6 +177,8 @@ void CameraState::setCaptureState(CaptureState value)
             // remember pause planning before receiving an image
             pause_planned = (m_CaptureState == CAPTURE_PAUSE_PLANNED);
             break;
+        case CAPTURE_DITHERING:
+            emit requestAction(CAPTURE_ACTION_DITHER_REQUEST);
         default:
             // do nothing
             break;
@@ -781,7 +775,7 @@ bool CameraState::startFocusIfRequired()
             || m_activeJob->jobType() == SequenceJob::JOBTYPE_PREVIEW)
         return false;
 
-    RefocusState::RefocusReason reason = m_refocusState->checkFocusRequired(opticalTrain());
+    RefocusState::RefocusReason reason = m_refocusState->checkFocusRequired();
 
     // no focusing necessary
     if (reason == RefocusState::REFOCUS_NONE)

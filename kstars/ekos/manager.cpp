@@ -3046,7 +3046,8 @@ void Manager::connectModules()
                 Qt::UniqueConnection);
 
         // Dithering
-        connect(captureModule(), &Ekos::Capture::newStatus, guideModule(), &Ekos::Guide::setCaptureStatus,
+        connect(captureModule(), &Ekos::Capture::dither, guideModule(), &Ekos::Guide::dither, Qt::UniqueConnection);
+        connect(captureModule(), &Ekos::Capture::resetNonGuidedDither, guideModule(), &Ekos::Guide::resetNonGuidedDither,
                 Qt::UniqueConnection);
 
         // Guide Head

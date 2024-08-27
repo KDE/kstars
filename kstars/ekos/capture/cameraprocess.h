@@ -702,6 +702,7 @@ signals:
     void stopCapture(CaptureState targetState = CAPTURE_IDLE);
     void captureAborted(double exposureSeconds);
     void captureStopped();
+    void requestAction(CaptureWorkflowActionType action);
     void syncGUIToJob(SequenceJob *job);
     void updateFrameProperties(int reset);
     void updateJobTable(SequenceJob *job, bool full = false);

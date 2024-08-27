@@ -51,7 +51,7 @@ class Camera : public QWidget, public Ui::Camera
 public:
 
     // default constructor
-    explicit Camera(QSharedPointer<CaptureModuleState> cms, int id = 0, bool standAlone = false, QWidget *parent = nullptr);
+    explicit Camera(int id = 0, bool standAlone = false, QWidget *parent = nullptr);
     // constructor for standalone editor
     explicit Camera(bool standAlone = false, QWidget *parent = nullptr);
     ~Camera();
@@ -427,15 +427,22 @@ public:
         m_settings = newSettings;
     }
 
+    int cameraId() const
+    {
+        return m_cameraId;
+    }
+
 signals:
     // communication with other modules
     void ready();
+    void requestAction(int cameraID, CaptureWorkflowActionType action);
     void refreshCamera(uint id, bool isValid);
     void newExposureProgress(SequenceJob *job, const QString &trainname);
     void newDownloadProgress(double, const QString &trainname);
     void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &trainname);
     void captureTarget(QString targetName);
     void captureComplete(const QVariantMap &metadata);
+    void resetNonGuidedDither();
     void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo, const QString &trainname);
     void resetFocus(const QString &trainname);
     void abortFocus(const QString &trainname);
@@ -457,7 +464,7 @@ signals:
     void checkFocus(double, const QString &trainname);
     void meridianFlipStarted(const QString &trainname);
     void guideAfterMeridianFlip();
-    void newStatus(CaptureState status, const QString &devicename);
+    void newStatus(CaptureState status, const QString &devicename, int cameraID);
     void suspendGuiding();
     void resumeGuiding();
     void driverTimedout(const QString &deviceName);
@@ -746,7 +753,7 @@ private:
     // helper functions
     // ////////////////////////////////////////////////////////////////////
     // object initializstion
-    void init(QSharedPointer<CaptureModuleState> cms, int id, bool standAlone);
+    void init();
     // camera device name
     QString getCameraName()
     {

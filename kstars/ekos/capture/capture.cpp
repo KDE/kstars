@@ -87,7 +87,7 @@ Capture::Capture()
 QSharedPointer<Camera> Capture::addCamera()
 {
     QSharedPointer<Camera> newCamera;
-    newCamera.reset(new Camera(moduleState(), m_Cameras.count()));
+    newCamera.reset(new Camera(cameras().count()));
 
     // create the new tab and bring it to front
     const int tabIndex = cameraTabs->insertTab(std::max(0, cameraTabs->count() - 1), newCamera.get(), "new Camera");
@@ -131,13 +131,17 @@ QSharedPointer<Camera> Capture::addCamera()
     connect(newCamera.get(), &Camera::newStatus, this, &Capture::newStatus);
     connect(newCamera.get(), &Camera::suspendGuiding, this, &Capture::suspendGuiding);
     connect(newCamera.get(), &Camera::resumeGuiding, this, &Capture::resumeGuiding);
+    connect(newCamera.get(), &Camera::resetNonGuidedDither, this, &Capture::resetNonGuidedDither);
     connect(newCamera.get(), &Camera::driverTimedout, this, &Capture::driverTimedout);
 
+    // connection to the global module state
+    connect(m_moduleState.get(), &CaptureModuleState::dither, this, &Capture::dither);
+
     const QString train = findUnusedOpticalTrain();
-    m_Cameras.append(newCamera);
     // select an unused train
     if (train != "")
         newCamera->opticalTrainCombo->setCurrentText(train);
+    moduleState()->addCamera(newCamera);
     // update the tab text
     updateCamera(tabIndex, true);
 
@@ -161,10 +165,18 @@ void Capture::updateCamera(int tabID, bool isValid)
 {
     if (isValid)
     {
-        if (tabID < cameraTabs->count() && tabID < m_Cameras.count() && m_Cameras[tabID]->activeCamera() != nullptr)
+        if (tabID < cameraTabs->count() && tabID < cameras().count())
         {
-            auto name = m_Cameras[tabID]->activeCamera()->getDeviceName();
-            cameraTabs->setTabText(tabID, name);
+            auto cam = moduleState()->mutableCameras()[tabID];
+
+            if (cam->activeCamera() != nullptr)
+            {
+                auto name = cam->activeCamera()->getDeviceName();
+                cameraTabs->setTabText(tabID, name);
+            }
+
+            // update shared attributes
+            cam->state()->getRefocusState()->setForceInSeqAF(moduleState()->forceInSeqAF(cam->opticalTrain()));
         }
         else
             qCWarning(KSTARS_EKOS_CAPTURE) << "Unknown camera ID:" << tabID;
@@ -174,7 +186,7 @@ void Capture::updateCamera(int tabID, bool isValid)
 }
 
 
-bool Capture::setDome(ISD::Dome *device)
+bool Capture::setDome(ISD::Dome * device)
 {
     return process()->setDome(device);
 }
@@ -218,7 +230,7 @@ void Capture::setGuideChip(ISD::CameraChip * guideChip)
 void Capture::setFocusStatus(FocusState newstate, const QString &trainname)
 {
     // publish to all known focusers using the same optical train (should be only one)
-    for (auto &cam : m_Cameras)
+    for (auto &cam : cameras())
         if (trainname == "" || cam->opticalTrain() == trainname)
             cam->setFocusStatus(newstate);
 }
@@ -226,7 +238,7 @@ void Capture::setFocusStatus(FocusState newstate, const QString &trainname)
 void Capture::focusAdaptiveComplete(bool success, const QString &trainname)
 {
     // publish to all known focusers using the same optical train (should be only one)
-    for (auto &cam : m_Cameras)
+    for (auto &cam : cameras())
         if (trainname == "" || cam->opticalTrain() == trainname)
             cam->focusAdaptiveComplete(success);
 }
@@ -302,7 +314,7 @@ void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absT
 {
     Q_UNUSED(absTemperture);
     // publish to all known focusers using the same optical train (should be only one)
-    for (auto &cam : m_Cameras)
+    for (auto &cam : cameras())
         if (trainname == "" || cam->opticalTrain() == trainname)
             cam->state()->getRefocusState()->setFocusTemperatureDelta(focusTemperatureDelta);
 }
@@ -348,8 +360,8 @@ void Capture::setAlignStatus(AlignState newstate)
 
 void Capture::setGuideStatus(GuideState newstate)
 {
-    // forward it directly to the state machine
-    mainCameraState()->setGuideState(newstate);
+    // forward to state machine
+    moduleState()->setGuideStatus(newstate);
 }
 
 bool Capture::setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
@@ -407,12 +419,12 @@ void Capture::abort(QString train)
 
 QSharedPointer<Camera> &Capture::camera(int i)
 {
-    if (i < m_Cameras.count())
-        return m_Cameras[i];
+    if (i < cameras().count())
+        return moduleState()->mutableCameras()[i];
     else
     {
         qCWarning(KSTARS_EKOS_CAPTURE) << "Unknown camera ID:" << i;
-        return m_Cameras[0];
+        return moduleState()->mutableCameras()[0];
     }
 }
 
@@ -420,20 +432,20 @@ void Ekos::Capture::closeCameraTab(int tabIndex)
 {
     cameraTabs->removeTab(tabIndex);
     camera(tabIndex).clear();
-    m_Cameras.removeAt(tabIndex);
+    moduleState()->removeCamera(tabIndex);
     // select the next one on the left
     cameraTabs->setCurrentIndex(std::max(0, tabIndex - 1));
 }
 
 void Capture::checkCloseCameraTab(int tabIndex)
 {
-    if (m_Cameras[tabIndex]->state()->isBusy())
+    if (moduleState()->mutableCameras()[tabIndex]->state()->isBusy())
     {
         // if accept has been clicked, abort and close the tab
         connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, &tabIndex]()
         {
             KSMessageBox::Instance()->disconnect(this);
-            m_Cameras[tabIndex]->abort();
+            moduleState()->mutableCameras()[tabIndex]->abort();
             closeCameraTab(tabIndex);
         });
         // if cancel has been clicked, do not close the tab
@@ -443,7 +455,8 @@ void Capture::checkCloseCameraTab(int tabIndex)
         });
 
         KSMessageBox::Instance()->warningContinueCancel(i18n("Camera %1 is busy. Abort to close?",
-                m_Cameras[tabIndex]->activeCamera()->getDeviceName()), i18n("Stop capturing"), 30, false, i18n("Abort"));
+                moduleState()->mutableCameras()[tabIndex]->activeCamera()->getDeviceName()), i18n("Stop capturing"), 30, false,
+                i18n("Abort"));
     }
     else
     {
@@ -451,10 +464,10 @@ void Capture::checkCloseCameraTab(int tabIndex)
     }
 }
 
-QSharedPointer<Camera> Capture::mainCamera() const
+const QSharedPointer<Camera> Capture::mainCamera() const
 {
-    if (m_Cameras.size() > 0)
-        return m_Cameras[0];
+    if (cameras().size() > 0)
+        return moduleState()->cameras()[0];
     else
     {
         QSharedPointer<CaptureModuleState> cms;
@@ -465,7 +478,7 @@ QSharedPointer<Camera> Capture::mainCamera() const
 
 int Capture::findCamera(QString train, bool addIfNecessary)
 {
-    for (auto &cam : m_Cameras)
+    for (auto &cam : cameras())
     {
         if (cam->opticalTrain() == train)
             return cam->m_cameraId;
@@ -552,16 +565,19 @@ QString Capture::getTargetName()
 void Capture::setHFR(double newHFR, int, bool inAutofocus, const QString &trainname)
 {
     // publish to all known focusers using the same optical train (should be only one)
-    for (auto &cam : m_Cameras)
+    for (auto &cam : cameras())
         if (trainname == "" || cam->opticalTrain() == trainname)
             cam->state()->getRefocusState()->setFocusHFR(newHFR, inAutofocus);
 }
 
 void Capture::inSequenceAFRequested(bool requested, const QString &trainname)
 {
-    // publish to all known focusers using the same optical train (should be only one)
-    for (auto &cam : m_Cameras)
+    // publish to all known cameras using the same optical train (should be only one)
+    for (auto &cam : cameras())
         if (trainname == "" || cam->opticalTrain() == trainname)
-            moduleState()->setForceInSeqAF(requested, trainname);
+            // set the value directly in the camera's state
+            cam->state()->getRefocusState()->setForceInSeqAF(requested);
+
+    moduleState()->setForceInSeqAF(requested, trainname);
 }
-}
+} // namespace
