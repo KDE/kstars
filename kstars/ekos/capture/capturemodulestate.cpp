@@ -37,6 +37,8 @@ void CaptureModuleState::removeCamera(int pos)
     // clear connections
     cam->disconnect(this);
 
+    // remove the camera from the list
+    m_Cameras.removeAt(pos);
     // check what to do next
     checkActiveActions();
 }

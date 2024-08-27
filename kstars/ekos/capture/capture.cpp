@@ -150,15 +150,14 @@ QSharedPointer<Camera> Capture::addCamera()
 
 const QString Capture::findUnusedOpticalTrain()
 {
-    const auto names = OpticalTrainManager::Instance()->getTrainNames();
-    QSet<QString> trainnames = QSet<QString>(names.begin(), names.end());
+    QList<QString> names = OpticalTrainManager::Instance()->getTrainNames();
     foreach(auto cam, cameras())
-        trainnames.remove(cam->opticalTrain());
+        names.removeAll(cam->opticalTrain());
 
-    if (trainnames.isEmpty())
+    if (names.isEmpty())
         return "";
     else
-        return trainnames.values().first();
+        return names.first();
 }
 
 void Capture::updateCamera(int tabID, bool isValid)
@@ -430,9 +429,8 @@ QSharedPointer<Camera> &Capture::camera(int i)
 
 void Ekos::Capture::closeCameraTab(int tabIndex)
 {
-    cameraTabs->removeTab(tabIndex);
-    camera(tabIndex).clear();
     moduleState()->removeCamera(tabIndex);
+    cameraTabs->removeTab(tabIndex);
     // select the next one on the left
     cameraTabs->setCurrentIndex(std::max(0, tabIndex - 1));
 }

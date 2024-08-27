@@ -362,7 +362,6 @@ void FocusModule::updateFocuser(int tabID, bool isValid)
 void FocusModule::closeFocuserTab(int tabIndex)
 {
     focusTabs->removeTab(tabIndex);
-    focuser(tabIndex).clear();
     m_Focusers.removeAt(tabIndex);
     // select the next one on the left
     focusTabs->setCurrentIndex(std::max(0, tabIndex - 1));
@@ -397,15 +396,14 @@ void FocusModule::checkCloseFocuserTab(int tabIndex)
 
 const QString FocusModule::findUnusedOpticalTrain()
 {
-    const auto names = OpticalTrainManager::Instance()->getTrainNames();
-    QSet<QString> trainnames = QSet<QString>(names.begin(), names.end());
+    QList<QString> names = OpticalTrainManager::Instance()->getTrainNames();
     foreach(auto focuser, m_Focusers)
-        trainnames.remove(focuser->opticalTrain());
+        names.removeAll(focuser->opticalTrain());
 
-    if (trainnames.isEmpty())
+    if (names.isEmpty())
         return "";
     else
-        return trainnames.values().first();
+        return names.first();
 }
 
 }
