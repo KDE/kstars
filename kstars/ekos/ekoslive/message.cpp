@@ -411,7 +411,7 @@ void Message::sendTemperature(double value)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processCaptureCommands(const QString &command, const QJsonObject &payload)
 {
-    Ekos::Capture *capture = m_Manager->captureModule();
+    auto capture = m_Manager->captureModule();
 
     if (capture == nullptr)
     {
@@ -655,9 +655,11 @@ void Message::processGuideCommands(const QString &command, const QJsonObject &pa
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::processFocusCommands(const QString &command, const QJsonObject &payload)
 {
-    QSharedPointer<Ekos::Focus> focus = m_Manager->focusModule()->mainFocuser();
+    QSharedPointer<Ekos::Focus> focus;
+    if (m_Manager->focusModule())
+        focus = m_Manager->focusModule()->mainFocuser();
 
-    if (focus == nullptr)
+    if (focus.isNull())
     {
         qCWarning(KSTARS_EKOS) << "Ignoring command" << command << "as focus module is not available";
         return;
