@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-27 01:48+0000\n"
+"POT-Creation-Date: 2024-08-28 01:55+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -406,7 +406,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1238
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1255
 #: ekos/scheduler/scheduler.cpp:1984
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2711,7 +2711,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3960
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
-#: ekos/capture/camera.cpp:1192 ekos/capture/camera.cpp:1247
+#: ekos/capture/camera.cpp:1209 ekos/capture/camera.cpp:1264
 #: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1884
 #: ekos/scheduler/scheduler.cpp:1994 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -3025,7 +3025,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
-#: ekos/capture/cameraprocess.cpp:2451 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2457 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:727 fitsviewer/fitsviewer.cpp:728
 #, kde-format
 msgid "Preview"
@@ -3974,7 +3974,7 @@ msgstr "0.0파섹"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1699 ekos/capture/camera.cpp:1739
+#: ekos/capture/camera.cpp:1716 ekos/capture/camera.cpp:1756
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:450 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
@@ -6373,7 +6373,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "연결"
 
 #: ekos/align/align.cpp:1494 ekos/capture/cameraprocess.cpp:207
-#: ekos/capture/cameraprocess.cpp:600 ekos/focus/focus.cpp:5318
+#: ekos/capture/cameraprocess.cpp:606 ekos/focus/focus.cpp:5318
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6571,7 +6571,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "FITS 파일을 %1로 저장"
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:287 ekos/focus/focusmodule.cpp:236
+#: ekos/capture/capture.cpp:298 ekos/focus/focusmodule.cpp:236
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2037 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3452
@@ -6693,8 +6693,8 @@ msgstr "출력 파일을 위한 좌표 시스템 선택"
 msgid "Capture error. Aborting..."
 msgstr "이미지 캡처"
 
-#: ekos/align/align.cpp:3299 ekos/capture/cameraprocess.cpp:1578
-#: ekos/capture/cameraprocess.cpp:2129
+#: ekos/align/align.cpp:3299 ekos/capture/cameraprocess.cpp:1584
+#: ekos/capture/cameraprocess.cpp:2135
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6748,7 +6748,7 @@ msgstr "분"
 msgid "dDE (arcsec)"
 msgstr "초"
 
-#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3316
+#: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3333
 #: ekos/focus/focus.cpp:5206
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
@@ -6756,18 +6756,18 @@ msgstr "초"
 msgid "Filter operation failed."
 msgstr "Caliente"
 
-#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3816
+#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3833
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3662 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3821
+#: ekos/capture/camera.cpp:3838
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3826
+#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3843
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
@@ -6787,8 +6787,8 @@ msgid "Export Solution Points"
 msgstr "전체 궤도 궤적 지우기"
 
 #: ekos/align/align.cpp:3959 ekos/align/mountmodel.cpp:264
-#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1191
-#: ekos/capture/camera.cpp:1246 ekos/guide/guidedriftgraph.cpp:476
+#: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1208
+#: ekos/capture/camera.cpp:1263 ekos/guide/guidedriftgraph.cpp:476
 #: ekos/scheduler/scheduler.cpp:1883 ekos/scheduler/scheduler.cpp:1993
 #: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6799,19 +6799,19 @@ msgstr "잘못된 URL: %1"
 #: ekos/align/align.cpp:3968 ekos/align/mountmodel.cpp:401
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:485
 #: ekos/scheduler/schedulerprocess.cpp:2971
-#: ekos/scheduler/schedulerprocess.cpp:4592
+#: ekos/scheduler/schedulerprocess.cpp:4591
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to write to file %1"
 msgstr "이미지를 저장할 수 없음: %1 "
 
 #: ekos/align/align.cpp:3969 ekos/align/mountmodel.cpp:284
-#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2834
-#: ekos/capture/cameraprocess.cpp:2550 ekos/capture/sequencequeue.cpp:33
+#: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2851
+#: ekos/capture/cameraprocess.cpp:2556 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2972
 #: ekos/scheduler/schedulerprocess.cpp:3310
-#: ekos/scheduler/schedulerprocess.cpp:4593
-#: ekos/scheduler/schedulerprocess.cpp:4613 indi/drivermanager.cpp:1537
+#: ekos/scheduler/schedulerprocess.cpp:4592
+#: ekos/scheduler/schedulerprocess.cpp:4612 indi/drivermanager.cpp:1537
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1384 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7486,10 +7486,10 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "관찰 목록"
 
-#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2833
-#: ekos/capture/cameraprocess.cpp:2549 ekos/capture/sequencequeue.cpp:32
+#: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2850
+#: ekos/capture/cameraprocess.cpp:2555 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3309
-#: ekos/scheduler/schedulerprocess.cpp:4612
+#: ekos/scheduler/schedulerprocess.cpp:4611
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
@@ -12521,11 +12521,11 @@ msgstr "Framingham"
 msgid "Waiting..."
 msgstr "기타"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:431
+#: ekos/auxiliary/ledstatuswidget.cpp:46
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
-msgid "Dithering..."
+msgid "Dithering requested..."
 msgstr "기타"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
@@ -12546,7 +12546,7 @@ msgstr "완료됨"
 msgid "Aligning..."
 msgstr "일괄작업 모드"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:810
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:827
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
@@ -14471,221 +14471,221 @@ msgstr ""
 msgid "Sky flats"
 msgstr "JPEG 품질"
 
-#: ekos/capture/camera.cpp:111 ekos/capture/camera.cpp:113
+#: ekos/capture/camera.cpp:107 ekos/capture/camera.cpp:109
 #, kde-format
 msgid "Capture Sequence Editor: %1"
 msgstr ""
 
-#: ekos/capture/camera.cpp:168 ekos/capture/camera.cpp:3940
+#: ekos/capture/camera.cpp:164 ekos/capture/camera.cpp:3957
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:169 ekos/capture/camera.cpp:3941
+#: ekos/capture/camera.cpp:165 ekos/capture/camera.cpp:3958
 #, fuzzy, kde-format
 #| msgid "Select object from a list"
 msgid "Remove job from sequence queue"
 msgstr "목록에서 천체 선택"
 
-#: ekos/capture/camera.cpp:506
+#: ekos/capture/camera.cpp:510
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Downloading..."
 msgstr "새 자료 다운로드..."
 
-#: ekos/capture/camera.cpp:609 ekos/capture/camera.cpp:610
+#: ekos/capture/camera.cpp:626 ekos/capture/camera.cpp:627
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus complete."
 msgstr "완료됨"
 
-#: ekos/capture/camera.cpp:614
+#: ekos/capture/camera.cpp:631
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Autofocus failed."
 msgstr "완료됨"
 
-#: ekos/capture/camera.cpp:793
+#: ekos/capture/camera.cpp:810
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing %1-second %2 image..."
 msgstr "이미지 읽는 중..."
 
-#: ekos/capture/camera.cpp:864
+#: ekos/capture/camera.cpp:881
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:867
+#: ekos/capture/camera.cpp:884
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:902
+#: ekos/capture/camera.cpp:919
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
 msgstr[0] ""
 
-#: ekos/capture/camera.cpp:947
+#: ekos/capture/camera.cpp:964
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/camera.cpp:960
+#: ekos/capture/camera.cpp:977
 #, fuzzy, kde-format
 #| msgctxt "City in Massachusetts USA"
 #| msgid "Framingham"
 msgid "Framing..."
 msgstr "Framingham"
 
-#: ekos/capture/camera.cpp:971
+#: ekos/capture/camera.cpp:988
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Captured image received"
 msgstr "이미지 캡처"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:989 ekos/capture/camera.ui:2612
+#: ekos/capture/camera.cpp:1006 ekos/capture/camera.ui:2612
 #, fuzzy, kde-format
 #| msgid "Exposure:"
 msgid "Expose (-/-):"
 msgstr "노출:"
 
-#: ekos/capture/camera.cpp:1023
+#: ekos/capture/camera.cpp:1040
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Stop Sequence"
 msgstr "주파수:"
 
-#: ekos/capture/camera.cpp:1029
+#: ekos/capture/camera.cpp:1046
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "주파수:"
 
-#: ekos/capture/camera.cpp:1060
+#: ekos/capture/camera.cpp:1077
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting temperature to %1 °C..."
 msgstr "대상 CCD 칩 온도 설정."
 
-#: ekos/capture/camera.cpp:1061
+#: ekos/capture/camera.cpp:1078
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set Temp to %1 °C..."
 msgstr "대상 CCD 칩 온도 설정."
 
-#: ekos/capture/camera.cpp:1065
+#: ekos/capture/camera.cpp:1082
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Waiting for guide drift below %1\"..."
 msgstr "별 읽어오는 중"
 
-#: ekos/capture/camera.cpp:1066
+#: ekos/capture/camera.cpp:1083
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:1070
+#: ekos/capture/camera.cpp:1087
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "대상 CCD 칩 온도 설정."
 
-#: ekos/capture/camera.cpp:1071
+#: ekos/capture/camera.cpp:1088
 #, fuzzy, kde-format
 #| msgid "Set Location..."
 msgid "Set Camera to %1 deg..."
 msgstr "위치 설정..."
 
-#: ekos/capture/camera.cpp:1183
+#: ekos/capture/camera.cpp:1200
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "관찰 목록"
 
-#: ekos/capture/camera.cpp:1216
+#: ekos/capture/camera.cpp:1233
 #, fuzzy, kde-format
 #| msgid "Select object from a list"
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "목록에서 천체 선택"
 
-#: ekos/capture/camera.cpp:1238
+#: ekos/capture/camera.cpp:1255
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:1295 ekos/capture/camera.cpp:2313
+#: ekos/capture/camera.cpp:1312 ekos/capture/camera.cpp:2330
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Dark Flat"
 msgstr "표식 파일 사용"
 
-#: ekos/capture/camera.cpp:2008 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:2025 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 #| msgid "FITS Default directory"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS 기본 폴더"
 
-#: ekos/capture/camera.cpp:2105
+#: ekos/capture/camera.cpp:2122
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/camera.cpp:2107
+#: ekos/capture/camera.cpp:2124
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "삭제 확인"
 
-#: ekos/capture/camera.cpp:2290
+#: ekos/capture/camera.cpp:2307
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:2296
+#: ekos/capture/camera.cpp:2313
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3478
+#: ekos/capture/camera.cpp:3495
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3483
+#: ekos/capture/camera.cpp:3500
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian Flip..."
 msgstr "FITS 자동 보이기(&A)"
 
-#: ekos/capture/camera.cpp:3484
+#: ekos/capture/camera.cpp:3501
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Meridian flip started"
 msgstr "FITS 자동 보이기(&A)"
 
-#: ekos/capture/camera.cpp:3488
+#: ekos/capture/camera.cpp:3505
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "완료됨"
 
-#: ekos/capture/camera.cpp:3548
+#: ekos/capture/camera.cpp:3565
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3554
+#: ekos/capture/camera.cpp:3571
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14693,7 +14693,7 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3559
+#: ekos/capture/camera.cpp:3576
 #, fuzzy, kde-format
 #| msgctxt "City in New Jersey USA"
 #| msgid "Freehold"
@@ -14701,7 +14701,7 @@ msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Freehold"
 
-#: ekos/capture/camera.cpp:3565
+#: ekos/capture/camera.cpp:3582
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14709,79 +14709,79 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3578
+#: ekos/capture/camera.cpp:3595
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "대상 CCD 칩 온도 설정."
 
-#: ekos/capture/camera.cpp:3618
+#: ekos/capture/camera.cpp:3635
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "관찰자"
 
-#: ekos/capture/camera.cpp:3620
+#: ekos/capture/camera.cpp:3637
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Current Observer:"
 msgstr "관찰자"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3631 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3648 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"
 msgstr "관찰자"
 
-#: ekos/capture/camera.cpp:3803
+#: ekos/capture/camera.cpp:3820
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3803
+#: ekos/capture/camera.cpp:3820
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3833
+#: ekos/capture/camera.cpp:3850
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/capture/camera.cpp:3865
+#: ekos/capture/camera.cpp:3882
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "%1 링크를 제거하겠습니까?"
 
-#: ekos/capture/camera.cpp:3865 ekos/capture/cameraprocess.cpp:2668
+#: ekos/capture/camera.cpp:3882 ekos/capture/cameraprocess.cpp:2674
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
 msgstr "위치 초기화"
 
-#: ekos/capture/camera.cpp:3918
+#: ekos/capture/camera.cpp:3935
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "링크 편집..."
 
-#: ekos/capture/camera.cpp:3921 ekos/scheduler/scheduler.cpp:1231
+#: ekos/capture/camera.cpp:3938 ekos/scheduler/scheduler.cpp:1231
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3922
+#: ekos/capture/camera.cpp:3939
 #, fuzzy, kde-format
 #| msgid "Save Changes to FITS?"
 msgid "Cancel job changes."
 msgstr "변경 내용을 FITS로 저장할까요?"
 
-#: ekos/capture/camera.cpp:3935
+#: ekos/capture/camera.cpp:3952
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
@@ -15061,7 +15061,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2464
+#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2470
 #: ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
@@ -15618,7 +15618,7 @@ msgstr "%1 파일을 열 수 없습니다."
 msgid "Save As..."
 msgstr "스크립트를 다른 이름으로 저장..."
 
-#: ekos/capture/cameraprocess.cpp:208 ekos/capture/cameraprocess.cpp:601
+#: ekos/capture/cameraprocess.cpp:208 ekos/capture/cameraprocess.cpp:607
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
@@ -15641,7 +15641,7 @@ msgstr ""
 msgid "No new job created."
 msgstr "완료됨"
 
-#: ekos/capture/cameraprocess.cpp:300 ekos/capture/cameraprocess.cpp:850
+#: ekos/capture/cameraprocess.cpp:300 ekos/capture/cameraprocess.cpp:856
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
@@ -15676,244 +15676,244 @@ msgstr "정지"
 msgid "CCD capture stopped"
 msgstr "이미지 캡처"
 
-#: ekos/capture/cameraprocess.cpp:426
+#: ekos/capture/cameraprocess.cpp:432
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:433
+#: ekos/capture/cameraprocess.cpp:439
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:464
+#: ekos/capture/cameraprocess.cpp:470
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:465
+#: ekos/capture/cameraprocess.cpp:471
 #, fuzzy, kde-format
 #| msgid "Print Xplanet view"
 msgid "Display preview"
 msgstr " Xplanet 보기 인쇄"
 
-#: ekos/capture/cameraprocess.cpp:549
+#: ekos/capture/cameraprocess.cpp:555
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:562
+#: ekos/capture/cameraprocess.cpp:568
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:796
+#: ekos/capture/cameraprocess.cpp:802
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding resumed."
 msgstr "별 읽어오는 중"
 
-#: ekos/capture/cameraprocess.cpp:840
+#: ekos/capture/cameraprocess.cpp:846
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to set sub frame."
 msgstr "이미지 읽어오기 실패"
 
-#: ekos/capture/cameraprocess.cpp:845
+#: ekos/capture/cameraprocess.cpp:851
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to set binning."
 msgstr "이미지 읽어오기 실패"
 
-#: ekos/capture/cameraprocess.cpp:1002
+#: ekos/capture/cameraprocess.cpp:1008
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "file saved to %1"
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/capture/cameraprocess.cpp:1012
+#: ekos/capture/cameraprocess.cpp:1018
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1014
+#: ekos/capture/cameraprocess.cpp:1020
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Image Write Failed"
 msgstr "이미지 캡처"
 
-#: ekos/capture/cameraprocess.cpp:1239
+#: ekos/capture/cameraprocess.cpp:1245
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "자료 파일을 %1로 저장"
 
-#: ekos/capture/cameraprocess.cpp:1265
+#: ekos/capture/cameraprocess.cpp:1271
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding suspended."
 msgstr "별 읽어오는 중"
 
-#: ekos/capture/cameraprocess.cpp:1294
+#: ekos/capture/cameraprocess.cpp:1300
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1360
+#: ekos/capture/cameraprocess.cpp:1366
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "초신성 잔해"
 
-#: ekos/capture/cameraprocess.cpp:1417
+#: ekos/capture/cameraprocess.cpp:1423
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "연결"
 
-#: ekos/capture/cameraprocess.cpp:1445
+#: ekos/capture/cameraprocess.cpp:1451
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1570 ekos/capture/cameraprocess.cpp:2121
+#: ekos/capture/cameraprocess.cpp:1576 ekos/capture/cameraprocess.cpp:2127
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1670
+#: ekos/capture/cameraprocess.cpp:1676
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1736
+#: ekos/capture/cameraprocess.cpp:1742
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1770
+#: ekos/capture/cameraprocess.cpp:1776
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Captured %1"
 msgstr "이미지 캡처"
 
-#: ekos/capture/cameraprocess.cpp:1776
+#: ekos/capture/cameraprocess.cpp:1782
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1809
+#: ekos/capture/cameraprocess.cpp:1815
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "스크립트 실행 중: %1"
 
-#: ekos/capture/cameraprocess.cpp:1824
+#: ekos/capture/cameraprocess.cpp:1830
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1832
+#: ekos/capture/cameraprocess.cpp:1838
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1844
+#: ekos/capture/cameraprocess.cpp:1850
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Processing meridian flip..."
 msgstr "FITS 자동 보이기(&A)"
 
-#: ekos/capture/cameraprocess.cpp:1854
+#: ekos/capture/cameraprocess.cpp:1860
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1859
+#: ekos/capture/cameraprocess.cpp:1865
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2051 ekos/focus/focus.cpp:5370
+#: ekos/capture/cameraprocess.cpp:2057 ekos/focus/focus.cpp:5370
 #: ekos/focus/focus.cpp:5394
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/capture/cameraprocess.cpp:2058
+#: ekos/capture/cameraprocess.cpp:2064
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2076 ekos/focus/focus.cpp:5375
+#: ekos/capture/cameraprocess.cpp:2082 ekos/focus/focus.cpp:5375
 #: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/capture/cameraprocess.cpp:2102
+#: ekos/capture/cameraprocess.cpp:2108
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/capture/cameraprocess.cpp:2180
+#: ekos/capture/cameraprocess.cpp:2186
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2191
+#: ekos/capture/cameraprocess.cpp:2197
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2213
+#: ekos/capture/cameraprocess.cpp:2219
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2242
+#: ekos/capture/cameraprocess.cpp:2248
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2250
+#: ekos/capture/cameraprocess.cpp:2256
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2448
+#: ekos/capture/cameraprocess.cpp:2454
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 미리 보기"
 
-#: ekos/capture/cameraprocess.cpp:2459 ekos/capture/cameraprocess.cpp:2461
+#: ekos/capture/cameraprocess.cpp:2465 ekos/capture/cameraprocess.cpp:2467
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Flat Calibration"
 msgstr "Caliente"
 
-#: ekos/capture/cameraprocess.cpp:2617
+#: ekos/capture/cameraprocess.cpp:2623
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "주파수:"
 
-#: ekos/capture/cameraprocess.cpp:2667
+#: ekos/capture/cameraprocess.cpp:2673
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -15921,32 +15921,32 @@ msgid ""
 "restart capturing?"
 msgstr "%1 링크를 제거하겠습니까?"
 
-#: ekos/capture/cameraprocess.cpp:2681
+#: ekos/capture/cameraprocess.cpp:2687
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2796
+#: ekos/capture/cameraprocess.cpp:2802
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "%1 클라이언트를 삭제하겠습니까?"
 
-#: ekos/capture/cameraprocess.cpp:2797
+#: ekos/capture/cameraprocess.cpp:2803
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
 msgstr "별"
 
-#: ekos/capture/camerastate.cpp:167
+#: ekos/capture/camerastate.cpp:157
 #, kde-format
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:232
+#: ekos/capture/camerastate.cpp:226
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -15954,181 +15954,188 @@ msgid "Dithering succeeded."
 msgstr "기타"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:239
+#: ekos/capture/camerastate.cpp:233
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Dither complete. Resuming in %1 seconds..."
 msgstr "별 읽어오는 중"
 
-#: ekos/capture/camerastate.cpp:247
+#: ekos/capture/camerastate.cpp:241
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Dither complete."
 msgstr "완료됨"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:261
+#: ekos/capture/camerastate.cpp:255
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
 msgstr "별 읽어오는 중"
 
-#: ekos/capture/camerastate.cpp:270
+#: ekos/capture/camerastate.cpp:264
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Dithering failed."
 msgstr "기타"
 
-#: ekos/capture/camerastate.cpp:310
+#: ekos/capture/camerastate.cpp:304
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap error."
 msgstr "Dome Creek"
 
-#: ekos/capture/camerastate.cpp:314
+#: ekos/capture/camerastate.cpp:308
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap parked."
 msgstr "Dome Creek"
 
-#: ekos/capture/camerastate.cpp:318
+#: ekos/capture/camerastate.cpp:312
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dust cap unparked."
 msgstr "Dome Creek"
 
-#: ekos/capture/camerastate.cpp:525
+#: ekos/capture/camerastate.cpp:425
+#, fuzzy, kde-format
+#| msgctxt "Advanced URLs: description or category"
+#| msgid "Other"
+msgid "Dithering..."
+msgstr "기타"
+
+#: ekos/capture/camerastate.cpp:519
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:622
+#: ekos/capture/camerastate.cpp:616
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:635
+#: ekos/capture/camerastate.cpp:629
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:655
+#: ekos/capture/camerastate.cpp:649
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "별 읽어오는 중"
 
-#: ekos/capture/camerastate.cpp:664
+#: ekos/capture/camerastate.cpp:658
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding stopped. Aborting..."
 msgstr "별 읽어오는 중"
 
-#: ekos/capture/camerastate.cpp:671
+#: ekos/capture/camerastate.cpp:665
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:693
+#: ekos/capture/camerastate.cpp:687
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Adaptive focus complete."
 msgstr "완료됨"
 
-#: ekos/capture/camerastate.cpp:717
+#: ekos/capture/camerastate.cpp:711
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:759
+#: ekos/capture/camerastate.cpp:753
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:763
+#: ekos/capture/camerastate.cpp:757
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Limit: %1 mins"
 msgstr "현재 색상 설정"
 
-#: ekos/capture/camerastate.cpp:901
+#: ekos/capture/camerastate.cpp:895
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:919
+#: ekos/capture/camerastate.cpp:913
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Guide module timed out."
 msgstr "별 읽어오는 중"
 
-#: ekos/capture/camerastate.cpp:951
+#: ekos/capture/camerastate.cpp:945
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:960
+#: ekos/capture/camerastate.cpp:954
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:982
+#: ekos/capture/camerastate.cpp:976
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:996
+#: ekos/capture/camerastate.cpp:990
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1010
+#: ekos/capture/camerastate.cpp:1004
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1037
+#: ekos/capture/camerastate.cpp:1031
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1084
+#: ekos/capture/camerastate.cpp:1078
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1088
+#: ekos/capture/camerastate.cpp:1082
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1103
+#: ekos/capture/camerastate.cpp:1097
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1483
+#: ekos/capture/camerastate.cpp:1477
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1502
+#: ekos/capture/camerastate.cpp:1496
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid "Post-flip alignment failed."
 msgstr "지정된 설정 파일 사용."
 
-#: ekos/capture/camerastate.cpp:1507
+#: ekos/capture/camerastate.cpp:1501
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file."
 msgid "Post-flip alignment failed. Retrying..."
@@ -16141,19 +16148,19 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:445 ekos/focus/focusmodule.cpp:388
+#: ekos/capture/capture.cpp:455 ekos/focus/focusmodule.cpp:387
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:446 ekos/focus/focusmodule.cpp:389
+#: ekos/capture/capture.cpp:456 ekos/focus/focusmodule.cpp:388
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
 msgstr "추적 중지(&T)"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:446 ekos/focus/focusmodule.cpp:389
+#: ekos/capture/capture.cpp:457 ekos/focus/focusmodule.cpp:388
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:713
@@ -16970,7 +16977,7 @@ msgid ""
 msgstr "지정된 설정 파일 사용."
 
 #. i18n: ectx: property (text), widget (QCheckBox, refocusAfterMeridianFlip)
-#: ekos/capture/limits.ui:272 ekos/capture/refocusstate.cpp:69
+#: ekos/capture/limits.ui:272 ekos/capture/refocusstate.cpp:68
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Refocus after meridian flip"
@@ -17071,47 +17078,47 @@ msgstr ""
 msgid "frames.   HFR:"
 msgstr "이름:"
 
-#: ekos/capture/refocusstate.cpp:33
+#: ekos/capture/refocusstate.cpp:32
 #, kde-format
 msgid "User initiated ad-hoc in-sequence Autofocus..."
 msgstr ""
 
-#: ekos/capture/refocusstate.cpp:46
+#: ekos/capture/refocusstate.cpp:45
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduled refocus starting after %1 seconds..."
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/capture/refocusstate.cpp:60
+#: ekos/capture/refocusstate.cpp:59
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Refocus starting because of temperature change of %1 °C..."
 msgstr "대상 CCD 칩 온도 설정."
 
-#: ekos/capture/refocusstate.cpp:77
+#: ekos/capture/refocusstate.cpp:76
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "In sequence HFR based refocus starting..."
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/capture/refocusstate.cpp:85
+#: ekos/capture/refocusstate.cpp:84
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgid "Adaptive focus starting..."
 msgstr "기본 FITS 폴더:"
 
-#: ekos/capture/refocusstate.cpp:104
+#: ekos/capture/refocusstate.cpp:103
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Ekos will refocus in %1 seconds."
 msgstr "카메라/CCD 노출 시작. 지속시간은 초단위임."
 
-#: ekos/capture/refocusstate.cpp:109
+#: ekos/capture/refocusstate.cpp:108
 #, kde-format
 msgid "Ekos will refocus in %1 seconds, last procedure was %2 seconds ago."
 msgstr ""
 
-#: ekos/capture/refocusstate.cpp:114
+#: ekos/capture/refocusstate.cpp:113
 #, kde-format
 msgid ""
 "Ekos will refocus as soon as possible, last procedure was %1 seconds ago."
@@ -24036,17 +24043,17 @@ msgstr ""
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3707
+#: ekos/manager.cpp:3708
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:3712
+#: ekos/manager.cpp:3713
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:3719
+#: ekos/manager.cpp:3720
 #, kde-format
 msgid "Received external preview file"
 msgstr ""
@@ -29557,17 +29564,17 @@ msgid ""
 "ready..."
 msgstr "Caliente"
 
-#: ekos/scheduler/schedulerprocess.cpp:4651
+#: ekos/scheduler/schedulerprocess.cpp:4650
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4656
+#: ekos/scheduler/schedulerprocess.cpp:4655
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4717
+#: ekos/scheduler/schedulerprocess.cpp:4716
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
