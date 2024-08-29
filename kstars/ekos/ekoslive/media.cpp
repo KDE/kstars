@@ -550,7 +550,6 @@ void Media::sendVideoFrame(const QSharedPointer<QImage> &frame)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Media::registerCameras()
 {
-    static const QRegularExpression re("[-{}]");
     for(auto &oneDevice : INDIListener::devices())
     {
         auto camera = oneDevice->getCamera();
@@ -569,10 +568,7 @@ void Media::registerCameras()
     process->disconnect(this);
     connect(process, &Ekos::CameraProcess::newView, this, [this](const QSharedPointer<FITSView> &view)
     {
-        // Set UUID for each view
-        QString uuid = QUuid::createUuid().toString();
-        uuid = uuid.remove(re);
-        sendView(view, uuid);
+        sendView(view, view->imageData()->objectName());
     });
 }
 
