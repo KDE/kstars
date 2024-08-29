@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-28 01:55+0000\n"
+"POT-Creation-Date: 2024-08-29 01:45+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -17799,14 +17799,14 @@ msgstr "জোলিয়েট"
 msgid "Offline"
 msgstr "জোলিয়েট"
 
-#: ekos/ekoslive/message.cpp:741
+#: ekos/ekoslive/message.cpp:743
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
 msgid "target"
 msgstr "সার্জেন্ট"
 
-#: ekos/ekoslive/message.cpp:974
+#: ekos/ekoslive/message.cpp:976
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."

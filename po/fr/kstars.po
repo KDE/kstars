@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-28 01:55+0000\n"
+"POT-Creation-Date: 2024-08-29 01:45+0000\n"
 "PO-Revision-Date: 2024-06-01 17:48+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -17879,13 +17879,13 @@ msgstr "En ligne"
 msgid "Offline"
 msgstr "Hors ligne"
 
-#: ekos/ekoslive/message.cpp:741
+#: ekos/ekoslive/message.cpp:743
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "target"
 msgstr "Cible"
 
-#: ekos/ekoslive/message.cpp:974
+#: ekos/ekoslive/message.cpp:976
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Échec de l'importation de la mosaïque."

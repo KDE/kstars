@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-28 01:55+0000\n"
-"PO-Revision-Date: 2024-08-23 08:56+0300\n"
+"POT-Creation-Date: 2024-08-29 01:45+0000\n"
+"PO-Revision-Date: 2024-08-28 08:08+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -12528,10 +12528,9 @@ msgid "Waiting..."
 msgstr "Очікуємо…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Успішний малий рух."
+msgstr "Надіслано запит на розмиття…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -17792,12 +17791,12 @@ msgstr "Інтернет"
 msgid "Offline"
 msgstr "Локальний"
 
-#: ekos/ekoslive/message.cpp:741
+#: ekos/ekoslive/message.cpp:743
 #, kde-format
 msgid "target"
 msgstr "ціль"
 
-#: ekos/ekoslive/message.cpp:974
+#: ekos/ekoslive/message.cpp:976
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Не вдалося імпортувати мозаїку."

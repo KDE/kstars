@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-28 01:55+0000\n"
+"POT-Creation-Date: 2024-08-29 01:45+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -17243,14 +17243,14 @@ msgstr "Moline"
 msgid "Offline"
 msgstr "Moline"
 
-#: ekos/ekoslive/message.cpp:741
+#: ekos/ekoslive/message.cpp:743
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
 msgid "target"
 msgstr "Sargent"
 
-#: ekos/ekoslive/message.cpp:974
+#: ekos/ekoslive/message.cpp:976
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Зачувувањето на сликата %1 не успеа!"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-28 01:55+0000\n"
-"PO-Revision-Date: 2024-08-23 08:03+0200\n"
+"POT-Creation-Date: 2024-08-29 01:45+0000\n"
+"PO-Revision-Date: 2024-08-28 17:52+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -12427,10 +12427,9 @@ msgid "Waiting..."
 msgstr "Väntar..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Gitter lyckades."
+msgstr "Gitter begärt..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -17600,12 +17599,12 @@ msgstr "Nätbaserat"
 msgid "Offline"
 msgstr "Lokalt"
 
-#: ekos/ekoslive/message.cpp:741
+#: ekos/ekoslive/message.cpp:743
 #, kde-format
 msgid "target"
 msgstr "mål"
 
-#: ekos/ekoslive/message.cpp:974
+#: ekos/ekoslive/message.cpp:976
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mosaikimport misslyckades."

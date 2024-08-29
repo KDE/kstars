@@ -17,15 +17,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-28 01:55+0000\n"
-"PO-Revision-Date: 2024-08-24 00:47+0200\n"
+"POT-Creation-Date: 2024-08-29 01:45+0000\n"
+"PO-Revision-Date: 2024-08-29 00:08+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -12574,10 +12574,9 @@ msgid "Waiting..."
 msgstr "En espera..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Desvío terminado con éxito."
+msgstr "Desvío solicitado..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -17844,12 +17843,12 @@ msgstr "Con conexión"
 msgid "Offline"
 msgstr "Sin conexión"
 
-#: ekos/ekoslive/message.cpp:741
+#: ekos/ekoslive/message.cpp:743
 #, kde-format
 msgid "target"
 msgstr "objetivo"
 
-#: ekos/ekoslive/message.cpp:974
+#: ekos/ekoslive/message.cpp:976
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "La importación del mosaico ha fallado."

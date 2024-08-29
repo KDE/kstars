@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-28 01:55+0000\n"
+"POT-Creation-Date: 2024-08-29 01:45+0000\n"
 "PO-Revision-Date: 2024-08-23 15:33+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -11757,10 +11757,9 @@ msgid "Waiting..."
 msgstr "Čeká se..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#, fuzzy, kde-format
-#| msgid "Dithering..."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Rozptyl..."
+msgstr ""
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -16522,12 +16521,12 @@ msgstr "Připojen"
 msgid "Offline"
 msgstr "Odpojen"
 
-#: ekos/ekoslive/message.cpp:741
+#: ekos/ekoslive/message.cpp:743
 #, kde-format
 msgid "target"
 msgstr "cíl"
 
-#: ekos/ekoslive/message.cpp:974
+#: ekos/ekoslive/message.cpp:976
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""
