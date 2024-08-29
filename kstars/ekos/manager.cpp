@@ -378,39 +378,50 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     extensionTimer.setSingleShot(true);
     groupBox_4->setHidden(true);
     extensionB->setIcon(QIcon::fromTheme("media-playback-start"));
-    connect(extensionB, &QPushButton::clicked, this, [this] {
-        if (extensionB->icon().name() == "media-playback-start") {
+    connect(extensionB, &QPushButton::clicked, this, [this]
+    {
+        if (extensionB->icon().name() == "media-playback-start")
+        {
             extensionTimer.setInterval(1000);
-            connect(&extensionTimer, &QTimer::timeout, this, [this] {
+            connect(&extensionTimer, &QTimer::timeout, this, [this]
+            {
                 appendLogText(i18n("Extension '%1' failed to start, aborting", extensionCombo->currentText()));
                 m_extensions.kill();
             });
             extensionTimer.start();
             extensionAbort = false;
             m_extensions.run(extensionCombo->currentText());
-        } else if (extensionB->icon().name() == "media-playback-stop") {
-            if (!extensionAbort) {
+        }
+        else if (extensionB->icon().name() == "media-playback-stop")
+        {
+            if (!extensionAbort)
+            {
                 extensionTimer.setInterval(10000);
-                connect(&extensionTimer, &QTimer::timeout, this, [this] {
+                connect(&extensionTimer, &QTimer::timeout, this, [this]
+                {
                     appendLogText(i18n("Extension '%1' failed to stop, abort enabled", extensionCombo->currentText()));
                     extensionB->setEnabled(true);
                     extensionAbort = true;
                 });
                 extensionTimer.start();
                 m_extensions.stop();
-            } else {
+            }
+            else
+            {
                 appendLogText(i18n("Extension '%1' aborting", extensionCombo->currentText()));
                 m_extensions.kill();
             }
         }
     });
-    connect(&m_extensions, &extensions::extensionStateChanged, this, [this](Ekos::ExtensionState state) {
-        switch (state) {
+    connect(&m_extensions, &extensions::extensionStateChanged, this, [this](Ekos::ExtensionState state)
+    {
+        switch (state)
+        {
             case EXTENSION_START_REQUESTED:
                 appendLogText(i18n("Extension '%1' start requested", extensionCombo->currentText()));
                 extensionB->setEnabled(false);
                 extensionCombo->setEnabled(false);
-            break;
+                break;
             case EXTENSION_STARTED:
                 appendLogText(i18n("Extension '%1' started", extensionCombo->currentText()));
                 extensionB->setIcon(QIcon::fromTheme("media-playback-stop"));
@@ -418,12 +429,12 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
                 extensionCombo->setEnabled(false);
                 extensionTimer.stop();
                 disconnect(&extensionTimer, &QTimer::timeout, this, nullptr);
-            break;
+                break;
             case EXTENSION_STOP_REQUESTED:
                 appendLogText(i18n("Extension '%1' stop requested", extensionCombo->currentText()));
                 extensionB->setEnabled(false);
                 extensionCombo->setEnabled(false);
-            break;
+                break;
             case EXTENSION_STOPPED:
                 appendLogText(i18n("Extension '%1' stopped", extensionCombo->currentText()));
                 extensionB->setIcon(QIcon::fromTheme("media-playback-start"));
@@ -435,10 +446,12 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
         m_extensionStatus = state;
         emit extensionStatusChanged();
     });
-    connect(extensionCombo, &QComboBox::currentTextChanged, this, [this] (QString text) {
+    connect(extensionCombo, &QComboBox::currentTextChanged, this, [this] (QString text)
+    {
         extensionCombo->setToolTip(m_extensions.getTooltip(text));
     });
-    connect(&m_extensions, &extensions::extensionOutput, this, [this] (QString message) {
+    connect(&m_extensions, &extensions::extensionOutput, this, [this] (QString message)
+    {
         appendLogText(QString(i18n("Extension '%1': %2", extensionCombo->currentText(), message.trimmed())));
     });
 
@@ -1142,13 +1155,16 @@ void Manager::start()
     }
 
     // Search for extensions
-    if (m_extensions.discover()) {
-        foreach (QString extension, m_extensions.found->keys()) {
+    if (m_extensions.discover())
+    {
+        foreach (QString extension, m_extensions.found->keys())
+        {
             extensions::extDetails m_ext = m_extensions.found->value(extension);
             extensionCombo->addItem(m_ext.icon, extension);
         }
     }
-    if (extensionCombo->count() > 0) {
+    if (extensionCombo->count() > 0)
+    {
         groupBox_4->setHidden(false);
     }
 }
@@ -2805,7 +2821,7 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
             ekosLiveClient.get()->media()->sendData(data, data->objectName());
 
         if (job->jobType() != SequenceJob::JOBTYPE_PREVIEW)
-            ekosLiveClient.get()->cloud()->upload(data, data->objectName());
+            ekosLiveClient.get()->cloud()->sendData(data, data->objectName());
     }
 }
 
@@ -3701,12 +3717,15 @@ bool Manager::existRotatorController()
 
 void Manager::setFITSfromFile(bool previewFromFile)
 {
-    if (previewFromFile && !FITSfromFile) {
+    if (previewFromFile && !FITSfromFile)
+    {
         // Prevent preview from Capture module
         QObject::disconnect(captureModule(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
         FITSfromFile = previewFromFile;
         appendLogText(i18n("Preview source set to external"));
-    } else if (!previewFromFile && FITSfromFile) {
+    }
+    else if (!previewFromFile && FITSfromFile)
+    {
         // Reset preview from Capture module
         QObject::connect(captureModule(), &Ekos::Capture::newImage, this, &Ekos::Manager::updateCaptureProgress);
         FITSfromFile = previewFromFile;

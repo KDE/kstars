@@ -12,7 +12,6 @@
 
 #include "ekos_debug.h"
 #include "version.h"
-#include "../fitsviewer/fpack.h"
 #include "Options.h"
 
 #include <QtConcurrent>
@@ -35,7 +34,6 @@ Cloud::Cloud(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &node
         connect(nodeManager->cloud(), &Node::onTextReceived, this, &Cloud::onTextReceived);
     }
 
-    connect(&watcher, &QFutureWatcher<bool>::finished, this, &Cloud::sendImage, Qt::UniqueConnection);
     connect(this, &Cloud::newImage, this, &Cloud::uploadImage);
     connect(Options::self(), &Options::EkosLiveCloudChanged, this, &Cloud::updateOptions);
 }
@@ -51,6 +49,10 @@ bool Cloud::isConnected() const
     });
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+
 void Cloud::onConnected()
 {
     auto node = qobject_cast<Node*>(sender());
@@ -62,6 +64,9 @@ void Cloud::onConnected()
     emit connected();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Cloud::onDisconnected()
 {
     qCInfo(KSTARS_EKOS) << "Disconnected from Cloud Websocket server.";
@@ -74,6 +79,9 @@ void Cloud::onDisconnected()
     emit disconnected();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Cloud::onTextReceived(const QString &message)
 {
     qCInfo(KSTARS_EKOS) << "Cloud Text Websocket Message" << message;
@@ -85,10 +93,27 @@ void Cloud::onTextReceived(const QString &message)
         return;
     }
 
-    const QJsonObject msgObj = serverMessage.object();
-    const QString command = msgObj["type"].toString();
+    const QJsonObject payload = serverMessage.object();
+    const QString command = payload["type"].toString();
     if (command == commands[SET_BLOBS])
-        m_sendBlobs = msgObj["payload"].toBool();
+        m_sendBlobs = payload["payload"].toBool();
+    else if (command == commands[OPTION_SET])
+    {
+        const QJsonArray options = payload["options"].toArray();
+        for (const auto &oneOption : options)
+        {
+            auto name = oneOption["name"].toString().toLatin1();
+            auto value = oneOption["value"].toVariant();
+
+            Options::self()->setProperty(name, value);
+
+            // Special case
+            if (name == "ekosLiveCloud")
+                updateOptions();
+        }
+
+        Options::self()->save();
+    }
     else if (command == commands[LOGOUT])
     {
         for (auto &nodeManager : m_NodeManagers)
@@ -101,40 +126,27 @@ void Cloud::onTextReceived(const QString &message)
     }
 }
 
-void Cloud::upload(const QSharedPointer<FITSData> &data, const QString &uuid)
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Cloud::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
     if (Options::ekosLiveCloud() == false  || m_sendBlobs == false)
         return;
 
-    m_UUID = uuid;
-    m_ImageData = data;
-    sendImage();
+    QtConcurrent::run(this, &Cloud::dispatch, data, uuid);
 }
 
-void Cloud::upload(const QString &filename, const QString &uuid)
-{
-    if (Options::ekosLiveCloud() == false  || m_sendBlobs == false)
-        return;
-
-    watcher.waitForFinished();
-    m_UUID = uuid;
-    m_ImageData.reset(new FITSData(), &QObject::deleteLater);
-    QFuture<bool> result = m_ImageData->loadFromFile(filename);
-    watcher.setFuture(result);
-}
-
-void Cloud::sendImage()
-{
-    QtConcurrent::run(this, &Cloud::asyncUpload);
-}
-
-void Cloud::asyncUpload()
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Cloud::dispatch(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
     // Send complete metadata
     // Add file name and size
     QJsonObject metadata;
     // Skip empty or useless metadata
-    for (const auto &oneRecord : m_ImageData->getRecords())
+    for (const auto &oneRecord : data->getRecords())
     {
         if (oneRecord.key.isEmpty() || oneRecord.value.toString().isEmpty())
             continue;
@@ -142,13 +154,13 @@ void Cloud::asyncUpload()
     }
 
     // Filename only without path
-    QString filepath = m_ImageData->filename();
+    QString filepath = data->filename();
     QString filenameOnly = QFileInfo(filepath).fileName();
 
     // Add filename and size as wells
-    metadata.insert("uuid", m_UUID);
+    metadata.insert("uuid", uuid);
     metadata.insert("filename", filenameOnly);
-    metadata.insert("filesize", static_cast<int>(m_ImageData->size()));
+    metadata.insert("filesize", static_cast<int>(data->size()));
     // Must set Content-Disposition so
     metadata.insert("Content-Disposition", QString("attachment;filename=%1.fz").arg(filenameOnly));
 
@@ -157,8 +169,8 @@ void Cloud::asyncUpload()
     meta = meta.leftJustified(METADATA_PACKET, 0);
     image += meta;
 
-    QString compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(m_UUID);
-    m_ImageData->saveImage(compressedFile + QStringLiteral("[compress R]"));
+    QString compressedFile = QDir::tempPath() + QString("/ekoslivecloud%1").arg(uuid);
+    data->saveImage(compressedFile + QStringLiteral("[compress R]"));
     // Upload the compressed image
     QFile compressedImage(compressedFile);
     if (compressedImage.open(QIODevice::ReadOnly))
@@ -171,10 +183,11 @@ void Cloud::asyncUpload()
     // Remove from disk if temporary
     if (compressedFile != filepath && compressedFile.startsWith(QDir::tempPath()))
         QFile::remove(compressedFile);
-
-    m_ImageData.reset();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Cloud::uploadImage(const QByteArray &image)
 {
     for (auto &nodeManager : m_NodeManagers)
@@ -186,6 +199,9 @@ void Cloud::uploadImage(const QByteArray &image)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
 void Cloud::updateOptions()
 {
     // In case cloud storage is toggled, inform cloud

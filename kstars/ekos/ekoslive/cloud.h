@@ -30,8 +30,7 @@ class Cloud : public QObject
         void registerCameras();
 
         // Ekos Cloud Message to User
-        void upload(const QString &filename, const QString &uuid);
-        void upload(const QSharedPointer<FITSData> &data, const QString &uuid);
+        void sendData(const QSharedPointer<FITSData> &data, const QString &uuid);
 
     signals:
         void connected();
@@ -48,21 +47,13 @@ class Cloud : public QObject
 
         // Communication
         void onTextReceived(const QString &message);
-
-        // Send image
-        void sendImage();
-
         void uploadImage(const QByteArray &image);
 
     private:
-        void asyncUpload();
+        void dispatch(const QSharedPointer<FITSData> &data, const QString &uuid);
 
         Ekos::Manager * m_Manager { nullptr };
         QVector<QSharedPointer<NodeManager>> m_NodeManagers;
-        QString m_UUID;
-
-        QSharedPointer<FITSData> m_ImageData;
-        QFutureWatcher<bool> watcher;
 
         QString extension;
         QStringList temporaryFiles;
