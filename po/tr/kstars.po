@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-29 01:45+0000\n"
-"PO-Revision-Date: 2024-08-23 21:35+0300\n"
+"POT-Creation-Date: 2024-08-30 01:52+0000\n"
+"PO-Revision-Date: 2024-08-29 23:10+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -569,8 +569,8 @@ msgstr "İptal"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1190 ekos/manager.cpp:1205
-#: ekos/manager.cpp:1235 ekos/scheduler/scheduler.cpp:1506
+#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1206 ekos/manager.cpp:1221
+#: ekos/manager.cpp:1251 ekos/scheduler/scheduler.cpp:1506
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
 #: indi/indimount.cpp:32 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
@@ -2064,7 +2064,7 @@ msgstr "Durum:"
 #: ekos/auxiliary/ledstatuswidget.cpp:27 ekos/capture/sequencejob.cpp:24
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
-#: ekos/manager.cpp:675 ekos/manager/guidemanager.cpp:135
+#: ekos/manager.cpp:688 ekos/manager/guidemanager.cpp:135
 #: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1499
 #: ekos/scheduler/scheduler.cpp:2149 ekos/scheduler/scheduler.cpp:2386
 #: ekos/scheduler/scheduler.cpp:2394 ekos/scheduler/scheduler.cpp:2404
@@ -6466,7 +6466,7 @@ msgstr "Çözücü %1 saniye ardından iptal edildi."
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
 #: ekos/capture/capture.cpp:298 ekos/focus/focusmodule.cpp:236
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2037 ekos/mount/mount.cpp:766
+#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2053 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3452
 #, kde-format
@@ -10279,7 +10279,7 @@ msgstr "Son ayarlamalardan sonra tahmin edilen kutup hizalaması azimut hatası.
 #. i18n: ectx: property (text), widget (QPushButton, startB)
 #: ekos/align/polaralignmentassistant.ui:806
 #: ekos/align/polaralignmentassistant.ui:809 ekos/auxiliary/darklibrary.ui:575
-#: ekos/manager.cpp:146 ekos/manager.cpp:237 ekos/manager.cpp:683
+#: ekos/manager.cpp:146 ekos/manager.cpp:237 ekos/manager.cpp:696
 #: ekos/observatory/observatorydomemodel.cpp:132
 #: ekos/observatory/observatorydomemodel.cpp:135
 #: kstarslite/qml/indi/INDIControlPanel.qml:166
@@ -10444,7 +10444,7 @@ msgstr "Geçici görsel dosyası görüntülenemiyor: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2278 ekos/auxiliary/opslogs.ui:370
-#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2176
+#: ekos/auxiliary/stellarsolverprofile.h:27 ekos/manager.cpp:2192
 #: ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:468
@@ -10455,7 +10455,7 @@ msgstr "Odak"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/stellarsolverprofile.h:27
-#: ekos/manager.cpp:2141 ekos/scheduler/framingassistant.ui:1262
+#: ekos/manager.cpp:2157 ekos/scheduler/framingassistant.ui:1262
 #: ekos/scheduler/scheduler.ui:242 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitsviewer.cpp:476
 #, kde-format
@@ -10468,7 +10468,7 @@ msgstr "Hizala"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:27 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2397
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2413
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
 #: fitsviewer/fitscommon.h:15 fitsviewer/fitsviewer.cpp:472
 #, kde-format
@@ -10484,7 +10484,7 @@ msgstr "Çevir"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2282 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2322 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2338 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "Kaide"
@@ -12451,10 +12451,9 @@ msgid "Waiting..."
 msgstr "Bekleniyor..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Kıpırdatma başarılı oldu."
+msgstr "Kıpırdatma istendi..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -12733,7 +12732,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2447
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2463
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -23688,58 +23687,58 @@ msgstr "Günlükleme"
 msgid "Analyze"
 msgstr "Analyze"
 
-#: ekos/manager.cpp:385
+#: ekos/manager.cpp:388
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
 msgstr "\"%1\" uzantısı başlatılamadı, iptal ediliyor"
 
-#: ekos/manager.cpp:395
+#: ekos/manager.cpp:402
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
 msgstr "\"%1\" uzantısı durdurulamadı, iptal ediliyor"
 
-#: ekos/manager.cpp:402
+#: ekos/manager.cpp:411
 #, kde-format
 msgid "Extension '%1' aborting"
 msgstr "\"%1\" uzantısı iptal ediliyor"
 
-#: ekos/manager.cpp:410
+#: ekos/manager.cpp:421
 #, kde-format
 msgid "Extension '%1' start requested"
 msgstr "\"%1\" uzantısının başlatılması istendi"
 
-#: ekos/manager.cpp:415
+#: ekos/manager.cpp:426
 #, kde-format
 msgid "Extension '%1' started"
 msgstr "\"%1\" uzantısı başlatıldı"
 
-#: ekos/manager.cpp:423
+#: ekos/manager.cpp:434
 #, kde-format
 msgid "Extension '%1' stop requested"
 msgstr "\"%1\" uzantısının durdurulması istendi"
 
-#: ekos/manager.cpp:428
+#: ekos/manager.cpp:439
 #, kde-format
 msgid "Extension '%1' stopped"
 msgstr "\"%1\" uzantısı durduruldu"
 
-#: ekos/manager.cpp:442
+#: ekos/manager.cpp:455
 #, kde-format
 msgid "Extension '%1': %2"
 msgstr "\"%1\" uzantısı: %2"
 
-#: ekos/manager.cpp:707
+#: ekos/manager.cpp:720
 #, kde-format
 msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: ekos/manager.cpp:918 ekos/manager.cpp:944
+#: ekos/manager.cpp:931 ekos/manager.cpp:957
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr "Ekos, en az bir CCD veya kılavuza gereksinim duyar."
 
-#: ekos/manager.cpp:1008
+#: ekos/manager.cpp:1021
 #, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
@@ -23749,17 +23748,17 @@ msgstr ""
 "bağlanmasını engelleyebileceğini tespit etti. PTP Kamera'dan şimdi çıkmak "
 "istiyor musunuz?"
 
-#: ekos/manager.cpp:1009
+#: ekos/manager.cpp:1022
 #, kde-format
 msgid "PTP Camera"
 msgstr "PTP Kamera"
 
-#: ekos/manager.cpp:1024
+#: ekos/manager.cpp:1037
 #, kde-format
 msgid "Starting INDI services..."
 msgstr "INDI hizmetleri başlatılıyor..."
 
-#: ekos/manager.cpp:1055
+#: ekos/manager.cpp:1068
 #, kde-format
 msgid ""
 "Ekos detected an instance of INDI server running. Do you wish to shut down "
@@ -23769,48 +23768,48 @@ msgstr ""
 "başlatmadan önce var olan örneği kapatmak istiyor musunuz?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, indiServerGroup)
-#: ekos/manager.cpp:1057 indi/opsindi.ui:284
+#: ekos/manager.cpp:1070 indi/opsindi.ui:284
 #, kde-format
 msgid "INDI Server"
 msgstr "INDI Sunucusu"
 
-#: ekos/manager.cpp:1072
+#: ekos/manager.cpp:1085
 #, kde-format
 msgid "Connecting to remote INDI server at %1 on port %2 ..."
 msgstr "%2 kapısında %1 konumundaki INDI sunucusuna bağlanılıyor..."
 
-#: ekos/manager.cpp:1092
+#: ekos/manager.cpp:1105
 #, kde-format
 msgid "Failed to start profile on remote INDI Web Manager."
 msgstr "Uzak INDI Web Sunucusu üzerinde profil başlatılamadı."
 
-#: ekos/manager.cpp:1096
+#: ekos/manager.cpp:1109
 #, kde-format
 msgid "Starting profile on remote INDI Web Manager..."
 msgstr "Uzak INDI Web Sunucusu üzerinde profil başlatılıyor..."
 
-#: ekos/manager.cpp:1109
+#: ekos/manager.cpp:1122
 #, kde-format
 msgid "Establishing communication with remote INDI Web Manager..."
 msgstr "Uzak INDI Web Sunucusu ile bağlantı kuruluyor..."
 
-#: ekos/manager.cpp:1129
+#: ekos/manager.cpp:1142
 #, kde-format
 msgid "Warning: INDI Web Manager is not online."
 msgstr "Uyarı: INDI Web Sunucusu çevrimiçi değil."
 
-#: ekos/manager.cpp:1163
+#: ekos/manager.cpp:1179
 #, kde-format
 msgid "INDI services started on port %1."
 msgstr "INDI hizmetleri %1 numaralı kapıda başlatıldı."
 
-#: ekos/manager.cpp:1166
+#: ekos/manager.cpp:1182
 #, kde-format
 msgid "INDI services started on port %1. Please connect devices."
 msgstr ""
 "INDI hizmetleri %1 numaralı kapıda başlatıldı. Lütfen aygıtları bağlayın."
 
-#: ekos/manager.cpp:1171
+#: ekos/manager.cpp:1187
 #, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
@@ -23819,34 +23818,34 @@ msgstr ""
 "INDI hizmetleri başlatıldı. Uzak INDI sunucusu %1:%2 bağlantısı başarılı. "
 "Aygıtlar bekleniyor..."
 
-#: ekos/manager.cpp:1181
+#: ekos/manager.cpp:1197
 #, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
 msgstr "Yerel INDI sunucusu %1:%2 bağlantısı yapılamadı"
 
-#: ekos/manager.cpp:1183
+#: ekos/manager.cpp:1199
 #, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
 msgstr "Uzak INDI sunucusu %1:%2 bağlantısı yapılamadı"
 
-#: ekos/manager.cpp:1196
+#: ekos/manager.cpp:1212
 #, kde-format
 msgid "Lost connection to local INDI server %1:%2"
 msgstr "Yerel INDI sunucusu %1:%2 bağlantısı koptu"
 
-#: ekos/manager.cpp:1198
+#: ekos/manager.cpp:1214
 #, kde-format
 msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Uzak INDI sunucusu %1:%2 bağlantısı koptu"
 
-#: ekos/manager.cpp:1275
+#: ekos/manager.cpp:1291
 #, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
 "%1 bağlantısı yapılamadı. Lütfen aygıtın bağlı ve açık olduğundan emin olun."
 
-#: ekos/manager.cpp:1277
+#: ekos/manager.cpp:1293
 #, kde-format
 msgid ""
 "Failed to connect to \n"
@@ -23857,7 +23856,7 @@ msgstr ""
 "%1\n"
 "Her bir aygıtın bağlı ve açık olduğundan emin olun."
 
-#: ekos/manager.cpp:1305
+#: ekos/manager.cpp:1321
 #, kde-format
 msgid ""
 "Unable to establish:\n"
@@ -23868,13 +23867,13 @@ msgstr ""
 "%1\n"
 "Lütfen, aygıtın bağlı ve açık olduğundan emin olun."
 
-#: ekos/manager.cpp:1309 ekos/manager.cpp:1317 ekos/manager.cpp:1347
-#: ekos/manager.cpp:1355
+#: ekos/manager.cpp:1325 ekos/manager.cpp:1333 ekos/manager.cpp:1363
+#: ekos/manager.cpp:1371
 #, kde-format
 msgid "Ekos startup error"
 msgstr "Ekos başlangıç hatası"
 
-#: ekos/manager.cpp:1313
+#: ekos/manager.cpp:1329
 #, kde-format
 msgid ""
 "Unable to establish the following devices:\n"
@@ -23885,7 +23884,7 @@ msgstr ""
 "%1\n"
 "Her bir aygıtın bağlı ve açık olduğundan emin olun."
 
-#: ekos/manager.cpp:1343
+#: ekos/manager.cpp:1359
 #, kde-format
 msgid ""
 "Unable to remotely establish:\n"
@@ -23896,7 +23895,7 @@ msgstr ""
 "%1\n"
 "Aygıtın bağlı ve açık olduğundan emin olun."
 
-#: ekos/manager.cpp:1351
+#: ekos/manager.cpp:1367
 #, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
@@ -23907,32 +23906,32 @@ msgstr ""
 "%1\n"
 "Her bir aygıtın bağlı ve açık olduğundan emin olun."
 
-#: ekos/manager.cpp:1409
+#: ekos/manager.cpp:1425
 #, kde-format
 msgid "Connecting INDI devices..."
 msgstr "INDI aygıtları bağlanıyor..."
 
-#: ekos/manager.cpp:1420
+#: ekos/manager.cpp:1436
 #, kde-format
 msgid "Disconnecting INDI devices..."
 msgstr "INDI aygıtları bağlantısı kesiliyor..."
 
-#: ekos/manager.cpp:1459
+#: ekos/manager.cpp:1475
 #, kde-format
 msgid "INDI services stopped."
 msgstr "INDI hizmetleri durduruldu."
 
-#: ekos/manager.cpp:1534
+#: ekos/manager.cpp:1550
 #, kde-format
 msgid "Remote devices established."
 msgstr "Uzak aygıtlar bulundu."
 
-#: ekos/manager.cpp:1536
+#: ekos/manager.cpp:1552
 #, kde-format
 msgid "Remote devices established. Please connect devices."
 msgstr "Uzak aygıtlar bulundu. Lütfen aygıtları bağlayın."
 
-#: ekos/manager.cpp:1600
+#: ekos/manager.cpp:1616
 #, kde-format
 msgid ""
 "%1 failed to connect.\n"
@@ -23941,119 +23940,119 @@ msgstr ""
 "%1 bağlanamadı.\n"
 "Her bir aygıtın bağlı ve açık olduğundan emin olun."
 
-#: ekos/manager.cpp:1607
+#: ekos/manager.cpp:1623
 #, kde-format
 msgid "%1 is disconnected."
 msgstr "%1 bağlantısı kesildi."
 
-#: ekos/manager.cpp:1628 ekos/manager.cpp:1637 ekos/manager.cpp:1670
+#: ekos/manager.cpp:1644 ekos/manager.cpp:1653 ekos/manager.cpp:1686
 #: indi/indistd.cpp:706
 #, kde-format
 msgid "%1 is online."
 msgstr "%1 çevrimiçi."
 
-#: ekos/manager.cpp:1645
+#: ekos/manager.cpp:1661
 #, kde-format
 msgid "%1 filter is online."
 msgstr "%1 süzgeci çevrimiçi."
 
-#: ekos/manager.cpp:1654
+#: ekos/manager.cpp:1670
 #, kde-format
 msgid "%1 focuser is online."
 msgstr "%1 odaklayıcısı çevrimiçi."
 
-#: ekos/manager.cpp:1661
+#: ekos/manager.cpp:1677
 #, kde-format
 msgid "Rotator %1 is online."
 msgstr "Döndürücü %1 çevrimiçi."
 
-#: ekos/manager.cpp:1677
+#: ekos/manager.cpp:1693
 #, kde-format
 msgid "%1 Weather is online."
 msgstr "%1 hava durumu çevrimiçi."
 
-#: ekos/manager.cpp:1684
+#: ekos/manager.cpp:1700
 #, kde-format
 msgid "%1 GPS is online."
 msgstr "%1 GPS çevrimiçi."
 
-#: ekos/manager.cpp:1693
+#: ekos/manager.cpp:1709
 #, kde-format
 msgid "%1 Dust cap is online."
 msgstr "%1 toz kapağı çevrimiçi."
 
-#: ekos/manager.cpp:1700
+#: ekos/manager.cpp:1716
 #, kde-format
 msgid "%1 Light box is online."
 msgstr "%1 ışık kutusu çevrimiçi."
 
-#: ekos/manager.cpp:1850
+#: ekos/manager.cpp:1866
 #, kde-format
 msgid "%1 is offline."
 msgstr "%1 çevrimdışı."
 
-#: ekos/manager.cpp:2089
+#: ekos/manager.cpp:2105
 #, kde-format
 msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2464
+#: ekos/manager.cpp:2480
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "%1 üzerinden kılavuz kapısı hazır."
 
-#: ekos/manager.cpp:2653
+#: ekos/manager.cpp:2669
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Bu profili silmek istediğinizden emin misiniz?"
 
-#: ekos/manager.cpp:2654
+#: ekos/manager.cpp:2670
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Silmeyi Onayla"
 
-#: ekos/manager.cpp:2706
+#: ekos/manager.cpp:2722
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "Site konumu %1 olarak güncellendi."
 
-#: ekos/manager.cpp:2708
+#: ekos/manager.cpp:2724
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr "Site konumu %1 olarak güncellenemedi. Şehir bulunamadı."
 
-#: ekos/manager.cpp:2966
+#: ekos/manager.cpp:2982
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "%1 için hata ayıklama günlüğü etkinleştiriliyor..."
 
-#: ekos/manager.cpp:2974
+#: ekos/manager.cpp:2990
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "%1 için hata ayıklama günlüğü devre dışı bırakılıyor..."
 
-#: ekos/manager.cpp:3002
+#: ekos/manager.cpp:3018
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "%1 için hata ayıklama günlüğü yeniden etkinleştiriliyor..."
 
-#: ekos/manager.cpp:3014
+#: ekos/manager.cpp:3030
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "%1 için hata ayıklama günlüğü yeniden devre dışı bırakılıyor..."
 
-#: ekos/manager.cpp:3708
+#: ekos/manager.cpp:3725
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Önizleme kaynağı dış olarak ayarlandı"
 
-#: ekos/manager.cpp:3713
+#: ekos/manager.cpp:3732
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Önizleme kaynağı iç olarak ayarlandı"
 
-#: ekos/manager.cpp:3720
+#: ekos/manager.cpp:3739
 #, kde-format
 msgid "Received external preview file"
 msgstr "Dış önizleme dosyası alındı"
@@ -75773,39 +75772,38 @@ msgid ""
 "While sorting by percentage altitude, demote objects present in the "
 "Dobsonian hole"
 msgstr ""
+"Yüzdelik yüksekliğe göre sıralarken, Dobson deliğinde bulunan nesneleri "
+"küçült"
 
 #. i18n: ectx: property (text), widget (QLabel, holeSizeLabel)
 #: options/opsadvanced.ui:976
-#, fuzzy, kde-format
-#| msgid "Longitude in degrees"
+#, kde-format
 msgid "Hole size in degrees:"
-msgstr "Derece olarak boylam"
+msgstr "Derece olarak delik boyutu:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowStars)
 #: options/opscatalog.ui:25
-#, fuzzy, kde-format
-#| msgid "&Star Catalogs"
+#, kde-format
 msgid "&Star catalogs"
-msgstr "&Yıldız Katalogları"
+msgstr "&Yıldız katalogları"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelStarDensity)
 #: options/opscatalog.ui:52
-#, fuzzy, kde-format
-#| msgid "Star Density:"
+#, kde-format
 msgid "Star density:"
-msgstr "Yıldız Yoğunluğu:"
+msgstr "Yıldız yoğunluğu:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowStarNames)
 #: options/opscatalog.ui:129
 #, kde-format
 msgid "Show &name"
-msgstr "İsi&m göster"
+msgstr "&Adı göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowStarMagnitudes)
 #: options/opscatalog.ui:139
 #, kde-format
 msgid "Show ma&gnitude"
-msgstr "Pa&rlaklığı göster"
+msgstr "Bü&yüklüğü göster"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelDensity)
 #. i18n: ectx: property (text), widget (QLabel, DeepSkyLabelDensityLabel)
@@ -75817,48 +75815,45 @@ msgstr "Etiket yoğunluğu:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSky)
 #: options/opscatalog.ui:267
-#, fuzzy, kde-format
-#| msgid "Deep-Sky Catalogs"
+#, kde-format
 msgid "Deep-sky catalogs"
-msgstr "Derin Gökyüzü Katalogları"
+msgstr "Derin gökyüzü katalogları"
 
 #. i18n: ectx: property (text), widget (QLabel, DSOMInZoomLabel)
 #: options/opscatalog.ui:301
 #, kde-format
 msgid "DSO minimal zoom:"
-msgstr ""
+msgstr "DSO en düşük yakınlaştırma:"
 
 #. i18n: ectx: property (text), widget (QLabel, DSOCacheLabel)
 #: options/opscatalog.ui:366
 #, kde-format
 msgid "DSO cache percentage:"
-msgstr ""
+msgstr "DSO önbellek yüzdesi:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSkyNames)
 #: options/opscatalog.ui:428
 #, kde-format
 msgid "Show na&me"
-msgstr "İsmi &göster"
+msgstr "&Adı göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DeepSkyLongLabels)
 #: options/opscatalog.ui:461
 #, kde-format
 msgid "Show &long names"
-msgstr "Uzun isi&mleri göster"
+msgstr "Uzu&n adları göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDeepSkyMagnitudes)
 #: options/opscatalog.ui:507
 #, kde-format
 msgid "Show magni&tude"
-msgstr "Pa&rlaklığı göster"
+msgstr "Bü&yüklüğü göster"
 
 #. i18n: ectx: property (text), widget (QPushButton, manageButton)
 #: options/opscatalog.ui:593
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Deep Sky Catalogs"
+#, kde-format
 msgid "Manage Deep Sky Catalogs..."
-msgstr "Derin Gökyüzü Katalogları"
+msgstr "Derin Gökyüzü Kataloglarını Yönet..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResolveNamesOnline)
 #: options/opscatalog.ui:607
@@ -75870,12 +75865,18 @@ msgid ""
 "The objects acquired in this manner are stored under a catalog that is "
 "called user, and it can be edited using the \"Manage DSO Catalogs\" feature."
 msgstr ""
+"Bu onay kutusu işaretliyse, K Yıldızlar'ın bilmediği bir nesne adı Bul "
+"iletişim kutusuna girildiğinde, K Yıldızlar nesne hakkında bilgi edinmek ve "
+"ardından nesneyi veritabanına eklemek için çevrimiçi hizmetlerle (örneğin "
+"CDS Sesame) iletişime geçecektir.\n"
+"Bu şekilde edinilen nesneler kullanıcı adı verilen bir katalog altında "
+"saklanır ve \"DSO Kataloglarını Yönet\" özelliği kullanılarak düzenlenebilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResolveNamesOnline)
 #: options/opscatalog.ui:610
 #, kde-format
 msgid "Resolve names not known to KStars using online services"
-msgstr ""
+msgstr "K Yıldızlar'ın bilmediği adları çevrimiçi hizmetleri kullanarak çöz"
 
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitDrawDeepSkyZoomOut)
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMagDeepSkyZoomOut)
@@ -75883,8 +75884,8 @@ msgstr ""
 #, kde-format
 msgid "Set the faint magnitude limit for deep-sky objects when zoomed out."
 msgstr ""
-"Uzaklaştırma yapıldığında derin gökyüzü nesneleri için sönük parlaklık "
-"sınırını ayarlayın."
+"Uzaklaştırıldığında derin gökyüzü nesneleri için sönük büyüklük sınırını "
+"ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSkyZoomOut)
 #: options/opscatalog.ui:666
@@ -75897,7 +75898,7 @@ msgstr "Uzaklaştırma sönüklük sınırı:"
 #, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed out."
 msgstr ""
-"Uzaklaştırıldığında derin gökyüzü nesneleri için sönük parlaklık sınırlarını "
+"Uzaklaştırıldığında derin gökyüzü nesneleri için sönük büyüklük sınırlarını "
 "ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMag4)
@@ -75910,7 +75911,7 @@ msgstr ""
 #: tools/obslistwizard.ui:933
 #, kde-format
 msgid "mag"
-msgstr "par"
+msgstr "büy"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, LabelMagDeepSky)
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitDrawDeepSky)
@@ -75920,8 +75921,8 @@ msgstr "par"
 #, kde-format
 msgid "Set the faint magnitude limits for deep-sky objects when zoomed in."
 msgstr ""
-"Yakınlaştırıldığında derin gökyüzü nesneleri için sönük parlaklık "
-"sınırlarını ayarlayın."
+"Yakınlaştırıldığında derin gökyüzü nesneleri için sönük büyüklük sınırlarını "
+"ayarlayın."
 
 #. i18n: ectx: property (text), widget (QLabel, LabelMagDeepSky)
 #: options/opscatalog.ui:686
@@ -75939,12 +75940,17 @@ msgid ""
 "Check this checkbox to show such objects which do not have known magnitudes "
 "in the database."
 msgstr ""
+"Birçok nesnenin veritabanlarında bilinen büyüklükleri yoktur.\n"
+"Genellikle sönük veya çok dağınık olma eğilimindedirler; ancak durum her "
+"zaman böyle değildir.\n"
+"Veritabanında bilinen büyüklükleri olmayan nesneleri göstermek için bu onay "
+"kutusunu işaretleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowUnknownMagObjects)
 #: options/opscatalog.ui:736
 #, kde-format
 msgid "Show objects of unknown magnitude"
-msgstr "Bilinmeyen büyüklükteki cisimleri göster"
+msgstr "Bilinmeyen büyüklükteki nesneleri göster"
 
 #: options/opscolors.cpp:61 tools/scriptbuilder.cpp:744
 #, kde-format
@@ -75962,27 +75968,25 @@ msgstr "Gerçek Renkler"
 #, kde-format
 msgctxt "show stars as red circles"
 msgid "Solid Red"
-msgstr "Kırmızı"
+msgstr "Düz Kırmızı"
 
 #: options/opscolors.cpp:89
 #, kde-format
 msgctxt "show stars as black circles"
 msgid "Solid Black"
-msgstr "Siyah"
+msgstr "Düz Siyah"
 
 #: options/opscolors.cpp:90
 #, kde-format
 msgctxt "show stars as white circles"
 msgid "Solid White"
-msgstr "Beyaz"
+msgstr "Düz Beyaz"
 
 #: options/opscolors.cpp:91
-#, fuzzy, kde-format
-#| msgctxt "use realistic star colors"
-#| msgid "Real Colors"
+#, kde-format
 msgctxt "show stars as colored circles"
 msgid "Solid Colors"
-msgstr "Gerçek Renkler"
+msgstr "Düz Renkler"
 
 #: options/opscolors.cpp:217
 #, kde-format
@@ -75992,7 +75996,7 @@ msgstr "Yeni Renk Şeması"
 #: options/opscolors.cpp:217
 #, kde-format
 msgid "Enter a name for the new color scheme:"
-msgstr "Yeni renk şeması için isim girin:"
+msgstr "Yeni renk şeması için ad gir:"
 
 #: options/opscolors.cpp:261
 #, kde-format
@@ -76000,40 +76004,40 @@ msgid ""
 "Local color scheme index file could not be opened.\n"
 "Scheme cannot be removed."
 msgstr ""
-"Yerel renk dizin dosyası açılamadı.\n"
-"Şema silinemiyor."
+"Yerel renk şeması dizin dosyası açılamadı.\n"
+"Şema kaldırılamıyor."
 
 #: options/opscolors.cpp:295
 #, kde-format
 msgid "Could not delete the file: %1"
-msgstr "%1 dosyası silinemedi"
+msgstr "Dosya silinemedi: %1"
 
 #: options/opscolors.cpp:296
 #, kde-format
 msgid "Error Deleting File"
-msgstr "Dosya Silinemedi"
+msgstr "Dosya Silme Hatası"
 
 #: options/opscolors.cpp:308
 #, kde-format
 msgid "Could not find an entry named %1 in colors.dat."
-msgstr "colors.dat dosyasında %1 isimli bir girdi bulunamadı."
+msgstr "colors.dat dosyasında %1 adında bir girdi bulunamadı."
 
 #: options/opscolors.cpp:309
 #, kde-format
 msgid "Scheme Not Found"
-msgstr "Şablon Blunamadı"
+msgstr "Şema Bulunamadı"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: options/opscolors.ui:32
 #, kde-format
 msgid "Current Scheme Colors"
-msgstr "Mevcut Şema Renkleri"
+msgstr "Geçerli Şema Renkleri"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, ColorPalette)
 #: options/opscolors.ui:53
 #, kde-format
 msgid "Current color settings"
-msgstr "Şimdiki renk ayarları"
+msgstr "Geçerli renk ayarları"
 
 #. i18n: ectx: property (whatsThis), widget (QListWidget, ColorPalette)
 #: options/opscolors.ui:56
@@ -76043,9 +76047,9 @@ msgid ""
 "square showing the color it is currently set to.  Click on any item to "
 "change its color."
 msgstr ""
-"Programdaki özelleştirilebilir renklerin listesi.  Her ögenin yanında, "
-"ayarlı olduğu rengi gösteren bir kutu vardır.  Rengini değiştirmek için "
-"herhangi birine tıklayın."
+"Programdaki tüm özelleştirilebilir renklerin listesi. Her ögenin yanında, o "
+"anda ayarlandığı rengi gösteren bir kare bulunur. Rengini değiştirmek için "
+"herhangi bir ögeye tıklayın."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: options/opscolors.ui:80
@@ -76057,25 +76061,25 @@ msgstr "Bilgi kutusu arka plan kipi:"
 #: options/opscolors.ui:88
 #, kde-format
 msgid "No Fill"
-msgstr "Doldurma"
+msgstr "Dolgusuz"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_BoxBGMode)
 #: options/opscolors.ui:93
 #, kde-format
 msgid "Transparent"
-msgstr "Şeffaf"
+msgstr "Saydam"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_BoxBGMode)
 #: options/opscolors.ui:98
 #, kde-format
 msgid "Opaque"
-msgstr "Işık geçirmeyen"
+msgstr "Mat"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: options/opscolors.ui:125
 #, kde-format
 msgid "Star color mode:"
-msgstr "Yıldız renk kipi:"
+msgstr "Yıldız rengi kipi:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_StarColorMode)
 #: options/opscolors.ui:135
@@ -76092,16 +76096,17 @@ msgid ""
 "color.  You may also choose to draw the stars as solid white, red, or black "
 "circles, to match the needs of your overall color scheme."
 msgstr ""
-"Yıldızları haritada göstermek için dört yöntem var. Öntanımlı olarak, "
-"yıldızlar gercek renklerini gösteren bir çember ve beyaz merkezli daireler "
-"şeklindedir.   Genel renk şemanızın gerektirdiği içi dolu beyaz, kırmızı "
-"veya siyah daireler de seçebilirsiniz."
+"Haritada yıldız çizmenin dört yolu vardır. Öntanımlı olarak, yıldızlar beyaz "
+"bir merkeze ve yıldızın gerçek rengini yansıtacak şekilde renklendirilmiş "
+"bir kenara sahip dairelerdir. Ayrıca, genel renk şemanızın ihtiyaçlarına "
+"uyması için yıldızları düz beyaz, kırmızı veya siyah daireler olarak çizmeyi "
+"de seçebilirsiniz."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: options/opscolors.ui:164
 #, kde-format
 msgid "Star color intensity:"
-msgstr "Yıldız renk şiddeti:"
+msgstr "Yıldız rengi yoğunluğu:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StarColorIntensity)
 #: options/opscolors.ui:171
@@ -76117,9 +76122,9 @@ msgid ""
 "saturation level of the star's colors.  A higher value means more intense "
 "colors."
 msgstr ""
-"Gerçek-yıldız-rengi kipini kullanırken bu seçenek yıldız renklerinin "
-"doygunluk düzeyini ayarlar.  Daha yüksek değer daha doygun renkler anlamına "
-"gelir."
+"Gerçekçi renkli yıldız kipini kullanırken, bu seçenek yıldızın renklerinin "
+"doygunluk düzeyini ayarlayacaktır. Daha yüksek bir değer daha yoğun renkler "
+"anlamına gelir."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opscolors.ui:186
@@ -76140,14 +76145,14 @@ msgid ""
 "List of all known color schemes.  Several are provided by default, and you "
 "may also define your own."
 msgstr ""
-"Bilinen tüm renk şemalarının listesi.  Bir kaçı öntanımlı olarak "
-"sunulmuştur. Ayrıca kendi renk şemanızı da tanımlayabilirsiniz."
+"Bilinen tüm renk şemalarının listesi. Birkaç tanesi öntanımlı olarak "
+"sağlanır ve siz de kendinizinkini tanımlayabilirsiniz."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddPreset)
 #: options/opscolors.ui:211
 #, kde-format
 msgid "Create a new preset color scheme using current settings"
-msgstr "Şimdiki ayarları kullanarak öntanımlı yeni bir renk şeması oluştur."
+msgstr "Geçerli ayarları kullanarak yeni bir önayar renk şeması oluştur"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, AddPreset)
 #: options/opscolors.ui:214
@@ -76158,16 +76163,16 @@ msgid ""
 "list of presets, and will also be available in the \"Settings\" menu of the "
 "main window."
 msgstr ""
-"Renkleri beğendiğiniz bir şema ile değiştirdikten sonra bu renkleri kullanan "
-"yeni bir şema oluşturmak için bu düğmeye basın.  Şemanız burada öntanımlılar "
-"listesinde ve ayrıca ana penceredeki \"Ayarlar\" seçenek dizelgesinde de "
-"kullanılabilir olacaktır."
+"Renkleri beğendiğiniz bir şemaya değiştirdikten sonra, bu renkleri "
+"kullanarak yeni bir şema oluşturmak için bu düğmeye basın. Şemanız burada "
+"önayarlar listesinde görünecek ve ayrıca ana pencerenin \"Ayarlar\" "
+"menüsünde de bulunacaktır."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemovePreset)
 #: options/opscolors.ui:224
 #, kde-format
 msgid "Remove a preset color scheme"
-msgstr "Öntanımlı bir renk şeması sil"
+msgstr "Bir önayar renk şemasını kaldır"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemovePreset)
 #: options/opscolors.ui:227
@@ -76176,8 +76181,8 @@ msgid ""
 "Press this button to remove the highlighted color scheme.  This will only "
 "work on your custom color schemes."
 msgstr ""
-"Bu düğmeye vurgulanmış renk düzenini kaldırmak için basın.  Bu yalnızca özel "
-"renk düzenleriniz için geçerlidir."
+"Vurgulanan renk şemasını kaldırmak için bu düğmeye basın. Bu yalnızca özel "
+"renk şemalarınızda çalışacaktır."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opscolors.ui:239
@@ -76187,108 +76192,91 @@ msgstr "Uygulama Temaları"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opsdeveloper.ui:34
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Record Options"
+#, kde-format
 msgid "Developer Options"
-msgstr "Kayıt Seçenekleri"
+msgstr "Geliştirici Seçenekleri"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:40
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save autofocus frames. Only enable to troubleshoot "
 "autofocus by examining frames. This can consume a lot of storage space.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Kendiliğinden odaklama karelerini kaydedin. Yalnızca "
+"kareleri inceleyerek kendiliğinden odaklama sorunlarını gidermek için "
+"etkinleştirin. Bu, çok fazla depolama alanı tüketebilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:43
-#, fuzzy, kde-format
-#| msgid "Save all Images"
+#, kde-format
 msgid "Save Focus Images"
-msgstr "Tüm Resimleri Kaydet"
+msgstr "Odak Görsellerini Kaydet"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideImages)
 #: options/opsdeveloper.ui:50
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Guider frames. Only enable to "
 "troubleshoot guider by examining frames. This can consume a lot of storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>İç kılavuz karelerini kaydedin. Yalnızca kareleri "
+"inceleyerek kılavuzda tanılama yapın. Bu çok fazla depolama alanı "
+"tüketebilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveGuideImages)
 #: options/opsdeveloper.ui:53
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Save Guider Images"
-msgstr "Kılavuz Görüntüsü"
+msgstr "Kılavuz görsellerini kaydet"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:60
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Align frames. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>İç hizalama karelerini kaydedin. Yalnızca kareleri "
+"inceleyerek hizalamada tanılama yapın. Bu çok fazla depolama alanı "
+"tüketebilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:63
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Save Align Images"
-msgstr "Kılavuz Görüntüsü"
+msgstr "Hizalama görsellerini kaydet"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Align images where align failed. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bir görüntü yakalamadan önce sıcaklık değerini ayarla</"
-"p></body></html>"
+"<html><head/><body><p>Hizalamanın başarısız olduğu yerlerde hizalama "
+"görsellerini kaydedin. Yalnızca kareleri inceleyerek hizalamada tanılama "
+"yapın. Bu çok fazla depolama alanı tüketebilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:73
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Save Failed Align Images"
-msgstr "Kılavuz Görüntüsü"
+msgstr "Başarısız hizalama görsellerini kaydet"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
 #, kde-format
 msgid "Show constellation lines?"
-msgstr "Takımyıldız doğruları gösterilsin mi?"
+msgstr "Takımyıldız çizgileri gösterilsin mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:26
-#, kde-format
+#, fuzzy, kde-format
 msgid "If checked, constellation lines will be drawn on the sky map."
 msgstr "Seçilirse, takımyıldız çizgileri haritada gösterilecek."
 
