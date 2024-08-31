@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-30 01:52+0000\n"
-"PO-Revision-Date: 2024-08-26 19:46+0200\n"
+"PO-Revision-Date: 2024-08-29 13:55+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -12688,10 +12688,9 @@ msgid "Waiting..."
 msgstr "En espera…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Tramat correcte."
+msgstr "S'ha sol·licitat el tramat…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -16171,7 +16170,7 @@ msgid ""
 "is %2."
 msgstr ""
 "El calibratge pla ha fallat. La imatge capturada és de només %1 bits, mentre "
-"que l'ADU requerida era %2."
+"que l'ADU sol·licitada era %2."
 
 #: ekos/capture/cameraprocess.cpp:2197
 #, kde-format
@@ -29763,7 +29762,8 @@ msgstr ""
 #, kde-format
 msgid "Dome unpark required but dome is not yet ready."
 msgstr ""
-"S'ha requerit el desaparcament de la cúpula, però encara no està preparada."
+"S'ha sol·licitat el desaparcament de la cúpula, però encara no està "
+"preparada."
 
 #: ekos/scheduler/schedulerprocess.cpp:1398
 #, kde-format
@@ -30245,7 +30245,7 @@ msgstr "El procediment de tancament manual ha finalitzat a causa d'errors."
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
-"S'ha requerit l'aparcament de la funda de protecció, però no se n'ha "
+"S'ha sol·licitat l'aparcament de la funda de protecció, però no se n'ha "
 "detectat cap."
 
 #: ekos/scheduler/schedulerprocess.cpp:3965
@@ -30262,7 +30262,7 @@ msgstr "La tapa ja està aparcada."
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
-"S'ha requerit el desaparcament de la funda de protecció, però no se n'ha "
+"S'ha sol·licitat el desaparcament de la funda de protecció, però no se n'ha "
 "detectat cap."
 
 #: ekos/scheduler/schedulerprocess.cpp:4002
@@ -30279,7 +30279,7 @@ msgstr "La tapa ja està desaparcada."
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
-"S'ha requerit l'aparcament de la muntura, però no se n'ha detectat cap."
+"S'ha sol·licitat l'aparcament de la muntura, però no se n'ha detectat cap."
 
 #: ekos/scheduler/schedulerprocess.cpp:4075
 #, kde-format
@@ -30290,7 +30290,8 @@ msgstr "L'aparcament de la muntura es troba en curs…"
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
-"S'ha requerit el desaparcament de la muntura, però no se n'ha detectat cap."
+"S'ha sol·licitat el desaparcament de la muntura, però no se n'ha detectat "
+"cap."
 
 #: ekos/scheduler/schedulerprocess.cpp:4115
 #, kde-format
@@ -30300,7 +30301,8 @@ msgstr "La muntura ja està desaparcada."
 #: ekos/scheduler/schedulerprocess.cpp:4213
 #, kde-format
 msgid "Dome park requested but no domes detected."
-msgstr "S'ha requerit l'aparcament de la cúpula, però no se n'ha detectat cap."
+msgstr ""
+"S'ha sol·licitat l'aparcament de la cúpula, però no se n'ha detectat cap."
 
 #: ekos/scheduler/schedulerprocess.cpp:4236
 #, kde-format
@@ -30316,7 +30318,7 @@ msgstr "La cúpula ja està aparcada."
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
-"S'ha requerit el desaparcament de la cúpula, però no se n'ha detectat cap."
+"S'ha sol·licitat el desaparcament de la cúpula, però no se n'ha detectat cap."
 
 #: ekos/scheduler/schedulerprocess.cpp:4272
 #, kde-format
@@ -79893,7 +79895,7 @@ msgstr "S'ha produït un error en baixar les dades de les supernoves: %1"
 #: skymap.cpp:404 skymaplite.cpp:355
 #, kde-format
 msgid "Requested Position Below Horizon"
-msgstr "La posició requerida està per davall de l'horitzó"
+msgstr "La posició sol·licitada queda per davall de l'horitzó"
 
 #: skymap.cpp:405 skymaplite.cpp:356
 #, kde-format
@@ -79901,7 +79903,7 @@ msgid ""
 "The requested position is below the horizon.\n"
 "Would you like to go there anyway?"
 msgstr ""
-"La posició requerida està per davall de l'horitzó.\n"
+"La posició sol·licitada queda per davall de l'horitzó.\n"
 "Voleu anar-hi igualment?"
 
 #: skymap.cpp:406
