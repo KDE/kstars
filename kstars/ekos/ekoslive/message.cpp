@@ -1755,10 +1755,11 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
     // Get a list of object based on criteria
     else if (command == commands[ASTRO_SEARCH_OBJECTS])
     {
-        // Set time if required.
-        if (payload.contains("jd"))
+        // Set time if required only if Ekos profile is not running.
+        if (payload.contains("jd") && m_Manager && m_Manager->getEkosStartingStatus() == Ekos::Idle)
         {
-            KStarsDateTime jd = KStarsDateTime(payload["jd"].toDouble());
+            auto jd = KStarsDateTime(payload["jd"].toDouble());
+            KStarsData::Instance()->clock()->setManualMode(false);
             KStarsData::Instance()->clock()->setUTC(jd);
         }
 
@@ -2033,10 +2034,11 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
     // Get a list of object based on criteria
     else if (command == commands[ASTRO_GET_OBJECTS_INFO])
     {
-        // Set time if required.
-        if (payload.contains("jd"))
+        // Set time if required only if Ekos profile is not running.
+        if (payload.contains("jd") && m_Manager && m_Manager->getEkosStartingStatus() == Ekos::Idle)
         {
-            KStarsDateTime jd = KStarsDateTime(payload["jd"].toDouble());
+            auto jd = KStarsDateTime(payload["jd"].toDouble());
+            KStarsData::Instance()->clock()->setManualMode(false);
             KStarsData::Instance()->clock()->setUTC(jd);
         }
 
@@ -2080,10 +2082,11 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
     // Get a object observability alt/az/ha
     else if (command == commands[ASTRO_GET_OBJECTS_OBSERVABILITY])
     {
-        // Set time if required.
-        if (payload.contains("jd"))
+        // Set time if required only if Ekos profile is not running.
+        if (payload.contains("jd") && m_Manager && m_Manager->getEkosStartingStatus() == Ekos::Idle)
         {
-            KStarsDateTime jd = KStarsDateTime(payload["jd"].toDouble());
+            auto jd = KStarsDateTime(payload["jd"].toDouble());
+            KStarsData::Instance()->clock()->setManualMode(false);
             KStarsData::Instance()->clock()->setUTC(jd);
         }
 
@@ -2123,10 +2126,11 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
     }
     else if (command == commands[ASTRO_GET_OBJECTS_RISESET])
     {
-        // Set time if required.
-        if (payload.contains("jd"))
+        // Set time if required only if Ekos profile is not running.
+        if (payload.contains("jd") && m_Manager && m_Manager->getEkosStartingStatus() == Ekos::Idle)
         {
-            KStarsDateTime jd = KStarsDateTime(payload["jd"].toDouble());
+            auto jd = KStarsDateTime(payload["jd"].toDouble());
+            KStarsData::Instance()->clock()->setManualMode(false);
             KStarsData::Instance()->clock()->setUTC(jd);
         }
 
