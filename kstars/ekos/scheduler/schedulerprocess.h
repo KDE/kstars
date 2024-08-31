@@ -633,8 +633,9 @@ private slots:
      * @brief checkAlignment Handle one sequence image completion. This is used now only to run alignment check
      * to ensure it does not deviation from current scheduler job target.
      * @param metadata Metadata for image including filename, exposure, filter, hfr..etc.
+     * @param trainname name of the optical train that has captured the image
      */
-    void checkAlignment(const QVariantMap &metadata);
+    void checkAlignment(const QVariantMap &metadata, const QString &trainname);
 
     /**
      * @brief solverDone Process solver solution after it is done.

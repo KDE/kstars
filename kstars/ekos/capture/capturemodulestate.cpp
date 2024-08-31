@@ -99,6 +99,14 @@ void CaptureModuleState::setGuideStatus(GuideState newstate)
     checkActiveActions();
 }
 
+void CaptureModuleState::setGuideDeviation(double delta_ra, double delta_dec)
+{
+    const double deviation_rms = std::hypot(delta_ra, delta_dec);
+    // forward the deviation to all cameras
+    foreach (auto cam, cameras())
+        cam->state()->setGuideDeviation(deviation_rms);
+}
+
 CaptureWorkflowActionType CaptureModuleState::activeAction(int cameraID)
 {
     if (m_activeActions.contains(cameraID))

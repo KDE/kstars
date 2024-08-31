@@ -1797,6 +1797,12 @@ IPState CameraProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageD
         metadata["starCount"] = numStars;
         metadata["median"] = median;
         metadata["eccentricity"] = eccentricity;
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Captured frame metadata: filename =" << filename << ", type =" << metadata["type"].toInt()
+                                     << "exposure =" <<  metadata["exposure"].toDouble() << "filter =" << metadata["filter"].toString() << "width =" <<
+                                     metadata["width"].toInt() << "height =" << metadata["height"].toInt() << "hfr =" << metadata["hfr"].toDouble() <<
+                                     "starCount =" << metadata["starCount"].toInt() << "median =" << metadata["median"].toInt() << "eccentricity =" <<
+                                     metadata["eccentricity"].toDouble();
+
         emit captureComplete(metadata);
     }
     return IPS_OK;

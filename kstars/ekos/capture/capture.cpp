@@ -320,10 +320,8 @@ void Capture::setFocusTemperatureDelta(double focusTemperatureDelta, double absT
 
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
-    const double deviation_rms = std::hypot(delta_ra, delta_dec);
-
-    // forward it to the state machine
-    mainCameraState()->setGuideDeviation(deviation_rms);
+    // forward it to the global state machine
+    moduleState()->setGuideDeviation(delta_ra, delta_dec);
 
 }
 

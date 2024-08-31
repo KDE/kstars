@@ -441,7 +441,7 @@ signals:
     void newDownloadProgress(double, const QString &trainname);
     void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &trainname);
     void captureTarget(QString targetName);
-    void captureComplete(const QVariantMap &metadata);
+    void captureComplete(const QVariantMap &metadata, const QString &trainname);
     void resetNonGuidedDither();
     void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo, const QString &trainname);
     void resetFocus(const QString &trainname);

@@ -224,7 +224,8 @@ void GreedyScheduler::prepareJobsForEvaluation(
         if (job->getEstimatedTime() == 0)
         {
             job->setRepeatsRemaining(0);
-            job->setState(SCHEDJOB_COMPLETE);
+            // set job including its followers to complete state
+            job->setState(SCHEDJOB_COMPLETE, true);
             continue;
         }
     }

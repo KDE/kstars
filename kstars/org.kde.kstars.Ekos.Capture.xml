@@ -146,6 +146,7 @@
     </signal>
     <signal name="captureComplete">
         <arg name="metadata" type="a{sv}" direction="out"/>
+        <arg name="train" type="s" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QVariantMap"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QVariantMap"/>
     </signal>

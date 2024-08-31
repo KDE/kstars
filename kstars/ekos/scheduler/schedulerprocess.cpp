@@ -437,12 +437,11 @@ void Ekos::SchedulerProcess::stopCapturing(QString train, bool followersOnly)
         QList<QVariant> dbusargs;
         dbusargs.append(train);
         captureInterface()->callWithArgumentList(QDBus::BlockWithGui, "abort", dbusargs);
-        if (train == "")
-            activeJob()->setState(SCHEDJOB_ABORTED);
-        else
-            for (auto job : m_activeJobs.values())
-                if (job->getOpticalTrain() == train)
-                    job->setState(SCHEDJOB_ABORTED);
+
+        // set all relevant jobs to aborted
+        for (auto job : m_activeJobs.values())
+            if (train == "" || job->getOpticalTrain() == train)
+                job->setState(SCHEDJOB_ABORTED);
     }
 }
 
@@ -1035,6 +1034,8 @@ void SchedulerProcess::stopGuiding()
         qCInfo(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' is stopping guiding...").arg(activeJob()->getName());
         guideInterface()->call(QDBus::AutoDetect, "abort");
         moduleState()->resetGuideFailureCount();
+        // abort all follower jobs
+        stopCapturing("", true);
     }
 
     // In any case, stop the automatic guider restart
@@ -1068,8 +1069,8 @@ void SchedulerProcess::startCapture(bool restart)
     startSingleCapture(activeJob(), restart);
     for (auto follower : activeJob()->followerJobs())
     {
-        // start follower jobs that scheduled
-        if (follower->getState() == SCHEDJOB_SCHEDULED)
+        // start follower jobs that scheduled or that were already capturing, but stopped
+        if (follower->getState() == SCHEDJOB_SCHEDULED || (follower->getStage() == SCHEDSTAGE_CAPTURING && follower->isStopped()))
         {
             follower->setState(SCHEDJOB_BUSY);
             follower->setStage(SCHEDSTAGE_CAPTURING);
@@ -1173,6 +1174,7 @@ void SchedulerProcess::startSingleCapture(SchedulerJob *job, bool restart)
 
     QString trainName = startReply.value();
     m_activeJobs[trainName] = job;
+    // set the
 }
 
 void SchedulerProcess::setSolverAction(Align::GotoMode mode)
@@ -3160,10 +3162,16 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
     return true;
 }
 
-void SchedulerProcess::checkAlignment(const QVariantMap &metadata)
+void SchedulerProcess::checkAlignment(const QVariantMap &metadata, const QString &trainname)
 {
-    if (activeJob() &&
-            activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN &&
+    // check if the metadata comes from the lead job
+    if (activeJob() == nullptr || (activeJob()->getOpticalTrain() != "" &&  activeJob()->getOpticalTrain() != trainname))
+    {
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Ignoring metadata from train =" << trainname << "for alignment check.";
+        return;
+    }
+
+    if (activeJob()->getStepPipeline() & SchedulerJob::USE_ALIGN &&
             metadata["type"].toInt() == FRAME_LIGHT &&
             Options::alignCheckFrequency() > 0 &&
             moduleState()->increaseSolverIteration() >= Options::alignCheckFrequency())
@@ -3172,6 +3180,8 @@ void SchedulerProcess::checkAlignment(const QVariantMap &metadata)
 
         auto filename = metadata["filename"].toString();
         auto exposure = metadata["exposure"].toDouble();
+
+        qCDebug(KSTARS_EKOS_SCHEDULER) << "Checking alignment on train =" << trainname << "for" << filename;
 
         constexpr double minSolverSeconds = 5.0;
         double solverTimeout = std::max(exposure - 2, minSolverSeconds);
@@ -3641,8 +3651,7 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &trai
                 // if capturing on the lead has failed for less than MAX_FAILURE_ATTEMPTS times
                 if (moduleState()->increaseCaptureFailureCount())
                 {
-                    // abort follower capture jobs as well
-                    stopCapturing("", true);
+                    job->setState(SCHEDJOB_ABORTED);
 
                     // If capture failed due to guiding error, let's try to restart that
                     if (activeJob()->getStepPipeline() & SchedulerJob::USE_GUIDE)
@@ -3678,8 +3687,18 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &trai
             }
             else
             {
-                appendLogText(i18n("[%2] Follower job '%1' has failed, is restarting.", job->getName(), trainname));
-                startSingleCapture(job, true);
+                if (job->leadJob()->getStage() == SCHEDSTAGE_CAPTURING)
+                {
+                    // recover only when the lead job is capturing.
+                    appendLogText(i18n("[%2] Follower job '%1' has been aborted, is restarting.", job->getName(), trainname));
+                    job->setState(SCHEDJOB_ABORTED);
+                    startSingleCapture(job, true);
+                }
+                else
+                {
+                    appendLogText(i18n("[%2] Follower job '%1' has been aborted.", job->getName(), trainname));
+                    job->setState(SCHEDJOB_ABORTED);
+                }
             }
         }
         else if (status == Ekos::CAPTURE_COMPLETE)
@@ -4447,7 +4466,8 @@ void SchedulerProcess::registerNewModule(const QString &name)
         connect(captureInterface(), SIGNAL(ready()), this, SLOT(syncProperties()));
         connect(captureInterface(), SIGNAL(newStatus(Ekos::CaptureState, const QString, int)), this,
                 SLOT(setCaptureStatus(Ekos::CaptureState, const QString)), Qt::UniqueConnection);
-        connect(captureInterface(), SIGNAL(captureComplete(QVariantMap)), this, SLOT(checkAlignment(QVariantMap)),
+        connect(captureInterface(), SIGNAL(captureComplete(QVariantMap, const QString)), this, SLOT(checkAlignment(QVariantMap,
+                const QString)),
                 Qt::UniqueConnection);
         checkInterfaceReady(captureInterface());
     }

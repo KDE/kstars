@@ -63,8 +63,11 @@ public:
     // State handling
     // ////////////////////////////////////////////////////////////////////
 
+     // Capturing
     void captureStateChanged(CaptureState value, const QString &trainname, int cameraID);
+    // Guiding
     void setGuideStatus(GuideState newstate);
+    void setGuideDeviation(double delta_ra, double delta_dec);
 
     // ////////////////////////////////////////////////////////////////////
     // Action handling

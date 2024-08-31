@@ -328,7 +328,7 @@ void SchedulerJob::setStepPipeline(const StepPipeline &value)
     stepPipeline = value;
 }
 
-void SchedulerJob::setState(const SchedulerJobStatus &value)
+void SchedulerJob::setState(const SchedulerJobStatus &value, bool force)
 {
     state = value;
     stateTime = getLocalTime();
@@ -359,29 +359,33 @@ void SchedulerJob::setState(const SchedulerJobStatus &value)
     }
     // propagate it to the follower jobs
     if (isLead())
-        setFollowerState(value);
+        setFollowerState(value, force);
 }
 
-void SchedulerJob::setFollowerState(const SchedulerJobStatus &value)
+void SchedulerJob::setFollowerState(const SchedulerJobStatus &value, bool force)
 {
     for (auto follower : followerJobs())
     {
         // do not propagate the state if the job is running
-        if (follower->getState() == SCHEDJOB_BUSY)
+        if (follower->getState() == SCHEDJOB_BUSY && force == false)
             continue;
 
         switch (value)
         {
+            case SCHEDJOB_EVALUATION:
+            case SCHEDJOB_IDLE:
+                // always forward evaluation and startup, since only the lead job is part of the scheduling
+                follower->setState(value);
+                break;
             case SCHEDJOB_SCHEDULED:
                 // if the lead job is scheduled, the follower job will be scheduled unless it is complete
                 follower->setState(follower->getCompletionCondition() == FINISH_LOOP
                                    || follower->getEstimatedTime() > 0 ? value : SCHEDJOB_COMPLETE);
                 break;
-            case SCHEDJOB_BUSY:
-                // do NOT forward the state, each follower job needs to be started indivudially
-                break;
             default:
-                follower->setState(value);
+                // do NOT forward the state, each follower job needs to be started individually
+                if (force)
+                    follower->setState(value);
                 break;
         }
     }
@@ -394,7 +398,7 @@ void SchedulerJob::updateSharedFollowerAttributes()
         {
             follower->setStartupTime(getStartupTime(), false);
             follower->setStartAtTime(getStartAtTime());
-            follower->setFollowerState(getState());
+            follower->setFollowerState(getState(), true);
         }
 }
 

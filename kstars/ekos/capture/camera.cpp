@@ -474,7 +474,10 @@ void Camera::initCamera()
     {
         emit newImage(job, data, opticalTrain());
     });
-    connect(m_cameraProcess.data(), &CameraProcess::captureComplete, this, &Camera::captureComplete);
+    connect(m_cameraProcess.data(), &CameraProcess::captureComplete, this, [&](const QVariantMap & metadata)
+    {
+        emit captureComplete(metadata, opticalTrain());
+    });
     connect(m_cameraProcess.data(), &CameraProcess::updateCaptureCountDown, this, &Camera::updateCaptureCountDown);
     connect(m_cameraProcess.data(), &CameraProcess::processingFITSfinished, this, &Camera::processingFITSfinished);
     connect(m_cameraProcess.data(), &CameraProcess::captureStopped, this, &Camera::captureStopped);

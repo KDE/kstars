@@ -302,6 +302,14 @@ class SchedulerJob
         {
             return state;
         }
+
+        /**
+         * @brief isStopped helper function for idle or aborted state
+         */
+        bool isStopped() const
+        {
+            return (state == SCHEDJOB_IDLE || state == SCHEDJOB_ABORTED);
+        }
         QDateTime getStateTime() const
         {
             return stateTime;
@@ -314,9 +322,9 @@ class SchedulerJob
         {
             return lastErrorTime;
         }
-        void setState(const SchedulerJobStatus &value);
+        void setState(const SchedulerJobStatus &value, bool force = false);
 
-        void setFollowerState(const SchedulerJobStatus &value);
+        void setFollowerState(const SchedulerJobStatus &value, bool force);
 
         /**
          * @brief Update the attributes of all followers that are shared with the lead job

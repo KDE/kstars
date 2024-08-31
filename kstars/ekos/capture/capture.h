@@ -696,7 +696,7 @@ public slots:
         Q_SCRIPTABLE void meridianFlipStarted(const QString &trainname);
         Q_SCRIPTABLE void guideAfterMeridianFlip();
         Q_SCRIPTABLE void newStatus(CaptureState status, const QString &trainname, int cameraID);
-        Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata);
+        Q_SCRIPTABLE void captureComplete(const QVariantMap &metadata, const QString &trainname);
 
         void newFilterStatus(FilterState state);
 
