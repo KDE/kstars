@@ -24,6 +24,8 @@ class CaptureModuleState : public QObject
 
 signals:
     void dither();
+    // new log text for the module log window
+    void newLog(const QString &text);
 
 public:
     explicit CaptureModuleState(QObject *parent = nullptr);

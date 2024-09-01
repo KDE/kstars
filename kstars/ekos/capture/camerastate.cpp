@@ -22,6 +22,7 @@ void CameraState::init()
     m_sequenceQueue.reset(new SequenceQueue());
     m_refocusState.reset(new RefocusState());
     m_TargetADUTolerance = Options::calibrationADUValueTolerance();
+    connect(m_sequenceQueue.get(), &SequenceQueue::newLog, this, &CameraState::newLog);
     connect(m_refocusState.get(), &RefocusState::newLog, this, &CameraState::newLog);
 
     getGuideDeviationTimer().setInterval(GD_TIMER_TIMEOUT);
@@ -421,8 +422,7 @@ bool CameraState::checkDithering()
         // reset the dither counter
         resetDitherCounter();
 
-        qCInfo(KSTARS_EKOS_CAPTURE) << "Dithering...";
-        appendLogText(i18n("Dithering..."));
+        appendLogText(i18n("Dithering requested..."));
 
         setCaptureState(CAPTURE_DITHERING);
         setDitheringState(IPS_BUSY);

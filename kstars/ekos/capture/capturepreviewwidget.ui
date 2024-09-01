@@ -69,7 +69,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="cameraSelectionCB"/>
+      <widget class="QComboBox" name="trainSelectionCB"/>
      </item>
      <item>
       <spacer name="horizontalSpacer_2">

@@ -81,6 +81,10 @@ Capture::Capture()
     registerNewModule("Mount");
 
     DarkLibrary::Instance()->setCaptureModule(this);
+
+    // connection to the global module state
+    connect(m_moduleState.get(), &CaptureModuleState::dither, this, &Capture::dither);
+    connect(m_moduleState.get(), &CaptureModuleState::newLog, this, &Capture::appendLogText);
 }
 
 
@@ -133,9 +137,6 @@ QSharedPointer<Camera> Capture::addCamera()
     connect(newCamera.get(), &Camera::resumeGuiding, this, &Capture::resumeGuiding);
     connect(newCamera.get(), &Camera::resetNonGuidedDither, this, &Capture::resetNonGuidedDither);
     connect(newCamera.get(), &Camera::driverTimedout, this, &Capture::driverTimedout);
-
-    // connection to the global module state
-    connect(m_moduleState.get(), &CaptureModuleState::dither, this, &Capture::dither);
 
     const QString train = findUnusedOpticalTrain();
     // select an unused train

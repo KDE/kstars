@@ -19,6 +19,7 @@
 #include "skymapcomposite.h"
 #include "mosaiccomponent.h"
 #include "mosaictiles.h"
+#include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
 #include <ekos_scheduler_debug.h>
 
@@ -3335,6 +3336,10 @@ bool SchedulerProcess::appendEkosScheduleList(const QString &fileURL)
     // remember previous job
     SchedulerJob *lastLead = nullptr;
 
+    // retrieve optical trains names to ensure that only known trains are used
+    const QStringList allTrainNames = OpticalTrainManager::Instance()->getTrainNames();
+    QStringList remainingTrainNames = allTrainNames;
+
     while (sFile.getChar(&c))
     {
         root = readXMLEle(xmlParser, c, errmsg);
@@ -3349,7 +3354,39 @@ bool SchedulerProcess::appendEkosScheduleList(const QString &fileURL)
                     SchedulerJob *newJob = SchedulerUtils::createJob(ep, lastLead);
                     // remember new lead if such one has been created
                     if (newJob->isLead())
+                    {
                         lastLead = newJob;
+                        // reset usable train names
+                        remainingTrainNames = allTrainNames;
+                    }
+                    // check train name
+                    const QString trainname = newJob->getOpticalTrain();
+                    bool allowedName = (newJob->isLead() && trainname.isEmpty()) || allTrainNames.contains(trainname);
+                    bool availableName = (newJob->isLead() && trainname.isEmpty()) || !remainingTrainNames.isEmpty();
+
+                    if (!allowedName && availableName)
+                    {
+                        const QString message = trainname.isEmpty() ?
+                                                i18n("Warning: train name is empty, selecting \"%1\".", remainingTrainNames.first()) :
+                                                i18n("Warning: train name %2 does not exist, selecting \"%1\".", remainingTrainNames.first(), trainname);
+                        appendLogText(message);
+                        if(KMessageBox::warningContinueCancel(nullptr, message, i18n("Select optical train"), KStandardGuiItem::cont(),
+                                                              KStandardGuiItem::cancel(), "correct_missing_train_warning") != KMessageBox::Continue)
+                            break;
+
+                        newJob->setOpticalTrain(remainingTrainNames.first());
+                        remainingTrainNames.removeFirst();
+                    }
+                    else if (!availableName)
+                    {
+                        const QString message = i18n("Warning: no available train name for scheduler job, select the optical train name manually.");
+                        appendLogText(message);
+
+                        if(KMessageBox::warningContinueCancel(nullptr, message, i18n("Select optical train"), KStandardGuiItem::cont(),
+                                                              KStandardGuiItem::cancel(), "correct_missing_train_warning") != KMessageBox::Continue)
+                            break;
+                    }
+
                     emit addJob(newJob);
                 }
                 else if (!strcmp(tag, "Mosaic"))

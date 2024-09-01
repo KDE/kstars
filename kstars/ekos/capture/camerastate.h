@@ -1099,8 +1099,8 @@ signals:
         QSharedPointer<MeridianFlipState> mf_state;
 
         /**
-             * @brief Add log message
-             */
+         * @brief Add log message
+         */
         void appendLogText(const QString &message);
 };
 

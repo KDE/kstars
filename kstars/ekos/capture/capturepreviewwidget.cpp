@@ -27,7 +27,7 @@ CapturePreviewWidget::CapturePreviewWidget(QWidget *parent) : QWidget(parent)
     m_overlay = new CaptureProcessOverlay();
     m_overlay->setVisible(false);
     // capture device selection
-    connect(cameraSelectionCB, &QComboBox::currentTextChanged, this, &CapturePreviewWidget::selectedTrainChanged);
+    connect(trainSelectionCB, &QComboBox::currentTextChanged, this, &CapturePreviewWidget::selectedTrainChanged);
     // history navigation
     connect(m_overlay->historyBackwardButton, &QPushButton::clicked, this, &CapturePreviewWidget::showPreviousFrame);
     connect(m_overlay->historyForwardButton, &QPushButton::clicked, this, &CapturePreviewWidget::showNextFrame);
@@ -35,7 +35,7 @@ CapturePreviewWidget::CapturePreviewWidget(QWidget *parent) : QWidget(parent)
     connect(m_overlay->deleteCurrentFrameButton, &QPushButton::clicked, this, &CapturePreviewWidget::deleteCurrentFrame);
 
     // make invisible until we have at least two cameras active
-    cameraSelectionCB->setVisible(false);
+    trainSelectionCB->setVisible(false);
 }
 
 void CapturePreviewWidget::shareCaptureModule(Ekos::Capture *module)
@@ -43,6 +43,10 @@ void CapturePreviewWidget::shareCaptureModule(Ekos::Capture *module)
     m_captureModule = module;
     captureCountsWidget->shareCaptureProcess(module);
     m_trainNames.clear();
+    trainSelectionCB->clear();
+    // make invisible until we have at least two cameras active
+    trainSelectionCB->setVisible(false);
+    captureLabel->setVisible(true);
 
     if (m_captureModule != nullptr)
     {
@@ -71,9 +75,9 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     if (!m_trainNames.contains(trainname))
     {
         m_trainNames.append(trainname);
-        cameraSelectionCB->addItem(trainname);
+        trainSelectionCB->addItem(trainname);
 
-        cameraSelectionCB->setVisible(m_trainNames.count() >= 2);
+        trainSelectionCB->setVisible(m_trainNames.count() >= 2);
         captureLabel->setVisible(m_trainNames.count() < 2);
     }
 
@@ -129,7 +133,7 @@ void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QShar
     }
 
     // load frame
-    if (m_fitsPreview != nullptr && Options::useSummaryPreview() && cameraSelectionCB->currentText() == trainname)
+    if (m_fitsPreview != nullptr && Options::useSummaryPreview() && trainSelectionCB->currentText() == trainname)
         m_fitsPreview->loadData(data);
 }
 
@@ -321,13 +325,13 @@ void CapturePreviewWidget::selectedTrainChanged(QString newName)
 
 void CapturePreviewWidget::updateExposureProgress(Ekos::SequenceJob *job, const QString &trainname)
 {
-    if (trainname == cameraSelectionCB->currentText())
+    if (trainname == trainSelectionCB->currentText())
         captureCountsWidget->updateExposureProgress(job, trainname);
 }
 
 void CapturePreviewWidget::updateDownloadProgress(double downloadTimeLeft, const QString &trainname)
 {
-    if (trainname == cameraSelectionCB->currentText())
+    if (trainname == trainSelectionCB->currentText())
         captureCountsWidget->updateDownloadProgress(downloadTimeLeft, trainname);
 }
 
@@ -337,6 +341,6 @@ void CapturePreviewWidget::setTargetName(QString name)
     mountTarget->setVisible(!name.isEmpty());
     mountTarget->setText(name);
     m_mountTarget = name;
-    m_currentFrame[cameraSelectionCB->currentText()].target = name;
+    m_currentFrame[trainSelectionCB->currentText()].target = name;
 }
 

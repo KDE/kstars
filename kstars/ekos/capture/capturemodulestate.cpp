@@ -315,7 +315,7 @@ void CaptureModuleState::startDithering()
         }
 
     // dither
+    emit newLog(i18n("Dithering..."));
     emit dither();
 }
-
 } // namespace Ekos
