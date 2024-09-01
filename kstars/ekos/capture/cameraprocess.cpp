@@ -1793,6 +1793,8 @@ IPState CameraProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageD
         metadata["filter"] = activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString();
         metadata["width"] = activeJob()->getCoreProperty(SequenceJob::SJ_ROI).toRect().width();
         metadata["height"] = activeJob()->getCoreProperty(SequenceJob::SJ_ROI).toRect().height();
+        metadata["binx"] = activeJob()->getCoreProperty(SequenceJob::SJ_Binning).toPoint().x();
+        metadata["biny"] = activeJob()->getCoreProperty(SequenceJob::SJ_Binning).toPoint().y();
         metadata["hfr"] = hfr;
         metadata["starCount"] = numStars;
         metadata["median"] = median;

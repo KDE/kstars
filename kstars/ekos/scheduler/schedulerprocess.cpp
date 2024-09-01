@@ -3207,8 +3207,8 @@ void SchedulerProcess::checkAlignment(const QVariantMap &metadata, const QString
             connect(m_Solver.get(), &SolverUtils::done, this, &Ekos::SchedulerProcess::solverDone, Qt::UniqueConnection);
             //connect(m_Solver.get(), &SolverUtils::newLog, this, &Ekos::Scheduler::appendLogText, Qt::UniqueConnection);
 
-            auto width = metadata["width"].toUInt();
-            auto height = metadata["height"].toUInt();
+            auto width = metadata["width"].toUInt() / (metadata["binx"].isValid() ? metadata["binx"].toUInt() : 1);
+            auto height = metadata["height"].toUInt() / (metadata["biny"].isValid() ? metadata["biny"].toUInt() : 1);
 
             auto lowScale = Options::astrometryImageScaleLow();
             auto highScale = Options::astrometryImageScaleHigh();
