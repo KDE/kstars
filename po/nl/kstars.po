@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-02 01:44+0000\n"
-"PO-Revision-Date: 2024-09-01 15:27+0200\n"
+"PO-Revision-Date: 2024-09-02 12:17+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -29372,19 +29372,18 @@ msgstr "opgenomen frame is %1 boogminuten van doel, opnieuw uitlijnen..."
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr ""
+msgstr "Waarschuwing: treinnaam is leeg, \"%1\" wordt geselecteerd."
 
 #: ekos/scheduler/schedulerprocess.cpp:3371
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
-msgstr ""
+msgstr "Waarschuwing: treinnaam %2 bestaat niet, \"%1\" wordt geselecteerd."
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Optische trein"
+msgstr "Optische trein selecteren"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -29392,6 +29391,8 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
+"Waarschuwing: geen beschikbare treinnaam voor planningtaak, handmatig de "
+"optische treinnaam selecteren."
 
 #: ekos/scheduler/schedulerprocess.cpp:3533
 #, kde-format

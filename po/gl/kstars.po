@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-02 01:44+0000\n"
-"PO-Revision-Date: 2024-08-29 20:05+0200\n"
+"PO-Revision-Date: 2024-09-02 17:55+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -29541,19 +29541,18 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr ""
+msgstr "Aviso: o nome de tren está baleiro, seleccionarase «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3371
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
-msgstr ""
+msgstr "Aviso: non existe un tren chamado %2, seleccionarase «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Tren óptico"
+msgstr "Seleccionar o tren óptico"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -29561,6 +29560,8 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
+"Aviso: o traballo do planificador non dispón de ningún nome de tren, "
+"seleccione manualmente o nome do tren óptico."
 
 #: ekos/scheduler/schedulerprocess.cpp:3533
 #, kde-format
@@ -29637,16 +29638,14 @@ msgstr ""
 "interrompido."
 
 #: ekos/scheduler/schedulerprocess.cpp:3730
-#, fuzzy, kde-format
-#| msgid "[%2] Follower job '%1' has failed, is restarting."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
-msgstr "[%2] O traballo de seguimento «%1» fallou, reiniciándoo."
+msgstr "[%2] O traballo de seguimento «%1» interrompeuse, reiniciándoo."
 
 #: ekos/scheduler/schedulerprocess.cpp:3736
-#, fuzzy, kde-format
-#| msgid "[%2] Follower job '%1' has failed, is restarting."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
-msgstr "[%2] O traballo de seguimento «%1» fallou, reiniciándoo."
+msgstr "[%2] O traballo de seguimento «%1» interrompeuse."
 
 #: ekos/scheduler/schedulerprocess.cpp:3744
 #, kde-format

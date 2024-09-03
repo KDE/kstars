@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-02 01:44+0000\n"
-"PO-Revision-Date: 2024-09-01 11:23+0200\n"
+"PO-Revision-Date: 2024-09-02 18:14+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -29262,19 +29262,18 @@ msgstr "Tagen bildruta är %1 bågminuter bort från målet, riktar in igen..."
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr ""
+msgstr "Varning: Optiknamnet är tomt, väljer \"%1\"."
 
 #: ekos/scheduler/schedulerprocess.cpp:3371
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
-msgstr ""
+msgstr "Varning: Optiknamnet %2 finns inte, väljer \"%1\"."
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Optik"
+msgstr "Välj optik"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -29282,6 +29281,8 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
+"Varning: Inget tillgängligt optiknamn för schemaläggningsjobb, välj "
+"optiknamnet manuellt."
 
 #: ekos/scheduler/schedulerprocess.cpp:3533
 #, kde-format

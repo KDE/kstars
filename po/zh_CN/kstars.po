@@ -27709,10 +27709,9 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Select Star"
+#, kde-format
 msgid "Select optical train"
-msgstr "选择星点"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -27791,10 +27790,9 @@ msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3736
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
-msgstr "任务“%1”已中止。"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3744
 #, kde-format

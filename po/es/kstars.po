@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-02 01:44+0000\n"
-"PO-Revision-Date: 2024-09-01 11:53+0200\n"
+"PO-Revision-Date: 2024-09-02 12:04+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -29745,19 +29745,18 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr ""
+msgstr "Advertencia: el nombre del tren está vacío; se selecciona «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3371
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
-msgstr ""
+msgstr "Advertencia: el nombre del tren %2 no existe; se selecciona «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Tren óptico"
+msgstr "Seleccionar tren óptico"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -29765,6 +29764,8 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
+"Advertencia: ningún nombre de tren disponible para el trabajo planificado; "
+"seleccione el nombre del tren óptico de forma manual."
 
 #: ekos/scheduler/schedulerprocess.cpp:3533
 #, kde-format

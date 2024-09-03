@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-02 01:44+0000\n"
-"PO-Revision-Date: 2024-09-01 15:54+0300\n"
+"PO-Revision-Date: 2024-09-02 09:44+0300\n"
 "Last-Translator: Fracture dept <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -29662,19 +29662,18 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr ""
+msgstr "Попередження: назва тракту порожня, вибираємо «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3371
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
-msgstr ""
+msgstr "Попередження: тракту з назвою %2 не існує, вибираємо «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Оптичний тракт"
+msgstr "Виберіть оптичний тракт"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -29682,6 +29681,8 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
+"Попередження: немає доступної назви тракту для завдання планувальника, "
+"виберіть назву оптичного тракту вручну."
 
 #: ekos/scheduler/schedulerprocess.cpp:3533
 #, kde-format
