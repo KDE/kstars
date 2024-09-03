@@ -48,6 +48,7 @@ typedef enum
     CAPTURE_ACTION_AUTOFOCUS,           /* Execute autofocus (might be triggered due to filter change).                                   */
     CAPTURE_ACTION_DITHER_REQUEST,      /* Request for dither execution.                                                                  */
     CAPTURE_ACTION_DITHER,              /* Execute dithering.                                                                             */
+    CAPTURE_ACTION_CHECK_GUIDING,       /* Check if guiding is running.                                                                   */
 } CaptureWorkflowActionType;
 
 typedef enum {

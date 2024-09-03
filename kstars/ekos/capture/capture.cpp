@@ -534,6 +534,8 @@ void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)
 {
     mainCameraState()->setMeridianFlipState(newstate);
     connect(mainCameraState()->getMeridianFlipState().get(), &MeridianFlipState::newLog, this, &Capture::appendLogText);
+    connect(mainCameraState()->getMeridianFlipState().get(), &MeridianFlipState::newMountMFStatus, moduleState().get(),
+            &CaptureModuleState::updateMFMountState);
 }
 
 bool Capture::hasCoolerControl()

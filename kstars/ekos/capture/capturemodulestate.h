@@ -8,13 +8,16 @@
 #pragma once
 
 #include "capturetypes.h"
+#include "ekos/manager/meridianflipstate.h"
 #include "ekos/ekos.h"
+
 #include <QObject>
 #include <QTimer>
 
 namespace Ekos
 {
 class Camera;
+class CameraState;
 
 class CaptureModuleState : public QObject
 {
@@ -70,6 +73,8 @@ public:
     // Guiding
     void setGuideStatus(GuideState newstate);
     void setGuideDeviation(double delta_ra, double delta_dec);
+    // meridian flip
+    void updateMFMountState(MeridianFlipState::MeridianFlipMountState status);
 
     // ////////////////////////////////////////////////////////////////////
     // Action handling
@@ -189,8 +194,36 @@ private:
      */
     void startDithering();
 
+    /**
+     * @brief setupRestartPostMF Setup the checks required before the suspended follower jobs
+     *        might be restarted.
+     */
+    void setupRestartPostMF();
+
+    /**
+     * @brief pauseCapturingImmediately Pause capturing immediately by calling first to pause
+     *        and subsequently to suspend.
+     */
+    void pauseCapturingImmediately(int cameraID = -1, bool followersOnly = true);
+
     // timer to avoid waiting infinitely long for settling of other cameras
     QTimer m_DitheringTimer;
+
+    // meridian flip mount state
+    MeridianFlipState::MeridianFlipMountState m_MFMountState {MeridianFlipState::MOUNT_FLIP_NONE};
+
+    // ////////////////////////////////////////////////////////////////////
+    // helper functions
+    // ////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Check if a meridian flip is ready to start, running or some post flip actions are not completed.
+     */
+    bool checkMeridianFlipActive();
+
+    /**
+     * @brief leadState Retrieve the state machine of the lead camera.
+     */
+    const QSharedPointer<CameraState> leadState();
 };
 } // namespace Ekos
 

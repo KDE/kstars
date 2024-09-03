@@ -62,6 +62,11 @@ void CaptureModuleState::captureStateChanged(CaptureState newstate, const QStrin
         case CAPTURE_ABORTED:
             clearAllActions(cameraID);
             break;
+        case CAPTURE_CAPTURING:
+            // abort capturing of followers if the meridian flip is running
+            if (checkMeridianFlipActive())
+                pauseCapturingImmediately(cameraID);
+            break;
         default:
             // do nothing
             break;
@@ -86,6 +91,14 @@ void CaptureModuleState::setGuideStatus(GuideState newstate)
                     enqueueAction(cam->cameraId(), CAPTURE_ACTION_START);
             }
             break;
+        case GUIDE_GUIDING:
+            foreach (auto cam, cameras())
+            {
+                // successful wait for guiding
+                if (activeAction(cam->cameraId()) == CAPTURE_ACTION_CHECK_GUIDING)
+                    setActiveAction(cam->cameraId(), CAPTURE_ACTION_NONE);
+            }
+            break;
         default:
             // do nothing
             break;
@@ -105,6 +118,77 @@ void CaptureModuleState::setGuideDeviation(double delta_ra, double delta_dec)
     // forward the deviation to all cameras
     foreach (auto cam, cameras())
         cam->state()->setGuideDeviation(deviation_rms);
+}
+
+void Ekos::CaptureModuleState::pauseCapturingImmediately(int cameraID, bool followersOnly)
+{
+    // execute for all cameras
+    if (cameraID < 0)
+    {
+        foreach (auto cam, cameras())
+        {
+            pauseCapturingImmediately(cam->cameraId(), followersOnly);
+        }
+        return;
+    }
+
+    // protect against unexpected behaviour
+    if (cameraID >= cameras().count())
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE) << "pauseCapturingImmediately(): unknown camera ID =" << cameraID;
+        return;
+    }
+
+    // check if capturing is running
+    if ((!followersOnly || cameraID > 0) && cameras()[cameraID]->state()->isCaptureRunning())
+    {
+        // pause to avoid that capturing gets restarted automatically after suspending
+        enqueueAction(cameraID, CAPTURE_ACTION_PAUSE);
+        // suspend, it would take to long to finish
+        enqueueAction(cameraID, CAPTURE_ACTION_SUSPEND);
+    }
+}
+
+bool CaptureModuleState::checkMeridianFlipActive()
+{
+    if (leadState().isNull())
+        return false;
+
+    return leadState()->getMeridianFlipState()->checkMeridianFlipActive();
+}
+
+const QSharedPointer<CameraState> CaptureModuleState::leadState()
+{
+    if (cameras().size() <= 0)
+        return QSharedPointer<CameraState>();
+
+    return cameras()[0]->state();
+}
+
+void CaptureModuleState::updateMFMountState(MeridianFlipState::MeridianFlipMountState status)
+{
+    // avoid doubled actions
+    if (status == m_MFMountState)
+        return;
+
+    switch (status)
+    {
+        case MeridianFlipState::MOUNT_FLIP_ACCEPTED:
+        case MeridianFlipState::MOUNT_FLIP_RUNNING:
+            // suspend capturing of all follower cameras
+            pauseCapturingImmediately();
+            break;
+        case MeridianFlipState::MOUNT_FLIP_COMPLETED:
+            setupRestartPostMF();
+            break;
+        default:
+            break;
+    }
+
+    m_MFMountState = status;
+
+    // check what to do next
+    checkActiveActions();
 }
 
 CaptureWorkflowActionType CaptureModuleState::activeAction(int cameraID)
@@ -211,8 +295,9 @@ void CaptureModuleState::checkNextActionExecution(int cameraID)
         case CAPTURE_ACTION_SUSPEND:
             setActiveAction(cameraID, CAPTURE_ACTION_SUSPEND);
             cam->suspend();
-            // check if we should pause immediately
-
+            break;
+        case CAPTURE_ACTION_CHECK_GUIDING:
+            setActiveAction(cameraID, CAPTURE_ACTION_CHECK_GUIDING);
             break;
         default:
             qCWarning(KSTARS_EKOS_CAPTURE) << "No activity defined for action" << action;
@@ -318,4 +403,28 @@ void CaptureModuleState::startDithering()
     emit newLog(i18n("Dithering..."));
     emit dither();
 }
+
+void CaptureModuleState::setupRestartPostMF()
+{
+    // do nothing of we do not have any cameras
+    if (cameras().size() == 0)
+        return;
+
+    const bool waitForGuiding = leadState()->getMeridianFlipState()->resumeGuidingAfterFlip()
+                                && leadState()->getGuideState() != GUIDE_GUIDING;
+
+    foreach (auto cam, cameras())
+    {
+        if (cam->cameraId() > 0 && (cam->state()->isCaptureStopped() || cam->state()->isCapturePausing()))
+        {
+            // add a guiding check if guiding was running before the flip started
+            if (waitForGuiding)
+                enqueueAction(cam->cameraId(), CAPTURE_ACTION_CHECK_GUIDING);
+
+            // restart all suspended and aborted cameras
+            enqueueAction(cam->cameraId(), CAPTURE_ACTION_START);
+        }
+    }
+}
+
 } // namespace Ekos
