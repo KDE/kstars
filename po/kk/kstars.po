@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-02 01:44+0000\n"
+"POT-Creation-Date: 2024-09-04 01:43+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -16659,7 +16659,7 @@ msgstr ""
 msgid "Dark Exposure"
 msgstr "Экспозиция"
 
-#: ekos/capture/capturemodulestate.cpp:318
+#: ekos/capture/capturemodulestate.cpp:403
 #, fuzzy, kde-format
 #| msgctxt "Satellite group name"
 #| msgid "Other"

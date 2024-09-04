@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-02 01:44+0000\n"
+"POT-Creation-Date: 2024-09-04 01:43+0000\n"
 "PO-Revision-Date: 2007-06-25 11:21+0300\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -15470,7 +15470,7 @@ msgstr ""
 msgid "Dark Exposure"
 msgstr "Асаблівы"
 
-#: ekos/capture/capturemodulestate.cpp:318
+#: ekos/capture/capturemodulestate.cpp:403
 #, fuzzy, kde-format
 msgid "Dithering..."
 msgstr "Іншы"

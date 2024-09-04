@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-02 01:44+0000\n"
+"POT-Creation-Date: 2024-09-04 01:43+0000\n"
 "PO-Revision-Date: 2024-09-02 12:17+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -16264,7 +16264,7 @@ msgstr "Heeft %1 een sluiter?"
 msgid "Dark Exposure"
 msgstr "Dark Exposure"
 
-#: ekos/capture/capturemodulestate.cpp:318
+#: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
 msgid "Dithering..."
 msgstr "Ditheren ..."

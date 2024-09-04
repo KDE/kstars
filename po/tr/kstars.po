@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-02 01:44+0000\n"
-"PO-Revision-Date: 2024-08-29 23:10+0300\n"
+"POT-Creation-Date: 2024-09-04 01:43+0000\n"
+"PO-Revision-Date: 2024-09-03 09:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -16228,7 +16228,7 @@ msgstr "%1 üzerinde bir kepenk var mı?"
 msgid "Dark Exposure"
 msgstr "Karanlık Pozlama"
 
-#: ekos/capture/capturemodulestate.cpp:318
+#: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
 msgid "Dithering..."
 msgstr "Kıpırdatılıyor..."
@@ -29326,19 +29326,18 @@ msgstr "Yakalanan kare, hedeften %1 yaydakika uzakta, yeniden hizalanıyor..."
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr ""
+msgstr "Uyarı: Katar adı boş, \"%1\" seçiliyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:3371
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
-msgstr ""
+msgstr "Uyarı: Katar adı %2 yok, \"%1\" seçiliyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Optik Katar"
+msgstr "Optik katar seç"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -29346,6 +29345,8 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
+"Uyarı: Planlayıcı işi için kullanılabilir katar adı yok, optik katar adını "
+"elle seçin."
 
 #: ekos/scheduler/schedulerprocess.cpp:3533
 #, kde-format
@@ -29422,16 +29423,14 @@ msgstr ""
 "edildi."
 
 #: ekos/scheduler/schedulerprocess.cpp:3730
-#, fuzzy, kde-format
-#| msgid "[%2] Follower job '%1' has failed, is restarting."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
-msgstr "[%2] \"%1\" takipçi işi başarısız oldu, yeniden başlatılıyor."
+msgstr "[%2] \"%1\" takipçi işi iptal edildi, yeniden başlatılıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:3736
-#, fuzzy, kde-format
-#| msgid "[%2] Follower job '%1' has failed, is restarting."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
-msgstr "[%2] \"%1\" takipçi işi başarısız oldu, yeniden başlatılıyor."
+msgstr "[%2] \"%1\" takipçi işi iptal edildi."
 
 #: ekos/scheduler/schedulerprocess.cpp:3744
 #, kde-format

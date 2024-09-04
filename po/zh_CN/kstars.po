@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-02 01:44+0000\n"
+"POT-Creation-Date: 2024-09-04 01:43+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -15642,7 +15642,7 @@ msgstr "%1 有快门吗？"
 msgid "Dark Exposure"
 msgstr "暗场曝光"
 
-#: ekos/capture/capturemodulestate.cpp:318
+#: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
 msgid "Dithering..."
 msgstr "像素偏移..."
