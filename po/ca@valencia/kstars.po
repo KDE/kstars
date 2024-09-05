@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-04 01:43+0000\n"
-"PO-Revision-Date: 2024-08-29 13:55+0200\n"
+"PO-Revision-Date: 2024-09-04 14:03+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -30084,19 +30084,18 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr ""
+msgstr "Avís: el nom del tren està buit, se selecciona «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3371
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
-msgstr ""
+msgstr "Avís: el nom del tren %2 no existix, se selecciona «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Tren òptic"
+msgstr "Selecciona el tren òptic"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -30104,6 +30103,8 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
+"Avís: no hi ha disponible cap nom de tren per a la tasca del programador, "
+"seleccioneu-lo manualment."
 
 #: ekos/scheduler/schedulerprocess.cpp:3533
 #, kde-format
@@ -30180,16 +30181,15 @@ msgstr ""
 "a interrompuda."
 
 #: ekos/scheduler/schedulerprocess.cpp:3730
-#, fuzzy, kde-format
-#| msgid "[%2] Follower job '%1' has failed, is restarting."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
-msgstr "[%2] La tasca «%1» del seguidor ha fallat. S'està reiniciant."
+msgstr ""
+"[%2] La tasca «%1» del seguidor ha sigut interrompuda. S'està reiniciant."
 
 #: ekos/scheduler/schedulerprocess.cpp:3736
-#, fuzzy, kde-format
-#| msgid "[%2] Follower job '%1' has failed, is restarting."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
-msgstr "[%2] La tasca «%1» del seguidor ha fallat. S'està reiniciant."
+msgstr "[%2] La tasca «%1» del seguidor ha sigut interrompuda."
 
 #: ekos/scheduler/schedulerprocess.cpp:3744
 #, kde-format

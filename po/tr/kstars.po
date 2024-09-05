@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-04 01:43+0000\n"
-"PO-Revision-Date: 2024-09-03 09:01+0300\n"
+"PO-Revision-Date: 2024-09-05 01:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4490,7 +4490,7 @@ msgstr "Koordinatları Elle Ayarla"
 #: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:184
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
-msgstr "Açılım değeri 0,0 ile 24,0 arasında olmalı."
+msgstr "Sağ açıklık değeri 0,0 ile 24,0 arasında olmalıdır."
 
 #: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:186
 #, kde-format
@@ -69220,12 +69220,12 @@ msgstr "Yansıtılmış Görünüm"
 #: kstarsinit.cpp:291
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
-msgstr "&Lambert Güneyaçısal Eşit Alanı"
+msgstr "&Lambert Güney Açısal Eşit Alanı"
 
 #: kstarsinit.cpp:294
 #, kde-format
 msgid "&Azimuthal Equidistant"
-msgstr "&Güneyaçısal Eşit Uzaklık"
+msgstr "&Güney Açısal Eşit Uzaklık"
 
 #: kstarsinit.cpp:297
 #, kde-format
@@ -69582,7 +69582,7 @@ msgstr "Samanyolu'nu aç/kapat"
 #, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
-msgstr "Ekvatoryal Koordinatlar Izgarası"
+msgstr "Ekvator Koordinatlar Izgarası"
 
 #: kstarsinit.cpp:607
 #, kde-format
@@ -69802,7 +69802,7 @@ msgid ""
 "This would be the natural choice for an erect image finder scope or naked-"
 "eye view."
 msgstr ""
-"Kuzeyin (Ekvator Koordinat kipinde) veya başucun (Yatay Koordinat kipinde) "
+"Kuzeyin (Ekvator Koordinatı kipinde) veya başucun (Yatay Koordinat kipinde) "
 "dikey olarak yukarıda olduğu gökyüzü haritasının dik görünümü için bunu "
 "seçin. Bu, dik bir görsel bulucu kapsamı veya çıplak gözle görünüm için "
 "doğal bir seçim olacaktır."
@@ -70119,17 +70119,17 @@ msgstr "Zamanı ayarla"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:307
 #, kde-kuit-format
 msgid "Azimuth at rise"
-msgstr "Yükselme anında güneyaçısı"
+msgstr "Yükselme anında güney açısı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:312
 #, kde-kuit-format
 msgid "Azimuth at transit"
-msgstr "Geçiş anında güneyaçısı"
+msgstr "Geçiş anında güney açısı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:317
 #, kde-kuit-format
 msgid "Azimuth at set"
-msgstr "Batma anında güneyaçısı"
+msgstr "Batma anında güney açısı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:421
 #, kde-kuit-format
@@ -70846,7 +70846,7 @@ msgstr "Lambert (Öntanımlı)"
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:35
 #, kde-kuit-format
 msgid "Azimuthal Equidistant"
-msgstr "Güneyaçısal Eşit Uzaklık"
+msgstr "Güney Açısal Eşit Uzaklık"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:36
 #, kde-kuit-format
@@ -70943,7 +70943,7 @@ msgstr "Samanyolu"
 #: kstarslite/qml/modules/TopMenu.qml:236
 #, kde-kuit-format
 msgid "Equatorial Grid"
-msgstr "Ekvatoral Izgara"
+msgstr "Ekvator Izgarası"
 
 #: kstarslite/qml/modules/TopMenu.qml:246
 #, kde-kuit-format
@@ -71916,7 +71916,7 @@ msgstr "Ekvator Koordinatları"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Equatorial JNow"
-msgstr "Ekvatoryal JNow"
+msgstr "Ekvator JNow'ı"
 
 #: libindi_strings.cpp:141
 #, kde-kuit-format
@@ -76306,15 +76306,15 @@ msgstr "Takımyıldız çizgileri gösterilsin mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "If checked, constellation lines will be drawn on the sky map."
-msgstr "Seçilirse, takımyıldız çizgileri haritada gösterilecek."
+msgstr "İşaretlenirse gökyüzü haritasında takımyıldız çizgileri çizilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:29
 #, kde-format
 msgid "&Constellation lines"
-msgstr "&Takımyıldız doğruları"
+msgstr "&Takımyıldız çizgileri"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelSkyCulture)
 #: options/opsguides.ui:39
@@ -76332,7 +76332,7 @@ msgstr "Gökyüzü kültürü seç:"
 #: options/opsguides.ui:49
 #, kde-format
 msgid "Here, you can choose how constellations are represented"
-msgstr "Burada, takımyıldızların nasıl betimleneceğini seçebilirsiniz"
+msgstr "Burada, takımyıldızların nasıl betimleneceğini seçebilirsiniz."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCBounds)
 #: options/opsguides.ui:58
@@ -76342,10 +76342,9 @@ msgstr "Takımyıldız &sınırları"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowConstellationArt)
 #: options/opsguides.ui:68
-#, fuzzy, kde-format
-#| msgid "Constellation"
+#, kde-format
 msgid "Constellation art"
-msgstr "Takımyıldızlar"
+msgstr "Takımyıldız sanatı"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHighlightedCBound)
 #: options/opsguides.ui:78
@@ -76357,38 +76356,38 @@ msgstr "Merkezi takımyıldız sınırını vurgula"
 #: options/opsguides.ui:88
 #, kde-format
 msgid "Draw constellation names?"
-msgstr "Takımyıldız isimleri gösterilsin mi?"
+msgstr "Takımyıldız adları çizilsin mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowCNames)
 #: options/opsguides.ui:91
 #, kde-format
 msgid "If checked, constellation names will be drawn on the sky map."
-msgstr "Seçilirse, takımyıldız isimleri haritada gösterilecek."
+msgstr "İşaretlenirse gökyüzü haritasında takımyıldız adları çizilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCNames)
 #: options/opsguides.ui:94
 #, kde-format
 msgid "Constellation &names"
-msgstr "Takımyıldız isi&mleri"
+msgstr "Takımyıldız &adları"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ConstellOptions)
 #: options/opsguides.ui:106
 #, kde-format
 msgid "Constellation Name Options"
-msgstr "Takımyıldız İsim Seçenekleri"
+msgstr "Takımyıldız Adı Seçenekleri"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:127
 #, kde-format
 msgid "Use Latin constellation names"
-msgstr "Latince takımyıldız isimleri kullan"
+msgstr "Latince takımyıldız adlarını kullan"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:130
 #, kde-format
 msgid "Select this to use Latin constellation names on the sky map"
 msgstr ""
-"Gökyüzü haritasında Latince takımyıldız isimleri kullanmak için bunu seçin"
+"Gökyüzü haritasında Latince takımyıldız adlarını kullanmak için bunu seçin."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseLatinConstellNames)
 #: options/opsguides.ui:133
@@ -76400,7 +76399,7 @@ msgstr "L&atince"
 #: options/opsguides.ui:143
 #, kde-format
 msgid "Use Localized constellation names"
-msgstr "Yerel takımyıldız isimleri kullan"
+msgstr "Yerelleştirilmiş takımyıldız adlarını kullan"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, kcfg_UseLocalConstellNames)
 #: options/opsguides.ui:146
@@ -76408,14 +76407,13 @@ msgstr "Yerel takımyıldız isimleri kullan"
 msgid ""
 "Select this to use constellation names from your locality (if available)"
 msgstr ""
-"Bunu (eğer varsa) kendi yörenizdeki takımyıldız isimlerini kullanmak için "
-"seçin"
+"Bulunduğunuz bölgedeki takımyıldız adlarını kullanmak için bunu seçin (varsa)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseLocalConstellNames)
 #: options/opsguides.ui:149
 #, kde-format
 msgid "Localized"
-msgstr "Yerel"
+msgstr "Yerelleştirilmiş"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_UseAbbrevConstellNames)
 #: options/opsguides.ui:159
@@ -76430,14 +76428,14 @@ msgid ""
 "Select this to use abbreviations from the International Astronomical Union "
 "as constellation labels"
 msgstr ""
-"Bunu Uluslararası Astronomi Birliğinin takımyıldız etiketleri için olan "
-"kısaltmalarını kullanmak için seçin"
+"Uluslararası Astronomi Birliği'nin kısaltmalarını takımyıldız etiketleri "
+"olarak kullanmak için bunu seçin."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_UseAbbrevConstellNames)
 #: options/opsguides.ui:165
 #, kde-format
 msgid "Abbre&viated"
-msgstr "Kısal&tıldı"
+msgstr "Kısal&tılmış"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowEcliptic)
 #: options/opsguides.ui:198
@@ -76453,15 +76451,15 @@ msgid ""
 "great circle on the sky that the Sun appears to follow over the course of "
 "one year.  All other solar system bodies roughly follow the ecliptic as well."
 msgstr ""
-"Bu seçilirse, gökyüzü haritasına ekliptik çizilecek.  Ekliptik Güneşin "
-"gökyüzünde bir yıllık devri boyunce takip ediyor göründüğü büyük diredir.  "
-"Diğer tüm güneş sistemi cisimleri de kabaca ekliptiği takip eder."
+"İşaretlenirse ekliptik düzlem, gökyüzü haritasına çizilir. Ekliptik düzlem, "
+"Güneş'in bir yıl boyunca takip ettiği gökyüzündeki büyük bir dairedir. Diğer "
+"tüm güneş sistemi gövdeleri de kabaca ekliptik düzlemi takip eder."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FillMilkyWay)
 #: options/opsguides.ui:214
 #, kde-format
 msgid "Use filled Milky Way contour?"
-msgstr "Doldurulmuş Samanyolu dış hatları kullanılsın mı?"
+msgstr "Doldurulmuş Samanyolu konturu kullanılsın mı?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_FillMilkyWay)
 #: options/opsguides.ui:217
@@ -76470,15 +76468,14 @@ msgid ""
 "If checked, the Milky Way contour will be shown filled.  Otherwise, only the "
 "outline will be drawn."
 msgstr ""
-"Bu seçilirse, Samanyolunun hatlarını gösteren çizginin içi doldurulacaktır. "
-"Diğer durumda yalnızca dış hat çizgisi gösterilecektir."
+"İşaretlenirse Samanyolu konturu doldurulmuş olarak gösterilecektir. Aksi "
+"takdirde, yalnızca ana hat çizilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FillMilkyWay)
 #: options/opsguides.ui:220
-#, fuzzy, kde-format
-#| msgid "Fill Milk&y Way"
+#, kde-format
 msgid "Fill milk&y way"
-msgstr "Saman&yolu Galaksisi'ni Doldur"
+msgstr "Saman&yolu'nu doldur"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowHorizon)
 #: options/opsguides.ui:230
@@ -76491,8 +76488,7 @@ msgstr "Ufuk çizilsin mi?"
 #, kde-format
 msgid ""
 "If checked, a line representing the local horizon will be drawn on the map."
-msgstr ""
-"Bu seçildiğinde, yerel ufku temsil eden bir çizgi haritada gösterilecektir."
+msgstr "İşaretlenirse haritada yerel ufku temsil eden bir çizgi çizilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHorizon)
 #: options/opsguides.ui:236
@@ -76504,7 +76500,7 @@ msgstr "U&fuk (çizgisi)"
 #: options/opsguides.ui:246
 #, kde-format
 msgid "Draw the Milky Way contour?"
-msgstr "Samanyolu hattı çizilsin mi?"
+msgstr "Samanyolu konturu çizilsin mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowMilkyWay)
 #: options/opsguides.ui:249
@@ -76512,13 +76508,12 @@ msgstr "Samanyolu hattı çizilsin mi?"
 msgid ""
 "If checked, a contour representing the Milky Way will be drawn on the sky map"
 msgstr ""
-"Bu seçilirse, Samanyolununun hatlarını temsil eden çizgi haritada "
-"gösterilecek."
+"İşaretlenirse gökyüzü haritasında Samanyolu'nu temsil eden bir kontur "
+"çizilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowMilkyWay)
 #: options/opsguides.ui:252
-#, fuzzy, kde-format
-#| msgid "Mil&ky Way"
+#, kde-format
 msgid "Mil&ky way"
 msgstr "Sa&manyolu"
 
@@ -76529,14 +76524,14 @@ msgid ""
 "If checked, coordinate grids will automatically change according to active "
 "coordinate system."
 msgstr ""
-"Seçiliyse, koordinat ızgaraları, etkin koordinat sistemine göre otomatik "
-"olarak değişecektir."
+"İşaretlenirse koordinat ızgaraları, etkin koordinat sistemine göre "
+"kendiliğinden değişir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoSelectGrid)
 #: options/opsguides.ui:268
 #, kde-format
 msgid "Automatically select coordinate grid"
-msgstr "Koordinat ızgarasını otomatik olarak seç"
+msgstr "Koordinat ızgarasını kendiliğinden seç"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowFlags)
 #: options/opsguides.ui:278
@@ -76548,28 +76543,26 @@ msgstr "Bayraklar çizilsin mi?"
 #: options/opsguides.ui:281
 #, kde-format
 msgid "If checked, flags will be drawn on the sky map"
-msgstr "İşaretlenirse, haritada bayraklar gösterilecek"
+msgstr "İşaretlenirse gökyüzü haritasına bayraklar çizilir."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:294 options/opsguides.ui:297
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime"
-msgstr "İşaretlenirse, Mars haritada çizilecek."
+msgstr "İşaretlenirse gökyüzü gündüzleri aydınlık olacaktır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:300
-#, fuzzy, kde-format
-#| msgid "Eyepiece view (Beta)"
+#, kde-format
 msgid "Simulate daytime"
-msgstr "Göz merceği görünümü (Beta)"
+msgstr "Gündüzü benzet"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:310
 #, kde-format
 msgid "Draw equatorial coordinate grid?"
-msgstr "Ekvatoryal koordinat ızgarası çizilsin mi?"
+msgstr "Ekvator koordinat ızgarası çizilsin mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:313
@@ -76578,14 +76571,14 @@ msgid ""
 "If checked, a grid of lines will be drawn every 2 hours in Right Ascension "
 "and every 20 degrees in Declination."
 msgstr ""
-"Bu seçildiğinde, çizgilerden oluşan bir örgü Sağ Açıklıkta her iki saate ve "
-"Dik Açıklıkta her 20 dereceye bir çizilecektir."
+"İşaretlenirse sağ açıklıkta her 2 saatte bir, sapmada ise her 20 derecede "
+"bir çizgilerden oluşan bir ızgara çizilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowEquatorialGrid)
 #: options/opsguides.ui:316
 #, kde-format
 msgid "Equatorial coordinate grid"
-msgstr "Ekvatoryal koordinat ızgarası"
+msgstr "Ekvator koordinat ızgarası"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowHorizontalGrid)
 #: options/opsguides.ui:326
@@ -76600,8 +76593,8 @@ msgid ""
 "If checked, a grid of lines will be drawn every 30 degrees in Azimuth and "
 "every 20 degrees in Altitude."
 msgstr ""
-"Bu seçildiğinde, çizgilerden oluşan bir örgü Sağ Açıklıkta her iki saate ve "
-"Dik Açıklıkta her 30 dereceye bir çizilecektir."
+"İşaretlenirse güney açısında her 30 derecede bir, yükseklikte ise her 20 "
+"derecede bir çizgilerden oluşan bir ızgara çizilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowHorizontalGrid)
 #: options/opsguides.ui:332
@@ -76623,9 +76616,9 @@ msgid ""
 "ground beneath you.  Note that the ground is never drawn when using the "
 "Equatorial coordinate system."
 msgstr ""
-"Bu seçilirse, ufkun altında kalan alan yeryüzü benzetimi için doldurulur.  "
-"Ekvatoryal koordinat sistemi kullanıldığında yeryüzünün gösterilmediğine "
-"dikkat edin."
+"İşaretlenirse ufkun altındaki alan, sizin altınızdaki zemini benzetmek için "
+"doldurulacaktır. Ekvator koordinat sistemi kullanıldığında zeminin asla "
+"çizilmediğini unutmayın."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowGround)
 #: options/opsguides.ui:348
@@ -76637,39 +76630,36 @@ msgstr "Mat &yeryüzü"
 #: options/opsguides.ui:358
 #, kde-format
 msgid "Draw Celestial equator?"
-msgstr "Gök ekvatoru çizilsin mi?"
+msgstr "Göksel ekvator çizilsin mi?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowEquator)
 #: options/opsguides.ui:361
 #, kde-format
 msgid "If checked, the celestial equator will be drawn in the sky map."
-msgstr "Seçilirse, gök ekvatoru haritada gösterilecek."
+msgstr "İşaretlendiğinde gökyüzü haritasında göksel ekvator çizilir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowEquator)
 #: options/opsguides.ui:364
 #, kde-format
 msgid "Celestial e&quator"
-msgstr "Gök e&kvatoru"
+msgstr "Göksel e&kvator"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowLocalMeridian)
 #: options/opsguides.ui:374
-#, fuzzy, kde-format
-#| msgctxt "City in Mississippi USA"
-#| msgid "Meridian"
+#, kde-format
 msgid "Local meridian"
-msgstr "Meridian"
+msgstr "Yerel meridyen"
 
 #: options/opsimageoverlay.cpp:76
-#, fuzzy, kde-format
-#| msgid "Align Options Profiles Editor"
+#, kde-format
 msgid "Image Overlay Align Options Profiles Editor"
-msgstr "Hizalama Seçenekleri Profilleri Düzenleyicisi"
+msgstr "Görsel Kaplama Hizalama Seçenekleri Profilleri Düzenleyicisi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
 #, kde-format
 msgid "Show image overlays"
-msgstr "Görsel kaplamalarını göster:"
+msgstr "Görsel kaplamalarını göster"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:71
@@ -76678,19 +76668,20 @@ msgid ""
 "Center SkyMap over the selected overlay image in the table below (if it's "
 "solved)."
 msgstr ""
+"Aşağıdaki tabloda seçili kaplama görselinin üzerine gökyüzü haritasını "
+"yerleştirin (eğer çözülmüşse)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
-#, fuzzy, kde-format
-#| msgid "Center in Telescope"
+#, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Teleskopta ortala"
+msgstr "Seçimde gökyüzü haritasını ortala"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: options/opsimageoverlay.ui:84
 #, kde-format
 msgid "Display Image Overlays below catalogs"
-msgstr ""
+msgstr "Görsel kaplamalarını katalogların altında görüntüle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -76700,14 +76691,13 @@ msgid ""
 "Maximum dimension for an image overlay image. (Larger images will be scaled "
 "down.)"
 msgstr ""
+"Bir görsel kaplaması için en büyük boyut (Daha büyük görseller küçültülür)."
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayMaxDimensionLabel)
 #: options/opsimageoverlay.ui:105
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Maximum travel"
+#, kde-format
 msgid "Maximum image dimension:"
-msgstr "En fazla yolculuk"
+msgstr "En büyük görsel boyutu:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:150
@@ -76716,28 +76706,26 @@ msgid ""
 "Open overlay directory. Copy or move images to this directory to process "
 "them."
 msgstr ""
+"Kaplama dizinini açın. Görselleri işlemek için bu dizine kopyalayın veya "
+"taşıyın."
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:156
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Overlay Directory..."
-msgstr "Dizin:"
+msgstr "Kaplama Dizini..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:175
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Hava durumu algılayıcılarının güncel verisi. Zaman "
-"içindeki veriyi görüntülemek için algılayıcı adına tıklayın.</p></body></"
-"html>"
+"<html><head/><body><p>Kaplama dizininden yenileyin. Oraya eklenen "
+"kaplamaları yerleştirin ve artık orada olmayan kaplamaları kaldırın.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:250
@@ -77435,13 +77423,13 @@ msgstr "Arc dosyası:"
 #: options/opsterrain.ui:101 options/opsterrain.ui:117
 #, kde-format
 msgid "Rotate terrain in azimuth degrees so north is actually north"
-msgstr ""
+msgstr "Araziyi güney açısı kadar döndür, böylece kuzey gerçek kuzey olur"
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAzLabel)
 #: options/opsterrain.ui:104
 #, kde-format
 msgid "Terrain image azimuth correction degrees:"
-msgstr ""
+msgstr "Güney açısı düzeltme derecesi türünden arazi görseli:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:159
@@ -80953,20 +80941,7 @@ msgstr ""
 "QT>"
 
 #: tools/astrocalc.cpp:68
-#, fuzzy, kde-format
-#| msgid ""
-#| "<QT>Section with algorithms for the conversion of different astronomical "
-#| "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
-#| "coordinates conversion</LI><LI><B>Apparent:</B> Computation of current "
-#| "equatorial coordinates from a given epoch</LI><LI><B>Ecliptic:</B> "
-#| "Ecliptic/Equatorial coordinates conversion</LI><LI><B>Horizontal:</B> "
-#| "Computation of azimuth and elevation for a given source, time, and "
-#| "location on the Earth</LI><LI><B>Angular Distance:</B> Computation of "
-#| "angular distance between two objects whose positions are given in "
-#| "equatorial coordinates</LI><LI><B>Geodetic Coords:</B> Geodetic/XYZ "
-#| "coordinate conversion</LI><LI><B>LSR Velocity:</B> Computation of the "
-#| "heliocentric, geocentric and topocentric radial velocity of a source from "
-#| "its LSR velocity</LI></UL></QT>"
+#, kde-format
 msgid ""
 "<QT>Section with algorithms for the conversion of different astronomical "
 "systems of coordinates<UL><LI><B>Galactic:</B> Galactic/Equatorial "
@@ -80981,17 +80956,18 @@ msgid ""
 "LI><LI><B>LSR Velocity:</B> Computation of the heliocentric, geocentric and "
 "topocentric radial velocity of a source from its LSR velocity</LI></UL></QT>"
 msgstr ""
-"<QT>Değişik astronomi koordinat sistem dönüştürmesi için algoritmalariçeren "
-"bölüm<UL><LI><B>Galaktik:</B> Galaktik/Ekvatoryal koordinat dönüşümü</"
-"LI><LI><B>Görünen:</B> Verilen bir devirdenşimdiki ekvatoryal koordinatların "
-"hesaplanması</LI><LI><B>Ekliptik:</B> Ekliptik/Ekvatoryal koordinat "
-"dönüşümü</LI><LI><B>Yatay:</B> Dünya üzerinde,verilen bir konum ve zamana "
-"göre bir kaynağın güney açısı ve yüksekliğinin hesaplanması</"
-"LI><LI><B>Açısal Uzaklık:</B> Konumları Ekvatoryal koordinat sistemınde "
-"verilmişolan iki cismin açısal uzaklığının hesaplanması</LI><LI><B>Jeodezik "
-"Koordn:</B> Jeodezik/XYZ koordinat dönüşümü</LI><LI><B>LSR Hızı:</B> Bir "
-"kaynağın LSR hızından güneş merkezli, yermerkezlive yüzey merkezli radyal "
-"hızının hesaplanması</LI></UL></QT>"
+"<QT>Farklı astronomik koordinat sistemlerinin dönüştürülmesine yönelik "
+"algoritmaların bulunduğu bölüm<UL><LI><B>Galaktik:</B> Galaktik/Ekvator "
+"koordinatlarının dönüşümü</LI><LI><B>Görünür:</B> Belirli bir çığırdan "
+"itibaren geçerli ekvator koordinatlarının hesaplanması</LI><LI><B>Ekliptik:</"
+"B> Ekliptik/Ekvatoryal koordinatlarının dönüşümü</LI><LI><B>Yatay:</B> Dünya "
+"üzerinde belirli bir kaynak, zaman ve konum için güney açısı ve yüksekliğin "
+"hesaplanması</LI><LI><B>Basit:</B> Saat ve derece türünden açılar arasındaki "
+"dönüşüm</LI><LI><B>Açısal uzaklık:</B> Ekvator koordinatlarında konumları "
+"verilen iki nesne arasındaki açısal uzaklığın hesaplanması</"
+"LI><LI><B>Jeodezik koordinatlar:</B> Jeodezik/XYZ koordinatlarının dönüşümü</"
+"LI><LI><B>LSR hızı:</B> Bir kaynağın LSR hızından güneş merkezli, jeosentrik "
+"ve toposentrik radyal hızının hesaplanması</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:93
 #, kde-format
@@ -81501,7 +81477,7 @@ msgstr "RA"
 #, kde-format
 msgctxt "Declination"
 msgid "Dec"
-msgstr "Dec"
+msgstr "Sapma"
 
 #: tools/flagmanager.cpp:70
 #, kde-format
@@ -81865,7 +81841,7 @@ msgstr "İlk sağ açıklık:"
 #: tools/modcalcangdist.ui:476
 #, kde-format
 msgid "Initial declination:"
-msgstr "İlk dik açıklık:"
+msgstr "İlk sapma:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ra1CheckBatch)
 #: tools/modcalcangdist.ui:486
@@ -81877,7 +81853,7 @@ msgstr "Son sağaçıklık:"
 #: tools/modcalcangdist.ui:496
 #, kde-format
 msgid "Final declination:"
-msgstr "Son dik açıklık:"
+msgstr "Son sapma:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/modcalcangdist.ui:542
@@ -82556,7 +82532,7 @@ msgstr "Dec (dd:mm:ss)"
 #: tools/modcalcvizequinox.cpp:33
 #, kde-format
 msgid "Sun's Declination"
-msgstr "Güneş'in Dik Açıklığı"
+msgstr "Güneş'in Sapması"
 
 #: tools/modcalcvizequinox.cpp:97
 #, kde-format
