@@ -3113,8 +3113,9 @@ void Manager::connectModules()
         connect(captureProcess.get(), &Ekos::Capture::runAutoFocus, focusModule(), &Ekos::FocusModule::runAutoFocus,
                 Qt::UniqueConnection);
 
-        // Reset Focus
-        connect(captureModule(), &Ekos::Capture::resetFocus, focusModule(), &Ekos::FocusModule::resetFocuser, Qt::UniqueConnection);
+        // Reset Frame
+        connect(captureModule(), &Ekos::Capture::resetFocusFrame, focusModule(), &Ekos::FocusModule::resetFrame,
+                Qt::UniqueConnection);
 
         // Abort Focus
         connect(captureModule(), &Ekos::Capture::abortFocus, focusModule(), &Ekos::FocusModule::abort, Qt::UniqueConnection);

@@ -127,7 +127,7 @@ QSharedPointer<Camera> Capture::addCamera()
     connect(newCamera.get(), &Camera::checkFocus, this, &Capture::checkFocus);
     connect(newCamera.get(), &Camera::newImage, this, &Capture::newImage);
     connect(newCamera.get(), &Camera::runAutoFocus, this, &Capture::runAutoFocus);
-    connect(newCamera.get(), &Camera::resetFocus, this, &Capture::resetFocus);
+    connect(newCamera.get(), &Camera::resetFocusFrame, this, &Capture::resetFocusFrame);
     connect(newCamera.get(), &Camera::abortFocus, this, &Capture::abortFocus);
     connect(newCamera.get(), &Camera::meridianFlipStarted, this, &Capture::meridianFlipStarted);
     connect(newCamera.get(), &Camera::captureTarget, this, &Capture::captureTarget);

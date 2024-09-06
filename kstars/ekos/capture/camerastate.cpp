@@ -559,7 +559,7 @@ bool CameraState::checkMeridianFlipReady()
     // Reset frame if we need to do focusing later on
     if (m_refocusState->isInSequenceFocus() ||
             (Options::enforceRefocusEveryN() && m_refocusState->getRefocusEveryNTimerElapsedSec() > 0))
-        emit resetFocus();
+        emit resetFocusFrame();
 
     // signal that meridian flip may take place
     if (getMeridianFlipState()->getMeridianFlipStage() == MeridianFlipState::MF_REQUESTED)
@@ -818,7 +818,7 @@ bool CameraState::startFocusIfRequired()
         case RefocusState::REFOCUS_POST_MF:
             // If we are over 30 mins since last autofocus, we'll reset frame.
             if (m_refocusState->getRefocusEveryNTimerElapsedSec() >= 1800)
-                emit resetFocus();
+                emit resetFocusFrame();
 
             // force refocus
             afReason = getAFReason(reason, reasonInfo);

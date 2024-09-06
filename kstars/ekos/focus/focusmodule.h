@@ -53,10 +53,10 @@ public:
         void runAutoFocus(const AutofocusReason autofocusReason, const QString &reasonInfo, const QString &trainname);
 
         /**
-         * @brief Move the focuser to the initial focus position.
+         * @brief Reset the camera frame being used by the focuser.
          * @param trainname name of the optical train to select the focuser
          */
-        void resetFocuser(const QString &trainname);
+        void resetFrame(const QString &trainname);
 
         /**
          * @brief Abort the autofocus operation.

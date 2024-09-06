@@ -444,7 +444,7 @@ signals:
     void captureComplete(const QVariantMap &metadata, const QString &trainname);
     void resetNonGuidedDither();
     void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo, const QString &trainname);
-    void resetFocus(const QString &trainname);
+    void resetFocusFrame(const QString &trainname);
     void abortFocus(const QString &trainname);
     void adaptiveFocus(const QString &trainname);
     void settingsUpdated(const QVariantMap &settings);

@@ -433,9 +433,9 @@ void Camera::initCamera()
     {
         emit runAutoFocus(autofocusReason, reasonInfo, opticalTrain());
     });
-    connect(m_cameraState.data(), &CameraState::resetFocus, this, [&]()
+    connect(m_cameraState.data(), &CameraState::resetFocusFrame, this, [&]()
     {
-        emit resetFocus(opticalTrain());
+        emit resetFocusFrame(opticalTrain());
     });
     connect(m_cameraState.data(), &CameraState::adaptiveFocus, this, [&]()
     {

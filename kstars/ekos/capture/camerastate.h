@@ -963,8 +963,8 @@ signals:
         void checkFocus(double hfr);
         // run Autofocus
         void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo);
-        // reset the focuser to the last known focus position
-        void resetFocus();
+        // reset the focus frame
+        void resetFocusFrame();
         // signal focus module to perform adaptive focus
         void adaptiveFocus();
         // abort capturing if fast exposure mode is used

@@ -705,7 +705,7 @@ public slots:
         // communication with other modules
         void checkFocus(double, const QString &opticaltrain);
         void runAutoFocus(AutofocusReason autofocusReason, const QString &reasonInfo, const QString &trainname);
-        void resetFocus(const QString &trainname);
+        void resetFocusFrame(const QString &trainname);
         void abortFocus(const QString &trainname);
         void adaptiveFocus(const QString &trainname);
         void suspendGuiding();

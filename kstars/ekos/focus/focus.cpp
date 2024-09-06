@@ -1497,9 +1497,6 @@ void Focus::stop(Ekos::FocusState completionState)
         emit resumeGuiding();
         m_GuidingSuspended = false;
     }
-
-    if (completionState == Ekos::FOCUS_ABORTED || completionState == Ekos::FOCUS_FAILED)
-        setState(completionState);
 }
 
 void Focus::capture(double settleTime)
@@ -2243,8 +2240,6 @@ bool Focus::appendMeasure(double newMeasure)
 void Focus::settle(const FocusState completionState, const bool autoFocusUsed, const bool buildOffsetsUsed,
                    const AutofocusFailReason failCode, const QString failCodeInfo)
 {
-    // TODO: check if the completion state can be emitted in all cases (sterne-jaeger 2023-09-12)
-    m_state = completionState;
     if (autoFocusUsed)
     {
         if (completionState == Ekos::FOCUS_COMPLETE)
@@ -2282,22 +2277,22 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
         }
     }
 
-    qCDebug(KSTARS_EKOS_FOCUS) << "Settled. State:" << Ekos::getFocusStatusString(state());
-
     // Delay state notification if we have a locked filter pending return to original filter
     if (fallbackFilterPending)
     {
+        m_pendingState = completionState;
         FilterManager::FilterPolicy policy = (autoFocusUsed) ?
                                              static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY) :
                                              static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY);
         m_FilterManager->setFilterPosition(fallbackFilterPosition, policy);
     }
     else
-        emit newStatus(state(), opticalTrain());
+        setState(completionState);
 
     if (autoFocusUsed && buildOffsetsUsed)
         // If we are building filter offsets signal AF run is complete
-        m_FilterManager->autoFocusComplete(state(), currentPosition, m_LastSourceAutofocusTemperature, m_LastSourceAutofocusAlt);
+        m_FilterManager->autoFocusComplete(completionState, currentPosition, m_LastSourceAutofocusTemperature,
+                                           m_LastSourceAutofocusAlt);
 
     resetButtons();
 }
@@ -5196,7 +5191,8 @@ void Focus::setupFilterManager()
         else if (fallbackFilterPending)
         {
             fallbackFilterPending = false;
-            emit newStatus(state(), opticalTrain());
+            setState(m_pendingState);
+            m_pendingState = FOCUS_IDLE;
         }
     });
 

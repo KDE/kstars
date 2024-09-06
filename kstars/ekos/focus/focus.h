@@ -1111,6 +1111,7 @@ class Focus : public QWidget, public Ui::Focus
 
         /// State
         FocusState m_state { Ekos::FOCUS_IDLE };
+        FocusState m_pendingState { Ekos::FOCUS_IDLE };
         FocusState state() const
         {
             return m_state;

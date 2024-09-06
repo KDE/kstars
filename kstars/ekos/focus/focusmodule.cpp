@@ -111,21 +111,21 @@ void FocusModule::runAutoFocus(const AutofocusReason autofocusReason, const QStr
     }
 }
 
-void FocusModule::resetFocuser(const QString &trainname)
+void FocusModule::resetFrame(const QString &trainname)
 {
     bool found = false;
     // publish to all known focusers using the same optical train (should be only one)
     for (auto focuser : m_Focusers)
         if (trainname == "" || focuser->opticalTrain() == trainname)
         {
-            focuser->resetFocuser();
+            focuser->resetFrame();
             found = true;
         }
 
     if (!found)
     {
         QSharedPointer newFocuser = addFocuser(trainname);
-        newFocuser->resetFocuser();
+        newFocuser->resetFrame();
     }
 }
 
