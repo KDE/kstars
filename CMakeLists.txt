@@ -217,7 +217,7 @@ set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "htt
 ## cfitsio cURL dependency
 if(CFITSIO_FOUND)
     find_package(CURL)
-    set(CFITSIO_LIBRARIES ${CFITSIO_LIBRARIE} CURL::libcurl)
+    set(CFITSIO_LIBRARIES ${CFITSIO_LIBRARIES} ${CURL_LIBRARIES})
 endif(CFITSIO_FOUND)
 
 ## INDI Library
