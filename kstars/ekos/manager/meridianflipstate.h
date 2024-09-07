@@ -87,7 +87,7 @@ public:
 
     // flag if alignment should be executed after the meridian flip
     bool resumeAlignmentAfterFlip() { return m_resumeAlignmentAfterFlip; }
-    void setResumeAlignmentAfterFlip(bool resume) { m_resumeAlignmentAfterFlip = resume; }
+    void setResumeAlignmentAfterFlip(bool resume);
 
     // flag if guiding should be resetarted after the meridian flip
     bool resumeGuidingAfterFlip() { return m_resumeGuidingAfterFlip; }

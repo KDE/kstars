@@ -884,10 +884,17 @@ bool CameraState::checkAlignmentAfterFlip()
 {
     // if no meridian flip has completed, we do not touch guiding
     if (getMeridianFlipState()->getMeridianFlipStage() < MeridianFlipState::MF_COMPLETED)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "checkAlignmentAfterFlip too early, meridian flip stage =" <<
+                                     getMeridianFlipState()->getMeridianFlipStage();
         return false;
+    }
     // If we do not need to align then we're done
     if (getMeridianFlipState()->resumeAlignmentAfterFlip() == false)
+    {
+        qCDebug(KSTARS_EKOS_CAPTURE) << "No alignment after flip required.";
         return false;
+    }
 
     // if we are waiting for a calibration, start it
     if (m_CaptureState < CAPTURE_ALIGNING)

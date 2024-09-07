@@ -19,6 +19,12 @@ MeridianFlipState::MeridianFlipState(QObject *parent) : QObject(parent)
 {
 }
 
+void MeridianFlipState::setResumeAlignmentAfterFlip(bool resume)
+{
+    qCDebug(KSTARS_EKOS_CAPTURE) << "Setting resume alignment after flip to" << (resume ? "true" : "false");
+    m_resumeAlignmentAfterFlip = resume;
+}
+
 QString MeridianFlipState::MFStageString(MFStage stage)
 {
     switch(stage)
