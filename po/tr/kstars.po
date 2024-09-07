@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-04 01:43+0000\n"
-"PO-Revision-Date: 2024-09-05 22:55+0300\n"
+"POT-Creation-Date: 2024-09-07 01:44+0000\n"
+"PO-Revision-Date: 2024-09-06 20:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -5706,7 +5706,7 @@ msgid ""
 "SCTs / refractors, irrespective of the actual mounting."
 msgstr ""
 "**Not:** Gerçek bağlamadan bağımsız olarak SCT’ler/Refraktörler aracılığıyla "
-"görsel gözlem yaparken \"Altazimut\" kaide türünü seçin."
+"görsel gözlem yaparken “Altazimut” kaide türünü seçin."
 
 #. i18n: ectx: property (text), widget (QRadioButton, correctViewType)
 #: dialogs/newview.ui:108
@@ -6094,7 +6094,7 @@ msgstr ""
 "<p>Artık K Yıldızlar’ı geliştirmek için Messier nesne görselleri veya daha "
 "eksiksiz bir NGC/IC kataloğu gibi isteğe bağlı veri dosyalarını "
 "indirebilirsiniz. Sürdürmek için <b>Ek Veri İndir</b> düğmesine basın. </"
-"p><p>Bu aracı daha sonra <b>Dosya</b> menüsünden <b>Yeni Veriyi İndir</b>’i "
+"p><p>Bu aracı daha sonra <b>Dosya</b> menüsünden <b>Yeni Veri İndir</b>’i "
 "seçerek de kullanabilirsiniz.</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, DownloadButton)
@@ -6266,7 +6266,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Hata: Süzgeç tekerleğine olan bağlantı kesildi."
 
 #: ekos/align/align.cpp:1494 ekos/capture/cameraprocess.cpp:207
-#: ekos/capture/cameraprocess.cpp:606 ekos/focus/focus.cpp:5318
+#: ekos/capture/cameraprocess.cpp:606 ekos/focus/focus.cpp:5314
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6305,13 +6305,13 @@ msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Hiçbir uzak astrometri sürücüsü algılanmadı, StellarSolver’a geçiliyor."
 
-#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1639
+#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1636
 #, kde-format
 msgid "Capturing image..."
 msgstr "Görsel yakalanıyor…"
 
 #: ekos/align/align.cpp:1716 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2679
+#: ekos/focus/focus.cpp:2674
 #, kde-format
 msgid "Image received."
 msgstr "Görsel alındı."
@@ -6625,7 +6625,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (yaysan)"
 
 #: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3336
-#: ekos/focus/focus.cpp:5206
+#: ekos/focus/focus.cpp:5202
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Süzme işlemi başarısız oldu."
@@ -7855,8 +7855,8 @@ msgstr ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Dış sekstraktör, bir dış "
 "program gerektirir.</li><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\">Yerleşik Yöntem, seçtiğiniz Çözüm Yönteminin kullandığı varsayılan Yıldız "
-"Çıkarma işlemini kullanır.</li></ul></body></html>"
+"\">Yerleşik Yöntem, seçtiğiniz çözüm yönteminin kullandığı öntanımlı yıldız "
+"çıkarma işlemini kullanır.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolveSextractorType)
 #: ekos/align/opsalign.ui:76
@@ -10504,7 +10504,7 @@ msgid ""
 "You won't get HFR values without it. Once you set it, newly captured images "
 "will have their HFRs computed."
 msgstr ""
-"K Yıldızlar FITS seçenekleri menüsündeki \"HFR’yi Kendiliğinden Hesapla\" "
+"K Yıldızlar FITS seçenekleri menüsündeki “HFR’yi Kendiliğinden Hesapla” "
 "seçeneği ayarlı değil. Bu olmadan HFR değerlerini alamazsınız. Bunu "
 "ayarladığınızda, yeni çekilen görsellerin HFR’leri hesaplanır."
 
@@ -10515,7 +10515,7 @@ msgid ""
 "You won't get # stars in capture image values without it. Once you set it, "
 "newly captured images will have their stars detected."
 msgstr ""
-"K Yıldızlar FITS seçenekleri menüsündeki \"HFR’yi Kendiliğinden Hesapla\" "
+"K Yıldızlar FITS seçenekleri menüsündeki “HFR’yi Kendiliğinden Hesapla” "
 "seçeneği ayarlı değil. Bu olmadan, görüntü yakalama değerlerinde # yıldız "
 "alamazsınız. Bunu ayarladıktan sonra, yeni çekilen görsellerin yıldızları "
 "algılanacaktır."
@@ -11266,7 +11266,7 @@ msgid ""
 "<html><head/><body><p>Plot the Half-Flux Radius (in pixels) of the captured "
 "images.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Yakalanan görsellerin Yarı Akı Yarıçapı'nı (piksel "
+"<html><head/><body><p>Yakalanan görsellerin Yarı Akı Yarıçapı’nı (piksel "
 "türünden) çizin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, hfrCB)
@@ -12099,7 +12099,7 @@ msgid ""
 "Generate Map to execute."
 msgstr ""
 "Agresiflik düzeyi. Daha çok sıcak piksel içermek için değeri artırın. "
-"Yürütmek için 'Harita Üret'e tıklayın."
+"Yürütmek için “Harita Üret”e tıklayın."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hotPixelsEnabled)
 #: ekos/auxiliary/darklibrary.ui:903
@@ -12115,7 +12115,7 @@ msgid ""
 "Generate Map to execute."
 msgstr ""
 "Agresiflik düzeyi. Daha çok soğuk piksel içermek için değeri artırın. "
-"Yürütmek için 'Harita Üret'e tıklayın."
+"Yürütmek için “Harita Üret”e tıklayın."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetMapParametersB)
 #: ekos/auxiliary/darklibrary.ui:979
@@ -12403,7 +12403,7 @@ msgid ""
 "Offsets tool.</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-style:italic;\">Göreceli</span> "
-"süzgeç uzaklıklarını doğrudan tabloda adım adım ayarlayın veya Ofsetler Yap "
+"süzgeç uzaklıklarını doğrudan tabloda adım adım ayarlayın veya Ofsetleri Yap "
 "aracını kullanın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, buildOffsetsButton)
@@ -13115,7 +13115,7 @@ msgstr "Seri"
 #, kde-format
 msgid ""
 "Select <b>Serial</b> if your device is connected via Serial to USB adapter."
-msgstr "Aygıtınız Seri-USB bağdaştırıcısıyla bağlıysa <b>Seri</b>'yi seçin."
+msgstr "Aygıtınız Seri-USB bağdaştırıcısıyla bağlıysa <b>Seri</b>’yi seçin."
 
 #: ekos/auxiliary/portselector.cpp:78
 #, kde-format
@@ -13125,7 +13125,7 @@ msgstr "Ağ"
 #: ekos/auxiliary/portselector.cpp:80
 #, kde-format
 msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
-msgstr "Aygıtınız Ethernet veya Wi-Fi ile bağlıysa <b>Ağ</b>'ı seçin."
+msgstr "Aygıtınız Ethernet veya Wi-Fi ile bağlıysa <b>Ağ</b>’ı seçin."
 
 #: ekos/auxiliary/portselector.cpp:99
 #, kde-format
@@ -13189,9 +13189,9 @@ msgid ""
 "device from stellarmate then replug it after 1 second. Click on the <b>Start "
 "Scan</b> to begin this procedure."
 msgstr ""
-"Aygıta kalıcı bir tanım atamak için aygıtın fişini Stellamate'ten çıkarmanız "
+"Aygıta kalıcı bir tanım atamak için aygıtın fişini Stellamate’ten çıkarmanız "
 "ve 1 saniye sonra yeniden takmanız gerekir. Bu prosedüre başlamak için "
-"<b>Taramayı Başlat</b>'a tıklayın."
+"<b>Taramayı Başlat</b>’a tıklayın."
 
 #: ekos/auxiliary/serialportassistant.cpp:98
 #, kde-format
@@ -13221,7 +13221,7 @@ msgid ""
 "adapters. The device must <b>always</b> be plugged into the same port for "
 "this to work."
 msgstr ""
-"Aygıtın StellarMate'te hangi fiziksel kapıya takıldığına bağlı olarak kalıcı "
+"Aygıtın StellarMate’te hangi fiziksel kapıya takıldığına bağlı olarak kalıcı "
 "adı atayın. Bu, iki özdeş USB bağdaştırıcısını birbirinden ayırmak için "
 "kullanışlıdır. Bunun çalışması için aygıtın <b>her zaman</b> aynı kapıya "
 "takılı olması gerekir."
@@ -13276,7 +13276,7 @@ msgid ""
 "connected to StellarMate via USB."
 msgstr ""
 "Herhangi bir aygıt algılanamadı. Lütfen aygıtın açık olduğundan ve "
-"StellarMate'e USB üzerinden bağlandığından emin olun."
+"StellarMate’e USB üzerinden bağlandığından emin olun."
 
 #: ekos/auxiliary/serialportassistant.cpp:350
 #, kde-format
@@ -13326,7 +13326,7 @@ msgstr ""
 "<html><head/><body><p>Bu araç, gelecekte bağlanmanın daha kolay olması için "
 "<span style=\" font-weight:600;\">Seri-USB</span> aygıtlarınıza <span style="
 "\" font-style:italic;\">kalıcı</span> adlar atayacaktır.</p><p><br/></"
-"p><p>Sürdürmek için <span style=\" font-weight:600;\">Sonraki</span>'ye "
+"p><p>Sürdürmek için <span style=\" font-weight:600;\">Sonraki</span>’ye "
 "tıklayın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -13626,7 +13626,7 @@ msgid ""
 "filter for star detection."
 msgstr ""
 "Yıldız algılaması için evrişim süzgecini oluşturmak amacıyla kullanılan "
-"fwhm'yi piksel türünden saklayan bir değişken."
+"FWHM’yi piksel türünden saklayan bir değişken."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:376
@@ -13636,7 +13636,7 @@ msgid ""
 "stars in the image during sextraction."
 msgstr ""
 "Bu, sekstraksiyon sırasında görseldeki yıldızların büyüklük ölçeğini "
-"ayarlamak için kullanılan \"sıfır\" büyüklüğüdür."
+"ayarlamak için kullanılan “sıfır” büyüklüğüdür."
 
 #. i18n: ectx: property (text), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:379
@@ -13676,7 +13676,7 @@ msgid ""
 "This sets the Kron Factor for use with the kron radius for flux calculations."
 msgstr ""
 "Bu, akı hesaplamalarında kron yarıçapıyla birlikte kullanılacak Kron "
-"Çarpanı'nı ayarlar."
+"Çarpanı’nı ayarlar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:413
@@ -13710,14 +13710,14 @@ msgid ""
 "extended, low brightness objects.  Note: The \"Custom\" filter selection is "
 "meant for testing purposes and should only be used by developers"
 msgstr ""
-"SEP'in yıldız çıkarma işleminden önce görsele uygulayacağı Evrişim Süzgeci "
+"SEP’in yıldız çıkarma işleminden önce görsele uygulayacağı Evrişim Süzgeci "
 "türü. Bu süzgeçler Sekstraktör kurulumundaki süzgeçlerle "
 "karşılaştırılabilir; ancak burada FWHM’yi değiştirme esnekliğine sahipsiniz. "
 "Öntanımlı süzgeç en hızlı süzgeçtir; ancak FWHM ayarıyla DEĞİŞMEZ ve bu "
 "nedenle küçük yıldızlar için en iyisidir. Gauss Süzgeci sönük nesne tespiti "
 "için en iyisidir. Meksikalı Şapkası süzgeci kalabalık yıldız alanlarında "
 "veya bulutsuların yakınında iyidir. Silindir Şapka süzgeci genişletilmiş, "
-"düşük parlaklıktaki nesneler için iyidir. Not: \"Özel\" süzgeç seçimi sınama "
+"düşük parlaklıktaki nesneler için iyidir. Not: “Özel” süzgeç seçimi sınama "
 "amaçlıdır ve yalnızca geliştiriciler tarafından kullanılmalıdır."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
@@ -13844,7 +13844,7 @@ msgid ""
 "Attempts to 'clean' the image to remove artifacts caused by bright objects"
 msgstr ""
 "Parlak nesnelerin neden olduğu kusurları ortadan kaldırmak için görseli "
-"\"temizlemeye\" çalışır."
+"“temizlemeye” çalışır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, cleanCheckBox)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:577
@@ -13932,7 +13932,7 @@ msgid ""
 "galaxies or badly distorted stars."
 msgstr ""
 "Yıldızların içerileceği yarı majör ve yarı minör eksenler arasındaki en "
-"büyük oran (a/b); bu, galaksiler veya kötü biçimde bozulmuş yıldızlar gibi "
+"büyük oran (a/b); bu, gökadalar veya kötü biçimde bozulmuş yıldızlar gibi "
 "eliptik kaynakları dışlamanıza olanak tanır."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, brightestPercent)
@@ -14049,7 +14049,7 @@ msgid ""
 "solving, such as in the Align Module."
 msgstr ""
 "Yıldız çıkarımı sonrası listede tutulacak yıldız sayısı. Bu parametre "
-"büyüklüğe dayalıdır ve Hizalama Modülü'nde olduğu gibi plaka çözümünü "
+"büyüklüğe dayalıdır ve Hizalama Modülü’nde olduğu gibi plaka çözümünü "
 "hızlandırmak için en kullanışlısıdır."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, initialKeep)
@@ -14095,7 +14095,7 @@ msgid ""
 "Factor to use for downsampling the image before SEP for plate solving.  Can "
 "speed it up."
 msgstr ""
-"Plaka çözme için SEP'ten önce görselin altörneklenmesinde kullanılacak "
+"Plaka çözme için SEP’ten önce görselin altörneklenmesinde kullanılacak "
 "çarpan. İşlemi hızlandırabilir."
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
@@ -14168,7 +14168,7 @@ msgid ""
 "Only search in indexes within 'radius' of the field center given by RA and "
 "DEC"
 msgstr ""
-"Yalnızca RA ve DEC tarafından verilen alan merkezinin \"yarıçapı\" içindeki "
+"Yalnızca RA ve DEC tarafından verilen alan merkezinin “yarıçapı” içindeki "
 "indekslerde arama yap"
 
 #. i18n: ectx: property (text), widget (QLineEdit, radius)
@@ -14260,7 +14260,7 @@ msgid ""
 "least as much physical memory as indices, you want this enabled."
 msgstr ""
 "İndeksleri aynı anda belleğe yükleyerek paralel olarak denetlemek ister "
-"misiniz? Kullandığınız indeksler 2 GB'den az yer kaplıyorsa ve en az "
+"misiniz? Kullandığınız indeksler 2 GB’den az yer kaplıyorsa ve en az "
 "indeksler kadar fiziksel belleğiniz varsa bunun etkinleştirilmesini "
 "istersiniz."
 
@@ -15269,11 +15269,11 @@ msgstr ""
 "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu<span style=\" "
 "font-weight:704;\"> %T</span> veya <span style=\" font-weight:704;\">%Type</"
-"span>: Kare türü; örneğin: \"Aydınlık\", \"Eğilim\", \"Karanlık\", \"Düz\"…</"
-"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"span>: Kare türü; örneğin: “Aydınlık”, “Eğilim”, “Karanlık”, “Düz”…</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu<span style=\" "
 "font-weight:704;\"> %e</span> veya <span style=\" font-weight:704;\">"
-"%exposure</span>: Soneki \"_secs\" olan, saniye türünden pozlama süresi.</"
+"%exposure</span>: Soneki “_secs” olan, saniye türünden pozlama süresi.</"
 "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
 "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
@@ -15308,7 +15308,7 @@ msgstr ""
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">Yer tutucu <span style=\" font-weight:600;"
 "\">%I</span> veya <span style=\" font-weight:600;\">%iso</span>: ISO değeri "
-"(yalnızca DSLR'lar).</li></ul><li style=\" margin-top:0px; margin-"
+"(yalnızca DSLR’lar).</li></ul><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\">Yer tutucu <span style=\" font-weight:600;\">%P</span> veya "
 "<span style=\" font-weight:600;\">%pierside</span>: Geçerli kaidenin iskele "
@@ -15316,10 +15316,10 @@ msgstr ""
 "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Yer tutucu<span "
 "style=\" font-weight:704;\"> %s*</span> veya <span style=\" font-weight:704;"
 "\">%sequence</span>: Görsel dizisi tanımlayıcısı; burada *, kullanılan "
-"basamak sayısıdır (1-9). <span style=\" font-weight:704;\">Bu etiket "
+"basamak sayısıdır (1–9). <span style=\" font-weight:704;\">Bu etiket "
 "zorunludur ve biçimdeki son öge olmalıdır.</span></li></ul><p>Biçim dizisine "
 "<span style=\" font-weight:704;\">% ve \\ karakterleri dışında rastgele "
-"metin de eklenebilir.</span> /yol karakteri isteğe bağlı dizinleri "
+"metin de eklenebilir.</span> / yol karakteri, isteğe bağlı dizinleri "
 "tanımlamak için kullanılabilir.</p><p>Notlar:</p><ul style=\"margin-top: "
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
 "indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
@@ -15530,7 +15530,7 @@ msgstr "Hedef kayma:"
 #: ekos/capture/limits.ui:157 ekos/focus/cfz.ui:422
 #, kde-format
 msgid "\""
-msgstr "\""
+msgstr "”"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqLoadB)
 #: ekos/capture/camera.ui:2794
@@ -15715,7 +15715,7 @@ msgstr "FITS olmayan görsellerde ADU düzeyleri hesaplanamıyor."
 #: ekos/capture/cameraprocess.cpp:1576 ekos/capture/cameraprocess.cpp:2135
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
-msgstr "Yakalama başarısız. Ayrıntılar için INDI Denetim Paneli'ne bakın."
+msgstr "Yakalama başarısız. Ayrıntılar için INDI Denetim Paneli’ne bakın."
 
 #: ekos/capture/cameraprocess.cpp:1676
 #, kde-format
@@ -15768,8 +15768,8 @@ msgstr "İş öncesi betiği %1 koduyla bitti."
 msgid "Post job script finished with code %1."
 msgstr "İş sonrası betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:2065 ekos/focus/focus.cpp:5370
-#: ekos/focus/focus.cpp:5394
+#: ekos/capture/cameraprocess.cpp:2065 ekos/focus/focus.cpp:5366
+#: ekos/focus/focus.cpp:5390
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Pozlama zaman aşımı. İptal ediliyor…"
@@ -15780,7 +15780,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Pozlama zaman aşımı. 3’ten fazlası algılandı, sürücü yeniden başlatılacak."
 
-#: ekos/capture/cameraprocess.cpp:2090 ekos/focus/focus.cpp:5375
+#: ekos/capture/cameraprocess.cpp:2090 ekos/focus/focus.cpp:5371
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -15852,8 +15852,8 @@ msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
-"Uyarı: \"Başlarken sekansı her zaman sıfırla\" etkin ve sekans sayısını "
-"sıfırlayacaktır."
+"Uyarı: “Başlarken sekansı her zaman sıfırla” etkin ve sekans sayısını "
+"sıfırlar."
 
 #: ekos/capture/cameraprocess.cpp:2810
 #, kde-format
@@ -16372,7 +16372,7 @@ msgid ""
 "span> to record the property values.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sekans işi toplu kipte yürütüldüğünde ayarlanacak özel "
-"özellikleri seçin. INDI Denetim Paneli'nde istenen özellik değeri "
+"özellikleri seçin. INDI Denetim Paneli’nde istenen özellik değeri "
 "ayarlandıktan sonra onu <span style=\" font-weight:600;\">İş Özellikleri</"
 "span> bölümüne ekleyin. Özellik değerlerini kaydetmek için <span style=\" "
 "font-weight:600;\">Uygula</span> düğmesine tıklayın.</p></body></html>"
@@ -17111,8 +17111,8 @@ msgstr ""
 "span>, bir döndürme sonrasında döndürücünün nasıl tepki vereceğini veya "
 "çözülmüş bir başvuru görselin sonucunun, asıl iskele kenarına göre farklı "
 "bir iskele tarafı rapor edip etmediğini belirler.</p><p>Döndürme politikası, "
-"<span style=\" font-size:12pt;\">\"Döndürücü Ayarları\"</span> altındaki "
-"<span style=\" font-weight:600;\">Hizalama Seçenekleri</span> bölümünden "
+"<span style=\" font-size:12pt;\">“Döndürücü Ayarları”</span> altındaki <span "
+"style=\" font-weight:600;\">Hizalama Seçenekleri</span> bölümünden "
 "değiştirilebilir.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -17137,7 +17137,7 @@ msgid ""
 "pierside EAST.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Döndürücü aygıtının ham döndürücü tam daire açısı; bu, "
-"iskele tarafı BATI'daki Kuzey'e veya iskele tarafı DOĞU'daki Güney'e ilişkin "
+"iskele tarafı BATI’daki Kuzey’e veya iskele tarafı DOĞU’daki Güney’e ilişkin "
 "döndürücü orijin farkı (sıfır açı) olarak hesaplanır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -17158,10 +17158,10 @@ msgid ""
 "(-179.99° to 180.00°).</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Döndürücünün başlangıç yönüne göre kamera dik yönünün "
-"açısı (bkz. FOV). Kamera ofseti, Hizalama modülündeki bir <span style=\" "
-"font-weight:700;\">Yakala ve Çöz</span> veya bir <span style=\" font-"
-"weight:700;\">Yükle ve Çevir</span> tarafından kendiliğinden belirlenir.</"
-"p><p>Kamera ofseti, kamera açısı kapsamı ile (-179,99°-180,00° arası) "
+"açısı (bkz. Görüş Alanı). Kamera ofseti, Hizalama modülündeki bir <span "
+"style=\" font-weight:700;\">Yakala ve Çöz</span> veya bir <span style=\" "
+"font-weight:700;\">Yükle ve Çevir</span> tarafından kendiliğinden belirlenir."
+"</p><p>Kamera ofseti, kamera açısı kapsamı ile (−179,99°–180,00° arası) "
 "türünden ölçülür.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
@@ -17280,8 +17280,8 @@ msgid ""
 "your desired camera/filterbank at least once before using the Sequence "
 "Editor. </font></b><p>"
 msgstr ""
-"<b><font color=\"red\">Lütfen Sekans Düzenleyicisi'ni kullanmadan önce "
-"INDI'ye bağlı Yakalama sekmesini istediğiniz kamerayla/süzgeç bankasıyla en "
+"<b><font color=\"red\">Lütfen Sekans Düzenleyicisi’ni kullanmadan önce "
+"INDI’ye bağlı Yakalama sekmesini istediğiniz kamerayla/süzgeç bankasıyla en "
 "az bir kez çalıştırın.</font></b><p>"
 
 #: ekos/capture/sequenceeditor.cpp:105
@@ -17811,7 +17811,7 @@ msgid ""
 "<html><head/><body><p>Check to show the Critical Focus Zone on the graph.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Grafikte Kritik Odak Bölgesi'ni göstermek için "
+"<html><head/><body><p>Grafikte Kritik Odak Bölgesi’ni göstermek için "
 "işaretleyin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
@@ -18207,7 +18207,7 @@ msgid ""
 "successful Autofocus run.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Başarılı bir Kendiliğinden Odaklama çalıştırmasının "
-"ardından CFZ'yi V eğrisi üzerinde görüntülemek için işaretleyin.</p></body></"
+"ardından CFZ’yi V eğrisi üzerinde görüntülemek için işaretleyin.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
@@ -18240,7 +18240,7 @@ msgid ""
 "<html><head/><body><p>The CFZ of the camera (resolution limit) in the active "
 "optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Etkin optik katardaki kameranın CFZ'si (çözünürlük "
+"<html><head/><body><p>Etkin optik katardaki kameranın CFZ’si (çözünürlük "
 "sınırı).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZ)
@@ -18258,7 +18258,7 @@ msgid ""
 "\">2</span></p></body></html>"
 msgstr ""
 "<html><head/><body><p>Tolerans=t değerini 0 ile 1 arasında ayarlayın. Bu, "
-"4,88 λ f<span style=\" vertical-align:super;\">2</span>'lik klasik CFZ "
+"4,88 λ f<span style=\" vertical-align:super;\">2</span>’lik klasik CFZ "
 "hesaplamasını ölçeklendirir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusCFZFinal)
@@ -18268,7 +18268,7 @@ msgid ""
 "<html><head/><body><p>The Final CFZ is the greater of the calculated CFZ and "
 "camera CFZ.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nihai CFZ, hesaplanan CFZ ve kamera CFZ'sinden büyük "
+"<html><head/><body><p>Nihai CFZ, hesaplanan CFZ ve kamera CFZ’sinden büyük "
 "olanıdır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_37)
@@ -18298,7 +18298,7 @@ msgstr ""
 "serif'; font-size:medium; color:#000000; background-color:#ffffff;\">Odak "
 "toleransını ayarlayın, </span>τ<span style=\" font-"
 "family:'Arial','Helvetica','sans-serif'; font-size:medium; color:#000000; "
-"background-color:#ffffff;\"> toplam görüşün yüzdesidir.</span></p></body></"
+"background-color:#ffffff;\">, toplam görüşün yüzdesidir.</span></p></body></"
 "html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZTau)
@@ -18430,7 +18430,7 @@ msgstr ""
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
 "0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Klasik</span>: CFZ = 4.88 t λ f<span "
+"\"><span style=\" font-weight:600;\">Klasik</span>: CFZ = 4,88 t λ f<span "
 "style=\" vertical-align:super;\">2</span> formülünü kullanır. Temel formül "
 "için toleransı t=1 olarak ayarlayın. Bazıları ampirik olarak t=1/3’ü önerir."
 "</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
@@ -18443,7 +18443,7 @@ msgstr ""
 "margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Altın: "
-"</span>CFZ = 0.00225 √τ θ f<span style=\" vertical-align:super;\">2</span> "
+"</span>CFZ = 0,00225 √τ θ f<span style=\" vertical-align:super;\">2</span> "
 "formülünü kullanır. Ayrıntılar için http://www.goldastro.com/goldfocus/ncfz."
 "php for sayfasına bakın.</li></ul></body></html>"
 
@@ -18564,7 +18564,7 @@ msgstr "En sonunda %1 sıcaklık kaynağı bulundu"
 msgid "No Focuser connected."
 msgstr "Bağlı odaklayıcı yok."
 
-#: ekos/focus/focus.cpp:1024 ekos/focus/focus.cpp:4424
+#: ekos/focus/focus.cpp:1024 ekos/focus/focus.cpp:4419
 #, kde-format
 msgid "No CCD connected."
 msgstr "Bağlı CCD yok."
@@ -18593,16 +18593,16 @@ msgstr "Yapı ofseti halihazırda çalışıyor, kendiliğinden odaklama reddedi
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "Odak döngüsünde; kendiliğinden odaklama reddedildi."
 
-#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4755
-#: ekos/focus/focus.cpp:4999
+#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4750
+#: ekos/focus/focus.cpp:4994
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Odağı Ayarla"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4757
-#: ekos/focus/focus.cpp:4999 ekos/focus/opsfocussettings.ui:445
+#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4752
+#: ekos/focus/focus.cpp:4994 ekos/focus/opsfocussettings.ui:445
 #: ekos/focus/opsfocussettings.ui:525
 #, kde-format
 msgid "Adaptive Focus"
@@ -18650,285 +18650,285 @@ msgstr "Yıldız algılaması sürüyor, 1 saniye içinde yeniden denenecek…"
 msgid "Autofocus aborted."
 msgstr "Kendiliğinden odaklama iptal edildi."
 
-#: ekos/focus/focus.cpp:1531
+#: ekos/focus/focus.cpp:1528
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Hata: Algılanan kamera yok."
 
-#: ekos/focus/focus.cpp:1538
+#: ekos/focus/focus.cpp:1535
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Hata: Kameraya olan bağlantı koptu."
 
-#: ekos/focus/focus.cpp:1559
+#: ekos/focus/focus.cpp:1556
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Hata: Algılanan süzgeç tekerleği yok."
 
-#: ekos/focus/focus.cpp:1565
+#: ekos/focus/focus.cpp:1562
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Hata: Süzgeç tekerleğine olan bağlantı koptu."
 
-#: ekos/focus/focus.cpp:1683
+#: ekos/focus/focus.cpp:1680
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "En düşük odak konumu %1 üzerinde…"
 
-#: ekos/focus/focus.cpp:1694
+#: ekos/focus/focus.cpp:1691
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "En düşük odak konumu %1 üzerine hareket ediliyor…"
 
-#: ekos/focus/focus.cpp:1703
+#: ekos/focus/focus.cpp:1700
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "En yüksek odak konumu %1 üzerinde…"
 
-#: ekos/focus/focus.cpp:1714
+#: ekos/focus/focus.cpp:1711
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "En yüksek odak konumu %1 üzerine hareket ediliyor…"
 
-#: ekos/focus/focus.cpp:1741
+#: ekos/focus/focus.cpp:1738
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Hata: Algılanan odaklayıcı yok."
 
-#: ekos/focus/focus.cpp:1748
+#: ekos/focus/focus.cpp:1745
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Hata: Odaklayıcıya olan bağlantı koptu."
 
-#: ekos/focus/focus.cpp:1762
+#: ekos/focus/focus.cpp:1759
 #, kde-format
 msgid "outward"
 msgstr "dışa"
 
-#: ekos/focus/focus.cpp:1762
+#: ekos/focus/focus.cpp:1759
 #, kde-format
 msgid "inward"
 msgstr "içe"
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1776
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "%1 adım %2 odaklanılıyor…"
 
-#: ekos/focus/focus.cpp:1785
+#: ekos/focus/focus.cpp:1782
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "%1 adım %2 odaklanılıyor…"
 msgstr[1] "%1 adım %2 odaklanılıyor…"
 
-#: ekos/focus/focus.cpp:1791
+#: ekos/focus/focus.cpp:1788
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "%1 ms %2 odaklanılıyor…"
 
-#: ekos/focus/focus.cpp:1826
+#: ekos/focus/focus.cpp:1823
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Odaklayıcı hâlâ zaman aşımına uğruyor. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:1833
+#: ekos/focus/focus.cpp:1830
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Odak hareketi zaman aşımına uğradı (%1). Odak sürücüsü %2 yeniden "
 "başlatılıyor…"
 
-#: ekos/focus/focus.cpp:1844
+#: ekos/focus/focus.cpp:1841
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Odak hareketi zaman aşımına uğradı (%1). %2 adıma yeniden odaklanılıyor…"
 
-#: ekos/focus/focus.cpp:1890
+#: ekos/focus/focus.cpp:1887
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Odaklayıcıya yeniden bağlanma deneniyor: %1"
 
-#: ekos/focus/focus.cpp:1899
+#: ekos/focus/focus.cpp:1896
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Odaklayıcıya yeniden bağlanılamıyor: %1. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:1957
+#: ekos/focus/focus.cpp:1954
 #, kde-format
 msgid "Detection complete."
 msgstr "Algılama tamamlandı."
 
-#: ekos/focus/focus.cpp:2148
+#: ekos/focus/focus.cpp:2145
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Kaynaklar algılanıyor…"
 
-#: ekos/focus/focus.cpp:2253
+#: ekos/focus/focus.cpp:2248
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Kendiliğinden odaklama işlemi başarıyla tamamlandı"
 
-#: ekos/focus/focus.cpp:2267
+#: ekos/focus/focus.cpp:2262
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Kendiliğinden odaklam işlemi başarısız oldu"
 
-#: ekos/focus/focus.cpp:2336
+#: ekos/focus/focus.cpp:2331
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "%1 yineleme sonrası odak prosedürü tamamlandı."
 msgstr[1] "%1 yineleme sonrası odak prosedürü tamamlandı."
 
-#: ekos/focus/focus.cpp:2422
+#: ekos/focus/focus.cpp:2417
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "%1 sn için yerleşiliyor…"
 
-#: ekos/focus/focus.cpp:2430
+#: ekos/focus/focus.cpp:2425
 #, kde-format
 msgid "Settling complete."
 msgstr "Yerleşim tamamlandı."
 
-#: ekos/focus/focus.cpp:2443
+#: ekos/focus/focus.cpp:2438
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Kendiliğinden odaklama başarısız oldu, %1 başlangıç odak konumuna geri "
 "dönülüyor."
 
-#: ekos/focus/focus.cpp:2480
+#: ekos/focus/focus.cpp:2475
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS alındı. Algılanan yıldız yok."
 
-#: ekos/focus/focus.cpp:2765
+#: ekos/focus/focus.cpp:2760
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Kendiliğinden bir yıldız seçilemedi. Lütfen bir tanesini elle seçin."
 
-#: ekos/focus/focus.cpp:2859
+#: ekos/focus/focus.cpp:2854
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Yakalama tamamlandı. Odaklanacak bir yıldız seçin."
 
-#: ekos/focus/focus.cpp:2890
+#: ekos/focus/focus.cpp:2885
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "HFR sınanırken bir yıldız algılanmadı, yeniden yakalanıyor…"
 
-#: ekos/focus/focus.cpp:2910
+#: ekos/focus/focus.cpp:2905
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "HFR %1 > Sınır %2"
 
-#: ekos/focus/focus.cpp:3026
+#: ekos/focus/focus.cpp:3021
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Kendiliğinden odaklama başarısız oldu: En yüksek yineleme sayısı %1 aşıldı"
 
-#: ekos/focus/focus.cpp:3037 ekos/focus/focus.cpp:3299
-#: ekos/focus/focus.cpp:3895
+#: ekos/focus/focus.cpp:3032 ekos/focus/focus.cpp:3294
+#: ekos/focus/focus.cpp:3890
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Algılanan yıldız yok, yeniden yakalanıyor…"
 
-#: ekos/focus/focus.cpp:3043 ekos/focus/focus.cpp:3901
+#: ekos/focus/focus.cpp:3038 ekos/focus/focus.cpp:3896
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "%1 konumunda bir yıldız algılanamadı. Sürdürülüyor…"
 
-#: ekos/focus/focus.cpp:3049 ekos/focus/focus.cpp:3907
+#: ekos/focus/focus.cpp:3044 ekos/focus/focus.cpp:3902
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Herhangi bir yıldız algılanamadı. Kareyi sıfırlayın ve yeniden deneyin."
 
-#: ekos/focus/focus.cpp:3236
+#: ekos/focus/focus.cpp:3231
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Görüntü Sapması Denetçisi %1. çalıştırması başlatılamıyor…"
 
-#: ekos/focus/focus.cpp:3256
+#: ekos/focus/focus.cpp:3251
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Görüntü Sapması Denetçisi %1. çalıştırması başlatılıyor…"
 
-#: ekos/focus/focus.cpp:3282
+#: ekos/focus/focus.cpp:3277
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Odaklayıcının başlangıç konumu için tarama başlatılıyor…"
 
-#: ekos/focus/focus.cpp:3283
+#: ekos/focus/focus.cpp:3278
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Başlama konumu taranıyor…"
 
-#: ekos/focus/focus.cpp:3305
+#: ekos/focus/focus.cpp:3300
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Hiçbir yıldız algılanamadı. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:3314
+#: ekos/focus/focus.cpp:3309
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Tarama başlangıcı konumu: En yüksek yineleme sayısı %1 aşıldı"
 
-#: ekos/focus/focus.cpp:3332
+#: ekos/focus/focus.cpp:3327
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Başlangıç konumu %1/%2 taranıyor…"
 
-#: ekos/focus/focus.cpp:3346
+#: ekos/focus/focus.cpp:3341
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Tarama en düşüğü yok - arama genişletiliyor…"
 
-#: ekos/focus/focus.cpp:3359
+#: ekos/focus/focus.cpp:3354
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Tarama başlangıcı konumu %1 bulundu"
 
-#: ekos/focus/focus.cpp:3360
+#: ekos/focus/focus.cpp:3355
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Tarama Başlangıcı Konumu %1 Bulundu"
 
-#: ekos/focus/focus.cpp:3429
+#: ekos/focus/focus.cpp:3424
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr "Eğim uyumu denetimi başarısız R2=%1 focusR2Limit=%2 yeniden deneniyor…"
 
-#: ekos/focus/focus.cpp:3431
+#: ekos/focus/focus.cpp:3426
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Sınır=%2"
 
-#: ekos/focus/focus.cpp:3439
+#: ekos/focus/focus.cpp:3434
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Eğim uyumu denetimi yine başarısız R2=%1 focusR2Limit=%2; ancak sürdürülüyor…"
 
-#: ekos/focus/focus.cpp:3449
+#: ekos/focus/focus.cpp:3444
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Doğrusal kendiliğinden algılama algoritması iptal edildi: %1"
 
-#: ekos/focus/focus.cpp:3484
+#: ekos/focus/focus.cpp:3479
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS alındı. HFR %1 @ %2. Delta (%​%3)"
 
-#: ekos/focus/focus.cpp:3486
+#: ekos/focus/focus.cpp:3481
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS alındı. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3547
+#: ekos/focus/focus.cpp:3542
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -18937,24 +18937,24 @@ msgstr ""
 "HFR’deki değişiklik pek küçük; adım boyutunu artırmayı veya toleransı "
 "azaltmayı deneyin."
 
-#: ekos/focus/focus.cpp:3554
+#: ekos/focus/focus.cpp:3549
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr "Karedeki odak yıldızı algılanamadı. Bir odak yıldızı yakalayıp seçin."
 
-#: ekos/focus/focus.cpp:3659
+#: ekos/focus/focus.cpp:3654
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "%1 konumunda polinom çözümü bulundu."
 
-#: ekos/focus/focus.cpp:3723
+#: ekos/focus/focus.cpp:3718
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Odaklayıcı daha ileriye gidemiyor, aygıt sınırlarına erişildi. Kendiliğinden "
 "odaklama iptal ediliyor."
 
-#: ekos/focus/focus.cpp:3734
+#: ekos/focus/focus.cpp:3729
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -18962,23 +18962,23 @@ msgstr ""
 "Kararsız dalgalanmalar. İlk adım boyutunu veya pozlama süresini artırmayı "
 "deneyin."
 
-#: ekos/focus/focus.cpp:3744
+#: ekos/focus/focus.cpp:3739
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Tıkanma oluştu. Lütfen farklı bir ayar ile yeniden deneyin."
 
-#: ekos/focus/focus.cpp:3773
+#: ekos/focus/focus.cpp:3768
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "En yüksek hareket sınırına ulaşıldı. Kendiliğinden odaklama iptal ediliyor."
 
-#: ekos/focus/focus.cpp:3880
+#: ekos/focus/focus.cpp:3875
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS alındı. HFR %1. Delta (%​%2), En Düşük HFR (%3)"
 
-#: ekos/focus/focus.cpp:3884
+#: ekos/focus/focus.cpp:3879
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -18986,97 +18986,97 @@ msgstr ""
 "Kendiliğinden odaklama uygun odağa ulaşamadı. Tolerans değerini ayarlamayı "
 "deneyin."
 
-#: ekos/focus/focus.cpp:3979 ekos/focus/focus.cpp:4002
-#: ekos/focus/focus.cpp:4169 ekos/focus/focus.cpp:4252
-#: ekos/focus/focus.cpp:4324 ekos/focus/focus.cpp:4399
+#: ekos/focus/focus.cpp:3974 ekos/focus/focus.cpp:3997
+#: ekos/focus/focus.cpp:4164 ekos/focus/focus.cpp:4247
+#: ekos/focus/focus.cpp:4319 ekos/focus/focus.cpp:4394
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Odaklayıcı hatası, INDI panelini denetleyin."
 
-#: ekos/focus/focus.cpp:4063 ekos/focus/focus.cpp:4185
+#: ekos/focus/focus.cpp:4058 ekos/focus/focus.cpp:4180
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Odaklayıcı iletişim arızasına benzetiliyor…"
 
-#: ekos/focus/focus.cpp:4146 ekos/focus/focus.cpp:4233
-#: ekos/focus/focus.cpp:4305 ekos/focus/focus.cpp:4346
+#: ekos/focus/focus.cpp:4141 ekos/focus/focus.cpp:4228
+#: ekos/focus/focus.cpp:4300 ekos/focus/focus.cpp:4341
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Kendiliğinden odaklama süreci yeniden başlatılıyor…"
 
-#: ekos/focus/focus.cpp:4440
+#: ekos/focus/focus.cpp:4435
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Sürekli pozlama başlatılıyor…"
 
-#: ekos/focus/focus.cpp:4729
+#: ekos/focus/focus.cpp:4724
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Yıldız seçim kutusu elle taşındığından Kendiliğinden Yıldız Seçimi devre "
 "dışı bırakılıyor."
 
-#: ekos/focus/focus.cpp:4734
+#: ekos/focus/focus.cpp:4729
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Odak yıldızı seçili."
 
-#: ekos/focus/focus.cpp:4753
+#: ekos/focus/focus.cpp:4748
 #, kde-format
 msgid "Autofocus"
 msgstr "Kendiliğinden Odaklama"
 
-#: ekos/focus/focus.cpp:4761
+#: ekos/focus/focus.cpp:4756
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Odak isteğini denetleniyor - %1 işleminin tamamlanması için 10 saniye "
 "bekleniyor."
 
-#: ekos/focus/focus.cpp:4769
+#: ekos/focus/focus.cpp:4764
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Odak denetleme isteği bırakılıyor - %1 sürüyor."
 
-#: ekos/focus/focus.cpp:4906
+#: ekos/focus/focus.cpp:4901
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Seçili yıldız yok. Son bilinen konum kullanılıyor…"
 
-#: ekos/focus/focus.cpp:4912
+#: ekos/focus/focus.cpp:4907
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Seçili yıldız yok. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:4923
+#: ekos/focus/focus.cpp:4918
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Odaklayıcı halihazırda %1 konumunda…"
 
-#: ekos/focus/focus.cpp:5002
+#: ekos/focus/focus.cpp:4997
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Odak isteği ayarlanıyor - %1 işleminin tamamlanması için 10 saniye "
 "bekleniyor."
 
-#: ekos/focus/focus.cpp:5036
+#: ekos/focus/focus.cpp:5031
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Odak Karesi"
 
-#: ekos/focus/focus.cpp:5418
+#: ekos/focus/focus.cpp:5414
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Görsel kaydedilemedi. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:5433 ekos/focus/focus.cpp:5458
+#: ekos/focus/focus.cpp:5429 ekos/focus/focus.cpp:5454
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Pozlama hatası. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:5750
+#: ekos/focus/focus.cpp:5746
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -19163,7 +19163,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>İçe odaklanmak. </p><p>SCT’ler için bu genellikle "
-"CCW'dir.</p></body></html>"
+"CCW’dir.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
 #: ekos/focus/focus.ui:471
@@ -19260,7 +19260,7 @@ msgid ""
 "collect data).</p><p>Note: Mosaic Mask must be set to activate this button.</"
 "p><p>This is an experimental feature.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Görüntü Sapması Denetçisi'ni çalıştır (Önce veri "
+"<html><head/><body><p>Görüntü Sapması Denetçisi’ni çalıştır (Önce veri "
 "toplamak için kendiliğinden odaklama çalışacaktır).</p><p>Not: Bu düğmeyi "
 "etkinleştirmek için Mozaik Maske ayarlı olmalıdır.</p><p>Bu, deneysel bir "
 "özelliktir.</p></body></html>"
@@ -19879,22 +19879,22 @@ msgstr ""
 "kullanırken odaklayıcının gerçekleştireceği yürüyüş türünü seçin. <span "
 "style=\" font-weight:600;\">Doğrusal</span> için yalnızca <span style=\" "
 "font-weight:600;\">Klasik</span> kullanılabilir.</p><p><span style=\" font-"
-"weight:600;\">Klasik</span>: Odaklayıcı \"Bu Kadar Çok Adım\" adım çıkar, "
-"bir kare alır ve ardından her adımda kareleri alıp çözümleyerek sabit bir "
-"adım boyutunda odaklama yoluyla devreye girer. Geçişin tam olarak durduğu "
-"nokta verilere bağlıdır, bu nedenle bu yürüyüş, ekstra adımlar pahasına, "
-"odak noktasından daha uzağa başlamaya toleranslıdır.</p><p><span style=\" "
-"font-weight:600;\">Sabit Adımlar</span>: Odaklayıcı \"Bu Kadar Adım\"nın "
-"yarısını dışarı çıkarır, bir kare çeker ve ardından tam olarak \"Bu Kadar "
-"Adım\"a geçer. Bu yürüyüşün etkili olması için odaklanmaya yakın bir yerde "
-"başlatılması gerekir ancak atılan adım sayısı tahmin edilebilir.</p><p><span "
-"style=\" font-weight:600;\">CFZ Karıştır</span>: <span style=\" font-"
-"weight:600;\">Sabit Adımlar</span>'a benzerdir; ancak bu yürüyüş, eğri "
-"uydurmada odak noktasına daha yakın noktalara daha fazla ağırlık vermeye "
-"çalışmak için odak noktasının yakınında yarım adım atar. <span style=\" font-"
-"weight:600;\">Sabit Adımlar</span>'da olduğu üzere, bu yürüyüşün etkili "
-"olması için odaklanmaya yakın bir yerde başlatılması gerekir; ancak atılan "
-"adım sayısı tahmin edilebilir.</p><p><br/></p></body></html>"
+"weight:600;\">Klasik</span>: Odaklayıcı “Bu Kadar Adım” çıkar, bir kare alır "
+"ve ardından her adımda kareleri alıp çözümleyerek sabit bir adım boyutunda "
+"odaklama yoluyla devreye girer. Geçişin tam olarak durduğu nokta verilere "
+"bağlıdır, bu nedenle bu yürüyüş, ekstra adımlar pahasına, odak noktasından "
+"daha uzağa başlamaya toleranslıdır.</p><p><span style=\" font-weight:600;"
+"\">Sabit Adımlar</span>: Odaklayıcı “Bu Kadar Adım”ın yarısını dışarı "
+"çıkarır, bir kare çeker ve ardından tam olarak “Bu Kadar Adım”a geçer. Bu "
+"yürüyüşün etkili olması için odaklanmaya yakın bir yerde başlatılması "
+"gerekir; ancak atılan adım sayısı tahmin edilebilir.</p><p><span style=\" "
+"font-weight:600;\">CFZ Karıştır</span>: <span style=\" font-weight:600;"
+"\">Sabit Adımlar</span>’a benzerdir; ancak bu yürüyüş, eğri uydurmada odak "
+"noktasına daha yakın noktalara daha fazla ağırlık vermeye çalışmak için odak "
+"noktasının yakınında yarım adım atar. <span style=\" font-weight:600;"
+"\">Sabit Adımlar</span>’da olduğu üzere, bu yürüyüşün etkili olması için "
+"odaklanmaya yakın bir yerde başlatılması gerekir; ancak atılan adım sayısı "
+"tahmin edilebilir.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:122
@@ -20124,8 +20124,8 @@ msgstr ""
 "</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
 "margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Gaus</span>: 2 boyutlu Gaus "
-"kullanır. Bu deneysel bir özelliktir.</li></ul></body></html>"
+"indent:0px;\"><span style=\" font-weight:600;\">Gauss</span>: 2 boyutlu "
+"Gauss kullanır. Bu deneysel bir özelliktir.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/opsfocusprocess.ui:117
@@ -20175,7 +20175,7 @@ msgstr ""
 "<html><head/><body><p>Kendiliğinden Odaklama çalıştırması gerçekleştirirken "
 "kabul edilebilir R² için bir en düşük değer ayarlayın. Değer 0 (uyum yok) "
 "ile 1 (mükemmel uyum) arasındadır. 0,8 iyi bir başlangıçtır. En düşük değer "
-"karşılanmazsa Kendiliğinden Odaklama, R²'yi iyileştirmeye çalışmak için bir "
+"karşılanmazsa Kendiliğinden Odaklama, R²’yi iyileştirmeye çalışmak için bir "
 "kez yeniden çalıştırılır. Şu anda yalnızca Doğrusal 1 Geçişli algoritma için "
 "Hiperbol veya Parabolün Eğri Uyumu kullanıldığında kullanılabilir.</p></"
 "body></html>"
@@ -20372,12 +20372,12 @@ msgstr ""
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
 "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">SEP:</span> Kaynak Çıkarıcı ve Fotometri, Kaynak "
-"Çıkarıcıyı temel alan etkili bir kaynak tespit yöntemidir (Bertin ve Arnouts "
-"1996; Bertin 2016). Journal of Open Source Software'de <a href=\"https://"
-"joss.theoj.org/papers/10.21105/joss.00058.pdf\"><span style=\" text-"
-"decoration: underline; color:#0000ff;\">SEP: Source Extractor as a library</"
-"span></a> yazısına bakın.</li><li style=\" margin-top:12px; margin-"
+"style=\" font-weight:600;\">SEP:</span> Kaynak Çıkarıcısı ve Fotometri, "
+"Kaynak Çıkarıcısını temel alan etkili bir kaynak tespit yöntemidir (Bertin "
+"ve Arnouts 1996; Bertin 2016). Journal of Open Source Software’de <a href="
+"\"https://joss.theoj.org/papers/10.21105/joss.00058.pdf\"><span style=\" "
+"text-decoration: underline; color:#0000ff;\">SEP: Source Extractor as a "
+"library</span></a> yazısına bakın.</li><li style=\" margin-top:12px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\"><span style=\" font-weight:600;\">Ağırlık merkezi</span>: "
 "Sinyal tepe noktaları etrafındaki yıldız kütlesinin tahmin edilmesine "
@@ -20471,7 +20471,7 @@ msgstr ""
 "tolerans yüzdesi içinde olduğunda durur.</li><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\"><span style=\" font-weight:600;\">Polinom</span>: "
-"Yinelemeli yöntemle başlar. V Eğrisi'nin diğer tarafına geçildiğinde polinom "
+"Yinelemeli yöntemle başlar. V Eğrisi’nin diğer tarafına geçildiğinde polinom "
 "uyum katsayıları ve olası en düşük çözüm hesaplanır. Bu algoritma, iyi bir "
 "veri kümesi verildiğinde tümüyle yinelemeli yaklaşımdan daha hızlı olabilir."
 "</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
@@ -20480,13 +20480,13 @@ msgstr ""
 "şekilde içe doğru odaklanır. Algoritma yavaş olabilir; ancak tepkilere karşı "
 "daha dayanıklıdır. Odaklayıcıyı iyi odağa yakın konumlandırarak başlayın. "
 "İstenilen örnekleme aralığı ve başlangıç ​​odak konumu etrafındaki aralık için "
-"Başlangıç ​​Adım Boyutu ve En Büyük Hareket'i ayarlayın. Tolerans %​5 civarında "
+"Başlangıç ​​Adım Boyutu ve En Büyük Hareket’i ayarlayın. Tolerans %​5 civarında "
 "olmalıdır.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">Doğrusal 1 Geçiş</span>: <span style=\" font-"
 "weight:600;\">Doğrusal</span> gibi başlar; ancak birinci geçişi "
 "tamamladıktan sonra ikinci bir geçiş yapmak yerine doğrudan en düşük "
-"hesaplanan HFR değerine hareket eder. Hiperbol veya Parabolün Eğri Uyumu'nu "
+"hesaplanan HFR değerine hareket eder. Hiperbol veya Parabolün Eğri Uyumu’nu "
 "kullanın.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
@@ -20684,7 +20684,7 @@ msgid ""
 "values reject more outliers.</p><p>Refine Curve Fit must be set for this "
 "option to be active.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Aykırı Değer Reddi'nin ne kadar agresif bir şekilde "
+"<html><head/><body><p>Aykırı Değer Reddi’nin ne kadar agresif bir şekilde "
 "uygulanacağı. Daha yüksek değerler daha fazla aykırı değeri reddeder.</"
 "p><p>Bu seçeneğin etkin olması için Eğri Uyumunu İyileştir ayarının "
 "yapılması gerekir.</p></body></html>"
@@ -20719,7 +20719,7 @@ msgid ""
 "Scan for Start Position uses a step size = Initial Step Size multiplied by "
 "Initial Step Size x."
 msgstr ""
-"Başlangıç Konumunu Tara, Başlangıç Adım Boyutu'nun X Başlangıç Adım Boyutu "
+"Başlangıç Konumunu Tara, Başlangıç Adım Boyutu’nun X Başlangıç Adım Boyutu "
 "ile çarpımına eşit olan bir adım boyutu kullanır."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusScanAlwaysOn)
@@ -20729,7 +20729,7 @@ msgid ""
 "Check to always run Scan for Start Position, uncheck to only run after a "
 "failed Autofocus."
 msgstr ""
-"Her zaman Başlangıç Konumunu Tara'yı çalıştırmak için işaretleyin; yalnızca "
+"Her zaman Başlangıç Konumunu Tara’yı çalıştırmak için işaretleyin; yalnızca "
 "başarısız olan bir Kendiliğinden Odak sonrası çalıştırmak için işaretini "
 "kaldırın."
 
@@ -20760,10 +20760,10 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Bu seçenek yalnızca \"Alt kare\" seçildiğinde "
-"etkindir. Ekos’un odak için tek bir yıldız seçmesine izin vermek için "
-"işaretleyin; kullanıcının FITS Görüntüleyicisi'nde kullanılacak yıldızı "
-"seçmesine izin vermek için işareti kaldırın.</p></body></html>"
+"<html><head/><body><p>Bu seçenek yalnızca “Alt Kare” seçildiğinde etkindir. "
+"Ekos’un odak için tek bir yıldız seçmesine izin vermek için işaretleyin; "
+"kullanıcının FITS Görüntüleyicisi’nde kullanılacak yıldızı seçmesine izin "
+"vermek için işareti kaldırın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
 #: ekos/focus/opsfocussettings.ui:38
@@ -20781,7 +20781,7 @@ msgid ""
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Odağın birden fazla yıldız kullanmasına izin vermek "
-"için \"Tam alan\"ı seçin (Not: Alt Kare tek bir yıldız kullanır). Bu kipte "
+"için “Tam Alan”ı seçin (Not: Alt Kare tek bir yıldız kullanır). Bu kipte "
 "Ekos, Kendiliğinden Odaklama sırasında birden fazla yıldızı kendiliğinden "
 "seçecek ve örneğin odaklamayı gerçekleştirmek için tespit edilen tüm "
 "yıldızların HFR’sinin ortalamasını alacaktır.</p></body></html>"
@@ -20834,12 +20834,12 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tek bir yıldız kullanmaya odaklanmak için \"Alt kare"
-"\"yi seçin (Not: \"Tam alan\" birden fazla yıldız kullanır). Bu kipte, "
-"Ekos’un bir yıldız seçmesine (işaretlendiğinde) veya kullanıcının yıldızı "
-"FITS Görüntüleyicisi'nde elle seçmesine (işaretlenmediğinde) izin vermek "
-"için \"Yıldızı kendiliğinden seç\" onay kutusu etkin duruma gelir.</p></"
-"body></html >"
+"<html><head/><body><p>Tek bir yıldız kullanmaya odaklanmak için “Alt Kare”yi "
+"seçin (Not: “Tam Alan” birden çok yıldız kullanır). Bu kipte, Ekos’un bir "
+"yıldız seçmesine (işaretlendiğinde) veya kullanıcının yıldızı FITS "
+"Görüntüleyicisi’nde elle seçmesine (işaretlenmediğinde) izin vermek için "
+"“Yıldızı kendiliğinden seç” onay kutusu etkin duruma gelir.</p></body></html "
+">"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
 #: ekos/focus/opsfocussettings.ui:161
@@ -20923,7 +20923,7 @@ msgid ""
 "100 to include the outer edges of the sensor. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Tam Alan odaklama sırasında bu, algılayıcının "
-"ortasında ortalanan bir Annulus'un işleme dahil edilecek boyutunu denetler. "
+"ortasında ortalanan bir Annulus’un işleme dahil edilecek boyutunu denetler. "
 "Algılayıcının merkezini içerecek şekilde iç yüzdeyi sıfıra ayarlayın ve "
 "algılayıcının dış kenarlarını içerecek şekilde dış yüzdeyi 100’e ayarlayın.</"
 "p></body></html>"
@@ -20967,7 +20967,7 @@ msgid ""
 "sensor.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Odaklama dışında bırakılacak iç dairenin çapı (ör. "
-"merkezli bir galaksi veya yıldız kümesi). Çap, görsel köşegeninin yüzdesi "
+"merkezli bir gökada veya yıldız kümesi). Çap, görsel köşegeninin yüzdesi "
 "olarak verilir. Algılayıcının merkezini içermek için sıfıra ayarlayın.</p></"
 "body></html>"
 
@@ -21098,7 +21098,7 @@ msgid ""
 "The connection was refused by the peer. Make sure the LinGuider is running, "
 "and check that the host name and port settings are correct."
 msgstr ""
-"Bağlantı, eş tarafından reddedildi. LinGuider'ın çalıştığından ve makine ve "
+"Bağlantı, eş tarafından reddedildi. LinGuider’ın çalıştığından ve makine ve "
 "kapı adı ayarlarının doğru olduğundan emin olun."
 
 #: ekos/guide/externalguide/linguider.cpp:79
@@ -21644,7 +21644,7 @@ msgid ""
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 "PHD2 kamera Ekos’ta kullanılabilir değildir, bu nedenle çekilen görselleri "
-"göremezsiniz. Ancak kılavuzluk ettiğinizde Rehber Yıldız Görseli'ni yine de "
+"göremezsiniz. Ancak kılavuzluk ettiğinizde Kılavuz Yıldız Görseli’ni yine de "
 "göreceksiniz."
 
 #: ekos/guide/guide.cpp:2911 ekos/guide/guide.cpp:3037
@@ -24043,17 +24043,17 @@ msgstr "%1 için hata ayıklama günlüğü yeniden etkinleştiriliyor…"
 msgid "Re-disabling debug logging for %1..."
 msgstr "%1 için hata ayıklama günlüğü yeniden devre dışı bırakılıyor…"
 
-#: ekos/manager.cpp:3725
+#: ekos/manager.cpp:3726
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Önizleme kaynağı dış olarak ayarlandı"
 
-#: ekos/manager.cpp:3732
+#: ekos/manager.cpp:3733
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Önizleme kaynağı iç olarak ayarlandı"
 
-#: ekos/manager.cpp:3739
+#: ekos/manager.cpp:3740
 #, kde-format
 msgid "Received external preview file"
 msgstr "Dış önizleme dosyası alındı"
@@ -27040,7 +27040,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:850
 #, kde-format
 msgid "'"
-msgstr "'"
+msgstr "’"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, targetFOVLabel)
 #: ekos/scheduler/framingassistant.ui:504
@@ -30958,7 +30958,7 @@ msgstr "görsel genişliği º"
 #: fitsviewer/platesolve.ui:119
 #, kde-format
 msgid "image width '"
-msgstr "görsel genişliği '"
+msgstr "görsel genişliği ’"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:124
@@ -34284,7 +34284,7 @@ msgstr "Yalnızca sahibi olan süpernovaları göster"
 #: kstars.kcfg:523
 #, kde-format
 msgid "Show only supernovae for which a host galaxy is given."
-msgstr "Yalnızca sahip galaksisi verilen süpernovaları gösterin."
+msgstr "Yalnızca konak gökadası verilen süpernovaları gösterin."
 
 #. i18n: ectx: label, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:527
@@ -77352,7 +77352,7 @@ msgstr "Yaş (gün):"
 #: options/opssupernovae.ui:137
 #, kde-format
 msgid "Show only SN with host galaxy given"
-msgstr "Yalnızca ana galaksisi verilen süpernovayı göster"
+msgstr "Yalnızca konak gökadası verilen süpernovayı göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeClassifiedOnly)
 #: options/opssupernovae.ui:144
@@ -78139,7 +78139,7 @@ msgstr " (Asteroit)"
 #: skycomponents/asteroidscomponent.cpp:264
 #, kde-format
 msgid "Asteroid Update"
-msgstr "Asteroid Güncellemesi"
+msgstr "Asteroit Güncellemesi"
 
 #: skycomponents/asteroidscomponent.cpp:265
 #, kde-format
@@ -78166,21 +78166,21 @@ msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
 "the new one?"
 msgstr ""
+"Eski DSO veritabanından yeni veritabanına özel ve internet çözümlü nesneleri "
+"içe aktarılsın mı?"
 
 #: skycomponents/catalogscomponent.cpp:451
 #: skycomponents/catalogscomponent.cpp:458
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not import the objects."
-msgstr "%1 dosyası silinemedi"
+msgstr "Nesneler içe aktarılamadı."
 
 #: skycomponents/catalogscomponent.cpp:463
-#, fuzzy, kde-format
-#| msgid "Name of the remote INDI focuser device."
+#, kde-format
 msgid "Successfully added %1 object to the user catalog."
 msgid_plural "Successfully added %1 objects to the user catalog."
-msgstr[0] "Uzak INDI uzaklayıcı aygıtının adı."
-msgstr[1] "Uzak INDI uzaklayıcı aygıtının adı."
+msgstr[0] "Kullanıcı kataloğuna %1 nesne başarıyla eklendi."
+msgstr[1] "Kullanıcı kataloğuna %1 nesne başarıyla eklendi."
 
 #: skycomponents/cometscomponent.cpp:83
 #, kde-format
@@ -78190,12 +78190,12 @@ msgstr "Kuyruklu yıldızlar yükleniyor…"
 #: skycomponents/cometscomponent.cpp:313
 #, kde-format
 msgid "Comets Update"
-msgstr "Kuyruklu Yıldız Güncellemeleri"
+msgstr "Kuyruklu Yıldızlar Güncellemesi"
 
 #: skycomponents/cometscomponent.cpp:314
 #, kde-format
 msgid "Downloading comets updates..."
-msgstr "Kuyrukluyıldız güncellemeleri indiriliyor…"
+msgstr "Kuyrukluyıldızlar güncellemeleri indiriliyor…"
 
 #: skycomponents/constellationboundarylines.cpp:26
 #, kde-format
@@ -78210,7 +78210,7 @@ msgstr "Takımyıldız sınırları yükleniyor…"
 #: skycomponents/constellationlines.cpp:101
 #, kde-format
 msgid "Star HD%1 not found."
-msgstr "HD %1 yıldızı bulunamadı."
+msgstr "HD%1 yıldızı bulunamadı."
 
 #: skycomponents/constellationnamescomponent.cpp:41
 #, kde-format
@@ -78225,11 +78225,10 @@ msgstr "Simge yok"
 #: skycomponents/horizoncomponent.cpp:28
 #, kde-format
 msgid "Creating horizon"
-msgstr "Ufuk oluşturuluyor"
+msgstr "Ufuk oluşturuluyor…"
 
 #: skycomponents/imageoverlaycomponent.cpp:62
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
 msgstr "Dosya adı"
 
@@ -78237,84 +78236,88 @@ msgstr "Dosya adı"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: skycomponents/imageoverlaycomponent.cpp:64 tools/modcalcsimple.ui:93
 #: tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "Englee"
+msgstr "Açı"
 
 #: skycomponents/imageoverlaycomponent.cpp:64
 #, kde-format
 msgid "A-S/px"
-msgstr ""
+msgstr "A-S/pks"
 
 #: skycomponents/imageoverlaycomponent.cpp:65
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "Sağa Döndür"
+msgstr "SağDoğu"
 
 #: skycomponents/imageoverlaycomponent.cpp:165
 #, kde-format
 msgid "Bad RA string entered for %1. Reset to original value."
-msgstr ""
+msgstr "%1 için hatalı RA dizisi girildi. Özgün değere sıfırlayın."
 
 #: skycomponents/imageoverlaycomponent.cpp:179
 #, kde-format
 msgid "Bad DEC string entered for %1. Reset to original value."
-msgstr ""
+msgstr "%1 için hatalı DEC dizisi girildi. Özgün değere sıfırlayın."
 
 #: skycomponents/imageoverlaycomponent.cpp:192
 #, kde-format
 msgid "Bad orientation angle string entered for %1. Reset to original value."
-msgstr ""
+msgstr "%1 için hatalı yönelim açısı dizisi girildi. Özgün değere sıfırlayın."
 
 #: skycomponents/imageoverlaycomponent.cpp:203
 #, kde-format
 msgid "Bad scale angle string entered for %1. Reset to original value."
-msgstr ""
+msgstr "%1 için hatalı ölçek açısı dizisi girildi. Özgün değere sıfırlayın."
 
 #: skycomponents/imageoverlaycomponent.cpp:233
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 RA value required."
 msgstr ""
+"Durum, Tamam olarak ayarlanamıyor. İzin verilen 0 olmayan RA değeri "
+"gerekiyor."
 
 #: skycomponents/imageoverlaycomponent.cpp:244
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 DEC value required."
 msgstr ""
+"Durum, Tamam olarak ayarlanamıyor. İzin verilen 0 olmayan DEC değeri "
+"gerekiyor."
 
 #: skycomponents/imageoverlaycomponent.cpp:255
 #, kde-format
 msgid "Cannot set status to OK. Legal orientation value required."
 msgstr ""
+"Durum, Tamam olarak ayarlanamıyor. İzin verilen yönelim değeri gerekiyor."
 
 #: skycomponents/imageoverlaycomponent.cpp:266
 #, kde-format
 msgid "Cannot set status to OK. Legal non-0 a-s/px value required."
 msgstr ""
+"Durum, Tamam olarak ayarlanamıyor. İzin verilen 0 olmayan a-s/pks değeri "
+"gerekiyor."
 
 #: skycomponents/imageoverlaycomponent.cpp:296
 #, kde-format
 msgid "Stored OK status for %1."
-msgstr ""
+msgstr "%1 için Tamam durumu depolandı."
 
 #: skycomponents/imageoverlaycomponent.cpp:390
 #, kde-format
 msgid "Updating from directory: %1"
-msgstr ""
+msgstr "Dizinden güncelleniyor: %1"
 
 #: skycomponents/imageoverlaycomponent.cpp:439
 #, kde-format
 msgid "%1 overlays (%2 new, %3 deleted) %4 solved"
-msgstr ""
+msgstr "%1 kaplama (%2 yeni, %3 silindi) %4 çözüldü"
 
 #: skycomponents/imageoverlaycomponent.cpp:441
 #: skycomponents/imageoverlaycomponent.cpp:560
 #: skycomponents/imageoverlaycomponent.cpp:849
 #, kde-format
 msgid "Image Overlays.  %1 images, %2 available."
-msgstr ""
+msgstr "Görsel kaplamaları. %1 görsel, %2 kullanılabilir."
 
 #: skycomponents/imageoverlaycomponent.cpp:455
 #, kde-format
@@ -78324,49 +78327,42 @@ msgstr "Görsel dosyaları yükleniyor…"
 #: skycomponents/imageoverlaycomponent.cpp:461
 #, kde-format
 msgid "%1 image files loaded."
-msgstr ""
+msgstr "%1 görsel dosyası yüklendi."
 
 #: skycomponents/imageoverlaycomponent.cpp:523
-#, fuzzy, kde-format
-#| msgid "Processing"
+#, kde-format
 msgid "Unprocessed"
-msgstr "İşleniyor"
+msgstr "İşlenmemiş"
 
 #: skycomponents/imageoverlaycomponent.cpp:523
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Bad File"
-msgstr "Dosya"
+msgstr "Hatalı Dosya"
 
 #: skycomponents/imageoverlaycomponent.cpp:523
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solve Failed"
-msgstr "Çözücü Başarısız."
+msgstr "Çözme Başarısız"
 
 #: skycomponents/imageoverlaycomponent.cpp:523
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "HOOK"
+#, kde-format
 msgid "OK"
-msgstr "KANCA"
+msgstr "Tamam"
 
 #: skycomponents/imageoverlaycomponent.cpp:546
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "West-Right"
-msgstr "Sağ/Sol"
+msgstr "Batı–Sağ"
 
 #: skycomponents/imageoverlaycomponent.cpp:547
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "East-Right"
-msgstr "Sağa Döndür"
+msgstr "Doğu–Sağ"
 
 #: skycomponents/imageoverlaycomponent.cpp:601
 #, kde-format
 msgid "Solving: %1. %2 in queue."
-msgstr ""
+msgstr "Çözülüyor: %1. Kuyrukta %2."
 
 #: skycomponents/imageoverlaycomponent.cpp:603
 #, kde-format
@@ -78376,55 +78372,53 @@ msgstr "Çözülüyor: %1."
 #: skycomponents/imageoverlaycomponent.cpp:668
 #, kde-format
 msgid "Can't show %1. Not plate solved."
-msgstr ""
+msgstr "%1 çözülemiyor. Plaka çözülmedi."
 
 #: skycomponents/imageoverlaycomponent.cpp:673
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr ""
+msgstr "%1 gösterilemiyor. Görsel yüklenmedi."
 
 #: skycomponents/imageoverlaycomponent.cpp:706
-#, fuzzy, kde-format
-#| msgid "Autoguiding started."
+#, kde-format
 msgid "Solving aborted."
-msgstr "Otomatik kılavuz başladı."
+msgstr "Çözüm iptal edildi."
 
 #: skycomponents/imageoverlaycomponent.cpp:741
 #, kde-format
 msgid "Skipping already solved: %1."
-msgstr ""
+msgstr "Atlama halihazırda çözüldü: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:760
 #, kde-format
 msgid "%1 already solved. Skipping."
-msgstr ""
+msgstr "%1 halihazırda çözüldü. Atlanıyor."
 
 #: skycomponents/imageoverlaycomponent.cpp:778
 #, kde-format
 msgid "Reloading. Image overlays temporarily disabled."
 msgstr ""
+"Yeniden yükleniyor. Görsel kaplamaları geçici olarak devre dışı bırakıldı."
 
 #: skycomponents/imageoverlaycomponent.cpp:797
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Çözücü zaman aşımı."
+msgstr "Çözücü %1 saniyede zaman aşımına uğradı."
 
 #: skycomponents/imageoverlaycomponent.cpp:803
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "Çözücü Başarısız."
+msgstr "Çözücü %1 saniyede başarısız oldu."
 
 #: skycomponents/imageoverlaycomponent.cpp:816
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr ""
+msgstr "Çözücü %1 saniyede başarılı oldu: RA %2, DEC %3, Ölçek %4, Açı %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:848
 #, kde-format
 msgid "Done solving. %1 available."
-msgstr ""
+msgstr "Çözme bitti. %1 kullanılabilir."
 
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
@@ -78434,7 +78428,7 @@ msgstr "%1 yükleniyor…"
 #: skycomponents/localmeridiancomponent.cpp:20
 #, kde-format
 msgid "Local Meridian Component"
-msgstr ""
+msgstr "Yerel Meridyen Bileşeni"
 
 #. i18n("Loading Milky Way"));
 #. Magellanic clouds
@@ -78457,21 +78451,20 @@ msgid "Loading Small Magellanic Clouds"
 msgstr "Küçük Macellan Bulutları yükleniyor…"
 
 #: skycomponents/notifyupdatesui.cpp:21
-#, fuzzy, kde-format
-#| msgid "New Supernova(e) discovered!"
+#, kde-format
 msgctxt "@title:window"
 msgid "New Supernova(e) Discovered"
-msgstr "Yeni Süpernovalar bulundu!"
+msgstr "Yeni Süpernovalar Bulundu"
 
 #: skycomponents/notifyupdatesui.cpp:38
 #, kde-format
 msgid "Host Galaxy :: %1"
-msgstr "Konak Galaksi :: %1"
+msgstr "Konak Gökada :: %1"
 
 #: skycomponents/notifyupdatesui.cpp:39
 #, kde-format
 msgid "Magnitude :: %1"
-msgstr "Parlaklık :: %1"
+msgstr "Büyüklük :: %1"
 
 #: skycomponents/notifyupdatesui.cpp:40
 #, kde-format
@@ -78481,7 +78474,7 @@ msgstr "Tür :: %1"
 #: skycomponents/notifyupdatesui.cpp:42
 #, kde-format
 msgid "Position :: RA : %1 Dec : %2"
-msgstr "Konum :: RA : %1 Dec : %2"
+msgstr "Konum :: RA : %1 DEC : %2"
 
 #: skycomponents/notifyupdatesui.cpp:43
 #, kde-format
@@ -78492,14 +78485,13 @@ msgstr "Tarih :: %1"
 #: skycomponents/notifyupdatesui.ui:36
 #, kde-format
 msgid "Slew map to object"
-msgstr "Haritayı cisme döndür"
+msgstr "Haritayı nesneye çevir"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: skycomponents/notifyupdatesui.ui:68
-#, fuzzy, kde-format
-#| msgid "New supernova(e) discovered!"
+#, kde-format
 msgid "New supernova(e) discovered"
-msgstr "Yeni süpernovalar bulundu!"
+msgstr "Yeni süpernovalar bulundu"
 
 #: skycomponents/satellitescomponent.cpp:43
 #, kde-format
@@ -78509,25 +78501,23 @@ msgstr "Uydular yükleniyor…"
 #: skycomponents/satellitescomponent.cpp:143
 #, kde-format
 msgid "Update TLEs..."
-msgstr "TLE’leri Güncelle…"
+msgstr "TLE’ler güncelleniyor…"
 
 #: skycomponents/satellitescomponent.cpp:155
 #, kde-format
 msgid "Update %1 satellites"
-msgstr "%1 uyduyu güncelle"
+msgstr "%1 uydu güncelleniyor…"
 
 #: skycomponents/satellitescomponent.cpp:156
-#, fuzzy, kde-format
-#| msgid "Satellite Orbital Elements Update"
+#, kde-format
 msgctxt "@title:window"
 msgid "Satellite Orbital Elements Update"
-msgstr "Uydu Yörünge Elemanları Güncellemesi"
+msgstr "Uydu Yörünge Ögeleri Güncellemesi"
 
 #: skycomponents/skymapcomposite.cpp:127
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to load the DSO database."
-msgstr "%1 konumundaki resim yüklenemedi"
+msgstr "DSO veritabanı yüklenemedi."
 
 #: skycomponents/skymapcomposite.cpp:135
 #, kde-format
@@ -78543,7 +78533,7 @@ msgstr ""
 #: skycomponents/solarsystemcomposite.cpp:25
 #, kde-format
 msgid "Loading solar system"
-msgstr "Güneş Sistemi yükleniyor…"
+msgstr "Güneş sistemi yükleniyor…"
 
 #: skycomponents/starcomponent.cpp:65
 #, kde-format
@@ -78566,15 +78556,14 @@ msgid "Downloading Supernovae updates..."
 msgstr "Supernova güncellemeleri indiriliyor…"
 
 #: skycomponents/supernovaecomponent.cpp:346
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error downloading supernova data: %1"
-msgstr "Resim okuma hatası: %1"
+msgstr "Süpernova verisi indirilirken hata: %1"
 
 #: skymap.cpp:404 skymaplite.cpp:355
 #, kde-format
 msgid "Requested Position Below Horizon"
-msgstr "İstenen konum ufkun altında kalıyor"
+msgstr "İstenen Konum Ufkun Altında"
 
 #: skymap.cpp:405 skymaplite.cpp:356
 #, kde-format
@@ -78583,7 +78572,7 @@ msgid ""
 "Would you like to go there anyway?"
 msgstr ""
 "İstenen konum ufuk çizgisinin altında.\n"
-"Oraya gitmek istiyor musunuz?"
+"Oraya gitmeyi yine de istiyor musunuz?"
 
 #: skymap.cpp:406
 #, kde-format
@@ -78593,19 +78582,16 @@ msgstr "Yine de Git"
 #: skymap.cpp:407
 #, kde-format
 msgid "Keep Position"
-msgstr "Konumu Koru"
+msgstr "Konumu Tut"
 
 #: skymap.cpp:498
-#, fuzzy, kde-format
-#| msgid ""
-#| "Digitized Sky Survey image provided by the Space Telescope Science "
-#| "Institute [public domain]."
+#, kde-format
 msgid ""
 "Digitized Sky Survey image provided by the Space Telescope Science Institute "
 "[free for non-commercial use]."
 msgstr ""
-"Sayısallaştırılmış Gökyüzü İnceleme resmi Uzay Teleskopu Bilim Enstitüsü "
-"[kamu malı] tarafından sağlanmıştır."
+"Uzay Teleskopu Bilim Enstitüsü tarafından sağlanan sayısallaştırılmış "
+"gökyüzü araştırması görseli [ticari olmayan kullanım için ücretsizdir]."
 
 #: skymap.cpp:537
 #, kde-format
@@ -78615,6 +78601,9 @@ msgid ""
 "J2000:\t%3\t%4\n"
 "AzAlt:\t%5\t%6"
 msgstr ""
+"JNow:\t%1\t%2\n"
+"J2000:\t%3\t%4\n"
+"AzAlt:\t%5\t%6"
 
 #: skymap.cpp:600
 #, kde-format
@@ -78622,8 +78611,8 @@ msgid ""
 "Sloan Digital Sky Survey image provided by the Astrophysical Research "
 "Consortium [free for non-commercial use]."
 msgstr ""
-"Sloan Sayısal Gökyüzü İnceleme resmi Astrofizik Araştırma Ortaklığı "
-"tarafından sağlanmıştır [ticari olmayan kullanımlar için serbesttir]."
+"Astrofizik Araştırma Konsorsiyumu tarafından sağlanan Sloan Sayısal Gökyüzü "
+"Araştırması görseli [ticari olmayan kullanım için ücretsizdir]."
 
 #: skymap.cpp:676
 #, kde-format
@@ -78631,53 +78620,51 @@ msgid "Angular distance: %1"
 msgstr "Açısal uzaklık: %1"
 
 #: skymap.cpp:690
-#, fuzzy, kde-format
-#| msgid "Angular distance: %1"
+#, kde-format
 msgid "; Physical distance: %1 pc"
-msgstr "Açısal uzaklık: %1"
+msgstr "; fiziksel uzaklık: %1 pc"
 
 #: skymap.cpp:727
 #, kde-format
 msgid "Star Hopper: Choose a field-of-view"
-msgstr "Yıldız Sekmesi: Bir görüş alanı seç"
+msgstr "Yıldız sekmesi: Bir görüş alanı seç"
 
 #: skymap.cpp:728
 #, kde-format
 msgid "FOV to use for star hopping:"
-msgstr "Yıldız sekmesi için kullanılacak FOV"
+msgstr "Yıldız sekmesi için kullanılacak görüş alanı"
 
 #: skymap.cpp:735
 #, kde-format
 msgid "Star Hopper: Enter field-of-view to use"
-msgstr "Yıldız Sekmesi: Kullanılacak görüş alanı girin"
+msgstr "Yıldız sekmesi: Kullanılacak görüş alanını gir"
 
 #: skymap.cpp:736
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
-msgstr "Yıldız sekmesi için kullanılacak FOV (yaydakika türünden):"
+msgstr "Yıldız sekmesi için kullanılacak görüş alanı (yaydakika):"
 
 #: skymap.cpp:903
 #, kde-format
 msgid "No object selected."
-msgstr "Bir cisim seçilmedi."
+msgstr "Seçili nesne yok."
 
 #: skymap.cpp:903
 #, kde-format
 msgid "Object Details"
-msgstr "Cisim Özellikleri"
+msgstr "Nesne Ayrıntıları"
 
 #: skymapdrawabstract.cpp:191
-#, fuzzy, kde-format
-#| msgid "RA:"
+#, kde-format
 msgctxt "Zenith"
 msgid "Z"
-msgstr "SA:"
+msgstr "Z"
 
 #: skyobjects/jupitermoons.cpp:18
 #, kde-format
 msgctxt "Jupiter's moon Io"
 msgid "Io"
-msgstr "Io"
+msgstr "İo"
 
 #: skyobjects/jupitermoons.cpp:19
 #, kde-format
@@ -78702,7 +78689,7 @@ msgstr "Callisto"
 #: tools/eclipsetool/lunareclipsehandler.h:57
 #, kde-format
 msgid "Earth Shadow"
-msgstr ""
+msgstr "Dünya Gölgesi"
 
 #: skyobjects/ksmoon.cpp:295
 #, kde-format
@@ -78755,7 +78742,7 @@ msgstr "Küçülen hilal"
 #: skyobjects/ksmoon.cpp:317
 #, kde-format
 msgid "unknown"
-msgstr "bilinmeyen"
+msgstr "bilinmiyor"
 
 #: skyobjects/ksplanetbase.cpp:125
 #, kde-format
@@ -78776,18 +78763,17 @@ msgstr "Egzantriklik >= 1,0 veya < −0,001"
 #: skyobjects/satellite.cpp:1244
 #, kde-format
 msgid "Mean motion less than 0.0"
-msgstr ""
+msgstr "Ortalama hareket < 0,0"
 
 #: skyobjects/satellite.cpp:1247
 #, kde-format
 msgid "Semi-latus rectum < 0.0"
-msgstr ""
+msgstr "Semi-latus rektum < 0,0"
 
 #: skyobjects/satellite.cpp:1250
-#, fuzzy, kde-format
-#| msgid "Satellite name"
+#, kde-format
 msgid "Satellite has decayed"
-msgstr "Uydu adı"
+msgstr "Uydu bozuldu"
 
 #: skyobjects/satellite.cpp:1253
 #, kde-format
@@ -78817,17 +78803,17 @@ msgstr "Kuyrukluyıldız"
 #: skyobjects/skyobject.cpp:363 tools/whatsinteresting/wiview.cpp:604
 #, kde-format
 msgid "Asteroid"
-msgstr "Küçük gezegen"
+msgstr "Asteroit"
 
 #: skyobjects/skyobject.cpp:365
 #, kde-format
 msgid "Constellation"
-msgstr "Takımyıldızlar"
+msgstr "Takımyıldız"
 
 #: skyobjects/skyobject.cpp:369
 #, kde-format
 msgid "Galaxy Cluster"
-msgstr "Galaksi Kümesi"
+msgstr "Gökada Kümesi"
 
 #: skyobjects/skyobject.cpp:371
 #, kde-format
@@ -78842,7 +78828,7 @@ msgstr "Radyo Kaynağı"
 #: skyobjects/skyobject.cpp:383
 #, kde-format
 msgid "Multiple Star"
-msgstr "Çok Yıldız"
+msgstr "Çoklu Yıldız"
 
 #: skyobjects/skyobject.cpp:385
 #, kde-format
@@ -78852,7 +78838,7 @@ msgstr "Bilinmeyen Tür"
 #: skyobjects/skyobject.cpp:399
 #, kde-format
 msgid "Show HST Image"
-msgstr "HST Resmini Göster"
+msgstr "HST Görselini Göster"
 
 #: skyobjects/skyobject.cpp:401
 #, kde-format
@@ -78864,7 +78850,7 @@ msgstr ""
 #: skyobjects/skyobject.cpp:405
 #, kde-format
 msgid "Show Spitzer Image"
-msgstr "Spitzer Resmini Göster"
+msgstr "Spitzer Görselini Göster"
 
 #: skyobjects/skyobject.cpp:407
 #, kde-format
@@ -78874,17 +78860,18 @@ msgstr "%1: Spitzer Uzay Teleskopu, NASA/JPL-Caltech izni ile [kamuya açık]"
 #: skyobjects/skyobject.cpp:411
 #, kde-format
 msgid "Show SEDS Image"
-msgstr "SEDS Resmini Göster"
+msgstr "SEDS Görselini Göster"
 
 #: skyobjects/skyobject.cpp:413
 #, kde-format
 msgid "%1: SEDS, http://www.seds.org [free for non-commercial use]"
-msgstr "%1: SEDS, http://www.seds.org [kişisel kullanım için serbest]"
+msgstr ""
+"%1: SEDS, http://www.seds.org [ticari olmayan kullanım için ücretsizdir]"
 
 #: skyobjects/skyobject.cpp:417
 #, kde-format
 msgid "Show KPNO AOP Image"
-msgstr "KPNO AOP Resmini Göster"
+msgstr "KPNO AOP Görselini Göster"
 
 #: skyobjects/skyobject.cpp:419
 #, kde-format
@@ -78892,13 +78879,13 @@ msgid ""
 "%1: Advanced Observing Program at Kitt Peak National Observatory [free for "
 "non-commercial use; no physical reproductions]"
 msgstr ""
-"%1: Kitt Zirvesi Ulusal Gözlemevi ileri Gözlem Programı [fiziksel tekrar "
-"üretimler hariç, ticari amaç gütmeyen kullanımlara açık]"
+"%1: Kitt Zirvesi Ulusal Gözlemevi İleri Gözlem Programı [ticari olmayan "
+"kullanım için ücretsizdir, kopyalamaya izin verilmez]"
 
 #: skyobjects/skyobject.cpp:425
 #, kde-format
 msgid "Show NOAO Image"
-msgstr "NOAO Resmini Göster"
+msgstr "NOAO Görselini Göster"
 
 #: skyobjects/skyobject.cpp:428
 #, kde-format
@@ -78906,8 +78893,8 @@ msgid ""
 "%1: National Optical Astronomy Observatories and AURA [free for non-"
 "commercial use]"
 msgstr ""
-"%1: Ulusal Optik Gökbilim Gözlemevleri ve AURA [ticari amaç gütmeyen "
-"kullanımlara açık]"
+"%1: Ulusal Optik Gökbilim Gözlemevleri ve AURA [ticari olmayan kullanım için "
+"ücretsizdir]"
 
 #: skyobjects/skyobject.cpp:434
 #, kde-format
@@ -78915,8 +78902,8 @@ msgid ""
 "%1: Very Large Telescope, operated by the European Southern Observatory "
 "[free for non-commercial use; no reproductions]"
 msgstr ""
-"%1: Çok Büyük Teleskop, Avrupa Güney Gözlemevi tarafından işletilmektedir. "
-"[tekrarlanan çalışmalar hariç, ticari amaç gütmeyen kullanımlara açık]"
+"%1: Çok Büyük Teleskop, Avrupa Güney Gözlemevi tarafından işletilmektedir "
+"[ticari olmayan kullanım için ücretsizdir, kopyalamaya izin verilmez]"
 
 #: skyobjects/skyobject.cpp:440
 #, kde-format
@@ -78926,14 +78913,14 @@ msgstr "Göster"
 #: skyobjects/skyobject.h:25
 #, kde-format
 msgid "unnamed object"
-msgstr "isimsiz cisim"
+msgstr "adsız nesne"
 
 #: skyobjects/skypoint.cpp:622
 #, kde-format
 msgid "lat and LST parameters should only be used in KSPlanetBase objects."
 msgstr ""
-"enlem ve LST değişkenleri yalnızca KSGezegenTemelli cisimler için "
-"kullanılmalı."
+"Enlem ve LST parametreleri yalnızca KSPlanetBase nesnelerinde "
+"kullanılmalıdır."
 
 #: skyobjects/starobject.cpp:579
 #, kde-format
@@ -79058,27 +79045,28 @@ msgstr "omega"
 #: terrain/terrainrenderer.cpp:366
 #, kde-format
 msgid "Failed to load terrain. Set terrain file in Settings."
-msgstr ""
+msgstr "Arazi yüklenemedi. Ayarlar’da arazi dosyasını ayarlayın."
 
 #: terrain/terrainrenderer.cpp:368
 #, kde-format
 msgid "Failed to load terrain image (%1). Set terrain file in Settings."
-msgstr ""
+msgstr "Arazi görseli yüklenemedi (%1). Ayarlar’da arazi dosyasını ayarlayın."
 
 #: time/timezonerule.cpp:37
 #, kde-format
 msgid "Error parsing TimeZoneRule, setting to empty rule."
-msgstr "Zaman dilimi ayrıştırılma hatası, boş kurala ayarlanıyor."
+msgstr ""
+"TimeZoneRule ayrıştırılırken hata oluştu, kural boş olarak ayarlanıyor."
 
 #: time/timezonerule.cpp:104
 #, kde-format
 msgid "Could not parse %1 as a valid month code."
-msgstr "%1, geçerli bir ay kodu olarak ayrıştırılamadı."
+msgstr "%1 geçerli bir ay kodu olarak ayrıştırılamadı."
 
 #: time/timezonerule.cpp:217
 #, kde-format
 msgid "Could not parse %1 as a valid day code."
-msgstr "%1, geçerli bir gün kodu olarak ayrıştırılamadı."
+msgstr "%1 geçerli bir gün kodu olarak ayrıştırılamadı."
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:2
@@ -79091,9 +79079,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Cisimlerin yerini gökyüzünde isimlerine göre saptayabilirsiniz .\n"
-"\t\t\t Kontrol+F, \"Odaklan->Cisim Bul\" seçeneği veya \"Bul\"\n"
-"\t\t\tAraçlar düğmesini kullanın.\n"
+"\t\t<p>Gökyüzündeki nesneleri adlarına göre bulabilirsiniz.\n"
+"\t\t\tKontrol+F, “İşaretleme → Nesneyi Bul” menü öğesini veya\n"
+"\t\t\t“Nesneyi Bul” araç çubuğu düğmesini kullanın.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79127,13 +79115,12 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Bir cismin her zaman ekranın merkezinde kalması için\n"
-"\t\t\tcismi takip edebilirsiniz.<br/>\n"
-"\t\t\tBunun için \"İşaretleme->Cisim İzle\" Kontrol+T seçeneğini veya "
-"\"kilitlen\"\n"
-"\t\t\tAraçlar çubuğu düğmesini kullanınız. cismi çift tıklayarak veya\n"
-"\t\t\taçılır cisim menüsünden \"Merkezle ve İzle\"'yi seçerek de\n"
-"\t\t\tayni işlemi yapabilirsiniz.\n"
+"\t\t<p>Her zaman görüntüde ortalanmış kalması için bir nesneyi\n"
+"\t\t\ttakip edebilirsiniz.<br/>\n"
+"\t\t\tKontrol+T, “İşaretleme → İzlemeyi Devreye Al” menü ögesini veya\n"
+"\t\t\t\"Kilitle\" araç çubuğu düğmesini kullanın. Nesneyi aynı zamanda\n"
+"\t\t\tüzerine çift tıklayarak veya nesnenin açılır menüsünden “Ortala\n"
+"\t\t\tve İzle”yi seçerek ortalayabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79146,8 +79133,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar El Kitabı, Gökbilim üzerine bir dizi bilgilendirici\n"
-"\t\t\tmakaleler olan AstroInfo Projesi'ni içerir.\n"
+"\t\t<p>K Yıldızlar El Kitabı, astronomi hakkında bilgilendirici\n"
+"\t\t\tyazılar dizisi olan AstroInfo Projesi’ni içerir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79167,13 +79154,12 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Ekranda saat/tarih, coğrafi konumunuz ve gökyüzündeki mevcut merkezi "
-"konum\n"
-"\t\t\t(odak) ile ilgili verileri gösteren üç \"Bilgi Kutusu\" vardır. Bu "
-"kutuları fareyle sürükleyebilir\n"
-"\t\t\tve daha fazla (veya daha az) bilgi göstermek için üzerilerine çift "
-"tıklayarak \"gölgelendirebilirsiniz\".\n"
-"\t\t\tBunları Ayarlar->Bilgi Kutuları menüsünde tamamen gizleyebilirsiniz.\n"
+"\t\t<p>Ekranda tarih/zaman, coğrafi konumunuz ve gökyüzündeki geçerli\n"
+"\t\t\tmerkezi konum (odak) ile ilgili verileri gösteren üç adet “Bilgi\n"
+"\t\t\tKutusu” bulunur. Bu kutuları fareyle sürükleyebilir ve daha fazla\n"
+"\t\t\t(veya daha az) bilgi göstermek için çift tıklayarak “panjur gibi”\n"
+"\t\t\tgizleyebilirsiniz. Bunlar, “Ayarlar → Bilgi Kutuları” menüsünden\n"
+"\t\t\tde tümüyle gizlenebilir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79186,10 +79172,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar’ın tam ekran kipi vardır. Bu kipi, \"Tam Ekran\" araç "
-"çubuğu \n"
-"\t\t\tdüğmesinden veya Kontrol+Üst Karakter+F ye basarak açıp "
-"kapatabilirsiniz.\n"
+"\t\t<p>K Yıldızlar’ın bir tam ekran kipi vardır; bu kipi, “Tam Ekran” araç\n"
+"\t\t\tçubuğu düğmesini kullanarak veya Kontrol+Üst Karakter+F düğmelerine\n"
+"\t\t\tbasarak açabilir/kapatabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79205,11 +79190,11 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar projesini geliştirmemize yardım edin! Daha fazlasını "
-"öğrenmek için https://edu.kde.org/kstars adresindeki web sitemizi ziyaret "
+"\t\t<p>K Yıldızlar projesini geliştirmemize yardımcı olun! Daha fazla bilgi "
+"edinmek için https://edu.kde.org/kstars adresindeki web sitemizi ziyaret "
 "edin ve kstars-devel@kde.org adresindeki posta listemize katılın. Hata "
-"raporları, gökblim teknik bilgi ve bilgisinin katkıları, kod katkıları, "
-"çeviriler ve daha birçok türde katkı ile bize yardımcı olmanızı bekliyoruz!\n"
+"raporları, astronomi ve yöntem bilgisi katkıları, kod katkıları, çeviriler "
+"ve daha birçok şekilde bize yardım etmenizi bekliyoruz!\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79223,9 +79208,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p> N,S,E,W tuşları görüntüyü Kuzey, Güney, Doğu\n"
-"\t\t\tve Batı ufkuna doğru çevirir.  Z tuşu görüntüyü başucu\n"
-"\t\t\tnoktasına çevirir.\n"
+"\t\t<p>N,S,E,W düğmeleri görüntüyü ufuktaki Kuzey, Güney, Doğu ve\n"
+"\t\t\tBatı noktalarına döndürür. Z düğmesi ise görüntüyü başucuna çevirir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79241,10 +79225,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>0-9 tuşları görüntüyü başlıca güneş sistemi cisimlerinden birine "
-"merkezler.\n"
-"\t\t\t0 Güneşe, 3 Aya merkezler. Kalanı Güneşten uzaklık sırasına göresekiz\n"
-"\t\t\tgezegen içindir.\n"
+"\t\t<p>0–9 düğmeleri, görüntüyü Güneş Sistemi’ndeki büyük nesnelerden\n"
+"\t\t\tbirine ortalar. 0, Güneş’i; 3 ise Ay’ı merkezler; geri kalanlar ise "
+"Güneş’e\n"
+"\t\t\tolan uzaklıklarına göre sekiz gezegeni gösterir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79258,9 +79242,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Gökyüzü haritasını yenibir konuma döndürmek için fareyi harita "
-"üzerinde tıklayıp\n"
-"\t\t\tsürükleyin.\n"
+"\t\t<p>Gökyüzü haritasını gökyüzünde yeni bir konuma getirmek için fareyle\n"
+"\t\t\ttıklayın ve sürükleyin.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79274,10 +79257,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Görüntüyü fare imlecinin bulunduğu konuma merkezlemek için\n"
-"\t\t\tçift tıklayın.  Eğer bir cismi çift tıklarsanız, K Yıldızlar otomatik "
-"olarak\n"
-"\t\t\ttakip etmeye başlar.\n"
+"\t\t<p>Fareyle çift tıklayarak görüntüyü fare imlecinin bulunduğu yere\n"
+"\t\t\tortalayın. Bir nesneye çift tıklarsanız K Yıldızlar onu kendiliğinden\n"
+"\t\t\tizlemeye başlayacaktır.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79291,8 +79273,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Durum çubuğu fare imlecinin şu anki gökyüzü koordinatlarını hem\n"
-"\t\t\tEkvatoryal hem de Yatay koordinat sistemlerinde gösterir.\n"
+"\t\t<p>Durum çubuğu, hem Ekvator hem de Yatay koordinat sistemlerinde fare\n"
+"\t\t\timlecinin geçerli gökyüzü koordinatlarını görüntüler.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79316,18 +79298,21 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Görüntüyü yaklaştırıp uzaklaştırmak için farenin sarma tekerleği\n"
-"\t\t\tkullanılabilir veya orta düğmesi basılı iken fareyi ileri geri "
-"kaydırabilirsiniz.  Ayrıca\n"
-"\t\t\t +/- düğmelerini veya araçlar çubuğundaki ve Görünüm menüsündeki  "
-"\"Yaklaş\"/\"Uzaklaş\"\n"
-"\t\t\tögelerini kullanabilirsiniz.  Yaklaşma miktarı Görünüm menüsündeki "
-"\"Açı Büyüklüğüne Yaklaş\"\n"
-"\t\t\t (Üst Karakter+Kontrol+Z) ögesi ile ve Kontrol tuşu basılı iken fareyi "
-"sürükleyerek oluşturacağınız\n"
-"\t\t\tbir dikdörtgen ile yeni pencere sınırlarını grafiksel olarak "
-"belirleyerek ayrıca \n"
-"\t\t\tayarlanabilir.\n"
+"\t\t<p>Görüntü, farenizin sarma tekerleğini döndürerek veya orta fare "
+"düğmesi\n"
+"\t\t\tbasılıyken fareyi yukarı veya aşağı sürükleyerek yakınlaştırılabilir "
+"veya\n"
+"\t\t\tuzaklaştırılabilir. Ayrıca araç çubuğundaki ve Görünüm menüsündeki +/"
+"−\n"
+"\t\t\tdüğmelerini veya “Yakınlaştır”/“Uzaklaştır” ögelerini de "
+"kullanabilirsiniz.\n"
+"\t\t\tYakınlaştırma düzeyi, Görünüm menüsündeki “Açısal Boyuta Yakınlaştır” "
+"ögesi\n"
+"\t\t\tkullanılarak elle ayarlanabilir (Kontrol+Üst Karakter+Z) ve yeni "
+"pencere\n"
+"\t\t\tsınırları için bir dikdörtgen tanımlamak üzere fareyi sürüklerken "
+"Kontrol\n"
+"\t\t\tdüğmesini basılı tutarak grafiksel olarak ayarlayabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79343,10 +79328,9 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>Ana odak noktasının koordinatlarını elle ayarlayabilirsiniz.\n"
-"\t\t\tKontrol+M düğmelerine basın veya “İşaretleme → Koordinatları Elle "
-"Ayarla…”\n"
-"\t\t\tmenü ögesini kullanın ve açılır pencerede istenen koordinatları "
-"girin.\n"
+"\t\t\tKontrol+M düğmelerine basın veya “İşaretleme → Koordinatları\n"
+"\t\t\tElle Ayarla…” menü ögesini kullanın ve açılır pencerede istenen\n"
+"\t\t\tkoordinatları girin.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79360,9 +79344,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Ekvatoryal ve Yatay koordinat sistemleri arasında geçiş\n"
-"\t\t\t yapmak için \"Görünüm->Koordinatlar\" menüsünü kullanın veya boşluk "
-"tuşuna basın.\n"
+"\t\t<p>Ekvator ve Yatay koordinat sistemleri arasında geçiş yapmak\n"
+"\t\t\tiçin “Görünüm → Koordinatlar” menü ögesini kullanın veya boşluk\n"
+"\t\t\tdüğmesine basın.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79378,12 +79362,11 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Zaman ve Tarihi ayarlamak için Kontrol+S düğmelerine basın, \"Zaman-"
-">Zamanı Ayarla\" menü\n"
-"\t\t\tögesini kullanın veya \"Zaman\" araç çubuğu düğmesine basın. K "
-"Yıldız'daki tarihlerin çok uzak\n"
-"\t\t\tolabileceğini unutmayın; -50.000 ile +50.000 arasında herhangi bir "
-"yılı kullanabilirsiniz.\n"
+"\t\t<p>Tarihi ve zamanı ayarlamak için Kontrol+S düğmelerine basın,\n"
+"\t\t\t“Zaman → Zamanı Ayarla” menü ögesini kullanın veya “Zaman” araç\n"
+"\t\t\tçubuğu düğmesine basın. K Yıldızlar’daki tarihlerin çok uzak\n"
+"\t\t\tolabileceğini unutmayın; −50.000 ile +50.000 arasındaki herhangi\n"
+"\t\t\tbir yılı kullanabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79397,9 +79380,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Kontrol+E veya \"Zaman->Zamanı Şimdiye Ayarla\" menü ögesini "
-"kullanarakbenzeştirim saatini\n"
-"\t\t\t İşlemci saati ile eşzamanlayabilirsiniz.\n"
+"\t\t<p>Benzetim saatini CPU saatinizle eşzamanlamak için Kontrol+E\n"
+"\t\t\tdüğmelerini veya “Zaman → Zamanı Şimdiye Ayarla” menü\n"
+"\t\t\tögesini kullanabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79414,10 +79397,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Araçlar Çubuğundaki Dönüş Kutusu K Yıldızlar saatinin kullandığı\n"
-"\t\t\tzaman adımını ayarlamanıza imkan verir. Adımı \"1.0 sn\" yapmak "
-"\"gerçek zamanı sağlar.\".\n"
-"\t\t\tNot: negatif değerler zamanı tersine akıtır.\n"
+"\t\t<p>Araç çubuğundaki döndürme kutusu, K Yıldızlar saatinin kullandığı\n"
+"\t\t\tzaman adımını ayarlamanıza olanak tanır; bunu “1,0 san” olarak\n"
+"\t\t\tayarlamak “gerçek zamanı” sağlar.\n"
+"\t\t\tNot: Negatif değerler zamanın geriye doğru akmasına neden olur.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79430,9 +79413,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Saati Araç çubuğundaki \"Oynat/Duraklat\" düğmesi ile durdurup\n"
-"\t\t\tbaşlatabilir veya \"Zaman->Saati Durdur/Başlat\" seçeneğini "
-"kullanabilirsiniz.\n"
+"\t\t<p>Saati, araç çubuğundaki “Oynat/Duraklat” düğmesini veya\n"
+"\t\t\t“Saat → Saati Durdur” menü ögesini kullanarak durdurabilir\n"
+"\t\t\tveya başlatabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79445,9 +79428,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Benzeştirim saatini basit zaman adımları ile ileri veya geri "
-"alabilirsiniz.\n"
-"\t\t\tBunun için \"&gt;\" veya \"&lt;\" tuşlarına basınız.\n"
+"\t\t<p>“&gt;” veya “&lt;” düğmelerine basarak benzetim saatini tek bir\n"
+"\t\t\tzaman adımı ileri veya geri alabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79460,9 +79442,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Harita üzerinde fareyi tıkladığınızda, gökyüzünde imlece en yakın "
-"cisim\n"
-"\t\t\tdurum çubuğunda tanımlanır.\n"
+"\t\t<p>Haritada farenizle tıkladığınızda, fare imlecine en yakın\n"
+"\t\t\tgökyüzündeki nesne durum çubuğunda tanımlanır.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -80211,9 +80192,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Karanlıktan, şehir konumu, Andromeda Galaksisi (M 31) çıplak gözle "
-"görülebilir! Galaksi bizden 2.2 milyon ışık yılı uzakta ve henüz 3 derece "
-"gözüküyor, 6 derecelik bir görünüm ay kadardır!\n"
+"\t\t<p>Karanlık, kırsal bir yerden, Andromeda Gökadası (M 31) çıplak gözle "
+"görülebilir! Gökada bizden yaklaşık 2,2 milyon ışık yılı uzaklıkta yer alır "
+"ve yine de 3 derecelik görünür bir boyuta sahiptir, bu, dolunayın görünür "
+"boyutunun 6 katıdır!\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -80300,10 +80282,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Edwin Hubble, uzak galaksilerin bizden çok daha yüksek hızlarda "
-"uzaklaşıyor olduğununun ilk ölçümlerini yapmıştı. Bu evrenin genişlemesinin "
-"ilk kanıtlarından. Daha fazlasını K Yıldızlar El kitabı içindeki AstroInfo "
-"projesinde bulabilirsiniz (Yardım->K Yıldızlar El Kitabı).\n"
+"\t\t<p>Edwin Hubble, uzak gökadaların bizden çok hızlı bir şekilde "
+"uzaklaştığını gösteren ilk ölçümleri yaptı. Bu, evrenin genişlemesine dair "
+"erken bir kanıttı. K Yıldızlar El Kitabı’ndaki (Yardım → K Yıldızlar El "
+"Kitabı) AstroInfo projesinden daha fazla bilgi edinin.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -85381,8 +85363,8 @@ msgid ""
 "Center the sky display on this object, and begin tracking it.  Equivalent to "
 "the \"Center and Track\" item in the popup menu."
 msgstr ""
-"Gökyüzü görüntüsünü bu cisime odakla ve izlemeye başla.  Açılır menüdeki "
-"\"Ortala ve İzle\"'ye eşdeğerdir."
+"Gökyüzü görüntüsünü bu nesnenin ortasına getirin ve onu izlemeye başlayın. "
+"Açılır menüdeki “Ortala ve İzle” ögesine eşdeğerdir."
 
 #. i18n: ectx: property (text), widget (QPushButton, CenterButton)
 #: tools/wutdialog.ui:467
@@ -86298,56 +86280,3 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarlayın."
-
-#~ msgid ""
-#~ "When In Sequence, force an Autofocus at the end of the current subframe."
-#~ msgstr ""
-#~ "Sıradayken, geçerli alt karenin sonunda kendiliğinden odaklamayı zorlar."
-
-#~ msgid "Updated base parameters"
-#~ msgstr "Temel parametreler güncellendi"
-
-#~ msgid "Find Stars: Starting scan for stars..."
-#~ msgstr "Yıldızları Bul: Yıldız taramasına başlanılıyor..."
-
-#~ msgid "Find Stars: Jump size %1"
-#~ msgstr "Yıldızları Bul: Atlama boyutu %1"
-
-#~ msgid "Detected %1 stars at %2"
-#~ msgstr "%2 konumunda %1 yıldız algılandı"
-
-#~ msgid "Find Stars: Stars detected, centring range"
-#~ msgstr "Yıldızları Bul: Yıldızlar algılandı, erim ortalanıyor..."
-
-#~ msgid "Find Stars Run %1: Failed"
-#~ msgstr "Yıldızları Bul %1. Pas: Başarısız"
-
-#~ msgid "Pre Autofocus: Failed"
-#~ msgstr "Ön Kendiliğinden Odak: Başarısız"
-
-#~ msgid "Pre Autofocus: exceeded max iterations %1"
-#~ msgstr "Ön Kendiliğinden Odak: En çok %1 yineleme sayısı aşıldı"
-
-#~ msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
-#~ msgstr ""
-#~ "Kaba Ayar Taraması: %1 Başlangıç: %2 Aşırı Tarama: %3: Adım Boyutu: %4"
-
-#~ msgid "Overscan estimate: %1 ticks"
-#~ msgstr "Aşırı Tarama Tahmini: %1 tık"
-
-#~ msgid "Coarse Adj: Failed"
-#~ msgstr "Kaba Ayar: Başarısız"
-
-#~ msgid "Autofocus parameter adjustment"
-#~ msgstr "Kendiliğinden odak parametresi ayarı"
-
-#~ msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
-#~ msgstr ""
-#~ "Odak danışmanı ayar adımı boyutu: %1 -> %2 AF Aşırı Taraması: %3 -> %4"
-
-#~ msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
-#~ msgstr ""
-#~ "Kendiliğinden odak yeniden deneniyor: Adım Boyutu %1 AF Aşırı Taraması %2"
-
-#~ msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-#~ msgstr "Kendiliğinden odak tamamlandı: Adım Boyutu %1 AF Aşırı Taraması %2"
