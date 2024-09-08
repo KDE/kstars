@@ -589,8 +589,15 @@ void ImageOverlayComponent::solveImage(const QString &filename)
     if (!m_Initialized) return;
     m_SolveButton->setText(i18n("Abort"));
     const int solverTimeout = Options::imageOverlayTimeout();
-    auto profiles = Ekos::getDefaultAlignOptionsProfiles();
-    auto parameters = profiles.at(m_SolverProfile->currentIndex());
+
+    QString savedOptionsProfiles = QDir(KSPaths::writableLocation(
+                                            QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
+    auto profiles = (QFile(savedOptionsProfiles).exists()) ?
+                    StellarSolver::loadSavedOptionsProfiles(savedOptionsProfiles) :
+                    Ekos::getDefaultAlignOptionsProfiles();
+
+    const int index = m_SolverProfile->currentIndex();
+    auto parameters = index < profiles.size() ? profiles.at(index) : profiles.at(0);
     // Double search radius
     parameters.search_radius = parameters.search_radius * 2;
 
