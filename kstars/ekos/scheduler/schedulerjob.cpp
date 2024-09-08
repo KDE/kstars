@@ -1078,6 +1078,9 @@ QJsonObject SchedulerJob::toJson() const
         {"startupTime", startupTime.isValid() ? startupTime.toString() : "--"},
         {"completionTime", finishAtTime.isValid() ? finishAtTime.toString() : "--"},
         {"altitude", alt},
+        {"altitudeFormatted", m_AltitudeFormatted},
+        {"startupFormatted", m_StartupFormatted},
+        {"endFormatted", m_EndFormatted},
         {"sequence", sequenceFile.toString() },
     };
 }

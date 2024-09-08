@@ -148,7 +148,11 @@ public:
         /**
          * @brief addJob Add a new job from form values
          */
-        void addJob(SchedulerJob *job = nullptr);
+        Q_INVOKABLE void addJob(SchedulerJob *job = nullptr);
+        /**
+         * @brief addJob Add a new job from form values
+         */
+        Q_INVOKABLE void updateJob(int index = -1);
 
         /**
          * @brief createJob Create a new job from form values.
@@ -285,7 +289,9 @@ protected slots:
              * @brief editJob Edit an observation job
              * @param i index model in queue table
              */
-        void loadJob(QModelIndex i);
+        Q_INVOKABLE void loadJob(QModelIndex i);
+
+        Q_INVOKABLE bool modifyJob(int index = -1);
 
         /**
          * @brief updateSchedulerURL Update scheduler URL after succesful loading a new file.
@@ -320,7 +326,7 @@ protected slots:
         /**
          * @brief clearJobTable delete all rows in the job table
          */
-        void clearJobTable();
+        Q_INVOKABLE void clearJobTable();
 
         /**
          * @brief clearLog Clears log entry
@@ -375,9 +381,9 @@ protected slots:
          * @param clearQueue Clear the queue before loading, or append ESL contents to queue.
          * @param filename If not empty, this file will be used instead of poping up a dialog.
          */
-        bool load(bool clearQueue, const QString &filename = QString());
+        Q_INVOKABLE bool load(bool clearQueue, const QString &filename = QString());
 
-        void resetJobEdit();
+        Q_INVOKABLE void resetJobEdit();
 
         /**
          * @brief updateNightTime update the Twilight restriction with the argument job properties.

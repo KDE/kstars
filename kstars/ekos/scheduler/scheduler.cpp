@@ -780,6 +780,22 @@ void Scheduler::addJob(SchedulerJob *job)
     emit jobsUpdated(moduleState()->getJSONJobs());
 }
 
+void Scheduler::updateJob(int index)
+{
+    if(index > 0)
+    {
+        auto job = moduleState()->jobs().at(index);
+        // if existing, save it
+        if (job != nullptr)
+            saveJob(job);
+        // in any case, reset editing
+        resetJobEdit();
+
+        emit jobsUpdated(moduleState()->getJSONJobs());
+
+    }
+}
+
 bool Scheduler::fillJobFromUI(SchedulerJob *job)
 {
     if (nameEdit->text().isEmpty())
@@ -1133,6 +1149,20 @@ void Scheduler::updateNightTime(SchedulerJob const *job)
 
     QChar const warning(dawn == dusk ? 0x26A0 : '-');
     nightTime->setText(i18n("%1 %2 %3", dusk.toString("hh:mm"), warning, dawn.toString("hh:mm")));
+}
+
+bool Scheduler::modifyJob(int index)
+{
+    // Reset Edit jobs
+    jobUnderEdit = -1;
+
+    if (index < 0)
+        return false;
+
+    queueTable->selectRow(index);
+    auto modelIndex = queueTable->model()->index(index, 0);
+    loadJob(modelIndex);
+    return true;
 }
 
 void Scheduler::loadJob(QModelIndex i)
@@ -1524,6 +1554,7 @@ void Scheduler::updateJobTable(SchedulerJob *job)
                                  .arg(QChar(job->isSettingAtStartup() ? 0x2193 : 0x2191))
                                  .arg(job->getAltitudeAtStartup(), 0, 'f', 1)
                                  .arg(time.toString(startupTimeEdit->displayFormat())));
+            job->setStartupFormatted(startupCell->text());
 
             switch (job->getFileStartupCondition())
             {
@@ -1564,6 +1595,7 @@ void Scheduler::updateJobTable(SchedulerJob *job)
                               .arg(QChar(is_setting ? 0x2193 : 0x2191))
                               .arg(alt, 0, 'f', 1));
         updateCellStyle(job, altitudeCell);
+        job->setAltitudeFormatted(altitudeCell->text());
 
         if (nullptr != altitudeCell->tableWidget())
             altitudeCell->tableWidget()->resizeColumnToContents(altitudeCell->column());
@@ -1579,6 +1611,7 @@ void Scheduler::updateJobTable(SchedulerJob *job)
                                     .arg(QChar(job->isSettingAtStop() ? 0x2193 : 0x2191))
                                     .arg(job->getAltitudeAtStop(), 0, 'f', 1)
                                     .arg(job->getStopTime().toString(startupTimeEdit->displayFormat())));
+            job->setEndFormatted(completionCell->text());
 
             switch (job->getCompletionCondition())
             {
@@ -1698,7 +1731,6 @@ void Scheduler::resetJobEdit()
 
     qCDebug(KSTARS_EKOS_SCHEDULER) << QString("Job '%1' at row #%2 is not longer edited.").arg(job->getName()).arg(
                                        jobUnderEdit + 1);
-
     jobUnderEdit = -1;
 
     watchJobChanges(false);

@@ -642,6 +642,33 @@ class SchedulerJob
             return m_followerJobs;
         }
 
+        void setStartupFormatted(const QString &value)
+        {
+            m_StartupFormatted = value;
+        }
+        const QString &startupFormatted() const
+        {
+            return m_StartupFormatted;
+        }
+
+        void setEndFormatted(const QString &value)
+        {
+            m_EndFormatted = value;
+        }
+        const QString &endFormatted() const
+        {
+            return m_EndFormatted;
+        }
+
+        void setAltitudeFormatted(const QString &value)
+        {
+            m_AltitudeFormatted = value;
+        }
+        const QString &altitudeFormatted() const
+        {
+            return m_AltitudeFormatted;
+        }
+
 private:
         bool runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk,
                 QDateTime *nextPossibleSuccess = nullptr) const;
@@ -742,6 +769,8 @@ private:
         QString m_InitialFilter;
 
         QString dateTimeDisplayFormat;
+
+        QString m_StartupFormatted, m_EndFormatted, m_AltitudeFormatted;
 
         bool lightFramesRequired { false };
         bool m_CalibrationMountPark {false};
