@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 01:44+0000\n"
-"PO-Revision-Date: 2024-09-06 20:40+0300\n"
+"POT-Creation-Date: 2024-09-08 01:46+0000\n"
+"PO-Revision-Date: 2024-09-07 22:26+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4516,7 +4516,7 @@ msgstr "Güney açışı değeri 0,0 ile 360,0 arasında olmalı."
 #: dialogs/focusdialog.cpp:188
 #, kde-format
 msgid "The Altitude value must be between -90.0 and 90.0."
-msgstr "Yükseklik değeri -90,0 ile 90,0 arasında olmalı."
+msgstr "Yükseklik değeri −90,0 ile 90,0 arasında olmalı."
 
 #. i18n: ectx: attribute (title), widget (QWidget, rdTab)
 #: dialogs/focusdialog.ui:36
@@ -15967,45 +15967,45 @@ msgstr "Sınır: %1 °C"
 msgid "Limit: %1 mins"
 msgstr "Sınır: %1 dakika"
 
-#: ekos/capture/camerastate.cpp:895
+#: ekos/capture/camerastate.cpp:902
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Döndürme sonrası yeniden hizalama yapılıyor…"
 
-#: ekos/capture/camerastate.cpp:913
+#: ekos/capture/camerastate.cpp:920
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Kılavuz modülü zaman aşımına uğradı."
 
-#: ekos/capture/camerastate.cpp:945
+#: ekos/capture/camerastate.cpp:952
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "Başlangıç kılavuzluk sapması %1, %2 yaysaniye sınır değerinin altında"
 
-#: ekos/capture/camerastate.cpp:954
+#: ekos/capture/camerastate.cpp:961
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "Başlangıç kılavuzluk sapması %1, %2 yaysaniye sınır değerini aştı"
 
-#: ekos/capture/camerastate.cpp:976
+#: ekos/capture/camerastate.cpp:983
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Meridyen geçişi sonrası kalibrasyonu başarıyla tamamlandı."
 
-#: ekos/capture/camerastate.cpp:990
+#: ekos/capture/camerastate.cpp:997
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "%1 yakalama başlangıcındaki kılavuzluk sapması %2 yaysaniye sınırını aştı."
 
-#: ekos/capture/camerastate.cpp:1004
+#: ekos/capture/camerastate.cpp:1011
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "%1 yakalama başlangıcındaki kılavuzluk sapması %2 yaysaniye değerinin "
 "altında."
 
-#: ekos/capture/camerastate.cpp:1031
+#: ekos/capture/camerastate.cpp:1038
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16014,7 +16014,7 @@ msgstr ""
 "%1 kılavuzluk sapması ardışık %4 örnek için %2 yaysaniyelik sınır değerini "
 "aştı, pozlama askıya alındı ve kılavuz %3 saniyeye kadar bekleniyor."
 
-#: ekos/capture/camerastate.cpp:1078
+#: ekos/capture/camerastate.cpp:1085
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16023,7 +16023,7 @@ msgstr ""
 "%1 kılavuzluk sapması artık %2 yaysaniyelik sınır değerinden daha düşük, "
 "pozlama sürdürülüyor."
 
-#: ekos/capture/camerastate.cpp:1082
+#: ekos/capture/camerastate.cpp:1089
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16032,22 +16032,22 @@ msgstr ""
 "%1 kılavuzluk sapması artık %2 yaysaniyelik sınır değerinden daha düşük, "
 "pozlama %3 saniye içinde sürdürülecek."
 
-#: ekos/capture/camerastate.cpp:1097
+#: ekos/capture/camerastate.cpp:1104
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "%1 kılavuzluk sapması hâlâ %2 yaysaniyelik sınır değerinden yüksek."
 
-#: ekos/capture/camerastate.cpp:1477
+#: ekos/capture/camerastate.cpp:1484
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Geçiş sonrası yeniden hizalaması başarıyla tamamlandı."
 
-#: ekos/capture/camerastate.cpp:1496
+#: ekos/capture/camerastate.cpp:1503
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Geçiş sonrası hizalaması başarısız oldu."
 
-#: ekos/capture/camerastate.cpp:1501
+#: ekos/capture/camerastate.cpp:1508
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Geçiş sonrası hizalaması başarısız oldu. Yeniden deneniyor…"
@@ -24243,65 +24243,65 @@ msgstr "Kılavuz yıldız"
 msgid "guide star"
 msgstr "kılavuz yıldız"
 
-#: ekos/manager/meridianflipstate.cpp:127
+#: ekos/manager/meridianflipstate.cpp:133
 #, kde-format
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Meridyen geçişi etkin değil (takılı dürbün yok)"
 
-#: ekos/manager/meridianflipstate.cpp:134
+#: ekos/manager/meridianflipstate.cpp:140
 #, kde-format
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Meridyen geçişi etkin değil (geçiş istenmedi)"
 
-#: ekos/manager/meridianflipstate.cpp:141
-#: ekos/manager/meridianflipstate.cpp:542
+#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:548
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Meridyen geçişi etkin değil (park durumunda)"
 
-#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:153
 #, kde-format
 msgid "Meridian flip inactive (no target set)"
 msgstr "Meridyen geçişi etkin değil (ayarlı hedef yok)"
 
-#: ekos/manager/meridianflipstate.cpp:186
+#: ekos/manager/meridianflipstate.cpp:192
 #, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Meridyen geçişi etkin değil (meridyen sonrası çevirme)"
 
-#: ekos/manager/meridianflipstate.cpp:202
+#: ekos/manager/meridianflipstate.cpp:208
 #, kde-format
 msgid "Meridian flip in %1"
 msgstr "%1 içindeki meridyen geçişi"
 
-#: ekos/manager/meridianflipstate.cpp:253
+#: ekos/manager/meridianflipstate.cpp:259
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 "Meridyen geçişinin tamamlandığı varsayılıyor; ancak iskele tarafından bilgi "
 "yok."
 
-#: ekos/manager/meridianflipstate.cpp:277
+#: ekos/manager/meridianflipstate.cpp:283
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "Meridyen geçişi başarısız oldu, 4 dakika içinde yeniden denenecek"
 
-#: ekos/manager/meridianflipstate.cpp:281
+#: ekos/manager/meridianflipstate.cpp:287
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr "Başarılı bir meridyen geçişi olmadı, gecikme pek fazla"
 
-#: ekos/manager/meridianflipstate.cpp:288
+#: ekos/manager/meridianflipstate.cpp:294
 #, kde-format
 msgid "Meridian flip completed OK."
 msgstr "Meridyen geçişi başarıyla tamamlandı."
 
-#: ekos/manager/meridianflipstate.cpp:364
+#: ekos/manager/meridianflipstate.cpp:370
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr "Teleskop meridyen geçişini tamamladı."
 
-#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1058
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1058
 #: ekos/observatory/observatory.cpp:1069
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -24309,27 +24309,27 @@ msgstr "Teleskop meridyen geçişini tamamladı."
 msgid "Status: inactive"
 msgstr "Durum: Etkin değil"
 
-#: ekos/manager/meridianflipstate.cpp:423
+#: ekos/manager/meridianflipstate.cpp:429
 #, kde-format
 msgid "Meridian flip planned..."
 msgstr "Meridyen geçişi planlandı…"
 
-#: ekos/manager/meridianflipstate.cpp:427
+#: ekos/manager/meridianflipstate.cpp:433
 #, kde-format
 msgid "Meridian flip waiting..."
 msgstr "Meridyen geçişi bekliyor…"
 
-#: ekos/manager/meridianflipstate.cpp:431
+#: ekos/manager/meridianflipstate.cpp:437
 #, kde-format
 msgid "Meridian flip ready to start..."
 msgstr "Meridyen geçişi başlamaya hazır…"
 
-#: ekos/manager/meridianflipstate.cpp:435
+#: ekos/manager/meridianflipstate.cpp:441
 #, kde-format
 msgid "Meridian flip running..."
 msgstr "Meridyen geçişi sürüyor…"
 
-#: ekos/manager/meridianflipstate.cpp:439
+#: ekos/manager/meridianflipstate.cpp:445
 #, kde-format
 msgid "Meridian flip completed."
 msgstr "Meridyen geçişi tamamlandı."
@@ -69386,7 +69386,7 @@ msgstr "Gözlem Planlayıcısı"
 #: kstarsinit.cpp:456 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
 #, kde-format
 msgid "Altitude vs. Time"
-msgstr "Yükseklik-Zaman Oranı"
+msgstr "Yükseklik–Zaman Oranı"
 
 #: kstarsinit.cpp:459
 #, kde-format
@@ -78676,13 +78676,13 @@ msgstr "Europa"
 #, kde-format
 msgctxt "Jupiter's moon Ganymede"
 msgid "Ganymede"
-msgstr "Ganymede"
+msgstr "Ganimid"
 
 #: skyobjects/jupitermoons.cpp:21
 #, kde-format
 msgctxt "Jupiter's moon Callisto"
 msgid "Callisto"
-msgstr "Callisto"
+msgstr "Kalisto"
 
 #: skyobjects/ksearthshadow.cpp:11 skyobjects/ksplanet.cpp:175
 #: skyobjects/skyobject.cpp:287 tools/eclipsetool.cpp:28
@@ -79458,11 +79458,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Fare imlecini kısa bir süre için beklettiğinizde, en yakın cisim "
-"geçicibir isim\n"
-"\t\t\tetiketi ile tanımlanır. Fareyi yeniden hareket ettirdiğinizde isim "
-"etiketi\n"
-"\t\t\toyomatik olarak kaybolur.\n"
+"\t\t<p>Fare imlecini bir an sabit tuttuğunuzda, en yakın nesne geçici bir\n"
+"\t\t\tad etiketiyle tanımlanacak ve fareyi yeniden hareket ettirdiğinizde "
+"bu\n"
+"\t\t\tetiket kendiliğinden kaybolacaktır.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79476,11 +79475,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Belirli bir cisim hakkında resim bağlantıları ve internet üzerinde "
-"bilgi\n"
-"\t\t\tgibi detaylı seçenekleri içeren açılır menüyü görüntülemek için "
-"fareyi\n"
-"\t\t\tsağ tıklayın.\n"
+"\t\t<p>Belirli bir nesneye ait detaylı seçeneklerin, internet üzerindeki\n"
+"\t\t\tgörsellere ve bilgilere bağlantılar da içerilmek üzere, açıldığı\n"
+"\t\t\tpencereyi açmak için farenin sağ düğmesine basın.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79493,8 +79490,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Özel renkli (öntanımlı renk Kırmızı) derin-uzay cisimleri açılır\n"
-"\t\t\tmenülerinde ek bir URL bağlantısına sahiptir.\n"
+"\t\t<p>Özel bir renge sahip olan derin gökyüzü nesnelerinin (öntanımlı renk\n"
+"\t\t\tkırmızı) açılır menülerinde ek URL bağlantıları kullanılabilirdir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79508,11 +79505,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar’da yıldızlar öntanımlı olarak gerçek renklerinde "
-"gösterilir.\n"
-"\t\t\tBir yıldızın rengi sıcaklığına bağlıdır. Daha soğuk yıldızlar kırmızı "
-"iken,\n"
-"\t\t\tsıcak yıldızlar mavidir.\n"
+"\t\t<p>Öntanımlı olarak, K Yıldızlar’taki yıldızlar gerçekçi renklerle\n"
+"\t\t\tgörüntülenir. Bir yıldızın rengi sıcaklığına bağlıdır; daha soğuk\n"
+"\t\t\tyıldızlar kırmızı, daha sıcak yıldızlar ise mavidir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79528,12 +79523,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Asteroid ve kuyrulu yıldızların (yakın zamanda keşfedilen cisimler "
-"dahil)\n"
-"\t\t\ten son yörünge bilgilerini istiyorsanız \"Karşıdan Veri Yükle\n"
-" aracını \t\t\t(\"Dosya->Yeni Veri İndir\" veya Kontrol+D) güncel gök "
-"günlüğü için sıkça\n"
-"\t\t\tdenetleyin.\n"
+"\t\t<p>Asteroitler ve kuyrukluyıldızlar (yakın zamanda keşfedilen nesneler\n"
+"\t\t\tiçerilmek üzere) hakkında en son yörünge bilgilerini istiyorsanız\n"
+"\t\t\tgüncellenmiş tephemeridler için sık sık “Veri İndir” aracına (“Dosya\n"
+"\t\t\t→ Yeni Veri İndir” veya Kontrol+D) bakın.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79548,13 +79541,11 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Ayrıntılar penceresi gökyüzündeki herhangi bir cisim için çok "
-"miktarda \n"
-"\t\t\tbilgi içerir. Bunlar, koordinatlar, doğma/batma zamanları, İnternet "
-"bağlantıları\n"
-"\t\t\tve sizin kişisel notlarınızdan oluşur.  Ayrıntılar penceresine açılır "
-"menüden \n"
-"\t\t\tveya bir cismi tıkladıktan sonra \"D\"'ye basarak ulaşabilirsiniz.\n"
+"\t\t<p>Ayrıntılar penceresi, gökyüzündeki herhangi bir nesne hakkında\n"
+"\t\t\tkoordinatlar, doğuş/batış saatleri, İnternet bağlantıları ve kendi\n"
+"\t\t\tözel notlarınız içerilmek üzere büyük miktarda bilgi sağlar.\n"
+"\t\t\tAyrıntılar penceresine açılır menüden veya bir nesneye tıklayıp “D”\n"
+"\t\t\tdüğmesine basarak erişin.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79568,10 +79559,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Gökyüzündeki herhangi bir cisime isim etiketi iliştirebilirsiniz. "
-"Bunun için \n"
-"\t\t\taçılır menüden etiketi açıp-kapatabilir veya cismi tıkladıktan sonra \n"
-"\t\t\t \"L\"'ye basabilirsiniz.\n"
+"\t\t<p>Gökyüzündeki herhangi bir nesneye bir ad etiketi ekleyebilirsiniz.\n"
+"\t\t\tEtiketi açılır menüden veya nesneye tıklayıp “L” düğmesine basarak\n"
+"\t\t\taçın/kapatın.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79584,9 +79574,8 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar Astro Hesaplayıcı (Kontrol+C), K Yıldızlar’ın perde "
-"arkasında yaptığı birçok\n"
-"\t\t\thesaplamaya doğrudan erişim sağlar.\n"
+"\t\t<p>K Yıldızlar Astro Hesaplayıcısı (Kontrol+C), K Yıldızlar’ın sahne\n"
+"\t\t\tarkasında yaptığı hesaplamaların çoğuna doğrudan erişmenizi sağlar.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79602,12 +79591,11 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>AAVSO Işık Eğrisi Üreteci aracı (Kontrol+V) Amerika Değişken Yıldız "
-"Gözlemcileri birliğinin\n"
-"\t\t\tsunucularına bağlanır ve günlük takip edilen 6000 den fazla değişken "
-"yıldızdan\n"
-"\t\t\therhangi biri için ışk eğrisi oluşturur.\n"
-"\t\t\ton a daily basis.\n"
+"\t\t<p>AAVSO Işık Eğrisi Oluşturucu aracı (Kontrol+V), Amerikan Değişken "
+"Yıldız\n"
+"\t\t\tGözlemcileri Derneği’ndeki bir sunucuya bağlanır ve günlük olarak\n"
+"\t\t\tizledikleri 6000’den fazla değişken yıldızdan herhangi biri için bir\n"
+"\t\t\tışık eğrisi oluşturur.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79622,22 +79610,17 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Zamana karşı yükseklik aracı (Kontrol+A) seçeceğiniz herhangi cisim "
-"grubu\n"
-"\t\t\tiçin yükseklik eğrileri çizer.  Bu, gözlem oturumları planlamak için\n"
-"\t\t\tharika bir araçtır.\n"
+"\t\t<p>Yükseklik–Zaman Oranı aracı (Kontrol+A), seçtiğiniz herhangi bir "
+"nesne\n"
+"\t\t\tgrubu için yükseklik eğrileri çizecektir. Bu, gözlem seanslarını "
+"planlamak\n"
+"\t\t\tiçin harika bir araçtır.\n"
 "\t\t</p>\n"
 "\t\n"
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:249
-#, fuzzy, kde-format
-#| msgid ""
-#| "\t\t<p>With the What's Up Tonight? tool (Ctrl+U), you can tell at a "
-#| "glance what\n"
-#| "\t\t\tobjects will be visible from your location on a given night.\n"
-#| "\t\t</p>\n"
-#| "\t\n"
+#, kde-format
 msgid ""
 "\t\t<p>With the What's up Tonight? tool (Ctrl+U), you can tell at a glance "
 "what\n"
@@ -79645,10 +79628,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Bu Gece Yukarıda Ne Var? (Kontrol+U) aracı ile, bulunduğunuz konumda "
-"verilen\n"
-"\t\t\tbir gecede, bir bakışta hangi cisimlerin görülebileceğini "
-"söyleyebilirsiniz.\n"
+"\t\t<p>“Bu Gece Ne Var” aracını (Kontrol+U) kullanarak, belirli\n"
+"\t\t\tbir gecede bulunduğunuz konumdan hangi nesnelerin görülebileceğini\n"
+"\t\t\ttek bakışta anlayabilirsiniz.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79668,12 +79650,13 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar, güçlü bir Gözlem Planlama aracına\t\t\t  (Kontrol + L) "
-"sahiptir. Planlayıcı size, gözlemek\t\t\t  istediğiniz cisimlerin listesini "
-"yönetmenize\t\t\t  yardımcı olur ve bu cisimleri seçerek\t\t\t  bir gözlem "
-"oturumu yaratmanızı sağlar.\t\t\t  Planlayıcı, gözlem zamanı atayabilir\t\t"
-"\t  ve bir alan içinde, kolayca gözlemlenmesi\t\t\t  için bir iş akışı "
-"sağlayabilir.</p>\n"
+"\t\t<p>K Yıldızlar’ın güçlü bir Gözlem Planlayıcısı aracı vardır\n"
+"\t\t\t(Kontrol+L). Planlayıcı, gözlemlemek istediğiniz nesnelerin bir\n"
+"\t\t\tistek listesini tutmanıza ve ardından bir gözlem oturumu planlamak\n"
+"\t\t\tiçin bu nesnelerden bazılarını seçmenize yardımcı olur. Planlayıcı\n"
+"\t\t\tdaha sonra gözlem zamanları atayabilir ve nesneleri sahada kolay\n"
+"\t\t\tgözlem iş akışı için zaman sırasına göre sunabilir.\n"
+"\t\t</p>\n"
 "\t\n"
 
 #. i18n: ectx: @info:tipoftheday
@@ -79686,9 +79669,10 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>K Yıldızlar, Ekos adında güçlü bir astrofotograf takımına sahiptir. "
-"Ekos, astrofotograf ekipmanlarını INDI üzerinden yönetmenizi, otomatik "
-"odaklama vb. ve otmatik yakalama dizileri sağlar.\n"
+"\t\t<p>K Yıldızlar’ın Ekos adında güçlü bir astrofotoğrafçılık paketi "
+"vardır! Ekos, INDI aracılığıyla astrofotoğrafçılık ekipmanınızı "
+"denetlemenizi, kendiliğinden odaklama vb. yapmanızı ve kendiliğinden çekim "
+"dizileri ayarlamanızı sağlar.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79702,10 +79686,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Betik oluşturma aracı size karışık D-Bus betiklerini basit bir GUI\n"
-"\t\t\tkullanarak oluşturma imkanı verir.  Betikler daha sonra komut "
-"satırından\n"
-"\t\t\tveya K Yıldızlar’ın içinden çalıştırılabilir.\n"
+"\t\t<p>ScriptBuilder aracı, basit bir kullanıcı arayüzü kullanarak\n"
+"\t\t\tkarmaşık D-Bus betikleri oluşturmanıza olanak tanır. Betikler daha\n"
+"\t\t\tsonra komut satırından veya K Yıldızlar içinden yürütülebilir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79720,10 +79703,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Güneş Sistemi Gözlem aracı (Kontrol+Y) güneş sistemindeki "
-"başlıcagezegenlerin\n"
-"\t\t\tbaşüstündeki konumlarını, o anki benzeştirim tarihine göre verir.\n"
-"\t\t\t\n"
+"\t\t<p>Güneş Sistemi Görüntüleyicisi aracı (Kontrol+Y), geçerli\n"
+"\t\t\tbenzetim tarihine ait başlıca gezegenlerin konumlarını gösteren\n"
+"\t\t\tgüneş sisteminin üstten görünümünü gösterir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79738,11 +79720,9 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Jüpiter Ayları aracı (Kontrol+J) Jüpiterin en büyük aylarının (Io, "
-"Europa,Ganymede\n"
-"\t\t\tve Callisto) göreli konumlarını Dünyadan göründüğü şekli ile ve "
-"zamana \n"
-"\t\t\tbağlı bir fonksiyon olarak verir.\n"
+"\t\t<p>Jüpiter’in Uyduları aracı (Kontrol+J), Jüpiter’in en büyük\n"
+"\t\t\tdört uydusunun (İo, Europa, Ganimid ve Kalisto) Dünya’dan görüldüğü\n"
+"\t\t\tgibi ve zamana bağlı olarak göreceli konumlarını gösterir.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -79759,14 +79739,12 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Gökyüzü resmini, Dosya menüsü ögesi olan\"Gökyüzü Resmini Kaydet\"'i\n"
-"\t\t\tkullanarak veya Kontrol+I tuşlarına basarak bir dosyaya "
-"aktarabilirsiniz.  \n"
-"\t\t\tBuna ek olarak K Yıldızlar’ı komut istemi ile çalıştırabilirsiniz ve "
-"\"--dump\" değişkeni a\n"
-"\t\t\tile resmi programı açmaya bile gerek kalmadan diskinize "
-"kaydedebilirsiniz.\n"
-"\t\t\tBu KDE masaüstünüzde devingen masaüstü resimleri oluşturmak için "
+"\t\t<p>Gökyüzü görselini “Dosya” menüsündeki “Gökyüzü Görselini\n"
+"\t\t\tKaydet” ögesini kullanarak veya Kontrol+I düğmelerine basarak bir\n"
+"\t\t\tdosyaya dışa aktarabilirsiniz. Ayrıca, program penceresini açmadan\n"
+"\t\t\tbile bir gökyüzü görselini diske kaydetmek için K Yıldızlar’ı bir\n"
+"\t\t\tkomut isteminden “--dump” argümanıyla çalıştırabilirsiniz. Bu, KDE\n"
+"\t\t\tmasaüstünüz için devingen duvar kağıdı oluşturmak için "
 "kullanılabilir.\n"
 "\t\t</p>\n"
 "\t\n"
@@ -80307,11 +80285,10 @@ msgstr ""
 "\t\n"
 
 #: tools/altvstime.cpp:47
-#, fuzzy, kde-format
-#| msgid "Altitude vs. Time"
+#, kde-format
 msgctxt "@title:window"
 msgid "Altitude vs. Time"
-msgstr "Yüksekliğe karşı Zaman"
+msgstr "Yükseklik–Zaman Oranı"
 
 #: tools/altvstime.cpp:92
 #, fuzzy, kde-format
@@ -80332,7 +80309,7 @@ msgstr "&Yazdır…"
 #: tools/altvstime.cpp:159
 #, kde-format
 msgid "Print the Altitude vs. time plot"
-msgstr "Yükseklik vs zaman çizelgesi Yazdır"
+msgstr "Yükseklik–Zaman Oranı grafiğini yazdır"
 
 #: tools/altvstime.cpp:579 tools/altvstime.cpp:949
 #, kde-format
@@ -80374,15 +80351,15 @@ msgid ""
 "RA and Dec coordinates of the object, and then press the \"Plot\" button to "
 "add its curve to the plot."
 msgstr ""
-"bu alanı kullanmak için iki yol vardır:  \n"
+"Bu alanı kullanmanın iki yolu vardır:\n"
 "\n"
-"1. Yalnızca bilinen cismin adını yazın ve \"Çizdir\" (veya Giriş) düğmesine "
-"basın. cismin Yükseklik-Zaman eğrisi çizime eklenecek ve koordinatları altta "
-"gösterilecektir.\n"
+"1. Bilinen bir nesnenin adını yazın ve “Plot” düğmesine basın (veya Enter'a "
+"basın). Nesnenin Yükseklik–Zaman Oranı eğrisi grafiğe eklenecek ve "
+"koordinatları aşağıda gösterilecektir.\n"
 "\n"
-"2. Özel bir cisim için isim etiketini yazın.  cismin ayrıca SA ve DA "
-"koordinatlarını belirtmeniz gerekiyor. Daha sonra ilgili eğriyi çizime "
-"eklemek için \"Çizdir\" düğmesine basın."
+"2. Özel bir nesne için bir ad etiketi yazın. Ayrıca nesnenin RA ve Dec "
+"koordinatlarını belirtmeniz ve ardından eğrisini grafiğe eklemek için “Plot” "
+"düğmesine basmanız gerekecektir."
 
 #. i18n: ectx: property (text), widget (QPushButton, browseButton)
 #. i18n: ectx: property (text), widget (QPushButton, Obj1FindButton)
@@ -83131,23 +83108,19 @@ msgstr "WUT penceresini aç"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:345
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the What's up tonight dialog, from which objects can be added to "
-#| "the list"
+#, kde-format
 msgid ""
 "Opens the What's up Tonight dialog, from which objects can be added to the "
 "list"
 msgstr ""
-"Listeye cisimlerinin eklenebileceği \"Bu gece neler oluyor\" penceresini "
-"açar."
+"“Bu Gece Ne Var” iletişim kutusunu açar, buradan listeye nesneler "
+"eklenebilir."
 
 #. i18n: ectx: property (text), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:348
-#, fuzzy, kde-format
-#| msgid "What's up Tonight"
+#, kde-format
 msgid "What's up Tonight..."
-msgstr "Bu Gece Neler Olacak"
+msgstr "Bu Gece Ne Var…"
 
 #. i18n: ectx: property (text), widget (QPushButton, batchAddButton)
 #: tools/observinglist.ui:355
@@ -84954,11 +84927,10 @@ msgid "Size: %1"
 msgstr "Boyut: %1"
 
 #: tools/wutdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "What's up Tonight"
+#, kde-format
 msgctxt "@title:window"
 msgid "What's up Tonight"
-msgstr "Bu Gece Neler Olacak"
+msgstr "Bu Gece Ne Var"
 
 #: tools/wutdialog.cpp:70 tools/wutdialog.cpp:650
 #, kde-format
@@ -85073,16 +85045,13 @@ msgstr "Yeni bir tarih seçin"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, DateButton)
 #: tools/wutdialog.ui:46
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to select a new date for the \"What's Up Tonight\" "
-#| "tool.  Note that the date of the main window is not changed."
+#, kde-format
 msgid ""
 "Press this button to select a new date for the \"What's up Tonight\" tool.  "
 "Note that the date of the main window is not changed."
 msgstr ""
-"Bu düğmeye \"Bu gece ne var\" aracı için yeni bir tarih belirlemek üzere "
-"basın.  Ana pencerenin tarihinin değişmediğine dikkat edin."
+"“Bu Gece Ne Var” aracı için yeni bir tarih seçmek üzere bu düğmeye basın. "
+"Ana pencerenin tarihinin değiştirilmediğine dikkat edin."
 
 #. i18n: ectx: property (text), widget (QPushButton, DateButton)
 #: tools/wutdialog.ui:49
@@ -85104,16 +85073,13 @@ msgstr "Yeni bir coğrafik konum seçin"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:89
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to select a new geographic location for the \"What's Up "
-#| "Tonight\" tool.  Note that the location of the main window is not changed."
+#, kde-format
 msgid ""
 "Press this button to select a new geographic location for the \"What's up "
 "Tonight\" tool.  Note that the location of the main window is not changed."
 msgstr ""
-"Bu düğmeye \"Bu gece ne var\" aracı için yeni bir konum belirlemek üzere "
-"basın.  Ana pencerenin konumunun değişmediğine dikkat edin."
+"“Bu Gece Ne Var” aracı için yeni bir coğrafi konum seçmek için bu düğmeye "
+"basın. Ana pencerenin konumunun değişmediğini unutmayın."
 
 #. i18n: ectx: property (text), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:92
@@ -85135,13 +85101,7 @@ msgstr "Zaman aralığını seçin"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "By default, the \"What's Up Tonight\" tool displays all objects which are "
-#| "above the horizon between sunset and midnight (i.e., \"in the evening"
-#| "\").  You can also choose to show objects which are up between midnight "
-#| "and dawn (i.e., \"in the morning\"), or objects which are up at any time "
-#| "between sunset and sunrise (i.e., \"any time tonight\")"
+#, kde-format
 msgid ""
 "By default, the \"What's up Tonight\" tool displays all objects which are "
 "above the horizon between sunset and midnight (i.e., \"in the evening\").  "
@@ -85149,11 +85109,11 @@ msgid ""
 "(i.e., \"in the morning\"), or objects which are up at any time between "
 "sunset and sunrise (i.e., \"any time tonight\")"
 msgstr ""
-"\"Bu Gece Ne Var\" aracı, öntanımlı olarak günbatımından gece yarısına kadar "
-"(\"akşam üstü\") ufkun üzerinde olan tüm cisimleri gösterir.  Gece "
-"yarısından şafak vaktine kadar (\"sabahleyin\") veya gün batımından gün "
-"doğumuna kadar (\"bu gece herhangi bir zaman\") yukarıda olan bir cisimleri "
-"göstermeyi seçebilirsiniz."
+"Öntanımlı olarak, “Bu Gece Ne Var” aracı günbatımı ile geceyarısı arasında "
+"ufkun üzerinde olan tüm nesneleri görüntüler (yani, “akşam”). Ayrıca "
+"geceyarısı ile gündoğumu vakti arasında (yani, “sabah”) olan nesneleri veya "
+"günbatımı ile gündoğumu arasındaki herhangi bir zamanda (yani, “bu gece "
+"herhangi bir zaman”) olan nesneleri göstermeyi seçebilirsiniz."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:128

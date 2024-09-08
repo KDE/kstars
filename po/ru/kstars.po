@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 01:44+0000\n"
+"POT-Creation-Date: 2024-09-08 01:46+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -16843,18 +16843,18 @@ msgstr ""
 msgid "Limit: %1 mins"
 msgstr "Настройки симулятора"
 
-#: ekos/capture/camerastate.cpp:895
+#: ekos/capture/camerastate.cpp:902
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Выполняется повторное выравнивание после перекладывания..."
 
-#: ekos/capture/camerastate.cpp:913
+#: ekos/capture/camerastate.cpp:920
 #, fuzzy, kde-format
 #| msgid "Guiding timed out."
 msgid "Guide module timed out."
 msgstr "Истекло время гидирования."
 
-#: ekos/capture/camerastate.cpp:945
+#: ekos/capture/camerastate.cpp:952
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16864,7 +16864,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/camerastate.cpp:954
+#: ekos/capture/camerastate.cpp:961
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16874,13 +16874,13 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/camerastate.cpp:976
+#: ekos/capture/camerastate.cpp:983
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 "Калибровка перекладывания после прохождения меридиана успешно завершена."
 
-#: ekos/capture/camerastate.cpp:990
+#: ekos/capture/camerastate.cpp:997
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16890,7 +16890,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/camerastate.cpp:1004
+#: ekos/capture/camerastate.cpp:1011
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16900,7 +16900,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/camerastate.cpp:1031
+#: ekos/capture/camerastate.cpp:1038
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
@@ -16912,7 +16912,7 @@ msgstr ""
 "Отклонение %1 гидирования достигло предела в %2 угл. секунды, прерываем "
 "экспозицию."
 
-#: ekos/capture/camerastate.cpp:1078
+#: ekos/capture/camerastate.cpp:1085
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16921,7 +16921,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/camerastate.cpp:1082
+#: ekos/capture/camerastate.cpp:1089
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16933,7 +16933,7 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/camerastate.cpp:1097
+#: ekos/capture/camerastate.cpp:1104
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16943,18 +16943,18 @@ msgstr ""
 "Отклонение %1 гидирования стало менее предела в %2 угл. секунды, "
 "возобновляем экспозицию."
 
-#: ekos/capture/camerastate.cpp:1477
+#: ekos/capture/camerastate.cpp:1484
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Повторное выравнивание после перекладывания успешно завершено."
 
-#: ekos/capture/camerastate.cpp:1496
+#: ekos/capture/camerastate.cpp:1503
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed."
 msgstr "Истекло время выравнивания."
 
-#: ekos/capture/camerastate.cpp:1501
+#: ekos/capture/camerastate.cpp:1508
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed. Retrying..."
@@ -26064,71 +26064,71 @@ msgstr "Гид"
 msgid "guide star"
 msgstr "Гид"
 
-#: ekos/manager/meridianflipstate.cpp:127
+#: ekos/manager/meridianflipstate.cpp:133
 #, fuzzy, kde-format
 #| msgid "Status:"
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Состояние:"
 
-#: ekos/manager/meridianflipstate.cpp:134
+#: ekos/manager/meridianflipstate.cpp:140
 #, fuzzy, kde-format
 #| msgid "Status:"
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Состояние:"
 
-#: ekos/manager/meridianflipstate.cpp:141
-#: ekos/manager/meridianflipstate.cpp:542
+#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:548
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip inactive (parked)"
 msgstr "Перекладывание меридиана"
 
-#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:153
 #, fuzzy, kde-format
 #| msgid "Status:"
 msgid "Meridian flip inactive (no target set)"
 msgstr "Состояние:"
 
-#: ekos/manager/meridianflipstate.cpp:186
+#: ekos/manager/meridianflipstate.cpp:192
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Перекладывание меридиана"
 
-#: ekos/manager/meridianflipstate.cpp:202
+#: ekos/manager/meridianflipstate.cpp:208
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip in %1"
 msgstr "Перекладывание меридиана"
 
-#: ekos/manager/meridianflipstate.cpp:253
+#: ekos/manager/meridianflipstate.cpp:259
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:277
+#: ekos/manager/meridianflipstate.cpp:283
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "Перекладывание меридиана"
 
-#: ekos/manager/meridianflipstate.cpp:281
+#: ekos/manager/meridianflipstate.cpp:287
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:288
+#: ekos/manager/meridianflipstate.cpp:294
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip completed OK."
 msgstr "Перекладывание меридиана"
 
-#: ekos/manager/meridianflipstate.cpp:364
+#: ekos/manager/meridianflipstate.cpp:370
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr "Телескопа завершил перекладывание по меридиану."
 
-#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1058
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1058
 #: ekos/observatory/observatory.cpp:1069
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -26137,31 +26137,31 @@ msgstr "Телескопа завершил перекладывание по м
 msgid "Status: inactive"
 msgstr "Состояние:"
 
-#: ekos/manager/meridianflipstate.cpp:423
+#: ekos/manager/meridianflipstate.cpp:429
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip planned..."
 msgstr "Перекладывание меридиана"
 
-#: ekos/manager/meridianflipstate.cpp:427
+#: ekos/manager/meridianflipstate.cpp:433
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip waiting..."
 msgstr "Перекладывание меридиана"
 
-#: ekos/manager/meridianflipstate.cpp:431
+#: ekos/manager/meridianflipstate.cpp:437
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip ready to start..."
 msgstr "Перекладывание меридиана"
 
-#: ekos/manager/meridianflipstate.cpp:435
+#: ekos/manager/meridianflipstate.cpp:441
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip running..."
 msgstr "Перекладывание меридиана"
 
-#: ekos/manager/meridianflipstate.cpp:439
+#: ekos/manager/meridianflipstate.cpp:445
 #, fuzzy, kde-format
 #| msgid "Meridian Flip..."
 msgid "Meridian flip completed."

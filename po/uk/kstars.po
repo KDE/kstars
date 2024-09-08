@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 01:44+0000\n"
+"POT-Creation-Date: 2024-09-08 01:46+0000\n"
 "PO-Revision-Date: 2024-09-02 09:44+0300\n"
 "Last-Translator: Fracture dept <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -16100,50 +16100,50 @@ msgstr "Обмеження: %1 °C"
 msgid "Limit: %1 mins"
 msgstr "Обмеження: %1 хвилин"
 
-#: ekos/capture/camerastate.cpp:895
+#: ekos/capture/camerastate.cpp:902
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Виконуємо повторне вирівнювання після переходу…"
 
-#: ekos/capture/camerastate.cpp:913
+#: ekos/capture/camerastate.cpp:920
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Перевищено час очікування на дані модуля наведення."
 
-#: ekos/capture/camerastate.cpp:945
+#: ekos/capture/camerastate.cpp:952
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "Початкове відхилення під час наведення, %1, є нижчим за значення у %2 "
 "кутових секунд"
 
-#: ekos/capture/camerastate.cpp:954
+#: ekos/capture/camerastate.cpp:961
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "Початкове відхилення під час наведення, %1, перевищує граничне значення у %2 "
 "кутових секунд"
 
-#: ekos/capture/camerastate.cpp:976
+#: ekos/capture/camerastate.cpp:983
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Повторне калібрування після переходу за меридіаном успішно завершено."
 
-#: ekos/capture/camerastate.cpp:990
+#: ekos/capture/camerastate.cpp:997
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Відхилення наведення на початку захоплення, %1, перевищує обмеження у %2 "
 "кутових секунд."
 
-#: ekos/capture/camerastate.cpp:1004
+#: ekos/capture/camerastate.cpp:1011
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Відхилення наведення на початку захоплення, %1, є нижчим за обмеження у %2 "
 "кутових секунд."
 
-#: ekos/capture/camerastate.cpp:1031
+#: ekos/capture/camerastate.cpp:1038
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16153,7 +16153,7 @@ msgstr ""
 "секунд для %4 послідовних вимірювань. Експонування призупинено. Очікуємо на "
 "відновлення працездатності засобу наведення за %3 секунд."
 
-#: ekos/capture/camerastate.cpp:1078
+#: ekos/capture/camerastate.cpp:1085
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16162,7 +16162,7 @@ msgstr ""
 "Зараз відхилення під час наведення %1 не перевищує граничного значення у %2 "
 "кутових секунд. Відновлюємо експонування."
 
-#: ekos/capture/camerastate.cpp:1082
+#: ekos/capture/camerastate.cpp:1089
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16171,24 +16171,24 @@ msgstr ""
 "Зараз відхилення під час наведення %1 не перевищує граничного значення у %2 "
 "кутових секунд. Відновлюємо експонування за %3 секунд."
 
-#: ekos/capture/camerastate.cpp:1097
+#: ekos/capture/camerastate.cpp:1104
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "Зараз відхилення під час наведення %1 усе ще перевищує граничне значення у "
 "%2 кутових секунд."
 
-#: ekos/capture/camerastate.cpp:1477
+#: ekos/capture/camerastate.cpp:1484
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Повторне вирівнювання після переходу успішно завершено."
 
-#: ekos/capture/camerastate.cpp:1496
+#: ekos/capture/camerastate.cpp:1503
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Невдала спроба вирівнювання після переходу."
 
-#: ekos/capture/camerastate.cpp:1501
+#: ekos/capture/camerastate.cpp:1508
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Невдала спроба вирівнювання після переходу. Повторюємо спробу…"
@@ -24506,66 +24506,66 @@ msgstr "Напрямна зірка"
 msgid "guide star"
 msgstr "напрямна зірка"
 
-#: ekos/manager/meridianflipstate.cpp:127
+#: ekos/manager/meridianflipstate.cpp:133
 #, kde-format
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Перехід за меридіаном неактивний (немає з'єднаних телескопів)"
 
-#: ekos/manager/meridianflipstate.cpp:134
+#: ekos/manager/meridianflipstate.cpp:140
 #, kde-format
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Перехід за меридіаном неактивний (немає запиту на перехід)"
 
-#: ekos/manager/meridianflipstate.cpp:141
-#: ekos/manager/meridianflipstate.cpp:542
+#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:548
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Перехід за меридіаном неактивний (паркування)"
 
-#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:153
 #, kde-format
 msgid "Meridian flip inactive (no target set)"
 msgstr "Перехід за меридіаном неактивний (не встановлено цілі)"
 
-#: ekos/manager/meridianflipstate.cpp:186
+#: ekos/manager/meridianflipstate.cpp:192
 #, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Перехід за меридіаном неактивний (нахил за меридіаном)"
 
-#: ekos/manager/meridianflipstate.cpp:202
+#: ekos/manager/meridianflipstate.cpp:208
 #, kde-format
 msgid "Meridian flip in %1"
 msgstr "Перехід за меридіаном за %1"
 
-#: ekos/manager/meridianflipstate.cpp:253
+#: ekos/manager/meridianflipstate.cpp:259
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 "Припускаємо завершення переходу за меридіаном, але бік основи невідомий."
 
-#: ekos/manager/meridianflipstate.cpp:277
+#: ekos/manager/meridianflipstate.cpp:283
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr ""
 "не вдалося виконати перехід за меридіаном, спробу буде повторено за 4 хвилини"
 
-#: ekos/manager/meridianflipstate.cpp:281
+#: ekos/manager/meridianflipstate.cpp:287
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 "Не вдалося виконати успішний перехід за меридіаном — надто довга затримка"
 
-#: ekos/manager/meridianflipstate.cpp:288
+#: ekos/manager/meridianflipstate.cpp:294
 #, kde-format
 msgid "Meridian flip completed OK."
 msgstr "Перехід за меридіаном успішно завершено."
 
-#: ekos/manager/meridianflipstate.cpp:364
+#: ekos/manager/meridianflipstate.cpp:370
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr "Телескопом успішно виконано перехід за меридіаном."
 
-#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1058
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1058
 #: ekos/observatory/observatory.cpp:1069
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -24573,27 +24573,27 @@ msgstr "Телескопом успішно виконано перехід за
 msgid "Status: inactive"
 msgstr "Стан: неактивний"
 
-#: ekos/manager/meridianflipstate.cpp:423
+#: ekos/manager/meridianflipstate.cpp:429
 #, kde-format
 msgid "Meridian flip planned..."
 msgstr "Заплановано перехід за меридіаном…"
 
-#: ekos/manager/meridianflipstate.cpp:427
+#: ekos/manager/meridianflipstate.cpp:433
 #, kde-format
 msgid "Meridian flip waiting..."
 msgstr "Очікуємо на перехід за меридіаном…"
 
-#: ekos/manager/meridianflipstate.cpp:431
+#: ekos/manager/meridianflipstate.cpp:437
 #, kde-format
 msgid "Meridian flip ready to start..."
 msgstr "Готові до переходу за меридіаном…"
 
-#: ekos/manager/meridianflipstate.cpp:435
+#: ekos/manager/meridianflipstate.cpp:441
 #, kde-format
 msgid "Meridian flip running..."
 msgstr "Виконуємо перехід за меридіаном…"
 
-#: ekos/manager/meridianflipstate.cpp:439
+#: ekos/manager/meridianflipstate.cpp:445
 #, kde-format
 msgid "Meridian flip completed."
 msgstr "Перехід за меридіаном завершено."

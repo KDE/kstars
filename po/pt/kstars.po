@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 01:44+0000\n"
+"POT-Creation-Date: 2024-09-08 01:46+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -17421,48 +17421,48 @@ msgstr ""
 msgid "Limit: %1 mins"
 msgstr "Limites"
 
-#: ekos/capture/camerastate.cpp:895
+#: ekos/capture/camerastate.cpp:902
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "A efectuar o realinhamento pós-inversão..."
 
-#: ekos/capture/camerastate.cpp:913
+#: ekos/capture/camerastate.cpp:920
 #, kde-format
 msgid "Guide module timed out."
 msgstr "O módulo de guia expirou o tempo limite."
 
-#: ekos/capture/camerastate.cpp:945
+#: ekos/capture/camerastate.cpp:952
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "O desvio inicial da guia %1 está abaixo do valor-limite de %2 arco-segundos."
 
-#: ekos/capture/camerastate.cpp:954
+#: ekos/capture/camerastate.cpp:961
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "O desvio inicial da guia %1 é superior ao valor-limite de %2 arco-segundos"
 
-#: ekos/capture/camerastate.cpp:976
+#: ekos/capture/camerastate.cpp:983
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "A calibração da inversão do meridiano terminou com sucesso."
 
-#: ekos/capture/camerastate.cpp:990
+#: ekos/capture/camerastate.cpp:997
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "O desvio da guia de %1 no arranque da captura é superior ao valor-limite de "
 "%2 arco-segundos."
 
-#: ekos/capture/camerastate.cpp:1004
+#: ekos/capture/camerastate.cpp:1011
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "O desvio da guia de %1 no arranque da captura é inferior ao valor-limite de "
 "%2 arco-segundos"
 
-#: ekos/capture/camerastate.cpp:1031
+#: ekos/capture/camerastate.cpp:1038
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -17472,7 +17472,7 @@ msgstr ""
 "amostras consecutivas; a suspender a exposição e a esperar pela guia até %3 "
 "segundos."
 
-#: ekos/capture/camerastate.cpp:1078
+#: ekos/capture/camerastate.cpp:1085
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -17481,7 +17481,7 @@ msgstr ""
 "O desvio da guia %1 é agora menor que o valor-limite de %2 arco-segundos; a "
 "retomar a exposição."
 
-#: ekos/capture/camerastate.cpp:1082
+#: ekos/capture/camerastate.cpp:1089
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -17490,23 +17490,23 @@ msgstr ""
 "O desvio da guia %1 é agora menor que o valor-limite de %2 arco-segundos; a "
 "retomar a exposição daqui a %3 segundos."
 
-#: ekos/capture/camerastate.cpp:1097
+#: ekos/capture/camerastate.cpp:1104
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "O desvio da guia %1 ainda é maior que o valor-limite de %2 arco-segundos."
 
-#: ekos/capture/camerastate.cpp:1477
+#: ekos/capture/camerastate.cpp:1484
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "O realinhamento pós-inversão terminou com sucesso."
 
-#: ekos/capture/camerastate.cpp:1496
+#: ekos/capture/camerastate.cpp:1503
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "O alinhamento da pós-inversão foi mal-sucedido."
 
-#: ekos/capture/camerastate.cpp:1501
+#: ekos/capture/camerastate.cpp:1508
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "O alinhamento da pós-inversão foi mal-sucedido. A repetir..."
@@ -26094,38 +26094,38 @@ msgstr "Estrela-guia"
 msgid "guide star"
 msgstr "estrela guia"
 
-#: ekos/manager/meridianflipstate.cpp:127
+#: ekos/manager/meridianflipstate.cpp:133
 #, kde-format
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Inversão do meridiano inactiva (sem telescópio ligado)"
 
-#: ekos/manager/meridianflipstate.cpp:134
+#: ekos/manager/meridianflipstate.cpp:140
 #, kde-format
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Inversão do meridiano inactiva (inversão não pedida)"
 
-#: ekos/manager/meridianflipstate.cpp:141
-#: ekos/manager/meridianflipstate.cpp:542
+#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:548
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Inversão do meridiano inactiva (bloqueada)"
 
-#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:153
 #, kde-format
 msgid "Meridian flip inactive (no target set)"
 msgstr "Inversão do meridiano inactiva (sem alvo definido)"
 
-#: ekos/manager/meridianflipstate.cpp:186
+#: ekos/manager/meridianflipstate.cpp:192
 #, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Inversão do meridiano inactiva (deslocamento após o meridiano)"
 
-#: ekos/manager/meridianflipstate.cpp:202
+#: ekos/manager/meridianflipstate.cpp:208
 #, kde-format
 msgid "Meridian flip in %1"
 msgstr "Inversão do meridiano em %1"
 
-#: ekos/manager/meridianflipstate.cpp:253
+#: ekos/manager/meridianflipstate.cpp:259
 #, fuzzy, kde-format
 #| msgid "Meridian flip failed - time too short, pier side unknown."
 msgid "Assuming meridian flip completed, but pier side unknown."
@@ -26133,29 +26133,29 @@ msgstr ""
 "A inversão do meridiano falhou - o tempo é demasiado curto e o lado de "
 "observação é desconhecido."
 
-#: ekos/manager/meridianflipstate.cpp:277
+#: ekos/manager/meridianflipstate.cpp:283
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "a inversão do meridiano falhou, a repetir daqui a 4 minutos"
 
-#: ekos/manager/meridianflipstate.cpp:281
+#: ekos/manager/meridianflipstate.cpp:287
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 "Não foi possível uma Inversão de Meridiano com sucesso; o atraso é demasiado "
 "grande"
 
-#: ekos/manager/meridianflipstate.cpp:288
+#: ekos/manager/meridianflipstate.cpp:294
 #, kde-format
 msgid "Meridian flip completed OK."
 msgstr "A inversão do meridiano terminou com sucesso."
 
-#: ekos/manager/meridianflipstate.cpp:364
+#: ekos/manager/meridianflipstate.cpp:370
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr "O telescópio terminou a inversão do meridiano."
 
-#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1058
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1058
 #: ekos/observatory/observatory.cpp:1069
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -26163,27 +26163,27 @@ msgstr "O telescópio terminou a inversão do meridiano."
 msgid "Status: inactive"
 msgstr "Estado: inactivo"
 
-#: ekos/manager/meridianflipstate.cpp:423
+#: ekos/manager/meridianflipstate.cpp:429
 #, kde-format
 msgid "Meridian flip planned..."
 msgstr "Inversão do meridiano planeada..."
 
-#: ekos/manager/meridianflipstate.cpp:427
+#: ekos/manager/meridianflipstate.cpp:433
 #, kde-format
 msgid "Meridian flip waiting..."
 msgstr "Inversão do meridiano em espera..."
 
-#: ekos/manager/meridianflipstate.cpp:431
+#: ekos/manager/meridianflipstate.cpp:437
 #, kde-format
 msgid "Meridian flip ready to start..."
 msgstr "A inversão do meridiano está prestes a iniciar..."
 
-#: ekos/manager/meridianflipstate.cpp:435
+#: ekos/manager/meridianflipstate.cpp:441
 #, kde-format
 msgid "Meridian flip running..."
 msgstr "Inversão do meridiano em execução..."
 
-#: ekos/manager/meridianflipstate.cpp:439
+#: ekos/manager/meridianflipstate.cpp:445
 #, kde-format
 msgid "Meridian flip completed."
 msgstr "Inversão do meridiano terminada."

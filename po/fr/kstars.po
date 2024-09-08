@@ -21,10 +21,10 @@
 # Steve <stax@ik.me>, 2022, 2023, 2024.
 msgid ""
 msgstr ""
-"Project-Id-Version: kstars_3.7.0\n"
+"Project-Id-Version: kstars_3.7.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 01:44+0000\n"
-"PO-Revision-Date: 2024-09-04 09:43+0200\n"
+"POT-Creation-Date: 2024-09-08 01:46+0000\n"
+"PO-Revision-Date: 2024-09-06 15:32+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -9739,15 +9739,13 @@ msgstr "Astrometry.net en ligne ou ANSVR distant"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
 "astrometry.net)</p></body></html>"
 msgstr ""
-"<html><body><p>Taille de la séparation entre les tuiles.</p></body></html>"
+"<html><body><p>Partie schéma et autorité de l'URL (p.ex. https://nova."
+"astrometry.net)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -12595,10 +12593,9 @@ msgid "Waiting..."
 msgstr "En attente…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:425
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Décalage réussi."
+msgstr "Décalage demandé…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -16164,51 +16161,51 @@ msgstr "Limite : %1 °C"
 msgid "Limit: %1 mins"
 msgstr "Limite : %1 min"
 
-#: ekos/capture/camerastate.cpp:895
+#: ekos/capture/camerastate.cpp:902
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Réalisation d'un réalignement après retournement au méridien…"
 
-#: ekos/capture/camerastate.cpp:913
+#: ekos/capture/camerastate.cpp:920
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Délai du module de guidage écoulé"
 
-#: ekos/capture/camerastate.cpp:945
+#: ekos/capture/camerastate.cpp:952
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "La déviation de guidage %1 est toujours supérieure à la valeur limite de %2 "
 "secondes d'arc."
 
-#: ekos/capture/camerastate.cpp:954
+#: ekos/capture/camerastate.cpp:961
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "La déviation de guidage initial %1 a dépassé la valeur limite de %2 secondes "
 "d'arc."
 
-#: ekos/capture/camerastate.cpp:976
+#: ekos/capture/camerastate.cpp:983
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 "La calibration après le retournement au méridien s'est terminée avec succès."
 
-#: ekos/capture/camerastate.cpp:990
+#: ekos/capture/camerastate.cpp:997
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "La déviation de guidage au début de l'acquisition %1 a dépassé la valeur "
 "limite de %2 secondes d'arc."
 
-#: ekos/capture/camerastate.cpp:1004
+#: ekos/capture/camerastate.cpp:1011
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "La déviation de guidage au début de l'acquisition %1 est sous la valeur "
 "limite de %2 secondes d'arc."
 
-#: ekos/capture/camerastate.cpp:1031
+#: ekos/capture/camerastate.cpp:1038
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16218,7 +16215,7 @@ msgstr ""
 "pendant %4 échantillons consécutifs, conduisant à suspendre l'exposition et "
 "attendre l'assistant de guidage jusqu'à %3 secondes."
 
-#: ekos/capture/camerastate.cpp:1078
+#: ekos/capture/camerastate.cpp:1085
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16227,7 +16224,7 @@ msgstr ""
 "La déviation de guidage %1 est maintenant inférieure à la valeur limite de "
 "%2 secondes d'arc, reprise de l'acquisition."
 
-#: ekos/capture/camerastate.cpp:1082
+#: ekos/capture/camerastate.cpp:1089
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16236,24 +16233,24 @@ msgstr ""
 "La déviation de guidage %1 est maintenant inférieure à la valeur limite de "
 "%2 secondes d'arc, reprise de l'exposition dans %3 secondes."
 
-#: ekos/capture/camerastate.cpp:1097
+#: ekos/capture/camerastate.cpp:1104
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "La déviation de guidage %1 est toujours supérieure à la valeur limite de %2 "
 "secondes d'arc."
 
-#: ekos/capture/camerastate.cpp:1477
+#: ekos/capture/camerastate.cpp:1484
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Le réalignement après le retournement s'est terminé avec succès."
 
-#: ekos/capture/camerastate.cpp:1496
+#: ekos/capture/camerastate.cpp:1503
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Échec de l'alignement après retournement au méridien."
 
-#: ekos/capture/camerastate.cpp:1501
+#: ekos/capture/camerastate.cpp:1508
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Échec de l'alignement après retournement au méridien. Nouvel essai…"
@@ -17394,16 +17391,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:449
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Setting the camera position angle shall move the "
-#| "rotator. The gauge reflects the state of the rotator. Depending on the "
-#| "accuracy of the rotator there can be some deviation in the ending "
-#| "position angle.</p><p>If <span style=\" font-weight:700;\">Save Camera "
-#| "Position Angle to Sequence Job</span> is toggled, any subsequent jobs "
-#| "added to the sequence queue would always rotate to this position angle "
-#| "before capture begins.</p><p>The position angle is measured East of North "
-#| "in degrees.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Setting the camera position angle shall move the "
 "rotator. The gauge reflects the state of the rotator. Depending on the "
@@ -17414,11 +17402,8 @@ msgstr ""
 "<html><head/><body><p>Le réglage de l'angle de position de l'appareil "
 "enclenche le mouvement du rotateur. La jauge reflète l'état du rotateur. "
 "Selon la précision du rotateur, il peut y avoir une déviation de l'angle de "
-"position final.</p><p>Si <span style=\"font-wight:700;\">Enregistrer l'angle "
-"de position de l'appareil dans la tâche de séquence</span> est activé, toute "
-"nouvelle tâche ajoutée à la file de séquence pivotera à cet angle de "
-"position avant le démarrage de l'acquisition.</p><p>L'angle de position est "
-"mesuré à l'est du nord en degrés.</p></body></html>"
+"position final.</p><p>L'angle de position est mesuré à l'est du nord en "
+"degrés.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -17428,11 +17413,11 @@ msgstr "Angle de position de l'appareil"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
 #: ekos/capture/rotatorsettings.ui:471
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Angle de décalage de l'appareil</p></body></html>"
+"<html><head/><body><p>Angle de position actuel de l'appareil</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -17771,28 +17756,24 @@ msgid "Loading"
 msgstr "Téléchargement en cours"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Starting"
-msgstr "Démarre le"
+msgstr "Démarrage"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Started"
-msgstr "Démarrer"
+msgstr "Démarré"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stopping"
-msgstr "Arrêter l'enregistrement"
+msgstr "Arrêt"
 
 #: ekos/ekos.h:221
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stopped"
-msgstr "Arrêter"
+msgstr "Arrêté"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
 #, kde-format
@@ -17801,8 +17782,7 @@ msgid "Select EkosLive Servers"
 msgstr "Choisissez les serveurs EkosLive"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Observatory"
+#, kde-format
 msgid "Observatory:"
 msgstr "Observatoire"
 
@@ -17817,11 +17797,9 @@ msgid "Online:"
 msgstr "En ligne"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Malchin"
+#, kde-format
 msgid "Machine ID:"
-msgstr "Malchin"
+msgstr "ID machine"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -19667,10 +19645,9 @@ msgid "Clear"
 msgstr "Effacer"
 
 #: ekos/focus/focusadvisor.cpp:79 ekos/focus/focusadvisor.cpp:80
-#, fuzzy, kde-format
-#| msgid "Selection:"
+#, kde-format
 msgid "Section"
-msgstr "Sélection"
+msgstr "Section"
 
 #. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
 #. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
@@ -19684,57 +19661,49 @@ msgid "Run"
 msgstr "actif"
 
 #: ekos/focus/focusadvisor.cpp:84
-#, fuzzy, kde-format
-#| msgid "ID Number"
+#, kde-format
 msgid "Run number"
-msgstr "Numéro d'identifiant"
+msgstr "Numéro d'exécution"
 
 #: ekos/focus/focusadvisor.cpp:87
-#, fuzzy, kde-format
-#| msgid "Adapt Start Pos"
+#, kde-format
 msgid "Start Pos"
-msgstr "Position initiale de l'adaptation"
+msgstr "Position initiale"
 
 #: ekos/focus/focusadvisor.cpp:88
-#, fuzzy, kde-format
-#| msgid "Chart position:"
+#, kde-format
 msgid "Start position"
-msgstr "Position du graphique :"
+msgstr "Position initiale"
 
 #: ekos/focus/focusadvisor.cpp:91
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Step/Jump Size"
-msgstr "Taille de pas"
+msgstr "Taille de pas/saut"
 
 #: ekos/focus/focusadvisor.cpp:92
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Step Size"
 msgstr "Taille de pas"
 
 #: ekos/focus/focusadvisor.cpp:95
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "Overscan"
-msgstr "Sur-balayage de la mise au point automatique"
+msgstr "Sur-balayage"
 
 #: ekos/focus/focusadvisor.cpp:96
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan"
 msgstr "Sur-balayage de la mise au point automatique"
 
 #: ekos/focus/focusadvisor.cpp:99
-#, fuzzy, kde-format
-#| msgid "Comments:"
+#, kde-format
 msgid "Comments"
 msgstr "Commentaires"
 
 #: ekos/focus/focusadvisor.cpp:100
 #, kde-format
 msgid "Additional Text"
-msgstr ""
+msgstr "Texte additionnel"
 
 #: ekos/focus/focusadvisor.cpp:111
 #, kde-format
@@ -19767,10 +19736,11 @@ msgid "Focus Advisor proposed value for the parameter"
 msgstr "Valeur du paramètre proposée par l'Assistant de mise au point"
 
 #: ekos/focus/focusadvisor.cpp:160
-#, fuzzy, kde-format
-#| msgid "Detection in progress, please wait."
+#, kde-format
 msgid "Focus Advisor: another focus action in progress. Please try again."
-msgstr "Détection en cours. Veuillez patienter."
+msgstr ""
+"Assistant de mise au point : une autre mise au point est en cours. Veuillez "
+"essayer à nouveau."
 
 #: ekos/focus/focusadvisor.cpp:185
 #, kde-format
@@ -19846,10 +19816,9 @@ msgid "Find Stars: Failed"
 msgstr "Recherche d'étoiles : échec"
 
 #: ekos/focus/focusadvisor.cpp:752
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Stars detected, range center %1"
-msgstr "Aucune étoile détectée, nouvelle acquisition…"
+msgstr "Étoiles détectées, centre de la zone en %1"
 
 #: ekos/focus/focusadvisor.cpp:761
 #, kde-format
@@ -19857,21 +19826,19 @@ msgid "Stars detected, range centre %1"
 msgstr "Étoiles détectées, centre de la zone en %1"
 
 #: ekos/focus/focusadvisor.cpp:762
-#, fuzzy, kde-format
-#| msgid "Completed"
+#, kde-format
 msgid "Focus Advisor Find Stars completed"
-msgstr "Terminé"
+msgstr "Recherche d'étoiles par l'Assistant de mise au point terminé"
 
 #: ekos/focus/focusadvisor.cpp:810
 #, kde-format
 msgid "Find Stars: exceeded max iterations %1"
-msgstr "Recherche d'étoiles : maximum d'itérations %1 atteint"
+msgstr "Recherche d'étoiles : maximum d'itérations %1 dépassé"
 
 #: ekos/focus/focusadvisor.cpp:818 ekos/focus/focusadvisor.cpp:819
-#, fuzzy, kde-format
-#| msgid "No stars detected, capturing again..."
+#, kde-format
 msgid "Stars detected, centering range"
-msgstr "Aucune étoile détectée, nouvelle acquisition…"
+msgstr "Étoile détectée, centrage de la zone"
 
 #: ekos/focus/focusadvisor.cpp:840
 #, kde-format
@@ -19891,10 +19858,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr "Passe %1 de la recherche d'étoiles : scan en cours du secteur %2"
 
 #: ekos/focus/focusadvisor.cpp:859
-#, fuzzy, kde-format
-#| msgid "Auto star selected."
+#, kde-format
 msgid "No stars detected"
-msgstr "Sélection automatique d'une étoile."
+msgstr "Aucune étoile détectée"
 
 #: ekos/focus/focusadvisor.cpp:867
 #, kde-format
@@ -19907,10 +19873,11 @@ msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr "Passe %1 de la recherche d'étoiles du secteur %2 : scan %3/%4 en cours"
 
 #: ekos/focus/focusadvisor.cpp:939
-#, fuzzy, kde-format
-#| msgid "Star hopper failed to find path"
+#, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
-msgstr "Le saut d'étoiles n'a pas réussi à trouver l'emplacement"
+msgstr ""
+"Passe %1 de la recherche d'étoiles par l'Assistant de mise au point : "
+"impossible de déplacer le moteur de mise au point"
 
 #: ekos/focus/focusadvisor.cpp:961
 #, kde-format
@@ -19925,27 +19892,23 @@ msgid "Coarse Adjustment Scan..."
 msgstr "Scan pour l'ajustement grossier…"
 
 #: ekos/focus/focusadvisor.cpp:1006
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Coarse Adjustment"
-msgstr "Ajustements des images"
+msgstr "Ajustement grossier…"
 
 #: ekos/focus/focusadvisor.cpp:1012 ekos/focus/focusadvisor.cpp:1226
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment failed to move focuser"
 msgstr ""
-"Si l'on doit accepter la recommandation de la taille de pas par le "
-"conseiller de mise au point."
+"Échec de déplacement du moteur de mise point pour l'ajustement grossier par "
+"l'Assistant de mise au point"
 
 #: ekos/focus/focusadvisor.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: exceeded max iterations %1"
 msgstr ""
-"Si l'on doit accepter la recommandation de la taille de pas par le "
-"conseiller de mise au point."
+"Ajustement grossier de l'Assistant de mise au point : dépassement du nombre "
+"maximum %1 d'itérations"
 
 #: ekos/focus/focusadvisor.cpp:1079
 #, kde-format
@@ -19953,58 +19916,49 @@ msgid "Coarse Adjustment Run %1 scan..."
 msgstr "Scan de la passe %1 de l'ajustement grossier…"
 
 #: ekos/focus/focusadvisor.cpp:1087
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr ""
-"Si l'on doit accepter la recommandation de la taille de pas par le "
-"conseiller de mise au point."
+"Passe %1 de l'ajustement grossier de l'Assistant de mise au point : quantité "
+"insuffisante de données à traiter"
 
 #: ekos/focus/focusadvisor.cpp:1144
 #, kde-format
 msgid "Max/Min Ratio: %1"
-msgstr ""
+msgstr "Rapport Max/Min : %1"
 
 #: ekos/focus/focusadvisor.cpp:1161
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment completed."
-msgstr ""
-"Si l'on doit accepter la recommandation de la taille de pas par le "
-"conseiller de mise au point."
+msgstr "Ajustement grossier de l'Assistant de mise au point terminé."
 
 #: ekos/focus/focusadvisor.cpp:1182
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: data quality too poor to continue"
 msgstr ""
-"Si l'on doit accepter la recommandation de la taille de pas par le "
-"conseiller de mise au point."
+"Ajustement grossier de l'Assistant de mise au point : trop mauvaise qualité "
+"des données pour continuer"
 
 #: ekos/focus/focusadvisor.cpp:1216
 #, kde-format
 msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 msgstr ""
+"Rapport Max/Min : %1, Taille du prochain pas : %2, Prochain sur-balayage : %3"
 
 #: ekos/focus/focusadvisor.cpp:1277
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Fine Adjustment"
-msgstr "Ajustements des images"
+msgstr "Ajustement fin"
 
 #: ekos/focus/focusadvisor.cpp:1385
 #, kde-format
 msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
-msgstr ""
+msgstr "Rapport Max/Min : %1, R2 : %2, Taille de pas : %3, Sur-balayage : %4"
 
 #: ekos/focus/focusadvisor.cpp:1392
-#, fuzzy, kde-format
-#| msgid "Whether to accept Focus Advisor recommendation on Step Size."
+#, kde-format
 msgid "Focus Advisor Fine Adjustment completed"
-msgstr ""
-"Si l'on doit accepter la recommandation de la taille de pas par le "
-"conseiller de mise au point."
+msgstr "Ajustement grossier de l'Assistant de mise au point terminé"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -20155,6 +20109,8 @@ msgid ""
 "<p>Add additional focuser</p><p><b>WARNING</b>: This feature is experimental!"
 "</p>"
 msgstr ""
+"<p>Ajouter un moteur de mise au point supplémentaire</p><p><b>ATTENTION</"
+"b> : fonctionnalité expérimentale !</p>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/opsfocusmechanics.ui:37
@@ -23874,23 +23830,21 @@ msgstr "secondes d'arc"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:424
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The program will search in a square spiral around "
-#| "the start position up to this radius.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Le programme cherchera sur une spirale autour de la "
-"position de départ jusqu'à ce rayon.</p></body></html>"
+"<html><head/><body><p>Si coché, on essaie d'être plus résilient avec les "
+"étoiles doubles en inventant une position d'étoile guide à partir des "
+"références d'étoiles multiples.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:427
 #, kde-format
 msgid "Invent Multi-Star Guide Star (experimental)"
-msgstr ""
+msgstr "Inventer une étoile multiple comme étoile guide (expérimental)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:437
@@ -24113,44 +24067,42 @@ msgstr "Analyse"
 #: ekos/manager.cpp:388
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
-msgstr ""
+msgstr "Échec du démarrage de l'extension %1, abandon"
 
 #: ekos/manager.cpp:402
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
-msgstr ""
+msgstr "Échec de l'arrêt de l'extension %1, abandon activé"
 
 #: ekos/manager.cpp:411
 #, kde-format
 msgid "Extension '%1' aborting"
-msgstr ""
+msgstr "Abandon de l'extension %1"
 
 #: ekos/manager.cpp:421
 #, kde-format
 msgid "Extension '%1' start requested"
-msgstr ""
+msgstr "Démarrage de l'extension %1 demandé"
 
 #: ekos/manager.cpp:426
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "Extension '%1' started"
-msgstr "La tâche « %1 » a été annulée."
+msgstr "Extension %1 démarrée"
 
 #: ekos/manager.cpp:434
 #, kde-format
 msgid "Extension '%1' stop requested"
-msgstr ""
+msgstr "Demande d'arrêt de l'extension %1"
 
 #: ekos/manager.cpp:439
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "Extension '%1' stopped"
-msgstr "La tâche « %1 » a été annulée."
+msgstr "Arrêt de l'extension %1"
 
 #: ekos/manager.cpp:455
 #, kde-format
 msgid "Extension '%1': %2"
-msgstr ""
+msgstr "Extension %1 : %2"
 
 #: ekos/manager.cpp:720
 #, kde-format
@@ -24479,17 +24431,17 @@ msgstr "Désactivation de la journalisation de débogage pour %1…"
 #: ekos/manager.cpp:3726
 #, kde-format
 msgid "Preview source set to external"
-msgstr ""
+msgstr "Source de l'aperçu réglée sur externe"
 
 #: ekos/manager.cpp:3733
 #, kde-format
 msgid "Preview source reset to internal"
-msgstr ""
+msgstr "Source de l'aperçu réinitialisé sur interne"
 
 #: ekos/manager.cpp:3740
 #, kde-format
 msgid "Received external preview file"
-msgstr ""
+msgstr "Fichier externe d'aperçu reçu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108
@@ -24587,17 +24539,15 @@ msgstr "3. Connecter et/ou Déconnecter des périphériques"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extensions"
-msgstr "Dimensions"
+msgstr "Extensions"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687
-#, fuzzy, kde-format
-#| msgid "value for selected option"
+#, kde-format
 msgid "Start selected extension"
-msgstr "valeur pour l'option sélectionnée"
+msgstr "Démarrer l'extension sélectionnée"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
@@ -24679,66 +24629,66 @@ msgstr "Étoile de guidage"
 msgid "guide star"
 msgstr "Étoile de guidage"
 
-#: ekos/manager/meridianflipstate.cpp:127
+#: ekos/manager/meridianflipstate.cpp:133
 #, kde-format
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Le retournement au méridien est inactif (aucun télescope connecté)"
 
-#: ekos/manager/meridianflipstate.cpp:134
+#: ekos/manager/meridianflipstate.cpp:140
 #, kde-format
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Le retournement au méridien est inactif (retournement non demandé)"
 
-#: ekos/manager/meridianflipstate.cpp:141
-#: ekos/manager/meridianflipstate.cpp:542
+#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:548
 #, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Le retournement au méridien est inactif (monture parquée)"
 
-#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:153
 #, kde-format
 msgid "Meridian flip inactive (no target set)"
 msgstr "Le retournement au méridien est inactif (aucune cible définie)"
 
-#: ekos/manager/meridianflipstate.cpp:186
+#: ekos/manager/meridianflipstate.cpp:192
 #, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Le retournement au méridien est inactif (rotation au delà du méridien)"
 
-#: ekos/manager/meridianflipstate.cpp:202
+#: ekos/manager/meridianflipstate.cpp:208
 #, kde-format
 msgid "Meridian flip in %1"
 msgstr "Retournement au méridien dans %1."
 
-#: ekos/manager/meridianflipstate.cpp:253
+#: ekos/manager/meridianflipstate.cpp:259
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 "Retournement au méridien supposément terminé, mais le côté du pied est "
 "inconnu."
 
-#: ekos/manager/meridianflipstate.cpp:277
+#: ekos/manager/meridianflipstate.cpp:283
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "Échec du retournement au méridien. Nouvel essai dans 4 minutes"
 
-#: ekos/manager/meridianflipstate.cpp:281
+#: ekos/manager/meridianflipstate.cpp:287
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 "Le retournement au méridien s'est mal terminé. Le délai était trop long"
 
-#: ekos/manager/meridianflipstate.cpp:288
+#: ekos/manager/meridianflipstate.cpp:294
 #, kde-format
 msgid "Meridian flip completed OK."
 msgstr "Le retournement au méridien s'est terminé correctement."
 
-#: ekos/manager/meridianflipstate.cpp:364
+#: ekos/manager/meridianflipstate.cpp:370
 #, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr "Le télescope a terminé son retournement au méridien."
 
-#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1058
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1058
 #: ekos/observatory/observatory.cpp:1069
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -24746,27 +24696,27 @@ msgstr "Le télescope a terminé son retournement au méridien."
 msgid "Status: inactive"
 msgstr "État : inactif"
 
-#: ekos/manager/meridianflipstate.cpp:423
+#: ekos/manager/meridianflipstate.cpp:429
 #, kde-format
 msgid "Meridian flip planned..."
 msgstr "Retournement au méridien planifié…"
 
-#: ekos/manager/meridianflipstate.cpp:427
+#: ekos/manager/meridianflipstate.cpp:433
 #, kde-format
 msgid "Meridian flip waiting..."
 msgstr "Retournement au méridien en attente…"
 
-#: ekos/manager/meridianflipstate.cpp:431
+#: ekos/manager/meridianflipstate.cpp:437
 #, kde-format
 msgid "Meridian flip ready to start..."
 msgstr "Retournement au méridien prêt à débuter…"
 
-#: ekos/manager/meridianflipstate.cpp:435
+#: ekos/manager/meridianflipstate.cpp:441
 #, kde-format
 msgid "Meridian flip running..."
 msgstr "Retournement au méridien en cours d'exécution…"
 
-#: ekos/manager/meridianflipstate.cpp:439
+#: ekos/manager/meridianflipstate.cpp:445
 #, kde-format
 msgid "Meridian flip completed."
 msgstr "Retournement au méridien terminé."
@@ -25078,14 +25028,17 @@ msgid ""
 "unchecked if unsure, use only if you know what you are doing.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>N'utiliser les limites d'altitude que lors du suivi "
+"par la monture. Cela est nécessaire pour certaines montures qui dépasse "
+"intentionnellement cette limite, p. ex pour le parcage.</p><p><span style=\" "
+"font-weight:600;\">AVERTISSEMENT</span> : laissez décoché si incertain, "
+"n'utilisez que si vous savez ce que vous faites.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
 #: ekos/mount/mount.ui:354
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Tracking Mode"
+#, kde-format
 msgid "Tracking only"
-msgstr "Mode de suivi"
+msgstr "Seulement pour le suivi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:526
@@ -28090,11 +28043,9 @@ msgid "Job '%1' has no more batches remaining."
 msgstr "La tâche « %1 » a terminé son lot de travaux."
 
 #: ekos/scheduler/scheduler.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Power"
+#, kde-format
 msgid "Follower"
-msgstr "Puissance"
+msgstr "Suiveur"
 
 #: ekos/scheduler/scheduler.cpp:145
 #, kde-format
@@ -28597,6 +28548,11 @@ msgid ""
 "combination with the first job above having a target defined."
 "<p><p><b>WARNING</b>: This feature is experimental!</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Définissez la cible de la tâche ou choisissez <span "
+"style=\"font-style:italic\">Suiveur</span> si la tâche doit être exécutée en "
+"mode appareils multiples en combinaison avec la première tâche ci-dessus "
+"ayant une cible définie.<p><p><b>AVERTISSEMENT</b> : cette fonctionnalité "
+"est encore expérimentale !</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
 #: ekos/scheduler/scheduler.ui:570
@@ -28628,6 +28584,8 @@ msgstr "Profil du périphérique « Ekos »"
 msgid ""
 "Optical train to be used for this scheduler job within the Capture module."
 msgstr ""
+"Le train optique à utiliser avec cette tâche de l'ordonnanceur du module "
+"d'acquisition."
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -29840,19 +29798,19 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr ""
+msgstr "Avertissement : le nom du train optique est vide, sélection de %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:3371
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr ""
+"Avertissement : le nom du train optique %2 n'existe pas, sélection de %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Train optique"
+msgstr "Choisir le train optique"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -29860,23 +29818,25 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
+"Avertissement : aucun nom de train optique pour la tâche prévue, veuillez "
+"choisir le train optique manuellement."
 
 #: ekos/scheduler/schedulerprocess.cpp:3533
 #, kde-format
 msgid "Job '%1' alignment is complete."
-msgstr "La tâche « %1 » d'alignement est terminée."
+msgstr "La tâche %1 d'alignement est terminée."
 
 #: ekos/scheduler/schedulerprocess.cpp:3552
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
-msgstr "Attention : la tâche « %1 » d'alignement a échoué."
+msgstr "Avertissement : la tâche %1 d'alignement a échoué."
 
 #: ekos/scheduler/schedulerprocess.cpp:3558
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr ""
-"Attention : la tâche %1 force la réinitialisation du modèle de pointage "
+"Avertissement : la tâche %1 force la réinitialisation du modèle de pointage "
 "après un défaut d'alignement #%2."
 
 #: ekos/scheduler/schedulerprocess.cpp:3562
@@ -29888,125 +29848,120 @@ msgstr "Redémarrage de la procédure d'alignement %1 en cours…"
 #: ekos/scheduler/schedulerprocess.cpp:3598
 #, kde-format
 msgid "Job '%1' guiding is in progress."
-msgstr "La tâche « %1 » de guidage est en cours."
+msgstr "La tâche de guidage %1 est en cours."
 
 #: ekos/scheduler/schedulerprocess.cpp:3610
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
-msgstr "Attention : la tâche « %1 » de guidage a échoué."
+msgstr "Avertissement : la tâche de guidage %1 a échoué."
 
 #: ekos/scheduler/schedulerprocess.cpp:3612
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
-msgstr "Attention : la tâche « %1 » de calibration a échoué."
+msgstr "Avertissement : la tâche de calibration %1 a échoué."
 
 #: ekos/scheduler/schedulerprocess.cpp:3631
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
-"La tâche « %1 » effectue le guidage. La procédure de guidage sera relancée "
-"dans %2 secondes."
+"La tâche %1 effectue le guidage. La procédure de guidage sera relancée dans "
+"%2 secondes."
 
 #: ekos/scheduler/schedulerprocess.cpp:3684
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed to capture target."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
-msgstr "Attention : la tâche « %1 » d'acquisition de la cible a échoué."
+msgstr "[%2] Avertissement : la tâche d'acquisition %1 de la cible a échoué."
 
 #: ekos/scheduler/schedulerprocess.cpp:3702
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 "
-#| "of %3)."
+#, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr ""
-"La tâche « %1 » effectue l'acquisition et relance la procédure de guidage "
-"(tentative #%2 sur %3)."
+"[%2] La tâche %1 effectue l'acquisition et relance la procédure de guidage "
+"(tentative #%3 sur %4)."
 
 #: ekos/scheduler/schedulerprocess.cpp:3711
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
-"Attention : la tâche « %1 » a échoué dans sa procédure d'acquisition. "
+"Avertissement : la tâche %1 a échoué dans sa procédure d'acquisition. "
 "Redémarrage de l'acquisition."
 
 #: ekos/scheduler/schedulerprocess.cpp:3717
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed its capture procedure, marking aborted."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
-"Attention : la tâche « %1 » a échoué dans sa procédure d'acquisition. "
+"[%2] Avertissement : la tâche %1 a échoué dans sa procédure d'acquisition. "
 "Marquée annulée."
 
 #: ekos/scheduler/schedulerprocess.cpp:3730
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr ""
+"[%2] La tâche de suiveur %1 a été abandonnée et est en train d'être relancée."
 
 #: ekos/scheduler/schedulerprocess.cpp:3736
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
-msgstr "La tâche « %1 » a été annulée."
+msgstr "[%2] La tâche de suiveur %1 a été abandonnée."
 
 #: ekos/scheduler/schedulerprocess.cpp:3744
-#, fuzzy, kde-format
-#| msgid "Ekos job (%1) - Capture finished"
+#, kde-format
 msgid "[%2] Job (%1) - Capture finished"
-msgstr "Tâche Ekos (%1) - Acquisition terminée"
+msgstr "[%2] Tâche (%1) - Acquisition terminée"
 
 #: ekos/scheduler/schedulerprocess.cpp:3814
 #, kde-format
 msgid "Job '%1' focusing is complete."
-msgstr "La tâche « %1 » de mise au point est terminée."
+msgstr "La tâche de mise au point %1 est terminée."
 
 #: ekos/scheduler/schedulerprocess.cpp:3824
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
-msgstr "Attention : la tâche « %1 » de mise au point a échoué."
+msgstr "Avertissement : la tâche de mise au point %1 a échoué."
 
 #: ekos/scheduler/schedulerprocess.cpp:3828
 #, kde-format
 msgid "Job '%1' is restarting its focusing procedure."
-msgstr "La tâche « %1 » effectue une relance de la procédure de mise au point."
+msgstr "La tâche %1 effectue une relance de la procédure de mise au point."
 
 #: ekos/scheduler/schedulerprocess.cpp:3866
 #, kde-format
 msgid "Job '%1' slew is complete."
-msgstr "La tâche « %1 » de rotation est terminée."
+msgstr "La tâche de rotation %1 est terminée."
 
 #: ekos/scheduler/schedulerprocess.cpp:3872
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
-"Attention : la tâche « %1 » pour la rotation a échoué. Marquée annulée par "
-"suite d'erreurs."
+"Avertissement : la tâche de rotation %1 a échoué. Marquée annulée par suite "
+"d'erreurs."
 
 #: ekos/scheduler/schedulerprocess.cpp:3878
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
-msgstr "Attention : la tâche « %1 » n'a pas trouvé de rotation. Redémarrage."
+msgstr "Avertissement : la tâche %1 n'a pas effectué de rotation. Redémarrage."
 
 #: ekos/scheduler/schedulerprocess.cpp:3891
 #, kde-format
 msgid "Job '%1' repositioning is complete."
-msgstr "La tâche « %1 » de repositionnement est terminée."
+msgstr "La tâche de repositionnement %1 est terminée."
 
 #: ekos/scheduler/schedulerprocess.cpp:3897
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
-"Attention : la tâche « %1 » de repositionnement a échoué. Marquée annulée "
+"Avertissement : la tâche de repositionnement %1 a échoué. Marquée annulée "
 "par suite d'erreurs."
 
 #: ekos/scheduler/schedulerprocess.cpp:3903
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr ""
-"Attention : la tâche « %1 » n'a pas trouvé de repositionnement. Redémarrage."
+"Avertissement : la tâche %1 n'a pas effectué de repositionnement. "
+"Redémarrage."
 
 #: ekos/scheduler/schedulerprocess.cpp:3917
 #: ekos/scheduler/schedulerprocess.cpp:3928
@@ -30014,8 +29969,8 @@ msgstr ""
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr ""
-"Attention : la monture est parquée alors que la tâche %1 de l'ordonnanceur "
-"est active. Abandon"
+"Avertissement : la monture est parquée alors que la tâche %1 de "
+"l'ordonnanceur est active. Abandon"
 
 #: ekos/scheduler/schedulerprocess.cpp:3952
 #, kde-format
@@ -37751,14 +37706,13 @@ msgstr "Lancer la version en ligne de Ekos au démarrage de KStars."
 #: kstars.kcfg:1668
 #, kde-format
 msgid "EkosLive username"
-msgstr "Nom d'utilisateur « EkosLive »"
+msgstr "Nom d'utilisateur EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1671
-#, fuzzy, kde-format
-#| msgid "EkosLive username"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "Nom d'utilisateur « EkosLive »"
+msgstr "Nom de l'observatoire EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1675
@@ -37828,7 +37782,7 @@ msgstr "Activer les limites d'altitude pour la monture."
 #: kstars.kcfg:1736
 #, kde-format
 msgid "Restrict altitude limits to tracking mode only."
-msgstr ""
+msgstr "Restreindre les limites d'altitude au seul mode de suivi."
 
 #. i18n: ectx: label, entry (ConfirmBelowHorizon), group (Mount)
 #: kstars.kcfg:1740
@@ -39767,6 +39721,8 @@ msgstr ""
 #, kde-format
 msgid "Invent a guide star position from the multi-star references."
 msgstr ""
+"Inventer une position d'étoile guide à partir des références d'étoiles "
+"multiples."
 
 #. i18n: ectx: label, entry (TwoAxisEnabled), group (Guide)
 #: kstars.kcfg:2735

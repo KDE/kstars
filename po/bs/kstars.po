@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 01:44+0000\n"
+"POT-Creation-Date: 2024-09-08 01:46+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -16143,17 +16143,17 @@ msgstr ""
 msgid "Limit: %1 mins"
 msgstr "Podešenja Siulatora"
 
-#: ekos/capture/camerastate.cpp:895
+#: ekos/capture/camerastate.cpp:902
 #, fuzzy, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Obrađujem rješenje polarnog poravnanja..."
 
-#: ekos/capture/camerastate.cpp:913
+#: ekos/capture/camerastate.cpp:920
 #, fuzzy, kde-format
 msgid "Guide module timed out."
 msgstr "Navođenje nastavljeno."
 
-#: ekos/capture/camerastate.cpp:945
+#: ekos/capture/camerastate.cpp:952
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16163,7 +16163,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:954
+#: ekos/capture/camerastate.cpp:961
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16173,12 +16173,12 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:976
+#: ekos/capture/camerastate.cpp:983
 #, fuzzy, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Telescope Wizard je uspješno završen."
 
-#: ekos/capture/camerastate.cpp:990
+#: ekos/capture/camerastate.cpp:997
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16188,7 +16188,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1004
+#: ekos/capture/camerastate.cpp:1011
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16198,7 +16198,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1031
+#: ekos/capture/camerastate.cpp:1038
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
@@ -16210,7 +16210,7 @@ msgstr ""
 "Odstupanje navođenja %1 premašuje nivo ograničenja od %2 arcsecs, "
 "obustavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1078
+#: ekos/capture/camerastate.cpp:1085
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16219,7 +16219,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1082
+#: ekos/capture/camerastate.cpp:1089
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16231,7 +16231,7 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1097
+#: ekos/capture/camerastate.cpp:1104
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16241,17 +16241,17 @@ msgstr ""
 "Odstupanje navođenja %1 je sada manji od nivoa ograničenja od %2 arcsecs, "
 "nastavljanje izlaganja."
 
-#: ekos/capture/camerastate.cpp:1477
+#: ekos/capture/camerastate.cpp:1484
 #, fuzzy, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Telescope Wizard je uspješno završen."
 
-#: ekos/capture/camerastate.cpp:1496
+#: ekos/capture/camerastate.cpp:1503
 #, fuzzy, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Rješavač  pauziran."
 
-#: ekos/capture/camerastate.cpp:1501
+#: ekos/capture/camerastate.cpp:1508
 #, fuzzy, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Rješavač  pauziran."
@@ -24471,63 +24471,63 @@ msgstr "Vodič"
 msgid "guide star"
 msgstr "Vodič"
 
-#: ekos/manager/meridianflipstate.cpp:127
+#: ekos/manager/meridianflipstate.cpp:133
 #, fuzzy, kde-format
 msgid "Meridian flip inactive (no scope connected)"
 msgstr "Status"
 
-#: ekos/manager/meridianflipstate.cpp:134
+#: ekos/manager/meridianflipstate.cpp:140
 #, fuzzy, kde-format
 msgid "Meridian flip inactive (flip not requested)"
 msgstr "Status"
 
-#: ekos/manager/meridianflipstate.cpp:141
-#: ekos/manager/meridianflipstate.cpp:542
+#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:548
 #, fuzzy, kde-format
 msgid "Meridian flip inactive (parked)"
 msgstr "Meridian"
 
-#: ekos/manager/meridianflipstate.cpp:147
+#: ekos/manager/meridianflipstate.cpp:153
 #, fuzzy, kde-format
 msgid "Meridian flip inactive (no target set)"
 msgstr "Status"
 
-#: ekos/manager/meridianflipstate.cpp:186
+#: ekos/manager/meridianflipstate.cpp:192
 #, fuzzy, kde-format
 msgid "Meridian flip inactive (slew after meridian)"
 msgstr "Meridian"
 
-#: ekos/manager/meridianflipstate.cpp:202
+#: ekos/manager/meridianflipstate.cpp:208
 #, fuzzy, kde-format
 msgid "Meridian flip in %1"
 msgstr "Meridian"
 
-#: ekos/manager/meridianflipstate.cpp:253
+#: ekos/manager/meridianflipstate.cpp:259
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:277
+#: ekos/manager/meridianflipstate.cpp:283
 #, fuzzy, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
 msgstr "Meridian"
 
-#: ekos/manager/meridianflipstate.cpp:281
+#: ekos/manager/meridianflipstate.cpp:287
 #, kde-format
 msgid "No successful Meridian Flip done, delay too long"
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:288
+#: ekos/manager/meridianflipstate.cpp:294
 #, fuzzy, kde-format
 msgid "Meridian flip completed OK."
 msgstr "Meridian"
 
-#: ekos/manager/meridianflipstate.cpp:364
+#: ekos/manager/meridianflipstate.cpp:370
 #, fuzzy, kde-format
 msgid "Telescope completed the meridian flip."
 msgstr "Telescope Wizard je uspješno završen."
 
-#: ekos/manager/meridianflipstate.cpp:419 ekos/observatory/observatory.cpp:1058
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1058
 #: ekos/observatory/observatory.cpp:1069
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
@@ -24535,27 +24535,27 @@ msgstr "Telescope Wizard je uspješno završen."
 msgid "Status: inactive"
 msgstr "Status"
 
-#: ekos/manager/meridianflipstate.cpp:423
+#: ekos/manager/meridianflipstate.cpp:429
 #, fuzzy, kde-format
 msgid "Meridian flip planned..."
 msgstr "Meridian"
 
-#: ekos/manager/meridianflipstate.cpp:427
+#: ekos/manager/meridianflipstate.cpp:433
 #, fuzzy, kde-format
 msgid "Meridian flip waiting..."
 msgstr "Meridian"
 
-#: ekos/manager/meridianflipstate.cpp:431
+#: ekos/manager/meridianflipstate.cpp:437
 #, fuzzy, kde-format
 msgid "Meridian flip ready to start..."
 msgstr "Meridian"
 
-#: ekos/manager/meridianflipstate.cpp:435
+#: ekos/manager/meridianflipstate.cpp:441
 #, fuzzy, kde-format
 msgid "Meridian flip running..."
 msgstr "Meridian"
 
-#: ekos/manager/meridianflipstate.cpp:439
+#: ekos/manager/meridianflipstate.cpp:445
 #, fuzzy, kde-format
 msgid "Meridian flip completed."
 msgstr "Meridian"
