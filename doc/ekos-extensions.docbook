@@ -32,7 +32,7 @@
             The configuration file. This is a plain text file that defines the required and optional inputs for the extension. It must be named the same as the extension executable with the addition of a .conf file name extension.
             </para>
             <para>
-            It is mandatory that the configuration file contains a line starting with <emphasis role="bold">minimum_kstars_version=n.n.n</emphasis> where n.n.n is the lowest version of KStars that supports the extension &eg; 3.7.1
+            It is mandatory that the configuration file contains a line starting with <emphasis role="bold">minimum_kstars_version=n.n.n</emphasis> where n.n.n is the lowest version of KStars that supports the extension &eg; 3.7.3
             </para>
             <para>
             Optionally (and non-preferred) the configuration file may contain a line starting with <emphasis role="bold">runDetached=true</emphasis>. If present this line makes the extension run independently from KStars. Once it has been started the extension can not pass status information back to Ekos. This should only be used by extensions that are required to continue to run after KStars has closed. The extension must also provide its own user interface.
@@ -80,7 +80,7 @@
               All interaction with KStars/Ekos/INDI should be via the DBus interface. See the skeleton example. Useful tools for interrogating, monitoring and understanding DBus include <ulink url="https://wiki.gnome.org/Apps/DFeet">D-Feet</ulink> and <ulink url="https://gitlab.freedesktop.org/bustle/bustle">Bustle</ulink>
             </para>
             <para>
-            It may appear on initial investigation that using the Qt DBus Adaptors system would be much easier than direct use of the Qt DBus Interfaces/Messages and KStars does provide the required xml definitions. However currently there is heavy use of custom types the definitions of which are combined with other information in the KStars sources. This results in a large set of files from KStars that require inclusion within an extension in order to make use of the Qt DBus Adaptors. Hopefully this will be addressed in the future.
+            It may appear on initial investigation that using the Qt DBus Adaptors system would be much easier than direct use of the Qt DBus Interfaces/Messages and KStars does provide the required xml definitions. However currently there is heavy use of custom types, the definitions of which are combined with other information in the KStars sources. This results in a large set of files from KStars that require inclusion within an extension in order to make use of the Qt DBus Adaptors. Hopefully this will be addressed in the future.
             </para>
           </listitem>
         </itemizedlist>
