@@ -4074,9 +4074,17 @@ void Focus::updateProperty(INDI::Property prop)
             // HACK: This would shortcut the autofocus procedure reset, see completeFocusProcedure for the small hack
             if (currentPosition == newPosition && currentPositionState == newState)
             {
-                qCDebug(KSTARS_EKOS_FOCUS) << "Focuser position " << currentPosition << " and state:"
-                                           << pstateStr(currentPositionState) << " unchanged";
+                if (logPositionAndState)
+                {
+                    qCDebug(KSTARS_EKOS_FOCUS) << "Focuser position " << currentPosition << " and state:"
+                                               << pstateStr(currentPositionState) << " unchanged";
+                    logPositionAndState = false;
+                }
                 return;
+            }
+            else
+            {
+                logPositionAndState = true;
             }
 
             currentPositionState = newState;

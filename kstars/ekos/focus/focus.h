@@ -998,6 +998,8 @@ class Focus : public QWidget, public Ui::Focus
         int currentPosition { 0 };
         /// Motion state of the absolute focuser
         IPState currentPositionState {IPS_IDLE};
+        /// flag if position or state has changed (to avoid too much logging)
+        bool logPositionAndState {true};
         /// What was our position before we started the focus process?
         int initialFocuserAbsPosition { -1 };
         /// Pulse duration in ms for relative focusers that only support timers, or the number of ticks in a relative or absolute focuser
