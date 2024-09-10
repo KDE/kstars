@@ -556,6 +556,13 @@ bool FITSView::processData()
 
 void FITSView::loadInFrame()
 {
+    // It can wind up being null if the file is manually deleted.
+    if (m_ImageData.isNull())
+    {
+        emit failed("No image file.");
+        return;
+    }
+
     m_LastError = m_ImageData->getLastError();
 
     // Check if the loading was OK
