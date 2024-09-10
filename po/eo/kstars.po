@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-09 01:46+0000\n"
+"POT-Creation-Date: 2024-09-10 01:44+0000\n"
 "PO-Revision-Date: 2024-07-28 11:45+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -6246,7 +6246,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Eraro: perdita konekto al filtrila rado."
 
 #: ekos/align/align.cpp:1494 ekos/capture/cameraprocess.cpp:207
-#: ekos/capture/cameraprocess.cpp:606 ekos/focus/focus.cpp:5314
+#: ekos/capture/cameraprocess.cpp:606 ekos/focus/focus.cpp:5322
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6606,7 +6606,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (arksec)"
 
 #: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3336
-#: ekos/focus/focus.cpp:5202
+#: ekos/focus/focus.cpp:5210
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Filtrila operacio malsukcesis."
@@ -15714,8 +15714,8 @@ msgstr "Antaŭtaska skripto finiĝis kun kodo %1."
 msgid "Post job script finished with code %1."
 msgstr "Posttaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/cameraprocess.cpp:2065 ekos/focus/focus.cpp:5366
-#: ekos/focus/focus.cpp:5390
+#: ekos/capture/cameraprocess.cpp:2065 ekos/focus/focus.cpp:5374
+#: ekos/focus/focus.cpp:5398
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Templimo de elmeto. Abortante..."
@@ -15725,7 +15725,7 @@ msgstr "Templimo de elmeto. Abortante..."
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr "Templimo de elmeto. Pli ol 3 estis detektitaj, restartigos pelilon."
 
-#: ekos/capture/cameraprocess.cpp:2090 ekos/focus/focus.cpp:5371
+#: ekos/capture/cameraprocess.cpp:2090 ekos/focus/focus.cpp:5379
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -18499,7 +18499,7 @@ msgstr "Fine trovis temperaturfonton %1"
 msgid "No Focuser connected."
 msgstr "Neniu Focusilo konektita."
 
-#: ekos/focus/focus.cpp:1024 ekos/focus/focus.cpp:4419
+#: ekos/focus/focus.cpp:1024 ekos/focus/focus.cpp:4427
 #, kde-format
 msgid "No CCD connected."
 msgstr "Neniu CCD konektita."
@@ -18527,16 +18527,16 @@ msgstr "Konstrui Deŝovon jam estas rulanta, Aŭtofokusado malakceptita."
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "En Fokusbuklo, Aŭtofokusado malakceptita."
 
-#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4750
-#: ekos/focus/focus.cpp:4994
+#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4758
+#: ekos/focus/focus.cpp:5002
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Ĝustigi Fokuson"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4752
-#: ekos/focus/focus.cpp:4994 ekos/focus/opsfocussettings.ui:445
+#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4760
+#: ekos/focus/focus.cpp:5002 ekos/focus/opsfocussettings.ui:445
 #: ekos/focus/opsfocussettings.ui:525
 #, kde-format
 msgid "Adaptive Focus"
@@ -18912,92 +18912,92 @@ msgstr ""
 "Aŭtomata fokuso ne atingis taŭgan fokuson. Provu ĝustigi la toleran valoron."
 
 #: ekos/focus/focus.cpp:3974 ekos/focus/focus.cpp:3997
-#: ekos/focus/focus.cpp:4164 ekos/focus/focus.cpp:4247
-#: ekos/focus/focus.cpp:4319 ekos/focus/focus.cpp:4394
+#: ekos/focus/focus.cpp:4172 ekos/focus/focus.cpp:4255
+#: ekos/focus/focus.cpp:4327 ekos/focus/focus.cpp:4402
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Fokusila eraro, kontrolu INDI-panelon."
 
-#: ekos/focus/focus.cpp:4058 ekos/focus/focus.cpp:4180
+#: ekos/focus/focus.cpp:4058 ekos/focus/focus.cpp:4188
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Simuli misfunkciadon de la fokusilo..."
 
-#: ekos/focus/focus.cpp:4141 ekos/focus/focus.cpp:4228
-#: ekos/focus/focus.cpp:4300 ekos/focus/focus.cpp:4341
+#: ekos/focus/focus.cpp:4149 ekos/focus/focus.cpp:4236
+#: ekos/focus/focus.cpp:4308 ekos/focus/focus.cpp:4349
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Rekomencante aŭtomatan fokusan procezon..."
 
-#: ekos/focus/focus.cpp:4435
+#: ekos/focus/focus.cpp:4443
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Komencante kontinuan ekspozicion..."
 
-#: ekos/focus/focus.cpp:4724
+#: ekos/focus/focus.cpp:4732
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Malebliganta Aŭtomatan Stel-Elekton ĉar stel-elektokesto estis movita "
 "permane."
 
-#: ekos/focus/focus.cpp:4729
+#: ekos/focus/focus.cpp:4737
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Fokusa stelo estas elektita."
 
-#: ekos/focus/focus.cpp:4748
+#: ekos/focus/focus.cpp:4756
 #, kde-format
 msgid "Autofocus"
 msgstr "Aŭtomata fokuso"
 
-#: ekos/focus/focus.cpp:4756
+#: ekos/focus/focus.cpp:4764
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr "Aŭtomat-fokusa kontrolopeto - Atendante 10sek por ke %1 plenumiĝu."
 
-#: ekos/focus/focus.cpp:4764
+#: ekos/focus/focus.cpp:4772
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Forĵetante Aŭtofokusan ekigopeton - %1 en progreso."
 
-#: ekos/focus/focus.cpp:4901
+#: ekos/focus/focus.cpp:4909
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Neniu stelo estis elektita. Uzante lastan konatan pozicion..."
 
-#: ekos/focus/focus.cpp:4907
+#: ekos/focus/focus.cpp:4915
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Neniu stelo estis elektita. Abortante..."
 
-#: ekos/focus/focus.cpp:4918
+#: ekos/focus/focus.cpp:4926
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Fokusilo jam ĉe %1..."
 
-#: ekos/focus/focus.cpp:4997
+#: ekos/focus/focus.cpp:5005
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr "Aŭtomat-fokusa ekigopeto - Atendante 10sek por ke %1 plenumiĝu."
 
-#: ekos/focus/focus.cpp:5031
+#: ekos/focus/focus.cpp:5039
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Fokuso Kadro"
 
-#: ekos/focus/focus.cpp:5414
+#: ekos/focus/focus.cpp:5422
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Malsukcesis konservi bildon. Abortante..."
 
-#: ekos/focus/focus.cpp:5429 ekos/focus/focus.cpp:5454
+#: ekos/focus/focus.cpp:5437 ekos/focus/focus.cpp:5462
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Malsukceso de malkovro. Abortante..."
 
-#: ekos/focus/focus.cpp:5746
+#: ekos/focus/focus.cpp:5754
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
