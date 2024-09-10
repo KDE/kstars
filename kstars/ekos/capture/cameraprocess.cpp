@@ -1173,8 +1173,7 @@ void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const 
         case FRAME_FLAT:
             /* calibration not completed, adapt exposure time */
             if (thejob->getFlatFieldDuration() == DURATION_ADU
-                    && thejob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > 0 &&
-                    thejob->getCalibrationStage() == SequenceJobState::CAL_CALIBRATION)
+                    && thejob->getCoreProperty(SequenceJob::SJ_TargetADU).toDouble() > 0)
             {
                 if (checkFlatCalibration(state()->imageData(), state()->exposureRange().min, state()->exposureRange().max) == false)
                 {
