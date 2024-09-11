@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 01:44+0000\n"
+"POT-Creation-Date: 2024-09-11 01:43+0000\n"
 "PO-Revision-Date: 2024-09-02 09:44+0300\n"
 "Last-Translator: Fracture dept <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -27864,7 +27864,7 @@ msgstr "Циклічне повторення до п&ереривання"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Створити заплановані завдання для виконання плану мозаїки"
 
-#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:702
+#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:709
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
@@ -30539,93 +30539,93 @@ msgstr "Замінити на дані з меню параметрів вирі
 msgid "Rescaling image failed."
 msgstr "Невдала спроба зміни масштабу зображення."
 
-#: fitsviewer/fitsview.cpp:712
+#: fitsviewer/fitsview.cpp:719
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 "Подальше збільшення масштабу неможливе через роботу у режимі обмеженого "
 "споживання ресурсів."
 
-#: fitsviewer/fitsview.cpp:1748
+#: fitsviewer/fitsview.cpp:1755
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "ПнНП"
 
-#: fitsviewer/fitsview.cpp:1765
+#: fitsviewer/fitsview.cpp:1772
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "ПдНП"
 
-#: fitsviewer/fitsview.cpp:2220
+#: fitsviewer/fitsview.cpp:2227
 #, kde-format
 msgid "Finding stars..."
 msgstr "Шукаємо зірки…"
 
-#: fitsviewer/fitsview.cpp:2461
+#: fitsviewer/fitsview.cpp:2468
 #, kde-format
 msgid "Zoom In"
 msgstr "Збільшити"
 
-#: fitsviewer/fitsview.cpp:2464
+#: fitsviewer/fitsview.cpp:2471
 #, kde-format
 msgid "Zoom Out"
 msgstr "Зменшити"
 
-#: fitsviewer/fitsview.cpp:2467
+#: fitsviewer/fitsview.cpp:2474
 #, kde-format
 msgid "Default Zoom"
 msgstr "Типовий масштаб"
 
-#: fitsviewer/fitsview.cpp:2470
+#: fitsviewer/fitsview.cpp:2477
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Підібрати за розмірами"
 
-#: fitsviewer/fitsview.cpp:2473
+#: fitsviewer/fitsview.cpp:2480
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Увімкнути/Вимкнути розтягування"
 
-#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:219
+#: fitsviewer/fitsview.cpp:2488 fitsviewer/fitsviewer.cpp:219
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Показувати перехрестя"
 
-#: fitsviewer/fitsview.cpp:2485 fitsviewer/fitsviewer.cpp:232
+#: fitsviewer/fitsview.cpp:2492 fitsviewer/fitsviewer.cpp:232
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Показувати піксельні лінії сітки"
 
-#: fitsviewer/fitsview.cpp:2490 fitsviewer/fitsview.cpp:2599
+#: fitsviewer/fitsview.cpp:2497 fitsviewer/fitsview.cpp:2606
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Виявити зірки на зображенні"
 
-#: fitsviewer/fitsview.cpp:2496
+#: fitsviewer/fitsview.cpp:2503
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Переглянути профіль зірки…"
 
-#: fitsviewer/fitsview.cpp:2506 fitsviewer/fitsviewer.cpp:238
+#: fitsviewer/fitsview.cpp:2513 fitsviewer/fitsviewer.cpp:238
 #: fitsviewer/fitsviewer.cpp:1308
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Показувати екваторіальні лінії сітки"
 
-#: fitsviewer/fitsview.cpp:2512 fitsviewer/fitsviewer.cpp:245
+#: fitsviewer/fitsview.cpp:2519 fitsviewer/fitsviewer.cpp:245
 #: fitsviewer/fitsviewer.cpp:1310
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Показувати об'єкти на зображенні"
 
-#: fitsviewer/fitsview.cpp:2518
+#: fitsviewer/fitsview.cpp:2525
 #, kde-format
 msgid "Center Telescope"
 msgstr "Центрувати телескоп"
 
-#: fitsviewer/fitsview.cpp:2524 fitsviewer/fitsviewer.cpp:252
+#: fitsviewer/fitsview.cpp:2531 fitsviewer/fitsviewer.cpp:252
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Показувати накладку HiPS"

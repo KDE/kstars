@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1689980 $
+# Version: $Revision: 1690029 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 01:44+0000\n"
+"POT-Creation-Date: 2024-09-11 01:43+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -28124,7 +28124,7 @@ msgstr "Powtarzaj, aż do &zakończenia"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Utwórz zaplanowane zadania, aby wykonać plan mozaiki"
 
-#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:702
+#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:709
 #, fuzzy, kde-format
 #| msgctxt "Message shown in Ekos Mount module"
 #| msgid "%1"
@@ -30812,93 +30812,93 @@ msgstr "Zmień na to w menu ustawień wyrównywania Ekos."
 msgid "Rescaling image failed."
 msgstr "Nie udało się przeskalowanie obrazu."
 
-#: fitsviewer/fitsview.cpp:712
+#: fitsviewer/fitsview.cpp:719
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 "Nie można powiększyć bardziej ze względu na tryb ograniczonych zasobów."
 
-#: fitsviewer/fitsview.cpp:1748
+#: fitsviewer/fitsview.cpp:1755
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NCP"
 
-#: fitsviewer/fitsview.cpp:1765
+#: fitsviewer/fitsview.cpp:1772
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2220
+#: fitsviewer/fitsview.cpp:2227
 #, kde-format
 msgid "Finding stars..."
 msgstr "Znajdywanie gwiazd..."
 
-#: fitsviewer/fitsview.cpp:2461
+#: fitsviewer/fitsview.cpp:2468
 #, kde-format
 msgid "Zoom In"
 msgstr "Powiększ"
 
-#: fitsviewer/fitsview.cpp:2464
+#: fitsviewer/fitsview.cpp:2471
 #, kde-format
 msgid "Zoom Out"
 msgstr "Pomniejsz"
 
-#: fitsviewer/fitsview.cpp:2467
+#: fitsviewer/fitsview.cpp:2474
 #, kde-format
 msgid "Default Zoom"
 msgstr "Domyślne powiększenie"
 
-#: fitsviewer/fitsview.cpp:2470
+#: fitsviewer/fitsview.cpp:2477
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Powiększ, aby dopasować"
 
-#: fitsviewer/fitsview.cpp:2473
+#: fitsviewer/fitsview.cpp:2480
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Przełącz rozciąganie"
 
-#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:219
+#: fitsviewer/fitsview.cpp:2488 fitsviewer/fitsviewer.cpp:219
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Pokaż celowniki"
 
-#: fitsviewer/fitsview.cpp:2485 fitsviewer/fitsviewer.cpp:232
+#: fitsviewer/fitsview.cpp:2492 fitsviewer/fitsviewer.cpp:232
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Pokaż pikselowe siatki"
 
-#: fitsviewer/fitsview.cpp:2490 fitsviewer/fitsview.cpp:2599
+#: fitsviewer/fitsview.cpp:2497 fitsviewer/fitsview.cpp:2606
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Wykryj gwiazdy na obrazie"
 
-#: fitsviewer/fitsview.cpp:2496
+#: fitsviewer/fitsview.cpp:2503
 #, fuzzy, kde-format
 #| msgid "View Star Profile"
 msgid "View Star Profile..."
 msgstr "Zobacz profil gwiazdy"
 
-#: fitsviewer/fitsview.cpp:2506 fitsviewer/fitsviewer.cpp:238
+#: fitsviewer/fitsview.cpp:2513 fitsviewer/fitsviewer.cpp:238
 #: fitsviewer/fitsviewer.cpp:1308
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Pokaż równikowe siatki"
 
-#: fitsviewer/fitsview.cpp:2512 fitsviewer/fitsviewer.cpp:245
+#: fitsviewer/fitsview.cpp:2519 fitsviewer/fitsviewer.cpp:245
 #: fitsviewer/fitsviewer.cpp:1310
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Pokaż obiekty na obrazie"
 
-#: fitsviewer/fitsview.cpp:2518
+#: fitsviewer/fitsview.cpp:2525
 #, kde-format
 msgid "Center Telescope"
 msgstr "Wyśrodkuj teleskop"
 
-#: fitsviewer/fitsview.cpp:2524 fitsviewer/fitsviewer.cpp:252
+#: fitsviewer/fitsview.cpp:2531 fitsviewer/fitsviewer.cpp:252
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Pokaż nakładkę HiPS"

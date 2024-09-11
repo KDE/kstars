@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 01:44+0000\n"
+"POT-Creation-Date: 2024-09-11 01:43+0000\n"
 "PO-Revision-Date: 2004-02-26 16:58+0000\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -27070,7 +27070,7 @@ msgstr ""
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:702
+#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:709
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
@@ -29675,80 +29675,80 @@ msgstr ""
 msgid "Rescaling image failed."
 msgstr "Dangos Delwedd SEDS"
 
-#: fitsviewer/fitsview.cpp:712
+#: fitsviewer/fitsview.cpp:719
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1748
+#: fitsviewer/fitsview.cpp:1755
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1765
+#: fitsviewer/fitsview.cpp:1772
 #, fuzzy, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "Nawr"
 
-#: fitsviewer/fitsview.cpp:2220
+#: fitsviewer/fitsview.cpp:2227
 #, fuzzy, kde-format
 msgid "Finding stars..."
 msgstr "Ychwanegu Catalog"
 
-#: fitsviewer/fitsview.cpp:2461
+#: fitsviewer/fitsview.cpp:2468
 #, kde-format
 msgid "Zoom In"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2464
+#: fitsviewer/fitsview.cpp:2471
 #, kde-format
 msgid "Zoom Out"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2467
+#: fitsviewer/fitsview.cpp:2474
 #, fuzzy, kde-format
 #| msgid "default"
 msgid "Default Zoom"
 msgstr "rhagosodiad"
 
-#: fitsviewer/fitsview.cpp:2470
+#: fitsviewer/fitsview.cpp:2477
 #, kde-format
 msgid "Zoom to Fit"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2473
+#: fitsviewer/fitsview.cpp:2480
 #, fuzzy, kde-format
 msgid "Toggle Stretch"
 msgstr "Toggle display of star name labels"
 
-#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:219
+#: fitsviewer/fitsview.cpp:2488 fitsviewer/fitsviewer.cpp:219
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:2485 fitsviewer/fitsviewer.cpp:232
+#: fitsviewer/fitsview.cpp:2492 fitsviewer/fitsviewer.cpp:232
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show Pixel Gridlines"
 msgstr "Dangos llinellau cyfseriadau?"
 
-#: fitsviewer/fitsview.cpp:2490 fitsviewer/fitsview.cpp:2599
+#: fitsviewer/fitsview.cpp:2497 fitsviewer/fitsview.cpp:2606
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Daily Solar Images"
 msgid "Detect Stars in Image"
 msgstr "Delweddau Heulol Dyddiol"
 
-#: fitsviewer/fitsview.cpp:2496
+#: fitsviewer/fitsview.cpp:2503
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Arrecife"
 msgid "View Star Profile..."
 msgstr "Arrecife"
 
-#: fitsviewer/fitsview.cpp:2506 fitsviewer/fitsviewer.cpp:238
+#: fitsviewer/fitsview.cpp:2513 fitsviewer/fitsviewer.cpp:238
 #: fitsviewer/fitsviewer.cpp:1308
 #, fuzzy, kde-format
 #| msgctxt "Country name (optional, but should be translated)"
@@ -29756,19 +29756,19 @@ msgstr "Arrecife"
 msgid "Show Equatorial Gridlines"
 msgstr "Gini'r Cyhydedd"
 
-#: fitsviewer/fitsview.cpp:2512 fitsviewer/fitsviewer.cpp:245
+#: fitsviewer/fitsview.cpp:2519 fitsviewer/fitsviewer.cpp:245
 #: fitsviewer/fitsviewer.cpp:1310
 #, fuzzy, kde-format
 #| msgid "Show &name"
 msgid "Show Objects in Image"
 msgstr "Dango&s enw"
 
-#: fitsviewer/fitsview.cpp:2518
+#: fitsviewer/fitsview.cpp:2525
 #, fuzzy, kde-format
 msgid "Center Telescope"
 msgstr "Gwrthrych"
 
-#: fitsviewer/fitsview.cpp:2524 fitsviewer/fitsviewer.cpp:252
+#: fitsviewer/fitsview.cpp:2531 fitsviewer/fitsviewer.cpp:252
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Show HiPS Overlay"

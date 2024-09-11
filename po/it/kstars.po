@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 01:44+0000\n"
-"PO-Revision-Date: 2024-08-30 23:53+0200\n"
+"POT-Creation-Date: 2024-09-11 01:43+0000\n"
+"PO-Revision-Date: 2024-09-07 23:28+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -9711,16 +9711,13 @@ msgstr "Astrometry.net online o ANSVR remoto"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><body><p>Size of the subframe to constrain capture to, in pixels.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
 "astrometry.net)</p></body></html>"
 msgstr ""
-"<html><body><p>Dimensioni del subframe a cui limitare l'acquisizione, in "
-"pixel.</p></body></html>"
+"<html><head/><body><p>Parte di schema e autorità dell'URL (per es. https://"
+"nova.astrometry.net)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -10050,6 +10047,11 @@ msgid ""
 "movement. Consider using results after 2 images.  Click <i>Stop</i> when "
 "you're finished.</p>"
 msgstr ""
+"<p>Regola le <i>manopole dell'altitudine e dell'azimut</i> per ridurre "
+"l'errore dell'allineamento polare.</p><p>Abbi pazienza, la risoluzione delle "
+"lastre può influenzare il movimento delle manopole. Considera di utilizzare "
+"i risultati dopo due immagini. Fai clic su <i>Interrompi</i> quando hai "
+"finito.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1246
 #, kde-format
@@ -10059,6 +10061,11 @@ msgid ""
 "until the selected star is centered within the crosshair.</p><p>Click "
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
+"<p>Regola la <i>manopola dell'altitudine</i> della montatura per spostare la "
+"stella lungo la linea gialla, poi regola la <i>manopola dell'azimut</i> per "
+"spostarla lungo la linea verde fino a che la stella selezionata non risulta "
+"centrata all'interno del mirino.</p><p>Fai clic su <i>Interrompi</i> quando "
+"la stella è centrata.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1262
 #, kde-format
@@ -11794,6 +11801,15 @@ msgid ""
 "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
 "td></tr></table></body>"
 msgstr ""
+"<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
+"padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
+"caption { text-align: center; vertical-align: top; font-weight: bold; "
+"margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
+"align=top>Spiegazione di Adatta fuoco</caption><tr><th></th><th>Posizione</"
+"th><th>Temperatura (°C)</th><th>Altitudine (°Alt)</th></tr><tr><th>Posizione "
+"misurata</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></"
+"tr><tr><th>Adattamenti</th><td>%6</td><td>%7</td><td>%8</td></"
+"tr><tr><th>Posizione adattata</th><td>%9</td></tr></table></body>"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:731
 #, kde-format
@@ -20033,10 +20049,9 @@ msgstr "Stella a fuoco"
 
 #. i18n: ectx: property (text), widget (QLabel, helpLabel)
 #: ekos/focus/focusadvisorhelp.ui:26
-#, fuzzy, kde-format
-#| msgid "Recommended"
+#, kde-format
 msgid "Recommendations:"
-msgstr "Raccomandato"
+msgstr "Raccomandazioni:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:68
@@ -20046,10 +20061,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvHelpOnlyChanges)
 #: ekos/focus/focusadvisorhelp.ui:71
-#, fuzzy, kde-format
-#| msgid "Draw planets as images in the sky map?"
+#, kde-format
 msgid "Show Only Changes"
-msgstr "I pianeti devono essere disegnati come immagini nella mappa celeste?"
+msgstr "Mostra soltanto le modifiche"
 
 #: ekos/focus/focusalgorithms.cpp:520
 #, kde-format
@@ -20318,7 +20332,7 @@ msgstr "Dimensione del passo:"
 #: ekos/focus/opsfocusmechanics.ui:406
 #, kde-format
 msgid "Motion Timeout:"
-msgstr "Tempo massimo del moviimento:"
+msgstr "Tempo massimo del movimento:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
 #: ekos/focus/opsfocusmechanics.ui:422
@@ -20622,7 +20636,7 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:259
 #, kde-format
 msgid "HFR Adj"
-msgstr ""
+msgstr "Reg HFR"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:264
@@ -20632,10 +20646,9 @@ msgstr "FWHM"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:269
-#, fuzzy, kde-format
-#| msgid "Stars"
+#, kde-format
 msgid "# Stars"
-msgstr "Stelle"
+msgstr "# Stelle"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:274
@@ -27928,7 +27941,7 @@ msgstr "Ripeti f&ino al termine"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:702
+#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:709
 #, fuzzy, kde-format
 #| msgctxt "Message shown in Ekos Mount module"
 #| msgid "%1"
@@ -30545,93 +30558,93 @@ msgstr ""
 msgid "Rescaling image failed."
 msgstr "Ridimensionamento dell'immagine non riuscito."
 
-#: fitsviewer/fitsview.cpp:712
+#: fitsviewer/fitsview.cpp:719
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 "Impossibile ingrandire ulteriormente a causa della modalità a risorse "
 "limitate."
 
-#: fitsviewer/fitsview.cpp:1748
+#: fitsviewer/fitsview.cpp:1755
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "PCN"
 
-#: fitsviewer/fitsview.cpp:1765
+#: fitsviewer/fitsview.cpp:1772
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "PCS"
 
-#: fitsviewer/fitsview.cpp:2220
+#: fitsviewer/fitsview.cpp:2227
 #, kde-format
 msgid "Finding stars..."
 msgstr "Ricerca stelle..."
 
-#: fitsviewer/fitsview.cpp:2461
+#: fitsviewer/fitsview.cpp:2468
 #, kde-format
 msgid "Zoom In"
 msgstr "Ingrandisci"
 
-#: fitsviewer/fitsview.cpp:2464
+#: fitsviewer/fitsview.cpp:2471
 #, kde-format
 msgid "Zoom Out"
 msgstr "Rimpicciolisci"
 
-#: fitsviewer/fitsview.cpp:2467
+#: fitsviewer/fitsview.cpp:2474
 #, kde-format
 msgid "Default Zoom"
 msgstr "Ingrandimento predefinito"
 
-#: fitsviewer/fitsview.cpp:2470
+#: fitsviewer/fitsview.cpp:2477
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Ingrandimento adattativo"
 
-#: fitsviewer/fitsview.cpp:2473
+#: fitsviewer/fitsview.cpp:2480
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Attiva/disattiva allungamento"
 
-#: fitsviewer/fitsview.cpp:2481 fitsviewer/fitsviewer.cpp:219
+#: fitsviewer/fitsview.cpp:2488 fitsviewer/fitsviewer.cpp:219
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Mostra mirino"
 
-#: fitsviewer/fitsview.cpp:2485 fitsviewer/fitsviewer.cpp:232
+#: fitsviewer/fitsview.cpp:2492 fitsviewer/fitsviewer.cpp:232
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Mostra linee della griglia dei pixel"
 
-#: fitsviewer/fitsview.cpp:2490 fitsviewer/fitsview.cpp:2599
+#: fitsviewer/fitsview.cpp:2497 fitsviewer/fitsview.cpp:2606
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Rileva le stelle nell'immagine"
 
-#: fitsviewer/fitsview.cpp:2496
+#: fitsviewer/fitsview.cpp:2503
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Visualizza il profilo della stella..."
 
-#: fitsviewer/fitsview.cpp:2506 fitsviewer/fitsviewer.cpp:238
+#: fitsviewer/fitsview.cpp:2513 fitsviewer/fitsviewer.cpp:238
 #: fitsviewer/fitsviewer.cpp:1308
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostra linee della griglia equatoriali"
 
-#: fitsviewer/fitsview.cpp:2512 fitsviewer/fitsviewer.cpp:245
+#: fitsviewer/fitsview.cpp:2519 fitsviewer/fitsviewer.cpp:245
 #: fitsviewer/fitsviewer.cpp:1310
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostra gli oggetti nell'immagine"
 
-#: fitsviewer/fitsview.cpp:2518
+#: fitsviewer/fitsview.cpp:2525
 #, kde-format
 msgid "Center Telescope"
 msgstr "Centra il telescopio"
 
-#: fitsviewer/fitsview.cpp:2524 fitsviewer/fitsviewer.cpp:252
+#: fitsviewer/fitsview.cpp:2531 fitsviewer/fitsviewer.cpp:252
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Mostra sovrapposizione HiPS"

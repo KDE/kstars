@@ -35,7 +35,7 @@
             <para
 >És obligatori que el fitxer de configuració contingui una línia que comenci per <emphasis role="bold"
 >minimum_kstars_version=n.n.n</emphasis
-> on n.n.n és la versió més baixa del KStars que admet l'extensió, &pex;, 3.7.1 </para>
+> on n.n.n és la versió més baixa del KStars que admet l'extensió, &pex;, 3.7.3 </para>
             <para
 >De manera opcional (i no preferida) el fitxer de configuració pot contenir una línia que comença per <emphasis role="bold"
 >runDetached=true</emphasis
@@ -81,7 +81,7 @@
 >Bustle</ulink
 > </para>
             <para
->Pot semblar en la investigació inicial que l'ús del sistema Qt DBus Adaptors seria molt més fàcil que l'ús directe de les interfícies/missatges de Qt DBus i que el KStars proporcionés les definicions xml necessàries. No obstant això, actualment hi ha un ús intensiu de tipus personalitzats de definicions els quals es combinen amb altres informacions en el codi font del KStars. Això dona com a resultat un conjunt gran de fitxers del KStars que requereixen inclusió dins d'una extensió per tal de fer ús dels Qt DBus Adaptors. Esperem que això s'abordi en el futur. </para>
+>Pot semblar en la investigació inicial que l'ús del sistema Qt DBus Adaptors seria molt més fàcil que l'ús directe de les interfícies/missatges de Qt DBus i que el KStars proporcionés les definicions xml necessàries. No obstant això, actualment hi ha un ús intensiu de tipus personalitzats de definicions, els quals es combinen amb altres informacions en el codi font del KStars. Això dona com a resultat un conjunt gran de fitxers del KStars que requereixen inclusió dins d'una extensió per tal de fer ús dels Qt DBus Adaptors. Esperem que això s'abordi en el futur. </para>
           </listitem>
         </itemizedlist>
 	</sect2>

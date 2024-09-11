@@ -35,7 +35,7 @@
             <para
 >Het is verplicht dat het configuratiebestand een regel heeft dat begint met <emphasis role="bold"
 >minimum_kstars_version=n.n.n</emphasis
-> waar n.n.n de laagste versie van KStars is die de extensie ondersteunt &eg; 3.7.1 </para>
+> waar n.n.n de laagste versie van KStars is die de extensie ondersteunt &eg; 3.7.3 </para>
             <para
 >Optioneel (en zonder voorkeur) kan het configuratiebestand een regel bevatten die begint met <emphasis role="bold"
 >runDetached=true</emphasis
@@ -81,7 +81,7 @@
 >Bustle</ulink
 > </para>
             <para
->Het kan, bij initieel onderzoek, lijken dat het gebruik van het Qt DBus Adaptors-systeem veel gemakkelijker is dan direct gebruik van de Qt DBus Interfaces/Messages en KStars levert ook de vereiste xml-definities. Er is echter nu zwaar gebruik van aangepaste typen waarvan de definities gecombineerd met andere informatie in de broncode van KStars. Dit resulteert in een grote set bestanden van KStars die opname vereisen in een extensie om gebruik te maken van de Qt DBus Adaptors. Hopelijk zal dit in de toekomst aangepakt worden. </para>
+>Het kan, bij initieel onderzoek, lijken dat het gebruik van het Qt DBus Adaptors-systeem veel gemakkelijker is dan direct gebruik van de Qt DBus Interfaces/Messages en KStars levert ook de vereiste xml-definities. Er is echter nu zwaar gebruik van aangepaste typen, waarvan de definities gecombineerd met andere informatie in de broncode van KStars. Dit resulteert in een grote set bestanden van KStars die opname vereisen in een extensie om gebruik te maken van de Qt DBus Adaptors. Hopelijk zal dit in de toekomst aangepakt worden. </para>
           </listitem>
         </itemizedlist>
 	</sect2>
