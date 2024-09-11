@@ -141,6 +141,10 @@ bool SequenceJobState::areActionsReady()
 
 void SequenceJobState::checkAllActionsReady()
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     switch (m_PreparationState)
     {
         // capture preparation
@@ -649,6 +653,10 @@ void SequenceJobState::setInitialized(CaptureWorkflowActionType action, bool ini
 
 void SequenceJobState::setCurrentFilterID(int value)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     m_CameraState->currentFilterID = value;
     if (isInitialized(CAPTURE_ACTION_FILTER) == false && value != targetFilterID)
     {
@@ -669,6 +677,10 @@ void SequenceJobState::setCurrentFilterID(int value)
 
 void SequenceJobState::setCurrentCCDTemperature(double currentTemperature)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     // skip if next value should be ignored
     if (ignoreNextValue[CAPTURE_ACTION_TEMPERATURE])
     {
@@ -702,6 +714,10 @@ void SequenceJobState::setCurrentCCDTemperature(double currentTemperature)
 
 void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPState state)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     double currentPositionAngle = RotatorUtils::Instance()->calcCameraAngle(rotatorAngle, false);
 
     if (isInitialized(CAPTURE_ACTION_ROTATOR))
@@ -732,6 +748,10 @@ void SequenceJobState::setCurrentRotatorPositionAngle(double rotatorAngle, IPSta
 
 void SequenceJobState::setFocusStatus(FocusState state)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     switch (state)
     {
         case FOCUS_COMPLETE:
@@ -755,6 +775,10 @@ void SequenceJobState::setFocusStatus(FocusState state)
 
 void SequenceJobState::updateManualScopeCover(bool closed, bool success, bool light)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     // covering confirmed
     if (success == true)
     {
@@ -779,6 +803,10 @@ void SequenceJobState::updateManualScopeCover(bool closed, bool success, bool li
 
 void SequenceJobState::lightBoxLight(bool on)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     m_CameraState->setLightBoxLightState(on ? CAP_LIGHT_ON : CAP_LIGHT_OFF);
     emit newLog(i18n(on ? "Light box on." : "Light box off."));
     // re-run checks
@@ -787,6 +815,10 @@ void SequenceJobState::lightBoxLight(bool on)
 
 void SequenceJobState::dustCapStateChanged(ISD::DustCap::Status status)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     switch (status)
     {
         case ISD::DustCap::CAP_ERROR:
@@ -803,6 +835,10 @@ void SequenceJobState::dustCapStateChanged(ISD::DustCap::Status status)
 
 void SequenceJobState::scopeStatusChanged(ISD::Mount::Status status)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     // handle wall position
     switch (status)
     {
@@ -840,6 +876,10 @@ void SequenceJobState::domeStatusChanged(ISD::Dome::Status)
 
 void SequenceJobState::flatSyncFocusChanged(bool completed)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     flatSyncStatus = (completed ? FS_COMPLETED : FS_BUSY);
     // re-run checks
     checkAllActionsReady();
@@ -847,6 +887,10 @@ void SequenceJobState::flatSyncFocusChanged(bool completed)
 
 void SequenceJobState::hasShutter(bool present)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     if (present == true)
         m_CameraState->shutterStatus = SHUTTER_YES;
     else
@@ -863,6 +907,10 @@ SequenceJobState::PreparationState SequenceJobState::getPreparationState() const
 
 void SequenceJobState::setFilterStatus(FilterState filterState)
 {
+    // ignore events if preparation is already completed
+    if (preparationCompleted())
+        return;
+
     switch (filterState)
     {
         case FILTER_AUTOFOCUS:

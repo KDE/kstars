@@ -344,6 +344,14 @@ class SequenceJobState: public QObject
         bool areActionsReady();
 
         /**
+         * @brief preparationCompleted helper function for checking, if the preparation has been completed
+         */
+        bool preparationCompleted()
+        {
+            return m_PreparationState == PREP_COMPLETED;
+        }
+
+        /**
          * @brief Clear all actions required for preparation
          */
         void setAllActionsReady();
