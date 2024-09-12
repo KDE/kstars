@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 01:43+0000\n"
+"POT-Creation-Date: 2024-09-12 01:43+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -16362,7 +16362,7 @@ msgid "Does %1 have a shutter?"
 msgstr ""
 
 #: ekos/capture/capturedeviceadaptor.cpp:797
-#: ekos/capture/sequencejobstate.cpp:403
+#: ekos/capture/sequencejobstate.cpp:407
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Dunkelbelichtung"
@@ -17528,89 +17528,89 @@ msgstr "In Bearbeitung"
 msgid "Complete"
 msgstr "Beendet"
 
-#: ekos/capture/sequencejobstate.cpp:390
+#: ekos/capture/sequencejobstate.cpp:394
 #, fuzzy, kde-format
 #| msgid "Cover the telescope in order to take a dark exposure."
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Decken Sie das Teleskop ab, um eine Dunkelbelichtung aufzunehmen."
 
-#: ekos/capture/sequencejobstate.cpp:391
+#: ekos/capture/sequencejobstate.cpp:395
 #, fuzzy, kde-format
 #| msgid "Dark Frame"
 msgid "Flat Frame"
 msgstr "Dunkelbild"
 
-#: ekos/capture/sequencejobstate.cpp:402
+#: ekos/capture/sequencejobstate.cpp:406
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Decken Sie das Teleskop ab, um eine Dunkelbelichtung aufzunehmen."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
+#: ekos/capture/sequencejobstate.cpp:436 ekos/capture/sequencejobstate.cpp:617
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Unparking dust cap..."
 msgstr "Teleskop wird geparkt ..."
 
-#: ekos/capture/sequencejobstate.cpp:432
+#: ekos/capture/sequencejobstate.cpp:436
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Parking dust cap..."
 msgstr "Teleskop wird geparkt ..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:599
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
+#: ekos/capture/sequencejobstate.cpp:603
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:462
+#: ekos/capture/sequencejobstate.cpp:466
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Bewegung zurück zur ursprünglichen Position ..."
 
-#: ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:478
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Kalibrierung abgeschlossen."
 
-#: ekos/capture/sequencejobstate.cpp:478
+#: ekos/capture/sequencejobstate.cpp:482
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Kalibrierung abgeschlossen."
 
-#: ekos/capture/sequencejobstate.cpp:509
+#: ekos/capture/sequencejobstate.cpp:513
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking mount failed, aborting..."
 msgstr "FITS-Bild kann nicht geladen werden, Aktion wird abgebrochen ..."
 
-#: ekos/capture/sequencejobstate.cpp:518
+#: ekos/capture/sequencejobstate.cpp:522
 #, fuzzy, kde-format
 #| msgid "Restarting autofocus process..."
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Automatische Fokussierung neu starten ..."
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking dome failed, aborting..."
 msgstr "FITS-Bild kann nicht geladen werden, Aktion wird abgebrochen ..."
 
-#: ekos/capture/sequencejobstate.cpp:547
+#: ekos/capture/sequencejobstate.cpp:551
 #, fuzzy, kde-format
 #| msgid "Restarting autofocus process..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Automatische Fokussierung neu starten ..."
 
-#: ekos/capture/sequencejobstate.cpp:783
+#: ekos/capture/sequencejobstate.cpp:811
 #, kde-format
 msgid "Light box on."
 msgstr ""

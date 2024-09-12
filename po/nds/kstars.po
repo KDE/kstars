@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 01:43+0000\n"
+"POT-Creation-Date: 2024-09-12 01:43+0000\n"
 "PO-Revision-Date: 2014-06-12 16:56+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -16527,7 +16527,7 @@ msgid "Does %1 have a shutter?"
 msgstr ""
 
 #: ekos/capture/capturedeviceadaptor.cpp:797
-#: ekos/capture/sequencejobstate.cpp:403
+#: ekos/capture/sequencejobstate.cpp:407
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Düüsterbild"
@@ -17641,7 +17641,7 @@ msgstr "In de Maak"
 msgid "Complete"
 msgstr "Afslaten"
 
-#: ekos/capture/sequencejobstate.cpp:390
+#: ekos/capture/sequencejobstate.cpp:394
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -17651,13 +17651,13 @@ msgstr ""
 "Hett de Naföhrkamera keen Sluter, deck dat Teleskoop oder de Kamera bitte "
 "to, wenn Du en Düüsterbild opnehmen wullt."
 
-#: ekos/capture/sequencejobstate.cpp:391
+#: ekos/capture/sequencejobstate.cpp:395
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Flat Frame"
 msgstr "Markeren-Datei bruken"
 
-#: ekos/capture/sequencejobstate.cpp:402
+#: ekos/capture/sequencejobstate.cpp:406
 #, fuzzy, kde-format
 #| msgid ""
 #| "If the guider camera if not equipped with a shutter, cover the telescope "
@@ -17667,74 +17667,74 @@ msgstr ""
 "Hett de Naföhrkamera keen Sluter, deck dat Teleskoop oder de Kamera bitte "
 "to, wenn Du en Düüsterbild opnehmen wullt."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
+#: ekos/capture/sequencejobstate.cpp:436 ekos/capture/sequencejobstate.cpp:617
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Unparking dust cap..."
 msgstr "Teleskoop warrt parkt..."
 
-#: ekos/capture/sequencejobstate.cpp:432
+#: ekos/capture/sequencejobstate.cpp:436
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Parking dust cap..."
 msgstr "Teleskoop warrt parkt..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:599
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
+#: ekos/capture/sequencejobstate.cpp:603
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:462
+#: ekos/capture/sequencejobstate.cpp:466
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Swojen torüch na Orginaalsteed..."
 
-#: ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:478
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Caliente"
 
-#: ekos/capture/sequencejobstate.cpp:478
+#: ekos/capture/sequencejobstate.cpp:482
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Caliente"
 
-#: ekos/capture/sequencejobstate.cpp:509
+#: ekos/capture/sequencejobstate.cpp:513
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking mount failed, aborting..."
 msgstr "FITS-Bild lett sik nich laden, warrt afbraken..."
 
-#: ekos/capture/sequencejobstate.cpp:518
+#: ekos/capture/sequencejobstate.cpp:522
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Automaatsch bi to scharpstellen..."
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Parking dome failed, aborting..."
 msgstr "FITS-Bild lett sik nich laden, warrt afbraken..."
 
-#: ekos/capture/sequencejobstate.cpp:547
+#: ekos/capture/sequencejobstate.cpp:551
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Automaatsch bi to scharpstellen..."
 
-#: ekos/capture/sequencejobstate.cpp:783
+#: ekos/capture/sequencejobstate.cpp:811
 #, kde-format
 msgid "Light box on."
 msgstr ""

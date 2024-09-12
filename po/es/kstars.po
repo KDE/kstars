@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 01:43+0000\n"
+"POT-Creation-Date: 2024-09-12 01:43+0000\n"
 "PO-Revision-Date: 2024-09-02 12:04+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -16409,7 +16409,7 @@ msgid "Does %1 have a shutter?"
 msgstr "¿Dispone %1 de un obturador?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:797
-#: ekos/capture/sequencejobstate.cpp:403
+#: ekos/capture/sequencejobstate.cpp:407
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Exposición oscura"
@@ -17525,80 +17525,80 @@ msgstr "En proceso"
 msgid "Complete"
 msgstr "Completado"
 
-#: ekos/capture/sequencejobstate.cpp:390
+#: ekos/capture/sequencejobstate.cpp:394
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Cubrir el telescopio con una fuente de luz de iluminación uniforme."
 
-#: ekos/capture/sequencejobstate.cpp:391
+#: ekos/capture/sequencejobstate.cpp:395
 #, kde-format
 msgid "Flat Frame"
 msgstr "Fotograma plano"
 
-#: ekos/capture/sequencejobstate.cpp:402
+#: ekos/capture/sequencejobstate.cpp:406
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Cubra el telescopio para obtener una exposición oscura."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
+#: ekos/capture/sequencejobstate.cpp:436 ekos/capture/sequencejobstate.cpp:617
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Desaparcando la cubierta antipolvo..."
 
-#: ekos/capture/sequencejobstate.cpp:432
+#: ekos/capture/sequencejobstate.cpp:436
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "Aparcando la cubierta antipolvo..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Encender la luz de la caja de luz..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:599
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
+#: ekos/capture/sequencejobstate.cpp:603
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Apagar la luz de la caja de luz..."
 
-#: ekos/capture/sequencejobstate.cpp:462
+#: ekos/capture/sequencejobstate.cpp:466
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Montura en movimiento hasta la posición del muro (az =%1 alt =%2)"
 
-#: ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr ""
 "Desplazamiento hasta la posición del muro terminado; segumiento detenido."
 
-#: ekos/capture/sequencejobstate.cpp:478
+#: ekos/capture/sequencejobstate.cpp:482
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
 "Desplazamiento hasta la posición del muro terminado; segumiento detenido."
 
-#: ekos/capture/sequencejobstate.cpp:509
+#: ekos/capture/sequencejobstate.cpp:513
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Ha fallado el aparcamiento de la montura. Interrumpiendo..."
 
-#: ekos/capture/sequencejobstate.cpp:518
+#: ekos/capture/sequencejobstate.cpp:522
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Aparcando la montura antes de capturar fotogramas de calibración..."
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Ha fallado el aparcamiento de la cúpula. Interrumpiendo..."
 
-#: ekos/capture/sequencejobstate.cpp:547
+#: ekos/capture/sequencejobstate.cpp:551
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Aparcando la cúpula antes de capturar fotogramas de calibración..."
 
-#: ekos/capture/sequencejobstate.cpp:783
+#: ekos/capture/sequencejobstate.cpp:811
 #, kde-format
 msgid "Light box on."
 msgstr "Caja de luz encendida."

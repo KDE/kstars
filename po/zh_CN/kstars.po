@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 01:43+0000\n"
+"POT-Creation-Date: 2024-09-12 01:43+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -15637,7 +15637,7 @@ msgid "Does %1 have a shutter?"
 msgstr "%1 有快门吗？"
 
 #: ekos/capture/capturedeviceadaptor.cpp:797
-#: ekos/capture/sequencejobstate.cpp:403
+#: ekos/capture/sequencejobstate.cpp:407
 #, kde-format
 msgid "Dark Exposure"
 msgstr "暗场曝光"
@@ -16643,78 +16643,78 @@ msgstr "进行中"
 msgid "Complete"
 msgstr "完成"
 
-#: ekos/capture/sequencejobstate.cpp:390
+#: ekos/capture/sequencejobstate.cpp:394
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "以均匀的照明光源覆盖望远镜。"
 
-#: ekos/capture/sequencejobstate.cpp:391
+#: ekos/capture/sequencejobstate.cpp:395
 #, kde-format
 msgid "Flat Frame"
 msgstr "平场"
 
-#: ekos/capture/sequencejobstate.cpp:402
+#: ekos/capture/sequencejobstate.cpp:406
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "盖上望远镜以拍摄暗场。"
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
+#: ekos/capture/sequencejobstate.cpp:436 ekos/capture/sequencejobstate.cpp:617
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "防尘盖开启中..."
 
-#: ekos/capture/sequencejobstate.cpp:432
+#: ekos/capture/sequencejobstate.cpp:436
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "防尘盖关闭中..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "打开 Light box 的灯光..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:599
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
+#: ekos/capture/sequencejobstate.cpp:603
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "关闭 Light box 的灯光..."
 
-#: ekos/capture/sequencejobstate.cpp:462
+#: ekos/capture/sequencejobstate.cpp:466
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "支架旋转到 wall position (az =%1 alt =%2)"
 
-#: ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "转到 wall position 已完成，停止跟踪。"
 
-#: ekos/capture/sequencejobstate.cpp:478
+#: ekos/capture/sequencejobstate.cpp:482
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "转到 wall position 已完成，停止跟踪。"
 
-#: ekos/capture/sequencejobstate.cpp:509
+#: ekos/capture/sequencejobstate.cpp:513
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "赤道仪归位失败，终止..."
 
-#: ekos/capture/sequencejobstate.cpp:518
+#: ekos/capture/sequencejobstate.cpp:522
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "拍摄校准帧前先归位赤道仪..."
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "归位圆顶失败，终止..."
 
-#: ekos/capture/sequencejobstate.cpp:547
+#: ekos/capture/sequencejobstate.cpp:551
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "拍摄校准帧前先归位圆顶..."
 
-#: ekos/capture/sequencejobstate.cpp:783
+#: ekos/capture/sequencejobstate.cpp:811
 #, kde-format
 msgid "Light box on."
 msgstr "Light box 打开。"

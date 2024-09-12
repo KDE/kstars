@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 01:43+0000\n"
+"POT-Creation-Date: 2024-09-12 01:43+0000\n"
 "PO-Revision-Date: 2024-09-02 17:55+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -16318,7 +16318,7 @@ msgid "Does %1 have a shutter?"
 msgstr "Ten %1 unha persiana?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:797
-#: ekos/capture/sequencejobstate.cpp:403
+#: ekos/capture/sequencejobstate.cpp:407
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Exposición escura"
@@ -17428,78 +17428,78 @@ msgstr "En progreso"
 msgid "Complete"
 msgstr "Completo"
 
-#: ekos/capture/sequencejobstate.cpp:390
+#: ekos/capture/sequencejobstate.cpp:394
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Cubrir o telescopio cunha fonte de luz de iluminación homoxénea."
 
-#: ekos/capture/sequencejobstate.cpp:391
+#: ekos/capture/sequencejobstate.cpp:395
 #, kde-format
 msgid "Flat Frame"
 msgstr "Fotograma plano"
 
-#: ekos/capture/sequencejobstate.cpp:402
+#: ekos/capture/sequencejobstate.cpp:406
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Cubrir o telescopio para sacar unha exposición escura."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
+#: ekos/capture/sequencejobstate.cpp:436 ekos/capture/sequencejobstate.cpp:617
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Desestacionando a cuberta…"
 
-#: ekos/capture/sequencejobstate.cpp:432
+#: ekos/capture/sequencejobstate.cpp:436
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "Estacionando a cuberta…"
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Acender a luz da caixa luminosa…"
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:599
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
+#: ekos/capture/sequencejobstate.cpp:603
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Apagar a luz da caixa luminosa…"
 
-#: ekos/capture/sequencejobstate.cpp:462
+#: ekos/capture/sequencejobstate.cpp:466
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Rotando a montura á posición da parede (ac =%1 alt =%2)"
 
-#: ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Completouse a rotación á posición da parede, deteña o seguimento."
 
-#: ekos/capture/sequencejobstate.cpp:478
+#: ekos/capture/sequencejobstate.cpp:482
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Completouse a rotación á posición da parede, detívose o seguimento."
 
-#: ekos/capture/sequencejobstate.cpp:509
+#: ekos/capture/sequencejobstate.cpp:513
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "O estacionamento da montura fallou, interrompendo…"
 
-#: ekos/capture/sequencejobstate.cpp:518
+#: ekos/capture/sequencejobstate.cpp:522
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Estacionando a montaxe antes de calibrar a captura de fotogramas…"
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "O estacionamento da bóveda fallou, interrompendo…"
 
-#: ekos/capture/sequencejobstate.cpp:547
+#: ekos/capture/sequencejobstate.cpp:551
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Estacionando a bóveda antes de calibrar a captura de fotogramas…"
 
-#: ekos/capture/sequencejobstate.cpp:783
+#: ekos/capture/sequencejobstate.cpp:811
 #, kde-format
 msgid "Light box on."
 msgstr "A caixa luminosa está acendida."

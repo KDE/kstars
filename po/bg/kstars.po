@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 01:43+0000\n"
-"PO-Revision-Date: 2024-08-12 23:34+0200\n"
+"POT-Creation-Date: 2024-09-12 01:43+0000\n"
+"PO-Revision-Date: 2024-09-11 12:19+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.07.70\n"
+"X-Generator: Lokalize 24.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12528,10 +12528,9 @@ msgid "Waiting..."
 msgstr "Изчакване..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:425
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Дитърингът е успешен."
+msgstr "Заявен е дитъринг..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -16349,7 +16348,7 @@ msgid "Does %1 have a shutter?"
 msgstr "Има ли %1 затвор?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:797
-#: ekos/capture/sequencejobstate.cpp:403
+#: ekos/capture/sequencejobstate.cpp:407
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Тъмна експозиция"
@@ -17455,80 +17454,80 @@ msgstr "Изпълнява се"
 msgid "Complete"
 msgstr "Завършено"
 
-#: ekos/capture/sequencejobstate.cpp:390
+#: ekos/capture/sequencejobstate.cpp:394
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Осветете телескопа с равномерно разсеян източник на светлина."
 
-#: ekos/capture/sequencejobstate.cpp:391
+#: ekos/capture/sequencejobstate.cpp:395
 #, kde-format
 msgid "Flat Frame"
 msgstr "Плосък кадър"
 
-#: ekos/capture/sequencejobstate.cpp:402
+#: ekos/capture/sequencejobstate.cpp:406
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Покрийте телескопа, за да направите тъмна експозиция."
 
-#: ekos/capture/sequencejobstate.cpp:432 ekos/capture/sequencejobstate.cpp:613
+#: ekos/capture/sequencejobstate.cpp:436 ekos/capture/sequencejobstate.cpp:617
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Разпаркиране на праховия капак.."
 
-#: ekos/capture/sequencejobstate.cpp:432
+#: ekos/capture/sequencejobstate.cpp:436
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "Паркиране на праховия капак.."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Включете светлината на светлинната кутия..."
 
-#: ekos/capture/sequencejobstate.cpp:444 ekos/capture/sequencejobstate.cpp:491
-#: ekos/capture/sequencejobstate.cpp:599
+#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
+#: ekos/capture/sequencejobstate.cpp:603
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Изключете светлината на светлинната кутия..."
 
-#: ekos/capture/sequencejobstate.cpp:462
+#: ekos/capture/sequencejobstate.cpp:466
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Монтиране на завъртане към позиция на стената (az =%1 alt =%2)"
 
-#: ekos/capture/sequencejobstate.cpp:474
+#: ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr ""
 "Завъртането до позицията на стената е завършено, спиране на проследяването."
 
-#: ekos/capture/sequencejobstate.cpp:478
+#: ekos/capture/sequencejobstate.cpp:482
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
 "Завъртането до позицията на стената е завършено, проследяването е спряно."
 
-#: ekos/capture/sequencejobstate.cpp:509
+#: ekos/capture/sequencejobstate.cpp:513
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Неуспешно монтиране при паркиране, прекъсване..."
 
-#: ekos/capture/sequencejobstate.cpp:518
+#: ekos/capture/sequencejobstate.cpp:522
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Паркиране на монтировката преди заснемане на кадрите за калибриране..."
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Паркирането на купола е неуспешно, прекъсва се..."
 
-#: ekos/capture/sequencejobstate.cpp:547
+#: ekos/capture/sequencejobstate.cpp:551
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Паркиране на купола преди заснемане на кадри за калибриране..."
 
-#: ekos/capture/sequencejobstate.cpp:783
+#: ekos/capture/sequencejobstate.cpp:811
 #, kde-format
 msgid "Light box on."
 msgstr "Включена е светлинната кутия."
@@ -17664,28 +17663,24 @@ msgid "Loading"
 msgstr "Зареждане"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Starting"
-msgstr "Започва на:"
+msgstr "Започване"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Started"
-msgstr "Старт"
+msgstr "Стартирано"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop capturing"
+#, kde-format
 msgid "Stopping"
-msgstr "Спиране на записа"
+msgstr "Спиране"
 
 #: ekos/ekos.h:221
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stopped"
-msgstr "Спиране"
+msgstr "Спряно"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
 #, kde-format
@@ -19986,15 +19981,12 @@ msgstr ""
 "td></tr></table>"
 
 #: ekos/focus/focusmodule.cpp:32
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Add additional camera</p><p><b>WARNING</b>: This feature is "
-#| "experimental!</p>"
+#, kde-format
 msgid ""
 "<p>Add additional focuser</p><p><b>WARNING</b>: This feature is experimental!"
 "</p>"
 msgstr ""
-"<p>Добавяне на допълнителна камера</p><p><b>Предупреждение</b>: Това е "
+"<p>Добавяне на допълнителен фокусер</p><p><b>Предупреждение</b>: Това е "
 "експериментална функция!</p>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
@@ -23696,11 +23688,7 @@ msgstr "дъг/сек"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:424
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If checked we try to be more resiliant to double "
-#| "stars by inventing a guide star position from the multi-star references.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
@@ -23935,44 +23923,42 @@ msgstr "Анализиране"
 #: ekos/manager.cpp:388
 #, kde-format
 msgid "Extension '%1' failed to start, aborting"
-msgstr ""
+msgstr "Разширението „%1“ не успя да стартира, прекъсва се"
 
 #: ekos/manager.cpp:402
 #, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
-msgstr ""
+msgstr "Разширението „%1“ не успя да спре, прекъсването е разрешено"
 
 #: ekos/manager.cpp:411
 #, kde-format
 msgid "Extension '%1' aborting"
-msgstr ""
+msgstr "Разширението „%1“ се прекъсва"
 
 #: ekos/manager.cpp:421
 #, kde-format
 msgid "Extension '%1' start requested"
-msgstr ""
+msgstr "Заявено е стартиране на разширението „%1“."
 
 #: ekos/manager.cpp:426
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "Extension '%1' started"
-msgstr "Задачата '%1' е прекъсната."
+msgstr "Разширение '%1' е стартирано."
 
 #: ekos/manager.cpp:434
 #, kde-format
 msgid "Extension '%1' stop requested"
-msgstr ""
+msgstr "Заявено е спиране на разширението „%1“."
 
 #: ekos/manager.cpp:439
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "Extension '%1' stopped"
-msgstr "Задачата '%1' е прекъсната."
+msgstr "Разширение '%1' е прекъснато."
 
 #: ekos/manager.cpp:455
 #, kde-format
 msgid "Extension '%1': %2"
-msgstr ""
+msgstr "Разширение „%1“: %2"
 
 #: ekos/manager.cpp:720
 #, kde-format
@@ -24291,17 +24277,17 @@ msgstr "Повторно деактивиране на регистриране�
 #: ekos/manager.cpp:3726
 #, kde-format
 msgid "Preview source set to external"
-msgstr ""
+msgstr "Източникът на визуализация е зададен като външен"
 
 #: ekos/manager.cpp:3733
 #, kde-format
 msgid "Preview source reset to internal"
-msgstr ""
+msgstr "Възстановяване на източника на визуализация към вътрешен"
 
 #: ekos/manager.cpp:3740
 #, kde-format
 msgid "Received external preview file"
-msgstr ""
+msgstr "Получен файл за външен преглед"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #: ekos/manager.ui:108
@@ -24399,17 +24385,15 @@ msgstr "3. Свързване и изключване на устройства"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extensions"
-msgstr "Размери"
+msgstr "Разширения"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687
-#, fuzzy, kde-format
-#| msgid "value for selected option"
+#, kde-format
 msgid "Start selected extension"
-msgstr "стойност на избрания параметър"
+msgstr "Стартиране на избраното разширение"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
@@ -29658,19 +29642,20 @@ msgstr "Заснетият кадър е на %1 дъгови минути от 
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
-msgstr ""
+msgstr "Предупреждение: името на оптичната система е празно, избира се \"%1\"."
 
 #: ekos/scheduler/schedulerprocess.cpp:3371
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr ""
+"Предупреждение: името на оптичната система %2 не съществува, избира се "
+"\"%1\"."
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Оптична система"
+msgstr "Избор на оптична система"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -29678,6 +29663,8 @@ msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
+"Предупреждение: няма налично име на оптичната система за задание на графика, "
+"изберете името ръчно."
 
 #: ekos/scheduler/schedulerprocess.cpp:3533
 #, kde-format
@@ -29754,16 +29741,14 @@ msgstr ""
 "заснемане, маркира се като прекратено."
 
 #: ekos/scheduler/schedulerprocess.cpp:3730
-#, fuzzy, kde-format
-#| msgid "[%2] Follower job '%1' has failed, is restarting."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
-msgstr "[%2] Задание за следване '%1'е неуспешно и се рестартира."
+msgstr "[%2] Задание за следване '%1'е прекъснато и се рестартира."
 
 #: ekos/scheduler/schedulerprocess.cpp:3736
-#, fuzzy, kde-format
-#| msgid "[%2] Follower job '%1' has failed, is restarting."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
-msgstr "[%2] Задание за следване '%1'е неуспешно и се рестартира."
+msgstr "[%2] Задание за следване '%1'е прекъснато."
 
 #: ekos/scheduler/schedulerprocess.cpp:3744
 #, kde-format
