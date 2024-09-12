@@ -400,6 +400,8 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
 
         case SettleDone:
         {
+            emit newLog(i18n("PHD2: SettleDone."));
+
             // guiding stopped during dithering
             if (state == PHD2::STOPPED)
                 return;
@@ -651,8 +653,11 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
         case GUIDING:
             switch (state)
             {
-                case PAUSED:
                 case DITHERING:
+                    emit newLog(i18n("PHD2: Guiding...waiting for settle..."));
+                    break;
+
+                case PAUSED:
                     emit newLog(i18n("PHD2: Dithering successful."));
                     abortTimer->stop();
                     ditherTimer->stop(); // stop immediately, since pausing could interrupt settling
