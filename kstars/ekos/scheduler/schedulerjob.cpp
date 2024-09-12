@@ -448,7 +448,6 @@ void SchedulerJob::setEstimatedTime(const int64_t &value)
     else if (FINISH_AT != completionCondition && FINISH_LOOP != completionCondition)
     {
         estimatedTime = value;
-        setStopTime(startupTime.addSecs(value));
     }
     /* Else estimated time is simply stored as is - covers FINISH_LOOP from setCompletionTime */
     else estimatedTime = value;
