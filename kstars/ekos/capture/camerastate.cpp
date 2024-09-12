@@ -736,7 +736,23 @@ void CameraState::updateFocusState(FocusState state)
     }
 
     if (m_activeJob != nullptr)
-        m_activeJob->setFocusStatus(state);
+    {
+        // Account for in-sequence-focus action that may lead to guide suspension and resumption after it is completed successfully.
+        // In this case, since the guiding was resumed, we should honor the guiding settle duration.
+        // To satisfy this, the guide state must be guiding and focus suspend guiding should be active.
+        if (state == FOCUS_COMPLETE && Options::guidingSettle() > 0 && Options::focusSuspendGuiding() && m_GuideState == GUIDE_GUIDING)
+        {
+            // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
+            appendLogText(i18n("Focus complete. Resuming in %1 seconds...", Options::guidingSettle()));
+            QTimer::singleShot(Options::guidingSettle() * 1000, this, [this, state]()
+            {
+                if (m_activeJob != nullptr)
+                    m_activeJob->setFocusStatus(state);
+            });
+        }
+        else
+            m_activeJob->setFocusStatus(state);
+    }
 }
 
 AutofocusReason CameraState::getAFReason(RefocusState::RefocusReason state, QString &reasonInfo)
