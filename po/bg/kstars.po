@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-12 01:43+0000\n"
+"POT-Creation-Date: 2024-09-13 01:48+0000\n"
 "PO-Revision-Date: 2024-09-11 12:19+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -1498,7 +1498,7 @@ msgstr "месеци"
 msgid "days"
 msgstr "дни"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1035
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1034
 #, kde-format
 msgid "hours"
 msgstr "часове"
@@ -1506,7 +1506,7 @@ msgstr "часове"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:1033
+#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:1032
 #, kde-format
 msgid "minutes"
 msgstr "минути"
@@ -1527,7 +1527,7 @@ msgstr "минути"
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
 #: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:625 ekos/opsekos.ui:665
-#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:1031
+#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:1030
 #, kde-format
 msgid "seconds"
 msgstr "секунди"
@@ -2984,7 +2984,7 @@ msgstr "Вид на съпоставянето"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
-#: ekos/capture/cameraprocess.cpp:2465 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:727 fitsviewer/fitsviewer.cpp:728
 #, kde-format
 msgid "Preview"
@@ -6588,8 +6588,8 @@ msgstr "Световната координатна система (WCS) е де
 msgid "Capture error. Aborting..."
 msgstr "Грешка при заснемане. Прекъсване..."
 
-#: ekos/align/align.cpp:3299 ekos/capture/cameraprocess.cpp:1584
-#: ekos/capture/cameraprocess.cpp:2143
+#: ekos/align/align.cpp:3299 ekos/capture/cameraprocess.cpp:1583
+#: ekos/capture/cameraprocess.cpp:2142
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Рестартиране на опита за заснемане #%1"
@@ -6689,7 +6689,7 @@ msgstr "Не може да се записва във файл %1"
 
 #: ekos/align/align.cpp:3969 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2854
-#: ekos/capture/cameraprocess.cpp:2564 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2563 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
 #: ekos/scheduler/schedulerprocess.cpp:4649
@@ -7348,7 +7348,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Отваряне на списък за подравняване на Ekos"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2853
-#: ekos/capture/cameraprocess.cpp:2563 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2562 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4668
 #, kde-format
@@ -14760,7 +14760,7 @@ msgstr "Филтърът е настроен на %1."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Сигурни ли сте, че искате да нулирате състоянието на всички задачи?"
 
-#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2682
+#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2681
 #, kde-format
 msgid "Reset job status"
 msgstr "Нулиране на състоянието на задачата"
@@ -15035,7 +15035,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Опции за автоматично калибриране на тъмни и плоски кадри"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2478
+#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2477
 #: ekos/guide/guide.cpp:69
 #, kde-format
 msgid "Calibration"
@@ -15782,120 +15782,120 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "Неуспешно записване на изображение"
 
-#: ekos/capture/cameraprocess.cpp:1245
+#: ekos/capture/cameraprocess.cpp:1244
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Отдалеченото изображение е запазено в %1"
 
-#: ekos/capture/cameraprocess.cpp:1271
+#: ekos/capture/cameraprocess.cpp:1270
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Автоматичното насочване е спряно."
 
-#: ekos/capture/cameraprocess.cpp:1300
+#: ekos/capture/cameraprocess.cpp:1299
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Предупреждение: Процесът на калибриране е прекратен преждевременно."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1366
+#: ekos/capture/cameraprocess.cpp:1365
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD последователността на заснемане е завършена"
 
-#: ekos/capture/cameraprocess.cpp:1423
+#: ekos/capture/cameraprocess.cpp:1422
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Грешка: Загубена връзка с CCD."
 
-#: ekos/capture/cameraprocess.cpp:1451
+#: ekos/capture/cameraprocess.cpp:1450
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 "Не може да се изчислят нивата на ADU (analog to digital units) в "
 "изображения, които не са във формат FITS."
 
-#: ekos/capture/cameraprocess.cpp:1576 ekos/capture/cameraprocess.cpp:2135
+#: ekos/capture/cameraprocess.cpp:1575 ekos/capture/cameraprocess.cpp:2134
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "Заснемането е неуспешно. Проверете контролния панел на INDI за подробности."
 
-#: ekos/capture/cameraprocess.cpp:1676
+#: ekos/capture/cameraprocess.cpp:1675
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Време за изтегляне: %1 s, нова оценка на времето за изтегляне: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1742
+#: ekos/capture/cameraprocess.cpp:1741
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Получено изображение %1 от %2."
 
-#: ekos/capture/cameraprocess.cpp:1776
+#: ekos/capture/cameraprocess.cpp:1775
 #, kde-format
 msgid "Captured %1"
 msgstr "Изображение %1 е заснето"
 
-#: ekos/capture/cameraprocess.cpp:1782
+#: ekos/capture/cameraprocess.cpp:1781
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "ПРЕДУПРЕЖДЕНИЕ: останали и потенциално неизвестни заместители %1 в %2"
 
-#: ekos/capture/cameraprocess.cpp:1823
+#: ekos/capture/cameraprocess.cpp:1822
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Изпълнява се скрипт за улавяне %1"
 
-#: ekos/capture/cameraprocess.cpp:1838
+#: ekos/capture/cameraprocess.cpp:1837
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Скриптът за предварително заснемане завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:1846
+#: ekos/capture/cameraprocess.cpp:1845
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Скриптът за последващо заснемане завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:1858
+#: ekos/capture/cameraprocess.cpp:1857
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Обръщане на меридиана се обработва..."
 
-#: ekos/capture/cameraprocess.cpp:1868
+#: ekos/capture/cameraprocess.cpp:1867
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Скриптът за предварителна работа завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:1873
+#: ekos/capture/cameraprocess.cpp:1872
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Скриптът за последваща работа завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:2065 ekos/focus/focus.cpp:5374
+#: ekos/capture/cameraprocess.cpp:2064 ekos/focus/focus.cpp:5374
 #: ekos/focus/focus.cpp:5398
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Изчакване на експозицията. Прекъсване..."
 
-#: ekos/capture/cameraprocess.cpp:2072
+#: ekos/capture/cameraprocess.cpp:2071
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Изчакване на експозицията. Засечени са повече от три опита. Драйверът се "
 "рестартира..."
 
-#: ekos/capture/cameraprocess.cpp:2090 ekos/focus/focus.cpp:5379
+#: ekos/capture/cameraprocess.cpp:2089 ekos/focus/focus.cpp:5379
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Изчакване на експозицията. Експозицията се рестартира..."
 
-#: ekos/capture/cameraprocess.cpp:2116
+#: ekos/capture/cameraprocess.cpp:2115
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Времето на изчакване на експозицията изтече. Прекъсване..."
 
-#: ekos/capture/cameraprocess.cpp:2194
+#: ekos/capture/cameraprocess.cpp:2193
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -15904,19 +15904,19 @@ msgstr ""
 "Калибрирането с плоско поле е неуспешно. Заснетото изображение е само %1-"
 "битово, а исканото ADU е %2."
 
-#: ekos/capture/cameraprocess.cpp:2205
+#: ekos/capture/cameraprocess.cpp:2204
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "Текущото изображение е наситено (%1). Следващата експозиция е %2 секунди."
 
-#: ekos/capture/cameraprocess.cpp:2227
+#: ekos/capture/cameraprocess.cpp:2226
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "Текущо ADU %1 в рамките на целевия диапазон на допустимите отклонения на ADU."
 
-#: ekos/capture/cameraprocess.cpp:2256
+#: ekos/capture/cameraprocess.cpp:2255
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -15925,27 +15925,27 @@ msgstr ""
 "При невъзможност за изчисляване на оптимални настройки на експозицията, "
 "моля, заснемете плоските кадри ръчно."
 
-#: ekos/capture/cameraprocess.cpp:2264
+#: ekos/capture/cameraprocess.cpp:2263
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Текущото ADU е %1 Следващата експозиция е %2 секунди."
 
-#: ekos/capture/cameraprocess.cpp:2462
+#: ekos/capture/cameraprocess.cpp:2461
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Преглед"
 
-#: ekos/capture/cameraprocess.cpp:2473 ekos/capture/cameraprocess.cpp:2475
+#: ekos/capture/cameraprocess.cpp:2472 ekos/capture/cameraprocess.cpp:2474
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Калибриране с плоско поле"
 
-#: ekos/capture/cameraprocess.cpp:2631
+#: ekos/capture/cameraprocess.cpp:2630
 #, kde-format
 msgid "Sequence paused."
 msgstr "Последователността е паузирана."
 
-#: ekos/capture/cameraprocess.cpp:2681
+#: ekos/capture/cameraprocess.cpp:2680
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15954,7 +15954,7 @@ msgstr ""
 "Всички задачи са завършени. Искате ли да нулирате състоянието на всички "
 "задачи и да рестартирате заснемането?"
 
-#: ekos/capture/cameraprocess.cpp:2695
+#: ekos/capture/cameraprocess.cpp:2694
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15963,12 +15963,12 @@ msgstr ""
 "Предупреждение: опцията \"Винаги нулиране на последователността при "
 "стартиране\" е активирана и нулира броячите на последователността."
 
-#: ekos/capture/cameraprocess.cpp:2810
+#: ekos/capture/cameraprocess.cpp:2809
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Сигурни ли сте, че искате да рестартирате %1 драйвер за камера?"
 
-#: ekos/capture/cameraprocess.cpp:2811
+#: ekos/capture/cameraprocess.cpp:2810
 #, kde-format
 msgid "Driver Restart"
 msgstr "Презареждане на драйвера"
@@ -16064,60 +16064,67 @@ msgstr "Завършен адаптивен фокус."
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Автофокусът е неуспешен. Прекъсване на експозицията..."
 
-#: ekos/capture/camerastate.cpp:753
+#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
+#: ekos/capture/camerastate.cpp:746
+#, fuzzy, kde-format
+#| msgid "Dither complete. Resuming in %1 seconds..."
+msgid "Focus complete. Resuming in %1 seconds..."
+msgstr "Дитърингът е завършен. Възобновяване след %1 секунди..."
+
+#: ekos/capture/camerastate.cpp:769
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr "Ограничение: %1 °C"
 
-#: ekos/capture/camerastate.cpp:757
+#: ekos/capture/camerastate.cpp:773
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr "Ограничение: %1 мин"
 
-#: ekos/capture/camerastate.cpp:902
+#: ekos/capture/camerastate.cpp:918
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Извършване на пренастройване след обръщане..."
 
-#: ekos/capture/camerastate.cpp:920
+#: ekos/capture/camerastate.cpp:936
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Времето за изчакване на модула за гидиране изтече."
 
-#: ekos/capture/camerastate.cpp:952
+#: ekos/capture/camerastate.cpp:968
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "Първоначално отклонение в гидирането %1 е под граничната стойност от %2 "
 "дъгови секунди"
 
-#: ekos/capture/camerastate.cpp:961
+#: ekos/capture/camerastate.cpp:977
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "Първоначалното отклонение в гидирането %1 е надвишило граничната стойност от "
 "%2 дъгови секунди"
 
-#: ekos/capture/camerastate.cpp:983
+#: ekos/capture/camerastate.cpp:999
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Калибрирането след обръщането на меридиана е завършено успешно."
 
-#: ekos/capture/camerastate.cpp:997
+#: ekos/capture/camerastate.cpp:1013
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Отклонението в гидирането при стартиране на заснемането %1 е надвишило "
 "границата %2 дъгови секунди."
 
-#: ekos/capture/camerastate.cpp:1011
+#: ekos/capture/camerastate.cpp:1027
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Отклонението в гидирането при стартиране на заснемането %1 е под граничната "
 "стойност от %2 дъгови секунди"
 
-#: ekos/capture/camerastate.cpp:1038
+#: ekos/capture/camerastate.cpp:1054
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16127,7 +16134,7 @@ msgstr ""
 "секунди за %4 последователни проби, спиране на експозицията и изчакване на "
 "гидирането до %3 секунди."
 
-#: ekos/capture/camerastate.cpp:1085
+#: ekos/capture/camerastate.cpp:1101
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16136,7 +16143,7 @@ msgstr ""
 "Отклонението в гидирането %1 вече е по-ниско от граничната стойност от %2 "
 "дъгови секунди, възобновяване на експозицията."
 
-#: ekos/capture/camerastate.cpp:1089
+#: ekos/capture/camerastate.cpp:1105
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16145,24 +16152,24 @@ msgstr ""
 "Отклонението в гидирането %1 сега е по-ниско от граничната стойност от %2 "
 "дъгови секунди, възобновяване на експозицията след %3 секунди."
 
-#: ekos/capture/camerastate.cpp:1104
+#: ekos/capture/camerastate.cpp:1120
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "Отклонението в гидирането %1 все още е по-високо от граничната стойност от "
 "%2 дъгови секунди."
 
-#: ekos/capture/camerastate.cpp:1484
+#: ekos/capture/camerastate.cpp:1500
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Повторното подреждане след обръщането е завършено успешно."
 
-#: ekos/capture/camerastate.cpp:1503
+#: ekos/capture/camerastate.cpp:1519
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Подравняването след обръщане е неуспешно."
 
-#: ekos/capture/camerastate.cpp:1508
+#: ekos/capture/camerastate.cpp:1524
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Неуспешно подравняване след обръщане. Повторен опит..."
@@ -21439,127 +21446,139 @@ msgstr "PHD2: Неуспешно калибриране (%1)."
 msgid "Calibration Data Flipped."
 msgstr "Данните за калибриране са обърнати."
 
-#: ekos/guide/externalguide/phd2.cpp:412
+#: ekos/guide/externalguide/phd2.cpp:403
+#, fuzzy, kde-format
+#| msgid "PHD2: Star Selected."
+msgid "PHD2: SettleDone."
+msgstr "PHD2: Избрана е звезда."
+
+#: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
 msgstr "PHD2: Установяването е неуспешно (%1)."
 
-#: ekos/guide/externalguide/phd2.cpp:431
+#: ekos/guide/externalguide/phd2.cpp:433
 #, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
 msgstr "PHD2: Имаше грешка в дитеринга, но продължете да направлявате."
 
-#: ekos/guide/externalguide/phd2.cpp:440
+#: ekos/guide/externalguide/phd2.cpp:442
 #, kde-format
 msgid "PHD2: Settling failed, aborted."
 msgstr "PHD2: Грешка в установяването, прекъсване."
 
-#: ekos/guide/externalguide/phd2.cpp:446
+#: ekos/guide/externalguide/phd2.cpp:448
 #, kde-format
 msgid "PHD2: Settling complete, Guiding Started."
 msgstr "PHD2: Установяването е завършено, гидирането е започнато."
 
-#: ekos/guide/externalguide/phd2.cpp:475
+#: ekos/guide/externalguide/phd2.cpp:477
 #, kde-format
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "PHD2: Намерена е звезда, гидирането се възобновява..."
 
-#: ekos/guide/externalguide/phd2.cpp:557
+#: ekos/guide/externalguide/phd2.cpp:559
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr "PHD2 %1: %2"
 
-#: ekos/guide/externalguide/phd2.cpp:611
+#: ekos/guide/externalguide/phd2.cpp:613
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr "PHD2: Завъртане на експозиции Спряно."
 
-#: ekos/guide/externalguide/phd2.cpp:616
+#: ekos/guide/externalguide/phd2.cpp:618
 #, kde-format
 msgid "PHD2: Guiding Stopped."
 msgstr "PHD2: Гидирането е спряно."
 
-#: ekos/guide/externalguide/phd2.cpp:635
+#: ekos/guide/externalguide/phd2.cpp:637
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr "PHD2: Задаване на позиция на заключване."
 
-#: ekos/guide/externalguide/phd2.cpp:646
+#: ekos/guide/externalguide/phd2.cpp:648
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr "PHD2: Избрана е звезда."
 
-#: ekos/guide/externalguide/phd2.cpp:656
+#: ekos/guide/externalguide/phd2.cpp:657
+#, fuzzy, kde-format
+#| msgid "PHD2: Waiting for guiding to settle."
+msgid "PHD2: Guiding...waiting for settle..."
+msgstr "PHD2: Изчакване на гидирането да се стабизилизира."
+
+#: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
 msgid "PHD2: Dithering successful."
 msgstr "Успешно дитериране на PHD2."
 
-#: ekos/guide/externalguide/phd2.cpp:662
+#: ekos/guide/externalguide/phd2.cpp:667
 #, kde-format
 msgid "PHD2: Guiding started."
 msgstr "PHD2: Гидирането започна."
 
-#: ekos/guide/externalguide/phd2.cpp:673
+#: ekos/guide/externalguide/phd2.cpp:678
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr "PHD2: Загубена позиция на заключване, продължаване на калибрирането."
 
-#: ekos/guide/externalguide/phd2.cpp:679
+#: ekos/guide/externalguide/phd2.cpp:684
 #, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "PHD2: Изгубена звезда. Опит за повторно получаване за %1s."
 
-#: ekos/guide/externalguide/phd2.cpp:685
+#: ekos/guide/externalguide/phd2.cpp:690
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr "PHD2: Загубена позиция на заключване."
 
-#: ekos/guide/externalguide/phd2.cpp:691
+#: ekos/guide/externalguide/phd2.cpp:696
 #, kde-format
 msgid "PHD2: Guiding paused."
 msgstr "PHD2: Гидирането е на пауза."
 
-#: ekos/guide/externalguide/phd2.cpp:696
+#: ekos/guide/externalguide/phd2.cpp:701
 #, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2: Калибриране, изчакване след %1s."
 
-#: ekos/guide/externalguide/phd2.cpp:705
+#: ekos/guide/externalguide/phd2.cpp:710
 #, kde-format
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "PHD2: Калибрирането се превърна в цикъл, неуспешно."
 
-#: ekos/guide/externalguide/phd2.cpp:709
+#: ekos/guide/externalguide/phd2.cpp:714
 #, kde-format
 msgid "PHD2: Looping Exposures."
 msgstr "PHD2: Циклични експозиции."
 
-#: ekos/guide/externalguide/phd2.cpp:715
+#: ekos/guide/externalguide/phd2.cpp:720
 #, kde-format
 msgid "PHD2: Dithering started."
 msgstr "PHD2: Дитърингът започна."
 
-#: ekos/guide/externalguide/phd2.cpp:743
+#: ekos/guide/externalguide/phd2.cpp:748
 #, kde-format
 msgid "PHD2: Calibration is cleared"
 msgstr "PHD2: Калибрирането е изчистено"
 
-#: ekos/guide/externalguide/phd2.cpp:839
+#: ekos/guide/externalguide/phd2.cpp:844
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr "PHD2: Режимът на гидирането DEC е настроен на: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:849
+#: ekos/guide/externalguide/phd2.cpp:854
 #, kde-format
 msgid "PHD2: Exposure Time set to: "
 msgstr "PHD2: Време на експозиция, зададено на:"
 
-#: ekos/guide/externalguide/phd2.cpp:857
+#: ekos/guide/externalguide/phd2.cpp:862
 #, kde-format
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Валидно време на експозиция: Автоматично,"
 
-#: ekos/guide/externalguide/phd2.cpp:888
+#: ekos/guide/externalguide/phd2.cpp:893
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
@@ -21568,37 +21587,37 @@ msgstr ""
 "PHD2: Моля, задайте параметрите на CCD и телескопа в PHD2, Pixel Scale е "
 "невалиден."
 
-#: ekos/guide/externalguide/phd2.cpp:890
+#: ekos/guide/externalguide/phd2.cpp:895
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr "PHD2: Мащабът на пиксела е %1 arcsec на пиксел"
 
-#: ekos/guide/externalguide/phd2.cpp:1005
+#: ekos/guide/externalguide/phd2.cpp:1010
 #, kde-format
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "PHD2 грешка: необработено \"%1\""
 
-#: ekos/guide/externalguide/phd2.cpp:1138
-#: ekos/guide/externalguide/phd2.cpp:1156
-#: ekos/guide/externalguide/phd2.cpp:1307
-#: ekos/guide/externalguide/phd2.cpp:1422
-#: ekos/guide/externalguide/phd2.cpp:1451
-#: ekos/guide/externalguide/phd2.cpp:1480
+#: ekos/guide/externalguide/phd2.cpp:1143
+#: ekos/guide/externalguide/phd2.cpp:1161
+#: ekos/guide/externalguide/phd2.cpp:1312
+#: ekos/guide/externalguide/phd2.cpp:1427
+#: ekos/guide/externalguide/phd2.cpp:1456
+#: ekos/guide/externalguide/phd2.cpp:1485
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr "Грешка на PHD2: Оборудването не е свързано."
 
-#: ekos/guide/externalguide/phd2.cpp:1300
+#: ekos/guide/externalguide/phd2.cpp:1305
 #, kde-format
 msgid "PHD2: Guiding is already running."
 msgstr "PHD2: Гидирането вече в в ход."
 
-#: ekos/guide/externalguide/phd2.cpp:1366
+#: ekos/guide/externalguide/phd2.cpp:1371
 #, kde-format
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "PHD2: Свързване на оборудване. . ."
 
-#: ekos/guide/externalguide/phd2.cpp:1368
+#: ekos/guide/externalguide/phd2.cpp:1373
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: Изключване на оборудване. . ."
@@ -28970,12 +28989,12 @@ msgstr "Сваляне на капака"
 msgid "Ekos job failed (%1)"
 msgstr "Неуспешна задача на Ekos (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:1011
+#: ekos/scheduler/schedulerjob.cpp:1010
 #, kde-format
 msgid "DarkFlat"
 msgstr "Тъмни плоски"
 
-#: ekos/scheduler/schedulerjob.cpp:1042
+#: ekos/scheduler/schedulerjob.cpp:1041
 #, kde-format
 msgid "images"
 msgstr "Изображения"

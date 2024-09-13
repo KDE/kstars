@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-12 01:43+0000\n"
-"PO-Revision-Date: 2024-09-09 20:41+0300\n"
+"POT-Creation-Date: 2024-09-13 01:48+0000\n"
+"PO-Revision-Date: 2024-09-12 21:29+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1500,7 +1500,7 @@ msgstr "ay"
 msgid "days"
 msgstr "gün"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1035
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1034
 #, kde-format
 msgid "hours"
 msgstr "saat"
@@ -1508,7 +1508,7 @@ msgstr "saat"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:1033
+#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:1032
 #, kde-format
 msgid "minutes"
 msgstr "dakika"
@@ -1529,7 +1529,7 @@ msgstr "dakika"
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
 #: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:625 ekos/opsekos.ui:665
-#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:1031
+#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:1030
 #, kde-format
 msgid "seconds"
 msgstr "saniye"
@@ -2983,7 +2983,7 @@ msgstr "Tür Eşlemleme"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
-#: ekos/capture/cameraprocess.cpp:2465 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:727 fitsviewer/fitsviewer.cpp:728
 #, kde-format
 msgid "Preview"
@@ -6576,8 +6576,8 @@ msgstr "Dünya Koordinat Sistemi (WCS) devre dışı."
 msgid "Capture error. Aborting..."
 msgstr "Yakalama hatası. İptal ediliyor…"
 
-#: ekos/align/align.cpp:3299 ekos/capture/cameraprocess.cpp:1584
-#: ekos/capture/cameraprocess.cpp:2143
+#: ekos/align/align.cpp:3299 ekos/capture/cameraprocess.cpp:1583
+#: ekos/capture/cameraprocess.cpp:2142
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "№%1. yakalama denemesi yeniden başlatılıyor"
@@ -6677,7 +6677,7 @@ msgstr "%1 dosyasına yazılamadı."
 
 #: ekos/align/align.cpp:3969 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2854
-#: ekos/capture/cameraprocess.cpp:2564 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2563 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
 #: ekos/scheduler/schedulerprocess.cpp:4649
@@ -7329,7 +7329,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Ekos Hizalama Listesini Aç"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2853
-#: ekos/capture/cameraprocess.cpp:2563 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2562 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4668
 #, kde-format
@@ -14668,7 +14668,7 @@ msgstr "Süzgeç %1 olarak ayarlandı."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Tüm işlerin durumunu sıfırlamak istediğinizden emin misiniz?"
 
-#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2682
+#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2681
 #, kde-format
 msgid "Reset job status"
 msgstr "İş durumunu sıfırla"
@@ -14941,7 +14941,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Karanlık ve düz karelerin kendiliğinden kalibrasyon seçenekleri"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2478
+#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2477
 #: ekos/guide/guide.cpp:69
 #, kde-format
 msgid "Calibration"
@@ -15681,117 +15681,117 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "Görsel Yazılamadı"
 
-#: ekos/capture/cameraprocess.cpp:1245
+#: ekos/capture/cameraprocess.cpp:1244
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Uzak görsel %1 konumuna kaydedildi"
 
-#: ekos/capture/cameraprocess.cpp:1271
+#: ekos/capture/cameraprocess.cpp:1270
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Kendiliğinden kılavuzluk askıya alındı."
 
-#: ekos/capture/cameraprocess.cpp:1300
+#: ekos/capture/cameraprocess.cpp:1299
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Uyarı: Kalibrasyon işlemi zamanından önce sonlandırıldı."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1366
+#: ekos/capture/cameraprocess.cpp:1365
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD yakalama sekansı tamamlandı"
 
-#: ekos/capture/cameraprocess.cpp:1423
+#: ekos/capture/cameraprocess.cpp:1422
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Hata: CCD bağlantısı kayboldu."
 
-#: ekos/capture/cameraprocess.cpp:1451
+#: ekos/capture/cameraprocess.cpp:1450
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "FITS olmayan görsellerde ADU düzeyleri hesaplanamıyor."
 
-#: ekos/capture/cameraprocess.cpp:1576 ekos/capture/cameraprocess.cpp:2135
+#: ekos/capture/cameraprocess.cpp:1575 ekos/capture/cameraprocess.cpp:2134
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "Yakalama başarısız. Ayrıntılar için INDI Denetim Paneli’ne bakın."
 
-#: ekos/capture/cameraprocess.cpp:1676
+#: ekos/capture/cameraprocess.cpp:1675
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "İndirme zamanı: %1 sn, yeni indirme zamanı tahmini: %2 sn"
 
-#: ekos/capture/cameraprocess.cpp:1742
+#: ekos/capture/cameraprocess.cpp:1741
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "%1/%2 görsel alındı."
 
-#: ekos/capture/cameraprocess.cpp:1776
+#: ekos/capture/cameraprocess.cpp:1775
 #, kde-format
 msgid "Captured %1"
 msgstr "%1 yakalandı"
 
-#: ekos/capture/cameraprocess.cpp:1782
+#: ekos/capture/cameraprocess.cpp:1781
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "UYARI: %2 içinde kalmış ve potansiyel olarak bilinmeyen yer tutucular %1"
 
-#: ekos/capture/cameraprocess.cpp:1823
+#: ekos/capture/cameraprocess.cpp:1822
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Yakalama betiği %1 yürütülüyor"
 
-#: ekos/capture/cameraprocess.cpp:1838
+#: ekos/capture/cameraprocess.cpp:1837
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Yakalama öncesi betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:1846
+#: ekos/capture/cameraprocess.cpp:1845
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Yakalama sonrası betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:1858
+#: ekos/capture/cameraprocess.cpp:1857
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Meridyen geçişi işleniyor…"
 
-#: ekos/capture/cameraprocess.cpp:1868
+#: ekos/capture/cameraprocess.cpp:1867
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "İş öncesi betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:1873
+#: ekos/capture/cameraprocess.cpp:1872
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "İş sonrası betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:2065 ekos/focus/focus.cpp:5374
+#: ekos/capture/cameraprocess.cpp:2064 ekos/focus/focus.cpp:5374
 #: ekos/focus/focus.cpp:5398
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Pozlama zaman aşımı. İptal ediliyor…"
 
-#: ekos/capture/cameraprocess.cpp:2072
+#: ekos/capture/cameraprocess.cpp:2071
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Pozlama zaman aşımı. 3’ten fazlası algılandı, sürücü yeniden başlatılacak."
 
-#: ekos/capture/cameraprocess.cpp:2090 ekos/focus/focus.cpp:5379
+#: ekos/capture/cameraprocess.cpp:2089 ekos/focus/focus.cpp:5379
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Pozlama zaman aşımı. Pozlama yeniden başlatılıyor…"
 
-#: ekos/capture/cameraprocess.cpp:2116
+#: ekos/capture/cameraprocess.cpp:2115
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Pozlama zaman aşımı. Çok fazla oldu. İptal ediliyor…"
 
-#: ekos/capture/cameraprocess.cpp:2194
+#: ekos/capture/cameraprocess.cpp:2193
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -15800,44 +15800,44 @@ msgstr ""
 "Düz kalibrasyonu başarısız oldu. ADU %2 istemesine rağmen yakalanan görsel "
 "yalnızca %1 bit."
 
-#: ekos/capture/cameraprocess.cpp:2205
+#: ekos/capture/cameraprocess.cpp:2204
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Geçerli görsel doymuş (%1). Sonraki pozlama %2 saniye içinde olacak."
 
-#: ekos/capture/cameraprocess.cpp:2227
+#: ekos/capture/cameraprocess.cpp:2226
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Geçerli ADU %1, ADU tolerans erimi içinde."
 
-#: ekos/capture/cameraprocess.cpp:2256
+#: ekos/capture/cameraprocess.cpp:2255
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr "Eniyi pozlama ayarları hesaplanamıyor; lütfen düzleri elle yakalayın."
 
-#: ekos/capture/cameraprocess.cpp:2264
+#: ekos/capture/cameraprocess.cpp:2263
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Geçerli ADU %1. Sonraki pozlama %2 saniye içinde olacak."
 
-#: ekos/capture/cameraprocess.cpp:2462
+#: ekos/capture/cameraprocess.cpp:2461
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Önizlemesi"
 
-#: ekos/capture/cameraprocess.cpp:2473 ekos/capture/cameraprocess.cpp:2475
+#: ekos/capture/cameraprocess.cpp:2472 ekos/capture/cameraprocess.cpp:2474
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Düz Kalibrasyon"
 
-#: ekos/capture/cameraprocess.cpp:2631
+#: ekos/capture/cameraprocess.cpp:2630
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sekans duraklatıldı."
 
-#: ekos/capture/cameraprocess.cpp:2681
+#: ekos/capture/cameraprocess.cpp:2680
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15846,7 +15846,7 @@ msgstr ""
 "Tüm işler tamamlandı. Tüm işlerin durumunu sıfırlamak ve yakalamayı yeniden "
 "başlatmak istiyor musunuz?"
 
-#: ekos/capture/cameraprocess.cpp:2695
+#: ekos/capture/cameraprocess.cpp:2694
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15855,12 +15855,12 @@ msgstr ""
 "Uyarı: “Başlarken sekansı her zaman sıfırla” etkin ve sekans sayısını "
 "sıfırlar."
 
-#: ekos/capture/cameraprocess.cpp:2810
+#: ekos/capture/cameraprocess.cpp:2809
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "%1 kamera sürücüsünü yeniden başlatmak istediğinizden emin misiniz?"
 
-#: ekos/capture/cameraprocess.cpp:2811
+#: ekos/capture/cameraprocess.cpp:2810
 #, kde-format
 msgid "Driver Restart"
 msgstr "Sürücüyü Yeniden Başlat"
@@ -15957,55 +15957,62 @@ msgstr "Uyarlanır odak tamamlandı."
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Kendiliğinden odaklama başarısız oldu. Pozlama iptal ediliyor…"
 
-#: ekos/capture/camerastate.cpp:753
+#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
+#: ekos/capture/camerastate.cpp:746
+#, fuzzy, kde-format
+#| msgid "Dither complete. Resuming in %1 seconds..."
+msgid "Focus complete. Resuming in %1 seconds..."
+msgstr "Kıpırdatma tamamlandı. %1 saniye içinde sürdürülüyor…"
+
+#: ekos/capture/camerastate.cpp:769
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr "Sınır: %1 °C"
 
-#: ekos/capture/camerastate.cpp:757
+#: ekos/capture/camerastate.cpp:773
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr "Sınır: %1 dakika"
 
-#: ekos/capture/camerastate.cpp:902
+#: ekos/capture/camerastate.cpp:918
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Döndürme sonrası yeniden hizalama yapılıyor…"
 
-#: ekos/capture/camerastate.cpp:920
+#: ekos/capture/camerastate.cpp:936
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Kılavuz modülü zaman aşımına uğradı."
 
-#: ekos/capture/camerastate.cpp:952
+#: ekos/capture/camerastate.cpp:968
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "Başlangıç kılavuzluk sapması %1, %2 yaysaniye sınır değerinin altında"
 
-#: ekos/capture/camerastate.cpp:961
+#: ekos/capture/camerastate.cpp:977
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "Başlangıç kılavuzluk sapması %1, %2 yaysaniye sınır değerini aştı"
 
-#: ekos/capture/camerastate.cpp:983
+#: ekos/capture/camerastate.cpp:999
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Meridyen geçişi sonrası kalibrasyonu başarıyla tamamlandı."
 
-#: ekos/capture/camerastate.cpp:997
+#: ekos/capture/camerastate.cpp:1013
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "%1 yakalama başlangıcındaki kılavuzluk sapması %2 yaysaniye sınırını aştı."
 
-#: ekos/capture/camerastate.cpp:1011
+#: ekos/capture/camerastate.cpp:1027
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "%1 yakalama başlangıcındaki kılavuzluk sapması %2 yaysaniye değerinin "
 "altında."
 
-#: ekos/capture/camerastate.cpp:1038
+#: ekos/capture/camerastate.cpp:1054
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16014,7 +16021,7 @@ msgstr ""
 "%1 kılavuzluk sapması ardışık %4 örnek için %2 yaysaniyelik sınır değerini "
 "aştı, pozlama askıya alındı ve kılavuz %3 saniyeye kadar bekleniyor."
 
-#: ekos/capture/camerastate.cpp:1085
+#: ekos/capture/camerastate.cpp:1101
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16023,7 +16030,7 @@ msgstr ""
 "%1 kılavuzluk sapması artık %2 yaysaniyelik sınır değerinden daha düşük, "
 "pozlama sürdürülüyor."
 
-#: ekos/capture/camerastate.cpp:1089
+#: ekos/capture/camerastate.cpp:1105
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16032,22 +16039,22 @@ msgstr ""
 "%1 kılavuzluk sapması artık %2 yaysaniyelik sınır değerinden daha düşük, "
 "pozlama %3 saniye içinde sürdürülecek."
 
-#: ekos/capture/camerastate.cpp:1104
+#: ekos/capture/camerastate.cpp:1120
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "%1 kılavuzluk sapması hâlâ %2 yaysaniyelik sınır değerinden yüksek."
 
-#: ekos/capture/camerastate.cpp:1484
+#: ekos/capture/camerastate.cpp:1500
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Geçiş sonrası yeniden hizalaması başarıyla tamamlandı."
 
-#: ekos/capture/camerastate.cpp:1503
+#: ekos/capture/camerastate.cpp:1519
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Geçiş sonrası hizalaması başarısız oldu."
 
-#: ekos/capture/camerastate.cpp:1508
+#: ekos/capture/camerastate.cpp:1524
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Geçiş sonrası hizalaması başarısız oldu. Yeniden deneniyor…"
@@ -21255,128 +21262,140 @@ msgstr "PHD2: Kalibrasyon başarısız (%1)."
 msgid "Calibration Data Flipped."
 msgstr "Kalibrasyon verisi ters döndü."
 
-#: ekos/guide/externalguide/phd2.cpp:412
+#: ekos/guide/externalguide/phd2.cpp:403
+#, fuzzy, kde-format
+#| msgid "PHD2: Star Selected."
+msgid "PHD2: SettleDone."
+msgstr "PHD2: Yıldız seçildi."
+
+#: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
 msgstr "PHD2: Yerleşim başarısız (%1)."
 
-#: ekos/guide/externalguide/phd2.cpp:431
+#: ekos/guide/externalguide/phd2.cpp:433
 #, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
 msgstr "PHD2: Bir kıpırdatma hatası oluştu; ancak kıpırdatmayı sürdürüyoruz."
 
-#: ekos/guide/externalguide/phd2.cpp:440
+#: ekos/guide/externalguide/phd2.cpp:442
 #, kde-format
 msgid "PHD2: Settling failed, aborted."
 msgstr "PHD2: Yerleşim başarısız, iptal edildi."
 
-#: ekos/guide/externalguide/phd2.cpp:446
+#: ekos/guide/externalguide/phd2.cpp:448
 #, kde-format
 msgid "PHD2: Settling complete, Guiding Started."
 msgstr "PHD2: Yerleşim başarılı, kılavuzluk başlatıldı."
 
-#: ekos/guide/externalguide/phd2.cpp:475
+#: ekos/guide/externalguide/phd2.cpp:477
 #, kde-format
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "PHD2: Yıldız bulundu, kılavuzluk sürüyor…"
 
-#: ekos/guide/externalguide/phd2.cpp:557
+#: ekos/guide/externalguide/phd2.cpp:559
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr "PHD2 %1: %2"
 
-#: ekos/guide/externalguide/phd2.cpp:611
+#: ekos/guide/externalguide/phd2.cpp:613
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr "PHD2: Pozlamaları döngüleme durduruldu."
 
-#: ekos/guide/externalguide/phd2.cpp:616
+#: ekos/guide/externalguide/phd2.cpp:618
 #, kde-format
 msgid "PHD2: Guiding Stopped."
 msgstr "PHD2: Kılavuzluk durduruldu."
 
-#: ekos/guide/externalguide/phd2.cpp:635
+#: ekos/guide/externalguide/phd2.cpp:637
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr "PHD2: Kilit konumu ayarlandı."
 
-#: ekos/guide/externalguide/phd2.cpp:646
+#: ekos/guide/externalguide/phd2.cpp:648
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr "PHD2: Yıldız seçildi."
 
-#: ekos/guide/externalguide/phd2.cpp:656
+#: ekos/guide/externalguide/phd2.cpp:657
+#, fuzzy, kde-format
+#| msgid "PHD2: Waiting for guiding to settle."
+msgid "PHD2: Guiding...waiting for settle..."
+msgstr "PHD2: Kılavuzun yerleşmesi bekleniyor."
+
+#: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
 msgid "PHD2: Dithering successful."
 msgstr "PHD2: Kıpırdatma başarılı."
 
-#: ekos/guide/externalguide/phd2.cpp:662
+#: ekos/guide/externalguide/phd2.cpp:667
 #, kde-format
 msgid "PHD2: Guiding started."
 msgstr "PHD2: Kılavuzluk başlatıldı."
 
-#: ekos/guide/externalguide/phd2.cpp:673
+#: ekos/guide/externalguide/phd2.cpp:678
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr "PHD2: Kilit konumu kaybedildi; kalibrasyon sürdürülüyor."
 
-#: ekos/guide/externalguide/phd2.cpp:679
+#: ekos/guide/externalguide/phd2.cpp:684
 #, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr ""
 "PHD2: Yıldız kaybedildi. %1 saniye boyunca yeniden bulunmaya çalışılıyor."
 
-#: ekos/guide/externalguide/phd2.cpp:685
+#: ekos/guide/externalguide/phd2.cpp:690
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr "PHD2: Kilit konumu kaybedildi."
 
-#: ekos/guide/externalguide/phd2.cpp:691
+#: ekos/guide/externalguide/phd2.cpp:696
 #, kde-format
 msgid "PHD2: Guiding paused."
 msgstr "PHD2: Kılavuzluk duraklatıldı."
 
-#: ekos/guide/externalguide/phd2.cpp:696
+#: ekos/guide/externalguide/phd2.cpp:701
 #, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2: Kalibre ediliyor; %1 saniye içinde zaman aşımına uğrayacak."
 
-#: ekos/guide/externalguide/phd2.cpp:705
+#: ekos/guide/externalguide/phd2.cpp:710
 #, kde-format
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "PHD2: Kalibrasyon döngüya alındı, başarısız oldu."
 
-#: ekos/guide/externalguide/phd2.cpp:709
+#: ekos/guide/externalguide/phd2.cpp:714
 #, kde-format
 msgid "PHD2: Looping Exposures."
 msgstr "PHD2: Döngüleme pozlamaları."
 
-#: ekos/guide/externalguide/phd2.cpp:715
+#: ekos/guide/externalguide/phd2.cpp:720
 #, kde-format
 msgid "PHD2: Dithering started."
 msgstr "PHD2: Kıpırdatma başlatıldı."
 
-#: ekos/guide/externalguide/phd2.cpp:743
+#: ekos/guide/externalguide/phd2.cpp:748
 #, kde-format
 msgid "PHD2: Calibration is cleared"
 msgstr "PHD2: Kalibrasyon temizlendi."
 
-#: ekos/guide/externalguide/phd2.cpp:839
+#: ekos/guide/externalguide/phd2.cpp:844
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr "PHD2: DEC kılavuz kipi şuna ayarlandı: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:849
+#: ekos/guide/externalguide/phd2.cpp:854
 #, kde-format
 msgid "PHD2: Exposure Time set to: "
 msgstr "PHD2: Pozlama zamanı şuna ayarlandı: "
 
-#: ekos/guide/externalguide/phd2.cpp:857
+#: ekos/guide/externalguide/phd2.cpp:862
 #, kde-format
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Geçerli pozlama zamanları: Kendiliğinden, "
 
-#: ekos/guide/externalguide/phd2.cpp:888
+#: ekos/guide/externalguide/phd2.cpp:893
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
@@ -21385,37 +21404,37 @@ msgstr ""
 "PHD2: Lütfen PHD2’de CCD ve teleskop parametrelerini ayarlayın. Piksel "
 "ölçeği geçersiz."
 
-#: ekos/guide/externalguide/phd2.cpp:890
+#: ekos/guide/externalguide/phd2.cpp:895
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr "PHD2: Piksel ölçeği %1 piksel/yaysaniye"
 
-#: ekos/guide/externalguide/phd2.cpp:1005
+#: ekos/guide/externalguide/phd2.cpp:1010
 #, kde-format
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "PHD2 hatası: İdare edilmemiş “%1”"
 
-#: ekos/guide/externalguide/phd2.cpp:1138
-#: ekos/guide/externalguide/phd2.cpp:1156
-#: ekos/guide/externalguide/phd2.cpp:1307
-#: ekos/guide/externalguide/phd2.cpp:1422
-#: ekos/guide/externalguide/phd2.cpp:1451
-#: ekos/guide/externalguide/phd2.cpp:1480
+#: ekos/guide/externalguide/phd2.cpp:1143
+#: ekos/guide/externalguide/phd2.cpp:1161
+#: ekos/guide/externalguide/phd2.cpp:1312
+#: ekos/guide/externalguide/phd2.cpp:1427
+#: ekos/guide/externalguide/phd2.cpp:1456
+#: ekos/guide/externalguide/phd2.cpp:1485
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr "PHD2 hatası: Ekipman bağlı değil."
 
-#: ekos/guide/externalguide/phd2.cpp:1300
+#: ekos/guide/externalguide/phd2.cpp:1305
 #, kde-format
 msgid "PHD2: Guiding is already running."
 msgstr "PHD2: Kılavuzlama halihazırda çalışıyor."
 
-#: ekos/guide/externalguide/phd2.cpp:1366
+#: ekos/guide/externalguide/phd2.cpp:1371
 #, kde-format
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "PHD2: Ekipman bağlanıyor. . ."
 
-#: ekos/guide/externalguide/phd2.cpp:1368
+#: ekos/guide/externalguide/phd2.cpp:1373
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: Ekipman bağlantısı kesiliyor. . ."
@@ -28679,12 +28698,12 @@ msgstr "Kapağı çıkar"
 msgid "Ekos job failed (%1)"
 msgstr "Ekos işi başarısız (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:1011
+#: ekos/scheduler/schedulerjob.cpp:1010
 #, kde-format
 msgid "DarkFlat"
 msgstr "Koyu Düz"
 
-#: ekos/scheduler/schedulerjob.cpp:1042
+#: ekos/scheduler/schedulerjob.cpp:1041
 #, kde-format
 msgid "images"
 msgstr "görseller"
@@ -70109,7 +70128,7 @@ msgstr "Zamanı ayarla"
 #: kstarslite/qml/dialogs/DetailsDialog.qml:307
 #, kde-kuit-format
 msgid "Azimuth at rise"
-msgstr "Yükselme anında güney açısı"
+msgstr "Doğuş anında güney açısı"
 
 #: kstarslite/qml/dialogs/DetailsDialog.qml:312
 #, kde-kuit-format
@@ -80787,7 +80806,7 @@ msgstr ""
 "belirtir. Makul değerler 300 ile 10.000.000 arasında olmalıdır.\n"
 
 #: tools/astrocalc.cpp:39
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<QT><H2>KStars Astrocalculator</H2><P>The KStars Astrocalculator contains "
 "several <B>modules</b> which perform a variety of astronomy-related "
@@ -80799,13 +80818,13 @@ msgid ""
 "UL></QT>"
 msgstr ""
 "<QT><H2>K Yıldızlar Astro Hesaplayıcı</H2><P>K Yıldızlar Astro Hesaplayıcı, "
-"gökbilim ile ilgili çeşitli hesaplamalar yapan birkaç <B>modül</b> içerir. "
-"Modüller birkaç kategori halinde düzenlenmiştir: <UL><LI><B>Zaman "
-"hesaplayıcıları: </B>Zaman sistemleri arasında dönüşüm yapın ve göksel "
-"olayların zamanlamasını tahmin edin</LI><LI><B>Koordinat dönüştürücüler: < /"
-"B>Çeşitli koordinat sistemleri arasında dönüştürme</LI><LI><B>Güneş sistemi: "
-"</B>Belirli bir zamanda, Dünya üzerindeki belirli bir konumdan herhangi bir "
-"gezegenin konumunu tahmin edin</LI></UL> </QT>"
+"çeşitli astronomi ile ilgili hesaplamaları gerçekleştiren birkaç <B>modül</"
+"b> içerir. Modüller çeşitli kategorilere ayrılmıştır: <UL><LI><B>Zaman "
+"hesaplayıcıları: </B>Zaman sistemleri arasında dönüşümler yap ve göksel "
+"olayların zamanlamasını tahmin et</LI><LI><B>Koordinat dönüştürücüleri: </"
+"B>Çeşitli koordinat sistemleri arasında dönüşümler yap</LI><LI><B>Güneş "
+"sistemi: </B>Herhangi bir gezegenin, Dünya’dan herhangi bir zamanda verilen "
+"konumuna göre yerini tahmin et</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:54
 #, kde-format
@@ -80817,12 +80836,12 @@ msgid ""
 "and Moon</LI><LI><B>Equinoxes & Solstices:</B> Equinoxes, Solstices and "
 "duration of the seasons</LI></UL></QT>"
 msgstr ""
-"<QT>Gökgünlüğünü hesaplamak için algoritmaları içeren bölüm<UL><LI><B>Jülyen "
-"Günü:</B> Jülyen Günü/Takvim dönüşümü</LI><LI><B>Yıldız Zamanı:</B> Yıldız /"
-"Evrensel zaman dönüştürme</LI><LI><B>Almanak:</B> Güneş ve Ay için Yükseliş/"
-"Batış/Geçiş zamanlaması ve konum verisi</LI><LI><B>Ekinokslar ve "
-"Gündönümleri:</ B> Ekinokslar, Gündönümleri ve mevsimlerin süresi</LI></UL></"
-"QT>"
+"<QT>Zaman efemerisini hesaplamak için algoritmaları içeren "
+"bölüm<UL><LI><B>Jülyen tarihi:</B> Jülyen tarihi/Takvim dönüşümü</"
+"LI><LI><B>Yıldız zamanı:</B> Yıldız/Evrensel zaman dönüşümü</"
+"LI><LI><B>Almanak:</B> Güneş ve Ay için doğuş/batış/geçiş zamanı ve konumu "
+"verisi</LI><LI><B>Equinoxes & Solstices:</B> Ekinokslar, gündönümleri ve "
+"mevsimlerin süreleri</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:68
 #, kde-format
@@ -80844,14 +80863,15 @@ msgstr ""
 "algoritmaların bulunduğu bölüm<UL><LI><B>Galaktik:</B> Galaktik/Ekvator "
 "koordinatlarının dönüşümü</LI><LI><B>Görünür:</B> Belirli bir çığırdan "
 "itibaren geçerli ekvator koordinatlarının hesaplanması</LI><LI><B>Ekliptik:</"
-"B> Ekliptik/Ekvatoryal koordinatlarının dönüşümü</LI><LI><B>Yatay:</B> Dünya "
-"üzerinde belirli bir kaynak, zaman ve konum için güney açısı ve yüksekliğin "
-"hesaplanması</LI><LI><B>Basit:</B> Saat ve derece türünden açılar arasındaki "
-"dönüşüm</LI><LI><B>Açısal uzaklık:</B> Ekvator koordinatlarında konumları "
-"verilen iki nesne arasındaki açısal uzaklığın hesaplanması</"
-"LI><LI><B>Jeodezik koordinatlar:</B> Jeodezik/XYZ koordinatlarının dönüşümü</"
-"LI><LI><B>LSR hızı:</B> Bir kaynağın LSR hızından güneş merkezli, jeosentrik "
-"ve toposentrik radyal hızının hesaplanması</LI></UL></QT>"
+"B> Tutulumsal/Ekvatoryal koordinatlarının dönüşümü</LI><LI><B>Yatay:</B> "
+"Dünya üzerinde belirli bir kaynak, zaman ve konum için güney açısı ve "
+"yüksekliğin hesaplanması</LI><LI><B>Basit:</B> Saat ve derece türünden "
+"açılar arasındaki dönüşüm</LI><LI><B>Açısal uzaklık:</B> Ekvator "
+"koordinatlarında konumları verilen iki nesne arasındaki açısal uzaklığın "
+"hesaplanması</LI><LI><B>Jeodezik koordinatlar:</B> Jeodezik/XYZ "
+"koordinatlarının dönüşümü</LI><LI><B>LSR hızı:</B> Bir kaynağın LSR hızından "
+"güneş merkezli, jeosentrik ve toposentrik radyal hızının hesaplanması</LI></"
+"UL></QT>"
 
 #: tools/astrocalc.cpp:93
 #, kde-format
@@ -80861,14 +80881,13 @@ msgid ""
 "planets, moon and sun at a given time and from a given position on Earth </"
 "LI></UL></QT>"
 msgstr ""
-"<QT>Güneş sistemi cisimleri, koordinatları ve zamanları ile ilgili bilgileri "
-"içeren algoritmalar bölümü<UL><LI><B>Gezegen koordinatları:</B> Dünya "
-"üzerinde, verilen bir zaman ve konumda gezegenler, ay ve güneş için "
-"koordinatlar </LI></UL></QT>"
+"<QT>Güneş sistemi gövdelerinin koordinatları ve zamanları ile ilgili "
+"bilgilere ilişkin algoritmaların bulunduğu bölüm<UL><LI><B>Gezegenler "
+"koordinatları:</B> Belirli bir zamanda ve Dünya’daki belirli bir konumdan "
+"gezegenlerin, Ay’ın ve Güneş’in koordinatları</LI></UL></QT>"
 
 #: tools/astrocalc.cpp:112
-#, fuzzy, kde-format
-#| msgid "Calculator"
+#, kde-format
 msgctxt "@title:window"
 msgid "Calculator"
 msgstr "Hesaplayıcı"
@@ -80876,7 +80895,7 @@ msgstr "Hesaplayıcı"
 #: tools/astrocalc.cpp:117
 #, kde-format
 msgid "Calculator modules"
-msgstr "Hesap makinesi modülleri"
+msgstr "Hesaplayıcı modülleri"
 
 #: tools/astrocalc.cpp:144
 #, kde-format
@@ -80887,20 +80906,20 @@ msgstr "Zaman hesaplayıcıları"
 #: tools/astrocalc.cpp:148
 #, kde-format
 msgid "Julian Day"
-msgstr "Julian Günü"
+msgstr "Jülyen Tarihi"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcSidTimeDlg)
 #: tools/astrocalc.cpp:149 tools/modcalcsidtime.ui:14
 #, kde-format
 msgid "Sidereal Time"
-msgstr "Yıldızların Hareketlerine Göre Hesaplanmış Zaman"
+msgstr "Yıldız Zamanı"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcDayLengthDlg)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/astrocalc.cpp:150 tools/modcalcdaylength.ui:14 tools/wutdialog.ui:178
 #, kde-format
 msgid "Almanac"
-msgstr "Takvim"
+msgstr "Almanak"
 
 #: tools/astrocalc.cpp:151
 #, kde-format
@@ -80910,7 +80929,7 @@ msgstr "Ekinokslar ve Gündönümleri"
 #: tools/astrocalc.cpp:155
 #, kde-format
 msgid "Coordinate Converters"
-msgstr "Koordinat Dönüştürücüler"
+msgstr "Koordinat Dönüştürücüleri"
 
 #: tools/astrocalc.cpp:156
 #, kde-format
@@ -80934,16 +80953,15 @@ msgid "Horizontal Coordinates"
 msgstr "Yatay Koordinatlar"
 
 #: tools/astrocalc.cpp:159
-#, fuzzy, kde-format
-#| msgid "Copy Coordinates"
+#, kde-format
 msgid "Simple Coordinates"
-msgstr "Koordinatları Kopyala"
+msgstr "Temel Koordinatlar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/astrocalc.cpp:160 tools/modcalceclipticcoords.ui:144
 #, kde-format
 msgid "Ecliptic Coordinates"
-msgstr "Tutulum Koordinatları"
+msgstr "Tutulumsal Koordinatlar"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcAngDistDlg)
 #: tools/astrocalc.cpp:161 tools/modcalcangdist.ui:14
@@ -80954,7 +80972,7 @@ msgstr "Açısal Uzaklık"
 #: tools/astrocalc.cpp:162
 #, kde-format
 msgid "Geodetic Coordinates"
-msgstr "Jeodetik koordinatlar"
+msgstr "Jeodezik Koordinatlar"
 
 #: tools/astrocalc.cpp:163
 #, kde-format
@@ -80972,16 +80990,15 @@ msgid "Conjunctions"
 msgstr "Kavuşumlar"
 
 #: tools/astrocalc.cpp:170
-#, fuzzy, kde-format
-#| msgid "Ecliptic"
+#, kde-format
 msgid "Eclipses"
-msgstr "Tutulum"
+msgstr "Tutulmalar"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetLabelLocalTime)
 #: tools/calendarwidget.cpp:204 xplanet/opsxplanet.ui:593
 #, kde-format
 msgid "Local time"
-msgstr "Yerel Saat"
+msgstr "Yerel saat"
 
 #: tools/calendarwidget.cpp:207
 #, kde-format
@@ -80991,7 +81008,7 @@ msgstr "Evrensel saat"
 #: tools/calendarwidget.cpp:216
 #, kde-format
 msgid "Julian date"
-msgstr "Julian günü"
+msgstr "Jülyen tarihi"
 
 #: tools/conjunctions.cpp:93
 #, kde-format
@@ -81001,22 +81018,22 @@ msgstr "Tekil Nesne"
 #: tools/conjunctions.cpp:116
 #, kde-format
 msgid "Conjunction/Opposition"
-msgstr "Birleştirme/Ayrıştırma"
+msgstr "Kavuşum/Ayrıştırma"
 
 #: tools/conjunctions.cpp:116
 #, kde-format
 msgid "Date & Time (UT)"
-msgstr "Tarih ve Saat (UT)"
+msgstr "Tarih ve Zaman (UT)"
 
 #: tools/conjunctions.cpp:117
 #, kde-format
 msgid "Object 1"
-msgstr "Cisim 1"
+msgstr "Nesne 1"
 
 #: tools/conjunctions.cpp:117
 #, kde-format
 msgid "Object 2"
-msgstr "Cisim 2"
+msgstr "Nesne 2"
 
 #: tools/conjunctions.cpp:117
 #, kde-format
@@ -81024,11 +81041,10 @@ msgid "Separation"
 msgstr "Ayırma"
 
 #: tools/conjunctions.cpp:206
-#, fuzzy, kde-format
-#| msgid "Save Conjunctions"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Conjunctions"
-msgstr "Birleşimi Kaydet"
+msgstr "Kavuşumları Kaydet"
 
 #: tools/conjunctions.cpp:253
 #, kde-format
@@ -81036,8 +81052,8 @@ msgid ""
 "Maximum separation entered is not a valid angle. Use the What's this help "
 "feature for information on how to enter a valid angle"
 msgstr ""
-"Girilmiş olan en fazla ayrılma değeri geçerli bir açı değil. Nasıl geçerli "
-"bir açı girebileceğinizi öğrenmek için Bu nedir yardım özelliğini kullanınız"
+"Girilen maksimum ayırma geçerli bir açı değil. Geçerli bir açı girme "
+"hakkında bilgi için Bu Nedir yardım özelliğini kullanın."
 
 #: tools/conjunctions.cpp:261
 #, kde-format
@@ -81045,42 +81061,41 @@ msgid ""
 "Please select an object to check conjunctions with, by clicking on the 'Find "
 "Object' button."
 msgstr ""
-"Lütfen karşı konumların karşılaştırılacağı cismi seçmek için. 'Cisim Bul' "
-"düğmesini tıklayın. "
+"Kavuşumları denetlemek için lütfen “Nesne Bul” düğmesine tıklayarak bir "
+"nesne seçin."
 
 #: tools/conjunctions.cpp:268
 #, kde-format
 msgid "Please select two different objects to check conjunctions with."
-msgstr "Karşı konumlarını karşılaştırmak için lütfen iki farklı cisim seçin."
+msgstr "Kavuşumları denetlemek için lütfen iki farklı nesne seçin."
 
 #: tools/conjunctions.cpp:350
 #, kde-format
 msgid "Compute conjunction..."
-msgstr "Birleştirmeyi Hesapla…"
+msgstr "Kavuşumu Hesapla…"
 
 #: tools/conjunctions.cpp:351
-#, fuzzy, kde-format
-#| msgid "Conjunction"
+#, kde-format
 msgctxt "@title:window"
 msgid "Conjunction"
-msgstr "Kavuşma konumu"
+msgstr "Kavuşum"
 
 #: tools/conjunctions.cpp:364
 #, kde-format
 msgid "Compute conjunction between %1 and %2"
-msgstr "%1 ve %2 arasındaki birleşimi hesapla"
+msgstr "%1 ve %2 arasındaki kavuşumu hesapla"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ModeSelector)
 #: tools/conjunctions.cpp:411 tools/conjunctions.ui:165
 #, kde-format
 msgid "Conjunction"
-msgstr "Kavuşma konumu"
+msgstr "Kavuşum"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ModeSelector)
 #: tools/conjunctions.cpp:413 tools/conjunctions.ui:170
 #, kde-format
 msgid "Opposition"
-msgstr "Karşı konum"
+msgstr "Ayrıştırma"
 
 #. i18n: ectx: property (text), widget (QPushButton, LocationButton)
 #. i18n: ectx: property (text), widget (QPushButton, Location)
@@ -81093,7 +81108,7 @@ msgstr "Karşı konum"
 #: tools/obslistwizard.ui:836 tools/skycalendar.ui:228
 #, kde-format
 msgid "Greenwich, United Kingdom"
-msgstr "Greenwich, İngiltere"
+msgstr "Greenwich, Birleşik Krallık"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: tools/conjunctions.ui:33 tools/eclipsetool.ui:22
@@ -81117,19 +81132,19 @@ msgstr "Buradan başlayan:"
 #: tools/conjunctions.ui:88
 #, kde-format
 msgid "Show conjunctions/oppositions for:"
-msgstr "Cisimleri için kavuşma/karşı konumları göster :"
+msgstr "Şunun için kavuşumları/ayrıştırmaları göster:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/conjunctions.ui:101 tools/eclipsetool.ui:35
 #, kde-format
 msgid "Between objects:"
-msgstr "Cisimler arasında :"
+msgstr "Şu nesneler arasında:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: tools/conjunctions.ui:108
 #, kde-format
 msgid "Maximum allowed separation:"
-msgstr "İzin verilen en fazla uzaklaşma:"
+msgstr "İzin verilen en fazla ayrıştırma:"
 
 #. i18n: ectx: property (text), widget (QPushButton, ComputeButton)
 #. i18n: ectx: property (text), widget (QPushButton, RunButtonBatch)
@@ -81144,18 +81159,17 @@ msgstr "Hesapla"
 #: tools/conjunctions.ui:238
 #, kde-format
 msgid "Conjunctions / Oppositions"
-msgstr "Kavuşma konumları / Karşı konumlar"
+msgstr "Kavuşumlar/Ayrıştırmalar"
 
 #: tools/eclipsetool.cpp:126
-#, fuzzy, kde-format
-#| msgid "Minor Planets"
+#, kde-format
 msgid "View in SkyMap"
-msgstr "Küçük Gezegenler"
+msgstr "Gökyüzü Haritasında Görüntüle"
 
 #: tools/eclipsetool.cpp:133
 #, kde-format
 msgid "Show Details"
-msgstr "Detayları Göster"
+msgstr "Ayrıntıları Göster"
 
 #: tools/eclipsetool.cpp:190
 #, kde-format
@@ -81165,32 +81179,29 @@ msgstr "Tam"
 #: tools/eclipsetool.cpp:192
 #, kde-format
 msgid "Partial"
-msgstr "Kısmi"
+msgstr "Kısımsal"
 
 #: tools/eclipsetool.cpp:215
 #, kde-format
 msgid "CSV Files (*.csv)"
-msgstr ""
+msgstr "CSV dosyaları (*.csv)"
 
 #: tools/eclipsetool.cpp:217
-#, fuzzy, kde-format
-#| msgid "Export to file"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Eclipses"
-msgstr "Dosya aktar"
+msgstr "Tutulmaları Dışa Aktar"
 
 #: tools/eclipsetool.cpp:224
-#, fuzzy, kde-format
-#| msgid "Could not export image"
+#, kde-format
 msgid "Could not export."
-msgstr "Resim dışa aktarılamadı"
+msgstr "Dışa aktarılamadı."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: tools/eclipsetool.ui:89
-#, fuzzy, kde-format
-#| msgid "Show satellites"
+#, kde-format
 msgid "Show eclipses for:"
-msgstr "Uyduları göster"
+msgstr "Şunun için tutulmaları göster:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/eclipsetool.ui:194
@@ -81223,28 +81234,25 @@ msgid "Winter solstice:"
 msgstr "Kış gündönümü:"
 
 #: tools/exporteyepieceview.cpp:40
-#, fuzzy, kde-format
-#| msgid "Eyepiece view (Beta)"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export eyepiece view"
-msgstr "Göz merceği görünümü (Beta)"
+msgstr "Göz Merceği Görünümünü Dışa Aktar"
 
 #: tools/exporteyepieceview.cpp:55
 #, kde-format
 msgid "Overlay orientation vs. time ticks: "
-msgstr ""
+msgstr "Kaplama yönelimi ve zaman tıkları oranı: "
 
 #: tools/exporteyepieceview.cpp:58
 #, kde-format
 msgid "Towards Zenith"
-msgstr ""
+msgstr "Başucuna Doğru"
 
 #: tools/exporteyepieceview.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Estonia"
+#, kde-format
 msgid "Dobsonian View"
-msgstr "Estonya"
+msgstr "Dobson Görünümü"
 
 #: tools/exporteyepieceview.cpp:90
 #, kde-format
@@ -81252,6 +81260,8 @@ msgid ""
 "Note: This overlay makes sense only if the view was generated in alt/az mode "
 "with a preset such as Refractor or Vanilla"
 msgstr ""
+"Not: Bu kaplama yalnızca görünüm refraktör veya düz gibi bir önayar ile ALT/"
+"AZ kipinde üretildiğinde anlamlıdır."
 
 #: tools/exporteyepieceview.cpp:93
 #, kde-format
@@ -81259,25 +81269,25 @@ msgid ""
 "Note: This overlay  makes sense only if the view was generated in alt/az "
 "mode with a preset such as Dobsonian"
 msgstr ""
+"Not: Bu kaplama yalnızca görünüm Dobson gibi bir önayar ile ALT/AZ kipinde "
+"üretildiğinde anlamlıdır."
 
 #: tools/exporteyepieceview.cpp:174
-#, fuzzy, kde-format
-#| msgid "Save image as"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Image as"
-msgstr "Resmi farklı kaydet"
+msgstr "Görseli Farklı Kaydet"
 
 #: tools/exporteyepieceview.cpp:175
 #, kde-format
 msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
-msgstr ""
+msgstr "Görsel dosyaları (*.png *.jpg *.xpm *.bmp *.gif)"
 
 #: tools/eyepiecefield.cpp:37
-#, fuzzy, kde-format
-#| msgid "Eyepiece Field View"
+#, kde-format
 msgctxt "@title:window"
 msgid "Eyepiece Field View"
-msgstr "Göz merceği Alan Görünümü:"
+msgstr "Göz Merceği Alanı Görünümü"
 
 #: tools/eyepiecefield.cpp:51
 #, kde-format
@@ -81288,53 +81298,45 @@ msgstr "Dışa Aktar"
 #: tools/eyepiecefield.cpp:75
 #, kde-format
 msgid "Invert view"
-msgstr "Görünümü ters çevir"
+msgstr "Görünümü ters–düz et"
 
 #: tools/eyepiecefield.cpp:76
 #, kde-format
 msgid "Flip view"
-msgstr "Döndürme görünümü"
+msgstr "Görünümü ters çevir"
 
 #: tools/eyepiecefield.cpp:79
-#, fuzzy, kde-format
-#| msgid "Show DSS image"
+#, kde-format
 msgid "Fetch DSS image"
-msgstr "DSS resmini göster"
+msgstr "DSS görselini getir"
 
 #: tools/eyepiecefield.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "City in Philippines"
-#| msgid "Manila"
+#, kde-format
 msgid "Vanilla"
-msgstr "Manila"
+msgstr "Düz"
 
 #: tools/eyepiecefield.cpp:104
 #, kde-format
 msgid "Flipped"
-msgstr "Döndürülmüş"
+msgstr "Ters çevrilmiş"
 
 #: tools/eyepiecefield.cpp:106
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Estonia"
+#, kde-format
 msgid "Dobsonian"
-msgstr "Estonya"
+msgstr "Dobson"
 
 #: tools/eyepiecefield.cpp:108
-#, fuzzy, kde-format
-#| msgid "Preset: "
+#, kde-format
 msgid "Preset:"
-msgstr "Ayar: "
+msgstr "Önayar:"
 
 #: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1389
-#, fuzzy, kde-format
-#| msgid "Save the downloaded DSS/SDSS images?"
+#, kde-format
 msgid "Failed to download DSS/SDSS image."
-msgstr "İndirilmiş DSS/SDSS resimleri kaydedilsin mi?"
+msgstr "DSS/SDSS görseli indirilemedi."
 
 #: tools/flagmanager.cpp:51
-#, fuzzy, kde-format
-#| msgid "Flag Manager"
+#, kde-format
 msgctxt "@title:window"
 msgid "Flag Manager"
 msgstr "Bayrak Yöneticisi"
@@ -81346,9 +81348,9 @@ msgid ""
 "For example, the file <i>flagSmall_red_cross.png</i> will be shown as "
 "<b>Small red cross</b> in the combo box."
 msgstr ""
-"Özel simgeler eklemek için %1 içine görseller eklemeniz yeterlidir. Dosya "
-"adları 'flag' ile başlamalıdır. Örneğin, <i>flagSmall_red_cross.png</i> "
-"dosyası, çoklu kutuda <b>Small red cross</b> olarak gösterilir."
+"Özel simgeler eklemek için yalnızca %1 içindeki görselleri ekleyin. Dosya "
+"adları bayrakla başlamalıdır. Örneğin, <i>flagSmall_red_cross.png</i> "
+"dosyası birleşik kutuda <b>Küçük kırmızı artı</b> olarak gösterilecektir."
 
 #: tools/flagmanager.cpp:69 widgets/infoboxwidget.cpp:118
 #, kde-format
@@ -81360,12 +81362,12 @@ msgstr "RA"
 #, kde-format
 msgctxt "Declination"
 msgid "Dec"
-msgstr "Sapma"
+msgstr "DEC"
 
 #: tools/flagmanager.cpp:70
 #, kde-format
 msgid "Epoch"
-msgstr "Devir"
+msgstr "Çığır"
 
 #: tools/flagmanager.cpp:70
 #, kde-format
@@ -81380,12 +81382,12 @@ msgstr "Etiket"
 #: tools/flagmanager.cpp:178
 #, kde-format
 msgid "Invalid coordinates."
-msgstr "Geçersiz Koordinatlar."
+msgstr "Geçersiz koordinatlar."
 
 #: tools/flagmanager.cpp:279
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
-msgstr "%1 teleskopu çevrimdışı. Lütfen bağlanıp tekrar deneyin."
+msgstr "%1 teleskopu çevrimdışı. Lütfen bağlayın ve yeniden deneyin."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/flagmanager.ui:101
@@ -81401,29 +81403,26 @@ msgstr "Simge:"
 
 #. i18n: ectx: property (text), widget (QPushButton, saveButton)
 #: tools/flagmanager.ui:140
-#, fuzzy, kde-format
-#| msgid "Save changes"
+#, kde-format
 msgid "Save Changes"
-msgstr "Değişiklikleri kaydet"
+msgstr "Değişiklikleri Kaydet"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ScopeButton)
 #: tools/flagmanager.ui:213
 #, kde-format
 msgid "Slew to the flag coordinates"
-msgstr "Bayrak koordinatlarını döndür"
+msgstr "Bayrak koordinatlarına çevir"
 
 #: tools/horizonmanager.cpp:54 tools/horizonmanager.cpp:195
-#, fuzzy, kde-format
-#| msgid "Region is valid"
+#, kde-format
 msgid "Region is invalid."
-msgstr "Bölge geçerlidir"
+msgstr "Bölge geçersiz."
 
 #: tools/horizonmanager.cpp:57
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
-msgstr "Yapay Ufuk"
+msgstr "Yapay Ufuk Yöneticisi"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
 #, kde-format
@@ -81447,7 +81446,7 @@ msgstr "Yük"
 #: tools/horizonmanager.cpp:188
 #, kde-format
 msgid "Region is valid"
-msgstr "Bölge geçerlidir"
+msgstr "Bölge geçerli."
 
 #: tools/horizonmanager.cpp:288
 #, kde-format
@@ -81455,17 +81454,14 @@ msgid "Region %1"
 msgstr "Bölge %1"
 
 #: tools/horizonmanager.cpp:369
-#, fuzzy, kde-format
-#| msgid "%1 job is invalid."
-#| msgid_plural "%1 jobs are invalid."
+#, kde-format
 msgid "%1 region is invalid."
-msgstr "%1 iş geçersiz."
+msgstr "%1 bölgesi geçersiz."
 
 #: tools/horizonmanager.cpp:566
-#, fuzzy, kde-format
-#| msgid "Invalid file: %1"
+#, kde-format
 msgid "Invalid angle value: %1"
-msgstr "Geçersiz dosya: %1"
+msgstr "Geçersiz açı değeri: %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/horizonmanager.ui:22
@@ -81487,10 +81483,9 @@ msgstr "Bölgeyi Kaldır"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleCeilingB)
 #: tools/horizonmanager.ui:92
-#, fuzzy, kde-format
-#| msgid "Toggle flags"
+#, kde-format
 msgid "Toggle Ceiling"
-msgstr "Bayrakları aç/kapat"
+msgstr "Tavanı Aç/Kapat"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
 #: tools/horizonmanager.ui:130
@@ -81524,10 +81519,9 @@ msgstr "Tüm noktaları temizle"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPointsB)
 #: tools/horizonmanager.ui:284
-#, fuzzy, kde-format
-#| msgid "Label comet names in the sky map?"
+#, kde-format
 msgid "Select points from the sky map"
-msgstr "Gökyüzünde kuyruklu yıldız isim etiketleri gösterilsin mi?"
+msgstr "Gökyüzü haritasından noktalar seç"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/horizonmanager.ui:331
@@ -81566,18 +81560,50 @@ msgid ""
 "text-indent:0px;\">Defining regions is easier when used in conjunction with "
 "the Terrain background feature.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Yapay ufuk, gökyüzü haritasında bakış açınızdan görüş "
+"alanınızı <span style=\" font-style:italic;\">engelleyen</span> <span style="
+"\" font-weight:600;\">bölgeleri</span> (örneğin uzun ağaçları veya binaları) "
+"tanımlamak için kullanılır. Bölgeler, girdiğiniz çizgi bölütlerinin üstünde "
+"veya altında kalan alanlar olabilir.</p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Bir <span style=\" font-"
+"weight:600;\">bölge</span> çizmek için bir engelli alanın üzerinin (<span "
+"style=\" font-weight:600;\">engel</span>, çizgilerin altındadır) dış hattını "
+"çizen <span style=\" font-weight:600;\">noktalar</span> (<span style=\" font-"
+"style:italic;\">en az</span> 2) çizin.</li><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Noktaların bir listesi "
+"için <span style=\" font-style:italic;\">tavan/pencere kipini</span> "
+"ayarlamak, <span style=\" font-weight:600;\">engeli</span> çizgilerin üstüne "
+"yerleştirir.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Noktaları "
+"elle veya <span style=\" font-style:italic;\">Noktalar Seç</span> düğmesine "
+"tıkladıktan sonra gökyüzü haritasından seçin.</li></ul><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Kutusunu işaretleyerek <span style=\" font-"
+"style:italic;\">bir bölgeyi etkinleştirin</span>. </li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Bir bölge seçildiğinde, o bölgenin noktaları "
+"gökyüzü haritasında görüntülenir.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">İşiniz bittiğinde <span style=\" font-style:italic;\">Uygula</"
+"span> düğmesine tıklayın.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Bölge tanımlamak, arazi arka plan özelliğiyle birlikte "
+"kullanıldığında daha kolaydır.</li></ul></body></html>"
 
 #: tools/jmoontool.cpp:30
-#, fuzzy, kde-format
-#| msgid "Jupiter Moons Tool"
+#, kde-format
 msgctxt "@title:window"
 msgid "Jupiter Moons Tool"
-msgstr "Jüpiter Uyduları Aracı"
+msgstr "Jüpiter’in Uyduları Aracı"
 
 #: tools/jmoontool.cpp:87
 #, kde-format
 msgid "offset from Jupiter (arcmin)"
-msgstr "Jüpiter’den sapma (arkdk)"
+msgstr "Jüpiter’den ofset (yaydak)"
 
 #: tools/jmoontool.cpp:88
 #, kde-format
@@ -81595,7 +81621,7 @@ msgstr "şu andan itibaren zaman (gün)"
 #: tools/modcalcvizequinox.ui:24 tools/modcalcvlsr.ui:34
 #, kde-format
 msgid "Interactive Mode"
-msgstr "Etkileşimli Yöntem"
+msgstr "Etkileşimli Kip"
 
 #. i18n: ectx: property (text), widget (QLabel, DateLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -81674,7 +81700,7 @@ msgstr "Geçersiz dosya: %1"
 #: tools/modcalcvizequinox.cpp:83 tools/modcalcvlsr.cpp:301
 #, kde-format
 msgid "Invalid file"
-msgstr "Geçersiz dosya adı"
+msgstr "Geçersiz dosya"
 
 #. i18n: ectx: property (text), widget (QLabel, AngDistLabel)
 #: tools/modcalcangdist.ui:306
@@ -81684,17 +81710,15 @@ msgstr "Açısal uzaklık:"
 
 #. i18n: ectx: property (text), widget (QLabel, AngDistLabel_2)
 #: tools/modcalcangdist.ui:338
-#, fuzzy, kde-format
-#| msgid "Position Angle:"
+#, kde-format
 msgid "Position angle:"
-msgstr "Konum Açısı:"
+msgstr "Konum açısı:"
 
 #. i18n: ectx: property (text), widget (QLabel, AngDistLabel_3)
 #: tools/modcalcangdist.ui:363
-#, fuzzy, kde-format
-#| msgid "Degrees E of N"
+#, kde-format
 msgid "degrees E of N"
-msgstr "G K Derecesi"
+msgstr "kuzeyin doğusu derecesi"
 
 #. i18n: ectx: attribute (title), widget (QWidget, batch)
 #. i18n: ectx: attribute (title), widget (QWidget, tab2)
@@ -81712,7 +81736,7 @@ msgstr "Çoklu Kip"
 #: tools/modcalcangdist.ui:428 tools/modcalcapcoord.ui:449
 #, kde-format
 msgid "Select Fields in Input File"
-msgstr "Girdi dosyasında alanları seç"
+msgstr "Girdi Dosyasında Alanlar Seç"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ra0CheckBatch)
 #: tools/modcalcangdist.ui:466
@@ -81730,7 +81754,7 @@ msgstr "İlk sapma:"
 #: tools/modcalcangdist.ui:486
 #, kde-format
 msgid "Final right ascension:"
-msgstr "Son sağaçıklık:"
+msgstr "Son sağ açıklık:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dec1CheckBatch)
 #: tools/modcalcangdist.ui:496
@@ -81742,7 +81766,7 @@ msgstr "Son sapma:"
 #: tools/modcalcangdist.ui:542
 #, kde-format
 msgid "Fields in Output File Plus Result"
-msgstr "Çıktı Dosyası Artı Sonuç'taki Alanlar"
+msgstr "Çıktı Dosyası Artı Sonuç Alanları"
 
 #. i18n: ectx: property (text), widget (QRadioButton, allRadioBatch)
 #: tools/modcalcangdist.ui:563
@@ -81844,7 +81868,7 @@ msgstr "Çıktı Dosyasında Göster"
 #: tools/modcalcvlsr.ui:668
 #, kde-format
 msgid "All parameters"
-msgstr "Bütün değişkenler"
+msgstr "Tüm parametreler"
 
 #. i18n: ectx: property (text), widget (QRadioButton, inputRadioBatch)
 #. i18n: ectx: property (text), widget (QRadioButton, InputRadioBatch)
@@ -81853,13 +81877,13 @@ msgstr "Bütün değişkenler"
 #: tools/modcalcvlsr.ui:675
 #, kde-format
 msgid "Only parameters in input file"
-msgstr "Yalnızca girdi dosyasındaki değişkenler"
+msgstr "Yalnızca girdi dosyasındaki parametreler"
 
 #: tools/modcalcdaylength.cpp:150 tools/modcalcdaylength.cpp:196
 #: tools/modcalcdaylength.cpp:198
 #, kde-format
 msgid "Does not rise"
-msgstr "Yükselmez"
+msgstr "Doğmaz"
 
 #: tools/modcalcdaylength.cpp:152
 #, kde-format
@@ -81870,7 +81894,7 @@ msgstr "Batmaz"
 #, kde-format
 msgctxt "%1 is a location on earth"
 msgid "Almanac for %1"
-msgstr "%1 için Takvim"
+msgstr "%1 Almanağı"
 
 #: tools/modcalcdaylength.cpp:285
 #, kde-format
@@ -81880,7 +81904,7 @@ msgstr "K Yıldızlar tarafından hesaplandı"
 #: tools/modcalcdaylength.cpp:350
 #, kde-format
 msgid "Results of Almanac calculation"
-msgstr "Takvim hesaplama sonuçları"
+msgstr "Almanak hesaplaması sonuçları"
 
 #. i18n: ectx: property (text), widget (QLabel, SunTransitAltLabel)
 #: tools/modcalcdaylength.ui:129
@@ -81913,7 +81937,7 @@ msgstr "Gündoğumu güney açısı:"
 #: tools/modcalcdaylength.ui:302 tools/modcalcdaylength.ui:481
 #, kde-format
 msgid "Rise:"
-msgstr "Yükselme:"
+msgstr "Doğuş:"
 
 #. i18n: ectx: property (text), widget (QLabel, SunTransitLabel)
 #: tools/modcalcdaylength.ui:315
@@ -81971,10 +81995,9 @@ msgstr "Çoklu kip"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/modcalcdaylength.ui:843
-#, fuzzy, kde-format
-#| msgid "Specify dates for the calculation in the input file."
+#, kde-format
 msgid "Specify Dates for the Calculation in the Input File"
-msgstr "Hesaplama için girdi dosyasındakı tarihleri belirtiniz."
+msgstr "Giriş dosyasında hesap için tarihleri ​belirle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: tools/modcalcdaylength.ui:852 tools/modcalcjd.ui:171
@@ -81991,10 +82014,9 @@ msgstr "Çıktı dosyası:"
 #. i18n: ectx: property (text), widget (QPushButton, ViewButtonBatch)
 #: tools/modcalcdaylength.ui:914 tools/modcalcjd.ui:233
 #: tools/modcalcsidtime.ui:326 tools/modcalcvizequinox.ui:319
-#, fuzzy, kde-format
-#| msgid "View output"
+#, kde-format
 msgid "View Output..."
-msgstr "Çıktıyı gör"
+msgstr "Çıktıyı Gör…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
@@ -82031,8 +82053,8 @@ msgid ""
 "If checked, value will be read from input file. If not, value will be read "
 "from adjacent box"
 msgstr ""
-"Seçilirse, değer girdi dosyasından okunacak. Seçilmez ise değer bitişik "
-"kutudan okunacak"
+"İşaretliyse değer girdi dosyasından okunacaktır. İşaretli değilse değer "
+"bitişik kutudan okunur."
 
 #. i18n: ectx: property (text), widget (QLineEdit, epochBoxBatch)
 #: tools/modcalcgalcoord.ui:233
@@ -82058,7 +82080,7 @@ msgstr "Galaktik enlem:"
 #: tools/modcalcvlsr.ui:656
 #, kde-format
 msgid "Select Parameters for Output File"
-msgstr "Çıktı Dosyası için Değişkenleri Seç"
+msgstr "Çıktı Dosyası için Parametreleri Seç"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
@@ -82067,7 +82089,7 @@ msgstr "Çıktı Dosyası için Değişkenleri Seç"
 #: tools/modcalcplanets.ui:867 tools/modcalcvlsr.ui:688
 #, kde-format
 msgid "Select Filenames"
-msgstr "Dosya İsimlerini Seç"
+msgstr "Dosya Adlarını Seç"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/modcalcgeod.ui:51
@@ -82085,13 +82107,13 @@ msgstr "Kartezyen"
 #: tools/modcalcgeod.ui:78
 #, kde-format
 msgid "Geographic"
-msgstr "Coğrafik"
+msgstr "Coğrafi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/modcalcgeod.ui:93
 #, kde-format
 msgid "Select Ellipsoid Model"
-msgstr "Elipsoit Model Seç"
+msgstr "Elipsoid Modeli Seç"
 
 #. i18n: ectx: property (text), widget (QPushButton, Compute)
 #: tools/modcalcgeod.ui:137
@@ -82136,13 +82158,13 @@ msgstr "Coğrafi Koordinatlar"
 #: tools/modcalcgeod.ui:250
 #, kde-format
 msgid "Elevation (meters):"
-msgstr "Yükseklik (metre):"
+msgstr "Yükselti (metre):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, AltGeoCheckBatch)
 #: tools/modcalcgeod.ui:395
 #, kde-format
 msgid "Elev. (m):"
-msgstr "Yüks. (m):"
+msgstr "Yükselti (m):"
 
 #: tools/modcalcjd.cpp:244
 #, kde-format
@@ -82153,13 +82175,13 @@ msgstr "Jülyen tarihi hesaplama sonuçları"
 #: tools/modcalcjd.ui:57
 #, kde-format
 msgid "Julian day:"
-msgstr "Julian Günü:"
+msgstr "Jülyen tarihi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: tools/modcalcjd.ui:67
 #, kde-format
 msgid "Modified Julian day:"
-msgstr "Değiştirilmiş Julian Günü:"
+msgstr "Değiştirilmiş Jülyen tarihi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/modcalcjd.ui:109
@@ -82177,23 +82199,23 @@ msgstr "Tarih ve zaman"
 #: tools/modcalcjd.ui:125
 #, kde-format
 msgid "Julian day"
-msgstr "Julian Günü"
+msgstr "Jülyen tarihi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, InputComboBatch)
 #: tools/modcalcjd.ui:130
 #, kde-format
 msgid "Modified Julian day"
-msgstr "Değiştirilmiş Julian Günü"
+msgstr "Değiştirilmiş Jülyen tarihi"
 
 #: tools/modcalcplanets.cpp:279
 #, kde-format
 msgid "Incorrect number of fields in line %1: "
-msgstr "%1 satırında hatalı alan sayısı: "
+msgstr "%1. satırda yanlış alan sayısı: "
 
 #: tools/modcalcplanets.cpp:280
 #, kde-format
 msgid "Present fields %1. "
-msgstr "Mevcut alanlar %1. "
+msgstr "Var olan alanlar %1. "
 
 #: tools/modcalcplanets.cpp:281
 #, kde-format
@@ -82203,22 +82225,22 @@ msgstr "Gerekli alanlar %1. "
 #: tools/modcalcplanets.cpp:293
 #, kde-format
 msgid "Unknown planet "
-msgstr "Bilinmeyen gezegen"
+msgstr "Bilinmeyen gezegen, "
 
 #: tools/modcalcplanets.cpp:293
 #, kde-format
 msgid " in line %1: "
-msgstr " %1 satırında: "
+msgstr " %1. satırda: "
 
 #: tools/modcalcplanets.cpp:315
 #, kde-format
 msgid "Line %1 contains an invalid time"
-msgstr "%1 satırı geçersiz bir zaman içeriyor"
+msgstr "%1. satır geçersiz bir zaman içeriyor"
 
 #: tools/modcalcplanets.cpp:335
 #, kde-format
 msgid "Line %1 contains an invalid date: "
-msgstr "%1 satırının geçersiz bir tarihi var: "
+msgstr "%1. satırda geçersiz bir tarih var: "
 
 #: tools/modcalcplanets.cpp:438
 #, kde-format
@@ -82229,7 +82251,7 @@ msgstr ""
 #: tools/modcalcplanets.cpp:439
 #, kde-format
 msgid "Errors in lines"
-msgstr "Satırlarda hata"
+msgstr "Hatalı satırlar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/modcalcplanets.ui:57 tools/modcalcsidtime.ui:190
@@ -82242,13 +82264,13 @@ msgstr "Girdi Parametreleri"
 #: tools/modcalcplanets.ui:115 tools/modcalcplanets.ui:553
 #, kde-format
 msgid "Solar system body:"
-msgstr "Güneş Sistemi cismi:"
+msgstr "Güneş sistemi gövdesi:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: tools/modcalcplanets.ui:346
 #, kde-format
 msgid "Heliocentric Ecliptic Coordinates"
-msgstr "Güneş merkezli Tutulum Koordinatları"
+msgstr "Güneş Merkezli Ekliptik Koordinatlar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
@@ -82261,25 +82283,25 @@ msgstr "Uzaklık (AU):"
 #: tools/modcalcplanets.ui:412
 #, kde-format
 msgid "Geocentric Ecliptic Coordinates"
-msgstr "Yer merkezli Tutulum Koordinatları"
+msgstr "Yer Merkezli Ekliptik Koordinatlar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
 #: tools/modcalcplanets.ui:762
 #, kde-format
 msgid "Select Coordinate System for Output File"
-msgstr "Çıktı Dosyası için Koordinat düzeni Seçin"
+msgstr "Çıktı Dosyası Koordinat Sistemi Seç"
 
 #. i18n: ectx: property (text), widget (QCheckBox, HelioEclCheckBatch)
 #: tools/modcalcplanets.ui:783
 #, kde-format
 msgid "Heliocentric ecliptic"
-msgstr "Güneş merkezli tutulum"
+msgstr "Güneş merkezli ekliptik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GeoEclCheckBatch)
 #: tools/modcalcplanets.ui:803
 #, kde-format
 msgid "Geocentric ecliptic"
-msgstr "Yer merkezli tutulum"
+msgstr "Yer merkezli ekliptik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, HorizontalCheckBatch)
 #: tools/modcalcplanets.ui:813
@@ -82291,7 +82313,7 @@ msgstr "Yatay "
 #: tools/modcalcplanets.ui:826
 #, kde-format
 msgid "Other Parameters for Output File"
-msgstr "Çıktı Dosyası için Diğer Değişkenler"
+msgstr "Çıktı Dosyası için Diğer Parametreler"
 
 #: tools/modcalcsidtime.cpp:134
 #, kde-format
@@ -82300,14 +82322,14 @@ msgid ""
 "and country.  If the string contains spaces, enclose it in quotes so it gets "
 "parsed properly."
 msgstr ""
-"Konum dizgisi virgül ile ayrılmış şehir, vilayet ve ülke isimlerinden "
-"oluşur.  Eğer dizgi boşluklar içeriyorsa, uygun bir şekilde "
-"ayrıştırılabilmesi için bunları tırnak işaretleri içine alınız."
+"Konum dizileri, şehir, il ve ülkenin virgülle ayrılmış adlarından oluşur. "
+"Dizi boşluk içeriyorsa düzgün bir şekilde ayrıştırılabilmesi için tırnak "
+"işaretleri içine alın."
 
 #: tools/modcalcsidtime.cpp:139
 #, kde-format
 msgid "Hint for writing location strings"
-msgstr "Konum ifadeleri yazmak için ipucu"
+msgstr "Konum dizileri yazmak için ipucu"
 
 #: tools/modcalcsidtime.cpp:148
 #, kde-format
@@ -82342,12 +82364,12 @@ msgstr "%1, %2 ve %3"
 #: tools/modcalcsidtime.cpp:164
 #, kde-format
 msgid "Specify %1 in the input file."
-msgstr "Girdi dosyasında %1 belirtilsin."
+msgstr "Girdi dosyasında %1 ögesini belirtin."
 
 #: tools/modcalcsidtime.cpp:362 tools/modcalcvizequinox.cpp:137
 #, kde-format
 msgid "Results of Sidereal time calculation"
-msgstr "Yıldız Zamanı  hesaplama sonuçları"
+msgstr "Yıldız zamanı hesaplaması sonuçları"
 
 #. i18n: ectx: property (text), widget (QLabel, SiderealTimeLabel)
 #: tools/modcalcsidtime.ui:90
@@ -82365,7 +82387,7 @@ msgstr "Yıldız zamanını hesapla"
 #: tools/modcalcsidtime.ui:167
 #, kde-format
 msgid "Compute standard time"
-msgstr "Standart saati hesapla"
+msgstr "Standart zamanı hesapla"
 
 #. i18n: ectx: property (text), widget (QCheckBox, DateCheckBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, LocationCheckBatch)
@@ -82376,41 +82398,35 @@ msgstr "Girdi dosyasından oku"
 
 #. i18n: ectx: property (text), widget (QLabel, HelpLabel)
 #: tools/modcalcsidtime.ui:271
-#, fuzzy, kde-format
-#| msgid "Specify local time in the input file."
+#, kde-format
 msgid "Specify Local Time in the Input File"
-msgstr "Girdi dosyasında yerel zamanı belirt."
+msgstr "Girdi dosyasında yerel zamanı belirt"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1aLabel)
 #: tools/modcalcsimple.ui:130
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "RA (hh:mm:ss)"
+#, kde-format
 msgid "Angle (hh mm ss.s) "
-msgstr "RA (ss:dd:sn)"
+msgstr "Açı (hh mm ss.s) "
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1b)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2b)
 #: tools/modcalcsimple.ui:140 tools/modcalcsimple.ui:215
-#, fuzzy, kde-format
-#| msgid "Results"
+#, kde-format
 msgid "Angle Result"
-msgstr "Sonuçlar"
+msgstr "Açı Sonucu"
 
 #. i18n: ectx: property (text), widget (QLabel, angle1bLabel)
 #. i18n: ectx: property (text), widget (QLabel, angle2Label)
 #: tools/modcalcsimple.ui:146 tools/modcalcsimple.ui:221
 #, kde-format
 msgid "Angle (dd.d)"
-msgstr ""
+msgstr "Açı (dd.d)"
 
 #. i18n: ectx: property (text), widget (QLabel, angle2aLabel)
 #: tools/modcalcsimple.ui:189
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dec (dd:mm:ss)"
+#, kde-format
 msgid "Angle (dd mm ss.s)"
-msgstr "Dec (dd:mm:ss)"
+msgstr "Açı (dd mm ss.s)"
 
 #: tools/modcalcvizequinox.cpp:33
 #, kde-format
@@ -82420,7 +82436,7 @@ msgstr "Güneş’in Sapması"
 #: tools/modcalcvizequinox.cpp:97
 #, kde-format
 msgid "# Timing of Equinoxes and Solstices\n"
-msgstr "# Ekinokslar, Gündönümleri ve Mevsim Zamanlamaları\n"
+msgstr "# Ekinokslar ve Gündönümleri Zamanlamaları\n"
 
 #: tools/modcalcvizequinox.cpp:97
 #, kde-format
@@ -82438,7 +82454,7 @@ msgid ""
 "Solstice\n"
 "#\n"
 msgstr ""
-"# İlkbahar Ilımı\t\tYaz Dönencesi\t\t\tGüz Ilımı\t\tKış Dönencesi\n"
+"# İlkbahar Ekinoksu\t\tYaz Gündönümü\t\t\tGüz Ekinoksu\t\tKış Gündönümü\n"
 "#\n"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, modCalcEquinox)
@@ -82461,14 +82477,13 @@ msgstr "Bu yıl için ekinokslar ve gündönümleri:"
 #: tools/modcalcvizequinox.ui:189 tools/modcalcvizequinox.ui:217
 #, kde-format
 msgid "1 Jan 2007  00:00"
-msgstr "1 Jan 2007  00:00"
+msgstr "1 Oca 2007  00:00"
 
 #. i18n: ectx: property (text), widget (QLabel, HelpLabel)
 #: tools/modcalcvizequinox.ui:264
-#, fuzzy, kde-format
-#| msgid "Specify years for the calculation in the input file."
+#, kde-format
 msgid "Specify Years for the Calculation in the Input File"
-msgstr "Hesaplama için girdi dosyasındaki yılları belirtiniz."
+msgstr "Girdi dosyasında hesaplama için yılları belirt"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/modcalcvlsr.ui:116
@@ -82480,7 +82495,7 @@ msgstr "Hedef konum:"
 #: tools/modcalcvlsr.ui:278
 #, kde-format
 msgid "Radial velocities:"
-msgstr "Dikey Hızlar:"
+msgstr "Radyal hızlar:"
 
 #. i18n: ectx: property (text), widget (QLabel, azLabel)
 #: tools/modcalcvlsr.ui:298
@@ -82492,25 +82507,25 @@ msgstr "V<sub>LSR</sub>:"
 #: tools/modcalcvlsr.ui:334
 #, kde-format
 msgid "Heliocentric:"
-msgstr "Güneşmerkezli:"
+msgstr "Güneş merkezli:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: tools/modcalcvlsr.ui:370
 #, kde-format
 msgid "Geocentric:"
-msgstr "Yermerkezli:"
+msgstr "Yer merkezli:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: tools/modcalcvlsr.ui:406
 #, kde-format
 msgid "Topocentric:"
-msgstr "Yüzeymerkezli:"
+msgstr "Yüzey merkezli:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ElevationCheckBatch)
 #: tools/modcalcvlsr.ui:498
 #, kde-format
 msgid "Elevation (m):"
-msgstr "Yükseklik (m):"
+msgstr "Yükselti (m):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, InputVelocityCheckBatch)
 #: tools/modcalcvlsr.ui:604
@@ -82522,19 +82537,19 @@ msgstr "Hızı girin:"
 #: tools/modcalcvlsr.ui:612
 #, kde-format
 msgid "Heliocentric"
-msgstr "Güneşmerkezli"
+msgstr "Güneş merkezli"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, InputVelocityComboBatch)
 #: tools/modcalcvlsr.ui:617
 #, kde-format
 msgid "Geocentric"
-msgstr "Yermerkezli"
+msgstr "Yer merkezli"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, InputVelocityComboBatch)
 #: tools/modcalcvlsr.ui:622
 #, kde-format
 msgid "Topocentric"
-msgstr "Yüzeymerkezli"
+msgstr "Yüzey merkezli"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, InputVelocityComboBatch)
 #: tools/modcalcvlsr.ui:627
@@ -82546,7 +82561,7 @@ msgstr "LSR"
 #: tools/modcalcvlsr.ui:794
 #, kde-format
 msgid "Overview"
-msgstr "Genel Bakış"
+msgstr "Genel Görünüm"
 
 #: tools/moonphasetool.cpp:31
 #, kde-kuit-format
@@ -82557,16 +82572,17 @@ msgstr "Ay’ın Evreleri Takvimi"
 #, kde-kuit-format
 msgid "Error: sesameResolver failed. Could not resolve name on CDS Sesame."
 msgstr ""
+"Hata: sesameResolver başarısız oldu. CDS Sesame üzerinde ad çözülemedi."
 
 #: tools/nameresolver.cpp:53
 #, kde-kuit-format
 msgid "Attempting to resolve object %1 using CDS Sesame."
-msgstr ""
+msgstr "CDS Sesame kullanılarak %1 nesnesi çözülmeye çalışılıyor…"
 
 #: tools/nameresolver.cpp:71
 #, kde-kuit-format
 msgid "Error trying to get XML response from CDS Sesame server: %1"
-msgstr ""
+msgstr "Hata: CDS Sesame sunucusundan XML yanıtı alınmaya çalışılıyor: %1"
 
 #: tools/nameresolver.cpp:86
 #, kde-kuit-format
@@ -82574,21 +82590,23 @@ msgid ""
 "Empty result instead of expected XML from CDS Sesame. Maybe bad Internet "
 "connection?"
 msgstr ""
+"CDS Sesame sunucusundan beklenen XML yanıtı yerine boş sonuç alındı. "
+"İnternet bağlantısında bir sorun olabilir mi?"
 
 #: tools/nameresolver.cpp:219
 #, kde-kuit-format
 msgid "Error parsing XML from CDS Sesame: %1 on line %2 @ col = %3"
 msgstr ""
+"CDS Sesame sunucusundan XML ayrıştırılmaya çalışılırken hata: Satır %2, "
+"sütun @ %1 = %3"
 
 #: tools/nameresolver.cpp:232
-#, fuzzy, kde-kuit-format
-#| msgid "Telescope info updated successfully."
+#, kde-kuit-format
 msgid "Resolved %1 successfully."
-msgstr "Teleskop bilgisi başarıyla güncellendi."
+msgstr "%1 başarıyla çözüldü."
 
 #: tools/observinglist.cpp:77
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Observation Planner"
 msgstr "Gözlem Planlayıcısı"
@@ -82596,7 +82614,7 @@ msgstr "Gözlem Planlayıcısı"
 #: tools/observinglist.cpp:92 tools/observinglist.cpp:96
 #, kde-format
 msgid "Alternate Name"
-msgstr "Alternatif İsim"
+msgstr "Alternatif Ad"
 
 #: tools/observinglist.cpp:92 tools/observinglist.cpp:96
 #, kde-format
@@ -82614,7 +82632,7 @@ msgstr "Dec (J2000)"
 #, kde-format
 msgctxt "Magnitude"
 msgid "Mag"
-msgstr "Mag"
+msgstr "Büy"
 
 #: tools/observinglist.cpp:94
 #, kde-format
@@ -82622,43 +82640,41 @@ msgid "Current Altitude"
 msgstr "Geçerli Yükseklik"
 
 #: tools/observinglist.cpp:98
-#, fuzzy, kde-format
-#| msgctxt "Constellation Name"
-#| msgid "Constell. Name"
+#, kde-format
 msgctxt "Constellation"
 msgid "Constell."
-msgstr "Takımyıldızı Adı"
+msgstr "Takımyıldız"
 
 #: tools/observinglist.cpp:195
-#, fuzzy, kde-format
-#| msgid "Does not rise"
+#, kde-format
 msgctxt "Short text to describe that object has not risen yet"
 msgid "Not risen"
-msgstr "Yükselmez"
+msgstr "Doğmamış"
 
 #: tools/observinglist.cpp:201
 #, kde-format
 msgctxt "Object is in the Dobsonian hole"
 msgid "In hole"
-msgstr ""
+msgstr "Delikte"
 
 #: tools/observinglist.cpp:262
-#, fuzzy, kde-format
-#| msgid "Unnamed stars are not supported in the observing lists"
+#, kde-format
 msgid ""
 "Stars and objects whose names KStars does not know are not supported in the "
 "observing lists"
-msgstr "İsimsiz yıldızlar gözlem listesinde desteklenmemektedir"
+msgstr ""
+"K Yıldızlar’ın adını bilmediği yıldızlar ve nesneler gözlem listelerinde "
+"desteklenmiyor."
 
 #: tools/observinglist.cpp:274
 #, kde-format
 msgid "%1 is already in your wishlist."
-msgstr "%1 zaten istek listenizde."
+msgstr "%1 halihazırda istek listenizde."
 
 #: tools/observinglist.cpp:289
 #, kde-format
 msgid "%1 is already in the session plan."
-msgstr "%1 zaten oturum planınızda."
+msgstr "%1 halihazırda oturum planında."
 
 #: tools/observinglist.cpp:352
 #, kde-format
@@ -82678,37 +82694,40 @@ msgid ""
 " Photometric band: %3 \n"
 " Version: %4"
 msgstr ""
+"DSS görseli üst verisi:\n"
+" Boyut: %1’ × %2’\n"
+" Fotometrik bant: %3\n"
+" Sürüm: %4"
 
 #: tools/observinglist.cpp:601
 #, kde-format
 msgid "No image info available."
-msgstr ""
+msgstr "Kullanılabilir görsel bilgisi yok."
 
 #: tools/observinglist.cpp:609
 #, kde-format
 msgid "No image available. Click on the placeholder image to download one."
 msgstr ""
+"Kullanılabilir görsel yok. Bir tane indirmek için yer tutucu görsele "
+"tıklayın."
 
 #: tools/observinglist.cpp:623
-#, fuzzy, kde-format
-#| msgid "%1, %2 and %3"
+#, kde-format
 msgctxt ""
 "%1 magnitude of object, %2 type of sky object (planet, asteroid etc), %3 "
 "name of a constellation"
 msgid "%1 mag %2 in %3"
-msgstr "%1, %2 ve %3"
+msgstr "%3 içinde %2 büyüklüklü %1"
 
 #: tools/observinglist.cpp:775
-#, fuzzy, kde-format
-#| msgid "Save the observing session"
+#, kde-format
 msgid "Batch add to observing session"
-msgstr "Gözlemleme oturumunu kaydet"
+msgstr "Gözlem oturumuna toplu ekle"
 
 #: tools/observinglist.cpp:775
-#, fuzzy, kde-format
-#| msgid "Add to Observing WishList"
+#, kde-format
 msgid "Batch add to observing wishlist"
-msgstr "Gözlemleme İsteği Listesine Ekle"
+msgstr "Gözlem istek listesine toplu ekle"
 
 #: tools/observinglist.cpp:776
 #, kde-format
@@ -82718,14 +82737,17 @@ msgid ""
 "settings, to the CDS Sesame resolver. Objects that are internet resolved "
 "will be added to the database."
 msgstr ""
+"Her satırda bir nesne olacak şekilde eklemek için bir nesne listesi "
+"belirtin. Adlar K Yıldızlar tarafından veya ayarlarda internet çözücüsü "
+"etkinleştirilmişse CDS Sesame çözücüsü tarafından anlaşılmalıdır. İnternet "
+"çözümlü nesneler veritabanına eklenecektir."
 
 #: tools/observinglist.cpp:808
-#, fuzzy, kde-format
-#| msgid "Object named %1 not found"
+#, kde-format
 msgid "Batch add: %1 object not found"
 msgid_plural "Batch add: %1 objects not found"
-msgstr[0] "%1 isimli cisim bulunamadı"
-msgstr[1] "%1 isimli cisim bulunamadı"
+msgstr[0] "Toplu ekle: %1 nesne bulunamadı"
+msgstr[1] "Toplu ekle: %1 nesne bulunamadı"
 
 #: tools/observinglist.cpp:809
 #, kde-format
@@ -82736,11 +82758,14 @@ msgid_plural ""
 "%1 objects could not be found in the database or resolved, and hence could "
 "not be added. See the details for more."
 msgstr[0] ""
+"%1 nesne veritabanında bulunamadı veya çözülemedi ve bu nedenle eklenemedi. "
+"Daha fazla bilgi için ayrıntılara bakın."
 msgstr[1] ""
+"%1 nesne veritabanında bulunamadı veya çözülemedi ve bu nedenle eklenemedi. "
+"Daha fazla bilgi için ayrıntılara bakın."
 
 #: tools/observinglist.cpp:883
-#, fuzzy, kde-format
-#| msgid "Open Observing List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Observing List"
 msgstr "Gözlem Listesini Aç"
@@ -82751,38 +82776,36 @@ msgid ""
 "The specified file is invalid. We expect an XML file based on the "
 "OpenAstronomyLog schema."
 msgstr ""
-"Belirtilen alan geçersiz. OpenAstronomyLog şeması tabanlı bir XML dosyası "
-"bekleniyordu."
+"Belirtilen dosya geçersiz. OpenAstronomyLog şemasına dayalı bir XML dosyası "
+"bekliyoruz."
 
 #: tools/observinglist.cpp:954
 #, kde-format
 msgid "The specified file is invalid"
-msgstr "Belirtilen dosya geçersiz"
+msgstr "Belirtilen Dosya Geçersiz"
 
 #: tools/observinglist.cpp:964
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to clear all objects?"
-msgstr "%1 istemcisini kaldırmak istediğinizden emin misiniz?"
+msgstr "Tüm nesneleri temizlemek istediğinizden emin misiniz?"
 
 #: tools/observinglist.cpp:965
 #, kde-format
 msgid "Clear all?"
-msgstr "Hepsini temizle?"
+msgstr "Tümünü Temizle?"
 
 #: tools/observinglist.cpp:998
 #, kde-format
 msgid "Do you want to save the current session?"
-msgstr "Oturumu kaydetmek ister misiniz?"
+msgstr "Geçerli oturumu kaydetmek istiyor musunuz?"
 
 #: tools/observinglist.cpp:999
 #, kde-format
 msgid "Save Current session?"
-msgstr "Geçerli Oturum Kaydedilsin mi?"
+msgstr "Geçerli Oturumu Kaydet?"
 
 #: tools/observinglist.cpp:1011
-#, fuzzy, kde-format
-#| msgid "Save Observing List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Observing List"
 msgstr "Gözlem Listesini Kaydet"
@@ -82793,17 +82816,18 @@ msgid ""
 "Could not open the observing wishlist file %1 for writing. Your wishlist "
 "changes will not be saved. Check if the location is writable and not full."
 msgstr ""
+"Gözlem istek listesi dosyası %1 yazmak için açılamadı. İstek listesi "
+"değişiklikleriniz kaydedilmeyecek. Konumun yazılabilir ve dolu olup "
+"olmadığını denetleyin."
 
 #: tools/observinglist.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Could not save the observer list to the file."
+#, kde-format
 msgid "Could not save observing wishlist"
-msgstr "Gözleyici listesi dosya kaydedilemedi."
+msgstr "Gözlem istek listesi kaydedilemedi"
 
 #: tools/observinglist.cpp:1082 tools/observinglist.cpp:1197
 #: tools/obslistwizard.cpp:34
-#, fuzzy, kde-format
-#| msgid "Observing List Wizard"
+#, kde-format
 msgctxt "@title:window"
 msgid "Observing List Wizard"
 msgstr "Gözlem Listesi Sihirbazı"
@@ -82811,7 +82835,7 @@ msgstr "Gözlem Listesi Sihirbazı"
 #: tools/observinglist.cpp:1083
 #, kde-format
 msgid "Please wait while loading observing wishlist..."
-msgstr "İstek listesi yüklerken lütfen bekleyin…"
+msgstr "İstek listesi yüklenirken lütfen bekleyin…"
 
 #: tools/observinglist.cpp:1106
 #, kde-format

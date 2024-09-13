@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-12 01:43+0000\n"
+"POT-Creation-Date: 2024-09-13 01:48+0000\n"
 "PO-Revision-Date: 2009-02-23 19:53+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -1592,7 +1592,7 @@ msgstr "महिना"
 msgid "days"
 msgstr "दिन"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1035
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1034
 #, fuzzy, kde-format
 #| msgid "hours"
 msgid "hours"
@@ -1601,7 +1601,7 @@ msgstr "घंटे"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:1033
+#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:1032
 #, fuzzy, kde-format
 #| msgid "minutes"
 msgid "minutes"
@@ -1623,7 +1623,7 @@ msgstr "मिनट"
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
 #: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:625 ekos/opsekos.ui:665
-#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:1031
+#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:1030
 #, fuzzy, kde-format
 #| msgid "seconds"
 msgid "seconds"
@@ -3131,7 +3131,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
-#: ekos/capture/cameraprocess.cpp:2465 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:727 fitsviewer/fitsviewer.cpp:728
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
@@ -6813,8 +6813,8 @@ msgstr "आउटपुट फाइल बर निर्देसांक �
 msgid "Capture error. Aborting..."
 msgstr "फोटू कैप्चर करव"
 
-#: ekos/align/align.cpp:3299 ekos/capture/cameraprocess.cpp:1584
-#: ekos/capture/cameraprocess.cpp:2143
+#: ekos/align/align.cpp:3299 ekos/capture/cameraprocess.cpp:1583
+#: ekos/capture/cameraprocess.cpp:2142
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6927,7 +6927,7 @@ msgstr "फोटू : %1 सहेजेने मं अक्छम"
 
 #: ekos/align/align.cpp:3969 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2854
-#: ekos/capture/cameraprocess.cpp:2564 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2563 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
 #: ekos/scheduler/schedulerprocess.cpp:4649
@@ -7608,7 +7608,7 @@ msgid "Open Ekos Alignment List"
 msgstr "सूची ल देखत हे"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2853
-#: ekos/capture/cameraprocess.cpp:2563 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2562 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4668
 #, fuzzy, kde-format
@@ -14853,7 +14853,7 @@ msgstr "एफआईटीएस फाइल ल %1 मं सहेजिस"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "का आप मन सही मं संकली %1 ल मिटाना चाहथो ?"
 
-#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2682
+#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2681
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
@@ -15156,7 +15156,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2478
+#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2477
 #: ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -15843,173 +15843,173 @@ msgstr ""
 msgid "Image Write Failed"
 msgstr "फोटू कैप्चर करव"
 
-#: ekos/capture/cameraprocess.cpp:1245
+#: ekos/capture/cameraprocess.cpp:1244
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "डाटा फाइल ल %1 मं सहेजिस"
 
-#: ekos/capture/cameraprocess.cpp:1271
+#: ekos/capture/cameraprocess.cpp:1270
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Autoguiding suspended."
 msgstr "तारा लोड करत हे"
 
-#: ekos/capture/cameraprocess.cpp:1300
+#: ekos/capture/cameraprocess.cpp:1299
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1366
+#: ekos/capture/cameraprocess.cpp:1365
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "सुपरनोवा अवसिस्ट"
 
-#: ekos/capture/cameraprocess.cpp:1423
+#: ekos/capture/cameraprocess.cpp:1422
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "कनेक्सन"
 
-#: ekos/capture/cameraprocess.cpp:1451
+#: ekos/capture/cameraprocess.cpp:1450
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1576 ekos/capture/cameraprocess.cpp:2135
+#: ekos/capture/cameraprocess.cpp:1575 ekos/capture/cameraprocess.cpp:2134
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1676
+#: ekos/capture/cameraprocess.cpp:1675
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1742
+#: ekos/capture/cameraprocess.cpp:1741
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1776
+#: ekos/capture/cameraprocess.cpp:1775
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Captured %1"
 msgstr "फोटू कैप्चर करव"
 
-#: ekos/capture/cameraprocess.cpp:1782
+#: ekos/capture/cameraprocess.cpp:1781
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1823
+#: ekos/capture/cameraprocess.cpp:1822
 #, fuzzy, kde-format
 #| msgid "Running script: %1"
 msgid "Executing capture script %1"
 msgstr "स्क्रिप्ट: %1 चलाय जात हे"
 
-#: ekos/capture/cameraprocess.cpp:1838
+#: ekos/capture/cameraprocess.cpp:1837
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1846
+#: ekos/capture/cameraprocess.cpp:1845
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1858
+#: ekos/capture/cameraprocess.cpp:1857
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS"
 msgid "Processing meridian flip..."
 msgstr "एफआईटीएस के अपने अपन प्रदर्सन (&A)"
 
-#: ekos/capture/cameraprocess.cpp:1868
+#: ekos/capture/cameraprocess.cpp:1867
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1873
+#: ekos/capture/cameraprocess.cpp:1872
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2065 ekos/focus/focus.cpp:5374
+#: ekos/capture/cameraprocess.cpp:2064 ekos/focus/focus.cpp:5374
 #: ekos/focus/focus.cpp:5398
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
 msgstr "कैमरा सीसीडी एक्सपोजर चालू करव. अवधि सेकन्ड मं हे."
 
-#: ekos/capture/cameraprocess.cpp:2072
+#: ekos/capture/cameraprocess.cpp:2071
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2090 ekos/focus/focus.cpp:5379
+#: ekos/capture/cameraprocess.cpp:2089 ekos/focus/focus.cpp:5379
 #: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "कैमरा सीसीडी एक्सपोजर चालू करव. अवधि सेकन्ड मं हे."
 
-#: ekos/capture/cameraprocess.cpp:2116
+#: ekos/capture/cameraprocess.cpp:2115
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "कैमरा सीसीडी एक्सपोजर चालू करव. अवधि सेकन्ड मं हे."
 
-#: ekos/capture/cameraprocess.cpp:2194
+#: ekos/capture/cameraprocess.cpp:2193
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2205
+#: ekos/capture/cameraprocess.cpp:2204
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2227
+#: ekos/capture/cameraprocess.cpp:2226
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2256
+#: ekos/capture/cameraprocess.cpp:2255
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2264
+#: ekos/capture/cameraprocess.cpp:2263
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2462
+#: ekos/capture/cameraprocess.cpp:2461
 #, fuzzy, kde-format
 #| msgid "Preview of %1"
 msgid "%1 Preview"
 msgstr "%1 के प्रिव्यू"
 
-#: ekos/capture/cameraprocess.cpp:2473 ekos/capture/cameraprocess.cpp:2475
+#: ekos/capture/cameraprocess.cpp:2472 ekos/capture/cameraprocess.cpp:2474
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Flat Calibration"
 msgstr "केलिएन्टे"
 
-#: ekos/capture/cameraprocess.cpp:2631
+#: ekos/capture/cameraprocess.cpp:2630
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr "आवृत्तिः"
 
-#: ekos/capture/cameraprocess.cpp:2681
+#: ekos/capture/cameraprocess.cpp:2680
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -16017,20 +16017,20 @@ msgid ""
 "restart capturing?"
 msgstr "का आप मन सही मं संकली %1 ल मिटाना चाहथो ?"
 
-#: ekos/capture/cameraprocess.cpp:2695
+#: ekos/capture/cameraprocess.cpp:2694
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2810
+#: ekos/capture/cameraprocess.cpp:2809
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "का आप मन सही मं क्लायंट %1 ल मिटाना चाहथो ?"
 
-#: ekos/capture/cameraprocess.cpp:2811
+#: ekos/capture/cameraprocess.cpp:2810
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
@@ -16140,90 +16140,97 @@ msgstr "पूरा"
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:753
+#. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
+#: ekos/capture/camerastate.cpp:746
+#, fuzzy, kde-format
+#| msgid "Loading stars"
+msgid "Focus complete. Resuming in %1 seconds..."
+msgstr "तारा लोड करत हे"
+
+#: ekos/capture/camerastate.cpp:769
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:757
+#: ekos/capture/camerastate.cpp:773
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Limit: %1 mins"
 msgstr "अभी हाल के रंग सेटिंग"
 
-#: ekos/capture/camerastate.cpp:902
+#: ekos/capture/camerastate.cpp:918
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:920
+#: ekos/capture/camerastate.cpp:936
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Guide module timed out."
 msgstr "तारा लोड करत हे"
 
-#: ekos/capture/camerastate.cpp:952
+#: ekos/capture/camerastate.cpp:968
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:961
+#: ekos/capture/camerastate.cpp:977
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:983
+#: ekos/capture/camerastate.cpp:999
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:997
+#: ekos/capture/camerastate.cpp:1013
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1011
+#: ekos/capture/camerastate.cpp:1027
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1038
+#: ekos/capture/camerastate.cpp:1054
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1085
+#: ekos/capture/camerastate.cpp:1101
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1089
+#: ekos/capture/camerastate.cpp:1105
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1104
+#: ekos/capture/camerastate.cpp:1120
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1484
+#: ekos/capture/camerastate.cpp:1500
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1503
+#: ekos/capture/camerastate.cpp:1519
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1508
+#: ekos/capture/camerastate.cpp:1524
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Post-flip alignment failed. Retrying..."
@@ -21368,185 +21375,197 @@ msgstr "केलिएन्टे"
 msgid "Calibration Data Flipped."
 msgstr "केलिएन्टे"
 
-#: ekos/guide/externalguide/phd2.cpp:412
+#: ekos/guide/externalguide/phd2.cpp:403
+#, fuzzy, kde-format
+#| msgid "Loading stars"
+msgid "PHD2: SettleDone."
+msgstr "तारा लोड करत हे"
+
+#: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:431
+#: ekos/guide/externalguide/phd2.cpp:433
 #, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:440
+#: ekos/guide/externalguide/phd2.cpp:442
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Settling failed, aborted."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:446
+#: ekos/guide/externalguide/phd2.cpp:448
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Settling complete, Guiding Started."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:475
+#: ekos/guide/externalguide/phd2.cpp:477
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:557
+#: ekos/guide/externalguide/phd2.cpp:559
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:611
+#: ekos/guide/externalguide/phd2.cpp:613
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:616
+#: ekos/guide/externalguide/phd2.cpp:618
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Guiding Stopped."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:635
+#: ekos/guide/externalguide/phd2.cpp:637
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:646
+#: ekos/guide/externalguide/phd2.cpp:648
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:656
+#: ekos/guide/externalguide/phd2.cpp:657
+#, fuzzy, kde-format
+#| msgid "Loading stars"
+msgid "PHD2: Guiding...waiting for settle..."
+msgstr "तारा लोड करत हे"
+
+#: ekos/guide/externalguide/phd2.cpp:661
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Dithering successful."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:662
+#: ekos/guide/externalguide/phd2.cpp:667
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Guiding started."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:673
+#: ekos/guide/externalguide/phd2.cpp:678
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:679
+#: ekos/guide/externalguide/phd2.cpp:684
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:685
+#: ekos/guide/externalguide/phd2.cpp:690
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:691
+#: ekos/guide/externalguide/phd2.cpp:696
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Guiding paused."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:696
+#: ekos/guide/externalguide/phd2.cpp:701
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "केलिएन्टे"
 
-#: ekos/guide/externalguide/phd2.cpp:705
+#: ekos/guide/externalguide/phd2.cpp:710
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "केलिएन्टे"
 
-#: ekos/guide/externalguide/phd2.cpp:709
+#: ekos/guide/externalguide/phd2.cpp:714
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Looping Exposures."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:715
+#: ekos/guide/externalguide/phd2.cpp:720
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Dithering started."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:743
+#: ekos/guide/externalguide/phd2.cpp:748
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "PHD2: Calibration is cleared"
 msgstr "केलिएन्टे"
 
-#: ekos/guide/externalguide/phd2.cpp:839
+#: ekos/guide/externalguide/phd2.cpp:844
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:849
+#: ekos/guide/externalguide/phd2.cpp:854
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "PHD2: Exposure Time set to: "
 msgstr "कैमरा सीसीडी एक्सपोजर चालू करव. अवधि सेकन्ड मं हे."
 
-#: ekos/guide/externalguide/phd2.cpp:857
+#: ekos/guide/externalguide/phd2.cpp:862
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Total Eclipse Image"
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "पूरा ग्रहन फोटू"
 
-#: ekos/guide/externalguide/phd2.cpp:888
+#: ekos/guide/externalguide/phd2.cpp:893
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:890
+#: ekos/guide/externalguide/phd2.cpp:895
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1005
+#: ekos/guide/externalguide/phd2.cpp:1010
 #, kde-format
 msgid "PHD2 Error: unhandled '%1'"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1138
-#: ekos/guide/externalguide/phd2.cpp:1156
-#: ekos/guide/externalguide/phd2.cpp:1307
-#: ekos/guide/externalguide/phd2.cpp:1422
-#: ekos/guide/externalguide/phd2.cpp:1451
-#: ekos/guide/externalguide/phd2.cpp:1480
+#: ekos/guide/externalguide/phd2.cpp:1143
+#: ekos/guide/externalguide/phd2.cpp:1161
+#: ekos/guide/externalguide/phd2.cpp:1312
+#: ekos/guide/externalguide/phd2.cpp:1427
+#: ekos/guide/externalguide/phd2.cpp:1456
+#: ekos/guide/externalguide/phd2.cpp:1485
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1300
+#: ekos/guide/externalguide/phd2.cpp:1305
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "PHD2: Guiding is already running."
 msgstr "तारा लोड करत हे"
 
-#: ekos/guide/externalguide/phd2.cpp:1366
+#: ekos/guide/externalguide/phd2.cpp:1371
 #, fuzzy, kde-format
 #| msgid "Configure Hidden Objects"
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "लुकाए चीज कान्फिगर करव"
 
-#: ekos/guide/externalguide/phd2.cpp:1368
+#: ekos/guide/externalguide/phd2.cpp:1373
 #, fuzzy, kde-format
 #| msgid "Connect or Disconnect an INDI device."
 msgid "PHD2: Disconnecting Equipment. . ."
@@ -28699,12 +28718,12 @@ msgstr ""
 msgid "Ekos job failed (%1)"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:1011
+#: ekos/scheduler/schedulerjob.cpp:1010
 #, fuzzy, kde-format
 msgid "DarkFlat"
 msgstr "बार्करविले"
 
-#: ekos/scheduler/schedulerjob.cpp:1042
+#: ekos/scheduler/schedulerjob.cpp:1041
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Images"
