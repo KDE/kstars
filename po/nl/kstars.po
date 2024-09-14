@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-13 01:48+0000\n"
-"PO-Revision-Date: 2024-09-02 12:17+0200\n"
+"PO-Revision-Date: 2024-09-14 00:29+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -15986,10 +15986,9 @@ msgstr "Autofocus is mislukt. Belichten afgebroken..."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:746
-#, fuzzy, kde-format
-#| msgid "Dither complete. Resuming in %1 seconds..."
+#, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
-msgstr "Ditheren voltooid. Wordt hervat binnen %1 seconden...."
+msgstr "Focusseren voltooid. Wordt hervat binnen %1 seconden...."
 
 #: ekos/capture/camerastate.cpp:769
 #, kde-format
@@ -21307,10 +21306,9 @@ msgid "Calibration Data Flipped."
 msgstr "Kalibratiegegevens gewisseld."
 
 #: ekos/guide/externalguide/phd2.cpp:403
-#, fuzzy, kde-format
-#| msgid "PHD2: Star Selected."
+#, kde-format
 msgid "PHD2: SettleDone."
-msgstr "PHD2: Ster geselecteerd."
+msgstr "PHD2: settelen gedaan."
 
 #: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
@@ -21363,10 +21361,9 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: Ster geselecteerd."
 
 #: ekos/guide/externalguide/phd2.cpp:657
-#, fuzzy, kde-format
-#| msgid "PHD2: Waiting for guiding to settle."
+#, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
-msgstr "PHD2: Wachten tot gereed zijn voor volgen."
+msgstr "PHD2: aansturen...wachten op settelen..."
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format

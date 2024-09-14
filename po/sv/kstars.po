@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-13 01:48+0000\n"
-"PO-Revision-Date: 2024-09-02 18:14+0200\n"
+"PO-Revision-Date: 2024-09-13 08:37+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -15923,10 +15923,9 @@ msgstr "Automatisk fokusering misslyckades. Avbryter exponering..."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:746
-#, fuzzy, kde-format
-#| msgid "Dither complete. Resuming in %1 seconds..."
+#, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
-msgstr "Gitter slutförd. Återupptar om %1 sekunder ..."
+msgstr "Fokusering slutförd. Återupptar om %1 sekunder ..."
 
 #: ekos/capture/camerastate.cpp:769
 #, kde-format
@@ -21236,10 +21235,9 @@ msgid "Calibration Data Flipped."
 msgstr "Kalibreringsdata vänd."
 
 #: ekos/guide/externalguide/phd2.cpp:403
-#, fuzzy, kde-format
-#| msgid "PHD2: Star Selected."
+#, kde-format
 msgid "PHD2: SettleDone."
-msgstr "PHD2: Stjärna vald."
+msgstr "PHD2: Dämpning klar."
 
 #: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
@@ -21292,10 +21290,9 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: Stjärna vald."
 
 #: ekos/guide/externalguide/phd2.cpp:657
-#, fuzzy, kde-format
-#| msgid "PHD2: Waiting for guiding to settle."
+#, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
-msgstr "PHD2: Väntar på att guidning ska dämpas."
+msgstr "PHD2: Guidning ... Väntar på dämpning ..."
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
