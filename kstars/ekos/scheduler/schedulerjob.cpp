@@ -14,7 +14,6 @@
 #include "scheduler.h"
 #include "schedulermodulestate.h"
 #include "schedulerutils.h"
-#include "ksalmanac.h"
 #include "ksmoon.h"
 
 #include <knotification.h>
@@ -1083,4 +1082,5 @@ QJsonObject SchedulerJob::toJson() const
         {"sequence", sequenceFile.toString() },
     };
 }
+
 } // Ekos namespace

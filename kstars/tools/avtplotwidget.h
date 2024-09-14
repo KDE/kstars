@@ -66,6 +66,16 @@ class AVTPlotWidget : public KPlotWidget
      */
     inline void setGeoLocation(const GeoLocation *geo_) { geo = geo_; }
 
+    /**
+     * This is needed when not plotting from noon to noon.
+     * Set the offset from noon to start the plot (e.g. 6pm would be 6)
+     * and set the plot length in hours.
+     * @param noonOffset hours after noon when the plot should start
+     * @param plotDuration Number of hours that the plot represents.
+     * @warning This only affects moon and sub and mouse clicks. You must coordinate the points with this
+     */
+    void setPlotExtent(double noonOffset, double plotDuration);
+
   protected:
     /**
      * Handle mouse move events. If the mouse button is down, draw crosshair lines
@@ -83,7 +93,11 @@ class AVTPlotWidget : public KPlotWidget
     /** Redraw the plot. */
     void paintEvent(QPaintEvent *e) override;
 
-  private:
+  private:    
+    int convertCoords(int xCoord);
+
+    // The times below (SunRise, SunSet, Dawn, Dusk, MoonRise, MoonSet) are all in fractional
+    // parts of the day (e.g. 0.5 is 12 noon).
     double SunRise { 0.25 };
     double SunSet { 0.75 };
     double Dawn { 0 };
@@ -93,6 +107,8 @@ class AVTPlotWidget : public KPlotWidget
     double MoonRise { 0 };
     double MoonSet { 0 };
     double MoonIllum { 0 };
+    double noonOffset { 0.0}; // Default start plotting at noon plus this offset
+    double plotDuration { 24.0 };  // Default plot length is 24 hours
     QPoint MousePoint;
     const GeoLocation *geo { nullptr };
 };

@@ -21,6 +21,7 @@
 #include "schedulerprocess.h"
 #include "schedulermodulestate.h"
 #include "schedulerutils.h"
+#include "scheduleraltitudegraph.h"
 #include "skymapcomposite.h"
 #include "skycomponents/mosaiccomponent.h"
 #include "skyobjects/mosaictiles.h"
@@ -34,6 +35,7 @@
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "ekos/auxiliary/solverutils.h"
 #include "ekos/auxiliary/stellarsolverprofile.h"
+#include "ksalmanac.h"
 
 #include <KConfigDialog>
 #include <KActionCollection>
@@ -142,7 +144,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     /* FIXME: Find a way to have multi-line tooltips in the .ui file, then move the widget configuration there - what about i18n? */
 
     queueTable->setToolTip(
-        i18n("Job scheduler list.\nClick to select a job in the list.\nDouble click to edit a job with the left-hand fields."));
+        i18n("Job scheduler list.\nClick to select a job in the list.\nDouble click to edit a job with the left-hand fields.\nShift click to view a job's altitude tonight."));
     QTableWidgetItem *statusHeader       = queueTable->horizontalHeaderItem(SCHEDCOL_STATUS);
     QTableWidgetItem *altitudeHeader     = queueTable->horizontalHeaderItem(SCHEDCOL_ALTITUDE);
     QTableWidgetItem *startupHeader      = queueTable->horizontalHeaderItem(SCHEDCOL_STARTTIME);
@@ -1241,6 +1243,14 @@ void Scheduler::queueTableSelectionChanged(const QItemSelection &selected, const
 
 void Scheduler::clickQueueTable(QModelIndex index)
 {
+    QGuiApplication::mouseButtons();
+    auto kMods = QGuiApplication::keyboardModifiers();
+    if (kMods & Qt::ShiftModifier)
+    {
+        handleAltitudeGraph(index.row());
+        return;
+    }
+
     if (index.isValid() && index.row() < moduleState()->jobs().count())
         setJobManipulation(true, true, moduleState()->jobs().at(index.row())->isLead());
     else
@@ -2902,6 +2912,71 @@ void Scheduler::disconnectSettings()
     // All QDateTimeEdit
     for (auto &oneWidget : findChildren<QDateTimeEdit*>())
         disconnect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Scheduler::syncSettings);
+}
+
+void Scheduler::handleAltitudeGraph(int index)
+{
+    if (!m_altitudeGraph)
+        m_altitudeGraph = new SchedulerAltitudeGraph;
+
+    if (index < 0 || index >= moduleState()->jobs().size())
+        return;
+    auto job = moduleState()->jobs().at(index);
+
+    QDateTime now = SchedulerModuleState::getLocalTime(), start, end;
+    QDateTime nextDawn, nextDusk;
+    SchedulerModuleState::calculateDawnDusk(now, nextDawn, nextDusk);
+
+    QVector<double> times, alts;
+    QDateTime plotStart = (nextDusk < nextDawn) ? nextDusk : nextDusk.addDays(-1);
+
+    KStarsDateTime midnight = KStarsDateTime(now.date().addDays(1), QTime(0, 1), Qt::LocalTime);
+    // Midnight not quite right if it's in the wee hours before dawn.
+    // Then we use the midnight before now.
+    if (now.secsTo(nextDawn) < now.secsTo(nextDusk) && now.date() == nextDawn.date())
+        midnight = KStarsDateTime(now.date(), QTime(0, 1), Qt::LocalTime);
+
+    // Start the plot 1 hour before dusk and end it an hour after dawn.
+    plotStart = plotStart.addSecs(-1 * 3600);
+    auto t = plotStart;
+    auto plotEnd = nextDawn.addSecs(1 * 3600);
+    while (t.secsTo(plotEnd) > 0)
+    {
+        double alt = SchedulerUtils::findAltitude(job->getTargetCoords(), t);
+        alts.push_back(alt);
+        double hour = midnight.secsTo(t) / 3600.0;
+        times.push_back(hour);
+        t = t.addSecs(60 * 10);
+    }
+
+    KStarsDateTime ut  = SchedulerModuleState::getGeo()->LTtoUT(KStarsDateTime(midnight));
+    KSAlmanac ksal(ut, SchedulerModuleState::getGeo());
+    m_altitudeGraph->setTitle(job->getName());
+    m_altitudeGraph->plot(SchedulerModuleState::getGeo(), &ksal, times, alts);
+
+    // Create a 2nd plot overlaying the first, that is the first interval that the job is scheduled to run.
+    auto startTime = (job->getState() == SCHEDJOB_BUSY) ? job->getStateTime() : job->getStartupTime();
+    if (startTime.isValid() && startTime < plotEnd && job->getStopTime().isValid())
+    {
+        auto stopTime = job->getStopTime();
+        if (startTime < plotStart) startTime = plotStart;
+        if (stopTime > plotEnd)
+            stopTime = plotEnd;
+
+        QVector<double> runTimes, runAlts;
+        auto t = startTime;
+        while (t.secsTo(stopTime) > 0)
+        {
+            double alt = SchedulerUtils::findAltitude(job->getTargetCoords(), t);
+            runAlts.push_back(alt);
+            double hour = midnight.secsTo(t) / 3600.0;
+            runTimes.push_back(hour);
+            t = t.addSecs(60 * 10);
+        }
+
+        m_altitudeGraph->plot(SchedulerModuleState::getGeo(), &ksal, runTimes, runAlts, true);
+    }
+    m_altitudeGraph->show();
 }
 
 }

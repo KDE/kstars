@@ -125,6 +125,7 @@ if (INDI_FOUND)
             # Scheduler
             ekos/scheduler/scheduler.ui
             ekos/scheduler/framingassistant.ui
+            ekos/scheduler/scheduleraltitudegraph.ui
             # Capture
             ekos/capture/capture.ui
             ekos/capture/camera.ui
@@ -283,6 +284,7 @@ if (INDI_FOUND)
             ekos/scheduler/mosaictilesmodel.cpp
             #ekos/scheduler/mosaicrenderer.cpp
             ekos/scheduler/greedyscheduler.cpp
+            ekos/scheduler/scheduleraltitudegraph.cpp
 
             # Focus
             ekos/focus/focus.cpp
