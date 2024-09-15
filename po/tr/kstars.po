@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-13 01:48+0000\n"
-"PO-Revision-Date: 2024-09-12 21:29+0300\n"
+"POT-Creation-Date: 2024-09-15 01:49+0000\n"
+"PO-Revision-Date: 2024-09-14 22:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -413,7 +413,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:384
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1258
-#: ekos/scheduler/scheduler.cpp:2016
+#: ekos/scheduler/scheduler.cpp:2026
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -570,7 +570,7 @@ msgstr "İptal"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:139 ekos/analyze/analyze.cpp:141
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1206 ekos/manager.cpp:1221
-#: ekos/manager.cpp:1251 ekos/scheduler/scheduler.cpp:1536
+#: ekos/manager.cpp:1251 ekos/scheduler/scheduler.cpp:1546
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
 #: indi/indimount.cpp:32 kstarsactions.cpp:499 kstarsactions.cpp:507
 #: kstarsactions.cpp:517 skycomponents/imageoverlaycomponent.cpp:523
@@ -1108,7 +1108,7 @@ msgstr "Dünya (Yer)"
 #: data/qml/whatisinteresting/wiview.qml:176
 #: data/qml/whatisinteresting/wiview.qml:188 dialogs/detaildialog.cpp:216
 #: dialogs/detaildialog.cpp:232 dialogs/detaildialog.cpp:255
-#: dialogs/detaildialog.cpp:270 ekos/scheduler/schedulerjob.cpp:126
+#: dialogs/detaildialog.cpp:270 ekos/scheduler/schedulerjob.cpp:125
 #: options/opssolarsystem.ui:220 printing/detailstable.cpp:145
 #: printing/detailstable.cpp:162 printing/detailstable.cpp:173
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:124
@@ -1500,7 +1500,7 @@ msgstr "ay"
 msgid "days"
 msgstr "gün"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1034
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1033
 #, kde-format
 msgid "hours"
 msgstr "saat"
@@ -1508,7 +1508,7 @@ msgstr "saat"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:1032
+#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:1031
 #, kde-format
 msgid "minutes"
 msgstr "dakika"
@@ -1529,7 +1529,7 @@ msgstr "dakika"
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
 #: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:625 ekos/opsekos.ui:665
-#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:1030
+#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:1029
 #, kde-format
 msgid "seconds"
 msgstr "saniye"
@@ -2065,9 +2065,9 @@ msgstr "Durum:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:688 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1529
-#: ekos/scheduler/scheduler.cpp:2181 ekos/scheduler/scheduler.cpp:2418
-#: ekos/scheduler/scheduler.cpp:2426 ekos/scheduler/scheduler.cpp:2436
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1539
+#: ekos/scheduler/scheduler.cpp:2191 ekos/scheduler/scheduler.cpp:2428
+#: ekos/scheduler/scheduler.cpp:2436 ekos/scheduler/scheduler.cpp:2446
 #: ekos/scheduler/scheduler.ui:1307 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2441,8 +2441,8 @@ msgid "Check if magnitude is unknown"
 msgstr "Büyüklük bilinmiyorsa işaretleyin"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1537
-#: ekos/scheduler/scheduler.cpp:2196 fitsviewer/fitscommon.h:16
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1547
+#: ekos/scheduler/scheduler.cpp:2206 fitsviewer/fitscommon.h:16
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2688,8 +2688,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3960
 #: ekos/align/mountmodel.cpp:265 ekos/align/mountmodel.cpp:391
 #: ekos/capture/camera.cpp:1212 ekos/capture/camera.cpp:1267
-#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1916
-#: ekos/scheduler/scheduler.cpp:2026 fitsviewer/fitstab.cpp:533
+#: ekos/guide/guidedriftgraph.cpp:477 ekos/scheduler/scheduler.cpp:1926
+#: ekos/scheduler/scheduler.cpp:2036 fitsviewer/fitstab.cpp:533
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -6660,7 +6660,7 @@ msgstr "Çözüm Noktalarını Dışa Aktar"
 #: ekos/align/align.cpp:3959 ekos/align/mountmodel.cpp:264
 #: ekos/align/mountmodel.cpp:390 ekos/capture/camera.cpp:1211
 #: ekos/capture/camera.cpp:1266 ekos/guide/guidedriftgraph.cpp:476
-#: ekos/scheduler/scheduler.cpp:1915 ekos/scheduler/scheduler.cpp:2025
+#: ekos/scheduler/scheduler.cpp:1925 ekos/scheduler/scheduler.cpp:2035
 #: fitsviewer/fitstab.cpp:532 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10389,7 +10389,7 @@ msgid "Parking"
 msgstr "Park ediliyor"
 
 #: ekos/analyze/analyze.cpp:133 ekos/analyze/analyze.cpp:152 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:2182 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:2192 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "Çevriliyor"
@@ -10523,7 +10523,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3467 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1535
+#: ekos/scheduler/scheduler.cpp:1545
 #, kde-format
 msgid "Aborted"
 msgstr "İptal edildi"
@@ -10539,7 +10539,7 @@ msgid "Disconnected"
 msgstr "Bağlantı kesildi"
 
 #: ekos/analyze/analyze.cpp:3473 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2195
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2205
 #, kde-format
 msgid "Capturing"
 msgstr "Yakalanıyor"
@@ -10581,7 +10581,7 @@ msgstr "Kalibre edildi"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3489 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:2193
+#: ekos/scheduler/scheduler.cpp:2203
 #, kde-format
 msgid "Guiding"
 msgstr "Kılavuzluk yapılıyor"
@@ -12551,7 +12551,7 @@ msgstr "Günlükler"
 #: ekos/auxiliary/opslogs.ui:87
 #, kde-format
 msgid "Log Ekos Scheduler module activity"
-msgstr "Ekos zamanlayıcı modülü etkinliğini günlükle"
+msgstr "Ekos zamanlayıcısı modülü etkinliğini günlükle"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
@@ -14678,7 +14678,7 @@ msgstr "İş durumunu sıfırla"
 msgid "Editing job #%1..."
 msgstr "№%1. iş düzenleniyor…"
 
-#: ekos/capture/camera.cpp:3941 ekos/scheduler/scheduler.cpp:1261
+#: ekos/capture/camera.cpp:3941 ekos/scheduler/scheduler.cpp:1271
 #, kde-format
 msgid "Apply job changes."
 msgstr "İş değişikliklerini uygulayın."
@@ -15070,7 +15070,7 @@ msgstr "Her ikisi de"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
 #: ekos/capture/camera.ui:1681 ekos/mount/mount.ui:371
-#: ekos/mount/mountcontrolpanel.ui:58 ekos/scheduler/scheduler.cpp:121
+#: ekos/mount/mountcontrolpanel.ui:58 ekos/scheduler/scheduler.cpp:123
 #, kde-format
 msgid "Target"
 msgstr "Hedef"
@@ -15959,10 +15959,9 @@ msgstr "Kendiliğinden odaklama başarısız oldu. Pozlama iptal ediliyor…"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:746
-#, fuzzy, kde-format
-#| msgid "Dither complete. Resuming in %1 seconds..."
+#, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
-msgstr "Kıpırdatma tamamlandı. %1 saniye içinde sürdürülüyor…"
+msgstr "Odak tamamlandı. %1 saniye içinde sürdürülüyor…"
 
 #: ekos/capture/camerastate.cpp:769
 #, kde-format
@@ -17324,7 +17323,7 @@ msgid "In Progress"
 msgstr "Sürüyor"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1534
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1544
 #, kde-format
 msgid "Complete"
 msgstr "Tamamlandı"
@@ -17439,7 +17438,7 @@ msgstr "Bekleniyor"
 msgid "Image Received"
 msgstr "Görsel Alındı"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2185
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2195
 #, kde-format
 msgid "Focusing"
 msgstr "Odaklanıyor"
@@ -17469,7 +17468,7 @@ msgstr "Sıcaklık Ayarlanıyor"
 msgid "Setting Rotator"
 msgstr "Döndürücü Ayarlanıyor"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2188
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2198
 #, kde-format
 msgid "Aligning"
 msgstr "Hizalanıyor"
@@ -17520,7 +17519,7 @@ msgstr "Odak Ofseti"
 msgid "Startup"
 msgstr "Başlangıç"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1532
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1542
 #, kde-format
 msgid "Running"
 msgstr "Çalışıyor"
@@ -21189,12 +21188,12 @@ msgstr "Yeniden bağlanmaktan vazgeçiliyor."
 #: ekos/guide/externalguide/phd2.cpp:155
 #, kde-format
 msgid "Reconnecting to PHD2 Host: %1, on port %2. . ."
-msgstr "PHD2 makinesine yeniden bağlanılıyor: %1, %2 numaralı kapıdan. . ."
+msgstr "PHD2 makinesine yeniden bağlanılıyor: %1, %2 numaralı kapıdan…"
 
 #: ekos/guide/externalguide/phd2.cpp:192
 #, kde-format
 msgid "Connecting to PHD2 Host: %1, on port %2. . ."
-msgstr "PHD2 makinesine bağlanılıyor: %1, %2 numaralı kapıdan. . ."
+msgstr "PHD2 makinesine bağlanılıyor: %1, %2 numaralı kapıdan…"
 
 #: ekos/guide/externalguide/phd2.cpp:247
 #, kde-format
@@ -21206,7 +21205,7 @@ msgstr ""
 #: ekos/guide/externalguide/phd2.cpp:260
 #, kde-format
 msgid "Disconnected from PHD2 Host: %1, on port %2."
-msgstr "PHD2 makinesine bağlantısı kesildi: %1, %2 numaralı kapıdan. . ."
+msgstr "PHD2 makinesine bağlantısı kesildi: %1, %2 numaralı kapıdan…"
 
 #: ekos/guide/externalguide/phd2.cpp:276
 #, kde-format
@@ -21263,10 +21262,9 @@ msgid "Calibration Data Flipped."
 msgstr "Kalibrasyon verisi ters döndü."
 
 #: ekos/guide/externalguide/phd2.cpp:403
-#, fuzzy, kde-format
-#| msgid "PHD2: Star Selected."
+#, kde-format
 msgid "PHD2: SettleDone."
-msgstr "PHD2: Yıldız seçildi."
+msgstr "PHD2: Yerleşim tamamlandı."
 
 #: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
@@ -21319,10 +21317,9 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: Yıldız seçildi."
 
 #: ekos/guide/externalguide/phd2.cpp:657
-#, fuzzy, kde-format
-#| msgid "PHD2: Waiting for guiding to settle."
+#, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
-msgstr "PHD2: Kılavuzun yerleşmesi bekleniyor."
+msgstr "PHD2: Kılavuzluk yapılıyor… Yerleşim bekleniyor…"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -25208,7 +25205,7 @@ msgstr "Kepengi kapat"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2343
+#: ekos/scheduler/scheduler.cpp:2353
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Zamanlayıcıyı durdur"
@@ -27601,13 +27598,13 @@ msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "%​%1"
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:712
+#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:714
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Sekans Kuyruğu Seç"
 
-#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:714
+#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:716
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Ekos sekans kuyruğu (*.esq)"
@@ -27639,23 +27636,28 @@ msgstr "İşle Dizini Seç"
 msgid "Job '%1' has no more batches remaining."
 msgstr "“%1” işinde kalan toplu iş yok."
 
-#: ekos/scheduler/scheduler.cpp:123
+#: ekos/scheduler/scheduler.cpp:125
 #, kde-format
 msgid "Follower"
 msgstr "Takipçi"
 
-#: ekos/scheduler/scheduler.cpp:145
-#, kde-format
+#: ekos/scheduler/scheduler.cpp:147
+#, fuzzy, kde-format
+#| msgid ""
+#| "Job scheduler list.\n"
+#| "Click to select a job in the list.\n"
+#| "Double click to edit a job with the left-hand fields."
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
-"Double click to edit a job with the left-hand fields."
+"Double click to edit a job with the left-hand fields.\n"
+"Shift click to view a job's altitude tonight."
 msgstr ""
 "İş zamanlayıcısı listesi.\n"
 "Listeden bir iş seçmek için tıklayın.\n"
 "Sol taraftaki alanlarla bir işi düzenlemek için çift tıklayın."
 
-#: ekos/scheduler/scheduler.cpp:153
+#: ekos/scheduler/scheduler.cpp:155
 #, kde-format
 msgid ""
 "Current status of the job, managed by the Scheduler.\n"
@@ -27674,7 +27676,7 @@ msgstr ""
 "Tamamlanmışsa zamanlayıcı, yinelemeler de içerilecek biçimde tüm istenen "
 "sekans yakalamalarının depolandığını doğrular."
 
-#: ekos/scheduler/scheduler.cpp:158
+#: ekos/scheduler/scheduler.cpp:160
 #, kde-format
 msgid ""
 "Current altitude of the target of the job.\n"
@@ -27685,7 +27687,7 @@ msgstr ""
 "Doğan bir hedef, yukarıyı gösteren bir ok ile belirtilir.\n"
 "Batan bir hedef, aşağıyı gösteren bir ok ile belirtilir."
 
-#: ekos/scheduler/scheduler.cpp:162
+#: ekos/scheduler/scheduler.cpp:164
 #, kde-format
 msgid ""
 "Startup time of the job, as estimated by the Scheduler.\n"
@@ -27697,7 +27699,7 @@ msgstr ""
 "Kullanıcının sabit zamanı veya doruk noktası zamanı bir kronometre "
 "sembolüyle imlenir."
 
-#: ekos/scheduler/scheduler.cpp:166
+#: ekos/scheduler/scheduler.cpp:168
 #, kde-format
 msgid ""
 "Completion time for the job, as estimated by the Scheduler.\n"
@@ -27710,7 +27712,7 @@ msgstr ""
 "belirtebilirsiniz. Bir uyarı sembolü, işin bitişindeki yüksekliğin, işin "
 "tamamlanmasından önce durdurulmasına neden olabileceğini belirtir.\n"
 
-#: ekos/scheduler/scheduler.cpp:170 ekos/scheduler/scheduler.cpp:1663
+#: ekos/scheduler/scheduler.cpp:172 ekos/scheduler/scheduler.cpp:1673
 #, kde-format
 msgid ""
 "Count of captures stored for the job, based on its sequence job.\n"
@@ -27721,7 +27723,7 @@ msgstr ""
 "Bu bir özettir; işi tamamlamak için ek belirli kare türlerine gereksinim "
 "olabilir."
 
-#: ekos/scheduler/scheduler.cpp:178
+#: ekos/scheduler/scheduler.cpp:180
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
@@ -27730,24 +27732,24 @@ msgstr ""
 "Gözlem listesinden seçili işi kaldırın.\n"
 "İş özellikleri, kaldırma öncesinde düzenleme alanlarına kopyalanırlar."
 
-#: ekos/scheduler/scheduler.cpp:182
+#: ekos/scheduler/scheduler.cpp:184
 #, kde-format
 msgid "Move selected job one line up in the list.\n"
 msgstr "Seçili işi listede bir satır yukarı taşıyın.\n"
 
-#: ekos/scheduler/scheduler.cpp:185
+#: ekos/scheduler/scheduler.cpp:187
 #, kde-format
 msgid "Move selected job one line down in the list.\n"
 msgstr "Seçili işi listede bir satır aşağı taşıyın.\n"
 
-#: ekos/scheduler/scheduler.cpp:189
+#: ekos/scheduler/scheduler.cpp:191
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 "Durumu sıfırlayın ve tüm gözlem işlerinin yeniden değerlendirilmesini "
 "zorlayın."
 
-#: ekos/scheduler/scheduler.cpp:193
+#: ekos/scheduler/scheduler.cpp:195
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -27764,7 +27766,7 @@ msgstr ""
 "Algoritmanın önce aynı süreyi kullanarak tüm yükseklikleri hesapladığını, "
 "ardından işleri değerlendirdiğini unutmayın."
 
-#: ekos/scheduler/scheduler.cpp:362 ekos/scheduler/scheduler.cpp:2142
+#: ekos/scheduler/scheduler.cpp:364 ekos/scheduler/scheduler.cpp:2152
 #: ekos/scheduler/schedulerprocess.cpp:3407
 #, kde-format
 msgid ""
@@ -27774,65 +27776,65 @@ msgstr ""
 "Uyarı: Klasik zamanlayıcı algoritması kullanımdan kaldırıldı. Sizi Açgözlü "
 "algoritmaya geçiriyorum."
 
-#: ekos/scheduler/scheduler.cpp:602
+#: ekos/scheduler/scheduler.cpp:604
 #, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "FITS/XISF Görseli Seç"
 
-#: ekos/scheduler/scheduler.cpp:652
+#: ekos/scheduler/scheduler.cpp:654
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "FITS üstbilgisi: OBJCTRA bulunamıyor (%1)."
 
-#: ekos/scheduler/scheduler.cpp:671
+#: ekos/scheduler/scheduler.cpp:673
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "FITS üstbilgisi: OBJCTDEC bulunamıyor (%1)."
 
-#: ekos/scheduler/scheduler.cpp:722
+#: ekos/scheduler/scheduler.cpp:724
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Başlangıç Betiği Seç"
 
-#: ekos/scheduler/scheduler.cpp:724 ekos/scheduler/scheduler.cpp:739
+#: ekos/scheduler/scheduler.cpp:726 ekos/scheduler/scheduler.cpp:741
 #, kde-format
 msgid "Script (*)"
 msgstr "Betik (*)"
 
-#: ekos/scheduler/scheduler.cpp:737
+#: ekos/scheduler/scheduler.cpp:739
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Kapatma Betiği Seç"
 
-#: ekos/scheduler/scheduler.cpp:803
+#: ekos/scheduler/scheduler.cpp:805
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "Uyarı: Hedef adı gerekiyor."
 
-#: ekos/scheduler/scheduler.cpp:809
+#: ekos/scheduler/scheduler.cpp:811
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "Uyarı: Sekans dosyası gerekiyor."
 
-#: ekos/scheduler/scheduler.cpp:816
+#: ekos/scheduler/scheduler.cpp:818
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "Uyarı: Hedef koordinatları gerekiyor."
 
-#: ekos/scheduler/scheduler.cpp:826
+#: ekos/scheduler/scheduler.cpp:828
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "Uyarı: RA değeri %1 geçersiz."
 
-#: ekos/scheduler/scheduler.cpp:832
+#: ekos/scheduler/scheduler.cpp:834
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Uyarı: DEC değeri %1 geçersiz."
 
-#: ekos/scheduler/scheduler.cpp:957
+#: ekos/scheduler/scheduler.cpp:959
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
@@ -27841,7 +27843,7 @@ msgstr ""
 "Uyarı: %2. sütundaki “%1” işinin, %3. satırda yinelenmiş bir hedefi var; "
 "zamanlayıcı, yakalamalar için aynı depolamayı kullanmayı düşünebilir."
 
-#: ekos/scheduler/scheduler.cpp:965
+#: ekos/scheduler/scheduler.cpp:967
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -27853,91 +27855,91 @@ msgstr ""
 "tamamlayacaklar (veya \"İş ilerlemesini anımsa\" seçeneğini devre dışı "
 "bırakın)."
 
-#: ekos/scheduler/scheduler.cpp:973
+#: ekos/scheduler/scheduler.cpp:975
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr "Yinelenmişlere bakma işi atlandı."
 
-#: ekos/scheduler/scheduler.cpp:1151
+#: ekos/scheduler/scheduler.cpp:1153
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1234
+#: ekos/scheduler/scheduler.cpp:1236
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr "İş №%1 düzenlemesi iptal edildi; özgün değere sıfırlanıyor."
 
-#: ekos/scheduler/scheduler.cpp:1255
+#: ekos/scheduler/scheduler.cpp:1265
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 "Gözlem listesinde yeni bir iş oluşturmak için düzenleme alanlarını kullanın."
 
-#: ekos/scheduler/scheduler.cpp:1530
+#: ekos/scheduler/scheduler.cpp:1540
 #, kde-format
 msgid "Evaluating"
 msgstr "Değerlendiriliyor"
 
-#: ekos/scheduler/scheduler.cpp:1531
+#: ekos/scheduler/scheduler.cpp:1541
 #, kde-format
 msgid "Scheduled"
 msgstr "Zamanlanan"
 
-#: ekos/scheduler/scheduler.cpp:1533
+#: ekos/scheduler/scheduler.cpp:1543
 #, kde-format
 msgid "Invalid"
 msgstr "Geçersiz"
 
-#: ekos/scheduler/scheduler.cpp:1815
+#: ekos/scheduler/scheduler.cpp:1825
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr "Zamanlayıcı duraklaması planlandı…"
 
-#: ekos/scheduler/scheduler.cpp:1819
+#: ekos/scheduler/scheduler.cpp:1829
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "Zamanlayıcıyı Sürdür"
 
-#: ekos/scheduler/scheduler.cpp:1834
+#: ekos/scheduler/scheduler.cpp:1844
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "Gözlemevi kapanma sürecinde…"
 
-#: ekos/scheduler/scheduler.cpp:1864
+#: ekos/scheduler/scheduler.cpp:1874
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "Zamanlayıcı iptal edildi."
 
-#: ekos/scheduler/scheduler.cpp:1873
+#: ekos/scheduler/scheduler.cpp:1883
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "Sonraki iş hazır olana dek zamanlayıcı kapanma sürecinde…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1881 ekos/scheduler/scheduler.ui:1179
+#: ekos/scheduler/scheduler.cpp:1891 ekos/scheduler/scheduler.ui:1179
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Zamanlayıcıyı Başlat"
 
-#: ekos/scheduler/scheduler.cpp:1904
+#: ekos/scheduler/scheduler.cpp:1914
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
-msgstr "Ekos Zamanlayıcı Listesi Aç"
+msgstr "Ekos Zamanlayıcısı Listesini Aç"
 
-#: ekos/scheduler/scheduler.cpp:1997
+#: ekos/scheduler/scheduler.cpp:2007
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
-msgstr "Ekos Zamanlayıcı Listesini Kaydet"
+msgstr "Ekos Zamanlayıcısı Listesini Kaydet"
 
-#: ekos/scheduler/scheduler.cpp:2016
+#: ekos/scheduler/scheduler.cpp:2026
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Zamanlayıcı listesi kaydedilemedi"
 
-#: ekos/scheduler/scheduler.cpp:2160
+#: ekos/scheduler/scheduler.cpp:2170
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
@@ -27947,72 +27949,72 @@ msgstr ""
 "çalışmasına neden olabilir. Bu, ekipmanınızda geri dönüşü olmayan hasara "
 "neden olabilir!"
 
-#: ekos/scheduler/scheduler.cpp:2183
+#: ekos/scheduler/scheduler.cpp:2193
 #, kde-format
 msgid "Slew complete"
 msgstr "Çevirme tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2187
+#: ekos/scheduler/scheduler.cpp:2197
 #, kde-format
 msgid "Focus complete"
 msgstr "Odaklanma tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2189
+#: ekos/scheduler/scheduler.cpp:2199
 #, kde-format
 msgid "Align complete"
 msgstr "Hizalama tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2190
+#: ekos/scheduler/scheduler.cpp:2200
 #, kde-format
 msgid "Repositioning"
 msgstr "Yeniden konumlanıyor…"
 
-#: ekos/scheduler/scheduler.cpp:2191
+#: ekos/scheduler/scheduler.cpp:2201
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Yeniden konumlama tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2194
+#: ekos/scheduler/scheduler.cpp:2204
 #, kde-format
 msgid "Guiding complete"
 msgstr "Kılavuzluk tamamlandı"
 
-#: ekos/scheduler/scheduler.cpp:2273
+#: ekos/scheduler/scheduler.cpp:2283
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Hava koşulları iyi."
 
-#: ekos/scheduler/scheduler.cpp:2277
+#: ekos/scheduler/scheduler.cpp:2287
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Uyarı: Hava koşulları UYARI safhasında."
 
-#: ekos/scheduler/scheduler.cpp:2281
+#: ekos/scheduler/scheduler.cpp:2291
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Dikkat: Hava koşulları TEHLİKE safhasında!"
 
-#: ekos/scheduler/scheduler.cpp:2299
+#: ekos/scheduler/scheduler.cpp:2309
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Hava koşulları uyarı safhasında"
 
-#: ekos/scheduler/scheduler.cpp:2308
+#: ekos/scheduler/scheduler.cpp:2318
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "Hava koşulları kritik. Gözlemevi yakında kapanacak"
 
-#: ekos/scheduler/scheduler.cpp:2331
+#: ekos/scheduler/scheduler.cpp:2341
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Zamanlayıcı uyku kipinde"
 
-#: ekos/scheduler/scheduler.cpp:2394
+#: ekos/scheduler/scheduler.cpp:2404
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Elle başlangıç prosedürü başarıyla tamamlandı."
 
-#: ekos/scheduler/scheduler.cpp:2398
+#: ekos/scheduler/scheduler.cpp:2408
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Elle başlangıç prosedürü hatalardan dolayı sonlandırıldı."
@@ -28693,17 +28695,36 @@ msgstr "Toz kapağını aç"
 msgid "UnCap"
 msgstr "Kapağı çıkar"
 
-#: ekos/scheduler/schedulerjob.cpp:341
+#: ekos/scheduler/scheduleraltitudegraph.cpp:49 tools/altvstime.cpp:96
+#: tools/observinglist.cpp:121
+#, kde-format
+msgid "Local Time"
+msgstr "Yerel Saat"
+
+#. i18n: ectx: property (windowTitle), widget (QDialog, SchedulerAltitudeGraph)
+#: ekos/scheduler/scheduleraltitudegraph.ui:14
+#, fuzzy, kde-format
+#| msgid "Altitude: "
+msgid "Altitude Graph"
+msgstr "Yükseklik: "
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/scheduler/scheduleraltitudegraph.ui:32
+#, kde-format
+msgid "Altitude Graph for ZZZZZ"
+msgstr ""
+
+#: ekos/scheduler/schedulerjob.cpp:340
 #, kde-format
 msgid "Ekos job failed (%1)"
 msgstr "Ekos işi başarısız (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:1010
+#: ekos/scheduler/schedulerjob.cpp:1009
 #, kde-format
 msgid "DarkFlat"
 msgstr "Koyu Düz"
 
-#: ekos/scheduler/schedulerjob.cpp:1041
+#: ekos/scheduler/schedulerjob.cpp:1040
 #, kde-format
 msgid "images"
 msgstr "görseller"
@@ -39228,7 +39249,7 @@ msgstr "Zamanlayıcı algoritması"
 #: kstars.kcfg:2932
 #, kde-format
 msgid "Log Ekos Scheduler Module activity."
-msgstr "Ekos zamanlayıcı modülü etkinliğini günlükle"
+msgstr "Ekos zamanlayıcısı modülü etkinliğini günlükle"
 
 #. i18n: ectx: label, entry (StopEkosAfterShutdown), group (Scheduler)
 #: kstars.kcfg:2936
@@ -80279,11 +80300,6 @@ msgstr "Yükseklik–Zaman Oranı"
 msgid "Local Sidereal Time"
 msgstr "Yerel Yıldız Zamanı"
 
-#: tools/altvstime.cpp:96 tools/observinglist.cpp:121
-#, kde-format
-msgid "Local Time"
-msgstr "Yerel Saat"
-
 #: tools/altvstime.cpp:158 tools/skycalendar.cpp:51
 #, kde-format
 msgid "&Print..."
@@ -82840,7 +82856,7 @@ msgstr "İstek listesi yüklenirken lütfen bekleyin…"
 #: tools/observinglist.cpp:1106
 #, kde-format
 msgid "Canceling this will truncate your wishlist"
-msgstr ""
+msgstr "Bunu iptal etmek, istek listenizi kısa kesecektir"
 
 #: tools/observinglist.cpp:1107
 #, kde-format
@@ -82849,13 +82865,16 @@ msgid ""
 "following objects will be removed from the wishlist when you exit KStars. "
 "Are you sure this is okay?"
 msgstr ""
+"Bu işlemi iptal ederseniz istek listeniz kesilecek ve K Yıldızlar’dan "
+"çıktığınızda aşağıdaki nesneler istek listesinden kaldırılacaktır. Bunun "
+"doğru olduğundan emin misiniz?"
 
 #: tools/observinglist.cpp:1149
 #, kde-format
 msgid "Observing wishlist truncated: %1 object not found"
 msgid_plural "Observing wishlist truncated: %1 objects not found"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Gözlem istek listesi kesildi: %1 nesne bulunamadı"
+msgstr[1] "Gözlem istek listesi kesildi: %1 nesne bulunamadı"
 
 #: tools/observinglist.cpp:1150
 #, kde-format
@@ -82869,7 +82888,13 @@ msgid_plural ""
 "backup, whereby you can later use the Batch Add feature in the Observation "
 "Planner to add them back using internet search."
 msgstr[0] ""
+"%1 nesne veritabanında bulunamadı ve gözlem istek listesinden kaldırılacak. "
+"Daha sonra ekleyebilmeniz için adını yedek olarak kopyalamanızı öneririz."
 msgstr[1] ""
+"%1 nesne veritabanında bulunamadı ve gözlem istek listesinden kaldırılacak. "
+"Ayrıntılı listeyi yedek olarak kopyalamanızı öneririz, böylece daha sonra "
+"Gözlem Planlayıcısı’ndaki Toplu Ekleme özelliğini kullanıp internet "
+"aramasını kullanarak bunları geri ekleyebilirsiniz."
 
 #: tools/observinglist.cpp:1163
 #, kde-format
@@ -82900,31 +82925,28 @@ msgstr "Nesneler eklenirken lütfen bekleyin…"
 #: tools/observinglist.cpp:1352
 #, kde-format
 msgid "Customized DSS Download"
-msgstr ""
+msgstr "Özelleştirilmiş DSS İndirmesi"
 
 #: tools/observinglist.cpp:1340
-#, fuzzy, kde-format
-#| msgid "Specify image location:"
+#, kde-format
 msgid "Specify image width (arcminutes): "
-msgstr "Resim konumunu belirt:"
+msgstr "Görsel genişliğini belirt (yaydakika):"
 
 #: tools/observinglist.cpp:1343
-#, fuzzy, kde-format
-#| msgid "Specify image location:"
+#, kde-format
 msgid "Specify image height (arcminutes): "
-msgstr "Resim konumunu belirt:"
+msgstr "Görsel yüksekliğini belirt (yaydakika):"
 
 #: tools/observinglist.cpp:1352
-#, fuzzy, kde-format
-#| msgid "Specify image location:"
+#, kde-format
 msgid "Specify version: "
-msgstr "Resim konumunu belirt:"
+msgstr "Sürümü belirt:"
 
 #: tools/observinglist.cpp:1518
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
-"Bu işlem tüm kayıtlı görüntüleri silecektir. Bunu yapmak istediğinizden emin "
+"Bu, kaydedilen tüm görselleri silecektir. Bunu yapmak istediğinizden emin "
 "misiniz?"
 
 #: tools/observinglist.cpp:1519
@@ -82941,37 +82963,37 @@ msgstr "Görsel Seçicisi"
 #: tools/observinglist.ui:77
 #, kde-format
 msgid "Open an observation session list"
-msgstr "Gözlemleme oturum listesi aç"
+msgstr "Gözlem oturum listesi aç"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, OpenButton)
 #: tools/observinglist.ui:80
 #, kde-format
 msgid "Load an observing list from disk"
-msgstr "Diskten bir gözlem listesi yükle"
+msgstr "Diskten bir gözlem listesi yükleyin."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveButton)
 #: tools/observinglist.ui:108
 #, kde-format
 msgid "Save the observing session"
-msgstr "Gözlemleme oturumunu kaydet"
+msgstr "Gözlem oturumunu kaydet"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveButton)
 #: tools/observinglist.ui:111
 #, kde-format
 msgid "Save the current observing list to disk"
-msgstr "Mevcut gözlem listesini diske kaydet"
+msgstr "Geçerli gözlem listesini diske kaydedin."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveAsButton)
 #: tools/observinglist.ui:139
 #, kde-format
 msgid "Save observing session as..."
-msgstr "Gözlem Oturumunu Farklı Kaydet…"
+msgstr "Gözlem oturumunu farklı kaydet…"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveAsButton)
 #: tools/observinglist.ui:142
 #, kde-format
 msgid "Save the current observing list to disk, specifying the filename"
-msgstr "Mevcut gözlem listesini, dosya adı belirterek kaydet"
+msgstr "Geçerli gözlem listesini dosya adını belirterek diske kaydedin."
 
 #. i18n: ectx: property (text), widget (QPushButton, OALExport)
 #: tools/observinglist.ui:152
@@ -82990,52 +83012,49 @@ msgstr "Seç"
 #: tools/observinglist.ui:209 tools/planetviewer.ui:103
 #, kde-format
 msgid "dd/MM/yyyy"
-msgstr "gg/AA/yyyy"
+msgstr "dd/MM/yyyy"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, Update)
 #: tools/observinglist.ui:219
 #, kde-format
 msgid "Update the table and the plot for the new date and location."
-msgstr "Yeni konum ve tarih için çizim ve tabloyu güncelle."
+msgstr "Tabloyu ve çizimi yeni tarih ve yere göre güncelleyin."
 
 #. i18n: ectx: property (text), widget (QLabel, refLabel)
 #: tools/observinglist.ui:242
-#, fuzzy, kde-format
-#| msgid "Reference Images:"
+#, kde-format
 msgid "Reference images:"
-msgstr "Referans Görüntüler:"
+msgstr "Başvuru görseller:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveImages)
 #: tools/observinglist.ui:249
 #, kde-format
 msgid "Download the SDSS/DSS images of all the objects in the current list."
-msgstr "Mevcut listedeki bütün cisimlerin SDSS/DSS görsellerini indir."
+msgstr "Geçerli listedeki tüm nesnelerin SDSS/DSS görsellerini indirin."
 
 #. i18n: ectx: property (text), widget (QPushButton, saveImages)
 #: tools/observinglist.ui:252
-#, fuzzy, kde-format
-#| msgid "Delete all Images"
+#, kde-format
 msgid "Download all Images"
-msgstr "Tüm resimleri Sil"
+msgstr "Tüm Görselleri İndir"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DeleteAllImages)
 #: tools/observinglist.ui:259
 #, kde-format
 msgid "Deletes all the stored DSS/SDSS images"
-msgstr "Kaydedilmiş DSS/SDSS resimlerini siler"
+msgstr "Depolanan tüm DSS/SDSS görsellerini siler"
 
 #. i18n: ectx: property (text), widget (QPushButton, DeleteAllImages)
 #: tools/observinglist.ui:262
 #, kde-format
 msgid "Delete all Images"
-msgstr "Tüm resimleri Sil"
+msgstr "Tüm Görselleri Sil"
 
 #. i18n: ectx: property (text), widget (QLabel, addLabel)
 #: tools/observinglist.ui:279
-#, fuzzy, kde-format
-#| msgid "Adding Objects:"
+#, kde-format
 msgid "Adding objects:"
-msgstr "cisimler Ekleme:"
+msgstr "Nesneler ekleniyor:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, WizardButton)
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObsListWizard)
@@ -83051,33 +83070,32 @@ msgid ""
 "The list wizard helps you construct observing lists based on filtering by "
 "object type, position on the sky, and magnitude."
 msgstr ""
-"Bu liste sihirbazı size cisim türü, gökyüzündeki konum ve parlaklık "
-"filtrelemesi tabanlı gözlem listesi oluşturmanıza yardımcı olur."
+"Liste sihirbazı, nesne türüne, gökyüzündeki konumuna ve büyüklüğüne göre "
+"süzerek gözlem listeleri oluşturmanıza yardımcı olur."
 
 #. i18n: ectx: property (text), widget (QPushButton, WizardButton)
 #: tools/observinglist.ui:310
-#, fuzzy, kde-format
-#| msgid "Wizard"
+#, kde-format
 msgid "Wizard..."
-msgstr "Sihirbaz"
+msgstr "Sihirbaz…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, FindButton)
 #: tools/observinglist.ui:323
 #, kde-format
 msgid "Open Find Dialog"
-msgstr "Arama Penceresini Aç"
+msgstr "Bul iletişim kutusunu aç"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, FindButton)
 #: tools/observinglist.ui:326
 #, kde-format
 msgid "Open the Find Dialog for adding objects to the list"
-msgstr "Listeye cisim eklemek için Arama Penceresini aç"
+msgstr "Listeye nesneler eklemek için Bul iletişim kutusunu açar."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:342
 #, kde-format
 msgid "Open the WUT dialog"
-msgstr "WUT penceresini aç"
+msgstr "Bu Gece Ne Var iletişim kutusunu aç"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:345
@@ -83086,8 +83104,7 @@ msgid ""
 "Opens the What's up Tonight dialog, from which objects can be added to the "
 "list"
 msgstr ""
-"“Bu Gece Ne Var” iletişim kutusunu açar, buradan listeye nesneler "
-"eklenebilir."
+"Bu Gece Ne Var iletişim kutusunu açar, buradan listeye nesneler eklenebilir."
 
 #. i18n: ectx: property (text), widget (QPushButton, WUTButton)
 #: tools/observinglist.ui:348
@@ -83097,10 +83114,9 @@ msgstr "Bu Gece Ne Var…"
 
 #. i18n: ectx: property (text), widget (QPushButton, batchAddButton)
 #: tools/observinglist.ui:355
-#, fuzzy, kde-format
-#| msgid "Batch Mode"
+#, kde-format
 msgid "Batch add"
-msgstr "Çoklu Kip"
+msgstr "Toplu Ekle"
 
 #. i18n: ectx: attribute (title), widget (QWidget, WishList)
 #: tools/observinglist.ui:404
@@ -83118,62 +83134,58 @@ msgstr "Oturum Planı"
 #: tools/observinglist.ui:502
 #, kde-format
 msgid "Scheduled Time"
-msgstr "Ayarlanmış Zaman"
+msgstr "Planlanan Zaman"
 
 #. i18n: ectx: property (text), widget (QLabel, quickInfoLabel)
 #: tools/observinglist.ui:545
-#, fuzzy, kde-format
-#| msgid "Select an object to record notes on it here:"
+#, kde-format
 msgid "Select an Object to View Information here"
-msgstr "Üzerine not düşmek için cismi buradan seçin:"
+msgstr "Bilgisini burada görüntülemek için bir nesne seçin"
 
 #. i18n: ectx: property (text), widget (QLabel, ImagePreview)
 #: tools/observinglist.ui:597
 #, kde-format
 msgid "(No Image)"
-msgstr "(Resim Yok)"
+msgstr "(Görsel yok)"
 
 #. i18n: ectx: property (text), widget (QLabel, dssMetadataLabel)
 #: tools/observinglist.ui:621
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Info"
+#, kde-format
 msgid "Image Metadata Info"
-msgstr "Görüntü Bilgisi"
+msgstr "Görsel Üst Verisi"
 
 #. i18n: ectx: property (text), widget (QPushButton, SearchImage)
 #: tools/observinglist.ui:648
-#, fuzzy, kde-format
-#| msgid "Read from input file"
+#, kde-format
 msgid "Replace from Internet..."
-msgstr "Girdi dosyasından oku"
+msgstr "İnternetten Değiştir…"
 
 #. i18n: ectx: property (text), widget (QPushButton, DeleteImage)
 #: tools/observinglist.ui:661
 #, kde-format
 msgid "Delete Image"
-msgstr "Resmi Sil"
+msgstr "Görseli Sil"
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, NotesEdit)
 #: tools/observinglist.ui:685
 #, kde-format
 msgid "Record object notes here."
-msgstr ""
+msgstr "Nesne notlarını buraya kaydet…"
 
 #: tools/obslistpopupmenu.cpp:27
 #, kde-format
 msgid "Add to session plan"
-msgstr "Oturum planı ekle"
+msgstr "Oturum planına ekle"
 
 #: tools/obslistpopupmenu.cpp:28
 #, kde-format
 msgid "Add objects visible tonight to session plan"
-msgstr "Oturum planına bu gece görülebilen objeleri ekle"
+msgstr "Bu gece görülebilecek nesneleri oturum planına ekle"
 
 #: tools/obslistpopupmenu.cpp:31
 #, kde-format
 msgid "Add to Ekos Scheduler"
-msgstr ""
+msgstr "Ekoz Zamanlayıcısı’na ekle"
 
 #. i18n: ectx: property (text), widget (QPushButton, GotoButton)
 #: tools/obslistpopupmenu.cpp:38 tools/starhopperdialog.ui:46
@@ -83185,32 +83197,32 @@ msgstr "Ortala"
 #, kde-format
 msgctxt "Show the selected object in the telescope"
 msgid "Scope"
-msgstr "Saha"
+msgstr "Dürbün"
 
 #: tools/obslistpopupmenu.cpp:51
 #, kde-format
 msgid "Eyepiece view"
-msgstr "Göz merceği görünümü"
+msgstr "Göz Merceği Görünümü"
 
 #: tools/obslistpopupmenu.cpp:66
 #, kde-format
 msgid "Show SDSS image"
-msgstr "SDSS resmini göster"
+msgstr "SDSS Görselini Göster"
 
 #: tools/obslistpopupmenu.cpp:67
 #, kde-format
 msgid "Show DSS image"
-msgstr "DSS resmini göster"
+msgstr "DSS Görselini Göster"
 
 #: tools/obslistpopupmenu.cpp:68
 #, kde-format
 msgid "Customized DSS download"
-msgstr ""
+msgstr "Özelleştirilmiş DSS İndirmesi"
 
 #: tools/obslistpopupmenu.cpp:70
 #, kde-format
 msgid "Show images from web "
-msgstr "Web'ten reimleri göster "
+msgstr "Web’ten Görseller Göster"
 
 #: tools/obslistpopupmenu.cpp:76
 #, kde-format
@@ -83259,25 +83271,25 @@ msgstr "Gezegenimsi bulutsu"
 #: tools/obslistwizard.cpp:461 tools/obslistwizard.ui:110
 #, kde-format
 msgid "Sun, moon, planets"
-msgstr "Güneş, Ay, Gezegenler"
+msgstr "Güneş, Ay, gezegenler"
 
 #: tools/obslistwizard.cpp:353
-#, fuzzy, kde-format
-#| msgid "Illegal circle specified, no region selection possible."
+#, kde-format
 msgid "Illegal rectangle specified, no region selection possible."
-msgstr "Geçersiz daire belirtildi, bölge seçimi mümkün değil."
+msgstr ""
+"İzin verilmeyen dikdörtgen türü belirtildi, bölge seçimi olanaklı değil."
 
 #: tools/obslistwizard.cpp:392
 #, kde-format
 msgid "Illegal circle specified, no region selection possible."
-msgstr "Geçersiz daire belirtildi, bölge seçimi mümkün değil."
+msgstr "İzin verilmeyen daire türü belirtildi, bölge seçimi olanaklı değil."
 
 #: tools/obslistwizard.cpp:545
 #, kde-format
 msgid "Your observing list currently has 1 object"
 msgid_plural "Your observing list currently has %1 objects"
-msgstr[0] "Gözlem listenizde %1 cisim var"
-msgstr[1] "Gözlem listenizde %1 cisim var"
+msgstr[0] "Gözlem listenizde şu anda 1 nesne var"
+msgstr[1] "Gözlem listenizde şu anda %1 nesne var"
 
 #. i18n: ectx: property (text), widget (QLabel, WelcomeText)
 #: tools/obslistwizard.ui:42
@@ -83296,18 +83308,18 @@ msgid ""
 "to get started by selecting which object types you would like to be present "
 "in your observing list.</p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Gözlem Listesi Sihirbazına Hoş Geldiniz</p><p></"
-"p><p>Bu araçla listedeki tüm cisimleri çeşitli şekillerde süzerek bir gözlem "
-"listesi oluşturabilirsiniz.  Önce cisimleri <span style=\" font-weight:600;"
-"\">türüne</span> göre seçmelisiniz.  Sonra yalnızca belirli bir <span style="
-"\" font-weight:600;\">gökyüzü bölgesini </span>işgal eden cisimleri "
-"seçebilirsiniz.  Ayrıca gözlem listesini, cisimleri belirli  <span style=\" "
-"font-weight:600;\">parlaklık aralıklarına</span> göre seçerek "
-"kırpabilirsiniz.   Son olarak, yalnızca <span style=\" font-weight:600;"
-"\">belirli tarihlerde gözlemlenebilir</span> cisimlerin kalmasını "
-"seçebilirsiniz.</p><p></p><p>Gözlem listenizde olmasını istediğiniz cisim "
-"türlerini seçmeye başlamak için  <span style=\" font-weight:600;\">Sürdür</"
-"span> düğmesine basın.</p></body></html>"
+"<html><head></head><body><p>Gözlem Listesi Sihirbazı’na hoş geldiniz.</"
+"p><p></p><p>Bu araçla, tüm nesnelerin listesini çeşitli şekillerde "
+"filtreleyerek bir gözlem listesi oluşturabilirsiniz. İlk olarak, nesneleri "
+"<span style=\" font-weight:600;\">türlerine</span> göre seçeceksiniz. Daha "
+"sonra sadece gökyüzünün <span style=\" font-weight:600;\">belirli bir "
+"bölgesini</span> kaplayan nesneleri seçebilirsiniz. Belirli bir <span style="
+"\" font-weight:600;\">büyüklük erimindeki</span> nesneleri seçerek gözlem "
+"listesini daha da kısaltabilirsiniz. Son olarak, yalnızca <span style=\" "
+"font-weight:600;\">belirli bir tarihte</span> gözlemlenebilir olan nesneleri "
+"tutmayı seçebilirsiniz.</p><p></p><p>Gözlem listenizde bulunmasını "
+"istediğiniz nesne türlerini seçerek başlamak için <span style=\" font-"
+"weight:600;\">Sonraki</span> düğmesine basın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, ObjTypeLabel)
 #: tools/obslistwizard.ui:74
@@ -83320,12 +83332,12 @@ msgid ""
 "p><p>When you are finished, press the <span style=\" font-weight:600;"
 "\">Next</span> button.</p></body></html>"
 msgstr ""
-"<html><head></head><body><p>cisimleri türüne göre seç</p><p></"
-"p><p>Aşağıdaki  kutuda gözlem listenizde olmasını istediğiniz cisim "
-"türlerini vurgulayın.  Listede birden fazla öge seçebilirsiniz.  Sağ "
-"taraftaki düğmelerbazı genel tercihleri hızlıca yapabilmek için "
-"kullanılabilirler.</p><p></p><p>Bitirdiğinizde devam etmek için <span style="
-"\" font-weight:600;\">İleri</span>'ye basın.</p></body></html>"
+"<html><head></head><body><p>Nesneleri türüne göre seçin.</p><p></p><p>Gözlem "
+"listenize eklemek istediğiniz nesne türlerini aşağıdaki kutuda vurgulayın. "
+"Listede birden fazla ögeyi vurgulayabilirsiniz. Sağdaki düğmeler, bazı genel "
+"seçimleri tez seçmek için kullanılabilir.</p><p></p><p>İşiniz bittiğinde "
+"<span style=\" font-weight:600;\">Sonraki</span> düğmesine basın.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AllButton)
 #: tools/obslistwizard.ui:170
@@ -83337,25 +83349,25 @@ msgstr "Listedeki tüm ögeleri seç"
 #: tools/obslistwizard.ui:180
 #, kde-format
 msgid "Clear all selected items in the list"
-msgstr "Listedeki tüm seçili ögeleri sil"
+msgstr "Listedeki tüm seçili ögeleri temizle"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DeepSkyButton)
 #: tools/obslistwizard.ui:190
 #, kde-format
 msgid "Select all \"deep-sky\" object types in the list"
-msgstr "Listedeki tüm \"derin uzay\" cisimlerini sec"
+msgstr "Listedeki tüm “derin gökyüzü” nesne türlerini seç"
 
 #. i18n: ectx: property (text), widget (QPushButton, DeepSkyButton)
 #: tools/obslistwizard.ui:193
 #, kde-format
 msgid "Deep sky"
-msgstr "Derin gökyüzü"
+msgstr "Derin Gökyüzü"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SolarSystemButton)
 #: tools/obslistwizard.ui:200
 #, kde-format
 msgid "Select all solar system object types in the list"
-msgstr "Listedeki tüm güneş sistemi cisimlerini seç"
+msgstr "Listedeki tüm güneş sistemi nesne türlerini seç"
 
 #. i18n: ectx: property (text), widget (QLabel, RegionSelectText)
 #: tools/obslistwizard.ui:259
@@ -83372,45 +83384,46 @@ msgid ""
 "selection below, and press <span style=\" font-weight:600;\">Next</span>.</"
 "p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Bölgeye göre seç</p><p></p><p>Cisim listenizi "
-"yalnızca gökyüzünde belirli bir bölgeyi işgal eden cisimlerle "
-"sınırlandırabilirsiniz. Listeniz için bölge tanımlamanın üç yöntemi var:  "
-"<span style=\" font-weight:600;\">takımyıldızı</span> ile, <span style=\" "
-"font-weight:600;\">dikdörtgensel bölge</span> tanımlayarak veya <span style="
-"\" font-weight:600;\">dairesel bölge</span> tanımlayarak.  Bölgeye göre "
-"seçimi atlayabilirsiniz de. Bu durum, tüm gökyüzü cisimlerini <span style=\" "
-"font-weight:600;\">dahil eder</span>.</p><p></p><p>Aşağıda seçiminiziyapın "
-"ve <span style=\" font-weight:600;\">İleri</span>'ye basın.</p></body></html>"
+"<html><head></head><body><p>Bölgeye göre seçin.</p><p></p><p>Sonra, nesne "
+"listenizi yalnızca gökyüzünde belirli bir bölgeyi kaplayan nesnelerle "
+"sınırlayabilirsiniz. Listeniz için bölgeyi belirtmenin üç yolu vardır: <span "
+"style=\" font-weight:600;\">Takımyıldıza</span> göre, bir <span style=\" "
+"font-weight:600;\">dörtgen bölge</span> veya bir <span style=\" font-"
+"weight:600;\">dairesel bölge</span> belirterek. Ayrıca <span style=\" font-"
+"weight:600;\">gökyüzünün her yerinden</span> nesneleri içerecek şekilde "
+"bölge seçmeyi de atlayabilirsiniz.</p><p></p><p>Aşağıda seçiminizi yapın ve "
+"<span style=\" font-weight:600;\">Sonraki</span> düğmesine tıklayın.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, RegionSelectLabel)
 #: tools/obslistwizard.ui:303
 #, kde-format
 msgid "I wish to select objects:"
-msgstr "Bu cisimleri seçmek istiyorum:"
+msgstr "Şu nesneleri seçmek istiyorum:"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
 #: tools/obslistwizard.ui:335
 #, kde-format
 msgid "all over the sky"
-msgstr "tüm gökyüzü"
+msgstr "gökyüzünün her yerinden"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
 #: tools/obslistwizard.ui:340
 #, kde-format
 msgid "by constellation"
-msgstr "takımyıldızlara göre"
+msgstr "takımyıldıza göre"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
 #: tools/obslistwizard.ui:345
 #, kde-format
 msgid "in a rectangular region"
-msgstr "dikdörtgensel bir bölge içinde"
+msgstr "dikdörtgen bir bölgede"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, RegionList)
 #: tools/obslistwizard.ui:350
 #, kde-format
 msgid "in a circular region"
-msgstr "dairesel bir bölge içinde"
+msgstr "dairesel bir bölgede"
 
 #. i18n: ectx: property (text), widget (QLabel, ConstellationText)
 #: tools/obslistwizard.ui:392
@@ -83423,12 +83436,12 @@ msgid ""
 "finished, press <span style=\" font-weight:600;\">Next</span> to continue.</"
 "p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Bir veya daha fazla takımyıldızından cisim "
-"seçmek</p><p></p><p>Aşağıdaki listede, gözlem listennizde kullanmak "
-"istediğiniz takımyıldızları seçin.  Listeye yalnızca seçilmiş "
-"takımyıldızlarındaki cisimler dahil edilecektir.</p><p></p><p>Bitirdiğinizde "
-"devam  etmek için <span style=\" font-weight:600;\">İleri</span>'ye basın.</"
-"p></body></html>"
+"<html><head></head><body><p>Bir veya daha fazla takımyıldızındaki nesneleri "
+"seçin.</p><p></p><p>Aşağıdaki listede, gözlem listeniz için kullanmak "
+"istediğiniz takımyıldızlarını vurgulayın. Yalnızca seçili takımyıldızlarını "
+"işgal eden nesneler listeye dahil edilecektir.</p><p></p><p>İşiniz "
+"bittiğinde sürdürmek için <span style=\" font-weight:600;\">Sonraki</span> "
+"düğmesine basın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, RectangularRegionText)
 #: tools/obslistwizard.ui:428
@@ -83441,31 +83454,31 @@ msgid ""
 "that define the region.</p><p></p><p>When you are finished, press <span "
 "style=\" font-weight:600;\">Next</span> to continue.</p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Dikdörtgensel bir bölgedeki cisimleri seç</"
-"p><p></p><p>Bu sayfada gözlem listenizi gökyüzünde belirli bir dikdörtgensel "
-"bölgede bulunan cisimlerle sınırlayabilirsiniz.  Dikdörtgensel bölgeyi "
-"belirtmek için bölgeyi tanımlayan sağ açıklık (SA) ve dik açıklık (DA) "
-"sınırlarını belirlemelisiniz.</p><p></p><p>Bitirdiğinizde devam etmek için "
-"<span style=\" font-weight:600;\">İleri</span>'ye basın.</p></body></html>"
+"<html><head></head><body><p>Dikdörtgen bölgedeki nesneleri seçin.</p><p></"
+"p><p>Bu sayfada, gözlem listenizi gökyüzünde belirli bir dikdörtgen bölgeyi "
+"kaplayan nesnelerle sınırlayabilirsiniz. Bölgeyi tanımlayan doğru sağ "
+"açıklık (RA) ve sapma (Dec) sınırlarını seçerek dikdörtgen bölgeyi belirtin."
+"</p><p></p><p>İşiniz bittiğinde sürdürmek için <span style=\" font-"
+"weight:600;\">Sonraki</span> düğmesine basın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/obslistwizard.ui:455 tools/obslistwizard.ui:465
 #, kde-format
 msgid "to"
-msgstr ""
+msgstr "şuraya:"
 
 #. i18n: ectx: property (text), widget (QLabel, DecLabel)
 #: tools/obslistwizard.ui:478
 #, kde-format
 msgid "Dec limits:"
-msgstr "DA sınırları:"
+msgstr "DEC sınırları:"
 
 #. i18n: ectx: property (text), widget (QLabel, RALabel)
 #: tools/obslistwizard.ui:485
 #, kde-format
 msgid "RA limits:"
-msgstr "SA sınırları:"
+msgstr "RA sınırları:"
 
 #. i18n: ectx: property (text), widget (QLabel, CircularRegionText)
 #: tools/obslistwizard.ui:529
@@ -83479,32 +83492,31 @@ msgid ""
 "p><p></p><p>When you are finished, press <span style=\" font-weight:600;"
 "\">Next</span> to continue.</p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Dairesel bir bölgedeki cisimleri seç</p><p></"
-"p><p>Bu sayfada gözlem listenizi gökyüzünde belirli bir dairesel bölgede "
-"bulunan cisimlerle sınırlayabilirsiniz.  Dairesel bölgeyi, dairenin merkezi "
-"için sağ açıklık (SA) ve dik açıklık (DA) koodinatlarını seçerek ve yarıçap "
-"büyüklüğünüderece olarak girerek tanımlayabilirsiniz.</p><p></"
-"p><p>Bitirdiğinizde devam etmek için <span style=\" font-weight:600;"
-"\">İleri</span>'ye basın.</p></body></html>"
+"<html><head></head><body><p>Dairesel bölgedeki nesneleri seçin.</p><p></"
+"p><p>Bu sayfada, gözlem listenizi gökyüzünde belirli bir dairesel bölgeyi "
+"işgal eden nesnelerle sınırlayabilirsiniz. Dairenin merkezi için sağ açıklık "
+"(RA) ve sapma (DEC) koordinatlarını ve dairenin yarıçapının boyutunu derece "
+"olarak seçerek dairesel bölgeyi belirtin.</p><p></p><p>İşiniz bittiğinde "
+"sürdürmek için <span style=\" font-weight:600;\">Sonraki</span> düğmesine "
+"basın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterRALabel)
 #: tools/obslistwizard.ui:603
 #, kde-format
 msgid "Center RA (in Hours):"
-msgstr ""
+msgstr "Merkez RA (saat olarak):"
 
 #. i18n: ectx: property (text), widget (QLabel, CenterDecLabel)
 #: tools/obslistwizard.ui:616
-#, fuzzy, kde-format
-#| msgid "Radius (in Degrees):"
+#, kde-format
 msgid "Center Dec (in Degrees):"
-msgstr "Yarıçap (Derece olarak):"
+msgstr "Merkez DEC (derece olarak):"
 
 #. i18n: ectx: property (text), widget (QLabel, RadiusLabel)
 #: tools/obslistwizard.ui:642
 #, kde-format
 msgid "Radius (in Degrees):"
-msgstr "Yarıçap (Derece olarak):"
+msgstr "Yarıçap (derece olarak):"
 
 #. i18n: ectx: property (text), widget (QLabel, ObserveOnDateText)
 #: tools/obslistwizard.ui:688
@@ -83521,22 +83533,22 @@ msgid ""
 "<span style=\" font-weight:600;\">Next</span> to continue.</p><p></p></"
 "body></html>"
 msgstr ""
-"<html><head></head><body><p>Bir tarihte gözlemlenebilir cisimleri seç:</"
-"p><p></p><p>Bu sayfada gözlem listenizi yalnızca belirli bir tarihte (ve "
-"Dünya üzerindebelirli bir konumda) gözlemlenebilen cisimlerle "
-"sınırlandırabilirsiniz.  Listenizi bu şekilde filtrelemek için aşağıdaki "
-"onay kutusunu işaretleyin ve sonra istediğiniz tarihi seçin.  Onay kutusunu "
-"boş bıraktığınızda listenizgözlemlenebilirliği dikkate alınmayan cisimler "
-"içerir (bu öntanımlı ayardır).  Cisimlerin gözlemlenebilir olup olmadığını "
-"belirlemek için coğrafi konumu da ayrıca değiştirebilirsiniz.</p><p></"
-"p><p>Bitirdiğinizde devam etmek için<span style=\" font-weight:600;\">İleri</"
-"span>'yi tıklayın.</p><p></p></body></html>"
+"<html><head></head><body><p>Bir tarihte gözlemlenebilir nesneleri seçin.</"
+"p><p></p><p>Bu sayfada, gözlem listenizi yalnızca belirli bir tarihte (ve "
+"Dünya’nın belirli bir konumundan) gözlemlenebilen nesnelerle "
+"sınırlayabilirsiniz. Listenizi bu şekilde süzmek için aşağıdaki onay "
+"kutusunu işaretleyin ve ardından istediğiniz tarihi seçin. Bu kutuyu "
+"işaretlemezseniz listeniz nesneleri gözlemlenebilir oldukları zamana "
+"bakılmaksızın içerecektir (bu öntanımlıdır). Nesnelerin gözlemlenebilir olup "
+"olmadığını belirlemek için kullanılan coğrafi konumu da değiştirebilirsiniz."
+"</p><p></p><p>İşiniz bittiğinde sürdürmek için <span style=\" font-"
+"weight:600;\">Sonraki</span> düğmesine basın.</p><p></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/obslistwizard.ui:728
 #, kde-format
 msgid "From:"
-msgstr "Başlangıç:"
+msgstr "Nereden:"
 
 #. i18n: ectx: property (text), widget (QLabel, LocationText)
 #: tools/obslistwizard.ui:735
@@ -83546,48 +83558,31 @@ msgstr "Nereden: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: tools/obslistwizard.ui:742
-#, fuzzy, kde-format
-#| msgid "Minimum Altitude:"
+#, kde-format
 msgid "Min. Altitude:"
-msgstr "Asgari Yükseklik:"
+msgstr "En düşük yükseklik:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: tools/obslistwizard.ui:759
-#, fuzzy, kde-format
-#| msgid "Plot average:"
+#, kde-format
 msgid "Coverage:"
-msgstr "Ortalamayı işaretle:"
+msgstr "Kapsam:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: tools/obslistwizard.ui:786
-#, fuzzy, kde-format
-#| msgid "Maximum Altitude:"
+#, kde-format
 msgid "Max. Altitude:"
-msgstr "Azami Yükseklik:"
+msgstr "En büyük yükseklik:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SelectByDate)
 #: tools/obslistwizard.ui:813
 #, kde-format
 msgid "Select objects which are observable on:"
-msgstr "Tarihinde gözlemlenebilir cisimleri seç:"
+msgstr "Şu tarihte gözlemlenebilir nesneleri seç:"
 
 #. i18n: ectx: property (text), widget (QLabel, MagnitudeText)
 #: tools/obslistwizard.ui:892
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head></head><body><p>Select bright objects</p><p></p><p>On this "
-#| "page, you can limit your observing list to only those objects brighter "
-#| "than a given magnitude.  Be careful with this selection, because KStars "
-#| "does not have a magnitude for every object in its database.  You need to "
-#| "indicate whether you want to include objects with an undefined magnitude."
-#| "</p><p></p><p>If you do not wish to exclude faint objects with this "
-#| "selection, simply leave the checkbox below unchecked.</p><p></p><p>This "
-#| "is the final page of the Observing List Wizard.  You can go back and "
-#| "modify previous pages with the <span style=\" font-weight:600;\">Back</"
-#| "span> button.  When you are satisfied, press the <span style=\" font-"
-#| "weight:600;\">Finish</span> button to exit the wizard, and the Observing "
-#| "List tool will be populated with the objects you have specified here.</"
-#| "p><p></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select bright objects</p><p>On this page, you can "
 "limit your observing list to only those objects brighter than a given "
@@ -83602,37 +83597,37 @@ msgid ""
 "Observing List tool will be populated with the objects you have specified "
 "here.</p><p><br/></p></body></html>"
 msgstr ""
-"<html><head></head><body><p>Parlak cisimleri seç</p><p></p><p>Bu sayfada "
-"gözlem listenizi yalnızca verilen bir parlaklığa sahip olan cisimlerle "
-"sınırlandırabilirsiniz.  K Yıldızlar veri tabanındaki tüm cisimler için "
-"parlaklıkdeğerine sahip olmadığından bu seçimi dikkatli yapınız.  "
-"Tanımlanmamış birparlaklığa sahip cisimleri dahil etmek isteyip "
-"istemediğinizi belirtmelisiniz.</p><p></p><p>Eğer soluk cisimleri kapsam "
-"dışı bırakmak istemiyorsanız seçim kutucuğunu boş bırakmanız yeterli.</"
-"p><p></p><p>Bu, Gözlem Listesi Sihirbazının son sayfası.  Önceki sayfalara "
-"dönüp değişiklikler yapabilmeniziçin <span style=\" font-weight:600;\">Geri</"
-"span> düğmesini kullanın.  Eğer tamamsanız <span style=\" font-weight:600;"
-"\">Bitir</span> düğmesine basarak sihirbazdan çıkabilirsiniz. Gözlem listesi "
-"aracınıza burada belirttiğiniz cisimler yerleştirilecektir.</p><p></p></"
-"body></html>"
+"<html><head/><body><p>Parlak nesneleri seçin.</p><p>Bu sayfada, gözlem "
+"listenizi yalnızca belirli bir büyüklükten daha parlak nesnelerle "
+"sınırlayabilirsiniz. Bu seçimde dikkatli olun; çünkü K Yıldızlar "
+"veritabanındaki her nesne için bir büyüklüğe sahip değildir. Tanımlanmamış "
+"bir büyüklüğe sahip nesneleri içermek isteyip istemediğinizi belirtmeniz "
+"gerekir.</p><p>Bu seçimle soluk nesneleri dışlamak istemiyorsanız aşağıdaki "
+"onay kutusunu işaretsiz bırakmanız yeterlidir.</p><p>Bu, Gözlem Listesi "
+"Sihirbazı’nın son sayfasıdır. <span style=\" font-weight:600;\">Geri</span> "
+"düğmesini kullanarak geri gidebilir ve önceki sayfalarda değişiklikler "
+"yapabilirsiniz. Memnun kaldığınızda sihirbazdan çıkmak için <span style=\" "
+"font-weight:600;\">Tamam</span> düğmesini kullanın; bundan sonra Gözlem "
+"Listesi aracı, burada belirttiğiniz nesnelerle doldurulacaktır.</p><p><br/></"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SelectByMagnitude)
 #: tools/obslistwizard.ui:919
 #, kde-format
 msgid "Select objects brighter than:"
-msgstr "Bundan daha parlak nesneleri seç:"
+msgstr "Şundan daha parlak nesneleri seç:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IncludeNoMag)
 #: tools/obslistwizard.ui:991
 #, kde-format
 msgid "Include objects which have no defined magnitude"
-msgstr "Tanımlanmış parlaklıkları olmayan cisimleri de kapsa"
+msgstr "Tanımlanmış bir büyüklüğü olmayan nesneleri içer"
 
 #. i18n: ectx: property (text), widget (QLabel, CountLabel)
 #: tools/obslistwizard.ui:1035
 #, kde-format
 msgid "Your observing list currently has 0 objects."
-msgstr "Gözlem listenizde 0 cisim var."
+msgstr "Gözlem listenizde şu anda 0 nesne var."
 
 #. i18n: ectx: property (text), widget (QPushButton, updateButton)
 #: tools/obslistwizard.ui:1042
@@ -83647,11 +83642,10 @@ msgid "Option Name"
 msgstr "Seçenek Adı"
 
 #: tools/planetviewer.cpp:50
-#, fuzzy, kde-format
-#| msgid "Solar System Viewer"
+#, kde-format
 msgctxt "@title:window"
 msgid "Solar System Viewer"
-msgstr "Güneş Sistemi Görüntüleyici"
+msgstr "Güneş Sistemi Görüntüleyicisi"
 
 #: tools/planetviewer.cpp:58
 #, kde-format
@@ -83677,31 +83671,27 @@ msgstr "Bugün"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PolarisHourAngle)
 #: tools/polarishourangle.ui:14
-#, fuzzy, kde-format
-#| msgid "Hour angle:"
+#, kde-format
 msgid "Polaris Hour Angle"
-msgstr "Saat açısı:"
+msgstr "Kutup Yıldızı Saati Açısı"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/polarishourangle.ui:44
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Date/Time"
+#, kde-format
 msgid "Date / Time"
-msgstr "Tarih/Saat"
+msgstr "Tarih/Zaman"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/polarishourangle.ui:91
-#, fuzzy, kde-format
-#| msgid "Hour angle:"
+#, kde-format
 msgid "Polaris HourAngle"
-msgstr "Saat açısı:"
+msgstr "Kutup Yıldızı Saati Açısı"
 
 #. i18n: ectx: property (text), widget (QPushButton, currentTimeB)
 #: tools/polarishourangle.ui:121
 #, kde-format
 msgid "Current time"
-msgstr "Şimdiki zaman"
+msgstr "Şimdiki Zaman"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/polarishourangle.ui:128
@@ -83722,8 +83712,7 @@ msgid "24 Hours"
 msgstr "24 Saat"
 
 #: tools/scriptbuilder.cpp:54
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgctxt "@title:window"
 msgid "Options"
 msgstr "Seçenekler"
@@ -83735,11 +83724,10 @@ msgid "Script Data"
 msgstr "Betik Verisi"
 
 #: tools/scriptbuilder.cpp:165
-#, fuzzy, kde-format
-#| msgid "Script Builder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Script Builder"
-msgstr "Betik Oluşturucu"
+msgstr "Betik Yapıcısı"
 
 #: tools/scriptbuilder.cpp:175
 #, kde-format
@@ -83747,28 +83735,28 @@ msgid ""
 "Point the display at the specified location. %1 can be the name of an "
 "object, a cardinal point on the compass, or 'zenith'."
 msgstr ""
-"Görüntüyü belirtilmiş konuma yönelt. %1 bir cismin adı olabilir, ana "
-"yönlerden biri olabilir veya, başucu noktası olabilir."
+"Görüntüyü belirtilen konuma yönlendirin. %1 bir nesnenin adı, pusuladaki bir "
+"ana nokta veya “başucu” olabilir."
 
 #: tools/scriptbuilder.cpp:180
 #, kde-format
 msgid "Add a name label to the object named %1."
-msgstr "%1 isimli cisime isim etiketi ekle."
+msgstr "%1 adlı nesneye bir ad etiketi ekleyin."
 
 #: tools/scriptbuilder.cpp:182
 #, kde-format
 msgid "Remove the name label from the object named %1."
-msgstr "%1 isimli cisimden isim etiketini kaldır."
+msgstr "%1 adlı nesneden ad etiketini kaldırın."
 
 #: tools/scriptbuilder.cpp:185
 #, kde-format
 msgid "Add a trail to the solar system body named %1."
-msgstr "%1 isimli güneş sistemi cismine iz ekle."
+msgstr "%1 adlı güneş sistemi gövdesine bir iz ekleyin."
 
 #: tools/scriptbuilder.cpp:187
 #, kde-format
 msgid "Remove the trail from the solar system body named %1."
-msgstr "%1 isimli güneş sistemi cisminden izi kaldır."
+msgstr "%1 adlı güneş sistemi gövdesinden bir izi kaldırın."
 
 #: tools/scriptbuilder.cpp:190
 #, kde-format
@@ -83776,8 +83764,8 @@ msgid ""
 "Point the display at the specified RA/Dec coordinates.  RA is expressed in "
 "Hours; Dec is expressed in Degrees."
 msgstr ""
-"Görüntüyü belirtilmiş SA/DA koordinatlarına yönelt.  RA saat olarak, DA "
-"Derece olarak ifade edilir."
+"Görüntüyü belirtilen RA/Dec koordinatlarına yöneltin. RA saat olarak, DEC "
+"ise derece olarak ifade edilir."
 
 #: tools/scriptbuilder.cpp:195
 #, kde-format
@@ -83785,38 +83773,38 @@ msgid ""
 "Point the display at the specified Alt/Az coordinates.  Alt and Az are "
 "expressed in Degrees."
 msgstr ""
-"Görüntüyü belirtilmiş Alt/Az koordinatlarına yönelt.  Alt (Yükselti) ve Az "
-"(Güney Açısı) Derece olarak ifade edilir."
+"Görüntüyü belirtilen Alt/Az koordinatlarına yöneltin. Alt ve Az derece "
+"olarak ifade edilir."
 
 #: tools/scriptbuilder.cpp:197
 #, kde-format
 msgid "Increase the display Zoom Level."
-msgstr "Görüntüleme Odaklama Düzeyi'ni büyüt."
+msgstr "Görüntüyü yakınlaştırma düzeyini artırın."
 
 #: tools/scriptbuilder.cpp:198
 #, kde-format
 msgid "Decrease the display Zoom Level."
-msgstr "Görüntüleme Odaklama Düzeyi'ni azalt."
+msgstr "Görüntüyü yakınlaştırma düzeyini azaltın."
 
 #: tools/scriptbuilder.cpp:200
 #, kde-format
 msgid "Set the display Zoom Level to its default value."
-msgstr "Görüntüleme Odaklama Düzeyi'ni öntanımlı değerine ayarla."
+msgstr "Görüntüyü yakınlaştırma düzeyini öntanımlı değerine ayarlayın."
 
 #: tools/scriptbuilder.cpp:202
 #, kde-format
 msgid "Set the display Zoom Level manually."
-msgstr "Görüntüleme Odaklama Düzeyi'ni elle ayarla."
+msgstr "Görüntüyü yakınlaştırma düzeyini elle ayarlayın."
 
 #: tools/scriptbuilder.cpp:204
 #, kde-format
 msgid "Set the system clock to the specified Local Time."
-msgstr "Sistem saatini belirtilen Yerel Saat'e ayarla."
+msgstr "Sistem saatini belirtilen yerel saate ayarlayın."
 
 #: tools/scriptbuilder.cpp:207
 #, kde-format
 msgid "Pause script execution for specified number of seconds."
-msgstr "Belirtilen saniye kadar betik uygulamasını duraklat."
+msgstr "Belirtilen saniye sayısı boyunca betik yürütmesini duraklatın."
 
 #: tools/scriptbuilder.cpp:209
 #, kde-format
@@ -83824,40 +83812,41 @@ msgid ""
 "Halt script execution until the specified key is pressed.  Only single-key "
 "strokes are possible; use 'space' for the spacebar."
 msgstr ""
-"Betik uygulamasını belirlenmiş tuş basılana kadar duraklat.  Yalnızca tekli "
-"tuş darbeleri mümkündür. 'Boşluk' için boşluk tuşunu kullanın."
+"Belirtilen düğmeye basılana kadar betik yürütmesini durdurun. Yalnızca tekli "
+"düğme vuruşları olanaklıdır; boşluk çubuğu için “space” kullanın."
 
 #: tools/scriptbuilder.cpp:213
 #, kde-format
 msgid "Set whether the display is tracking the current location."
-msgstr "Görüntünün şimdiki konumu takip edip etmeyeceğini ayarla."
+msgstr "Görüntünün geçerli konumu izleyip izlemediğini ayarlayın."
 
 #: tools/scriptbuilder.cpp:215
 #, kde-format
 msgid "Change view option named %1 to value %2."
-msgstr "%1 isimli görüntüleme seçeneğini %2 değerine ayarla."
+msgstr "%1 adlı görünüm seçeneğini %2 değerine değiştirin."
 
 #: tools/scriptbuilder.cpp:218
 #, kde-format
 msgid ""
 "Set the geographic location to the city specified by city, province and "
 "country."
-msgstr "Şehrin şehir, vilayet ve ülke ile tanımlanmış coğrafi konumunu ayarla."
+msgstr "Coğrafi konumu şehir, il ve ülke bazında belirtilen şehre ayarlayın."
 
 #: tools/scriptbuilder.cpp:221
 #, kde-format
 msgid "Set the color named %1 to the value %2."
-msgstr "%1 isimli rengi %2 değerine ayarla."
+msgstr "%1 adlı rengi %2 değerine ayarlayın."
 
 #: tools/scriptbuilder.cpp:223
 #, kde-format
 msgid "Load the color scheme specified by name."
-msgstr "İsmi belirtilmiş renk düzenini yükle."
+msgstr "Adı belirtilen renk şemasını yükleyin."
 
 #: tools/scriptbuilder.cpp:226
 #, kde-format
 msgid "Export the sky image to the file, with specified width and height."
-msgstr "Gökyüzü resmini belirtilmiş en ve boyda dosyaya aktar."
+msgstr ""
+"Gökyüzü görselini belirtilen genişlik ve yükseklikte dosyaya dışa aktarın."
 
 #: tools/scriptbuilder.cpp:230
 #, kde-format
@@ -83866,19 +83855,19 @@ msgid ""
 "print dialog.  If %2 is true, it will use the Star Chart color scheme for "
 "printing."
 msgstr ""
-"Gökyüzü resmini bir yazıcıya veya dosyaya yazdır.  %1 doğru ise, yazdırma "
-"iletişimpenceresi görünür.  %2 doğru ise, yazdırma için Yıldız Haritası renk "
-"düzeni kullanılır."
+"Gökyüzü görüntüsünü bir yazıcıya veya dosyaya yazdırın. %1 doğruysa, "
+"yazdırma iletişim kutusunu gösterecektir. %2 doğruysa, yazdırma için Yıldız "
+"Haritası renk şemasını kullanacaktır."
 
 #: tools/scriptbuilder.cpp:234
 #, kde-format
 msgid "Halt the simulation clock."
-msgstr "Benzeştirim saatini durdur."
+msgstr "Benzetim saatini durdurun."
 
 #: tools/scriptbuilder.cpp:235
 #, kde-format
 msgid "Start the simulation clock."
-msgstr "Benzeştirim saatini başlat."
+msgstr "Benzetim saatini başlatın."
 
 #: tools/scriptbuilder.cpp:237
 #, kde-format
@@ -83886,13 +83875,13 @@ msgid ""
 "Set the timescale of the simulation clock to specified scale.  1.0 means "
 "real-time; 2.0 means twice real-time; etc."
 msgstr ""
-"Benzeştirim saatinin zaman ölçeğini belirtilimiş ölçeğe ayarla.  1.0 gerçek-"
-"zaman, 2.0 gerçek zamanın iki katı anlamına gelir."
+"Benzetim saatinin zaman ölçeğini belirtilen ölçeğe ayarlayın. 1,0 gerçek "
+"zaman anlamına gelir; 2,0 iki kat hızlı gerçek zaman anlamına gelir gibi."
 
 #: tools/scriptbuilder.cpp:255
 #, kde-format
 msgid "Functions"
-msgstr "Fonksiyonlar"
+msgstr "İşlevler"
 
 #: tools/scriptbuilder.cpp:406
 #, kde-format
@@ -83934,12 +83923,12 @@ msgstr "Tüm bilgi kutularının görüntülenmesini aç/kapat"
 #: tools/scriptbuilder.cpp:664 tools/scriptbuilder.cpp:668
 #, kde-format
 msgid "bool"
-msgstr "bool"
+msgstr "boole"
 
 #: tools/scriptbuilder.cpp:410
 #, kde-format
 msgid "Toggle display of Time InfoBox"
-msgstr "Zaman bilgisi kutusunun görüntülenmesini aç/kapat"
+msgstr "Zaman bilgi kutusunun görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:413
 #, kde-format
@@ -83954,17 +83943,17 @@ msgstr "Odak bilgisi kutusunun görüntülenmesini aç/kapat"
 #: tools/scriptbuilder.cpp:419
 #, kde-format
 msgid "(un)Shade Time InfoBox"
-msgstr "Zaman Bilgisi Kutusunu Gölgele(me)"
+msgstr "Zaman bilgi kutusu panjurunu aç/kapat"
 
 #: tools/scriptbuilder.cpp:422
 #, kde-format
 msgid "(un)Shade Geographic InfoBox"
-msgstr "Coğrafi Bilgi Kutusunu Gölgele(me)"
+msgstr "Coğrafi bilgi kutusu panjurunu aç/kapat"
 
 #: tools/scriptbuilder.cpp:425
 #, kde-format
 msgid "(un)Shade Focus InfoBox"
-msgstr "Odak Bilgisi Kutusunu Gölgele(me)"
+msgstr "Odak bilgi kutusu panjurunu aç/kapat"
 
 #: tools/scriptbuilder.cpp:438
 #, kde-format
@@ -83974,87 +83963,87 @@ msgstr "Araç Çubukları"
 #: tools/scriptbuilder.cpp:439
 #, kde-format
 msgid "Toggle display of main toolbar"
-msgstr "Ana araç çubuğunun görünümünü aç/kapat"
+msgstr "Ana araç çubuğunun görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:442
 #, kde-format
 msgid "Toggle display of view toolbar"
-msgstr "Görünüm araç çubuğunun görünümünü aç/kapat"
+msgstr "Görünüm araç çubuğunun görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:450
 #, kde-format
 msgid "Show Objects"
-msgstr "cisimleri Göster"
+msgstr "Nesneleri göster"
 
 #: tools/scriptbuilder.cpp:451
 #, kde-format
 msgid "Toggle display of Stars"
-msgstr "Yıldızları Aç/Kapat"
+msgstr "Yıldızların görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:454
 #, kde-format
 msgid "Toggle display of all deep-sky objects"
-msgstr "Tüm derin gökyüzü cisimlerinin görünümünü aç/kapat"
+msgstr "Tüm derin gökyüzü nesnelerinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:461
 #, kde-format
 msgid "Toggle display of all solar system bodies"
-msgstr "Tüm Güneş Sistemi ögelerinin görünümünü aç/kapat"
+msgstr "Tüm Güneş Sistemi gövdelerinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:464
 #, kde-format
 msgid "Toggle display of Sun"
-msgstr "Güneş’i aç/kapat"
+msgstr "Güneş’in görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:467
 #, kde-format
 msgid "Toggle display of Moon"
-msgstr "Ay’ı aç/kapat"
+msgstr "Ay’ın görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:470
 #, kde-format
 msgid "Toggle display of Mercury"
-msgstr "Merkür’ü aç/kapat"
+msgstr "Merkür’ün görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:473
 #, kde-format
 msgid "Toggle display of Venus"
-msgstr "Venüs’ü aç/kapat"
+msgstr "Venüs’ün görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:476
 #, kde-format
 msgid "Toggle display of Mars"
-msgstr "Mars’ı aç/kapat"
+msgstr "Mars’ın görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:479
 #, kde-format
 msgid "Toggle display of Jupiter"
-msgstr "Jüpiter’i aç/kapat"
+msgstr "Jüpiter’in görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:482
 #, kde-format
 msgid "Toggle display of Saturn"
-msgstr "Satürn’ü aç/kapat"
+msgstr "Satürn’ün görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:485
 #, kde-format
 msgid "Toggle display of Uranus"
-msgstr "Uranüs'ü aç/kapat"
+msgstr "Uranüs'ün görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:488
 #, kde-format
 msgid "Toggle display of Neptune"
-msgstr "Neptün’ü aç/kapat"
+msgstr "Neptün’ün görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:494
 #, kde-format
 msgid "Toggle display of Asteroids"
-msgstr "Asteroidleri aç/kapat"
+msgstr "Asteroitlerin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:497
 #, kde-format
 msgid "Toggle display of Comets"
-msgstr "Kuyruklu yıldızları aç/kapat"
+msgstr "Kuyruklu yıldızların görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:517
 #, kde-format
@@ -84064,107 +84053,107 @@ msgstr "Diğerlerini Göster"
 #: tools/scriptbuilder.cpp:518
 #, kde-format
 msgid "Toggle display of constellation lines"
-msgstr "Takımyıldızı doğrularını aç/kapat"
+msgstr "Takımyıldız çizgilerinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:521
 #, kde-format
 msgid "Toggle display of constellation boundaries"
-msgstr "Takımyıldızı sınırlarını aç/kapat"
+msgstr "Takımyıldızı sınırlarının görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:524
 #, kde-format
 msgid "Toggle display of constellation names"
-msgstr "Takımyıldız isimlerini aç/kapat"
+msgstr "Takımyıldız adlarının görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:527
 #, kde-format
 msgid "Toggle display of Milky Way"
-msgstr "Samanyolunu aç/kapat"
+msgstr "Samanyolu’nun görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:530
 #, kde-format
 msgid "Toggle display of the coordinate grid"
-msgstr "Koordinat eksenini aç/kapat"
+msgstr "Koordinat ızgarasının görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:533
 #, kde-format
 msgid "Toggle display of the celestial equator"
-msgstr "Gök ekvatorunu aç/kapat"
+msgstr "Göksel ekvatorun görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:536
 #, kde-format
 msgid "Toggle display of the ecliptic"
-msgstr "Tutulumu aç/kapat"
+msgstr "Ekliptik düzlemin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:539
 #, kde-format
 msgid "Toggle display of the horizon line"
-msgstr "Ufuk çizgisini aç/kapat"
+msgstr "Ufuk çizgisinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:542
 #, kde-format
 msgid "Toggle display of the opaque ground"
-msgstr "Saydam yer görünümünü aç/kapat"
+msgstr "Mat yer görünümünün görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:545
 #, kde-format
 msgid "Toggle display of star name labels"
-msgstr "Yıldız isim etiketlerini aç/kapat"
+msgstr "Yıldız adı etiketlerinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:548
 #, kde-format
 msgid "Toggle display of star magnitude labels"
-msgstr "Yıldız parlaklık etiketlerini aç/kapat"
+msgstr "Yıldız büyüklüğü etiketlerinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:551
 #, kde-format
 msgid "Toggle display of asteroid name labels"
-msgstr "Asteroid isim etiketlerini aç/kapat"
+msgstr "Asteroit adı etiketlerinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:554
 #, kde-format
 msgid "Toggle display of comet name labels"
-msgstr "Kuyruklu yıldız isim etiketlerini aç/kapat"
+msgstr "Kuyrukluyıldız adı etiketlerinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:557
 #, kde-format
 msgid "Toggle display of planet name labels"
-msgstr "Gezegen isim etiketlerini aç/kapat"
+msgstr "Gezegen adı etiketlerinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:560
 #, kde-format
 msgid "Toggle display of planet images"
-msgstr "Gezegen resimlerini aç/kapat"
+msgstr "Gezegen görsellerinin görüntülenmesini aç/kapat"
 
 #: tools/scriptbuilder.cpp:581
 #, kde-format
 msgid "Show Latin constellation names"
-msgstr "Latince takımyıldızı isimleri göster"
+msgstr "Latince takımyıldız adlarını göster"
 
 #: tools/scriptbuilder.cpp:584
 #, kde-format
 msgid "Show constellation names in local language"
-msgstr "Takımyıldızı isimlerini yerel dilde göster"
+msgstr "Takımyıldız adlarını yerel dilde göster"
 
 #: tools/scriptbuilder.cpp:587
 #, kde-format
 msgid "Show IAU-standard constellation abbreviations"
-msgstr "Standart takımyıldızı kısaltmalarını göster"
+msgstr "IAU standardına göre olan takımyıldız kısaltmalarını göster"
 
 #: tools/scriptbuilder.cpp:595
 #, kde-format
 msgid "Hide Items"
-msgstr "cisimleri gizle"
+msgstr "Ögeleri Gizle"
 
 #: tools/scriptbuilder.cpp:596
 #, kde-format
 msgid "Toggle whether objects hidden while slewing display"
-msgstr "Görüntü dönerken cisimleri gizlemeyi aç/kapat"
+msgstr "Görüntüyü çevirirken nesnelerin gizlenip gizlenmeyeceğini aç/kapat"
 
 #: tools/scriptbuilder.cpp:599
 #, kde-format
 msgid "Timestep threshold (in seconds) for hiding objects"
-msgstr "Cisimlerin gizlenmesi için zaman basamağı eşik değeri (saniye olarak)"
+msgstr "Nesneleri gizlemek için zaman adımı eşiği (saniye)"
 
 #: tools/scriptbuilder.cpp:599 tools/scriptbuilder.cpp:638
 #: tools/scriptbuilder.cpp:641 tools/scriptbuilder.cpp:706
@@ -84172,42 +84161,42 @@ msgstr "Cisimlerin gizlenmesi için zaman basamağı eşik değeri (saniye olara
 #: tools/scriptbuilder.cpp:716 tools/scriptbuilder.cpp:720
 #, kde-format
 msgid "double"
-msgstr "çift"
+msgstr "ondalıklı"
 
 #: tools/scriptbuilder.cpp:602
 #, kde-format
 msgid "Hide faint stars while slewing?"
-msgstr "Görüntü dönerken sönük yıldızlar gizlensin mi?"
+msgstr "Çevirme yaparken soluk yıldızlar gizlensin mi?"
 
 #: tools/scriptbuilder.cpp:605
 #, kde-format
 msgid "Hide solar system bodies while slewing?"
-msgstr "Görüntü dönerken güneş sistemi cisimleri gizlensin mi?"
+msgstr "Çevirme yaparken Güneş Sistemi gövdeleri gizlensin mi?"
 
 #: tools/scriptbuilder.cpp:608
 #, kde-format
 msgid "Hide Milky Way while slewing?"
-msgstr "Görüntü dönerken Samanyolu gizlensin mi?"
+msgstr "Çevirme yaparken Samanyolu gizlensin mi?"
 
 #: tools/scriptbuilder.cpp:611
 #, kde-format
 msgid "Hide constellation names while slewing?"
-msgstr "Görüntü dönerken takımyıldız isimleri gizlensin mi?"
+msgstr "Çevirme yaparken takımyıldız adları gizlensin mi?"
 
 #: tools/scriptbuilder.cpp:614
 #, kde-format
 msgid "Hide constellation lines while slewing?"
-msgstr "Görüntü dönerken takımyıldız çizgileri gizlensin mi?"
+msgstr "Çevirme yaparken takımyıldız çizgileri gizlensin mi?"
 
 #: tools/scriptbuilder.cpp:617
 #, kde-format
 msgid "Hide constellation boundaries while slewing?"
-msgstr "Görüntü dönerken takımyıldız sınırları gizlensin mi?"
+msgstr "Çevirme yaparken takımyıldız sınırları gizlensin mi?"
 
 #: tools/scriptbuilder.cpp:620
 #, kde-format
 msgid "Hide coordinate grid while slewing?"
-msgstr "Görüntü dönerken koordinat örgüsü gizlensin mi?"
+msgstr "Çevirme yaparken koordinat ızgarası gizlensin mi?"
 
 #: tools/scriptbuilder.cpp:634
 #, kde-format
@@ -84217,17 +84206,17 @@ msgstr "Gökyüzü Haritası Seçenekleri"
 #: tools/scriptbuilder.cpp:635
 #, kde-format
 msgid "Use Horizontal coordinates? (otherwise, use Equatorial)"
-msgstr "Yatay koodinatlar mı kullanılsın? (yoksa, Ekvatoryal kullanılsın)"
+msgstr "Yatay koordinatlar kullanılsın mı (aksi takdirde Ekvatoryal)?"
 
 #: tools/scriptbuilder.cpp:638
 #, kde-format
 msgid "Set the Zoom Factor"
-msgstr "Odaklanma Çarpanını Ayarla"
+msgstr "Odak Çarpanını Ayarla"
 
 #: tools/scriptbuilder.cpp:641
 #, kde-format
 msgid "Select angular size for the FOV symbol (in arcmin)"
-msgstr "FOV simgesi için açısal büyüklüğü seçin (arkdk olarak)"
+msgstr "Görüş alanı sembolü için açısal boyutu seç (yaydak)"
 
 #: tools/scriptbuilder.cpp:644
 #, kde-format
@@ -84235,50 +84224,52 @@ msgid ""
 "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, "
 "4=Bullseye)"
 msgstr ""
-"FOV simgesinin şeklini seçin (0=Kare, 1=Daire, 2=Artılar, 4=Hedef merkezi)"
+"Görüş alanı simgesinin şeklini seç (0=Kare, 1=Daire, 2=Artı, 4=Hedef merkezi)"
 
 #: tools/scriptbuilder.cpp:645
 #, kde-format
 msgid "int"
-msgstr "int"
+msgstr "tamsayı"
 
 #: tools/scriptbuilder.cpp:648
 #, kde-format
 msgid "Select color for the FOV symbol"
-msgstr "FOV sembolü için renk seçin"
+msgstr "Görüş alanı sembolü için renk seç"
 
 #: tools/scriptbuilder.cpp:648
 #, kde-format
 msgid "string"
-msgstr "ifade"
+msgstr "dizi"
 
 #: tools/scriptbuilder.cpp:651
 #, kde-format
 msgid "Use animated slewing? (otherwise, \"snap\" to new focus)"
 msgstr ""
-"Canlandırılmış döndürme kullanılsın mı? (diğer şekilde yeni odağa \"geç\")"
+"Canlandırmalı çevirme kullanılsın mı (aksi takdirde yeni odağa “tuttur”)?"
 
 #: tools/scriptbuilder.cpp:654
 #, kde-format
 msgid "Correct for atmospheric refraction?"
-msgstr "Atmosferik kırılım düzeltilsin mi?"
+msgstr "Atmosferik kırılım için düzeltme uygulansın mı?"
 
 #: tools/scriptbuilder.cpp:657
 #, kde-format
 msgid "Automatically attach name label to centered object?"
-msgstr "Ortalanan cisime otomatik olarak etiket iliştirilsin mi?"
+msgstr "Ortalanan nesneye ad etiketi kendiliğinden iliştirilsin mi?"
 
 #: tools/scriptbuilder.cpp:660
 #, kde-format
 msgid "Attach temporary name label when hovering mouse over an object?"
 msgstr ""
-"Fareyi bir nesnenin üzerine getirirken geçici ad etiketi iliştirilsin mi?"
+"Bir nesnenin üzerine fareyle gelindiğinde geçici olarak ad etiketi "
+"iliştirilsin mi?"
 
 #: tools/scriptbuilder.cpp:667
 #, kde-format
 msgid "Planet trails fade to sky color? (otherwise color is constant)"
 msgstr ""
-"Gezegen izleri gökyüzü rengine kaynaşsın mı? (Aksi takdirde renk sabit kalır)"
+"Gezegen izleri gökyüzü rengine kayarak dönüşsün mü (aksi takdirde renk "
+"sabit)?"
 
 #. i18n( "magnitude of faintest star drawn on map when zoomed in" ) << i18n( "double" );
 #. new QTreeWidgetItem( opsLimit, fields );
@@ -84300,29 +84291,28 @@ msgstr ""
 #: tools/scriptbuilder.cpp:706
 #, kde-format
 msgid "magnitude of faintest star labeled on map"
-msgstr "harita üzerinde etiketlenmiş en sönük yıldızın parlaklığı"
+msgstr "harita üzerinde etiketlenmiş en sönük yıldızın büyüklüğü"
 
 #: tools/scriptbuilder.cpp:709
 #, kde-format
 msgid "magnitude of brightest star hidden while slewing"
-msgstr "döndürme sırasında gizlenecek olan en parlak yıldızın parlaklığı"
+msgstr "çevirme sırasında gizlenecek en büyük yıldızın büyüklüğü"
 
 #: tools/scriptbuilder.cpp:712
 #, kde-format
 msgid "magnitude of faintest asteroid drawn on map"
-msgstr "harita üzerinde gösterilen en sönük küçük gezegenin parlaklığı"
+msgstr "haritada çizilen en soluk asteroitin büyüklüğü"
 
 #: tools/scriptbuilder.cpp:716
 #, kde-format
 msgid "magnitude of faintest asteroid labeled on map"
-msgstr "harita üzerinde etiketlenmiş en sönük küçük gezegenin parlaklığı"
+msgstr "harita üzerinde etiketlenen en soluk asteroitin büyüklüğü"
 
 #: tools/scriptbuilder.cpp:719
 #, kde-format
 msgid "comets nearer to the Sun than this (in AU) are labeled on map"
 msgstr ""
-"Güneşe (AB-Gökbilimsel Birim olarak) bundan daha yakın olan kuyruklu "
-"yıldızlar harita üzerinde etiketlidir."
+"harita üzerinde Güneş’e bundan daha yakın olan kuyrukluyıldızlar (AU olarak)"
 
 #: tools/scriptbuilder.cpp:814
 #, kde-format
@@ -84337,7 +84327,7 @@ msgstr "İndirme Hatası"
 #: tools/scriptbuilder.cpp:946
 #, kde-format
 msgid "Save Changes to Script?"
-msgstr "Değişiklikler Betiğe Kaydedilsin mi?"
+msgstr "Değişiklikleri Betiğe Kaydet?"
 
 #: tools/scriptbuilder.cpp:947
 #, kde-format
@@ -84345,7 +84335,7 @@ msgid ""
 "The current script has unsaved changes.  Would you like to save before "
 "closing it?"
 msgstr ""
-"Mevcut betikte kaydedilmemiş değişiklikler var. Kapatmadan önce kaydetmek "
+"Geçerli betikte kaydedilmemiş değişiklikler var. Kapatmadan önce kaydetmek "
 "ister misiniz?"
 
 #: tools/scriptbuilder.cpp:1109
@@ -84363,7 +84353,7 @@ msgstr "doğru"
 #: tools/scriptbuilder.cpp:1665
 #, kde-format
 msgid "Function index out of bounds."
-msgstr "Fonksiyon dizini sınırlar dışında"
+msgstr "İşlev indeksi sınırlar dışında."
 
 #: tools/scriptbuilder.cpp:2004 tools/scriptbuilder.cpp:2188
 #: tools/scriptbuilder.cpp:2189
@@ -84374,7 +84364,7 @@ msgstr "yanlış"
 #: tools/scriptbuilder.cpp:2831
 #, kde-format
 msgid "Mismatch between function and Arg widget (expected %1.)"
-msgstr "Fonksiyon ve Arg aleti arasında uyumsuzluk (beklenen %1.)"
+msgstr "İşlev ve argüman araç takımı arasında uyumsuzluk (%1 bekleniyordu)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: tools/scriptbuilder.ui:67
@@ -84389,15 +84379,14 @@ msgid ""
 "Discards current script and starts a new one.  Will prompt to save any "
 "unsaved changes in the current script."
 msgstr ""
-"Şimdiki betikten vazgeçer ve yeni bir tane başlatır.  Mevcut betikteki "
-"kaydedilemiş değişikliklerin kaydedilmesi iletisi çıkar."
+"Geçerli betiği atar ve yenisini başlatır. Geçerli betikteki kaydedilmemiş "
+"değişiklikleri kaydetmenizi ister."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, OpenButton)
 #: tools/scriptbuilder.ui:101
-#, fuzzy, kde-format
-#| msgid "Open Script"
+#, kde-format
 msgid "Open Script..."
-msgstr "Betik Aç"
+msgstr "Betik Aç…"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, OpenButton)
 #: tools/scriptbuilder.ui:104
@@ -84406,14 +84395,14 @@ msgid ""
 "Opens an existing script.  Will prompt to save any unsaved changes in the "
 "current script."
 msgstr ""
-"Var olan bir betik başlatır.  Mevcut betikteki kaydedilemiş değişikliklerin "
-"kaydedilmesi iletisi çıkar."
+"Var olan bir betiği açar. Geçerli betikteki kaydedilmemiş değişiklikleri "
+"kaydetmenizi ister."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveButton)
 #: tools/scriptbuilder.ui:135
 #, kde-format
 msgid "Save Script"
-msgstr "Betik Kaydet"
+msgstr "Betiği Kaydet"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveButton)
 #: tools/scriptbuilder.ui:138
@@ -84422,8 +84411,8 @@ msgid ""
 "Save the current script.  If the script has not been saved before, this is "
 "equivalent to \"Save As...\""
 msgstr ""
-"Geçerli betiği kaydedin. Betik daha önce kaydedilmemişse bu \"Farklı Kaydet…"
-"\" ile eşdeğerdir."
+"Geçerli betiği kaydedin. Betik daha önce kaydedilmemişse bu, “Farklı "
+"Kaydet…” ile eşdeğerdir."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveAsButton)
 #: tools/scriptbuilder.ui:169
@@ -84438,58 +84427,50 @@ msgid ""
 "Saves the script to a file, allowing you to first specify the filename and a "
 "name for the script."
 msgstr ""
-"Betiği bir dosyaya kaydeder. Bundan önce betik ve dosya için isim "
-"belirtmenize imkan tanır."
+"Betiği bir dosyaya kaydeder ve önce bir dosya adı ve betik için bir ad "
+"belirtmenize olanak tanır."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:197
 #, kde-format
 msgid "Test Script"
-msgstr "Betiği Dene"
+msgstr "Betiği Sına"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RunButton)
 #: tools/scriptbuilder.ui:200
-#, fuzzy, kde-format
-#| msgid ""
-#| "Executes the script in the KStars main window.  You may want to "
-#| "reposition the Script Builder tool so that the Sky map is visible.  "
+#, kde-format
 msgid ""
 "Executes the script in the KStars main window. You may want to reposition "
 "the Script Builder tool so that the Sky map is visible."
 msgstr ""
-"Betiği K Yıldızlar ana penceresinde yürütür. Gökyüzü haritasının "
-"görünebilmesi için betik oluşturma aracının yerini değiştirebilirsiniz."
+"Betiği K Yıldızlar ana penceresinde yürütür. Gökyüzü haritasının görünür "
+"olması için Betik Yapıcısı aracını yeniden konumlandırmak isteyebilirsiniz."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/scriptbuilder.ui:235
 #, kde-format
 msgid "Current Script"
-msgstr "Mevcut Betik"
+msgstr "Geçerli Betik"
 
 #. i18n: ectx: property (whatsThis), widget (QListWidget, ScriptListBox)
 #: tools/scriptbuilder.ui:279
-#, fuzzy, kde-format
-#| msgid ""
-#| "This shows the list of commands present in the current working script.  "
-#| "Highlighting any command will present a widget where you can specify its "
-#| "arguments below.  Use the action buttons at right to copy, remove, or "
-#| "change the position of the selected command.  "
+#, kde-format
 msgid ""
 "This shows the list of commands present in the current working script. "
 "Highlighting any command will present a widget where you can specify its "
 "arguments below. Use the action buttons at right to copy, remove, or change "
 "the position of the selected command."
 msgstr ""
-"Bu şu an çalışan betiğin içerdiği komut listesini gösterir.  Herhangi bir "
-"komutu vurgulamak, altına onun içeriğini özetleyebilceğiniz bir araç sunar.  "
-"Seçilmiş komutu kopyalamak, kaldırmak veya konumunu değiştirmek için sağdaki "
-"eylem düğmesini kullanın."
+"Bu, geçerli çalışan betikte bulunan komutların listesini gösterir. Herhangi "
+"bir komutu vurgulamak, argümanlarını aşağıda belirtebileceğiniz bir araç "
+"takımı sunacaktır. Seçili komutun konumunu kopyalamak, kaldırmak veya "
+"değiştirmek için sağdaki eylem düğmelerini kullanın."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:315
 #, kde-format
 msgid "Add Function"
-msgstr "Fonksiyon Ekle"
+msgstr "İşlev Ekle"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:319
@@ -84499,15 +84480,15 @@ msgid ""
 "will add it to the current working script.  The new function is inserted "
 "directly after the highlighted function in the \"Current Script\" box.\n"
 msgstr ""
-"Eğer bir fonsiyon \"Fonksiyon Listeleyici\" kutusunda vurgulanmış ise, bu "
-"düğme onu şu çalışan betiğe ekler.  Yeni fonksiyon \"Şu anki Betik\" "
-"kutusunda vurgulanmış olan fonksiyonun hemen peşine eklenir.\n"
+"“İşlev Tarayıcısı” kutusunda bir işlev vurgulanırsa bu düğme onu geçerli "
+"çalışan betiğe ekler. Yeni işlev, “Geçerli Betik” kutusunda vurgulanan "
+"işlevin hemen sonrasına eklenir.\n"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
 #: tools/scriptbuilder.ui:338
 #, kde-format
 msgid "Remove Function"
-msgstr "Fonksiyon Kaldır"
+msgstr "İşlevi Kaldır"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, RemoveButton)
 #: tools/scriptbuilder.ui:341
@@ -84516,14 +84497,14 @@ msgid ""
 "If a function is highlighted in the \"Current Script\" box, this button will "
 "remove it from the script."
 msgstr ""
-"Eğer \"Şu anki Betik\" kutunda bir fonksiyon vurgulanmış ise, bu düğme onu "
-"betikten kaldıracaktır."
+"“Geçerli Betik” kutusunda bir işlev vurgulanmışsa bu düğme, onu betikten "
+"kaldırır."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, CopyButton)
 #: tools/scriptbuilder.ui:360
 #, kde-format
 msgid "Copy Function"
-msgstr "Fonksiyon Kopyala"
+msgstr "İşlevi Kopyala"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, CopyButton)
 #: tools/scriptbuilder.ui:363
@@ -84532,8 +84513,8 @@ msgid ""
 "If a function is highlighted in the \"Current Script\" box, this button will "
 "add a duplicate of the function."
 msgstr ""
-"Eğer \"Şu anki Betik\" kutunda bir fonksiyon vurgulanmış ise, bu düğme "
-"foksiyonun ikinci bir kopyasını ekleyecektir."
+"“Geçerli Betik” kutusunda bir işlev vurgulanmışsa bu düğme, işlevin bir "
+"kopyasını ekleyecektir."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpButton)
 #: tools/scriptbuilder.ui:382
@@ -84548,8 +84529,8 @@ msgid ""
 "If a function is highlighted in the \"Current Script\" box, this button will "
 "move it up one position in the script."
 msgstr ""
-"Eğer \"Şu anki Betik\" kutunda bir fonksiyon vurgulanmış ise, bu düğme onun "
-"betikteki konumunu bir üste çıkaracaktır."
+"“Geçerli Betik” kutusunda bir işlev vurgulanmışsa bu düğme, onu betikte bir "
+"konum yukarı taşır."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DownButton)
 #: tools/scriptbuilder.ui:404
@@ -84564,14 +84545,14 @@ msgid ""
 "If a function is highlighted in the \"Current Script\" box, this button will "
 "move it down one position in the script."
 msgstr ""
-"Eğer \"Şu anki Betik\" kutunda bir fonksiyon vurgulanmış ise, bu düğme onun "
-"betikteki konumunu bir alta indirecektir."
+"“Geçerli Betik” kutusunda bir işlev vurgulanmışsa bu düğme, onu betikte bir "
+"konum aşağı taşır."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/scriptbuilder.ui:434
 #, kde-format
 msgid "Function Arguments"
-msgstr "Fonksiyon Değişkenleri"
+msgstr "İşlev Argümanları"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: tools/scriptbuilder.ui:465
@@ -84583,7 +84564,7 @@ msgstr "İşlev Tarayıcısı"
 #: tools/scriptbuilder.ui:512
 #, kde-format
 msgid "Function Help"
-msgstr "Fonksiyon Yardımı"
+msgstr "İşlev Yardımı"
 
 #. i18n: ectx: property (whatsThis), widget (QTextEdit, FuncDoc)
 #: tools/scriptbuilder.ui:515
@@ -84592,14 +84573,14 @@ msgid ""
 "If a function is highlighted in the Function Browser, this area will show "
 "some brief documentation about the function."
 msgstr ""
-"Fonksiyon Listeleyicide bir fonksiyon vurgulanmış ise, bu alanda ilgili "
-"fonksiyon hakkında kısa bir bilgilendirme görünecek."
+"İşlev Tarayıcısı’nda bir işlev vurgulanmışsa bu alanda işlev hakkında kısa "
+"bir belgelendirme gösterilir."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, ScriptName)
 #: tools/scriptnamedialog.ui:29
 #, kde-format
 msgid "Enter name for the script"
-msgstr "Betik için isim girin"
+msgstr "Betik için ad gir"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ScriptName)
 #: tools/scriptnamedialog.ui:32
@@ -84608,14 +84589,14 @@ msgid ""
 "Enter a name for the script.  This is not the file name, just a short "
 "descriptive line of text."
 msgstr ""
-"Betik için bir isim girin.  Bu bir dosya adı değil, yalnızca açıklayıcı kısa "
-"bir betindir."
+"Betik için bir ad girin. Bu dosya adı değil, yalnızca kısa bir tanımlayıcı "
+"metin satırıdır."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, AuthorName)
 #: tools/scriptnamedialog.ui:39
 #, kde-format
 msgid "Enter author's name"
-msgstr "Yazarın adını girin"
+msgstr "Yazarın adını gir"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/scriptnamedialog.ui:52
@@ -84637,56 +84618,55 @@ msgstr "Gökyüzü Takvimini Yazdır"
 #: tools/skycalendar.cpp:74 tools/skycalendar.cpp:122 tools/skycalendar.cpp:125
 #, kde-format
 msgid "Please Wait"
-msgstr "Lütfen Bekleyin"
+msgstr "Lütfen bekleyin"
 
 #. i18n: ectx: property (text), widget (QPushButton, CreateButton)
 #: tools/skycalendar.cpp:108 tools/skycalendar.ui:259
 #, kde-format
 msgid "Plot Planetary Almanac"
-msgstr "Gezegensel Almanak Çiz"
+msgstr "Gezegensel Almanak Çizdir"
 
 #: tools/skycalendar.cpp:325
 #, kde-format
 msgctxt "A planet rises from the horizon"
 msgid "%1 rises"
-msgstr "%1 yükselir"
+msgstr "%1 yükseliyor"
 
 #: tools/skycalendar.cpp:347
 #, kde-format
 msgctxt "A planet sets from the horizon"
 msgid "%1 sets"
-msgstr "%1 batışı"
+msgstr "%1 batıyor"
 
 #: tools/skycalendar.cpp:369
 #, kde-format
 msgctxt "A planet transits across the meridian"
 msgid "%1 transits"
-msgstr "%1 geçişi"
+msgstr "%1 geçiş yapıyor"
 
 #: tools/skycalendar.cpp:406
 #, kde-format
 msgctxt "@title:window"
 msgid "Print sky calendar"
-msgstr "Gökyüzü takvimini yazdır"
+msgstr "Gökyüzü Takvimini Yazdır"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/skycalendar.ui:86
-#, fuzzy, kde-format
-#| msgid "Grids and labels"
+#, kde-format
 msgid "Grids and Labels"
-msgstr "Izgaralar ve etiketler"
+msgstr "Izgaralar ve Etiketler"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_GridMonths)
 #: tools/skycalendar.ui:100
 #, kde-format
 msgid "Month dividers"
-msgstr "Ay bölücüler"
+msgstr "Ay bölücüleri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_GridWeeks)
 #: tools/skycalendar.ui:110
 #, kde-format
 msgid "Interval dividers"
-msgstr "Aralık bölücüler"
+msgstr "Aralık bölücüleri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_GridVertical)
 #: tools/skycalendar.ui:121
@@ -84698,7 +84678,7 @@ msgstr "Dikey ızgara"
 #: tools/skycalendar.ui:131
 #, kde-format
 msgid "Current day"
-msgstr "Mevcut gün"
+msgstr "Şu anki gün"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: tools/skycalendar.ui:164
@@ -84775,22 +84755,20 @@ msgid "Star-Hopper Results"
 msgstr "Yıldız Sekmesi Sonuçları"
 
 #: tools/whatsinteresting/skyobjitem.cpp:114
-#, fuzzy, kde-kuit-format
-#| msgid "Now visible: About %1 degrees above the %2 horizon"
+#, kde-kuit-format
 msgid "NOT VISIBLE: About %1 degrees below the %2 horizon"
-msgstr "Şimdi görünebilir: Yaklaşık, %2 ufkunun %1 derece üstünde"
+msgstr "GÖRÜNMÜYOR: %2 ufkundan yaklaşık %1 derece aşağıda"
 
 #: tools/whatsinteresting/skyobjitem.cpp:119
 #, kde-kuit-format
 msgid "Now visible: About %1 degrees above the %2 horizon"
-msgstr "Şimdi görünebilir: Yaklaşık, %2 ufkunun %1 derece üstünde"
+msgstr "Şimdi görünür: %2 ufkundan yaklaşık %1 derece yukarıda"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeSelectLabel)
 #: tools/whatsinteresting/wiequipsettings.ui:50
-#, fuzzy, kde-format
-#| msgid "Select telescope from list to use or specify new telescope"
+#, kde-format
 msgid "Select telescope from list to use or add a new telescope"
-msgstr "Kullanacağınız teleskopu listeden seçin veya yeni bir tane belirtin"
+msgstr "Kullanmak için listeden teleskop seçin veya yeni bir teleskop ekleyin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, scopeDetailsBox)
 #: tools/whatsinteresting/wiequipsettings.ui:82
@@ -84802,7 +84780,7 @@ msgstr "Teleskop Ayrıntıları"
 #: tools/whatsinteresting/wiequipsettings.ui:90
 #, kde-format
 msgid "Vendor: "
-msgstr "Sağlayıcı: "
+msgstr "Satıcı: "
 
 #. i18n: ectx: property (text), widget (QLabel, vendorText)
 #. i18n: ectx: property (text), widget (QLabel, modelText)
@@ -84818,7 +84796,7 @@ msgstr "—        "
 #: tools/whatsinteresting/wiequipsettings.ui:152
 #, kde-format
 msgid "Add new telescope"
-msgstr "Yeni teleskop ekle:"
+msgstr "Yeni Teleskop Ekle"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_BinocularsCheck)
 #: tools/whatsinteresting/wiequipsettings.ui:186
@@ -84842,10 +84820,10 @@ msgid ""
 "<b>brilliantly lit inner-city sky</b>.</p>"
 msgstr ""
 "<p>Gece gökyüzünüz ne kadar ışık kirliliğine sahip? <b>Bortle Karanlık "
-"Gökyüzü Ölçeğine</b> göre gece gökyüzü koşullarınızı 1-9 arasında "
-"derecelendirin. <b>1</b> derecesi, <b>mükemmel bir karanlık gökyüzü "
-"bölgesini</b>, <b>9</b> ise <b>şehrin içinde parlak bir şekilde "
-"aydınlatılmış gökyüzünü</b> temsil eder.</p>"
+"Gökyüzü Ölçeği</b>’ne göre gece gökyüzü koşullarınızı 1-9 arasında "
+"derecelendirin. <b>1</b>, <b>mükemmel bir karanlık gökyüzü bölgesini</b>, "
+"<b>9</b> ise <b>şehrin içinde parlak bir şekilde aydınlatılmış gökyüzünü</b> "
+"temsil eder.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleClassLabel1)
 #: tools/whatsinteresting/wilpsettings.ui:83
@@ -84861,38 +84839,32 @@ msgstr "9  "
 
 #. i18n: ectx: property (text), widget (QLabel, bortleHelpText)
 #: tools/whatsinteresting/wilpsettings.ui:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p align=\"right\">For help: <a href=\"http://en."
-#| "wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-"
-#| "decoration: underline; color:#004183;\">Wikipedia Link for Bortle dark-"
-#| "sky scale</span></a></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p align=\"right\">For help: <a href=\"https://en."
 "wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: "
 "underline; color:#004183;\">Wikipedia Link for Bortle dark-sky scale</span></"
 "a></p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"right\">Yardım için: <a href=\"http://en."
-"wikipedia.org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: "
-"underline; color:#004183;\">Bortle kara gökyüzü ölçüsü için Vikipedi "
-"bağlantısı</span></a></p></body></html>"
+"<html><head/><body><p align=\"right\">Yardım: <a href=\"https://en.wikipedia."
+"org/wiki/Bortle_Dark-Sky_Scale\"><span style=\" text-decoration: underline; "
+"color:#004183;\">Bortle karanlık gökyüzü ölçeği Vikipedi sayfası</span></a></"
+"p></body></html>"
 
 #: tools/whatsinteresting/wiview.cpp:557
 #, kde-kuit-format
 msgid "Magnitude:  --"
-msgstr "Parlaklık:  —"
+msgstr "Büyüklük: —"
 
 #: tools/whatsinteresting/wiview.cpp:559
-#, fuzzy, kde-kuit-format
-#| msgid "Magnitude :: %1"
+#, kde-kuit-format
 msgid "Magnitude: %1"
-msgstr "Parlaklık :: %1"
+msgstr "Büyüklük: %1"
 
 #: tools/whatsinteresting/wiview.cpp:561
 #, kde-kuit-format
 msgid "Surface Brightness: %1"
-msgstr "Yüzey Parlaklığı: %1"
+msgstr "Yüzey parlaklığı: %1"
 
 #: tools/whatsinteresting/wiview.cpp:563
 #, kde-kuit-format
@@ -84982,12 +84954,12 @@ msgstr "Ay’ın batma zamanı: %2, %1"
 #: tools/wutdialog.cpp:498
 #, kde-format
 msgid "No Object Selected"
-msgstr "Bir Cisim Seçilmedi"
+msgstr "Seçili nesne yok"
 
 #: tools/wutdialog.cpp:507
 #, kde-format
 msgid "Object Not Found"
-msgstr "Cisim Blunamadı"
+msgstr "Nesne bulunamadı"
 
 #: tools/wutdialog.cpp:542
 #, kde-format
@@ -85008,13 +84980,13 @@ msgstr "Batma zamanı: %1"
 #: tools/wutdialog.ui:36
 #, kde-format
 msgid "The night of DATE"
-msgstr "TARİHİNİN gecesi"
+msgstr "TARİH gecesi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DateButton)
 #: tools/wutdialog.ui:43
 #, kde-format
 msgid "Choose a new date"
-msgstr "Yeni bir tarih seçin"
+msgstr "Yeni bir tarih seç"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, DateButton)
 #: tools/wutdialog.ui:46
@@ -85036,13 +85008,13 @@ msgstr "Tarihi Değiştir…"
 #: tools/wutdialog.ui:79
 #, kde-format
 msgid "at LOCATION"
-msgstr "Konumda"
+msgstr "KONUMda"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:86
 #, kde-format
 msgid "Choose a new geographic location"
-msgstr "Yeni bir coğrafik konum seçin"
+msgstr "Yeni bir coğrafi konum seç"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:89
@@ -85070,7 +85042,7 @@ msgstr "Doğmuş nesneleri göster:"
 #: tools/wutdialog.ui:121
 #, kde-format
 msgid "Choose time interval"
-msgstr "Zaman aralığını seçin"
+msgstr "Zaman aralığı seç"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:124
@@ -85092,7 +85064,7 @@ msgstr ""
 #: tools/wutdialog.ui:128
 #, kde-format
 msgid "In the Evening"
-msgstr "Gece"
+msgstr "Akşam"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:133
@@ -85110,7 +85082,7 @@ msgstr "Bu gece herhangi bir zaman"
 #: tools/wutdialog.ui:146
 #, kde-format
 msgid "Show objects brighter than magnitude:"
-msgstr "Bundan daha parlak nesneleri göster:"
+msgstr "Şundan daha parlak nesneleri göster:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonRiseLabel)
 #: tools/wutdialog.ui:202
@@ -85122,19 +85094,19 @@ msgstr "Ay doğumu zamanı"
 #: tools/wutdialog.ui:205
 #, kde-format
 msgid "Displays the time at which the moon rises on the selected date."
-msgstr "Seçilen tarihte ayın doğduğu saati gösterir."
+msgstr "Seçili tarihte ayın doğduğu saati görüntüler."
 
 #. i18n: ectx: property (text), widget (QLabel, MoonRiseLabel)
 #: tools/wutdialog.ui:208
 #, kde-format
 msgid "Moon rise:  13:19"
-msgstr "Ay doğumu:  13:19"
+msgstr "Ay doğumu: 13:19"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, NightDurationLabel)
 #: tools/wutdialog.ui:227
 #, kde-format
 msgid "Duration of night for selected date"
-msgstr "Seçilen tarihte gecenin uzunluğu"
+msgstr "Seçili tarihte gecenin uzunluğu"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, NightDurationLabel)
 #: tools/wutdialog.ui:230
@@ -85146,7 +85118,7 @@ msgstr "Seçili tarihteki gündoğumu ve günbatımı arasındaki süreyi göste
 #: tools/wutdialog.ui:233
 #, kde-format
 msgid "Night duration: 11:00 hours"
-msgstr "Gece süresi: 11:00 saat"
+msgstr "Gece süresi: 11:00"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SunSetLabel)
 #: tools/wutdialog.ui:252
@@ -85176,13 +85148,13 @@ msgstr "Ay batımı zamanı"
 #: tools/wutdialog.ui:280
 #, kde-format
 msgid "Displays the time at which the moon sets on the selected date."
-msgstr "Seçilen tarihte ay batımı zamanını gösterir."
+msgstr "Seçili tarihte ay batımı zamanını gösterir."
 
 #. i18n: ectx: property (text), widget (QLabel, MoonSetLabel)
 #: tools/wutdialog.ui:283
 #, kde-format
 msgid "Moon set: 04:27 "
-msgstr "Ay batımı:  04:27 "
+msgstr "Ay batımı: 04:27"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SunRiseLabel)
 #: tools/wutdialog.ui:302
@@ -85206,7 +85178,7 @@ msgstr "Gündoğumu: 07:15"
 #: tools/wutdialog.ui:327
 #, kde-format
 msgid "Moon's illumination fraction"
-msgstr "Ay’ın aydınlanma kesri"
+msgstr "Ay’ın aydınlanması kesri"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, MoonIllumLabel)
 #: tools/wutdialog.ui:330
@@ -85224,19 +85196,19 @@ msgstr "Ay aydınlatması: %​42"
 #: tools/wutdialog.ui:356
 #, kde-format
 msgid "Select a category:"
-msgstr "Bir kategori seçin:"
+msgstr "Bir kategori seç:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel16)
 #: tools/wutdialog.ui:374
 #, kde-format
 msgid "Matching objects:"
-msgstr "Eşleşen cisimler:"
+msgstr "Eşleşen nesneler:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ObjectBox)
 #: tools/wutdialog.ui:397
 #, kde-format
 msgid "Object Name"
-msgstr "Cisim Adı"
+msgstr "Nesne Adı"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, ObjectRiseLabel)
 #: tools/wutdialog.ui:409
