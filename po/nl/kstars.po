@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-15 01:49+0000\n"
-"PO-Revision-Date: 2024-09-14 00:29+0200\n"
+"PO-Revision-Date: 2024-09-15 22:49+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 24.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -27690,11 +27690,7 @@ msgid "Follower"
 msgstr "Volger"
 
 #: ekos/scheduler/scheduler.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -27703,7 +27699,8 @@ msgid ""
 msgstr ""
 "Lijst voor de taakplanner. \n"
 "Klik als u een taak wilt kiezen in de lijst.\n"
-"Dubbelklik als u een taak wilt bewerken in de velden links."
+"Dubbelklik als u een taak wilt bewerken in de velden links.\n"
+"Shift-klik om de hoogte van een job vannacht te bekijken."
 
 #: ekos/scheduler/scheduler.cpp:155
 #, kde-format
@@ -28756,16 +28753,15 @@ msgstr "Lokale tijd"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SchedulerAltitudeGraph)
 #: ekos/scheduler/scheduleraltitudegraph.ui:14
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Altitude Graph"
-msgstr "Hoogte:"
+msgstr "Hoogtegrafiek"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/scheduleraltitudegraph.ui:32
 #, kde-format
 msgid "Altitude Graph for ZZZZZ"
-msgstr ""
+msgstr "Hoogtegrafiek voor ZZZZZ"
 
 #: ekos/scheduler/schedulerjob.cpp:340
 #, kde-format

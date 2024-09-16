@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-15 01:49+0000\n"
-"PO-Revision-Date: 2024-09-07 23:28+0200\n"
+"PO-Revision-Date: 2024-09-11 23:47+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -12443,6 +12443,8 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
+"Il numero di tic per aumento di °C nella temperatura. +ve per movimento "
+"esterno del focheggiatore"
 
 #: ekos/auxiliary/filtermanager.cpp:139
 #, kde-format
@@ -12455,6 +12457,8 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
+"Il numero di tic per aumento di gradi nell'altitudine. +ve per movimento "
+"esterno del focheggiatore"
 
 #: ekos/auxiliary/filtermanager.cpp:143
 #, kde-format
@@ -12464,7 +12468,7 @@ msgstr "Tic / °Alt"
 #: ekos/auxiliary/filtermanager.cpp:145
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
-msgstr ""
+msgstr "Lunghezza d'onda centrale del filtro in nm"
 
 #: ekos/auxiliary/filtermanager.cpp:146
 #, kde-format
@@ -12499,26 +12503,24 @@ msgstr "Ruota portafiltri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/filtersettings.ui:84
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
-#| "span> filter focus offset in steps. The offsets are global and are "
-#| "applied when the filter changes.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set <span style=\" font-style:italic;\">relative</"
 "span> filter offsets in steps either directly in the table or use the Build "
 "Offsets tool.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Imposta le compensazioni del filtro <span style=\" "
+"font-style:italic;\">relative</span> in passi, o direttamente nella tabella "
+"oppure tramite lo strumento Generazione compensazioni.</p></body></html> "
 "<html><head/><body><p>Imposta lo scostamento del fuoco del filtro <span "
 "style=\" font-style:italic;\">relativo</span> in passi. Gli scostamenti sono "
 "globali e vengono applicati quando il filtro cambia.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, buildOffsetsButton)
 #: ekos/auxiliary/filtersettings.ui:100
-#, fuzzy, kde-format
-#| msgid "Offsets"
+#, kde-format
 msgid "Build Offsets"
-msgstr "Scostamenti"
+msgstr "Generazione compensazioni"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:114
@@ -12563,10 +12565,9 @@ msgid "Waiting..."
 msgstr "Attendi..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:425
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Dithering riuscito."
+msgstr "Dithering richiesto..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -12636,12 +12637,7 @@ msgstr "Cancella tutti i registri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/opslogs.ui:59
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. "
-#| "Only enable the necessary logs to help in diagnosing specific problems. "
-#| "Logs consume resources and may slow the system down. Turn off logs when "
-#| "no longer used.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. If "
 "your system is resource limited, e.g. Raspberry Pi with SD Card, then only "
@@ -12650,9 +12646,10 @@ msgid ""
 "system down.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Abilita i registri per diagnosticare problemi con Ekos "
-"e con INDI. Abilita solo i registri necessari che ti aiutano nella diagnosi "
-"di problemi specifici. La registrazione consuma risorse e può rallentare il "
-"sistema. Disattiva i registri se non li utilizzi più.</p></body></html>"
+"e con INDI. Se il tuo sistema ha risorse limitate, per esempio Raspberry Pi "
+"con scheda SD, allora abilita solo i registri necessari che ti aiutano nella "
+"diagnosi di problemi specifici e spegnili quando non sono più necessari. La "
+"registrazione consuma risorse e può rallentare il sistema.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/auxiliary/opslogs.ui:71
@@ -12858,10 +12855,9 @@ msgstr "Osservatorio"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_VerboseLogging)
 #: ekos/auxiliary/opslogs.ui:331
-#, fuzzy, kde-format
-#| msgid "Enable verbose debug output"
+#, kde-format
 msgid "Enable verbose debug output level"
-msgstr "Attiva l'output di debug prolisso"
+msgstr "Attiva il livello prolisso dell'output di debug"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_VerboseLogging)
 #: ekos/auxiliary/opslogs.ui:334 options/opsadvanced.ui:307
@@ -12972,10 +12968,9 @@ msgid "Secondary"
 msgstr "Secondario"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:469
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Tertiary"
-msgstr "Verticale"
+msgstr "Terziario"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:1237
 #, kde-format
@@ -13029,11 +13024,7 @@ msgstr "Gruppo ottico"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the scope or lens used in the optical train."
-#| "</p><p>To add, edit, or delete optical elements, tap the <span style=\" "
-#| "font-weight:600;\">Telescope &amp; Lens</span> button.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the scope or lens used in the optical train. "
 "This is a required selection in all trains.</p><p>To add, edit, or delete "
@@ -13041,22 +13032,20 @@ msgid ""
 "Lens</span> button.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleziona il telescopio o l'obiettivo utilizzato nel "
-"gruppo ottico.</p><p>Per aggiungere, modificare o eliminare gli elementi "
-"ottici, tocca il pulsante <span style=\" font-weight:600;\">Telescopio e "
-"lenti</span>.</p></body></html>"
+"gruppo ottico. È una selezione richiesta in tutti i gruppi</p><p>Per "
+"aggiungere, modificare o eliminare gli elementi ottici, tocca il pulsante "
+"<span style=\" font-weight:600;\">Telescopio e lenti</span>.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:150
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Sequence: <span style=\" color:#ff0000;\">*</span></"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scope/Lens: <span style=\" color:#ff0000;\">*</span></"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sequenza: <span style=\" color:#ff0000;\">*</span></"
-"p></body></html>"
+"<html><head/><body><p>Telescopio/Obiettivo: <span style=\" color:#ff0000;"
+"\">*</span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, mountLabel)
 #: ekos/auxiliary/opticaltrains.ui:160
@@ -13070,16 +13059,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:183
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the imaging camera for this optical train.  "
 "This is a required selection in all trains.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleziona la fotocamera di ripresa per questo gruppo "
-"ottico.</p></body></html>"
+"ottico. È una selezione richiesta in tutti i gruppi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, cameraLabel)
 #: ekos/auxiliary/opticaltrains.ui:186
@@ -13175,10 +13161,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, guiderLabel)
 #: ekos/auxiliary/opticaltrains.ui:301
-#, fuzzy, kde-format
-#| msgid "Guide:"
+#, kde-format
 msgid "Guide via:"
-msgstr "Guida:"
+msgstr "Guida tramite:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusLabel)
 #: ekos/auxiliary/opticaltrains.ui:321
@@ -13219,14 +13204,13 @@ msgstr "Rotatore:"
 #: ekos/auxiliary/opticaltrains.ui:411
 #, kde-format
 msgid "Telescopes && Lenses"
-msgstr "Telescopi e lenti"
+msgstr "Telescopi e obiettivi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
 #: ekos/auxiliary/opticaltrains.ui:430
-#, fuzzy, kde-format
-#| msgid "Reset frame"
+#, kde-format
 msgid "Reset train"
-msgstr "Reimposta fotogramma"
+msgstr "Reimposta gruppo"
 
 #: ekos/auxiliary/portselector.cpp:64
 #, kde-format
@@ -14053,7 +14037,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:658
 #, kde-format
 msgid "2.0"
-msgstr "2.0"
+msgstr "2,0"
 
 #. i18n: ectx: property (title), widget (QGroupBox, starFilterOptions)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:668
@@ -14434,10 +14418,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
-#, fuzzy, kde-format
-#| msgid "Calibration Options"
+#, kde-format
 msgid "Calibration Pre-Actions"
-msgstr "Opzioni di calibrazione"
+msgstr "Pre-azioni di calibrazione"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, captureCalibrationWall)
 #: ekos/capture/calibrationoptions.ui:63
@@ -14541,6 +14524,8 @@ msgid ""
 "When shooting flats on sky that can change intensity. Will use simpler "
 "exposure calculation."
 msgstr ""
+"Quando scatti flats nel cielo che possono cambiare d'intensità. Utilizzerà "
+"un calcolo di esposizione più semplice."
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationSkyFlats)
 #: ekos/capture/calibrationoptions.ui:229
@@ -14552,7 +14537,7 @@ msgstr "Mappa celeste"
 #: ekos/capture/camera.cpp:107 ekos/capture/camera.cpp:109
 #, kde-format
 msgid "Capture Sequence Editor: %1"
-msgstr ""
+msgstr "Editor sequenza di acquisizione: %1"
 
 #: ekos/capture/camera.cpp:164 ekos/capture/camera.cpp:3960
 #, kde-format
@@ -14661,16 +14646,14 @@ msgid "Wait for Guider < %1\"..."
 msgstr "Attesa della guida < %1\"..."
 
 #: ekos/capture/camera.cpp:1090
-#, fuzzy, kde-format
-#| msgid "Setting rotation to %1 degrees E of N..."
+#, kde-format
 msgid "Setting camera to %1 degrees E of N..."
-msgstr "Impostazione della rotazione a %1 gradi E di N..."
+msgstr "Impostazione della fotocamera a %1 gradi E di N..."
 
 #: ekos/capture/camera.cpp:1091
-#, fuzzy, kde-format
-#| msgid "Set Rotator to %1 deg..."
+#, kde-format
 msgid "Set Camera to %1 deg..."
-msgstr "Imposta rotatore a %1 gradi..."
+msgstr "Imposta fotocamera a %1 gradi..."
 
 #: ekos/capture/camera.cpp:1203
 #, kde-format
@@ -14747,17 +14730,16 @@ msgid "Ramp (°C/min):"
 msgstr "Rampa (C/min):"
 
 #: ekos/capture/camera.cpp:3574
-#, fuzzy, kde-format
-#| msgid ""
-#| "Maximum temperature change per minute when cooling or warming the camera. "
-#| "Set zero to disable."
+#, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
 "the camera. Set zero to disable.<p>This setting is read from and stored in "
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
-"Cambio di temperatura massimo per minuto durante il raffreddamento o il "
-"riscaldamento della fotocamera. Imposta a zero per disabilitare."
+"<html><body><p>Cambio di temperatura massimo per minuto durante il "
+"raffreddamento o il riscaldamento della fotocamera. Imposta a zero per "
+"disabilitare.<p>Questa impostazione viene letta dalla, e memorizzata nella, "
+"configurazione del driver della fotocamera INDI.</body></html>"
 
 #: ekos/capture/camera.cpp:3579
 #, kde-format
@@ -14862,10 +14844,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, CaptureSettingsGroup)
 #: ekos/capture/camera.ui:247
-#, fuzzy, kde-format
-#| msgid "<b>Capture Settings</b>"
+#, kde-format
 msgid "Capture Settings"
-msgstr "<b>Impostazioni di cattura</b>"
+msgstr "Impostazioni di acquisizione"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
 #: ekos/capture/camera.ui:268
@@ -14956,10 +14937,9 @@ msgstr "Spento"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
 #: ekos/capture/camera.ui:597
-#, fuzzy, kde-format
-#| msgid "Delay in seconds between consecutive images"
+#, kde-format
 msgid "Delay in seconds before capturing an image"
-msgstr "Ritardo in secondi tra immagini consecutive"
+msgstr "Ritardo in secondi prima di acquisire un'immagine"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -15024,10 +15004,9 @@ msgstr "Guadagno della fotocamera corrente"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #: ekos/capture/camera.ui:909
-#, fuzzy, kde-format
-#| msgid "Clear camera configuration"
+#, kde-format
 msgid "Target camera gain"
-msgstr "Elimina la configurazione della fotocamera"
+msgstr "Guadagno della fotocamera di destinazione"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -15126,10 +15105,9 @@ msgstr "Gestisci le proprietà delle sequenze INDI"
 
 #. i18n: ectx: property (text), widget (QLabel, customValuesLabel)
 #: ekos/capture/camera.ui:1336
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom Val."
-msgstr "Personalizzato"
+msgstr "Val. personalizzato"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
 #: ekos/capture/camera.ui:1352
@@ -15259,6 +15237,9 @@ msgid ""
 "is available to be used in the filename Format via the %t or %type "
 "placeholder tag.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Destinazione è il nome dell'oggetto di destinazione.</"
+"p><p>È disponibile per essere utilizzato nel formato del nome file tramite "
+"il segnaposto %t o %type.</p></body></html>"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
 #: ekos/capture/camera.ui:1758
@@ -15503,9 +15484,7 @@ msgstr "ISO/Guadagno"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
 #: ekos/capture/camera.ui:2287
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgid "Video"
 msgstr "Video"
 
@@ -15683,10 +15662,9 @@ msgid "CCD capture complete"
 msgstr "Acquisizione CCD completata"
 
 #: ekos/capture/cameraprocess.cpp:347
-#, fuzzy, kde-format
-#| msgid "Until stopped"
+#, kde-format
 msgid "Framing stopped"
-msgstr "Fino all'interruzione"
+msgstr "Inquadratura fermata"
 
 #: ekos/capture/cameraprocess.cpp:347 ekos/capture/cameraprocess.cpp:352
 #, kde-format
@@ -16099,20 +16077,18 @@ msgid "Post meridian flip calibration completed successfully."
 msgstr "Calibrazione dopo l'inversione del meridiano completata correttamente."
 
 #: ekos/capture/camerastate.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+#, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
-"Deviazione iniziale della guida %1 oltre il valore limite di %2 secondi "
-"d'arco"
+"Deviazione della guida all'avvio dell'acquisizione %1 oltre il limite di %2 "
+"secondi d'arco."
 
 #: ekos/capture/camerastate.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
+#, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
-"Deviazione iniziale della guida %1 oltre il valore limite di %2 secondi "
-"d'arco"
+"Deviazione della guida all'avvio dell'acquisizione %1 sotto il valore limite "
+"di %2 secondi d'arco."
 
 #: ekos/capture/camerastate.cpp:1054
 #, kde-format
@@ -16179,10 +16155,9 @@ msgid "Camera %1 is busy. Abort to close?"
 msgstr "La fotocamera %1 è occupata. Interrompere per chiudere?"
 
 #: ekos/capture/capture.cpp:455 ekos/focus/focusmodule.cpp:388
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stop capturing"
-msgstr "Ferma la registrazione"
+msgstr "Ferma l'acquisizione"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:456 ekos/focus/focusmodule.cpp:388
@@ -16335,7 +16310,7 @@ msgstr ""
 #: ekos/capture/capturedeviceadaptor.cpp:663
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
-msgstr "Togli la copertura dal telescopio per poter continuare."
+msgstr "Togli la copertura dal telescopio per continuare."
 
 #: ekos/capture/capturedeviceadaptor.cpp:664
 #, kde-format
@@ -16602,17 +16577,15 @@ msgstr "Porta dei filtri:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:137
-#, fuzzy, kde-format
-#| msgid "Adjust the balance of the two noise sources"
+#, kde-format
 msgid "Alter the bias of the noise sources"
-msgstr "Regola il bilanciamento delle due sorgenti di rumore"
+msgstr "Altera il bias delle sorgenti di rumore"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:182
-#, fuzzy, kde-format
-#| msgid "Orbit class:"
+#, kde-format
 msgid "Bortle Class"
-msgstr "Classe orbitale:"
+msgstr "Classe Bortle"
 
 #. i18n: ectx: property (text), widget (QLabel, gainSpinnerLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:227
@@ -16642,13 +16615,13 @@ msgstr "ISO"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:309
 #, kde-format
 msgid "Read noise constant"
-msgstr ""
+msgstr "Costante read-noise"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subShotNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:375
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
-msgstr ""
+msgstr "Rumore nella sottoesposizione da inquinamento luminoso"
 
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:391
@@ -16687,13 +16660,13 @@ msgstr ""
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:506
 #, kde-format
 msgid "Duration of Sub-exposure"
-msgstr ""
+msgstr "Durata della sottoesposizione"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:522
 #, kde-format
 msgid "Exposure Time (sec)"
-msgstr "Totale di esposizione (sec)"
+msgstr "Tempo di esposizione (sec)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, downloadCameraB)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:562
@@ -16721,11 +16694,11 @@ msgstr "9"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, cameraReadModeSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:638
-#, fuzzy, kde-format
-#| msgid "Select read mode on cameras with multiple read modes."
+#, kde-format
 msgid "Select read mode on cameras with multiple read modes."
 msgstr ""
-"Seleziona la modalità di lettura nelle fotocamere che ne hanno più di una."
+"Seleziona la modalità di lettura nelle fotocamere con più modalità di "
+"lettura."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, userSkyQuality)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:657
@@ -16747,18 +16720,15 @@ msgstr "Applica una compensazione per un filtro ottico"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imagingCameraSelector)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:715
-#, fuzzy, kde-format
-#| msgid "Customized DSS Download"
+#, kde-format
 msgid "Camera Data Selection"
-msgstr "Scaricamenti DSS personalizzati"
+msgstr "Selezione dati della fotocamera"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotSubExposure)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:750
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Total Exposure Time (ms)"
+#, kde-format
 msgid "Potential exposure time graph"
-msgstr "Tempo totale di esposizione (ms)"
+msgstr "Grafico tempo di esposizione potenziale"
 
 #. i18n: ectx: property (text), widget (QLabel, allowableNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:769
@@ -16794,23 +16764,19 @@ msgstr "Esposizioni"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:895
 #, kde-format
 msgid "Calculated exposure count for integration"
-msgstr ""
+msgstr "Conteggio calcolato delle esposizioni per l'integrazione"
 
 #. i18n: ectx: property (toolTip), widget (QCustomPlot, qCustomPlotIntegrationNoise)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:917
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "International Space Station"
+#, kde-format
 msgid "Integration Time to Noise Ratio"
-msgstr "Stazione spaziale internazionale"
+msgstr "Integrazione rapporto tempo/rumore"
 
 #. i18n: ectx: property (text), widget (QLabel, targetNoiseLable)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:949
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Noise Reduction"
+#, kde-format
 msgid "Time/Noise Ratio"
-msgstr "Riduzione del rumore"
+msgstr "Rapporto tempo/rumore"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureDiffLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:968
@@ -16826,17 +16792,15 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
-#, fuzzy, kde-format
-#| msgid "Customized DSS Download"
+#, kde-format
 msgid "Camera Data Download"
-msgstr "Scaricamenti DSS personalizzati"
+msgstr "Scaricamento dati fotocamera"
 
 #. i18n: ectx: property (text), widget (QLabel, resultLable)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:101
-#, fuzzy, kde-format
-#| msgid "Select all items in the list"
+#, kde-format
 msgid "Select all cameras you wish to use:"
-msgstr "Seleziona tutti gli elementi dell'elenco"
+msgstr "Seleziona tutte le fotocamere che vuoi utilizzare:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, Limits)
 #: ekos/capture/limits.ui:14
@@ -16885,10 +16849,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceGuideDeviation)
 #: ekos/capture/limits.ui:134
-#, fuzzy, kde-format
-#| msgid "Abort if Guiding Deviation >"
+#, kde-format
 msgid "Abort if guide deviation >:"
-msgstr "Interrompi se deviazione della guida >"
+msgstr "Interrompi se deviazione della guida >:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceStartGuiderDrift)
 #: ekos/capture/limits.ui:147
@@ -16910,7 +16873,7 @@ msgstr "Inizia solo se deviazione della guida <:"
 #: ekos/capture/limits.ui:170
 #, kde-format
 msgid "consecutive times"
-msgstr ""
+msgstr "volte consecutive"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/limits.ui:177
@@ -16985,39 +16948,34 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:200
-#, fuzzy, kde-format
-#| msgid "Auto focus:"
+#, kde-format
 msgid "Last Autofocus"
-msgstr "Messa a fuoco automatica:"
+msgstr "Ultima messa a fuoco automatica"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:205
-#, fuzzy, kde-format
-#| msgid "Fixed DEC"
+#, kde-format
 msgid "Fixed"
-msgstr "DEC fisso"
+msgstr "Fissa"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:210
-#, fuzzy, kde-format
-#| msgid "Measure:"
+#, kde-format
 msgid "Median Measure"
-msgstr "Misura:"
+msgstr "Misura media"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceAutofocusOnTemperature)
 #: ekos/capture/limits.ui:259
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Perform autofocus when the change in temperature "
-#| "since last focus exceeded this limit</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus when the change in "
 "temperature since last focus exceeded this value.  Reference temperature is "
 "reset at each Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Esegui la messa a fuoco automatica quando la "
-"variazione di temperatura dall'ultima messa a fuoco supera questo limite</"
-"p></body></html>"
+"<html><head/><body><p>Attiva per forzare una messa a fuoco automatica quando "
+"la variazione di temperatura dall'ultima messa a fuoco supera questo valore. "
+"La temperatura di riferimento viene ripristinata a ogni messa a fuoco "
+"automatica.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusOnTemperature)
 #: ekos/capture/limits.ui:262
@@ -17027,16 +16985,13 @@ msgstr "Rimessa a fuoco se ΔT°  >:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, refocusAfterMeridianFlip)
 #: ekos/capture/limits.ui:269
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Perform autofocus after meridian flip</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus after a Meridian Flip.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Esegui la messa a fuoco automatica dopo l'inversione "
-"del meridiano</p></body></html>"
+"<html><head/><body><p>Attiva per forzare una messa a fuoco automatica dopo "
+"un'inversione del meridiano.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, refocusAfterMeridianFlip)
 #: ekos/capture/limits.ui:272 ekos/capture/refocusstate.cpp:68
@@ -17046,16 +17001,14 @@ msgstr "Rimessa a fuoco dopo l'inversione del meridiano"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceRefocusEveryN)
 #: ekos/capture/limits.ui:282
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus every N minutes.  Timer is "
 "reset at each Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rispetta il valore della temperatura prima di "
-"catturare un'immagine</p></body></html>"
+"<html><head/><body><p>Attiva per forzare una messa a fuoco automatica ogni N "
+"minuti. Il timer è ripristinato a ogni messa a fuoco automatica.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceRefocusEveryN)
 #: ekos/capture/limits.ui:285
@@ -17503,8 +17456,7 @@ msgid "Complete"
 msgstr "Completata"
 
 #: ekos/capture/sequencejobstate.cpp:394
-#, fuzzy, kde-format
-#| msgid "Cover telescope with an evenly illuminated light source."
+#, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr ""
 "Copri il telescopio con una sorgente luminosa illuminata uniformemente."
@@ -17517,7 +17469,7 @@ msgstr "Flat frame"
 #: ekos/capture/sequencejobstate.cpp:406
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
-msgstr "Copri il telescopio per poter eseguire un'esposizione per dark frame."
+msgstr "Copri il telescopio per eseguire un'esposizione per dark frame."
 
 #: ekos/capture/sequencejobstate.cpp:436 ekos/capture/sequencejobstate.cpp:617
 #, kde-format
@@ -18453,16 +18405,13 @@ msgstr "Visualizza:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/cfz.ui:160
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the imaging camera for this optical train.</"
-#| "p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the aperture of your telescope in mm. This is "
 "defaulted from the selected optical train.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleziona la fotocamera di ripresa per questo gruppo "
-"ottico.</p></body></html>"
+"<html><head/><body><p>Imposta l'apertura del tuo telescopio in mm. Questo è "
+"predefinito dal gruppo ottico selezionato.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCFZAperture)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focalLenSpin)

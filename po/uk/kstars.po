@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-15 01:49+0000\n"
-"PO-Revision-Date: 2024-09-13 19:49+0300\n"
+"PO-Revision-Date: 2024-09-15 11:31+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -27930,11 +27930,7 @@ msgid "Follower"
 msgstr "Наступник"
 
 #: ekos/scheduler/scheduler.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -27943,7 +27939,10 @@ msgid ""
 msgstr ""
 "Список плану завдань.\n"
 "Клацніть, щоб вибрати завдання у списку.\n"
-"Двічі клацніть, щоб змінити завдання за допомогою розташованих ліворуч полів."
+"Двічі клацніть, щоб змінити завдання за допомогою розташованих ліворуч "
+"полів.\n"
+"Клацніть із утриманням натиснутою клавіші Shift, щоб переглянути поточний "
+"графік висоти завдання."
 
 #: ekos/scheduler/scheduler.cpp:155
 #, kde-format
@@ -29005,16 +29004,15 @@ msgstr "Місцевий час"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SchedulerAltitudeGraph)
 #: ekos/scheduler/scheduleraltitudegraph.ui:14
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Altitude Graph"
-msgstr "Висота: "
+msgstr "Графік висоти"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/scheduleraltitudegraph.ui:32
 #, kde-format
 msgid "Altitude Graph for ZZZZZ"
-msgstr ""
+msgstr "Графік висоти для ZZZZZ"
 
 #: ekos/scheduler/schedulerjob.cpp:340
 #, kde-format
