@@ -468,7 +468,7 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     m_SummaryView->createFloatingToolBar();
     m_SummaryView->setCursorMode(FITSView::dragCursor);
     m_SummaryView->showProcessInfo(false);
-    capturePreview->setSummaryFITSView(m_SummaryView.get());
+    capturePreview->setSummaryFITSView(m_SummaryView);
     mountStatusLayout->setAlignment(Qt::AlignVCenter);
 
     if (Options::ekosLeftIcons())

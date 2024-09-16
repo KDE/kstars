@@ -64,7 +64,7 @@ public:
     /**
      * @brief Set the summary FITS view
      */
-    void setSummaryFITSView(SummaryFITSView *view);
+    void setSummaryFITSView(const QSharedPointer<SummaryFITSView> &view);
 
     /**
      * @brief enable / disable display widgets
@@ -123,9 +123,9 @@ private:
     QString m_mountTarget = "";
 
     // summary FITS view
-    SummaryFITSView *m_fitsPreview = nullptr;
+    QSharedPointer<SummaryFITSView> m_fitsPreview;
     // FITS data overlay
-    CaptureProcessOverlay *m_overlay = nullptr;
+    QSharedPointer<CaptureProcessOverlay> m_overlay;
 
     // move to trash or delete finally
     bool m_permanentlyDelete {false};

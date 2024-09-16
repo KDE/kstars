@@ -24,7 +24,7 @@ using Ekos::SequenceJob;
 CapturePreviewWidget::CapturePreviewWidget(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
-    m_overlay = new CaptureProcessOverlay();
+    m_overlay = QSharedPointer<CaptureProcessOverlay>(new CaptureProcessOverlay);
     m_overlay->setVisible(false);
     // capture device selection
     connect(trainSelectionCB, &QComboBox::currentTextChanged, this, &CapturePreviewWidget::selectedTrainChanged);
@@ -246,27 +246,27 @@ void CapturePreviewWidget::deleteCurrentFrame()
 
 }
 
-void CapturePreviewWidget::setSummaryFITSView(SummaryFITSView *view)
+void CapturePreviewWidget::setSummaryFITSView(const QSharedPointer<SummaryFITSView> &view)
 {
     m_fitsPreview = view;
     QVBoxLayout * vlayout = new QVBoxLayout();
     vlayout->setContentsMargins(0, 0, 0, 0);
-    vlayout->addWidget(view);
+    vlayout->addWidget(view.get());
     previewWidget->setLayout(vlayout);
     previewWidget->setContentsMargins(0, 0, 0, 0);
 
     // initialize the FITS data overlay
     // create vertically info box as overlay
     QVBoxLayout *layout = new QVBoxLayout(view->processInfoWidget);
-    layout->addWidget(m_overlay, 0);
+    layout->addWidget(m_overlay.get(), 0);
 
     view->processInfoWidget->setLayout(layout);
     // react upon signals
-    connect(view, &FITSView::loaded, [&]()
+    connect(view.get(), &FITSView::loaded, [&]()
     {
         m_overlay->setEnabled(true);
     });
-    connect(view, &FITSView::failed, [&]()
+    connect(view.get(), &FITSView::failed, [&]()
     {
         m_overlay->setEnabled(true);
     });
@@ -281,6 +281,8 @@ void CapturePreviewWidget::setEnabled(bool enabled)
 
 void CapturePreviewWidget::reset()
 {
+    if (m_overlay->hasFrames())
+        m_overlay->captureHistory().reset();
     m_overlay->setVisible(false);
     // forward to sub widget
     captureCountsWidget->reset();
