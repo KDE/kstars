@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-15 01:49+0000\n"
-"PO-Revision-Date: 2024-08-23 15:33+0200\n"
+"PO-Revision-Date: 2024-09-03 08:49+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -26429,10 +26429,9 @@ msgstr "Místní čas"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SchedulerAltitudeGraph)
 #: ekos/scheduler/scheduleraltitudegraph.ui:14
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Altitude Graph"
-msgstr "Výška: "
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/scheduleraltitudegraph.ui:32
@@ -27054,10 +27053,9 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Select Star"
+#, kde-format
 msgid "Select optical train"
-msgstr "Vyberte hvězdu"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -70193,25 +70191,25 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Presets"
-msgstr "Předvolby"
+msgstr "Přednastavení"
 
 #: libindi_strings.cpp:368
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Preset 1"
-msgstr "Předvolba 1"
+msgstr "Přednastavení 1"
 
 #: libindi_strings.cpp:369
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Preset 2"
-msgstr "Předvolba 2"
+msgstr "Přednastavení 2"
 
 #: libindi_strings.cpp:370
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Preset 3"
-msgstr "Předvolba 3"
+msgstr "Přednastavení 3"
 
 #: libindi_strings.cpp:371
 #, kde-kuit-format
