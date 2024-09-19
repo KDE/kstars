@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-15 01:49+0000\n"
-"PO-Revision-Date: 2024-09-11 23:47+0200\n"
+"PO-Revision-Date: 2024-09-18 13:14+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -15959,13 +15959,13 @@ msgstr "Dithering completato. Ripresa tra %1 secondi..."
 #: ekos/capture/camerastate.cpp:242
 #, kde-format
 msgid "Dither complete."
-msgstr "Retinatura completata."
+msgstr "Dithering completato."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:256
 #, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
-msgstr "Attenzione: Dithering non riuscito. Ripresa tra %1 secondi..."
+msgstr "Attenzione: dithering non riuscito. Ripresa tra %1 secondi..."
 
 #: ekos/capture/camerastate.cpp:265
 #, kde-format
@@ -16032,10 +16032,9 @@ msgstr "Messa a fuoco automatica non riuscita. Esposizione interrotta..."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:746
-#, fuzzy, kde-format
-#| msgid "Dither complete. Resuming in %1 seconds..."
+#, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
-msgstr "Dithering completato. Ripresa tra %1 secondi..."
+msgstr "Messa a fuoco completata. Ripresa tra %1 secondi..."
 
 #: ekos/capture/camerastate.cpp:769
 #, kde-format
@@ -16641,6 +16640,7 @@ msgstr "Impostazioni per l'inquinamento luminoso"
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
 msgstr ""
+"Rumore totale nella sottoesposizione (inquinamento luminoso + read-noise)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:433
@@ -16654,7 +16654,7 @@ msgstr "Pointe Noire"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
 #, kde-format
 msgid "Estimated light pollution electrons in the sub-exposure."
-msgstr ""
+msgstr "Elettroni dell'inquinamento luminoso stimati nella sottoesposizione."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:506
@@ -16678,13 +16678,13 @@ msgstr "Scarica i file dei dati aggiuntivi della fotocamera"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:593
 #, kde-format
 msgid "Bortle Zone Color"
-msgstr ""
+msgstr "Colore delle zone di Bortle"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, bortleScaleValue)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:612
 #, kde-format
 msgid "Bortle class value"
-msgstr ""
+msgstr "Valore delle classi di Bortle"
 
 #. i18n: ectx: property (text), widget (QLabel, bortleScaleValue)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:615
@@ -16788,7 +16788,7 @@ msgstr "dy ="
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:981
 #, kde-format
 msgid "Integration time to noise ratio (potential quality)"
-msgstr ""
+msgstr "Integrazione del rapporto tempo/rumore (qualità potenziale)"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FileUtilityCameraDataDialog)
 #: ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui:35
@@ -16877,10 +16877,9 @@ msgstr "volte consecutive"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/limits.ui:177
-#, fuzzy, kde-format
-#| msgid "Dithering error"
+#, kde-format
 msgid "Dither per job every:"
-msgstr "Errore di dithering"
+msgstr "Dithering per operazione ogni:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusGroupBox)
 #: ekos/capture/limits.ui:187
@@ -17018,22 +17017,19 @@ msgstr "Rimetti a fuoco ogni:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceAutofocusHFR)
 #: ekos/capture/limits.ui:295
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to perform an HFR Check between Subframes.  The "
 "Check may result in an Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rispetta il valore della temperatura prima di "
-"catturare un'immagine</p></body></html>"
+"<html><head/><body><p>Attiva per eseguire un controllo HFR tra i subframe. "
+"Il controllo può generare una messa a fuoco automatica.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusHFR)
 #: ekos/capture/limits.ui:298
 #, kde-format
 msgid "Refocus on ΔHFR.  Use:"
-msgstr "Rimessa a fuoco su ΔHFR.  Usa:"
+msgstr "Rimessa a fuoco su ΔHFR. Usa:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
 #: ekos/capture/limits.ui:305
@@ -17050,30 +17046,25 @@ msgstr "Controlla ogni:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, inSequenceCheckFrames)
 #: ekos/capture/limits.ui:318
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Run HFR check after this many sub-frames.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Valore di HFR medio dell'ultimo fotogramma</p></body></"
-"html>"
+"<html><head/><body><p>Esegui il controllo HFR dopo questo numero di subframe."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, hFRThresholdPercentage)
 #: ekos/capture/limits.ui:331
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Specify the % to apply to the HFR Check value "
 "appropriate to the selected algorithm, to use as the threshold to perform "
 "the HFR Check.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rispetta il valore della temperatura prima di "
-"catturare un'immagine</p></body></html>"
+"<html><head/><body><p>Specifica la percentuale da applicare al valore del "
+"controllo HFR appropriato all'algoritmo selezionato, da usare come soglia "
+"per eseguire il controllo HFR.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, limitFocusHFRThresholdLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
@@ -17097,6 +17088,10 @@ msgid ""
 "Fixed.  In all cases,  the user can override the system generated value.</"
 "p></body></html>"
 msgstr ""
+"<html><head/><body><p>Il valore del controllo HFR in pixel. È un campo di "
+"output quando viene selezionata l'ultima messa a fuoco automatica o la "
+"misura relativa, ed è selezionato un campo di input per Fissa.  In tutti i "
+"casi, l'utente può ignorare il valore generato dal sistema.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/limits.ui:413
@@ -17108,6 +17103,7 @@ msgstr "fotogrammi.   HFR:"
 #, kde-format
 msgid "User initiated ad-hoc in-sequence Autofocus..."
 msgstr ""
+"Messa a fuoco automatica in sequenza ad hoc inizializzata dall'utente..."
 
 #: ekos/capture/refocusstate.cpp:45
 #, kde-format
@@ -17121,10 +17117,9 @@ msgstr ""
 "Inizio della rimessa a fuoco a causa del cambio di temperatura di %1 °C..."
 
 #: ekos/capture/refocusstate.cpp:76
-#, fuzzy, kde-format
-#| msgid "File saved to %1"
+#, kde-format
 msgid "In sequence HFR based refocus starting..."
-msgstr "File salvato in %1"
+msgstr "Inizio della rimessa a fuoco basata su HFR in sequenza..."
 
 #: ekos/capture/refocusstate.cpp:84
 #, kde-format
@@ -17152,10 +17147,9 @@ msgstr ""
 "%1 secondi fa."
 
 #: ekos/capture/rotatorsettings.cpp:123
-#, fuzzy, kde-format
-#| msgid "Mosaic file %1 saved successfully."
+#, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
-msgstr "File mosaico %1 salvato con successo."
+msgstr "L'angolo %1° iniziale del rotatore è stato trasferito correttamente."
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/rotatorsettings.ui:67
@@ -17166,35 +17160,29 @@ msgstr "N"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, paGauge)
 #: ekos/capture/rotatorsettings.ui:95
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If the remote computer has astrometry.net "
-#| "installed, you can run the remote astrometry driver and use it to solve "
-#| "images in Ekos Align module.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The rotator gauge displays the actual camera position "
 "angle (yellow) and the raw rotator angle (gray). Calibrate the rotator by "
 "plate solving in the Align module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>se il computer remoto ha installato astrometry.net "
-"puoi avviare il driver astrometrici remoti ud usarli per risolvere "
-"l'immagine nel modulo di allineamento di Ekos.</p></body></html>"
+"<html><head/><body><p>Il misuratore del rotatore mostra l'angolo di "
+"posizione della fotocamera reale (in giallo) e l'angolo del rotatore grezzo "
+"(in grigio). Calibra il rotatore tramite la risoluzione delle lastre nel "
+"modulo Allinea.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRoundProgressBar, rotatorGauge)
 #: ekos/capture/rotatorsettings.ui:131
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If the remote computer has astrometry.net "
-#| "installed, you can run the remote astrometry driver and use it to solve "
-#| "images in Ekos Align module.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The rotator gauge displays the actual camera position "
 "angle (yellow) and the raw rotator angle (gray). To calibrate the rotator, "
 "capture and solve an image in the Align module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>se il computer remoto ha installato astrometry.net "
-"puoi avviare il driver astrometrici remoti ud usarli per risolvere "
-"l'immagine nel modulo di allineamento di Ekos.</p></body></html>"
+"<html><head/><body><p>Il misuratore del rotatore mostra l'angolo di "
+"posizione della fotocamera reale (in giallo) e l'angolo del rotatore grezzo "
+"(in grigio). Per calibrare il rotatore, acquisisci e risolvi un'immagine nel "
+"modulo Allinea.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FlipPolicy)
 #: ekos/capture/rotatorsettings.ui:212
@@ -17210,33 +17198,29 @@ msgstr "Mantieni angolo di posizione"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:230
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The mount's pier side (left) -> where the mount is "
-#| "pointing. Click here to view this axis on left-axis values. Double click "
-#| "to update axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The current pierside of the mount. A red frame "
 "indicates an unknown pierside. This is normal if the mount is parked. </p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Lo stato di puntamento della montatura (sinistro) -> "
-"dove sta puntando la montatura. Fai clic qui per visualizzare questo asse "
-"sui valori dell'asse sinistro, doppio clic per aggiornarlo</p></body></html>"
+"<html><head/><body><p>Lo stato di puntamento attuale della montatura. Un "
+"fotogramma rosso indica uno stato di puntamento sconosciuto. Ciò è normale "
+"se la montatura è parcheggiata.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:233
-#, fuzzy, kde-format
-#| msgid "Current time"
+#, kde-format
 msgid "Current Pierside"
-msgstr "Ora attuale"
+msgstr "Stato di puntamento attuale"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, MountPierside)
 #: ekos/capture/rotatorsettings.ui:257
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current pierside of the mount</p></body></html>"
-msgstr "<html><head/><body><p>Ore per l'arresto preventivo</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Stato di puntamento attuale della montatura</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraOffset)
 #: ekos/capture/rotatorsettings.ui:289
@@ -27088,9 +27072,9 @@ msgid ""
 "you can run the remote astrometry driver and use it to solve images in Ekos "
 "Align module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>se il computer remoto ha installato astrometry.net "
-"puoi avviare il driver astrometrici remoti ud usarli per risolvere "
-"l'immagine nel modulo di allineamento di Ekos.</p></body></html>"
+"<html><head/><body><p>Se il computer remoto ha installato astrometry.net "
+"puoi avviare i driver astrometrici remoti e usarli per risolvere l'immagine "
+"nel modulo di allineamento di Ekos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useRemoteAstrometryCheck)
 #: ekos/profilewizard.ui:1061
