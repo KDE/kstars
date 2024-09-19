@@ -144,7 +144,7 @@ Mount::Mount()
     if (parkEveryDay->isChecked())
         startTimerB->animateClick();
 
-    m_ControlPanel.reset(new MountControlPanel(KStars::Instance()));
+    m_ControlPanel.reset(new MountControlPanel());
     connect(m_ControlPanel.get(), &MountControlPanel::newMotionCommand, this, &Mount::motionCommand);
     connect(m_ControlPanel.get(), &MountControlPanel::aborted, this, &Mount::abort);
     connect(m_ControlPanel.get(), &MountControlPanel::newSlewRate, this, &Mount::setSlewRate);

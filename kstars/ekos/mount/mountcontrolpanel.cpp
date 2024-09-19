@@ -21,9 +21,7 @@ namespace Ekos
 MountControlPanel::MountControlPanel(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
-#ifdef Q_OS_OSX
-    setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
-#endif
+    setWindowFlags(Qt::Window);
 
     // forward motion commands
     connect(mountMotion, &MountMotionWidget::newMotionCommand, this, &MountControlPanel::newMotionCommand);

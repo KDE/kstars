@@ -18,7 +18,7 @@ class MountControlPanel : public QDialog, public Ui::MountControlPanel
     Q_PROPERTY(bool isJ2000 MEMBER m_isJ2000)
 
     public:
-        MountControlPanel(QWidget *parent);
+        MountControlPanel(QWidget *parent = nullptr);
 
         // set target position and target name
         void setTargetPosition(SkyPoint *target)
