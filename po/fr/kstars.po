@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: kstars_3.7.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-15 01:49+0000\n"
-"PO-Revision-Date: 2024-09-06 15:32+0200\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
+"PO-Revision-Date: 2024-09-18 17:14+0200\n"
+"Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -16153,10 +16153,9 @@ msgstr ""
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:746
-#, fuzzy, kde-format
-#| msgid "Dither complete. Resuming in %1 seconds..."
+#, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
-msgstr "Décalage terminé. Reprise dans %1 secondes…"
+msgstr "Mise au point terminée. Reprise dans %1 secondes…"
 
 #: ekos/capture/camerastate.cpp:769
 #, kde-format
@@ -21580,10 +21579,9 @@ msgid "Calibration Data Flipped."
 msgstr "Basculement des données de calibration."
 
 #: ekos/guide/externalguide/phd2.cpp:403
-#, fuzzy, kde-format
-#| msgid "PHD2: Star Selected."
+#, kde-format
 msgid "PHD2: SettleDone."
-msgstr "PHD2 : étoile sélectionnée."
+msgstr "PHD2 : stabilisation terminée."
 
 #: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
@@ -21637,10 +21635,9 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2 : étoile sélectionnée."
 
 #: ekos/guide/externalguide/phd2.cpp:657
-#, fuzzy, kde-format
-#| msgid "PHD2: Waiting for guiding to settle."
+#, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
-msgstr "PHD2 : en attente de fin de guidage."
+msgstr "PHD2 : guidage en cours… en attente de stabilisation… "
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -28067,11 +28064,7 @@ msgid "Follower"
 msgstr "Suiveur"
 
 #: ekos/scheduler/scheduler.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -28079,9 +28072,9 @@ msgid ""
 "Shift click to view a job's altitude tonight."
 msgstr ""
 "Liste de l'ordonnanceur de tâches.\n"
-"Cliquez pour sélectionner une tâche dans la liste.\n"
-"Double cliquez pour modifier une tâche avec les champs listés sur le côté "
-"gauche."
+"Clic pour sélectionner une tâche dans la liste.\n"
+"Double-clic pour modifier une tâche avec les champs listés sur le côté "
+"gauche.Maj clic pour afficher l'altitude d'une tâche cette nuit."
 
 #: ekos/scheduler/scheduler.cpp:155
 #, kde-format
@@ -29149,16 +29142,15 @@ msgstr "Heure locale"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SchedulerAltitudeGraph)
 #: ekos/scheduler/scheduleraltitudegraph.ui:14
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Altitude Graph"
-msgstr "Hauteur "
+msgstr "Graphique de la hauteur"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/scheduleraltitudegraph.ui:32
 #, kde-format
 msgid "Altitude Graph for ZZZZZ"
-msgstr ""
+msgstr "Graphique de la hauteur pour ZZZZZ"
 
 #: ekos/scheduler/schedulerjob.cpp:340
 #, kde-format
