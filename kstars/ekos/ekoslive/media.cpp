@@ -286,7 +286,11 @@ void Media::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
 {
     if (Options::ekosLiveImageTransfer() == false || m_sendBlobs == false || isConnected() == false)
         return;
-    QtConcurrent::run(this, &Media::dispatch, data, uuid);
+
+    StretchParams params;
+    QImage image;
+    stretch(data, image, params);
+    upload(data, image, params, uuid);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -321,6 +325,44 @@ void Media::dispatch(const QSharedPointer<FITSData> &data, const QString &uuid)
     QSharedPointer<FITSView> previewImage(new FITSView());
     previewImage->loadData(data);
     upload(previewImage, uuid);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Media::stretch(const QSharedPointer<FITSData> &data, QImage &image, StretchParams &params) const
+{
+    double min = 0, max = 0;
+    data->getMinMax(&min, &max);
+    auto width = data->width();
+    auto height = data->height();
+    auto channels = data->channels();
+    auto dataType = data->dataType();
+
+    if (min == max)
+    {
+        image.fill(Qt::white);
+    }
+
+    if (channels == 1)
+    {
+        image = QImage(width, height, QImage::Format_Indexed8);
+
+        image.setColorCount(256);
+        for (int i = 0; i < 256; i++)
+            image.setColor(i, qRgb(i, i, i));
+    }
+    else
+    {
+        image = QImage(width, height, QImage::Format_RGB32);
+    }
+
+    Stretch stretch(width, height, channels, dataType);
+
+    // Compute new auto-stretch params.
+    params = stretch.computeParams(data->getImageBuffer());
+    stretch.setParams(params);
+    stretch.run(data->getImageBuffer(), &image, 1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -393,6 +435,80 @@ void Media::upload(const QSharedPointer<FITSView> &view, const QString &uuid)
     QPixmap scaledImage = view->getDisplayPixmap().width() > scaleWidth ?
                           view->getDisplayPixmap().scaledToWidth(scaleWidth, fastImage ? Qt::FastTransformation : Qt::SmoothTransformation) :
                           view->getDisplayPixmap();
+    scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
+
+    buffer.close();
+
+    emit newImage(jpegData);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Media::upload(const QSharedPointer<FITSData> &data, const QImage &image, const StretchParams &params,
+                   const QString &uuid)
+{
+    const QString ext = "jpg";
+    QByteArray jpegData;
+    QBuffer buffer(&jpegData);
+    buffer.open(QIODevice::WriteOnly);
+
+    QString resolution = QString("%1x%2").arg(data->width()).arg(data->height());
+    QString sizeBytes = KFormat().formatByteSize(data->size());
+    QVariant xbin(1), ybin(1), exposure(0), focal_length(0), gain(0), pixel_size(0), aperture(0);
+    data->getRecordValue("XBINNING", xbin);
+    data->getRecordValue("YBINNING", ybin);
+    data->getRecordValue("EXPTIME", exposure);
+    data->getRecordValue("GAIN", gain);
+    data->getRecordValue("PIXSIZE1", pixel_size);
+    data->getRecordValue("FOCALLEN", focal_length);
+    data->getRecordValue("APTDIA", aperture);
+
+    // Account for binning
+    const double binned_pixel = pixel_size.toDouble() * xbin.toInt();
+
+    // Send everything as strings
+    QJsonObject metadata =
+    {
+        {"resolution", resolution},
+        {"size", sizeBytes},
+        {"channels", data->channels()},
+        {"mean", data->getAverageMean()},
+        {"median", data->getAverageMedian()},
+        {"stddev", data->getAverageStdDev()},
+        {"min", data->getMin()},
+        {"max", data->getMax()},
+        {"bin", QString("%1x%2").arg(xbin.toString(), ybin.toString())},
+        {"bpp", QString::number(data->bpp())},
+        {"uuid", uuid},
+        {"exposure", exposure.toString()},
+        {"focal_length", focal_length.toString()},
+        {"aperture", aperture.toString()},
+        {"gain", gain.toString()},
+        {"pixel_size", QString::number(binned_pixel, 'f', 4)},
+        {"shadows", params.grey_red.shadows},
+        {"midtones", params.grey_red.midtones},
+        {"highlights", params.grey_red.highlights},
+        {"hasWCS", data->hasWCS()},
+        {"hfr", data->getHFR()},
+        {"ext", ext}
+    };
+
+    // First METADATA_PACKET bytes of the binary data is always allocated
+    // to the metadata
+    // the rest to the image data.
+    QByteArray meta = QJsonDocument(metadata).toJson(QJsonDocument::Compact);
+    meta = meta.leftJustified(METADATA_PACKET, 0);
+    buffer.write(meta);
+
+    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == "+");
+    auto scaleWidth = fastImage ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
+
+    // For low bandwidth images
+    // Except for dark frames +D
+    QImage scaledImage = image.width() > scaleWidth ?
+                         image.scaledToWidth(scaleWidth, fastImage ? Qt::FastTransformation : Qt::SmoothTransformation) :
+                         image;
     scaledImage.save(&buffer, ext.toLatin1().constData(), HB_IMAGE_QUALITY);
 
     buffer.close();

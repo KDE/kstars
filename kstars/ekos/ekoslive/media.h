@@ -82,6 +82,9 @@ class Media : public QObject
         void dispatch(const QSharedPointer<FITSData> &data, const QString &uuid);
         void upload(const QSharedPointer<FITSView> &view, const QString &uuid);
 
+        void upload(const QSharedPointer<FITSData> &data, const QImage &image, const StretchParams &params, const QString &uuid);
+        void stretch(const QSharedPointer<FITSData> &data, QImage &image, StretchParams &params) const;
+
         Ekos::Manager * m_Manager { nullptr };
         QVector<QSharedPointer<NodeManager>> m_NodeManagers;
         QString extension;
