@@ -1174,6 +1174,7 @@ void DarkLibrary::generateDarkJobs()
                 settings["opticalTrainCombo"] = opticalTrainCombo->currentText();
                 settings["captureExposureN"] = oneExposure;
                 settings["captureBinHN"] = oneBin;
+                settings["captureBinVN"] = oneBin;
                 settings["captureTypeS"] = "Dark";
                 settings["cameraTemperatureN"] = oneTemperature;
                 if (captureGainN->isEnabled())
