@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-15 01:49+0000\n"
+"POT-Creation-Date: 2024-09-21 01:49+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -7673,7 +7673,7 @@ msgstr "O Ângulo de Posição Actual é %1; o Ângulo-Alvo é de %2; diferença
 msgid "Refresh is complete."
 msgstr "A actualização está completa."
 
-#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1409
+#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1410
 #: ekos/focus/focus.cpp:1367
 #, kde-format
 msgid "Capture aborted."
@@ -13114,38 +13114,38 @@ msgstr ""
 "Tem a certeza que deseja remover todas as imagens e dados das imagens "
 "escuras?"
 
-#: ekos/auxiliary/darklibrary.cpp:1211 ekos/focus/focusadvisor.cpp:651
+#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:651
 #: ekos/focus/focusadvisor.cpp:965 ekos/focus/focusadvisor.cpp:1262
 #, kde-format
 msgid "In progress..."
 msgstr "Em progresso..."
 
-#: ekos/auxiliary/darklibrary.cpp:1367
+#: ekos/auxiliary/darklibrary.cpp:1368
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Não foi possível gravar a imagem-mestra: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1388
+#: ekos/auxiliary/darklibrary.cpp:1389
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "A Imagem Escura foi gravada em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/auxiliary/darklibrary.cpp:1414
 #, kde-format
 msgid "Capture completed."
 msgstr "A captura está completa."
 
-#: ekos/auxiliary/darklibrary.cpp:1440
+#: ekos/auxiliary/darklibrary.cpp:1441
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "O mapa de defeitos foi gravado em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1460
+#: ekos/auxiliary/darklibrary.cpp:1461
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Não foi possível gravar o mapa de defeitos em %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1635
+#: ekos/auxiliary/darklibrary.cpp:1636
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "O treino óptico não existe para o ID %1"

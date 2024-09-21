@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-15 01:49+0000\n"
+"POT-Creation-Date: 2024-09-21 01:49+0000\n"
 "PO-Revision-Date: 2024-07-28 11:45+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -6434,7 +6434,7 @@ msgstr "Nuna PA estas %1; Celo PA estas %2; diferenco: %3"
 msgid "Refresh is complete."
 msgstr "Refreŝigo estas kompleta."
 
-#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1409
+#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1410
 #: ekos/focus/focus.cpp:1367
 #, kde-format
 msgid "Capture aborted."
@@ -11755,38 +11755,38 @@ msgstr ""
 "Ĉu vi certas, ke vi volas forigi ĉiujn mallumajn kadrajn bildojn kaj "
 "datumojn?"
 
-#: ekos/auxiliary/darklibrary.cpp:1211 ekos/focus/focusadvisor.cpp:651
+#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:651
 #: ekos/focus/focusadvisor.cpp:965 ekos/focus/focusadvisor.cpp:1262
 #, kde-format
 msgid "In progress..."
 msgstr "En progreso..."
 
-#: ekos/auxiliary/darklibrary.cpp:1367
+#: ekos/auxiliary/darklibrary.cpp:1368
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Malsukcesis konservi majstran kadron: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1388
+#: ekos/auxiliary/darklibrary.cpp:1389
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Majstro Mallumo konservita al %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/auxiliary/darklibrary.cpp:1414
 #, kde-format
 msgid "Capture completed."
 msgstr "Kapto finiĝis."
 
-#: ekos/auxiliary/darklibrary.cpp:1440
+#: ekos/auxiliary/darklibrary.cpp:1441
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Difekta mapo konservita al %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1460
+#: ekos/auxiliary/darklibrary.cpp:1461
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Malsukcesis konservi difektan mapon al %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1635
+#: ekos/auxiliary/darklibrary.cpp:1636
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "Optika ilĉeno ne ekzistas por id %1"

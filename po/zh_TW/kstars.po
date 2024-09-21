@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-15 01:49+0000\n"
+"POT-Creation-Date: 2024-09-21 01:49+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -6603,7 +6603,7 @@ msgstr "目前的 ADU 為 %1%，下次曝光為 %2 秒。"
 msgid "Refresh is complete."
 msgstr "%1  過濾器已上線。"
 
-#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1409
+#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1410
 #: ekos/focus/focus.cpp:1367
 #, kde-format
 msgid "Capture aborted."
@@ -12179,44 +12179,44 @@ msgstr "收到影像 %2 張中的 %1 張"
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "您確定要移除用戶端 %1 嗎？"
 
-#: ekos/auxiliary/darklibrary.cpp:1211 ekos/focus/focusadvisor.cpp:651
+#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:651
 #: ekos/focus/focusadvisor.cpp:965 ekos/focus/focusadvisor.cpp:1262
 #, fuzzy, kde-format
 #| msgid "In Progress"
 msgid "In progress..."
 msgstr "進行中"
 
-#: ekos/auxiliary/darklibrary.cpp:1367
+#: ekos/auxiliary/darklibrary.cpp:1368
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save master frame: %1"
 msgstr "設定子框架失敗。"
 
-#: ekos/auxiliary/darklibrary.cpp:1388
+#: ekos/auxiliary/darklibrary.cpp:1389
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Master Dark saved to %1"
 msgstr "資料檔案已儲存到 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/auxiliary/darklibrary.cpp:1414
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Capture completed."
 msgstr "抓取已中止。"
 
-#: ekos/auxiliary/darklibrary.cpp:1440
+#: ekos/auxiliary/darklibrary.cpp:1441
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Defect map saved to %1"
 msgstr "資料檔案已儲存到 %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1460
+#: ekos/auxiliary/darklibrary.cpp:1461
 #, fuzzy, kde-format
 #| msgid "Failed to open file %1. %2"
 msgid "Failed to save defect map to %1"
 msgstr "無法開啟檔案 %1。%2"
 
-#: ekos/auxiliary/darklibrary.cpp:1635
+#: ekos/auxiliary/darklibrary.cpp:1636
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""

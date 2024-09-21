@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-15 01:49+0000\n"
+"POT-Creation-Date: 2024-09-21 01:49+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -6699,7 +6699,7 @@ msgstr ""
 msgid "Refresh is complete."
 msgstr "Το %1 είναι σε σύνδεση."
 
-#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1409
+#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1410
 #: ekos/focus/focus.cpp:1367
 #, fuzzy, kde-format
 #| msgid "Capture Image"
@@ -12031,44 +12031,44 @@ msgstr "Έγινε λήψη της εικόνας %1 σε σύνολο %2."
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Επιθυμείτε σίγουρα την αφαίρεση του πελάτη %1;"
 
-#: ekos/auxiliary/darklibrary.cpp:1211 ekos/focus/focusadvisor.cpp:651
+#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:651
 #: ekos/focus/focusadvisor.cpp:965 ekos/focus/focusadvisor.cpp:1262
 #, fuzzy, kde-format
 #| msgid "In progress"
 msgid "In progress..."
 msgstr "Σε εξέλιξη"
 
-#: ekos/auxiliary/darklibrary.cpp:1367
+#: ekos/auxiliary/darklibrary.cpp:1368
 #, fuzzy, kde-format
 #| msgid "Failed to set binning."
 msgid "Failed to save master frame: %1"
 msgstr "Αποτυχία καθορισμού συνένωσης εικονοστοιχείων (binning)"
 
-#: ekos/auxiliary/darklibrary.cpp:1388
+#: ekos/auxiliary/darklibrary.cpp:1389
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Master Dark saved to %1"
 msgstr "Το αρχείο δεδομένων αποθηκεύτηκε στο %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/auxiliary/darklibrary.cpp:1414
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture completed."
 msgstr "Σύλληψη εικόνας"
 
-#: ekos/auxiliary/darklibrary.cpp:1440
+#: ekos/auxiliary/darklibrary.cpp:1441
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Defect map saved to %1"
 msgstr "Το αρχείο δεδομένων αποθηκεύτηκε στο %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1460
+#: ekos/auxiliary/darklibrary.cpp:1461
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save defect map to %1"
 msgstr "Δεν ήταν δυνατό το άνοιγμα του αρχείου %1."
 
-#: ekos/auxiliary/darklibrary.cpp:1635
+#: ekos/auxiliary/darklibrary.cpp:1636
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""

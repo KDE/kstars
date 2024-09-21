@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-15 01:49+0000\n"
-"PO-Revision-Date: 2024-09-14 16:59+0200\n"
+"POT-Creation-Date: 2024-09-21 01:49+0000\n"
+"PO-Revision-Date: 2024-09-20 10:10+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -6463,7 +6463,7 @@ msgstr "O ángulo de posición actual é %1. O de destino é %2. A diferenza é 
 msgid "Refresh is complete."
 msgstr "Completouse a actualización."
 
-#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1409
+#: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1410
 #: ekos/focus/focus.cpp:1367
 #, kde-format
 msgid "Capture aborted."
@@ -11843,38 +11843,38 @@ msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "Seguro que quere eliminar todas as imaxes e datos dos fotogramas escuros?"
 
-#: ekos/auxiliary/darklibrary.cpp:1211 ekos/focus/focusadvisor.cpp:651
+#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:651
 #: ekos/focus/focusadvisor.cpp:965 ekos/focus/focusadvisor.cpp:1262
 #, kde-format
 msgid "In progress..."
 msgstr "En progreso…"
 
-#: ekos/auxiliary/darklibrary.cpp:1367
+#: ekos/auxiliary/darklibrary.cpp:1368
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Non foi posíbel gardar o fotograma mestre: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1388
+#: ekos/auxiliary/darklibrary.cpp:1389
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "O fotograma mestre gardouse en %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1413
+#: ekos/auxiliary/darklibrary.cpp:1414
 #, kde-format
 msgid "Capture completed."
 msgstr "Completouse a captura."
 
-#: ekos/auxiliary/darklibrary.cpp:1440
+#: ekos/auxiliary/darklibrary.cpp:1441
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "O mapa de defectos gardouse en %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1460
+#: ekos/auxiliary/darklibrary.cpp:1461
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Non foi posíbel gardar o mapa de defectos en %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1635
+#: ekos/auxiliary/darklibrary.cpp:1636
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "Non existe un tren óptico con identificador %1"
@@ -27819,11 +27819,7 @@ msgid "Follower"
 msgstr "Seguimento"
 
 #: ekos/scheduler/scheduler.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -27832,7 +27828,8 @@ msgid ""
 msgstr ""
 "Lista do planificador de tarefas.\n"
 "Prema para seleccionar un traballo na lista.\n"
-"Prema dúas veces para editar un traballo cos campos da esquerda."
+"Prema dúas veces para editar un traballo cos campos da esquerda.\n"
+"Maiús + clic para ver a altitude dun traballo esta noite."
 
 #: ekos/scheduler/scheduler.cpp:155
 #, kde-format
@@ -28890,16 +28887,15 @@ msgstr "Hora local"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SchedulerAltitudeGraph)
 #: ekos/scheduler/scheduleraltitudegraph.ui:14
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Altitude Graph"
-msgstr "Altitude: "
+msgstr "Gráfico da altitude"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/scheduleraltitudegraph.ui:32
 #, kde-format
 msgid "Altitude Graph for ZZZZZ"
-msgstr ""
+msgstr "Gráfico de altitude de ZZZZZ"
 
 #: ekos/scheduler/schedulerjob.cpp:340
 #, kde-format
