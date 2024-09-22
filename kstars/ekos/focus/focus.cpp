@@ -2281,9 +2281,8 @@ void Focus::settle(const FocusState completionState, const bool autoFocusUsed, c
     if (fallbackFilterPending)
     {
         m_pendingState = completionState;
-        FilterManager::FilterPolicy policy = (autoFocusUsed) ?
-                                             static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY) :
-                                             static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY | FilterManager::OFFSET_POLICY);
+        FilterManager::FilterPolicy policy = static_cast<FilterManager::FilterPolicy>(FilterManager::CHANGE_POLICY |
+                                             FilterManager::OFFSET_POLICY);
         m_FilterManager->setFilterPosition(fallbackFilterPosition, policy);
     }
     else
