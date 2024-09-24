@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-23 01:45+0000\n"
-"PO-Revision-Date: 2024-09-15 20:10+0300\n"
+"PO-Revision-Date: 2024-09-23 15:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -73065,7 +73065,7 @@ msgstr "AÇIK"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "OTA Temperature (C)"
-msgstr "OTA Sıcaklığı (C)"
+msgstr "OTA Sıcaklığı ©"
 
 #: libindi_strings.cpp:330
 #, kde-kuit-format
@@ -73971,7 +73971,7 @@ msgstr "Sıca."
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Temperature (C)"
-msgstr "Sıcaklık (C)"
+msgstr "Sıcaklık ©"
 
 #: libindi_strings.cpp:481
 #, kde-kuit-format
