@@ -1,53 +1,61 @@
+# SPDX-FileCopyrightText: 2024 Jasem Mutlaq <mutlaqja@ikarustech.com>
+#
+# SPDX-License-Identifier: CC0-1.0
 ---
 name: kstars
-version: 3.3.8
-confinement: strict
-grade: devel
-base: core18
+version: 3.7.2
+confinement: classic
+base: core22
+compression: lzo
 adopt-info: kstars
+
 apps:
     kstars:
-        command: kf5-launch kstars
+        extensions:
+        - kde-neon-5
+        common-id: org.kde.kstars.desktop
+        desktop: usr/share/applications/org.kde.kstars.desktop
+        command: usr/bin/kstars
         plugs:
-        - kde-frameworks-5-plug
         - home
-        - x11
         - opengl
         - network
         - network-bind
         - unity7
+        - joystick
         - pulseaudio
         - serial-port
         - camera
         - gpio
+        - gpio-control
+        - location-observe
         - hardware-observe
         - hidraw
         - i2c
+        - password-manager-service
         - location-control
         - location-observe
         - raw-usb
         - desktop
-        - desktop-legacy
+        command-chain:
+        - snap/command-chain/desktop-launch5
 slots:
     session-dbus-interface:
         interface: dbus
         name: org.kde.kstars
         bus: session
-plugs:
-    kde-frameworks-5-plug:
-        interface: content
-        content: kde-frameworks-5-core18-all
-        default-provider: kde-frameworks-5-core18
-        target: kf5
 parts:
     kstars:
         parse-info:
         - usr/share/metainfo/org.kde.kstars.appdata.xml
-        build-snaps:
-        - kde-frameworks-5-core18-sdk
-        after:
-        - kde-frameworks-5-env
         plugin: cmake
+        cmake-parameters:
+        - -DCMAKE_INSTALL_PREFIX=/usr
+        - -DCMAKE_BUILD_TYPE=Release
+        - -DENABLE_TESTING=OFF
+        - -DBUILD_TESTING=OFF
+        - -DBUILD_DOC=OFF
+        - -DKDE_SKIP_TEST_SETTINGS=ON
         build-packages:
         - qt5-default
         - libeigen3-dev
@@ -65,20 +73,8 @@ parts:
         - xplanet
         - libcfitsio5
         - libnova-0.16-0
-        - libgsl23
-        - libindialignmentdriver1
-        - libindidriver1
-        - libpgsbox5
-        - libwcs5
+        - libgsl27
+        - libpgsbox7
+        - libwcs7
         - libqt5keychain1
         source: https://anongit.kde.org/kstars.git
-        configflags:
-        - "-DCMAKE_INSTALL_PREFIX=/usr"
-        - "-DCMAKE_BUILD_TYPE=Release"
-        - "-DENABLE_TESTING=OFF"
-        - "-DBUILD_TESTING=OFF"
-        - "-DBUILD_DOC=OFF"
-        - "-DKDE_SKIP_TEST_SETTINGS=ON"
-    kde-frameworks-5-env:
-        plugin: dump
-        source: https://anongit.kde.org/snap-kf5-launcher.git
