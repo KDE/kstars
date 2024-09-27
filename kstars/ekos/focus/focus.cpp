@@ -594,6 +594,7 @@ void Focus::checkTemperatureSource(const QString &name )
 
     if (findTemperatureElement(currentSource))
     {
+        defaultFocusTemperatureSource->setCurrentText(name);
         m_LastSourceAutofocusTemperature = currentTemperatureSourceElement->value;
         absoluteTemperatureLabel->setText(QString("%1 °C").arg(currentTemperatureSourceElement->value, 0, 'f', 2));
         deltaTemperatureLabel->setText(QString("%1 °C").arg(0.0, 0, 'f', 2));
