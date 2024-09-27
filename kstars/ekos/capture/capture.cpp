@@ -65,7 +65,8 @@ Capture::Capture()
 
     cameraTabs->addTab(newTab, "");
     cameraTabs->tabBar()->setTabButton(0, QTabBar::RightSide, addButton);
-
+    // Connect the close request signal to the slot
+    connect(cameraTabs, &QTabWidget::tabCloseRequested, this, &Capture::checkCloseCameraTab);
     // Create main camera
     addCamera();
 
@@ -96,18 +97,9 @@ QSharedPointer<Camera> Capture::addCamera()
     // create the new tab and bring it to front
     const int tabIndex = cameraTabs->insertTab(std::max(0, cameraTabs->count() - 1), newCamera.get(), "new Camera");
     cameraTabs->setCurrentIndex(tabIndex);
-    // make the tab closeable if it's not the first one
-    if (tabIndex > 0)
-    {
-        QPushButton *closeButton = new QPushButton();
-        closeButton->setIcon(QIcon::fromTheme("window-close"));
-        closeButton->setFixedSize(TAB_BUTTON_SIZE, TAB_BUTTON_SIZE);
-        cameraTabs->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, closeButton);
-        connect(closeButton, &QPushButton::clicked, this, [this, tabIndex]()
-        {
-            checkCloseCameraTab(tabIndex);
-        });
-    }
+    // make the tab first tab non closeable
+    if (tabIndex == 0)
+        cameraTabs->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
 
     // forward signals from the camera
     connect(newCamera.get(), &Camera::newLog, this, &Capture::appendLogText);
@@ -428,14 +420,18 @@ QSharedPointer<Camera> &Capture::camera(int i)
 
 void Ekos::Capture::closeCameraTab(int tabIndex)
 {
-    moduleState()->removeCamera(tabIndex);
     cameraTabs->removeTab(tabIndex);
+    moduleState()->removeCamera(tabIndex);
     // select the next one on the left
     cameraTabs->setCurrentIndex(std::max(0, tabIndex - 1));
 }
 
 void Capture::checkCloseCameraTab(int tabIndex)
 {
+    // ignore close event from the "Add" tab
+    if (tabIndex == cameraTabs->count() - 1)
+        return;
+
     if (moduleState()->mutableCameras()[tabIndex]->state()->isBusy())
     {
         // if accept has been clicked, abort and close the tab

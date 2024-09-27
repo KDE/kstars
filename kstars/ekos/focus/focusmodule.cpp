@@ -24,6 +24,10 @@ FocusModule::FocusModule()
 {
     setupUi(this);
 
+    // FIXME: disable closing of tabs, since it might create crashes
+    focusTabs->setTabsClosable(false);
+    // Connect the close request signal to the slot
+    connect(focusTabs, &QTabWidget::tabCloseRequested, this, &FocusModule::checkCloseFocuserTab);
     // Adding the "New Tab" tab
     QWidget *newTab = new QWidget;
     QPushButton *addButton = new QPushButton;
@@ -308,18 +312,9 @@ QSharedPointer<Focus> FocusModule::addFocuser(const QString &trainname)
     // create the new tab and bring it to front
     const int tabIndex = focusTabs->insertTab(std::max(0, focusTabs->count() - 1), newFocuser.get(), "new Focuser");
     focusTabs->setCurrentIndex(tabIndex);
-    // make the tab closeable if it's not the first one
-    if (tabIndex > 0)
-    {
-        QPushButton *closeButton = new QPushButton();
-        closeButton->setIcon(QIcon::fromTheme("window-close"));
-        closeButton->setFixedSize(TAB_BUTTON_SIZE, TAB_BUTTON_SIZE);
-        focusTabs->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, closeButton);
-        connect(closeButton, &QPushButton::clicked, this, [this, tabIndex]()
-        {
-            checkCloseFocuserTab(tabIndex);
-        });
-    }
+    // make the tab first tab non closeable
+    if (tabIndex == 0)
+        focusTabs->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
 
     const QString train = findUnusedOpticalTrain();
 
@@ -361,10 +356,18 @@ void FocusModule::updateFocuser(int tabID, bool isValid)
 
 void FocusModule::closeFocuserTab(int tabIndex)
 {
+    // ignore close event from the "Add" tab
+    if (tabIndex == focusTabs->count() - 1)
+        return;
+
     focusTabs->removeTab(tabIndex);
-    m_Focusers.removeAt(tabIndex);
     // select the next one on the left
     focusTabs->setCurrentIndex(std::max(0, tabIndex - 1));
+    // clear the focuser
+    auto focuser = m_Focusers.at(tabIndex);
+    focuser->disconnect(this);
+    focuser->disconnectSyncSettings();
+    m_Focusers.removeAt(tabIndex);
 }
 
 void FocusModule::checkCloseFocuserTab(int tabIndex)
