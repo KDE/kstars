@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-23 01:45+0000\n"
-"PO-Revision-Date: 2024-09-11 12:19+0200\n"
+"PO-Revision-Date: 2024-09-26 09:51+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 24.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -16066,10 +16066,9 @@ msgstr "Автофокусът е неуспешен. Прекъсване на 
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:746
-#, fuzzy, kde-format
-#| msgid "Dither complete. Resuming in %1 seconds..."
+#, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
-msgstr "Дитърингът е завършен. Възобновяване след %1 секунди..."
+msgstr "Фокусирането завърши. Възобновяване след %1 секунди..."
 
 #: ekos/capture/camerastate.cpp:769
 #, kde-format
@@ -21447,10 +21446,9 @@ msgid "Calibration Data Flipped."
 msgstr "Данните за калибриране са обърнати."
 
 #: ekos/guide/externalguide/phd2.cpp:403
-#, fuzzy, kde-format
-#| msgid "PHD2: Star Selected."
+#, kde-format
 msgid "PHD2: SettleDone."
-msgstr "PHD2: Избрана е звезда."
+msgstr "PHD2: Стабилизирането завърши."
 
 #: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
@@ -21503,8 +21501,7 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: Избрана е звезда."
 
 #: ekos/guide/externalguide/phd2.cpp:657
-#, fuzzy, kde-format
-#| msgid "PHD2: Waiting for guiding to settle."
+#, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
 msgstr "PHD2: Изчакване на гидирането да се стабизилизира."
 
@@ -27915,11 +27912,7 @@ msgid "Follower"
 msgstr "Следване"
 
 #: ekos/scheduler/scheduler.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -27928,7 +27921,8 @@ msgid ""
 msgstr ""
 "Списък с планирани задачи.\n"
 "Щракнете, за да изберете задача от списъка.\n"
-"Щракнете два пъти, за да я редактирате в полетата от ляво."
+"Щракнете два пъти, за да я редактирате в полетата от ляво.\n"
+"Щракнете с Shift, за да видите надморската височина на задачата тази вечер."
 
 #: ekos/scheduler/scheduler.cpp:155
 #, kde-format
@@ -28997,16 +28991,15 @@ msgstr "Местно време (МВ)"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SchedulerAltitudeGraph)
 #: ekos/scheduler/scheduleraltitudegraph.ui:14
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Altitude Graph"
-msgstr "Височина: "
+msgstr "Графика на височина"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/scheduleraltitudegraph.ui:32
 #, kde-format
 msgid "Altitude Graph for ZZZZZ"
-msgstr ""
+msgstr "Графика на височината за ZZZZZ"
 
 #: ekos/scheduler/schedulerjob.cpp:340
 #, kde-format
@@ -86727,519 +86720,3 @@ msgstr "Цвят на фона:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Задаване на цвета на фона."
-
-#~ msgid ""
-#~ "When In Sequence, force an Autofocus at the end of the current subframe."
-#~ msgstr ""
-#~ "При последователност, извършване на принудителен автофокус в края на "
-#~ "текущия подкадър."
-
-#~ msgid "Updated base parameters"
-#~ msgstr "Обновяване на основните параметри"
-
-#~ msgid "Find Stars: Starting scan for stars..."
-#~ msgstr "Намиране на звезди: Стартиране на сканиране за звезди..."
-
-#~ msgid "Find Stars: Jump size %1"
-#~ msgstr "Намиране на звезди: Размер на скока %1"
-
-#~ msgid "Detected %1 stars at %2"
-#~ msgstr "Открити са %1 звезди на %2"
-
-#~ msgid "Find Stars: Stars detected, centring range"
-#~ msgstr "Намиране на звезди: Открити са звезди, обхват на центриране..."
-
-#~ msgid "Find Stars Run %1: Failed"
-#~ msgstr "Намиране на звезди, Изпълнение %1: Неуспешно"
-
-#~ msgid "Pre Autofocus: Failed"
-#~ msgstr "Предварителното автофокусиране е неуспешно."
-
-#~ msgid "Pre Autofocus: exceeded max iterations %1"
-#~ msgstr ""
-#~ "Предварителният автофокус е неуспешен: надхвърлен е максималния брой "
-#~ "итерации %1"
-
-#~ msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
-#~ msgstr ""
-#~ "Изпълнение на корекция на курса: %1 Начало: %2 Надсканиране: %3 Размер на "
-#~ "стъпката: %4"
-
-#~ msgid "Overscan estimate: %1 ticks"
-#~ msgstr "Прогноза за надсканиране: %1 деления"
-
-#~ msgid "Coarse Adj: Failed"
-#~ msgstr "Регулация на курса: Неуспешна"
-
-#~ msgid "Autofocus parameter adjustment"
-#~ msgstr "Регулиране на параметрите за автоматично фокусиране"
-
-#~ msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
-#~ msgstr ""
-#~ "Размер на стъпката на съветника за фокусиране: %1->%2 AF Overscan: %3->%4"
-
-#~ msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
-#~ msgstr ""
-#~ "Повторен опит за автоматично фокусиране: Размер на стъпката %1 AF "
-#~ "Надсканиране %2"
-
-#~ msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-#~ msgstr "Автофокусът завършен: Размер на стъпката %1 AF Overscan %2"
-
-#~ msgid "Astronomical Twilight Warning"
-#~ msgstr "Предупреждение за астрономически полумрак"
-
-#~ msgid "API URL"
-#~ msgstr "API URL"
-
-#~ msgid ""
-#~ "<html><head/><body><p>The rotator gauge displays the actual camera "
-#~ "position angle (yellow) and the raw rotator angle (gray). Be sure to "
-#~ "calibrate the rotator (syncing rotator angle to zero at piersie WEST) "
-#~ "after a fresh mount of the rotator in order to have a reasonable display."
-#~ "</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Датчикът на ротатора показва действителния ъгъл на "
-#~ "позицията на камерата (жълто) и необработения ъгъл на ротатора (сиво). Не "
-#~ "забравяйте да калибрирате ротатора (синхронизиране на ъгъла на ротатора с "
-#~ "нула при страна на статива ЗАПАД) след ново монтиране на ротатора, за да "
-#~ "имате по-разбираемо показване.</p></body></html>"
-
-#~ msgid "Donut Buster (WARNING: Experimental Feature)"
-#~ msgstr "Donut Buster (ПРЕДУПРЕЖДЕНИЕ: експериментална функция)"
-
-#~ msgid ""
-#~ "When Scan for Start Position is checked this is the number of datapoints "
-#~ "to use."
-#~ msgstr ""
-#~ "Когато е поставена отметка Сканиране за начална позиция, това е броят на "
-#~ "точките от данни, които трябва да се използват."
-
-#~ msgid "Astrometry:"
-#~ msgstr "Астрометрия:"
-
-#~ msgid "The Logging Level for StellarSolver and Astrometry.net"
-#~ msgstr ""
-#~ "Нивото на подробност за регистриране в дневнки за StellarSolver и "
-#~ "Astrometry.net"
-
-#~ msgid "LOG_NONE"
-#~ msgstr "LOG_NONE"
-
-#~ msgid "LOG_ERROR"
-#~ msgstr "LOG_ERROR"
-
-#~ msgid "LOG_MSG"
-#~ msgstr "LOG_MSG"
-
-#~ msgid "LOG_VERB"
-#~ msgstr "LOG_VERB"
-
-#~ msgid "LOG_ALL"
-#~ msgstr "LOG_ALL"
-
-#~ msgid ""
-#~ "Option to log astrometry messages to a separate file.  If you select "
-#~ "LOG_ALL you REALLY want to check this box."
-#~ msgstr ""
-#~ "Възможност за записване на астрометрични съобщения в отделен файл.  Ако "
-#~ "изберете LOG_ALL, задължително трябва да поставите отметка в това поле."
-
-#~ msgid " Separate Log File:"
-#~ msgstr " Отделен файл с дневници:"
-
-#~ msgid "The external Log File for astrometry logging"
-#~ msgstr "Външният журнален файл за регистриране на астрометрия"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone. Make sure you configure the CFZ tab to give an appropriate value "
-#~ "for your system.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Размерът на стъпката може да бъде зададен по "
-#~ "подразбиране за критичната зона на фокус. Уверете се, че сте "
-#~ "конфигурирали раздела CFZ, за да зададете подходяща стойност за вашата "
-#~ "система.</p></body></html>"
-
-#~ msgid "Focus Advisor:"
-#~ msgstr "Помощник за фокусиране:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone..</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Размерът на стъпката може да се зададе по "
-#~ "подразбиране на критичната фокусна зона.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Update Focus Parameters to Focus Advisor "
-#~ "suggestions where the associated Update box is checked.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Актуализирайте параметрите на фокуса с "
-#~ "предложенията на помощника за фокусиране, където е отметнато съответното "
-#~ "квадратче Актуализиране.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Launch the Focus Advisor Help dialog.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Стартиране на диалоговия прозорец за помощника за "
-#~ "фокусиране.</p></body></html>"
-
-#~ msgid ""
-#~ "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#~ "It will not necessarily give you the perfect combination of parameters, "
-#~ "you will need to experiment yourself, but it will give you a basic set of "
-#~ "parameters to achieve focus.\n"
-#~ "\n"
-#~ "FA will recommend values for the majority of parameters. A few, however, "
-#~ "will need extra work from you to setup. These are identified below along "
-#~ "with a basic explanation of how to set them.\n"
-#~ "\n"
-#~ "The first step is to set backlash. Your focuser manual will likely "
-#~ "explain how to do this. Once you have a value for backlash for your "
-#~ "system, set either the Backlash field to have the driver perform backlash "
-#~ "compensation or the AF Overscan field to have Autofocus perform backlash "
-#~ "compensation. Set only one field and set the other to 0. If you are "
-#~ "unsure which to set, AF Overscan is recommended.\n"
-#~ "\n"
-#~ "The second step is to set Step Size. If you are aware of an approximate "
-#~ "value enter it here otherwise this can be defaulted from the Critical "
-#~ "Focus Zone (CFZ) for your equipment - so configure this now in the CFZ "
-#~ "tab and restart Focus Advisor.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Съветникът за фокусиране е създаден, за да ви помогне с настройките за "
-#~ "фокусиране.\n"
-#~ " Не е задължително той да ви предостави идеалната комбинация от настройки."
-#~ "Тогава ще трябва да експериментирате сами, но това ще ви даде основни "
-#~ "познания, как да ги настройвате, за да получите добър фокус.\n"
-#~ "\n"
-#~ "Той ще препоръча стойности за по-голямата част от настройките. Някои "
-#~ "настройки обаче ще изискват малко работа от ваша страна, за да я "
-#~ "коригирате. Те са изброени по-долу с обяснение, как да ги регулирате.\n"
-#~ "\n"
-#~ "Първата стъпка е да настроите хлабината или луфта. В ръководството на "
-#~ "вашия мотор за фокусиране вероятно има информация как да направите това. "
-#~ "След като имате стойността за луфта на вашата система, задайте го в "
-#~ "полето, за да може моторът да изпълни компенсация за обратна реакция или "
-#~ "полето Прескачане на АФ, за да има компенсация при автофокусиране. "
-#~ "Задайте само едното поле, а другото задайте на нула. Ако не сте сигурни, "
-#~ "коя настройка да изберете, Прескачане на АФ е препоръчителна.\n"
-#~ "\n"
-#~ "Втората стъпка е да зададете Размер на стъпката. Ако сте наясно с "
-#~ "приблизителния стойност, въведете я тук, в противен случай тя може да "
-#~ "бъде зададена по подразбиране от Критичен фокус (CFZ) за вашето "
-#~ "оборудване - така че конфигурирайте това сега в раздела CFZ и "
-#~ "рестартирайте Помощника за фокусиране\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "The third step is to set the remaining focus parameters to sensible "
-#~ "values. Focus Advisor will suggest values for 5 categories of parameters. "
-#~ "Check the associated Update box to accept these recommendations when you "
-#~ "press Update Params.\n"
-#~ "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#~ "e.g. unity gain.\n"
-#~ "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#~ "3. Focus Process (Options Popup): These all have recommendations.\n"
-#~ "4. Focus Mechanics (Options Popup): Note Step Size is dealt with above.\n"
-#~ "5. SEP Parameters (Options Popup): Set the appropriate profile to its "
-#~ "default values.\n"
-#~ "\n"
-#~ "Now move the focuser to approximate focus and select a broadband filter, "
-#~ "e.g. Luminance\n"
-#~ "You are now ready to start an Autofocus run."
-#~ msgstr ""
-#~ "Третата стъпка е да настроите останалите параметри на фокуса на разумни "
-#~ "стойности. Помощникът за фокусиране ще предложи стойности за 5 категории "
-#~ "параметри. Проверете свързаното поле Обновяване, за да приемете тези "
-#~ "препоръки, когато натиснете Обновяване на параметрите.\n"
-#~ "\n"
-#~ "1. Свойства на камерата - Забележете, че трябва да се убедите, че "
-#~ "усилването е зададено по подходящ начин, напр. единен коефициент на "
-#~ "усилване \n"
-#~ "2. Настройки на фокуса (изскачащ прозорец с опции): Всички те имат "
-#~ "препоръчителни стойности.\n"
-#~ "3. Процес на фокусиране (изскачащ прозорец с опции): Всички те имат "
-#~ "препоръчителни стойности.\n"
-#~ "4. Механика на фокусиране (изскачащ прозорец с опции): не забравяйте, че "
-#~ "\" Размер на стъпката\" се настройват както по-горе.\n"
-#~ "5. Параметри на SEP (изскачащ прозорец с опции): Задайте подходящия "
-#~ "профил към неговия стойности по подразбиране.\n"
-#~ "Сега преместете фокусера, за да приближите фокуса и изберете широколентов "
-#~ "филтър, напр. Luminance\n"
-#~ "Вече сте готови да стартирате цикъл с автофокус."
-
-#~ msgid "Focus Advisor recommended step size"
-#~ msgstr "Препоръчителен размер на стъпката от помощника за фокусиране"
-
-#~ msgid "Focus Advisor recommended Out Step Multiple"
-#~ msgstr "Множество стъпки навън, препоръчано от помощника за фокусиране"
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Camera and Filter Wheel "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Дали да се приеме препоръката на помощника за фокусиране за параметрите "
-#~ "на камерата и филтърното колело."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Settings Tab Parameters."
-#~ msgstr ""
-#~ "Дали да се приеме препоръката на помощника за фокусиране за параметрите в "
-#~ "раздел Настройки."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Mechanics Tab "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Дали да се приеме препоръката на помощника за фокусиране относно "
-#~ "параметрите на раздела \"Механика\"."
-
-#~ msgid ""
-#~ "<html><body><p>Do not permit jobs to be scheduled less than this many "
-#~ "degrees before the altitude restriction. Actual execution proceeds until "
-#~ "the altitude limit.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Не се разрешава планирането на задачи на по-малко от тези "
-#~ "градуси преди ограничението за височина. Изпълняваща се задача продължава "
-#~ "до ограничението на височината.</p></body></html>"
-
-#~ msgid "Setting altitude cutoff:"
-#~ msgstr "Задаване на ограничението на височината:"
-
-#~ msgid ""
-#~ "Do not permit jobs to be scheduled less than this many degrees before the "
-#~ "altitude restriction. Actual execution proceeds until the altitude limit."
-#~ msgstr ""
-#~ "Не се разрешава планирането на задачи на по-малко от тези градуси преди "
-#~ "ограничението за височина. Действителното изпълнение продължава до "
-#~ "ограничението на височината."
-
-#~ msgid ""
-#~ "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
-#~ msgstr ""
-#~ "Заявка за стартиране на автофокуса - Изчаква 10 секунди за завършване на "
-#~ "адаптивен фокус."
-
-#~ msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
-#~ msgstr ""
-#~ "Отхвърляне на заявка за стартиране на автофокус - извършва се адаптивно "
-#~ "фокусиране."
-
-#~ msgid "Time Source:"
-#~ msgstr "Източник за данни за час:"
-
-#~ msgid "Location Source:"
-#~ msgstr "Източник на данни за местоположение:"
-
-#~ msgid "DEC:"
-#~ msgstr "DEC:"
-
-#~ msgid "ALT:"
-#~ msgstr "Височина:"
-
-#~ msgid "Hour Angle"
-#~ msgstr "Часови ъгъл"
-
-#~ msgid "Local Sidereal TIme"
-#~ msgstr "Местно звездно време"
-
-#~ msgid "LST:"
-#~ msgstr "МЗВ:"
-
-#~ msgid ""
-#~ "Action to take if solver if successful (Sync, Slew to Target, or None)"
-#~ msgstr ""
-#~ "Действие, което да се предприеме, ако решаването е успешно "
-#~ "(Синхронизиране, Завъртване към целта или Без)"
-
-#~ msgid "Capturing image again..."
-#~ msgstr "Изображението се заснема отново..."
-
-#~ msgid "Exposure failure. Restarting exposure..."
-#~ msgstr "Неуспешна експозиция. Експозицията се рестартира..."
-
-#~| msgid "Calibration"
-#~ msgid "Calibraton"
-#~ msgstr "Калибриране"
-
-#~ msgid "<b>File Settings</b>"
-#~ msgstr "<b>Файлови настройки</b>"
-
-#~ msgid "Darks..."
-#~ msgstr "Тъмни..."
-
-#~ msgid "Limits..."
-#~ msgstr "Граници..."
-
-#~ msgid "Scripts..."
-#~ msgstr "Скриптове..."
-
-#~ msgid ""
-#~ "GPS driver detected. KStars and mount time and location settings are now "
-#~ "synced to the GPS driver."
-#~ msgstr ""
-#~ "Открит е GPS драйвер. Настройките за време и местоположение на KStars и "
-#~ "монтировката вече се синхронизират с GPS драйвера."
-
-#~ msgid ""
-#~ "GPS is detected. Do you want to switch time and location source to GPS?"
-#~ msgstr ""
-#~ "Открит е GPS. Искате ли да превключите източника на данни за време и "
-#~ "местоположение към GPS?"
-
-#~ msgid "GPS Settings"
-#~ msgstr "Настройки на GPS"
-
-#~ msgid "%1 file saved to %2"
-#~ msgstr "Файлът %1 е записан в %2"
-
-#~ msgid ""
-#~ "Select time and location synchronization settings between KStars and INDI "
-#~ "Devices"
-#~ msgstr ""
-#~ "Избор на настройки за синхронизиране на времето и местоположението между "
-#~ "KStars и INDI устройствата"
-
-#~ msgid "Time && Location Updates"
-#~ msgstr "Актуализации на местоположението, часа и датата"
-
-#~ msgid ""
-#~ "<html><head/><body><p>KStars is the master source for time and location "
-#~ "settings. All INDI devices time and locations settings are synchronized "
-#~ "to KStars settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>KStars е основният източник за настройки на времето "
-#~ "и местоположението. Всички настройки на времето и местоположението на "
-#~ "INDI устройствата се синхронизират с настройките на KStars.</p></body></"
-#~ "html>"
-
-#~ msgid "KStars updates all devices"
-#~ msgstr "KStars актуализира всички устройства"
-
-#~ msgid ""
-#~ "Synchronize KStars date and time automatically from the update source."
-#~ msgstr ""
-#~ "Синхронизиране на датата и часа на KStars автоматично от източника на "
-#~ "актуализация."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Mount handset is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with controller settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Монтировката е основният източник на настройки за "
-#~ "време и местоположение. Настройките на времето и местоположението на "
-#~ "KStars се синхронизират с настройките на контролера.</p></body></html>"
-
-#~ msgid "Mount updates KStars"
-#~ msgstr "Монтировката актуализира данните на KStars"
-
-#~ msgid "Synchronize KStars location settings from the update source."
-#~ msgstr ""
-#~ "Синхронизиране на настройките за местоположение на KStars от източника на "
-#~ "актуализация."
-
-#~ msgid "Location"
-#~ msgstr "Местоположение"
-
-#~ msgid ""
-#~ "<html><head/><body><p>GPS driver is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with GPS settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>GPS драйверът е основният източник на настройки за "
-#~ "време и местоположение. Настройките на времето и местоположението на "
-#~ "KStars се синхронизират с GPS настройките.</p></body></html>"
-
-#~ msgid "GPS updates KStars"
-#~ msgstr "GPS актуализира KStars"
-
-#~ msgid "Use KStars time and location for synchronization?"
-#~ msgstr ""
-#~ "Да се използва ли времето и местоположението на KStars при синхронизиране?"
-
-#~ msgid "Use mount time and location for synchronization?"
-#~ msgstr ""
-#~ "Да се използва ли времето и местоположението на монтировката при "
-#~ "синхронизиране?"
-
-#~ msgid "Use GPS time and location for synchronization?"
-#~ msgstr ""
-#~ "Да се използва ли времето и местоположението от GPS при синхронизиране?"
-
-#~ msgid ""
-#~ "Subtract dark frame. If no suitable dark frame is available, a dark frame "
-#~ "shall be captured."
-#~ msgstr ""
-#~ "Изваждане на тъмен кадър. Ако няма подходящ тъмен кадър, ще бъде заснет "
-#~ "тъмен кадър."
-
-#~ msgid "Use dark frames from the library."
-#~ msgstr "Използване на тъмни кадри от библиотеката."
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "The sun"
-#~ msgstr "Слънцето"
-
-#~ msgid "The moon"
-#~ msgstr "Луната"
-
-#~ msgid "Camera frame types when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Вид на кадрите на камерата при използване на самостоятелен редактор esq."
-
-#~ msgid "Camera frame formats when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Формати на кадрите на камерата при използване на самостоятелен редактор "
-#~ "esq."
-
-#~ msgid "Camera frame encodings when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Кодиране на кадрите на камерата при използване на самостоятелен редактор "
-#~ "esq."
-
-#~ msgid "Camera ISOs when using stand-alone esq editor."
-#~ msgstr "ISO на камерата при използване на самостоятелен esq редактор."
-
-#~ msgid "Camera ISO choice when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Избор на ISO на камерата при използване на самостоятелен редактор esq."
-
-#~ msgid "Filter names when using stand-alone esq editor."
-#~ msgstr "Имена на филтрите при използване на самостоятелен esq редактор."
-
-#~ msgid ""
-#~ "Width,Height of sensor size remembered for stand-alone esq editor, and "
-#~ "Gain/Offset keywords."
-#~ msgstr ""
-#~ "Ширина, височина на размера на сензора, запомнени за самостоятелен esq "
-#~ "редактор, и ключови думи за усилване/отместване)."
-
-#, fuzzy
-#~| msgid "Camera frame formats when using stand-alone esq editor."
-#~ msgid "Camera temperature properties for stand-alone esq editor."
-#~ msgstr ""
-#~ "Формати на кадрите на камерата при използване на самостоятелен редактор "
-#~ "esq."
-
-#~ msgid "Local time that the CaptureStandAlone options were set."
-#~ msgstr "Местно време, в което са зададени опциите CaptureStandAlone."
-
-#~ msgid ""
-#~ "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
-#~ "parameters?"
-#~ msgstr ""
-#~ "Първо използване на оптичната система: %1. Искате ли съветникът по "
-#~ "фокусиране да оптимизира параметрите?"
-
-#~ msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Максимален размер на стъпката::</p></body></html>"
-
-#~ msgid "Wall coordinates are invalid."
-#~ msgstr "Координатите на стената са невалидни."
