@@ -75,7 +75,7 @@ void fatalErrorMessage(QString fname)
 //                   "KStars search for this file in following locations:\n\n\t"
 //                   "%2\n\n"
 //                   "It appears that you setup is broken. Press Continue to run KStars without this file ",
-//                   fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
+//                   fname, QStandardPaths::standardLocations( QStandardPaths::AppLocalDataLocation ).join("\n\t") ),
 //              i18n( "Non-Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
 //    if( res != KMessageBox::Continue )
 //        qApp->exit(1);

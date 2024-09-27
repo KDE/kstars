@@ -305,7 +305,7 @@ void Media::sendFile(const QString &filename, const QString &uuid)
     QSharedPointer<FITSData> data(new FITSData());
     data->loadFromFile(filename);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    QtConcurrent::run(&Media::dispatch, data, uuid);
+    QtConcurrent::run(&Media::dispatch, this, data, uuid);
 #else
     QtConcurrent::run(this, &Media::dispatch, data, uuid);
 #endif
@@ -432,7 +432,7 @@ void Media::upload(const QSharedPointer<FITSView> &view, const QString &uuid)
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
-    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == "+");
+    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == '+');
     auto scaleWidth = fastImage ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
 
     // For low bandwidth images
@@ -506,7 +506,7 @@ void Media::upload(const QSharedPointer<FITSData> &data, const QImage &image, co
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
-    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == "+");
+    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == '+');
     auto scaleWidth = fastImage ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
 
     // For low bandwidth images

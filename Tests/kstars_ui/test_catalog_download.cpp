@@ -4,8 +4,15 @@
 #include "test_kstars_startup.h"
 
 #include "Options.h"
-#include <KNS3/DownloadWidget>
-#include <KNS3/Button>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <KNSWidgets/dialog.h>
+#include <KNSWidgets/Button>
+#else
+#include <kns3/downloaddialog.h>
+#include <kns3/button.h>
+#endif
+
 #include <KMessageBox>
 
 TestCatalogDownload::TestCatalogDownload(QObject *parent): QObject(parent)
@@ -66,7 +73,11 @@ void TestCatalogDownload::testCatalogDownloadWhileUpdating()
         QTimer::singleShot(5000, [&]()
         {
             KTELL(step + "Change the first four catalogs installation state");
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            auto d = KStars::Instance()->findChild<KNSWidgets::Dialog*>("DownloadWidget");
+#else
             KNS3::DownloadWidget * d = KStars::Instance()->findChild<KNS3::DownloadWidget*>("DownloadWidget");
+#endif
             QList<QToolButton*> wl = d->findChildren<QToolButton*>();
             if (wl.count() >= 8)
             {

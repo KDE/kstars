@@ -23,7 +23,6 @@
 #include "kstars.h"
 #include "kspaths.h"
 #include "kswizard.h"
-#include <KTipDialog>
 
 #include "kstars_ui_tests.h"
 #include "test_kstars_startup.h"
@@ -77,7 +76,8 @@ void TestKStarsStartup::createInstanceTest()
     // Remaining in the timer signal waiting for the app to load actually prevents the app from
     // loading, so retrigger the timer until the app is ready
     volatile bool installWizardDone = false;
-    if (Options::runStartupWizard() == true) {
+    if (Options::runStartupWizard() == true)
+    {
         std::function <void()> closeWizard = [&]
         {
             QTRY_VERIFY_WITH_TIMEOUT(KStars::Instance() != nullptr, 5000);
@@ -107,7 +107,7 @@ void TestKStarsStartup::createInstanceTest()
 
             // search the "Done" button
             QAbstractButton *doneButton;
-            for (QAbstractButton *button: buttons->buttons())
+            for (QAbstractButton *button : buttons->buttons())
             {
                 if (button->text().toStdString() == "Done")
                     doneButton = button;
@@ -119,11 +119,11 @@ void TestKStarsStartup::createInstanceTest()
         };
         QTimer::singleShot(500, KStars::Instance(), closeWizard);
     }
-    else {
+    else
+    {
         installWizardDone = true;
     }
     // Initialize our instance and wait for the test to finish
-    KTipDialog::setShowOnStart(false);
     KStars::createInstance(true, m_InitialConditions.clockRunning, m_InitialConditions.dateTime.toString());
     QVERIFY(KStars::Instance() != nullptr);
     QTRY_VERIFY_WITH_TIMEOUT(installWizardDone, 10000);

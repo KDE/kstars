@@ -39,7 +39,7 @@ void TestEkosHelper::createEkosProfile(QString name, bool isPHD2, bool *isDone)
     // Set the profile name
     KTRY_SET_LINEEDIT(profileEditor, profileIN, name);
     // select the guider type
-    KTRY_SET_COMBO(profileEditor, guideTypeCombo, isPHD2 ? "PHD2" : "Internal");
+    KTRY_SET_COMBO(profileEditor, guideTypeCombo, (isPHD2 ? "PHD2" : "Internal"));
     if (isPHD2)
     {
         // Write PHD2 server specs

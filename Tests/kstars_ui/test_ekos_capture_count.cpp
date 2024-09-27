@@ -143,7 +143,7 @@ void TestEkosCaptureCount::initTestCase()
     // do not show images
     Options::setUseFITSViewer(false);
     // disable twilight warning
-    KMessageBox::saveDontShowAgainYesNo("astronomical_twilight_warning", KMessageBox::ButtonCode::No);
+    KMessageBox::saveDontShowAgainTwoActions("astronomical_twilight_warning", KMessageBox::ButtonCode::Cancel);
     // close the optical trains manager
     Ekos::OpticalTrainManager::Instance()->close();
     // wait for protile to settle

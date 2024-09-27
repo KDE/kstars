@@ -57,7 +57,7 @@ void TestEkosMeridianFlipBase::initTestCase()
         m_CaptureHelper->preparePHD2();
 
     // disable twilight warning
-    KMessageBox::saveDontShowAgainYesNo("astronomical_twilight_warning", KMessageBox::ButtonCode::No);
+    KMessageBox::saveDontShowAgainTwoActions("astronomical_twilight_warning", KMessageBox::ButtonCode::Cancel);
 }
 
 bool TestEkosMeridianFlipBase::shutdownEkosProfile()
