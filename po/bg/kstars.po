@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-23 01:45+0000\n"
+"POT-Creation-Date: 2024-09-28 01:47+0000\n"
 "PO-Revision-Date: 2024-09-26 09:51+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -6268,7 +6268,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Грешка: загубена връзка с филтърното колело."
 
 #: ekos/align/align.cpp:1494 ekos/capture/cameraprocess.cpp:207
-#: ekos/capture/cameraprocess.cpp:606 ekos/focus/focus.cpp:5321
+#: ekos/capture/cameraprocess.cpp:606 ekos/focus/focus.cpp:5322
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6312,13 +6312,13 @@ msgstr ""
 "Не е открит драйвер за отдалечена астрометрия, превключва се на "
 "StellarSolver."
 
-#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1636
+#: ekos/align/align.cpp:1626 ekos/focus/focus.cpp:1637
 #, kde-format
 msgid "Capturing image..."
 msgstr "Заснемане на изображение..."
 
 #: ekos/align/align.cpp:1716 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2673
+#: ekos/focus/focus.cpp:2674
 #, kde-format
 msgid "Image received."
 msgstr "Изображението е получено."
@@ -6463,7 +6463,7 @@ msgid "Refresh is complete."
 msgstr "Опресняването е завършено."
 
 #: ekos/align/align.cpp:2562 ekos/auxiliary/darklibrary.cpp:1410
-#: ekos/focus/focus.cpp:1367
+#: ekos/focus/focus.cpp:1368
 #, kde-format
 msgid "Capture aborted."
 msgstr "Заснемането е прекъснато."
@@ -6474,7 +6474,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Решаването е прекъснато след %1 секунди."
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:299 ekos/focus/focusmodule.cpp:236
+#: ekos/capture/capture.cpp:291 ekos/focus/focusmodule.cpp:240
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2053 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3499
@@ -6637,7 +6637,7 @@ msgid "dDE (arcsec)"
 msgstr "ΔДекл (дъг. сек.)"
 
 #: ekos/align/align.cpp:3643 ekos/capture/camera.cpp:3336
-#: ekos/focus/focus.cpp:5209
+#: ekos/focus/focus.cpp:5210
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Операцията на филтъра е неуспешна."
@@ -15871,8 +15871,8 @@ msgstr "Скриптът за предварителна работа завър
 msgid "Post job script finished with code %1."
 msgstr "Скриптът за последваща работа завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:2064 ekos/focus/focus.cpp:5373
-#: ekos/focus/focus.cpp:5397
+#: ekos/capture/cameraprocess.cpp:2064 ekos/focus/focus.cpp:5374
+#: ekos/focus/focus.cpp:5398
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Изчакване на експозицията. Прекъсване..."
@@ -15884,7 +15884,7 @@ msgstr ""
 "Изчакване на експозицията. Засечени са повече от три опита. Драйверът се "
 "рестартира..."
 
-#: ekos/capture/cameraprocess.cpp:2089 ekos/focus/focus.cpp:5378
+#: ekos/capture/cameraprocess.cpp:2089 ekos/focus/focus.cpp:5379
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -16182,18 +16182,18 @@ msgstr ""
 "<p>Добавяне на допълнителна камера</p><p><b>Предупреждение</b>: Това е "
 "експериментална функция!</p>"
 
-#: ekos/capture/capture.cpp:454 ekos/focus/focusmodule.cpp:387
+#: ekos/capture/capture.cpp:450 ekos/focus/focusmodule.cpp:390
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "Камера %1 е заета. Прекъсване за затваряне?"
 
-#: ekos/capture/capture.cpp:455 ekos/focus/focusmodule.cpp:388
+#: ekos/capture/capture.cpp:451 ekos/focus/focusmodule.cpp:391
 #, kde-format
 msgid "Stop capturing"
 msgstr "Спиране на записа"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:456 ekos/focus/focusmodule.cpp:388
+#: ekos/capture/capture.cpp:452 ekos/focus/focusmodule.cpp:391
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:720
@@ -18704,22 +18704,22 @@ msgstr "Механика"
 msgid "Focus Mechanics"
 msgstr "Механика на фокуса"
 
-#: ekos/focus/focus.cpp:925
+#: ekos/focus/focus.cpp:926
 #, kde-format
 msgid "Finally found temperature source %1"
 msgstr "Най-накрая намерен източник на температура %1"
 
-#: ekos/focus/focus.cpp:1017
+#: ekos/focus/focus.cpp:1018
 #, kde-format
 msgid "No Focuser connected."
 msgstr "Няма свързан фокусер."
 
-#: ekos/focus/focus.cpp:1024 ekos/focus/focus.cpp:4426
+#: ekos/focus/focus.cpp:1025 ekos/focus/focus.cpp:4427
 #, kde-format
 msgid "No CCD connected."
 msgstr "Няма свързан CCD."
 
-#: ekos/focus/focus.cpp:1031
+#: ekos/focus/focus.cpp:1032
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
@@ -18727,364 +18727,364 @@ msgstr ""
 "Началната стъпка на импулса е твърде ниска. Увеличете размера на стъпката на "
 "%1 или повече..."
 
-#: ekos/focus/focus.cpp:1042
+#: ekos/focus/focus.cpp:1043
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr "Автофокусът вече е стартиран, отхвърля се заявката за стартиране."
 
-#: ekos/focus/focus.cpp:1049
+#: ekos/focus/focus.cpp:1050
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
 "Задаването на отместване вече се извършва, автофокусирането се отхвърли."
 
-#: ekos/focus/focus.cpp:1057
+#: ekos/focus/focus.cpp:1058
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "Извършва се процес на фокусиране, автофокусирането се отхвърли."
 
-#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4757
-#: ekos/focus/focus.cpp:5001
+#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4758
+#: ekos/focus/focus.cpp:5002
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Регулиране на фокуса"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1064 ekos/focus/focus.cpp:4759
-#: ekos/focus/focus.cpp:5001 ekos/focus/opsfocussettings.ui:445
+#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4760
+#: ekos/focus/focus.cpp:5002 ekos/focus/opsfocussettings.ui:445
 #: ekos/focus/opsfocussettings.ui:525
 #, kde-format
 msgid "Adaptive Focus"
 msgstr "Адаптивно фокусиране"
 
-#: ekos/focus/focus.cpp:1067
+#: ekos/focus/focus.cpp:1068
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Заявка за стартиране на автофокус - Изчаква се 10 секунди за завършване на "
 "%1."
 
-#: ekos/focus/focus.cpp:1075
+#: ekos/focus/focus.cpp:1076
 #, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr "Отхвърляне на заявка за стартиране на автофокус - в процес е %1."
 
-#: ekos/focus/focus.cpp:1237
+#: ekos/focus/focus.cpp:1238
 #, kde-format
 msgid "Autofocus in progress..."
 msgstr "Извършва се автофокусиране..."
 
-#: ekos/focus/focus.cpp:1239
+#: ekos/focus/focus.cpp:1240
 #, kde-format
 msgid "Please wait until image capture is complete..."
 msgstr "Моля, изчакайте, докато заснемането на изображението приключи..."
 
-#: ekos/focus/focus.cpp:1253
+#: ekos/focus/focus.cpp:1254
 #, kde-format
 msgid "Autofocus operation started"
 msgstr "Започнала е операция за автоматично фокусиране"
 
-#: ekos/focus/focus.cpp:1372
+#: ekos/focus/focus.cpp:1373
 #, kde-format
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Извършва се заснемане, повторен опит след 1секунди..."
 
-#: ekos/focus/focus.cpp:1384
+#: ekos/focus/focus.cpp:1385
 #, kde-format
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Извършва се разпознаване на звезди, повторен опит след 1секунда..."
 
-#: ekos/focus/focus.cpp:1428
+#: ekos/focus/focus.cpp:1429
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "Автофокусирането е прекъснато."
 
-#: ekos/focus/focus.cpp:1528
+#: ekos/focus/focus.cpp:1529
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Грешка: Не е открита камера."
 
-#: ekos/focus/focus.cpp:1535
+#: ekos/focus/focus.cpp:1536
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Грешка: Загубена връзка с камерата."
 
-#: ekos/focus/focus.cpp:1556
+#: ekos/focus/focus.cpp:1557
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Грешка: Не е открито филтърно колело."
 
-#: ekos/focus/focus.cpp:1562
+#: ekos/focus/focus.cpp:1563
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Грешка: Загубена връзка с филтърното колело."
 
-#: ekos/focus/focus.cpp:1680
+#: ekos/focus/focus.cpp:1681
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "При минимална фокусна позиция %1..."
 
-#: ekos/focus/focus.cpp:1691
+#: ekos/focus/focus.cpp:1692
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "Отиване до позиция на минимален фокус %1..."
 
-#: ekos/focus/focus.cpp:1700
+#: ekos/focus/focus.cpp:1701
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "При максимална фокусна позиция %1..."
 
-#: ekos/focus/focus.cpp:1711
+#: ekos/focus/focus.cpp:1712
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "Отиване до позиция на максимален фокус %1..."
 
-#: ekos/focus/focus.cpp:1738
+#: ekos/focus/focus.cpp:1739
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Грешка: Не е открит фокусер."
 
-#: ekos/focus/focus.cpp:1745
+#: ekos/focus/focus.cpp:1746
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Грешка: Загубена връзка с фокусер."
 
-#: ekos/focus/focus.cpp:1759
+#: ekos/focus/focus.cpp:1760
 #, kde-format
 msgid "outward"
 msgstr "навън"
 
-#: ekos/focus/focus.cpp:1759
+#: ekos/focus/focus.cpp:1760
 #, kde-format
 msgid "inward"
 msgstr "навътре"
 
-#: ekos/focus/focus.cpp:1776
+#: ekos/focus/focus.cpp:1777
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Фокусиране на %2 с %1 стъпки..."
 
-#: ekos/focus/focus.cpp:1782
+#: ekos/focus/focus.cpp:1783
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Фокусиране на %2 на %1 стъпка..."
 msgstr[1] "Фокусиране на %2 на %1 стъпки..."
 
-#: ekos/focus/focus.cpp:1788
+#: ekos/focus/focus.cpp:1789
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Фокусиране на %2 с %1 ms..."
 
-#: ekos/focus/focus.cpp:1823
+#: ekos/focus/focus.cpp:1824
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr ""
 "Инструментът за фокусиране е надхвърлил времето си за изчакване. Прекъсване "
 "на работата..."
 
-#: ekos/focus/focus.cpp:1830
+#: ekos/focus/focus.cpp:1831
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Времето за изчакване на движението на фокуса изтече (%1). Рестартира се "
 "драйверът за фокус %2"
 
-#: ekos/focus/focus.cpp:1841
+#: ekos/focus/focus.cpp:1842
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Времето за изчакване на движението на фокуса изтече (%1). Фокусиране върху "
 "%2 стъпки..."
 
-#: ekos/focus/focus.cpp:1887
+#: ekos/focus/focus.cpp:1888
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Опит за повторно свързване на фокусера: %1"
 
-#: ekos/focus/focus.cpp:1896
+#: ekos/focus/focus.cpp:1897
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Не може да се свърже повторно с фокусера: %1. Прекъсване..."
 
-#: ekos/focus/focus.cpp:1954
+#: ekos/focus/focus.cpp:1955
 #, kde-format
 msgid "Detection complete."
 msgstr "Завършване на откриването."
 
-#: ekos/focus/focus.cpp:2145
+#: ekos/focus/focus.cpp:2146
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Откриване на източници..."
 
-#: ekos/focus/focus.cpp:2248
+#: ekos/focus/focus.cpp:2249
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Операцията за автофокус е завършена успешно"
 
-#: ekos/focus/focus.cpp:2262
+#: ekos/focus/focus.cpp:2263
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Операцията на автоматичното фокусиране е неуспешна"
 
-#: ekos/focus/focus.cpp:2330
+#: ekos/focus/focus.cpp:2331
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Процедурата за фокусиране завърши след %1 цикъл."
 msgstr[1] "Процедурата за фокусиране завърши след %1 цикъла."
 
-#: ekos/focus/focus.cpp:2416
+#: ekos/focus/focus.cpp:2417
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Установяване за %1s..."
 
-#: ekos/focus/focus.cpp:2424
+#: ekos/focus/focus.cpp:2425
 #, kde-format
 msgid "Settling complete."
 msgstr "Установяването е завършено."
 
-#: ekos/focus/focus.cpp:2437
+#: ekos/focus/focus.cpp:2438
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Автофокусът е неуспешен, връщане към първоначалната позиция за фокусиране %1."
 
-#: ekos/focus/focus.cpp:2474
+#: ekos/focus/focus.cpp:2475
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "Получени FITS. Няма открити звезди."
 
-#: ekos/focus/focus.cpp:2759
+#: ekos/focus/focus.cpp:2760
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Неуспешно автоматично избиране на звезда. Моля, изберете звезда ръчно."
 
-#: ekos/focus/focus.cpp:2853
+#: ekos/focus/focus.cpp:2854
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Заснемането е завършено. Избор на звезда за фокусиране."
 
-#: ekos/focus/focus.cpp:2884
+#: ekos/focus/focus.cpp:2885
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 "Не са открити звезди по време на тестването на HFR, заснемане отново..."
 
-#: ekos/focus/focus.cpp:2904
+#: ekos/focus/focus.cpp:2905
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "HFR %1 > Ограничение %2"
 
-#: ekos/focus/focus.cpp:3020
+#: ekos/focus/focus.cpp:3021
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Автофокусирането е неуспешно: надхвърлен е максималния брой итерации %1"
 
-#: ekos/focus/focus.cpp:3031 ekos/focus/focus.cpp:3293
-#: ekos/focus/focus.cpp:3889
+#: ekos/focus/focus.cpp:3032 ekos/focus/focus.cpp:3294
+#: ekos/focus/focus.cpp:3890
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Не са открити звезди, заснемане отново..."
 
-#: ekos/focus/focus.cpp:3037 ekos/focus/focus.cpp:3895
+#: ekos/focus/focus.cpp:3038 ekos/focus/focus.cpp:3896
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "Неуспешно откриване на звезди на позиция %1. Продължаване..."
 
-#: ekos/focus/focus.cpp:3043 ekos/focus/focus.cpp:3901
+#: ekos/focus/focus.cpp:3044 ekos/focus/focus.cpp:3902
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr "Неуспешно откриване на звезди. Нулирайте кадрите и опитайте отново."
 
-#: ekos/focus/focus.cpp:3230
+#: ekos/focus/focus.cpp:3231
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Не може да се стартира %1 на Инспектора на аберациите..."
 
-#: ekos/focus/focus.cpp:3250
+#: ekos/focus/focus.cpp:3251
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Стартиране на изпълнение на %1 на инспектора за аберации..."
 
-#: ekos/focus/focus.cpp:3276
+#: ekos/focus/focus.cpp:3277
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Започване на сканиране за първоначална позиция на фокусера."
 
-#: ekos/focus/focus.cpp:3277
+#: ekos/focus/focus.cpp:3278
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Сканиране за първоначална позиция на фокусера"
 
-#: ekos/focus/focus.cpp:3299
+#: ekos/focus/focus.cpp:3300
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Неуспешно откриване на звезди. Прекъсване..."
 
-#: ekos/focus/focus.cpp:3308
+#: ekos/focus/focus.cpp:3309
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr ""
 "Сканиране на начална позиция: надхвърлен е максималния брой итерации %1"
 
-#: ekos/focus/focus.cpp:3326
+#: ekos/focus/focus.cpp:3327
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Сканиране за начална позиция %1/%2"
 
-#: ekos/focus/focus.cpp:3340
+#: ekos/focus/focus.cpp:3341
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Без минимално сканиране - разширяване на търсенето..."
 
-#: ekos/focus/focus.cpp:3353
+#: ekos/focus/focus.cpp:3354
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Намерена е начална позиция на сканиране %1"
 
-#: ekos/focus/focus.cpp:3354
+#: ekos/focus/focus.cpp:3355
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Намерена е е начална стартова позиция %1"
 
-#: ekos/focus/focus.cpp:3423
+#: ekos/focus/focus.cpp:3424
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Проверката за прилягане на кривата е неуспешна R2=%1 focusR2Limit=%2 "
 "повторен опит..."
 
-#: ekos/focus/focus.cpp:3425
+#: ekos/focus/focus.cpp:3426
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Ограничение=%2"
 
-#: ekos/focus/focus.cpp:3433
+#: ekos/focus/focus.cpp:3434
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Проверката за прилягане на кривата отново се провали R2=%1 focusR2Limit=%2, "
 "но продължава..."
 
-#: ekos/focus/focus.cpp:3443
+#: ekos/focus/focus.cpp:3444
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Линейният алгоритъм за автофокусиране е прекъснат: %1"
 
-#: ekos/focus/focus.cpp:3478
+#: ekos/focus/focus.cpp:3479
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "Получени FITS. HFR %1 @ %2. Делта (%3%)"
 
-#: ekos/focus/focus.cpp:3480
+#: ekos/focus/focus.cpp:3481
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "Получени FITS. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3541
+#: ekos/focus/focus.cpp:3542
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19093,26 +19093,26 @@ msgstr ""
 "Промяната в HFR е твърде малка. Опитайте да увеличите размера на стъпката "
 "или да намалите допустимото отклонение."
 
-#: ekos/focus/focus.cpp:3548
+#: ekos/focus/focus.cpp:3549
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Не успя да открие звезда за фокусиране в кадъра. Заснемете и изберете "
 "фокусна звезда."
 
-#: ekos/focus/focus.cpp:3653
+#: ekos/focus/focus.cpp:3654
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Намерено е полиномно решение @ %1"
 
-#: ekos/focus/focus.cpp:3717
+#: ekos/focus/focus.cpp:3718
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Фокусиращото устройство не може да се придвижи по-нататък, лимитите на "
 "устройството са достигнати. Автофокусът е прекъснат."
 
-#: ekos/focus/focus.cpp:3728
+#: ekos/focus/focus.cpp:3729
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -19120,25 +19120,25 @@ msgstr ""
 "Нестабилни колебания. Опитайте да увеличите първоначалния размер на стъпката "
 "или времето на експозиция."
 
-#: ekos/focus/focus.cpp:3738
+#: ekos/focus/focus.cpp:3739
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr ""
 "Достигнато е безизходно положение. Моля, опитайте отново с различни "
 "настройки."
 
-#: ekos/focus/focus.cpp:3767
+#: ekos/focus/focus.cpp:3768
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "Достигната е максималната граница на движение. Автофокусът е прекъснат."
 
-#: ekos/focus/focus.cpp:3874
+#: ekos/focus/focus.cpp:3875
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "Получени FITS. HFR %1. Делта (%2%) Мин HFR (%3)"
 
-#: ekos/focus/focus.cpp:3878
+#: ekos/focus/focus.cpp:3879
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19146,95 +19146,95 @@ msgstr ""
 "Автофокусът не успява да постигне правилно фокусиране. Опитайте да "
 "регулирате стойността на толеранса."
 
-#: ekos/focus/focus.cpp:3973 ekos/focus/focus.cpp:3996
-#: ekos/focus/focus.cpp:4171 ekos/focus/focus.cpp:4254
-#: ekos/focus/focus.cpp:4326 ekos/focus/focus.cpp:4401
+#: ekos/focus/focus.cpp:3974 ekos/focus/focus.cpp:3997
+#: ekos/focus/focus.cpp:4172 ekos/focus/focus.cpp:4255
+#: ekos/focus/focus.cpp:4327 ekos/focus/focus.cpp:4402
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Грешка на фокусера, проверете панела INDI."
 
-#: ekos/focus/focus.cpp:4057 ekos/focus/focus.cpp:4187
+#: ekos/focus/focus.cpp:4058 ekos/focus/focus.cpp:4188
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Неуспешна симулация на автоматично фокусиране..."
 
-#: ekos/focus/focus.cpp:4148 ekos/focus/focus.cpp:4235
-#: ekos/focus/focus.cpp:4307 ekos/focus/focus.cpp:4348
+#: ekos/focus/focus.cpp:4149 ekos/focus/focus.cpp:4236
+#: ekos/focus/focus.cpp:4308 ekos/focus/focus.cpp:4349
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Процесът на автоматично фокусиране се рестартира..."
 
-#: ekos/focus/focus.cpp:4442
+#: ekos/focus/focus.cpp:4443
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Стартиране на непрекъсната експозиция..."
 
-#: ekos/focus/focus.cpp:4731
+#: ekos/focus/focus.cpp:4732
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Деактивиране на автоматичния избор на звезди, тъй като полето за избор на "
 "звезди е преместено ръчно."
 
-#: ekos/focus/focus.cpp:4736
+#: ekos/focus/focus.cpp:4737
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Звездата за фокус е избрана."
 
-#: ekos/focus/focus.cpp:4755
+#: ekos/focus/focus.cpp:4756
 #, kde-format
 msgid "Autofocus"
 msgstr "Автоматично фокусиране"
 
-#: ekos/focus/focus.cpp:4763
+#: ekos/focus/focus.cpp:4764
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Заявка за проверка на фокус - Изчаква се 10 секунди за завършване на %1."
 
-#: ekos/focus/focus.cpp:4771
+#: ekos/focus/focus.cpp:4772
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Отхвърляне на заявка за проверка на фокуса - в процес е %1."
 
-#: ekos/focus/focus.cpp:4908
+#: ekos/focus/focus.cpp:4909
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Не е избрана звезда. Използва се последната известна позиция..."
 
-#: ekos/focus/focus.cpp:4914
+#: ekos/focus/focus.cpp:4915
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Не е избрана звезда. Прекъсване..."
 
-#: ekos/focus/focus.cpp:4925
+#: ekos/focus/focus.cpp:4926
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Фокусерът е вече на %1..."
 
-#: ekos/focus/focus.cpp:5004
+#: ekos/focus/focus.cpp:5005
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Заявка за регулиране на фокус - Изчаква се 10 секунди за завършване на %1."
 
-#: ekos/focus/focus.cpp:5038
+#: ekos/focus/focus.cpp:5039
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Фокусна рамка"
 
-#: ekos/focus/focus.cpp:5421
+#: ekos/focus/focus.cpp:5422
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Неуспешно запазване на изображението. Прекъсване..."
 
-#: ekos/focus/focus.cpp:5436 ekos/focus/focus.cpp:5461
+#: ekos/focus/focus.cpp:5437 ekos/focus/focus.cpp:5462
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Неуспешна експозиция. Прекъсване..."
 
-#: ekos/focus/focus.cpp:5753
+#: ekos/focus/focus.cpp:5754
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -19986,7 +19986,7 @@ msgstr ""
 "<table><tr><td>МИН:   </td><td>%1</td></tr><tr><td>СТ:   </td><td>%2 \"</"
 "td></tr></table>"
 
-#: ekos/focus/focusmodule.cpp:32
+#: ekos/focus/focusmodule.cpp:36
 #, kde-format
 msgid ""
 "<p>Add additional focuser</p><p><b>WARNING</b>: This feature is experimental!"
