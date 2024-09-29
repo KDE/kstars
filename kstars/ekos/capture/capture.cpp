@@ -536,12 +536,21 @@ void Capture::setMeridianFlipState(QSharedPointer<MeridianFlipState> newstate)
 
 bool Capture::hasCoolerControl()
 {
-    return process()->hasCoolerControl();
+    bool result = false;
+    for (auto &cam : cameras())
+        if (cam->process()->hasCoolerControl())
+            result |= cam->process()->hasCoolerControl();
+    return result;
 }
 
 bool Capture::setCoolerControl(bool enable)
 {
-    return process()->setCoolerControl(enable);
+    bool result = true;
+    for (auto &cam : cameras())
+        if (cam->process()->hasCoolerControl())
+            result &= cam->process()->setCoolerControl(enable);
+
+    return result;
 }
 
 void Capture::removeDevice(const QSharedPointer<ISD::GenericDevice> &device)
