@@ -76,7 +76,7 @@ void TestCatalogDownload::testCatalogDownloadWhileUpdating()
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
             auto d = KStars::Instance()->findChild<KNSWidgets::Dialog*>("DownloadWidget");
 #else
-            KNS3::DownloadWidget * d = KStars::Instance()->findChild<KNS3::DownloadWidget*>("DownloadWidget");
+            KNS3::DownloadDialog * d = KStars::Instance()->findChild<KNS3::DownloadDialog*>("DownloadWidget");
 #endif
             QList<QToolButton*> wl = d->findChildren<QToolButton*>();
             if (wl.count() >= 8)
