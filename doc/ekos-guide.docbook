@@ -304,6 +304,28 @@
         </para>
     </sect2>
 
+    <sect2 id="guide-multistar">
+        <title>Guiding with Multiple Stars</title>
+        <screenshot>
+            <screeninfo>
+                GPG MultiStar
+            </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_multistar_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase>Guiding with MultiStar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para>
+          In standard guiding the system selects a guiding star. In non-MultiStar systems, the measured movements of that star relative to its original positional measurements are converted to RA and DEC offsets which are the guiding drift errors. In MultiStar guiding the system selects many reference stars and measures all their offsets relative to their initial positions. The guiding error is computed as the median displacement of the individual reference stars from their original positions. The magic the system needs to perform is to find this noisy 2-dimensional pattern of reference stars in the guide image, but finding this pattern is more robust than finding a single guide star that may have moved significantly or may not have been detected at all. We recommended you choose this way to guide by selecting the guide Algorithm <guilabel>SEP Multi Star</guilabel>.
+        </para>
+        <para>
+          There are a few options you may wish to consider. <guilabel>Max MultiStar Ref Stars</guilabel> is the maximum number of reference stars the system can use. The main reason to limit this is computation cost, thought it is not a very expensive computation. 50 is a good choice. The setting <guilabel>Min MultiStar Star Detections</guilabel> tells the system to fallback to a single guide star if there are fewer than that many star detections. <guilabel>Invent Multi-Star Guide Star</guilabel> should be left checked, and <guilabel>Max MultiStar HFR</guilabel> is an old parameter that likely has little effect anymore.
+        </para>
+    </sect2>
     <sect2 id="guide-gpg">
         <title>Guiding with GPG</title>
         <screenshot>
