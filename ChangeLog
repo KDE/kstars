@@ -4,6 +4,89 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.3 (MULTI2):
+
+09a12d8f4 2024-09-29 Wolfgang Reissenberger Bug multi camera support | fix for camera cooler control
+33de71f26 2024-09-27 Wolfgang Reissenberger Refactor tabs closing + disabling tabs closing in focus module
+b80949023 2024-09-27 Wolfgang Reissenberger Selecting temperature source for focuser fixed
+691572033 2024-09-25 Jasem Mutlaq         Update snapcraft recipe. Not tested yet
+67bff0a7d 2024-09-22 John Evans           Focus Filter Offsets Bug
+8c9db1e49 2024-09-20 Jasem Mutlaq         Fix crash with using Qt Concurrent with FITSView upload
+12c54c629 2024-09-20 Jasem Mutlaq         Sure vertical bin to same as horizontal in dark library
+aec028926 2024-09-19 Jasem Mutlaq         Fix issue with dark library was not enforcing Dark type correctly
+10a7ad967 2024-09-19 Jasem Mutlaq         Make sure mount control panel can stay up at all times as it was before
+d205112f8 2024-09-16 Jasem Mutlaq         KStars v3.7.2 in AppData update
+cd6be6040 2024-09-16 Hy Murveit           Fix crash on ekos reconnect
+3a037b4d1 2024-09-14 Hy Murveit           Add altitude graphs to scheduler
+d3f3b9d25 2024-09-12 Hy Murveit           Bugfix for scheduler endtime display
+3297784d4 2024-09-12 Jasem Mutlaq         Guide settle when in-sequence-focus is used during guiding
+137ae4e49 2024-09-12 Gus Robinson         The Camera module starts capturing too soon after a dither. After a dither PHD2 sends a "guiding" state to the Guiding module which then immediatly ..
+b1cb77c34 2024-09-10 Konstantin Baranov   Allow Flat re-calibration on the fly
+0aac0c1b2 2024-09-11 Wolfgang Reissenberger Ignore device events if preparation has been completed
+95a90eb21 2024-09-09 Hy Murveit           Protect again possible crash
+31bb04542 2024-09-09 Wolfgang Reissenberger Avoid repeated logging of unchanged position and state
+3035ef35a 2024-09-09 Ed Lee               Changed example min KStars version to 3.7.3 to avoid confusion
+37c956e64 2024-09-08 Hy Murveit           ImageOverlays was not using modified profiles.
+a4674a56a 2024-09-08 Jasem Mutlaq         Store formatting texts in job and add ability to update jobs remotely via INVOKABLE
+7c96b2dea 2024-09-07 Wolfgang Reissenberger Improve logging for checking alignment after flip
+962b04ab9 2024-09-06 John Evans           Focus fixes for multicam
+7c3682ab3 2024-09-03 Wolfgang Reissenberger Multiple cameras | step 14 | Meridian flip
+53065ce12 2024-09-01 Wolfgang Reissenberger Multiple cameras | step 13 |  Robustness
+d18798d0a 2024-09-01 Wolfgang Reissenberger Use binning values for correct frame with calculation
+a642c75cd 2024-08-31 Wolfgang Reissenberger Multiple cameras | step 12 | alignment and guiding sync
+e0688469e 2024-08-31 Jasem Mutlaq         Only change time if ekos profile is not running
+c9efbaea2 2024-08-29 Jasem Mutlaq         UUID must always point to imageData
+f178273fa 2024-08-29 Jasem Mutlaq         Manage OPTION_SET from cloud
+e7e5592cc 2024-08-28 Jasem Mutlaq         Fix crash in processing focus module
+84db00873 2024-08-27 Wolfgang Reissenberger Bug fix keeping train sequence when adding new tab
+fea50dbc7 2024-08-27 Wolfgang Reissenberger Multiple cameras | step 11 | dither sync
+6dd7a8d66 2024-08-26 Jasem Mutlaq         Add more invokable methods. Probably need to add to DBus interface
+ee929c33e 2024-08-25 Wolfgang Reissenberger Add new tab selects unused optical train
+1795feaa7 2024-08-25 Wolfgang Reissenberger Bug fix in scheduler for interface changes of focus events
+604e72e3d 2024-08-24 Wolfgang Reissenberger Lost connection command readded
+6b9b09ec8 2024-08-24 Wolfgang Reissenberger Support for adhoc focus with multi camera setups
+284078e7b 2024-08-21 Jasem Mutlaq         Fix crash due to FITSView getting terminated in another thread and causing the QBasicTimer::stop crash
+92c5bb179 2024-08-22 Ed Lee               Add extra DBus functions for Siril_EAA extension
+74beff422 2024-08-22 Jasem Mutlaq         Fix missing tag
+2b3d32b94 2024-08-22 Yuri Chornoivan      Fix XML
+8db413303 2024-08-22 Yuri Chornoivan      Fix minor typos
+250448042 2024-08-22 Yuri Chornoivan      Fix minor typos and formatting
+e6734ccef 2024-08-21 Ed Lee               Create extensions interface
+6215551cb 2024-08-20 Wolfgang Reissenberger Bug fix for scheduler using train names as identifier
+b6a03fb1c 2024-08-19 Wolfgang Reissenberger Use train name as indentifier instead of camera device name
+9e3997b78 2024-08-18 Wolfgang Reissenberger Capture relevant type definitions consolidated in a single header file
+022b06c39 2024-06-19 Eric Dejouhanet      fix(ci): add cURL libraries to cfitsio libraries.
+7e235c094 2024-08-15 Jasem Mutlaq         Trains and train settings can be accessed without profile running
+a69e7d65e 2024-08-15 Wolfgang Reissenberger Multiple cameras | step 10
+a8c774ec9 2024-08-11 Hy Murveit           Updates to alwaysInvent for guider
+95490b0c3 2024-08-12 Jasem Mutlaq         Update URL
+1c93d2176 2024-08-12 Yuri Chornoivan      Fix minor typo
+41db1c4f4 2024-08-11 Hy Murveit           Add option to always invent the guidestar in MultiStar guiding.
+0a1b17059 2024-08-11 Jasem Mutlaq         Merge fixes from stable-3.7.2 into master
+0198ed23f 2024-08-10 John Evans           Focus Advisor 4 Bugs2
+596892d06 2024-08-09 Jasem Mutlaq         Fix crash due to out of range exception
+2a9083cf1 2024-08-08 Yuri Chornoivan      Remove extra colon
+603547ec9 2024-08-08 Wolfgang Reissenberger Bugfix missing fits file
+7baedeb0d 2024-08-06 Eric Dejouhanet      fix: change cmake versioning method.
+f8a66c0ac 2024-08-04 Wolfgang Reissenberger Display end altitude with greedy scheduling
+126935c61 2024-08-04 Wolfgang Reissenberger Bugfix INDI mount status
+a2f376d01 2024-08-08 Jasem Mutlaq         Fix issue where filter is only sent for first row
+c1e34c6c6 2024-08-08 Yuri Chornoivan      Remove extra colon
+93e45e7ce 2024-08-08 Wolfgang Reissenberger Bugfix missing fits file
+ce2e99f2b 2024-08-07 Wolfgang Reissenberger Multiple cameras | step 9
+58d9ed1d8 2024-08-06 Jasem Mutlaq         Fix possible crash when object hash contains some dangling pointers
+ab1e430ae 2024-08-06 Eric Dejouhanet      fix: change cmake versioning method.
+568ba95de 2024-08-06 Jasem Mutlaq         Sometimes the title is updated without HFR so need to send that separately
+f6105d8ec 2024-08-06 Jasem Mutlaq         Add missing signal emit for focus advisor
+9a8aa9d8b 2024-08-04 Wolfgang Reissenberger Display end altitude with greedy scheduling
+b4fb4b73d 2024-08-04 Wolfgang Reissenberger Bugfix INDI mount status
+fe52bee66 2024-08-04 Jasem Mutlaq         Starting v3.7.3 development cycle
+1b939a3df 2024-08-02 John Evans           Focus Advisor v4 Results Table
+8fc0e1c9d 2024-08-02 Jasem Mutlaq         INDI drivers sync
+cdb96e1b7 2024-08-01 Eric Dejouhanet      fix(ci): do build Craft recipes on master and stable branches.
+e1e9fbd79 2024-08-01 Jasem Mutlaq         Fix crash when saving a non-existing defect map
+a7fd569be 2024-08-01 Wolfgang Reissenberger Flag introduced restricting altitude limits to tracking
+
 3.7.2 (ADVISOR):
 
 0da71b1ff 2024-07-31 Jasem Mutlaq         Send title to EkosLive
