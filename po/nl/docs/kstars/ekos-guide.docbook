@@ -356,6 +356,37 @@
 > met een kleur die hoort bij de bijbehorende concentrische cirkel. U kunt de straal van de binnenste groene cirkel wijzigen door de driftplotnauwkeurigheid aan te passen. </para>
     </sect2>
 
+    <sect2 id="guide-multistar">
+        <title
+>Volgen met meerdere sterren</title>
+        <screenshot>
+            <screeninfo
+>GPG MultiStar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_multistar_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Volgen met MultiStar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>op de standaard manier van volgen selecteert het systeem een te volgen ster. In niet-multi-ster systemen, worden de gemeten verplaatsingen van die star relatief ten opzichte van zijn originele metingen van de positie geconverteerd naar RA en DEC offsets die de driftfouten van het volgen zijn. In multi-ster volgen selecteert het systeem vele referenties sterren en meet alle offsets ervan ten opzichte van hun initiële posities. De volgfout wordt berekent als de mediane verplaatsing van de individuele referentie sterren van hun originele posities. De magie die het systeem nodig heeft om te presteren is het vinden van deze \ luidruchtige 2-dimensionale patronen van referentie sterren in de volgafbeelding, maar dit patroon vinden is robuuster dan het vinden van een enkele volgster die mogelijk significant is verplaatst of misschien helemaal niet is gedetecteerd. We bevelen u aan deze manier te kiezen om te volgen door het volgalgoritme <guilabel
+>SEP Multi Star</guilabel
+> te selecteren. </para>
+        <para
+>Ere zijn een paar opties die u kunt overwegen. <guilabel
+>Max MultiStar Ref Stars</guilabel
+> is het maximale aantal referentie sterren die het systeem kan gebruiken. De hoofdreden om dit te beperken zijn de kosten van het berekenen, hoewel het geen erg dure berekeningen zijn. 50 is een goede keuze. De instelling <guilabel
+>Min MultiStar Star Detections</guilabel
+> vertelt het systeem om terug te vallen op een enkele volgster als er minder zijn dan die vele sterren detecties. <guilabel
+>Invent Multi-Star Guide Star</guilabel
+> zou geactiveerd gelaten moeten worden, en <guilabel
+>Max MultiStar HFR</guilabel
+> is een oude parameter die waarschijnlijk nog maar weinig effect meer heeft. </para>
+    </sect2>
     <sect2 id="guide-gpg">
         <title
 >Volgen met GPG</title>

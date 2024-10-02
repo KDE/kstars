@@ -30,7 +30,7 @@
 >PHD2</ulink
 > o <ulink url="https://sourceforge.net/projects/linguider/"
 >lin_guider</ulink
->. Utilitzant el guiatge intern, els fotogrames de la càmera del sistema de guiatge es capturen i s'envien a l'Ekos per a l'anàlisi. Depenent de les desviacions de les estrelles de les seves posicions de bloqueig, s'enviaran polsos de correccions del guiatge als motors dels eixos AR i DEC de la muntura. La majoria de les opcions de la &IGU; en el mòdul de guiatge estan ben documentades, de manera que simplement passeu el ratolí per sobre d'un element i apareixerà un consell d'eina emergent amb informació útil. </para>
+>. Utilitzant el guiatge intern, els fotogrames de la càmera del sistema de guiatge es capturen i s'envien a l'Ekos per a l'anàlisi. Depenent de les desviacions de les estrelles de les seves posicions de bloqueig, s'enviaran polsos de correccions del guiatge als motors dels eixos AR i Dec de la muntura. La majoria de les opcions de la &IGU; en el mòdul de guiatge estan ben documentades, de manera que simplement passeu el ratolí per sobre d'un element i apareixerà un consell d'eina emergent amb informació útil. </para>
     </sect2>
 
     <sect2 id="guide-Setup">
@@ -131,7 +131,7 @@
             </mediaobject>
         </screenshot>
         <para
->El guiatge automàtic és un procés de dos passos: calibratge i guiatge. El calibratge és necessari perquè l'esquema entengui l'orientació de la càmera en relació amb els eixos AR i DEC, i també els efectes dels polsos de guiatge (p. ex., quant mourà normalment l'eix AR un pols de guia de 100 ms). Una vegada estimats aquests valors, el sistema de guiatge pot corregir efectivament la posició de la muntura. Podeu veure els valors calibrats per a aquests paràmetres a la imatge anterior a la secció «Valors calibrats». </para>
+>El guiatge automàtic és un procés de dos passos: calibratge i guiatge. El calibratge és necessari perquè l'esquema entengui l'orientació de la càmera en relació amb els eixos AR i Dec, i també els efectes dels polsos de guiatge (p. ex., quant mourà normalment l'eix AR un pols de guia de 100 ms). Una vegada estimats aquests valors, el sistema de guiatge pot corregir efectivament la posició de la muntura. Podeu veure els valors calibrats per a aquests paràmetres a la imatge anterior a la secció «Valors calibrats». </para>
         <para
 >Igual que altres sistemes de guiatge, us recomanem que el calibrareu amb cura una vegada, i després tornar a calibrar només quan sigui necessari. Cal tornar a calibrar quan la càmera es mou (p. ex. girar) en relació amb la muntura. No hauria de ser necessari calibrar cada vegada que orienteu la muntura. Cal calibrar quan apunteu prop del meridià i al llarg de l'equador celeste (probablement just a l'oest). El guiatge (i el calibratge del sistema de guia) és problemàtic a prop del pol: probablement no funcionarà. <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
 >Aquesta presentació de diapositives</ulink
@@ -356,6 +356,37 @@
 > amb el seu color que reflecteix l'anell concèntric que cau dins. Podeu canviar el radi del cercle verd més intern ajustant la precisió del traçat de la deriva. </para>
     </sect2>
 
+    <sect2 id="guide-multistar">
+        <title
+>Guiatge amb estrelles múltiples</title>
+        <screenshot>
+            <screeninfo
+>GPG MultiStar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_multistar_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Guiatge amb MultiStar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>En el guiatge estàndard, el sistema selecciona una estrella guia. En els sistemes no-MultiStar, els moviments mesurats d'aquesta estrella en relació amb les seves mesures posicionals originals es converteixen a desplaçaments AR i Dec que són els errors de guiatge de la deriva. En el guiatge MultiStar, el sistema selecciona moltes estrelles de referència i mesura tots els seus desplaçaments en relació amb les seves posicions inicials. L'error de guiatge es calcula com el desplaçament mitjà de les estrelles de referència individuals de les seves posicions originals. La màgia que el sistema ha de realitzar és trobar el patró de soroll de 2 dimensions d'estrelles de referència a la imatge guia, però trobar aquest patró és més robust que trobar una sola estrella guia que pot haver-se mogut significativament o no haver-se detectat en absolut. Us recomanem que trieu aquesta manera de guiar seleccionant l'algorisme de guiatge <guilabel
+>SEP Multi Star</guilabel
+>. </para>
+        <para
+>Hi ha algunes opcions que potser voldreu considerar. <guilabel
+>Màx. d'estrelles de ref. del MultiStar</guilabel
+> és el nombre màxim d'estrelles de referència que el sistema pot utilitzar. La raó principal per limitar això és el cost de càlcul, tot i que no és un càlcul molt car. 50 és una opció bona. L'opció <guilabel
+>Detecció mínima d'estrelles del MultiStar</guilabel
+> indica al sistema que es converteixi en una sola estrella guia si hi ha menys que moltes deteccions d'estrelles. <guilabel
+>Inventa una estralla guia multiestrella</guilabel
+> hauria de deixar-se marcat, i <guilabel
+>HFR màx. del MultiStar</guilabel
+> és un paràmetre antic que probablement ja té poc efecte. </para>
+    </sect2>
     <sect2 id="guide-gpg">
         <title
 >Guiatge amb GPG</title>

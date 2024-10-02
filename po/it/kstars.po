@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-28 01:47+0000\n"
+"POT-Creation-Date: 2024-10-02 01:48+0000\n"
 "PO-Revision-Date: 2024-09-18 13:14+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -6509,7 +6509,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Risolutore interrotto dopo %1 secondi."
 
 #: ekos/align/align.cpp:2611 ekos/analyze/analyze.cpp:4120
-#: ekos/capture/capture.cpp:291 ekos/focus/focusmodule.cpp:240
+#: ekos/capture/capture.cpp:292 ekos/focus/focusmodule.cpp:240
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2053 ekos/mount/mount.cpp:766
 #: ekos/observatory/observatory.cpp:982
 #: ekos/scheduler/schedulerprocess.cpp:3499
@@ -16148,18 +16148,18 @@ msgstr ""
 "<p>Aggiungi fotocamera</p><p><b>ATTENZIONE</b>: questa funzionalità è "
 "sperimentale!</p>"
 
-#: ekos/capture/capture.cpp:450 ekos/focus/focusmodule.cpp:390
+#: ekos/capture/capture.cpp:451 ekos/focus/focusmodule.cpp:390
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "La fotocamera %1 è occupata. Interrompere per chiudere?"
 
-#: ekos/capture/capture.cpp:451 ekos/focus/focusmodule.cpp:391
+#: ekos/capture/capture.cpp:452 ekos/focus/focusmodule.cpp:391
 #, kde-format
 msgid "Stop capturing"
 msgstr "Ferma l'acquisizione"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:452 ekos/focus/focusmodule.cpp:391
+#: ekos/capture/capture.cpp:453 ekos/focus/focusmodule.cpp:391
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:590
 #: skycomponents/imageoverlaycomponent.cpp:720
