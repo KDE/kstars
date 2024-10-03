@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-02 01:48+0000\n"
-"PO-Revision-Date: 2024-09-18 13:14+0200\n"
+"PO-Revision-Date: 2024-09-23 16:14+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -13522,12 +13522,11 @@ msgid "Default focus star-extraction."
 msgstr "Estrazione stella con fuoco predefinito."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:102
-#, fuzzy, kde-format
-#| msgid "Profile optimized for source extraction of larger stars."
+#, kde-format
 msgid "Profile optimized for source extraction of stars including Donuts."
 msgstr ""
-"Profilo ottimizzato per l'estrazione della sorgente di stelle di grandi "
-"dimensioni."
+"Profilo ottimizzato per l'estrazione della sorgente di stelle, incluse le "
+"Donut."
 
 #: ekos/auxiliary/stellarsolverprofile.cpp:123
 #, kde-format
@@ -14405,16 +14404,13 @@ msgstr "Opzioni di calibrazione"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select which telescope to use when performing Field "
-#| "of View calculations.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select which actions to perform before a Bias/Dark/"
 "Flat frame is captured.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleziona quale telescopio utilizzare quando si "
-"eseguono i calcoli del campo di vista.</p></body></html>"
+"<html><head/><body><p>Seleziona quali azioni debbano essere eseguite prima "
+"dell'acquisizione di un Bias/Dark/Flat frame.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/capture/calibrationoptions.ui:40
@@ -14434,10 +14430,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationWall)
 #: ekos/capture/calibrationoptions.ui:66
-#, fuzzy, kde-format
-#| msgid "Wall"
+#, kde-format
 msgid "Goto Wall"
-msgstr "Muro"
+msgstr "Vai al Muro"
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationParkMount)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerParkMount)
@@ -14529,10 +14524,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationSkyFlats)
 #: ekos/capture/calibrationoptions.ui:229
-#, fuzzy, kde-format
-#| msgid "Sky Map"
+#, kde-format
 msgid "Sky flats"
-msgstr "Mappa celeste"
+msgstr "Flat celesti"
 
 #: ekos/capture/camera.cpp:107 ekos/capture/camera.cpp:109
 #, kde-format
@@ -14754,6 +14748,10 @@ msgid ""
 "triggering regulation.<p>This setting is read from and stored in the INDI "
 "camera driver configuration.</body></html>"
 msgstr ""
+"<html><body><p>Differenza massima tra la fotocamera e la regolazione "
+"dell'innesco delle temperature di destinazione.<p>Questa impostazione viene "
+"letta da e memorizzata nella configurazione del driver della fotocamera INDI."
+"</body></html>"
 
 #: ekos/capture/camera.cpp:3598
 #, kde-format
@@ -15092,10 +15090,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, darksFlatsLabel)
 #: ekos/capture/camera.ui:1283
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Dark Flats"
-msgstr "Dark Flat"
+msgstr "Dark flat"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
 #: ekos/capture/camera.ui:1311
@@ -15391,6 +15388,82 @@ msgid ""
 "in the filename portion of the format, not in the path definition.</li></"
 "ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Viene utilizzato un formato per definire i nomi dei "
+"file immagine mediante l'uso di tag segnaposto.</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Segnaposto<span style=\" font-weight:704;\"> %f</span> o <span style=\" "
+"font-weight:704;\">%filename</span>: il nome del file .esq, senza estensione."
+"</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Segnaposto<span style=\" "
+"font-weight:704;\"> %D</span> o <span style=\" font-weight:704;\">%Datetime</"
+"span>: la data e l'ora correnti <span style=\" font-weight:704;\">quando il "
+"file viene salvato.</span></li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Segnaposto<span style=\" font-weight:704;\"> %T</span> o <span "
+"style=\" font-weight:704;\">%Type</span>: il tipo di frame, per es.: "
+"'Light', 'Bias', 'Dark', 'Flat'...</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Segnaposto<span style=\" font-weight:704;\"> %e</span> o <span "
+"style=\" font-weight:704;\">%exposure</span>: la durata dell'esposizione in "
+"secondi, con '_secs' come suffisso.</li><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Segnaposto<span style=\" "
+"font-weight:704;\"> %E</span> o <span style=\" font-weight:704;\">%exp</"
+"span>: la durata dell'esposizione in secondi come numero semplice, senza "
+"unità come suffisso.</li></ul><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Segnaposto<span style=\" font-weight:704;\"> %F</span> o <span "
+"style=\" font-weight:704;\">%Filter</span>: il nome del filtro attivo.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Segnaposto<span style=\" "
+"font-weight:704;\"> %t</span> o <span style=\" font-weight:704;\">%target</"
+"span>: il nome della destinazione.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Segnaposto <span style=\" font-weight:600;\">%C</span> o <span "
+"style=\" font-weight:600;\">%temperature</span>: la temperatura della "
+"fotocamera di acquisizione.</li><ul style=\"margin-top: 0px; margin-bottom: "
+"0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Segnaposto <span style=\" font-weight:600;"
+"\">%B</span> o <span style=\" font-weight:600;\">%bin</span>: il binning "
+"configurato per l'acquisizione.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Segnaposto <span style=\" font-weight:600;\">%G</span> o <span "
+"style=\" font-weight:600;\">%gain</span>: il guadagno configurato per "
+"l'acquisizione.</li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Segnaposto <span style=\" font-weight:600;\">%O</span> o <span style=\" "
+"font-weight:600;\">%offset</span>: la compensazione configurata per "
+"l'acquisizione.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\">Segnaposto <span style=\" font-weight:600;\">"
+"%I</span> o <span style=\" font-weight:600;\">%iso</span>: il valore ISO "
+"(solo DSLR).</li></ul><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Segnaposto <span style=\" font-weight:600;\">%P</span> o <span style=\" "
+"font-weight:600;\">%pierside</span>: lo stato di puntamento della montatura "
+"attuale.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Segnaposto<span style=\" font-weight:704;\"> %s*</span> o <span style=\" "
+"font-weight:704;\">%sequence</span>: l'identificatore di sequenza delle "
+"immagini, dove * è il numero delle cifre utilizzate (1-9). <span style=\" "
+"font-weight:704;\">Questo tag è obbligatorio e deve essere l'ultimo elemento "
+"nel formato.</span></li></ul><p>Può essere incluso anche del testo "
+"arbitrario all'interno della stringa del Formato, <span style=\" font-"
+"weight:704;\">ad eccezione dei caratteri % e \\.</span> Il carattere di "
+"percorso / può essere utilizzato per definire cartelle arbitrarie.</"
+"p><p>Note:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">i tag distinguono tra maiuscole e minuscole in entrambe "
+"le forme, abbreviate o estese.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">Usare il tag %Datetime soltanto nella porzione del nome file "
+"del formato, non nella definizione del percorso.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/camera.ui:1832
@@ -15701,6 +15774,8 @@ msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
+"Il processo richiede %1-secondo %2 immagini, ha già %3/%4 acquisizioni e non "
+"deve essere avviata."
 
 #: ekos/capture/cameraprocess.cpp:568
 #, kde-format
@@ -15708,6 +15783,8 @@ msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
+"Il processo richiede %1-secondo %2 immagini, ha %3/%4 fotogrammi acquisiti e "
+"verrà elaborata."
 
 #: ekos/capture/cameraprocess.cpp:802
 #, kde-format
@@ -16569,10 +16646,9 @@ msgstr "Rapporto focale"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:118
-#, fuzzy, kde-format
-#| msgid "Filter port:"
+#, kde-format
 msgid "Filter Bandwidth"
-msgstr "Porta dei filtri:"
+msgstr "Larghezza di banda del filtro"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, noiseTolerance)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:137
@@ -16753,6 +16829,8 @@ msgstr "Grafico"
 #, kde-format
 msgid "Slope of time to noise ratio curve at current exposure count"
 msgstr ""
+"Inclinazione della curva del rapporto tempo/rumore al conteggio "
+"dell'esposizione attuale"
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:876
@@ -16835,17 +16913,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, guideDitherPerJobFrequency)
 #: ekos/capture/limits.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>If selected, the shutter needs to be open for the "
-#| "observatory status being &quot;READY&quot;.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If global dither is enabled, then dither every N "
 "number of frames for this job. Set to 0 to use global dither frequency.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Se selezionato, l'otturatore deve essere aperto "
-"affinché lo stato dell'osservatorio sia &quot;PRONTO&quot;.</p></body></html>"
+"<html><head/><body><p>Se il dithering globale è abilitato, allora per questa "
+"operazione esegui il dithering ogni N numero di fotogrammi. Imposta a 0 per "
+"usare la frequenza di dithering globale.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceGuideDeviation)
 #: ekos/capture/limits.ui:134
@@ -16889,24 +16965,7 @@ msgstr "Limiti al fuoco"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:193
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable limited resource mode to turn off any "
-#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
-#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
-#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Auto debayer</span>: Bayered images will not be "
-#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
-#| "span>: World Coordinate System data will not be processed. WCS maps sky "
-#| "coordinates to image coordinates. Equatorial grid lines, object "
-#| "identification, and telescope slew within an image are disabled.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
-#| "grayscale images are shown.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The HFR Check algorithm:</p><ul style=\"margin-top: "
 "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
@@ -16926,24 +16985,24 @@ msgid ""
 "sequenced list and uses the median value as the reference for the next HFR "
 "Check.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Abilita la modalità risorse limitate per disattivare "
-"qualsiasi operazione che fa uso intensivo di risorse:</p><ul style=\"margin-"
-"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
+"<html><head/><body><p>Algoritmo Controlla HFR:</p><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
 "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Debayerizzazione automatica</span>: Le immagini "
-"bayerizzate non saranno debayerizzate. Vengono mostrate solo quelle in scala "
-"di grigi.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">WCS automatico</span>: i dati del sistema di "
-"coordinate mondiali (WCS) non saranno elaborati. Questi associano le "
-"coordinate celesti alle coordinate dell'immagine. Le linee della griglia "
-"equatoriale, l'identificazione dell'oggetto e la rotazione del telescopio "
-"all'interno di un'immagine sono disabilitate.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Cubo 3D</"
-"span>: le immagini RGB non verranno elaborate. Vengono mostrate solo quelle "
-"in scala di grigi.</li></ul></body></html>"
+"style=\" font-weight:600;\">Ultima messa a fuoco automatica</span>: è "
+"l'algoritmo predefinito e utilizza il valore HFR dall'esecuzione di messa a "
+"fuoco automatica più recente come riferimento per il controllo.</li></ul><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Fissa</span>: questo algoritmo ti "
+"permette di specificare una HFR fissa da usare nel controllo.</li><li style="
+"\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Misura "
+"relativa</span>: questo algoritmo raccoglie i punti di dati dalla messa a "
+"fuoco automatica e dai controlli HFR, mantiene i dati in un elenco "
+"sequenziale e usa il valore medio come riferimento per il successivo "
+"controllo HFR.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:200
@@ -17224,19 +17283,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraOffset)
 #: ekos/capture/rotatorsettings.ui:289
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
-msgstr "<html><head/><body><p>Hai quasi finito...</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Angolo di compensazione della fotocamera</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:333
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>To create an <span style=\" font-weight:600;"
-#| "\">Alias</span> from an existing driver, select an existing driver and "
-#| "then only change the <span style=\" font-weight:600;\">Label </span>then "
-#| "press<span style=\" font-weight:600;\"> Add.</span></p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
@@ -17245,10 +17300,13 @@ msgid ""
 "\">Align Options</span><span style=\" font-size:12pt;\"> under &quot;Rotator "
 "Settings&quot;.</span></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Per creare un <span style=\" font-weight:600;\">Alias</"
-"span> di un driver esistente, selezionalo e quindi cambia l'<span style=\" "
-"font-weight:600;\">etichetta </span>, quindi premi<span style=\" font-"
-"weight:600;\"> Aggiungi.</span></p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Politica di "
+"inversione</span> determina come reagisce il rotatore dopo un'inversione o "
+"se il risultato di un'immagine di riferimento risolta riporta uno stato di "
+"puntamento diverso rispetto a quello della montatura reale.</p><p>La "
+"politica di inversione può essere modificata nelle <span style=\" font-"
+"weight:600;\">Opzioni di allineamento</span><span style=\" font-size:12pt;"
+"\"> sotto le &quot;Impostazioni del rotatore&quot;.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
@@ -17258,10 +17316,9 @@ msgstr "Politica di inversione"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, RotatorAngle)
 #: ekos/capture/rotatorsettings.ui:358
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p><br/></p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Raw rotator Angle</p></body></html>"
-msgstr "<html><head/><body><p><br/></p></body></html>"
+msgstr "<html><head/><body><p>Angolo grezzo del rotatore</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:382
@@ -17272,6 +17329,10 @@ msgid ""
 "angle) respective to North on pierside WEST or respective to South on "
 "pierside EAST.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>L'angolo a cerchio completo del rotatore grezzo del "
+"dispositivo rotatore, che è calcolato come differenza dell'origine del "
+"rotatore (angolo zero) rispetto al Nord sullo stato di puntamento OVEST o "
+"rispetto al Sud sullo stato di puntamento EST.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:385
@@ -17310,10 +17371,11 @@ msgstr "Angolo di posizione della fotocamera"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
 #: ekos/capture/rotatorsettings.ui:471
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
-msgstr "<html><head/><body><p>Hai quasi finito...</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Angolo attuale di posizione della fotocamera</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -17415,17 +17477,15 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SequenceEditorUI)
 #: ekos/capture/sequenceeditorui.ui:20
-#, fuzzy, kde-format
-#| msgid "Pause Sequence"
+#, kde-format
 msgid "Capture Sequence Editor"
-msgstr "Metti in pausa sequenza"
+msgstr "Editor sequenza di acquisizione"
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceEditorComment)
 #: ekos/capture/sequenceeditorui.ui:26
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "<comment>"
-msgstr "Commento"
+msgstr "<commento>"
 
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:71 ekos/ekos.h:119
 #: ekos/ekos.h:139
@@ -17477,19 +17537,18 @@ msgid "Turn light box light off..."
 msgstr "Spegni la luce della scatola luminosa..."
 
 #: ekos/capture/sequencejobstate.cpp:466
-#, fuzzy, kde-format
-#| msgid "Mount slewing to wall position..."
+#, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
-msgstr "Rotazione montatura alla posizione del muro..."
+msgstr "Rotazione montatura alla posizione del muro (az =%1 alt =%2)"
 
 #: ekos/capture/sequencejobstate.cpp:478
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
-msgstr "Rotazione alla posizione del muro completata, inseguimento fermato."
+msgstr ""
+"Rotazione alla posizione del muro completata, interruzione dell'inseguimento."
 
 #: ekos/capture/sequencejobstate.cpp:482
-#, fuzzy, kde-format
-#| msgid "Slew to wall position complete, stop tracking."
+#, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Rotazione alla posizione del muro completata, inseguimento fermato."
 
@@ -17651,28 +17710,24 @@ msgid "Loading"
 msgstr "Caricamento"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Starting"
-msgstr "Inizia alle:"
+msgstr "Avvio in corso"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Started"
-msgstr "Avvia"
+msgstr "Avviato"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stopping"
-msgstr "Ferma la registrazione"
+msgstr "Interruzione in corso"
 
 #: ekos/ekos.h:221
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stopped"
-msgstr "Interrompi"
+msgstr "Interrotto"
 
 #: ekos/ekoslive/ekosliveclient.cpp:253
 #, kde-format
@@ -17681,10 +17736,9 @@ msgid "Select EkosLive Servers"
 msgstr "Seleziona i server EkosLive"
 
 #: ekos/ekoslive/ekosliveclient.cpp:255
-#, fuzzy, kde-format
-#| msgid "Observatory"
+#, kde-format
 msgid "Observatory:"
-msgstr "Osservatorio"
+msgstr "Osservatorio:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:256
 #, kde-format
@@ -17697,11 +17751,9 @@ msgid "Online:"
 msgstr "In linea:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Malchin"
+#, kde-format
 msgid "Machine ID:"
-msgstr "Malchin"
+msgstr "ID macchina:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -17758,10 +17810,9 @@ msgid "Offline"
 msgstr "Non in linea"
 
 #: ekos/ekoslive/message.cpp:743
-#, fuzzy, kde-format
-#| msgid "Target"
+#, kde-format
 msgid "target"
-msgstr "Destinazione"
+msgstr "destinazione"
 
 #: ekos/ekoslive/message.cpp:976
 #, kde-format
@@ -17781,7 +17832,7 @@ msgstr "Errore nell'elaborazione della risposta del server: %1"
 #: ekos/focus/aberrationinspector.cpp:60
 #, kde-format
 msgid "Aberration Inspector - Run %1"
-msgstr ""
+msgstr "Ispettore aberrazione - Avvio %1"
 
 #: ekos/focus/aberrationinspector.cpp:93 ekos/focus/aberrationinspector.cpp:98
 #, kde-format
@@ -17831,32 +17882,24 @@ msgid "Exclude"
 msgstr "Escludi"
 
 #: ekos/focus/aberrationinspector.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Focuser Simulator"
+#, kde-format
 msgid "Focuser Solution"
-msgstr "Simulatore di focheggiatore"
+msgstr "Soluzione del focheggiatore"
 
 #: ekos/focus/aberrationinspector.cpp:101
 #, kde-format
 msgid "Delta from central tile in ticks"
-msgstr ""
+msgstr "Delta dalla tessera centrale in tic"
 
 #: ekos/focus/aberrationinspector.cpp:102
-#, fuzzy, kde-format
-#| msgid "Camera pixel size width in micrometers."
+#, kde-format
 msgid "Delta from central tile in micrometers"
-msgstr "Dimensione della larghezza dei pixel della fotocamera in micrometri."
+msgstr "Delta dalla tessera centrale in micrometri"
 
 #: ekos/focus/aberrationinspector.cpp:103
-#, fuzzy, kde-format
-#| msgid ""
-#| "Display number of stars detected in the capture on the Analyze Statistics "
-#| "Plot."
+#, kde-format
 msgid "Min / max number of stars detected in the focus run"
-msgstr ""
-"Visualizza il numero di stelle della cattura nel grafico Analisi delle "
-"statistiche."
+msgstr "Numero min / max di stelle rilevate all'avvio della messa a fuoco"
 
 #: ekos/focus/aberrationinspector.cpp:105
 #, kde-format
@@ -17869,25 +17912,24 @@ msgstr "Spunta per escludere la riga dai calcoli"
 #: ekos/focus/aberrationinspector.cpp:584
 #, kde-format
 msgid "N/A"
-msgstr "N/A"
+msgstr "N/D"
 
 #: ekos/focus/aberrationinspector.cpp:570
 #, kde-format
 msgid "Move sensor nearer flattener"
-msgstr ""
+msgstr "Sposta il sensore più vicino allo spianatore di campo"
 
 #: ekos/focus/aberrationinspector.cpp:572
 #, kde-format
 msgid "Move sensor away from flattener"
-msgstr ""
+msgstr "Sposta il sensore lontano dallo spianatore di campo"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, aberrationInspectorDialog)
 #. i18n: ectx: property (text), widget (QPushButton, startAbInsB)
 #: ekos/focus/aberrationinspector.ui:23 ekos/focus/focus.ui:908
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgid "Aberration Inspector"
-msgstr "Pianificatore di osservazioni"
+msgstr "Ispettore aberrazione"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowLabels)
 #: ekos/focus/aberrationinspector.ui:48
@@ -17921,27 +17963,29 @@ msgid ""
 "</p><p>- All displays all 9 tiles.</p><p>- Centre and outer corners.</p><p>- "
 "Centre and inner diamond.<br/></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Seleziona la combinazione di tessere del Mosaico da "
+"usare per l'analisi:</p><p>- Tutti visualizza tutte le nove tessere.</p><p>- "
+"Centro e angoli esterni.</p><p>- Centro e losanga interna.<br/></p></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #. i18n: ectx: property (text), widget (QPushButton, AllButton)
 #: ekos/focus/aberrationinspector.ui:81 tools/obslistwizard.ui:173
 #, kde-format
 msgid "All"
-msgstr "Tutti"
+msgstr "Tutte"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:86
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and outer corners"
-msgstr "Centra e insegui"
+msgstr "Centro e angoli esterni"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTileSelection)
 #: ekos/focus/aberrationinspector.ui:91
-#, fuzzy, kde-format
-#| msgid "Center and Track"
+#, kde-format
 msgid "Centre and inner diamond"
-msgstr "Centra e insegui"
+msgstr "Centro e losanga interna"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, abInsShowCFZ)
 #: ekos/focus/aberrationinspector.ui:105
@@ -17971,17 +18015,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/focus/aberrationinspector.ui:228
-#, fuzzy, kde-format
-#| msgid "Bottom left"
+#, kde-format
 msgid "Top-Bottom Tilt:"
-msgstr "In basso a sinistra"
+msgstr "Inclinazione alto-basso:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/focus/aberrationinspector.ui:241
-#, fuzzy, kde-format
-#| msgid "Total Time:"
+#, kde-format
 msgid "Total Tilt:"
-msgstr "Tempo totale:"
+msgstr "Inclinazione totale:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, backfocus)
 #: ekos/focus/aberrationinspector.ui:255
@@ -18005,10 +18047,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/aberrationinspector.ui:284
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "Left-Right Tilt:"
-msgstr "Sinistra/destra"
+msgstr "Inclinazione sinistra-destra:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/focus/aberrationinspector.ui:319
@@ -18072,15 +18113,13 @@ msgstr ""
 #: ekos/focus/aberrationinspector.ui:345 fitsviewer/starprofileviewer.cpp:127
 #, kde-format
 msgid "Item"
-msgstr "Voce"
+msgstr "Elemento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsSelection)
 #: ekos/focus/aberrationinspector.ui:350
-#, fuzzy, kde-format
-#| msgctxt "Asteroid name (optional)"
-#| msgid "Alice"
+#, kde-format
 msgid "Slice"
-msgstr "Alice"
+msgstr "Fetta"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/aberrationinspector.ui:358
@@ -18090,12 +18129,13 @@ msgstr "Tema:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:365
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Elimina frame corrente</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Seleziona il tema dei colori del grafico 3D.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, abInsTheme)
 #: ekos/focus/aberrationinspector.ui:372
@@ -20916,11 +20956,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:671
-#, fuzzy, kde-format
-#| msgctxt "object name (optional)"
-#| msgid "Dragonfly Cluster"
+#, kde-format
 msgid "Donut Buster"
-msgstr "Ammasso Libellula"
+msgstr "Donut Buster"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:695

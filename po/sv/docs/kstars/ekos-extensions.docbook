@@ -35,7 +35,7 @@
             <para
 >Det är nödvändigt att inställningsfilen innehåller en rad som börjar med <emphasis role="bold"
 >minimum_kstars_version=n.n.n</emphasis
-> där n.n.n är den lägsta versionen av Kstars som stöder tillägget, t.ex. 3.7.1. </para>
+> där n.n.n är den lägsta versionen av Kstars som stöder tillägget, t.ex. 3.7.3. </para>
             <para
 >Valfritt (och inte rekommenderat) kan inställningsfilen innehålla en rad som börjar med <emphasis role="bold"
 >runDetached=true</emphasis
@@ -81,7 +81,7 @@
 >Bustle</ulink
 > </para>
             <para
->Det kan tyckas vid inledande utforskning att användning av systemet för Qt DBus-anpassning skulle vara mycket enklare än direkt användning av ett Qt DBus-gränssnitt och meddelanden, och KStars tillhandahåller de nödvändiga xml-definitionerna. Men för närvarande har det avsevärd användning av egna typer vars definitioner kombineras med annan information i KStars källkod. Det resulterar i en stor uppsättning filer från KStars som måste inkluderas i en utökning för att kunna använda Qt DBus-anpassningen. Förhoppningsvis kommer det att åtgärdas i framtiden. </para>
+>Det kan tyckas vid inledande utforskning att användning av systemet för Qt DBus-anpassning skulle vara mycket enklare än direkt användning av ett Qt DBus-gränssnitt och meddelanden, och KStars tillhandahåller de nödvändiga xml-definitionerna. Men för närvarande har det avsevärd användning av egna typer, vars definitioner kombineras med annan information i KStars källkod. Det resulterar i en stor uppsättning filer från KStars som måste inkluderas i en utökning för att kunna använda Qt DBus-anpassningen. Förhoppningsvis kommer det att åtgärdas i framtiden. </para>
           </listitem>
         </itemizedlist>
 	</sect2>

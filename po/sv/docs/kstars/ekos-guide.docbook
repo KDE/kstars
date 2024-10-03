@@ -354,6 +354,37 @@
 > där färgen anger i vilken koncentrisk ring det hamnar i. Det går att ändra radien på den innersta gröna cirkeln genom att justera avdriftsdiagrammets noggrannhet. </para>
     </sect2>
 
+    <sect2 id="guide-multistar">
+        <title
+>Guidning med flera stjärnor</title>
+        <screenshot>
+            <screeninfo
+>GPG-multipelstjärna </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_multistar_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Guidning med multipelstjärna</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>I vanlig guidning väljer systemet en guidestjärna. I system utan multipelstjärna omvandlas stjärnans uppmätta rörelser i förhållande till dess ursprungliga positionsmätningar till RA- och DEK-positioner som är de guidningens avdriftsfel. I guidning med multipelstjärna väljer systemet många referensstjärnor och mäter alla deras positioner i förhållande till de initiala positionerna. Guidningsfelet beräknas som medianförskjutningen för de individuella referensstjärnorna från deras ursprungliga positioner. Magin som systemet behöver utföra är att hitta det brusiga tvådimensionella mönster av referensstjärnor i guidningsbilden, men att hitta mönstret är mer robust än att hitta en enda ledstjärna som kan ha rört sig avsevärt eller kanske inte har upptäckts alls . Vi rekommenderar att du väljer det här guidningssättet genom att välja guidningsalgoritmen <guilabel 
+>SEP-multipelstjärna</guilabel 
+>. </para>
+        <para
+>Det finns några alternativ som du kanske vill överväga. <guilabel
+>Maximal antal referensstjärnor för multipelstjärna</guilabel
+> är det maximala antalet referensstjärnor som systemet kan använda. Det främsta skälet att begränsa det är beräkningskostnaden, trots att det inte är en särskilt kostsam beräkning. 50 är ett bra val. Inställningen <guilabel 
+>Minimalt antal stjärndetekteringar för multipelstjärna</guilabel 
+> talar om för systemet att det ska återgå till en enda ledstjärna om det finns färre än så här många stjärndetekteringar. <guilabel 
+>Uppfinn flerstjärnig guidestjärna</guilabel 
+> bör vara markerad, och <guilabel 
+>Maximal HFR för multipelstjärna</guilabel 
+> är en gammal parameter som för närvarande troligen har liten effekt. </para>
+    </sect2>
     <sect2 id="guide-gpg">
         <title
 >Guidning med GPG</title>
