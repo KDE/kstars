@@ -11,6 +11,7 @@
 
 #include "wsmedia.h"
 #include "auxiliary/imageviewer.h"
+#include "fitsviewer/fitsdata.h"
 
 #include <QStringList>
 #include <QPointer>
@@ -18,7 +19,6 @@
 
 #include <memory>
 
-class FITSData;
 class FITSView;
 class QTimer;
 class StreamWG;
