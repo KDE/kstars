@@ -305,6 +305,15 @@ class SkyPoint
             return 1. / sin(alt().radians());
         }
 
+        /**
+         * @brief isValid Check if the RA and DE fall within expected range
+         * @return True if valid, false otherwise.
+         */
+        inline bool isValid() const
+        {
+            return RA.Hours() >= 0 && RA.Hours() < 24 && Dec.Degrees() >= -90 && Dec.Degrees() <= 90;
+        }
+
         ////
         //// 3. Coordinate conversions.
         //// ==========================

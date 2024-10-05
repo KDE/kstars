@@ -1414,6 +1414,14 @@ bool Align::captureAndSolve(bool initialCall)
     // Set target to current telescope position,if no object is selected yet.
     if (m_TargetCoord.ra().degree() < 0) // see default constructor skypoint()
     {
+        if (m_TelescopeCoord.isValid() == false)
+        {
+            appendLogText(i18n("Mount coordinates are invalid. Check mount connection and try again."));
+            KSNotification::event(QLatin1String("AlignFailed"), i18n("Astrometry alignment failed"), KSNotification::Align,
+                                  KSNotification::Alert);
+            return false;
+        }
+
         m_TargetCoord = m_TelescopeCoord;
         appendLogText(i18n("Setting target to RA:%1 DEC:%2",
                            m_TargetCoord.ra().toHMSString(true), m_TargetCoord.dec().toDMSString(true)));
