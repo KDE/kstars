@@ -874,7 +874,7 @@ void KStars::repopulateHIPS()
                          << title << AddToGroup(hipsGroup)
                          << Checked(Options::hIPSSource() == title);
 
-        newAction->setDisabled(Options::hIPSUseOfflineSource() && title != "DSS Colored");
+        newAction->setDisabled(Options::hIPSUseOfflineSource() && title.compare("DSS Colored", Qt::CaseInsensitive));
 
         hipsActionMenu->addAction(newAction);
     }
