@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-06 01:46+0000\n"
-"PO-Revision-Date: 2024-09-15 11:01+0200\n"
+"PO-Revision-Date: 2024-10-06 22:40+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 24.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -6241,12 +6241,11 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Campo visual efectivo, en minutos de arco.</p>"
 
 #: ekos/align/align.cpp:1419
-#, fuzzy, kde-format
-#| msgid "Mount aborted. Reverse RA axis direction and try again."
+#, kde-format
 msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr ""
-"Se ha interrumpido la montura. Invierta la dirección del eje de AR y vuelva "
-"a probar."
+"Las coordenadas de la montura no son válidas. Compruebe la conexión de la "
+"montura y vuelva a probar."
 
 #: ekos/align/align.cpp:1420 ekos/align/align.cpp:1452
 #: ekos/align/align.cpp:2418

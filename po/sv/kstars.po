@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-06 01:46+0000\n"
-"PO-Revision-Date: 2024-09-15 09:28+0200\n"
+"PO-Revision-Date: 2024-10-06 19:36+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -6204,10 +6204,11 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Effektiv synfältsstorlek i bågminuter.</p>"
 
 #: ekos/align/align.cpp:1419
-#, fuzzy, kde-format
-#| msgid "Mount aborted. Reverse RA axis direction and try again."
+#, kde-format
 msgid "Mount coordinates are invalid. Check mount connection and try again."
-msgstr "Stativ avbrutet. Byt RA-axelns riktning och försök igen."
+msgstr ""
+"Stativets koordinater är ogiltiga. Kontrollera anslutningen till stativet "
+"och försök igen."
 
 #: ekos/align/align.cpp:1420 ekos/align/align.cpp:1452
 #: ekos/align/align.cpp:2418

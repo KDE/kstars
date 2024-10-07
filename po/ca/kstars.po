@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-06 01:46+0000\n"
-"PO-Revision-Date: 2024-09-15 11:13+0200\n"
+"PO-Revision-Date: 2024-10-06 11:00+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -6261,12 +6261,11 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Mida del camp de visió efectiu, en minuts d'arc.</p>"
 
 #: ekos/align/align.cpp:1419
-#, fuzzy, kde-format
-#| msgid "Mount aborted. Reverse RA axis direction and try again."
+#, kde-format
 msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr ""
-"La muntura s'ha interromput. Invertiu la direcció de l'eix AR i torneu-ho a "
-"provar."
+"Les coordenades de la muntura no són vàlides. Comproveu la connexió de la "
+"muntura i torneu-ho a provar."
 
 #: ekos/align/align.cpp:1420 ekos/align/align.cpp:1452
 #: ekos/align/align.cpp:2418

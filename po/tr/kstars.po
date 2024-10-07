@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-06 01:46+0000\n"
-"PO-Revision-Date: 2024-09-23 15:31+0300\n"
+"PO-Revision-Date: 2024-10-07 00:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6224,11 +6224,10 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Yaydakika türünden efektif görüş alanı boyutu.</p>"
 
 #: ekos/align/align.cpp:1419
-#, fuzzy, kde-format
-#| msgid "Mount aborted. Reverse RA axis direction and try again."
+#, kde-format
 msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr ""
-"Bağlama iptal edildi. RA ekseni yönünü tersine çevirin ve yeniden deneyin."
+"Kaide koordinatları geçersiz. Kaide bağlantısını denetleyip yeniden deneyin."
 
 #: ekos/align/align.cpp:1420 ekos/align/align.cpp:1452
 #: ekos/align/align.cpp:2418
