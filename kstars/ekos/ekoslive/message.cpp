@@ -38,6 +38,7 @@
 #include <KActionCollection>
 #include <basedevice.h>
 #include <QUuid>
+#include <thread>
 
 namespace EkosLive
 {
@@ -2582,8 +2583,13 @@ void Message::setPendingPropertiesEnabled(bool enabled)
         m_PendingPropertiesTimer.start();
     else
     {
-        m_PendingPropertiesTimer.stop();
         m_PendingProperties.clear();
+        // Must stop timer and sleep for 500ms to enable any pending properties to finish
+        if (m_PendingPropertiesTimer.isActive())
+        {
+            m_PendingPropertiesTimer.stop();
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
     }
 }
 
