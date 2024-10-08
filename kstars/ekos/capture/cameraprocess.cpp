@@ -447,6 +447,13 @@ void CameraProcess::startJob(SequenceJob *job)
 
 void CameraProcess::prepareJob(SequenceJob * job)
 {
+    if (activeCamera() == nullptr || activeCamera()->isConnected() == false)
+    {
+        emit newLog(i18n("No camera detected. Check train configuration and connection settings."));
+        activeJob()->abort();
+        return;
+    }
+
     state()->setActiveJob(job);
 
     // If job is Preview and NO view is available, ask to enable it.
