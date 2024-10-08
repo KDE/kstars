@@ -49,6 +49,13 @@ void HIPSComponent::draw(SkyPainter *skyp)
                     );
     if (sameView && Options::isTracking() && SkyMap::IsFocused())
     {
+        // If focus object changes, we reset fresh timer to force drawing of uncached image.
+        if (SkyMap::Instance()->focusObject() && SkyMap::Instance()->focusObject()->name() != m_LastFocusedObjectName)
+        {
+            m_LastFocusedObjectName = SkyMap::Instance()->focusObject()->name();
+            m_RefreshTimer.restart();
+        }
+
         // We can draw the cache when two conditions are met.
         // 1. It is not yet time to re-draw
         // 2. Refresh time expired.
@@ -60,13 +67,6 @@ void HIPSComponent::draw(SkyPainter *skyp)
         {
             skyp->drawHips(false);
             m_ElapsedTimer.restart();
-        }
-
-        // If focus object changes, we reset fresh timer to force drawing of uncached image.
-        if (SkyMap::Instance()->focusObject() && SkyMap::Instance()->focusObject()->name() != m_LastFocusedObjectName)
-        {
-            m_LastFocusedObjectName = SkyMap::Instance()->focusObject()->name();
-            m_RefreshTimer.restart();
         }
     }
     // When slewing or not tracking, render and draw immediately.
