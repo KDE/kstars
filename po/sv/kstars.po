@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-06 01:46+0000\n"
+"POT-Creation-Date: 2024-10-09 01:47+0000\n"
 "PO-Revision-Date: 2024-10-06 19:36+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -2969,7 +2969,7 @@ msgstr "Typavbildning"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
-#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2471 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:727 fitsviewer/fitsviewer.cpp:728
 #, kde-format
 msgid "Preview"
@@ -6254,7 +6254,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Fel: Förlorade anslutning till filterhjulet."
 
 #: ekos/align/align.cpp:1502 ekos/capture/cameraprocess.cpp:207
-#: ekos/capture/cameraprocess.cpp:606 ekos/focus/focus.cpp:5322
+#: ekos/capture/cameraprocess.cpp:613 ekos/focus/focus.cpp:5322
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6565,8 +6565,8 @@ msgstr "Världskoordinatsystem (WCS) är inaktiverat."
 msgid "Capture error. Aborting..."
 msgstr "Tagningsfel. Avbryter..."
 
-#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1583
-#: ekos/capture/cameraprocess.cpp:2142
+#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1590
+#: ekos/capture/cameraprocess.cpp:2149
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Startar om tagningsförsök nr. %1"
@@ -6666,7 +6666,7 @@ msgstr "Kan inte skriva till filen %1"
 
 #: ekos/align/align.cpp:3977 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2854
-#: ekos/capture/cameraprocess.cpp:2563 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2570 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
 #: ekos/scheduler/schedulerprocess.cpp:4649
@@ -7319,7 +7319,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Öppna Ekos inriktningslista"
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2853
-#: ekos/capture/cameraprocess.cpp:2562 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2569 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4668
 #, kde-format
@@ -14638,7 +14638,7 @@ msgstr "Filtret inställt till %1."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Är du säker på att du vill återställa status för alla jobb?"
 
-#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2681
+#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2688
 #, kde-format
 msgid "Reset job status"
 msgstr "Återställ jobbstatus"
@@ -14911,7 +14911,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Alternativ för automatisk kalibrering av mörka och plana bilder"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2477
+#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2484
 #: ekos/guide/guide.cpp:69
 #, kde-format
 msgid "Calibration"
@@ -15526,7 +15526,7 @@ msgstr "Spara i en ny sekvensfil"
 msgid "Save As..."
 msgstr "Spara som..."
 
-#: ekos/capture/cameraprocess.cpp:208 ekos/capture/cameraprocess.cpp:607
+#: ekos/capture/cameraprocess.cpp:208 ekos/capture/cameraprocess.cpp:614
 #, kde-format
 msgid "Image Transfer"
 msgstr "Bildöverföring"
@@ -15546,7 +15546,7 @@ msgstr "Inga väntande jobb hittades. Lägg till ett jobb i sekvenskön."
 msgid "No new job created."
 msgstr "Inga nya jobb skapade."
 
-#: ekos/capture/cameraprocess.cpp:300 ekos/capture/cameraprocess.cpp:856
+#: ekos/capture/cameraprocess.cpp:300 ekos/capture/cameraprocess.cpp:863
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "Kan inte ta bild medan fokuseringsmodulen är upptagen."
@@ -15586,18 +15586,23 @@ msgstr "Paus är bara möjlig när bildtagning kör."
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr "Sekvensen ska pausas när aktuell exponering är klar."
 
-#: ekos/capture/cameraprocess.cpp:470
+#: ekos/capture/cameraprocess.cpp:452
+#, kde-format
+msgid "No camera detected. Check train configuration and connection settings."
+msgstr ""
+
+#: ekos/capture/cameraprocess.cpp:477
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 "Ingen visning tillgänglig för förhandsgranskningar. Aktivera FITS-visning?"
 
-#: ekos/capture/cameraprocess.cpp:471
+#: ekos/capture/cameraprocess.cpp:478
 #, kde-format
 msgid "Display preview"
 msgstr "Visa förhandsgranskning"
 
-#: ekos/capture/cameraprocess.cpp:555
+#: ekos/capture/cameraprocess.cpp:562
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
@@ -15606,7 +15611,7 @@ msgstr ""
 "Jobb kräver %1-sekunders %2 bilder, har redan %3/%4 tagningar och behöver "
 "inte köras."
 
-#: ekos/capture/cameraprocess.cpp:568
+#: ekos/capture/cameraprocess.cpp:575
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
@@ -15615,27 +15620,27 @@ msgstr ""
 "Jobb kräver %1-sekunders %2 bilder, har redan %3/%4 tagna bilder och kommer "
 "att behandlas."
 
-#: ekos/capture/cameraprocess.cpp:802
+#: ekos/capture/cameraprocess.cpp:809
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Automatisk guidning återupptagen."
 
-#: ekos/capture/cameraprocess.cpp:846
+#: ekos/capture/cameraprocess.cpp:853
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Misslyckades ställa in delbild"
 
-#: ekos/capture/cameraprocess.cpp:851
+#: ekos/capture/cameraprocess.cpp:858
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Misslyckades ställa in indelning."
 
-#: ekos/capture/cameraprocess.cpp:1008
+#: ekos/capture/cameraprocess.cpp:1015
 #, kde-format
 msgid "file saved to %1"
 msgstr "fil sparad i %1"
 
-#: ekos/capture/cameraprocess.cpp:1018
+#: ekos/capture/cameraprocess.cpp:1025
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -15644,124 +15649,124 @@ msgstr ""
 "Misslyckades skriva bild till %1\n"
 "Kontrollera katalog, filnamn och rättigheter."
 
-#: ekos/capture/cameraprocess.cpp:1020
+#: ekos/capture/cameraprocess.cpp:1027
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Bildskrivning misslyckades"
 
-#: ekos/capture/cameraprocess.cpp:1244
+#: ekos/capture/cameraprocess.cpp:1251
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Fjärrbild sparad till %1"
 
-#: ekos/capture/cameraprocess.cpp:1270
+#: ekos/capture/cameraprocess.cpp:1277
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Automatisk guidning stoppad."
 
-#: ekos/capture/cameraprocess.cpp:1299
+#: ekos/capture/cameraprocess.cpp:1306
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Varning: Kalibreringsprocessen avbröts i förtid."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1365
+#: ekos/capture/cameraprocess.cpp:1372
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD-tagningssekvens färdig"
 
-#: ekos/capture/cameraprocess.cpp:1422
+#: ekos/capture/cameraprocess.cpp:1429
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Fel: Förlorade anslutning till CCD."
 
-#: ekos/capture/cameraprocess.cpp:1450
+#: ekos/capture/cameraprocess.cpp:1457
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "Kan inte beräkna ADU-nivåer i andra bilder än FITS-bilder."
 
-#: ekos/capture/cameraprocess.cpp:1575 ekos/capture/cameraprocess.cpp:2134
+#: ekos/capture/cameraprocess.cpp:1582 ekos/capture/cameraprocess.cpp:2141
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "Tagning misslyckades. Se INDI-inställningsrutan för mer detaljerad "
 "information."
 
-#: ekos/capture/cameraprocess.cpp:1675
+#: ekos/capture/cameraprocess.cpp:1682
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Nerladdningstid: %1 s, ny uppskattning av nerladdningstid: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1741
+#: ekos/capture/cameraprocess.cpp:1748
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Tog emot bild %1 av %2."
 
-#: ekos/capture/cameraprocess.cpp:1775
+#: ekos/capture/cameraprocess.cpp:1782
 #, kde-format
 msgid "Captured %1"
 msgstr "Tog %1"
 
-#: ekos/capture/cameraprocess.cpp:1781
+#: ekos/capture/cameraprocess.cpp:1788
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "Varning: Kvarvarande och potentiellt okända platsmarkörer %1 i %2"
 
-#: ekos/capture/cameraprocess.cpp:1822
+#: ekos/capture/cameraprocess.cpp:1829
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Kör tagningsskript %1"
 
-#: ekos/capture/cameraprocess.cpp:1837
+#: ekos/capture/cameraprocess.cpp:1844
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Förtagningsskript avslutades med kod %1."
 
-#: ekos/capture/cameraprocess.cpp:1845
+#: ekos/capture/cameraprocess.cpp:1852
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Eftertagningsskript avslutades med kod %1."
 
-#: ekos/capture/cameraprocess.cpp:1857
+#: ekos/capture/cameraprocess.cpp:1864
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Behandlar meridianvändning..."
 
-#: ekos/capture/cameraprocess.cpp:1867
+#: ekos/capture/cameraprocess.cpp:1874
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Förjobbskript avslutades med kod %1."
 
-#: ekos/capture/cameraprocess.cpp:1872
+#: ekos/capture/cameraprocess.cpp:1879
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Efterjobbskript avslutades med kod %1."
 
-#: ekos/capture/cameraprocess.cpp:2064 ekos/focus/focus.cpp:5374
+#: ekos/capture/cameraprocess.cpp:2071 ekos/focus/focus.cpp:5374
 #: ekos/focus/focus.cpp:5398
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Tidsgräns för exponering överskriden. Avbryter..."
 
-#: ekos/capture/cameraprocess.cpp:2071
+#: ekos/capture/cameraprocess.cpp:2078
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Tidsgräns för exponering överskriden. Mer än tre har detekteras, startar om "
 "drivrutin."
 
-#: ekos/capture/cameraprocess.cpp:2089 ekos/focus/focus.cpp:5379
+#: ekos/capture/cameraprocess.cpp:2096 ekos/focus/focus.cpp:5379
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Tidsgräns för exponering överskriden. Startar om exponering..."
 
-#: ekos/capture/cameraprocess.cpp:2115
+#: ekos/capture/cameraprocess.cpp:2122
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Tidsgräns för exponering överskriden. För många. Avbryter..."
 
-#: ekos/capture/cameraprocess.cpp:2193
+#: ekos/capture/cameraprocess.cpp:2200
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -15770,17 +15775,17 @@ msgstr ""
 "Plankalibrering misslyckades. Tagen bild är bara %1-bit medan begärd ADU är "
 "%2."
 
-#: ekos/capture/cameraprocess.cpp:2204
+#: ekos/capture/cameraprocess.cpp:2211
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Aktuell bild är mättad (%1). Nästa exponering är %2 sekunder."
 
-#: ekos/capture/cameraprocess.cpp:2226
+#: ekos/capture/cameraprocess.cpp:2233
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Aktuell ADU är %1 från målets ADU-toleransintervall."
 
-#: ekos/capture/cameraprocess.cpp:2255
+#: ekos/capture/cameraprocess.cpp:2262
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -15789,27 +15794,27 @@ msgstr ""
 "Kan inte beräkna optimala exponeringsinställningar, ta de plana bilderna "
 "manuellt."
 
-#: ekos/capture/cameraprocess.cpp:2263
+#: ekos/capture/cameraprocess.cpp:2270
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Aktuell ADU är %1. Nästa exponering är %2 sekunder."
 
-#: ekos/capture/cameraprocess.cpp:2461
+#: ekos/capture/cameraprocess.cpp:2468
 #, kde-format
 msgid "%1 Preview"
 msgstr "Förhandsgranskning av %1"
 
-#: ekos/capture/cameraprocess.cpp:2472 ekos/capture/cameraprocess.cpp:2474
+#: ekos/capture/cameraprocess.cpp:2479 ekos/capture/cameraprocess.cpp:2481
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Plankalibrering"
 
-#: ekos/capture/cameraprocess.cpp:2630
+#: ekos/capture/cameraprocess.cpp:2637
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sekvens pausad."
 
-#: ekos/capture/cameraprocess.cpp:2680
+#: ekos/capture/cameraprocess.cpp:2687
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15818,7 +15823,7 @@ msgstr ""
 "Alla jobb är färdiga. Är du säker på att du vill återställa status för alla "
 "jobb och starta om tagning?"
 
-#: ekos/capture/cameraprocess.cpp:2694
+#: ekos/capture/cameraprocess.cpp:2701
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15827,12 +15832,12 @@ msgstr ""
 "Varning: Alternativet \"Nollställ alltid sekvens vid start\" är aktiverat "
 "och nollställer sekvensräknarna."
 
-#: ekos/capture/cameraprocess.cpp:2809
+#: ekos/capture/cameraprocess.cpp:2816
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Är du säker på att du vill starta om kamerans drivrutin %1?"
 
-#: ekos/capture/cameraprocess.cpp:2810
+#: ekos/capture/cameraprocess.cpp:2817
 #, kde-format
 msgid "Driver Restart"
 msgstr "Starta om drivrutin"
@@ -17613,12 +17618,12 @@ msgstr "Nätbaserat"
 msgid "Offline"
 msgstr "Lokalt"
 
-#: ekos/ekoslive/message.cpp:743
+#: ekos/ekoslive/message.cpp:744
 #, kde-format
 msgid "target"
 msgstr "mål"
 
-#: ekos/ekoslive/message.cpp:976
+#: ekos/ekoslive/message.cpp:977
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mosaikimport misslyckades."

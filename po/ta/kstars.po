@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-06 01:46+0000\n"
+"POT-Creation-Date: 2024-10-09 01:47+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -3125,7 +3125,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2302
-#: ekos/capture/cameraprocess.cpp:2464 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2471 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:727 fitsviewer/fitsviewer.cpp:728
 #, fuzzy, kde-format
 msgid "Preview"
@@ -6545,7 +6545,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "இணைப்பு"
 
 #: ekos/align/align.cpp:1502 ekos/capture/cameraprocess.cpp:207
-#: ekos/capture/cameraprocess.cpp:606 ekos/focus/focus.cpp:5322
+#: ekos/capture/cameraprocess.cpp:613 ekos/focus/focus.cpp:5322
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6844,8 +6844,8 @@ msgstr "வெளியீட்டு கோப்பில் புலங்�
 msgid "Capture error. Aborting..."
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1583
-#: ekos/capture/cameraprocess.cpp:2142
+#: ekos/align/align.cpp:3307 ekos/capture/cameraprocess.cpp:1590
+#: ekos/capture/cameraprocess.cpp:2149
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
@@ -6955,7 +6955,7 @@ msgstr "%1 கோப்பில் இருந்து FITS  தரவை ப
 
 #: ekos/align/align.cpp:3977 ekos/align/mountmodel.cpp:284
 #: ekos/align/mountmodel.cpp:402 ekos/capture/camera.cpp:2854
-#: ekos/capture/cameraprocess.cpp:2563 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2570 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:486 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
 #: ekos/scheduler/schedulerprocess.cpp:4649
@@ -7618,7 +7618,7 @@ msgid "Open Ekos Alignment List"
 msgstr "பட்டியலை பார்க்கிறது...."
 
 #: ekos/align/mountmodel.cpp:283 ekos/capture/camera.cpp:2853
-#: ekos/capture/cameraprocess.cpp:2562 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2569 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4668
 #, fuzzy, kde-format
@@ -14701,7 +14701,7 @@ msgstr "%1யில் FITS கோப்பில் சேமிக்கப்
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா?"
 
-#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2681
+#: ekos/capture/camera.cpp:3885 ekos/capture/cameraprocess.cpp:2688
 #, fuzzy, kde-format
 msgid "Reset job status"
 msgstr "&சுட்டுதல் "
@@ -14999,7 +14999,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2477
+#: ekos/capture/camera.ui:1227 ekos/capture/cameraprocess.cpp:2484
 #: ekos/guide/guide.cpp:69
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -15543,7 +15543,7 @@ msgstr "%1 கோப்பினை திறக்க இயலவில்ல�
 msgid "Save As..."
 msgstr "&சிறு நிரலை இப்படி சேமி..."
 
-#: ekos/capture/cameraprocess.cpp:208 ekos/capture/cameraprocess.cpp:607
+#: ekos/capture/cameraprocess.cpp:208 ekos/capture/cameraprocess.cpp:614
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Transfer"
@@ -15565,7 +15565,7 @@ msgstr ""
 msgid "No new job created."
 msgstr "முடிந்தது"
 
-#: ekos/capture/cameraprocess.cpp:300 ekos/capture/cameraprocess.cpp:856
+#: ekos/capture/cameraprocess.cpp:300 ekos/capture/cameraprocess.cpp:863
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr ""
@@ -15611,228 +15611,233 @@ msgstr ""
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:470
+#: ekos/capture/cameraprocess.cpp:452
+#, kde-format
+msgid "No camera detected. Check train configuration and connection settings."
+msgstr ""
+
+#: ekos/capture/cameraprocess.cpp:477
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:471
+#: ekos/capture/cameraprocess.cpp:478
 #, fuzzy, kde-format
 msgid "Display preview"
 msgstr "காட்சி கருவிப்பட்டியின் காட்சியை மாற்று"
 
-#: ekos/capture/cameraprocess.cpp:555
+#: ekos/capture/cameraprocess.cpp:562
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:568
+#: ekos/capture/cameraprocess.cpp:575
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:802
+#: ekos/capture/cameraprocess.cpp:809
 #, fuzzy, kde-format
 msgid "Autoguiding resumed."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/cameraprocess.cpp:846
+#: ekos/capture/cameraprocess.cpp:853
 #, fuzzy, kde-format
 msgid "Failed to set sub frame."
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/capture/cameraprocess.cpp:851
+#: ekos/capture/cameraprocess.cpp:858
 #, fuzzy, kde-format
 msgid "Failed to set binning."
 msgstr "உருவத்தை பதிக்க இயவில்லை: %1"
 
-#: ekos/capture/cameraprocess.cpp:1008
+#: ekos/capture/cameraprocess.cpp:1015
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "file saved to %1"
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/capture/cameraprocess.cpp:1018
+#: ekos/capture/cameraprocess.cpp:1025
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
 "Please check folder, filename & permissions."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1020
+#: ekos/capture/cameraprocess.cpp:1027
 #, fuzzy, kde-format
 #| msgid "Image Reduction Process..."
 msgid "Image Write Failed"
 msgstr "பிம்ப  குறைப்பு செயலாக்கம்..."
 
-#: ekos/capture/cameraprocess.cpp:1244
+#: ekos/capture/cameraprocess.cpp:1251
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Remote image saved to %1"
 msgstr "%1யில் தரவு கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/capture/cameraprocess.cpp:1270
+#: ekos/capture/cameraprocess.cpp:1277
 #, fuzzy, kde-format
 msgid "Autoguiding suspended."
 msgstr "பொருளை தேடு"
 
-#: ekos/capture/cameraprocess.cpp:1299
+#: ekos/capture/cameraprocess.cpp:1306
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr ""
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1365
+#: ekos/capture/cameraprocess.cpp:1372
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "CCD capture sequence completed"
 msgstr "சூப்பர் நோவா மீதி"
 
-#: ekos/capture/cameraprocess.cpp:1422
+#: ekos/capture/cameraprocess.cpp:1429
 #, fuzzy, kde-format
 #| msgid "Connection"
 msgid "Error: Lost connection to CCD."
 msgstr "இணைப்பு"
 
-#: ekos/capture/cameraprocess.cpp:1450
+#: ekos/capture/cameraprocess.cpp:1457
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1575 ekos/capture/cameraprocess.cpp:2134
+#: ekos/capture/cameraprocess.cpp:1582 ekos/capture/cameraprocess.cpp:2141
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1675
+#: ekos/capture/cameraprocess.cpp:1682
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1741
+#: ekos/capture/cameraprocess.cpp:1748
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1775
+#: ekos/capture/cameraprocess.cpp:1782
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Captured %1"
 msgstr "படிமங்கள் கவர்தல்"
 
-#: ekos/capture/cameraprocess.cpp:1781
+#: ekos/capture/cameraprocess.cpp:1788
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1822
+#: ekos/capture/cameraprocess.cpp:1829
 #, fuzzy, kde-format
 #| msgid "Sunset: %1"
 msgid "Executing capture script %1"
 msgstr "உயர்வு நேரம்: %1"
 
-#: ekos/capture/cameraprocess.cpp:1837
+#: ekos/capture/cameraprocess.cpp:1844
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1845
+#: ekos/capture/cameraprocess.cpp:1852
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1857
+#: ekos/capture/cameraprocess.cpp:1864
 #, fuzzy, kde-format
 msgid "Processing meridian flip..."
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/capture/cameraprocess.cpp:1867
+#: ekos/capture/cameraprocess.cpp:1874
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:1872
+#: ekos/capture/cameraprocess.cpp:1879
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2064 ekos/focus/focus.cpp:5374
+#: ekos/capture/cameraprocess.cpp:2071 ekos/focus/focus.cpp:5374
 #: ekos/focus/focus.cpp:5398
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Aborting..."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/capture/cameraprocess.cpp:2071
+#: ekos/capture/cameraprocess.cpp:2078
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2089 ekos/focus/focus.cpp:5379
+#: ekos/capture/cameraprocess.cpp:2096 ekos/focus/focus.cpp:5379
 #: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/capture/cameraprocess.cpp:2115
+#: ekos/capture/cameraprocess.cpp:2122
 #, fuzzy, kde-format
 #| msgid "Pause delay in seconds"
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "நொடிகளில் தாமதத்தை நிறுத்து"
 
-#: ekos/capture/cameraprocess.cpp:2193
+#: ekos/capture/cameraprocess.cpp:2200
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
 "is %2."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2204
+#: ekos/capture/cameraprocess.cpp:2211
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2226
+#: ekos/capture/cameraprocess.cpp:2233
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2255
+#: ekos/capture/cameraprocess.cpp:2262
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2263
+#: ekos/capture/cameraprocess.cpp:2270
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2461
+#: ekos/capture/cameraprocess.cpp:2468
 #, fuzzy, kde-format
 msgid "%1 Preview"
 msgstr "அட்டவணை நட்சத்திரம்"
 
-#: ekos/capture/cameraprocess.cpp:2472 ekos/capture/cameraprocess.cpp:2474
+#: ekos/capture/cameraprocess.cpp:2479 ekos/capture/cameraprocess.cpp:2481
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Flat Calibration"
 msgstr "காலியென்ட்"
 
-#: ekos/capture/cameraprocess.cpp:2630
+#: ekos/capture/cameraprocess.cpp:2637
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Sequence paused."
 msgstr " Frequency அதிர்வலை:"
 
-#: ekos/capture/cameraprocess.cpp:2680
+#: ekos/capture/cameraprocess.cpp:2687
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid ""
@@ -15840,20 +15845,20 @@ msgid ""
 "restart capturing?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா?"
 
-#: ekos/capture/cameraprocess.cpp:2694
+#: ekos/capture/cameraprocess.cpp:2701
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2809
+#: ekos/capture/cameraprocess.cpp:2816
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா ?"
 
-#: ekos/capture/cameraprocess.cpp:2810
+#: ekos/capture/cameraprocess.cpp:2817
 #, fuzzy, kde-format
 #| msgid "star"
 msgid "Driver Restart"
@@ -17657,14 +17662,14 @@ msgstr "மொலின்"
 msgid "Offline"
 msgstr "மொலின்"
 
-#: ekos/ekoslive/message.cpp:743
+#: ekos/ekoslive/message.cpp:744
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
 msgid "target"
 msgstr "சார்ஜென்ட்"
 
-#: ekos/ekoslive/message.cpp:976
+#: ekos/ekoslive/message.cpp:977
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
