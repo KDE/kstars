@@ -254,6 +254,10 @@ void StarComponent::draw(SkyPainter *skyp)
     if (!selected())
         return;
 
+    // If we are displaying HIPS, the it doesn't make sense to also render stars.
+    if (Options::showHIPS())
+        return;
+
     SkyMap *map           = SkyMap::Instance();
     const Projector *proj = map->projector();
     KStarsData *data      = KStarsData::Instance();
