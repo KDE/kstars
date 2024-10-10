@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-09 01:47+0000\n"
-"PO-Revision-Date: 2024-10-06 09:53+0300\n"
+"PO-Revision-Date: 2024-10-09 07:46+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -15743,6 +15743,8 @@ msgstr ""
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
+"Не виявлено жодної камери. Перевірте налаштування тракту та параметри "
+"з'єднання."
 
 #: ekos/capture/cameraprocess.cpp:477
 #, kde-format
