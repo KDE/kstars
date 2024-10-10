@@ -37,7 +37,7 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
     {
         KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
         optionsProfileEditor = new StellarSolverProfileEditor(this, Ekos::GuideProfiles, optionsEditor);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
         optionsEditor->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
         KPageWidgetItem *mainPage = optionsEditor->addPage(optionsProfileEditor, i18n("Guide Options Profile Editor"));

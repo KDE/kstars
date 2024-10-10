@@ -29,7 +29,7 @@ SkyCalendarUI::SkyCalendarUI(QWidget *parent) : QFrame(parent)
 
 SkyCalendar::SkyCalendar(QWidget *parent) : QDialog(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
@@ -90,6 +90,22 @@ void SkyCalendar::slotFillCalendar()
     scUI->CalendarView->resetPlot();
     scUI->CalendarView->setHorizon();
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    if (scUI->checkBox_Mercury->isChecked())
+        QtConcurrent::run(&SkyCalendar::addPlanetEvents, this, KSPlanetBase::MERCURY);
+    if (scUI->checkBox_Venus->isChecked())
+        QtConcurrent::run(&SkyCalendar::addPlanetEvents, this, KSPlanetBase::VENUS);
+    if (scUI->checkBox_Mars->isChecked())
+        QtConcurrent::run(&SkyCalendar::addPlanetEvents, this, KSPlanetBase::MARS);
+    if (scUI->checkBox_Jupiter->isChecked())
+        QtConcurrent::run(&SkyCalendar::addPlanetEvents, this, KSPlanetBase::JUPITER);
+    if (scUI->checkBox_Saturn->isChecked())
+        QtConcurrent::run(&SkyCalendar::addPlanetEvents, this, KSPlanetBase::SATURN);
+    if (scUI->checkBox_Uranus->isChecked())
+        QtConcurrent::run(&SkyCalendar::addPlanetEvents, this, KSPlanetBase::URANUS);
+    if (scUI->checkBox_Neptune->isChecked())
+        QtConcurrent::run(&SkyCalendar::addPlanetEvents, this, KSPlanetBase::NEPTUNE);
+#else
     if (scUI->checkBox_Mercury->isChecked())
         QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::MERCURY);
     if (scUI->checkBox_Venus->isChecked())
@@ -104,6 +120,7 @@ void SkyCalendar::slotFillCalendar()
         QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::URANUS);
     if (scUI->checkBox_Neptune->isChecked())
         QtConcurrent::run(this, &SkyCalendar::addPlanetEvents, KSPlanetBase::NEPTUNE);
+#endif
 
     scUI->CreateButton->setText(i18n("Plot Planetary Almanac"));
     scUI->CreateButton->setEnabled(true);

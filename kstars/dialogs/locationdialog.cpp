@@ -23,9 +23,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QNetworkAccessManager>
-#include <QNetworkConfigurationManager>
 #include <QNetworkReply>
-#include <QNetworkSession>
 #include <QQmlContext>
 #include <QUrlQuery>
 #include <QPlainTextEdit>
@@ -38,7 +36,7 @@ LocationDialogUI::LocationDialogUI(QWidget *parent) : QFrame(parent)
 
 LocationDialog::LocationDialog(QWidget *parent) : QDialog(parent), timer(nullptr)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     KStarsData *data = KStarsData::Instance();
@@ -294,7 +292,7 @@ bool LocationDialog::updateCity(CityOperation operation)
     if (operation == CITY_REMOVE)
     {
         QString message = i18n("Are you sure you want to remove %1?", selectedCityName());
-        if (KMessageBox::questionYesNo(nullptr, message, i18n("Remove City?")) == KMessageBox::No)
+        if (KMessageBox::warningContinueCancel(nullptr, message, i18n("Remove City?")) == KMessageBox::Cancel)
             return false; //user answered No.
     }
     else if (!nameModified && !dataModified)

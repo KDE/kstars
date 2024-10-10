@@ -23,14 +23,19 @@
 #endif
 
 #include <KActionCollection>
-#include <KTipDialog>
-#include <KCrash/KCrash>
+#include <KCrash>
 #include <Options.h>
 
 #include <QFuture>
 #include <QtConcurrentRun>
+
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#else
 #include <QTest>
-#include <QTest>
+#endif
+
 #include <QDateTime>
 #include <QStandardPaths>
 #include <QFileInfo>
@@ -55,7 +60,7 @@ void KStarsUiTests::notifierHide()
 
 void KStarsUiTests::notifierMessage(QString title, QString message)
 {
-    qDebug() << message.replace('\n',' ');
+    qDebug() << message.replace('\n', ' ');
     if (m_Notifier)
         m_Notifier->showMessage(title, message, QIcon());
 }
@@ -74,15 +79,10 @@ void KStarsUiTests::notifierEnd()
 // We then reimplement QTEST_MAIN(KStarsUiTests);
 // The same will have to be done when interacting with a modal dialog: exec() in main thread, tests in timer-based thread
 
-QT_BEGIN_NAMESPACE
-QTEST_ADD_GPU_BLACKLIST_SUPPORT_DEFS
-QT_END_NAMESPACE
-
 void prepare_tests()
 {
     // Configure our test UI
     QApplication::instance()->setAttribute(Qt::AA_Use96Dpi, true);
-    QTEST_ADD_GPU_BLACKLIST_SUPPORT
     QTEST_SET_MAIN_SOURCE_PATH
     QApplication::processEvents();
 

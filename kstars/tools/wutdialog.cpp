@@ -29,7 +29,7 @@ WUTDialog::WUTDialog(QWidget *parent, bool _session, GeoLocation *_geo,
                      KStarsDateTime _lt)
     : QDialog(parent), session(_session), T0(_lt), geo(_geo)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     WUT = new WUTDialogUI(this);

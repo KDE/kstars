@@ -29,6 +29,7 @@
 
 #include <QtConcurrent>
 #include <KFormat>
+#include <QImageWriter>
 
 namespace EkosLive
 {
@@ -163,7 +164,7 @@ void Media::onTextReceived(const QString &message)
                     // Use seed from name, level, and zoom so that it is unique
                     // even if regenerated again.
                     auto seed = QString("%1%2%3").arg(QString::number(level), QString::number(zoom), name);
-                    QString uuid = "hips_" + QCryptographicHash::hash(seed.toLatin1(), QCryptographicHash::Md5).toHex();
+                    QString uuid = QString("hips_") + QCryptographicHash::hash(seed.toLatin1(), QCryptographicHash::Md5).toHex();
                     // Send everything as strings
                     QJsonObject metadata =
                     {
@@ -303,7 +304,11 @@ void Media::sendFile(const QString &filename, const QString &uuid)
 
     QSharedPointer<FITSData> data(new FITSData());
     data->loadFromFile(filename);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QtConcurrent::run(&Media::dispatch, this, data, uuid);
+#else
     QtConcurrent::run(this, &Media::dispatch, data, uuid);
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -427,7 +432,7 @@ void Media::upload(const QSharedPointer<FITSView> &view, const QString &uuid)
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
-    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == "+");
+    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == '+');
     auto scaleWidth = fastImage ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
 
     // For low bandwidth images
@@ -501,7 +506,7 @@ void Media::upload(const QSharedPointer<FITSData> &data, const QImage &image, co
     meta = meta.leftJustified(METADATA_PACKET, 0);
     buffer.write(meta);
 
-    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == "+");
+    auto fastImage = (!Options::ekosLiveHighBandwidth() || uuid[0] == '+');
     auto scaleWidth = fastImage ? HB_IMAGE_WIDTH / 2 : HB_IMAGE_WIDTH;
 
     // For low bandwidth images

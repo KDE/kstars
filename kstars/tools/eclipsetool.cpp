@@ -49,7 +49,11 @@ EclipseTool::EclipseTool(QWidget *parent) :
         // reset progress
         ui->progressBar->setValue(0);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QtConcurrent::run(&EclipseTool::slotCompute, this);
+#else
         QtConcurrent::run(this, &EclipseTool::slotCompute);
+#endif
     });
 
     connect(ui->ClearButton, &QPushButton::clicked, &m_model, &EclipseModel::reset);

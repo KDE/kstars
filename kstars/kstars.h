@@ -13,7 +13,7 @@
 #include <QLabel>
 
 #include <QDockWidget>
-#include <qtdbusglobal.h>
+#include <QtDBus/qtdbusglobal.h>
 #ifdef HAVE_CFITSIO
 #include <QPointer>
 #endif
@@ -722,9 +722,6 @@ class KStars : public KXmlGuiWindow
 
         /** Action slot to start Printing Wizard. */
         void slotPrintingWizard();
-
-        /** Action slot to show tip-of-the-day window. */
-        void slotTipOfDay();
 
         /** Action slot to set focus coordinates manually (opens FocusDialog). */
         void slotManualFocus();

@@ -26,7 +26,7 @@
 #ifndef KSTARS_LITE
 #include <KMessageBox>
 #include <KActionCollection>
-#include <KNotifications/KNotification>
+#include <knotification.h>
 #endif
 
 #include <QTcpServer>
@@ -93,7 +93,7 @@ void DriverManager::release()
 
 DriverManager::DriverManager(QWidget *parent) : QDialog(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
@@ -383,7 +383,11 @@ void DriverManager::startLocalDrivers(ServerManager *serverManager)
 {
     connect(serverManager, &ServerManager::driverStarted, this, &DriverManager::processDriverStartup, Qt::UniqueConnection);
     connect(serverManager, &ServerManager::driverFailed, this, &DriverManager::processDriverFailure, Qt::UniqueConnection);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QtConcurrent::run(&ServerManager::startDriver, serverManager, serverManager->pendingDrivers().first());
+#else
     QtConcurrent::run(serverManager, &ServerManager::startDriver, serverManager->pendingDrivers().first());
+#endif
 }
 
 void DriverManager::processDriverStartup(const QSharedPointer<DriverInfo> &driver)
@@ -394,7 +398,11 @@ void DriverManager::processDriverStartup(const QSharedPointer<DriverInfo> &drive
     // Do we have more pending drivers?
     if (manager->pendingDrivers().count() > 0)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QtConcurrent::run(&ServerManager::startDriver, manager, manager->pendingDrivers().first());
+#else
         QtConcurrent::run(manager, &ServerManager::startDriver, manager->pendingDrivers().first());
+#endif
         return;
     }
 
@@ -420,7 +428,11 @@ void DriverManager::processDriverFailure(const QSharedPointer<DriverInfo> &drive
         // Do we have more pending drivers?
         if (manager->pendingDrivers().count() > 0)
         {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            QtConcurrent::run(&ServerManager::startDriver, manager, manager->pendingDrivers().first());
+#else
             QtConcurrent::run(manager, &ServerManager::startDriver, manager->pendingDrivers().first());
+#endif
             return;
         }
     });
@@ -998,7 +1010,7 @@ bool DriverManager::readXMLDrivers()
     QString driverName;
 
     QString driversDir = Options::indiDriversDir();
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::indiDriversAreInternal())
         driversDir =
             QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";

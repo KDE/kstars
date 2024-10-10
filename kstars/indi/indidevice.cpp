@@ -47,7 +47,7 @@ const char *libindi_strings_context = "string from libindi, used in the config d
 
 INDI_D::INDI_D(QWidget *parent, INDI::BaseDevice baseDevice, ClientManager *in_cm) : QWidget(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     m_BaseDevice = baseDevice;

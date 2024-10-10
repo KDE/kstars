@@ -30,7 +30,6 @@
 
 #include <KActionCollection>
 #include <KActionMenu>
-#include <KTipDialog>
 #include <KToggleAction>
 #include <KToolBar>
 
@@ -144,7 +143,7 @@ void KStars::initActions()
     // ==== File menu ================
     ka = new QAction(QIcon::fromTheme("favorites"), i18n("Download New Data..."), this);
     connect(ka, &QAction::triggered, this, &KStars::slotDownload);
-    actionCollection()->setDefaultShortcut(ka, QKeySequence(Qt::CTRL + Qt::Key_N));
+    actionCollection()->setDefaultShortcut(ka, QKeySequence(Qt::CTRL | Qt::Key_N));
     ka->setWhatsThis(i18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());
     ka->setStatusTip(ka->whatsThis());
@@ -153,11 +152,11 @@ void KStars::initActions()
 #ifdef HAVE_CFITSIO
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()))
             << i18n("Open Image(s)...") << QIcon::fromTheme("document-open")
-            << QKeySequence(Qt::CTRL + Qt::Key_O);
+            << QKeySequence(Qt::CTRL | Qt::Key_O);
 
     actionCollection()->addAction("blink_directory", this, SLOT(slotBlink()))
             << i18n("Open/Blink Directory") << QIcon::fromTheme("folder-open")
-            << QKeySequence(Qt::CTRL + Qt::Key_O + Qt::AltModifier);
+            << QKeySequence(Qt::CTRL | Qt::Key_O | Qt::AltModifier);
 
 #endif
     actionCollection()->addAction("export_image", this, SLOT(slotExportImage()))
@@ -169,7 +168,7 @@ void KStars::initActions()
 #ifndef Q_OS_WIN
     actionCollection()->addAction("run_script", this, SLOT(slotRunScript()))
             << i18n("&Run Script...") << QIcon::fromTheme("system-run")
-            << QKeySequence(Qt::CTRL + Qt::Key_R);
+            << QKeySequence(Qt::CTRL | Qt::Key_R);
 #endif
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard()))
             << i18nc("start Printing Wizard", "Printing &Wizard...");
@@ -181,11 +180,11 @@ void KStars::initActions()
 
     // ==== Time Menu ================
     actionCollection()->addAction("time_to_now", this, SLOT(slotSetTimeToNow()))
-            << i18n("Set Time to &Now") << QKeySequence(Qt::CTRL + Qt::Key_E)
+            << i18n("Set Time to &Now") << QKeySequence(Qt::CTRL | Qt::Key_E)
             << QIcon::fromTheme("clock");
 
     actionCollection()->addAction("time_dialog", this, SLOT(slotSetTime()))
-            << i18nc("set Clock to New Time", "&Set Time...") << QKeySequence(Qt::CTRL + Qt::Key_S)
+            << i18nc("set Clock to New Time", "&Set Time...") << QKeySequence(Qt::CTRL | Qt::Key_S)
             << QIcon::fromTheme("clock");
 
     ka = actionCollection()->add<KToggleAction>("clock_startstop")
@@ -239,13 +238,13 @@ void KStars::initActions()
 
     actionCollection()->addAction("find_object", this, SLOT(slotFind()))
             << i18n("&Find Object...") << QIcon::fromTheme("edit-find")
-            << QKeySequence(Qt::CTRL + Qt::Key_F);
+            << QKeySequence(Qt::CTRL | Qt::Key_F);
     actionCollection()->addAction("track_object", this, SLOT(slotTrack()))
             << i18n("Engage &Tracking")
             << QIcon::fromTheme("object-locked")
-            << QKeySequence(Qt::CTRL + Qt::Key_T);
+            << QKeySequence(Qt::CTRL | Qt::Key_T);
     actionCollection()->addAction("manual_focus", this, SLOT(slotManualFocus()))
-            << i18n("Set Coordinates &Manually...") << QKeySequence(Qt::CTRL + Qt::Key_M);
+            << i18n("Set Coordinates &Manually...") << QKeySequence(Qt::CTRL | Qt::Key_M);
 
     QAction *action;
 
@@ -258,11 +257,11 @@ void KStars::initActions()
 
     actionCollection()->addAction("zoom_default", map(), SLOT(slotZoomDefault()))
             << i18n("&Default Zoom") << QIcon::fromTheme("zoom-fit-best")
-            << QKeySequence(Qt::CTRL + Qt::Key_Z);
+            << QKeySequence(Qt::CTRL | Qt::Key_Z);
     actionCollection()->addAction("zoom_set", this, SLOT(slotSetZoom()))
             << i18n("&Zoom to Angular Size...")
             << QIcon::fromTheme("zoom-original")
-            << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z);
+            << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Z);
 
     action = actionCollection()->addAction(KStandardAction::FullScreen, this, SLOT(slotFullScreen()));
     action->setIcon(QIcon::fromTheme("view-fullscreen"));
@@ -275,17 +274,17 @@ void KStars::initActions()
     newToggleAction(
         actionCollection(), "mirror_skymap",
         i18nc("Mirror the view of the sky map", "Mirrored View"),
-        this, SLOT(slotSkyMapOrientation())) << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_M);;
+        this, SLOT(slotSkyMapOrientation())) << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_M);
 
     actionCollection()->addAction("toggle_terrain", this, SLOT(slotTerrain()))
             << (Options::showTerrain() ? i18n("Hide Terrain") :
                 i18n("Show Terrain"))
-            << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_T);
+            << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_T);
 
     actionCollection()->addAction("toggle_image_overlays", this, SLOT(slotImageOverlays()))
             << (Options::showImageOverlays() ? i18n("Hide Image Overlays") :
                 i18n("Show Image Overlays"))
-            << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_O);
+            << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_O);
 
     actionCollection()->addAction("project_lambert", this, SLOT(slotMapProjection()))
             << i18n("&Lambert Azimuthal Equal-area") << QKeySequence("F5") << AddToGroup(projectionGroup)
@@ -406,7 +405,7 @@ void KStars::initActions()
     actionCollection()->addAction("geolocation", this, SLOT(slotGeoLocator()))
             << i18nc("Location on Earth", "&Geographic...")
             << QIcon::fromTheme("kstars_xplanet")
-            << QKeySequence(Qt::CTRL + Qt::Key_G);
+            << QKeySequence(Qt::CTRL | Qt::Key_G);
 
     // Configure Notifications
 #ifdef HAVE_NOTIFYCONFIG
@@ -442,7 +441,7 @@ void KStars::initActions()
     actionCollection()->addAction("astrocalculator", this, SLOT(slotCalculator()))
             << i18n("Calculator")
             << QIcon::fromTheme("accessories-calculator")
-            << QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_C);
+            << QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_C);
 
     /* FIXME Enable once port to KF5 is complete for moonphasetool
      actionCollection()->addAction("moonphasetool", this, SLOT(slotMoonPhaseTool()) )
@@ -450,28 +449,28 @@ void KStars::initActions()
     */
 
     actionCollection()->addAction("obslist", this, SLOT(slotObsList()))
-            << i18n("Observation Planner") << QKeySequence(Qt::CTRL + Qt::Key_L);
+            << i18n("Observation Planner") << QKeySequence(Qt::CTRL | Qt::Key_L);
 
     actionCollection()->addAction("altitude_vs_time", this, SLOT(slotAVT()))
-            << i18n("Altitude vs. Time") << QKeySequence(Qt::CTRL + Qt::Key_A);
+            << i18n("Altitude vs. Time") << QKeySequence(Qt::CTRL | Qt::Key_A);
 
     actionCollection()->addAction("whats_up_tonight", this, SLOT(slotWUT()))
-            << i18n("What's up Tonight") << QKeySequence(Qt::CTRL + Qt::Key_U);
+            << i18n("What's up Tonight") << QKeySequence(Qt::CTRL | Qt::Key_U);
 
     //FIXME Port to QML2
     //#if 0
     actionCollection()->addAction("whats_interesting", this, SLOT(slotToggleWIView()))
-            << i18n("What's Interesting...") << QKeySequence(Qt::CTRL + Qt::Key_W);
+            << i18n("What's Interesting...") << QKeySequence(Qt::CTRL | Qt::Key_W);
     //#endif
 
     actionCollection()->addAction("XPlanet", map(), SLOT(slotStartXplanetViewer()))
-            << i18n("XPlanet Solar System Simulator") << QKeySequence(Qt::CTRL + Qt::Key_X);
+            << i18n("XPlanet Solar System Simulator") << QKeySequence(Qt::CTRL | Qt::Key_X);
 
     actionCollection()->addAction("skycalendar", this, SLOT(slotCalendar())) << i18n("Sky Calendar");
 
 #ifdef HAVE_INDI
     ka = actionCollection()->addAction("ekos", this, SLOT(slotEkos()))
-         << i18n("Ekos") << QKeySequence(Qt::CTRL + Qt::Key_K);
+         << i18n("Ekos") << QKeySequence(Qt::CTRL | Qt::Key_K);
     ka->setShortcutContext(Qt::ApplicationShortcut);
 #endif
 
@@ -485,23 +484,23 @@ void KStars::initActions()
     // It must be updated to use DBus session bus from Qt (like scheduler)
 #ifndef Q_OS_WIN
     actionCollection()->addAction("scriptbuilder", this, SLOT(slotScriptBuilder()))
-            << i18n("Script Builder") << QKeySequence(Qt::CTRL + Qt::Key_B);
+            << i18n("Script Builder") << QKeySequence(Qt::CTRL | Qt::Key_B);
 #endif
 
     actionCollection()->addAction("solarsystem", this, SLOT(slotSolarSystem()))
-            << i18n("Solar System") << QKeySequence(Qt::CTRL + Qt::Key_Y);
+            << i18n("Solar System") << QKeySequence(Qt::CTRL | Qt::Key_Y);
 
     // Disabled until fixed later
     actionCollection()->addAction("jmoontool", this, SLOT(slotJMoonTool()) )
             << i18n("Jupiter's Moons")
-            << QKeySequence(Qt::CTRL + Qt::Key_J );
+            << QKeySequence(Qt::CTRL | Qt::Key_J );
 
     actionCollection()->addAction("flagmanager", this, SLOT(slotFlagManager())) << i18n("Flags");
 
     actionCollection()->addAction("equipmentwriter", this, SLOT(slotEquipmentWriter()))
-            << i18n("List your &Equipment...") << QIcon::fromTheme("kstars") << QKeySequence(Qt::CTRL + Qt::Key_0);
+            << i18n("List your &Equipment...") << QIcon::fromTheme("kstars") << QKeySequence(Qt::CTRL | Qt::Key_0);
     actionCollection()->addAction("manageobserver", this, SLOT(slotObserverManager()))
-            << i18n("Manage Observer...") << QIcon::fromTheme("im-user") << QKeySequence(Qt::CTRL + Qt::Key_1);
+            << i18n("Manage Observer...") << QIcon::fromTheme("im-user") << QKeySequence(Qt::CTRL | Qt::Key_1);
 
     //TODO only enable it when finished
     actionCollection()->addAction("artificialhorizon", this, SLOT(slotHorizonManager()))
@@ -509,7 +508,7 @@ void KStars::initActions()
 
     // ==== observation menu - execute ================
     actionCollection()->addAction("execute", this, SLOT(slotExecute()))
-            << i18n("Execute the Session Plan...") << QKeySequence(Qt::CTRL + Qt::Key_2);
+            << i18n("Execute the Session Plan...") << QKeySequence(Qt::CTRL | Qt::Key_2);
 
     // ==== observation menu - polaris hour angle ================
     actionCollection()->addAction("polaris_hour_angle", this, SLOT(slotPolarisHourAngle()))
@@ -527,13 +526,13 @@ void KStars::initActions()
     actionCollection()->addAction("device_manager", this, SLOT(slotINDIDriver()))
             << i18n("Device Manager...")
             << QIcon::fromTheme("network-server")
-            << QKeySequence(Qt::SHIFT + Qt::META + Qt::Key_D);
+            << QKeySequence(Qt::SHIFT | Qt::META | Qt::Key_D);
     actionCollection()->addAction("custom_drivers", DriverManager::Instance(), SLOT(showCustomDrivers()))
             << i18n("Custom Drivers...")
             << QIcon::fromTheme("address-book-new");
     ka = actionCollection()->addAction("indi_cpl", this, SLOT(slotINDIPanel()))
          << i18n("INDI Control Panel...")
-         << QKeySequence(Qt::CTRL + Qt::Key_I);
+         << QKeySequence(Qt::CTRL | Qt::Key_I);
     ka->setShortcutContext(Qt::ApplicationShortcut);
     ka->setEnabled(false);
 #else
@@ -542,10 +541,6 @@ void KStars::initActions()
     //iterate over. Anyway to resolve this?
 #endif
 
-    //Help Menu:
-    ka = actionCollection()->addAction(KStandardAction::TipofDay, "help_tipofday", this, SLOT(slotTipOfDay()));
-    ka->setWhatsThis(i18n("Displays the Tip of the Day"));
-    ka->setIcon(QIcon::fromTheme("help-hint"));
     //	KStandardAction::help(this, SLOT(appHelpActivated()), actionCollection(), "help_contents" );
 
     //Add timestep widget for toolbar
@@ -970,9 +965,6 @@ void KStars::datainitFinished()
         slotWizard();
     }
 
-    //Show TotD
-    KTipDialog::showTip(this, "kstars/tips");
-
     // Update comets and asteroids if enabled.
     if (Options::orbitalElementsAutoUpdate())
     {
@@ -1046,8 +1038,8 @@ void KStars::initFocus()
         QString caption = i18n("Initial Position is Below Horizon");
         QString message =
             i18n("The initial position is below the horizon.\nWould you like to reset to the default position?");
-        if (KMessageBox::warningYesNo(this, message, caption, KGuiItem(i18n("Reset Position")),
-                                      KGuiItem(i18n("Do Not Reset")), "dag_start_below_horiz") == KMessageBox::Yes)
+        if (KMessageBox::warningContinueCancel(this, message, caption, KGuiItem(i18n("Reset Position")),
+                                               KGuiItem(i18n("Do Not Reset")), "dag_start_below_horiz") == KMessageBox::Continue)
         {
             map()->setClickedObject(nullptr);
             map()->setFocusObject(nullptr);

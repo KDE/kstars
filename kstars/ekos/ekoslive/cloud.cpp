@@ -102,8 +102,8 @@ void Cloud::onTextReceived(const QString &message)
         const QJsonArray options = payload["options"].toArray();
         for (const auto &oneOption : options)
         {
-            auto name = oneOption["name"].toString().toLatin1();
-            auto value = oneOption["value"].toVariant();
+            auto name = oneOption[QStringLiteral("name")].toString().toLatin1();
+            auto value = oneOption[QStringLiteral("value")].toVariant();
 
             Options::self()->setProperty(name, value);
 
@@ -134,7 +134,11 @@ void Cloud::sendData(const QSharedPointer<FITSData> &data, const QString &uuid)
     if (Options::ekosLiveCloud() == false  || m_sendBlobs == false)
         return;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QtConcurrent::run(&Cloud::dispatch, this, data, uuid);
+#else
     QtConcurrent::run(this, &Cloud::dispatch, data, uuid);
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////

@@ -153,7 +153,7 @@ void SkyMapDrawAbstract::drawOrientationArrows(QPainter &p)
         arrowhead.lineTo(-radius / 30.f, radius / 7.5f);
         arrowhead.lineTo(radius / 30.f, radius / 7.5f);
         arrowhead.lineTo(0.f, 0.f);
-        arrowhead.addText(QPointF(-1.1 * fontMetrics.width(marker), radius / 7.5f + 1.2f * fontMetrics.ascent()),
+        arrowhead.addText(QPointF(-1.1 * fontMetrics.averageCharWidth() * marker.size(), radius / 7.5f + 1.2f * fontMetrics.ascent()),
                           QFont(), marker);
         transform.translate(0, -radius);
         arrowhead = transform.map(arrowhead);
@@ -173,7 +173,7 @@ void SkyMapDrawAbstract::drawOrientationArrows(QPainter &p)
 
             QPainterPath angleLabel;
             QString angleLabelText = QString::number(int(round(arcAngle))) + "°";
-            angleLabel.addText(QPointF(-fontMetrics.width(angleLabelText) / 2.f, 1.2f * fontMetrics.ascent()),
+            angleLabel.addText(QPointF(-(fontMetrics.averageCharWidth()*angleLabelText.size()) / 2.f, 1.2f * fontMetrics.ascent()),
                                QFont(), angleLabelText);
             transform.reset();
             transform.translate(centerScreenPoint.x(), centerScreenPoint.y());

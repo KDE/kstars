@@ -11,7 +11,7 @@
 #include <QImage>
 #include <QList>
 #include <QString>
-#include <QDBusArgument>
+#include <QtDBus/QDBusArgument>
 
 class QPainter;
 

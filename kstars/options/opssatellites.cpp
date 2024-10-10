@@ -34,8 +34,12 @@ bool SatelliteSortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModel
                 return true;
         return false;
     }
-
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    return sourceModel()->data(index).toString().contains(filterRegularExpression());
+    #else
     return sourceModel()->data(index).toString().contains(filterRegExp());
+    #endif
+
 }
 
 OpsSatellites::OpsSatellites() : QFrame(KStars::Instance())
@@ -221,7 +225,7 @@ void OpsSatellites::slotShowSatellites(bool on)
 
 void OpsSatellites::slotFilterReg(const QString &filter)
 {
-    m_SortModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::RegExp));
+    m_SortModel->setFilterRegularExpression(QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption));
     m_SortModel->setFilterKeyColumn(-1);
 
     isDirty = true;

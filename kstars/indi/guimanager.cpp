@@ -47,7 +47,7 @@ void GUIManager::release()
 
 GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::independentWindowINDI())
         setWindowFlags(Qt::Window);
     else

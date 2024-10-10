@@ -7,6 +7,7 @@
 #include "skyobjectlistmodel.h"
 
 #include "skyobject.h"
+#include <QRegularExpression>
 
 SkyObjectListModel::SkyObjectListModel(QObject *parent) : QAbstractListModel(parent)
 {
@@ -50,13 +51,13 @@ QVariant SkyObjectListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QStringList SkyObjectListModel::filter(const QRegExp &regEx)
+QStringList SkyObjectListModel::filter(const QRegularExpression &regEx)
 {
     QStringList filteredList;
 
     for (auto &item : skyObjects)
     {
-        if (regEx.exactMatch(item.first))
+        if (regEx.match(item.first).hasMatch())
         {
             filteredList.append(item.first);
         }

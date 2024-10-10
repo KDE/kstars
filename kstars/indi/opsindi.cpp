@@ -36,7 +36,7 @@ OpsINDI::OpsINDI() : QFrame(KStars::Instance())
         QIcon::fromTheme("document-open"));
     selectINDIHubB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     connect(kcfg_indiServerIsInternal, SIGNAL(clicked()), this, SLOT(toggleINDIInternal()));
     kcfg_indiServerIsInternal->setToolTip(i18n("Internal or external INDI server?"));
     connect(kcfg_indiDriversAreInternal, SIGNAL(clicked()), this, SLOT(toggleDriversInternal()));

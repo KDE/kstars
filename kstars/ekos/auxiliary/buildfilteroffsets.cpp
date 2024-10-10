@@ -69,7 +69,7 @@ namespace Ekos
 //
 BuildFilterOffsets::BuildFilterOffsets(QSharedPointer<FilterManager> filterManager)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
@@ -130,8 +130,8 @@ void BuildFilterOffsets::setupGUI()
         // Close the dialog down unless lots of processing has been done. In that case put up an "are you sure" popup
         if (!m_tableInEditMode)
             this->done(QDialog::Rejected);
-        else if (KMessageBox::questionYesNo(KStars::Instance(),
-                                            i18n("Are you sure you want to quit?")) == KMessageBox::Yes)
+        else if (KMessageBox::warningContinueCancel(KStars::Instance(),
+                                            i18n("Are you sure you want to quit?")) == KMessageBox::Continue)
             this->done(QDialog::Rejected);
     });
 

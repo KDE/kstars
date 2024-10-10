@@ -29,7 +29,7 @@ MosaicPlanner::MosaicPlanner(QWidget *parent) : QWidget(parent)
     m_BaseView = new QQuickView();
 
     m_BaseView->setTitle(i18n("Mosaic Planner"));
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     m_BaseView->setFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #else
     m_BaseView->setFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);

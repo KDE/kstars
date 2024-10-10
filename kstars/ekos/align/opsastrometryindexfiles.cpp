@@ -9,6 +9,8 @@
 
 #include <KConfigDialog>
 #include <KMessageBox>
+#include <QFileDialog>
+#include <QDesktopServices>
 
 namespace Ekos
 {

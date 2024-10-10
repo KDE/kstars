@@ -4,9 +4,17 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#include <QtTest/qtestcase.h>>
+#else
 #include <QTest>
-#include <QtConcurrent/QtConcurrentRun>
 #include <qtestcase.h>
+#endif
+
+#include <QtConcurrent/QtConcurrentRun>
+
 #include "trixelcache.h"
 
 using TestCache = TrixelCache<std::vector<int>>;

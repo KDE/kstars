@@ -22,7 +22,7 @@ void TestEkosCaptureHelper::init()
 {
     TestEkosHelper::init();
     QStandardPaths::setTestModeEnabled(true);
-    QFileInfo test_dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation), "test");
+    QFileInfo test_dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation), "test");
     destination = new QTemporaryDir(test_dir.absolutePath());
     QVERIFY(destination->isValid());
     QVERIFY(destination->autoRemove());

@@ -9,7 +9,7 @@
 
 #include <basedevice.h>
 #include <QJsonObject>
-#include <qdbusmetatype.h>
+#include <QtDBus/qdbusmetatype.h>
 
 namespace ISD
 {

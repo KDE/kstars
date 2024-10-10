@@ -18,7 +18,7 @@
 #include <QJsonArray>
 
 #ifndef KSTARS_LITE
-#include <QDBusArgument>
+#include <QtDBus/QDBusArgument>
 #endif
 
 #define MAXINDIFILENAME 512

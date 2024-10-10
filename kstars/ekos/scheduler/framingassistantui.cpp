@@ -21,8 +21,8 @@
 #include "ksparser.h"
 
 #include <KLocalizedString>
-
-#include <QDBusReply>
+#include <QFileDialog>
+#include <QtDBus/QDBusReply>
 
 namespace Ekos
 {
@@ -761,7 +761,7 @@ bool FramingAssistantUI::parseMosaicCSV(const QString &filename)
         ui->positionAngleSpin->setValue(pa);
 
         // eg. 10% --> 10
-        auto overlap = row_content["Overlap"].toString().trimmed().midRef(0, 2).toDouble();
+        auto overlap = row_content["Overlap"].toString().trimmed().mid(0, 2).toDouble();
         ui->overlapSpin->setValue(overlap);
     }
 

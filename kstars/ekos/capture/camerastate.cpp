@@ -54,7 +54,7 @@ const QUrl &CameraState::sequenceURL() const
 void CameraState::setSequenceURL(const QUrl &newSequenceURL)
 {
     m_sequenceQueue->setSequenceURL(newSequenceURL);
-    placeholderPath().setSeqFilename(newSequenceURL.toLocalFile());
+    placeholderPath().setSeqFilename(QFileInfo(newSequenceURL.toLocalFile()));
 }
 
 void CameraState::setActiveJob(SequenceJob *value)
@@ -84,20 +84,7 @@ void CameraState::setActiveJob(SequenceJob *value)
         connect(this, &CameraState::newGuiderDrift, m_activeJob, &SequenceJob::updateGuiderDrift);
         // react upon sequence job signals
         connect(m_activeJob, &SequenceJob::prepareState, this, &CameraState::updatePrepareState);
-        connect(m_activeJob, &SequenceJob::prepareComplete, this, [this](bool success)
-        {
-            if (success)
-            {
-                setCaptureState(CAPTURE_PROGRESS);
-                emit executeActiveJob();
-            }
-            else
-            {
-                qWarning(KSTARS_EKOS_CAPTURE) << "Capture preparation failed, aborting.";
-                setCaptureState(CAPTURE_ABORTED);
-                emit abortCapture();
-            }
-        }, Qt::UniqueConnection);
+        connect(m_activeJob, &SequenceJob::prepareComplete, this, &CameraState::setPrepareComplete, Qt::UniqueConnection);
         connect(m_activeJob, &SequenceJob::abortCapture, this, &CameraState::abortCapture);
         connect(m_activeJob, &SequenceJob::captureStarted, this, &CameraState::captureStarted);
         connect(m_activeJob, &SequenceJob::newLog, this, &CameraState::newLog);
@@ -371,7 +358,7 @@ bool CameraState::generateFilename(const QString &extension, QString *filename)
     {
         QString oldFilename = *filename;
         *filename = placeholderPath().repairFilename(*filename);
-        if (filename != oldFilename)
+        if (*filename != oldFilename)
             qCWarning(KSTARS_EKOS_CAPTURE) << "File over-write detected: changing" << oldFilename << "to" << *filename;
         else
             qCWarning(KSTARS_EKOS_CAPTURE) << "File over-write detected for" << oldFilename << "but could not correct filename";
@@ -740,7 +727,8 @@ void CameraState::updateFocusState(FocusState state)
         // Account for in-sequence-focus action that may lead to guide suspension and resumption after it is completed successfully.
         // In this case, since the guiding was resumed, we should honor the guiding settle duration.
         // To satisfy this, the guide state must be guiding and focus suspend guiding should be active.
-        if (state == FOCUS_COMPLETE && Options::guidingSettle() > 0 && Options::focusSuspendGuiding() && m_GuideState == GUIDE_GUIDING)
+        if (state == FOCUS_COMPLETE && Options::guidingSettle() > 0 && Options::focusSuspendGuiding()
+                && m_GuideState == GUIDE_GUIDING)
         {
             // N.B. Do NOT convert to i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
             appendLogText(i18n("Focus complete. Resuming in %1 seconds...", Options::guidingSettle()));
@@ -1531,6 +1519,23 @@ void CameraState::setAlignState(AlignState value)
         default:
             break;
     }
+}
+
+void CameraState::setPrepareComplete(bool success)
+{
+
+    if (success)
+    {
+        setCaptureState(CAPTURE_PROGRESS);
+        emit executeActiveJob();
+    }
+    else
+    {
+        qWarning(KSTARS_EKOS_CAPTURE) << "Capture preparation failed, aborting.";
+        setCaptureState(CAPTURE_ABORTED);
+        emit abortCapture();
+    }
+
 }
 
 } // namespace

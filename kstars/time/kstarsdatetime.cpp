@@ -294,10 +294,10 @@ double KStarsDateTime::stringToEpoch(const QString &eName, bool &ok)
         return epoch;
 
     if (eName.startsWith('J'))
-        epoch = eName.midRef(1).toDouble(&ok);
+        epoch = eName.mid(1).toDouble(&ok);
     else if (eName.startsWith('B'))
     {
-        epoch = eName.midRef(1).toDouble(&ok);
+        epoch = eName.mid(1).toDouble(&ok);
         epoch = jdToEpoch(epochToJd(epoch, BESSELIAN), JULIAN); // Convert Besselian epoch to Julian epoch
     }
     // Assume it's Julian

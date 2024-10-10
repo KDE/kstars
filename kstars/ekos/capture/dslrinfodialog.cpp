@@ -13,7 +13,7 @@
 
 DSLRInfo::DSLRInfo(QWidget *parent, ISD::Camera *ccd) : QDialog(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 

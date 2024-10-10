@@ -75,7 +75,11 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit) : QFrame(parentSplit)
     //connect(ComputeButton, SIGNAL(clicked()), this, SLOT(slotCompute()));
     connect(ComputeButton, &QPushButton::clicked, [this]()
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QtConcurrent::run(&ConjunctionsTool::slotCompute, this);
+#else
         QtConcurrent::run(this, &ConjunctionsTool::slotCompute);
+#endif
     });
     connect(FilterTypeComboBox, SIGNAL(currentIndexChanged(int)), SLOT(slotFilterType(int)));
     connect(ClearButton, SIGNAL(clicked()), this, SLOT(slotClear()));
@@ -226,7 +230,7 @@ void ConjunctionsTool::slotExport()
 
 void ConjunctionsTool::slotFilterReg(const QString &filter)
 {
-    m_SortModel->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::RegExp));
+    m_SortModel->setFilterRegularExpression(QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption));
     m_SortModel->setFilterKeyColumn(-1);
 }
 

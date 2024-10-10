@@ -495,10 +495,10 @@ bool StarComponent::loadStaticData()
                 if (1 != fread(&starname, sizeof(starName), 1, nameFile))
                     qCCritical(KSTARS) << "ERROR: fread() call on nameFile failed in trixel " << trixel << " star " << j;
 
-                name  = QByteArray(starname.longName, 32);
+                name  = QString::fromLatin1(starname.longName);
                 named = !name.isEmpty();
 
-                gname  = QByteArray(starname.bayerName, 8);
+                gname  = QString::fromLatin1(starname.bayerName);
                 gnamed = !gname.isEmpty();
 
                 if (gnamed && starname.bayerName[0] != '.')

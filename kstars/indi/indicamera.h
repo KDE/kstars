@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "fitsviewer/fitsdata.h"
 #include "indiconcretedevice.h"
 #include "indicamerachip.h"
 

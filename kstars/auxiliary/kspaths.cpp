@@ -17,7 +17,11 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
     {
         switch(location)
         {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             case QStandardPaths::DataLocation:
+#else
+            case QStandardPaths::AppLocalDataLocation:
+#endif
             case QStandardPaths::AppDataLocation:
                 findings = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QDir("kstars").filePath(fileName), options);
                 break;
@@ -27,6 +31,7 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
                 break;
 
             case QStandardPaths::AppConfigLocation:
+            case QStandardPaths::GenericConfigLocation:
                 findings = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QDir("kstars").filePath(fileName), options);
                 break;
 
@@ -58,7 +63,6 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
     {
         switch(location)
         {
-            case QStandardPaths::DataLocation:
             case QStandardPaths::AppDataLocation:
                 findings = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QDir("kstars").filePath(fileName), options);
                 break;

@@ -9,7 +9,7 @@
 #include <KLocalizedString>
 
 #include <QMetaType>
-#include <QDBusArgument>
+#include <QtDBus/QDBusArgument>
 #include <QString>
 
 #include <vector>
@@ -217,9 +217,7 @@ typedef enum
 
 const QString getExtensionStatusString(ExtensionState state, bool translated = true);
 
-static const QList<const char *> extensionStates = { I18N_NOOP("Starting"), I18N_NOOP("Started"), I18N_NOOP("Stopping"),
-    I18N_NOOP("Stopped")
-};
+static const QList<KLocalizedString> extensionStates = { ki18n("Starting"), ki18n("Started"), ki18n("Stopping"), ki18n("Stopped")};
 
 std::vector<double> gsl_polynomial_fit(const double *const data_x, const double *const data_y, const int n,
                                        const int order, double &chisq);

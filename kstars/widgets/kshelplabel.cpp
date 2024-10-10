@@ -43,7 +43,7 @@ void KSHelpLabel::updateText()
 
 void KSHelpLabel::slotShowDefinition(const QString &term)
 {
-#ifdef Q_OS_OSX // This is because KHelpClient doesn't seem to be working right on MacOS
+#ifdef Q_OS_MACOS // This is because KHelpClient doesn't seem to be working right on MacOS
     QDesktopServices::openUrl(QUrl("https://docs.kde.org/trunk5/en/kstars/kstars/index.html"));
 #else
     KHelpClient::invokeHelp(term);

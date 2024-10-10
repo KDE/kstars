@@ -143,7 +143,6 @@
 
         <Menu name="help"><text>&amp;Help</text>
                 <Action name="help_contents"/>
-                <Action name="help_tipofday"/>
                 <Action name="help_whats_this"/>
                 <Separator/>
                 <Action name="help_report_bug"/>

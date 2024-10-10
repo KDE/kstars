@@ -14,8 +14,7 @@
 #include "fitsviewer/fitsdata.h"
 #endif
 #include "auxiliary/kspaths.h"
-#include "ekos/auxiliary/solverutils.h"
-#include "ekos/auxiliary/stellarsolverprofile.h"
+
 
 #include <QTableWidget>
 #include <QImageReader>
@@ -23,6 +22,9 @@
 #include <QComboBox>
 #include <QtConcurrent>
 #include <QRegularExpression>
+
+#include "ekos/auxiliary/solverutils.h"
+#include "ekos/auxiliary/stellarsolverprofile.h"
 
 namespace
 {
@@ -447,7 +449,11 @@ void ImageOverlayComponent::updateTable()
 
 void ImageOverlayComponent::loadAllImageFiles()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    m_LoadImagesFuture = QtConcurrent::run(&ImageOverlayComponent::loadImageFileLoop, this);
+#else
     m_LoadImagesFuture = QtConcurrent::run(this, &ImageOverlayComponent::loadImageFileLoop);
+#endif
 }
 
 void ImageOverlayComponent::loadImageFileLoop()

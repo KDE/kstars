@@ -8,6 +8,12 @@
 
 #include "fitsviewer.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtGui/QUndoGroup>
+#endif
+
+#include "QtWidgets/qmenu.h"
+#include "QtWidgets/qstatusbar.h"
 #include "config-kstars.h"
 
 #include "fitsdata.h"
@@ -22,13 +28,10 @@
 #endif
 
 #include <KActionCollection>
+#include <QFileDialog>
 #include <KMessageBox>
 #include <KToolBar>
-#include <KNotifications/KStatusNotifierItem>
-
-#ifndef KSTARS_LITE
-#include "fitshistogrameditor.h"
-#endif
+#include <knotification.h>
 
 #include <fits_debug.h>
 
@@ -44,7 +47,7 @@ QList<KLocalizedString> FITSViewer::filterTypes = {ki18n("Auto Stretch"), ki18n(
 
 FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::independentWindowFITS())
         setWindowFlags(Qt::Window);
     else
@@ -119,7 +122,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action = actionCollection()->addAction("image_histogram");
     action->setText(i18n("Histogram"));
     connect(action, &QAction::triggered, this, &FITSViewer::histoFITS);
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_T));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_T));
 
     action->setIcon(QIcon(":/icons/histogram.png"));
 
@@ -127,7 +130,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     action->setIcon(QIcon::fromTheme("document-open"));
 
     action = actionCollection()->addAction("blink");
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_O + Qt::AltModifier));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_O | Qt::AltModifier));
     action->setText(i18n("Open/Blink Directory"));
     connect(action, &QAction::triggered, this, &FITSViewer::blink);
 
@@ -139,13 +142,13 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
         QIcon::fromTheme("document-save_as"));
 
     action = actionCollection()->addAction("fits_header");
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_H));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_H));
     action->setIcon(QIcon::fromTheme("document-properties"));
     action->setText(i18n("FITS Header"));
     connect(action, &QAction::triggered, this, &FITSViewer::headerFITS);
 
     action = actionCollection()->addAction("fits_debayer");
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_D));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_D));
     action->setIcon(QIcon::fromTheme("view-preview"));
     action->setText(i18n("Debayer..."));
     connect(action, &QAction::triggered, this, &FITSViewer::debayerFITS);
@@ -221,7 +224,7 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     connect(action, &QAction::triggered, this, &FITSViewer::toggleCrossHair);
 
     action = actionCollection()->addAction("view_clipping");
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_L));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_L));
     action->setIcon(QIcon::fromTheme("media-record"));
     action->setText(i18n("Show Clipping"));
     action->setCheckable(true);
@@ -272,12 +275,12 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     connect(action, &QAction::triggered, this, &FITSViewer::FitToZoom);
 
     action = actionCollection()->addAction("next_tab");
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Tab));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_Tab));
     action->setText(i18n("Next Tab"));
     connect(action, &QAction::triggered, this, &FITSViewer::nextTab);
 
     action = actionCollection()->addAction("previous_tab");
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Tab + Qt::ShiftModifier));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_Tab | Qt::ShiftModifier));
     action->setText(i18n("Previous Tab"));
     connect(action, &QAction::triggered, this, &FITSViewer::previousTab);
 
@@ -292,19 +295,19 @@ FITSViewer::FITSViewer(QWidget *parent) : KXmlGuiWindow(parent)
     connect(action, &QAction::triggered, this, &FITSViewer::previousBlink);
 
     action = actionCollection()->addAction("zoom_all_in");
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Plus + Qt::AltModifier));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_Plus | Qt::AltModifier));
     action->setText(i18n("Zoom all tabs in"));
     connect(action, &QAction::triggered, this, &FITSViewer::ZoomAllIn);
 
     action = actionCollection()->addAction("zoom_all_out");
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Minus + Qt::AltModifier));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_Minus | Qt::AltModifier));
     action->setText(i18n("Zoom all tabs out"));
     connect(action, &QAction::triggered, this, &FITSViewer::ZoomAllOut);
 
     action = actionCollection()->addAction("mark_stars");
     action->setIcon(QIcon::fromTheme("glstarbase", QIcon(":/icons/glstarbase.png")));
     action->setText(i18n("Mark Stars"));
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_A));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL | Qt::Key_A));
     action->setCheckable(true);
     connect(action, &QAction::triggered, this, &FITSViewer::toggleStars);
 

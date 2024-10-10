@@ -30,6 +30,7 @@
 #include <QPainter>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>
+#include <QToolTip>
 
 #include "kstars_debug.h"
 
@@ -40,7 +41,7 @@ AltVsTimeUI::AltVsTimeUI(QWidget *p) : QFrame(p)
 
 AltVsTime::AltVsTime(QWidget *parent) : QDialog(parent)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 

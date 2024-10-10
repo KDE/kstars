@@ -69,7 +69,7 @@ WIView::WIView(QWidget *parent) : QWidget(parent)
 
 #if 0
     QString WI_Location;
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
     WI_Location = QCoreApplication::applicationDirPath() + "/../Resources/kstars/tools/whatsinteresting/qml/wiview.qml";
     if (!QFileInfo(WI_Location).exists())
         WI_Location = KSPaths::locate(QStandardPaths::AppLocalDataLocation, "tools/whatsinteresting/qml/wiview.qml");
@@ -268,7 +268,11 @@ void WIView::onCategorySelected(QString model)
             << "sharpless")
             .contains(model))
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        QtConcurrent::run(&ModelManager::loadCatalog, m_ModManager.get(), model);
+#else
         QtConcurrent::run(m_ModManager.get(), &ModelManager::loadCatalog, model);
+#endif
         return;
     }
 

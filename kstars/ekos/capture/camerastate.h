@@ -932,6 +932,8 @@ class CameraState: public QObject
             m_opticalTrain = newOpticalTrain;
         }
 
+        void setPrepareComplete(bool success);
+
 signals:
         // controls for capture execution
         void captureBusy(bool busy);

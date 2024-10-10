@@ -20,7 +20,7 @@
     <method name="setAltAz">
       <arg name="alt" type="d" direction="in"/>
       <arg name="az" type="d" direction="in"/>
-      <arg name="altIsRefracted" type="bool" direction="in"/>
+      <arg name="altIsRefracted" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="lookTowards">

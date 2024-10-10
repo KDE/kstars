@@ -478,7 +478,7 @@ bool DarkLibrary::cacheDarkFrameFromFile(const QString &filename)
         emit newLog(i18n("Failed to load dark frame file %1", filename));
     }
 
-    return rc;
+    return rc.result();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -666,9 +666,9 @@ void DarkLibrary::clearAll()
     if (darkFramesModel->rowCount() == 0)
         return;
 
-    if (KMessageBox::questionYesNo(KStars::Instance(),
+    if (KMessageBox::warningContinueCancel(KStars::Instance(),
                                    i18n("Are you sure you want to delete all dark frames images and data?")) ==
-            KMessageBox::No)
+            KMessageBox::Continue)
         return;
 
     // Now remove all the expired files from disk

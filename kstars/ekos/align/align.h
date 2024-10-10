@@ -21,7 +21,9 @@
 #include <QElapsedTimer>
 #include <KConfigDialog>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtDBus/qtdbusglobal.h>
+#elif QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 #include <qtdbusglobal.h>
 #else
 #include <qdbusmacros.h>

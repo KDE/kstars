@@ -42,7 +42,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
       Pos(nullptr), Links(nullptr), Adv(nullptr),
       Log(nullptr), m_user_data{ KStarsData::Instance()->getUserData(o->name()) }
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     setFaceType(Tabbed);

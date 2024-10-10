@@ -92,7 +92,7 @@ Capture::Capture()
 QSharedPointer<Camera> Capture::addCamera()
 {
     QSharedPointer<Camera> newCamera;
-    newCamera.reset(new Camera(cameras().count()));
+    newCamera.reset(new Camera(cameras().count(), false, nullptr));
 
     // create the new tab and bring it to front
     const int tabIndex = cameraTabs->insertTab(std::max(0, cameraTabs->count() - 1), newCamera.get(), "new Camera");
@@ -466,7 +466,9 @@ const QSharedPointer<Camera> Capture::mainCamera() const
     {
         QSharedPointer<CaptureModuleState> cms;
         cms.reset(new CaptureModuleState());
-        return QSharedPointer<Camera>(new Camera(cms));
+        // TODO FIXME
+        //return QSharedPointer<Camera>(new Camera(cms));
+        return QSharedPointer<Camera>(new Camera(0));
     }
 }
 

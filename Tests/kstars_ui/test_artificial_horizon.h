@@ -14,7 +14,13 @@
 #include <QObject>
 #include <QPushButton>
 #include <QCheckBox>
+
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#else
 #include <QTest>
+#endif
 
 #include "skypoint.h"
 #include "typedef.h"

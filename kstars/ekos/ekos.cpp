@@ -41,7 +41,7 @@ const QString getSchedulerStatusString(SchedulerState state, bool translated)
 }
 const QString getExtensionStatusString(ExtensionState state, bool translated)
 {
-    return translated ? i18n(extensionStates[state]) : extensionStates[state];
+    return translated ? extensionStates[state].toString() : extensionStates[state].untranslatedText();
 }
 
 /* Taken from https://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */

@@ -24,7 +24,10 @@ typedef enum
 
 static const QList<const char *> ProfileGroupNames =
 {
-    I18N_NOOP("Align"), I18N_NOOP("Focus"), I18N_NOOP("Guide"), I18N_NOOP("HFR")
+     ki18n("Align").toString().toUtf8().constData(),
+     ki18n("Focus").toString().toUtf8().constData(),
+     ki18n("Guide").toString().toUtf8().constData(),
+     ki18n("HFR").toString().toUtf8().constData()
 };
 
 QList<SSolver::Parameters> getDefaultFocusOptionsProfiles();

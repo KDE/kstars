@@ -14,6 +14,8 @@
 
 // Qt version calming
 #include <qtendl.h>
+#include <QToolTip>
+#include <QFileDialog>
 
 GuideDriftGraph::GuideDriftGraph(QWidget *parent)
 {

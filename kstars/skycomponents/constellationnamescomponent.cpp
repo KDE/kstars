@@ -21,7 +21,12 @@
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, CultureList *cultures)
     : ListComponent(parent)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+     QtConcurrent::run(&ConstellationNamesComponent::loadData, this, cultures);
+#else
     QtConcurrent::run(this, &ConstellationNamesComponent::loadData, cultures);
+#endif
+
 }
 
 void ConstellationNamesComponent::loadData(CultureList *cultures)
@@ -61,14 +66,14 @@ void ConstellationNamesComponent::loadData(CultureList *cultures)
 
         if (culture)
         {
-            rah = line.midRef(0, 2).toInt();
-            ram = line.midRef(2, 2).toInt();
-            ras = line.midRef(4, 2).toInt();
+            rah = line.mid(0, 2).toInt();
+            ram = line.mid(2, 2).toInt();
+            ras = line.mid(4, 2).toInt();
 
             sgn = line.at(6);
-            dd  = line.midRef(7, 2).toInt();
-            dm  = line.midRef(9, 2).toInt();
-            ds  = line.midRef(11, 2).toInt();
+            dd  = line.mid(7, 2).toInt();
+            dm  = line.mid(9, 2).toInt();
+            ds  = line.mid(11, 2).toInt();
 
             abbrev = line.mid(13, 3);
             name   = line.mid(17).trimmed();

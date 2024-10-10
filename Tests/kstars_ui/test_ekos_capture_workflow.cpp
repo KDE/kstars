@@ -1009,7 +1009,7 @@ void TestEkosCaptureWorkflow::testDarksLibrary()
     // wait until completion
     QTRY_VERIFY_WITH_TIMEOUT(m_CaptureHelper->expectedCaptureStates.isEmpty(), 10000);
     // check if master frame has been created
-    QFileInfo destinationInfo(QStandardPaths::writableLocation(QStandardPaths::DataLocation), "darks");
+    QFileInfo destinationInfo(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation), "darks");
     QDir destination(destinationInfo.absoluteFilePath());
     QVERIFY(m_CaptureHelper->searchFITS(destination).size() == 1);
 }
@@ -1558,7 +1558,7 @@ void TestEkosCaptureWorkflow::initTestCase()
 
     QStandardPaths::setTestModeEnabled(true);
 
-    QFileInfo test_dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation), "test");
+    QFileInfo test_dir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation), "test");
     destination = new QTemporaryDir(test_dir.absolutePath());
     QVERIFY(destination->isValid());
     QVERIFY(destination->autoRemove());
@@ -1637,7 +1637,11 @@ void TestEkosCaptureWorkflow::init()
     // clear rotator
     m_CaptureHelper->m_RotatorDevice = nullptr;
     // disable reset jobs warning
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    KMessageBox::saveDontShowAgainTwoActions("reset_job_status_warning", KMessageBox::ButtonCode::Cancel);
+#else
     KMessageBox::saveDontShowAgainYesNo("reset_job_status_warning", KMessageBox::ButtonCode::No);
+#endif
 }
 
 void TestEkosCaptureWorkflow::cleanup()

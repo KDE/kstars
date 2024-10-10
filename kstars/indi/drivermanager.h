@@ -20,7 +20,7 @@
 
 #include <lilxml.h>
 
-class QStringList;
+//class QStringList;
 class QTreeWidgetItem;
 
 class DriverManager;

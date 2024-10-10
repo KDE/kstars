@@ -99,7 +99,7 @@ class SkyComposite : public SkyComponent
             return m_Components.values();
         }
 
-        QMap<int, SkyComponent *> &componentsWithPriorities()
+        QMultiMap<int, SkyComponent *> &componentsWithPriorities()
         {
             return m_Components;
         }

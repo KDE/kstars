@@ -7,7 +7,6 @@
 #include "calibration.h"
 #include "Options.h"
 #include "ekos_guide_debug.h"
-#include <QStringRef>
 #include <QDateTime>
 #include "indi/indimount.h"
 
@@ -357,14 +356,14 @@ QString Calibration::serialize() const
 
 namespace
 {
-bool parseString(const QStringRef &ref, const QString &id, QString *result)
+bool parseString(const QString &ref, const QString &id, QString *result)
 {
     if (!ref.startsWith(id)) return false;
-    *result = ref.mid(id.size()).toString();
+    *result = ref.mid(id.size());
     return true;
 }
 
-bool parseDouble(const QStringRef &ref, const QString &id, double *result)
+bool parseDouble(const QString &ref, const QString &id, double *result)
 {
     bool ok;
     if (!ref.startsWith(id)) return false;
@@ -372,7 +371,7 @@ bool parseDouble(const QStringRef &ref, const QString &id, double *result)
     return ok;
 }
 
-bool parseInt(const QStringRef &ref, const QString &id, int *result)
+bool parseInt(const QString &ref, const QString &id, int *result)
 {
     bool ok;
     if (!ref.startsWith(id)) return false;
@@ -383,7 +382,7 @@ bool parseInt(const QStringRef &ref, const QString &id, int *result)
 
 bool Calibration::restore(const QString &encoding)
 {
-    QVector<QStringRef> items = encoding.splitRef(',');
+    QStringList items = encoding.split(',');
     if (items.size() != 17) return false;
     int i = 0;
     if (items[i] != "Cal v1.0") return false;

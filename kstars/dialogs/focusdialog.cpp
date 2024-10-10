@@ -27,7 +27,7 @@ FocusDialogUI::FocusDialogUI(QWidget *parent) : QFrame(parent)
 
 FocusDialog::FocusDialog() : QDialog(KStars::Instance())
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     //initialize point to the current focus position

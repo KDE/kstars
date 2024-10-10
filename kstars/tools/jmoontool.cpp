@@ -14,8 +14,8 @@
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/kssun.h"
 
-#include <KPlotting/KPlotObject>
-#include <KPlotting/KPlotWidget>
+#include <kplotobject.h>
+#include <kplotwidget.h>
 #include <KPlotAxis>
 
 #include <QFrame>
@@ -29,7 +29,7 @@ JMoonTool::JMoonTool(QWidget *parent) : QDialog(parent)
 
     setWindowTitle(i18nc("@title:window", "Jupiter Moons Tool"));
     setModal(false);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 

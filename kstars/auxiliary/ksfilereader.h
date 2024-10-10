@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QObject>
 #include <QTextStream>
+#include <climits>
 
 class QString;
 

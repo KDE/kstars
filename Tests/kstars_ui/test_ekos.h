@@ -14,7 +14,14 @@
 #if defined(HAVE_INDI)
 
 #include <KActionCollection>
+
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtTest/QTest>
+#else
 #include <QTest>
+#endif
+
 #include "kstars.h"
 #include "ekos/manager.h"
 #include "test_kstars_startup.h"

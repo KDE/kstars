@@ -6,7 +6,7 @@
 
 #include "sequencequeue.h"
 
-#include <KNotifications/KNotification>
+#include <knotification.h>
 #include <ekos_capture_debug.h>
 
 #include "camerastate.h"

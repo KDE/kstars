@@ -111,7 +111,7 @@ ScriptNameWidget::ScriptNameWidget(QWidget *p) : QFrame(p)
 
 ScriptNameDialog::ScriptNameDialog(QWidget *p) : QDialog(p)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     snw = new ScriptNameWidget(this);
@@ -152,7 +152,7 @@ ScriptBuilder::ScriptBuilder(QWidget *parent)
     : QDialog(parent), UnsavedChanges(false), checkForChanges(true), currentFileURL(), currentDir(QDir::homePath()),
       currentScriptName(), currentAuthor()
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     sb = new ScriptBuilderUI(this);
@@ -946,13 +946,13 @@ void ScriptBuilder::saveWarning()
         QString caption = i18n("Save Changes to Script?");
         QString message = i18n("The current script has unsaved changes.  Would you like to save before closing it?");
         int ans =
-            KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
-        if (ans == KMessageBox::Yes)
+            KMessageBox::warningContinueCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+        if (ans == KMessageBox::Continue)
         {
             slotSave();
             setUnsavedChanges(false);
         }
-        else if (ans == KMessageBox::No)
+        else if (ans == KMessageBox::Cancel)
         {
             setUnsavedChanges(false);
         }
@@ -995,7 +995,7 @@ void ScriptBuilder::slotRunScript()
 #endif
 
     QProcess p;
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     QString path            = env.value("PATH", "");
     env.insert("PATH", "/usr/local/bin:" + QCoreApplication::applicationDirPath() + ':' + path);

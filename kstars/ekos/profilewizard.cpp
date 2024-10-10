@@ -20,7 +20,7 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
 {
     setupUi(this);
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 
@@ -118,7 +118,7 @@ void ProfileWizard::reset()
 
 void ProfileWizard::processLocalEquipment()
 {
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
     wizardContainer->setCurrentIndex(MAC_LOCAL);
 #elif defined(Q_OS_WIN)
     wizardContainer->setCurrentIndex(WINDOWS_LOCAL);

@@ -313,7 +313,7 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
         if (xmlReader.readNextStartElement())
         {
             // qCInfo(KSTARS_EKOS_CAPTURE) << "xmlReader start element name: " << xmlReader.name();
-            if (xmlReader.name() == "ExposureCalculatorCameraData")
+            if (xmlReader.name().toString() == "ExposureCalculatorCameraData")
             {
                 // qCInfo(KSTARS_EKOS_CAPTURE) << "Found aCamera Element...";
 
@@ -323,13 +323,13 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
                 while(xmlReader.readNextStartElement())
                 {
                     // qCInfo(KSTARS_EKOS_CAPTURE) << "xmlReader start element name: " << xmlReader.name();
-                    if (xmlReader.name() == "CameraDataClassVersion")
+                    if (xmlReader.name().toString() == "CameraDataClassVersion")
                     {
                         int aDataClassVersion = xmlReader.readElementText().toInt();
                         anImagingCameraData->setDataClassVersion(aDataClassVersion);
                     }
 
-                    if (xmlReader.name() == "CameraId")
+                    if (xmlReader.name().toString() == "CameraId")
                     {
                         // qCInfo(KSTARS_EKOS_CAPTURE) << "Found aCameraId Element...";
                         QString aCameraIdString = xmlReader.readElementText();
@@ -337,7 +337,7 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
                         anImagingCameraData->setCameraId(aCameraIdString);
                     }
 
-                    if (xmlReader.name() == "SensorType")
+                    if (xmlReader.name().toString() == "SensorType")
                     {
                         // qCInfo(KSTARS_EKOS_CAPTURE) << "Found SensorType Element...";
                         QString aSensorType = xmlReader.readElementText();
@@ -349,7 +349,7 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
                             anImagingCameraData->setSensorType(OptimalExposure::SENSORTYPE_MONOCHROME);
                     }
 
-                    if (xmlReader.name() == "GainSelectionType")
+                    if (xmlReader.name().toString() == "GainSelectionType")
                     {
                         // qCInfo(KSTARS_EKOS_CAPTURE) << "Found GainSelectionType Element...";
                         QString aGainSelectionType = xmlReader.readElementText();
@@ -368,15 +368,15 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
                     // Note that the data available for GainReadNoiseValue may not match a camera discrete gain/iso values,
                     // so this collection resolves that.
 
-                    if (xmlReader.name() == "CameraGainSelections")
+                    if (xmlReader.name().toString() == "CameraGainSelections")
                     {
                         QVector<int> *aGainSelectionVector = new QVector<int>();
 
                         int aGainSelection = 0;
-                        while(xmlReader.readNext() && !(xmlReader.name() == "CameraGainSelections" && xmlReader.isEndElement()))
+                        while(xmlReader.readNext() && !(xmlReader.name() == QString("CameraGainSelections") && xmlReader.isEndElement()))
                         {
                             // qCInfo(KSTARS_EKOS_CAPTURE) << "xmlReader.name() = " <<  xmlReader.name();
-                            if (xmlReader.name() == "GainSelection")
+                            if (xmlReader.name().toString() == "GainSelection")
                             {
                                 // qCInfo(KSTARS_EKOS_CAPTURE) << "xmlReader.name() = " <<  xmlReader.name();
                                 QString aGainSelectionString = xmlReader.readElementText();
@@ -391,25 +391,25 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
                         anImagingCameraData->setGainSelectionRange(*aGainSelectionVector);
                     }
 
-                    if (xmlReader.name() == "CameraGainReadMode")
+                    if (xmlReader.name().toString() == "CameraGainReadMode")
                     {
                         OptimalExposure::CameraGainReadMode *aCameraGainReadMode = new OptimalExposure::CameraGainReadMode();
 
-                        while(xmlReader.readNext() && !(xmlReader.name() == "CameraGainReadMode" && xmlReader.isEndElement()))
+                        while(xmlReader.readNext() && !(xmlReader.name().toString() == "CameraGainReadMode" && xmlReader.isEndElement()))
                         {
                             // qCInfo(KSTARS_EKOS_CAPTURE) << "xmlReader.name() = " <<  xmlReader.name();
-                            if (xmlReader.name() == "GainReadModeNumber")
+                            if (xmlReader.name().toString() == "GainReadModeNumber")
                             {
                                 QString aGainReadModeNumberString = xmlReader.readElementText();
                                 aCameraGainReadMode->setCameraGainReadModeNumber(aGainReadModeNumberString.toInt());
                             }
-                            if (xmlReader.name() == "GainReadModeName")
+                            if (xmlReader.name().toString() == "GainReadModeName")
                             {
                                 aCameraGainReadMode->setCameraGainReadModeName(xmlReader.readElementText());
                             }
 
                             // CameraGainReadNoise collection
-                            if (xmlReader.name() == "CameraGainReadNoise")
+                            if (xmlReader.name().toString() == "CameraGainReadNoise")
                             {
                                 // qCInfo(KSTARS_EKOS_CAPTURE) << "Found CameraGainReadNoise Element...";
                                 // QString aCameraGainReadNoise = xmlReader.readElementText();
@@ -422,7 +422,7 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
                                 // Iterate for Gain Read-Noise data
                                 int aGain = 0;
                                 double aReadNoise = 0.0;
-                                while(xmlReader.readNext() && !(xmlReader.name() == "CameraGainReadNoise" && xmlReader.isEndElement()) )
+                                while(xmlReader.readNext() && !(xmlReader.name().toString() == "CameraGainReadNoise" && xmlReader.isEndElement()) )
                                 {
                                     // qCInfo(KSTARS_EKOS_CAPTURE) << "xmlReader.name() = " <<  xmlReader.name();
 
@@ -430,12 +430,12 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
                                         // qCInfo(KSTARS_EKOS_CAPTURE) << "At end of  = " <<  xmlReader.name();
 
 
-                                        if (xmlReader.name() == "GainReadNoiseValue")
+                                        if (xmlReader.name().toString() == "GainReadNoiseValue")
                                         {
                                             // qCInfo(KSTARS_EKOS_CAPTURE) << "Found GainReadNoiseValue Element...";
                                         }
 
-                                    if (xmlReader.name() == "Gain")
+                                    if (xmlReader.name().toString() == "Gain")
                                     {
                                         // qCInfo(KSTARS_EKOS_CAPTURE) << "Found Gain Element...";
                                         QString aGainString = xmlReader.readElementText();
@@ -443,7 +443,7 @@ int OptimalExposure::FileUtilityCameraData::readCameraDataFile(QString aCameraDa
                                         // qCInfo(KSTARS_EKOS_CAPTURE) << "a Found Gain text: " << aGain;
                                     }
 
-                                    if (xmlReader.name() == "ReadNoise")
+                                    if (xmlReader.name().toString() == "ReadNoise")
                                     {
                                         // qCInfo(KSTARS_EKOS_CAPTURE) << "Found ReadNoise Element...";
                                         QString aReadNoiseString = xmlReader.readElementText();

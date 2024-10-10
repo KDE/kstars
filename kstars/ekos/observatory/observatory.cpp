@@ -12,6 +12,9 @@
 
 #include "ekos_observatory_debug.h"
 
+#include <QToolTip>
+#include <QButtonGroup>
+
 namespace Ekos
 {
 Observatory::Observatory()
@@ -432,7 +435,7 @@ void Observatory::clearSensorDataHistory()
             QCPGraphData last = graphDataVector->last();
             graphDataVector->clear();
             QDateTime when = QDateTime();
-            when.setTime_t(static_cast<uint>(last.key));
+            when.setSecsSinceEpoch(static_cast<uint>(last.key));
             updateSensorGraph(it->first, when, last.value);
         }
     }
@@ -616,7 +619,7 @@ void Observatory::updateSensorGraph(const QString &sensor_label, QDateTime now, 
     }
 
     // store the data
-    sensorGraphData[id]->append(QCPGraphData(static_cast<double>(now.toTime_t()), value));
+    sensorGraphData[id]->append(QCPGraphData(static_cast<double>(now.toSecsSinceEpoch()), value));
 
     // add data for the graphs we display
     if (selectedSensorID == id)
@@ -646,12 +649,12 @@ void Observatory::updateSensorData(const QJsonArray &data)
 
     QDateTime now = KStarsData::Instance()->lt();
 
-    for (const auto &oneEntry : qAsConst(data))
+    for (const auto &oneEntry : std::as_const(data))
     {
-        auto label = oneEntry["label"].toString();
-        auto value = oneEntry["value"].toDouble();
+        auto label = oneEntry[QString("label")].toString();
+        auto value = oneEntry[QString("value")].toDouble();
 
-        auto id = oneEntry["label"].toString();
+        auto id = oneEntry[QString("label")].toString();
 
         if (sensorDataWidgets[id] == nullptr)
         {
@@ -703,7 +706,7 @@ void Observatory::mouseOverLine(QMouseEvent *event)
     {
         int index = sensorGraphs->graph(0)->findBegin(key);
         double value   = sensorGraphs->graph(0)->dataMainValue(index);
-        QDateTime when = QDateTime::fromTime_t(sensorGraphs->graph(0)->dataMainKey(index));
+        QDateTime when = QDateTime::fromSecsSinceEpoch(sensorGraphs->graph(0)->dataMainKey(index));
 
         QToolTip::showText(
             event->globalPos(),

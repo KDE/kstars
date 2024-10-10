@@ -79,7 +79,7 @@ void DeviceManager::startServer()
         kWarning() << "managed_devices was not set! Cannot start server!";
         return;
     }
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::indiServerIsInternal())
         *serverProcess << QCoreApplication::applicationDirPath() + "/indiserver";
     else

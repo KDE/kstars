@@ -13,7 +13,11 @@ ECM_ADD_APP_ICON(KSTARS_UI_TESTS_SRC ICONS
         ../../kstars/icons/128-apps-kstars.png
         )
 
+IF(BUILD_QT5)
 QT5_ADD_RESOURCES(KSTARS_UI_TESTS_SRC ../../kstars/data/kstars.qrc)
+ELSE()
+QT6_ADD_RESOURCES(KSTARS_UI_TESTS_SRC ../../kstars/data/kstars.qrc)
+ENDIF()
 
 ecm_qt_declare_logging_category(KSTARS_UI_TESTS_SRC HEADER test_ekos_debug.h IDENTIFIER KSTARS_EKOS_TEST CATEGORY_NAME org.kde.kstars.ekos.test)
 
@@ -24,12 +28,21 @@ SET(KSTARS_UI_EKOS_SRC ${KSTARS_UI_TESTS_SRC} test_ekos_wizard.cpp)
 SET(KSTARS_UI_EKOS_LIBS ${TEST_LIBRARIES} ${CFITSIO_LIBRARIES} ${INDI_CLIENT_LIBRARIES} ${NOVA_LIBRARIES} z)
 
 SET(KSTARS_UI_MOCK_SRC mockmodules.cpp)
+IF(BUILD_QT5)
 qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockFocus.xml mockmodules.h Ekos::MockFocus)
 qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockMount.xml mockmodules.h Ekos::MockMount)
 qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockCapture.xml mockmodules.h Ekos::MockCapture)
 qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockAlign.xml mockmodules.h Ekos::MockAlign)
 qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockGuide.xml mockmodules.h Ekos::MockGuide)
 qt5_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.xml mockmodules.h Ekos::MockEkos)
+ELSE()
+qt6_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockFocus.xml mockmodules.h Ekos::MockFocus)
+qt6_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockMount.xml mockmodules.h Ekos::MockMount)
+qt6_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockCapture.xml mockmodules.h Ekos::MockCapture)
+qt6_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockAlign.xml mockmodules.h Ekos::MockAlign)
+qt6_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.MockGuide.xml mockmodules.h Ekos::MockGuide)
+qt6_add_dbus_adaptor(KSTARS_UI_MOCK_SRC org.kde.mockkstars.MockEkos.xml mockmodules.h Ekos::MockEkos)
+ENDIF()
 
 # FIXME: this particular test crashes when done on the EGLFS platform
 # Disabling until we find the reason, other tests do cover this scenario

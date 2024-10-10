@@ -778,7 +778,7 @@ public:
          * where KStars Crashes on MacOS when launched by double clicking (NOT by Terminal or QT Creator)
          * and then the find dialog is accessed.  For some reason, this fixes it?
          */
-        #ifdef Q_OS_OSX
+        #ifdef Q_OS_MACOS
             QThread::msleep(100);
         #endif
     }

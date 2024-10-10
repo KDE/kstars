@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "QtCore/qobject.h"
 #include "vect.h"
 #include <QPointer>
 #include <cstdint>

@@ -221,8 +221,11 @@ class Message : public QObject
 
         QObject *findObject(const QString &name);
         void invokeMethod(QObject *context, const QJsonObject &payload);
+        #if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+        bool parseArgument(QVariant::Type type, const QVariant &arg, QMetaMethodArgument &genericArg, SimpleTypes &types);
+        #else
         bool parseArgument(QVariant::Type type, const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types);
-
+        #endif
         Ekos::Manager *m_Manager { nullptr };
         QVector<QSharedPointer<NodeManager>> m_NodeManagers;
 

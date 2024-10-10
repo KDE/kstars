@@ -178,7 +178,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
 #ifndef KSTARS_LITE
     m_LastFile = QDir::homePath();
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     setAttribute(Qt::WA_DeleteOnClose, true);
@@ -507,7 +507,7 @@ XPlanetImageViewer::XPlanetImageViewer(const QString &obj, QWidget *parent): QDi
 #endif
 
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     QList<QPushButton *> qButtons = findChildren<QPushButton *>();
     for (auto &button : qButtons)
         button->setAutoDefault(false);
@@ -531,7 +531,7 @@ void XPlanetImageViewer::startXplanet()
         return;
 
     QString xPlanetLocation = Options::xplanetPath();
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     if (Options::xplanetIsInternal())
         xPlanetLocation   = QCoreApplication::applicationDirPath() + QDir::separator() + "xplanet";
 #endif
@@ -708,7 +708,7 @@ void XPlanetImageViewer::startXplanet()
         }
     }
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     QString searchDir = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory) + QDir::separator() + "xplanet";
     args << "-searchdir" << searchDir;
 #endif
@@ -729,7 +729,11 @@ void XPlanetImageViewer::startXplanet()
 #ifndef Q_OS_WIN
     if(Options::xplanetUseFIFO())
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        fifoImageLoadWatcher.setFuture(QtConcurrent::run(&XPlanetImageViewer::loadImage, this));
+#else
         fifoImageLoadWatcher.setFuture(QtConcurrent::run(this, &XPlanetImageViewer::loadImage));
+#endif
         watcherTimeout.setSingleShot(true);
         watcherTimeout.start(timeout);
     }

@@ -1330,11 +1330,13 @@ IF (NOT ANDROID)
         KF6::Crash
         KF6::I18n
 	KF6::XmlGui
-        # KF6::NewStuff
+        KF6::NewStuffWidgets
         KF6::KIOFileWidgets
         KF6::WidgetsAddons
         KF6::Plotting
         KF6::Notifications
+        Qt6::DBus
+        Qt6::SvgWidgets
         )
     endif()
 

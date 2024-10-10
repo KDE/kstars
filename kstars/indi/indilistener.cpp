@@ -134,7 +134,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
     }
 
     m_Devices.append(std::move(gd));
-    emit newDevice(gd);
+    emit newDevice(m_Devices.last());
 
 }
 
@@ -142,7 +142,7 @@ void INDIListener::removeDevice(const QString &deviceName)
 {
     qCDebug(KSTARS_INDI) << "INDIListener: Removing device" << deviceName;
 
-    for (auto oneDevice : qAsConst(m_Devices))
+    for (auto oneDevice : std::as_const(m_Devices))
     {
         if (oneDevice->getDeviceName() == deviceName)
         {

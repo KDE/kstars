@@ -29,7 +29,7 @@ HorizonManagerUI::HorizonManagerUI(QWidget *p) : QFrame(p)
 
 HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     ui = new HorizonManagerUI(this);

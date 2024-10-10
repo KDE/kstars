@@ -1125,7 +1125,7 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(INDI_PREFIX)
         return QString(INDI_PREFIX "/bin/indiserver");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return "/usr/local/bin/indiserver";
 #endif
         return prefix + "/bin/indiserver";
@@ -1142,7 +1142,7 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(INDI_PREFIX)
         return QString(INDI_PREFIX "/bin/indihub-agent");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return "/usr/local/bin/indihub-agent";
 #endif
         return prefix + "/bin/indihub-agent";
@@ -1151,7 +1151,7 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(INDI_PREFIX)
         return QString(INDI_PREFIX "/share/indi");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return "/usr/local/share/indi";
 #elif defined(Q_OS_LINUX)
         return prefix + "/share/indi";
@@ -1164,7 +1164,7 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(ASTROMETRY_PREFIX)
         return QString(ASTROMETRY_PREFIX "/bin/solve-field");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return "/usr/local/bin/solve-field";
 #elif defined(Q_OS_WIN)
         return QDir::homePath() +
@@ -1176,7 +1176,7 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(ASTROMETRY_PREFIX)
         return QString(ASTROMETRY_PREFIX "/opt/watney/watney-solve");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return "/usr/local/bin/watney-solve";
 #elif defined(Q_OS_WIN)
         return "C:/watney/watney-solve.exe";
@@ -1187,7 +1187,7 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(SEXTRACTOR_PREFIX)
         return QString(SEXTRACTOR_PREFIX "/bin/sextractor");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return "/usr/local/bin/sex";
 #endif
         return prefix + "/bin/sextractor";
@@ -1196,7 +1196,7 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(ASTROMETRY_PREFIX)
         return QString(ASTROMETRY_PREFIX "/bin/wcsinfo");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return "/usr/local/bin/wcsinfo";
 #elif defined(Q_OS_WIN)
         return QDir::homePath() +
@@ -1208,7 +1208,7 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(ASTROMETRY_CONF_IN_PREFIX) && defined(ASTROMETRY_PREFIX)
         return QString(ASTROMETRY_PREFIX "/etc/astrometry.cfg");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return "/usr/local/etc/astrometry.cfg";
 #elif defined(Q_OS_WIN)
         return QDir::homePath() +
@@ -1222,7 +1222,7 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(ASTROMETRY_PREFIX)
         return QString(ASTROMETRY_PREFIX "/share/astrometry");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return QDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation))
                .filePath("Astrometry/");
 #endif
@@ -1236,14 +1236,14 @@ QString getDefaultPath(const QString &option)
     {
 #if defined(XPLANET_PREFIX)
         return QString(XPLANET_PREFIX "/bin/xplanet");
-#elif defined(Q_OS_OSX)
+#elif defined(Q_OS_MACOS)
         return "/usr/local/bin/xplanet";
 #endif
         return prefix + "/bin/xplanet";
     }
     else if (option == "ASTAP")
     {
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
         return "/Applications/ASTAP.app/Contents/MacOS/astap";
 #elif defined(Q_OS_WIN)
         return "C:/Program Files/astap/astap.exe";
@@ -1278,7 +1278,7 @@ QStringList getAstrometryDefaultIndexFolderPaths()
     return folderPaths;
 }
 
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
 //Note that this will copy and will not overwrite, so that the user's changes in the files are preserved.
 void copyResourcesFolderFromAppBundle(QString folder)
 {
@@ -1344,12 +1344,12 @@ bool configureAstrometry()
         replaceIndexFileNotYetSet();
     if (QDir(defaultAstrometryDataDir).exists() == false)
     {
-        if (KMessageBox::warningYesNo(
+        if (KMessageBox::warningContinueCancel(
                     nullptr,
                     i18n("The selected Astrometry Index File Location:\n %1 \n does not "
                          "exist.  Do you want to make the directory?",
                          defaultAstrometryDataDir),
-                    i18n("Make Astrometry Index File Directory?")) == KMessageBox::Yes)
+                i18n("Make Astrometry Index File Directory?")) == KMessageBox::Continue)
         {
             if (QDir(defaultAstrometryDataDir).mkdir(defaultAstrometryDataDir))
             {
@@ -1708,7 +1708,7 @@ bool RAWToJPEG(const QString &rawImage, const QString &output, QString &errorMes
 
 double getAvailableRAM()
 {
-#if defined(Q_OS_OSX)
+#if defined(Q_OS_MACOS)
     int mib[] = { CTL_HW, HW_MEMSIZE };
     size_t length;
     length = sizeof(int64_t);

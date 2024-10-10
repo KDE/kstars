@@ -39,7 +39,7 @@ void TestEkosHelper::createEkosProfile(QString name, bool isPHD2, bool *isDone)
     // Set the profile name
     KTRY_SET_LINEEDIT(profileEditor, profileIN, name);
     // select the guider type
-    KTRY_SET_COMBO(profileEditor, guideTypeCombo, isPHD2 ? "PHD2" : "Internal");
+    KTRY_SET_COMBO(profileEditor, guideTypeCombo, (isPHD2 ? "PHD2" : "Internal"));
     if (isPHD2)
     {
         // Write PHD2 server specs
@@ -874,14 +874,14 @@ bool TestEkosHelper::stopFocusing()
 
 int TestEkosHelper::secondsToMF(QString message)
 {
-    QRegExp mfPattern("Meridian flip in (\\d+):(\\d+):(\\d+)");
+    QRegularExpression mfPattern("Meridian flip in (\\d+):(\\d+):(\\d+)");
 
-    int pos = mfPattern.indexIn(message);
-    if (pos > -1)
+    QRegularExpressionMatch match = mfPattern.match(message);
+    if (match.hasMatch())
     {
-        int hh  = mfPattern.cap(1).toInt();
-        int mm  = mfPattern.cap(2).toInt();
-        int sec = mfPattern.cap(3).toInt();
+        int hh  = match.captured(1).toInt();
+        int mm  = match.captured(2).toInt();
+        int sec = match.captured(3).toInt();
         if (hh >= 0)
             return (((hh * 60) + mm) * 60 + sec);
         else

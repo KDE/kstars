@@ -228,15 +228,17 @@ void SchedulerModuleState::refreshFollowerLists()
 
 SchedulerJob *SchedulerModuleState::findLead(int position, bool upward)
 {
+    auto start = std::min(position, static_cast<int>(jobs().count()));
+
     if (upward)
     {
-        for (int i = std::min(position, jobs().count()); i >= 0; i--)
+        for (int i = start; i >= 0; i--)
             if (jobs().at(i)->isLead())
                 return jobs().at(i);
     }
     else
     {
-        for (int i = std::min(position, jobs().count() ); i < jobs().count(); i++)
+        for (int i = start; i < jobs().count(); i++)
             if (jobs().at(i)->isLead())
                 return jobs().at(i);
     }

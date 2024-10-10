@@ -354,8 +354,8 @@ void SkyMapLite::slotCenter()
     {
         QString caption = i18n("Requested Position Below Horizon");
         QString message = i18n("The requested position is below the horizon.\nWould you like to go there anyway?");
-        /*if ( KMessageBox::warningYesNo( this, message, caption,
-                                        KGuiItem(i18n("Go Anyway")), KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz" )==KMessageBox::No ) {
+        /*if ( KMessageBox::warningContinueCancel( this, message, caption,
+                                        KGuiItem(i18n("Go Anyway")), KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz" )==KMessageBox::Cancel ) {
             setClickedObject( nullptr );
             setFocusObject( nullptr );
             Options::setIsTracking( false );

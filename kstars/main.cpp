@@ -40,14 +40,14 @@
 #include <QtGlobal>
 #include <QTranslator>
 
-#if defined(Q_OS_LINUX) || defined(Q_OS_OSX)
+#if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
 #include <signal.h>
 #endif
 
 #ifndef KSTARS_LITE
-static const char description[] = I18N_NOOP("Desktop Planetarium");
-static const char notice[]      = I18N_NOOP(
-                                      "Some images in KStars are for non-commercial use only. See README.images.");
+static const QString description =  ki18n("Desktop Planetarium").toString();
+static const QString notice      =  ki18n(
+                                      "Some images in KStars are for non-commercial use only. See README.images.").toString();
 #endif
 
 #if defined(Q_OS_ANDROID)
@@ -56,7 +56,7 @@ Q_DECL_EXPORT
 #endif
 int main(int argc, char *argv[])
 {
-#if defined(Q_OS_LINUX) || defined(Q_OS_OSX)
+#if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
     // Ignore SIGPIPE
     signal(SIGPIPE, SIG_IGN);
 #endif
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
 
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     //Note, this function will return true on OS X if the data directories are good to go.  If not, quit with error code 1!
     if (!KSUtils::setupMacKStarsIfNeeded())
     {
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
     QString versionString =
         QString("%1 %2").arg(KSTARS_VERSION).arg(KSTARS_BUILD_RELEASE);
     KAboutData aboutData(
-        "kstars", i18n("KStars"), versionString, i18n(description), KAboutLicense::GPL,
+        "kstars", i18n("KStars"), versionString, i18n(description.toLatin1()), KAboutLicense::GPL,
         "2001-" + QString::number(QDate::currentDate().year()) +
         i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) "
              "2014-2017 Max Planck Society"),
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
               KSTARS_BUILD_RELEASE == QLatin1String("Beta") ?
               "Pre-release beta snapshot. Do not use in production." :
               "Stable release.",
-              i18n(notice)),
+              i18n(notice.toLatin1())),
         "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"),
                         "jharris@30doradus.org", "http://www.30doradus.org");

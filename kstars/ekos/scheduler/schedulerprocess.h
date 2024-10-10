@@ -16,7 +16,7 @@
 
 #include <QObject>
 #include <QPointer>
-#include <QDBusInterface>
+#include <QtDBus/QDBusInterface>
 #include <QProcess>
 
 namespace Ekos

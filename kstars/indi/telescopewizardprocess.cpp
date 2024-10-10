@@ -100,7 +100,7 @@ void telescopeWizardProcess::cancelCheck(void)
         case TELESCOPE_P:
         case LOCAL_P:
         case PORT_P:
-            if (KMessageBox::warningYesNo(0, i18n("Are you sure you want to cancel?")) == KMessageBox::Yes)
+            if (KMessageBox::warningContinueCancel(0, i18n("Are you sure you want to cancel?")) == KMessageBox::Continue)
                 emit rejected();
             break;
         default:
@@ -335,7 +335,7 @@ void telescopeWizardProcess::scanPorts()
         DriverManager::Instance()->stopDevices(managedDevice);
         Reset();
 
-        KMessageBox::sorry(
+        KMessageBox::error(
             0,
             i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
         return;

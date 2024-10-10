@@ -23,7 +23,7 @@ AberrationInspector::AberrationInspector(const abInsData &data, const QVector<in
     m_data(data), m_positions(positions), m_measures(measures), m_weights(weights),
     m_numStars(numStars), m_tileOffsets(tileCenterOffsets)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 

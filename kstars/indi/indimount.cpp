@@ -17,7 +17,7 @@
 #include <KActionCollection>
 
 #include <QAction>
-#include <qdbusmetatype.h>
+#include <QtDBus/qdbusmetatype.h>
 
 #include <indi_debug.h>
 

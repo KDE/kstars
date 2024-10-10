@@ -1,7 +1,6 @@
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.1
-import QtQuick.Controls.Styles 1.4
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 2.15
 
 Rectangle {
     id: rectangle
@@ -432,6 +431,7 @@ Rectangle {
                 CheckBox
                 {
                     id: updownReverse
+                    /*
                     style:CheckBoxStyle{
                         label:Text{
                             text: xi18n("Up/Down")
@@ -439,6 +439,7 @@ Rectangle {
                             color: "white"
                         }
                     }
+                    */
 
                     objectName: "upDownCheckObject"
                     onClicked: mount.setUpDownReversed(checked)
@@ -447,6 +448,7 @@ Rectangle {
                 CheckBox
                 {
                     id: leftRightReverse
+                    /*
                     style:CheckBoxStyle{
                         label:Text{
                             text: xi18n("Left/Right")
@@ -454,6 +456,7 @@ Rectangle {
                             color: "white"
                         }
                     }
+                    */
                     objectName: "leftRightCheckObject"
                     onClicked: mount.setLeftRightReversed(checked)
                 }
@@ -476,8 +479,8 @@ Rectangle {
                     Layout.fillWidth: true
                     Layout.maximumWidth: fontMetrics.height * 7.5
                     stepSize: 1
-                    minimumValue: 0
-                    maximumValue: 4
+                    from: 0
+                    to: 4
                     value: 0
 
                     onValueChanged:
@@ -678,6 +681,7 @@ Rectangle {
                     id: targetText
                     objectName: "targetTextObject"
                     placeholderText: "Click Find Icon"
+                    /*
                     style: TextFieldStyle {
                         textColor: "white"
                         placeholderTextColor: "gray"
@@ -686,6 +690,7 @@ Rectangle {
                             color: "#202020"
                         }
                     }
+                    */
                     readOnly: true
                     Rectangle
                     {
@@ -709,7 +714,7 @@ Rectangle {
                     id: findButton
                     objectName: "findButtonObject"
                     Layout.fillWidth: false
-                    iconName: "view-history"
+                    icon: "view-history"
                     Layout.alignment: Qt.AlignRight
                     Layout.minimumHeight: fontMetrics.height * 1.4
                     Layout.maximumHeight: fontMetrics.height * 1.4
@@ -744,6 +749,7 @@ Rectangle {
                     id: targetRAText
                     objectName: "targetRATextObject"
                     placeholderText: "HH:MM:SS"
+                    /*
                     style: TextFieldStyle {
                         textColor: "white"
                         placeholderTextColor: "gray"
@@ -752,6 +758,7 @@ Rectangle {
                             color: "#202020"
                         }
                     }
+                    */
                     font.pointSize: 14
                     horizontalAlignment: Text.AlignHCenter
                     Layout.minimumWidth: fontMetrics.height * 7
@@ -775,6 +782,7 @@ Rectangle {
                     id: targetDEText
                     objectName: "targetDETextObject"
                     placeholderText: "DD:MM:SS"
+                    /*
                     style: TextFieldStyle {
                         textColor: "white"
                         placeholderTextColor: "gray"
@@ -783,6 +791,7 @@ Rectangle {
                             color: "#202020"
                         }
                     }
+                    */
                     font.pointSize: 14
                     width: fontMetrics.height * 7.5
                     horizontalAlignment: Text.AlignHCenter
@@ -802,7 +811,7 @@ Rectangle {
 
                 RowLayout
                 {
-                    ExclusiveGroup {
+                    ButtonGroup {
                         id: coordGroup
                         objectName: "coordGroupObject"
                         property int lastChecked: 0
@@ -813,6 +822,7 @@ Rectangle {
                         id: equatorialCheck
                         objectName: "equatorialCheckObject"
                         checked: true
+                        /*
                         style:RadioButtonStyle{
                             label:Text{
                                 text: xi18n("RA/DE")
@@ -820,7 +830,8 @@ Rectangle {
                                 color: "white"
                             }
                         }
-                        exclusiveGroup: coordGroup
+                        */
+                        ButtonGroup.group: coordGroup
                         onCheckedChanged: {
                             if (checked) {
                                 targetRALabel.text = xi18n("RA:")
@@ -852,8 +863,9 @@ Rectangle {
 
                     RadioButton {
                         id: horizontalCheck
-                        exclusiveGroup: coordGroup
+                        ButtonGroup.group: coordGroup
                         objectName: "horizontalCheckObject"
+                        /*
                         style:RadioButtonStyle{
                             label:Text{
                                 text: xi18n("AZ/AL")
@@ -861,6 +873,7 @@ Rectangle {
                                 color: "white"
                             }
                         }
+                        */
                         checked: false
                         onCheckedChanged: {
                             if (checked) {
@@ -894,6 +907,7 @@ Rectangle {
 
                     RadioButton {
                         id: haEquatorialCheck
+                        /*
                         style:RadioButtonStyle{
                             label:Text{
                                 text: xi18n("HA/DE")
@@ -901,7 +915,8 @@ Rectangle {
                                 color: "white"
                             }
                         }
-                        exclusiveGroup: coordGroup
+                        */
+                        ButtonGroup.group: coordGroup
                         objectName: "haEquatorialCheckObject"
                         checked: false
                         onCheckedChanged: {
@@ -943,12 +958,13 @@ Rectangle {
 
                 RowLayout
                 {
-                    ExclusiveGroup { id: epochGroup }
+                    ButtonGroup { id: epochGroup }
 
                     RadioButton {
                         id: jnowCheck
                         objectName: "jnowCheckObject"
                         checked: true
+                        /*
                         style:RadioButtonStyle{
                             label:Text{
                                 text: xi18n("JNow")
@@ -956,12 +972,14 @@ Rectangle {
                                 color: "white"
                             }
                         }
-                        exclusiveGroup: epochGroup
+                        */
+                        ButtonGroup.group: epochGroup
                     }
 
                     RadioButton {
                         id: j2000Check
                         objectName: "j2000CheckObject"
+                        /*
                         style:RadioButtonStyle{
                             label:Text{
                                 text: xi18n("J2000")
@@ -969,7 +987,8 @@ Rectangle {
                                 color: "white"
                             }
                         }
-                        exclusiveGroup: epochGroup
+                        */
+                        ButtonGroup.group: epochGroup
                     }
                 }
             }
@@ -1063,7 +1082,7 @@ Rectangle {
                     id: centerMount
                     Layout.minimumWidth: fontMetrics.height * 1.4
                     Layout.minimumHeight: fontMetrics.height * 1.4
-                    iconName: "crosshairs"
+                    icon: "crosshairs"
 
                     onClicked:
                     {

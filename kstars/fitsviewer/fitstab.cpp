@@ -8,7 +8,6 @@
 
 #include "auxiliary/kspaths.h"
 #include "fitsdata.h"
-#include "fitshistogrameditor.h"
 #include "fitshistogramcommand.h"
 #include "fitsview.h"
 #include "fitsviewer.h"
@@ -20,7 +19,8 @@
 #include "fitsstretchui.h"
 #include "skymap.h"
 #include <KMessageBox>
-#include <QtConcurrent>
+#include <QFileDialog>
+#include <QClipboard>
 #include <QIcon>
 #include "ekos/auxiliary/stellarsolverprofile.h"
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
@@ -61,10 +61,10 @@ void FITSTab::saveUnsaved()
     QString caption = i18n("Save Changes to FITS?");
     QString message = i18n("The current FITS file has unsaved changes.  Would you like to save before closing it?");
 
-    int ans = KMessageBox::warningYesNoCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
-    if (ans == KMessageBox::Yes)
+    int ans = KMessageBox::warningContinueCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+    if (ans == KMessageBox::Continue)
         saveFile();
-    if (ans == KMessageBox::No)
+    if (ans == KMessageBox::Cancel)
     {
         undoStack->clear();
         modifyFITSState();
@@ -481,7 +481,7 @@ bool FITSTab::saveFile()
     if (currentURL.isEmpty())
     {
         QString selectedFilter;
-#ifdef Q_OS_OSX //For some reason, the other code caused KStars to crash on MacOS
+#ifdef Q_OS_MACOS //For some reason, the other code caused KStars to crash on MacOS
         currentURL =
             QFileDialog::getSaveFileUrl(KStars::Instance(), i18nc("@title:window", "Save FITS"), currentDir,
                                         "Images (*.fits *.fits.gz *.fit *.xisf *.jpg *.jpeg *.png)");

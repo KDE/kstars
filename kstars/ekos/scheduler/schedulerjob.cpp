@@ -1011,7 +1011,7 @@ QString progressLineLabel(CCDFrameType frameType, const QMap<SequenceJob::Proper
     else if (frameType != FRAME_LIGHT)
     {
         if (label.size() > 0) label += " ";
-        label += frameType;
+        label += (char)frameType;
     }
 
     return label;

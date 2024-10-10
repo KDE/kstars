@@ -55,6 +55,32 @@ QFuture<bool> FITSCentroidDetector::findSources(const QRect &boundary)
     FITSImage::Statistic const &stats = m_ImageData->getStatistics();
     switch (stats.dataType)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        case TBYTE:
+        default:
+            return QtConcurrent::run(&FITSCentroidDetector::findSources<uint8_t const>, this, boundary);
+
+        case TSHORT:
+            return QtConcurrent::run(&FITSCentroidDetector::findSources<int16_t const>, this, boundary);
+
+        case TUSHORT:
+            return QtConcurrent::run(&FITSCentroidDetector::findSources<uint16_t const>, this, boundary);
+
+        case TLONG:
+            return QtConcurrent::run(&FITSCentroidDetector::findSources<int32_t const>, this, boundary);
+
+        case TULONG:
+            return QtConcurrent::run(&FITSCentroidDetector::findSources<uint32_t const>, this, boundary);
+
+        case TFLOAT:
+            return QtConcurrent::run(&FITSCentroidDetector::findSources<float const>, this, boundary);
+
+        case TLONGLONG:
+            return QtConcurrent::run(&FITSCentroidDetector::findSources<int64_t const>, this, boundary);
+
+        case TDOUBLE:
+            return QtConcurrent::run(&FITSCentroidDetector::findSources<double const>, this, boundary);
+#else
         case TBYTE:
         default:
             return QtConcurrent::run(this, &FITSCentroidDetector::findSources<uint8_t const>, boundary);
@@ -79,7 +105,7 @@ QFuture<bool> FITSCentroidDetector::findSources(const QRect &boundary)
 
         case TDOUBLE:
             return QtConcurrent::run(this, &FITSCentroidDetector::findSources<double const>, boundary);
-
+#endif
     }
 }
 

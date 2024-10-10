@@ -85,13 +85,14 @@ KSComet::KSComet(const QString &_s, const QString &imfile, double _q, double _e,
     // Probably come better algorithm should be used.
 
     // Periodic comet. Designation like: 12P or 12P-C
-    QRegExp rePer("^(\\d+)[PD](-([A-Z]+))?");
-    if (rePer.indexIn(_s) != -1)
+    QRegularExpression rePerReg("^(\\d+)[PD](-([A-Z]+))?");
+    QRegularExpressionMatch rePer = rePerReg.match(_s);
+    if (rePer.hasMatch())
     {
         // Comet number
-        qint64 num = rePer.cap(1).toInt();
+        qint64 num = rePer.captured(1).toInt();
         // Fragment number
-        qint64 fragmentN = letterDesigToN(rePer.cap(2));
+        qint64 fragmentN = letterDesigToN(rePer.captured(2));
         // Set UID
         uidPart = num << 16 | fragmentN;
         return;
@@ -99,8 +100,9 @@ KSComet::KSComet(const QString &_s, const QString &imfile, double _q, double _e,
 
     // Non periodic comet or comets with single approach
     // Designations like C/(2006 A7)
-    QRegExp rePro("^([PCXDA])/.*\\((\\d{4}) ([A-Z])(\\d+)(-([A-Z]+))?\\)");
-    if (rePro.indexIn(_s) != -1)
+    QRegularExpression reProReg("^([PCXDA])/.*\\((\\d{4}) ([A-Z])(\\d+)(-([A-Z]+))?\\)");
+    QRegularExpressionMatch rePro = reProReg.match(_s);
+    if (rePro.hasMatch())
     {
         // Fill comet type
         if (cometType.empty())
@@ -111,11 +113,11 @@ KSComet::KSComet(const QString &_s, const QString &imfile, double _q, double _e,
             cometType.insert('D', 3);
             cometType.insert('A', 4);
         }
-        qint64 type       = cometType[rePro.cap(1).at(0)]; // Type of comet
-        qint64 year       = rePro.cap(2).toInt();       // Year of discovery
-        qint64 halfMonth  = letterToNum(rePro.cap(3).at(0));
-        qint64 nHalfMonth = rePro.cap(4).toInt();
-        qint64 fragment   = letterDesigToN(rePro.cap(6));
+        qint64 type       = cometType[rePro.captured(1).at(0)]; // Type of comet
+        qint64 year       = rePro.captured(2).toInt();       // Year of discovery
+        qint64 halfMonth  = letterToNum(rePro.captured(3).at(0));
+        qint64 nHalfMonth = rePro.captured(4).toInt();
+        qint64 fragment   = letterDesigToN(rePro.captured(6));
 
         uidPart = 1LL << 43 | type << 40 | // Bits 40-42 (3)
                   halfMonth << 33 |        // Bits 33-39 (7) Hope this is enough

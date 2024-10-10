@@ -65,7 +65,7 @@ FindDialog::FindDialog(QWidget *parent)
     , m_targetObject(nullptr)
     , m_dbManager(CatalogsDB::dso_db_path())
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     ui = new FindDialogUI(this);
@@ -331,7 +331,7 @@ void FindDialog::filterList()
     if (!SearchText.isEmpty())
     {
         QStringList mItems =
-            fModel->filter(QRegExp('^' + SearchText, Qt::CaseInsensitive));
+            fModel->filter(QRegularExpression('^' + SearchText, QRegularExpression::CaseInsensitiveOption));
         mItems.sort();
 
         if (mItems.size())
@@ -402,8 +402,9 @@ void FindDialog::enqueueSearch()
 // Process the search box text to replace equivalent names like "m93" with "m 93"
 QString FindDialog::processSearchText(QString searchText)
 {
-    QRegExp re;
-    re.setCaseSensitivity(Qt::CaseInsensitive);
+    QRegularExpression re;
+    re.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+
 
     // Remove multiple spaces and replace them by a single space
     re.setPattern("  +");

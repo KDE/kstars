@@ -543,7 +543,7 @@ void GuideStars::findTopStars(const QSharedPointer<FITSData> &imageData, int num
         return a.second > b.second;
     });
     // Copy the top num results.
-    for (int i = 0; i < std::min(num, scores.size()); ++i)
+    for (int i = 0; i < std::min(num, (int)scores.size()); ++i)
     {
         const int starIndex = sc[i].first;
         const double starScore = sc[i].second;

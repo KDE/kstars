@@ -113,7 +113,7 @@ bool SkyLabeler::drawGuideLabel(QPointF &o, const QString &text, double angle)
 {
     // Create bounding rectangle by rotating the (height x width) rectangle
     qreal h = m_fontMetrics.height();
-    qreal w = m_fontMetrics.width(text);
+    qreal w = m_fontMetrics.averageCharWidth() * text.size();
     qreal s = sin(angle * dms::PI / 180.0);
     qreal c = cos(angle * dms::PI / 180.0);
 
@@ -227,8 +227,8 @@ void SkyLabeler::resetFont()
 void SkyLabeler::getMargins(const QString &text, float *left, float *right, float *top, float *bot)
 {
     float height     = m_fontMetrics.height();
-    float width      = m_fontMetrics.width(text);
-    float sideMargin = m_fontMetrics.width("MM") + width / 2.0;
+    float width      = m_fontMetrics.averageCharWidth() * text.size();
+    float sideMargin = m_fontMetrics.averageCharWidth() * 2 + width / 2.0;
 
     // Create the margins within which it is okay to draw the label
     double winHeight;
@@ -265,7 +265,7 @@ void SkyLabeler::reset(SkyMap *skyMap)
     setZoomFont();
     m_skyFont     = m_p.font();
     m_fontMetrics = QFontMetrics(m_skyFont);
-    m_minDeltaX   = (int)m_fontMetrics.width("MMMMM");
+    m_minDeltaX   = (int) m_fontMetrics.averageCharWidth() * 5;
 
     // ----- Set up Zoom Dependent Offset -----
     m_offset = SkyLabeler::ZoomOffset();
@@ -417,7 +417,7 @@ bool SkyLabeler::markText(const QPointF &p, const QString &text, qreal padding_f
             1;
     }
 
-    const qreal maxX = p.x() + m_fontMetrics.width(text) * padding_factor;
+    const qreal maxX = p.x() + m_fontMetrics.averageCharWidth() * text.size() * padding_factor;
     const qreal minY = p.y() - m_fontMetrics.height() * padding_factor;
     return markRegion(p.x(), maxX, p.y(), minY);
 }

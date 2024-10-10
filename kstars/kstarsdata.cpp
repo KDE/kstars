@@ -50,7 +50,7 @@ void fatalErrorMessage(QString fname)
                                "KStars searches for this file in following locations:\n\n\t"
                                "%2\n\n"
                                "It appears that your setup is broken.",
-                               fname, QStandardPaths::standardLocations(QStandardPaths::DataLocation).join("\n\t")),
+                               fname, QStandardPaths::standardLocations(QStandardPaths::AppDataLocation).join("\n\t")),
                           i18n("Critical File Not Found: %1", fname)); // FIXME: Must list locations depending on file type
 
     qApp->exit(1);
@@ -75,7 +75,7 @@ void fatalErrorMessage(QString fname)
 //                   "KStars search for this file in following locations:\n\n\t"
 //                   "%2\n\n"
 //                   "It appears that you setup is broken. Press Continue to run KStars without this file ",
-//                   fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
+//                   fname, QStandardPaths::standardLocations( QStandardPaths::AppLocalDataLocation ).join("\n\t") ),
 //              i18n( "Non-Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
 //    if( res != KMessageBox::Continue )
 //        qApp->exit(1);
@@ -204,16 +204,26 @@ bool KStarsData::initialize()
     // if (!readURLData("image_url.dat", SkyObjectUserdata::Type::image) &&
     //     !nonFatalErrorMessage("image_url.dat"))
     //     return false;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QtConcurrent::run(&KStarsData::readURLData, this, QString("image_url.dat"),
+                      SkyObjectUserdata::Type::image);
+#else
     QtConcurrent::run(this, &KStarsData::readURLData, QString("image_url.dat"),
                       SkyObjectUserdata::Type::image);
+#endif
 
     //Load Information URLs//
     //emit progressText(i18n("Loading Information URLs"));
     // if (!readURLData("info_url.dat", SkyObjectUserdata::Type::website) &&
     //     !nonFatalErrorMessage("info_url.dat"))
     //     return false;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QtConcurrent::run(&KStarsData::readURLData, this, QString("info_url.dat"),
+                      SkyObjectUserdata::Type::website);
+#else
     QtConcurrent::run(this, &KStarsData::readURLData, QString("info_url.dat"),
                       SkyObjectUserdata::Type::website);
+#endif
 
     //#endif
     //emit progressText( i18n("Loading Variable Stars" ) );
@@ -524,10 +534,10 @@ bool KStarsData::readTimeZoneRulebook()
             {
                 QStringList fields = line.split(' ', Qt::SkipEmptyParts);
                 QString id         = fields[0];
-                QTime stime        = QTime(fields[3].leftRef(fields[3].indexOf(':')).toInt(),
-                                           fields[3].midRef(fields[3].indexOf(':') + 1, fields[3].length()).toInt());
-                QTime rtime        = QTime(fields[6].leftRef(fields[6].indexOf(':')).toInt(),
-                                           fields[6].midRef(fields[6].indexOf(':') + 1, fields[6].length()).toInt());
+                QTime stime        = QTime(fields[3].left(fields[3].indexOf(':')).toInt(),
+                                           fields[3].mid(fields[3].indexOf(':') + 1, fields[3].length()).toInt());
+                QTime rtime        = QTime(fields[6].left(fields[6].indexOf(':')).toInt(),
+                                           fields[6].mid(fields[6].indexOf(':') + 1, fields[6].length()).toInt());
 
                 Rulebook[id] = TimeZoneRule(fields[1], fields[2], stime, fields[4], fields[5], rtime);
             }
@@ -573,7 +583,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile &file)
             //Find global file(s) in findAllResources() list.
             QFileInfo fi_local(file.fileName());
 
-            QStringList flist = KSPaths::locateAll(QStandardPaths::DataLocation, urlfile);
+            QStringList flist = KSPaths::locateAll(QStandardPaths::AppDataLocation, urlfile);
 
             for (int i = 0; i < flist.size(); i++)
             {
@@ -772,13 +782,13 @@ bool KStarsData::readUserLog()
 
     QMutexLocker _{ &m_user_data_mutex };
 
-    QStringRef buffer(&fullContents);
+    QString buffer(fullContents);
     const QLatin1String logStart("[KSLABEL:"), logEnd("[KSLogEnd]");
     std::size_t currentEntryIndex = 0;
     while (!buffer.isEmpty())
     {
         int startIndex, endIndex;
-        QStringRef sub, name, data;
+        QString sub, name, data;
 
         startIndex = buffer.indexOf(logStart) + logStart.size();
         if (startIndex < 0)
@@ -834,8 +844,8 @@ bool KStarsData::readUserLog()
         buffer = buffer.mid(endIndex + logEnd.size() + 1);
         currentEntryIndex += (endIndex + logEnd.size() + 1 - startIndex);
 
-        auto &data_element   = m_user_data[name.toString()];
-        data_element.userLog = data.toString();
+        auto &data_element   = m_user_data[name];
+        data_element.userLog = data;
 
     } // end while
     file.close();

@@ -41,7 +41,7 @@ FlagComponent::FlagComponent(SkyComposite *parent) : PointListComponent(parent)
         QString path = appDir.absoluteFilePath(item);
         m_Images.append(QImage(path));
 
-        QString fileName = item.replace(QRegExp("\\.[^.]*$"), QString()).replace(QRegExp("^flag"), QString()).replace('_', ' ');
+        QString fileName = item.replace(QRegularExpression("\\.[^.]*$"), QString()).replace(QRegularExpression("^flag"), QString()).replace('_', ' ');
 
         m_Names.append(fileName);
     }
@@ -118,8 +118,8 @@ void FlagComponent::loadFromFile()
 
         // color label
 
-        QRegExp rxLabelColor("^#[a-fA-F0-9]{6}$");
-        if (rxLabelColor.exactMatch(flagEntry.at(5)))
+        QRegularExpression rxLabelColor("^#[a-fA-F0-9]{6}$");
+        if (rxLabelColor.match(flagEntry.at(5)).hasMatch())
         {
             m_LabelColors.append(QColor(flagEntry.at(5)));
         }

@@ -10,7 +10,7 @@
 #include <QQuickItem>
 #include <indicom.h>
 
-#include <KNotifications/KNotification>
+#include <knotification.h>
 #include <KLocalizedContext>
 #include <KActionCollection>
 
@@ -96,10 +96,9 @@ Mount::Mount()
     {
         if (m_Mount)
         {
-            if (KMessageBox::questionYesNo(KStars::Instance(),
+            if (KMessageBox::warningContinueCancel(KStars::Instance(),
                                            i18n("Are you sure you want to clear all mount configurations?"),
-                                           i18n("Mount Configuration"), KStandardGuiItem::yes(), KStandardGuiItem::no(),
-                                           "purge_mount_settings_dialog") == KMessageBox::Yes)
+                                           i18n("Mount Configuration")) == KMessageBox::Continue)
             {
                 resetModel();
                 m_Mount->clearParking();

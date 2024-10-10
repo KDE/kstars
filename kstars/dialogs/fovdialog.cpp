@@ -16,8 +16,8 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QLineEdit>
-#include <QDBusReply>
-#include <QDBusInterface>
+#include <QtDBus/QDBusReply>
+#include <QtDBus/QDBusInterface>
 #include <QPointer>
 
 #include <KActionCollection>
@@ -69,7 +69,7 @@ NewFOVUI::NewFOVUI(QWidget *parent) : QFrame(parent)
 //---------FOVDialog---------------//
 FOVDialog::FOVDialog(QWidget *p) : QDialog(p)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     // Register FOV* data type

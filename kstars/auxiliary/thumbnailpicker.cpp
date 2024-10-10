@@ -15,6 +15,7 @@
 #include "skyobjects/skyobject.h"
 
 #include <KIO/CopyJob>
+#include <KIO/StoredTransferJob>
 #include <KMessageBox>
 #include <KJobUiDelegate>
 
@@ -35,7 +36,7 @@ ThumbnailPicker::ThumbnailPicker(SkyObject *o, const QPixmap &current, QWidget *
                                  QString cap)
     : QDialog(parent), SelectedImageIndex(-1), Object(o), bImageFound(false)
 {
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     thumbWidth  = _w;

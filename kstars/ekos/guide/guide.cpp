@@ -1620,7 +1620,7 @@ void Guide::setStatus(Ekos::GuideState newState)
             guideAutoStar->setEnabled(false);
             guideSquareSize->setEnabled(false);
             //setExternalGuiderBLOBEnabled(true);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
             repaint(); //This is a band-aid for a bug in QT 5.10.0
 #endif
             break;

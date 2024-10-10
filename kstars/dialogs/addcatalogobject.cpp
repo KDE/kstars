@@ -304,7 +304,7 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
 
                 // Remove the coordinates from the original string so subsequent tasks don't confuse it
                 std::size_t length2 = rmatch.captured(0).length();
-                qCDebug(KSTARS) << "Eliminating text: " << text.midRef(coordTextIndex + coord1, length1) << " and " << text.midRef(coordTextIndex + coord2, length2);
+                qCDebug(KSTARS) << "Eliminating text: " << text.mid(coordTextIndex + coord1, length1) << " and " << text.mid(coordTextIndex + coord2, length2);
                 text.replace(coordTextIndex + coord1, length1, "\n");
                 text.replace(coordTextIndex + coord2 - length1 + 1, length2, "\n");
                 qCDebug(KSTARS) << "Text now: " << text;
@@ -323,7 +323,7 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
             coordsFound = true;
 
             // Remove coordinates to avoid downstream confusion with it
-            qCDebug(KSTARS) << "Eliminating text: " << text.midRef(rmatch.capturedStart(), rmatch.captured(0).length());
+            qCDebug(KSTARS) << "Eliminating text: " << text.mid(rmatch.capturedStart(), rmatch.captured(0).length());
             text.replace(rmatch.capturedStart(), rmatch.captured(0).length(), "\n");
                 qCDebug(KSTARS) << "Text now: " << text;
         }
@@ -344,7 +344,7 @@ void AddCatalogObject::guess_form_contents_from_text(QString text)
             type = p.second;
             typeFound = true;
             qCDebug(KSTARS) << "Found Type: " << SkyObject::typeName(p.second);
-            qCDebug(KSTARS) << "Eliminating text: " << text.midRef(rmatch.capturedStart(), rmatch.captured(0).length());
+            qCDebug(KSTARS) << "Eliminating text: " << text.mid(rmatch.capturedStart(), rmatch.captured(0).length());
             text.replace(rmatch.capturedStart(), rmatch.captured(0).length(), "\n"); // Remove to avoid downstream confusion
             qCDebug(KSTARS) << "Text now: " << text;
             break;
