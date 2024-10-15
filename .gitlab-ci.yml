@@ -14,7 +14,7 @@ include:
     file:
       - /gitlab-templates/linux.yml
       - /gitlab-templates/windows.yml
-      - /gitlab-templates/android.yml
+      #- /gitlab-templates/android.yml
       - /gitlab-templates/craft-appimage.yml
       - /gitlab-templates/craft-windows-x86-64.yml
       - /gitlab-templates/craft-macos-x86-64.yml
@@ -23,10 +23,10 @@ include:
       # - /gitlab-templates/flatpak.yml
 
 # Android CI is not ready yet
-android_qt515:
-  rules:
-    - when: manual
-      allow_failure: true
+# android_qt515:
+#   rules:
+#     - when: manual
+#       allow_failure: true
 
 # Craft recipes run as nightly on master
 craft_appimage_qt515_x86_64:
