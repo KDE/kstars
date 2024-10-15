@@ -2729,7 +2729,7 @@
       </entry>
       <entry name="AlwaysInventGuideStar" type="Bool">
          <label>Invent a guide star position from the multi-star references.</label>
-         <default>false</default>
+         <default>true</default>
       </entry>
       <entry name="TwoAxisEnabled" type="Bool">
          <label>Use both axes to perform calibration.</label>

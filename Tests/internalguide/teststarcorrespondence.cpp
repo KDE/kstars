@@ -14,6 +14,7 @@
 #endif
 
 #include <QObject>
+#include "Options.h"
 
 
 class TestStarCorrespondence : public QObject
@@ -47,6 +48,7 @@ Edge makeEdge(float x, float y)
 
 void runTest(int guideStar)
 {
+    Options::setAlwaysInventGuideStar(false);
     constexpr double maxDistanceToStar = 5.0;
 
     // Setup a number of stars.
