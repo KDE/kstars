@@ -42,10 +42,10 @@ class GreatCircle
          * @param az the returned azimuth value (degrees)
          * @param alt the returned altitude value (degrees)
          */
-        void waypoint(double fraction, double *az, double *alt);
-
+        void waypoint(double fraction, double *az, double *alt) const;
+        double altAtAz(double azDegrees) const;
     private:
         // These are values computed in the constructor needed by all waypoints.
         double sigma01, sigma02, lambda0;
-        double cosAlpha0, sinAlpha0;
+        double cosAlpha0, sinAlpha0, alpha0;
 };

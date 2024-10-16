@@ -10,7 +10,7 @@
 
 #include <QObject>
 
-#include <QtGlobal>>
+#include <QtGlobal>
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtTest/QTest>
 #else
@@ -125,7 +125,7 @@ void TestArtificialHorizon::artificialHorizonTest()
     QVERIFY(checkHorizon(horizon, 20.0, 51, true, polygons));
     QVERIFY(checkHorizon(horizon, 25.0, 34, true, polygons));
     QVERIFY(checkHorizon(horizon, 25.0, 32, false, polygons));
-    QVERIFY(checkHorizon(horizon, 15.0, 31, true, polygons));
+    QVERIFY(checkHorizon(horizon, 15.0, 32, true, polygons));
     QVERIFY(checkHorizon(horizon, 15.0, 29, false, polygons));
     QVERIFY(checkHorizon(horizon, 35.0, -90 + 1, true, polygons));
     QVERIFY(checkHorizon(horizon, 5.0, -90 + 1, true, polygons));
@@ -141,9 +141,9 @@ void TestArtificialHorizon::artificialHorizonTest()
     QVERIFY(!horizon.isVisible(360.0 + 25.0, 32));
     QVERIFY(horizon.isVisible(-360.0 + 25.0, 34));
     QVERIFY(!horizon.isVisible(-360.0 + 25.0, 32));
-    QVERIFY(horizon.isVisible(360.0 + 15.0, 31));
+    QVERIFY(horizon.isVisible(360.0 + 15.0, 32));
     QVERIFY(!horizon.isVisible(360.0 + 15.0, 29));
-    QVERIFY(horizon.isVisible(-360.0 + 15.0, 31));
+    QVERIFY(horizon.isVisible(-360.0 + 15.0, 32));
     QVERIFY(!horizon.isVisible(-360.0 + 15.0, 29));
     QVERIFY(horizon.isVisible(360.0 + 35.0, -90 + 1));
     QVERIFY(horizon.isVisible(360.0 + 5.0, -90 + 1));

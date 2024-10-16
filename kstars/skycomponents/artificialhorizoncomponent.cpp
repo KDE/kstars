@@ -101,7 +101,10 @@ double ArtificialHorizonEntity::altitudeConstraint(double azimuthDegrees, bool *
     for (auto &p : *points)
     {
         const dms az = p->az();
-        const double alt = p->alt().Degrees();
+
+        // There can be issues with GreatCircle below if altitudes are at the zenith.
+        const double alt = std::min(89.999, p->alt().Degrees());
+
         if (qIsNaN(az.Degrees()) || qIsNaN(alt)) continue;
         if (!firstOne && inBetween(desiredAzimuth, lastAz, az))
         {
@@ -109,7 +112,7 @@ double ArtificialHorizonEntity::altitudeConstraint(double azimuthDegrees, bool *
             // If the input angle is in the interval between the last two points,
             // interpolate the altitude constraint, and use that value.
             // If there are other line segments which also contain the point,
-            // we use the max constraint. Convert to GreatCircle?
+            // we use the max constraint.
             const double totalDelta = fabs(lastAz.deltaAngle(az).Degrees());
             if (totalDelta <= 0)
             {
@@ -120,9 +123,8 @@ double ArtificialHorizonEntity::altitudeConstraint(double azimuthDegrees, bool *
             }
             else
             {
-                const double deltaToLast = fabs(lastAz.deltaAngle(desiredAzimuth).Degrees());
-                const double weight = deltaToLast / totalDelta;
-                const double newConstraint = (1.0 - weight) * lastAlt + weight * alt;
+                GreatCircle gc(lastAz.Degrees(), lastAlt, az.Degrees(), alt);
+                const double newConstraint = gc.altAtAz(azimuthDegrees);
                 if (!m_Ceiling)
                     constraint = std::max(constraint, newConstraint);
                 else
@@ -315,6 +317,12 @@ void appendGreatCirclePoints(double az1, double alt1, double az2, double alt2, L
 bool ArtificialHorizon::computePolygon(int entity, double az1, double alt1, double az2, double alt2,
                                        double sampling, LineList *region)
 {
+    // There can be issues with GreatCircle below if both altitudes are at the zenith.
+    if (alt1 >= 90 && alt2 >= 90)
+    {
+        alt1 = 89.99;
+        alt2 = 89.99;
+    }
     const bool ceiling = horizonList()->at(entity)->ceiling();
     const ArtificialHorizonEntity *thisOne = horizonList()->at(entity);
     double alt1b = 0, alt2b = 0;
@@ -323,7 +331,6 @@ bool ArtificialHorizon::computePolygon(int entity, double az1, double alt1, doub
 
     double lastAz = az1;
     double lastAlt = alt1;
-    const double azRange = az2 - az1, altRange = alt2 - alt1;
 
     if (az1 >= az2)
         return false;
@@ -331,13 +338,16 @@ bool ArtificialHorizon::computePolygon(int entity, double az1, double alt1, doub
     if (az1 + sampling > az2)
         sampling = (az2 - az1) - 1e-6;
 
-    for (double az = az1 + sampling; az <= az2; az += sampling)
+    GreatCircle gc(az1, alt1, az2, alt2);
+    double numSamples = (az2 - az1) / sampling;
+    for (int i = 0; i < numSamples; ++i)
     {
-        // Put it at the end, if we're close.
-        if (az + sampling > az2)
-            az = az2;
+        double fraction = i / numSamples;
+        if (fraction + (1.0 / numSamples) > (1 + .0001))
+            fraction = 1.0;
 
-        double alt = alt1 + altRange * (az - az1) / azRange;
+        double az, alt;
+        gc.waypoint(fraction, &az, &alt);
         double alt1b = 0, alt2b = 0;
 
         if (!ceiling)
@@ -529,9 +539,8 @@ void ArtificialHorizon::drawPolygons(int entity, SkyPainter *painter, QList<Line
             // We've detected that the line segment crosses 0 degrees.
             // Draw one polygon on one side of 0 degrees, and another on the other side.
             // Compute the altitude at wrap-around.
-            const double fraction = fabs(dms(360.0).deltaAngle(dms(maxAz)).Degrees() /
-                                         p1.az().deltaAngle(p2.az()).Degrees());
-            const double midAlt = minAzAlt + fraction * (maxAzAlt - minAzAlt);
+            GreatCircle gc(maxAz, maxAzAlt, minAz, minAzAlt);
+            const double midAlt = gc.altAtAz(0);
             // Draw polygons form maxAz upto 0 degrees, then again from 0 to minAz.
             drawSampledPolygons(entity, maxAz, maxAzAlt, 360, midAlt, sampling, painter, regions);
             drawSampledPolygons(entity, 0, midAlt, minAz, minAzAlt, sampling, painter, regions);
@@ -553,6 +562,47 @@ void ArtificialHorizon::drawPolygons(SkyPainter *painter, QList<LineList> *regio
     }
 }
 
+// This samples the lines in the input list by 0.1 degrees.
+// In this way they will be drawn to approximate a great-circle curve.
+void sampleLineList(std::shared_ptr<LineList> *list, std::shared_ptr<LineList> *tempPoints)
+{
+    constexpr double sampling = 0.1; // degrees
+    const auto points = list->get()->points();
+    const int size = points->size();
+    (*tempPoints)->points()->clear();
+    for (int upto = 0; upto < size - 1; ++upto)
+    {
+        const auto p1 = points->at(upto);
+        const auto p2 = points->at(upto + 1);
+        GreatCircle gc(p1->az().Degrees(), std::min(89.999, p1->alt().Degrees()), p2->az().Degrees(), std::min(89.999,
+                       p2->alt().Degrees()));
+        const double maxDelta = std::max(fabs(p2->az().Degrees() - p1->az().Degrees()),
+                                         fabs(p2->alt().Degrees() - p1->alt().Degrees()));
+        if (maxDelta == 0) continue;
+        int numP = maxDelta / sampling;
+        if (numP == 0) numP = 2;
+        for (int i = 0; i < numP; ++i)
+        {
+            double newAz = 0, newAlt = 0;
+            gc.waypoint(i * 1.0 / numP, &newAz, &newAlt);
+            SkyPoint *newPt = new SkyPoint;
+            newPt->setAz(newAz);
+            newPt->setAlt(newAlt);
+            newPt->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+            (*tempPoints)->append(std::shared_ptr<SkyPoint>(newPt));
+        }
+        // Do the last point.
+        if (upto == (size - 2))
+        {
+            SkyPoint *newPt = new SkyPoint;
+            newPt->setAz(p2->az().Degrees());
+            newPt->setAlt(p2->alt().Degrees());
+            newPt->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+            (*tempPoints)->append(std::shared_ptr<SkyPoint>(newPt));
+        }
+    }
+}
+
 void ArtificialHorizonComponent::draw(SkyPainter *skyp)
 {
     if (!selected())
@@ -565,7 +615,12 @@ void ArtificialHorizonComponent::draw(SkyPainter *skyp)
             // Draws a series of line segments, overlayed by the vertices.
             // One vertex (the current selection) is emphasized.
             skyp->setPen(QPen(Qt::white, 2));
-            skyp->drawSkyPolyline(livePreview.get());
+
+            // Sample the points so that the line renders as an approximation to a great-circle curve.
+            auto tempLineList = std::shared_ptr<LineList>(new LineList);
+            *tempLineList = *livePreview;
+            sampleLineList(&livePreview, &tempLineList);
+            skyp->drawSkyPolyline(tempLineList.get());
             skyp->setBrush(QBrush(Qt::yellow));
             drawSelectedPoint(livePreview.get(), selectedPreviewPoint, skyp);
             skyp->setBrush(QBrush(Qt::red));
