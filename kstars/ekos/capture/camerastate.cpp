@@ -41,9 +41,20 @@ CameraState::CameraState(QObject *parent): QObject{parent}
     init();
 }
 
+
 QList<SequenceJob *> &CameraState::allJobs()
 {
     return m_sequenceQueue->allJobs();
+}
+
+void CameraState::clearSequenceQueue()
+{
+    setActiveJob(nullptr);
+    qDeleteAll(allJobs());
+    allJobs().clear();
+
+    while (getSequence().count())
+        getSequence().pop_back();
 }
 
 const QUrl &CameraState::sequenceURL() const
@@ -113,9 +124,6 @@ int CameraState::activeJobID()
 void CameraState::initCapturePreparation()
 {
     setStartingCapture(false);
-
-    // Reset progress option if there is no captured frame map set at the time of start - fixes the end-user setting the option just before starting
-    setIgnoreJobProgress(!hasCapturedFramesMap() && Options::alwaysResetSequenceWhenStarting());
 
     // Refocus timer should not be reset on deviation error
     if (isGuidingDeviationDetected() == false && getCaptureState() != CAPTURE_SUSPENDED)
@@ -1379,13 +1387,13 @@ bool CameraState::setDarkFlatExposure(SequenceJob *job)
     return false;
 }
 
-void CameraState::checkSeqBoundary()
+void CameraState::checkSeqBoundary(SequenceJob *job)
 {
     // No updates during meridian flip
     if (getMeridianFlipState()->getMeridianFlipStage() >= MeridianFlipState::MF_ALIGNING)
         return;
 
-    setNextSequenceID(placeholderPath().checkSeqBoundary(*getActiveJob()));
+    setNextSequenceID(placeholderPath().checkSeqBoundary(*job));
 }
 
 bool CameraState::isModelinDSLRInfo(const QString &model)
@@ -1400,11 +1408,66 @@ bool CameraState::isModelinDSLRInfo(const QString &model)
 
 void CameraState::setCapturedFramesCount(const QString &signature, uint16_t count)
 {
-    m_capturedFramesMap[signature] = count;
+    capturedFramesMap()->insert(signature, count);
     qCDebug(KSTARS_EKOS_CAPTURE) <<
                                  QString("Client module indicates that storage for '%1' has already %2 captures processed.").arg(signature).arg(count);
-    // Scheduler's captured frame map overrides the progress option of the Capture module
-    setIgnoreJobProgress(false);
+}
+
+int CameraState::repeatsTarget() const
+{
+    return m_sequenceQueue.isNull() ? 0 : m_sequenceQueue->repeatsTarget();
+}
+
+bool CameraState::loopSequence() const
+{
+    return m_sequenceQueue.isNull() ? false : m_sequenceQueue->loopSequence();
+}
+
+void CameraState::addCapturedFrameCount(const QString &signature, int count)
+{
+    if (capturedFramesMap()->contains(signature))
+    {
+        const int value = capturedFramesMap()->value(signature) + count;
+        if (value <= 0)
+            capturedFramesMap()->remove(signature);
+        else
+            capturedFramesMap()->insert(signature, static_cast<uint16_t>(value));
+    }
+    else if (count > 0)
+        capturedFramesMap()->insert(signature, static_cast<uint16_t>(count));
+    else
+        capturedFramesMap()->remove(signature);
+}
+
+void CameraState::removeCapturedFrameCount(const QString &signature, int count)
+{
+    if (capturedFramesMap()->contains(signature))
+    {
+        // ensure positive values, clear otherwise
+        if (capturedFramesMap()->value(signature) > count)
+            capturedFramesMap()->insert(signature, capturedFramesMap()->value(signature) - count);
+        else
+            capturedFramesMap()->remove(signature);
+    }
+}
+
+void CameraState::clearCapturedFramesMap(const QString &signature)
+{
+    if (signature == "")
+        capturedFramesMap()->clear();
+    else
+        capturedFramesMap()->remove(signature);
+
+}
+
+QSharedPointer<CapturedFramesMap> CameraState::capturedFramesMap() const
+{
+    return m_sequenceQueue->capturedFramesMap();
+}
+
+void CameraState::setGlobalCapturedFramesMap(QSharedPointer<CapturedFramesMap> newValue)
+{
+    m_sequenceQueue->setCapturedFramesMap(newValue);
 }
 
 void CameraState::changeSequenceValue(int index, QString key, QString value)
@@ -1417,27 +1480,6 @@ void CameraState::changeSequenceValue(int index, QString key, QString value)
     emit sequenceChanged(seqArray);
 }
 
-void CameraState::addCapturedFrame(const QString &signature)
-{
-    CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
-    if (m_capturedFramesMap.end() != frame_item)
-        frame_item.value()++;
-    else m_capturedFramesMap[signature] = 1;
-}
-
-void CameraState::removeCapturedFrameCount(const QString &signature, uint16_t count)
-{
-    CapturedFramesMap::iterator frame_item = m_capturedFramesMap.find(signature);
-    if (m_capturedFramesMap.end() != frame_item)
-    {
-        if (frame_item.value() <= count)
-            // clear signature entry if none will be left
-            m_capturedFramesMap.remove(signature);
-        else
-            // remove the frame count
-            frame_item.value() = frame_item.value() - count;
-    }
-}
 
 void CameraState::appendLogText(const QString &message)
 {

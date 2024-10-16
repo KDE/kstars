@@ -329,6 +329,10 @@ void Camera::initCamera()
     connect(captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Camera::checkFrameType);
 
+    // Repeats of the sequence
+    connect(captureRepeatN, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &Camera::setRepeatsTarget);
+    connect(captureLoopSequenceCB, &QCheckBox::toggled, this, &Camera::setLoopSequence);
+
     // Autofocus HFR Check
     connect(m_LimitsUI->enforceAutofocusHFR, &QCheckBox::toggled, [ = ](bool checked)
     {
@@ -464,6 +468,7 @@ void Camera::initCamera()
     connect(m_cameraProcess.data(), &CameraProcess::refreshCamera, this, &Camera::updateCamera);
     connect(m_cameraProcess.data(), &CameraProcess::sequenceChanged, this, &Camera::sequenceChanged);
     connect(m_cameraProcess.data(), &CameraProcess::addJob, this, &Camera::addJob);
+    connect(m_cameraProcess.data(), &CameraProcess::sequenceQueueLoaded, this, &Camera::sequenceQueueUpdated);
     connect(m_cameraProcess.data(), &CameraProcess::newExposureProgress, this, [&](SequenceJob * job)
     {
         emit newExposureProgress(job, opticalTrain());
@@ -948,6 +953,15 @@ void Camera::addJob(SequenceJob *job)
     createNewJobTableRow(job);
 }
 
+void Camera::sequenceQueueUpdated()
+{
+    for (auto j : state()->allJobs())
+        addJob(j);
+
+    captureRepeatN->setValue(state()->repeatsTarget());
+    captureLoopSequenceCB->setChecked(state()->loopSequence());
+}
+
 void Camera::editJobFinished()
 {
     if (queueTable->currentRow() < 0)
@@ -1053,6 +1067,19 @@ void Camera::updateStartButtons(bool start, bool pause)
     pauseB->setEnabled(start && !pause);
 }
 
+void Camera::setLoopSequence(bool loop)
+{
+    state()->getSequenceQueue()->setLoopSequence(loop);
+    captureRepeatN->setEnabled(loop == false);
+    process()->refreshCapturedFramesCount();
+}
+
+void Camera::setRepeatsTarget(int newValue)
+{
+    state()->getSequenceQueue()->setRepeatsTarget(newValue);
+    process()->refreshCapturedFramesCount();
+}
+
 void Camera::setBusy(bool enable)
 {
     previewB->setEnabled(!enable);
@@ -1119,6 +1146,9 @@ SequenceJob *Camera::createJob(SequenceJob::SequenceJobType jobtype, FilenamePre
 
     // create a new row
     createNewJobTableRow(job);
+
+    // refresh the job counts
+    process()->refreshCapturedFramesCount(true, true, job->getSignature());
 
     return job;
 }
@@ -1279,6 +1309,16 @@ void Camera::saveSequenceQueueAs()
 
 void Camera::updateJobTable(SequenceJob *job, bool full)
 {
+    // update the number of completed iterations
+    if (state()->getSequenceQueue()->repeatsTarget() > 1 && state()->allJobs().count() > 0)
+        if (state()->getSequenceQueue()->loopSequence())
+            progressLabel->setText(i18n("Progress #%1", state()->getSequenceQueue()->repeatsCompleted() + 1));
+        else
+            progressLabel->setText(i18n("Progress #%1",
+                                        std::min(state()->getSequenceQueue()->repeatsCompleted() + 1, state()->getSequenceQueue()->repeatsTarget())));
+    else
+        progressLabel->setText(i18n("Progress"));
+
     if (job == nullptr)
     {
         QListIterator<SequenceJob *> iter(state()->allJobs());
@@ -2421,7 +2461,29 @@ QString Camera::previewFilename(FilenamePreviewType previewType)
 
 void Camera::updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell)
 {
-    countCell->setText(QString("%L1/%L2").arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+    uint totalcompleted, requiredValue;
+    QString required;
+    if (state()->getSequenceQueue()->loopSequence())
+    {
+        totalcompleted = job->totalCompleted();
+        required       = "-";
+    }
+    else
+    {
+        requiredValue  = job->getCoreProperty(SequenceJob::SJ_Count).toInt() * state()->getSequenceQueue()->repeatsTarget();
+        totalcompleted = std::min(job->totalCompleted(), requiredValue);
+        required       = QString::number(requiredValue);
+    }
+    if (state()->getSequenceQueue()->loopSequence() || state()->getSequenceQueue()->repeatsTarget() > 1)
+        countCell->setText(QString("%L1/%L2 (%3/%4)")
+                           .arg(job->getCompleted())
+                           .arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt())
+                           .arg(totalcompleted)
+                           .arg(required));
+    else
+        countCell->setText(QString("%L1/%L2")
+                           .arg(job->getCompleted())
+                           .arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
 }
 
 void Camera::addDSLRInfo(const QString &model, uint32_t maxW, uint32_t maxH, double pixelW, double pixelH)
@@ -2762,8 +2824,6 @@ void Camera::updateFrameProperties(int reset)
     }
 }
 
-
-
 void Camera::setGain(double value)
 {
     if (m_standAlone)
@@ -2847,7 +2907,7 @@ void Camera::setInSequenceFocus(bool enable, double HFR)
         m_LimitsUI->hFRDeviation->setValue(HFR);
 }
 
-bool Camera::loadSequenceQueue(const QString &fileURL, QString targetName)
+bool Camera::loadSequenceQueue(const QString &fileURL, int repeat, bool loop, QString targetName)
 {
     QFile sFile(fileURL);
     if (!sFile.open(QIODevice::ReadOnly))
@@ -2857,11 +2917,10 @@ bool Camera::loadSequenceQueue(const QString &fileURL, QString targetName)
         return false;
     }
 
-    state()->clearCapturedFramesMap();
     clearSequenceQueue();
 
     // !m_standAlone so the stand-alone editor doesn't influence a live capture sesion.
-    const bool result = process()->loadSequenceQueue(fileURL, targetName, !m_standAlone);
+    const bool result = process()->loadSequenceQueue(fileURL, repeat, loop, targetName, !m_standAlone);
     // cancel if loading fails
     if (result == false)
         return result;
@@ -2885,6 +2944,18 @@ bool Camera::saveSequenceQueue(const QString &path)
     return process()->saveSequenceQueue(path);
 }
 
+QSharedPointer<CapturedFramesMap> &Camera::getCapturedFramesMap(bool refresh)
+{
+    const auto queue = state()->getSequenceQueue();
+    if (refresh)
+    {
+        CaptureUtils::updateCompletedFramesCount(queue, refresh);
+        updateJobTable();
+    }
+
+    return queue->capturedFramesMap();
+}
+
 void Camera::updateCameraStatus(CaptureState status)
 {
     // forward a status change
@@ -2893,14 +2964,10 @@ void Camera::updateCameraStatus(CaptureState status)
 
 void Camera::clearSequenceQueue()
 {
-    state()->setActiveJob(nullptr);
+    state()->clearSequenceQueue();
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
-    qDeleteAll(state()->allJobs());
-    state()->allJobs().clear();
 
-    while (state()->getSequence().count())
-        state()->getSequence().pop_back();
     emit sequenceChanged(state()->getSequence());
 }
 
@@ -3868,40 +3935,8 @@ void Camera::setFilterStatus(FilterState filterState)
 
 void Camera::resetJobs()
 {
-    // Stop any running capture
-    stop();
-
-    // If a job is selected for edit, reset only that job
-    if (m_JobUnderEdit == true)
-    {
-        SequenceJob * job = state()->allJobs().at(queueTable->currentRow());
-        if (nullptr != job)
-        {
-            job->resetStatus();
-            updateJobTable(job);
-        }
-    }
-    else
-    {
-        if (KMessageBox::warningContinueCancel(
-                    nullptr, i18n("Are you sure you want to reset status of all jobs?"), i18n("Reset job status"),
-                    KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "reset_job_status_warning") != KMessageBox::Continue)
-        {
-            return;
-        }
-
-        foreach (SequenceJob * job, state()->allJobs())
-        {
-            job->resetStatus();
-            updateJobTable(job);
-        }
-    }
-
-    // Also reset the storage count for all jobs
-    state()->clearCapturedFramesMap();
-
-    // We're not controlled by the Scheduler, restore progress option
-    state()->setIgnoreJobProgress(Options::alwaysResetSequenceWhenStarting());
+    // Stop any running capture and reset counters
+    process()->resetJobs();
 
     // enable start button
     startB->setEnabled(true);

@@ -13,11 +13,15 @@
 namespace Ekos
 {
 
-CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent} {}
+CaptureModuleState::CaptureModuleState(QObject *parent): QObject{parent}
+{
+    m_globalCapturedFramesMap.reset(new CapturedFramesMap());
+}
 
 void CaptureModuleState::addCamera(QSharedPointer<Camera> newCamera)
 {
     mutableCameras().append(newCamera);
+    newCamera->state()->setGlobalCapturedFramesMap(globalCapturedFramesMap());
     connect(newCamera.get(), &Camera::newStatus, this, &CaptureModuleState::captureStateChanged);
     connect(newCamera.get(), &Camera::requestAction, this, &CaptureModuleState::handleActionRequest);
 

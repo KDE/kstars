@@ -247,7 +247,7 @@ void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, bool isLea
     job.reset();
 }
 
-uint16_t SchedulerUtils::fillCapturedFramesMap(const QMap<QString, uint16_t> &expected,
+uint16_t SchedulerUtils::fillCapturedFramesMap(const CapturedFramesMap &expected,
         const CapturedFramesMap &capturedFramesCount, SchedulerJob &schedJob, CapturedFramesMap &capture_map,
         int &completedIterations)
 {
@@ -416,7 +416,7 @@ bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob * sc
     return true;
 }
 
-bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const QMap<QString, uint16_t> &capturedFramesCount,
+bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFramesMap &capturedFramesCount,
                                      ModuleLogger * logger)
 {
     static SchedulerJob *jobWarned = nullptr;

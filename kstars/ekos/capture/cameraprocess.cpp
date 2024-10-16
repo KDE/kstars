@@ -6,6 +6,7 @@
 #include "cameraprocess.h"
 #include "QtWidgets/qstatusbar.h"
 #include "capturedeviceadaptor.h"
+#include "captureutils.h"
 #include "refocusstate.h"
 #include "sequencejob.h"
 #include "sequencequeue.h"
@@ -225,6 +226,8 @@ void CameraProcess::toggleSequence()
         if (capturestate == CAPTURE_PAUSE_PLANNED)
             state()->setCaptureState(CAPTURE_CAPTURING);
 
+        // update captured frames for all signatures
+        refreshCapturedFramesCount(true);
         emit newLog(i18n("Sequence resumed."));
 
         // Call from where ever we have left of when we paused
@@ -242,6 +245,7 @@ void CameraProcess::toggleSequence()
     }
     else if (capturestate == CAPTURE_IDLE || capturestate == CAPTURE_ABORTED || capturestate == CAPTURE_COMPLETE)
     {
+        refreshCapturedFramesCount(true);
         startNextPendingJob();
     }
     else
@@ -446,16 +450,32 @@ void CameraProcess::startJob(SequenceJob *job)
     prepareJob(job);
 }
 
+bool CameraProcess::checkJobCompletion(SequenceJob *job)
+{
+    // loop inifitely will never be completed
+    if (state()->loopSequence())
+        return false;
+
+    // this should not happen
+    if (job == nullptr)
+    {
+        qCWarning(KSTARS_EKOS_CAPTURE) << "BUG!! Checking job completion for empty job!";
+        return true;
+    }
+    // previews will never be completed
+    if (job->jobType() == SequenceJob::JOBTYPE_PREVIEW || state()->loopSequence() || job->getStatus() != JOB_DONE)
+        return false;
+    else
+        return true;
+
+}
+
 void CameraProcess::prepareJob(SequenceJob * job)
 {
-    if (activeCamera() == nullptr || activeCamera()->isConnected() == false)
-    {
-        emit newLog(i18n("No camera detected. Check train configuration and connection settings."));
-        activeJob()->abort();
-        return;
-    }
-
     state()->setActiveJob(job);
+
+    if (state()->isLooping() == false)
+        qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getSignature() << "for execution.";
 
     // If job is Preview and NO view is available, ask to enable it.
     // if job is batch job, then NO VIEW IS REQUIRED at all. It's optional.
@@ -484,106 +504,48 @@ void CameraProcess::prepareJob(SequenceJob * job)
     if (state()->isLooping() == false)
         qCDebug(KSTARS_EKOS_CAPTURE) << "Preparing capture job" << job->getSignature() << "for execution.";
 
-    if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
+    // set the progress info
+    if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+        state()->setNextSequenceID(1);
+
+    // Now check on the file system ALL the files that exist with the above signature
+    // If 29 files exist for example, then nextSequenceID would be the NEXT file number (30)
+    // Therefore, we know how to number the next file.
+    // However, we do not deduce the number of captures to process from this function.
+    state()->checkSeqBoundary(job);
+
+    // calculate the number of total frames required
+    const int required = job->getCoreProperty(SequenceJob::SJ_Count).toInt() * state()->repeatsTarget();
+    // check if it is marked as completed or has at least sufficient many frames captured
+    if (checkJobCompletion(job))
     {
-        // set the progress info
+        emit newLog(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
+                         QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                         job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
+                         job->getCompleted(),
+                         required));
+        processJobCompletion2();
+        return;
+    }
+    else if (state()->loopSequence())
+    {
+        emit newLog(i18n("Job is looping with %1-second %2 frames infinitely, has %3 frames captured and will be processed.",
+                         QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                         job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
+                         job->getCompleted()));
 
-        if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
-            state()->setNextSequenceID(1);
+        activeCamera()->setNextSequenceID(state()->nextSequenceID());
+    }
+    else
+    {
+        // There are captures to process
+        emit newLog(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
+                         QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                         job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
+                         job->getCompleted(),
+                         required));
 
-        // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system
-        // The signature is the unique identification path in the system for a particular job. Format is "<storage path>/<target>/<frame type>/<filter name>".
-        // If the Scheduler is requesting the Capture tab to process a sequence job, a target name will be inserted after the sequence file storage field (e.g. /path/to/storage/target/Light/...)
-        // If the end-user is requesting the Capture tab to process a sequence job, the sequence file storage will be used as is (e.g. /path/to/storage/Light/...)
-        QString signature = activeJob()->getSignature();
-
-        // Now check on the file system ALL the files that exist with the above signature
-        // If 29 files exist for example, then nextSequenceID would be the NEXT file number (30)
-        // Therefore, we know how to number the next file.
-        // However, we do not deduce the number of captures to process from this function.
-        state()->checkSeqBoundary();
-
-        // Captured Frames Map contains a list of signatures:count of _already_ captured files in the file system.
-        // This map is set by the Scheduler in order to complete efficiently the required captures.
-        // When the end-user requests a sequence to be processed, that map is empty.
-        //
-        // Example with a 5xL-5xR-5xG-5xB sequence
-        //
-        // When the end-user loads and runs this sequence, each filter gets to capture 5 frames, then the procedure stops.
-        // When the Scheduler executes a job with this sequence, the procedure depends on what is in the storage.
-        //
-        // Let's consider the Scheduler has 3 instances of this job to run.
-        //
-        // When the first job completes the sequence, there are 20 images in the file system (5 for each filter).
-        // When the second job starts, Scheduler finds those 20 images but requires 20 more images, thus sets the frames map counters to 0 for all LRGB frames.
-        // When the third job starts, Scheduler now has 40 images, but still requires 20 more, thus again sets the frames map counters to 0 for all LRGB frames.
-        //
-        // Now let's consider something went wrong, and the third job was aborted before getting to 60 images, say we have full LRG, but only 1xB.
-        // When Scheduler attempts to run the aborted job again, it will count captures in storage, subtract previous job requirements, and set the frames map counters to 0 for LRG, and 4 for B.
-        // When the sequence runs, the procedure will bypass LRG and proceed to capture 4xB.
-        int count = state()->capturedFramesCount(signature);
-        if (count > 0)
-        {
-
-            // Count how many captures this job has to process, given that previous jobs may have done some work already
-            for (auto &a_job : state()->allJobs())
-                if (a_job == activeJob())
-                    break;
-                else if (a_job->getSignature() == activeJob()->getSignature())
-                    count -= a_job->getCompleted();
-
-            // This is the current completion count of the current job
-            updatedCaptureCompleted(count);
-        }
-        // JM 2018-09-24: Only set completed jobs to 0 IF the scheduler set captured frames map to begin with
-        // If the map is empty, then no scheduler is used and it should proceed as normal.
-        else if (state()->hasCapturedFramesMap())
-        {
-            // No preliminary information, we reset the job count and run the job unconditionally to clarify the behavior
-            updatedCaptureCompleted(0);
-        }
-        // JM 2018-09-24: In case ignoreJobProgress is enabled
-        // We check if this particular job progress ignore flag is set. If not,
-        // then we set it and reset completed to zero. Next time it is evaluated here again
-        // It will maintain its count regardless
-        else if (state()->ignoreJobProgress()
-                 && activeJob()->getJobProgressIgnored() == false)
-        {
-            activeJob()->setJobProgressIgnored(true);
-            updatedCaptureCompleted(0);
-        }
-        // We cannot rely on sequenceID to give us a count - if we don't ignore job progress, we leave the count as it was originally
-
-        // Check whether active job is complete by comparing required captures to what is already available
-        if (activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt() <=
-                activeJob()->getCompleted())
-        {
-            updatedCaptureCompleted(activeJob()->getCoreProperty(
-                                        SequenceJob::SJ_Count).toInt());
-            emit newLog(i18n("Job requires %1-second %2 images, has already %3/%4 captures and does not need to run.",
-                             QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                             job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
-                             activeJob()->getCompleted(),
-                             activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
-            processJobCompletion2();
-
-            /* FIXME: find a clearer way to exit here */
-            return;
-        }
-        else
-        {
-            // There are captures to process
-            emit newLog(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
-                             QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                             job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
-                             activeJob()->getCompleted(),
-                             activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
-
-            // Emit progress update - done a few lines below
-            // emit newImage(nullptr, activeJob());
-
-            activeCamera()->setNextSequenceID(state()->nextSequenceID());
-        }
+        activeCamera()->setNextSequenceID(state()->nextSequenceID());
     }
 
     if (activeCamera()->isBLOBEnabled() == false)
@@ -622,6 +584,75 @@ void CameraProcess::prepareJob(SequenceJob * job)
 
     prepareActiveJobStage1();
 
+}
+
+void CameraProcess::resetJobs()
+{
+    // issue a warning
+    if (KMessageBox::warningContinueCancel(
+                nullptr, i18n("Are you sure you want to reset status of all jobs?"), i18n("Reset job status"),
+                KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "reset_job_status_warning") != KMessageBox::Continue)
+    {
+        return;
+    }
+
+    // Stop any running capture
+    stopCapturing(CAPTURE_IDLE);
+
+    if (state()->ignoreJobProgress())
+    {
+        // reset the number of completed iterations
+        state()->getSequenceQueue()->resetRepeatsCompleted();
+        // Reset the completed counter of all jobs
+        foreach (auto job, state()->allJobs())
+        {
+            job->setCompleted(0);
+            job->setTotalCompleted(0);
+            // reset the job state if it was complete
+            if (job->getStatus() == JOB_DONE)
+                job->resetStatus();
+        }
+
+        // update all jobs in the table
+        emit updateJobTable(nullptr);
+    }
+    else
+        refreshCapturedFramesCount(true);
+}
+
+SequenceJob *CameraProcess::checkRepeatSequence()
+{
+    // refresh the completed counters of all jobs
+    // this updates the job status as side effect
+    refreshCapturedFramesCount(true);
+
+    // if there are repeats left, find the first job that isn't complete
+    if (state()->getSequenceQueue()->loopSequence()
+            || state()->getSequenceQueue()->repeatsCompleted() < state()->getSequenceQueue()->repeatsTarget())
+    {
+        if (state()->ignoreJobProgress())
+        {
+            foreach (auto job, state()->allJobs())
+            {
+                job->setCompleted(0);
+                job->resetStatus();
+            }
+            // take the first one, since all are reset
+            return state()->allJobs().first();
+        }
+        else
+        {
+            foreach (auto job, state()->allJobs())
+            {
+                // check if the job is mot complete
+                if (!checkJobCompletion(job))
+                    // found first job that is not complete
+                    return(job);
+            }
+        }
+    }
+    // nothing found
+    return nullptr;
 }
 
 void CameraProcess::prepareActiveJobStage1()
@@ -954,7 +985,7 @@ IPState CameraProcess::resumeSequence()
         {
             if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
             {
-                state()->checkSeqBoundary();
+                state()->checkSeqBoundary(activeJob());
                 activeCamera()->setNextSequenceID(state()->nextSequenceID());
             }
         }
@@ -1396,6 +1427,10 @@ IPState CameraProcess::startNextJob()
         }
     }
 
+    // if all jobs are complete, repeat the sequence if necessary
+    if (next_job == nullptr)
+        next_job = checkRepeatSequence();
+
     if (next_job)
     {
 
@@ -1479,7 +1514,7 @@ void CameraProcess::captureImage()
 
     if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
     {
-        state()->checkSeqBoundary();
+        state()->checkSeqBoundary(activeJob());
         activeCamera()->setNextSequenceID(state()->nextSequenceID());
     }
 
@@ -1550,6 +1585,23 @@ void CameraProcess::resetFrame()
                              devices()->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD));
     devices()->getActiveChip()->resetFrame();
     emit updateFrameProperties(1);
+}
+
+void CameraProcess::refreshCapturedFramesCount(bool force, bool updateUI, const QString &signature)
+{
+    CaptureUtils::updateCompletedFramesCount(state()->getSequenceQueue(), force, signature);
+    // send update events
+    if (updateUI)
+    {
+        if (signature.isEmpty())
+            // update all jobs
+            emit updateJobTable(nullptr);
+        else
+            // update all jobs with matching signature
+            foreach (auto job, state()->allJobs())
+                if (job->getSignature() == signature)
+                    emit updateJobTable(job);
+    }
 }
 
 void CameraProcess::setExposureProgress(ISD::CameraChip *tChip, double value, IPState ipstate)
@@ -1731,7 +1783,7 @@ void CameraProcess::updateCompletedCaptureCountersAction()
         return;
 
     /* Increase the sequence's current capture count */
-    updatedCaptureCompleted(activeJob()->getCompleted() + 1);
+    activeJob()->addCompletedFrame();
     /* Decrease the counter for in-sequence focusing */
     state()->getRefocusState()->decreaseInSequenceFocusCounter();
     /* Reset adaptive focus flag */
@@ -1743,7 +1795,7 @@ void CameraProcess::updateCompletedCaptureCountersAction()
         state()->decreaseDitherCounter();
 
     /* If we were assigned a captured frame map, also increase the relevant counter for prepareJob */
-    state()->addCapturedFrame(activeJob()->getSignature());
+    state()->addCapturedFrameCount(activeJob()->getSignature());
 
     // report that the image has been received
     emit newLog(i18n("Received image %1 out of %2.", activeJob()->getCompleted(),
@@ -2243,7 +2295,7 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
             // but since the duration has now been updated, we must take care to update signature
             // since it may include a placeholder for duration which would affect it.
             if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
-                state()->checkSeqBoundary();
+                state()->checkSeqBoundary(activeJob());
         }
 
         return true;
@@ -2560,8 +2612,29 @@ void CameraProcess::updateFITSViewer(const QSharedPointer<FITSData> data, ISD::C
     updateFITSViewer(data, captureMode, captureFilter, filename, data->property("device").toString());
 }
 
-bool CameraProcess::loadSequenceQueue(const QString &fileURL,
-                                      const QString &targetName, bool setOptions)
+bool CameraProcess::loadSequenceQueue(const QString &fileURL, int repeat, bool loop, const QString &targetName,
+                                      bool setOptions)
+{
+
+    const bool result = loadSequenceQueue(fileURL, targetName, setOptions);
+
+    if (result)
+    {
+        // override the repeat value
+        if (repeat != 0)
+            state()->getSequenceQueue()->setRepeatsTarget(repeat);
+        // override looping
+        state()->getSequenceQueue()->setLoopSequence(loop);
+
+        // update the captured frames counts
+        refreshCapturedFramesCount(true);
+        emit sequenceQueueLoaded();
+    }
+
+    return result;
+}
+
+bool CameraProcess::loadSequenceQueue(const QString &fileURL, const QString &targetName, bool setOptions)
 {
     state()->clearCapturedFramesMap();
     auto queue = state()->getSequenceQueue();
@@ -2578,10 +2651,6 @@ bool CameraProcess::loadSequenceQueue(const QString &fileURL,
         // Set the HFR Check value appropriately for the conditions, e.g. using Autofocus
         state()->updateHFRThreshold();
     }
-
-    for (auto j : state()->allJobs())
-        emit addJob(j);
-
     return true;
 }
 
@@ -2650,60 +2719,50 @@ bool CameraProcess::checkPausing(CaptureContinueAction continueAction)
 
 SequenceJob *CameraProcess::findNextPendingJob()
 {
-    SequenceJob * first_job = nullptr;
-
     // search for idle or aborted jobs
     for (auto &job : state()->allJobs())
     {
         if (job->getStatus() == JOB_IDLE || job->getStatus() == JOB_ABORTED)
-        {
-            first_job = job;
-            break;
-        }
+            // first job found
+            return job;
     }
 
     // If there are no idle nor aborted jobs, question is whether to reset and restart
     // Scheduler will start a non-empty new job each time and doesn't use this execution path
-    if (first_job == nullptr)
-    {
-        // If we have at least one job that are in error, bail out, even if ignoring job progress
-        for (auto &job : state()->allJobs())
-        {
-            if (job->getStatus() != JOB_DONE)
-            {
-                // If we arrived here with a zero-delay timer, raise the interval before returning to avoid a cpu peak
-                if (state()->getCaptureDelayTimer().isActive())
-                {
-                    if (state()->getCaptureDelayTimer().interval() <= 0)
-                        state()->getCaptureDelayTimer().setInterval(1000);
-                }
-                return nullptr;
-            }
-        }
 
-        // If we only have completed jobs and we don't ignore job progress, ask the end-user what to do
-        if (!state()->ignoreJobProgress())
-            if(KMessageBox::warningContinueCancel(
-                        nullptr,
-                        i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
-                        i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                        "reset_job_complete_status_warning") != KMessageBox::Continue)
-                return nullptr;
+    // If we have at least one job that are in error, bail out, even if ignoring job progress
+    for (auto &job : state()->allJobs())
+    {
+        if (!checkJobCompletion(job))
+        {
+            // If we arrived here with a zero-delay timer, raise the interval before returning to avoid a cpu peak
+            if (state()->getCaptureDelayTimer().isActive())
+            {
+                if (state()->getCaptureDelayTimer().interval() <= 0)
+                    state()->getCaptureDelayTimer().setInterval(1000);
+            }
+            return nullptr;
+        }
+    }
+
+    // If we only have completed jobs and we don't ignore job progress, ask the end-user what to do
+    if (state()->ignoreJobProgress())
+    {
+        if(KMessageBox::warningContinueCancel(
+                    nullptr,
+                    i18n("All jobs are complete. Do you want to reset the status of all jobs and restart capturing?"),
+                    i18n("Reset job status"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                    "reset_job_complete_status_warning") != KMessageBox::Continue)
+            return nullptr;
 
         // If the end-user accepted to reset, reset all jobs and restart
         resetAllJobs();
-
-        first_job = state()->allJobs().first();
+        // all counters are 0, hence we are sure the first one will be ready to run
+        return state()->allJobs().first();
     }
-    // If we need to ignore job progress, systematically reset all jobs and restart
-    // Scheduler will never ignore job progress and doesn't use this path
-    else if (state()->ignoreJobProgress())
-    {
-        emit newLog(i18n("Warning: option \"Always Reset Sequence When Starting\" is enabled and resets the sequence counts."));
-        resetAllJobs();
-    }
-
-    return first_job;
+    else
+        // if we do not ignore the progress, there is no job to be continued
+        return nullptr;
 }
 
 void CameraProcess::resetJobStatus(JOBStatus newStatus)
@@ -2717,20 +2776,31 @@ void CameraProcess::resetJobStatus(JOBStatus newStatus)
 
 void CameraProcess::resetAllJobs()
 {
-    for (auto &job : state()->allJobs())
-    {
-        job->resetStatus();
-    }
-    // clear existing job counts
-    m_State->clearCapturedFramesMap();
+    // update the counters, but do not update the UI, since this will happen later here
+    refreshCapturedFramesCount(true, false);
+    // clear the counters if we ignore the job progess
+    if (state()->ignoreJobProgress())
+        for (auto &job : state()->allJobs())
+        {
+            job->resetStatus();
+            job->setCompleted(0);
+            job->setTotalCompleted(0);
+        }
     // update the entire job table
     emit updateJobTable(nullptr);
 }
 
-void CameraProcess::updatedCaptureCompleted(int count)
+void CameraProcess::updatedCaptureCompleted(int count, SequenceJob *job)
 {
-    activeJob()->setCompleted(count);
-    emit updateJobTable(activeJob());
+    // if none is given, use default
+    if (job == nullptr)
+        job = activeJob();
+
+    if (job != nullptr)
+    {
+        job->setCompleted(count);
+        emit updateJobTable(job);
+    }
 }
 
 void CameraProcess::llsq(QVector<double> x, QVector<double> y, double &a, double &b)

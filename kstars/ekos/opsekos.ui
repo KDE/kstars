@@ -362,7 +362,7 @@
     <item row="1" column="1">
      <widget class="QGroupBox" name="groupBox_8">
       <property name="title">
-       <string>Jobs</string>
+       <string>Scheduling</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
        <property name="spacing">
@@ -381,19 +381,6 @@
         <number>3</number>
        </property>
        <item>
-        <widget class="QCheckBox" name="kcfg_RememberJobProgress">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When processing a scheduled job, resume the sequence starting from the last image present in storage.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Remember job progress</string>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QCheckBox" name="kcfg_GreedyScheduling">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When checked the scheduler tries to run lower priority jobs when no higher priority job can run. Recommended.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -405,6 +392,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -712,12 +712,12 @@
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="kcfg_AlwaysResetSequenceWhenStarting">
+        <widget class="QCheckBox" name="kcfg_RememberJobProgress">
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When starting to process a sequence list, reset all capture counts to zero. Scheduler overrides this option when Remember job progress is enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If selected, take the already existing frames that satisfy each job's signature and capture only the missing ones.&lt;/p&gt;&lt;p&gt;Otherwise, of not selected, restart capturing with all counters set to zero.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Always reset sequence when starting</string>
+          <string>Remember job progress</string>
          </property>
          <property name="checked">
           <bool>false</bool>

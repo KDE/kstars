@@ -32,6 +32,8 @@ class SequenceQueue : public QObject
 
     public:
         SequenceQueue() {}
+        // implementation necessary since QObject deletes the copy operator
+        SequenceQueue(SequenceQueue *other);
 
         bool load(const QString &fileURL, const QString &targetName,
                   const QSharedPointer<CaptureDeviceAdaptor> devices,
@@ -53,6 +55,34 @@ class SequenceQueue : public QObject
         void setSequenceURL(const QUrl &newSequenceURL)
         {
             m_SequenceURL = newSequenceURL;
+        }
+        int repeatsTarget() const
+        {
+            return m_repeatsTarget;
+        }
+        void setRepeatsTarget(int newRepeats)
+        {
+            m_repeatsTarget = newRepeats;
+        }
+        int repeatsCompleted() const
+        {
+            return m_RepeatsCompleted;
+        }
+        void setRepeatsCompleted(int value)
+        {
+            m_RepeatsCompleted = value;
+        }
+        void resetRepeatsCompleted()
+        {
+            m_RepeatsCompleted = 0;
+        }
+        bool loopSequence() const
+        {
+            return m_loopSequence;
+        }
+        void setLoopSequence(bool newLoopSequence)
+        {
+            m_loopSequence = newLoopSequence;
         }
         bool getEnforceGuideDeviation()
         {
@@ -143,7 +173,22 @@ class SequenceQueue : public QObject
             m_RefocusAfterMeridianFlip = value;
         }
 
-    signals:
+        /**
+         * @brief capturedFramesCount Retrieve the captured frames counts, signature --> frame count
+         */
+        QSharedPointer<CapturedFramesMap> &capturedFramesMap();
+
+        void setCapturedFramesMap(QSharedPointer<CapturedFramesMap> newMap)
+        {
+            m_CapturedFramesMap = newMap;
+        }
+
+        /**
+         * @brief exposureTimesMap Map from signature to the exposure time for this signature
+         */
+        QMap<QString, double> exposureTimesMap();
+
+signals:
         void newLog(const QString &message);
 
     private:
@@ -152,6 +197,15 @@ class SequenceQueue : public QObject
         QList<SequenceJob *> m_allJobs;
         // URL where the sequence queue file is stored.
         QUrl m_SequenceURL;
+
+        // repeats of the entire sequence before completed
+        int m_repeatsTarget {1};
+        // current number of completed sequence repeats
+        int m_RepeatsCompleted {0};
+        // repeat the entire sequence infinitely
+        bool m_loopSequence {false};
+        // frames count for all signatures
+        QSharedPointer<CapturedFramesMap> m_CapturedFramesMap;
 
         bool m_GuideDeviationSet { false };
         bool m_EnforceGuideDeviation {false};

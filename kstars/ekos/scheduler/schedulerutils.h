@@ -58,7 +58,7 @@ public:
      * @param completedIterations How many times has the job completed its capture sequence (for repeated jobs).
      * @return total number of captured frames, truncated to the maximal number of frames the scheduler job could produce
      */
-    static uint16_t fillCapturedFramesMap(const QMap<QString, uint16_t> &expected, const CapturedFramesMap &capturedFramesCount, SchedulerJob &schedJob,
+    static uint16_t fillCapturedFramesMap(const CapturedFramesMap &expected, const CapturedFramesMap &capturedFramesCount, SchedulerJob &schedJob,
                                           CapturedFramesMap &capture_map, int &completedIterations);
 
 
@@ -97,7 +97,7 @@ public:
          * @param logger module logging utility
          * @return true if the time could be estimated, false if the corresponding sequence file is invalid
          */
-    static bool estimateJobTime(SchedulerJob *schedJob, const QMap<QString, uint16_t> &capturedFramesCount, ModuleLogger *logger);
+    static bool estimateJobTime(SchedulerJob *schedJob, const CapturedFramesMap &capturedFramesCount, ModuleLogger *logger);
 
     /**
      * @brief timeHeuristics Estimates the number of seconds of overhead above and beyond imaging time, used by estimateJobTime.

@@ -2272,53 +2272,80 @@ font-weight:bold;
           </widget>
          </item>
          <item>
-          <layout class="QGridLayout" name="buttonsGrid" columnstretch="0,0,0,3,0,1,0,0">
+          <layout class="QGridLayout" name="buttonsGrid" columnstretch="0,0,0,3,0,0,0,1,0,1,0,0">
+           <property name="horizontalSpacing">
+            <number>6</number>
+           </property>
            <property name="verticalSpacing">
             <number>0</number>
            </property>
-           <item row="1" column="2">
-            <widget class="QLabel" name="videoLabel">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-              </font>
+           <item row="0" column="8">
+            <widget class="QCheckBox" name="darkB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="sizeIncrement">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically apply dark subtraction on preview images if a suitable dark frame is available.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Video</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+              <string>Dark</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="previewLabel">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-              </font>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="previewB">
+             <property name="minimumSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Capture a Preview...</string>
              </property>
              <property name="text">
-              <string>Preview</string>
+              <string/>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+             <property name="icon">
+              <iconset theme="camera-photo">
+               <normaloff>.</normaloff>.</iconset>
              </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="loopLabel">
-             <property name="font">
-              <font>
-               <pointsize>7</pointsize>
-              </font>
+             <property name="iconSize">
+              <size>
+               <width>28</width>
+               <height>28</height>
+              </size>
              </property>
-             <property name="text">
-              <string>Loop</string>
+             <property name="autoDefault">
+              <bool>true</bool>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
+             <property name="default">
+              <bool>true</bool>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">sequenceControlsButtonGroup</string>
+             </attribute>
             </widget>
            </item>
            <item row="0" column="1">
@@ -2356,7 +2383,35 @@ font-weight:bold;
              </attribute>
             </widget>
            </item>
-           <item row="0" column="6">
+           <item row="1" column="0">
+            <widget class="QLabel" name="previewLabel">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Preview</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="7">
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="10">
             <widget class="QPushButton" name="startB">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2431,105 +2486,7 @@ font-weight:bold;
              </attribute>
             </widget>
            </item>
-           <item row="0" column="5">
-            <spacer name="buttonSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Expanding</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="3">
-            <spacer name="horizontalSpacer_4">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="0" column="0">
-            <widget class="QPushButton" name="previewB">
-             <property name="minimumSize">
-              <size>
-               <width>32</width>
-               <height>32</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>32</width>
-               <height>32</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>Capture a Preview...</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset theme="camera-photo">
-               <normaloff>.</normaloff>.</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>28</width>
-               <height>28</height>
-              </size>
-             </property>
-             <property name="autoDefault">
-              <bool>true</bool>
-             </property>
-             <property name="default">
-              <bool>true</bool>
-             </property>
-             <attribute name="buttonGroup">
-              <string notr="true">sequenceControlsButtonGroup</string>
-             </attribute>
-            </widget>
-           </item>
-           <item row="0" column="4">
-            <widget class="QCheckBox" name="darkB">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="sizeIncrement">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="baseSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Automatically apply dark subtraction on preview images if a suitable dark frame is available.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="text">
-              <string>Dark</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="7">
+           <item row="0" column="11">
             <widget class="QPushButton" name="pauseB">
              <property name="enabled">
               <bool>false</bool>
@@ -2567,6 +2524,101 @@ font-weight:bold;
              <attribute name="buttonGroup">
               <string notr="true">sequenceControlsButtonGroup</string>
              </attribute>
+            </widget>
+           </item>
+           <item row="0" column="4">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Repeat:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="9">
+            <spacer name="buttonSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Expanding</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="3">
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="loopLabel">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Loop</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="videoLabel">
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Video</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="5">
+            <widget class="QSpinBox" name="captureRepeatN">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of iterations the entire sequence should be repeated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>999999</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="6">
+            <widget class="QCheckBox" name="captureLoopSequenceCB">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Repeat the entire sequence inifitely.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>Loop</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -2660,8 +2712,14 @@ font-weight:bold;
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="progressLabel">
+              <property name="font">
+               <font>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
               <property name="text">
-               <string>&lt;b&gt;Progress&lt;/b&gt;</string>
+               <string>Progress</string>
               </property>
              </widget>
             </item>
@@ -2877,11 +2935,11 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="sequenceControlsButtonGroup"/>
   <buttongroup name="queueEditButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="sequenceControlsButtonGroup"/>
  </buttongroups>
 </ui>

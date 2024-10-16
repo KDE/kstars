@@ -53,7 +53,7 @@ public:
     // default constructor
     explicit Camera(int id = 0, bool standAlone = false, QWidget *parent = nullptr);
     // constructor for standalone editor
-    explicit Camera(bool standAlone = false, QWidget *parent = nullptr);
+    explicit Camera(bool standAlone, QWidget *parent = nullptr);
     ~Camera();
 
     // ////////////////////////////////////////////////////////////////////
@@ -230,15 +230,24 @@ public:
     /**
      * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
      * @param fileURL full URL of the filename
+     * @param repeat number of repeats the sequence should be executed. If the value is > 0, it
+     *        overrides the parameter of the sequence queue.
+     * @param loop flag if the sequence should be looping
      * @param targetName override the target in the sequence queue file (necessary for using the target of the scheduler)
      */
-     bool loadSequenceQueue(const QString &fileURL, QString targetName = "");
+     bool loadSequenceQueue(const QString &fileURL, int repeat = 0, bool loop = false, QString targetName = "");
 
     /**
      * Saves the Sequence Queue to the Ekos Sequence Queue file.
      * @param fileURL full URL of the filename
      */
     bool saveSequenceQueue(const QString &path);
+
+    /**
+     * @brief getCapturedFramesMap Retrieve the map of captured frames (signature --> count)
+     * @param refresh flat if the frames map should be refreshed
+     */
+    QSharedPointer<CapturedFramesMap> &getCapturedFramesMap(bool refresh = false);
 
     /**
      * @brief Update the camera's capture state
@@ -567,6 +576,11 @@ private:
     void addJob(SequenceJob *job);
 
     /**
+     * @brief sequenceQueueUpdated Handle a changed sequence queue (add all jobs, set global options).
+     */
+    void sequenceQueueUpdated();
+
+    /**
      * @brief jobEditFinished Editing of an existing job finished, update its
      *        attributes from the UI settings. The job under edit is taken from the
      *        selection in the job table.
@@ -627,6 +641,17 @@ private:
      */
     void updateStartButtons(bool start, bool pause = false);
 
+    /**
+     * @brief setLoopSequence Change the looping sequence control and disable the repeat control
+     *        if loop = true.
+     */
+    void setLoopSequence(bool loop);
+
+    /**
+     * @brief setRepeatsTarget Set the target value of repeats for the entire sequence
+     */
+    void setRepeatsTarget(int newValue);
+
     void setBusy(bool enable);
 
     /**
@@ -641,7 +666,7 @@ private:
      * @param job as identifier for the row
      * @param full if false, then only the status and the counter will be updated.
      */
-    void updateJobTable(SequenceJob *job, bool full = false);
+    void updateJobTable(SequenceJob *job = nullptr, bool full = false);
 
     /**
      * @brief updateJobFromUI Update all job attributes from the UI settings.

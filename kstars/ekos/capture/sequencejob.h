@@ -152,16 +152,32 @@ class SequenceJob : public QObject
         {
             return StatusStrings()[getStatus()];
         }
-        // Setter: Set how many captures have completed thus far
+        // Setter: Set how many captures have completed in a single iteration of the sequence queue.
         void setCompleted(int value)
         {
             m_Completed = value;
         }
-        // Getter: How many captured have completed thus far.
+        // Getter: How many captured have completed in a single iteration of the sequence queue.
         int getCompleted() const
         {
             return m_Completed;
         }
+        // Getter: How many captured have completed overall.
+        uint32_t totalCompleted() const
+        {
+            return m_totalCompleted;
+        }
+        // Setter: Set how many captures have completed overall.
+        void setTotalCompleted(uint32_t newTotalCompleted)
+        {
+            m_totalCompleted = newTotalCompleted;
+        }
+
+        /**
+         * @brief addCompletedFrame Add a completed frame both to m_Completed and to m_totalCompleted.
+         */
+        void addCompletedFrame();
+
         // Setter: Set how many more seconds to expose in this job
         void setExposeLeft(double value);
         // Getter: Get how many more seconds are left to expose.
@@ -400,7 +416,7 @@ class SequenceJob : public QObject
         void saveTo(QTextStream &outstream, const QLocale &cLocale) const;
         void loadFrom(XMLEle *root, const QString &targetName, SequenceJobType jobType);
 
-    signals:
+signals:
         // All preparations necessary for capturing are completed
         void prepareComplete(bool success = true);
         // Manage the result when capturing has been started
@@ -450,7 +466,10 @@ private:
         /// Status Variables
         //////////////////////////////////////////////////////////////
         int m_CaptureRetires { 0 };
+        // number of frames completed in a single iteration
         uint32_t m_Completed { 0 };
+        // total number of all frames captured
+        uint32_t m_totalCompleted { 0 };
         double m_ExposeLeft { 0 };
         bool m_JobProgressIgnored {false};
 

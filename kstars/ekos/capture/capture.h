@@ -149,11 +149,13 @@ class Capture : public QWidget, public Ui::Capture
         /** DBUS interface function.
              * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
              * @param fileURL full URL of the filename
+             * @param repeat number of repeats the sequence should be executed. This overrides the parameter of the sequence queue.
+             * @param loop flag if the sequence should be looping
              * @param train name of the optical train to be used
-             * @param lead lead or follower job?
+             * @param isLead lead or follower job?
              * @param targetName override the target in the sequence queue file (necessary for using the target of the scheduler)
              */
-        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, QString train = "", bool isLead = true, QString targetName = "");
+        Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL, int repeat = 1, bool loop = false, QString train = "", bool isLead = true, QString targetName = "");
 
         /** DBUS interface function.
              * Saves the Sequence Queue to the Ekos Sequence Queue file.
@@ -340,9 +342,17 @@ class Capture : public QWidget, public Ui::Capture
         }
 
         /** DBUS interface function.
-             * Jobs will NOT be checked for progress against the file system and will be always assumed as new jobs.
+             * Jobs will be checked for progress against the file system if remember is true. Otherwise, they will be always assumed as new jobs.
              */
-        Q_SCRIPTABLE Q_NOREPLY void ignoreSequenceHistory();
+        Q_SCRIPTABLE Q_NOREPLY void rememberJobProgress(bool enabled = false);
+
+        /** DBUS interface function.
+             * For backward compatibility. This is equal to rememberJobProgress(false)
+             */
+        Q_SCRIPTABLE Q_NOREPLY void ignoreSequenceHistory()
+        {
+            rememberJobProgress(false);
+        }
 
         /** DBUS interface function.
              * Set count of already completed frames. This is required when we have identical external jobs

@@ -275,12 +275,12 @@ public:
         m_HealpixToUse = newHealpixToUse;
     }
 
-    QMap<QString, uint16_t> &capturedFramesCount()
+    CapturedFramesMap &capturedFramesCount()
     {
         return m_CapturedFramesCount;
     }
 
-    void setCapturedFramesCount(const QMap<QString, uint16_t> &newCapturedFramesCount)
+    void setCapturedFramesCount(const CapturedFramesMap &newCapturedFramesCount)
     {
         m_CapturedFramesCount = newCapturedFramesCount;
     }
@@ -741,7 +741,7 @@ private:
     // Keep track of Ekos align module failures
     uint8_t m_alignFailureCount { 0 };
     // frames count for all signatures
-    QMap<QString, uint16_t> m_CapturedFramesCount;
+    CapturedFramesMap m_CapturedFramesCount;
 
     // ////////////////////////////////////////////////////////////////////
     // Scheduler iterations

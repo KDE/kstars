@@ -16,17 +16,13 @@
     <method name="loadSequenceQueue">
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>
+      <arg name="repeat" type="i" direction="in"/>
+      <arg name="loop" type="b" direction="in"/>
       <arg name="train" type="s" direction="in"/>
-      <arg name="isMaster" type="b" direction="in"/>
+      <arg name="isLead" type="b" direction="in"/>
       <arg name="targetName" type="s" direction="in"/>
     </method>
     <method name="clearAutoFocusHFR">
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setCapturedFramesMap">
-      <arg name="signature" type="s" direction="in"/>
-      <arg name="count" type="i" direction="in"/>
-      <arg name="train" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <signal name="newLog">
@@ -41,6 +37,7 @@
     </signal>
     <signal name="captureComplete">
         <arg name="metadata" type="a{sv}" direction="out"/>
+        <arg name="train" type="s" direction="out"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QVariantMap"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QVariantMap"/>
     </signal>

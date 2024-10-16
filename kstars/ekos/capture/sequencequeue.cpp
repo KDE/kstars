@@ -15,12 +15,45 @@
 #include "sequencejob.h"
 
 // Current Sequence File Format:
-constexpr double SQ_FORMAT_VERSION = 2.6;
+constexpr double SQ_FORMAT_VERSION = 2.7;
 // We accept file formats with version back to:
 constexpr double SQ_COMPAT_VERSION = 2.0;
 
 namespace Ekos
 {
+
+SequenceQueue::SequenceQueue(SequenceQueue *other): SequenceQueue()
+{
+    if (other == nullptr)
+        return;
+
+    m_allJobs = other->m_allJobs;
+    m_SequenceURL = other->m_SequenceURL;
+    m_repeatsTarget = other->m_repeatsTarget;
+    m_RepeatsCompleted = other->m_RepeatsCompleted;
+    m_loopSequence = other->m_loopSequence;
+    m_CapturedFramesMap = other->m_CapturedFramesMap;
+    m_GuideDeviationSet = other->m_GuideDeviationSet;
+    m_EnforceGuideDeviation = other->m_EnforceGuideDeviation;
+    m_GuideDeviation = other->m_GuideDeviation;
+    m_GuideStartDeviationSet = other->m_GuideStartDeviationSet;
+    m_EnforceStartGuiderDrift = other->m_EnforceStartGuiderDrift;
+    m_StartGuideDeviation = other->m_StartGuideDeviation;
+    m_AutofocusSet = other->m_AutofocusSet;
+    m_EnforceAutofocusHFR = other->m_EnforceAutofocusHFR;
+    m_HFRCheckAlgorithm = other->m_HFRCheckAlgorithm;
+    m_HFRCheckThresholdPercentage = other->m_HFRCheckThresholdPercentage;
+    m_HFRCheckFrames = other->m_HFRCheckFrames;
+    m_HFRDeviation = other->m_HFRDeviation;
+    m_RefocusOnTemperatureDeltaSet = other->m_RefocusOnTemperatureDeltaSet;
+    m_EnforceAutofocusOnTemperature = other->m_EnforceAutofocusOnTemperature;
+    m_MaxFocusTemperatureDelta = other->m_MaxFocusTemperatureDelta;
+    m_RefocusEveryNSet = other->m_RefocusEveryNSet;
+    m_EnforceRefocusEveryN = other->m_EnforceRefocusEveryN;
+    m_RefocusEveryN = other->m_RefocusEveryN;
+    m_RefocusOnMeridianFlipSet = other->m_RefocusOnMeridianFlipSet;
+    m_RefocusAfterMeridianFlip = other->m_RefocusAfterMeridianFlip;
+}
 
 bool SequenceQueue::load(const QString &fileURL, const QString &targetName,
                          const QSharedPointer<CaptureDeviceAdaptor> devices,
@@ -33,6 +66,16 @@ bool SequenceQueue::load(const QString &fileURL, const QString &targetName,
         KSNotification::sorry(message, i18n("Could Not Open File"));
         return false;
     }
+
+    // clear old sequence jobs
+    if (m_allJobs.size() > 0)
+    {
+        qDeleteAll(m_allJobs);
+        m_allJobs.clear();
+    }
+
+    // set to default value
+    m_repeatsTarget = 1;
 
     LilXML * xmlParser = newLilXML();
 
@@ -58,11 +101,16 @@ bool SequenceQueue::load(const QString &fileURL, const QString &targetName,
                 return false;
             }
 
+            // clear repeats and loop flag
+            m_repeatsTarget = 1;
+            m_loopSequence  = false;
+
             for (ep = nextXMLEle(root, 1); ep != nullptr; ep = nextXMLEle(root, 0))
             {
                 if (!strcmp(tagXMLEle(ep), "Observer"))
                 {
-                    state->setObserverName(QString(pcdataXMLEle(ep)));
+                    if (!state.isNull())
+                        state->setObserverName(QString(pcdataXMLEle(ep)));
                 }
                 else if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
                 {
@@ -161,9 +209,26 @@ bool SequenceQueue::load(const QString &fileURL, const QString &targetName,
                         emit newLog(
                             i18n("Meridian flip configuration has been shifted to the mount module. Please configure the meridian flip there."));
                 }
+                else if (!strcmp(tagXMLEle(ep), "Repeats"))
+                {
+                    m_repeatsTarget = cLocale.toInt(pcdataXMLEle(ep));
+                }
+                else if (!strcmp(tagXMLEle(ep), "LoopSequence"))
+                {
+                    m_loopSequence = true;
+                }
                 else
                 {
-                    auto job = new SequenceJob(devices, state, SequenceJob::JOBTYPE_BATCH, ep, targetName);
+                    SequenceJob *job;
+                    // here we create the option using the same loading procedure both for Capture
+                    // and for the Scheduler
+                    if (!devices.isNull() && !state.isNull())
+                        // access from Capture
+                        job = new SequenceJob(devices, state, SequenceJob::JOBTYPE_BATCH, ep, targetName);
+                    else
+                        // access from Scheduler
+                        job = new SequenceJob(ep, targetName);
+
                     m_allJobs.append(job);
                 }
             }
@@ -177,8 +242,12 @@ bool SequenceQueue::load(const QString &fileURL, const QString &targetName,
         }
     }
 
-    state->setSequenceURL(QUrl::fromLocalFile(fileURL));
-    state->setDirty(false);
+    // necessary only if used from Capture
+    if (!state.isNull())
+    {
+        state->setSequenceURL(QUrl::fromLocalFile(fileURL));
+        state->setDirty(false);
+    }
     delLilXML(xmlParser);
     return true;
 }
@@ -249,6 +318,21 @@ void SequenceQueue::loadOptions()
     m_RefocusAfterMeridianFlip = Options::refocusAfterMeridianFlip();
 }
 
+QSharedPointer<CapturedFramesMap> &SequenceQueue::capturedFramesMap()
+{
+    return m_CapturedFramesMap;
+}
+
+QMap<QString, double> SequenceQueue::exposureTimesMap()
+{
+    // TODO: should be cached.
+    QMap<QString, double> result;
+    for (auto job : allJobs())
+        result[job->getSignature()] = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+
+    return result;
+}
+
 bool SequenceQueue::save(const QString &path, const QString &observerName)
 {
     QFile file;
@@ -270,6 +354,10 @@ bool SequenceQueue::save(const QString &path, const QString &observerName)
     outstream << "<SequenceQueue version='" << SQ_FORMAT_VERSION << "'>" << Qt::endl;
     if (observerName.isEmpty() == false)
         outstream << "<Observer>" << observerName << "</Observer>" << Qt::endl;
+    if (m_repeatsTarget > 1)
+        outstream << "<Repeats>" << m_repeatsTarget << "</Repeats>" << Qt::endl;
+    if (m_loopSequence)
+        outstream << "<LoopSequence />" << Qt::endl;
     outstream << "<GuideDeviation enabled='" << (m_EnforceGuideDeviation ? "true" : "false") << "'>"
               << cLocale.toString(m_GuideDeviation) << "</GuideDeviation>" << Qt::endl;
     outstream << "<GuideStartDeviation enabled='" << (m_EnforceStartGuiderDrift ? "true" : "false") << "'>"
