@@ -6,6 +6,7 @@
 
 #include "fitstab.h"
 
+#include "QtNetwork/qnetworkreply.h"
 #include "auxiliary/kspaths.h"
 #include "fitsdata.h"
 #include "fitshistogramcommand.h"
@@ -26,10 +27,16 @@
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 
 #include <fits_debug.h>
+#include "fitscommon.h"
+#include <QDesktopServices>
+#include <QUrl>
+#include <QDialog>
 
 QPointer<Ekos::StellarSolverProfileEditor> FITSTab::m_ProfileEditor;
 QPointer<KConfigDialog> FITSTab::m_EditorDialog;
 QPointer<KPageWidgetItem> FITSTab::m_ProfileEditorPage;
+
+constexpr int CAT_OBJ_SORT_ROLE = Qt::UserRole + 1;
 
 FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
 {
@@ -40,6 +47,7 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
     connect(undoStack, SIGNAL(cleanChanged(bool)), this, SLOT(modifyFITSState(bool)));
 
     m_PlateSolveWidget = new QDialog(this);
+    m_CatalogObjectWidget = new QDialog(this);
     statWidget = new QDialog(this);
     fitsHeaderDialog = new QDialog(this);
     m_HistogramEditor = new FITSHistogramEditor(this);
@@ -163,6 +171,11 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 
         fitsTools->addItem(m_PlateSolveWidget, i18n("Plate Solving"));
         initSolverUI();
+
+        // Setup the Catalog Object page
+        m_CatalogObjectUI.setupUi(m_CatalogObjectWidget);
+        m_CatalogObjectItem = fitsTools->addItem(m_CatalogObjectWidget, i18n("Catalog Objects"));
+        initCatalogObject();
 
         fitsTools->addItem(m_HistogramEditor, i18n("Histogram"));
 
@@ -456,6 +469,471 @@ void FITSTab::loadFITSHeader()
     header.tableWidget->setColumnWidth(2, 250);
 }
 
+void FITSTab::loadCatalogObjects()
+{
+    // Check pointers are OK
+    if (!m_View)
+        return;
+    const QSharedPointer<FITSData> &imageData = m_View->imageData();
+    if (!imageData)
+        return;
+    QList<CatObject> catObjects = imageData->getCatObjects();
+
+    // Disable sorting whilst building the table
+    m_CatalogObjectUI.tableView->setSortingEnabled(false);
+    // Remove all rows
+    m_CatObjModel.removeRows(0, m_CatObjModel.rowCount());
+
+    int counter = 0, total = 0, highlightRow = -1;
+    QPixmap cdsPortalPixmap = QPixmap(":/icons/cdsportal.svg").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QPixmap simbadPixmap = QPixmap(":/icons/simbad.svg").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QPixmap nedPixmap = QPixmap(":/icons/NED.png").scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    for (const CatObject &catObject : catObjects)
+    {
+        total++;
+        if (!catObject.show)
+            continue;
+        m_CatObjModel.setRowCount(counter + 1);
+
+        // Num
+        QStandardItem* tempItem = new QStandardItem(QString::number(catObject.num));
+        tempItem->setData(catObject.num, CAT_OBJ_SORT_ROLE);
+        tempItem->setTextAlignment(Qt::AlignRight);
+        m_CatObjModel.setItem(counter, CAT_NUM, tempItem);
+
+        // CDS Portal - no sorting
+        tempItem = new QStandardItem();
+        tempItem->setData(cdsPortalPixmap, Qt::DecorationRole);
+        m_CatObjModel.setItem(counter, CAT_CDSPORTAL, tempItem);
+
+        // Simbad - no sorting
+        tempItem = new QStandardItem();
+        tempItem->setData(simbadPixmap, Qt::DecorationRole);
+        m_CatObjModel.setItem(counter, CAT_SIMBAD, tempItem);
+
+        // NED - no sorting
+        tempItem = new QStandardItem();
+        tempItem->setData(nedPixmap, Qt::DecorationRole);
+        m_CatObjModel.setItem(counter, CAT_NED, tempItem);
+
+        // Object
+        tempItem = new QStandardItem(catObject.name);
+        tempItem->setData(catObject.name, CAT_OBJ_SORT_ROLE);
+        m_CatObjModel.setItem(counter, CAT_OBJECT, tempItem);
+
+        // Type code
+        tempItem = new QStandardItem(catObject.typeCode);
+        tempItem->setData(catObject.typeCode, CAT_OBJ_SORT_ROLE);
+        m_CatObjModel.setItem(counter, CAT_TYPECODE, tempItem);
+
+        // Type label
+        tempItem = new QStandardItem(catObject.typeLabel);
+        tempItem->setData(catObject.typeLabel, CAT_OBJ_SORT_ROLE);
+        m_CatObjModel.setItem(counter, CAT_TYPELABEL, tempItem);
+
+        // Coordinates
+        QString coordStr = QString("%1 %2").arg(catObject.r.toHMSString(false, true))
+                           .arg(catObject.d.toDMSString(true, false, true));
+        tempItem = new QStandardItem(coordStr);
+        tempItem->setData(coordStr, CAT_OBJ_SORT_ROLE);
+        m_CatObjModel.setItem(counter, CAT_COORDS, tempItem);
+
+        // Distance
+        tempItem = new QStandardItem(QString::number(catObject.dist));
+        tempItem->setData(catObject.dist, CAT_OBJ_SORT_ROLE);
+        tempItem->setTextAlignment(Qt::AlignRight);
+        m_CatObjModel.setItem(counter, CAT_DISTANCE, tempItem);
+
+        // Magnitude
+        QString magStr = (catObject.magnitude <= 0.0) ? "" : QString("%1").arg(catObject.magnitude, 0, 'f', 1);
+        tempItem = new QStandardItem(magStr);
+        tempItem->setData(catObject.magnitude, CAT_OBJ_SORT_ROLE);
+        tempItem->setTextAlignment(Qt::AlignRight);
+        m_CatObjModel.setItem(counter, CAT_MAGNITUDE, tempItem);
+
+        // Size
+        QString sizeStr = (catObject.size <= 0.0) ? "" : QString("%1").arg(catObject.size, 0, 'f', 0);
+        tempItem = new QStandardItem(sizeStr);
+        tempItem->setData(catObject.size, CAT_OBJ_SORT_ROLE);
+        tempItem->setTextAlignment(Qt::AlignRight);
+        m_CatObjModel.setItem(counter, CAT_SIZE, tempItem);
+
+        if (catObject.highlight)
+            highlightRow = counter;
+
+        counter++;
+    }
+
+    // Resize the columns to the data
+    m_CatalogObjectUI.tableView->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
+
+    if (highlightRow >= 0)
+        catHighlightRow(highlightRow);
+
+    // Enable sorting
+    m_CatObjModel.setSortRole(CAT_OBJ_SORT_ROLE);
+    m_CatalogObjectUI.tableView->setSortingEnabled(true);
+
+    // Update the status widget unless the query is still in progress
+    if (!imageData->getCatQueryInProgress())
+        m_CatalogObjectUI.status->setText(i18n("%1 / %2 Simbad objects loaded", counter, total));
+}
+
+void FITSTab::queriedCatalogObjects()
+{
+    // Show the Catalog Objects item (unless already shown)
+    if (fitsTools->currentIndex() != m_CatalogObjectItem)
+    {
+        fitsTools->setCurrentIndex(m_CatalogObjectItem);
+        if(m_View->width() > 200)
+            fitsSplitter->setSizes(QList<int>() << 200 << m_View->width() - 200);
+        else
+            fitsSplitter->setSizes(QList<int>() << 50 << 50);
+    }
+
+    m_CatalogObjectUI.status->setText(i18n("Simbad query in progress..."));
+}
+
+void FITSTab::catQueryFailed(const QString text)
+{
+    m_CatalogObjectUI.status->setText(text);
+}
+
+void FITSTab::catReset()
+{
+    m_CatalogObjectUI.status->setText("");
+    // Remove all rows from the table
+    m_CatObjModel.removeRows(0, m_CatObjModel.rowCount());
+}
+
+void FITSTab::catHighlightRow(const int row)
+{
+    m_CatalogObjectUI.tableView->selectRow(row);
+    QModelIndex index = m_CatalogObjectUI.tableView->indexAt(QPoint(row, CAT_NUM));
+    if (index.isValid())
+        m_CatalogObjectUI.tableView->scrollTo(index, QAbstractItemView::PositionAtCenter);
+}
+
+void FITSTab::catHighlightChanged(const int highlight)
+{
+    if (!m_View)
+        return;
+    const QSharedPointer<FITSData> &imageData = m_View->imageData();
+    if (!imageData)
+        return;
+    QList<CatObject> catObjects = imageData->getCatObjects();
+
+    if (highlight < 0 || highlight >= catObjects.size())
+        return;
+
+    int num = catObjects[highlight].num;
+    for (int i = 0; i < m_CatObjModel.rowCount(); i++)
+    {
+        bool ok;
+        QStandardItem *itm = m_CatObjModel.item(i, CAT_NUM);
+        if (itm->text().toInt(&ok) == num)
+        {
+            int currentCol = CAT_NUM;
+            int itmRow = itm->row();
+            QModelIndex currentIndex = m_CatalogObjectUI.tableView->currentIndex();
+            if (currentIndex.isValid())
+            {
+                int currentRow = m_CatObjModel.itemFromIndex(currentIndex)->row();
+                currentCol = m_CatObjModel.itemFromIndex(currentIndex)->column();
+                if (currentRow == itmRow)
+                    // Row to highlight is already highlighted - so nothing to do
+                    break;
+            }
+            // Set the new highlight to the new row
+            catHighlightRow(itmRow);
+        }
+    }
+}
+
+void FITSTab::catRowChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+    if (!m_View)
+        return;
+    const QSharedPointer<FITSData> &imageData = m_View->imageData();
+    if (!imageData)
+        return;
+
+    // Get the "Num" of the selected (current) row
+    int selNum = -1, deselNum = -1;
+    bool ok;
+    QStandardItem * selItem = m_CatObjModel.itemFromIndex(current);
+    if (selItem)
+        selNum = m_CatObjModel.item(selItem->row(), CAT_NUM)->text().toInt(&ok);
+
+    // Get the "Num" of the deselected (previous) row
+    QStandardItem * deselItem = m_CatObjModel.itemFromIndex(previous);
+    if (deselItem)
+        deselNum = m_CatObjModel.item(deselItem->row(), CAT_NUM)->text().toInt(&ok);
+
+    if (selNum >= 0)
+    {
+        imageData->highlightCatObject(selNum - 1, deselNum - 1);
+        m_View->updateFrame();
+    }
+}
+
+void FITSTab::catCellDoubleClicked(const QModelIndex &index)
+{
+    QStandardItem * item = m_CatObjModel.itemFromIndex(index);
+    int row = item->row();
+    int col = item->column();
+
+    QString catObjectName = m_CatObjModel.item(row, CAT_OBJECT)->text();
+
+    if (col == CAT_CDSPORTAL)
+        launchCDS(catObjectName);
+    else if (col == CAT_SIMBAD)
+        launchSimbad(catObjectName);
+    else if (col == CAT_NED)
+        launchNED(catObjectName);
+    else if (col == CAT_TYPECODE || col == CAT_TYPELABEL)
+        launchCatTypeFilterDialog();
+}
+
+void FITSTab::launchCatTypeFilterDialog()
+{
+    m_CatObjTypeFilterDialog->show();
+    m_CatObjTypeFilterDialog->raise();
+}
+
+void FITSTab::showCatObjNames(bool enabled)
+{
+    if (!m_View)
+        return;
+    const QSharedPointer<FITSData> &imageData = m_View->imageData();
+    if (!imageData)
+        return;
+
+    Options::setFitsCatObjShowNames(enabled);
+    m_View->updateFrame();
+}
+
+void FITSTab::launchSimbad(QString name)
+{
+    QUrl url = QUrl("https://simbad.u-strasbg.fr/simbad/sim-id");
+    QString ident = QString("Ident=%1").arg(name);
+    ident.replace("+", "%2B");
+    ident.remove(QRegularExpression("[\\[\\]]+"));
+    url.setQuery(ident);
+
+    if (!QDesktopServices::openUrl(url))
+        qCDebug(KSTARS_FITS) << "Unable to open Simbad url:" << url;
+}
+
+void FITSTab::launchCDS(QString name)
+{
+    QUrl url = QUrl("https://cdsportal.u-strasbg.fr/");
+    QString ident = QString("target=%1").arg(name);
+    ident.replace("+", "%2B");
+    ident.remove(QRegularExpression("[\\[\\]]+"));
+    url.setQuery(ident);
+
+    if (!QDesktopServices::openUrl(url))
+        qCDebug(KSTARS_FITS) << "Unable to open CDS Portal url:" << url;
+}
+
+void FITSTab::launchNED(QString name)
+{
+    QUrl url = QUrl("https://ned.ipac.caltech.edu/cgi-bin/objsearch");
+    QString query = QString("objname=%1").arg(name);
+    query.replace("+", "%2B");
+    query.remove(QRegularExpression("[\\[\\]]+"));
+    url.setQuery(query);
+
+    if (!QDesktopServices::openUrl(url))
+        qCDebug(KSTARS_FITS) << "Unable to open NED url" << url;
+}
+
+void FITSTab::initCatalogObject()
+{
+    // Setup MVC
+    m_CatalogObjectUI.tableView->setModel(&m_CatObjModel);
+
+    // Set the column headers
+    QStringList Headers { i18n("Num"),
+                          i18n("CDS Portal"),
+                          i18n("Simbad"),
+                          i18n("NED"),
+                          i18n("Object"),
+                          i18n("Type Code"),
+                          i18n("Type Label"),
+                          i18n("Coordinates"),
+                          i18n("Distance"),
+                          i18n("Magnitude"),
+                          i18n("Size") };
+    m_CatObjModel.setColumnCount(CAT_MAX_COLS);
+    m_CatObjModel.setHorizontalHeaderLabels(Headers);
+
+    // Setup tooltips on column headers
+    m_CatObjModel.setHeaderData(CAT_NUM, Qt::Horizontal, i18n("Item reference number"), Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_CDSPORTAL, Qt::Horizontal, i18n("Double click to launch CDS Portal browser"),
+                                Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_SIMBAD, Qt::Horizontal, i18n("Double click to launch Simbad browser"), Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_NED, Qt::Horizontal, i18n("Double click to launch NED browser"), Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_OBJECT, Qt::Horizontal, i18n("Catalog Object"), Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_TYPECODE, Qt::Horizontal,
+                                i18n("Object Type Code. Double click to launch Object Type Filter.\n\nSee https://simbad.cds.unistra.fr/guide/otypes.htx for more details"),
+                                Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_TYPELABEL, Qt::Horizontal,
+                                i18n("Object Type Label. Double click to launch Object Type Filter.\n\nSee https://simbad.cds.unistra.fr/guide/otypes.htx for more details"),
+                                Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_COORDS, Qt::Horizontal, i18n("Object coordinates"), Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_DISTANCE, Qt::Horizontal, i18n("Object distance in arcmins from the search center"),
+                                Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_MAGNITUDE, Qt::Horizontal, i18n("Object V magnitude"), Qt::ToolTipRole);
+    m_CatObjModel.setHeaderData(CAT_SIZE, Qt::Horizontal, i18n("Object major coordinate size in arcsmins"), Qt::ToolTipRole);
+
+    // Setup delegates for each column
+    QStyledItemDelegate *delegate = new QStyledItemDelegate(m_CatalogObjectUI.tableView);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_NUM, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_CDSPORTAL, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_SIMBAD, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_NED, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_OBJECT, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_TYPECODE, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_TYPELABEL, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_COORDS, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_DISTANCE, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_MAGNITUDE, delegate);
+    m_CatalogObjectUI.tableView->setItemDelegateForColumn(CAT_SIZE, delegate);
+
+    m_CatalogObjectUI.tableView->setAutoScroll(true);
+
+    connect(m_View.get(), &FITSView::catLoaded, this, &FITSTab::loadCatalogObjects);
+    connect(m_View.get(), &FITSView::catQueried, this, &FITSTab::queriedCatalogObjects);
+    connect(m_View.get(), &FITSView::catQueryFailed, this, &FITSTab::catQueryFailed);
+    connect(m_View.get(), &FITSView::catReset, this, &FITSTab::catReset);
+    connect(m_View.get(), &FITSView::catHighlightChanged, this, &FITSTab::catHighlightChanged);
+    connect(m_CatalogObjectUI.tableView->selectionModel(), &QItemSelectionModel::currentRowChanged, this,
+            &FITSTab::catRowChanged);
+    connect(m_CatalogObjectUI.tableView, &QAbstractItemView::doubleClicked, this, &FITSTab::catCellDoubleClicked);
+    connect(m_CatalogObjectUI.filterPB, &QPushButton::clicked, this, &FITSTab::launchCatTypeFilterDialog);
+
+    // Setup the Object Type filter popup
+    setupCatObjTypeFilter();
+
+    // Set the Show Names checkbox from Options
+    m_CatalogObjectUI.kcfg_FitsCatObjShowNames->setChecked(Options::fitsCatObjShowNames());
+    connect(m_CatalogObjectUI.kcfg_FitsCatObjShowNames, &QCheckBox::toggled, this, &FITSTab::showCatObjNames);
+}
+
+void FITSTab::setupCatObjTypeFilter()
+{
+    // Setup the dialog box
+    m_CatObjTypeFilterDialog = new QDialog(this);
+    m_CatObjTypeFilterUI.setupUi(m_CatObjTypeFilterDialog);
+#ifdef Q_OS_OSX
+    m_CatObjTypeFilterDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+#endif
+
+    // Setup the buttons
+    QPushButton *applyButton = m_CatObjTypeFilterUI.buttonBox->button(QDialogButtonBox::Apply);
+    connect(applyButton, &QPushButton::clicked, this, &FITSTab::applyTypeFilter);
+    m_CheckAllButton = m_CatObjTypeFilterUI.buttonBox->addButton("Check All", QDialogButtonBox::ActionRole);
+    connect(m_CheckAllButton, &QPushButton::clicked, this, &FITSTab::checkAllTypeFilter);
+    m_UncheckAllButton = m_CatObjTypeFilterUI.buttonBox->addButton("Uncheck All", QDialogButtonBox::ActionRole);
+    connect(m_UncheckAllButton, &QPushButton::clicked, this, &FITSTab::uncheckAllTypeFilter);
+
+    // Setup the tree
+    QTreeWidgetItem * treeItem[CAT_OBJ_MAX_DEPTH];
+    for (int i = 0; i < MAX_CAT_OBJ_TYPES; i++)
+    {
+        const int depth = catObjTypes[i].depth;
+        if (depth < 0 || depth >= MAX_CAT_OBJ_TYPES)
+            continue;
+
+        if (depth == 0)
+            // Top level node
+            treeItem[depth] = new QTreeWidgetItem(m_CatObjTypeFilterUI.tree);
+        else
+            // Child node
+            treeItem[depth] = new QTreeWidgetItem(treeItem[depth - 1]);
+
+        treeItem[depth]->setCheckState(CATTYPE_CODE, Qt::Unchecked);
+        treeItem[depth]->setText(CATTYPE_CODE, catObjTypes[i].code);
+        treeItem[depth]->setText(CATTYPE_CANDCODE, catObjTypes[i].candidateCode);
+        treeItem[depth]->setText(CATTYPE_LABEL, catObjTypes[i].label);
+        treeItem[depth]->setText(CATTYPE_DESCRIPTION, catObjTypes[i].description);
+        treeItem[depth]->setText(CATTYPE_COMMENTS, catObjTypes[i].comments);
+    }
+    m_CatObjTypeFilterUI.tree->expandAll();
+    for (int i = 0; i < CAT_OBJ_MAX_DEPTH; i++)
+    {
+        m_CatObjTypeFilterUI.tree->resizeColumnToContents(i);
+    }
+
+    connect(m_CatObjTypeFilterUI.tree, &QTreeWidget::itemChanged, this, &FITSTab::typeFilterItemChanged);
+}
+
+void FITSTab::applyTypeFilter()
+{
+    if (!m_View)
+        return;
+    const QSharedPointer<FITSData> &imageData = m_View->imageData();
+    if (!imageData)
+        return;
+
+    QStringList filters;
+    QList<QTreeWidgetItem *> items = m_CatObjTypeFilterUI.tree->findItems("*",
+                                     Qt::MatchWrap | Qt::MatchWildcard | Qt::MatchRecursive);
+    for (auto item : items)
+    {
+        if (item->checkState(0) == Qt::Checked)
+        {
+            if (!item->text(0).isEmpty())
+                filters.push_back(item->text(0));
+            if (!item->text(1).isEmpty())
+                filters.push_back(item->text(1));
+        }
+    }
+
+    // Store the new filter paradigm
+    m_View->imageData()->setCatObjectsFilters(filters);
+    // Process the data according to the new filter paradigm
+    m_View->imageData()->filterCatObjects();
+    m_View->updateFrame();
+    // Reload FITSTab
+    loadCatalogObjects();
+}
+
+void FITSTab::checkAllTypeFilter()
+{
+    QList<QTreeWidgetItem *> items = m_CatObjTypeFilterUI.tree->findItems("*",
+                                     Qt::MatchWrap | Qt::MatchWildcard | Qt::MatchRecursive);
+    for (auto item : items)
+    {
+        item->setCheckState(0, Qt::Checked);
+    }
+}
+
+void FITSTab::uncheckAllTypeFilter()
+{
+    QList<QTreeWidgetItem *> items = m_CatObjTypeFilterUI.tree->findItems("*",
+                                     Qt::MatchWrap | Qt::MatchWildcard | Qt::MatchRecursive);
+    for (auto item : items)
+    {
+        item->setCheckState(0, Qt::Unchecked);
+    }
+}
+
+void FITSTab::typeFilterItemChanged(QTreeWidgetItem *item, int column)
+{
+    if (column != 0)
+        return;
+
+    Qt::CheckState check = item->checkState(column);
+    for (int i = 0; i < item->childCount(); i++)
+    {
+        QTreeWidgetItem *child = item->child(i);
+        child->setCheckState(column, check);
+    }
+}
+
 void FITSTab::headerFITS()
 {
     fitsTools->setCurrentIndex(2);
@@ -629,11 +1107,27 @@ void FITSTab::setupSolver(bool extractOnly)
     parameters.search_radius = m_PlateSolveUI.kcfg_FitsSolverRadius->value();
     if (extractOnly)
     {
+        if (!m_PlateSolveUI.kcfg_FitsSolverLinear->isChecked())
+        {
+            // If image is non-linear seed the threshold offset with the background using median pixel value. Note
+            // that there is a bug in the median calculation due to an issue compiling on Mac that means that not
+            // all datatypes are supported by the median calculation. If median is zero use the mean instead.
+            double offset = m_View->imageData()->getAverageMedian();
+            if (offset <= 0.0)
+                offset = m_View->imageData()->getAverageMean();
+            parameters.threshold_offset = offset;
+        }
+
         m_Solver.reset(new SolverUtils(parameters, parameters.solverTimeLimit, SSolver::EXTRACT),  &QObject::deleteLater);
         connect(m_Solver.get(), &SolverUtils::done, this, &FITSTab::extractorDone, Qt::UniqueConnection);
     }
     else
     {
+        // If image is non-linear then set the offset to the average background in the image
+        // which was found in the first solver (extract only) run.
+        if (m_Solver && !m_PlateSolveUI.kcfg_FitsSolverLinear->isChecked())
+            parameters.threshold_offset = m_Solver->getBackground().global;
+
         m_Solver.reset(new SolverUtils(parameters, parameters.solverTimeLimit, SSolver::SOLVE),  &QObject::deleteLater);
         connect(m_Solver.get(), &SolverUtils::done, this, &FITSTab::solverDone, Qt::UniqueConnection);
     }
@@ -803,6 +1297,10 @@ void FITSTab::solverDone(bool timedOut, bool success, const FITSImage::Solution 
         const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
         m_View->imageData()->injectWCS(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight);
         m_View->imageData()->loadWCS();
+        m_View->syncWCSState();
+        if (m_View->areObjectsShown())
+            // Requery Objects based on new plate solved solution
+            m_View->imageData()->searchObjects();
 
         const QString result = QString("Solved in %1s").arg(elapsedSeconds, 0, 'f', 1);
         const double solverPA = KSUtils::rotationToPositionAngle(solution.orientation);

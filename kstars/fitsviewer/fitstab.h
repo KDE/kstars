@@ -17,6 +17,8 @@
 #include "ui_fitsheaderdialog.h"
 #include "ui_statform.h"
 #include "ui_platesolve.h"
+#include "ui_catalogobject.h"
+#include "ui_catalogobjecttypefilter.h"
 #include <QFuture>
 #include <QPointer>
 #include <QListWidget>
@@ -25,6 +27,8 @@
 #include <memory>
 #include "ekos/auxiliary/solverutils.h"
 #include <KConfigDialog>
+#include <QNetworkAccessManager>
+#include <QStandardItemModel>
 
 class FITSHistogramEditor;
 class FITSView;
@@ -115,6 +119,12 @@ class FITSTab : public QWidget
         bool saveFileAs();
         void copyFITS();
         void loadFITSHeader();
+        void loadCatalogObjects();
+        void queriedCatalogObjects();
+        void catQueryFailed(const QString text);
+        void catReset();
+        void catHighlightChanged(const int highlight);
+        void catHighlightRow(const int row);
         void headerFITS();
         void histoFITS();
         void statFITS();
@@ -170,6 +180,11 @@ class FITSTab : public QWidget
         /// The Plate Solving UI
         QPointer<QDialog> m_PlateSolveWidget;
         Ui::PlateSolveUI m_PlateSolveUI;
+        /// Catalog Object UI
+        QPointer<QDialog> m_CatalogObjectWidget;
+        Ui::CatalogObjectUI m_CatalogObjectUI;
+        QPointer<QDialog> m_CatObjTypeFilterDialog;
+        Ui::CatalogObjectTypeFilterUI m_CatObjTypeFilterUI;
         /// FITS Histogram
         QPointer<FITSHistogramEditor> m_HistogramEditor;
         QPointer<FITSViewer> viewer;
@@ -199,6 +214,46 @@ class FITSTab : public QWidget
         int getProfileIndex(int moduleIndex);
         void setProfileIndex(int moduleIndex, int profileIndex);
 
+        // Used for catalog table processing
+        typedef enum { CAT_NUM,
+                       CAT_CDSPORTAL,
+                       CAT_SIMBAD,
+                       CAT_NED,
+                       CAT_OBJECT,
+                       CAT_TYPECODE,
+                       CAT_TYPELABEL,
+                       CAT_COORDS,
+                       CAT_DISTANCE,
+                       CAT_MAGNITUDE,
+                       CAT_SIZE,
+                       CAT_MAX_COLS
+                     } CatCols;
+
+        typedef enum { CATTYPE_CODE,
+                       CATTYPE_CANDCODE,
+                       CATTYPE_LABEL,
+                       CATTYPE_DESCRIPTION,
+                       CATTYPE_COMMENTS,
+                       CATTYPE_MAX_COLS
+                     } CatTypeCols;
+
+        void catRowChanged(const QModelIndex &current, const QModelIndex &previous);
+        void catCellDoubleClicked(const QModelIndex &index);
+        void launchCatTypeFilterDialog();
+        void showCatObjNames(bool enabled);
+        void launchSimbad(QString name);
+        void launchCDS(QString name);
+        void launchNED(QString name);
+        void initCatalogObject();
+        void setupCatObjTypeFilter();
+        void applyTypeFilter();
+        void checkAllTypeFilter();
+        void uncheckAllTypeFilter();
+        void typeFilterItemChanged(QTreeWidgetItem *item, int column);
+        QPushButton *m_CheckAllButton;
+        QPushButton *m_UncheckAllButton;
+        int m_CatalogObjectItem { 0 };
+        QStandardItemModel m_CatObjModel;
 
         QSharedPointer<SolverUtils> m_Solver;
 

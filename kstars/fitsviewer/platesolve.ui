@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>435</width>
-    <height>405</height>
+    <height>412</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -173,7 +173,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset theme="snap-orthogonal"/>
+         <iconset theme="snap-orthogonal">
+          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>
@@ -389,7 +390,7 @@
          </size>
         </property>
        </spacer>
-      </item>      
+      </item>
       <item row="9" column="0">
        <widget class="QLabel" name="FitsSolverProfileLabel">
         <property name="sizePolicy">
@@ -446,7 +447,7 @@
          <string>Selects the module from which Options Profiles are taken to use for plate solving</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>-1</number>
         </property>
        </widget>
       </item>
@@ -484,6 +485,19 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="6" column="0">
+       <widget class="QCheckBox" name="kcfg_FitsSolverLinear">
+        <property name="toolTip">
+         <string>Check for linear (unstretched) images.  This is the default setting.  Uncheck for non-linear (stretched) images which will help with the star extraction part of plate solving.</string>
+        </property>
+        <property name="text">
+         <string>Linear Image</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

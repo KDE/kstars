@@ -98,6 +98,9 @@ void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
             updateROIToolTip(e->globalPos());
         }
         isRoiSelected = false;
+        // Only process the circle if relevant to Catalog Objects and a query is not already in progress
+        if (view->showObjects && !view->m_ImageData->getCatQueryInProgress() && e->modifiers () == Qt::ShiftModifier)
+            emit circleSelected(m_p1, m_p2);
     }
 
 }
@@ -409,6 +412,8 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
             emit pointSelected(x, y);
         else if (view->getCursorMode() == FITSView::crosshairCursor)
             emit pointSelected(x + 5 / scale, y + 5 / scale);
+        else if (view->showObjects)
+            emit highlightSelected(x, y);
     }
 }
 

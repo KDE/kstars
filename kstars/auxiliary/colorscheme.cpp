@@ -68,6 +68,7 @@ ColorScheme::ColorScheme() : FileName()
     appendItem("SensorFOVColor", i18n("Sensor FOV"), "#FFAA00");
     appendItem("HIPSGridColor", i18n("HiPS Grid"), "#FFFFFF");
     appendItem("FITSObjectLabelColor", i18n("FITS Image Object Label"), "#00FF00");
+    appendItem("FITSObjectHighlightLabelColor", i18n("FITS Image Object Highlight Label"), "#FF0000");
 
     //Load colors from config object
     loadFromConfig();

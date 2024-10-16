@@ -136,6 +136,8 @@ class FITSView : public QScrollArea
         void drawHiPSOverlay(QPainter *painter, double scale);
 #endif
         void drawObjectNames(QPainter *painter, double scale);
+        void drawCatObjectNames(QPainter *painter, double scale);
+        void drawCatROI(QPainter *painter, double scale);
         void drawPixelGrid(QPainter *painter, double scale);
         void drawMagnifyingGlass(QPainter *painter, double scale);
 
@@ -196,7 +198,10 @@ class FITSView : public QScrollArea
         int filterStars();
 
         // image masks
-        QSharedPointer<ImageMask> imageMask() { return m_ImageMask; }
+        QSharedPointer<ImageMask> imageMask()
+        {
+            return m_ImageMask;
+        }
         void setImageMask(ImageMask *mask);
 
         // FITS Mode
@@ -319,18 +324,20 @@ class FITSView : public QScrollArea
 
         virtual void processPointSelection(int x, int y);
         virtual void processMarkerSelection(int x, int y);
+        void processHighlight(int x, int y);
+        void processCircle(QPoint p1, QPoint p2);
 
         void move3DTrackingBox(int x, int y);
         void resizeTrackingBox(int newSize);
         void processRectangle(QPoint p1, QPoint p2, bool refreshCenter = false);
         void processRectangleFixed(int s);
 
-    protected slots:
         /**
              * @brief syncWCSState Update toolbar and actions depending on whether WCS is available or not
              */
         void syncWCSState();
 
+    protected slots:
         bool event(QEvent *event) override;
         bool gestureEvent(QGestureEvent *event);
         void pinchTriggered(QPinchGesture *gesture);
@@ -497,6 +504,11 @@ class FITSView : public QScrollArea
         void showRubberBand(bool on = false);
         void zoomRubberBand(double scale);
         void mouseOverPixel(int x, int y);
+        void catLoaded();
+        void catQueried();
+        void catQueryFailed(const QString text);
+        void catReset();
+        void catHighlightChanged(const int highlight);
 
         friend class FITSLabel;
 };

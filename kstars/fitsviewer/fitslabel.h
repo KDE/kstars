@@ -65,7 +65,9 @@ class FITSLabel : public QLabel
     signals:
         void newStatus(const QString &msg, FITSBar id);
         void pointSelected(int x, int y);
+        void highlightSelected(int x, int y);
         void markerSelected(int x, int y);
         void rectangleSelected(QPoint p1, QPoint p2,bool refreshCenter);
+        void circleSelected(QPoint p1, QPoint p2);
         void mouseOverPixel(int x, int y);
 };

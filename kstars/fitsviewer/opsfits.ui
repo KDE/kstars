@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
+    <width>493</width>
     <height>459</height>
    </rect>
   </property>
@@ -333,9 +333,6 @@
         <string>Processing</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>3</number>
-        </property>
         <property name="leftMargin">
          <number>3</number>
         </property>
@@ -413,6 +410,34 @@
            <string>Non linear histogram</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select a catalog to use to identify objects in the image. The default is the internal Sky Map. External catalogs require WCS and internet access.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Warning: Querying external catalogs can be slow on slow machines.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Object Catalog:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="kcfg_FitsCatalog">
+            <item>
+             <property name="text">
+              <string>Sky Map</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Simbad</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <widget class="QCheckBox" name="kcfg_AutoHFR">

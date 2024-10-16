@@ -435,6 +435,8 @@ if (CFITSIO_FOUND)
         fitsviewer/fitsheaderdialog.ui
         fitsviewer/statform.ui
         fitsviewer/platesolve.ui
+        fitsviewer/catalogobject.ui
+        fitsviewer/catalogobjecttypefilter.ui
         fitsviewer/fitsdebayer.ui
         indi/streamform.ui
         indi/recordingoptions.ui

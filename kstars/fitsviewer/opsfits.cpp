@@ -9,6 +9,8 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "fitscommon.h"
+
 
 #ifdef HAVE_STELLARSOLVER
 #include "kspaths.h"
@@ -27,6 +29,7 @@ OpsFITS::OpsFITS() : QFrame(KStars::Instance())
             kcfg_Auto3DCube->setChecked(false);
             kcfg_AutoDebayer->setChecked(false);
             kcfg_AutoWCS->setChecked(false);
+            kcfg_FitsCatalog->setCurrentIndex(CAT_SKYMAP);
         }
     });
     connect(kcfg_Auto3DCube, &QCheckBox::toggled, this, [this](bool toggled)
@@ -42,6 +45,12 @@ OpsFITS::OpsFITS() : QFrame(KStars::Instance())
     connect(kcfg_AutoWCS, &QCheckBox::toggled, this, [this](bool toggled)
     {
         if (toggled)
+            kcfg_LimitedResourcesMode->setChecked(false);
+    });
+    connect(kcfg_FitsCatalog, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
+    {
+        Options::setFitsCatalog(index);
+        if (index != CAT_SKYMAP)
             kcfg_LimitedResourcesMode->setChecked(false);
     });
     hipsOpacity->setValue(Options::hIPSOpacity() * 100);

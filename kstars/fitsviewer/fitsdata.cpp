@@ -29,6 +29,8 @@
 #include <QImage>
 #include <QtConcurrent>
 #include <QImageReader>
+#include <QUrl>
+#include <QNetworkAccessManager>
 
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 #include <wcshdr.h>
@@ -143,6 +145,8 @@ FITSData::~FITSData()
     if (m_SkyObjects.count() > 0)
         qDeleteAll(m_SkyObjects);
     m_SkyObjects.clear();
+
+    m_CatObjects.clear();
 
     if (fptr != nullptr)
     {
@@ -549,14 +553,11 @@ bool FITSData::loadXISFImage(const QByteArray &buffer)
         m_HeaderRecords.clear();
         auto &fitsKeywords = image.fitsKeywords();
         for(auto &fitsKeyword : fitsKeywords)
-            m_HeaderRecords.push_back({QString::fromStdString(fitsKeyword.name), QString::fromStdString(fitsKeyword.value), QString::fromStdString(fitsKeyword.comment)});
-
-        QVariant value;
-        if (getRecordValue("DATE-OBS", value) && value.isValid())
         {
-            QDateTime ts = value.toDateTime();
-            m_DateTime = KStarsDateTime(ts.date(), ts.time());
+            m_HeaderRecords.push_back({QString::fromStdString(fitsKeyword.name), QString::fromStdString(fitsKeyword.value), QString::fromStdString(fitsKeyword.comment)});
         }
+
+        setupWCSParams();
 
         m_ImageBufferSize = image.imageDataSize();
         m_ImageBuffer = new uint8_t[m_ImageBufferSize];
@@ -741,7 +742,11 @@ bool FITSData::loadCanonicalImage(const QByteArray &buffer)
         }
     }
 
+    m_HeaderRecords.clear();
+    setupWCSParams();
+
     calculateStats(false, false);
+    loadWCS();
     return true;
 }
 
@@ -855,7 +860,11 @@ bool FITSData::loadRAWImage(const QByteArray &buffer)
     }
     libraw_dcraw_clear_mem(image);
 
+    m_HeaderRecords.clear();
+    setupWCSParams();
+
     calculateStats(false, false);
+    loadWCS();
     return true;
 #endif
 }
@@ -1225,6 +1234,40 @@ void FITSData::makeRoiBuffer(QRect roi)
     m_ROIStatistics.height = roi.height();
     calculateStats(false, true);
 }
+
+void FITSData::setupWCSParams()
+{
+    FITSImage::Solution solution;
+    if (parseSolution(solution))
+    {
+        const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
+        updateWCSHeaderData(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight);
+
+        QVariant value;
+        bool validObservationDate = false;
+
+        if (getRecordValue("DATE-OBS", value))
+        {
+            QString tsString(value.toString());
+            tsString = tsString.remove('\'').trimmed();
+            // Add Zulu time to indicate UTC
+            tsString += "Z";
+
+            QDateTime ts = QDateTime::fromString(tsString, Qt::ISODate);
+
+            if (ts.isValid())
+            {
+                validObservationDate = true;
+                m_DateTime = KStarsDateTime(ts.date(), ts.time());
+            }
+        }
+
+        // Set to current datetime if no valid observation datetime. Not 100% accurate but close enough in most cases
+        if (!validObservationDate)
+            m_DateTime = KStarsDateTime::currentDateTimeUtc();
+    }
+}
+
 void FITSData::calculateStats(bool refresh, bool roi)
 {
     // Calculate min max
@@ -1608,7 +1651,7 @@ void FITSData::calculateMedian(bool roi)
         medianSize /= downsample;
     }
     // Ideally samples would be declared like this...
-    //std::vector<T> samples;
+    // std::vector<T> samples;
     // Unfortunately this doesn't compile on Mac - see the comments in robuststatistics.cpp for more details
     // So for now declare samples like this...
     std::vector<int32_t> samples;
@@ -1970,6 +2013,25 @@ bool FITSData::getRecordValue(const QString &key, QVariant &value) const
     return false;
 }
 
+void FITSData::updateRecordValue(const QString &key, QVariant value, const QString &comment)
+{
+    auto result = std::find_if(m_HeaderRecords.begin(), m_HeaderRecords.end(), [&key](const Record & oneRecord)
+    {
+        return (oneRecord.key == key && oneRecord.value.isValid());
+    });
+
+    if (result != m_HeaderRecords.end())
+    {
+        (*result).value = value;
+    }
+    else
+    {
+        // Add item as penultimate entry (END is usually the last one).
+        FITSData::Record record = {key, value.toString(), comment};
+        m_HeaderRecords.insert(std::max(0, m_HeaderRecords.size() - 1), record);
+    }
+}
+
 bool FITSData::parseSolution(FITSImage::Solution &solution) const
 {
     dms angleValue;
@@ -2024,8 +2086,16 @@ bool FITSData::parseSolution(FITSImage::Solution &solution) const
     {
         pixsize1 = value.toDouble();
     }
+    else if (getRecordValue("XPIXSZ", value))
+    {
+        pixsize1 = value.toDouble();
+    }
     // Pixel Size 2
     if (getRecordValue("PIXSIZE2", value))
+    {
+        pixsize2 = value.toDouble();
+    }
+    else if (getRecordValue("YPIXSZ", value))
     {
         pixsize2 = value.toDouble();
     }
@@ -2840,6 +2910,7 @@ bool FITSData::loadWCS()
     }
 
     m_ObjectsSearched = false;
+    m_CatObjectsSearched = false;
     m_WCSState = Success;
     HasWCS = true;
 
@@ -2924,6 +2995,11 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 bool FITSData::searchObjects()
 {
+    return (Options::fitsCatalog() == CAT_SKYMAP) ? searchSkyMapObjects() : searchCatObjects();
+}
+
+bool FITSData::searchSkyMapObjects()
+{
     if (m_ObjectsSearched)
         return true;
 
@@ -2936,6 +3012,88 @@ bool FITSData::searchObjects()
     pixelToWCS(QPointF(width() - 1, height() - 1), endPoint);
 
     return findObjectsInImage(startPoint, endPoint);
+}
+
+bool FITSData::searchCatObjects()
+{
+    if (m_CatObjectsSearched)
+        return true;
+
+    m_CatObjectsSearched = true;
+
+    SkyPoint searchCenter;
+    double radius;
+    QPoint pt;
+    bool ok = true;
+    if (catROIRadius() > 0)
+    {
+        // A ROI has been set so this is a request where the user set a ROI
+        pt = catROIPt();
+        QPoint edgePt = QPoint(pt.x() + catROIRadius(), pt.y());
+        SkyPoint searchEdge;
+        ok = pixelToWCS(pt, searchCenter);
+        if (ok)
+            ok = pixelToWCS(edgePt, searchEdge);
+        if (ok)
+        {
+            QVariant date;
+            KSNumbers * num = nullptr;
+
+            if (getRecordValue("DATE-OBS", date))
+            {
+                QString tsString(date.toString());
+                tsString = tsString.remove('\'').trimmed();
+                // Add Zulu time to indicate UTC
+                tsString += "Z";
+
+                QDateTime ts = QDateTime::fromString(tsString, Qt::ISODate);
+
+                if (ts.isValid())
+                    num = new KSNumbers(KStarsDateTime(ts).djd());
+            }
+
+            //Set to current time if the above does not work.
+            if (num == nullptr)
+                num = new KSNumbers(KStarsData::Instance()->ut().djd());
+
+            searchCenter.updateCoordsNow(num);
+            searchEdge.updateCoordsNow(num);
+            radius = searchCenter.angularDistanceTo(&searchEdge).Degrees() * 60; // Arc minutes
+
+            delete num;
+        }
+    }
+    else
+    {
+        // No ROI setup so this is a first call to use a circle of 0.5 arcmins in the center of the image
+        // Lets calculate the number of pixels that correspond to the 0.5 arcmin radius
+        pt = QPoint((width() / 2) - 1, (height() / 2) - 1);
+        ok = pixelToWCS(pt, searchCenter);
+        if (ok)
+        {
+            radius = 1.0; // Use 1.0 arcmins as a starting point... not too big to avoid getting swamped with objects
+            double raEdge = searchCenter.ra0().Degrees() + (radius / 60.0);
+            double decEdge = searchCenter.dec0().Degrees();
+            SkyPoint searchEdge(raEdge / 15.0, decEdge);
+            QPointF edgePoint, pEdge;
+            ok = wcsToPixel(searchEdge, pEdge, edgePoint);
+            if (ok)
+            {
+                // Set the ROI which will be drawn
+                const double radiusPix = std::hypot((pt.x() - pEdge.x()), pt.y() - pEdge.y());
+                setCatSearchROI(pt, radiusPix);
+            }
+        }
+    }
+    if (!ok)
+    {
+        qCDebug(KSTARS_FITS) << "Unable to process Catalog Object request...";
+        return false;
+    }
+    if (Options::fitsCatalog() == CAT_SIMBAD)
+        return findSimbadObjectsInImage(searchCenter, radius);
+    else
+        return false;
 }
 
 bool FITSData::findWCSBounds(double &minRA, double &maxRA, double &minDec, double &maxDec)
@@ -3065,7 +3223,454 @@ bool FITSData::findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint)
     delete (num);
     return true;
 }
+
+// See https://simbad.u-strasbg.fr/Pages/guide/sim-q.htx and
+//     https://simbad.u-strasbg.fr/Pages/guide/sim-url.htx
+// for details of how to query Simbad and the various options
+//
+// Set the epoch from the datetime of the image and ensure that the reply is in this same epoch
+bool FITSData::findSimbadObjectsInImage(SkyPoint searchCenter, double radius)
+{
+    m_CatObjects.clear();
+    m_CatUpdateTable = false;
+
+    // Query Simbad
+    QUrl simbadURL = QUrl("https://simbad.cds.unistra.fr/simbad/sim-coo");
+    QUrlQuery simbadQuery(simbadURL.query());
+
+    QString coord = QString("%1 %2").arg(searchCenter.ra0().toHMSString(true, true))
+                    .arg(searchCenter.dec0().toDMSString(true, true, true));
+
+    QString radiusStr = QString("%1").arg(radius * 60.0, 0, 'f', 5);
+    m_CatObjQuery = QString("%1 %2").arg(coord).arg(radiusStr);
+
+    coord.replace("+", "%2B"); // Need to replace the + otherwise it gets lost by URL processing
+
+    QString epoch = QString("J%1").arg(m_DateTime.epoch());
+
+    simbadQuery.addQueryItem("Coord", coord);
+    simbadQuery.addQueryItem("Radius", radiusStr);
+    simbadQuery.addQueryItem("Radius.unit", "arcsec");
+    simbadQuery.addQueryItem("CooFrame", "ICRS");
+    simbadQuery.addQueryItem("CooEpoch", epoch);
+    simbadQuery.addQueryItem("output.format", "ASCII");
+    simbadQuery.addQueryItem("output.max", QString("%1").arg(10000));
+    simbadQuery.addQueryItem("list.otypesel", "on");
+    simbadQuery.addQueryItem("otypedisp", "3"); // Use Simbad's 3 char object type
+    simbadQuery.addQueryItem("list.coo1", "on"); // Display coord 1
+    simbadQuery.addQueryItem("frame1", "ICRS");
+    simbadQuery.addQueryItem("epoch1", "J2000");
+    simbadQuery.addQueryItem("equi1", epoch);
+    simbadQuery.addQueryItem("list.spsel", "off"); // Spectral Type
+    simbadQuery.addQueryItem("list.sizesel", "on"); // Angular size
+    simbadQuery.addQueryItem("list.bibsel", "off"); // Bibliography
+
+    simbadURL.setQuery(simbadQuery);
+    qCDebug(KSTARS_FITS) << "Simbad query:" << simbadURL;
+
+    m_NetworkAccessManager.reset(new QNetworkAccessManager(this));
+    connect(m_NetworkAccessManager.get(), &QNetworkAccessManager::finished, this, &FITSData::simbadResponseReady);
+    QNetworkReply *response = m_NetworkAccessManager->get(QNetworkRequest(simbadURL));
+    if (response->error() != QNetworkReply::NoError)
+    {
+        qCDebug(KSTARS_FITS) << "Error:" << response->errorString() << " occured querying SIMBAD with" << simbadURL;
+        m_CatQueryInProgress = false;
+        emit catalogQueryFailed(i18n("Error querying Simbad"));
+        return false;
+    }
+
+    m_CatQueryInProgress = true;
+    m_CatQueryTimer.setSingleShot(true);
+    connect(&m_CatQueryTimer, &QTimer::timeout, this, &FITSData::catTimeout);
+    m_CatQueryTimer.start(60 * 1000);
+    emit loadingCatalogData();
+    return true;
+}
 #endif
+
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+void FITSData::catTimeout()
+{
+    m_CatQueryInProgress = false;
+    QString text = i18n("Simbad query timed out");
+    qCDebug(KSTARS_FITS) << text;
+    emit catalogQueryFailed(text);
+}
+#endif
+
+// There are 3 types of responses... zero objects, 1 object and >1 objects. The formats are as follows:
+// (Note that Line xx isn't part of the reply, these are added for convenience)
+//
+// Zero Objects
+// Line 0 "!! No astronomical object found : "
+//
+// 1 Object
+// Line 0 "C.D.S.  -  SIMBAD4 rel 1.8  -  2024.09.30CEST14:07:24"
+// Line 1 ""
+// Line 2 "coord 21:36:49 +57:31:23 (ICRS, J2024.7, 2000.0), radius: 5.71083 arcsec"
+// Line 3 "------------------------------------------------------------------------"
+// Line 4 ""
+// Line 5 "Object EM* LkHA 349C  ---  RS*  ---  OID=@157406   (@@122902,11)  ---  coobox=594"
+// Line 6 ""
+// Line 7 "Coordinates(ICRS,ep=J2000,eq=J2024.7): 21 36 49.4008740691  +57 31 21.834541600 (Opt ) A [0.0658 0.0673 90] 2020yCat.1350....0G"
+// Line 8 "Coordinates(FK4,ep=B1950,eq=1950): 21 35 17.0484337158  +57 17 51.458438447"
+// Line 9 "Coordinates(Gal,ep=J2000,eq=2000): 099.0986092951232  +03.9548388170815"
+// Line 10 "hierarchy counts: #parents=2, #children=0, #siblings=0"
+// Line 11 "Proper motions: -2.232 -5.540 [0.087 0.086 90] A 2020yCat.1350....0G"
+// Line 12 "Parallax: 1.0825 [0.0718] A 2020yCat.1350....0G"
+// Line 13 "Radial Velocity: ~ [~ ~ ] ~ ~                  "
+// Line 14 "Redshift: ~ [~ ~ ] ~ ~                  "
+// Line 15 "cz: ~ [~ ~ ] ~ ~                  "
+// Line 16 "Flux U : 19.219 [0.083] C 2010ApJ...710..597S"
+// Line 17 "Flux V : 15.81 [0.01] B 2012MNRAS.426.2917G"
+// Line 18 "Flux G : 14.948605 [0.007309] C 2020yCat.1350....0G"
+// Line 19 "Flux R : 14.508 [0.030] C 2010ApJ...710..597S"
+// Line 20 "Flux I : 13.094 [0.003] C 2010ApJ...710..597S"
+// Line 21 "Flux J : 11.918 [0.022] C 2003yCat.2246....0C"
+// Line 22 "Flux H : 10.914 [0.029] C 2003yCat.2246....0C"
+// Line 23 "Flux K : 10.355 [0.021] C 2003yCat.2246....0C"
+// Line 24 "Flux g : 16.702 [~] D 2020ApJS..249...18C"
+// Line 25 "Flux r : 15.057 [~] D 2020ApJS..249...18C"
+// Line 26 "Flux i : 14.84 [~] D 2012AJ....143...61N"
+// Line 27 "Spectral type: K6 D 2006AJ....132.2135S"
+// Line 28 "Morphological type: ~ ~ ~"
+// Line 29 "Angular size:     ~     ~   ~ (~)  ~ ~"
+// Line 30 ""
+// Line 31 "Identifiers (12):"
+// Line 32 "   ZTF J213649.40+573121.9              Gaia DR3 2178442322028512512         TIC 469533750                      "
+// Line 33 "   CoKu LkHA 349 c                      EM* LkHA 349C                        2MASS J21364941+5731220            "
+// Line 34 "   [SHB2004] Trumpler 37 14-141         [MSR2009] IC1396A-29                 [NSW2012] 125                      "
+// Line 35 "   CXOIC1396A J213649.39+573122.1       [GFS2012] 173                        Gaia DR2 2178442322028512512       "
+// Line 36 ""
+// Line 37 "Bibcodes  1850-2024 () (20):"
+// Line 38 "  2024MNRAS.532.2108S  2020ApJS..249...18C  2019ApJ...878....7M  2018MNRAS.478.5091F"
+// Line 39 "  2012AJ....143...61N  2012MNRAS.426.2917G  2011ApJ...742...39S  2010ApJ...710..597S"
+// Line 40 "  2009ApJ...690..683R  2009ApJ...702.1507M  2006AJ....132.2135S  2006ApJ...638..897S"
+// Line 41 "  2005A&A...443..535V  2005AJ....130..188S  2004AJ....128..805S  2004ApJS..154..385R"
+// Line 42 "  1997A&A...325.1001S  1996ApJ...463L.105M  1995A&A...299..464H  1979ApJS...41..743C"
+// Line 43 ""
+// Line 44 "Measures (distance:1  PLX:2  PM:2  ROT:1  V*:3  velocities:1  ):"
+// Line 45 "distance:1PLX:2PM:2ROT:1V*:3velocities:1"
+// Line 46 ""
+// Line 47 "Notes (0) :"
+// Line 48 ""
+// Line 49 "================================================================================"
+// Line 50 ""
+// Line 51 ""
+//
+// >1 Objects
+// Line 0 "C.D.S.  -  SIMBAD4 rel 1.8  -  2024.09.30CEST14:13:23"
+// Line 1 ""
+// Line 2 "coord 21:36:51 +57:31:13 (ICRS, J2024.7, 2000.0), radius: 11.42166 arcsec"
+// Line 3 "-------------------------------------------------------------------------"
+// Line 4 ""
+// Line 5 "Number of objects : 2"
+// Line 6 ""
+// Line 7 "#|dist(asec)|            identifier             |typ|      coord1 (ICRS,J2000/J2024.7)      |Mag U |  Mag B  |  Mag V  |  Mag R  |  Mag I  |   ang. size   |#not"
+// Line 8 "-|----------|-----------------------------------|---|---------------------------------------|------|---------|---------|---------|---------|---------------|----"
+// Line 9 "1|      2.62|DOBASHI 3187                       |DNe|21 36 51.3 +57 31 12                   |     ~|     ~   |     ~   |     ~   |     ~   |    ~     ~    |   1"
+// Line 10 "2|      3.19|EM* LkHA 349                       |Or*|21 36 50.7149106104 +57 31 10.580260473|     ~|15.13    |13.45    |12.88    |10.91    |    ~     ~    |   1"
+// Line 11 "================================================================================"
+// Line 12 ""
+// Line 13 ""
+
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+void FITSData::simbadResponseReady(QNetworkReply * simbadReply)
+{
+    m_CatQueryTimer.stop();
+    m_CatQueryInProgress = false;
+    if (simbadReply->error() != QNetworkReply::NoError)
+    {
+        qCDebug(KSTARS_FITS) << "Error:" << simbadReply->errorString() << " occured in SIMBAD query reply";
+        m_CatQueryInProgress = false;
+        emit catalogQueryFailed(i18n("Error querying Simbad"));
+        return;
+    }
+
+    auto data = simbadReply->readAll();
+    QString dataStr = QString(data);
+
+    // Break the line into comma-separated components
+    int numObjs = 0;
+    bool ok;
+    QString name, type, coord, sizeStr;
+    double dist = 0, magnitude = 0;
+    int num = 0;
+    QStringList replyLines = dataStr.split(QLatin1Char('\n'));
+    int dataRow = -1;
+    for (int i = 0; i < replyLines.size(); i++)
+    {
+        // JEE qCDebug(KSTARS_FITS) << "Line" << i << replyLines[i];
+        if (i == 0 && replyLines[i].contains("No astronomical object found : "))
+            // No objects in the reply so we can just ignore the rest of the data
+            break;
+        if (i == 2)
+        {
+            // Check that the query coord & radius match the reply - otherwise ignore...
+            QString replyStr;
+            QStringList replyData = replyLines[i].split(QLatin1Char(' '));
+            if (replyData.size() == 9 && replyData[0] == "coord" && replyData[6] == "radius:")
+                replyStr = QString("%1 %2 %3").arg(replyData[1]).arg(replyData[2]).arg(replyData[7]);
+            if (replyStr != m_CatObjQuery)
+            {
+                qCDebug(KSTARS_FITS) << "Simbad query:" << m_CatObjQuery << "Reply:" << replyStr << ". Ignoring...";
+                break;
+            }
+        }
+        else if (i == 5)
+        {
+            if (replyLines[i].contains("Number of objects : "))
+                numObjs = QString(replyLines[i].mid(20)).toInt(&ok);
+            else if (replyLines[i].startsWith("Object "))
+            {
+                // Dealing with a single object
+                num = numObjs = 1;
+                const int firstBreak = replyLines[i].indexOf("---");
+                const int secondBreak = replyLines[i].indexOf("---", firstBreak + 3);
+                name = replyLines[i].mid(7, firstBreak - 7).trimmed();
+                type = replyLines[i].mid(firstBreak + 3, secondBreak - firstBreak - 3).trimmed();
+            }
+            else
+            {
+                qCDebug(KSTARS_FITS) << "Bad Simbad Reply, Ignoring...";
+                break;
+            }
+        }
+        else if (numObjs == 1 && i >= 7)
+        {
+            if (replyLines[i].startsWith("Coordinates(ICRS"))
+            {
+                QStringList replyData = replyLines[i].split(QLatin1Char(' '));
+                if (replyData.size() >= 8)
+                    coord = replyData[1] + " " + replyData[2] + " " + replyData[3] + " " +
+                            replyData[5] + " " + replyData[6] + " " + replyData[7];
+            }
+            else if (replyLines[i].startsWith("Flux V :"))
+            {
+                QStringList replyData = replyLines[i].split(QLatin1Char(' '));
+                if (replyData.size() >= 4)
+                    magnitude = QString(replyData[3]).toDouble(&ok);
+            }
+            else if (replyLines[i].startsWith("Angular size:"))
+                sizeStr = replyLines[i].mid(13, replyLines[i].indexOf("~") - 13).trimmed();
+            else if (replyLines[i].startsWith("=========================================="))
+            {
+                // End of data so add the object
+                if (addCatObject(num, name, type, coord, dist, magnitude, sizeStr))
+                    dataRow++;
+            }
+        }
+        else if (numObjs > 1 && i >= 9)
+        {
+            // These are the data lines - 1 per object
+            QStringList replyData = replyLines[i].split(QLatin1Char('|'));
+            num = 0;
+            name = type = coord = sizeStr = "";
+            magnitude = dist = 0.0;
+            for (int j = 0; j < replyData.size(); j++)
+            {
+                if (j == 0)
+                    num = QString(replyData[j]).toInt(&ok);
+                else if (j == 1)
+                    dist = QString(replyData[j]).toDouble(&ok) / 60.0; // Convert from arcsecs to arcmins
+                else if (j == 2)
+                    name = (QString(replyData[j]).trimmed());
+                else if (j == 3)
+                    type = QString(replyData[j]).trimmed();
+                else if (j == 4)
+                    coord = QString(replyData[j]).trimmed();
+                else if (j == 7) // Mag V
+                    magnitude = QString(replyData[j]).toDouble(&ok);
+                else if (j == 10) // Angular size
+                    sizeStr = QString(replyData[j]).trimmed();
+            }
+
+            if (num == 0 || name.isEmpty() || type.isEmpty() || coord.isEmpty())
+                continue;
+
+            if (addCatObject(num, name, type, coord, dist, magnitude, sizeStr))
+                dataRow++;
+        }
+    }
+    if (numObjs != ++dataRow)
+        qCDebug(KSTARS_FITS) << "Simbad Header rows:" << numObjs << ". Data rows:" << dataRow;
+    // Signal fitsview to update based on new data. Fitsview will signal fitstab
+    m_CatObjectsSearched = false;
+    // Signal FITSView that there is new data to process
+    emit dataChanged();
+    // Signal FITSTab that there is new data to process
+    emit loadedCatalogData();
+    simbadReply->deleteLater();
+}
+#endif
+
+bool FITSData::addCatObject(const int num, const QString name, const QString type, const QString coord, const double dist,
+                            const double magnitude, const QString sizeStr)
+{
+    bool ok;
+    dms r(0.0), d(0.0);
+
+    QStringList split = coord.split(QLatin1Char(' '));
+    if (split.size() != 6)
+    {
+        qCDebug(KSTARS_FITS) << "Coordinates for " << name << "invalid: " << coord;
+        return false;
+    }
+
+    QString raStr = QString("%1 %2 %3").arg(split[0]).arg(split[1]).arg(split[2]);
+    QString decStr = QString("%1 %2 %3").arg(split[3]).arg(split[4]).arg(split[5]);
+    ok = r.setFromString(raStr, false); // angle in hours
+    if (ok)
+        ok = d.setFromString(decStr, true); // angle in degrees
+    if (!ok)
+    {
+        qCDebug(KSTARS_FITS) << "Coordinates for " << name << "invalid: " << coord;
+        return false;
+    }
+
+    double size = 0.0;
+    if (!sizeStr.contains("~"))
+    {
+        QStringList sizeSplit = sizeStr.split(QLatin1Char(' '));
+        if (sizeSplit.size() >= 1)
+            // Take the first (major axis) size. Note sometimes there's a double space between axes so
+            // number of elements can be 3.
+            size = QString(sizeSplit[0]).toDouble(&ok);
+        else
+            qCDebug(KSTARS_FITS) << "Angular size for " << name << "invalid: " << sizeStr;
+    }
+    CatObject catObject;
+    catObject.num = num;
+    catObject.catType = CAT_SIMBAD;
+    catObject.name = name;
+    catObject.typeCode = type;
+    catObject.typeLabel = getCatObjectLabel(type);
+    catObject.r = r;
+    catObject.d = d;
+    catObject.dist = dist;
+    catObject.magnitude = magnitude;
+    catObject.size = size;
+    catObject.highlight = false;
+    catObject.show = getCatObjectFilter(type);
+
+    double world[2], phi, theta, imgcrd[2], pixcrd[2];
+    int stat[2];
+
+    world[0] = r.Degrees();
+    world[1] = d.Degrees();
+
+    int status = wcss2p(m_WCSHandle, 1, 2, &world[0], &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0]);
+    if (status != 0)
+    {
+        qCDebug(KSTARS_FITS) << QString("wcss2p error processing object %1 %2: %3.").arg(name).arg(status).arg(wcs_errmsg[status]);
+        return false;
+    }
+
+    //X and Y are set to the found position if in image
+    double x = pixcrd[0];
+    double y = pixcrd[1];
+    if (x > 0 && y > 0 && x < width() && y < height())
+    {
+        catObject.x = x;
+        catObject.y = y;
+        m_CatObjects.append(catObject);
+    }
+    return true;
+}
+
+void FITSData::setCatObjectsFilters(const QStringList filters)
+{
+    m_CatObjectsFilters = filters;
+}
+
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+void FITSData::setCatSearchROI(const QPoint searchCenter, const int radius)
+{
+    m_CatROIPt = searchCenter;
+    m_CatROIRadius = radius;
+    Q_UNUSED(searchCenter);
+    Q_UNUSED(radius);
+}
+#endif
+
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+QString FITSData::getCatObjectLabel(const QString code) const
+{
+    QString label;
+    if (code != "")
+    {
+        for (int i = 0; i < MAX_CAT_OBJ_TYPES; i++)
+        {
+            if (code == catObjTypes[i].code)
+            {
+                label = catObjTypes[i].label;
+                break;
+            }
+            else if (code == catObjTypes[i].candidateCode)
+            {
+                label = catObjTypes[i].label + "_Cand";
+                break;
+            }
+        }
+    }
+    return label;
+}
+#endif
+
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+bool FITSData::getCatObjectFilter(const QString type) const
+{
+    if (m_CatObjectsFilters.isEmpty() || m_CatObjectsFilters.contains(type))
+        return true;
+    return false;
+}
+#endif
+
+void FITSData::filterCatObjects()
+{
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+    bool changed = false;
+    for (int i = 0; i < m_CatObjects.size(); i++)
+    {
+        bool showState = getCatObjectFilter(m_CatObjects[i].typeCode);
+        if (m_CatObjects[i].show != showState)
+        {
+            changed = true;
+            m_CatObjects[i].show = showState;
+        }
+    }
+    if (changed)
+        emit dataChanged();
+#endif
+}
+
+bool FITSData::highlightCatObject(const int hilite, const int lolite)
+{
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+    if (hilite < 0 || hilite >= m_CatObjects.size())
+        return false;
+
+    // Lowlight previous highlighted catalog object if passed
+    if (lolite >= 0 && lolite < m_CatObjects.size())
+        m_CatObjects[lolite].highlight = false;
+    else
+    {
+        // Loop through data to find current highlighted item
+        for (int i = 0; i < m_CatObjects.size(); i++)
+        {
+            if (m_CatObjects[i].highlight)
+            {
+                m_CatObjects[i].highlight = false;
+                break;
+            }
+        }
+    }
+
+    // Highlight the catalog object
+    m_CatObjects[hilite].highlight = true;
+#endif
+    return true;
+}
 
 int FITSData::getFlipVCounter() const
 {
@@ -4241,54 +4846,91 @@ void FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
     int status = 0;
 
     if (fptr == nullptr)
-        return;
+    {
+        updateWCSHeaderData(orientation, ra, dec, pixscale, eastToTheRight);
+    }
+    else
+    {
+        fits_update_key(fptr, TDOUBLE, "OBJCTRA", &ra, "Object RA", &status);
+        fits_update_key(fptr, TDOUBLE, "OBJCTDEC", &dec, "Object DEC", &status);
 
-    fits_update_key(fptr, TDOUBLE, "OBJCTRA", &ra, "Object RA", &status);
-    fits_update_key(fptr, TDOUBLE, "OBJCTDEC", &dec, "Object DEC", &status);
+        int epoch = 2000;
 
-    int epoch = 2000;
+        fits_update_key(fptr, TINT, "EQUINOX", &epoch, "Equinox", &status);
 
-    fits_update_key(fptr, TINT, "EQUINOX", &epoch, "Equinox", &status);
+        fits_update_key(fptr, TDOUBLE, "CRVAL1", &ra, "CRVAL1", &status);
+        fits_update_key(fptr, TDOUBLE, "CRVAL2", &dec, "CRVAL1", &status);
 
-    fits_update_key(fptr, TDOUBLE, "CRVAL1", &ra, "CRVAL1", &status);
-    fits_update_key(fptr, TDOUBLE, "CRVAL2", &dec, "CRVAL1", &status);
+        char radecsys[8] = "FK5";
+        char ctype1[16]  = "RA---TAN";
+        char ctype2[16]  = "DEC--TAN";
 
-    char radecsys[8] = "FK5";
-    char ctype1[16]  = "RA---TAN";
-    char ctype2[16]  = "DEC--TAN";
+        fits_update_key(fptr, TSTRING, "RADECSYS", radecsys, "RADECSYS", &status);
+        fits_update_key(fptr, TSTRING, "CTYPE1", ctype1, "CTYPE1", &status);
+        fits_update_key(fptr, TSTRING, "CTYPE2", ctype2, "CTYPE2", &status);
 
-    fits_update_key(fptr, TSTRING, "RADECSYS", radecsys, "RADECSYS", &status);
-    fits_update_key(fptr, TSTRING, "CTYPE1", ctype1, "CTYPE1", &status);
-    fits_update_key(fptr, TSTRING, "CTYPE2", ctype2, "CTYPE2", &status);
+        double crpix1 = width() / 2.0;
+        double crpix2 = height() / 2.0;
 
-    double crpix1 = width() / 2.0;
-    double crpix2 = height() / 2.0;
+        fits_update_key(fptr, TDOUBLE, "CRPIX1", &crpix1, "CRPIX1", &status);
+        fits_update_key(fptr, TDOUBLE, "CRPIX2", &crpix2, "CRPIX2", &status);
 
-    fits_update_key(fptr, TDOUBLE, "CRPIX1", &crpix1, "CRPIX1", &status);
-    fits_update_key(fptr, TDOUBLE, "CRPIX2", &crpix2, "CRPIX2", &status);
+        // Arcsecs per Pixel
+        double secpix1 = eastToTheRight ? pixscale : -pixscale;
+        double secpix2 = pixscale;
 
-    // Arcsecs per Pixel
+        fits_update_key(fptr, TDOUBLE, "SECPIX1", &secpix1, "SECPIX1", &status);
+        fits_update_key(fptr, TDOUBLE, "SECPIX2", &secpix2, "SECPIX2", &status);
+
+        double degpix1 = secpix1 / 3600.0;
+        double degpix2 = secpix2 / 3600.0;
+
+        fits_update_key(fptr, TDOUBLE, "CDELT1", &degpix1, "CDELT1", &status);
+        fits_update_key(fptr, TDOUBLE, "CDELT2", &degpix2, "CDELT2", &status);
+
+        // Rotation is CW, we need to convert it to CCW per CROTA1 definition
+        double rotation = 360 - orientation;
+        if (rotation > 360)
+            rotation -= 360;
+
+        fits_update_key(fptr, TDOUBLE, "CROTA1", &rotation, "CROTA1", &status);
+        fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
+    }
+
+    m_WCSState = Idle;
+}
+
+// Update header records based on plate solver solution
+void FITSData::updateWCSHeaderData(const double orientation, const double ra, const double dec, const double pixscale,
+                                   const bool eastToTheRight)
+{
+    updateRecordValue("OBJCTRA", ra, "Object RA");
+    updateRecordValue("OBJCTDEC", dec, "Object DEC");
+    updateRecordValue("EQUINOX", 2000, "Equinox");
+    updateRecordValue("CRVAL1", ra, "CRVAL1");
+    updateRecordValue("CRVAL2", dec, "CRVAL2");
+
+    updateRecordValue("RADECSYS", "'FK5'", "RADECSYS");
+    updateRecordValue("CTYPE1", "'RA---TAN'", "CTYPE1");
+    updateRecordValue("CTYPE2", "'DEC--TAN'", "CTYPE2");
+
+    updateRecordValue("CRPIX1", m_Statistics.width / 2.0, "CRPIX1");
+    updateRecordValue("CRPIX2", m_Statistics.height / 2.0, "CRPIX2");
+
     double secpix1 = eastToTheRight ? pixscale : -pixscale;
     double secpix2 = pixscale;
 
-    fits_update_key(fptr, TDOUBLE, "SECPIX1", &secpix1, "SECPIX1", &status);
-    fits_update_key(fptr, TDOUBLE, "SECPIX2", &secpix2, "SECPIX2", &status);
-
     double degpix1 = secpix1 / 3600.0;
     double degpix2 = secpix2 / 3600.0;
-
-    fits_update_key(fptr, TDOUBLE, "CDELT1", &degpix1, "CDELT1", &status);
-    fits_update_key(fptr, TDOUBLE, "CDELT2", &degpix2, "CDELT2", &status);
+    updateRecordValue("CDELT1", degpix1, "CDELT1");
+    updateRecordValue("CDELT2", degpix2, "CDELT2");
 
     // Rotation is CW, we need to convert it to CCW per CROTA1 definition
     double rotation = 360 - orientation;
     if (rotation > 360)
         rotation -= 360;
-
-    fits_update_key(fptr, TDOUBLE, "CROTA1", &rotation, "CROTA1", &status);
-    fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
-
-    m_WCSState = Idle;
+    updateRecordValue("CROTA1", rotation, "CROTA1");
+    updateRecordValue("CROTA2", rotation, "CROTA2");
 }
 
 bool FITSData::contains(const QPointF &point) const

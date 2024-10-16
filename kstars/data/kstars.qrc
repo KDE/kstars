@@ -70,6 +70,9 @@
         <file>icons/go-southwest.png</file>
         <file>icons/go-west.png</file>
         <file>icons/stop.png</file>
+        <file>icons/cdsportal.svg</file>
+        <file>icons/simbad.svg</file>
+        <file>icons/NED.png</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

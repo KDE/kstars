@@ -224,6 +224,8 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     connect(m_ImageFrame, &FITSLabel::pointSelected, this, &FITSView::processPointSelection);
     connect(m_ImageFrame, &FITSLabel::markerSelected, this, &FITSView::processMarkerSelection);
     connect(m_ImageFrame, &FITSLabel::rectangleSelected, this, &FITSView::processRectangle);
+    connect(m_ImageFrame, &FITSLabel::highlightSelected, this, &FITSView::processHighlight);
+    connect(m_ImageFrame, &FITSLabel::circleSelected, this, &FITSView::processCircle);
     connect(this, &FITSView::setRubberBand, m_ImageFrame, &FITSLabel::setRubberBand);
     connect(this, &FITSView::showRubberBand, m_ImageFrame, &FITSLabel::showRubberBand);
     connect(this, &FITSView::zoomRubberBand, m_ImageFrame, &FITSLabel::zoomRubberBand);
@@ -464,6 +466,25 @@ bool FITSView::processData()
         updateFrame();
     });
 
+    connect(m_ImageData.data(), &FITSData::loadingCatalogData, this, [this]()
+    {
+        emit catQueried();
+    });
+
+    connect(m_ImageData.data(), &FITSData::catalogQueryFailed, this, [this](QString text)
+    {
+        emit catQueryFailed(text);
+    });
+
+    connect(m_ImageData.data(), &FITSData::loadedCatalogData, this, [this]()
+    {
+        // Signal FITSTab to load the new data in the table
+        emit catLoaded();
+        // Reprocess FITSView
+        rescale(ZOOM_KEEP_LEVEL);
+        updateFrame();
+    });
+
     currentWidth = m_ImageData->width();
     currentHeight = m_ImageData->height();
 
@@ -477,6 +498,8 @@ bool FITSView::processData()
         connect(m_ImageFrame, &FITSLabel::newStatus, this, &FITSView::newStatus);
         connect(m_ImageFrame, &FITSLabel::pointSelected, this, &FITSView::processPointSelection);
         connect(m_ImageFrame, &FITSLabel::markerSelected, this, &FITSView::processMarkerSelection);
+        connect(m_ImageFrame, &FITSLabel::highlightSelected, this, &FITSView::processHighlight);
+        connect(m_ImageFrame, &FITSLabel::circleSelected, this, &FITSView::processCircle);
     }
     m_ImageFrame->setSize(image_width, image_height);
 
@@ -1265,9 +1288,9 @@ void FITSView::drawMagnifyingGlass(QPainter *painter, double scale)
         }
 
         // Finally, draw the magnified image.
-        painter->drawImage(QRect(winLeft * scale, winTop * scale, outputDimension, outputDimension),
-                           rawImage,
-                           QRect(imgLeft, imgTop, inputDimension / magAmount, inputDimension / magAmount));
+        painter->drawPixmap(QRect(winLeft * scale, winTop * scale, outputDimension, outputDimension),
+                            displayPixmap,
+                            QRect(imgLeft, imgTop, inputDimension / magAmount, inputDimension / magAmount));
         // Draw a white border.
         painter->setPen(QPen(Qt::white, scaleSize(1)));
         painter->drawRect(winLeft * scale, winTop * scale, outputDimension, outputDimension);
@@ -1565,6 +1588,14 @@ bool FITSView::imageHasWCS()
 
 void FITSView::drawObjectNames(QPainter * painter, double scale)
 {
+    if (Options::fitsCatalog() != CAT_SKYMAP)
+    {
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+        drawCatObjectNames(painter, scale);
+#endif
+        return;
+    }
+
     painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor"))));
     for (const auto &listObject : m_ImageData->getSkyObjects())
     {
@@ -1572,6 +1603,44 @@ void FITSView::drawObjectNames(QPainter * painter, double scale)
         painter->drawText(listObject->x() * scale + 10, listObject->y() * scale + 10, listObject->skyObject()->name());
     }
 }
+
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+void FITSView::drawCatObjectNames(QPainter * painter, double scale)
+{
+    if (!m_ImageData)
+        return;
+
+    drawCatROI(painter, scale);
+    bool showNames = Options::fitsCatObjShowNames();
+    for (const auto &catObject : m_ImageData->getCatObjects())
+    {
+        if (!catObject.show)
+            continue;
+        if (catObject.highlight)
+            painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectHighlightLabelColor"))));
+        else
+            painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor"))));
+
+        painter->drawRect(catObject.x * scale - 5.0, catObject.y * scale - 5.0, 10, 10);
+        if (showNames)
+            painter->drawText(catObject.x * scale + 10.0, catObject.y * scale + 10.0, catObject.name);
+    }
+}
+#endif
+
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+void FITSView::drawCatROI(QPainter * painter, double scale)
+{
+    Q_UNUSED(scale);
+    const QPoint pt = m_ImageData->catROIPt();
+    const int radius = m_ImageData->catROIRadius();
+    if (radius > 0)
+    {
+        painter->setPen(QPen(QColor(KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor"))));
+        painter->drawEllipse(pt, radius, radius);
+    }
+}
+#endif
 
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
 void FITSView::drawHiPSOverlay(QPainter * painter, double scale)
@@ -2093,7 +2162,10 @@ void FITSView::toggleObjects()
     if (m_ImageFrame)
     {
 #if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
-        m_ImageData->searchObjects();
+        if (showObjects)
+            m_ImageData->searchObjects();
+        else
+            emit catReset();
 #endif
         updateFrame();
     }
@@ -2278,6 +2350,65 @@ void FITSView::processMarkerSelection(int x, int y)
     markerCrosshair.setY(y);
 
     updateFrame();
+}
+
+void FITSView::processHighlight(int x, int y)
+{
+    if (!m_ImageData)
+        return;
+
+    const QPoint pt = QPoint(x, y);
+    int candidate = -1;
+    double candidateDist = -1.0;
+    QList<CatObject> objs = m_ImageData->getCatObjects();
+    for (int i = 0; i < objs.size(); i++)
+    {
+        if (!objs[i].show)
+            continue;
+
+        // See if we have a direct hit - if multiple we'll just take the first one for speed
+        const QRect rect = QRect(objs[i].x - (CAT_OBJ_BOX_SIZE / 2), objs[i].y - (CAT_OBJ_BOX_SIZE / 2),
+                                 CAT_OBJ_BOX_SIZE, CAT_OBJ_BOX_SIZE);
+        if (rect.contains(pt))
+        {
+            // Direct hit so no point in processing further
+            candidate = i;
+            break;
+        }
+
+        // Also do a wider search and take the nearest
+        const QRect bigRect = QRect(objs[i].x - 20, objs[i].y - 20, 40, 40);
+        if (bigRect.contains(pt))
+        {
+            double distance = std::hypot(x - objs[i].x, y - objs[i].y);
+            if (candidate < 0 || distance < candidateDist)
+            {
+                candidate = i;
+                candidateDist = distance;
+            }
+        }
+    }
+    if (candidate >= 0)
+    {
+        m_ImageData->highlightCatObject(candidate, -1);
+        emit catHighlightChanged(candidate);
+        updateFrame();
+    }
+}
+
+void FITSView::processCircle(QPoint p1, QPoint p2)
+{
+#if !defined(KSTARS_LITE) && defined(HAVE_WCSLIB)
+    const double x = p1.x() - p2.x();
+    const double y = p1.y() - p2.y();
+    const int radius = std::hypot(x, y);
+    m_ImageData->setCatSearchROI(p1, radius);
+    m_ImageData->searchCatObjects();
+    updateFrame();
+#else
+    Q_UNUSED(p1);
+    Q_UNUSED(p2);
+#endif
 }
 
 void FITSView::setTrackingBoxEnabled(bool enable)

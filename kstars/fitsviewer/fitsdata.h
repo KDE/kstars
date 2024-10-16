@@ -37,6 +37,8 @@
 #include <QRect>
 #include <QVariant>
 #include <QTemporaryFile>
+#include <QNetworkReply>
+#include <QTimer>
 
 #ifndef KSTARS_LITE
 #include <kxmlguiwindow.h>
@@ -262,6 +264,7 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
         // FITS Record
         bool getRecordValue(const QString &key, QVariant &value) const;
+        void updateRecordValue(const QString &key, QVariant value, const QString &comment);
         const QList<Record> &getRecords() const
         {
             return m_HeaderRecords;
@@ -544,15 +547,93 @@ class FITSData : public QObject
         ////////////////////////////////////////////////////////////////////////////////////////
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
+        /**
+         * @brief search the current image for objects, either on the Skymap or a catalog
+         */
         bool searchObjects();
-        bool findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint);
+        /**
+         * @brief search the current image for catalog objects
+         */
+        bool searchCatObjects();
+        /**
+         * @brief get the search center point
+         * @return search center point
+         */
+        QPoint &catROIPt()
+        {
+            return m_CatROIPt;
+        }
+        /**
+         * @brief get the search circle radius
+         * @return search circle radius
+         */
+        int catROIRadius() const
+        {
+            return m_CatROIRadius;
+        }
+
         bool findWCSBounds(double &minRA, double &maxRA, double &minDec, double &maxDec);
 #endif
 #endif
+        /**
+         * @brief set the search center circle with center point and radius
+         * @param circle center
+         * @param circle radius
+         */
+        void setCatSearchROI(const QPoint searchCenter, const int radius);
+        /**
+         * @brief get the sky map objects
+         * @return QList of objects
+         */
         const QList<FITSSkyObject *> &getSkyObjects() const
         {
             return m_SkyObjects;
         }
+        /**
+         * @brief get the catalog objects
+         * @return QList of catalog objects
+         */
+        const QList<CatObject> &getCatObjects() const
+        {
+            return m_CatObjects;
+        }
+        /**
+         * @brief get the catalog object filters
+         * @return QList of catalog object filters
+         */
+        const QStringList &getCatObjectsFilters() const
+        {
+            return m_CatObjectsFilters;
+        }
+        /**
+         * @brief set the catalog object filters
+         * @param QList of filters
+         */
+        void setCatObjectsFilters(const QStringList filters);
+        /**
+         * @brief get current status of catalog query
+         * @return whether catalog query in progress or not
+         */
+        const bool &getCatQueryInProgress() const
+        {
+            return m_CatQueryInProgress;
+        }
+        /**
+         * @brief highlight (and optionally lowlight) a particular catalog item
+         * @param highlight item
+         * @param lowlight item
+         */
+        bool highlightCatObject(const int hilite, const int lolite);
+        /**
+         * @brief applies current filters to object type list showing / hiding items as appropriate
+         */
+        void filterCatObjects();
+        /**
+         * @brief returns Object Type Label for the passed in Object Type Code
+         * @param object type code
+         * @return object type label
+         */
+        QString getCatObjectLabel(const QString code) const;
 
         ////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////
@@ -587,6 +668,21 @@ class FITSData : public QObject
          * @brief dataChanged Send signal when undelying raw data buffer data changed.
          */
         void dataChanged();
+
+        /**
+         * @brief loadingCatalogData Send signal when starting an external catalog data query
+         */
+        void loadingCatalogData();
+        /**
+         * @brief loadedCatalogData Send signal when finished an external catalog data query
+         */
+        void loadedCatalogData();
+        /**
+         * @brief catalogQueryFailed Send signal when an external catalog data query fails
+         * @param failure text
+         */
+        void catalogQueryFailed(const QString text);
+
     public slots:
         void makeRoiBuffer(QRect roi);
 
@@ -615,6 +711,22 @@ class FITSData : public QObject
         void calculateMedian(bool refresh = false, bool roi = false);
         bool checkDebayer();
         void readWCSKeys();
+
+        /**
+             * @brief Update header info used by WCS based on solution info
+             * @param orientation Solver orientation, degrees E of N.
+             * @param ra J2000 Right Ascension
+             * @param dec J2000 Declination
+             * @param pixscale Pixel scale in arcsecs per pixel
+             * @param eastToTheRight if true, then when the image is rotated so that north is up, then east would be to the right on the image.
+             */
+        void updateWCSHeaderData(const double orientation, const double ra, const double dec, const double pixscale,
+                                 const bool eastToTheRight);
+
+        /**
+             * @brief Setup WCS parameters for non-FITS files so plate solved solutions can be used with catalog functionality.
+             */
+        void setupWCSParams();
 
         // Record last FITS error
         void recordLastError(int errorCode);
@@ -665,6 +777,55 @@ class FITSData : public QObject
         template <typename T>  void constructHistogramInternal();
         template <typename T> int32_t histogramBinInternal(T value, int channel) const;
         template <typename T> int32_t histogramBinInternal(int x, int y, int channel) const;
+
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /// Private Catalog Functions.
+        ////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////
+        /**
+         * @brief search the current image for Skymap objects
+         */
+        bool searchSkyMapObjects();
+        /**
+         * @brief search the current image for skymap objects
+         * @param startPoint the top left point on the sky map
+         * @param endPoint the bottom right point on the sky map
+         */
+        bool findObjectsInImage(SkyPoint startPoint, SkyPoint endPoint);
+        /**
+         * @brief search Simbad for catalog objects in the current image
+         * @param searchCenter is the center point for the search
+         * @param search circle radius
+         */
+        bool findSimbadObjectsInImage(SkyPoint searchCenter, double radius);
+        /**
+         * @brief whether the Object Type passed in should be displayed
+         * @param object type
+         * @return whether the passed in object type should be displayed
+         */
+        bool getCatObjectFilter(const QString type) const;
+        /**
+         * @brief called when a Simbad query response has arrived
+         * @param reply
+         */
+        void simbadResponseReady(QNetworkReply *reply);
+        /**
+         * @brief called when a Simbad query times out
+         */
+        void catTimeout();
+        /**
+         * @brief add catalog object to the array of objects
+         * @param name of object
+         * @param type of object
+         * @param coord of object
+         * @param dist of object from search point
+         * @param magnitude of object (if available)
+         * @param size of object (if available)
+         * @return whether the add was successful
+         */
+        bool addCatObject(const int num, const QString name, const QString type, const QString coord, const double dist,
+                          const double magnitude, const QString sizeStr);
 
         /// Pointer to CFITSIO FITS file struct
         fitsfile *fptr { nullptr };
@@ -734,7 +895,17 @@ class FITSData : public QObject
         QList<Record> m_HeaderRecords;
 
         QList<FITSSkyObject *> m_SkyObjects;
+        QList<CatObject> m_CatObjects;
+        QStringList m_CatObjectsFilters;
+        QString m_CatObjQuery;
         bool m_ObjectsSearched {false};
+        bool m_CatObjectsSearched {false};
+        void resetCatObjectsSearched()
+        {
+            m_CatObjectsSearched = false;
+        }
+
+        FITSImage::Solution m_PlateSolveSolution { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, FITSImage::POSITIVE, 0.0, 0.0 };
 
         QString m_LastError;
 
@@ -768,4 +939,12 @@ class FITSData : public QObject
         HFRType cacheHFRType { HFR_AVERAGE };
         double cacheEccentricity { -1 };
         QPoint roiCenter;
+
+        // Catalog Objects
+        QSharedPointer<QNetworkAccessManager> m_NetworkAccessManager;
+        QTimer m_CatQueryTimer;
+        bool m_CatQueryInProgress { false };
+        bool m_CatUpdateTable { false };
+        QPoint m_CatROIPt { -1, -1 };
+        int m_CatROIRadius { -1 };
 };
