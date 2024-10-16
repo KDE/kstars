@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-11 01:54+0000\n"
-"PO-Revision-Date: 2024-09-26 09:51+0200\n"
+"PO-Revision-Date: 2024-10-15 21:19+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.07.70\n"
+"X-Generator: Lokalize 24.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6195,11 +6195,11 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Ефективен размер на зрителното поле в дъгови минути.</p>"
 
 #: ekos/align/align.cpp:1423
-#, fuzzy, kde-format
-#| msgid "Mount aborted. Reverse RA axis direction and try again."
+#, kde-format
 msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr ""
-"Монтирането е прекъснато. Обърнете посоката на оста RA и опитайте отново."
+"Координатите на монтиране са невалидни. Проверете връзката за монтиране и "
+"опитайте отново."
 
 #: ekos/align/align.cpp:1424 ekos/align/align.cpp:1456
 #: ekos/align/align.cpp:2422
@@ -15700,6 +15700,8 @@ msgstr "След приключване на текущата експозици
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
+"Не е открита камера. Проверете конфигурацията на системата и настройките за "
+"връзка."
 
 #: ekos/capture/cameraprocess.cpp:478
 #, kde-format
