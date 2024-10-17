@@ -937,6 +937,29 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
         if (scheduler->saveFile(QUrl::fromLocalFile(payload["filepath"].toString())))
             sendResponse(commands[SCHEDULER_SAVE_FILE], QString::fromUtf8(QFile(payload["filepath"].toString()).readAll()));
     }
+    else if (command == commands[SCHEDULER_SAVE_SEQUENCE_FILE])
+    {
+        QString path;
+        bool result = false;
+        if (payload.contains("filedata"))
+        {
+            path = QDir::homePath() + QDir::separator() + payload["path"].toString();
+            QFile file(path);
+            if (file.open(QIODevice::WriteOnly))
+            {
+                result = true;
+                file.write(payload["filedata"].toString().toUtf8());
+                file.close();
+            }
+        }
+
+        QJsonObject response =
+        {
+            {"result", result},
+            {"path", path}
+        };
+        sendResponse(commands[SCHEDULER_SAVE_SEQUENCE_FILE], response);
+    }
     else if (command == commands[SCHEDULER_LOAD_FILE])
     {
         QString path;
