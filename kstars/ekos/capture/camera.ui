@@ -2614,7 +2614,7 @@ font-weight:bold;
            <item row="0" column="6">
             <widget class="QCheckBox" name="captureLoopSequenceCB">
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Repeat the entire sequence inifitely.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Repeat the entire sequence infinitely.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
               <string>Loop</string>
