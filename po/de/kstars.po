@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -15556,7 +15556,8 @@ msgstr "Zusätzliche Einstellungen für die Lösung"
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr "Zusätzliche Einstellungen für die Lösung"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -17896,7 +17897,7 @@ msgstr "Offline"
 msgid "target"
 msgstr "Ziel"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -14988,7 +14988,8 @@ msgstr ""
 #: ekos/capture/camera.ui:2617
 #, kde-format
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -17154,7 +17155,7 @@ msgstr ""
 msgid "target"
 msgstr "เป้าหมายต่อไป >"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."

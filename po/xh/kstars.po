@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -14958,7 +14958,8 @@ msgstr "Fumana umxholo"
 #: ekos/capture/camera.ui:2617
 #, fuzzy, kde-format
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr "Fumana umxholo"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -17086,7 +17087,7 @@ msgstr "Moline"
 msgid "target"
 msgstr "Sargent"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Ugcino lomfanekiso %1 aluphumeleli!"

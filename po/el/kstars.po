@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -15739,7 +15739,8 @@ msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσε
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr "Χρήση του καθορισμένου αρχείου ρυθμίσεων"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -18042,7 +18043,7 @@ msgstr "Μολίν"
 msgid "target"
 msgstr "Σάρτζεντ"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."

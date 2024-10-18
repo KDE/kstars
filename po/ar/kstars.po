@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -14136,7 +14136,8 @@ msgstr "التّقدّم"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #: ekos/capture/camera.cpp:1320 ekos/capture/camera.ui:2722
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Progress"
 msgid "Progress"
 msgstr "التّقدّم"
 
@@ -15025,7 +15026,8 @@ msgstr "حدّد بوصة دَخْل ملفّ."
 #: ekos/capture/camera.ui:2617
 #, fuzzy, kde-format
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr "حدّد بوصة دَخْل ملفّ."
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -17190,7 +17192,7 @@ msgstr "غير متّصل"
 msgid "target"
 msgstr "الهدف"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."

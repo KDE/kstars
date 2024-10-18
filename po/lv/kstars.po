@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -15464,7 +15464,8 @@ msgstr "Maksimālais solārais attālums komētu attēlošanai."
 #, fuzzy, kde-format
 #| msgid "The maximum solar distance for drawing comets."
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr "Maksimālais solārais attālums komētu attēlošanai."
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -17740,7 +17741,7 @@ msgstr "Bruksa"
 msgid "target"
 msgstr "Argentija"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."

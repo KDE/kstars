@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1693039 $
+# Version: $Revision: 1693098 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -15641,7 +15641,8 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr "<html><head/><body><p>Utwórz nowy układ optyczny.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -17921,7 +17922,7 @@ msgstr "Bez internetu"
 msgid "target"
 msgstr "Cel"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Nie udało się zaimportować mozaiki."

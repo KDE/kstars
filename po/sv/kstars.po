@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2024-10-09 21:36+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -15450,7 +15450,8 @@ msgstr ""
 #| msgid ""
 #| "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr "<html><head/><body><p>Visa nästa analysfil.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -17636,7 +17637,7 @@ msgstr "Lokalt"
 msgid "target"
 msgstr "mål"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Mosaikimport misslyckades."

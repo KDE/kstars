@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -15664,7 +15664,8 @@ msgstr "इनपुट फ़ाइल में %1 को निर्धा�
 #, fuzzy, kde-format
 #| msgid "Specify %1 in the input file."
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr "इनपुट फ़ाइल में %1 को निर्धारित करें."
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -17954,7 +17955,7 @@ msgstr "मोलीन"
 msgid "target"
 msgstr "सार्जेंट"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."

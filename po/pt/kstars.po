@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -16921,7 +16921,8 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Create a new optical train.</p></body></html>"
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr "<html><head/><body><p>Criar um novo treino óptico.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -19228,7 +19229,7 @@ msgstr "Desligado"
 msgid "target"
 msgstr "Destino"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "A importação do mosaico falhou."

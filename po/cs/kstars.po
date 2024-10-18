@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
 "PO-Revision-Date: 2024-09-03 08:49+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -14514,7 +14514,8 @@ msgstr ""
 #| msgid ""
 #| "<html><head/><body><p>This index file is not required.</p></body></html>"
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr ""
 "<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
@@ -16553,7 +16554,7 @@ msgstr "Odpojen"
 msgid "target"
 msgstr "cíl"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""

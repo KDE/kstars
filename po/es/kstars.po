@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-17 01:47+0000\n"
-"PO-Revision-Date: 2024-10-09 08:24+0200\n"
+"POT-Creation-Date: 2024-10-18 01:45+0000\n"
+"PO-Revision-Date: 2024-10-18 01:05+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.1\n"
+"X-Generator: Lokalize 24.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -253,10 +253,9 @@ msgid "FITS Image Object Label"
 msgstr "Etiqueta de objeto de imagen FITS"
 
 #: auxiliary/colorscheme.cpp:71
-#, fuzzy, kde-format
-#| msgid "FITS Image Object Label"
+#, kde-format
 msgid "FITS Image Object Highlight Label"
-msgstr "Etiqueta de objeto de imagen FITS"
+msgstr "Etiqueta de resaltado de objeto de imagen FITS"
 
 #: auxiliary/colorscheme.cpp:137 kstarsdata.cpp:1065 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:741
@@ -14659,17 +14658,15 @@ msgid "Failed to save sequence queue"
 msgstr "Ha ocurrido un error al guardar la cola de secuencias"
 
 #: ekos/capture/camera.cpp:1315 ekos/capture/camera.cpp:1317
-#, fuzzy, kde-format
-#| msgid "In Progress"
+#, kde-format
 msgid "Progress #%1"
-msgstr "En proceso"
+msgstr "Avance #%1"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #: ekos/capture/camera.cpp:1320 ekos/capture/camera.ui:2722
-#, fuzzy, kde-format
-#| msgid "In Progress"
+#, kde-format
 msgid "Progress"
-msgstr "En proceso"
+msgstr "Avance"
 
 #: ekos/capture/camera.cpp:1357 ekos/capture/camera.cpp:2375
 #, kde-format
@@ -15597,10 +15594,9 @@ msgstr "Pausar secuencia"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/camera.ui:2532
-#, fuzzy, kde-format
-#| msgid "&Repeat for:"
+#, kde-format
 msgid "Repeat:"
-msgstr "&Repetir durante:"
+msgstr "Repetir:"
 
 #. i18n: ectx: property (text), widget (QLabel, loopLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, captureLoopSequenceCB)
@@ -15619,26 +15615,25 @@ msgstr "Vídeo"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureRepeatN)
 #: ekos/capture/camera.ui:2604
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations the entire sequence should be "
 "repeated.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Número de dígitos usados para añadir el número de "
-"secuencia al nombre de archivo.</p></body></html>"
+"<html><head/><body><p>Número de veces que se debe repetir la totalidad de la "
+"secuencia.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, captureLoopSequenceCB)
 #: ekos/capture/camera.ui:2617
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
+#| "<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></"
+#| "html>"
 msgid ""
-"<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></html>"
+"<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
+"html>"
 msgstr ""
-"<html><head/><body><p>Mostrar el archivo .analyze siguiente.</p></body></"
+"<html><head/><body><p>Repetir toda la secuencia indefinidamente.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
@@ -15804,16 +15799,13 @@ msgstr ""
 "por lo que no se necesita su ejecución."
 
 #: ekos/capture/cameraprocess.cpp:532
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#| "processed."
+#, kde-format
 msgid ""
 "Job is looping with %1-second %2 frames infinitely, has %3 frames captured "
 "and will be processed."
 msgstr ""
-"El trabajo necesita imágenes %2 de %1 segundos y ya tiene %3/%4 capturas, "
-"por lo que se procesará."
+"El trabajo se está ejecutando en bucle con %2 fotogramas de %1 segundo de "
+"manera infinita, tiene %3 fotogramas capturados y se procesarán."
 
 #: ekos/capture/cameraprocess.cpp:542
 #, kde-format
@@ -17873,7 +17865,7 @@ msgstr "Sin conexión"
 msgid "target"
 msgstr "objetivo"
 
-#: ekos/ekoslive/message.cpp:977
+#: ekos/ekoslive/message.cpp:1000
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "La importación del mosaico ha fallado."
@@ -25957,10 +25949,9 @@ msgstr "El guion de parada finaliza INDI"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #: ekos/opsekos.ui:365
-#, fuzzy, kde-format
-#| msgid "Scheduler"
+#, kde-format
 msgid "Scheduling"
-msgstr "Planificador"
+msgstr "Planificación"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:386
@@ -26164,6 +26155,10 @@ msgid ""
 "p><p>Otherwise, of not selected, restart capturing with all counters set to "
 "zero.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Si está seleccionada, tomar los fotogramas ya "
+"existentes que satisfacen la firma de cada trabajo y capturar solo los que "
+"faltan.</p><p>En caso contrario, o si no está seleccionada, reiniciar la "
+"captura con todos los contadores a cero.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RememberJobProgress)
 #: ekos/opsekos.ui:720
@@ -30149,8 +30144,7 @@ msgstr "Cabecera FITS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsCatObjShowNames)
 #: fitsviewer/catalogobject.ui:44
-#, fuzzy, kde-format
-#| msgid "Show names"
+#, kde-format
 msgid "Show Names"
 msgstr "Mostrar nombres"
 
@@ -30158,53 +30152,49 @@ msgstr "Mostrar nombres"
 #: fitsviewer/catalogobject.ui:60
 #, kde-format
 msgid "Launches the Catalog Object Filter dialog"
-msgstr ""
+msgstr "Abre el diálogo de filtrado de objetos del catálogo"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectTypeFilterUI)
 #: fitsviewer/catalogobjecttypefilter.ui:14
 #, kde-format
 msgid "Catalog Object Type Filter"
-msgstr ""
+msgstr "Filtro de tipo de objeto del catálogo"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:48
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Code"
-msgstr "Tipo de objeto:"
+msgstr "Código de tipo de objeto"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:53
 #, kde-format
 msgid "Cand Code"
-msgstr ""
+msgstr "Código candidato"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:56
 #, kde-format
 msgid "Candidate Object Type Code"
-msgstr ""
+msgstr "Código candidato de tipo de objeto"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:64
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Label"
-msgstr "Tipo de objeto:"
+msgstr "Etiqueta de tipo de objeto"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:72
-#, fuzzy, kde-format
-#| msgid "Description"
+#, kde-format
 msgid "Object Type Description"
-msgstr "Descripción"
+msgstr "Descripción de tipo de objeto"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:80
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Comments"
-msgstr "Tipo de objeto:"
+msgstr "Comentarios de tipo de objeto"
 
 #: fitsviewer/fitscommon.h:16
 #, kde-format
@@ -30367,16 +30357,14 @@ msgid "No world coordinate systems found."
 msgstr "No se ha encontrado ningún sistema de coordenadas mundial."
 
 #: fitsviewer/fitsdata.cpp:3278 fitsviewer/fitsdata.cpp:3386
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error querying Simbad"
-msgstr "Ha ocurrido un error al leer la imagen: %1"
+msgstr "Ha ocurrido un error al consultar Simbad"
 
 #: fitsviewer/fitsdata.cpp:3295
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Simbad query timed out"
-msgstr "Se ha agotado el tiempo de espera del sistema de identificación."
+msgstr "Se ha agotado el tiempo de espera de Simbad"
 
 #: fitsviewer/fitsdata.cpp:4272
 #, kde-format
@@ -30693,10 +30681,9 @@ msgid "Plate Solving"
 msgstr "Resolución de placas"
 
 #: fitsviewer/fitstab.cpp:177
-#, fuzzy, kde-format
-#| msgid "Catalog Details"
+#, kde-format
 msgid "Catalog Objects"
-msgstr "Detalles del catálogo"
+msgstr "Objetos del catálogo"
 
 #: fitsviewer/fitstab.cpp:188
 #, kde-format
@@ -30710,56 +30697,45 @@ msgid "R"
 msgstr "R"
 
 #: fitsviewer/fitstab.cpp:579
-#, fuzzy, kde-format
-#| msgid "%1 image files loaded."
+#, kde-format
 msgid "%1 / %2 Simbad objects loaded"
-msgstr "%1 archivos de imágenes cargados."
+msgstr "%1 / %2 objetos de Simbad cargados"
 
 #: fitsviewer/fitstab.cpp:594
-#, fuzzy, kde-format
-#| msgid "Parking mount in progress..."
+#, kde-format
 msgid "Simbad query in progress..."
-msgstr "Aparcamiento de la montura en proceso..."
+msgstr "Consulta de Simbad en proceso..."
 
 #: fitsviewer/fitstab.cpp:758
-#, fuzzy, kde-format
-#| msgctxt "City in New Caledonia France"
-#| msgid "Noumea"
+#, kde-format
 msgid "Num"
-msgstr "Numea"
+msgstr "Núm"
 
 #: fitsviewer/fitstab.cpp:759
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Portugal"
+#, kde-format
 msgid "CDS Portal"
-msgstr "Portugal"
+msgstr "Portal CDS"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #: fitsviewer/fitstab.cpp:760 fitsviewer/opsfits.ui:435
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Simbad"
+#, kde-format
 msgid "Simbad"
 msgstr "Simbad"
 
 #: fitsviewer/fitstab.cpp:761
-#, fuzzy, kde-format
-#| msgid "NE"
+#, kde-format
 msgid "NED"
-msgstr "NE"
+msgstr "NED"
 
 #: fitsviewer/fitstab.cpp:763
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Type Code"
-msgstr "Tipo"
+msgstr "Código del tipo"
 
 #: fitsviewer/fitstab.cpp:764
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "Type Label"
-msgstr "Etiqueta"
+msgstr "Etiqueta del tipo"
 
 #: fitsviewer/fitstab.cpp:766 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
@@ -30775,31 +30751,27 @@ msgstr "Tamaño"
 #: fitsviewer/fitstab.cpp:773
 #, kde-format
 msgid "Item reference number"
-msgstr ""
+msgstr "Número de referencia del elemento"
 
 #: fitsviewer/fitstab.cpp:774
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch CDS Portal browser"
-msgstr "Haga doble clic para cargar un fotograma oscuro"
+msgstr "Haga doble clic para lanzar el navegador del portal CDS"
 
 #: fitsviewer/fitstab.cpp:776
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch Simbad browser"
-msgstr "Haga doble clic para cargar un fotograma oscuro"
+msgstr "Haga doble clic para lanzar el navegador de Simbad"
 
 #: fitsviewer/fitstab.cpp:777
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch NED browser"
-msgstr "Haga doble clic para cargar un fotograma oscuro"
+msgstr "Haga doble clic para lanzar el navegador de NED"
 
 #: fitsviewer/fitstab.cpp:778
-#, fuzzy, kde-format
-#| msgid "Catalog Star"
+#, kde-format
 msgid "Catalog Object"
-msgstr "Estrella de catálogo"
+msgstr "Objeto del catálogo"
 
 #: fitsviewer/fitstab.cpp:780
 #, kde-format
@@ -30808,6 +30780,10 @@ msgid ""
 "\n"
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
+"Código de tipo de objeto. Haga doble clic para lanzar el filtro de tipo de "
+"objeto.\n"
+"\n"
+"Consulte https://simbad.cds.unistra.fr/guide/otypes.htx para más detalles."
 
 #: fitsviewer/fitstab.cpp:783
 #, kde-format
@@ -30816,29 +30792,30 @@ msgid ""
 "\n"
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
+"Etiqueta de tipo de objeto. Haga doble clic para lanzar el filtro de tipo de "
+"objeto.\n"
+"\n"
+"Consulte https://simbad.cds.unistra.fr/guide/otypes.htx para más detalles."
 
 #: fitsviewer/fitstab.cpp:785
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Mount coordinates"
+#, kde-format
 msgid "Object coordinates"
-msgstr "Coordenadas de la montura"
+msgstr "Coordenadas del objeto"
 
 #: fitsviewer/fitstab.cpp:786
 #, kde-format
 msgid "Object distance in arcmins from the search center"
-msgstr ""
+msgstr "Distancia del objeto en minutos de arco desde el centro de la búsqueda"
 
 #: fitsviewer/fitstab.cpp:788
-#, fuzzy, kde-format
-#| msgid "Objects in Image"
+#, kde-format
 msgid "Object V magnitude"
-msgstr "Objetos en la imagen"
+msgstr "Magnitud V del objeto"
 
 #: fitsviewer/fitstab.cpp:789
 #, kde-format
 msgid "Object major coordinate size in arcsmins"
-msgstr ""
+msgstr "Tamaño de la coordenada major del objeto en minutos de arco"
 
 #: fitsviewer/fitstab.cpp:964 fitsviewer/fitstab.cpp:968
 #, kde-format
@@ -31608,13 +31585,17 @@ msgid ""
 "Querying external catalogs can be slow on slow machines.</span></p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Seleccione el catálogo que se usará para identificar "
+"objetos en la imagen. El predeterminado es el del mapa del cielo interno. "
+"Los catálogos externos necesitan WCS y acceso a internet.</p><p><span style="
+"\" font-weight:600;\">Advertencia: la consulta de catálogos externos puede "
+"tardar más en máquinas lentas.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: fitsviewer/opsfits.ui:422
-#, fuzzy, kde-format
-#| msgid "Catalog:"
+#, kde-format
 msgid "Object Catalog:"
-msgstr "Catálogo:"
+msgstr "Catálogo de objetos:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (title), widget (QGroupBox, skymapGroup)
@@ -31785,13 +31766,16 @@ msgid ""
 "Uncheck for non-linear (stretched) images which will help with the star "
 "extraction part of plate solving."
 msgstr ""
+"Marque esta opción para imágenes lineales (sin estirar). Esta es la "
+"preferencia predeterminada. Desmárquela para imágenes no lineales "
+"(estiradas), lo que ayudará con la parte de extracción de estrellas de la "
+"resolución de placas."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsSolverLinear)
 #: fitsviewer/platesolve.ui:495
-#, fuzzy, kde-format
-#| msgid "Linear Scale"
+#, kde-format
 msgid "Linear Image"
-msgstr "Escalado lineal"
+msgstr "Imagen lineal"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -37717,16 +37701,14 @@ msgstr ""
 #: kstars.kcfg:1573
 #, kde-format
 msgid "Which catalog to pull display objects from."
-msgstr ""
+msgstr "Catálogo del que se extraerán los objetos que se muestran."
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1577
-#, fuzzy, kde-format
-#| msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
+#, kde-format
 msgid "Whether to display object names on the Fitsviwer or not."
 msgstr ""
-"Controla si se debe mostrar la CFZ en la curva V tras una ejecución de "
-"enfoque automático."
+"Controla si se deben mostrar los nombres de los objetos en el visor FITS."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1582
