@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-18 01:45+0000\n"
-"PO-Revision-Date: 2024-10-17 13:46+0200\n"
+"PO-Revision-Date: 2024-10-18 10:55+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -15654,10 +15654,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, captureLoopSequenceCB)
 #: ekos/capture/camera.ui:2617
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Repeat the entire sequence inifitely.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
 "html>"

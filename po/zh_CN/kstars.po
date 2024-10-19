@@ -254,10 +254,9 @@ msgid "FITS Image Object Label"
 msgstr "FITS 图像对象标签"
 
 #: auxiliary/colorscheme.cpp:71
-#, fuzzy, kde-format
-#| msgid "FITS Image Object Label"
+#, kde-format
 msgid "FITS Image Object Highlight Label"
-msgstr "FITS 图像对象标签"
+msgstr ""
 
 #: auxiliary/colorscheme.cpp:137 kstarsdata.cpp:1065 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:741
@@ -13987,17 +13986,15 @@ msgid "Failed to save sequence queue"
 msgstr "保存序列队列失败"
 
 #: ekos/capture/camera.cpp:1315 ekos/capture/camera.cpp:1317
-#, fuzzy, kde-format
-#| msgid "In Progress"
+#, kde-format
 msgid "Progress #%1"
-msgstr "进行中"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #: ekos/capture/camera.cpp:1320 ekos/capture/camera.ui:2722
-#, fuzzy, kde-format
-#| msgid "In Progress"
+#, kde-format
 msgid "Progress"
-msgstr "进行中"
+msgstr ""
 
 #: ekos/capture/camera.cpp:1357 ekos/capture/camera.cpp:2375
 #, kde-format
@@ -14893,10 +14890,9 @@ msgstr "暂停序列"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/camera.ui:2532
-#, fuzzy, kde-format
-#| msgid "&Repeat for"
+#, kde-format
 msgid "Repeat:"
-msgstr "重复(&R)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, loopLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, captureLoopSequenceCB)
@@ -14915,20 +14911,15 @@ msgstr "视频"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureRepeatN)
 #: ekos/capture/camera.ui:2604
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations the entire sequence should be "
 "repeated.</p></body></html>"
-msgstr "<html><head/><body><p>附加到文件名里序列编号的位数。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, captureLoopSequenceCB)
 #: ekos/capture/camera.ui:2617
 #, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Captured images in active sequence</p></body></html>"
 msgid ""
 "<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
 "html>"
@@ -15090,14 +15081,11 @@ msgid ""
 msgstr "作业需要 %1秒的图像 %2 张，已经拍摄 %3/%4 ，无需运行。"
 
 #: ekos/capture/cameraprocess.cpp:532
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#| "processed."
+#, kde-format
 msgid ""
 "Job is looping with %1-second %2 frames infinitely, has %3 frames captured "
 "and will be processed."
-msgstr "作业需要 %1秒图像 %2 张，已经拍摄 %3/%4 帧并将被处理。"
+msgstr ""
 
 #: ekos/capture/cameraprocess.cpp:542
 #, kde-format
@@ -24267,10 +24255,9 @@ msgstr "关机脚本终止 INDI"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #: ekos/opsekos.ui:365
-#, fuzzy, kde-format
-#| msgid "Scheduler"
+#, kde-format
 msgid "Scheduling"
-msgstr "调度器"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
 #: ekos/opsekos.ui:386
@@ -28064,10 +28051,9 @@ msgstr "FITS 文件头"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsCatObjShowNames)
 #: fitsviewer/catalogobject.ui:44
-#, fuzzy, kde-format
-#| msgid "Show names"
+#, kde-format
 msgid "Show Names"
-msgstr "显示名称"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterPB)
 #: fitsviewer/catalogobject.ui:60
@@ -28083,10 +28069,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:48
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Code"
-msgstr "对象类型:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:53
@@ -28102,24 +28087,21 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:64
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Label"
-msgstr "对象类型:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:72
-#, fuzzy, kde-format
-#| msgid "Description"
+#, kde-format
 msgid "Object Type Description"
-msgstr "说明"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:80
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Comments"
-msgstr "对象类型:"
+msgstr ""
 
 #: fitsviewer/fitscommon.h:16
 #, kde-format
@@ -28280,16 +28262,14 @@ msgid "No world coordinate systems found."
 msgstr "未能找到世界坐标系统。"
 
 #: fitsviewer/fitsdata.cpp:3278 fitsviewer/fitsdata.cpp:3386
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error querying Simbad"
-msgstr "读取图像错误：%1"
+msgstr ""
 
 #: fitsviewer/fitsdata.cpp:3295
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Simbad query timed out"
-msgstr "解析超时。"
+msgstr ""
 
 #: fitsviewer/fitsdata.cpp:4272
 #, kde-format
@@ -28601,10 +28581,9 @@ msgid "Plate Solving"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:177
-#, fuzzy, kde-format
-#| msgid "Catalog Details"
+#, kde-format
 msgid "Catalog Objects"
-msgstr "星表详情"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:188
 #, kde-format
@@ -28623,50 +28602,40 @@ msgid "%1 / %2 Simbad objects loaded"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:594
-#, fuzzy, kde-format
-#| msgid "Parking mount in progress..."
+#, kde-format
 msgid "Simbad query in progress..."
-msgstr "正在归位赤道仪..."
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:758
-#, fuzzy, kde-format
-#| msgctxt "City in New Caledonia France"
-#| msgid "Noumea"
+#, kde-format
 msgid "Num"
-msgstr "努美阿"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:759
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Portugal"
+#, kde-format
 msgid "CDS Portal"
-msgstr "葡萄牙"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #: fitsviewer/fitstab.cpp:760 fitsviewer/opsfits.ui:435
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Simbad"
+#, kde-format
 msgid "Simbad"
-msgstr "Simbad天文数据库"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:761
-#, fuzzy, kde-format
-#| msgid "NE"
+#, kde-format
 msgid "NED"
-msgstr "东北"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:763
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Type Code"
-msgstr "类型"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:764
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "Type Label"
-msgstr "秒"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:766 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
@@ -28685,28 +28654,24 @@ msgid "Item reference number"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:774
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch CDS Portal browser"
-msgstr "双击来加载暗场"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:776
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch Simbad browser"
-msgstr "双击来加载暗场"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:777
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch NED browser"
-msgstr "双击来加载暗场"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:778
-#, fuzzy, kde-format
-#| msgid "Catalog Star"
+#, kde-format
 msgid "Catalog Object"
-msgstr "编目恒星"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:780
 #, kde-format
@@ -28725,11 +28690,9 @@ msgid ""
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:785
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Mount coordinates"
+#, kde-format
 msgid "Object coordinates"
-msgstr "赤道仪坐标"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:786
 #, kde-format
@@ -28737,10 +28700,9 @@ msgid "Object distance in arcmins from the search center"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:788
-#, fuzzy, kde-format
-#| msgid "Objects in Image"
+#, kde-format
 msgid "Object V magnitude"
-msgstr "图像中的天体"
+msgstr ""
 
 #: fitsviewer/fitstab.cpp:789
 #, kde-format
@@ -29494,10 +29456,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: fitsviewer/opsfits.ui:422
-#, fuzzy, kde-format
-#| msgid "Catalog:"
+#, kde-format
 msgid "Object Catalog:"
-msgstr "星表:"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (title), widget (QGroupBox, skymapGroup)
@@ -29656,10 +29617,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsSolverLinear)
 #: fitsviewer/platesolve.ui:495
-#, fuzzy, kde-format
-#| msgid "Linear Scale"
+#, kde-format
 msgid "Linear Image"
-msgstr "线性比例"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -83422,31 +83382,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "<b>Progress</b>"
-#~ msgstr "<b>进度</b>"
-
-#~ msgid ""
-#~ "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
-#~ "resets the sequence counts."
-#~ msgstr "警告：启用了“启动时总是重置序列”选项，将会重置序列计数器。"
-
-#~ msgid "Jobs"
-#~ msgstr "作业"
-
-#~ msgid ""
-#~ "<html><head/><body><p>When starting to process a sequence list, reset all "
-#~ "capture counts to zero. Scheduler overrides this option when Remember job "
-#~ "progress is enabled.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>在开始处理序列列表时，将所有拍摄数重置为零。 当启用"
-#~ "了记住作业进度时，调度器将覆盖此选项。</p></body></html>"
-
-#~ msgid "Always reset sequence when starting"
-#~ msgstr "启动时总是重置序列"
-
-#~ msgid "AZ/AL"
-#~ msgstr "方位/高度"
-
-#~ msgid "Displays the Tip of the Day"
-#~ msgstr "显示每日提醒"
