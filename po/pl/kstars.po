@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1693098 $
+# Version: $Revision: 1693190 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -14635,7 +14635,8 @@ msgstr "Postęp"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #: ekos/capture/camera.cpp:1320 ekos/capture/camera.ui:2722
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Progress"
 msgid "Progress"
 msgstr "Postęp"
 

@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-18 01:45+0000\n"
-"PO-Revision-Date: 2024-10-09 21:36+0200\n"
+"PO-Revision-Date: 2024-10-19 20:04+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -254,10 +254,9 @@ msgid "FITS Image Object Label"
 msgstr "Objektbeteckning för FITS-bild"
 
 #: auxiliary/colorscheme.cpp:71
-#, fuzzy, kde-format
-#| msgid "FITS Image Object Label"
+#, kde-format
 msgid "FITS Image Object Highlight Label"
-msgstr "Objektbeteckning för FITS-bild"
+msgstr "Objektbeteckning för markerad FITS-bild"
 
 #: auxiliary/colorscheme.cpp:137 kstarsdata.cpp:1065 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:741
@@ -14489,10 +14488,9 @@ msgid "Failed to save sequence queue"
 msgstr "Misslyckades spara sekvenskö"
 
 #: ekos/capture/camera.cpp:1315 ekos/capture/camera.cpp:1317
-#, fuzzy, kde-format
-#| msgid "Progress"
+#, kde-format
 msgid "Progress #%1"
-msgstr "Förlopp"
+msgstr "Förlopp nr. %1"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #: ekos/capture/camera.cpp:1320 ekos/capture/camera.ui:2722
@@ -15411,10 +15409,9 @@ msgstr "Pausa sekvens"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/camera.ui:2532
-#, fuzzy, kde-format
-#| msgid "&Repeat for:"
+#, kde-format
 msgid "Repeat:"
-msgstr "Upp&repa:"
+msgstr "Upprepa:"
 
 #. i18n: ectx: property (text), widget (QLabel, loopLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, captureLoopSequenceCB)
@@ -15433,26 +15430,22 @@ msgstr "Video"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureRepeatN)
 #: ekos/capture/camera.ui:2604
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Number of iterations the entire sequence should be "
 "repeated.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Antal siffror använda för att lägga till sekvensnumret "
-"sist i filnamnet</p></body></html>"
+"<html><head/><body><p>Antal iterationer som hela sekvensen ska upprepas.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, captureLoopSequenceCB)
 #: ekos/capture/camera.ui:2617
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Visa nästa analysfil.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Upprepa hela sekvensen i oändlighet.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/capture/camera.ui:2651
@@ -15613,16 +15606,13 @@ msgstr ""
 "inte köras."
 
 #: ekos/capture/cameraprocess.cpp:532
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#| "processed."
+#, kde-format
 msgid ""
 "Job is looping with %1-second %2 frames infinitely, has %3 frames captured "
 "and will be processed."
 msgstr ""
-"Jobb kräver %1-sekunders %2 bilder, har redan %3/%4 tagna bilder och kommer "
-"att behandlas."
+"Jobbet upprepas med %1-sekunders %2 bilder i oändlighet, har tagit %3 bilder "
+"och kommer att behandlas."
 
 #: ekos/capture/cameraprocess.cpp:542
 #, kde-format
@@ -25567,8 +25557,7 @@ msgstr "Avstängningsskript avslutar INDI"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
 #: ekos/opsekos.ui:365
-#, fuzzy, kde-format
-#| msgid "Scheduler"
+#, kde-format
 msgid "Scheduling"
 msgstr "Schemaläggning"
 
@@ -25769,6 +25758,10 @@ msgid ""
 "p><p>Otherwise, of not selected, restart capturing with all counters set to "
 "zero.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Om markerat, ta de redan befintliga bilderna som "
+"uppfyller varje jobbs signatur och lagra bara de saknade.</p><p>Annars, om "
+"det inte är markerat, starta om tagningen med alla räknare inställda på noll."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RememberJobProgress)
 #: ekos/opsekos.ui:720
@@ -29653,8 +29646,7 @@ msgstr "FITS-huvud"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsCatObjShowNames)
 #: fitsviewer/catalogobject.ui:44
-#, fuzzy, kde-format
-#| msgid "Show names"
+#, kde-format
 msgid "Show Names"
 msgstr "Visa namn"
 
@@ -29662,53 +29654,49 @@ msgstr "Visa namn"
 #: fitsviewer/catalogobject.ui:60
 #, kde-format
 msgid "Launches the Catalog Object Filter dialog"
-msgstr ""
+msgstr "Startar dialogrutan för katalogobjektfilter"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectTypeFilterUI)
 #: fitsviewer/catalogobjecttypefilter.ui:14
 #, kde-format
 msgid "Catalog Object Type Filter"
-msgstr ""
+msgstr "Katalogobjekttypfilter"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:48
-#, fuzzy, kde-format
-#| msgid "Object Type"
+#, kde-format
 msgid "Object Type Code"
-msgstr "Objekttyp"
+msgstr "Objekttypkod"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:53
 #, kde-format
 msgid "Cand Code"
-msgstr ""
+msgstr "Kandidatkod"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:56
 #, kde-format
 msgid "Candidate Object Type Code"
-msgstr ""
+msgstr "Kandidatobjekttypkod"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:64
-#, fuzzy, kde-format
-#| msgid "Object Type"
+#, kde-format
 msgid "Object Type Label"
-msgstr "Objekttyp"
+msgstr "Objekttypbeteckning"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:72
-#, fuzzy, kde-format
-#| msgid "Description"
+#, kde-format
 msgid "Object Type Description"
-msgstr "Beteckning"
+msgstr "Objekttypbeskrivning"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:80
-#, fuzzy, kde-format
-#| msgid "Object Type"
+#, kde-format
 msgid "Object Type Comments"
-msgstr "Objekttyp"
+msgstr "Objekttypkommentarer"
 
 #: fitsviewer/fitscommon.h:16
 #, kde-format
@@ -29870,16 +29858,14 @@ msgid "No world coordinate systems found."
 msgstr "Inget världskoordinatsystem hittades."
 
 #: fitsviewer/fitsdata.cpp:3278 fitsviewer/fitsdata.cpp:3386
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error querying Simbad"
-msgstr "Fel vid läsning av bild: %1 "
+msgstr "Fel vid förfrågan till Simbad"
 
 #: fitsviewer/fitsdata.cpp:3295
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Simbad query timed out"
-msgstr "Tidsgräns överskreds för lösningsverktyg."
+msgstr "Tidsgräns överskreds för förfrågan till Simbad."
 
 #: fitsviewer/fitsdata.cpp:4272
 #, kde-format
@@ -30192,10 +30178,9 @@ msgid "Plate Solving"
 msgstr "Lösning av astrobilder"
 
 #: fitsviewer/fitstab.cpp:177
-#, fuzzy, kde-format
-#| msgid "Catalog Details"
+#, kde-format
 msgid "Catalog Objects"
-msgstr "Kataloginformation"
+msgstr "Katalogobjekt"
 
 #: fitsviewer/fitstab.cpp:188
 #, kde-format
@@ -30209,55 +30194,45 @@ msgid "R"
 msgstr "R"
 
 #: fitsviewer/fitstab.cpp:579
-#, fuzzy, kde-format
-#| msgid "%1 image files loaded."
+#, kde-format
 msgid "%1 / %2 Simbad objects loaded"
-msgstr "%1 bildfiler inlästa."
+msgstr "%1/%2 Simbad-objekt inlästa"
 
 #: fitsviewer/fitstab.cpp:594
-#, fuzzy, kde-format
-#| msgid "Parking mount in progress..."
+#, kde-format
 msgid "Simbad query in progress..."
-msgstr "Håller på att parkera stativ..."
+msgstr "Förfrågan till Simbad pågår..."
 
 #: fitsviewer/fitstab.cpp:758
-#, fuzzy, kde-format
-#| msgid "um"
+#, kde-format
 msgid "Num"
-msgstr "um"
+msgstr "Antal"
 
 #: fitsviewer/fitstab.cpp:759
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Portugal"
+#, kde-format
 msgid "CDS Portal"
-msgstr "Portugal"
+msgstr "CDS-portal"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #: fitsviewer/fitstab.cpp:760 fitsviewer/opsfits.ui:435
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Simbad"
+#, kde-format
 msgid "Simbad"
 msgstr "Simbad"
 
 #: fitsviewer/fitstab.cpp:761
-#, fuzzy, kde-format
-#| msgid "NE"
+#, kde-format
 msgid "NED"
-msgstr "NÖ"
+msgstr "NED"
 
 #: fitsviewer/fitstab.cpp:763
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Type Code"
-msgstr "Typ"
+msgstr "Typkod"
 
 #: fitsviewer/fitstab.cpp:764
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "Type Label"
-msgstr "Textbeteckning"
+msgstr "Typbeteckning"
 
 #: fitsviewer/fitstab.cpp:766 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
@@ -30273,32 +30248,27 @@ msgstr "Storlek"
 #: fitsviewer/fitstab.cpp:773
 #, kde-format
 msgid "Item reference number"
-msgstr ""
+msgstr "Objektreferensnummer"
 
 #: fitsviewer/fitstab.cpp:774
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch CDS Portal browser"
-msgstr "Dubbelklicka för att läsa in mörk bild"
+msgstr "Dubbelklicka för att starta CDS-portalbläddrare"
 
 #: fitsviewer/fitstab.cpp:776
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch Simbad browser"
-msgstr "Dubbelklicka för att läsa in mörk bild"
+msgstr "Dubbelklicka för att starta Simbad-bläddrare"
 
 #: fitsviewer/fitstab.cpp:777
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch NED browser"
-msgstr "Dubbelklicka för att läsa in mörk bild"
+msgstr "Dubbelklicka för att starta NED-bläddrare"
 
 #: fitsviewer/fitstab.cpp:778
-#, fuzzy, kde-format
-#| msgctxt "Index Catalog object"
-#| msgid "IC Object"
+#, kde-format
 msgid "Catalog Object"
-msgstr "IC-objekt"
+msgstr "Katalogobjekt"
 
 #: fitsviewer/fitstab.cpp:780
 #, kde-format
@@ -30307,6 +30277,9 @@ msgid ""
 "\n"
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
+"Objekttypkod. Dubbelklicka för att starta objekttypfilter.\n"
+"\n"
+"Se https://simbad.cds.unistra.fr/guide/otypes.htx för mer information"
 
 #: fitsviewer/fitstab.cpp:783
 #, kde-format
@@ -30315,29 +30288,29 @@ msgid ""
 "\n"
 "See https://simbad.cds.unistra.fr/guide/otypes.htx for more details"
 msgstr ""
+"Objekttypbeteckning. Dubbelklicka för att starta objekttypfilter.\n"
+"\n"
+"Se https://simbad.cds.unistra.fr/guide/otypes.htx för mer information"
 
 #: fitsviewer/fitstab.cpp:785
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Mount coordinates"
+#, kde-format
 msgid "Object coordinates"
-msgstr "Stativkoordinater"
+msgstr "Objektkoordinater"
 
 #: fitsviewer/fitstab.cpp:786
 #, kde-format
 msgid "Object distance in arcmins from the search center"
-msgstr ""
+msgstr "Objektets avstånd från sökcentrum i bågminuter"
 
 #: fitsviewer/fitstab.cpp:788
-#, fuzzy, kde-format
-#| msgid "Objects in Image"
+#, kde-format
 msgid "Object V magnitude"
-msgstr "Objekt på bilden"
+msgstr "Objektets V-magnitud"
 
 #: fitsviewer/fitstab.cpp:789
 #, kde-format
 msgid "Object major coordinate size in arcsmins"
-msgstr ""
+msgstr "Objektets huvudkoordinatstorlek i bågminuter"
 
 #: fitsviewer/fitstab.cpp:964 fitsviewer/fitstab.cpp:968
 #, kde-format
@@ -31103,13 +31076,17 @@ msgid ""
 "Querying external catalogs can be slow on slow machines.</span></p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Välj en katalog att använda för att identifiera objekt "
+"på bilden. Den interna himmelskartan är förvald. Externa kataloger kräver "
+"WCS och Internetåtkomst.</p><p><span style=\" font-weight:600;\">Varning: "
+"Det kan gå långsamt att söka i externa kataloger på långsamma datorer.</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: fitsviewer/opsfits.ui:422
-#, fuzzy, kde-format
-#| msgid "Catalog:"
+#, kde-format
 msgid "Object Catalog:"
-msgstr "Katalog:"
+msgstr "Objektkatalog:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (title), widget (QGroupBox, skymapGroup)
@@ -31277,13 +31254,15 @@ msgid ""
 "Uncheck for non-linear (stretched) images which will help with the star "
 "extraction part of plate solving."
 msgstr ""
+"Sök efter linjära (inte utsträckta) bilder. Det är förvald inställning. "
+"Avmarkera för icke-linjära (utsträckta) bilder som hjälper till med "
+"stjärnextraheringen vid lösningen av astrobilder."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsSolverLinear)
 #: fitsviewer/platesolve.ui:495
-#, fuzzy, kde-format
-#| msgid "Linear Scale"
+#, kde-format
 msgid "Linear Image"
-msgstr "Linjär skala"
+msgstr "Linjär bild"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -37092,14 +37071,13 @@ msgstr ""
 #: kstars.kcfg:1573
 #, kde-format
 msgid "Which catalog to pull display objects from."
-msgstr ""
+msgstr "Vilken katalog som visningsobjekt ska hämtas från."
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1577
-#, fuzzy, kde-format
-#| msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
+#, kde-format
 msgid "Whether to display object names on the Fitsviwer or not."
-msgstr "Om KFZ ska visas i v-kurvan efter en automatisk fokusering."
+msgstr "Om objektnamn ska visas i FITS-visningen eller inte."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1582
