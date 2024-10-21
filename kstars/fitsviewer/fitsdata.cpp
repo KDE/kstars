@@ -2028,7 +2028,11 @@ void FITSData::updateRecordValue(const QString &key, QVariant value, const QStri
     {
         // Add item as penultimate entry (END is usually the last one).
         FITSData::Record record = {key, value.toString(), comment};
-        m_HeaderRecords.insert(std::max(0, static_cast<int>(m_HeaderRecords.size() - 1)), record);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        m_HeaderRecords.insert(std::max(0LL, m_HeaderRecords.size() - 1), record);
+#else
+        m_HeaderRecords.insert(std::max(0, m_HeaderRecords.size() - 1), record);
+#endif
     }
 }
 

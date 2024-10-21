@@ -6,7 +6,6 @@
 #pragma once
 
 #include "config-kstars.h"
-#include "nan.h"
 
 #include <KXmlGuiWindow>
 #include <KLocalizedString>

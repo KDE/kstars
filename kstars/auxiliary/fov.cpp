@@ -263,7 +263,7 @@ void FOV::draw(QPainter &p, float zoomFactor)
     auto setNameFont = [&]() -> bool
     {
         int fontSize = pixelSizeX / 15;
-        fontSize *= 14.0 / name().count();
+        fontSize *= 14.0 / name().size();
 
         // Don't let the font size get larger than the vertical space allotted.
         const int maxYPixelSize = (14.0 / 15.0) * (pixelSizeY / 8);
@@ -281,10 +281,10 @@ void FOV::draw(QPainter &p, float zoomFactor)
     auto setSizeFont = [&](const QString & fovString)
     {
         int fontSize = pixelSizeX / 15;
-        fontSize *= 14.0 / name().count();
+        fontSize *= 14.0 / name().size();
         // Maybe make the font size smaller for the field-of-view dimensions.
         const int maxYPixelSize = (14.0 / 15.0) * (pixelSizeY / 8);
-        int fovFontSize = (pixelSizeX / 15) * (14.0 / fovString.count());
+        int fovFontSize = (pixelSizeX / 15) * (14.0 / fovString.size());
         fovFontSize = std::min(maxYPixelSize, fovFontSize);
         fontSize = std::min(fovFontSize, fontSize);
 
@@ -298,7 +298,7 @@ void FOV::draw(QPainter &p, float zoomFactor)
 
     auto drawNameForCircularFov = [&]()
     {
-        if (name().count() > 0)
+        if (name().size() > 0)
         {
             if (!setNameFont())   // Too small
             {
@@ -334,7 +334,7 @@ void FOV::draw(QPainter &p, float zoomFactor)
             p.drawLine(center.x() + pixelSizeX / 20, center.y() - (3 * pixelSizeY / 5), center.x() + pixelSizeX / 70,
                        center.y() - (0.7 * pixelSizeY));
 
-            if (name().count() > 0)
+            if (name().size() > 0)
             {
                 setNameFont();
                 QRect nameRect(targetRect.topLeft().x(), targetRect.topLeft().y() - (pixelSizeY / 8), targetRect.width() / 2,

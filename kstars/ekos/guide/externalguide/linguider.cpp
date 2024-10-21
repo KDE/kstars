@@ -90,7 +90,7 @@ void LinGuider::readLinGuider()
 
         while (1)
         {
-            if (rawBuffer.count() < 8)
+            if (rawBuffer.size() < 8)
                 break;
 
             if (Options::guideLogging())
@@ -113,7 +113,7 @@ void LinGuider::readLinGuider()
             }
 
             qint16 datalen = *(reinterpret_cast<qint16 *>(rawBuffer.data() + 4));
-            if (rawBuffer.count() < datalen + 8)
+            if (rawBuffer.size() < datalen + 8)
                 break;
 
             QString reply = rawBuffer.mid(8, datalen);

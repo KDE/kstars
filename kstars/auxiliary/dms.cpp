@@ -8,7 +8,7 @@
 
 #include <QLocale>
 
-#include <QRegularExpression>>
+#include <QRegularExpression>
 
 // Qt version calming
 #include <qtskipemptyparts.h>

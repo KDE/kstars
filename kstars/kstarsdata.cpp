@@ -205,8 +205,8 @@ bool KStarsData::initialize()
     //     !nonFatalErrorMessage("image_url.dat"))
     //     return false;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    QtConcurrent::run(&KStarsData::readURLData, this, QString("image_url.dat"),
-                      SkyObjectUserdata::Type::image);
+    QFuture<bool> future = QtConcurrent::run(&KStarsData::readURLData, this, QString("image_url.dat"),
+                                             SkyObjectUserdata::Type::image);
 #else
     QtConcurrent::run(this, &KStarsData::readURLData, QString("image_url.dat"),
                       SkyObjectUserdata::Type::image);
@@ -218,8 +218,8 @@ bool KStarsData::initialize()
     //     !nonFatalErrorMessage("info_url.dat"))
     //     return false;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    QtConcurrent::run(&KStarsData::readURLData, this, QString("info_url.dat"),
-                      SkyObjectUserdata::Type::website);
+    future = QtConcurrent::run(&KStarsData::readURLData, this, QString("info_url.dat"),
+                               SkyObjectUserdata::Type::website);
 #else
     QtConcurrent::run(this, &KStarsData::readURLData, QString("info_url.dat"),
                       SkyObjectUserdata::Type::website);

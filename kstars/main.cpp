@@ -4,13 +4,10 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "ksnumbers.h"
 #include "kspaths.h"
 #include "kstars_debug.h"
 #include "kstarsdata.h"
-#include "ksnotification.h"
 #include "kstarsdatetime.h"
-#include "catalogsdb.h"
 #if defined(KSTARS_LITE)
 #include "kstarslite.h"
 #endif
