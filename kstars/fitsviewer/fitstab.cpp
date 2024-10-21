@@ -69,7 +69,8 @@ void FITSTab::saveUnsaved()
     QString caption = i18n("Save Changes to FITS?");
     QString message = i18n("The current FITS file has unsaved changes.  Would you like to save before closing it?");
 
-    int ans = KMessageBox::warningContinueCancel(nullptr, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+    int ans = KMessageBox::warningContinueCancel(nullptr, message, caption, KStandardGuiItem::save(),
+              KStandardGuiItem::discard());
     if (ans == KMessageBox::Continue)
         saveFile();
     if (ans == KMessageBox::Cancel)
@@ -181,6 +182,7 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 
         header.setupUi(fitsHeaderDialog);
         fitsTools->addItem(fitsHeaderDialog, i18n("FITS Header"));
+        connect(m_View.get(), &FITSView::headerChanged, this, &FITSTab::loadFITSHeader);
 
         QVBoxLayout *recentPanelLayout = new QVBoxLayout();
         QWidget *recentPanel = new QWidget(fitsSplitter);
@@ -446,6 +448,8 @@ void FITSTab::statFITS()
 void FITSTab::loadFITSHeader()
 {
     const QSharedPointer<FITSData> &imageData = m_View->imageData();
+    if (!imageData)
+        return;
 
     int nkeys = imageData->getRecords().size();
     int counter = 0;

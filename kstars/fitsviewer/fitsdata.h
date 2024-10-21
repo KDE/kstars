@@ -670,6 +670,11 @@ class FITSData : public QObject
         void dataChanged();
 
         /**
+         * @brief headerChanged Send signal when undelying header data changed.
+         */
+        void headerChanged();
+
+        /**
          * @brief loadingCatalogData Send signal when starting an external catalog data query
          */
         void loadingCatalogData();

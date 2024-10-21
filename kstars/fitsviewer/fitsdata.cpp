@@ -2842,37 +2842,28 @@ bool FITSData::loadWCS()
 
     QByteArray header_str;
     int status = 0;
-    int nkeyrec = 0, nreject = 0;
-    if (fptr)
+    int nkeyrec = 1, nreject = 0;
+    for(auto &fitsKeyword : m_HeaderRecords)
     {
-        char *header = nullptr;
-        if (fits_hdr2str(fptr, 1, nullptr, 0, &header, &nkeyrec, &status))
-        {
-            char errmsg[512];
-            fits_get_errstatus(status, errmsg);
-            m_LastError = errmsg;
-            m_WCSState = Failure;
-            return false;
-        }
-        header_str = QByteArray(header);
-        fits_free_memory(header, &status);
+        // Remove keywords PC1_1... PC2_2 and CD1_1 ... CD2_2 as these are rotational / scaling matrices used by other applications
+        // (other than KStars) that cause WCS issues with the KStars use of CROTA1/2
+        // Also PV1_n and PS1_n
+        // See https://fits.gsfc.nasa.gov/standard40/fits_standard40aa-le.pdf WCS section for more details.
+        if (fitsKeyword.key.startsWith("PC1_") || fitsKeyword.key.startsWith("PC2_") ||
+                fitsKeyword.key.startsWith("CD1_") || fitsKeyword.key.startsWith("CD2_") ||
+                fitsKeyword.key.startsWith("PV1_") || fitsKeyword.key.startsWith("PV2_") ||
+                fitsKeyword.key.startsWith("PS1_") || fitsKeyword.key.startsWith("PS2_"))
+            continue;
+        QByteArray rec;
+        rec.append(fitsKeyword.key.leftJustified(8, ' ').toLatin1());
+        rec.append("= ");
+        rec.append(fitsKeyword.value.toByteArray());
+        rec.append(" / ");
+        rec.append(fitsKeyword.comment.toLatin1());
+        header_str.append(rec.leftJustified(80, ' ', true));
+        nkeyrec++;
     }
-    else
-    {
-        nkeyrec = 1;
-        for(auto &fitsKeyword : m_HeaderRecords)
-        {
-            QByteArray rec;
-            rec.append(fitsKeyword.key.leftJustified(8, ' ').toLatin1());
-            rec.append("= ");
-            rec.append(fitsKeyword.value.toByteArray());
-            rec.append(" / ");
-            rec.append(fitsKeyword.comment.toLatin1());
-            header_str.append(rec.leftJustified(80, ' ', true));
-            nkeyrec++;
-        }
-        header_str.append(QByteArray("END").leftJustified(80));
-    }
+    header_str.append(QByteArray("END").leftJustified(80));
 
     if ((status = wcspih(header_str.data(), nkeyrec, WCSHDR_all, 0, &nreject, &m_nwcs, &m_WCSHandle)) != 0)
     {
@@ -4849,11 +4840,9 @@ void FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
 {
     int status = 0;
 
-    if (fptr == nullptr)
-    {
-        updateWCSHeaderData(orientation, ra, dec, pixscale, eastToTheRight);
-    }
-    else
+    updateWCSHeaderData(orientation, ra, dec, pixscale, eastToTheRight);
+
+    if (fptr)
     {
         fits_update_key(fptr, TDOUBLE, "OBJCTRA", &ra, "Object RA", &status);
         fits_update_key(fptr, TDOUBLE, "OBJCTDEC", &dec, "Object DEC", &status);
@@ -4901,6 +4890,7 @@ void FITSData::injectWCS(double orientation, double ra, double dec, double pixsc
         fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
     }
 
+    emit headerChanged();
     m_WCSState = Idle;
 }
 

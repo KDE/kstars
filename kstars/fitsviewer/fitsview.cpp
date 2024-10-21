@@ -466,6 +466,11 @@ bool FITSView::processData()
         updateFrame();
     });
 
+    connect(m_ImageData.data(), &FITSData::headerChanged, this, [this]()
+    {
+        emit headerChanged();
+    });
+
     connect(m_ImageData.data(), &FITSData::loadingCatalogData, this, [this]()
     {
         emit catQueried();

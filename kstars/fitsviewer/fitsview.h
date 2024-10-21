@@ -163,11 +163,11 @@ class FITSView : public QScrollArea
         }
 
         // Events Management
-        #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         void enterEvent(QEnterEvent *event) override;
-        #else
+#else
         void enterEvent(QEvent *event) override;
-        #endif
+#endif
         void leaveEvent(QEvent *event) override;
         CursorMode getCursorMode();
         void setCursorMode(CursorMode mode);
@@ -509,6 +509,7 @@ class FITSView : public QScrollArea
         void catQueryFailed(const QString text);
         void catReset();
         void catHighlightChanged(const int highlight);
+        void headerChanged();
 
         friend class FITSLabel;
 };
