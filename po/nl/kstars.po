@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-18 01:45+0000\n"
+"POT-Creation-Date: 2024-10-22 01:47+0000\n"
 "PO-Revision-Date: 2024-10-18 11:23+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -559,7 +559,7 @@ msgstr "Voortzetten"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:1184 fitsviewer/fitstab.cpp:1204
+#: fitsviewer/fitstab.cpp:1188 fitsviewer/fitstab.cpp:1208
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -2655,7 +2655,7 @@ msgstr ""
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1244 ekos/capture/camera.cpp:1299
 #: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1928
-#: ekos/scheduler/scheduler.cpp:2038 fitsviewer/fitstab.cpp:1011
+#: ekos/scheduler/scheduler.cpp:2038 fitsviewer/fitstab.cpp:1015
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -3100,7 +3100,7 @@ msgstr "_lic"
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:458
-#: fitsviewer/fitstab.cpp:762
+#: fitsviewer/fitstab.cpp:766
 #, kde-format
 msgid "Object"
 msgstr "Object"
@@ -4058,7 +4058,7 @@ msgstr "Details - Positiegegevens"
 #. i18n: ectx: property (text), widget (QLabel, CoordTitle)
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
-#: fitsviewer/fitstab.cpp:765 kstarslite/qml/dialogs/DetailsDialog.qml:236
+#: fitsviewer/fitstab.cpp:769 kstarslite/qml/dialogs/DetailsDialog.qml:236
 #: printing/detailstable.cpp:509
 #, kde-format, kde-kuit-format
 msgid "Coordinates"
@@ -6666,7 +6666,7 @@ msgstr "Oplospunten exporteren"
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1243
 #: ekos/capture/camera.cpp:1298 ekos/guide/guidedriftgraph.cpp:478
 #: ekos/scheduler/scheduler.cpp:1927 ekos/scheduler/scheduler.cpp:2037
-#: fitsviewer/fitstab.cpp:1010 tools/scriptbuilder.cpp:832
+#: fitsviewer/fitstab.cpp:1014 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10317,7 +10317,7 @@ msgstr "Opnemen"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:1234
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:1238
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:347
 #: skycomponents/imageoverlaycomponent.cpp:720
@@ -10724,7 +10724,7 @@ msgstr "Help..."
 #. i18n: ectx: property (text), widget (QLabel, statsLabel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, solveInfo)
 #. i18n: ectx: property (windowTitle), widget (QDialog, statForm)
-#: ekos/analyze/analyze.ui:302 fitsviewer/fitstab.cpp:170
+#: ekos/analyze/analyze.ui:302 fitsviewer/fitstab.cpp:171
 #: fitsviewer/fitsviewer.cpp:182 fitsviewer/solveInfo.ui:14
 #: fitsviewer/statform.ui:14
 #, kde-format
@@ -19427,7 +19427,7 @@ msgstr "Profiel..."
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1211 ekos/manager.ui:1066 fitsviewer/fitstab.cpp:191
+#: ekos/focus/focus.ui:1211 ekos/manager.ui:1066 fitsviewer/fitstab.cpp:193
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -19853,7 +19853,7 @@ msgstr "Oplossing ligt buiten het maximale bereik."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #: ekos/focus/focushfrvplot.cpp:43 fitsviewer/fitsheaderdialog.ui:53
-#: fitsviewer/fitstab.cpp:406
+#: fitsviewer/fitstab.cpp:408
 #, kde-format
 msgid "Value"
 msgstr "Waarde"
@@ -22525,7 +22525,7 @@ msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Zoeken naar geschikte sterren mislukt. Wordt afgebroken..."
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
-#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:767
+#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:771
 #: kstarslite/qml/dialogs/DetailsDialog.qml:138
 #, kde-format, kde-kuit-format
 msgid "Magnitude"
@@ -25371,8 +25371,8 @@ msgstr "Slaving is aan."
 msgid "Slaving deactivated."
 msgstr "Slaving uitgezet."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:1180
-#: fitsviewer/fitstab.cpp:1200
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:1184
+#: fitsviewer/fitstab.cpp:1204
 #, kde-format
 msgid "Aborting..."
 msgstr "Afbreken..."
@@ -27669,7 +27669,7 @@ msgstr "Herhalen tot afge&sloten"
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Takenplanner aanmaken voor uitvoeren van het mozaïekplan"
 
-#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:744
+#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:749
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
@@ -29748,7 +29748,7 @@ msgstr "Taak '%1' %2x%3\" %4"
 #. i18n: ectx: property (windowTitle), widget (QDialog, CatalogObjectUI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, fitsHeaderDialog)
 #: fitsviewer/catalogobject.ui:14 fitsviewer/fitsheaderdialog.ui:14
-#: fitsviewer/fitstab.cpp:183 fitsviewer/fitsviewer.cpp:147
+#: fitsviewer/fitstab.cpp:184 fitsviewer/fitsviewer.cpp:147
 #, kde-format
 msgid "FITS Header"
 msgstr "FITS-header"
@@ -29959,50 +29959,50 @@ msgstr "Geschiedenis bijwerken is mislukt: %1"
 msgid "Failed to write image: %1"
 msgstr "Afbeelding schrijven is mislukt: %1"
 
-#: fitsviewer/fitsdata.cpp:2885 fitsviewer/fitsdata.cpp:2896
-#: fitsviewer/fitsdata.cpp:2933 fitsviewer/fitsdata.cpp:2969
-#: fitsviewer/fitsdata.cpp:3103
+#: fitsviewer/fitsdata.cpp:2880 fitsviewer/fitsdata.cpp:2891
+#: fitsviewer/fitsdata.cpp:2928 fitsviewer/fitsdata.cpp:2964
+#: fitsviewer/fitsdata.cpp:3098
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Geen wereld coördinatensystemen gevonden."
 
-#: fitsviewer/fitsdata.cpp:3278 fitsviewer/fitsdata.cpp:3386
+#: fitsviewer/fitsdata.cpp:3273 fitsviewer/fitsdata.cpp:3381
 #, kde-format
 msgid "Error querying Simbad"
 msgstr "Fout bij afvragen van Simbad"
 
-#: fitsviewer/fitsdata.cpp:3295
+#: fitsviewer/fitsdata.cpp:3290
 #, kde-format
 msgid "Simbad query timed out"
 msgstr "Tijdslimiet van opvragen bij Simbad"
 
-#: fitsviewer/fitsdata.cpp:4272
+#: fitsviewer/fitsdata.cpp:4267
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Alleen 8 en 16 bits bayer-afbeeldingen worden ondersteund."
 
-#: fitsviewer/fitsdata.cpp:4305
+#: fitsviewer/fitsdata.cpp:4300
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Niet ondersteund bayerpatroon %1."
 
-#: fitsviewer/fitsdata.cpp:4336
+#: fitsviewer/fitsdata.cpp:4331
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Niet ondersteunde bayer offsets %1 %2."
 
-#: fitsviewer/fitsdata.cpp:4404 fitsviewer/fitsdata.cpp:4451
-#: fitsviewer/fitsdata.cpp:4496 fitsviewer/fitsdata.cpp:4543
+#: fitsviewer/fitsdata.cpp:4399 fitsviewer/fitsdata.cpp:4446
+#: fitsviewer/fitsdata.cpp:4491 fitsviewer/fitsdata.cpp:4538
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Kan geen tijdelijk buffergeheugen toewijzen voor bayer: %1"
 
-#: fitsviewer/fitsdata.cpp:4414 fitsviewer/fitsdata.cpp:4506
+#: fitsviewer/fitsdata.cpp:4409 fitsviewer/fitsdata.cpp:4501
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Kan geen tijdelijk buffergeheugen toewijzen voor bayer."
 
-#: fitsviewer/fitsdata.cpp:4434 fitsviewer/fitsdata.cpp:4526
+#: fitsviewer/fitsdata.cpp:4429 fitsviewer/fitsdata.cpp:4521
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Ontbayeren mislukt (%1)"
@@ -30162,7 +30162,7 @@ msgstr ""
 "frequentie:   </td><td>%4</td></tr></table>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSHistogramUI)
-#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:180
+#: fitsviewer/fitshistogramui.ui:32 fitsviewer/fitstab.cpp:181
 #: fitsviewer/fitsviewer.cpp:123
 #, kde-format
 msgid "Histogram"
@@ -30276,111 +30276,111 @@ msgstr ""
 "Het huidige FITS-bestand bevat niet-opgeslagen wijzigingen. Wilt u deze "
 "opslaan voordat u het sluit?"
 
-#: fitsviewer/fitstab.cpp:141
+#: fitsviewer/fitstab.cpp:142
 #, kde-format
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "FITS-viewer-oplosser voor bewerken profiel"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, PlateSolveUI)
-#: fitsviewer/fitstab.cpp:172 fitsviewer/platesolve.ui:14
+#: fitsviewer/fitstab.cpp:173 fitsviewer/platesolve.ui:14
 #, kde-format
 msgid "Plate Solving"
 msgstr "Oplossen van platen"
 
-#: fitsviewer/fitstab.cpp:177
+#: fitsviewer/fitstab.cpp:178
 #, kde-format
 msgid "Catalog Objects"
 msgstr "Catalogusobjecten"
 
-#: fitsviewer/fitstab.cpp:188
+#: fitsviewer/fitstab.cpp:190
 #, kde-format
 msgid "Recent Images"
 msgstr "Recente afbeeldingen"
 
-#: fitsviewer/fitstab.cpp:418
+#: fitsviewer/fitstab.cpp:420
 #, kde-format
 msgctxt "Red"
 msgid "R"
 msgstr "R"
 
-#: fitsviewer/fitstab.cpp:579
+#: fitsviewer/fitstab.cpp:583
 #, kde-format
 msgid "%1 / %2 Simbad objects loaded"
 msgstr "%1 / %2 Simbad-objecten geladen"
 
-#: fitsviewer/fitstab.cpp:594
+#: fitsviewer/fitstab.cpp:598
 #, kde-format
 msgid "Simbad query in progress..."
 msgstr "Afvragen in Simbad in uitvoering..."
 
-#: fitsviewer/fitstab.cpp:758
+#: fitsviewer/fitstab.cpp:762
 #, kde-format
 msgid "Num"
 msgstr "Num"
 
-#: fitsviewer/fitstab.cpp:759
+#: fitsviewer/fitstab.cpp:763
 #, kde-format
 msgid "CDS Portal"
 msgstr "CDS-portaal"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
-#: fitsviewer/fitstab.cpp:760 fitsviewer/opsfits.ui:435
+#: fitsviewer/fitstab.cpp:764 fitsviewer/opsfits.ui:435
 #, kde-format
 msgid "Simbad"
 msgstr "Simbad"
 
-#: fitsviewer/fitstab.cpp:761
+#: fitsviewer/fitstab.cpp:765
 #, kde-format
 msgid "NED"
 msgstr "NED"
 
-#: fitsviewer/fitstab.cpp:763
+#: fitsviewer/fitstab.cpp:767
 #, kde-format
 msgid "Type Code"
 msgstr "Type code"
 
-#: fitsviewer/fitstab.cpp:764
+#: fitsviewer/fitstab.cpp:768
 #, kde-format
 msgid "Type Label"
 msgstr "Type label"
 
-#: fitsviewer/fitstab.cpp:766 kstarslite/qml/dialogs/DetailsDialog.qml:143
+#: fitsviewer/fitstab.cpp:770 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
 msgid "Distance"
 msgstr "Afstand"
 
-#: fitsviewer/fitstab.cpp:768 fitsviewer/fitsviewer.cpp:1394
+#: fitsviewer/fitstab.cpp:772 fitsviewer/fitsviewer.cpp:1394
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Grootte"
 
-#: fitsviewer/fitstab.cpp:773
+#: fitsviewer/fitstab.cpp:777
 #, kde-format
 msgid "Item reference number"
 msgstr "Referentienummer van item"
 
-#: fitsviewer/fitstab.cpp:774
+#: fitsviewer/fitstab.cpp:778
 #, kde-format
 msgid "Double click to launch CDS Portal browser"
 msgstr "Dubbelklikken om browser van CDS-portaal te starten"
 
-#: fitsviewer/fitstab.cpp:776
+#: fitsviewer/fitstab.cpp:780
 #, kde-format
 msgid "Double click to launch Simbad browser"
 msgstr "Dubbelklikken om Simbad-browser te starten"
 
-#: fitsviewer/fitstab.cpp:777
+#: fitsviewer/fitstab.cpp:781
 #, kde-format
 msgid "Double click to launch NED browser"
 msgstr "Dubbelklikken om NED-browser te starten"
 
-#: fitsviewer/fitstab.cpp:778
+#: fitsviewer/fitstab.cpp:782
 #, kde-format
 msgid "Catalog Object"
 msgstr "Catalogusobject"
 
-#: fitsviewer/fitstab.cpp:780
+#: fitsviewer/fitstab.cpp:784
 #, kde-format
 msgid ""
 "Object Type Code. Double click to launch Object Type Filter.\n"
@@ -30391,7 +30391,7 @@ msgstr ""
 "\n"
 "Zie https://simbad.cds.unistra.fr/guide/otypes.htx voor meer details"
 
-#: fitsviewer/fitstab.cpp:783
+#: fitsviewer/fitstab.cpp:787
 #, kde-format
 msgid ""
 "Object Type Label. Double click to launch Object Type Filter.\n"
@@ -30402,184 +30402,184 @@ msgstr ""
 "\n"
 "Zie https://simbad.cds.unistra.fr/guide/otypes.htx voor meer details"
 
-#: fitsviewer/fitstab.cpp:785
+#: fitsviewer/fitstab.cpp:789
 #, kde-format
 msgid "Object coordinates"
 msgstr "Objectcoördinaten"
 
-#: fitsviewer/fitstab.cpp:786
+#: fitsviewer/fitstab.cpp:790
 #, kde-format
 msgid "Object distance in arcmins from the search center"
 msgstr "Afstand van object in arcmins vanaf het zoekcentrum"
 
-#: fitsviewer/fitstab.cpp:788
+#: fitsviewer/fitstab.cpp:792
 #, kde-format
 msgid "Object V magnitude"
 msgstr "V-magnitude van object"
 
-#: fitsviewer/fitstab.cpp:789
+#: fitsviewer/fitstab.cpp:793
 #, kde-format
 msgid "Object major coordinate size in arcsmins"
 msgstr "Hoofd grootte van coördinaat in arcsmins van object"
 
-#: fitsviewer/fitstab.cpp:964 fitsviewer/fitstab.cpp:968
+#: fitsviewer/fitstab.cpp:968 fitsviewer/fitstab.cpp:972
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "FITS opslaan"
 
-#: fitsviewer/fitstab.cpp:1000
+#: fitsviewer/fitstab.cpp:1004
 #, kde-format
 msgid "Image save error: %1"
 msgstr "Fout bij opslaan afbeelding: %1"
 
-#: fitsviewer/fitstab.cpp:1000
+#: fitsviewer/fitstab.cpp:1004
 #, kde-format
 msgid "Image Save"
 msgstr "Afbeelding opslaan"
 
-#: fitsviewer/fitstab.cpp:1004
+#: fitsviewer/fitstab.cpp:1008
 #, kde-format
 msgid "File saved to %1"
 msgstr "Bestand opgeslagen in %1"
 
-#: fitsviewer/fitstab.cpp:1190
+#: fitsviewer/fitstab.cpp:1194
 #, kde-format
 msgid "Extracting..."
 msgstr "Extraheren..."
 
-#: fitsviewer/fitstab.cpp:1208
+#: fitsviewer/fitstab.cpp:1212
 #, kde-format
 msgid "Solving..."
 msgstr "Oplossen..."
 
-#: fitsviewer/fitstab.cpp:1221
+#: fitsviewer/fitstab.cpp:1225
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Tijd voor extraheren is verlopen: %1s"
 
-#: fitsviewer/fitstab.cpp:1230
+#: fitsviewer/fitstab.cpp:1234
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Extraheren is mislukt: %1s"
 
-#: fitsviewer/fitstab.cpp:1239
+#: fitsviewer/fitstab.cpp:1243
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "%1 sterren geëxtraheerd (%2 ongefilterd) in %3s"
 
-#: fitsviewer/fitstab.cpp:1287
+#: fitsviewer/fitstab.cpp:1291
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Tijd voor oplossen is verlopen: %1s"
 
-#: fitsviewer/fitstab.cpp:1292
+#: fitsviewer/fitstab.cpp:1296
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Oplossen is mislukt: %1s"
 
-#: fitsviewer/fitstab.cpp:1466
+#: fitsviewer/fitstab.cpp:1470
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Waarschuwing! Dit hulpmiddel ondersteunt alleen de interne oplosser "
 "StellarSolver."
 
-#: fitsviewer/fitstab.cpp:1467
+#: fitsviewer/fitstab.cpp:1471
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Wijzig daarnaar in de het optiemenu Ekos uitlijnen."
 
-#: fitsviewer/fitsview.cpp:538 fitsviewer/fitsview.cpp:548
+#: fitsviewer/fitsview.cpp:543 fitsviewer/fitsview.cpp:553
 #, kde-format
 msgid "Rescaling image failed."
 msgstr "Opnieuw schalen afbeelding is mislukt."
 
-#: fitsviewer/fitsview.cpp:754
+#: fitsviewer/fitsview.cpp:759
 #, kde-format
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "Kan niet verder inzoomen wegens actieve modus beperkte bronnen."
 
-#: fitsviewer/fitsview.cpp:1836
+#: fitsviewer/fitsview.cpp:1841
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NCP"
 
-#: fitsviewer/fitsview.cpp:1853
+#: fitsviewer/fitsview.cpp:1858
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2323
+#: fitsviewer/fitsview.cpp:2328
 #, kde-format
 msgid "Finding stars..."
 msgstr "Sterren zoeken..."
 
-#: fitsviewer/fitsview.cpp:2623
+#: fitsviewer/fitsview.cpp:2628
 #, kde-format
 msgid "Zoom In"
 msgstr "Inzoomen"
 
-#: fitsviewer/fitsview.cpp:2626
+#: fitsviewer/fitsview.cpp:2631
 #, kde-format
 msgid "Zoom Out"
 msgstr "Uitzoomen"
 
-#: fitsviewer/fitsview.cpp:2629
+#: fitsviewer/fitsview.cpp:2634
 #, kde-format
 msgid "Default Zoom"
 msgstr "Standaard zoom"
 
-#: fitsviewer/fitsview.cpp:2632
+#: fitsviewer/fitsview.cpp:2637
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Passend zoomen"
 
-#: fitsviewer/fitsview.cpp:2635
+#: fitsviewer/fitsview.cpp:2640
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Uitrekken aan/uit"
 
-#: fitsviewer/fitsview.cpp:2643 fitsviewer/fitsviewer.cpp:222
+#: fitsviewer/fitsview.cpp:2648 fitsviewer/fitsviewer.cpp:222
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Draadkruis tonen"
 
-#: fitsviewer/fitsview.cpp:2647 fitsviewer/fitsviewer.cpp:235
+#: fitsviewer/fitsview.cpp:2652 fitsviewer/fitsviewer.cpp:235
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Pixel roosterlijnen tonen"
 
-#: fitsviewer/fitsview.cpp:2652 fitsviewer/fitsview.cpp:2761
+#: fitsviewer/fitsview.cpp:2657 fitsviewer/fitsview.cpp:2766
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Sterren in afbeelding detecteren"
 
-#: fitsviewer/fitsview.cpp:2658
+#: fitsviewer/fitsview.cpp:2663
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Profiel van ster bekijken..."
 
-#: fitsviewer/fitsview.cpp:2668 fitsviewer/fitsviewer.cpp:241
+#: fitsviewer/fitsview.cpp:2673 fitsviewer/fitsviewer.cpp:241
 #: fitsviewer/fitsviewer.cpp:1311
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Equatoriale roosterlijnen tonen"
 
-#: fitsviewer/fitsview.cpp:2674 fitsviewer/fitsviewer.cpp:248
+#: fitsviewer/fitsview.cpp:2679 fitsviewer/fitsviewer.cpp:248
 #: fitsviewer/fitsviewer.cpp:1313
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Objecten in afbeelding tonen"
 
-#: fitsviewer/fitsview.cpp:2680
+#: fitsviewer/fitsview.cpp:2685
 #, kde-format
 msgid "Center Telescope"
 msgstr "Telescoop centreren"
 
-#: fitsviewer/fitsview.cpp:2686 fitsviewer/fitsviewer.cpp:255
+#: fitsviewer/fitsview.cpp:2691 fitsviewer/fitsviewer.cpp:255
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "HiPS-overlegvel tonen"
@@ -70338,12 +70338,12 @@ msgstr "Niet geïmplementeerd."
 msgid "About"
 msgstr "Over"
 
-#: kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:105
+#: kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:102
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstarslite/qml/dialogs/AboutDialog.qml:37 main.cpp:48
+#: kstarslite/qml/dialogs/AboutDialog.qml:37 main.cpp:45
 #, kde-format, kde-kuit-format
 msgid "Desktop Planetarium"
 msgstr "Planetarium op uw bureaublad"
@@ -74717,7 +74717,7 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr "warm"
 
-#: main.cpp:50
+#: main.cpp:47
 #, kde-format
 msgid ""
 "Some images in KStars are for non-commercial use only. See README.images."
@@ -74725,7 +74725,7 @@ msgstr ""
 "Sommige afbeeldingen in KStars zijn niet bestemd voor commercieel gebruik. "
 "Lees README.images."
 
-#: main.cpp:72
+#: main.cpp:69
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
@@ -74734,7 +74734,7 @@ msgstr ""
 "Het spijt ons, KStars kan niet werken zonder een gegevensmap voor KStars "
 "(KStars Data Directory). Het programma wordt nu afgesloten."
 
-#: main.cpp:107
+#: main.cpp:104
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -74745,7 +74745,7 @@ msgstr ""
 "\n"
 "Het Gaussian Process Guider Algoritme: (c) 2014-2017 Max Planck Society"
 
-#: main.cpp:109
+#: main.cpp:106
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -74761,367 +74761,367 @@ msgstr ""
 "\n"
 "%3"
 
-#: main.cpp:116
+#: main.cpp:113
 #, kde-format
 msgid "Jason Harris"
 msgstr "Jason Harris"
 
-#: main.cpp:116
+#: main.cpp:113
 #, kde-format
 msgid "Original Author"
 msgstr "Originele auteur"
 
-#: main.cpp:118
+#: main.cpp:115
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr "Jasem Mutlaq"
 
-#: main.cpp:118
+#: main.cpp:115
 #, kde-format
 msgid "Current Maintainer"
 msgstr "Huidige onderhouder"
 
-#: main.cpp:122
+#: main.cpp:119
 #, kde-format
 msgid "Akarsh Simha"
 msgstr "Akarsh Simha"
 
-#: main.cpp:124
+#: main.cpp:121
 #, kde-format
 msgid "Robert Lancaster"
 msgstr "Robert Lancaster"
 
-#: main.cpp:125
+#: main.cpp:122
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr "Verbeteringen van FITSViewer & Ekos. Porten van KStars OSX"
 
-#: main.cpp:127
+#: main.cpp:124
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
-#: main.cpp:128
+#: main.cpp:125
 #, kde-format
 msgid "Ekos Scheduler Improvements"
 msgstr "Verbeteringen Taakplanner Ekos"
 
-#: main.cpp:129
+#: main.cpp:126
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr "Wolfgang Reissenberger"
 
-#: main.cpp:131
+#: main.cpp:128
 #, kde-format
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "Taakplanner Ekos & Verbeteringen sterrenwacht"
 
-#: main.cpp:132
+#: main.cpp:129
 #, kde-format
 msgid "Hy Murveit"
 msgstr "Hy Murveit"
 
-#: main.cpp:133
+#: main.cpp:130
 #, kde-format
 msgid "FITS, Focus, Guide Improvements"
 msgstr "Verbeteringen FITS, Focus, Volgen"
 
-#: main.cpp:134
+#: main.cpp:131
 #, kde-format
 msgid "John Evans"
 msgstr "John Evans"
 
-#: main.cpp:135
+#: main.cpp:132
 #, kde-format
 msgid "Focus algorithms"
 msgstr "Algoritmen voor focussen"
 
-#: main.cpp:138
+#: main.cpp:135
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr "Csaba Kertesz"
 
-#: main.cpp:140
+#: main.cpp:137
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr "Binaire asteroïde lijst, DSO-database & catalogi"
 
-#: main.cpp:141
+#: main.cpp:138
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr "Artem Fedoskin"
 
-#: main.cpp:141
+#: main.cpp:138
 #, kde-format
 msgid "KStars Lite"
 msgstr "KStars Lite"
 
-#: main.cpp:143
+#: main.cpp:140
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:144
+#: main.cpp:141
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:145
+#: main.cpp:142
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:146
+#: main.cpp:143
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:148
+#: main.cpp:145
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:149
+#: main.cpp:146
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:150
+#: main.cpp:147
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Alexey Khudyakov"
 
-#: main.cpp:151
+#: main.cpp:148
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "M&eacute;d&eacute;ric Boquien"
 
-#: main.cpp:153
+#: main.cpp:150
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "J&eacute;r&ocirc;me Sonrier"
 
-#: main.cpp:155
+#: main.cpp:152
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Prakash Mohan"
 
-#: main.cpp:156
+#: main.cpp:153
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Victor Cărbune"
 
-#: main.cpp:157
+#: main.cpp:154
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Henry de Valence"
 
-#: main.cpp:158
+#: main.cpp:155
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Samikshan Bairagya"
 
-#: main.cpp:160
+#: main.cpp:157
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Rafał Kułaga"
 
-#: main.cpp:161
+#: main.cpp:158
 #, kde-format
 msgid "Rishab Arora"
 msgstr "Rishab Arora"
 
-#: main.cpp:165
+#: main.cpp:162
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Valery Kharitonov"
 
-#: main.cpp:166
+#: main.cpp:163
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 "Herleidde teksten met technische termen naar koppelingen naar de documentatie"
 
-#: main.cpp:167
+#: main.cpp:164
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ana-Maria Constantin"
 
-#: main.cpp:168
+#: main.cpp:165
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr "Technische documentatie over Astronomie en KStars"
 
-#: main.cpp:169
+#: main.cpp:166
 #, kde-format
 msgid "Andrew Stepanenko"
 msgstr "Andrew Stepanenko"
 
-#: main.cpp:170
+#: main.cpp:167
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr "Volgcode op basis van lin_guider"
 
-#: main.cpp:171
+#: main.cpp:168
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr "Nuno Pinheiro"
 
-#: main.cpp:171
+#: main.cpp:168
 #, kde-format
 msgid "Artwork"
 msgstr "Uiterlijk van KStars"
 
-#: main.cpp:173
+#: main.cpp:170
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr "Utkarsh Simha"
 
-#: main.cpp:174
+#: main.cpp:171
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr "Uitvoering waarneemplan verbeteren, van ster naar ster gaan enz."
 
-#: main.cpp:175
+#: main.cpp:172
 #, kde-format
 msgid "Daniel Holler"
 msgstr "Daniel Holler"
 
-#: main.cpp:176
+#: main.cpp:173
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr "Uitvoerig testen en suggesties voor Ekos/INDI."
 
-#: main.cpp:178
+#: main.cpp:175
 #, kde-format
 msgid "Stephane Lucas"
 msgstr "Stephane Lucas"
 
-#: main.cpp:179
+#: main.cpp:176
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 "Uitvoerig testen van en suggesties voor planner van Ekos. KStars OSX Port"
 
-#: main.cpp:180
+#: main.cpp:177
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr "Yuri Fabirovsky"
 
-#: main.cpp:181
+#: main.cpp:178
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr ""
 "Splash screen (opstartscherm) van zowel de gewone KStars en KStars Lite"
 
-#: main.cpp:182
+#: main.cpp:179
 #, kde-format
 msgid "Jamie Smith"
 msgstr "Jamie Smith"
 
-#: main.cpp:182
+#: main.cpp:179
 #, kde-format
 msgid "KStars OSX Port."
 msgstr "KStars OSX Port."
 
-#: main.cpp:183
+#: main.cpp:180
 #, kde-format
 msgid "Patrick Molenaar"
 msgstr "Patrick Molenaar"
 
-#: main.cpp:183
+#: main.cpp:180
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr "Bahtinov Focusassistent."
 
-#: main.cpp:184
+#: main.cpp:181
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr "Philipp Auersperg-Castell"
 
-#: main.cpp:184
+#: main.cpp:181
 #, kde-format
 msgid "Supernovae daily updates"
 msgstr "Dagelijkse update van supernova's"
 
-#: main.cpp:185
+#: main.cpp:182
 #, kde-format
 msgid "Tony Schriber"
 msgstr "Tony Schriber"
 
-#: main.cpp:185
+#: main.cpp:182
 #, kde-format
 msgid "Rotator Dialog improvements"
 msgstr "Verbeteringen in de dialoog van de rotator"
 
-#: main.cpp:186
+#: main.cpp:183
 #, kde-format
 msgid "Joseph McGee"
 msgstr "Joseph McGee"
 
-#: main.cpp:186
+#: main.cpp:183
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 "Rekenmachine voor onderbelichting gebaseerd op werk van Dr Robin Glover"
 
-#: main.cpp:195
+#: main.cpp:192
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Hemelafbeelding opslaan in bestand."
 
-#: main.cpp:196
+#: main.cpp:193
 #, kde-format
 msgid "Script to execute."
 msgstr "Uit te voeren script."
 
-#: main.cpp:197
+#: main.cpp:194
 #, kde-format
 msgid "Width of sky image."
 msgstr "Breedte van de hemelafbeelding."
 
-#: main.cpp:198
+#: main.cpp:195
 #, kde-format
 msgid "Height of sky image."
 msgstr "Hoogte van de hemelafbeelding."
 
-#: main.cpp:199
+#: main.cpp:196
 #, kde-format
 msgid "Date and time."
 msgstr "Datum en tijd."
 
-#: main.cpp:200
+#: main.cpp:197
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Starten met gestopte klok."
 
-#: main.cpp:203
+#: main.cpp:200
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "Te openen FITS-bestand(en)."
 
-#: main.cpp:239 printing/foveditordialog.cpp:176
+#: main.cpp:236 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Kon type afbeelding van %1 niet lezen. PNG wordt aangenomen."
 
-#: main.cpp:297
+#: main.cpp:294
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 "Meegegeven gegevensstring is ongeldig: %1. Vervangen door datum/tijd van CPU."
 
-#: main.cpp:328
+#: main.cpp:325
 #, kde-format
 msgid "Script executed."
 msgstr "Script uitgevoerd."
 
-#: main.cpp:332
+#: main.cpp:329
 #, kde-format
 msgid "Could not execute script."
 msgstr "Het script kon niet worden uitgevoerd."
 
-#: main.cpp:356
+#: main.cpp:353
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Datum/tijd van de CVE wordt gebruikt."
