@@ -180,10 +180,6 @@ void NodeManager::onResult(QNetworkReply *reply)
         return;
     }
 
-    // Cloud only supported for plan_id = 1
-    if (m_AuthResponse["plan_id"].toString("2") == "2")
-        m_Nodes.remove(Cloud);
-
     for (auto &node : m_Nodes)
     {
         node->setAuthResponse(m_AuthResponse);
