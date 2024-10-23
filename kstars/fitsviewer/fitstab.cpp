@@ -615,7 +615,7 @@ void FITSTab::catHighlightRow(const int row)
     m_CatalogObjectUI.tableView->selectRow(row);
     QModelIndex index = m_CatalogObjectUI.tableView->indexAt(QPoint(row, CAT_NUM));
     if (index.isValid())
-        m_CatalogObjectUI.tableView->scrollTo(index, QAbstractItemView::PositionAtCenter);
+        m_CatalogObjectUI.tableView->scrollTo(index, QAbstractItemView::EnsureVisible);
 }
 
 void FITSTab::catHighlightChanged(const int highlight)
@@ -637,13 +637,11 @@ void FITSTab::catHighlightChanged(const int highlight)
         QStandardItem *itm = m_CatObjModel.item(i, CAT_NUM);
         if (itm->text().toInt(&ok) == num)
         {
-            int currentCol = CAT_NUM;
             int itmRow = itm->row();
             QModelIndex currentIndex = m_CatalogObjectUI.tableView->currentIndex();
             if (currentIndex.isValid())
             {
                 int currentRow = m_CatObjModel.itemFromIndex(currentIndex)->row();
-                currentCol = m_CatObjModel.itemFromIndex(currentIndex)->column();
                 if (currentRow == itmRow)
                     // Row to highlight is already highlighted - so nothing to do
                     break;
