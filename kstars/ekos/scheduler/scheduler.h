@@ -10,6 +10,10 @@
 #pragma once
 
 #include "ui_scheduler.h"
+#include "opsoffsetsettings.h"
+#include "opsalignmentsettings.h"
+#include "opsjobssettings.h"
+#include "opscleanupsettings.h"
 #include "schedulertypes.h"
 #include "ekos/align/align.h"
 #include "indi/indiweather.h"
@@ -104,6 +108,18 @@ public:
          * @param sequenceFileURL URL of the capture sequence file
          */
         void setSequence(const QString &sequenceFileURL);
+
+        /**
+         * @brief prepareGUI Perform once only GUI prep processing
+         */
+        void prepareGUI();
+
+        // Settings popup
+        OpsOffsetSettings *m_OpsOffsetSettings { nullptr };
+        OpsAlignmentSettings *m_OpsAlignmentSettings { nullptr };
+        OpsJobsSettings *m_OpsJobsSettings { nullptr };
+        OpsCleanupSettings *m_OpsCleanupSettings { nullptr };
+
 
         /** DBUS interface function.
              * @brief Resets all jobs to IDLE

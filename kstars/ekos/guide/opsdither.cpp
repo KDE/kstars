@@ -50,7 +50,7 @@ OpsDither::OpsDither() : QFrame(KStars::Instance())
         kcfg_DitherMaxIterations->setEnabled(!checked);
     });
 
-    connect(m_ConfigDialog, SIGNAL(settingsChanged(QString)), this, SIGNAL(settingsUpdated()));
+    connect(m_ConfigDialog, &KConfigDialog::settingsChanged, this, &OpsDither::settingsUpdated);
 
 }
 

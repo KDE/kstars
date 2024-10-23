@@ -667,7 +667,7 @@ void DarkLibrary::clearAll()
         return;
 
     if (KMessageBox::warningContinueCancel(KStars::Instance(),
-                                   i18n("Are you sure you want to delete all dark frames images and data?")) ==
+                                           i18n("Are you sure you want to delete all dark frames images and data?")) ==
             KMessageBox::Continue)
         return;
 

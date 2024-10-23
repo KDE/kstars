@@ -2917,17 +2917,37 @@ void Manager::showEkosOptions()
         return;
     }
 
-    const bool isCapture = (captureModule() && captureModule() == currentWidget);
-    const bool isScheduler = (schedulerModule() && schedulerModule() == currentWidget);
+    if (schedulerModule() == currentWidget)
+    {
+        KConfigDialog * cDialog = KConfigDialog::exists("schedulersettings");
+            if(cDialog)
+            {
+                cDialog->show();
+                cDialog->raise();  // for MacOS
+                cDialog->activateWindow(); // for Windows
+            }
+            return;
+    }
+
+    if(captureModule() == currentWidget)
+    {
+        KConfigDialog * cDialog = KConfigDialog::exists("capturesettings");
+        if(cDialog)
+        {
+            cDialog->show();
+            cDialog->raise();  // for MacOS
+            cDialog->activateWindow(); // for Windows
+        }
+        return;
+    }
+
     const bool isAnalyze = (analyzeProcess.get() && analyzeProcess.get() == currentWidget);
-    if (isCapture || isScheduler || isAnalyze)
+    if (isAnalyze)
     {
         if (opsEkos)
         {
             int index = 0;
-            if (isScheduler)    index = 1;
-            else if (isCapture) index = 2;
-            else if (isAnalyze) index = 3;
+            if (isAnalyze) index = 1;
             opsEkos->setCurrentIndex(index);
         }
         KConfigDialog * cDialog = KConfigDialog::exists("settings");

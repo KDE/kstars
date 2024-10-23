@@ -5,6 +5,9 @@
 */
 
 #include "capture.h"
+#include "opsmiscsettings.h"
+#include "opsdslrsettings.h"
+#include <KConfigDialog>
 
 #include "cameraprocess.h"
 #include "camerastate.h"
@@ -51,6 +54,7 @@ namespace Ekos
 Capture::Capture()
 {
     setupUi(this);
+    prepareGUI();
     m_moduleState.reset(new CaptureModuleState());
 
     qRegisterMetaType<CaptureState>("CaptureState");
@@ -95,6 +99,24 @@ Capture::Capture()
 }
 
 
+void Capture::prepareGUI()
+{
+    KConfigDialog *dialog = new KConfigDialog(this, "capturesettings", Options::self());
+
+#ifdef Q_OS_MACOS
+    dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+#endif
+
+    m_OpsMiscSettings = new OpsMiscSettings();
+    KPageWidgetItem *page = dialog->addPage(m_OpsMiscSettings, i18n("Misc"), nullptr, i18n("Capture Misc"), false);
+    page->setIcon(QIcon::fromTheme("configure"));
+
+    m_OpsDslrSettings = new OpsDslrSettings();
+    page = dialog->addPage(m_OpsDslrSettings, i18n("DSLR"), nullptr, i18n("Capture DSLR"), false);
+    page->setIcon(QIcon::fromTheme("camera-photo"));
+
+
+}
 QSharedPointer<Camera> Capture::addCamera()
 {
     QSharedPointer<Camera> newCamera;

@@ -7,7 +7,6 @@
 #include "opsekos.h"
 
 #include "manager.h"
-#include "kspaths.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -21,11 +20,6 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
 
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists("settings");
-
-    connect(clearDSLRInfoB, &QPushButton::clicked, [ = ] ()
-    {
-        KStarsData::Instance()->userdb()->DeleteAllDSLRInfo();
-    });
 
     connect(kcfg_EkosTopIcons, &QRadioButton::toggled, this, [this]()
     {

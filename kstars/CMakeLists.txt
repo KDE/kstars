@@ -126,6 +126,10 @@ if (INDI_FOUND)
             ekos/scheduler/scheduler.ui
             ekos/scheduler/framingassistant.ui
             ekos/scheduler/scheduleraltitudegraph.ui
+            ekos/scheduler/opsalignmentsettings.ui
+            ekos/scheduler/opscleanupsettings.ui
+            ekos/scheduler/opsoffsetsettings.ui
+            ekos/scheduler/opsjobssettings.ui
             # Capture
             ekos/capture/capture.ui
             ekos/capture/camera.ui
@@ -139,6 +143,9 @@ if (INDI_FOUND)
             ekos/capture/scriptsmanager.ui
             ekos/capture/limits.ui
             ekos/capture/sequenceeditorui.ui
+            ekos/capture/opsdslrsettings.ui
+            ekos/capture/opsmiscsettings.ui
+
             # Exposure Calculator
             ekos/capture/exposurecalculator/exposurecalculatordialog.ui
             ekos/capture/exposurecalculator/fileutilitycameradatadialog.ui            
@@ -255,6 +262,8 @@ if (INDI_FOUND)
             ekos/capture/scriptsmanager.cpp
             ekos/capture/placeholderpath.cpp
             ekos/capture/sequenceeditor.cpp
+            ekos/capture/opsdslrsettings.cpp
+            ekos/capture/opsmiscsettings.cpp
             
             # Exposure Calculator
             ekos/capture/exposurecalculator/exposurecalculatordialog.cpp
@@ -286,6 +295,10 @@ if (INDI_FOUND)
             #ekos/scheduler/mosaicrenderer.cpp
             ekos/scheduler/greedyscheduler.cpp
             ekos/scheduler/scheduleraltitudegraph.cpp
+            ekos/scheduler/opsalignmentsettings.cpp
+            ekos/scheduler/opscleanupsettings.cpp
+            ekos/scheduler/opsjobssettings.cpp
+            ekos/scheduler/opsoffsetsettings.cpp
 
             # Focus
             ekos/focus/focus.cpp

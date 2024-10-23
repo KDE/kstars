@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
-    <height>475</height>
+    <width>268</width>
+    <height>211</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
    <attribute name="title">
     <string>General</string>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
     <property name="spacing">
      <number>3</number>
     </property>
@@ -37,14 +37,11 @@
      <number>3</number>
     </property>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="spacing">
-       <number>3</number>
-      </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QGroupBox" name="groupBox_3">
         <property name="title">
-         <string>Configuration</string>
+         <string>Load device Configuration</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
@@ -62,13 +59,6 @@
          <property name="bottomMargin">
           <number>3</number>
          </property>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Load device configuration:</string>
-           </property>
-          </widget>
-         </item>
          <item>
           <widget class="QRadioButton" name="kcfg_neverLoadConfig">
            <property name="text">
@@ -96,759 +86,78 @@
         </layout>
        </widget>
       </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <property name="spacing">
-       <number>3</number>
-      </property>
       <item>
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Icons orientation:</string>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="spacing">
+         <number>3</number>
         </property>
-       </widget>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Icons orientation:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="kcfg_EkosTopIcons">
+          <property name="toolTip">
+           <string>Ekos modules icons are placed on the top of pages</string>
+          </property>
+          <property name="text">
+           <string>Top</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">ekosIconsPositionGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="kcfg_EkosLeftIcons">
+          <property name="toolTip">
+           <string>Ekos module icons are placed to the left of pages</string>
+          </property>
+          <property name="text">
+           <string>&amp;Left</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">ekosIconsPositionGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QRadioButton" name="kcfg_EkosTopIcons">
+       <widget class="QCheckBox" name="kcfg_independentWindowEkos">
         <property name="toolTip">
-         <string>Ekos modules icons are placed on the top of pages</string>
+         <string>Make Ekos window independent from KStars main window. Requires restart to take effect.</string>
         </property>
         <property name="text">
-         <string>Top</string>
+         <string>Independent window</string>
         </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">ekosIconsPositionGroup</string>
-        </attribute>
        </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="kcfg_EkosLeftIcons">
-        <property name="toolTip">
-         <string>Ekos module icons are placed to the left of pages</string>
-        </property>
-        <property name="text">
-         <string>&amp;Left</string>
-        </property>
-        <attribute name="buttonGroup">
-         <string notr="true">ekosIconsPositionGroup</string>
-        </attribute>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QCheckBox" name="kcfg_independentWindowEkos">
-      <property name="toolTip">
-       <string>Make Ekos window independent from KStars main window. Requires restart to take effect.</string>
-      </property>
-      <property name="text">
-       <string>Independent window</string>
-      </property>
-     </widget>
     </item>
     <item>
      <spacer name="verticalSpacer_2">
       <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="schedulerTab">
-   <attribute name="title">
-    <string>Scheduler</string>
-   </attribute>
-   <layout class="QGridLayout" name="gridLayout_4">
-    <property name="leftMargin">
-     <number>3</number>
-    </property>
-    <property name="topMargin">
-     <number>3</number>
-    </property>
-    <property name="rightMargin">
-     <number>3</number>
-    </property>
-    <property name="bottomMargin">
-     <number>3</number>
-    </property>
-    <property name="spacing">
-     <number>3</number>
-    </property>
-    <item row="0" column="0" rowspan="2">
-     <widget class="QGroupBox" name="groupBox_5">
-      <property name="title">
-       <string>Offsets</string>
-      </property>
-      <layout class="QFormLayout" name="formLayout">
-       <property name="horizontalSpacing">
-        <number>3</number>
-       </property>
-       <property name="verticalSpacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="leadTimeLabel">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lead time is the minimum time in minutes between jobs. The scheduler starts execution of a job before its scheduled startup time by this lead time. Early execution is useful as focusing, alignment, and guiding procedures may take prolonged periods to time to complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Lead time:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="preDawnLabel">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Pre-dawn:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="kcfg_PreemptiveShutdown">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Pre-emptive shutdown:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="duskOffsetLabel">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dusk by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Dusk offset:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QDoubleSpinBox" name="kcfg_DuskOffset">
-         <property name="minimum">
-          <double>-24.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>24.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.500000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="dawnOffsetLabel">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dawn by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Dawn offset:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QDoubleSpinBox" name="kcfg_DawnOffset">
-         <property name="minimum">
-          <double>-24.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>24.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.500000000000000</double>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QGroupBox" name="groupBox_7">
-      <property name="title">
-       <string>Cleanup</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_9">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QCheckBox" name="kcfg_StopEkosAfterShutdown">
-         <property name="toolTip">
-          <string>After shutdown procedure is successfully executed, stop INDI and Ekos.</string>
-         </property>
-         <property name="text">
-          <string>Stop Ekos after shutdown</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_ShutdownScriptTerminatesINDI">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the shutdown script terminates INDI server, enable this option so that no disconnection errors are generated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Shutdown script terminates INDI</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QGroupBox" name="groupBox_8">
-      <property name="title">
-       <string>Scheduling</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_7">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QCheckBox" name="kcfg_GreedyScheduling">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When checked the scheduler tries to run lower priority jobs when no higher priority job can run. Recommended.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Use greedy scheduling</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_5">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="2" column="0" colspan="2">
-     <widget class="QGroupBox" name="groupBox_6">
-      <property name="title">
-       <string>Alignment</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <item row="1" column="2">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>arcminutes</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="kcfg_AlignCheckFrequency">
-         <property name="maximum">
-          <number>100</number>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QCheckBox" name="kcfg_ForceAlignmentBeforeJob">
-         <property name="toolTip">
-          <string>If Align is enabled, scheduler would initiate a realignment procedure before restarting any jobs even if guiding is active.</string>
-         </property>
-         <property name="text">
-          <string>Force re-alignment before re-starting jobs</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="toolTip">
-          <string>When calculating position after captures, compute it every Nth capture. Set to 0 to disable.</string>
-         </property>
-         <property name="text">
-          <string>Verify captured image position every:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QCheckBox" name="kcfg_ResetMountModelBeforeJob">
-         <property name="text">
-          <string>Reset mount model before starting each job:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>frames</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_8">
-         <property name="toolTip">
-          <string>If captured position exceeds target position by more this many arcminutes, abort capture and reschedule the pipeline.</string>
-         </property>
-         <property name="text">
-          <string>Reset pipeline if verified image delta exceeds:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QCheckBox" name="kcfg_ResetMountModelOnAlignFail">
-         <property name="text">
-          <string>Reset mount model on alignment failure</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="kcfg_AlignCheckThreshold">
-         <property name="maximum">
-          <double>3600.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>60.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QCheckBox" name="kcfg_RealignAfterCalibrationFailure">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding calibration fails then restart alignment process before proceeding to guiding recalibration process again. This can help recenter the target object in the field of view if the calibration process strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Restart alignment on guiding calibration failure</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="captureTab">
-   <attribute name="title">
-    <string>Capture</string>
-   </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_8">
-    <property name="spacing">
-     <number>3</number>
-    </property>
-    <property name="leftMargin">
-     <number>3</number>
-    </property>
-    <property name="topMargin">
-     <number>3</number>
-    </property>
-    <property name="rightMargin">
-     <number>3</number>
-    </property>
-    <property name="bottomMargin">
-     <number>3</number>
-    </property>
-    <item>
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>Miscellaneous</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <layout class="QGridLayout" name="gridLayout">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_15">
-           <property name="toolTip">
-            <string>Cover or uncover telescope dialog timeout in seconds</string>
-           </property>
-           <property name="text">
-            <string>Dialog timeout:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="toolTip">
-            <string>Maximum acceptable difference between requested and measured temperature set point. When the temperature threshold is below this value, the temperature set point request is deemed successful.</string>
-           </property>
-           <property name="text">
-            <string>Temperature threshold:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>° C</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QSpinBox" name="kcfg_ManualCoverTimeout">
-           <property name="maximum">
-            <number>600</number>
-           </property>
-           <property name="singleStep">
-            <number>10</number>
-           </property>
-           <property name="value">
-            <number>60</number>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QLabel" name="label_16">
-           <property name="text">
-            <string>seconds</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QDoubleSpinBox" name="kcfg_GuidingSettle">
-           <property name="toolTip">
-            <string>Wait this many seconds after guiding is resumed before starting capture</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="kcfg_MaxTemperatureDiff">
-           <property name="minimum">
-            <double>0.100000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>5.000000000000000</double>
-           </property>
-           <property name="singleStep">
-            <double>0.100000000000000</double>
-           </property>
-           <property name="value">
-            <double>0.100000000000000</double>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_13">
-           <property name="toolTip">
-            <string>Wait this many seconds after guiding is resumed to stabilize the guiding performance before capture.</string>
-           </property>
-           <property name="text">
-            <string>Guiding settle:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QLabel" name="label_14">
-           <property name="text">
-            <string>seconds</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3" rowspan="2">
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>163</width>
-             <height>13</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_17">
-           <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimal duration of a meridian flip in seconds. Increase this value if Ekos reports that a meridian flip has failed because the pier side did not change. A good estimation for this value is at least 50% of the typical duration of a meridian flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="text">
-            <string>Minimal meridian flip duration: </string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QSpinBox" name="kcfg_MinFlipDuration">
-           <property name="maximum">
-            <number>360</number>
-           </property>
-           <property name="singleStep">
-            <number>5</number>
-           </property>
-           <property name="value">
-            <number>20</number>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="2">
-          <widget class="QLabel" name="label_18">
-           <property name="text">
-            <string>seconds</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_RememberJobProgress">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If selected, take the already existing frames that satisfy each job's signature and capture only the missing ones.&lt;/p&gt;&lt;p&gt;Otherwise, of not selected, restart capturing with all counters set to zero.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Remember job progress</string>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_ResetMountModelAfterMeridian">
-         <property name="text">
-          <string>Reset mount model after meridian flip</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_ForcedFlip">
-         <property name="text">
-          <string>Use flip command if supported by mount</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <item>
-          <widget class="QCheckBox" name="kcfg_useSummaryPreview">
-           <property name="toolTip">
-            <string>Display received FITS in the Summary screen preview window.</string>
-           </property>
-           <property name="text">
-            <string>Summary screen preview</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_6">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBox_4">
-      <property name="title">
-       <string>DSLR</string>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
-       <item>
-        <widget class="QCheckBox" name="kcfg_ForceDSLRPresets">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Force exposure times to align with DSLR exposure presets. This insures accurate exposure times for sub-second exposures.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Force DSLR presets</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_useDSLRImageViewer">
-         <property name="toolTip">
-          <string>Display received DSLR images in the Image Viewer</string>
-         </property>
-         <property name="text">
-          <string>DSLR image viewer</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="clearDSLRInfoB">
-         <property name="toolTip">
-          <string>Clear saved DSLR sizes</string>
-         </property>
-         <property name="text">
-          <string>Clear DSLR Info</string>
-         </property>
-         <property name="icon">
-          <iconset theme="edit-clear">
-           <normaloff>.</normaloff>.</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>24</width>
-           <height>24</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_8">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>28</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <spacer name="verticalSpacer_3">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+       <enum>Qt::Orientation::Vertical</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
@@ -885,22 +194,7 @@
       <property name="title">
        <string>Settings</string>
       </property>
-      <layout class="QVBoxLayout" name="analyzeTabLayout">
-       <property name="spacing">
-        <number>3</number>
-       </property>
-       <property name="leftMargin">
-        <number>3</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>3</number>
-       </property>
-       <property name="bottomMargin">
-        <number>3</number>
-       </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
         <widget class="QCheckBox" name="kcfg_AnalyzeRestartWithEkos">
          <property name="toolTip">
@@ -917,7 +211,7 @@
           <number>1</number>
          </property>
          <property name="sizeConstraint">
-          <enum>QLayout::SetDefaultConstraint</enum>
+          <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -956,8 +250,7 @@
             <string/>
            </property>
            <property name="icon">
-            <iconset theme="folder">
-             <normaloff>.</normaloff>.</iconset>
+            <iconset theme="folder"/>
            </property>
           </widget>
          </item>
@@ -977,9 +270,9 @@
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer_4">
+        <spacer name="verticalSpacer">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>

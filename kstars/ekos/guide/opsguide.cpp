@@ -49,7 +49,7 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
 
     loadOptionsProfiles();
 
-    connect(m_ConfigDialog, SIGNAL(settingsChanged(QString)), this, SIGNAL(settingsUpdated()));
+    connect(m_ConfigDialog, &KConfigDialog::settingsChanged, this, &OpsGuide::settingsUpdated);
 
 }
 

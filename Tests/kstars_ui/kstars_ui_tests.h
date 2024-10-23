@@ -46,6 +46,7 @@ extern void execute_tests();
             if (!strcmp("-functions", argv[i])) \
                 return QTest::qExec(&tc, argc, argv); \
         QApplication* app = new QApplication(argc, argv); \
+        KLocalizedString::setApplicationDomain("kstars"); \
         KTEST_BEGIN(); \
         prepare_tests(); \
         int failure = 0; \
@@ -82,6 +83,7 @@ extern void execute_tests();
         klass tc(guider); \
         if (showfunctions) return QTest::qExec(&tc, static_cast<int>(testargv.size()), testargv.data()); \
         QApplication* app = new QApplication(argc, argv); \
+        KLocalizedString::setApplicationDomain("kstars"); \
         KTEST_BEGIN(); \
         prepare_tests(); \
         int failure = 0; \

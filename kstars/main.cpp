@@ -44,7 +44,7 @@
 #ifndef KSTARS_LITE
 static const QString description =  ki18n("Desktop Planetarium").toString();
 static const QString notice      =  ki18n(
-                                      "Some images in KStars are for non-commercial use only. See README.images.").toString();
+                                        "Some images in KStars are for non-commercial use only. See README.images.").toString();
 #endif
 
 #if defined(Q_OS_ANDROID)

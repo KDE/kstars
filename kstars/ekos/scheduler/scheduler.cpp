@@ -101,6 +101,8 @@ Scheduler::Scheduler(const QString path, const QString interface,
 void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosInterfaceStr)
 {
     setupUi(this);
+    if (kstarsInterfaceString == "org.kde.kstars")
+        prepareGUI();
 
     qRegisterMetaType<Ekos::SchedulerState>("Ekos::SchedulerState");
     qDBusRegisterMetaType<Ekos::SchedulerState>();
@@ -379,8 +381,6 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
         decBox->show(center.dec0());
     });
 
-    connect(KConfigDialog::exists("settings"), &KConfigDialog::settingsChanged, this, &Scheduler::handleConfigChanged);
-
     connect(editSequenceB, &QPushButton::clicked, this, [this]()
     {
         if (!m_SequenceEditor)
@@ -412,6 +412,32 @@ QString Scheduler::getCurrentJobName()
     return (activeJob() != nullptr ? activeJob()->getName() : "");
 }
 
+void Scheduler::prepareGUI ()
+{
+    KConfigDialog *dialog = new KConfigDialog(this, "schedulersettings", Options::self());
+
+#ifdef Q_OS_MACOS
+    dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+#endif
+
+    m_OpsOffsetSettings = new OpsOffsetSettings();
+    KPageWidgetItem *page = dialog->addPage(m_OpsOffsetSettings, i18n("Offset"), nullptr, i18n("Scheduler Offset"), false);
+    page->setIcon(QIcon::fromTheme("configure"));
+
+    m_OpsAlignmentSettings = new OpsAlignmentSettings();
+    page = dialog->addPage(m_OpsAlignmentSettings, i18n("Alignment"), nullptr, i18n("Scheduler Alignment"), false);
+    page->setIcon(QIcon::fromTheme("transform-move"));
+
+
+    m_OpsJobsSettings = new OpsJobsSettings();
+    page = dialog->addPage(m_OpsJobsSettings, i18n("Jobs"), nullptr, i18n("Scheduler Jobs"), false);
+    page->setIcon(QIcon::fromTheme("view-calendar-workweek-symbolic"));
+
+    m_OpsCleanupSettings = new OpsCleanupSettings();
+    page = dialog->addPage(m_OpsCleanupSettings, i18n("Cleanup"), nullptr, i18n("Scheduler Cleanup"), false);
+    page->setIcon(QIcon::fromTheme("edit-clear-history"));
+
+}
 void Scheduler::watchJobChanges(bool enable)
 {
     /* Don't double watch, this will cause multiple signals to be connected */

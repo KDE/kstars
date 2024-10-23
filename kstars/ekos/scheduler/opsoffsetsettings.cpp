@@ -4,19 +4,19 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "opsfocusprocess.h"
+#include "opsoffsetsettings.h"
 #include "kstars.h"
 #include <KConfigDialog>
 
 namespace Ekos
 {
-OpsFocusProcess::OpsFocusProcess() : QFrame(KStars::Instance())
+OpsOffsetSettings::OpsOffsetSettings() : QFrame(KStars::Instance())
 {
     setupUi(this);
 
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists("focussettings");
+    m_ConfigDialog = KConfigDialog::exists("schedulersettings");
     if (m_ConfigDialog)
-        connect(m_ConfigDialog, &KConfigDialog::settingsChanged, this, &OpsFocusProcess::settingsUpdated);
+        connect(m_ConfigDialog, &KConfigDialog::settingsChanged, this, &OpsOffsetSettings::settingsUpdated);
 }
 }

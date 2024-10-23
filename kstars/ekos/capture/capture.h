@@ -9,6 +9,9 @@
 #include "ui_capture.h"
 
 #include "camera.h"
+
+#include "opsmiscsettings.h"
+#include "opsdslrsettings.h"
 #include "capturemodulestate.h"
 #include "ekos/manager/meridianflipstate.h"
 #include "ekos/ekos.h"
@@ -288,6 +291,15 @@ class Capture : public QWidget, public Ui::Capture
         {
             return mainCameraState()->jobImageCount(id);
         }
+
+        /**
+         * @brief prepareGUI Perform once only GUI prep processing
+         */
+        void prepareGUI();
+
+        // Settings popup
+        OpsMiscSettings *m_OpsMiscSettings { nullptr };
+        OpsDslrSettings *m_OpsDslrSettings { nullptr };
 
         /** DBUS interface function.
              * @param id job number. Job IDs start from 0 to N-1.
@@ -694,7 +706,6 @@ public slots:
         Q_SCRIPTABLE void clearLog();
         void appendLogText(const QString &);
 
-
     private slots:
 
         // ////////////////////////////////////////////////////////////////////
@@ -786,12 +797,6 @@ public slots:
         // ////////////////////////////////////////////////////////////////////
         // device control
         // ////////////////////////////////////////////////////////////////////
-
-        /**
-         * @brief processCCDNumber Process number properties arriving from CCD. Currently, only CCD and Guider frames are processed.
-         * @param nvp pointer to number property.
-         */
-        void processCCDNumber(INumberVectorProperty *nvp);
 
         // ////////////////////////////////////////////////////////////////////
         // Attributes

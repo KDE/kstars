@@ -16,7 +16,7 @@ OpsFocusSettings::OpsFocusSettings() : QFrame(KStars::Instance())
 
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists("focussettings");
-
-    connect(m_ConfigDialog, SIGNAL(settingsChanged(QString)), this, SIGNAL(settingsUpdated()));
+    if (m_ConfigDialog)
+        connect(m_ConfigDialog, &KConfigDialog::settingsChanged, this, &OpsFocusSettings::settingsUpdated);
 }
 }
