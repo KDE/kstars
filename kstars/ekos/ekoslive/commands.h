@@ -43,6 +43,7 @@ enum COMMANDS
 
     SET_CLIENT_STATE,
     LOGOUT,
+    SESSION_EXPIRED,
 
     // Profiles
     GET_PROFILES,
@@ -278,6 +279,7 @@ static QMap<COMMANDS, QString> const commands =
 
     {SET_CLIENT_STATE, "set_client_state"},
     {LOGOUT, "logout"},
+    {SESSION_EXPIRED, "session_expired"},
 
     {GET_PROFILES, "get_profiles"},
     {START_PROFILE, "profile_start"},

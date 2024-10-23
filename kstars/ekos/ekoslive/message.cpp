@@ -124,7 +124,7 @@ void Message::onTextReceived(const QString &message)
     {
         sendConnection();
     }
-    else if (command == commands[LOGOUT])
+    else if (command == commands[LOGOUT] || command == commands[SESSION_EXPIRED])
     {
         emit expired(node->url());
         return;
@@ -2787,11 +2787,11 @@ bool Message::parseArgument(QVariant::Type type, const QVariant &arg, QGenericAr
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::invokeMethod(QObject *context, const QJsonObject &payload)
 {
-    #if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
     QList<QMetaMethodArgument> argsList;
-    #else
+#else
     QList<QGenericArgument> argsList;
-    #endif
+#endif
 
     QList<SimpleTypes> typesList;
 
@@ -2804,11 +2804,11 @@ void Message::invokeMethod(QObject *context, const QJsonObject &payload)
         for (auto oneArg : args)
         {
             auto argObject = oneArg.toObject();
-            #if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
             QMetaMethodArgument genericArgument;
-            #else
+#else
             QGenericArgument genericArgument;
-            #endif
+#endif
             SimpleTypes genericType;
             argsList.append(genericArgument);
             typesList.append(genericType);
