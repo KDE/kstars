@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-22 01:47+0000\n"
+"POT-Creation-Date: 2024-10-24 01:46+0000\n"
 "PO-Revision-Date: 2024-10-19 20:04+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -409,7 +409,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1290
-#: ekos/scheduler/scheduler.cpp:2028
+#: ekos/scheduler/scheduler.cpp:2054
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
@@ -550,7 +550,7 @@ msgstr "Fortsätt"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/fitstab.cpp:1188 fitsviewer/fitstab.cpp:1208
+#: fitsviewer/fitstab.cpp:1186 fitsviewer/fitstab.cpp:1206
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -566,7 +566,7 @@ msgstr "Avbryt"
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
 #: ekos/analyze/analyze.cpp:140 ekos/analyze/analyze.cpp:142
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1204 ekos/manager.cpp:1219
-#: ekos/manager.cpp:1249 ekos/scheduler/scheduler.cpp:1548
+#: ekos/manager.cpp:1249 ekos/scheduler/scheduler.cpp:1574
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
 #: indi/indimount.cpp:32 kstarsactions.cpp:517 kstarsactions.cpp:525
 #: kstarsactions.cpp:535 skycomponents/imageoverlaycomponent.cpp:529
@@ -1509,6 +1509,9 @@ msgstr "timmar"
 msgid "minutes"
 msgstr "minuter"
 
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#. i18n: ectx: property (text), widget (QLabel, label_14)
+#. i18n: ectx: property (text), widget (QLabel, label_18)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_gpgs0c)
@@ -1517,15 +1520,12 @@ msgstr "minuter"
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas4c)
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#. i18n: ectx: property (text), widget (QLabel, label_16)
-#. i18n: ectx: property (text), widget (QLabel, label_14)
-#. i18n: ectx: property (text), widget (QLabel, label_18)
-#: auxiliary/xplanetimageviewer.cpp:447 ekos/guide/opsdither.ui:72
-#: ekos/guide/opsdither.ui:126 ekos/guide/opsgpg.ui:139
-#: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
-#: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
-#: ekos/guide/opsguide.ui:407 ekos/opsekos.ui:625 ekos/opsekos.ui:665
-#: ekos/opsekos.ui:708 ekos/scheduler/schedulerjob.cpp:1029
+#: auxiliary/xplanetimageviewer.cpp:447 ekos/capture/opsmiscsettings.ui:83
+#: ekos/capture/opsmiscsettings.ui:123 ekos/capture/opsmiscsettings.ui:166
+#: ekos/guide/opsdither.ui:72 ekos/guide/opsdither.ui:126
+#: ekos/guide/opsgpg.ui:139 ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383
+#: ekos/guide/opsgpg.ui:456 ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
+#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1029
 #, kde-format
 msgid "seconds"
 msgstr "sekunder"
@@ -2015,9 +2015,9 @@ msgstr "Status:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:688 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1541
-#: ekos/scheduler/scheduler.cpp:2193 ekos/scheduler/scheduler.cpp:2430
-#: ekos/scheduler/scheduler.cpp:2438 ekos/scheduler/scheduler.cpp:2448
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1567
+#: ekos/scheduler/scheduler.cpp:2219 ekos/scheduler/scheduler.cpp:2456
+#: ekos/scheduler/scheduler.cpp:2464 ekos/scheduler/scheduler.cpp:2474
 #: ekos/scheduler/scheduler.ui:1307 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2389,8 +2389,8 @@ msgid "Check if magnitude is unknown"
 msgstr "Kontrollera om magnituden är okänd"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1549
-#: ekos/scheduler/scheduler.cpp:2208 fitsviewer/fitscommon.h:17
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1575
+#: ekos/scheduler/scheduler.cpp:2234 fitsviewer/fitscommon.h:17
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:275
 #, kde-format
@@ -2424,7 +2424,7 @@ msgid "Minor axis:"
 msgstr "Mindre axel:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: dialogs/addcatalogobject.ui:176
+#: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:111
 #, kde-format
 msgid "Misc"
 msgstr "Diverse"
@@ -2634,8 +2634,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3972
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1244 ekos/capture/camera.cpp:1299
-#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1928
-#: ekos/scheduler/scheduler.cpp:2038 fitsviewer/fitstab.cpp:1015
+#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1954
+#: ekos/scheduler/scheduler.cpp:2064 fitsviewer/fitstab.cpp:1013
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -3080,7 +3080,7 @@ msgstr "_lic"
 #. i18n: ectx: property (title), widget (QGroupBox, object_group)
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: dialogs/catalogdetails.ui:169 ekos/align/mountmodel.ui:458
-#: fitsviewer/fitstab.cpp:766
+#: fitsviewer/fitstab.cpp:764
 #, kde-format
 msgid "Object"
 msgstr "Objekt"
@@ -4038,7 +4038,7 @@ msgstr "Information - Positionsdata"
 #. i18n: ectx: property (text), widget (QLabel, CoordTitle)
 #. i18n: ectx: property (text), widget (QRadioButton, coordinatesR)
 #: dialogs/details_position.ui:66 ekos/guide/manualdither.ui:55
-#: fitsviewer/fitstab.cpp:769 kstarslite/qml/dialogs/DetailsDialog.qml:236
+#: fitsviewer/fitstab.cpp:767 kstarslite/qml/dialogs/DetailsDialog.qml:236
 #: printing/detailstable.cpp:509
 #, kde-format, kde-kuit-format
 msgid "Coordinates"
@@ -6430,7 +6430,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Lösningsverktyget avbröts efter %1 sekunder."
 
 #: ekos/align/align.cpp:2623 ekos/analyze/analyze.cpp:4121
-#: ekos/capture/capture.cpp:298 ekos/focus/focusmodule.cpp:240
+#: ekos/capture/capture.cpp:320 ekos/focus/focusmodule.cpp:240
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:985
 #: ekos/scheduler/schedulerprocess.cpp:3478
@@ -6625,8 +6625,8 @@ msgstr "Exportera lösningspunkter"
 #: ekos/align/align.cpp:3971 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1243
 #: ekos/capture/camera.cpp:1298 ekos/guide/guidedriftgraph.cpp:478
-#: ekos/scheduler/scheduler.cpp:1927 ekos/scheduler/scheduler.cpp:2037
-#: fitsviewer/fitstab.cpp:1014 tools/scriptbuilder.cpp:832
+#: ekos/scheduler/scheduler.cpp:1953 ekos/scheduler/scheduler.cpp:2063
+#: fitsviewer/fitstab.cpp:1012 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
 msgid "Invalid URL: %1"
@@ -10259,11 +10259,10 @@ msgstr "Starta"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CaptureLogging)
 #. i18n: ectx: property (text), widget (QLabel, captureLabel)
 #. i18n: ectx: property (text), widget (QPushButton, captureB)
-#. i18n: ectx: attribute (title), widget (QWidget, captureTab)
 #: ekos/align/polaralignwidget.ui:37 ekos/align/polaralignwidget.ui:157
 #: ekos/align/polaralignwidget.ui:277 ekos/analyze/analyze.cpp:2278
 #: ekos/auxiliary/opslogs.ui:285 ekos/capture/capturepreviewwidget.ui:67
-#: ekos/guide/guide.ui:137 ekos/opsekos.ui:538
+#: ekos/guide/guide.ui:137
 #, kde-format
 msgid "Capture"
 msgstr "Ta bild"
@@ -10274,7 +10273,7 @@ msgstr "Ta bild"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:1238
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/fitstab.cpp:1236
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:347
 #: skycomponents/imageoverlaycomponent.cpp:720
@@ -10353,7 +10352,7 @@ msgid "Parking"
 msgstr "Parkerar"
 
 #: ekos/analyze/analyze.cpp:134 ekos/analyze/analyze.cpp:153 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:2194 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:2220 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "Förflyttar"
@@ -10486,7 +10485,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3468 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1547
+#: ekos/scheduler/scheduler.cpp:1573
 #, kde-format
 msgid "Aborted"
 msgstr "Avbruten"
@@ -10502,7 +10501,7 @@ msgid "Disconnected"
 msgstr "Nerkopplad"
 
 #: ekos/analyze/analyze.cpp:3474 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2207
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2233
 #, kde-format
 msgid "Capturing"
 msgstr "Tar bild"
@@ -10544,7 +10543,7 @@ msgstr "Kalibrerad"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:2205
+#: ekos/scheduler/scheduler.cpp:2231
 #, kde-format
 msgid "Guiding"
 msgstr "Guidning"
@@ -11522,6 +11521,7 @@ msgstr "Filter"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
 #: ekos/auxiliary/filtermanager.cpp:115 ekos/capture/camera.ui:2266
+#: ekos/scheduler/scheduler.cpp:424
 #, kde-format
 msgid "Offset"
 msgstr "Position"
@@ -12162,7 +12162,7 @@ msgstr "Ta bort alla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/auxiliary/darklibrary.ui:1122 ekos/opsekos.ui:605
+#: ekos/auxiliary/darklibrary.ui:1122 ekos/capture/opsmiscsettings.ui:63
 #, kde-format
 msgid "° C"
 msgstr "°C"
@@ -12511,8 +12511,7 @@ msgid "Log Ekos Scheduler module activity"
 msgstr "Logga aktivitet för Ekos-schemaläggningsmodul"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
-#. i18n: ectx: attribute (title), widget (QWidget, schedulerTab)
-#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:338 ekos/opsekos.ui:184
+#: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:338
 #: ekos/scheduler/framingassistantui.cpp:668
 #, kde-format
 msgid "Scheduler"
@@ -12675,8 +12674,7 @@ msgid "Log Ekos Alignment module activity"
 msgstr "Logga aktivitet för Ekos inriktningsmodul"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_6)
-#: ekos/auxiliary/opslogs.ui:308 ekos/opsekos.ui:415
+#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:428
 #, kde-format
 msgid "Alignment"
 msgstr "Inriktning"
@@ -14626,7 +14624,7 @@ msgstr "Filtret inställt till %1."
 msgid "Editing job #%1..."
 msgstr "Redigerar jobb nummer %1..."
 
-#: ekos/capture/camera.cpp:3978 ekos/scheduler/scheduler.cpp:1273
+#: ekos/capture/camera.cpp:3978 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr "Verkställ jobbändringar."
@@ -15018,7 +15016,7 @@ msgstr "Båda"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
 #: ekos/capture/camera.ui:1681 ekos/mount/mount.ui:371
-#: ekos/mount/mountcontrolpanel.ui:58 ekos/scheduler/scheduler.cpp:125
+#: ekos/mount/mountcontrolpanel.ui:58 ekos/scheduler/scheduler.cpp:127
 #, kde-format
 msgid "Target"
 msgstr "Mål"
@@ -16041,7 +16039,7 @@ msgstr "Återinriktning efter vändning misslyckades."
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Återinriktning efter vändning misslyckades. Försöker igen ..."
 
-#: ekos/capture/capture.cpp:69
+#: ekos/capture/capture.cpp:73
 #, kde-format
 msgid ""
 "<p>Add additional camera</p><p><b>WARNING</b>: This feature is experimental!"
@@ -16050,18 +16048,35 @@ msgstr ""
 "<p>Lägg till ytterligare kamera</p><p><b>Varning</b>: Funktionen är "
 "experimentell.</p>"
 
-#: ekos/capture/capture.cpp:455 ekos/focus/focusmodule.cpp:390
+#: ekos/capture/capture.cpp:111
+#, fuzzy, kde-format
+#| msgid "Captures"
+msgid "Capture Misc"
+msgstr "Tagningar"
+
+#: ekos/capture/capture.cpp:115
+#, kde-format
+msgid "DSLR"
+msgstr "Digital spegelreflexkamera"
+
+#: ekos/capture/capture.cpp:115
+#, fuzzy, kde-format
+#| msgid "Capture"
+msgid "Capture DSLR"
+msgstr "Ta bild"
+
+#: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:390
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "Kameran %1 är upptagen. Avbryt för att stoppa?"
 
-#: ekos/capture/capture.cpp:456 ekos/focus/focusmodule.cpp:391
+#: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:391
 #, kde-format
 msgid "Stop capturing"
 msgstr "Stoppa tagning"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:457 ekos/focus/focusmodule.cpp:391
+#: ekos/capture/capture.cpp:479 ekos/focus/focusmodule.cpp:391
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
@@ -16703,7 +16718,8 @@ msgstr "Guidningsgränser"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/capture/limits.ui:57 ekos/guide/opsdither.ui:170 ekos/opsekos.ui:477
+#: ekos/capture/limits.ui:57 ekos/guide/opsdither.ui:170
+#: ekos/scheduler/opsalignmentsettings.ui:82
 #, kde-format
 msgid "frames"
 msgstr "bildrutor"
@@ -16964,6 +16980,181 @@ msgstr ""
 #, kde-format
 msgid "frames.   HFR:"
 msgstr "bilder.   HFR:"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, OpsDslrSettings)
+#. i18n: ectx: property (windowTitle), widget (QWidget, OpsMiscSettings)
+#. i18n: ectx: property (windowTitle), widget (QTabWidget, OpsEkos)
+#. i18n: ectx: property (windowTitle), widget (QWidget, OpsAlignmentSettings)
+#. i18n: ectx: property (windowTitle), widget (QWidget, OpsCleanupSettings)
+#. i18n: ectx: property (windowTitle), widget (QWidget, OpsJobsSettings)
+#. i18n: ectx: property (windowTitle), widget (QWidget, OpsOffsetSettings)
+#: ekos/capture/opsdslrsettings.ui:14 ekos/capture/opsmiscsettings.ui:14
+#: ekos/opsekos.ui:14 ekos/scheduler/opsalignmentsettings.ui:14
+#: ekos/scheduler/opscleanupsettings.ui:14 ekos/scheduler/opsjobssettings.ui:14
+#: ekos/scheduler/opsoffsetsettings.ui:14
+#, kde-format
+msgid "TabWidget"
+msgstr "Flikkomponent"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ForceDSLRPresets)
+#: ekos/capture/opsdslrsettings.ui:40
+#, kde-format
+msgid ""
+"<html><head/><body><p>Force exposure times to align with DSLR exposure "
+"presets. This insures accurate exposure times for sub-second exposures.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>Tvinga att exponeringstider är justerade enligt "
+"spegelreflexkamerans förinställda exponeringar. Det säkerställer noggranna "
+"exponeringstider för delsekundexponeringar.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForceDSLRPresets)
+#: ekos/capture/opsdslrsettings.ui:43
+#, kde-format
+msgid "Force DSLR presets"
+msgstr "Tvinga förinställningar för spegelreflexkamera"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, useDSLRImageViewer)
+#: ekos/capture/opsdslrsettings.ui:50
+#, kde-format
+msgid "Display received DSLR images in the Image Viewer"
+msgstr ""
+"Visa automatiskt mottagna bilder från digital spegelreflexkamera i "
+"bildvisningen"
+
+#. i18n: ectx: property (text), widget (QCheckBox, useDSLRImageViewer)
+#: ekos/capture/opsdslrsettings.ui:53
+#, kde-format
+msgid "DSLR image viewer"
+msgstr "Visning av bilder från digital spegelreflexkamera"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, clearDSLRInfoB)
+#: ekos/capture/opsdslrsettings.ui:60
+#, kde-format
+msgid "Clear saved DSLR sizes"
+msgstr "Rensa sparade storlekar för digital spegelreflexkamera"
+
+#. i18n: ectx: property (text), widget (QPushButton, clearDSLRInfoB)
+#: ekos/capture/opsdslrsettings.ui:63
+#, kde-format
+msgid "Clear DSLR Info"
+msgstr "Rensa information för digital spegelreflexkamera"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_15)
+#: ekos/capture/opsmiscsettings.ui:43
+#, kde-format
+msgid "Cover or uncover telescope dialog timeout in seconds"
+msgstr "Tidsgräns i sekunder för att täcka eller visa teleskopdialogruta"
+
+#. i18n: ectx: property (text), widget (QLabel, label_15)
+#: ekos/capture/opsmiscsettings.ui:46
+#, kde-format
+msgid "Dialog timeout:"
+msgstr "Tidsgräns för dialogruta:"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label)
+#: ekos/capture/opsmiscsettings.ui:53
+#, kde-format
+msgid ""
+"Maximum acceptable difference between requested and measured temperature set "
+"point. When the temperature threshold is below this value, the temperature "
+"set point request is deemed successful."
+msgstr ""
+"Maximal acceptabel skillnad mellan begärd och uppmätt temperaturinställning. "
+"När temperaturtröskeln är under det här värdet, anses begäran om "
+"temperaturinställning vara uppfylld."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/capture/opsmiscsettings.ui:56
+#, kde-format
+msgid "Temperature threshold:"
+msgstr "Temperaturtröskel:"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guidingSettle)
+#: ekos/capture/opsmiscsettings.ui:90
+#, kde-format
+msgid "Wait this many seconds after guiding is resumed before starting capture"
+msgstr ""
+"Vänta så här många sekunder efter guidning återupptas innan tagning påbörjas"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_13)
+#: ekos/capture/opsmiscsettings.ui:113
+#, kde-format
+msgid ""
+"Wait this many seconds after guiding is resumed to stabilize the guiding "
+"performance before capture."
+msgstr ""
+"Vänta så här många sekunder efter guidning återupptas för att stabilisera "
+"guidningsprestanda innan tagning."
+
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: ekos/capture/opsmiscsettings.ui:116
+#, kde-format
+msgid "Guiding settle:"
+msgstr "Guidningsdämpning:"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_17)
+#: ekos/capture/opsmiscsettings.ui:143
+#, no-c-format, kde-format
+msgid ""
+"<html><head/><body><p>Minimal duration of a meridian flip in seconds. "
+"Increase this value if Ekos reports that a meridian flip has failed because "
+"the pier side did not change. A good estimation for this value is at least "
+"50% of the typical duration of a meridian flip.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Minimal tid för en meridianvändning i sekunder. Öka "
+"värdet om Ekos rapporterar att en meridianvändning har misslyckats på grund "
+"av att pirsidan inte ändrades. En bra uppskattning för värdet är minst 50 % "
+"av den typiska tiden för en meridianvändning.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, label_17)
+#: ekos/capture/opsmiscsettings.ui:146
+#, kde-format
+msgid "Minimal meridian flip duration: "
+msgstr "Minimal tid för meridianvändning: "
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#: ekos/capture/opsmiscsettings.ui:175
+#, kde-format
+msgid ""
+"<html><head/><body><p>When starting to process a sequence list, reset all "
+"capture counts to zero. Scheduler overrides this option when Remember job "
+"progress is enabled.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>När en sekvenslista börjar behandlas, nollställ alla "
+"tagningsräknare till noll. Schemaläggningen överskrider alternativet när Kom "
+"ihåg jobbtillstånd är aktiverat.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#: ekos/capture/opsmiscsettings.ui:178
+#, kde-format
+msgid "Always reset sequence when starting"
+msgstr "Nollställ alltid sekvens vid start"
+
+#. i18n: ectx: property (text), widget (QCheckBox, resetMountModelAfterMeridian)
+#: ekos/capture/opsmiscsettings.ui:188
+#, kde-format
+msgid "Reset mount model after meridian flip"
+msgstr "Nollställ stativmodell efter meridianvändning"
+
+#. i18n: ectx: property (text), widget (QCheckBox, forcedFlip)
+#: ekos/capture/opsmiscsettings.ui:195
+#, kde-format
+msgid "Use flip command if supported by mount"
+msgstr "Använd vändkommando om det stöds av stativet"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
+#: ekos/capture/opsmiscsettings.ui:202
+#, kde-format
+msgid "Display received FITS in the Summary screen preview window."
+msgstr ""
+"Visa mottagna FITS-bilder på översiktsskärmens förhandsgranskningsfönster."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
+#: ekos/capture/opsmiscsettings.ui:205
+#, kde-format
+msgid "Summary screen preview"
+msgstr "Översiktsskärmens förhandsgranskning"
 
 #: ekos/capture/refocusstate.cpp:32
 #, kde-format
@@ -17311,7 +17502,7 @@ msgid "In Progress"
 msgstr "Pågår"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1546
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1572
 #, kde-format
 msgid "Complete"
 msgstr "Färdig"
@@ -17426,7 +17617,7 @@ msgstr "Väntar"
 msgid "Image Received"
 msgstr "Bild mottagen"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2197
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2223
 #, kde-format
 msgid "Focusing"
 msgstr "Fokuserar"
@@ -17456,7 +17647,7 @@ msgstr "Ställer in temperatur"
 msgid "Setting Rotator"
 msgstr "Ställer in rotatör"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2200
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2226
 #, kde-format
 msgid "Aligning"
 msgstr "Inriktar"
@@ -17507,7 +17698,7 @@ msgstr "Fokuseringsposition"
 msgid "Startup"
 msgstr "Start"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1544
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1570
 #, kde-format
 msgid "Running"
 msgstr "Kör"
@@ -18515,7 +18706,7 @@ msgstr "Editor av fokusalternativprofiler"
 #. i18n: ectx: property (title), widget (QGroupBox, analyzeGroupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayBox)
 #: ekos/focus/focus.cpp:195 ekos/guide/opscalibration.ui:34
-#: ekos/guide/opsgpg.ui:103 ekos/opsekos.ui:886 options/opsimageoverlay.ui:38
+#: ekos/guide/opsgpg.ui:103 ekos/opsekos.ui:195 options/opsimageoverlay.ui:38
 #, kde-format
 msgid "Settings"
 msgstr "Inställningar"
@@ -22455,7 +22646,7 @@ msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Misslyckades hitta lämpliga guidestjärnor. Avbryter..."
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
-#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:771
+#: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:769
 #: kstarslite/qml/dialogs/DetailsDialog.qml:138
 #, kde-format, kde-kuit-format
 msgid "Magnitude"
@@ -23682,7 +23873,7 @@ msgid "Logging"
 msgstr "Loggning"
 
 #. i18n: ectx: attribute (title), widget (QWidget, analyzeTab)
-#: ekos/manager.cpp:373 ekos/opsekos.ui:865
+#: ekos/manager.cpp:373 ekos/opsekos.ui:174
 #, kde-format
 msgid "Analyze"
 msgstr "Analysera"
@@ -24022,37 +24213,37 @@ msgstr "Platsinformation uppdaterad till %1."
 msgid "Failed to update site location to %1. City not found."
 msgstr "Misslyckades uppdatera platsinformation till %1. Staden hittades inte."
 
-#: ekos/manager.cpp:2980
+#: ekos/manager.cpp:3000
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Aktiverar felsökningsloggning för %1 ..."
 
-#: ekos/manager.cpp:2988
+#: ekos/manager.cpp:3008
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Inaktiverar felsökningsloggning för %1 ..."
 
-#: ekos/manager.cpp:3016
+#: ekos/manager.cpp:3036
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Aktiverar felsökningsloggning för %1 igen ..."
 
-#: ekos/manager.cpp:3028
+#: ekos/manager.cpp:3048
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Inaktiverar felsökningsloggning för %1 igen ..."
 
-#: ekos/manager.cpp:3724
+#: ekos/manager.cpp:3744
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Förhandsgranska källa inställt till extern"
 
-#: ekos/manager.cpp:3731
+#: ekos/manager.cpp:3751
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Förhandsgranska källa återställd till intern"
 
-#: ekos/manager.cpp:3738
+#: ekos/manager.cpp:3758
 #, kde-format
 msgid "Received external preview file"
 msgstr "Tog emot extern förhandsgranskningsfil"
@@ -25202,7 +25393,7 @@ msgstr "Stäng lucka"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2355
+#: ekos/scheduler/scheduler.cpp:2381
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Stoppa schemaläggning"
@@ -25273,8 +25464,8 @@ msgstr "Följning aktiverad."
 msgid "Slaving deactivated."
 msgstr "Följning inaktiverad."
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:1184
-#: fitsviewer/fitstab.cpp:1204
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/fitstab.cpp:1182
+#: fitsviewer/fitstab.cpp:1202
 #, kde-format
 msgid "Aborting..."
 msgstr "Avbryter..."
@@ -25321,85 +25512,74 @@ msgstr "medurs"
 msgid "counter clockwise"
 msgstr "moturs"
 
-#: ekos/opsekos.cpp:33
+#: ekos/opsekos.cpp:27
 #, kde-format
 msgid "You must restart KStars for this change to take effect."
 msgstr "Du måste starta om Kstars för att ändringarna ska få effekt."
 
-#: ekos/opsekos.cpp:44
+#: ekos/opsekos.cpp:38
 #, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
 msgstr "Ange en alternativ baskatalog för analysens tagna bilder"
 
-#. i18n: ectx: property (windowTitle), widget (QTabWidget, OpsEkos)
-#: ekos/opsekos.ui:14
-#, kde-format
-msgid "TabWidget"
-msgstr "Flikkomponent"
-
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
-#: ekos/opsekos.ui:47
-#, kde-format
-msgid "Configuration"
-msgstr "inställning"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/opsekos.ui:68
-#, kde-format
-msgid "Load device configuration:"
+#: ekos/opsekos.ui:44
+#, fuzzy, kde-format
+#| msgid "Load device configuration:"
+msgid "Load device Configuration"
 msgstr "Läs in enhetsinställning:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
-#: ekos/opsekos.ui:75
+#: ekos/opsekos.ui:65
 #, kde-format
 msgid "Ne&ver"
 msgstr "Al&drig"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_loadConfigOnConnection)
-#: ekos/opsekos.ui:85
+#: ekos/opsekos.ui:75
 #, kde-format
 msgid "O&n connection"
 msgstr "Vid a&nslutning"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_loadDefaultConfig)
-#: ekos/opsekos.ui:92
+#: ekos/opsekos.ui:82
 #, kde-format
 msgid "Alwa&ys load defaults"
 msgstr "Läs alltid in standard&värden"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/opsekos.ui:109
+#: ekos/opsekos.ui:97
 #, kde-format
 msgid "Icons orientation:"
 msgstr "Ikonorientering:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_EkosTopIcons)
 #. i18n: ectx: label, entry (EkosTopIcons), group (Ekos)
-#: ekos/opsekos.ui:116 kstars.kcfg:1634
+#: ekos/opsekos.ui:104 kstars.kcfg:1634
 #, kde-format
 msgid "Ekos modules icons are placed on the top of pages"
 msgstr "Ekos modulens ikoner placeras längst upp på sidor"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_EkosTopIcons)
-#: ekos/opsekos.ui:119
+#: ekos/opsekos.ui:107
 #, kde-format
 msgid "Top"
 msgstr "Längst upp"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_EkosLeftIcons)
-#: ekos/opsekos.ui:132
+#: ekos/opsekos.ui:120
 #, kde-format
 msgid "Ekos module icons are placed to the left of pages"
 msgstr "Ekos modulens ikoner placeras till vänster på sidor"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_EkosLeftIcons)
-#: ekos/opsekos.ui:135
+#: ekos/opsekos.ui:123
 #, kde-format
 msgid "&Left"
 msgstr "&Vänster"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_independentWindowEkos)
-#: ekos/opsekos.ui:160
+#: ekos/opsekos.ui:148
 #, kde-format
 msgid ""
 "Make Ekos window independent from KStars main window. Requires restart to "
@@ -25411,441 +25591,13 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowEkos)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowFITS)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_independentWindowINDI)
-#: ekos/opsekos.ui:163 fitsviewer/opsfits.ui:125 indi/opsindi.ui:463
+#: ekos/opsekos.ui:151 fitsviewer/opsfits.ui:125 indi/opsindi.ui:463
 #, kde-format
 msgid "Independent window"
 msgstr "Oberoende fönster"
 
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_5)
-#: ekos/opsekos.ui:205
-#, kde-format
-msgid "Offsets"
-msgstr "Positioner"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, leadTimeLabel)
-#: ekos/opsekos.ui:229
-#, kde-format
-msgid ""
-"<html><head/><body><p>Lead time is the minimum time in minutes between jobs. "
-"The scheduler starts execution of a job before its scheduled startup time by "
-"this lead time. Early execution is useful as focusing, alignment, and "
-"guiding procedures may take prolonged periods to time to complete.</p></"
-"body></html>"
-msgstr ""
-"<html><head/><body><p>Ledtiden är den minimala tiden i minuter mellan jobb. "
-"Schemaläggningen börjar köra ett jobb innan dess schemalagda tid med denna "
-"ledtid. Tidig körning är användbar eftersom fokuserings-, inriktnings- och "
-"guidningsprocedurer kan ta en längre tid att utföra.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, leadTimeLabel)
-#: ekos/opsekos.ui:232
-#, kde-format
-msgid "Lead time:"
-msgstr "Ledtid:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, preDawnLabel)
-#: ekos/opsekos.ui:242
-#, kde-format
-msgid ""
-"<html><head/><body><p>Do not permit jobs to be scheduled or executed past "
-"this many minutes before dawn.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Tillåt inte jobb att schemaläggas eller köras efter så "
-"här många minuter innan gryningen.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, preDawnLabel)
-#: ekos/opsekos.ui:245
-#, kde-format
-msgid "Pre-dawn:"
-msgstr "Innan gryning:"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_PreemptiveShutdown)
-#: ekos/opsekos.ui:255
-#, kde-format
-msgid ""
-"<html><head/><body><p>In case no scheduler job is scheduled for this many "
-"hours, perform a complete shutdown procedure and restart observatory "
-"operations once the next job is ready.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Om inga schemalagda jobb förfaller inom så här många "
-"timmar, utför en fullständig avstängningsprocedur och starta om "
-"observatoriets verksamhet när nästa jobb är redo..</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_PreemptiveShutdown)
-#: ekos/opsekos.ui:258
-#, kde-format
-msgid "Pre-emptive shutdown:"
-msgstr "Förebyggande avstängning:"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_PreemptiveShutdownTime)
-#: ekos/opsekos.ui:265
-#, kde-format
-msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Tider för förebyggande avstängning</p></body></html>"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, duskOffsetLabel)
-#: ekos/opsekos.ui:272
-#, kde-format
-msgid ""
-"<html><body><p>Offset astronomical dusk by this many hours. This positive or "
-"negative value adjusts the twilight restriction.</p></body></html>"
-msgstr ""
-"<html><body><p>Förskjut astronomisk skymning så här många timmar. Det här "
-"positiva eller negativa värdet justerar skymningsrestriktionen.</p></body></"
-"html>"
-
-#. i18n: ectx: property (text), widget (QLabel, duskOffsetLabel)
-#: ekos/opsekos.ui:275
-#, kde-format
-msgid "Dusk offset:"
-msgstr "Skymningsförskjutning:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, dawnOffsetLabel)
-#: ekos/opsekos.ui:295
-#, kde-format
-msgid ""
-"<html><body><p>Offset astronomical dawn by this many hours. This positive or "
-"negative value adjusts the twilight restriction.</p></body></html>"
-msgstr ""
-"<html><body><p>Förskjut astronomisk gryning så här många timmar. Det här "
-"positiva eller negativa värdet justerar skymningsrestriktionen.</p></body></"
-"html>"
-
-#. i18n: ectx: property (text), widget (QLabel, dawnOffsetLabel)
-#: ekos/opsekos.ui:298
-#, kde-format
-msgid "Dawn offset:"
-msgstr "Gryningsförskjutning:"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_7)
-#: ekos/opsekos.ui:321
-#, kde-format
-msgid "Cleanup"
-msgstr "Rensning"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
-#: ekos/opsekos.ui:342
-#, kde-format
-msgid "After shutdown procedure is successfully executed, stop INDI and Ekos."
-msgstr ""
-"After avstängningsproceduren har körts med lyckat resultat, stoppa INDI och "
-"Ekos."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
-#: ekos/opsekos.ui:345
-#, kde-format
-msgid "Stop Ekos after shutdown"
-msgstr "Stoppa Ekos efter avstängning"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
-#: ekos/opsekos.ui:352
-#, kde-format
-msgid ""
-"<html><head/><body><p>If the shutdown script terminates INDI server, enable "
-"this option so that no disconnection errors are generated.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Om avstängningsskriptet avslutar INDI-servern, "
-"aktivera alternativet så att inga nerkopplingsfel genereras.</p></body></"
-"html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
-#: ekos/opsekos.ui:355
-#, kde-format
-msgid "Shutdown script terminates INDI"
-msgstr "Avstängningsskript avslutar INDI"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_8)
-#: ekos/opsekos.ui:365
-#, kde-format
-msgid "Scheduling"
-msgstr "Schemaläggning"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GreedyScheduling)
-#: ekos/opsekos.ui:386
-#, kde-format
-msgid ""
-"<html><head/><body><p>When checked the scheduler tries to run lower priority "
-"jobs when no higher priority job can run. Recommended.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>När markerat försöker schemaläggningen köra jobb med "
-"lägre prioritet när inget högre prioriterat jobb kan köras. Rekommenderas.</"
-"p></body></html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_GreedyScheduling)
-#: ekos/opsekos.ui:389
-#, kde-format
-msgid "Use greedy scheduling"
-msgstr "Använd girig schemaläggning"
-
-#. i18n: ectx: property (text), widget (QLabel, label_10)
-#. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
-#. i18n: ectx: property (text), widget (QLabel, DSSPaddingUnitLabel)
-#: ekos/opsekos.ui:436 options/opsadvanced.ui:163 options/opsadvanced.ui:205
-#, kde-format
-msgid "arcminutes"
-msgstr "bågminuter"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ForceAlignmentBeforeJob)
-#: ekos/opsekos.ui:450
-#, kde-format
-msgid ""
-"If Align is enabled, scheduler would initiate a realignment procedure before "
-"restarting any jobs even if guiding is active."
-msgstr ""
-"Om inriktning är aktiverad, kommer schemaläggningen initiera en "
-"återinriktningsprocedur innan några jobb startas om även om guidning är "
-"aktiv."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForceAlignmentBeforeJob)
-#: ekos/opsekos.ui:453
-#, kde-format
-msgid "Force re-alignment before re-starting jobs"
-msgstr "Tvinga återinriktning innan jobb startas om"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_6)
-#. i18n: ectx: label, entry (AlignCheckFrequency), group (Scheduler)
-#: ekos/opsekos.ui:460 kstars.kcfg:3055
-#, kde-format
-msgid ""
-"When calculating position after captures, compute it every Nth capture. Set "
-"to 0 to disable."
-msgstr ""
-"När position beräknas efter tagning, beräkna den för var N:te tagning. Ange "
-"0 för att inaktivera."
-
-#. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/opsekos.ui:463
-#, kde-format
-msgid "Verify captured image position every:"
-msgstr "Verifiera tagen bildposition var:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelBeforeJob)
-#: ekos/opsekos.ui:470
-#, kde-format
-msgid "Reset mount model before starting each job:"
-msgstr "Återställ stativmodell innan varje jobb startas:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_8)
-#. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
-#: ekos/opsekos.ui:484 kstars.kcfg:3059
-#, kde-format
-msgid ""
-"If captured position exceeds target position by more this many arcminutes, "
-"abort capture and reschedule the pipeline."
-msgstr ""
-"Om tagen position överskrider målposition med mer än så här många "
-"bågminuter, avbryt tagning och schemalägg följden igen."
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/opsekos.ui:487
-#, kde-format
-msgid "Reset pipeline if verified image delta exceeds:"
-msgstr "Nollställ följden om verifierat bilddelta överskrider:"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelOnAlignFail)
-#: ekos/opsekos.ui:494
-#, kde-format
-msgid "Reset mount model on alignment failure"
-msgstr "Nollställ stativmodellen i händelse av inriktningsfel"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
-#: ekos/opsekos.ui:511
-#, kde-format
-msgid ""
-"<html><head/><body><p>If guiding calibration fails then restart alignment "
-"process before proceeding to guiding recalibration process again. This can "
-"help recenter the target object in the field of view if the calibration "
-"process strayed too far off.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Om guidningskalibrering misslyckas, starta om "
-"inriktningsprocessen innan omkalibreringsprocessen utförs. Det kan hjälpa "
-"till att centrera om målobjektet i synfältet om kalibreringsprocessen avvek "
-"alltför mycket.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_RealignAfterCalibrationFailure)
-#: ekos/opsekos.ui:514
-#, kde-format
-msgid "Restart alignment on guiding calibration failure"
-msgstr "Starta om inriktning om guidningskalibrering misslyckas"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#. i18n: ectx: property (title), widget (QGroupBox, ObsListMiscOptions)
-#: ekos/opsekos.ui:559 options/opsadvanced.ui:924
-#, kde-format
-msgid "Miscellaneous"
-msgstr "Diverse"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_15)
-#: ekos/opsekos.ui:585
-#, kde-format
-msgid "Cover or uncover telescope dialog timeout in seconds"
-msgstr "Tidsgräns i sekunder för att täcka eller visa teleskopdialogruta"
-
-#. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/opsekos.ui:588
-#, kde-format
-msgid "Dialog timeout:"
-msgstr "Tidsgräns för dialogruta:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: ekos/opsekos.ui:595
-#, kde-format
-msgid ""
-"Maximum acceptable difference between requested and measured temperature set "
-"point. When the temperature threshold is below this value, the temperature "
-"set point request is deemed successful."
-msgstr ""
-"Maximal acceptabel skillnad mellan begärd och uppmätt temperaturinställning. "
-"När temperaturtröskeln är under det här värdet, anses begäran om "
-"temperaturinställning vara uppfylld."
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/opsekos.ui:598
-#, kde-format
-msgid "Temperature threshold:"
-msgstr "Temperaturtröskel:"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
-#: ekos/opsekos.ui:632
-#, kde-format
-msgid "Wait this many seconds after guiding is resumed before starting capture"
-msgstr ""
-"Vänta så här många sekunder efter guidning återupptas innan tagning påbörjas"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_13)
-#: ekos/opsekos.ui:655
-#, kde-format
-msgid ""
-"Wait this many seconds after guiding is resumed to stabilize the guiding "
-"performance before capture."
-msgstr ""
-"Vänta så här många sekunder efter guidning återupptas för att stabilisera "
-"guidningsprestanda innan tagning."
-
-#. i18n: ectx: property (text), widget (QLabel, label_13)
-#: ekos/opsekos.ui:658
-#, kde-format
-msgid "Guiding settle:"
-msgstr "Guidningsdämpning:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_17)
-#: ekos/opsekos.ui:685
-#, no-c-format, kde-format
-msgid ""
-"<html><head/><body><p>Minimal duration of a meridian flip in seconds. "
-"Increase this value if Ekos reports that a meridian flip has failed because "
-"the pier side did not change. A good estimation for this value is at least "
-"50% of the typical duration of a meridian flip.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Minimal tid för en meridianvändning i sekunder. Öka "
-"värdet om Ekos rapporterar att en meridianvändning har misslyckats på grund "
-"av att pirsidan inte ändrades. En bra uppskattning för värdet är minst 50 % "
-"av den typiska tiden för en meridianvändning.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/opsekos.ui:688
-#, kde-format
-msgid "Minimal meridian flip duration: "
-msgstr "Minimal tid för meridianvändning: "
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RememberJobProgress)
-#: ekos/opsekos.ui:717
-#, kde-format
-msgid ""
-"<html><head/><body><p>If selected, take the already existing frames that "
-"satisfy each job's signature and capture only the missing ones.</"
-"p><p>Otherwise, of not selected, restart capturing with all counters set to "
-"zero.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Om markerat, ta de redan befintliga bilderna som "
-"uppfyller varje jobbs signatur och lagra bara de saknade.</p><p>Annars, om "
-"det inte är markerat, starta om tagningen med alla räknare inställda på noll."
-"</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_RememberJobProgress)
-#: ekos/opsekos.ui:720
-#, kde-format
-msgid "Remember job progress"
-msgstr "Kom ihåg jobbtillstånd"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
-#: ekos/opsekos.ui:730
-#, kde-format
-msgid "Reset mount model after meridian flip"
-msgstr "Nollställ stativmodell efter meridianvändning"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
-#: ekos/opsekos.ui:737
-#, kde-format
-msgid "Use flip command if supported by mount"
-msgstr "Använd vändkommando om det stöds av stativet"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
-#: ekos/opsekos.ui:749
-#, kde-format
-msgid "Display received FITS in the Summary screen preview window."
-msgstr ""
-"Visa mottagna FITS-bilder på översiktsskärmens förhandsgranskningsfönster."
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
-#: ekos/opsekos.ui:752
-#, kde-format
-msgid "Summary screen preview"
-msgstr "Översiktsskärmens förhandsgranskning"
-
-#. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: ekos/opsekos.ui:777
-#, kde-format
-msgid "DSLR"
-msgstr "Digital spegelreflexkamera"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ForceDSLRPresets)
-#: ekos/opsekos.ui:795
-#, kde-format
-msgid ""
-"<html><head/><body><p>Force exposure times to align with DSLR exposure "
-"presets. This insures accurate exposure times for sub-second exposures.</p></"
-"body></html>"
-msgstr ""
-"<html><head/><body><p>Tvinga att exponeringstider är justerade enligt "
-"spegelreflexkamerans förinställda exponeringar. Det säkerställer noggranna "
-"exponeringstider för delsekundexponeringar.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForceDSLRPresets)
-#: ekos/opsekos.ui:798
-#, kde-format
-msgid "Force DSLR presets"
-msgstr "Tvinga förinställningar för spegelreflexkamera"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
-#: ekos/opsekos.ui:805
-#, kde-format
-msgid "Display received DSLR images in the Image Viewer"
-msgstr ""
-"Visa automatiskt mottagna bilder från digital spegelreflexkamera i "
-"bildvisningen"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
-#: ekos/opsekos.ui:808
-#, kde-format
-msgid "DSLR image viewer"
-msgstr "Visning av bilder från digital spegelreflexkamera"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, clearDSLRInfoB)
-#: ekos/opsekos.ui:815
-#, kde-format
-msgid "Clear saved DSLR sizes"
-msgstr "Rensa sparade storlekar för digital spegelreflexkamera"
-
-#. i18n: ectx: property (text), widget (QPushButton, clearDSLRInfoB)
-#: ekos/opsekos.ui:818
-#, kde-format
-msgid "Clear DSLR Info"
-msgstr "Rensa information för digital spegelreflexkamera"
-
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
-#: ekos/opsekos.ui:907
+#: ekos/opsekos.ui:201
 #, kde-format
 msgid ""
 "<html><head/><body><p>If Analyze is running and Ekos is disconnected then "
@@ -25857,19 +25609,19 @@ msgstr ""
 "visar bara den nya sessionen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
-#: ekos/opsekos.ui:910
+#: ekos/opsekos.ui:204
 #, kde-format
 msgid "Restart Analyze when Ekos Restarts"
 msgstr "Starta om analys när Ekos startas om"
 
 #. i18n: ectx: property (text), widget (QLabel, AnalyzeAlternativeDirectoryLabel)
-#: ekos/opsekos.ui:934
+#: ekos/opsekos.ui:228
 #, kde-format
 msgid "Alternative Image Directory: "
 msgstr "Alternativ bildkatalog: "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, analyzeAlternativeDirectoryB)
-#: ekos/opsekos.ui:953
+#: ekos/opsekos.ui:247
 #, kde-format
 msgid "Set the alternative image directory for Analyze"
 msgstr "Ange alternativ bildkatalog för analys"
@@ -27572,13 +27324,13 @@ msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "%1 %"
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:716
+#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:742
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Välj sekvenskö"
 
-#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:718
+#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:744
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "Ekos sekvenskö (*.esq)"
@@ -27610,12 +27362,264 @@ msgstr "Välj jobbkatalog"
 msgid "Job '%1' has no more batches remaining."
 msgstr "Jobb '%1' har inga körningar kvar."
 
-#: ekos/scheduler/scheduler.cpp:127
+#. i18n: ectx: property (toolTip), widget (QLabel, label_8)
+#. i18n: ectx: label, entry (AlignCheckThreshold), group (Scheduler)
+#: ekos/scheduler/opsalignmentsettings.ui:48 kstars.kcfg:3059
+#, kde-format
+msgid ""
+"If captured position exceeds target position by more this many arcminutes, "
+"abort capture and reschedule the pipeline."
+msgstr ""
+"Om tagen position överskrider målposition med mer än så här många "
+"bågminuter, avbryt tagning och schemalägg följden igen."
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: ekos/scheduler/opsalignmentsettings.ui:51
+#, kde-format
+msgid "Reset pipeline if verified image delta exceeds:"
+msgstr "Nollställ följden om verifierat bilddelta överskrider:"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_6)
+#. i18n: ectx: label, entry (AlignCheckFrequency), group (Scheduler)
+#: ekos/scheduler/opsalignmentsettings.ui:58 kstars.kcfg:3055
+#, kde-format
+msgid ""
+"When calculating position after captures, compute it every Nth capture. Set "
+"to 0 to disable."
+msgstr ""
+"När position beräknas efter tagning, beräkna den för var N:te tagning. Ange "
+"0 för att inaktivera."
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: ekos/scheduler/opsalignmentsettings.ui:61
+#, kde-format
+msgid "Verify captured image position every:"
+msgstr "Verifiera tagen bildposition var:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_10)
+#. i18n: ectx: property (text), widget (QLabel, DefaultDSSImageSizeUnitLabel)
+#. i18n: ectx: property (text), widget (QLabel, DSSPaddingUnitLabel)
+#: ekos/scheduler/opsalignmentsettings.ui:75 options/opsadvanced.ui:163
+#: options/opsadvanced.ui:205
+#, kde-format
+msgid "arcminutes"
+msgstr "bågminuter"
+
+#. i18n: ectx: property (text), widget (QCheckBox, resetMountModelOnAlignFail)
+#: ekos/scheduler/opsalignmentsettings.ui:89
+#, kde-format
+msgid "Reset mount model on alignment failure"
+msgstr "Nollställ stativmodellen i händelse av inriktningsfel"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, realignAfterCalibrationFailure)
+#: ekos/scheduler/opsalignmentsettings.ui:96
+#, kde-format
+msgid ""
+"<html><head/><body><p>If guiding calibration fails then restart alignment "
+"process before proceeding to guiding recalibration process again. This can "
+"help recenter the target object in the field of view if the calibration "
+"process strayed too far off.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Om guidningskalibrering misslyckas, starta om "
+"inriktningsprocessen innan omkalibreringsprocessen utförs. Det kan hjälpa "
+"till att centrera om målobjektet i synfältet om kalibreringsprocessen avvek "
+"alltför mycket.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, realignAfterCalibrationFailure)
+#: ekos/scheduler/opsalignmentsettings.ui:99
+#, kde-format
+msgid "Restart alignment on guiding calibration failure"
+msgstr "Starta om inriktning om guidningskalibrering misslyckas"
+
+#. i18n: ectx: property (text), widget (QCheckBox, resetMountModelBeforeJob)
+#: ekos/scheduler/opsalignmentsettings.ui:106
+#, kde-format
+msgid "Reset mount model before starting each job:"
+msgstr "Återställ stativmodell innan varje jobb startas:"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, forceAlignmentBeforeJob)
+#: ekos/scheduler/opsalignmentsettings.ui:113
+#, kde-format
+msgid ""
+"If Align is enabled, scheduler would initiate a realignment procedure before "
+"restarting any jobs even if guiding is active."
+msgstr ""
+"Om inriktning är aktiverad, kommer schemaläggningen initiera en "
+"återinriktningsprocedur innan några jobb startas om även om guidning är "
+"aktiv."
+
+#. i18n: ectx: property (text), widget (QCheckBox, forceAlignmentBeforeJob)
+#: ekos/scheduler/opsalignmentsettings.ui:116
+#, kde-format
+msgid "Force re-alignment before re-starting jobs"
+msgstr "Tvinga återinriktning innan jobb startas om"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, stopEkosAfterShutdown)
+#: ekos/scheduler/opscleanupsettings.ui:38
+#, kde-format
+msgid "After shutdown procedure is successfully executed, stop INDI and Ekos."
+msgstr ""
+"After avstängningsproceduren har körts med lyckat resultat, stoppa INDI och "
+"Ekos."
+
+#. i18n: ectx: property (text), widget (QCheckBox, stopEkosAfterShutdown)
+#: ekos/scheduler/opscleanupsettings.ui:41
+#, kde-format
+msgid "Stop Ekos after shutdown"
+msgstr "Stoppa Ekos efter avstängning"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, shutdownScriptTerminatesINDI)
+#: ekos/scheduler/opscleanupsettings.ui:48
+#, kde-format
+msgid ""
+"<html><head/><body><p>If the shutdown script terminates INDI server, enable "
+"this option so that no disconnection errors are generated.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Om avstängningsskriptet avslutar INDI-servern, "
+"aktivera alternativet så att inga nerkopplingsfel genereras.</p></body></"
+"html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, shutdownScriptTerminatesINDI)
+#: ekos/scheduler/opscleanupsettings.ui:51
+#, kde-format
+msgid "Shutdown script terminates INDI"
+msgstr "Avstängningsskript avslutar INDI"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, rememberJobProgress)
+#: ekos/scheduler/opsjobssettings.ui:38
+#, kde-format
+msgid ""
+"<html><head/><body><p>When processing a scheduled job, resume the sequence "
+"starting from the last image present in storage.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>När ett schemalagt jobb behandlas, återuppta sekvensen "
+"med början på den senaste bilden i lagringsutrymmet.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, rememberJobProgress)
+#: ekos/scheduler/opsjobssettings.ui:41
+#, kde-format
+msgid "Remember job progress"
+msgstr "Kom ihåg jobbtillstånd"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, greedyScheduling)
+#: ekos/scheduler/opsjobssettings.ui:51
+#, kde-format
+msgid ""
+"<html><head/><body><p>When checked the scheduler tries to run lower priority "
+"jobs when no higher priority job can run. Recommended.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>När markerat försöker schemaläggningen köra jobb med "
+"lägre prioritet när inget högre prioriterat jobb kan köras. Rekommenderas.</"
+"p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, greedyScheduling)
+#: ekos/scheduler/opsjobssettings.ui:54
+#, kde-format
+msgid "Use greedy scheduling"
+msgstr "Använd girig schemaläggning"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, preemptiveShutdown)
+#: ekos/scheduler/opsoffsetsettings.ui:35
+#, kde-format
+msgid ""
+"<html><head/><body><p>In case no scheduler job is scheduled for this many "
+"hours, perform a complete shutdown procedure and restart observatory "
+"operations once the next job is ready.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Om inga schemalagda jobb förfaller inom så här många "
+"timmar, utför en fullständig avstängningsprocedur och starta om "
+"observatoriets verksamhet när nästa jobb är redo..</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, preemptiveShutdown)
+#: ekos/scheduler/opsoffsetsettings.ui:38
+#, kde-format
+msgid "Pre-emptive shutdown:"
+msgstr "Förebyggande avstängning:"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, leadTimeLabel)
+#: ekos/scheduler/opsoffsetsettings.ui:61
+#, kde-format
+msgid ""
+"<html><head/><body><p>Lead time is the minimum time in minutes between jobs. "
+"The scheduler starts execution of a job before its scheduled startup time by "
+"this lead time. Early execution is useful as focusing, alignment, and "
+"guiding procedures may take prolonged periods to time to complete.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>Ledtiden är den minimala tiden i minuter mellan jobb. "
+"Schemaläggningen börjar köra ett jobb innan dess schemalagda tid med denna "
+"ledtid. Tidig körning är användbar eftersom fokuserings-, inriktnings- och "
+"guidningsprocedurer kan ta en längre tid att utföra.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, leadTimeLabel)
+#: ekos/scheduler/opsoffsetsettings.ui:64
+#, kde-format
+msgid "Lead time:"
+msgstr "Ledtid:"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, preDawnLabel)
+#: ekos/scheduler/opsoffsetsettings.ui:87
+#, kde-format
+msgid ""
+"<html><head/><body><p>Do not permit jobs to be scheduled or executed past "
+"this many minutes before dawn.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Tillåt inte jobb att schemaläggas eller köras efter så "
+"här många minuter innan gryningen.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, preDawnLabel)
+#: ekos/scheduler/opsoffsetsettings.ui:90
+#, kde-format
+msgid "Pre-dawn:"
+msgstr "Innan gryning:"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, dawnOffsetLabel)
+#: ekos/scheduler/opsoffsetsettings.ui:97
+#, kde-format
+msgid ""
+"<html><body><p>Offset astronomical dawn by this many hours. This positive or "
+"negative value adjusts the twilight restriction.</p></body></html>"
+msgstr ""
+"<html><body><p>Förskjut astronomisk gryning så här många timmar. Det här "
+"positiva eller negativa värdet justerar skymningsrestriktionen.</p></body></"
+"html>"
+
+#. i18n: ectx: property (text), widget (QLabel, dawnOffsetLabel)
+#: ekos/scheduler/opsoffsetsettings.ui:100
+#, kde-format
+msgid "Dawn offset:"
+msgstr "Gryningsförskjutning:"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, duskOffsetLabel)
+#: ekos/scheduler/opsoffsetsettings.ui:107
+#, kde-format
+msgid ""
+"<html><body><p>Offset astronomical dusk by this many hours. This positive or "
+"negative value adjusts the twilight restriction.</p></body></html>"
+msgstr ""
+"<html><body><p>Förskjut astronomisk skymning så här många timmar. Det här "
+"positiva eller negativa värdet justerar skymningsrestriktionen.</p></body></"
+"html>"
+
+#. i18n: ectx: property (text), widget (QLabel, duskOffsetLabel)
+#: ekos/scheduler/opsoffsetsettings.ui:110
+#, kde-format
+msgid "Dusk offset:"
+msgstr "Skymningsförskjutning:"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, preemptiveShutdownTime)
+#: ekos/scheduler/opsoffsetsettings.ui:117
+#, kde-format
+msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Tider för förebyggande avstängning</p></body></html>"
+
+#: ekos/scheduler/scheduler.cpp:129
 #, kde-format
 msgid "Follower"
 msgstr "Följare"
 
-#: ekos/scheduler/scheduler.cpp:149
+#: ekos/scheduler/scheduler.cpp:151
 #, kde-format
 msgid ""
 "Job scheduler list.\n"
@@ -27628,7 +27632,7 @@ msgstr ""
 "Dubbelklicka för att redigera ett jobb med fälten till vänster.\n"
 "Skift-klicka för att visa ett jobbs elevation i natt."
 
-#: ekos/scheduler/scheduler.cpp:157
+#: ekos/scheduler/scheduler.cpp:159
 #, kde-format
 msgid ""
 "Current status of the job, managed by the Scheduler.\n"
@@ -27647,7 +27651,7 @@ msgstr ""
 "Om färdigt, har schemaläggningen kontrollerat att alla sekvensens begärda "
 "tagningar har lagrats, inklusive upprepningar."
 
-#: ekos/scheduler/scheduler.cpp:162
+#: ekos/scheduler/scheduler.cpp:164
 #, kde-format
 msgid ""
 "Current altitude of the target of the job.\n"
@@ -27658,7 +27662,7 @@ msgstr ""
 "Ett stigande mål indikeras med en uppåtgående pil.\n"
 "Ett nedgående mål indikeras med en nedåtgående pil."
 
-#: ekos/scheduler/scheduler.cpp:166
+#: ekos/scheduler/scheduler.cpp:168
 #, kde-format
 msgid ""
 "Startup time of the job, as estimated by the Scheduler.\n"
@@ -27669,7 +27673,7 @@ msgstr ""
 "Elevationen vid start visas också, om tillgänglig.\n"
 "Fast tid från användaren eller kulmineringstid markeras med en klocksymbol."
 
-#: ekos/scheduler/scheduler.cpp:170
+#: ekos/scheduler/scheduler.cpp:172
 #, kde-format
 msgid ""
 "Completion time for the job, as estimated by the Scheduler.\n"
@@ -27682,7 +27686,7 @@ msgstr ""
 "varningssymbol anger att elevationen vid slutet kan göra att jobbet avbryts "
 "innan det avslutas.\n"
 
-#: ekos/scheduler/scheduler.cpp:174 ekos/scheduler/scheduler.cpp:1675
+#: ekos/scheduler/scheduler.cpp:176 ekos/scheduler/scheduler.cpp:1701
 #, kde-format
 msgid ""
 "Count of captures stored for the job, based on its sequence job.\n"
@@ -27693,7 +27697,7 @@ msgstr ""
 "Det är en sammanfattning, och ytterligare specifika bildtyper kan behövas "
 "för att göra färdigt jobbet."
 
-#: ekos/scheduler/scheduler.cpp:182
+#: ekos/scheduler/scheduler.cpp:184
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
@@ -27702,22 +27706,22 @@ msgstr ""
 "Ta bort markerat jobb från observationslistan.\n"
 "Jobbegenskaper kopieras till redigeringsfälten innan borttagning."
 
-#: ekos/scheduler/scheduler.cpp:186
+#: ekos/scheduler/scheduler.cpp:188
 #, kde-format
 msgid "Move selected job one line up in the list.\n"
 msgstr "Flytta markerat jobb en rad uppåt i listan.\n"
 
-#: ekos/scheduler/scheduler.cpp:189
+#: ekos/scheduler/scheduler.cpp:191
 #, kde-format
 msgid "Move selected job one line down in the list.\n"
 msgstr "Flytta markerat jobb en rad neråt i listan.\n"
 
-#: ekos/scheduler/scheduler.cpp:193
+#: ekos/scheduler/scheduler.cpp:195
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr "Nollställ status och tvinga alla observationsjobb att utvärderas igen."
 
-#: ekos/scheduler/scheduler.cpp:197
+#: ekos/scheduler/scheduler.cpp:199
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -27734,7 +27738,7 @@ msgstr ""
 "Observera att algoritmen beräknar först alla elevationer med användning av "
 "samma tid, och därefter utvärderar jobb."
 
-#: ekos/scheduler/scheduler.cpp:366 ekos/scheduler/scheduler.cpp:2154
+#: ekos/scheduler/scheduler.cpp:368 ekos/scheduler/scheduler.cpp:2180
 #: ekos/scheduler/schedulerprocess.cpp:3386
 #, kde-format
 msgid ""
@@ -27744,65 +27748,100 @@ msgstr ""
 "Varning: Den klassiska schemaläggningsalgoritmen har dragits tillbaka. Byter "
 "till den giriga algoritmen."
 
-#: ekos/scheduler/scheduler.cpp:606
+#: ekos/scheduler/scheduler.cpp:424
+#, fuzzy, kde-format
+#| msgid "Scheduler paused."
+msgid "Scheduler Offset"
+msgstr "Schemaläggning pausar."
+
+#: ekos/scheduler/scheduler.cpp:428
+#, fuzzy, kde-format
+#| msgid "Scheduled Time"
+msgid "Scheduler Alignment"
+msgstr "Schemalagd tid"
+
+#: ekos/scheduler/scheduler.cpp:433
+#, kde-format
+msgid "Jobs"
+msgstr "Jobb"
+
+#: ekos/scheduler/scheduler.cpp:433
+#, fuzzy, kde-format
+#| msgid " Scheduler job"
+#| msgid_plural " Scheduler jobs"
+msgid "Scheduler Jobs"
+msgstr " Schemaläggningsjobb"
+
+#: ekos/scheduler/scheduler.cpp:437
+#, kde-format
+msgid "Cleanup"
+msgstr "Rensning"
+
+#: ekos/scheduler/scheduler.cpp:437
+#, fuzzy, kde-format
+#| msgid "Scheduler paused."
+msgid "Scheduler Cleanup"
+msgstr "Schemaläggning pausar."
+
+#: ekos/scheduler/scheduler.cpp:632
 #, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "Välj FITS/XISF-bild"
 
-#: ekos/scheduler/scheduler.cpp:656
+#: ekos/scheduler/scheduler.cpp:682
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "FITS-huvud: Kan inte hitta OBJCTRA (%1)."
 
-#: ekos/scheduler/scheduler.cpp:675
+#: ekos/scheduler/scheduler.cpp:701
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "FITS-huvud: Kan inte hitta OBJCTDEC (%1)."
 
-#: ekos/scheduler/scheduler.cpp:726
+#: ekos/scheduler/scheduler.cpp:752
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Välj startskript"
 
-#: ekos/scheduler/scheduler.cpp:728 ekos/scheduler/scheduler.cpp:743
+#: ekos/scheduler/scheduler.cpp:754 ekos/scheduler/scheduler.cpp:769
 #, kde-format
 msgid "Script (*)"
 msgstr "Skript (*)"
 
-#: ekos/scheduler/scheduler.cpp:741
+#: ekos/scheduler/scheduler.cpp:767
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Välj avstängningsskript"
 
-#: ekos/scheduler/scheduler.cpp:807
+#: ekos/scheduler/scheduler.cpp:833
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "Varning: Målnamn krävs."
 
-#: ekos/scheduler/scheduler.cpp:813
+#: ekos/scheduler/scheduler.cpp:839
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "Varning: Sekvensfil krävs."
 
-#: ekos/scheduler/scheduler.cpp:820
+#: ekos/scheduler/scheduler.cpp:846
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "Varning: Målkoordinater krävs."
 
-#: ekos/scheduler/scheduler.cpp:830
+#: ekos/scheduler/scheduler.cpp:856
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "Varning: RA-värdet %1 är ogiltigt."
 
-#: ekos/scheduler/scheduler.cpp:836
+#: ekos/scheduler/scheduler.cpp:862
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Varning: DEK-värdet %1 är ogiltigt."
 
-#: ekos/scheduler/scheduler.cpp:961
+#: ekos/scheduler/scheduler.cpp:987
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
@@ -27811,7 +27850,7 @@ msgstr ""
 "Varning: Jobb '%1' på rad %2 har ett duplicerad mål på rad %3, "
 "schemaläggningen kan använda samma lagringsplats för tagningar."
 
-#: ekos/scheduler/scheduler.cpp:969
+#: ekos/scheduler/scheduler.cpp:995
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -27822,91 +27861,91 @@ msgstr ""
 "upprepningsantal eftersom de för närvarande avslutas samtidigt efter %4 "
 "omgångar (eller inaktivera alternativet 'Kom ihåg jobbtillstånd')"
 
-#: ekos/scheduler/scheduler.cpp:977
+#: ekos/scheduler/scheduler.cpp:1003
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr "Hoppade över kontroll av dubbletter."
 
-#: ekos/scheduler/scheduler.cpp:1155
+#: ekos/scheduler/scheduler.cpp:1181
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1238
+#: ekos/scheduler/scheduler.cpp:1264
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr "Sluta redigera jobb nr. %1, återställ till ursprungliga värden."
 
-#: ekos/scheduler/scheduler.cpp:1267
+#: ekos/scheduler/scheduler.cpp:1293
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 "Använd redigeringsfälten för att skapa ett nytt jobb i observationslistan."
 
-#: ekos/scheduler/scheduler.cpp:1542
+#: ekos/scheduler/scheduler.cpp:1568
 #, kde-format
 msgid "Evaluating"
 msgstr "Utvärderar"
 
-#: ekos/scheduler/scheduler.cpp:1543
+#: ekos/scheduler/scheduler.cpp:1569
 #, kde-format
 msgid "Scheduled"
 msgstr "Schemalagd"
 
-#: ekos/scheduler/scheduler.cpp:1545
+#: ekos/scheduler/scheduler.cpp:1571
 #, kde-format
 msgid "Invalid"
 msgstr "Ogiltig"
 
-#: ekos/scheduler/scheduler.cpp:1827
+#: ekos/scheduler/scheduler.cpp:1853
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr "Schemaläggning paus planerad..."
 
-#: ekos/scheduler/scheduler.cpp:1831
+#: ekos/scheduler/scheduler.cpp:1857
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "Återuppta schemaläggning"
 
-#: ekos/scheduler/scheduler.cpp:1846
+#: ekos/scheduler/scheduler.cpp:1872
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "Observatoriet håller på med avstängningsprocessen"
 
-#: ekos/scheduler/scheduler.cpp:1876
+#: ekos/scheduler/scheduler.cpp:1902
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "Schemaläggning avbruten."
 
-#: ekos/scheduler/scheduler.cpp:1885
+#: ekos/scheduler/scheduler.cpp:1911
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr "Schemaläggning är avstängd tills nästa jobb är redo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1893 ekos/scheduler/scheduler.ui:1179
+#: ekos/scheduler/scheduler.cpp:1919 ekos/scheduler/scheduler.ui:1179
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Starta schemaläggning"
 
-#: ekos/scheduler/scheduler.cpp:1916
+#: ekos/scheduler/scheduler.cpp:1942
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Öppna Ekos schemaläggningslista"
 
-#: ekos/scheduler/scheduler.cpp:2009
+#: ekos/scheduler/scheduler.cpp:2035
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Spara Ekos schemaläggningslista"
 
-#: ekos/scheduler/scheduler.cpp:2028
+#: ekos/scheduler/scheduler.cpp:2054
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Misslyckades spara schemaläggningslista"
 
-#: ekos/scheduler/scheduler.cpp:2172
+#: ekos/scheduler/scheduler.cpp:2198
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
@@ -27916,74 +27955,74 @@ msgstr ""
 "observatoriet kör under dagsljus. Det kan orsaka permanenta skador på "
 "utrustningen."
 
-#: ekos/scheduler/scheduler.cpp:2195
+#: ekos/scheduler/scheduler.cpp:2221
 #, kde-format
 msgid "Slew complete"
 msgstr "Förflyttning färdig"
 
-#: ekos/scheduler/scheduler.cpp:2199
+#: ekos/scheduler/scheduler.cpp:2225
 #, kde-format
 msgid "Focus complete"
 msgstr "Fokusering färdig"
 
-#: ekos/scheduler/scheduler.cpp:2201
+#: ekos/scheduler/scheduler.cpp:2227
 #, kde-format
 msgid "Align complete"
 msgstr "Inriktning färdig"
 
-#: ekos/scheduler/scheduler.cpp:2202
+#: ekos/scheduler/scheduler.cpp:2228
 #, kde-format
 msgid "Repositioning"
 msgstr "Positionsändring"
 
-#: ekos/scheduler/scheduler.cpp:2203
+#: ekos/scheduler/scheduler.cpp:2229
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Positionsändring färdig"
 
-#: ekos/scheduler/scheduler.cpp:2206
+#: ekos/scheduler/scheduler.cpp:2232
 #, kde-format
 msgid "Guiding complete"
 msgstr "Guidning färdig"
 
-#: ekos/scheduler/scheduler.cpp:2285
+#: ekos/scheduler/scheduler.cpp:2311
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Väderförhållanden är goda."
 
-#: ekos/scheduler/scheduler.cpp:2289
+#: ekos/scheduler/scheduler.cpp:2315
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Varning: Väderförhållanden är i varningszonen."
 
-#: ekos/scheduler/scheduler.cpp:2293
+#: ekos/scheduler/scheduler.cpp:2319
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Iakttag försiktighet: Väderförhållanden är i farozonen."
 
-#: ekos/scheduler/scheduler.cpp:2311
+#: ekos/scheduler/scheduler.cpp:2337
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Väderförhållanden är i varningszonen"
 
-#: ekos/scheduler/scheduler.cpp:2320
+#: ekos/scheduler/scheduler.cpp:2346
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 "Väderförhållanden är kritiska. Avstängning av observatoriet är nära "
 "förestående."
 
-#: ekos/scheduler/scheduler.cpp:2343
+#: ekos/scheduler/scheduler.cpp:2369
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Schemaläggning är i viloläge"
 
-#: ekos/scheduler/scheduler.cpp:2406
+#: ekos/scheduler/scheduler.cpp:2432
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Manuell startprocedur avslutades med lyckat resultat."
 
-#: ekos/scheduler/scheduler.cpp:2410
+#: ekos/scheduler/scheduler.cpp:2436
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Manuell startprocedur avbröts på  grund av fel."
@@ -30203,74 +30242,74 @@ msgstr "%1/%2 Simbad-objekt inlästa"
 msgid "Simbad query in progress..."
 msgstr "Förfrågan till Simbad pågår..."
 
-#: fitsviewer/fitstab.cpp:762
+#: fitsviewer/fitstab.cpp:760
 #, kde-format
 msgid "Num"
 msgstr "Antal"
 
-#: fitsviewer/fitstab.cpp:763
+#: fitsviewer/fitstab.cpp:761
 #, kde-format
 msgid "CDS Portal"
 msgstr "CDS-portal"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
-#: fitsviewer/fitstab.cpp:764 fitsviewer/opsfits.ui:435
+#: fitsviewer/fitstab.cpp:762 fitsviewer/opsfits.ui:435
 #, kde-format
 msgid "Simbad"
 msgstr "Simbad"
 
-#: fitsviewer/fitstab.cpp:765
+#: fitsviewer/fitstab.cpp:763
 #, kde-format
 msgid "NED"
 msgstr "NED"
 
-#: fitsviewer/fitstab.cpp:767
+#: fitsviewer/fitstab.cpp:765
 #, kde-format
 msgid "Type Code"
 msgstr "Typkod"
 
-#: fitsviewer/fitstab.cpp:768
+#: fitsviewer/fitstab.cpp:766
 #, kde-format
 msgid "Type Label"
 msgstr "Typbeteckning"
 
-#: fitsviewer/fitstab.cpp:770 kstarslite/qml/dialogs/DetailsDialog.qml:143
+#: fitsviewer/fitstab.cpp:768 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
 msgid "Distance"
 msgstr "Avstånd"
 
-#: fitsviewer/fitstab.cpp:772 fitsviewer/fitsviewer.cpp:1394
+#: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
 #: kstarslite/qml/dialogs/DetailsDialog.qml:153
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Storlek"
 
-#: fitsviewer/fitstab.cpp:777
+#: fitsviewer/fitstab.cpp:775
 #, kde-format
 msgid "Item reference number"
 msgstr "Objektreferensnummer"
 
-#: fitsviewer/fitstab.cpp:778
+#: fitsviewer/fitstab.cpp:776
 #, kde-format
 msgid "Double click to launch CDS Portal browser"
 msgstr "Dubbelklicka för att starta CDS-portalbläddrare"
 
-#: fitsviewer/fitstab.cpp:780
+#: fitsviewer/fitstab.cpp:778
 #, kde-format
 msgid "Double click to launch Simbad browser"
 msgstr "Dubbelklicka för att starta Simbad-bläddrare"
 
-#: fitsviewer/fitstab.cpp:781
+#: fitsviewer/fitstab.cpp:779
 #, kde-format
 msgid "Double click to launch NED browser"
 msgstr "Dubbelklicka för att starta NED-bläddrare"
 
-#: fitsviewer/fitstab.cpp:782
+#: fitsviewer/fitstab.cpp:780
 #, kde-format
 msgid "Catalog Object"
 msgstr "Katalogobjekt"
 
-#: fitsviewer/fitstab.cpp:784
+#: fitsviewer/fitstab.cpp:782
 #, kde-format
 msgid ""
 "Object Type Code. Double click to launch Object Type Filter.\n"
@@ -30281,7 +30320,7 @@ msgstr ""
 "\n"
 "Se https://simbad.cds.unistra.fr/guide/otypes.htx för mer information"
 
-#: fitsviewer/fitstab.cpp:787
+#: fitsviewer/fitstab.cpp:785
 #, kde-format
 msgid ""
 "Object Type Label. Double click to launch Object Type Filter.\n"
@@ -30292,89 +30331,89 @@ msgstr ""
 "\n"
 "Se https://simbad.cds.unistra.fr/guide/otypes.htx för mer information"
 
-#: fitsviewer/fitstab.cpp:789
+#: fitsviewer/fitstab.cpp:787
 #, kde-format
 msgid "Object coordinates"
 msgstr "Objektkoordinater"
 
-#: fitsviewer/fitstab.cpp:790
+#: fitsviewer/fitstab.cpp:788
 #, kde-format
 msgid "Object distance in arcmins from the search center"
 msgstr "Objektets avstånd från sökcentrum i bågminuter"
 
-#: fitsviewer/fitstab.cpp:792
+#: fitsviewer/fitstab.cpp:790
 #, kde-format
 msgid "Object V magnitude"
 msgstr "Objektets V-magnitud"
 
-#: fitsviewer/fitstab.cpp:793
+#: fitsviewer/fitstab.cpp:791
 #, kde-format
 msgid "Object major coordinate size in arcsmins"
 msgstr "Objektets huvudkoordinatstorlek i bågminuter"
 
-#: fitsviewer/fitstab.cpp:968 fitsviewer/fitstab.cpp:972
+#: fitsviewer/fitstab.cpp:966 fitsviewer/fitstab.cpp:970
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Spara FITS"
 
-#: fitsviewer/fitstab.cpp:1004
+#: fitsviewer/fitstab.cpp:1002
 #, kde-format
 msgid "Image save error: %1"
 msgstr "Fel när bild skulle sparas: %1"
 
-#: fitsviewer/fitstab.cpp:1004
+#: fitsviewer/fitstab.cpp:1002
 #, kde-format
 msgid "Image Save"
 msgstr "Spara bild"
 
-#: fitsviewer/fitstab.cpp:1008
+#: fitsviewer/fitstab.cpp:1006
 #, kde-format
 msgid "File saved to %1"
 msgstr "Fil sparad till %1"
 
-#: fitsviewer/fitstab.cpp:1194
+#: fitsviewer/fitstab.cpp:1192
 #, kde-format
 msgid "Extracting..."
 msgstr "Extraherar..."
 
-#: fitsviewer/fitstab.cpp:1212
+#: fitsviewer/fitstab.cpp:1210
 #, kde-format
 msgid "Solving..."
 msgstr "Löser..."
 
-#: fitsviewer/fitstab.cpp:1225
+#: fitsviewer/fitstab.cpp:1223
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Tidsgräns överskreds för extraheringsverktyg: %1 s"
 
-#: fitsviewer/fitstab.cpp:1234
+#: fitsviewer/fitstab.cpp:1232
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Extraheringsverktyg misslyckades: %1 s"
 
-#: fitsviewer/fitstab.cpp:1243
+#: fitsviewer/fitstab.cpp:1241
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Extraherade %1 stjärnor (%2 ofiltrerade) på %3 s"
 
-#: fitsviewer/fitstab.cpp:1291
+#: fitsviewer/fitstab.cpp:1289
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Tidsgräns överskreds för lösningsverktyg: %1 s"
 
-#: fitsviewer/fitstab.cpp:1296
+#: fitsviewer/fitstab.cpp:1294
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Lösningsverktyg misslyckades: %1 s"
 
-#: fitsviewer/fitstab.cpp:1470
+#: fitsviewer/fitstab.cpp:1468
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 "Varning! Verktyget stöder bara det interna StellarSolver lösningsverktyget."
 
-#: fitsviewer/fitstab.cpp:1471
+#: fitsviewer/fitstab.cpp:1469
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Byt till det i alternativmenyn Ekos Inriktning."
@@ -75876,6 +75915,12 @@ msgstr "Digiti&zed Sky Survey (DSS)"
 msgid "Sloan &Digital Sky Survey (SDSS)"
 msgstr "Sloan &Digital Sky Survey (SDSS)"
 
+#. i18n: ectx: property (title), widget (QGroupBox, ObsListMiscOptions)
+#: options/opsadvanced.ui:924
+#, kde-format
+msgid "Miscellaneous"
+msgstr "Diverse"
+
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObsListDemoteHole)
 #: options/opsadvanced.ui:945
 #, kde-format
@@ -86117,6 +86162,26 @@ msgstr "Bakgrundsfärg:"
 msgid "Set the color for the background."
 msgstr "Ange bakgrundens färg."
 
+#~ msgid "Configuration"
+#~ msgstr "inställning"
+
+#~ msgid "Offsets"
+#~ msgstr "Positioner"
+
+#~ msgid "Scheduling"
+#~ msgstr "Schemaläggning"
+
+#~ msgid ""
+#~ "<html><head/><body><p>If selected, take the already existing frames that "
+#~ "satisfy each job's signature and capture only the missing ones.</"
+#~ "p><p>Otherwise, of not selected, restart capturing with all counters set "
+#~ "to zero.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Om markerat, ta de redan befintliga bilderna som "
+#~ "uppfyller varje jobbs signatur och lagra bara de saknade.</p><p>Annars, "
+#~ "om det inte är markerat, starta om tagningen med alla räknare inställda "
+#~ "på noll.</p></body></html>"
+
 #~ msgid "<b>Progress</b>"
 #~ msgstr "<b>Förlopp</b>"
 
@@ -86132,30 +86197,6 @@ msgstr "Ange bakgrundens färg."
 #~ msgstr ""
 #~ "Varning: Alternativet \"Nollställ alltid sekvens vid start\" är aktiverat "
 #~ "och nollställer sekvensräknarna."
-
-#~ msgid "Jobs"
-#~ msgstr "Jobb"
-
-#~ msgid ""
-#~ "<html><head/><body><p>When processing a scheduled job, resume the "
-#~ "sequence starting from the last image present in storage.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>När ett schemalagt jobb behandlas, återuppta "
-#~ "sekvensen med början på den senaste bilden i lagringsutrymmet.</p></"
-#~ "body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>When starting to process a sequence list, reset all "
-#~ "capture counts to zero. Scheduler overrides this option when Remember job "
-#~ "progress is enabled.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>När en sekvenslista börjar behandlas, nollställ "
-#~ "alla tagningsräknare till noll. Schemaläggningen överskrider alternativet "
-#~ "när Kom ihåg jobbtillstånd är aktiverat.</p></body></html>"
-
-#~ msgid "Always reset sequence when starting"
-#~ msgstr "Nollställ alltid sekvens vid start"
 
 #~ msgid ""
 #~ "<html><head/><body><p>When starting to process a sequence list, reset all "
