@@ -26,6 +26,10 @@
 #endif
 #include <KLocalizedString>
 
+#if defined(Q_OS_MACOS)
+#include <ksnotification.h>
+#endif
+
 #include <QApplication>
 #if !defined(KSTARS_LITE)
 #include <QCommandLineParser>
