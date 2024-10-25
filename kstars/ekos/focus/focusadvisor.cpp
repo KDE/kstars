@@ -1482,6 +1482,9 @@ void FocusAdvisor::resetSavedSettings(const bool success)
 // Add a new row to the results table
 void FocusAdvisor::addResultsTable(QString section, int run, int startPos, int stepSize, int overscan, QString text)
 {
+    m_focus->appendLogText(i18n("Focus Advisor Result (%1): Run: %2 startPos: %3 stepSize: %4 overscan: %5",
+                                section, run, startPos, stepSize, overscan));
+
     focusAdvTable->insertRow(0);
     QTableWidgetItem *itemSection = new QTableWidgetItem(section);
     focusAdvTable->setItem(0, RESULTS_SECTION, itemSection);
@@ -1516,6 +1519,8 @@ void FocusAdvisor::addResultsTable(QString section, int run, int startPos, int s
 // Update text for current row (0) in the results table with the passed in value
 void FocusAdvisor::updateResultsTable(QString text)
 {
+    m_focus->appendLogText(i18n("Focus Advisor Result Update: %1", text));
+
     QTableWidgetItem *itemText = new QTableWidgetItem(text);
     focusAdvTable->setItem(0, RESULTS_TEXT, itemText);
     focusAdvTable->horizontalHeader()->resizeSections(QHeaderView::ResizeToContents);
