@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-24 01:46+0000\n"
-"PO-Revision-Date: 2024-10-23 20:03+0200\n"
+"PO-Revision-Date: 2024-10-24 09:35+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -16282,10 +16282,9 @@ msgstr ""
 "és experimental!</p>"
 
 #: ekos/capture/capture.cpp:111
-#, fuzzy, kde-format
-#| msgid "Captures"
+#, kde-format
 msgid "Capture Misc"
-msgstr "Captures"
+msgstr "Miscel·lània de la captura"
 
 #: ekos/capture/capture.cpp:115
 #, kde-format
@@ -16293,10 +16292,9 @@ msgid "DSLR"
 msgstr "DSLR"
 
 #: ekos/capture/capture.cpp:115
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgid "Capture DSLR"
-msgstr "Captura"
+msgstr "Captura DSLR"
 
 #: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:390
 #, kde-format
@@ -25927,10 +25925,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:44
-#, fuzzy, kde-format
-#| msgid "Load device configuration:"
+#, kde-format
 msgid "Load device Configuration"
-msgstr "Carrega la configuració del dispositiu:"
+msgstr "Carrega la configuració del dispositiu"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
 #: ekos/opsekos.ui:65
@@ -28181,16 +28178,14 @@ msgstr ""
 "l'algorisme Voraç."
 
 #: ekos/scheduler/scheduler.cpp:424
-#, fuzzy, kde-format
-#| msgid "Scheduler paused."
+#, kde-format
 msgid "Scheduler Offset"
-msgstr "El programador s'ha posat en pausa."
+msgstr "Desplaçament del programador"
 
 #: ekos/scheduler/scheduler.cpp:428
-#, fuzzy, kde-format
-#| msgid "Scheduled Time"
+#, kde-format
 msgid "Scheduler Alignment"
-msgstr "Hora programada"
+msgstr "Alineació del programador"
 
 #: ekos/scheduler/scheduler.cpp:433
 #, kde-format
@@ -28198,11 +28193,9 @@ msgid "Jobs"
 msgstr "Tasques"
 
 #: ekos/scheduler/scheduler.cpp:433
-#, fuzzy, kde-format
-#| msgid " Scheduler job"
-#| msgid_plural " Scheduler jobs"
+#, kde-format
 msgid "Scheduler Jobs"
-msgstr " Tasca del programador"
+msgstr "Tasques del programador"
 
 #: ekos/scheduler/scheduler.cpp:437
 #, kde-format
@@ -28210,10 +28203,9 @@ msgid "Cleanup"
 msgstr "Neteja"
 
 #: ekos/scheduler/scheduler.cpp:437
-#, fuzzy, kde-format
-#| msgid "Scheduler paused."
+#, kde-format
 msgid "Scheduler Cleanup"
-msgstr "El programador s'ha posat en pausa."
+msgstr "Neteja del programador"
 
 #: ekos/scheduler/scheduler.cpp:632
 #, kde-format
