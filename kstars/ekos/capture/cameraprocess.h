@@ -136,7 +136,7 @@ public:
         ADU_POLYNOMIAL
     } ADUAlgorithm;
 
-    typedef struct
+    typedef struct FitsvViewerTabIDs
     {
         int normalTabID { -1 };
         int calibrationTabID { -1 };
