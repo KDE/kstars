@@ -1107,8 +1107,6 @@ void SchedulerProcess::startSingleCapture(SchedulerJob *job, bool restart)
         // override targets from sequence queue file
         QVariant targetName(job->getName());
         dbusargs.append(url);
-        dbusargs.append(QVariant(job->getCompletedIterations() + 1));
-        dbusargs.append(QVariant(false));
         dbusargs.append(train);
         dbusargs.append(isLead);
         dbusargs.append(targetName);
@@ -1129,6 +1127,29 @@ void SchedulerProcess::startSingleCapture(SchedulerJob *job, bool restart)
         {
             qCCritical(KSTARS_EKOS_SCHEDULER) <<
                                               QString("Warning: job '%1' loadSequenceQueue request failed").arg(job->getName());
+            if (!manageConnectionLoss())
+                job->setState(SCHEDJOB_ERROR);
+            return;
+        }
+    }
+
+    const CapturedFramesMap fMap = job->getCapturedFramesMap();
+
+    for (auto &e : fMap.keys())
+    {
+        QList<QVariant> dbusargs;
+        QDBusMessage reply;
+        dbusargs.append(e);
+        dbusargs.append(fMap.value(e));
+        dbusargs.append(train);
+
+        if ((reply = captureInterface()->callWithArgumentList(QDBus::Block, "setCapturedFramesMap",
+                     dbusargs)).type() ==
+                QDBusMessage::ErrorMessage)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) <<
+                                              QString("Warning: job '%1' setCapturedFramesCount request received DBUS error: %1").arg(job->getName()).arg(
+                                                  reply.errorMessage());
             if (!manageConnectionLoss())
                 job->setState(SCHEDJOB_ERROR);
             return;

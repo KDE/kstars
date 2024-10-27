@@ -113,7 +113,7 @@ public:
      * @param expected map to be filled
      * @return total expected number of captured frames of a single run of all jobs
      */
-    static uint16_t calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs, QMap<QString, uint16_t> &expected);
+    static uint16_t calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs, CapturedFramesMap &expected);
 
     /**
          * @brief findAltitude Find altitude given a specific time

@@ -21,9 +21,6 @@ TestEkosCapture::TestEkosCapture(QObject *parent) : QObject(parent)
 
 void TestEkosCapture::initTestCase()
 {
-    // all tests are without taking job progress into account
-    Options::setRememberJobProgress(false);
-
     KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();

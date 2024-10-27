@@ -8,8 +8,6 @@
 
 #include <QMap>
 
-#define CAPTURE_REMAINING_INFINITE -2
-
 namespace Ekos
 {
 

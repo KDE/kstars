@@ -244,7 +244,6 @@ if (INDI_FOUND)
             # Capture
             ekos/capture/capture.cpp
             ekos/capture/capturemodulestate.cpp
-            ekos/capture/captureutils.cpp
             ekos/capture/cameraprocess.cpp
             ekos/capture/camerastate.cpp
             ekos/capture/capturedeviceadaptor.cpp

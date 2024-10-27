@@ -315,7 +315,7 @@ void SchedulerUtils::updateLightFramesRequired(SchedulerJob * oneJob, const QLis
         const CapturedFramesMap &framesCount)
 {
     bool lightFramesRequired = false;
-    QMap<QString, uint16_t> expected;
+    CapturedFramesMap expected;
     switch (oneJob->getCompletionCondition())
     {
         case FINISH_SEQUENCE:
@@ -456,7 +456,7 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFram
     double imagingTimePerRepeat = 0, imagingTimeLeftThisRepeat = 0;
 
     // Determine number of captures in the scheduler job
-    QMap<QString, uint16_t> expected;
+    CapturedFramesMap expected;
     uint16_t allCapturesPerRepeat = calculateExpectedCapturesMap(seqJobs, expected);
 
     // fill the captured frames map
@@ -727,7 +727,7 @@ int SchedulerUtils::timeHeuristics(const SchedulerJob * schedJob)
 }
 
 uint16_t SchedulerUtils::calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs,
-        QMap<QString, uint16_t> &expected)
+        CapturedFramesMap &expected)
 {
     uint16_t capturesPerRepeat = 0;
     for (auto &seqJob : seqJobs)

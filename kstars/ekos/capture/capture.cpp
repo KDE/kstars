@@ -11,7 +11,6 @@
 
 #include "cameraprocess.h"
 #include "camerastate.h"
-#include "capturemodulestate.h"
 #include "capturedeviceadaptor.h"
 #include "captureadaptor.h"
 #include "refocusstate.h"
@@ -19,7 +18,6 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "sequencejob.h"
-#include "sequencequeue.h"
 #include "placeholderpath.h"
 #include "ekos/manager.h"
 #include "ekos/auxiliary/darklibrary.h"
@@ -55,12 +53,9 @@ Capture::Capture()
 {
     setupUi(this);
     prepareGUI();
-    m_moduleState.reset(new CaptureModuleState());
 
     qRegisterMetaType<CaptureState>("CaptureState");
-    qRegisterMetaType<CapturedFramesMap>("CapturedFramesMap");
     qDBusRegisterMetaType<CaptureState>();
-    qDBusRegisterMetaType<CapturedFramesMap>();
     new CaptureAdaptor(this);
     // initialize the global capture state
     m_moduleState.reset(new CaptureModuleState());
@@ -288,8 +283,7 @@ QString Capture::filter()
     return mainCamera()->FilterPosCombo->currentText();
 }
 
-bool Capture::loadSequenceQueue(const QString &fileURL, int repeat, bool loop, QString train, bool isLead,
-                                QString targetName)
+bool Capture::loadSequenceQueue(const QString &fileURL, QString train, bool isLead, QString targetName)
 {
     QSharedPointer<Camera> cam;
     if (train == "")
@@ -312,8 +306,9 @@ bool Capture::loadSequenceQueue(const QString &fileURL, int repeat, bool loop, Q
             cam = camera(pos);
     }
     // camera found, load the sequence queue
-    return cam->loadSequenceQueue(fileURL, repeat, loop, targetName);
+    return cam->loadSequenceQueue(fileURL, targetName);
 }
+
 
 void Capture::appendLogText(const QString &text)
 {
@@ -344,11 +339,13 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
     // forward it to the global state machine
     moduleState()->setGuideDeviation(delta_ra, delta_dec);
+
 }
 
-void Capture::rememberJobProgress(bool enabled)
+void Capture::ignoreSequenceHistory()
 {
-    Options::setRememberJobProgress(enabled);
+    // This function is called independently from the Scheduler or the UI, so honor the change
+    mainCameraState()->setIgnoreJobProgress(true);
 }
 
 void Capture::setCapturedFramesMap(const QString &signature, int count, QString train)
@@ -489,7 +486,13 @@ const QSharedPointer<Camera> Capture::mainCamera() const
     if (cameras().size() > 0)
         return moduleState()->cameras()[0];
     else
-        return QSharedPointer<Camera>(new Camera());
+    {
+        QSharedPointer<CaptureModuleState> cms;
+        cms.reset(new CaptureModuleState());
+        // TODO FIXME
+        //return QSharedPointer<Camera>(new Camera(cms));
+        return QSharedPointer<Camera>(new Camera(0));
+    }
 }
 
 int Capture::findCamera(QString train, bool addIfNecessary)

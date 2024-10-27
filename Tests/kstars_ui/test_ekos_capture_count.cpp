@@ -46,8 +46,6 @@ void TestEkosCaptureCount::testCaptureWithCaptureFramesMap()
     Ekos::Manager::Instance()->captureModule()->clearSequenceQueue();
     KTRY_GADGET(Ekos::Manager::Instance()->captureModule(), QTableWidget, queueTable);
     QTRY_VERIFY_WITH_TIMEOUT(queueTable->rowCount() == 0, 2000);
-    // remember job progress
-    Ekos::Manager::Instance()->captureModule()->rememberJobProgress(true);
 
     // setup capture sequence, fill captured frames map and set expectations
     QVERIFY(prepareCapture());
@@ -136,9 +134,6 @@ void TestEkosCaptureCount::testSchedulerCaptureInfiteLooping_data()
 
 void TestEkosCaptureCount::initTestCase()
 {
-    // all tests are without taking job progress into account
-    Options::setRememberJobProgress(false);
-
     KVERIFY_EKOS_IS_HIDDEN();
     KTRY_OPEN_EKOS();
     KVERIFY_EKOS_IS_OPENED();
@@ -271,8 +266,8 @@ bool TestEkosCaptureCount::prepareCapture()
     for (int i = 0; i < iterations; i++)
         KVERIFY_SUB(m_CaptureHelper->fillCaptureSequences(target, sequence, exptime, imagepath));
 
-    // simulate already taken frames
-    KVERIFY_SUB(simulateCapturedFrames(capturedFramesMap, imagepath));
+    // fill the captured frames map that hold the numbers of already taken frames
+    KVERIFY_SUB(fillCapturedFramesMap(capturedFramesMap, imagepath));
 
     // fill the map of expected frames
     KVERIFY_SUB(setExpectedFrames(expectedFrames));
@@ -418,8 +413,8 @@ bool TestEkosCaptureCount::verifySchedulerCounting(QString sequence, QString cap
     // the captured frames map is only relevant if the "Remember job progress" option is selected
     if (rememberJobProgress)
     {
-        QMap<QString, uint16_t> capturedMap = framesMap(capturedFramesMap);
-        QMap<QString, uint16_t> sequenceMap = framesMap(sequence);
+        Ekos::CapturedFramesMap capturedMap = framesMap(capturedFramesMap);
+        Ekos::CapturedFramesMap sequenceMap = framesMap(sequence);
         // for each filter, the displayed total is limited by the capture sequence multiplied by the number of iterations
         for (QString key : sequenceMap.keys())
             captured_expected += std::min(capturedMap[key], static_cast<uint16_t>(sequenceMap[key] * iterations));
@@ -482,57 +477,6 @@ bool TestEkosCaptureCount::fillCapturedFramesMap(QString capturedFramesMap, QStr
     return true;
 }
 
-bool TestEkosCaptureCount::simulateCapturedFrames(QString capturedFramesMap, QString imagepath)
-{
-    if (capturedFramesMap != "")
-    {
-        for (QString value : capturedFramesMap.split(","))
-        {
-            KVERIFY_SUB(value.indexOf(":") > -1);
-            const QString filter = value.left(value.indexOf(":"));
-            const int count      = value.right(value.length() - value.indexOf(":") - 1).toInt();
-            const QString signature = m_CaptureHelper->calculateSignature(target, filter, imagepath);
-
-            // clear the directory
-            QFile file(signature);
-            QDir dir = QFileInfo(file).absoluteDir();
-            if (dir.exists() && !dir.removeRecursively())
-            {
-                qCWarning(KSTARS_EKOS_TEST) << "Cannot clear directory: " << dir.absolutePath();
-                return false;
-            }
-
-            // create empty files
-            for (int i = 1; i <= count; i++)
-            {
-                // create the filename
-                const QString filename = QString("%1_%2.fits").arg(signature).arg(i, 3, 10, QChar('0'));
-                QFile file(filename);
-                QDir dir = QFileInfo(file).absoluteDir();
-                // ensure that the directory exists
-                if (!dir.exists() && !dir.mkpath("."))
-                {
-                    qCWarning(KSTARS_EKOS_TEST) << "Cannot create directory: " << dir.absolutePath();
-                    return false;
-                }
-                // create the file
-                if (file.open(QIODevice::WriteOnly))
-                {
-                    qCInfo(KSTARS_EKOS_TEST) << "Captured frame simulated: " << filename;
-                    file.close();
-                }
-                else
-                {
-                    qCWarning(KSTARS_EKOS_TEST) << "Cannot create file: " << filename;
-                    return false;
-                }
-            }
-        }
-    }
-
-    return true;
-}
-
 bool TestEkosCaptureCount::setExpectedFrames(QString expectedFrames)
 {
     if (expectedFrames != "")
@@ -567,9 +511,9 @@ int TestEkosCaptureCount::totalCount(QString sequence)
 }
 
 
-QMap<QString, uint16_t> TestEkosCaptureCount::framesMap(QString sequence)
+Ekos::CapturedFramesMap TestEkosCaptureCount::framesMap(QString sequence)
 {
-    QMap<QString, uint16_t> result;
+    Ekos::CapturedFramesMap result;
 
     if (sequence == "")
         return result;

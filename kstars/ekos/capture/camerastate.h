@@ -44,7 +44,7 @@ class RefocusState;
 
 class CameraState: public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
     public:
         /* Interval with double lower and upper bound */
         typedef struct
@@ -63,11 +63,6 @@ class CameraState: public QObject
         {
             return m_sequenceQueue;
         }
-
-        /**
-         * Aborts any current jobs and remove all sequence queue jobs.
-         */
-        void clearSequenceQueue();
 
         SequenceJob *getActiveJob() const
         {
@@ -347,7 +342,11 @@ class CameraState: public QObject
 
         bool ignoreJobProgress() const
         {
-            return !Options::rememberJobProgress();
+            return m_ignoreJobProgress;
+        }
+        void setIgnoreJobProgress(bool value)
+        {
+            m_ignoreJobProgress = value;
         }
 
         bool isRememberFastExposure() const
@@ -447,17 +446,9 @@ class CameraState: public QObject
             m_nextSequenceID = id;
         }
 
-        // ////////////////////////////////////////////////////////////////////
-        // Captured frames count: signature --> number of frames
-        // ////////////////////////////////////////////////////////////////////
-
         uint16_t capturedFramesCount(const QString &signature) const
         {
-            return capturedFramesMap()->value(signature);
-        }
-        bool hasCapturedFramesCount(const QString &signature) const
-        {
-            return capturedFramesMap()->contains(signature) && capturedFramesMap()->value(signature) > 0;
+            return m_capturedFramesMap[signature];
         }
         void setCapturedFramesCount(const QString &signature, uint16_t count);
 
@@ -470,28 +461,6 @@ class CameraState: public QObject
             m_lastRemainingFrameTimeMS = value;
         }
 
-        int repeatsTarget() const;
-
-        bool loopSequence() const;
-
-        /**
-         * @brief addCapturedFrame Increase the number of captured frames
-         */
-        void addCapturedFrameCount(const QString &signature, int count = 1);
-
-        /**
-         * @brief removeCapturedFrameCount Decrease the number of captured frames
-         */
-        void removeCapturedFrameCount(const QString &signature, int count);
-
-        /**
-         * @brief clearCapturedFramesMap Clear the map of captured frames counts
-         * @param signature clear a specific entry, or the entire map if the signature is empty
-         */
-        void clearCapturedFramesMap(const QString &signature = "");
-
-        QSharedPointer<CapturedFramesMap> capturedFramesMap() const;
-        void setGlobalCapturedFramesMap(QSharedPointer<CapturedFramesMap> newValue);
         // ////////////////////////////////////////////////////////////////////
         // Timers
         // ////////////////////////////////////////////////////////////////////
@@ -732,7 +701,7 @@ class CameraState: public QObject
          *        That is, if we have file1.png and file2.png, then the next
          *        sequence should be file3.png.
          */
-        void checkSeqBoundary(SequenceJob *job);
+        void checkSeqBoundary();
         /**
          * @brief isModelinDSLRInfo Check if the DSLR model is already known
          */
@@ -832,6 +801,29 @@ class CameraState: public QObject
          * @param settings as JSON object
          */
         void setCalibrationSettings(const QJsonObject &settings);
+
+        /**
+         * @brief hasCapturedFramesMap Check if at least one frame has been recorded
+         */
+        bool hasCapturedFramesMap()
+        {
+            return m_capturedFramesMap.count() > 0;
+        }
+        /**
+         * @brief addCapturedFrame Record a captured frame
+         */
+        void addCapturedFrame(const QString &signature);
+        /**
+         * @brief removeCapturedFrameCount Reduce the frame counts for the given signature
+         */
+        void removeCapturedFrameCount(const QString &signature, uint16_t count);
+        /**
+         * @brief clearCapturedFramesMap Clear the map of captured frames counts
+         */
+        void clearCapturedFramesMap()
+        {
+            m_capturedFramesMap.clear();
+        }
 
         bool isCaptureRunning()
         {
@@ -1012,6 +1004,8 @@ signals:
         QString m_CurrentFilterName { "--" };
         // holds the filter name used for focusing or "--" if the current one is used
         QString m_CurrentFocusFilterName { "--" };
+        // Captured Frames Map
+        CapturedFramesMap m_capturedFramesMap;
         // are we in the starting phase of capturing?
         bool m_StartingCapture { true };
         // Does the camera have a dedicated guiding chip?
@@ -1052,6 +1046,8 @@ signals:
         CaptureContinueAction m_ContinueAction { CAPTURE_CONTINUE_ACTION_NONE };
         // name of the observer
         QString m_ObserverName;
+        // ignore already captured files
+        bool m_ignoreJobProgress { true };
         // Fast Exposure
         bool m_RememberFastExposure {false};
         // Set dirty bit to indicate sequence queue file was modified and needs saving.

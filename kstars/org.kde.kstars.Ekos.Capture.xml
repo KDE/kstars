@@ -43,10 +43,8 @@
     <method name="loadSequenceQueue">
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>
-      <arg name="repeat" type="i" direction="in"/>
-      <arg name="loop" type="b" direction="in"/>
       <arg name="train" type="s" direction="in"/>
-      <arg name="isLead" type="b" direction="in"/>
+      <arg name="isMaster" type="b" direction="in"/>
       <arg name="targetName" type="s" direction="in"/>
     </method>
     <method name="saveSequenceQueue">
@@ -125,10 +123,6 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="ignoreSequenceHistory">
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="rememberJobProgress">
-      <arg name="enabled" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setCapturedFramesMap">

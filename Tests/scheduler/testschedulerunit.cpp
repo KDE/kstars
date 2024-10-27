@@ -382,7 +382,7 @@ void TestSchedulerUnit::estimateJobTimeTest()
                 30.0, 5.0, false, false);
 
     // Initial map has no previous captures.
-    QMap<QString, uint16_t> capturedFramesCount;
+    Ekos::CapturedFramesMap capturedFramesCount;
     QVERIFY(Ekos::SchedulerUtils::estimateJobTime(&job, capturedFramesCount, nullptr));
 
     // The time estimate is essentially the sum of (exposure times * the number of exposures) for each filter.
@@ -474,7 +474,7 @@ void TestSchedulerUnit::evaluateJobsTest()
     QDateTime const dusk = midNight.addSecs(_dusk * 24.0 * 3600.0);
     const bool rescheduleErrors = true;
     const bool restart = true;
-    const QMap<QString, uint16_t> capturedFrames;
+    const Ekos::CapturedFramesMap capturedFrames;
     QList<Ekos::SchedulerJob *> jobs;
     const double minAltitude = 30.0;
 

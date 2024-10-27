@@ -1915,6 +1915,10 @@
          <label>Wait this many seconds after guiding is resumed before starting capture.</label>
          <default>0</default>
       </entry>
+      <entry name="AlwaysResetSequenceWhenStarting" type="Bool">
+         <label>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When starting to process a sequence list, reset all capture counts to zero. Scheduler overrides this option when Remember Job Progress is enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</label>
+         <default>false</default>
+      </entry>
       <entry name="FlatSyncFocus" type="Bool">
          <label>Capture flat frames at the same focus position of light frames.</label>
          <default>false</default>

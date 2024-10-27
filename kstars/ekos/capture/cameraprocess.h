@@ -7,7 +7,6 @@
 #pragma once
 
 #include "camerastate.h"
-#include "captureutils.h"
 #include "sequencejob.h"
 
 #include "indiapi.h"
@@ -68,27 +67,12 @@ class DarkProcessor;
  *      - execute the post capture script
  *      - start next exposure (similar to 3.) ({@see startNextExposure()})
  *        TODO: check why we need this separate method and cannot use {@see updatePreCaptureCalibrationStatus()}
- *    - if the current sequence is complete (see the comments below about sequence iteration),
+ *    - if the current sequence is complete,
  *      - execute the post sequence script ({@see processJobCompletion1()})
  *      - stop the current sequence job ({@see processJobCompletion2()})
  *      - recall {@see resumeSequence()}, which calls {@see startNextJob()}
- *      - if there is another job to be executed, jump to 2., otherwise a single iteration of
- *        the sequence is completed. Now {@see checkRepeatSequence()} checks, if the number of
- *        sequence iterations has been completed. If another iteration needs to be run, all
- *        counters are reset and jump to 2.
+ *      - if there is another job to be executed, jump to 2., otherwise Capture is completed
  *        by sending a stopCapture(CAPTURE_COMPLETE) event
- *
- *  Sequence iterations
- *  ==================#
- *  Iterating the entire sequence of jobs adds some complexity, since we have to distinguish between
- *  the completion of a single iteration of the entire sequence and the completion of all iterations.
- *  Therefore, a sequence job has two "completed" counters: one for the single iteration
- *  (@see SequenceJob::getCompleted()} and one that counts over all iterations (@see SequenceJob::totalCompleted()}.
- *
- *  Captured Frames Map
- *  ===================
- *  The captured frames map {@see SequenceQueue::capturedFramesCount()} knows for each signature, how many frames
- *  are present on the disk.
  *
  *  ADU based flats calibration
  *  ===========================
@@ -285,27 +269,10 @@ public:
     void startJob(SequenceJob *job);
 
     /**
-     * @brief checkJobCompletion Check if the given job jas already enough frames completed.
-     * @return true if there exist less images than targeted, false otherwise.
-     */
-    bool checkJobCompletion(SequenceJob *job);
-
-    /**
-     * @brief prepareJob Selects the job as active job and continues with prepareActiveJobStage1(), if there exist less
+     * @brief prepareJob Update the counters of existing frames and continue with prepareActiveJob(), if there exist less
      *        images than targeted. If enough images exist, continue with processJobCompletion().
      */
     void prepareJob(SequenceJob *job);
-
-    /**
-     * @brief resetJobs Stop the current job and reset all job counters.
-     */
-    void resetJobs();
-
-    /**
-     * @brief repeatSequence Check if the sequence needs another iteration.
-     * @return find the first job to be run in another iteration or nullptr if completed
-     */
-    SequenceJob *checkRepeatSequence();
 
     /**
      * @brief prepareActiveJobStage1 Check for pre job script to execute. If none, move to stage 2
@@ -492,15 +459,6 @@ public:
      */
     Q_SCRIPTABLE void resetFrame();
 
-    /**
-     * @brief refreshCapturedFramesCount Refresh captured frames counts
-     * @param force if true re-read the counts from the disk
-     * @param updateUI if true send update events
-     * @param signature signature for which the counts should be updated. If empty, do it for all.
-     */
-    void refreshCapturedFramesCount(bool force = false, bool updateUI = true, const QString &signature = "");
-
-
     // ////////////////////////////////////////////////////////////////////
     // capturing actions
     // ////////////////////////////////////////////////////////////////////
@@ -642,20 +600,9 @@ public:
     /**
      * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
      * @param fileURL full URL of the filename
-     * @param repeat number of repeats the sequence should be executed. It it is > 0, it overrides the parameter of the sequence queue.
-     * @param loop flag if the sequence should be looping
      * @param targetName override the target defined in the sequence queue file (necessary for using the target of the scheduler)
-     * @param setOptions override current Options values
      */
-     bool loadSequenceQueue(const QString &fileURL, int repeat = 0, bool loop = false, const QString &targetName = "", bool setOptions = true);
-
-     /**
-      * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
-      * @param fileURL full URL of the filename
-      * @param targetName override the target defined in the sequence queue file (necessary for using the target of the scheduler)
-      * @param setOptions override current Options values
-      */
-      bool loadSequenceQueue(const QString &fileURL, const QString &targetName = "", bool setOptions = true);
+     bool loadSequenceQueue(const QString &fileURL, const QString &targetName = "", bool setOptions = true);
 
     /**
      * Saves the Sequence Queue to the Ekos Sequence Queue file.
@@ -750,7 +697,6 @@ public:
 signals:
     // controls for capture execution
     void addJob (SequenceJob *job);
-    void sequenceQueueLoaded();
     void createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH);
     void jobStarting();
     void stopCapture(CaptureState targetState = CAPTURE_IDLE);
@@ -853,7 +799,7 @@ private:
      * @brief updatedCaptureCompleted Update the completed captures count to the given
      * number.
      */
-    void updatedCaptureCompleted(int count, SequenceJob *job = nullptr);
+    void updatedCaptureCompleted(int count);
     /**
      * @brief captureImageWithDelay Helper function that starts the sequence delay timer
      * for starting to capture after the configured delay.

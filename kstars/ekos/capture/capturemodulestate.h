@@ -12,7 +12,6 @@
 #include "ekos/ekos.h"
 
 #include <QObject>
-#include <QSharedPointer>
 #include <QTimer>
 
 namespace Ekos
@@ -49,25 +48,6 @@ public:
     {
         m_ForceInSeqAF[opticaltrain] = value;
     }
-
-    // ////////////////////////////////////////////////////////////////////
-    // Captured frames count: signature --> number of frames
-    // ////////////////////////////////////////////////////////////////////
-
-    QSharedPointer<CapturedFramesMap> globalCapturedFramesMap() const
-    {
-        return m_globalCapturedFramesMap;
-    }
-
-    uint16_t capturedFramesCount(const QString &signature) const
-    {
-        return m_globalCapturedFramesMap->value(signature);
-    }
-    /**
-     * @brief addCapturedFrame Increase the number of captured frames
-     */
-    void addCapturedFrame(const QString &signature, int count);
-
 
     // ////////////////////////////////////////////////////////////////////
     // Cameras
@@ -122,8 +102,7 @@ private:
     // ////////////////////////////////////////////////////////////////////
     // User has requested an autofocus run as soon as possible
     QMap<QString, bool> m_ForceInSeqAF;
-    // global map signature --> captured frame
-    QSharedPointer<CapturedFramesMap> m_globalCapturedFramesMap;
+
     // ////////////////////////////////////////////////////////////////////
     // Cameras
     // ////////////////////////////////////////////////////////////////////

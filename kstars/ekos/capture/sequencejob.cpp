@@ -85,6 +85,11 @@ void SequenceJob::resetStatus(JOBStatus status)
     switch (status)
     {
         case JOB_IDLE:
+            setCompleted(0);
+            // 2022.03.10: Keeps failing on Windows despite installing latest libindi
+#ifndef Q_OS_WIN
+            INDI_FALLTHROUGH;
+#endif
         case JOB_ERROR:
         case JOB_ABORTED:
         case JOB_DONE:
@@ -583,12 +588,6 @@ void SequenceJob::setCoreProperty(PropertyID id, const QVariant &value)
 QVariant SequenceJob::getCoreProperty(PropertyID id) const
 {
     return m_CoreProperties[id];
-}
-
-void SequenceJob::addCompletedFrame()
-{
-    m_Completed++;
-    m_totalCompleted++;
 }
 
 void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobType jobType)
