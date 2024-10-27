@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-26 01:49+0000\n"
-"PO-Revision-Date: 2024-10-24 08:56+0300\n"
+"PO-Revision-Date: 2024-10-26 09:08+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -20087,12 +20087,13 @@ msgstr "Тонке коригування радника з фокусуванн
 msgid ""
 "Focus Advisor Result (%1): Run: %2 startPos: %3 stepSize: %4 overscan: %5"
 msgstr ""
+"Результат радника з фокусування (%1): запуск: %2 почПоз: %3 розмКр: %4 "
+"переск: %5"
 
 #: ekos/focus/focusadvisor.cpp:1522
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Help"
+#, kde-format
 msgid "Focus Advisor Result Update: %1"
-msgstr "Довідка з радника з фокусування"
+msgstr "Оновлення результату радника з фокусування: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14

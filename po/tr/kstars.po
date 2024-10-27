@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-26 01:49+0000\n"
-"PO-Revision-Date: 2024-10-24 13:08+0300\n"
+"PO-Revision-Date: 2024-10-26 13:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -19881,12 +19881,13 @@ msgstr "Odak danışmanı kaba ayarı tamamlandı."
 msgid ""
 "Focus Advisor Result (%1): Run: %2 startPos: %3 stepSize: %4 overscan: %5"
 msgstr ""
+"Odak danışmanı sonuçları (%1): Çalışma: %2 Başlangıç konumu: %3 Adım boyutu: "
+"%4 Aşırı tarama: %5"
 
 #: ekos/focus/focusadvisor.cpp:1522
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Help"
+#, kde-format
 msgid "Focus Advisor Result Update: %1"
-msgstr "Odak Danışmanı Yardımı"
+msgstr "Odak danışmanı sonucu güncellemesi: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14

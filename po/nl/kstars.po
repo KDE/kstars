@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-26 01:49+0000\n"
-"PO-Revision-Date: 2024-10-24 12:44+0200\n"
+"PO-Revision-Date: 2024-10-26 12:12+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -19929,12 +19929,13 @@ msgstr "Fine aanpassing van focusadviseur voltooid"
 msgid ""
 "Focus Advisor Result (%1): Run: %2 startPos: %3 stepSize: %4 overscan: %5"
 msgstr ""
+"Resultaat van focusadviseur (%1): Voer uit: %2 startpos: %3 stapgrootte: %4 "
+"overscan: %5"
 
 #: ekos/focus/focusadvisor.cpp:1522
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Help"
+#, kde-format
 msgid "Focus Advisor Result Update: %1"
-msgstr "Help van focusadviseur"
+msgstr "Bijgewerkt resultaat van focusadviseur: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14

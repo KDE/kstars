@@ -14917,11 +14917,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, captureLoopSequenceCB)
 #: ekos/capture/camera.ui:2617
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>活跃序列拍摄了的图像</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/capture/camera.ui:2651
@@ -15493,10 +15493,9 @@ msgid ""
 msgstr ""
 
 #: ekos/capture/capture.cpp:111
-#, fuzzy, kde-format
-#| msgid "Captures"
+#, kde-format
 msgid "Capture Misc"
-msgstr "拍摄"
+msgstr ""
 
 #: ekos/capture/capture.cpp:115
 #, kde-format
@@ -15504,10 +15503,9 @@ msgid "DSLR"
 msgstr "单反"
 
 #: ekos/capture/capture.cpp:115
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgid "Capture DSLR"
-msgstr "拍摄"
+msgstr ""
 
 #: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:390
 #, kde-format
@@ -24226,10 +24224,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:44
-#, fuzzy, kde-format
-#| msgid "Load device configuration:"
+#, kde-format
 msgid "Load device Configuration"
-msgstr "加载设备配置："
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
 #: ekos/opsekos.ui:65
@@ -26089,14 +26086,11 @@ msgstr "关机脚本终止 INDI"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rememberJobProgress)
 #: ekos/scheduler/opsjobssettings.ui:38
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When processing a scheduled job, resume the sequence "
 "starting from the last image present in storage.</p></body></html>"
-msgstr "<html><head/><body><p>附加到文件名里序列编号的位数。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, rememberJobProgress)
 #: ekos/scheduler/opsjobssettings.ui:41
@@ -26312,16 +26306,14 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:424
-#, fuzzy, kde-format
-#| msgid "Scheduler paused."
+#, kde-format
 msgid "Scheduler Offset"
-msgstr "调度程序暂停。"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:428
-#, fuzzy, kde-format
-#| msgid "Scheduled Time"
+#, kde-format
 msgid "Scheduler Alignment"
-msgstr "预定时间"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:433
 #, kde-format
@@ -26329,11 +26321,9 @@ msgid "Jobs"
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:433
-#, fuzzy, kde-format
-#| msgid " Scheduler job"
-#| msgid_plural " Scheduler jobs"
+#, kde-format
 msgid "Scheduler Jobs"
-msgstr " 调度器任务"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:437
 #, kde-format
@@ -26341,10 +26331,9 @@ msgid "Cleanup"
 msgstr "清除"
 
 #: ekos/scheduler/scheduler.cpp:437
-#, fuzzy, kde-format
-#| msgid "Scheduler paused."
+#, kde-format
 msgid "Scheduler Cleanup"
-msgstr "调度程序暂停。"
+msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:632
 #, kde-format
@@ -83440,9 +83429,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Configuration"
-#~ msgstr "配置"
-
-#~ msgid "Offsets"
-#~ msgstr "偏移"

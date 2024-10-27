@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-26 01:49+0000\n"
-"PO-Revision-Date: 2024-10-24 09:35+0200\n"
+"PO-Revision-Date: 2024-10-26 19:24+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -20164,12 +20164,13 @@ msgstr "L'ajust fi de l'assessor d'enfocament s'ha completat"
 msgid ""
 "Focus Advisor Result (%1): Run: %2 startPos: %3 stepSize: %4 overscan: %5"
 msgstr ""
+"Resultat de l'assessor d'enfocament (%1): Execució: %2 PosInici: %3 MidaPas: "
+"%4 sobreexploració: %5"
 
 #: ekos/focus/focusadvisor.cpp:1522
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Help"
+#, kde-format
 msgid "Focus Advisor Result Update: %1"
-msgstr "Ajuda de l'assessor d'enfocament"
+msgstr "Actualització del resultat de l'assessor d'enfocament: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -58343,7 +58344,7 @@ msgstr "Onsala"
 #, kde-kuit-format
 msgctxt "City in California USA"
 msgid "Ontario"
-msgstr "Ontàrio"
+msgstr "Ontario"
 
 #: kstars_i18n.cpp:2978
 #, kde-kuit-format
@@ -63493,7 +63494,7 @@ msgstr "Ukkel"
 #, kde-kuit-format
 msgctxt "City in Siberia Russia"
 msgid "Ulan-Ude"
-msgstr "Ulan-Udè"
+msgstr "Ulan-Udé"
 
 #: kstars_i18n.cpp:3835
 #, kde-kuit-format
@@ -66118,7 +66119,7 @@ msgstr "Oklahoma"
 #, kde-kuit-format
 msgctxt "Region/state in Canada"
 msgid "Ontario"
-msgstr "Ontàrio"
+msgstr "Ontario"
 
 #: kstars_i18n.cpp:4272
 #, kde-kuit-format
