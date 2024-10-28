@@ -716,6 +716,11 @@
          <whatsthis>Toggle whether star magnitude (brightness) labels are shown in the sky map.</whatsthis>
          <default>false</default>
       </entry>
+      <entry name="ShowStarsOverHIPS" type="Bool">
+         <label>Display catalog stars when HIPS is shown.</label>
+         <whatsthis>Display catalog stars when HIPS is shown.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="ShowStarNames" type="Bool">
          <label>Label star names in the sky map?</label>
          <whatsthis>Toggle whether star name labels are shown in the sky map.</whatsthis>

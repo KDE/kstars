@@ -254,8 +254,8 @@ void StarComponent::draw(SkyPainter *skyp)
     if (!selected())
         return;
 
-    // If we are displaying HIPS, the it doesn't make sense to also render stars.
-    if (Options::showHIPS())
+    // If we are displaying HIPS, the it may not make sense to also render stars.
+    if (Options::showHIPS() && !Options::showStarsOverHIPS())
         return;
 
     SkyMap *map           = SkyMap::Instance();
