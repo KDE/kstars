@@ -1186,11 +1186,11 @@ QString getDefaultPath(const QString &option)
     else if (option == "SextractorBinary")
     {
 #if defined(SEXTRACTOR_PREFIX)
-        return QString(SEXTRACTOR_PREFIX "/bin/sextractor");
+        return QString(SEXTRACTOR_PREFIX "/bin/source-extractor");
 #elif defined(Q_OS_MACOS)
         return "/usr/local/bin/sex";
 #endif
-        return prefix + "/bin/sextractor";
+        return prefix + "/bin/source-extractor";
     }
     else if (option == "AstrometryWCSInfo")
     {
@@ -1349,7 +1349,7 @@ bool configureAstrometry()
                     i18n("The selected Astrometry Index File Location:\n %1 \n does not "
                          "exist.  Do you want to make the directory?",
                          defaultAstrometryDataDir),
-                i18n("Make Astrometry Index File Directory?")) == KMessageBox::Continue)
+                    i18n("Make Astrometry Index File Directory?")) == KMessageBox::Continue)
         {
             if (QDir(defaultAstrometryDataDir).mkdir(defaultAstrometryDataDir))
             {
