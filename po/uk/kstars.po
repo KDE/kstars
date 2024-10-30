@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-29 01:46+0000\n"
-"PO-Revision-Date: 2024-10-26 09:08+0300\n"
+"PO-Revision-Date: 2024-10-29 08:51+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -35455,7 +35455,7 @@ msgstr "Перемикач показу зоряних величин (яскр�
 #: kstars.kcfg:720 kstars.kcfg:721
 #, kde-format
 msgid "Display catalog stars when HIPS is shown."
-msgstr ""
+msgstr "Показувати зірки з каталогу, якщо показано HIPS."
 
 #. i18n: ectx: label, entry (ShowStarNames), group (View)
 #: kstars.kcfg:725
@@ -76623,7 +76623,7 @@ msgstr "Показувати в&еличину"
 #: options/opscatalog.ui:149
 #, kde-format
 msgid "Display stars when HIPS is displayed"
-msgstr ""
+msgstr "Показувати зірки, якщо показано HIPS"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelDensity)
 #. i18n: ectx: property (text), widget (QLabel, DeepSkyLabelDensityLabel)

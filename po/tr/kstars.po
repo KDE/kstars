@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-29 01:46+0000\n"
-"PO-Revision-Date: 2024-10-26 13:07+0300\n"
+"PO-Revision-Date: 2024-10-29 16:20+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -35111,7 +35111,7 @@ msgstr ""
 #: kstars.kcfg:720 kstars.kcfg:721
 #, kde-format
 msgid "Display catalog stars when HIPS is shown."
-msgstr ""
+msgstr "HiPS gösterildiğinde katalog yıldızlarını görüntüleyin."
 
 #. i18n: ectx: label, entry (ShowStarNames), group (View)
 #: kstars.kcfg:725
@@ -76156,7 +76156,7 @@ msgstr "Bü&yüklüğü göster"
 #: options/opscatalog.ui:149
 #, kde-format
 msgid "Display stars when HIPS is displayed"
-msgstr ""
+msgstr "HiPS gösterildiğinde yıldızları görüntüle"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelDensity)
 #. i18n: ectx: property (text), widget (QLabel, DeepSkyLabelDensityLabel)

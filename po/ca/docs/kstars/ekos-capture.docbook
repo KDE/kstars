@@ -501,7 +501,7 @@
             <para
 ><emphasis role="bold"
 >Edició de treballs en execució</emphasis
->: quan s'està executant la captura, o quan el programador s'està executant, no podeu editar la cua de seqüències o un fitxer .esq al disc utilitzant la pestanya Captura. No obstant això, la pestanya planificador té una eina de l'editor de seqüències de captura que es pot utilitzar per a editar fitxers .esl al disc, o crear-ne de nous. </para>
+>: quan s'està executant la captura, o quan el programador s'està executant, no podeu editar la cua de seqüències o un fitxer .esq al disc utilitzant la pestanya Captura. No obstant això, la pestanya del planificador té una eina de l'editor de seqüències de captura que es pot utilitzar per a editar fitxers .esl al disc, o crear-ne de nous. </para>
         </important>
         <para
 >Si la vostra càmera admet un canal amb flux de vídeo en directe, podeu fer clic al botó <guibutton

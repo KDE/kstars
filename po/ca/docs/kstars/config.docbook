@@ -738,7 +738,7 @@
 >Cada objecte té les propietats habituals com el nom i les coordenades, però a més compta amb dos ID. El primer és l'identificador únic específic per a l'objecte i es calcula aplicant el resum «hash» a tots els camps de l'objecte juntament amb l'identificador del catàleg. A causa que els objectes poden estar continguts en diversos catàlegs, cada objecte té un ID d'objecte addicional (OID) que identifica l'objecte físic i pot ser compartit per diversos objectes de catàlegs diferents. </para>
 
 <para
->Per a accelerar la cerca dels objectes, tots els catàlegs habilitats es fusionen en una taula mestra. Cada catàleg té un nombre de prioritat i si ocorren diversos objectes amb el mateix OID, es carrega el del catàleg amb una prioritat major. Després, els objectes del catàleg mestre es dibuixen al cel i generalment estan disponibles en el &kstars;. </para>
+>Per a accelerar la cerca dels objectes, tots els catàlegs habilitats es fusionen en una taula mestra. Cada catàleg té un número de prioritat i si ocorren diversos objectes amb el mateix OID, es carrega el del catàleg amb una prioritat major. Després, els objectes del catàleg mestre es dibuixen al cel i generalment estan disponibles en el &kstars;. </para>
 
 <para
 >Actualment, la desduplicació (l'assignació dels OID) només és admesa per les eines del <ulink url="https://invent.kde.org/vboettcher/kstars-catalogs"
@@ -1878,7 +1878,7 @@
 >doblegada</quote
 > en passar a través de l'atmosfera cap als nostres telescopis o ulls en la superfície. Dit efecte és més pronunciat per als objectes a prop de l'horitzó i realment canvia les prediccions de sortida/posta o hores establertes per als objectes en uns quants minuts! De fet, quan <quote
 >veieu</quote
-> una posta de Sol, la posició real d'aquest ja està ven bé per sota de l'horitzó, a efectes de la refracció atmosfèrica sembla com si el Sol encara estigués en el cel! Cal tenir present que la refracció atmosfèrica mai serà aplicada si esteu emprant <guilabel
+> una posta de sol, la posició real d'aquest ja està ven bé per sota de l'horitzó, a efectes de la refracció atmosfèrica sembla com si el Sol encara estigués en el cel! Cal tenir present que la refracció atmosfèrica mai serà aplicada si esteu emprant <guilabel
 >coordenades equatorials</guilabel
 >. </para
 ><para>

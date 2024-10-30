@@ -38,7 +38,7 @@
         <para
 >L'Ekos també proporciona una eina d'assistent d'alineació polar per a corregir els errors d'alineació polar. Pren tres imatges, girant entre elles, i calcula el desplaçament entre l'eix de la muntura i l'eix polar. Retorna a l'usuari els ajustos d'altitud i azimut necessaris per a alinear aquests eixos. Aquestes imatges es prenen normalment a prop del pol celeste (prop de Polaris per a l'hemisferi nord), però poden funcionar bé preses des de qualsevol lloc, generalment començant prop del meridià i girant cap a l'est o cap a l'oest. </para>
         <para
->Com a mínim, necessitareu una CCD/càmera web i un telescopi que admeti les ordres orienta i sincronitza. El telescopi comercial més popular avui dia les admet sense problemes. </para>
+>Com a mínim, necessitareu un CCD/càmera web i un telescopi que admeti les ordres orienta i sincronitza. El telescopi comercial més popular avui dia les admet sense problemes. </para>
     </sect2>
 
         <sect2 id="ekos-align-typical">

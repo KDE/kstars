@@ -215,7 +215,7 @@
     <para
 >Es recomana utilitzar l'eina <link linkend="focus-advisor"
 >Assessor d'enfocament</link
-> en els trens òptics nous per establir els paràmetres de manera adequada.</para>
+> en els trens òptics nous per a establir els paràmetres de manera adequada.</para>
   </sect2>
 
   <sect2 id="focus-focuser-group">
@@ -1156,7 +1156,7 @@
 >Mitjana de comprovació HFR</guilabel
 >: Idea similar a <guilabel
 >Mitjana superior</guilabel
->però en aquest cas és el punt de comprovació HFR del qual es fa la mitjana sobre el nombre seleccionat de fotogrames. A més, si l'algorisme <guilabel
+> però en aquest cas és el punt de comprovació HFR del qual es fa la mitjana sobre el nombre seleccionat de fotogrames. A més, si l'algorisme <guilabel
 ></guilabel
 > és lineal d'1 pas, llavors l'últim punt de dades d'una execució d'enfocament automàtic, que és el punt de dades en el focus, també es fa la mitjana sobre aquest nombre de fotogrames. Establiu un valor d'1 per a començar. Això es pot augmentar si hi ha problemes amb l'enfocament automàtic de comprovació HFR que s'executa activant els punts de dades atípics quan s'executa la comprovació HFR.</para>
       </listitem>
@@ -1165,7 +1165,7 @@
         <para
 ><guilabel
 >Reductor de dònuts</guilabel
->: La intenció del Reductor de dònuts és millorar l'enfocament per als telescopis amb obstruccions centrals que creen estrelles en forma de donut quan està desenfocat, p. ex. un newtonià, SCT, RASA, Ritchey-Cretien, etc.</para>
+>: La intenció del Reductor de dònuts és millorar l'enfocament per als telescopis amb obstruccions centrals que creen estrelles en forma de dònut quan està desenfocat, p. ex. un newtonià, SCT, RASA, Ritchey-Cretien, etc.</para>
 
         <para
 ><guilabel
@@ -1175,7 +1175,7 @@
         <para
 >Quan el <guilabel
 >Reductor de dònuts</guilabel
-> està marcat, l'ajust de la corba intermitent està suspesa i només s'activa al final de l'escombrat d'enfocament. Això permet que el reductor de dònuts processi millor els punts de dades de les vores que poden ser afectats pels donuts.</para>
+> està marcat, l'ajust de la corba intermitent està suspesa i només s'activa al final de l'escombrat d'enfocament. Això permet que el reductor de dònuts processi millor els punts de dades de les vores que poden ser afectats pels dònuts.</para>
 
         <para
 >Hi ha disponibles les subopcions següents del reductor de dònuts:</para>
@@ -1806,7 +1806,7 @@
     <para
 >La casella de selecció <guilabel
 >Mostra només els canvis</guilabel
-> determina si es llsiten tots els paràmetres o només els que difereixen de la recomanació de l'assessor d'enfocament. El botó <guilabel
+> determina si es llisten tots els paràmetres o només els que difereixen de la recomanació de l'assessor d'enfocament. El botó <guilabel
 >Tanca</guilabel
 > tanca el diàleg d'ajuda.</para>
     </listitem>
@@ -1844,7 +1844,7 @@
 >Actualitza els paràmetres</emphasis
 >: això estableix els paràmetres de <link linkend="focus-settings"
 >Paràmetres d'enfocament</link
-> als valors estàndard que haurien d'habilitar l'enfocament automàtic per completar-se correctament. Tingueu en compte que els paràmetres s'emmagatzemen per tren òptic, per la qual cosa és una bona idea establir aquesta opció a l'inici. Tingueu en compte que alguns paràmetres, per exemple, la mida del pas es per defecte d'un enfocament de prova i error executant l'enfocament automàtic. Per tant, aquests paràmetres es poden definir millor amb altres opcions a continuació.</para>
+> als valors estàndard que haurien d'habilitar l'enfocament automàtic per a completar-se correctament. Tingueu en compte que els paràmetres s'emmagatzemen per tren òptic, per la qual cosa és una bona idea establir aquesta opció a l'inici. Tingueu en compte que alguns paràmetres, per exemple, la mida del pas és per defecte d'un enfocament de prova i error executant l'enfocament automàtic. Per tant, aquests paràmetres es poden definir millor amb altres opcions a continuació.</para>
     <para
 >Tingueu en compte que quan es crea un tren òptic nou, l'assessor d'enfocament configurarà els paràmetres predeterminats quan el tren òptic s'utilitzi per primera vegada en l'enfocament.</para>
     <para
@@ -1867,7 +1867,7 @@
     <para
 >El procés de cerca utilitza una sèrie de salts de 10 x mida de pas per a intentar localitzar estrelles.</para>
     <para
->Per utilitzar aquesta funció, inicieu l'enfocador tan a prop com sigui possible d'on és probable que es trobin les estrelles. Si no en teniu idea, l'algoritme localitzarà estrelles, però la cerca probablement trigarà més temps. A més, feu servir una mida de pas el més propera possible a un valor bo de l'equip. Si es tria un valor massa petit, el nombre de passos serà més gran i la cerca trigarà més temps. Si es tria un valor massa gran, llavors és possible que l'interval de posicions d'enfocament on les estrelles són visibles «salti» en la cerca i semblarà que no hi ha estrelles visibles enlloc. Si no teniu idea d'un bon valor inicial, utilitzeu el valor predeterminat i deixeu que l'assessor d'enfocament intenti esbrinar-ho.</para>
+>Per a utilitzar aquesta funció, inicieu l'enfocador tan a prop com sigui possible d'on és probable que es trobin les estrelles. Si no en teniu idea, l'algoritme localitzarà estrelles, però la cerca probablement trigarà més temps. A més, feu servir una mida de pas tan propera com sigui possible a un valor bo de l'equip. Si es tria un valor massa petit, el nombre de passos serà més gran i la cerca trigarà més temps. Si es tria un valor massa gran, llavors és possible que l'interval de posicions d'enfocament on les estrelles són visibles «salti» en la cerca i semblarà que no hi ha estrelles visibles enlloc. Si no teniu idea d'un bon valor inicial, utilitzeu el valor predeterminat i deixeu que l'assessor d'enfocament intenti esbrinar-ho.</para>
     <para
 >Aquí hi ha un exemple d'execució de la Cerca d'estrelles:</para>
     <screenshot>
@@ -1910,7 +1910,7 @@
       </mediaobject>
     </screenshot>
     <para
->L'ajust tosc es va executar des d'una posició inicial de 37.500 amb una mida de pas de 250 i una sobreexploració d'EA de 0. Això es registra a Executa 1 a la taula de resultats al diàleg Assessor d'enfocament. La columna de comentaris diu que la relació màx./mín. = 0,9 el que significa que el «Màx. HFR» / «Mín. HFR» dels punts de dades és 0.9, que és massa baix. Així doncs, l'aasessor d'enfocament comença la 2a execució a partir de la posició 38.875 amb un increment de la mida de pas de 803 i una sobreexploració de 250.</para>
+>L'ajust tosc es va executar des d'una posició inicial de 37.500 amb una mida de pas de 250 i una sobreexploració d'EA de 0. Això es registra a Executa 1 a la taula de resultats al diàleg Assessor d'enfocament. La columna de comentaris diu que la relació màx./mín. = 0,9 el que significa que el «Màx. HFR» / «Mín. HFR» dels punts de dades és 0.9, que és massa baix. Així doncs, l'assessor d'enfocament comença la 2a execució a partir de la posició 38.875 amb un increment de la mida de pas de 803 i una sobreexploració de 250.</para>
     <para
 >La 2a execució va tornar a tenir una relació màx./mín. massa baixa, de manera que es va iniciar la 3 execució.</para>
     <para
@@ -1921,7 +1921,7 @@
     <para
 ><emphasis role="bold"
 >Ajustament fi (amb enfocament automàtic)</emphasis
->: aquesta funció està dissenyada per a proporcionar un ajust fi als camps de posició inicial, mida del pas i sobreexploració de l'EA (o rebot). L'ajust fi executa l'enfocament automàtic, incloent-hi l'ajust de la corba i analitza el resultat per determinar si es pot millorar o no. Si és així, ajusta els paràmetres i torna a executar-se. S'utilitza un procés iteratiu per a trobar els valors dels paràmetres.</para>
+>: aquesta funció està dissenyada per a proporcionar un ajust fi als camps de posició inicial, mida del pas i sobreexploració de l'EA (o rebot). L'ajust fi executa l'enfocament automàtic, incloent-hi l'ajust de la corba i analitza el resultat per a determinar si es pot millorar o no. Si és així, ajusta els paràmetres i torna a executar-se. S'utilitza un procés iteratiu per a trobar els valors dels paràmetres.</para>
     <para
 >Aquí hi ha un exemple que descriu com funciona:</para>
     <screenshot>
@@ -1937,7 +1937,7 @@
       </mediaobject>
     </screenshot>
     <para
->L'ajust fi es va executar des d'una posició inicial de 35.548 amb una mida de pas de 2544 i la sobreexploració d'EA de 7477. Això es registra a l'execució 1 a la taula de resultats del diàleg de l'assessor d'enfocament. La columna de comentaris diu que la relació Màx./Mín. = 1,9 que significa que el «Màx. HFR» / «Mín. HFR» dels punts de dades és 1,9 que es podria millorar. Així doncs, l'assessor de'enfocament comença la 2a execució a partir de la posició 38.092 amb un augment de la mida del pas de 4888 i una sobreexploració de 3738. El valor de sobreexploració es redueix aquí per veure si un nombre més petit compensaria adequadament el rebot.</para>
+>L'ajust fi es va executar des d'una posició inicial de 35.548 amb una mida de pas de 2544 i la sobreexploració d'EA de 7477. Això es registra a l'execució 1 a la taula de resultats del diàleg de l'assessor d'enfocament. La columna de comentaris diu que la relació Màx./Mín. = 1,9 que significa que el «Màx. HFR» / «Mín. HFR» dels punts de dades és 1,9 que es podria millorar. Així doncs, l'assessor de'enfocament comença la 2a execució a partir de la posició 38.092 amb un augment de la mida del pas de 4888 i una sobreexploració de 3738. El valor de sobreexploració es redueix aquí per a veure si un nombre més petit compensaria adequadament el rebot.</para>
     <para
 >La 2a execució tenia una relació Màx./Mín. de 4, que és una mica alta, i va calcular un valor de sobreexploració de 8626, de manera que es va iniciar la 3a sobreexploració.</para>
     <para
@@ -3071,7 +3071,7 @@
 >Inspector d'aberracions</guibutton
 >. Per a més detalls, vegeu el <link linkend="focus-tools"
 >Eines d'enfocament</link
->. Per tal que l'eina funcioni i el boto estigui activat, s'han de complir els criteris següents:</para>
+>. Per tal que l'eina funcioni i el botó estigui activat, s'han de complir els criteris següents:</para>
 
     <itemizedlist>
       <listitem>
@@ -3362,10 +3362,10 @@
         <para
 ><guilabel
 >Δ del focus per darrere</guilabel
->: Aquest és el valor de la delta del focus per darrere. Com més a prop del focus perfecte, més baixa és la delta del focus. Tingueu en compte que la delta del focus per darrere dona una pista de fins a on es troba el focus per darrere, en termes d'escala i direcció, però no és la quantitat per la qual es necessita moure el sensor. La relació entre la delta del focus per darrere i fins a on moure el sensor variarà amb l'equip utilitzat, i ha de ser elaborada per l'usuari.</para>
+>: Aquest és el valor de la delta del focus per darrere. Com més a prop del focus perfecte, més baixa és la delta del focus. Tingueu en compte que la delta del focus per darrere dona una pista de fins a on es troba el focus per darrere, en termes d'escala i direcció, però no és la quantitat per la qual cal moure el sensor. La relació entre la delta del focus per darrere i fins a on moure el sensor variarà amb l'equip utilitzat, i ha de ser elaborada per l'usuari.</para>
 
         <para
->El camp dona la sensació del moviment de focus per darrere necessari per a millorar el focus per darrere: o bé moveu el sensor més a prop de l'aplanador de camp (telescopi) o bé moveu-lo més lluny.</para>
+>El camp fa la sensació del moviment de focus per darrere necessari per a millorar el focus per darrere: o bé moveu el sensor més a prop de l'aplanador de camp (telescopi) o bé moveu-lo més lluny.</para>
       </listitem>
       <listitem>
         <para

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-29 01:46+0000\n"
-"PO-Revision-Date: 2024-10-23 19:20+0200\n"
+"PO-Revision-Date: 2024-10-29 21:55+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -16173,10 +16173,9 @@ msgstr ""
 "експериментална функция!</p>"
 
 #: ekos/capture/capture.cpp:106
-#, fuzzy, kde-format
-#| msgid "Captures"
+#, kde-format
 msgid "Capture Misc"
-msgstr "Заснемания"
+msgstr "Разл. заснемания"
 
 #: ekos/capture/capture.cpp:110
 #, kde-format
@@ -16184,10 +16183,9 @@ msgid "DSLR"
 msgstr "DSLR"
 
 #: ekos/capture/capture.cpp:110
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgid "Capture DSLR"
-msgstr "Заснемане"
+msgstr "DSLR заснемане"
 
 #: ekos/capture/capture.cpp:474 ekos/focus/focusmodule.cpp:390
 #, kde-format
@@ -20033,12 +20031,13 @@ msgstr "Фината настройка на съветника за фокус�
 msgid ""
 "Focus Advisor Result (%1): Run: %2 startPos: %3 stepSize: %4 overscan: %5"
 msgstr ""
+"Резултат на помощника за фокусиране (%1): Изпълнение: %2 старт поз: %3 "
+"размер на стъпката: %4 прескачане: %5"
 
 #: ekos/focus/focusadvisor.cpp:1522
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Help"
+#, kde-format
 msgid "Focus Advisor Result Update: %1"
-msgstr "Помощ за Помощника за фокусиране"
+msgstr "Активиране на резултат на помощника за фокусиране:%1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -25807,10 +25806,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:44
-#, fuzzy, kde-format
-#| msgid "Load device configuration:"
+#, kde-format
 msgid "Load device Configuration"
-msgstr "Зареждане на конфигурацията на устройството:"
+msgstr "Зареждане на конфигурацията на устройството"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
 #: ekos/opsekos.ui:65
@@ -28065,16 +28063,14 @@ msgstr ""
 "Преминаваме към алгоритъма Greedy."
 
 #: ekos/scheduler/scheduler.cpp:424
-#, fuzzy, kde-format
-#| msgid "Scheduler paused."
+#, kde-format
 msgid "Scheduler Offset"
-msgstr "Планирането е спряно."
+msgstr "Отместване на планиране"
 
 #: ekos/scheduler/scheduler.cpp:428
-#, fuzzy, kde-format
-#| msgid "Scheduled Time"
+#, kde-format
 msgid "Scheduler Alignment"
-msgstr "Планиран час"
+msgstr "Подравняване на планиране"
 
 #: ekos/scheduler/scheduler.cpp:433
 #, kde-format
@@ -28082,11 +28078,9 @@ msgid "Jobs"
 msgstr "Задания"
 
 #: ekos/scheduler/scheduler.cpp:433
-#, fuzzy, kde-format
-#| msgid " Scheduler job"
-#| msgid_plural " Scheduler jobs"
+#, kde-format
 msgid "Scheduler Jobs"
-msgstr " планирано задание"
+msgstr "Планирани задания"
 
 #: ekos/scheduler/scheduler.cpp:437
 #, kde-format
@@ -28094,10 +28088,9 @@ msgid "Cleanup"
 msgstr "Изчистване"
 
 #: ekos/scheduler/scheduler.cpp:437
-#, fuzzy, kde-format
-#| msgid "Scheduler paused."
+#, kde-format
 msgid "Scheduler Cleanup"
-msgstr "Планирането е спряно."
+msgstr "Изчистване на планираното."
 
 #: ekos/scheduler/scheduler.cpp:632
 #, kde-format
@@ -35484,7 +35477,7 @@ msgstr ""
 #: kstars.kcfg:720 kstars.kcfg:721
 #, kde-format
 msgid "Display catalog stars when HIPS is shown."
-msgstr ""
+msgstr "Показване на каталожни звезди, когато се показва HIPS."
 
 #. i18n: ectx: label, entry (ShowStarNames), group (View)
 #: kstars.kcfg:725
@@ -76697,7 +76690,7 @@ msgstr "Показване на &магнитуд"
 #: options/opscatalog.ui:149
 #, kde-format
 msgid "Display stars when HIPS is displayed"
-msgstr ""
+msgstr "Показване на звезди, когато се показва HIPS"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelDensity)
 #. i18n: ectx: property (text), widget (QLabel, DeepSkyLabelDensityLabel)

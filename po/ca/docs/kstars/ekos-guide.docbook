@@ -379,7 +379,7 @@
         <para
 >Hi ha algunes opcions que potser voldreu considerar. <guilabel
 >Màx. d'estrelles de ref. del MultiStar</guilabel
-> és el nombre màxim d'estrelles de referència que el sistema pot utilitzar. La raó principal per limitar això és el cost de càlcul, tot i que no és un càlcul molt car. 50 és una opció bona. L'opció <guilabel
+> és el nombre màxim d'estrelles de referència que el sistema pot utilitzar. La raó principal per a limitar això és el cost de càlcul, tot i que no és un càlcul molt car. 50 és una opció bona. L'opció <guilabel
 >Detecció mínima d'estrelles del MultiStar</guilabel
 > indica al sistema que es converteixi en una sola estrella guia si hi ha menys que moltes deteccions d'estrelles. <guilabel
 >Inventa una estralla guia multiestrella</guilabel

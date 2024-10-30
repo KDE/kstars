@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-29 01:46+0000\n"
-"PO-Revision-Date: 2024-10-27 21:04+0100\n"
+"PO-Revision-Date: 2024-10-29 16:38+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5847,8 +5847,8 @@ msgid ""
 "Display mounted on the telescope (also check this if using a camera instead "
 "of visual observation)"
 msgstr ""
-"Pantalla muntada en el telescopi (seleccioneu-la també si s'utilitza una "
-"càmera en lloc de l'observació visual)."
+"Pantalla muntada en el telescopi (marqueu-la també si s'utilitza una càmera "
+"en lloc de l'observació visual)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
@@ -15846,10 +15846,9 @@ msgstr "--:--:--"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #: ekos/capture/camera.ui:2664
-#, fuzzy, kde-format
-#| msgid "<b>Port:</b>"
+#, kde-format
 msgid "<b>Progress</b>"
-msgstr "<b>Port:</b>"
+msgstr "<b>En curs</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
 #: ekos/capture/camera.ui:2693
@@ -15974,6 +15973,8 @@ msgstr "La seqüència farà una pausa després de completar l'exposició actual
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
+"No s'ha detectat cap càmera. Comproveu la configuració del tren i la "
+"configuració de la connexió."
 
 #: ekos/capture/cameraprocess.cpp:478
 #, kde-format
@@ -16217,6 +16218,8 @@ msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
 "resets the sequence counts."
 msgstr ""
+"Avís: l'opció «Reinicia sempre la seqüència en iniciar» està activa i compta "
+"el reinici de la seqüència."
 
 #: ekos/capture/cameraprocess.cpp:2817
 #, kde-format
@@ -17454,7 +17457,8 @@ msgstr "Força les predefinicions de la rèflex digital"
 #: ekos/capture/opsdslrsettings.ui:50
 #, kde-format
 msgid "Display received DSLR images in the Image Viewer"
-msgstr "Mostra les imatges la rèflex digital rebudes en el visor d'imatges."
+msgstr ""
+"Mostra les imatges rebudes des de la rèflex digital en el visor d'imatges."
 
 #. i18n: ectx: property (text), widget (QCheckBox, useDSLRImageViewer)
 #: ekos/capture/opsdslrsettings.ui:53
@@ -36028,7 +36032,7 @@ msgstr ""
 #: kstars.kcfg:720 kstars.kcfg:721
 #, kde-format
 msgid "Display catalog stars when HIPS is shown."
-msgstr ""
+msgstr "Visualitza el catàleg d'estreles quan es mostre HiPS."
 
 #. i18n: ectx: label, entry (ShowStarNames), group (View)
 #: kstars.kcfg:725
@@ -38847,11 +38851,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AlwaysResetSequenceWhenStarting), group (Capture)
 #: kstars.kcfg:1924
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>When starting to process a sequence list, reset all "
-#| "capture counts to zero. Scheduler overrides this option when Remember job "
-#| "progress is enabled.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When starting to process a sequence list, reset all "
 "capture counts to zero. Scheduler overrides this option when Remember Job "
@@ -77437,7 +77437,7 @@ msgstr "Mostra la ma&gnitud"
 #: options/opscatalog.ui:149
 #, kde-format
 msgid "Display stars when HIPS is displayed"
-msgstr ""
+msgstr "Mostra les estreles quan es visualitze HiPS"
 
 #. i18n: ectx: property (text), widget (QLabel, LabelDensity)
 #. i18n: ectx: property (text), widget (QLabel, DeepSkyLabelDensityLabel)
@@ -88079,33 +88079,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Progress #%1"
-#~ msgstr "En curs núm. %1"
-
-#~ msgid "Progress"
-#~ msgstr "En curs"
-
-#~ msgid "Repeat:"
-#~ msgstr "Repetix:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Number of iterations the entire sequence should be "
-#~ "repeated.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El nombre d'iteracions que s'haurà de repetir la "
-#~ "seqüència completa.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Repetix indefinidament la seqüència sencera.</p></"
-#~ "body></html>"
-
-#~ msgid ""
-#~ "Job is looping with %1-second %2 frames infinitely, has %3 frames "
-#~ "captured and will be processed."
-#~ msgstr ""
-#~ "La tasca està fent un bucle indefinidament amb %2 fotogrames de %1 "
-#~ "segons, té %3 fotogrames capturats i seran processats."
