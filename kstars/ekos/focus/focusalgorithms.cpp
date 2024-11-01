@@ -275,6 +275,11 @@ QString LinearFocusAlgorithm::getTextStatus(double R2) const
             text.append(": Parabola");
             text.append(params.useWeights ? " (W)" : " (U)");
         }
+        else if (params.curveFit == CurveFitting::FOCUS_2DGAUSSIAN)
+        {
+            text.append(": Gaussian");
+            text.append(params.useWeights ? " (W)" : " (U)");
+        }
 
         if (inFirstPass)
             return text;
@@ -1178,6 +1183,7 @@ int LinearFocusAlgorithm::finishFirstPass(int position, double value)
             double outlierRejection = params.donutBuster ? params.outlierRejection : 0.2;
             int maxOutliers = curveDeltas.size() * outlierRejection;
 
+            // Parabola has 3 degrees of freedom; Hyperbola and Gaussian 4
             double modelUnknowns = params.curveFit == CurveFitting::FOCUS_PARABOLA ? 3.0 : 4.0;
 
             // Use Peirce's Criterion to get the outlier threshold

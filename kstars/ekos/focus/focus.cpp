@@ -9,6 +9,11 @@
 #include "focusadaptor.h"
 #include "focusalgorithms.h"
 #include "focusfwhm.h"
+#if defined(HAVE_OPENCV)
+#include "focusblurriness.h"
+#endif
+#include "aberrationinspector.h"
+#include "aberrationinspectorutils.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -1200,6 +1205,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
                                << " Threshold:" << m_OpsFocusProcess->focusThreshold->value()
                                << " Kernel size:" << m_OpsFocusProcess->focusGaussianKernelSize->value()
                                << " Tolerance:" << m_OpsFocusProcess->focusTolerance->value()
+                               << " Denoise:" << ( m_OpsFocusProcess->focusDenoise->isChecked() ? "yes" : "no" )
                                << " Donut Buster:" << ( m_OpsFocusProcess->focusDonut->isChecked() ? "yes" : "no" )
                                << " Donut Time Dilation:" << m_OpsFocusProcess->focusTimeDilation->value()
                                << " Outlier Rejection:" << m_OpsFocusProcess->focusOutlierRejection->value()
@@ -1234,10 +1240,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
     const double temperature = (currentTemperatureSourceElement) ? currentTemperatureSourceElement->value : INVALID_VALUE;
     emit autofocusStarting(temperature, filter(), m_AutofocusReason, m_AutofocusReasonInfo);
 
-    if (m_OpsFocusSettings->focusAutoStarEnabled->isChecked())
-        appendLogText(i18n("Autofocus in progress..."));
-    else if (!inAutoFocus)
-        appendLogText(i18n("Please wait until image capture is complete..."));
+    appendLogText(i18n("Autofocus starting..."));
 
     // Only suspend when we have Off-Axis Guider
     // If the guide camera is operating on a different OTA
@@ -1267,6 +1270,9 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
             starFitting.reset(new CurveFitting());
             focusFWHM.reset(new FocusFWHM(m_ScaleCalc));
             focusFourierPower.reset(new FocusFourierPower(m_ScaleCalc));
+#if defined(HAVE_OPENCV)
+            focusBlurriness.reset(new FocusBlurriness(m_ScaleCalc));
+#endif
             // Donut Buster
             initDonutProcessing();
             // Scan for Start Position
@@ -1435,6 +1441,7 @@ void Focus::processAbort()
 
 void Focus::stop(Ekos::FocusState completionState)
 {
+    Q_UNUSED(completionState);
     qCDebug(KSTARS_EKOS_FOCUS) << "Stopping Focus";
 
     captureTimeout.stop();
@@ -1957,32 +1964,37 @@ void Focus::starDetectionFinished()
     // Beware as this HFR value is then treated specifically by the graph renderer
     double hfr = INVALID_STAR_MEASURE;
 
-    if (m_StarFinderWatcher.result() == false)
+    if (isStarMeasureStarBased())
     {
-        qCWarning(KSTARS_EKOS_FOCUS) << "Failed to extract any stars.";
-    }
-    else
-    {
-        if (m_OpsFocusSettings->focusUseFullField->isChecked())
-        {
-            m_FocusView->filterStars();
+        appendLogText(i18n("Detection complete."));
 
-            // Get the average HFR of the whole frame
-            hfr = m_ImageData->getHFR(m_StarMeasure == FOCUS_STAR_HFR_ADJ ? HFR_ADJ_AVERAGE : HFR_AVERAGE);
+        if (m_StarFinderWatcher.result() == false)
+        {
+            qCWarning(KSTARS_EKOS_FOCUS) << "Failed to extract any stars.";
         }
         else
         {
-            m_FocusView->setTrackingBoxEnabled(true);
+            if (m_OpsFocusSettings->focusUseFullField->isChecked())
+            {
+                m_FocusView->filterStars();
 
-            // JM 2020-10-08: Try to get first the same HFR star already selected before
-            // so that it doesn't keep jumping around
+                // Get the average HFR of the whole frame
+                hfr = m_ImageData->getHFR(m_StarMeasure == FOCUS_STAR_HFR_ADJ ? HFR_ADJ_AVERAGE : HFR_AVERAGE);
+            }
+            else
+            {
+                m_FocusView->setTrackingBoxEnabled(true);
 
-            if (starCenter.isNull() == false)
-                hfr = m_ImageData->getHFR(starCenter.x(), starCenter.y());
+                // JM 2020-10-08: Try to get first the same HFR star already selected before
+                // so that it doesn't keep jumping around
 
-            // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
-            if (hfr < 0)
-                hfr = m_ImageData->getHFR(m_FocusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
+                if (starCenter.isNull() == false)
+                    hfr = m_ImageData->getHFR(starCenter.x(), starCenter.y());
+
+                // If not found, then get the MAX or MEDIAN depending on the selected algorithm.
+                if (hfr < 0)
+                    hfr = m_ImageData->getHFR(m_FocusDetection == ALGORITHM_SEP ? HFR_HIGH : HFR_MAX);
+            }
         }
     }
 
@@ -2009,6 +2021,15 @@ void Focus::starDetectionFinished()
             getFourierPower(&currentFourierPower, &currentWeight);
             currentMeasure = currentFourierPower;
         }
+        else if (m_StarMeasure == FOCUS_STAR_STDDEV || m_StarMeasure == FOCUS_STAR_SOBEL ||
+                 m_StarMeasure == FOCUS_STAR_LAPLASSIAN || m_StarMeasure == FOCUS_STAR_CANNY)
+        {
+            QRect roi = QRect();
+            if (m_OpsFocusSettings->focusSubFrame->isChecked())
+                roi = m_FocusView->isTrackingBoxEnabled() ? m_FocusView->getTrackingBox() : QRect();
+            getBlurriness(m_StarMeasure, m_OpsFocusProcess->focusDenoise->isChecked(), &currentBlurriness, &currentWeight, roi);
+            currentMeasure = currentBlurriness;
+        }
         else
         {
             currentMeasure = currentHFR;
@@ -2024,6 +2045,17 @@ void Focus::starDetectionFinished()
     setCurrentMeasure();
 }
 
+// Returns whether the star measure is star based.
+// FOCUS_STAR_SOBEL, FOCUS_STAR_LAPLASSIAN & FOCUS_STAR_CANNY work on non-star fields such as lunar fields where there may be no stars
+// FOCUS_STAR_STDDEV can be used on star fields and non-star fields and does not require star detection.
+bool Focus::isStarMeasureStarBased()
+{
+    if (m_StarMeasure == FOCUS_STAR_STDDEV || m_StarMeasure == FOCUS_STAR_SOBEL || m_StarMeasure == FOCUS_STAR_LAPLASSIAN
+            || m_StarMeasure == FOCUS_STAR_CANNY)
+        return false;
+    else
+        return true;
+}
 // The image has been processed for star centroids and HFRs so now process it for star FWHMs
 void Focus::getFWHM(const QList<Edge *> &stars, double *FWHM, double *weight)
 {
@@ -2131,6 +2163,74 @@ void Focus::getFourierPower(double *fourierPower, double *weight, const int mosa
     }
 }
 
+// The image has been processed for star centroids and HFRs so now process it for the Laplassian factor
+void Focus::getBlurriness(const StarMeasure starMeasure, const bool denoise, double *blurriness, double *weight,
+                          const QRect &roi, const int mosaicTile)
+{
+    *blurriness = INVALID_STAR_MEASURE;
+    *weight = 1.0;
+
+#if defined(HAVE_OPENCV)
+
+    auto imageBuffer = m_ImageData->getImageBuffer();
+
+    switch (m_ImageData->getStatistics().dataType)
+    {
+        case TBYTE:
+            focusBlurriness->processBlurriness(reinterpret_cast<uint8_t const *>(imageBuffer), m_ImageData, denoise,
+                                               m_FocusView->imageMask(), mosaicTile, roi, starMeasure, blurriness, weight);
+            break;
+
+        case TSHORT: // Don't think short is used as its recorded as unsigned short
+            focusBlurriness->processBlurriness(reinterpret_cast<short const *>(imageBuffer), m_ImageData, denoise,
+                                               m_FocusView->imageMask(), mosaicTile, roi, starMeasure, blurriness, weight);
+            break;
+
+        case TUSHORT:
+            focusBlurriness->processBlurriness(reinterpret_cast<unsigned short const *>(imageBuffer), m_ImageData, denoise,
+                                               m_FocusView->imageMask(), mosaicTile, roi, starMeasure, blurriness, weight);
+            break;
+
+        case TLONG:  // Don't think long is used as its recorded as unsigned long
+            focusBlurriness->processBlurriness(reinterpret_cast<long const *>(imageBuffer), m_ImageData, denoise,
+                                               m_FocusView->imageMask(), mosaicTile, roi, starMeasure, blurriness, weight);
+            break;
+
+        case TULONG:
+            focusBlurriness->processBlurriness(reinterpret_cast<unsigned long const *>(imageBuffer), m_ImageData, denoise,
+                                               m_FocusView->imageMask(), mosaicTile, roi, starMeasure, blurriness, weight);
+            break;
+
+        case TFLOAT:
+            focusBlurriness->processBlurriness(reinterpret_cast<float const *>(imageBuffer), m_ImageData, denoise,
+                                               m_FocusView->imageMask(), mosaicTile, roi, starMeasure, blurriness, weight);
+            break;
+
+        case TLONGLONG:
+            focusBlurriness->processBlurriness(reinterpret_cast<long long const *>(imageBuffer), m_ImageData, denoise,
+                                               m_FocusView->imageMask(), mosaicTile, roi, starMeasure, blurriness, weight);
+            break;
+
+        case TDOUBLE:
+            focusBlurriness->processBlurriness(reinterpret_cast<double const *>(imageBuffer), m_ImageData, denoise,
+                                               m_FocusView->imageMask(), mosaicTile, roi, starMeasure, blurriness, weight);
+            break;
+
+        default:
+            qCDebug(KSTARS_EKOS_FOCUS) << "Unknown image buffer datatype " << m_ImageData->getStatistics().dataType <<
+                                       " Cannot calc Blurriness";
+            break;
+    }
+#else
+    Q_UNUSED(starMeasure);
+    Q_UNUSED(denoise);
+    Q_UNUSED(roi);
+    Q_UNUSED(mosaicTile);
+    // This shouldn't occur in normal operation
+    qCDebug(KSTARS_EKOS_FOCUS) << "getBlurriness called when openCV not installed";
+#endif
+}
+
 double Focus::calculateStarWeight(const bool useWeights, const std::vector<double> values)
 {
     if (!useWeights || values.size() <= 0)
@@ -2218,6 +2318,12 @@ bool Focus::appendMeasure(double newMeasure)
                 break;
             case FOCUS_STAR_FOURIER_POWER:
                 currentFourierPower = currentMeasure;
+                break;
+            case FOCUS_STAR_STDDEV:
+            case FOCUS_STAR_SOBEL:
+            case FOCUS_STAR_LAPLASSIAN:
+            case FOCUS_STAR_CANNY:
+                currentBlurriness = currentMeasure;
                 break;
             default:
                 break;
@@ -2606,31 +2712,38 @@ void Focus::calculateAbInsData()
     for (int tile = 0; tile < tileStars.count(); tile++)
     {
         double measure, weight;
+        std::vector<double> HFRs;
 
-        if (m_StarMeasure == FOCUS_STAR_NUM_STARS)
+        switch (m_StarMeasure)
         {
-            measure = tileStars[tile].count();
-            weight = 1.0;
-        }
-        else if (m_StarMeasure == FOCUS_STAR_FWHM)
-        {
-            getFWHM(tileStars[tile], &measure, &weight);
-        }
-        else if (m_StarMeasure == FOCUS_STAR_FOURIER_POWER)
-        {
-            getFourierPower(&measure, &weight, tile);
-        }
-        else
-        {
-            // HFR or HFR_adj
-            std::vector<double> HFRs;
-
-            for (int star = 0; star < tileStars[tile].count(); star++)
-            {
-                HFRs.push_back(tileStars[tile][star]->HFR);
-            }
-            measure = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_SIGMACLIPPING, HFRs, 2);
-            weight = calculateStarWeight(m_OpsFocusProcess->focusUseWeights->isChecked(), HFRs);
+            case FOCUS_STAR_HFR:
+            case FOCUS_STAR_HFR_ADJ:
+                for (int star = 0; star < tileStars[tile].count(); star++)
+                {
+                    HFRs.push_back(tileStars[tile][star]->HFR);
+                }
+                measure = Mathematics::RobustStatistics::ComputeLocation(Mathematics::RobustStatistics::LOCATION_SIGMACLIPPING, HFRs, 2);
+                weight = calculateStarWeight(m_OpsFocusProcess->focusUseWeights->isChecked(), HFRs);
+                break;
+            case FOCUS_STAR_FWHM:
+                getFWHM(tileStars[tile], &measure, &weight);
+                break;
+            case FOCUS_STAR_NUM_STARS:
+                measure = tileStars[tile].count();
+                weight = 1.0;
+                break;
+            case FOCUS_STAR_FOURIER_POWER:
+                getFourierPower(&measure, &weight, tile);
+                break;
+            case FOCUS_STAR_STDDEV:
+            case FOCUS_STAR_SOBEL:
+            case FOCUS_STAR_LAPLASSIAN:
+            case FOCUS_STAR_CANNY:
+                getBlurriness(m_StarMeasure, m_OpsFocusProcess->focusDenoise->isChecked(), &measure, &weight, QRect(), tile);
+                break;
+            default:
+                qCDebug(KSTARS_EKOS_FOCUS) << "Unable to calculate Aberration Inspector data";
+                return;
         }
 
         m_abInsMeasure[tile].append(measure);
@@ -2703,8 +2816,12 @@ void Focus::setCaptureComplete()
     // If we are looping but we already have tracking box enabled; OR
     // If we are asked to analyze _all_ the stars within the field
     // THEN let's find stars in the image and get current HFR
-    if (inFocusLoop == false || (inFocusLoop && (m_FocusView->isTrackingBoxEnabled()
-                                 || m_OpsFocusSettings->focusUseFullField->isChecked())))
+    // Unless the Star Measure assumes a non-star field, e.g. lunar
+    // in which case circumvent star detection
+    if (!isStarMeasureStarBased())
+        starDetectionFinished();
+    else if (inFocusLoop == false || (inFocusLoop && (m_FocusView->isTrackingBoxEnabled()
+                                      || m_OpsFocusSettings->focusUseFullField->isChecked())))
         analyzeSources();
     else
         setHFRComplete();
@@ -2727,13 +2844,27 @@ void Focus::setHFRComplete()
     if (!targetChip->getBinning(&subBinX, &subBinY))
         qCDebug(KSTARS_EKOS_FOCUS) << "Warning: target chip is reporting no binning property, using 1x1.";
 
-    // If star is NOT yet selected in a non-full-frame situation
-    // then let's now try to find the star. This step is skipped for full frames
-    // since there isn't a single star to select as we are only interested in the overall average HFR.
-    // We need to check if we can find the star right away, or if we need to _subframe_ around the
-    // selected star.
-    if (m_OpsFocusSettings->focusUseFullField->isChecked() == false && starCenter.isNull())
+    // JEE
+    if (m_OpsFocusSettings->focusSubFrame->isChecked() && !isStarMeasureStarBased() && !starSelected)
     {
+        appendLogText(i18n("Capture complete. Select a region of interest."));
+
+        syncTrackingBoxPosition();
+
+        // Now we wait
+        setState(Ekos::FOCUS_WAITING);
+
+        // If the user does not select for a timeout period, we abort.
+        waitStarSelectTimer.start();
+        return;
+    }
+    else if (m_OpsFocusSettings->focusSubFrame->isChecked() && isStarMeasureStarBased() && starCenter.isNull())
+    {
+        // If star is NOT yet selected in a non-full-frame situation
+        // then let's now try to find the star. This step is skipped for full frames
+        // since there isn't a single star to select as we are only interested in the overall average HFR.
+        // We need to check if we can find the star right away, or if we need to _subframe_ around the
+        // selected star.
         int x = 0, y = 0, w = 0, h = 0;
 
         // Let's get the stored frame settings for this particular chip
@@ -2975,6 +3106,18 @@ QString Focus::getyAxisLabel(StarMeasure starMeasure)
             case FOCUS_STAR_FOURIER_POWER:
                 str = "Fourier Power";
                 break;
+            case FOCUS_STAR_STDDEV:
+                str = "Std Dev";
+                break;
+            case FOCUS_STAR_SOBEL:
+                str = "Sobel Factor";
+                break;
+            case FOCUS_STAR_LAPLASSIAN:
+                str = "Laplassian Factor";
+                break;
+            case FOCUS_STAR_CANNY:
+                str = "Canny Factor";
+                break;
             default:
                 break;
         }
@@ -3024,7 +3167,7 @@ bool Focus::autoFocusChecks()
     }
 
     // No stars detected, try to capture again
-    if (currentHFR == INVALID_STAR_MEASURE)
+    if (isStarMeasureStarBased() && currentHFR == INVALID_STAR_MEASURE)
     {
         if (noStarCount < MAX_RECAPTURE_RETRIES)
         {
@@ -4513,8 +4656,6 @@ void Focus::resetButtons()
     captureB->setEnabled(enableCaptureButtons);
     resetFrameB->setEnabled(enableCaptureButtons);
     startLoopB->setEnabled(enableCaptureButtons);
-    m_OpsFocusSettings->focusAutoStarEnabled->setEnabled(enableCaptureButtons
-            && m_OpsFocusSettings->focusUseFullField->isChecked() == false);
 
     if (m_Focuser && m_Focuser->isConnected())
     {
@@ -4654,6 +4795,13 @@ void Focus::focusStarSelected(int x, int y)
 
     if (subFramed == false && m_OpsFocusSettings->focusSubFrame->isChecked() && targetChip->canSubframe())
     {
+        // JEE - for now just save the x, y of the mouse click. Should check that its within bounds of the chip.
+        if (!isStarMeasureStarBased())
+        {
+            starCenter.setX(x);
+            starCenter.setY(y);
+        }
+
         int minX, maxX, minY, maxY, minW, maxW, minH, maxH; //, fx,fy,fw,fh;
 
         targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
@@ -4700,12 +4848,15 @@ void Focus::focusStarSelected(int x, int y)
 
         capture();
 
-        //starRect = QRect((w-focusBoxSize->value())/(subBinX*2), (h-focusBoxSize->value())/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
-        starCenter.setX(w / (2 * subBinX));
-        starCenter.setY(h / (2 * subBinY));
+        if (isStarMeasureStarBased())
+        {
+            starCenter.setX(w / (2 * subBinX));
+            starCenter.setY(h / (2 * subBinY));
+        }
     }
     else
     {
+        // JEE Probbaly need to call syncTrackingBoxPosition() for non-star based measures
         //starRect = QRect(x-focusBoxSize->value()/(subBinX*2), y-focusBoxSize->value()/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
         double dist = sqrt((starCenter.x() - x) * (starCenter.x() - x) + (starCenter.y() - y) * (starCenter.y() - y));
 
@@ -4734,7 +4885,11 @@ void Focus::focusStarSelected(int x, int y)
     }
     else if (starSelected == false)
     {
-        appendLogText(i18n("Focus star is selected."));
+        if (isStarMeasureStarBased())
+            appendLogText(i18n("Focus star is selected."));
+        else
+            appendLogText(i18n("Region of interest is selected."));
+
         starSelected = true;
         capture();
     }
@@ -4781,12 +4936,13 @@ void Focus::checkFocus(double requiredHFR)
         QString str = inFocusLoop ? "Focus Looping" : " Build Offsets";
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Check Focus rejected, %1 is already running.").arg(str);
     }
+    else if (!isStarMeasureStarBased())
+        appendLogText(i18n("Check Focus ignored - Star Measure must be star based"));
     else
     {
         qCDebug(KSTARS_EKOS_FOCUS) << "Check Focus requested with minimum required HFR" << requiredHFR;
         minimumRequiredHFR = requiredHFR;
-
-        appendLogText("Capturing to check HFR...");
+        appendLogText(i18n("Capturing to check HFR..."));
         capture();
     }
 }
@@ -4796,22 +4952,15 @@ void Focus::toggleSubframe(bool enable)
     if (enable == false)
         resetFrame();
 
+    // JEE
+    m_FocusView->setTrackingBoxEnabled(enable);
     starSelected = false;
     starCenter   = QVector3D();
 
     if (enable)
-    {
-        // sub frame focusing
-        m_OpsFocusSettings->focusAutoStarEnabled->setEnabled(true);
-        // disable focus image mask
+        // sub frame focusing - disable focus image mask
         m_OpsFocusSettings->focusNoMaskRB->setChecked(true);
-    }
-    else
-    {
-        // full frame focusing
-        m_OpsFocusSettings->focusAutoStarEnabled->setChecked(false);
-        m_OpsFocusSettings->focusAutoStarEnabled->setEnabled(false);
-    }
+
     // update image mask controls
     selectImageMask();
     // enable focus mask selection if full field is selected
@@ -4819,17 +4968,20 @@ void Focus::toggleSubframe(bool enable)
     m_OpsFocusSettings->focusMosaicMaskRB->setEnabled(!enable);
 
     setUseWeights();
+    setDenoise();
+    setAutoStarAndBox();
 }
 
 // Set the useWeights widget based on various other user selected parameters
-// 1. weights are only available with the LM solver used by Hyperbola and Parabola
+// 1. weights are only available with the LM solver used by Hyperbola, Parabola & Gaussian
 // 2. weights are only used for multiple stars so only if full frame is selected
 // 3. weights are only used for star measures involving multiple star measures: HFR, HFR_ADJ and FWHM
 void Focus::setUseWeights()
 {
     if (m_CurveFit == CurveFitting::FOCUS_QUADRATIC || !m_OpsFocusSettings->focusUseFullField->isChecked()
-            || m_StarMeasure == FOCUS_STAR_NUM_STARS
-            || m_StarMeasure == FOCUS_STAR_FOURIER_POWER)
+            || m_StarMeasure == FOCUS_STAR_NUM_STARS || m_StarMeasure == FOCUS_STAR_FOURIER_POWER ||
+            m_StarMeasure == FOCUS_STAR_STDDEV || m_StarMeasure == FOCUS_STAR_SOBEL ||
+            m_StarMeasure == FOCUS_STAR_LAPLASSIAN || m_StarMeasure == FOCUS_STAR_CANNY)
     {
         m_OpsFocusProcess->focusUseWeights->setEnabled(false);
         m_OpsFocusProcess->focusUseWeights->setChecked(false);
@@ -4837,6 +4989,21 @@ void Focus::setUseWeights()
     else
         m_OpsFocusProcess->focusUseWeights->setEnabled(true);
 
+}
+
+// Set the focusDenoise widget based on various other user selected parameters
+// 1. denoise is only availabel for the openCV star measures
+// 2. denoise and useWeights are mutually exclusive
+void Focus::setDenoise()
+{
+    if (m_StarMeasure == FOCUS_STAR_STDDEV || m_StarMeasure == FOCUS_STAR_SOBEL ||
+            m_StarMeasure == FOCUS_STAR_LAPLASSIAN || m_StarMeasure == FOCUS_STAR_CANNY)
+        m_OpsFocusProcess->focusDenoise->setEnabled(true);
+    else
+    {
+        m_OpsFocusProcess->focusDenoise->setEnabled(false);
+        m_OpsFocusProcess->focusDenoise->setChecked(false);
+    }
 }
 
 // Set the setDonutBuster widget based on various other user selected parameters
@@ -4935,41 +5102,63 @@ void Focus::setAbsoluteFocusTicks()
 
 void Focus::syncTrackingBoxPosition()
 {
+    // JEE
+    if (m_OpsFocusSettings->focusUseFullField->isChecked() || starCenter.isNull())
+        return;
+
     ISD::CameraChip *targetChip = m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD);
     Q_ASSERT(targetChip);
 
     int subBinX = 1, subBinY = 1;
     targetChip->getBinning(&subBinX, &subBinY);
 
-    if (starCenter.isNull() == false)
+    double boxSize = m_OpsFocusSettings->focusBoxSize->value();
+    int x, y, w, h;
+    targetChip->getFrame(&x, &y, &w, &h);
+    // If box size is larger than image size, set it to lower index
+    if (boxSize / subBinX >= w || boxSize / subBinY >= h)
     {
-        double boxSize = m_OpsFocusSettings->focusBoxSize->value();
-        int x, y, w, h;
-        targetChip->getFrame(&x, &y, &w, &h);
-        // If box size is larger than image size, set it to lower index
-        if (boxSize / subBinX >= w || boxSize / subBinY >= h)
-        {
-            m_OpsFocusSettings->focusBoxSize->setValue((boxSize / subBinX >= w) ? w : h);
-            return;
-        }
-
-        // If binning changed, update coords accordingly
-        if (subBinX != starCenter.z())
-        {
-            if (starCenter.z() > 0)
-            {
-                starCenter.setX(starCenter.x() * (starCenter.z() / subBinX));
-                starCenter.setY(starCenter.y() * (starCenter.z() / subBinY));
-            }
-
-            starCenter.setZ(subBinX);
-        }
-
-        QRect starRect = QRect(starCenter.x() - boxSize / (2 * subBinX), starCenter.y() - boxSize / (2 * subBinY),
-                               boxSize / subBinX, boxSize / subBinY);
-        m_FocusView->setTrackingBoxEnabled(true);
-        m_FocusView->setTrackingBox(starRect);
+        m_OpsFocusSettings->focusBoxSize->setValue((boxSize / subBinX >= w) ? w : h);
+        return;
     }
+
+    // If binning changed, update coords accordingly
+    if (subBinX != starCenter.z())
+    {
+        if (starCenter.z() > 0)
+        {
+            starCenter.setX(starCenter.x() * (starCenter.z() / subBinX));
+            starCenter.setY(starCenter.y() * (starCenter.z() / subBinY));
+        }
+
+        starCenter.setZ(subBinX);
+    }
+
+    // JEE
+    QRect starRect = QRect();
+    if (isStarMeasureStarBased())
+        starRect = QRect(starCenter.x() - boxSize / (2 * subBinX), starCenter.y() - boxSize / (2 * subBinY),
+                         boxSize / subBinX, boxSize / subBinY);
+    else
+    {
+        // JEE get frame parameters and ensure tracking box remains within limits
+        int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
+        targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+        int boxTLX = starCenter.x() - boxSize / (2 * subBinX);
+        boxTLX = std::max(boxTLX, minX);
+        int boxTLY = starCenter.y() - boxSize / (2 * subBinY);
+        boxTLY = std::max(boxTLY, minY);
+        const int boxBRX = boxTLX + (boxSize / subBinX);
+        if (boxBRX > maxX)
+            boxTLX -= boxBRX - maxX;
+        const int boxBRY = boxTLY + (boxSize / subBinY);
+        if (boxBRY > maxY)
+            boxTLY -= boxBRY - maxY;
+
+        starRect = QRect(boxTLX, boxTLY, boxSize / subBinX, boxSize / subBinY);
+    }
+    m_FocusView->setTrackingBoxEnabled(true);
+    m_FocusView->setTrackingBox(starRect);
 }
 
 void Focus::showFITSViewer()
@@ -5977,25 +6166,61 @@ void Focus::setFocusDetection(StarAlgorithm starAlgorithm)
 
     // setFocusAlgorithm displays the appropriate widgets for the selection
     setFocusAlgorithm(m_FocusAlgorithm);
+    setAutoStarAndBox();
+    setDonutBuster();
+}
 
+// Controls the setting of focusAutoStarEnabled and focusBoxSize widgets
+// Sub frame is selected (rather than full field)
+// All m_FocusDetection except ALGORITHM_BAHTINOV
+// m_StarMeasure must be star based
+void Focus::setAutoStarAndBox()
+{
     if (m_FocusDetection == ALGORITHM_BAHTINOV)
     {
-        // In case of Bahtinov mask uncheck auto select star
+        m_OpsFocusSettings->focusAutoStarEnabled->setEnabled(false);
         m_OpsFocusSettings->focusAutoStarEnabled->setChecked(false);
+        m_OpsFocusSettings->focusBoxSize->setEnabled(m_OpsFocusSettings->focusSubFrame->isChecked());
+        m_OpsFocusSettings->focusBoxSizeLabel->setEnabled(m_OpsFocusSettings->focusSubFrame->isChecked());
         m_OpsFocusSettings->focusBoxSize->setMaximum(512);
+        if (m_OpsFocusSettings->focusBoxSize->value() > 512)
+            m_OpsFocusSettings->focusBoxSize->setValue(m_OpsFocusSettings->focusBoxSize->value());
+    }
+    else if(m_OpsFocusSettings->focusSubFrame->isChecked())
+    {
+        if(isStarMeasureStarBased())
+        {
+            m_OpsFocusSettings->focusAutoStarEnabled->setEnabled(true);
+
+            m_OpsFocusSettings->focusBoxSize->setEnabled(true);
+            m_OpsFocusSettings->focusBoxSizeLabel->setEnabled(true);
+            if (m_OpsFocusSettings->focusBoxSize->value() > 256)
+                m_OpsFocusSettings->focusBoxSize->setValue(m_OpsFocusSettings->focusBoxSize->value());
+            m_OpsFocusSettings->focusBoxSize->setMaximum(256);
+        }
+        else
+        {
+            m_OpsFocusSettings->focusAutoStarEnabled->setEnabled(false);
+            m_OpsFocusSettings->focusAutoStarEnabled->setChecked(false);
+
+            // For non-star based measures we cam make the box much bigger as it could encapsulate the moon, etc
+            m_OpsFocusSettings->focusBoxSize->setEnabled(true);
+            m_OpsFocusSettings->focusBoxSizeLabel->setEnabled(true);
+            int maxSize = std::min(m_CcdWidth, m_CcdHeight);
+            int step = m_OpsFocusSettings->focusBoxSize->singleStep();
+            maxSize = std::max(256, (maxSize / step) * step);
+            m_OpsFocusSettings->focusBoxSize->setMaximum(maxSize);
+        }
     }
     else
     {
-        // When not using Bathinov mask, limit box size to 256 and make sure value stays within range.
-        if (m_OpsFocusSettings->focusBoxSize->value() > 256)
-        {
-            // Focus box size changed, update control
-            m_OpsFocusSettings->focusBoxSize->setValue(m_OpsFocusSettings->focusBoxSize->value());
-        }
-        m_OpsFocusSettings->focusBoxSize->setMaximum(256);
+        // Full field is set
+        m_OpsFocusSettings->focusAutoStarEnabled->setEnabled(false);
+        m_OpsFocusSettings->focusAutoStarEnabled->setChecked(false);
+        m_OpsFocusSettings->focusBoxSize->setEnabled(false);
+        m_OpsFocusSettings->focusBoxSizeLabel->setEnabled(false);
     }
-    m_OpsFocusSettings->focusAutoStarEnabled->setEnabled(m_FocusDetection != ALGORITHM_BAHTINOV);
-    setDonutBuster();
+
 }
 
 void Focus::setFocusAlgorithm(Algorithm algorithm)
@@ -6056,6 +6281,9 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             m_OpsFocusProcess->focusCurveFitLabel->hide();
             m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusCurveFit);
             m_OpsFocusProcess->focusCurveFit->hide();
+
+            m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusDenoise);
+            m_OpsFocusProcess->focusDenoise->hide();
 
             // Donut Buster not available
             m_OpsFocusProcess->focusDonut->hide();
@@ -6182,6 +6410,9 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             m_OpsFocusProcess->focusThresholdLabel->hide();
             m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusThreshold);
             m_OpsFocusProcess->focusThreshold->hide();
+
+            m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusDenoise);
+            m_OpsFocusProcess->focusDenoise->hide();
 
             // Donut buster not available
             m_OpsFocusProcess->focusDonut->hide();
@@ -6313,6 +6544,9 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
             m_OpsFocusProcess->focusRefineCurveFit->hide();
             m_OpsFocusProcess->focusRefineCurveFit->setChecked(false);
 
+            m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusDenoise);
+            m_OpsFocusProcess->focusDenoise->hide();
+
             // Donut buster not available
             m_OpsFocusProcess->focusDonut->hide();
             m_OpsFocusProcess->focusDonut->setChecked(false);
@@ -6441,6 +6675,15 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
                     m_OpsFocusProcess->focusStarMeasure->addItems(m_StarMeasureText);
                     m_OpsFocusProcess->focusStarMeasure->setCurrentIndex(FOCUS_STAR_HFR);
                 }
+                // JEE If we don't have openCV installed grey out the unavailble star measures. As opposed to just
+                // hiding these measures, this will remind folks that want to try these that they need to install openCV
+#if !defined(HAVE_OPENCV)
+                QStandardItemModel *model = dynamic_cast<QStandardItemModel *>(m_OpsFocusProcess->focusStarMeasure->model());
+                model->item(FOCUS_STAR_STDDEV, 0)->setEnabled(false);
+                model->item(FOCUS_STAR_SOBEL, 0)->setEnabled(false);
+                model->item(FOCUS_STAR_LAPLASSIAN, 0)->setEnabled(false);
+                model->item(FOCUS_STAR_CANNY, 0)->setEnabled(false);
+#endif
             }
             else if (m_FocusDetection != ALGORITHM_SEP || m_CurveFit == CurveFitting::FOCUS_QUADRATIC)
             {
@@ -6465,8 +6708,21 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
                 m_OpsFocusProcess->focusCurveFit->setCurrentIndex(CurveFitting::FOCUS_HYPERBOLA);
             }
 
-            m_OpsFocusProcess->gridLayoutProcess->addWidget(m_OpsFocusProcess->focusUseWeights, 3, 0, 1, 2); // Spans 2 columns
-            m_OpsFocusProcess->focusUseWeights->show();
+            if (m_StarMeasure == FOCUS_STAR_STDDEV || m_StarMeasure == FOCUS_STAR_SOBEL ||
+                    m_StarMeasure == FOCUS_STAR_LAPLASSIAN || m_StarMeasure == FOCUS_STAR_CANNY)
+            {
+                m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusUseWeights);
+                m_OpsFocusProcess->focusUseWeights->hide();
+                m_OpsFocusProcess->gridLayoutProcess->addWidget(m_OpsFocusProcess->focusDenoise, 3, 0, 1, 2); // Spans 2 columns
+                m_OpsFocusProcess->focusDenoise->show();
+            }
+            else
+            {
+                m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusDenoise);
+                m_OpsFocusProcess->focusDenoise->hide();
+                m_OpsFocusProcess->gridLayoutProcess->addWidget(m_OpsFocusProcess->focusUseWeights, 3, 0, 1, 2); // Spans 2 columns
+                m_OpsFocusProcess->focusUseWeights->show();
+            }
 
             m_OpsFocusProcess->gridLayoutProcess->addWidget(m_OpsFocusProcess->focusR2LimitLabel, 3, 2);
             m_OpsFocusProcess->focusR2LimitLabel->show();
@@ -6568,6 +6824,7 @@ void Focus::setCurveFit(CurveFitting::CurveFit curve)
     m_CurveFit = curve;
     setFocusAlgorithm(static_cast<Algorithm> (m_OpsFocusProcess->focusAlgorithm->currentIndex()));
     setUseWeights();
+    setDenoise();
     setDonutBuster();
 
     switch(m_CurveFit)
@@ -6584,6 +6841,11 @@ void Focus::setCurveFit(CurveFitting::CurveFit curve)
             break;
 
         case CurveFitting::FOCUS_PARABOLA:
+            m_OpsFocusProcess->focusR2Limit->setEnabled(true);      // focusR2Limit allowed
+            m_OpsFocusProcess->focusRefineCurveFit->setEnabled(true);
+            break;
+
+        case CurveFitting::FOCUS_2DGAUSSIAN:
             m_OpsFocusProcess->focusR2Limit->setEnabled(true);      // focusR2Limit allowed
             m_OpsFocusProcess->focusRefineCurveFit->setEnabled(true);
             break;
@@ -6607,7 +6869,9 @@ void Focus::setStarMeasure(StarMeasure starMeasure)
     m_StarMeasure = starMeasure;
     setFocusAlgorithm(static_cast<Algorithm> (m_OpsFocusProcess->focusAlgorithm->currentIndex()));
     setUseWeights();
+    setDenoise();
     setDonutBuster();
+    setAutoStarAndBox();
 
     // So what is the best estimator of scale to use? Not much to choose from analysis on the sim.
     // Variance is the simplest but isn't robust in the presence of outliers.
@@ -6665,6 +6929,21 @@ void Focus::setStarMeasure(StarMeasure starMeasure)
             break;
 
         case FOCUS_STAR_FOURIER_POWER:
+            m_OptDir = CurveFitting::OPTIMISATION_MAXIMISE;
+            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
+            m_FocusView->setStarsHFREnabled(true);
+
+            // Don't display the PSF widgets
+            m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusStarPSFLabel);
+            m_OpsFocusProcess->focusStarPSFLabel->hide();
+            m_OpsFocusProcess->gridLayoutProcess->removeWidget(m_OpsFocusProcess->focusStarPSF);
+            m_OpsFocusProcess->focusStarPSF->hide();
+            break;
+
+        case FOCUS_STAR_STDDEV:
+        case FOCUS_STAR_SOBEL:
+        case FOCUS_STAR_LAPLASSIAN:
+        case FOCUS_STAR_CANNY:
             m_OptDir = CurveFitting::OPTIMISATION_MAXIMISE;
             m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
             m_FocusView->setStarsHFREnabled(true);
@@ -6737,7 +7016,9 @@ void Focus::setWalk(FocusWalk walk)
 
 double Focus::getStarUnits(const StarMeasure starMeasure, const StarUnits starUnits)
 {
-    if (starUnits == FOCUS_UNITS_PIXEL || starMeasure == FOCUS_STAR_NUM_STARS || starMeasure == FOCUS_STAR_FOURIER_POWER)
+    if (starUnits == FOCUS_UNITS_PIXEL || starMeasure == FOCUS_STAR_NUM_STARS || starMeasure == FOCUS_STAR_FOURIER_POWER
+            || starMeasure == FOCUS_STAR_STDDEV || starMeasure == FOCUS_STAR_SOBEL || starMeasure == FOCUS_STAR_LAPLASSIAN
+            || starMeasure == FOCUS_STAR_CANNY)
         return 1.0;
     if (m_CcdPixelSizeX <= 0.0 || m_FocalLength <= 0.0)
         return 1.0;

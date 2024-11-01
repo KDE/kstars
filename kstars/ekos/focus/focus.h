@@ -35,6 +35,9 @@ namespace Ekos
 class DarkProcessor;
 class FocusAlgorithmInterface;
 class FocusFWHM;
+#if defined(HAVE_OPENCV)
+class FocusBlurriness;
+#endif
 class PolynomialFit;
 class AdaptiveFocus;
 class FocusAdvisor;
@@ -73,7 +76,7 @@ class Focus : public QWidget, public Ui::Focus
         typedef enum { FOCUS_MANUAL, FOCUS_AUTO } Type;
         typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL, FOCUS_LINEAR, FOCUS_LINEAR1PASS } Algorithm;
         typedef enum { FOCUS_CFZ_CLASSIC, FOCUS_CFZ_WAVEFRONT, FOCUS_CFZ_GOLD } CFZAlgorithm;
-        typedef enum { FOCUS_STAR_HFR, FOCUS_STAR_HFR_ADJ, FOCUS_STAR_FWHM, FOCUS_STAR_NUM_STARS, FOCUS_STAR_FOURIER_POWER } StarMeasure;
+        typedef enum { FOCUS_STAR_HFR, FOCUS_STAR_HFR_ADJ, FOCUS_STAR_FWHM, FOCUS_STAR_NUM_STARS, FOCUS_STAR_FOURIER_POWER, FOCUS_STAR_STDDEV, FOCUS_STAR_SOBEL, FOCUS_STAR_LAPLASSIAN, FOCUS_STAR_CANNY } StarMeasure;
         typedef enum { FOCUS_STAR_GAUSSIAN, FOCUS_STAR_MOFFAT } StarPSF;
         typedef enum { FOCUS_UNITS_PIXEL, FOCUS_UNITS_ARCSEC } StarUnits;
         typedef enum { FOCUS_WALK_CLASSIC, FOCUS_WALK_FIXED_STEPS, FOCUS_WALK_CFZ_SHUFFLE } FocusWalk;
@@ -667,6 +670,11 @@ class Focus : public QWidget, public Ui::Focus
         void setUseWeights();
 
         /**
+         * @brief setDenoise sets the focusDenoise checkbox
+         */
+        void setDenoise();
+
+        /**
          * @brief setDonutBuster sets the donutBuster checkbox
          */
         void setDonutBuster();
@@ -751,6 +759,9 @@ class Focus : public QWidget, public Ui::Focus
         // Sets the algorithm and enables/disables various UI inputs.
         void setFocusAlgorithm(Algorithm algorithm);
 
+        // Set the Auto Star & Box widgets
+        void setAutoStarAndBox();
+
         void setCurveFit(CurveFitting::CurveFit curvefit);
 
         void setStarMeasure(StarMeasure starMeasure);
@@ -787,12 +798,20 @@ class Focus : public QWidget, public Ui::Focus
         // to reduce backlash on such movement changes and so that we've always focused in before capture.
         int adjustLinearPosition(int position, int newPosition, int overscan, bool updateDir);
 
+        // Are we using a Star Measure that assumes a star field that requires star detection
+        bool isStarMeasureStarBased();
+
         // Process the image to get star FWHMs
         void getFWHM(const QList<Edge *> &stars, double *FWHM, double *weight);
 
         // Process the image to get the Fourier Transform Power
         // If tile = -1 use the whole image; if mosaicTile is specified use just that
         void getFourierPower(double *fourierPower, double *weight, const int mosaicTile = -1);
+
+        // Process the image to get the blurryness factor
+        // If tile = -1 use the whole image; if mosaicTile is specified use just that
+        void getBlurriness(const StarMeasure starMeasure, const bool denoise, double *blurriness, double *weight,
+                           const QRect &roi, const int mosaicTile = -1);
 
         /**
          * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
@@ -814,7 +833,8 @@ class Focus : public QWidget, public Ui::Focus
         /**
          * @brief completeAutofocusProcedure finishes off autofocus and emits a message for other modules.
          */
-        void completeFocusProcedure(FocusState completionState, AutofocusFailReason failCode, QString failCodeInfo = "", bool plot = true);
+        void completeFocusProcedure(FocusState completionState, AutofocusFailReason failCode, QString failCodeInfo = "",
+                                    bool plot = true);
 
         /**
          * @brief activities to be executed after the configured settling time
@@ -978,6 +998,7 @@ class Focus : public QWidget, public Ui::Focus
         double currentFWHM { INVALID_STAR_MEASURE };
         double currentNumStars { INVALID_STAR_MEASURE };
         double currentFourierPower { INVALID_STAR_MEASURE };
+        double currentBlurriness { INVALID_STAR_MEASURE };
         double currentMeasure { INVALID_STAR_MEASURE };
         double currentWeight { 0 };
         /// Last HFR value recorded
@@ -1122,7 +1143,8 @@ class Focus : public QWidget, public Ui::Focus
 
         bool isBusy()
         {
-            return m_state == FOCUS_WAITING || m_state == FOCUS_PROGRESS || m_state == FOCUS_FRAMING || m_state == FOCUS_CHANGING_FILTER;
+            return m_state == FOCUS_WAITING || m_state == FOCUS_PROGRESS || m_state == FOCUS_FRAMING
+                   || m_state == FOCUS_CHANGING_FILTER;
         }
 
         /// CCD Chip frame settings
@@ -1164,6 +1186,11 @@ class Focus : public QWidget, public Ui::Focus
 
         // Fourier Transform power processing.
         std::unique_ptr<FocusFourierPower> focusFourierPower;
+
+#if defined(HAVE_OPENCV)
+        // Blurriness processing.
+        std::unique_ptr<FocusBlurriness> focusBlurriness;
+#endif
 
         // Adaptive Focus processing.
         std::unique_ptr<AdaptiveFocus> adaptFocus;

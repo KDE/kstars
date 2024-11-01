@@ -108,13 +108,13 @@ class FocusFWHM
                 starParams.FWHMy = -1;
                 starParams.FWHM = -1;
 
-                starFitting->fitCurve3D(imageBuffer, stats.width, stars[s].start, stars[s].end, starParams, CurveFitting::FOCUS_GAUSSIAN,
+                starFitting->fitCurve3D(imageBuffer, stats.width, stars[s].start, stars[s].end, starParams, CurveFitting::FOCUS_3DGAUSSIAN,
                                         false);
-                if (starFitting->getStarParams(CurveFitting::FOCUS_GAUSSIAN, &starParams2))
+                if (starFitting->getStarParams(CurveFitting::FOCUS_3DGAUSSIAN, &starParams2))
                 {
                     starParams2.centroid_x += stars[s].start.first;
                     starParams2.centroid_y += stars[s].start.second;
-                    double R2 = starFitting->calculateR2(CurveFitting::FOCUS_GAUSSIAN);
+                    double R2 = starFitting->calculateR2(CurveFitting::FOCUS_3DGAUSSIAN);
                     if (R2 >= 0.25)
                     {
                         // Filter stars - 0.25 works OK on Sim

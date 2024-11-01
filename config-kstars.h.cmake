@@ -45,3 +45,6 @@
 
 /* Define if astrometry.cfg file is located in the prefix (rather than /etc) */
 #cmakedefine ASTROMETRY_CONF_IN_PREFIX 1
+
+/* Define if you have OpenCV */
+#cmakedefine HAVE_OPENCV 1

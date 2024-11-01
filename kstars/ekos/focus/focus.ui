@@ -742,7 +742,7 @@
              <number>1</number>
             </property>
             <item>
-             <widget class="QDoubleSpinBox" name="focusExposure">
+             <widget class="ExposureWidget" name="focusExposure">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -750,16 +750,19 @@
                </size>
               </property>
               <property name="decimals">
-               <number>3</number>
+               <number>5</number>
               </property>
               <property name="minimum">
-               <double>0.001000000000000</double>
+               <double>0.000010000000000</double>
               </property>
               <property name="maximum">
                <double>300.000000000000000</double>
               </property>
               <property name="singleStep">
-               <double>0.100000000000000</double>
+               <double>1.000000000000000</double>
+              </property>
+              <property name="stepType">
+               <enum>QAbstractSpinBox::DefaultStepType</enum>
               </property>
               <property name="value">
                <double>2.000000000000000</double>
@@ -1240,6 +1243,11 @@
    <extends>QWidget</extends>
    <header>ekos/focus/focushfrvplot.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ExposureWidget</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>ekos/focus/exposurewidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

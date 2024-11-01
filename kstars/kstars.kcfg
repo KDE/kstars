@@ -2195,6 +2195,10 @@
          <label>Relative percentage strength of centroid edge pixel strength to average pixel value.</label>
          <default>150</default>
       </entry>
+      <entry name="FocusDenoise" type="Bool">
+         <whatsthis>Whether to denoise the focus image before further processing.</whatsthis>
+         <default>false</default>
+      </entry>
       <entry name="FocusDonut" type="Bool">
          <whatsthis>Whether to use Donut Busting functionality during Autofocus.</whatsthis>
          <default>false</default>
@@ -2235,7 +2239,7 @@
 
       <entry name="FocusWalk" type="String">
          <whatsthis>The type of walk the focuser will take during an Autofocus run.</whatsthis>
-         <default>Classic</default>
+         <default>Fixed Steps</default>
       </entry>
       <entry name="FocusSettleTime" type="Double">
          <whatsthis>Wait for this many seconds after moving the focuser before capturing the next image during AutoFocus.</whatsthis>

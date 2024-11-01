@@ -33,7 +33,7 @@ namespace Ekos
 class CurveFitting
 {
     public:
-        typedef enum { FOCUS_QUADRATIC, FOCUS_HYPERBOLA, FOCUS_PARABOLA, FOCUS_GAUSSIAN, FOCUS_PLANE } CurveFit;
+        typedef enum { FOCUS_QUADRATIC, FOCUS_HYPERBOLA, FOCUS_PARABOLA, FOCUS_2DGAUSSIAN, FOCUS_3DGAUSSIAN, FOCUS_PLANE } CurveFit;
         typedef enum { OPTIMISATION_MINIMISE, OPTIMISATION_MAXIMISE } OptimisationDirection;
         typedef enum { STANDARD, BEST, BEST_RETRY } FittingGoal;
 
@@ -156,8 +156,8 @@ class CurveFitting
             m_CurveType = curveFit;
             switch (m_CurveType)
             {
-                case FOCUS_GAUSSIAN :
-                    m_coefficients = gaussian_fit(m_dataPoints, starParams);
+                case FOCUS_3DGAUSSIAN :
+                    m_coefficients = gaussian3D_fit(m_dataPoints, starParams);
                     break;
                 default :
                     // Something went wrong, log an error and reset state so solver starts from scratch if called again
@@ -218,11 +218,8 @@ class CurveFitting
         QString serialize() const;
 
     private:
-        // TODO: This function will likely go when Linear and L1P merge to be closer.
-        // Calculates the value of the polynomial at x. Params will be cast to a CurveFit*.
         static double curveFunction(double x, void *params);
 
-        // TODO: This function will likely go when Linear and L1P merge to be closer.
         QVector<double> polynomial_fit(const double *const data_x, const double *const data_y, const int n, const int order);
 
         QVector<double> hyperbola_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
@@ -230,7 +227,10 @@ class CurveFitting
         QVector<double> parabola_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
                                      const QVector<double> data_weights,
                                      const QVector<bool> outliers, bool useWeights, const OptimisationDirection optDir);
-        QVector<double> gaussian_fit(DataPoint3DT data, const StarParams &starParams);
+        QVector<double> gaussian2D_fit(FittingGoal goal, const QVector<double> data_x, const QVector<double> data_y,
+                                       const QVector<double> data_weights,
+                                       const QVector<bool> outliers, bool useWeights, const OptimisationDirection optDir);
+        QVector<double> gaussian3D_fit(DataPoint3DT data, const StarParams &starParams);
         QVector<double> plane_fit(const DataPoint3DT data);
 
         bool minimumQuadratic(double expected, double minPosition, double maxPosition, double *position, double *value);
@@ -238,6 +238,8 @@ class CurveFitting
                              const OptimisationDirection optDir);
         bool minMaxParabola(double expected, double minPosition, double maxPosition, double *position, double *value,
                             const OptimisationDirection optDir);
+        bool minMax2DGaussian(double expected, double minPosition, double maxPosition, double *position, double *value,
+                              const OptimisationDirection optDir);
         bool getGaussianParams(StarParams *starParams);
 
         void hypMakeGuess(const int attempt, const DataPointT &dataPoints, gsl_vector * guess);
@@ -247,6 +249,9 @@ class CurveFitting
         void parMakeGuess(const int attempt, const DataPointT &dataPoints, gsl_vector * guess);
         void parSetupParams(FittingGoal goal, gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol,
                             double *ftol);
+        void gau2DMakeGuess(const int attempt, const DataPointT &dataPoints, gsl_vector * guess);
+        void gau2DSetupParams(FittingGoal goal, gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol,
+                              double *ftol);
         void gauMakeGuess(const int attempt, const StarParams &starParams, gsl_vector * guess);
         void gauSetupParams(gsl_multifit_nlinear_parameters *params, int *numIters, double *xtol, double *gtol, double *ftol);
         void plaMakeGuess(const int attempt, gsl_vector * guess);

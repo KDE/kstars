@@ -315,6 +315,7 @@ if (INDI_FOUND)
             ekos/focus/opsfocussettings.cpp
             ekos/focus/opsfocusprocess.cpp
             ekos/focus/opsfocusmechanics.cpp
+            ekos/focus/exposurewidget.cpp
 
             # Mount
             ekos/mount/mount.cpp
@@ -393,6 +394,11 @@ if (INDI_FOUND)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/aberrationinspectorplot.cpp)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/sensorgraphic.cpp)
             set(ekos_SRCS ${ekos_SRCS} ekos/focus/abinstablewidget.cpp)
+        endif()
+
+        # Focus Blurriness
+        if (OpenCV_FOUND)
+            set(ekos_SRCS ${ekos_SRCS} ekos/focus/focusblurriness.cpp)
         endif()
 
     endif(CFITSIO_FOUND)
@@ -1481,6 +1487,10 @@ endif()
 #    ${QT_QTOPENGL_LIBRARY}
 #    )
 #endif( OPENGL_FOUND )
+
+if (OpenCV_FOUND)
+    target_link_libraries(KStarsLib ${OpenCV_LIBRARIES})
+endif()
 
 set (KSTARS_APP_SRCS
     main.cpp
