@@ -1883,18 +1883,26 @@ void KStars::slotColorScheme()
 
 void KStars::slotTargetSymbol(bool flag)
 {
-    qDebug() << Q_FUNC_INFO << QString("slotTargetSymbol: %1 %2").arg(sender()->objectName()).arg(flag);
+    QString name = sender()->objectName();
+    qDebug() << Q_FUNC_INFO << QString("slotTargetSymbol: %1 %2").arg(name).arg(flag);
+
+    Q_ASSERT(name.startsWith("fov:"));
+    if (!name.startsWith("fov:")) {
+        qCWarning(KSTARS) << "Invalid FOV action " << name << " does not start with prefix `fov:`";
+        return;
+    }
+    name.remove(0, 4); // 4 characters for `fov:`
 
     QStringList names = Options::fOVNames();
     if (flag)
     {
         // Add FOV to list
-        names.append(sender()->objectName());
+        names.append(name);
     }
     else
     {
         // Remove FOV from list
-        int ix = names.indexOf(sender()->objectName());
+        int ix = names.indexOf(name);
         if (ix >= 0)
             names.removeAt(ix);
     }
