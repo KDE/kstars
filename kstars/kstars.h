@@ -777,7 +777,7 @@ class KStars : public KXmlGuiWindow
         void slotTargetSymbol(bool flag);
 
         /** Apply the provided sky map view */
-        void slotApplySkyMapView(const QString &viewName);
+        bool slotApplySkyMapView(const QString &viewName);
 
         /** Select the HIPS Source catalog. */
         void slotHIPSSource();
