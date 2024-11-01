@@ -170,6 +170,13 @@
       <arg type="s" direction="out"/>
       <arg name="RA_J2000" type="d" direction="in"/>
       <arg name="Dec_J2000" type="d" direction="in"/>
+      <arg name="width" type="d" direction="in"/>
+      <arg name="height" type="d" direction="in"/>
+    </method>
+    <method name="getDSSURL">
+      <arg type="s" direction="out"/>
+      <arg name="RA_J2000" type="d" direction="in"/>
+      <arg name="Dec_J2000" type="d" direction="in"/>
     </method>
     <method name="getObjectDataXML">
       <arg type="s" direction="out"/>

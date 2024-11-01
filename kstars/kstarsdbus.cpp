@@ -738,7 +738,7 @@ QString KStars::getDSSURL(const QString &objectName)
     }
 }
 
-QString KStars::getDSSURL(double RA_J2000, double Dec_J2000, float width, float height)
+QString KStars::getDSSURL(double RA_J2000, double Dec_J2000, double width, double height)
 {
     dms ra(RA_J2000), dec(Dec_J2000);
     return KSDssDownloader::getDSSURL(ra, dec, width, height);

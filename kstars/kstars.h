@@ -474,7 +474,7 @@ class KStars : public KXmlGuiWindow
              * @param width width of the image, in arcminutes (default = 15)
              * @param height height of the image, in arcminutes (default = 15)
              */
-        Q_SCRIPTABLE QString getDSSURL(double RA_J2000, double Dec_J2000, float width = 15, float height = 15);
+        Q_SCRIPTABLE QString getDSSURL(double RA_J2000, double Dec_J2000, double width = 15, double height = 15);
 
         /** DBUS interface function.  Return XML containing information about a sky object
              * @param objectName name of the object.
