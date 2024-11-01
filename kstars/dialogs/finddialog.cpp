@@ -312,7 +312,7 @@ void FindDialog::filterList()
 
     auto objs = m_dbManager.find_objects_by_name(SearchText, 10);
 
-    bool exactMatchExists = objs.size() > 0 ? QString::compare(objs.front().name(), SearchText, Qt::CaseInsensitive) : false;
+    bool exactMatchExists = objs.size() > 0 ? (QString::compare(objs.front().name(), SearchText, Qt::CaseInsensitive) == 0) : false;
 
     for (const auto &obj : objs)
     {
