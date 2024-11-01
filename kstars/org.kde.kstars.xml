@@ -17,12 +17,12 @@
     <method name="setAltAz">
       <arg name="alt" type="d" direction="in"/>
       <arg name="az" type="d" direction="in"/>
+      <arg name="altIsRefracted" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setAltAz">
       <arg name="alt" type="d" direction="in"/>
       <arg name="az" type="d" direction="in"/>
-      <arg name="altIsRefracted" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="lookTowards">
@@ -120,24 +120,28 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setGeoLocation">
+      <arg type="b" direction="out"/>
       <arg name="city" type="s" direction="in"/>
       <arg name="province" type="s" direction="in"/>
       <arg name="country" type="s" direction="in"/>
-      <arg type="b" direction="out"/>
     </method>
     <method name="location">
       <arg type="s" direction="out"/>
     </method>
     <method name="setGPSLocation">
+      <arg type="b" direction="out"/>
       <arg name="longitude" type="d" direction="in"/>
       <arg name="latitude" type="d" direction="in"/>
       <arg name="elevation" type="d" direction="in"/>
       <arg name="tz0" type="d" direction="in"/>
-      <arg type="b" direction="out"/>
     </method>
     <method name="setColor">
       <arg name="colorName" type="s" direction="in"/>
       <arg name="value" type="s" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="loadColorScheme">
+      <arg name="name" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="exportImage">
@@ -181,12 +185,17 @@
     <method name="getObjectDataXML">
       <arg type="s" direction="out"/>
       <arg name="objectName" type="s" direction="in"/>
+      <arg name="fallbackToInternet" type="b" direction="in"/>
+      <arg name="storeInternetResolved" type="b" direction="in"/>
     </method>
     <method name="getObjectDataXML">
       <arg type="s" direction="out"/>
       <arg name="objectName" type="s" direction="in"/>
       <arg name="fallbackToInternet" type="b" direction="in"/>
-      <arg name="storeInternetResolved" type="b" direction="in"/>
+    </method>
+    <method name="getObjectDataXML">
+      <arg type="s" direction="out"/>
+      <arg name="objectName" type="s" direction="in"/>
     </method>
     <method name="getObjectPositionInfo">
       <arg type="s" direction="out"/>
@@ -231,7 +240,58 @@
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QUrl"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="listSkyMapViews">
+      <arg type="as" direction="out"/>
+    </method>
+    <method name="setSkyMapView">
+      <arg type="b" direction="out"/>
+      <arg name="viewName" type="s" direction="in"/>
+    </method>
+    <method name="setFOVIndicatorVisibility">
+      <arg type="b" direction="out"/>
+      <arg name="fovName" type="s" direction="in"/>
+      <arg name="visibility" type="b" direction="in"/>
+    </method>
+    <method name="getFOVIndicatorVisibility">
+      <arg type="b" direction="out"/>
+      <arg name="fovName" type="s" direction="in"/>
+    </method>
+    <method name="getFOVIndicators">
+      <arg type="as" direction="out"/>
+    </method>
+    <method name="setSkyMapRotation">
+      <arg name="viewAngle" type="d" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="getSkyMapRotation">
+      <arg type="d" direction="out"/>
+    </method>
+    <method name="skyMapIsMirrored">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="setSkyMapMirrored">
+      <arg name="mirrored" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <signal name="colorSchemeChanged">
     </signal>
+    <method name="getToggleableActionStates">
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="activateAction">
+      <arg type="b" direction="out"/>
+      <arg name="actionName" type="s" direction="in"/>
+    </method>
+    <method name="getActions">
+      <arg type="as" direction="out"/>
+    </method>
+    <method name="setToggleableActionState">
+      <arg type="b" direction="out"/>
+      <arg name="actionName" type="s" direction="in"/>
+      <arg name="state" type="b" direction="in"/>
+    </method>
+    <method name="colorScheme">
+      <arg type="s" direction="out"/>
+    </method>
   </interface>
 </node>

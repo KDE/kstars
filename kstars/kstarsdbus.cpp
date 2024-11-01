@@ -16,6 +16,7 @@
 #include "observinglist.h"
 #include "Options.h"
 #include "skymap.h"
+#include "fov.h"
 #include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skyobjects/catalogobject.h"
@@ -38,6 +39,7 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QElapsedTimer>
+#include <QJsonArray>
 
 #include "kstars_debug.h"
 
@@ -135,6 +137,10 @@ void KStars::lookTowards(const QString &direction)
             map()->setClickedObject(target);
             map()->setClickedPoint(target);
             map()->slotCenter();
+        }
+        else
+        {
+            qCWarning(KSTARS) << "Object or direction " << direction << " not found";
         }
     }
 }
@@ -1071,4 +1077,125 @@ void KStars::openFITS(const QUrl &imageURL)
     QSharedPointer<FITSViewer> fv = createFITSViewer();
     fv->loadFile(imageURL);
 #endif
+}
+
+QStringList KStars::listSkyMapViews()
+{
+    QStringList output;
+    for (const SkyMapView& view : SkyMapViewManager::getViews()) {
+        output.append(view.name);
+    }
+    return output;
+}
+
+bool KStars::setSkyMapView(const QString& viewName)
+{
+    return slotApplySkyMapView(viewName);
+}
+
+bool KStars::setFOVIndicatorVisibility(const QString& fovName, bool visibility)
+{
+    if (!getFOVIndicators().contains(fovName))
+        return false; // Invalid FOV name
+
+    // Based on KStars::slotTargetSymbol(bool)
+    QStringList visibleFOVNames = Options::fOVNames();
+    int ix = visibleFOVNames.indexOf(fovName);
+    if (ix < 0 && visibility) {
+        visibleFOVNames.append(fovName);
+    }
+    if (ix >= 0 && !visibility) {
+        visibleFOVNames.removeAt(ix);
+    }
+    Options::setFOVNames(visibleFOVNames);
+    KStarsData::Instance()->syncFOV();
+    if (map()) {
+        map()->forceUpdate();
+    }
+    return true;
+}
+
+bool KStars::getFOVIndicatorVisibility(const QString& fovName)
+{
+    return (Options::fOVNames().indexOf(fovName) >= 0);
+}
+
+QStringList KStars::getFOVIndicators()
+{
+    KStarsData* data = KStarsData::Instance();
+    if (!data) { // Should not happen
+        return {};
+    }
+    QStringList output;
+    for (const FOV* fov : data->getAvailableFOVs()) {
+        output.append(fov->name());
+    }
+    return output;
+}
+
+void KStars::setSkyMapRotation(const double viewAngle)
+{
+    Options::setSkyRotation(dms::reduce(viewAngle));
+    map()->forceUpdate();
+}
+
+double KStars::getSkyMapRotation()
+{
+    return Options::skyRotation();
+}
+
+bool KStars::skyMapIsMirrored()
+{
+    return Options::mirrorSkyMap();
+}
+
+void KStars::setSkyMapMirrored(bool mirrored)
+{
+    Options::setMirrorSkyMap(mirrored);
+    repopulateOrientation();
+    map()->forceUpdate();
+}
+
+QString KStars::getToggleableActionStates()
+{
+    QJsonObject actionStates;
+    const auto& actions = actionCollection()->actions();
+    for (const QAction* action : actions)
+    {
+        if (!action->isCheckable())
+            continue;
+        actionStates.insert(action->objectName(), action->isChecked());
+    }
+    return QString::fromUtf8(QJsonDocument(actionStates).toJson());
+}
+
+QStringList KStars::getActions()
+{
+    QStringList result;
+    const auto& actions = actionCollection()->actions();
+    for (const QAction* action : actions)
+    {
+        result.append(action->objectName());
+    }
+    return result;
+}
+
+bool KStars::activateAction(const QString& actionName)
+{
+    QAction* action = actionCollection()->action(actionName);
+    if (!action) {
+        return false;
+    }
+    action->activate(QAction::Trigger);
+    return true;
+}
+
+bool KStars::setToggleableActionState(const QString& actionName, const bool state)
+{
+    QAction* action = actionCollection()->action(actionName);
+    if (!action || !action->isCheckable())
+        return false;
+    if (action->isChecked() != state)
+        action->activate(QAction::Trigger);
+    return true;
 }
