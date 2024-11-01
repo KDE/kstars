@@ -332,11 +332,6 @@ class ObservingList : public QDialog
     void slotAddVisibleObj();
 
     /**
-         * @short Show the eyepiece field view
-         */
-    void slotEyepieceView();
-
-    /**
          * @short Recalculate and update the values of the altitude in the wishlist for the current time
          */
     void slotUpdateAltitudes();

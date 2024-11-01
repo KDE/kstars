@@ -532,9 +532,6 @@ class SkyMap : public QGraphicsView
         /** Run Xplanet Viewer to display images of the planets*/
         void slotStartXplanetViewer();
 
-        /** Render eyepiece view */
-        void slotEyepieceView();
-
         /** Zoom in one step. */
         void slotZoomIn();
 

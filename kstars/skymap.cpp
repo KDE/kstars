@@ -604,10 +604,6 @@ void SkyMap::slotSDSS()
     }
 }
 
-void SkyMap::slotEyepieceView()
-{
-    KStars::Instance()->slotEyepieceView((clickedObject() ? clickedObject() : clickedPoint()));
-}
 void SkyMap::slotBeginAngularDistance()
 {
     beginRulerMode(false);

@@ -429,9 +429,6 @@ void KSPopupMenu::initPopupMenu(SkyObject *obj, const QString &name, const QStri
             addAction(i18n("Add Trail"), map, SLOT(slotAddPlanetTrail()));
     }
 
-    addAction(QIcon::fromTheme("redeyes"), i18n("Simulate Eyepiece View"), map,
-              SLOT(slotEyepieceView()));
-
     addSeparator();
     if (obj->isSolarSystem() &&
             obj->type() !=

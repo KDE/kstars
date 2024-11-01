@@ -54,7 +54,6 @@
 #endif
 #include "tools/altvstime.h"
 #include "tools/astrocalc.h"
-#include "tools/eyepiecefield.h"
 #include "tools/flagmanager.h"
 #include "tools/horizonmanager.h"
 #include "tools/observinglist.h"
@@ -1990,34 +1989,6 @@ void KStars::slotHorizonManager()
     }
 
     m_HorizonManager->show();
-}
-
-void KStars::slotEyepieceView(SkyPoint *sp, const QString &imagePath)
-{
-    if (!m_EyepieceView)
-        m_EyepieceView = new EyepieceField(this);
-
-    // FIXME: Move FOV choice into the Eyepiece View tool itself.
-    bool ok        = true;
-    const FOV *fov = nullptr;
-    if (!data()->getAvailableFOVs().isEmpty())
-    {
-        // Ask the user to choose from a list of available FOVs.
-        //int index;
-        const FOV *f;
-        QMap<QString, const FOV *> nameToFovMap;
-        foreach (f, data()->getAvailableFOVs())
-        {
-            nameToFovMap.insert(f->name(), f);
-        }
-        nameToFovMap.insert(i18n("Attempt to determine from image"), nullptr);
-        fov = nameToFovMap[QInputDialog::getItem(
-                               this, i18n("Eyepiece View: Choose a field-of-view"),
-                               i18n("FOV to render eyepiece view for:"), nameToFovMap.keys(), 0, false,
-                               &ok)];
-    }
-    if (ok)
-        m_EyepieceView->showEyepieceField(sp, fov, imagePath);
 }
 
 void KStars::slotExecute()

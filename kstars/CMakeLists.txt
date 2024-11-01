@@ -561,7 +561,6 @@ set(libkstarstools_SRCS
 
     tools/starhopper.cpp
     tools/eyepiecefield.cpp
-    tools/exporteyepieceview.cpp
     tools/starhopperdialog.cpp
     tools/greatcircle.cpp
 

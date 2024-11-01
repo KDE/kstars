@@ -49,7 +49,6 @@ class Execute;
 class ExportImageDialog;
 class PrintingWizard;
 class HorizonManager;
-class EyepieceField;
 class AddDeepSkyObject;
 
 class OpsCatalog;
@@ -567,9 +566,6 @@ class KStars : public KXmlGuiWindow
         /** action slot: open Flag Manager */
         void slotFlagManager();
 
-        /** Show the eyepiece view tool */
-        void slotEyepieceView(SkyPoint *sp, const QString &imagePath = QString());
-
         /** Show the DSO Catalog Management GUI */
         void slotDSOCatalogGUI();
 
@@ -897,7 +893,6 @@ class KStars : public KXmlGuiWindow
         JMoonTool *m_JMoonTool { nullptr };
         FlagManager *m_FlagManager { nullptr };
         HorizonManager *m_HorizonManager { nullptr };
-        EyepieceField *m_EyepieceView { nullptr };
 #ifdef HAVE_CFITSIO
         QSharedPointer<FITSViewer> m_GenericFITSViewer;
         QList<QSharedPointer<FITSViewer>> m_FITSViewers;

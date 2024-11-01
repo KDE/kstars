@@ -35,7 +35,6 @@
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
 #include "tools/altvstime.h"
-#include "tools/eyepiecefield.h"
 #include "tools/wutdialog.h"
 
 #ifdef HAVE_INDI
@@ -820,11 +819,6 @@ void ObservingList::slotBatchAdd()
         }
     }
     Q_ASSERT(false); // Not implemented
-}
-
-void ObservingList::slotEyepieceView()
-{
-    KStars::Instance()->slotEyepieceView(currentObject(), getCurrentImagePath());
 }
 
 void ObservingList::slotAVT()
