@@ -1974,11 +1974,15 @@ void KStars::slotHIPSSource()
     QAction *selectedAction = qobject_cast<QAction *>(sender());
     Q_ASSERT(selectedAction != nullptr);
 
-    QString selectedSource = selectedAction->text().remove('&');
+    QString selectedSource = selectedAction->objectName(); // Use action's internal name so we don't have to deal with i18n()
+    Q_ASSERT(selectedSource.startsWith("hips:"));
+    if (!selectedSource.startsWith("hips:")) {
+        qCWarning(KSTARS) << "Invalid sender " << selectedSource << " for slotHIPSSource()";
+        return;
+    }
+    selectedSource.remove(0, 5); // Remove the prefix "hips:"
 
-    // selectedSource could be translated, while we need to send only Latin "None"
-    // to Hips manager.
-    if (selectedSource == i18n("None"))
+    if (selectedSource == "off")
         HIPSManager::Instance()->setCurrentSource("None");
     else
         HIPSManager::Instance()->setCurrentSource(selectedSource);
