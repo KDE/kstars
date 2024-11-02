@@ -829,7 +829,7 @@ void FITSTab::setupCatObjTypeFilter()
     // Setup the dialog box
     m_CatObjTypeFilterDialog = new QDialog(this);
     m_CatObjTypeFilterUI.setupUi(m_CatObjTypeFilterDialog);
-#ifdef Q_OS_OSX
+#ifdef Q_OS_MACOS
     m_CatObjTypeFilterDialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
 

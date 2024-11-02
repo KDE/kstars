@@ -19,7 +19,11 @@
 #include "ui_wizwelcome.h"
 #include "ui_wizlocation.h"
 #include "ui_wizdownload.h"
+
+#ifdef Q_OS_MACOS
 #include "ui_wizdata.h"
+#endif
+
 #include "QProgressIndicator.h"
 
 class GeoLocation;
@@ -41,6 +45,7 @@ class WizLocationUI : public QFrame, public Ui::WizLocation
         explicit WizLocationUI(QWidget *parent = nullptr);
 };
 
+#ifdef Q_OS_MACOS
 class WizDataUI : public QFrame, public Ui::WizData
 {
         Q_OBJECT
@@ -48,6 +53,7 @@ class WizDataUI : public QFrame, public Ui::WizData
     public:
         explicit WizDataUI(QWidget *parent = nullptr);
 };
+#endif
 
 class WizDownloadUI : public QFrame, public Ui::WizDownload
 {
@@ -134,13 +140,12 @@ class KSWizard : public QDialog
         QProgressIndicator *gscMonitor { nullptr };
         QTimer *downloadMonitor { nullptr };
         QString gscZipPath;
-
+        WizDataUI *data { nullptr };
 #endif
 
         QStackedWidget *wizardStack { nullptr };
         WizWelcomeUI *welcome { nullptr };
         WizLocationUI *location { nullptr };
-        WizDataUI *data { nullptr };
         QPushButton *nextB { nullptr };
         QPushButton *backB { nullptr };
         QPushButton *completeB { nullptr };
