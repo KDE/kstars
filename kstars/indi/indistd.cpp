@@ -1196,13 +1196,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             mount->processProperties();
+            mount->setProperty("dispatched", true);
             emit newMount(mount);
         }
         else
         {
             connect(mount, &ISD::ConcreteDevice::ready, this, [this, mount]()
             {
-                emit newMount(mount);
+                if (!mount->property("dispatched").isValid())
+                {
+                    mount->setProperty("dispatched", true);
+                    emit newMount(mount);
+                }
             });
         }
     }
@@ -1219,6 +1224,7 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             camera->processProperties();
+            camera->setProperty("dispatched", true);
             emit newCamera(camera);
             emit ready();
         }
@@ -1226,7 +1232,11 @@ bool GenericDevice::generateDevices()
         {
             connect(camera, &ISD::ConcreteDevice::ready, this, [this, camera]()
             {
-                emit newCamera(camera);
+                if (!camera->property("dispatched").isValid())
+                {
+                    camera->setProperty("dispatched", true);
+                    emit newCamera(camera);
+                }
             });
         }
     }
@@ -1243,13 +1253,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             guider->processProperties();
+            guider->setProperty("dispatched", true);
             emit newGuider(guider);
         }
         else
         {
             connect(guider, &ISD::ConcreteDevice::ready, this, [this, guider]()
             {
-                emit newGuider(guider);
+                if (!guider->property("dispatched").isValid())
+                {
+                    guider->setProperty("dispatched", true);
+                    emit newGuider(guider);
+                }
             });
         }
     }
@@ -1266,13 +1281,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             focuser->processProperties();
+            focuser->setProperty("dispatched", true);
             emit newFocuser(focuser);
         }
         else
         {
             connect(focuser, &ISD::ConcreteDevice::ready, this, [this, focuser]()
             {
-                emit newFocuser(focuser);
+                if (!focuser->property("dispatched").isValid())
+                {
+                    focuser->setProperty("dispatched", true);
+                    emit newFocuser(focuser);
+                }
             });
         }
     }
@@ -1289,13 +1309,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             filterWheel->processProperties();
+            filterWheel->setProperty("dispatched", true);
             emit newFilterWheel(filterWheel);
         }
         else
         {
             connect(filterWheel, &ISD::ConcreteDevice::ready, this, [this, filterWheel]()
             {
-                emit newFilterWheel(filterWheel);
+                if (!filterWheel->property("dispatched").isValid())
+                {
+                    filterWheel->setProperty("dispatched", true);
+                    emit newFilterWheel(filterWheel);
+                }
             });
         }
     }
@@ -1312,13 +1337,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             dome->processProperties();
+            dome->setProperty("dispatched", true);
             emit newDome(dome);
         }
         else
         {
             connect(dome, &ISD::ConcreteDevice::ready, this, [this, dome]()
             {
-                emit newDome(dome);
+                if (!dome->property("dispatched").isValid())
+                {
+                    dome->setProperty("dispatched", true);
+                    emit newDome(dome);
+                }
             });
         }
     }
@@ -1335,13 +1365,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             gps->processProperties();
+            gps->setProperty("dispatched", true);
             emit newGPS(gps);
         }
         else
         {
             connect(gps, &ISD::ConcreteDevice::ready, this, [this, gps]()
             {
-                emit newGPS(gps);
+                if (!gps->property("dispatched").isValid())
+                {
+                    gps->setProperty("dispatched", true);
+                    emit newGPS(gps);
+                }
             });
         }
     }
@@ -1358,13 +1393,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             weather->processProperties();
+            weather->setProperty("dispatched", true);
             emit newWeather(weather);
         }
         else
         {
             connect(weather, &ISD::ConcreteDevice::ready, this, [this, weather]()
             {
-                emit newWeather(weather);
+                if (!weather->property("dispatched").isValid())
+                {
+                    weather->setProperty("dispatched", true);
+                    emit newWeather(weather);
+                }
             });
         }
     }
@@ -1381,13 +1421,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             ao->processProperties();
+            ao->setProperty("dispatched", true);
             emit newAdaptiveOptics(ao);
         }
         else
         {
             connect(ao, &ISD::ConcreteDevice::ready, this, [this, ao]()
             {
-                emit newAdaptiveOptics(ao);
+                if (!ao->property("dispatched").isValid())
+                {
+                    ao->setProperty("dispatched", true);
+                    emit newAdaptiveOptics(ao);
+                }
             });
         }
     }
@@ -1404,13 +1449,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             dustCap->processProperties();
+            dustCap->setProperty("dispatched", true);
             emit newDustCap(dustCap);
         }
         else
         {
             connect(dustCap, &ISD::ConcreteDevice::ready, this, [this, dustCap]()
             {
-                emit newDustCap(dustCap);
+                if (!dustCap->property("dispatched").isValid())
+                {
+                    dustCap->setProperty("dispatched", true);
+                    emit newDustCap(dustCap);
+                }
             });
         }
     }
@@ -1427,13 +1477,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             lightBox->processProperties();
+            lightBox->setProperty("dispatched", true);
             emit newLightBox(lightBox);
         }
         else
         {
             connect(lightBox, &ISD::ConcreteDevice::ready, this, [this, lightBox]()
             {
-                emit newLightBox(lightBox);
+                if (!lightBox->property("dispatched").isValid())
+                {
+                    lightBox->setProperty("dispatched", true);
+                    emit newLightBox(lightBox);
+                }
             });
         }
     }
@@ -1450,13 +1505,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             rotator->processProperties();
+            rotator->setProperty("dispatched", true);
             emit newRotator(rotator);
         }
         else
         {
             connect(rotator, &ISD::ConcreteDevice::ready, this, [this, rotator]()
             {
-                emit newRotator(rotator);
+                if (!rotator->property("dispatched").isValid())
+                {
+                    rotator->setProperty("dispatched", true);
+                    emit newRotator(rotator);
+                }
             });
         }
     }
@@ -1473,13 +1533,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             detector->processProperties();
+            detector->setProperty("dispatched", true);
             emit newDetector(detector);
         }
         else
         {
             connect(detector, &ISD::ConcreteDevice::ready, this, [this, detector]()
             {
-                emit newDetector(detector);
+                if (!detector->property("dispatched").isValid())
+                {
+                    detector->setProperty("dispatched", true);
+                    emit newDetector(detector);
+                }
             });
         }
     }
@@ -1496,13 +1561,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             spectrograph->processProperties();
+            spectrograph->setProperty("dispatched", true);
             emit newSpectrograph(spectrograph);
         }
         else
         {
             connect(spectrograph, &ISD::ConcreteDevice::ready, this, [this, spectrograph]()
             {
-                emit newSpectrograph(spectrograph);
+                if (!spectrograph->property("dispatched").isValid())
+                {
+                    spectrograph->setProperty("dispatched", true);
+                    emit newSpectrograph(spectrograph);
+                }
             });
         }
     }
@@ -1519,13 +1589,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             correlator->processProperties();
+            correlator->setProperty("dispatched", true);
             emit newCorrelator(correlator);
         }
         else
         {
             connect(correlator, &ISD::ConcreteDevice::ready, this, [this, correlator]()
             {
-                emit newCorrelator(correlator);
+                if (!correlator->property("dispatched").isValid())
+                {
+                    correlator->setProperty("dispatched", true);
+                    emit newCorrelator(correlator);
+                }
             });
         }
     }
@@ -1542,13 +1617,18 @@ bool GenericDevice::generateDevices()
         if (m_Connected)
         {
             aux->processProperties();
+            aux->setProperty("dispatched", true);
             emit newAuxiliary(aux);
         }
         else
         {
             connect(aux, &ISD::ConcreteDevice::ready, this, [this, aux]()
             {
-                emit newAuxiliary(aux);
+                if (!aux->property("dispatched").isValid())
+                {
+                    aux->setProperty("dispatched", true);
+                    emit newAuxiliary(aux);
+                }
             });
         }
     }
