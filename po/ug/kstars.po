@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-02 01:47+0000\n"
+"POT-Creation-Date: 2024-11-03 01:42+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -205,7 +205,7 @@ msgstr "سۈنئىي ھەمراھلار"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:241
 #: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1148 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1147 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -219,7 +219,7 @@ msgstr "سۈنئىي ھەمراھلار"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:526
 #: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1151 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1150 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "City in Wisconsin USA"
@@ -425,7 +425,7 @@ msgctxt "@title:window"
 msgid "KStars image viewer: %1"
 msgstr "ھۆججەت ‹%1› نى ئاچالمىدى."
 
-#: auxiliary/imageviewer.cpp:131 tools/eyepiecefield.cpp:78
+#: auxiliary/imageviewer.cpp:131
 #, kde-format
 msgid "Invert colors"
 msgstr ""
@@ -502,14 +502,14 @@ msgid "Save Image"
 msgstr "ئۆزگەرتكەننى ساقلا"
 
 #: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3961
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1356
+#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1355
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "\"%1\" ئاتلىق ھۆججەت مەۋجۇت. ئۇنى قاپلىۋېتەمسىز؟"
 
 #: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3964
-#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1357
+#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1356
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -616,8 +616,8 @@ msgstr "ئەمەلدىن قالدۇر"
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1204 ekos/manager.cpp:1219
 #: ekos/manager.cpp:1249 ekos/scheduler/scheduler.cpp:1574
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
-#: indi/indimount.cpp:32 kstarsactions.cpp:517 kstarsactions.cpp:525
-#: kstarsactions.cpp:535 skycomponents/imageoverlaycomponent.cpp:529
+#: indi/indimount.cpp:32 kstarsactions.cpp:516 kstarsactions.cpp:524
+#: kstarsactions.cpp:534 skycomponents/imageoverlaycomponent.cpp:529
 #, kde-format
 msgid "Error"
 msgstr "خاتالىق"
@@ -1268,7 +1268,7 @@ msgstr "ياۋروپا"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1374
+#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1370
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -1491,7 +1491,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
 #: auxiliary/xplanetimageviewer.cpp:345 dialogs/newfov.ui:1095
-#: indi/collimationOptions.ui:462 tools/eyepiecefield.cpp:99
+#: indi/collimationOptions.ui:462
 #, kde-format
 msgid "Rotation:"
 msgstr "چۆرگىلىتىش:"
@@ -2928,8 +2928,8 @@ msgstr "تېكىست"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2251 tools/observinglist.cpp:96
-#: tools/observinglist.cpp:100 tools/optionstreeview.ui:33
+#: ekos/capture/camera.ui:2251 tools/observinglist.cpp:95
+#: tools/observinglist.cpp:99 tools/optionstreeview.ui:33
 #, kde-format
 msgid "Type"
 msgstr "تىپى"
@@ -3323,7 +3323,7 @@ msgstr "Mag"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
+#: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
 msgstr "ئاتى"
@@ -3526,7 +3526,7 @@ msgid "Clone..."
 msgstr "ئاۋالون"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1166
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1165
 #, kde-format
 msgid "Colors"
 msgstr "رەڭلەر"
@@ -3774,7 +3774,7 @@ msgid "%1 y"
 msgstr ""
 
 #: dialogs/detaildialog.cpp:545 kstarslite/dialogs/detaildialoglite.cpp:417
-#: printing/detailstable.cpp:297 tools/observinglist.cpp:630
+#: printing/detailstable.cpp:297 tools/observinglist.cpp:629
 #, kde-format
 msgctxt ""
 "%1 type of sky object (planet, asteroid etc), %2 name of a constellation"
@@ -3815,7 +3815,7 @@ msgstr ""
 #: dialogs/detaildialog.cpp:664 dialogs/detaildialog.cpp:665
 #: kstarslite/dialogs/detaildialoglite.cpp:528
 #: kstarslite/dialogs/detaildialoglite.cpp:529 printing/detailstable.cpp:628
-#: printing/detailstable.cpp:629 tools/observinglist.cpp:192
+#: printing/detailstable.cpp:629 tools/observinglist.cpp:191
 #, fuzzy, kde-format
 #| msgid "Never"
 msgid "Never rises"
@@ -3842,7 +3842,7 @@ msgstr "ئۇلانمىلار"
 msgid "Could not add the link."
 msgstr "ھۆججەت ‹%1› نى ئاچالمىدى."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1193
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1192
 #, kde-format
 msgid "Advanced"
 msgstr "ئالىي"
@@ -3856,8 +3856,8 @@ msgstr "خاتىرە"
 
 #: dialogs/detaildialog.cpp:788 kstarsdata.cpp:1712
 #: kstarslite/dialogs/detaildialoglite.cpp:557
-#: kstarslite/qml/dialogs/DetailsDialog.qml:462 tools/observinglist.cpp:564
-#: tools/observinglist.cpp:871
+#: kstarslite/qml/dialogs/DetailsDialog.qml:462 tools/observinglist.cpp:563
+#: tools/observinglist.cpp:865
 #, kde-format
 msgid "Record here observation logs and/or data on %1."
 msgstr ""
@@ -3894,15 +3894,15 @@ msgstr "سەپلىمە"
 msgid "Could not delete the entry."
 msgstr "ھۆججەت «%1» نى ئاچقىلى بولمىدى"
 
-#: dialogs/detaildialog.cpp:1084 tools/observinglist.cpp:877
+#: dialogs/detaildialog.cpp:1084 tools/observinglist.cpp:871
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not update the user log."
 msgstr "ھۆججەت «%1» نى ئاچقىلى بولمىدى"
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:321 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
-#: tools/observinglist.cpp:690 tools/observinglist.cpp:712
+#: kstarsactions.cpp:320 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
+#: tools/observinglist.cpp:689 tools/observinglist.cpp:711
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, fuzzy, kde-format
 #| msgid "Disconnect"
@@ -3910,7 +3910,7 @@ msgid "No connected mounts found."
 msgstr "ئۈز"
 
 #: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:452
-#: kstarsactions.cpp:306 tools/observinglist.cpp:701
+#: kstarsactions.cpp:305 tools/observinglist.cpp:700
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
@@ -4512,7 +4512,7 @@ msgstr ""
 msgid "Any"
 msgstr "خالىغان"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1145 kstarsinit.cpp:491
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1144 kstarsinit.cpp:491
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:100
@@ -6793,14 +6793,14 @@ msgstr "ھۆججەت ‹%1› نى ئاچالمىدى."
 #: ekos/scheduler/schedulerprocess.cpp:3321
 #: ekos/scheduler/schedulerprocess.cpp:4649
 #: ekos/scheduler/schedulerprocess.cpp:4669 indi/drivermanager.cpp:1549
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1405 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1404 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
 #: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
 #: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:69
-#: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:913
-#: tools/observinglist.cpp:1179 tools/scriptbuilder.cpp:820
+#: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:907
+#: tools/observinglist.cpp:1173 tools/scriptbuilder.cpp:820
 #: tools/scriptbuilder.cpp:900 tools/scriptbuilder.cpp:983
 #, kde-format, kde-kuit-format
 msgid "Could Not Open File"
@@ -8050,7 +8050,7 @@ msgid "Display received FITS images unto solver FOV rectangle in the sky map"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:243 tools/eyepiecefield.cpp:77
+#: ekos/align/opsalign.ui:243
 #, kde-format
 msgid "Overlay"
 msgstr ""
@@ -12594,7 +12594,7 @@ msgid "Log INDI devices activity"
 msgstr "ئۈز"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1177
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1176
 #, fuzzy, kde-format
 #| msgid "INDI Mode"
 msgid "INDI"
@@ -12609,7 +12609,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:297
-#: kstarsactions.cpp:1171
+#: kstarsactions.cpp:1170
 #, fuzzy, kde-format
 #| msgid "Open Script"
 msgid "FITS"
@@ -14062,9 +14062,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1933
-#: kstarsinit.cpp:857 kstarsinit.cpp:858 tools/exporteyepieceview.cpp:57
-#: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
+#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1932
+#: kstarsinit.cpp:857 kstarsinit.cpp:858 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
 msgstr "يوق"
@@ -16053,7 +16052,7 @@ msgstr "دۇنېدىن"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:476 ekos/focus/focusmodule.cpp:391
-#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
+#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:642
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
@@ -16086,7 +16085,7 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1181 kstarsinit.cpp:473
+#: kstarsactions.cpp:1180 kstarsinit.cpp:473
 #, kde-format
 msgid "Ekos"
 msgstr ""
@@ -24726,7 +24725,7 @@ msgstr "ئوچۇق"
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
 #: ekos/mount/mount.ui:747 ekos/observatory/observatory.cpp:276
 #: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
-#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:654
+#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:651
 #, kde-format
 msgid "Park"
 msgstr ""
@@ -24734,7 +24733,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, unparkB)
 #. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
 #: ekos/mount/mount.ui:777 ekos/observatory/observatory.ui:498
-#: kspopupmenu.cpp:659
+#: kspopupmenu.cpp:656
 #, fuzzy, kde-format
 #| msgctxt "City in West Virginia USA"
 #| msgid "Parkersburg"
@@ -28430,7 +28429,7 @@ msgid "UnCap"
 msgstr ""
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:49 tools/altvstime.cpp:97
-#: tools/observinglist.cpp:124
+#: tools/observinglist.cpp:123
 #, kde-format
 msgid "Local Time"
 msgstr "يەرلىك ۋاقىت"
@@ -32290,7 +32289,7 @@ msgstr ""
 msgid "Telescope Motion"
 msgstr "جۇغراپىيىلىك كوئوردېناتلار"
 
-#: indi/indiproperty.cpp:223 tools/observinglist.cpp:101
+#: indi/indiproperty.cpp:223 tools/observinglist.cpp:100
 #, kde-format
 msgid "Time"
 msgstr "ۋاقىت"
@@ -33028,14 +33027,14 @@ msgstr ""
 msgid "Empty sky"
 msgstr ""
 
-#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:589
+#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:586
 #, fuzzy, kde-format
 #| msgid "Show SEDS Image"
 msgctxt "Sloan Digital Sky Survey"
 msgid "Show SDSS Image"
 msgstr "SEDS سۈرىتىنى كۆرسىتىش"
 
-#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:591
+#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:588
 #, fuzzy, kde-format
 #| msgid "Show SEDS Image"
 msgctxt "Digitized Sky Survey"
@@ -33160,69 +33159,63 @@ msgstr "ئۇلانما چىقىرىۋەت"
 msgid "Add Trail"
 msgstr ""
 
-#: kspopupmenu.cpp:432
-#, fuzzy, kde-format
-#| msgid "Export to file"
-msgid "Simulate Eyepiece View"
-msgstr "ھۆججەتكە چىقار"
-
-#: kspopupmenu.cpp:441
+#: kspopupmenu.cpp:438
 #, kde-format
 msgid "View in XPlanet"
 msgstr ""
 
-#: kspopupmenu.cpp:446
+#: kspopupmenu.cpp:443
 #, kde-format
 msgid "View in What's Interesting"
 msgstr ""
 
-#: kspopupmenu.cpp:459
+#: kspopupmenu.cpp:456
 #, fuzzy, kde-format
 #| msgid "Edit..."
 msgid "Add Flag..."
 msgstr "تەھرىر…"
 
-#: kspopupmenu.cpp:466
+#: kspopupmenu.cpp:463
 #, fuzzy, kde-format
 #| msgid "Edit..."
 msgid "Edit Flag"
 msgstr "تەھرىر…"
 
-#: kspopupmenu.cpp:468
+#: kspopupmenu.cpp:465
 #, fuzzy, kde-format
 #| msgid "Delete All Images"
 msgid "Delete Flag"
 msgstr "ھەممە سۈرەتنى ئۆچۈر"
 
-#: kspopupmenu.cpp:477
+#: kspopupmenu.cpp:474
 #, fuzzy, kde-format
 #| msgid "Edit..."
 msgid "Edit Flag..."
 msgstr "تەھرىر…"
 
-#: kspopupmenu.cpp:479
+#: kspopupmenu.cpp:476
 #, fuzzy, kde-format
 #| msgid "Delete All Images"
 msgid "Delete Flag..."
 msgstr "ھەممە سۈرەتنى ئۆچۈر"
 
-#: kspopupmenu.cpp:538
+#: kspopupmenu.cpp:535
 #, kde-format
 msgid "Image Resources"
 msgstr ""
 
-#: kspopupmenu.cpp:539
+#: kspopupmenu.cpp:536
 #, fuzzy, kde-format
 #| msgid "Links"
 msgid "Web Links"
 msgstr "ئۇلانمىلار"
 
-#: kspopupmenu.cpp:581
+#: kspopupmenu.cpp:578
 #, kde-format
 msgid "Remove From Local Catalog"
 msgstr ""
 
-#: kspopupmenu.cpp:624
+#: kspopupmenu.cpp:621
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Goto"
@@ -33230,7 +33223,7 @@ msgctxt "Move mount to target"
 msgid "Goto"
 msgstr "يۆتكەل"
 
-#: kspopupmenu.cpp:633
+#: kspopupmenu.cpp:630
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Sync"
@@ -33238,18 +33231,18 @@ msgctxt "Synchronize mount to target"
 msgid "Sync"
 msgstr "قەدەمداشلا"
 
-#: kspopupmenu.cpp:674
+#: kspopupmenu.cpp:671
 #, fuzzy, kde-format
 #| msgid "Satellite"
 msgid "Track satellite"
 msgstr "سۈنئىي ھەمراھ"
 
-#: kspopupmenu.cpp:688
+#: kspopupmenu.cpp:685
 #, kde-format
 msgid "Goto && Set As Parking Position"
 msgstr ""
 
-#: kspopupmenu.cpp:695
+#: kspopupmenu.cpp:692
 #, fuzzy, kde-format
 #| msgid "Geographic Coordinates"
 msgid "Find Telescope"
@@ -33262,17 +33255,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:315 kstarsactions.cpp:1619 skymap.cpp:430
+#: kstars.cpp:315 kstarsactions.cpp:1618 skymap.cpp:430
 #, kde-format
 msgid "Stop &Tracking"
 msgstr ""
 
-#: kstars.cpp:323 kstarsactions.cpp:1786 kstarsinit.cpp:270
+#: kstars.cpp:323 kstarsactions.cpp:1785 kstarsinit.cpp:270
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr ""
 
-#: kstars.cpp:324 kstarsactions.cpp:1767 kstarsinit.cpp:271
+#: kstars.cpp:324 kstarsactions.cpp:1766 kstarsinit.cpp:271
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr ""
@@ -74100,19 +74093,19 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "باشقا"
 
-#: kstarsactions.cpp:218
+#: kstarsactions.cpp:217
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr ""
 
-#: kstarsactions.cpp:219
+#: kstarsactions.cpp:218
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
 "disabled."
 msgstr ""
 
-#: kstarsactions.cpp:472
+#: kstarsactions.cpp:471
 #, kde-format
 msgid ""
 "Due to a known issue in the kde frameworks, updating already downloaded "
@@ -74120,65 +74113,65 @@ msgid ""
 "update."
 msgstr ""
 
-#: kstarsactions.cpp:518
+#: kstarsactions.cpp:517
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr ""
 
-#: kstarsactions.cpp:526
+#: kstarsactions.cpp:525
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 
-#: kstarsactions.cpp:536
+#: kstarsactions.cpp:535
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr ""
 
-#: kstarsactions.cpp:593
+#: kstarsactions.cpp:592
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr ""
 
-#: kstarsactions.cpp:595
+#: kstarsactions.cpp:594
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr ""
 
-#: kstarsactions.cpp:704 kstarsactions.cpp:741 kstarsactions.cpp:784
-#: kstarsactions.cpp:823
+#: kstarsactions.cpp:703 kstarsactions.cpp:740 kstarsactions.cpp:783
+#: kstarsactions.cpp:822
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
 "'indiserver' binary is installed."
 msgstr ""
 
-#: kstarsactions.cpp:758
+#: kstarsactions.cpp:757
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
 "cannot be used with Ekos. Do you still want to open INDI device manager?"
 msgstr ""
 
-#: kstarsactions.cpp:761
+#: kstarsactions.cpp:760
 #, fuzzy, kde-format
 #| msgid "Device Manager"
 msgid "INDI Device Manager"
 msgstr "ئۈسكۈنە باشقۇرغۇ"
 
-#: kstarsactions.cpp:1142
+#: kstarsactions.cpp:1141
 #, fuzzy, kde-format
 #| msgctxt "City in Brazil"
 #| msgid "Natal"
 msgid "Catalogs"
 msgstr "ناتال"
 
-#: kstarsactions.cpp:1154
+#: kstarsactions.cpp:1153
 #, kde-format
 msgid "Guides"
 msgstr "قوشۇمچە سىزىق"
 
-#: kstarsactions.cpp:1157
+#: kstarsactions.cpp:1156
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Ferrara"
@@ -74186,79 +74179,79 @@ msgid "Terrain"
 msgstr "فېررارا"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1160 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1159 options/opsimageoverlay.ui:202
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Image Data"
 msgid "Image Overlays"
 msgstr "سۈرەت سانلىق-مەلۇمات"
 
-#: kstarsactions.cpp:1190
+#: kstarsactions.cpp:1189
 #, fuzzy, kde-format
 #| msgid "Planets"
 msgid "Xplanet"
 msgstr "پلانېتىلار"
 
-#: kstarsactions.cpp:1196
+#: kstarsactions.cpp:1195
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Revelstoke"
 msgid "Developer"
 msgstr "رېۋېلستوكې"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2055 kstarsinit.cpp:280
+#: kstarsactions.cpp:1213 kstarsactions.cpp:2026 kstarsinit.cpp:280
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Ferrara"
 msgid "Hide Terrain"
 msgstr "فېررارا"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2055 kstarsinit.cpp:281
+#: kstarsactions.cpp:1213 kstarsactions.cpp:2026 kstarsinit.cpp:281
 #, fuzzy, kde-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
 msgid "Show Terrain"
 msgstr "تەپسىلاتلار"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2065 kstarsinit.cpp:285
+#: kstarsactions.cpp:1217 kstarsactions.cpp:2036 kstarsinit.cpp:285
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Alignment"
 msgid "Hide Image Overlays"
 msgstr "توغرىلاش"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2065 kstarsinit.cpp:286
+#: kstarsactions.cpp:1217 kstarsactions.cpp:2036 kstarsinit.cpp:286
 #, fuzzy, kde-format
 #| msgid "Show HST Image"
 msgid "Show Image Overlays"
 msgstr "HST سۈرىتىنى كۆرسىتىش"
 
-#: kstarsactions.cpp:1342
+#: kstarsactions.cpp:1341
 #, fuzzy, kde-format
 #| msgid "Export"
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "ئېكسپورت قىل"
 
-#: kstarsactions.cpp:1388 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1387 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr ""
 
-#: kstarsactions.cpp:1396
+#: kstarsactions.cpp:1395
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Executing remote scripts is not supported."
 msgstr "تولۇق"
 
-#: kstarsactions.cpp:1404 oal/execute.cpp:319 tools/observinglist.cpp:912
+#: kstarsactions.cpp:1403 oal/execute.cpp:319 tools/observinglist.cpp:906
 #, kde-format
 msgid "Could not open file %1"
 msgstr "ھۆججەت «%1» نى ئاچقىلى بولمىدى"
 
-#: kstarsactions.cpp:1429
+#: kstarsactions.cpp:1428
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -74267,28 +74260,28 @@ msgid ""
 "it anyway?"
 msgstr ""
 
-#: kstarsactions.cpp:1434
+#: kstarsactions.cpp:1433
 #, kde-format
 msgid "Script Validation Failed"
 msgstr ""
 
-#: kstarsactions.cpp:1434
+#: kstarsactions.cpp:1433
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "ئىجرا قىلىۋەر"
 
-#: kstarsactions.cpp:1441
+#: kstarsactions.cpp:1440
 #, kde-format
 msgid "Running script: %1"
 msgstr ""
 
-#: kstarsactions.cpp:1459
+#: kstarsactions.cpp:1458
 #, fuzzy, kde-format
 #| msgid "Script name:"
 msgid "Script finished."
 msgstr "قوليازما نامى:"
 
-#: kstarsactions.cpp:1471
+#: kstarsactions.cpp:1470
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -74296,58 +74289,58 @@ msgid ""
 "Chart color scheme for printing?"
 msgstr ""
 
-#: kstarsactions.cpp:1476
+#: kstarsactions.cpp:1475
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr ""
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1476
 #, fuzzy, kde-format
 #| msgid "New Color Scheme"
 msgid "Switch Color Scheme"
 msgstr "يېڭى رەڭ لايىھىسى"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1476
 #, fuzzy, kde-format
 #| msgid "Do Not Try"
 msgid "Do Not Switch"
 msgstr "سىنىما"
 
-#: kstarsactions.cpp:1596 kstarsinit.cpp:243
+#: kstarsactions.cpp:1595 kstarsinit.cpp:243
 #, kde-format
 msgid "Engage &Tracking"
 msgstr ""
 
-#: kstarsactions.cpp:1710
+#: kstarsactions.cpp:1709
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr ""
 
-#: kstarsactions.cpp:1715
+#: kstarsactions.cpp:1714
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr ""
 
-#: kstarsactions.cpp:1721
+#: kstarsactions.cpp:1720
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr ""
 
-#: kstarsactions.cpp:1738
+#: kstarsactions.cpp:1737
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr ""
 
-#: kstarsactions.cpp:1739
+#: kstarsactions.cpp:1738
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr ""
 
-#: kstarsactions.cpp:1770 kstarsinit.cpp:735
+#: kstarsactions.cpp:1769 kstarsinit.cpp:735
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "North"
@@ -74355,7 +74348,7 @@ msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "شىمال"
 
-#: kstarsactions.cpp:1773 kstarsinit.cpp:744
+#: kstarsactions.cpp:1772 kstarsinit.cpp:744
 #, fuzzy, kde-format
 #| msgctxt "City in Kansas USA"
 #| msgid "Norton"
@@ -74363,31 +74356,16 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "نورتون"
 
-#: kstarsactions.cpp:1789 kstarsinit.cpp:735
+#: kstarsactions.cpp:1788 kstarsinit.cpp:735
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr ""
 
-#: kstarsactions.cpp:1792 kstarsinit.cpp:744
+#: kstarsactions.cpp:1791 kstarsinit.cpp:744
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
-msgstr ""
-
-#: kstarsactions.cpp:2013
-#, kde-format
-msgid "Attempt to determine from image"
-msgstr ""
-
-#: kstarsactions.cpp:2015
-#, kde-format
-msgid "Eyepiece View: Choose a field-of-view"
-msgstr ""
-
-#: kstarsactions.cpp:2016
-#, kde-format
-msgid "FOV to render eyepiece view for:"
 msgstr ""
 
 #: kstarsdata.cpp:47
@@ -74886,7 +74864,7 @@ msgid "Observation Planner"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:455 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
+#: kstarsinit.cpp:455 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr ""
@@ -80800,7 +80778,7 @@ msgid "Id:"
 msgstr "Id:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Type)
-#: oal/equipmentwriter.ui:84 tools/eyepiecefield.cpp:105
+#: oal/equipmentwriter.ui:84
 #, kde-format
 msgid "Refractor"
 msgstr ""
@@ -84527,42 +84505,42 @@ msgid ""
 "Consortium [free for non-commercial use]."
 msgstr ""
 
-#: skymap.cpp:676
+#: skymap.cpp:672
 #, kde-format
 msgid "Angular distance: %1"
 msgstr ""
 
-#: skymap.cpp:690
+#: skymap.cpp:686
 #, kde-format
 msgid "; Physical distance: %1 pc"
 msgstr ""
 
-#: skymap.cpp:727
+#: skymap.cpp:723
 #, kde-format
 msgid "Star Hopper: Choose a field-of-view"
 msgstr ""
 
-#: skymap.cpp:728
+#: skymap.cpp:724
 #, kde-format
 msgid "FOV to use for star hopping:"
 msgstr ""
 
-#: skymap.cpp:735
+#: skymap.cpp:731
 #, kde-format
 msgid "Star Hopper: Enter field-of-view to use"
 msgstr ""
 
-#: skymap.cpp:736
+#: skymap.cpp:732
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr ""
 
-#: skymap.cpp:903
+#: skymap.cpp:899
 #, kde-format
 msgid "No object selected."
 msgstr ""
 
-#: skymap.cpp:903
+#: skymap.cpp:899
 #, kde-format
 msgid "Object Details"
 msgstr ""
@@ -86702,121 +86680,6 @@ msgstr ""
 msgid "Winter solstice:"
 msgstr ""
 
-#: tools/exporteyepieceview.cpp:40
-#, fuzzy, kde-format
-#| msgid "Export to file"
-msgctxt "@title:window"
-msgid "Export eyepiece view"
-msgstr "ھۆججەتكە چىقار"
-
-#: tools/exporteyepieceview.cpp:55
-#, kde-format
-msgid "Overlay orientation vs. time ticks: "
-msgstr ""
-
-#: tools/exporteyepieceview.cpp:58
-#, kde-format
-msgid "Towards Zenith"
-msgstr ""
-
-#: tools/exporteyepieceview.cpp:59
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Estonia"
-msgid "Dobsonian View"
-msgstr "ئېستونىيە"
-
-#: tools/exporteyepieceview.cpp:90
-#, kde-format
-msgid ""
-"Note: This overlay makes sense only if the view was generated in alt/az mode "
-"with a preset such as Refractor or Vanilla"
-msgstr ""
-
-#: tools/exporteyepieceview.cpp:93
-#, kde-format
-msgid ""
-"Note: This overlay  makes sense only if the view was generated in alt/az "
-"mode with a preset such as Dobsonian"
-msgstr ""
-
-#: tools/exporteyepieceview.cpp:174
-#, fuzzy, kde-format
-#| msgid "Save changes"
-msgctxt "@title:window"
-msgid "Save Image as"
-msgstr "ئۆزگەرتكەننى ساقلا"
-
-#: tools/exporteyepieceview.cpp:175
-#, kde-format
-msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
-msgstr ""
-
-#: tools/eyepiecefield.cpp:37
-#, fuzzy, kde-format
-#| msgid "Export to file"
-msgctxt "@title:window"
-msgid "Eyepiece Field View"
-msgstr "ھۆججەتكە چىقار"
-
-#: tools/eyepiecefield.cpp:51
-#, fuzzy, kde-format
-#| msgid "Export"
-msgctxt "Export image"
-msgid "Export"
-msgstr "ئېكسپورت قىل"
-
-#: tools/eyepiecefield.cpp:75
-#, fuzzy, kde-format
-#| msgid "Overview"
-msgid "Invert view"
-msgstr "قىسقىچە بايان"
-
-#: tools/eyepiecefield.cpp:76
-#, fuzzy, kde-format
-#| msgid "Update view"
-msgid "Flip view"
-msgstr "كۆرۈنۈشنى يېڭىلا"
-
-#: tools/eyepiecefield.cpp:79
-#, fuzzy, kde-format
-#| msgid "Show SEDS Image"
-msgid "Fetch DSS image"
-msgstr "SEDS سۈرىتىنى كۆرسىتىش"
-
-#: tools/eyepiecefield.cpp:103
-#, fuzzy, kde-format
-#| msgctxt "City in Philippines"
-#| msgid "Manila"
-msgid "Vanilla"
-msgstr "مانىلا"
-
-#: tools/eyepiecefield.cpp:104
-#, fuzzy, kde-format
-#| msgid "Update view"
-msgid "Flipped"
-msgstr "كۆرۈنۈشنى يېڭىلا"
-
-#: tools/eyepiecefield.cpp:106
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Estonia"
-msgid "Dobsonian"
-msgstr "ئېستونىيە"
-
-#: tools/eyepiecefield.cpp:108
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "reset"
-msgid "Preset:"
-msgstr "ئەسلىگە قايتۇر"
-
-#: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1392
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
-msgid "Failed to download DSS/SDSS image."
-msgstr "سۈرەتنى ئوقۇش مەغلۇپ بولدى"
-
 #: tools/flagmanager.cpp:51
 #, fuzzy, kde-format
 #| msgid "Device Manager"
@@ -86917,14 +86780,14 @@ msgid "Region"
 msgstr "Regina"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:102 widgets/infoboxwidget.cpp:120
+#: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr ""
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
+#: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
@@ -88076,93 +87939,93 @@ msgstr ""
 msgid "Resolved %1 successfully."
 msgstr "جۇغراپىيىلىك كوئوردېناتلار"
 
-#: tools/observinglist.cpp:80
+#: tools/observinglist.cpp:79
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgctxt "@title:window"
 msgid "Observation Planner"
 msgstr "كۆزەتكۈچى"
 
-#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
+#: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Site Name"
 msgid "Alternate Name"
 msgstr "تورتۇرا ئاتى"
 
-#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
+#: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, kde-format
 msgctxt "Right Ascension"
 msgid "RA (J2000)"
 msgstr ""
 
-#: tools/observinglist.cpp:96 tools/observinglist.cpp:100
+#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #, kde-format
 msgctxt "Declination"
 msgid "Dec (J2000)"
 msgstr ""
 
-#: tools/observinglist.cpp:96 tools/observinglist.cpp:100
+#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #, kde-format
 msgctxt "Magnitude"
 msgid "Mag"
 msgstr "Mag"
 
-#: tools/observinglist.cpp:97
+#: tools/observinglist.cpp:96
 #, fuzzy, kde-format
 #| msgctxt "the angle of an object above (or below) the horizon"
 #| msgid "Altitude"
 msgid "Current Altitude"
 msgstr "ئېگىزلىك(دېڭىز يۈزىدىن)"
 
-#: tools/observinglist.cpp:101
+#: tools/observinglist.cpp:100
 #, fuzzy, kde-format
 #| msgid "Common Name"
 msgctxt "Constellation"
 msgid "Constell."
 msgstr "ئادەتتىكى ئات"
 
-#: tools/observinglist.cpp:198
+#: tools/observinglist.cpp:197
 #, fuzzy, kde-format
 #| msgid "Do Not Try"
 msgctxt "Short text to describe that object has not risen yet"
 msgid "Not risen"
 msgstr "سىنىما"
 
-#: tools/observinglist.cpp:204
+#: tools/observinglist.cpp:203
 #, kde-format
 msgctxt "Object is in the Dobsonian hole"
 msgid "In hole"
 msgstr ""
 
-#: tools/observinglist.cpp:265
+#: tools/observinglist.cpp:264
 #, kde-format
 msgid ""
 "Stars and objects whose names KStars does not know are not supported in the "
 "observing lists"
 msgstr ""
 
-#: tools/observinglist.cpp:277
+#: tools/observinglist.cpp:276
 #, kde-format
 msgid "%1 is already in your wishlist."
 msgstr ""
 
-#: tools/observinglist.cpp:292
+#: tools/observinglist.cpp:291
 #, kde-format
 msgid "%1 is already in the session plan."
 msgstr ""
 
-#: tools/observinglist.cpp:355
+#: tools/observinglist.cpp:354
 #, kde-format
 msgid "Added %1 to observing list."
 msgstr ""
 
-#: tools/observinglist.cpp:393
+#: tools/observinglist.cpp:392
 #, kde-format
 msgid "Added %1 to session list."
 msgstr ""
 
-#: tools/observinglist.cpp:600
+#: tools/observinglist.cpp:599
 #, kde-format
 msgid ""
 "DSS Image metadata: \n"
@@ -88171,17 +88034,17 @@ msgid ""
 " Version: %4"
 msgstr ""
 
-#: tools/observinglist.cpp:604
+#: tools/observinglist.cpp:603
 #, kde-format
 msgid "No image info available."
 msgstr ""
 
-#: tools/observinglist.cpp:612
+#: tools/observinglist.cpp:611
 #, kde-format
 msgid "No image available. Click on the placeholder image to download one."
 msgstr ""
 
-#: tools/observinglist.cpp:626
+#: tools/observinglist.cpp:625
 #, fuzzy, kde-format
 #| msgid "%1 and %2"
 msgctxt ""
@@ -88190,18 +88053,18 @@ msgctxt ""
 msgid "%1 mag %2 in %3"
 msgstr "%1 ۋە %2"
 
-#: tools/observinglist.cpp:778
+#: tools/observinglist.cpp:777
 #, kde-format
 msgid "Batch add to observing session"
 msgstr ""
 
-#: tools/observinglist.cpp:778
+#: tools/observinglist.cpp:777
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Batch add to observing wishlist"
 msgstr "ھۆججەت «%1» نى ئاچقىلى بولمىدى"
 
-#: tools/observinglist.cpp:779
+#: tools/observinglist.cpp:778
 #, kde-format
 msgid ""
 "Specify a list of objects with one object on each line to add. The names "
@@ -88210,13 +88073,13 @@ msgid ""
 "will be added to the database."
 msgstr ""
 
-#: tools/observinglist.cpp:811
+#: tools/observinglist.cpp:810
 #, kde-format
 msgid "Batch add: %1 object not found"
 msgid_plural "Batch add: %1 objects not found"
 msgstr[0] ""
 
-#: tools/observinglist.cpp:812
+#: tools/observinglist.cpp:811
 #, kde-format
 msgid ""
 "%1 object could not be found in the database or resolved, and hence could "
@@ -88226,7 +88089,7 @@ msgid_plural ""
 "not be added. See the details for more."
 msgstr[0] ""
 
-#: tools/observinglist.cpp:886
+#: tools/observinglist.cpp:880
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Alignment"
@@ -88234,80 +88097,80 @@ msgctxt "@title:window"
 msgid "Open Observing List"
 msgstr "توغرىلاش"
 
-#: tools/observinglist.cpp:941
+#: tools/observinglist.cpp:935
 #, kde-format
 msgid ""
 "The specified file is invalid. We expect an XML file based on the "
 "OpenAstronomyLog schema."
 msgstr ""
 
-#: tools/observinglist.cpp:957
+#: tools/observinglist.cpp:951
 #, kde-format
 msgid "The specified file is invalid"
 msgstr ""
 
-#: tools/observinglist.cpp:967
+#: tools/observinglist.cpp:961
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to cancel?"
 msgid "Are you sure you want to clear all objects?"
 msgstr "راستلا ۋاز كېچەمسىز؟"
 
-#: tools/observinglist.cpp:968
+#: tools/observinglist.cpp:962
 #, fuzzy, kde-format
 #| msgctxt "City in California USA"
 #| msgid "Palo Alto"
 msgid "Clear all?"
 msgstr "پالو ئالتو"
 
-#: tools/observinglist.cpp:1001
+#: tools/observinglist.cpp:995
 #, kde-format
 msgid "Do you want to save the current session?"
 msgstr ""
 
-#: tools/observinglist.cpp:1002
+#: tools/observinglist.cpp:996
 #, kde-format
 msgid "Save Current session?"
 msgstr ""
 
-#: tools/observinglist.cpp:1014
+#: tools/observinglist.cpp:1008
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgctxt "@title:window"
 msgid "Save Observing List"
 msgstr "ھۆججەت «%1» نى ئاچقىلى بولمىدى"
 
-#: tools/observinglist.cpp:1063
+#: tools/observinglist.cpp:1057
 #, kde-format
 msgid ""
 "Could not open the observing wishlist file %1 for writing. Your wishlist "
 "changes will not be saved. Check if the location is writable and not full."
 msgstr ""
 
-#: tools/observinglist.cpp:1064
+#: tools/observinglist.cpp:1058
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Could not save observing wishlist"
 msgstr "ھۆججەت «%1» نى ئاچقىلى بولمىدى"
 
-#: tools/observinglist.cpp:1085 tools/observinglist.cpp:1200
+#: tools/observinglist.cpp:1079 tools/observinglist.cpp:1194
 #: tools/obslistwizard.cpp:34
 #, kde-format
 msgctxt "@title:window"
 msgid "Observing List Wizard"
 msgstr ""
 
-#: tools/observinglist.cpp:1086
+#: tools/observinglist.cpp:1080
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Please wait while loading observing wishlist..."
 msgstr "ھۆججەت «%1» نى ئاچقىلى بولمىدى"
 
-#: tools/observinglist.cpp:1109
+#: tools/observinglist.cpp:1103
 #, kde-format
 msgid "Canceling this will truncate your wishlist"
 msgstr ""
 
-#: tools/observinglist.cpp:1110
+#: tools/observinglist.cpp:1104
 #, kde-format
 msgid ""
 "If you cancel this operation, your wishlist will be truncated and the "
@@ -88315,13 +88178,13 @@ msgid ""
 "Are you sure this is okay?"
 msgstr ""
 
-#: tools/observinglist.cpp:1152
+#: tools/observinglist.cpp:1146
 #, kde-format
 msgid "Observing wishlist truncated: %1 object not found"
 msgid_plural "Observing wishlist truncated: %1 objects not found"
 msgstr[0] ""
 
-#: tools/observinglist.cpp:1153
+#: tools/observinglist.cpp:1147
 #, kde-format
 msgid ""
 "%1 object could not be found in the database, and will be removed from the "
@@ -88334,64 +88197,70 @@ msgid_plural ""
 "Planner to add them back using internet search."
 msgstr[0] ""
 
-#: tools/observinglist.cpp:1166
+#: tools/observinglist.cpp:1160
 #, kde-format
 msgid "Cannot save an empty session list."
 msgstr ""
 
-#: tools/observinglist.cpp:1178
+#: tools/observinglist.cpp:1172
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Could not open file %1.  Try a different filename?"
 msgstr "ھۆججەت ‹%1› نى ئاچالمىدى."
 
-#: tools/observinglist.cpp:1179
+#: tools/observinglist.cpp:1173
 #, kde-format
 msgid "Try Different"
 msgstr ""
 
-#: tools/observinglist.cpp:1180
+#: tools/observinglist.cpp:1174
 #, kde-format
 msgid "Do Not Try"
 msgstr "سىنىما"
 
-#: tools/observinglist.cpp:1201
+#: tools/observinglist.cpp:1195
 #, kde-format
 msgid "Please wait while adding objects..."
 msgstr ""
 
-#: tools/observinglist.cpp:1343 tools/observinglist.cpp:1345
-#: tools/observinglist.cpp:1355
+#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
+#: tools/observinglist.cpp:1349
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1343
+#: tools/observinglist.cpp:1337
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1340
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1355
+#: tools/observinglist.cpp:1349
 #, kde-format
 msgid "Specify version: "
 msgstr ""
 
-#: tools/observinglist.cpp:1521
+#: tools/observinglist.cpp:1386
+#, fuzzy, kde-format
+#| msgid "Failed to load image"
+msgid "Failed to download DSS/SDSS image."
+msgstr "سۈرەتنى ئوقۇش مەغلۇپ بولدى"
+
+#: tools/observinglist.cpp:1515
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 
-#: tools/observinglist.cpp:1522
+#: tools/observinglist.cpp:1516
 #, kde-format
 msgid "Delete All Images"
 msgstr "ھەممە سۈرەتنى ئۆچۈر"
 
-#: tools/observinglist.cpp:1619
+#: tools/observinglist.cpp:1613
 #, fuzzy, kde-format
 #| msgid "Choose"
 msgid "Image Chooser"
@@ -88646,39 +88515,34 @@ msgctxt "Show the selected object in the telescope"
 msgid "Scope"
 msgstr "دائىرە"
 
-#: tools/obslistpopupmenu.cpp:51
-#, kde-format
-msgid "Eyepiece view"
-msgstr ""
-
-#: tools/obslistpopupmenu.cpp:66
+#: tools/obslistpopupmenu.cpp:64
 #, fuzzy, kde-format
 #| msgid "Show SEDS Image"
 msgid "Show SDSS image"
 msgstr "SEDS سۈرىتىنى كۆرسىتىش"
 
-#: tools/obslistpopupmenu.cpp:67
+#: tools/obslistpopupmenu.cpp:65
 #, fuzzy, kde-format
 #| msgid "Show SEDS Image"
 msgid "Show DSS image"
 msgstr "SEDS سۈرىتىنى كۆرسىتىش"
 
-#: tools/obslistpopupmenu.cpp:68
+#: tools/obslistpopupmenu.cpp:66
 #, kde-format
 msgid "Customized DSS download"
 msgstr ""
 
-#: tools/obslistpopupmenu.cpp:70
+#: tools/obslistpopupmenu.cpp:68
 #, kde-format
 msgid "Show images from web "
 msgstr ""
 
-#: tools/obslistpopupmenu.cpp:76
+#: tools/obslistpopupmenu.cpp:74
 #, kde-format
 msgid "Remove from WishList"
 msgstr ""
 
-#: tools/obslistpopupmenu.cpp:78
+#: tools/obslistpopupmenu.cpp:76
 #, kde-format
 msgid "Remove from Session Plan"
 msgstr ""
@@ -91484,6 +91348,79 @@ msgstr "تەگلىك رەڭگى:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Export to file"
+#~ msgid "Simulate Eyepiece View"
+#~ msgstr "ھۆججەتكە چىقار"
+
+#, fuzzy
+#~| msgid "Export to file"
+#~ msgctxt "@title:window"
+#~ msgid "Export eyepiece view"
+#~ msgstr "ھۆججەتكە چىقار"
+
+#, fuzzy
+#~| msgctxt "Country name"
+#~| msgid "Estonia"
+#~ msgid "Dobsonian View"
+#~ msgstr "ئېستونىيە"
+
+#, fuzzy
+#~| msgid "Save changes"
+#~ msgctxt "@title:window"
+#~ msgid "Save Image as"
+#~ msgstr "ئۆزگەرتكەننى ساقلا"
+
+#, fuzzy
+#~| msgid "Export to file"
+#~ msgctxt "@title:window"
+#~ msgid "Eyepiece Field View"
+#~ msgstr "ھۆججەتكە چىقار"
+
+#, fuzzy
+#~| msgid "Export"
+#~ msgctxt "Export image"
+#~ msgid "Export"
+#~ msgstr "ئېكسپورت قىل"
+
+#, fuzzy
+#~| msgid "Overview"
+#~ msgid "Invert view"
+#~ msgstr "قىسقىچە بايان"
+
+#, fuzzy
+#~| msgid "Update view"
+#~ msgid "Flip view"
+#~ msgstr "كۆرۈنۈشنى يېڭىلا"
+
+#, fuzzy
+#~| msgid "Show SEDS Image"
+#~ msgid "Fetch DSS image"
+#~ msgstr "SEDS سۈرىتىنى كۆرسىتىش"
+
+#, fuzzy
+#~| msgctxt "City in Philippines"
+#~| msgid "Manila"
+#~ msgid "Vanilla"
+#~ msgstr "مانىلا"
+
+#, fuzzy
+#~| msgid "Update view"
+#~ msgid "Flipped"
+#~ msgstr "كۆرۈنۈشنى يېڭىلا"
+
+#, fuzzy
+#~| msgctxt "Country name"
+#~| msgid "Estonia"
+#~ msgid "Dobsonian"
+#~ msgstr "ئېستونىيە"
+
+#, fuzzy
+#~| msgctxt "string from libindi, used in the config dialog"
+#~| msgid "reset"
+#~ msgid "Preset:"
+#~ msgstr "ئەسلىگە قايتۇر"
 
 #, fuzzy
 #~| msgid "Progress:"

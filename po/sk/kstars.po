@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-02 01:47+0000\n"
+"POT-Creation-Date: 2024-11-03 01:42+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -189,7 +189,7 @@ msgstr "Viditeľné satelity"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:241
 #: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1148 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1147 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -202,7 +202,7 @@ msgstr "Popisy satelitov"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:526
 #: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1151 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1150 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
@@ -402,7 +402,7 @@ msgctxt "@title:window"
 msgid "KStars image viewer: %1"
 msgstr "Prehliadač obrázkov KStars: %1"
 
-#: auxiliary/imageviewer.cpp:131 tools/eyepiecefield.cpp:78
+#: auxiliary/imageviewer.cpp:131
 #, kde-format
 msgid "Invert colors"
 msgstr "Invertovať farby"
@@ -479,14 +479,14 @@ msgid "Save Image"
 msgstr "Uložiť obrázok"
 
 #: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3961
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1356
+#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1355
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Súbor s názvom \"%1\" už existuje. Chcete ho prepísať?"
 
 #: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3964
-#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1357
+#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1356
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -589,8 +589,8 @@ msgstr "Zrušiť"
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1204 ekos/manager.cpp:1219
 #: ekos/manager.cpp:1249 ekos/scheduler/scheduler.cpp:1574
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
-#: indi/indimount.cpp:32 kstarsactions.cpp:517 kstarsactions.cpp:525
-#: kstarsactions.cpp:535 skycomponents/imageoverlaycomponent.cpp:529
+#: indi/indimount.cpp:32 kstarsactions.cpp:516 kstarsactions.cpp:524
+#: kstarsactions.cpp:534 skycomponents/imageoverlaycomponent.cpp:529
 #, kde-format
 msgid "Error"
 msgstr "Chyba"
@@ -1240,7 +1240,7 @@ msgstr "Európa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1374
+#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1370
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -1461,7 +1461,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
 #: auxiliary/xplanetimageviewer.cpp:345 dialogs/newfov.ui:1095
-#: indi/collimationOptions.ui:462 tools/eyepiecefield.cpp:99
+#: indi/collimationOptions.ui:462
 #, kde-format
 msgid "Rotation:"
 msgstr "Otočenie: "
@@ -2910,8 +2910,8 @@ msgstr "Text"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2251 tools/observinglist.cpp:96
-#: tools/observinglist.cpp:100 tools/optionstreeview.ui:33
+#: ekos/capture/camera.ui:2251 tools/observinglist.cpp:95
+#: tools/observinglist.cpp:99 tools/optionstreeview.ui:33
 #, kde-format
 msgid "Type"
 msgstr "Typ"
@@ -3303,7 +3303,7 @@ msgstr "Mag"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
+#: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
 msgstr "Meno"
@@ -3496,7 +3496,7 @@ msgid "Clone..."
 msgstr "Malone"
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1166
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1165
 #, kde-format
 msgid "Colors"
 msgstr "Farby"
@@ -3734,7 +3734,7 @@ msgid "%1 y"
 msgstr "Y"
 
 #: dialogs/detaildialog.cpp:545 kstarslite/dialogs/detaildialoglite.cpp:417
-#: printing/detailstable.cpp:297 tools/observinglist.cpp:630
+#: printing/detailstable.cpp:297 tools/observinglist.cpp:629
 #, kde-format
 msgctxt ""
 "%1 type of sky object (planet, asteroid etc), %2 name of a constellation"
@@ -3776,7 +3776,7 @@ msgstr "Cirkumpolárne"
 #: dialogs/detaildialog.cpp:664 dialogs/detaildialog.cpp:665
 #: kstarslite/dialogs/detaildialoglite.cpp:528
 #: kstarslite/dialogs/detaildialoglite.cpp:529 printing/detailstable.cpp:628
-#: printing/detailstable.cpp:629 tools/observinglist.cpp:192
+#: printing/detailstable.cpp:629 tools/observinglist.cpp:191
 #, kde-format
 msgid "Never rises"
 msgstr "Nikdy nevychádza"
@@ -3802,7 +3802,7 @@ msgstr "Odkazy"
 msgid "Could not add the link."
 msgstr "Nepodarilo sa stiahnuť súbor."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1193
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1192
 #, kde-format
 msgid "Advanced"
 msgstr "Pokročilé"
@@ -3816,8 +3816,8 @@ msgstr "Záznam"
 
 #: dialogs/detaildialog.cpp:788 kstarsdata.cpp:1712
 #: kstarslite/dialogs/detaildialoglite.cpp:557
-#: kstarslite/qml/dialogs/DetailsDialog.qml:462 tools/observinglist.cpp:564
-#: tools/observinglist.cpp:871
+#: kstarslite/qml/dialogs/DetailsDialog.qml:462 tools/observinglist.cpp:563
+#: tools/observinglist.cpp:865
 #, kde-format
 msgid "Record here observation logs and/or data on %1."
 msgstr "Sem zaznamenávajte údaje a záznamy z pozorovaní pre %1."
@@ -3852,15 +3852,15 @@ msgstr "Potvrdenie odstránenie"
 msgid "Could not delete the entry."
 msgstr "Nepodarilo sa odstrániť súbor: %1"
 
-#: dialogs/detaildialog.cpp:1084 tools/observinglist.cpp:877
+#: dialogs/detaildialog.cpp:1084 tools/observinglist.cpp:871
 #, fuzzy, kde-format
 #| msgid "Could not delete the file: %1"
 msgid "Could not update the user log."
 msgstr "Nepodarilo sa odstrániť súbor: %1"
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:321 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
-#: tools/observinglist.cpp:690 tools/observinglist.cpp:712
+#: kstarsactions.cpp:320 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
+#: tools/observinglist.cpp:689 tools/observinglist.cpp:711
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, fuzzy, kde-format
 #| msgid "No object named %1 found."
@@ -3868,7 +3868,7 @@ msgid "No connected mounts found."
 msgstr "Nenájdený žiadny objekt %1."
 
 #: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:452
-#: kstarsactions.cpp:306 tools/observinglist.cpp:701
+#: kstarsactions.cpp:305 tools/observinglist.cpp:700
 #: tools/whatsinteresting/wiview.cpp:354
 #, fuzzy, kde-format
 #| msgid "Telescope %1 is offline. Please connect and retry again."
@@ -4468,7 +4468,7 @@ msgstr "Pozícia legendy:"
 msgid "Any"
 msgstr "Ľubovoľné"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1145 kstarsinit.cpp:491
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1144 kstarsinit.cpp:491
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:100
@@ -6875,14 +6875,14 @@ msgstr "Nemôžem zapisovať do súboru %1"
 #: ekos/scheduler/schedulerprocess.cpp:3321
 #: ekos/scheduler/schedulerprocess.cpp:4649
 #: ekos/scheduler/schedulerprocess.cpp:4669 indi/drivermanager.cpp:1549
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1405 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1404 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
 #: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
 #: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:69
-#: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:913
-#: tools/observinglist.cpp:1179 tools/scriptbuilder.cpp:820
+#: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:907
+#: tools/observinglist.cpp:1173 tools/scriptbuilder.cpp:820
 #: tools/scriptbuilder.cpp:900 tools/scriptbuilder.cpp:983
 #, kde-format, kde-kuit-format
 msgid "Could Not Open File"
@@ -8167,7 +8167,7 @@ msgstr ""
 "Zobraziť prijaté FITS obrázky do obdĺžnika riešiteľa FOV na mape oblohy"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:243 tools/eyepiecefield.cpp:77
+#: ekos/align/opsalign.ui:243
 #, kde-format
 msgid "Overlay"
 msgstr "Prekryť"
@@ -12894,7 +12894,7 @@ msgid "Log INDI devices activity"
 msgstr "Záznam aktivity zariadení INDI"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1177
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1176
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -12908,7 +12908,7 @@ msgstr "Záznam aktivity spracovania FITS"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:297
-#: kstarsactions.cpp:1171
+#: kstarsactions.cpp:1170
 #, kde-format
 msgid "FITS"
 msgstr "FITS"
@@ -14373,9 +14373,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1933
-#: kstarsinit.cpp:857 kstarsinit.cpp:858 tools/exporteyepieceview.cpp:57
-#: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
+#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1932
+#: kstarsinit.cpp:857 kstarsinit.cpp:858 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
 msgstr "Žiadny"
@@ -16396,7 +16395,7 @@ msgstr "Ukončiť nahrávanie"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:476 ekos/focus/focusmodule.cpp:391
-#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
+#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:642
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
@@ -16428,7 +16427,7 @@ msgstr "Celkovo"
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1181 kstarsinit.cpp:473
+#: kstarsactions.cpp:1180 kstarsinit.cpp:473
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -25419,7 +25418,7 @@ msgstr "Zapnuté"
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
 #: ekos/mount/mount.ui:747 ekos/observatory/observatory.cpp:276
 #: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
-#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:654
+#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:651
 #, kde-format
 msgid "Park"
 msgstr "Park"
@@ -25427,7 +25426,7 @@ msgstr "Park"
 #. i18n: ectx: property (text), widget (QPushButton, unparkB)
 #. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
 #: ekos/mount/mount.ui:777 ekos/observatory/observatory.ui:498
-#: kspopupmenu.cpp:659
+#: kspopupmenu.cpp:656
 #, kde-format
 msgid "UnPark"
 msgstr "Odparkovať"
@@ -29289,7 +29288,7 @@ msgid "UnCap"
 msgstr "Odkryť"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:49 tools/altvstime.cpp:97
-#: tools/observinglist.cpp:124
+#: tools/observinglist.cpp:123
 #, kde-format
 msgid "Local Time"
 msgstr "Lokálny čas"
@@ -33192,7 +33191,7 @@ msgstr "Požadovaná pozícia je pod horizontom. Chcete sa tam presunúť aj tak
 msgid "Telescope Motion"
 msgstr "Pohyb ďalekohľadu"
 
-#: indi/indiproperty.cpp:223 tools/observinglist.cpp:101
+#: indi/indiproperty.cpp:223 tools/observinglist.cpp:100
 #, kde-format
 msgid "Time"
 msgstr "Čas"
@@ -33989,13 +33988,13 @@ msgstr "Kulminácia: %1"
 msgid "Empty sky"
 msgstr "Prázdna obloha"
 
-#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:589
+#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:586
 #, kde-format
 msgctxt "Sloan Digital Sky Survey"
 msgid "Show SDSS Image"
 msgstr "Ukázať obrázok SDSS"
 
-#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:591
+#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:588
 #, kde-format
 msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
@@ -34111,72 +34110,66 @@ msgstr "Odstrániť dráhu"
 msgid "Add Trail"
 msgstr "Pridať dráhu"
 
-#: kspopupmenu.cpp:432
-#, fuzzy, kde-format
-#| msgid "Simulate eyepiece view"
-msgid "Simulate Eyepiece View"
-msgstr "Simulovať pohľad okulára"
-
-#: kspopupmenu.cpp:441
+#: kspopupmenu.cpp:438
 #, fuzzy, kde-format
 #| msgid "Minor Planets"
 msgid "View in XPlanet"
 msgstr "Malé planéty"
 
-#: kspopupmenu.cpp:446
+#: kspopupmenu.cpp:443
 #, fuzzy, kde-format
 #| msgid "What's Interesting..."
 msgid "View in What's Interesting"
 msgstr "Čo je zaujímavé..."
 
-#: kspopupmenu.cpp:459
+#: kspopupmenu.cpp:456
 #, fuzzy, kde-format
 #| msgid "Add flag..."
 msgid "Add Flag..."
 msgstr "Pridať príznak..."
 
-#: kspopupmenu.cpp:466
+#: kspopupmenu.cpp:463
 #, fuzzy, kde-format
 #| msgid "Edit flag"
 msgid "Edit Flag"
 msgstr "Upraviť príznak"
 
-#: kspopupmenu.cpp:468
+#: kspopupmenu.cpp:465
 #, fuzzy, kde-format
 #| msgid "Delete flag"
 msgid "Delete Flag"
 msgstr "Vymazať príznak"
 
-#: kspopupmenu.cpp:477
+#: kspopupmenu.cpp:474
 #, fuzzy, kde-format
 #| msgid "Edit flag..."
 msgid "Edit Flag..."
 msgstr "Upraviť príznak..."
 
-#: kspopupmenu.cpp:479
+#: kspopupmenu.cpp:476
 #, fuzzy, kde-format
 #| msgid "Delete flag..."
 msgid "Delete Flag..."
 msgstr "Vymazať príznak"
 
-#: kspopupmenu.cpp:538
+#: kspopupmenu.cpp:535
 #, kde-format
 msgid "Image Resources"
 msgstr "Obrázkové zdroje"
 
-#: kspopupmenu.cpp:539
+#: kspopupmenu.cpp:536
 #, fuzzy, kde-format
 #| msgid "Links"
 msgid "Web Links"
 msgstr "Odkazy"
 
-#: kspopupmenu.cpp:581
+#: kspopupmenu.cpp:578
 #, fuzzy, kde-format
 #| msgid "Remove Catalog..."
 msgid "Remove From Local Catalog"
 msgstr "Vzdialený katalóg..."
 
-#: kspopupmenu.cpp:624
+#: kspopupmenu.cpp:621
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Goto"
@@ -34184,25 +34177,25 @@ msgctxt "Move mount to target"
 msgid "Goto"
 msgstr "Prejsť na"
 
-#: kspopupmenu.cpp:633
+#: kspopupmenu.cpp:630
 #, fuzzy, kde-format
 #| msgid "Sync"
 msgctxt "Synchronize mount to target"
 msgid "Sync"
 msgstr "Synchronizovať"
 
-#: kspopupmenu.cpp:674
+#: kspopupmenu.cpp:671
 #, fuzzy, kde-format
 #| msgid "Search satellites"
 msgid "Track satellite"
 msgstr "Hľadať satelity"
 
-#: kspopupmenu.cpp:688
+#: kspopupmenu.cpp:685
 #, kde-format
 msgid "Goto && Set As Parking Position"
 msgstr ""
 
-#: kspopupmenu.cpp:695
+#: kspopupmenu.cpp:692
 #, fuzzy, kde-format
 #| msgid "Guide Telescope"
 msgid "Find Telescope"
@@ -34215,18 +34208,18 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:315 kstarsactions.cpp:1619 skymap.cpp:430
+#: kstars.cpp:315 kstarsactions.cpp:1618 skymap.cpp:430
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Zastaviť &sledovanie"
 
-#: kstars.cpp:323 kstarsactions.cpp:1786 kstarsinit.cpp:270
+#: kstars.cpp:323 kstarsactions.cpp:1785 kstarsinit.cpp:270
 #, fuzzy, kde-format
 #| msgid "Switch to star globe view (Equatorial &Coordinates)"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Prepnúť na pohľad hviezdneho glóbusu (Rovníkové &súradnice)"
 
-#: kstars.cpp:324 kstarsactions.cpp:1767 kstarsinit.cpp:271
+#: kstars.cpp:324 kstarsactions.cpp:1766 kstarsinit.cpp:271
 #, fuzzy, kde-format
 #| msgid "Switch to horizonal view (Horizontal &Coordinates)"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -69934,19 +69927,19 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "Ďalšie"
 
-#: kstarsactions.cpp:218
+#: kstarsactions.cpp:217
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr "Refrakčné efekty zakázané"
 
-#: kstarsactions.cpp:219
+#: kstarsactions.cpp:218
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
 "disabled."
 msgstr "Keď je obzor vypnutý, refrakčné efekty sú dočasne zakázané."
 
-#: kstarsactions.cpp:472
+#: kstarsactions.cpp:471
 #, kde-format
 msgid ""
 "Due to a known issue in the kde frameworks, updating already downloaded "
@@ -69954,33 +69947,33 @@ msgid ""
 "update."
 msgstr ""
 
-#: kstarsactions.cpp:518
+#: kstarsactions.cpp:517
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr ""
 
-#: kstarsactions.cpp:526
+#: kstarsactions.cpp:525
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr ""
 
-#: kstarsactions.cpp:536
+#: kstarsactions.cpp:535
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr ""
 
-#: kstarsactions.cpp:593
+#: kstarsactions.cpp:592
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr "Nastavenie svetelného znečistenia"
 
-#: kstarsactions.cpp:595
+#: kstarsactions.cpp:594
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr "Nastavenie zariadenia - typ a parametre zariadenia"
 
-#: kstarsactions.cpp:704 kstarsactions.cpp:741 kstarsactions.cpp:784
-#: kstarsactions.cpp:823
+#: kstarsactions.cpp:703 kstarsactions.cpp:740 kstarsactions.cpp:783
+#: kstarsactions.cpp:822
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
@@ -69989,30 +69982,30 @@ msgstr ""
 "Nemožno nájsť server INDI. Prosím, uistite sa, že balík, ktorý poskytuje "
 "program 'Indiserver', je nainštalovaný."
 
-#: kstarsactions.cpp:758
+#: kstarsactions.cpp:757
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
 "cannot be used with Ekos. Do you still want to open INDI device manager?"
 msgstr ""
 
-#: kstarsactions.cpp:761
+#: kstarsactions.cpp:760
 #, fuzzy, kde-format
 #| msgid "Device Manager"
 msgid "INDI Device Manager"
 msgstr "Správca zariadení"
 
-#: kstarsactions.cpp:1142
+#: kstarsactions.cpp:1141
 #, kde-format
 msgid "Catalogs"
 msgstr "Katalógy"
 
-#: kstarsactions.cpp:1154
+#: kstarsactions.cpp:1153
 #, kde-format
 msgid "Guides"
 msgstr "Vodiace čiary"
 
-#: kstarsactions.cpp:1157
+#: kstarsactions.cpp:1156
 #, fuzzy, kde-format
 #| msgctxt "City in Spain"
 #| msgid "Terrassa"
@@ -70020,74 +70013,74 @@ msgid "Terrain"
 msgstr "Terrassa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1160 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1159 options/opsimageoverlay.ui:202
 #, fuzzy, kde-format
 #| msgid "Overlay"
 msgid "Image Overlays"
 msgstr "Prekryť"
 
-#: kstarsactions.cpp:1190
+#: kstarsactions.cpp:1189
 #, kde-format
 msgid "Xplanet"
 msgstr "planéta X"
 
-#: kstarsactions.cpp:1196
+#: kstarsactions.cpp:1195
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Revelstoke"
 msgid "Developer"
 msgstr "Revelstoke"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2055 kstarsinit.cpp:280
+#: kstarsactions.cpp:1213 kstarsactions.cpp:2026 kstarsinit.cpp:280
 #, fuzzy, kde-format
 #| msgctxt "City in Spain"
 #| msgid "Terrassa"
 msgid "Hide Terrain"
 msgstr "Terrassa"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2055 kstarsinit.cpp:281
+#: kstarsactions.cpp:1213 kstarsactions.cpp:2026 kstarsinit.cpp:281
 #, fuzzy, kde-format
 #| msgid "Show details..."
 msgid "Show Terrain"
 msgstr "Zobraziť detaily"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2065 kstarsinit.cpp:285
+#: kstarsactions.cpp:1217 kstarsactions.cpp:2036 kstarsinit.cpp:285
 #, fuzzy, kde-format
 #| msgid "Polar Alignment"
 msgid "Hide Image Overlays"
 msgstr "Polárne vyrovnanie"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2065 kstarsinit.cpp:286
+#: kstarsactions.cpp:1217 kstarsactions.cpp:2036 kstarsinit.cpp:286
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Image Overlays"
 msgstr "Zobraziť satelity"
 
-#: kstarsactions.cpp:1342
+#: kstarsactions.cpp:1341
 #, fuzzy, kde-format
 #| msgid "Export Image"
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Exportovať obrázok"
 
-#: kstarsactions.cpp:1388 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1387 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "Skripty KStars (*.kstars)"
 
-#: kstarsactions.cpp:1396
+#: kstarsactions.cpp:1395
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "Spúšťanie vzdialených skriptov nie je podporované."
 
-#: kstarsactions.cpp:1404 oal/execute.cpp:319 tools/observinglist.cpp:912
+#: kstarsactions.cpp:1403 oal/execute.cpp:319 tools/observinglist.cpp:906
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Nepodarilo sa otvoriť súbor %1"
 
-#: kstarsactions.cpp:1429
+#: kstarsactions.cpp:1428
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -70099,27 +70092,27 @@ msgstr ""
 "pomocou zostavovateľa skriptov KStars. Skript nemusí fungovať správne a "
 "naviac môže obsahovať škodlivý kód. Chcete ho napriek tomu spustiť?"
 
-#: kstarsactions.cpp:1434
+#: kstarsactions.cpp:1433
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Kontrola skriptu zlyhala"
 
-#: kstarsactions.cpp:1434
+#: kstarsactions.cpp:1433
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Napriektomu spustiť"
 
-#: kstarsactions.cpp:1441
+#: kstarsactions.cpp:1440
 #, kde-format
 msgid "Running script: %1"
 msgstr "Bežiaci script: %1"
 
-#: kstarsactions.cpp:1459
+#: kstarsactions.cpp:1458
 #, kde-format
 msgid "Script finished."
 msgstr "Skript skončil."
 
-#: kstarsactions.cpp:1471
+#: kstarsactions.cpp:1470
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -70130,56 +70123,56 @@ msgstr ""
 "ktorá používa biele pozadie. Chcete tlač dočasne prepnúť do tejto farebnej "
 "schémy?"
 
-#: kstarsactions.cpp:1476
+#: kstarsactions.cpp:1475
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Prepnúť na graf farieb hviezd?"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1476
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Prepnúť farebnú schému"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1476
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Neprepínať"
 
-#: kstarsactions.cpp:1596 kstarsinit.cpp:243
+#: kstarsactions.cpp:1595 kstarsinit.cpp:243
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "Zaistiť &sledovanie"
 
-#: kstarsactions.cpp:1710
+#: kstarsactions.cpp:1709
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "Približné FOV: %1 stupňov"
 
-#: kstarsactions.cpp:1715
+#: kstarsactions.cpp:1714
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "Približné FOV: %1 uhlových minút"
 
-#: kstarsactions.cpp:1721
+#: kstarsactions.cpp:1720
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "Približné FOV:  %1 uhlových sekúnd"
 
-#: kstarsactions.cpp:1738
+#: kstarsactions.cpp:1737
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Zadajte požadovaný zorný uhol"
 
-#: kstarsactions.cpp:1739
+#: kstarsactions.cpp:1738
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Zadajte zorný uhol v stupňoch"
 
-#: kstarsactions.cpp:1770 kstarsinit.cpp:735
+#: kstarsactions.cpp:1769 kstarsinit.cpp:735
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "North"
@@ -70187,7 +70180,7 @@ msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Sever"
 
-#: kstarsactions.cpp:1773 kstarsinit.cpp:744
+#: kstarsactions.cpp:1772 kstarsinit.cpp:744
 #, fuzzy, kde-format
 #| msgctxt "City in Kansas USA"
 #| msgid "Norton"
@@ -70195,34 +70188,19 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Norton"
 
-#: kstarsactions.cpp:1789 kstarsinit.cpp:735
+#: kstarsactions.cpp:1788 kstarsinit.cpp:735
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "&Zenit"
 
-#: kstarsactions.cpp:1792 kstarsinit.cpp:744
+#: kstarsactions.cpp:1791 kstarsinit.cpp:744
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
 msgstr "&Zenit"
-
-#: kstarsactions.cpp:2013
-#, kde-format
-msgid "Attempt to determine from image"
-msgstr "Pokúsiť sa vypočítať z obrázku"
-
-#: kstarsactions.cpp:2015
-#, kde-format
-msgid "Eyepiece View: Choose a field-of-view"
-msgstr "Pohľad okulára: Zvoliť zorné pole"
-
-#: kstarsactions.cpp:2016
-#, kde-format
-msgid "FOV to render eyepiece view for:"
-msgstr "FOR pre vykreslenie pohľadu okuláru:"
 
 #: kstarsdata.cpp:47
 #, fuzzy, kde-format
@@ -70724,7 +70702,7 @@ msgid "Observation Planner"
 msgstr "Plánovač pozorovania"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:455 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
+#: kstarsinit.cpp:455 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "Výška vs. čas"
@@ -76406,7 +76384,7 @@ msgid "Id:"
 msgstr "Id:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Type)
-#: oal/equipmentwriter.ui:84 tools/eyepiecefield.cpp:105
+#: oal/equipmentwriter.ui:84
 #, kde-format
 msgid "Refractor"
 msgstr "Refraktor"
@@ -80304,42 +80282,42 @@ msgstr ""
 "Obrázok Sloan Digital Sky Survey poskytnutý od Astrophysical Research "
 "Consortium [voľný pre nekomerčné použitie]."
 
-#: skymap.cpp:676
+#: skymap.cpp:672
 #, kde-format
 msgid "Angular distance: %1"
 msgstr "Uhlová vzdialenosť: %1"
 
-#: skymap.cpp:690
+#: skymap.cpp:686
 #, kde-format
 msgid "; Physical distance: %1 pc"
 msgstr "; Fyzická vzdialenosť: %1 pc"
 
-#: skymap.cpp:727
+#: skymap.cpp:723
 #, kde-format
 msgid "Star Hopper: Choose a field-of-view"
 msgstr "Hviezdny skokan: Zvoliť zorné pole"
 
-#: skymap.cpp:728
+#: skymap.cpp:724
 #, kde-format
 msgid "FOV to use for star hopping:"
 msgstr "FOV použité pre hviezdne preskakovanie:"
 
-#: skymap.cpp:735
+#: skymap.cpp:731
 #, kde-format
 msgid "Star Hopper: Enter field-of-view to use"
 msgstr "Hviezdny skokan: Zadať zorné pole pre použitie"
 
-#: skymap.cpp:736
+#: skymap.cpp:732
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr "FOV použité pre hviezdne preskakovanie (v uhlových minútach):"
 
-#: skymap.cpp:903
+#: skymap.cpp:899
 #, kde-format
 msgid "No object selected."
 msgstr "Nevybraný žiadny objekt."
 
-#: skymap.cpp:903
+#: skymap.cpp:899
 #, kde-format
 msgid "Object Details"
 msgstr "Detaily objektu"
@@ -82995,113 +82973,6 @@ msgstr "Jesenná rovnodennosť:"
 msgid "Winter solstice:"
 msgstr "Zimný slnovrat:"
 
-#: tools/exporteyepieceview.cpp:40
-#, fuzzy, kde-format
-#| msgid "Export eyepiece view"
-msgctxt "@title:window"
-msgid "Export eyepiece view"
-msgstr "Exportovať pohľad okulára"
-
-#: tools/exporteyepieceview.cpp:55
-#, kde-format
-msgid "Overlay orientation vs. time ticks: "
-msgstr "Orientácia prekrytia vs. časové tiky: "
-
-#: tools/exporteyepieceview.cpp:58
-#, kde-format
-msgid "Towards Zenith"
-msgstr "K zenitu"
-
-#: tools/exporteyepieceview.cpp:59
-#, kde-format
-msgid "Dobsonian View"
-msgstr "Dobsonov pohľad"
-
-#: tools/exporteyepieceview.cpp:90
-#, kde-format
-msgid ""
-"Note: This overlay makes sense only if the view was generated in alt/az mode "
-"with a preset such as Refractor or Vanilla"
-msgstr ""
-"Poznámka: Toto prekrytie má zmysel iba vtedy, ak pohľad bol generovaný v "
-"režime výška/azimut s predvoľbou ako Refraktor alebo Vanilla"
-
-#: tools/exporteyepieceview.cpp:93
-#, kde-format
-msgid ""
-"Note: This overlay  makes sense only if the view was generated in alt/az "
-"mode with a preset such as Dobsonian"
-msgstr ""
-"Poznámka: Toto prekrytie má zmysel iba vtedy, ak pohľad bol generovaný v "
-"režime výška/azimut s predvoľbou ako Dobsonova"
-
-#: tools/exporteyepieceview.cpp:174
-#, fuzzy, kde-format
-#| msgid "Save image as"
-msgctxt "@title:window"
-msgid "Save Image as"
-msgstr "Uložiť obrázok ako"
-
-#: tools/exporteyepieceview.cpp:175
-#, kde-format
-msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
-msgstr "Súbory obrázkov (*.png *.jpg *.xpm *.bmp *.gif)"
-
-#: tools/eyepiecefield.cpp:37
-#, fuzzy, kde-format
-#| msgid "Eyepiece Field View"
-msgctxt "@title:window"
-msgid "Eyepiece Field View"
-msgstr "Pohľad poľa okulára"
-
-#: tools/eyepiecefield.cpp:51
-#, kde-format
-msgctxt "Export image"
-msgid "Export"
-msgstr "Exportovať"
-
-#: tools/eyepiecefield.cpp:75
-#, kde-format
-msgid "Invert view"
-msgstr "Invertovať pohľad"
-
-#: tools/eyepiecefield.cpp:76
-#, kde-format
-msgid "Flip view"
-msgstr "Prevrátiť pohľad"
-
-#: tools/eyepiecefield.cpp:79
-#, kde-format
-msgid "Fetch DSS image"
-msgstr "Stiahnuť obrázok DSS"
-
-#: tools/eyepiecefield.cpp:103
-#, kde-format
-msgid "Vanilla"
-msgstr "Vanilka"
-
-#: tools/eyepiecefield.cpp:104
-#, kde-format
-msgid "Flipped"
-msgstr "Prevrátené"
-
-#: tools/eyepiecefield.cpp:106
-#, kde-format
-msgid "Dobsonian"
-msgstr "Dobsonov"
-
-#: tools/eyepiecefield.cpp:108
-#, fuzzy, kde-format
-#| msgid "Preset: "
-msgid "Preset:"
-msgstr "Predvoľba:"
-
-#: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1392
-#, fuzzy, kde-format
-#| msgid "Failed to download DSS/SDSS image!"
-msgid "Failed to download DSS/SDSS image."
-msgstr "Zlyhalo stiahnutie DSS/SDSS obrázku!"
-
 #: tools/flagmanager.cpp:51
 #, fuzzy, kde-format
 #| msgid "Flag manager"
@@ -83206,14 +83077,14 @@ msgid "Region"
 msgstr "Región"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:102 widgets/infoboxwidget.cpp:120
+#: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "Az"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
+#: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
@@ -84359,60 +84230,60 @@ msgstr ""
 msgid "Resolved %1 successfully."
 msgstr "Vyriešené %1 úspešne!"
 
-#: tools/observinglist.cpp:80
+#: tools/observinglist.cpp:79
 #, fuzzy, kde-format
 #| msgid "Observation Planner"
 msgctxt "@title:window"
 msgid "Observation Planner"
 msgstr "Plánovač pozorovania"
 
-#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
+#: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, kde-format
 msgid "Alternate Name"
 msgstr "Alternatívny názov"
 
-#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
+#: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, kde-format
 msgctxt "Right Ascension"
 msgid "RA (J2000)"
 msgstr "RA (J2000)"
 
-#: tools/observinglist.cpp:96 tools/observinglist.cpp:100
+#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #, kde-format
 msgctxt "Declination"
 msgid "Dec (J2000)"
 msgstr "Dec (J2000)"
 
-#: tools/observinglist.cpp:96 tools/observinglist.cpp:100
+#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #, kde-format
 msgctxt "Magnitude"
 msgid "Mag"
 msgstr "Mag"
 
-#: tools/observinglist.cpp:97
+#: tools/observinglist.cpp:96
 #, kde-format
 msgid "Current Altitude"
 msgstr "Aktuálna výška"
 
-#: tools/observinglist.cpp:101
+#: tools/observinglist.cpp:100
 #, kde-format
 msgctxt "Constellation"
 msgid "Constell."
 msgstr "Súhvezdie"
 
-#: tools/observinglist.cpp:198
+#: tools/observinglist.cpp:197
 #, kde-format
 msgctxt "Short text to describe that object has not risen yet"
 msgid "Not risen"
 msgstr "Nevyšlo"
 
-#: tools/observinglist.cpp:204
+#: tools/observinglist.cpp:203
 #, kde-format
 msgctxt "Object is in the Dobsonian hole"
 msgid "In hole"
 msgstr "V diere"
 
-#: tools/observinglist.cpp:265
+#: tools/observinglist.cpp:264
 #, fuzzy, kde-format
 #| msgid "Unnamed stars are not supported in the observing lists"
 msgid ""
@@ -84420,27 +84291,27 @@ msgid ""
 "observing lists"
 msgstr "Nepomenované hviezdy nie sú podporované v zoznamoch pozorovania"
 
-#: tools/observinglist.cpp:277
+#: tools/observinglist.cpp:276
 #, kde-format
 msgid "%1 is already in your wishlist."
 msgstr "%1 už je na vašom zozname želaní."
 
-#: tools/observinglist.cpp:292
+#: tools/observinglist.cpp:291
 #, kde-format
 msgid "%1 is already in the session plan."
 msgstr "%1 je už v pláne sedenia."
 
-#: tools/observinglist.cpp:355
+#: tools/observinglist.cpp:354
 #, kde-format
 msgid "Added %1 to observing list."
 msgstr "%1 pridané do zoznamu pozorovaní."
 
-#: tools/observinglist.cpp:393
+#: tools/observinglist.cpp:392
 #, kde-format
 msgid "Added %1 to session list."
 msgstr "%1 pridané na zoznam sedenia."
 
-#: tools/observinglist.cpp:600
+#: tools/observinglist.cpp:599
 #, kde-format
 msgid ""
 "DSS Image metadata: \n"
@@ -84453,17 +84324,17 @@ msgstr ""
 " Fotometrická skupina: %3 \n"
 " Verzia: %4"
 
-#: tools/observinglist.cpp:604
+#: tools/observinglist.cpp:603
 #, kde-format
 msgid "No image info available."
 msgstr "Nedostupné info o obrázku."
 
-#: tools/observinglist.cpp:612
+#: tools/observinglist.cpp:611
 #, kde-format
 msgid "No image available. Click on the placeholder image to download one."
 msgstr "Obrázok nedostupný. Kliknite na zástupný obrázok na stiahnutie."
 
-#: tools/observinglist.cpp:626
+#: tools/observinglist.cpp:625
 #, kde-format
 msgctxt ""
 "%1 magnitude of object, %2 type of sky object (planet, asteroid etc), %3 "
@@ -84471,19 +84342,19 @@ msgctxt ""
 msgid "%1 mag %2 in %3"
 msgstr "%1 mag %2 v %3"
 
-#: tools/observinglist.cpp:778
+#: tools/observinglist.cpp:777
 #, fuzzy, kde-format
 #| msgid "Save the observing session"
 msgid "Batch add to observing session"
 msgstr "Uložiť sedenie pozorovania"
 
-#: tools/observinglist.cpp:778
+#: tools/observinglist.cpp:777
 #, fuzzy, kde-format
 #| msgid "Add to Observing WishList"
 msgid "Batch add to observing wishlist"
 msgstr "Pridať do zoznamu želaní pozorovania"
 
-#: tools/observinglist.cpp:779
+#: tools/observinglist.cpp:778
 #, kde-format
 msgid ""
 "Specify a list of objects with one object on each line to add. The names "
@@ -84492,7 +84363,7 @@ msgid ""
 "will be added to the database."
 msgstr ""
 
-#: tools/observinglist.cpp:811
+#: tools/observinglist.cpp:810
 #, fuzzy, kde-format
 #| msgid "Object named %1 not found"
 msgid "Batch add: %1 object not found"
@@ -84501,7 +84372,7 @@ msgstr[0] "Objekt s názvom %1 nenájdený"
 msgstr[1] "Objekt s názvom %1 nenájdený"
 msgstr[2] "Objekt s názvom %1 nenájdený"
 
-#: tools/observinglist.cpp:812
+#: tools/observinglist.cpp:811
 #, kde-format
 msgid ""
 "%1 object could not be found in the database or resolved, and hence could "
@@ -84513,69 +84384,69 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: tools/observinglist.cpp:886
+#: tools/observinglist.cpp:880
 #, fuzzy, kde-format
 #| msgid "Open Observing List"
 msgctxt "@title:window"
 msgid "Open Observing List"
 msgstr "Otvoriť zoznam pozorovaní"
 
-#: tools/observinglist.cpp:941
+#: tools/observinglist.cpp:935
 #, kde-format
 msgid ""
 "The specified file is invalid. We expect an XML file based on the "
 "OpenAstronomyLog schema."
 msgstr ""
 
-#: tools/observinglist.cpp:957
+#: tools/observinglist.cpp:951
 #, kde-format
 msgid "The specified file is invalid"
 msgstr "Špecifikovaný súbor je neplatný"
 
-#: tools/observinglist.cpp:967
+#: tools/observinglist.cpp:961
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to clear all objects?"
 msgstr "Naozaj chcete odstrániť klienta %1?"
 
-#: tools/observinglist.cpp:968
+#: tools/observinglist.cpp:962
 #, fuzzy, kde-format
 #| msgctxt "City in Spain"
 #| msgid "Calar Alto"
 msgid "Clear all?"
 msgstr "Vyčistiť všetko"
 
-#: tools/observinglist.cpp:1001
+#: tools/observinglist.cpp:995
 #, kde-format
 msgid "Do you want to save the current session?"
 msgstr "Chcete uložiť súčasné sedenie?"
 
-#: tools/observinglist.cpp:1002
+#: tools/observinglist.cpp:996
 #, kde-format
 msgid "Save Current session?"
 msgstr "Uložiť aktuálne sedenie?"
 
-#: tools/observinglist.cpp:1014
+#: tools/observinglist.cpp:1008
 #, fuzzy, kde-format
 #| msgid "Save Observing List"
 msgctxt "@title:window"
 msgid "Save Observing List"
 msgstr "Uložiť zoznam pozorovaní"
 
-#: tools/observinglist.cpp:1063
+#: tools/observinglist.cpp:1057
 #, kde-format
 msgid ""
 "Could not open the observing wishlist file %1 for writing. Your wishlist "
 "changes will not be saved. Check if the location is writable and not full."
 msgstr ""
 
-#: tools/observinglist.cpp:1064
+#: tools/observinglist.cpp:1058
 #, fuzzy, kde-format
 #| msgid "Add to Observing WishList"
 msgid "Could not save observing wishlist"
 msgstr "Pridať do zoznamu želaní pozorovania"
 
-#: tools/observinglist.cpp:1085 tools/observinglist.cpp:1200
+#: tools/observinglist.cpp:1079 tools/observinglist.cpp:1194
 #: tools/obslistwizard.cpp:34
 #, fuzzy, kde-format
 #| msgid "Observing List Wizard"
@@ -84583,18 +84454,18 @@ msgctxt "@title:window"
 msgid "Observing List Wizard"
 msgstr "Sprievodca zoznamom pozorovaní"
 
-#: tools/observinglist.cpp:1086
+#: tools/observinglist.cpp:1080
 #, fuzzy, kde-format
 #| msgid "Please wait while re-indexing stars..."
 msgid "Please wait while loading observing wishlist..."
 msgstr "Počkajte, prosím, počas reindexovania hviezd..."
 
-#: tools/observinglist.cpp:1109
+#: tools/observinglist.cpp:1103
 #, kde-format
 msgid "Canceling this will truncate your wishlist"
 msgstr ""
 
-#: tools/observinglist.cpp:1110
+#: tools/observinglist.cpp:1104
 #, kde-format
 msgid ""
 "If you cancel this operation, your wishlist will be truncated and the "
@@ -84602,7 +84473,7 @@ msgid ""
 "Are you sure this is okay?"
 msgstr ""
 
-#: tools/observinglist.cpp:1152
+#: tools/observinglist.cpp:1146
 #, kde-format
 msgid "Observing wishlist truncated: %1 object not found"
 msgid_plural "Observing wishlist truncated: %1 objects not found"
@@ -84610,7 +84481,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: tools/observinglist.cpp:1153
+#: tools/observinglist.cpp:1147
 #, kde-format
 msgid ""
 "%1 object could not be found in the database, and will be removed from the "
@@ -84625,67 +84496,73 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: tools/observinglist.cpp:1166
+#: tools/observinglist.cpp:1160
 #, fuzzy, kde-format
 #| msgid "Cannot save an empty session list!"
 msgid "Cannot save an empty session list."
 msgstr "Nemôžem uložiť prázdny zoznam sedení!"
 
-#: tools/observinglist.cpp:1178
+#: tools/observinglist.cpp:1172
 #, kde-format
 msgid "Could not open file %1.  Try a different filename?"
 msgstr "Nepodarilo sa otvoriť súbor %1. Skúsiť iný názov súboru?"
 
-#: tools/observinglist.cpp:1179
+#: tools/observinglist.cpp:1173
 #, kde-format
 msgid "Try Different"
 msgstr "Skúsiť iné"
 
-#: tools/observinglist.cpp:1180
+#: tools/observinglist.cpp:1174
 #, kde-format
 msgid "Do Not Try"
 msgstr "Neskúšať"
 
-#: tools/observinglist.cpp:1201
+#: tools/observinglist.cpp:1195
 #, fuzzy, kde-format
 #| msgid "Please wait while re-indexing stars..."
 msgid "Please wait while adding objects..."
 msgstr "Počkajte, prosím, počas reindexovania hviezd..."
 
-#: tools/observinglist.cpp:1343 tools/observinglist.cpp:1345
-#: tools/observinglist.cpp:1355
+#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
+#: tools/observinglist.cpp:1349
 #, kde-format
 msgid "Customized DSS Download"
 msgstr "Stiahnutie prispôsobeného DSS"
 
-#: tools/observinglist.cpp:1343
+#: tools/observinglist.cpp:1337
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr "Určiť šírku obrázku (oblúkové minúty): "
 
-#: tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1340
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr "Určiť výšku obrázku (oblúkové minúty): "
 
-#: tools/observinglist.cpp:1355
+#: tools/observinglist.cpp:1349
 #, kde-format
 msgid "Specify version: "
 msgstr "Určite verziu: "
 
-#: tools/observinglist.cpp:1521
+#: tools/observinglist.cpp:1386
+#, fuzzy, kde-format
+#| msgid "Failed to download DSS/SDSS image!"
+msgid "Failed to download DSS/SDSS image."
+msgstr "Zlyhalo stiahnutie DSS/SDSS obrázku!"
+
+#: tools/observinglist.cpp:1515
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 "Týmto dôjde k vymazaniu všetkých uložených obrázkov. Ste si istí, že to "
 "chcete urobiť?"
 
-#: tools/observinglist.cpp:1522
+#: tools/observinglist.cpp:1516
 #, kde-format
 msgid "Delete All Images"
 msgstr "Odstrániť všetky obrázky"
 
-#: tools/observinglist.cpp:1619
+#: tools/observinglist.cpp:1613
 #, kde-format
 msgid "Image Chooser"
 msgstr "Výber obrázkov"
@@ -84942,37 +84819,32 @@ msgctxt "Show the selected object in the telescope"
 msgid "Scope"
 msgstr "Rozsah"
 
-#: tools/obslistpopupmenu.cpp:51
-#, kde-format
-msgid "Eyepiece view"
-msgstr "Pohľad okulára"
-
-#: tools/obslistpopupmenu.cpp:66
+#: tools/obslistpopupmenu.cpp:64
 #, kde-format
 msgid "Show SDSS image"
 msgstr "Ukázať obrázokSDSS"
 
-#: tools/obslistpopupmenu.cpp:67
+#: tools/obslistpopupmenu.cpp:65
 #, kde-format
 msgid "Show DSS image"
 msgstr "Ukázať obrázok DSS"
 
-#: tools/obslistpopupmenu.cpp:68
+#: tools/obslistpopupmenu.cpp:66
 #, kde-format
 msgid "Customized DSS download"
 msgstr "Stiahnutie prispôsobeného DSS"
 
-#: tools/obslistpopupmenu.cpp:70
+#: tools/obslistpopupmenu.cpp:68
 #, kde-format
 msgid "Show images from web "
 msgstr "Ukázať obrázky z webu "
 
-#: tools/obslistpopupmenu.cpp:76
+#: tools/obslistpopupmenu.cpp:74
 #, kde-format
 msgid "Remove from WishList"
 msgstr "Odstrániť zo zoznamu želaní"
 
-#: tools/obslistpopupmenu.cpp:78
+#: tools/obslistpopupmenu.cpp:76
 #, kde-format
 msgid "Remove from Session Plan"
 msgstr "Odstrániť z plánu sedenia"
@@ -87984,6 +87856,94 @@ msgstr "Farba pozadia:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte farbu pre pozadie."
+
+#, fuzzy
+#~| msgid "Simulate eyepiece view"
+#~ msgid "Simulate Eyepiece View"
+#~ msgstr "Simulovať pohľad okulára"
+
+#~ msgid "Attempt to determine from image"
+#~ msgstr "Pokúsiť sa vypočítať z obrázku"
+
+#~ msgid "Eyepiece View: Choose a field-of-view"
+#~ msgstr "Pohľad okulára: Zvoliť zorné pole"
+
+#~ msgid "FOV to render eyepiece view for:"
+#~ msgstr "FOR pre vykreslenie pohľadu okuláru:"
+
+#, fuzzy
+#~| msgid "Export eyepiece view"
+#~ msgctxt "@title:window"
+#~ msgid "Export eyepiece view"
+#~ msgstr "Exportovať pohľad okulára"
+
+#~ msgid "Overlay orientation vs. time ticks: "
+#~ msgstr "Orientácia prekrytia vs. časové tiky: "
+
+#~ msgid "Towards Zenith"
+#~ msgstr "K zenitu"
+
+#~ msgid "Dobsonian View"
+#~ msgstr "Dobsonov pohľad"
+
+#~ msgid ""
+#~ "Note: This overlay makes sense only if the view was generated in alt/az "
+#~ "mode with a preset such as Refractor or Vanilla"
+#~ msgstr ""
+#~ "Poznámka: Toto prekrytie má zmysel iba vtedy, ak pohľad bol generovaný v "
+#~ "režime výška/azimut s predvoľbou ako Refraktor alebo Vanilla"
+
+#~ msgid ""
+#~ "Note: This overlay  makes sense only if the view was generated in alt/az "
+#~ "mode with a preset such as Dobsonian"
+#~ msgstr ""
+#~ "Poznámka: Toto prekrytie má zmysel iba vtedy, ak pohľad bol generovaný v "
+#~ "režime výška/azimut s predvoľbou ako Dobsonova"
+
+#, fuzzy
+#~| msgid "Save image as"
+#~ msgctxt "@title:window"
+#~ msgid "Save Image as"
+#~ msgstr "Uložiť obrázok ako"
+
+#~ msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
+#~ msgstr "Súbory obrázkov (*.png *.jpg *.xpm *.bmp *.gif)"
+
+#, fuzzy
+#~| msgid "Eyepiece Field View"
+#~ msgctxt "@title:window"
+#~ msgid "Eyepiece Field View"
+#~ msgstr "Pohľad poľa okulára"
+
+#~ msgctxt "Export image"
+#~ msgid "Export"
+#~ msgstr "Exportovať"
+
+#~ msgid "Invert view"
+#~ msgstr "Invertovať pohľad"
+
+#~ msgid "Flip view"
+#~ msgstr "Prevrátiť pohľad"
+
+#~ msgid "Fetch DSS image"
+#~ msgstr "Stiahnuť obrázok DSS"
+
+#~ msgid "Vanilla"
+#~ msgstr "Vanilka"
+
+#~ msgid "Flipped"
+#~ msgstr "Prevrátené"
+
+#~ msgid "Dobsonian"
+#~ msgstr "Dobsonov"
+
+#, fuzzy
+#~| msgid "Preset: "
+#~ msgid "Preset:"
+#~ msgstr "Predvoľba:"
+
+#~ msgid "Eyepiece view"
+#~ msgstr "Pohľad okulára"
 
 #~ msgid "Autofocus in progress..."
 #~ msgstr "Prebieha automatické ostrenie..."

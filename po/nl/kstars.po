@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-02 01:47+0000\n"
-"PO-Revision-Date: 2024-10-29 13:46+0100\n"
+"POT-Creation-Date: 2024-11-03 01:42+0000\n"
+"PO-Revision-Date: 2024-11-02 11:24+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -191,7 +191,7 @@ msgstr "Zichtbare satellieten"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:241
 #: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1148 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1147 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -204,7 +204,7 @@ msgstr "Namen van satellieten"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:526
 #: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1151 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1150 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
@@ -398,7 +398,7 @@ msgctxt "@title:window"
 msgid "KStars image viewer: %1"
 msgstr "Afbeeldingsviewer van KStars: %1"
 
-#: auxiliary/imageviewer.cpp:131 tools/eyepiecefield.cpp:78
+#: auxiliary/imageviewer.cpp:131
 #, kde-format
 msgid "Invert colors"
 msgstr "Tegengestelde kleuren"
@@ -472,14 +472,14 @@ msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
 #: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3961
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1356
+#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1355
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Een bestand met de naam  \"%1\" bestaat reeds. Dit overschrijven?"
 
 #: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3964
-#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1357
+#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1356
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -577,8 +577,8 @@ msgstr "Annuleren"
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1204 ekos/manager.cpp:1219
 #: ekos/manager.cpp:1249 ekos/scheduler/scheduler.cpp:1574
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
-#: indi/indimount.cpp:32 kstarsactions.cpp:517 kstarsactions.cpp:525
-#: kstarsactions.cpp:535 skycomponents/imageoverlaycomponent.cpp:529
+#: indi/indimount.cpp:32 kstarsactions.cpp:516 kstarsactions.cpp:524
+#: kstarsactions.cpp:534 skycomponents/imageoverlaycomponent.cpp:529
 #, kde-format
 msgid "Error"
 msgstr "Fout"
@@ -1209,7 +1209,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1374
+#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1370
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -1428,7 +1428,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel_4)
 #. i18n: ectx: property (text), widget (QLabel, rotationLabel)
 #: auxiliary/xplanetimageviewer.cpp:345 dialogs/newfov.ui:1095
-#: indi/collimationOptions.ui:462 tools/eyepiecefield.cpp:99
+#: indi/collimationOptions.ui:462
 #, kde-format
 msgid "Rotation:"
 msgstr "Rotatie:"
@@ -2850,8 +2850,8 @@ msgstr "Tekst"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2251 tools/observinglist.cpp:96
-#: tools/observinglist.cpp:100 tools/optionstreeview.ui:33
+#: ekos/capture/camera.ui:2251 tools/observinglist.cpp:95
+#: tools/observinglist.cpp:99 tools/optionstreeview.ui:33
 #, kde-format
 msgid "Type"
 msgstr "Type"
@@ -3211,7 +3211,7 @@ msgstr "Mag"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
+#: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
 msgstr "Naam"
@@ -3380,7 +3380,7 @@ msgid "Clone..."
 msgstr "Klonen..."
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1166
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1165
 #, kde-format
 msgid "Colors"
 msgstr "Kleuren"
@@ -3611,7 +3611,7 @@ msgid "%1 y"
 msgstr "%1 j"
 
 #: dialogs/detaildialog.cpp:545 kstarslite/dialogs/detaildialoglite.cpp:417
-#: printing/detailstable.cpp:297 tools/observinglist.cpp:630
+#: printing/detailstable.cpp:297 tools/observinglist.cpp:629
 #, kde-format
 msgctxt ""
 "%1 type of sky object (planet, asteroid etc), %2 name of a constellation"
@@ -3652,7 +3652,7 @@ msgstr "Circumpolair"
 #: dialogs/detaildialog.cpp:664 dialogs/detaildialog.cpp:665
 #: kstarslite/dialogs/detaildialoglite.cpp:528
 #: kstarslite/dialogs/detaildialoglite.cpp:529 printing/detailstable.cpp:628
-#: printing/detailstable.cpp:629 tools/observinglist.cpp:192
+#: printing/detailstable.cpp:629 tools/observinglist.cpp:191
 #, kde-format
 msgid "Never rises"
 msgstr "Komt nooit op"
@@ -3677,7 +3677,7 @@ msgstr "Koppelingen"
 msgid "Could not add the link."
 msgstr "Kon koppeling niet toevoegen."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1193
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1192
 #, kde-format
 msgid "Advanced"
 msgstr "Geavanceerd"
@@ -3691,8 +3691,8 @@ msgstr "Log"
 
 #: dialogs/detaildialog.cpp:788 kstarsdata.cpp:1712
 #: kstarslite/dialogs/detaildialoglite.cpp:557
-#: kstarslite/qml/dialogs/DetailsDialog.qml:462 tools/observinglist.cpp:564
-#: tools/observinglist.cpp:871
+#: kstarslite/qml/dialogs/DetailsDialog.qml:462 tools/observinglist.cpp:563
+#: tools/observinglist.cpp:865
 #, kde-format
 msgid "Record here observation logs and/or data on %1."
 msgstr "Sla hier de observatielogs en/of gegevens over %1 op."
@@ -3724,21 +3724,21 @@ msgstr "Bevestiging voor verwijderen"
 msgid "Could not delete the entry."
 msgstr "Kon het item niet verwijderen."
 
-#: dialogs/detaildialog.cpp:1084 tools/observinglist.cpp:877
+#: dialogs/detaildialog.cpp:1084 tools/observinglist.cpp:871
 #, kde-format
 msgid "Could not update the user log."
 msgstr "Kon de gebruikerslog niet bijwerken."
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:321 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
-#: tools/observinglist.cpp:690 tools/observinglist.cpp:712
+#: kstarsactions.cpp:320 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
+#: tools/observinglist.cpp:689 tools/observinglist.cpp:711
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, kde-format
 msgid "No connected mounts found."
 msgstr "Geen verbonden opstellingen gevonden."
 
 #: dialogs/detaildialog.cpp:1115 fitsviewer/fitslabel.cpp:452
-#: kstarsactions.cpp:306 tools/observinglist.cpp:701
+#: kstarsactions.cpp:305 tools/observinglist.cpp:700
 #: tools/whatsinteresting/wiview.cpp:354
 #, kde-format
 msgid "Mount %1 is offline. Please connect and retry again."
@@ -4335,7 +4335,7 @@ msgstr "Positie legenda:"
 msgid "Any"
 msgstr "Welke dan ook"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1145 kstarsinit.cpp:491
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1144 kstarsinit.cpp:491
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:100
@@ -6687,14 +6687,14 @@ msgstr "Kon niet schrijven naar bestand %1"
 #: ekos/scheduler/schedulerprocess.cpp:3321
 #: ekos/scheduler/schedulerprocess.cpp:4649
 #: ekos/scheduler/schedulerprocess.cpp:4669 indi/drivermanager.cpp:1549
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1405 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1404 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
 #: tools/modcalcjd.cpp:117 tools/modcalcplanets.cpp:195
 #: tools/modcalcsidtime.cpp:205 tools/modcalcvizequinox.cpp:69
-#: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:913
-#: tools/observinglist.cpp:1179 tools/scriptbuilder.cpp:820
+#: tools/modcalcvlsr.cpp:289 tools/observinglist.cpp:907
+#: tools/observinglist.cpp:1173 tools/scriptbuilder.cpp:820
 #: tools/scriptbuilder.cpp:900 tools/scriptbuilder.cpp:983
 #, kde-format, kde-kuit-format
 msgid "Could Not Open File"
@@ -7994,7 +7994,7 @@ msgstr ""
 "Toon ontvangen FITS-afbeeldingen in rechthoek oplosser GV in de hemelkaart "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverOverlay)
-#: ekos/align/opsalign.ui:243 tools/eyepiecefield.cpp:77
+#: ekos/align/opsalign.ui:243
 #, kde-format
 msgid "Overlay"
 msgstr "Overlay"
@@ -12638,7 +12638,7 @@ msgid "Log INDI devices activity"
 msgstr "Activiteiten INDI-apparaten loggen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1177
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1176
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -12652,7 +12652,7 @@ msgstr "Activiteiten FITS-berwerkingen loggen."
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:297
-#: kstarsactions.cpp:1171
+#: kstarsactions.cpp:1170
 #, kde-format
 msgid "FITS"
 msgstr "FITS"
@@ -14137,9 +14137,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1933
-#: kstarsinit.cpp:857 kstarsinit.cpp:858 tools/exporteyepieceview.cpp:57
-#: tools/eyepiecefield.cpp:102 tools/obslistwizard.ui:183
+#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1932
+#: kstarsinit.cpp:857 kstarsinit.cpp:858 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
 msgstr "Geen"
@@ -16112,7 +16111,7 @@ msgstr "Stop met opnemen"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:476 ekos/focus/focusmodule.cpp:391
-#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:645
+#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:642
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
@@ -16144,7 +16143,7 @@ msgstr "Algeheel"
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1181 kstarsinit.cpp:473
+#: kstarsactions.cpp:1180 kstarsinit.cpp:473
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -18848,10 +18847,9 @@ msgid "Discarding Autofocus start request - %1 in progress."
 msgstr "Startverzoek voor autofocus is verworpen - %1 is bezig."
 
 #: ekos/focus/focus.cpp:1243
-#, fuzzy, kde-format
-#| msgid "Adaptive focus starting..."
+#, kde-format
 msgid "Autofocus starting..."
-msgstr "Aanpassend focusseren begint..."
+msgstr "Autofocus begint..."
 
 #: ekos/focus/focus.cpp:1257
 #, kde-format
@@ -19027,10 +19025,9 @@ msgid "FITS received. No stars detected."
 msgstr "FITS ontvangen. Geen sterren gedetecteerd."
 
 #: ekos/focus/focus.cpp:2850
-#, fuzzy, kde-format
-#| msgid "Capture complete. Select a star to focus."
+#, kde-format
 msgid "Capture complete. Select a region of interest."
-msgstr "Afbeelding opgenomen. Kies een ster om te focusseren."
+msgstr "Opnemen voltooid. Selecteer een interessant gebied."
 
 #: ekos/focus/focus.cpp:2891
 #, kde-format
@@ -19253,10 +19250,9 @@ msgid "Focus star is selected."
 msgstr "Focusster wordt geselecteerd."
 
 #: ekos/focus/focus.cpp:4891
-#, fuzzy, kde-format
-#| msgid "Focus star is selected."
+#, kde-format
 msgid "Region of interest is selected."
-msgstr "Focusster wordt geselecteerd."
+msgstr "Interessant gebied is geselecteerd."
 
 #: ekos/focus/focus.cpp:4911
 #, kde-format
@@ -19276,13 +19272,12 @@ msgstr "Verzoek om focus te controleren wordt verworpen - %1 is bezig."
 #: ekos/focus/focus.cpp:4940
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
-msgstr ""
+msgstr "Geactiveerde focus genegeerd - stermaat moet gebaseerd zijn op ster"
 
 #: ekos/focus/focus.cpp:4945
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing to check HFR..."
-msgstr "Afbeelding vastleggen..."
+msgstr "Opnemen om HFR te controleren..."
 
 #: ekos/focus/focus.cpp:5076
 #, kde-format
@@ -20529,36 +20524,7 @@ msgstr "Parabool"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:255
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the Measure to use when fitting a curve for "
-#| "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
-#| "span>: Half Flux Radius. Uses an algorithm to calculate the radius of a "
-#| "circle centred on the star centroid that encapsulates half the star's "
-#| "flux.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
-#| "0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</"
-#| "span>: Adjusted Half Flux Radius. Normalises the HFR for peak intensity. "
-#| "This is an experimental feature.</li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM</"
-#| "span>: Full Width Half Maximum. Curve fits a PSF to each star centroid "
-#| "and uses the curve to calculate the FWHM. This is an experimental feature."
-#| "</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\"># Stars</span>: Number of stars. The number of "
-#| "detected stars at optimum focus will be a maximum. This is an "
-#| "experimental feature.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourier "
-#| "power calculation. Uses the Fourier Transform Power approach developed by "
-#| "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
-#| "the power in frequency space [result of the fourier transform] will be a "
-#| "maximum. This is an experimental feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -20619,23 +20585,49 @@ msgstr ""
 "indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">HFR Adj</span>: Adjusted Half Flux Radius. "
-"Normaliseert de HFR voor piekintensiteit. Dit is een experimentele "
-"mogelijkheid.</li></ul><li style=\" margin-top:0px; margin-bottom:12px; "
+"Normaliseert de HFR voor piekintensiteit.</li></ul><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM</span>: "
+"Full Width Half Maximum. Kromme fit een PSF naar elk zwaartepunt van de ster "
+"en gebruikt de kromme om de FWHM te berekenen.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\"># sterren</"
+"span>: Aantal sterren. Het aantal gedetecteerde sterren bij optimale focus "
+"zal een maximum zijn.</li><li style=\" margin-top:0px; margin-bottom:12px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">FWHM</span>: Full Width Half Maximum. "
-"Kromme fit een PSF naar elk zwaartepunt van de ster en gebruikt de kromme om "
-"de FWHM te berekenen. Dit is een experimentele mogelijkheid.</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\"># "
-"sterren</span>: Aantal sterren. Het aantal gedetecteerde sterren bij "
-"optimale focus zal een maximum zijn. Dit is een experimentele mogelijkheid.</"
+"\"><span style=\" font-weight:600;\">Fourier</span>: Fourier power "
+"berekening. Gebruikt de Fourier Transform Power benadering ontwikkeld door "
+"Tan en Schulz in https://arxiv.org/pdf/2201.12466.pdf.  Bij optimale focus "
+"zal de power in de frequentieruimte [resultaat van de fouriertransformatie] "
+"een maximum bereiken. </li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Fourier</span>: Fourier power "
+"berekening. Gebruikt de Fourier Transform Power benadering ontwikkeld door "
+"Tan en Schulz in https://arxiv.org/pdf/2201.12466.pdf. Bij optimale focus "
+"zal de power in de frequentieruimte [resultaat van de fouriertransformatie] "
+"een maximum zijn. </li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">StdDev</span>: Gebruikt variantie / "
+"gemiddelde van afbeeldingspixels. Het is bedoeld voor sterrenvelden. Dit is "
+"een experimentele mogelijkheid die vereist dat openCV is geïnstalleerd.</"
 "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Fourier</span>: Fourier power berekening. Gebruikt de Fourier "
-"Transform Power benadering ontwikkeld door Tan en Schulz in https://arxiv."
-"org/pdf/2201.12466.pdf.  Bij optimale focus zal de power in de "
-"frequentieruimte [resultaat van de fouriertransformatie] een maximum "
-"bereiken. Dit is een experimentele mogelijkheid.</li></ul></body></html>"
+"weight:600;\">Sobel</span>: Gebruikt het Sobel randdetectie-algoritme.  Het "
+"is bedoeld voor niet-stellaire velden,  bijv. Solair,  Lunair of planetair.  "
+"Dit is een experimentele mogelijkheid die vereist dat openCV is "
+"geïnstalleerd.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Laplassiaans: </span>Gebruikt het Laplassiaanse "
+"randdetectie-algoritme.  Het is bedoeld voor niet-stellaire velden,  bijv. "
+"Solair,  Lunair of planetair.  Dit is een experimentele megelijkheid die "
+"vereist dat openCV is geïnstalleerd.</li></ul><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Canny: </span>Gebruikt het Canny randdetectie-algoritme.  Het "
+"is bedoeld voor niet-stellaire velden,  bijv. Solair,  Lunair of planetair.  "
+"Dit is een experimentele mogelijkheid die vereist dat openCV is "
+"geïnstalleerd.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:264
@@ -20665,30 +20657,25 @@ msgstr "Fourier"
 #: ekos/focus/opsfocusprocess.ui:284
 #, kde-format
 msgid "StdDev"
-msgstr ""
+msgstr "StdDev"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:289
-#, fuzzy, kde-format
-#| msgctxt "City in Wisconsin USA"
-#| msgid "Boscobel"
+#, kde-format
 msgid "Sobel"
-msgstr "Boscobel"
+msgstr "Sobel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:294
-#, fuzzy, kde-format
-#| msgid "Gaussian"
+#, kde-format
 msgid "Laplassian"
-msgstr "Gaussisch"
+msgstr "Laplassiaans"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:299
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgid "Canny"
-msgstr "Cannes"
+msgstr "Canny"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:313
@@ -20983,15 +20970,13 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:691
 #, kde-format
 msgid "Check to denoise the image before further processing."
-msgstr ""
+msgstr "Activeer van ruis ontdoen van de afbeelding voor verdere verwerking."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusDenoise)
 #: ekos/focus/opsfocusprocess.ui:694
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Boise"
+#, kde-format
 msgid "Denoise"
-msgstr "Boise"
+msgstr "Van ruis ontdoen"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:709
@@ -25057,7 +25042,7 @@ msgstr "AAN"
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
 #: ekos/mount/mount.ui:747 ekos/observatory/observatory.cpp:276
 #: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
-#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:654
+#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:651
 #, kde-format
 msgid "Park"
 msgstr "Parkeren"
@@ -25065,7 +25050,7 @@ msgstr "Parkeren"
 #. i18n: ectx: property (text), widget (QPushButton, unparkB)
 #. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
 #: ekos/mount/mount.ui:777 ekos/observatory/observatory.ui:498
-#: kspopupmenu.cpp:659
+#: kspopupmenu.cpp:656
 #, kde-format
 msgid "UnPark"
 msgstr "Ontparkeren"
@@ -28905,7 +28890,7 @@ msgid "UnCap"
 msgstr "Kap verwijderen"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:49 tools/altvstime.cpp:97
-#: tools/observinglist.cpp:124
+#: tools/observinglist.cpp:123
 #, kde-format
 msgid "Local Time"
 msgstr "Lokale tijd"
@@ -32574,7 +32559,7 @@ msgstr "Gevraagde hoogte is onder de horizon.Wilt u werkelijk verdergaan?"
 msgid "Telescope Motion"
 msgstr "Beweging telescoop"
 
-#: indi/indiproperty.cpp:223 tools/observinglist.cpp:101
+#: indi/indiproperty.cpp:223 tools/observinglist.cpp:100
 #, kde-format
 msgid "Time"
 msgstr "Tijd"
@@ -33342,13 +33327,13 @@ msgstr "Doorgangstijd: %1"
 msgid "Empty sky"
 msgstr "Lege hemel"
 
-#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:589
+#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:586
 #, kde-format
 msgctxt "Sloan Digital Sky Survey"
 msgid "Show SDSS Image"
 msgstr "SDSS-afbeelding tonen"
 
-#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:591
+#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:588
 #, kde-format
 msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
@@ -33464,84 +33449,79 @@ msgstr "Spoor verwijderen"
 msgid "Add Trail"
 msgstr "Spoor toevoegen"
 
-#: kspopupmenu.cpp:432
-#, kde-format
-msgid "Simulate Eyepiece View"
-msgstr "Oculairbeeld simuleren"
-
-#: kspopupmenu.cpp:441
+#: kspopupmenu.cpp:438
 #, kde-format
 msgid "View in XPlanet"
 msgstr "In XPlanet bekijken"
 
-#: kspopupmenu.cpp:446
+#: kspopupmenu.cpp:443
 #, kde-format
 msgid "View in What's Interesting"
 msgstr "In Wat is interessant kijken..."
 
-#: kspopupmenu.cpp:459
+#: kspopupmenu.cpp:456
 #, kde-format
 msgid "Add Flag..."
 msgstr "Vlag toevoegen..."
 
-#: kspopupmenu.cpp:466
+#: kspopupmenu.cpp:463
 #, kde-format
 msgid "Edit Flag"
 msgstr "Vlag bewerken..."
 
-#: kspopupmenu.cpp:468
+#: kspopupmenu.cpp:465
 #, kde-format
 msgid "Delete Flag"
 msgstr "Vlag verwijderen"
 
-#: kspopupmenu.cpp:477
+#: kspopupmenu.cpp:474
 #, kde-format
 msgid "Edit Flag..."
 msgstr "Vlag bewerken..."
 
-#: kspopupmenu.cpp:479
+#: kspopupmenu.cpp:476
 #, kde-format
 msgid "Delete Flag..."
 msgstr "Vlag verwijderen..."
 
-#: kspopupmenu.cpp:538
+#: kspopupmenu.cpp:535
 #, kde-format
 msgid "Image Resources"
 msgstr "Bronnen afbeelding"
 
-#: kspopupmenu.cpp:539
+#: kspopupmenu.cpp:536
 #, kde-format
 msgid "Web Links"
 msgstr "Webkoppelingen"
 
-#: kspopupmenu.cpp:581
+#: kspopupmenu.cpp:578
 #, kde-format
 msgid "Remove From Local Catalog"
 msgstr "Uit lokale catalogus verwijderen"
 
-#: kspopupmenu.cpp:624
+#: kspopupmenu.cpp:621
 #, kde-format
 msgctxt "Move mount to target"
 msgid "Goto"
 msgstr "Goto"
 
-#: kspopupmenu.cpp:633
+#: kspopupmenu.cpp:630
 #, kde-format
 msgctxt "Synchronize mount to target"
 msgid "Sync"
 msgstr "Sync"
 
-#: kspopupmenu.cpp:674
+#: kspopupmenu.cpp:671
 #, kde-format
 msgid "Track satellite"
 msgstr "Satelliet volgen"
 
-#: kspopupmenu.cpp:688
+#: kspopupmenu.cpp:685
 #, kde-format
 msgid "Goto && Set As Parking Position"
 msgstr "Goto &&  stel in als parkeerpositie"
 
-#: kspopupmenu.cpp:695
+#: kspopupmenu.cpp:692
 #, kde-format
 msgid "Find Telescope"
 msgstr "Telescoop zoeken"
@@ -33552,17 +33532,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:315 kstarsactions.cpp:1619 skymap.cpp:430
+#: kstars.cpp:315 kstarsactions.cpp:1618 skymap.cpp:430
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Volgen stoppen"
 
-#: kstars.cpp:323 kstarsactions.cpp:1786 kstarsinit.cpp:270
+#: kstars.cpp:323 kstarsactions.cpp:1785 kstarsinit.cpp:270
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Maar globeweergave van sterren omschakelen (Equatoriale &coördinaten)"
 
-#: kstars.cpp:324 kstarsactions.cpp:1767 kstarsinit.cpp:271
+#: kstars.cpp:324 kstarsactions.cpp:1766 kstarsinit.cpp:271
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Naar horizontale weergave omschakelen (Horizontale &coördinaten)"
@@ -38525,10 +38505,10 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusDenoise), group (Focus)
 #: kstars.kcfg:2199
-#, fuzzy, kde-format
-#| msgid "Whether to use weights in the curve fitting process."
+#, kde-format
 msgid "Whether to denoise the focus image before further processing."
-msgstr "Of er gewichten gebruikt moeten worden tijdens fitten van krommen."
+msgstr ""
+"Of de afbeelding van ruis wordt ontdaan moet worden voor verdere verwerking."
 
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2203
@@ -69113,12 +69093,12 @@ msgctxt "Advanced URLs: description or category"
 msgid "Other"
 msgstr "Overig"
 
-#: kstarsactions.cpp:218
+#: kstarsactions.cpp:217
 #, kde-format
 msgid "Refraction effects disabled"
 msgstr "Effecten refractie uitgeschakeld"
 
-#: kstarsactions.cpp:219
+#: kstarsactions.cpp:218
 #, kde-format
 msgid ""
 "When the horizon is switched off, refraction effects are temporarily "
@@ -69127,7 +69107,7 @@ msgstr ""
 "Als de horizon is uitgeschakeld, worden de effecten van de lichtbreking in "
 "de dampkring tijdelijk uitgeschakeld."
 
-#: kstarsactions.cpp:472
+#: kstarsactions.cpp:471
 #, kde-format
 msgid ""
 "Due to a known issue in the kde frameworks, updating already downloaded "
@@ -69138,33 +69118,33 @@ msgstr ""
 "gedownloade items nu niet mogelijk. <br> Maak installatie ongedaan en "
 "installeer ze opnieuw om bij te werken."
 
-#: kstarsactions.cpp:518
+#: kstarsactions.cpp:517
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr "De catalogus \"%1\" is corrupt."
 
-#: kstarsactions.cpp:526
+#: kstarsactions.cpp:525
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr "De catalogus \"%1\" is corrupt.<br>Verwacht id=%2 maar gekregen id=%3"
 
-#: kstarsactions.cpp:536
+#: kstarsactions.cpp:535
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr "Kon de catalogus \"%1\" niet importeren<br>%2"
 
-#: kstarsactions.cpp:593
+#: kstarsactions.cpp:592
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr "Instellingen lichtvervuiling"
 
-#: kstarsactions.cpp:595
+#: kstarsactions.cpp:594
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr "Instellingen apparatuur - Type en parameters"
 
-#: kstarsactions.cpp:704 kstarsactions.cpp:741 kstarsactions.cpp:784
-#: kstarsactions.cpp:823
+#: kstarsactions.cpp:703 kstarsactions.cpp:740 kstarsactions.cpp:783
+#: kstarsactions.cpp:822
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
@@ -69173,7 +69153,7 @@ msgstr ""
 "Kon de INDI-server niet vinden. Verzeker u ervan dat het pakket met het  "
 "binaire bestand 'indiserver' is geïnstalleerd."
 
-#: kstarsactions.cpp:758
+#: kstarsactions.cpp:757
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
@@ -69183,86 +69163,86 @@ msgstr ""
 "ervaren technische gebruikers. Het kan niet samen met Ekos worden gebruikt. "
 "Wilt u toch het apparaatbeheer van INDI openen?"
 
-#: kstarsactions.cpp:761
+#: kstarsactions.cpp:760
 #, kde-format
 msgid "INDI Device Manager"
 msgstr "Apparaatbeheer INDI"
 
-#: kstarsactions.cpp:1142
+#: kstarsactions.cpp:1141
 #, kde-format
 msgid "Catalogs"
 msgstr "Catalogi"
 
-#: kstarsactions.cpp:1154
+#: kstarsactions.cpp:1153
 #, kde-format
 msgid "Guides"
 msgstr "Hulplijnen"
 
-#: kstarsactions.cpp:1157
+#: kstarsactions.cpp:1156
 #, kde-format
 msgid "Terrain"
 msgstr "Terrein"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1160 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1159 options/opsimageoverlay.ui:202
 #, kde-format
 msgid "Image Overlays"
 msgstr "Overlays van afbeelding"
 
-#: kstarsactions.cpp:1190
+#: kstarsactions.cpp:1189
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1196
+#: kstarsactions.cpp:1195
 #, kde-format
 msgid "Developer"
 msgstr "Ontwikkelaar"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2055 kstarsinit.cpp:280
+#: kstarsactions.cpp:1213 kstarsactions.cpp:2026 kstarsinit.cpp:280
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Terrein verbergen"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2055 kstarsinit.cpp:281
+#: kstarsactions.cpp:1213 kstarsactions.cpp:2026 kstarsinit.cpp:281
 #, kde-format
 msgid "Show Terrain"
 msgstr "Terrein tonen"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2065 kstarsinit.cpp:285
+#: kstarsactions.cpp:1217 kstarsactions.cpp:2036 kstarsinit.cpp:285
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr "Overlays van afbeelding verbergen"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2065 kstarsinit.cpp:286
+#: kstarsactions.cpp:1217 kstarsactions.cpp:2036 kstarsinit.cpp:286
 #, kde-format
 msgid "Show Image Overlays"
 msgstr "Overlays van afbeelding tonen"
 
-#: kstarsactions.cpp:1342
+#: kstarsactions.cpp:1341
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Afbeelding exporteren"
 
-#: kstarsactions.cpp:1388 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1387 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "KStars scripts (*.kstars)"
 
-#: kstarsactions.cpp:1396
+#: kstarsactions.cpp:1395
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "Uitvoeren scripts op andere computers wordt niet ondersteund."
 
-#: kstarsactions.cpp:1404 oal/execute.cpp:319 tools/observinglist.cpp:912
+#: kstarsactions.cpp:1403 oal/execute.cpp:319 tools/observinglist.cpp:906
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Het bestand %1 kon niet worden geopend"
 
-#: kstarsactions.cpp:1429
+#: kstarsactions.cpp:1428
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -69275,27 +69255,27 @@ msgstr ""
 "werkt mogelijk niet goed en kan zelfs kwaadaardige programmaregels bevatten. "
 "Wilt u het toch uitvoeren?"
 
-#: kstarsactions.cpp:1434
+#: kstarsactions.cpp:1433
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Scriptvalidatie mislukt"
 
-#: kstarsactions.cpp:1434
+#: kstarsactions.cpp:1433
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Toch uitvoeren"
 
-#: kstarsactions.cpp:1441
+#: kstarsactions.cpp:1440
 #, kde-format
 msgid "Running script: %1"
 msgstr "Werkend script: %1"
 
-#: kstarsactions.cpp:1459
+#: kstarsactions.cpp:1458
 #, kde-format
 msgid "Script finished."
 msgstr "Script is klaar."
 
-#: kstarsactions.cpp:1471
+#: kstarsactions.cpp:1470
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -69306,93 +69286,78 @@ msgstr ""
 "\"Sterrenkaart\". Dit kleurenschema heeft namelijk een witte achtergrond. "
 "Wilt u voor het afdrukken tijdelijk overschakelen naar dit schema?"
 
-#: kstarsactions.cpp:1476
+#: kstarsactions.cpp:1475
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Overschakelen naar kleurenschema \"Sterrenkaart\"?"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1476
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Kleurenschema wisselen"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1476
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Niet wisselen"
 
-#: kstarsactions.cpp:1596 kstarsinit.cpp:243
+#: kstarsactions.cpp:1595 kstarsinit.cpp:243
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "&Volgen starten"
 
-#: kstarsactions.cpp:1710
+#: kstarsactions.cpp:1709
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "Benaderde GV: %1 graden"
 
-#: kstarsactions.cpp:1715
+#: kstarsactions.cpp:1714
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "Benaderde GV: %1 boogminuten"
 
-#: kstarsactions.cpp:1721
+#: kstarsactions.cpp:1720
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "Benaderde GV: %1 boogseconden"
 
-#: kstarsactions.cpp:1738
+#: kstarsactions.cpp:1737
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Voer de gewenste gezichtsveldhoek in"
 
-#: kstarsactions.cpp:1739
+#: kstarsactions.cpp:1738
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Geef een gezichtsveldhoek op in graden: "
 
-#: kstarsactions.cpp:1770 kstarsinit.cpp:735
+#: kstarsactions.cpp:1769 kstarsinit.cpp:735
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Noord om&hoog"
 
-#: kstarsactions.cpp:1773 kstarsinit.cpp:744
+#: kstarsactions.cpp:1772 kstarsinit.cpp:744
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Noord om&laag"
 
-#: kstarsactions.cpp:1789 kstarsinit.cpp:735
+#: kstarsactions.cpp:1788 kstarsinit.cpp:735
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "Zenit om&hoog"
 
-#: kstarsactions.cpp:1792 kstarsinit.cpp:744
+#: kstarsactions.cpp:1791 kstarsinit.cpp:744
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
 msgstr "Zenit om&laag"
-
-#: kstarsactions.cpp:2013
-#, kde-format
-msgid "Attempt to determine from image"
-msgstr "Poging uit afbeelding te bepalen"
-
-#: kstarsactions.cpp:2015
-#, kde-format
-msgid "Eyepiece View: Choose a field-of-view"
-msgstr "Beeld oculair: kies een gezichtsveld"
-
-#: kstarsactions.cpp:2016
-#, kde-format
-msgid "FOV to render eyepiece view for:"
-msgstr "Oculair GV voor:"
 
 #: kstarsdata.cpp:47
 #, kde-format
@@ -69879,7 +69844,7 @@ msgid "Observation Planner"
 msgstr "Waarnemingen plannen"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:455 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:56
+#: kstarsinit.cpp:455 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "Hoogte vs. tijd"
@@ -75308,7 +75273,7 @@ msgid "Id:"
 msgstr "Id:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, Type)
-#: oal/equipmentwriter.ui:84 tools/eyepiecefield.cpp:105
+#: oal/equipmentwriter.ui:84
 #, kde-format
 msgid "Refractor"
 msgstr "Refractor"
@@ -79150,42 +79115,42 @@ msgstr ""
 "geleverd door het Astrophysical Research Consortium (Astrofysisch "
 "Onderzoeksconsortium)[vrij te gebruiken voor niet commerciële doeleinden]."
 
-#: skymap.cpp:676
+#: skymap.cpp:672
 #, kde-format
 msgid "Angular distance: %1"
 msgstr "Hoekafstand: %1"
 
-#: skymap.cpp:690
+#: skymap.cpp:686
 #, kde-format
 msgid "; Physical distance: %1 pc"
 msgstr "Fysieke afstand: %1 pc"
 
-#: skymap.cpp:727
+#: skymap.cpp:723
 #, kde-format
 msgid "Star Hopper: Choose a field-of-view"
 msgstr "Van ster naar ster: kies een gezichtsveld"
 
-#: skymap.cpp:728
+#: skymap.cpp:724
 #, kde-format
 msgid "FOV to use for star hopping:"
 msgstr "GV voor van ster naar ster gaan:"
 
-#: skymap.cpp:735
+#: skymap.cpp:731
 #, kde-format
 msgid "Star Hopper: Enter field-of-view to use"
 msgstr "Van ster naar ster: voer gezichtsveld in"
 
-#: skymap.cpp:736
+#: skymap.cpp:732
 #, kde-format
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr "Gezichtsveld voor het gaan van ster naar ster (in boogminuten):"
 
-#: skymap.cpp:903
+#: skymap.cpp:899
 #, kde-format
 msgid "No object selected."
 msgstr "Geen object geselecteerd."
 
-#: skymap.cpp:903
+#: skymap.cpp:899
 #, kde-format
 msgid "Object Details"
 msgstr "Details van Object"
@@ -81848,108 +81813,6 @@ msgstr "Herfst-equinox:"
 msgid "Winter solstice:"
 msgstr "Wintersolstitium (winterzonnewende):"
 
-#: tools/exporteyepieceview.cpp:40
-#, kde-format
-msgctxt "@title:window"
-msgid "Export eyepiece view"
-msgstr "Oculairbeeld exporteren"
-
-#: tools/exporteyepieceview.cpp:55
-#, kde-format
-msgid "Overlay orientation vs. time ticks: "
-msgstr "Laag oriëntatie vs. tijdstikken:"
-
-#: tools/exporteyepieceview.cpp:58
-#, kde-format
-msgid "Towards Zenith"
-msgstr "Naar zenit"
-
-#: tools/exporteyepieceview.cpp:59
-#, kde-format
-msgid "Dobsonian View"
-msgstr "Dobsonbeeld"
-
-#: tools/exporteyepieceview.cpp:90
-#, kde-format
-msgid ""
-"Note: This overlay makes sense only if the view was generated in alt/az mode "
-"with a preset such as Refractor or Vanilla"
-msgstr ""
-"Opmerking: deze laag heeft alleen zin indien het beeld is gemaakt in de hgte/"
-"az-modus, met een instelling zoals Refractor of Gewoon"
-
-#: tools/exporteyepieceview.cpp:93
-#, kde-format
-msgid ""
-"Note: This overlay  makes sense only if the view was generated in alt/az "
-"mode with a preset such as Dobsonian"
-msgstr ""
-"Opmerking: deze laag heeft alleen zin indien het beeld is gemaakt in de hgte/"
-"az-modus, met een instelling zoals Dobson"
-
-#: tools/exporteyepieceview.cpp:174
-#, kde-format
-msgctxt "@title:window"
-msgid "Save Image as"
-msgstr "Afbeelding opslaan als"
-
-#: tools/exporteyepieceview.cpp:175
-#, kde-format
-msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
-msgstr "Afbeeldingsbestanden (*.png *.jpg *.xpm *.bmp *.gif)"
-
-#: tools/eyepiecefield.cpp:37
-#, kde-format
-msgctxt "@title:window"
-msgid "Eyepiece Field View"
-msgstr "Beeldveld oculair"
-
-#: tools/eyepiecefield.cpp:51
-#, kde-format
-msgctxt "Export image"
-msgid "Export"
-msgstr "Exporteren"
-
-#: tools/eyepiecefield.cpp:75
-#, kde-format
-msgid "Invert view"
-msgstr "Beeld omkeren"
-
-#: tools/eyepiecefield.cpp:76
-#, kde-format
-msgid "Flip view"
-msgstr "Beeld na flip"
-
-#: tools/eyepiecefield.cpp:79
-#, kde-format
-msgid "Fetch DSS image"
-msgstr "DDS-afbeelding ophalen"
-
-#: tools/eyepiecefield.cpp:103
-#, kde-format
-msgid "Vanilla"
-msgstr "Vanilla"
-
-#: tools/eyepiecefield.cpp:104
-#, kde-format
-msgid "Flipped"
-msgstr "Na flip"
-
-#: tools/eyepiecefield.cpp:106
-#, kde-format
-msgid "Dobsonian"
-msgstr "Dobson"
-
-#: tools/eyepiecefield.cpp:108
-#, kde-format
-msgid "Preset:"
-msgstr "Voorinstelling:"
-
-#: tools/eyepiecefield.cpp:572 tools/observinglist.cpp:1392
-#, kde-format
-msgid "Failed to download DSS/SDSS image."
-msgstr "Download DSS/SDSS-afbeelding mislukt!"
-
 #: tools/flagmanager.cpp:51
 #, kde-format
 msgctxt "@title:window"
@@ -82047,14 +81910,14 @@ msgid "Region"
 msgstr "Gebied"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:102 widgets/infoboxwidget.cpp:120
+#: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "Az"
 
 #: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
-#: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
+#: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
@@ -83219,59 +83082,59 @@ msgstr "Fout bij inlezen XML uit CDS Sesame: %1 op regel %2 @ col = %3"
 msgid "Resolved %1 successfully."
 msgstr "%1 met succes opgelost."
 
-#: tools/observinglist.cpp:80
+#: tools/observinglist.cpp:79
 #, kde-format
 msgctxt "@title:window"
 msgid "Observation Planner"
 msgstr "Waarnemingen plannen"
 
-#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
+#: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, kde-format
 msgid "Alternate Name"
 msgstr "Andere naam"
 
-#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
+#: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, kde-format
 msgctxt "Right Ascension"
 msgid "RA (J2000)"
 msgstr "RK (J2000)"
 
-#: tools/observinglist.cpp:96 tools/observinglist.cpp:100
+#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #, kde-format
 msgctxt "Declination"
 msgid "Dec (J2000)"
 msgstr "Dec (J2000)"
 
-#: tools/observinglist.cpp:96 tools/observinglist.cpp:100
+#: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #, kde-format
 msgctxt "Magnitude"
 msgid "Mag"
 msgstr "Mag"
 
-#: tools/observinglist.cpp:97
+#: tools/observinglist.cpp:96
 #, kde-format
 msgid "Current Altitude"
 msgstr "Huidige hoogte"
 
-#: tools/observinglist.cpp:101
+#: tools/observinglist.cpp:100
 #, kde-format
 msgctxt "Constellation"
 msgid "Constell."
 msgstr "Sterbld."
 
-#: tools/observinglist.cpp:198
+#: tools/observinglist.cpp:197
 #, kde-format
 msgctxt "Short text to describe that object has not risen yet"
 msgid "Not risen"
 msgstr "Nog niet op"
 
-#: tools/observinglist.cpp:204
+#: tools/observinglist.cpp:203
 #, kde-format
 msgctxt "Object is in the Dobsonian hole"
 msgid "In hole"
 msgstr "In gat"
 
-#: tools/observinglist.cpp:265
+#: tools/observinglist.cpp:264
 #, kde-format
 msgid ""
 "Stars and objects whose names KStars does not know are not supported in the "
@@ -83280,27 +83143,27 @@ msgstr ""
 "Sterren en objecten waarvan KStars de naam niet weet worden niet ondersteund "
 "in de waarneemlijsten"
 
-#: tools/observinglist.cpp:277
+#: tools/observinglist.cpp:276
 #, kde-format
 msgid "%1 is already in your wishlist."
 msgstr "%1 is al in uw wensenlijst opgenomen."
 
-#: tools/observinglist.cpp:292
+#: tools/observinglist.cpp:291
 #, kde-format
 msgid "%1 is already in the session plan."
 msgstr "%1 is al in het waarneemplan opgenomen."
 
-#: tools/observinglist.cpp:355
+#: tools/observinglist.cpp:354
 #, kde-format
 msgid "Added %1 to observing list."
 msgstr "%1 aan waarneemlijst toegevoegd."
 
-#: tools/observinglist.cpp:393
+#: tools/observinglist.cpp:392
 #, kde-format
 msgid "Added %1 to session list."
 msgstr "%1 aan waarneemplan toegevoegd."
 
-#: tools/observinglist.cpp:600
+#: tools/observinglist.cpp:599
 #, kde-format
 msgid ""
 "DSS Image metadata: \n"
@@ -83313,19 +83176,19 @@ msgstr ""
 " Fotometrische band: %3 \n"
 " Versie: %4"
 
-#: tools/observinglist.cpp:604
+#: tools/observinglist.cpp:603
 #, kde-format
 msgid "No image info available."
 msgstr "Geen info over afbeelding beschikbaar."
 
-#: tools/observinglist.cpp:612
+#: tools/observinglist.cpp:611
 #, kde-format
 msgid "No image available. Click on the placeholder image to download one."
 msgstr ""
 "Geen afbeelding beschikbaar. Haal er een op door te klikken op de "
 "afbeeldingplaatshouder."
 
-#: tools/observinglist.cpp:626
+#: tools/observinglist.cpp:625
 #, kde-format
 msgctxt ""
 "%1 magnitude of object, %2 type of sky object (planet, asteroid etc), %3 "
@@ -83333,17 +83196,17 @@ msgctxt ""
 msgid "%1 mag %2 in %3"
 msgstr "%1 mag %2 in %3"
 
-#: tools/observinglist.cpp:778
+#: tools/observinglist.cpp:777
 #, kde-format
 msgid "Batch add to observing session"
 msgstr "In bulk toevoegen aan waarneemlijst"
 
-#: tools/observinglist.cpp:778
+#: tools/observinglist.cpp:777
 #, kde-format
 msgid "Batch add to observing wishlist"
 msgstr "In bulk toevoegen aan waarneemwensenlijst"
 
-#: tools/observinglist.cpp:779
+#: tools/observinglist.cpp:778
 #, kde-format
 msgid ""
 "Specify a list of objects with one object on each line to add. The names "
@@ -83357,14 +83220,14 @@ msgstr ""
 "Objecten die op internet opgelost worden zullen toegevoegd worden aan de "
 "database."
 
-#: tools/observinglist.cpp:811
+#: tools/observinglist.cpp:810
 #, kde-format
 msgid "Batch add: %1 object not found"
 msgid_plural "Batch add: %1 objects not found"
 msgstr[0] "In bulk toevoegen: %1 object niet gevonden "
 msgstr[1] "In bulk toevoegen: %1 objecten niet gevonden "
 
-#: tools/observinglist.cpp:812
+#: tools/observinglist.cpp:811
 #, kde-format
 msgid ""
 "%1 object could not be found in the database or resolved, and hence could "
@@ -83379,13 +83242,13 @@ msgstr[1] ""
 "%1 objecten niet gevonden in de gegevensbank op via internet opgelost, deze "
 "konden daarom niet worden toegevoegd. Zie de details voor meer."
 
-#: tools/observinglist.cpp:886
+#: tools/observinglist.cpp:880
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Observing List"
 msgstr "Waarneemlijst openen"
 
-#: tools/observinglist.cpp:941
+#: tools/observinglist.cpp:935
 #, kde-format
 msgid ""
 "The specified file is invalid. We expect an XML file based on the "
@@ -83394,38 +83257,38 @@ msgstr ""
 "Het opgegeven bestand is ongeldig. Er wordt een XML-bestand verwacht op "
 "basis van het schema van OpenAstronomyLog."
 
-#: tools/observinglist.cpp:957
+#: tools/observinglist.cpp:951
 #, kde-format
 msgid "The specified file is invalid"
 msgstr "Het opgegeven bestand is ongeldig"
 
-#: tools/observinglist.cpp:967
+#: tools/observinglist.cpp:961
 #, kde-format
 msgid "Are you sure you want to clear all objects?"
 msgstr "Wilt u alle objecten echt wissen?"
 
-#: tools/observinglist.cpp:968
+#: tools/observinglist.cpp:962
 #, kde-format
 msgid "Clear all?"
 msgstr "Alles wissen?"
 
-#: tools/observinglist.cpp:1001
+#: tools/observinglist.cpp:995
 #, kde-format
 msgid "Do you want to save the current session?"
 msgstr "Wilt u de huidige sessie opslaan?"
 
-#: tools/observinglist.cpp:1002
+#: tools/observinglist.cpp:996
 #, kde-format
 msgid "Save Current session?"
 msgstr "Huidige sessie opslaan?"
 
-#: tools/observinglist.cpp:1014
+#: tools/observinglist.cpp:1008
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Observing List"
 msgstr "Waarneemlijst opslaan"
 
-#: tools/observinglist.cpp:1063
+#: tools/observinglist.cpp:1057
 #, kde-format
 msgid ""
 "Could not open the observing wishlist file %1 for writing. Your wishlist "
@@ -83435,29 +83298,29 @@ msgstr ""
 "Veranderingen in de wensenlijst worden niet opgeslagen. Kijk even of de "
 "locatie beschrijfbaar is, en niet vol."
 
-#: tools/observinglist.cpp:1064
+#: tools/observinglist.cpp:1058
 #, kde-format
 msgid "Could not save observing wishlist"
 msgstr "Kon waarneemwensenlijst niet opslaan"
 
-#: tools/observinglist.cpp:1085 tools/observinglist.cpp:1200
+#: tools/observinglist.cpp:1079 tools/observinglist.cpp:1194
 #: tools/obslistwizard.cpp:34
 #, kde-format
 msgctxt "@title:window"
 msgid "Observing List Wizard"
 msgstr "Waarneemlijstassistent"
 
-#: tools/observinglist.cpp:1086
+#: tools/observinglist.cpp:1080
 #, kde-format
 msgid "Please wait while loading observing wishlist..."
 msgstr "Momentje: waarneemwensenlijst wordt ingelezen...."
 
-#: tools/observinglist.cpp:1109
+#: tools/observinglist.cpp:1103
 #, kde-format
 msgid "Canceling this will truncate your wishlist"
 msgstr "Dit annuleren zal uw wensenlijst inkorten"
 
-#: tools/observinglist.cpp:1110
+#: tools/observinglist.cpp:1104
 #, kde-format
 msgid ""
 "If you cancel this operation, your wishlist will be truncated and the "
@@ -83468,14 +83331,14 @@ msgstr ""
 "volgende objecten zullen verwijderd worden uit de wensenlijst wanneer u "
 "KStars beëindigd. Is dit okay?"
 
-#: tools/observinglist.cpp:1152
+#: tools/observinglist.cpp:1146
 #, kde-format
 msgid "Observing wishlist truncated: %1 object not found"
 msgid_plural "Observing wishlist truncated: %1 objects not found"
 msgstr[0] "Wenslijst voor waarnemen ingekort: %1 object niet gevonden "
 msgstr[1] "Wenslijst voor waarnemen ingekort: %1 object niet gevonden "
 
-#: tools/observinglist.cpp:1153
+#: tools/observinglist.cpp:1147
 #, kde-format
 msgid ""
 "%1 object could not be found in the database, and will be removed from the "
@@ -83496,66 +83359,71 @@ msgstr[1] ""
 "waarbij u later de functie Bulk toevoegen kunt gebruiken om ze later in te "
 "voegen met zoeken op het internet."
 
-#: tools/observinglist.cpp:1166
+#: tools/observinglist.cpp:1160
 #, kde-format
 msgid "Cannot save an empty session list."
 msgstr "Kan geen lege sessielijst opslaan."
 
-#: tools/observinglist.cpp:1178
+#: tools/observinglist.cpp:1172
 #, kde-format
 msgid "Could not open file %1.  Try a different filename?"
 msgstr ""
 "Het bestand %1 kon niet worden geopend.  Een andere bestandsnaam proberen?"
 
-#: tools/observinglist.cpp:1179
+#: tools/observinglist.cpp:1173
 #, kde-format
 msgid "Try Different"
 msgstr "Probeer een ander"
 
-#: tools/observinglist.cpp:1180
+#: tools/observinglist.cpp:1174
 #, kde-format
 msgid "Do Not Try"
 msgstr "Niet proberen"
 
-#: tools/observinglist.cpp:1201
+#: tools/observinglist.cpp:1195
 #, kde-format
 msgid "Please wait while adding objects..."
 msgstr "Momentje: alle objecten worden toegevoegd..."
 
-#: tools/observinglist.cpp:1343 tools/observinglist.cpp:1345
-#: tools/observinglist.cpp:1355
+#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
+#: tools/observinglist.cpp:1349
 #, kde-format
 msgid "Customized DSS Download"
 msgstr "Aangepaste DSS-download"
 
-#: tools/observinglist.cpp:1343
+#: tools/observinglist.cpp:1337
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr "Geef breedte afbeelding op (boogminuten):"
 
-#: tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1340
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr "Geef hoogte afbeelding op(boogminuten):"
 
-#: tools/observinglist.cpp:1355
+#: tools/observinglist.cpp:1349
 #, kde-format
 msgid "Specify version: "
 msgstr "Geef versie op:"
 
-#: tools/observinglist.cpp:1521
+#: tools/observinglist.cpp:1386
+#, kde-format
+msgid "Failed to download DSS/SDSS image."
+msgstr "Download DSS/SDSS-afbeelding mislukt!"
+
+#: tools/observinglist.cpp:1515
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 "Hiermee worden alle opgeslagen afbeeldingen gewist. Weet u zeker dat u dit "
 "wilt?"
 
-#: tools/observinglist.cpp:1522
+#: tools/observinglist.cpp:1516
 #, kde-format
 msgid "Delete All Images"
 msgstr "Alle afbeeldingen wissen"
 
-#: tools/observinglist.cpp:1619
+#: tools/observinglist.cpp:1613
 #, kde-format
 msgid "Image Chooser"
 msgstr "Afbeeldingen kiezen"
@@ -83806,37 +83674,32 @@ msgctxt "Show the selected object in the telescope"
 msgid "Scope"
 msgstr "Telescoop"
 
-#: tools/obslistpopupmenu.cpp:51
-#, kde-format
-msgid "Eyepiece view"
-msgstr "Beeld oculair"
-
-#: tools/obslistpopupmenu.cpp:66
+#: tools/obslistpopupmenu.cpp:64
 #, kde-format
 msgid "Show SDSS image"
 msgstr "SDSS-afbeelding tonen"
 
-#: tools/obslistpopupmenu.cpp:67
+#: tools/obslistpopupmenu.cpp:65
 #, kde-format
 msgid "Show DSS image"
 msgstr "DDS-afbeelding tonen"
 
-#: tools/obslistpopupmenu.cpp:68
+#: tools/obslistpopupmenu.cpp:66
 #, kde-format
 msgid "Customized DSS download"
 msgstr "Aangepaste DSS-download"
 
-#: tools/obslistpopupmenu.cpp:70
+#: tools/obslistpopupmenu.cpp:68
 #, kde-format
 msgid "Show images from web "
 msgstr "Afbeelding tonen vanaf internet "
 
-#: tools/obslistpopupmenu.cpp:76
+#: tools/obslistpopupmenu.cpp:74
 #, kde-format
 msgid "Remove from WishList"
 msgstr "Verwijderen uit waarneemlijst"
 
-#: tools/obslistpopupmenu.cpp:78
+#: tools/obslistpopupmenu.cpp:76
 #, kde-format
 msgid "Remove from Session Plan"
 msgstr "Verwijderen uit waarneemplan"
@@ -86819,6 +86682,84 @@ msgstr "Achtergrondkleur:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
+
+#~ msgid "Simulate Eyepiece View"
+#~ msgstr "Oculairbeeld simuleren"
+
+#~ msgid "Attempt to determine from image"
+#~ msgstr "Poging uit afbeelding te bepalen"
+
+#~ msgid "Eyepiece View: Choose a field-of-view"
+#~ msgstr "Beeld oculair: kies een gezichtsveld"
+
+#~ msgid "FOV to render eyepiece view for:"
+#~ msgstr "Oculair GV voor:"
+
+#~ msgctxt "@title:window"
+#~ msgid "Export eyepiece view"
+#~ msgstr "Oculairbeeld exporteren"
+
+#~ msgid "Overlay orientation vs. time ticks: "
+#~ msgstr "Laag oriëntatie vs. tijdstikken:"
+
+#~ msgid "Towards Zenith"
+#~ msgstr "Naar zenit"
+
+#~ msgid "Dobsonian View"
+#~ msgstr "Dobsonbeeld"
+
+#~ msgid ""
+#~ "Note: This overlay makes sense only if the view was generated in alt/az "
+#~ "mode with a preset such as Refractor or Vanilla"
+#~ msgstr ""
+#~ "Opmerking: deze laag heeft alleen zin indien het beeld is gemaakt in de "
+#~ "hgte/az-modus, met een instelling zoals Refractor of Gewoon"
+
+#~ msgid ""
+#~ "Note: This overlay  makes sense only if the view was generated in alt/az "
+#~ "mode with a preset such as Dobsonian"
+#~ msgstr ""
+#~ "Opmerking: deze laag heeft alleen zin indien het beeld is gemaakt in de "
+#~ "hgte/az-modus, met een instelling zoals Dobson"
+
+#~ msgctxt "@title:window"
+#~ msgid "Save Image as"
+#~ msgstr "Afbeelding opslaan als"
+
+#~ msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
+#~ msgstr "Afbeeldingsbestanden (*.png *.jpg *.xpm *.bmp *.gif)"
+
+#~ msgctxt "@title:window"
+#~ msgid "Eyepiece Field View"
+#~ msgstr "Beeldveld oculair"
+
+#~ msgctxt "Export image"
+#~ msgid "Export"
+#~ msgstr "Exporteren"
+
+#~ msgid "Invert view"
+#~ msgstr "Beeld omkeren"
+
+#~ msgid "Flip view"
+#~ msgstr "Beeld na flip"
+
+#~ msgid "Fetch DSS image"
+#~ msgstr "DDS-afbeelding ophalen"
+
+#~ msgid "Vanilla"
+#~ msgstr "Vanilla"
+
+#~ msgid "Flipped"
+#~ msgstr "Na flip"
+
+#~ msgid "Dobsonian"
+#~ msgstr "Dobson"
+
+#~ msgid "Preset:"
+#~ msgstr "Voorinstelling:"
+
+#~ msgid "Eyepiece view"
+#~ msgstr "Beeld oculair"
 
 #~ msgid "Autofocus in progress..."
 #~ msgstr "Autofocus is bezig..."
