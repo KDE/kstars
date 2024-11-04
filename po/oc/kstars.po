@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 01:42+0000\n"
+"POT-Creation-Date: 2024-11-04 01:43+0000\n"
 "PO-Revision-Date: 2008-08-05 23:45+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -6697,7 +6697,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr ""
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
-#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4103
+#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4105
 #: ekos/align/polaralignmentassistant.cpp:650
 #, fuzzy, kde-format
 #| msgid "&Settings"
@@ -6952,13 +6952,13 @@ msgstr "Guinèa Eqüatoriala"
 msgid "Polar Alignment"
 msgstr "Autre"
 
-#: ekos/align/align.cpp:4580
+#: ekos/align/align.cpp:4582
 #, fuzzy, kde-format
 #| msgid "Upload"
 msgid "Capture timed out."
 msgstr "Enviar"
 
-#: ekos/align/align.cpp:4589
+#: ekos/align/align.cpp:4591
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""

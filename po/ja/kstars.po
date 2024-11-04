@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 01:42+0000\n"
+"POT-Creation-Date: 2024-11-04 01:43+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -6798,7 +6798,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "天球図に望遠鏡の位置を表示"
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
-#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4103
+#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4105
 #: ekos/align/polaralignmentassistant.cpp:650
 #, fuzzy, kde-format
 #| msgid "&Settings"
@@ -7046,13 +7046,13 @@ msgstr "地平座標"
 msgid "Polar Alignment"
 msgstr "バッチモード"
 
-#: ekos/align/align.cpp:4580
+#: ekos/align/align.cpp:4582
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "画像を保存"
 
-#: ekos/align/align.cpp:4589
+#: ekos/align/align.cpp:4591
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Capturing still running, Retrying in %1 seconds..."

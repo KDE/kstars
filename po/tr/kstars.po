@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 01:42+0000\n"
-"PO-Revision-Date: 2024-10-29 16:20+0300\n"
+"POT-Creation-Date: 2024-11-04 01:43+0000\n"
+"PO-Revision-Date: 2024-11-03 17:27+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6470,7 +6470,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "Kaide, çözüm koordinatlarıyla eşzamanlıdır."
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
-#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4103
+#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4105
 #: ekos/align/polaralignmentassistant.cpp:650
 #, kde-format
 msgid "Settling..."
@@ -6693,12 +6693,12 @@ msgstr "Çözüm noktaları farklı kaydedildi: %1"
 msgid "Polar Alignment"
 msgstr "Kutupsal Hizalama"
 
-#: ekos/align/align.cpp:4580
+#: ekos/align/align.cpp:4582
 #, kde-format
 msgid "Capture timed out."
 msgstr "Yakalama zaman aşımına uğradı."
 
-#: ekos/align/align.cpp:4589
+#: ekos/align/align.cpp:4591
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Yakalama hâlâ sürüyor. %1 saniye içinde yeniden deneniyor…"
@@ -18807,10 +18807,9 @@ msgid "Discarding Autofocus start request - %1 in progress."
 msgstr "Kendiliğinden odaklamayı başlatma isteği yok sayılıyor — %1 sürüyor."
 
 #: ekos/focus/focus.cpp:1243
-#, fuzzy, kde-format
-#| msgid "Adaptive focus starting..."
+#, kde-format
 msgid "Autofocus starting..."
-msgstr "Uyarlanır odak başlatılıyor…"
+msgstr "Kendiliğinden odak başlatılıyor…"
 
 #: ekos/focus/focus.cpp:1257
 #, kde-format
@@ -18987,10 +18986,9 @@ msgid "FITS received. No stars detected."
 msgstr "FITS alındı. Algılanan yıldız yok."
 
 #: ekos/focus/focus.cpp:2850
-#, fuzzy, kde-format
-#| msgid "Capture complete. Select a star to focus."
+#, kde-format
 msgid "Capture complete. Select a region of interest."
-msgstr "Yakalama tamamlandı. Odaklanacak bir yıldız seçin."
+msgstr "Yakalama tamamlandı. Bir ilgi bölgesi seçin."
 
 #: ekos/focus/focus.cpp:2891
 #, kde-format
@@ -19210,10 +19208,9 @@ msgid "Focus star is selected."
 msgstr "Odak yıldızı seçili."
 
 #: ekos/focus/focus.cpp:4891
-#, fuzzy, kde-format
-#| msgid "Focus star is selected."
+#, kde-format
 msgid "Region of interest is selected."
-msgstr "Odak yıldızı seçili."
+msgstr "İlgi bölgesi seçili."
 
 #: ekos/focus/focus.cpp:4911
 #, kde-format
@@ -19235,13 +19232,12 @@ msgstr "Odak denetleme isteği bırakılıyor — %1 sürüyor."
 #: ekos/focus/focus.cpp:4940
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
-msgstr ""
+msgstr "Odak denetleme yok sayıldı — Yıldız ölçüsü yıldız tabanlı olmalıdır"
 
 #: ekos/focus/focus.cpp:4945
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing to check HFR..."
-msgstr "Görsel yakalanıyor…"
+msgstr "HFR denetlemesi için yakalama yapılıyor…"
 
 #: ekos/focus/focus.cpp:5076
 #, kde-format
@@ -20478,36 +20474,7 @@ msgstr "Parabol"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:255
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the Measure to use when fitting a curve for "
-#| "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
-#| "span>: Half Flux Radius. Uses an algorithm to calculate the radius of a "
-#| "circle centred on the star centroid that encapsulates half the star's "
-#| "flux.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
-#| "0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</"
-#| "span>: Adjusted Half Flux Radius. Normalises the HFR for peak intensity. "
-#| "This is an experimental feature.</li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM</"
-#| "span>: Full Width Half Maximum. Curve fits a PSF to each star centroid "
-#| "and uses the curve to calculate the FWHM. This is an experimental feature."
-#| "</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\"># Stars</span>: Number of stars. The number of "
-#| "detected stars at optimum focus will be a maximum. This is an "
-#| "experimental feature.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourier "
-#| "power calculation. Uses the Fourier Transform Power approach developed by "
-#| "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
-#| "the power in frequency space [result of the fourier transform] will be a "
-#| "maximum. This is an experimental feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -20567,23 +20534,43 @@ msgstr ""
 "0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
 "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\"><span style=\" font-weight:600;\">Uyarlamalı HFR</span>: "
-"Uyarlanmış Yarım Akı Yarıçapı. Tepe yoğunluğu için HFR’yi normalleştirir. Bu "
-"deneysel bir özelliktir.</li></ul><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">FWHM</span>: Tam Genişlik "
-"Maksimum Yarı. Eğri, her yıldız merkezine bir PSF yerleştirir ve FWHM’yi "
-"hesaplamak için eğriyi kullanır. Bu deneysel bir özelliktir.</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Yıldız sayısı</span>: Yıldız sayısı. En iyi odaklamada tespit edilen "
-"yıldızların sayısı en büyük olacaktır. Bu deneysel bir özelliktir.</li><li "
+"Uyarlanmış Yarım Akı Yarıçapı. Tepe yoğunluğu için HFR’yi normalleştirir.</"
+"li></ul><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">FWHM</span>: Tam Genişlik Maksimum Yarı. Eğri, her yıldız "
+"merkezine bir PSF yerleştirir ve FWHM’yi hesaplamak için eğriyi kullanır.</"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Yıldız sayısı</span>: Yıldız sayısı. En iyi odaklamada tespit "
+"edilen yıldızların sayısı en büyük olacaktır.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Fourier</"
+"span>: Fourier güç hesabı. Tan ve Schulz tarafından https://arxiv.org/"
+"pdf/2201.12466.pdf adresinde geliştirilen Fourier Dönüşüm Gücü yaklaşımını "
+"kullanır. En iyi odaklanmada frekans uzayındaki güç (Fourier dönüşümünün "
+"sonucu) en büyük olacaktır. Bu deneysel bir özelliktir.</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">StdDev</"
+"span>: Görsel piksellerinin fark bölü ortalamasını kullanır. Yıldız alanları "
+"için yapılmıştır. Bu, openCV’nin kurulu olmasını gerektiren deneysel bir "
+"özelliktir.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Sobel</span>: Sobel kenar algılama algoritmasını "
+"kullanır. Yıldız olmayan; örneğin, Güneş, Ay veya gezegen gövdeleri için "
+"yapılmıştır. Bu, openCV’nin kurulu olmasını gerektiren deneysel bir "
+"özelliktir.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Laplass: </span>Laplass kenar algılama "
+"algoritmasını kullanır. Yıldız olmayan; örneğin, Güneş, Ay veya gezegen "
+"gövdeleri için yapılmıştır. Bu, openCV’nin kurulu olmasını gerektiren "
+"deneysel bir özelliktir.</li></ul><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
 "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Fourier</span>: Fourier güç hesabı. Tan ve Schulz tarafından "
-"https://arxiv.org/pdf/2201.12466.pdf adresinde geliştirilen Fourier Dönüşüm "
-"Gücü yaklaşımını kullanır. En iyi odaklanmada frekans uzayındaki güç "
-"(Fourier dönüşümünün sonucu) en büyük olacaktır. Bu deneysel bir özelliktir."
-"</li></ul></body></html>"
+"weight:600;\">Canny: </span>Canny kenar algılama algoritmasını kullanır. "
+"Yıldız olmayan; örneğin, Güneş, Ay veya gezegen gövdeleri için yapılmıştır. "
+"Bu, openCV’nin kurulu olmasını gerektiren deneysel bir özelliktir.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:264
@@ -20613,30 +20600,25 @@ msgstr "Fourier"
 #: ekos/focus/opsfocusprocess.ui:284
 #, kde-format
 msgid "StdDev"
-msgstr ""
+msgstr "StdDev"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:289
-#, fuzzy, kde-format
-#| msgctxt "City in Wisconsin USA"
-#| msgid "Boscobel"
+#, kde-format
 msgid "Sobel"
-msgstr "Boscobel"
+msgstr "Sobel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:294
-#, fuzzy, kde-format
-#| msgid "Gaussian"
+#, kde-format
 msgid "Laplassian"
-msgstr "Gauss"
+msgstr "Laplass"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:299
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgid "Canny"
-msgstr "Cannes"
+msgstr "Canny"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:313
@@ -20933,14 +20915,14 @@ msgstr ""
 #, kde-format
 msgid "Check to denoise the image before further processing."
 msgstr ""
+"Daha fazla işleme yapmadan önce görselin gürültüsünü kaldırmak üzere "
+"denetleyin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusDenoise)
 #: ekos/focus/opsfocusprocess.ui:694
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Boise"
+#, kde-format
 msgid "Denoise"
-msgstr "Boise"
+msgstr "Gürültüyü kaldır"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:709
@@ -38474,10 +38456,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusDenoise), group (Focus)
 #: kstars.kcfg:2199
-#, fuzzy, kde-format
-#| msgid "Whether to use weights in the curve fitting process."
+#, kde-format
 msgid "Whether to denoise the focus image before further processing."
-msgstr "Eğri uydurma sürecinde ağırlıkların kullanılıp kullanılmayacağı."
+msgstr ""
+"Daha fazla işleme yapmadan önce görselden gürültü kaldırma yapılıp "
+"yapılmayacağı."
 
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2203

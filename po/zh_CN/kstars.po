@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 01:42+0000\n"
+"POT-Creation-Date: 2024-11-04 01:43+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6334,7 +6334,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "赤道仪已同步到解决方案坐标。"
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
-#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4103
+#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4105
 #: ekos/align/polaralignmentassistant.cpp:650
 #, kde-format
 msgid "Settling..."
@@ -6554,12 +6554,12 @@ msgstr "解析点另存为： %1"
 msgid "Polar Alignment"
 msgstr "极轴校准"
 
-#: ekos/align/align.cpp:4580
+#: ekos/align/align.cpp:4582
 #, kde-format
 msgid "Capture timed out."
 msgstr "拍摄超时。"
 
-#: ekos/align/align.cpp:4589
+#: ekos/align/align.cpp:4591
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "拍摄仍在进行， %1 秒后重试..."
@@ -17997,10 +17997,9 @@ msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 
 #: ekos/focus/focus.cpp:1243
-#, fuzzy, kde-format
-#| msgid "Autofocus aborted."
+#, kde-format
 msgid "Autofocus starting..."
-msgstr "自动对焦已终止。"
+msgstr ""
 
 #: ekos/focus/focus.cpp:1257
 #, kde-format
@@ -18170,10 +18169,9 @@ msgid "FITS received. No stars detected."
 msgstr "FITS 接收完毕。未检测到星点。"
 
 #: ekos/focus/focus.cpp:2850
-#, fuzzy, kde-format
-#| msgid "Capture complete. Select a star to focus."
+#, kde-format
 msgid "Capture complete. Select a region of interest."
-msgstr "拍摄完毕。请选择星点来进行对焦。"
+msgstr ""
 
 #: ekos/focus/focus.cpp:2891
 #, kde-format
@@ -18379,10 +18377,9 @@ msgid "Focus star is selected."
 msgstr "对焦星已选择。"
 
 #: ekos/focus/focus.cpp:4891
-#, fuzzy, kde-format
-#| msgid "Focus star is selected."
+#, kde-format
 msgid "Region of interest is selected."
-msgstr "对焦星已选择。"
+msgstr ""
 
 #: ekos/focus/focus.cpp:4911
 #, kde-format
@@ -18405,10 +18402,9 @@ msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
 #: ekos/focus/focus.cpp:4945
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing to check HFR..."
-msgstr "拍摄图像中..."
+msgstr ""
 
 #: ekos/focus/focus.cpp:5076
 #, kde-format
@@ -19604,26 +19600,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:289
-#, fuzzy, kde-format
-#| msgctxt "City in Wisconsin USA"
-#| msgid "Boscobel"
+#, kde-format
 msgid "Sobel"
-msgstr "博斯科贝尔"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:294
-#, fuzzy, kde-format
-#| msgid "Gaussian"
+#, kde-format
 msgid "Laplassian"
-msgstr "高斯"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:299
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgid "Canny"
-msgstr "戛纳"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:313
@@ -19878,11 +19869,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusDenoise)
 #: ekos/focus/opsfocusprocess.ui:694
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Boise"
+#, kde-format
 msgid "Denoise"
-msgstr "博伊西"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:709
@@ -83396,73 +83385,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Simulate Eyepiece View"
-#~ msgstr "模拟目镜视野"
-
-#~ msgid "Attempt to determine from image"
-#~ msgstr "尝试从图像进行确定"
-
-#~ msgid "Eyepiece View: Choose a field-of-view"
-#~ msgstr "目镜视图：选择视场"
-
-#~ msgid "FOV to render eyepiece view for:"
-#~ msgstr "眼镜视图的视场大小："
-
-#~ msgctxt "@title:window"
-#~ msgid "Export eyepiece view"
-#~ msgstr "导出目镜视图"
-
-#~ msgid "Overlay orientation vs. time ticks: "
-#~ msgstr "叠加方向与时间刻度:"
-
-#~ msgid "Towards Zenith"
-#~ msgstr "向天顶"
-
-#~ msgid "Dobsonian View"
-#~ msgstr "道布森视图"
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Image as"
-#~ msgstr "图像另存为"
-
-#~ msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
-#~ msgstr "图片文件 (*.png *.jpg *.xpm *.bmp *.gif)"
-
-#~ msgctxt "@title:window"
-#~ msgid "Eyepiece Field View"
-#~ msgstr "目镜视场"
-
-#~ msgctxt "Export image"
-#~ msgid "Export"
-#~ msgstr "导出"
-
-#~ msgid "Invert view"
-#~ msgstr "反转显示"
-
-#~ msgid "Flip view"
-#~ msgstr "翻转显示"
-
-#~ msgid "Fetch DSS image"
-#~ msgstr "获取 DSS 图像"
-
-#~ msgid "Vanilla"
-#~ msgstr "香草"
-
-#~ msgid "Flipped"
-#~ msgstr "翻转"
-
-#~ msgid "Dobsonian"
-#~ msgstr "道布森"
-
-#~ msgid "Preset:"
-#~ msgstr "预置："
-
-#~ msgid "Eyepiece view"
-#~ msgstr "目镜视场"
-
-#~ msgid "Autofocus in progress..."
-#~ msgstr "正在自动对焦..."
-
-#~ msgid "Please wait until image capture is complete..."
-#~ msgstr "请等待图像拍摄完成..."

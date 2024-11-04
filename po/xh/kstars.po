@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 01:42+0000\n"
+"POT-Creation-Date: 2024-11-04 01:43+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -6470,7 +6470,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr ""
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
-#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4103
+#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4105
 #: ekos/align/polaralignmentassistant.cpp:650
 #, fuzzy, kde-format
 msgid "Settling..."
@@ -6700,12 +6700,12 @@ msgstr "Amanani akunika indawo ncam &Athe tye"
 msgid "Polar Alignment"
 msgstr "Iqwalasele ku: "
 
-#: ekos/align/align.cpp:4580
+#: ekos/align/align.cpp:4582
 #, fuzzy, kde-format
 msgid "Capture timed out."
 msgstr "Gcina umfanekiso"
 
-#: ekos/align/align.cpp:4589
+#: ekos/align/align.cpp:4591
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Fumana umxholo"
