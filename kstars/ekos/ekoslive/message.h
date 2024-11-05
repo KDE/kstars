@@ -198,6 +198,9 @@ class Message : public QObject
         // Process Astronomy Library command
         void processAstronomyCommands(const QString &command, const QJsonObject &payload);
 
+        // Process file commands
+        void processFileCommands(const QString &command, const QJsonObject &payload);
+
         void dispatchDebounceQueue();
 
         KStarsDateTime getNextDawn();

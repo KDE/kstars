@@ -23,6 +23,7 @@
 #include "ekos/scheduler/scheduler.h"
 #include "ekos/scheduler/schedulermodulestate.h"
 #include "kstars.h"
+#include "kspaths.h"
 #include "kstarsdata.h"
 #include "ekos_debug.h"
 #include "ksalmanac.h"
@@ -222,6 +223,8 @@ void Message::onTextReceived(const QString &message)
         processSchedulerCommands(command, payload);
     else if (command.startsWith("dslr_"))
         processDSLRCommands(command, payload);
+    else if (command.startsWith("file_"))
+        processFileCommands(command, payload);
 
     if (m_Manager->getEkosStartingStatus() != Ekos::Success)
         return;
@@ -2238,6 +2241,75 @@ void Message::processAstronomyCommands(const QString &command, const QJsonObject
 
         sendResponse(commands[ASTRO_GET_OBJECTS_RISESET], objectsArray);
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Message::processFileCommands(const QString &command, const QJsonObject &payload)
+{
+    if (command == commands[FILE_DEFAULT_PATH])
+    {
+        sendResponse(commands[FILE_DEFAULT_PATH],
+                     KSPaths::writableLocation(static_cast<QStandardPaths::StandardLocation>(payload["type"].toInt())));
+    }
+    else if (command == commands[FILE_DIRECTORY_OPERATION])
+    {
+        auto path = payload["path"].toString();
+        auto operation = payload["operation"].toString();
+
+        if (operation == "create")
+        {
+            QJsonObject info =
+            {
+                {"result", QDir().mkpath(path)},
+                {"operation", operation}
+            };
+
+            sendResponse(commands[FILE_DIRECTORY_OPERATION], info);
+        }
+        else if (operation == "remove")
+        {
+            QJsonObject info =
+            {
+                {"result", QDir(path).removeRecursively()},
+                {"operation", operation}
+            };
+
+            sendResponse(commands[FILE_DIRECTORY_OPERATION], info);
+        }
+        else if (operation == "list")
+        {
+            auto namedFilters = payload["namedFilters"].toString("*").split(",");
+            auto filters = static_cast<QDir::Filters>(payload["filters"].toInt(QDir::NoFilter));
+            auto sort = static_cast<QDir::SortFlags>(payload["sort"].toInt(QDir::NoSort));
+            auto list = QDir(path).entryInfoList(namedFilters, filters, sort);
+            auto entries = QJsonArray();
+            for (auto &oneEntry : list)
+            {
+                QJsonObject info =
+                {
+                    {"name", oneEntry.completeBaseName()},
+                    {"path", oneEntry.absolutePath()},
+                    {"size", oneEntry.size()},
+                    {"creation", oneEntry.birthTime().toSecsSinceEpoch()},
+                    {"modified", oneEntry.lastModified().toSecsSinceEpoch()}
+                };
+
+                entries.push_back(info);
+            }
+
+            QJsonObject info =
+            {
+                {"result", QDir(path).removeRecursively()},
+                {"operation", operation},
+                {"payload", entries}
+            };
+
+            sendResponse(commands[FILE_DIRECTORY_OPERATION], info);
+        }
+    }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
