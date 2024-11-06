@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-04 01:43+0000\n"
+"POT-Creation-Date: 2024-11-06 01:48+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -17603,13 +17603,13 @@ msgstr ""
 msgid "Offline"
 msgstr ""
 
-#: ekos/ekoslive/message.cpp:744
+#: ekos/ekoslive/message.cpp:747
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "target"
 msgstr "Yjet"
 
-#: ekos/ekoslive/message.cpp:1000
+#: ekos/ekoslive/message.cpp:1003
 #, fuzzy, kde-format
 #| msgid "Saving of the image %1 failed."
 msgid "Mosaic import failed."
