@@ -2308,8 +2308,17 @@ void Message::processFileCommands(const QString &command, const QJsonObject &pay
 
             sendResponse(commands[FILE_DIRECTORY_OPERATION], info);
         }
-    }
+        else if (operation == "exists")
+        {
+            QJsonObject info =
+            {
+                {"result", QDir(path).exists()},
+                {"operation", operation}
+            };
 
+            sendResponse(commands[FILE_DIRECTORY_OPERATION], info);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
