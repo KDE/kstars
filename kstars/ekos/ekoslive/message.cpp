@@ -2289,7 +2289,7 @@ void Message::processFileCommands(const QString &command, const QJsonObject &pay
             {
                 QJsonObject info =
                 {
-                    {"name", oneEntry.completeBaseName()},
+                    {"name", oneEntry.fileName()},
                     {"path", oneEntry.absolutePath()},
                     {"size", oneEntry.size()},
                     {"isFile", oneEntry.isFile()},
