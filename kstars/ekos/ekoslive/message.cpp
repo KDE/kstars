@@ -2302,7 +2302,7 @@ void Message::processFileCommands(const QString &command, const QJsonObject &pay
 
             QJsonObject info =
             {
-                {"result", QDir(path).removeRecursively()},
+                {"result", !entries.empty()},
                 {"operation", operation},
                 {"payload", entries}
             };
