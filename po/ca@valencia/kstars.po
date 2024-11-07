@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-06 01:48+0000\n"
-"PO-Revision-Date: 2024-10-29 16:38+0100\n"
+"PO-Revision-Date: 2024-11-06 22:11+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -19293,10 +19293,9 @@ msgstr ""
 "Es descarta la sol·licitud d'inici d'enfocament automàtic: %1 està en curs."
 
 #: ekos/focus/focus.cpp:1243
-#, fuzzy, kde-format
-#| msgid "Adaptive focus starting..."
+#, kde-format
 msgid "Autofocus starting..."
-msgstr "S'està iniciant l'enfocament adaptatiu…"
+msgstr "S'està iniciant l'enfocament automàtic…"
 
 #: ekos/focus/focus.cpp:1257
 #, kde-format
@@ -19476,10 +19475,9 @@ msgid "FITS received. No stars detected."
 msgstr "S'ha rebut FITS. No s'ha detectat cap estrela."
 
 #: ekos/focus/focus.cpp:2850
-#, fuzzy, kde-format
-#| msgid "Capture complete. Select a star to focus."
+#, kde-format
 msgid "Capture complete. Select a region of interest."
-msgstr "S'ha completat la captura. Seleccioneu l'estrela que s'enfocarà."
+msgstr "S'ha completat la captura. Seleccioneu una regió d'interés."
 
 #: ekos/focus/focus.cpp:2891
 #, kde-format
@@ -19711,10 +19709,9 @@ msgid "Focus star is selected."
 msgstr "S'ha seleccionat l'estrela que s'enfocarà."
 
 #: ekos/focus/focus.cpp:4891
-#, fuzzy, kde-format
-#| msgid "Focus star is selected."
+#, kde-format
 msgid "Region of interest is selected."
-msgstr "S'ha seleccionat l'estrela que s'enfocarà."
+msgstr "S'ha seleccionat una regió d'interés."
 
 #: ekos/focus/focus.cpp:4911
 #, kde-format
@@ -19736,12 +19733,13 @@ msgstr "Es descarta comprovar la sol·licitud d'enfocament: %1 està en curs."
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
+"S'ha ignorat la comprovació de l'enfocament: Cal que la mesura d'estreles "
+"estiga basada en estreles"
 
 #: ekos/focus/focus.cpp:4945
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing to check HFR..."
-msgstr "S'està capturant una imatge…"
+msgstr "S'està capturant per a comprovar l'HFR…"
 
 #: ekos/focus/focus.cpp:5076
 #, kde-format
@@ -21021,36 +21019,7 @@ msgstr "Paràbola"
 # https://ca.wikipedia.org/wiki/Amplada_total_a_la_meitat_del_màxim
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:255
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the Measure to use when fitting a curve for "
-#| "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
-#| "span>: Half Flux Radius. Uses an algorithm to calculate the radius of a "
-#| "circle centred on the star centroid that encapsulates half the star's "
-#| "flux.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
-#| "0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</"
-#| "span>: Adjusted Half Flux Radius. Normalises the HFR for peak intensity. "
-#| "This is an experimental feature.</li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM</"
-#| "span>: Full Width Half Maximum. Curve fits a PSF to each star centroid "
-#| "and uses the curve to calculate the FWHM. This is an experimental feature."
-#| "</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\"># Stars</span>: Number of stars. The number of "
-#| "detected stars at optimum focus will be a maximum. This is an "
-#| "experimental feature.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourier "
-#| "power calculation. Uses the Fourier Transform Power approach developed by "
-#| "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
-#| "the power in frequency space [result of the fourier transform] will be a "
-#| "maximum. This is an experimental feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -21112,23 +21081,50 @@ msgstr ""
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">HFR ajustada</span>: «Adjusted Half Flux "
 "Radius» (Radi de semiflux ajustat). Normalitza l'HFR per a la intensitat "
-"dels pics. Esta és una característica experimental.</li></ul><li style="
-"\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">FWHM</"
-"span>: «Full Width Half Maximum» (amplària total a la meitat del màxim). La "
-"corba, ajusta un PSF a cada centroide d'estrela i utilitza la corba per a "
-"calcular la FWHM. Esta és una característica experimental.</li><li style="
-"\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Nombre "
+"dels pics.</li></ul><li style=\"margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\"font-weight:600;\">FWHM</span>: «Full Width Half Maximum» (amplària "
+"total a la meitat del màxim). La corba, ajusta un PSF a cada centroide "
+"d'estrela i utilitza la corba per a calcular la FWHM.</li><li style=\"margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Nombre "
 "d'estreles</span>: El nombre d'estreles detectades en l'enfocament òptim "
-"serà un màxim. Esta és una característica experimental.</li><li style="
-"\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Fourier</"
-"span>: Càlcul de la potència de Fourier. Utilitza l'aproximació de la "
-"potència de la transformada de Fourier desenvolupada per Tan i Schulz a "
-"https://arxiv.org/pdf/2201.12466.pdf. A l'enfocament òptim, la potència en "
-"l'espai de freqüències -resultat de la transformada de Fourier- serà un "
-"màxim. Esta és una característica experimental.</li></ul></body></html>"
+"serà un màxim.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\"font-weight:600;\">Fourier</span>: Càlcul de la potència de Fourier. "
+"Utilitza l'aproximació de la potència de la transformada de Fourier "
+"desenvolupada per Tan i Schulz a «https://arxiv.org/pdf/2201.12466.pdf». A "
+"l'enfocament òptim, la potència en l'espai de freqüències -resultat de la "
+"transformada de Fourier- serà un màxim. </li><li style=\"margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\"font-weight:600;\">Fourier</span>: Càlcul "
+"de la potència de Fourier. Utilitza l'aproximació de la potència de la "
+"transformada de Fourier Power desenvolupada per en Tan i Schulz a «https://"
+"arxiv.org/pdf/2201.12466.pdf». A l'enfocament òptim, la potència a l'espai "
+"de freqüències (resultat de la transformada de Fourier) serà un màxim.</"
+"li><li style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
+"weight:600;\">DesvEstànd</span>: Utilitza la variància / mitjana dels píxels "
+"de la imatge. Està destinada als camps d'estreles. Esta és una "
+"característica experimental que requerix la instal·lació d'openCV.</li><li "
+"style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
+"weight:600;\">Sobel</span>: Utilitza l'algorisme de detecció de vores de "
+"Sobel. Està pensat per a camps sense estelles, p. ex., solar, d'alguna lluna "
+"o planetaris. Esta és una característica experimental que requerix la "
+"instal·lació d'openCV.</li><li style=\"margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\"font-weight:600;\">De Laplace</span> Utilitza l'algoritme "
+"de detecció de vores de Laplace. Està pensat per a camps sense estelles, p. "
+"ex., solar, d'alguna lluna o planetaris. Esta és una característica "
+"experimental que requerix la instal·lació d'openCV.</li></ul><ul style="
+"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"list-indent:1;\"><li style=\"margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\"font-weight:600;\">Canny</span>: Utilitza l'algorisme de detecció de "
+"vores de Canny. Està pensat per a camps sense estelles, p. ex., solar, "
+"d'alguna lluna o planetaris. Esta és una característica experimental que "
+"requerix la instal·lació d'openCV.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:264
@@ -21158,30 +21154,25 @@ msgstr "Fourier"
 #: ekos/focus/opsfocusprocess.ui:284
 #, kde-format
 msgid "StdDev"
-msgstr ""
+msgstr "DesvEstànd"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:289
-#, fuzzy, kde-format
-#| msgctxt "City in Wisconsin USA"
-#| msgid "Boscobel"
+#, kde-format
 msgid "Sobel"
-msgstr "Boscobel"
+msgstr "Sobel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:294
-#, fuzzy, kde-format
-#| msgid "Gaussian"
+#, kde-format
 msgid "Laplassian"
-msgstr "Gaussià"
+msgstr "De Laplace"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:299
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgid "Canny"
-msgstr "Cannes"
+msgstr "Canny"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:313
@@ -21484,14 +21475,14 @@ msgstr ""
 #, kde-format
 msgid "Check to denoise the image before further processing."
 msgstr ""
+"Marqueu-la per a reduir el soroll de la imatge abans de continuar el "
+"processament."
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusDenoise)
 #: ekos/focus/opsfocusprocess.ui:694
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Boise"
+#, kde-format
 msgid "Denoise"
-msgstr "Boise"
+msgstr "Reducció del soroll"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:709
@@ -39491,10 +39482,11 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusDenoise), group (Focus)
 #: kstars.kcfg:2199
-#, fuzzy, kde-format
-#| msgid "Whether to use weights in the curve fitting process."
+#, kde-format
 msgid "Whether to denoise the focus image before further processing."
-msgstr "Si s'utilitzen ponderacions en el procés d'ajustament de la corba."
+msgstr ""
+"Si s'ha de reduir el soroll de la imatge enfocada abans de continuar el "
+"processament."
 
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2203
@@ -88074,87 +88066,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Simulate Eyepiece View"
-#~ msgstr "Simula la vista de l'ocular"
-
-#~ msgid "Attempt to determine from image"
-#~ msgstr "Intenta determinar a partir de la imatge"
-
-#~ msgid "Eyepiece View: Choose a field-of-view"
-#~ msgstr "Vista de l'ocular: Escolliu un camp de visió"
-
-#~ msgid "FOV to render eyepiece view for:"
-#~ msgstr "CDV per al qual es representa la vista de l'ocular:"
-
-#~ msgctxt "@title:window"
-#~ msgid "Export eyepiece view"
-#~ msgstr "Exporteu la vista de l'ocular"
-
-#~ msgid "Overlay orientation vs. time ticks: "
-#~ msgstr "Superposa les marques d'orientació en funció del temps: "
-
-#~ msgid "Towards Zenith"
-#~ msgstr "Cap al zenit"
-
-#~ msgid "Dobsonian View"
-#~ msgstr "Vista de Dobson"
-
-#~ msgid ""
-#~ "Note: This overlay makes sense only if the view was generated in alt/az "
-#~ "mode with a preset such as Refractor or Vanilla"
-#~ msgstr ""
-#~ "Nota: Esta superposició només té sentint si la vista s'ha generat en mode "
-#~ "alt/az amb un valor predefinit com a Refractor o Estàndard"
-
-#~ msgid ""
-#~ "Note: This overlay  makes sense only if the view was generated in alt/az "
-#~ "mode with a preset such as Dobsonian"
-#~ msgstr ""
-#~ "Nota: Esta superposició només té sentint si la vista s'ha generat en el "
-#~ "mode alt/az amb un valor predefinit com a Dobson"
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Image as"
-#~ msgstr "Guardeu la imatge com a"
-
-#~ msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
-#~ msgstr "Fitxers d'imatge (*png *.jpg *.xpm *.bmp *.gif)"
-
-#~ msgctxt "@title:window"
-#~ msgid "Eyepiece Field View"
-#~ msgstr "Camp de visió de l'ocular"
-
-#~ msgctxt "Export image"
-#~ msgid "Export"
-#~ msgstr "Exporta"
-
-#~ msgid "Invert view"
-#~ msgstr "Invertix la vista"
-
-#~ msgid "Flip view"
-#~ msgstr "Capgira la vista"
-
-#~ msgid "Fetch DSS image"
-#~ msgstr "Obtín la imatge DSS"
-
-#~ msgid "Vanilla"
-#~ msgstr "Estàndard"
-
-#~ msgid "Flipped"
-#~ msgstr "Invertida"
-
-#~ msgid "Dobsonian"
-#~ msgstr "Dobson"
-
-#~ msgid "Preset:"
-#~ msgstr "Predefinit:"
-
-#~ msgid "Eyepiece view"
-#~ msgstr "Vista de l'ocular"
-
-#~ msgid "Autofocus in progress..."
-#~ msgstr "Enfocament automàtic en curs…"
-
-#~ msgid "Please wait until image capture is complete..."
-#~ msgstr "Espereu fins que s'haja completat la captura de la imatge…"
