@@ -2292,6 +2292,7 @@ void Message::processFileCommands(const QString &command, const QJsonObject &pay
                     {"name", oneEntry.completeBaseName()},
                     {"path", oneEntry.absolutePath()},
                     {"size", oneEntry.size()},
+                    {"isFile", oneEntry.isFile()},
                     {"creation", oneEntry.birthTime().toSecsSinceEpoch()},
                     {"modified", oneEntry.lastModified().toSecsSinceEpoch()}
                 };
