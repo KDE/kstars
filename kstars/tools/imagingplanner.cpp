@@ -2973,7 +2973,7 @@ void ImagingPlanner::loadImagedFile()
         }
         else
         {
-            int num = std::min(failedNames.size(), 10);
+            int num = std::min((int)failedNames.size(), 10);
             QString sample = QString("\"%1\"").arg(failedNames[0]);
             for (int i = 1; i < num; ++i)
                 sample.append(QString(" \"%1\"").arg(failedNames[i]));
