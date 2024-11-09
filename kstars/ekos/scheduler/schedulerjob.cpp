@@ -917,6 +917,7 @@ QDateTime SchedulerJob::getNextPossibleStartTime(const QDateTime &when, int incr
                 ltWhen = newFrom;
         }
         result = calculateNextTime(ltWhen, true, increment, nullptr, runningJob, until);
+        result.setTimeZone(ltWhen.timeZone());
         startTimeCache.add(ltWhen, until, result);
         return result;
     }

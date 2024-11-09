@@ -140,6 +140,7 @@ class SkyObject : public SkyPoint
      * @note Note the existence of a SkyObject::typeName( void ) method that is not static and returns the type of this object.
      */
     static QString typeName(const int t);
+    static QString typeShortName(const int t);
 
     /** @return object's primary name. */
     inline virtual QString name(void) const { return hasName() ? Name : unnamedString; }

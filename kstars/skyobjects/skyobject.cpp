@@ -386,6 +386,56 @@ QString SkyObject::typeName(int t)
     }
 }
 
+QString SkyObject::typeShortName(int t)
+{
+    switch (t)
+    {
+        case STAR:
+        case CATALOG_STAR:
+            return i18n("Star");
+        case PLANET:
+            return i18n("Planet");
+        case OPEN_CLUSTER:
+            return i18n("Open Clr");
+        case GLOBULAR_CLUSTER:
+            return i18n("Globular");
+        case GASEOUS_NEBULA:
+            return i18n("Nebula");
+        case PLANETARY_NEBULA:
+            return i18n("Planetary");
+        case SUPERNOVA_REMNANT:
+            return i18n("Remnant");
+        case GALAXY:
+            return i18n("Galaxy");
+        case COMET:
+            return i18n("Comet");
+        case ASTEROID:
+            return i18n("Asteroid");
+        case CONSTELLATION:
+            return i18n("Constellation");
+        case MOON:
+            return i18n("Moon");
+        case GALAXY_CLUSTER:
+            return i18n("Galaxy Clr");
+        case SATELLITE:
+            return i18n("Satellite");
+        case SUPERNOVA:
+            return i18n("Supernova");
+        case RADIO_SOURCE:
+            return i18n("Radio Source");
+        case ASTERISM:
+            return i18n("Asterism");
+        case DARK_NEBULA:
+            return i18n("Dark Neb");
+        case QUASAR:
+            return i18n("Quasar");
+        case MULT_STAR:
+            return i18n("Stars");
+        default:
+            return i18n("Unknown");
+    }
+}
+
 QString SkyObject::typeName() const
 {
     return typeName(Type);

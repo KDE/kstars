@@ -60,6 +60,12 @@ class FindDialog : public QDialog
      */
     int execWithParent(QWidget* parent = nullptr);
 
+    /**
+     * @brief removes the Details... button from this exec.
+     * @return QDialog::exec() result.
+     */
+    int execWithoutDetails();
+
     // Backend methods
     /**
      * @short Do some post processing on the search text to interpret what the user meant
@@ -152,6 +158,7 @@ class FindDialog : public QDialog
     std::size_t m_currentSearchSequence { 0 };
     QPushButton *okB { nullptr };
     SkyObject *m_targetObject { nullptr };
+    QPushButton *m_DetailsB { nullptr };
 
     // History
     QComboBox *m_HistoryCombo { nullptr};

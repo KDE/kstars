@@ -11,6 +11,7 @@
 #include <QPoint>
 
 class GeoLocation;
+class KSAlmanac;
 
 /**
  * @class AVTPlotWidget
@@ -76,6 +77,24 @@ class AVTPlotWidget : public KPlotWidget
      */
     void setPlotExtent(double noonOffset, double plotDuration);
 
+    /**
+     * Sets the Y-axis min and max values
+     * @param min the y-value at the bottom of the plot
+     * @param max the y-value at the top of the plot.
+     */
+    void setAltitudeAxis(double min, double max);
+
+    /**
+     * Higher level method to plot.
+     * @param geo geographic location
+     * @param ksal almanac to lookup sun and moon positions
+     * @param times the times (x-axis) for plotting the object's altitudes. Note 0 is midnight.
+     * @param alts the altitudes (y-axis) of the plot
+     * @param overlay Should be false on first plot. If overlaying a 2nd plot, set to true then.
+     */
+    void plot(const GeoLocation *geo, KSAlmanac *ksal,
+              const QVector<double> &times, const QVector<double> &alts, bool overlay);
+
   protected:
     /**
      * Handle mouse move events. If the mouse button is down, draw crosshair lines
@@ -94,7 +113,7 @@ class AVTPlotWidget : public KPlotWidget
     void paintEvent(QPaintEvent *e) override;
 
   private:    
-    int convertCoords(int xCoord);
+    int convertCoords(double xCoord);
 
     // The times below (SunRise, SunSet, Dawn, Dusk, MoonRise, MoonSet) are all in fractional
     // parts of the day (e.g. 0.5 is 12 noon).
@@ -109,6 +128,8 @@ class AVTPlotWidget : public KPlotWidget
     double MoonIllum { 0 };
     double noonOffset { 0.0}; // Default start plotting at noon plus this offset
     double plotDuration { 24.0 };  // Default plot length is 24 hours
+    double altitudeAxisMin { -90.0 };
+    double altitudeAxisMax { 90.0 };
     QPoint MousePoint;
     const GeoLocation *geo { nullptr };
 };

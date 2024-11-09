@@ -13,6 +13,9 @@
 #include "version.h"
 #include "oal/dslrlens.h"
 #include "imageoverlaycomponent.h"
+#ifdef HAVE_INDI
+#include "tools/imagingplanner.h"
+#endif
 
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -2497,6 +2500,116 @@ bool KSUserDB::GetAllImageOverlays(QList<ImageOverlay> *imageOverlayList)
     }
 
     overlays.clear();
+    return true;
+}
+
+void KSUserDB::CreateImagingPlannerTableIfNecessary()
+{
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    QString command = "CREATE TABLE IF NOT EXISTS imagingPlanner ( "
+                      "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                      "name TEXT NOT NULL,"
+                      "flags INTEGER DEFAULT 0,"
+                      "notes TEXT DEFAULT NULL)";
+    QSqlQuery query(db);
+    if (!query.exec(command))
+    {
+        qCDebug(KSTARS) << query.lastError();
+        qCDebug(KSTARS) << query.executedQuery();
+    }
+}
+
+bool KSUserDB::DeleteAllImagingPlannerEntries()
+{
+    CreateImagingPlannerTableIfNecessary();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel entries(nullptr, db);
+    entries.setTable("imagingPlanner");
+    entries.setFilter("id >= 1");
+    entries.select();
+    entries.removeRows(0, entries.rowCount());
+    entries.submitAll();
+
+    QSqlQuery query(db);
+    QString dropQuery = QString("DROP TABLE imagingPlanner");
+    if (!query.exec(dropQuery))
+        qCWarning(KSTARS) << query.lastError().text();
+
+    return true;
+}
+
+bool KSUserDB::AddImagingPlannerEntry(const ImagingPlannerDBEntry &entry)
+{
+#ifdef HAVE_INDI
+    CreateImagingPlannerTableIfNecessary();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    QSqlTableModel entries(nullptr, db);
+    entries.setTable("imagingPlanner");
+    entries.setFilter("name LIKE \'" + entry.m_Name + "\'");
+    entries.select();
+
+    if (entries.rowCount() > 0)
+    {
+        QSqlRecord record = entries.record(0);
+        record.setValue("name", entry.m_Name);
+        record.setValue("flags", static_cast<int>(entry.m_Flags));
+        record.setValue("notes", entry.m_Notes);
+        entries.setRecord(0, record);
+        entries.submitAll();
+    }
+    else
+    {
+        int row = 0;
+        entries.insertRows(row, 1);
+        entries.setData(entries.index(row, 1), entry.m_Name);  // row,0 is autoincerement ID
+        entries.setData(entries.index(row, 2), static_cast<int>(entry.m_Flags));
+        entries.setData(entries.index(row, 3), entry.m_Notes);
+        entries.submitAll();
+    }
+#endif
+    return true;
+}
+
+bool KSUserDB::GetAllImagingPlannerEntries(QList<ImagingPlannerDBEntry> *entryList)
+{
+#ifdef HAVE_INDI
+    CreateImagingPlannerTableIfNecessary();
+    auto db = QSqlDatabase::database(m_ConnectionName);
+    if (!db.isValid())
+    {
+        qCCritical(KSTARS) << "Failed to open database:" << db.lastError();
+        return false;
+    }
+
+    entryList->clear();
+    QSqlTableModel entries(nullptr, db);
+    entries.setTable("imagingPlanner");
+    entries.select();
+
+    for (int i = 0; i < entries.rowCount(); ++i)
+    {
+        QSqlRecord record         = entries.record(i);
+        const QString name      = record.value("name").toString();
+        const int     flags     = record.value("flags").toInt();
+        const QString notes     = record.value("notes").toString();
+        ImagingPlannerDBEntry e(name, flags, notes);
+        entryList->append(e);
+    }
+
+    entries.clear();
+#endif
     return true;
 }
 

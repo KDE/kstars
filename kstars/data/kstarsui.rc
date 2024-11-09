@@ -89,6 +89,7 @@
                 <Action name="ekos" />
                 <Action name="jmoontool" />
                 <Action name="flagmanager" />
+                <Action name="imagingPlanner"/>
         </Menu>
 
         <Menu name="data" noMerge="1"><text>&amp;Data</text>

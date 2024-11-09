@@ -387,6 +387,10 @@ if (INDI_FOUND)
             ekos/ekoslive/cloud.cpp
             ekos/ekoslive/node.cpp
             ekos/ekoslive/nodemanager.cpp
+
+            # Tools
+            tools/imagingplanner.cpp
+            
         )
         # Aberration Inspector
         if (Qt5DataVisualization_FOUND OR Qt6DataVisualization_FOUND)
@@ -616,6 +620,7 @@ ki18n_wrap_ui(libkstarstools_ui_SRCS
     tools/modcalcsidtime.ui
     tools/modcalcvlsr.ui
     tools/observinglist.ui
+    tools/imagingplanner.ui
     tools/obslistwizard.ui
     tools/optionstreeview.ui
     tools/planetviewer.ui

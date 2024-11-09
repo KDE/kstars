@@ -740,13 +740,16 @@ uint16_t SchedulerUtils::calculateExpectedCapturesMap(const QList<SequenceJob *>
     return capturesPerRepeat;
 }
 
-double SchedulerUtils::findAltitude(const SkyPoint &target, const QDateTime &when, bool * is_setting, bool debug)
+double SchedulerUtils::findAltitude(const SkyPoint &target, const QDateTime &when, bool * is_setting,
+                                    GeoLocation *geo, bool debug)
 {
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
 
+    auto geoLocation = (geo == nullptr) ? SchedulerModuleState::getGeo() : geo;
+
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
-                          Qt::UTC == when.timeSpec() ? SchedulerModuleState::getGeo()->UTtoLT(KStarsDateTime(when)) : when :
+                          Qt::UTC == when.timeSpec() ? geoLocation->UTtoLT(KStarsDateTime(when)) : when :
                           SchedulerModuleState::getLocalTime());
 
     // Create a sky object with the target catalog coordinates
@@ -759,8 +762,8 @@ double SchedulerUtils::findAltitude(const SkyPoint &target, const QDateTime &whe
     o.updateCoordsNow(&numbers);
 
     // Calculate alt/az coordinates using KStars instance's geolocation
-    CachingDms const LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltWhen).gst());
-    o.EquatorialToHorizontal(&LST, SchedulerModuleState::getGeo()->lat());
+    CachingDms const LST = geoLocation->GSTtoLST(geoLocation->LTtoUT(ltWhen).gst());
+    o.EquatorialToHorizontal(&LST, geoLocation->lat());
 
     // Hours are reduced to [0,24[, meridian being at 0
     double offset = LST.Hours() - o.ra().Hours();

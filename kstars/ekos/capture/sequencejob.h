@@ -7,9 +7,6 @@
 #pragma once
 
 #include "sequencejobstate.h"
-#include "indi/indistd.h"
-#include "indi/indicamera.h"
-////#include "ekos/auxiliary/filtermanager.h"
 
 #include <QTableWidgetItem>
 

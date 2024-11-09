@@ -25,6 +25,8 @@
 class LineList;
 class ArtificialHorizonEntity;
 class ImageOverlay;
+class ImagingPlannerDBEntry;
+
 
 /**
  * @brief Single class to delegate all User database I/O
@@ -168,6 +170,19 @@ class KSUserDB
 
         /** @brief Gets all the image overlay rows from the database **/
         bool GetAllImageOverlays(QList<ImageOverlay> *imageOverlayList);
+
+        /************************************************************************
+         **************************** Imaging Planner ***************************
+         ************************************************************************/
+
+        /** @brief Deletes all Imaging Planner rows from the database **/
+        bool DeleteAllImagingPlannerEntries();
+
+        /** @brief Adds a new Imaging Planner row into the database **/
+        bool AddImagingPlannerEntry(const ImagingPlannerDBEntry &entry);
+
+        /** @brief Gets all the Imaging Planner rows from the database **/
+        bool GetAllImagingPlannerEntries(QList<ImagingPlannerDBEntry> *entryList);
 
         /************************************************************************
          ****************************** Sky Map Views ***************************
@@ -489,6 +504,9 @@ class KSUserDB
 
         /** @brief creates the image overlay table if it doesn't already exist **/
         void CreateImageOverlayTableIfNecessary();
+
+        /** @brief creates the imaging planner table if it doesn't already exist **/
+        void CreateImagingPlannerTableIfNecessary();
 
         /** @brief creates the image overlay table if it doesn't already exist **/
         void CreateSkyMapViewTableIfNecessary();

@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "config-kstars.h"
 #include "colorscheme.h"
 #include "geolocation.h"
 #include "ksnumbers.h"
@@ -44,6 +45,7 @@ class SkyMap;
 class SkyMapComposite;
 class SkyObject;
 class ObservingList;
+class ImagingPlanner;
 class TimeZoneRule;
 
 #ifdef KSTARS_LITE
@@ -354,6 +356,13 @@ class KStarsData : public QObject
             return m_ObservingList;
         }
 
+#ifdef HAVE_INDI
+        inline ImagingPlanner *imagingPlanner() const
+        {
+            return m_ImagingPlanner.get();
+        }
+#endif  
+
         ImageExporter *imageExporter();
 
         Execute *executeSession();
@@ -557,6 +566,9 @@ class KStarsData : public QObject
         std::map<QString, QString> m_color_scheme_names; // filename: name
 
 #ifndef KSTARS_LITE
+#ifdef HAVE_INDI
+        std::unique_ptr<ImagingPlanner> m_ImagingPlanner;
+#endif
         ObservingList* m_ObservingList { nullptr };
         std::unique_ptr<OAL::Log> m_LogObject;
         std::unique_ptr<Execute> m_Execute;

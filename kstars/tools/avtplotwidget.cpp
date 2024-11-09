@@ -19,6 +19,9 @@
 #include <kplotobject.h>
 #include <QDebug>
 
+#include "kplotaxis.h"
+#include "ksalmanac.h"
+
 AVTPlotWidget::AVTPlotWidget(QWidget *parent) : KPlotWidget(parent)
 {
     setAntialiasing(true);
@@ -66,29 +69,33 @@ void AVTPlotWidget::mouseMoveEvent(QMouseEvent *e)
 // into graph coordinates before calling this.
 void drawMoon(QPainter &p, int rise, int set, int fade, const QColor &color, int width, int height)
 {
+    QBrush brush(color, Qt::Dense5Pattern);
+    QBrush dimmerBrush(color, Qt::Dense6Pattern);
+    QBrush dimmestBrush(color, Qt::Dense7Pattern);
     if (set < rise)
     {
-        QLinearGradient grad =
-            QLinearGradient(QPointF(set - fade, 0.0), QPointF(set + fade, 0.0));
-        grad.setColorAt(0, color);
-        grad.setColorAt(1, Qt::transparent);
-        // gradient should be padded until set - fade (see QLinearGradient docs)
-        p.fillRect(QRectF(0.0, 0.0, set + fade, height), grad);
-        grad.setStart(QPointF(rise + fade, 0.0));
-        grad.setFinalStop(QPointF(rise - fade, 0.0));
-        p.fillRect(QRectF(rise - fade, 0.0, width - rise + fade, height), grad);
+        if (set + fade >= 0 && set - fade < width)
+        {
+            p.fillRect(QRectF(0.0,        0.0, set - fade, height), brush);
+            p.fillRect(QRectF(set - fade, 0.0, set,        height), dimmerBrush);
+            p.fillRect(QRectF(set,        0.0, set + fade, height), dimmestBrush);
+        }
+        if (rise + fade >= 0 && rise - fade < width)
+        {
+            p.fillRect(QRectF(rise - fade, 0.0,   rise,        height), dimmestBrush);
+            p.fillRect(QRectF(rise,        0.0,   rise + fade, height), dimmerBrush);
+            // Since set < rise, we draw to the end of the box
+            p.fillRect(QRectF(rise + fade, 0.0,   width,       height), brush);
+        }
     }
     else
     {
-        p.fillRect(QRectF(rise + fade, 0.0, set - rise - 2 * fade, height), color);
-        QLinearGradient grad =
-            QLinearGradient(QPointF(rise + fade, 0.0), QPointF(rise - fade, 0.0));
-        grad.setColorAt(0, color);
-        grad.setColorAt(1, Qt::transparent);
-        p.fillRect(QRectF(0.0, 0.0, rise + fade, height), grad);
-        grad.setStart(QPointF(set - fade, 0.0));
-        grad.setFinalStop(QPointF(set + fade, 0.0));
-        p.fillRect(QRectF(set - fade, 0.0, width - set, height), grad);
+        p.fillRect(QRectF(rise - fade, 0.0, rise,        height), dimmestBrush);
+        p.fillRect(QRectF(rise,        0.0, rise + fade, height), dimmerBrush);
+        p.fillRect(QRectF(rise + fade, 0.0, set - fade,  height), brush);
+        p.fillRect(QRectF(set - fade,  0.0, set,         height), dimmerBrush);
+        p.fillRect(QRectF(set,         0.0, set + fade,  height), dimmestBrush);
+
     }
 }
 
@@ -165,7 +172,7 @@ void drawSun(QPainter &p, int rise, int set, double minAlt, double maxAlt, int d
 // To generalize this code, we still compute noon-to-noon coords, but then convert
 // them to more general plot coordinates where the plot length isn't 24 hours and
 // the plot doesn't begin at noon.
-int AVTPlotWidget::convertCoords(int xCoord)
+int AVTPlotWidget::convertCoords(double xCoord)
 {
     const double plotWidth = pixRect().width();
     return plotWidth * ((xCoord * 24.0 / plotWidth) - noonOffset) / plotDuration;
@@ -198,8 +205,8 @@ void AVTPlotWidget::paintEvent(QPaintEvent *e)
     // Draw gradient representing lunar interference in the sky
     if (MoonIllum > 0.01) // do this only if Moon illumination is reasonable so it's important
     {
-        int moonrise = int(pW * (0.5 + MoonRise));
-        int moonset  = int(pW * (MoonSet - 0.5));
+        double moonrise = pW * (0.5 + MoonRise);
+        double moonset  = pW * (MoonSet - 0.5);
         if (moonset < 0)
             moonset += pW;
         if (moonrise > pW)
@@ -207,42 +214,43 @@ void AVTPlotWidget::paintEvent(QPaintEvent *e)
         moonrise = convertCoords(moonrise);
         moonset = convertCoords(moonset);
 
-        int moonalpha = int(10 + MoonIllum * 130);
+        const int mooncolor = int(10 + MoonIllum * 130);
+        const QColor MoonColor(mooncolor, mooncolor, mooncolor);
         int fadewidth =
             pW *
             0.01; // pW * fraction of day to fade the moon brightness over (0.01 corresponds to roughly 15 minutes, 0.007 to 10 minutes), both before and after actual set.
-        QColor MoonColor(255, 255, 255, moonalpha);
 
-        drawMoon(p, moonrise, moonset, fadewidth, MoonColor, pW, pH);
+        drawMoon(p, int(moonrise), int(moonset), fadewidth, MoonColor, pW, pH);
 
     }
     //draw daytime sky if the Sun rises for the current date/location
     if (SunMaxAlt > -18.0)
     {
         // Initially compute centered on midnight, so modulate dawn/dusk by 0.5
-        int rise = int(pW * (0.5 + SunRise));
-        int set  = int(pW * (SunSet - 0.5));
-        int da   = int(pW * (0.5 + Dawn));
-        int du   = int(pW * (Dusk - 0.5));
-        if (du < 0) du = pW + du;
         // Then convert to general coordinates.
-        rise = convertCoords(rise);
-        set = convertCoords(set);
-        da = convertCoords(da);
-        du = convertCoords(du);
+        int rise = convertCoords(pW * (0.5 + SunRise));
+        int set  = convertCoords(pW * (SunSet - 0.5));
+        int dawn = convertCoords(pW * (0.5 + Dawn));
+        double dusk = int(pW * (Dusk - 0.5));
+        if (dusk < 0) dusk = pW + dusk;
+        dusk = convertCoords(dusk);
 
         if (SunMinAlt > 0.0)
         {
             // The sun never set and the sky is always blue
             p.fillRect(rect(), SkyColor);
         }
-        else drawSun(p, rise, set, SunMinAlt, SunMaxAlt, da, du, Dawn < 0.0, SkyColor, pW, pH);
+        else drawSun(p, rise, set, SunMinAlt, SunMaxAlt, dawn, int(dusk), Dawn < 0.0, SkyColor, pW, pH);
     }
 
     //draw ground
-    p.fillRect(0, int(0.5 * pH), pW, int(0.5 * pH),
-               KStarsData::Instance()->colorScheme()->colorNamed(
-                   "HorzColor")); // asimha changed to use color from scheme. Formerly was QColor( "#002200" )
+    if (altitudeAxisMin < 0)
+    {
+        const int groundYValue = pH + altitudeAxisMin * pH / (altitudeAxisMax - altitudeAxisMin);
+        p.fillRect(0, groundYValue, pW, groundYValue,
+                   KStarsData::Instance()->colorScheme()->colorNamed(
+                       "HorzColor")); // asimha changed to use color from scheme. Formerly was QColor( "#002200" )
+    }
 
     foreach (KPlotObject *po, plotObjects())
     {
@@ -262,15 +270,15 @@ void AVTPlotWidget::paintEvent(QPaintEvent *e)
         double x = 12.0 + t.hour() + t.minute() / 60.0 + t.second() / 3600.0;
         while (x > 24.0)
             x -= 24.0;
-        int ix = int(x * pW / 24.0); //convert to screen pixel coords
+        double ix = x * pW / 24.0; //convert to screen pixel coords
         ix = convertCoords(ix);
         p.setPen(QPen(QBrush("white"), 2.0, Qt::DotLine));
-        p.drawLine(ix, 0, ix, pH);
+        p.drawLine(int(ix), 0, ix, pH);
 
         //Label this vertical line with the current time
         p.save();
         p.setFont(smallFont);
-        p.translate(ix + 10, pH - 20);
+        p.translate(int(ix) + 10, pH - 20);
         p.rotate(-90);
         p.drawText(
             0, 0,
@@ -287,7 +295,8 @@ void AVTPlotWidget::paintEvent(QPaintEvent *e)
 
         //Label each crosshair line (time and altitude)
         p.setFont(smallFont);
-        double a = (pH - MousePoint.y()) * 180.0 / pH - 90.0;
+
+        const double a = (pH - MousePoint.y()) * (altitudeAxisMax - altitudeAxisMin) / pH + altitudeAxisMin;
         p.drawText(20, MousePoint.y() + 10, QString::number(a, 'f', 2) + QChar(176));
 
         double h = (MousePoint.x() * plotDuration) / pW - (12.0 - noonOffset);
@@ -345,3 +354,52 @@ void AVTPlotWidget::setPlotExtent(double offset, double duration)
     noonOffset = offset;
     plotDuration = duration;
 }
+
+void AVTPlotWidget::plot(const GeoLocation *geo, KSAlmanac *ksal,
+                         const QVector<double> &times, const QVector<double> &alts, bool overlay)
+{
+    KPlotObject *po = new KPlotObject(Qt::white, KPlotObject::Lines, 2);
+    if (overlay)
+    {
+        QPen pen;
+        pen.setWidth(5);
+        pen.setColor(Qt::green);
+        po->setLinePen(pen);
+    }
+    else
+    {
+        setLimits(times[0], times.last(), altitudeAxisMin, altitudeAxisMax);
+        setSecondaryLimits(times[0], times.last(), altitudeAxisMin, altitudeAxisMax);
+        axis(KPlotWidget::BottomAxis)->setTickLabelFormat('t');
+        axis(KPlotWidget::TopAxis)->setTickLabelFormat('t');
+        axis(KPlotWidget::TopAxis)->setTickLabelsShown(true);
+        setGeoLocation(geo);
+
+        setSunRiseSetTimes(ksal->getSunRise(), ksal->getSunSet());
+        setDawnDuskTimes(ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight());
+        setMinMaxSunAlt(ksal->getSunMinAlt(), ksal->getSunMaxAlt());
+        setMoonRiseSetTimes(ksal->getMoonRise(), ksal->getMoonSet());
+        setMoonIllum(ksal->getMoonIllum());
+
+        const double noonOffset = times[0] - -12;
+        const double plotDuration = times.last() - times[0];
+        setPlotExtent(noonOffset, plotDuration);
+        removeAllPlotObjects();
+    }
+
+    for (int i = 0; i < times.size(); ++i)
+        po->addPoint(times[i], alts[i]);
+    addPlotObject(po);
+
+    update();
+}
+
+void AVTPlotWidget::setAltitudeAxis(double min, double max)
+{
+    if (min < max)
+    {
+        altitudeAxisMin = min;
+        altitudeAxisMax = max;
+    }
+}
+

@@ -87,6 +87,7 @@
 #include "ekos/scheduler/schedulermodulestate.h"
 #include "ekos/opsekos.h"
 #include "ekos/mount/mount.h"
+#include "tools/imagingplanner.h"
 #endif
 #endif
 
@@ -1962,6 +1963,13 @@ void KStars::slotFOVEdit()
 void KStars::slotObsList()
 {
     m_KStarsData->observingList()->show();
+}
+
+void KStars::slotImagingPlanner()
+{
+#ifdef HAVE_INDI
+    m_KStarsData->imagingPlanner()->show();
+#endif
 }
 
 void KStars::slotEquipmentWriter()

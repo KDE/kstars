@@ -762,6 +762,9 @@ class KStars : public KXmlGuiWindow
         /** Toggle display of the observing list tool*/
         void slotObsList();
 
+        /** Toggle display of the imaging planner tool*/
+        void slotImagingPlanner();
+
         /** Meta-slot to handle display toggles for all of the viewtoolbar buttons.
              * uses the name of the sender to identify the item to change.  */
         void slotViewToolBar();

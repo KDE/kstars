@@ -451,6 +451,11 @@ void KStars::initActions()
     actionCollection()->addAction("obslist", this, SLOT(slotObsList()))
             << i18n("Observation Planner") << QKeySequence(Qt::CTRL | Qt::Key_L);
 
+#ifdef HAVE_INDI
+    actionCollection()->addAction("imagingPlanner", this, SLOT(slotImagingPlanner()))
+            << i18n("Imaging Planner (experimental)") << QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_P);
+#endif
+    
     actionCollection()->addAction("altitude_vs_time", this, SLOT(slotAVT()))
             << i18n("Altitude vs. Time") << QKeySequence(Qt::CTRL | Qt::Key_A);
 

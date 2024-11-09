@@ -941,6 +941,156 @@
          <default>true</default>
       </entry>
    </group>
+   <group name="ImagingPlanner">
+      <entry name="ImagingPlannerAcceptOpenCluster" type="Bool">
+         <label>Should the imaging Planner tool process open clusters.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerAcceptNebula" type="Bool">
+         <label>Should the imaging Planner tool process nebulae.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerAcceptGlobularCluster" type="Bool">
+         <label>Should the imaging Planner tool process globular clusters.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerAcceptPlanetary" type="Bool">
+         <label>Should the imaging Planner tool process planetary nebulae.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerAcceptSupernovaRemnant" type="Bool">
+         <label>Should the imaging Planner tool process supernova remnants.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerAcceptGalaxy" type="Bool">
+         <label>Should the imaging Planner tool process galaxies.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerAcceptGalaxyCluster" type="Bool">
+         <label>Should the imaging Planner tool process galaxy clusters.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerAcceptDarkNebula" type="Bool">
+         <label>Should the imaging Planner tool process dark nebulae.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerAcceptOther" type="Bool">
+         <label>Should the imaging Planner tool process other types.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrobinAward" type="Bool">
+         <label>Should the imaging Planner tool required an award when searching for an object in Astrobin.</label>
+         <default>false</default>
+      </entry>
+      <entry name="AstrobinMinRadius" type="Double">
+         <label>Minimum radius of image (degrees) when searching Astrobin</label>
+         <default>0.01</default>
+      </entry>
+      <entry name="AstrobinMaxRadius" type="Double">
+         <label>Maximum radius of image (degrees) when searching Astrobin</label>
+         <default>30.0</default>
+      </entry>
+      <entry name="ImagingPlannerUseArtificialHorizon" type="Bool">
+         <label>Use the system's artificial horizon for calculating imaging hours.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerMinHours" type="Double">
+         <label>Objects are only shown if they can be imaged for this many hours.</label>
+         <default>0.0</default>
+      </entry>
+      <entry name="ImagingPlannerMinAltitude" type="Double">
+         <label>For imaging hours calculation, object must be above this altitude.</label>
+         <default>30.0</default>
+      </entry>
+      <entry name="ImagingPlannerMinMoonSeparation" type="Double">
+         <label>For imaging hours calculation, object must be more than this far from the moon.</label>
+         <default>30.0</default>
+      </entry>
+      <entry name="ImagingPlannerShowPicked" type="Bool">
+         <label>Show the objects that are marked picked (don't show those that are not picked).</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerShowNotPicked" type="Bool">
+         <label>Show the objects that are not marked picked (don't show those that are picked).</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerDontCarePicked" type="Bool">
+         <label>Object display doesn't depend on whether objects are marked picked or not.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerShowKeyword" type="Bool">
+         <label>Show the objects that have the keyword in their notes (and don't show those that don't).</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerShowNotKeyword" type="Bool">
+         <label>Show the objects that don't have the keyword in their notes (and don't show those that do).</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerDontCareKeyword" type="Bool">
+         <label>Object display doesn't depend on whether or not objects have the keyword in their notes.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerKeyword" type="String">
+         <label>Keyword used for the keyword filter.</label>
+         <default></default>
+      </entry>      
+      <entry name="ImagingPlannerShowImaged" type="Bool">
+         <label>Show the objects that are marked imaged (don't show those that are not marked imaged).</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerShowNotImaged" type="Bool">
+         <label>Show the objects that are not marked imaged (don't show those that are marked imaged).</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerDontCareImaged" type="Bool">
+         <label>Object display doesn't depend on whether objects are marked imaged or not.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerShowAdded" type="Bool">
+         <label>Show the objects that have been added (and don't show those that have not been added).</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerShowNotAdded" type="Bool">
+         <label>Show the objects that have not been added (and don't show those that have been added.</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerDontCareAdded" type="Bool">
+         <label>Object display doesn't depend on whether objects have been added or not.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerShowIgnored" type="Bool">
+         <label>Show the objects that have been ignored (and don't show those that have not been ignored).</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerShowNotIgnored" type="Bool">
+         <label>Show the objects that have not been ignored (and don't show those that have been ignored.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerDontCareIgnored" type="Bool">
+         <label>Object display doesn't depend on whether objects have been ignored or not.</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerHideAstrobinDetails" type="Bool">
+         <label>Hide the imaging planner's Astrobin search details section.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerHideFilters" type="Bool">
+         <label>Hide the imaging planner's filters section.</label>
+         <default>true</default>
+      </entry>
+      <entry name="ImagingPlannerHideImage" type="Bool">
+         <label>Hide the imaging planner's image section.</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerHideAltitudeGraph" type="Bool">
+         <label>Hide the imaging planner's altitude graph.</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerCatalogPath" type="String">
+         <label>File path the the most recent catalog loaded by the Imaging Planner.</label>
+         <default></default>
+      </entry>      
+   </group>
    <group name="ObservingList">
       <entry name="ObsListSymbol" type="Bool">
          <label>Use symbols to label observing list objects</label>

@@ -84,9 +84,9 @@ FindDialog::FindDialog(QWidget *parent)
     okB = buttonBox->button(QDialogButtonBox::Ok);
     okB->setEnabled(false);
 
-    QPushButton *detailB = new QPushButton(i18n("Details..."));
-    buttonBox->addButton(detailB, QDialogButtonBox::ActionRole);
-    connect(detailB, SIGNAL(clicked()), this, SLOT(slotDetails()));
+    m_DetailsB = new QPushButton(i18n("Details..."));
+    buttonBox->addButton(m_DetailsB, QDialogButtonBox::ActionRole);
+    connect(m_DetailsB, SIGNAL(clicked()), this, SLOT(slotDetails()));
 
     ui->InternetSearchButton->setVisible(Options::resolveNamesOnline());
     ui->InternetSearchButton->setEnabled(false);
@@ -603,3 +603,14 @@ int FindDialog::execWithParent(QWidget* parent)
 
     return result;
 }
+
+int FindDialog::execWithoutDetails()
+{
+    m_DetailsB->setEnabled(false);
+    m_DetailsB->setVisible(false);
+    int const result = QDialog::exec();
+    m_DetailsB->setVisible(true);
+    m_DetailsB->setEnabled(true);
+    return result;
+}
+

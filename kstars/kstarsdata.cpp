@@ -20,6 +20,9 @@
 #include "imageexporter.h"
 #include "kstars.h"
 #include "observinglist.h"
+#ifdef HAVE_INDI
+#include "tools/imagingplanner.h"
+#endif
 #include "skymap.h"
 #include "dialogs/detaildialog.h"
 #include "oal/execute.h"
@@ -161,12 +164,12 @@ bool KStarsData::initialize()
 
                 QSqlQuery query(fixcitydb);
                 if (query.exec(
-                        "alter table city add column Elevation real default -10;") ==
-                    false)
+                            "alter table city add column Elevation real default -10;") ==
+                        false)
                 {
                     emit progressText(QString("failed to add Elevation column to city "
                                               "table in mycitydb.sqlite: &1")
-                                          .arg(query.lastError().text()));
+                                      .arg(query.lastError().text()));
                 }
             }
             else
@@ -206,7 +209,7 @@ bool KStarsData::initialize()
     //     return false;
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QFuture<bool> future = QtConcurrent::run(&KStarsData::readURLData, this, QString("image_url.dat"),
-                                             SkyObjectUserdata::Type::image);
+                           SkyObjectUserdata::Type::image);
 #else
     QtConcurrent::run(this, &KStarsData::readURLData, QString("image_url.dat"),
                       SkyObjectUserdata::Type::image);
@@ -229,8 +232,11 @@ bool KStarsData::initialize()
     //emit progressText( i18n("Loading Variable Stars" ) );
 
 #ifndef KSTARS_LITE
-    //Initialize Observing List
+    //Initialize Observing List and imaging planner
     m_ObservingList = new ObservingList();
+#ifdef HAVE_INDI
+    m_ImagingPlanner.reset(new ImagingPlanner());
+#endif
 #endif
 
     readUserLog();
@@ -1504,12 +1510,12 @@ void KStarsData::syncFOV()
             visibleFOVs.append(fov);
     }
     // Remove unavailable FOVs
-    #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     QSet<QString> names = QSet<QString>::fromList(Options::fOVNames());
-    #else
+#else
     const QStringList m_fOVNames = Options::fOVNames();
     QSet<QString> names (m_fOVNames.begin(), m_fOVNames.end());
-    #endif
+#endif
     QSet<QString> all;
     foreach (FOV *fov, visibleFOVs)
     {
@@ -1553,16 +1559,16 @@ KStarsData::addToUserData(const QString &name, const SkyObjectUserdata::LinkData
     file.setFileName(
         KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation) +
         (isImage ?
-             "image_url.dat" :
-             "info_url.dat")); //determine filename in local user KDE directory tree.
+         "image_url.dat" :
+         "info_url.dat")); //determine filename in local user KDE directory tree.
 
     if (!file.open(QIODevice::ReadWrite | QIODevice::Append))
         return { false,
                  isImage ?
-                     i18n("Custom image-links file could not be opened.\nLink cannot "
-                          "be recorded for future sessions.") :
-                     i18n("Custom information-links file could not be opened.\nLink "
-                          "cannot be recorded for future sessions.") };
+                 i18n("Custom image-links file could not be opened.\nLink cannot "
+                      "be recorded for future sessions.") :
+                 i18n("Custom information-links file could not be opened.\nLink "
+                      "cannot be recorded for future sessions.") };
     else
     {
         entry = name + ':' + data.title + ':' + data.url.toString();
@@ -1575,8 +1581,8 @@ KStarsData::addToUserData(const QString &name, const SkyObjectUserdata::LinkData
 }
 
 std::pair<bool, QString> updateLocalDatabase(SkyObjectUserdata::Type type,
-                                             const QString &search_line,
-                                             const QString &replace_line)
+        const QString &search_line,
+        const QString &replace_line)
 {
     QString TempFileName, file_line;
     QFile URLFile;
@@ -1593,7 +1599,7 @@ std::pair<bool, QString> updateLocalDatabase(SkyObjectUserdata::Type type,
 
     switch (type)
     {
-            // Info Links
+        // Info Links
         case SkyObjectUserdata::Type::website:
             // Get name for our local info_url file
             URLFile.setFileName(
@@ -1601,7 +1607,7 @@ std::pair<bool, QString> updateLocalDatabase(SkyObjectUserdata::Type type,
                 "info_url.dat");
             break;
 
-            // Image Links
+        // Image Links
         case SkyObjectUserdata::Type::image:
             // Get name for our local info_url file
             URLFile.setFileName(
@@ -1618,7 +1624,7 @@ std::pair<bool, QString> updateLocalDatabase(SkyObjectUserdata::Type type,
     if (!URLFile.open(QIODevice::WriteOnly))
     {
         return { false, "Failed to open " + URLFile.fileName() +
-                            "KStars cannot save to user database" };
+                 "KStars cannot save to user database" };
     }
 
     // Get streams;
@@ -1654,8 +1660,8 @@ std::pair<bool, QString> updateLocalDatabase(SkyObjectUserdata::Type type,
 }
 
 std::pair<bool, QString> KStarsData::editUserData(const QString &name,
-                                                  const unsigned int index,
-                                                  const SkyObjectUserdata::LinkData &data)
+        const unsigned int index,
+        const SkyObjectUserdata::LinkData &data)
 {
     QMutexLocker _{ &m_user_data_mutex };
 
@@ -1676,8 +1682,8 @@ std::pair<bool, QString> KStarsData::editUserData(const QString &name,
 }
 
 std::pair<bool, QString> KStarsData::deleteUserData(const QString &name,
-                                                    const unsigned int index,
-                                                    SkyObjectUserdata::Type type)
+        const unsigned int index,
+        SkyObjectUserdata::Type type)
 {
     QMutexLocker _{ &m_user_data_mutex };
 
@@ -1699,7 +1705,7 @@ std::pair<bool, QString> KStarsData::deleteUserData(const QString &name,
 }
 
 std::pair<bool, QString> KStarsData::updateUserLog(const QString &name,
-                                                   const QString &newLog)
+        const QString &newLog)
 {
     QMutexLocker _{ &m_user_data_mutex };
 
@@ -1710,7 +1716,7 @@ std::pair<bool, QString> KStarsData::updateUserLog(const QString &name,
     //+ new log is the "default" message
     //+ new log is empty
     if (newLog == (i18n("Record here observation logs and/or data on %1.", name)) ||
-        newLog.isEmpty())
+            newLog.isEmpty())
         return { true, {} };
 
     // header label

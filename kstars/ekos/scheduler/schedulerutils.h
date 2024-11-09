@@ -11,13 +11,14 @@
 #include "ekos/capture/capturetypes.h"
 #include "ekos/auxiliary/modulelogger.h"
 #include "dms.h"
-#include "libindi/lilxml.h"
+#include <lilxml.h>
 
 #include <QString>
 #include <QUrl>
 #include <QDateTime>
 
 class SkyPoint;
+class GeoLocation;
 
 namespace Ekos {
 
@@ -124,7 +125,7 @@ public:
          * @return Altitude of the target at the specific date and time given.
          * @warning This function uses the current KStars geolocation.
          */
-    static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, bool debug = false);
+    static double findAltitude(const SkyPoint &target, const QDateTime &when, bool *is_setting = nullptr, GeoLocation *geo = nullptr, bool debug = false);
 
     /**
      * @brief create a new list with only the master jobs from the input
