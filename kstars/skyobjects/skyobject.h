@@ -20,10 +20,10 @@ class GeoLocation;
 class KSPopupMenu;
 
 namespace {
-    constexpr const char *emptyString = "";
-    const char *unnamedString = ki18n("unnamed").toString().toUtf8().constData();
-    const char *unnamedObjectString = ki18n("unnamed object").toString().toUtf8().constData();
-    const char *starString = ki18n("star").toString().toUtf8().constData();
+    const auto emptyString = QStringLiteral();
+    const auto unnamedString = ki18n("unnamed").toString();
+    const auto unnamedObjectString = ki18n("unnamed object").toString();
+    const auto starString = ki18n("star").toString();
 }
 
 // Set the faintest sane magnitude to 36.0 (faintest visual magnitude visible with E-ELT, acc. to Wikipedia on Apparent Magnitude.)
