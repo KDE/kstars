@@ -29,7 +29,7 @@ The Imaging Planner Tool
   <para>Right clicking (or control-click) on a row brings up a menu of operations that can be done on the object. Multiple rows can be selected (by the "click then shift-click technique") and the right-click menu may operate on all the selected rows. The operations allow you to add attributes to the object. Choices are:
   </para>
 <itemizedlist>
-<listitem><para>Pick the object (on un-pick an already picked object). Marking the object as picked will allow you to later just display a few picked objects instead of the whole table. For example, one may spend time researching many objects, and when an interesting candidate is seen, it may be marked picked for later examination. After a while, when a collection of picked objects has been put together, one can only show the picked objects by using the picked filtering constraint (see Filters below).
+<listitem><para>Pick the object (or un-pick an already picked object). Marking the object as picked will allow you to later just display a few picked objects instead of the whole table. For example, one may spend time researching many objects, and when an interesting candidate is seen, it may be marked picked for later examination. After a while, when a collection of picked objects has been put together, one can only show the picked objects by using the picked filtering constraint (see Filters below).
 </para></listitem><listitem><para>Mark an object as already imaged (or undo that). Again, one can set this object attribute and later filter for not displaying these (or only displaying those).
 </para></listitem><listitem><para>Mark an object to be ignored (or undo that). Similar to marking as already imaged.
 </para></listitem>

@@ -835,7 +835,7 @@ void TestEkosSchedulerOps::testTwilightStartup()
     WithInterval interval(20000, scheduler);
     // define culmination offset of 1h as startup condition
     m_startupCondition.type = Ekos::START_ASAP;
-    // initialize the the scheduler
+    // initialize the scheduler
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
     QVector<QString> esqVector;
     esqVector.push_back(TestEkosSchedulerHelper::getDefaultEsqContent());

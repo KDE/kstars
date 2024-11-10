@@ -1760,7 +1760,7 @@
               <item row="1" column="4">
                <widget class="QCheckBox" name="PlanetaryCB">
                 <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hide planetary nebulaeif unchecked.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hide planetary nebulae if unchecked.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
                  <string>Planetary</string>
@@ -1927,7 +1927,7 @@
               <item row="5" column="3">
                <widget class="QCheckBox" name="dontCareAddedCB">
                 <property name="toolTip">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Object display doesn't depend on whether objects have been add or not.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Object display doesn't depend on whether objects have been added or not.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="text">
                  <string>Don't care</string>

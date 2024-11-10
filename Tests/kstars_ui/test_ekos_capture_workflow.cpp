@@ -927,7 +927,7 @@ void TestEkosCaptureWorkflow::testDarkManualCovering()
         m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IMAGE_RECEIVED);
         m_CaptureHelper->expectedCaptureStates.append(Ekos::CAPTURE_IDLE);
         KTRY_CLICK(capture, startB);
-        // if shutter type unknown, answer the the modal dialog with "No"
+        // if shutter type unknown, answer the modal dialog with "No"
         if (shutter == SHUTTER_UNKNOWN)
             CLOSE_MODAL_DIALOG(1);
         // click OK in the modal dialog for covering the telescope if camera has no shutter

@@ -47,7 +47,7 @@ class TestEkosSchedulerHelper : public TestEkosHelper
 
         TestEkosSchedulerHelper();
 
-        // This writes the the scheduler and capture files into the locations given.
+        // This writes the scheduler and capture files into the locations given.
         static bool writeSimpleSequenceFiles(const QString &eslContents, const QString &eslFile, const QString &esqContents,
                                              const QString &esqFile);
 

@@ -1063,7 +1063,7 @@
          <default>false</default>
       </entry>
       <entry name="ImagingPlannerShowNotIgnored" type="Bool">
-         <label>Show the objects that have not been ignored (and don't show those that have been ignored.</label>
+         <label>Show the objects that have not been ignored (and don't show those that have been ignored).</label>
          <default>true</default>
       </entry>
       <entry name="ImagingPlannerDontCareIgnored" type="Bool">
@@ -1087,7 +1087,7 @@
          <default>false</default>
       </entry>
       <entry name="ImagingPlannerCatalogPath" type="String">
-         <label>File path the the most recent catalog loaded by the Imaging Planner.</label>
+         <label>File path to the most recent catalog loaded by the Imaging Planner.</label>
          <default></default>
       </entry>      
    </group>
