@@ -29,7 +29,7 @@ public:
     {
         PickedBit  = 0x1,
         ImagedBit  = 0x2,
-        AddedBit   = 0x4,
+        //AddedBit   = 0x4,
         IgnoredBit = 0x8
     };
 
@@ -38,9 +38,9 @@ public:
     QString m_Notes;
     ImagingPlannerDBEntry() {};
     ImagingPlannerDBEntry(const QString &name, int flags, const QString &notes);
-    ImagingPlannerDBEntry(const QString &name, bool picked, bool imaged, bool added, bool ignored, const QString &notes);
-    void setFlags(bool picked, bool imaged, bool added, bool ignored);
-    void getFlags(bool *picked, bool *imaged, bool *added, bool *ignored);
+    ImagingPlannerDBEntry(const QString &name, bool picked, bool imaged, bool ignored, const QString &notes);
+    void setFlags(bool picked, bool imaged, bool ignored);
+    void getFlags(bool *picked, bool *imaged, bool *ignored);
     QString name() { return m_Name; }
 };
 
@@ -58,7 +58,6 @@ class CatalogImageInfo
     CatalogImageInfo() {}
     CatalogImageInfo(const QString &csv);
     QString m_Name, m_Filename, m_Author, m_Link, m_License;
-    const static int MIN_COLUMNS = 5;
 };
 
 class CatalogFilter : public QSortFilterProxyModel
@@ -72,7 +71,6 @@ class CatalogFilter : public QSortFilterProxyModel
         void setImagedConstraints(bool enabled, bool required);
         void setPickedConstraints(bool enabled, bool required);
         void setIgnoredConstraints(bool enabled, bool required);
-        void setAddedConstraints(bool enabled, bool required);
         void setKeywordConstraints(bool enabled, bool required, const QString &keyword);
         void setSortColumn(int column);
 
@@ -84,8 +82,6 @@ private:
         bool m_PickedRequired = false;
         bool m_IgnoredConstraintsEnabled = false;
         bool m_IgnoredRequired = false;
-        bool m_AddedConstraintsEnabled = false;
-        bool m_AddedRequired = false;
         bool m_KeywordConstraintsEnabled = false;
         bool m_KeywordRequired = false;
         QString m_Keyword;
@@ -125,8 +121,7 @@ protected slots:
     void searchWikipedia();
     void searchSimbad();
     void searchNGCICImages();
-    void recomputeHours();
-    void addUserObject();
+    void recompute();
     void sorry(const QString &message);
 
 signals:
@@ -149,8 +144,8 @@ signals:
 
   private:
     void initialize();
-    void catalogLoaded(bool addUserAddedObjects = true);
-    void loadCatalog(const QString &path, bool addUserAddedObjects);
+    void catalogLoaded();
+    void loadCatalog(const QString &path);
 
 
     // Methods for setting up buttons and options.
@@ -171,13 +166,14 @@ signals:
     QString defaultDirectory() const;
     QString findDefaultCatalog() const;
     bool getKStarsCatalogObject(const QString &name, CatalogObject *catObject, bool useNameResolver = false);
-    bool addCatalogItem(const QString &name, int flags = 0, bool useNameResolver = false);
+    bool addCatalogItem(const KSAlmanac &ksal, const QString &name, int flags = 0, bool useNameResolver = false);
     QUrl getAstrobinUrl(const QString &target, bool requireAwards, bool requireSomeFilters, double minRadius, double maxRadius);
     void popupAstrobin(const QString &target);
     void plotAltitudeGraph(const QDate &date, const dms &ra, const dms &dec);
 
     void moveBackOneDay();
     void moveForwardOneDay();
+    bool scrollToName(const QString &name);
 
     void updateStatus(const QString &message);
     void standardStatus();
@@ -190,7 +186,7 @@ signals:
 
     void setDefaultImage();
 
-    QString currentObjectName();
+    QString currentObjectName() const;
     int currentObjectFlags();
     QString currentObjectNotes();
     void setCurrentObjectNotes(const QString &notes);
@@ -211,9 +207,9 @@ signals:
     void updateMoon();
 
     // Database utilities.
-    void saveToDB(const QString &name, bool picked, bool imaged, bool added, bool ignored, const QString &notes);
+    void saveToDB(const QString &name, bool picked, bool imaged, bool ignored, const QString &notes);
     void saveToDB(const QString &name, int flags, const QString &notes);
-    void loadFromDB(bool addUserAddedObjects = true);
+    void loadFromDB();
 
     void highlightImagedObject(const QModelIndex &index, bool imaged);
 

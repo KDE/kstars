@@ -83,13 +83,11 @@ enum ColumnNames
 
 #define PICKED_BIT ImagingPlannerDBEntry::PickedBit
 #define IMAGED_BIT ImagingPlannerDBEntry::ImagedBit
-#define ADDED_BIT ImagingPlannerDBEntry::AddedBit
 #define IGNORED_BIT ImagingPlannerDBEntry::IgnoredBit
 
 /**********************************************************
 TODO/Ideas:
 
-Remove code for userAddedObjects
 Log at bottom?
 Imaging time constraint in hours calc
 Maybe options with slew to center checkbox
@@ -176,12 +174,6 @@ QString flagString(int flags)
         if (str.size() != 0)
             str.append(", ");
         str.append(i18n("Picked"));
-    }
-    if (flags & ADDED_BIT)
-    {
-        if (str.size() != 0)
-            str.append(", ");
-        str.append(i18n("Added"));
     }
     if (flags & IGNORED_BIT)
     {
@@ -606,8 +598,7 @@ bool downsampleImageFiles(const QString &baseDir, int maxHeight)
         fprintf(stderr, "downsampleImageFiles: Base directory doesn't exist\n");
         return false;
     }
-    QDir outDir = QDir(directory.absolutePath().append("/").append(subDir));
-    //QDir outDir = QDir("/home/hy/REDUCED");
+    QDir outDir = QDir(directory.absolutePath().append(QDir::separator()).append(subDir));
     if (!outDir.exists())
     {
         if (!outDir.mkpath("."))
@@ -621,7 +612,7 @@ bool downsampleImageFiles(const QString &baseDir, int maxHeight)
     QStringList files = directory.entryList(QStringList() << "*.jpg" << "*.JPG" << "*.png", QDir::Files);
     foreach (QString filename, files)
     {
-        QString fullPath = QString("%1/%2").arg(baseDir).arg(filename);
+        QString fullPath = QString("%1%2%3").arg(baseDir).arg(QDir::separator()).arg(filename);
         QImage img(fullPath);
         QImage scaledImg;
         if (img.height() > maxHeight)
@@ -629,9 +620,9 @@ bool downsampleImageFiles(const QString &baseDir, int maxHeight)
         else
             scaledImg = img;
 
-        QString writeFilename = outDir.absolutePath().append("/").append(filename);
+        QString writeFilename = outDir.absolutePath().append(QDir::separator()).append(filename);
         QFileInfo info(writeFilename);
-        QString jpgFilename = info.path() + "/" + info.completeBaseName() + ".jpg";
+        QString jpgFilename = info.path() + QDir::separator() + info.completeBaseName() + ".jpg";
 
         if (!scaledImg.save(jpgFilename, "JPG"))
             fprintf(stderr, "downsampleImageFiles: Failed saving \"%s\"\n", writeFilename.toLatin1().data());
@@ -717,6 +708,59 @@ QString creativeCommonsTooltipString(const QString &astrobinAbbrev)
     else return "";
 }
 
+QString shortCoordString(const dms &ra, const dms &dec)
+{
+    return QString("%1h%2' %3%4°%5'").arg(ra.hour()).arg(ra.minute())
+           .arg(dec.Degrees() < 0 ? "-" : "").arg(abs(dec.degree())).arg(abs(dec.arcmin()));
+}
+
+double getAltitude(GeoLocation *geo, SkyPoint &p, const QDateTime &time)
+{
+    auto ut2 = geo->LTtoUT(KStarsDateTime(time));
+    CachingDms LST = geo->GSTtoLST(ut2.gst());
+    p.EquatorialToHorizontal(&LST, geo->lat());
+    return p.alt().Degrees();
+}
+
+double getMaxAltitude(const KSAlmanac &ksal, const QDate &date, GeoLocation *geo, const SkyObject &object,
+                      double hoursAfterDusk = 0, double hoursBeforeDawn = 0)
+{
+    auto tz = QTimeZone(geo->TZ() * 3600);
+    KStarsDateTime midnight = KStarsDateTime(date.addDays(1), QTime(0, 1));
+    midnight.setTimeZone(tz);
+
+    QDateTime dawn = midnight.addSecs(24 * 3600 * ksal.getDawnAstronomicalTwilight());
+    dawn.setTimeZone(tz);
+    QDateTime dusk = midnight.addSecs(24 * 3600 * ksal.getDuskAstronomicalTwilight());
+    dusk.setTimeZone(tz);
+
+    QDateTime start = dusk.addSecs(hoursAfterDusk * 3600);
+    start.setTimeZone(tz);
+
+    auto end = dawn.addSecs(-hoursBeforeDawn * 3600);
+    end.setTimeZone(tz);
+
+    SkyPoint coords = object;
+    double maxAlt = -90;
+    auto t = start;
+    t.setTimeZone(tz);
+    QDateTime maxTime = t;
+
+    // 1.8 here
+
+    while (t.secsTo(end) > 0)
+    {
+        double alt = getAltitude(geo, coords, t);
+        if (alt > maxAlt)
+        {
+            maxAlt = alt;
+            maxTime = t;
+        }
+        t = t.addSecs(60 * 20);
+    }
+    return maxAlt;
+}
+
 }  // namespace
 
 CatalogFilter::CatalogFilter(QObject* parent) : QSortFilterProxyModel(parent)
@@ -744,10 +788,6 @@ bool CatalogFilter::filterAcceptsRow(int row, const QModelIndex &parent) const
     const bool isIgnored = sourceModel()->data(flagsIndex, FLAGS_ROLE).toInt() & IGNORED_BIT;
     const bool passesIgnoredConstraints = !m_IgnoredConstraintsEnabled || (isIgnored == m_IgnoredRequired);
     if (!passesIgnoredConstraints) return false;
-
-    const bool isAdded = sourceModel()->data(flagsIndex, FLAGS_ROLE).toInt() & ADDED_BIT;
-    const bool passesAddedConstraints = !m_AddedConstraintsEnabled || (isAdded == m_AddedRequired);
-    if (!passesAddedConstraints) return false;
 
     const bool isPicked = sourceModel()->data(flagsIndex, FLAGS_ROLE).toInt() & PICKED_BIT;
     const bool passesPickedConstraints = !m_PickedConstraintsEnabled || (isPicked == m_PickedRequired);
@@ -783,12 +823,6 @@ void CatalogFilter::setIgnoredConstraints(bool enabled, bool required)
 {
     m_IgnoredConstraintsEnabled = enabled;
     m_IgnoredRequired = required;
-}
-
-void CatalogFilter::setAddedConstraints(bool enabled, bool required)
-{
-    m_AddedConstraintsEnabled = enabled;
-    m_AddedRequired = required;
 }
 
 void CatalogFilter::setKeywordConstraints(bool enabled, bool required, const QString &keyword)
@@ -971,7 +1005,7 @@ void ImagingPlanner::setupFilterButton(QCheckBox * checkbox, bool(*option)(), vo
     });
 }
 
-// Sets up the picked/imaged/added/ignored/keyword buttons
+// Sets up the picked/imaged/ignored/keyword buttons
 void ImagingPlanner::setupFilter2Buttons(
     QCheckBox * yes, QCheckBox * no, QCheckBox * dontCare,
     bool(*yesOption)(), bool(*noOption)(), bool(*dontCareOption)(),
@@ -1012,15 +1046,13 @@ void ImagingPlanner::setupFilter2Buttons(
     dontCare->setChecked(dontCareOption());
 }
 
-// Updates the QSortFilterProxyModel with new picked/imaged/added/ignore settings.
+// Updates the QSortFilterProxyModel with new picked/imaged/ignore settings.
 void ImagingPlanner::updateSortConstraints()
 {
     m_CatalogSortModel->setPickedConstraints(!ui->dontCarePickedCB->isChecked(),
             ui->pickedCB->isChecked());
     m_CatalogSortModel->setImagedConstraints(!ui->dontCareImagedCB->isChecked(),
             ui->imagedCB->isChecked());
-    m_CatalogSortModel->setAddedConstraints(!ui->dontCareAddedCB->isChecked(),
-                                            ui->addedCB->isChecked());
     m_CatalogSortModel->setIgnoredConstraints(!ui->dontCareIgnoredCB->isChecked(),
             ui->ignoredCB->isChecked());
     m_CatalogSortModel->setKeywordConstraints(!ui->dontCareKeywordCB->isChecked(),
@@ -1055,7 +1087,7 @@ void ImagingPlanner::initialize()
     m_CatalogModel->horizontalHeaderItem(
         SIZE_COLUMN)->setToolTip(i18n("Maximum object dimension (arcmin)--click header to sort ascending/descending."));
     m_CatalogModel->horizontalHeaderItem(
-        ALTITUDE_COLUMN)->setToolTip(i18n("Altitude at transit--click header to sort ascending/descending."));
+        ALTITUDE_COLUMN)->setToolTip(i18n("Maximum altitude--click header to sort ascending/descending."));
     m_CatalogModel->horizontalHeaderItem(
         MOON_COLUMN)->setToolTip(i18n("Moon angular separation at midnight--click header to sort ascending/descending."));
     m_CatalogModel->horizontalHeaderItem(
@@ -1100,9 +1132,11 @@ void ImagingPlanner::initialize()
     connect(ui->forwardOneDay, &QPushButton::clicked, this, &ImagingPlanner::moveForwardOneDay);
     connect(ui->DateEdit, &QDateTimeEdit::dateChanged, this, [this]()
     {
+        QString selection = currentObjectName();
         updateMoon();
-        recomputeHours();
+        recompute();
         updateDisplays();
+        scrollToName(selection);
     });
 
     // Setup the section with Web search and Astrobin search details.
@@ -1181,10 +1215,6 @@ void ImagingPlanner::initialize()
                         &Options::imagingPlannerShowPicked, &Options::imagingPlannerShowNotPicked, &Options::imagingPlannerDontCarePicked,
                         &Options::setImagingPlannerShowPicked, &Options::setImagingPlannerShowNotPicked, &Options::setImagingPlannerDontCarePicked);
 
-    setupFilter2Buttons(ui->addedCB, ui->notAddedCB, ui->dontCareAddedCB,
-                        &Options::imagingPlannerShowAdded, &Options::imagingPlannerShowNotAdded, &Options::imagingPlannerDontCareAdded,
-                        &Options::setImagingPlannerShowAdded, &Options::setImagingPlannerShowNotAdded, &Options::setImagingPlannerDontCareAdded);
-
     setupFilter2Buttons(ui->imagedCB, ui->notImagedCB, ui->dontCareImagedCB,
                         &Options::imagingPlannerShowImaged, &Options::imagingPlannerShowNotImaged, &Options::imagingPlannerDontCareImaged,
                         &Options::setImagingPlannerShowImaged, &Options::setImagingPlannerShowNotImaged, &Options::setImagingPlannerDontCareImaged);
@@ -1222,7 +1252,7 @@ void ImagingPlanner::initialize()
         m_UseArtificialHorizon = ui->useArtificialHorizon->isChecked();
         Options::setImagingPlannerUseArtificialHorizon(ui->useArtificialHorizon->isChecked());
         Options::self()->save();
-        recomputeHours();
+        recompute();
         updateDisplays();
     });
     connect(ui->minMoon, &QDoubleSpinBox::editingFinished, [this]()
@@ -1232,7 +1262,7 @@ void ImagingPlanner::initialize()
         m_MinMoon = ui->minMoon->value();
         Options::setImagingPlannerMinMoonSeparation(ui->minMoon->value());
         Options::self()->save();
-        recomputeHours();
+        recompute();
         updateDisplays();
     });
     connect(ui->minAltitude, &QDoubleSpinBox::editingFinished, [this]()
@@ -1242,7 +1272,7 @@ void ImagingPlanner::initialize()
         m_MinAltitude = ui->minAltitude->value();
         Options::setImagingPlannerMinAltitude(ui->minAltitude->value());
         Options::self()->save();
-        recomputeHours();
+        recompute();
         updateDisplays();
     });
     connect(ui->minHours, &QDoubleSpinBox::editingFinished, [this]()
@@ -1263,18 +1293,6 @@ void ImagingPlanner::initialize()
     m_CatalogSortModel->setMinHours(ui->minHours->value());
 
     ui->CatalogView->setColumnHidden(NOTES_COLUMN, true);
-
-    // Hiding/disabling addUserObject. Do it with catalogs and see how that goes.
-    // TODO: remove the ADDED_BIT and adding code if we keep this approach.
-    ui->addUserObjectButton->setEnabled(false);
-    ui->addUserObjectButton->setVisible(false);
-    ui->addedCB->setVisible(false);
-    ui->notAddedCB->setVisible(false);
-    ui->dontCareAddedCB->setVisible(false);
-    ui->addedCB->setEnabled(false);
-    ui->notAddedCB->setEnabled(false);
-    ui->dontCareAddedCB->setEnabled(false);
-    //connect(ui->addUserObjectButton, &QAbstractButton::clicked, this, &ImagingPlanner::addUserObject);
 
     initUserNotes();
 
@@ -1421,13 +1439,10 @@ void ImagingPlanner::updateMoon()
     ui->moonPercentLabel->setText(QString("%1%").arg(moon->illum() * 100.0 + 0.5, 0, 'f', 0));
 }
 
-void ImagingPlanner::searchSlot()
+bool ImagingPlanner::scrollToName(const QString &name)
 {
-    QString origName = ui->SearchText->toPlainText().trimmed();
-    QString name = tweakNames(origName);
-    ui->SearchText->setPlainText(name);
     if (name.isEmpty())
-        return;
+        return false;
     QModelIndexList matchList = ui->CatalogView->model()->match(ui->CatalogView->model()->index(0, 0), Qt::EditRole,
                                 name, -1,  Qt::MatchFlags(Qt::MatchContains | Qt::MatchWrap));
     if(matchList.count() >= 1)
@@ -1444,8 +1459,20 @@ void ImagingPlanner::searchSlot()
         }
         ui->CatalogView->scrollTo(matchList[bestIndex]);
         ui->CatalogView->setCurrentIndex(matchList[bestIndex]);
+        return true;
     }
-    else
+    return false;
+}
+
+void ImagingPlanner::searchSlot()
+{
+    QString origName = ui->SearchText->toPlainText().trimmed();
+    QString name = tweakNames(origName);
+    ui->SearchText->setPlainText(name);
+    if (name.isEmpty())
+        return;
+
+    if (!scrollToName(name))
         KSNotification::sorry(i18n("No match for \"%1\"", origName));
 
     // Still leaves around some </p> in the html unfortunaltely. Don't know how to remove that.
@@ -1520,41 +1547,6 @@ void ImagingPlanner::setupNotesLinks(const QString &notes)
     ui->userNotesOpenLink3->setVisible(!link.isEmpty());
     if (!link.isEmpty())
         ui->userNotesOpenLink3->setToolTip(i18n("Open a browser with the 3rd link in this note: %1", link));
-}
-
-void ImagingPlanner::addUserObject()
-{
-    FindDialog *dialog = FindDialog::Instance();
-    Qt::WindowFlags keepFlags = dialog->windowFlags();
-    QWidget *keepParent = dialog->parent() == nullptr ? nullptr : (QWidget *)KStars::Instance();
-
-    // Make FindDialog an independent window.
-    dialog->setParent(nullptr, keepFlags);
-    auto result = FindDialog::Instance()->execWithoutDetails();
-    dialog->setParent(keepParent, keepFlags);
-
-    if (result != QDialog::Accepted)
-        return;
-
-    SkyObject *object = FindDialog::Instance()->targetObject();
-    if (object == nullptr)
-    {
-        KSNotification::sorry(i18n("Could not find that object"));
-        return;
-    }
-    QString name = object->name();
-    if (getObject(name) != nullptr)
-    {
-        KSNotification::sorry(i18n("%1 already there", name));
-        updateStatus(i18n("%1 already there", name));
-        return;
-    }
-    addCatalogItem(name, ADDED_BIT);
-
-    // Save to DB. Should only have the one bit set at this point.
-    saveToDB(name, ADDED_BIT, "");
-    m_CatalogSortModel->invalidate();
-    ui->CatalogView->resizeColumnsToContents();
 }
 
 // Given an object name, return the KStars catalog object.
@@ -1664,15 +1656,9 @@ CatalogObject *ImagingPlanner::addObject(const QString &name, bool useNameResolv
     return &(m_CatalogHash[lName]);
 }
 
-QString shortCoordString(const dms &ra, const dms &dec)
-{
-    return QString("%1h%2' %3%4°%5'").arg(ra.hour()).arg(ra.minute())
-           .arg(dec.Degrees() < 0 ? "-" : "").arg(abs(dec.degree())).arg(abs(dec.arcmin()));
-}
-
 // Adds the object to the catalog model, assuming a KStars catalog object can be found
 // for that name.
-bool ImagingPlanner::addCatalogItem(const QString &name, int flags, bool useNameResolver)
+bool ImagingPlanner::addCatalogItem(const KSAlmanac &ksal, const QString &name, int flags, bool useNameResolver)
 {
     CatalogObject *object = addObject(name, useNameResolver);
     if (object == nullptr)
@@ -1718,7 +1704,7 @@ bool ImagingPlanner::addCatalogItem(const QString &name, int flags, bool useName
         else if (i == ALTITUDE_COLUMN)
         {
             const auto time = KStarsDateTime(QDateTime(getDate(), QTime(12, 0)));
-            const double altitude = object->transitAltitude(time, getGeo()).Degrees();
+            const double altitude = getMaxAltitude(ksal, getDate(), getGeo(), *object, 0, 0);
             auto altItem = getItemWithUserRole(QString("%1º").arg(altitude, 0, 'f', 0));
             altItem->setData(altitude, ALTITUDE_ROLE);
             itemList.append(altItem);
@@ -1728,7 +1714,7 @@ bool ImagingPlanner::addCatalogItem(const QString &name, int flags, bool useName
             KSMoon *moon = getMoon();
             if (moon)
             {
-                SkyObject o;
+                SkyPoint o;
                 o.setRA0(object->ra0());
                 o.setDec0(object->dec0());
                 auto tz = QTimeZone(getGeo()->TZ() * 3600);
@@ -1791,7 +1777,7 @@ void ImagingPlanner::addRowSlot(QList<QStandardItem *> itemList)
     updateCounts();
 }
 
-void ImagingPlanner::recomputeHours()
+void ImagingPlanner::recompute()
 {
     updateStatus(i18n("Updating tables..."));
 
@@ -1800,10 +1786,16 @@ void ImagingPlanner::recomputeHours()
 
     QElapsedTimer timer;
     timer.start();
+
+    auto tz = QTimeZone(getGeo()->TZ() * 3600);
+    KStarsDateTime midnight = KStarsDateTime(getDate().addDays(1), QTime(0, 1));
+    KStarsDateTime ut  = getGeo()->LTtoUT(KStarsDateTime(midnight));
+    KSAlmanac ksal(ut, getGeo());
+
     for (int i = 0; i < m_CatalogModel->rowCount(); ++i)
     {
         const QString &name = m_CatalogModel->item(i, 0)->text();
-        CatalogObject *catalogEntry = getObject(name);
+        const CatalogObject *catalogEntry = getObject(name);
         if (catalogEntry == nullptr)
         {
             DPRINTF(stderr, "************* Couldn't find \"%s\"\n", name.toLatin1().data());
@@ -1818,6 +1810,42 @@ void ImagingPlanner::recomputeHours()
         hItem->setData(runHours, HOURS_ROLE);
         m_CatalogModel->setItem(i, HOURS_COLUMN, hItem);
 
+
+        const auto time = KStarsDateTime(QDateTime(getDate(), QTime(12, 0)));
+        const double altitude = getMaxAltitude(ksal, getDate(), getGeo(), *catalogEntry, 0, 0);
+        QString altText = QString("%1º").arg(altitude, 0, 'f', 0);
+        auto altItem = new QStandardItem(altText);
+        altItem->setData(altText, Qt::UserRole);
+        altItem->setData(altitude, ALTITUDE_ROLE);
+        m_CatalogModel->setItem(i, ALTITUDE_COLUMN, altItem);
+
+        KSMoon *moon = getMoon();
+        if (moon)
+        {
+            SkyPoint o;
+            o.setRA0(catalogEntry->ra0());
+            o.setDec0(catalogEntry->dec0());
+            auto tz = QTimeZone(getGeo()->TZ() * 3600);
+            KStarsDateTime midnight = KStarsDateTime(getDate().addDays(1), QTime(0, 1));
+            midnight.setTimeZone(tz);
+            KSNumbers numbers(midnight.djd());
+            o.updateCoordsNow(&numbers);
+
+            double const separation = moon->angularDistanceTo(&o).Degrees();
+            QString moonText = QString("%1º").arg(separation, 0, 'f', 0);
+            auto moonItem = new QStandardItem(moonText);
+            moonItem->setData(moonText, Qt::UserRole);
+            moonItem->setData(separation, MOON_ROLE);
+            m_CatalogModel->setItem(i, MOON_COLUMN, moonItem);
+        }
+        else
+        {
+            auto moonItem = new QStandardItem("");
+            moonItem->setData("", Qt::UserRole);
+            moonItem->setData(-1, MOON_ROLE);
+            m_CatalogModel->setItem(i, MOON_COLUMN, moonItem);
+        }
+
         // Don't lose the imaged background highlighting.
         bool imaged = m_CatalogModel->item(i, FLAGS_COLUMN)->data(FLAGS_ROLE).toInt() & IMAGED_BIT;
         if (imaged)
@@ -1826,7 +1854,7 @@ void ImagingPlanner::recomputeHours()
     // Reconnect the filter to the model.
     m_CatalogSortModel->setSourceModel(m_CatalogModel.data());
 
-    DPRINTF(stderr, "RecomputeHours took %.1fs\n", timer.elapsed() / 1000.0);
+    DPRINTF(stderr, "Recompute took %.1fs\n", timer.elapsed() / 1000.0);
     standardStatus();
 }
 
@@ -1944,7 +1972,7 @@ void ImagingPlanner::loadInitialCatalog()
     if (catalog.isEmpty())
         KSNotification::sorry(i18n("You need to load a catalog to start using this tool.\nSee Data -> Download New Data..."));
     else
-        loadCatalog(catalog, true);
+        loadCatalog(catalog);
 }
 
 void ImagingPlanner::updateStatus(const QString &message)
@@ -1953,13 +1981,13 @@ void ImagingPlanner::updateStatus(const QString &message)
     ui->statusLabel->repaint();
 }
 
-void ImagingPlanner::catalogLoaded(bool addUserAddedObjects)
+void ImagingPlanner::catalogLoaded()
 {
     DPRINTF(stderr, "All catalogs loaded: %d of %d have catalog images\n", m_numWithImage, m_numWithImage + m_numMissingImage);
     // This cannot go in the threaded loadInitialCatalog()!
-    loadFromDB(addUserAddedObjects);
+    loadFromDB();
 
-    // TODO: At this point we'd read in various files (picked/imaged/deleted targets, user-added targets, ...)
+    // TODO: At this point we'd read in various files (picked/imaged/deleted targets ...)
     // Can't do this in initialize() as we don't have columns yet.
     ui->CatalogView->setColumnHidden(FLAGS_COLUMN, true);
     ui->CatalogView->setColumnHidden(NOTES_COLUMN, true);
@@ -2317,23 +2345,59 @@ void ImagingPlanner::selectionChanged(const QItemSelection &selected, const QIte
         QString filename = catalogImageInfo.m_Filename;
         if (!filename.isEmpty() && !Options::imagingPlannerCatalogPath().isEmpty())
         {
-            QString catDir = QFileInfo(Options::imagingPlannerCatalogPath()).absolutePath();
-            QString imageFullPath = QString("%1%2%3").arg(catDir)
-                                    .arg(QDir::separator()).arg(filename);
+            QString imageFullPath = filename;
+            if (QFileInfo(filename).isRelative())
+            {
+                QString catDir = QFileInfo(Options::imagingPlannerCatalogPath()).absolutePath();
+                imageFullPath = QString("%1%2%3").arg(catDir)
+                                .arg(QDir::separator()).arg(filename);
+            }
             if (!QFile(imageFullPath).exists())
                 DPRINTF(stderr, "Image for \"%s\" -- \"%s\" doesn't exist\n",
                         name.toLatin1().data(), imageFullPath.toLatin1().data());
 
             ui->ImagePreview->setPixmap(QPixmap::fromImage(QImage(imageFullPath)));
-            ui->ImagePreviewCredit->setText(
-                QString("Credit: %1 (with license %2)").arg(catalogImageInfo.m_Author)
-                .arg(creativeCommonsString(catalogImageInfo.m_License)));
-            ui->ImagePreviewCreditLink->setText(catalogImageInfo.m_Link);
-            ui->ImagePreview->setToolTip("Click to see original");
-            ui->ImagePreviewCreditLink->setToolTip("Click to see original");
-            ui->ImagePreviewCredit->setToolTip(
-                QString("Original image license: %1")
-                .arg(creativeCommonsTooltipString(catalogImageInfo.m_License)));
+            if (!catalogImageInfo.m_Link.isEmpty())
+            {
+                ui->ImagePreviewCreditLink->setText(catalogImageInfo.m_Link);
+                ui->ImagePreview->setToolTip("Click to see original");
+                ui->ImagePreviewCreditLink->setToolTip("Click to see original");
+            }
+            else
+            {
+                ui->ImagePreviewCreditLink->setText("");
+                ui->ImagePreview->setToolTip("");
+                ui->ImagePreviewCreditLink->setToolTip("");
+            }
+
+            if (!catalogImageInfo.m_Author.isEmpty() && !catalogImageInfo.m_License.isEmpty())
+            {
+                ui->ImagePreviewCredit->setText(
+                    QString("Credit: %1 (with license %2)").arg(catalogImageInfo.m_Author)
+                    .arg(creativeCommonsString(catalogImageInfo.m_License)));
+                ui->ImagePreviewCredit->setToolTip(
+                    QString("Original image license: %1")
+                    .arg(creativeCommonsTooltipString(catalogImageInfo.m_License)));
+            }
+            else if (!catalogImageInfo.m_Author.isEmpty())
+            {
+                ui->ImagePreviewCredit->setText(
+                    QString("Credit: %1").arg(catalogImageInfo.m_Author));
+                ui->ImagePreviewCredit->setToolTip("");
+            }
+            else if (!catalogImageInfo.m_License.isEmpty())
+            {
+                ui->ImagePreviewCredit->setText(
+                    QString("(license %1)").arg(creativeCommonsString(catalogImageInfo.m_License)));
+                ui->ImagePreviewCredit->setToolTip(
+                    QString("Original image license: %1")
+                    .arg(creativeCommonsTooltipString(catalogImageInfo.m_License)));
+            }
+            else
+            {
+                ui->ImagePreviewCredit->setText("");
+                ui->ImagePreviewCredit->setToolTip("");
+            }
         }
     }
     else
@@ -2511,13 +2575,8 @@ void ImagingPlanner::plotAltitudeGraph(const QDate &date, const dms &ra, const d
 
     while (t.secsTo(plotEnd) > 0)
     {
-        auto ut2 = getGeo()->LTtoUT(KStarsDateTime(t));
-        CachingDms LST = getGeo()->GSTtoLST(ut2.gst());
-        SkyPoint p = job.getTargetCoords();
-        p.EquatorialToHorizontal(&LST, getGeo()->lat());
-        double alt = p.alt().Degrees();
-        //double alt = Ekos::SchedulerUtils::findAltitude(job.getTargetCoords(), t, nullptr, getGeo());
-
+        SkyPoint coords = job.getTargetCoords();
+        double alt = getAltitude(getGeo(), coords, t);
         alts.push_back(alt);
         double hour = midnight.secsTo(t) / 3600.0;
         times.push_back(hour);
@@ -2543,13 +2602,8 @@ void ImagingPlanner::plotAltitudeGraph(const QDate &date, const dms &ra, const d
 
         while (t.secsTo(stopTime) > 0)
         {
-            auto ut2 = getGeo()->LTtoUT(KStarsDateTime(t));
-            CachingDms LST = getGeo()->GSTtoLST(ut2.gst());
-            SkyPoint p = job.getTargetCoords();
-            p.EquatorialToHorizontal(&LST, getGeo()->lat());
-            double alt = p.alt().Degrees();
-            //double alt = Ekos::SchedulerUtils::findAltitude(job.getTargetCoords(), t, nullptr, getGeo());
-
+            SkyPoint coords = job.getTargetCoords();
+            double alt = getAltitude(getGeo(), coords, t);
             runAlts.push_back(alt);
             double hour = midnight.secsTo(t) / 3600.0;
             runTimes.push_back(hour);
@@ -2571,21 +2625,26 @@ void ImagingPlanner::updateCounts()
 
 void ImagingPlanner::moveBackOneDay()
 {
+    // Try to keep the object.
+    QString selection = currentObjectName();
     ui->DateEdit->setDate(ui->DateEdit->date().addDays(-1));
-    // Don't need to call recomputeHours, called by dateChanged callback.
+    // Don't need to call recompute(), called by dateChanged callback.
     updateDisplays();
     updateMoon();
+    scrollToName(selection);
 }
 
 void ImagingPlanner::moveForwardOneDay()
 {
+    QString selection = currentObjectName();
     ui->DateEdit->setDate(ui->DateEdit->date().addDays(1));
-    // Don't need to call recomputeHours, called by dateChanged callback.
+    // Don't need to call recompute(), called by dateChanged callback.
     updateDisplays();
     updateMoon();
+    scrollToName(selection);
 }
 
-QString ImagingPlanner::currentObjectName()
+QString ImagingPlanner::currentObjectName() const
 {
     QString name = ui->CatalogView->selectionModel()->currentIndex().siblingAtColumn(NAME_COLUMN).data(
                        Qt::DisplayRole).toString();
@@ -2823,15 +2882,12 @@ void ImagingPlannerPopup::init(ImagingPlanner * planner, const QStringList &name
         addAction(i18n("Stop ignoring %1", word), planner, &ImagingPlanner::setSelectionNotIgnored);
     else
         addAction(i18n("Ignore %1", word), planner, &ImagingPlanner::setSelectionIgnored);
-
-    //addSeparator();
-    //addAction(i18n("Center %1 on SkyMap", names[0]), planner, &ImagingPlanner::centerOnSkymap);
 }
 
 ImagingPlannerDBEntry::ImagingPlannerDBEntry(const QString &name, bool picked, bool imaged,
-        bool added, bool ignored, const QString &notes) : m_Name(name), m_Notes(notes)
+        bool ignored, const QString &notes) : m_Name(name), m_Notes(notes)
 {
-    setFlags(picked, imaged, added, ignored);
+    setFlags(picked, imaged, ignored);
 }
 
 ImagingPlannerDBEntry::ImagingPlannerDBEntry(const QString &name, int flags, const QString &notes)
@@ -2839,29 +2895,27 @@ ImagingPlannerDBEntry::ImagingPlannerDBEntry(const QString &name, int flags, con
 {
 }
 
-void ImagingPlannerDBEntry::getFlags(bool * picked, bool * imaged, bool * added, bool * ignored)
+void ImagingPlannerDBEntry::getFlags(bool * picked, bool * imaged, bool * ignored)
 {
     *picked = m_Flags & PickedBit;
     *imaged = m_Flags & ImagedBit;
-    *added = m_Flags & AddedBit;
     *ignored = m_Flags & IgnoredBit;
 }
 
 
-void ImagingPlannerDBEntry::setFlags(bool picked, bool imaged, bool added, bool ignored)
+void ImagingPlannerDBEntry::setFlags(bool picked, bool imaged, bool ignored)
 {
     m_Flags = 0;
     if (picked) m_Flags |= PickedBit;
     if (imaged) m_Flags |= ImagedBit;
-    if (added) m_Flags |= AddedBit;
     if (ignored) m_Flags |= IgnoredBit;
 }
 
 void ImagingPlanner::saveToDB(const QString &name, bool picked, bool imaged,
-                              bool added, bool ignored, const QString &notes)
+                              bool ignored, const QString &notes)
 {
     ImagingPlannerDBEntry e(name, 0, notes);
-    e.setFlags(picked, imaged, added, ignored);
+    e.setFlags(picked, imaged, ignored);
     KStarsData::Instance()->userdb()->AddImagingPlannerEntry(e);
 }
 
@@ -2872,12 +2926,17 @@ void ImagingPlanner::saveToDB(const QString &name, int flags, const QString &not
 }
 
 // KSUserDB::GetAllImagingPlannerEntries(QList<ImagingPlannerDBEntry> *entryList)
-void ImagingPlanner::loadFromDB(bool addUserAddedObjects)
+void ImagingPlanner::loadFromDB()
 {
     // Disconnect the filter from the model, or else we'll re-filter numRows squared times.
     // Not as big a deal here because we're not touching all rows, just the rows with flags/notes.
     // Also see the reconnect below.
     m_CatalogSortModel->setSourceModel(nullptr);
+
+    auto tz = QTimeZone(getGeo()->TZ() * 3600);
+    KStarsDateTime midnight = KStarsDateTime(getDate().addDays(1), QTime(0, 1));
+    KStarsDateTime ut  = getGeo()->LTtoUT(KStarsDateTime(midnight));
+    KSAlmanac ksal(ut, getGeo());
 
     QList<ImagingPlannerDBEntry> list;
     KStarsData::Instance()->userdb()->GetAllImagingPlannerEntries(&list);
@@ -2886,18 +2945,6 @@ void ImagingPlanner::loadFromDB(bool addUserAddedObjects)
     for (const auto &entry : list)
     {
         dbData[entry.m_Name] = entry;
-
-        // Check to see if there are any user-added items that are not in the catalog
-        if (addUserAddedObjects && entry.m_Flags & ADDED_BIT)
-        {
-            auto catalogObject = getObject(entry.m_Name);
-            if (!catalogObject)
-            {
-                auto item = addCatalogItem(entry.m_Name, entry.m_Flags);
-                if (!item)
-                    DPRINTF(stderr, "Unable to add \"%s\"\n", entry.m_Name.toLatin1().data());
-            }
-        }
     }
 
     int rows = m_CatalogModel->rowCount();
@@ -3021,10 +3068,10 @@ void ImagingPlanner::loadCatalogViaMenu()
     if (path.isEmpty())
         return;
 
-    loadCatalog(path, false);
+    loadCatalog(path);
 }
 
-void ImagingPlanner::loadCatalog(const QString &path, bool addUserAddedObjects)
+void ImagingPlanner::loadCatalog(const QString &path)
 {
 #ifdef THREADED_LOAD_CATALOG
     // All this below in order to keep the UI active while loading.
@@ -3035,14 +3082,14 @@ void ImagingPlanner::loadCatalog(const QString &path, bool addUserAddedObjects)
     m_LoadCatalogsWatcher = new QFutureWatcher<void>(this);
     m_LoadCatalogsWatcher->setFuture(m_LoadCatalogs);
     connect(m_LoadCatalogsWatcher, &QFutureWatcher<void>::finished,
-            [this, addUserAddedObjects]()
+            [this]()
     {
-        catalogLoaded(addUserAddedObjects);
+        catalogLoaded();
         disconnect(m_LoadCatalogsWatcher);
     });
 #else
     loadCatalogFromFile(path);
-    catalogLoaded(addUserAddedObjects);
+    catalogLoaded();
 #endif
 }
 
@@ -3054,13 +3101,16 @@ CatalogImageInfo::CatalogImageInfo(const QString &csv)
     QStringList columns = line.split(",");
     if (columns.size() < 1 || columns[0].isEmpty())
         return;
-    m_Name     = columns[0];
-    if (columns.size() < MIN_COLUMNS)
-        return;
-    m_Filename = columns[1];
-    m_Author   = columns[2];
-    m_Link     = columns[3];
-    m_License  = columns[4];
+    int column = 0;
+    m_Name     = columns[column++];
+    if (columns.size() <= column) return;
+    m_Filename = columns[column++];
+    if (columns.size() <= column) return;
+    m_Author   = columns[column++];
+    if (columns.size() <= column) return;
+    m_Link     = columns[column++];
+    if (columns.size() <= column) return;
+    m_License  = columns[column++];
 }
 
 // This does the following:
@@ -3096,6 +3146,11 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
     QStringList objectNames;
     if (inputFile.open(QIODevice::ReadOnly))
     {
+        auto tz = QTimeZone(getGeo()->TZ() * 3600);
+        KStarsDateTime midnight = KStarsDateTime(getDate().addDays(1), QTime(0, 1));
+        KStarsDateTime ut  = getGeo()->LTtoUT(KStarsDateTime(midnight));
+        KSAlmanac ksal(ut, getGeo());
+
         if (reset)
         {
             Options::setImagingPlannerCatalogPath(path);
@@ -3120,9 +3175,15 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
                 {
                     QString catFilename = match.captured(1);
                     if (catFilename.isEmpty()) continue;
-                    QString catDir = QFileInfo(path).absolutePath();
-                    QString catFullPath = QString("%1%2%3").arg(catDir)
-                                          .arg(QDir::separator()).arg(match.captured(1));
+                    QFileInfo info(catFilename);
+
+                    QString catFullPath = catFilename;
+                    if (!info.isAbsolute())
+                    {
+                        QString catDir = QFileInfo(path).absolutePath();
+                        catFullPath = QString("%1%2%3").arg(catDir)
+                                      .arg(QDir::separator()).arg(match.captured(1));
+                    }
                     if (catFullPath != path)
                         loadCatalogFromFile(catFullPath, false);
                 }
@@ -3132,6 +3193,10 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
             if (!info.m_Filename.isEmpty())
             {
                 numWithImage++;
+                QFileInfo fInfo(info.m_Filename);
+                if (fInfo.isRelative())
+                    info.m_Filename = QString("%1%2%3").arg(QFileInfo(path).absolutePath())
+                                      .arg(QDir::separator()).arg(info.m_Filename);
                 addCatalogImageInfo(info);
             }
             else
@@ -3149,7 +3214,7 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
         // Move to threaded thing??
         for (const auto &name : objectNames)
         {
-            if (addCatalogItem(name, 0, true)) num++;
+            if (addCatalogItem(ksal, name, 0, true)) num++;
             else
             {
                 DPRINTF(stderr, "Couldn't add %s\n", name.toLatin1().data());

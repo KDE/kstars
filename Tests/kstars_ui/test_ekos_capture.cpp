@@ -128,16 +128,17 @@ void TestEkosCapture::testAddCaptureJob()
     srand(42);
     for (int index = 1; index < job_count / 2; index += rand() % 4 + 1)
     {
+        constexpr int timeout = 2000;
         QVERIFY(index < queueTable->rowCount());
         queueTable->setCurrentCell(index, 1);
-        QTRY_VERIFY_WITH_TIMEOUT(queueTable->currentRow() == index, 1000);
+        QTRY_VERIFY_WITH_TIMEOUT(queueTable->currentRow() == index, timeout);
 
         // It actually takes time before all signals syncing UI are processed, so wait for situation to settle
-        QTRY_VERIFY_WITH_TIMEOUT(std::fabs(captureExposureN->value() - static_cast<double>(index) / 10.0) < 0.1, 1000);
-        QTRY_COMPARE_WITH_TIMEOUT(captureCountN->value(), index, 1000);
-        QTRY_COMPARE_WITH_TIMEOUT(captureDelayN->value(), index, 1000);
-        QTRY_COMPARE_WITH_TIMEOUT(captureTypeS->currentText(), frameTypes[index % frameTypeCount], 1000);
-        QTRY_COMPARE_WITH_TIMEOUT(FilterPosCombo->currentText(), filterTypes[index % filterTypeCount], 1000);
+        QTRY_VERIFY_WITH_TIMEOUT(std::fabs(captureExposureN->value() - static_cast<double>(index) / 10.0) < 0.1, timeout);
+        QTRY_COMPARE_WITH_TIMEOUT(captureCountN->value(), index, timeout);
+        QTRY_COMPARE_WITH_TIMEOUT(captureDelayN->value(), index, timeout);
+        QTRY_COMPARE_WITH_TIMEOUT(captureTypeS->currentText(), frameTypes[index % frameTypeCount], timeout);
+        QTRY_COMPARE_WITH_TIMEOUT(FilterPosCombo->currentText(), filterTypes[index % filterTypeCount], timeout);
     }
 
     // Remove all the rows

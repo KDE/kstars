@@ -17,6 +17,7 @@
 
 #include <KLocalizedString>
 #include <kplotobject.h>
+#include <kplotpoint.h>
 #include <QDebug>
 
 #include "kplotaxis.h"
@@ -178,6 +179,30 @@ int AVTPlotWidget::convertCoords(double xCoord)
     return plotWidth * ((xCoord * 24.0 / plotWidth) - noonOffset) / plotDuration;
 }
 
+namespace
+{
+double findYValue(const KPlotObject *po, double x)
+{
+    const auto points = po->points();
+    const int size = points.size();
+    if (size == 0)                 return 0;
+    if (x < points[0]->x())        return points[0]->y();
+    if (x > points[size - 1]->x()) return points[size - 1]->y();
+    for (int i = 0; i < size - 1; ++i)
+    {
+        const double ix = points[i]->x();
+        const double iy = points[i]->y();
+        const double nextIx = points[i + 1]->x();
+        const double nextIy = points[i + 1]->y();
+        if (x == ix) return iy;
+        if (x == nextIx) return nextIy;
+        if (x > ix && x < nextIx)
+            return iy + (nextIy - iy) * (x - ix) / (nextIx - ix);
+    }
+    return points[size - 1]->y();
+}
+}  // namespace
+
 void AVTPlotWidget::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e)
@@ -291,15 +316,16 @@ void AVTPlotWidget::paintEvent(QPaintEvent *e)
     {
         p.setPen(QPen(QBrush("gold"), 1.0, Qt::SolidLine));
         p.drawLine(QLineF(MousePoint.x() + 0.5, 0.5, MousePoint.x() + 0.5, pixRect().height() - 0.5));
-        p.drawLine(QLineF(0.5, MousePoint.y() + 0.5, pixRect().width() - 0.5, MousePoint.y() + 0.5));
 
         //Label each crosshair line (time and altitude)
         p.setFont(smallFont);
 
-        const double a = (pH - MousePoint.y()) * (altitudeAxisMax - altitudeAxisMin) / pH + altitudeAxisMin;
-        p.drawText(20, MousePoint.y() + 10, QString::number(a, 'f', 2) + QChar(176));
-
         double h = (MousePoint.x() * plotDuration) / pW - (12.0 - noonOffset);
+        double a = 0;
+        if (plotObjects().size() > 0)
+            a = findYValue(plotObjects()[0], h);
+        p.drawText(15, 15, QString::number(a, 'f', 1) + QChar(176));
+
         if (h < 0.0)
             h += 24.0;
         QTime t = QTime(int(h), int(60. * (h - int(h))));
