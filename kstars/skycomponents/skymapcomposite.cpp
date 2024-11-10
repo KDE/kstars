@@ -280,7 +280,7 @@ void SkyMapComposite::draw(SkyPainter *skyp)
     if (Options::showEquatorialGrid() || Options::showHorizontalGrid() ||
             Options::showEquator())
     {
-        m_skyMesh->index(focus, radius + 1.0, NO_PRECESS_BUF, false);
+        m_skyMesh->index(focus, radius + 1.0, NO_PRECESS_BUF);
     }
 
     // clear marks from old labels and prep fonts
