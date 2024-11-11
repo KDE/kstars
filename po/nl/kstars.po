@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-10 01:57+0000\n"
-"PO-Revision-Date: 2024-11-02 11:24+0100\n"
+"POT-Creation-Date: 2024-11-11 01:57+0000\n"
+"PO-Revision-Date: 2024-11-10 17:39+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -191,7 +191,7 @@ msgstr "Zichtbare satellieten"
 
 #: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:241
 #: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
-#: kstarsactions.cpp:1148 kstarslite/dialogs/finddialoglite.cpp:37
+#: kstarsactions.cpp:1142 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, kde-format, kde-kuit-format
 msgid "Satellites"
@@ -204,7 +204,7 @@ msgstr "Namen van satellieten"
 
 #: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:526
 #: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
-#: kstarsactions.cpp:1151 kstarslite/dialogs/finddialoglite.cpp:36
+#: kstarsactions.cpp:1145 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, kde-format, kde-kuit-format
 msgid "Supernovae"
@@ -472,14 +472,14 @@ msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
 #: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3961
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1356
+#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1350
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Een bestand met de naam  \"%1\" bestaat reeds. Dit overschrijven?"
 
 #: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3964
-#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1357
+#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1351
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -577,8 +577,8 @@ msgstr "Annuleren"
 #: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1204 ekos/manager.cpp:1219
 #: ekos/manager.cpp:1249 ekos/scheduler/scheduler.cpp:1574
 #: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
-#: indi/indimount.cpp:32 kstarsactions.cpp:517 kstarsactions.cpp:525
-#: kstarsactions.cpp:535 skycomponents/imageoverlaycomponent.cpp:529
+#: indi/indimount.cpp:32 kstarsactions.cpp:511 kstarsactions.cpp:519
+#: kstarsactions.cpp:529 skycomponents/imageoverlaycomponent.cpp:529
 #, kde-format
 msgid "Error"
 msgstr "Fout"
@@ -1127,8 +1127,8 @@ msgstr "Aarde"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1047 tools/imagingplanner.cpp:1400
-#: tools/imagingplanner.cpp:2414 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1079 tools/imagingplanner.cpp:1418
+#: tools/imagingplanner.cpp:2478 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2680,7 +2680,7 @@ msgstr "Niet zoeken op internet"
 msgid "Show webpage about "
 msgstr "Toon een webpagina voor "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2567
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2621
 #, kde-format
 msgid "object"
 msgstr "object"
@@ -2805,7 +2805,7 @@ msgstr "Klik op een kleur om deze te wijzigen..."
 msgid "Degrees"
 msgstr "Graden"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1047
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1079
 #, kde-format
 msgid "Hours"
 msgstr "Uren"
@@ -2854,7 +2854,7 @@ msgstr "Tekst"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2251 tools/imagingplanner.cpp:1047
+#: ekos/capture/camera.ui:2251 tools/imagingplanner.cpp:1079
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3216,7 +3216,7 @@ msgstr "Mag"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1047 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1079 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -3386,7 +3386,7 @@ msgid "Clone..."
 msgstr "Klonen..."
 
 #. i18n: ectx: property (text), widget (QPushButton, colorButton)
-#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1166
+#: dialogs/catalogsdbui.ui:113 kstarsactions.cpp:1160
 #, kde-format
 msgid "Colors"
 msgstr "Kleuren"
@@ -3683,7 +3683,7 @@ msgstr "Koppelingen"
 msgid "Could not add the link."
 msgstr "Kon koppeling niet toevoegen."
 
-#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1193
+#: dialogs/detaildialog.cpp:766 kstarsactions.cpp:1187
 #, kde-format
 msgid "Advanced"
 msgstr "Geavanceerd"
@@ -4341,7 +4341,7 @@ msgstr "Positie legenda:"
 msgid "Any"
 msgstr "Welke dan ook"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1145 kstarsinit.cpp:496
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1139 kstarsinit.cpp:496
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:100
@@ -4359,7 +4359,7 @@ msgstr "Open sterrenhopen"
 #: tools/conjunctions.cpp:105
 #, kde-format
 msgid "Globular Clusters"
-msgstr "Bolvormige sterrenhopen"
+msgstr "Bolvormige clusters"
 
 #: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:30
 #: tools/conjunctions.cpp:106
@@ -6693,7 +6693,7 @@ msgstr "Kon niet schrijven naar bestand %1"
 #: ekos/scheduler/schedulerprocess.cpp:3321
 #: ekos/scheduler/schedulerprocess.cpp:4649
 #: ekos/scheduler/schedulerprocess.cpp:4669 indi/drivermanager.cpp:1549
-#: indi/indidriver.cpp:921 kstarsactions.cpp:1405 oal/execute.cpp:320
+#: indi/indidriver.cpp:921 kstarsactions.cpp:1399 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
 #: tools/modcalcgalcoord.cpp:191 tools/modcalcgeodcoord.cpp:231
@@ -12644,7 +12644,7 @@ msgid "Log INDI devices activity"
 msgstr "Activiteiten INDI-apparaten loggen."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
-#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1177
+#: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1171
 #, kde-format
 msgid "INDI"
 msgstr "INDI"
@@ -12658,7 +12658,7 @@ msgstr "Activiteiten FITS-berwerkingen loggen."
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
 #: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:297
-#: kstarsactions.cpp:1171
+#: kstarsactions.cpp:1165
 #, kde-format
 msgid "FITS"
 msgstr "FITS"
@@ -13953,7 +13953,7 @@ msgid ""
 msgstr ""
 "De maximale verhouding a/b van de grote en kleine assen voor op te nemen "
 "sterren. Hiermee kunt u elliptische bronnen uitsluiten,  zoals "
-"melwegstelsels of sterk vervormde sterren"
+"melkwegstelsels of sterk vervormde sterren"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, brightestPercent)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:699
@@ -14143,7 +14143,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1933
+#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1927
 #: kstarsinit.cpp:862 kstarsinit.cpp:863 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -16149,7 +16149,7 @@ msgstr "Algeheel"
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1181 kstarsinit.cpp:478
+#: kstarsactions.cpp:1175 kstarsinit.cpp:478
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -26460,7 +26460,7 @@ msgstr "AtikBase"
 
 #. i18n: ectx: property (text), widget (QPushButton, equipmentOtherB)
 #. i18n: ectx: property (text), widget (QCheckBox, OtherCB)
-#: ekos/profilewizard.ui:432 tools/imagingplanner.ui:1816
+#: ekos/profilewizard.ui:432 tools/imagingplanner.ui:1794
 #, kde-format
 msgid "Other"
 msgstr "Overig"
@@ -28593,8 +28593,8 @@ msgstr "Hgte >: "
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, AstrobinMinRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, AstrobinMaxRadius)
 #: ekos/scheduler/scheduler.ui:1681 ekos/scheduler/scheduler.ui:1719
-#: tools/imagingplanner.ui:1006 tools/imagingplanner.ui:1053
-#: tools/imagingplanner.ui:1334 tools/imagingplanner.ui:1382
+#: tools/imagingplanner.ui:984 tools/imagingplanner.ui:1031
+#: tools/imagingplanner.ui:1312 tools/imagingplanner.ui:1360
 #, kde-format
 msgid " °"
 msgstr " °"
@@ -30231,7 +30231,7 @@ msgstr "Gereed."
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #. i18n: ectx: property (text), widget (QCheckBox, keywordCB)
-#: fitsviewer/fitsheaderdialog.ui:48 tools/imagingplanner.ui:1973
+#: fitsviewer/fitsheaderdialog.ui:48 tools/imagingplanner.ui:1921
 #, kde-format
 msgid "Keyword"
 msgstr "Sleutelwoord"
@@ -30450,7 +30450,7 @@ msgstr "CDS-portaal"
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
 #: fitsviewer/fitstab.cpp:762 fitsviewer/opsfits.ui:435
-#: tools/imagingplanner.ui:1268 tools/imagingplanner.ui:1593
+#: tools/imagingplanner.ui:1246 tools/imagingplanner.ui:1571
 #, kde-format
 msgid "Simbad"
 msgstr "Simbad"
@@ -30476,7 +30476,7 @@ msgid "Distance"
 msgstr "Afstand"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1047
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1079
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Grootte"
@@ -33543,17 +33543,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:315 kstarsactions.cpp:1619 skymap.cpp:430
+#: kstars.cpp:315 kstarsactions.cpp:1613 skymap.cpp:430
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "&Volgen stoppen"
 
-#: kstars.cpp:323 kstarsactions.cpp:1786 kstarsinit.cpp:270
+#: kstars.cpp:323 kstarsactions.cpp:1780 kstarsinit.cpp:270
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Maar globeweergave van sterren omschakelen (Equatoriale &coördinaten)"
 
-#: kstars.cpp:324 kstarsactions.cpp:1767 kstarsinit.cpp:271
+#: kstars.cpp:324 kstarsactions.cpp:1761 kstarsinit.cpp:271
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Naar horizontale weergave omschakelen (Horizontale &coördinaten)"
@@ -35869,18 +35869,19 @@ msgstr "Of de klok loopt of niet"
 #, kde-format
 msgid "Should the imaging Planner tool process open clusters."
 msgstr ""
+"Moet het hulpmiddel voor plannen van opnamen open sterrenhopen verwerken."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptNebula), group (ImagingPlanner)
 #: kstars.kcfg:950
 #, kde-format
 msgid "Should the imaging Planner tool process nebulae."
-msgstr ""
+msgstr "Moet het hulpmiddel planner van opnamen nevels verwerken."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGlobularCluster), group (ImagingPlanner)
 #: kstars.kcfg:954
 #, kde-format
 msgid "Should the imaging Planner tool process globular clusters."
-msgstr ""
+msgstr "Moet het hulpmiddel planner van opnamen bolvormige clusters verwerken."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptPlanetary), group (ImagingPlanner)
 #: kstars.kcfg:958
@@ -35898,7 +35899,7 @@ msgstr ""
 #: kstars.kcfg:966
 #, kde-format
 msgid "Should the imaging Planner tool process galaxies."
-msgstr ""
+msgstr "Moet het hulpmiddel planner van opnamen melkwegstelsels verwerken."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGalaxyCluster), group (ImagingPlanner)
 #: kstars.kcfg:970
@@ -36073,11 +36074,16 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1066
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Show the objects that have not been ignored (and "
+#| "don't show those that have been ignored).</p></body></html>"
 msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
-"been ignored."
+"been ignored)."
 msgstr ""
+"<html><head/><body><p>De objecten tonen die niet zijn genegeerd (en niet "
+"diegenen toen die zijn genegeerd).</p></body></html>"
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1070
@@ -36094,27 +36100,26 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerHideFilters), group (ImagingPlanner)
 #: kstars.kcfg:1078
-#, fuzzy, kde-format
-#| msgid "Set the target filter position."
+#, kde-format
 msgid "Hide the imaging planner's filters section."
-msgstr "Stel de positie in van het doelfilter."
+msgstr "De filtersectie van de planner van opnamen verbergen."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideImage), group (ImagingPlanner)
 #: kstars.kcfg:1082
 #, kde-format
 msgid "Hide the imaging planner's image section."
-msgstr ""
+msgstr "De afbeeldingensectie van de planner van opnamen verbergen."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideAltitudeGraph), group (ImagingPlanner)
 #: kstars.kcfg:1086
 #, kde-format
 msgid "Hide the imaging planner's altitude graph."
-msgstr ""
+msgstr "De hoogtegrafiek van de planner van opnamen verbergen."
 
 #. i18n: ectx: label, entry (ImagingPlannerCatalogPath), group (ImagingPlanner)
 #: kstars.kcfg:1090
 #, kde-format
-msgid "File path the the most recent catalog loaded by the Imaging Planner."
+msgid "File path to the most recent catalog loaded by the Imaging Planner."
 msgstr ""
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
@@ -69371,44 +69376,33 @@ msgstr ""
 "Als de horizon is uitgeschakeld, worden de effecten van de lichtbreking in "
 "de dampkring tijdelijk uitgeschakeld."
 
-#: kstarsactions.cpp:472
-#, kde-format
-msgid ""
-"Due to a known issue in the kde frameworks, updating already downloaded "
-"items is currently not possible. <br> Please uninstall and reinstall them to "
-"update."
-msgstr ""
-"Vanwege een bekend probleem in de kde-frameworks, is bijwerken van al "
-"gedownloade items nu niet mogelijk. <br> Maak installatie ongedaan en "
-"installeer ze opnieuw om bij te werken."
-
-#: kstarsactions.cpp:518
+#: kstarsactions.cpp:512
 #, kde-format
 msgid "The catalog \"%1\" is corrupt."
 msgstr "De catalogus \"%1\" is corrupt."
 
-#: kstarsactions.cpp:526
+#: kstarsactions.cpp:520
 #, kde-format
 msgid "The catalog \"%1\" is corrupt.<br>Expected id=%2 but got id=%3"
 msgstr "De catalogus \"%1\" is corrupt.<br>Verwacht id=%2 maar gekregen id=%3"
 
-#: kstarsactions.cpp:536
+#: kstarsactions.cpp:530
 #, kde-format
 msgid "Could not import the catalog \"%1\"<br>%2"
 msgstr "Kon de catalogus \"%1\" niet importeren<br>%2"
 
-#: kstarsactions.cpp:593
+#: kstarsactions.cpp:587
 #, kde-format
 msgid "Light Pollution Settings"
 msgstr "Instellingen lichtvervuiling"
 
-#: kstarsactions.cpp:595
+#: kstarsactions.cpp:589
 #, kde-format
 msgid "Equipment Settings - Equipment Type and Parameters"
 msgstr "Instellingen apparatuur - Type en parameters"
 
-#: kstarsactions.cpp:704 kstarsactions.cpp:741 kstarsactions.cpp:784
-#: kstarsactions.cpp:823
+#: kstarsactions.cpp:698 kstarsactions.cpp:735 kstarsactions.cpp:778
+#: kstarsactions.cpp:817
 #, kde-format
 msgid ""
 "Unable to find INDI server. Please make sure the package that provides the "
@@ -69417,7 +69411,7 @@ msgstr ""
 "Kon de INDI-server niet vinden. Verzeker u ervan dat het pakket met het  "
 "binaire bestand 'indiserver' is geïnstalleerd."
 
-#: kstarsactions.cpp:758
+#: kstarsactions.cpp:752
 #, kde-format
 msgid ""
 "INDI Device Manager should only be used by advanced technical users. It "
@@ -69427,86 +69421,86 @@ msgstr ""
 "ervaren technische gebruikers. Het kan niet samen met Ekos worden gebruikt. "
 "Wilt u toch het apparaatbeheer van INDI openen?"
 
-#: kstarsactions.cpp:761
+#: kstarsactions.cpp:755
 #, kde-format
 msgid "INDI Device Manager"
 msgstr "Apparaatbeheer INDI"
 
-#: kstarsactions.cpp:1142
+#: kstarsactions.cpp:1136
 #, kde-format
 msgid "Catalogs"
 msgstr "Catalogi"
 
-#: kstarsactions.cpp:1154
+#: kstarsactions.cpp:1148
 #, kde-format
 msgid "Guides"
 msgstr "Hulplijnen"
 
-#: kstarsactions.cpp:1157
+#: kstarsactions.cpp:1151
 #, kde-format
 msgid "Terrain"
 msgstr "Terrein"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ImageOverlayTableBox)
-#: kstarsactions.cpp:1160 options/opsimageoverlay.ui:202
+#: kstarsactions.cpp:1154 options/opsimageoverlay.ui:202
 #, kde-format
 msgid "Image Overlays"
 msgstr "Overlays van afbeelding"
 
-#: kstarsactions.cpp:1190
+#: kstarsactions.cpp:1184
 #, kde-format
 msgid "Xplanet"
 msgstr "Xplanet"
 
-#: kstarsactions.cpp:1196
+#: kstarsactions.cpp:1190
 #, kde-format
 msgid "Developer"
 msgstr "Ontwikkelaar"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2034 kstarsinit.cpp:280
+#: kstarsactions.cpp:1208 kstarsactions.cpp:2028 kstarsinit.cpp:280
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Terrein verbergen"
 
-#: kstarsactions.cpp:1214 kstarsactions.cpp:2034 kstarsinit.cpp:281
+#: kstarsactions.cpp:1208 kstarsactions.cpp:2028 kstarsinit.cpp:281
 #, kde-format
 msgid "Show Terrain"
 msgstr "Terrein tonen"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2044 kstarsinit.cpp:285
+#: kstarsactions.cpp:1212 kstarsactions.cpp:2038 kstarsinit.cpp:285
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr "Overlays van afbeelding verbergen"
 
-#: kstarsactions.cpp:1218 kstarsactions.cpp:2044 kstarsinit.cpp:286
+#: kstarsactions.cpp:1212 kstarsactions.cpp:2038 kstarsinit.cpp:286
 #, kde-format
 msgid "Show Image Overlays"
 msgstr "Overlays van afbeelding tonen"
 
-#: kstarsactions.cpp:1342
+#: kstarsactions.cpp:1336
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Image"
 msgstr "Afbeelding exporteren"
 
-#: kstarsactions.cpp:1388 tools/scriptbuilder.cpp:795
+#: kstarsactions.cpp:1382 tools/scriptbuilder.cpp:795
 #: tools/scriptbuilder.cpp:863
 #, kde-format
 msgctxt "Filter by file type: KStars Scripts."
 msgid "KStars Scripts (*.kstars)"
 msgstr "KStars scripts (*.kstars)"
 
-#: kstarsactions.cpp:1396
+#: kstarsactions.cpp:1390
 #, kde-format
 msgid "Executing remote scripts is not supported."
 msgstr "Uitvoeren scripts op andere computers wordt niet ondersteund."
 
-#: kstarsactions.cpp:1404 oal/execute.cpp:319 tools/observinglist.cpp:906
+#: kstarsactions.cpp:1398 oal/execute.cpp:319 tools/observinglist.cpp:906
 #, kde-format
 msgid "Could not open file %1"
 msgstr "Het bestand %1 kon niet worden geopend"
 
-#: kstarsactions.cpp:1429
+#: kstarsactions.cpp:1423
 #, kde-format
 msgid ""
 "The selected script contains unrecognized elements, indicating that it was "
@@ -69519,27 +69513,27 @@ msgstr ""
 "werkt mogelijk niet goed en kan zelfs kwaadaardige programmaregels bevatten. "
 "Wilt u het toch uitvoeren?"
 
-#: kstarsactions.cpp:1434
+#: kstarsactions.cpp:1428
 #, kde-format
 msgid "Script Validation Failed"
 msgstr "Scriptvalidatie mislukt"
 
-#: kstarsactions.cpp:1434
+#: kstarsactions.cpp:1428
 #, kde-format
 msgid "Run Nevertheless"
 msgstr "Toch uitvoeren"
 
-#: kstarsactions.cpp:1441
+#: kstarsactions.cpp:1435
 #, kde-format
 msgid "Running script: %1"
 msgstr "Werkend script: %1"
 
-#: kstarsactions.cpp:1459
+#: kstarsactions.cpp:1453
 #, kde-format
 msgid "Script finished."
 msgstr "Script is klaar."
 
-#: kstarsactions.cpp:1471
+#: kstarsactions.cpp:1465
 #, kde-format
 msgid ""
 "You can save printer ink by using the \"Star Chart\" color scheme, which "
@@ -69550,74 +69544,74 @@ msgstr ""
 "\"Sterrenkaart\". Dit kleurenschema heeft namelijk een witte achtergrond. "
 "Wilt u voor het afdrukken tijdelijk overschakelen naar dit schema?"
 
-#: kstarsactions.cpp:1476
+#: kstarsactions.cpp:1470
 #, kde-format
 msgid "Switch to Star Chart Colors?"
 msgstr "Overschakelen naar kleurenschema \"Sterrenkaart\"?"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1471
 #, kde-format
 msgid "Switch Color Scheme"
 msgstr "Kleurenschema wisselen"
 
-#: kstarsactions.cpp:1477
+#: kstarsactions.cpp:1471
 #, kde-format
 msgid "Do Not Switch"
 msgstr "Niet wisselen"
 
-#: kstarsactions.cpp:1596 kstarsinit.cpp:243
+#: kstarsactions.cpp:1590 kstarsinit.cpp:243
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "&Volgen starten"
 
-#: kstarsactions.cpp:1710
+#: kstarsactions.cpp:1704
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr "Benaderde GV: %1 graden"
 
-#: kstarsactions.cpp:1715
+#: kstarsactions.cpp:1709
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr "Benaderde GV: %1 boogminuten"
 
-#: kstarsactions.cpp:1721
+#: kstarsactions.cpp:1715
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr "Benaderde GV: %1 boogseconden"
 
-#: kstarsactions.cpp:1738
+#: kstarsactions.cpp:1732
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Voer de gewenste gezichtsveldhoek in"
 
-#: kstarsactions.cpp:1739
+#: kstarsactions.cpp:1733
 #, kde-format
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Geef een gezichtsveldhoek op in graden: "
 
-#: kstarsactions.cpp:1770 kstarsinit.cpp:740
+#: kstarsactions.cpp:1764 kstarsinit.cpp:740
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Noord om&hoog"
 
-#: kstarsactions.cpp:1773 kstarsinit.cpp:749
+#: kstarsactions.cpp:1767 kstarsinit.cpp:749
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Noord om&laag"
 
-#: kstarsactions.cpp:1789 kstarsinit.cpp:740
+#: kstarsactions.cpp:1783 kstarsinit.cpp:740
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "Zenit om&hoog"
 
-#: kstarsactions.cpp:1792 kstarsinit.cpp:749
+#: kstarsactions.cpp:1786 kstarsinit.cpp:749
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
@@ -70108,10 +70102,9 @@ msgid "Observation Planner"
 msgstr "Waarnemingen plannen"
 
 #: kstarsinit.cpp:456
-#, fuzzy, kde-format
-#| msgid "Linear (Experimental v3.2)"
+#, kde-format
 msgid "Imaging Planner (experimental)"
-msgstr "Lineair (Experimenteel v3.2)"
+msgstr "Planner van opnamen (experimenteel)"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -78330,7 +78323,7 @@ msgstr "Asterisme"
 #: printing/legend.cpp:351 printing/legend.cpp:386 skyobjects/skyobject.cpp:351
 #, kde-format
 msgid "Globular Cluster"
-msgstr "Bolvormige sterrenhoop"
+msgstr "Bolvormig cluster"
 
 #: printing/legend.cpp:355 printing/legend.cpp:390 skyobjects/skyobject.cpp:353
 #, kde-format
@@ -78354,7 +78347,7 @@ msgstr "Restant van supernova"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyCB)
 #: printing/legend.cpp:368 printing/legend.cpp:403 skyobjects/skyobject.cpp:359
-#: skyobjects/skyobject.cpp:409 tools/imagingplanner.ui:1786
+#: skyobjects/skyobject.cpp:409 tools/imagingplanner.ui:1764
 #, kde-format
 msgid "Galaxy"
 msgstr "Melkwegstelsel"
@@ -79613,49 +79606,42 @@ msgid "Unknown Type"
 msgstr "Onbekend type"
 
 #: skyobjects/skyobject.cpp:399
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#, kde-format
 msgid "Open Clr"
-msgstr "Open sterrenhoop"
+msgstr "Open Clr"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GlobularClusterCB)
-#: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1756
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Globalstar"
+#: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1734
+#, kde-format
 msgid "Globular"
-msgstr "Globalstar"
+msgstr "Bolvormig"
 
 #. i18n: ectx: property (text), widget (QCheckBox, NebulaCB)
-#: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1746
-#, fuzzy, kde-format
-#| msgid "Nebulae"
+#: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1724
+#, kde-format
 msgid "Nebula"
 msgstr "Nevels"
 
 #. i18n: ectx: property (text), widget (QCheckBox, PlanetaryCB)
-#: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1766
-#, fuzzy, kde-format
-#| msgid "Planet"
+#: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1744
+#, kde-format
 msgid "Planetary"
-msgstr "Planeet"
+msgstr "Planetair"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SupernovaRemnantCB)
-#: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1776
+#: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1754
 #, kde-format
 msgid "Remnant"
-msgstr ""
+msgstr "Restant"
 
 #: skyobjects/skyobject.cpp:419
-#, fuzzy, kde-format
-#| msgid "Galaxy Cluster"
+#, kde-format
 msgid "Galaxy Clr"
-msgstr "Groep van melkwegstelsels"
+msgstr "Melkwegstelsel Clr"
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
-#: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:1806
-#, fuzzy, kde-format
-#| msgid "Dark Nebula"
+#: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:1784
+#, kde-format
 msgid "Dark Neb"
 msgstr "Donkere nevel"
 
@@ -80969,8 +80955,7 @@ msgid ""
 "\t\n"
 msgstr ""
 "\t\t<p>De grote groep melkwegstelsels tussen Leeuw, Maagd en \n"
-"\t\t\tHoofdhaar van Berenice heet de Virgocluster. Dit is een erg grote \n"
-"\t\t\tgroep van melkwegstelsels.\n"
+"\t\t\tHoofdhaar van Berenice heet de Virgocluster van melkwegstelsels.\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -81316,8 +81301,8 @@ msgid "Object Set"
 msgstr "Ondergang object"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2431
-#: tools/imagingplanner.cpp:2442 tools/imagingplanner.cpp:2457
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2495
+#: tools/imagingplanner.cpp:2506 tools/imagingplanner.cpp:2521
 #, kde-format
 msgid "Transit"
 msgstr "Meridiaandoorgang"
@@ -82405,287 +82390,241 @@ msgstr ""
 "terreinachtergrond.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:173 tools/imagingplanner.ui:1856
-#, fuzzy, kde-format
-#| msgid "Image"
+#: tools/imagingplanner.cpp:171 tools/imagingplanner.ui:1834
+#, kde-format
 msgid "Imaged"
-msgstr "Afbeelding"
+msgstr "Opgenomen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:178 tools/imagingplanner.ui:1826
+#: tools/imagingplanner.cpp:176 tools/imagingplanner.ui:1804
 #, kde-format
 msgid "Picked"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, addedCB)
-#: tools/imagingplanner.cpp:184 tools/imagingplanner.ui:1913
-#, kde-format
-msgid "Added"
-msgstr ""
+msgstr "Gekozen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:190 tools/imagingplanner.ui:1943
-#, fuzzy, kde-format
-#| msgid "Ignore"
+#: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:1891
+#, kde-format
 msgid "Ignored"
-msgstr "Negeer"
+msgstr "Genegeerd"
 
-#: tools/imagingplanner.cpp:914
-#, fuzzy, kde-format
-#| msgid "Mosaic Planner"
+#: tools/imagingplanner.cpp:948
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
-msgstr "Mozaïek planner"
+msgstr "Planner van opnamen"
 
-#: tools/imagingplanner.cpp:1047
-#, fuzzy, kde-format
-#| msgctxt "Altitude"
-#| msgid "Alt"
+#: tools/imagingplanner.cpp:1079
+#, kde-format
 msgid "Alt"
-msgstr "Hgte"
+msgstr "Alt"
 
-#: tools/imagingplanner.cpp:1048
-#, fuzzy, kde-format
-#| msgctxt "City in Alberta Canada"
-#| msgid "Consort"
+#: tools/imagingplanner.cpp:1080
+#, kde-format
 msgid "Const"
-msgstr "Consort"
+msgstr "Const"
 
-#: tools/imagingplanner.cpp:1048
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "EQ Coord"
+#: tools/imagingplanner.cpp:1080
+#, kde-format
 msgid "Coord"
-msgstr "EQ coörd"
+msgstr "Coörd"
 
-#: tools/imagingplanner.cpp:1050
+#: tools/imagingplanner.cpp:1082
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1052
+#: tools/imagingplanner.cpp:1084
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1054
+#: tools/imagingplanner.cpp:1086
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1056
+#: tools/imagingplanner.cpp:1088
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1058
+#: tools/imagingplanner.cpp:1090
 #, kde-format
-msgid "Altitude at transit--click header to sort ascending/descending."
+msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1060
+#: tools/imagingplanner.cpp:1092
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1062
+#: tools/imagingplanner.cpp:1094
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1064
+#: tools/imagingplanner.cpp:1096
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1449
-#, fuzzy, kde-format
-#| msgctxt "%1 is a location on earth"
-#| msgid "Almanac for %1"
+#: tools/imagingplanner.cpp:1476
+#, kde-format
 msgid "No match for \"%1\""
-msgstr "Almanak voor %1"
+msgstr "Geen overeenkomst voor \"%1\"."
 
-#: tools/imagingplanner.cpp:1512
+#: tools/imagingplanner.cpp:1539
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1517
+#: tools/imagingplanner.cpp:1544
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1522
+#: tools/imagingplanner.cpp:1549
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1542
-#, fuzzy, kde-format
-#| msgid "Could not import the objects."
-msgid "Could not find that object"
-msgstr "Kon de objecten niet importeren."
-
-#: tools/imagingplanner.cpp:1548 tools/imagingplanner.cpp:1549
-#, fuzzy, kde-format
-#| msgid "Cap already parked."
-msgid "%1 already there"
-msgstr "Kap is reeds in parkeerstand."
-
-#: tools/imagingplanner.cpp:1796
-#, fuzzy, kde-format
-#| msgid "Uploading file..."
+#: tools/imagingplanner.cpp:1782
+#, kde-format
 msgid "Updating tables..."
-msgstr "Uploaden van bestand..."
+msgstr "Tabellen bijwerken..."
 
-#: tools/imagingplanner.cpp:1945
+#: tools/imagingplanner.cpp:1973
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "See Data -> Download New Data..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1986
-#, fuzzy, kde-format
-#| msgid "Select object..."
+#: tools/imagingplanner.cpp:2014
+#, kde-format
 msgid "Select an object."
-msgstr "Object selecteren..."
+msgstr "Een object selecteren."
 
-#: tools/imagingplanner.cpp:2169
-#, fuzzy, kde-format
-#| msgid "Load Catalog..."
+#: tools/imagingplanner.cpp:2197
+#, kde-format
 msgid "Loading Catalogs..."
-msgstr "Catalogus inlezen..."
+msgstr "Catalogus laden..."
 
-#: tools/imagingplanner.cpp:2420
-#, fuzzy, kde-format
-#| msgid "Transit"
+#: tools/imagingplanner.cpp:2484
+#, kde-format
 msgid "Transits"
-msgstr "Meridiaandoorgang"
+msgstr "Doorgangen"
 
-#: tools/imagingplanner.cpp:2425 tools/imagingplanner.cpp:2429
-#, fuzzy, kde-format
-#| msgid "Sets at: %1"
+#: tools/imagingplanner.cpp:2489 tools/imagingplanner.cpp:2493
+#, kde-format
 msgid "Sets at"
-msgstr "Ondergangstijd: %1"
+msgstr "Gaat onder om"
 
-#: tools/imagingplanner.cpp:2436 tools/imagingplanner.cpp:2440
-#, fuzzy, kde-format
-#| msgid "Rises at: %1"
+#: tools/imagingplanner.cpp:2500 tools/imagingplanner.cpp:2504
+#, kde-format
 msgid "Rises at"
-msgstr "Opkomsttijd: %1"
+msgstr "Komt op om"
 
-#: tools/imagingplanner.cpp:2447 tools/imagingplanner.cpp:2453
-#, fuzzy, kde-format
-#| msgid "Rise"
+#: tools/imagingplanner.cpp:2511 tools/imagingplanner.cpp:2517
+#, kde-format
 msgid "Rises"
-msgstr "Opkomst"
+msgstr "Komt op"
 
-#: tools/imagingplanner.cpp:2449 tools/imagingplanner.cpp:2455
+#: tools/imagingplanner.cpp:2513 tools/imagingplanner.cpp:2519
 #, kde-format
 msgid "Sets"
-msgstr ""
+msgstr "Gaat onder"
 
-#: tools/imagingplanner.cpp:2569 tools/imagingplanner.cpp:2793
-#, fuzzy, kde-format
-#| msgid "object"
+#: tools/imagingplanner.cpp:2623 tools/imagingplanner.cpp:2852
+#, kde-format
 msgid "objects"
-msgstr "object"
+msgstr "objecten"
 
-#: tools/imagingplanner.cpp:2789
-#, fuzzy, kde-format
-#| msgid "%1, %2 and %3"
+#: tools/imagingplanner.cpp:2848
+#, kde-format
 msgid "%1, %2 and %3 other objects"
-msgstr "%1, %2 en %3"
+msgstr "%1, %2 en %3 andere objecten"
 
-#: tools/imagingplanner.cpp:2797 tools/imagingplanner.cpp:2801
+#: tools/imagingplanner.cpp:2856 tools/imagingplanner.cpp:2860
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2798 tools/imagingplanner.cpp:2803
+#: tools/imagingplanner.cpp:2857 tools/imagingplanner.cpp:2862
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2807 tools/imagingplanner.cpp:2811
+#: tools/imagingplanner.cpp:2866 tools/imagingplanner.cpp:2870
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2808 tools/imagingplanner.cpp:2813
+#: tools/imagingplanner.cpp:2867 tools/imagingplanner.cpp:2872
 #, kde-format
 msgid "Pick %1"
-msgstr ""
+msgstr "Kies %1"
 
-#: tools/imagingplanner.cpp:2818 tools/imagingplanner.cpp:2823
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#: tools/imagingplanner.cpp:2877 tools/imagingplanner.cpp:2882
+#, kde-format
 msgid "Stop ignoring %1"
-msgstr "Stop opnemen"
+msgstr "Stop met negeren van %1"
 
-#: tools/imagingplanner.cpp:2819 tools/imagingplanner.cpp:2825
-#, fuzzy, kde-format
-#| msgid "Ignore"
+#: tools/imagingplanner.cpp:2878 tools/imagingplanner.cpp:2884
+#, kde-format
 msgid "Ignore %1"
-msgstr "Negeer"
+msgstr "%1 negeren"
 
-#: tools/imagingplanner.cpp:2970
-#, fuzzy, kde-format
-#| msgid "Successfully added %1 object to the user catalog."
-#| msgid_plural "Successfully added %1 objects to the user catalog."
+#: tools/imagingplanner.cpp:3017
+#, kde-format
 msgid "Successfully marked %1 objects as read"
-msgstr "%1 object is met succes toegevoegd aan de gebruikerscatalogus."
+msgstr "Met succes %1 objecten als gelezen gemarkeerd."
 
-#: tools/imagingplanner.cpp:2972
-#, fuzzy, kde-format
-#| msgid "Input file:"
+#: tools/imagingplanner.cpp:3019
+#, kde-format
 msgid "Empty file"
-msgstr "Invoerbestand:"
+msgstr "Leeg bestand"
 
-#: tools/imagingplanner.cpp:2981
-#, fuzzy, kde-format
-#| msgid "Add a name label to the object named %1."
+#: tools/imagingplanner.cpp:3028
+#, kde-format
 msgid "Failed marking all of these objects imaged: %1"
-msgstr "De naam vermelden van het object %1."
+msgstr "Deze objecten als opgenomen markeren is mislukt: %1"
 
-#: tools/imagingplanner.cpp:2983
+#: tools/imagingplanner.cpp:3030
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2985
+#: tools/imagingplanner.cpp:3032
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2988
+#: tools/imagingplanner.cpp:3035
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2994 tools/imagingplanner.cpp:3170
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#: tools/imagingplanner.cpp:3041 tools/imagingplanner.cpp:3235
+#, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
-msgstr "Het bestand %1 kon niet worden geopend"
+msgstr "Kon helaas bestand niet openen: \"%1\""
 
-#: tools/imagingplanner.cpp:3093
+#: tools/imagingplanner.cpp:3143
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:81
-#, fuzzy, kde-format
-#| msgid "Record object notes here."
+#, kde-format
 msgid "Search for an object in the table."
-msgstr "Plaats voor object-notities."
+msgstr "Naar een object in de tabel zoeken."
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, SearchText)
 #. i18n: ectx: property (title), widget (QGroupBox, ObjectBox)
@@ -82696,150 +82635,119 @@ msgstr "Naam van het object"
 
 #. i18n: ectx: property (text), widget (QLabel, statusLabel)
 #: tools/imagingplanner.ui:216
-#, fuzzy, kde-format
-#| msgid "Select Sky Object"
+#, kde-format
 msgid "Select an Object"
-msgstr "Hemelobject selecteren"
+msgstr "Een object selecteren"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backOneDay)
 #: tools/imagingplanner.ui:304
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Back one day"
-msgstr "Achtergrond"
+msgstr "Eén dag terug"
 
 #. i18n: ectx: property (displayFormat), widget (QDateEdit, DateEdit)
 #: tools/imagingplanner.ui:321
-#, fuzzy, kde-format
-#| msgid "dd/MM/yyyy"
+#, kde-format
 msgid "dd/MM/yy"
-msgstr "dd/MM/jjjj"
+msgstr "dd/MM/jj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, forwardOneDay)
 #: tools/imagingplanner.ui:349
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Firmware data"
+#, kde-format
 msgid "Forward one day"
-msgstr "Firmware gegevens"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, addUserObjectButton)
-#: tools/imagingplanner.ui:397
-#, fuzzy, kde-format
-#| msgid "Add a name label to the object named %1."
-msgid "Add an object to the object list on the left."
-msgstr "De naam vermelden van het object %1."
-
-#. i18n: ectx: property (text), widget (QPushButton, addUserObjectButton)
-#: tools/imagingplanner.ui:400
-#, fuzzy, kde-format
-#| msgid "Add Object..."
-msgid "Add Object"
-msgstr "Object toevoegen..."
+msgstr "Eén dag vooruit"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
-#: tools/imagingplanner.ui:419
+#: tools/imagingplanner.ui:397
 #, kde-format
 msgid "Open web documentation."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
-#: tools/imagingplanner.ui:563
-#, fuzzy, kde-format
-#| msgid "Set Observing Notes for the Object:"
+#: tools/imagingplanner.ui:541
+#, kde-format
 msgid "Create/Edit some user notes for this object"
-msgstr "Waarneemnotities voor object instellen:"
+msgstr "Enige notities voor dit object aanmaken/bewerken"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesDoneButton)
-#: tools/imagingplanner.ui:595
+#: tools/imagingplanner.ui:573
 #, kde-format
 msgid "Done creating/editing some user notes for this object"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink)
-#: tools/imagingplanner.ui:627
+#: tools/imagingplanner.ui:605
 #, kde-format
 msgid "Open a browser with the 1st link in this note."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink2)
-#: tools/imagingplanner.ui:659
+#: tools/imagingplanner.ui:637
 #, kde-format
 msgid "Open a browser with the 2nd link in this note."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink3)
-#: tools/imagingplanner.ui:691
+#: tools/imagingplanner.ui:669
 #, kde-format
 msgid "Open a browser with the 3rd link in this note."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, userNotesLabel)
-#: tools/imagingplanner.ui:717
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Note"
+#: tools/imagingplanner.ui:695
+#, kde-format
 msgid "Note:"
-msgstr "Opmerking"
+msgstr "Notitie:"
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, userNotesEdit)
-#: tools/imagingplanner.ui:743
-#, fuzzy, kde-format
-#| msgid "Record object notes here."
+#: tools/imagingplanner.ui:721
+#, kde-format
 msgid "Enter notes here"
-msgstr "Plaats voor object-notities."
+msgstr "Hier notities invoeren"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAltitudeGraphB)
-#: tools/imagingplanner.ui:795
-#, fuzzy, kde-format
-#| msgid "Print the Altitude vs. time plot"
+#: tools/imagingplanner.ui:773
+#, kde-format
 msgid "Minimize the altitude vs time graph."
-msgstr "Druk plot af van hoogte vs tijd"
+msgstr "Minimaliseer de hoogte vs tijd grafiek."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAltitudeGraphB)
-#: tools/imagingplanner.ui:890
-#, fuzzy, kde-format
-#| msgid "Print the Altitude vs. time plot"
+#: tools/imagingplanner.ui:868
+#, kde-format
 msgid "Maximize the altitude vs time graph."
-msgstr "Druk plot af van hoogte vs tijd"
+msgstr "Maximaliseer de hoogte vs tijd grafiek."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HiddenAltitudeGraphLabel)
-#: tools/imagingplanner.ui:922
-#, fuzzy, kde-format
-#| msgid "Altitude vs. Time"
+#: tools/imagingplanner.ui:900
+#, kde-format
 msgid "Altitude vs Time graph."
-msgstr "Hoogte vs. tijd"
+msgstr "Hoogte vs tijd grafiek."
 
 #. i18n: ectx: property (text), widget (QLabel, HiddenAltitudeGraphLabel)
-#: tools/imagingplanner.ui:925
-#, fuzzy, kde-format
-#| msgid "Altitude vs. Time"
+#: tools/imagingplanner.ui:903
+#, kde-format
 msgid "Altitude vs Time graph"
-msgstr "Hoogte vs. tijd"
+msgstr "Hoogte vs tijd grafiek"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useArtificialHorizon)
-#: tools/imagingplanner.ui:965
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Keep the plot at the full input width.</p></body></"
-#| "html>"
+#: tools/imagingplanner.ui:943
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use the system's artificial horizon for calculating "
 "imaging hours.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Houd de plot op de volle breedte van de invoer.</p></"
-"body></html>"
+"<html><head/><body><p>De kunstmatige horizon gebruiken voor berekening van "
+"opname-uren.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useArtificialHorizon)
-#: tools/imagingplanner.ui:968
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#: tools/imagingplanner.ui:946
+#, kde-format
 msgid "Artificial horizon"
 msgstr "Kunstmatige horizon"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltitudeLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minAltitude)
-#: tools/imagingplanner.ui:981 tools/imagingplanner.ui:1003
+#: tools/imagingplanner.ui:959 tools/imagingplanner.ui:981
 #, kde-format
 msgid ""
 "For imaging hours calculation, object must be at least at this altitude (and "
@@ -82847,15 +82755,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minAltitudeLabel)
-#: tools/imagingplanner.ui:984
-#, fuzzy, kde-format
-#| msgid "Min Area"
+#: tools/imagingplanner.ui:962
+#, kde-format
 msgid "Min alt"
-msgstr "Min Opp"
+msgstr "Min hgt"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minMoonLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minMoon)
-#: tools/imagingplanner.ui:1028 tools/imagingplanner.ui:1050
+#: tools/imagingplanner.ui:1006 tools/imagingplanner.ui:1028
 #, kde-format
 msgid ""
 "For imaging hours calculation, object must be at least this far from the "
@@ -82863,37 +82770,34 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
-#: tools/imagingplanner.ui:1031
-#, fuzzy, kde-format
-#| msgid "Min Move:"
+#: tools/imagingplanner.ui:1009
+#, kde-format
 msgid "Min Moon º"
-msgstr "Min. verplaatsing:"
+msgstr "Min maan º"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAstrobinDetailsButton)
-#: tools/imagingplanner.ui:1125
+#: tools/imagingplanner.ui:1103
 #, kde-format
 msgid "Minimize the Astrobin search details section"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel2)
-#: tools/imagingplanner.ui:1157 tools/imagingplanner.ui:1482
+#: tools/imagingplanner.ui:1135 tools/imagingplanner.ui:1460
 #, kde-format
 msgid "Select a button to search for the selected object on the internet."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel2)
-#: tools/imagingplanner.ui:1160 tools/imagingplanner.ui:1485
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Auto Search"
+#: tools/imagingplanner.ui:1138 tools/imagingplanner.ui:1463
+#, kde-format
 msgid "Search"
-msgstr "Auto zoeken"
+msgstr "Zoeken"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton2)
-#: tools/imagingplanner.ui:1184 tools/imagingplanner.ui:1509
+#: tools/imagingplanner.ui:1162 tools/imagingplanner.ui:1487
 #, kde-format
 msgid ""
 "Search Astrobin for the selected object using the search constraints in this "
@@ -82902,105 +82806,96 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton2)
-#: tools/imagingplanner.ui:1187 tools/imagingplanner.ui:1512
-#, fuzzy, kde-format
-#| msgid "Astro.net"
+#: tools/imagingplanner.ui:1165 tools/imagingplanner.ui:1490
+#, kde-format
 msgid "Astrobin"
-msgstr "Astro.net"
+msgstr "Astrobin"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia2)
-#: tools/imagingplanner.ui:1211 tools/imagingplanner.ui:1536
-#, fuzzy, kde-format
-#| msgid "Description of the selected profile"
+#: tools/imagingplanner.ui:1189 tools/imagingplanner.ui:1514
+#, kde-format
 msgid "Search Wikipedia for the selected object."
-msgstr "Beschrijving van geselecteerd profiel"
+msgstr "Doorzoek Wikipedia voor het geselecteerde object."
 
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia2)
-#: tools/imagingplanner.ui:1214 tools/imagingplanner.ui:1539
-#, fuzzy, kde-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Wikipedia Page"
+#: tools/imagingplanner.ui:1192 tools/imagingplanner.ui:1517
+#, kde-format
 msgid "Wikipedia"
-msgstr "Wikipedia-pagina"
+msgstr "Wikipedia"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages2)
-#: tools/imagingplanner.ui:1238 tools/imagingplanner.ui:1563
+#: tools/imagingplanner.ui:1216 tools/imagingplanner.ui:1541
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC/IC images."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages)
 #. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages2)
-#: tools/imagingplanner.ui:1241 tools/imagingplanner.ui:1566
+#: tools/imagingplanner.ui:1219 tools/imagingplanner.ui:1544
 #, kde-format
 msgid "NGC/IC"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad2)
-#: tools/imagingplanner.ui:1265 tools/imagingplanner.ui:1590
-#, fuzzy, kde-format
-#| msgid "Search Radius"
+#: tools/imagingplanner.ui:1243 tools/imagingplanner.ui:1568
+#, kde-format
 msgid "Search Simbad."
-msgstr "Zoekstraal"
+msgstr "Doorziek Simbad."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, AstrobinAward)
-#: tools/imagingplanner.ui:1275
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#: tools/imagingplanner.ui:1253
+#, kde-format
 msgid ""
 "<html><head/><body><p>Required one of the Astrobin awards when searching "
 "Astrobin images.</p></body></html>"
 msgstr ""
-"<html><body><p>Grootte van de scheiding tussen de vakken.</p></body></html>"
+"<html><head/><body><p>Vereist een van de Astrobin awards bij doorzoeken van "
+"Astrobin afbeeldingen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, AstrobinAward)
-#: tools/imagingplanner.ui:1278
-#, fuzzy, kde-format
-#| msgid "Required"
+#: tools/imagingplanner.ui:1256
+#, kde-format
 msgid "Awards Required"
-msgstr "Vereist"
+msgstr "Awards vereist"
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
-#: tools/imagingplanner.ui:1297
-#, fuzzy, kde-format
-#| msgid "Radius"
+#: tools/imagingplanner.ui:1275
+#, kde-format
 msgid "Radius:"
-msgstr "Straal"
+msgstr "Straal:"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
-#: tools/imagingplanner.ui:1312
+#: tools/imagingplanner.ui:1290
 #, kde-format
 msgid "Min:"
 msgstr "Min:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
-#: tools/imagingplanner.ui:1360
+#: tools/imagingplanner.ui:1338
 #, kde-format
 msgid "Max:"
 msgstr "Max:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAstrobinDetailsButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFilterTypesButton)
-#: tools/imagingplanner.ui:1450 tools/imagingplanner.ui:2077
+#: tools/imagingplanner.ui:1428 tools/imagingplanner.ui:2025
 #, kde-format
 msgid "Maximize the Astrobin search details section"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideFilterTypesButton)
-#: tools/imagingplanner.ui:1656
+#: tools/imagingplanner.ui:1634
 #, kde-format
 msgid "Minimize the Filters section"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel2)
-#: tools/imagingplanner.ui:1682 tools/imagingplanner.ui:2109
+#: tools/imagingplanner.ui:1660 tools/imagingplanner.ui:2057
 #, kde-format
 msgid ""
 "Constrain the list of object on the left by the filters in this section."
@@ -83008,229 +82903,204 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel2)
-#: tools/imagingplanner.ui:1685 tools/imagingplanner.ui:2112
-#, fuzzy, kde-format
-#| msgid "Filters:"
+#: tools/imagingplanner.ui:1663 tools/imagingplanner.ui:2060
+#, kde-format
 msgid "Filters"
-msgstr "Filters:"
+msgstr "Filters"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minHoursLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minHours)
-#: tools/imagingplanner.ui:1698 tools/imagingplanner.ui:1717
+#: tools/imagingplanner.ui:1676 tools/imagingplanner.ui:1695
 #, kde-format
 msgid ""
 "Objects are only shown if they can be imaged for at least this many hours."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minHoursLabel)
-#: tools/imagingplanner.ui:1704
-#, fuzzy, kde-format
-#| msgid "24 Hours"
+#: tools/imagingplanner.ui:1682
+#, kde-format
 msgid "Min Hours:"
-msgstr "24 uur"
+msgstr "Min uren:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OpenClusterCB)
-#: tools/imagingplanner.ui:1733
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#: tools/imagingplanner.ui:1711
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide open clusters if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>Stapgrootte:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Open sterrenhopen verbergen indien niet geactiveerd.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, OpenClusterCB)
-#: tools/imagingplanner.ui:1736
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#: tools/imagingplanner.ui:1714
+#, kde-format
 msgid "Open Cl"
-msgstr "Open sterrenhoop"
+msgstr "Open Cl"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, NebulaCB)
-#: tools/imagingplanner.ui:1743
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#: tools/imagingplanner.ui:1721
+#, kde-format
 msgid "<html><head/><body><p>Hide nebulae if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dit indexbestand is niet vereist.</p></body></html>"
+"<html><head/><body><p>Nevels verbergen indien niet geactiveerd.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GlobularClusterCB)
-#: tools/imagingplanner.ui:1753
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#: tools/imagingplanner.ui:1731
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide globular clusters if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>U bent bijna klaar...</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Bolvormige clusters verbergen indien niet geactiveerd."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
-#: tools/imagingplanner.ui:1763
+#: tools/imagingplanner.ui:1741
 #, fuzzy, kde-format
 #| msgid ""
-#| "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
+#| "<html><head/><body><p>Hide planetary nebulaeif unchecked.</p></body></"
+#| "html>"
 msgid ""
-"<html><head/><body><p>Hide planetary nebulaeif unchecked.</p></body></html>"
+"<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Volgende bestand .analyse tonen</p></body></html>"
+"<html><head/><body><p>Planetaire nevels verbergen indien niet geactiveerd.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
-#: tools/imagingplanner.ui:1773
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#: tools/imagingplanner.ui:1751
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide supernova remnants if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>Huidige frame verwijderen</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Supernova restanten verbergen indien niet geactiveerd."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyCB)
-#: tools/imagingplanner.ui:1783
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#: tools/imagingplanner.ui:1761
+#, kde-format
 msgid "<html><head/><body><p>Hide galaxies if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dit indexbestand is niet vereist.</p></body></html>"
+"<html><head/><body><p>Melkwegstelsels verbergen indien niet geactiveerd.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyClusterCB)
-#: tools/imagingplanner.ui:1793
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#: tools/imagingplanner.ui:1771
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide galaxy clusters if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dit indexbestand is niet vereist.</p></body></html>"
+"<html><head/><body><p>Melkwegstelselclusters verbergen indien niet "
+"geactiveerd.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyClusterCB)
-#: tools/imagingplanner.ui:1796
-#, fuzzy, kde-format
-#| msgid "Galaxy"
+#: tools/imagingplanner.ui:1774
+#, kde-format
 msgid "Galaxy Cl"
-msgstr "Melkwegstelsel"
+msgstr "Melkwegstelsel Cl"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, DarkNebulaCB)
-#: tools/imagingplanner.ui:1803
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#: tools/imagingplanner.ui:1781
+#, kde-format
 msgid "<html><head/><body><p>Hide dark nebulae if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dit indexbestand is niet vereist.</p></body></html>"
+"<html><head/><body><p>Donkere nevels verbergen indien niet geactiveerd.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OtherCB)
-#: tools/imagingplanner.ui:1813
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#: tools/imagingplanner.ui:1791
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide other object types if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>De omgevingstemperatuur plotten.</p></body></html>"
+"<html><head/><body><p>Andere type objecten verbergen indien niet geactiveerd."
+"</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.ui:1823
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></"
-#| "body></html>"
+#: tools/imagingplanner.ui:1801
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are marked picked (don't show "
 "those that are not picked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Het kleurthema van de 3D grafiek selecteren.</p></"
-"body></html>"
+"<html><head/><body><p>De objecten tonen die als gekozen zijn gemarkeerd "
+"(niet diegenen tonen die niet zijn gekozen).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notPickedCB)
-#: tools/imagingplanner.ui:1833
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#: tools/imagingplanner.ui:1811
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are not marked picked (don't "
 "show those that are picked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Het aantal plotten van de sterren in de opgenomen "
-"afbeeldingen.</p></body></html>"
+"<html><head/><body><p>De objecten tonen die niet zijn gemarkeerd als gekozen "
+"(niet diegenen tonen die zijn gekozen).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notPickedCB)
-#: tools/imagingplanner.ui:1836
-#, fuzzy, kde-format
-#| msgctxt "Short text to describe that object has not risen yet"
-#| msgid "Not risen"
+#: tools/imagingplanner.ui:1814
+#, kde-format
 msgid "Not Picked"
-msgstr "Nog niet op"
+msgstr "Niet gekozen"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCarePickedCB)
-#: tools/imagingplanner.ui:1843
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display DEC graph in the Drift Graphics plot.</p></"
-#| "body></html>"
+#: tools/imagingplanner.ui:1821
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked picked or not.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Toon de grafiek van de DEC in de plot van de  drift.</"
-"p></body></html>"
+"<html><head/><body><p>Tonen van objecten hangt niet af van of objecten al "
+"dan niet zijn gemarkeerd als gekozen.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dontCarePickedCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareImagedCB)
-#. i18n: ectx: property (text), widget (QCheckBox, dontCareAddedCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareIgnoredCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareKeywordCB)
-#: tools/imagingplanner.ui:1846 tools/imagingplanner.ui:1876
-#: tools/imagingplanner.ui:1933 tools/imagingplanner.ui:1963
-#: tools/imagingplanner.ui:1993
+#: tools/imagingplanner.ui:1824 tools/imagingplanner.ui:1854
+#: tools/imagingplanner.ui:1911 tools/imagingplanner.ui:1941
 #, kde-format
 msgid "Don't care"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.ui:1853
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median sample value in the captured images."
-#| "</p></body></html>"
+#: tools/imagingplanner.ui:1831
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are marked imaged (and don't "
 "show those that are not marked previously imaged).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>De mediaan van de sample-waarde in de opgenomen "
-"afbeeldingen plotten.</p></body></html>"
+"<html><head/><body><p>De objecten tonen die gemarkeerd zijn als opgenomen "
+"(en niet diegenen tonen die niet eerder zijn gemarkeerd als opgenomen).</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notImagedCB)
-#: tools/imagingplanner.ui:1863
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#: tools/imagingplanner.ui:1841
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are not marked imaged (and don't "
 "show those that are marked previously imaged).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Het aantal plotten van de sterren in de opgenomen "
-"afbeeldingen.</p></body></html>"
+"<html><head/><body><p>De objecten tonen die niet gemarkeerd zijn als "
+"opgenomen (en niet diegenen tonen die eerder zijn gemarkeerd als opgenomen)."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notImagedCB)
-#: tools/imagingplanner.ui:1866
-#, fuzzy, kde-format
-#| msgid "(No Image)"
+#: tools/imagingplanner.ui:1844
+#, kde-format
 msgid "Not imaged"
-msgstr "(Geen afbeelding)"
+msgstr "Niet opgenomen"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareImagedCB)
-#: tools/imagingplanner.ui:1873
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display histogram for the stretched non-linear "
-#| "image.</p></body></html>"
+#: tools/imagingplanner.ui:1851
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked previously imaged or not.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Histogram tonen voor de uitgerekte niet-lineaire "
-"afbeelding.</p></body></html>"
+"<html><head/><body><p>Tonen van objecten hangt niet af van of objecten al "
+"dan niet zijn gemarkeerd als eerder opgenomen.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadImagedB)
-#: tools/imagingplanner.ui:1900
+#: tools/imagingplanner.ui:1878
 #, kde-format
 msgid ""
 "Load a file listing the names of already imaged objects--one name per line. "
@@ -83238,204 +83108,130 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
-#: tools/imagingplanner.ui:1903
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Image"
-msgid "Load Imaged"
-msgstr "Afbeelding Inlezen"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, addedCB)
-#: tools/imagingplanner.ui:1910
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#| "that have been added there, and remove overlays that are no longer there."
-#| "</p></body></html>"
-msgid ""
-"<html><head/><body><p>Show the objects that have been added (and don't show "
-"those that have not been added).</p></body></html>"
-msgstr ""
-"<html><head/><body><p>vernieuwen uit de map voor overlays. Overlays "
-"toevoegen die daar zijn toegevoegd en overlays verwijderen die daar niet "
-"langer zijn.</p></body></html>"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, notAddedCB)
-#: tools/imagingplanner.ui:1920
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#| "that have been added there, and remove overlays that are no longer there."
-#| "</p></body></html>"
-msgid ""
-"<html><head/><body><p>Show the objects that have not been added (and don't "
-"show those that have been added).</p></body></html>"
-msgstr ""
-"<html><head/><body><p>vernieuwen uit de map voor overlays. Overlays "
-"toevoegen die daar zijn toegevoegd en overlays verwijderen die daar niet "
-"langer zijn.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, notAddedCB)
-#: tools/imagingplanner.ui:1923
+#: tools/imagingplanner.ui:1881
 #, kde-format
-msgid "Not added"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareAddedCB)
-#: tools/imagingplanner.ui:1930
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
-msgid ""
-"<html><head/><body><p>Object display doesn't depend on whether objects have "
-"been add or not.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Dit activeren om de sensor te tonen.</p></body></html>"
+msgid "Load Imaged"
+msgstr "Opgenomenen laden"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.ui:1940
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#| "that have been added there, and remove overlays that are no longer there."
-#| "</p></body></html>"
+#: tools/imagingplanner.ui:1888
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have been ignored (and don't "
 "show those that have not been ignored).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>vernieuwen uit de map voor overlays. Overlays "
-"toevoegen die daar zijn toegevoegd en overlays verwijderen die daar niet "
-"langer zijn.</p></body></html>"
+"<html><head/><body><p>De objecten tonen die zijn genegeerd (en niet diegenen "
+"tonen die niet zijn genegeerd)p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notIgnoredCB)
-#: tools/imagingplanner.ui:1950
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#| "that have been added there, and remove overlays that are no longer there."
-#| "</p></body></html>"
+#: tools/imagingplanner.ui:1898
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have not been ignored (and don't "
 "show those that have been ignored).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>vernieuwen uit de map voor overlays. Overlays "
-"toevoegen die daar zijn toegevoegd en overlays verwijderen die daar niet "
-"langer zijn.</p></body></html>"
+"<html><head/><body><p>De objecten tonen die niet zijn genegeerd (en niet "
+"diegenen toen die zijn genegeerd).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notIgnoredCB)
-#: tools/imagingplanner.ui:1953
-#, fuzzy, kde-format
-#| msgid "Not Sure"
+#: tools/imagingplanner.ui:1901
+#, kde-format
 msgid "Not ignored"
-msgstr "Weet niet"
+msgstr "Niet genegeerd"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareIgnoredCB)
-#: tools/imagingplanner.ui:1960
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
+#: tools/imagingplanner.ui:1908
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects have "
 "been ignored or not.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dit activeren om de sensor te tonen.</p></body></html>"
+"<html><head/><body><p>Tonen van objecten hangt niet af van of objecten zijn "
+"genegeerd of niet.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, keywordCB)
-#: tools/imagingplanner.ui:1970
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's pier side (left) -> where the "
-#| "mount is pointing.</p></body></html>"
+#: tools/imagingplanner.ui:1918
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have the (case-sensitive) "
 "keyword in their notes (and don't show those that don't).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>De pier-kant (links) plotten -> waar de opstelling "
-"naar wijst.</p></body></html>"
+"<html><head/><body><p>De objecten tonen die het (hoofdlettergevoelige) "
+"trefwoord in hun notities hebben (en niet diegenen die dat niet hebben).</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notKeywordCB)
-#: tools/imagingplanner.ui:1980
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#: tools/imagingplanner.ui:1928
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that don't have the (case-sensitive) "
 "keyword in their notes (and don't show those that do).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Huidige gegevens van de weersensoren. Klikken op "
-"desensornaam  toont u deze gegevens.</p></body></html>"
+"<html><head/><body><p>De objecten tonen die niet het (hoofdlettergevoelige) "
+"trefwoord in hun notities hebben (en niet diegenen die dat wel hebben).</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notKeywordCB)
-#: tools/imagingplanner.ui:1983
-#, fuzzy, kde-format
-#| msgid "Keyword"
+#: tools/imagingplanner.ui:1931
+#, kde-format
 msgid "Not keyword"
-msgstr "Sleutelwoord"
+msgstr "Geen trefwoord"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareKeywordCB)
-#: tools/imagingplanner.ui:1990
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Set estimated position to speed up astrometry "
-#| "solver as it does not have to search in other areas of the sky.</p></"
-#| "body></html>"
+#: tools/imagingplanner.ui:1938
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether or not "
 "objects have the keyword in their notes.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Stel geschatte positie in zodat de astrometry-oplosser "
-"sneller klaar is, omdat die niet in andere gebieden aan de hemel hoeft te "
-"zoeken.</p></body></html>"
+"<html><head/><body><p>Tonen van een object hangt niet af van of objecten al "
+"dan niet het trefwoord in hun notities hebben.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, keywordEdit)
-#: tools/imagingplanner.ui:2011
+#: tools/imagingplanner.ui:1959
 #, kde-format
 msgid ""
 "Enter the (case-sensitive) keyword to be used for the checkboxes to the left."
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
-#: tools/imagingplanner.ui:2014
-#, fuzzy, kde-format
-#| msgid "Enter name for the script"
+#: tools/imagingplanner.ui:1962
+#, kde-format
 msgid "Enter keyword here"
-msgstr "Voer een naam in voor het script"
+msgstr "Trefwoord hier invoeren"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideImageButton)
-#: tools/imagingplanner.ui:2172
+#: tools/imagingplanner.ui:2120
 #, kde-format
 msgid "Minimize the image section"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
-#: tools/imagingplanner.ui:2198 tools/imagingplanner.ui:2364
-#, fuzzy, kde-format
-#| msgid "Catalog name:"
+#: tools/imagingplanner.ui:2146 tools/imagingplanner.ui:2312
+#, kde-format
 msgid "Catalog Image"
-msgstr "Naam catalogus:"
+msgstr "Catalogus met afbeeldingen"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton2)
-#: tools/imagingplanner.ui:2236 tools/imagingplanner.ui:2396
-#, fuzzy, kde-format
-#| msgid "Load Catalog..."
+#: tools/imagingplanner.ui:2184 tools/imagingplanner.ui:2344
+#, kde-format
 msgid "Load a new catalog"
-msgstr "Catalogus inlezen..."
+msgstr "Nieuwe catalogus laden"
 
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton2)
-#: tools/imagingplanner.ui:2239 tools/imagingplanner.ui:2399
-#, fuzzy, kde-format
-#| msgid "Load Catalog..."
+#: tools/imagingplanner.ui:2187 tools/imagingplanner.ui:2347
+#, kde-format
 msgid "Load Catalog"
-msgstr "Catalogus inlezen..."
+msgstr "Catalogus laden"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showImageButton)
-#: tools/imagingplanner.ui:2338
-#, fuzzy, kde-format
-#| msgid "Maximum image dimension:"
+#: tools/imagingplanner.ui:2286
+#, kde-format
 msgid "Maximize the image section"
-msgstr "Maximale grootte van afbeelding:"
+msgstr "Maximaliseer de afbeeldingsectie:"
 
 #: tools/jmoontool.cpp:30
 #, kde-format
@@ -85080,7 +84876,7 @@ msgstr "Open sterrenhopen"
 #: tools/obslistwizard.ui:130
 #, kde-format
 msgid "Globular clusters"
-msgstr "Bolvormige sterrenhopen"
+msgstr "Bolvormige clusters"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
 #: tools/obslistwizard.cpp:275 tools/obslistwizard.cpp:419
@@ -88038,6 +87834,65 @@ msgstr "Achtergrondkleur:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
+
+#~ msgid ""
+#~ "Due to a known issue in the kde frameworks, updating already downloaded "
+#~ "items is currently not possible. <br> Please uninstall and reinstall them "
+#~ "to update."
+#~ msgstr ""
+#~ "Vanwege een bekend probleem in de kde-frameworks, is bijwerken van al "
+#~ "gedownloade items nu niet mogelijk. <br> Maak installatie ongedaan en "
+#~ "installeer ze opnieuw om bij te werken."
+
+#~ msgid "Added"
+#~ msgstr "Toegevoegd"
+
+#~| msgid "Could not import the objects."
+#~ msgid "Could not find that object"
+#~ msgstr "Kon dat object niet vinden."
+
+#~| msgid "Cap already parked."
+#~ msgid "%1 already there"
+#~ msgstr "%1 is er al"
+
+#~| msgid "Add a name label to the object named %1."
+#~ msgid "Add an object to the object list on the left."
+#~ msgstr "Een object toevoegen aan de lijst met objecten links."
+
+#~| msgid "Add Object..."
+#~ msgid "Add Object"
+#~ msgstr "Object toevoegen"
+
+#~| msgid ""
+#~| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
+#~| "that have been added there, and remove overlays that are no longer there."
+#~| "</p></body></html>"
+#~ msgid ""
+#~ "<html><head/><body><p>Show the objects that have been added (and don't "
+#~ "show those that have not been added).</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>De objecten tonen die zijn toegevoegd (en niet "
+#~ "tonen diegenen die niet zijn toegevoegd).</p></body></html>"
+
+#~| msgid ""
+#~| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
+#~| "that have been added there, and remove overlays that are no longer there."
+#~| "</p></body></html>"
+#~ msgid ""
+#~ "<html><head/><body><p>Show the objects that have not been added (and "
+#~ "don't show those that have been added).</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>De objecten tonen die niet zijn toegevoegd (en niet "
+#~ "diegenen tonen die zijn toegevoegd).</p></body></html>"
+
+#~| msgid ""
+#~| "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
+#~ msgid ""
+#~ "<html><head/><body><p>Object display doesn't depend on whether objects "
+#~ "have been add or not.</p></body></html>"
+#~ msgstr ""
+#~ "<html><head/><body><p>Tonen van objecten hangt niet af van of objecten "
+#~ "zijn toegevoegd of niet.</p></body></html>"
 
 #~ msgid "Simulate Eyepiece View"
 #~ msgstr "Oculairbeeld simuleren"
