@@ -97,10 +97,7 @@ Norder download link, sort of:
 See if I can just use UserRole or UserRole+1 for the non-display roles.
 Altitude graph has some replicated code with the scheduler
 Weird timezone stuff when setting kstars to a timezone that's not the system's timezone.
-
 Add a catalog name, and display it?
-A user catalog like ~/imagingplannerrc
-How do we package and publish it so it can be downloaded
 ***********************************************************/
 
 namespace
@@ -1352,7 +1349,6 @@ void ImagingPlanner::initialize()
     });
 
     adjustWindowSize();
-    ui->CatalogObjectInfoSplitter->setSizes({500, 500});
 
     connect(ui->helpButton, &QPushButton::clicked, this, &ImagingPlanner::getHelp);
 
@@ -1434,6 +1430,15 @@ void ImagingPlanner::updateMoon()
     KSMoon *moon = getMoon();
     if (!moon)
         return;
+
+    // You need to know the sun's position in order to get the right phase of the moon.
+    auto tz = QTimeZone(getGeo()->TZ() * 3600);
+    KStarsDateTime midnight = KStarsDateTime(getDate().addDays(1), QTime(0, 1));
+    CachingDms LST = getGeo()->GSTtoLST(getGeo()->LTtoUT(midnight).gst());
+    KSNumbers numbers(midnight.djd());
+    KSSun *sun = dynamic_cast<KSSun *>(KStarsData::Instance()->skyComposite()->findByName(i18n("Sun")));
+    sun->updateCoords(&numbers, true, getGeo()->lat(), &LST, true);
+    moon->findPhase(sun);
 
     ui->moonImage->setPixmap(QPixmap::fromImage(moon->image().scaled(32, 32, Qt::KeepAspectRatio)));
     ui->moonPercentLabel->setText(QString("%1%").arg(moon->illum() * 100.0 + 0.5, 0, 'f', 0));
@@ -1525,6 +1530,7 @@ void ImagingPlanner::userNotesEditFinished()
 
 void ImagingPlanner::updateNotes(const QString &notes)
 {
+    ui->userNotes->setMaximumWidth(ui->RightPanel->width() - 125);
     initUserNotes();
     ui->userNotes->setText(notes);
     ui->userNotesLabel->setVisible(notes.isEmpty());
@@ -1550,22 +1556,39 @@ void ImagingPlanner::setupNotesLinks(const QString &notes)
 }
 
 // Given an object name, return the KStars catalog object.
-bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject * catObject, bool useNameResolver)
+bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject * catObject)
 {
     // find_objects_by_name is much faster with exactMatchOnly=true.
     // Therefore, since most will match exactly given the string pre-processing,
     // first try exact=true, and if that fails, follow up with exact=false.
-    const QString filteredName = FindDialog::processSearchText(name).toUpper();
+    QString filteredName = FindDialog::processSearchText(name).toUpper();
     std::list<CatalogObject> objs =
         m_manager.find_objects_by_name(filteredName, 1, true);
+
+    // If we didn't find it and it's Sharpless, try sh2 with a space instead of a dash
+    // and vica versa
+    if (objs.size() == 0 && filteredName.startsWith("sh2-", Qt::CaseInsensitive))
+    {
+        QString name2 = filteredName;
+        name2.replace(QRegularExpression("sh2-", QRegularExpression::CaseInsensitiveOption), "sh2 ");
+        objs = m_manager.find_objects_by_name(name2, 1, true);
+    }
+    if (objs.size() == 0 && filteredName.startsWith("sh2 ", Qt::CaseInsensitive))
+    {
+        QString name2 = filteredName;
+        name2.replace(QRegularExpression("sh2 ", QRegularExpression::CaseInsensitiveOption), "sh2-");
+        objs = m_manager.find_objects_by_name(name2, 1, true);
+    }
+
     if (objs.size() == 0)
         objs = m_manager.find_objects_by_name(filteredName.toLower(), 20, false);
-
-    // Experimental--NameResolver can be slow.
-    if (useNameResolver && objs.size() == 0)
+    if (objs.size() == 0)
     {
         QElapsedTimer timer;
         timer.start();
+        // The resolveName search is touchy about the dash.
+        if (filteredName.startsWith("sh2", Qt::CaseInsensitive))
+            filteredName.replace(QRegularExpression("sh2\\s*-?", QRegularExpression::CaseInsensitiveOption), "sh2-");
         const auto &cedata = NameResolver::resolveName(filteredName);
         if (!cedata.first)
         {
@@ -1635,7 +1658,7 @@ void ImagingPlanner::clearObjects()
     m_CatalogHash.clear();
 }
 
-CatalogObject *ImagingPlanner::addObject(const QString &name, bool useNameResolver)
+CatalogObject *ImagingPlanner::addObject(const QString &name)
 {
     if (name.isEmpty())
         return nullptr;
@@ -1647,7 +1670,7 @@ CatalogObject *ImagingPlanner::addObject(const QString &name, bool useNameResolv
     }
 
     CatalogObject o;
-    if (!getKStarsCatalogObject(lName, &o, useNameResolver))
+    if (!getKStarsCatalogObject(lName, &o))
     {
         DPRINTF(stderr, "************* Couldn't find \"%s\"\n", lName.toLatin1().data());
         return nullptr;
@@ -1658,9 +1681,9 @@ CatalogObject *ImagingPlanner::addObject(const QString &name, bool useNameResolv
 
 // Adds the object to the catalog model, assuming a KStars catalog object can be found
 // for that name.
-bool ImagingPlanner::addCatalogItem(const KSAlmanac &ksal, const QString &name, int flags, bool useNameResolver)
+bool ImagingPlanner::addCatalogItem(const KSAlmanac &ksal, const QString &name, int flags)
 {
-    CatalogObject *object = addObject(name, useNameResolver);
+    CatalogObject *object = addObject(name);
     if (object == nullptr)
         return false;
 
@@ -1847,9 +1870,12 @@ void ImagingPlanner::recompute()
         }
 
         // Don't lose the imaged background highlighting.
-        bool imaged = m_CatalogModel->item(i, FLAGS_COLUMN)->data(FLAGS_ROLE).toInt() & IMAGED_BIT;
+        const bool imaged = m_CatalogModel->item(i, FLAGS_COLUMN)->data(FLAGS_ROLE).toInt() & IMAGED_BIT;
         if (imaged)
             highlightImagedObject(m_CatalogModel->index(i, NAME_COLUMN), true);
+        const bool picked = m_CatalogModel->item(i, FLAGS_COLUMN)->data(FLAGS_ROLE).toInt() & PICKED_BIT;
+        if (picked)
+            highlightPickedObject(m_CatalogModel->index(i, NAME_COLUMN), true);
     }
     // Reconnect the filter to the model.
     m_CatalogSortModel->setSourceModel(m_CatalogModel.data());
@@ -1970,7 +1996,10 @@ void ImagingPlanner::loadInitialCatalog()
     if (catalog.isEmpty())
         catalog = findDefaultCatalog();
     if (catalog.isEmpty())
+    {
         KSNotification::sorry(i18n("You need to load a catalog to start using this tool.\nSee Data -> Download New Data..."));
+        updateStatus(i18n("No Catalog!"));
+    }
     else
         loadCatalog(catalog);
 }
@@ -2185,11 +2214,6 @@ void ImagingPlanner::searchAstrobin()
 
 bool ImagingPlanner::eventFilter(QObject * obj, QEvent * event)
 {
-    updateCounts();
-
-    if (!currentCatalogObject())
-        disableUserNotes();
-
     if (m_InitialLoad && event->type() == QEvent::Paint)
     {
         m_InitialLoad = false;
@@ -2321,7 +2345,10 @@ void ImagingPlanner::selectionChanged(const QItemSelection &selected, const QIte
 {
     Q_UNUSED(deselected);
     if (selected.indexes().size() == 0)
+    {
+        disableUserNotes();
         return;
+    }
 
     initUserNotes();
     standardStatus();
@@ -2432,6 +2459,7 @@ void ImagingPlanner::selectionChanged(const QItemSelection &selected, const QIte
 
 void ImagingPlanner::updateDisplays()
 {
+    updateCounts();
     auto object = currentCatalogObject();
     if (object)
     {
@@ -2693,13 +2721,16 @@ void ImagingPlanner::centerOnSkymap()
 
     // Doing this to avoid the pop-up warning that an object is below the ground.
     bool keepGround = Options::showGround();
+    bool keepAnimatedSlew = Options::useAnimatedSlewing();
     Options::setShowGround(false);
+    Options::setUseAnimatedSlewing(false);
 
     SkyMap::Instance()->setClickedObject(current);
     SkyMap::Instance()->setClickedPoint(current);
     SkyMap::Instance()->slotCenter();
 
     Options::setShowGround(keepGround);
+    Options::setUseAnimatedSlewing(keepAnimatedSlew);
 }
 
 void ImagingPlanner::setSelection(int flag, bool enabled)
@@ -2738,6 +2769,8 @@ void ImagingPlanner::setSelection(int flag, bool enabled)
 
         if (flag == IMAGED_BIT)
             highlightImagedObject(sourceIndex, enabled);
+        if (flag == PICKED_BIT)
+            highlightPickedObject(sourceIndex, enabled);
     }
     updateDisplays();
 }
@@ -2757,6 +2790,21 @@ void ImagingPlanner::highlightImagedObject(const QModelIndex &index, bool imaged
     {
         auto colIndex = index.siblingAtColumn(col);
         m_CatalogModel->setData(colIndex, imaged ? m_ImagedObjectBackground : m_DefaultCellBackground, Qt::BackgroundRole);
+    }
+}
+
+void ImagingPlanner::highlightPickedObject(const QModelIndex &index, bool picked)
+{
+    for (int col = 0; col < LAST_COLUMN; ++col)
+    {
+        auto colIndex = index.siblingAtColumn(col);
+        auto font = m_CatalogModel->data(colIndex, Qt::FontRole);
+        auto ff = qvariant_cast<QFont>(font);
+        ff.setBold(picked);
+        ff.setItalic(picked);
+        ff.setUnderline(picked);
+        font = ff;
+        m_CatalogModel->setData(colIndex, font, Qt::FontRole);
     }
 }
 
@@ -2958,6 +3006,8 @@ void ImagingPlanner::loadFromDB()
             m_CatalogModel->item(i, FLAGS_COLUMN)->setData(f, FLAGS_ROLE);
             if (entry->m_Flags & IMAGED_BIT)
                 highlightImagedObject(m_CatalogModel->index(i, NAME_COLUMN), true);
+            if (entry->m_Flags & PICKED_BIT)
+                highlightPickedObject(m_CatalogModel->index(i, NAME_COLUMN), true);
             QVariant n = entry->m_Notes;
             m_CatalogModel->item(i, NOTES_COLUMN)->setData(n, NOTES_ROLE);
         }
@@ -3210,11 +3260,12 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
         }
         inputFile.close();
 
-        int num = 0, numBad = 0;
+        int num = 0, numBad = 0, iteration = 0;
         // Move to threaded thing??
         for (const auto &name : objectNames)
         {
-            if (addCatalogItem(ksal, name, 0, true)) num++;
+            updateStatus(i18n("%1/%2: Adding %3", ++iteration, objectNames.size(), name));
+            if (addCatalogItem(ksal, name, 0)) num++;
             else
             {
                 DPRINTF(stderr, "Couldn't add %s\n", name.toLatin1().data());

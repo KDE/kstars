@@ -68,35 +68,47 @@ void AVTPlotWidget::mouseMoveEvent(QMouseEvent *e)
 
 // All the int coordinates (rise, set) need to be converted from hours relative to midnight
 // into graph coordinates before calling this.
-void drawMoon(QPainter &p, int rise, int set, int fade, const QColor &color, int width, int height)
+void drawMoon(QPainter &p, int rise, int set, int fade, const QColor &color, int width, int height, double leftPadding)
 {
     QBrush brush(color, Qt::Dense5Pattern);
     QBrush dimmerBrush(color, Qt::Dense6Pattern);
     QBrush dimmestBrush(color, Qt::Dense7Pattern);
+    QRectF r;
     if (set < rise)
     {
-        if (set + fade >= 0 && set - fade < width)
+        if (set + fade >= leftPadding && set - fade < leftPadding + width)
         {
-            p.fillRect(QRectF(0.0,        0.0, set - fade, height), brush);
-            p.fillRect(QRectF(set - fade, 0.0, set,        height), dimmerBrush);
-            p.fillRect(QRectF(set,        0.0, set + fade, height), dimmestBrush);
+            r = QRectF(leftPadding, 0.0, (set - fade) - leftPadding, height);
+            p.fillRect(r, brush);
+            r = QRectF(set - fade,  0.0, fade, height);
+            p.fillRect(r, dimmerBrush);
+            r = QRectF(set, 0.0, fade, height);
+            p.fillRect(r, dimmestBrush);
         }
-        if (rise + fade >= 0 && rise - fade < width)
+        if (rise + fade >= leftPadding && rise - fade < leftPadding + width)
         {
-            p.fillRect(QRectF(rise - fade, 0.0,   rise,        height), dimmestBrush);
-            p.fillRect(QRectF(rise,        0.0,   rise + fade, height), dimmerBrush);
+            r = QRectF(rise - fade, 0.0, fade, height);
+            p.fillRect(r, dimmestBrush);
+            r = QRectF(rise, 0.0, fade, height);
+            p.fillRect(r, dimmerBrush);
+
             // Since set < rise, we draw to the end of the box
-            p.fillRect(QRectF(rise + fade, 0.0,   width,       height), brush);
+            r = QRectF(rise + fade, 0.0, width, height);
+            p.fillRect(r, brush);
         }
     }
     else
     {
-        p.fillRect(QRectF(rise - fade, 0.0, rise,        height), dimmestBrush);
-        p.fillRect(QRectF(rise,        0.0, rise + fade, height), dimmerBrush);
-        p.fillRect(QRectF(rise + fade, 0.0, set - fade,  height), brush);
-        p.fillRect(QRectF(set - fade,  0.0, set,         height), dimmerBrush);
-        p.fillRect(QRectF(set,         0.0, set + fade,  height), dimmestBrush);
-
+        r = QRectF(rise - fade, 0.0, fade, height);
+        p.fillRect(r, dimmestBrush);
+        r = QRectF(rise, 0.0, fade, height);
+        p.fillRect(r, dimmerBrush);
+        r = QRectF(rise + fade, 0.0, (set - rise) - 2 * fade, height);
+        p.fillRect(r, brush);
+        r = QRectF(set - fade, 0.0, fade, height);
+        p.fillRect(r, dimmerBrush);
+        r = QRectF(set, 0.0, fade, height);
+        p.fillRect(r, dimmestBrush);
     }
 }
 
@@ -176,7 +188,9 @@ void drawSun(QPainter &p, int rise, int set, double minAlt, double maxAlt, int d
 int AVTPlotWidget::convertCoords(double xCoord)
 {
     const double plotWidth = pixRect().width();
-    return plotWidth * ((xCoord * 24.0 / plotWidth) - noonOffset) / plotDuration;
+    const double pixelsPerHour = plotWidth / plotDuration;
+    const double newPosition = pixelsPerHour * ((xCoord * 24.0 / plotWidth) - noonOffset);
+    return newPosition;
 }
 
 namespace
@@ -239,13 +253,18 @@ void AVTPlotWidget::paintEvent(QPaintEvent *e)
         moonrise = convertCoords(moonrise);
         moonset = convertCoords(moonset);
 
+        if (moonrise > pW)
+        {
+            const double pixelsPerHour = pW * 1.0 / plotDuration;
+            moonrise -= 24 * pixelsPerHour;
+        }
         const int mooncolor = int(10 + MoonIllum * 130);
         const QColor MoonColor(mooncolor, mooncolor, mooncolor);
         int fadewidth =
             pW *
             0.01; // pW * fraction of day to fade the moon brightness over (0.01 corresponds to roughly 15 minutes, 0.007 to 10 minutes), both before and after actual set.
 
-        drawMoon(p, int(moonrise), int(moonset), fadewidth, MoonColor, pW, pH);
+        drawMoon(p, int(moonrise), int(moonset), fadewidth, MoonColor, pW, pH, leftPadding());
 
     }
     //draw daytime sky if the Sun rises for the current date/location

@@ -165,8 +165,8 @@ signals:
     void loadInitialCatalog();
     QString defaultDirectory() const;
     QString findDefaultCatalog() const;
-    bool getKStarsCatalogObject(const QString &name, CatalogObject *catObject, bool useNameResolver = false);
-    bool addCatalogItem(const KSAlmanac &ksal, const QString &name, int flags = 0, bool useNameResolver = false);
+    bool getKStarsCatalogObject(const QString &name, CatalogObject *catObject);
+    bool addCatalogItem(const KSAlmanac &ksal, const QString &name, int flags = 0);
     QUrl getAstrobinUrl(const QString &target, bool requireAwards, bool requireSomeFilters, double minRadius, double maxRadius);
     void popupAstrobin(const QString &target);
     void plotAltitudeGraph(const QDate &date, const dms &ra, const dms &dec);
@@ -193,7 +193,7 @@ signals:
 
     CatalogObject *currentCatalogObject();
     CatalogObject *getObject(const QString &name);
-    CatalogObject *addObject(const QString &name, bool useNameResolver = false);
+    CatalogObject *addObject(const QString &name);
     void clearObjects();
 
     void loadCatalogFromFile(QString filename = "", bool reset=true);
@@ -212,6 +212,7 @@ signals:
     void loadFromDB();
 
     void highlightImagedObject(const QModelIndex &index, bool imaged);
+    void highlightPickedObject(const QModelIndex &index, bool picked);
 
     void focusOnTable();
     void adjustWindowSize();
