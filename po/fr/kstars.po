@@ -83801,15 +83801,13 @@ msgstr "Rayon"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1290
-#, fuzzy, kde-format
-#| msgid "Min:"
+#, kde-format
 msgid "Min:"
 msgstr "Min. :"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
 #: tools/imagingplanner.ui:1338
-#, fuzzy, kde-format
-#| msgid "Max:"
+#, kde-format
 msgid "Max:"
 msgstr "Max. :"
 

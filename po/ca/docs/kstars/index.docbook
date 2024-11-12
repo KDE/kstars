@@ -74,6 +74,7 @@
   <!ENTITY fitsviewer SYSTEM "fitsviewer.docbook">
   <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
   <!ENTITY tool-obsplanner SYSTEM "obsplanner.docbook">
+  <!ENTITY tool-imaging-planner SYSTEM "imagingplanner.docbook">
   <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
   <!ENTITY tool-solarsys SYSTEM "solarsys.docbook">
   <!ENTITY tool-whatsup SYSTEM "wut.docbook">

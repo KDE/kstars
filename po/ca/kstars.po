@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 01:57+0000\n"
-"PO-Revision-Date: 2024-11-10 18:47+0100\n"
+"PO-Revision-Date: 2024-11-11 09:51+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -36610,10 +36610,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1066
-#, fuzzy, kde-format
-#| msgid ""
-#| "Show the objects that have not been ignored (and don't show those that "
-#| "have been ignored."
+#, kde-format
 msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
@@ -36657,11 +36654,10 @@ msgstr "Oculta el gràfic d'altitud del planificador d'obtenció d'imatges."
 
 #. i18n: ectx: label, entry (ImagingPlannerCatalogPath), group (ImagingPlanner)
 #: kstars.kcfg:1090
-#, fuzzy, kde-format
-#| msgid "File path the the most recent catalog loaded by the Imaging Planner."
+#, kde-format
 msgid "File path to the most recent catalog loaded by the Imaging Planner."
 msgstr ""
-"Camí al fitxer el catàleg més recent carregat pel planificador planificador "
+"Camí del fitxer al catàleg més recent carregat pel planificador planificador "
 "d'obtenció d'imatges."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
@@ -83238,11 +83234,10 @@ msgstr ""
 "ordenar en sentit ascendent/descendent."
 
 #: tools/imagingplanner.cpp:1090
-#, fuzzy, kde-format
-#| msgid "Altitude at transit--click header to sort ascending/descending."
+#, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
-"Altitud en trànsit; clic a la capçalera per a ordenar en sentit ascendent/"
+"Altitud màxima; clic a la capçalera per a ordenar en sentit ascendent/"
 "descendent."
 
 #: tools/imagingplanner.cpp:1092
@@ -83770,10 +83765,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1741
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Hide planetary nebulaeif unchecked.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
 msgstr ""

@@ -79853,12 +79853,10 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1741
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>这不是必需的索引文件。</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
 #: tools/imagingplanner.ui:1751
@@ -84482,11 +84480,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid ""
-#~ "Due to a known issue in the kde frameworks, updating already downloaded "
-#~ "items is currently not possible. <br> Please uninstall and reinstall them "
-#~ "to update."
-#~ msgstr ""
-#~ "由于 kde 框架中已知的问题，目前无法更新已下载的项目。 <br> 请卸载并重新安"
-#~ "装这些项目以更新。"

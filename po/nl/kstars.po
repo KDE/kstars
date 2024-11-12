@@ -15,14 +15,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 01:57+0000\n"
-"PO-Revision-Date: 2024-11-10 17:39+0100\n"
+"PO-Revision-Date: 2024-11-11 17:30+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -35887,13 +35887,14 @@ msgstr "Moet het hulpmiddel planner van opnamen bolvormige clusters verwerken."
 #: kstars.kcfg:958
 #, kde-format
 msgid "Should the imaging Planner tool process planetary nebulae."
-msgstr ""
+msgstr "Moet het hulpmiddel Planner voor opnamen planetaire nevels verwerken."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptSupernovaRemnant), group (ImagingPlanner)
 #: kstars.kcfg:962
 #, kde-format
 msgid "Should the imaging Planner tool process supernova remnants."
 msgstr ""
+"Moet het hulpmiddel planner van opnamen resten van supernova verwerken."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGalaxy), group (ImagingPlanner)
 #: kstars.kcfg:966
@@ -35906,18 +35907,19 @@ msgstr "Moet het hulpmiddel planner van opnamen melkwegstelsels verwerken."
 #, kde-format
 msgid "Should the imaging Planner tool process galaxy clusters."
 msgstr ""
+"Moet het hulpmiddel voor plannen van opnamen melkwegstelsels verwerken."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptDarkNebula), group (ImagingPlanner)
 #: kstars.kcfg:974
 #, kde-format
 msgid "Should the imaging Planner tool process dark nebulae."
-msgstr ""
+msgstr "Moet het hulpmiddel planner van opnamen donkere nevels verwerken."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptOther), group (ImagingPlanner)
 #: kstars.kcfg:978
 #, kde-format
 msgid "Should the imaging Planner tool process other types."
-msgstr ""
+msgstr "Moet het hulpmiddel planner van opnamen andere typen verwerken."
 
 #. i18n: ectx: label, entry (AstrobinAward), group (ImagingPlanner)
 #: kstars.kcfg:982
@@ -35926,36 +35928,41 @@ msgid ""
 "Should the imaging Planner tool required an award when searching for an "
 "object in Astrobin."
 msgstr ""
+"Moet het hulpmiddel planner van opnamen een award vereisen bij zoeken naar "
+"een object in Astrobin."
 
 #. i18n: ectx: label, entry (AstrobinMinRadius), group (ImagingPlanner)
 #: kstars.kcfg:986
 #, kde-format
 msgid "Minimum radius of image (degrees) when searching Astrobin"
-msgstr ""
+msgstr "Minimale straal van afbeelding (graden) bij zoeken in Astrobin"
 
 #. i18n: ectx: label, entry (AstrobinMaxRadius), group (ImagingPlanner)
 #: kstars.kcfg:990
 #, kde-format
 msgid "Maximum radius of image (degrees) when searching Astrobin"
-msgstr ""
+msgstr "Maximale straal van afbeelding (graden) bij zoeken in Astrobin"
 
 #. i18n: ectx: label, entry (ImagingPlannerUseArtificialHorizon), group (ImagingPlanner)
 #: kstars.kcfg:994
 #, kde-format
 msgid "Use the system's artificial horizon for calculating imaging hours."
-msgstr ""
+msgstr "De kunstmatige horizon gebruiken voor berekening van opname-uren."
 
 #. i18n: ectx: label, entry (ImagingPlannerMinHours), group (ImagingPlanner)
 #: kstars.kcfg:998
 #, kde-format
 msgid "Objects are only shown if they can be imaged for this many hours."
 msgstr ""
+"Objecten worden alleen getoond als er een opname kan worden gemaakt met dit "
+"aantal uren."
 
 #. i18n: ectx: label, entry (ImagingPlannerMinAltitude), group (ImagingPlanner)
 #: kstars.kcfg:1002
 #, kde-format
 msgid "For imaging hours calculation, object must be above this altitude."
 msgstr ""
+"Voor het berekenen van opname-uren moet het object boven deze hoogte zijn."
 
 #. i18n: ectx: label, entry (ImagingPlannerMinMoonSeparation), group (ImagingPlanner)
 #: kstars.kcfg:1006
@@ -35964,6 +35971,8 @@ msgid ""
 "For imaging hours calculation, object must be more than this far from the "
 "moon."
 msgstr ""
+"Voor het berekenen van opname-uren moet het object deze afstand hebben tot "
+"de maan."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowPicked), group (ImagingPlanner)
 #: kstars.kcfg:1010
@@ -35972,6 +35981,8 @@ msgid ""
 "Show the objects that are marked picked (don't show those that are not "
 "picked)."
 msgstr ""
+"De objecten tonen die gemarkeerd zijn als gekozen (en niet diegenen die niet "
+"zijn gekozen)"
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotPicked), group (ImagingPlanner)
 #: kstars.kcfg:1014
@@ -35980,6 +35991,8 @@ msgid ""
 "Show the objects that are not marked picked (don't show those that are "
 "picked)."
 msgstr ""
+"De objecten tonen die niet gemarkeerd zijn als gekozen (en niet diegenen die "
+"zijn gekozen)"
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCarePicked), group (ImagingPlanner)
 #: kstars.kcfg:1018
@@ -35987,6 +36000,8 @@ msgstr ""
 msgid ""
 "Object display doesn't depend on whether objects are marked picked or not."
 msgstr ""
+"Tonen van objecten hangt niet af van of objecten zijn gemarkeerd als gekozen "
+"of niet."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowKeyword), group (ImagingPlanner)
 #: kstars.kcfg:1022
@@ -35995,6 +36010,8 @@ msgid ""
 "Show the objects that have the keyword in their notes (and don't show those "
 "that don't)."
 msgstr ""
+"De objecten tonen die het trefwoord in hun notities hebben (en niet diegenen "
+"tonen die dat niet hebben)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotKeyword), group (ImagingPlanner)
 #: kstars.kcfg:1026
@@ -36016,7 +36033,7 @@ msgstr ""
 #: kstars.kcfg:1034
 #, kde-format
 msgid "Keyword used for the keyword filter."
-msgstr ""
+msgstr "Trefwoord gebruikt voor het trefwoordfilter."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowImaged), group (ImagingPlanner)
 #: kstars.kcfg:1038
@@ -36025,6 +36042,8 @@ msgid ""
 "Show the objects that are marked imaged (don't show those that are not "
 "marked imaged)."
 msgstr ""
+"De objecten tonen die gemarkeerd zijn als opgenomen (en niet diegenen tonen "
+"die niet zijn gemarkeerd als opgenomen)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotImaged), group (ImagingPlanner)
 #: kstars.kcfg:1042
@@ -36074,16 +36093,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1066
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Show the objects that have not been ignored (and "
-#| "don't show those that have been ignored).</p></body></html>"
+#, kde-format
 msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
 msgstr ""
-"<html><head/><body><p>De objecten tonen die niet zijn genegeerd (en niet "
-"diegenen toen die zijn genegeerd).</p></body></html>"
+"De objecten tonen die niet zijn genegeerd (en niet diegenen tonen die zijn "
+"genegeerd)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1070
@@ -82753,6 +82769,8 @@ msgid ""
 "For imaging hours calculation, object must be at least at this altitude (and "
 "above any artificial horizon in use)."
 msgstr ""
+"Voor het berekenen van opname-uren moet het object minstens deze hoogte "
+"hebben ( en boven elke in gebruik zijnde kunstmatige horizon)."
 
 #. i18n: ectx: property (text), widget (QLabel, minAltitudeLabel)
 #: tools/imagingplanner.ui:962
@@ -82768,6 +82786,8 @@ msgid ""
 "For imaging hours calculation, object must be at least this far from the "
 "moon."
 msgstr ""
+"Voor het berekenen van opname-uren moet het object minstens deze afstand "
+"hebben tot de maan."
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1009
@@ -82837,7 +82857,7 @@ msgstr ""
 #: tools/imagingplanner.ui:1219 tools/imagingplanner.ui:1544
 #, kde-format
 msgid "NGC/IC"
-msgstr ""
+msgstr "NGC/IC"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad2)
@@ -82915,6 +82935,8 @@ msgstr "Filters"
 msgid ""
 "Objects are only shown if they can be imaged for at least this many hours."
 msgstr ""
+"Objecten worden alleen getoond als er een opname kan worden gemaakt met "
+"tenminste dit aantal uren."
 
 #. i18n: ectx: property (text), widget (QLabel, minHoursLabel)
 #: tools/imagingplanner.ui:1682
@@ -82956,15 +82978,10 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1741
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Hide planetary nebulaeif unchecked.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Planetaire nevels verbergen indien niet geactiveerd.</"
-"p></body></html>"
+msgstr "Planetaire nevels verbergen indien niet geactiveerd."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
 #: tools/imagingplanner.ui:1751
@@ -83059,7 +83076,7 @@ msgstr ""
 #: tools/imagingplanner.ui:1911 tools/imagingplanner.ui:1941
 #, kde-format
 msgid "Don't care"
-msgstr ""
+msgstr "Niet ter zake"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.ui:1831

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 01:57+0000\n"
-"PO-Revision-Date: 2024-11-10 17:31+0200\n"
+"PO-Revision-Date: 2024-11-11 15:17+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -36384,10 +36384,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1066
-#, fuzzy, kde-format
-#| msgid ""
-#| "Show the objects that have not been ignored (and don't show those that "
-#| "have been ignored."
+#, kde-format
 msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
@@ -36428,8 +36425,7 @@ msgstr "Приховати графік висоти планувальника 
 
 #. i18n: ectx: label, entry (ImagingPlannerCatalogPath), group (ImagingPlanner)
 #: kstars.kcfg:1090
-#, fuzzy, kde-format
-#| msgid "File path the the most recent catalog loaded by the Imaging Planner."
+#, kde-format
 msgid "File path to the most recent catalog loaded by the Imaging Planner."
 msgstr ""
 "Шлях до файла найсвіжішого каталогу, який завантажено планувальником зйомки."
@@ -82831,12 +82827,11 @@ msgstr ""
 "упорядкувати за зростанням або спаданням."
 
 #: tools/imagingplanner.cpp:1090
-#, fuzzy, kde-format
-#| msgid "Altitude at transit--click header to sort ascending/descending."
+#, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
-"Висота у кульмінації — натисніть заголовок, щоб упорядкувати за зростанням "
-"або спаданням."
+"Максимальна висота — натисніть заголовок, щоб упорядкувати за зростанням або "
+"спаданням."
 
 #: tools/imagingplanner.cpp:1092
 #, kde-format
@@ -83355,10 +83350,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1741
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Hide planetary nebulaeif unchecked.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
 msgstr ""

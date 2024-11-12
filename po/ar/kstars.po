@@ -27031,8 +27031,7 @@ msgid "Scheduler Alignment"
 msgstr "الوقت المجدول"
 
 #: ekos/scheduler/scheduler.cpp:433
-#, fuzzy, kde-format
-#| msgid "Jobs"
+#, kde-format
 msgid "Jobs"
 msgstr "مهمّة"
 
@@ -80977,13 +80976,15 @@ msgstr "نصف القطر"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1290
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Min:"
 msgid "Min:"
 msgstr "الأدنى:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
 #: tools/imagingplanner.ui:1338
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Max:"
 msgid "Max:"
 msgstr "الأقصى:"
 

@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 01:57+0000\n"
-"PO-Revision-Date: 2024-11-10 22:17+0300\n"
+"PO-Revision-Date: 2024-11-11 22:24+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -36053,10 +36053,7 @@ msgstr "Yok sayılan nesneleri gösterin (yok sayılmayanları gösterme)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1066
-#, fuzzy, kde-format
-#| msgid ""
-#| "Show the objects that have not been ignored (and don't show those that "
-#| "have been ignored."
+#, kde-format
 msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
@@ -36097,8 +36094,7 @@ msgstr "Görselleme planlayıcısının yükseklik grafiğini gizleyin."
 
 #. i18n: ectx: label, entry (ImagingPlannerCatalogPath), group (ImagingPlanner)
 #: kstars.kcfg:1090
-#, fuzzy, kde-format
-#| msgid "File path the the most recent catalog loaded by the Imaging Planner."
+#, kde-format
 msgid "File path to the most recent catalog loaded by the Imaging Planner."
 msgstr ""
 "Görselleme planlayıcısı tarafından yüklenen en son kataloğun dosya yolu."
@@ -82289,10 +82285,9 @@ msgstr ""
 "tıklayın."
 
 #: tools/imagingplanner.cpp:1090
-#, fuzzy, kde-format
-#| msgid "Altitude at transit--click header to sort ascending/descending."
+#, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
-msgstr "Geçişteki yükseklik — Azalan/Artan biçimde sıralamak için tıklayın."
+msgstr "En çok yükseklik — Azalan/Artan biçimde sıralamak için tıklayın."
 
 #: tools/imagingplanner.cpp:1092
 #, kde-format
@@ -82806,10 +82801,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1741
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Hide planetary nebulaeif unchecked.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
 msgstr ""

@@ -1071,6 +1071,23 @@
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Eines</guimenu
+> <guimenuitem
+>Planificador d'obtenció d'imatges</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Obre l'<link linkend="tool-imaging-planner"
+>Eina del Planificador d'obtenció d'imatges</link
+>, la qual us ajudarà a trobar objectes i fer imatges. </para>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </sect2>
 
@@ -2408,6 +2425,19 @@
 >Executa un <link linkend="tool-obsplanner"
 >Planificador de l'observació</link
 > del &kstars;. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>P</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Obre l'eina del Planificador d'obtenció d'imatges.</para
 ></listitem>
 </varlistentry>
 
