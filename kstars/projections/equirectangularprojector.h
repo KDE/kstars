@@ -23,7 +23,7 @@ class EquirectangularProjector : public Projector
         double radius() const override;
         bool unusablePoint(const QPointF &p) const override;
         Eigen::Vector2f toScreenVec(const SkyPoint *o, bool oRefract = true, bool *onVisibleHemisphere = nullptr) const override;
-        SkyPoint fromScreen(const QPointF &p, dms *LST, const dms *lat, bool onlyAltAz = false) const override;
+        SkyPoint fromScreen(const QPointF &p, KStarsData* data, bool onlyAltAz = false) const override;
         QVector<Eigen::Vector2f> groundPoly(SkyPoint *labelpoint = nullptr, bool *drawLabel = nullptr) const override;
         void updateClipPoly() override;
 };

@@ -493,8 +493,7 @@ bool TerrainRenderer::render(uint16_t w, uint16_t h, QImage *terrainImage, const
 void TerrainRenderer::setupLookup(uint16_t w, uint16_t h, int sampling, const Projector *proj, TerrainLookup *azLookup,
                                   TerrainLookup *altLookup)
 {
-    const auto &lst = KStarsData::Instance()->lst();
-    const auto &lat = KStarsData::Instance()->geo()->lat();
+    KStarsData *data = KStarsData::Instance();
     for (int j = 0, js = 0; j < h; j += sampling, js++)
     {
         for (int i = 0, is = 0; i < w; i += sampling, is++)
@@ -506,8 +505,8 @@ void TerrainRenderer::setupLookup(uint16_t w, uint16_t h, int sampling, const Pr
             if (usable)
             {
                 SkyPoint point = equiRectangular ?
-                                 dynamic_cast<const EquirectangularProjector*>(proj)->fromScreen(imgPoint, lst, lat, true)
-                                 : proj->fromScreen(imgPoint, lst, lat, true);
+                                 dynamic_cast<const EquirectangularProjector*>(proj)->fromScreen(imgPoint, data, true)
+                                 : proj->fromScreen(imgPoint, data, true);
                 const double az = rationalizeAz(point.az().Degrees());
                 const double alt = rationalizeAlt(point.alt().Degrees());
                 azLookup->set(is, js, az);

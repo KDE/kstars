@@ -138,11 +138,10 @@ class Projector
          * @short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
          * screen pixel coordinate offsets from the center of the Sky pixmap.
          * @param p the screen pixel position to convert
-         * @param LST pointer to the local sidereal time, as a dms object.
-         * @param lat pointer to the current geographic laitude, as a dms object
+         * @param data pointer to KStarsData
          * @param onlyAltAz the returned SkyPoint's RA & DEC are not computed, only Alt/Az.
          */
-        virtual SkyPoint fromScreen(const QPointF &p, dms *LST, const dms *lat, bool onlyAltAz = false) const;
+        virtual SkyPoint fromScreen(const QPointF &p, KStarsData* data, bool onlyAltAz = false) const;
 
         /**
          * ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line

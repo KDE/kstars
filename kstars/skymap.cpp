@@ -847,9 +847,7 @@ SkyPoint SkyMap::getCenterPoint()
     SkyPoint retVal;
     // FIXME: subtraction of these 0.00001 is a simple workaround, because wrong
     // SkyPoint is returned when _exact_ center of SkyMap is passed to the projector.
-    retVal = projector()->fromScreen(QPointF((qreal)width() / 2 - 0.00001, (qreal)height() / 2 - 0.00001), data->lst(),
-                                     data->geo()->lat());
-    return retVal;
+    return projector()->fromScreen(QPointF((qreal)width() / 2 - 0.00001, (qreal)height() / 2 - 0.00001), data);
 }
 
 void SkyMap::slotRemoveObjectLabel()
@@ -984,7 +982,7 @@ void SkyMap::setFocusAltAz(const dms &alt, const dms &az)
     Options::setFocusDec(focus()->dec().Degrees());
     focus()->setAlt(alt);
     focus()->setAz(az);
-    focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
+    focus()->HorizontalToEquatorialNow();
 
     slewing = false;
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
@@ -1014,7 +1012,7 @@ void SkyMap::setDestinationAltAz(const dms &alt, const dms &az, bool altIsRefrac
         destination()->setAlt(alt);
     }
     destination()->setAz(az);
-    destination()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
+    destination()->HorizontalToEquatorialNow();
     emit destinationChanged();
 }
 
@@ -1040,7 +1038,7 @@ void SkyMap::updateFocus()
             setDestination(*focusPoint());
     }
     else
-        focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
+        focus()->HorizontalToEquatorialNow();
 }
 
 void SkyMap::slewFocus()
@@ -1088,7 +1086,7 @@ void SkyMap::slewFocus()
                 {
                     focus()->setAlt(focus()->alt().Degrees() + fY * step);
                     focus()->setAz(dms(focus()->az().Degrees() + fX * step).reduce());
-                    focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
+                    focus()->HorizontalToEquatorialNow();
                 }
                 else
                 {
@@ -1133,7 +1131,7 @@ void SkyMap::slewFocus()
         if (Options::useAltAz())
         {
             setFocusAltAz(destination()->alt(), destination()->az());
-            focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat());
+            focus()->HorizontalToEquatorialNow();
         }
         else
         {
@@ -1189,7 +1187,7 @@ void SkyMap::forceUpdate(bool now)
     if (!projector()->unusablePoint(mp))
     {
         //determine RA, Dec of mouse pointer
-        m_MousePoint = projector()->fromScreen(mp, data->lst(), data->geo()->lat());
+        m_MousePoint = projector()->fromScreen(mp, data);
     }
 
     computeSkymap = true;

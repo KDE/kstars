@@ -457,7 +457,7 @@ bool Projector::unusablePoint(const QPointF &p) const
     return (dx * dx + dy * dy) > r0 * r0;
 }
 
-SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat, bool onlyAltAz) const
+SkyPoint Projector::fromScreen(const QPointF &p, KStarsData* data, bool onlyAltAz) const
 {
     dms c;
     double sinc, cosc;
@@ -488,6 +488,10 @@ SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat, bool 
     double abot = r * cosY0 * cosc - dy * sinY0 * sinc;
     double A    = atan2(atop, abot);
 
+    const auto LST = data->lst();
+    const auto lat = data->geo()->lat();
+    const auto jdf = data->djd();
+
     SkyPoint result;
     if (m_vp.useAltAz)
     {
@@ -500,14 +504,18 @@ SkyPoint Projector::fromScreen(const QPointF &p, dms *LST, const dms *lat, bool 
         result.setAz(az);
         if (onlyAltAz)
             return result;
-        result.HorizontalToEquatorial(LST, lat);
+        result.HorizontalToEquatorialICRS(LST, lat, jdf);
     }
     else
     {
         dms ra, dec;
         dec.setRadians(Y);
         ra.setRadians(A + m_vp.focus->ra().radians());
+        SkyPoint p(ra, dec);
+        p.catalogueCoord(jdf);
         result.set(ra.reduce(), dec);
+        result.setRA0(p.ra0());
+        result.setDec0(p.dec0());
         result.EquatorialToHorizontal(LST, lat);
     }
 

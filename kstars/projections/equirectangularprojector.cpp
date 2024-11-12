@@ -60,7 +60,7 @@ Eigen::Vector2f EquirectangularProjector::toScreenVec(const SkyPoint *o, bool oR
     return p;
 }
 
-SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const dms *lat, bool onlyAltAz) const
+SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, KStarsData* data, bool onlyAltAz) const
 {
     SkyPoint result;
 
@@ -68,6 +68,10 @@ SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const 
     auto p_ = derst(p.x(), p.y());
     double dx = p_[0];
     double dy = p_[1];
+
+    const auto LST = data->lst();
+    const auto lat = data->geo()->lat();
+    const auto jdf = data->djd();
 
     if (m_vp.useAltAz)
     {
@@ -79,8 +83,9 @@ SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const 
         if (m_vp.useRefraction)
             alt = SkyPoint::unrefract(alt);
         result.setAlt(alt);
-        if (!onlyAltAz)
-            result.HorizontalToEquatorial(LST, lat);
+        if (onlyAltAz)
+            return result;
+        result.HorizontalToEquatorialICRS(LST, lat, jdf);
         return result;
     }
     else
@@ -89,6 +94,10 @@ SkyPoint EquirectangularProjector::fromScreen(const QPointF &p, dms *LST, const 
         ra.setRadians(dx + m_vp.focus->ra().radians());
         dec.setRadians(dy + m_vp.focus->dec().radians());
         result.set(ra.reduce(), dec);
+        SkyPoint p(ra, dec);
+        p.catalogueCoord(jdf);
+        result.setRA0(p.ra0());
+        result.setDec0(p.dec0());
         result.EquatorialToHorizontal(LST, lat);
         return result;
     }
@@ -145,7 +154,7 @@ QVector<Eigen::Vector2f> EquirectangularProjector::groundPoly(SkyPoint *labelpoi
             auto pLabel_ = corner2 - 50. * (corner1 - corner2).normalized();
             QPointF pLabel(pLabel_[0], pLabel_[1]);
             KStarsData *data = KStarsData::Instance();
-            *labelpoint      = fromScreen(pLabel, data->lst(), data->geo()->lat());
+            *labelpoint      = fromScreen(pLabel, data);
         }
         if (drawLabel)
             *drawLabel = true;
@@ -231,7 +240,7 @@ QVector<Eigen::Vector2f> EquirectangularProjector::groundPoly(SkyPoint *labelpoi
         {
             QPointF pLabel(x0 - dX - 50., ground.last().y());
             KStarsData *data = KStarsData::Instance();
-            *labelpoint      = fromScreen(pLabel, data->lst(), data->geo()->lat());
+            *labelpoint      = fromScreen(pLabel, data);
         }
         if (drawLabel)
             *drawLabel = true;

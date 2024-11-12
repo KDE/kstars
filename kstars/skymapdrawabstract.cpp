@@ -68,8 +68,7 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
         {
             if (fov->lockCelestialPole())
             {
-                SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(p.viewport().center(), KStarsData::Instance()->lst(),
-                                          KStarsData::Instance()->geo()->lat());
+                SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(p.viewport().center(), KStarsData::Instance());
                 QPointF screenSkyPoint = p.viewport().center();
                 double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(),
                                        screenSkyPoint.y());
@@ -119,7 +118,7 @@ void SkyMapDrawAbstract::drawOrientationArrows(QPainter &p)
     auto* data = m_KStarsData;
     const SkyPoint centerSkyPoint = m_SkyMap->m_proj->fromScreen(
                                                                  p.viewport().center(),
-                                                                 data->lst(), data->geo()->lat());
+                                                                 data);
 
     QPointF centerScreenPoint = p.viewport().center();
     double northRotation = m_SkyMap->m_proj->findNorthPA(
@@ -306,7 +305,7 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
         {
             oneFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SensorFOVColor").name());
             SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(psky.viewport().center(),
-                                      KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+                                                                                  KStarsData::Instance());
             QPointF screenSkyPoint = psky.viewport().center();
             double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(),
                                    screenSkyPoint.y());

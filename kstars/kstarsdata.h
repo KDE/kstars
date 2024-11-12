@@ -160,6 +160,12 @@ class KStarsData : public QObject
         {
             return Clock.utc();
         }
+     
+        /** @return inline method to return simulation JD */
+        inline long double djd() const
+        {
+            return ut().djd();
+        }
 
         /** Sync the LST with the simulation clock. */
         void syncLST();

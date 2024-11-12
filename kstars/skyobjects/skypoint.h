@@ -341,6 +341,25 @@ class SkyPoint
         void HorizontalToEquatorial(const dms *LST, const dms *lat);
 
         /**
+         * Determine the (RA, Dec) coordinates of the
+         * SkyPoint from its (Altitude, Azimuth) coordinates, given the local
+         * sidereal time and the observer's latitude. Also update (RA0, Dec0)
+         * by calling @see `catalogueCoord` with the given @p jdf
+         *
+         * @param LST pointer to the local sidereal time
+         * @param lat pointer to the geographic latitude
+         * @param jdf Julian date of the present frame
+         */
+        void HorizontalToEquatorialICRS(const dms *LST, const dms *lat, const long double jdf);
+
+        /**
+         * Convenience method for Horizontal -> Equatorial at simulation time
+         *
+         * @note KStarsData::Instance() must exist for this to not crash
+         */
+        void HorizontalToEquatorialNow();
+
+        /**
          * Determine the Ecliptic coordinates of the SkyPoint, given the Julian Date.
          * The ecliptic coordinates are returned as reference arguments (since
          * they are not stored internally)
