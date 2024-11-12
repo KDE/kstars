@@ -316,7 +316,8 @@ QSharedPointer<Focus> FocusModule::addFocuser(const QString &trainname)
     if (tabIndex == 0)
         focusTabs->tabBar()->setTabButton(0, QTabBar::RightSide, nullptr);
 
-    const QString train = findUnusedOpticalTrain();
+    // find an unused train for additional tabs
+    const QString train = tabIndex == 0 ? "" : findUnusedOpticalTrain();
 
     m_Focusers.append(newFocuser);
     // select an unused train

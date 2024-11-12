@@ -154,10 +154,12 @@ QSharedPointer<Camera> Capture::addCamera()
     connect(newCamera.get(), &Camera::resetNonGuidedDither, this, &Capture::resetNonGuidedDither);
     connect(newCamera.get(), &Camera::driverTimedout, this, &Capture::driverTimedout);
 
-    const QString train = findUnusedOpticalTrain();
+    // find an unused train for additional tabs
+    const QString train = tabIndex == 0 ? "" : findUnusedOpticalTrain();
     // select an unused train
     if (train != "")
         newCamera->opticalTrainCombo->setCurrentText(train);
+
     moduleState()->addCamera(newCamera);
     // update the tab text
     updateCamera(tabIndex, true);
