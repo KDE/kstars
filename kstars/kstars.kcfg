@@ -1090,6 +1090,14 @@
          <label>File path to the most recent catalog loaded by the Imaging Planner.</label>
          <default></default>
       </entry>      
+      <entry name="ImagingPlannerCenterOnSkyMap" type="Bool">
+         <label>Slew to selected objects on the SkyMap.</label>
+         <default>false</default>
+      </entry>
+      <entry name="ImagingPlannerIndependentWindow" type="Bool">
+         <label>Make the Imaging Planner tool an independent window.</label>
+         <default>true</default>
+      </entry>
    </group>
    <group name="ObservingList">
       <entry name="ObsListSymbol" type="Bool">

@@ -21,6 +21,7 @@
 #include "flagcomponent.h"
 
 #include "nameresolver.h"
+#include "imagingplanneroptions.h"
 #include "kplotwidget.h"
 #include "kplotobject.h"
 #include "kplotaxis.h"
@@ -945,9 +946,12 @@ ImagingPlanner::ImagingPlanner() : QDialog(nullptr), m_manager{ CatalogsDB::dso_
     setWindowTitle(i18nc("@title:window", "Imaging Planner"));
     setFocusPolicy(Qt::StrongFocus);
 
-    // Removing the Dialog bit (but neet to add back the window bit) allows
-    // the window to go below other windows.
-    setParent(nullptr, (windowFlags() & ~Qt::Dialog) | Qt::Window);
+    if (Options::imagingPlannerIndependentWindow())
+    {
+        // Removing the Dialog bit (but neet to add back the window bit) allows
+        // the window to go below other windows.
+        setParent(nullptr, (windowFlags() & ~Qt::Dialog) | Qt::Window);
+    }
 }
 
 // Sets up the hide/show buttons that minimize/maximize the plot/search/filters/image sections.
@@ -1351,6 +1355,7 @@ void ImagingPlanner::initialize()
     adjustWindowSize();
 
     connect(ui->helpButton, &QPushButton::clicked, this, &ImagingPlanner::getHelp);
+    connect(ui->optionsButton, &QPushButton::clicked, this, &ImagingPlanner::openOptionsMenu);
 
     // Since we thread the loading of catalogs, need to connect the thread back to UI.
     qRegisterMetaType<QList<QStandardItem *>>("QList<QStandardItem *>");
@@ -1363,6 +1368,12 @@ void ImagingPlanner::initialize()
 #endif
 }
 
+void ImagingPlanner::openOptionsMenu()
+{
+    QSharedPointer<ImagingPlannerOptions> options(new ImagingPlannerOptions(this));
+    options->exec();
+    focusOnTable();
+}
 
 // KDE KHelpClient::invokeHelp() doesn't seem to work.
 void ImagingPlanner::getHelp()
@@ -2702,6 +2713,9 @@ void ImagingPlanner::objectDetails()
 
 void ImagingPlanner::centerOnSkymap()
 {
+    if (!Options::imagingPlannerCenterOnSkyMap())
+        return;
+
     CatalogObject *current = currentCatalogObject();
     if (current == nullptr)
         return;

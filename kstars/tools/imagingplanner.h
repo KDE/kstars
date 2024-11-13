@@ -139,6 +139,7 @@ signals:
     void searchSlot();
     void loadCatalogViaMenu();
     void getHelp();
+    void openOptionsMenu();
     void addRowSlot(QList<QStandardItem *> itemList);
 
 

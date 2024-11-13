@@ -390,6 +390,7 @@ if (INDI_FOUND)
 
             # Tools
             tools/imagingplanner.cpp
+            tools/imagingplanneroptions.cpp
             
         )
         # Aberration Inspector
@@ -621,6 +622,7 @@ ki18n_wrap_ui(libkstarstools_ui_SRCS
     tools/modcalcvlsr.ui
     tools/observinglist.ui
     tools/imagingplanner.ui
+    tools/imagingplanneroptions.ui
     tools/obslistwizard.ui
     tools/optionstreeview.ui
     tools/planetviewer.ui
