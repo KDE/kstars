@@ -921,6 +921,30 @@ bool CatalogFilter::lessThan ( const QModelIndex &left, const QModelIndex &right
 ImagingPlannerUI::ImagingPlannerUI(QWidget * p) : QFrame(p)
 {
     setupUi(this);
+    setupIcons();
+}
+
+// Icons can't just be set up in the .ui file for Mac, so explicitly doing it here.
+void ImagingPlannerUI::setupIcons()
+{
+    SearchB->setIcon(QIcon::fromTheme("edit-find"));
+    backOneDay->setIcon(QIcon::fromTheme("arrow-left"));
+    forwardOneDay->setIcon(QIcon::fromTheme("arrow-right"));
+    optionsButton->setIcon(QIcon::fromTheme("open-menu-symbolic"));
+    helpButton->setIcon(QIcon::fromTheme("help-about"));
+    userNotesEditButton->setIcon(QIcon::fromTheme("document-edit"));
+    userNotesDoneButton->setIcon(QIcon::fromTheme("checkmark"));
+    userNotesOpenLink->setIcon(QIcon::fromTheme("link"));
+    userNotesOpenLink2->setIcon(QIcon::fromTheme("link"));
+    userNotesOpenLink3->setIcon(QIcon::fromTheme("link"));
+    hideAltitudeGraphB->setIcon(QIcon::fromTheme("window-minimize"));
+    showAltitudeGraphB->setIcon(QIcon::fromTheme("window-maximize"));
+    hideAstrobinDetailsButton->setIcon(QIcon::fromTheme("window-minimize"));
+    showAstrobinDetailsButton->setIcon(QIcon::fromTheme("window-maximize"));
+    hideFilterTypesButton->setIcon(QIcon::fromTheme("window-minimize"));
+    showFilterTypesButton->setIcon(QIcon::fromTheme("window-maximize"));
+    hideImageButton->setIcon(QIcon::fromTheme("window-minimize"));
+    showImageButton->setIcon(QIcon::fromTheme("window-maximize"));
 }
 
 GeoLocation *ImagingPlanner::getGeo()
@@ -951,6 +975,12 @@ ImagingPlanner::ImagingPlanner() : QDialog(nullptr), m_manager{ CatalogsDB::dso_
         // Removing the Dialog bit (but neet to add back the window bit) allows
         // the window to go below other windows.
         setParent(nullptr, (windowFlags() & ~Qt::Dialog) | Qt::Window);
+    }
+    else
+    {
+#ifdef Q_OS_MACOS
+        setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
+#endif
     }
 }
 
@@ -989,7 +1019,10 @@ void ImagingPlanner::focusOnTable()
 
 void ImagingPlanner::adjustWindowSize()
 {
+    const int keepWidth = width();
     adjustSize();
+    const int newHeight = height();
+    resize(keepWidth, newHeight);
 }
 
 // Sets up the galaxy/nebula/... filter buttons.
@@ -1001,6 +1034,7 @@ void ImagingPlanner::setupFilterButton(QCheckBox * checkbox, bool(*option)(), vo
         setOption(checked);
         Options::self()->save();
         m_CatalogSortModel->invalidate();
+        updateDisplays();
         ui->CatalogView->resizeColumnsToContents();
         focusOnTable();
     });
@@ -1122,7 +1156,7 @@ void ImagingPlanner::initialize()
         updateMoon();
     }
 
-    updateStatus("");
+    setStatus("");
 
     setupHideButtons(&Options::imagingPlannerHideAltitudeGraph, &Options::setImagingPlannerHideAltitudeGraph,
                      ui->hideAltitudeGraphB, ui->showAltitudeGraphB,
@@ -1813,7 +1847,7 @@ void ImagingPlanner::addRowSlot(QList<QStandardItem *> itemList)
 
 void ImagingPlanner::recompute()
 {
-    updateStatus(i18n("Updating tables..."));
+    setStatus(i18n("Updating tables..."));
 
     // Disconnect the filter from the model, or else we'll re-filter numRows squared times.
     m_CatalogSortModel->setSourceModel(nullptr);
@@ -1892,7 +1926,7 @@ void ImagingPlanner::recompute()
     m_CatalogSortModel->setSourceModel(m_CatalogModel.data());
 
     DPRINTF(stderr, "Recompute took %.1fs\n", timer.elapsed() / 1000.0);
-    standardStatus();
+    updateStatus();
 }
 
 // Debugging/development method.
@@ -2009,13 +2043,13 @@ void ImagingPlanner::loadInitialCatalog()
     if (catalog.isEmpty())
     {
         KSNotification::sorry(i18n("You need to load a catalog to start using this tool.\nSee Data -> Download New Data..."));
-        updateStatus(i18n("No Catalog!"));
+        setStatus(i18n("No Catalog!"));
     }
     else
         loadCatalog(catalog);
 }
 
-void ImagingPlanner::updateStatus(const QString &message)
+void ImagingPlanner::setStatus(const QString &message)
 {
     ui->statusLabel->setText(message);
     ui->statusLabel->repaint();
@@ -2044,16 +2078,26 @@ void ImagingPlanner::catalogLoaded()
     ui->CatalogView->setFocus();
     updateDisplays();
 
-    standardStatus();
+    updateStatus();
     adjustWindowSize();
 }
 
-void ImagingPlanner::standardStatus()
+void ImagingPlanner::updateStatus()
 {
     if (currentObjectName().isEmpty())
-        updateStatus(i18n("Select an object."));
+    {
+        const int numDisplayedObjects = m_CatalogSortModel->rowCount();
+        const int totalCatalogObjects = m_CatalogModel->rowCount();
+
+        if (numDisplayedObjects > 0)
+            setStatus(i18n("Select an object."));
+        else if (totalCatalogObjects > 0)
+            setStatus(i18n("Check Filters to unhide objects."));
+        else
+            setStatus(i18n("Load a Catalog."));
+    }
     else
-        updateStatus("");
+        setStatus("");
 }
 
 // This runs when the window gets a show event. Mostly used on first show to load the catalogs.
@@ -2229,7 +2273,7 @@ bool ImagingPlanner::eventFilter(QObject * obj, QEvent * event)
     {
         m_InitialLoad = false;
         // Load the initial catalog in another thread.
-        updateStatus(i18n("Loading Catalogs..."));
+        setStatus(i18n("Loading Catalogs..."));
         loadInitialCatalog();
     }
 
@@ -2362,7 +2406,7 @@ void ImagingPlanner::selectionChanged(const QItemSelection &selected, const QIte
     }
 
     initUserNotes();
-    standardStatus();
+    updateStatus();
     auto selection = selected.indexes()[0];
     QString name = selection.data().toString();
     CatalogObject *object = getObject(name);
@@ -2471,16 +2515,27 @@ void ImagingPlanner::selectionChanged(const QItemSelection &selected, const QIte
 void ImagingPlanner::updateDisplays()
 {
     updateCounts();
+
+    // If nothing is selected, then select the first thing.
+    if (!currentCatalogObject())
+    {
+        if (ui->CatalogView->model()->rowCount() > 0)
+        {
+            auto index = ui->CatalogView->model()->index(0, 0);
+            ui->CatalogView->selectionModel()->select(index,
+                    QItemSelectionModel::Select | QItemSelectionModel::Current | QItemSelectionModel::Rows);
+        }
+    }
+
     auto object = currentCatalogObject();
     if (object)
     {
         updateDetails(*object, currentObjectFlags());
         updateNotes(currentObjectNotes());
         plotAltitudeGraph(getDate(), object->ra0(), object->dec0());
-
-        // TODO: add option to do this?
         centerOnSkymap();
     }
+    updateStatus();
     focusOnTable();
 }
 
@@ -2715,7 +2770,11 @@ void ImagingPlanner::centerOnSkymap()
 {
     if (!Options::imagingPlannerCenterOnSkyMap())
         return;
+    reallyCenterOnSkymap();
+}
 
+void ImagingPlanner::reallyCenterOnSkymap()
+{
     CatalogObject *current = currentCatalogObject();
     if (current == nullptr)
         return;
@@ -2944,6 +3003,10 @@ void ImagingPlannerPopup::init(ImagingPlanner * planner, const QStringList &name
         addAction(i18n("Stop ignoring %1", word), planner, &ImagingPlanner::setSelectionNotIgnored);
     else
         addAction(i18n("Ignore %1", word), planner, &ImagingPlanner::setSelectionIgnored);
+
+    addSeparator();
+    addAction(i18n("Center %1 on SkyMap", names[0]), planner, &ImagingPlanner::reallyCenterOnSkymap);
+
 }
 
 ImagingPlannerDBEntry::ImagingPlannerDBEntry(const QString &name, bool picked, bool imaged,
@@ -3278,7 +3341,7 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
         // Move to threaded thing??
         for (const auto &name : objectNames)
         {
-            updateStatus(i18n("%1/%2: Adding %3", ++iteration, objectNames.size(), name));
+            setStatus(i18n("%1/%2: Adding %3", ++iteration, objectNames.size(), name));
             if (addCatalogItem(ksal, name, 0)) num++;
             else
             {
@@ -3305,3 +3368,4 @@ void ImagingPlanner::sorry(const QString &message)
 {
     KSNotification::sorry(message);
 }
+

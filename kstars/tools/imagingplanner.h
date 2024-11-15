@@ -50,6 +50,8 @@ class ImagingPlannerUI : public QFrame, public Ui::ImagingPlanner
 
   public:
     explicit ImagingPlannerUI(QWidget *parent);
+private:
+    void setupIcons();
 };
 
 class CatalogImageInfo
@@ -114,6 +116,7 @@ class ImagingPlanner : public QDialog
     void setSelectionNotPicked();
 
     void centerOnSkymap();
+    void reallyCenterOnSkymap();
 
 protected slots:
     void slotClose();
@@ -158,6 +161,7 @@ signals:
             QCheckBox *yes, QCheckBox *no, QCheckBox *dontCare,
             bool(*yesOption)(), bool(*noOption)(), bool(*dontCareOption)(),
             void(*setYesOption)(bool), void(*setNoOption)(bool), void(*setDontCareOption)(bool));
+
     void updateSortConstraints();
 
     GeoLocation *getGeo();
@@ -176,8 +180,8 @@ signals:
     void moveForwardOneDay();
     bool scrollToName(const QString &name);
 
-    void updateStatus(const QString &message);
-    void standardStatus();
+    void setStatus(const QString &message);
+    void updateStatus();
 
     void updateDetails(const CatalogObject &object, int flags);
     void updateNotes(const QString &notes);

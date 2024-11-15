@@ -183,7 +183,7 @@ void ArtificialHorizonComponent::save()
 
 bool ArtificialHorizonComponent::selected()
 {
-    return Options::showGround();
+    return true;
 }
 
 void ArtificialHorizonComponent::preDraw(SkyPainter *skyp)
@@ -608,6 +608,7 @@ void ArtificialHorizonComponent::draw(SkyPainter *skyp)
     if (!selected())
         return;
 
+    bool showPolygons = Options::showGround();
     if (livePreview.get())
     {
         if ((livePreview->points() != nullptr) && (livePreview->points()->size() > 0))
@@ -625,13 +626,16 @@ void ArtificialHorizonComponent::draw(SkyPainter *skyp)
             drawSelectedPoint(livePreview.get(), selectedPreviewPoint, skyp);
             skyp->setBrush(QBrush(Qt::red));
             drawHorizonPoints(livePreview.get(), skyp);
+            showPolygons = true;
         }
     }
 
-    preDraw(skyp);
-
-    QList<LineList> regions;
-    horizon.drawPolygons(skyp, &regions);
+    if (showPolygons)
+    {
+        preDraw(skyp);
+        QList<LineList> regions;
+        horizon.drawPolygons(skyp, &regions);
+    }
 }
 
 bool ArtificialHorizon::enabled(int i) const

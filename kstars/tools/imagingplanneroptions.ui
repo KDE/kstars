@@ -17,7 +17,7 @@
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Slew to selected objects on the SkyMap.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="text">
-      <string>Center on SkyMap</string>
+      <string>Center selected object on SkyMap</string>
      </property>
     </widget>
    </item>
