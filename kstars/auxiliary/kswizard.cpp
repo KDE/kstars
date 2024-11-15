@@ -255,9 +255,7 @@ void KSWizard::slotFilterCities()
 
 void KSWizard::slotDownload()
 {
-    //FIX ME, this doesn't work
-    //KNSWidgets::Dialog dlg;
-    //dlg.exec();
+    KStars::Instance()->slotDownload();
 }
 
 void KSWizard::slotOpenOrCopyKStarsDataDirectory()

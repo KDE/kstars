@@ -597,6 +597,9 @@ class KStars : public KXmlGuiWindow
         void slotToggleWIView();
         //#endif
 
+        /** action slot: open KNewStuff window to download extra data. */
+        void slotDownload();
+
     private slots:
         /** action slot: open a dialog for setting the time and date */
         void slotSetTime();
@@ -615,9 +618,6 @@ class KStars : public KXmlGuiWindow
 
         /** action slot: open dialog for finding a named object */
         void slotFind();
-
-        /** action slot: open KNewStuff window to download extra data. */
-        void slotDownload();
 
         /** action slot: open KStars calculator to compute astronomical ephemeris */
         void slotCalculator();
