@@ -612,6 +612,9 @@ class Align : public QWidget, public Ui::Align
         // Manual Rotator
         void manualRotatorChanged(double currentPA, double targetPA, double pixscale);
 
+        // Astrometry index files progress
+        void newDownloadProgress(QString info);
+
     private:
 
         void setupOpticalTrainManager();

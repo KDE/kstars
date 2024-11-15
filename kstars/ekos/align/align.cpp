@@ -3540,6 +3540,7 @@ void Align::setupOptions()
     });
 
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
+    connect(opsAstrometryIndexFiles, &OpsAstrometryIndexFiles::newDownloadProgress, this, &Align::newDownloadProgress);
     m_IndexFilesPage = dialog->addPage(opsAstrometryIndexFiles, i18n("Index Files"));
     m_IndexFilesPage->setIcon(QIcon::fromTheme("map-flat"));
 }

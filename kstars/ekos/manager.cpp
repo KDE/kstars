@@ -1017,8 +1017,8 @@ void Manager::start()
         if (isRunning("PTPCamera"))
         {
             if (KMessageBox::Continue == KMessageBox::warningContinueCancel(nullptr,
-                                                i18n("Ekos detected that PTP Camera is running and may prevent a Canon or Nikon camera from connecting to Ekos. Do you want to quit PTP Camera now?"),
-                                                i18n("PTP Camera")))
+                    i18n("Ekos detected that PTP Camera is running and may prevent a Canon or Nikon camera from connecting to Ekos. Do you want to quit PTP Camera now?"),
+                    i18n("PTP Camera")))
             {
                 //TODO is there a better way to do this.
                 QProcess p;
@@ -2163,6 +2163,15 @@ void Manager::initAlign()
 
         ekosLiveClient.get()->message()->updateAlignStatus(cStatus);
     });
+    connect(alignModule(), &Ekos::Align::newDownloadProgress, this, [this](QString info)
+    {
+        QJsonObject cStatus =
+        {
+            {"downloadProgress", info}
+        };
+
+        ekosLiveClient.get()->message()->updateAlignStatus(cStatus);
+    });
     if (Options::ekosLeftIcons())
     {
         QTransform trans;
@@ -2920,13 +2929,13 @@ void Manager::showEkosOptions()
     if (schedulerModule() == currentWidget)
     {
         KConfigDialog * cDialog = KConfigDialog::exists("schedulersettings");
-            if(cDialog)
-            {
-                cDialog->show();
-                cDialog->raise();  // for MacOS
-                cDialog->activateWindow(); // for Windows
-            }
-            return;
+        if(cDialog)
+        {
+            cDialog->show();
+            cDialog->raise();  // for MacOS
+            cDialog->activateWindow(); // for Windows
+        }
+        return;
     }
 
     if(captureModule() == currentWidget)
