@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-14 01:49+0000\n"
-"PO-Revision-Date: 2024-11-13 10:07+0100\n"
+"PO-Revision-Date: 2024-11-14 20:42+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -36663,18 +36663,16 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Selecciono objectes en fer clic amb l'esquerre?"
+msgstr "Orienta als objectes seleccionats al mapa celeste."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
-#, fuzzy, kde-format
-#| msgid "Should the imaging Planner tool process nebulae."
+#, kde-format
 msgid "Make the Imaging Planner tool an independent window."
 msgstr ""
-"Si l'eina del Planificador d'obtenció d'imatges ha de processar nebuloses."
+"Fa l'eina del Planificador d'obtenció d'imatges una finestra independent."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1104
@@ -58858,7 +58856,7 @@ msgstr "Orenburg"
 #, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Orense"
-msgstr "Orense"
+msgstr "Ourense"
 
 #: kstars_i18n.cpp:2993
 #, kde-kuit-format
@@ -83483,10 +83481,9 @@ msgstr "Avança un dia"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
-#, fuzzy, kde-format
-#| msgid "Option Name"
+#, kde-format
 msgid "Open options menu."
-msgstr "Nom de l'opció"
+msgstr "Obre el menú d'opcions."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
@@ -84078,49 +84075,41 @@ msgid "Maximize the image section"
 msgstr "Maximitza la secció d'imatges"
 
 #: tools/imagingplanneroptions.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr "Planificador d'obtenció d'imatges"
+msgstr "Opcions del planificador d'obtenció d'imatges"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Marqueu-ho per a mostrar les etiquetes en el gràfic.</"
+"<html><head/><body><p>Orienta als objectes seleccionats al mapa celeste.</"
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Center on SkyMap"
-msgstr "Centra en el mapa"
+msgstr "Centra al mapa celeste"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça el nombre d'estrelles detectades a les imatges "
-"capturades.</p></body></html>"
+"<html><head/><body><p>Fa l'eina del Planificador d'obtenció d'imatges una "
+"finestra independent. Tindrà efecte després del reinici següent.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
-#, fuzzy, kde-format
-#| msgid "Independent window"
+#, kde-format
 msgid "Independent Window"
 msgstr "Finestra independent"
 

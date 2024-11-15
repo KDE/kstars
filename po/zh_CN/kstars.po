@@ -34086,7 +34086,6 @@ msgstr ""
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
 #, fuzzy, kde-format
-#| msgid "Select objects on left click?"
 msgid "Slew to selected objects on the SkyMap."
 msgstr "选中左键单击的天体？"
 
@@ -79428,7 +79427,6 @@ msgstr ""
 
 #: tools/imagingplanner.cpp:2012
 #, fuzzy, kde-format
-#| msgid "NGC Catalog"
 msgid "No Catalog!"
 msgstr "星云和星团新总表（NGC）"
 
@@ -79592,7 +79590,6 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
 #, fuzzy, kde-format
-#| msgid "Option Name"
 msgid "Open options menu."
 msgstr "选项名称"
 
@@ -80121,7 +80118,6 @@ msgstr ""
 
 #: tools/imagingplanneroptions.cpp:25
 #, fuzzy, kde-format
-#| msgid "Imaging Options"
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
 msgstr "图像选项"
@@ -80129,7 +80125,6 @@ msgstr "图像选项"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
 #, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
@@ -80138,16 +80133,12 @@ msgstr "<html><head/><body><p>删除当前帧</p></body></html>"
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
 #, fuzzy, kde-format
-#| msgid "Center in Map"
 msgid "Center on SkyMap"
 msgstr "在星图上居中"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
 #, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
@@ -80156,7 +80147,6 @@ msgstr "<html><head/><body><p>绘制图像中检测到的星数。</p></body></h
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
 #, fuzzy, kde-format
-#| msgid "Independent window"
 msgid "Independent Window"
 msgstr "独立窗口"
 

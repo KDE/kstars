@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-14 01:49+0000\n"
-"PO-Revision-Date: 2024-11-13 22:10+0100\n"
+"PO-Revision-Date: 2024-11-14 11:23+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -36591,19 +36591,17 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "¿Seleccionar objetos con clic izquierdo?"
+msgstr "Desplazar hasta los objetos seleccionados en el mapa del cielo."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
-#, fuzzy, kde-format
-#| msgid "Should the imaging Planner tool process nebulae."
+#, kde-format
 msgid "Make the Imaging Planner tool an independent window."
 msgstr ""
-"Indica si la herramienta del planificador de obtención de imágenes debe "
-"procesar nebulosas"
+"Hacer que la herramienta del planificador de obtención de imágenes sea una "
+"ventana independiente."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1104
@@ -82657,7 +82655,7 @@ msgstr "Conjunciones/oposiciones"
 #: tools/eclipsetool.cpp:130
 #, kde-format
 msgid "View in SkyMap"
-msgstr "Ver en SkyMap"
+msgstr "Ver en el mapa del cielo"
 
 #: tools/eclipsetool.cpp:137
 #, kde-format
@@ -83289,10 +83287,9 @@ msgstr "Avanzar un día"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
-#, fuzzy, kde-format
-#| msgid "Option Name"
+#, kde-format
 msgid "Open options menu."
-msgstr "Nombre de la opción"
+msgstr "Abrir el menú de opciones."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
@@ -83880,49 +83877,41 @@ msgid "Maximize the image section"
 msgstr "Maximizar la sección de la imagen"
 
 #: tools/imagingplanneroptions.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr "Planificador de obtención de imágenes"
+msgstr "Opciones del planificador de obtención de imágenes"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Marque esto para mostrar etiquetas en el gráfico.</p></"
-"body></html>"
+"<html><head/><body><p>Desplazar hasta los objetos seleccionados en el mapa "
+"del cielo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Center on SkyMap"
-msgstr "Centrar en el mapa"
+msgstr "Centrar en el mapa del cielo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mostrar el número de estrellas detectadas en las "
-"imágenes capturadas.</p></body></html>"
+"<html><head/><body><p>Hacer que la herramienta del planificador de obtención "
+"de imágenes se ejecute en una ventana independiente. Tendrá efecto en la "
+"próxima ejecución.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
-#, fuzzy, kde-format
-#| msgid "Independent window"
+#, kde-format
 msgid "Independent Window"
 msgstr "Ventana independiente"
 

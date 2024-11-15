@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-14 01:49+0000\n"
-"PO-Revision-Date: 2024-11-13 12:24+0200\n"
+"PO-Revision-Date: 2024-11-14 08:58+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -36433,17 +36433,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Позначати об'єкти клацанням лівою кнопкою?"
+msgstr "Навестися на позначені об'єкти на карті неба."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
-#, fuzzy, kde-format
-#| msgid "Should the imaging Planner tool process nebulae."
+#, kde-format
 msgid "Make the Imaging Planner tool an independent window."
-msgstr "Чи має планувальник зйомки обробляти туманності."
+msgstr "Виокремити вікно інструмента планування зйомки."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1104
@@ -83069,10 +83067,9 @@ msgstr "Вперед на день"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
-#, fuzzy, kde-format
-#| msgid "Option Name"
+#, kde-format
 msgid "Open options menu."
-msgstr "Назва параметра"
+msgstr "Відкрити меню параметрів."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
@@ -83660,49 +83657,40 @@ msgid "Maximize the image section"
 msgstr "Максимізувати розділ знімків"
 
 #: tools/imagingplanneroptions.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr "Планувальник зйомки"
+msgstr "Параметри планування зйомки"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Позначте, щоб програма показала мітки на графіку.</p></"
+"<html><head/><body><p>Навестися на позначені об'єкти на карті неба.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Center on SkyMap"
-msgstr "Посередині карти"
+msgstr "Посередині карти неба"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Накреслити кількість зірок, які виявлено на захоплених "
-"зображеннях.</p></body></html>"
+"<html><head/><body><p>Виокремити вікно засобу планування зйомки. Працюватиме "
+"після перезапуску програми.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
-#, fuzzy, kde-format
-#| msgid "Independent window"
+#, kde-format
 msgid "Independent Window"
 msgstr "Незалежне вікно"
 

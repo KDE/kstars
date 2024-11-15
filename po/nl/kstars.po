@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-14 01:49+0000\n"
-"PO-Revision-Date: 2024-11-12 14:29+0100\n"
+"PO-Revision-Date: 2024-11-14 13:45+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -36160,17 +36160,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Objecten selecteren met links klikken?"
+msgstr "Draai naar geselecteerde objecten op de hemelkaart?"
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
-#, fuzzy, kde-format
-#| msgid "Should the imaging Planner tool process nebulae."
+#, kde-format
 msgid "Make the Imaging Planner tool an independent window."
-msgstr "Moet het hulpmiddel planner van opnamen nevels verwerken."
+msgstr "Maak het hulpmiddel planner van opnamen een onafhankelijk venster."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1104
@@ -82508,7 +82506,7 @@ msgstr ""
 #: tools/imagingplanner.cpp:1091
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
-msgstr ""
+msgstr "Maximale hoogte--klik op de kop op oplopend/aflopend te sorteren."
 
 #: tools/imagingplanner.cpp:1093
 #, kde-format
@@ -82516,16 +82514,18 @@ msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
+"Hoekscheiding tot de maan om middernacht--klik op de kop om oplopend/"
+"aflopend te sorteren."
 
 #: tools/imagingplanner.cpp:1095
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
-msgstr ""
+msgstr "Constellatie--klik op de kop om oplopend/aflopend te sorteren."
 
 #: tools/imagingplanner.cpp:1097
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
-msgstr ""
+msgstr "RA/DEC coördinaten--klik op de kop om oplopend/aflopend te sorteren."
 
 #: tools/imagingplanner.cpp:1492
 #, kde-format
@@ -82535,17 +82535,17 @@ msgstr "Geen overeenkomst voor \"%1\"."
 #: tools/imagingplanner.cpp:1556
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
-msgstr ""
+msgstr "Open een browser met de 1ste koppeling in deze notitie: %1"
 
 #: tools/imagingplanner.cpp:1561
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
-msgstr ""
+msgstr "Open een browser met de 2de koppeling in deze notitie: %1"
 
 #: tools/imagingplanner.cpp:1566
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
-msgstr ""
+msgstr "Open een browser met de 3de koppeling in deze notitie: %1"
 
 #: tools/imagingplanner.cpp:1816
 #, kde-format
@@ -82558,12 +82558,13 @@ msgid ""
 "You need to load a catalog to start using this tool.\n"
 "See Data -> Download New Data..."
 msgstr ""
+"U moet een catalogus laden om met dit hulpmiddel te beginnen.\n"
+"Zie Gegevens -> Nieuwe gegevens downloaden..."
 
 #: tools/imagingplanner.cpp:2012
-#, fuzzy, kde-format
-#| msgid "NGC Catalog"
+#, kde-format
 msgid "No Catalog!"
-msgstr "NGC-catalogus"
+msgstr "Geen catalogus!"
 
 #: tools/imagingplanner.cpp:2054
 #, kde-format
@@ -82613,17 +82614,17 @@ msgstr "%1, %2 en %3 andere objecten"
 #: tools/imagingplanner.cpp:2918 tools/imagingplanner.cpp:2922
 #, kde-format
 msgid "Mark %1 as NOT imaged"
-msgstr ""
+msgstr "Markeer %1 als NIET opgenomen"
 
 #: tools/imagingplanner.cpp:2919 tools/imagingplanner.cpp:2924
 #, kde-format
 msgid "Mark %1 as already imaged"
-msgstr ""
+msgstr "Markeer %1 als al opgenomen"
 
 #: tools/imagingplanner.cpp:2928 tools/imagingplanner.cpp:2932
 #, kde-format
 msgid "Un-pick %1"
-msgstr ""
+msgstr "Maak gekozen van %1 ongedaan"
 
 #: tools/imagingplanner.cpp:2929 tools/imagingplanner.cpp:2934
 #, kde-format
@@ -82658,17 +82659,19 @@ msgstr "Deze objecten als opgenomen markeren is mislukt: %1"
 #: tools/imagingplanner.cpp:3094
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
-msgstr ""
+msgstr "%1 objecten markeren als opgenomen is mislukt, inclusief: %2"
 
 #: tools/imagingplanner.cpp:3096
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
-msgstr ""
+msgstr "Succes met markeren van %1 objecten als opgenomen. Mislukt met %2: %3"
 
 #: tools/imagingplanner.cpp:3099
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
+"Succes met markeren van %1 objecten als opgenomen. Mislukt met %2 inclusief "
+"deze: %3"
 
 #: tools/imagingplanner.cpp:3105 tools/imagingplanner.cpp:3300
 #, kde-format
@@ -82678,12 +82681,12 @@ msgstr "Kon helaas bestand niet openen: \"%1\""
 #: tools/imagingplanner.cpp:3207
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
-msgstr ""
+msgstr "Sorry, catalogusbestand bestaat niet: \"%1\""
 
 #: tools/imagingplanner.cpp:3281
 #, kde-format
 msgid "%1/%2: Adding %3"
-msgstr ""
+msgstr "%1/%2: toevoegen %3"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:77
@@ -82724,16 +82727,15 @@ msgstr "Eén dag vooruit"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
-#, fuzzy, kde-format
-#| msgid "Option Name"
+#, kde-format
 msgid "Open options menu."
-msgstr "Naam optie"
+msgstr "Menu opties openen."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
 #, kde-format
 msgid "Open web documentation."
-msgstr ""
+msgstr "Webdocumentatie openen."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
 #: tools/imagingplanner.ui:565
@@ -82746,24 +82748,25 @@ msgstr "Enige notities voor dit object aanmaken/bewerken"
 #, kde-format
 msgid "Done creating/editing some user notes for this object"
 msgstr ""
+"Gereed met maken/bewerken van sommige gebruikersnotities voor dit object"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink)
 #: tools/imagingplanner.ui:629
 #, kde-format
 msgid "Open a browser with the 1st link in this note."
-msgstr ""
+msgstr "Open een browser met de 1ste koppeling in deze notitie."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink2)
 #: tools/imagingplanner.ui:661
 #, kde-format
 msgid "Open a browser with the 2nd link in this note."
-msgstr ""
+msgstr "Open een browser met de 2de koppeling in deze notitie."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink3)
 #: tools/imagingplanner.ui:693
 #, kde-format
 msgid "Open a browser with the 3rd link in this note."
-msgstr ""
+msgstr "Open een browser met de 3de koppeling in deze notitie."
 
 #. i18n: ectx: property (text), widget (QLabel, userNotesLabel)
 #: tools/imagingplanner.ui:719
@@ -82855,7 +82858,7 @@ msgstr "Min maan º"
 #: tools/imagingplanner.ui:1140
 #, kde-format
 msgid "Minimize the Astrobin search details section"
-msgstr ""
+msgstr "Minimaliseer de sectie met zoekdetails van Astrobin"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel2)
@@ -82863,6 +82866,8 @@ msgstr ""
 #, kde-format
 msgid "Select a button to search for the selected object on the internet."
 msgstr ""
+"Selecteer een knop om te zoeken naar het geselecteerde object op het "
+"internet."
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel2)
@@ -82879,6 +82884,8 @@ msgid ""
 "Search Astrobin for the selected object using the search constraints in this "
 "section."
 msgstr ""
+"Zoek in Astrobin naar het geselecteerde object met de zoekbeperkingen in "
+"deze sectie."
 
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton2)
@@ -82906,7 +82913,7 @@ msgstr "Wikipedia"
 #: tools/imagingplanner.ui:1253 tools/imagingplanner.ui:1578
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC/IC images."
-msgstr ""
+msgstr "Zoek in de Professor Seligman online site naar NGC/IC afbeeldingen."
 
 #. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages)
 #. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages2)
@@ -82961,13 +82968,13 @@ msgstr "Max:"
 #: tools/imagingplanner.ui:1465 tools/imagingplanner.ui:2069
 #, kde-format
 msgid "Maximize the Astrobin search details section"
-msgstr ""
+msgstr "Maximaliseer de sectie zoekdetails van Astrobin"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideFilterTypesButton)
 #: tools/imagingplanner.ui:1671
 #, kde-format
 msgid "Minimize the Filters section"
-msgstr ""
+msgstr "Minimaliseer de section Filters"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel2)
@@ -82976,6 +82983,7 @@ msgstr ""
 msgid ""
 "Constrain the list of object on the left by the filters in this section."
 msgstr ""
+"Beperk de lijst met objecten aan de linkerkant met de filters in deze sectie."
 
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel2)
@@ -83179,6 +83187,9 @@ msgid ""
 "Load a file listing the names of already imaged objects--one name per line. "
 "This adds to the list of imaged object, it does not replace them."
 msgstr ""
+"Laad een lijst met bestanden met de namen van al opgenomen objecten--één "
+"naam per regel. Dit voegt toe aan de lijst met opgenomen objecten, het "
+"vervangt ze niet."
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:1925
@@ -83266,6 +83277,8 @@ msgstr ""
 msgid ""
 "Enter the (case-sensitive) keyword to be used for the checkboxes to the left."
 msgstr ""
+"Voer het (hoofdlettergevoelige) trefwoord in om te gebruiken voor de "
+"keuzevakken links."
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2006
@@ -83277,7 +83290,7 @@ msgstr "Trefwoord hier invoeren"
 #: tools/imagingplanner.ui:2164
 #, kde-format
 msgid "Minimize the image section"
-msgstr ""
+msgstr "Minimaliseer de sectie afbeelding"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
@@ -83307,49 +83320,41 @@ msgid "Maximize the image section"
 msgstr "Maximaliseer de afbeeldingsectie:"
 
 #: tools/imagingplanneroptions.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr "Planner van opnamen"
+msgstr "Opties voor planner van opnamen"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Activeer om labels op de grafiek te tonen.</p></body></"
-"html>"
+"<html><head/><body><p>Draai naar geselecteerde objecten op de hemelkaart?</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Center on map"
+#, kde-format
 msgid "Center on SkyMap"
-msgstr "Centreren in hemelkaart"
+msgstr "Centreren op hemelkaart"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Het aantal plotten van de sterren in de opgenomen "
-"afbeeldingen.</p></body></html>"
+"<html><head/><body><p>Maak het hulpmiddel planner van opnamen een "
+"onafhankelijk venster. Zou effect hebben bij de volgende start.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
-#, fuzzy, kde-format
-#| msgid "Independent window"
+#, kde-format
 msgid "Independent Window"
 msgstr "Onafhankelijk venster"
 
