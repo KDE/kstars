@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-14 01:49+0000\n"
+"POT-Creation-Date: 2024-11-16 01:53+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -486,14 +486,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Saglabāt izmaiņas"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3961
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3962
 #: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1350
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Fails ar nosaukumu \"%1\" jau pastāv. Vai vēlaties to pārrakstīt?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3964
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3965
 #: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1351
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -595,17 +595,25 @@ msgstr "Atcelt"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
-#: ekos/analyze/analyze.cpp:140 ekos/analyze/analyze.cpp:142
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1204 ekos/manager.cpp:1219
-#: ekos/manager.cpp:1249 ekos/scheduler/scheduler.cpp:1574
-#: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
-#: indi/indimount.cpp:32 kstarsactions.cpp:511 kstarsactions.cpp:519
-#: kstarsactions.cpp:529 skycomponents/imageoverlaycomponent.cpp:529
+#: ekos/align/opsastrometryindexfiles.cpp:435
+#: ekos/align/opsastrometryindexfiles.cpp:473
+#: ekos/align/opsastrometryindexfiles.cpp:487
+#: ekos/align/opsastrometryindexfiles.cpp:507
+#: ekos/align/opsastrometryindexfiles.cpp:615
+#: ekos/align/opsastrometryindexfiles.cpp:636
+#: ekos/align/opsastrometryindexfiles.cpp:646 ekos/analyze/analyze.cpp:140
+#: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
+#: ekos/manager.cpp:1204 ekos/manager.cpp:1219 ekos/manager.cpp:1249
+#: ekos/scheduler/scheduler.cpp:1574 fitsviewer/solveInfo.ui:86
+#: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:32
+#: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
+#: skycomponents/imageoverlaycomponent.cpp:529
 #, kde-format
 msgid "Error"
 msgstr "Kļūda"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
+#: ekos/align/opsastrometryindexfiles.cpp:559
 #: ekos/scheduler/framingassistantui.cpp:770
 #, kde-format
 msgid "Sorry"
@@ -823,25 +831,25 @@ msgstr "&Atpakaļ"
 msgid "Done"
 msgstr "Senegāla"
 
-#: auxiliary/kswizard.cpp:273
+#: auxiliary/kswizard.cpp:271
 #, kde-format
 msgid "There was no default data directory found in the app bundle."
 msgstr ""
 
-#: auxiliary/kswizard.cpp:282
+#: auxiliary/kswizard.cpp:280
 #, kde-format
 msgid ""
 "There was a problem creating the data directory ~/Library/Application "
 "Support/."
 msgstr ""
 
-#: auxiliary/kswizard.cpp:388
+#: auxiliary/kswizard.cpp:386
 #, fuzzy, kde-format
 #| msgid "Write Error"
 msgid "File write error."
 msgstr "Rakstīšanas kļūda"
 
-#: auxiliary/kswizard.cpp:400
+#: auxiliary/kswizard.cpp:398
 #, fuzzy, kde-format
 #| msgid "&Observation"
 msgid "Data folder permissions error."
@@ -1088,7 +1096,7 @@ msgstr "Saules sistēmas skatītājs"
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:414 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1450 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1484 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1165,8 +1173,8 @@ msgstr "Zeme"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1080 tools/imagingplanner.cpp:1425
-#: tools/imagingplanner.cpp:2517 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1114 tools/imagingplanner.cpp:1459
+#: tools/imagingplanner.cpp:2572 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2719,7 +2727,7 @@ msgstr ""
 "URL nav pareizs. Vai vēlaties pārlūkprogrammas logā atvērt\n"
 "Google meklēšanas sistēmu?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3972
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3973
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1214 ekos/capture/camera.cpp:1269
 #: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1954
@@ -2744,7 +2752,7 @@ msgstr "Nepārlūkot"
 msgid "Show webpage about "
 msgstr "Rādīt tīmekļa lapu par "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2660
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2715
 #, kde-format
 msgid "object"
 msgstr "objekts"
@@ -2871,7 +2879,7 @@ msgstr ""
 msgid "Degrees"
 msgstr "Grādi"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1080
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1114
 #, fuzzy, kde-format
 #| msgid "hour"
 msgid "Hours"
@@ -2927,7 +2935,7 @@ msgstr "Teksts"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2251 tools/imagingplanner.cpp:1080
+#: ekos/capture/camera.ui:2251 tools/imagingplanner.cpp:1114
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3319,7 +3327,7 @@ msgstr "Zvaigžņliel."
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1080 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1114 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -6602,7 +6610,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr ""
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
-#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4105
+#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4106
 #: ekos/align/polaralignmentassistant.cpp:650
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -6738,54 +6746,54 @@ msgid "Align Options Profiles Editor"
 msgstr "1. Izvēlieties INDI režīmu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3543 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3544 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 msgid "Index Files"
 msgstr "Kļūdains Faila nosaukums"
 
-#: ekos/align/align.cpp:3608 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3609 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgid "arcseconds"
 msgid "dRA (arcsec)"
 msgstr "loka sekundes"
 
-#: ekos/align/align.cpp:3609 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3610 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcseconds"
 msgid "dDE (arcsec)"
 msgstr "loka sekundes"
 
-#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3338
+#: ekos/align/align.cpp:3656 ekos/capture/camera.cpp:3338
 #: ekos/focus/focus.cpp:5399
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Filter operation failed."
 msgstr "Kalibrēšana"
 
-#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3838
+#: ekos/align/align.cpp:3668 ekos/capture/camera.cpp:3838
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3674 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3675 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:3843
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3679 ekos/capture/camera.cpp:3848
+#: ekos/align/align.cpp:3680 ekos/capture/camera.cpp:3848
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Auto focus on filter change..."
 msgstr "Autofokusa opcijas"
 
-#: ekos/align/align.cpp:3800
+#: ekos/align/align.cpp:3801
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "Nederīgs URL"
 
-#: ekos/align/align.cpp:3948
+#: ekos/align/align.cpp:3949
 #, fuzzy, kde-format
 #| msgctxt "City in Utah USA"
 #| msgid "Salt Lake City"
@@ -6793,7 +6801,7 @@ msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Soltleiksitija"
 
-#: ekos/align/align.cpp:3971 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:3972 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1213
 #: ekos/capture/camera.cpp:1268 ekos/guide/guidedriftgraph.cpp:478
 #: ekos/scheduler/scheduler.cpp:1953 ekos/scheduler/scheduler.cpp:2063
@@ -6803,7 +6811,7 @@ msgstr "Soltleiksitija"
 msgid "Invalid URL: %1"
 msgstr "Nederīgs URL: %1"
 
-#: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:3981 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
 #: ekos/scheduler/schedulerprocess.cpp:2974
 #: ekos/scheduler/schedulerprocess.cpp:4648
@@ -6812,7 +6820,7 @@ msgstr "Nederīgs URL: %1"
 msgid "Unable to write to file %1"
 msgstr "Neizdevās saglabāt attēlu: %1 "
 
-#: ekos/align/align.cpp:3981 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:3982 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2856
 #: ekos/capture/cameraprocess.cpp:2571 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
@@ -6832,31 +6840,31 @@ msgstr "Neizdevās saglabāt attēlu: %1 "
 msgid "Could Not Open File"
 msgstr "Neizdevās atvērt failu"
 
-#: ekos/align/align.cpp:4002
+#: ekos/align/align.cpp:4003
 #, fuzzy, kde-format
 #| msgid "Errors in lines"
 msgid "Error in table structure."
 msgstr "Kļūdas rindās"
 
-#: ekos/align/align.cpp:4011
+#: ekos/align/align.cpp:4012
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "Horizontālās koordinātes"
 
-#: ekos/align/align.cpp:4028
+#: ekos/align/align.cpp:4029
 #, fuzzy, kde-format
 #| msgid "Focus"
 msgid "Polar Alignment"
 msgstr "Fokuss"
 
-#: ekos/align/align.cpp:4582
+#: ekos/align/align.cpp:4583
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capture timed out."
 msgstr "Tvert"
 
-#: ekos/align/align.cpp:4591
+#: ekos/align/align.cpp:4592
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Capturing still running, Retrying in %1 seconds..."
@@ -8616,64 +8624,76 @@ msgstr ""
 msgid "Recommended"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:430
+#: ekos/align/opsastrometryindexfiles.cpp:434
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
 "accessible, or you are not connected."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:477
+#: ekos/align/opsastrometryindexfiles.cpp:452
+#, fuzzy, kde-format
+#| msgid "Edit Link..."
+msgid "%s download cancelled."
+msgstr "Labot saiti..."
+
+#: ekos/align/opsastrometryindexfiles.cpp:487
 #, fuzzy, kde-format
 #| msgid "Write Error"
 msgid "File Write Error"
 msgstr "Rakstīšanas kļūda"
 
-#: ekos/align/opsastrometryindexfiles.cpp:496
-#: ekos/align/opsastrometryindexfiles.cpp:635
+#: ekos/align/opsastrometryindexfiles.cpp:501
+#, fuzzy, kde-format
+#| msgid "Autofocus Options"
+msgid "%1 download complete."
+msgstr "Autofokusa opcijas"
+
+#: ekos/align/opsastrometryindexfiles.cpp:507
+#: ekos/align/opsastrometryindexfiles.cpp:646
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:548
+#: ekos/align/opsastrometryindexfiles.cpp:559
 #, kde-format
 msgid ""
-"The selected Index File directory does not exist.  Please either create it "
-"or choose another."
+"The selected Index File directory does not exist. Please either create it or "
+"choose another."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:563
+#: ekos/align/opsastrometryindexfiles.cpp:574
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
 "download it to this directory as well?"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:565
+#: ekos/align/opsastrometryindexfiles.cpp:576
 #, fuzzy, kde-format
 #| msgid "Delete All Images"
 msgid "Install File(s)"
 msgstr "Dzēst visus attēlus"
 
-#: ekos/align/opsastrometryindexfiles.cpp:604
+#: ekos/align/opsastrometryindexfiles.cpp:615
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Could not contact Astrometry Index Server."
 msgstr "Pievienot"
 
-#: ekos/align/opsastrometryindexfiles.cpp:610
+#: ekos/align/opsastrometryindexfiles.cpp:621
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Vai tiešām vēlaties nodzēst klientu %1?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:611
+#: ekos/align/opsastrometryindexfiles.cpp:622
 #, fuzzy, kde-format
 #| msgid "Delete All Images"
 msgid "Delete File(s)"
 msgstr "Dzēst visus attēlus"
 
-#: ekos/align/opsastrometryindexfiles.cpp:625
+#: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "File Delete Error"
 msgstr ""
@@ -10489,7 +10509,7 @@ msgstr "Neizdevās dzēst failu: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/opslogs.ui:370
-#: ekos/auxiliary/stellarsolverprofile.h:28 ekos/manager.cpp:2190
+#: ekos/auxiliary/stellarsolverprofile.h:28 ekos/manager.cpp:2199
 #: ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:471
@@ -10514,7 +10534,7 @@ msgstr "Fokuss"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2281 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:29 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2411
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2420
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:475
 #, kde-format
@@ -10530,7 +10550,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2283 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2336 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2345 ekos/manager.ui:778
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Count"
@@ -12754,7 +12774,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2461
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2470
 #: ekos/observatory/observatory.ui:14
 #, fuzzy, kde-format
 #| msgid "&Observation"
@@ -24157,64 +24177,64 @@ msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD:"
 
-#: ekos/manager.cpp:2478
+#: ekos/manager.cpp:2487
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr ""
 
-#: ekos/manager.cpp:2667
+#: ekos/manager.cpp:2676
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete the profile?"
 msgstr "Vai tiešām vēlaties nodzēst klientu %1?"
 
-#: ekos/manager.cpp:2668
+#: ekos/manager.cpp:2677
 #, fuzzy, kde-format
 #| msgid "Complete"
 msgid "Confirm Delete"
 msgstr "Pabeigts"
 
-#: ekos/manager.cpp:2720
+#: ekos/manager.cpp:2729
 #, kde-format
 msgid "Site location updated to %1."
 msgstr ""
 
-#: ekos/manager.cpp:2722
+#: ekos/manager.cpp:2731
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 
-#: ekos/manager.cpp:3000
+#: ekos/manager.cpp:3009
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3008
+#: ekos/manager.cpp:3017
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3036
+#: ekos/manager.cpp:3045
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3048
+#: ekos/manager.cpp:3057
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr ""
 
-#: ekos/manager.cpp:3744
+#: ekos/manager.cpp:3753
 #, kde-format
 msgid "Preview source set to external"
 msgstr ""
 
-#: ekos/manager.cpp:3751
+#: ekos/manager.cpp:3760
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr ""
 
-#: ekos/manager.cpp:3758
+#: ekos/manager.cpp:3767
 #, kde-format
 msgid "Received external preview file"
 msgstr ""
@@ -30273,7 +30293,7 @@ msgid "Distance"
 msgstr "Attālums:"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1080
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1114
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
@@ -84767,8 +84787,8 @@ msgid "Object Set"
 msgstr "Objekts"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2534
-#: tools/imagingplanner.cpp:2545 tools/imagingplanner.cpp:2560
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2589
+#: tools/imagingplanner.cpp:2600 tools/imagingplanner.cpp:2615
 #, fuzzy, kde-format
 #| msgid "Transit time:"
 msgid "Transit"
@@ -85791,249 +85811,266 @@ msgstr ""
 msgid "Ignored"
 msgstr "Ignorēt"
 
-#: tools/imagingplanner.cpp:946
+#: tools/imagingplanner.cpp:970
 #, fuzzy, kde-format
 #| msgid "Observation Planner"
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "Novērošanas plānotājs"
 
-#: tools/imagingplanner.cpp:1080
+#: tools/imagingplanner.cpp:1114
 #, fuzzy, kde-format
 #| msgctxt "Altitude"
 #| msgid "Alt"
 msgid "Alt"
 msgstr "Augst"
 
-#: tools/imagingplanner.cpp:1081
+#: tools/imagingplanner.cpp:1115
 #, fuzzy, kde-format
 #| msgctxt "Constellation Name"
 #| msgid "Constell. Name"
 msgid "Const"
 msgstr "Zvaigzn. nosaukums"
 
-#: tools/imagingplanner.cpp:1081
+#: tools/imagingplanner.cpp:1115
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Coord"
 msgstr "Koordinātes"
 
-#: tools/imagingplanner.cpp:1083
+#: tools/imagingplanner.cpp:1117
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1085
+#: tools/imagingplanner.cpp:1119
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1087
+#: tools/imagingplanner.cpp:1121
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1089
+#: tools/imagingplanner.cpp:1123
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1091
+#: tools/imagingplanner.cpp:1125
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1093
+#: tools/imagingplanner.cpp:1127
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1095
+#: tools/imagingplanner.cpp:1129
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1097
+#: tools/imagingplanner.cpp:1131
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1492
+#: tools/imagingplanner.cpp:1526
 #, fuzzy, kde-format
 #| msgctxt "%1 is a location on earth"
 #| msgid "Almanac for %1"
 msgid "No match for \"%1\""
 msgstr "Almanahs priekš %1"
 
-#: tools/imagingplanner.cpp:1556
+#: tools/imagingplanner.cpp:1590
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1561
+#: tools/imagingplanner.cpp:1595
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1566
+#: tools/imagingplanner.cpp:1600
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1816
+#: tools/imagingplanner.cpp:1850
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Updating tables..."
 msgstr "Uz failu..."
 
-#: tools/imagingplanner.cpp:2011
+#: tools/imagingplanner.cpp:2045
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "See Data -> Download New Data..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2012
+#: tools/imagingplanner.cpp:2046
 #, fuzzy, kde-format
 #| msgid "Catalogs"
 msgid "No Catalog!"
 msgstr "Katalogi"
 
-#: tools/imagingplanner.cpp:2054
+#: tools/imagingplanner.cpp:2093
 #, fuzzy, kde-format
 #| msgid "Select object..."
 msgid "Select an object."
 msgstr "Izvēlēties objektu..."
 
-#: tools/imagingplanner.cpp:2232
+#: tools/imagingplanner.cpp:2095
+#, kde-format
+msgid "Check Filters to unhide objects."
+msgstr ""
+
+#: tools/imagingplanner.cpp:2097
+#, fuzzy, kde-format
+#| msgid "Load Catalog..."
+msgid "Load a Catalog."
+msgstr "Ielādēt katalogu..."
+
+#: tools/imagingplanner.cpp:2276
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Loading Catalogs..."
 msgstr "Ielādēt katalogu..."
 
-#: tools/imagingplanner.cpp:2523
+#: tools/imagingplanner.cpp:2578
 #, fuzzy, kde-format
 #| msgid "Transit time:"
 msgid "Transits"
 msgstr "Pārejas laiks:"
 
-#: tools/imagingplanner.cpp:2528 tools/imagingplanner.cpp:2532
+#: tools/imagingplanner.cpp:2583 tools/imagingplanner.cpp:2587
 #, fuzzy, kde-format
 #| msgid "Sets at: %1"
 msgid "Sets at"
 msgstr "Riet: %1"
 
-#: tools/imagingplanner.cpp:2539 tools/imagingplanner.cpp:2543
+#: tools/imagingplanner.cpp:2594 tools/imagingplanner.cpp:2598
 #, fuzzy, kde-format
 #| msgid "Rises at: %1"
 msgid "Rises at"
 msgstr "Lec: %1"
 
-#: tools/imagingplanner.cpp:2550 tools/imagingplanner.cpp:2556
+#: tools/imagingplanner.cpp:2605 tools/imagingplanner.cpp:2611
 #, fuzzy, kde-format
 #| msgid "Rise:"
 msgid "Rises"
 msgstr "Lēkts:"
 
-#: tools/imagingplanner.cpp:2552 tools/imagingplanner.cpp:2558
+#: tools/imagingplanner.cpp:2607 tools/imagingplanner.cpp:2613
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2662 tools/imagingplanner.cpp:2914
+#: tools/imagingplanner.cpp:2717 tools/imagingplanner.cpp:2973
 #, fuzzy, kde-format
 #| msgid "object"
 msgid "objects"
 msgstr "objekts"
 
-#: tools/imagingplanner.cpp:2910
+#: tools/imagingplanner.cpp:2969
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 un %3"
 
-#: tools/imagingplanner.cpp:2918 tools/imagingplanner.cpp:2922
+#: tools/imagingplanner.cpp:2977 tools/imagingplanner.cpp:2981
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2919 tools/imagingplanner.cpp:2924
+#: tools/imagingplanner.cpp:2978 tools/imagingplanner.cpp:2983
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2928 tools/imagingplanner.cpp:2932
+#: tools/imagingplanner.cpp:2987 tools/imagingplanner.cpp:2991
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2929 tools/imagingplanner.cpp:2934
+#: tools/imagingplanner.cpp:2988 tools/imagingplanner.cpp:2993
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2939 tools/imagingplanner.cpp:2944
+#: tools/imagingplanner.cpp:2998 tools/imagingplanner.cpp:3003
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop ignoring %1"
 msgstr "Apturē&t sekošanu"
 
-#: tools/imagingplanner.cpp:2940 tools/imagingplanner.cpp:2946
+#: tools/imagingplanner.cpp:2999 tools/imagingplanner.cpp:3005
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "Ignorēt"
 
-#: tools/imagingplanner.cpp:3081
+#: tools/imagingplanner.cpp:3008
+#, fuzzy, kde-format
+#| msgid "Center in Map"
+msgid "Center %1 on SkyMap"
+msgstr "Centrēt kartē"
+
+#: tools/imagingplanner.cpp:3144
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Successfully marked %1 objects as read"
 msgstr "Pievienot"
 
-#: tools/imagingplanner.cpp:3083
+#: tools/imagingplanner.cpp:3146
 #, fuzzy, kde-format
 #| msgid "Input file:"
 msgid "Empty file"
 msgstr "Ievades fails:"
 
-#: tools/imagingplanner.cpp:3092
+#: tools/imagingplanner.cpp:3155
 #, fuzzy, kde-format
 #| msgid "Add a name label to the object named %1."
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "Pievienot nosaukuma etiķeti objektam ar nosaukumu %1."
 
-#: tools/imagingplanner.cpp:3094
+#: tools/imagingplanner.cpp:3157
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3096
+#: tools/imagingplanner.cpp:3159
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3099
+#: tools/imagingplanner.cpp:3162
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3105 tools/imagingplanner.cpp:3300
+#: tools/imagingplanner.cpp:3168 tools/imagingplanner.cpp:3363
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Neizdevās atvērt failu %1"
 
-#: tools/imagingplanner.cpp:3207
+#: tools/imagingplanner.cpp:3270
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3281
+#: tools/imagingplanner.cpp:3344
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
@@ -86679,9 +86716,9 @@ msgstr "Maksimālais solārais attālums komētu attēlošanai."
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
 #, fuzzy, kde-format
-#| msgid "Center in Map"
-msgid "Center on SkyMap"
-msgstr "Centrēt kartē"
+#| msgid "Select object from a list"
+msgid "Center selected object on SkyMap"
+msgstr "Izvēlēties objektu no saraksta"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
@@ -95438,11 +95475,6 @@ msgstr ""
 #~| msgid "Focus"
 #~ msgid "AutoFocus"
 #~ msgstr "Fokuss"
-
-#, fuzzy
-#~| msgid "Edit Link..."
-#~ msgid "Edit mode cancelled."
-#~ msgstr "Labot saiti..."
 
 #, fuzzy
 #~| msgid "Capture"

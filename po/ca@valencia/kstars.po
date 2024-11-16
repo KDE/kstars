@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-14 01:49+0000\n"
+"POT-Creation-Date: 2024-11-16 01:53+0000\n"
 "PO-Revision-Date: 2024-11-13 21:33+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -475,14 +475,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Guardeu la imatge"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3961
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3962
 #: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1350
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Ja existix un fitxer anomenat «%1». Voleu sobreescriure'l?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3964
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3965
 #: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1351
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -577,17 +577,25 @@ msgstr "Cancel·la"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
-#: ekos/analyze/analyze.cpp:140 ekos/analyze/analyze.cpp:142
-#: ekos/capture/sequencejob.cpp:24 ekos/manager.cpp:1204 ekos/manager.cpp:1219
-#: ekos/manager.cpp:1249 ekos/scheduler/scheduler.cpp:1574
-#: fitsviewer/solveInfo.ui:86 indi/indidome.cpp:22 indi/indidustcap.cpp:17
-#: indi/indimount.cpp:32 kstarsactions.cpp:511 kstarsactions.cpp:519
-#: kstarsactions.cpp:529 skycomponents/imageoverlaycomponent.cpp:529
+#: ekos/align/opsastrometryindexfiles.cpp:435
+#: ekos/align/opsastrometryindexfiles.cpp:473
+#: ekos/align/opsastrometryindexfiles.cpp:487
+#: ekos/align/opsastrometryindexfiles.cpp:507
+#: ekos/align/opsastrometryindexfiles.cpp:615
+#: ekos/align/opsastrometryindexfiles.cpp:636
+#: ekos/align/opsastrometryindexfiles.cpp:646 ekos/analyze/analyze.cpp:140
+#: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
+#: ekos/manager.cpp:1204 ekos/manager.cpp:1219 ekos/manager.cpp:1249
+#: ekos/scheduler/scheduler.cpp:1574 fitsviewer/solveInfo.ui:86
+#: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:32
+#: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
+#: skycomponents/imageoverlaycomponent.cpp:529
 #, kde-format
 msgid "Error"
 msgstr "S'ha produït un error"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
+#: ekos/align/opsastrometryindexfiles.cpp:559
 #: ekos/scheduler/framingassistantui.cpp:770
 #, kde-format
 msgid "Sorry"
@@ -810,14 +818,14 @@ msgstr "< A&rrere"
 msgid "Done"
 msgstr "Fet"
 
-#: auxiliary/kswizard.cpp:273
+#: auxiliary/kswizard.cpp:271
 #, kde-format
 msgid "There was no default data directory found in the app bundle."
 msgstr ""
 "No s'ha trobat cap directori de dades predeterminat en el paquet de "
 "l'aplicació."
 
-#: auxiliary/kswizard.cpp:282
+#: auxiliary/kswizard.cpp:280
 #, kde-format
 msgid ""
 "There was a problem creating the data directory ~/Library/Application "
@@ -827,12 +835,12 @@ msgstr ""
 "Support/."
 
 # skip-rule: k-Alt-1
-#: auxiliary/kswizard.cpp:388
+#: auxiliary/kswizard.cpp:386
 #, kde-format
 msgid "File write error."
 msgstr "S'ha produït un error d'escriptura en el fitxer."
 
-#: auxiliary/kswizard.cpp:400
+#: auxiliary/kswizard.cpp:398
 #, kde-format
 msgid "Data folder permissions error."
 msgstr "S'ha produït un error de permisos en la carpeta de les dades."
@@ -1063,7 +1071,7 @@ msgstr "Simulador del sistema solar Xplanet: %1"
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:414 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1450 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1484 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1140,8 +1148,8 @@ msgstr "Terra"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1080 tools/imagingplanner.cpp:1425
-#: tools/imagingplanner.cpp:2517 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1114 tools/imagingplanner.cpp:1459
+#: tools/imagingplanner.cpp:2572 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2686,7 +2694,7 @@ msgstr ""
 "L'URL no és vàlid. Voleu que s'òbriga una finestra del navegador\n"
 "amb el buscador de Google?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3972
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3973
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1214 ekos/capture/camera.cpp:1269
 #: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1954
@@ -2711,7 +2719,7 @@ msgstr "No navegues"
 msgid "Show webpage about "
 msgstr "Mostra la pàgina web quant a "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2660
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2715
 #, kde-format
 msgid "object"
 msgstr "objecte"
@@ -2840,7 +2848,7 @@ msgstr "Feu clic damunt d'un color per a canviar-lo…"
 msgid "Degrees"
 msgstr "Graus"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1080
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1114
 #, kde-format
 msgid "Hours"
 msgstr "hores"
@@ -2889,7 +2897,7 @@ msgstr "Text"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2251 tools/imagingplanner.cpp:1080
+#: ekos/capture/camera.ui:2251 tools/imagingplanner.cpp:1114
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3253,7 +3261,7 @@ msgstr "Mag"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1080 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1114 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -6579,7 +6587,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "La muntura s'ha sincronitzat amb les coordenades de la solució."
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
-#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4105
+#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4106
 #: ekos/align/polaralignmentassistant.cpp:650
 #, kde-format
 msgid "Settling..."
@@ -6708,55 +6716,55 @@ msgid "Align Options Profiles Editor"
 msgstr "Editor dels perfils d'opcions d'alineació"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3543 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3544 ekos/align/opsastrometryindexfiles.ui:329
 #, kde-format
 msgid "Index Files"
 msgstr "Fitxers d'índex"
 
-#: ekos/align/align.cpp:3608 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3609 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
 msgstr "dAR (seg. d'arc)"
 
-#: ekos/align/align.cpp:3609 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3610 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
 msgstr "dDE (seg. d'arc)"
 
-#: ekos/align/align.cpp:3655 ekos/capture/camera.cpp:3338
+#: ekos/align/align.cpp:3656 ekos/capture/camera.cpp:3338
 #: ekos/focus/focus.cpp:5399
 #, kde-format
 msgid "Filter operation failed."
 msgstr "No s'ha pogut fer l'operació del filtre."
 
-#: ekos/align/align.cpp:3667 ekos/capture/camera.cpp:3838
+#: ekos/align/align.cpp:3668 ekos/capture/camera.cpp:3838
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Canvia el desplaçament de l'enfocament en %1 passos…"
 
-#: ekos/align/align.cpp:3674 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/align/align.cpp:3675 ekos/auxiliary/buildfilteroffsets.cpp:466
 #: ekos/capture/camera.cpp:3843
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "S'està canviant el filtre a %1…"
 
-#: ekos/align/align.cpp:3679 ekos/capture/camera.cpp:3848
+#: ekos/align/align.cpp:3680 ekos/capture/camera.cpp:3848
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Enfocament automàtic en el canvi de filtre…"
 
-#: ekos/align/align.cpp:3800
+#: ekos/align/align.cpp:3801
 #, kde-format
 msgid "Invalid FOV."
 msgstr "CDV no vàlid."
 
-#: ekos/align/align.cpp:3948
+#: ekos/align/align.cpp:3949
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Exporteu els punts de la solució"
 
-#: ekos/align/align.cpp:3971 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:3972 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1213
 #: ekos/capture/camera.cpp:1268 ekos/guide/guidedriftgraph.cpp:478
 #: ekos/scheduler/scheduler.cpp:1953 ekos/scheduler/scheduler.cpp:2063
@@ -6766,7 +6774,7 @@ msgstr "Exporteu els punts de la solució"
 msgid "Invalid URL: %1"
 msgstr "URL no vàlid: %1"
 
-#: ekos/align/align.cpp:3980 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:3981 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
 #: ekos/scheduler/schedulerprocess.cpp:2974
 #: ekos/scheduler/schedulerprocess.cpp:4648
@@ -6774,7 +6782,7 @@ msgstr "URL no vàlid: %1"
 msgid "Unable to write to file %1"
 msgstr "No es pot escriure en el fitxer %1"
 
-#: ekos/align/align.cpp:3981 ekos/align/mountmodel.cpp:286
+#: ekos/align/align.cpp:3982 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2856
 #: ekos/capture/cameraprocess.cpp:2571 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
@@ -6794,27 +6802,27 @@ msgstr "No es pot escriure en el fitxer %1"
 msgid "Could Not Open File"
 msgstr "No es pot obrir el fitxer"
 
-#: ekos/align/align.cpp:4002
+#: ekos/align/align.cpp:4003
 #, kde-format
 msgid "Error in table structure."
 msgstr "S'ha produït un error en l'estructura de la taula."
 
-#: ekos/align/align.cpp:4011
+#: ekos/align/align.cpp:4012
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Els punts de la solució s'han guardat com: %1"
 
-#: ekos/align/align.cpp:4028
+#: ekos/align/align.cpp:4029
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Alineació polar"
 
-#: ekos/align/align.cpp:4582
+#: ekos/align/align.cpp:4583
 #, kde-format
 msgid "Capture timed out."
 msgstr "La captura ha excedit el temps."
 
-#: ekos/align/align.cpp:4591
+#: ekos/align/align.cpp:4592
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr ""
@@ -8712,7 +8720,7 @@ msgstr "Requerit"
 msgid "Recommended"
 msgstr "Recomanat"
 
-#: ekos/align/opsastrometryindexfiles.cpp:430
+#: ekos/align/opsastrometryindexfiles.cpp:434
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
@@ -8721,28 +8729,43 @@ msgstr ""
 "La baixada ha expirat. O la xarxa no és prou ràpida, no es pot accedir al "
 "fitxer, o no hi ha connexió."
 
+#: ekos/align/opsastrometryindexfiles.cpp:452
+#, fuzzy, kde-format
+#| msgid "Editing job canceled."
+msgid "%s download cancelled."
+msgstr "S'ha cancel·lat la tasca d'edició."
+
 # skip-rule: k-Alt-1
-#: ekos/align/opsastrometryindexfiles.cpp:477
+#: ekos/align/opsastrometryindexfiles.cpp:487
 #, kde-format
 msgid "File Write Error"
 msgstr "S'ha produït un error d'escriptura en el fitxer"
 
-#: ekos/align/opsastrometryindexfiles.cpp:496
-#: ekos/align/opsastrometryindexfiles.cpp:635
+#: ekos/align/opsastrometryindexfiles.cpp:501
+#, fuzzy, kde-format
+#| msgid "Shutdown complete."
+msgid "%1 download complete."
+msgstr "S'ha completat el tancament."
+
+#: ekos/align/opsastrometryindexfiles.cpp:507
+#: ekos/align/opsastrometryindexfiles.cpp:646
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "S'ha produït un error de permisos en la carpeta de l'astrometria"
 
-#: ekos/align/opsastrometryindexfiles.cpp:548
-#, kde-format
+#: ekos/align/opsastrometryindexfiles.cpp:559
+#, fuzzy, kde-format
+#| msgid ""
+#| "The selected Index File directory does not exist.  Please either create "
+#| "it or choose another."
 msgid ""
-"The selected Index File directory does not exist.  Please either create it "
-"or choose another."
+"The selected Index File directory does not exist. Please either create it or "
+"choose another."
 msgstr ""
 "El directori seleccionat per als fitxers d'índex de l'astrometria no "
 "existix. Creeu-lo o trieu-ne un altre."
 
-#: ekos/align/opsastrometryindexfiles.cpp:563
+#: ekos/align/opsastrometryindexfiles.cpp:574
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8751,27 +8774,27 @@ msgstr ""
 "El fitxer %1 ja existix en un altre directori. Segur que també el voleu "
 "baixar a este directori?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:565
+#: ekos/align/opsastrometryindexfiles.cpp:576
 #, kde-format
 msgid "Install File(s)"
 msgstr "Instal·la els fitxers"
 
-#: ekos/align/opsastrometryindexfiles.cpp:604
+#: ekos/align/opsastrometryindexfiles.cpp:615
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "No s'ha pogut connectar amb el servidor d'índex de l'astrometria."
 
-#: ekos/align/opsastrometryindexfiles.cpp:610
+#: ekos/align/opsastrometryindexfiles.cpp:621
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Segur que voleu eliminar estos fitxers d'índex? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:611
+#: ekos/align/opsastrometryindexfiles.cpp:622
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Suprimix els fitxers"
 
-#: ekos/align/opsastrometryindexfiles.cpp:625
+#: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "File Delete Error"
 msgstr "S'ha produït un error en suprimir un fitxer"
@@ -10643,7 +10666,7 @@ msgstr "No s'ha pogut mostrar el fitxer temporal d'imatge: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/opslogs.ui:370
-#: ekos/auxiliary/stellarsolverprofile.h:28 ekos/manager.cpp:2190
+#: ekos/auxiliary/stellarsolverprofile.h:28 ekos/manager.cpp:2199
 #: ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:471
@@ -10667,7 +10690,7 @@ msgstr "Alinea"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2281 ekos/auxiliary/opslogs.ui:120
 #: ekos/auxiliary/stellarsolverprofile.h:29 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2411
+#: ekos/guide/guide.ui:263 ekos/manager.cpp:2420
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
 #: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:475
 #, kde-format
@@ -10683,7 +10706,7 @@ msgstr "Invertix"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_MountLogging)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
 #: ekos/analyze/analyze.cpp:2283 ekos/auxiliary/opslogs.ui:77
-#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2336 ekos/manager.ui:778
+#: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2345 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
 msgstr "Muntura"
@@ -12969,7 +12992,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ObservatoryLogging)
 #. i18n: ectx: property (windowTitle), widget (QWidget, Observatory)
-#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2461
+#: ekos/auxiliary/opslogs.ui:321 ekos/manager.cpp:2470
 #: ekos/observatory/observatory.ui:14
 #, kde-format
 msgid "Observatory"
@@ -24944,64 +24967,64 @@ msgctxt "Charge-Coupled Device"
 msgid "CCD"
 msgstr "CCD"
 
-#: ekos/manager.cpp:2478
+#: ekos/manager.cpp:2487
 #, kde-format
 msgid "Guider port from %1 is ready."
 msgstr "El port del sistema de guiatge «%1» està a punt."
 
-#: ekos/manager.cpp:2667
+#: ekos/manager.cpp:2676
 #, kde-format
 msgid "Are you sure you want to delete the profile?"
 msgstr "Segur que voleu eliminar el perfil?"
 
-#: ekos/manager.cpp:2668
+#: ekos/manager.cpp:2677
 #, kde-format
 msgid "Confirm Delete"
 msgstr "Confirmeu la supressió"
 
-#: ekos/manager.cpp:2720
+#: ekos/manager.cpp:2729
 #, kde-format
 msgid "Site location updated to %1."
 msgstr "L'emplaçament del lloc s'ha actualitzat a %1."
 
-#: ekos/manager.cpp:2722
+#: ekos/manager.cpp:2731
 #, kde-format
 msgid "Failed to update site location to %1. City not found."
 msgstr ""
 "No s'ha pogut actualitzar l'emplaçament del lloc a %1. No s'ha trobat la "
 "ciutat."
 
-#: ekos/manager.cpp:3000
+#: ekos/manager.cpp:3009
 #, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "S'activa el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3008
+#: ekos/manager.cpp:3017
 #, kde-format
 msgid "Disabling debug logging for %1..."
 msgstr "Es desactiva el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3036
+#: ekos/manager.cpp:3045
 #, kde-format
 msgid "Re-enabling debug logging for %1..."
 msgstr "Es torna a activar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3048
+#: ekos/manager.cpp:3057
 #, kde-format
 msgid "Re-disabling debug logging for %1..."
 msgstr "Es torna a desactivar el registre de depuració de %1…"
 
-#: ekos/manager.cpp:3744
+#: ekos/manager.cpp:3753
 #, kde-format
 msgid "Preview source set to external"
 msgstr "Font de vista prèvia establida a externa"
 
-#: ekos/manager.cpp:3751
+#: ekos/manager.cpp:3760
 #, kde-format
 msgid "Preview source reset to internal"
 msgstr "Font de vista prèvia restablida a interna"
 
-#: ekos/manager.cpp:3758
+#: ekos/manager.cpp:3767
 #, kde-format
 msgid "Received external preview file"
 msgstr "S'ha rebut un fitxer extern de vista prèvia"
@@ -31219,7 +31242,7 @@ msgid "Distance"
 msgstr "Distància"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1080
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1114
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Mida"
@@ -82647,8 +82670,8 @@ msgid "Object Set"
 msgstr "Posta de l'objecte"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2534
-#: tools/imagingplanner.cpp:2545 tools/imagingplanner.cpp:2560
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2589
+#: tools/imagingplanner.cpp:2600 tools/imagingplanner.cpp:2615
 #, kde-format
 msgid "Transit"
 msgstr "Trànsit"
@@ -83772,37 +83795,37 @@ msgstr "Triat"
 msgid "Ignored"
 msgstr "Ignorat"
 
-#: tools/imagingplanner.cpp:946
+#: tools/imagingplanner.cpp:970
 #, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "Planificador de l'obtenció d'imatges"
 
 # skip-rule: k-Alt-1
-#: tools/imagingplanner.cpp:1080
+#: tools/imagingplanner.cpp:1114
 #, kde-format
 msgid "Alt"
 msgstr "Alt"
 
-#: tools/imagingplanner.cpp:1081
+#: tools/imagingplanner.cpp:1115
 #, kde-format
 msgid "Const"
 msgstr "Const."
 
 # skip-rule: punctuation-period-no
-#: tools/imagingplanner.cpp:1081
+#: tools/imagingplanner.cpp:1115
 #, kde-format
 msgid "Coord"
 msgstr "Coord."
 
-#: tools/imagingplanner.cpp:1083
+#: tools/imagingplanner.cpp:1117
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 "Nom de l'objecte -feu clic en la capçalera per a ordenar en sentit ascendent "
 "o descendent-."
 
-#: tools/imagingplanner.cpp:1085
+#: tools/imagingplanner.cpp:1119
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
@@ -83811,14 +83834,14 @@ msgstr ""
 "Nombre d'hores en les es poden obtindre imatges de l'objecte -feu clic en la "
 "capçalera per a ordenar en sentit ascendent o descendent-."
 
-#: tools/imagingplanner.cpp:1087
+#: tools/imagingplanner.cpp:1121
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 "Tipus de l'objecte -feu clic en la capçalera per a ordenar en sentit "
 "ascendent o descendent-."
 
-#: tools/imagingplanner.cpp:1089
+#: tools/imagingplanner.cpp:1123
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
@@ -83826,14 +83849,14 @@ msgstr ""
 "Dimensions màximes de l'objecte (min. d'arc) -feu clic en la capçalera per a "
 "ordenar en sentit ascendent o descendent-."
 
-#: tools/imagingplanner.cpp:1091
+#: tools/imagingplanner.cpp:1125
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 "Altitud màxima -feu clic en la capçalera per a ordenar en sentit ascendent o "
 "descendent-."
 
-#: tools/imagingplanner.cpp:1093
+#: tools/imagingplanner.cpp:1127
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
@@ -83842,46 +83865,46 @@ msgstr ""
 "Separació angular de la Lluna a mitjanit -feu clic en la capçalera per a "
 "ordenar en sentit ascendent o descendent-."
 
-#: tools/imagingplanner.cpp:1095
+#: tools/imagingplanner.cpp:1129
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 "Constel·lació -feu clic en la capçalera per a ordenar en sentit ascendent o "
 "descendent-."
 
-#: tools/imagingplanner.cpp:1097
+#: tools/imagingplanner.cpp:1131
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 "Coordenades AR/Dec -feu clic en la capçalera per a ordenar en sentit "
 "ascendent o descendent-."
 
-#: tools/imagingplanner.cpp:1492
+#: tools/imagingplanner.cpp:1526
 #, kde-format
 msgid "No match for \"%1\""
 msgstr "No s'ha trobat cap coincidència amb «%1»"
 
-#: tools/imagingplanner.cpp:1556
+#: tools/imagingplanner.cpp:1590
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr "Obri un navegador amb el 1r enllaç en esta nota: %1"
 
-#: tools/imagingplanner.cpp:1561
+#: tools/imagingplanner.cpp:1595
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr "Obri un navegador amb el 2n enllaç en esta nota: %1"
 
-#: tools/imagingplanner.cpp:1566
+#: tools/imagingplanner.cpp:1600
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr "Obri un navegador amb el 3r enllaç en esta nota: %1"
 
-#: tools/imagingplanner.cpp:1816
+#: tools/imagingplanner.cpp:1850
 #, kde-format
 msgid "Updating tables..."
 msgstr "S'estan actualitzant les taules…"
 
-#: tools/imagingplanner.cpp:2011
+#: tools/imagingplanner.cpp:2045
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -83890,132 +83913,149 @@ msgstr ""
 "Caldrà que carregueu un catàleg per a començar a emprar esta eina.\n"
 "«Vegeu les dades -> Descarrega dades noves…»"
 
-#: tools/imagingplanner.cpp:2012
+#: tools/imagingplanner.cpp:2046
 #, kde-format
 msgid "No Catalog!"
 msgstr "Sense catàleg!"
 
-#: tools/imagingplanner.cpp:2054
+#: tools/imagingplanner.cpp:2093
 #, kde-format
 msgid "Select an object."
 msgstr "Se selecciona un objecte."
 
-#: tools/imagingplanner.cpp:2232
+#: tools/imagingplanner.cpp:2095
+#, kde-format
+msgid "Check Filters to unhide objects."
+msgstr ""
+
+#: tools/imagingplanner.cpp:2097
+#, fuzzy, kde-format
+#| msgid "Load Catalog"
+msgid "Load a Catalog."
+msgstr "Carrega un catàleg"
+
+#: tools/imagingplanner.cpp:2276
 #, kde-format
 msgid "Loading Catalogs..."
 msgstr "S'estan carregant els catàlegs…"
 
-#: tools/imagingplanner.cpp:2523
+#: tools/imagingplanner.cpp:2578
 #, kde-format
 msgid "Transits"
 msgstr "Trànsits"
 
-#: tools/imagingplanner.cpp:2528 tools/imagingplanner.cpp:2532
+#: tools/imagingplanner.cpp:2583 tools/imagingplanner.cpp:2587
 #, kde-format
 msgid "Sets at"
 msgstr "Posta a les"
 
-#: tools/imagingplanner.cpp:2539 tools/imagingplanner.cpp:2543
+#: tools/imagingplanner.cpp:2594 tools/imagingplanner.cpp:2598
 #, kde-format
 msgid "Rises at"
 msgstr "Eixida cap a les"
 
-#: tools/imagingplanner.cpp:2550 tools/imagingplanner.cpp:2556
+#: tools/imagingplanner.cpp:2605 tools/imagingplanner.cpp:2611
 #, kde-format
 msgid "Rises"
 msgstr "Eixida"
 
-#: tools/imagingplanner.cpp:2552 tools/imagingplanner.cpp:2558
+#: tools/imagingplanner.cpp:2607 tools/imagingplanner.cpp:2613
 #, kde-format
 msgid "Sets"
 msgstr "Es pon"
 
-#: tools/imagingplanner.cpp:2662 tools/imagingplanner.cpp:2914
+#: tools/imagingplanner.cpp:2717 tools/imagingplanner.cpp:2973
 #, kde-format
 msgid "objects"
 msgstr "objectes"
 
-#: tools/imagingplanner.cpp:2910
+#: tools/imagingplanner.cpp:2969
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 i altres %3 objectes"
 
-#: tools/imagingplanner.cpp:2918 tools/imagingplanner.cpp:2922
+#: tools/imagingplanner.cpp:2977 tools/imagingplanner.cpp:2981
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr "Marca %1 com a imatge NO obtinguda"
 
-#: tools/imagingplanner.cpp:2919 tools/imagingplanner.cpp:2924
+#: tools/imagingplanner.cpp:2978 tools/imagingplanner.cpp:2983
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr "Marca %1 com a imatge obtinguda"
 
-#: tools/imagingplanner.cpp:2928 tools/imagingplanner.cpp:2932
+#: tools/imagingplanner.cpp:2987 tools/imagingplanner.cpp:2991
 #, kde-format
 msgid "Un-pick %1"
 msgstr "Anul·la la tria %1"
 
-#: tools/imagingplanner.cpp:2929 tools/imagingplanner.cpp:2934
+#: tools/imagingplanner.cpp:2988 tools/imagingplanner.cpp:2993
 #, kde-format
 msgid "Pick %1"
 msgstr "Tria %1"
 
-#: tools/imagingplanner.cpp:2939 tools/imagingplanner.cpp:2944
+#: tools/imagingplanner.cpp:2998 tools/imagingplanner.cpp:3003
 #, kde-format
 msgid "Stop ignoring %1"
 msgstr "Para ignorar %1"
 
-#: tools/imagingplanner.cpp:2940 tools/imagingplanner.cpp:2946
+#: tools/imagingplanner.cpp:2999 tools/imagingplanner.cpp:3005
 #, kde-format
 msgid "Ignore %1"
 msgstr "Ignora %1"
 
-#: tools/imagingplanner.cpp:3081
+#: tools/imagingplanner.cpp:3008
+#, fuzzy, kde-format
+#| msgid "Center in Map"
+msgid "Center %1 on SkyMap"
+msgstr "Centra en el mapa"
+
+#: tools/imagingplanner.cpp:3144
 #, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "S'han marcat correctament %1 objectes com a llegits"
 
-#: tools/imagingplanner.cpp:3083
+#: tools/imagingplanner.cpp:3146
 #, kde-format
 msgid "Empty file"
 msgstr "Fitxer buit"
 
-#: tools/imagingplanner.cpp:3092
+#: tools/imagingplanner.cpp:3155
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "No s'ha pogut marcar tots estos objectes com a imatge obtinguda: %1"
 
-#: tools/imagingplanner.cpp:3094
+#: tools/imagingplanner.cpp:3157
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 "No s'ha pogut marcar %1 objectes com a imatge obtinguda, incloent-hi: %2"
 
-#: tools/imagingplanner.cpp:3096
+#: tools/imagingplanner.cpp:3159
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 "S'han marcat correctament %1 objectes com a imatge obtinguda. Ha fallat amb "
 "%2: %3"
 
-#: tools/imagingplanner.cpp:3099
+#: tools/imagingplanner.cpp:3162
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 "S'han marcat correctament %1 objectes com a imatge obtinguda. Ha fallat amb "
 "%2 incloent-hi estos: %3"
 
-#: tools/imagingplanner.cpp:3105 tools/imagingplanner.cpp:3300
+#: tools/imagingplanner.cpp:3168 tools/imagingplanner.cpp:3363
 #, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "No s'ha pogut obrir el fitxer: «%1»"
 
-#: tools/imagingplanner.cpp:3207
+#: tools/imagingplanner.cpp:3270
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr "El fitxer de catàleg no existix: «%1»"
 
-#: tools/imagingplanner.cpp:3281
+#: tools/imagingplanner.cpp:3344
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr "%1/%2: S'està afegint %3"
@@ -84681,9 +84721,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
 #, fuzzy, kde-format
-#| msgid "Center in Map"
-msgid "Center on SkyMap"
-msgstr "Centra en el mapa"
+#| msgid "Select objects on left click?"
+msgid "Center selected object on SkyMap"
+msgstr "Voleu que se seleccionen els objectes en fer clic esquerre?"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
