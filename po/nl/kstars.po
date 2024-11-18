@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-16 01:53+0000\n"
-"PO-Revision-Date: 2024-11-14 13:45+0100\n"
+"PO-Revision-Date: 2024-11-16 10:53+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8596,10 +8596,9 @@ msgstr ""
 "is ontoegankelijk, of er is geen verbinding."
 
 #: ekos/align/opsastrometryindexfiles.cpp:452
-#, fuzzy, kde-format
-#| msgid "Edit mode cancelled."
+#, kde-format
 msgid "%s download cancelled."
-msgstr "Bewerkmodus geannuleerd."
+msgstr "%s download geannuleerd."
 
 #: ekos/align/opsastrometryindexfiles.cpp:487
 #, kde-format
@@ -8607,11 +8606,9 @@ msgid "File Write Error"
 msgstr "Schrijffout bestand"
 
 #: ekos/align/opsastrometryindexfiles.cpp:501
-#, fuzzy, kde-format
-#| msgid "%1 job completed."
-#| msgid_plural "%1 jobs completed."
+#, kde-format
 msgid "%1 download complete."
-msgstr "Taak %1 voltooid."
+msgstr "%1 download voltooid."
 
 #: ekos/align/opsastrometryindexfiles.cpp:507
 #: ekos/align/opsastrometryindexfiles.cpp:646
@@ -8620,10 +8617,7 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Fout met permissies map Astrometry"
 
 #: ekos/align/opsastrometryindexfiles.cpp:559
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
@@ -82598,13 +82592,12 @@ msgstr "Een object selecteren."
 #: tools/imagingplanner.cpp:2095
 #, kde-format
 msgid "Check Filters to unhide objects."
-msgstr ""
+msgstr "Activeer filters om verborgen objecten te laten zien."
 
 #: tools/imagingplanner.cpp:2097
-#, fuzzy, kde-format
-#| msgid "Load Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "Catalogus laden"
+msgstr "Een catalogus laden"
 
 #: tools/imagingplanner.cpp:2276
 #, kde-format
@@ -82677,10 +82670,9 @@ msgid "Ignore %1"
 msgstr "%1 negeren"
 
 #: tools/imagingplanner.cpp:3008
-#, fuzzy, kde-format
-#| msgid "Center on SkyMap"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "Centreren op hemelkaart"
+msgstr "Centreer %1 op hemelkaart"
 
 #: tools/imagingplanner.cpp:3144
 #, kde-format
@@ -83378,10 +83370,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Slew to selected objects on the SkyMap."
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "Draai naar geselecteerde objecten op de hemelkaart?"
+msgstr "Geselecteerd object op de hemelkaart centreren"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27

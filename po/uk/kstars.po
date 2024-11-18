@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-16 01:53+0000\n"
-"PO-Revision-Date: 2024-11-14 08:58+0200\n"
+"PO-Revision-Date: 2024-11-16 09:46+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -8620,10 +8620,9 @@ msgstr ""
 "швидким, файл недоступний або комп'ютер взагалі не з'єднано з мережею."
 
 #: ekos/align/opsastrometryindexfiles.cpp:452
-#, fuzzy, kde-format
-#| msgid "Editing job canceled."
+#, kde-format
 msgid "%s download cancelled."
-msgstr "Виконання завдання з редагування скасовано."
+msgstr "Отримання %s скасовано."
 
 #: ekos/align/opsastrometryindexfiles.cpp:487
 #, kde-format
@@ -8631,10 +8630,9 @@ msgid "File Write Error"
 msgstr "Помилка запису до файла"
 
 #: ekos/align/opsastrometryindexfiles.cpp:501
-#, fuzzy, kde-format
-#| msgid "Shutdown complete."
+#, kde-format
 msgid "%1 download complete."
-msgstr "Вимикання завершено."
+msgstr "%1 отримано."
 
 #: ekos/align/opsastrometryindexfiles.cpp:507
 #: ekos/align/opsastrometryindexfiles.cpp:646
@@ -8643,10 +8641,7 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Помилка прав доступу до теки астрометрії"
 
 #: ekos/align/opsastrometryindexfiles.cpp:559
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
@@ -82938,13 +82933,12 @@ msgstr "Вибрати об'єкт."
 #: tools/imagingplanner.cpp:2095
 #, kde-format
 msgid "Check Filters to unhide objects."
-msgstr ""
+msgstr "Скористайтеся «Фільтрами» для показу об'єктів."
 
 #: tools/imagingplanner.cpp:2097
-#, fuzzy, kde-format
-#| msgid "Load Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "Завантажити каталог"
+msgstr "Завантажити каталог."
 
 #: tools/imagingplanner.cpp:2276
 #, kde-format
@@ -83017,10 +83011,9 @@ msgid "Ignore %1"
 msgstr "Ігнорувати %1"
 
 #: tools/imagingplanner.cpp:3008
-#, fuzzy, kde-format
-#| msgid "Center on SkyMap"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "Посередині карти неба"
+msgstr "Розмістити %1 у центрі карти неба"
 
 #: tools/imagingplanner.cpp:3144
 #, kde-format
@@ -83714,10 +83707,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Slew to selected objects on the SkyMap."
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "Навестися на позначені об'єкти на карті неба."
+msgstr "Розмістити вибраний об'єкт у центрі карти неба"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27

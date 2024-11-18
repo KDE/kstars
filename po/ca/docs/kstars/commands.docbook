@@ -1904,7 +1904,7 @@
 <para
 >El menú emergent que s'obre fent clic <mousebutton
 >dret</mousebutton
-> és sensible al context, el qual vol dir que és diferent depenent de l'objecte a sobre del qual heu fet clic. Aquí us mostrem tots els elements possibles d'aquest menú, amb el tipus d'objecte [entre claudàtors].</para>
+> depèn del context, el qual vol dir que és diferent depenent de l'objecte a sobre del qual heu fet clic. Aquí us mostrem tots els elements possibles d'aquest menú, amb el tipus d'objecte [entre claudàtors].</para>
 
 <variablelist>
 <varlistentry>

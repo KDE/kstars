@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-16 01:53+0000\n"
-"PO-Revision-Date: 2024-11-14 20:42+0100\n"
+"PO-Revision-Date: 2024-11-16 12:25+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8654,10 +8654,9 @@ msgstr ""
 "fitxer, o no hi ha connexió."
 
 #: ekos/align/opsastrometryindexfiles.cpp:452
-#, fuzzy, kde-format
-#| msgid "Editing job canceled."
+#, kde-format
 msgid "%s download cancelled."
-msgstr "S'ha cancel·lat la tasca d'edició."
+msgstr "S'ha cancel·lat la baixada de %s."
 
 # skip-rule: k-Alt-1
 #: ekos/align/opsastrometryindexfiles.cpp:487
@@ -8666,10 +8665,9 @@ msgid "File Write Error"
 msgstr "Error d'escriptura en el fitxer"
 
 #: ekos/align/opsastrometryindexfiles.cpp:501
-#, fuzzy, kde-format
-#| msgid "Shutdown complete."
+#, kde-format
 msgid "%1 download complete."
-msgstr "S'ha completat el tancament."
+msgstr "S'ha completat la baixada de %1."
 
 #: ekos/align/opsastrometryindexfiles.cpp:507
 #: ekos/align/opsastrometryindexfiles.cpp:646
@@ -8678,10 +8676,7 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Error de permisos en la carpeta d'astrometria"
 
 #: ekos/align/opsastrometryindexfiles.cpp:559
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
@@ -83347,13 +83342,12 @@ msgstr "Seleccioneu un objecte."
 #: tools/imagingplanner.cpp:2095
 #, kde-format
 msgid "Check Filters to unhide objects."
-msgstr ""
+msgstr "Comprova els filtres per a deixar d'ocular objectes."
 
 #: tools/imagingplanner.cpp:2097
-#, fuzzy, kde-format
-#| msgid "Load Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "Carrega el catàleg"
+msgstr "Carrega un catàleg."
 
 #: tools/imagingplanner.cpp:2276
 #, kde-format
@@ -83426,10 +83420,9 @@ msgid "Ignore %1"
 msgstr "Ignora %1"
 
 #: tools/imagingplanner.cpp:3008
-#, fuzzy, kde-format
-#| msgid "Center on SkyMap"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "Centra al mapa celeste"
+msgstr "Centra %1 al mapa celeste"
 
 #: tools/imagingplanner.cpp:3144
 #, kde-format
@@ -84132,10 +84125,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Slew to selected objects on the SkyMap."
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "Orienta als objectes seleccionats al mapa celeste."
+msgstr "Centra l'objecte seleccionat al mapa celeste"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27

@@ -21,7 +21,7 @@
 </mediaobject>
 </screenshot>
 <para
->L'eina Planificador d'obtenció d'imatges ajuda els usuaris a triar quins objectes passar a imatge. Els usuaris poden descarregar catàlegs d'objectes recomanats, o bé crear i compartir els seus propis catàlegs. L'eina calcula quan els objectes d'un catàleg de lectura poden ser fotografiats en la nit seleccionada donades les restriccions com l'altitud mínima, el terreny i la separació de la lluna. Pot ordenar els objectes segons diverses dimensions diferents, inclòs el nombre d'hores que un objecte pot ser fotografiat aquesta nit, la seva altitud màxima, la distància de la lluna, la constel·lació, nom i tipus. Els objectes també es poden filtrar per diverses raons (per exemple, el tipus d'objecte, si s'han obtingut imatges prèviament, paraules clau que l'usuari ha afegit, si l'objecte s'ha seleccionat, l'usuari no està interessat, etc.). Aquesta eina ajuda els usuaris a investigar els objectes mostrant imatges petites dels objectes, mostrant les ubicacions al cel dels objectes en el mapa celeste, i proporcionant enllaços per a seguir a llocs d'Internet amb més informació i imatges. Permet als usuaris adjuntar notes i enllaços a objectes, i seleccionar-ne alguns per a la seva consideració posterior. Aquesta eina es pot utilitzar en conjunció l'obtenció d'imatges de l'Ekos o qualsevol altra eina d'obtenció d'imatges. Actualment no interacciona directament amb l'analitzador d'imatges real; només ajuda l'usuari a decidir quines imatges ha d'obtenir. </para>
+>The Imaging Planner tool helps users choose which objects to image. Users can download catalogs of recommended objects, or possibly create and share their own catalogs. The tool computes when the objects in a read-in catalog may be imaged on the selected night given constraints such as minimum altitude, terrain and moon separation. It can sort the objects along several different dimensions including the number of hours an object may be imaged tonight (given the users geography, constraints and possibly artificial horizon), its peak altitude, distance from the moon, constellation, name and type. Objects can also be filtered out for several reasons (e.g. type of object, whether it was previously imaged, keywords the user has added, whether the object has been selected, user not interested, etc). This tool helps users research the objects by showing small images of the objects, showing the objects' sky locations on the skymap, and by providing links to follow to internet sites with more information and images. It allows users to attach notes and links to objects, and select certain of them for further consideration. This tool can be used in conjection with the Ekos imager or any other imaging tool. It does not currently directly interact with the actual imager; it only helps the user decide what to image. </para>
 <sect2 id="imagingplanner-objecttable">
 <title
 >La taula d'objectes</title>
@@ -34,7 +34,7 @@
 <itemizedlist>
 <listitem
 ><para
->Triar l'objecte (o desmarcar un objecte ja triat). Marcar l'objecte com a triat us permetrà més endavant mostrar només alguns objectes triats en lloc de tota la taula. Per exemple, es pot dedicar temps a investigar molts objectes, i quan es veu un candidat interessant, es pot marcar com a triat per a un examen posterior. Al cap d'un temps, quan s'ha aconseguit una col·lecció d'objectes triats, es poden mostrar només els objectes triats utilitzant la restricció de filtratge de triat (vegeu Filtres a sota). </para
+>Pick the selected object (or un-pick an already picked object). Note you can select more than one object at a time with click then shift click. Marking an object as picked will allow you to later just display a few picked objects instead of the whole table. For example, one may spend time researching many objects, and when an interesting candidate is seen, it may be marked picked for later examination. After a while, when a collection of picked objects has been put together, one can only show the picked objects by using the picked filtering constraint (see Filters below). </para
 ></listitem
 ><listitem
 ><para
@@ -43,6 +43,10 @@
 ><listitem
 ><para
 >Marcar un objecte per a ser ignorat (o desfer això). Similar a marcar com a ja obtinguda la imatge. </para
+></listitem
+><listitem
+><para
+>Center the object on the KStars SkyMap. This mostly makes sense if auto-centering is disable in the Options menu. </para
 ></listitem>
 </itemizedlist>
 <para
@@ -50,80 +54,45 @@
 >Carrega les imatges obtingudes</guibutton
 > a la secció Filtres. </para>
 <para
->La línia de dalt de la taula mostra el nombre de files a la taula i el nombre total d'objectes al catàleg carregat. Els nombres poden ser diferents si es filtren alguns objectes. També hi ha un quadre de cerca que trobarà un determinat objecte a la taula. </para>
-</sect2>
-<sect2 id="imagingplanner-altitudegraph">
-<title
->El gràfic d'altitud</title>
+>Objects that are picked are also displayed differently. They are shown in bold-italic and underlined in order to distinguish them. </para>
 <para
->L'altitud de l'objecte seleccionat actualment es dibuixa al gràfic Altitud/Temps. El gràfic va des de just abans de la posta de sol fins just després de la sortida del sol. Notareu un fons fosc durant la nit. També es pot notar un patró ombrejat que indica la il·luminació de la lluna al fons. L'altitud es dibuixa en blanc, però superposada a la part superior és una línia verda més gruixuda que indica quan l'objecte pot ser obtenir la imatge donades les restriccions (vegeu la secció Restriccions a sota). Per tant, si només veieu una línia d'altitud blanca, no es pot obtenir la imatge de l'objecte. Si veieu una línia verda, llavors aquests són els temps i les altituds en què es pot obtenir la imatge de l'objecte. </para>
+>The line above the table displays the number of rows in the table and total number of objects in the loaded catalog. They numbers may be different if some objects are filtered out. There is also a search box which will find a certain object if it is in the table. </para>
 </sect2>
-
-<sect2 id="imagingplanner-constraints">
+<sect2 id="imagingplanner-date">
 <title
->Restriccions de l'obtenció d'imatges</title>
+>Data, hora i geografia</title>
 <para
->L'eina Planificador d'obtenció d'imatges calcula quan durant la nit els objectes dels quals es poden obtenir les seves imatges. Hi ha diverses restriccions que afecten aquest càlcul. Algunes estan definides en aquesta eina i alguns són paràmetres del KStars/Ekos que potser cal modificar. </para>
-<itemizedlist>
-<listitem
-><para
->L'altitud mínima en graus que un objecte del qual es pot obtenir la imatge s'indica en el quadre Alt Mín. Si canvieu aquest valor, hauríeu de veure la columna Hores recalculada a la taula d'objectes i el gràfic recalculat a la secció Informació de l'objecte. </para
-></listitem
-><listitem
-><para
->Similar a l'altitud, podeu canviar l'angle mínim de separació de la Lluna en graus. </para
-></listitem
-><listitem
-><para
->Si la casella de selecció horitzó artificial està marcada, s'utilitzaran restriccions d'horitzó artificials per a calcular els temps possibles d'obtenció d'imatges. L'horitzó artificial és la part del cel que està bloquejat per a l'obtenció d'imatge per construccions o arbres o similars en la ubicació del telescopi. L'horitzó artificial s'estableix en altres llocs del KStars (vegeu <link linkend="settingmenu"
->Menú d'arranjament</link
-> i baixeu a <menuchoice
+>La data per a la qual es fa l'anàlisi es pot canviar amb els quadres d'entrada de data a la part superior dreta de l'eina. Es pot tornar enrere un dia fent clic al botó de l'esquerra de la data, i es pot avançar un dia més amb el botó de la dreta. Es pot canviar a una data arbitrària seleccionant el botó de menú de la data, o simplement editant el text de la data. La il·luminació de la lluna per a aquest dia es mostra a l'esquerra de la data. </para>
+<para
+>L'hora emprada (p. ex. per a la posició de l'objecte en el mapa celeste) i la geografia/ubicació utilitzada per a determinar la posició del cel d'un objecte es prenen dels valors que fa servir el KStars. Per a canviar la ubicació, aneu al menú <menuchoice
 ><guimenu
 >Configuració</guimenu
 > <guimenuitem
->Horitzó artificial</guimenuitem
+>Geografia</guimenuitem
 ></menuchoice
->) i en el cas més senzill és una llista dels valors d'azimut i altitud. Si feu ús d'aquesta eina i obteniu imatges des d'una àrea on parts significatives del cel estan bloquejades, es recomana configurar i utilitzar la característica d'horitzó artificial. Associat amb l'horitzó artificial hi ha la <link linkend="terrain"
->característica de terreny</link
-> del mapa celeste. Si configureu la imatge del terreny, quan l'eina Planificador d'obtenció d'imatges mostri l'objecte, veureu quan és relatiu al vostre entorn local. Per descomptat, hauríeu d'establir un temps realista d'obtenció d'imatges, és a dir, si planifiqueu durant el dia i l'eina està localitzant objectes a l'hora actual, llavors l'objecte pot estar post o darrere d'edificis o arbres. </para
+>. Per a canviar l'hora actual, aneu al menú <menuchoice
+><guimenu
+>Temps</guimenu
+> <guimenuitem
+>Estableix la data i l'hora...</guimenuitem
+></menuchoice
+>. </para>
+</sect2>
+<sect2 id="imagingplanner-options-help">
+<title
+>Options and Help</title>
+<para
+>There are two buttons to the right of the date control. </para>
+<itemizedlist>
+<listitem
+><para
+>The options "hamburger" button brings up a small options menu. Currently the menu contains two checkboxes. One controls whether the system slews the KStars SkyMap to an object's coordinates when the object is selected in the table. The second decides if the tool is an independent window (i.e. can go behind or in front of other KStars windows), or if it always goes in front of the main KStars window. </para
 ></listitem
 ><listitem
 ><para
->El KStars/Ekos utilitza temps astronòmics de crepuscle per a restringir els temps d'obtenció d'imatges. L'ús dels valors predeterminats no donarà lloc a cap imatge fora dels temps astronòmics del crepuscle. Si voleu ajustar això, vegeu la restricció al menú Desplaçament del programador de l'Ekos: canvieu el Desplaçament del capvespre a positiu per a iniciar l'obtenció d'imatges més tard o negatiu per a iniciar l'obtenció d'imatges abans. De la mateixa manera, canvieu el desplaçament de l'alba a positiu per continuar l'obtenció d'imatges més temps, i negatiu per aturar l'obtenció d'imatges abans. Aquests controls es poden trobar seleccionant <menuchoice
-><guimenu
->Eines</guimenu
-><guimenuitem
->Ekos</guimenuitem
-></menuchoice
-> i després fent clic a la pestanya Programador (2a per l'esquerra), fent clic al botó <guibutton
->Opcions</guibutton
-> a la part inferior dreta i a la pestanya de desplaçament a la part superior esquerra. </para
+>The 2nd button, when clicked, brings up this KStars Handbook in a web browser. </para
 ></listitem>
 </itemizedlist>
-</sect2>
-<sect2 id="imagingplanner-image">
-<title
->Imatge d'objectes</title>
-<para
->Si està disponible, es mostrarà una imatge petita de l'objecte seleccionat. En fer clic sobre la imatge, la línia de crèdit de l'astrofotògraf o la línia de l'URL, navegarà per l'enllaç indicat a una imatge completa si s'ha proporcionat un enllaç. </para>
-<para
->Tingueu en compte que el botó <guibutton
->Carrega el catàleg</guibutton
-> també es troba en aquesta secció. </para>
-</sect2>
-<sect2 id="imagingplanner-search">
-<title
->Cerca d'imatge/objecte</title>
-<para
->La secció Cerca proporciona algunes dreceres per a investigar l'objecte actualment seleccionat. El botó <guibutton
->Wikipedia</guibutton
-> obre una finestra del navegador a la Viquipèdia utilitzant l'identificador de l'objecte. Similar per al Simbad. El botó <guibutton
->NGC/IC</guibutton
-> obre una finestra del navegador per al lloc web del Professor Seligman NGC/IC. </para>
-<para
->El botó <guibutton
->Astrobin</guibutton
-> utilitza la facilitat de cerca Astrobin.com per a realitzar una cerca d'imatges una mica més detallada. Podeu fer que busqui imatges a Astrobin amb un radi d'imatge determinat, i requerir que les imatges resultants hagin guanyat «Premis d'Astrobin» com ara la nominació de tria principal, tria principal o imatge del dia. Un cop navegueu pel lloc web d'Astrobin, podeu, per descomptat, modificar les restriccions de cerca d'Astrobin com vulgueu, amb les restriccions i capacitats del lloc web d'Astrobin. Les restriccions de cerca d'Astrobin es poden ocultar i exposar utilitzant el botó de l'esquerra de la línia de cerca. </para>
 </sect2>
 <sect2 id="imagingplanner-info">
 <title
@@ -149,25 +118,67 @@
 ></listitem>
 </itemizedlist>
 </sect2>
-<sect2 id="imagingplanner-date">
+<sect2 id="imagingplanner-altitudegraph">
 <title
->Data, hora i geografia</title>
+>El gràfic d'altitud</title>
 <para
->La data per a la qual es fa l'anàlisi es pot canviar amb els quadres d'entrada de data a la part superior dreta de l'eina. Es pot tornar enrere un dia fent clic al botó de l'esquerra de la data, i es pot avançar un dia més amb el botó de la dreta. Es pot canviar a una data arbitrària seleccionant el botó de menú de la data, o simplement editant el text de la data. La il·luminació de la lluna per a aquest dia es mostra a l'esquerra de la data. </para>
+>The currently selected object's altitude is graphed in the Altitude vs Time graph. The graph runs from just before sunset to just after sunrise. You'll notice a dark background during the night. You may also notice a hash-pattern indicating moon illumination in the background. The altitude is graphed in white, but superimposed on top of it is a thicker green line indicating when the object can be imaged given your constraints (see Imaging Constraints section below). Thus if you just see a white altitude line, then the object cannot be imaged. If you see a green line, then those are the times and altitudes when the object can be imaged. If you click in the graph, you will see the altitude of the selected object displayed in the upper left of the graph. </para>
+</sect2>
+<sect2 id="imagingplanner-constraints">
+<title
+>Restriccions de l'obtenció d'imatges</title>
 <para
->L'hora emprada (p. ex. per a la posició de l'objecte en el mapa celeste) i la geografia/ubicació utilitzada per a determinar la posició del cel d'un objecte es prenen dels valors que fa servir el KStars. Per a canviar la ubicació, aneu al menú <menuchoice
+>L'eina Planificador d'obtenció d'imatges calcula quan durant la nit els objectes dels quals es poden obtenir les seves imatges. Hi ha diverses restriccions que afecten aquest càlcul. Algunes estan definides en aquesta eina i alguns són paràmetres del KStars/Ekos que potser cal modificar. </para>
+<itemizedlist>
+<listitem
+><para
+>L'altitud mínima en graus que un objecte del qual es pot obtenir la imatge s'indica en el quadre Alt Mín. Si canvieu aquest valor, hauríeu de veure la columna Hores recalculada a la taula d'objectes i el gràfic recalculat a la secció Informació de l'objecte. </para
+></listitem
+><listitem
+><para
+>Similar a l'altitud, podeu canviar l'angle mínim de separació de la Lluna en graus. </para
+></listitem
+><listitem
+><para
+>If the artificial horizon checkbox is checked, then artificial horizon constraints are used to calculate the possible imaging times. The artificial horizon are the parts of the sky that are blocked from imaging by buildings or trees or the like at your telescope's location. The artificial horizon is set up elsewhere in KStars (see <link linkend="settingmenu"
+>Setting Menu</link
+> and go down to <menuchoice
 ><guimenu
->Configuració</guimenu
+>Settings</guimenu
 > <guimenuitem
->Geografia</guimenuitem
+>Artificial Horizon</guimenuitem
 ></menuchoice
->. Per a canviar l'hora actual, aneu al menú <menuchoice
+>) and at its simplest is a list of azimuth and altitude values. If you make use of this tool and image from an area where significant parts of the sky is blocked, it is recommended you set up and use the artificial horizon feature. Associated with the artificial horizon is the SkyMap's <link linkend="terrain"
+>terrain feature</link
+>. If you set up your terrain image, then when the Imaging Planner tool displays the object on the SkyMap, you will see when it is relative to your local environment. Of course, you'd need to set a realistic imaging time--that is, if you plan during the daytime and the tool is locating objects at the current time, then the object may be set or behind buildings or trees. </para
+></listitem
+><listitem
+><para
+>El KStars/Ekos utilitza temps astronòmics de crepuscle per a restringir els temps d'obtenció d'imatges. L'ús dels valors predeterminats no donarà lloc a cap imatge fora dels temps astronòmics del crepuscle. Si voleu ajustar això, vegeu la restricció al menú Desplaçament del programador de l'Ekos: canvieu el Desplaçament del capvespre a positiu per a iniciar l'obtenció d'imatges més tard o negatiu per a iniciar l'obtenció d'imatges abans. De la mateixa manera, canvieu el desplaçament de l'alba a positiu per continuar l'obtenció d'imatges més temps, i negatiu per aturar l'obtenció d'imatges abans. Aquests controls es poden trobar seleccionant <menuchoice
 ><guimenu
->Temps</guimenu
-> <guimenuitem
->Estableix la data i l'hora...</guimenuitem
+>Eines</guimenu
+><guimenuitem
+>Ekos</guimenuitem
 ></menuchoice
->. </para>
+> i després fent clic a la pestanya Programador (2a per l'esquerra), fent clic al botó <guibutton
+>Opcions</guibutton
+> a la part inferior dreta i a la pestanya de desplaçament a la part superior esquerra. </para
+></listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="imagingplanner-search">
+<title
+>Cerca d'imatge/objecte</title>
+<para
+>La secció Cerca proporciona algunes dreceres per a investigar l'objecte actualment seleccionat. El botó <guibutton
+>Wikipedia</guibutton
+> obre una finestra del navegador a la Viquipèdia utilitzant l'identificador de l'objecte. Similar per al Simbad. El botó <guibutton
+>NGC/IC</guibutton
+> obre una finestra del navegador per al lloc web del Professor Seligman NGC/IC. </para>
+<para
+>El botó <guibutton
+>Astrobin</guibutton
+> utilitza la facilitat de cerca Astrobin.com per a realitzar una cerca d'imatges una mica més detallada. Podeu fer que busqui imatges a Astrobin amb un radi d'imatge determinat, i requerir que les imatges resultants hagin guanyat «Premis d'Astrobin» com ara la nominació de tria principal, tria principal o imatge del dia. Un cop navegueu pel lloc web d'Astrobin, podeu, per descomptat, modificar les restriccions de cerca d'Astrobin com vulgueu, amb les restriccions i capacitats del lloc web d'Astrobin. Les restriccions de cerca d'Astrobin es poden ocultar i exposar utilitzant el botó de l'esquerra de la línia de cerca. </para>
 </sect2>
 <sect2 id="imagingplanner-filters">
 <title
@@ -191,7 +202,7 @@
 ></listitem
 ><listitem
 ><para
->Similar a la triat, la imatge fa que els objectes etiquetats com a obtinguda la imatge prèviament es mostrin o no. </para
+>Similar to picked, Imaged causes objects labeled as previously imaged to be displayed or not. </para
 ></listitem
 ><listitem
 ><para
@@ -199,7 +210,7 @@
 ></listitem
 ><listitem
 ><para
->Cerca paraules clau dins de les Notes que l'usuari ha afegit a l'objecte, i és «cert» si veu una paraula a la nota que coincideix amb la paraula clau (vegeu la secció Objecte-Informació de més amunt). </para
+>Keyword searches inside the Notes the user has added to the object, and is "true" if it sees a word in the note that matches the keyword (see the Object Information section above). </para
 ></listitem>
 </itemizedlist>
 <para
@@ -207,11 +218,21 @@
 >Carrega les imatges obtingudes</guibutton
 > a la fila d'imatges obtingudes de la secció Filtres permet carregar un fitxer ja obtingut d'imatge. Aquest fitxer és una llista senzilla de noms d'objectes, un per fila, que podeu construir i carregar. En carregar això, l'eina farà que recordi els noms d'aquests objectes i els marcarà com a imatges ja obtingudes quan els trobi. Si voleu desfer aquesta acció, la manera de fer-ho és establir els filtres per a només mostrar els objectes amb imatge obtinguda i, a continuació, utilitzar el menú de clic dret/control-clic per a establir els objectes desitjats com a no obtenir les imatges. Podeu accelerar-ho seleccionant molts objectes alhora amb la tècnica de clic i després clic amb majúscules. </para>
 </sect2>
+<sect2 id="imagingplanner-image">
+<title
+>Imatge d'objectes</title>
+<para
+>If it is available, a small image of the currently selected object is displayed. Clicking on the image, astrophotographer credit line, or URL line will open a browser with given link to a full image, if a link was provided. </para>
+<para
+>Tingueu en compte que el botó <guibutton
+>Carrega el catàleg</guibutton
+> també es troba en aquesta secció. </para>
+</sect2>
 <sect2 id="imagingplanner-setup">
 <title
 >Configuració del KStars per al Planificador d'obtenció d'imatges</title>
 <para
->Hi ha diverses maneres de configurar el KStars per a millorar la manera en què experimenteu aquesta eina. </para>
+>There are a number of ways KStars could be setup to improve your experience with this tool. </para>
 <itemizedlist>
 <listitem
 ><para
@@ -225,11 +246,21 @@
 ></listitem
 ><listitem
 ><para
->Llegiu la secció Restriccions d'obtenció d'imatges a continuació i seguiu els suggeriments que hi ha, de manera que aquesta eina pugui predir millor el temps que es pot obtenir la imatge d'un objecte durant la data seleccionada. </para
+>Another important thing to do, also in the above <menuchoice
+><guimenu
+>Data</guimenu
+> <guimenuitem
+>Download New Data...</guimenuitem
+></menuchoice
+> menu, is to download some deep-sky object catalogs. In particular the NGC IC, OpenNGC, Sharpless, Abell, Lynds and Hickson catalogs would be handy. You can run the Imaging Planner without these (small) downloads, but the start-up time on the first time you use this tool will be much longer if you don't download them. </para
 ></listitem
 ><listitem
 ><para
->Els objectes seleccionats se centren automàticament a la pantalla del mapa celeste. Si aquesta visualització és útil, és possible que vulgueu ajustar el zoom de manera que estigui a prop del camp de visió de l'obtenció d'imatges. Els elements de sota també se'ls aplica aquesta pantalla del mapa celeste. </para
+>Read the Imaging Constraints section above and follow suggestions there, so that this tool can better predict how long an object can be imaged during the date selected. </para
+></listitem
+><listitem
+><para
+>Selected objects can be automatically centered in the SkyMap display. If that display is useful, you may want to adjust the zoom so that it is close to your imager's field of view. The items below also apply to that SkyMap display. </para
 ></listitem
 ><listitem
 ><para
@@ -247,19 +278,19 @@
 ></listitem
 ><listitem
 ><para
->Si esteu utilitzant un mapa celeste basat en HiPS, probablement voldreu còpies locals de les dades DSS per a accelerar la renderització del mapa celeste. Vegeu <menuchoice
+>If you're using a HiPS-based skymap, you would likely want local copies of the DSS data to speed-up the rendering of the SkyMap. See <menuchoice
 ><guimenu
->Visualitza</guimenu
+>View</guimenu
 > <guimenuitem
 >HiPS All Sky Survey</guimenuitem
 ></menuchoice
-> i sota d'això <menuchoice
-> <guimenu
->Configuració del HiPS...</guimenu
+> and under there <menuchoice
+><guimenu
+>HiPS Settings...</guimenu
 > <guimenuitem
->Memòria cau</guimenuitem
+>Cache</guimenuitem
 ></menuchoice
-> i activar la memòria cau i introduir la ubicació de la còpia local de les dades. Per a descarregar les dades, un recurs és https://coochey.net/?p699 </para
+> and enable the cache and enter the location of your local copy of the data. The data is available on https://irsa.ipac.caltech.edu/data/hips/CDS/DSS2/color/Norder1 ... /Norder7 and another resource is https://coochey.net/?p=699 </para
 ></listitem
 ><listitem
 ><para
@@ -276,6 +307,16 @@
 >Càmera</guimenuitem
 ></menuchoice
 >, i introduïu la distància focal de l'òptica i les especificacions de la càmera. </para
+></listitem
+><listitem
+><para
+>You may want to adjust the color theme, e.g. in <menuchoice
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Themes</guimenuitem
+></menuchoice
+> to Black Body if you like dark themes. </para
 ></listitem>
 </itemizedlist>
 </sect2>
@@ -335,6 +376,8 @@
 ></listitem
 >    
 </itemizedlist>
+<para
+>If you wanted to add your own objects to the existing catalog, you could do so by creating your own catalog, say on your desktop in a .csv file, and having the first line include the existing catalog with a LoadCatalog line, and having subsequent lines list your new objects. You'd then run Load Catalog on your new .csv file. </para>
 </sect3>
 <sect3 id="imagingplanner-catalogs-loading">
  <title

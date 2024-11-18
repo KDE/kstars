@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-16 01:53+0000\n"
-"PO-Revision-Date: 2024-11-14 11:23+0100\n"
+"PO-Revision-Date: 2024-11-17 05:31+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -8634,10 +8634,9 @@ msgstr ""
 "rápida, no se puede acceder al archivo o no está conectado."
 
 #: ekos/align/opsastrometryindexfiles.cpp:452
-#, fuzzy, kde-format
-#| msgid "Editing job canceled."
+#, kde-format
 msgid "%s download cancelled."
-msgstr "Edición de trabajo cancelada"
+msgstr "Descarga de %s cancelada."
 
 #: ekos/align/opsastrometryindexfiles.cpp:487
 #, kde-format
@@ -8645,10 +8644,9 @@ msgid "File Write Error"
 msgstr "Error de escritura de archivo"
 
 #: ekos/align/opsastrometryindexfiles.cpp:501
-#, fuzzy, kde-format
-#| msgid "Shutdown complete."
+#, kde-format
 msgid "%1 download complete."
-msgstr "Parada completada."
+msgstr "Descarga de %1 completada."
 
 #: ekos/align/opsastrometryindexfiles.cpp:507
 #: ekos/align/opsastrometryindexfiles.cpp:646
@@ -8657,10 +8655,7 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Error en permisos de la carpeta de Astrometry"
 
 #: ekos/align/opsastrometryindexfiles.cpp:559
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
@@ -83151,18 +83146,17 @@ msgstr "No hay ningún catálogo."
 #: tools/imagingplanner.cpp:2093
 #, kde-format
 msgid "Select an object."
-msgstr "Seleccione un objeto."
+msgstr "Seleccionar un objeto."
 
 #: tools/imagingplanner.cpp:2095
 #, kde-format
 msgid "Check Filters to unhide objects."
-msgstr ""
+msgstr "Marcar filtros para mostrar objetos."
 
 #: tools/imagingplanner.cpp:2097
-#, fuzzy, kde-format
-#| msgid "Load Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "Cargar catálogo"
+msgstr "Cargar un catálogo."
 
 #: tools/imagingplanner.cpp:2276
 #, kde-format
@@ -83235,10 +83229,9 @@ msgid "Ignore %1"
 msgstr "Ignorar %1"
 
 #: tools/imagingplanner.cpp:3008
-#, fuzzy, kde-format
-#| msgid "Center on SkyMap"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "Centrar en el mapa del cielo"
+msgstr "Centrar %1 en el mapa del cielo"
 
 #: tools/imagingplanner.cpp:3144
 #, kde-format
@@ -83934,10 +83927,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Slew to selected objects on the SkyMap."
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "Desplazar hasta los objetos seleccionados en el mapa del cielo."
+msgstr "Centrar el objeto seleccionado en el mapa del cielo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27

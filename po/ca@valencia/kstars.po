@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-16 01:53+0000\n"
-"PO-Revision-Date: 2024-11-13 21:33+0100\n"
+"PO-Revision-Date: 2024-11-16 16:54+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2353,7 +2353,7 @@ msgid ""
 "only the filtered objects will be downloaded.  If you actually want all the "
 "objects in the list, turn off the filters."
 msgstr ""
-"Este botó intentarà baixar informació i imatges dels objectes des de la "
+"quest botó intentarà baixar informació i imatges dels objectes des de la "
 "Viquipèdia. Podreu seleccionar si baixar la informació de només un objecte, "
 "tots els objectes d'una llista o només els objectes de la llista per als "
 "quals encara no s'han baixat les dades. Cal tindre en compte: si la llista "
@@ -8730,10 +8730,9 @@ msgstr ""
 "fitxer, o no hi ha connexió."
 
 #: ekos/align/opsastrometryindexfiles.cpp:452
-#, fuzzy, kde-format
-#| msgid "Editing job canceled."
+#, kde-format
 msgid "%s download cancelled."
-msgstr "S'ha cancel·lat la tasca d'edició."
+msgstr "S'ha cancel·lat la baixada de %s."
 
 # skip-rule: k-Alt-1
 #: ekos/align/opsastrometryindexfiles.cpp:487
@@ -8742,10 +8741,9 @@ msgid "File Write Error"
 msgstr "S'ha produït un error d'escriptura en el fitxer"
 
 #: ekos/align/opsastrometryindexfiles.cpp:501
-#, fuzzy, kde-format
-#| msgid "Shutdown complete."
+#, kde-format
 msgid "%1 download complete."
-msgstr "S'ha completat el tancament."
+msgstr "S'ha completat la baixada de %1."
 
 #: ekos/align/opsastrometryindexfiles.cpp:507
 #: ekos/align/opsastrometryindexfiles.cpp:646
@@ -8754,10 +8752,7 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "S'ha produït un error de permisos en la carpeta de l'astrometria"
 
 #: ekos/align/opsastrometryindexfiles.cpp:559
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
@@ -37100,19 +37095,17 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Voleu que se seleccionen els objectes en fer clic esquerre?"
+msgstr "Orienta cap als objectes seleccionats al mapa celeste."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
-#, fuzzy, kde-format
-#| msgid "Should the imaging Planner tool process nebulae."
+#, kde-format
 msgid "Make the Imaging Planner tool an independent window."
 msgstr ""
-"Si l'eina «Planificador de l'obtenció d'imatges» haurà de processar les "
-"nebuloses."
+"Fa que l'eina «Planificador de l'obtenció d'imatges» siga una finestra "
+"independent."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1104
@@ -83926,13 +83919,12 @@ msgstr "Se selecciona un objecte."
 #: tools/imagingplanner.cpp:2095
 #, kde-format
 msgid "Check Filters to unhide objects."
-msgstr ""
+msgstr "Comprova els filtres per a deixar d'ocular objectes."
 
 #: tools/imagingplanner.cpp:2097
-#, fuzzy, kde-format
-#| msgid "Load Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "Carrega un catàleg"
+msgstr "Carrega un catàleg."
 
 #: tools/imagingplanner.cpp:2276
 #, kde-format
@@ -84005,10 +83997,9 @@ msgid "Ignore %1"
 msgstr "Ignora %1"
 
 #: tools/imagingplanner.cpp:3008
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "Centra en el mapa"
+msgstr "Centra %1 en el mapa celeste"
 
 #: tools/imagingplanner.cpp:3144
 #, kde-format
@@ -84099,10 +84090,9 @@ msgstr "Avança un dia"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
-#, fuzzy, kde-format
-#| msgid "Option Name"
+#, kde-format
 msgid "Open options menu."
-msgstr "Nom de l'opció"
+msgstr "Obri el menú d'opcions."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
@@ -84699,49 +84689,41 @@ msgid "Maximize the image section"
 msgstr "Maximitza la secció d'imatges"
 
 #: tools/imagingplanneroptions.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr "Planificador de l'obtenció d'imatges"
+msgstr "Opcions del «Planificador de l'obtenció d'imatges»"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a mostrar les etiquetes al gràfic.</"
-"p></body></html>"
+"<html><head/><body><p>Orienta cap als objectes seleccionats al mapa celeste."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "Voleu que se seleccionen els objectes en fer clic esquerre?"
+msgstr "Centra l'objecte seleccionat en el mapa celeste."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traça el nombre d'estreles detectades en les imatges "
-"capturades.</p></body></html>"
+"<html><head/><body><p>Es farà que el «Planificador de l'obtenció d'imatges» "
+"siga una finestra independent. Tindrà efecte el proper reinici.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
-#, fuzzy, kde-format
-#| msgid "Independent window"
+#, kde-format
 msgid "Independent Window"
 msgstr "Finestra independent"
 

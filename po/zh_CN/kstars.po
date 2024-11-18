@@ -8329,10 +8329,9 @@ msgid ""
 msgstr "下载超时。要么网络不够快，文件无法访问，要么您没有连接。"
 
 #: ekos/align/opsastrometryindexfiles.cpp:452
-#, fuzzy, kde-format
-#| msgid "Editing job canceled."
+#, kde-format
 msgid "%s download cancelled."
-msgstr "取消编辑任务"
+msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:487
 #, kde-format
@@ -8340,10 +8339,9 @@ msgid "File Write Error"
 msgstr "文件写入错误"
 
 #: ekos/align/opsastrometryindexfiles.cpp:501
-#, fuzzy, kde-format
-#| msgid "Shutdown complete."
+#, kde-format
 msgid "%1 download complete."
-msgstr "关闭完成。"
+msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:507
 #: ekos/align/opsastrometryindexfiles.cpp:646
@@ -8352,14 +8350,11 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Astrometry 文件夹权限错误"
 
 #: ekos/align/opsastrometryindexfiles.cpp:559
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
-msgstr "所选索引文件目录不存在。请创建或选择其他目录。"
+msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:574
 #, kde-format
@@ -79464,10 +79459,9 @@ msgid "Check Filters to unhide objects."
 msgstr ""
 
 #: tools/imagingplanner.cpp:2097
-#, fuzzy, kde-format
-#| msgid "Tycho2/Gaia Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "Tycho2/Gaia 星表"
+msgstr ""
 
 #: tools/imagingplanner.cpp:2276
 #, kde-format
@@ -79540,10 +79534,9 @@ msgid "Ignore %1"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3008
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "在星图上居中"
+msgstr ""
 
 #: tools/imagingplanner.cpp:3144
 #, kde-format
@@ -80172,10 +80165,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Point object on sky map"
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "在天空图中指出该天体"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27

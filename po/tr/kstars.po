@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-16 01:53+0000\n"
-"PO-Revision-Date: 2024-11-11 22:24+0300\n"
+"PO-Revision-Date: 2024-11-16 21:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -8570,10 +8570,9 @@ msgstr ""
 "erişilemiyor ya da bağlı değilsiniz."
 
 #: ekos/align/opsastrometryindexfiles.cpp:452
-#, fuzzy, kde-format
-#| msgid "Editing job canceled."
+#, kde-format
 msgid "%s download cancelled."
-msgstr "Düzenleme işi iptal edildi."
+msgstr "%s indirmesi iptal edildi."
 
 #: ekos/align/opsastrometryindexfiles.cpp:487
 #, kde-format
@@ -8581,10 +8580,9 @@ msgid "File Write Error"
 msgstr "Dosya yazma hatası"
 
 #: ekos/align/opsastrometryindexfiles.cpp:501
-#, fuzzy, kde-format
-#| msgid "Shutdown complete."
+#, kde-format
 msgid "%1 download complete."
-msgstr "Kapanma tamamlandı."
+msgstr "%1 indirmesi tamamlandı."
 
 #: ekos/align/opsastrometryindexfiles.cpp:507
 #: ekos/align/opsastrometryindexfiles.cpp:646
@@ -8593,10 +8591,7 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Astrometri klasörü izinleri hatası"
 
 #: ekos/align/opsastrometryindexfiles.cpp:559
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
@@ -36125,18 +36120,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Sol tık ile nesneler seçilsin mi?"
+msgstr "Gökyüzü haritasında seçili nesnelere çevirin."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
-#, fuzzy, kde-format
-#| msgid "Should the imaging Planner tool process nebulae."
+#, kde-format
 msgid "Make the Imaging Planner tool an independent window."
-msgstr ""
-"Görselleme planlayıcısı aracının bulutsuları işleyip işlememesi gerektiği."
+msgstr "Görselleme planlayıcısı aracını bağımsız bir pencere yapın."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1104
@@ -82382,10 +82374,9 @@ msgstr ""
 "“Veri → Yeni Veri İndir…” yolunu izleyin."
 
 #: tools/imagingplanner.cpp:2046
-#, fuzzy, kde-format
-#| msgid "NGC Catalog"
+#, kde-format
 msgid "No Catalog!"
-msgstr "NGC Kataloğu"
+msgstr "Katalog yok!"
 
 #: tools/imagingplanner.cpp:2093
 #, kde-format
@@ -82395,13 +82386,12 @@ msgstr "Bir nesneyi seçin."
 #: tools/imagingplanner.cpp:2095
 #, kde-format
 msgid "Check Filters to unhide objects."
-msgstr ""
+msgstr "Nesneleri göstermek için süzgeçlere bakın."
 
 #: tools/imagingplanner.cpp:2097
-#, fuzzy, kde-format
-#| msgid "Load Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "Katalog Yükle"
+msgstr "Bir katalog yükleyin."
 
 #: tools/imagingplanner.cpp:2276
 #, kde-format
@@ -82474,10 +82464,9 @@ msgid "Ignore %1"
 msgstr "Yok Say: %1"
 
 #: tools/imagingplanner.cpp:3008
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "Haritada Ortala"
+msgstr "Gökyüzü Haritasında Ortala: %1"
 
 #: tools/imagingplanner.cpp:3144
 #, kde-format
@@ -82523,7 +82512,7 @@ msgstr "Üzgünüm, katalog dosyası yok: “%1”"
 #: tools/imagingplanner.cpp:3344
 #, kde-format
 msgid "%1/%2: Adding %3"
-msgstr ""
+msgstr "%1/%2: %3 ekleniyor"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:77
@@ -82564,10 +82553,9 @@ msgstr "Bir Gün İleri"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
-#, fuzzy, kde-format
-#| msgid "Option Name"
+#, kde-format
 msgid "Open options menu."
-msgstr "Seçenek Adı"
+msgstr "Seçenekler menüsünü açın."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
@@ -83150,49 +83138,40 @@ msgid "Maximize the image section"
 msgstr "Görsel bölümünü ekranda kapla"
 
 #: tools/imagingplanneroptions.cpp:25
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr "Görselleme Planlayıcısı"
+msgstr "Görselleme Planlayıcısı Seçenekleri"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Grafikteki etiketleri göstermek için işaretleyin.</p></"
+"<html><head/><body><p>Gökyüzü haritasında seçili nesnelere çevirin.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "Sol tık ile nesneler seçilsin mi?"
+msgstr "Seçili nesneleri gökyüzü haritasında ortala"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Yakalanan görsellerde algılanan yıldızların sayısını "
-"çizin.</p></body></html>"
+"<html><head/><body><p>Görselleme planlayıcısı aracını bağımsız bir pencere "
+"yapın. Bir sonraki yeniden başlatmada etkili olur.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
-#, fuzzy, kde-format
-#| msgid "Independent window"
+#, kde-format
 msgid "Independent Window"
 msgstr "Bağımsız pencere"
 

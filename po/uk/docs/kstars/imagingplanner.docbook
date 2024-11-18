@@ -21,7 +21,7 @@
 </mediaobject>
 </screenshot>
 <para
->Інструмент «Планувальник зйомки» допомагає користувачам вибирати об'єкти для знімання. Користувачі можуть завантажувати каталоги рекомендованих об'єктів або, якщо хочуть, створювати власні каталоги та ділитися ними. Інструмент обчислює, коли можна буде зняти об'єкти у прочитаному каталозі у вибрану ніч з урахуванням таких обмежень, як мінімальна висота над рівнем моря, рельєф місцевості та відстань від місяця. Він може упорядковувати об'єкти за кількома різними параметрами, зокрема кількістю годин, протягом яких об'єкт може бути знято сьогодні ввечері, його максимальну висоту, відстань від Місяця, сузір'я, назву та тип. Об'єкти також можна усунути фільтруванням за декількома критеріями (наприклад, типом об'єкта, чи було його раніше знято, ключовими словами, які додав користувач, тим, чи об'єкт позначено, браком зацікавленості користувача тощо). Цей інструмент допомагає користувачам досліджувати об'єкти, показуючи невеликі зображення об'єктів, показуючи розташування об'єктів на карті неба та надаючи посилання для переходу на сайти з додатковою інформацією та знімками. Він надає змогу користувачам прикріплювати примітки та посилання до об'єктів, а також вибирати певні з них для подальшого розгляду. Цей інструмент можна використовувати в поєднанні з програмою обробки зображень Ekos або будь-яким іншим інструментом обробки зображень. На даний момент він не взаємодіє безпосередньо з фактичними засобами створення знімків, лише допомагає користувачеві вирішити, що знімати. </para>
+>The Imaging Planner tool helps users choose which objects to image. Users can download catalogs of recommended objects, or possibly create and share their own catalogs. The tool computes when the objects in a read-in catalog may be imaged on the selected night given constraints such as minimum altitude, terrain and moon separation. It can sort the objects along several different dimensions including the number of hours an object may be imaged tonight (given the users geography, constraints and possibly artificial horizon), its peak altitude, distance from the moon, constellation, name and type. Objects can also be filtered out for several reasons (e.g. type of object, whether it was previously imaged, keywords the user has added, whether the object has been selected, user not interested, etc). This tool helps users research the objects by showing small images of the objects, showing the objects' sky locations on the skymap, and by providing links to follow to internet sites with more information and images. It allows users to attach notes and links to objects, and select certain of them for further consideration. This tool can be used in conjection with the Ekos imager or any other imaging tool. It does not currently directly interact with the actual imager; it only helps the user decide what to image. </para>
 <sect2 id="imagingplanner-objecttable">
 <title
 >Таблиця об'єктів</title>
@@ -34,7 +34,7 @@
 <itemizedlist>
 <listitem
 ><para
->Вибір об'єкта (або скасування вибору вже вибраного об'єкта). Позначення об'єкта як вибраного надасть вам змогу переглянути дані лише кількох вибраних об'єктів замість усієї таблиці. Наприклад, можна витратити час на дослідження багатьох об'єктів, і коли буде помічений цікавий кандидат, можна позначити його для подальшого вивчення. Згодом, коли колекцію вибраних об'єктів буде зібрано, для перегляду даних вибраних об'єктів достатньо буде застосувати обмеження фільтруванням вибраних (див. «Фільтри» нижче). </para
+>Pick the selected object (or un-pick an already picked object). Note you can select more than one object at a time with click then shift click. Marking an object as picked will allow you to later just display a few picked objects instead of the whole table. For example, one may spend time researching many objects, and when an interesting candidate is seen, it may be marked picked for later examination. After a while, when a collection of picked objects has been put together, one can only show the picked objects by using the picked filtering constraint (see Filters below). </para
 ></listitem
 ><listitem
 ><para
@@ -43,6 +43,10 @@
 ><listitem
 ><para
 >Позначити об'єкт як такий, який слід ігнорувати (або скасувати позначення). Подібне до позначення об'єкта як вже знятого. </para
+></listitem
+><listitem
+><para
+>Center the object on the KStars SkyMap. This mostly makes sense if auto-centering is disable in the Options menu. </para
 ></listitem>
 </itemizedlist>
 <para
@@ -50,15 +54,76 @@
 >Завантажити зображення</guibutton
 > у розділі фільтрів. </para>
 <para
->У рядку над таблицею буде показано кількість рядків у таблиці і загальну кількість об'єктів у завантаженому каталозі. Значення можуть бути різними, якщо деякі об'єкти було відфільтровано. Також передбачено поле пошуку, за допомогою якого можна знайти певний об'єкт у таблиці. </para>
+>Objects that are picked are also displayed differently. They are shown in bold-italic and underlined in order to distinguish them. </para>
+<para
+>The line above the table displays the number of rows in the table and total number of objects in the loaded catalog. They numbers may be different if some objects are filtered out. There is also a search box which will find a certain object if it is in the table. </para>
+</sect2>
+<sect2 id="imagingplanner-date">
+<title
+>Дата, час і географічне розташування</title>
+<para
+>Дату, для якої виконується аналіз, можна змінити за допомогою полів для введення дати у верхньому правому куті вікна інструмента. Можна перейти на день назад, натиснувши кнопку ліворуч від дати, а можна перейти на день вперед кнопкою праворуч. Дату можна змінити на довільну, вибравши кнопку меню біля дати, або просто відредагувавши текст дати. Освітлення місяцем для цього дня буде показано ліворуч від дати. </para>
+<para
+>Використаний час (наприклад, для визначення розташування об'єкта на карті неба) і географічне розташування, які використовуються для визначення розташування об'єкта на небі, беруться зі значень, які використовує KStars. Щоб змінити своє місце перебування, перейдіть до меню <menuchoice
+><guimenu
+>Параметри</guimenu
+> <guimenuitem
+>Географічне</guimenuitem
+></menuchoice
+>. Щоб змінити поточний час, скористайтеся пунктом меню <menuchoice
+><guimenu
+>Час</guimenu
+> <guimenuitem
+>Встановити час...</guimenuitem
+></menuchoice
+>. </para>
+</sect2>
+<sect2 id="imagingplanner-options-help">
+<title
+>Options and Help</title>
+<para
+>There are two buttons to the right of the date control. </para>
+<itemizedlist>
+<listitem
+><para
+>The options "hamburger" button brings up a small options menu. Currently the menu contains two checkboxes. One controls whether the system slews the KStars SkyMap to an object's coordinates when the object is selected in the table. The second decides if the tool is an independent window (i.e. can go behind or in front of other KStars windows), or if it always goes in front of the main KStars window. </para
+></listitem
+><listitem
+><para
+>The 2nd button, when clicked, brings up this KStars Handbook in a web browser. </para
+></listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="imagingplanner-info">
+<title
+>Дані щодо об'єкта</title>
+<para
+>У розділі відомостей щодо об'єкта у верхній частині лівого боку вікна інструмента буде показано відомості про вибраний об'єкт. Натисніть на пункт об'єкта, і програма заповнить розділ даними. </para>
+<itemizedlist>
+<listitem
+><para
+>У верхньому рядку має бути показано основну назву, тип об'єкта та розмір об'єкта. </para
+></listitem
+><listitem
+><para
+>У другому рядку має бути показано усі альтернативні назви об'єкта. </para
+></listitem
+><listitem
+><para
+>У третьому рядку має бути показано кульмінацію та дані щодо відстані від місяця. </para
+></listitem
+><listitem
+><para
+>Останній рядок дозволяє додати примітки про об'єкт. Ця інформація має зберігатися між сеансами KStars у власній базі даних MySQL і формується за назвами об'єктів. Редагувати ці нотатки можна, натиснувши піктограму олівця ліворуч від рядка приміток. Якщо ви додасте до примітки до трьох адрес (не забувайте скористатися http або https на початку адреси), програма має автоматично їх виявити і додати у рядок «Примітки» піктограму для перегляду цих адрес. Якщо примітка, яку ви додаєте, задовга для рядка, розміщеного у розділі «Відомості щодо об'єкта», ви завжди можете переглянути повну примітку, натиснувши кнопку олівця. </para
+></listitem>
+</itemizedlist>
 </sect2>
 <sect2 id="imagingplanner-altitudegraph">
 <title
 >Графік висоти</title>
 <para
->Висоту поточного вибраного об'єкта буде показано на графіку залежності висоти від часу. Графік буде показано від моменту безпосередньо перед заходом до моменту відразу після сходу сонця. Вночі ви помітите темний фон. Ви також можете помітити штрихування, яке вказує на фонове освітлення місяцем. Висота над рівнем моря представлена ​​на графіку білим кольором, але поверх нього накладена товстіша зелена лінія, яка вказує, коли об'єкт можна зняти з урахуванням ваших обмежень (див. розділ «Обмеження» нижче). Таким чином, якщо ви бачите лише білу лінію висоти, то об'єкт неможливо зняти. Якщо ви бачите зелену лінію, це означає час і висоту, коли об'єкт може бути знято. </para>
+>The currently selected object's altitude is graphed in the Altitude vs Time graph. The graph runs from just before sunset to just after sunrise. You'll notice a dark background during the night. You may also notice a hash-pattern indicating moon illumination in the background. The altitude is graphed in white, but superimposed on top of it is a thicker green line indicating when the object can be imaged given your constraints (see Imaging Constraints section below). Thus if you just see a white altitude line, then the object cannot be imaged. If you see a green line, then those are the times and altitudes when the object can be imaged. If you click in the graph, you will see the altitude of the selected object displayed in the upper left of the graph. </para>
 </sect2>
-
 <sect2 id="imagingplanner-constraints">
 <title
 >Обмеження зйомки</title>
@@ -75,17 +140,17 @@
 ></listitem
 ><listitem
 ><para
->Якщо позначено пункт «Штучний горизонт», для розрахунку можливого часу зйомки буде використано обмеження штучного горизонту. Штучний горизонт – це частини неба, які закриті від зйомки будівлями, деревами чи подібними перешкодами у місці розташування вашого телескопа. Штучний горизонт налаштовується в іншому місці KStars (перегляньте <link linkend="settingmenu"
->меню параметрів</link
-> і перейдіть до <menuchoice
+>If the artificial horizon checkbox is checked, then artificial horizon constraints are used to calculate the possible imaging times. The artificial horizon are the parts of the sky that are blocked from imaging by buildings or trees or the like at your telescope's location. The artificial horizon is set up elsewhere in KStars (see <link linkend="settingmenu"
+>Setting Menu</link
+> and go down to <menuchoice
 ><guimenu
->Параметри</guimenu
+>Settings</guimenu
 > <guimenuitem
->Штучний горизонт</guimenuitem
+>Artificial Horizon</guimenuitem
 ></menuchoice
->) і в найпростішому вигляді це список значень азимута та висоти. Якщо ви використовуєте цей інструмент і знімаєте з області, де значна частина неба заблокована, рекомендуємо налаштувати та використовувати функцію штучного горизонту. Зі штучним горизонтом пов'язано <link linkend="terrain"
->об'єкт рельєфу</link
-> карти неба. Якщо ви налаштували своє зображення місцевості, тоді, коли інструмент Планувальник зображень покаже об’єкт, ви побачите, коли він його буде видно відносно вашого місцевого середовища. Звичайно, вам потрібно встановити реалістичний час для зйомки, тобто якщо ви плануєте вдень, а інструмент визначає розташування об’єктів у поточний час, тоді об’єкт може зайти або сховатися за будівлями чи деревами. </para
+>) and at its simplest is a list of azimuth and altitude values. If you make use of this tool and image from an area where significant parts of the sky is blocked, it is recommended you set up and use the artificial horizon feature. Associated with the artificial horizon is the SkyMap's <link linkend="terrain"
+>terrain feature</link
+>. If you set up your terrain image, then when the Imaging Planner tool displays the object on the SkyMap, you will see when it is relative to your local environment. Of course, you'd need to set a realistic imaging time--that is, if you plan during the daytime and the tool is locating objects at the current time, then the object may be set or behind buildings or trees. </para
 ></listitem
 ><listitem
 ><para
@@ -101,23 +166,13 @@
 ></listitem>
 </itemizedlist>
 </sect2>
-<sect2 id="imagingplanner-image">
-<title
->Знімок об'єкта</title>
-<para
->Якщо доступне, буде показано маленьке зображення поточного вибраного об’єкта. Натиснувши зображення, рядок подяк автору фотографії або рядок адреси, ви перейдете за вказаним посиланням до повного зображення, якщо таке посилання було надано. </para>
-<para
->Зауважте, що кнопку <guibutton
->Завантажити каталог</guibutton
-> також розташовано у цьому розділі. </para>
-</sect2>
 <sect2 id="imagingplanner-search">
 <title
 >Пошук зображення або об'єкта</title>
 <para
 >У розділі «Пошук» є кілька засобів для пошуку даних вибраного об'єкта. Кнопка <guibutton
 >Вікіпедія</guibutton
-> відкриває вікно програми для перегляду інтернету на сторінці Вікіпедії, яку буде визначено на основі ідентифікатора об’єкта. Так само для Simbad. Кнопка <guibutton
+> відкриває вікно програми для перегляду інтернету на сторінці Вікіпедії, яку буде визначено на основі ідентифікатора об'єкта. Так само для Simbad. Кнопка <guibutton
 >NGC/IC</guibutton
 > відкриває вікно програми для перегляду інтернету на сторінці сайта NGC/IC професора Селіджмена. </para>
 <para
@@ -125,61 +180,17 @@
 >Astrobin</guibutton
 > використовує засіб пошуку Astrobin.com для виконання трохи детальнішого пошуку зображень. Ви можете скористатися нею для пошуку зображення в Astrobin за певним радіусом зображення та вимагати, щоб отримані зображення отримали «нагороди Astrobin», як-от номінація на найкраще або зображення дня. Перейшовши на веб-сайт Astrobin, ви, звичайно, можете змінити обмеження пошуку Astrobin на свій розсуд, враховуючи обмеження та можливості сайта Astrobin. Обмеження пошуку Astrobin можна приховати та відкрити за допомогою кнопки ліворуч від рядка пошуку. </para>
 </sect2>
-<sect2 id="imagingplanner-info">
-<title
->Дані щодо об'єкта</title>
-<para
->У розділі відомостей щодо об’єкта у верхній частині лівого боку вікна інструмента буде показано відомості про вибраний об’єкт. Натисніть на пункт об’єкта, і програма заповнить розділ даними. </para>
-<itemizedlist>
-<listitem
-><para
->У верхньому рядку має бути показано основну назву, тип об'єкта та розмір об'єкта. </para
-></listitem
-><listitem
-><para
->У другому рядку має бути показано усі альтернативні назви об'єкта. </para
-></listitem
-><listitem
-><para
->У третьому рядку має бути показано кульмінацію та дані щодо відстані від місяця. </para
-></listitem
-><listitem
-><para
->Останній рядок дозволяє додати примітки про об'єкт. Ця інформація має зберігатися між сеансами KStars у власній базі даних MySQL і формується за назвами об’єктів. Редагувати ці нотатки можна, натиснувши піктограму олівця ліворуч від рядка приміток. Якщо ви додасте до примітки до трьох адрес (не забувайте скористатися http або https на початку адреси), програма має автоматично їх виявити і додати у рядок «Примітки» піктограму для перегляду цих адрес. Якщо примітка, яку ви додаєте, задовга для рядка, розміщеного у розділі «Відомості щодо об'єкта», ви завжди можете переглянути повну примітку, натиснувши кнопку олівця. </para
-></listitem>
-</itemizedlist>
-</sect2>
-<sect2 id="imagingplanner-date">
-<title
->Дата, час і географічне розташування</title>
-<para
->Дату, для якої виконується аналіз, можна змінити за допомогою полів для введення дати у верхньому правому куті вікна інструмента. Можна перейти на день назад, натиснувши кнопку ліворуч від дати, а можна перейти на день вперед кнопкою праворуч. Дату можна змінити на довільну, вибравши кнопку меню біля дати, або просто відредагувавши текст дати. Освітлення місяцем для цього дня буде показано ліворуч від дати. </para>
-<para
->Використаний час (наприклад, для визначення розташування об’єкта на карті неба) і географічне розташування, які використовуються для визначення розташування об’єкта на небі, беруться зі значень, які використовує KStars. Щоб змінити своє місце перебування, перейдіть до меню <menuchoice
-><guimenu
->Параметри</guimenu
-> <guimenuitem
->Географічне</guimenuitem
-></menuchoice
->. Щоб змінити поточний час, скористайтеся пунктом меню <menuchoice
-><guimenu
->Час</guimenu
-> <guimenuitem
->Встановити час...</guimenuitem
-></menuchoice
->. </para>
-</sect2>
 <sect2 id="imagingplanner-filters">
 <title
 >Фільтри</title>
 <para
->Існує кілька способів фільтрування об’єктів, які буде показано у таблиці об’єктів планувальника зйомки. Фільтрування об’єктів вилучає їх із таблиці, але до них можна знову отримати доступ, змінивши фільтр. Зверніть увагу, що розділ фільтра можна приховати або відкрити, натиснувши маленьку кнопку ліворуч від розділу фільтра. </para>
+>Існує кілька способів фільтрування об'єктів, які буде показано у таблиці об'єктів планувальника зйомки. Фільтрування об'єктів вилучає їх із таблиці, але до них можна знову отримати доступ, змінивши фільтр. Зверніть увагу, що розділ фільтра можна приховати або відкрити, натиснувши маленьку кнопку ліворуч від розділу фільтра. </para>
 <itemizedlist>
 <listitem
 ><para
 >Елементи можна відфільтрувати за кількістю годин, протягом яких їх можна знімати цієї ночі. Змініть значення у полі <guibutton
 >Мін. години</guibutton 
->, і об’єкти з меншою кількістю годин, ніж це значення, не буде показано. </para
+>, і об'єкти з меншою кількістю годин, ніж це значення, не буде показано. </para
 ></listitem
 ><listitem
 ><para
@@ -187,11 +198,11 @@
 ></listitem
 ><listitem
 ><para
->Вибрані: якщо встановити позначку «Вибрані», буде показано лише «вибрані» об’єкти. Подібним чином позначення пункту «Не вибрані» призведе до показу лише невибраних об’єктів. Позначення пункту «Байдуже» у вибраному рядку призведе до того, що стан вибраності не матиме значення при визначенні того, чи слід усувати об’єкт з таблиці. </para
+>Вибрані: якщо встановити позначку «Вибрані», буде показано лише «вибрані» об'єкти. Подібним чином позначення пункту «Не вибрані» призведе до показу лише невибраних об'єктів. Позначення пункту «Байдуже» у вибраному рядку призведе до того, що стан вибраності не матиме значення при визначенні того, чи слід усувати об'єкт з таблиці. </para
 ></listitem
 ><listitem
 ><para
->Подібно до пункту вибраності пункт «Знято» можна використатися для показу або усування зі списку пунктів об'єктів, які було раніше знято. </para
+>Similar to picked, Imaged causes objects labeled as previously imaged to be displayed or not. </para
 ></listitem
 ><listitem
 ><para
@@ -199,19 +210,29 @@
 ></listitem
 ><listitem
 ><para
->За допомогою пункту «Ключове слово» можна виконати пошук у доданих до запису об'єкта користувачем нотатках. Об'єкт вважатиметься таким, що пройшов фільтрування, якщо програма виявить у нотатці до нього слово, яке відповідатиме ключовому слову (див. розділ відомостей щодо об'єкта вище). </para
+>Keyword searches inside the Notes the user has added to the object, and is "true" if it sees a word in the note that matches the keyword (see the Object Information section above). </para
 ></listitem>
 </itemizedlist>
 <para
 >Кнопка <guibutton
 >Завантажити зняті</guibutton
-> у рядку «Зняті» розділу Фільтри надає змогу завантажити файл із вже знятого. Цей файл є простим списком назв об’єктів, по одному на рядок, які ви можете зібрати і завантажити. Завантаження призведе до того, що інструмент запам’ятає ці назви об’єктів і позначить їх як уже зняті, коли він зустріне їх. Якщо ви бажаєте скасувати цю дію, це можна зробити, налаштувавши фільтри на показ лише знятих об’єктів, а потім скориставшись меню, викликати яке можна клацанням правою кнопкою або клацанням разом із натисканням клавіші &Ctrl;, щоб установити потрібні об’єкти як не зняті. Ви можете пришвидшити це, вибравши багато об’єктів одночасно за допомогою методики послідовного клацання з наступним клацанням разом із натисканням клавіші &Shift;. </para>
+> у рядку «Зняті» розділу Фільтри надає змогу завантажити файл із вже знятого. Цей файл є простим списком назв об'єктів, по одному на рядок, які ви можете зібрати і завантажити. Завантаження призведе до того, що інструмент запам'ятає ці назви об'єктів і позначить їх як уже зняті, коли він зустріне їх. Якщо ви бажаєте скасувати цю дію, це можна зробити, налаштувавши фільтри на показ лише знятих об'єктів, а потім скориставшись меню, викликати яке можна клацанням правою кнопкою або клацанням разом із натисканням клавіші &Ctrl;, щоб установити потрібні об'єкти як не зняті. Ви можете пришвидшити це, вибравши багато об'єктів одночасно за допомогою методики послідовного клацання з наступним клацанням разом із натисканням клавіші &Shift;. </para>
+</sect2>
+<sect2 id="imagingplanner-image">
+<title
+>Знімок об'єкта</title>
+<para
+>If it is available, a small image of the currently selected object is displayed. Clicking on the image, astrophotographer credit line, or URL line will open a browser with given link to a full image, if a link was provided. </para>
+<para
+>Зауважте, що кнопку <guibutton
+>Завантажити каталог</guibutton
+> також розташовано у цьому розділі. </para>
 </sect2>
 <sect2 id="imagingplanner-setup">
 <title
 >Налаштування KStars для планувальника зйомки</title>
 <para
->Існує декілька способів налаштовування KStars так, щоб вам було зручніше користуватися цим інструментом. </para>
+>There are a number of ways KStars could be setup to improve your experience with this tool. </para>
 <itemizedlist>
 <listitem
 ><para
@@ -225,11 +246,21 @@
 ></listitem
 ><listitem
 ><para
->Прочитайте розділ «Обмеження зйомки» нижче і дотримуйтесь порад у ньому, щоб цей інструмент міг краще передбачити, як довго об’єкт може бути знято протягом вибраної дати. </para
+>Another important thing to do, also in the above <menuchoice
+><guimenu
+>Data</guimenu
+> <guimenuitem
+>Download New Data...</guimenuitem
+></menuchoice
+> menu, is to download some deep-sky object catalogs. In particular the NGC IC, OpenNGC, Sharpless, Abell, Lynds and Hickson catalogs would be handy. You can run the Imaging Planner without these (small) downloads, but the start-up time on the first time you use this tool will be much longer if you don't download them. </para
 ></listitem
 ><listitem
 ><para
->Вибрані об’єкти автоматично центруються на карті неба. Якщо цей показ корисний, можливо, ви захочете відрегулювати масштаб так, щоб він був ближче до поля зору вашого засобу зйомки. Наведені нижче пункти також стосуються цього режиму показу карти неба. </para
+>Read the Imaging Constraints section above and follow suggestions there, so that this tool can better predict how long an object can be imaged during the date selected. </para
+></listitem
+><listitem
+><para
+>Selected objects can be automatically centered in the SkyMap display. If that display is useful, you may want to adjust the zoom so that it is close to your imager's field of view. The items below also apply to that SkyMap display. </para
 ></listitem
 ><listitem
 ><para
@@ -247,19 +278,19 @@
 ></listitem
 ><listitem
 ><para
->Якщо ви використовуєте карту неба на основі HiPS, вам, імовірно, знадобляться локальні копії даних DSS, щоб пришвидшити візуалізацію карти неба. Див. <menuchoice
+>If you're using a HiPS-based skymap, you would likely want local copies of the DSS data to speed-up the rendering of the SkyMap. See <menuchoice
 ><guimenu
->Перегляд</guimenu
+>View</guimenu
 > <guimenuitem
->Огляд усього неба HiPS</guimenuitem
+>HiPS All Sky Survey</guimenuitem
 ></menuchoice
->, а під ним <menuchoice
+> and under there <menuchoice
 ><guimenu
->Параметри HiPS...</guimenu
+>HiPS Settings...</guimenu
 > <guimenuitem
->Кеш</guimenuitem
+>Cache</guimenuitem
 ></menuchoice
->, увімкніть кеш і введіть розташування локальної копії даних. Для завантаження даних є один ресурс https://coochey.net/?p=699 </para
+> and enable the cache and enter the location of your local copy of the data. The data is available on https://irsa.ipac.caltech.edu/data/hips/CDS/DSS2/color/Norder1 ... /Norder7 and another resource is https://coochey.net/?p=699 </para
 ></listitem
 ><listitem
 ><para
@@ -276,6 +307,16 @@
 >Камера</guimenuitem
 ></menuchoice
 > і введіть фокусну відстань вашої оптики та технічні характеристики камери. </para
+></listitem
+><listitem
+><para
+>You may want to adjust the color theme, e.g. in <menuchoice
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Themes</guimenuitem
+></menuchoice
+> to Black Body if you like dark themes. </para
 ></listitem>
 </itemizedlist>
 </sect2>
@@ -335,6 +376,8 @@
 ></listitem
 >    
 </itemizedlist>
+<para
+>If you wanted to add your own objects to the existing catalog, you could do so by creating your own catalog, say on your desktop in a .csv file, and having the first line include the existing catalog with a LoadCatalog line, and having subsequent lines list your new objects. You'd then run Load Catalog on your new .csv file. </para>
 </sect3>
 <sect3 id="imagingplanner-catalogs-loading">
  <title

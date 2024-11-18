@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-16 01:53+0000\n"
-"PO-Revision-Date: 2024-10-07 01:41+0200\n"
+"PO-Revision-Date: 2024-11-16 12:08+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.1\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -259,10 +259,9 @@ msgid "FITS Image Object Label"
 msgstr "Etiqueta de obxecto de imaxe FITS"
 
 #: auxiliary/colorscheme.cpp:71
-#, fuzzy, kde-format
-#| msgid "FITS Image Object Label"
+#, kde-format
 msgid "FITS Image Object Highlight Label"
-msgstr "Etiqueta de obxecto de imaxe FITS"
+msgstr "Etiqueta de realce de obxecto de imaxe FITS"
 
 #: auxiliary/colorscheme.cpp:137 kstarsdata.cpp:1071 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:741
@@ -8596,10 +8595,9 @@ msgstr ""
 "pode acceder ao ficheiro, ou non está conectado."
 
 #: ekos/align/opsastrometryindexfiles.cpp:452
-#, fuzzy, kde-format
-#| msgid "Edit mode cancelled."
+#, kde-format
 msgid "%s download cancelled."
-msgstr "Cancelouse o modo de edición."
+msgstr "Cancelouse a descarga %s."
 
 #: ekos/align/opsastrometryindexfiles.cpp:487
 #, kde-format
@@ -8607,11 +8605,9 @@ msgid "File Write Error"
 msgstr "Erro de escritura de ficheiro"
 
 #: ekos/align/opsastrometryindexfiles.cpp:501
-#, fuzzy, kde-format
-#| msgid "%1 job completed."
-#| msgid_plural "%1 jobs completed."
+#, kde-format
 msgid "%1 download complete."
-msgstr "Completouse %1 tarefa."
+msgstr "Completouse a descarga %1."
 
 #: ekos/align/opsastrometryindexfiles.cpp:507
 #: ekos/align/opsastrometryindexfiles.cpp:646
@@ -8620,10 +8616,7 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Erro de permisos de cartafol de astrometría"
 
 #: ekos/align/opsastrometryindexfiles.cpp:559
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
@@ -15708,6 +15701,7 @@ msgstr ""
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
+"Non se detectou ningunha cámara. Revise a configuración xeral e de conexión."
 
 #: ekos/capture/cameraprocess.cpp:478
 #, kde-format
@@ -16173,10 +16167,9 @@ msgstr ""
 "experimental.</p>"
 
 #: ekos/capture/capture.cpp:106
-#, fuzzy, kde-format
-#| msgid "Captures"
+#, kde-format
 msgid "Capture Misc"
-msgstr "Capturas"
+msgstr "Adicional de captura"
 
 #: ekos/capture/capture.cpp:110
 #, kde-format
@@ -16184,10 +16177,9 @@ msgid "DSLR"
 msgstr "DSLR"
 
 #: ekos/capture/capture.cpp:110
-#, fuzzy, kde-format
-#| msgid "Capture"
+#, kde-format
 msgid "Capture DSLR"
-msgstr "Capturar"
+msgstr "DSLR de captura"
 
 #: ekos/capture/capture.cpp:476 ekos/focus/focusmodule.cpp:391
 #, kde-format
@@ -18965,10 +18957,9 @@ msgstr ""
 "marcha."
 
 #: ekos/focus/focus.cpp:1243
-#, fuzzy, kde-format
-#| msgid "Adaptive focus starting..."
+#, kde-format
 msgid "Autofocus starting..."
-msgstr "Iniciando un enfoque adaptativo…"
+msgstr "Iniciando un enfoque automático…"
 
 #: ekos/focus/focus.cpp:1257
 #, kde-format
@@ -19144,10 +19135,9 @@ msgid "FITS received. No stars detected."
 msgstr "Recibiuse o FITS. Non se detectou ningunha estrela."
 
 #: ekos/focus/focus.cpp:2850
-#, fuzzy, kde-format
-#| msgid "Capture complete. Select a star to focus."
+#, kde-format
 msgid "Capture complete. Select a region of interest."
-msgstr "Completouse a captura. Escolla unha estrela para enfocala."
+msgstr "Completouse a captura. Escolla unha zona de interese."
 
 #: ekos/focus/focus.cpp:2891
 #, kde-format
@@ -19375,10 +19365,9 @@ msgid "Focus star is selected."
 msgstr "A estrela de foco está seleccionada."
 
 #: ekos/focus/focus.cpp:4891
-#, fuzzy, kde-format
-#| msgid "Focus star is selected."
+#, kde-format
 msgid "Region of interest is selected."
-msgstr "A estrela de foco está seleccionada."
+msgstr "A zona de interese está seleccionada."
 
 #: ekos/focus/focus.cpp:4911
 #, kde-format
