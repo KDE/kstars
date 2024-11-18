@@ -73,6 +73,9 @@ class HorizonManager : public QDialog
 
         void clearPoints();
 
+        void importHorizon();
+        void exportHorizon();
+
         void setSelectPoints(bool);
         void slotCurrentPointChanged(const QModelIndex &current, const QModelIndex &previous);
 
@@ -82,12 +85,13 @@ class HorizonManager : public QDialog
         void slotSetShownRegion(QModelIndex idx);
 
     private:
-        void addPoint(SkyPoint *skyPoint);
+        void addPoint(const SkyPoint *skyPoint);
         void terminateLivePreview();
         void setPointSelection(bool enable);
         void removeEmptyRows(int regionID);
         void setupLivePreview(QStandardItem *item);
         void setupValidation(int regionID);
+        void addRegion(const QString &name);
 
         HorizonManagerUI *ui { nullptr };
 
@@ -96,6 +100,7 @@ class HorizonManager : public QDialog
 
         std::shared_ptr<LineList> livePreview;
         bool selectPoints { false };
+        bool m_ForceUpdates = true;
 
         friend class TestArtificialHorizon;
 };

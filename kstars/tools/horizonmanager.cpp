@@ -16,11 +16,14 @@
 #include "skycomponents/artificialhorizoncomponent.h"
 #include "skycomponents/skymapcomposite.h"
 
+#include <QFileDialog>
 #include <QStandardItemModel>
 
 #include <kstars_debug.h>
 
 #define MIN_NUMBER_POINTS 2
+#define HORIZON_KEYWORD "Horizon"
+#define CEILING_KEYWORD "Ceiling"
 
 HorizonManagerUI::HorizonManagerUI(QWidget *p) : QFrame(p)
 {
@@ -42,6 +45,8 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     ui->toggleCeilingB->setIcon(QIcon::fromTheme("window"));
     ui->removePointB->setIcon(QIcon::fromTheme("list-remove"));
     ui->clearPointsB->setIcon(QIcon::fromTheme("edit-clear"));
+    ui->exportHorizonB->setIcon(QIcon::fromTheme("document-export"));
+    ui->importHorizonB->setIcon(QIcon::fromTheme("document-import"));
     ui->saveB->setIcon(QIcon::fromTheme("document-save"));
     ui->selectPointsB->setIcon(
         QIcon::fromTheme("snap-orthogonal"));
@@ -125,6 +130,8 @@ HorizonManager::HorizonManager(QWidget *w) : QDialog(w)
     connect(ui->addPointB, SIGNAL(clicked()), this, SLOT(slotAddPoint()));
     connect(ui->removePointB, SIGNAL(clicked()), this, SLOT(slotRemovePoint()));
     connect(ui->clearPointsB, SIGNAL(clicked()), this, SLOT(clearPoints()));
+    connect(ui->exportHorizonB, SIGNAL(clicked()), this, SLOT(exportHorizon()));
+    connect(ui->importHorizonB, SIGNAL(clicked()), this, SLOT(importHorizon()));
     connect(ui->selectPointsB, SIGNAL(clicked(bool)), this, SLOT(setSelectPoints(bool)));
 
     connect(ui->pointsList->selectionModel(), SIGNAL(currentChanged(QModelIndex, QModelIndex)),
@@ -169,7 +176,9 @@ void HorizonManager::slotCurrentPointChanged(const QModelIndex &selected, const 
         horizonComponent->setSelectedPreviewPoint(selected.row());
     else
         horizonComponent->setSelectedPreviewPoint(-1);
-    SkyMap::Instance()->forceUpdateNow();
+
+    if (m_ForceUpdates)
+        SkyMap::Instance()->forceUpdateNow();
 }
 
 // Controls the UI validation check-mark, which indicates if the current
@@ -224,6 +233,8 @@ void HorizonManager::showRegion(int regionID)
         ui->removePointB->setEnabled(true);
         ui->selectPointsB->setEnabled(true);
         ui->clearPointsB->setEnabled(true);
+        ui->exportHorizonB->setEnabled(true);
+        ui->importHorizonB->setEnabled(true);
 
         if (regionItem != nullptr)
         {
@@ -281,11 +292,17 @@ void HorizonManager::removeEmptyRows(int regionID)
 
 void HorizonManager::slotAddRegion()
 {
+    QString name = i18n("Region %1", m_RegionsModel->rowCount() + 1);
+    addRegion(name);
+}
+
+void HorizonManager::addRegion(const QString &name)
+{
     terminateLivePreview();
 
     setPointSelection(false);
 
-    QStandardItem *regionItem = new QStandardItem(i18n("Region %1", m_RegionsModel->rowCount() + 1));
+    QStandardItem *regionItem = new QStandardItem(name);
     regionItem->setCheckable(true);
     regionItem->setCheckState(Qt::Checked);
     m_RegionsModel->appendRow(regionItem);
@@ -440,7 +457,7 @@ void HorizonManager::setupLivePreview(QStandardItem * region)
     horizonComponent->setLivePreview(livePreview);
 }
 
-void HorizonManager::addPoint(SkyPoint *skyPoint)
+void HorizonManager::addPoint(const SkyPoint *skyPoint)
 {
     QStandardItem *region = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
     if (region == nullptr)
@@ -522,6 +539,90 @@ void HorizonManager::slotRemovePoint()
     }
 }
 
+void HorizonManager::exportHorizon()
+{
+    QStandardItem *region = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
+    if (region == nullptr)
+        return;
+
+    bool isCeiling = region->data(Qt::UserRole).toBool();
+    QString name = region->data(Qt::DisplayRole).toString();
+    const int numRows = region->rowCount();
+    QString filename = QFileDialog::getSaveFileName(nullptr, i18nc("@title:window", "Save Artificial Horizon"),
+                       QDir::homePath(), "*|All files");
+    if (filename.isEmpty())
+        return;
+    QFile file(filename);
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&file);
+    out << "# KStars Artificial Horizon export (Alt Az)\n";
+    out << "#\n";
+    if (isCeiling)
+        out << QString("%1 %2\n").arg(CEILING_KEYWORD).arg(name);
+    else
+        out << QString("%1 %2\n").arg(HORIZON_KEYWORD).arg(name);
+    for (int i = 0; i < numRows; ++i)
+    {
+        auto azIndex = region->child(i, 1)->index();
+        auto altIndex = region->child(i, 2)->index();
+        out << QString("%1 %2\n")
+            .arg(dms::fromString(azIndex.data().toString(), true).Degrees())
+            .arg(dms::fromString(altIndex.data().toString(), true).Degrees());
+    }
+    file.close();
+}
+
+void HorizonManager::importHorizon()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+                       tr("Open Artificial Horizon File"), QDir::homePath(), tr("Any files (*)"));
+    if (fileName.isEmpty()) return;
+    QFile inputFile(fileName);
+
+    if (inputFile.open(QIODevice::ReadOnly))
+    {
+        QString name = "newHorizon";
+        bool isCeiling = false;
+        QList<SkyPoint> pts;
+
+        QTextStream in(&inputFile);
+        while (!in.atEnd())
+        {
+            const QString line = in.readLine().trimmed();
+            if (line.isEmpty() || line.startsWith('#')) continue;
+            if (line.startsWith(CEILING_KEYWORD))
+            {
+                isCeiling = true;
+                name = line.mid(strlen(CEILING_KEYWORD));
+            }
+            else if (line.startsWith(HORIZON_KEYWORD))
+            {
+                name = line.mid(strlen(HORIZON_KEYWORD));
+            }
+            else
+            {
+                const QStringList columns = line.split(" ");
+                if (columns.size() != 2 || columns[0].isEmpty() || columns[1].isEmpty()) continue;
+                SkyPoint pt;
+                pt.setAz(dms::fromString(columns[0], true));
+                pt.setAlt(dms::fromString(columns[1], true));
+                pts.append(pt);
+            }
+        }
+
+        // Actually add in the new horizon.
+        m_ForceUpdates = false;
+        addRegion(name);
+        if (isCeiling)
+            slotToggleCeiling();
+        for (SkyPoint pt : pts)
+            addPoint(&pt);
+        m_ForceUpdates = true;
+        SkyMap::Instance()->forceUpdateNow();
+    }
+    inputFile.close();
+}
+
 void HorizonManager::clearPoints()
 {
     QStandardItem *regionItem = m_RegionsModel->item(ui->regionsList->currentIndex().row(), 0);
@@ -573,7 +674,8 @@ void HorizonManager::verifyItemValue(QStandardItem * item)
         {
             setupLivePreview(item->parent());
             setupValidation(ui->regionsList->currentIndex().row());
-            SkyMap::Instance()->forceUpdateNow();
+            if (m_ForceUpdates)
+                SkyMap::Instance()->forceUpdateNow();
         }
     }
 }
