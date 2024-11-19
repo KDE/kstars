@@ -1632,7 +1632,7 @@
 >Temps d'espera</guilabel
 > del solucionador en segons. </para>
 <para
->Si teniu imatges problemàtiques que no es resolen, encara podeu mostrar-les introduint manualment els valors (que el solucionador no ha trobat) a la taula. Són els paràmetres d'AR, Dec, arcsegons per píxel, angle d'orientació, i d'est a la dreta (o d'oest a la dreta). Una vegada fet això, podreu canviar l'estat a <guilabel
+>Si teniu imatges problemàtiques que no es resolen, encara podeu mostrar-les introduint manualment els valors (que el solucionador no ha trobat) a la taula. Són els paràmetres d'AR, Dec, segons d'arc per píxel, angle d'orientació, i d'est a la dreta (o d'oest a la dreta). Una vegada fet això, podreu canviar l'estat a <guilabel
 >D'acord</guilabel
 > i el &kstars; desarà aquests valors a la base de dades d'usuari com si s'haguessin resolt automàticament. </para>
 <para

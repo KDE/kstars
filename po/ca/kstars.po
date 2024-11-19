@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-16 01:53+0000\n"
-"PO-Revision-Date: 2024-11-16 12:25+0100\n"
+"PO-Revision-Date: 2024-11-18 15:10+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -10084,7 +10084,7 @@ msgid ""
 "movement. Consider using results after 2 images.  Click <i>Stop</i> when "
 "you're finished.</p>"
 msgstr ""
-"<p>Ajusteu les <i>rodes d´altitud i azimut</i> de la muntura per a reduir "
+"<p>Ajusteu les <i>rodes d'altitud i azimut</i> de la muntura per a reduir "
 "l'error d'alineació a la polar.</p><p>Tingueu paciència, la solució de la "
 "placa pot estar afectada pel moviment de la roda. Considereu fer servir el "
 "resultat després de 2 imatges. Feu clic a <i>Atura</i> quan hàgiu acabat.</p>"
@@ -16647,10 +16647,11 @@ msgid ""
 "a>.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ompliu la informació requerida de sota. És una "
-"configuració que només cal fer un cop. Podeu obtenir aquests valors a partir "
-"del manual de la càmera o des de fonts en línia com la <a href=\"https://www."
-"digicamdb.com/\"><span style=\"text-decoration: underline; color:#007af4;"
-"\">Base de dades de càmeres digitals</span></a>.</p></body></html>"
+"configuració que només cal fer una vegada. Podeu obtenir aquests valors a "
+"partir del manual de la càmera o des de fonts en línia com la <a href="
+"\"https://www.digicamdb.com/\"><span style=\"text-decoration: underline; "
+"color:#007af4;\">Base de dades de càmeres digitals</span></a>.</p></body></"
+"html>"
 
 # skip-rule: t-pu_desp
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
@@ -21568,7 +21569,7 @@ msgid ""
 "the tile size does not exceed one third of the shorter side of the image (in "
 "most cases, it's height).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Les tessel·les són quadrats amb una longitud de vora "
+"<html><head/><body><p>Les tessel·les són quadrades amb una longitud de vora "
 "calculada pel percentatge indicat de l'amplada de la imatge. El percentatge "
 "és limitat de tal manera que la mida de les tessel·les no excedeix un terç "
 "del costat més curt de la imatge (en la majoria dels casos és l'alçada).</"
@@ -83238,7 +83239,7 @@ msgstr "Coord"
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
-"Nom de l'objecte; clic a la capçalera per a ordenar en sentit ascendent/"
+"Nom de l'objecte; cliqueu a la capçalera per a ordenar en sentit ascendent/"
 "descendent."
 
 #: tools/imagingplanner.cpp:1119
@@ -83247,14 +83248,14 @@ msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
-"Nombre d'hores en que l'objecte es pot obtenir imatges de l'objecte; clic a "
-"la capçalera per a ordenar en sentit ascendent/descendent."
+"Nombre d'hores en les quals es poden obtenir imatges de l'objecte; clic a la "
+"capçalera per a ordenar en sentit ascendent/descendent."
 
 #: tools/imagingplanner.cpp:1121
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
-"Tipus de l'objecte; clic a la capçalera per a ordenar en sentit ascendent/"
+"Tipus de l'objecte; cliqueu a la capçalera per a ordenar en sentit ascendent/"
 "descendent."
 
 #: tools/imagingplanner.cpp:1123
@@ -83262,14 +83263,14 @@ msgstr ""
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
-"Dimensions màximes de l'objecte (min. d'arc); clic a la capçalera per a "
+"Dimensions màximes de l'objecte (min. d'arc); cliqueu a la capçalera per a "
 "ordenar en sentit ascendent/descendent."
 
 #: tools/imagingplanner.cpp:1125
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
-"Altitud màxima; clic a la capçalera per a ordenar en sentit ascendent/"
+"Altitud màxima; cliqueu a la capçalera per a ordenar en sentit ascendent/"
 "descendent."
 
 #: tools/imagingplanner.cpp:1127
@@ -83278,21 +83279,21 @@ msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
-"Separació angular de la Lluna a mitjanit; clic a la capçalera per a ordenar "
-"en sentit ascendent/descendent."
+"Separació angular de la Lluna a mitjanit; cliqueu a la capçalera per a "
+"ordenar en sentit ascendent/descendent."
 
 #: tools/imagingplanner.cpp:1129
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
-"Constel·lació; clic a la capçalera per a ordenar en sentit ascendent/"
+"Constel·lació; cliqueu a la capçalera per a ordenar en sentit ascendent/"
 "descendent."
 
 #: tools/imagingplanner.cpp:1131
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
-"Coordenades AR/Dec; clic a la capçalera per a ordenar en sentit ascendent/"
+"Coordenades AR/Dec; cliqueu a la capçalera per a ordenar en sentit ascendent/"
 "descendent."
 
 #: tools/imagingplanner.cpp:1526

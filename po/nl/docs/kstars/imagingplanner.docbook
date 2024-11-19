@@ -21,7 +21,7 @@
 </mediaobject>
 </screenshot>
 <para
->Het hulpmiddel voor plannen van opnamen helpt gebruikers bij het kiezen van welke objecten opnamen te maken. Gebruikers kunnen catalogi van aanbevolen objecten downloaden of mogelijk hun eigen catalogi aanmaken en delen. Het hulpmiddel berekent wanneer van de objecten in een ingelezen catalogus opnamen gemaakt kunnen worden in de geselecteerde nacht gegeven de beperkingen zoals minimale hoogte, terrein en afstand tot de maan. Het kan de objecten langs verscheidene verschillende dimensies sorteren inclusief het aantal uren dat een van een object vannacht een opname wordt gemaakt, zijn piekhoogte, afstand tot de maan, constellatie, naam en type. Objecten kunnen ook uitgefilterd worden om verschillende redenen (bijv. type van het object, of er eerder een opname is gemaakt, trefwoorden die de gebruiker heeft toegevoegd, of het object geselecteerd is, gebruiker niet geïnteresseerd, etc). Dit hulpmiddel helpt gebruikers de objecten te onderzoeken door kleinen afbeeldingen van de objecten te tonen, de hemellocaties van de objecten op de hemelkaart te tonen en door koppelingen te leveren om internetsites te volgen met meer informatie en afbeeldingen. Het biedt gebruikers om notities bij te voegen en koppelingen naar objecten en bepaalden ervan te selecteren voor verdere overweging. Dit hulpmiddel kan gebruikt worden samen met de Ekos-imager of elke ander hulpmiddel voor opnamen maken. Op dit moment is er geen directe interactie met de echte maker van de opname; het helpt de gebruiker alleen te bepalen waarvan opnamen te maken. </para>
+>Het hulpmiddel voor plannen van opnamen helpt gebruikers bij het kiezen van welke objecten opnamen te maken. Gebruikers kunnen catalogi van aanbevolen objecten downloaden of mogelijk hun eigen catalogi aanmaken en delen. Het hulpmiddel berekent wanneer van de objecten in een ingelezen catalogus opnamen gemaakt kunnen worden in de geselecteerde nacht gegeven de beperkingen zoals minimale hoogte, terrein en afstand tot de maan. Het kan de objecten langs verscheidene verschillende dimensies sorteren inclusief het aantal uren dat een van een object vannacht een opname wordt gemaakt (gegeven de geografie van de gebruiker, beperkingen en mogelijke kunstmatige horizon), zijn piekhoogte, afstand tot de maan, constellatie, naam en type. Objecten kunnen ook uitgefilterd worden om verschillende redenen (bijv. type van het object, of er eerder een opname is gemaakt, trefwoorden die de gebruiker heeft toegevoegd, of het object geselecteerd is, gebruiker niet geïnteresseerd, etc). Dit hulpmiddel helpt gebruikers de objecten te onderzoeken door kleinen afbeeldingen van de objecten te tonen, de hemellocaties van de objecten op de hemelkaart te tonen en door koppelingen te leveren om internetsites te volgen met meer informatie en afbeeldingen. Het biedt gebruikers om notities bij te voegen en koppelingen naar objecten en bepaalden ervan te selecteren voor verdere overweging. Dit hulpmiddel kan gebruikt worden samen met de Ekos-imager of elke ander hulpmiddel voor opnamen maken. Op dit moment is er geen directe interactie met de echte maker van de opname; het helpt de gebruiker alleen te bepalen waarvan opnamen te maken. </para>
 <sect2 id="imagingplanner-objecttable">
 <title
 >De objectentabel</title>
@@ -34,7 +34,7 @@
 <itemizedlist>
 <listitem
 ><para
->Kies het object (of kiezen ongedaan maken van een al gekozen object). Het object markeren als gekozen biedt u het later eenvoudig tonen van een paar gekozen objecten in plaats van de gehele tabel. Bijvoorbeeld, u zou tijd kunnen spenderen aan het onderzoeken van vele objecten en wanneer een interessante kandidaat is gevonden, dan kan het gemarkeerd worden als gekozen voor latere bestudering. Als, na een poosje, een verzameling van gekozen objecten has been samengesteld is, kunt u alleen de gekozen objecten zien door de filterbeperking (zie onderstaand Filters). </para
+>Kies het geselecteerde object (of kiezen ongedaan maken van een al gekozen object). Merk op dat u meer dan één object tegelijk kunt selecteren met klik daarna Shift-klik. Een object markeren als gekozen biedt u het later eenvoudig tonen van een paar gekozen objecten in plaats van de gehele tabel. Bijvoorbeeld, u zou tijd kunnen spenderen aan het onderzoeken van vele objecten en wanneer een interessante kandidaat is gevonden, dan kan het gemarkeerd worden als gekozen voor latere bestudering. Als, na een poosje, een verzameling van gekozen objecten has been samengesteld is, kunt u alleen de gekozen objecten zien door de filterbeperking (zie onderstaand Filters). </para
 ></listitem
 ><listitem
 ><para
@@ -43,6 +43,10 @@
 ><listitem
 ><para
 >Markeer een object om genegeerd te worden (of dat ongedaan te maken). Gelijk aan het markeren als opname al gemaakt. </para
+></listitem
+><listitem
+><para
+>Het object centreren op de hemelkaart van KStars. Dit is meestal zinvol als automatisch centreren is uitgeschakeld in het menu Opties. </para
 ></listitem>
 </itemizedlist>
 <para
@@ -50,15 +54,76 @@
 >Opname geladen</guibutton
 > in de sectie Filters gebruiken. </para>
 <para
->De regel boven de tabel toont het aantal rijen in de tabel en het totaal aantal objecten in de geladen catalogus. Hun aantallen kunnen verschillen als sommige objecten uitgefilterd zijn. Er is ook een zoekvak die bepaalde objecten in de tabel zal vinden. </para>
+>Objecten die zijn gekozen worden ook anders getoond. Ze worden getoond in vet-cursief en onderstreept om ze te onderscheiden. </para>
+<para
+>De regel boven de tabel toont het aantal rijen in de tabel en het totaal aantal objecten in de geladen catalogus. Hun aantallen kunnen verschillen als sommige objecten uitgefilterd zijn. Er is ook een zoekvak die een bepaald object zal vinden als het in de tabel is. </para>
+</sect2>
+<sect2 id="imagingplanner-date">
+<title
+>Datum, tijd en geografie</title>
+<para
+>De datum waarvoor de analyse wordt gedaan kan gewijzigd worden door de datuminvoervakken rechtsboven van het hulpmiddel. Met een dag terug door te klikken op de knop links van de datum en een verder een dag met de knop rechts. Wijzigen naar een willekeurige datum door de menuknop bij de datum te selecteren of door eenvoudig de datumtekst te bewerken. De maanverlichting voor die dag wordt getoond links van de datum. </para>
+<para
+>De tijd gebruikt (bijv. voor de positie van het object in de hemelkaart) en de geografie/locatie gebruikt om de hemelpositie van een object te bepalen worden genomen uit de waarden die door KStars worden gebruikt. Om uw locatie te wijzigen, ga naar het menu <menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Geografie</guimenuitem
+></menuchoice
+>. Om de huidige tijd te wijzigen, ga naar het menu <menuchoice
+><guimenu
+>Tijd</guimenu
+> <guimenuitem
+>Tijd instellen...</guimenuitem
+></menuchoice
+>. </para>
+</sect2>
+<sect2 id="imagingplanner-options-help">
+<title
+>Opties en Help</title>
+<para
+>Er zijn twee knoppen rechts van de datumbesturing. </para>
+<itemizedlist>
+<listitem
+><para
+>De optieknop "hamburger" brengt een klein opties-menu. Op dit moment bevat het menu twee keuzevakken. Een bestuurt of het systeem de hemelkaart van KStars naar de coördinaten van een object verschuift wanneer het object wordt geselecteerd in de tabel. De tweede bepaalt of het hulpmiddel een onafhankelijk venster is (d.w.z. achter of voor een ander venster van KStars kan gaan), of dat het altijd voor het hoofdvenster van KStars gaat. </para
+></listitem
+><listitem
+><para
+>De tweede knop, indien er op wordt geklikt, brengt dit handboek van KStars op in een webbrowser. </para
+></listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="imagingplanner-info">
+<title
+>ObjectInformatie</title>
+<para
+>De sectie objectinformatie bij de bovenkant van de linkerkat van het hulpmiddel toont informatie over het geselecteerde object. Klik op een object en u zou deze sectie ingevuld moeten zien. </para>
+<itemizedlist>
+<listitem
+><para
+>De bovenste regel zou de primaire naam, type object en objectgrootte moeten tonen. </para
+></listitem
+><listitem
+><para
+>De 2de regel zou elke alternatieve naam die het object heeft moeten tonen. </para
+></listitem
+><listitem
+><para
+>De 3de regel geeft informatie over verloop en afstand tot de maan. </para
+></listitem
+><listitem
+><para
+>De laatste regel biedt u het toevoegen van notities over het object. Deze informatie zou opgeslagen moetne worden van sessie-naar-sessie door KStars in zijn MySQL database en is gekoppeld door de naam van het object. U bewerkt deze notities door op het potloodpictogram te klikken aan de linkerkant van de notitieregel. Als u tot drie URL's toevoegt in de notitie (bedenk http of https aan het begin van de URL te gebruiken) dan zouden ze automatisch gedetecteerd moeten worden en zal een pictogram voor het browsen van die URL's toegevoegd moeten worden aan de notitieregel. Als de notitie, die u toevoegt, te lang is voor de regel toegekend in de sectie Objectinformatie, dan kunt u de volledige notitie zien door te klikken op de potloodknop voor bewerken. </para
+></listitem>
+</itemizedlist>
 </sect2>
 <sect2 id="imagingplanner-altitudegraph">
 <title
 >De hoogtegrafiek</title>
 <para
->De nu geselecteerde hoogte van het object heeft een grafiek in de hoogte vs tijd. De grafiek loopt van net voor zonsondergang tot net na zonsopgang. U zult een donkere achtergrond opmerken gedurende de nacht. U kunt ook een gestreept patroon in de achtergrond opmerken die verlichting met de maan aangeeft. De hoogte in de grafiek is wit, maar er op gesuperponeerd is een dikkere groene lijn die aangeeft wanneer er van het object een opname kan worden gemaakt gegeven uw beperkingen (zie onderstaande sectie Beperkingen). Dus als u alleen een witte hoogtelijn ziet, dan kan er geen opname gemaakt worden van het object. Als u een groene lijn ziet, dan zijn dat de tijden en hoogten wanneer er van het object opnamen gemaakt kunnen worden. </para>
+>De nu geselecteerde hoogte van het object heeft een grafiek in de hoogte vs tijd. De grafiek loopt van net voor zonsondergang tot net na zonsopgang. U zult een donkere achtergrond opmerken gedurende de nacht. U kunt ook een gestreept patroon in de achtergrond opmerken die verlichting met de maan aangeeft. De hoogte in de grafiek is wit, maar er op gesuperponeerd is een dikkere groene lijn die aangeeft wanneer er van het object een opname kan worden gemaakt gegeven uw beperkingen (zie onderstaande sectie Opnamebeperkingen). Dus als u alleen een witte hoogtelijn ziet, dan kan er geen opname gemaakt worden van het object. Als u een groene lijn ziet, dan zijn dat de tijden en hoogten wanneer er van het object opnamen gemaakt kunnen worden. Als u in de grafiek klikt, dan zult u de hoogte van het geselecteerde object getoond zien linksboven in de grafiek. </para>
 </sect2>
-
 <sect2 id="imagingplanner-constraints">
 <title
 >Beperkingen bij opnamen maken</title>
@@ -85,7 +150,7 @@
 ></menuchoice
 >) en op zijn eenvoudigst is het een lijst met azimuth en hoogte waarden. Als u gebruik maakt van dit hulpmiddel en opneemt van een gebied waar significante delen van de hemel zijn geblokkeerd, is het aanbevolen om de functie kunstmatige horizon in te stellen. Verbonden met de kunstmatige horizon is de <link linkend="terrain"
 >terrein functie</link
-> van de hemelkaart. Als u uw terreinafbeelding instelt, dan zult u, wanneer het hulpmiddel planner van opnamen het object toont, zien hoe het relatief is ten opzichte van uw lokale omgeving. U moet natuurlijk een realistische opnametijd instellen--dat wil zeggen, als u plant tijdens de dagtijd en het hulpmiddel lokaliseert objecten op de huidige tijd, dan kan het object onder zijn of achter gebouwen of bomen. </para
+> van de hemelkaart. Als u uw terreinafbeelding instelt, dan zult u, wanneer het hulpmiddel planner van opnamen het object toont op de hemelkaart, zien hoe het relatief is ten opzichte van uw lokale omgeving. U moet natuurlijk een realistische opnametijd instellen--dat wil zeggen, als u plant tijdens de dagtijd en het hulpmiddel lokaliseert objecten op de huidige tijd, dan kan het object onder zijn of achter gebouwen of bomen. </para
 ></listitem
 ><listitem
 ><para
@@ -101,16 +166,6 @@
 ></listitem>
 </itemizedlist>
 </sect2>
-<sect2 id="imagingplanner-image">
-<title
->Opname van object</title>
-<para
->Als het beschikbaar is zal een kleine afbeelding van het nu geselecteerde getoond worden. Op de afbeelding klikken, zal bladeren naar de informatie van de astrofotograaf of de URL-regel zal via de gegeven koppeling een volledige afbeelding geven als een koppeling is geleverd. </para>
-<para
->Merk op dat de knop <guibutton
->Catalogus laden</guibutton
-> ook in deze sectie aanwezig is. </para>
-</sect2>
 <sect2 id="imagingplanner-search">
 <title
 >Zoeken naar afbeelding/object</title>
@@ -124,50 +179,6 @@
 >De knop <guibutton
 >Astrobin</guibutton
 > gebruikt de zoekfaciliteit Astrobin.com om een iets gedetailleerdere afbeelding te zoeken. U kunt het laten zoeken naar afbeeldingen in Astrobin met een bepaalde afbeeldingsstraal en vereisen dat de resulterende afbeeldingen "Astrobin awards" hebben gewonnen zoals top-gekozen nominatie, top-gekozen of afbeelding-van-de-dag. Nadat u bent op de Astrobin website, kunt u, natuurlijk, de zoekbeperkingen van Astrobin wijzigen zoals u wilt, gegeven de beperkingen en mogelijkheden van de Astrobin website. De Astrobin zoekbeperkingen kunnen verborgen zijn en blootgelegd met de knop links van de zoekregel. </para>
-</sect2>
-<sect2 id="imagingplanner-info">
-<title
->ObjectInformatie</title>
-<para
->De sectie objectinformatie bij de bovenkant van de linkerkat van het hulpmiddel toont informatie over het geselecteerde object. Klik op een object en u zou deze sectie ingevuld moeten zien. </para>
-<itemizedlist>
-<listitem
-><para
->De bovenste regel zou de primaire naam, type object en objectgrootte moeten tonen. </para
-></listitem
-><listitem
-><para
->De 2de regel zou elke alternatieve naam die het object heeft moeten tonen. </para
-></listitem
-><listitem
-><para
->De 3de regel geeft informatie over verloop en afstand tot de maan. </para
-></listitem
-><listitem
-><para
->De laatste regel biedt u het toevoegen van notities over het object. Deze informatie zou opgeslagen moetne worden van sessie-naar-sessie door KStars in zijn MySQL database en is gekoppeld door de naam van het object. U bewerkt deze notities door op het potloodpictogram te klikken aan de linkerkant van de notitieregel. Als u tot drie URL's toevoegt in de notitie (bedenk http of https aan het begin van de URL te gebruiken) dan zouden ze automatisch gedetecteerd moeten worden en zal een pictogram voor het browsen van die URL's toegevoegd moeten worden aan de notitieregel. Als de notitie, die u toevoegt, te lang is voor de regel toegekend in de sectie Objectinformatie, dan kunt u de volledige notitie zien door te klikken op de potloodknop voor bewerken. </para
-></listitem>
-</itemizedlist>
-</sect2>
-<sect2 id="imagingplanner-date">
-<title
->Datum, tijd en geografie</title>
-<para
->De datum waarvoor de analyse wordt gedaan kan gewijzigd worden door de datuminvoervakken rechtsboven van het hulpmiddel. Met een dag terug door te klikken op de knop links van de datum en een verder een dag met de knop rechts. Wijzigen naar een willekeurige datum door de menuknop bij de datum te selecteren of door eenvoudig de datumtekst te bewerken. De maanverlichting voor die dag wordt getoond links van de datum. </para>
-<para
->De tijd gebruikt (bijv. voor de positie van het object in de hemelkaart) en de geografie/locatie gebruikt om de hemelpositie van een object te bepalen worden genomen uit de waarden die door KStars worden gebruikt. Om uw locatie te wijzigen, ga naar het menu <menuchoice
-><guimenu
->Instellingen</guimenu
-> <guimenuitem
->Geografie</guimenuitem
-></menuchoice
->. Om de huidige tijd te wijzigen, ga naar het menu <menuchoice
-><guimenu
->Tijd</guimenu
-> <guimenuitem
->Tijd instellen...</guimenuitem
-></menuchoice
->. </para>
 </sect2>
 <sect2 id="imagingplanner-filters">
 <title
@@ -191,7 +202,7 @@
 ></listitem
 ><listitem
 ><para
->Net als gekozen, veroorzaakt opgenomen dat objecten met label eerder opgenomen om be al dan niet getoond te worden. </para
+>Net als gekozen, veroorzaakt opgenomen dat objecten met label Eerder opgenomen om al dan niet getoond te worden. </para
 ></listitem
 ><listitem
 ><para
@@ -207,11 +218,21 @@
 >Opgenomen laden</guibutton
 > in de rij Opgenomen van de sectie Filters biedt u het laden van een al opgenomen bestand. Dit bestand is een eenvoudige lijst met objectnamen, één per rij, die u kunt construeren en laden. Dit laden zal zorgen dat het hulpmiddel die objectnamen onthoudt en markeert ze als al opgenomen wanneer deze ze tegen komt. Als u deze actie ongedaan wilt maken, de manier om dat te doen is het zetten van de filters om alleen opgenomen objecten te tonen en daarna in het menu na rechts klikken/Ctrl-klik de gewenste objecten als niet opgenomen te zetten. U kunt dat versnellen door vele objecten tegelijk te selecteren met de klik daarna de techniek Shift-klik. </para>
 </sect2>
+<sect2 id="imagingplanner-image">
+<title
+>Opname van object</title>
+<para
+>Als het beschikbaar is zal een kleine afbeelding van het nu geselecteerde getoond worden. Op de afbeelding klikken, zal bladeren naar de informatie van de astrofotograaf of de URL-regel zal een browser openen via de gegeven koppeling een volledige afbeelding geven, als een koppeling is geleverd. </para>
+<para
+>Merk op dat de knop <guibutton
+>Catalogus laden</guibutton
+> ook in deze sectie aanwezig is. </para>
+</sect2>
 <sect2 id="imagingplanner-setup">
 <title
 >Opzet van KStars voor de Planner van opnamen</title>
 <para
->Er zijn een aantal manieren waarop KStars opgezet kan worden om de manier waarop u het hulpmiddel ervaart te verbeteren. </para>
+>Er zijn een aantal manieren waarop KStars opgezet kan worden om uw ervaring met dit hulpmiddel te verbeteren. </para>
 <itemizedlist>
 <listitem
 ><para
@@ -225,11 +246,21 @@
 ></listitem
 ><listitem
 ><para
->Lees de onderstaande sectie Opnamebeperkingen en volg de suggesties daar, zodat dit hulpmiddel beter kan voorspellen hoe lang een object opgenomen kan worden gedurende de geselecteerde datum. </para
+>Een ander belangrijk iets om te doen, ook in het bovenstaande menu <menuchoice
+><guimenu
+>Gegevens</guimenu
+> <guimenuitem
+>Nieuwe gegevens downloaden...</guimenuitem
+></menuchoice
+>, is het downloaden van sommige deep-sky objectcatalogi. Specifiek de NGC IC, OpenNGC, Sharpless, Abell, Lynds en Hickson catalogi zouden handig zijn. U kunt de planner voor opnamen uitvoeren zonder deze (kleine) downloads, maar de opstarttijd bij de eerste keer dat u dit hulpmiddel gebruikt zal veel langer zijn als u ze niet download. </para
 ></listitem
 ><listitem
 ><para
->Geselecteerde objecten worden automatisch in de getoonde hemelkaart. Als die weergave nuttig is, dan wilt u misschien de zoom aanpassen zodat het dicht bij het weergaveveld van uw opnemer is. De onderstaande items zijn ook van toepassing op die weergave van de hemelkaart. </para
+>Lees de bovenstaande sectie Opnamebeperkingen en volg de suggesties daar, zodat dit hulpmiddel beter kan voorspellen hoe lang een object opgenomen kan worden gedurende de geselecteerde datum. </para
+></listitem
+><listitem
+><para
+>Geselecteerde objecten kunnen automatisch in de getoonde hemelkaart gecentreerd worden. Als die weergave nuttig is, dan wilt u misschien de zoom aanpassen zodat het dicht bij het weergaveveld van uw opnemer is. De onderstaande items zijn ook van toepassing op die weergave van de hemelkaart. </para
 ></listitem
 ><listitem
 ><para
@@ -259,7 +290,7 @@
 > <guimenuitem
 >Cache</guimenuitem
 ></menuchoice
-> en de cache inschakelen en de locatie van uw lokale kopie van de gegevens. Om de gegevens te downloaden is een hulpbron https://coochey.net/?p=699 </para
+> en de cache inschakelen en de locatie van uw lokale kopie van de gegevens. De gegevens zijn beschikbaar op https://irsa.ipac.caltech.edu/data/hips/CDS/DSS2/color/Norder1 ... /Norder7 en een andere hulpbron is https://coochey.net/?p=699 </para
 ></listitem
 ><listitem
 ><para
@@ -276,6 +307,16 @@
 >Camera</guimenuitem
 ></menuchoice
 > en de brandpuntsafstand van uw optiek en de specificaties van de camera. </para
+></listitem
+><listitem
+><para
+>U wilt misschien het kleurenthema aanpassen, bijv. in <menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Thema's</guimenuitem
+></menuchoice
+> naar Zwart lichaam als u van donkere thema's houdt. </para
 ></listitem>
 </itemizedlist>
 </sect2>
@@ -335,6 +376,8 @@
 ></listitem
 >    
 </itemizedlist>
+<para
+>Als u uw eigen objecten wilt toevoegen aan de bestaande catalogus, dan zou u dat kunnen doen door uw eigen catalogus aan te maken, zeg op uw bureaublad in een .csv bestand en in de eerste regel de bestaande catalogus invoegen met een LoadCatalog regel en in opvolgende regels de lijst met uw nieuwe objecten. U moet dan Catalogus laden uitvoeren op uw nieuwe .csv bestand. </para>
 </sect3>
 <sect3 id="imagingplanner-catalogs-loading">
  <title
