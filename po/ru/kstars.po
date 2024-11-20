@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-16 01:53+0000\n"
+"POT-Creation-Date: 2024-11-20 01:50+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -85049,62 +85049,69 @@ msgstr "Сохранить изменения"
 msgid "Slew to the flag coordinates"
 msgstr "Навести телескоп на координаты флага"
 
-#: tools/horizonmanager.cpp:54 tools/horizonmanager.cpp:195
+#: tools/horizonmanager.cpp:59 tools/horizonmanager.cpp:204
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region is invalid."
 msgstr "Регина"
 
-#: tools/horizonmanager.cpp:57
+#: tools/horizonmanager.cpp:62
 #, fuzzy, kde-format
 #| msgid "Color of horizon line"
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "Цвет линии горизонта"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region"
 msgstr "Регина"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "Аз."
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
 msgstr "Выс."
 
-#: tools/horizonmanager.cpp:188
+#: tools/horizonmanager.cpp:197
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region is valid"
 msgstr "Регина"
 
-#: tools/horizonmanager.cpp:288
+#: tools/horizonmanager.cpp:295
 #, fuzzy, kde-format
 #| msgctxt "City in Saskatchewan Canada"
 #| msgid "Regina"
 msgid "Region %1"
 msgstr "Регина"
 
-#: tools/horizonmanager.cpp:369
+#: tools/horizonmanager.cpp:386
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 region is invalid."
 msgstr "%1 доступен."
 
-#: tools/horizonmanager.cpp:566
+#: tools/horizonmanager.cpp:551
+#, fuzzy, kde-format
+#| msgid "Color of horizon line"
+msgctxt "@title:window"
+msgid "Save Artificial Horizon"
+msgstr "Цвет линии горизонта"
+
+#: tools/horizonmanager.cpp:667
 #, fuzzy, kde-format
 #| msgid "Invalid file: %1"
 msgid "Invalid angle value: %1"
@@ -85140,51 +85147,89 @@ msgstr "Удалить ссылку"
 msgid "Toggle Ceiling"
 msgstr "Показывать флаги"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, exportHorizonB)
+#: tools/horizonmanager.ui:136
+#, fuzzy, kde-format
+#| msgid "No Description found for selected sky-object"
+msgid "Export the selected horizon to a file"
+msgstr "Нет описания для выбранного объекта"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, importHorizonB)
+#: tools/horizonmanager.ui:161
+#, kde-format
+msgid "Import a previously exported horizon file"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
-#: tools/horizonmanager.ui:130
+#: tools/horizonmanager.ui:199
 #, fuzzy, kde-format
 #| msgid "Save Lens"
 msgid "Save Regions"
 msgstr "Сохранить линзу"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: tools/horizonmanager.ui:154
+#: tools/horizonmanager.ui:223
 #, fuzzy, kde-format
 #| msgid "&Pointing"
 msgid "Points"
 msgstr "&Привязка"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addPointB)
-#: tools/horizonmanager.ui:177
+#: tools/horizonmanager.ui:246
 #, fuzzy, kde-format
 #| msgid "Add City"
 msgid "Add Point"
 msgstr "Добавить город"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removePointB)
-#: tools/horizonmanager.ui:202
+#: tools/horizonmanager.ui:271
 #, fuzzy, kde-format
 #| msgid "Remove Link"
 msgid "Remove Point"
 msgstr "Удалить ссылку"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearPointsB)
-#: tools/horizonmanager.ui:227
+#: tools/horizonmanager.ui:296
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgid "Clear all points"
 msgstr "Скрыть все орбиты"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPointsB)
-#: tools/horizonmanager.ui:284
+#: tools/horizonmanager.ui:353
 #, fuzzy, kde-format
 #| msgid "Label comet names in the sky map?"
 msgid "Select points from the sky map"
 msgstr "Показывать названия комет на звёздной карте?"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: tools/horizonmanager.ui:331
-#, kde-format
+#: tools/horizonmanager.ui:400
+#, fuzzy, kde-format
+#| msgid ""
+#| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#| "REC-html40/strict.dtd\">\n"
+#| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#| "css\">\n"
+#| "p, li { white-space: pre-wrap; }\n"
+#| "</style></head><body style=\" font-family:'Sans'; font-size:10pt; font-"
+#| "weight:400; font-style:normal;\">\n"
+#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Select field of view "
+#| "capture method. There are two methods: manual and star hopping-based.</"
+#| "p>\n"
+#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\">In <span style=\" font-"
+#| "weight:600;\">manual method</span> you navigate the sky map to find the "
+#| "objects of interest, then capture multiple fields of view representations."
+#| "</p>\n"
+#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "weight:600;\">Star hopping-based method </span>automatically captures FOV "
+#| "snapshots using star hopping. This is experimental feature.</p>\n"
+#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Once you have selected "
+#| "field of view capture method, press <span style=\" font-weight:600;"
+#| "\">Next</span>.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
 "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" font-"
@@ -85215,10 +85260,39 @@ msgid ""
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">When done click <span "
 "style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">Defining regions is easier when used in conjunction with "
-"the Terrain background feature.</li></ul></body></html>"
+"the Terrain background feature.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">You can export (and later import) regions using the export/"
+"import region buttons.</li></ul></body></html>"
 msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Sans'; font-size:10pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Выберите способ захвата "
+"поля зрения. Существует два способа: ручной и на основе перехода между "
+"звездами.</p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">В случае использования "
+"<span style=\" font-weight:600;\">ручного способа</span> вам необходимо "
+"ориентироваться на карту неба, чтобы найти необходимые объекты, затем "
+"захватить несколько представлений поля зрения.</p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">В случае использования способа на основе перехода между "
+"звёздами </span>программа автоматически захватывает снимки поля зрения, "
+"используя переход между звёздами. Этот способ является экспериментальным.</"
+"p>\n"
+"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">После выбора способа "
+"захвата поля зрения, нажмите кнопку <span style=\" font-weight:600;\">Затем</"
+"span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.cpp:169 tools/imagingplanner.ui:1878

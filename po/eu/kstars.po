@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-16 01:53+0000\n"
+"POT-Creation-Date: 2024-11-20 01:50+0000\n"
 "PO-Revision-Date: 2024-04-04 13:25+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -89488,55 +89488,62 @@ msgstr "Gode aldaketak"
 msgid "Slew to the flag coordinates"
 msgstr "Hautatu sarrerako koordenatuak"
 
-#: tools/horizonmanager.cpp:54 tools/horizonmanager.cpp:195
+#: tools/horizonmanager.cpp:59 tools/horizonmanager.cpp:204
 #, fuzzy, kde-format
 #| msgid "Region is valid"
 msgid "Region is invalid."
 msgstr "Eskualdea baliogabea da"
 
-#: tools/horizonmanager.cpp:57
+#: tools/horizonmanager.cpp:62
 #, fuzzy, kde-format
 #| msgid "Artificial Horizon Manager"
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "Zeruertz artifizial kudeatzailea"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #, kde-format
 msgid "Region"
 msgstr "Eskualdea"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "Az"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
 msgstr "Alt"
 
-#: tools/horizonmanager.cpp:188
+#: tools/horizonmanager.cpp:197
 #, kde-format
 msgid "Region is valid"
 msgstr "Eskualdea baliogabea da"
 
-#: tools/horizonmanager.cpp:288
+#: tools/horizonmanager.cpp:295
 #, kde-format
 msgid "Region %1"
 msgstr "%1 eskualdea"
 
-#: tools/horizonmanager.cpp:369
+#: tools/horizonmanager.cpp:386
 #, fuzzy, kde-format
 #| msgid "%1 polygon is invalid."
 msgid "%1 region is invalid."
 msgstr "%1 poligonoa baliogabea da."
 
-#: tools/horizonmanager.cpp:566
+#: tools/horizonmanager.cpp:551
+#, fuzzy, kde-format
+#| msgid "Artificial Horizon"
+msgctxt "@title:window"
+msgid "Save Artificial Horizon"
+msgstr "Zeruertz artifiziala"
+
+#: tools/horizonmanager.cpp:667
 #, kde-format
 msgid "Invalid angle value: %1"
 msgstr "Angelu balio baliogabea: %1"
@@ -89566,45 +89573,58 @@ msgstr "Kendu eskualdea"
 msgid "Toggle Ceiling"
 msgstr "Erakutsi/Ezkutatu banderak"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, exportHorizonB)
+#: tools/horizonmanager.ui:136
+#, fuzzy, kde-format
+#| msgid "Duration of night for selected date"
+msgid "Export the selected horizon to a file"
+msgstr "Hautatutako dataren gauaren iraupena"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, importHorizonB)
+#: tools/horizonmanager.ui:161
+#, kde-format
+msgid "Import a previously exported horizon file"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
-#: tools/horizonmanager.ui:130
+#: tools/horizonmanager.ui:199
 #, kde-format
 msgid "Save Regions"
 msgstr "Gorde eskualdeak"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: tools/horizonmanager.ui:154
+#: tools/horizonmanager.ui:223
 #, kde-format
 msgid "Points"
 msgstr "Puntuak"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addPointB)
-#: tools/horizonmanager.ui:177
+#: tools/horizonmanager.ui:246
 #, kde-format
 msgid "Add Point"
 msgstr "Gehitu puntua"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removePointB)
-#: tools/horizonmanager.ui:202
+#: tools/horizonmanager.ui:271
 #, kde-format
 msgid "Remove Point"
 msgstr "Kendu puntuak"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearPointsB)
-#: tools/horizonmanager.ui:227
+#: tools/horizonmanager.ui:296
 #, kde-format
 msgid "Clear all points"
 msgstr "Garbitu puntu guztiak"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPointsB)
-#: tools/horizonmanager.ui:284
+#: tools/horizonmanager.ui:353
 #, fuzzy, kde-format
 #| msgid "Label comet names in the sky map?"
 msgid "Select points from the sky map"
 msgstr "Etiketatu kometen izenak zeruko mapan?"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: tools/horizonmanager.ui:331
+#: tools/horizonmanager.ui:400
 #, kde-format
 msgid ""
 "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
@@ -89636,9 +89656,12 @@ msgid ""
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">When done click <span "
 "style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">Defining regions is easier when used in conjunction with "
-"the Terrain background feature.</li></ul></body></html>"
+"the Terrain background feature.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">You can export (and later import) regions using the export/"
+"import region buttons.</li></ul></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
@@ -117861,11 +117884,6 @@ msgstr "Ezarri atzeko planoko kolorea."
 #~| msgid "Regina"
 #~ msgid "Region Axis:"
 #~ msgstr "Regina"
-
-#, fuzzy
-#~| msgid "Artificial Horizon"
-#~ msgid "Use Artificial Horizon"
-#~ msgstr "Zeruertz artifiziala"
 
 #, fuzzy
 #~| msgid "Color:"

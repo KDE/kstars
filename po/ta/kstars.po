@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-16 01:53+0000\n"
+"POT-Creation-Date: 2024-11-20 01:50+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -87720,61 +87720,67 @@ msgstr "FITSயில் மாற்றங்களை சேமிக்க �
 msgid "Slew to the flag coordinates"
 msgstr "ஆயங்கள்"
 
-#: tools/horizonmanager.cpp:54 tools/horizonmanager.cpp:195
+#: tools/horizonmanager.cpp:59 tools/horizonmanager.cpp:204
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Regina"
 msgid "Region is invalid."
 msgstr "ரெஜினா"
 
-#: tools/horizonmanager.cpp:57
+#: tools/horizonmanager.cpp:62
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "கருவிகள் முக்கியமான காட்சி மாற்றுக?"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Regina"
 msgid "Region"
 msgstr "ரெஜினா"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "திசைக்கோணம்"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
 msgstr "குத்துயரம்"
 
-#: tools/horizonmanager.cpp:188
+#: tools/horizonmanager.cpp:197
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Regina"
 msgid "Region is valid"
 msgstr "ரெஜினா"
 
-#: tools/horizonmanager.cpp:288
+#: tools/horizonmanager.cpp:295
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Regina"
 msgid "Region %1"
 msgstr "ரெஜினா"
 
-#: tools/horizonmanager.cpp:369
+#: tools/horizonmanager.cpp:386
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "%1 region is invalid."
 msgstr "%1 இணைப்பில் உள்ளது"
 
-#: tools/horizonmanager.cpp:566
+#: tools/horizonmanager.cpp:551
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Save Artificial Horizon"
+msgstr "கருவிகள் முக்கியமான காட்சி மாற்றுக?"
+
+#: tools/horizonmanager.cpp:667
 #, fuzzy, kde-format
 #| msgid "Invalid file: %1"
 msgid "Invalid angle value: %1"
@@ -87810,48 +87816,61 @@ msgstr "இணைப்பை நீக்கு"
 msgid "Toggle Ceiling"
 msgstr "நட்சத்திரங்கள் மாற்று"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, exportHorizonB)
+#: tools/horizonmanager.ui:136
+#, fuzzy, kde-format
+#| msgid "Duration of night for selected date"
+msgid "Export the selected horizon to a file"
+msgstr "தேர்ந்தெடுக்கப்பட்ட தேதிக்கான இரவின் கால அளவு"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, importHorizonB)
+#: tools/horizonmanager.ui:161
+#, kde-format
+msgid "Import a previously exported horizon file"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
-#: tools/horizonmanager.ui:130
+#: tools/horizonmanager.ui:199
 #, fuzzy, kde-format
 msgid "Save Regions"
 msgstr "பிம்பம் சேகரி"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: tools/horizonmanager.ui:154
+#: tools/horizonmanager.ui:223
 #, fuzzy, kde-format
 #| msgid "&Pointing"
 msgid "Points"
 msgstr "&சுட்டுதல் "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addPointB)
-#: tools/horizonmanager.ui:177
+#: tools/horizonmanager.ui:246
 #, fuzzy, kde-format
 #| msgid "Find City"
 msgid "Add Point"
 msgstr "பொருளை தேடு"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removePointB)
-#: tools/horizonmanager.ui:202
+#: tools/horizonmanager.ui:271
 #, fuzzy, kde-format
 #| msgid "Remove Link"
 msgid "Remove Point"
 msgstr "இணைப்பை நீக்கு"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearPointsB)
-#: tools/horizonmanager.ui:227
+#: tools/horizonmanager.ui:296
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgid "Clear all points"
 msgstr "எல்லா கோள்களின் அடிச்சுவடுகளையும் துடை"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPointsB)
-#: tools/horizonmanager.ui:284
+#: tools/horizonmanager.ui:353
 #, fuzzy, kde-format
 msgid "Select points from the sky map"
 msgstr "வால் நட்சத்திரம் வரையவேண்டுமா?"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: tools/horizonmanager.ui:331
+#: tools/horizonmanager.ui:400
 #, kde-format
 msgid ""
 "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
@@ -87883,9 +87902,12 @@ msgid ""
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">When done click <span "
 "style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">Defining regions is easier when used in conjunction with "
-"the Terrain background feature.</li></ul></body></html>"
+"the Terrain background feature.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">You can export (and later import) regions using the export/"
+"import region buttons.</li></ul></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)

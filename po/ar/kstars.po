@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-16 01:53+0000\n"
+"POT-Creation-Date: 2024-11-20 01:50+0000\n"
 "PO-Revision-Date: 2022-09-09 23:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: \n"
@@ -80345,54 +80345,61 @@ msgstr "احفظ التّغييرات"
 msgid "Slew to the flag coordinates"
 msgstr "انتقِ إدخال الأسس"
 
-#: tools/horizonmanager.cpp:54 tools/horizonmanager.cpp:195
+#: tools/horizonmanager.cpp:59 tools/horizonmanager.cpp:204
 #, fuzzy, kde-format
 #| msgid "Region is valid"
 msgid "Region is invalid."
 msgstr "البقعة صالحة"
 
-#: tools/horizonmanager.cpp:57
+#: tools/horizonmanager.cpp:62
 #, kde-format
 msgctxt "@title:window"
 msgid "Artificial Horizon Manager"
 msgstr "إدارة الأفق الصناعي"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #, kde-format
 msgid "Region"
 msgstr "البقعة"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #: tools/observinglist.cpp:101 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Azimuth"
 msgid "Az"
 msgstr "السمت"
 
-#: tools/horizonmanager.cpp:74 tools/horizonmanager.cpp:465
+#: tools/horizonmanager.cpp:79 tools/horizonmanager.cpp:482
 #: tools/observinglist.cpp:100 widgets/infoboxwidget.cpp:120
 #, kde-format
 msgctxt "Altitude"
 msgid "Alt"
 msgstr "الارتفاع"
 
-#: tools/horizonmanager.cpp:188
+#: tools/horizonmanager.cpp:197
 #, kde-format
 msgid "Region is valid"
 msgstr "البقعة صالحة"
 
-#: tools/horizonmanager.cpp:288
+#: tools/horizonmanager.cpp:295
 #, kde-format
 msgid "Region %1"
 msgstr "البقعة %1"
 
-#: tools/horizonmanager.cpp:369
+#: tools/horizonmanager.cpp:386
 #, fuzzy, kde-format
 #| msgid "%1 polygon is invalid."
 msgid "%1 region is invalid."
 msgstr "متعدد الضلاع %1 غير صالح."
 
-#: tools/horizonmanager.cpp:566
+#: tools/horizonmanager.cpp:551
+#, fuzzy, kde-format
+#| msgid "Artificial Horizon"
+msgctxt "@title:window"
+msgid "Save Artificial Horizon"
+msgstr "الافق الصناعي"
+
+#: tools/horizonmanager.cpp:667
 #, kde-format
 msgid "Invalid angle value: %1"
 msgstr "قيمة الزاوية غير صحيحة: %1"
@@ -80422,45 +80429,74 @@ msgstr "أزل البقعة"
 msgid "Toggle Ceiling"
 msgstr "إظهار/إخفاء العلامات"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, exportHorizonB)
+#: tools/horizonmanager.ui:136
+#, fuzzy, kde-format
+msgid "Export the selected horizon to a file"
+msgstr "المدّة من لـ مُنتقى التاريخ"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, importHorizonB)
+#: tools/horizonmanager.ui:161
+#, kde-format
+msgid "Import a previously exported horizon file"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
-#: tools/horizonmanager.ui:130
+#: tools/horizonmanager.ui:199
 #, kde-format
 msgid "Save Regions"
 msgstr "احفظ البقع"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: tools/horizonmanager.ui:154
+#: tools/horizonmanager.ui:223
 #, kde-format
 msgid "Points"
 msgstr "النقاط"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addPointB)
-#: tools/horizonmanager.ui:177
+#: tools/horizonmanager.ui:246
 #, kde-format
 msgid "Add Point"
 msgstr "أضف نقطة"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, removePointB)
-#: tools/horizonmanager.ui:202
+#: tools/horizonmanager.ui:271
 #, kde-format
 msgid "Remove Point"
 msgstr "أزل النقطة"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearPointsB)
-#: tools/horizonmanager.ui:227
+#: tools/horizonmanager.ui:296
 #, kde-format
 msgid "Clear all points"
 msgstr "امسح جميع النقاط"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, selectPointsB)
-#: tools/horizonmanager.ui:284
+#: tools/horizonmanager.ui:353
 #, kde-format
 msgid "Select points from the sky map"
 msgstr "اختر النقاط من خارطة السماء"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: tools/horizonmanager.ui:331
-#, kde-format
+#: tools/horizonmanager.ui:400
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Enable limited resource mode to turn off any "
+#| "resource-intensive operations:</p><ul style=\"margin-top: 0px; margin-"
+#| "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+#| "\"><li style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; "
+#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
+#| "font-weight:600;\">Auto Debayer</span>: Bayered images will not be "
+#| "debayered. Only grayscale images are shown.</li><li style=\" margin-"
+#| "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto WCS</"
+#| "span>: World Coordinate System data will not be processed. WCS maps sky "
+#| "coordinates to image coordinates. Equatorial grid lines, object "
+#| "identification, and telescope slew within an image are disabled.</li><li "
+#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+#| "weight:600;\">3D Cube</span>: RGB images will not be processed. Only "
+#| "grayscale images are shown.</li></ul></body></html>"
 msgid ""
 "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
 "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" font-"
@@ -80491,10 +80527,29 @@ msgid ""
 "style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">When done click <span "
 "style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">Defining regions is easier when used in conjunction with "
-"the Terrain background feature.</li></ul></body></html>"
+"the Terrain background feature.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">You can export (and later import) regions using the export/"
+"import region buttons.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>مكّن نمط الموارد المحدودة من إيقاف أي عملية تستهلك "
+"موارد النظام بشكل مكثف:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">بناء "
+"الألوان التلقائي</span>: الصور ذات البناء اللوني الغير كامل لن يتم معالجتها. "
+"ستعرض فقط الصور ذات التدرج الرمادي.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">نظام الإحداثيات العالمي "
+"التلقائي</span>: بيانات نظام الإحداثيات العالمي لن تُعالج. نظام الإحداثيات "
+"العالمي (WCS) يطابق الإحداثيات السماوية على إحداثيات الصورة. شبكة الإحداثيات "
+"الاستوائية وتعريف الجرم وتدوير التلسكوب في الصورة لن يمكّن.</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">مصفوفة "
+"البيانات الثلاثية</span>: الصور ذات الثلاث قنوات RGB لن تعالج. ستظهر فقط "
+"الصور ذات التدرج الرمادي.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.cpp:169 tools/imagingplanner.ui:1878
@@ -89278,11 +89333,6 @@ msgstr "الـ اللّون لـ الخلفية."
 #, fuzzy
 #~ msgid "Region Axis:"
 #~ msgstr "ريجينا"
-
-#, fuzzy
-#~| msgid "Artificial Horizon"
-#~ msgid "Use Artificial Horizon"
-#~ msgstr "الافق الصناعي"
 
 #, fuzzy
 #~ msgid "_color"
