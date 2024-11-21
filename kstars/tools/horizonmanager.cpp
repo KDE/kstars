@@ -581,7 +581,7 @@ void HorizonManager::importHorizon()
 
     if (inputFile.open(QIODevice::ReadOnly))
     {
-        QString name = "newHorizon";
+        QString name = QFileInfo(fileName).fileName();
         bool isCeiling = false;
         QList<SkyPoint> pts;
 
