@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-20 01:50+0000\n"
-"PO-Revision-Date: 2024-11-16 10:53+0100\n"
+"PO-Revision-Date: 2024-11-21 00:17+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -82319,11 +82319,10 @@ msgid "%1 region is invalid."
 msgstr "Gebied %1 is ongeldig."
 
 #: tools/horizonmanager.cpp:551
-#, fuzzy, kde-format
-#| msgid "Use Artificial Horizon"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
-msgstr "Kunstmatige horizon gebruiken"
+msgstr "Kunstmatige horizon opslaan"
 
 #: tools/horizonmanager.cpp:667
 #, kde-format
@@ -82356,16 +82355,15 @@ msgstr "Plafond aan/uit"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportHorizonB)
 #: tools/horizonmanager.ui:136
-#, fuzzy, kde-format
-#| msgid "Description of the selected profile"
+#, kde-format
 msgid "Export the selected horizon to a file"
-msgstr "Beschrijving van geselecteerd profiel"
+msgstr "De geselecteerd horizon naar een bestand exporteren"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, importHorizonB)
 #: tools/horizonmanager.ui:161
 #, kde-format
 msgid "Import a previously exported horizon file"
-msgstr ""
+msgstr "Een eerder geëxporteerd horizonbestand importeren"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
 #: tools/horizonmanager.ui:199
@@ -82405,41 +82403,7 @@ msgstr "Selecteer punten in de hemelkaart"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/horizonmanager.ui:400
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
 "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" font-"
@@ -82507,10 +82471,13 @@ msgstr ""
 "toont zijn punten op de hemelkaart. </li><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\">Indien gereed klik op <span style=\" font-style:italic;"
-"\">Toepassen</span>.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"\">Toepassen</span>.</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Gebieden definiëren is gemakkelijker te gebruiken samen met de functie "
-"terreinachtergrond.</li></ul></body></html>"
+"terreinachtergrond.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">U "
+"kunt gebieden exporteren (en later importeren) met de knoppen exporteer/"
+"importeer gebied.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.cpp:169 tools/imagingplanner.ui:1878
