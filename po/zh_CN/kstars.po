@@ -79225,11 +79225,10 @@ msgid "%1 region is invalid."
 msgstr "%1 区域无效。"
 
 #: tools/horizonmanager.cpp:551
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
-msgstr "假地平"
+msgstr ""
 
 #: tools/horizonmanager.cpp:667
 #, kde-format
@@ -79262,10 +79261,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportHorizonB)
 #: tools/horizonmanager.ui:136
-#, fuzzy, kde-format
-#| msgid "Description of the selected profile"
+#, kde-format
 msgid "Export the selected horizon to a file"
-msgstr "所选配置文件的描述"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, importHorizonB)
 #: tools/horizonmanager.ui:161

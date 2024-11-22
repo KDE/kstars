@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-20 01:50+0000\n"
-"PO-Revision-Date: 2024-11-20 10:26+0100\n"
+"PO-Revision-Date: 2024-11-21 14:01+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -5484,7 +5484,7 @@ msgstr ""
 "Aquest botó calcularà l'angle d'Amplada de Feix de Potència Meitat (AFPM o "
 "HPBW en anglès) per a una combinació concreta del radiotelescopi i la "
 "longitud d'ona de l'observació, assumint que el telescopi no disposa de cap "
-"receptor multifeix. En primer lloc haureu d'especificar el diàmetre del "
+"receptor multifeix. En primer lloc, haureu d'especificar el diàmetre del "
 "radiotelescopi i la longitud d'ona de l'observació.\n"
 "\n"
 "L'angle HPBW calculat (en minuts d'arc) es mostrarà al quadre d'edició «Camp "
@@ -25145,19 +25145,19 @@ msgstr "S'està iniciant l'aparcament automàtic..."
 #: ekos/mount/mount.cpp:1836
 #, kde-format
 msgid "Updating master time source to %1."
-msgstr "S'està actualitzant la font mestre de l'hora a %1."
+msgstr "S'està actualitzant la font mestra de l'hora a %1."
 
 #: ekos/mount/mount.cpp:1857
 #, kde-format
 msgid "Updating master location source to %1. Updating GPS..."
 msgstr ""
-"S'està actualitzant la font mestre de l'emplaçament a %1. S'està "
+"S'està actualitzant la font mestra de l'emplaçament a %1. S'està "
 "actualitzant el GPS..."
 
 #: ekos/mount/mount.cpp:1865
 #, kde-format
 msgid "Updating master location source to %1."
-msgstr "S'està actualitzant la font mestre de l'emplaçament a %1."
+msgstr "S'està actualitzant la font mestra de l'emplaçament a %1."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
 #: ekos/mount/mount.ui:110
@@ -29030,7 +29030,7 @@ msgstr ""
 "la tasca a menys que les opcions Desplaçament de la posta i Desplaçament de "
 "l'alba de l'Ekos s'hagin configurat adequadament.</p><p>Cal tenir present "
 "que l'opció Desplaçament abans de l'alba de l'Ekos avança virtualment la "
-"posta de manera predeterminada 30 minuts, i per tant, evitarà l'inici d'una "
+"posta de manera predeterminada 30 minuts i, per tant, evitarà l'inici d'una "
 "tasca abans d'aquest moment.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
