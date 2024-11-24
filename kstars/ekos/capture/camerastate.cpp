@@ -499,9 +499,6 @@ void CameraState::updateMeridianFlipStage(const MeridianFlipState::MFStage &stag
             // if requested set flag so it perform refocus before next frame
             if (Options::refocusAfterMeridianFlip() == true)
                 getRefocusState()->setRefocusAfterMeridianFlip(true);
-            // If dome is syncing, wait until it stops
-            if (hasDome && (m_domeState == ISD::Dome::DOME_MOVING_CW || m_domeState == ISD::Dome::DOME_MOVING_CCW))
-                return;
 
             KSNotification::event(QLatin1String("MeridianFlipCompleted"), i18n("Meridian flip is successfully completed"),
                                   KSNotification::Capture);
@@ -558,7 +555,11 @@ bool CameraState::checkMeridianFlipReady()
 
 bool CameraState::checkPostMeridianFlipActions()
 {
-    // step 1: check if post flip alignment is running
+    // step 1: If dome is syncing, wait until it stops
+    if (hasDome && (m_domeState == ISD::Dome::DOME_MOVING_CW || m_domeState == ISD::Dome::DOME_MOVING_CCW))
+        return true;
+
+    // step 2: check if post flip alignment is running
     if (m_CaptureState == CAPTURE_ALIGNING || checkAlignmentAfterFlip())
         return true;
 
@@ -568,7 +569,7 @@ bool CameraState::checkPostMeridianFlipActions()
             && checkGuidingAfterFlip())
         return true;
 
-    // step 3: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
+    // step 4: in case that a meridian flip has been completed and a guide deviation limit is set, we wait
     //         until the guide deviation is reported to be below the limit (@see setGuideDeviation(double, double)).
     //         Otherwise the meridian flip is complete
     if (m_CaptureState == CAPTURE_CALIBRATING
