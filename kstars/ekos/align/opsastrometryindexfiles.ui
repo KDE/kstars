@@ -312,7 +312,7 @@ background:  url(:/icons/astrometry-required.svg) no-repeat left top;
         <string/>
        </property>
        <property name="placeholderText">
-        <string>http://broiler.astrometry.net/~dstn/</string>
+        <string>http://data.astrometry.net/</string>
        </property>
       </widget>
      </item>

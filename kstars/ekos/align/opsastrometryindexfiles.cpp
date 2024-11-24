@@ -23,16 +23,11 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent) : QDialog(KStars
     alignModule         = parent;
     manager             = new QNetworkAccessManager();
 
-    indexURL->setText("http://broiler.astrometry.net/~dstn/");
+    indexURL->setText("http://data.astrometry.net/");
 
     //Get a pointer to the KConfigDialog
-    // m_ConfigDialog = KConfigDialog::exists( "alignsettings" );
+    // m_ConfigDialog = KConfigDialog::exists( "alignsetFtings" );
     connect(openIndexFileDirectory, SIGNAL(clicked()), this, SLOT(slotOpenIndexFileDirectory()));
-    connect(indexURL, &QLineEdit::textChanged, [&]()
-    {
-        indexURL->text();
-    });
-
 
     astrometryIndex[2.8]  = "00";
     astrometryIndex[4.0]  = "01";
@@ -341,8 +336,8 @@ void OpsAstrometryIndexFiles::slotOpenIndexFileDirectory()
 
 bool OpsAstrometryIndexFiles::astrometryIndicesAreAvailable()
 {
-    QUrl indexUrl = QUrl(this->indexURL->text());
-    QNetworkReply *response = manager->get(QNetworkRequest(QUrl(indexUrl.url(QUrl::RemovePath))));
+    auto url = QUrl(indexURL->text());
+    auto response = manager->get(QNetworkRequest(QUrl(url.url(QUrl::RemovePath))));
     QTimer timeout(this);
     timeout.setInterval(5000);
     timeout.setSingleShot(true);
