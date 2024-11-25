@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-20 01:50+0000\n"
+"POT-Creation-Date: 2024-11-25 01:51+0000\n"
 "PO-Revision-Date: 2024-11-21 00:17+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -573,13 +573,13 @@ msgstr "Annuleren"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
-#: ekos/align/opsastrometryindexfiles.cpp:435
-#: ekos/align/opsastrometryindexfiles.cpp:473
-#: ekos/align/opsastrometryindexfiles.cpp:487
-#: ekos/align/opsastrometryindexfiles.cpp:507
-#: ekos/align/opsastrometryindexfiles.cpp:615
-#: ekos/align/opsastrometryindexfiles.cpp:636
-#: ekos/align/opsastrometryindexfiles.cpp:646 ekos/analyze/analyze.cpp:140
+#: ekos/align/opsastrometryindexfiles.cpp:430
+#: ekos/align/opsastrometryindexfiles.cpp:468
+#: ekos/align/opsastrometryindexfiles.cpp:482
+#: ekos/align/opsastrometryindexfiles.cpp:502
+#: ekos/align/opsastrometryindexfiles.cpp:610
+#: ekos/align/opsastrometryindexfiles.cpp:631
+#: ekos/align/opsastrometryindexfiles.cpp:641 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1204 ekos/manager.cpp:1219 ekos/manager.cpp:1249
 #: ekos/scheduler/scheduler.cpp:1574 fitsviewer/solveInfo.ui:86
@@ -591,7 +591,7 @@ msgid "Error"
 msgstr "Fout"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/align/opsastrometryindexfiles.cpp:559
+#: ekos/align/opsastrometryindexfiles.cpp:554
 #: ekos/scheduler/framingassistantui.cpp:770
 #, kde-format
 msgid "Sorry"
@@ -2429,7 +2429,7 @@ msgstr "Onbekend"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_35)
-#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:236
+#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:231
 #: ekos/align/opsastrometryindexfiles.ui:201
 #, kde-format
 msgid "Optional"
@@ -8545,7 +8545,7 @@ msgstr ""
 msgid "Use differential slewing instead of syncing"
 msgstr "Gebruik differentieel draaien in plaats van syncen"
 
-#: ekos/align/opsastrometryindexfiles.cpp:193
+#: ekos/align/opsastrometryindexfiles.cpp:188
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
@@ -8553,40 +8553,40 @@ msgstr ""
 "Downloads stop gezet, dit is geen map, maar een lijst van alle "
 "indexbestanden."
 
-#: ekos/align/opsastrometryindexfiles.cpp:203
+#: ekos/align/opsastrometryindexfiles.cpp:198
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
 msgstr "Downloads aangezet, de map bestaat en is schrijfbaar."
 
-#: ekos/align/opsastrometryindexfiles.cpp:205
+#: ekos/align/opsastrometryindexfiles.cpp:200
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr "Downloads uitgezet, probleem met permissies tot de map."
 
-#: ekos/align/opsastrometryindexfiles.cpp:207
+#: ekos/align/opsastrometryindexfiles.cpp:202
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
 msgstr "Downloads uitgezet, map bestaat niet."
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
+#: ekos/align/opsastrometryindexfiles.cpp:251
 #: ekos/align/opsastrometryindexfiles.cpp:256
 #: ekos/align/opsastrometryindexfiles.cpp:261
-#: ekos/align/opsastrometryindexfiles.cpp:266
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
 msgstr "Vereist"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
+#: ekos/align/opsastrometryindexfiles.cpp:269
 #: ekos/align/opsastrometryindexfiles.cpp:274
 #: ekos/align/opsastrometryindexfiles.cpp:279
-#: ekos/align/opsastrometryindexfiles.cpp:284
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
 msgstr "Aanbevolen"
 
-#: ekos/align/opsastrometryindexfiles.cpp:434
+#: ekos/align/opsastrometryindexfiles.cpp:429
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
@@ -8595,28 +8595,28 @@ msgstr ""
 "Download duurt te lang. Of het netwerk is niet snel genoeg, of het bestand "
 "is ontoegankelijk, of er is geen verbinding."
 
-#: ekos/align/opsastrometryindexfiles.cpp:452
+#: ekos/align/opsastrometryindexfiles.cpp:447
 #, kde-format
 msgid "%s download cancelled."
 msgstr "%s download geannuleerd."
 
-#: ekos/align/opsastrometryindexfiles.cpp:487
+#: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format
 msgid "File Write Error"
 msgstr "Schrijffout bestand"
 
-#: ekos/align/opsastrometryindexfiles.cpp:501
+#: ekos/align/opsastrometryindexfiles.cpp:496
 #, kde-format
 msgid "%1 download complete."
 msgstr "%1 download voltooid."
 
-#: ekos/align/opsastrometryindexfiles.cpp:507
-#: ekos/align/opsastrometryindexfiles.cpp:646
+#: ekos/align/opsastrometryindexfiles.cpp:502
+#: ekos/align/opsastrometryindexfiles.cpp:641
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr "Fout met permissies map Astrometry"
 
-#: ekos/align/opsastrometryindexfiles.cpp:559
+#: ekos/align/opsastrometryindexfiles.cpp:554
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
@@ -8625,7 +8625,7 @@ msgstr ""
 "De geselecteerde map voor het indexbestand bestaat niet. Maak het aan of "
 "kies een andere map."
 
-#: ekos/align/opsastrometryindexfiles.cpp:574
+#: ekos/align/opsastrometryindexfiles.cpp:569
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
@@ -8634,27 +8634,27 @@ msgstr ""
 "Het bestand %1 is reeds aanwezig in een andere map. Wilt u het echt ook naar "
 "deze map downloaden?"
 
-#: ekos/align/opsastrometryindexfiles.cpp:576
+#: ekos/align/opsastrometryindexfiles.cpp:571
 #, kde-format
 msgid "Install File(s)"
 msgstr "Bestand(en) installeren"
 
-#: ekos/align/opsastrometryindexfiles.cpp:615
+#: ekos/align/opsastrometryindexfiles.cpp:610
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr "Geen verbinding met de indexserver van Astrometry."
 
-#: ekos/align/opsastrometryindexfiles.cpp:621
+#: ekos/align/opsastrometryindexfiles.cpp:616
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "Wilt u deze indexbestanden werkelijk wissen? %1"
 
-#: ekos/align/opsastrometryindexfiles.cpp:622
+#: ekos/align/opsastrometryindexfiles.cpp:617
 #, kde-format
 msgid "Delete File(s)"
 msgstr "Bestand(en) wissen"
 
-#: ekos/align/opsastrometryindexfiles.cpp:636
+#: ekos/align/opsastrometryindexfiles.cpp:631
 #, kde-format
 msgid "File Delete Error"
 msgstr "Fout wissen bestand"
@@ -8832,8 +8832,9 @@ msgstr "URL van indexbestanden:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
-#, kde-format
-msgid "http://broiler.astrometry.net/~dstn/"
+#, fuzzy, kde-format
+#| msgid "http://broiler.astrometry.net/~dstn/"
+msgid "http://data.astrometry.net/"
 msgstr "http://broiler.astrometry.net/~dstn/"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
@@ -15959,102 +15960,102 @@ msgstr "Stofkap in parkeerstand."
 msgid "Dust cap unparked."
 msgstr "Stofkap uit parkeerstand"
 
-#: ekos/capture/camerastate.cpp:506
+#: ekos/capture/camerastate.cpp:503
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "Meridiaanflip is met succes voltooid"
 
-#: ekos/capture/camerastate.cpp:603
+#: ekos/capture/camerastate.cpp:604
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Opnieuw uitlijnen en volgen na meridiaanflip telescoop..."
 
-#: ekos/capture/camerastate.cpp:616
+#: ekos/capture/camerastate.cpp:617
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "Calibratie na meridiaanflip mislukt. Wordt herstart..."
 
-#: ekos/capture/camerastate.cpp:636
+#: ekos/capture/camerastate.cpp:637
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "Autovolgen gestopt. Wacht op eindigen van autofocus..."
 
-#: ekos/capture/camerastate.cpp:645
+#: ekos/capture/camerastate.cpp:646
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Autovolgen gestopt. Wordt afgebroken..."
 
-#: ekos/capture/camerastate.cpp:652
+#: ekos/capture/camerastate.cpp:653
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "Calibratie na meridiaanflip mislukt. Wordt afgebroken..."
 
-#: ekos/capture/camerastate.cpp:674
+#: ekos/capture/camerastate.cpp:675
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Aanpassend focusseren voltooid."
 
-#: ekos/capture/camerastate.cpp:698
+#: ekos/capture/camerastate.cpp:699
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "Autofocus is mislukt. Belichten afgebroken..."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:734
+#: ekos/capture/camerastate.cpp:735
 #, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
 msgstr "Focusseren voltooid. Wordt hervat binnen %1 seconden...."
 
-#: ekos/capture/camerastate.cpp:757
+#: ekos/capture/camerastate.cpp:758
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr "Limiet: %1 °C"
 
-#: ekos/capture/camerastate.cpp:761
+#: ekos/capture/camerastate.cpp:762
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr "Limiet: %1 minuten"
 
-#: ekos/capture/camerastate.cpp:906
+#: ekos/capture/camerastate.cpp:907
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Opnieuw uitlijnen telescoop na meridiaanflip..."
 
-#: ekos/capture/camerastate.cpp:924
+#: ekos/capture/camerastate.cpp:925
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Volgtijd is verlopen."
 
-#: ekos/capture/camerastate.cpp:956
+#: ekos/capture/camerastate.cpp:957
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "Initiële volgafwijking %1 is onder de grenswaarde van %2 boogseconden."
 
-#: ekos/capture/camerastate.cpp:965
+#: ekos/capture/camerastate.cpp:966
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "Initiële volgafwijking %1 is boven de grenswaarde van %2 boogseconden."
 
-#: ekos/capture/camerastate.cpp:987
+#: ekos/capture/camerastate.cpp:988
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "Calibratie na meridiaanflip met succes voltooid."
 
-#: ekos/capture/camerastate.cpp:1001
+#: ekos/capture/camerastate.cpp:1002
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "Volgafwijking bij begin van opname %1 is boven de grenswaarde van %2 "
 "boogseconden."
 
-#: ekos/capture/camerastate.cpp:1015
+#: ekos/capture/camerastate.cpp:1016
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "Volgafwijking bij begin van opname %1 is onder de grenswaarde van %2 "
 "boogseconden."
 
-#: ekos/capture/camerastate.cpp:1042
+#: ekos/capture/camerastate.cpp:1043
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16063,7 +16064,7 @@ msgstr ""
 "Volgafwijking %1 meer dan toegestane %2 boogseconden voor %4 opeenvolgende "
 "samples, belichting gestopt. Tot %3 seconden wachten op opstarten van volger."
 
-#: ekos/capture/camerastate.cpp:1089
+#: ekos/capture/camerastate.cpp:1090
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16071,7 +16072,7 @@ msgid ""
 msgstr ""
 "Volgafwijking %1 is nu &lt; toegestane %2 boogseconden, belichting hervat."
 
-#: ekos/capture/camerastate.cpp:1093
+#: ekos/capture/camerastate.cpp:1094
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16080,22 +16081,22 @@ msgstr ""
 "Volgafwijking %1 is nu lager dan de toegestane %2 boogseconden, belichting "
 "wordt binnen %3 seconden hervat."
 
-#: ekos/capture/camerastate.cpp:1108
+#: ekos/capture/camerastate.cpp:1109
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "Volgafwijking %1 is nog groter dan de toegestane %2 boogseconden."
 
-#: ekos/capture/camerastate.cpp:1488
+#: ekos/capture/camerastate.cpp:1489
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "Opnieuw uitlijnen na meridiaanflip met succes voltooid."
 
-#: ekos/capture/camerastate.cpp:1507
+#: ekos/capture/camerastate.cpp:1508
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "Uitlijnen na flip is mislukt!"
 
-#: ekos/capture/camerastate.cpp:1512
+#: ekos/capture/camerastate.cpp:1513
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Uitlijnen na flip is mislukt! Wordt opnieuw geprobeerd..."

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-20 01:50+0000\n"
+"POT-Creation-Date: 2024-11-25 01:51+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -586,13 +586,13 @@ msgstr "取消"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
-#: ekos/align/opsastrometryindexfiles.cpp:435
-#: ekos/align/opsastrometryindexfiles.cpp:473
-#: ekos/align/opsastrometryindexfiles.cpp:487
-#: ekos/align/opsastrometryindexfiles.cpp:507
-#: ekos/align/opsastrometryindexfiles.cpp:615
-#: ekos/align/opsastrometryindexfiles.cpp:636
-#: ekos/align/opsastrometryindexfiles.cpp:646 ekos/analyze/analyze.cpp:140
+#: ekos/align/opsastrometryindexfiles.cpp:430
+#: ekos/align/opsastrometryindexfiles.cpp:468
+#: ekos/align/opsastrometryindexfiles.cpp:482
+#: ekos/align/opsastrometryindexfiles.cpp:502
+#: ekos/align/opsastrometryindexfiles.cpp:610
+#: ekos/align/opsastrometryindexfiles.cpp:631
+#: ekos/align/opsastrometryindexfiles.cpp:641 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1204 ekos/manager.cpp:1219 ekos/manager.cpp:1249
 #: ekos/scheduler/scheduler.cpp:1574 fitsviewer/solveInfo.ui:86
@@ -604,7 +604,7 @@ msgid "Error"
 msgstr "錯誤"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/align/opsastrometryindexfiles.cpp:559
+#: ekos/align/opsastrometryindexfiles.cpp:554
 #: ekos/scheduler/framingassistantui.cpp:770
 #, kde-format
 msgid "Sorry"
@@ -2484,7 +2484,7 @@ msgstr "未知"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_35)
-#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:236
+#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:231
 #: ekos/align/opsastrometryindexfiles.ui:201
 #, fuzzy, kde-format
 #| msgid "Options"
@@ -8747,78 +8747,78 @@ msgstr ""
 msgid "Use differential slewing instead of syncing"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:193
+#: ekos/align/opsastrometryindexfiles.cpp:188
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:203
+#: ekos/align/opsastrometryindexfiles.cpp:198
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:205
+#: ekos/align/opsastrometryindexfiles.cpp:200
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:207
+#: ekos/align/opsastrometryindexfiles.cpp:202
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
+#: ekos/align/opsastrometryindexfiles.cpp:251
 #: ekos/align/opsastrometryindexfiles.cpp:256
 #: ekos/align/opsastrometryindexfiles.cpp:261
-#: ekos/align/opsastrometryindexfiles.cpp:266
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
+#: ekos/align/opsastrometryindexfiles.cpp:269
 #: ekos/align/opsastrometryindexfiles.cpp:274
 #: ekos/align/opsastrometryindexfiles.cpp:279
-#: ekos/align/opsastrometryindexfiles.cpp:284
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:434
+#: ekos/align/opsastrometryindexfiles.cpp:429
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
 "accessible, or you are not connected."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:452
+#: ekos/align/opsastrometryindexfiles.cpp:447
 #, fuzzy, kde-format
 #| msgid "Editing job canceled."
 msgid "%s download cancelled."
 msgstr "編輯工作已取消。"
 
-#: ekos/align/opsastrometryindexfiles.cpp:487
+#: ekos/align/opsastrometryindexfiles.cpp:482
 #, fuzzy, kde-format
 #| msgid "Alt Error:"
 msgid "File Write Error"
 msgstr "高度角誤差："
 
-#: ekos/align/opsastrometryindexfiles.cpp:501
+#: ekos/align/opsastrometryindexfiles.cpp:496
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "%1 download complete."
 msgstr "自動對焦已完成。"
 
-#: ekos/align/opsastrometryindexfiles.cpp:507
-#: ekos/align/opsastrometryindexfiles.cpp:646
+#: ekos/align/opsastrometryindexfiles.cpp:502
+#: ekos/align/opsastrometryindexfiles.cpp:641
 #, fuzzy, kde-format
 #| msgid "Astrometry.net"
 msgid "Astrometry Folder Permissions Error"
 msgstr "Astrometry.net"
 
-#: ekos/align/opsastrometryindexfiles.cpp:559
+#: ekos/align/opsastrometryindexfiles.cpp:554
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error!  The Astrometry Index File Directory does not exist and was not "
@@ -8828,38 +8828,38 @@ msgid ""
 "choose another."
 msgstr "發生錯誤！Astrometry 索引檔目錄不存在，也無法建立。"
 
-#: ekos/align/opsastrometryindexfiles.cpp:574
+#: ekos/align/opsastrometryindexfiles.cpp:569
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
 "download it to this directory as well?"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:576
+#: ekos/align/opsastrometryindexfiles.cpp:571
 #, fuzzy, kde-format
 #| msgid "Select Filenames"
 msgid "Install File(s)"
 msgstr "選擇檔名"
 
-#: ekos/align/opsastrometryindexfiles.cpp:615
+#: ekos/align/opsastrometryindexfiles.cpp:610
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Could not contact Astrometry Index Server."
 msgstr "遠端 INDI 焦點器裝置名稱。"
 
-#: ekos/align/opsastrometryindexfiles.cpp:621
+#: ekos/align/opsastrometryindexfiles.cpp:616
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 client?"
 msgid "Are you sure you want to delete these index files? %1"
 msgstr "您確定要移除用戶端 %1 嗎？"
 
-#: ekos/align/opsastrometryindexfiles.cpp:622
+#: ekos/align/opsastrometryindexfiles.cpp:617
 #, fuzzy, kde-format
 #| msgid "Select Filenames"
 msgid "Delete File(s)"
 msgstr "選擇檔名"
 
-#: ekos/align/opsastrometryindexfiles.cpp:636
+#: ekos/align/opsastrometryindexfiles.cpp:631
 #, fuzzy, kde-format
 #| msgid "Debayer Error"
 msgid "File Delete Error"
@@ -9045,7 +9045,7 @@ msgstr "索引檔"
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
 #, kde-format
-msgid "http://broiler.astrometry.net/~dstn/"
+msgid "http://data.astrometry.net/"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
@@ -16432,83 +16432,83 @@ msgstr "Dome Creek"
 msgid "Dust cap unparked."
 msgstr "Dome Creek"
 
-#: ekos/capture/camerastate.cpp:506
+#: ekos/capture/camerastate.cpp:503
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:603
+#: ekos/capture/camerastate.cpp:604
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "後翻轉重新校準並導引處理中..."
 
-#: ekos/capture/camerastate.cpp:616
+#: ekos/capture/camerastate.cpp:617
 #, fuzzy, kde-format
 #| msgid "Post meridian flip calibration completed successfully."
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr "後子午線翻轉調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:636
+#: ekos/capture/camerastate.cpp:637
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "自動引導已停止。"
 
-#: ekos/capture/camerastate.cpp:645
+#: ekos/capture/camerastate.cpp:646
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "Autoguiding stopped. Aborting..."
 msgstr "自動引導已停止。"
 
-#: ekos/capture/camerastate.cpp:652
+#: ekos/capture/camerastate.cpp:653
 #, fuzzy, kde-format
 #| msgid "Post meridian flip calibration completed successfully."
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr "後子午線翻轉調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:674
+#: ekos/capture/camerastate.cpp:675
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Adaptive focus complete."
 msgstr "自動對焦已完成。"
 
-#: ekos/capture/camerastate.cpp:698
+#: ekos/capture/camerastate.cpp:699
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "自動對焦失敗。將中止曝光..."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:734
+#: ekos/capture/camerastate.cpp:735
 #, fuzzy, kde-format
 #| msgid "Solver completed in %1 second."
 #| msgid_plural "Solver completed in %1 seconds."
 msgid "Focus complete. Resuming in %1 seconds..."
 msgstr "識別器在 %1 秒後完成。"
 
-#: ekos/capture/camerastate.cpp:757
+#: ekos/capture/camerastate.cpp:758
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:761
+#: ekos/capture/camerastate.cpp:762
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Simulator Settings"
 msgid "Limit: %1 mins"
 msgstr "模擬器設定"
 
-#: ekos/capture/camerastate.cpp:906
+#: ekos/capture/camerastate.cpp:907
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "後翻轉重新校準處理中..."
 
-#: ekos/capture/camerastate.cpp:924
+#: ekos/capture/camerastate.cpp:925
 #, fuzzy, kde-format
 #| msgid "Guiding timed out."
 msgid "Guide module timed out."
 msgstr "導引逾時。"
 
-#: ekos/capture/camerastate.cpp:956
+#: ekos/capture/camerastate.cpp:957
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16516,7 +16516,7 @@ msgstr "導引逾時。"
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:965
+#: ekos/capture/camerastate.cpp:966
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16524,12 +16524,12 @@ msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:987
+#: ekos/capture/camerastate.cpp:988
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr "後子午線翻轉調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:1001
+#: ekos/capture/camerastate.cpp:1002
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16537,7 +16537,7 @@ msgstr "後子午線翻轉調校已成功完成。"
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1015
+#: ekos/capture/camerastate.cpp:1016
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16545,7 +16545,7 @@ msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1042
+#: ekos/capture/camerastate.cpp:1043
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting "
@@ -16555,14 +16555,14 @@ msgid ""
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr "引導偏向 %1 超過了 %2 弧秒的限制，將中止曝光。"
 
-#: ekos/capture/camerastate.cpp:1089
+#: ekos/capture/camerastate.cpp:1090
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1093
+#: ekos/capture/camerastate.cpp:1094
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16572,7 +16572,7 @@ msgid ""
 "exposure in %3 seconds."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1108
+#: ekos/capture/camerastate.cpp:1109
 #, fuzzy, kde-format
 #| msgid ""
 #| "Guiding deviation %1 is now lower than limit value of %2 arcsecs, "
@@ -16580,18 +16580,18 @@ msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr "引導偏向 %1 現在比 %2 弧秒的限制低，將回復曝光。"
 
-#: ekos/capture/camerastate.cpp:1488
+#: ekos/capture/camerastate.cpp:1489
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr "後翻轉重新調校已成功完成。"
 
-#: ekos/capture/camerastate.cpp:1507
+#: ekos/capture/camerastate.cpp:1508
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed."
 msgstr "校準逾時。"
 
-#: ekos/capture/camerastate.cpp:1512
+#: ekos/capture/camerastate.cpp:1513
 #, fuzzy, kde-format
 #| msgid "Alignment timed out."
 msgid "Post-flip alignment failed. Retrying..."
