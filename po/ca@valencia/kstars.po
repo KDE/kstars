@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-25 01:51+0000\n"
-"PO-Revision-Date: 2024-11-21 20:37+0100\n"
+"PO-Revision-Date: 2024-11-25 20:22+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -8969,10 +8969,9 @@ msgstr "URL dels fitxers d'índex:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
-#, fuzzy, kde-format
-#| msgid "http://broiler.astrometry.net/~dstn/"
+#, kde-format
 msgid "http://data.astrometry.net/"
-msgstr "http://broiler.astrometry.net/~dstn/"
+msgstr "http://data.astrometry.net/"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
 #: ekos/align/opsastrometryindexfiles.ui:350

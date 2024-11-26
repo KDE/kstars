@@ -8555,10 +8555,9 @@ msgstr "索引文件 URL："
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
-#, fuzzy, kde-format
-#| msgid "http://broiler.astrometry.net/~dstn/"
+#, kde-format
 msgid "http://data.astrometry.net/"
-msgstr "http://broiler.astrometry.net/~dstn/"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
 #: ekos/align/opsastrometryindexfiles.ui:350

@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-25 01:51+0000\n"
-"PO-Revision-Date: 2024-11-16 18:10+0100\n"
+"PO-Revision-Date: 2024-11-22 20:15+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -718,19 +718,20 @@ msgid ""
 " %1 \n"
 " does not exist.  Do you want to make the directory?"
 msgstr ""
-"La posizione del file indice di Astrometry selezionato:\n"
+"La posizione del file indice di astrometria selezionato:\n"
 " %1 \n"
 "non esiste. Vuoi creare la cartella?"
 
 #: auxiliary/ksutils.cpp:1352
 #, kde-format
 msgid "Make Astrometry Index File Directory?"
-msgstr "Creare la cartella del file indice di Astrometry?"
+msgstr "Creare la cartella del file indice di astrometria?"
 
 #: auxiliary/ksutils.cpp:1357
 #, kde-format
 msgid "The Default Astrometry Index File Location was created."
-msgstr "La posizione predefinita del file indice di Astrometry è stata creata."
+msgstr ""
+"La posizione predefinita del file indice di astrometria è stata creata."
 
 #: auxiliary/ksutils.cpp:1362
 #, kde-format
@@ -738,20 +739,20 @@ msgid ""
 "The Default Astrometry Index File Directory does not exist and was not able "
 "to be created."
 msgstr ""
-"La cartella del file indice di Astrometry non esiste e non è stato possibile "
-"crearla."
+"La cartella del file indice di astrometria non esiste e non è stato "
+"possibile crearla."
 
 #: auxiliary/ksutils.cpp:1383 auxiliary/ksutils.cpp:1539
 #: auxiliary/ksutils.cpp:1604
 #, kde-format
 msgid "Astrometry Configuration File Read Error."
-msgstr "Errore di lettura del file di configurazione di Astrometria."
+msgstr "Errore di lettura del file di configurazione di astrometria."
 
 #: auxiliary/ksutils.cpp:1397 auxiliary/ksutils.cpp:1582
 #: auxiliary/ksutils.cpp:1624
 #, kde-format
 msgid "Internal Astrometry Configuration File Write Error."
-msgstr "Errore di scrittura interno del file di configurazione di Astrometria."
+msgstr "Errore di scrittura interno del file di configurazione di astrometria."
 
 #: auxiliary/ksutils.cpp:1670 fitsviewer/fitsdata.cpp:756
 #, kde-format
@@ -7959,12 +7960,12 @@ msgstr ""
 "<html><head/><body><p align=\"center\">Seleziona il metodo di risoluzione "
 "del campo (plate solving) con la libreria StellarSolver.</"
 "p><ul><li>L'opzione «SEP interno» usa la build interna di Astrometry.net di "
-"StellarSolver e non richiede programmi esterni. </li><li>«Astrometry locale» "
-"usa un'installazione locale di astrometry.net a riga di comando su Linux e "
-"Mac o ANSVR su Windows. </li><li>«ASTAP locale» usa un'installazione del "
-"programma ASTAP. </li><li>«Watney locale» usa un'installazione locale del "
-"Watney Astrometry Solver Program. </li><li>«Online» usa astrometry.net in "
-"internet oppure ANSVR in un computer nelle vicinanze. <span style=\" font-"
+"StellarSolver e non richiede programmi esterni. </li><li>«Astrometria "
+"locale» usa un'installazione locale di astrometry.net a riga di comando su "
+"Linux e Mac o ANSVR su Windows. </li><li>«ASTAP locale» usa un'installazione "
+"del programma ASTAP. </li><li>«Watney locale» usa un'installazione locale "
+"del Watney Astrometry Solver Program. </li><li>«in linea» usa astrometry.net "
+"in internet oppure ANSVR in un computer nelle vicinanze. <span style=\" font-"
 "weight:600;\">Nota</span>: se la larghezza di banda è un problema, prendi in "
 "considerazione di utilizzare «SEP interno» anziché il «Metodo integrato del "
 "risolutore».</li></ul></body></html>"
@@ -7979,7 +7980,7 @@ msgstr "Risolutore interno"
 #: ekos/align/opsalign.ui:103
 #, kde-format
 msgid "Local Astrometry"
-msgstr "Astrometry locale"
+msgstr "Astrometria locale"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SolverType)
 #: ekos/align/opsalign.ui:108
@@ -7997,7 +7998,7 @@ msgstr "Watney locale"
 #: ekos/align/opsalign.ui:118
 #, kde-format
 msgid "Online Astrometry"
-msgstr "Astrometry online"
+msgstr "Astrometria in linea"
 
 #. i18n: ectx: property (text), widget (QLabel, label_72)
 #: ekos/align/opsalign.ui:138
@@ -8775,7 +8776,7 @@ msgid ""
 "Astrometry Index Files on your computer.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Questo visualizza il percorso della cartella dei file "
-"indice di Astrometry sul tuo computer.</p></body></html>"
+"indice di astrometria sul tuo computer.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/align/opsastrometryindexfiles.ui:231
@@ -8850,7 +8851,7 @@ msgid ""
 "into it if needed.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Questo pulsante aprirà la cartella dei file indice di "
-"Astrometry del tuo filesystem, in modo che tu possa vedere dove si trova e "
+"astrometria del tuo filesystem, in modo che tu possa vedere dove si trova e "
 "copiarci i file, se necessario.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
@@ -9718,7 +9719,7 @@ msgstr "Percorso del binario del programma Watney"
 #: ekos/align/opsprograms.ui:201
 #, kde-format
 msgid "Online Astrometry.net or Remote ANSVR"
-msgstr "Astrometry.net online o ANSVR remoto"
+msgstr "Astrometry.net in linea o ANSVR remoto"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
@@ -32777,8 +32778,8 @@ msgid ""
 "No INDI devices currently running. To run devices, please select devices "
 "from the Device Manager in the devices menu."
 msgstr ""
-"Nessuna periferica INDI attivata. Per attivare i dispositivi, selezionali "
-"dal Gestore dei dispositivi nel menu Dispositivi."
+"Nessun dispositivo INDI attualmente in esecuzione. Per attivare i "
+"dispositivi, selezionali dal Gestore dei dispositivi nel menu Dispositivi."
 
 #: indi/indicamera.cpp:440
 #, kde-format
@@ -39429,6 +39430,10 @@ msgid ""
 "that when the focuser moves TICKS steps, the difference in HFR is more than "
 "0.1 pixels. Lower the value when you are close to optimal focus."
 msgstr ""
+"Dimensione del passo del focheggiatore assoluto. La dimensione del passo TIC "
+"dovrebbe essere regolata in modo che, quando il focheggiatore sposta i passi "
+"TIC, la differenza nell'HFR sia superiore a 0,1 pixel. Abbassa il valore "
+"quando sei vicino alla messa a fuoco ottimale."
 
 #. i18n: ectx: whatsthis, entry (FocusOutSteps), group (Focus)
 #: kstars.kcfg:2412
@@ -39744,8 +39749,8 @@ msgid ""
 "Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for "
 "Local ASTAP. 3 for Online Astrometry."
 msgstr ""
-"Metodo di risoluzione locale. 0 per Risolutore interno. 1 per Astrometry "
-"locale. 2 per ASTAP locale. 3 per Astrometry online."
+"Metodo di risoluzione locale. 0 per Risolutore interno. 1 per astrometria "
+"locale. 2 per ASTAP locale. 3 per astrometria in linea."
 
 #. i18n: ectx: label, entry (SolveOptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2603
@@ -39770,7 +39775,7 @@ msgstr "Se registrare invece su file."
 #, kde-format
 msgid "Path of the log file to save astrometry logging to."
 msgstr ""
-"Percorso del file di registro in cui salvare le registrazioni di astrometry."
+"Percorso del file di registro in cui salvare le registrazioni di astrometria."
 
 #. i18n: ectx: label, entry (AstrometryIndexFolderList), group (StellarSolver)
 #: kstars.kcfg:2619
@@ -39784,7 +39789,7 @@ msgstr "Elenco dei percorsi delle cartelle indice."
 msgid "List of folders in which astrometry Index Files can be found."
 msgstr ""
 "Elenco delle cartelle nelle quali possono essere trovati i file indice di "
-"astrometry."
+"astrometria."
 
 #. i18n: ectx: label, entry (AlignExposure), group (Align)
 #: kstars.kcfg:2626
@@ -40032,7 +40037,7 @@ msgstr "Opzioni aggiuntive facoltative di astrometry.net"
 #: kstars.kcfg:2753
 #, kde-format
 msgid "astrometry.net solve-field binary"
-msgstr "File binario solve-field di Astrometry.net"
+msgstr "File binario solve-field di astrometry.net"
 
 #. i18n: ectx: whatsthis, entry (AstrometrySolverBinary), group (Align)
 #: kstars.kcfg:2754
@@ -76139,7 +76144,7 @@ msgstr "Utilizzo data e ora della CPU."
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure Equipment"
-msgstr "Configura l'equipaggiamento"
+msgstr "Configura l'attrezzatura"
 
 #. i18n: ectx: attribute (title), widget (QWidget, Scope)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TelescopeCheck)
@@ -82847,11 +82852,10 @@ msgid "%1 region is invalid."
 msgstr "La regione %1 non è valida."
 
 #: tools/horizonmanager.cpp:551
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
-msgstr "Orizzonte artificiale"
+msgstr "Salva orizzonte artificiale"
 
 #: tools/horizonmanager.cpp:667
 #, kde-format
@@ -82885,16 +82889,15 @@ msgstr "Attiva/disattiva soffitto"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportHorizonB)
 #: tools/horizonmanager.ui:136
-#, fuzzy, kde-format
-#| msgid "Description of the selected profile"
+#, kde-format
 msgid "Export the selected horizon to a file"
-msgstr "Descrizione del profilo selezionato"
+msgstr "Esporta l'orizzonte selezionato in un file"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, importHorizonB)
 #: tools/horizonmanager.ui:161
 #, kde-format
 msgid "Import a previously exported horizon file"
-msgstr ""
+msgstr "Importa un file di orizzonte precedentemente esportato"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
 #: tools/horizonmanager.ui:199
@@ -82934,41 +82937,7 @@ msgstr "Seleziona i punti dalla mappa celeste"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/horizonmanager.ui:400
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
 "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" font-"
@@ -83037,10 +83006,13 @@ msgstr ""
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\">Quando hai fatto, fai clic su <span style="
 "\" font-style:italic;\">Applica</span>.</li><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
 "text-indent:0px;\">La definizione delle regioni è più semplice quando "
-"utilizzata insieme con la funzionalità per lo sfondo Terreno.</li></ul></"
-"body></html>"
+"utilizzata insieme con la funzionalità per lo sfondo Terreno.</li><li style="
+"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
+"qt-block-indent:0; text-indent:0px;\">Puoi esportare, e successivamente "
+"importare, le regioni utilizzando i pulsanti di esportazione/importazione "
+"delle regioni.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.cpp:169 tools/imagingplanner.ui:1878

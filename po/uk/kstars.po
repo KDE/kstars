@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-25 01:51+0000\n"
-"PO-Revision-Date: 2024-11-20 16:49+0200\n"
+"PO-Revision-Date: 2024-11-25 12:58+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -8860,10 +8860,9 @@ msgstr "Адреса файлів покажчика:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
-#, fuzzy, kde-format
-#| msgid "http://broiler.astrometry.net/~dstn/"
+#, kde-format
 msgid "http://data.astrometry.net/"
-msgstr "http://broiler.astrometry.net/~dstn/"
+msgstr "http://data.astrometry.net/"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
 #: ekos/align/opsastrometryindexfiles.ui:350
