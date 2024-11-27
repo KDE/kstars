@@ -515,6 +515,10 @@ class SkyMap : public QGraphicsView
               */
         void slotAddFlag();
 
+        /** @short Open Flag Manager window with RA and Dec entered.
+              */
+        void slotAddFlagRaw();
+
         /** @short Open Flag Manager window with selected flag focused and ready to edit.
               *@param flagIdx index of flag to be edited.
               */
@@ -740,6 +744,9 @@ class SkyMap : public QGraphicsView
 
         /// Coordinates of point under cursor. It's update in function mouseMoveEvent
         SkyPoint m_MousePoint;
+
+        // A copy of m_MousePoint, copied when the mouse is pressed.
+        SkyPoint m_MousePointPressed;
 
         SkyPoint Focus, ClickedPoint, FocusPoint, Destination;
         SkyObject *ClickedObject { nullptr };

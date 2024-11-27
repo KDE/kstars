@@ -2152,7 +2152,7 @@ void KStars::slotAboutToQuit()
 #endif
 }
 
-void KStars::slotShowPositionBar(SkyPoint *p)
+void KStars::slotShowPositionBar(const SkyPoint *p)
 {
     if (Options::showAltAzField())
     {
@@ -2179,9 +2179,11 @@ void KStars::slotShowPositionBar(SkyPoint *p)
 
     if (Options::showJ2000RADecField())
     {
+        // catalogCoord would modify p
+        SkyPoint pOrig = *p;
         SkyPoint p0;
         //p0        = p->deprecess(KStarsData::Instance()->updateNum()); // deprecess to update RA0/Dec0 from RA/Dec
-        p0 = p->catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
+        p0 = pOrig.catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
         QString s = QString("%1, %2 (J2000)")
                     .arg(p0.ra().toHMSString(),
                          p0.dec().toDMSString(true)); //true: force +/- symbol

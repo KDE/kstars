@@ -759,6 +759,8 @@ void SkyMap::mouseReleaseEvent(QMouseEvent *e)
 
 void SkyMap::mousePressEvent(QMouseEvent *e)
 {
+    m_MousePointPressed = m_MousePoint;
+
     KStars *kstars = KStars::Instance();
 
     if ((e->modifiers() & Qt::ControlModifier) && (e->button() == Qt::LeftButton))

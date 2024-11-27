@@ -721,8 +721,8 @@ void SkyMap::slotEndRulerMode()
                                     ((f->sizeX() >= f->sizeY() && f->sizeY() != 0) ? f->sizeY() : f->sizeX()));
             }
             fov = nameToFovMap[QInputDialog::getItem(this, i18n("Star Hopper: Choose a field-of-view"),
-                               i18n("FOV to use for star hopping:"), nameToFovMap.keys(), 0,
-                               false, &ok)];
+                                                           i18n("FOV to use for star hopping:"), nameToFovMap.keys(), 0,
+                                                           false, &ok)];
         }
         else
         {
@@ -780,6 +780,19 @@ void SkyMap::slotAddFlag()
     }
 
     ks->flagManager()->setRaDec(J2000RA, J2000DE);
+}
+
+void SkyMap::slotAddFlagRaw()
+{
+    // popup FlagManager window and update coordinates
+    KStars *ks = KStars::Instance();
+    ks->slotFlagManager();
+    ks->flagManager()->clearFields();
+
+    SkyPoint pOrig = m_MousePointPressed;
+    SkyPoint p2000;
+    p2000 = pOrig.catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
+    ks->flagManager()->setRaDec(p2000.ra(), p2000.dec());
 }
 
 void SkyMap::slotEditFlag(int flagIdx)

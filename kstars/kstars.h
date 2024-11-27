@@ -561,7 +561,7 @@ class KStars : public KXmlGuiWindow
         void slotClearAllTrails();
 
         /** Display position in the status bar. */
-        void slotShowPositionBar(SkyPoint *);
+        void slotShowPositionBar(const SkyPoint *);
 
         /** action slot: open Flag Manager */
         void slotFlagManager();

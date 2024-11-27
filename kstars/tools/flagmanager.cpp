@@ -105,6 +105,8 @@ FlagManager::FlagManager(QWidget *ks) : QDialog(ks)
     {
         ui->flagCombobox->addItem(QIcon(pixmap.fromImage(flags->imageList(i))), flagNames.at(i), flagNames.at(i));
     }
+    if (imageList.size() >= 2 && ui->flagCombobox->currentIndex() == 0)
+        ui->flagCombobox->setCurrentIndex(1);
 
     //Connect buttons
     connect(ui->addButton, SIGNAL(clicked()), this, SLOT(slotAddFlag()));

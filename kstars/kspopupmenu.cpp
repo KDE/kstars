@@ -453,8 +453,10 @@ void KSPopupMenu::initFlagActions(SkyObject *obj)
     if (flags.isEmpty())
     {
         // There is no flag around clicked SkyObject
-        addAction(QIcon::fromTheme("flag"), i18n("Add Flag..."), ks->map(),
+        addAction(QIcon::fromTheme("flag"), i18n("Add Flag (nearby object)..."), ks->map(),
                   SLOT(slotAddFlag()));
+        addAction(QIcon::fromTheme("flag"), i18n("Add Flag (exactly here)..."), ks->map(),
+                  SLOT(slotAddFlagRaw()));
     }
 
     else if (flags.size() == 1)
