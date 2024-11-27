@@ -175,7 +175,7 @@ double getRotationAngles(const V3 &from, const V3 &goal, double *zAngle, double 
 
     // Compute the rotation using a great circle. This somewhat constrains our search below.
     const double rotationAngle = getAngle(from, goal); // degrees
-    const double pass1Range = std::max(1.0, std::min(5.0, fabs(rotationAngle)));
+    const double pass1Range = std::max(1.0, std::min(10.0, 2.5 * fabs(rotationAngle)));
 
     // Grid search across all y,z angle possibilities, sampling by 2 arc-minutes.
     const double pass1Residual = getBestRotation(from, goal, 0, 0, zAngle, yAngle, pass1Range, pass1Resolution);
