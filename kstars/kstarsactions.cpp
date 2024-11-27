@@ -2152,7 +2152,7 @@ void KStars::slotAboutToQuit()
 #endif
 }
 
-void KStars::slotShowPositionBar(const SkyPoint *p)
+void KStars::slotShowPositionBar(SkyPoint *p)
 {
     if (Options::showAltAzField())
     {
