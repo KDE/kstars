@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-25 01:51+0000\n"
+"POT-Creation-Date: 2024-11-28 01:47+0000\n"
 "PO-Revision-Date: 2024-11-16 12:08+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -1218,7 +1218,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1370
+#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1383
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -3739,7 +3739,7 @@ msgid "Could not update the user log."
 msgstr "Non foi posíbel actualizar o rexistro da persoa usuaria."
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:321 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
+#: kstarsactions.cpp:321 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:689 tools/observinglist.cpp:711
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, kde-format
@@ -4464,18 +4464,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "Definir as coordenadas manualmente"
 
-#: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr "O valor da ascensión recta debe estar entre 0,0 e 24,0."
 
-#: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:186
+#: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:188
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr "O valor da declinación (δ) debe estar entre -90,0 e 90,0."
 
 #: dialogs/focusdialog.cpp:133 dialogs/focusdialog.cpp:191
-#: tools/flagmanager.cpp:189
+#: tools/flagmanager.cpp:191
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "Os datos das coordenadas son incorrectos"
@@ -16194,7 +16194,7 @@ msgstr "Deixar de capturar"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
-#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:642
+#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
@@ -25195,7 +25195,7 @@ msgstr "Activado"
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
 #: ekos/mount/mount.ui:747 ekos/observatory/observatory.cpp:276
 #: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
-#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:651
+#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:653
 #, kde-format
 msgid "Park"
 msgstr "Estacionar"
@@ -25203,7 +25203,7 @@ msgstr "Estacionar"
 #. i18n: ectx: property (text), widget (QPushButton, unparkB)
 #. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
 #: ekos/mount/mount.ui:777 ekos/observatory/observatory.ui:498
-#: kspopupmenu.cpp:656
+#: kspopupmenu.cpp:658
 #, kde-format
 msgid "UnPark"
 msgstr "Desestacionar"
@@ -33576,18 +33576,18 @@ msgstr "Sen hora de ocaso: non ascende nunca"
 msgid "Transit time: %1"
 msgstr "Tempo de tránsito: %1"
 
-#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:825
+#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:827
 #, kde-format
 msgid "Empty sky"
 msgstr "Ceo baleiro"
 
-#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:586
+#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:588
 #, kde-format
 msgctxt "Sloan Digital Sky Survey"
 msgid "Show SDSS Image"
 msgstr "Amosar unha imaxe da SDSS"
 
-#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:588
+#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:590
 #, kde-format
 msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
@@ -33714,68 +33714,74 @@ msgid "View in What's Interesting"
 msgstr "Ver en «Que hai de interesante»"
 
 #: kspopupmenu.cpp:456
-#, kde-format
-msgid "Add Flag..."
-msgstr "Engadir unha bandeira…"
+#, fuzzy, kde-format
+#| msgid "Add Object..."
+msgid "Add Flag (nearby object)..."
+msgstr "Engadir un obxecto…"
 
-#: kspopupmenu.cpp:463
+#: kspopupmenu.cpp:458
+#, kde-format
+msgid "Add Flag (exactly here)..."
+msgstr ""
+
+#: kspopupmenu.cpp:465
 #, kde-format
 msgid "Edit Flag"
 msgstr "Editar a bandeira"
 
-#: kspopupmenu.cpp:465
+#: kspopupmenu.cpp:467
 #, kde-format
 msgid "Delete Flag"
 msgstr "Eliminar a bandeira"
 
-#: kspopupmenu.cpp:474
+#: kspopupmenu.cpp:476
 #, kde-format
 msgid "Edit Flag..."
 msgstr "Editar a bandeira…"
 
-#: kspopupmenu.cpp:476
+#: kspopupmenu.cpp:478
 #, kde-format
 msgid "Delete Flag..."
 msgstr "Eliminar a bandeira…"
 
-#: kspopupmenu.cpp:535
+#: kspopupmenu.cpp:537
 #, kde-format
 msgid "Image Resources"
 msgstr "Recursos de imaxes"
 
-#: kspopupmenu.cpp:536
+#: kspopupmenu.cpp:538
 #, kde-format
 msgid "Web Links"
 msgstr "Ligazóns web"
 
-#: kspopupmenu.cpp:578
+#: kspopupmenu.cpp:580
 #, kde-format
 msgid "Remove From Local Catalog"
 msgstr "Retirar do catálogo local"
 
-#: kspopupmenu.cpp:621
+#: kspopupmenu.cpp:623
 #, kde-format
 msgctxt "Move mount to target"
 msgid "Goto"
 msgstr "Ir a"
 
-#: kspopupmenu.cpp:630
+#: kspopupmenu.cpp:632
 #, kde-format
 msgctxt "Synchronize mount to target"
 msgid "Sync"
 msgstr "Sincronizar"
 
-#: kspopupmenu.cpp:671
+#: kspopupmenu.cpp:673
 #, kde-format
 msgid "Track satellite"
 msgstr "Seguir o satélite"
 
-#: kspopupmenu.cpp:685
+#: kspopupmenu.cpp:687
 #, kde-format
 msgid "Goto && Set As Parking Position"
 msgstr "Ir e definir como posición de estacionamento"
 
-#: kspopupmenu.cpp:692
+#: kspopupmenu.cpp:694
 #, kde-format
 msgid "Find Telescope"
 msgstr "Atopar o telescopio"
@@ -79769,12 +79775,12 @@ msgstr "Saltador estelar: Insire o campo de visión que usar"
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr "FOV que usar para o salto estelar (en minutos de arco):"
 
-#: skymap.cpp:899
+#: skymap.cpp:912
 #, kde-format
 msgid "No object selected."
 msgstr "Non hai ningún obxecto escollido."
 
-#: skymap.cpp:899
+#: skymap.cpp:912
 #, kde-format
 msgid "Object Details"
 msgstr "Detalles do obxecto"
@@ -82475,12 +82481,12 @@ msgstr "Icona"
 msgid "Label"
 msgstr "Etiqueta"
 
-#: tools/flagmanager.cpp:178
+#: tools/flagmanager.cpp:180
 #, kde-format
 msgid "Invalid coordinates."
 msgstr "Coordenadas incorrectas."
 
-#: tools/flagmanager.cpp:279
+#: tools/flagmanager.cpp:281
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr ""
@@ -88368,6 +88374,9 @@ msgstr "Cor do fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Indicar a cor do fondo."
+
+#~ msgid "Add Flag..."
+#~ msgstr "Engadir unha bandeira…"
 
 #~ msgid ""
 #~ "Due to a known issue in the kde frameworks, updating already downloaded "

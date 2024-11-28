@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-25 01:51+0000\n"
+"POT-Creation-Date: 2024-11-28 01:47+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -1278,7 +1278,7 @@ msgstr "Europa"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1370
+#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1383
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -3885,7 +3885,7 @@ msgid "Could not update the user log."
 msgstr "Nuk mund të hapim skedarin %1"
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:321 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
+#: kstarsactions.cpp:321 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:689 tools/observinglist.cpp:711
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, fuzzy, kde-format
@@ -4642,18 +4642,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "Vendose Fokusin në Mënyrë Manuale"
 
-#: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr "Vlera e Saktë e Lëvizjes duhet të jetë midis 0.0 dhe 24.0."
 
-#: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:186
+#: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:188
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr "Vlera e këndit duhet të jetë midis -90.0 dhe90.0."
 
 #: dialogs/focusdialog.cpp:133 dialogs/focusdialog.cpp:191
-#: tools/flagmanager.cpp:189
+#: tools/flagmanager.cpp:191
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "Të Dhëna të Pavlefshme të Koordinatës"
@@ -15899,7 +15899,7 @@ msgstr "Ndalo &Gjurmimin"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
-#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:642
+#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
@@ -24434,7 +24434,7 @@ msgstr "DJALI"
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
 #: ekos/mount/mount.ui:747 ekos/observatory/observatory.cpp:276
 #: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
-#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:651
+#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:653
 #, kde-format
 msgid "Park"
 msgstr ""
@@ -24442,7 +24442,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, unparkB)
 #. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
 #: ekos/mount/mount.ui:777 ekos/observatory/observatory.ui:498
-#: kspopupmenu.cpp:656
+#: kspopupmenu.cpp:658
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "UnPark"
@@ -32615,18 +32615,18 @@ msgstr "Nuk ka kohë perëndimi: Nuk perëndon kurrë"
 msgid "Transit time: %1"
 msgstr "Koha e tranzitit: %1"
 
-#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:825
+#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:827
 #, kde-format
 msgid "Empty sky"
 msgstr "Qiell i zbrazët"
 
-#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:586
+#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:588
 #, kde-format
 msgctxt "Sloan Digital Sky Survey"
 msgid "Show SDSS Image"
 msgstr "Shfaq Imazhin SDSS"
 
-#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:588
+#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:590
 #, kde-format
 msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
@@ -32764,75 +32764,80 @@ msgstr ""
 
 #: kspopupmenu.cpp:456
 #, fuzzy, kde-format
-#| msgid "Server"
-msgid "Add Flag..."
-msgstr "Serveri"
+#| msgid "Find Object"
+msgid "Add Flag (nearby object)..."
+msgstr "Gjej Objektin"
 
-#: kspopupmenu.cpp:463
+#: kspopupmenu.cpp:458
+#, kde-format
+msgid "Add Flag (exactly here)..."
+msgstr ""
+
+#: kspopupmenu.cpp:465
 #, fuzzy, kde-format
 #| msgid "Toggle flags"
 msgid "Edit Flag"
 msgstr "Ndërro flamurët"
 
-#: kspopupmenu.cpp:465
+#: kspopupmenu.cpp:467
 #, fuzzy, kde-format
 #| msgid "Toggle flags"
 msgid "Delete Flag"
 msgstr "Ndërro flamurët"
 
-#: kspopupmenu.cpp:474
+#: kspopupmenu.cpp:476
 #, fuzzy, kde-format
 #| msgid "Toggle flags"
 msgid "Edit Flag..."
 msgstr "Ndërro flamurët"
 
-#: kspopupmenu.cpp:476
+#: kspopupmenu.cpp:478
 #, fuzzy, kde-format
 #| msgid "Toggle flags"
 msgid "Delete Flag..."
 msgstr "Ndërro flamurët"
 
-#: kspopupmenu.cpp:535
+#: kspopupmenu.cpp:537
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Image Resources"
 msgstr "Informacioni"
 
-#: kspopupmenu.cpp:536
+#: kspopupmenu.cpp:538
 #, fuzzy, kde-format
 #| msgid "Links"
 msgid "Web Links"
 msgstr "Lidhjet"
 
-#: kspopupmenu.cpp:578
+#: kspopupmenu.cpp:580
 #, kde-format
 msgid "Remove From Local Catalog"
 msgstr ""
 
-#: kspopupmenu.cpp:621
+#: kspopupmenu.cpp:623
 #, kde-format
 msgctxt "Move mount to target"
 msgid "Goto"
 msgstr ""
 
-#: kspopupmenu.cpp:630
+#: kspopupmenu.cpp:632
 #, kde-format
 msgctxt "Synchronize mount to target"
 msgid "Sync"
 msgstr ""
 
-#: kspopupmenu.cpp:671
+#: kspopupmenu.cpp:673
 #, fuzzy, kde-format
 #| msgid "Satellite Track"
 msgid "Track satellite"
 msgstr "Gjurmët e Satelitit"
 
-#: kspopupmenu.cpp:685
+#: kspopupmenu.cpp:687
 #, kde-format
 msgid "Goto && Set As Parking Position"
 msgstr ""
 
-#: kspopupmenu.cpp:692
+#: kspopupmenu.cpp:694
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Find Telescope"
@@ -79665,13 +79670,13 @@ msgstr ""
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr ""
 
-#: skymap.cpp:899
+#: skymap.cpp:912
 #, fuzzy, kde-format
 #| msgid "Info Box Selected"
 msgid "No object selected."
 msgstr "Kutia e Informacionit u Zgjodh"
 
-#: skymap.cpp:899
+#: skymap.cpp:912
 #, kde-format
 msgid "Object Details"
 msgstr "Detajet e Objektit"
@@ -81915,13 +81920,13 @@ msgstr ""
 msgid "Label"
 msgstr "Etiketat të Përdoruesit"
 
-#: tools/flagmanager.cpp:178
+#: tools/flagmanager.cpp:180
 #, fuzzy, kde-format
 #| msgid "Invalid Coordinate Data"
 msgid "Invalid coordinates."
 msgstr "Të Dhëna të Pavlefshme të Koordinatës"
 
-#: tools/flagmanager.cpp:279
+#: tools/flagmanager.cpp:281
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr ""
@@ -87507,6 +87512,11 @@ msgstr ""
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Server"
+#~ msgid "Add Flag..."
+#~ msgstr "Serveri"
 
 #, fuzzy
 #~| msgid "Could not open file %1"

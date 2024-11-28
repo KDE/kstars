@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-25 01:51+0000\n"
+"POT-Creation-Date: 2024-11-28 01:47+0000\n"
 "PO-Revision-Date: 2008-01-03 16:48+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -1308,7 +1308,7 @@ msgstr "युरोपा"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1370
+#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1383
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -3983,7 +3983,7 @@ msgid "Could not update the user log."
 msgstr "फाइल मेट्न सकेन: %1"
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:321 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
+#: kstarsactions.cpp:321 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:689 tools/observinglist.cpp:711
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, fuzzy, kde-format
@@ -4751,18 +4751,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr "फोकस म्यानुअल तरिकाले सेट गर्नुहोस्"
 
-#: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr "सही वृद्धि मान ०.० र २४.० को बीचमा हुनुपर्छ ।"
 
-#: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:186
+#: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:188
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr "अधोनति मान -९०.० र ९०.० को बीचमा हुनुपर्छ ।"
 
 #: dialogs/focusdialog.cpp:133 dialogs/focusdialog.cpp:191
-#: tools/flagmanager.cpp:189
+#: tools/flagmanager.cpp:191
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr "अवैध समन्वय डेटा"
@@ -16449,7 +16449,7 @@ msgstr "ट्रयाकिङ रोक्नुहोस्"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
-#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:642
+#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
@@ -25291,7 +25291,7 @@ msgstr "अहिले"
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
 #: ekos/mount/mount.ui:747 ekos/observatory/observatory.cpp:276
 #: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
-#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:651
+#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:653
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Parkes"
@@ -25301,7 +25301,7 @@ msgstr "पार्केस"
 #. i18n: ectx: property (text), widget (QPushButton, unparkB)
 #. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
 #: ekos/mount/mount.ui:777 ekos/observatory/observatory.ui:498
-#: kspopupmenu.cpp:656
+#: kspopupmenu.cpp:658
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Parkes"
@@ -33800,19 +33800,19 @@ msgstr "समय सेट गरेको छैन: कहिल्यै उ
 msgid "Transit time: %1"
 msgstr "पारवहन समय: %1"
 
-#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:825
+#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:827
 #, kde-format
 msgid "Empty sky"
 msgstr "खुल्ला आकाश"
 
-#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:586
+#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:588
 #, fuzzy, kde-format
 #| msgid "Show SEDS Image"
 msgctxt "Sloan Digital Sky Survey"
 msgid "Show SDSS Image"
 msgstr "SEDS छवि देखाउनुहोस्"
 
-#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:588
+#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:590
 #, fuzzy, kde-format
 #| msgid "Show SEDS Image"
 msgctxt "Digitized Sky Survey"
@@ -33954,76 +33954,81 @@ msgstr "आजको रात के छ..."
 
 #: kspopupmenu.cpp:456
 #, fuzzy, kde-format
-#| msgid "Add Link..."
-msgid "Add Flag..."
-msgstr "लिङ्क थप्नुहोस्..."
+#| msgid "Find Object"
+msgid "Add Flag (nearby object)..."
+msgstr "वस्तु फेला पार्नुहोस्"
 
-#: kspopupmenu.cpp:463
+#: kspopupmenu.cpp:458
+#, kde-format
+msgid "Add Flag (exactly here)..."
+msgstr ""
+
+#: kspopupmenu.cpp:465
 #, fuzzy, kde-format
 #| msgid "Edit Ima&ge..."
 msgid "Edit Flag"
 msgstr "छवि सम्पादन गर्नुहोस्..."
 
-#: kspopupmenu.cpp:465
+#: kspopupmenu.cpp:467
 #, fuzzy, kde-format
 #| msgid "Select all major bodies"
 msgid "Delete Flag"
 msgstr "सबै मुख्य भाग चयन गर्नुहोस्"
 
-#: kspopupmenu.cpp:474
+#: kspopupmenu.cpp:476
 #, fuzzy, kde-format
 #| msgid "Edit Ima&ge..."
 msgid "Edit Flag..."
 msgstr "छवि सम्पादन गर्नुहोस्..."
 
-#: kspopupmenu.cpp:476
+#: kspopupmenu.cpp:478
 #, fuzzy, kde-format
 #| msgid "Select all major bodies"
 msgid "Delete Flag..."
 msgstr "सबै मुख्य भाग चयन गर्नुहोस्"
 
-#: kspopupmenu.cpp:535
+#: kspopupmenu.cpp:537
 #, fuzzy, kde-format
 #| msgid "View Resource"
 msgid "Image Resources"
 msgstr "संसाधान हेर्नुहोस्"
 
-#: kspopupmenu.cpp:536
+#: kspopupmenu.cpp:538
 #, fuzzy, kde-format
 #| msgid "Links"
 msgid "Web Links"
 msgstr "लिङ्क"
 
-#: kspopupmenu.cpp:578
+#: kspopupmenu.cpp:580
 #, fuzzy, kde-format
 #| msgid "Remove Catalog..."
 msgid "Remove From Local Catalog"
 msgstr "विवरणिका हटाउनुहोस्..."
 
-#: kspopupmenu.cpp:621
+#: kspopupmenu.cpp:623
 #, kde-format
 msgctxt "Move mount to target"
 msgid "Goto"
 msgstr ""
 
-#: kspopupmenu.cpp:630
+#: kspopupmenu.cpp:632
 #, kde-format
 msgctxt "Synchronize mount to target"
 msgid "Sync"
 msgstr ""
 
-#: kspopupmenu.cpp:671
+#: kspopupmenu.cpp:673
 #, fuzzy, kde-format
 #| msgid "Show constellation lines?"
 msgid "Track satellite"
 msgstr "तारामण्डल रेखा देखाउनुहुन्छ ?"
 
-#: kspopupmenu.cpp:685
+#: kspopupmenu.cpp:687
 #, kde-format
 msgid "Goto && Set As Parking Position"
 msgstr ""
 
-#: kspopupmenu.cpp:692
+#: kspopupmenu.cpp:694
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Find Telescope"
@@ -88276,12 +88281,12 @@ msgstr "दृश्य फिल्ड सङ्केतका लागि �
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr ""
 
-#: skymap.cpp:899
+#: skymap.cpp:912
 #, kde-format
 msgid "No object selected."
 msgstr "कुनै वस्तु चयन गरिएको छैन ।"
 
-#: skymap.cpp:899
+#: skymap.cpp:912
 #, kde-format
 msgid "Object Details"
 msgstr "वस्तुको विवरण"
@@ -91023,13 +91028,13 @@ msgstr "इचअन"
 msgid "Label"
 msgstr "लेबुल:"
 
-#: tools/flagmanager.cpp:178
+#: tools/flagmanager.cpp:180
 #, fuzzy, kde-format
 #| msgid "Invalid Coordinate Data"
 msgid "Invalid coordinates."
 msgstr "अवैध समन्वय डेटा"
 
-#: tools/flagmanager.cpp:279
+#: tools/flagmanager.cpp:281
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr "टेलिस्कोप %1 अफलाइन छ । कृपया जडान गर्नुहोस् र फेरि पुन: प्रयास गर्नुहोस् ।"
@@ -96918,6 +96923,11 @@ msgstr "सूचना बाकसहरूको पृष्ठभूमि 
 #| msgid "The color for the sky background."
 msgid "Set the color for the background."
 msgstr "आकाश पृष्ठभूमिको लागि रङ ।"
+
+#, fuzzy
+#~| msgid "Add Link..."
+#~ msgid "Add Flag..."
+#~ msgstr "लिङ्क थप्नुहोस्..."
 
 #, fuzzy
 #~| msgid "Could not delete the file: %1"
