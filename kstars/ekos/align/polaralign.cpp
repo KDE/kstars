@@ -185,6 +185,18 @@ double getRotationAngles(const V3 &from, const V3 &goal, double *zAngle, double 
     return getBestRotation(from, goal, *zAngle, *yAngle, zAngle, yAngle, pass2Range, pass2Resolution);
 }
 
+// Computes the new RA axis resulting from when point "before" is rotated to "after". This corresponds to the
+// change in RA axis that happens when the user adjusts the mount's altitude and azimuth knobs.
+// Before is the telescope's view before the knobs are changed (which is the polar-align's point3)
+// and After is the telescope's view after the mount is rotated (which is the plate solve of some refresh point).
+V3 getNewAxis(const V3 &before, const V3 &after, const V3 &originalAxis)
+{
+    V3 rotationAxis = Rotations::getAxis(before, after);
+    double rotationDegrees = Rotations::getAngle(before, after);
+    // Rotate the original RA axis position by the above adjustments.
+    return Rotations::rotateAroundAxis(originalAxis, rotationAxis, rotationDegrees);
+}
+
 }  // namespace
 
 // Compute the polar-alignment azimuth and altitude error by comparing the new image's coordinates
@@ -228,29 +240,21 @@ bool PolarAlign::processRefreshCoords(const SkyPoint &coords, const KStarsDateTi
     // Find the adjustment the user must have made by examining the change from point3 to newPoint
     // (i.e. the rotation caused by the user adjusting the azimuth and altitude knobs).
     // We assume that this was a rotation around a level mount's y axis and z axis.
-    double zAdjustment, yAdjustment;
-    double residual = getRotationAngles(point3, newPoint, &zAdjustment, &yAdjustment);
-    if (residual > 0.5)
-    {
-        qCInfo(KSTARS_EKOS_ALIGN) << QString("PAA refresh: failed to estimate rotation angle (residual %1'").arg(residual * 60);
-        return false;
-    }
-    qCInfo(KSTARS_EKOS_ALIGN) << QString("PAA refresh: Estimated current adjustment: Az %1' Alt %2' residual %3a-s")
-                              .arg(zAdjustment * 60, 0, 'f', 1).arg(yAdjustment * 60, 0, 'f', 1).arg(residual * 3600, 0, 'f', 0);
-
-    // Return the estimated adjustments (used by testing).
-    if (altAdjustment != nullptr) *altAdjustment = yAdjustment;
-    if (azAdjustment != nullptr) *azAdjustment = zAdjustment;
-
-    // Rotate the original RA axis position by the above adjustments.
     const V3 origAxisPoint = Rotations::azAlt2xyz(QPointF(azimuthCenter, altitudeCenter));
-    const V3 tempPoint = Rotations::rotateAroundY(origAxisPoint, yAdjustment);
-    const V3 newAxisPoint = Rotations::rotateAroundZ(tempPoint, zAdjustment);
-
+    const V3 newAxisPoint = getNewAxis(point3, newPoint, origAxisPoint);
     // Convert the rotated axis point back to an az/alt coordinate, representing the new RA axis.
     const QPointF newAxisAzAlt = Rotations::xyz2azAlt(newAxisPoint);
     const double newAxisAz = newAxisAzAlt.x();
     const double newAxisAlt = newAxisAzAlt.y();
+    double azAdjustmentKeep = newAxisAz - azimuthCenter;
+    double altAdjustmentKeep = newAxisAlt - altitudeCenter;
+
+    qCInfo(KSTARS_EKOS_ALIGN) << QString("PAA refresh: Estimated current adjustment: Az %1' Alt %2'")
+                              .arg(azAdjustmentKeep * 60, 0, 'f', 1).arg(altAdjustmentKeep * 60, 0, 'f', 1);
+
+    // Return the estimated adjustments (used by testing).
+    if (altAdjustment != nullptr) *altAdjustment = altAdjustmentKeep;
+    if (azAdjustment != nullptr) *azAdjustment = azAdjustmentKeep;
 
     // Compute the polar alignment error for the new RA axis.
     const double latitudeDegrees = geoLocation->lat()->Degrees();
@@ -260,11 +264,12 @@ bool PolarAlign::processRefreshCoords(const SkyPoint &coords, const KStarsDateTi
         *azError -= 360;
 
     QString infoString =
-        QString("PAA refresh: ra0 %1 dec0 %2 Az/Alt: %3 %4 AXIS: %5 %6 --> %7 %8 ERR: %9' alt %10'")
+        QString("PAA refresh: ra0 %1 dec0 %2 Az/Alt: %3 %4 AXIS: %5 %6 --> %7 %8 ADJ: %9' %10' ERR: %11' %12'")
         .arg(coords.ra0().Degrees(), 0, 'f', 3).arg(coords.dec0().Degrees(), 0, 'f', 3)
         .arg(az, 0, 'f', 3).arg(alt, 0, 'f', 3)
         .arg(azimuthCenter, 0, 'f', 3).arg(altitudeCenter, 0, 'f', 3)
         .arg(newAxisAz, 0, 'f', 3).arg(newAxisAlt, 0, 'f', 3)
+        .arg(azAdjustmentKeep * 60, 0, 'f', 1).arg(altAdjustmentKeep * 60, 0, 'f', 1)
         .arg(*azError * 60, 0, 'f', 1).arg(*altError * 60, 0, 'f', 1);
     qCInfo(KSTARS_EKOS_ALIGN) << infoString;
 
