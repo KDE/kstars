@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-28 01:47+0000\n"
-"PO-Revision-Date: 2024-11-25 12:58+0200\n"
+"PO-Revision-Date: 2024-11-28 14:41+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -33810,15 +33810,14 @@ msgid "View in What's Interesting"
 msgstr "Переглянути у списку «Цікаві об'єкти»"
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "Додати об'єкт…"
+msgstr "Додати прапорець (сусідній об'єкт)…"
 
 #: kspopupmenu.cpp:458
 #, kde-format
 msgid "Add Flag (exactly here)..."
-msgstr ""
+msgstr "Додати прапорець (саме тут)…"
 
 #: kspopupmenu.cpp:465
 #, kde-format

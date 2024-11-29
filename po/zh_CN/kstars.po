@@ -31652,10 +31652,9 @@ msgid "View in What's Interesting"
 msgstr "在“有趣天体”内查看"
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "添加天体..."
+msgstr ""
 
 #: kspopupmenu.cpp:458
 #, kde-format
@@ -84603,6 +84602,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Add Flag..."
-#~ msgstr "添加标记..."

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-28 01:47+0000\n"
-"PO-Revision-Date: 2024-11-17 22:03+0100\n"
+"PO-Revision-Date: 2024-11-28 20:16+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -8846,10 +8846,9 @@ msgstr "Адрес на индексните файлове:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
-#, fuzzy, kde-format
-#| msgid "http://broiler.astrometry.net/~dstn/"
+#, kde-format
 msgid "http://data.astrometry.net/"
-msgstr "http://broiler.astrometry.net/~dstn/"
+msgstr "http://data.astrometry.net/"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
 #: ekos/align/opsastrometryindexfiles.ui:350
@@ -33780,15 +33779,14 @@ msgid "View in What's Interesting"
 msgstr "Вижте в \"Нещо интересно\""
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "Добавяне на обект..."
+msgstr "Добавяне на флаг (близък обект)..."
 
 #: kspopupmenu.cpp:458
 #, kde-format
 msgid "Add Flag (exactly here)..."
-msgstr ""
+msgstr "Добавяне на флаг (точно тук)..."
 
 #: kspopupmenu.cpp:465
 #, kde-format
@@ -82668,11 +82666,10 @@ msgid "%1 region is invalid."
 msgstr "%1 регион е невалиден."
 
 #: tools/horizonmanager.cpp:551
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
-msgstr "Изкуствен хоризонт"
+msgstr "Запазване на изкуствения хоризонт"
 
 #: tools/horizonmanager.cpp:667
 #, kde-format
@@ -82705,16 +82702,15 @@ msgstr "Превключване на покрива"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportHorizonB)
 #: tools/horizonmanager.ui:136
-#, fuzzy, kde-format
-#| msgid "Description of the selected profile"
+#, kde-format
 msgid "Export the selected horizon to a file"
-msgstr "Описание на избрания профил"
+msgstr "Експортиране на избрания хоризонт във файл"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, importHorizonB)
 #: tools/horizonmanager.ui:161
 #, kde-format
 msgid "Import a previously exported horizon file"
-msgstr ""
+msgstr "Импортиране на експортиран по-рано файл"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, saveB)
 #: tools/horizonmanager.ui:199
@@ -82754,41 +82750,7 @@ msgstr "Избор на точки от небесната карта"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/horizonmanager.ui:400
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
 "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" font-"
@@ -82859,7 +82821,11 @@ msgstr ""
 "italic;\">Прилагане</span>.</li><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
 "indent:0px;\">Дефинирането на региони е по-лесно, когато се използва в "
-"комбинация с функцията Фон на терена .</li></ul></body></html>"
+"комбинация с функцията Фон на терена ..</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Можете да експортирате (и по-късно да импортирате) "
+"региони с помощта на експортиране/бутони за импортиране на региони.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.cpp:169 tools/imagingplanner.ui:1878

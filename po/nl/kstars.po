@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-28 01:47+0000\n"
-"PO-Revision-Date: 2024-11-25 11:19+0100\n"
+"PO-Revision-Date: 2024-11-28 12:15+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -33490,15 +33490,14 @@ msgid "View in What's Interesting"
 msgstr "In Wat is interessant kijken..."
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "Object toevoegen..."
+msgstr "Vlag toevoegen (object dichtbij)..."
 
 #: kspopupmenu.cpp:458
 #, kde-format
 msgid "Add Flag (exactly here)..."
-msgstr ""
+msgstr "Vlag toevoegen (exact hier)..."
 
 #: kspopupmenu.cpp:465
 #, kde-format
