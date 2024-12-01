@@ -1,4 +1,4 @@
 [KNewStuff3]
-ProvidersUrl=https://indilib.org/jdownloads/knewstuff/providers.xml
+ProvidersUrl=https://cdn.kde.org/edu/kstars/providers.xml
 TargetDir=kstars
 Uncompress=true
