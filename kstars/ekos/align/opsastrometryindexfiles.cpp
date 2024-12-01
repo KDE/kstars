@@ -444,7 +444,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
         qDebug() << Q_FUNC_INFO << "Download Cancelled.";
         timeoutTimer.stop();
         disconnectDownload(cancelConnection, replyConnection, percentConnection);
-        emit newDownloadProgress(i18n("%s download cancelled.", indexSeriesName));
+        emit newDownloadProgress(i18n("%1 download cancelled.", indexSeriesName));
         if(response)
         {
             response->abort();
