@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2024-11-23 12:49+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -8535,8 +8535,9 @@ msgstr ""
 "accessible, or you are not connected."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, kde-format
-msgid "%s download cancelled."
+#, fuzzy, kde-format
+#| msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr "%s download cancelled."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482

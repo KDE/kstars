@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2024-11-28 14:41+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -8620,8 +8620,9 @@ msgstr ""
 "швидким, файл недоступний або комп'ютер взагалі не з'єднано з мережею."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, kde-format
-msgid "%s download cancelled."
+#, fuzzy, kde-format
+#| msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr "Отримання %s скасовано."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482

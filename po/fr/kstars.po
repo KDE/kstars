@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2024-09-18 17:14+0200\n"
 "Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -8676,7 +8676,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.cpp:447
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
-msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr "Modifier un lien..."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482

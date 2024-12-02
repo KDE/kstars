@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -8329,9 +8329,10 @@ msgid ""
 msgstr "下载超时。要么网络不够快，文件无法访问，要么您没有连接。"
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, kde-format
-msgid "%s download cancelled."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Editing job canceled."
+msgid "%1 download cancelled."
+msgstr "取消编辑任务"
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2010-01-28 23:11+0100\n"
 "Last-Translator: Marko Dimjasevic <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -8499,9 +8499,9 @@ msgid ""
 msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, kde-format
-msgid "%s download cancelled."
-msgstr ""
+#, fuzzy, kde-format
+msgid "%1 download cancelled."
+msgstr "Dodatne opcije veličina"
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, fuzzy, kde-format

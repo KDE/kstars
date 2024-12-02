@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2024-11-28 10:59+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -8654,8 +8654,9 @@ msgstr ""
 "fitxer, o no hi ha connexió."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, kde-format
-msgid "%s download cancelled."
+#, fuzzy, kde-format
+#| msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr "S'ha cancel·lat la baixada de %s."
 
 # skip-rule: k-Alt-1

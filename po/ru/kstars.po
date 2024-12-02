@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -8967,7 +8967,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.cpp:447
 #, fuzzy, kde-format
 #| msgid "Editing job canceled."
-msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr "Правка задания отменена."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482

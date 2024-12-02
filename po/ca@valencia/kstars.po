@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
-"PO-Revision-Date: 2024-11-25 20:22+0100\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"PO-Revision-Date: 2024-11-30 23:19+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -8730,8 +8730,9 @@ msgstr ""
 "fitxer, o no hi ha connexió."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, kde-format
-msgid "%s download cancelled."
+#, fuzzy, kde-format
+#| msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr "S'ha cancel·lat la baixada de %s."
 
 # skip-rule: k-Alt-1
@@ -34298,15 +34299,14 @@ msgid "View in What's Interesting"
 msgstr "Visualitza en el «Què hi ha d'interessant»"
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "Afig un objecte…"
+msgstr "Afig un indicador (objecte proper)…"
 
 #: kspopupmenu.cpp:458
 #, kde-format
 msgid "Add Flag (exactly here)..."
-msgstr ""
+msgstr "Afig un indicador (exactament ací)…"
 
 #: kspopupmenu.cpp:465
 #, kde-format
@@ -89449,6 +89449,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Add Flag..."
-#~ msgstr "Afig un indicador…"

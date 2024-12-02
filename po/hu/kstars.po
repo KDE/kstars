@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -8702,7 +8702,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.cpp:447
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
-msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr "Link módosítása..."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482

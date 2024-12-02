@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2009-04-22 00:00+0530\n"
 "Last-Translator: Sangeeta Kumari <sangeeta09@gmail.com>\n"
 "Language-Team: Maithili <maithili.sf.net>\n"
@@ -8706,9 +8706,10 @@ msgid ""
 msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, kde-format
-msgid "%s download cancelled."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Computer"
+msgid "%1 download cancelled."
+msgstr "कम्प्यूटर"
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, fuzzy, kde-format

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
 "PO-Revision-Date: 2010-03-14 21:56+0530\n"
 "Last-Translator: Danishka Navin\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -8186,7 +8186,7 @@ msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
 #, kde-format
-msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:482

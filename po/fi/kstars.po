@@ -4,7 +4,15 @@
 # Ilpo Kantonen <ilpo@iki.fi>, 2005.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2022.
-# Tommi Nieminen <translator@legisign.org>, 2011, 2019, 2020, 2023.
+# SPDX-FileCopyrightText: 2011, 2019, 2020, 2023, 2024 Tommi Nieminen <translator@legisign.org>
+# Niklas Laxström <niklas.laxstrom+kdetrans@gmail.com>, 2012.
+# Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013.
+# Pasi Sarkkinen <pasarkkinen@gmail.com>, 2016.
+# Marko Gronroos <magi@iki.fi>, 2003,2004, 2005.
+# Ilpo Kantonen <ilpo@iki.fi>, 2005.
+# Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
+# Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2022.
+# Tommi Nieminen <translator@legisign.org>, 2011, 2019, 2020, 2023, 2024.
 # Niklas Laxström <niklas.laxstrom+kdetrans@gmail.com>, 2012.
 # Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013.
 # Pasi Sarkkinen <pasarkkinen@gmail.com>, 2016.
@@ -23,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-28 01:47+0000\n"
-"PO-Revision-Date: 2023-05-15 16:19+0300\n"
+"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"PO-Revision-Date: 2024-11-21 20:29+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -32,8 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-POT-Import-Date: 2012-12-01 22:23:32+0000\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -523,7 +530,7 @@ msgstr "Odota, kun DSS-kuvaa ladataan…"
 #, kde-format
 msgctxt "%2 is the value, % is the percent sign"
 msgid "%1 (%2%)"
-msgstr ""
+msgstr "%1 (%2%)"
 
 #: auxiliary/ksmessagebox.cpp:132
 #, fuzzy, kde-format
@@ -771,6 +778,8 @@ msgid ""
 "Unable to find dcraw and cjpeg. Please install the required tools to convert "
 "CR2/NEF to JPEG."
 msgstr ""
+"cdraw’ta ja cjpegiä ei löydy. Asenna vaaditut työkalut, joilla CR2/NEF "
+"muunnetaan JPEGiksi."
 
 #: auxiliary/ksutils.cpp:1681
 #, kde-format
@@ -835,7 +844,7 @@ msgstr ""
 msgid ""
 "There was a problem creating the data directory ~/Library/Application "
 "Support/."
-msgstr ""
+msgstr "Datakansion ”~/Library/Application Support” luomisessa ilmeni ongelma."
 
 #: auxiliary/kswizard.cpp:386
 #, kde-format
@@ -1030,7 +1039,7 @@ msgstr "Pienoiskuvan valitsin"
 #: tools/eclipsetool.ui:183
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p %"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:72
@@ -1369,7 +1378,7 @@ msgstr "Triton"
 #: auxiliary/xplanetimageviewer.cpp:226
 #, kde-format
 msgid "This allows you to select a new object/target for XPlanet to view"
-msgstr ""
+msgstr "Tämä mahdollistaa valita uuden kohteen XPlanetilla katsottavaksi"
 
 #: auxiliary/xplanetimageviewer.cpp:234
 #, kde-format
@@ -1402,16 +1411,19 @@ msgid ""
 "XPlanet Latitude, Longitude, and object radius in %. This is only valid when "
 "viewing the object from the same object"
 msgstr ""
+"XPlanetin leveys- ja pituusaste ja kohteen säde prosentteina. Tässä on "
+"mieltä vain, kun katsotaan kohdetta samasta kohteesta."
 
 #: auxiliary/xplanetimageviewer.cpp:259
 #, kde-format
 msgid "Reset XPlanet Location to the location specified in the XPlanet Options"
-msgstr ""
+msgstr "Palauta XPlanetin sijainti XPlanetin asetuksissa määritetyksi"
 
 #: auxiliary/xplanetimageviewer.cpp:269
 #, kde-format
 msgid "Hover over target and freely rotate view with mouse in XPlanet Viewer"
 msgstr ""
+"Leiju XPlanet-katselimessa kohteen yllä ja kierrä näkymää vapaasti hiirellä"
 
 #: auxiliary/xplanetimageviewer.cpp:278
 #, kde-format
@@ -1481,12 +1493,12 @@ msgstr "Näyttää XPlanet-valinnat"
 #: auxiliary/xplanetimageviewer.cpp:405
 #, kde-format
 msgid "Allows you to set the XPlanet time to a different date/time from KStars"
-msgstr ""
+msgstr "Mahdollistaa asettaa XPlanetin ajan KStarsista eri päiväksi tai ajaksi"
 
 #: auxiliary/xplanetimageviewer.cpp:414
 #, kde-format
 msgid "Sets the XPlanet time to the current KStars time"
-msgstr ""
+msgstr "Asettaa XPlanetin ajan KStarsin nykyiseksi ajaksi"
 
 #: auxiliary/xplanetimageviewer.cpp:419
 #, fuzzy, kde-format
@@ -1508,11 +1520,12 @@ msgid ""
 "This sets the time step from the current XPlanet time, good for viewing "
 "events"
 msgstr ""
+"Asettaa aika-askelen XPlanetin nykyisestä ajasta: sopii katselutapahtumiin"
 
 #: auxiliary/xplanetimageviewer.cpp:435
 #, kde-format
 msgid "This sets the time step from the current XPlanet time"
-msgstr ""
+msgstr "Asettaa aika-askelen XPlanetin nykyisestä ajasta"
 
 #: auxiliary/xplanetimageviewer.cpp:442
 #, fuzzy, kde-format
@@ -1579,27 +1592,29 @@ msgstr "sekuntia"
 #: auxiliary/xplanetimageviewer.cpp:449
 #, kde-format
 msgid "Lets you change the units for the timestep in the animation"
-msgstr ""
+msgstr "Antaa muuttaa animaation aika-askelen yksiköt"
 
 #: auxiliary/xplanetimageviewer.cpp:462
 #, kde-format
 msgid "Lets you run the animation"
-msgstr ""
+msgstr "Antaa suorittaa animaation"
 
 #: auxiliary/xplanetimageviewer.cpp:471
 #, kde-format
 msgid "Resets the animation to 0 timesteps from the current XPlanet Time"
-msgstr ""
+msgstr "Palauttaa animaation 0 aika-askeleen XPlanetin nykyisestä ajasta"
 
 #: auxiliary/xplanetimageviewer.cpp:542
 #, kde-format
 msgid "Xplanet binary path is empty in config panel."
-msgstr ""
+msgstr "XPlanetin ohjelmatiedoston sijainti asetuspaneelissa on tyhjä."
 
 #: auxiliary/xplanetimageviewer.cpp:550
 #, kde-format
 msgid "The configured Xplanet binary does not exist or is not executable."
 msgstr ""
+"Asetettua XPlanet-ohjelmatiedostoa ei ole olemassa tai se ei ole "
+"suoritettava."
 
 #: auxiliary/xplanetimageviewer.cpp:754
 #, fuzzy, kde-format
@@ -1623,12 +1638,12 @@ msgstr "Kuvan %1 lataaminen epäonnistui."
 msgid ""
 "XPlanet failed to generate the image for object %1 before the timeout "
 "expired."
-msgstr ""
+msgstr "XPlanet ei onnistunut luomaa kuvaa kohteesta %1 ennen aikakatkaisua."
 
 #: auxiliary/xplanetimageviewer.cpp:795 indi/servermanager.cpp:89
 #, kde-format
 msgid "Error making FIFO file %1: %2."
-msgstr ""
+msgstr "Virhe rakennettaessa FIFO-tiedostoa %1: %2."
 
 #: auxiliary/xplanetimageviewer.cpp:846
 #, fuzzy, kde-format
@@ -1693,7 +1708,7 @@ msgstr "Tiedostoa %1 ei saatu avattua"
 #: catalogsdb/catalogsdb.cpp:757
 #, kde-format
 msgid "Output file is not writable."
-msgstr ""
+msgstr "Tulostiedosto ei ole kirjoitettavissa."
 
 #: catalogsdb/catalogsdb.cpp:765
 #, fuzzy, kde-format
@@ -1719,12 +1734,12 @@ msgstr ""
 #: catalogsdb/catalogsdb.cpp:798
 #, kde-format
 msgid "Could not insert set exported database version.<br>%1"
-msgstr ""
+msgstr "Ei voi lisätä viedyn tietokannan versiota.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:805
 #, kde-format
 msgid "Could not insert set exported database application id.<br>%1"
-msgstr ""
+msgstr "Ei voitu lisätä viedyn tietokannan sovellustunnistetta.<br>%1"
 
 #: catalogsdb/catalogsdb.cpp:821
 #, kde-format
@@ -2399,7 +2414,7 @@ msgstr "Nimi:"
 #: dialogs/addcatalogobject.ui:33
 #, kde-format
 msgid "e.g. PGC 54559"
-msgstr ""
+msgstr "esim. PGC 54559"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/addcatalogobject.ui:50
@@ -2412,7 +2427,7 @@ msgstr "Dekl (J2000.0):"
 #: dialogs/addcatalogobject.ui:72
 #, kde-format
 msgid "/"
-msgstr ""
+msgstr "/"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: dialogs/addcatalogobject.ui:91
@@ -2425,7 +2440,7 @@ msgstr "Suuruusluokka:"
 #: dialogs/addcatalogobject.ui:110
 #, kde-format
 msgid "Check if magnitude is unknown"
-msgstr ""
+msgstr "Tarkista, onko magnitudi tuntematon"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1575
@@ -2468,7 +2483,7 @@ msgstr "Pienempi akseli:"
 #: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:106
 #, kde-format
 msgid "Misc"
-msgstr ""
+msgstr "Sekalaista"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_3)
@@ -2488,7 +2503,7 @@ msgstr "Luettelon esikatselu"
 #: dialogs/addcatalogobject.ui:195
 #, kde-format
 msgid "e.g. 54559"
-msgstr ""
+msgstr "esim. 54559"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/addcatalogobject.ui:202
@@ -2527,7 +2542,7 @@ msgstr ""
 #: dialogs/addcatalogobject.ui:254
 #, kde-format
 msgid "Guess from &Text"
-msgstr ""
+msgstr "A&rvaa tekstistä"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox4)
 #: dialogs/addcatdialog.ui:32
@@ -2572,7 +2587,7 @@ msgstr ""
 #: dialogs/addcatdialog.ui:89
 #, kde-format
 msgid "Describe Data Fields"
-msgstr ""
+msgstr "Kuvaile tietokentät"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3)
 #: dialogs/addcatdialog.ui:137
@@ -2813,13 +2828,13 @@ msgstr "Luettelokoordinaatit"
 #: dialogs/catalogcoloreditor.ui:23
 #, kde-format
 msgid "_"
-msgstr ""
+msgstr "_"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/catalogcoloreditor.ui:36
 #, kde-format
 msgid "Click on a color to change it..."
-msgstr ""
+msgstr "Vaihda väriä napsauttamalla sitä…"
 
 #: dialogs/catalogcsvimport.cpp:89
 #, kde-format
@@ -2894,7 +2909,7 @@ msgstr "Oletus"
 #: dialogs/catalogcsvimport.ui:14
 #, kde-format
 msgid "CSV Import"
-msgstr ""
+msgstr "CSV-tuonti"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/catalogcsvimport.ui:37
@@ -2914,7 +2929,7 @@ msgstr "Lineaarinen"
 #: dialogs/catalogcsvimport.ui:77
 #, kde-format
 msgid "Skip first:"
-msgstr ""
+msgstr "Sivuuta ensimmäiset:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/catalogcsvimport.ui:84
@@ -2926,13 +2941,13 @@ msgstr "Taranto"
 #: dialogs/catalogcsvimport.ui:109
 #, kde-format
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. i18n: ectx: property (text), widget (QLineEdit, separator)
 #: dialogs/catalogcsvimport.ui:138
 #, kde-format
 msgid ","
-msgstr ""
+msgstr ","
 
 #. i18n: ectx: property (text), widget (QPushButton, file_select_button)
 #: dialogs/catalogcsvimport.ui:151
@@ -2998,6 +3013,8 @@ msgid ""
 "Showing <= %1 entries. Enter a name (case sensitive) to narrow down the "
 "search."
 msgstr ""
+"Näytetään <= %1 tietuetta. Täsmennä hakua antamalla nimi (pien- ja "
+"suuraakkoset erotetaan)."
 
 #: dialogs/catalogdetails.cpp:80
 #, fuzzy, kde-format
@@ -3276,7 +3293,7 @@ msgstr "Pitkänimi"
 #: dialogs/catalogobjectlistmodel.cpp:77
 #, kde-format
 msgid "Identifier"
-msgstr ""
+msgstr "Tunniste"
 
 #: dialogs/catalogobjectlistmodel.cpp:79
 #, kde-format
@@ -3841,6 +3858,8 @@ msgid ""
 "Danger! Viewing the Sun without adequate solar filters is dangerous and will "
 "result in permanent eye damage!"
 msgstr ""
+"Varoitus! Auringon katselu riittävittä aurinkosuodattimitta on vaarallista "
+"ja voi johtaa pysyvään silmävaurioon!"
 
 #: dialogs/detaildialog.cpp:1207 dialogs/detaildialog.cpp:1216
 #, fuzzy, kde-format
@@ -4618,7 +4637,7 @@ msgstr "JNow"
 #: dialogs/focusdialog.ui:81
 #, kde-format
 msgid "Set Epoch to J2000"
-msgstr ""
+msgstr "Aseta epookiksi J2000"
 
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
@@ -8596,7 +8615,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.cpp:447
 #, fuzzy, kde-format
 #| msgid "Editing job canceled."
-msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr "Työn muokkaus peruttiin."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
@@ -11884,10 +11903,9 @@ msgstr "East Orange"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, temperatureStepLabel)
 #: ekos/auxiliary/darklibrary.ui:229 ekos/auxiliary/darklibrary.ui:263
-#, fuzzy, kde-format
-#| msgid "Steps:"
+#, kde-format
 msgid "Step:"
-msgstr "Askelia:"
+msgstr "Askel:"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureLabel)
 #: ekos/auxiliary/darklibrary.ui:256
@@ -11905,26 +11923,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin1Check)
 #: ekos/auxiliary/darklibrary.ui:291
-#, fuzzy, kde-format
-#| msgid "1x"
+#, kde-format
 msgid "1x1"
-msgstr "1×"
+msgstr "1×1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin2Check)
 #: ekos/auxiliary/darklibrary.ui:304
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "12x"
+#, kde-format
 msgid "2x2"
-msgstr "12x"
+msgstr "2×2"
 
 #. i18n: ectx: property (text), widget (QCheckBox, bin4Check)
 #: ekos/auxiliary/darklibrary.ui:314
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "64x"
+#, kde-format
 msgid "4x4"
-msgstr "64x"
+msgstr "4×4"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
@@ -11946,24 +11959,21 @@ msgstr "Algoritmi:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, exposureStepSin)
 #: ekos/auxiliary/darklibrary.ui:366
-#, fuzzy, kde-format
-#| msgid "Start Camera/CCD exposure. The duration is in seconds."
+#, kde-format
 msgid "Step size in seconds"
-msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
+msgstr "Askelkoko sekunteina"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/auxiliary/darklibrary.ui:382
-#, fuzzy, kde-format
-#| msgid "Total Time:"
+#, kde-format
 msgid "Total time:"
 msgstr "Kokonaisaika:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minExposureSpin)
 #: ekos/auxiliary/darklibrary.ui:389
-#, fuzzy, kde-format
-#| msgid "Start Camera/CCD exposure. The duration is in seconds."
+#, kde-format
 msgid "Minimum exposure time in seconds."
-msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
+msgstr "Vähimmäisvalotusaika sekunteina."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, countSpin)
 #: ekos/auxiliary/darklibrary.ui:405
@@ -11984,10 +11994,9 @@ msgstr "Vastaanottaja:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxExposureSpin)
 #: ekos/auxiliary/darklibrary.ui:441
-#, fuzzy, kde-format
-#| msgid "Start Camera/CCD exposure. The duration is in seconds."
+#, kde-format
 msgid "Maximum exposure time in seconds."
-msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
+msgstr "Enimmäisvalotusaika sekunteina."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/darklibrary.ui:464
@@ -12057,8 +12066,7 @@ msgstr "Mediaani:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/auxiliary/darklibrary.ui:783
-#, fuzzy, kde-format
-#| msgid "Std. Deviation:"
+#, kde-format
 msgid "Std. deviation:"
 msgstr "Keskihajonta:"
 
@@ -12490,10 +12498,9 @@ msgid "Pause planned..."
 msgstr "Lausanne"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:145
-#, fuzzy, kde-format
-#| msgid "No object selected."
+#, kde-format
 msgid "Filter selected."
-msgstr "Kohdetta ei ole valittu."
+msgstr "Suodatin valittu."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, LedStatusWidget)
 #. i18n: ectx: property (windowTitle), widget (QWidget, MeridianFlipStatusWidget)
@@ -12608,10 +12615,9 @@ msgstr "Decataur"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/auxiliary/opslogs.ui:156 options/opsadvanced.ui:290
-#, fuzzy, kde-format
-#| msgid "Output File:"
+#, kde-format
 msgid "Output:"
-msgstr "Tulostiedosto:"
+msgstr "Ulostulo:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, kcfg_DisableLogging)
 #: ekos/auxiliary/opslogs.ui:170 options/opsadvanced.ui:267
@@ -12634,11 +12640,9 @@ msgstr "INDI-palvelut pysäytetty."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDILogging)
 #: ekos/auxiliary/opslogs.ui:189 kstarsactions.cpp:1171
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "INDUS"
+#, kde-format
 msgid "INDI"
-msgstr "INTIAANI"
+msgstr "INDI"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FITSLogging)
 #: ekos/auxiliary/opslogs.ui:199
@@ -12677,10 +12681,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_LogToDefault)
 #: ekos/auxiliary/opslogs.ui:235 options/opsadvanced.ui:320
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Defaul&t"
-msgstr "Oletus"
+msgstr "&Oletus"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDomeLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, domeBox)
@@ -12703,10 +12706,9 @@ msgstr "CCD"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/auxiliary/opslogs.ui:265 options/opsadvanced.ui:297
-#, fuzzy, kde-format
-#| msgid "Intensity:"
+#, kde-format
 msgid "Verbosity:"
-msgstr "Kirkkaus:"
+msgstr "Yksityiskohtaisuus:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_CaptureLogging)
 #: ekos/auxiliary/opslogs.ui:282
@@ -12814,10 +12816,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/auxiliary/opslogs.ui:403
-#, fuzzy, kde-format
-#| msgid "Drivers"
+#, kde-format
 msgid "Drivers:"
-msgstr "Ajurit"
+msgstr "Ajurit:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_MountLogging)
 #: ekos/auxiliary/opslogs.ui:410
@@ -12827,30 +12828,29 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showINDIMessages)
 #: ekos/auxiliary/opslogs.ui:428 indi/opsindi.ui:431
-#, fuzzy, kde-format
+#, kde-format
 msgid "Display INDI status messages in the status bar"
-msgstr "INDI-viestit tilarivillä"
+msgstr "Näytä INDI-viestit tilarivillä"
 
 #. i18n: ectx: property (statusTip), widget (QCheckBox, kcfg_showINDIMessages)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_showINDIMessages)
 #: ekos/auxiliary/opslogs.ui:431 ekos/auxiliary/opslogs.ui:434
 #: indi/opsindi.ui:434 indi/opsindi.ui:437
-#, fuzzy, kde-format
+#, kde-format
 msgid "Display incoming INDI status messages in KStars status bar"
-msgstr "INDI-viestit tilarivillä"
+msgstr "Näytä saapuvat INDI-tilaviestit KStarsin tilarivillä"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIMessages)
 #: ekos/auxiliary/opslogs.ui:437 indi/opsindi.ui:440
-#, fuzzy, kde-format
+#, kde-format
 msgid "INDI messages in status &bar"
-msgstr "INDI-viestit tilarivillä"
+msgstr "IN&DI-viestit tilarivillä"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: ekos/auxiliary/opslogs.ui:463
-#, fuzzy, kde-format
-#| msgid "Directory:"
+#, kde-format
 msgid "Open Logs Directory..."
-msgstr "Kansio:"
+msgstr "Avaa lokikansio…"
 
 #: ekos/auxiliary/opticaltrainmanager.cpp:140
 #, fuzzy, kde-format
@@ -13109,9 +13109,7 @@ msgid "Reset train"
 msgstr "Barnesville"
 
 #: ekos/auxiliary/portselector.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Serial"
+#, kde-format
 msgid "Serial"
 msgstr "Sarjaportti"
 
@@ -13122,10 +13120,9 @@ msgid ""
 msgstr ""
 
 #: ekos/auxiliary/portselector.cpp:78
-#, fuzzy, kde-format
-#| msgid "Artwork"
+#, kde-format
 msgid "Network"
-msgstr "Graafinen ilme"
+msgstr "Verkko"
 
 #: ekos/auxiliary/portselector.cpp:80
 #, kde-format
@@ -13133,21 +13130,19 @@ msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
 msgstr ""
 
 #: ekos/auxiliary/portselector.cpp:99
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select Serial port"
-msgstr "Valitse syötteet"
+msgstr "Valitse sarjaportti"
 
 #: ekos/auxiliary/portselector.cpp:130
-#, fuzzy, kde-format
-#| msgid "Select a category:"
+#, kde-format
 msgid "Select Baud rate"
-msgstr "Valitse luokka:"
+msgstr "Valitse baudinopeus"
 
 #: ekos/auxiliary/portselector.cpp:147
-#, fuzzy, kde-format
-#| msgid "The Name field cannot be empty"
+#, kde-format
 msgid "Host name or IP address."
-msgstr "Nimikenttä ei voi olla tyhjä"
+msgstr "Palvelinnimi tai IP-osoite."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
@@ -13179,18 +13174,15 @@ msgid "Disconnect"
 msgstr "Katkaise yhteys"
 
 #: ekos/auxiliary/portselector.cpp:372
-#, fuzzy, kde-format
-#| msgid "Connect"
+#, kde-format
 msgid "Connect All"
-msgstr "Yhdistä"
+msgstr "Yhdistä kaikki"
 
 #: ekos/auxiliary/portselector.cpp:385
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Port Salerno"
+#, kde-format
 msgctxt "@title:window"
 msgid "Port Selector"
-msgstr "Port Salerno"
+msgstr "Portin valinta"
 
 #: ekos/auxiliary/serialportassistant.cpp:92
 #, kde-format
@@ -13629,8 +13621,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, magzero)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:379
-#, fuzzy, kde-format
-#| msgid "0"
+#, kde-format
 msgid "20"
 msgstr "0"
 
@@ -13768,8 +13759,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, apertureShape)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:509
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgctxt "Aperture Shape"
 msgid "Auto"
 msgstr "Automaattinen"
@@ -13827,10 +13817,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cleanCheckBox)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:577
-#, fuzzy, kde-format
-#| msgid "Clear"
+#, kde-format
 msgid "Clean?"
-msgstr "Tyhjennä"
+msgstr "Tyhjennetäänkö?"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, clean_param)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:587
@@ -13895,10 +13884,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, threshMultiple)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:658
-#, fuzzy, kde-format
-#| msgid "0"
+#, kde-format
 msgid "2.0"
-msgstr "0"
+msgstr "2,0"
 
 #. i18n: ectx: property (title), widget (QGroupBox, starFilterOptions)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:668
@@ -13976,17 +13964,15 @@ msgstr "Ekliptika"
 
 #. i18n: ectx: property (text), widget (QLabel, label_56)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:767
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Min Size"
-msgstr "Fonttikoko"
+msgstr "Vähimmäiskoko"
 
 #. i18n: ectx: property (text), widget (QLabel, label_43)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:774
-#, fuzzy, kde-format
-#| msgid "Square"
+#, kde-format
 msgid "Max Size"
-msgstr "Neliö"
+msgstr "Enimmäiskoko"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, maxSize)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:781
@@ -14000,18 +13986,15 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_49)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:791
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:826
-#, fuzzy, kde-format
-#| msgid " px"
+#, kde-format
 msgid "px"
-msgstr " px"
+msgstr "px"
 
 #. i18n: ectx: property (text), widget (QLabel, label_40)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:805
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Brightest"
+#, kde-format
 msgid "Cut Brightest"
-msgstr "Kirkkain"
+msgstr "Leikkaa kirkkain"
 
 #. i18n: ectx: property (text), widget (QLabel, label_53)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:833
@@ -14045,10 +14028,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, initialKeep)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:860
-#, fuzzy, kde-format
-#| msgid "0.0"
+#, kde-format
 msgid "500"
-msgstr "0,0"
+msgstr "500"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:867
@@ -14066,10 +14048,9 @@ msgstr "Syöteparametrit"
 
 #. i18n: ectx: property (text), widget (QLabel, label_29)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:905
-#, fuzzy, kde-format
-#| msgid "Altitude:"
+#, kde-format
 msgid "Maximum time"
-msgstr "Korkeus:"
+msgstr "Enimmäisaika"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, downsample)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:912
@@ -14135,10 +14116,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, maxWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:972
-#, fuzzy, kde-format
-#| msgid "128"
+#, kde-format
 msgid "180"
-msgstr "128"
+msgstr "180"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, radius)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:979
@@ -14150,10 +14130,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, radius)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:982
-#, fuzzy, kde-format
-#| msgid "5"
+#, kde-format
 msgid "15"
-msgstr "5"
+msgstr "15"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, resort)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:989
@@ -14180,10 +14159,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLineEdit, minWidth)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1002
-#, fuzzy, kde-format
-#| msgid "0.0"
+#, kde-format
 msgid "0.1"
-msgstr "0,0"
+msgstr "0,1"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:1009
@@ -14603,12 +14581,10 @@ msgid ""
 msgstr ""
 
 #: ekos/capture/camera.cpp:3581
-#, fuzzy, kde-format
-#| msgctxt "City in New Jersey USA"
-#| msgid "Freehold"
+#, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
-msgstr "Freehold"
+msgstr "Kynnys (°C):"
 
 #: ekos/capture/camera.cpp:3587
 #, kde-format
@@ -14760,10 +14736,9 @@ msgstr "Aseta yksittäisten kuvien valotusaika sekunneissa, jos sovellettavissa"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
 #: ekos/capture/camera.ui:397
-#, fuzzy, kde-format
-#| msgid "City filter:"
+#, kde-format
 msgid "Edit filter names"
-msgstr "Kaupunkisuodatin:"
+msgstr "Muokkaa suodatinten nimiä"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
@@ -15366,9 +15341,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
 #: ekos/capture/camera.ui:2287
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgid "Video"
 msgstr "Video"
 
@@ -17903,10 +17876,9 @@ msgstr "Kuvaus"
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: ekos/focus/aberrationinspector.cpp:93 fitsviewer/platesolve.ui:508
 #: fitsviewer/solveInfo.ui:91
-#, fuzzy, kde-format
-#| msgid "Position"
+#, kde-format
 msgid "Solution"
-msgstr "Sijainti"
+msgstr "Ratkaisu"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, fuzzy, kde-format
@@ -17916,11 +17888,9 @@ msgid "Delta (ticks)"
 msgstr "Erickson"
 
 #: ekos/focus/aberrationinspector.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "City in Utah USA"
-#| msgid "Delta"
+#, kde-format
 msgid "Delta (μm)"
-msgstr "Delta"
+msgstr "Delta (µm)"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, fuzzy, kde-format
@@ -18443,10 +18413,9 @@ msgstr "Ladataan tähtiä"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusCFZDisplayVCurve)
 #: ekos/focus/cfz.ui:141
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display:"
-msgstr "Näytä"
+msgstr "Näyttö:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCFZAperture)
 #: ekos/focus/cfz.ui:160
@@ -18854,16 +18823,14 @@ msgid "Autofocus aborted."
 msgstr "valmis"
 
 #: ekos/focus/focus.cpp:1536
-#, fuzzy, kde-format
-#| msgid "Error: No camera detected."
+#, kde-format
 msgid "Error: No Camera detected."
-msgstr "Virhe: Kameraa ei havaittu."
+msgstr "Virhe: ei havaittu kameraa."
 
 #: ekos/focus/focus.cpp:1543
-#, fuzzy, kde-format
-#| msgid "Connection"
+#, kde-format
 msgid "Error: Lost connection to Camera."
-msgstr "Yhteys"
+msgstr "Virhe: Yhteys kameraan katkesi."
 
 #: ekos/focus/focus.cpp:1564
 #, fuzzy, kde-format
@@ -19259,10 +19226,9 @@ msgid "Region of interest is selected."
 msgstr "Kohdetta ei ole valittu."
 
 #: ekos/focus/focus.cpp:4911
-#, fuzzy, kde-format
-#| msgid "Auto Focus:"
+#, kde-format
 msgid "Autofocus"
-msgstr "Automaattikohdistus:"
+msgstr "Automaattikohdistus"
 
 #: ekos/focus/focus.cpp:4919
 #, kde-format
@@ -19326,11 +19292,10 @@ msgid "Exposure failure. Aborting..."
 msgstr "Aloittaa kameran/CCD:n valotuksen. Kesto annetaan sekunneissa."
 
 #: ekos/focus/focus.cpp:5943
-#, fuzzy, kde-format
-#| msgid "Remove Trail"
+#, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
-msgstr "Poista ratajälki"
+msgstr "Suhteellinen profiili"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, stopFocusB)
 #: ekos/focus/focus.ui:170
@@ -19342,10 +19307,9 @@ msgstr "Farmington"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, captureB)
 #: ekos/focus/focus.ui:189
-#, fuzzy, kde-format
-#| msgid "Capture Image"
+#, kde-format
 msgid "Capture image"
-msgstr "Ota kuva"
+msgstr "Kaappaa kuva"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
@@ -19446,10 +19410,9 @@ msgstr "FITS-tiedostojen oletushakemisto:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
 #: ekos/focus/focus.ui:592
-#, fuzzy, kde-format
-#| msgid "Current color settings"
+#, kde-format
 msgid "Filter Settings..."
-msgstr "Nykyiset väriasetukset"
+msgstr "Suodatusasetukset…"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureSourceLabel)
 #: ekos/focus/focus.ui:614
@@ -19469,10 +19432,9 @@ msgstr "TSC"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_30)
 #. i18n: ectx: property (toolTip), widget (QLabel, absoluteTemperatureLabel)
 #: ekos/focus/focus.ui:782 ekos/focus/focus.ui:798
-#, fuzzy, kde-format
-#| msgid "Focused on: "
+#, kde-format
 msgid "Source temperature in Celsius"
-msgstr "Kohdistettu: "
+msgstr "Lähdelämpötila (°C)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: ekos/focus/focus.ui:785
@@ -19618,10 +19580,9 @@ msgstr "Ladataan tähtiä"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1207
-#, fuzzy, kde-format
-#| msgid "Profile"
+#, kde-format
 msgid "Profile..."
-msgstr "Profiili"
+msgstr "Profiili…"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearDataB)
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
@@ -19675,10 +19636,9 @@ msgid "Step/Jump Size"
 msgstr "Neliö"
 
 #: ekos/focus/focusadvisor.cpp:94
-#, fuzzy, kde-format
-#| msgid "Square"
+#, kde-format
 msgid "Step Size"
-msgstr "Neliö"
+msgstr "Askelkoko"
 
 #: ekos/focus/focusadvisor.cpp:97
 #, fuzzy, kde-format
@@ -19692,10 +19652,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: ekos/focus/focusadvisor.cpp:101 fitsviewer/catalogobjecttypefilter.ui:77
-#, fuzzy, kde-format
-#| msgid "Comments:"
+#, kde-format
 msgid "Comments"
-msgstr "Kommentti:"
+msgstr "Kommenttit"
 
 #: ekos/focus/focusadvisor.cpp:102
 #, kde-format
@@ -19703,35 +19662,29 @@ msgid "Additional Text"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:113
-#, fuzzy, kde-format
-#| msgid "All parameters"
+#, kde-format
 msgid "Parameter"
-msgstr "Kaikki parametrit"
+msgstr "Parametri"
 
 #: ekos/focus/focusadvisor.cpp:114
-#, fuzzy, kde-format
-#| msgid "Planet Name"
+#, kde-format
 msgid "Parameter Name"
-msgstr "Planeetan nimi"
+msgstr "Parametrin nimi"
 
 #: ekos/focus/focusadvisor.cpp:117
-#, fuzzy, kde-format
-#| msgctxt "the angle of an object above (or below) the horizon"
-#| msgid "Altitude"
+#, kde-format
 msgid "Current Value"
-msgstr "Korkeus"
+msgstr "Nykyinen arvo"
 
 #: ekos/focus/focusadvisor.cpp:118
-#, fuzzy, kde-format
-#| msgid "Set Location..."
+#, kde-format
 msgid "Current value of the parameter"
-msgstr "Aseta paikka…"
+msgstr "Parametrin nykyinen arvo"
 
 #: ekos/focus/focusadvisor.cpp:121
-#, fuzzy, kde-format
-#| msgid "Pixel Values"
+#, kde-format
 msgid "Proposed Value"
-msgstr "Kuvapistearvot"
+msgstr "Ehdotettu arvo"
 
 #: ekos/focus/focusadvisor.cpp:122
 #, kde-format
@@ -20996,10 +20949,9 @@ msgstr "Nykyiset väriasetukset"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/focus/opsfocussettings.ui:111
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgid "Display Units:"
-msgstr "Näytä"
+msgstr "Näyttöyksiköt:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
 #: ekos/focus/opsfocussettings.ui:130
@@ -21992,10 +21944,9 @@ msgstr "Rektaskensio:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_9)
 #: ekos/guide/guide.ui:431
-#, fuzzy, kde-format
-#| msgid "Directions"
+#, kde-format
 msgid "Directions:"
-msgstr "Suunnat"
+msgstr "Suunnat:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guideDelay)
 #: ekos/guide/guide.ui:438
@@ -23231,10 +23182,9 @@ msgstr "Montreal"
 
 #. i18n: ectx: property (title), widget (QGroupBox, expertGroupBox)
 #: ekos/guide/opsgpg.ui:318
-#, fuzzy, kde-format
-#| msgid "Current color settings"
+#, kde-format
 msgid "Expert Settings"
-msgstr "Nykyiset väriasetukset"
+msgstr "Asiantuntija-asetukset"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas0a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGSE0KLengthScale)
@@ -23318,11 +23268,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas3a)
 #: ekos/guide/opsgpg.ui:467
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Periodic Error"
+#, kde-format
 msgid "Periodic Variance"
-msgstr "Jaksollinen virhe"
+msgstr "Jaksollinen varianssi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas4a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGSE1KLengthScale)
@@ -24235,10 +24183,9 @@ msgstr "Ladataan tähtiä"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: ekos/manager.ui:476
-#, fuzzy, kde-format
-#| msgid "Ekos Options"
+#, kde-format
 msgid "Ekos Options..."
-msgstr "Ekosin valinnat"
+msgstr "Ekos-valinnat…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, logsB)
 #: ekos/manager.ui:501
@@ -24248,10 +24195,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, logsB)
 #: ekos/manager.ui:504
-#, fuzzy, kde-format
-#| msgid "Show Logs"
+#, kde-format
 msgid "Logs..."
-msgstr "Näytä lokit"
+msgstr "Lokit…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/manager.ui:528
@@ -24261,10 +24207,9 @@ msgstr "3. Yhdistä ja irrota laitteita"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extensions"
-msgstr "Mitat"
+msgstr "Laajennukset"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687
@@ -24487,15 +24432,13 @@ msgid "Mount Tracking"
 msgstr "Seuraa"
 
 #: ekos/mount/mount.cpp:482
-#, fuzzy, kde-format
-#| msgid "Yes"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Kyllä"
 
 #: ekos/mount/mount.cpp:483
-#, fuzzy, kde-format
-#| msgid "No"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "Ei"
@@ -24896,31 +24839,25 @@ msgstr "INDI-ohjauspaneeli"
 
 #. i18n: ectx: property (text), widget (QLabel, statusTextObject)
 #: ekos/mount/mountcontrolpanel.ui:103
-#, fuzzy, kde-format
-#| msgid "Status:"
+#, kde-format
 msgid "Status: Idle"
-msgstr "Tila:"
+msgstr "Tila: jouten"
 
 #. i18n: ectx: property (text), widget (QCheckBox, upDownCheckObject)
 #: ekos/mount/mountmotionwidget.ui:431
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Downey"
+#, kde-format
 msgid "Up/Down"
-msgstr "Downey"
+msgstr "Ylös/alas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, leftRightCheckObject)
 #: ekos/mount/mountmotionwidget.ui:438
-#, fuzzy, kde-format
-#| msgid "Height:"
+#, kde-format
 msgid "Left/Right"
-msgstr "Korkeus:"
+msgstr "Vasen/oikea"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabelObject)
 #: ekos/mount/mountmotionwidget.ui:459
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Speed"
+#, kde-format
 msgid "Speed"
 msgstr "Nopeus"
 
@@ -25083,10 +25020,9 @@ msgid "Shutter is closing..."
 msgstr "Asetukset"
 
 #: ekos/observatory/observatory.cpp:713
-#, fuzzy, kde-format
-#| msgid "%1, %2 and %3"
+#, kde-format
 msgid "%1 = %2 @ %3"
-msgstr "%1, %2 ja %3"
+msgstr "%1 = %2 @ %3"
 
 #: ekos/observatory/observatory.cpp:764
 #, kde-format
@@ -25494,10 +25430,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:44
-#, fuzzy, kde-format
-#| msgid "Load Device Configuration:"
+#, kde-format
 msgid "Load device Configuration"
-msgstr "Lataa laitteen määritykset:"
+msgstr "Lataa laitemääritys"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
 #: ekos/opsekos.ui:65
@@ -25606,10 +25541,9 @@ msgid "Cannot save an empty profile."
 msgstr "Havaintoluettelo"
 
 #: ekos/profileeditor.cpp:129
-#, fuzzy, kde-format
-#| msgid "A file named \"%1\" already exists. Overwrite it?"
+#, kde-format
 msgid "Profile name already exists."
-msgstr "Tiedosto nimeltä \"%1\" on jo olemassa. Korvataanko se?"
+msgstr "Profiilin nimi on jo käytössä."
 
 #: ekos/profileeditor.cpp:506
 #, kde-format
@@ -25629,17 +25563,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #: ekos/profileeditor.cpp:809 ekos/profileeditor.ui:369
-#, fuzzy, kde-format
-#| msgid "Interval:"
+#, kde-format
 msgid "Internal"
-msgstr "Aikaväli:"
+msgstr "Sisäinen"
 
 #: ekos/profileeditor.cpp:900
-#, fuzzy, kde-format
-#| msgid "Scanning Network"
+#, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
-msgstr "Etsitään verkosta"
+msgstr "Tutkitaan verkkoa"
 
 #: ekos/profileeditor.cpp:901
 #, kde-format
@@ -25647,9 +25579,9 @@ msgid "Scanning network for INDI Web Managers..."
 msgstr "Etsitään verkosta INDI-verkkohallintoja…"
 
 #: ekos/profileeditor.cpp:965
-#, fuzzy, kde-format
+#, kde-format
 msgid "Found INDI Web Manager at %1"
-msgstr "Videoportti:"
+msgstr "Löytyi INDI-verkkopalvelin %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, profileGroup)
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverProfileLabel)
@@ -25682,11 +25614,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, portSelectorCheck)
 #: ekos/profileeditor.ui:94
-#, fuzzy, kde-format
-#| msgctxt "City in Florida USA"
-#| msgid "Port Salerno"
+#, kde-format
 msgid "Port Selector"
-msgstr "Port Salerno"
+msgstr "Portin valinta"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, loadSiteCheck)
 #: ekos/profileeditor.ui:110
@@ -25702,9 +25632,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, loadSiteCheck)
 #: ekos/profileeditor.ui:113
-#, fuzzy, kde-format
+#, kde-format
 msgid "Site Info"
-msgstr "Kaukoputken portti:"
+msgstr "Sivuston tiedot"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, guidingTypeLabel)
 #: ekos/profileeditor.ui:124
@@ -26192,12 +26122,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/profilewizard.ui:381
-#, fuzzy, kde-format
-#| msgid "Loading stars"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Which <span style=\" color:#ff5500;\">remote</span> "
 "device is the equipment connected to?</p></body></html>"
-msgstr "Ladataan tähtiä"
+msgstr ""
+"<html><head/><body><p>Mihin <span style=\" color:#ff5500;\">etä</"
+"span>laitteeseen laitteisto on kytketty?</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QToolButton, equipmentAtikbaseB)
 #: ekos/profilewizard.ui:404
@@ -26220,18 +26151,16 @@ msgstr "StellarMate"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/profilewizard.ui:503
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "Enter the remote computer information:"
-msgstr "Kuvan lataus epäonnistui"
+msgstr "Anna etäkoneen tiedot:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, remoteHostEdit)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, PiHost)
 #: ekos/profilewizard.ui:519 ekos/profilewizard.ui:701
-#, fuzzy, kde-format
-#| msgid "Enter author's name"
+#, kde-format
 msgid "Enter IP address or host name"
-msgstr "Anna tekijän nimi"
+msgstr "Anna IP-osoite tai palvelinnimi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/profilewizard.ui:548
@@ -26244,10 +26173,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, webManagerNotSureB)
 #: ekos/profilewizard.ui:574
-#, fuzzy, kde-format
-#| msgid "Does not rise"
+#, kde-format
 msgid "Not Sure"
-msgstr "Ei nouse"
+msgstr "En ole varma"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/profilewizard.ui:604
@@ -26481,10 +26409,9 @@ msgstr "Ha&vainnointi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, equipmentGroup)
 #: ekos/scheduler/framingassistant.ui:63
-#, fuzzy, kde-format
-#| msgid "Configure Equipment"
+#, kde-format
 msgid "↓ Confirm Equipment"
-msgstr "Laitteistoasetukset"
+msgstr "↓ Vahvista laitteisto"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: ekos/scheduler/framingassistant.ui:74
@@ -26498,9 +26425,9 @@ msgstr "Kaukoputken polttoväli, millimetreissä"
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/scheduler/framingassistant.ui:77 oal/equipmentwriter.ui:129
 #: oal/equipmentwriter.ui:465
-#, fuzzy, kde-format
+#, kde-format
 msgid "Focal length:"
-msgstr "Päivän pituus:"
+msgstr "Polttoväli:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focalLenSpin)
 #: ekos/scheduler/framingassistant.ui:84
@@ -26886,10 +26813,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, backToEquipmentB)
 #: ekos/scheduler/framingassistant.ui:937
-#, fuzzy, kde-format
-#| msgid "Configure Equipment"
+#, kde-format
 msgid "Confirm Equipment"
-msgstr "Laitteistoasetukset"
+msgstr "Vahvista laitteisto"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, importB)
 #: ekos/scheduler/framingassistant.ui:961
@@ -26899,10 +26825,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, importB)
 #: ekos/scheduler/framingassistant.ui:964
-#, fuzzy, kde-format
-#| msgid "Import Catalog"
+#, kde-format
 msgid "Import..."
-msgstr "Tuo luettelo"
+msgstr "Tuo…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recenterB)
 #: ekos/scheduler/framingassistant.ui:971
@@ -28052,17 +27977,15 @@ msgstr "Ladataan tähtiä"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
 #: ekos/scheduler/scheduler.ui:1052
-#, fuzzy, kde-format
-#| msgid "Save Observing List"
+#, kde-format
 msgid "Save Schedule..."
-msgstr "Tallenna havaintoluettelo"
+msgstr "Tallenna aikataulu…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
 #: ekos/scheduler/scheduler.ui:1086
-#, fuzzy, kde-format
-#| msgid "Save Observing List"
+#, kde-format
 msgid "Save Schedule As..."
-msgstr "Tallenna havaintoluettelo"
+msgstr "Tallenna aikataulu nimellä…"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/scheduler/scheduler.ui:1130
@@ -28073,17 +27996,15 @@ msgstr "Ota kuva"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/scheduler/scheduler.ui:1140
-#, fuzzy, kde-format
-#| msgid "Set Time"
+#, kde-format
 msgid "Start Time"
-msgstr "Aseta aika"
+msgstr "Aloitusaika"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/scheduler/scheduler.ui:1145
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "End Time"
-msgstr "Aika"
+msgstr "Lopetusaika"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
 #: ekos/scheduler/scheduler.ui:1218
@@ -30254,24 +30175,20 @@ msgid "Object major coordinate size in arcsmins"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:966 fitsviewer/fitstab.cpp:970
-#, fuzzy, kde-format
-#| msgid "Save FITS"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
 msgstr "Tallenna FITS"
 
 #: fitsviewer/fitstab.cpp:1002
-#, fuzzy, kde-format
-#| msgid "FITS file save error: %1"
+#, kde-format
 msgid "Image save error: %1"
-msgstr "FITS-tiedoston tallennusvirhe: %1"
+msgstr "Kuvan tallennusvirhe: %1"
 
 #: fitsviewer/fitstab.cpp:1002
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Data"
+#, kde-format
 msgid "Image Save"
-msgstr "Kuvan data"
+msgstr "Kuvan tallennus"
 
 #: fitsviewer/fitstab.cpp:1006
 #, kde-format
@@ -30279,17 +30196,14 @@ msgid "File saved to %1"
 msgstr "Tallennettu tiedostoon %1"
 
 #: fitsviewer/fitstab.cpp:1192
-#, fuzzy, kde-format
-#| msgid "Waiting..."
+#, kde-format
 msgid "Extracting..."
-msgstr "Odotetaan…"
+msgstr "Puretaan…"
 
 #: fitsviewer/fitstab.cpp:1210
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Settings"
+#, kde-format
 msgid "Solving..."
-msgstr "Asetukset"
+msgstr "Ratkaistaan…"
 
 #: fitsviewer/fitstab.cpp:1223
 #, fuzzy, kde-format
@@ -30448,11 +30362,9 @@ msgid "Equalize"
 msgstr "Tasoita sävyalue"
 
 #: fitsviewer/fitsviewer.cpp:44
-#, fuzzy, kde-format
-#| msgctxt "City in Alberta Canada"
-#| msgid "High Prairie"
+#, kde-format
 msgid "High Pass"
-msgstr "High Prairie"
+msgstr "Korkeapäästö"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/fitsviewer.cpp:44 fitsviewer/statform.ui:101
@@ -30497,16 +30409,14 @@ msgid "Debayer..."
 msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:188
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgid "&Selection Statistics"
-msgstr "Tilastoja"
+msgstr "&Valintatilastot"
 
 #: fitsviewer/fitsviewer.cpp:229
-#, fuzzy, kde-format
-#| msgid "Show print dialog"
+#, kde-format
 msgid "Show Clipping"
-msgstr "Näytä tulostusikkuna"
+msgstr "Näytä rajaus"
 
 #: fitsviewer/fitsviewer.cpp:262 fitsviewer/fitsviewer.cpp:1322
 #, kde-format
@@ -30526,16 +30436,14 @@ msgid "Fit Page to Zoom"
 msgstr ""
 
 #: fitsviewer/fitsviewer.cpp:279
-#, fuzzy, kde-format
-#| msgid "Next >"
+#, kde-format
 msgid "Next Tab"
-msgstr "Seuraava >"
+msgstr "Seuraava välilehti"
 
 #: fitsviewer/fitsviewer.cpp:284
-#, fuzzy, kde-format
-#| msgid "Previous Year"
+#, kde-format
 msgid "Previous Tab"
-msgstr "Edellinen vuosi"
+msgstr "Edellinen välilehti"
 
 #: fitsviewer/fitsviewer.cpp:289
 #, fuzzy, kde-format
@@ -30916,10 +30824,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: fitsviewer/opsfits.ui:333
-#, fuzzy, kde-format
-#| msgid "Processing..."
+#, kde-format
 msgid "Processing"
-msgstr "Käsitellään…"
+msgstr "Käsittely"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoStretch)
 #: fitsviewer/opsfits.ui:351
@@ -31378,16 +31285,14 @@ msgid "Changes the sample size shown in the graph"
 msgstr "Jos valittu, tähdistöjen nimet näytetään tähtikartalla."
 
 #: fitsviewer/starprofileviewer.cpp:183
-#, fuzzy, kde-format
-#| msgid "Date && Location"
+#, kde-format
 msgid "Zooms the view to preset locations."
-msgstr "Päivämäärä && sijainti"
+msgstr "Lähentää näkymän esiasetettuihin sijainteihin."
 
 #: fitsviewer/starprofileviewer.cpp:184
-#, fuzzy, kde-format
-#| msgid "Zoom To Fit"
+#, kde-format
 msgid "ZoomTo"
-msgstr "Sovita kokoon"
+msgstr "Sovita"
 
 #: fitsviewer/starprofileviewer.cpp:185
 #, fuzzy, kde-format
@@ -31558,10 +31463,9 @@ msgid "HiPS Offline Storage"
 msgstr ""
 
 #: hips/opships.cpp:82
-#, fuzzy, kde-format
-#| msgid "Update"
+#, kde-format
 msgid "HiPS Update"
-msgstr "Päivitä"
+msgstr "HiPS-päivitys"
 
 #: hips/opships.cpp:82
 #, kde-format
@@ -31569,10 +31473,9 @@ msgid "Downloading HiPS sources..."
 msgstr "Ladataan HiPS-lähteitä…"
 
 #: hips/opships.cpp:156
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error downloading HiPS sources: %1"
-msgstr "Virhe luettaessa kuvaa: %1"
+msgstr "Virhe ladattaessa HiPS-lähteitä: %1"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSNetCache)
@@ -31583,10 +31486,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: hips/opshipscache.ui:45
-#, fuzzy, kde-format
-#| msgid "Disk"
+#, kde-format
 msgid "Disk:"
-msgstr "Levy"
+msgstr "Levy:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -31624,8 +31526,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSShowGrid)
 #: hips/opshipsdisplay.ui:17
-#, fuzzy, kde-format
-#| msgid "Show HiPS Grid"
+#, kde-format
 msgid "Show HiPS grid"
 msgstr "Näytä HiPS-ruudukko"
 
@@ -31637,10 +31538,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSBiLinearInterpolation)
 #: hips/opshipsdisplay.ui:31
-#, fuzzy, kde-format
-#| msgid "Linear Interpolation"
+#, kde-format
 msgid "Linear interpolation"
-msgstr "Lineaarinen interpolaatio"
+msgstr "Lineaari-interpolaatio"
 
 #: indi/clientmanager.cpp:323
 #, fuzzy, kde-format
@@ -31788,11 +31688,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:313
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Whiteness"
+#, kde-format
 msgid "Thickness:"
-msgstr "Valkoisuus"
+msgstr "Paksuus:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
@@ -31870,17 +31768,15 @@ msgstr "Ajuri:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: indi/customdrivers.ui:75
-#, fuzzy, kde-format
-#| msgid "Family"
+#, kde-format
 msgid "Family:"
-msgstr "Perhe"
+msgstr "Perhe:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: indi/customdrivers.ui:85
-#, fuzzy, kde-format
-#| msgid "Executable"
+#, kde-format
 msgid "Executable:"
-msgstr "Ohjelmatiedosto"
+msgstr "Ohjelmatiedosto:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -31891,10 +31787,9 @@ msgstr "Selite:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/customdrivers.ui:132
-#, fuzzy, kde-format
-#| msgid "Manufacturer"
+#, kde-format
 msgid "Manufacturer:"
-msgstr "Valmistaja"
+msgstr "Valmistaja:"
 
 #. i18n: ectx: property (text), widget (QPushButton, addDriverB)
 #. i18n: ectx: property (text), widget (QPushButton, NewEyepiece)
@@ -31918,16 +31813,16 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/customdrivers.ui:246
-#, fuzzy, kde-format
-#| msgid "Loading stars"
+#, kde-format
 msgid ""
 "<html><head/><body><p>KStars must be restarted for new drivers to take "
 "effect.</p></body></html>"
-msgstr "Ladataan tähtiä"
+msgstr ""
+"<html><head/><body><p>KStars tulee käynnistää uudelleen, jotta uudet ajurit "
+"tulisivat käyttöön.</p></body></html>"
 
 #: indi/drivermanager.cpp:106
-#, fuzzy, kde-format
-#| msgid "Device Manager"
+#, kde-format
 msgctxt "@title:window"
 msgid "Device Manager"
 msgstr "Laitehallinta"
@@ -31949,10 +31844,9 @@ msgid "Failed to create local INDI server"
 msgstr "Yhteydenotto INDI-etäpalvelimeen epäonnistui."
 
 #: indi/drivermanager.cpp:633 indi/indidriver.cpp:291
-#, fuzzy, kde-format, kde-kuit-format
-#| msgid "Invalid file: %1"
+#, kde-format, kde-kuit-format
 msgid "Invalid port entry: %1"
-msgstr "Virheellinen tiedosto: %1"
+msgstr "Virheellinen portti: %1"
 
 #: indi/drivermanager.cpp:829
 #, fuzzy, kde-format
@@ -32313,10 +32207,7 @@ msgid ""
 msgstr ""
 
 #: indi/indimount.cpp:875
-#, fuzzy, kde-format
-#| msgid ""
-#| "The requested position is below the horizon.\n"
-#| "Would you like to go there anyway?"
+#, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr ""
@@ -32367,22 +32258,19 @@ msgid "Data file saved to %1"
 msgstr "Aineistotiedosto tallennettu kohteeseen %1"
 
 #: indi/indiwebmanager.cpp:239
-#, fuzzy, kde-format
-#| msgid "Cannot start INDI server: port error."
+#, kde-format
 msgid "Driver %1 failed to start on the remote INDI server."
-msgstr "INDI-palvelinta ei saatu käynnistettyä: porttivirhe."
+msgstr "Ajurin %1 käynnistäminen INDI-etäpalvelimella epäonnistui."
 
 #: indi/opsindi.cpp:41
-#, fuzzy, kde-format
-#| msgid "INDI Server"
+#, kde-format
 msgid "Internal or external INDI server?"
-msgstr "INDI-palvelin"
+msgstr "Sisäinen vai ulkoinen INDI-palvelin?"
 
 #: indi/opsindi.cpp:43
-#, fuzzy, kde-format
-#| msgid "INDI Server"
+#, kde-format
 msgid "Internal or external INDI drivers?"
-msgstr "INDI-palvelin"
+msgstr "Sisäiset vai ulkoiset INDI-ajurit?"
 
 #: indi/opsindi.cpp:83 indi/opsindi.cpp:103
 #, kde-format
@@ -32390,18 +32278,16 @@ msgid "You need to restart KStars for this change to take effect."
 msgstr ""
 
 #: indi/opsindi.cpp:89
-#, fuzzy, kde-format
-#| msgid "FITS Default Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "FITS Default Directory"
-msgstr "FITS-tiedostojen oletuskansio"
+msgstr "FITS-oletuskansio"
 
 #: indi/opsindi.cpp:97
-#, fuzzy, kde-format
-#| msgid "FITS Save Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "INDI Drivers Directory"
-msgstr "FITS-tiedostojen tallennuskansio"
+msgstr "INDI-ajurikansio"
 
 #: indi/opsindi.cpp:109
 #, fuzzy, kde-format
@@ -32425,14 +32311,13 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_2)
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_3)
 #: indi/opsindi.ui:65 indi/opsindi.ui:102
-#, fuzzy, kde-format
+#, kde-format
 msgid "Default INDI video port"
-msgstr "FITS-tiedostojen oletushakemisto:"
+msgstr "INDI-oletusvideoportti"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_2)
 #: indi/opsindi.ui:68
-#, fuzzy, kde-format
-#| msgid "INDI Server:"
+#, kde-format
 msgid "INDI server:"
 msgstr "INDI-palvelin:"
 
@@ -32450,17 +32335,15 @@ msgstr "INDI-ajurit kuuluvat sovelluspakettiin"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_3)
 #: indi/opsindi.ui:105
-#, fuzzy, kde-format
-#| msgid "FITS Save Directory"
+#, kde-format
 msgid "INDI drivers XML directory:"
-msgstr "FITS-tiedostojen tallennuskansio"
+msgstr "INDI-ajurien XML-kansio:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiDriversDir)
 #: indi/opsindi.ui:112
-#, fuzzy, kde-format
-#| msgid "FITS Save Directory"
+#, kde-format
 msgid "Path to the INDI drivers XML directory"
-msgstr "FITS-tiedostojen tallennuskansio"
+msgstr "INDI-ajurien XML-kansion sijainti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/opsindi.ui:154
@@ -32498,10 +32381,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: indi/opsindi.ui:307
-#, fuzzy, kde-format
-#| msgid "INDI Server Message"
+#, kde-format
 msgid "Transfer buffer (MB):"
-msgstr "INDI-palvelimen viesti"
+msgstr "Siirtopuskuri (Mt):"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/opsindi.ui:314
@@ -33689,17 +33571,15 @@ msgstr "Anna oman luettelon tiedostonimi:"
 
 #. i18n: ectx: label, entry (INDIWindowWidth), group (indi)
 #: kstars.kcfg:167
-#, fuzzy, kde-format
-#| msgid "INDI Video port"
+#, kde-format
 msgid "INDI window width"
-msgstr "INDI-videoportti"
+msgstr "INDI-ikkunan leveys"
 
 #. i18n: ectx: label, entry (INDIWindowHeight), group (indi)
 #: kstars.kcfg:171
-#, fuzzy, kde-format
-#| msgid "INDI Video port"
+#, kde-format
 msgid "INDI window height"
-msgstr "INDI-videoportti"
+msgstr "INDI-ikkunan korkeus"
 
 #. i18n: ectx: label, entry (useGeographicUpdate), group (indi)
 #: kstars.kcfg:175
@@ -34471,10 +34351,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:527
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only classified supernovae?"
-msgstr "Näytä supernovat"
+msgstr "Näytetäänkö vain luokitellut supernovat?"
 
 #. i18n: ectx: whatsthis, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:528
@@ -34484,9 +34363,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:532
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show supernova alerts?"
-msgstr "Piirretäänkö Jupiter tähtikartalle?"
+msgstr "Näytetäänkö supernovahälytykset?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:533
@@ -34496,9 +34375,9 @@ msgstr "Näytä/piilota supernovahälytykset."
 
 #. i18n: ectx: label, entry (MagnitudeLimitAlertSupernovae), group (View)
 #: kstars.kcfg:537
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set magnitude limit for supernovae to be alerted"
-msgstr "Aseta suuruusluokkaraja, jota himmeämpiä asteroideja ei näytetä"
+msgstr "Aseta magnitudiraja supernoville, joista hälytetään"
 
 #. i18n: ectx: whatsthis, entry (MagnitudeLimitAlertSupernovae), group (View)
 #: kstars.kcfg:538
@@ -36120,15 +35999,15 @@ msgstr "Näytetäänkö linnunradan ääriviivat?"
 
 #. i18n: ectx: label, entry (StarNameColor), group (Colors)
 #: kstars.kcfg:1242
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color of star name labels"
-msgstr "Vaihda tähtien nimien näyttö"
+msgstr "Tähtien nimiselitteiden väri"
 
 #. i18n: ectx: whatsthis, entry (StarNameColor), group (Colors)
 #: kstars.kcfg:1243
-#, fuzzy, kde-format
+#, kde-format
 msgid "The color for star name labels."
-msgstr "Vaihda tähtien nimien näyttö"
+msgstr "Tähtien nimiselitteiden väri."
 
 #. i18n: ectx: label, entry (DeepSkyNameColor), group (Colors)
 #: kstars.kcfg:1247
@@ -36254,27 +36133,27 @@ msgstr "Satelliittien seliteväri."
 
 #. i18n: ectx: label, entry (SupernovaColor), group (Colors)
 #: kstars.kcfg:1297
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color of supernovae"
-msgstr "Messierin kohteet"
+msgstr "Supernovien väri"
 
 #. i18n: ectx: whatsthis, entry (SupernovaColor), group (Colors)
 #: kstars.kcfg:1298
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color of supernova"
-msgstr "Värit"
+msgstr "Supernovan väri"
 
 #. i18n: ectx: label, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1302
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color of asteroids"
-msgstr "Värit"
+msgstr "Asteroidien väri"
 
 #. i18n: ectx: whatsthis, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1303
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color of asteroid"
-msgstr "Värit"
+msgstr "Asteroidin väri"
 
 #. i18n: ectx: label, entry (UserLabelColor), group (Colors)
 #: kstars.kcfg:1307
@@ -69141,34 +69020,28 @@ msgid "Enter a field-of-view angle in degrees: "
 msgstr "Anna näkökentän suuruus asteina: "
 
 #: kstarsactions.cpp:1764 kstarsinit.cpp:740
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
-msgstr "Pohjoinen"
+msgstr "Pohjoinen &ylhäällä"
 
 #: kstarsactions.cpp:1767 kstarsinit.cpp:749
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Norton"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
-msgstr "Norton"
+msgstr "Pohjoinen &alhaalla"
 
 #: kstarsactions.cpp:1783 kstarsinit.cpp:740
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
-msgstr "&Zeniitti"
+msgstr "Zeniitti &ylhäällä"
 
 #: kstarsactions.cpp:1786 kstarsinit.cpp:749
-#, fuzzy, kde-format
-#| msgid "&Zenith"
+#, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
-msgstr "&Zeniitti"
+msgstr "Zeniitti &alhaalla"
 
 #: kstarsdata.cpp:50
 #, kde-format
@@ -69176,12 +69049,7 @@ msgid "Critical File not Found: %1"
 msgstr "Kriittistä tiedostoa ei löytynyt: %1"
 
 #: kstarsdata.cpp:51
-#, fuzzy, kde-format
-#| msgid ""
-#| "The file %1 could not be found. KStars cannot run properly without this "
-#| "file. To continue loading, place the file in one of the following "
-#| "locations, then press Retry:\n"
-#| "\n"
+#, kde-format
 msgid ""
 "The file  %1 could not be found. KStars cannot run properly without this "
 "file. KStars searches for this file in following locations:\n"
@@ -69190,11 +69058,12 @@ msgid ""
 "\n"
 "It appears that your setup is broken."
 msgstr ""
-"Tiedostoa %1 ei löytynyt.\n"
-"KStars ei voi toimia kunnolla ilman tätä tiedostoa.\n"
-"Jatkaaksesi latausta, laita tiedosto johonkin alla annetusta sijainneista ja "
-"paina Yritä uudelleen.\n"
+"Tiedostoa %1 ei löytynyt. KStars ei toimi oikein ilman tätä tiedostoa. "
+"KStars etsii sitä seuraavista paikoista:\n"
 "\n"
+"\t%2\n"
+"\n"
+"Asennus vaikuttaa olevan rikki."
 
 #: kstarsdata.cpp:57
 #, kde-format
@@ -69222,10 +69091,9 @@ msgid "City table already contains \"Elevation\"."
 msgstr ""
 
 #: kstarsdata.cpp:182
-#, fuzzy, kde-format
-#| msgid "This city already exists in the database."
+#, kde-format
 msgid "City table missing from database."
-msgstr "Tämä kaupunki on jo tietokannassa."
+msgstr "Tietokannasta puuttuu kaupunkitaulukko."
 
 #: kstarsdata.cpp:188
 #, kde-format
@@ -69366,10 +69234,9 @@ msgid "Downloads new data"
 msgstr "Lataa uusia aineistoja"
 
 #: kstarsinit.cpp:154
-#, fuzzy, kde-format
-#| msgid "Open Image..."
+#, kde-format
 msgid "Open Image(s)..."
-msgstr "Avaa kuva…"
+msgstr "Avaa kuvia…"
 
 #: kstarsinit.cpp:163
 #, kde-format
@@ -69419,16 +69286,14 @@ msgid "Stop Clock"
 msgstr "Pysäytä kello"
 
 #: kstarsinit.cpp:224
-#, fuzzy, kde-format
-#| msgid "Advance one step forward in time"
+#, kde-format
 msgid "Advance One Step Forward in Time"
-msgstr "Siirry yksi askel eteen ajassa"
+msgstr "Etene aika-askel"
 
 #: kstarsinit.cpp:228
-#, fuzzy, kde-format
-#| msgid "Advance one step backward in time"
+#, kde-format
 msgid "Advance One Step Backward in Time"
-msgstr "Siirry yksi askel taakse ajassa"
+msgstr "Peräänny aika-askel"
 
 #: kstarsinit.cpp:233
 #, kde-format
@@ -70873,116 +70738,89 @@ msgid "Sync"
 msgstr ""
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:162
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgid "0 secs"
-msgstr "sekuntia"
+msgstr "0 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:163
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgid "0.1 secs"
-msgstr "sekuntia"
+msgstr "0,1 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:164
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgid "0.25 secs"
-msgstr "sekuntia"
+msgstr "0,25 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:165
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgid "0.5 secs"
-msgstr "sekuntia"
+msgstr "0,5 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:166
-#, fuzzy, kde-format
-#| msgctxt "A planet sets from the horizon"
-#| msgid "%1 sets"
+#, kde-format
 msgid "1 sec"
-msgstr "%1 laskee"
+msgstr "1 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:167
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgid "2 secs"
-msgstr "sekuntia"
+msgstr "2 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:168
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgid "5 secs"
-msgstr "sekuntia"
+msgstr "5 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:169
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgid "10 secs"
-msgstr "sekuntia"
+msgstr "10 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:170
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgid "20 secs"
-msgstr "sekuntia"
+msgstr "20 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:171
-#, fuzzy, kde-format
-#| msgctxt "seconds"
-#| msgid "secs"
+#, kde-format
 msgid "30 secs"
-msgstr "sekuntia"
+msgstr "30 s"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:172
-#, fuzzy, kde-format
-#| msgid " min"
+#, kde-format
 msgid "1 min"
-msgstr " min"
+msgstr "1 min"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:173
-#, fuzzy, kde-format
-#| msgid " min"
+#, kde-format
 msgid "2 mins"
-msgstr " min"
+msgstr "2 min"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:174
-#, fuzzy, kde-format
-#| msgid " min"
+#, kde-format
 msgid "5 mins"
-msgstr " min"
+msgstr "5 min"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:175
-#, fuzzy, kde-format
-#| msgid " min"
+#, kde-format
 msgid "10 mins"
-msgstr " min"
+msgstr "10 min"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:176
-#, fuzzy, kde-format
-#| msgid " min"
+#, kde-format
 msgid "15 mins"
-msgstr " min"
+msgstr "15 min"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:177
-#, fuzzy, kde-format
-#| msgid " min"
+#, kde-format
 msgid "30 mins"
-msgstr " min"
+msgstr "30 min"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:178
-#, fuzzy, kde-format
-#| msgid "hour"
+#, kde-format
 msgid "1 hour"
-msgstr "tunti"
+msgstr "1 tunti"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:179
 #, kde-format
@@ -71017,34 +70855,29 @@ msgid "1 sid day"
 msgstr "päivä"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:187
-#, fuzzy, kde-format
-#| msgid "day"
+#, kde-format
 msgid "1 day"
-msgstr "päivä"
+msgstr "1 päivä"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:188
-#, fuzzy, kde-format
-#| msgid "days"
+#, kde-format
 msgid "2 days"
-msgstr "päivää"
+msgstr "2 päivää"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:189
-#, fuzzy, kde-format
-#| msgid "days"
+#, kde-format
 msgid "3 days"
-msgstr "päivää"
+msgstr "3 päivää"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:190
-#, fuzzy, kde-format
-#| msgid "days"
+#, kde-format
 msgid "5 days"
-msgstr "päivää"
+msgstr "5 päivää"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:191
-#, fuzzy, kde-format
-#| msgid "week"
+#, kde-format
 msgid "1 week"
-msgstr "viikko"
+msgstr "1 vko"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:192
 #, kde-format
@@ -71057,51 +70890,39 @@ msgid "3 wks"
 msgstr ""
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:194
-#, fuzzy, kde-format
-#| msgid "month"
+#, kde-format
 msgid "1 month"
-msgstr "kuukausi"
+msgstr "1 kk"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:195
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "2 mths"
-msgstr "kuukautta"
+msgstr "2 kk"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:196
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "3 mths"
-msgstr "kuukautta"
+msgstr "3 kk"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:197
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "4 mths"
-msgstr "kuukautta"
+msgstr "4 kk"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:198
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "6 mths"
-msgstr "kuukautta"
+msgstr "6 kk"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:199
-#, fuzzy, kde-format
-#| msgctxt "months"
-#| msgid "mths"
+#, kde-format
 msgid "9 mths"
-msgstr "kuukautta"
+msgstr "9 kk"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:200
-#, fuzzy, kde-format
-#| msgid "year"
+#, kde-format
 msgid "1 year"
-msgstr "vuosi"
+msgstr "1 v"
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:201
 #, kde-format
@@ -71134,10 +70955,9 @@ msgid "50 yrs"
 msgstr ""
 
 #: kstarslite/qml/modules/helpers/TimeSpinBox.qml:207
-#, fuzzy, kde-format
-#| msgid "1000 yards"
+#, kde-format
 msgid "100 yrs"
-msgstr "1000 jaardia"
+msgstr "1000 v"
 
 #: kstarslite/qml/modules/helpers/TopMenuButton.qml:28
 #, kde-kuit-format
@@ -71162,8 +70982,7 @@ msgid "%1 is toggled off"
 msgstr "%1 on kytketty."
 
 #: kstarslite/qml/modules/menus/ContextMenu.qml:40
-#, fuzzy, kde-kuit-format
-#| msgid "Empty sky"
+#, kde-kuit-format
 msgid "Empty Sky"
 msgstr "Tyhjä taivas"
 
@@ -71318,10 +71137,9 @@ msgid "Exit"
 msgstr "Lopeta"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:36
-#, fuzzy, kde-kuit-format
-#| msgid " Welcome to KStars "
+#, kde-kuit-format
 msgid "Welcome to KStars Lite"
-msgstr "Tervetuloa KStarsiin "
+msgstr "Tervetuloa KStars Liteen"
 
 #: kstarslite/qml/modules/tutorial/TutorialPopup.qml:44
 #, kde-kuit-format
@@ -71344,10 +71162,9 @@ msgid "Start tutorial"
 msgstr "Käynnistä"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:35
-#, fuzzy, kde-kuit-format
-#| msgid "Globular Cluster"
+#, kde-kuit-format
 msgid "Global Drawer"
-msgstr "Pallomainen tähtijoukko"
+msgstr "Yleislaatikko"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep1.qml:36
 #, kde-kuit-format
@@ -71369,10 +71186,9 @@ msgid ""
 msgstr ""
 
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:30
-#, fuzzy, kde-kuit-format
-#| msgid "Top left"
+#, kde-kuit-format
 msgid "Top Menu"
-msgstr "Vasen yläreuna"
+msgstr "Ylävalikko"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep3.qml:31
 #, kde-kuit-format
@@ -71382,10 +71198,9 @@ msgid ""
 msgstr ""
 
 #: kstarslite/qml/modules/tutorial/TutorialStep4.qml:25
-#, fuzzy, kde-kuit-format
-#| msgid "Bottom right"
+#, kde-kuit-format
 msgid "Bottom Menu"
-msgstr "Oikea alareuna"
+msgstr "Alavalikko"
 
 #: kstarslite/qml/modules/tutorial/TutorialStep4.qml:26
 #, kde-kuit-format
@@ -71519,12 +71334,10 @@ msgid "Abell"
 msgstr "Abell"
 
 #: libindi_strings.cpp:14
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Alberta Canada"
-#| msgid "Coronation"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Abort Motion"
-msgstr "Coronation"
+msgstr "Keskeytä liike"
 
 #: libindi_strings.cpp:15
 #, fuzzy, kde-kuit-format
@@ -71696,17 +71509,16 @@ msgid "Backlash"
 msgstr "Tietokentän tausta"
 
 #: libindi_strings.cpp:42
-#, fuzzy, kde-kuit-format
-#| msgid "Name:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Baud Rate"
-msgstr "Nimi:"
+msgstr "Baudinopeus"
 
 #: libindi_strings.cpp:43
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Bias"
-msgstr "CCDV"
+msgstr "Vinouma"
 
 #: libindi_strings.cpp:44
 #, fuzzy, kde-kuit-format
@@ -72639,12 +72451,10 @@ msgid "Focusers"
 msgstr "Kohdistettu: "
 
 #: libindi_strings.cpp:194
-#, fuzzy, kde-kuit-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "UTC"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FPS"
-msgstr "UTC"
+msgstr "FPS"
 
 #: libindi_strings.cpp:195
 #, kde-kuit-format
@@ -72653,11 +72463,10 @@ msgid "Frame Rate"
 msgstr "Kuvataajuus"
 
 #: libindi_strings.cpp:196
-#, fuzzy, kde-kuit-format
-#| msgid "Name:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame Type"
-msgstr "Nimi:"
+msgstr "Kehyksen tyyppi"
 
 #: libindi_strings.cpp:197
 #, fuzzy, kde-kuit-format
@@ -72673,11 +72482,10 @@ msgid "Frame"
 msgstr "Kehys"
 
 #: libindi_strings.cpp:199
-#, fuzzy, kde-kuit-format
-#| msgid "Name:"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "FrameType"
-msgstr "Nimi:"
+msgstr "Kehystyyppi"
 
 #: libindi_strings.cpp:200
 #, kde-kuit-format
@@ -72716,11 +72524,10 @@ msgid "GPS Power"
 msgstr ""
 
 #: libindi_strings.cpp:206
-#, fuzzy, kde-kuit-format
-#| msgid "Calculator"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "GPS Simulator"
-msgstr "Tähtitieteellinen laskin"
+msgstr "GPS-simulaattori"
 
 #: libindi_strings.cpp:207
 #, kde-kuit-format
@@ -72729,11 +72536,10 @@ msgid "GPS Status"
 msgstr "GPS-tila"
 
 #: libindi_strings.cpp:208
-#, fuzzy, kde-kuit-format
-#| msgid "Solar System"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "GPS System"
-msgstr "Aurinkokunta"
+msgstr "GPS-järjestelmä"
 
 #: libindi_strings.cpp:209
 #, kde-kuit-format
@@ -72766,11 +72572,10 @@ msgid "Generic Video4Linux"
 msgstr "Yleinen Video4Linux"
 
 #: libindi_strings.cpp:214 libindi_strings.cpp:215
-#, fuzzy, kde-kuit-format
-#| msgid "&Geographic location"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Geographic Location"
-msgstr "&Maantieteellinen sijainti"
+msgstr "Maantieteellinen sijainti"
 
 #: libindi_strings.cpp:216
 #, kde-kuit-format
@@ -74065,8 +73870,7 @@ msgid "Seeing"
 msgstr "Sterling"
 
 #: libindi_strings.cpp:417
-#, fuzzy, kde-kuit-format
-#| msgid "Select Object..."
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Select item..."
 msgstr "Valitse kohde..."
@@ -74098,11 +73902,10 @@ msgid "Set Register"
 msgstr "Westminster"
 
 #: libindi_strings.cpp:422
-#, fuzzy, kde-kuit-format
-#| msgid "Set Time"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Set home"
-msgstr "Aseta aika"
+msgstr "Aseta koti"
 
 #: libindi_strings.cpp:423
 #, fuzzy, kde-kuit-format
@@ -75725,19 +75528,16 @@ msgid "observation_"
 msgstr "havainto_"
 
 #: oal/execute.cpp:306
-#, fuzzy, kde-format
-#| msgid "Save Session"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Session"
 msgstr "Tallenna istunto"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Execute)
 #: oal/execute.ui:14
-#, fuzzy, kde-format
-#| msgctxt "Country name (optional, but should be translated)"
-#| msgid "Ascension Island"
+#, kde-format
 msgid "Execute Session"
-msgstr "Ascension Island"
+msgstr "Suorita istunto"
 
 #. i18n: ectx: property (text), widget (KTitleWidget, ktitlewidget)
 #: oal/execute.ui:29
@@ -75747,10 +75547,9 @@ msgstr "Kirjoita istunnon tiedot:"
 
 #. i18n: ectx: property (text), widget (QPushButton, Location)
 #: oal/execute.ui:48
-#, fuzzy, kde-format
-#| msgid "Set Location..."
+#, kde-format
 msgid "set location"
-msgstr "Aseta paikka..."
+msgstr "aseta sijainti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: oal/execute.ui:55
@@ -75861,11 +75660,9 @@ msgstr "Sterling"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: oal/execute.ui:387
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Parsons"
+#, kde-format
 msgid "arc seconds"
-msgstr "Parsons"
+msgstr "kaarisekuntia"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: oal/execute.ui:396
@@ -75937,17 +75734,15 @@ msgstr "Saman niminen havaitsija on jo olemassa, korvataanko?"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: oal/observeradd.ui:63
-#, fuzzy, kde-format
-#| msgid "Surname"
+#, kde-format
 msgid "Surname:"
-msgstr "Sukunimi"
+msgstr "Sukunimi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: oal/observeradd.ui:73
-#, fuzzy, kde-format
-#| msgid "Contact"
+#, kde-format
 msgid "Contact:"
-msgstr "Yhteystieto"
+msgstr "Yhteystieto:"
 
 #: options/opsadvanced.cpp:127
 #, fuzzy, kde-format
@@ -77949,10 +77744,9 @@ msgstr "Pantelleria"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: options/opssupernovae.ui:19
-#, fuzzy, kde-format
-#| msgid "Supernova Remnant"
+#, kde-format
 msgid "Supernovae Options"
-msgstr "Supernovajäänne"
+msgstr "Supernovavalinnat"
 
 #. i18n: ectx: property (text), widget (QLineEdit, kcfg_SupernovaDownloadUrl)
 #: options/opssupernovae.ui:27
@@ -77962,9 +77756,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opssupernovae.ui:47
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set the magnitude limit for supernova to show:"
-msgstr "Aseta suuruusluokkaraja, jota himmeämpiä asteroideja ei näytetä"
+msgstr "Aseta näytettävän supernovan magnitudiraja:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_LimitSupernovaeByZoom)
 #: options/opssupernovae.ui:57
@@ -77980,16 +77774,15 @@ msgstr "Näytä supernovat"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opssupernovae.ui:106
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set the magnitude limit for supernova alerts:"
-msgstr "Aseta suuruusluokkaraja, jota himmeämpiä asteroideja ei näytetä"
+msgstr "Aseta supernovahälytysten magnitudiraja:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: options/opssupernovae.ui:113
-#, fuzzy, kde-format
-#| msgid "Download"
+#, kde-format
 msgid "Download URL:"
-msgstr "Lataa"
+msgstr "Latausverkko-osoite:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssupernovae.ui:120
@@ -78814,10 +78607,9 @@ msgstr ""
 
 #: skycomponents/catalogscomponent.cpp:451
 #: skycomponents/catalogscomponent.cpp:458
-#, fuzzy, kde-format
-#| msgid "Could not delete the file: %1"
+#, kde-format
 msgid "Could not import the objects."
-msgstr "Tiedostoa %1 ei voitu tuhota"
+msgstr "Kohteita ei voitu tuoda."
 
 #: skycomponents/catalogscomponent.cpp:463
 #, fuzzy, kde-format
@@ -78858,7 +78650,7 @@ msgid "Star HD%1 not found."
 msgstr "Tähteä HD%1 ei löytynyt."
 
 #: skycomponents/constellationnamescomponent.cpp:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "Loading constellation names"
 msgstr "Ladataan tähdistöjen nimiä"
 
@@ -78873,8 +78665,7 @@ msgid "Creating horizon"
 msgstr "Luodaan horisonttia"
 
 #: skycomponents/imageoverlaycomponent.cpp:64
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
 msgstr "Tiedostonimi"
 
@@ -78882,11 +78673,9 @@ msgstr "Tiedostonimi"
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2a)
 #: skycomponents/imageoverlaycomponent.cpp:66 tools/modcalcsimple.ui:93
 #: tools/modcalcsimple.ui:183
-#, fuzzy, kde-format
-#| msgctxt "City in Newfoundland Canada"
-#| msgid "Englee"
+#, kde-format
 msgid "Angle"
-msgstr "Englee"
+msgstr "Kulma"
 
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
@@ -79267,14 +79056,14 @@ msgid ""
 msgstr ""
 
 #: skymap.cpp:672
-#, fuzzy, kde-format
+#, kde-format
 msgid "Angular distance: %1"
-msgstr "Kulmaetäisyys: "
+msgstr "Kulmaetäisyys: %1"
 
 #: skymap.cpp:686
-#, fuzzy, kde-format
+#, kde-format
 msgid "; Physical distance: %1 pc"
-msgstr "Kulmaetäisyys: "
+msgstr "; fyysinen etäisyys: %1 pc"
 
 #: skymap.cpp:723
 #, fuzzy, kde-format
@@ -80979,8 +80768,7 @@ msgstr "--        "
 
 #. i18n: ectx: property (text), widget (QLabel, altitudeLabel)
 #: tools/altvstime.ui:293
-#, fuzzy, kde-format
-#| msgid "Altitude:"
+#, kde-format
 msgid "Altitude: "
 msgstr "Korkeus:"
 
@@ -81080,10 +80868,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, TreeButton)
 #: tools/argchangeviewoption.ui:69
-#, fuzzy, kde-format
-#| msgid "Browse Tree"
+#, kde-format
 msgid "Browse Tree..."
-msgstr "Selaa puuta"
+msgstr "Selaa puuta…"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, OptionValue)
 #: tools/argchangeviewoption.ui:76
@@ -81146,10 +80933,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, FindButton)
 #: tools/argfindobject.ui:47 tools/arglooktoward.ui:116
-#, fuzzy, kde-format
-#| msgid "Find Object"
+#, kde-format
 msgid "Object..."
-msgstr "Etsi kohde"
+msgstr "Kohde…"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/arglooktoward.ui:30
@@ -81666,10 +81452,9 @@ msgstr "Kopioi komento"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ModeSelector)
 #: tools/conjunctions.cpp:415 tools/conjunctions.ui:165
-#, fuzzy, kde-format
-#| msgid "Connection"
+#, kde-format
 msgid "Conjunction"
-msgstr "Yhteys"
+msgstr "Konjunktio"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ModeSelector)
 #: tools/conjunctions.cpp:417 tools/conjunctions.ui:170
@@ -81698,11 +81483,9 @@ msgstr "Päättyen:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: tools/conjunctions.ui:59 tools/eclipsetool.ui:54
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Nandi"
+#, kde-format
 msgid "and"
-msgstr "Nandi"
+msgstr "ja"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/conjunctions.ui:81 tools/eclipsetool.ui:96
@@ -81746,10 +81529,9 @@ msgid "Conjunctions / Oppositions"
 msgstr "Konjunktiot / oppositiot"
 
 #: tools/eclipsetool.cpp:130
-#, fuzzy, kde-format
-#| msgid "Minor Planets"
+#, kde-format
 msgid "View in SkyMap"
-msgstr "Muut aurinkokunnan kohteet"
+msgstr "Katso SkyMapissä"
 
 #: tools/eclipsetool.cpp:137
 #, kde-format
@@ -82654,13 +82436,15 @@ msgstr "Säde"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1327
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Min:"
 msgid "Min:"
 msgstr "Min.:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
 #: tools/imagingplanner.ui:1375
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Max:"
 msgid "Max:"
 msgstr "Maks.:"
 
@@ -83275,9 +83059,9 @@ msgstr "Kohdeaika ja -päivämäärä"
 
 #. i18n: ectx: property (text), widget (QPushButton, NowButton)
 #: tools/modcalcapcoord.ui:195
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reset to Now"
-msgstr "Aseta aika &nykyhetkeen"
+msgstr "Palauta nykyhetkeen"
 
 #. i18n: ectx: property (text), widget (QLabel, timeLabel)
 #. i18n: ectx: property (text), widget (QCheckBox, utCheckBatch)
@@ -83348,9 +83132,9 @@ msgid "Almanac for %1"
 msgstr "Almanakka sijainnille %1"
 
 #: tools/modcalcdaylength.cpp:285
-#, fuzzy, kde-format
+#, kde-format
 msgid "computed by KStars"
-msgstr "Tervetuloa KStarsiin."
+msgstr "laskenut KStars"
 
 #: tools/modcalcdaylength.cpp:350
 #, kde-format
@@ -83410,9 +83194,9 @@ msgstr "Kulminaatiokorkeus:"
 
 #. i18n: ectx: property (text), widget (QLabel, MoonRiseAzLabel)
 #: tools/modcalcdaylength.ui:591
-#, fuzzy, kde-format
+#, kde-format
 msgid "Moon rise azimuth:"
-msgstr "Atsimuutti noustessa:"
+msgstr "Kuun nousun atsimuutti:"
 
 #. i18n: ectx: property (text), widget (QLabel, MoonTransitLabel)
 #: tools/modcalcdaylength.ui:667
@@ -83422,9 +83206,9 @@ msgstr "Kulminaatio:"
 
 #. i18n: ectx: property (text), widget (QLabel, MoonSetAzLabel)
 #: tools/modcalcdaylength.ui:681
-#, fuzzy, kde-format
+#, kde-format
 msgid "Moon set azimuth:"
-msgstr "Atsimuutti laskiessa:"
+msgstr "Kuun laskun atsimuutti:"
 
 #. i18n: ectx: property (text), widget (QLabel, LunarPhaseLabel)
 #: tools/modcalcdaylength.ui:721
@@ -84008,9 +83792,9 @@ msgstr "LSR"
 
 #. i18n: ectx: attribute (title), widget (QWidget, overview)
 #: tools/modcalcvlsr.ui:794
-#, fuzzy, kde-format
+#, kde-format
 msgid "Overview"
-msgstr "&Korvataan"
+msgstr "Yleiskuva"
 
 #: tools/moonphasetool.cpp:31
 #, kde-kuit-format
@@ -84052,11 +83836,10 @@ msgid "Resolved %1 successfully."
 msgstr "Syötekoordinaattien valinta"
 
 #: tools/observinglist.cpp:79
-#, fuzzy, kde-format
-#| msgid "&Observation"
+#, kde-format
 msgctxt "@title:window"
 msgid "Observation Planner"
-msgstr "Ha&vainnointi"
+msgstr "Havaintosuunnittelija"
 
 #: tools/observinglist.cpp:94 tools/observinglist.cpp:98
 #, kde-format
@@ -84064,31 +83847,27 @@ msgid "Alternate Name"
 msgstr "Vaihtoehtoinen nimi"
 
 #: tools/observinglist.cpp:94 tools/observinglist.cpp:98
-#, fuzzy, kde-format
-#| msgid "RA (J2000.0):"
+#, kde-format
 msgctxt "Right Ascension"
 msgid "RA (J2000)"
-msgstr "RA (J2000.0):"
+msgstr "RA (J2000)"
 
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
-#, fuzzy, kde-format
-#| msgid "Dec (J2000.0):"
+#, kde-format
 msgctxt "Declination"
 msgid "Dec (J2000)"
-msgstr "Dekl (J2000.0):"
+msgstr "Dekl (J2000)"
 
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Magnitude"
 msgid "Mag"
 msgstr "Mag"
 
 #: tools/observinglist.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "the angle of an object above (or below) the horizon"
-#| msgid "Altitude"
+#, kde-format
 msgid "Current Altitude"
-msgstr "Korkeus"
+msgstr "Nykyinen korkeus"
 
 #: tools/observinglist.cpp:100
 #, fuzzy, kde-format
@@ -84119,14 +83898,14 @@ msgid ""
 msgstr ""
 
 #: tools/observinglist.cpp:276
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 is already in your wishlist."
-msgstr "Lisättiin %1 havaintolistaan."
+msgstr "%1 on jo toivelistassasi."
 
 #: tools/observinglist.cpp:291
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 is already in the session plan."
-msgstr "Lisättiin %1 havaintolistaan."
+msgstr "%1 on jo istuntosuunnitelmassa."
 
 #: tools/observinglist.cpp:354
 #, kde-format
@@ -84134,10 +83913,9 @@ msgid "Added %1 to observing list."
 msgstr "Lisättiin %1 havaintolistaan."
 
 #: tools/observinglist.cpp:392
-#, fuzzy, kde-format
-#| msgid "Added %1 to observing list."
+#, kde-format
 msgid "Added %1 to session list."
-msgstr "Lisättiin %1 havaintolistaan."
+msgstr "Lisättiin %1 havaintoluetteloon."
 
 #: tools/observinglist.cpp:599
 #, kde-format
@@ -84207,8 +83985,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: tools/observinglist.cpp:880
-#, fuzzy, kde-format
-#| msgid "Open Observing List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Observing List"
 msgstr "Avaa havaintoluettelo"
@@ -84221,22 +83998,19 @@ msgid ""
 msgstr ""
 
 #: tools/observinglist.cpp:951
-#, fuzzy, kde-format
+#, kde-format
 msgid "The specified file is invalid"
-msgstr "Tallennuspaikka on virheellinen. Kokeillaanko toista sijaintia?"
+msgstr "Annettu tiedosto on virheellinen"
 
 #: tools/observinglist.cpp:961
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to remove the %1 client?"
+#, kde-format
 msgid "Are you sure you want to clear all objects?"
-msgstr "Haluatko varmasti poistaa asiakkaan %1?"
+msgstr "Haluatko varmasti tyhjentää kaikki kohteet?"
 
 #: tools/observinglist.cpp:962
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Calar Alto"
+#, kde-format
 msgid "Clear all?"
-msgstr "Calar Alto"
+msgstr "Tyhjennetäänkö kaikki?"
 
 #: tools/observinglist.cpp:995
 #, kde-format
@@ -84249,8 +84023,7 @@ msgid "Save Current session?"
 msgstr "Tallennetaanko nykyinen istunto?"
 
 #: tools/observinglist.cpp:1008
-#, fuzzy, kde-format
-#| msgid "Save Observing List"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Observing List"
 msgstr "Tallenna havaintoluettelo"
@@ -84263,24 +84036,21 @@ msgid ""
 msgstr ""
 
 #: tools/observinglist.cpp:1058
-#, fuzzy, kde-format
-#| msgid "Could not save the observer list to the file."
+#, kde-format
 msgid "Could not save observing wishlist"
-msgstr "Havaitsijaluetteloa ei voitu tallentaa tiedostoon."
+msgstr "Havaintotoivelistaa ei voitu tallentaa"
 
 #: tools/observinglist.cpp:1079 tools/observinglist.cpp:1194
 #: tools/obslistwizard.cpp:34
-#, fuzzy, kde-format
-#| msgid "Observing List Wizard"
+#, kde-format
 msgctxt "@title:window"
 msgid "Observing List Wizard"
 msgstr "Opastettu havaintoluettelon luonti"
 
 #: tools/observinglist.cpp:1080
-#, fuzzy, kde-format
-#| msgid "Please wait while KStars tries to connect to your telescope..."
+#, kde-format
 msgid "Please wait while loading observing wishlist..."
-msgstr "Odota kun KStars yrittää saada yhteyden kaukoputkeesi…"
+msgstr "Odota, kun havaintotoivelistaa ladataan…"
 
 #: tools/observinglist.cpp:1103
 #, kde-format
@@ -84317,9 +84087,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: tools/observinglist.cpp:1160
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot save an empty session list."
-msgstr "Havaintoluettelo"
+msgstr "Tyhjää istuntoluetteloa ei voi tallentaa."
 
 #: tools/observinglist.cpp:1172
 #, kde-format
@@ -84337,10 +84107,9 @@ msgid "Do Not Try"
 msgstr "Älä kokeile"
 
 #: tools/observinglist.cpp:1195
-#, fuzzy, kde-format
-#| msgid "Please wait while KStars tries to connect to your telescope..."
+#, kde-format
 msgid "Please wait while adding objects..."
-msgstr "Odota kun KStars yrittää saada yhteyden kaukoputkeesi…"
+msgstr "Odota, kun kohteita lisätään…"
 
 #: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
 #: tools/observinglist.cpp:1349
@@ -84349,28 +84118,24 @@ msgid "Customized DSS Download"
 msgstr "Mukautettu DSS-lataus"
 
 #: tools/observinglist.cpp:1337
-#, fuzzy, kde-format
-#| msgid "Specify image location:"
+#, kde-format
 msgid "Specify image width (arcminutes): "
-msgstr "Anna kuvan sijainti:"
+msgstr "Aseta kuvan leveys (kaariminuutteina): "
 
 #: tools/observinglist.cpp:1340
-#, fuzzy, kde-format
-#| msgid "Specify image location:"
+#, kde-format
 msgid "Specify image height (arcminutes): "
-msgstr "Anna kuvan sijainti:"
+msgstr "Anna kuvan korkeus (kaariminuutteina): "
 
 #: tools/observinglist.cpp:1349
-#, fuzzy, kde-format
-#| msgid "Specify image location:"
+#, kde-format
 msgid "Specify version: "
-msgstr "Anna kuvan sijainti:"
+msgstr "Määritä versio: "
 
 #: tools/observinglist.cpp:1386
-#, fuzzy, kde-format
-#| msgid "Failed to load image"
+#, kde-format
 msgid "Failed to download DSS/SDSS image."
-msgstr "Kuvan lataus epäonnistui"
+msgstr "DSS/SDSS-kuvan lataaminen epäonnistui."
 
 #: tools/observinglist.cpp:1515
 #, kde-format
@@ -84389,9 +84154,9 @@ msgstr "Kuvan valitsin"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, OpenButton)
 #: tools/observinglist.ui:77
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open an observation session list"
-msgstr "Havaintoluettelo"
+msgstr "Avaa havaintoistuntoluettelo"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, OpenButton)
 #: tools/observinglist.ui:80
@@ -84413,9 +84178,9 @@ msgstr "Tallenna nykyinen havaintoluettelo levylle"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SaveAsButton)
 #: tools/observinglist.ui:139
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save observing session as..."
-msgstr "Havaintoluettelo..."
+msgstr "Tallenna havaintoistunto nimellä…"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, SaveAsButton)
 #: tools/observinglist.ui:142
@@ -84425,10 +84190,9 @@ msgstr "Tallenna nykyinen havaintoluettelo levylle eri nimellä"
 
 #. i18n: ectx: property (text), widget (QPushButton, OALExport)
 #: tools/observinglist.ui:152
-#, fuzzy, kde-format
-#| msgid "Export to OAL"
+#, kde-format
 msgid "Export to OAL..."
-msgstr "Vie OAL:ään"
+msgstr "Vie OAL:ään…"
 
 #. i18n: ectx: property (text), widget (QPushButton, SetLocation)
 #: tools/observinglist.ui:192
@@ -84451,8 +84215,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, refLabel)
 #: tools/observinglist.ui:242
-#, fuzzy, kde-format
-#| msgid "Reference Images:"
+#, kde-format
 msgid "Reference images:"
 msgstr "Viitekuvat:"
 
@@ -84464,10 +84227,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, saveImages)
 #: tools/observinglist.ui:252
-#, fuzzy, kde-format
-#| msgid "Delete all Images"
+#, kde-format
 msgid "Download all Images"
-msgstr "Poista kaikki kuvat"
+msgstr "Lataa kaikki kuvat"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DeleteAllImages)
 #: tools/observinglist.ui:259
@@ -84483,10 +84245,9 @@ msgstr "Poista kaikki kuvat"
 
 #. i18n: ectx: property (text), widget (QLabel, addLabel)
 #: tools/observinglist.ui:279
-#, fuzzy, kde-format
-#| msgid "Adding Objects:"
+#, kde-format
 msgid "Adding objects:"
-msgstr "Kohteiden lisääminen:"
+msgstr "Lisätään kohteita:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, WizardButton)
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObsListWizard)
@@ -84957,16 +84718,15 @@ msgstr "Piirrä keskiarvo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: tools/obslistwizard.ui:786
-#, fuzzy, kde-format
-#| msgid "Altitude:"
+#, kde-format
 msgid "Max. Altitude:"
-msgstr "Korkeus:"
+msgstr "Enimmäiskorkeus:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SelectByDate)
 #: tools/obslistwizard.ui:813
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select objects which are observable on:"
-msgstr "Valitse kohde listasta"
+msgstr "Valitse kohteet, joita voi havainnoida:"
 
 #. i18n: ectx: property (text), widget (QLabel, MagnitudeText)
 #: tools/obslistwizard.ui:892
@@ -84988,9 +84748,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, SelectByMagnitude)
 #: tools/obslistwizard.ui:919
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select objects brighter than:"
-msgstr "Näytä kirkkaammille tähdille kuin"
+msgstr "Valitse kohteet, jotka ovat kirkkaampia kuin:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IncludeNoMag)
 #: tools/obslistwizard.ui:991
@@ -85017,8 +84777,7 @@ msgid "Option Name"
 msgstr "Valinnan nimi"
 
 #: tools/planetviewer.cpp:50
-#, fuzzy, kde-format
-#| msgid "Solar System Viewer"
+#, kde-format
 msgctxt "@title:window"
 msgid "Solar System Viewer"
 msgstr "Aurinkokuntanäkymä"
@@ -85054,10 +84813,9 @@ msgstr "Tuntikulma:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: tools/polarishourangle.ui:44
-#, fuzzy, kde-format
-#| msgid "Date/Time:"
+#, kde-format
 msgid "Date / Time"
-msgstr "Päivämäärä && aika:"
+msgstr "Päivämäärä ja aika"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: tools/polarishourangle.ui:91
@@ -85068,18 +84826,15 @@ msgstr "Tuntikulma:"
 
 #. i18n: ectx: property (text), widget (QPushButton, currentTimeB)
 #: tools/polarishourangle.ui:121
-#, fuzzy, kde-format
-#| msgctxt "the angle of an object above (or below) the horizon"
-#| msgid "Altitude"
+#, kde-format
 msgid "Current time"
-msgstr "Korkeus"
+msgstr "Nykyinen aika"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/polarishourangle.ui:128
-#, fuzzy, kde-format
-#| msgid "local time"
+#, kde-format
 msgid "Set Local Time"
-msgstr "paikallinen aika"
+msgstr "Aseta paikallinen aika"
 
 #. i18n: ectx: property (text), widget (QRadioButton, twelveHourR)
 #: tools/polarishourangle.ui:150
@@ -85094,23 +84849,22 @@ msgid "24 Hours"
 msgstr "24 tuntia"
 
 #: tools/scriptbuilder.cpp:54
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Options"
-msgstr "Asetus:"
+msgstr "Valinnat"
 
 #: tools/scriptbuilder.cpp:124
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Script Data"
-msgstr "Komentosarjan nimi:"
+msgstr "Skriptin data"
 
 #: tools/scriptbuilder.cpp:165
-#, fuzzy, kde-format
-#| msgid "Script Builder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Script Builder"
-msgstr "Komentosarjojen ohjelmointi"
+msgstr "Skriptitehdas"
 
 #: tools/scriptbuilder.cpp:175
 #, kde-format
@@ -85214,13 +84968,13 @@ msgid "Change view option named %1 to value %2."
 msgstr "Muuttaa näyttöasetuksen nimeltä %1 arvoon %2."
 
 #: tools/scriptbuilder.cpp:218
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Set the geographic location to the city specified by city, province and "
 "country."
 msgstr ""
-"Asettaa maantieteellisen sijainnin kaupunkiin, joka määritellään kentillä "
-"%1, %2 ja %3."
+"Aseta maantieteellinen sijainti kaupungin, alueen ja maan mukaan valituksi "
+"kaupungiksi."
 
 #: tools/scriptbuilder.cpp:221
 #, kde-format
@@ -85228,16 +84982,14 @@ msgid "Set the color named %1 to the value %2."
 msgstr "Asettaa värin nimeltä %1 arvoon %2."
 
 #: tools/scriptbuilder.cpp:223
-#, fuzzy, kde-format
+#, kde-format
 msgid "Load the color scheme specified by name."
-msgstr "Lataa väriteema nimeltä %1."
+msgstr "Lataa väriteema, jonka nimi on annettu."
 
 #: tools/scriptbuilder.cpp:226
-#, fuzzy, kde-format
+#, kde-format
 msgid "Export the sky image to the file, with specified width and height."
-msgstr ""
-"Tallenna taivasta esittävä kuva, jonka leveys on %2 ja korkeus %3, "
-"tiedostoon %1."
+msgstr "Vie taivaskuva tiedostoon ja määritä sen leveys ja korkeus."
 
 #: tools/scriptbuilder.cpp:230
 #, kde-format
@@ -85770,10 +85522,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, OpenButton)
 #: tools/scriptbuilder.ui:101
-#, fuzzy, kde-format
-#| msgid "Open Script"
+#, kde-format
 msgid "Open Script..."
-msgstr "Lataa komentosarja"
+msgstr "Avaa skripti…"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, OpenButton)
 #: tools/scriptbuilder.ui:104
@@ -85845,22 +85596,16 @@ msgstr "Nykyinen komentosarja"
 
 #. i18n: ectx: property (whatsThis), widget (QListWidget, ScriptListBox)
 #: tools/scriptbuilder.ui:279
-#, fuzzy, kde-format
-#| msgid ""
-#| "This shows the list of commands present in the current working script.  "
-#| "Highlighting any command will present a widget where you can specify its "
-#| "arguments below.  Use the action buttons at right to copy, remove, or "
-#| "change the position of the selected command.  "
+#, kde-format
 msgid ""
 "This shows the list of commands present in the current working script. "
 "Highlighting any command will present a widget where you can specify its "
 "arguments below. Use the action buttons at right to copy, remove, or change "
 "the position of the selected command."
 msgstr ""
-"Tässä näkyy lista muokattavana olevan komentosarjan komennoista.  Komennon "
-"valitseminen tuo alapuolelle esiin komentoon liittyviä asetuksia.  Voit "
-"käyttää toimintopainikkeita kopioidaksesi, poistaaksesi tai siirtääksesi "
-"valitun komennon.  "
+"Tässä on luettelo muokattavana olevan komentosarjan komennoista. "
+"Korostamalla komennon ilmestyy näkymä, jossa voi määrittää sen parametrit. "
+"Toimintopainikkeilla komennon voi kopioida, poistaa tai siirtää."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddButton)
 #: tools/scriptbuilder.ui:315
@@ -86001,8 +85746,7 @@ msgid "Script name:"
 msgstr "Komentosarjan nimi:"
 
 #: tools/skycalendar.cpp:45
-#, fuzzy, kde-format
-#| msgid "Sky Calendar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Sky Calendar"
 msgstr "Taivaskalenteri"
@@ -86043,8 +85787,7 @@ msgid "%1 transits"
 msgstr "%1 kulminaatiossa"
 
 #: tools/skycalendar.cpp:423
-#, fuzzy, kde-format
-#| msgid "Print sky calendar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print sky calendar"
 msgstr "Tulosta taivaskalenteri"
@@ -86123,10 +85866,9 @@ msgid "isosceles triangle"
 msgstr ""
 
 #: tools/starhopper.cpp:325
-#, fuzzy, kde-format
-#| msgid "Faint limit for stars"
+#, kde-format
 msgid "straight line of 3 stars"
-msgstr "Tähtien kirkkausraja"
+msgstr "3 tähden suora rivi"
 
 #: tools/starhopper.cpp:333
 #, kde-format
@@ -86170,9 +85912,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, scopeDetailsBox)
 #: tools/whatsinteresting/wiequipsettings.ui:82
-#, fuzzy, kde-format
+#, kde-format
 msgid "Telescope Details"
-msgstr "Kaukoputken portti:"
+msgstr "Kaukoputken tiedot"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeVendorText)
 #: tools/whatsinteresting/wiequipsettings.ui:90
@@ -86192,9 +85934,9 @@ msgstr "--        "
 
 #. i18n: ectx: property (text), widget (QPushButton, saveNewScopeButton)
 #: tools/whatsinteresting/wiequipsettings.ui:152
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add new telescope"
-msgstr "Kaukoputken portti:"
+msgstr "Lisää uusi kaukoputki"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_BinocularsCheck)
 #: tools/whatsinteresting/wiequipsettings.ui:186
@@ -86246,10 +85988,9 @@ msgid "Magnitude:  --"
 msgstr "Magnitudi:  --"
 
 #: tools/whatsinteresting/wiview.cpp:563
-#, fuzzy, kde-kuit-format
-#| msgid "Magnitude :: %1"
+#, kde-kuit-format
 msgid "Magnitude: %1"
-msgstr "Magnitudi :: %1"
+msgstr "Magnitudi: %1"
 
 #: tools/whatsinteresting/wiview.cpp:565
 #, kde-kuit-format
@@ -86262,8 +86003,7 @@ msgid "Size: %1"
 msgstr "Koko: %1"
 
 #: tools/wutdialog.cpp:41
-#, fuzzy, kde-format
-#| msgid "What's up Tonight"
+#, kde-format
 msgctxt "@title:window"
 msgid "What's up Tonight"
 msgstr "Mitä tänään näkyy"
@@ -86412,17 +86152,13 @@ msgstr "Valitse uusi maantieteellinen sijainti"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:89
-#, fuzzy, kde-format
-#| msgid ""
-#| "Press this button to select a new geographic location for the \"What's Up "
-#| "Tonight\" tool.  Note that the location of the main window is not changed."
+#, kde-format
 msgid ""
 "Press this button to select a new geographic location for the \"What's up "
 "Tonight\" tool.  Note that the location of the main window is not changed."
 msgstr ""
-"Paina tätä painiketta valitaksesi toisen maantieteellisen sijainnin ”Mitä "
-"tänään näkyy” -työkalulle.  Huomaa, että pääikkunassa käytettävä sijainti ei "
-"muutu."
+"Tällä painikkeella voi valita ”Mitä tänään näkyy” -työkalulle uuden "
+"maantieteellisen sijainnin. Huomaa, ettei sijainti pääikkunassa muutu."
 
 #. i18n: ectx: property (text), widget (QPushButton, LocationButton)
 #: tools/wutdialog.ui:92
@@ -86444,13 +86180,7 @@ msgstr "Valitse aikaväli"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:124
-#, fuzzy, kde-format
-#| msgid ""
-#| "By default, the \"What's Up Tonight\" tool displays all objects which are "
-#| "above the horizon between sunset and midnight (i.e., \"in the evening"
-#| "\").  You can also choose to show objects which are up between midnight "
-#| "and dawn (i.e., \"in the morning\"), or objects which are up at any time "
-#| "between sunset and sunrise (i.e., \"any time tonight\")"
+#, kde-format
 msgid ""
 "By default, the \"What's up Tonight\" tool displays all objects which are "
 "above the horizon between sunset and midnight (i.e., \"in the evening\").  "
@@ -86458,12 +86188,10 @@ msgid ""
 "(i.e., \"in the morning\"), or objects which are up at any time between "
 "sunset and sunrise (i.e., \"any time tonight\")"
 msgstr ""
-"”Mitä tänään näkyy” -työkalu näyttää oletuksena kaikki kohteet, jotka "
-"näkyvät horisontin yläpuolella auringonlaskun ja keskiyön välillä (eli "
-"”illalla”). Voit myös valita, että vain ne kohteet jotka ovat ylhäällä "
-"keskiyön ja auringonnousun välillä (eli ”aamulla”) tai kohteet, jotka ovat "
-"ylhäällä milloin tahansa auringonlaskun ja -nousun välillä (eli ”koko yön "
-"aikana”)"
+"Oletuksena ”Mitä tänään näkyy” näyttää kaikki kohteet, jotka näkyvät "
+"horisontin yllä auringonlaskusta keskiyöhön (”illalla”). Näytettäväksi voit "
+"valita kohteet, jotka näkyvät keskiyöstä auringonnousuun (”aamulla”) tai "
+"milloin tahansa auringonlaskun ja -nousun välillä (”yön aikana”)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, EveningMorningBox)
 #: tools/wutdialog.ui:128
@@ -86485,9 +86213,9 @@ msgstr "koko yön aikana"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/wutdialog.ui:146
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show objects brighter than magnitude:"
-msgstr "Näytä kirkkaammille tähdille kuin"
+msgstr "Näytä kohteet, joiden magnitudi on yli:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, MoonRiseLabel)
 #: tools/wutdialog.ui:202
@@ -86605,9 +86333,9 @@ msgstr "Valitse luokka:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel16)
 #: tools/wutdialog.ui:374
-#, fuzzy, kde-format
+#, kde-format
 msgid "Matching objects:"
-msgstr "Etsi kohde"
+msgstr "Täsmäävät kohteet:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, ObjectRiseLabel)
 #: tools/wutdialog.ui:409
@@ -86694,10 +86422,9 @@ msgstr "Avaa ikkunan, joka kertoo yksityiskohtia valitusta kohteesta."
 
 #. i18n: ectx: property (text), widget (QPushButton, DetailButton)
 #: tools/wutdialog.ui:480
-#, fuzzy, kde-format
-#| msgid "Object Details"
+#, kde-format
 msgid "Object Details..."
-msgstr "Kohteen yksityiskohdat"
+msgstr "Kohteen tiedot…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ObslistButton)
 #: tools/wutdialog.ui:487
@@ -86712,14 +86439,14 @@ msgid "Add to List"
 msgstr "Lisää havaintoluetteloon"
 
 #: widgets/dmsbox.cpp:39
-#, fuzzy, kde-format
+#, kde-format
 msgid "Angle value in degrees."
-msgstr "Maantieteellinen sijainti"
+msgstr "Kulman arvo asteina."
 
 #: widgets/dmsbox.cpp:39
-#, fuzzy, kde-format
+#, kde-format
 msgid "Angle value in hours."
-msgstr "Maantieteellinen sijainti"
+msgstr "Kulman arvo tunteina."
 
 #: widgets/dmsbox.cpp:46
 #, kde-format
@@ -86768,36 +86495,26 @@ msgstr ""
 "\"12:20:00\", \"12 20\", \"12 20.0\", jne.)."
 
 #: widgets/dmsbox.cpp:73
-#, fuzzy, kde-format
-#| msgid ""
-#| "Angle value in hours. You may enter a simple integer \n"
-#| "or floating-point value, or space- or colon-delimited values \n"
-#| "specifying hours, minutes and seconds."
+#, kde-format
 msgid ""
 "  You may enter a simple integer, or a floating-point value, or space- or "
 "colon-delimited values specifying hours, minutes and seconds"
 msgstr ""
-"Kulma tunteina. Kulma voidaan ilmoittaa kokonaislukuna, liukulukuna tai "
-"välilyönnillä tai kaksoispisteellä erotetuilla luvuilla, jotka määrittävät "
-"tunnit, minuutit ja sekunnit."
+" Voidaan ilmoittaa kokonaislukuna, liukulukuna tai välilyönnein tai "
+"kaksoispistein erotettuina tunti-, minuutti- ja sekuntiarvoina"
 
 #: widgets/dmsbox.cpp:77
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enter an angle value in hours.  The angle can be expressed as a simple "
-#| "integer (\"12\") or floating-point (\"12.333\") value, or as space- or "
-#| "colon-delimited values specifying hours, minutes and seconds (\"12:20\", "
-#| "\"12:20:00\", \"12:20\", \"12 20.0\", etc.)."
+#, kde-format
 msgid ""
 "Enter an angle value in hours.  The angle can be expressed as a simple "
 "integer (\"12\"), a floating-point value (\"12.33\"), or as space- or colon-"
 "delimited values specifying hours, minutes and seconds (\"12:20\", "
 "\"12:20:00\", \"12 20\", \"12 20 00.0\", etc.)."
 msgstr ""
-"Anna kulma tunteina.  Kulma voidaan ilmoittaa kokonaislukuna (\"12\"),"
-"liukulukuna (\"12.333\") tai välilyönnillä tai kaksoispisteellä erotetuilla "
-"tunteja, minuutteja ja sekunteja määrittävillä luvuilla (\"12:20\", "
-"\"12:20:00\", \"12 20\", \"12 20.0\", jne.)."
+"Anna kulma tunteina.  Kulma voidaan ilmoittaa kokonaislukuna (”12”), "
+"liukulukuna (”12,333”) tai välilyönnein tai kaksoispistein erotettuina "
+"tunti-, minuutti- ja sekuntiarvoina (”12:20”, ”12:20:00”, ”12 20”, ”12 20,0” "
+"jne.)."
 
 #: widgets/fovwidget.cpp:39
 #, kde-format
@@ -87446,30 +87163,27 @@ msgstr "Jos valittu, yläoikeassa kulmassa näytetään selite."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetLabel)
 #: xplanet/opsxplanet.ui:784
-#, fuzzy, kde-format
-#| msgid "Show label"
+#, kde-format
 msgid "Show label:"
-msgstr "Näytä selite"
+msgstr "Näytä selite:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: xplanet/opsxplanet.ui:796
-#, fuzzy, kde-format
-#| msgctxt "City name (optional, probably does not need a translation)"
-#| msgid "Merkers"
+#, kde-format
 msgid "Markers"
-msgstr "Merkers"
+msgstr "Merkit"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetMarkerFile)
 #: xplanet/opsxplanet.ui:807
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use marker file?"
-msgstr "Barnesville"
+msgstr "Käytetäänkö merkkitiedostoa?"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_XplanetMarkerFile)
 #: xplanet/opsxplanet.ui:813
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use marker file:"
-msgstr "Barnesville"
+msgstr "Käytä merkkitiedostoa:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetMarkerFilePath)
 #: xplanet/opsxplanet.ui:823
@@ -87513,10 +87227,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetLongitude)
 #: xplanet/opsxplanet.ui:910
-#, fuzzy, kde-format
-#| msgid " and longitude "
+#, kde-format
 msgid " and longitude: "
-msgstr " ja pituusaste "
+msgstr " ja pituusaste: "
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, kcfg_XplanetLongitude)
 #: xplanet/opsxplanet.ui:920
@@ -87567,12 +87280,9 @@ msgstr "Käytetäänkö taustaa?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_XplanetBackground)
 #: xplanet/opsxplanet.ui:1021
-#, fuzzy, kde-format
-#| msgid "If checked, the celestial equator will be drawn in the sky map."
+#, kde-format
 msgid "If checked, use a file or a color as background."
-msgstr ""
-"Jos valittuna, piirretään tähtikartalle taivaan ekvaattorin eli "
-"päiväntasaajan kehä."
+msgstr "Jos valittu, taustana käytetään kuvatiedostoa tai väriä."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetBackgroundImage)
 #: xplanet/opsxplanet.ui:1033
@@ -87588,9 +87298,9 @@ msgstr "Käytä tätä tiedostoa taustakuvana"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, kcfg_XplanetBackgroundImagePath)
 #: xplanet/opsxplanet.ui:1046
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enter here the path of background image file."
-msgstr "Häivytetäänkö ratajuovat tähtikartan taustaväriin?"
+msgstr "Anna tässä taustakuvatiedoston sijainti."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_XplanetBackgroundColor)
 #: xplanet/opsxplanet.ui:1057
