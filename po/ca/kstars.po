@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
-"PO-Revision-Date: 2024-11-28 10:59+0100\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
+"PO-Revision-Date: 2024-12-02 09:33+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8654,10 +8654,9 @@ msgstr ""
 "fitxer, o no hi ha connexió."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, fuzzy, kde-format
-#| msgid "%s download cancelled."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "S'ha cancel·lat la baixada de %s."
+msgstr "S'ha cancel·lat la baixada de %1."
 
 # skip-rule: k-Alt-1
 #: ekos/align/opsastrometryindexfiles.cpp:482
@@ -70871,9 +70870,11 @@ msgid "Observation Planner"
 msgstr "Planificador d'observacions"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr "Planificador d'obtenció d'imatges (experimental)"
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Imaging Planner"
+msgid "Imaging Planner"
+msgstr "Planificador d'obtenció d'imatges"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -88806,6 +88807,9 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
+
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Planificador d'obtenció d'imatges (experimental)"
 
 #~ msgid "Add Flag..."
 #~ msgstr "Afegeix un indicador..."

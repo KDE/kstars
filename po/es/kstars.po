@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
-"PO-Revision-Date: 2024-11-28 22:55+0100\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
+"PO-Revision-Date: 2024-12-02 13:19+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -8634,10 +8634,9 @@ msgstr ""
 "rápida, no se puede acceder al archivo o no está conectado."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, fuzzy, kde-format
-#| msgid "%s download cancelled."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "Descarga de %s cancelada."
+msgstr "Descarga de %1 cancelada."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format
@@ -70722,9 +70721,11 @@ msgid "Observation Planner"
 msgstr "Planificador de observación"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr "Planificador de obtención de imágenes (experimental)"
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Imaging Planner"
+msgid "Imaging Planner"
+msgstr "Planificador de obtención de imágenes"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -88580,6 +88581,9 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
+
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Planificador de obtención de imágenes (experimental)"
 
 #~ msgid "Add Flag..."
 #~ msgstr "Añadir indicador..."

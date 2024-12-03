@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
-"PO-Revision-Date: 2024-11-22 20:15+0100\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
+"PO-Revision-Date: 2024-12-02 18:54+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -8648,10 +8648,9 @@ msgstr ""
 "file non è accessibile oppure non sei connesso."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, fuzzy, kde-format
-#| msgid "%s download cancelled."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "%s dello scaricamento annullato."
+msgstr "%1 dello scaricamento annullato."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format
@@ -8885,10 +8884,9 @@ msgstr "URL dei file indice:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
-#, fuzzy, kde-format
-#| msgid "http://broiler.astrometry.net/~dstn/"
+#, kde-format
 msgid "http://data.astrometry.net/"
-msgstr "http://broiler.astrometry.net/~dstn/"
+msgstr "http://data.astrometry.net/"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
 #: ekos/align/opsastrometryindexfiles.ui:350
@@ -11843,8 +11841,8 @@ msgid ""
 "<html><head/><body><p>Check to apply Adaptive focus to Autofocus runs.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Attiva per applicare il fuoco flessibile alle "
-"esecuzioni di messa a fuoco automatica.</p></body></html>"
+"<html><head/><body><p>Attiva per applicare il fuoco adattivo alle esecuzioni "
+"di messa a fuoco automatica.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, buildOffsetsAdaptFocus)
 #: ekos/auxiliary/buildfilteroffsets.ui:48
@@ -12887,7 +12885,7 @@ msgstr "Detector"
 #: ekos/auxiliary/opslogs.ui:354 ekos/profileeditor.ui:536
 #, kde-format
 msgid "Adaptive Optics"
-msgstr "Ottiche flessibili"
+msgstr "Ottiche adattive"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIAOLogging)
 #: ekos/auxiliary/opslogs.ui:357
@@ -16127,7 +16125,7 @@ msgstr ""
 #: ekos/capture/camerastate.cpp:675
 #, kde-format
 msgid "Adaptive focus complete."
-msgstr "Messa a fuoco flessibile completata."
+msgstr "Messa a fuoco adattiva completata."
 
 #: ekos/capture/camerastate.cpp:699
 #, kde-format
@@ -17399,7 +17397,7 @@ msgstr "Inizio della rimessa a fuoco basata su HFR in sequenza..."
 #: ekos/capture/refocusstate.cpp:84
 #, kde-format
 msgid "Adaptive focus starting..."
-msgstr "Avvio della messa a fuoco flessibile..."
+msgstr "Avvio della messa a fuoco adattiva..."
 
 #: ekos/capture/refocusstate.cpp:103
 #, kde-format
@@ -18512,26 +18510,26 @@ msgstr ""
 #: ekos/focus/adaptivefocus.cpp:152
 #, kde-format
 msgid "Adaptive Focus: No movement (below threshold)"
-msgstr "Messa a fuoco flessibile: nessuno spostamento (sotto la soglia)"
+msgstr "Messa a fuoco adattiva: nessuno spostamento (sotto la soglia)"
 
 #: ekos/focus/adaptivefocus.cpp:163
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed Max Travel limit"
 msgstr ""
-"Messa a fuoco flessibile sospesa. Lo spostamento totale eccederebbe il "
-"limite di corsa massima"
+"Messa a fuoco adattiva sospesa. Lo spostamento totale eccederebbe il limite "
+"di corsa massima"
 
 #: ekos/focus/adaptivefocus.cpp:171
 #, kde-format
 msgid "Adaptive Focus suspended. Total movement would exceed adaptive limit"
 msgstr ""
-"Messa a fuoco flessibile sospesa. Lo spostamento totale eccederebbe il "
-"limite adattivo"
+"Messa a fuoco adattiva sospesa. Lo spostamento totale eccederebbe il limite "
+"adattivo"
 
 #: ekos/focus/adaptivefocus.cpp:179
 #, kde-format
 msgid "Adaptive Focus: Moving from %1 to %2 (TempΔ %3"
-msgstr "Messa a fuoco flessibile: spostamento da %1 a %2 (TempΔ %3"
+msgstr "Messa a fuoco adattiva: spostamento da %1 a %2 (TempΔ %3"
 
 #: ekos/focus/adaptivefocus.cpp:181
 #, kde-format
@@ -18546,58 +18544,57 @@ msgstr "; Errore Pos %1)"
 #: ekos/focus/adaptivefocus.cpp:197
 #, kde-format
 msgid "Adaptive Focus unable to move focuser"
-msgstr "Messa a fuoco flessibile non in grado di spostare il focheggiatore"
+msgstr "Messa a fuoco adattiva non in grado di spostare il focheggiatore"
 
 #: ekos/focus/adaptivefocus.cpp:369
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
-"Punto di partenza flessibile, ultima soluzione AF fuori dalla corsa massima, "
+"Punto di partenza adattivo, ultima soluzione AF fuori dalla corsa massima, "
 "sto ignorando"
 
 #: ekos/focus/adaptivefocus.cpp:377
 #, kde-format
 msgid "Adaptive start point, no temperature source available"
-msgstr "Punto di partenza flessibile, nessuna fonte di temperatura disponibile"
+msgstr "Punto di partenza adattivo, nessuna fonte di temperatura disponibile"
 
 #: ekos/focus/adaptivefocus.cpp:379
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
 msgstr ""
-"Punto di partenza flessibile, nessuna temperatura per l'ultima soluzione AF"
+"Punto di partenza adattivo, nessuna temperatura per l'ultima soluzione AF"
 
 #: ekos/focus/adaptivefocus.cpp:386
 #, kde-format
 msgid "Adaptive start point, very large temperature delta, ignoring"
 msgstr ""
-"Punto di partenza flessibile, differenza di temperatura molto grande, sto "
+"Punto di partenza adattivo, differenza di temperatura molto grande, sto "
 "ignorando"
 
 #: ekos/focus/adaptivefocus.cpp:398
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
 msgstr ""
-"Punto di partenza flessibile, nessuna alt registrata per l'ultima soluzione "
-"AF"
+"Punto di partenza adattivo, nessuna alt registrata per l'ultima soluzione AF"
 
 #: ekos/focus/adaptivefocus.cpp:400
 #, kde-format
 msgid "Adaptive start point, very large altitude delta, ignoring"
 msgstr ""
-"Punto di partenza flessibile, differenza di altitudine molto grande, sto "
+"Punto di partenza adattivo, differenza di altitudine molto grande, sto "
 "ignorando"
 
 #: ekos/focus/adaptivefocus.cpp:410
 #, kde-format
 msgid "Adaptive start point, target position is outside Max Travel, ignoring"
 msgstr ""
-"Punto di partenza flessibile, posizione target fuori dalla corsa massima, "
-"sto ignorando"
+"Punto di partenza adattivo, posizione target fuori dalla corsa massima, sto "
+"ignorando"
 
 #: ekos/focus/adaptivefocus.cpp:418
 #, kde-format
 msgid "Adaptive start point [%1] excessive move disallowed"
-msgstr "Mossa eccessiva del punto di partenza flessibile [%1] non consentita"
+msgstr "Mossa eccessiva del punto di partenza adattivo [%1] non consentita"
 
 #: ekos/focus/adaptivefocus.cpp:432
 #, kde-format
@@ -19039,7 +19036,7 @@ msgstr "Regola la messa a fuoco"
 #: ekos/focus/opsfocussettings.ui:528
 #, kde-format
 msgid "Adaptive Focus"
-msgstr "Messa a fuoco flessibile"
+msgstr "Messa a fuoco adattiva"
 
 #: ekos/focus/focus.cpp:1073
 #, kde-format
@@ -20449,8 +20446,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Assesta il tempo (in secondi) dopo aver spostato il "
 "focheggiatore prima di acquisire l'immagine successiva durante la messa a "
-"fuoco automatica e dopo un movimento di messa a fuoco flessibile.</p></"
-"body></html>"
+"fuoco automatica e dopo un movimento di messa a fuoco adattiva.</p></body></"
+"html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusCaptureTimeout)
@@ -21598,7 +21595,7 @@ msgid ""
 "be sent to the focuser.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>La dimensione minima di una modifica della messa a "
-"fuoco flessibile che verrà inviata al focheggiatore.</p></body></html>"
+"fuoco adattiva che verrà inviata al focheggiatore.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
@@ -21616,11 +21613,10 @@ msgid ""
 "purpose of this control is to handle runaway adaptive focusing.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Il movimento totale massimo del focheggiatore "
-"flessibile tra le esecuzioni della messa a fuoco automatica. Se viene "
-"toccato questo valore, la messa a fuoco flessibile è sospesa. Lo scopo di "
-"questo controllo è gestire la messa a fuoco flessibile fuori controllo.</p></"
-"body></html>"
+"<html><head/><body><p>Il movimento totale massimo del focheggiatore adattivo "
+"tra le esecuzioni della messa a fuoco automatica. Se viene toccato questo "
+"valore, la messa a fuoco flessibile è sospesa. Lo scopo di questo controllo "
+"è gestire la messa a fuoco adattiva fuori controllo.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/opsfocussettings.ui:525
@@ -21629,7 +21625,7 @@ msgid ""
 "<html><head/><body><p>Enable Adaptive Focus between subframes. This is an "
 "experimental feature.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Abilita la messa a fuoco flessibile tra i subframe. È "
+"<html><head/><body><p>Abilita la messa a fuoco adattiva tra i subframe. È "
 "una funzionalità sperimentale.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
@@ -21640,7 +21636,7 @@ msgid ""
 "p></body></html>"
 msgstr ""
 "<html><head/><body><p>Movimento minimo del focheggiatore quando utilizzi la "
-"messa a fuoco flessibile.</p></body></html>"
+"messa a fuoco adattiva.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: ekos/focus/opsfocussettings.ui:544
@@ -21657,8 +21653,8 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>Adatta la posizione di inizio della messa a fuoco "
-"automatica basata sul filtro e le impostazioni della messa a fuoco "
-"flessibile. È una funzionalità sperimentale.</p></body></html>"
+"automatica basata sul filtro e le impostazioni della messa a fuoco adattiva. "
+"È una funzionalità sperimentale.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/opsfocussettings.ui:566
@@ -31498,7 +31494,7 @@ msgstr ""
 #: fitsviewer/opsfits.ui:219
 #, kde-format
 msgid "Adaptive sampling"
-msgstr "Campionamento flessibile"
+msgstr "Campionamento adattivo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, stretchPreviewSamplingLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StretchPreviewSampling)
@@ -33867,15 +33863,14 @@ msgid "View in What's Interesting"
 msgstr "Visualizza in Cosa c'è di interessante"
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "Aggiungi oggetto..."
+msgstr "Aggiungi indicatore (vicino all'oggetto)..."
 
 #: kspopupmenu.cpp:458
 #, kde-format
 msgid "Add Flag (exactly here)..."
-msgstr ""
+msgstr "Aggiungi indicatore (esattamente qui)..."
 
 #: kspopupmenu.cpp:465
 #, kde-format
@@ -34596,7 +34591,7 @@ msgstr "Abilita la registrazione del GPS di INDI"
 #: kstars.kcfg:314
 #, kde-format
 msgid "Enable INDI Adaptive Optics logging"
-msgstr "Abilita la registrazione dell'ottica flessibile di INDI"
+msgstr "Abilita la registrazione dell'ottica adattiva di INDI"
 
 #. i18n: ectx: label, entry (CityName), group (Location)
 #: kstars.kcfg:321
@@ -39180,7 +39175,7 @@ msgstr "Visualizza unità per HFR e FWHM"
 #: kstars.kcfg:2285
 #, kde-format
 msgid "Whether Adaptive Focusing is enabled."
-msgstr "Se la messa a fuoco flessibile è abilitata o no."
+msgstr "Se la messa a fuoco adattiva è abilitata o no."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:2289
@@ -39188,8 +39183,8 @@ msgstr "Se la messa a fuoco flessibile è abilitata o no."
 msgid ""
 "When using Adaptive Focusing the minimum allowable focuser move in ticks."
 msgstr ""
-"Quando si usa la Messa a fuoco flessibile, il movimento minimo consentito "
-"del focheggiatore in tic."
+"Quando si usa la Messa a fuoco adattiva, il movimento minimo consentito del "
+"focheggiatore in tic."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptStart), group (Focus)
 #: kstars.kcfg:2293
@@ -39208,7 +39203,7 @@ msgid ""
 "When using Adaptive Focusing the maximum total allowable focuser move in "
 "ticks."
 msgstr ""
-"Quando si usa la Messa a fuoco flessibile, il movimento totale massimo "
+"Quando si usa la Messa a fuoco adattiva, il movimento totale massimo "
 "consentito del focheggiatore in tic."
 
 #. i18n: ectx: label, entry (FocusDetection), group (Focus)
@@ -39621,7 +39616,7 @@ msgstr "Posizione di rightLayout."
 #, kde-format
 msgid "Whether to use Adaptive Focus in the Build Filter Offsets utility."
 msgstr ""
-"Se usare o no la Messa a fuoco flessibile nel programmino Generazione "
+"Se usare o no la Messa a fuoco adattivo nel programmino Generazione "
 "compensazioni filtro."
 
 #. i18n: ectx: whatsthis, entry (abInsTileSelection), group (Focus)
@@ -70728,9 +70723,11 @@ msgid "Observation Planner"
 msgstr "Pianificatore di osservazioni"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr "Pianificatore di riprese fotografiche (sperimentale)"
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Imaging Planner"
+msgid "Imaging Planner"
+msgstr "Pianificatore di riprese fotografiche"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -88555,6 +88552,9 @@ msgstr "Colore di fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Imposta il colore dello sfondo."
+
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Pianificatore di riprese fotografiche (sperimentale)"
 
 #~ msgid "Add Flag..."
 #~ msgstr "Aggiungi indicatore..."

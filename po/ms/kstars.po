@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -67092,9 +67092,9 @@ msgid "Observation Planner"
 msgstr "Bandar nama"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr ""
+#, fuzzy, kde-format
+msgid "Imaging Planner"
+msgstr "Bandar nama"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2009-02-23 19:53+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -77572,9 +77572,11 @@ msgid "Observation Planner"
 msgstr "दायर ओब्सर्वेटरी"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Dyer Observatory"
+msgid "Imaging Planner"
+msgstr "दायर ओब्सर्वेटरी"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54

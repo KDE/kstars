@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -73947,10 +73947,8 @@ msgstr "Stebimųjų sąrašas"
 
 #: kstarsinit.cpp:456
 #, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Experimental"
-msgid "Imaging Planner (experimental)"
-msgstr "Ekperimentinis"
+msgid "Imaging Planner"
+msgstr "Stebimųjų sąrašas"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -92311,6 +92309,12 @@ msgstr "Fono spalva:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Foną spalvinti šia spalva."
+
+#, fuzzy
+#~| msgctxt "Satellite group name"
+#~| msgid "Experimental"
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Ekperimentinis"
 
 #, fuzzy
 #~| msgid "Add Link..."

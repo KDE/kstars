@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -75458,10 +75458,9 @@ msgstr "Megfigyelés tervező"
 
 #: kstarsinit.cpp:456
 #, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Experimental"
-msgid "Imaging Planner (experimental)"
-msgstr "Kísérleti"
+#| msgid "Observation Planner"
+msgid "Imaging Planner"
+msgstr "Megfigyelés tervező"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -93851,6 +93850,12 @@ msgstr "Háttérszín:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "A háttérszín beállítása."
+
+#, fuzzy
+#~| msgctxt "Satellite group name"
+#~| msgid "Experimental"
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Kísérleti"
 
 #, fuzzy
 #~| msgid "Add flag..."

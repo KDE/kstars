@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2024-10-08 14:43+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -67012,9 +67012,10 @@ msgid "Observation Planner"
 msgstr "Plánovač pozorování"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Observation Planner"
+msgid "Imaging Planner"
+msgstr "Plánovač pozorování"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54

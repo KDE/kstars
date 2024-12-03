@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -73222,9 +73222,9 @@ msgid "Observation Planner"
 msgstr "നക്ഷത്രനിരീക്ഷണാലയത്തിന്റെ പേര് ടൈപ്പ് ചെയ്യുക"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr ""
+#, fuzzy, kde-format
+msgid "Imaging Planner"
+msgstr "നക്ഷത്രനിരീക്ഷണാലയത്തിന്റെ പേര് ടൈപ്പ് ചെയ്യുക"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54

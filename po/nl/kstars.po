@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
-"PO-Revision-Date: 2024-11-28 12:15+0100\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
+"PO-Revision-Date: 2024-12-02 11:30+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8596,10 +8596,9 @@ msgstr ""
 "is ontoegankelijk, of er is geen verbinding."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, fuzzy, kde-format
-#| msgid "%s download cancelled."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "%s download geannuleerd."
+msgstr "%1 download geannuleerd."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format
@@ -70174,9 +70173,11 @@ msgid "Observation Planner"
 msgstr "Waarnemingen plannen"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr "Planner van opnamen (experimenteel)"
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Imaging Planner"
+msgid "Imaging Planner"
+msgstr "Planner van opnamen"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -88022,6 +88023,9 @@ msgstr "Achtergrondkleur:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Instellen van de kleur van de achtergrond."
+
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Planner van opnamen (experimenteel)"
 
 #~ msgid "Add Flag..."
 #~ msgstr "Vlag toevoegen..."

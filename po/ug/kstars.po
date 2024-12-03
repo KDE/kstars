@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -75160,10 +75160,9 @@ msgstr ""
 
 #: kstarsinit.cpp:456
 #, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Experimental"
-msgid "Imaging Planner (experimental)"
-msgstr "سىناق"
+#| msgid "Observer"
+msgid "Imaging Planner"
+msgstr "كۆزەتكۈچى"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -92645,6 +92644,12 @@ msgstr "تەگلىك رەڭگى:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgctxt "Satellite group name"
+#~| msgid "Experimental"
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "سىناق"
 
 #, fuzzy
 #~| msgid "Edit..."

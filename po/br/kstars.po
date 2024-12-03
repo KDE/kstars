@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2005-01-25 01:58+0100\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -76222,9 +76222,11 @@ msgid "Observation Planner"
 msgstr "Arsellva Dyer"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Dyer Observatory"
+msgid "Imaging Planner"
+msgstr "Arsellva Dyer"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54

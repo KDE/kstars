@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -72744,10 +72744,9 @@ msgstr "Планировщик наблюдений"
 
 #: kstarsinit.cpp:456
 #, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Experimental"
-msgid "Imaging Planner (experimental)"
-msgstr "Экспериментальные"
+#| msgid "Observation Planner"
+msgid "Imaging Planner"
+msgstr "Планировщик наблюдений"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -91008,6 +91007,12 @@ msgstr "Цвет фона:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Установить цвет фона."
+
+#, fuzzy
+#~| msgctxt "Satellite group name"
+#~| msgid "Experimental"
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Экспериментальные"
 
 #, fuzzy
 #~| msgid "Add flag..."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2024-11-28 20:16+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -70650,9 +70650,11 @@ msgid "Observation Planner"
 msgstr "Планиране на наблюдения"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr "Планер за изображения (експериментален)"
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Imaging Planner"
+msgid "Imaging Planner"
+msgstr "Планер за изображения"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -88354,6 +88356,9 @@ msgstr "Цвят на фона:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Задаване на цвета на фона."
+
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Планер за изображения (експериментален)"
 
 #~ msgid "Add Flag..."
 #~ msgstr "Добавяне на флаг..."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2010-03-14 21:56+0530\n"
 "Last-Translator: Danishka Navin\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -66968,7 +66968,7 @@ msgstr ""
 
 #: kstarsinit.cpp:456
 #, kde-format
-msgid "Imaging Planner (experimental)"
+msgid "Imaging Planner"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)

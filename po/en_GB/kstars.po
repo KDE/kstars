@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2024-11-23 12:49+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -69639,9 +69639,11 @@ msgid "Observation Planner"
 msgstr "Observation Planner"
 
 #: kstarsinit.cpp:456
-#, kde-format
-msgid "Imaging Planner (experimental)"
-msgstr "Imaging Planner (experimental)"
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Imaging Planner"
+msgid "Imaging Planner"
+msgstr "Imaging Planner"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -87275,6 +87277,9 @@ msgstr "Background colour:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Set the colour for the background."
+
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Imaging Planner (experimental)"
 
 #~ msgid "Add Flag..."
 #~ msgstr "Add Flag..."

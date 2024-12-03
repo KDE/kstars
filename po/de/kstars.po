@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -70959,10 +70959,9 @@ msgstr "Beobachtungsliste"
 
 #: kstarsinit.cpp:456
 #, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Experimental"
-msgid "Imaging Planner (experimental)"
-msgstr "Experimental-Satelliten"
+#| msgid "Observation Planner"
+msgid "Imaging Planner"
+msgstr "Beobachtungsliste"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -88945,6 +88944,12 @@ msgstr "Hintergrundfarbe:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Bestimmt die Farbe für den Hintergrund."
+
+#, fuzzy
+#~| msgctxt "Satellite group name"
+#~| msgid "Experimental"
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Experimental-Satelliten"
 
 #, fuzzy
 #~| msgid "Add flag..."

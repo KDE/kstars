@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -69799,9 +69799,9 @@ msgstr "Vaatluste plaanija"
 
 #: kstarsinit.cpp:456
 #, fuzzy, kde-format
-#| msgid "Linear (Experimental v3.2)"
-msgid "Imaging Planner (experimental)"
-msgstr "Lineaarne (eksperimentaalne v3.2)"
+#| msgid "Observation Planner"
+msgid "Imaging Planner"
+msgstr "Vaatluste plaanija"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -87668,6 +87668,11 @@ msgstr "Taustavärv:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Värvi määramine taustaks."
+
+#, fuzzy
+#~| msgid "Linear (Experimental v3.2)"
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Lineaarne (eksperimentaalne v3.2)"
 
 #, fuzzy
 #~| msgid "Add flag..."

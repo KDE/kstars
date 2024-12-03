@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-02 02:25+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2024-09-18 17:14+0200\n"
 "Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -70921,10 +70921,9 @@ msgstr "Planificateur d'observations"
 
 #: kstarsinit.cpp:456
 #, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Experimental"
-msgid "Imaging Planner (experimental)"
-msgstr "Expérimental"
+#| msgid "Mosaic Planner"
+msgid "Imaging Planner"
+msgstr "Planificateur de mosaïque"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -89048,6 +89047,12 @@ msgstr "Couleur de l'arrière plan"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Sélectionnez la couleur de fond."
+
+#, fuzzy
+#~| msgctxt "Satellite group name"
+#~| msgid "Experimental"
+#~ msgid "Imaging Planner (experimental)"
+#~ msgstr "Expérimental"
 
 #~ msgid "Add Flag..."
 #~ msgstr "Ajouter une étiquette…"
