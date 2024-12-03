@@ -195,6 +195,42 @@
             <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
             <version>1.7</version>
         </device>
+        <device label="iOptron HEM15" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.7</version>
+        </device>
+        <device label="iOptron HEM44" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.7</version>
+        </device>
+        <device label="iOptron HAE43" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.7</version>
+        </device>
+        <device label="iOptron HAE69" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.7</version>
+        </device>
+        <device label="iOptron HAZ31" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.7</version>
+        </device>
+        <device label="iOptron HAZ46" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.7</version>
+        </device>
+        <device label="iOptron HAZ71" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.7</version>
+        </device>
+        <device label="iOptron HAE16" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.7</version>
+        </device>
+        <device label="iOptron HAE18" manufacturer="iOptron">
+            <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
+            <version>1.7</version>
+        </device>
         <device label="iOptron HEM27" manufacturer="iOptron">
             <driver name="iOptronV3">indi_ioptronv3_telescope</driver>
             <version>1.7</version>
@@ -435,7 +471,7 @@
         </device>
         <device label="Pyxis" manufacturer="Optec">
             <driver name="Pyxis">indi_pyxis_rotator</driver>
-            <version>1.0</version>
+            <version>1.1</version>
         </device>
         <device label="Pegasus Falcon" manufacturer="Pegasus Astro">
             <driver name="Pegasus Falcon">indi_falcon_rotator</driver>
@@ -645,6 +681,10 @@
         </device>
         <device label="Pegasus INDIGO" manufacturer="Pegasus Astro">
             <driver name="Pegasus INDIGO">indi_pegasusindigo_wheel</driver>
+            <version>1.0</version>
+        </device>
+        <device label="iOptron Wheel" manufacturer="iOptron">
+            <driver name="ioptron Wheel">indi_ioptron_wheel</driver>
             <version>1.0</version>
         </device>
     </devGroup>
@@ -1251,27 +1291,27 @@
     <devGroup group="CCDs">
         <device label="Canon DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Canon DSLR">indi_canon_ccd</driver>
-            <version>3.3</version>
+            <version>3.4</version>
         </device>
         <device label="Nikon DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Nikon DSLR">indi_nikon_ccd</driver>
-            <version>3.3</version>
+            <version>3.4</version>
         </device>
         <device label="Pentax DSLR Legacy" mdpd="true" manufacturer="DSLRs">
             <driver name="Pentax DSLR">indi_pentax_ccd</driver>
-            <version>3.3</version>
+            <version>3.4</version>
         </device>
         <device label="Sony DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Sony DSLR">indi_sony_ccd</driver>
-            <version>3.3</version>
+            <version>3.4</version>
         </device>
         <device label="Fuji DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Fuji DSLR">indi_fuji_ccd</driver>
-            <version>3.3</version>
+            <version>3.4</version>
         </device>
         <device label="GPhoto CCD" manufacturer="DSLRs">
             <driver name="GPhoto CCD">indi_gphoto_ccd</driver>
-            <version>3.3</version>
+            <version>3.4</version>
         </device>
     </devGroup>
 </driversList>
@@ -1750,14 +1790,6 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="CCDs">
-        <device label="Generic CCD" mdpd="true" manufacturer="Simulator">
-            <driver name="Generic CCD">indi_generic_ccd</driver>
-            <version>1.0</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
     <devGroup group="Auxiliary">
         <device label="GPIO">
             <driver name="GPIO">indi_gpio</driver>
@@ -1769,6 +1801,14 @@
     <devGroup group="Spectrographs">
         <device label="RTL-SDR" mdpd="false">
             <driver name="RTL-SDR">indi_rtlsdr</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Generic CCD" mdpd="true" manufacturer="Simulator">
+            <driver name="Generic CCD">indi_generic_ccd</driver>
             <version>1.0</version>
         </device>
     </devGroup>
