@@ -4,6 +4,87 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.4 (PLANNER):
+
+276510114 2024-12-03 Jasem Mutlaq         INDI drivers sync
+f4a0010df 2024-12-01 Hy Murveit           stop calling imaging planner experimental
+e4d0e9b76 2024-12-01 Jasem Mutlaq         Use KDE CDN for HotNewStuff
+dc7ed6855 2024-12-01 Jasem Mutlaq         Use correct placeholder
+51258a5f7 2024-11-26 Hy Murveit           Search wider for PAA adjustments
+72eb0c0d2 2024-11-27 Hy Murveit           fix statusbar bug
+5d8461214 2024-11-26 Hy Murveit           Fix bug where flags are not placed properly
+20a9cd265 2024-11-24 Jasem Mutlaq         If we have a dome, then it must be tracking before running *any* post flip meridian action
+e2e8d6cfb 2024-11-24 Jasem Mutlaq         Update URL for astrometry.net
+4eb2d76fe 2024-11-21 Hy Murveit           Set default name for imported artificial horizon
+ec6f6fb75 2024-11-19 Hy Murveit           Artificial Horizon: Enable import button from the start
+f44c3aba2 2024-11-18 Hy Murveit           Export and import artificial horizons.
+51fb12220 2024-11-15 Hy Murveit           Update ImagingPlanner docbook
+3d25a98bc 2024-11-15 Jasem Mutlaq         Send download progress to Ekoslive
+7df9ed51e 2024-11-15 Hy Murveit           ImagingPlanner: fix mac icons, select first, mac tool window, center in menu, resize fix
+ba7fce1bf 2024-11-15 Hy Murveit           Fix the download button in the kstars startup wizard
+e3a0a65b8 2024-11-12 Hy Murveit           ImagingPlanner: add options menu
+9d9a1236e 2024-11-12 Hy Murveit           Update ImagingPlanner UI, fix sharpless name resolver, update UI issues, fix...
+6a0bb67e5 2024-11-12 Wolfgang Reissenberger Do not use findUnusedOpticalTrain() on main tabs
+c8ce46ea7 2024-11-10 Hy Murveit           ImagingPlanner: UI fixes, recompute altitude on date change, allow absolute image paths
+ff403f3de 2024-11-10 Yuri Chornoivan      Fix minor typos
+e2abdf49d 2024-11-10 Jasem Mutlaq         Revert "Make SkyMesh::index(SkyPoint, radius) behave just like other ::index methods"
+347d74d5f 2024-11-10 Jasem Mutlaq         Use simpler solution to unnamed objects
+c6a4477a9 2024-11-10 Jasem Mutlaq         Remove unnecesary warning
+5e6092143 2024-11-09 Robert Lancaster     Fixing two build errors recently introduced for the QT6 build
+d734e633d 2024-11-07 Jasem Mutlaq         Use filename instead of completeBasename
+c058b9e63 2024-11-09 Yuri Chornoivan      Fix minor typos
+1285dd646 2024-11-09 Hy Murveit           Imaging Planner tool initial version
+3593bd75f 2024-11-09 Hy Murveit           Docbook for Imaging Planner
+791ff6937 2024-11-07 Jasem Mutlaq         Fix list operation
+8ace9380b 2024-11-07 Jasem Mutlaq         Indicate whether the entry is a file
+9f22375e6 2024-11-06 Jasem Mutlaq         Add directory exists operation
+b5612a4c4 2024-11-05 Jasem Mutlaq         Add simple file commands
+27d5a541c 2024-11-05 Jasem Mutlaq         Fix Focus module check due to introduction of main Focuser
+120d81cb7 2024-11-03 Jasem Mutlaq         Multi-dispatch fix
+3f1af21a6 2024-11-03 Jasem Mutlaq         If manual rotator is complete, do not abort solver. FIXED-IN:3.7.4 BUGS:495737
+b1b4e3565 2024-11-02 Robert Lancaster     Windows wiz data fix
+ee619f7e2 2024-10-31 Akarsh Simha         Remove the "Simulate Eyepiece View" feature and strip down `EyepieceField`
+f668def39 2024-10-31 Akarsh Simha         Fix for when the find dialog shows the Internet Search button
+a890447d7 2024-05-07 Akarsh Simha         Fix incorrect overload when returning trixels along a very short arc
+bc9397566 2024-05-07 Akarsh Simha         Constellation boundaries actually precess along with the coordinate grid
+a63bd3f7c 2024-05-07 Akarsh Simha         Make SkyMesh::index(SkyPoint, radius) behave just like other ::index methods
+8a40ebccf 2024-05-07 Akarsh Simha         lastPrecessJD needs to be long double; double generally not enough
+5ab39d2ce 2024-04-28 Akarsh Simha         Refactor getIndexCoords to accept just julian millenia
+312f55dce 2024-11-01 John Evans           Contrast Focus
+8b672a545 2024-10-29 Jasem Mutlaq         Using updated name on Linux for source extractor
+9aa647c10 2024-10-27 Hy Murveit           Add option to render catalog stars over HIS
+63ce290eb 2024-10-27 Wolfgang Reissenberger Revert "Repeats and Looping for the Capture Module"
+040b61371 2024-10-27 Robert Lancaster     Two Fixes for the Windows KStars Build with Qt6
+5d9d87672 2024-10-25 John Evans           Log Focus Advisor results to debug
+c6e3a5fba 2024-10-25 John Evans           Fix main.cpp compile issue on Mac
+8eff17fd0 2024-10-24 Jasem Mutlaq         Migrate Capture and Scheduler settings to their own pages
+c468adb0e 2024-10-23 Jasem Mutlaq         Cover missing case when session expires
+20fc0c7cc 2024-10-23 John Evans           FITS Catalog integration bug fix fits tab
+0c39676ed 2024-10-22 Jasem Mutlaq         Remove limitation for default plan
+ea004a10a 2024-10-21 John Evans           FITSViewer Simbad Integration Bug Fixes
+539ca143e 2024-10-21 Wolfgang Reissenberger Fix errors and warnings under Qt6
+1b5b05c22 2024-10-18 Robert Lancaster     Fixing a QT6 compile error from a recent commit.
+814fd887f 2024-10-17 Jasem Mutlaq         Add call for remotely saving scheduler sequence file locally
+b547d3df1 2024-10-17 Yuri Chornoivan      Fix minor typo
+e739d1cbf 2024-10-16 Hy Murveit           Sample artificial horizon lines so that they render like great circles.
+d75accd4e 2024-10-16 Wolfgang Reissenberger Repeats and Looping for the Capture Module
+21325afbd 2024-10-16 John Evans           Fits Catalog Integration
+d6de828b9 2024-10-15 Hy Murveit           Make inventing guide stars the default
+7d84dacba 2024-10-15 Eric Dejouhanet      fix(ci): remove android qt5 recipe, removed from ci-utilities.
+a2b780fba 2024-10-08 Hy Murveit           Dont render stars when HIPS is active
+a13a73505 2024-10-10 Jasem Mutlaq         Qt6 migration
+2b1a25e86 2024-10-07 Hy Murveit           Do not delay hips if the focus has changed
+bf53565f8 2024-10-08 Jasem Mutlaq         Fix crash when equipment profile camera is changed but train configuration was not updated and a capture preview is started
+6ef3a8785 2024-10-08 Jasem Mutlaq         Fix crash when disconnecting equipment while pending properties are in transit
+b6a1514f3 2024-10-08 Jasem Mutlaq         Add libcurl explicitly
+d9b71af71 2024-10-07 Hy Murveit           Fix HIPS menu bug
+ba26fb201 2024-10-06 Jasem Mutlaq         Start KStars v3.7.4 development cycle
+757bd9b6c 2024-10-05 Jasem Mutlaq         Add a method to verify if a sky point is within limit. Return error if telscope coords are invalid in capture and solve
+3528f8236 2024-10-04 Pino Toscano         Explicitly include fitsdata.h
+6766f2d67 2024-10-01 Jasem Mutlaq         Add missing signal
+38ef53b1e 2024-10-01 Jasem Mutlaq         For newView, a new UUID must be generated
+fee350432 2024-09-30 Hy Murveit           Add multistar guiding to the handbook
+
 3.7.3 (MULTI2):
 
 09a12d8f4 2024-09-29 Wolfgang Reissenberger Bug multi camera support | fix for camera cooler control
