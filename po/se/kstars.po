@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-20 01:50+0000\n"
+"POT-Creation-Date: 2024-12-03 01:48+0000\n"
 "PO-Revision-Date: 2007-09-11 22:44+0200\n"
 "Last-Translator: Northern Sami translation team <l10n-no@lister.huftis.org>\n"
 "Language-Team: Northern Sami <l10n-no@lister.huftis.org>\n"
@@ -557,13 +557,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
-#: ekos/align/opsastrometryindexfiles.cpp:435
-#: ekos/align/opsastrometryindexfiles.cpp:473
-#: ekos/align/opsastrometryindexfiles.cpp:487
-#: ekos/align/opsastrometryindexfiles.cpp:507
-#: ekos/align/opsastrometryindexfiles.cpp:615
-#: ekos/align/opsastrometryindexfiles.cpp:636
-#: ekos/align/opsastrometryindexfiles.cpp:646 ekos/analyze/analyze.cpp:140
+#: ekos/align/opsastrometryindexfiles.cpp:430
+#: ekos/align/opsastrometryindexfiles.cpp:468
+#: ekos/align/opsastrometryindexfiles.cpp:482
+#: ekos/align/opsastrometryindexfiles.cpp:502
+#: ekos/align/opsastrometryindexfiles.cpp:610
+#: ekos/align/opsastrometryindexfiles.cpp:631
+#: ekos/align/opsastrometryindexfiles.cpp:641 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1204 ekos/manager.cpp:1219 ekos/manager.cpp:1249
 #: ekos/scheduler/scheduler.cpp:1574 fitsviewer/solveInfo.ui:86
@@ -575,7 +575,7 @@ msgid "Error"
 msgstr "Meattáhus"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
-#: ekos/align/opsastrometryindexfiles.cpp:559
+#: ekos/align/opsastrometryindexfiles.cpp:554
 #: ekos/scheduler/framingassistantui.cpp:770
 #, kde-format
 msgid "Sorry"
@@ -1195,7 +1195,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1370
+#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1383
 #: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
@@ -2342,7 +2342,7 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #. i18n: ectx: property (text), widget (QLabel, label_35)
-#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:236
+#: dialogs/addcatalogobject.ui:125 ekos/align/opsastrometryindexfiles.cpp:231
 #: ekos/align/opsastrometryindexfiles.ui:201
 #, kde-format
 msgid "Optional"
@@ -3643,7 +3643,7 @@ msgid "Could not update the user log."
 msgstr ""
 
 #: dialogs/detaildialog.cpp:1104 dialogs/detaildialog.cpp:1136
-#: kstarsactions.cpp:321 tools/flagmanager.cpp:267 tools/flagmanager.cpp:292
+#: kstarsactions.cpp:321 tools/flagmanager.cpp:269 tools/flagmanager.cpp:294
 #: tools/observinglist.cpp:689 tools/observinglist.cpp:711
 #: tools/whatsinteresting/wiview.cpp:343 tools/whatsinteresting/wiview.cpp:368
 #, kde-format
@@ -4366,18 +4366,18 @@ msgctxt "@title:window"
 msgid "Set Coordinates Manually"
 msgstr ""
 
-#: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:184
+#: dialogs/focusdialog.cpp:128 tools/flagmanager.cpp:186
 #, kde-format
 msgid "The Right Ascension value must be between 0.0 and 24.0."
 msgstr ""
 
-#: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:186
+#: dialogs/focusdialog.cpp:130 tools/flagmanager.cpp:188
 #, kde-format
 msgid "The Declination value must be between -90.0 and 90.0."
 msgstr ""
 
 #: dialogs/focusdialog.cpp:133 dialogs/focusdialog.cpp:191
-#: tools/flagmanager.cpp:189
+#: tools/flagmanager.cpp:191
 #, kde-format
 msgid "Invalid Coordinate Data"
 msgstr ""
@@ -8061,108 +8061,108 @@ msgstr ""
 msgid "Use differential slewing instead of syncing"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:193
+#: ekos/align/opsastrometryindexfiles.cpp:188
 #, kde-format
 msgid ""
 "Downloads Disabled, this is not a directory, it is a list of all index files."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:203
+#: ekos/align/opsastrometryindexfiles.cpp:198
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:205
+#: ekos/align/opsastrometryindexfiles.cpp:200
 #, kde-format
 msgid "Downloads Disabled, directory permissions issue."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:207
+#: ekos/align/opsastrometryindexfiles.cpp:202
 #, kde-format
 msgid "Downloads Disabled, directory does not exist."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_32)
+#: ekos/align/opsastrometryindexfiles.cpp:251
 #: ekos/align/opsastrometryindexfiles.cpp:256
 #: ekos/align/opsastrometryindexfiles.cpp:261
-#: ekos/align/opsastrometryindexfiles.cpp:266
 #: ekos/align/opsastrometryindexfiles.ui:93
 #, kde-format
 msgid "Required"
 msgstr "Gáibiduvvon"
 
 #. i18n: ectx: property (text), widget (QLabel, label_33)
+#: ekos/align/opsastrometryindexfiles.cpp:269
 #: ekos/align/opsastrometryindexfiles.cpp:274
 #: ekos/align/opsastrometryindexfiles.cpp:279
-#: ekos/align/opsastrometryindexfiles.cpp:284
 #: ekos/align/opsastrometryindexfiles.ui:147
 #, kde-format
 msgid "Recommended"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:434
+#: ekos/align/opsastrometryindexfiles.cpp:429
 #, kde-format
 msgid ""
 "Download Timed out.  Either the network is not fast enough, the file is not "
 "accessible, or you are not connected."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:452
+#: ekos/align/opsastrometryindexfiles.cpp:447
 #, kde-format
-msgid "%s download cancelled."
+msgid "%1 download cancelled."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:487
+#: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format
 msgid "File Write Error"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:501
+#: ekos/align/opsastrometryindexfiles.cpp:496
 #, kde-format
 msgid "%1 download complete."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:507
-#: ekos/align/opsastrometryindexfiles.cpp:646
+#: ekos/align/opsastrometryindexfiles.cpp:502
+#: ekos/align/opsastrometryindexfiles.cpp:641
 #, kde-format
 msgid "Astrometry Folder Permissions Error"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:559
+#: ekos/align/opsastrometryindexfiles.cpp:554
 #, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:574
+#: ekos/align/opsastrometryindexfiles.cpp:569
 #, kde-format
 msgid ""
 "The file %1 already exists in another directory.  Are you sure you want to "
 "download it to this directory as well?"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:576
+#: ekos/align/opsastrometryindexfiles.cpp:571
 #, kde-format
 msgid "Install File(s)"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:615
+#: ekos/align/opsastrometryindexfiles.cpp:610
 #, kde-format
 msgid "Could not contact Astrometry Index Server."
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:621
+#: ekos/align/opsastrometryindexfiles.cpp:616
 #, kde-format
 msgid "Are you sure you want to delete these index files? %1"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:622
+#: ekos/align/opsastrometryindexfiles.cpp:617
 #, kde-format
 msgid "Delete File(s)"
 msgstr ""
 
-#: ekos/align/opsastrometryindexfiles.cpp:636
+#: ekos/align/opsastrometryindexfiles.cpp:631
 #, kde-format
 msgid "File Delete Error"
 msgstr ""
@@ -8319,7 +8319,7 @@ msgstr ""
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
 #, kde-format
-msgid "http://broiler.astrometry.net/~dstn/"
+msgid "http://data.astrometry.net/"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
@@ -14855,134 +14855,134 @@ msgstr ""
 msgid "Dust cap unparked."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:506
+#: ekos/capture/camerastate.cpp:503
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:603
+#: ekos/capture/camerastate.cpp:604
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:616
+#: ekos/capture/camerastate.cpp:617
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:636
+#: ekos/capture/camerastate.cpp:637
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:645
+#: ekos/capture/camerastate.cpp:646
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:652
+#: ekos/capture/camerastate.cpp:653
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:674
+#: ekos/capture/camerastate.cpp:675
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:698
+#: ekos/capture/camerastate.cpp:699
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:734
+#: ekos/capture/camerastate.cpp:735
 #, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:757
+#: ekos/capture/camerastate.cpp:758
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:761
+#: ekos/capture/camerastate.cpp:762
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:906
+#: ekos/capture/camerastate.cpp:907
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:924
+#: ekos/capture/camerastate.cpp:925
 #, kde-format
 msgid "Guide module timed out."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:956
+#: ekos/capture/camerastate.cpp:957
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:965
+#: ekos/capture/camerastate.cpp:966
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:987
+#: ekos/capture/camerastate.cpp:988
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1001
+#: ekos/capture/camerastate.cpp:1002
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1015
+#: ekos/capture/camerastate.cpp:1016
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1042
+#: ekos/capture/camerastate.cpp:1043
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1089
+#: ekos/capture/camerastate.cpp:1090
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1093
+#: ekos/capture/camerastate.cpp:1094
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1108
+#: ekos/capture/camerastate.cpp:1109
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1488
+#: ekos/capture/camerastate.cpp:1489
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1507
+#: ekos/capture/camerastate.cpp:1508
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1512
+#: ekos/capture/camerastate.cpp:1513
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr ""
@@ -15021,7 +15021,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
-#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:642
+#: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
 #: skycomponents/satellitescomponent.cpp:147 tools/conjunctions.cpp:354
@@ -23005,7 +23005,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
 #: ekos/mount/mount.ui:747 ekos/observatory/observatory.cpp:276
 #: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
-#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:651
+#: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:653
 #, kde-format
 msgid "Park"
 msgstr ""
@@ -23013,7 +23013,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, unparkB)
 #. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
 #: ekos/mount/mount.ui:777 ekos/observatory/observatory.ui:498
-#: kspopupmenu.cpp:656
+#: kspopupmenu.cpp:658
 #, kde-format
 msgid "UnPark"
 msgstr ""
@@ -30623,18 +30623,18 @@ msgstr ""
 msgid "Transit time: %1"
 msgstr ""
 
-#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:825
+#: kspopupmenu.cpp:138 kspopupmenu.cpp:345 skymapevents.cpp:827
 #, kde-format
 msgid "Empty sky"
 msgstr ""
 
-#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:586
+#: kspopupmenu.cpp:139 kspopupmenu.cpp:221 kspopupmenu.cpp:588
 #, kde-format
 msgctxt "Sloan Digital Sky Survey"
 msgid "Show SDSS Image"
 msgstr ""
 
-#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:588
+#: kspopupmenu.cpp:141 kspopupmenu.cpp:223 kspopupmenu.cpp:590
 #, kde-format
 msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
@@ -30762,67 +30762,72 @@ msgstr ""
 
 #: kspopupmenu.cpp:456
 #, kde-format
-msgid "Add Flag..."
+msgid "Add Flag (nearby object)..."
 msgstr ""
 
-#: kspopupmenu.cpp:463
+#: kspopupmenu.cpp:458
 #, kde-format
-msgid "Edit Flag"
+msgid "Add Flag (exactly here)..."
 msgstr ""
 
 #: kspopupmenu.cpp:465
 #, kde-format
-msgid "Delete Flag"
+msgid "Edit Flag"
 msgstr ""
 
-#: kspopupmenu.cpp:474
+#: kspopupmenu.cpp:467
 #, kde-format
-msgid "Edit Flag..."
+msgid "Delete Flag"
 msgstr ""
 
 #: kspopupmenu.cpp:476
 #, kde-format
+msgid "Edit Flag..."
+msgstr ""
+
+#: kspopupmenu.cpp:478
+#, kde-format
 msgid "Delete Flag..."
 msgstr ""
 
-#: kspopupmenu.cpp:535
+#: kspopupmenu.cpp:537
 #, kde-format
 msgid "Image Resources"
 msgstr ""
 
-#: kspopupmenu.cpp:536
+#: kspopupmenu.cpp:538
 #, kde-format
 msgid "Web Links"
 msgstr ""
 
-#: kspopupmenu.cpp:578
+#: kspopupmenu.cpp:580
 #, kde-format
 msgid "Remove From Local Catalog"
 msgstr ""
 
-#: kspopupmenu.cpp:621
+#: kspopupmenu.cpp:623
 #, kde-format
 msgctxt "Move mount to target"
 msgid "Goto"
 msgstr ""
 
-#: kspopupmenu.cpp:630
+#: kspopupmenu.cpp:632
 #, kde-format
 msgctxt "Synchronize mount to target"
 msgid "Sync"
 msgstr ""
 
-#: kspopupmenu.cpp:671
+#: kspopupmenu.cpp:673
 #, kde-format
 msgid "Track satellite"
 msgstr ""
 
-#: kspopupmenu.cpp:685
+#: kspopupmenu.cpp:687
 #, kde-format
 msgid "Goto && Set As Parking Position"
 msgstr ""
 
-#: kspopupmenu.cpp:692
+#: kspopupmenu.cpp:694
 #, kde-format
 msgid "Find Telescope"
 msgstr ""
@@ -66801,7 +66806,7 @@ msgstr ""
 
 #: kstarsinit.cpp:456
 #, kde-format
-msgid "Imaging Planner (experimental)"
+msgid "Imaging Planner"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
@@ -75774,12 +75779,12 @@ msgstr ""
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr ""
 
-#: skymap.cpp:899
+#: skymap.cpp:912
 #, kde-format
 msgid "No object selected."
 msgstr ""
 
-#: skymap.cpp:899
+#: skymap.cpp:912
 #, kde-format
 msgid "Object Details"
 msgstr ""
@@ -77946,12 +77951,12 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-#: tools/flagmanager.cpp:178
+#: tools/flagmanager.cpp:180
 #, kde-format
 msgid "Invalid coordinates."
 msgstr ""
 
-#: tools/flagmanager.cpp:279
+#: tools/flagmanager.cpp:281
 #, kde-format
 msgid "Telescope %1 is offline. Please connect and retry again."
 msgstr ""

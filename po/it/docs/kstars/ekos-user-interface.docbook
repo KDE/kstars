@@ -26,6 +26,11 @@
 
         <listitem>
             <para
+>Modulo Analyze </para>
+        </listitem>
+        
+        <listitem>
+            <para
 >Modulo di cattura </para>
         </listitem>
 
@@ -71,7 +76,7 @@
 >Modulo di riassunto e di installazione</term>
             <listitem>
                 <para
->Come il nome suggerisce, qui è dove verrà creato e gestito il profilo per il tuo equipaggiamento e dove connetti i tuoi dispositivi. Fornisce anche una vista riassuntiva, nella quale viene visualizzato in un formato compatto il processo di cattura insieme alle operazioni di messa a fuoco e di guida. </para>
+>Come il nome suggerisce, qui è dove verrà creato e gestito il profilo per il tuo equipaggiamento e dove connetti i tuoi dispositivi. Fornisce anche una vista riassuntiva, nella quale viene visualizzato in un formato compatto il processo di cattura insieme alle operazioni di messa a fuoco e di guida. Se sono installate delle estensioni, saranno mostrati i controlli di avvio/arresto e di selezione. </para>
             </listitem>
         </varlistentry>
         <varlistentry>
@@ -80,6 +85,14 @@
             <listitem>
                 <para
 >Una volta aver padroneggiato Ekos gli utenti sono incoraggiati ad imparare ad usare il modulo del pianificatore, dal momento che esso facilita enormemente tutto il processo di osservazione. Ti dà la possibilità di selezionare obiettivi multipli, di specificare quali condizioni e quali requisiti devono essere soddisfatti, e anche quali passi sono necessari per la cattura. Dopo aver fatto questo, il pianificatore calcola in maniera intelligente il miglior periodo di osservazione per ciascun oggetto e procede quindi a controllare completamente l'osservatorio, dall'avvio allo spegnimento. </para>
+            </listitem>
+        </varlistentry>
+        <varlistentry>
+            <term
+>Modulo Analyze</term>
+            <listitem>
+                <para
+>Analyze mostra un riepilogo di alto livello di quello che succede durante una sessione di riprese fotografiche. Mostra tracciati e grafici che descrivono quante acquisizioni sono state fatte durante la notte, le sessioni di messa a fuoco, la guida, il movimento della montatura, le inversioni di meridiano, e via discorrendo. Usalo per avere un'idea su «cosa è successo stanotte» oppure per osservare lo stato attuale del sistema. </para>
             </listitem>
         </varlistentry>
         <varlistentry>

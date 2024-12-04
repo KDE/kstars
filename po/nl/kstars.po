@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-03 01:48+0000\n"
-"PO-Revision-Date: 2024-12-02 11:30+0100\n"
+"PO-Revision-Date: 2024-12-03 12:48+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -70173,9 +70173,7 @@ msgid "Observation Planner"
 msgstr "Waarnemingen plannen"
 
 #: kstarsinit.cpp:456
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgid "Imaging Planner"
 msgstr "Planner van opnamen"
 

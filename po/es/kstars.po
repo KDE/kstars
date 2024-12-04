@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-03 01:48+0000\n"
-"PO-Revision-Date: 2024-12-02 13:19+0100\n"
+"PO-Revision-Date: 2024-12-03 17:12+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -70721,9 +70721,7 @@ msgid "Observation Planner"
 msgstr "Planificador de observación"
 
 #: kstarsinit.cpp:456
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgid "Imaging Planner"
 msgstr "Planificador de obtención de imágenes"
 

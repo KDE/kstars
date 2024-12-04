@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-03 01:48+0000\n"
-"PO-Revision-Date: 2024-11-25 18:29+0100\n"
+"PO-Revision-Date: 2024-12-03 21:42+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -8557,10 +8557,9 @@ msgstr ""
 "nog, eller är filen inte tillgänglig eller är du inte ansluten."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, fuzzy, kde-format
-#| msgid "%s download cancelled."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "Nerladdning av %s avbruten."
+msgstr "%1 nerladdning avbruten."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format
@@ -33316,15 +33315,14 @@ msgid "View in What's Interesting"
 msgstr "Visa i Vad är intressant"
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "Lägg till objekt..."
+msgstr "Lägg till flagga (näraliggande objekt)..."
 
 #: kspopupmenu.cpp:458
 #, kde-format
 msgid "Add Flag (exactly here)..."
-msgstr ""
+msgstr "Lägg till flagga (exakt här)..."
 
 #: kspopupmenu.cpp:465
 #, kde-format
@@ -69845,9 +69843,7 @@ msgid "Observation Planner"
 msgstr "Observationsplanering"
 
 #: kstarsinit.cpp:456
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgid "Imaging Planner"
 msgstr "Bildplanering"
 
