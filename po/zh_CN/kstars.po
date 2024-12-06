@@ -74351,7 +74351,7 @@ msgstr "透明度"
 #: options/opscolors.ui:98
 #, kde-format
 msgid "Opaque"
-msgstr "实色"
+msgstr "纯色"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: options/opscolors.ui:125
