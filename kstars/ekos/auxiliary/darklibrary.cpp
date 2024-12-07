@@ -668,7 +668,7 @@ void DarkLibrary::clearAll()
 
     if (KMessageBox::warningContinueCancel(KStars::Instance(),
                                            i18n("Are you sure you want to delete all dark frames images and data?")) ==
-            KMessageBox::Continue)
+            KMessageBox::Cancel)
         return;
 
     // Now remove all the expired files from disk
@@ -679,11 +679,9 @@ void DarkLibrary::clearAll()
         QString defectMap = darkFramesModel->record(i).value("defectmap").toString();
         if (defectMap.isEmpty() == false)
             QFile::remove(defectMap);
-        darkFramesModel->removeRow(i);
+        KStarsData::Instance()->userdb()->DeleteDarkFrame(oneFile);
 
     }
-
-    darkFramesModel->submitAll();
 
     // Refesh db entries for other cameras
     refreshFromDB();
