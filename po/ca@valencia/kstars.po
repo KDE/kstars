@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-03 01:48+0000\n"
-"PO-Revision-Date: 2024-11-30 23:19+0100\n"
+"POT-Creation-Date: 2024-12-07 01:49+0000\n"
+"PO-Revision-Date: 2024-12-04 22:16+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3888,7 +3888,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:944
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1055
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6553,7 +6553,7 @@ msgstr "L'AP actual és %1; l'AP de l'objectiu és %2; dif.: %3"
 msgid "Refresh is complete."
 msgstr "S'ha completat l'actualització."
 
-#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1410
+#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1408
 #: ekos/focus/focus.cpp:1374
 #, kde-format
 msgid "Capture aborted."
@@ -8730,10 +8730,9 @@ msgstr ""
 "fitxer, o no hi ha connexió."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, fuzzy, kde-format
-#| msgid "%s download cancelled."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "S'ha cancel·lat la baixada de %s."
+msgstr "S'ha cancel·lat la baixada de %1."
 
 # skip-rule: k-Alt-1
 #: ekos/align/opsastrometryindexfiles.cpp:482
@@ -12030,38 +12029,38 @@ msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr ""
 "Segur que voleu eliminar totes les imatges i les dades de fotogrames foscos?"
 
-#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:653
+#: ekos/auxiliary/darklibrary.cpp:1210 ekos/focus/focusadvisor.cpp:653
 #: ekos/focus/focusadvisor.cpp:967 ekos/focus/focusadvisor.cpp:1264
 #, kde-format
 msgid "In progress..."
 msgstr "En curs…"
 
-#: ekos/auxiliary/darklibrary.cpp:1368
+#: ekos/auxiliary/darklibrary.cpp:1366
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "No s'ha pogut guardar el fotograma mestre: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1389
+#: ekos/auxiliary/darklibrary.cpp:1387
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "El fotograma fosc mestre s'ha guardat a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1414
+#: ekos/auxiliary/darklibrary.cpp:1412
 #, kde-format
 msgid "Capture completed."
 msgstr "S'ha completat la captura."
 
-#: ekos/auxiliary/darklibrary.cpp:1441
+#: ekos/auxiliary/darklibrary.cpp:1439
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "El mapa de defectes s'ha guardat a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1461
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "No s'ha pogut guardar el mapa de defectes a %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1636
+#: ekos/auxiliary/darklibrary.cpp:1634
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "El tren òptic no existix per a l'ID %1"
@@ -71363,9 +71362,7 @@ msgid "Observation Planner"
 msgstr "Planificador d'observacions"
 
 #: kstarsinit.cpp:456
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Imaging Planner"
+#, kde-format
 msgid "Imaging Planner"
 msgstr "Planificador de l'obtenció d'imatges"
 
@@ -89451,6 +89448,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Imaging Planner (experimental)"
-#~ msgstr "Planificador de l'obtenció d'imatges (experimental)"

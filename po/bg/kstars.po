@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-03 01:48+0000\n"
+"POT-Creation-Date: 2024-12-07 01:49+0000\n"
 "PO-Revision-Date: 2024-11-28 20:16+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -3847,7 +3847,7 @@ msgstr "0.0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:944
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1055
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6461,7 +6461,7 @@ msgstr "Текущата PA е %1; Целевата PA е %2; разлика: %3
 msgid "Refresh is complete."
 msgstr "Опресняването е завършено."
 
-#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1410
+#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1408
 #: ekos/focus/focus.cpp:1374
 #, kde-format
 msgid "Capture aborted."
@@ -11880,38 +11880,38 @@ msgstr ""
 "Сигурни ли сте, че искате да изтриете всички изображения и данни с тъмни "
 "кадри?"
 
-#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:653
+#: ekos/auxiliary/darklibrary.cpp:1210 ekos/focus/focusadvisor.cpp:653
 #: ekos/focus/focusadvisor.cpp:967 ekos/focus/focusadvisor.cpp:1264
 #, kde-format
 msgid "In progress..."
 msgstr "Изпълнява се..."
 
-#: ekos/auxiliary/darklibrary.cpp:1368
+#: ekos/auxiliary/darklibrary.cpp:1366
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Неуспешно запазване на главния кадър: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1389
+#: ekos/auxiliary/darklibrary.cpp:1387
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Основният тъмен кадър е запазен в %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1414
+#: ekos/auxiliary/darklibrary.cpp:1412
 #, kde-format
 msgid "Capture completed."
 msgstr "Заснемането е завършено."
 
-#: ekos/auxiliary/darklibrary.cpp:1441
+#: ekos/auxiliary/darklibrary.cpp:1439
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Картата на дефектите е запазена в %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1461
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Неуспешно запазване на картата на дефектите в %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1636
+#: ekos/auxiliary/darklibrary.cpp:1634
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "Не съществуват оптична система за id %1"

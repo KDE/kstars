@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-03 01:48+0000\n"
+"POT-Creation-Date: 2024-12-07 01:49+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -4001,7 +4001,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:944
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1055
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6678,7 +6678,7 @@ msgstr ""
 msgid "Refresh is complete."
 msgstr "%1 prisijungęs."
 
-#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1410
+#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1408
 #: ekos/focus/focus.cpp:1374
 #, fuzzy, kde-format
 #| msgid "Capture Image"
@@ -11932,44 +11932,44 @@ msgstr ""
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Ar iš tikro norite pašalinti klientą %1?"
 
-#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:653
+#: ekos/auxiliary/darklibrary.cpp:1210 ekos/focus/focusadvisor.cpp:653
 #: ekos/focus/focusadvisor.cpp:967 ekos/focus/focusadvisor.cpp:1264
 #, fuzzy, kde-format
 #| msgid "In Progress"
 msgid "In progress..."
 msgstr "Vykdoma"
 
-#: ekos/auxiliary/darklibrary.cpp:1368
+#: ekos/auxiliary/darklibrary.cpp:1366
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save master frame: %1"
 msgstr "Nepavyko įkelti paveikslo"
 
-#: ekos/auxiliary/darklibrary.cpp:1389
+#: ekos/auxiliary/darklibrary.cpp:1387
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Master Dark saved to %1"
 msgstr "Duomenys įrašyti į %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1414
+#: ekos/auxiliary/darklibrary.cpp:1412
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture completed."
 msgstr "Gauti paveikslą"
 
-#: ekos/auxiliary/darklibrary.cpp:1441
+#: ekos/auxiliary/darklibrary.cpp:1439
 #, fuzzy, kde-format
 #| msgid "Data file saved to %1"
 msgid "Defect map saved to %1"
 msgstr "Duomenys įrašyti į %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1461
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Failed to save defect map to %1"
 msgstr "Nepavyko atverti failo: „%1“"
 
-#: ekos/auxiliary/darklibrary.cpp:1636
+#: ekos/auxiliary/darklibrary.cpp:1634
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""

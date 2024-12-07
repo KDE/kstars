@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-03 01:48+0000\n"
+"POT-Creation-Date: 2024-12-07 01:49+0000\n"
 "PO-Revision-Date: 2024-12-03 12:48+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -3852,7 +3852,7 @@ msgstr "0,0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:944
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1055
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6471,7 +6471,7 @@ msgstr "Huidige PA is %1; Doel-PA is %2; verschil: %3"
 msgid "Refresh is complete."
 msgstr "Verversen is voltooid."
 
-#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1410
+#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1408
 #: ekos/focus/focus.cpp:1374
 #, kde-format
 msgid "Capture aborted."
@@ -11835,38 +11835,38 @@ msgstr "Afbeeldingen %1/%2 ontvangen."
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Wilt u werkelijk alle donker-frames-afbeeldingen en gegevens wissen?"
 
-#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:653
+#: ekos/auxiliary/darklibrary.cpp:1210 ekos/focus/focusadvisor.cpp:653
 #: ekos/focus/focusadvisor.cpp:967 ekos/focus/focusadvisor.cpp:1264
 #, kde-format
 msgid "In progress..."
 msgstr "In uitvoering..."
 
-#: ekos/auxiliary/darklibrary.cpp:1368
+#: ekos/auxiliary/darklibrary.cpp:1366
 #, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Hoofdframe opslaan is mislukt: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1389
+#: ekos/auxiliary/darklibrary.cpp:1387
 #, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Hoofd-donker opgeslagen in %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1414
+#: ekos/auxiliary/darklibrary.cpp:1412
 #, kde-format
 msgid "Capture completed."
 msgstr "Opnemen voltooid."
 
-#: ekos/auxiliary/darklibrary.cpp:1441
+#: ekos/auxiliary/darklibrary.cpp:1439
 #, kde-format
 msgid "Defect map saved to %1"
 msgstr "Defectenkaart opgeslagen in %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1461
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Defectenkaart opslaan naar %1 is mislukt."
 
-#: ekos/auxiliary/darklibrary.cpp:1636
+#: ekos/auxiliary/darklibrary.cpp:1634
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr "Optische trein bestaat niet voor id %1"

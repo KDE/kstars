@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-03 01:48+0000\n"
+"POT-Creation-Date: 2024-12-07 01:49+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -3958,7 +3958,7 @@ msgstr "0.0"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:944
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1055
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6502,7 +6502,7 @@ msgstr ""
 msgid "Refresh is complete."
 msgstr "%1 е на линија."
 
-#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1410
+#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1408
 #: ekos/focus/focus.cpp:1374
 #, fuzzy, kde-format
 msgid "Capture aborted."
@@ -11555,7 +11555,7 @@ msgstr ""
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "Дали сте сигурни дека сакате да го отстраните клиентот %1?"
 
-#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:653
+#: ekos/auxiliary/darklibrary.cpp:1210 ekos/focus/focusadvisor.cpp:653
 #: ekos/focus/focusadvisor.cpp:967 ekos/focus/focusadvisor.cpp:1264
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -11563,32 +11563,32 @@ msgstr "Дали сте сигурни дека сакате да го отст�
 msgid "In progress..."
 msgstr "Prosser"
 
-#: ekos/auxiliary/darklibrary.cpp:1368
+#: ekos/auxiliary/darklibrary.cpp:1366
 #, fuzzy, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "Дневни Соларни слики"
 
-#: ekos/auxiliary/darklibrary.cpp:1389
+#: ekos/auxiliary/darklibrary.cpp:1387
 #, fuzzy, kde-format
 msgid "Master Dark saved to %1"
 msgstr "Време на изгревање: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1414
+#: ekos/auxiliary/darklibrary.cpp:1412
 #, fuzzy, kde-format
 msgid "Capture completed."
 msgstr "Зачувај слика"
 
-#: ekos/auxiliary/darklibrary.cpp:1441
+#: ekos/auxiliary/darklibrary.cpp:1439
 #, fuzzy, kde-format
 msgid "Defect map saved to %1"
 msgstr "Време на изгревање: %1"
 
-#: ekos/auxiliary/darklibrary.cpp:1461
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, fuzzy, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "Не можам да ја отворам датотеката"
 
-#: ekos/auxiliary/darklibrary.cpp:1636
+#: ekos/auxiliary/darklibrary.cpp:1634
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""

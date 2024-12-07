@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-03 01:48+0000\n"
+"POT-Creation-Date: 2024-12-07 01:49+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -3921,7 +3921,7 @@ msgstr "0.0 pc"
 #. i18n: ectx: property (text), widget (QLabel, avgFPS)
 #. i18n: ectx: property (text), widget (QLineEdit, f_LockedFilter)
 #: dialogs/details_data.ui:390 ekos/align/align.cpp:944
-#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1057
+#: ekos/analyze/analyze.ui:164 ekos/auxiliary/darklibrary.cpp:1055
 #: ekos/auxiliary/darklibrary.ui:276 ekos/auxiliary/darklibrary.ui:424
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
@@ -6442,7 +6442,7 @@ msgstr ""
 msgid "Refresh is complete."
 msgstr "സമയത്തിന്റെ വേഗത ഇപ്പോള്‍ x"
 
-#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1410
+#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1408
 #: ekos/focus/focus.cpp:1374
 #, fuzzy, kde-format
 msgid "Capture aborted."
@@ -11439,38 +11439,38 @@ msgstr ""
 msgid "Are you sure you want to delete all dark frames images and data?"
 msgstr "\"%s\" എന്നെന്നേയ്ക്കുമായി നീക്കം ചെയ്യണമെന്നു് നിങ്ങള്‍ക്കുറപ്പുണ്ടോ?"
 
-#: ekos/auxiliary/darklibrary.cpp:1212 ekos/focus/focusadvisor.cpp:653
+#: ekos/auxiliary/darklibrary.cpp:1210 ekos/focus/focusadvisor.cpp:653
 #: ekos/focus/focusadvisor.cpp:967 ekos/focus/focusadvisor.cpp:1264
 #, fuzzy, kde-format
 msgid "In progress..."
 msgstr "ഗാനത്തിന്റെ മുന്നേറ്റം"
 
-#: ekos/auxiliary/darklibrary.cpp:1368
+#: ekos/auxiliary/darklibrary.cpp:1366
 #, fuzzy, kde-format
 msgid "Failed to save master frame: %1"
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: ekos/auxiliary/darklibrary.cpp:1389
+#: ekos/auxiliary/darklibrary.cpp:1387
 #, fuzzy, kde-format
 msgid "Master Dark saved to %1"
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: ekos/auxiliary/darklibrary.cpp:1414
+#: ekos/auxiliary/darklibrary.cpp:1412
 #, fuzzy, kde-format
 msgid "Capture completed."
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: ekos/auxiliary/darklibrary.cpp:1441
+#: ekos/auxiliary/darklibrary.cpp:1439
 #, fuzzy, kde-format
 msgid "Defect map saved to %1"
 msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രിപ്റ്റ് പ്രമാണത്തിലേയ്ക്ക് റെക്കാര്‍ഡുചെയ്യുന്നു:\n"
 
-#: ekos/auxiliary/darklibrary.cpp:1461
+#: ekos/auxiliary/darklibrary.cpp:1459
 #, fuzzy, kde-format
 msgid "Failed to save defect map to %1"
 msgstr "URL തുറക്കുവാന്‍ സാധ്യമായില്ല"
 
-#: ekos/auxiliary/darklibrary.cpp:1636
+#: ekos/auxiliary/darklibrary.cpp:1634
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
 msgstr ""
