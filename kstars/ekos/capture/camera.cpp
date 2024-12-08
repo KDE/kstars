@@ -1012,7 +1012,7 @@ void Camera::captureStopped()
 
     // stopping to CAPTURE_IDLE means that capturing will continue automatically
     auto captureState = state()->getCaptureState();
-    if (captureState == CAPTURE_ABORTED || captureState == CAPTURE_SUSPENDED || captureState == CAPTURE_COMPLETE)
+    if (captureState == CAPTURE_ABORTED || captureState == CAPTURE_COMPLETE)
         updateStartButtons(false, false);
 }
 
@@ -1333,7 +1333,11 @@ void Camera::updateJobTable(SequenceJob *job, bool full)
                     offset->setText(QString::number(job->getCoreProperty(SequenceJob::SJ_Offset).toDouble(), 'f', 1));
                 else
                     offset->setText("--");
+
             }
+            // ensure that all contents are shown
+            queueTable->resizeColumnsToContents();
+
 
             // update button enablement
             if (queueTable->rowCount() > 0)
