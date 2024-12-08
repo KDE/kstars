@@ -322,6 +322,8 @@ class SequenceJobState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // status of the focuser synchronisation
         FlatSyncStatus flatSyncStatus { FS_NONE };
+        // Timer for flat sync status
+        QTimer m_FlatSyncCheck;
         // light source for flat capturing
         uint32_t m_CalibrationPreAction { CAPTURE_PREACTION_NONE };
         // wall coordinates for capturing flats with the wall as light source

@@ -16,6 +16,12 @@ namespace Ekos
 SequenceJobState::SequenceJobState(const QSharedPointer<CameraState> &sharedState)
 {
     m_CameraState = sharedState;
+    m_FlatSyncCheck.setSingleShot(true);
+    m_FlatSyncCheck.setInterval(1000);
+    m_FlatSyncCheck.callOnTimeout(this, [this]()
+    {
+        emit flatSyncFocus(targetFilterID);
+    });
 }
 
 void SequenceJobState::setFrameType(CCDFrameType frameType)
@@ -561,11 +567,7 @@ IPState SequenceJobState::checkFlatSyncFocus()
     // check already running?
     if (flatSyncStatus == FS_BUSY)
     {
-        QTimer::singleShot(1000, this, [this]
-        {
-            // wait for one second and repeat the request again
-            emit flatSyncFocus(targetFilterID);
-        });
+        m_FlatSyncCheck.start();
         return IPS_BUSY;
     }
 
