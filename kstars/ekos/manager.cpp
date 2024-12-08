@@ -3690,7 +3690,7 @@ void Manager::createFilterManager(ISD::FilterWheel *device)
     {
         QSharedPointer<FilterManager> newFM(new FilterManager(this));
         newFM->setFilterWheel(device);
-        m_FilterManagers[name] = newFM;
+        m_FilterManagers.insert(name, std::move(newFM));
     }
     else
         m_FilterManagers[name]->setFilterWheel(device);

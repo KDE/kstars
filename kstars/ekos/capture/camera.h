@@ -290,7 +290,7 @@ public:
      */
     void refreshFilterSettings();
 
-    QSharedPointer<FilterManager> &filterManager()
+    const QSharedPointer<FilterManager> &filterManager() const
     {
         return m_FilterManager;
     }

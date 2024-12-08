@@ -5396,8 +5396,11 @@ void Focus::setupFilterManager()
     // Take action when filter operation fails
     connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
     {
-        appendLogText(i18n("Filter operation failed."));
-        completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FILTER_MANAGER);
+        if (filterPositionPending)
+        {
+            appendLogText(i18n("Filter operation failed."));
+            completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FILTER_MANAGER);
+        }
     });
 
     // Run Autofocus if required by filter manager

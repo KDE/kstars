@@ -421,6 +421,12 @@ void Ekos::CaptureDeviceAdaptor::updateFilterPosition()
         emit filterIdChanged(m_FilterManager->getFilterPosition());
 }
 
+void Ekos::CaptureDeviceAdaptor::setFilterChangeFailed()
+{
+    qWarning(KSTARS_EKOS_CAPTURE) << "Failed to change filter wheel to target position!";
+    emit filterIdChanged(-1);
+}
+
 void CaptureDeviceAdaptor::readCurrentState(CaptureState state)
 {
     switch(state)
@@ -547,11 +553,12 @@ void CaptureDeviceAdaptor::setFilterPosition(int targetFilterPosition, FilterMan
         m_FilterManager->setFilterPosition(targetFilterPosition, policy);
 }
 
+void CaptureDeviceAdaptor::clearFilterManager()
+{
+    m_FilterManager.clear();
+}
 
-
-
-
-void CaptureDeviceAdaptor::setFilterManager(QSharedPointer<FilterManager> device)
+void CaptureDeviceAdaptor::setFilterManager(const QSharedPointer<FilterManager> &device)
 {
     // avoid doubled definition
     if (m_FilterManager == device)

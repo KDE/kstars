@@ -671,6 +671,12 @@ void SequenceJobState::setCurrentFilterID(int value)
 
     if (value == targetFilterID)
         prepareActions[CAPTURE_ACTION_FILTER] = true;
+    else if (value < 0)
+    {
+        m_PreparationState = PREP_NONE;
+        emit prepareComplete(false);
+        return;
+    }
 
     checkAllActionsReady();
 }
