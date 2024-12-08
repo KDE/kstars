@@ -3362,12 +3362,12 @@ void Camera::setupFilterManager()
 void Camera::clearFilterManager()
 {
     // Clear connections if there was an existing filter manager
-    if (filterManager())
-        filterManager()->disconnect(this);
+    if (m_FilterManager)
+        m_FilterManager->disconnect(this);
 
     // clear the filter manager for this camera
-    filterManager().clear();
-    devices()->setFilterManager(filterManager());
+    m_FilterManager.clear();
+    devices()->clearFilterManager();
 }
 
 void Camera::refreshFilterSettings()
@@ -3863,7 +3863,8 @@ void Camera::setFilterStatus(FilterState filterState)
     }
     state()->setFilterManagerState(filterState);
     // display capture status changes
-    captureStatusWidget->setFilterState(filterState);
+    if (activeJob())
+        captureStatusWidget->setFilterState(filterState);
 }
 
 void Camera::resetJobs()

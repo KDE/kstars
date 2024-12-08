@@ -301,6 +301,9 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         bool executeOperationQueue();
         bool executeOneOperation(FilterState operation);
 
+        // Check Filter Change timeout
+        void checkFilterChangeTimeout();
+
         // Update model
         void syncDBToINDI();
 
@@ -315,7 +318,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
 
         int targetFilterPosition { -1 };
         int targetFilterOffset { - 1 };
-
+        QTimer m_FilterChangeTimeout;
 
         bool m_FocusReady { false };
         bool m_FocusAbsPositionPending { false};

@@ -48,6 +48,11 @@ FilterManager::FilterManager(QWidget *parent) : QDialog(parent)
         Options::setFlatSyncFocus(kcfg_FlatSyncFocus->isChecked());
     });
 
+    // 30 second timeout for filter change
+    m_FilterChangeTimeout.setSingleShot(true);
+    m_FilterChangeTimeout.setInterval(30000);
+    connect(&m_FilterChangeTimeout, &QTimer::timeout, this, &FilterManager::checkFilterChangeTimeout);
+
     createFilterModel();
 
     // No Edit delegate
@@ -438,7 +443,17 @@ void FilterManager::updateProperty(INDI::Property prop)
     }
     else if (prop.isNameMatch("FILTER_SLOT"))
     {
+        m_FilterChangeTimeout.stop();
+
         auto nvp = prop.getNumber();
+        // If filter fails to change position while we request that
+        // fail immediately.
+        if (state == FILTER_CHANGE && nvp->s == IPS_ALERT)
+        {
+            emit failed();
+            return;
+        }
+
         if (nvp->s != IPS_OK)
             return;
 
@@ -516,6 +531,8 @@ bool FilterManager::executeOperationQueue()
     {
         case FILTER_CHANGE:
         {
+            m_FilterChangeTimeout.stop();
+
             if (m_ConfirmationPending)
                 return true;
 
@@ -545,6 +562,8 @@ bool FilterManager::executeOperationQueue()
                 KSMessageBox::Instance()->questionYesNo(i18n("Set filter to %1. Is filter set?", targetFilter->color()),
                                                         i18n("Confirm Filter"));
             }
+            // If automatic filter change with filter wheel, we start operation timeout
+            else m_FilterChangeTimeout.start();
         }
         break;
 
@@ -967,4 +986,12 @@ void FilterManager::signalAbortAutoFocus()
     emit abortAutoFocus();
 }
 
+void FilterManager::checkFilterChangeTimeout()
+{
+    if (state == FILTER_CHANGE)
+    {
+        qCWarning(KSTARS) << "FilterManager.cpp filter change timed out.";
+        emit failed();
+    }
+}
 }

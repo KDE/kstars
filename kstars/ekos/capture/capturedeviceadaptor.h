@@ -109,8 +109,9 @@ public:
             return m_ActiveFilterWheel;
         }
 
-        void setFilterManager(QSharedPointer<FilterManager> device);
-        QSharedPointer<FilterManager> getFilterManager()
+        void clearFilterManager();
+        void setFilterManager(const QSharedPointer<FilterManager> &device);
+        const QSharedPointer<FilterManager> &getFilterManager() const
         {
             return m_FilterManager;
         }
@@ -212,6 +213,10 @@ public:
          * @brief updateFilterPosition Inform the sequence job state machine about the current filter position
          */
         void updateFilterPosition();
+        /**
+         * @brief setFilterChangeFailed Inform the sequence job state machine that filter change operation failed.
+         */
+        void setFilterChangeFailed();
 
         //////////////////////////////////////////////////////////////////////
         // Flat capturing commands

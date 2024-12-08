@@ -3653,10 +3653,12 @@ void Align::setupFilterManager()
 
     connect(m_FilterManager.get(), &FilterManager::failed, this, [this]()
     {
-        appendLogText(i18n("Filter operation failed."));
-        abort();
-    }
-           );
+        if (filterPositionPending)
+        {
+            appendLogText(i18n("Filter operation failed."));
+            abort();
+        }
+    });
 
     connect(m_FilterManager.get(), &FilterManager::newStatus, this, [this](Ekos::FilterState filterState)
     {
