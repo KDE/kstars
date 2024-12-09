@@ -9,7 +9,7 @@
 #include "dms.h"
 #include "skypoint.h"
 
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 #include <QSharedDataPointer>
 #include <QString>
@@ -21,9 +21,9 @@ class KSPopupMenu;
 
 namespace {
     const auto emptyString = QStringLiteral();
-    const auto unnamedString = ki18n("unnamed").toString();
-    const auto unnamedObjectString = ki18n("unnamed object").toString();
-    const auto starString = ki18n("star").toString();
+    const auto unnamedString = kli18n("unnamed");
+    const auto unnamedObjectString = kli18n("unnamed object");
+    const auto starString = kli18n("star");
 }
 
 // Set the faintest sane magnitude to 36.0 (faintest visual magnitude visible with E-ELT, acc. to Wikipedia on Apparent Magnitude.)
@@ -143,7 +143,7 @@ class SkyObject : public SkyPoint
     static QString typeShortName(const int t);
 
     /** @return object's primary name. */
-    inline virtual QString name(void) const { return hasName() ? Name : unnamedString; }
+    inline virtual QString name(void) const { return hasName() ? Name : unnamedString.toString(); }
 
     /** @return object's primary name, translated to local language. */
     inline QString translatedName() const
@@ -162,7 +162,7 @@ class SkyObject : public SkyPoint
     /**
      * @return object's common (long) name
      */
-    virtual QString longname(void) const { return hasLongName() ? LongName : unnamedObjectString; }
+    virtual QString longname(void) const { return hasLongName() ? LongName : unnamedObjectString.toString(); }
 
     /**
      * @return object's common (long) name, translated to local language.

@@ -32,9 +32,9 @@
 
 const QStringList RAWFormats = { "cr2", "cr3", "crw", "nef", "raf", "dng", "arw", "orf" };
 
-const QString &getFITSModeStringString(FITSMode mode)
+const QString getFITSModeStringString(FITSMode mode)
 {
-    return FITSModes[mode];
+    return FITSModes[mode].toString();
 }
 
 namespace ISD
