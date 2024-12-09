@@ -24,7 +24,7 @@
 #include <KAboutData>
 #include <KCrash>
 #endif
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 #if defined(Q_OS_MACOS)
 #include <ksnotification.h>
@@ -46,9 +46,8 @@
 #endif
 
 #ifndef KSTARS_LITE
-static const QString description =  ki18n("Desktop Planetarium").toString();
-static const QString notice      =  ki18n(
-                                        "Some images in KStars are for non-commercial use only. See README.images.").toString();
+static const auto description =  kli18n("Desktop Planetarium");
+static const auto notice      =  kli18n("Some images in KStars are for non-commercial use only. See README.images.");
 #endif
 
 #if defined(Q_OS_ANDROID)
@@ -103,7 +102,7 @@ int main(int argc, char *argv[])
     QString versionString =
         QString("%1 %2").arg(KSTARS_VERSION).arg(KSTARS_BUILD_RELEASE);
     KAboutData aboutData(
-        "kstars", i18n("KStars"), versionString, i18n(description.toLatin1()), KAboutLicense::GPL,
+        "kstars", i18n("KStars"), versionString, description.toString(), KAboutLicense::GPL,
         "2001-" + QString::number(QDate::currentDate().year()) +
         i18n(" (c), The KStars Team\n\nThe Gaussian Process Guider Algorithm: (c) "
              "2014-2017 Max Planck Society"),
@@ -112,7 +111,7 @@ int main(int argc, char *argv[])
               KSTARS_BUILD_RELEASE == QLatin1String("Beta") ?
               "Pre-release beta snapshot. Do not use in production." :
               "Stable release.",
-              i18n(notice.toLatin1())),
+              notice.toString()),
         "https://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"),
                         "jharris@30doradus.org", "http://www.30doradus.org");

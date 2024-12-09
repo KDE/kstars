@@ -1342,7 +1342,7 @@ int FITSTab::getProfileIndex(int moduleIndex)
 {
     if (moduleIndex < 0 || moduleIndex >= Ekos::ProfileGroupNames.size())
         return 0;
-    const QString moduleName = Ekos::ProfileGroupNames[moduleIndex];
+    const QString moduleName = Ekos::ProfileGroupNames[moduleIndex].toString();
     const QString str = Options::fitsSolverProfileIndeces();
     const QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
     if (doc.isNull() || !doc.isObject())
@@ -1362,7 +1362,7 @@ void FITSTab::setProfileIndex(int moduleIndex, int profileIndex)
         QJsonObject initialIndeces;
         for (int i = 0; i < Ekos::ProfileGroupNames.size(); i++)
         {
-            QString name = Ekos::ProfileGroupNames[i];
+            QString name = Ekos::ProfileGroupNames[i].toString();
             if (name == "Align")
                 initialIndeces[name] = QString::number(Options::solveOptionsProfile());
             else if (name == "Guide")
@@ -1376,7 +1376,7 @@ void FITSTab::setProfileIndex(int moduleIndex, int profileIndex)
     }
 
     QJsonObject indeces = doc.object();
-    indeces[Ekos::ProfileGroupNames[moduleIndex]] = QString::number(profileIndex);
+    indeces[Ekos::ProfileGroupNames[moduleIndex].toString()] = QString::number(profileIndex);
     doc = QJsonDocument(indeces);
     Options::setFitsSolverProfileIndeces(QString(doc.toJson()));
 }
@@ -1400,7 +1400,7 @@ void FITSTab::setupProfiles(int moduleIndex)
     m_PlateSolveUI.kcfg_FitsSolverProfile->setCurrentIndex(getProfileIndex(Options::fitsSolverModule()));
 
     m_ProfileEditorPage->setHeader(QString("FITS Viewer Solver %1 Profiles Editor")
-                                   .arg(Ekos::ProfileGroupNames[moduleIndex]));
+                                   .arg(Ekos::ProfileGroupNames[moduleIndex].toString()));
 }
 
 void FITSTab::initSolverUI()
@@ -1408,7 +1408,7 @@ void FITSTab::initSolverUI()
     // Init the modules combo box.
     m_PlateSolveUI.kcfg_FitsSolverModule->clear();
     for (int i = 0; i < Ekos::ProfileGroupNames.size(); i++)
-        m_PlateSolveUI.kcfg_FitsSolverModule->addItem(Ekos::ProfileGroupNames[i]);
+        m_PlateSolveUI.kcfg_FitsSolverModule->addItem(Ekos::ProfileGroupNames[i].toString());
     m_PlateSolveUI.kcfg_FitsSolverModule->setCurrentIndex(Options::fitsSolverModule());
 
     setupProfiles(Options::fitsSolverModule());

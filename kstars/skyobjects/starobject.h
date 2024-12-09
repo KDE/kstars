@@ -117,20 +117,20 @@ class StarObject : public SkyObject
     void setNames(const QString &name, const QString &name2);
 
     /** @return true if the star has a name ("star" doesn't count) */
-    inline bool hasName() const { return (!Name.isEmpty() && Name != starString); }
+    inline bool hasName() const { return (!Name.isEmpty() && Name != starString.toString()); }
 
     /** @return true if the star has a latin name ("star" or HD... doesn't count) */
     inline bool hasLatinName() const
     {
-        return (!Name.isEmpty() && Name != starString && Name != gname(false) && Name != gname(true) &&
+        return (!Name.isEmpty() && Name != starString.toString() && Name != gname(false) && Name != gname(true) &&
                 !Name.startsWith("HD "));
     }
 
     /** If star is unnamed return "star" otherwise return the name */
-    inline QString name(void) const override { return hasName() ? Name : starString; }
+    inline QString name(void) const override { return hasName() ? Name : starString.toString(); }
 
     /** If star is unnamed return "star" otherwise return the longname */
-    inline QString longname(void) const override { return hasLongName() ? LongName : starString; }
+    inline QString longname(void) const override { return hasLongName() ? LongName : starString.toString(); }
 
     /**
      * Returns entire spectral type string

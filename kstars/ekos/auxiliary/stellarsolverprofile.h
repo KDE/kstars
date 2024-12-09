@@ -8,7 +8,7 @@
 #pragma once
 
 #include <parameters.h>
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 namespace Ekos
 {
@@ -22,12 +22,12 @@ typedef enum
     HFRProfiles
 } ProfileGroup;
 
-static const QList<const char *> ProfileGroupNames =
+static const QList<KLazyLocalizedString> ProfileGroupNames =
 {
-     ki18n("Align").toString().toUtf8().constData(),
-     ki18n("Focus").toString().toUtf8().constData(),
-     ki18n("Guide").toString().toUtf8().constData(),
-     ki18n("HFR").toString().toUtf8().constData()
+     kli18n("Align"),
+     kli18n("Focus"),
+     kli18n("Guide"),
+     kli18n("HFR")
 };
 
 QList<SSolver::Parameters> getDefaultFocusOptionsProfiles();
