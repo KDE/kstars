@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-07 01:49+0000\n"
+"POT-Creation-Date: 2024-12-09 01:56+0000\n"
 "PO-Revision-Date: 2024-12-03 15:57+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -471,14 +471,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Görseli Kaydet"
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3962
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3964
 #: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1350
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "“%1” adlı bir dosya halihazırda var. Üzerine yazılsın mı?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3965
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3967
 #: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1351
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -2658,7 +2658,7 @@ msgstr ""
 "URL geçerli değil. Google arama motorunda\n"
 "bir tarayıcı penceresi açmak ister misiniz?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3973
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3975
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1214 ekos/capture/camera.cpp:1269
 #: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1954
@@ -3851,7 +3851,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1721 ekos/capture/camera.cpp:1761
+#: ekos/capture/camera.cpp:1725 ekos/capture/camera.cpp:1765
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:455 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
@@ -6264,7 +6264,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Hata: Süzgeç tekerleğine olan bağlantı kesildi."
 
 #: ekos/align/align.cpp:1506 ekos/capture/cameraprocess.cpp:208
-#: ekos/capture/cameraprocess.cpp:614 ekos/focus/focus.cpp:5511
+#: ekos/capture/cameraprocess.cpp:614 ekos/focus/focus.cpp:5514
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6485,7 +6485,7 @@ msgid "Mount is synced to solution coordinates."
 msgstr "Kaide, çözüm koordinatlarıyla eşzamanlıdır."
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
-#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4106
+#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4108
 #: ekos/align/polaralignmentassistant.cpp:650
 #, kde-format
 msgid "Settling..."
@@ -6622,40 +6622,40 @@ msgstr "dRA (yaydak)"
 msgid "dDE (arcsec)"
 msgstr "dDE (yaysan)"
 
-#: ekos/align/align.cpp:3656 ekos/capture/camera.cpp:3338
-#: ekos/focus/focus.cpp:5399
+#: ekos/align/align.cpp:3658 ekos/capture/camera.cpp:3342
+#: ekos/focus/focus.cpp:5401
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Süzme işlemi başarısız oldu."
 
-#: ekos/align/align.cpp:3668 ekos/capture/camera.cpp:3838
+#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3842
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Odak ofseti %1 adım kadar değiştiriliyor…"
 
-#: ekos/align/align.cpp:3675 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3843
+#: ekos/align/align.cpp:3677 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/capture/camera.cpp:3847
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Süzgeç %1 olarak değiştiriliyor…"
 
-#: ekos/align/align.cpp:3680 ekos/capture/camera.cpp:3848
+#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3852
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Süzgeç değişikliğinde kendiliğinden odaklanıyor…"
 
-#: ekos/align/align.cpp:3801
+#: ekos/align/align.cpp:3803
 #, kde-format
 msgid "Invalid FOV."
 msgstr "Geçersiz görüş alanı."
 
-#: ekos/align/align.cpp:3949
+#: ekos/align/align.cpp:3951
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "Çözüm Noktalarını Dışa Aktar"
 
-#: ekos/align/align.cpp:3972 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1213
 #: ekos/capture/camera.cpp:1268 ekos/guide/guidedriftgraph.cpp:478
 #: ekos/scheduler/scheduler.cpp:1953 ekos/scheduler/scheduler.cpp:2063
@@ -6665,7 +6665,7 @@ msgstr "Çözüm Noktalarını Dışa Aktar"
 msgid "Invalid URL: %1"
 msgstr "Geçersiz URL: %1"
 
-#: ekos/align/align.cpp:3981 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:3983 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
 #: ekos/scheduler/schedulerprocess.cpp:2974
 #: ekos/scheduler/schedulerprocess.cpp:4648
@@ -6673,8 +6673,8 @@ msgstr "Geçersiz URL: %1"
 msgid "Unable to write to file %1"
 msgstr "%1 dosyasına yazılamadı."
 
-#: ekos/align/align.cpp:3982 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2856
+#: ekos/align/align.cpp:3984 ekos/align/mountmodel.cpp:286
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2860
 #: ekos/capture/cameraprocess.cpp:2571 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
@@ -6693,27 +6693,27 @@ msgstr "%1 dosyasına yazılamadı."
 msgid "Could Not Open File"
 msgstr "Dosya açılamadı."
 
-#: ekos/align/align.cpp:4003
+#: ekos/align/align.cpp:4005
 #, kde-format
 msgid "Error in table structure."
 msgstr "Tablo yapısında hata."
 
-#: ekos/align/align.cpp:4012
+#: ekos/align/align.cpp:4014
 #, kde-format
 msgid "Solution Points Saved as: %1"
 msgstr "Çözüm noktaları farklı kaydedildi: %1"
 
-#: ekos/align/align.cpp:4029
+#: ekos/align/align.cpp:4031
 #, kde-format
 msgid "Polar Alignment"
 msgstr "Kutupsal Hizalama"
 
-#: ekos/align/align.cpp:4583
+#: ekos/align/align.cpp:4585
 #, kde-format
 msgid "Capture timed out."
 msgstr "Yakalama zaman aşımına uğradı."
 
-#: ekos/align/align.cpp:4592
+#: ekos/align/align.cpp:4594
 #, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "Yakalama hâlâ sürüyor. %1 saniye içinde yeniden deneniyor…"
@@ -7326,7 +7326,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Ekos Hizalama Listesini Aç"
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2855
+#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2859
 #: ekos/capture/cameraprocess.cpp:2570 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4668
@@ -11564,7 +11564,7 @@ msgstr "Çıkmak istediğinizden emin misiniz?"
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:109 ekos/capture/camera.ui:2236
+#: ekos/auxiliary/filtermanager.cpp:114 ekos/capture/camera.ui:2236
 #: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:918
 #, kde-format
 msgid "Filter"
@@ -11572,14 +11572,14 @@ msgstr "Süzgeç"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:115 ekos/capture/camera.ui:2266
+#: ekos/auxiliary/filtermanager.cpp:120 ekos/capture/camera.ui:2266
 #: ekos/scheduler/scheduler.cpp:424
 #, kde-format
 msgid "Offset"
 msgstr "Ofset"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:123
+#: ekos/auxiliary/filtermanager.cpp:128
 #, kde-format
 msgid "Lock Filter"
 msgstr "Süzgeci Kilitle"
@@ -12269,49 +12269,49 @@ msgstr ""
 "Uygun karanlık kare veya kusur haritası bulunamadı. Lütfen yakalama "
 "modülündeki Karanlık Kitaplık sihirbazını çalıştırın."
 
-#: ekos/auxiliary/filtermanager.cpp:111
+#: ekos/auxiliary/filtermanager.cpp:116
 #, kde-format
 msgid "Filter exposure time during focus"
 msgstr "Odak sırasındaki süzgeç pozlama zamanı"
 
-#: ekos/auxiliary/filtermanager.cpp:112
+#: ekos/auxiliary/filtermanager.cpp:117
 #: ekos/capture/capturecountswidget.cpp:183
 #, kde-format
 msgid "Exposure"
 msgstr "Pozlama"
 
-#: ekos/auxiliary/filtermanager.cpp:114
+#: ekos/auxiliary/filtermanager.cpp:119
 #, kde-format
 msgid "Relative offset in steps"
 msgstr "Adım türünden göreceli ofset"
 
-#: ekos/auxiliary/filtermanager.cpp:117
+#: ekos/auxiliary/filtermanager.cpp:122
 #, kde-format
 msgid "Start Auto Focus when filter is activated"
 msgstr "Süzgeç etkinleştirildiğinde kendiliğinden odaklamayı başlat"
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:119 ekos/ekos.h:162 ekos/focus/focus.ui:276
+#: ekos/auxiliary/filtermanager.cpp:124 ekos/ekos.h:162 ekos/focus/focus.ui:276
 #, kde-format
 msgid "Auto Focus"
 msgstr "Kendiliğinden Odakla"
 
-#: ekos/auxiliary/filtermanager.cpp:121
+#: ekos/auxiliary/filtermanager.cpp:126
 #, kde-format
 msgid "Lock specific filter when running Auto Focus"
 msgstr "Kendiliğinden Odaklama çalışırken belirli süzgeci kilitle"
 
-#: ekos/auxiliary/filtermanager.cpp:126
+#: ekos/auxiliary/filtermanager.cpp:131
 #, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr "Son AF çözümü. Kendiliğinden odaklama süreci tarafından güncellenir."
 
-#: ekos/auxiliary/filtermanager.cpp:127
+#: ekos/auxiliary/filtermanager.cpp:132
 #, kde-format
 msgid "Last AF Solution"
 msgstr "Son AF Çözümü"
 
-#: ekos/auxiliary/filtermanager.cpp:130
+#: ekos/auxiliary/filtermanager.cpp:135
 #, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
@@ -12320,12 +12320,12 @@ msgstr ""
 "Son AF çözümünün sıcaklığı. Kendiliğinden odaklama süreci tarafından "
 "güncellenir."
 
-#: ekos/auxiliary/filtermanager.cpp:131
+#: ekos/auxiliary/filtermanager.cpp:136
 #, kde-format
 msgid "Last AF Temp (°C)"
 msgstr "Son AF Sıcaklığı (°C)"
 
-#: ekos/auxiliary/filtermanager.cpp:134
+#: ekos/auxiliary/filtermanager.cpp:139
 #, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
@@ -12334,12 +12334,12 @@ msgstr ""
 "Son AF çözümünün yüksekliği. Kendiliğinden odaklama süreci tarafından "
 "güncellenir."
 
-#: ekos/auxiliary/filtermanager.cpp:135
+#: ekos/auxiliary/filtermanager.cpp:140
 #, kde-format
 msgid "Last AF Alt (°Alt)"
 msgstr "Son AF Yüksekliği (°Alt)"
 
-#: ekos/auxiliary/filtermanager.cpp:138
+#: ekos/auxiliary/filtermanager.cpp:143
 #, kde-format
 msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
@@ -12348,12 +12348,12 @@ msgstr ""
 "Sıcaklıktaki °C artımı başına tık sayısı. Dışa doğru odaklama hareketi için "
 "+ve"
 
-#: ekos/auxiliary/filtermanager.cpp:139
+#: ekos/auxiliary/filtermanager.cpp:144
 #, kde-format
 msgid "Ticks / °C"
 msgstr "Tıklar / °C"
 
-#: ekos/auxiliary/filtermanager.cpp:142
+#: ekos/auxiliary/filtermanager.cpp:147
 #, kde-format
 msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
@@ -12362,27 +12362,27 @@ msgstr ""
 "Yükseklikteki derece artımı başına tık sayısı. Dışa doğru odaklama hareketi "
 "için +ve"
 
-#: ekos/auxiliary/filtermanager.cpp:143
+#: ekos/auxiliary/filtermanager.cpp:148
 #, kde-format
 msgid "Ticks / °Alt"
 msgstr "Tıklar / °Alt"
 
-#: ekos/auxiliary/filtermanager.cpp:145
+#: ekos/auxiliary/filtermanager.cpp:150
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
 msgstr "nm türünden süzgecin dalga boyunun orta noktası"
 
-#: ekos/auxiliary/filtermanager.cpp:146
+#: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
 msgid "Wavelength"
 msgstr "Dalga boyu:"
 
-#: ekos/auxiliary/filtermanager.cpp:545
+#: ekos/auxiliary/filtermanager.cpp:562
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Süzgeci %1 olarak ayarlayın. Süzgeç ayarlı mı?"
 
-#: ekos/auxiliary/filtermanager.cpp:546
+#: ekos/auxiliary/filtermanager.cpp:563
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Süzgeci Onayla"
@@ -14414,12 +14414,12 @@ msgstr "Gökyüzü düzleri"
 msgid "Capture Sequence Editor: %1"
 msgstr "Yakalama sekansı düzenleyicisi: %1"
 
-#: ekos/capture/camera.cpp:166 ekos/capture/camera.cpp:3962
+#: ekos/capture/camera.cpp:166 ekos/capture/camera.cpp:3967
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "İşi sekans kuyruğuna ekle"
 
-#: ekos/capture/camera.cpp:167 ekos/capture/camera.cpp:3963
+#: ekos/capture/camera.cpp:167 ekos/capture/camera.cpp:3968
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "İşi sekans kuyruğundan kaldır"
@@ -14547,64 +14547,64 @@ msgstr "Ekos Sekansı Kuyruğunu Kaydet"
 msgid "Failed to save sequence queue"
 msgstr "Sekans kuyruğu kaydedilemedi"
 
-#: ekos/capture/camera.cpp:1317 ekos/capture/camera.cpp:2335
+#: ekos/capture/camera.cpp:1317 ekos/capture/camera.cpp:2339
 #, kde-format
 msgid "Dark Flat"
 msgstr "Karanlık Düz"
 
-#: ekos/capture/camera.cpp:2030 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:2034 ekos/scheduler/framingassistant.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS Kayıt Dizini"
 
-#: ekos/capture/camera.cpp:2127
+#: ekos/capture/camera.cpp:2131
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "%1 yapılandırması öntanımlılara sıfırlansın mı?"
 
-#: ekos/capture/camera.cpp:2129
+#: ekos/capture/camera.cpp:2133
 #, kde-format
 msgid "Confirmation"
 msgstr "Onay"
 
-#: ekos/capture/camera.cpp:2312
+#: ekos/capture/camera.cpp:2316
 #, kde-format
 msgid "You must set remote directory for Local & Both modes."
 msgstr "Uzak dizini hem yerel hem de her iki kip için ayarlamalısınız."
 
-#: ekos/capture/camera.cpp:2318
+#: ekos/capture/camera.cpp:2322
 #, kde-format
 msgid "You must set local directory for Client & Both modes."
 msgstr "Yerel dizini hem istemci hem de her iki kip için ayarlamalısınız."
 
-#: ekos/capture/camera.cpp:3500
+#: ekos/capture/camera.cpp:3504
 #, kde-format
 msgid "Paused..."
 msgstr "Duraklatıldı…"
 
-#: ekos/capture/camera.cpp:3505
+#: ekos/capture/camera.cpp:3509
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Meridyen Geçişi…"
 
-#: ekos/capture/camera.cpp:3506
+#: ekos/capture/camera.cpp:3510
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Meridyen geçişi başladı"
 
-#: ekos/capture/camera.cpp:3510
+#: ekos/capture/camera.cpp:3514
 #, kde-format
 msgid "Flip complete."
 msgstr "Döndürme tamamlandı."
 
-#: ekos/capture/camera.cpp:3570
+#: ekos/capture/camera.cpp:3574
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Rampa (°C/en düşük):"
 
-#: ekos/capture/camera.cpp:3576
+#: ekos/capture/camera.cpp:3580
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14615,13 +14615,13 @@ msgstr ""
 "sıcaklık değişimi. Devre dışı bırakmak için sıfıra ayarlayın.<p>Bu ayar INDI "
 "kamera sürücüsü yapılandırmasından okunur ve burada depolanır.</body></html>"
 
-#: ekos/capture/camera.cpp:3581
+#: ekos/capture/camera.cpp:3585
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Eşik (°C):"
 
-#: ekos/capture/camera.cpp:3587
+#: ekos/capture/camera.cpp:3591
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14632,70 +14632,70 @@ msgstr ""
 "en yüksek fark.<p>Bu ayar, INDI kamera sürücüsü yapılandırmasından okunur ve "
 "burada depolanır.</body></html>"
 
-#: ekos/capture/camera.cpp:3600
+#: ekos/capture/camera.cpp:3604
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Sıcaklık Regülasyonunu Ayarla"
 
-#: ekos/capture/camera.cpp:3640
+#: ekos/capture/camera.cpp:3644
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Geçerli Gözlemciyi Seç"
 
-#: ekos/capture/camera.cpp:3642
+#: ekos/capture/camera.cpp:3646
 #, kde-format
 msgid "Current Observer:"
 msgstr "Geçerli gözlemci:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3653 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3657 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Gözlemcileri Yönet"
 
-#: ekos/capture/camera.cpp:3825
+#: ekos/capture/camera.cpp:3829
 #, kde-format
 msgid "Cooler is on"
 msgstr "Soğutucu açık"
 
-#: ekos/capture/camera.cpp:3825
+#: ekos/capture/camera.cpp:3829
 #, kde-format
 msgid "Cooler is off"
 msgstr "Soğutucu kapalı"
 
-#: ekos/capture/camera.cpp:3855
+#: ekos/capture/camera.cpp:3859
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Süzgeç %1 olarak ayarlandı."
 
-#: ekos/capture/camera.cpp:3887
+#: ekos/capture/camera.cpp:3892
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Tüm işlerin durumunu sıfırlamak istediğinizden emin misiniz?"
 
-#: ekos/capture/camera.cpp:3887 ekos/capture/cameraprocess.cpp:2689
+#: ekos/capture/camera.cpp:3892 ekos/capture/cameraprocess.cpp:2689
 #, kde-format
 msgid "Reset job status"
 msgstr "İş durumunu sıfırla"
 
-#: ekos/capture/camera.cpp:3940
+#: ekos/capture/camera.cpp:3945
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "№%1. iş düzenleniyor…"
 
-#: ekos/capture/camera.cpp:3943 ekos/scheduler/scheduler.cpp:1299
+#: ekos/capture/camera.cpp:3948 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr "İş değişikliklerini uygulayın."
 
-#: ekos/capture/camera.cpp:3944
+#: ekos/capture/camera.cpp:3949
 #, kde-format
 msgid "Cancel job changes."
 msgstr "İş değişikliklerini iptal edin."
 
-#: ekos/capture/camera.cpp:3957
+#: ekos/capture/camera.cpp:3962
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Düzenleme işi iptal edildi."
@@ -15782,8 +15782,8 @@ msgstr "İş öncesi betiği %1 koduyla bitti."
 msgid "Post job script finished with code %1."
 msgstr "İş sonrası betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:2072 ekos/focus/focus.cpp:5563
-#: ekos/focus/focus.cpp:5587
+#: ekos/capture/cameraprocess.cpp:2072 ekos/focus/focus.cpp:5566
+#: ekos/focus/focus.cpp:5590
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Pozlama zaman aşımı. İptal ediliyor…"
@@ -15794,7 +15794,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Pozlama zaman aşımı. 3’ten fazlası algılandı, sürücü yeniden başlatılacak."
 
-#: ekos/capture/cameraprocess.cpp:2097 ekos/focus/focus.cpp:5568
+#: ekos/capture/cameraprocess.cpp:2097 ekos/focus/focus.cpp:5571
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -16245,23 +16245,23 @@ msgstr "Toplam"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr "Yakalama sayısını grafiksel olarak görüntüle"
 
-#: ekos/capture/capturedeviceadaptor.cpp:663
+#: ekos/capture/capturedeviceadaptor.cpp:670
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Sürdürmek için teleskopun kapağını kaldırın."
 
-#: ekos/capture/capturedeviceadaptor.cpp:664
+#: ekos/capture/capturedeviceadaptor.cpp:671
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Teleskop Örtülü"
 
-#: ekos/capture/capturedeviceadaptor.cpp:796
+#: ekos/capture/capturedeviceadaptor.cpp:803
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "%1 üzerinde bir kepenk var mı?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:797
-#: ekos/capture/sequencejobstate.cpp:407
+#: ekos/capture/capturedeviceadaptor.cpp:804
+#: ekos/capture/sequencejobstate.cpp:413
 #, kde-format
 msgid "Dark Exposure"
 msgstr "Karanlık Pozlama"
@@ -17533,78 +17533,78 @@ msgstr "Sürüyor"
 msgid "Complete"
 msgstr "Tamamlandı"
 
-#: ekos/capture/sequencejobstate.cpp:394
+#: ekos/capture/sequencejobstate.cpp:400
 #, kde-format
 msgid "Cover the telescope with an evenly illuminated light source."
 msgstr "Teleskopu eşit olarak aydınlatılmış bir ışık kaynağıyla örtün."
 
-#: ekos/capture/sequencejobstate.cpp:395
+#: ekos/capture/sequencejobstate.cpp:401
 #, kde-format
 msgid "Flat Frame"
 msgstr "Düz Kare"
 
-#: ekos/capture/sequencejobstate.cpp:406
+#: ekos/capture/sequencejobstate.cpp:412
 #, kde-format
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Karanlık bir poz elde etmek için teleskopun üzerini örtün."
 
-#: ekos/capture/sequencejobstate.cpp:436 ekos/capture/sequencejobstate.cpp:617
+#: ekos/capture/sequencejobstate.cpp:442 ekos/capture/sequencejobstate.cpp:619
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Toz kapağı açılıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:436
+#: ekos/capture/sequencejobstate.cpp:442
 #, kde-format
 msgid "Parking dust cap..."
 msgstr "Toz kapağı park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
+#: ekos/capture/sequencejobstate.cpp:454 ekos/capture/sequencejobstate.cpp:501
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Işık kutusu ışığı açılıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:448 ekos/capture/sequencejobstate.cpp:495
-#: ekos/capture/sequencejobstate.cpp:603
+#: ekos/capture/sequencejobstate.cpp:454 ekos/capture/sequencejobstate.cpp:501
+#: ekos/capture/sequencejobstate.cpp:605
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Işık kutusu ışığı kapatılıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:466
+#: ekos/capture/sequencejobstate.cpp:472
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Kaide, duvar konumuna çevriliyor (az =%1 yük = %2)…"
 
-#: ekos/capture/sequencejobstate.cpp:478
+#: ekos/capture/sequencejobstate.cpp:484
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
 
-#: ekos/capture/sequencejobstate.cpp:482
+#: ekos/capture/sequencejobstate.cpp:488
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
 
-#: ekos/capture/sequencejobstate.cpp:513
+#: ekos/capture/sequencejobstate.cpp:519
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Kaideyi park başarısız oldu, iptal ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:522
+#: ekos/capture/sequencejobstate.cpp:528
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Kalibrasyon kareleri yakalama öncesinde kaide park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:541
+#: ekos/capture/sequencejobstate.cpp:547
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Kubbeyi park etme başarısız, iptal ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:551
+#: ekos/capture/sequencejobstate.cpp:557
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Kalibrasyon kareleri yakalama öncesinde kubbe park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:811
+#: ekos/capture/sequencejobstate.cpp:819
 #, kde-format
 msgid "Light box on."
 msgstr "Işık kutusu açık."
@@ -19292,17 +19292,17 @@ msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Odak Karesi"
 
-#: ekos/focus/focus.cpp:5611
+#: ekos/focus/focus.cpp:5614
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Görsel kaydedilemedi. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:5626 ekos/focus/focus.cpp:5651
+#: ekos/focus/focus.cpp:5629 ekos/focus/focus.cpp:5654
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Pozlama hatası. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:5943
+#: ekos/focus/focus.cpp:5946
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
