@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-09 01:56+0000\n"
+"POT-Creation-Date: 2024-12-10 01:54+0000\n"
 "PO-Revision-Date: 2024-12-03 17:12+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -2422,7 +2422,7 @@ msgstr "Comprobar si la magnitud es desconocida"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1575
-#: ekos/scheduler/scheduler.cpp:2234 fitsviewer/fitscommon.h:17
+#: ekos/scheduler/scheduler.cpp:2234 fitsviewer/fitscommon.h:22
 #: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
 #: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:293
 #: skyobjects/skyobject.cpp:435
@@ -10545,7 +10545,7 @@ msgstr "No se puede mostrar el archivo de imagen temporal: %1"
 #: ekos/auxiliary/stellarsolverprofile.h:28 ekos/manager.cpp:2199
 #: ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:471
+#: fitsviewer/fitscommon.h:18 fitsviewer/fitsviewer.cpp:471
 #, kde-format
 msgid "Focus"
 msgstr "Foco"
@@ -10554,7 +10554,7 @@ msgstr "Foco"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/stellarsolverprofile.h:27
 #: ekos/manager.cpp:2155 ekos/scheduler/framingassistant.ui:1262
-#: ekos/scheduler/scheduler.ui:242 fitsviewer/fitscommon.h:17
+#: ekos/scheduler/scheduler.ui:242 fitsviewer/fitscommon.h:21
 #: fitsviewer/fitsviewer.cpp:479
 #, kde-format
 msgid "Align"
@@ -10568,7 +10568,7 @@ msgstr "Alinear"
 #: ekos/auxiliary/stellarsolverprofile.h:29 ekos/guide/guide.cpp:58
 #: ekos/guide/guide.ui:263 ekos/manager.cpp:2420
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
-#: fitsviewer/fitscommon.h:16 fitsviewer/fitsviewer.cpp:475
+#: fitsviewer/fitscommon.h:19 fitsviewer/fitsviewer.cpp:475
 #, kde-format
 msgid "Guide"
 msgstr "Guiar"
@@ -30332,13 +30332,11 @@ msgstr "Descripción de tipo de objeto"
 msgid "Object Type Comments"
 msgstr "Comentarios de tipo de objeto"
 
-#: fitsviewer/fitscommon.h:16
-#, kde-format
+#: fitsviewer/fitscommon.h:17
 msgid "Normal"
 msgstr "Normal"
 
-#: fitsviewer/fitscommon.h:17
-#, kde-format
+#: fitsviewer/fitscommon.h:20
 msgid "Calibrate"
 msgstr "Calibrar"
 
@@ -71344,13 +71342,13 @@ msgstr "No implementado."
 msgid "About"
 msgstr "Acerca de"
 
-#: kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:106
+#: kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:105
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
 #: kstarslite/qml/dialogs/AboutDialog.qml:37 main.cpp:49
-#, kde-format, kde-kuit-format
+#, kde-kuit-format
 msgid "Desktop Planetarium"
 msgstr "Planetario para el escritorio"
 
@@ -75725,15 +75723,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr "cálido"
 
-#: main.cpp:51
-#, kde-format
+#: main.cpp:50
 msgid ""
 "Some images in KStars are for non-commercial use only. See README.images."
 msgstr ""
 "Algunas imágenes de KStars son únicamente para uso no comercial. Consulte "
 "README.images."
 
-#: main.cpp:73
+#: main.cpp:72
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
@@ -75742,7 +75739,7 @@ msgstr ""
 "Lo sentimos: KStars no puede funcionar sin un directorio de datos. El "
 "programa terminará ahora."
 
-#: main.cpp:108
+#: main.cpp:107
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -75754,7 +75751,7 @@ msgstr ""
 "Algoritmo del sistema de guiado de proceso gaussiano, @ 2014-2017 Max Planck "
 "Society"
 
-#: main.cpp:110
+#: main.cpp:109
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -75770,372 +75767,372 @@ msgstr ""
 "\n"
 "%3"
 
-#: main.cpp:117
+#: main.cpp:116
 #, kde-format
 msgid "Jason Harris"
 msgstr "Jason Harris"
 
-#: main.cpp:117
+#: main.cpp:116
 #, kde-format
 msgid "Original Author"
 msgstr "Autor original"
 
-#: main.cpp:119
+#: main.cpp:118
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr "Jasem Mutlaq"
 
-#: main.cpp:119
+#: main.cpp:118
 #, kde-format
 msgid "Current Maintainer"
 msgstr "Responsable actual"
 
-#: main.cpp:123
+#: main.cpp:122
 #, kde-format
 msgid "Akarsh Simha"
 msgstr "Akarsh Simha"
 
-#: main.cpp:125
+#: main.cpp:124
 #, kde-format
 msgid "Robert Lancaster"
 msgstr "Robert Lancaster"
 
-#: main.cpp:126
+#: main.cpp:125
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr "Mejoras en el visor FITS y Ekos. Adaptación de KStars a OSX."
 
-#: main.cpp:128
+#: main.cpp:127
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr "Eric Dejouhanet"
 
-#: main.cpp:129
+#: main.cpp:128
 #, kde-format
 msgid "Ekos Scheduler Improvements"
 msgstr "Mejoras en el planificador Ekos"
 
-#: main.cpp:130
+#: main.cpp:129
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr "Wolfgang Reissenberger"
 
-#: main.cpp:132
+#: main.cpp:131
 #, kde-format
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "Mejoras en el planificador Ekos y en el observatorio"
 
-#: main.cpp:133
+#: main.cpp:132
 #, kde-format
 msgid "Hy Murveit"
 msgstr "Hy Murveit"
 
-#: main.cpp:134
+#: main.cpp:133
 #, kde-format
 msgid "FITS, Focus, Guide Improvements"
 msgstr "Mejoras en FITS, enfoque y guiado"
 
-#: main.cpp:135
+#: main.cpp:134
 #, kde-format
 msgid "John Evans"
 msgstr "John Evans"
 
-#: main.cpp:136
+#: main.cpp:135
 #, kde-format
 msgid "Focus algorithms"
 msgstr "Algoritmos de enfoque"
 
-#: main.cpp:139
+#: main.cpp:138
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr "Csaba Kertesz"
 
-#: main.cpp:141
+#: main.cpp:140
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 "Lista de asteroides binarios, base de datos de objetos del espacio profundo "
 "y catálogos"
 
-#: main.cpp:142
+#: main.cpp:141
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr "Artem Fedoskin"
 
-#: main.cpp:142
+#: main.cpp:141
 #, kde-format
 msgid "KStars Lite"
 msgstr "KStars Lite"
 
-#: main.cpp:144
+#: main.cpp:143
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:145
+#: main.cpp:144
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:146
+#: main.cpp:145
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:147
+#: main.cpp:146
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:149
+#: main.cpp:148
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:150
+#: main.cpp:149
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:151
+#: main.cpp:150
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Alexey Khudyakov"
 
-#: main.cpp:152
+#: main.cpp:151
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "M&eacute;d&eacute;ric Boquien"
 
-#: main.cpp:154
+#: main.cpp:153
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "J&eacute;r&ocirc;me Sonrier"
 
-#: main.cpp:156
+#: main.cpp:155
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Prakash Mohan"
 
-#: main.cpp:157
+#: main.cpp:156
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Victor Cărbune"
 
-#: main.cpp:158
+#: main.cpp:157
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Henry de Valence"
 
-#: main.cpp:159
+#: main.cpp:158
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Samikshan Bairagya"
 
-#: main.cpp:161
+#: main.cpp:160
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Rafał Kułaga"
 
-#: main.cpp:162
+#: main.cpp:161
 #, kde-format
 msgid "Rishab Arora"
 msgstr "Rishab Arora"
 
-#: main.cpp:166
+#: main.cpp:165
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Valery Kharitonov"
 
-#: main.cpp:167
+#: main.cpp:166
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 "Convirtió las etiquetas que contenían términos técnicos en enlaces a "
 "documentación"
 
-#: main.cpp:168
+#: main.cpp:167
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ana-Maria Constantin"
 
-#: main.cpp:169
+#: main.cpp:168
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr "Documentación técnica sobre Astronomía y KStars"
 
-#: main.cpp:170
+#: main.cpp:169
 #, kde-format
 msgid "Andrew Stepanenko"
 msgstr "Alexander Stepanenko"
 
-#: main.cpp:171
+#: main.cpp:170
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr "Código de guiado basado en lin_guider"
 
-#: main.cpp:172
+#: main.cpp:171
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr "Nuno Pinheiro"
 
-#: main.cpp:172
+#: main.cpp:171
 #, kde-format
 msgid "Artwork"
 msgstr "Arte gráfico"
 
-#: main.cpp:174
+#: main.cpp:173
 #, kde-format
 msgid "Utkarsh Simha"
 msgstr "Utkarsh Simha"
 
-#: main.cpp:175
+#: main.cpp:174
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 "Mejoras en la ejecución del plan de observación, saltos de estrellas, etc."
 
-#: main.cpp:176
+#: main.cpp:175
 #, kde-format
 msgid "Daniel Holler"
 msgstr "Daniel Holler"
 
-#: main.cpp:177
+#: main.cpp:176
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr "Pruebas exhaustivas y sugerencias para Ekos/INDI."
 
-#: main.cpp:179
+#: main.cpp:178
 #, kde-format
 msgid "Stephane Lucas"
 msgstr "Stephane Lucas"
 
-#: main.cpp:180
+#: main.cpp:179
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 "Pruebas exhaustivas y sugerencias para planificador Ekos. Adaptación de "
 "KStars para OSX."
 
-#: main.cpp:181
+#: main.cpp:180
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr "Yuri Fabirovsky"
 
-#: main.cpp:182
+#: main.cpp:181
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr "Pantalla de bienvenida para KStars y KStars Lite."
 
-#: main.cpp:183
+#: main.cpp:182
 #, kde-format
 msgid "Jamie Smith"
 msgstr "Jamie Smith"
 
-#: main.cpp:183
+#: main.cpp:182
 #, kde-format
 msgid "KStars OSX Port."
 msgstr "Adaptación de KStars a OSX."
 
-#: main.cpp:184
+#: main.cpp:183
 #, kde-format
 msgid "Patrick Molenaar"
 msgstr "Patrick Molenaar"
 
-#: main.cpp:184
+#: main.cpp:183
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr "Asistente de enfoque Bahtinov."
 
-#: main.cpp:185
+#: main.cpp:184
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr "Philipp Auersperg-Castell"
 
-#: main.cpp:185
+#: main.cpp:184
 #, kde-format
 msgid "Supernovae daily updates"
 msgstr "Actualizaciones diarias de supernovas"
 
-#: main.cpp:186
+#: main.cpp:185
 #, kde-format
 msgid "Tony Schriber"
 msgstr "Tony Schriber"
 
-#: main.cpp:186
+#: main.cpp:185
 #, kde-format
 msgid "Rotator Dialog improvements"
 msgstr "Mejoras en el diálogo del rotador"
 
-#: main.cpp:187
+#: main.cpp:186
 #, kde-format
 msgid "Joseph McGee"
 msgstr "Joseph McGee"
 
-#: main.cpp:187
+#: main.cpp:186
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 "Calculadora de subexposición basada en el trabajo del Dr. Robin Glover."
 
-#: main.cpp:196
+#: main.cpp:195
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Volcar una imagen del cielo a un archivo."
 
-#: main.cpp:197
+#: main.cpp:196
 #, kde-format
 msgid "Script to execute."
 msgstr "Guion a ejecutar."
 
-#: main.cpp:198
+#: main.cpp:197
 #, kde-format
 msgid "Width of sky image."
 msgstr "Anchura de la imagen del cielo."
 
-#: main.cpp:199
+#: main.cpp:198
 #, kde-format
 msgid "Height of sky image."
 msgstr "Altura de la imagen del cielo."
 
-#: main.cpp:200
+#: main.cpp:199
 #, kde-format
 msgid "Date and time."
 msgstr "Fecha y hora."
 
-#: main.cpp:201
+#: main.cpp:200
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Comenzar con el reloj detenido."
 
-#: main.cpp:204
+#: main.cpp:203
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "Archivo(s) FITS a abrir."
 
-#: main.cpp:240 printing/foveditordialog.cpp:176
+#: main.cpp:239 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "No se puede procesar el formato de imagen de %1, asumiendo PNG."
 
-#: main.cpp:298
+#: main.cpp:297
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 "La cadena de fecha proporcionada no es válida: %1. Se usa en su lugar la "
 "fecha/hora de la CPU."
 
-#: main.cpp:329
+#: main.cpp:328
 #, kde-format
 msgid "Script executed."
 msgstr "Guion ejecutado."
 
-#: main.cpp:333
+#: main.cpp:332
 #, kde-format
 msgid "Could not execute script."
 msgstr "Imposible ejecutar el guion."
 
-#: main.cpp:357
+#: main.cpp:356
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Usando en su lugar la fecha/hora de la CPU."
@@ -80363,7 +80360,6 @@ msgid "Show"
 msgstr "Mostrar"
 
 #: skyobjects/skyobject.h:25
-#, kde-format
 msgid "unnamed object"
 msgstr "Objeto sin nombre"
 
