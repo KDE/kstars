@@ -6,7 +6,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 import QtQuick 2.15
-import QtQuick.Layouts 2.15
+// N.B. 2.15 can only be used when using Qt6
+// Using 2.15 leads to crash in Qt5
+import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 
 
