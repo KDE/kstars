@@ -131,9 +131,8 @@ signals:
     void popupSorry(const QString &message);
     void addRow(QList<QStandardItem *> itemList);
 
-  protected:
-    void showEvent(QShowEvent *) override;
-    void resizeEvent(QResizeEvent *) override;
+protected:
+  void showEvent(QShowEvent *) override;
 
   private slots:
     void userNotesEditFinished();
@@ -150,6 +149,8 @@ signals:
     void initialize();
     void catalogLoaded();
     void loadCatalog(const QString &path);
+    void installEventFilters();
+    void removeEventFilters();
 
 
     // Methods for setting up buttons and options.
@@ -227,7 +228,7 @@ signals:
 
     ImagingPlannerUI *ui { nullptr };
 
-    bool m_initialResultsLoad { false };
+    bool m_initialShow { false };
     bool m_InitialLoad = true;
 
     CatalogsDB::DBManager m_manager;
@@ -250,6 +251,7 @@ signals:
 
     int m_numWithImage = 0;
     int m_numMissingImage = 0;
+    bool m_loadingCatalog = false;
 
     QMap<QString, CatalogImageInfo> m_CatalogImageInfoMap;
 };
