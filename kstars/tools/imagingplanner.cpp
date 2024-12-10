@@ -982,6 +982,7 @@ ImagingPlanner::ImagingPlanner() : QDialog(nullptr), m_manager{ CatalogsDB::dso_
         setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
     }
+    initialize();
 }
 
 // Sets up the hide/show buttons that minimize/maximize the plot/search/filters/image sections.
@@ -1139,8 +1140,6 @@ void ImagingPlanner::initialize()
     ui->CatalogView->setSortingEnabled(false); // We explicitly control the clicking on headers.
     ui->CatalogView->horizontalHeader()->setStretchLastSection(false);
     ui->CatalogView->resizeColumnsToContents();
-    ui->CatalogView->viewport()->installEventFilter(this);
-    ui->CatalogView->installEventFilter(this);
     ui->CatalogView->verticalHeader()->setVisible(false); // Remove the row-number display.
     ui->CatalogView->setColumnHidden(FLAGS_COLUMN, true);
 
@@ -1217,9 +1216,6 @@ void ImagingPlanner::initialize()
     m_NoImagePixmap =
         QPixmap(":/images/noimage.png").scaled(ui->ImagePreview->width(), ui->ImagePreview->height(), Qt::KeepAspectRatio,
                 Qt::FastTransformation);
-    ui->ImagePreviewCreditLink->installEventFilter(this);
-    ui->ImagePreviewCredit->installEventFilter(this);
-    ui->ImagePreview->installEventFilter(this);
     setDefaultImage();
     connect(ui->LoadCatalogButton, &QPushButton::clicked, this, &ImagingPlanner::loadCatalogViaMenu);
     connect(ui->LoadCatalogButton2, &QPushButton::clicked, this, &ImagingPlanner::loadCatalogViaMenu);
@@ -1268,7 +1264,6 @@ void ImagingPlanner::initialize()
                         &Options::setImagingPlannerDontCareKeyword);
 
     ui->keywordEdit->setFocusPolicy(Qt::StrongFocus);
-    ui->keywordEdit->installEventFilter(this);
 
     // Initialize the altitude/moon/hours inputs
     ui->useArtificialHorizon->setChecked(Options::imagingPlannerUseArtificialHorizon());
@@ -1333,7 +1328,6 @@ void ImagingPlanner::initialize()
 
     connect(ui->userNotesDoneButton, &QAbstractButton::clicked, this, &ImagingPlanner::userNotesEditFinished);
     ui->userNotesEdit->setFocusPolicy(Qt::StrongFocus);
-    ui->userNotesEdit->installEventFilter(this);
 
     connect(ui->userNotesEditButton, &QAbstractButton::clicked, this, [this]()
     {
@@ -1376,7 +1370,6 @@ void ImagingPlanner::initialize()
 
     connect(ui->loadImagedB, &QPushButton::clicked, this, &ImagingPlanner::loadImagedFile);
 
-    ui->SearchText->installEventFilter(this);
     connect(ui->SearchB, &QPushButton::clicked, this, &ImagingPlanner::searchSlot);
 
     connect(ui->CatalogView->horizontalHeader(), &QHeaderView::sectionPressed, this, [this](int column)
@@ -1400,6 +1393,36 @@ void ImagingPlanner::initialize()
 #ifdef Q_OS_WIN
     move(100, 100);
 #endif
+
+    // Install the event filters. Put them at the end of initialize so
+    // the event filter isn't called until initialize is complete.
+    installEventFilters();
+}
+
+void ImagingPlanner::installEventFilters()
+{
+    // Install the event filters. Put them at the end of initialize so
+    // the event filter isn't called until initialize is complete.
+    ui->SearchText->installEventFilter(this);
+    ui->userNotesEdit->installEventFilter(this);
+    ui->keywordEdit->installEventFilter(this);
+    ui->ImagePreviewCreditLink->installEventFilter(this);
+    ui->ImagePreviewCredit->installEventFilter(this);
+    ui->ImagePreview->installEventFilter(this);
+    ui->CatalogView->viewport()->installEventFilter(this);
+    ui->CatalogView->installEventFilter(this);
+}
+
+void ImagingPlanner::removeEventFilters()
+{
+    ui->SearchText->removeEventFilter(this);
+    ui->userNotesEdit->removeEventFilter(this);
+    ui->keywordEdit->removeEventFilter(this);
+    ui->ImagePreviewCreditLink->removeEventFilter(this);
+    ui->ImagePreviewCredit->removeEventFilter(this);
+    ui->ImagePreview->removeEventFilter(this);
+    ui->CatalogView->viewport()->removeEventFilter(this);
+    ui->CatalogView->removeEventFilter(this);
 }
 
 void ImagingPlanner::openOptionsMenu()
@@ -1516,6 +1539,8 @@ bool ImagingPlanner::scrollToName(const QString &name)
 
 void ImagingPlanner::searchSlot()
 {
+    if (m_loadingCatalog)
+        return;
     QString origName = ui->SearchText->toPlainText().trimmed();
     QString name = tweakNames(origName);
     ui->SearchText->setPlainText(name);
@@ -2052,7 +2077,6 @@ void ImagingPlanner::loadInitialCatalog()
 void ImagingPlanner::setStatus(const QString &message)
 {
     ui->statusLabel->setText(message);
-    ui->statusLabel->repaint();
 }
 
 void ImagingPlanner::catalogLoaded()
@@ -2100,21 +2124,17 @@ void ImagingPlanner::updateStatus()
         setStatus("");
 }
 
-// This runs when the window gets a show event. Mostly used on first show to load the catalogs.
+// This runs when the window gets a show event.
 void ImagingPlanner::showEvent(QShowEvent *e)
 {
-    // ONLY run for first ever load
-    if (m_initialResultsLoad == false)
+    // ONLY run for first ever show
+    if (m_initialShow == false)
     {
-        initialize();
-        m_initialResultsLoad = true;
+        m_initialShow = true;
+        const int ht = height();
+        resize(1000, ht);
         QWidget::showEvent(e);
     }
-}
-
-void ImagingPlanner::resizeEvent(QResizeEvent *e)
-{
-    QDialog::resizeEvent(e);
 }
 
 //FIXME: On close, we will need to close any open Details/AVT windows
@@ -2269,12 +2289,16 @@ void ImagingPlanner::searchAstrobin()
 
 bool ImagingPlanner::eventFilter(QObject * obj, QEvent * event)
 {
+    if (m_loadingCatalog)
+        return false;
+
     if (m_InitialLoad && event->type() == QEvent::Paint)
     {
         m_InitialLoad = false;
         // Load the initial catalog in another thread.
         setStatus(i18n("Loading Catalogs..."));
         loadInitialCatalog();
+        return false;
     }
 
     // Right click on object in catalog view brings up this menu.
@@ -2398,6 +2422,9 @@ void ImagingPlanner::setDefaultImage()
 
 void ImagingPlanner::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
+    if (m_loadingCatalog)
+        return;
+
     Q_UNUSED(deselected);
     if (selected.indexes().size() == 0)
     {
@@ -3095,6 +3122,9 @@ void ImagingPlanner::loadFromDB()
 
 void ImagingPlanner::loadImagedFile()
 {
+    if (m_loadingCatalog)
+        return;
+
     focusOnTable();
     QString fileName = QFileDialog::getOpenFileName(this,
                        tr("Open Already-Imaged File"), QDir::homePath(), tr("Any files (*)"));
@@ -3215,8 +3245,12 @@ void ImagingPlanner::loadCatalog(const QString &path)
         disconnect(m_LoadCatalogsWatcher);
     });
 #else
+    removeEventFilters();
+    m_loadingCatalog = true;
     loadCatalogFromFile(path);
     catalogLoaded();
+    m_loadingCatalog = false;
+    installEventFilters();
 #endif
 }
 
