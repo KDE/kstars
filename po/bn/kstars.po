@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-10 01:54+0000\n"
+"POT-Creation-Date: 2024-12-11 01:47+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -198,8 +198,8 @@ msgstr ""
 msgid "Visible Satellites"
 msgstr "গ্যালিলীয় উপগ্রহ (এইচ.এস.টি.)"
 
-#: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:241
-#: data/qml/whatisinteresting/wiview.qml:253 dialogs/finddialog.cpp:48
+#: auxiliary/colorscheme.cpp:60 data/qml/whatisinteresting/wiview.qml:243
+#: data/qml/whatisinteresting/wiview.qml:255 dialogs/finddialog.cpp:48
 #: kstarsactions.cpp:1142 kstarslite/dialogs/finddialoglite.cpp:37
 #: kstarslite/qml/modules/TopMenu.qml:178
 #, fuzzy, kde-format, kde-kuit-format
@@ -213,8 +213,8 @@ msgstr "কেন্দ্রে আনো ও অনুসরণ করো"
 msgid "Satellites Labels"
 msgstr "কেন্দ্রে আনো ও অনুসরণ করো"
 
-#: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:526
-#: data/qml/whatisinteresting/wiview.qml:538 dialogs/finddialog.cpp:47
+#: auxiliary/colorscheme.cpp:62 data/qml/whatisinteresting/wiview.qml:528
+#: data/qml/whatisinteresting/wiview.qml:540 dialogs/finddialog.cpp:47
 #: kstarsactions.cpp:1145 kstarslite/dialogs/finddialoglite.cpp:36
 #: kstarslite/qml/modules/TopMenu.qml:169
 #, fuzzy, kde-format, kde-kuit-format
@@ -224,8 +224,8 @@ msgstr "সুপারনোভার অবশিষ্টাংশ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroids)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: auxiliary/colorscheme.cpp:63 data/qml/whatisinteresting/wiview.qml:358
-#: data/qml/whatisinteresting/wiview.qml:370 dialogs/finddialog.cpp:45
+#: auxiliary/colorscheme.cpp:63 data/qml/whatisinteresting/wiview.qml:360
+#: data/qml/whatisinteresting/wiview.qml:372 dialogs/finddialog.cpp:45
 #: kstarslite/dialogs/finddialoglite.cpp:34 options/opssolarsystem.ui:364
 #: tools/conjunctions.cpp:103 tools/obslistwizard.cpp:285
 #: tools/obslistwizard.cpp:411 tools/obslistwizard.cpp:535
@@ -1128,8 +1128,8 @@ msgstr "সৌরজগৎ‍ প্রদর্শক"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #: auxiliary/xplanetimageviewer.cpp:203
-#: data/qml/whatisinteresting/wiview.qml:144
-#: data/qml/whatisinteresting/wiview.qml:156 dialogs/detaildialog.cpp:212
+#: data/qml/whatisinteresting/wiview.qml:146
+#: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
 #: indi/indimount.cpp:793 indi/indimount.cpp:808 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
@@ -1141,7 +1141,7 @@ msgstr "সৌরজগৎ‍ প্রদর্শক"
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:414 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1484 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1507 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1204,8 +1204,8 @@ msgstr "পৃথিবী"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBox)
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #: auxiliary/xplanetimageviewer.cpp:205
-#: data/qml/whatisinteresting/wiview.qml:176
-#: data/qml/whatisinteresting/wiview.qml:188 dialogs/detaildialog.cpp:216
+#: data/qml/whatisinteresting/wiview.qml:178
+#: data/qml/whatisinteresting/wiview.qml:190 dialogs/detaildialog.cpp:216
 #: dialogs/detaildialog.cpp:232 dialogs/detaildialog.cpp:255
 #: dialogs/detaildialog.cpp:270 ekos/scheduler/schedulerjob.cpp:125
 #: options/opssolarsystem.ui:220 printing/detailstable.cpp:145
@@ -1218,8 +1218,8 @@ msgstr "পৃথিবী"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1114 tools/imagingplanner.cpp:1459
-#: tools/imagingplanner.cpp:2572 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1115 tools/imagingplanner.cpp:1482
+#: tools/imagingplanner.cpp:2599 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2188,13 +2188,13 @@ msgstr "অবস্থা"
 msgid "Idle"
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:34 kstarsinit.cpp:468
+#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:468
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "What's up Tonight..."
 msgid "What's Interesting..."
 msgstr "আজ রাতে কি দেখা যাবে..."
 
-#: data/qml/whatisinteresting/wiview.qml:125
+#: data/qml/whatisinteresting/wiview.qml:127
 #, fuzzy, kde-kuit-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "  Object_Name"
@@ -2202,16 +2202,16 @@ msgid "Naked-Eye Objects"
 msgstr "  বস্তুর_নাম"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: data/qml/whatisinteresting/wiview.qml:210
-#: data/qml/whatisinteresting/wiview.qml:222 tools/conjunctions.cpp:101
+#: data/qml/whatisinteresting/wiview.qml:212
+#: data/qml/whatisinteresting/wiview.qml:224 tools/conjunctions.cpp:101
 #: tools/skycalendar.ui:28 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Planets"
 msgstr "গ্রহ"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: data/qml/whatisinteresting/wiview.qml:274
-#: data/qml/whatisinteresting/wiview.qml:286 dialogs/finddialog.cpp:37
+#: data/qml/whatisinteresting/wiview.qml:276
+#: data/qml/whatisinteresting/wiview.qml:288 dialogs/finddialog.cpp:37
 #: kstarslite/dialogs/finddialoglite.cpp:26
 #: kstarslite/qml/modules/TopMenu.qml:141 skyobjects/skyobject.cpp:433
 #: tools/conjunctions.cpp:99 tools/obslistwizard.cpp:405
@@ -2221,14 +2221,14 @@ msgstr "গ্রহ"
 msgid "Stars"
 msgstr "তারা"
 
-#: data/qml/whatisinteresting/wiview.qml:305
-#: data/qml/whatisinteresting/wiview.qml:317 dialogs/finddialog.cpp:46
+#: data/qml/whatisinteresting/wiview.qml:307
+#: data/qml/whatisinteresting/wiview.qml:319 dialogs/finddialog.cpp:46
 #: kstarslite/dialogs/finddialoglite.cpp:35 tools/wutdialog.cpp:102
 #, kde-format, kde-kuit-format
 msgid "Constellations"
 msgstr "তারামণ্ডল"
 
-#: data/qml/whatisinteresting/wiview.qml:338
+#: data/qml/whatisinteresting/wiview.qml:340
 #, fuzzy, kde-kuit-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "  Object_Name"
@@ -2237,8 +2237,8 @@ msgstr "  বস্তুর_নাম"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowComets)
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: data/qml/whatisinteresting/wiview.qml:391
-#: data/qml/whatisinteresting/wiview.qml:403 dialogs/finddialog.cpp:44
+#: data/qml/whatisinteresting/wiview.qml:393
+#: data/qml/whatisinteresting/wiview.qml:405 dialogs/finddialog.cpp:44
 #: kstarslite/dialogs/finddialoglite.cpp:33 options/opssolarsystem.ui:380
 #: tools/conjunctions.cpp:102 tools/obslistwizard.cpp:284
 #: tools/obslistwizard.cpp:409 tools/obslistwizard.cpp:529
@@ -2248,8 +2248,8 @@ msgid "Comets"
 msgstr "ধূমকেতু"
 
 #. i18n: ectx: property (text), item, widget (QListWidget, TypeList)
-#: data/qml/whatisinteresting/wiview.qml:424
-#: data/qml/whatisinteresting/wiview.qml:439 dialogs/finddialog.cpp:43
+#: data/qml/whatisinteresting/wiview.qml:426
+#: data/qml/whatisinteresting/wiview.qml:441 dialogs/finddialog.cpp:43
 #: kstarslite/dialogs/finddialoglite.cpp:32 tools/conjunctions.cpp:108
 #: tools/obslistwizard.cpp:277 tools/obslistwizard.cpp:413
 #: tools/obslistwizard.cpp:482 tools/obslistwizard.cpp:516
@@ -2258,63 +2258,63 @@ msgstr "ধূমকেতু"
 msgid "Galaxies"
 msgstr "ছায়াপথ"
 
-#: data/qml/whatisinteresting/wiview.qml:460
-#: data/qml/whatisinteresting/wiview.qml:472 tools/wutdialog.cpp:101
+#: data/qml/whatisinteresting/wiview.qml:462
+#: data/qml/whatisinteresting/wiview.qml:474 tools/wutdialog.cpp:101
 #, kde-format, kde-kuit-format
 msgid "Nebulae"
 msgstr "নীহারিকা"
 
-#: data/qml/whatisinteresting/wiview.qml:493
-#: data/qml/whatisinteresting/wiview.qml:505
+#: data/qml/whatisinteresting/wiview.qml:495
+#: data/qml/whatisinteresting/wiview.qml:507
 #, fuzzy, kde-kuit-format
 #| msgid "Open Clusters"
 msgid "Clusters"
 msgstr "মুক্ত স্তবক"
 
-#: data/qml/whatisinteresting/wiview.qml:558
+#: data/qml/whatisinteresting/wiview.qml:560
 #, fuzzy, kde-kuit-format
 #| msgid "Import Catalog"
 msgid "Explore Catalogs"
 msgstr "ক্যাটালগ আমদানি করো"
 
-#: data/qml/whatisinteresting/wiview.qml:578
+#: data/qml/whatisinteresting/wiview.qml:580
 #, fuzzy, kde-kuit-format
 #| msgid "OpsCatalog"
 msgid "Messier Catalog"
 msgstr "OpsCatalog"
 
-#: data/qml/whatisinteresting/wiview.qml:611
+#: data/qml/whatisinteresting/wiview.qml:613
 #, fuzzy, kde-kuit-format
 #| msgid "Catalogs"
 msgid "NGC Catalog"
 msgstr "তালিকা"
 
-#: data/qml/whatisinteresting/wiview.qml:644
+#: data/qml/whatisinteresting/wiview.qml:646
 #, fuzzy, kde-kuit-format
 #| msgid "Catalogs"
 msgid "IC Catalog"
 msgstr "তালিকা"
 
-#: data/qml/whatisinteresting/wiview.qml:677
+#: data/qml/whatisinteresting/wiview.qml:679
 #, fuzzy, kde-kuit-format
 #| msgid "OpsCatalog"
 msgid "Sharpless Catalog"
 msgstr "OpsCatalog"
 
-#: data/qml/whatisinteresting/wiview.qml:762
-#: data/qml/whatisinteresting/wiview.qml:1495
+#: data/qml/whatisinteresting/wiview.qml:764
+#: data/qml/whatisinteresting/wiview.qml:1497
 #, kde-kuit-format
 msgid "No Items to display"
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:913
-#: data/qml/whatisinteresting/wiview.qml:937
-#: data/qml/whatisinteresting/wiview.qml:1180
+#: data/qml/whatisinteresting/wiview.qml:915
+#: data/qml/whatisinteresting/wiview.qml:939
+#: data/qml/whatisinteresting/wiview.qml:1182
 #, kde-kuit-format
 msgid "text"
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:980
+#: data/qml/whatisinteresting/wiview.qml:982
 #, fuzzy, kde-kuit-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
@@ -2322,36 +2322,36 @@ msgid "More Details"
 msgstr "বিস্তারিত"
 
 # FIXME
-#: data/qml/whatisinteresting/wiview.qml:1007
+#: data/qml/whatisinteresting/wiview.qml:1009
 #, fuzzy, kde-kuit-format
 #| msgid "Center in Map"
 msgid "Center in Map \n"
 msgstr "মানচিত্রকে কেন্দ্রে আনো"
 
-#: data/qml/whatisinteresting/wiview.qml:1028
+#: data/qml/whatisinteresting/wiview.qml:1030
 #, kde-kuit-format
 msgid " Auto     Track   "
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:1064
+#: data/qml/whatisinteresting/wiview.qml:1066
 #, fuzzy, kde-kuit-format
 #| msgid "Setup Telescopes"
 msgid "Slew Telescope"
 msgstr "দূরবীক্ষণ যন্ত্রকে প্রস্তুত করো"
 
-#: data/qml/whatisinteresting/wiview.qml:1091
+#: data/qml/whatisinteresting/wiview.qml:1093
 #, fuzzy, kde-kuit-format
 msgid "Object Information"
 msgstr "ঋতু সংক্রান্ত তথ্য"
 
-#: data/qml/whatisinteresting/wiview.qml:1094
+#: data/qml/whatisinteresting/wiview.qml:1096
 #, fuzzy, kde-kuit-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Wikipedia Page"
 msgid "Wikipedia Infotext"
 msgstr "উইকিপেডিয়া'র ওয়েবপেজ"
 
-#: data/qml/whatisinteresting/wiview.qml:1317
+#: data/qml/whatisinteresting/wiview.qml:1319
 #, fuzzy, kde-kuit-format
 #| msgid "Info Box Text"
 msgid "Info Text"
@@ -2361,7 +2361,7 @@ msgstr "তথ্যমূলক বাক্সের টেক্সট"
 #. i18n: ectx: property (text), widget (QPushButton, remoteEquipmentNextB)
 #. i18n: ectx: property (text), widget (QPushButton, stellarMateEquipmentNextB)
 #. i18n: ectx: property (text), widget (QPushButton, NextButton)
-#: data/qml/whatisinteresting/wiview.qml:1381 ekos/profilewizard.ui:252
+#: data/qml/whatisinteresting/wiview.qml:1383 ekos/profilewizard.ui:252
 #: ekos/profilewizard.ui:638 ekos/profilewizard.ui:755
 #: kstarslite/qml/modules/tutorial/TutorialPane.qml:50
 #: tools/starhopperdialog.ui:53
@@ -2370,25 +2370,25 @@ msgstr "তথ্যমূলক বাক্সের টেক্সট"
 msgid "Next"
 msgstr "&পরবর্তী"
 
-#: data/qml/whatisinteresting/wiview.qml:1458
+#: data/qml/whatisinteresting/wiview.qml:1460
 #, fuzzy, kde-kuit-format
 #| msgid "CCD Preview"
 msgid "Previous"
 msgstr "সি.সি.ডি.-এর প্রাকদর্শন"
 
-#: data/qml/whatisinteresting/wiview.qml:1562
+#: data/qml/whatisinteresting/wiview.qml:1564
 #, fuzzy, kde-kuit-format
 #| msgid "&Download Data..."
 msgid "Loading..."
 msgstr "তথ্য ডাউনলো&ড করো..."
 
-#: data/qml/whatisinteresting/wiview.qml:1593
+#: data/qml/whatisinteresting/wiview.qml:1595
 #, fuzzy, kde-kuit-format
 #| msgid "What's up Tonight..."
 msgid "Explanation of the What's Interesting Panel"
 msgstr "আজ রাতে কি দেখা যাবে..."
 
-#: data/qml/whatisinteresting/wiview.qml:1608
+#: data/qml/whatisinteresting/wiview.qml:1610
 #, kde-kuit-format
 msgid ""
 "The What's Interesting Panel is intended to allow you to explore many "
@@ -2405,7 +2405,7 @@ msgid ""
 "buttons at the bottom do."
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:1631
+#: data/qml/whatisinteresting/wiview.qml:1633
 #, kde-kuit-format
 msgid ""
 "This button will bring up the What's Interesting Settings. It will let you "
@@ -2413,7 +2413,7 @@ msgid ""
 "you are using and the observing conditions."
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:1653
+#: data/qml/whatisinteresting/wiview.qml:1655
 #, kde-kuit-format
 msgid ""
 "This button will turn on and off the Inspector Mode.  In this mode you can "
@@ -2421,7 +2421,7 @@ msgid ""
 "information about it."
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:1675
+#: data/qml/whatisinteresting/wiview.qml:1677
 #, kde-kuit-format
 msgid ""
 "This button will reload the current object list, update all displayed "
@@ -2429,7 +2429,7 @@ msgid ""
 "the currently selected object."
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:1697
+#: data/qml/whatisinteresting/wiview.qml:1699
 #, kde-kuit-format
 msgid ""
 "This button will toggle whether to filter the list to display only currently "
@@ -2439,7 +2439,7 @@ msgid ""
 "What's Interesting Settings."
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:1719
+#: data/qml/whatisinteresting/wiview.qml:1721
 #, kde-kuit-format
 msgid ""
 "This button will toggle whether to filter the list to display only "
@@ -2449,7 +2449,7 @@ msgid ""
 "'interesting' list."
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:1741
+#: data/qml/whatisinteresting/wiview.qml:1743
 #, kde-kuit-format
 msgid ""
 "This button will attempt to download information and pictures about the "
@@ -2461,7 +2461,7 @@ msgid ""
 "objects in the list, turn off the filters."
 msgstr ""
 
-#: data/qml/whatisinteresting/wiview.qml:1779
+#: data/qml/whatisinteresting/wiview.qml:1781
 #, fuzzy, kde-kuit-format
 #| msgid "&Back"
 msgid "Back"
@@ -2820,7 +2820,7 @@ msgstr "ব্রাউজ করবে না"
 msgid "Show webpage about "
 msgstr "এই বিষয়ের ওপর ওয়েবপেজ প্রদর্শন করো - "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2715
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2742
 #, kde-format
 msgid "object"
 msgstr "বস্তু"
@@ -2951,7 +2951,7 @@ msgstr "ছবি পরিবর্তনের জন্য ক্লিক �
 msgid "Degrees"
 msgstr "এভারগ্রিন"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1114
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1115
 #, fuzzy, kde-format
 #| msgid "hour"
 msgid "Hours"
@@ -3005,7 +3005,7 @@ msgstr "টেক্সট"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2251 tools/imagingplanner.cpp:1114
+#: ekos/capture/camera.ui:2251 tools/imagingplanner.cpp:1115
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3392,7 +3392,7 @@ msgstr "উজ্জ্বলতা"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1114 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1115 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -30178,7 +30178,7 @@ msgid "Distance"
 msgstr "দূরত্ব:"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1114
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1115
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
@@ -87317,8 +87317,8 @@ msgid "Object Set"
 msgstr "খ-বস্তু"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2589
-#: tools/imagingplanner.cpp:2600 tools/imagingplanner.cpp:2615
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2616
+#: tools/imagingplanner.cpp:2627 tools/imagingplanner.cpp:2642
 #, fuzzy, kde-format
 msgid "Transit"
 msgstr "অতিক্রম কাল:"
@@ -88432,251 +88432,251 @@ msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "ডিয়ের মানমন্দির"
 
-#: tools/imagingplanner.cpp:1114
+#: tools/imagingplanner.cpp:1115
 #, fuzzy, kde-format
 #| msgctxt "Altitude"
 #| msgid "Alt"
 msgid "Alt"
 msgstr "উন্নতি"
 
-#: tools/imagingplanner.cpp:1115
+#: tools/imagingplanner.cpp:1116
 #, fuzzy, kde-format
 msgid "Const"
 msgstr "কনকর্ড"
 
-#: tools/imagingplanner.cpp:1115
+#: tools/imagingplanner.cpp:1116
 #, fuzzy, kde-format
 msgid "Coord"
 msgstr "সমস্যাযুক্ত স্থানাংক"
 
-#: tools/imagingplanner.cpp:1117
+#: tools/imagingplanner.cpp:1118
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1119
+#: tools/imagingplanner.cpp:1120
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1121
+#: tools/imagingplanner.cpp:1122
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1123
+#: tools/imagingplanner.cpp:1124
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1125
+#: tools/imagingplanner.cpp:1126
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1127
+#: tools/imagingplanner.cpp:1128
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1129
+#: tools/imagingplanner.cpp:1130
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1131
+#: tools/imagingplanner.cpp:1132
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1526
+#: tools/imagingplanner.cpp:1551
 #, fuzzy, kde-format
 #| msgid "Almanac"
 msgid "No match for \"%1\""
 msgstr "পঞ্জিকা"
 
-#: tools/imagingplanner.cpp:1590
+#: tools/imagingplanner.cpp:1615
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1595
+#: tools/imagingplanner.cpp:1620
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1600
+#: tools/imagingplanner.cpp:1625
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1850
+#: tools/imagingplanner.cpp:1875
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Updating tables..."
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: tools/imagingplanner.cpp:2045
+#: tools/imagingplanner.cpp:2070
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "See Data -> Download New Data..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2046
+#: tools/imagingplanner.cpp:2071
 #, fuzzy, kde-format
 #| msgid "Catalogs"
 msgid "No Catalog!"
 msgstr "তালিকা"
 
-#: tools/imagingplanner.cpp:2093
+#: tools/imagingplanner.cpp:2117
 #, fuzzy, kde-format
 msgid "Select an object."
 msgstr "বস্তুর ধরন নির্বাচন করুন:"
 
-#: tools/imagingplanner.cpp:2095
+#: tools/imagingplanner.cpp:2119
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2097
+#: tools/imagingplanner.cpp:2121
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Load a Catalog."
 msgstr "ক্যাটালগ লোড করো..."
 
-#: tools/imagingplanner.cpp:2276
+#: tools/imagingplanner.cpp:2299
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Loading Catalogs..."
 msgstr "ক্যাটালগ লোড করো..."
 
-#: tools/imagingplanner.cpp:2578
+#: tools/imagingplanner.cpp:2605
 #, fuzzy, kde-format
 msgid "Transits"
 msgstr "অতিক্রম কাল:"
 
-#: tools/imagingplanner.cpp:2583 tools/imagingplanner.cpp:2587
+#: tools/imagingplanner.cpp:2610 tools/imagingplanner.cpp:2614
 #, fuzzy, kde-format
 #| msgid "Sets at: %1"
 msgid "Sets at"
 msgstr "অস্ত: %1"
 
-#: tools/imagingplanner.cpp:2594 tools/imagingplanner.cpp:2598
+#: tools/imagingplanner.cpp:2621 tools/imagingplanner.cpp:2625
 #, fuzzy, kde-format
 #| msgid "Rises at: %1"
 msgid "Rises at"
 msgstr "উদয়: %1"
 
-#: tools/imagingplanner.cpp:2605 tools/imagingplanner.cpp:2611
+#: tools/imagingplanner.cpp:2632 tools/imagingplanner.cpp:2638
 #, fuzzy, kde-format
 msgid "Rises"
 msgstr "উদয়ের সময়:"
 
-#: tools/imagingplanner.cpp:2607 tools/imagingplanner.cpp:2613
+#: tools/imagingplanner.cpp:2634 tools/imagingplanner.cpp:2640
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2717 tools/imagingplanner.cpp:2973
+#: tools/imagingplanner.cpp:2744 tools/imagingplanner.cpp:3000
 #, fuzzy, kde-format
 #| msgid "object"
 msgid "objects"
 msgstr "বস্তু"
 
-#: tools/imagingplanner.cpp:2969
+#: tools/imagingplanner.cpp:2996
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2977 tools/imagingplanner.cpp:2981
+#: tools/imagingplanner.cpp:3004 tools/imagingplanner.cpp:3008
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2978 tools/imagingplanner.cpp:2983
+#: tools/imagingplanner.cpp:3005 tools/imagingplanner.cpp:3010
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2987 tools/imagingplanner.cpp:2991
+#: tools/imagingplanner.cpp:3014 tools/imagingplanner.cpp:3018
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2988 tools/imagingplanner.cpp:2993
+#: tools/imagingplanner.cpp:3015 tools/imagingplanner.cpp:3020
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2998 tools/imagingplanner.cpp:3003
+#: tools/imagingplanner.cpp:3025 tools/imagingplanner.cpp:3030
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop ignoring %1"
 msgstr "&অনুসরণ বন্ধ করো"
 
-#: tools/imagingplanner.cpp:2999 tools/imagingplanner.cpp:3005
+#: tools/imagingplanner.cpp:3026 tools/imagingplanner.cpp:3032
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "অগ্রাহ্য"
 
 # FIXME
-#: tools/imagingplanner.cpp:3008
+#: tools/imagingplanner.cpp:3035
 #, fuzzy, kde-format
 #| msgid "Center in Map"
 msgid "Center %1 on SkyMap"
 msgstr "মানচিত্রকে কেন্দ্রে আনো"
 
-#: tools/imagingplanner.cpp:3144
+#: tools/imagingplanner.cpp:3174
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Successfully marked %1 objects as read"
 msgstr "INDI সার্ভার চালু করা যাচ্ছে না : পোর্ট ত্রুটি।"
 
-#: tools/imagingplanner.cpp:3146
+#: tools/imagingplanner.cpp:3176
 #, fuzzy, kde-format
 msgid "Empty file"
 msgstr "ইনপুট ফাইল..."
 
-#: tools/imagingplanner.cpp:3155
+#: tools/imagingplanner.cpp:3185
 #, fuzzy, kde-format
 #| msgid "Add time stamp to the file name"
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "ফাইলের নামের সাথে টাইম স্ট্যাম্প যোগ করো"
 
-#: tools/imagingplanner.cpp:3157
+#: tools/imagingplanner.cpp:3187
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3159
+#: tools/imagingplanner.cpp:3189
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3162
+#: tools/imagingplanner.cpp:3192
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3168 tools/imagingplanner.cpp:3363
+#: tools/imagingplanner.cpp:3198 tools/imagingplanner.cpp:3397
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "%1 নামক ফাইলটি খোলা যায় নি"
 
-#: tools/imagingplanner.cpp:3270
+#: tools/imagingplanner.cpp:3304
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3344
+#: tools/imagingplanner.cpp:3378
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
