@@ -3318,7 +3318,7 @@ void Camera::setupFilterManager()
     // Set the filter manager for this filter wheel.
     Manager::Instance()->getFilterManager(devices()->filterWheel()->getDeviceName(), m_FilterManager);
 
-    devices()->setFilterManager(filterManager());
+    devices()->setFilterManager(m_FilterManager);
 
     connect(filterManager().get(), &FilterManager::updated, this, [this]()
     {
