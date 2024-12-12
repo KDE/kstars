@@ -849,7 +849,12 @@ void FilterManager::setFocusStatus(Ekos::FocusState focusState)
 
 bool FilterManager::syncAbsoluteFocusPosition(int index)
 {
-    if (index < 0 || index > m_ActiveFilters.count())
+    if (m_FocusReady == false)
+    {
+        qCWarning(KSTARS_INDI) << __FUNCTION__ << "No Focuser detected.";
+        return true;
+    }
+    else if (index < 0 || index > m_ActiveFilters.count())
     {
         // We've been asked to set the focus position but something's wrong because
         // the passed in filter index is bad. Give up and return true - returning false
