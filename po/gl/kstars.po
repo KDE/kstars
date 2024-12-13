@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-11 01:47+0000\n"
-"PO-Revision-Date: 2024-12-08 15:32+0100\n"
+"PO-Revision-Date: 2024-12-12 20:00+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -9853,6 +9853,7 @@ msgstr "Estacionando a montaxe…"
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr "Agarde ata que a montura complete a rotación a α (%1) δ (%2)"
 
+# skip-rule: trasno-find_reverse
 #: ekos/align/polaralignmentassistant.cpp:898
 #: ekos/align/polaralignmentassistant.cpp:904
 #, kde-format
@@ -19212,7 +19213,7 @@ msgstr "Non foi posíbel detectar ningunha estrela. Interrompendo…"
 #: ekos/focus/focus.cpp:3452
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
-msgstr "Atopar a posición inicial: superáronse as iteracións máximas, %1."
+msgstr "Buscar a posición inicial: superáronse as iteracións máximas, %1."
 
 #: ekos/focus/focus.cpp:3470
 #, kde-format
@@ -19912,6 +19913,7 @@ msgstr "Detectáronse estrelas, o centro do alcance é %1."
 msgid "Stars detected, range centre %1"
 msgstr "Detectáronse estrelas, o centro do alcance é %1."
 
+# skip-rule: trasno-find
 #: ekos/focus/focusadvisor.cpp:764
 #, kde-format
 msgid "Focus Advisor Find Stars completed"
@@ -19958,6 +19960,7 @@ msgstr "Execución %1 de atopar estrelas: non foi posíbel atopar ningunha."
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr "Execución %1, sector %2 de atopar estrelas: buscando %3/%4."
 
+# skip-rule: trasno-find
 #: ekos/focus/focusadvisor.cpp:941
 #, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
