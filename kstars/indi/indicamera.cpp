@@ -150,6 +150,20 @@ void Camera::registerProperty(INDI::Property prop)
             m_CaptureFormatIndex = sp->findOnSwitchIndex();
         }
     }
+    else if (prop.isNameMatch("CCD_STREAM_ENCODER"))
+    {
+        auto sp = prop.getSwitch();
+        if (sp)
+        {
+            m_StreamEncodings.clear();
+            for (const auto &oneSwitch : *sp)
+                m_StreamEncodings << oneSwitch.getLabel();
+
+            auto format = sp->findOnSwitch();
+            if (format)
+                m_StreamEncoding = format->label;
+        }
+    }
     else if (prop.isNameMatch("CCD_TRANSFER_FORMAT"))
     {
         auto sp = prop.getSwitch();
@@ -162,6 +176,20 @@ void Camera::registerProperty(INDI::Property prop)
             auto format = sp->findOnSwitch();
             if (format)
                 m_EncodingFormat = format->label;
+        }
+    }
+    else if (prop.isNameMatch("CCD_STREAM_RECORDER"))
+    {
+        auto sp = prop.getSwitch();
+        if (sp)
+        {
+            m_VideoFormats.clear();
+            for (const auto &oneSwitch : *sp)
+                m_VideoFormats << oneSwitch.getLabel();
+
+            auto format = sp->findOnSwitch();
+            if (format)
+                m_StreamRecording = format->label;
         }
     }
     else if (prop.isNameMatch("CCD_EXPOSURE_PRESETS"))
@@ -368,10 +396,8 @@ void Camera::processSwitch(INDI::Property prop)
 
         HasVideoStream = true;
 
-        if (!streamWindow && svp->sp[0].s == ISS_ON)
+        if (svp->sp[0].s == ISS_ON)
         {
-            streamWindow.reset(new StreamWG(this));
-
             INumberVectorProperty *streamFrame = getNumber("CCD_STREAM_FRAME");
             INumber *w = nullptr, *h = nullptr;
 
@@ -402,17 +428,11 @@ void Camera::processSwitch(INDI::Property prop)
                 }
             }
 
-            streamWindow->setSize(streamW, streamH);
+            emit updateVideoWindow(streamW, streamH, svp->sp[0].s == ISS_ON);
         }
 
-        if (streamWindow)
-        {
-            connect(streamWindow.get(), &StreamWG::hidden, this, &Camera::StreamWindowHidden, Qt::UniqueConnection);
-            connect(streamWindow.get(), &StreamWG::imageChanged, this, &Camera::newVideoFrame, Qt::UniqueConnection);
-
-            streamWindow->enableStream(svp->sp[0].s == ISS_ON);
-            emit videoStreamToggled(svp->sp[0].s == ISS_ON);
-        }
+        m_isStreamEnabled = (svp->sp[0].s == ISS_ON);
+        emit videoStreamToggled(m_isStreamEnabled);
     }
     else if (svp->isNameMatch("CCD_CAPTURE_FORMAT"))
     {
@@ -437,11 +457,16 @@ void Camera::processSwitch(INDI::Property prop)
         if (recordOFF && recordOFF->s == ISS_ON)
         {
             emit videoRecordToggled(false);
-            KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Stopped"), KSNotification::INDI);
+            if (m_isStreamEnabled)
+            {
+                m_isStreamEnabled = false;
+                KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Stopped"), KSNotification::INDI);
+            }
         }
-        else
+        else if (m_isStreamEnabled == false)
         {
             emit videoRecordToggled(true);
+            m_isStreamEnabled = true;
             KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Video Recording Started"), KSNotification::INDI);
         }
     }
@@ -463,13 +488,8 @@ void Camera::processSwitch(INDI::Property prop)
 
         if (dSwitch && dSwitch->getState() == ISS_ON)
         {
-            if (streamWindow)
-            {
-                streamWindow->enableStream(false);
-                emit videoStreamToggled(false);
-                streamWindow->close();
-                streamWindow.reset();
-            }
+            emit videoStreamToggled(false);
+            emit closeVideoWindow();
 
             // Clear the pointers on disconnect.
             gainN = nullptr;
@@ -509,7 +529,7 @@ void Camera::setWSBLOB(const QByteArray &message, const QString &extension)
 
 void Camera::processStream(INDI::Property prop)
 {
-    if (!streamWindow || streamWindow->isStreamEnabled() == false)
+    if (m_isStreamEnabled == false)
         return;
 
     INumberVectorProperty *streamFrame = getNumber("CCD_STREAM_FRAME");
@@ -537,10 +557,7 @@ void Camera::processStream(INDI::Property prop)
         streamH = h / biny;
     }
 
-    streamWindow->setSize(streamW, streamH);
-
-    streamWindow->show();
-    streamWindow->newFrame(prop);
+    emit showVideoFrame(prop, streamW, streamH);
 }
 
 void ISD::Camera::updateFileBuffer(INDI::Property prop, bool is_fits)
@@ -619,8 +636,8 @@ bool Camera::processBLOB(INDI::Property prop)
     {
         if (m_StreamingEnabled == false)
             return true;
-        else if (streamWindow)
-            processStream(prop);
+
+        processStream(prop);
         return true;
     }
 
@@ -723,9 +740,6 @@ void Camera::StreamWindowHidden()
             sendNewProperty(streamSP);
         }
     }
-
-    if (streamWindow)
-        streamWindow->disconnect();
 }
 
 bool Camera::hasGuideHead()
@@ -1008,6 +1022,56 @@ bool Camera::setEncodingFormat(const QString &value)
     return true;
 }
 
+bool Camera::setStreamEncoding(const QString &value)
+{
+    if (value.isEmpty() || value == m_StreamEncoding)
+        return true;
+
+    auto svp = getSwitch("CCD_STREAM_ENCODER");
+
+    if (!svp)
+        return false;
+
+    svp->reset();
+    for (int i = 0; i < svp->nsp; i++)
+    {
+        if (svp->at(i)->getLabel() == value)
+        {
+            svp->at(i)->setState(ISS_ON);
+            break;
+        }
+    }
+
+    m_StreamEncoding = value;
+    sendNewProperty(svp);
+    return true;
+}
+
+bool Camera::setStreamRecording(const QString &value)
+{
+    if (value.isEmpty() || value == m_StreamRecording)
+        return true;
+
+    auto svp = getSwitch("CCD_STREAM_RECORDER");
+
+    if (!svp)
+        return false;
+
+    svp->reset();
+    for (int i = 0; i < svp->nsp; i++)
+    {
+        if (svp->at(i)->getLabel() == value)
+        {
+            svp->at(i)->setState(ISS_ON);
+            break;
+        }
+    }
+
+    m_StreamRecording = value;
+    sendNewProperty(svp);
+    return true;
+}
+
 bool Camera::setTelescopeType(TelescopeType type)
 {
     if (type == telescopeType)
@@ -1042,6 +1106,8 @@ bool Camera::setVideoStreamEnabled(bool enable)
 {
     if (HasVideoStream == false)
         return false;
+
+    m_isStreamEnabled = enable;
 
     auto svp = getSwitch("CCD_VIDEO_STREAM");
 
@@ -1152,10 +1218,7 @@ bool Camera::setStreamingFrame(int x, int y, int w, int h)
 
 bool Camera::isStreamingEnabled()
 {
-    if (HasVideoStream == false || !streamWindow)
-        return false;
-
-    return streamWindow->isStreamEnabled();
+    return (HasVideoStream && m_isStreamEnabled);
 }
 
 bool Camera::setSERNameDirectory(const QString &filename, const QString &directory)

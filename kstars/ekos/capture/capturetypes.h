@@ -8,6 +8,7 @@
 
 #include <QMap>
 
+#define CAPTURE_TYPE_VIDEO "Video"
 namespace Ekos
 {
 

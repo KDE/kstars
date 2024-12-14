@@ -19,6 +19,7 @@
 #include "indi/indirotator.h"
 #include "indi/blobmanager.h"
 #include "indi/indilightbox.h"
+#include "indi/streamwg.h"
 #include "ksmessagebox.h"
 #include "kstars.h"
 
@@ -179,9 +180,13 @@ bool CameraProcess::setCamera(ISD::Camera *device)
     if (state()->getCaptureTimeout().isActive() && state()->getCaptureState() == CAPTURE_CAPTURING)
         QTimer::singleShot(100, this, &CameraProcess::processCaptureTimeout);
 
-    // enable passing through new frames to the FITS viewer
     if (activeCamera())
+    {
+        // enable passing through new frames to the FITS viewer
         connect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::showFITSPreview);
+        // listen to video streaming
+        connect(device, &ISD::Camera::updateVideoWindow, this, &CameraProcess::updateVideoWindow);
+    }
 
     return true;
 
@@ -189,30 +194,39 @@ bool CameraProcess::setCamera(ISD::Camera *device)
 
 void CameraProcess::toggleVideo(bool enabled)
 {
-    if (devices()->getActiveCamera() == nullptr)
+    if (devices() == nullptr || devices()->getActiveCamera() == nullptr)
         return;
 
-    if (devices()->getActiveCamera()->isBLOBEnabled() == false)
+    // override and read the state from the active camera
+    enabled = devices()->getActiveCamera()->isStreamingEnabled();
+
+    if (enabled)
+        getVideoWindow()->close();
+    else
     {
-        if (Options::guiderType() != Guide::GUIDE_INTERNAL)
-            devices()->getActiveCamera()->setBLOBEnabled(true);
-        else
+        if (devices()->getActiveCamera()->isBLOBEnabled() == false)
         {
-            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, enabled]()
-            {
-                KSMessageBox::Instance()->disconnect(this);
+            if (Options::guiderType() != Guide::GUIDE_INTERNAL)
                 devices()->getActiveCamera()->setBLOBEnabled(true);
-                devices()->getActiveCamera()->setVideoStreamEnabled(enabled);
-            });
+            else
+            {
+                connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this]()
+                {
+                    KSMessageBox::Instance()->disconnect(this);
+                    devices()->getActiveCamera()->setBLOBEnabled(true);
+                    devices()->getActiveCamera()->setVideoStreamEnabled(true);
+                });
 
-            KSMessageBox::Instance()->questionYesNo(i18n("Image transfer is disabled for this camera. Would you like to enable it?"),
-                                                    i18n("Image Transfer"), 15);
+                KSMessageBox::Instance()->questionYesNo(i18n("Image transfer is disabled for this camera. Would you like to enable it?"),
+                                                        i18n("Image Transfer"), 15);
 
-            return;
+                return;
+            }
         }
-    }
 
-    devices()->getActiveCamera()->setVideoStreamEnabled(enabled);
+        // turn on streaming
+        devices()->getActiveCamera()->setVideoStreamEnabled(true);
+    }
 
 }
 
@@ -572,17 +586,27 @@ void CameraProcess::prepareJob(SequenceJob * job)
         }
         else
         {
-            // There are captures to process
-            emit newLog(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
-                             QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                             job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
-                             activeJob()->getCompleted(),
-                             activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+            if (activeJob()->getFrameType() != FRAME_VIDEO)
+            {
+                // There are captures to process
+                emit newLog(i18n("Job requires %1-second %2 images, has %3/%4 frames captured and will be processed.",
+                                 QString("%L1").arg(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                                 job->getCoreProperty(SequenceJob::SJ_Filter).toString(),
+                                 activeJob()->getCompleted(),
+                                 activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
 
-            // Emit progress update - done a few lines below
-            // emit newImage(nullptr, activeJob());
+                // Emit progress update - done a few lines below
+                // emit newImage(nullptr, activeJob());
 
-            activeCamera()->setNextSequenceID(state()->nextSequenceID());
+                activeCamera()->setNextSequenceID(state()->nextSequenceID());
+            }
+            else
+            {
+                emit newLog(i18n("Job requires %1 x %2-second %3 video and will be processed.",
+                                 activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt(),
+                                 QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                                 activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()));
+            }
         }
     }
 
@@ -1199,6 +1223,7 @@ void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const 
             }
             break;
         case FRAME_LIGHT:
+        case FRAME_VIDEO:
             // do nothing, continue
             break;
         case FRAME_NONE:
@@ -1291,6 +1316,7 @@ IPState CameraProcess::processPreCaptureCalibrationStage()
         case FRAME_BIAS:
         case FRAME_DARK:
         case FRAME_NONE:
+        case FRAME_VIDEO:
             // no actions necessary
             break;
     }
@@ -2560,6 +2586,52 @@ void CameraProcess::updateFITSViewer(const QSharedPointer<FITSData> data, ISD::C
     updateFITSViewer(data, captureMode, captureFilter, filename, data->property("device").toString());
 }
 
+QSharedPointer<StreamWG> CameraProcess::getVideoWindow()
+{
+    // lazy initialization
+    if (m_VideoWindow.isNull() && activeCamera() != nullptr)
+    {
+        m_VideoWindow.reset(new StreamWG(activeCamera()));
+
+        connect(m_VideoWindow.get(), &StreamWG::hidden, activeCamera(), &ISD::Camera::StreamWindowHidden, Qt::UniqueConnection);
+        connect(m_VideoWindow.get(), &StreamWG::imageChanged, activeCamera(), &ISD::Camera::newVideoFrame, Qt::UniqueConnection);
+
+        connect(activeCamera(), &ISD::Camera::videoRecordToggled, m_VideoWindow.get(), &StreamWG::enableStream,
+                Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::showVideoFrame, this, &CameraProcess::showVideoFrame, Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::closeVideoWindow, this, &CameraProcess::closeVideoWindow, Qt::UniqueConnection);
+    }
+
+    return m_VideoWindow;
+}
+
+void CameraProcess::updateVideoWindow(int width, int height, bool streamEnabled)
+{
+    getVideoWindow()->enableStream(streamEnabled);
+
+    if (width > 0 && height > 0)
+        getVideoWindow()->setSize(width, height);
+
+}
+
+void CameraProcess::closeVideoWindow()
+{
+    if (m_VideoWindow.isNull())
+        return;
+
+    m_VideoWindow->close();
+}
+
+void CameraProcess::showVideoFrame(INDI::Property prop, int width, int height)
+{
+    if (!getVideoWindow().isNull() && getVideoWindow()->isStreamEnabled())
+    {
+        getVideoWindow()->setSize(width, height);
+        getVideoWindow()->show();
+        getVideoWindow()->newFrame(prop);
+    }
+}
+
 bool CameraProcess::loadSequenceQueue(const QString &fileURL,
                                       const QString &targetName, bool setOptions)
 {
@@ -2601,6 +2673,8 @@ void CameraProcess::setCamera(bool connection)
         connect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::processFITSData, Qt::UniqueConnection);
         connect(activeCamera(), &ISD::Camera::newRemoteFile, this, &CameraProcess::processNewRemoteFile, Qt::UniqueConnection);
         connect(activeCamera(), &ISD::Camera::ready, this, &CameraProcess::cameraReady, Qt::UniqueConnection);
+        connect(activeCamera(), &ISD::Camera::videoRecordToggled, this, &CameraProcess::updateVideoRecordStatus,
+                Qt::UniqueConnection);
         // disable passing through new frames to the FITS viewer
         disconnect(activeCamera(), &ISD::Camera::newImage, this, &CameraProcess::showFITSPreview);
     }
@@ -2733,6 +2807,21 @@ void CameraProcess::updatedCaptureCompleted(int count)
     emit updateJobTable(activeJob());
 }
 
+void CameraProcess::updateVideoRecordStatus(bool enabled)
+{
+    // do nothing if no active job is present
+    if (activeJob() == nullptr)
+        return;
+
+    qCInfo(KSTARS_EKOS_CAPTURE) << "Video recording" << (enabled ? "started." : "stopped.");
+    // video capturing job is completed
+    if (enabled == false)
+    {
+        updatedCaptureCompleted(activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt());
+        processJobCompletion1();
+    }
+}
+
 void CameraProcess::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
 {
     double bot;
@@ -2825,7 +2914,11 @@ QStringList CameraProcess::frameTypes()
 
     ISD::CameraChip *tChip = devices()->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD);
 
-    return tChip->getFrameTypes();
+    QStringList types = tChip->getFrameTypes();
+    if (devices()->getActiveCamera()->hasVideoStream())
+        types.append(CAPTURE_TYPE_VIDEO);
+
+    return types;
 }
 
 QStringList CameraProcess::filterLabels()
@@ -2907,7 +3000,7 @@ void CameraProcess::updateOffset(double value, QMap<QString, QMap<QString, QVari
 QSharedPointer<FITSViewer> CameraProcess::getFITSViewer()
 {
     // if the FITS viewer exists, return it
-    if (!m_FITSViewerWindow.isNull() && ! m_FITSViewerWindow.isNull())
+    if (!m_FITSViewerWindow.isNull())
         return m_FITSViewerWindow;
 
     // otherwise, create it

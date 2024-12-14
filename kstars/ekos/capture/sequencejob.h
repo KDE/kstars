@@ -310,6 +310,11 @@ class SequenceJob : public QObject
             return state->getFrameType();
         }
 
+        bool isVideo() const
+        {
+            return state->getFrameType() == FRAME_VIDEO;
+        }
+
         int getTargetFilter() const
         {
             return state->targetFilterID;
@@ -463,6 +468,10 @@ private:
          * @brief filterLabels list of currently available filter labels
          */
         QStringList filterLabels() const;
+        /**
+         * @brief setCameraProperties Set all camera device properties required for capturing
+         */
+        QString setCameraDeviceProperties();
 
         //////////////////////////////////////////////////////////////
         /// State machines encapsulating the state of this capture sequence job

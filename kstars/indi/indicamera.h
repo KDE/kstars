@@ -160,6 +160,24 @@ class Camera : public ConcreteDevice
         {
             return m_EncodingFormats;
         }
+        const QString &getStreamEncoding() const
+        {
+            return m_StreamEncoding;
+        }
+        bool setStreamEncoding(const QString &value);
+        const QStringList &getStreamEncodings() const
+        {
+            return m_StreamEncodings;
+        }
+        const QString &getStreamRecording() const
+        {
+            return m_StreamRecording;
+        }
+        bool setStreamRecording(const QString &value);
+        const QStringList &getVideoFormats() const
+        {
+            return m_VideoFormats;
+        }
 
         // Capture Format
         const QStringList &getCaptureFormats() const
@@ -242,7 +260,10 @@ class Camera : public ConcreteDevice
         void coolerToggled(bool enabled);
         void error(ErrorType type);
         // Video
+        void updateVideoWindow(int width, int height, bool streamEnabled);
+        void closeVideoWindow();
         void videoStreamToggled(bool enabled);
+        void showVideoFrame(INDI::Property prop, int width, int height);
         void videoRecordToggled(bool enabled);
         void newFPS(double instantFPS, double averageFPS);
         void newVideoFrame(const QSharedPointer<QImage> &frame);
@@ -260,11 +281,11 @@ class Camera : public ConcreteDevice
         bool CanCool { false };
         bool HasCoolerControl { false };
         bool HasVideoStream { false };
+        bool m_isStreamEnabled { false };
         bool m_FastExposureEnabled { false };
         QString seqPrefix;
 
         int nextSequenceID { 0 };
-        std::unique_ptr<StreamWG> streamWindow;
         int streamW { 0 };
         int streamH { 0 };
         int normalTabID { -1 };
@@ -279,8 +300,12 @@ class Camera : public ConcreteDevice
         std::unique_ptr<CameraChip> guideChip;
         std::unique_ptr<WSMedia> m_Media;
         QString m_EncodingFormat {"FITS"};
+        QString m_StreamEncoding {"RAW"};
+        QString m_StreamRecording {"SER"};
         QStringList m_EncodingFormats;
+        QStringList m_StreamEncodings;
         QStringList m_CaptureFormats;
+        QStringList m_VideoFormats;
         bool m_StreamingEnabled {true};
         int m_CaptureFormatIndex {-1};
         TelescopeType telescopeType { TELESCOPE_UNKNOWN };

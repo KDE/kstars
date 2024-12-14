@@ -201,28 +201,13 @@ void SequenceJob::startCapturing(bool autofocusReady, FITSMode mode)
     state->initCapture(getFrameType(), jobType() == SequenceJob::JOBTYPE_PREVIEW, autofocusReady, mode);
 }
 
-void SequenceJob::capture(FITSMode mode)
+QString SequenceJob::setCameraDeviceProperties()
 {
-    if (!devices.data()->getActiveCamera() || !devices.data()->getActiveChip())
-        return;
-
     // initialize the log entry
     QString logentry = QString("Capture exposure = %1 sec, type = %2").arg(getCoreProperty(SJ_Exposure).toDouble()).arg(
                            CCDFrameTypeNames[getFrameType()]);
     logentry.append(QString(", filter = %1, upload mode = %2").arg(getCoreProperty(SJ_Filter).toString()).arg(getUploadMode()));
 
-    devices.data()->getActiveChip()->setBatchMode(jobType() != SequenceJob::JOBTYPE_PREVIEW);
-    devices.data()->getActiveCamera()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
-    logentry.append(QString(", batch mode = %1, seq prefix = %2").arg(jobType() != SequenceJob::JOBTYPE_PREVIEW ? "true" :
-                    "false").arg(getCoreProperty(SJ_FullPrefix).toString()));
-
-    if (jobType() == SequenceJob::JOBTYPE_PREVIEW)
-    {
-        if (devices.data()->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
-            devices.data()->getActiveCamera()->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
-    }
-    else
-        devices.data()->getActiveCamera()->setUploadMode(m_UploadMode);
 
     QMapIterator<QString, QMap<QString, QVariant>> i(m_CustomProperties);
     while (i.hasNext())
@@ -281,16 +266,6 @@ void SequenceJob::capture(FITSMode mode)
         }
     }
 
-    const auto remoteFormatDirectory = getCoreProperty(SJ_RemoteFormatDirectory).toString();
-    const auto remoteFormatFilename = getCoreProperty(SJ_RemoteFormatFilename).toString();
-    if (devices.data()->getActiveChip()->isBatchMode() &&
-            remoteFormatDirectory.isEmpty() == false &&
-            remoteFormatFilename.isEmpty() == false)
-    {
-        devices.data()->getActiveCamera()->updateUploadSettings(remoteFormatDirectory, remoteFormatFilename);
-        if (getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
-            logentry.append(QString(", remote dir = %1, remote format = %2").arg(remoteFormatDirectory).arg(remoteFormatFilename));
-    }
 
     const int ISOIndex = getCoreProperty(SJ_ISOIndex).toInt();
     if (ISOIndex != -1)
@@ -314,9 +289,51 @@ void SequenceJob::capture(FITSMode mode)
         devices.data()->getActiveCamera()->setOffset(offset);
     }
 
-    devices.data()->getActiveCamera()->setCaptureFormat(getCoreProperty(SJ_Format).toString());
-    devices.data()->getActiveCamera()->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
-    devices.data()->getActiveChip()->setFrameType(getFrameType());
+    const auto remoteFormatDirectory = getCoreProperty(SJ_RemoteFormatDirectory).toString();
+    const auto remoteFormatFilename = getCoreProperty(SJ_RemoteFormatFilename).toString();
+
+    if (jobType() == SequenceJob::JOBTYPE_PREVIEW && !isVideo())
+    {
+        if (devices.data()->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
+            devices.data()->getActiveCamera()->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
+    }
+    else
+        devices.data()->getActiveCamera()->setUploadMode(m_UploadMode);
+
+    if (devices.data()->getActiveChip()->isBatchMode() &&
+            remoteFormatDirectory.isEmpty() == false &&
+            remoteFormatFilename.isEmpty() == false)
+    {
+        if (isVideo())
+            devices.data()->getActiveCamera()->setSERNameDirectory(remoteFormatFilename, remoteFormatDirectory);
+        else
+            devices.data()->getActiveCamera()->updateUploadSettings(remoteFormatDirectory, remoteFormatFilename);
+
+    }
+
+    if (isVideo())
+    {
+        // video settings
+        devices.data()->getActiveCamera()->setUploadMode(m_UploadMode);
+
+        devices.data()->getActiveCamera()->setStreamRecording(getCoreProperty(SJ_Format).toString());
+        devices.data()->getActiveCamera()->setStreamEncoding(getCoreProperty(SJ_Encoding).toString());
+    }
+    else
+    {
+        devices.data()->getActiveChip()->setBatchMode(jobType() != SequenceJob::JOBTYPE_PREVIEW);
+        devices.data()->getActiveCamera()->setSeqPrefix(getCoreProperty(SJ_FullPrefix).toString());
+        logentry.append(QString(", batch mode = %1, seq prefix = %2").arg(jobType() != SequenceJob::JOBTYPE_PREVIEW ? "true" :
+                        "false").arg(getCoreProperty(SJ_FullPrefix).toString()));
+
+
+        devices.data()->getActiveCamera()->setCaptureFormat(getCoreProperty(SJ_Format).toString());
+        devices.data()->getActiveCamera()->setEncodingFormat(getCoreProperty(SJ_Encoding).toString());
+        devices.data()->getActiveChip()->setFrameType(getFrameType());
+    }
+    if (getUploadMode() != ISD::Camera::UPLOAD_CLIENT)
+        logentry.append(QString(", remote dir = %1, remote format = %2").arg(remoteFormatDirectory).arg(remoteFormatFilename));
+
     logentry.append(QString(", format = %1, encoding = %2").arg(getCoreProperty(SJ_Format).toString()).arg(getCoreProperty(
                         SJ_Encoding).toString()));
 
@@ -364,23 +381,50 @@ void SequenceJob::capture(FITSMode mode)
     else
         logentry.append(", Cannot subframe");
 
-    // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
-    // otherwise INDI CCD would simply discard loading the data in batch mode as the data are already
-    // saved to disk and since no extra processing is required, FITSData is not loaded up with the data.
-    // But in case of automatically calculated flat frames, we need FITSData.
-    // Therefore, we need to explicitly set mode to FITS_CALIBRATE so that FITSData is generated.
-    devices.data()->getActiveChip()->setCaptureMode(mode);
-    devices.data()->getActiveChip()->setCaptureFilter(FITS_NONE);
+    return logentry;
+}
 
+void SequenceJob::capture(FITSMode mode)
+{
+    if (!devices.data()->getActiveCamera() || !devices.data()->getActiveChip())
+        return;
+
+    QString logentry = setCameraDeviceProperties();
+
+    // update the status
     setStatus(getStatus());
 
-    const auto exposure = getCoreProperty(SJ_Exposure).toDouble();
-    m_ExposeLeft = exposure;
-    devices.data()->getActiveChip()->capture(exposure);
-    // create log entry with settings
-    qCInfo(KSTARS_EKOS_CAPTURE()) << logentry;
+    if (isVideo())
+    {
+        devices.data()->getActiveCamera()->setStreamExposure(getCoreProperty(SJ_Exposure).toDouble());
+        auto frames = getCoreProperty(SJ_Count).toUInt();
+        auto success = devices.data()->getActiveCamera()->startFramesRecording(frames);
+        if (! success)
+        {
+            qCWarning(KSTARS_EKOS_CAPTURE) << "Start recording failed!";
+            emit captureStarted(CAPTURE_FRAME_ERROR);
+            return;
+        }
+
+    }
+    else
+    {
+        // In case FITS Viewer is not enabled. Then for flat frames, we still need to keep the data
+        // otherwise INDI CCD would simply discard loading the data in batch mode as the data are already
+        // saved to disk and since no extra processing is required, FITSData is not loaded up with the data.
+        // But in case of automatically calculated flat frames, we need FITSData.
+        // Therefore, we need to explicitly set mode to FITS_CALIBRATE so that FITSData is generated.
+        devices.data()->getActiveChip()->setCaptureMode(mode);
+        devices.data()->getActiveChip()->setCaptureFilter(FITS_NONE);
+
+        m_ExposeLeft = getCoreProperty(SJ_Exposure).toDouble();
+        devices.data()->getActiveChip()->capture(m_ExposeLeft);
+    }
 
     emit captureStarted(CAPTURE_OK);
+
+    // create log entry with settings
+    qCInfo(KSTARS_EKOS_CAPTURE) << logentry;
 }
 
 void SequenceJob::setTargetFilter(int pos, const QString &name)
@@ -523,6 +567,7 @@ void SequenceJob::prepareCapture()
     switch (getFrameType())
     {
         case FRAME_LIGHT:
+        case FRAME_VIDEO:
             state->prepareLightFrameCapture(getCoreProperty(SJ_EnforceTemperature).toBool(),
                                             jobType() == SequenceJob::JOBTYPE_PREVIEW);
             break;

@@ -74,12 +74,12 @@ void TestEkosCapture::testAddCaptureJob()
     KTRY_CAPTURE_GADGET(QPushButton, addToQueueB);
     KTRY_CAPTURE_GADGET(QTableWidget, queueTable);
 
-    // These are the expected exhaustive list of frame names
+    // These are the expected exhaustive list of capture frame names
     QString frameTypes[] = {"Light", "Bias", "Dark", "Flat"};
     int const frameTypeCount = sizeof(frameTypes) / sizeof(frameTypes[0]);
 
-    // Verify our assumption about those frame types is correct
-    QTRY_COMPARE_WITH_TIMEOUT(captureTypeS->count(), frameTypeCount, 5000);
+    // Verify our assumption about those frame types is correct (video type is excluded here)
+    QTRY_COMPARE_WITH_TIMEOUT(captureTypeS->count(), frameTypeCount + 1, 5000);
     for (QString &frameType : frameTypes)
         if(captureTypeS->findText(frameType) < 0)
             QFAIL(qPrintable(QString("Frame '%1' expected by the test is not in the Capture frame list").arg(frameType)));

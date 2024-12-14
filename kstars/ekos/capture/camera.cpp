@@ -116,6 +116,10 @@ void Ekos::Camera::init()
     m_DebounceTimer.setInterval(500);
     m_DebounceTimer.setSingleShot(true);
 
+    // set units for video recording limit
+    videoDurationUnitCB->addItem(i18n("sec"));
+    videoDurationUnitCB->addItem(i18n("frames"));
+
     // hide avg. download time and target drift initially
     targetDriftLabel->setVisible(false);
     targetDrift->setVisible(false);
@@ -329,6 +333,10 @@ void Camera::initCamera()
     connect(captureTypeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             &Camera::checkFrameType);
 
+    // video duration unit changes
+    connect(videoDurationUnitCB, static_cast<void (QComboBox::*)(int) > (&QComboBox::currentIndexChanged), this,
+            &Camera::updateVideoDurationUnit);
+
     // Autofocus HFR Check
     connect(m_LimitsUI->enforceAutofocusHFR, &QCheckBox::toggled, [ = ](bool checked)
     {
@@ -352,12 +360,9 @@ void Camera::initCamera()
     connect(&state()->getCaptureTimeout(), &QTimer::timeout, m_cameraProcess.get(),
             &CameraProcess::processCaptureTimeout);
 
-    // Remote directory
+    // Local/Remote directory
     connect(fileUploadModeS, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [&](int index)
-    {
-        fileRemoteDirT->setEnabled(index != 0);
-    });
+            &Camera::checkUploadMode);
 
     connect(customValuesB, &QPushButton::clicked, this, [&]()
     {
@@ -771,6 +776,7 @@ QString frameLabel(CCDFrameType type, const QString &filter)
     switch(type)
     {
         case FRAME_LIGHT:
+        case FRAME_VIDEO:
             if (filter.size() == 0)
                 return CCDFrameTypeNames[type];
             else
@@ -797,11 +803,16 @@ void Camera::captureRunning()
                          activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString());
     if (isActiveJobPreview())
         frameInfoLabel->setText("Expose (-/-):");
-    else
-        frameInfoLabel->setText(QString("%1 (%L3/%L4):").arg(frameLabel(activeJob()->getFrameType(),
+    else if (activeJob()->getFrameType() != FRAME_VIDEO)
+        frameInfoLabel->setText(QString("%1 (%L2/%L3):").arg(frameLabel(activeJob()->getFrameType(),
                                 activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()))
                                 .arg(activeJob()->getCompleted()).arg(activeJob()->getCoreProperty(
                                             SequenceJob::SJ_Count).toInt()));
+    else
+        frameInfoLabel->setText(QString("%1 (%2x%L3s):").arg(frameLabel(activeJob()->getFrameType(),
+                                activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()))
+                                .arg(activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt())
+                                .arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3));
 
     // ensure that the download time label is visible
     avgDownloadTime->setVisible(true);
@@ -811,10 +822,19 @@ void Camera::captureRunning()
     avgDownloadTime->setText(QString("%L1").arg(state()->averageDownloadTime(), 0, 'd', 2));
 
     // avoid logging that we captured a temporary file
-    if (state()->isLooping() == false && activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
-        appendLogText(i18n("Capturing %1-second %2 image...",
-                           QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
-                           activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()));
+    if (state()->isLooping() == false)
+    {
+        if (activeJob()->getFrameType() == FRAME_VIDEO)
+            appendLogText(i18n("Capturing %1 x %2-second %3 video...",
+                               activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt(),
+                               QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                               activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()));
+
+        else if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW)
+            appendLogText(i18n("Capturing %1-second %2 image...",
+                               QString("%L1").arg(activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(), 0, 'f', 3),
+                               activeJob()->getCoreProperty(SequenceJob::SJ_Filter).toString()));
+    }
 }
 
 void Camera::captureImageStarted()
@@ -844,7 +864,7 @@ void Camera::jobExecutionPreparationStarted()
         updateStartButtons(true, false);
 }
 
-void Camera::jobPrepared(SequenceJob *job)
+void Camera::jobPrepared(SequenceJob * job)
 {
     int index = state()->allJobs().indexOf(job);
     if (index >= 0)
@@ -942,7 +962,7 @@ void Camera::updateCaptureCountDown(int deltaMillis)
         jobRemainingTime->setText("--:--:--");
 }
 
-void Camera::addJob(SequenceJob *job)
+void Camera::addJob(SequenceJob * job)
 {
     // create a new row
     createNewJobTableRow(job);
@@ -1032,8 +1052,22 @@ void Camera::processingFITSfinished(bool success)
 
 void Camera::checkFrameType(int index)
 {
+    updateCaptureFormats();
+
     calibrationB->setEnabled(index != FRAME_LIGHT);
     generateDarkFlatsB->setEnabled(index != FRAME_LIGHT);
+    const bool isVideo = captureTypeS->currentText() == CAPTURE_TYPE_VIDEO;
+    exposureOptions->setCurrentIndex(isVideo ? 1 : 0);
+    exposureOptionsLabel->setToolTip(isVideo ? i18n("Duration of the video sequence") : i18n("Number of images to capture"));
+    exposureOptionsLabel->setText(isVideo ? i18n("Duration:") : i18n("Count:"));
+    exposureLabel->setToolTip(isVideo ? i18n("Exposure time in seconds of a single video frame") :
+                              i18n("Exposure time in seconds for individual images"));
+
+    // enforce the upload mode for videos
+    if (isVideo)
+        selectUploadMode(ISD::Camera::UPLOAD_LOCAL);
+    else
+        checkUploadMode(fileUploadModeS->currentIndex());
 }
 
 void Camera::updateStartButtons(bool start, bool pause)
@@ -1277,7 +1311,7 @@ void Camera::saveSequenceQueueAs()
     saveSequenceQueue();
 }
 
-void Camera::updateJobTable(SequenceJob *job, bool full)
+void Camera::updateJobTable(SequenceJob * job, bool full)
 {
     if (job == nullptr)
     {
@@ -1304,7 +1338,7 @@ void Camera::updateJobTable(SequenceJob *job, bool full)
                 QTableWidgetItem *filter = queueTable->item(row, JOBTABLE_COL_FILTER);
                 if (FilterPosCombo->findText(job->getCoreProperty(SequenceJob::SJ_Filter).toString()) >= 0 &&
                         (captureTypeS->currentIndex() == FRAME_LIGHT || captureTypeS->currentIndex() == FRAME_FLAT
-                         || isDarkFlat) )
+                         || captureTypeS->currentIndex() == FRAME_VIDEO || isDarkFlat) )
                     filter->setText(job->getCoreProperty(SequenceJob::SJ_Filter).toString());
                 else
                     filter->setText("--");
@@ -1357,7 +1391,7 @@ void Camera::updateJobTable(SequenceJob *job, bool full)
     }
 }
 
-void Camera::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePreview)
+void Camera::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePreview)
 {
     job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
@@ -1419,8 +1453,19 @@ void Camera::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrevi
 
     job->setCoreProperty(SequenceJob::SJ_Exposure, captureExposureN->value());
 
-    job->setCoreProperty(SequenceJob::SJ_Count, captureCountN->value());
-
+    if (captureTypeS->currentText() == CAPTURE_TYPE_VIDEO)
+    {
+        if (videoDurationUnitCB->currentIndex() == 0)
+            // duration in seconds
+            job->setCoreProperty(SequenceJob::SJ_Count, static_cast<int>(videoDurationSB->value() / captureExposureN->value()));
+        else
+            // duration in number of frames
+            job->setCoreProperty(SequenceJob::SJ_Count, static_cast<int>(videoDurationSB->value()));
+    }
+    else
+    {
+        job->setCoreProperty(SequenceJob::SJ_Count, captureCountN->value());
+    }
     job->setCoreProperty(SequenceJob::SJ_Binning, QPoint(captureBinHN->value(), captureBinVN->value()));
 
     /* in ms */
@@ -1450,7 +1495,34 @@ void Camera::updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePrevi
 
 }
 
-void Camera::syncGUIToJob(SequenceJob *job)
+void Camera::selectUploadMode(int index)
+{
+    fileUploadModeS->setCurrentIndex(index);
+    checkUploadMode(index);
+}
+
+void Camera::checkUploadMode(int index)
+{
+    fileRemoteDirT->setEnabled(index != ISD::Camera::UPLOAD_CLIENT);
+    fileDirectoryT->setEnabled(index != ISD::Camera::UPLOAD_LOCAL);
+
+    const bool isVideo = captureTypeS->currentText() == CAPTURE_TYPE_VIDEO;
+
+    // Access the underlying model of the combo box
+    QStandardItemModel *model = qobject_cast<QStandardItemModel *>(fileUploadModeS->model());
+    if (model)
+    {
+        // restrict selection to local (on the INDI server) for videos
+        model->item(0)->setFlags(isVideo ? (model->item(0)->flags() & ~Qt::ItemIsEnabled) :
+                                 (model->item(0)->flags() | Qt::ItemIsEnabled));
+        model->item(2)->setFlags(isVideo ? (model->item(2)->flags() & ~Qt::ItemIsEnabled) :
+                                 (model->item(2)->flags() | Qt::ItemIsEnabled));
+    }
+
+    generatePreviewFilename();
+}
+
+void Camera::syncGUIToJob(SequenceJob * job)
 {
     if (job == nullptr)
     {
@@ -1461,6 +1533,7 @@ void Camera::syncGUIToJob(SequenceJob *job)
 
     const auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
 
+    captureTypeS->setCurrentIndex(job->getFrameType());
     captureFormatS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Format).toString());
     captureEncodingS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Encoding).toString());
     captureExposureN->setValue(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble());
@@ -1471,13 +1544,11 @@ void Camera::syncGUIToJob(SequenceJob *job)
     captureFrameWN->setValue(roi.width());
     captureFrameHN->setValue(roi.height());
     FilterPosCombo->setCurrentIndex(job->getTargetFilter() - 1);
-    captureTypeS->setCurrentIndex(job->getFrameType());
     captureCountN->setValue(job->getCoreProperty(SequenceJob::SJ_Count).toInt());
     captureDelayN->setValue(job->getCoreProperty(SequenceJob::SJ_Delay).toInt() / 1000);
     targetNameT->setText(job->getCoreProperty(SequenceJob::SJ_TargetName).toString());
     fileDirectoryT->setText(job->getCoreProperty(SequenceJob::SJ_LocalDirectory).toString());
-    fileUploadModeS->setCurrentIndex(job->getUploadMode());
-    fileRemoteDirT->setEnabled(fileUploadModeS->currentIndex() != 0);
+    selectUploadMode(job->getUploadMode());
     fileRemoteDirT->setText(job->getCoreProperty(SequenceJob::SJ_RemoteDirectory).toString());
     placeholderFormatT->setText(job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString());
     formatSuffixN->setValue(job->getCoreProperty(SequenceJob::SJ_PlaceholderSuffix).toUInt());
@@ -1794,7 +1865,7 @@ void Camera::syncCameraInfo()
     }
 }
 
-void Camera::createNewJobTableRow(SequenceJob *job)
+void Camera::createNewJobTableRow(SequenceJob * job)
 {
     int currentRow = queueTable->rowCount();
     queueTable->insertRow(currentRow);
@@ -1853,7 +1924,7 @@ void Camera::createNewJobTableRow(SequenceJob *job)
     removeFromQueueB->setEnabled(true);
 }
 
-void Camera::updateRowStyle(SequenceJob *job)
+void Camera::updateRowStyle(SequenceJob * job)
 {
     if (job == nullptr)
         return;
@@ -1873,7 +1944,7 @@ void Camera::updateRowStyle(SequenceJob *job)
     }
 }
 
-void Camera::updateCellStyle(QTableWidgetItem *cell, bool active)
+void Camera::updateCellStyle(QTableWidgetItem * cell, bool active)
 {
     if (cell == nullptr)
         return;
@@ -1884,7 +1955,7 @@ void Camera::updateCellStyle(QTableWidgetItem *cell, bool active)
     cell->setFont(font);
 }
 
-bool Camera::syncControl(const QVariantMap &settings, const QString &key, QWidget *widget)
+bool Camera::syncControl(const QVariantMap &settings, const QString &key, QWidget * widget)
 {
     QSpinBox *pSB = nullptr;
     QDoubleSpinBox *pDSB = nullptr;
@@ -2041,8 +2112,12 @@ void Camera::saveFITSDirectory()
 
 void Camera::updateCaptureFormats()
 {
+    // list of capture types
     QStringList frameTypes = process()->frameTypes();
+    // current selection
+    QString currentType = captureTypeS->currentText();
 
+    captureTypeS->blockSignals(true);
     captureTypeS->clear();
 
     if (frameTypes.isEmpty())
@@ -2051,13 +2126,24 @@ void Camera::updateCaptureFormats()
     {
         captureTypeS->setEnabled(true);
         captureTypeS->addItems(frameTypes);
-        captureTypeS->setCurrentIndex(devices()->getActiveChip()->getFrameType());
+
+        if (currentType == "")
+        {
+            // if no capture type is selected, take the value from the active chip
+            captureTypeS->setCurrentIndex(devices()->getActiveChip()->getFrameType());
+            currentType = captureTypeS->currentText();
+        }
+        else
+            captureTypeS->setCurrentText(currentType);
     }
+    captureTypeS->blockSignals(false);
+
+    const bool isVideo = currentType == CAPTURE_TYPE_VIDEO;
 
     // Capture Format
     captureFormatS->blockSignals(true);
     captureFormatS->clear();
-    const auto list = activeCamera()->getCaptureFormats();
+    const auto list = isVideo ? activeCamera()->getVideoFormats() : activeCamera()->getCaptureFormats();
     captureFormatS->addItems(list);
     storeTrainKey(KEY_FORMATS, list);
 
@@ -2067,8 +2153,8 @@ void Camera::updateCaptureFormats()
     // Encoding format
     captureEncodingS->blockSignals(true);
     captureEncodingS->clear();
-    captureEncodingS->addItems(activeCamera()->getEncodingFormats());
-    captureEncodingS->setCurrentText(activeCamera()->getEncodingFormat());
+    captureEncodingS->addItems(isVideo ? activeCamera()->getStreamEncodings() : activeCamera()->getEncodingFormats());
+    captureEncodingS->setCurrentText(isVideo ? activeCamera()->getStreamEncoding() : activeCamera()->getEncodingFormat());
     captureEncodingS->blockSignals(false);
 }
 
@@ -2192,6 +2278,22 @@ bool Camera::editFilterNameInternal(const QStringList &labels, QStringList &newL
         return true;
     }
     return false;
+}
+
+void Camera::updateVideoDurationUnit()
+{
+    if (videoDurationUnitCB->currentIndex() == 0)
+    {
+        // switching from frames to seconds
+        videoDurationSB->setValue(videoDurationSB->value() * captureExposureN->value());
+        videoDurationSB->setDecimals(2);
+    }
+    else
+    {
+        // switching from seconds to frames
+        videoDurationSB->setValue(videoDurationSB->value() / captureExposureN->value());
+        videoDurationSB->setDecimals(0);
+    }
 }
 
 void Camera::loadGlobalSettings()
@@ -2326,7 +2428,7 @@ bool Camera::checkUploadPaths(FilenamePreviewType filenamePreview)
     return true;
 }
 
-QJsonObject Camera::createJsonJob(SequenceJob *job, int currentRow)
+QJsonObject Camera::createJsonJob(SequenceJob * job, int currentRow)
 {
     if (job == nullptr)
         return QJsonObject();
@@ -2353,10 +2455,11 @@ void Camera::generatePreviewFilename()
 {
     if (state()->isCaptureRunning() == false)
     {
-        placeholderFormatT->setToolTip(previewFilename( FILENAME_LOCAL_PREVIEW ));
+        placeholderFormatT->setToolTip(previewFilename( fileUploadModeS->currentIndex() == ISD::Camera::UPLOAD_LOCAL ?
+                                       FILENAME_REMOTE_PREVIEW : FILENAME_LOCAL_PREVIEW ));
         emit newLocalPreview(placeholderFormatT->toolTip());
 
-        if (fileUploadModeS->currentIndex() != 0)
+        if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT)
             fileRemoteDirT->setToolTip(previewFilename( FILENAME_REMOTE_PREVIEW ));
     }
 }
@@ -2423,7 +2526,7 @@ QString Camera::previewFilename(FilenamePreviewType previewType)
     return previewText;
 }
 
-void Camera::updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell)
+void Camera::updateJobTableCountCell(SequenceJob * job, QTableWidgetItem * countCell)
 {
     countCell->setText(QString("%L1/%L2").arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
 }
@@ -2950,7 +3053,7 @@ QVariantMap Camera::getAllSettings() const
     return settings;
 }
 
-void Camera::setAllSettings(const QVariantMap &settings, const QVariantMap *standAloneSettings)
+void Camera::setAllSettings(const QVariantMap &settings, const QVariantMap * standAloneSettings)
 {
     // Disconnect settings that we don't end up calling syncSettings while
     // performing the changes.
@@ -3683,7 +3786,7 @@ void Camera::showObserverDialog()
     setObserverName(observerCombo.currentText());
 }
 
-void Camera::onStandAloneShow(QShowEvent *event)
+void Camera::onStandAloneShow(QShowEvent * event)
 {
     OpticalTrainSettings::Instance()->setOpticalTrainID(Options::captureTrainID());
     auto oneSetting = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Capture);

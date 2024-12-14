@@ -25,6 +25,7 @@ QMap<CCDFrameType, QString> PlaceholderPath::m_frameTypes =
     {FRAME_DARK, "Dark"},
     {FRAME_BIAS, "Bias"},
     {FRAME_FLAT, "Flat"},
+    {FRAME_VIDEO, "Video"},
     {FRAME_NONE, ""},
 };
 
@@ -196,7 +197,7 @@ QString PlaceholderPath::generateSequenceFilename(const SequenceJob &job,
     setGenerateFilenameSettings(job, pathPropertyMap, local, gettingSignature);
 
     return generateFilenameInternal(pathPropertyMap, local, batch_mode, nextSequenceID, extension, filename, glob,
-                                    gettingSignature);
+                                    gettingSignature, job.isVideo());
 }
 
 QString PlaceholderPath::generateOutputFilename(const bool local, const bool batch_mode, const int nextSequenceID,
@@ -281,7 +282,8 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
         const QString &extension,
         const QString &filename,
         const bool glob,
-        const bool gettingSignature) const
+        const bool gettingSignature,
+        const bool isVideo) const
 {
     QString targetNameSanitized = KSUtils::sanitize(pathPropertyMap[PP_TARGETNAME].toString());
     int i = 0;
@@ -305,7 +307,8 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
             currentDir = currentDir.left(currentDir.length() - 1);
     }
 
-    QString tempFormat = currentDir + format + "_%s" + QString::number(pathPropertyMap[PP_SUFFIX].toUInt());
+    QString tempFormat = currentDir + format + (isVideo ? QString() : "_%s" + QString::number(
+                             pathPropertyMap[PP_SUFFIX].toUInt()));
 
 #if defined(Q_OS_WIN)
     tempFormat.replace("\\", "/");
@@ -365,6 +368,7 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
             if (filter.isEmpty() == false
                     && (frameType == FRAME_LIGHT
                         || frameType == FRAME_FLAT
+                        || frameType == FRAME_VIDEO
                         || frameType == FRAME_NONE
                         || isDarkFlat))
             {
@@ -434,7 +438,7 @@ QString PlaceholderPath::generateFilenameInternal(const QMap<PathProperty, QVari
             else
             {
                 // fix string for remote, ID is set remotely
-                replacement = "XXX";
+                replacement = isVideo ? "" : "XXX";
             }
         }
         else

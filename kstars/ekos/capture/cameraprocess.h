@@ -595,6 +595,18 @@ public:
     void updateFITSViewer(const QSharedPointer<FITSData> data, ISD::CameraChip *tChip, const QString &filename);
 
     // ////////////////////////////////////////////////////////////////////
+    // video streaming
+    // ////////////////////////////////////////////////////////////////////
+    /**
+     * @brief getVideoWindow Return the current video window and initialize it if required.
+     */
+    QSharedPointer<StreamWG> getVideoWindow();
+
+    void updateVideoWindow(int width, int height, bool streamEnabled);
+    void closeVideoWindow();
+    void showVideoFrame(INDI::Property prop, int width, int height);
+
+    // ////////////////////////////////////////////////////////////////////
     // XML capture sequence file handling
     // ////////////////////////////////////////////////////////////////////
     /**
@@ -741,6 +753,7 @@ private:
     QSharedPointer<CaptureDeviceAdaptor> m_DeviceAdaptor;
     QPointer<DarkProcessor> m_DarkProcessor;
     QSharedPointer<FITSViewer> m_FITSViewerWindow;
+    QSharedPointer<StreamWG> m_VideoWindow;
     FitsvViewerTabIDs m_fitsvViewerTabIDs = {-1, -1, -1, -1, -1};
 
     // Pre-/post capture script process
@@ -768,7 +781,7 @@ private:
     }
 
     /**
-     * @brief Get or Create FITSViewer if we are using FITSViewer
+     * @brief Get or create FITSViewer if we are using FITSViewer
      * or if capture mode is calibrate since for now we are forced to open the file in the viewer
      * this should be fixed in the future and should only use FITSData.
      */
@@ -800,6 +813,11 @@ private:
      * number.
      */
     void updatedCaptureCompleted(int count);
+    /**
+     * @brief Update the video recording status.
+     * @param enabled true if recording is on
+     */
+    void updateVideoRecordStatus(bool enabled);
     /**
      * @brief captureImageWithDelay Helper function that starts the sequence delay timer
      * for starting to capture after the configured delay.

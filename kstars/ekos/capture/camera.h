@@ -715,6 +715,8 @@ private:
     void editFilterName();
     bool editFilterNameInternal(const QStringList &labels, QStringList &newLabels);
 
+    void updateVideoDurationUnit();
+
     // ////////////////////////////////////////////////////////////////////
     // Settings
     // ////////////////////////////////////////////////////////////////////
@@ -777,6 +779,10 @@ private:
     // Filename preview
     void generatePreviewFilename();
     QString previewFilename(FilenamePreviewType previewType = FILENAME_LOCAL_PREVIEW);
+
+    // Updating the upload mode
+    void selectUploadMode(int index);
+    void checkUploadMode(int index);
 
     /**
      * @brief updateJobTableCountCell Update the job counter in the job table of a sigle job

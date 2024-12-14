@@ -194,7 +194,7 @@ class PlaceholderPath
 private:
         // TODO use QVariantMap or QVariantList instead of passing this many args.
         QString generateFilenameInternal(const QMap<PathProperty, QVariant> &pathPropertyMap, const bool local, const bool batch_mode, const int nextSequenceID, const QString &extension,
-                                 const QString &filename, const bool glob = false, const bool gettingSignature = false) const;
+                                 const QString &filename, const bool glob = false, const bool gettingSignature = false, const bool isVideo = false) const;
 
         /**
          * @brief setGenerateFilenameSettings Generate property map from job settings. In case that gettingSignature is set to true,
