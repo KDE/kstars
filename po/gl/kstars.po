@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-11 01:47+0000\n"
-"PO-Revision-Date: 2024-12-12 20:00+0100\n"
+"PO-Revision-Date: 2024-12-13 23:27+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -1747,6 +1747,7 @@ msgstr "Non foi posíbel eliminar o catálogo do rexistro.<br> %1"
 msgid "Both catalogs have to exist!"
 msgstr "Os dous catálogos deben existir!"
 
+# skip-rule: trasno-change_reverse
 #: catalogsdb/catalogsdb.cpp:932
 #, kde-format
 msgid "Destination catalog has to be mutable!"
@@ -4783,6 +4784,7 @@ msgctxt "@title:window"
 msgid "Set Geographic Location"
 msgstr "Definir a posición xeográfica"
 
+# skip-rule: trasno-change_reverse
 #. i18n: ectx: property (text), widget (QLabel, DSTLabel)
 #: dialogs/locationdialog.cpp:101 dialogs/locationdialog.ui:461
 #, kde-format
@@ -5759,6 +5761,7 @@ msgstr "Telescopio coa mira na parte inferior"
 msgid "Telescopes with the eyepiece at the top"
 msgstr "Telescopio coa mira na parte superior"
 
+# skip-rule: trasno-locate_reverse
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/newview.ui:223
 #, kde-format
@@ -5795,7 +5798,7 @@ msgstr ""
 #: dialogs/newview.ui:303
 #, kde-format
 msgid "Also set the field of view"
-msgstr "Definir tamén o cambio de visión."
+msgstr "Definir tamén o campo de visión."
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -6068,7 +6071,7 @@ msgstr ""
 "Instalar isto no seu directorio de datos permitirá ao simulador de CCD de "
 "KStars sacar imaxes realistas. É útil para probar secuencias, resolver "
 "placas e aprender a usar KStars. Prema o botón para instalar ou desarquivar "
-"o arquivo e coloque o cartafol de gsc no directorio de datos."
+"o ficheiro ZIP e coloque o cartafol de gsc no directorio de datos."
 
 #. i18n: ectx: property (text), widget (QLabel, DownloadTitle)
 #: dialogs/wizdownload.ui:61
@@ -14255,7 +14258,7 @@ msgid ""
 "Whether to resort the stars based on magnitude. NOTE: This is REQUIRED to be "
 "true for the filters above"
 msgstr ""
-"Se ordenar de novo as estrelas por magnitude. Nota: isto DEBE marcarse para "
+"Se ordenar de novo as estrelas por magnitude. Nota: isto DEBE activarse para "
 "os filtros anteriores."
 
 #. i18n: ectx: property (text), widget (QCheckBox, resort)
@@ -17113,6 +17116,7 @@ msgstr ""
 msgid "frames.   HFR:"
 msgstr "fotogramas. HFR:"
 
+# skip-rule: trasno-widget_reverse
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsDslrSettings)
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsMiscSettings)
 #. i18n: ectx: property (windowTitle), widget (QTabWidget, OpsEkos)
@@ -20303,6 +20307,7 @@ msgstr ""
 msgid "Fixed Steps"
 msgstr "Pasos fixos"
 
+# skip-rule: trasno-change_reverse
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:127
 #, kde-format
@@ -26751,7 +26756,7 @@ msgstr ""
 #: ekos/profilewizard.ui:944
 #, kde-format
 msgid "My Astro Gear"
-msgstr "Os meus astro trebellos"
+msgstr "Equipo astronómico persoal"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/profilewizard.ui:959
@@ -39171,6 +39176,7 @@ msgstr ""
 "O número de pasos para mover cara fóra para unha execución do enfoque "
 "automático clásico."
 
+# skip-rule: trasno-change_reverse
 #. i18n: ectx: whatsthis, entry (focusNumSteps), group (Focus)
 #: kstars.kcfg:2416
 #, kde-format
@@ -39635,6 +39641,7 @@ msgstr ""
 "Tempo que agardar, en milisegundos, tras completar o movemento do telescopio "
 "antes de iniciar a seguinte captura."
 
+# skip-rule: trasno-clean_reverse
 #. i18n: ectx: label, entry (AstrometryUseNoFITS2FITS), group (Align)
 #: kstars.kcfg:2686
 #, kde-format
@@ -40338,7 +40345,7 @@ msgid ""
 "When true, the scheduler tries to run lower priority jobs when no higher "
 "priority job can run. Recommended."
 msgstr ""
-"Se se marca, o planificador intenta executar os traballos de menor "
+"Se se activa, o planificador intenta executar os traballos de menor "
 "prioridade cando non se poidan executar traballos de maior prioridade. "
 "Recoméndase."
 
@@ -58578,7 +58585,7 @@ msgctxt "City in Spain"
 msgid "Oviedo"
 msgstr "Oviedo"
 
-# skip-rule: trasno-son
+# skip-rule: trasno-sound
 #: kstars_i18n.cpp:3012
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
@@ -58873,7 +58880,7 @@ msgctxt "City in Nova Scotia Canada"
 msgid "Parrsboro"
 msgstr "Parrsboro"
 
-# skip-rule: trasno-son
+# skip-rule: trasno-sound
 #: kstars_i18n.cpp:3061
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
@@ -58934,6 +58941,7 @@ msgctxt "City in Western Australia Australia"
 msgid "Pearce"
 msgstr "Pearce"
 
+# skip-rule: trasno-close_reverse
 #: kstars_i18n.cpp:3071
 #, kde-kuit-format
 msgctxt "City in Russia"
@@ -71364,6 +71372,7 @@ msgstr "Lonxitude: "
 msgid "UT offset: "
 msgstr "Desprazamento da UT: "
 
+# skip-rule: trasno-change_reverse
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:334
 #, kde-kuit-format
 msgid "DST rule: "
@@ -84919,8 +84928,9 @@ msgstr[0] ""
 "salvagarda para poder engadilo máis tarde."
 msgstr[1] ""
 "Non foi posíbel atopar %1 obxectos na base de datos, así que retiraranse da "
-"lista de desexos de observación. Recoméndase copiar os seus nomes como "
-"salvagarda para poder engadilos máis tarde."
+"lista de desexos de observación. Recoméndase copiar a lista detallada como "
+"salvagarda para poder despois usar a funcionalidade de engadir por lotes no "
+"planificador de observacións para engadilos coa busca de Internet."
 
 #: tools/observinglist.cpp:1160
 #, kde-format
