@@ -89,20 +89,28 @@ enum ColumnNames
 /**********************************************************
 TODO/Ideas:
 
-Log at bottom?
+Filter by size
+Organize the various methods that massage object names (see sh2 and Abell).
+Log at bottom
 Imaging time constraint in hours calc
-Maybe options with slew to center checkbox
 Think about moving some or all of the filtering to menus in the column headers
 Norder download link, sort of:
   https://indilib.org/forum/general/11766-dss-offline-hips.html?start=0
 See if I can just use UserRole or UserRole+1 for the non-display roles.
 Altitude graph has some replicated code with the scheduler
 Weird timezone stuff when setting kstars to a timezone that's not the system's timezone.
-Add a catalog name, and display it?
+Add a catalog name, and display it
 ***********************************************************/
 
 namespace
 {
+
+QString capitalize(const QString &str)
+{
+    QString temp = str.toLower();
+    temp[0] = str[0].toUpper();
+    return temp;
+}
 
 // Checks the appropriate Options variable to see if the object-type
 // should be displayed.
@@ -356,7 +364,6 @@ int stringCompareFcn( const QModelIndex &left, const QModelIndex &right, int col
 
 // TODO: This is copied from schedulerutils.h/cpp because for some reason the build failed when
 // including
-#include "ekos/scheduler/schedulerjob.h"
 void SchedulerUtils_setupJob(Ekos::SchedulerJob &job, const QString &name, bool isLead, const QString &group,
                              const QString &train, const dms &ra, const dms &dec, double djd, double rotation, const QUrl &sequenceUrl,
                              const QUrl &fitsUrl, Ekos::StartupCondition startup, const QDateTime &startupTime, Ekos::CompletionCondition completion,
@@ -1635,6 +1642,42 @@ bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject *
     std::list<CatalogObject> objs =
         m_manager.find_objects_by_name(filteredName, 1, true);
 
+    // Don't accept objects that are Abell, have number <= 86 and are galaxy clusters.
+    // Those were almost definitely planetary nebulae confused by Simbad/NameResolver.
+    int abellNumber = -1;
+    bool abellPlanetary = false;
+    if (name.startsWith("Abell", Qt::CaseInsensitive))
+    {
+        QRegularExpression abellRE("Abell\\s*(\\d+)\\s*", QRegularExpression::CaseInsensitiveOption);
+        auto match = abellRE.match(filteredName);
+        if (match.hasMatch())
+        {
+            abellNumber = match.captured(1).toInt();
+            if (abellNumber <= 86)
+                abellPlanetary = true;
+        }
+    }
+    if (objs.size() > 0 && abellPlanetary && objs.front().type() == SkyObject::GALAXY_CLUSTER)
+        objs.clear();
+
+    if (objs.size() == 0 && filteredName.size() > 0)
+    {
+        // Try capitalizing
+        const QString capitalized = capitalize(filteredName);
+        objs = m_manager.find_objects_by_name(capitalized, 1, true);
+        if (objs.size() > 0 && abellPlanetary && objs.front().type() == SkyObject::GALAXY_CLUSTER)
+            objs.clear();
+
+        if (objs.size() == 0)
+        {
+            // Try lowercase
+            const QString lowerCase = filteredName.toLower();
+            objs = m_manager.find_objects_by_name(lowerCase, 1, true);
+            if (objs.size() > 0 && abellPlanetary && objs.front().type() == SkyObject::GALAXY_CLUSTER)
+                objs.clear();
+        }
+    }
+
     // If we didn't find it and it's Sharpless, try sh2 with a space instead of a dash
     // and vica versa
     if (objs.size() == 0 && filteredName.startsWith("sh2-", Qt::CaseInsensitive))
@@ -1650,7 +1693,7 @@ bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject *
         objs = m_manager.find_objects_by_name(name2, 1, true);
     }
 
-    if (objs.size() == 0)
+    if (objs.size() == 0 && !abellPlanetary)
         objs = m_manager.find_objects_by_name(filteredName.toLower(), 20, false);
     if (objs.size() == 0)
     {
@@ -1659,29 +1702,40 @@ bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject *
         // The resolveName search is touchy about the dash.
         if (filteredName.startsWith("sh2", Qt::CaseInsensitive))
             filteredName.replace(QRegularExpression("sh2\\s*-?", QRegularExpression::CaseInsensitiveOption), "sh2-");
-        const auto &cedata = NameResolver::resolveName(filteredName);
+        QString resolverName = filteredName;
+        if (abellPlanetary)
+        {
+            // Use "PN A66 ##" instead of "Abell ##" for name resolver
+            resolverName = QString("PN A66 %1").arg(abellNumber);
+        }
+
+        const auto &cedata = NameResolver::resolveName(resolverName);
         if (!cedata.first)
-        {
             return false;
-        }
-        else
+
+        CatalogObject object = cedata.second;
+        if (abellPlanetary)
         {
-            m_manager.add_object(CatalogsDB::user_catalog_id, cedata.second);
-            const auto &added_object =
-                m_manager.get_object(cedata.second.getId(), CatalogsDB::user_catalog_id);
-
-
-            if (added_object.first)
-            {
-                *catObject = KStarsData::Instance()
-                             ->skyComposite()
-                             ->catalogsComponent()
-                             ->insertStaticObject(added_object.second);
-            }
-            DPRINTF(stderr, "***** Found %s using name resolver (%.1fs)\n", name.toLatin1().data(),
-                    timer.elapsed() / 1000.0);
-            return true;
+            if (object.name() == object.name2())
+                object.setName2(filteredName);
+            object.setName(filteredName);
         }
+
+        m_manager.add_object(CatalogsDB::user_catalog_id, object);
+        const auto &added_object =
+            m_manager.get_object(object.getId(), CatalogsDB::user_catalog_id);
+
+        if (added_object.first)
+        {
+            *catObject = KStarsData::Instance()
+                         ->skyComposite()
+                         ->catalogsComponent()
+                         ->insertStaticObject(added_object.second);
+        }
+
+        DPRINTF(stderr, "***** Found %s using name resolver (%.1fs)\n", name.toLatin1().data(),
+                timer.elapsed() / 1000.0);
+        return true;
     }
 
     if (objs.size() == 0)

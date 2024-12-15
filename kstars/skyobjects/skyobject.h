@@ -335,6 +335,18 @@ class SkyObject : public SkyPoint
      */
     bool hashBeenUpdated() { return has_been_updated; }
 
+    /**
+     * Set the object's primary name.
+     * @param name the object's primary name
+     */
+    inline void setName(const QString &name) { Name = name; }
+
+    /**
+     * Set the object's secondary name.
+     * @param name2 the object's secondary name.
+     */
+    inline void setName2(const QString &name2 = QString()) { Name2 = name2; }
+
   private:
     /**
      * Compute the UT time when the object will rise or set. It is an auxiliary
@@ -410,18 +422,6 @@ class SkyObject : public SkyPoint
                     f;
     }
     // FIXME: We claim sortMagnitude should not be NaN, but we are setting it to NaN above!! ^
-
-    /**
-     * Set the object's primary name.
-     * @param name the object's primary name
-     */
-    inline void setName(const QString &name) { Name = name; }
-
-    /**
-     * Set the object's secondary name.
-     * @param name2 the object's secondary name.
-     */
-    inline void setName2(const QString &name2 = QString()) { Name2 = name2; }
 
     QString Name, Name2, LongName;
 
