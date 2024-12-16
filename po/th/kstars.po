@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-15 02:31+0000\n"
+"POT-Creation-Date: 2024-12-16 02:33+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -1075,7 +1075,7 @@ msgstr "ระบบสุริยะ"
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:414 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1507 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1514 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1152,8 +1152,8 @@ msgstr ""
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1115 tools/imagingplanner.cpp:1482
-#: tools/imagingplanner.cpp:2599 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1122 tools/imagingplanner.cpp:1489
+#: tools/imagingplanner.cpp:2653 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2679,7 +2679,7 @@ msgstr "ไม่ต้องลองใหม่"
 msgid "Show webpage about "
 msgstr ""
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2742
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2796
 #, fuzzy, kde-format
 #| msgctxt "Index Catalog object"
 #| msgid "IC Object"
@@ -2811,7 +2811,7 @@ msgstr ""
 msgid "Degrees"
 msgstr ""
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1115
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1122
 #, kde-format
 msgid "Hours"
 msgstr ""
@@ -2864,7 +2864,7 @@ msgstr "ข้อความของกล่องข้อมูล"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1115
+#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1122
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3246,7 +3246,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1115 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1122 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -29231,7 +29231,7 @@ msgid "Distance"
 msgstr "ขั้นสูง"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1115
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1122
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "the time at which an object falls below the horizon"
 #| msgid "Set time: %1"
@@ -79340,8 +79340,8 @@ msgid "Object Set"
 msgstr "วัตถุ IC"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2616
-#: tools/imagingplanner.cpp:2627 tools/imagingplanner.cpp:2642
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2670
+#: tools/imagingplanner.cpp:2681 tools/imagingplanner.cpp:2696
 #, fuzzy, kde-format
 #| msgctxt "the time at which an object falls below the horizon"
 #| msgid "Set time: %1"
@@ -80346,7 +80346,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:169 tools/imagingplanner.ui:1878
+#: tools/imagingplanner.cpp:177 tools/imagingplanner.ui:1878
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
@@ -80354,19 +80354,19 @@ msgid "Imaged"
 msgstr "แสดงภาพ DSS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:174 tools/imagingplanner.ui:1848
+#: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:1848
 #, kde-format
 msgid "Picked"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:180 tools/imagingplanner.ui:1935
+#: tools/imagingplanner.cpp:188 tools/imagingplanner.ui:1935
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Ignored"
 msgstr "ไปยังแฟ้ม..."
 
-#: tools/imagingplanner.cpp:970
+#: tools/imagingplanner.cpp:977
 #, fuzzy, kde-format
 #| msgctxt "Digitized Sky Survey"
 #| msgid "Show DSS Image"
@@ -80374,257 +80374,257 @@ msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "แสดงภาพ DSS"
 
-#: tools/imagingplanner.cpp:1115
+#: tools/imagingplanner.cpp:1122
 #, fuzzy, kde-format
 #| msgctxt "use default color scheme"
 #| msgid "Default Colors"
 msgid "Alt"
 msgstr "สีปริยาย"
 
-#: tools/imagingplanner.cpp:1116
+#: tools/imagingplanner.cpp:1123
 #, fuzzy, kde-format
 #| msgid "Remove Label"
 msgid "Const"
 msgstr "ลบป้ายชื่อ"
 
-#: tools/imagingplanner.cpp:1116
+#: tools/imagingplanner.cpp:1123
 #, kde-format
 msgid "Coord"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1118
+#: tools/imagingplanner.cpp:1125
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1120
+#: tools/imagingplanner.cpp:1127
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1122
+#: tools/imagingplanner.cpp:1129
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1124
+#: tools/imagingplanner.cpp:1131
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1126
+#: tools/imagingplanner.cpp:1133
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1128
+#: tools/imagingplanner.cpp:1135
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1130
+#: tools/imagingplanner.cpp:1137
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1132
+#: tools/imagingplanner.cpp:1139
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1551
+#: tools/imagingplanner.cpp:1558
 #, kde-format
 msgid "No match for \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:1615
+#: tools/imagingplanner.cpp:1622
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1620
+#: tools/imagingplanner.cpp:1627
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1625
+#: tools/imagingplanner.cpp:1632
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1875
+#: tools/imagingplanner.cpp:1929
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Updating tables..."
 msgstr "ไปยังแฟ้ม..."
 
-#: tools/imagingplanner.cpp:2070
+#: tools/imagingplanner.cpp:2124
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "See Data -> Download New Data..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2071
+#: tools/imagingplanner.cpp:2125
 #, fuzzy, kde-format
 #| msgctxt "Index Catalog object"
 #| msgid "IC Object"
 msgid "No Catalog!"
 msgstr "วัตถุ IC"
 
-#: tools/imagingplanner.cpp:2117
+#: tools/imagingplanner.cpp:2171
 #, fuzzy, kde-format
 #| msgid "Solar system object"
 msgid "Select an object."
 msgstr "วัตถุระบบสุริยะ"
 
-#: tools/imagingplanner.cpp:2119
+#: tools/imagingplanner.cpp:2173
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2121
+#: tools/imagingplanner.cpp:2175
 #, fuzzy, kde-format
 #| msgctxt "Index Catalog object"
 #| msgid "IC Object"
 msgid "Load a Catalog."
 msgstr "วัตถุ IC"
 
-#: tools/imagingplanner.cpp:2299
+#: tools/imagingplanner.cpp:2353
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Loading Catalogs..."
 msgstr "ไปยังแฟ้ม..."
 
-#: tools/imagingplanner.cpp:2605
+#: tools/imagingplanner.cpp:2659
 #, fuzzy, kde-format
 #| msgctxt "the time at which an object falls below the horizon"
 #| msgid "Set time: %1"
 msgid "Transits"
 msgstr "เวลาตก: %1"
 
-#: tools/imagingplanner.cpp:2610 tools/imagingplanner.cpp:2614
+#: tools/imagingplanner.cpp:2664 tools/imagingplanner.cpp:2668
 #, fuzzy, kde-format
 #| msgctxt "the time at which an object falls below the horizon"
 #| msgid "Set time: %1"
 msgid "Sets at"
 msgstr "เวลาตก: %1"
 
-#: tools/imagingplanner.cpp:2621 tools/imagingplanner.cpp:2625
+#: tools/imagingplanner.cpp:2675 tools/imagingplanner.cpp:2679
 #, fuzzy, kde-format
 #| msgid "Rise time: %1"
 msgid "Rises at"
 msgstr "เวลาขึ้น: %1"
 
-#: tools/imagingplanner.cpp:2632 tools/imagingplanner.cpp:2638
+#: tools/imagingplanner.cpp:2686 tools/imagingplanner.cpp:2692
 #, kde-format
 msgid "Rises"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2634 tools/imagingplanner.cpp:2640
+#: tools/imagingplanner.cpp:2688 tools/imagingplanner.cpp:2694
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2744 tools/imagingplanner.cpp:3000
+#: tools/imagingplanner.cpp:2798 tools/imagingplanner.cpp:3054
 #, fuzzy, kde-format
 #| msgctxt "Index Catalog object"
 #| msgid "IC Object"
 msgid "objects"
 msgstr "วัตถุ IC"
 
-#: tools/imagingplanner.cpp:2996
+#: tools/imagingplanner.cpp:3050
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3004 tools/imagingplanner.cpp:3008
+#: tools/imagingplanner.cpp:3058 tools/imagingplanner.cpp:3062
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3005 tools/imagingplanner.cpp:3010
+#: tools/imagingplanner.cpp:3059 tools/imagingplanner.cpp:3064
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3014 tools/imagingplanner.cpp:3018
+#: tools/imagingplanner.cpp:3068 tools/imagingplanner.cpp:3072
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3015 tools/imagingplanner.cpp:3020
+#: tools/imagingplanner.cpp:3069 tools/imagingplanner.cpp:3074
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3025 tools/imagingplanner.cpp:3030
+#: tools/imagingplanner.cpp:3079 tools/imagingplanner.cpp:3084
 #, fuzzy, kde-format
 #| msgid "Invalid Save Location"
 msgid "Stop ignoring %1"
 msgstr "ที่ตั้งการบันทึกไม่ถูกต้อง"
 
-#: tools/imagingplanner.cpp:3026 tools/imagingplanner.cpp:3032
+#: tools/imagingplanner.cpp:3080 tools/imagingplanner.cpp:3086
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Ignore %1"
 msgstr "ไปยังแฟ้ม..."
 
-#: tools/imagingplanner.cpp:3035
+#: tools/imagingplanner.cpp:3089
 #, fuzzy, kde-format
 #| msgid "Remove Label"
 msgid "Center %1 on SkyMap"
 msgstr "ลบป้ายชื่อ"
 
-#: tools/imagingplanner.cpp:3174
+#: tools/imagingplanner.cpp:3228
 #, fuzzy, kde-format
 #| msgid "Could not download the file."
 msgid "Successfully marked %1 objects as read"
 msgstr "ไม่สามารถดาวน์โหลดแฟ้มได้"
 
-#: tools/imagingplanner.cpp:3176
+#: tools/imagingplanner.cpp:3230
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Empty file"
 msgstr "ไปยังแฟ้ม..."
 
-#: tools/imagingplanner.cpp:3185
+#: tools/imagingplanner.cpp:3239
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3187
+#: tools/imagingplanner.cpp:3241
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3189
+#: tools/imagingplanner.cpp:3243
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3192
+#: tools/imagingplanner.cpp:3246
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3198 tools/imagingplanner.cpp:3397
+#: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3451
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "ไม่สามารเปิดแฟ้ม %1"
 
-#: tools/imagingplanner.cpp:3304
+#: tools/imagingplanner.cpp:3358
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3378
+#: tools/imagingplanner.cpp:3432
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""

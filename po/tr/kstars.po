@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-15 02:31+0000\n"
-"PO-Revision-Date: 2024-12-03 15:57+0300\n"
+"POT-Creation-Date: 2024-12-16 02:33+0000\n"
+"PO-Revision-Date: 2024-12-15 12:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1056,7 +1056,7 @@ msgstr "XPlanet Güneş Sistemi benzeticisi: %1"
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:414 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1507 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1514 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1133,8 +1133,8 @@ msgstr "Dünya (Yer)"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1115 tools/imagingplanner.cpp:1482
-#: tools/imagingplanner.cpp:2599 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1122 tools/imagingplanner.cpp:1489
+#: tools/imagingplanner.cpp:2653 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2683,7 +2683,7 @@ msgstr "Göz Atma"
 msgid "Show webpage about "
 msgstr "Şunun hakkındaki web sitesi: "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2742
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2796
 #, kde-format
 msgid "object"
 msgstr "nesne"
@@ -2808,7 +2808,7 @@ msgstr "Değiştirmek için bir renge tıklayın…"
 msgid "Degrees"
 msgstr "Derece"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1115
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1122
 #, kde-format
 msgid "Hours"
 msgstr "Saat"
@@ -2857,7 +2857,7 @@ msgstr "Metin"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1115
+#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1122
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3219,7 +3219,7 @@ msgstr "MAG"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1115 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1122 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -14453,10 +14453,9 @@ msgid "Autofocus failed."
 msgstr "Kendiliğinden odaklanılamadı."
 
 #: ekos/capture/camera.cpp:828
-#, fuzzy, kde-format
-#| msgid "Capturing %1-second %2 image..."
+#, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
-msgstr "%1 saniyelik %2 görseli yakalanıyor…"
+msgstr "%1 × %2 saniyelik %3 video yakalanıyor…"
 
 #: ekos/capture/camera.cpp:834
 #, kde-format
@@ -14510,10 +14509,9 @@ msgid "Expose (-/-):"
 msgstr "Pozlama (−/−):"
 
 #: ekos/capture/camera.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Duration of night for selected date"
+#, kde-format
 msgid "Duration of the video sequence"
-msgstr "Seçili tarihte gecenin uzunluğu"
+msgstr "Video sekansının süresi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
@@ -14531,17 +14529,14 @@ msgid "Duration:"
 msgstr "Süre:"
 
 #: ekos/capture/camera.cpp:1063
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Exposure time in seconds of a single video frame"
-msgstr "Saniye türünden pozlama zamanı"
+msgstr "Tek bir video karesinin saniye türünden pozlama zamanı"
 
 #: ekos/capture/camera.cpp:1064
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the exposure time in seconds for individual images, if applicable"
+#, kde-format
 msgid "Exposure time in seconds for individual images"
-msgstr "Varsa tek tek görseller için pozlama süresini saniye türünden ayarla"
+msgstr "Tekil görseller için saniye türünden pozlama zamanı"
 
 #: ekos/capture/camera.cpp:1079
 #, kde-format
@@ -15088,28 +15083,23 @@ msgstr "Gecikme:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, videoDurationSB)
 #: ekos/capture/camera.ui:1653
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Duration of the video sequence (in seconds or number "
 "of frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sekans numarasını dosya adına eklemek için kullanılan "
-"basamak sayısı.</p></body></html>"
+"<html><head/><body><p>Video sekansının süresi (saniye veya kare sayısı "
+"türünden).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoDurationUnitCB)
 #: ekos/capture/camera.ui:1669
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Units of the video duration (seconds or number of "
 "frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Karolar arasındaki ayırıcının boyutu.</p></body></html>"
+"<html><head/><body><p>Video süresinin birimi (saniye veya kare sayısı "
+"olarak).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1696
@@ -15718,14 +15708,9 @@ msgstr ""
 "işlenecek."
 
 #: ekos/capture/cameraprocess.cpp:605
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#| "processed."
+#, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
-msgstr ""
-"İş, %1 saniyelik %2 görsel gerektiriyor, yakalanmış %3/%4 kare var ve "
-"işlenecek."
+msgstr "İş, %1 × %2 saniyelik %3 video gerektiriyor ve işlenecek."
 
 #: ekos/capture/cameraprocess.cpp:834
 #, kde-format
@@ -30496,7 +30481,7 @@ msgid "Distance"
 msgstr "Uzaklık"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1115
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1122
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Boyut"
@@ -81226,8 +81211,8 @@ msgid "Object Set"
 msgstr "Nesne Batışı"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2616
-#: tools/imagingplanner.cpp:2627 tools/imagingplanner.cpp:2642
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2670
+#: tools/imagingplanner.cpp:2681 tools/imagingplanner.cpp:2696
 #, kde-format
 msgid "Transit"
 msgstr "Geçiş"
@@ -82327,50 +82312,50 @@ msgstr ""
 "aktarabilir (ve daha sonra içe aktarabilirsiniz).</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:169 tools/imagingplanner.ui:1878
+#: tools/imagingplanner.cpp:177 tools/imagingplanner.ui:1878
 #, kde-format
 msgid "Imaged"
 msgstr "Görsellenmiş"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:174 tools/imagingplanner.ui:1848
+#: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:1848
 #, kde-format
 msgid "Picked"
 msgstr "Seçilmiş"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:180 tools/imagingplanner.ui:1935
+#: tools/imagingplanner.cpp:188 tools/imagingplanner.ui:1935
 #, kde-format
 msgid "Ignored"
 msgstr "Yok sayılmış"
 
-#: tools/imagingplanner.cpp:970
+#: tools/imagingplanner.cpp:977
 #, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "Görselleme Planlayıcısı"
 
-#: tools/imagingplanner.cpp:1115
+#: tools/imagingplanner.cpp:1122
 #, kde-format
 msgid "Alt"
 msgstr "Yük"
 
-#: tools/imagingplanner.cpp:1116
+#: tools/imagingplanner.cpp:1123
 #, kde-format
 msgid "Const"
 msgstr "Sabit"
 
-#: tools/imagingplanner.cpp:1116
+#: tools/imagingplanner.cpp:1123
 #, kde-format
 msgid "Coord"
 msgstr "Koordinat"
 
-#: tools/imagingplanner.cpp:1118
+#: tools/imagingplanner.cpp:1125
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr "Nesne adı — Azalan/Artan biçimde sıralamak için tıklayın."
 
-#: tools/imagingplanner.cpp:1120
+#: tools/imagingplanner.cpp:1127
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
@@ -82379,12 +82364,12 @@ msgstr ""
 "Nesnenin görsellenebileceği saat sayısı — Azalan/Artan biçimde sıralamak "
 "için tıklayın."
 
-#: tools/imagingplanner.cpp:1122
+#: tools/imagingplanner.cpp:1129
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr "Nesne türü — Azalan/Artan biçimde sıralamak için tıklayın."
 
-#: tools/imagingplanner.cpp:1124
+#: tools/imagingplanner.cpp:1131
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
@@ -82392,12 +82377,12 @@ msgstr ""
 "En büyük nesne boyutu (yaydak) — Azalan/Artan biçimde sıralamak için "
 "tıklayın."
 
-#: tools/imagingplanner.cpp:1126
+#: tools/imagingplanner.cpp:1133
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr "En çok yükseklik — Azalan/Artan biçimde sıralamak için tıklayın."
 
-#: tools/imagingplanner.cpp:1128
+#: tools/imagingplanner.cpp:1135
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
@@ -82406,42 +82391,42 @@ msgstr ""
 "Geceyarısındaki Ay açısal ayrımı — Azalan/Artan biçimde sıralamak için "
 "tıklayın."
 
-#: tools/imagingplanner.cpp:1130
+#: tools/imagingplanner.cpp:1137
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr "Takımyıldız — Azalan/Artan biçimde sıralamak için tıklayın."
 
-#: tools/imagingplanner.cpp:1132
+#: tools/imagingplanner.cpp:1139
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr "RA/DEC koordinatları — Azalan/Artan biçimde sıralamak için tıklayın."
 
-#: tools/imagingplanner.cpp:1551
+#: tools/imagingplanner.cpp:1558
 #, kde-format
 msgid "No match for \"%1\""
 msgstr "“%1” için eşleşme yok"
 
-#: tools/imagingplanner.cpp:1615
+#: tools/imagingplanner.cpp:1622
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr "Bu nottaki 1. bağlantı ile bir tarayıcı açın: %1"
 
-#: tools/imagingplanner.cpp:1620
+#: tools/imagingplanner.cpp:1627
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr "Bu nottaki 2. bağlantı ile bir tarayıcı açın: %1"
 
-#: tools/imagingplanner.cpp:1625
+#: tools/imagingplanner.cpp:1632
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr "Bu nottaki 3. bağlantı ile bir tarayıcı açın: %1"
 
-#: tools/imagingplanner.cpp:1875
+#: tools/imagingplanner.cpp:1929
 #, kde-format
 msgid "Updating tables..."
 msgstr "Tablolar güncelleniyor…"
 
-#: tools/imagingplanner.cpp:2070
+#: tools/imagingplanner.cpp:2124
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -82450,143 +82435,143 @@ msgstr ""
 "Bu aracı kullanmaya başlamak için bir katalog yüklemeniz gerekir.\n"
 "“Veri → Yeni Veri İndir…” yolunu izleyin."
 
-#: tools/imagingplanner.cpp:2071
+#: tools/imagingplanner.cpp:2125
 #, kde-format
 msgid "No Catalog!"
 msgstr "Katalog yok!"
 
-#: tools/imagingplanner.cpp:2117
+#: tools/imagingplanner.cpp:2171
 #, kde-format
 msgid "Select an object."
 msgstr "Bir nesneyi seçin."
 
-#: tools/imagingplanner.cpp:2119
+#: tools/imagingplanner.cpp:2173
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr "Nesneleri göstermek için süzgeçlere bakın."
 
-#: tools/imagingplanner.cpp:2121
+#: tools/imagingplanner.cpp:2175
 #, kde-format
 msgid "Load a Catalog."
 msgstr "Bir katalog yükleyin."
 
-#: tools/imagingplanner.cpp:2299
+#: tools/imagingplanner.cpp:2353
 #, kde-format
 msgid "Loading Catalogs..."
 msgstr "Kataloglar yükleniyor…"
 
-#: tools/imagingplanner.cpp:2605
+#: tools/imagingplanner.cpp:2659
 #, kde-format
 msgid "Transits"
 msgstr "Geçişler"
 
-#: tools/imagingplanner.cpp:2610 tools/imagingplanner.cpp:2614
+#: tools/imagingplanner.cpp:2664 tools/imagingplanner.cpp:2668
 #, kde-format
 msgid "Sets at"
 msgstr "Batış zamanı"
 
-#: tools/imagingplanner.cpp:2621 tools/imagingplanner.cpp:2625
+#: tools/imagingplanner.cpp:2675 tools/imagingplanner.cpp:2679
 #, kde-format
 msgid "Rises at"
 msgstr "Doğuş zamanı"
 
-#: tools/imagingplanner.cpp:2632 tools/imagingplanner.cpp:2638
+#: tools/imagingplanner.cpp:2686 tools/imagingplanner.cpp:2692
 #, kde-format
 msgid "Rises"
 msgstr "Doğuş"
 
-#: tools/imagingplanner.cpp:2634 tools/imagingplanner.cpp:2640
+#: tools/imagingplanner.cpp:2688 tools/imagingplanner.cpp:2694
 #, kde-format
 msgid "Sets"
 msgstr "Batış"
 
-#: tools/imagingplanner.cpp:2744 tools/imagingplanner.cpp:3000
+#: tools/imagingplanner.cpp:2798 tools/imagingplanner.cpp:3054
 #, kde-format
 msgid "objects"
 msgstr "nesne"
 
-#: tools/imagingplanner.cpp:2996
+#: tools/imagingplanner.cpp:3050
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 ve %3 diğer nesne"
 
-#: tools/imagingplanner.cpp:3004 tools/imagingplanner.cpp:3008
+#: tools/imagingplanner.cpp:3058 tools/imagingplanner.cpp:3062
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr "%1 ögesini GÖRSELLENMEDİ olarak imle"
 
-#: tools/imagingplanner.cpp:3005 tools/imagingplanner.cpp:3010
+#: tools/imagingplanner.cpp:3059 tools/imagingplanner.cpp:3064
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr "%1 ögesini görsellendi olarak imle"
 
-#: tools/imagingplanner.cpp:3014 tools/imagingplanner.cpp:3018
+#: tools/imagingplanner.cpp:3068 tools/imagingplanner.cpp:3072
 #, kde-format
 msgid "Un-pick %1"
 msgstr "Seçimi Kaldır: %1"
 
-#: tools/imagingplanner.cpp:3015 tools/imagingplanner.cpp:3020
+#: tools/imagingplanner.cpp:3069 tools/imagingplanner.cpp:3074
 #, kde-format
 msgid "Pick %1"
 msgstr "Seç: %1"
 
-#: tools/imagingplanner.cpp:3025 tools/imagingplanner.cpp:3030
+#: tools/imagingplanner.cpp:3079 tools/imagingplanner.cpp:3084
 #, kde-format
 msgid "Stop ignoring %1"
 msgstr "Yok Saymayı Durdur: %1"
 
-#: tools/imagingplanner.cpp:3026 tools/imagingplanner.cpp:3032
+#: tools/imagingplanner.cpp:3080 tools/imagingplanner.cpp:3086
 #, kde-format
 msgid "Ignore %1"
 msgstr "Yok Say: %1"
 
-#: tools/imagingplanner.cpp:3035
+#: tools/imagingplanner.cpp:3089
 #, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "Gökyüzü Haritasında Ortala: %1"
 
-#: tools/imagingplanner.cpp:3174
+#: tools/imagingplanner.cpp:3228
 #, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "%1 nesne başarıyla okundu olarak imlendi"
 
-#: tools/imagingplanner.cpp:3176
+#: tools/imagingplanner.cpp:3230
 #, kde-format
 msgid "Empty file"
 msgstr "Boş dosya"
 
-#: tools/imagingplanner.cpp:3185
+#: tools/imagingplanner.cpp:3239
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "Tüm bu nesneler görsellendi olarak imlenemedi: %1"
 
-#: tools/imagingplanner.cpp:3187
+#: tools/imagingplanner.cpp:3241
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr "%1 öge görsellendi olarak imlenemedi, şu da dahil: %2"
 
-#: tools/imagingplanner.cpp:3189
+#: tools/imagingplanner.cpp:3243
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr "%1 nesne başarıyla görsellendi olarak imlendi. %2 başarısız oldu: %3"
 
-#: tools/imagingplanner.cpp:3192
+#: tools/imagingplanner.cpp:3246
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 "%1 nesne başarıyla görsellendi olarak imlendi. %2 başarısız oldu; %3 dahils"
 
-#: tools/imagingplanner.cpp:3198 tools/imagingplanner.cpp:3397
+#: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3451
 #, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Üzgünüm, dosya açılamadı: “%1”"
 
-#: tools/imagingplanner.cpp:3304
+#: tools/imagingplanner.cpp:3358
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr "Üzgünüm, katalog dosyası yok: “%1”"
 
-#: tools/imagingplanner.cpp:3378
+#: tools/imagingplanner.cpp:3432
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr "%1/%2: %3 ekleniyor"
