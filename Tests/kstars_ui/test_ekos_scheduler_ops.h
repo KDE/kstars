@@ -70,6 +70,7 @@ class TestEkosSchedulerOps : public QObject
         void testSettingAltitudeBug();
         void testEstimateTimeBug();
         void testGreedyMessier();
+        void testGreedyStartAt();
 
         // test data
         void testCulminationStartup_data();
@@ -82,7 +83,8 @@ class TestEkosSchedulerOps : public QObject
         void startup(const GeoLocation &geo, const QVector<SkyObject*> targetObjects,
                      const QDateTime &startSchedulerUTime, KStarsDateTime &currentUTime, int &sleepMs, QTemporaryDir &dir);
         void slewAndRun(SkyObject *object, const QDateTime &startUTime, const QDateTime &interruptUTime,
-                        KStarsDateTime &currentUTime, int &sleepMs, int tolerance, const QString &label = "");
+                        KStarsDateTime &currentUTime, int &sleepMs, int tolerance, const QString &label = "",
+                        const QDateTime &captureCompleteUTime = QDateTime());
         void parkAndSleep(KStarsDateTime &testUTime, int &sleepMs);
         void wakeupAndRestart(const QDateTime &restartTime, KStarsDateTime &testUTime, int &sleepMs);
 
@@ -90,7 +92,8 @@ class TestEkosSchedulerOps : public QObject
     private:
         bool iterateScheduler(const QString &label, int iterations, int *sleepMs,
                               KStarsDateTime* testUTime,
-                              std::function<bool ()> fcn);
+                              std::function<bool ()> fcn,
+                              const QDateTime &captureCompleteUTime = QDateTime());
 
         void initScheduler(const GeoLocation &geo, const QDateTime &startUTime, QTemporaryDir *dir,
                            const QVector<QString> &eslContents, const QVector<QString> &esqContents);
@@ -106,6 +109,8 @@ class TestEkosSchedulerOps : public QObject
             const GeoLocation &geo, const QDateTime &startUTime,
             QTemporaryDir *dir, const QVector<QString> &esls, const QVector<QString> &esqs,
             const QDateTime &wakeupTime, KStarsDateTime &endTestUTime, int &endSleepMs);
+        void startupJobs2(
+            const QDateTime &startUTime, const QDateTime &wakeupTime, KStarsDateTime &endTestUTime, int &endSleepMs);
         void startupJob(
             const GeoLocation &geo, const QDateTime &startUTime,
             QTemporaryDir *dir, const QString &esl, const QString &esq,

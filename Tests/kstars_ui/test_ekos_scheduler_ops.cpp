@@ -237,11 +237,15 @@ void TestEkosSchedulerOps::testBasics()
 // If fcn() returns true, it stops iterating and returns true.
 // It returns false if it completes all the with fnc() returning false.
 bool TestEkosSchedulerOps::iterateScheduler(const QString &label, int iterations,
-        int *sleepMs, KStarsDateTime* currentUTime, std::function<bool ()> fcn)
+        int *sleepMs, KStarsDateTime* currentUTime, std::function<bool ()> fcn,
+        const QDateTime &captureCompleteUTime)
 {
     fprintf(stderr, "\n----------------------------------------\n");
-    fprintf(stderr, "Starting iterateScheduler(%s)\n",  label.toLatin1().data());
-
+    fprintf(stderr, "Starting iterateScheduler(%s)%s\n",  label.toLatin1().data(),
+            captureCompleteUTime.isValid() ?
+            QString(" will send CAPTURE_COMPLETE at %1 ***************************")
+            .arg(captureCompleteUTime.toString()).toLatin1().data() : "");
+    bool captureCompleteDone = false;
     for (int i = 0; i < iterations; ++i)
     {
         //qApp->processEvents();
@@ -251,11 +255,31 @@ bool TestEkosSchedulerOps::iterateScheduler(const QString &label, int iterations
         // with less than 10ms wait time.
 
         *currentUTime = currentUTime->addSecs(*sleepMs / 1000.0);
+
+        if (captureCompleteUTime.isValid() && !captureCompleteDone &&
+                captureCompleteUTime.secsTo(*currentUTime) >= 0)
+        {
+            captureCompleteDone = true;
+            fprintf(stderr, "IterateScheduler(%s) sending CAPTURE_COMPLETE at %s\n",  label.toLatin1().data(),
+                    currentUTime->toString().toLatin1().data());
+            capture->setStatus(Ekos::CAPTURE_COMPLETE);
+        }
         KStarsData::Instance()->changeDateTime(*currentUTime); // <-- 175ms
         *sleepMs = scheduler->process()->runSchedulerIteration();
-        fprintf(stderr, "current time LT %s UT %s\n",
+        fprintf(stderr, "current time LT %s UT %s scheduler %s %s %s %d\n",
                 KStarsData::Instance()->lt().toString().toLatin1().data(),
-                KStarsData::Instance()->ut().toString().toLatin1().data());
+                KStarsData::Instance()->ut().toString().toLatin1().data(),
+                Ekos::getSchedulerStatusString(
+                    scheduler->moduleState()->schedulerState()).toLatin1().data(),
+                scheduler->moduleState()->activeJob() ?
+                Ekos::SchedulerJob::jobStageString(
+                    scheduler->moduleState()->activeJob()->getStage()).toLatin1().data() : "",
+                scheduler->moduleState()->activeJob() ?
+                Ekos::SchedulerJob::jobStatusString(
+                    scheduler->moduleState()->activeJob()->getState()).toLatin1().data() : "",
+                scheduler->moduleState()->timerState()
+               );
+
         if (fcn())
         {
             fprintf(stderr, "IterateScheduler %s returning TRUE at %s %s after %d iterations\n",
@@ -350,6 +374,12 @@ void TestEkosSchedulerOps::startupJobs(
     const QDateTime &wakeupTime, KStarsDateTime &endUTime, int &endSleepMs)
 {
     initScheduler(geo, startUTime, dir, esls, esqs);
+    startupJobs2(startUTime, wakeupTime, endUTime, endSleepMs);
+}
+
+void TestEkosSchedulerOps::startupJobs2(
+    const QDateTime &startUTime, const QDateTime &wakeupTime, KStarsDateTime &endUTime, int &endSleepMs)
+{
     {
         // Have the scheduler update quickly when running these init routines.
         WithInterval interval(1000, scheduler);
@@ -457,6 +487,16 @@ void TestEkosSchedulerOps::startupJobs(
 void TestEkosSchedulerOps::startModules(KStarsDateTime &currentUTime, int &sleepMs)
 {
     WithInterval interval(1000, scheduler);
+    QVERIFY(iterateScheduler("Wait for MountSlewing", 30, &sleepMs, &currentUTime, [&]() -> bool
+    {
+        if (mount->status() == ISD::Mount::MOUNT_SLEWING)
+        {
+            mount->setStatus(ISD::Mount::MOUNT_TRACKING);
+            return true;
+        }
+        return false;
+    }));
+
     QVERIFY(iterateScheduler("Wait for MountTracking", 30, &sleepMs, &currentUTime, [&]() -> bool
     {
         if (mount->status() == ISD::Mount::MOUNT_SLEWING)
@@ -471,7 +511,10 @@ void TestEkosSchedulerOps::startModules(KStarsDateTime &currentUTime, int &sleep
         if (focuser->status() == Ekos::FOCUS_PROGRESS)
             focuser->setStatus(Ekos::FOCUS_COMPLETE);
         else if (focuser->status() == Ekos::FOCUS_COMPLETE)
+        {
+            focuser->setStatus(Ekos::FOCUS_IDLE);
             return true;
+        }
         return false;
     }));
 
@@ -679,7 +722,8 @@ void TestEkosSchedulerOps::testDawnShutdown()
 // Check that the correct slew was made
 // Expect the job to be interrupted at interruptUTime (if the time is valid)
 void TestEkosSchedulerOps::slewAndRun(SkyObject *object, const QDateTime &startUTime, const QDateTime &interruptUTime,
-                                      KStarsDateTime &currentUTime, int &sleepMs, int tolerance, const QString &label)
+                                      KStarsDateTime &currentUTime, int &sleepMs, int tolerance, const QString &label,
+                                      const QDateTime &captureCompleteUTime)
 {
     QVERIFY(iterateScheduler("Wait for Job Startup", DEFAULT_ITERATIONS, &sleepMs, &currentUTime, [&]() -> bool
     {
@@ -710,10 +754,12 @@ void TestEkosSchedulerOps::slewAndRun(SkyObject *object, const QDateTime &startU
     {
         // Wait until the job stops processing,
         // When scheduler state JOBCHECK changes to RUN_SCHEDULER.
+        capture->setStatus(Ekos::CAPTURE_CAPTURING);
         QVERIFY(iterateScheduler("Wait for Job Interruption", 1000, &sleepMs, &currentUTime, [&]() -> bool
         {
-            return (scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER);
-        }));
+            return (scheduler->moduleState()->timerState() == Ekos::RUN_SCHEDULER ||
+                    scheduler->moduleState()->timerState() == Ekos::RUN_NOTHING);
+        }, captureCompleteUTime));
 
         delta = KStarsData::Instance()->ut().secsTo(interruptUTime);
         QVERIFY2(std::abs(delta) < timeTolerance(tolerance),
@@ -974,7 +1020,9 @@ void TestEkosSchedulerOps::testGreedySchedulerRun()
 
     startup(geo, targetObjects, startUTime, currentUTime, sleepMs, dir);
     slewAndRun(targetObjects[denebIndex], d1Start, a1Start, currentUTime, sleepMs, 600, "Greedy job #1");
+    startModules(currentUTime, sleepMs);
     slewAndRun(targetObjects[altairIndex], a1Start, d2Start, currentUTime, sleepMs, 600, "Greedy job #2");
+    startModules(currentUTime, sleepMs);
     slewAndRun(targetObjects[denebIndex], d2Start, d2End, currentUTime, sleepMs, 600, "Greedy job #3");
 
     parkAndSleep(currentUTime, sleepMs);
@@ -1309,6 +1357,79 @@ void TestEkosSchedulerOps::testGreedy()
         {"Deneb",  "2021/06/14 01:00", "2021/06/14 03:52"},
         {"Altair", "2021/06/14 23:30", "2021/06/15 01:31"}},
     scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+    Options::setGreedyScheduling(true);
+}
+
+void TestEkosSchedulerOps::testGreedyStartAt()
+{
+    // Allow 10 minutes of slop in the schedule. The scheduler simulates every 2 minutes,
+    // so 10 minutes is approx 5 of these timesteps.
+    constexpr int checkScheduleTolerance = 600;
+
+    Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
+    WithInterval interval(40000, scheduler);
+
+    ArtificialHorizon horizon;
+    Ekos::SchedulerJob::setHorizon(&horizon);
+
+    // Setup geo and an artificial horizon.
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    ArtificialHorizon shutdownHorizon;
+    addHorizonConstraint(&shutdownHorizon, "h", true, QVector<double>({175, 200}), QVector<double>({70, 70}));
+
+    // Start the scheduler about 9pm local
+    const QDateTime startUTime = QDateTime(QDate(2021, 6, 14), QTime(4, 0, 0), Qt::UTC);
+    initTimeGeo(geo, startUTime);
+
+    auto schedJob60x10 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {60, 30, "Red", "."});
+    auto schedJob30x16 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {30, 40, "Red", "."});
+
+    TestEkosSchedulerHelper::StartupCondition atStartupCondition, atStartupCondition2;
+    TestEkosSchedulerHelper::CompletionCondition finishCompletionCondition;
+    atStartupCondition.type = Ekos::START_AT;
+    atStartupCondition.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(1, 0, 0), Qt::LocalTime);
+    atStartupCondition2.type = Ekos::START_AT;
+    atStartupCondition2.atLocalDateTime = QDateTime(QDate(2021, 6, 14), QTime(3, 0, 0), Qt::LocalTime);
+    finishCompletionCondition.type = Ekos::FINISH_SEQUENCE;
+
+    // Write the scheduler and sequence files.
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+
+    initTimeGeo(geo, startUTime);
+
+    loadGreedySchedule(true, "Altair", atStartupCondition, finishCompletionCondition, dir, schedJob60x10, 30);
+    loadGreedySchedule(false, "Deneb", atStartupCondition2, finishCompletionCondition, dir, schedJob30x16, 30);
+    scheduler->process()->evaluateJobs(false);
+    QVERIFY(checkSchedule(
+    {
+        {"Altair",  "2021/06/14 01:00", "2021/06/14 01:33"},
+        {"Deneb", "2021/06/14 03:00", "2021/06/14 03:23"}},
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+
+
+    scheduler->moduleState()->init();
+    QVERIFY(scheduler->moduleState()->timerState() == Ekos::RUN_WAKEUP);
+    int sleepMs = 0;
+    KStarsDateTime currentUTime;
+    const QDateTime wakeupTime;  // Not valid--it starts up right away.
+
+    startupJobs2(startUTime, wakeupTime, currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+
+    QVector<SkyObject*> targetObjects;
+    constexpr int altairIndex = 0, denebIndex = 1;
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Altair"));
+    targetObjects.push_back(KStars::Instance()->data()->skyComposite()->findByName("Deneb"));
+    QDateTime a1Start (QDateTime(QDate(2021, 6, 14), QTime( 8, 00, 0), Qt::UTC)); // 1am
+    QDateTime a1End   (QDateTime(QDate(2021, 6, 14), QTime( 8, 33, 0), Qt::UTC)); // 1:33am
+    QDateTime d1Start (QDateTime(QDate(2021, 6, 14), QTime(10, 00, 0), Qt::UTC)); // 3am
+    QDateTime d1End   (QDateTime(QDate(2021, 6, 14), QTime(10, 23, 0), Qt::UTC)); // 3:23am
+
+    slewAndRun(targetObjects[altairIndex], a1Start, a1End, currentUTime, sleepMs, 600, "Greedy job #1", a1End);
+    wakeupAndRestart(d1Start, currentUTime, sleepMs);
+    startModules(currentUTime, sleepMs);
+    slewAndRun(targetObjects[denebIndex], d1Start, d1End, currentUTime, sleepMs, 600, "Greedy job #2", d1End);
+
     Options::setGreedyScheduling(true);
 }
 
