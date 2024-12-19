@@ -63,5 +63,11 @@
 >Planificateur d'observation</link
 ></para
 ></listitem>
+<listitem
+><para
+><link linkend="tool-imaging-planner"
+>Planificateur d'acquisition</link
+></para
+></listitem>
 </itemizedlist
->&tool-details; &tool-calculator; &tool-altvstime; &tool-eyepieceview; &tool-whatsup; &tool-scriptbuilder; &tool-solarsys; &tool-jmoons; &tool-obsplanner; </chapter>
+>&tool-details; &tool-calculator; &tool-altvstime; &tool-eyepieceview; &tool-whatsup; &tool-scriptbuilder; &tool-solarsys; &tool-jmoons; &tool-obsplanner; &tools-imaging-planner </chapter>
