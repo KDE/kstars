@@ -1073,6 +1073,23 @@
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Outils</guimenu
+> <guimenuitem
+>Planificateur d'acquisition</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Ouvre l'outil de <link linkend="tool-imagin-planner"
+>planificateur d'observations</link
+>, qui aide à trouver des objets à photographier. </para>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </sect2>
 
@@ -1825,7 +1842,7 @@
     <listitem
 ><para
 >Affiche l'<guilabel
->Assistants de configuration</guilabel
+>Assistant de configuration</guilabel
 >. C'est la même fenêtre que vous avez vu lorsque vous avez lancé &kstars; pour la première fois. Cet assistant vous aidera à régler les options de base telles que votre position sur Terre. La première page de cet assistant est une page de bienvenue et si vous cliquez sur <guibutton
 >Suivant</guibutton
 > vous tomberez sur la page <guilabel
@@ -1836,7 +1853,7 @@
 >Longitude</guilabel
 > seront mises à jour avec les coordonnées exacte de la position sélectionnée. En cliquant sur le bouton <guibutton
 >Suivant</guibutton
->, vous irez sur la dernière page de l'assistant de configuration de &kstars; : <quote
+>, vous irez sur la dernière page de l'assistant de configuration de &kstars; : <quote
 >Télécharger des données supplémentaires</quote
 >. Ici, vous pourrez télécharger via Internet des fichiers de données optionnels afin d'améliorer &kstars;, telles que des images des objets Messier ou encore un catalogue NGC/IC plus complet. Cliquez sur le bouton <guibutton
 >Télécharger des données supplémentaires</guibutton
@@ -1940,7 +1957,7 @@
 ><para
 >Fenêtre <guimenuitem
 >Ajouter drapeau</guimenuitem
-> : ouvrir le <quote
+> : ouvrir le <quote
 >Gestionnaire de drapeaux</quote
 >. Vous pouvez gérer ici vos drapeaux et utiliser quelques fonctionnalités de &kstars;. Quand la fenêtre de <quote
 >Gestionnaire de drapeaux</quote
@@ -2438,6 +2455,19 @@
 >Exécute l'outil de <link linkend="tool-obsplanner"
 >planificateur d'observations</link
 >. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>P</keycap
+></keycombo
+></term>
+<listitem
+><para
+>Ouvrez l'outil Planificateur d'acquisition.</para
 ></listitem>
 </varlistentry>
 

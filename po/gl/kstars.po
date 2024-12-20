@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-16 02:33+0000\n"
-"PO-Revision-Date: 2024-12-17 22:55+0100\n"
+"PO-Revision-Date: 2024-12-19 22:42+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -11911,7 +11911,7 @@ msgstr "Preferir:"
 msgid ""
 "For the selected camera, remove noise by means of dark frame subtraction."
 msgstr ""
-"Para a cámara seleccionara, reducir o ruído mediante a subtracción de "
+"Para a cámara seleccionara, retirar o ruído mediante a subtracción de "
 "fotograma escuro."
 
 #. i18n: ectx: property (text), widget (QRadioButton, preferDarksRadio)
@@ -11926,7 +11926,7 @@ msgstr "Escuros"
 #, kde-format
 msgid "For the selected camera, remove noise by means of defect map filtering."
 msgstr ""
-"Para a cámara seleccionara, reducir o ruído mediante filtro de mapa de "
+"Para a cámara seleccionara, retirar o ruído mediante filtro de mapa de "
 "defectos."
 
 #. i18n: ectx: property (text), widget (QRadioButton, preferDefectsRadio)
@@ -30394,6 +30394,7 @@ msgstr "Completouse."
 msgid "Debayer failed."
 msgstr "A debayer fallou."
 
+# skip-rule: trasno-remove_reverse
 #. i18n: ectx: property (windowTitle), widget (QDialog, FITSDebayerDialog)
 #: fitsviewer/fitsdebayer.ui:14
 #, kde-format
@@ -38874,6 +38875,7 @@ msgstr "Aplícase unha máscara de mosaico."
 msgid "Full field inner radius."
 msgstr "Raio interno do campo completo."
 
+# skip-rule: trasno-remove_reverse
 #. i18n: ectx: whatsthis, entry (FocusFullFieldInnerRadius), group (Focus)
 #: kstars.kcfg:2252
 #, no-c-format, kde-format
@@ -38892,6 +38894,7 @@ msgstr ""
 msgid "Full field outer radius."
 msgstr "Raio externo do campo completo."
 
+# skip-rule: trasno-remove_reverse
 #. i18n: ectx: whatsthis, entry (FocusFullFieldOuterRadius), group (Focus)
 #: kstars.kcfg:2257
 #, no-c-format, kde-format

@@ -356,6 +356,37 @@
 > et dont la couleur reflète sa position. Vous pouvez modifier la couleur de l'anneau central en ajustant la précision du graphique de dérive. </para>
     </sect2>
 
+    <sect2 id="guide-multistar">
+        <title
+>Guidage avec Multiple Stars</title>
+        <screenshot>
+            <screeninfo
+>GPG MultiStar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_multistar_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Guidage avec Multistar</phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>Dans le mode standard de guidage, le système choisi une étoile guide. Les systèmes excluant les étoiles multiples, les mouvements mesurés de cette étoile par raaport aux mesures de sa position initial sont convertis en décalage en AD et DEC, qui sont les erreurs de dérive de guidage. Pour le guidage à étoiles multiples, le système choisit plusieurs étoiles de référence et mesure leur décalage par rapport à leur position initiale. L'erreur de guidage est calculée comme étant le déplacement médian de chaque étoile de référence par rapport à leur position initiale. La magie dont le système a besoin de réaliser est de trouver le motif bi-dimensionel des étoiles de référence dans l'image guide, mais trouver ce motif est plus robuste que de trouver une unique étoile guide qui s'est peut-être déplacé significativement ou qui n'a pas été détectée du tout. Nous recommandons cette approche de guidage en choisissant l'algorithme de guidage <guilabel
+>SEP Multi Star</guilabel
+>. </para>
+        <para
+>Il existe quelques options intéressantes à considérer. <guilabel
+>Max Multistar Ref Stars</guilabel
+> est le nombre maximale d'étoiles de références que le système peut utiliser. La raison principale de cette limite est le coût de calcul, malgré qu'il ne soit pas très élévé. 50 est un bon choix. Le réglage <guilabel
+>Min Multistar Star Detection</guilabel
+> indique au système de se rabattre à une étoile guide unique s'il y a moins d'étoiles que cette valeur. <guilabel
+>Invent Multi-Star Guide Star</guilabel
+> devrait être cochée et <guilabel
+>Max Multistar HFR</guilabel
+> est un ancien paramètre qui n'a vraiment plus trop d'intérêt. </para>
+    </sect2>
     <sect2 id="guide-gpg">
         <title
 >Guidage avec GPG</title>
