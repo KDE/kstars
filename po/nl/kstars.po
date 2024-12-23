@@ -83298,7 +83298,7 @@ msgid ""
 "show those that have not been ignored).</p></body></html>"
 msgstr ""
 "<html><head/><body><p>De objecten tonen die zijn genegeerd (en niet diegenen "
-"tonen die niet zijn genegeerd)p></body></html>"
+"tonen die niet zijn genegeerd)<p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notIgnoredCB)
 #: tools/imagingplanner.ui:1942
