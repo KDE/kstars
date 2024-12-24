@@ -6,11 +6,12 @@
 
 #include "opsmiscsettings.h"
 #include "kstars.h"
+#include "Options.h"
 #include <KConfigDialog>
 
 namespace Ekos
 {
-OpsMiscSettings::OpsMiscSettings() : QFrame(KStars::Instance())
+OpsMiscSettings::OpsMiscSettings() : QWidget(KStars::Instance())
 {
     setupUi(this);
 
@@ -19,4 +20,5 @@ OpsMiscSettings::OpsMiscSettings() : QFrame(KStars::Instance())
 
     connect(m_ConfigDialog, &KConfigDialog::settingsChanged, this, &OpsMiscSettings::settingsUpdated);
 }
+
 }

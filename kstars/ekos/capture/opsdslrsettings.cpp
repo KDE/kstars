@@ -11,7 +11,7 @@
 
 namespace Ekos
 {
-OpsDslrSettings::OpsDslrSettings() : QFrame(KStars::Instance())
+OpsDslrSettings::OpsDslrSettings() : QWidget(KStars::Instance())
 {
     setupUi(this);
 
