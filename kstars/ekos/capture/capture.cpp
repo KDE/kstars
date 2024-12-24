@@ -52,7 +52,6 @@ namespace Ekos
 Capture::Capture()
 {
     setupUi(this);
-    prepareGUI();
 
     qRegisterMetaType<CaptureState>("CaptureState");
     qDBusRegisterMetaType<CaptureState>();
@@ -91,10 +90,12 @@ Capture::Capture()
     // connection to the global module state
     connect(m_moduleState.get(), &CaptureModuleState::dither, this, &Capture::dither);
     connect(m_moduleState.get(), &CaptureModuleState::newLog, this, &Capture::appendLogText);
+
+    setupOptions();
 }
 
 
-void Capture::prepareGUI()
+void Capture::setupOptions()
 {
     KConfigDialog *dialog = new KConfigDialog(this, "capturesettings", Options::self());
 

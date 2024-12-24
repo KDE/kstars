@@ -65,7 +65,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QSpinBox" name="manualCoverTimeout">
+      <widget class="QSpinBox" name="kcfg_ManualCoverTimeout">
        <property name="maximum">
         <number>600</number>
        </property>
@@ -85,14 +85,14 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="guidingSettle">
+      <widget class="QDoubleSpinBox" name="kcfg_GuidingSettle">
        <property name="toolTip">
         <string>Wait this many seconds after guiding is resumed before starting capture</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QDoubleSpinBox" name="maxTemperatureDiff">
+      <widget class="QDoubleSpinBox" name="kcfg_MaxTemperatureDiff">
        <property name="minimum">
         <double>0.100000000000000</double>
        </property>
@@ -148,7 +148,7 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QSpinBox" name="minFlipDuration">
+      <widget class="QSpinBox" name="kcfg_MinFlipDuration">
        <property name="maximum">
         <number>360</number>
        </property>
@@ -170,7 +170,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="alwaysResetSequenceWhenStarting">
+    <widget class="QCheckBox" name="kcfg_AlwaysResetSequenceWhenStarting">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When starting to process a sequence list, reset all capture counts to zero. Scheduler overrides this option when Remember job progress is enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
@@ -183,21 +183,21 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="resetMountModelAfterMeridian">
+    <widget class="QCheckBox" name="kcfg_ResetMountModelAfterMeridian">
      <property name="text">
       <string>Reset mount model after meridian flip</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="forcedFlip">
+    <widget class="QCheckBox" name="kcfg_ForcedFlip">
      <property name="text">
       <string>Use flip command if supported by mount</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="kcfg_useSummaryPreview">
+    <widget class="QCheckBox" name="kcfg_UseSummaryPreview">
      <property name="toolTip">
       <string>Display received FITS in the Summary screen preview window.</string>
      </property>

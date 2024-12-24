@@ -293,7 +293,7 @@ class Capture : public QWidget, public Ui::Capture
         /**
          * @brief prepareGUI Perform once only GUI prep processing
          */
-        void prepareGUI();
+        void setupOptions();
 
         // Settings popup
         OpsMiscSettings *m_OpsMiscSettings { nullptr };

@@ -14,7 +14,7 @@ class KConfigDialog;
 namespace Ekos
 {
 
-class OpsDslrSettings : public QFrame, public Ui::OpsDslrSettings
+class OpsDslrSettings : public QWidget, public Ui::OpsDslrSettings
 {
         Q_OBJECT
 

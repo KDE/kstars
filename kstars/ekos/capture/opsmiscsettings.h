@@ -13,7 +13,7 @@ class KConfigDialog;
 namespace Ekos
 {
 
-class OpsMiscSettings : public QFrame, public Ui::OpsMiscSettings
+class OpsMiscSettings : public QWidget, public Ui::OpsMiscSettings
 {
         Q_OBJECT
 
