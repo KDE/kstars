@@ -104,11 +104,11 @@ void Capture::setupOptions()
 #endif
 
     m_OpsMiscSettings = new OpsMiscSettings();
-    KPageWidgetItem *page = dialog->addPage(m_OpsMiscSettings, i18n("Misc"), nullptr, i18n("Capture Misc"), false);
+    KPageWidgetItem *page = dialog->addPage(m_OpsMiscSettings, i18n("Misc"));
     page->setIcon(QIcon::fromTheme("configure"));
 
     m_OpsDslrSettings = new OpsDslrSettings();
-    page = dialog->addPage(m_OpsDslrSettings, i18n("DSLR"), nullptr, i18n("Capture DSLR"), false);
+    page = dialog->addPage(m_OpsDslrSettings, i18n("DSLR"));
     page->setIcon(QIcon::fromTheme("camera-photo"));
 
 
