@@ -685,7 +685,13 @@ bool Camera::processBLOB(INDI::Property prop)
     QSharedPointer<FITSData> imageData;
     imageData.reset(new FITSData(targetChip->getCaptureMode()), &QObject::deleteLater);
     imageData->setExtension(shortFormat);
-    if (!imageData->loadFromBuffer(buffer))
+
+    // JM 2024.12.25: Only load from buffer if we need the imageData.
+    // When neither FITS Viewer nor Summary view is used, and when the type is FITS_NORMAL in batch mode, then we save to disk directly
+    // so that we do not incur delays in loading from buffer that may delay the sequence unnecessairly.
+    if ((Options::useFITSViewer() || Options::useSummaryPreview() || targetChip->getCaptureMode() != FITS_NORMAL
+            || !targetChip->isBatchMode()) &&
+            !imageData->loadFromBuffer(buffer))
     {
         emit error(ERROR_LOAD);
         return true;
