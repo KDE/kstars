@@ -85,6 +85,5 @@ unitybuild_*.cpp
 /compile_commands.json
 .clangd
 .cache
-.vscode
 .idea
 /cmake-build*

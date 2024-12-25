@@ -1,0 +1,7 @@
+{
+    "cmake.configureArgs": [
+        "-DBUILD_TESTING=OFF",
+        "-DBUILD_DOCS=OFF",
+    ]
+}
+
