@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 02:33+0000\n"
+"POT-Creation-Date: 2024-12-25 02:19+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -2508,7 +2508,7 @@ msgid "Minor axis:"
 msgstr "Manja osa"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:106
+#: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:107
 #, kde-format
 msgid "Misc"
 msgstr ""
@@ -6649,7 +6649,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Rješavač prekinut nakon %1 sekunde."
 
 #: ekos/align/align.cpp:2623 ekos/analyze/analyze.cpp:4121
-#: ekos/capture/capture.cpp:317 ekos/focus/focusmodule.cpp:240
+#: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:240
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:985
 #: ekos/scheduler/schedulerprocess.cpp:3499
@@ -16329,43 +16329,31 @@ msgstr "Rješavač  pauziran."
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Rješavač  pauziran."
 
-#: ekos/capture/capture.cpp:68
+#: ekos/capture/capture.cpp:67
 #, kde-format
 msgid ""
 "<p>Add additional camera</p><p><b>WARNING</b>: This feature is experimental!"
 "</p>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:106
-#, fuzzy, kde-format
-#| msgid "Capture"
-msgid "Capture Misc"
-msgstr "Dohvati"
-
-#: ekos/capture/capture.cpp:110
+#: ekos/capture/capture.cpp:111
 #, kde-format
 msgid "DSLR"
 msgstr ""
 
-#: ekos/capture/capture.cpp:110
-#, fuzzy, kde-format
-#| msgid "Capture"
-msgid "Capture DSLR"
-msgstr "Dohvati"
-
-#: ekos/capture/capture.cpp:476 ekos/focus/focusmodule.cpp:391
+#: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:391
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:392
+#: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
 msgstr "Zaustavi &praćenje"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
+#: ekos/capture/capture.cpp:479 ekos/focus/focusmodule.cpp:392
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
@@ -17332,14 +17320,14 @@ msgstr ""
 msgid "Force DSLR presets"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, useDSLRImageViewer)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/capture/opsdslrsettings.ui:50
 #, fuzzy, kde-format
 #| msgid "Display image in FITS Viewer."
 msgid "Display received DSLR images in the Image Viewer"
 msgstr "Prikaži sliku u FITS pregledniku."
 
-#. i18n: ectx: property (text), widget (QCheckBox, useDSLRImageViewer)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/capture/opsdslrsettings.ui:53
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
@@ -17389,7 +17377,7 @@ msgstr ""
 msgid "Temperature threshold:"
 msgstr "Temperatura K"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guidingSettle)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
 #: ekos/capture/opsmiscsettings.ui:90
 #, kde-format
 msgid "Wait this many seconds after guiding is resumed before starting capture"
@@ -17426,7 +17414,7 @@ msgstr ""
 msgid "Minimal meridian flip duration: "
 msgstr "Meridian"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:175
 #, kde-format
 msgid ""
@@ -17435,25 +17423,25 @@ msgid ""
 "progress is enabled.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:178
 #, fuzzy, kde-format
 msgid "Always reset sequence when starting"
 msgstr "Kalibracija"
 
-#. i18n: ectx: property (text), widget (QCheckBox, resetMountModelAfterMeridian)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
 #: ekos/capture/opsmiscsettings.ui:188
 #, fuzzy, kde-format
 msgid "Reset mount model after meridian flip"
 msgstr "Telescope Wizard je uspješno završen."
 
-#. i18n: ectx: property (text), widget (QCheckBox, forcedFlip)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
 #: ekos/capture/opsmiscsettings.ui:195
 #, kde-format
 msgid "Use flip command if supported by mount"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:202
 #, fuzzy, kde-format
 #| msgid ""
@@ -17464,7 +17452,7 @@ msgstr ""
 "Prikazuje sve snimljene FITS slike u jednom tabu umjesto u više tabova po "
 "slici."
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:205
 #, kde-format
 msgid "Summary screen preview"
@@ -95686,6 +95674,16 @@ msgstr "Boja pozadine:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Postavi boju pozadine."
+
+#, fuzzy
+#~| msgid "Capture"
+#~ msgid "Capture Misc"
+#~ msgstr "Dohvati"
+
+#, fuzzy
+#~| msgid "Capture"
+#~ msgid "Capture DSLR"
+#~ msgstr "Dohvati"
 
 #, fuzzy
 #~| msgctxt "Satellite group name"

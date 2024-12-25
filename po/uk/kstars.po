@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 02:33+0000\n"
+"POT-Creation-Date: 2024-12-25 02:19+0000\n"
 "PO-Revision-Date: 2024-12-15 09:40+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -2444,7 +2444,7 @@ msgid "Minor axis:"
 msgstr "Мала вісь:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:106
+#: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:107
 #, kde-format
 msgid "Misc"
 msgstr "Інше"
@@ -6470,7 +6470,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Розв'язування перервано за %1 секунд."
 
 #: ekos/align/align.cpp:2623 ekos/analyze/analyze.cpp:4121
-#: ekos/capture/capture.cpp:317 ekos/focus/focusmodule.cpp:240
+#: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:240
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:985
 #: ekos/scheduler/schedulerprocess.cpp:3499
@@ -16267,7 +16267,7 @@ msgstr "Невдала спроба вирівнювання після пере
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Невдала спроба вирівнювання після переходу. Повторюємо спробу…"
 
-#: ekos/capture/capture.cpp:68
+#: ekos/capture/capture.cpp:67
 #, kde-format
 msgid ""
 "<p>Add additional camera</p><p><b>WARNING</b>: This feature is experimental!"
@@ -16276,33 +16276,23 @@ msgstr ""
 "<p>Додати додаткову камеру</p><p><b>ПОПЕРЕДЖЕННЯ</b>: ця можливість є "
 "експериментальною!</p>"
 
-#: ekos/capture/capture.cpp:106
-#, kde-format
-msgid "Capture Misc"
-msgstr "Захоплення з іншого"
-
-#: ekos/capture/capture.cpp:110
+#: ekos/capture/capture.cpp:111
 #, kde-format
 msgid "DSLR"
 msgstr "DSLR"
 
-#: ekos/capture/capture.cpp:110
-#, kde-format
-msgid "Capture DSLR"
-msgstr "Захоплення з DSLR"
-
-#: ekos/capture/capture.cpp:476 ekos/focus/focusmodule.cpp:391
+#: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:391
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "Камеру %1 зайнято. Перервати, щоб закрити?"
 
-#: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:392
+#: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
 #, kde-format
 msgid "Stop capturing"
 msgstr "Припинити захоплення"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
+#: ekos/capture/capture.cpp:479 ekos/focus/focusmodule.cpp:392
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
@@ -17243,13 +17233,13 @@ msgstr ""
 msgid "Force DSLR presets"
 msgstr "Примусово набори параметрів DSLR"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, useDSLRImageViewer)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/capture/opsdslrsettings.ui:50
 #, kde-format
 msgid "Display received DSLR images in the Image Viewer"
 msgstr "Показувати отримані знімки у вікні перегляду зображень"
 
-#. i18n: ectx: property (text), widget (QCheckBox, useDSLRImageViewer)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/capture/opsdslrsettings.ui:53
 #, kde-format
 msgid "DSLR image viewer"
@@ -17297,7 +17287,7 @@ msgstr ""
 msgid "Temperature threshold:"
 msgstr "Порогова температура:"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guidingSettle)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
 #: ekos/capture/opsmiscsettings.ui:90
 #, kde-format
 msgid "Wait this many seconds after guiding is resumed before starting capture"
@@ -17342,7 +17332,7 @@ msgstr ""
 msgid "Minimal meridian flip duration: "
 msgstr "Мінімальна тривалість переходу за меридіаном: "
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:175
 #, kde-format
 msgid ""
@@ -17355,32 +17345,32 @@ msgstr ""
 "перевизначає цей параметр, якщо увімкнено запам'ятовування поступу завдань.</"
 "p></body></html>"
 
-#. i18n: ectx: property (text), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:178
 #, kde-format
 msgid "Always reset sequence when starting"
 msgstr "Завжди скидати послідовність на початку"
 
-#. i18n: ectx: property (text), widget (QCheckBox, resetMountModelAfterMeridian)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
 #: ekos/capture/opsmiscsettings.ui:188
 #, kde-format
 msgid "Reset mount model after meridian flip"
 msgstr "Скинути модель лафета після переходу за меридіаном"
 
-#. i18n: ectx: property (text), widget (QCheckBox, forcedFlip)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
 #: ekos/capture/opsmiscsettings.ui:195
 #, kde-format
 msgid "Use flip command if supported by mount"
 msgstr ""
 "Використати команду віддзеркалення, якщо у лафеті передбачено її підтримку"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:202
 #, kde-format
 msgid "Display received FITS in the Summary screen preview window."
 msgstr "Показувати отримані зображення FITS у вікні перегляду резюме."
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:205
 #, kde-format
 msgid "Summary screen preview"
@@ -88401,6 +88391,12 @@ msgstr "Колір тла:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
+
+#~ msgid "Capture Misc"
+#~ msgstr "Захоплення з іншого"
+
+#~ msgid "Capture DSLR"
+#~ msgstr "Захоплення з DSLR"
 
 #~ msgid "Imaging Planner (experimental)"
 #~ msgstr "Планувальник зйомки (експериментальний)"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 02:33+0000\n"
+"POT-Creation-Date: 2024-12-25 02:19+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -2564,7 +2564,7 @@ msgid "Minor axis:"
 msgstr "छुद्र अक्ष"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:106
+#: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:107
 #, kde-format
 msgid "Misc"
 msgstr ""
@@ -6695,7 +6695,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "एफ़आईटीएस फ़ाइल को %1 में सहेजा"
 
 #: ekos/align/align.cpp:2623 ekos/analyze/analyze.cpp:4121
-#: ekos/capture/capture.cpp:317 ekos/focus/focusmodule.cpp:240
+#: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:240
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:985
 #: ekos/scheduler/schedulerprocess.cpp:3499
@@ -16338,43 +16338,31 @@ msgstr "इनपुट फ़ाइल में %1 को निर्धा�
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "इनपुट फ़ाइल में %1 को निर्धारित करें."
 
-#: ekos/capture/capture.cpp:68
+#: ekos/capture/capture.cpp:67
 #, kde-format
 msgid ""
 "<p>Add additional camera</p><p><b>WARNING</b>: This feature is experimental!"
 "</p>"
 msgstr ""
 
-#: ekos/capture/capture.cpp:106
-#, fuzzy, kde-format
-#| msgid "Capture Image"
-msgid "Capture Misc"
-msgstr "छवि कैप्चर करें"
-
-#: ekos/capture/capture.cpp:110
+#: ekos/capture/capture.cpp:111
 #, kde-format
 msgid "DSLR"
 msgstr ""
 
-#: ekos/capture/capture.cpp:110
-#, fuzzy, kde-format
-#| msgid "Capture Image"
-msgid "Capture DSLR"
-msgstr "छवि कैप्चर करें"
-
-#: ekos/capture/capture.cpp:476 ekos/focus/focusmodule.cpp:391
+#: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:391
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
-#: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:392
+#: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop capturing"
 msgstr "ट्रेकिंग बंद करें (&T)"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
+#: ekos/capture/capture.cpp:479 ekos/focus/focusmodule.cpp:392
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
@@ -17329,14 +17317,14 @@ msgstr ""
 msgid "Force DSLR presets"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, useDSLRImageViewer)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/capture/opsdslrsettings.ui:50
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgid "Display received DSLR images in the Image Viewer"
 msgstr "के-स्टार्स एफआईटीएस प्रदर्शक में आपका स्वागत है"
 
-#. i18n: ectx: property (text), widget (QCheckBox, useDSLRImageViewer)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/capture/opsdslrsettings.ui:53
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
@@ -17385,7 +17373,7 @@ msgstr ""
 msgid "Temperature threshold:"
 msgstr "एपर्चरः"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guidingSettle)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
 #: ekos/capture/opsmiscsettings.ui:90
 #, kde-format
 msgid "Wait this many seconds after guiding is resumed before starting capture"
@@ -17423,7 +17411,7 @@ msgstr ""
 msgid "Minimal meridian flip duration: "
 msgstr "कैप्चर के बाद एफआईटीएस का स्वचालित प्रदर्शन (&A)"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:175
 #, kde-format
 msgid ""
@@ -17432,7 +17420,7 @@ msgid ""
 "progress is enabled.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:178
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -17440,27 +17428,27 @@ msgstr ""
 msgid "Always reset sequence when starting"
 msgstr "केलिएन्टे"
 
-#. i18n: ectx: property (text), widget (QCheckBox, resetMountModelAfterMeridian)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
 #: ekos/capture/opsmiscsettings.ui:188
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Reset mount model after meridian flip"
 msgstr "कैप्चर के बाद एफआईटीएस का स्वचालित प्रदर्शन (&A)"
 
-#. i18n: ectx: property (text), widget (QCheckBox, forcedFlip)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
 #: ekos/capture/opsmiscsettings.ui:195
 #, kde-format
 msgid "Use flip command if supported by mount"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:202
 #, fuzzy, kde-format
 #| msgid "Welcome to KStars FITS Viewer"
 msgid "Display received FITS in the Summary screen preview window."
 msgstr "के-स्टार्स एफआईटीएस प्रदर्शक में आपका स्वागत है"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:205
 #, kde-format
 msgid "Summary screen preview"
@@ -95837,6 +95825,16 @@ msgstr "जानकारी-बक्सा पृष्ठभूमि का
 #| msgid "The color for the sky background."
 msgid "Set the color for the background."
 msgstr "आकाश के पृष्ठ भूमि का रंग."
+
+#, fuzzy
+#~| msgid "Capture Image"
+#~ msgid "Capture Misc"
+#~ msgstr "छवि कैप्चर करें"
+
+#, fuzzy
+#~| msgid "Capture Image"
+#~ msgid "Capture DSLR"
+#~ msgstr "छवि कैप्चर करें"
 
 #, fuzzy
 #~| msgid "Add Link..."

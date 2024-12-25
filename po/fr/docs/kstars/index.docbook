@@ -66,6 +66,7 @@
   <!ENTITY tool-ekos-profile-wizard SYSTEM "ekos-profile-wizard.docbook">
   <!ENTITY tool-ekos-scheduler SYSTEM "ekos-scheduler.docbook">
   <!ENTITY tool-ekos-analyze SYSTEM "ekos-analyze.docbook">
+  <!ENTITY tool-ekos-extensions SYSTEM "ekos-extensions.docbook">
   <!ENTITY tool-ekos-setup SYSTEM "ekos-setup.docbook">
   <!ENTITY tool-ekos-tutorials SYSTEM "ekos-tutorials.docbook">
   <!ENTITY tool-ekos-user-interface SYSTEM "ekos-user-interface.docbook">
@@ -73,6 +74,7 @@
   <!ENTITY fitsviewer SYSTEM "fitsviewer.docbook">
   <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
   <!ENTITY tool-obsplanner SYSTEM "obsplanner.docbook">
+  <!ENTITY tool-imaging-planner SYSTEM "imagingplanner.docbook">
   <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
   <!ENTITY tool-solarsys SYSTEM "solarsys.docbook">
   <!ENTITY tool-whatsup SYSTEM "wut.docbook">
@@ -301,7 +303,7 @@
 
 <copyright>
 <year
->2001-2024</year>
+>2001-2025</year>
 <holder
 >&Jason.Harris; et l'équipe de &kstars;</holder>
 </copyright>
@@ -310,9 +312,9 @@
 >&FDLNotice;</legalnotice>
 
 <date
->01/06/2024</date>
+>03/12/2024</date>
 <releaseinfo
->3.7.1</releaseinfo>
+>3.7.4</releaseinfo>
 
 <abstract>
 <para

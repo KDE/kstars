@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-16 02:33+0000\n"
+"POT-Creation-Date: 2024-12-25 02:19+0000\n"
 "PO-Revision-Date: 2024-12-03 21:42+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -2437,7 +2437,7 @@ msgid "Minor axis:"
 msgstr "Mindre axel:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
-#: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:106
+#: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:107
 #, kde-format
 msgid "Misc"
 msgstr "Diverse"
@@ -6445,7 +6445,7 @@ msgid "Solver aborted after %1 seconds."
 msgstr "Lösningsverktyget avbröts efter %1 sekunder."
 
 #: ekos/align/align.cpp:2623 ekos/analyze/analyze.cpp:4121
-#: ekos/capture/capture.cpp:317 ekos/focus/focusmodule.cpp:240
+#: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:240
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:985
 #: ekos/scheduler/schedulerprocess.cpp:3499
@@ -16106,7 +16106,7 @@ msgstr "Återinriktning efter vändning misslyckades."
 msgid "Post-flip alignment failed. Retrying..."
 msgstr "Återinriktning efter vändning misslyckades. Försöker igen ..."
 
-#: ekos/capture/capture.cpp:68
+#: ekos/capture/capture.cpp:67
 #, kde-format
 msgid ""
 "<p>Add additional camera</p><p><b>WARNING</b>: This feature is experimental!"
@@ -16115,33 +16115,23 @@ msgstr ""
 "<p>Lägg till ytterligare kamera</p><p><b>Varning</b>: Funktionen är "
 "experimentell.</p>"
 
-#: ekos/capture/capture.cpp:106
-#, kde-format
-msgid "Capture Misc"
-msgstr "Ta med diverse"
-
-#: ekos/capture/capture.cpp:110
+#: ekos/capture/capture.cpp:111
 #, kde-format
 msgid "DSLR"
 msgstr "Digital spegelreflexkamera"
 
-#: ekos/capture/capture.cpp:110
-#, kde-format
-msgid "Capture DSLR"
-msgstr "Ta med digital spegelreflexkamera"
-
-#: ekos/capture/capture.cpp:476 ekos/focus/focusmodule.cpp:391
+#: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:391
 #, kde-format
 msgid "Camera %1 is busy. Abort to close?"
 msgstr "Kameran %1 är upptagen. Avbryt för att stoppa?"
 
-#: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:392
+#: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
 #, kde-format
 msgid "Stop capturing"
 msgstr "Stoppa tagning"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
-#: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:392
+#: ekos/capture/capture.cpp:479 ekos/focus/focusmodule.cpp:392
 #: ekos/observatory/observatory.ui:550 kspopupmenu.cpp:644
 #: skycomponents/imageoverlaycomponent.cpp:596
 #: skycomponents/imageoverlaycomponent.cpp:726
@@ -17071,7 +17061,7 @@ msgstr ""
 msgid "Force DSLR presets"
 msgstr "Tvinga förinställningar för spegelreflexkamera"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, useDSLRImageViewer)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/capture/opsdslrsettings.ui:50
 #, kde-format
 msgid "Display received DSLR images in the Image Viewer"
@@ -17079,7 +17069,7 @@ msgstr ""
 "Visa automatiskt mottagna bilder från digital spegelreflexkamera i "
 "bildvisningen"
 
-#. i18n: ectx: property (text), widget (QCheckBox, useDSLRImageViewer)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useDSLRImageViewer)
 #: ekos/capture/opsdslrsettings.ui:53
 #, kde-format
 msgid "DSLR image viewer"
@@ -17127,7 +17117,7 @@ msgstr ""
 msgid "Temperature threshold:"
 msgstr "Temperaturtröskel:"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guidingSettle)
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
 #: ekos/capture/opsmiscsettings.ui:90
 #, kde-format
 msgid "Wait this many seconds after guiding is resumed before starting capture"
@@ -17170,7 +17160,7 @@ msgstr ""
 msgid "Minimal meridian flip duration: "
 msgstr "Minimal tid för meridianvändning: "
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:175
 #, kde-format
 msgid ""
@@ -17182,32 +17172,32 @@ msgstr ""
 "tagningsräknare till noll. Schemaläggningen överskrider alternativet när Kom "
 "ihåg jobbtillstånd är aktiverat.</p></body></html>"
 
-#. i18n: ectx: property (text), widget (QCheckBox, alwaysResetSequenceWhenStarting)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:178
 #, kde-format
 msgid "Always reset sequence when starting"
 msgstr "Nollställ alltid sekvens vid start"
 
-#. i18n: ectx: property (text), widget (QCheckBox, resetMountModelAfterMeridian)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetMountModelAfterMeridian)
 #: ekos/capture/opsmiscsettings.ui:188
 #, kde-format
 msgid "Reset mount model after meridian flip"
 msgstr "Nollställ stativmodell efter meridianvändning"
 
-#. i18n: ectx: property (text), widget (QCheckBox, forcedFlip)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_ForcedFlip)
 #: ekos/capture/opsmiscsettings.ui:195
 #, kde-format
 msgid "Use flip command if supported by mount"
 msgstr "Använd vändkommando om det stöds av stativet"
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:202
 #, kde-format
 msgid "Display received FITS in the Summary screen preview window."
 msgstr ""
 "Visa mottagna FITS-bilder på översiktsskärmens förhandsgranskningsfönster."
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:205
 #, kde-format
 msgid "Summary screen preview"
@@ -87324,6 +87314,12 @@ msgstr "Bakgrundsfärg:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Ange bakgrundens färg."
+
+#~ msgid "Capture Misc"
+#~ msgstr "Ta med diverse"
+
+#~ msgid "Capture DSLR"
+#~ msgstr "Ta med digital spegelreflexkamera"
 
 #~ msgid "Imaging Planner (experimental)"
 #~ msgstr "Bildplaneringsverkyg (experimentellt)"
