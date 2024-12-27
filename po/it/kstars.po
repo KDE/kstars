@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-25 02:19+0000\n"
-"PO-Revision-Date: 2024-12-03 17:44+0100\n"
+"PO-Revision-Date: 2024-12-16 18:53+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -14592,10 +14592,9 @@ msgid "Autofocus failed."
 msgstr "Messa a fuoco automatica non riuscita."
 
 #: ekos/capture/camera.cpp:828
-#, fuzzy, kde-format
-#| msgid "Capturing %1-second %2 image..."
+#, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
-msgstr "Acquisizione %1-secondo %2 immagine..."
+msgstr "Acquisizione %1 x %2-secondo %3 video..."
 
 #: ekos/capture/camera.cpp:834
 #, kde-format
@@ -14649,10 +14648,9 @@ msgid "Expose (-/-):"
 msgstr "Esponi (-/-):"
 
 #: ekos/capture/camera.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Duration of night for selected date"
+#, kde-format
 msgid "Duration of the video sequence"
-msgstr "Durata della notte per la data selezionata"
+msgstr "Durata della sequenza video"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
@@ -14670,19 +14668,14 @@ msgid "Duration:"
 msgstr "Durata:"
 
 #: ekos/capture/camera.cpp:1063
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Exposure time in seconds of a single video frame"
-msgstr "Tempo di esposizione in secondi"
+msgstr "Tempo di esposizione in secondi di un singolo fotogramma video"
 
 #: ekos/capture/camera.cpp:1064
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the exposure time in seconds for individual images, if applicable"
+#, kde-format
 msgid "Exposure time in seconds for individual images"
-msgstr ""
-"Imposta il tempo di esposizione in secondi per singole immagini, se "
-"applicabile"
+msgstr "Tempo di esposizione in secondi per singole immagini"
 
 #: ekos/capture/camera.cpp:1079
 #, kde-format
@@ -15232,29 +15225,23 @@ msgstr "Ritardo:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, videoDurationSB)
 #: ekos/capture/camera.ui:1653
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of iterations the entire sequence should be "
-#| "repeated.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Duration of the video sequence (in seconds or number "
 "of frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Numero di iterazioni che l'intera sequenza deve "
-"ripetere.</p></body></html>"
+"<html><head/><body><p>Durata della sequenza video (in secondi o numero di "
+"fotogrammi).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoDurationUnitCB)
 #: ekos/capture/camera.ui:1669
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Units of the video duration (seconds or number of "
 "frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dimensione del separatore tra le tessere.</p></body></"
-"html>"
+"<html><head/><body><p>Unità della durata video (secondi o numero di "
+"fotogrammi).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1696
@@ -15859,7 +15846,7 @@ msgid ""
 "need to run."
 msgstr ""
 "Il processo richiede %1-secondo %2 immagini, ha già %3/%4 acquisizioni e non "
-"deve essere avviata."
+"deve essere avviato."
 
 #: ekos/capture/cameraprocess.cpp:592
 #, kde-format
@@ -15868,17 +15855,12 @@ msgid ""
 "processed."
 msgstr ""
 "Il processo richiede %1-secondo %2 immagini, ha %3/%4 fotogrammi acquisiti e "
-"verrà elaborata."
+"verrà elaborato."
 
 #: ekos/capture/cameraprocess.cpp:605
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#| "processed."
+#, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
-msgstr ""
-"Il processo richiede %1-secondo %2 immagini, ha %3/%4 fotogrammi acquisiti e "
-"verrà elaborata."
+msgstr "Il processo richiede %1 x %2-secondo %3 video verrà elaborato."
 
 #: ekos/capture/cameraprocess.cpp:834
 #, kde-format
