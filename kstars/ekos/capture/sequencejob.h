@@ -240,6 +240,11 @@ class SequenceJob : public QObject
             return m_CoreProperties;
         }
 
+        /**
+         * @brief Retrieve remote directory or, if empty, use the local directory value
+         */
+        const QVariant getRemoteDirectory() const;
+
         // Setter: Set upload mode
         void setUploadMode(ISD::Camera::UploadMode value);
         // Getter: get upload mode

@@ -407,7 +407,7 @@ void Camera::initCamera()
         generatePreviewFilename();
     });
 
-    connect(fileRemoteDirT, &QLineEdit::editingFinished, this, [&]()
+    connect(fileRemoteDirT, &QLineEdit::textChanged, this, [&]()
     {
         generatePreviewFilename();
     });
@@ -1044,7 +1044,7 @@ void Camera::processingFITSfinished(bool success)
 
     // If this is a preview job, make sure to enable preview button after
     if (devices()->getActiveCamera()
-            && devices()->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+            && devices()->getActiveCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
         previewB->setEnabled(true);
 
     imageCapturingCompleted();
@@ -1065,7 +1065,7 @@ void Camera::checkFrameType(int index)
 
     // enforce the upload mode for videos
     if (isVideo)
-        selectUploadMode(ISD::Camera::UPLOAD_LOCAL);
+        selectUploadMode(ISD::Camera::UPLOAD_REMOTE);
     else
         checkUploadMode(fileUploadModeS->currentIndex());
 }
@@ -1145,7 +1145,7 @@ SequenceJob *Camera::createJob(SequenceJob::SequenceJobType jobtype, FilenamePre
         return job;
 
     // check if the upload paths are correct
-    if (checkUploadPaths(filenamePreview) == false)
+    if (checkUploadPaths(filenamePreview, job) == false)
         return nullptr;
 
     // all other jobs will be added to the job list
@@ -1504,7 +1504,6 @@ void Camera::selectUploadMode(int index)
 void Camera::checkUploadMode(int index)
 {
     fileRemoteDirT->setEnabled(index != ISD::Camera::UPLOAD_CLIENT);
-    fileDirectoryT->setEnabled(index != ISD::Camera::UPLOAD_LOCAL);
 
     const bool isVideo = captureTypeS->currentText() == CAPTURE_TYPE_VIDEO;
 
@@ -2407,21 +2406,21 @@ void Camera::loadGlobalSettings()
     setSettings(settings);
 }
 
-bool Camera::checkUploadPaths(FilenamePreviewType filenamePreview)
+bool Camera::checkUploadPaths(FilenamePreviewType filenamePreview, SequenceJob *job)
 {
     // only relevant if we do not generate file name previews
     if (filenamePreview != FILENAME_NOT_PREVIEW)
         return true;
 
-    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && fileRemoteDirT->text().isEmpty())
+    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_CLIENT && job->getRemoteDirectory().toString().isEmpty())
     {
-        KSNotification::error(i18n("You must set remote directory for Local & Both modes."));
+        KSNotification::error(i18n("You must set local or remote directory for Remotely & Both modes."));
         return false;
     }
 
-    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_LOCAL && fileDirectoryT->text().isEmpty())
+    if (fileUploadModeS->currentIndex() != ISD::Camera::UPLOAD_REMOTE && fileDirectoryT->text().isEmpty())
     {
-        KSNotification::error(i18n("You must set local directory for Client & Both modes."));
+        KSNotification::error(i18n("You must set local directory for Locally & Both modes."));
         return false;
     }
     // everything OK
@@ -2455,7 +2454,7 @@ void Camera::generatePreviewFilename()
 {
     if (state()->isCaptureRunning() == false)
     {
-        placeholderFormatT->setToolTip(previewFilename( fileUploadModeS->currentIndex() == ISD::Camera::UPLOAD_LOCAL ?
+        placeholderFormatT->setToolTip(previewFilename( fileUploadModeS->currentIndex() == ISD::Camera::UPLOAD_REMOTE ?
                                        FILENAME_REMOTE_PREVIEW : FILENAME_LOCAL_PREVIEW ));
         emit newLocalPreview(placeholderFormatT->toolTip());
 
@@ -2478,7 +2477,7 @@ QString Camera::previewFilename(FilenamePreviewType previewType)
                    formatSuffixN->cleanText();
     }
     else if (previewType == FILENAME_REMOTE_PREVIEW)
-        m_format = fileRemoteDirT->text();
+        m_format = fileRemoteDirT->text().isEmpty() ? fileDirectoryT->text() : fileRemoteDirT->text();
 
     //Guard against an empty format to avoid the empty directory warning pop-up in addjob
     if (m_format.isEmpty())

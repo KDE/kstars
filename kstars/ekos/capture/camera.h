@@ -763,7 +763,7 @@ private:
     }
 
     // check if the upload paths are filled correctly
-    bool checkUploadPaths(FilenamePreviewType filenamePreview);
+    bool checkUploadPaths(FilenamePreviewType filenamePreview, SequenceJob *job);
 
     // Create a Json job from the current job table row
     QJsonObject createJsonJob(SequenceJob *job, int currentRow);

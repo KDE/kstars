@@ -1752,9 +1752,9 @@ void Align::processData(const QSharedPointer<FITSData> &data)
 
 void Align::prepareCapture(ISD::CameraChip *targetChip)
 {
-    if (m_Camera->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
+    if (m_Camera->getUploadMode() == ISD::Camera::UPLOAD_REMOTE)
     {
-        rememberUploadMode = ISD::Camera::UPLOAD_LOCAL;
+        rememberUploadMode = ISD::Camera::UPLOAD_REMOTE;
         m_Camera->setUploadMode(ISD::Camera::UPLOAD_CLIENT);
     }
 

@@ -502,7 +502,7 @@ void CameraProcess::prepareJob(SequenceJob * job)
     {
         // set the progress info
 
-        if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+        if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
             state()->setNextSequenceID(1);
 
         // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system
@@ -731,7 +731,7 @@ void CameraProcess::executeJob()
     {
         // If we found a prior exposure, and current upload more is not local, then update full prefix
         if (state()->setDarkFlatExposure(activeJob())
-                && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+                && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
         {
             auto placeholderPath = PlaceholderPath();
             // Make sure to update Full Prefix as exposure value was changed
@@ -976,7 +976,7 @@ IPState CameraProcess::resumeSequence()
         // If looping, we just increment the file system image count
         if (activeCamera()->isFastExposureEnabled())
         {
-            if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+            if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
             {
                 state()->checkSeqBoundary();
                 activeCamera()->setNextSequenceID(state()->nextSequenceID());
@@ -1029,7 +1029,7 @@ bool Ekos::CameraProcess::checkSavingReceivedImage(const QSharedPointer<FITSData
         QString &filename)
 {
     // trigger saving the FITS file for batch jobs that aren't calibrating
-    if (data && activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+    if (data && activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
     {
         if (activeJob()->jobType() != SequenceJob::JOBTYPE_PREVIEW
                 && activeJob()->getCalibrationStage() != SequenceJobState::CAL_CALIBRATION)
@@ -1095,7 +1095,7 @@ void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const 
 
     const SequenceJob::SequenceJobType currentJobType = activeJob()->jobType();
     // If image is client or both, let's process it.
-    if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+    if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
     {
 
         if (state()->getCaptureState() == CAPTURE_IDLE || state()->getCaptureState() == CAPTURE_ABORTED)
@@ -1239,7 +1239,7 @@ void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const 
         thejob->setCalibrationStage(SequenceJobState::CAL_CAPTURING);
 
     if (activeJob() && currentJobType != SequenceJob::JOBTYPE_PREVIEW &&
-            activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+            activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
     {
         // Check to save and show the new image in the FITS viewer
         if (alreadySaved || checkSavingReceivedImage(data, extension, filename))
@@ -1277,7 +1277,7 @@ void CameraProcess::processNewRemoteFile(QString file)
     emit newLog(i18n("Remote image saved to %1", file));
     // call processing steps without image data if the image is stored only remotely
     QString nothing("");
-    if (activeCamera() && activeCamera()->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
+    if (activeCamera() && activeCamera()->getUploadMode() == ISD::Camera::UPLOAD_REMOTE)
     {
         QString ext("");
         processFITSData(nullptr, ext);
@@ -1503,7 +1503,7 @@ void CameraProcess::captureImage()
             activeCamera()->setUploadMode(activeJob()->getUploadMode());
     }
 
-    if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+    if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
     {
         state()->checkSeqBoundary();
         activeCamera()->setNextSequenceID(state()->nextSequenceID());
@@ -1628,7 +1628,7 @@ void CameraProcess::setExposureProgress(ISD::CameraChip *tChip, double value, IP
         activeJob()->setExposeLeft(0);
 
         if (devices()->getActiveCamera()
-                && devices()->getActiveCamera()->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
+                && devices()->getActiveCamera()->getUploadMode() == ISD::Camera::UPLOAD_REMOTE)
         {
             if (activeJob()->getStatus() == JOB_BUSY)
             {
@@ -1695,7 +1695,7 @@ IPState CameraProcess::updateDownloadTimesAction()
 {
     // Do not calculate download time for images stored on server.
     // Only calculate for longer exposures.
-    if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL
+    if (activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE
             && state()->downloadTimer().isValid())
     {
         //This determines the time since the image started downloading
@@ -2268,7 +2268,7 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
             // Must update sequence prefix as this step is only done in prepareJob
             // but since the duration has now been updated, we must take care to update signature
             // since it may include a placeholder for duration which would affect it.
-            if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_LOCAL)
+            if (activeCamera() && activeCamera()->getUploadMode() != ISD::Camera::UPLOAD_REMOTE)
                 state()->checkSeqBoundary();
         }
 

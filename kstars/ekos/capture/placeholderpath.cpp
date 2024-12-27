@@ -467,7 +467,7 @@ void PlaceholderPath::setGenerateFilenameSettings(const SequenceJob &job, QMap<P
     setPathProperty(pathPropertyMap, PP_FILTER, job.getCoreProperty(SequenceJob::SJ_Filter));
     setPathProperty(pathPropertyMap, PP_EXPOSURE, job.getCoreProperty(SequenceJob::SJ_Exposure));
     setPathProperty(pathPropertyMap, PP_DIRECTORY,
-                    job.getCoreProperty(local ? SequenceJob::SJ_LocalDirectory : SequenceJob::SJ_RemoteDirectory));
+                    local ? job.getCoreProperty(SequenceJob::SJ_LocalDirectory) : job.getRemoteDirectory());
     setPathProperty(pathPropertyMap, PP_FORMAT, job.getCoreProperty(SequenceJob::SJ_PlaceholderFormat));
     setPathProperty(pathPropertyMap, PP_SUFFIX, job.getCoreProperty(SequenceJob::SJ_PlaceholderSuffix));
     setPathProperty(pathPropertyMap, PP_DARKFLAT, job.jobType() == SequenceJob::JOBTYPE_DARKFLAT);

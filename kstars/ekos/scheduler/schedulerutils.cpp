@@ -472,7 +472,7 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFram
                                seqJob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble(),
                                seqJob->getCoreProperty(SequenceJob::SJ_Filter).toString());
 
-        if (seqJob->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
+        if (seqJob->getUploadMode() == ISD::Camera::UPLOAD_REMOTE)
         {
             qCInfo(KSTARS_EKOS_SCHEDULER) <<
                                           QString("%1 duration cannot be estimated time since the sequence saves the files remotely.").arg(seqName);

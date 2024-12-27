@@ -153,6 +153,14 @@ void SequenceJob::setISO(int index)
     }
 }
 
+const QVariant SequenceJob::getRemoteDirectory() const
+{
+    if (getCoreProperty(SJ_RemoteDirectory).toString().isEmpty())
+        return getCoreProperty(SJ_LocalDirectory);
+    else
+        return getCoreProperty(SJ_RemoteDirectory);
+}
+
 QStringList SequenceJob::frameTypes() const
 {
     if (!devices->getActiveCamera())

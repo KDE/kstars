@@ -4731,7 +4731,7 @@ bool SchedulerProcess::canCountCaptures(const SchedulerJob &job)
 
     for (const SequenceJob *oneSeqJob : seqjobs)
     {
-        if (oneSeqJob->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
+        if (oneSeqJob->getUploadMode() == ISD::Camera::UPLOAD_REMOTE)
             return false;
     }
     return true;
@@ -4782,7 +4782,7 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
         {
             /* Only consider captures stored on client (Ekos) side */
             /* FIXME: ask the remote for the file count */
-            if (oneSeqJob->getUploadMode() == ISD::Camera::UPLOAD_LOCAL)
+            if (oneSeqJob->getUploadMode() == ISD::Camera::UPLOAD_REMOTE)
                 continue;
 
             /* FIXME: this signature path is incoherent when there is no filter wheel on the setup - bugfix should be elsewhere though */

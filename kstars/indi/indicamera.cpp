@@ -912,7 +912,7 @@ Camera::UploadMode Camera::getUploadMode()
             return UPLOAD_CLIENT;
         modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
         if (modeS && modeS->s == ISS_ON)
-            return UPLOAD_LOCAL;
+            return UPLOAD_REMOTE;
         modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
         if (modeS && modeS->s == ISS_ON)
             return UPLOAD_BOTH;
@@ -952,7 +952,7 @@ bool Camera::setUploadMode(UploadMode mode)
                 return true;
             break;
 
-        case UPLOAD_LOCAL:
+        case UPLOAD_REMOTE:
             modeS = uploadModeSP->findWidgetByName("UPLOAD_LOCAL");
             if (!modeS)
                 return false;

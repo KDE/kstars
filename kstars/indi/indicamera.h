@@ -50,7 +50,7 @@ class Camera : public ConcreteDevice
         explicit Camera(ISD::GenericDevice *parent);
         virtual ~Camera() override;
 
-        typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
+        typedef enum { UPLOAD_CLIENT, UPLOAD_REMOTE, UPLOAD_BOTH } UploadMode;
         enum BlobType
         {
             BLOB_IMAGE,
