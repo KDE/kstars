@@ -1753,7 +1753,7 @@ void DarkLibrary::connectSettings()
 
     // All Radio buttons
     for (auto &oneWidget : findChildren<QRadioButton*>())
-        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::DarkLibrary::syncSettings);
+        connect(oneWidget, &QRadioButton::toggled, this, &Ekos::DarkLibrary::syncSettings);
 
     // Train combo box should NOT be synced.
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::DarkLibrary::syncSettings);
@@ -1782,7 +1782,7 @@ void DarkLibrary::disconnectSettings()
 
     // All Radio buttons
     for (auto &oneWidget : findChildren<QRadioButton*>())
-        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::DarkLibrary::syncSettings);
+        disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::DarkLibrary::syncSettings);
 
 }
 
@@ -1919,7 +1919,7 @@ bool DarkLibrary::syncControl(const QVariantMap &settings, const QString &key, Q
     {
         const bool value = settings[key].toBool();
         if (value != pCB->isChecked())
-            pCB->click();
+            pCB->setChecked(value);
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -1933,7 +1933,7 @@ bool DarkLibrary::syncControl(const QVariantMap &settings, const QString &key, Q
     {
         const bool value = settings[key].toBool();
         if (value)
-            pRadioButton->click();
+            pRadioButton->setChecked(true);
         return true;
     }
 

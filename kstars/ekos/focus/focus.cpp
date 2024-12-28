@@ -7376,7 +7376,7 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const bool value = settings[key].toBool();
         if (value)
-            pRadioButton->click();
+            pRadioButton->setChecked(true);
         return true;
     }
     // ONLY FOR STRINGS, not INDEX

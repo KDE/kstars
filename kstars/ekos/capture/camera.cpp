@@ -2002,14 +2002,14 @@ bool Camera::syncControl(const QVariantMap &settings, const QString &key, QWidge
     {
         const bool value = settings[key].toBool();
         if (value != pCB->isChecked())
-            pCB->click();
+            pCB->setChecked(value);
         return true;
     }
     else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
     {
         const bool value = settings[key].toBool();
-        if (value != pRadioButton->isChecked())
-            pRadioButton->click();
+        if (value)
+            pRadioButton->setChecked(true);
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -2023,13 +2023,6 @@ bool Camera::syncControl(const QVariantMap &settings, const QString &key, QWidge
     {
         const auto value = QByteArray::fromBase64(settings[key].toString().toUtf8());
         pSplitter->restoreState(value);
-        return true;
-    }
-    else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
-    {
-        const bool value = settings[key].toBool();
-        if (value)
-            pRadioButton->click();
         return true;
     }
     else if ((pLineEdit = qobject_cast<QLineEdit *>(widget)))
