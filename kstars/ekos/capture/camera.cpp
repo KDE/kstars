@@ -2145,7 +2145,6 @@ void Camera::updateCaptureFormats()
     const auto list = isVideo ? activeCamera()->getVideoFormats() : activeCamera()->getCaptureFormats();
     captureFormatS->addItems(list);
     storeTrainKey(KEY_FORMATS, list);
-
     captureFormatS->setCurrentText(activeCamera()->getCaptureFormat());
     captureFormatS->blockSignals(false);
 
