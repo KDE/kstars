@@ -4383,7 +4383,7 @@ void Align::connectSettings()
 
     // All Radio buttons
     for (auto &oneWidget : findChildren<QRadioButton*>())
-        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
+        connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Align::syncSettings);
 
     // Train combo box should NOT be synced.
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Align::syncSettings);
@@ -4409,7 +4409,7 @@ void Align::disconnectSettings()
 
     // All Radio buttons
     for (auto &oneWidget : findChildren<QRadioButton*>())
-        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Align::syncSettings);
+        disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Align::syncSettings);
 
 }
 
@@ -4551,7 +4551,7 @@ bool Align::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const bool value = settings[key].toBool();
         if (value != pCB->isChecked())
-            pCB->click();
+            pCB->setChecked(value);
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -4565,7 +4565,7 @@ bool Align::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const bool value = settings[key].toBool();
         if (value)
-            pRadioButton->click();
+            pRadioButton->setChecked(true);
         return true;
     }
 

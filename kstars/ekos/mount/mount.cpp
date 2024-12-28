@@ -97,8 +97,8 @@ Mount::Mount()
         if (m_Mount)
         {
             if (KMessageBox::warningContinueCancel(KStars::Instance(),
-                                           i18n("Are you sure you want to clear all mount configurations?"),
-                                           i18n("Mount Configuration")) == KMessageBox::Continue)
+                                                   i18n("Are you sure you want to clear all mount configurations?"),
+                                                   i18n("Mount Configuration")) == KMessageBox::Continue)
             {
                 resetModel();
                 m_Mount->clearParking();
@@ -1558,14 +1558,14 @@ bool Mount::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const bool value = settings[key].toBool();
         if (value != pCB->isChecked())
-            pCB->click();
+            pCB->setChecked(value);
         return true;
     }
     else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
     {
         const bool value = settings[key].toBool();
         if (value)
-            pRadioButton->click();
+            pRadioButton->setChecked(true);
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -1747,7 +1747,7 @@ void Mount::connectSyncSettings()
 
     // All Radio buttons
     for (auto &oneWidget : findChildren<QRadioButton*>())
-        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
+        connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Mount::syncSettings);
 
     // All QDateTimeEdit
     for (auto &oneWidget : findChildren<QDateTimeEdit*>())
@@ -1777,7 +1777,7 @@ void Mount::disconnectSyncSettings()
 
     // All Radio buttons
     for (auto &oneWidget : findChildren<QRadioButton*>())
-        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Mount::syncSettings);
+        disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Mount::syncSettings);
 
     for (auto &oneWidget : findChildren<QDateTimeEdit*>())
         disconnect(oneWidget, &QDateTimeEdit::editingFinished, this, &Ekos::Mount::syncSettings);

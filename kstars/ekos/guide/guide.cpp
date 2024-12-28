@@ -3169,14 +3169,14 @@ bool Guide::syncControl(const QVariantMap &settings, const QString &key, QWidget
     {
         const bool value = settings[key].toBool();
         if (value != pCB->isChecked())
-            pCB->click();
+            pCB->setChecked(value);
         return true;
     }
     else if ((pRadioButton = qobject_cast<QRadioButton *>(widget)))
     {
         const bool value = settings[key].toBool();
         if (value)
-            pRadioButton->click();
+            pRadioButton->setChecked(true);
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -3367,7 +3367,7 @@ void Guide::connectSettings()
 
     // All Radio buttons
     for (auto &oneWidget : findChildren<QRadioButton*>())
-        connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
+        connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Guide::syncSettings);
 
     // Train combo box should NOT be synced.
     disconnect(opticalTrainCombo, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Guide::syncSettings);
@@ -3393,7 +3393,7 @@ void Guide::disconnectSettings()
 
     // All Radio buttons
     for (auto &oneWidget : findChildren<QRadioButton*>())
-        disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Guide::syncSettings);
+        disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Guide::syncSettings);
 
 }
 

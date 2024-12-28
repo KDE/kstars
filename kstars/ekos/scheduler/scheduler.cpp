@@ -2834,7 +2834,7 @@ bool Scheduler::syncControl(const QVariantMap &settings, const QString &key, QWi
     {
         const bool value = settings[key].toBool();
         if (value != pCB->isChecked())
-            pCB->click();
+            pCB->setChecked(value);
         return true;
     }
     // ONLY FOR STRINGS, not INDEX
@@ -2854,7 +2854,7 @@ bool Scheduler::syncControl(const QVariantMap &settings, const QString &key, QWi
     {
         const bool value = settings[key].toBool();
         if (value)
-            pRadioButton->click();
+            pRadioButton->setChecked(true);
         return true;
     }
     else if ((pDateTimeEdit = qobject_cast<QDateTimeEdit *>(widget)))
