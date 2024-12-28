@@ -138,8 +138,10 @@ void SequenceEditor::onStandAloneShow()
     // Always add these strings to the types menu. Might also add other ones
     // that were used in the last capture session.
     const QStringList frameTypes = {"Light", "Dark", "Bias", "Flat"};
+    m_camera->captureTypeS->blockSignals(true);
     m_camera->captureTypeS->clear();
     m_camera->captureTypeS->addItems(frameTypes);
+    m_camera->captureTypeS->blockSignals(false);
 
     // Always add these strings to the encodings menu. Might also add other ones
     // that were used in the last capture session.
