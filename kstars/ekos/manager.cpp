@@ -2917,12 +2917,7 @@ void Manager::showEkosOptions()
 
     if (focusModule() && focusModule() == currentWidget)
     {
-        KConfigDialog * focusSettings = KConfigDialog::exists("focussettings");
-        if (focusSettings)
-        {
-            focusSettings->show();
-            focusSettings->raise();
-        }
+        focusModule()->showOptions();
         return;
     }
 

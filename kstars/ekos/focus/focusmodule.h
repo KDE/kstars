@@ -46,6 +46,11 @@ public:
         void checkFocus(double requiredHFR, const QString &trainname);
 
         /**
+         * @brief showOptions Open the options dialog for the currently selected focuser
+         */
+        void showOptions();
+
+        /**
          * @brief Run the autofocus process for the currently selected filter
          * @param The reason Autofocus has been called.
          * @param trainname name of the optical train to select the focuser

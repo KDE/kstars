@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "opsfocusbase.h"
 #include "ui_opsfocussettings.h"
 
 class KConfigDialog;
@@ -13,18 +14,12 @@ class KConfigDialog;
 namespace Ekos
 {
 
-class OpsFocusSettings : public QFrame, public Ui::OpsFocusSettings
+class OpsFocusSettings : public OpsFocusBase, public Ui::OpsFocusSettings
 {
         Q_OBJECT
 
     public:
-        explicit OpsFocusSettings();
+        explicit OpsFocusSettings(const QString name);
         virtual ~OpsFocusSettings() override = default;
-
-    signals:
-        void settingsUpdated();
-
-    private:
-        KConfigDialog *m_ConfigDialog { nullptr };
 };
 }

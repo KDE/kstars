@@ -245,7 +245,12 @@ class Focus : public QWidget, public Ui::Focus
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
 
-    public slots:
+        const QString &opsDialogName() const
+        {
+            return m_opsDialogName;
+        }
+
+public slots:
 
         /** \addtogroup FocusDBusInterface
              *  @{
@@ -1264,6 +1269,8 @@ class Focus : public QWidget, public Ui::Focus
         int m_CcdWidth = 0;
         int m_CcdHeight = 0;
         QString m_ScopeType;
+
+        QString m_opsDialogName;
 
         // Settings popup
         //std::unique_ptr<Ui::Settings> m_SettingsUI;

@@ -312,6 +312,7 @@ if (INDI_FOUND)
             ekos/focus/focusfourierpower.cpp
             ekos/focus/adaptivefocus.cpp
             ekos/focus/focusadvisor.cpp
+            ekos/focus/opsfocusbase.cpp
             ekos/focus/opsfocussettings.cpp
             ekos/focus/opsfocusprocess.cpp
             ekos/focus/opsfocusmechanics.cpp

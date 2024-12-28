@@ -5,17 +5,16 @@
 */
 
 #include "opsfocusmechanics.h"
-#include "kstars.h"
 #include <KConfigDialog>
 
 namespace Ekos
 {
-OpsFocusMechanics::OpsFocusMechanics() : QFrame(KStars::Instance())
+OpsFocusMechanics::OpsFocusMechanics(const QString name) : OpsFocusBase(name)
 {
     setupUi(this);
 
     //Get a pointer to the KConfigDialog
-    m_ConfigDialog = KConfigDialog::exists("focussettings");
+    m_ConfigDialog = KConfigDialog::exists(dialogName());
     if (m_ConfigDialog)
         connect(m_ConfigDialog, &KConfigDialog::settingsChanged, this, &OpsFocusMechanics::settingsUpdated);
 }

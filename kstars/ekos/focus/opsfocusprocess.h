@@ -6,25 +6,18 @@
 
 #pragma once
 
+#include "opsfocusbase.h"
 #include "ui_opsfocusprocess.h"
-
-class KConfigDialog;
 
 namespace Ekos
 {
 
-class OpsFocusProcess : public QFrame, public Ui::OpsFocusProcess
+class OpsFocusProcess : public OpsFocusBase, public Ui::OpsFocusProcess
 {
         Q_OBJECT
 
     public:
-        explicit OpsFocusProcess();
+        explicit OpsFocusProcess(const QString name);
         virtual ~OpsFocusProcess() override = default;
-
-    signals:
-        void settingsUpdated();
-
-    private:
-        KConfigDialog *m_ConfigDialog { nullptr };
 };
 }

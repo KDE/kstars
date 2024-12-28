@@ -76,6 +76,8 @@ Focus::Focus(int id) : QWidget()
     // #1 Set the UI
     setupUi(this);
     m_focuserId = id;
+    // create a dedicated dialog name for each focuser
+    m_opsDialogName = QString("focussettings %1").arg(id);
 
     // #1a Prepare UI
     prepareGUI();
@@ -184,15 +186,15 @@ Focus::Focus(int id) : QWidget()
 // Do once only preparation of GUI
 void Focus::prepareGUI()
 {
-    // Parameters are handled by the KConfigDialog invoked by pressing the "Options..." button
+    // Parameters are handled by a dedicated KConfigDialog per focuser invoked by pressing the "Options..." button
     // on the Focus window. There are 3 pages of options.
     // Parameters are persisted per Optical Train, so when the user changes OT, the last persisted
     // parameters for the new OT are loaded. In addition the "current" parameter values are also
     // persisted locally using kstars.kcfg
     // KConfigDialog has the ability to persist parameters to kstars.kcfg but this functionality
     // is not used in Focus
-    KConfigDialog *dialog = new KConfigDialog(this, "focussettings", Options::self());
-    m_OpsFocusSettings = new OpsFocusSettings();
+    KConfigDialog *dialog = new KConfigDialog(this, opsDialogName(), Options::self());
+    m_OpsFocusSettings = new OpsFocusSettings(opsDialogName());
 #ifdef Q_OS_MACOS
     dialog->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint);
 #endif
@@ -200,11 +202,11 @@ void Focus::prepareGUI()
     KPageWidgetItem *page = dialog->addPage(m_OpsFocusSettings, i18n("Settings"), nullptr, i18n("Focus Settings"), false);
     page->setIcon(QIcon::fromTheme("configure"));
 
-    m_OpsFocusProcess = new OpsFocusProcess();
+    m_OpsFocusProcess = new OpsFocusProcess(opsDialogName());
     page = dialog->addPage(m_OpsFocusProcess, i18n("Process"), nullptr, i18n("Focus Process"), false);
     page->setIcon(QIcon::fromTheme("transform-move"));
 
-    m_OpsFocusMechanics = new OpsFocusMechanics();
+    m_OpsFocusMechanics = new OpsFocusMechanics(opsDialogName());
     page = dialog->addPage(m_OpsFocusMechanics, i18n("Mechanics"), nullptr, i18n("Focus Mechanics"), false);
     page->setIcon(QIcon::fromTheme("tool-measure"));
 

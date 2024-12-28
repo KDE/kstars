@@ -12,6 +12,7 @@
 #include "ekos/auxiliary/opticaltrainmanager.h"
 #include "kstarsdata.h"
 #include "kspaths.h"
+#include <KConfigDialog>
 
 #include "ekos_focus_debug.h"
 
@@ -24,8 +25,7 @@ FocusModule::FocusModule()
 {
     setupUi(this);
 
-    // FIXME: disable closing of tabs, since it might create crashes
-    focusTabs->setTabsClosable(false);
+    focusTabs->setTabsClosable(true);
     // Connect the close request signal to the slot
     connect(focusTabs, &QTabWidget::tabCloseRequested, this, &FocusModule::checkCloseFocuserTab);
     // Adding the "New Tab" tab
@@ -369,6 +369,17 @@ void FocusModule::closeFocuserTab(int tabIndex)
     focuser->disconnect(this);
     focuser->disconnectSyncSettings();
     m_Focusers.removeAt(tabIndex);
+}
+
+void FocusModule::showOptions()
+{
+    int tabID = focusTabs->currentIndex();
+    KConfigDialog * focusSettings = KConfigDialog::exists(m_Focusers[tabID]->opsDialogName());
+    if (focusSettings)
+    {
+        focusSettings->show();
+        focusSettings->raise();
+    }
 }
 
 void FocusModule::checkCloseFocuserTab(int tabIndex)
