@@ -866,15 +866,11 @@ bool Focus::setCamera(ISD::Camera *device)
     {
         connect(m_Camera, &ISD::ConcreteDevice::Connected, this, [this]()
         {
-            focuserGroup->setEnabled(true);
-            ccdGroup->setEnabled(true);
-            toolsGroup->setEnabled(true);
+            resetButtons();
         });
         connect(m_Camera, &ISD::ConcreteDevice::Disconnected, this, [this]()
         {
-            focuserGroup->setEnabled(false);
-            ccdGroup->setEnabled(false);
-            toolsGroup->setEnabled(false);
+            resetButtons();
         });
     }
 
@@ -4651,33 +4647,45 @@ void Focus::resetButtons()
         disabledWidgets[i]->setEnabled(true);
     disabledWidgets.clear();
 
-    auto enableCaptureButtons = (m_captureInProgress == false && m_starDetectInProgress == false);
+    bool cameraConnected = m_Camera && m_Camera->isConnected();
+    bool enableCaptureButtons = cameraConnected && (!m_captureInProgress && !m_starDetectInProgress);
 
     captureB->setEnabled(enableCaptureButtons);
     resetFrameB->setEnabled(enableCaptureButtons);
     startLoopB->setEnabled(enableCaptureButtons);
 
+    if (cameraConnected)
+    {
+        ccdGroup->setEnabled(true);
+        toolsGroup->setEnabled(true);
+    }
+    else
+    {
+        ccdGroup->setEnabled(false);
+        toolsGroup->setEnabled(false);
+    }
+
     if (m_Focuser && m_Focuser->isConnected())
     {
         focusOutB->setEnabled(true);
         focusInB->setEnabled(true);
-
-        startFocusB->setEnabled(m_FocusType == FOCUS_AUTO);
+        startFocusB->setEnabled(cameraConnected && m_FocusType == FOCUS_AUTO);
         startAbInsB->setEnabled(canAbInsStart());
         stopFocusB->setEnabled(!enableCaptureButtons);
         startGotoB->setEnabled(canAbsMove);
         stopGotoB->setEnabled(true);
+        focuserGroup->setEnabled(true);
     }
     else
     {
         focusOutB->setEnabled(false);
         focusInB->setEnabled(false);
-
         startFocusB->setEnabled(false);
         startAbInsB->setEnabled(false);
         stopFocusB->setEnabled(false);
         startGotoB->setEnabled(false);
         stopGotoB->setEnabled(false);
+        focuserGroup->setEnabled(false);
     }
 }
 
