@@ -16,6 +16,11 @@
 #include <algorithm>
 #include <ekos_capture_debug.h>
 
+namespace
+{
+const QString PierSideStr = "(East|West|Unknown)";
+}
+
 namespace Ekos
 {
 
@@ -224,7 +229,7 @@ QString PlaceholderPath::generateReplacement(const QMap<PathProperty, QVariant> 
                 return "\\d+x\\d+";
             default:
                 if (property == PP_PIERSIDE)
-                    return "(East|West|Unknown)";
+                    return PierSideStr;
                 else
                     return "\\w+";
         }
@@ -532,6 +537,26 @@ QList<int> PlaceholderPath::getCompletedFileIds(const SequenceJob &job)
     QFileInfo path_info(sanitizedPath);
     QDir dir(path_info.dir());
 
+    QString const sig_dir(path_info.dir().path());
+    if (sig_dir.contains(PierSideStr))
+    {
+        QString side;
+        switch (static_cast<ISD::Mount::PierSide>(job.getPierSide()))
+        {
+            case ISD::Mount::PIER_EAST:
+                side = "East";
+                break;
+            case ISD::Mount::PIER_WEST:
+                side = "West";
+                break;
+            default:
+                side = "Unknown";
+        }
+        QString tempPath = sig_dir;
+        tempPath.replace(PierSideStr, side);
+        dir = QDir(tempPath);
+    }
+
     // e.g. Light_R_(?<id>\\d+).*
     auto filename = path_info.fileName();
 
@@ -598,6 +623,22 @@ int PlaceholderPath::getCompletedFiles(const QString &path)
 
     QDirIterator it(sig_dir, QDir::Files);
 
+    if (sig_dir.contains(PierSideStr))
+    {
+        QString tempPath = sig_dir;
+        tempPath.replace(PierSideStr, "East");
+        QString newPath = tempPath + QDir::separator() + sig_file;
+        int count = getCompletedFiles(newPath);
+        tempPath = sig_dir;
+        tempPath.replace(PierSideStr, "West");
+        newPath = tempPath + QDir::separator() + sig_file;
+        count += getCompletedFiles(newPath);
+        tempPath = sig_dir;
+        tempPath.replace(PierSideStr, "Unknown");
+        newPath = tempPath + QDir::separator() + sig_file;
+        count += getCompletedFiles(newPath);
+        return count;
+    }
     /* FIXME: this counts all files with prefix in the storage location, not just captures. DSS analysis files are counted in, for instance. */
     while (it.hasNext())
     {

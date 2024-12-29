@@ -2104,6 +2104,8 @@ void Camera::saveFITSDirectory()
 
 void Camera::updateCaptureFormats()
 {
+    if (!activeCamera()) return;
+
     // list of capture types
     QStringList frameTypes = process()->frameTypes();
     // current selection
