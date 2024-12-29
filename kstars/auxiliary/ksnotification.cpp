@@ -77,6 +77,24 @@ void transient(const QString &message, const QString &title)
 #endif
 }
 
+QSharedPointer<QMessageBox> closeableMessage(const QString &message, const QString &title)
+{
+#ifdef KSTARS_LITE
+    Q_UNUSED(title);
+    KStarsLite::Instance()->notificationMessage(message);
+    return QSharedPointer<QMessageBox>();
+#else
+    QSharedPointer<QMessageBox> msgBox(new QMessageBox());
+    msgBox->setAttribute(Qt::WA_DeleteOnClose);
+    msgBox->setWindowTitle(title);
+    msgBox->setText(message);
+    msgBox->setModal(false);
+    msgBox->setIcon(QMessageBox::Warning);
+    msgBox->show();
+    return msgBox;
+#endif
+}
+
 void event(const QLatin1String &name, const QString &message, EventSource source, EventType type)
 {
     Q_UNUSED(name)

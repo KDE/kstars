@@ -15,6 +15,8 @@
  *
  * @author Jasem Mutlaq
  */
+
+class QMessageBox;
 namespace KSNotification
 {
 
@@ -42,6 +44,8 @@ typedef enum
 void error(const QString &message, const QString &title = i18n("Error"), uint32_t timeout = 0);
 void sorry(const QString &message, const QString &title = i18n("Sorry"), uint32_t timeout = 0);
 void info(const QString &message, const QString &title = i18n("Info"), uint32_t timeout = 0);
+QSharedPointer<QMessageBox> closeableMessage(const QString &message, const QString &title);
+
 /**
  * @brief transient Non modal message box that gets deleted on close.
  * @param message message content

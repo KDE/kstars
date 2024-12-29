@@ -312,7 +312,8 @@ void FindDialog::filterList()
 
     auto objs = m_dbManager.find_objects_by_name(SearchText, 10);
 
-    bool exactMatchExists = objs.size() > 0 ? (QString::compare(objs.front().name(), SearchText, Qt::CaseInsensitive) == 0) : false;
+    bool exactMatchExists = objs.size() > 0 ? (QString::compare(objs.front().name(), SearchText,
+                            Qt::CaseInsensitive) == 0) : false;
 
     for (const auto &obj : objs)
     {
@@ -487,7 +488,10 @@ void FindDialog::finishProcessing(SkyObject *selObj, bool resolve)
 {
     if (!selObj && resolve)
     {
+        QString message = i18n("Searching the internet for \"%1\"", ui->SearchBox->text());
+        QSharedPointer<QMessageBox> popup = KSNotification::closeableMessage(message, "");
         selObj = resolveAndAdd(m_dbManager, processSearchText());
+        if (popup) popup->close();
     }
     m_targetObject = selObj;
     if (selObj == nullptr)
