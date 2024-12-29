@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-28 02:04+0000\n"
+"POT-Creation-Date: 2024-12-29 02:01+0000\n"
 "PO-Revision-Date: 2021-01-18 19:03+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -6883,7 +6883,7 @@ msgstr "<i>arcmin</i>"
 msgid "dDE (arcsec)"
 msgstr "பார்சான்ஸ்"
 
-#: ekos/align/align.cpp:3658 ekos/capture/camera.cpp:3444
+#: ekos/align/align.cpp:3658 ekos/capture/camera.cpp:3436
 #: ekos/focus/focus.cpp:5403
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
@@ -6891,18 +6891,18 @@ msgstr "பார்சான்ஸ்"
 msgid "Filter operation failed."
 msgstr "காலியென்ட்"
 
-#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3944
+#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3936
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3677 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3949
+#: ekos/capture/camera.cpp:3941
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3954
+#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3946
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
@@ -6941,7 +6941,7 @@ msgid "Unable to write to file %1"
 msgstr "%1 கோப்பில் இருந்து FITS  தரவை படிக்க இயலவில்லை.\n"
 
 #: ekos/align/align.cpp:3984 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2962
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2954
 #: ekos/capture/cameraprocess.cpp:2643 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
@@ -7604,7 +7604,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "பட்டியலை பார்க்கிறது...."
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2961
+#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2953
 #: ekos/capture/cameraprocess.cpp:2642 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4668
@@ -14440,13 +14440,13 @@ msgstr "நொடி"
 msgid "frames"
 msgstr "பெயர்:"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4069
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4061
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Add job to sequence queue"
 msgstr "படிமங்கள் கவர்தல் தொடர்ச்சி..."
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4070
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4062
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Remove job from sequence queue"
@@ -14622,67 +14622,67 @@ msgstr "படிமங்கள் கவர்தல் தொடர்ச்�
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:1351 ekos/capture/camera.cpp:2440
+#: ekos/capture/camera.cpp:1351 ekos/capture/camera.cpp:2432
 #, fuzzy, kde-format
 #| msgid "Dark Frames"
 msgid "Dark Flat"
 msgstr "நட்சத்திரப் பெயர்"
 
-#: ekos/capture/camera.cpp:2104 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:2097 ekos/scheduler/framingassistant.cpp:221
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "முன்னிருப்பு FITS அடைவு:"
 
-#: ekos/capture/camera.cpp:2216
+#: ekos/capture/camera.cpp:2208
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/camera.cpp:2218
+#: ekos/capture/camera.cpp:2210
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "உறுதிபடுத்தியதை அழி"
 
-#: ekos/capture/camera.cpp:2417
+#: ekos/capture/camera.cpp:2409
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:2423
+#: ekos/capture/camera.cpp:2415
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3606
+#: ekos/capture/camera.cpp:3598
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3611
+#: ekos/capture/camera.cpp:3603
 #, fuzzy, kde-format
 msgid "Meridian Flip..."
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/capture/camera.cpp:3612
+#: ekos/capture/camera.cpp:3604
 #, fuzzy, kde-format
 msgid "Meridian flip started"
 msgstr "நிலைமை பெட்டியின் காட்சியை மாற்றுக"
 
-#: ekos/capture/camera.cpp:3616
+#: ekos/capture/camera.cpp:3608
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "முடிந்தது"
 
-#: ekos/capture/camera.cpp:3676
+#: ekos/capture/camera.cpp:3668
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3682
+#: ekos/capture/camera.cpp:3674
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14690,7 +14690,7 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3687
+#: ekos/capture/camera.cpp:3679
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Freehold"
@@ -14698,7 +14698,7 @@ msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "ஃப்ரீஹொல்ட்"
 
-#: ekos/capture/camera.cpp:3693
+#: ekos/capture/camera.cpp:3685
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14706,77 +14706,77 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3706
+#: ekos/capture/camera.cpp:3698
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "எல்லா அளபுருக்கள்"
 
-#: ekos/capture/camera.cpp:3746
+#: ekos/capture/camera.cpp:3738
 #, fuzzy, kde-format
 #| msgid "Server"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "சேவையகம்"
 
-#: ekos/capture/camera.cpp:3748
+#: ekos/capture/camera.cpp:3740
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Current Observer:"
 msgstr "சேவையகம்"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3759 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3751 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observers"
 msgstr "சேவையகம்"
 
-#: ekos/capture/camera.cpp:3931
+#: ekos/capture/camera.cpp:3923
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3931
+#: ekos/capture/camera.cpp:3923
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3961
+#: ekos/capture/camera.cpp:3953
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "%1யில் FITS கோப்பில் சேமிக்கப்பட்டது"
 
-#: ekos/capture/camera.cpp:3994
+#: ekos/capture/camera.cpp:3986
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "%1 இணைப்பகத்தை நீங்கள் உறுதியாக நீக்க விரும்புகிறீர்களா?"
 
-#: ekos/capture/camera.cpp:3994 ekos/capture/cameraprocess.cpp:2763
+#: ekos/capture/camera.cpp:3986 ekos/capture/cameraprocess.cpp:2763
 #, fuzzy, kde-format
 msgid "Reset job status"
 msgstr "&சுட்டுதல் "
 
-#: ekos/capture/camera.cpp:4047
+#: ekos/capture/camera.cpp:4039
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "இணைப்பை திருத்து"
 
-#: ekos/capture/camera.cpp:4050 ekos/scheduler/scheduler.cpp:1299
+#: ekos/capture/camera.cpp:4042 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:4051
+#: ekos/capture/camera.cpp:4043
 #, fuzzy, kde-format
 #| msgid "Save Changes to FITS?"
 msgid "Cancel job changes."
 msgstr "FITSயில் மாற்றங்களை சேமிக்க வேண்டுமா?"
 
-#: ekos/capture/camera.cpp:4064
+#: ekos/capture/camera.cpp:4056
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
