@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-29 02:01+0000\n"
+"POT-Creation-Date: 2024-12-30 01:59+0000\n"
 "PO-Revision-Date: 2014-06-12 16:56+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -595,7 +595,7 @@ msgid "Cancel"
 msgstr "Afbreken"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
-#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:42
+#: auxiliary/ksmessagebox.h:39 auxiliary/ksnotification.h:44
 #: ekos/align/opsastrometryindexfiles.cpp:430
 #: ekos/align/opsastrometryindexfiles.cpp:468
 #: ekos/align/opsastrometryindexfiles.cpp:482
@@ -613,7 +613,7 @@ msgstr "Afbreken"
 msgid "Error"
 msgstr "Fehler"
 
-#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:43
+#: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:554
 #: ekos/scheduler/framingassistantui.cpp:770
 #, kde-format
@@ -622,7 +622,7 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, catalogInfo)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:44
+#: auxiliary/ksmessagebox.h:41 auxiliary/ksnotification.h:46
 #: dialogs/catalogdetails.ui:33 ekos/auxiliary/darklibrary.ui:659
 #, kde-format
 msgid "Info"
@@ -4644,25 +4644,31 @@ msgstr "Aaltje"
 msgid "Aarseth-Brewington (1989 W1)"
 msgstr "Aarseth-Brewington (1989 W1)"
 
-#: dialogs/finddialog.cpp:324
+#: dialogs/finddialog.cpp:325
 #, fuzzy, kde-format
 #| msgid "Read from input file"
 msgid "Search the Internet for %1"
 msgstr "Ut Ingaavdatei lesen"
 
-#: dialogs/finddialog.cpp:325
+#: dialogs/finddialog.cpp:326
 #, fuzzy, kde-format
 #| msgid "nothing"
 msgctxt "no text to search for"
 msgid "(nothing)"
 msgstr "Keen"
 
-#: dialogs/finddialog.cpp:495
+#: dialogs/finddialog.cpp:491
+#, fuzzy, kde-format
+#| msgid "Read from input file"
+msgid "Searching the internet for \"%1\""
+msgstr "Ut Ingaavdatei lesen"
+
+#: dialogs/finddialog.cpp:499
 #, kde-format
 msgid "No object named %1 found."
 msgstr "Keen Objekt mit den Naam \"%1\" funnen."
 
-#: dialogs/finddialog.cpp:496
+#: dialogs/finddialog.cpp:500
 #, kde-format
 msgid "Bad object name"
 msgstr "Leeg Objektnaam"
@@ -6541,7 +6547,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Fehler: Verbinnen na Scharpsteller afreten"
 
 #: ekos/align/align.cpp:1506 ekos/capture/cameraprocess.cpp:220
-#: ekos/capture/cameraprocess.cpp:638 ekos/focus/focus.cpp:5516
+#: ekos/capture/cameraprocess.cpp:638 ekos/focus/focus.cpp:5524
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6577,13 +6583,13 @@ msgstr "Automaatsch bi to scharpstellen..."
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1638 ekos/focus/focus.cpp:1646
+#: ekos/align/align.cpp:1638 ekos/focus/focus.cpp:1642
 #, kde-format
 msgid "Capturing image..."
 msgstr "Bild warrt opnahmen..."
 
 #: ekos/align/align.cpp:1728 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2789
+#: ekos/focus/focus.cpp:2785
 #, kde-format
 msgid "Image received."
 msgstr "Bild opnahmen."
@@ -6729,7 +6735,7 @@ msgid "Refresh is complete."
 msgstr "%1 is tokoppelt."
 
 #: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1408
-#: ekos/focus/focus.cpp:1376
+#: ekos/focus/focus.cpp:1372
 #, kde-format
 msgid "Capture aborted."
 msgstr "Bildopnehmen afbraken."
@@ -6915,25 +6921,25 @@ msgstr "′"
 msgid "dDE (arcsec)"
 msgstr "Bagensekunnen"
 
-#: ekos/align/align.cpp:3658 ekos/capture/camera.cpp:3436
-#: ekos/focus/focus.cpp:5403
+#: ekos/align/align.cpp:3658 ekos/capture/camera.cpp:3438
+#: ekos/focus/focus.cpp:5411
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Filter operation failed."
 msgstr "Afstimmen"
 
-#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3936
+#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3938
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3677 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3941
+#: ekos/capture/camera.cpp:3943
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3946
+#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3948
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Auto focus on filter change..."
@@ -6972,7 +6978,7 @@ msgid "Unable to write to file %1"
 msgstr "Bild lett sik nich sekern: %1 "
 
 #: ekos/align/align.cpp:3984 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2954
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2956
 #: ekos/capture/cameraprocess.cpp:2643 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
@@ -7650,7 +7656,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Töövreeg"
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2953
+#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2955
 #: ekos/capture/cameraprocess.cpp:2642 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4668
@@ -14678,13 +14684,13 @@ msgstr "s"
 msgid "frames"
 msgstr "Bild:"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4061
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4063
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Add job to sequence queue"
 msgstr "Ünnerbild lett sik nich fastleggen."
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4062
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4064
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Remove job from sequence queue"
@@ -14868,7 +14874,7 @@ msgstr "Töövreeg"
 msgid "Failed to save sequence queue"
 msgstr "Ünnerbild lett sik nich fastleggen."
 
-#: ekos/capture/camera.cpp:1351 ekos/capture/camera.cpp:2432
+#: ekos/capture/camera.cpp:1351 ekos/capture/camera.cpp:2434
 #, fuzzy, kde-format
 #| msgid "Use marker file"
 msgid "Dark Flat"
@@ -14881,58 +14887,58 @@ msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS-Standardorner"
 
-#: ekos/capture/camera.cpp:2208
+#: ekos/capture/camera.cpp:2210
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "Reset %1 configuration to default?"
 msgstr "De angeven Instellendatei bruken"
 
-#: ekos/capture/camera.cpp:2210
+#: ekos/capture/camera.cpp:2212
 #, fuzzy, kde-format
 #| msgid "Legend Configuration"
 msgid "Confirmation"
 msgstr "Verkloren instellen"
 
-#: ekos/capture/camera.cpp:2409
+#: ekos/capture/camera.cpp:2411
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:2415
+#: ekos/capture/camera.cpp:2417
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3598
+#: ekos/capture/camera.cpp:3600
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3603
+#: ekos/capture/camera.cpp:3605
 #, fuzzy, kde-format
 #| msgid "Automatic Meridian Flip"
 msgid "Meridian Flip..."
 msgstr "Automaatsch Meridiaandreihen"
 
-#: ekos/capture/camera.cpp:3604
+#: ekos/capture/camera.cpp:3606
 #, fuzzy, kde-format
 #| msgid "Automatic Meridian Flip"
 msgid "Meridian flip started"
 msgstr "Automaatsch Meridiaandreihen"
 
-#: ekos/capture/camera.cpp:3608
+#: ekos/capture/camera.cpp:3610
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "fardig"
 
-#: ekos/capture/camera.cpp:3668
+#: ekos/capture/camera.cpp:3670
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3674
+#: ekos/capture/camera.cpp:3676
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14940,7 +14946,7 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3679
+#: ekos/capture/camera.cpp:3681
 #, fuzzy, kde-format
 #| msgctxt "City in New Jersey USA"
 #| msgid "Freehold"
@@ -14948,7 +14954,7 @@ msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Freehold"
 
-#: ekos/capture/camera.cpp:3685
+#: ekos/capture/camera.cpp:3687
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14956,79 +14962,79 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3698
+#: ekos/capture/camera.cpp:3700
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Temperatuur vun den CCD-Chip fastleggen"
 
-#: ekos/capture/camera.cpp:3738
+#: ekos/capture/camera.cpp:3740
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Luurmann"
 
-#: ekos/capture/camera.cpp:3740
+#: ekos/capture/camera.cpp:3742
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Current Observer:"
 msgstr "Luurmann"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3751 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3753 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"
 msgstr "Luurmann"
 
-#: ekos/capture/camera.cpp:3923
+#: ekos/capture/camera.cpp:3925
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3923
+#: ekos/capture/camera.cpp:3925
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3953
+#: ekos/capture/camera.cpp:3955
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "FITS-Datei na \"%1\" sekert"
 
-#: ekos/capture/camera.cpp:3986
+#: ekos/capture/camera.cpp:3988
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Wullt Du den Link \"%1\" redig wegdoon?"
 
-#: ekos/capture/camera.cpp:3986 ekos/capture/cameraprocess.cpp:2763
+#: ekos/capture/camera.cpp:3988 ekos/capture/cameraprocess.cpp:2763
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
 msgstr "Positschoon torüchsetten"
 
-#: ekos/capture/camera.cpp:4039
+#: ekos/capture/camera.cpp:4041
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "Link bewerken..."
 
-#: ekos/capture/camera.cpp:4042 ekos/scheduler/scheduler.cpp:1299
+#: ekos/capture/camera.cpp:4044 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:4043
+#: ekos/capture/camera.cpp:4045
 #, fuzzy, kde-format
 #| msgid "Save changes"
 msgid "Cancel job changes."
 msgstr "Ännern sekern"
 
-#: ekos/capture/camera.cpp:4056
+#: ekos/capture/camera.cpp:4058
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
@@ -16083,8 +16089,8 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2098 ekos/focus/focus.cpp:5568
-#: ekos/focus/focus.cpp:5592
+#: ekos/capture/cameraprocess.cpp:2098 ekos/focus/focus.cpp:5576
+#: ekos/focus/focus.cpp:5600
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting..."
@@ -16095,7 +16101,7 @@ msgstr "Kamera-/CCD-Belichtentiet in Sekunnen instellen"
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2123 ekos/focus/focus.cpp:5573
+#: ekos/capture/cameraprocess.cpp:2123 ekos/focus/focus.cpp:5581
 #: ekos/guide/guide.cpp:992
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
@@ -19161,47 +19167,47 @@ msgstr "Buchans"
 msgid "Focus Mechanics"
 msgstr "Buchans"
 
-#: ekos/focus/focus.cpp:933
+#: ekos/focus/focus.cpp:929
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Finally found temperature source %1"
 msgstr "Kiekricht: "
 
-#: ekos/focus/focus.cpp:1025
+#: ekos/focus/focus.cpp:1021
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "No Focuser connected."
 msgstr "INDI-Deensten anhollen."
 
-#: ekos/focus/focus.cpp:1032 ekos/focus/focus.cpp:4572
+#: ekos/focus/focus.cpp:1028 ekos/focus/focus.cpp:4568
 #, fuzzy, kde-format
 #| msgid "INDI services stopped."
 msgid "No CCD connected."
 msgstr "INDI-Deensten anhollen."
 
-#: ekos/focus/focus.cpp:1039
+#: ekos/focus/focus.cpp:1035
 #, kde-format
 msgid ""
 "Starting pulse step is too low. Increase the step size to %1 or higher..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1050
+#: ekos/focus/focus.cpp:1046
 #, kde-format
 msgid "Autofocus is already running, discarding start request."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1057
+#: ekos/focus/focus.cpp:1053
 #, kde-format
 msgid "Build Offset is already running, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1065
+#: ekos/focus/focus.cpp:1061
 #, kde-format
 msgid "In Focus Loop, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1072 ekos/focus/focus.cpp:4915
-#: ekos/focus/focus.cpp:5193
+#: ekos/focus/focus.cpp:1068 ekos/focus/focus.cpp:4923
+#: ekos/focus/focus.cpp:5201
 #, fuzzy, kde-format
 #| msgid "Start Focus"
 msgid "Adjust Focus"
@@ -19209,131 +19215,131 @@ msgstr "Scharpstellen anfangen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1072 ekos/focus/focus.cpp:4917
-#: ekos/focus/focus.cpp:5193 ekos/focus/opsfocussettings.ui:448
+#: ekos/focus/focus.cpp:1068 ekos/focus/focus.cpp:4925
+#: ekos/focus/focus.cpp:5201 ekos/focus/opsfocussettings.ui:448
 #: ekos/focus/opsfocussettings.ui:528
 #, fuzzy, kde-format
 #| msgid "Advanced"
 msgid "Adaptive Focus"
 msgstr "Verwiedert"
 
-#: ekos/focus/focus.cpp:1075
+#: ekos/focus/focus.cpp:1071
 #, kde-format
 msgid "Autofocus start request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1083
+#: ekos/focus/focus.cpp:1079
 #, kde-format
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1245
+#: ekos/focus/focus.cpp:1241
 #, fuzzy, kde-format
 #| msgid "Advanced"
 msgid "Autofocus starting..."
 msgstr "Verwiedert"
 
-#: ekos/focus/focus.cpp:1259
+#: ekos/focus/focus.cpp:1255
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation started"
 msgstr "Optschonen för't automaatsch Scharpstellen"
 
-#: ekos/focus/focus.cpp:1381
+#: ekos/focus/focus.cpp:1377
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Automaatsch bi to scharpstellen..."
 
-#: ekos/focus/focus.cpp:1393
+#: ekos/focus/focus.cpp:1389
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Automaatsch bi to scharpstellen..."
 
-#: ekos/focus/focus.cpp:1437
+#: ekos/focus/focus.cpp:1433
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus aborted."
 msgstr "Automaatsch Scharpstellen afslaten."
 
-#: ekos/focus/focus.cpp:1538
+#: ekos/focus/focus.cpp:1534
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1545
+#: ekos/focus/focus.cpp:1541
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Camera."
 msgstr "Fehler: Verbinnen na Scharpsteller afreten"
 
-#: ekos/focus/focus.cpp:1566
+#: ekos/focus/focus.cpp:1562
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1572
+#: ekos/focus/focus.cpp:1568
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to Focuser."
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Fehler: Verbinnen na Scharpsteller afreten"
 
-#: ekos/focus/focus.cpp:1690
+#: ekos/focus/focus.cpp:1686
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "At minimum focus position %1..."
 msgstr "Rektaszenschoon vun de Kiekricht"
 
-#: ekos/focus/focus.cpp:1701
+#: ekos/focus/focus.cpp:1697
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Moving to minimum focus position %1..."
 msgstr "Swojen torüch na Orginaalsteed..."
 
-#: ekos/focus/focus.cpp:1710
+#: ekos/focus/focus.cpp:1706
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "At maximum focus position %1..."
 msgstr "Rektaszenschoon vun de Kiekricht"
 
-#: ekos/focus/focus.cpp:1721
+#: ekos/focus/focus.cpp:1717
 #, fuzzy, kde-format
 #| msgid "Right Ascension of focus position"
 msgid "Moving to maximum focus position %1..."
 msgstr "Rektaszenschoon vun de Kiekricht"
 
-#: ekos/focus/focus.cpp:1748
+#: ekos/focus/focus.cpp:1744
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1755
+#: ekos/focus/focus.cpp:1751
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Fehler: Verbinnen na Scharpsteller afreten"
 
-#: ekos/focus/focus.cpp:1769
+#: ekos/focus/focus.cpp:1765
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "outward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1769
+#: ekos/focus/focus.cpp:1765
 #, fuzzy, kde-format
 #| msgctxt "City in Alaska USA"
 #| msgid "Seward"
 msgid "inward"
 msgstr "Seward"
 
-#: ekos/focus/focus.cpp:1786
+#: ekos/focus/focus.cpp:1782
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 steps..."
 msgstr "Grötter maken..."
 
-#: ekos/focus/focus.cpp:1792
+#: ekos/focus/focus.cpp:1788
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 step..."
@@ -19341,66 +19347,66 @@ msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Grötter maken..."
 msgstr[1] "Grötter maken..."
 
-#: ekos/focus/focus.cpp:1798
+#: ekos/focus/focus.cpp:1794
 #, fuzzy, kde-format
 #| msgid "Focusing inward..."
 msgid "Focusing %2 by %1 ms..."
 msgstr "Grötter maken..."
 
-#: ekos/focus/focus.cpp:1833
+#: ekos/focus/focus.cpp:1829
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Kamera-/CCD-Belichtentiet in Sekunnen instellen"
 
-#: ekos/focus/focus.cpp:1840
+#: ekos/focus/focus.cpp:1836
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr "Lütter maken..."
 
-#: ekos/focus/focus.cpp:1851
+#: ekos/focus/focus.cpp:1847
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr "Lütter maken..."
 
-#: ekos/focus/focus.cpp:1897
+#: ekos/focus/focus.cpp:1893
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:1906
+#: ekos/focus/focus.cpp:1902
 #, fuzzy, kde-format
 #| msgid "Capture aborted."
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Bildopnehmen afbraken."
 
-#: ekos/focus/focus.cpp:1964 ekos/focus/focus.cpp:1971
+#: ekos/focus/focus.cpp:1960 ekos/focus/focus.cpp:1967
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Detection complete."
 msgstr "fardig"
 
-#: ekos/focus/focus.cpp:2248
+#: ekos/focus/focus.cpp:2244
 #, fuzzy, kde-format
 #| msgid "Downloading..."
 msgid "Detecting sources..."
 msgstr "Bi to daalladen..."
 
-#: ekos/focus/focus.cpp:2357
+#: ekos/focus/focus.cpp:2353
 #, fuzzy, kde-format
 #| msgid "Telescope Coordinates"
 msgid "Autofocus operation completed successfully"
 msgstr "Teleskoop-Koordinaten"
 
-#: ekos/focus/focus.cpp:2371
+#: ekos/focus/focus.cpp:2367
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus operation failed"
 msgstr "Optschonen för't automaatsch Scharpstellen"
 
-#: ekos/focus/focus.cpp:2439
+#: ekos/focus/focus.cpp:2435
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Focus procedure completed after %1 iteration."
@@ -19408,71 +19414,71 @@ msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Automaatsch Scharpstellen afslaten."
 msgstr[1] "Automaatsch Scharpstellen afslaten."
 
-#: ekos/focus/focus.cpp:2525
+#: ekos/focus/focus.cpp:2521
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Settling for %1s..."
 msgstr "&Instellen"
 
-#: ekos/focus/focus.cpp:2533
+#: ekos/focus/focus.cpp:2529
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Settling complete."
 msgstr "fardig"
 
-#: ekos/focus/focus.cpp:2546
+#: ekos/focus/focus.cpp:2542
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 
-#: ekos/focus/focus.cpp:2583
+#: ekos/focus/focus.cpp:2579
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS-Bild haalt, keen Steerns funnen."
 
-#: ekos/focus/focus.cpp:2852
+#: ekos/focus/focus.cpp:2848
 #, fuzzy, kde-format
 #| msgid "Capture complete. Select a star to focus."
 msgid "Capture complete. Select a region of interest."
 msgstr "Bild opnahmen. Bitte en Steern för't Scharpstellen utsöken."
 
-#: ekos/focus/focus.cpp:2893
+#: ekos/focus/focus.cpp:2889
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 "Dat automaatsche Utsöken vun en Steern is fehlslaan, söök bitte en vun Hand "
 "ut."
 
-#: ekos/focus/focus.cpp:2987
+#: ekos/focus/focus.cpp:2983
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Bild opnahmen. Bitte en Steern för't Scharpstellen utsöken."
 
-#: ekos/focus/focus.cpp:3018
+#: ekos/focus/focus.cpp:3014
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "Keen Steerns funnen, warrt nochmaal opnahmen..."
 
-#: ekos/focus/focus.cpp:3038
+#: ekos/focus/focus.cpp:3034
 #, fuzzy, kde-format
 #| msgid "HFR:"
 msgid "HFR %1 > Limit %2"
 msgstr "HFH:"
 
-#: ekos/focus/focus.cpp:3166
+#: ekos/focus/focus.cpp:3162
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr "Automaatsch Scharpstellen afslaten."
 
-#: ekos/focus/focus.cpp:3177 ekos/focus/focus.cpp:3439
-#: ekos/focus/focus.cpp:4035
+#: ekos/focus/focus.cpp:3173 ekos/focus/focus.cpp:3435
+#: ekos/focus/focus.cpp:4031
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Keen Steerns funnen, warrt nochmaal opnahmen..."
 
-#: ekos/focus/focus.cpp:3183 ekos/focus/focus.cpp:4041
+#: ekos/focus/focus.cpp:3179 ekos/focus/focus.cpp:4037
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
@@ -19481,7 +19487,7 @@ msgstr ""
 "Dat automaatsche Utsöken vun en Steern is fehlslaan, söök bitte en vun Hand "
 "ut."
 
-#: ekos/focus/focus.cpp:3189 ekos/focus/focus.cpp:4047
+#: ekos/focus/focus.cpp:3185 ekos/focus/focus.cpp:4043
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
@@ -19490,29 +19496,29 @@ msgstr ""
 "Dat automaatsche Utsöken vun en Steern is fehlslaan, söök bitte en vun Hand "
 "ut."
 
-#: ekos/focus/focus.cpp:3376
+#: ekos/focus/focus.cpp:3372
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3396
+#: ekos/focus/focus.cpp:3392
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3422
+#: ekos/focus/focus.cpp:3418
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Starting scan for initial focuser position."
 msgstr "Swojen torüch na Orginaalsteed..."
 
-#: ekos/focus/focus.cpp:3423
+#: ekos/focus/focus.cpp:3419
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Scanning for starting position..."
 msgstr "Automaatsch scharpstellen is fehlslaan. Opnahm warrt afbraken..."
 
-#: ekos/focus/focus.cpp:3445
+#: ekos/focus/focus.cpp:3441
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to automatically select a star. Please select a star manually."
@@ -19521,64 +19527,64 @@ msgstr ""
 "Dat automaatsche Utsöken vun en Steern is fehlslaan, söök bitte en vun Hand "
 "ut."
 
-#: ekos/focus/focus.cpp:3454
+#: ekos/focus/focus.cpp:3450
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Automaatsch Scharpstellen afslaten."
 
-#: ekos/focus/focus.cpp:3472
+#: ekos/focus/focus.cpp:3468
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3486
+#: ekos/focus/focus.cpp:3482
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3499
+#: ekos/focus/focus.cpp:3495
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3500
+#: ekos/focus/focus.cpp:3496
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3569
+#: ekos/focus/focus.cpp:3565
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3571
+#: ekos/focus/focus.cpp:3567
 #, fuzzy, kde-format
 #| msgid "HFR:"
 msgid "R2=%1 < Limit=%2"
 msgstr "HFH:"
 
-#: ekos/focus/focus.cpp:3579
+#: ekos/focus/focus.cpp:3575
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3589
+#: ekos/focus/focus.cpp:3585
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3624
+#: ekos/focus/focus.cpp:3620
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS-Bild haalt. HFH %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3626
+#: ekos/focus/focus.cpp:3622
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS-Bild haalt. HFH %1 @ %2."
 
-#: ekos/focus/focus.cpp:3687
+#: ekos/focus/focus.cpp:3683
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19587,44 +19593,44 @@ msgstr ""
 "Ännern vun de HFH is to lütt. Versöök dat maal un maak de Schrittgrött "
 "grötter oder den tolaten Fehler lütter."
 
-#: ekos/focus/focus.cpp:3694
+#: ekos/focus/focus.cpp:3690
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3799
+#: ekos/focus/focus.cpp:3795
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr ""
 
-#: ekos/focus/focus.cpp:3863
+#: ekos/focus/focus.cpp:3859
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3874
+#: ekos/focus/focus.cpp:3870
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
 msgstr ""
 
-#: ekos/focus/focus.cpp:3884
+#: ekos/focus/focus.cpp:3880
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Bi't Enn ankamen. Versöök dat bitte mit anner Instellen."
 
-#: ekos/focus/focus.cpp:3913
+#: ekos/focus/focus.cpp:3909
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4020
+#: ekos/focus/focus.cpp:4016
 #, fuzzy, kde-format
 #| msgid "FITS received. HFR %1. Delta (%2%)"
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS-Bild haalt. HFH %1, Delta (%2%)"
 
-#: ekos/focus/focus.cpp:4024
+#: ekos/focus/focus.cpp:4020
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19632,118 +19638,118 @@ msgstr ""
 "Automaatsch scharpstellen is fehlslaan Versöök dat maal un pass den tolaten "
 "Fehler to."
 
-#: ekos/focus/focus.cpp:4119 ekos/focus/focus.cpp:4142
-#: ekos/focus/focus.cpp:4317 ekos/focus/focus.cpp:4400
-#: ekos/focus/focus.cpp:4472 ekos/focus/focus.cpp:4547
+#: ekos/focus/focus.cpp:4115 ekos/focus/focus.cpp:4138
+#: ekos/focus/focus.cpp:4313 ekos/focus/focus.cpp:4396
+#: ekos/focus/focus.cpp:4468 ekos/focus/focus.cpp:4543
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "De Scharpsteller mellt en Fehler, kiek bitte op't INDI-Paneel."
 
-#: ekos/focus/focus.cpp:4203 ekos/focus/focus.cpp:4333
+#: ekos/focus/focus.cpp:4199 ekos/focus/focus.cpp:4329
 #, fuzzy, kde-format
 #| msgid "Autofocus complete."
 msgid "Simulate focuser comms failure..."
 msgstr "Automaatsch Scharpstellen afslaten."
 
-#: ekos/focus/focus.cpp:4294 ekos/focus/focus.cpp:4381
-#: ekos/focus/focus.cpp:4453 ekos/focus/focus.cpp:4494
+#: ekos/focus/focus.cpp:4290 ekos/focus/focus.cpp:4377
+#: ekos/focus/focus.cpp:4449 ekos/focus/focus.cpp:4490
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Restarting autofocus process..."
 msgstr "Automaatsch bi to scharpstellen..."
 
-#: ekos/focus/focus.cpp:4588
+#: ekos/focus/focus.cpp:4584
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Langtietbelichten fangt an..."
 
-#: ekos/focus/focus.cpp:4885
+#: ekos/focus/focus.cpp:4893
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4891
+#: ekos/focus/focus.cpp:4899
 #, fuzzy, kde-format
 #| msgid "FITS received. No stars detected."
 msgid "Focus star is selected."
 msgstr "FITS-Bild haalt, keen Steerns funnen."
 
-#: ekos/focus/focus.cpp:4893
+#: ekos/focus/focus.cpp:4901
 #, fuzzy, kde-format
 #| msgid "FITS received. No stars detected."
 msgid "Region of interest is selected."
 msgstr "FITS-Bild haalt, keen Steerns funnen."
 
-#: ekos/focus/focus.cpp:4913
+#: ekos/focus/focus.cpp:4921
 #, fuzzy, kde-format
 #| msgid "Start Focus"
 msgid "Autofocus"
 msgstr "Scharpstellen anfangen"
 
-#: ekos/focus/focus.cpp:4921
+#: ekos/focus/focus.cpp:4929
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4929
+#: ekos/focus/focus.cpp:4937
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4942
+#: ekos/focus/focus.cpp:4950
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4947
+#: ekos/focus/focus.cpp:4955
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing to check HFR..."
 msgstr "Bild warrt opnahmen..."
 
-#: ekos/focus/focus.cpp:5078
+#: ekos/focus/focus.cpp:5086
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Using last known position..."
 msgstr "Keen Steerns funnen, warrt nochmaal opnahmen..."
 
-#: ekos/focus/focus.cpp:5084
+#: ekos/focus/focus.cpp:5092
 #, fuzzy, kde-format
 #| msgid "No stars detected, capturing again..."
 msgid "No star was selected. Aborting..."
 msgstr "Keen Steerns funnen, warrt nochmaal opnahmen..."
 
-#: ekos/focus/focus.cpp:5095
+#: ekos/focus/focus.cpp:5103
 #, fuzzy, kde-format
 #| msgid "Focusing outward..."
 msgid "Focuser already at %1..."
 msgstr "Lütter maken..."
 
-#: ekos/focus/focus.cpp:5196
+#: ekos/focus/focus.cpp:5204
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5230
+#: ekos/focus/focus.cpp:5238
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Kiekricht: "
 
-#: ekos/focus/focus.cpp:5616
+#: ekos/focus/focus.cpp:5624
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to save image. Aborting..."
 msgstr "Ünnerbild lett sik nich fastleggen."
 
-#: ekos/focus/focus.cpp:5631 ekos/focus/focus.cpp:5656
+#: ekos/focus/focus.cpp:5639 ekos/focus/focus.cpp:5664
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure failure. Aborting..."
 msgstr "Kamera-/CCD-Belichtentiet in Sekunnen instellen"
 
-#: ekos/focus/focus.cpp:5948
+#: ekos/focus/focus.cpp:5956
 #, fuzzy, kde-format
 #| msgid "Remove Trail"
 msgctxt "@title:window"
