@@ -69,7 +69,7 @@ class FocusBlurriness
 
     public:
 
-        FocusBlurriness(Mathematics::RobustStatistics::ScaleCalculation scaleCalc);
+        FocusBlurriness();
         ~FocusBlurriness();
 
         template <typename T>
@@ -237,7 +237,6 @@ class FocusBlurriness
 
     private:
 
-        Mathematics::RobustStatistics::ScaleCalculation m_ScaleCalc;
         double m_maxX = -1.0;
         double m_maxY = -1.0;
         bool debug = false; // JEE Remove for production

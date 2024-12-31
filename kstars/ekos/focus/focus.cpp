@@ -97,20 +97,17 @@ Focus::Focus(int id) : QWidget()
     // #5 Init View
     initView();
 
-    // #6 Reset all buttons to default states
+    // #6 Init helper objects
+    initHelperObjects();
+
+    // #7 Reset all buttons to default states
     resetButtons();
 
-    // #7 Load All settings
+    // #8 Load All settings
     loadGlobalSettings();
 
-    // #8 Init Setting Connection now
+    // #9 Init Setting Connection now
     connectSyncSettings();
-
-    // #9 Init Adaptive Focus
-    adaptFocus.reset(new AdaptiveFocus(this));
-
-    // #10 Init Focus Advisor
-    focusAdvisor.reset(new FocusAdvisor(this));
 
     connect(focusAdvisor.get(), &FocusAdvisor::newStage, this, &Focus::newFocusAdvisorStage);
     connect(focusAdvisor.get(), &FocusAdvisor::newMessage, this, &Focus::newFocusAdvisorMessage);
@@ -1269,7 +1266,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
             focusFWHM.reset(new FocusFWHM(m_ScaleCalc));
             focusFourierPower.reset(new FocusFourierPower(m_ScaleCalc));
 #if defined(HAVE_OPENCV)
-            focusBlurriness.reset(new FocusBlurriness(m_ScaleCalc));
+            focusBlurriness.reset(new FocusBlurriness());
 #endif
             // Donut Buster
             initDonutProcessing();
@@ -2000,45 +1997,40 @@ void Focus::starDetectionFinished()
     currentNumStars = m_ImageData->getDetectedStars();
 
     // Setup with measure we are using (HFR, FWHM, etc)
-    if (!inAutoFocus)
-        currentMeasure = currentHFR;
+    if (m_StarMeasure == FOCUS_STAR_NUM_STARS)
+    {
+        currentMeasure = currentNumStars;
+        currentWeight = 1.0;
+    }
+    else if (m_StarMeasure == FOCUS_STAR_FWHM)
+    {
+        getFWHM(m_ImageData->getStarCenters(), &currentFWHM, &currentWeight);
+        currentMeasure = currentFWHM;
+    }
+    else if (m_StarMeasure == FOCUS_STAR_FOURIER_POWER)
+    {
+        getFourierPower(&currentFourierPower, &currentWeight);
+        currentMeasure = currentFourierPower;
+    }
+    else if (m_StarMeasure == FOCUS_STAR_STDDEV || m_StarMeasure == FOCUS_STAR_SOBEL ||
+             m_StarMeasure == FOCUS_STAR_LAPLASSIAN || m_StarMeasure == FOCUS_STAR_CANNY)
+    {
+        QRect roi = QRect();
+        if (m_OpsFocusSettings->focusSubFrame->isChecked())
+            roi = m_FocusView->isTrackingBoxEnabled() ? m_FocusView->getTrackingBox() : QRect();
+        getBlurriness(m_StarMeasure, m_OpsFocusProcess->focusDenoise->isChecked(), &currentBlurriness, &currentWeight, roi);
+        currentMeasure = currentBlurriness;
+    }
     else
     {
-        if (m_StarMeasure == FOCUS_STAR_NUM_STARS)
+        currentMeasure = currentHFR;
+        QList<Edge*> stars = m_ImageData->getStarCenters();
+        std::vector<double> hfrs(stars.size());
+        std::transform(stars.constBegin(), stars.constEnd(), hfrs.begin(), [](Edge * edge)
         {
-            currentMeasure = currentNumStars;
-            currentWeight = 1.0;
-        }
-        else if (m_StarMeasure == FOCUS_STAR_FWHM)
-        {
-            getFWHM(m_ImageData->getStarCenters(), &currentFWHM, &currentWeight);
-            currentMeasure = currentFWHM;
-        }
-        else if (m_StarMeasure == FOCUS_STAR_FOURIER_POWER)
-        {
-            getFourierPower(&currentFourierPower, &currentWeight);
-            currentMeasure = currentFourierPower;
-        }
-        else if (m_StarMeasure == FOCUS_STAR_STDDEV || m_StarMeasure == FOCUS_STAR_SOBEL ||
-                 m_StarMeasure == FOCUS_STAR_LAPLASSIAN || m_StarMeasure == FOCUS_STAR_CANNY)
-        {
-            QRect roi = QRect();
-            if (m_OpsFocusSettings->focusSubFrame->isChecked())
-                roi = m_FocusView->isTrackingBoxEnabled() ? m_FocusView->getTrackingBox() : QRect();
-            getBlurriness(m_StarMeasure, m_OpsFocusProcess->focusDenoise->isChecked(), &currentBlurriness, &currentWeight, roi);
-            currentMeasure = currentBlurriness;
-        }
-        else
-        {
-            currentMeasure = currentHFR;
-            QList<Edge*> stars = m_ImageData->getStarCenters();
-            std::vector<double> hfrs(stars.size());
-            std::transform(stars.constBegin(), stars.constEnd(), hfrs.begin(), [](Edge * edge)
-            {
-                return edge->HFR;
-            });
-            currentWeight = calculateStarWeight(m_OpsFocusProcess->focusUseWeights->isChecked(), hfrs);
-        }
+            return edge->HFR;
+        });
+        currentWeight = calculateStarWeight(m_OpsFocusProcess->focusUseWeights->isChecked(), hfrs);
     }
     setCurrentMeasure();
 }
@@ -2579,7 +2571,7 @@ void Focus::setCurrentMeasure()
         appendLogText(i18n("FITS received. No stars detected."));
 
     // If we have a valid HFR value
-    if (currentHFR > 0)
+    if (!isStarMeasureStarBased() || currentHFR > 0)
     {
         // Check if we're done from polynomial fitting algorithm
         if (m_FocusAlgorithm == FOCUS_POLYNOMIAL && isVShapeSolution)
@@ -2628,7 +2620,7 @@ void Focus::setCurrentMeasure()
         if (inFocusLoop || (inAutoFocus && ! isPositionBased()))
         {
             int pos = plot_position.empty() ? 1 : plot_position.last() + 1;
-            addPlotPosition(pos, currentHFR);
+            addPlotPosition(pos, currentMeasure);
         }
     }
     else
@@ -2842,7 +2834,6 @@ void Focus::setHFRComplete()
     if (!targetChip->getBinning(&subBinX, &subBinY))
         qCDebug(KSTARS_EKOS_FOCUS) << "Warning: target chip is reporting no binning property, using 1x1.";
 
-    // JEE
     if (m_OpsFocusSettings->focusSubFrame->isChecked() && !isStarMeasureStarBased() && !starSelected)
     {
         appendLogText(i18n("Capture complete. Select a region of interest."));
@@ -3084,41 +3075,38 @@ QString Focus::getyAxisLabel(StarMeasure starMeasure)
     QString str = "HFR";
     m_StarUnits == FOCUS_UNITS_ARCSEC ? str += " (\")" : str += " (pix)";
 
-    if (inAutoFocus)
+    switch (starMeasure)
     {
-        switch (starMeasure)
-        {
-            case FOCUS_STAR_HFR:
-                break;
-            case FOCUS_STAR_HFR_ADJ:
-                str = "HFR Adj";
-                m_StarUnits == FOCUS_UNITS_ARCSEC ? str += " (\")" : str += " (pix)";
-                break;
-            case FOCUS_STAR_FWHM:
-                str = "FWHM";
-                m_StarUnits == FOCUS_UNITS_ARCSEC ? str += " (\")" : str += " (pix)";
-                break;
-            case FOCUS_STAR_NUM_STARS:
-                str = "# Stars";
-                break;
-            case FOCUS_STAR_FOURIER_POWER:
-                str = "Fourier Power";
-                break;
-            case FOCUS_STAR_STDDEV:
-                str = "Std Dev";
-                break;
-            case FOCUS_STAR_SOBEL:
-                str = "Sobel Factor";
-                break;
-            case FOCUS_STAR_LAPLASSIAN:
-                str = "Laplassian Factor";
-                break;
-            case FOCUS_STAR_CANNY:
-                str = "Canny Factor";
-                break;
-            default:
-                break;
-        }
+        case FOCUS_STAR_HFR:
+            break;
+        case FOCUS_STAR_HFR_ADJ:
+            str = "HFR Adj";
+            m_StarUnits == FOCUS_UNITS_ARCSEC ? str += " (\")" : str += " (pix)";
+            break;
+        case FOCUS_STAR_FWHM:
+            str = "FWHM";
+            m_StarUnits == FOCUS_UNITS_ARCSEC ? str += " (\")" : str += " (pix)";
+            break;
+        case FOCUS_STAR_NUM_STARS:
+            str = "# Stars";
+            break;
+        case FOCUS_STAR_FOURIER_POWER:
+            str = "Fourier Power";
+            break;
+        case FOCUS_STAR_STDDEV:
+            str = "Std Dev";
+            break;
+        case FOCUS_STAR_SOBEL:
+            str = "Sobel Factor";
+            break;
+        case FOCUS_STAR_LAPLASSIAN:
+            str = "Laplassian Factor";
+            break;
+        case FOCUS_STAR_CANNY:
+            str = "Canny Factor";
+            break;
+        default:
+            break;
     }
     return str;
 }
@@ -4962,7 +4950,6 @@ void Focus::toggleSubframe(bool enable)
     if (enable == false)
         resetFrame();
 
-    // JEE
     m_FocusView->setTrackingBoxEnabled(enable);
     starSelected = false;
     starCenter   = QVector3D();
@@ -5112,7 +5099,6 @@ void Focus::setAbsoluteFocusTicks()
 
 void Focus::syncTrackingBoxPosition()
 {
-    // JEE
     if (m_OpsFocusSettings->focusUseFullField->isChecked() || starCenter.isNull())
         return;
 
@@ -5144,14 +5130,13 @@ void Focus::syncTrackingBoxPosition()
         starCenter.setZ(subBinX);
     }
 
-    // JEE
     QRect starRect = QRect();
     if (isStarMeasureStarBased())
         starRect = QRect(starCenter.x() - boxSize / (2 * subBinX), starCenter.y() - boxSize / (2 * subBinY),
                          boxSize / subBinX, boxSize / subBinY);
     else
     {
-        // JEE get frame parameters and ensure tracking box remains within limits
+        // get frame parameters and ensure tracking box remains within limits
         int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
         targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
         int boxTLX = starCenter.x() - boxSize / (2 * subBinX);
@@ -6688,7 +6673,7 @@ void Focus::setFocusAlgorithm(Algorithm algorithm)
                     m_OpsFocusProcess->focusStarMeasure->addItems(m_StarMeasureText);
                     m_OpsFocusProcess->focusStarMeasure->setCurrentIndex(FOCUS_STAR_HFR);
                 }
-                // JEE If we don't have openCV installed grey out the unavailble star measures. As opposed to just
+                // If we don't have openCV installed grey out the unavailble star measures. As opposed to just
                 // hiding these measures, this will remind folks that want to try these that they need to install openCV
 #if !defined(HAVE_OPENCV)
                 QStandardItemModel *model = dynamic_cast<QStandardItemModel *>(m_OpsFocusProcess->focusStarMeasure->model());
@@ -6894,7 +6879,6 @@ void Focus::setStarMeasure(StarMeasure starMeasure)
     {
         case FOCUS_STAR_HFR:
             m_OptDir = CurveFitting::OPTIMISATION_MINIMISE;
-            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
             m_FocusView->setStarsHFREnabled(true);
 
             // Don't display the PSF widgets
@@ -6906,7 +6890,6 @@ void Focus::setStarMeasure(StarMeasure starMeasure)
 
         case FOCUS_STAR_HFR_ADJ:
             m_OptDir = CurveFitting::OPTIMISATION_MINIMISE;
-            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
             m_FocusView->setStarsHFREnabled(false);
 
             // Don't display the PSF widgets
@@ -6918,7 +6901,6 @@ void Focus::setStarMeasure(StarMeasure starMeasure)
 
         case FOCUS_STAR_FWHM:
             m_OptDir = CurveFitting::OPTIMISATION_MINIMISE;
-            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
             // Ideally the FITSViewer would display FWHM. Until then disable HFRs to avoid confusion
             m_FocusView->setStarsHFREnabled(false);
 
@@ -6931,7 +6913,6 @@ void Focus::setStarMeasure(StarMeasure starMeasure)
 
         case FOCUS_STAR_NUM_STARS:
             m_OptDir = CurveFitting::OPTIMISATION_MAXIMISE;
-            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
             m_FocusView->setStarsHFREnabled(true);
 
             // Don't display the PSF widgets
@@ -6943,7 +6924,6 @@ void Focus::setStarMeasure(StarMeasure starMeasure)
 
         case FOCUS_STAR_FOURIER_POWER:
             m_OptDir = CurveFitting::OPTIMISATION_MAXIMISE;
-            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
             m_FocusView->setStarsHFREnabled(true);
 
             // Don't display the PSF widgets
@@ -6958,7 +6938,6 @@ void Focus::setStarMeasure(StarMeasure starMeasure)
         case FOCUS_STAR_LAPLASSIAN:
         case FOCUS_STAR_CANNY:
             m_OptDir = CurveFitting::OPTIMISATION_MAXIMISE;
-            m_ScaleCalc = Mathematics::RobustStatistics::ScaleCalculation::SCALE_SESTIMATOR;
             m_FocusView->setStarsHFREnabled(true);
 
             // Don't display the PSF widgets
@@ -7205,6 +7184,23 @@ void Focus::initView()
     connect(m_FocusView.get(), &FITSView::trackingStarSelected, this, &Ekos::Focus::focusStarSelected, Qt::UniqueConnection);
     m_FocusView->setStarsEnabled(true);
     m_FocusView->setStarsHFREnabled(true);
+}
+
+void Focus::initHelperObjects()
+{
+    // Objects to do with focus measures
+    starFitting.reset(new CurveFitting());
+    focusFWHM.reset(new FocusFWHM(m_ScaleCalc));
+    focusFourierPower.reset(new FocusFourierPower(m_ScaleCalc));
+#if defined(HAVE_OPENCV)
+    focusBlurriness.reset(new FocusBlurriness());
+#endif
+
+    // Adaptive Focus
+    adaptFocus.reset(new AdaptiveFocus(this));
+
+    // Focus Advisor
+    focusAdvisor.reset(new FocusAdvisor(this));
 }
 
 QVariantMap Focus::getAllSettings() const

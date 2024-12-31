@@ -740,6 +740,7 @@ public slots:
         void stop(FocusState completionState = FOCUS_ABORTED);
 
         void initView();
+        void initHelperObjects();
 
         /** @brief Sets the plot vectors for Analyze after Autofocus. Used by Linear and Linear1Pass
          */
@@ -992,7 +993,7 @@ public slots:
         /// Are we minimising or maximising?
         CurveFitting::OptimisationDirection m_OptDir { CurveFitting::OPTIMISATION_MINIMISE };
         /// The type of statistics to use
-        Mathematics::RobustStatistics::ScaleCalculation m_ScaleCalc { Mathematics::RobustStatistics::SCALE_VARIANCE };
+        Mathematics::RobustStatistics::ScaleCalculation m_ScaleCalc { Mathematics::RobustStatistics::SCALE_SESTIMATOR };
 
         /******************************************
          * "Measure" variables, HFR, FWHM, numStars

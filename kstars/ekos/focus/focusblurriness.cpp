@@ -9,9 +9,8 @@
 namespace Ekos
 {
 
-FocusBlurriness::FocusBlurriness(Mathematics::RobustStatistics::ScaleCalculation scaleCalc)
+FocusBlurriness::FocusBlurriness()
 {
-    m_ScaleCalc = scaleCalc;
     m_maxX = m_maxY = -1.0;
 }
 
