@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-30 01:59+0000\n"
-"PO-Revision-Date: 2024-12-28 11:16+0100\n"
+"PO-Revision-Date: 2024-12-30 17:41+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -28,7 +28,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Jaap Woldringh - t/m 2021,Freek de Kruijf - 2021 t/m 2024"
+msgstr "Jaap Woldringh - t/m 2021,Freek de Kruijf - 2021 t/m 2025"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -4425,10 +4425,9 @@ msgid "(nothing)"
 msgstr "(niets)"
 
 #: dialogs/finddialog.cpp:491
-#, fuzzy, kde-format
-#| msgid "Search the Internet for %1"
+#, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "Zoek op het internet naar %1"
+msgstr "Zoeken op het internet naar \"%1\""
 
 #: dialogs/finddialog.cpp:499
 #, kde-format

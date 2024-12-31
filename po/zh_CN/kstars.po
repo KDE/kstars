@@ -4355,10 +4355,9 @@ msgid "(nothing)"
 msgstr "(无)"
 
 #: dialogs/finddialog.cpp:491
-#, fuzzy, kde-format
-#| msgid "Search the Internet for %1"
+#, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "在线搜索 %1"
+msgstr ""
 
 #: dialogs/finddialog.cpp:499
 #, kde-format
