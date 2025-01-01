@@ -3300,9 +3300,21 @@ void ImagingPlanner::loadCatalog(const QString &path)
     });
 #else
     removeEventFilters();
+
+    // This tool seems to occassionally crash when UI interactions happen during catalog loading
+    // Don't know why, but disabling that, and re-enabling after load below.
+    setEnabled(false);
+    setFixedSize(this->width(), this->height());
+
     m_loadingCatalog = true;
     loadCatalogFromFile(path);
     catalogLoaded();
+
+    // Re-enable UI
+    setEnabled(true);
+    setMinimumSize(0, 0);
+    setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+
     m_loadingCatalog = false;
     installEventFilters();
 #endif
