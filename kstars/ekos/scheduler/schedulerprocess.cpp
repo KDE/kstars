@@ -4557,7 +4557,7 @@ void SchedulerProcess::registerNewDevice(const QString &name, int interface)
         dbusargs.append(INDI::BaseDevice::DOME_INTERFACE);
         QDBusReply<QStringList> paths = indiInterface()->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths",
                                         dbusargs);
-        if (paths.error().type() == QDBusError::NoError)
+        if (paths.error().type() == QDBusError::NoError && !paths.value().isEmpty())
         {
             // Select last device in case a restarted caused multiple instances in the tree
             setDomePathString(paths.value().last());
@@ -4597,7 +4597,7 @@ void SchedulerProcess::registerNewDevice(const QString &name, int interface)
         dbusargs.append(INDI::BaseDevice::DUSTCAP_INTERFACE);
         QDBusReply<QStringList> paths = indiInterface()->callWithArgumentList(QDBus::AutoDetect, "getDevicesPaths",
                                         dbusargs);
-        if (paths.error().type() == QDBusError::NoError)
+        if (paths.error().type() == QDBusError::NoError && !paths.value().isEmpty())
         {
             // Select last device in case a restarted caused multiple instances in the tree
             setDustCapPathString(paths.value().last());
