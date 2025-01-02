@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-01 01:51+0000\n"
+"POT-Creation-Date: 2025-01-02 01:50+0000\n"
 "PO-Revision-Date: 2002-11-09 20:07+0200\n"
 "Last-Translator: Thelma Lungcuzo <thelma@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -6289,7 +6289,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Dibanisa"
 
 #: ekos/align/align.cpp:1506 ekos/capture/cameraprocess.cpp:220
-#: ekos/capture/cameraprocess.cpp:638 ekos/focus/focus.cpp:5509
+#: ekos/capture/cameraprocess.cpp:638 ekos/focus/focus.cpp:5510
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6629,7 +6629,7 @@ msgid "dDE (arcsec)"
 msgstr "Entsundu"
 
 #: ekos/align/align.cpp:3658 ekos/capture/camera.cpp:3438
-#: ekos/focus/focus.cpp:5396
+#: ekos/focus/focus.cpp:5397
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -15317,8 +15317,8 @@ msgstr ""
 msgid "Post job script finished with code %1."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2098 ekos/focus/focus.cpp:5561
-#: ekos/focus/focus.cpp:5585
+#: ekos/capture/cameraprocess.cpp:2098 ekos/focus/focus.cpp:5562
+#: ekos/focus/focus.cpp:5586
 #, fuzzy, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Gcina umfanekiso"
@@ -15328,7 +15328,7 @@ msgstr "Gcina umfanekiso"
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
-#: ekos/capture/cameraprocess.cpp:2123 ekos/focus/focus.cpp:5566
+#: ekos/capture/cameraprocess.cpp:2123 ekos/focus/focus.cpp:5567
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -18173,8 +18173,8 @@ msgstr ""
 msgid "In Focus Loop, Autofocus rejected."
 msgstr ""
 
-#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4911
-#: ekos/focus/focus.cpp:5186
+#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4912
+#: ekos/focus/focus.cpp:5187
 #, fuzzy, kde-format
 #| msgid "Start Clock"
 msgid "Adjust Focus"
@@ -18182,8 +18182,8 @@ msgstr "Qala ikloko"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4913
-#: ekos/focus/focus.cpp:5186 ekos/focus/opsfocussettings.ui:448
+#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4914
+#: ekos/focus/focus.cpp:5187 ekos/focus/opsfocussettings.ui:448
 #: ekos/focus/opsfocussettings.ui:528
 #, fuzzy, kde-format
 msgid "Adaptive Focus"
@@ -18586,86 +18586,86 @@ msgstr "Farmington"
 msgid "Starting continuous exposure..."
 msgstr "Farmington"
 
-#: ekos/focus/focus.cpp:4881
+#: ekos/focus/focus.cpp:4882
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4887
+#: ekos/focus/focus.cpp:4888
 #, fuzzy, kde-format
 msgid "Focus star is selected."
 msgstr "Akukho Njongo ekhetiweyo!"
 
-#: ekos/focus/focus.cpp:4889
+#: ekos/focus/focus.cpp:4890
 #, fuzzy, kde-format
 msgid "Region of interest is selected."
 msgstr "Akukho Njongo ekhetiweyo!"
 
-#: ekos/focus/focus.cpp:4909
+#: ekos/focus/focus.cpp:4910
 #, fuzzy, kde-format
 #| msgid "Start Clock"
 msgid "Autofocus"
 msgstr "Qala ikloko"
 
-#: ekos/focus/focus.cpp:4917
+#: ekos/focus/focus.cpp:4918
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4925
+#: ekos/focus/focus.cpp:4926
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr ""
 
-#: ekos/focus/focus.cpp:4938
+#: ekos/focus/focus.cpp:4939
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4943
+#: ekos/focus/focus.cpp:4944
 #, fuzzy, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Ilayisha i KStars..."
 
-#: ekos/focus/focus.cpp:5073
+#: ekos/focus/focus.cpp:5074
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5079
+#: ekos/focus/focus.cpp:5080
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5090
+#: ekos/focus/focus.cpp:5091
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focuser already at %1..."
 msgstr "Iqwalasele ku: "
 
-#: ekos/focus/focus.cpp:5189
+#: ekos/focus/focus.cpp:5190
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 
-#: ekos/focus/focus.cpp:5223
+#: ekos/focus/focus.cpp:5224
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Iqwalasele ku: "
 
-#: ekos/focus/focus.cpp:5609
+#: ekos/focus/focus.cpp:5610
 #, fuzzy, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "imifanekiso Yelanga Yemihla yonke"
 
-#: ekos/focus/focus.cpp:5624 ekos/focus/focus.cpp:5649
+#: ekos/focus/focus.cpp:5625 ekos/focus/focus.cpp:5650
 #, fuzzy, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Gcina umfanekiso"
 
-#: ekos/focus/focus.cpp:5941
+#: ekos/focus/focus.cpp:5942
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -28673,50 +28673,50 @@ msgstr "imifanekiso Yelanga Yemihla yonke"
 msgid "Failed to write image: %1"
 msgstr "imifanekiso Yelanga Yemihla yonke"
 
-#: fitsviewer/fitsdata.cpp:2880 fitsviewer/fitsdata.cpp:2891
-#: fitsviewer/fitsdata.cpp:2928 fitsviewer/fitsdata.cpp:2964
-#: fitsviewer/fitsdata.cpp:3098
+#: fitsviewer/fitsdata.cpp:2889 fitsviewer/fitsdata.cpp:2900
+#: fitsviewer/fitsdata.cpp:2937 fitsviewer/fitsdata.cpp:2973
+#: fitsviewer/fitsdata.cpp:3107
 #, fuzzy, kde-format
 msgid "No world coordinate systems found."
 msgstr "Amanani akunika indawo ncam &Athe tye"
 
-#: fitsviewer/fitsdata.cpp:3273 fitsviewer/fitsdata.cpp:3381
+#: fitsviewer/fitsdata.cpp:3282 fitsviewer/fitsdata.cpp:3390
 #, fuzzy, kde-format
 msgid "Error querying Simbad"
 msgstr "Ayinakuvula Ifayile"
 
-#: fitsviewer/fitsdata.cpp:3290
+#: fitsviewer/fitsdata.cpp:3299
 #, fuzzy, kde-format
 msgid "Simbad query timed out"
 msgstr "Fumana umxholo"
 
-#: fitsviewer/fitsdata.cpp:4267
+#: fitsviewer/fitsdata.cpp:4276
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:4300
+#: fitsviewer/fitsdata.cpp:4309
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:4331
+#: fitsviewer/fitsdata.cpp:4340
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:4399 fitsviewer/fitsdata.cpp:4446
-#: fitsviewer/fitsdata.cpp:4491 fitsviewer/fitsdata.cpp:4538
+#: fitsviewer/fitsdata.cpp:4408 fitsviewer/fitsdata.cpp:4455
+#: fitsviewer/fitsdata.cpp:4500 fitsviewer/fitsdata.cpp:4547
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:4409 fitsviewer/fitsdata.cpp:4501
+#: fitsviewer/fitsdata.cpp:4418 fitsviewer/fitsdata.cpp:4510
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr ""
 
-#: fitsviewer/fitsdata.cpp:4429 fitsviewer/fitsdata.cpp:4521
+#: fitsviewer/fitsdata.cpp:4438 fitsviewer/fitsdata.cpp:4530
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr ""
@@ -86240,17 +86240,17 @@ msgstr ""
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3451
+#: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3463
 #, fuzzy, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Ayinakuvula Ifayile"
 
-#: tools/imagingplanner.cpp:3358
+#: tools/imagingplanner.cpp:3370
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3432
+#: tools/imagingplanner.cpp:3444
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-01 01:51+0000\n"
+"POT-Creation-Date: 2025-01-02 01:50+0000\n"
 "PO-Revision-Date: 2024-07-28 11:45+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -6252,7 +6252,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Eraro: perdita konekto al filtrila rado."
 
 #: ekos/align/align.cpp:1506 ekos/capture/cameraprocess.cpp:220
-#: ekos/capture/cameraprocess.cpp:638 ekos/focus/focus.cpp:5509
+#: ekos/capture/cameraprocess.cpp:638 ekos/focus/focus.cpp:5510
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6612,7 +6612,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (arksec)"
 
 #: ekos/align/align.cpp:3658 ekos/capture/camera.cpp:3438
-#: ekos/focus/focus.cpp:5396
+#: ekos/focus/focus.cpp:5397
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Filtrila operacio malsukcesis."
@@ -15809,8 +15809,8 @@ msgstr "Antaŭtaska skripto finiĝis kun kodo %1."
 msgid "Post job script finished with code %1."
 msgstr "Posttaska skripto finiĝis kun kodo %1."
 
-#: ekos/capture/cameraprocess.cpp:2098 ekos/focus/focus.cpp:5561
-#: ekos/focus/focus.cpp:5585
+#: ekos/capture/cameraprocess.cpp:2098 ekos/focus/focus.cpp:5562
+#: ekos/focus/focus.cpp:5586
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Templimo de elmeto. Abortante..."
@@ -15820,7 +15820,7 @@ msgstr "Templimo de elmeto. Abortante..."
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr "Templimo de elmeto. Pli ol 3 estis detektitaj, restartigos pelilon."
 
-#: ekos/capture/cameraprocess.cpp:2123 ekos/focus/focus.cpp:5566
+#: ekos/capture/cameraprocess.cpp:2123 ekos/focus/focus.cpp:5567
 #: ekos/guide/guide.cpp:992
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -18800,16 +18800,16 @@ msgstr "Konstrui Deŝovon jam estas rulanta, Aŭtofokusado malakceptita."
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "En Fokusbuklo, Aŭtofokusado malakceptita."
 
-#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4911
-#: ekos/focus/focus.cpp:5186
+#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4912
+#: ekos/focus/focus.cpp:5187
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Ĝustigi Fokuson"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4913
-#: ekos/focus/focus.cpp:5186 ekos/focus/opsfocussettings.ui:448
+#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4914
+#: ekos/focus/focus.cpp:5187 ekos/focus/opsfocussettings.ui:448
 #: ekos/focus/opsfocussettings.ui:528
 #, kde-format
 msgid "Adaptive Focus"
@@ -19209,87 +19209,87 @@ msgstr "Rekomencante aŭtomatan fokusan procezon..."
 msgid "Starting continuous exposure..."
 msgstr "Komencante kontinuan ekspozicion..."
 
-#: ekos/focus/focus.cpp:4881
+#: ekos/focus/focus.cpp:4882
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Malebliganta Aŭtomatan Stel-Elekton ĉar stel-elektokesto estis movita "
 "permane."
 
-#: ekos/focus/focus.cpp:4887
+#: ekos/focus/focus.cpp:4888
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Fokusa stelo estas elektita."
 
-#: ekos/focus/focus.cpp:4889
+#: ekos/focus/focus.cpp:4890
 #, fuzzy, kde-format
 #| msgid "Focus star is selected."
 msgid "Region of interest is selected."
 msgstr "Fokusa stelo estas elektita."
 
-#: ekos/focus/focus.cpp:4909
+#: ekos/focus/focus.cpp:4910
 #, kde-format
 msgid "Autofocus"
 msgstr "Aŭtomata fokuso"
 
-#: ekos/focus/focus.cpp:4917
+#: ekos/focus/focus.cpp:4918
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr "Aŭtomat-fokusa kontrolopeto - Atendante 10sek por ke %1 plenumiĝu."
 
-#: ekos/focus/focus.cpp:4925
+#: ekos/focus/focus.cpp:4926
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Forĵetante Aŭtofokusan ekigopeton - %1 en progreso."
 
-#: ekos/focus/focus.cpp:4938
+#: ekos/focus/focus.cpp:4939
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
-#: ekos/focus/focus.cpp:4943
+#: ekos/focus/focus.cpp:4944
 #, fuzzy, kde-format
 #| msgid "Capturing image..."
 msgid "Capturing to check HFR..."
 msgstr "Kaptante bildon..."
 
-#: ekos/focus/focus.cpp:5073
+#: ekos/focus/focus.cpp:5074
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Neniu stelo estis elektita. Uzante lastan konatan pozicion..."
 
-#: ekos/focus/focus.cpp:5079
+#: ekos/focus/focus.cpp:5080
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Neniu stelo estis elektita. Abortante..."
 
-#: ekos/focus/focus.cpp:5090
+#: ekos/focus/focus.cpp:5091
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Fokusilo jam ĉe %1..."
 
-#: ekos/focus/focus.cpp:5189
+#: ekos/focus/focus.cpp:5190
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr "Aŭtomat-fokusa ekigopeto - Atendante 10sek por ke %1 plenumiĝu."
 
-#: ekos/focus/focus.cpp:5223
+#: ekos/focus/focus.cpp:5224
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Fokuso Kadro"
 
-#: ekos/focus/focus.cpp:5609
+#: ekos/focus/focus.cpp:5610
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Malsukcesis konservi bildon. Abortante..."
 
-#: ekos/focus/focus.cpp:5624 ekos/focus/focus.cpp:5649
+#: ekos/focus/focus.cpp:5625 ekos/focus/focus.cpp:5650
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Malsukceso de malkovro. Abortante..."
 
-#: ekos/focus/focus.cpp:5941
+#: ekos/focus/focus.cpp:5942
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -30010,52 +30010,52 @@ msgstr "Malsukcesis ĝisdatigi historion: %1"
 msgid "Failed to write image: %1"
 msgstr "Malsukcesis skribi bildon: %1"
 
-#: fitsviewer/fitsdata.cpp:2880 fitsviewer/fitsdata.cpp:2891
-#: fitsviewer/fitsdata.cpp:2928 fitsviewer/fitsdata.cpp:2964
-#: fitsviewer/fitsdata.cpp:3098
+#: fitsviewer/fitsdata.cpp:2889 fitsviewer/fitsdata.cpp:2900
+#: fitsviewer/fitsdata.cpp:2937 fitsviewer/fitsdata.cpp:2973
+#: fitsviewer/fitsdata.cpp:3107
 #, kde-format
 msgid "No world coordinate systems found."
 msgstr "Neniuj mondaj koordinatsistemoj trovitaj."
 
-#: fitsviewer/fitsdata.cpp:3273 fitsviewer/fitsdata.cpp:3381
+#: fitsviewer/fitsdata.cpp:3282 fitsviewer/fitsdata.cpp:3390
 #, fuzzy, kde-format
 #| msgid "Error reading image: %1"
 msgid "Error querying Simbad"
 msgstr "Eraro legante bildon: %1"
 
-#: fitsviewer/fitsdata.cpp:3290
+#: fitsviewer/fitsdata.cpp:3299
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Simbad query timed out"
 msgstr "Solvanto elĉerpita."
 
-#: fitsviewer/fitsdata.cpp:4267
+#: fitsviewer/fitsdata.cpp:4276
 #, kde-format
 msgid "Only 8 and 16 bits bayered images supported."
 msgstr "Nur 8 kaj 16 bitoj bayeritaj bildoj subtenataj."
 
-#: fitsviewer/fitsdata.cpp:4300
+#: fitsviewer/fitsdata.cpp:4309
 #, kde-format
 msgid "Unsupported bayer pattern %1."
 msgstr "Nesubtenata bayer-ŝablono %1."
 
-#: fitsviewer/fitsdata.cpp:4331
+#: fitsviewer/fitsdata.cpp:4340
 #, kde-format
 msgid "Unsupported bayer offsets %1 %2."
 msgstr "Nesubtenata bayer kompensas %1 %2."
 
-#: fitsviewer/fitsdata.cpp:4399 fitsviewer/fitsdata.cpp:4446
-#: fitsviewer/fitsdata.cpp:4491 fitsviewer/fitsdata.cpp:4538
+#: fitsviewer/fitsdata.cpp:4408 fitsviewer/fitsdata.cpp:4455
+#: fitsviewer/fitsdata.cpp:4500 fitsviewer/fitsdata.cpp:4547
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer: %1"
 msgstr "Ne eblas atribui memoron por provizora bayer-bufro: %1"
 
-#: fitsviewer/fitsdata.cpp:4409 fitsviewer/fitsdata.cpp:4501
+#: fitsviewer/fitsdata.cpp:4418 fitsviewer/fitsdata.cpp:4510
 #, kde-format
 msgid "Unable to allocate memory for temporary bayer buffer."
 msgstr "Ne eblas atribui memoron por provizora bayer-bufro."
 
-#: fitsviewer/fitsdata.cpp:4429 fitsviewer/fitsdata.cpp:4521
+#: fitsviewer/fitsdata.cpp:4438 fitsviewer/fitsdata.cpp:4530
 #, kde-format
 msgid "Debayer failed (%1)"
 msgstr "Debayer malsukcesis (%1)"
@@ -82389,18 +82389,18 @@ msgstr ""
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3451
+#: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3463
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Ne eblis malfermi la dosieron %1"
 
-#: tools/imagingplanner.cpp:3358
+#: tools/imagingplanner.cpp:3370
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3432
+#: tools/imagingplanner.cpp:3444
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
