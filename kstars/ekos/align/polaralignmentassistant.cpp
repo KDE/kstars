@@ -603,7 +603,10 @@ void PolarAlignmentAssistant::setPAHStage(Stage stage)
 
 void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleDuration)
 {
-    double deltaAngle = fabs(ra.deltaAngle(targetPAH.ra()).Degrees());
+    // Check how many degrees between current and target
+    double deltaAngle = std::abs(ra.deltaAngle(targetPAH.ra()).Degrees());
+    // Check how many degrees travelled so far from starting point
+    double traveledAngle = std::abs(ra.deltaAngle(m_StartCoord.ra()).Degrees());
 
     QString rotProgressMessage;
     QString rotDoneMessage;
@@ -626,41 +629,58 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
     }
     else return;
 
+    auto settle = [this, rotDoneMessage, settleDuration, nextCapture, nextSettle]()
+    {
+        m_CurrentTelescope->StopWE();
+        emit newLog(rotDoneMessage);
+
+        if (settleDuration <= 0)
+        {
+            setPAHStage(nextCapture);
+            updateDisplay(m_PAHStage, getPAHMessage());
+        }
+        else
+        {
+            setPAHStage(nextSettle);
+            updateDisplay(m_PAHStage, getPAHMessage());
+
+            emit newLog(i18n("Settling..."));
+            QTimer::singleShot(settleDuration, [nextCapture, this]()
+            {
+                setPAHStage(nextCapture);
+                updateDisplay(m_PAHStage, getPAHMessage());
+            });
+        }
+    };
+
+
     if (m_PAHStage == PAH_FIRST_ROTATE || m_PAHStage == PAH_SECOND_ROTATE)
     {
         // only wait for telescope to slew to new position if manual slewing is switched off
         if(!pAHManualSlew->isChecked())
         {
-            qCDebug(KSTARS_EKOS_ALIGN) << rotProgressMessage << deltaAngle;
+            qCDebug(KSTARS_EKOS_ALIGN) << rotProgressMessage << deltaAngle << traveledAngle;
             if (deltaAngle <= PAH_ROTATION_THRESHOLD)
             {
-                m_CurrentTelescope->StopWE();
-                emit newLog(rotDoneMessage);
-
-                if (settleDuration <= 0)
+                settle();
+            }
+            // If for some reason we didn't stop, let's stop if we get too far
+            else if (traveledAngle > pAHRotation->value() * 1.1)
+            {
+                bool goingWest = pAHDirection->currentIndex() == 0;
+                auto diff = ra.deltaAngle(m_StartCoord.ra()).Degrees();
+                // If negative and direction is west then rotation is OK but maybe speed is too fast
+                // and opposite is true
+                if ((diff < 0 && goingWest) || (diff > 0 && !goingWest))
                 {
-                    setPAHStage(nextCapture);
-                    updateDisplay(m_PAHStage, getPAHMessage());
+                    settle();
                 }
                 else
                 {
-                    setPAHStage(nextSettle);
-                    updateDisplay(m_PAHStage, getPAHMessage());
-
-                    emit newLog(i18n("Settling..."));
-                    QTimer::singleShot(settleDuration, [nextCapture, this]()
-                    {
-                        setPAHStage(nextCapture);
-                        updateDisplay(m_PAHStage, getPAHMessage());
-                    });
+                    m_CurrentTelescope->abort();
+                    emit newLog(i18n("Mount aborted. Reverse RA axis direction and try again."));
+                    stopPAHProcess();
                 }
-            }
-            // If for some reason we didn't stop, let's stop if we get too far
-            else if (deltaAngle > pAHRotation->value() * 1.25)
-            {
-                m_CurrentTelescope->abort();
-                emit newLog(i18n("Mount aborted. Reverse RA axis direction and try again."));
-                stopPAHProcess();
             }
             return;
         } // endif not manual slew
@@ -864,6 +884,9 @@ void PolarAlignmentAssistant::rotatePAH()
     }
 
     const SkyPoint telescopeCoord = m_CurrentTelescope->currentCoordinates();
+
+    // Record starting point
+    m_StartCoord = telescopeCoord;
 
     // TargetDiffRA is in degrees
     dms newTelescopeRA = (telescopeCoord.ra() + dms(TargetDiffRA)).reduce();

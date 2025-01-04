@@ -219,6 +219,7 @@ class PolarAlignmentAssistant : public QWidget, public Ui::PolarAlignmentAssista
         Stage m_PAHStage { PAH_IDLE };
 
         SkyPoint targetPAH;
+        SkyPoint m_StartCoord;
 
         // Which hemisphere are we located on?
         HemisphereType hemisphere;
