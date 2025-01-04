@@ -736,29 +736,30 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         }
         else if (!strcmp(tagXMLEle(ep), "TargetName"))
         {
-            auto jobTarget = pcdataXMLEle(ep);
+            QString jobTarget = pcdataXMLEle(ep);
 
-            if (targetName == "")
+            if (targetName.isEmpty())
                 // use the target from the XML document
                 setCoreProperty(SequenceJob::SJ_TargetName, QString(jobTarget));
-            else if (strcmp(jobTarget, "") != 0)
+            else if (!jobTarget.isEmpty())
                 // issue a warning that target from the XML document is ignored
-                qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job target name %1 ignored.").arg(jobTarget);
+                qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job target name %1 ignored in favor of %2.").arg(jobTarget, targetName);
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
+            qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job is using outdated format. Please create a new sequence file");
             // RawPrefix is outdated and will be ignored
             subEP = findXMLEle(ep, "RawPrefix");
             if (subEP)
             {
-                auto jobTarget = pcdataXMLEle(subEP);
+                QString jobTarget = pcdataXMLEle(subEP);
 
-                if (targetName == "")
+                if (targetName.isEmpty())
                     // use the target from the XML document
                     setCoreProperty(SequenceJob::SJ_TargetName, QString(jobTarget));
-                else if (strcmp(jobTarget, "") != 0)
+                else if (!jobTarget.isEmpty())
                     // issue a warning that target from the XML document is ignored
-                    qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job raw prefix %1 ignored.").arg(jobTarget);
+                    qWarning(KSTARS_EKOS_CAPTURE) << QString("Sequence job target name %1 ignored in favor of %2.").arg(jobTarget, targetName);
             }
             bool filterEnabled = false, expEnabled = false, tsEnabled = false;
             subEP = findXMLEle(ep, "FilterEnabled");

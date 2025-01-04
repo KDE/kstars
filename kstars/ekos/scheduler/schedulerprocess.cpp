@@ -4622,13 +4622,10 @@ bool SchedulerProcess::createJobSequence(XMLEle * root, const QString &prefix, c
         {
             for (subEP = nextXMLEle(ep, 1); subEP != nullptr; subEP = nextXMLEle(ep, 0))
             {
-                if (!strcmp(tagXMLEle(subEP), "Prefix"))
+                if (!strcmp(tagXMLEle(subEP), "TargetName"))
                 {
-                    XMLEle *rawPrefix = findXMLEle(subEP, "RawPrefix");
-                    if (rawPrefix)
-                    {
-                        editXMLEle(rawPrefix, prefix.toLatin1().constData());
-                    }
+                    // Set the target name in sequence file, though scheduler will overwrite this later
+                    editXMLEle(subEP, prefix.toLatin1().constData());
                 }
                 else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
                 {
