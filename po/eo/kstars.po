@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-02 01:50+0000\n"
-"PO-Revision-Date: 2024-07-28 11:45+0200\n"
+"POT-Creation-Date: 2025-01-05 01:53+0000\n"
+"PO-Revision-Date: 2025-01-04 15:44+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -257,10 +257,9 @@ msgid "FITS Image Object Label"
 msgstr "FITS Bilda Objekta Etikedo"
 
 #: auxiliary/colorscheme.cpp:71
-#, fuzzy, kde-format
-#| msgid "FITS Image Object Label"
+#, kde-format
 msgid "FITS Image Object Highlight Label"
-msgstr "FITS Bilda Objekta Etikedo"
+msgstr "FITS-Bildobjekta Etikedo de Reliefigo "
 
 #: auxiliary/colorscheme.cpp:137 kstarsdata.cpp:1071 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:741
@@ -542,7 +541,7 @@ msgstr "Ne"
 #: dialogs/catalogdetails.cpp:213 dialogs/catalogsdbui.cpp:153
 #: dialogs/catalogsdbui.cpp:189 dialogs/catalogsdbui.cpp:210
 #: dialogs/catalogsdbui.cpp:230 dialogs/catalogsdbui.cpp:248
-#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:793
+#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:813
 #, kde-format
 msgid "Warning"
 msgstr "Averto"
@@ -4406,10 +4405,9 @@ msgid "(nothing)"
 msgstr "(nenio)"
 
 #: dialogs/finddialog.cpp:491
-#, fuzzy, kde-format
-#| msgid "Search the Internet for %1"
+#, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "Serĉi en Interreto %1"
+msgstr "Serĉante en interreto \"%1\""
 
 #: dialogs/finddialog.cpp:499
 #, kde-format
@@ -6202,11 +6200,10 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>Efika vidkampo grandeco en arkminutoj.</p>"
 
 #: ekos/align/align.cpp:1423
-#, fuzzy, kde-format
-#| msgid "Mount aborted. Reverse RA axis direction and try again."
+#, kde-format
 msgid "Mount coordinates are invalid. Check mount connection and try again."
 msgstr ""
-"Muntado abortita. Inversigi la direkton de la RA-akso kaj provi denove."
+"Muntaĵaj koordinatoj estas nevalidaj. Kontrolu muntkonekton kaj provu denove."
 
 #: ekos/align/align.cpp:1424 ekos/align/align.cpp:1456
 #: ekos/align/align.cpp:2422
@@ -6475,7 +6472,7 @@ msgstr "Muntilo estas sinkronigita al solvkoordinatoj."
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
 #: ekos/align/align.cpp:3386 ekos/align/align.cpp:4108
-#: ekos/align/polaralignmentassistant.cpp:650
+#: ekos/align/polaralignmentassistant.cpp:647
 #, kde-format
 msgid "Settling..."
 msgstr "Stabiliĝanta..."
@@ -6657,7 +6654,7 @@ msgstr "Nevalida URL: %1"
 #: ekos/align/align.cpp:3983 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
 #: ekos/scheduler/schedulerprocess.cpp:2974
-#: ekos/scheduler/schedulerprocess.cpp:4648
+#: ekos/scheduler/schedulerprocess.cpp:4645
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Ne eblas skribi al dosiero %1"
@@ -6667,8 +6664,8 @@ msgstr "Ne eblas skribi al dosiero %1"
 #: ekos/capture/cameraprocess.cpp:2643 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
-#: ekos/scheduler/schedulerprocess.cpp:4649
-#: ekos/scheduler/schedulerprocess.cpp:4669 indi/drivermanager.cpp:1549
+#: ekos/scheduler/schedulerprocess.cpp:4646
+#: ekos/scheduler/schedulerprocess.cpp:4666 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1399 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7312,7 +7309,7 @@ msgstr "Malfermi Ekos-Vicigoliston"
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2955
 #: ekos/capture/cameraprocess.cpp:2642 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
-#: ekos/scheduler/schedulerprocess.cpp:4668
+#: ekos/scheduler/schedulerprocess.cpp:4665
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Ne eblas malfermi dosieron %1"
@@ -8544,10 +8541,9 @@ msgstr ""
 "alirebla, aŭ vi ne estas konektita."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, fuzzy, kde-format
-#| msgid "Editing job canceled."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "Redakta tasko nuligita."
+msgstr "%1 elŝuto nuligita."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format
@@ -8555,10 +8551,9 @@ msgid "File Write Error"
 msgstr "Dosiera Skriba Eraro"
 
 #: ekos/align/opsastrometryindexfiles.cpp:496
-#, fuzzy, kde-format
-#| msgid "Shutdown complete."
+#, kde-format
 msgid "%1 download complete."
-msgstr "Malŝalto finiĝis."
+msgstr "%1 elŝuto finiĝis."
 
 #: ekos/align/opsastrometryindexfiles.cpp:502
 #: ekos/align/opsastrometryindexfiles.cpp:641
@@ -8567,16 +8562,13 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Eraro pri Permesoj de Astrometria Dosierujo"
 
 #: ekos/align/opsastrometryindexfiles.cpp:554
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
 msgstr ""
-"La elektita Indeksa dosierujo ne ekzistas. Bonvolu aŭ krei ĝin aŭ elekti "
-"alian."
+"La elektita Indeksdosiera dosierujo ne ekzistas. Bonvolu aŭ krei ĝin aŭ "
+"elekti alian."
 
 #: ekos/align/opsastrometryindexfiles.cpp:569
 #, kde-format
@@ -8785,10 +8777,9 @@ msgstr "URL de Indeksaj Dosieroj:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
-#, fuzzy, kde-format
-#| msgid "http://broiler.astrometry.net/~dstn/"
+#, kde-format
 msgid "http://data.astrometry.net/"
-msgstr "http://broiler.astrometry.net/~dstn/"
+msgstr "http://data.astrometry.net/"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
 #: ekos/align/opsastrometryindexfiles.ui:350
@@ -9757,61 +9748,61 @@ msgstr "PAA: Solvanto malsukcesis, reprovante."
 msgid "PAA: Stopping, solver failed too many times."
 msgstr "PAA: Ĉesante, solvilo malsukcesis tro multajn fojojn."
 
-#: ekos/align/polaralignmentassistant.cpp:616
+#: ekos/align/polaralignmentassistant.cpp:619
 #, kde-format
 msgid "Mount first rotation is complete."
 msgstr "Muntilo unua rotacio estas kompleta."
 
-#: ekos/align/polaralignmentassistant.cpp:623
+#: ekos/align/polaralignmentassistant.cpp:626
 #, kde-format
 msgid "Mount second rotation is complete."
 msgstr "Muntilo dua rotacio estas kompleta."
 
-#: ekos/align/polaralignmentassistant.cpp:662
+#: ekos/align/polaralignmentassistant.cpp:681
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
 msgstr ""
 "Muntado abortita. Inversigi la direkton de la RA-akso kaj provi denove."
 
-#: ekos/align/polaralignmentassistant.cpp:747
+#: ekos/align/polaralignmentassistant.cpp:767
 #, kde-format
 msgid ""
 "Warning: Equatorial Grid Lines will not be drawn due to limited resources "
 "mode."
 msgstr "Averto: Ekvatoraj Kradlinioj ne estos desegnitaj pro limigita reĝimo."
 
-#: ekos/align/polaralignmentassistant.cpp:751
+#: ekos/align/polaralignmentassistant.cpp:771
 #, kde-format
 msgid "Clearing mount Alignment Model..."
 msgstr "Malplenigante muntaĵan vicigomodelon..."
 
-#: ekos/align/polaralignmentassistant.cpp:792
+#: ekos/align/polaralignmentassistant.cpp:812
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Ĉi tio povus kaŭzi la teleskopon transiri la meridiano."
 
-#: ekos/align/polaralignmentassistant.cpp:842
+#: ekos/align/polaralignmentassistant.cpp:862
 #, kde-format
 msgid "Parking the mount..."
 msgstr "Parkigante la muntilon..."
 
-#: ekos/align/polaralignmentassistant.cpp:882
+#: ekos/align/polaralignmentassistant.cpp:905
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr "Bonvolu atendi ĝis muntado finiĝos turniĝanta al RA (%1) DE (%2)"
 
-#: ekos/align/polaralignmentassistant.cpp:898
-#: ekos/align/polaralignmentassistant.cpp:904
+#: ekos/align/polaralignmentassistant.cpp:921
+#: ekos/align/polaralignmentassistant.cpp:927
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "PAA: Malsukcesis trovi CorrectedPixel."
 
-#: ekos/align/polaralignmentassistant.cpp:930
+#: ekos/align/polaralignmentassistant.cpp:953
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "PAA: Malsukcesis trovi RA Axis-centron."
 
-#: ekos/align/polaralignmentassistant.cpp:1001
+#: ekos/align/polaralignmentassistant.cpp:1024
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
@@ -9820,17 +9811,17 @@ msgstr ""
 "Polus-paraleliga stelo ne povas esti ĝisdatigita dum refreŝiga fazo ĉar ĝi "
 "povus influi erarajn mezuradojn."
 
-#: ekos/align/polaralignmentassistant.cpp:1018
+#: ekos/align/polaralignmentassistant.cpp:1041
 #, kde-format
 msgid "First manual rotation done."
 msgstr "Unua mana rotacio farita."
 
-#: ekos/align/polaralignmentassistant.cpp:1023
+#: ekos/align/polaralignmentassistant.cpp:1046
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "Dua mana rotacio farita."
 
-#: ekos/align/polaralignmentassistant.cpp:1068
+#: ekos/align/polaralignmentassistant.cpp:1091
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9839,33 +9830,33 @@ msgstr ""
 "Muntaĵo estas sinkronigita al ĉiela poluso. Vi nun povas daŭrigi la "
 "proceduron de Polar Alignment Assistant."
 
-#: ekos/align/polaralignmentassistant.cpp:1087
+#: ekos/align/polaralignmentassistant.cpp:1110
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Bonvolu atendi dum WCS-datumoj estas procesitaj..."
 
-#: ekos/align/polaralignmentassistant.cpp:1118
+#: ekos/align/polaralignmentassistant.cpp:1141
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "WCS-datumtraktado estas kompleta."
 
-#: ekos/align/polaralignmentassistant.cpp:1127
+#: ekos/align/polaralignmentassistant.cpp:1150
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "WCS-informoj nun validas. Kaptante sekvan kadron..."
 
-#: ekos/align/polaralignmentassistant.cpp:1169
+#: ekos/align/polaralignmentassistant.cpp:1192
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "Malsukcesis prilabori Mondan koordinatsistemon: %1. Provi denove."
 
-#: ekos/align/polaralignmentassistant.cpp:1187
+#: ekos/align/polaralignmentassistant.cpp:1210
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: Malsukcesis trovi la RA-akson. Ĉesi."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1218
+#: ekos/align/polaralignmentassistant.cpp:1241
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9875,52 +9866,52 @@ msgstr ""
 "<p>La asistanto bezonas tri bildojn por trovi solvon. Ekos nun kaptas la "
 "unuan bildon...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1220
+#: ekos/align/polaralignmentassistant.cpp:1243
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "<p>Solvante la <i>unuan</i> bildon...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1222
+#: ekos/align/polaralignmentassistant.cpp:1245
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "<p>Efektivigante la <i>unuan</i> rotacion de muntaĵo...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1224
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr "<p>Stabiliĝante post la <i>unua</i> rotacio de muntaĵo.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1226
+#: ekos/align/polaralignmentassistant.cpp:1249
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "<p>Stabiliĝante post la <i>dua</i> rotacio de muntaĵo.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1228
+#: ekos/align/polaralignmentassistant.cpp:1251
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>Kaptante la duan bildon...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1230
+#: ekos/align/polaralignmentassistant.cpp:1253
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "<p>Solvante la <i>duan</i> bildon...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1232
+#: ekos/align/polaralignmentassistant.cpp:1255
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>Plenumante la <i>duan</i> muntaĵan rotacion...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1234
+#: ekos/align/polaralignmentassistant.cpp:1257
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>Kaptante la <i>trian</i> kaj lastan bildon...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1236
+#: ekos/align/polaralignmentassistant.cpp:1259
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "<p>Solvante la <i>trian</i> bildon...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1239
+#: ekos/align/polaralignmentassistant.cpp:1262
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
@@ -9929,7 +9920,7 @@ msgstr ""
 "<p>Elektu vian ekspontempon & elektu alĝustigmetodon. Tiam alklaku "
 "<i>refreŝigi</i> por komenci alĝustigojn.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1241
+#: ekos/align/polaralignmentassistant.cpp:1264
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -9942,7 +9933,7 @@ msgstr ""
 "elektu helan stelon</i>por repozicii la korektovektoron. Uzu la<i>MoveStar & "
 "Calc Error</i>-metodon por taksi la restantan eraron.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1244
+#: ekos/align/polaralignmentassistant.cpp:1267
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -9955,7 +9946,7 @@ msgstr ""
 "povas esti tuŝita de butona movado. Konsideru uzi rezultojn post 2 bildoj. "
 "Alklaku <i>Halti</i> kiam vi finis.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1246
+#: ekos/align/polaralignmentassistant.cpp:1269
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -9968,7 +9959,7 @@ msgstr ""
 "Verda linio ĝis la elektita stelo estas centrita en la kruchalo.</"
 "p><p>Alklaku <i>Halti</i> kiam la stelo estas centrita.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1262
+#: ekos/align/polaralignmentassistant.cpp:1285
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr "Ne povas ŝanĝi al MoveStar-algoritmo post kiam la refreŝiĝo komenciĝis"
@@ -12430,10 +12421,9 @@ msgid "Waiting..."
 msgstr "Atendas..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:412
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Dithering sukcesis."
+msgstr "Dithering petita..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -14414,10 +14404,9 @@ msgid "Autofocus failed."
 msgstr "Aŭtomata fokuso malsukcesis."
 
 #: ekos/capture/camera.cpp:828
-#, fuzzy, kde-format
-#| msgid "Capturing %1-second %2 image..."
+#, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
-msgstr "Kaptante %1-sekundan %2 bildon..."
+msgstr "Kaptante %1 x %2-sekundan filmeton %3..."
 
 #: ekos/capture/camera.cpp:834
 #, kde-format
@@ -14471,10 +14460,9 @@ msgid "Expose (-/-):"
 msgstr "Eksponi (-/-):"
 
 #: ekos/capture/camera.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Duration of night for selected date"
+#, kde-format
 msgid "Duration of the video sequence"
-msgstr "Daŭro de nokto por elektita dato"
+msgstr "Daŭro de la filmsekvenco"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
@@ -14492,17 +14480,14 @@ msgid "Duration:"
 msgstr "Daŭro:"
 
 #: ekos/capture/camera.cpp:1063
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Exposure time in seconds of a single video frame"
-msgstr "Tempo de ekspozicio en sekundoj"
+msgstr "Ekspontempo en sekundoj de ununura filmkadro"
 
 #: ekos/capture/camera.cpp:1064
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the exposure time in seconds for individual images, if applicable"
+#, kde-format
 msgid "Exposure time in seconds for individual images"
-msgstr "Agordu la ekspontempon en sekundoj por individuaj bildoj, se aplikeble"
+msgstr "Ekspontempo en sekundoj por individuaj bildoj"
 
 #: ekos/capture/camera.cpp:1079
 #, kde-format
@@ -14583,16 +14568,15 @@ msgid "Confirmation"
 msgstr "Konfirmo"
 
 #: ekos/capture/camera.cpp:2411
-#, fuzzy, kde-format
-#| msgid "You must set remote directory for Local & Both modes."
+#, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
-msgstr "Vi devas agordi fora dosierujo por Lokaj & Ambaŭ reĝimoj."
+msgstr ""
+"Vi devas agordi lokan aŭ malproksiman dosierujon por Fora & Ambaŭ reĝimoj."
 
 #: ekos/capture/camera.cpp:2417
-#, fuzzy, kde-format
-#| msgid "You must set local directory for Client & Both modes."
+#, kde-format
 msgid "You must set local directory for Locally & Both modes."
-msgstr "Vi devas agordi lokan dosierujon por Kliento & Ambaŭ reĝimoj."
+msgstr "Vi devas agordi lokan dosierujon por Loka & Ambaŭ reĝimoj."
 
 #: ekos/capture/camera.cpp:3600
 #, kde-format
@@ -15051,29 +15035,23 @@ msgstr "Prokrasto:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, videoDurationSB)
 #: ekos/capture/camera.ui:1653
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Duration of the video sequence (in seconds or number "
 "of frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombro de ciferoj uzataj por aldoni la sinsekvon al la "
-"dosiernomo.</p></body></html>"
+"<html><head/><body><p>Daŭro de la videosekvenco (en sekundoj aŭ nombro da "
+"kadroj).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoDurationUnitCB)
 #: ekos/capture/camera.ui:1669
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Units of the video duration (seconds or number of "
 "frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Grandeco de la apartigilo inter la kadroj.</p></body></"
-"html>"
+"<html><head/><body><p>Unuoj de la videodaŭro (sekundoj aŭ nombro da kadroj)."
+"</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1696
@@ -15680,14 +15658,9 @@ msgstr ""
 "estos prilaborita."
 
 #: ekos/capture/cameraprocess.cpp:605
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#| "processed."
+#, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
-msgstr ""
-"Tasko postulas %1-sekundan %2 bildojn, havas %3/%4 kadrojn kaptitajn kaj "
-"estos prilaborita."
+msgstr "Laboro postulas %1 x %2-sekunda %3 video kaj estos prilaborita."
 
 #: ekos/capture/cameraprocess.cpp:834
 #, kde-format
@@ -15998,10 +15971,9 @@ msgstr "Aŭtomata fokuso malsukcesis. Ĉesigante malkovron..."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:735
-#, fuzzy, kde-format
-#| msgid "Dither complete. Resuming in %1 seconds..."
+#, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
-msgstr "Dither kompleta. Rekomenco post %1 sekundoj..."
+msgstr "Fokusiĝo kompleta. Rekomenco post %1 sekundoj..."
 
 #: ekos/capture/camerastate.cpp:758
 #, kde-format
@@ -17743,28 +17715,24 @@ msgid "Loading"
 msgstr "Ŝargante"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Starting"
-msgstr "Komencante je:"
+msgstr "Komencante"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Started"
-msgstr "Komenci"
+msgstr "Komencis"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop capturing"
+#, kde-format
 msgid "Stopping"
-msgstr "Haltigi kapturadon"
+msgstr "Haltante"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stopped"
-msgstr "Halti"
+msgstr "Haltis"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
 #, kde-format
@@ -18826,10 +18794,9 @@ msgid "Discarding Autofocus start request - %1 in progress."
 msgstr "Forĵetante Aŭtofokusan ekigopeton - %1 en progreso."
 
 #: ekos/focus/focus.cpp:1238
-#, fuzzy, kde-format
-#| msgid "Adaptive focus starting..."
+#, kde-format
 msgid "Autofocus starting..."
-msgstr "Sinadapta fokusado komenciĝas..."
+msgstr "Aŭtomata fokuso komenciĝas..."
 
 #: ekos/focus/focus.cpp:1252
 #, kde-format
@@ -19002,10 +18969,9 @@ msgid "FITS received. No stars detected."
 msgstr "FITS ricevis. Neniuj steloj detektitaj."
 
 #: ekos/focus/focus.cpp:2839
-#, fuzzy, kde-format
-#| msgid "Capture complete. Select a star to focus."
+#, kde-format
 msgid "Capture complete. Select a region of interest."
-msgstr "Kapto kompleta. Elektu stelon por fokusigi."
+msgstr "Kapto kompleta. Elektu interesan regionon."
 
 #: ekos/focus/focus.cpp:2880
 #, kde-format
@@ -19222,10 +19188,9 @@ msgid "Focus star is selected."
 msgstr "Fokusa stelo estas elektita."
 
 #: ekos/focus/focus.cpp:4890
-#, fuzzy, kde-format
-#| msgid "Focus star is selected."
+#, kde-format
 msgid "Region of interest is selected."
-msgstr "Fokusa stelo estas elektita."
+msgstr "Regiono de intereso estas elektita."
 
 #: ekos/focus/focus.cpp:4910
 #, kde-format
@@ -19248,10 +19213,9 @@ msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
 #: ekos/focus/focus.cpp:4944
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing to check HFR..."
-msgstr "Kaptante bildon..."
+msgstr "Kaptado por kontroli HFR..."
 
 #: ekos/focus/focus.cpp:5074
 #, kde-format
@@ -19586,10 +19550,9 @@ msgid "Clear"
 msgstr "Forviŝi"
 
 #: ekos/focus/focusadvisor.cpp:81 ekos/focus/focusadvisor.cpp:82
-#, fuzzy, kde-format
-#| msgid "Selection:"
+#, kde-format
 msgid "Section"
-msgstr "Elekto:"
+msgstr "Sekcio"
 
 #. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
 #. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
@@ -19603,54 +19566,45 @@ msgid "Run"
 msgstr "Kuri"
 
 #: ekos/focus/focusadvisor.cpp:86
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Number"
+#, kde-format
 msgid "Run number"
-msgstr "Numero"
+msgstr "Rulnombro"
 
 #: ekos/focus/focusadvisor.cpp:89
-#, fuzzy, kde-format
-#| msgid "Adapt Start Pos"
+#, kde-format
 msgid "Start Pos"
-msgstr "Adapti Startpoz."
+msgstr "Komenca Poz"
 
 #: ekos/focus/focusadvisor.cpp:90
-#, fuzzy, kde-format
-#| msgid "Chart position:"
+#, kde-format
 msgid "Start position"
-msgstr "Diagramo pozicio:"
+msgstr "Komenca pozicio"
 
 #: ekos/focus/focusadvisor.cpp:93
-#, fuzzy, kde-format
-#| msgid "Max Step Size:"
+#, kde-format
 msgid "Step/Jump Size"
-msgstr "Maks. Paŝgrandeco:"
+msgstr "Paŝa/Salta Grandeco"
 
 #: ekos/focus/focusadvisor.cpp:94
-#, fuzzy, kde-format
-#| msgid "Max Step Size:"
+#, kde-format
 msgid "Step Size"
-msgstr "Maks. Paŝgrandeco:"
+msgstr "Paŝa Grandeco"
 
 #: ekos/focus/focusadvisor.cpp:97
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "Overscan"
-msgstr "AF Troskanado:"
+msgstr "Troskanado"
 
 #: ekos/focus/focusadvisor.cpp:98
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan"
-msgstr "AF Troskanado:"
+msgstr "AF-Troskano"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: ekos/focus/focusadvisor.cpp:101 fitsviewer/catalogobjecttypefilter.ui:77
-#, fuzzy, kde-format
-#| msgid "Comments:"
+#, kde-format
 msgid "Comments"
-msgstr "Komentoj:"
+msgstr "Komentoj"
 
 #: ekos/focus/focusadvisor.cpp:102
 #, kde-format
@@ -19688,10 +19642,9 @@ msgid "Focus Advisor proposed value for the parameter"
 msgstr "Focus Advisor proponis valoron por la parametro"
 
 #: ekos/focus/focusadvisor.cpp:162
-#, fuzzy, kde-format
-#| msgid "Another focus action in progress. Please try again."
+#, kde-format
 msgid "Focus Advisor: another focus action in progress. Please try again."
-msgstr "Alia fokus-ago progresadas. Bonvolu reprovi."
+msgstr "Fokusa Konsilisto: alia fokusa ago progresadas. Bonvolu provi denove."
 
 #: ekos/focus/focusadvisor.cpp:187
 #, kde-format
@@ -19763,8 +19716,7 @@ msgid "Find Stars: Failed"
 msgstr "Trovi Stelojn: Malsukcesis"
 
 #: ekos/focus/focusadvisor.cpp:754
-#, fuzzy, kde-format
-#| msgid "Stars detected, range centre %1"
+#, kde-format
 msgid "Stars detected, range center %1"
 msgstr "Steloj detektitaj, intervalcentro %1"
 
@@ -19774,10 +19726,9 @@ msgid "Stars detected, range centre %1"
 msgstr "Steloj detektitaj, intervalcentro %1"
 
 #: ekos/focus/focusadvisor.cpp:764
-#, fuzzy, kde-format
-#| msgid "Find Stars: Completed"
+#, kde-format
 msgid "Focus Advisor Find Stars completed"
-msgstr "Trovi Stelojn: Kompletigita"
+msgstr "Fokus-Konsilisto finis Trovi Stelojn"
 
 #: ekos/focus/focusadvisor.cpp:812
 #, kde-format
@@ -19785,10 +19736,9 @@ msgid "Find Stars: exceeded max iterations %1"
 msgstr "Trovi Stelojn: transpasis maks iteraciojn %1"
 
 #: ekos/focus/focusadvisor.cpp:820 ekos/focus/focusadvisor.cpp:821
-#, fuzzy, kde-format
-#| msgid "Stars detected, centring range"
+#, kde-format
 msgid "Stars detected, centering range"
-msgstr "Steloj detektitaj, centrigante gamon..."
+msgstr "Steloj detektitaj, centra gamo"
 
 #: ekos/focus/focusadvisor.cpp:842
 #, kde-format
@@ -19806,10 +19756,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr "Trovi Stelojn Rulo %1: Skananta Sektoro %2"
 
 #: ekos/focus/focusadvisor.cpp:861
-#, fuzzy, kde-format
-#| msgid "Auto star selected."
+#, kde-format
 msgid "No stars detected"
-msgstr "Aŭtomata stelo elektita."
+msgstr "Neniuj steloj detektitaj"
 
 #: ekos/focus/focusadvisor.cpp:869
 #, kde-format
@@ -19822,10 +19771,9 @@ msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr "Trovi Stelojn Rulo %1 Sektoro %2: skanante %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:941
-#, fuzzy, kde-format
-#| msgid "Find Stars Run %1: failed to find any stars"
+#, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
-msgstr "Trovi Stelojn Rulo %1: malsukcesis trovi ajn stelojn"
+msgstr "Fokus-Konsilisto Trovi Stelojn rulo %1: malsukcesis movi fokusilon"
 
 #: ekos/focus/focusadvisor.cpp:963
 #, kde-format
@@ -19838,22 +19786,20 @@ msgid "Coarse Adjustment Scan..."
 msgstr "Skano por Kruda Alĝustigo..."
 
 #: ekos/focus/focusadvisor.cpp:1008
-#, fuzzy, kde-format
-#| msgid "Coarse Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment"
-msgstr "Skano por Kruda Alĝustigo..."
+msgstr "Kruda Alĝustigo"
 
 #: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1228
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment failed to move focuser"
-msgstr "Focus Advisor Kruda Alĝustigo ĉesigita post %1 ruloj"
+msgstr "Fokus-Konsilisto Maldelikata Alĝustigo malsukcesis movi fokusilon"
 
 #: ekos/focus/focusadvisor.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: exceeded max iterations %1"
-msgstr "Focus Advisor Kruda Alĝustigo ĉesigita post %1 ruloj"
+msgstr ""
+"Fokus-Konsilisto Maldelikata Alĝustigo: superis maksimumajn ripetojn %1"
 
 #: ekos/focus/focusadvisor.cpp:1081
 #, kde-format
@@ -19861,10 +19807,10 @@ msgid "Coarse Adjustment Run %1 scan..."
 msgstr "Kruda Alĝustig-Rula skano %1..."
 
 #: ekos/focus/focusadvisor.cpp:1089
-#, fuzzy, kde-format
-#| msgid "Coarse Adjustment Run %1: insufficient data to proceed"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
-msgstr "Kruda Alĝustig-Rulo %1: nesufiĉaj datumoj por daŭrigi"
+msgstr ""
+"Fokus-Konsilisto Maldelikata Alĝustigo rulo %1: nesufiĉaj datumoj por daŭrigi"
 
 #: ekos/focus/focusadvisor.cpp:1146
 #, kde-format
@@ -19872,16 +19818,14 @@ msgid "Max/Min Ratio: %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1163
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment completed."
-msgstr "Focus Advisor Kruda Alĝustigo ĉesigita post %1 ruloj"
+msgstr "Fokus-Konsilisto Kruda Alĝustigo finiĝis."
 
 #: ekos/focus/focusadvisor.cpp:1184
-#, fuzzy, kde-format
-#| msgid "Coarse Adj: data quality too poor to continue"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment: data quality too poor to continue"
-msgstr "Kruda Alĝ: datumkvalito tro malbona por daŭrigi"
+msgstr "Fokus-Konsilisto Kruda Alĝustigo: datumkvalito tro malbona por daŭrigi"
 
 #: ekos/focus/focusadvisor.cpp:1218
 #, kde-format
@@ -19889,11 +19833,9 @@ msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1279
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Fine Adjustment"
-msgstr "Bildaj Alĝustigoj"
+msgstr "Fajna Alĝustigo"
 
 #: ekos/focus/focusadvisor.cpp:1387
 #, kde-format
@@ -19901,10 +19843,9 @@ msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1394
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
+#, kde-format
 msgid "Focus Advisor Fine Adjustment completed"
-msgstr "Focus Advisor Kruda Alĝustigo ĉesigita post %1 ruloj"
+msgstr "Fokus-Konsilisto Fajn-Alĝustigo finiĝis"
 
 #: ekos/focus/focusadvisor.cpp:1485
 #, kde-format
@@ -19913,10 +19854,9 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1522
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Help"
+#, kde-format
 msgid "Focus Advisor Result Update: %1"
-msgstr "Fokus-konsilila Helpo"
+msgstr "Fokus-Konsilista Ĝisdatigo de Rezulto: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -20060,16 +20000,13 @@ msgstr ""
 "tr></table>"
 
 #: ekos/focus/focusmodule.cpp:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Add additional camera</p><p><b>WARNING</b>: This feature is "
-#| "experimental!</p>"
+#, kde-format
 msgid ""
 "<p>Add additional focuser</p><p><b>WARNING</b>: This feature is experimental!"
 "</p>"
 msgstr ""
-"<p>Aldoni pluan fotilon</p><p><b>AVERTO</b>: Ĉi kapablo estas eksperimenta!</"
-"p>"
+"<p>Aldonu plian fokusilon</p><p><b>AVERTO</b>: Ĉi tiu funkcio estas "
+"eksperimenta!</p>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
 #: ekos/focus/opsfocusmechanics.ui:37
@@ -20513,36 +20450,7 @@ msgstr "Parabolo"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:255
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the Measure to use when fitting a curve for "
-#| "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-#| "left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
-#| "span>: Half Flux Radius. Uses an algorithm to calculate the radius of a "
-#| "circle centred on the star centroid that encapsulates half the star's "
-#| "flux.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
-#| "0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</"
-#| "span>: Adjusted Half Flux Radius. Normalises the HFR for peak intensity. "
-#| "This is an experimental feature.</li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM</"
-#| "span>: Full Width Half Maximum. Curve fits a PSF to each star centroid "
-#| "and uses the curve to calculate the FWHM. This is an experimental feature."
-#| "</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\"># Stars</span>: Number of stars. The number of "
-#| "detected stars at optimum focus will be a maximum. This is an "
-#| "experimental feature.</li><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourier "
-#| "power calculation. Uses the Fourier Transform Power approach developed by "
-#| "Tan and Schulz in https://arxiv.org/pdf/2201.12466.pdf.  At optimum focus "
-#| "the power in frequency space [result of the fourier transform] will be a "
-#| "maximum. This is an experimental feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -20591,34 +20499,51 @@ msgid ""
 "planetary.  This is an experimental feature that requires openCV to be "
 "installed.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Elektu la disponon uzendan konformante kurbon por "
-"Linia 1-Paso:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</span>: "
-"Duoanflua radiuso. Uzas algoritmon poor kalkuli la radiuson de cirklo "
-"centrita sur la stelcentroido kiu enkapsuligas duonon de la stelfluo.</"
-"li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"<html><head/><body><p>Elektu la Rimedon por uzi kiam ĝustigas kurbon por "
+"Lineara 1 Paso:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin -"
+"left: 0px margin-right: 0px -qt-list-indent: 1;\"><li style=\" margin-"
+"bottom:12px; margin-left:0px; margin-right:0px -qt-block-indent:0px;\"><span "
+"style=\" font-weight:600;\">HFR</span>; : Duona Flua Radiuso. Uzas "
+"algoritmon por kalkuli la radiuson de cirklo centrita sur la stelcentroido "
+"kiu enkapsuligas duonon de la fluo de la stelo.</li><ul style=\"margin-top: "
+"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px -qt-list-"
+"indent: 1;\"><li style=\" margin-top:0px; margin-left:0px margin-right:0px -"
+"qt-block-indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</span>: "
+"Alĝustigita Duona Flua Radiuso. Normaligas la HFR por pintintenseco.</li></"
+"ul><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent :0px;\"><span style=\" font-"
+"weight:600;\">FWHM</span>: Plena Larĝo Duona Maksimumo. Kurbo konvenas PSF "
+"al ĉiu stelcentroido kaj uzas la kurbon por kalkuli la FWHM. </li><li style="
+"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
+"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\"># "
+"Steloj</span>: Nombro da steloj. La nombro da detektitaj steloj ĉe optimuma "
+"fokuso estos maksimuma. </li><li style=\" margin-top:0px; margin-"
 "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">HFR Adj</span>: Alĝustigita "
-"duonflua radiuso. Normaligas la HFR por pinta intenseco. Ĉi tiu estas "
-"eksperimenta kapablo.</li></ul><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">FWHM</span>: Plenlarĝa "
-"duonmaksimumo. Kurbo konvenas PSF al ĉiu stelcentroido kaj uzas la kurbon "
-"por kalkuli la FWHM. Tiu estas eksperimenta kapablo.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\"># Stars</"
-"span>: Nombro da steloj. La nombro af detektitaj steloj je optimuma fokuso "
-"estos maksimumo. Tio estas eksperimenta kapablo.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Fourier</"
-"span>: Fourier potenckalkulo. Uzas la alproksimiĝon de Fourier-Transforma "
-"Potenco evoluita de Tan kaj Schulz en https://arxiv.org/pdf/2201.12466.pdf.  "
-"Je optimuma fokuso la potenco en frekvenca spaco [rezulto de la fourier-"
-"transformo] estos maksimumo. Tio estas eksperimenta kapablo.</li></ul></"
-"body></html>"
+"indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourier-"
+"potenckalkulo. Uzas la Fourier Transform Power-aliron evoluigitan fare de "
+"Tan kaj Schulz en https://arxiv.org/pdf/2201.12466.pdf. Ĉe optimuma fokuso "
+"la potenco en frekvenca spaco [rezulto de la Fourier-konverto] estos "
+"maksimuma. </li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">StdDev</span>: Uzas variancon/mezon de "
+"bildpikseloj. Ĝi estas destinita por stelkampoj. Ĉi tio estas eksperimenta "
+"funkcio, kiu postulas ke openCV estu instalita.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block -"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Sobel</span>: "
+"Uzas la algoritmon de Sobel Edge Detection.  Ĝi estas destinita por nestelaj "
+"kampoj, ekz. Suna, Luna aŭ planeda.  Ĉi tio estas eksperimenta funkcio, kiu "
+"postulas ke openCV estu instalita.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block -indent:0 text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Laplassian: </span>Uzas la "
+"Laplasian Edge Detection; algoritmo.  Ĝi estas destinita por nestelaj "
+"kampoj, ekz. Suna, Luna aŭ planeda.  Ĉi tio estas eksperimenta funkcio, kiu "
+"postulas ke openCV estu instalita.</li></ul><ul style=\"margin-top: 0px; "
+"margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"
+"\"><li style=\" margin-top:0px margin-left:0px; -qt-block-indent:0 text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Canny: </span>Uzas la "
+"algoritmon de Canny Edge Detection.  Ĝi estas destinita por nestelaj kampoj, "
+"ekz. Suna, Luna aŭ planeda.  Ĉi tio estas eksperimenta funkcio, kiu postulas "
+"ke openCV estu instalita.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:264
@@ -20648,30 +20573,25 @@ msgstr "Fourier"
 #: ekos/focus/opsfocusprocess.ui:284
 #, kde-format
 msgid "StdDev"
-msgstr ""
+msgstr "StdDev"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:289
-#, fuzzy, kde-format
-#| msgctxt "City in Wisconsin USA"
-#| msgid "Boscobel"
+#, kde-format
 msgid "Sobel"
-msgstr "Boscobel"
+msgstr "Sobel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:294
-#, fuzzy, kde-format
-#| msgid "Gaussian"
+#, kde-format
 msgid "Laplassian"
-msgstr "Gaŭsa"
+msgstr "Laplassian"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:299
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgid "Canny"
-msgstr "Cannes"
+msgstr "Canny"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:313
@@ -20968,11 +20888,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusDenoise)
 #: ekos/focus/opsfocusprocess.ui:694
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Boise"
+#, kde-format
 msgid "Denoise"
-msgstr "Boise"
+msgstr "Denoise"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:709
@@ -21588,10 +21506,9 @@ msgid "Calibration Data Flipped."
 msgstr "Kalibraj Datumoj Flipped."
 
 #: ekos/guide/externalguide/phd2.cpp:403
-#, fuzzy, kde-format
-#| msgid "PHD2: Star Selected."
+#, kde-format
 msgid "PHD2: SettleDone."
-msgstr "PHD2: Stelo Elektita."
+msgstr "PHD2: SettleDone."
 
 #: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
@@ -21644,10 +21561,9 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: Stelo Elektita."
 
 #: ekos/guide/externalguide/phd2.cpp:657
-#, fuzzy, kde-format
-#| msgid "PHD2: Waiting for guiding to settle."
+#, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
-msgstr "PHD2: Atendante gvidadon por aranĝi."
+msgstr "PHD2: Gvidado...atendante solvon..."
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -23794,17 +23710,15 @@ msgstr "arksekoj"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:424
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>The program will search in a square spiral around "
-#| "the start position up to this radius.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>La programo serĉos en kvadrata spiralo ĉirkaŭ la "
-"komenca pozicio ĝis ĉi tiu radiuso.</p></body></html>"
+"<html><head/><body><p>Se markite, ni provas esti pli rezistemaj al duoblaj "
+"steloj inventante gvidstelan pozicion el la plurstelaj referencoj.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:427
@@ -24045,10 +23959,9 @@ msgid "Extension '%1' start requested"
 msgstr ""
 
 #: ekos/manager.cpp:426
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "Extension '%1' started"
-msgstr "Tasko '%1' estas ĉesigita."
+msgstr "Etendo '%1' komenciĝis"
 
 #: ekos/manager.cpp:434
 #, kde-format
@@ -24056,10 +23969,9 @@ msgid "Extension '%1' stop requested"
 msgstr ""
 
 #: ekos/manager.cpp:439
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "Extension '%1' stopped"
-msgstr "Tasko '%1' estas ĉesigita."
+msgstr "Etendo '%1' ĉesis"
 
 #: ekos/manager.cpp:455
 #, kde-format
@@ -24490,17 +24402,15 @@ msgstr "3. Konekti && Malkonekti Aparatojn"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extensions"
-msgstr "Dimensioj"
+msgstr "Etendaĵoj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687
-#, fuzzy, kde-format
-#| msgid "value for selected option"
+#, kde-format
 msgid "Start selected extension"
-msgstr "valoro por elektita opcio"
+msgstr "Komenci elektitan etendon"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
@@ -24970,11 +24880,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
 #: ekos/mount/mount.ui:354
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Tracking Mode"
+#, kde-format
 msgid "Tracking only"
-msgstr "Spuranta Reĝimo"
+msgstr "Nur spurado"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:526
@@ -25670,10 +25578,9 @@ msgstr "Meti alternativan bazdosierujon por bildoj kaptitaj de Analyze"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:44
-#, fuzzy, kde-format
-#| msgid "Load device configuration:"
+#, kde-format
 msgid "Load device Configuration"
-msgstr "Ŝargi aparatan agordon:"
+msgstr "Ŝargi aparato-Agordo"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
 #: ekos/opsekos.ui:65
@@ -27760,27 +27667,22 @@ msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
 msgstr "<html><head/><body><p> Antaŭtempaj halthoroj</p></body></html>"
 
 #: ekos/scheduler/scheduler.cpp:129
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Bellflower"
+#, kde-format
 msgid "Follower"
-msgstr "Bellflower"
+msgstr "Sekvanto"
 
 #: ekos/scheduler/scheduler.cpp:151
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
 "Double click to edit a job with the left-hand fields.\n"
 "Shift click to view a job's altitude tonight."
 msgstr ""
-"Listo de taskplanilo.\n"
-"Alklaku por elekti taskon en la listo.\n"
-"Duoble alklaku por redakti taskon kun la maldekstraj kampoj."
+"Listo de laborplanistoj.\n"
+"Alklaku por elekti laboron en la listo.\n"
+"Duoble alklaku por redakti laboron kun la maldekstraj kampoj.\n"
+"Majuskklaku por vidi la altecon de laboro ĉi-vespere."
 
 #: ekos/scheduler/scheduler.cpp:159
 #, kde-format
@@ -27898,16 +27800,14 @@ msgstr ""
 "algoritmo."
 
 #: ekos/scheduler/scheduler.cpp:424
-#, fuzzy, kde-format
-#| msgid "Scheduler paused."
+#, kde-format
 msgid "Scheduler Offset"
-msgstr "Planilo paŭzis."
+msgstr "Planil-Deŝovo"
 
 #: ekos/scheduler/scheduler.cpp:428
-#, fuzzy, kde-format
-#| msgid "Scheduled Time"
+#, kde-format
 msgid "Scheduler Alignment"
-msgstr "Planita Tempo"
+msgstr "Planil-Vicigo"
 
 #: ekos/scheduler/scheduler.cpp:433
 #, kde-format
@@ -27915,11 +27815,9 @@ msgid "Jobs"
 msgstr "Taskoj"
 
 #: ekos/scheduler/scheduler.cpp:433
-#, fuzzy, kde-format
-#| msgid " Scheduler job"
-#| msgid_plural " Scheduler jobs"
+#, kde-format
 msgid "Scheduler Jobs"
-msgstr " Planila tasko"
+msgstr "Labortaskoj de Planilo"
 
 #: ekos/scheduler/scheduler.cpp:437
 #, kde-format
@@ -27927,10 +27825,9 @@ msgid "Cleanup"
 msgstr "Purigado"
 
 #: ekos/scheduler/scheduler.cpp:437
-#, fuzzy, kde-format
-#| msgid "Scheduler paused."
+#, kde-format
 msgid "Scheduler Cleanup"
-msgstr "Planilo paŭzis."
+msgstr "Planil-Purigo"
 
 #: ekos/scheduler/scheduler.cpp:632
 #, kde-format
@@ -28848,10 +28745,9 @@ msgstr "Malkap"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SchedulerAltitudeGraph)
 #: ekos/scheduler/scheduleraltitudegraph.ui:14
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Altitude Graph"
-msgstr "Altitudo: "
+msgstr "Altituda Grafeo"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/scheduler/scheduleraltitudegraph.ui:32
@@ -29495,10 +29391,9 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3373
 #: ekos/scheduler/schedulerprocess.cpp:3385
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "Optika Trajno"
+msgstr "Elekti optikan ĉenon"
 
 #: ekos/scheduler/schedulerprocess.cpp:3382
 #, kde-format
@@ -29552,21 +29447,18 @@ msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "Tasko '%1' gvidas, gvidprocedo estos rekomencita post %2 sekundoj."
 
 #: ekos/scheduler/schedulerprocess.cpp:3684
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed to capture target."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
-msgstr "Averto: tasko '%1' malsukcesis kapti celon."
+msgstr "[%2] Averto: laboro '%1' malsukcesis kapti celon."
 
 #: ekos/scheduler/schedulerprocess.cpp:3702
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job '%1' is capturing, is restarting its guiding procedure (attempt #%2 "
-#| "of %3)."
+#, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr ""
-"Tasko '%1' kaptas, rekomencas sian gvidan proceduron (provo #%2 el %3)."
+"[%2] Labortasko '%1' kaptas, rekomencas sian gvidan proceduron (provo #%3 el "
+"%4)."
 
 #: ekos/scheduler/schedulerprocess.cpp:3711
 #, kde-format
@@ -29575,11 +29467,11 @@ msgstr ""
 "Averto: tasko '%1' malsukcesis sian kaptan proceduron, rekomencante kapton."
 
 #: ekos/scheduler/schedulerprocess.cpp:3717
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' failed its capture procedure, marking aborted."
+#, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
-"Averto: tasko '%1' malsukcesis sian kaptan proceduron, markante ĉesigita."
+"[%2] Averto: labortasko '%1' malsukcesis sian kaptan proceduron, markante "
+"ĉesigita."
 
 #: ekos/scheduler/schedulerprocess.cpp:3730
 #, kde-format
@@ -29587,16 +29479,14 @@ msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3736
-#, fuzzy, kde-format
-#| msgid "Job '%1' is aborted."
+#, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
-msgstr "Tasko '%1' estas ĉesigita."
+msgstr "[%2] Sekva labortasko '%1' estas ĉesigita."
 
 #: ekos/scheduler/schedulerprocess.cpp:3744
-#, fuzzy, kde-format
-#| msgid "Ekos job (%1) - Capture finished"
+#, kde-format
 msgid "[%2] Job (%1) - Capture finished"
-msgstr "Ekos-tasko (%1) - Kaptado finiĝis"
+msgstr "[%2] Labortasko (%1) - Kapto finiĝis"
 
 #: ekos/scheduler/schedulerprocess.cpp:3814
 #, kde-format
@@ -29758,17 +29648,17 @@ msgstr ""
 "Dormante por %1 dum ĝisdatigo de simula horloĝo ĝis la sekva observlaboro "
 "estas preta..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4707
+#: ekos/scheduler/schedulerprocess.cpp:4704
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "Lanĉa skripto malsukcesis, ĉesigante..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4712
+#: ekos/scheduler/schedulerprocess.cpp:4709
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "Malfunkcia skripto malsukcesis, ĉesigante..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4773
+#: ekos/scheduler/schedulerprocess.cpp:4770
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
@@ -29803,10 +29693,9 @@ msgstr "FITS Header"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsCatObjShowNames)
 #: fitsviewer/catalogobject.ui:44
-#, fuzzy, kde-format
-#| msgid "Show names"
+#, kde-format
 msgid "Show Names"
-msgstr "Montri nomojn"
+msgstr "Montri Nomojn"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterPB)
 #: fitsviewer/catalogobject.ui:60
@@ -29822,10 +29711,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:48
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Code"
-msgstr "Objekta Tipo:"
+msgstr "Objekta Tipkodo"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:53
@@ -29841,24 +29729,21 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:64
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Label"
-msgstr "Objekta Tipo:"
+msgstr "Objekta Tip-Etikedo"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:72
-#, fuzzy, kde-format
-#| msgid "Description"
+#, kde-format
 msgid "Object Type Description"
-msgstr "Priskribo"
+msgstr "Priskribo de Objekta Tipo"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:80
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Comments"
-msgstr "Objekta Tipo:"
+msgstr "Objekt-Tipaj Komentoj"
 
 #: fitsviewer/fitscommon.h:17
 msgid "Normal"
@@ -30018,16 +29903,14 @@ msgid "No world coordinate systems found."
 msgstr "Neniuj mondaj koordinatsistemoj trovitaj."
 
 #: fitsviewer/fitsdata.cpp:3282 fitsviewer/fitsdata.cpp:3390
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error querying Simbad"
-msgstr "Eraro legante bildon: %1"
+msgstr "Eraro dum pridemando de Simbad"
 
 #: fitsviewer/fitsdata.cpp:3299
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Simbad query timed out"
-msgstr "Solvanto elĉerpita."
+msgstr "Simbad-demando eksvalidiĝis"
 
 #: fitsviewer/fitsdata.cpp:4276
 #, kde-format
@@ -30342,10 +30225,9 @@ msgid "Plate Solving"
 msgstr "Pletsolvado"
 
 #: fitsviewer/fitstab.cpp:178
-#, fuzzy, kde-format
-#| msgid "Catalog Details"
+#, kde-format
 msgid "Catalog Objects"
-msgstr "Katalogo-Detaloj"
+msgstr "Katalogi Objektojn"
 
 #: fitsviewer/fitstab.cpp:190
 #, kde-format
@@ -30359,59 +30241,48 @@ msgid "R"
 msgstr "R"
 
 #: fitsviewer/fitstab.cpp:583
-#, fuzzy, kde-format
-#| msgid "%1 image files loaded."
+#, kde-format
 msgid "%1 / %2 Simbad objects loaded"
-msgstr "%1 bilddosieroj ŝargitaj."
+msgstr "%1 / %2 Simbad-objektoj ŝargitaj"
 
 #: fitsviewer/fitstab.cpp:598
-#, fuzzy, kde-format
-#| msgid "Parking mount in progress..."
+#, kde-format
 msgid "Simbad query in progress..."
-msgstr "Parkado de muntaĵo en progreso..."
+msgstr "Simbad-demando en progreso..."
 
 #: fitsviewer/fitstab.cpp:760
-#, fuzzy, kde-format
-#| msgctxt "City in New Caledonia France"
-#| msgid "Noumea"
+#, kde-format
 msgid "Num"
-msgstr "Noumea"
+msgstr "Num"
 
 #: fitsviewer/fitstab.cpp:761
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Portugal"
+#, kde-format
 msgid "CDS Portal"
-msgstr "Portugalio"
+msgstr "KDS-Portalo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
 #: fitsviewer/fitstab.cpp:762 fitsviewer/opsfits.ui:435
 #: tools/imagingplanner.ui:1283 tools/imagingplanner.ui:1608
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Simbad"
+#, kde-format
 msgid "Simbad"
 msgstr "Simbad"
 
 #: fitsviewer/fitstab.cpp:763
-#, fuzzy, kde-format
-#| msgid "NE"
+#, kde-format
 msgid "NED"
-msgstr "NOr"
+msgstr "NED"
 
 #: fitsviewer/fitstab.cpp:765
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Type Code"
-msgstr "Tipo"
+msgstr "Tipkodo"
 
 #: fitsviewer/fitstab.cpp:766
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "Type Label"
-msgstr "TextLabel"
+msgstr "Tip-Etikedo"
 
 #: fitsviewer/fitstab.cpp:768 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
@@ -30430,28 +30301,24 @@ msgid "Item reference number"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:776
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch CDS Portal browser"
-msgstr "Duoble alklaku por ŝargi malhelan kadron"
+msgstr "Duoble alklaku por lanĉi CDS Portal-retumilon"
 
 #: fitsviewer/fitstab.cpp:778
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch Simbad browser"
-msgstr "Duoble alklaku por ŝargi malhelan kadron"
+msgstr "Duoble alklaku por lanĉi Simbad-retumilon"
 
 #: fitsviewer/fitstab.cpp:779
-#, fuzzy, kde-format
-#| msgid "Double click to load dark frame"
+#, kde-format
 msgid "Double click to launch NED browser"
-msgstr "Duoble alklaku por ŝargi malhelan kadron"
+msgstr "Duoble alklaku por lanĉi NED-retumilon"
 
 #: fitsviewer/fitstab.cpp:780
-#, fuzzy, kde-format
-#| msgid "Catalog Star"
+#, kde-format
 msgid "Catalog Object"
-msgstr "Katalogo Stelo"
+msgstr "Katalogi Objekton"
 
 #: fitsviewer/fitstab.cpp:782
 #, kde-format
@@ -30470,11 +30337,9 @@ msgid ""
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:787
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Mount coordinates"
+#, kde-format
 msgid "Object coordinates"
-msgstr "Muntaĵkoordinatoj"
+msgstr "Objektaj koordinatoj"
 
 #: fitsviewer/fitstab.cpp:788
 #, kde-format
@@ -30482,10 +30347,9 @@ msgid "Object distance in arcmins from the search center"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:790
-#, fuzzy, kde-format
-#| msgid "Objects in Image"
+#, kde-format
 msgid "Object V magnitude"
-msgstr "Objektoj en Bildo"
+msgstr "Objekto V grando"
 
 #: fitsviewer/fitstab.cpp:791
 #, kde-format
@@ -31256,10 +31120,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: fitsviewer/opsfits.ui:422
-#, fuzzy, kde-format
-#| msgid "Catalog:"
+#, kde-format
 msgid "Object Catalog:"
-msgstr "Katalogo:"
+msgstr "Objekta Katalogo:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (title), widget (QGroupBox, skymapGroup)
@@ -31428,10 +31291,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsSolverLinear)
 #: fitsviewer/platesolve.ui:495
-#, fuzzy, kde-format
-#| msgid "Linear Scale"
+#, kde-format
 msgid "Linear Image"
-msgstr "Lineara Skalo"
+msgstr "Lineara Bildo"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -33385,10 +33247,9 @@ msgid "View in What's Interesting"
 msgstr "Rigardi en What's Interesting"
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "Aldoni objekton..."
+msgstr "Aldonu Flagon (proksima objekto)..."
 
 #: kspopupmenu.cpp:458
 #, kde-format
@@ -35928,18 +35789,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1066
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#| "that have been added there, and remove overlays that are no longer there."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
 msgstr ""
-"<html><head/><body><p>Refreŝigi el la dosierujo de supermetaĵoj. Aldonu "
-"supermetojn kiuj estis aldonitaj tie, kaj forigu supermetojn kiuj ne plu "
-"estas tie.</p></body></html>"
+"Montri la objektojn, kiuj ne estis ignoritaj (kaj ne montru tiujn, kiuj "
+"estis ignoritaj)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1070
@@ -35980,10 +35836,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Ĉu elekti objektojn per maldekstra klako?"
+msgstr "Turni al elektitaj objektoj sur la Ĉielmapo."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
@@ -37521,10 +37376,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, fuzzy, kde-format
-#| msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
+#, kde-format
 msgid "Whether to display object names on the Fitsviwer or not."
-msgstr "Ĉu montri la CFZ sur la v-kurbo post Aŭtofokusado."
+msgstr "Ĉu montri objektnomojn sur la FITS-Viewer aŭ ne."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1745
@@ -38602,10 +38456,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (FocusDenoise), group (Focus)
 #: kstars.kcfg:2357
-#, fuzzy, kde-format
-#| msgid "Whether to use weights in the curve fitting process."
+#, kde-format
 msgid "Whether to denoise the focus image before further processing."
-msgstr "Ĉu uzi pezojn en la kurbkonveniga procezo."
+msgstr "Ĉu senbruigi la fokusan bildon antaŭ plua prilaborado."
 
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2361
@@ -69886,10 +69739,9 @@ msgid "Observation Planner"
 msgstr "Observado-Planisto"
 
 #: kstarsinit.cpp:456
-#, fuzzy, kde-format
-#| msgid "Mosaic Planner"
+#, kde-format
 msgid "Imaging Planner"
-msgstr "Mozaika Planisto"
+msgstr "Bildiga Planisto"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -79337,32 +79189,27 @@ msgid "Unknown Type"
 msgstr "Nekonata Tipo"
 
 #: skyobjects/skyobject.cpp:399
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#, kde-format
 msgid "Open Clr"
-msgstr "Malfermi Areton"
+msgstr "Malfermi Clr"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GlobularClusterCB)
 #: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1771
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Globalstar"
+#, kde-format
 msgid "Globular"
-msgstr "Globalstar"
+msgstr "Globoforma"
 
 #. i18n: ectx: property (text), widget (QCheckBox, NebulaCB)
 #: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1761
-#, fuzzy, kde-format
-#| msgid "Nebulae"
+#, kde-format
 msgid "Nebula"
-msgstr "Nebulozoj"
+msgstr "Nebulozo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, PlanetaryCB)
 #: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1781
-#, fuzzy, kde-format
-#| msgid "Planet"
+#, kde-format
 msgid "Planetary"
-msgstr "Planedo"
+msgstr "Planeda"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SupernovaRemnantCB)
 #: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1791
@@ -79371,17 +79218,15 @@ msgid "Remnant"
 msgstr ""
 
 #: skyobjects/skyobject.cpp:419
-#, fuzzy, kde-format
-#| msgid "Galaxy Cluster"
+#, kde-format
 msgid "Galaxy Clr"
-msgstr "Galaksia Areto"
+msgstr "Galaksia Clr"
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
 #: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:1821
-#, fuzzy, kde-format
-#| msgid "Dark Nebula"
+#, kde-format
 msgid "Dark Neb"
-msgstr "Malhela Nebulozo"
+msgstr "Malhela Neb"
 
 #: skyobjects/skyobject.cpp:449
 #, kde-format
@@ -81927,11 +81772,10 @@ msgid "%1 region is invalid."
 msgstr "%1 regiono estas malvalida."
 
 #: tools/horizonmanager.cpp:551
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
-msgstr "Artefarita Horizonto"
+msgstr "Konservi Artefaritan Horizonton"
 
 #: tools/horizonmanager.cpp:667
 #, kde-format
@@ -81964,10 +81808,9 @@ msgstr "Baskuligi Plafonon"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exportHorizonB)
 #: tools/horizonmanager.ui:136
-#, fuzzy, kde-format
-#| msgid "Description of the selected profile"
+#, kde-format
 msgid "Export the selected horizon to a file"
-msgstr "Priskribo de la elektita profilo"
+msgstr "Eksportu la elektitan horizonton al dosiero"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, importHorizonB)
 #: tools/horizonmanager.ui:161
@@ -82013,41 +81856,7 @@ msgstr "Elekti punktojn el la ĉiela mapo"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tools/horizonmanager.ui:400
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
-#| "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" "
-#| "font-style:italic;\">blocked</span> from view from your vantage point (e."
-#| "g. by tall trees or buildings). Regions can be areas above or below line "
-#| "segments that you enter. </p><ul style=\"margin-top: 0px; margin-bottom: "
-#| "0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style="
-#| "\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; "
-#| "-qt-block-indent:0; text-indent:0px;\">To draw a <span style=\" font-"
-#| "weight:600;\">Region</span>, enter a list of <span style=\" font-"
-#| "weight:600;\">Points</span> (<span style=\" font-style:italic;\">minimum</"
-#| "span> 2) that outlines the top of a blocked area (the <span style=\" font-"
-#| "weight:600;\">blockage is below</span> the lines).</li><ul style=\"margin-"
-#| "top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-"
-#| "list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-#| "\">Setting <span style=\" font-style:italic;\">ceiling/window mode</span> "
-#| "for a list of points instead sets the <span style=\" font-weight:600;"
-#| "\">blockage above</span> the lines.</li><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Add the points manually, or preferably by selecting "
-#| "them from the Sky Map after clicking <span style=\" font-style:italic;"
-#| "\">Select Points</span> button. </li></ul><li style=\" margin-top:0px; "
-#| "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-#| "text-indent:0px;\">Enable a region by <span style=\" font-style:italic;"
-#| "\">checking its box</span>. </li><li style=\" margin-top:0px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\">Selecting a region displays its points on the SkyMap. </"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">When done click "
-#| "<span style=\" font-style:italic;\">Apply</span>.</li><li style=\" margin-"
-#| "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\">Defining regions is easier when used in "
-#| "conjunction with the Terrain background feature.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Artificial horizon is used to define <span style=\" "
 "font-weight:600;\">Regions</span> on the SkyMap that are <span style=\" font-"
@@ -82086,45 +81895,46 @@ msgid ""
 "import region buttons.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Artefarita horizonto estas uzata por difini <span "
-"style=\" font-weight:600;\">Regionoj</span> sur la Ĉielmapo kiuj estas <span "
-"style=\" font-style:italic;\">blokita</span> de vido de via vidpunkto (ekz. "
-"de altaj arboj aŭ konstruaĵoj). Regionoj povas esti areoj super aŭ sub "
+"style=\" font-weight:600;\">Regionojn</span> sur la Ĉielmapo kiuj estas "
+"<span style=\" font-style:italic;\">blokitaj</span> de vido de via vidpunkto "
+"(ekz. de altaj arboj aŭ konstruaĵoj). Regionoj povas esti areoj super aŭ sub "
 "liniosegmentoj kiujn vi enigas. </p><ul style=\"margin-top: 0px; margin-"
 "bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
 "style= \" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Por desegni <span style=\" "
-"font-weight:600;\">Regiono</span>, enigu liston de <span style=\" font-"
-"weight:600;\">Punktoj</span> (<span style=\" font-style:italic;\">minimumo</"
-"span> 2) kiu skizas la supron de blokita areo (la <span style=\" font-"
+"font-weight:600;\">Regionon</span>, enigu liston de <span style=\" font-"
+"weight:600;\">Punktoj</span> (<span style=\" font-style:italic;\">minimume</"
+"span> 2) kiuj skizas la supron de blokita areo (la <span style=\" font-"
 "weight:600;\">blokado estas sub</span> la linioj).</li><ul style=\"margin-"
-"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Agordo "
-"<span style= \" font-style:italic;\">plafono/fenestra reĝimo</span> por "
-"listo de punktoj anstataŭe fiksas la <span style=\" font-weight:600;"
-"\">blokado super</span> la linioj.</li><li style=\" margin-top:0px; margin-"
+"top: 0px margin-left; right: 0px -qt-list-indent: 1;\"><li style=\" margin-"
+"top:0px margin-left:0px; -qt-block-indent:0 text-indent:0px;\">Agordo de "
+"<span style=\" font-style:italic;\">plafono/fenestra reĝimo</span> por listo "
+"de punktoj anstataŭe fiksas la <span style=\" font-weight:600;\">blokadon "
+"super</span> la linioj.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Aldonu la punktojn permane, aŭ prefere elektante ilin el la Ĉiela Mapo "
+"post klakado de la butono <span style=\" font-style:italic;\">Elekti "
+"Punktojn</span>. </li></ul><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Ebligu regionon per <span style=\" font-style:italic;\">markante ĝian "
+"skatolon</span>. </li><li style=\" margin-top: 0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">La "
+"elekto de regiono montras ĝiajn punktojn sur la Ĉielmapo. </li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Kiam finite alklaku <span style=\" font-"
+"style:italic;\">Apliki</span>.</li><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Aldonu la punktojn permane, aŭ prefere elektante ilin el la "
-"Ĉiela Mapo post klakado de la butono <span style=\" font-style:italic;"
-"\">Elektu Punktojn</span>. </li></ul><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">Ebligu regionon per <span style=\" font-style:italic;"
-"\">markante ĝian skatolon</span>. </li><li style=\" margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\">La elekto de regiono montras ĝiajn punktojn sur la Ĉielmapo. </"
-"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Kiam finite alklaku <span "
-"style=\" font-style:italic;\">Apliki</span>.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\">Difini regionojn estas pli facila kiam uzata "
-"kune kun la Fona funkcio Tereno.</li></ul></body></html>"
+"indent:0px;\">Difini regionojn estas pli facila kiam uzata kune kun la Fona "
+"funkcio Tereno.</li><li style=\" margin-top:0px; rando-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Vi povas "
+"eksporti (kaj poste importi) regionojn per la region-eksport/importaj "
+"butonoj.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.cpp:177 tools/imagingplanner.ui:1878
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "Imaged"
-msgstr "Bildo"
+msgstr "Bildigita"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
 #: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:1848
@@ -82134,38 +81944,30 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
 #: tools/imagingplanner.cpp:188 tools/imagingplanner.ui:1935
-#, fuzzy, kde-format
-#| msgid "Ignore"
+#, kde-format
 msgid "Ignored"
-msgstr "Ignori"
+msgstr "Ignorita"
 
 #: tools/imagingplanner.cpp:977
-#, fuzzy, kde-format
-#| msgid "Mosaic Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
-msgstr "Mozaika Planisto"
+msgstr "Bildiga Planisto"
 
 #: tools/imagingplanner.cpp:1122
-#, fuzzy, kde-format
-#| msgctxt "Altitude"
-#| msgid "Alt"
+#, kde-format
 msgid "Alt"
 msgstr "Alt"
 
 #: tools/imagingplanner.cpp:1123
-#, fuzzy, kde-format
-#| msgctxt "City in Alberta Canada"
-#| msgid "Consort"
+#, kde-format
 msgid "Const"
-msgstr "Consort"
+msgstr "Konst"
 
 #: tools/imagingplanner.cpp:1123
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "EQ Coord"
+#, kde-format
 msgid "Coord"
-msgstr "EQ Coord"
+msgstr "Koord"
 
 #: tools/imagingplanner.cpp:1125
 #, kde-format
@@ -82213,11 +82015,9 @@ msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
 #: tools/imagingplanner.cpp:1558
-#, fuzzy, kde-format
-#| msgctxt "%1 is a location on earth"
-#| msgid "Almanac for %1"
+#, kde-format
 msgid "No match for \"%1\""
-msgstr "Almanako por %1"
+msgstr "Neniu kongruo por \"%1\""
 
 #: tools/imagingplanner.cpp:1622
 #, kde-format
@@ -82235,10 +82035,9 @@ msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
 #: tools/imagingplanner.cpp:1929
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Updating tables..."
-msgstr "Trovante stelojn..."
+msgstr "Ĝisdatigas tabelojn..."
 
 #: tools/imagingplanner.cpp:2124
 #, kde-format
@@ -82248,16 +82047,14 @@ msgid ""
 msgstr ""
 
 #: tools/imagingplanner.cpp:2125
-#, fuzzy, kde-format
-#| msgid "NGC Catalog"
+#, kde-format
 msgid "No Catalog!"
-msgstr "NGC-Katalogo"
+msgstr "Neniu Katalogo!"
 
 #: tools/imagingplanner.cpp:2171
-#, fuzzy, kde-format
-#| msgid "Select this object"
+#, kde-format
 msgid "Select an object."
-msgstr "Elekti ĉi tiun objekton"
+msgstr "Elektu objekton."
 
 #: tools/imagingplanner.cpp:2173
 #, kde-format
@@ -82265,40 +82062,34 @@ msgid "Check Filters to unhide objects."
 msgstr ""
 
 #: tools/imagingplanner.cpp:2175
-#, fuzzy, kde-format
-#| msgid "Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "Katalogo"
+msgstr "Ŝargu Katalogon."
 
 #: tools/imagingplanner.cpp:2353
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading Catalogs..."
-msgstr "Ŝargante bildojn..."
+msgstr "Ŝargante katalogojn..."
 
 #: tools/imagingplanner.cpp:2659
-#, fuzzy, kde-format
-#| msgid "Transit"
+#, kde-format
 msgid "Transits"
-msgstr "Transiro"
+msgstr "Transiroj"
 
 #: tools/imagingplanner.cpp:2664 tools/imagingplanner.cpp:2668
-#, fuzzy, kde-format
-#| msgid "Sets at: %1"
+#, kde-format
 msgid "Sets at"
-msgstr "Malleviĝas je: %1"
+msgstr "Malleviĝas je"
 
 #: tools/imagingplanner.cpp:2675 tools/imagingplanner.cpp:2679
-#, fuzzy, kde-format
-#| msgid "Rises at: %1"
+#, kde-format
 msgid "Rises at"
-msgstr "Leviĝas je: %1"
+msgstr "Leviĝas je"
 
 #: tools/imagingplanner.cpp:2686 tools/imagingplanner.cpp:2692
-#, fuzzy, kde-format
-#| msgid "Rise:"
+#, kde-format
 msgid "Rises"
-msgstr "Leviĝo:"
+msgstr "Leviĝas"
 
 #: tools/imagingplanner.cpp:2688 tools/imagingplanner.cpp:2694
 #, kde-format
@@ -82306,16 +82097,14 @@ msgid "Sets"
 msgstr ""
 
 #: tools/imagingplanner.cpp:2798 tools/imagingplanner.cpp:3054
-#, fuzzy, kde-format
-#| msgid "object"
+#, kde-format
 msgid "objects"
-msgstr "objekto"
+msgstr "objektoj"
 
 #: tools/imagingplanner.cpp:3050
-#, fuzzy, kde-format
-#| msgid "%1, %2 and %3"
+#, kde-format
 msgid "%1, %2 and %3 other objects"
-msgstr "%1, %2 kaj %3"
+msgstr "%1, %2 kaj %3 aliaj objektoj"
 
 #: tools/imagingplanner.cpp:3058 tools/imagingplanner.cpp:3062
 #, kde-format
@@ -82338,41 +82127,34 @@ msgid "Pick %1"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3079 tools/imagingplanner.cpp:3084
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stop ignoring %1"
-msgstr "Haltigi registradon"
+msgstr "Ĉesi ignori %1"
 
 #: tools/imagingplanner.cpp:3080 tools/imagingplanner.cpp:3086
-#, fuzzy, kde-format
-#| msgid "Ignore"
+#, kde-format
 msgid "Ignore %1"
-msgstr "Ignori"
+msgstr "Ignori %1"
 
 #: tools/imagingplanner.cpp:3089
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "Centro en Mapo"
+msgstr "Centri %1 sur SkyMap"
 
 #: tools/imagingplanner.cpp:3228
-#, fuzzy, kde-format
-#| msgid "Successfully added %1 object to the user catalog."
-#| msgid_plural "Successfully added %1 objects to the user catalog."
+#, kde-format
 msgid "Successfully marked %1 objects as read"
-msgstr "Sukcese aldonis %1 objekton al la uzantkatalogo."
+msgstr "Sukcese markis %1 objektoj kiel legitaj"
 
 #: tools/imagingplanner.cpp:3230
-#, fuzzy, kde-format
-#| msgid "Input file:"
+#, kde-format
 msgid "Empty file"
-msgstr "Eniga dosiero:"
+msgstr "Malplena dosiero"
 
 #: tools/imagingplanner.cpp:3239
-#, fuzzy, kde-format
-#| msgid "Add a name label to the object named %1."
+#, kde-format
 msgid "Failed marking all of these objects imaged: %1"
-msgstr "Aldoni nometikedon al la objekto nomita %1."
+msgstr "Malsukcesis marki ĉiujn ĉi tiujn objektojn bildigitajn: %1"
 
 #: tools/imagingplanner.cpp:3241
 #, kde-format
@@ -82390,10 +82172,9 @@ msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3463
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
-msgstr "Ne eblis malfermi la dosieron %1"
+msgstr "Pardonu, ne eblis malfermi dosieron: \"%1\""
 
 #: tools/imagingplanner.cpp:3370
 #, kde-format
@@ -82407,10 +82188,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:77
-#, fuzzy, kde-format
-#| msgid "Record object notes here."
+#, kde-format
 msgid "Search for an object in the table."
-msgstr "Registri objektonotojn ĉi tie."
+msgstr "Serĉi objekton en la tabelo."
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, SearchText)
 #. i18n: ectx: property (title), widget (QGroupBox, ObjectBox)
@@ -82421,39 +82201,33 @@ msgstr "Objekta Nomo"
 
 #. i18n: ectx: property (text), widget (QLabel, statusLabel)
 #: tools/imagingplanner.ui:214
-#, fuzzy, kde-format
-#| msgid "Select Sky Object"
+#, kde-format
 msgid "Select an Object"
-msgstr "Elekti Ĉielan Objekton"
+msgstr "Elekti Objekton"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backOneDay)
 #: tools/imagingplanner.ui:302
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Back one day"
-msgstr "Fono"
+msgstr "Reen unu tagon"
 
 #. i18n: ectx: property (displayFormat), widget (QDateEdit, DateEdit)
 #: tools/imagingplanner.ui:319
-#, fuzzy, kde-format
-#| msgid "dd/MM/yyyy"
+#, kde-format
 msgid "dd/MM/yy"
-msgstr "jj/MM/jjyy"
+msgstr "jj/MM/jj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, forwardOneDay)
 #: tools/imagingplanner.ui:347
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Firmware data"
+#, kde-format
 msgid "Forward one day"
-msgstr "Firmware datumoj"
+msgstr "Antaŭen unu tagon"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
-#, fuzzy, kde-format
-#| msgid "Option Name"
+#, kde-format
 msgid "Open options menu."
-msgstr "Nomo de Elekteblo"
+msgstr "Malfermi menuon de elektebloj."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
@@ -82463,10 +82237,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
 #: tools/imagingplanner.ui:565
-#, fuzzy, kde-format
-#| msgid "Set Observing Notes for the Object:"
+#, kde-format
 msgid "Create/Edit some user notes for this object"
-msgstr "Agordi Observajn Notojn por la Objekto:"
+msgstr "Kreu/Redaktu kelkajn uzantnotojn por ĉi tiu objekto"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesDoneButton)
 #: tools/imagingplanner.ui:597
@@ -82494,66 +82267,55 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, userNotesLabel)
 #: tools/imagingplanner.ui:719
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Note"
+#, kde-format
 msgid "Note:"
-msgstr "Noto"
+msgstr "Noto:"
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, userNotesEdit)
 #: tools/imagingplanner.ui:745
-#, fuzzy, kde-format
-#| msgid "Record object notes here."
+#, kde-format
 msgid "Enter notes here"
-msgstr "Registri objektonotojn ĉi tie."
+msgstr "Enigu notojn ĉi tie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAltitudeGraphB)
 #: tools/imagingplanner.ui:810
-#, fuzzy, kde-format
-#| msgid "Print the Altitude vs. time plot"
+#, kde-format
 msgid "Minimize the altitude vs time graph."
-msgstr "Presu la altitudon kontraŭ tempo-diagramo"
+msgstr "Minimumigi la altecon kontraŭ tempo-grafo."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAltitudeGraphB)
 #: tools/imagingplanner.ui:905
-#, fuzzy, kde-format
-#| msgid "Print the Altitude vs. time plot"
+#, kde-format
 msgid "Maximize the altitude vs time graph."
-msgstr "Presu la altitudon kontraŭ tempo-diagramo"
+msgstr "Maksimumigi la alt.itudon kontraŭ tempo-grafo."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HiddenAltitudeGraphLabel)
 #: tools/imagingplanner.ui:937
-#, fuzzy, kde-format
-#| msgid "Altitude vs. Time"
+#, kde-format
 msgid "Altitude vs Time graph."
-msgstr "Alteco kontraŭ Tempo"
+msgstr "Grafiko de alteco kontraŭ tempo."
 
 #. i18n: ectx: property (text), widget (QLabel, HiddenAltitudeGraphLabel)
 #: tools/imagingplanner.ui:940
-#, fuzzy, kde-format
-#| msgid "Altitude vs. Time"
+#, kde-format
 msgid "Altitude vs Time graph"
-msgstr "Alteco kontraŭ Tempo"
+msgstr "Grafiko de alteco kontraŭ tempo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useArtificialHorizon)
 #: tools/imagingplanner.ui:980
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Keep the plot at the full input width.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use the system's artificial horizon for calculating "
 "imaging hours.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Konservi la diagramon je la plena eniga larĝo.</p></"
-"body></html>"
+"<html><head/><body><p>Uzu la artefaritan horizonton de la sistemo por "
+"kalkuli bildajn horojn.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useArtificialHorizon)
 #: tools/imagingplanner.ui:983
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgid "Artificial horizon"
-msgstr "Artefarita Horizonto"
+msgstr "Artefarita horizonto"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltitudeLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minAltitude)
@@ -82566,10 +82328,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minAltitudeLabel)
 #: tools/imagingplanner.ui:999
-#, fuzzy, kde-format
-#| msgid "Min Area"
+#, kde-format
 msgid "Min alt"
-msgstr "Min Areo"
+msgstr "Min alt"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minMoonLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minMoon)
@@ -82582,10 +82343,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1046
-#, fuzzy, kde-format
-#| msgid "Min Move:"
+#, kde-format
 msgid "Min Moon º"
-msgstr "Minimuma Movo:"
+msgstr "Min Luno º"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAstrobinDetailsButton)
 #: tools/imagingplanner.ui:1140
@@ -82603,11 +82363,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel2)
 #: tools/imagingplanner.ui:1175 tools/imagingplanner.ui:1500
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Auto Search"
+#, kde-format
 msgid "Search"
-msgstr "Aŭtomata Serĉo"
+msgstr "Serĉi"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton2)
@@ -82621,28 +82379,23 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton2)
 #: tools/imagingplanner.ui:1202 tools/imagingplanner.ui:1527
-#, fuzzy, kde-format
-#| msgctxt "City in Ontario Canada"
-#| msgid "Armstrong"
+#, kde-format
 msgid "Astrobin"
-msgstr "Armstrong"
+msgstr "Astrobin"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia2)
 #: tools/imagingplanner.ui:1226 tools/imagingplanner.ui:1551
-#, fuzzy, kde-format
-#| msgid "Description of the selected profile"
+#, kde-format
 msgid "Search Wikipedia for the selected object."
-msgstr "Priskribo de la elektita profilo"
+msgstr "Serĉi en Vikipedio la elektitan objekton."
 
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia2)
 #: tools/imagingplanner.ui:1229 tools/imagingplanner.ui:1554
-#, fuzzy, kde-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Wikipedia Page"
+#, kde-format
 msgid "Wikipedia"
-msgstr "Vikipedia Paĝo"
+msgstr "Vikipedio"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages2)
@@ -82661,51 +82414,43 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad2)
 #: tools/imagingplanner.ui:1280 tools/imagingplanner.ui:1605
-#, fuzzy, kde-format
-#| msgid "Search Radius"
+#, kde-format
 msgid "Search Simbad."
-msgstr "Serĉu Radiuso"
+msgstr "Serĉi Simbad."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1290
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Required one of the Astrobin awards when searching "
 "Astrobin images.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Grandeco de la apartigilo inter la kadroj.</p></body></"
-"html>"
+"<html><head/><body><p>Bezonata unu el la Astrobin-premioj dum serĉado de "
+"Astrobin-bildoj.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1293
-#, fuzzy, kde-format
-#| msgid "Required"
+#, kde-format
 msgid "Awards Required"
-msgstr "Bezonata"
+msgstr "Premioj Bezonataj"
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
 #: tools/imagingplanner.ui:1312
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Radius:"
-msgstr "Radiuso"
+msgstr "Radiuso:"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1327
-#, fuzzy, kde-format
-#| msgid "Min: %1"
+#, kde-format
 msgid "Min:"
-msgstr "Min: %1"
+msgstr "Min:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
 #: tools/imagingplanner.ui:1375
-#, fuzzy, kde-format
-#| msgid "Max: %1"
+#, kde-format
 msgid "Max:"
-msgstr "Maksimumo: %1"
+msgstr "Maks:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAstrobinDetailsButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFilterTypesButton)
@@ -82731,10 +82476,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel2)
 #: tools/imagingplanner.ui:1700 tools/imagingplanner.ui:2104
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filters"
-msgstr "Filtrilo"
+msgstr "Filtriloj"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minHoursLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minHours)
@@ -82746,156 +82490,128 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minHoursLabel)
 #: tools/imagingplanner.ui:1719
-#, fuzzy, kde-format
-#| msgid "24 Hours"
+#, kde-format
 msgid "Min Hours:"
-msgstr "24 Horoj"
+msgstr "Min Horoj:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OpenClusterCB)
 #: tools/imagingplanner.ui:1748
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide open clusters if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>Paŝa grandeco:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Kaŝi malfermajn amasojn se nemarkite.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, OpenClusterCB)
 #: tools/imagingplanner.ui:1751
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#, kde-format
 msgid "Open Cl"
-msgstr "Malfermi Areton"
+msgstr "Malfermi Cl"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, NebulaCB)
 #: tools/imagingplanner.ui:1758
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Hide nebulae if unchecked.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Tiu indeksa dosiero ne estas bezonata.</p></body></"
-"html>"
+msgstr "<html><head/><body><p>Kaŝi nebulozojn se nemarkite.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GlobularClusterCB)
 #: tools/imagingplanner.ui:1768
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide globular clusters if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>Vi preskaŭ finis...</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Kaŝi globajn amasojn se nemarkite.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1778
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Montri la sekvan .analyze-dosieron.</p></body></html>"
+"<html><head/><body><p>Kaŝi planedajn nebulozojn se nemarkite.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
 #: tools/imagingplanner.ui:1788
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Delete current frame</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide supernova remnants if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>Forigi nunan kadron</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Kaŝi supernovajn restaĵojn se nemarkite.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyCB)
 #: tools/imagingplanner.ui:1798
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Hide galaxies if unchecked.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Tiu indeksa dosiero ne estas bezonata.</p></body></"
-"html>"
+msgstr "<html><head/><body><p>Kaŝi galaksiojn se nemarkite.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyClusterCB)
 #: tools/imagingplanner.ui:1808
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide galaxy clusters if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tiu indeksa dosiero ne estas bezonata.</p></body></"
-"html>"
+"<html><head/><body><p>Kaŝi galaksiareojn se nemarkite.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyClusterCB)
 #: tools/imagingplanner.ui:1811
-#, fuzzy, kde-format
-#| msgid "Galaxy"
+#, kde-format
 msgid "Galaxy Cl"
-msgstr "Galaksio"
+msgstr "Galaksio Cl"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, DarkNebulaCB)
 #: tools/imagingplanner.ui:1818
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Hide dark nebulae if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tiu indeksa dosiero ne estas bezonata.</p></body></"
+"<html><head/><body><p>Kaŝi malhelajn nebulozojn se nemarkite.</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OtherCB)
 #: tools/imagingplanner.ui:1828
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide other object types if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la ĉirkaŭan temperaturon.</p></body></html>"
+"<html><head/><body><p>Kaŝi aliajn objektotipojn se nemarkite.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pickedCB)
 #: tools/imagingplanner.ui:1845
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are marked picked (don't show "
 "those that are not picked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Elekti la koloretoson de la 3D-grafiko.</p></body></"
-"html>"
+"<html><head/><body><p>Montru la objektojn, kiuj estas markitaj kiel "
+"elektitaj (ne montru tiujn, kiuj ne estas elektitaj).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notPickedCB)
 #: tools/imagingplanner.ui:1855
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are not marked picked (don't "
 "show those that are picked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la nombron da steloj detektitaj en la kaptitaj "
-"bildoj.</p></body></html>"
+"<html><head/><body><p>Montru la objektojn, kiuj ne estas markitaj kiel "
+"elektitaj (ne montru tiujn, kiuj estas elektitaj).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notPickedCB)
 #: tools/imagingplanner.ui:1858
-#, fuzzy, kde-format
-#| msgctxt "Short text to describe that object has not risen yet"
-#| msgid "Not risen"
+#, kde-format
 msgid "Not Picked"
-msgstr "Ne leviĝis"
+msgstr "Ne Elektita"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCarePickedCB)
 #: tools/imagingplanner.ui:1865
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display DEC graph in the Drift Graphics plot.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked picked or not.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Montri DEC-grafeon en la grafikaĵo Drift Graphics.</"
-"p></body></html>"
+"<html><head/><body><p>Objekta montrado ne dependas de ĉu objektoj estas "
+"markitaj kiel elektitaj aŭ ne.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dontCarePickedCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareImagedCB)
@@ -82909,49 +82625,41 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.ui:1875
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the median sample value in the captured images."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are marked imaged (and don't "
 "show those that are not marked previously imaged).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la mezan specimenan valoron en la kaptitaj "
-"bildoj.</p></body></html>"
+"<html><head/><body><p>Montru la objektojn, kiuj estas markitaj bildigitaj "
+"(kaj ne montri tiujn, kiuj ne estas markitaj antaŭe bildigitaj).</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notImagedCB)
 #: tools/imagingplanner.ui:1885
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are not marked imaged (and don't "
 "show those that are marked previously imaged).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la nombron da steloj detektitaj en la kaptitaj "
-"bildoj.</p></body></html>"
+"<html><head/><body><p>Montru la objektojn kiuj ne estas markitaj bildigitaj "
+"(kaj ne montri tiujn kiuj estas markitaj antaŭe bildigitaj).</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notImagedCB)
 #: tools/imagingplanner.ui:1888
-#, fuzzy, kde-format
-#| msgid "(No Image)"
+#, kde-format
 msgid "Not imaged"
-msgstr "(Neniu Bildo)"
+msgstr "Ne bildigita"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareImagedCB)
 #: tools/imagingplanner.ui:1895
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display histogram for the stretched non-linear "
-#| "image.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked previously imaged or not.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Montri histogramon por la etendita nelinia bildo.</p></"
-"body></html>"
+"<html><head/><body><p>Objekta montrado ne dependas de ĉu objektoj estas "
+"markitaj antaŭe bildigitaj aŭ ne.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:1922
@@ -82963,103 +82671,83 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:1925
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Image"
+#, kde-format
 msgid "Load Imaged"
-msgstr "Ŝargi Bildon"
+msgstr "Ŝargi Bildojn"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ignoredCB)
 #: tools/imagingplanner.ui:1932
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#| "that have been added there, and remove overlays that are no longer there."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have been ignored (and don't "
 "show those that have not been ignored).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Refreŝigi el la dosierujo de supermetaĵoj. Aldonu "
-"supermetojn kiuj estis aldonitaj tie, kaj forigu supermetojn kiuj ne plu "
-"estas tie.</p></body></html>"
+"<html><head/><body><p>Montru la objektojn kiuj estis ignoritaj (kaj ne "
+"montri tiujn, kiuj ne estis ignoritaj).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notIgnoredCB)
 #: tools/imagingplanner.ui:1942
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#| "that have been added there, and remove overlays that are no longer there."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have not been ignored (and don't "
 "show those that have been ignored).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Refreŝigi el la dosierujo de supermetaĵoj. Aldonu "
-"supermetojn kiuj estis aldonitaj tie, kaj forigu supermetojn kiuj ne plu "
-"estas tie.</p></body></html>"
+"<html><head/><body><p>Montru la objektojn kiuj ne estis ignoritaj (kaj ne "
+"montri tiujn, kiuj estis ignoritaj).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notIgnoredCB)
 #: tools/imagingplanner.ui:1945
-#, fuzzy, kde-format
-#| msgid "Not Sure"
+#, kde-format
 msgid "Not ignored"
-msgstr "Ne Certe"
+msgstr "Ne ignorita"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareIgnoredCB)
 #: tools/imagingplanner.ui:1952
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects have "
 "been ignored or not.</p></body></html>"
-msgstr "<html><head/><body><p>Marku por montri la Sensilon.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Objekta montrado ne dependas de ĉu objektoj estas "
+"ignoritaj aŭ ne.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, keywordCB)
 #: tools/imagingplanner.ui:1962
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's pier side (left) -> where the "
-#| "mount is pointing.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have the (case-sensitive) "
 "keyword in their notes (and don't show those that don't).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la muntaĵoflankon (maldekstre) -> kien la "
-"muntaĵo indikas.</p></body></html>"
+"<html><head/><body><p>Montri la objektojn, kiuj havas la (majusklec-"
+"distingan) ŝlosilvorton en siaj notoj (kaj ne montri tiujn, kiuj ne havas).</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notKeywordCB)
 #: tools/imagingplanner.ui:1972
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Current data of the weather sensors. Click on the "
-#| "sensor name to display its data over time.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that don't have the (case-sensitive) "
 "keyword in their notes (and don't show those that do).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nuntempaj datumoj de la vetersensiloj. Klaku sur la "
-"sensilnomo por montri ĝiajn datumojn laŭlonge de la tempo.</p></body></html>"
+"<html><head/><body><p>Montri la objektojn kiuj ne havas la (usklecdistingan) "
+"ŝlosilvorton en siaj notoj (kaj ne montri tiujn, kiuj havas).</p></body> </"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notKeywordCB)
 #: tools/imagingplanner.ui:1975
-#, fuzzy, kde-format
-#| msgid "Keyword"
+#, kde-format
 msgid "Not keyword"
-msgstr "Ŝlosilvorto"
+msgstr "Ne ŝlosilvorto"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareKeywordCB)
 #: tools/imagingplanner.ui:1982
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the guide "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether or not "
 "objects have the keyword in their notes.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la nombron da steloj detektitaj en la "
-"gvidbildoj.</p></body></html>"
+"<html><head/><body><p>Objekta montrado ne dependas de ĉu objektoj havas aŭ "
+"ne la ŝlosilvorton en siaj notoj.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2003
@@ -83070,10 +82758,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2006
-#, fuzzy, kde-format
-#| msgid "Enter name for the script"
+#, kde-format
 msgid "Enter keyword here"
-msgstr "Enigi nomon por la skripto"
+msgstr "Enigu ŝlosilvorton ĉi tie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideImageButton)
 #: tools/imagingplanner.ui:2164
@@ -83084,79 +82771,67 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
 #: tools/imagingplanner.ui:2190 tools/imagingplanner.ui:2377
-#, fuzzy, kde-format
-#| msgid "Catalog name:"
+#, kde-format
 msgid "Catalog Image"
-msgstr "Katalogonomo:"
+msgstr "Katalogo-bildo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton2)
 #: tools/imagingplanner.ui:2228 tools/imagingplanner.ui:2409
-#, fuzzy, kde-format
-#| msgid "Load a new sequence file"
+#, kde-format
 msgid "Load a new catalog"
-msgstr "Ŝargi novan sekvencodosieron"
+msgstr "Ŝargi novan katalogon"
 
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton2)
 #: tools/imagingplanner.ui:2231 tools/imagingplanner.ui:2412
-#, fuzzy, kde-format
-#| msgid "Catalog"
+#, kde-format
 msgid "Load Catalog"
-msgstr "Katalogo"
+msgstr "Ŝargi Katalogon"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showImageButton)
 #: tools/imagingplanner.ui:2351
-#, fuzzy, kde-format
-#| msgid "Maximum image dimension:"
+#, kde-format
 msgid "Maximize the image section"
-msgstr "Maksimuma bilda dimensio:"
+msgstr "Maksimumigi la bildosekcion"
 
 #: tools/imagingplanneroptions.cpp:25
-#, fuzzy, kde-format
-#| msgid "Mosaic Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr "Mozaika Planisto"
+msgstr "Elektebloj de Bildiga Planisto"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Marku por montri etikedojn sur la grafeo.</p></body></"
-"html>"
+"<html><head/><body><p>Turnadi al elektitaj objektoj sur la Ĉielmapo.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "Ĉu elekti objektojn per maldekstra klako?"
+msgstr "Centrigi elektitan objekton sur SkyMap"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the number of stars detected in the captured "
-#| "images.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Desegni la nombron da steloj detektitaj en la kaptitaj "
-"bildoj.</p></body></html>"
+"<html><head/><body><p>Igu la ImagingPlannerTool sendependa fenestro. "
+"Efikiĝus venontan rekomencon.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
-#, fuzzy, kde-format
-#| msgid "Independent window"
+#, kde-format
 msgid "Independent Window"
-msgstr "Sendependa fenestro"
+msgstr "Sendependa Fenestro"
 
 #: tools/jmoontool.cpp:30
 #, kde-format
@@ -87719,289 +87394,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#, fuzzy
-#~| msgid "Captures"
-#~ msgid "Capture Misc"
-#~ msgstr "Kaptoj"
-
-#, fuzzy
-#~| msgid "Capture"
-#~ msgid "Capture DSLR"
-#~ msgstr "Kapto"
-
-#~ msgid "Add Flag..."
-#~ msgstr "Aldonu Flagon..."
-
-#~ msgid ""
-#~ "Due to a known issue in the kde frameworks, updating already downloaded "
-#~ "items is currently not possible. <br> Please uninstall and reinstall them "
-#~ "to update."
-#~ msgstr ""
-#~ "Pro konata problemo en la kde-kadroj, ĝisdatigi jam elŝutitajn erojn "
-#~ "nuntempe ne eblas. <br> Bonvolu malinstali kaj reinstali ilin por "
-#~ "ĝisdatigi."
-
-#, fuzzy
-#~| msgid "Could not import the objects."
-#~ msgid "Could not find that object"
-#~ msgstr "Ne eblis importi la objektojn."
-
-#, fuzzy
-#~| msgid "Cap already parked."
-#~ msgid "%1 already there"
-#~ msgstr "Ĉapo jam parkis."
-
-#, fuzzy
-#~| msgid "Add a name label to the object named %1."
-#~ msgid "Add an object to the object list on the left."
-#~ msgstr "Aldoni nometikedon al la objekto nomita %1."
-
-#, fuzzy
-#~| msgid "Add Object..."
-#~ msgid "Add Object"
-#~ msgstr "Aldoni objekton..."
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#~| "that have been added there, and remove overlays that are no longer there."
-#~| "</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Show the objects that have been added (and don't "
-#~ "show those that have not been added).</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Refreŝigi el la dosierujo de supermetaĵoj. Aldonu "
-#~ "supermetojn kiuj estis aldonitaj tie, kaj forigu supermetojn kiuj ne plu "
-#~ "estas tie.</p></body></html>"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#~| "that have been added there, and remove overlays that are no longer there."
-#~| "</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Show the objects that have not been added (and "
-#~ "don't show those that have been added).</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Refreŝigi el la dosierujo de supermetaĵoj. Aldonu "
-#~ "supermetojn kiuj estis aldonitaj tie, kaj forigu supermetojn kiuj ne plu "
-#~ "estas tie.</p></body></html>"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Object display doesn't depend on whether objects "
-#~ "have been add or not.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Marku por montri la Sensilon.</p></body></html>"
-
-#~ msgid "Simulate Eyepiece View"
-#~ msgstr "Simuli Vidon de Okularo"
-
-#~ msgid "Attempt to determine from image"
-#~ msgstr "Provo determini el bildo"
-
-#~ msgid "Eyepiece View: Choose a field-of-view"
-#~ msgstr "Okula Vido: Elekti vidkampon"
-
-#~ msgid "FOV to render eyepiece view for:"
-#~ msgstr "FOV por bildigi okularvidon por:"
-
-#~ msgctxt "@title:window"
-#~ msgid "Export eyepiece view"
-#~ msgstr "Eksporti okularion vidon"
-
-#~ msgid "Overlay orientation vs. time ticks: "
-#~ msgstr "Tegmenta orientiĝo kontraŭ tempoj:"
-
-#~ msgid "Towards Zenith"
-#~ msgstr "Al Zenith"
-
-#~ msgid "Dobsonian View"
-#~ msgstr "Dobsoniana Vido"
-
-#~ msgid ""
-#~ "Note: This overlay makes sense only if the view was generated in alt/az "
-#~ "mode with a preset such as Refractor or Vanilla"
-#~ msgstr ""
-#~ "Noto: Ĉi tiu supermetaĵo havas sencon nur se la vido estis generita en "
-#~ "alt/az-reĝimo kun antaŭmeto kiel ekzemple Refraktoro aŭ Vanilo"
-
-#~ msgid ""
-#~ "Note: This overlay  makes sense only if the view was generated in alt/az "
-#~ "mode with a preset such as Dobsonian"
-#~ msgstr ""
-#~ "Noto: Ĉi tiu supermetaĵo havas sencon nur se la vido estis generita en "
-#~ "alt/az-reĝimo kun antaŭmeto kiel Dobsonian"
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Image as"
-#~ msgstr "Konservi bildon kiel"
-
-#~ msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
-#~ msgstr "Bilddosieroj (*.png *.jpg *.xpm *.bmp *.gif)"
-
-#~ msgctxt "@title:window"
-#~ msgid "Eyepiece Field View"
-#~ msgstr "Okular-Kampa Vido"
-
-#~ msgctxt "Export image"
-#~ msgid "Export"
-#~ msgstr "Eksporto"
-
-#~ msgid "Invert view"
-#~ msgstr "Inversigi vidon"
-
-#~ msgid "Flip view"
-#~ msgstr "Renversi vidon"
-
-#~ msgid "Fetch DSS image"
-#~ msgstr "Preni DSS-bildon"
-
-#~ msgid "Vanilla"
-#~ msgstr "Vanilo"
-
-#~ msgid "Flipped"
-#~ msgstr "renversita"
-
-#~ msgid "Dobsonian"
-#~ msgstr "Dobsonian"
-
-#~ msgid "Preset:"
-#~ msgstr "Antaŭdifinita:"
-
-#~ msgid "Eyepiece view"
-#~ msgstr "Vido de okulario"
-
-#~ msgid "Autofocus in progress..."
-#~ msgstr "Aŭtomata fokuso en progreso..."
-
-#~ msgid "Please wait until image capture is complete..."
-#~ msgstr "Bonvolu atendi ĝis la preno de bildo finiĝos..."
-
-#, fuzzy
-#~| msgid "In Progress"
-#~ msgid "Progress #%1"
-#~ msgstr "En progreso"
-
-#, fuzzy
-#~| msgid "In Progress"
-#~ msgid "Progress"
-#~ msgstr "En progreso"
-
-#, fuzzy
-#~| msgid "&Repeat for:"
-#~ msgid "Repeat:"
-#~ msgstr "&Ripeti por:"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Montri la sekvan .analyze-dosieron.</p></body></"
-#~ "html>"
-
-#, fuzzy
-#~| msgid ""
-#~| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#~| "processed."
-#~ msgid ""
-#~ "Job is looping with %1-second %2 frames infinitely, has %3 frames "
-#~ "captured and will be processed."
-#~ msgstr ""
-#~ "Tasko postulas %1-sekundan %2 bildojn, havas %3/%4 kadrojn kaptitajn kaj "
-#~ "estos prilaborita."
-
-#~ msgid "Configuration"
-#~ msgstr "Agordo"
-
-#~ msgid "Offsets"
-#~ msgstr "Deŝovoj"
-
-#, fuzzy
-#~| msgid "Scheduler"
-#~ msgid "Scheduling"
-#~ msgstr "Planilo"
-
-#~ msgid "AZ/AL"
-#~ msgstr "AZ/AL"
-
-#~ msgid "Displays the Tip of the Day"
-#~ msgstr "Montras la Konsileton de la Tago"
-
-#~ msgid ""
-#~ "When In Sequence, force an Autofocus at the end of the current subframe."
-#~ msgstr ""
-#~ "Estante En-Sekvenca, devigi Aŭtofokusadon ĉe la fino de la aktuala "
-#~ "subkadro."
-
-#~ msgid "Updated base parameters"
-#~ msgstr "Ĝisdatis bazajn parametrojn"
-
-#~ msgid "Find Stars: Starting scan for stars..."
-#~ msgstr "Trovu Stelojn: Komencante skanadon por steloj..."
-
-#~ msgid "Find Stars: Jump size %1"
-#~ msgstr "Trovi Stelojn: Salta grandeco %1"
-
-#~ msgid "Detected %1 stars at %2"
-#~ msgstr "Detektis %1 stelojn ĉe %2"
-
-#~ msgid "Find Stars: Stars detected, centring range"
-#~ msgstr "Trovi Stelojn: Steloj detektitaj, centrigante gamon..."
-
-#~ msgid "Find Stars Run %1: Failed"
-#~ msgstr "Trovi Stelojn Rulo %1: Malsukcesis"
-
-#~ msgid "Pre Autofocus: Failed"
-#~ msgstr "Antaŭ-Aŭtomatfokuso: Malsukcesis"
-
-#~ msgid "Pre Autofocus: exceeded max iterations %1"
-#~ msgstr "Antaŭ-Aŭtomatfokusado: transpasis maks iteraciojn %1"
-
-#~ msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
-#~ msgstr ""
-#~ "Rulo de Kruda Alĝustigo: %1 Komenco: %2 Troskanado: %3 Paŝa Grandeco: %4"
-
-#~ msgid "Overscan estimate: %1 ticks"
-#~ msgstr "Troskanita takso: %1 tiktakoj"
-
-#~ msgid "Coarse Adj: Failed"
-#~ msgstr "Krud-Alĝust: Malsukcesis"
-
-#~ msgid "Autofocus parameter adjustment"
-#~ msgstr "Alĝustigo de aŭtomatfokusa parametro"
-
-#~ msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
-#~ msgstr ""
-#~ "Fokuso-Konsilisto ĝustiganta Paŝgrandecon: %1->%2 AF Troskanado: %3->%4"
-
-#~ msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
-#~ msgstr "Reprovado de aŭtomata fokuso: Paŝa grandeco %1 AF Troskanado %2"
-
-#~ msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-#~ msgstr "Aŭtomata fokuso kompleta: Paŝa grandeco %1 AF Troskanado %2"
-
-#~ msgid "Astronomical Twilight Warning"
-#~ msgstr "Astronomia Krepuska Averto"
-
-#~ msgid "API URL"
-#~ msgstr "API URL"
-
-#~ msgid ""
-#~ "<html><head/><body><p>The rotator gauge displays the actual camera "
-#~ "position angle (yellow) and the raw rotator angle (gray). Be sure to "
-#~ "calibrate the rotator (syncing rotator angle to zero at piersie WEST) "
-#~ "after a fresh mount of the rotator in order to have a reasonable display."
-#~ "</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>La rotaciila mezurilo montras la faktan "
-#~ "kamerapozician angulon (flave) kaj la krudan rotaciilan angulon (grize). "
-#~ "Certigu kalibri la rotaciilon (sinkronigante rotaciilan angulon al nulo "
-#~ "ĉe kajoflanko WEST) post freŝa munto de la rotaciilo por ekhavi racian "
-#~ "bildigon.</p></body></html>"

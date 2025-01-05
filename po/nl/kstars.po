@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-02 01:50+0000\n"
+"POT-Creation-Date: 2025-01-05 01:53+0000\n"
 "PO-Revision-Date: 2024-12-30 17:41+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -547,7 +547,7 @@ msgstr "Nee"
 #: dialogs/catalogdetails.cpp:213 dialogs/catalogsdbui.cpp:153
 #: dialogs/catalogsdbui.cpp:189 dialogs/catalogsdbui.cpp:210
 #: dialogs/catalogsdbui.cpp:230 dialogs/catalogsdbui.cpp:248
-#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:793
+#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:813
 #, kde-format
 msgid "Warning"
 msgstr "Waarschuwing"
@@ -6511,7 +6511,7 @@ msgstr "Opstelling is synchroon met oplossingscoördinaten."
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
 #: ekos/align/align.cpp:3386 ekos/align/align.cpp:4108
-#: ekos/align/polaralignmentassistant.cpp:650
+#: ekos/align/polaralignmentassistant.cpp:647
 #, kde-format
 msgid "Settling..."
 msgstr "Bezig met instellen..."
@@ -6695,7 +6695,7 @@ msgstr "Ongeldige URL: %1"
 #: ekos/align/align.cpp:3983 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
 #: ekos/scheduler/schedulerprocess.cpp:2974
-#: ekos/scheduler/schedulerprocess.cpp:4648
+#: ekos/scheduler/schedulerprocess.cpp:4645
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Kon niet schrijven naar bestand %1"
@@ -6705,8 +6705,8 @@ msgstr "Kon niet schrijven naar bestand %1"
 #: ekos/capture/cameraprocess.cpp:2643 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
-#: ekos/scheduler/schedulerprocess.cpp:4649
-#: ekos/scheduler/schedulerprocess.cpp:4669 indi/drivermanager.cpp:1549
+#: ekos/scheduler/schedulerprocess.cpp:4646
+#: ekos/scheduler/schedulerprocess.cpp:4666 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1399 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7357,7 +7357,7 @@ msgstr "Uitlijnlijst Ekos openen"
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2955
 #: ekos/capture/cameraprocess.cpp:2642 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
-#: ekos/scheduler/schedulerprocess.cpp:4668
+#: ekos/scheduler/schedulerprocess.cpp:4665
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Bestand %1 kon niet worden geopend."
@@ -9810,22 +9810,22 @@ msgstr "PAA: oplossen mislukt, wordt opnieuw geprobeerd."
 msgid "PAA: Stopping, solver failed too many times."
 msgstr "PAA: Stoppen, oplosser is te vaak mislukt."
 
-#: ekos/align/polaralignmentassistant.cpp:616
+#: ekos/align/polaralignmentassistant.cpp:619
 #, kde-format
 msgid "Mount first rotation is complete."
 msgstr "Eerste rotatie opstelling is voltooid."
 
-#: ekos/align/polaralignmentassistant.cpp:623
+#: ekos/align/polaralignmentassistant.cpp:626
 #, kde-format
 msgid "Mount second rotation is complete."
 msgstr "Tweede rotatie opstelling is voltooid."
 
-#: ekos/align/polaralignmentassistant.cpp:662
+#: ekos/align/polaralignmentassistant.cpp:681
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
 msgstr "Opstellen afgebroken. Draai richting RK-as om en probeer opnieuw."
 
-#: ekos/align/polaralignmentassistant.cpp:747
+#: ekos/align/polaralignmentassistant.cpp:767
 #, kde-format
 msgid ""
 "Warning: Equatorial Grid Lines will not be drawn due to limited resources "
@@ -9834,38 +9834,38 @@ msgstr ""
 "Waarschuwing: De equatoriale roosterlijnen worden niet getekend in modus "
 "beperkte bronnen."
 
-#: ekos/align/polaralignmentassistant.cpp:751
+#: ekos/align/polaralignmentassistant.cpp:771
 #, kde-format
 msgid "Clearing mount Alignment Model..."
 msgstr "Herstarten uitlijnen opstelling..."
 
-#: ekos/align/polaralignmentassistant.cpp:792
+#: ekos/align/polaralignmentassistant.cpp:812
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Dit kan de telescoop de meridiaan laten kruisen."
 
-#: ekos/align/polaralignmentassistant.cpp:842
+#: ekos/align/polaralignmentassistant.cpp:862
 #, kde-format
 msgid "Parking the mount..."
 msgstr "Opstelling wordt geparkeerd..."
 
-#: ekos/align/polaralignmentassistant.cpp:882
+#: ekos/align/polaralignmentassistant.cpp:905
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr "Wacht aub. tot opstelling gedraaid is naar RK(%1) en Dec(%2)"
 
-#: ekos/align/polaralignmentassistant.cpp:898
-#: ekos/align/polaralignmentassistant.cpp:904
+#: ekos/align/polaralignmentassistant.cpp:921
+#: ekos/align/polaralignmentassistant.cpp:927
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "PAA: findCorrectedPixel is mislukt."
 
-#: ekos/align/polaralignmentassistant.cpp:930
+#: ekos/align/polaralignmentassistant.cpp:953
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "PAA: vinden van RK-ascentrum is mislukt."
 
-#: ekos/align/polaralignmentassistant.cpp:1001
+#: ekos/align/polaralignmentassistant.cpp:1024
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
@@ -9874,17 +9874,17 @@ msgstr ""
 "Polaire uitlijnster kan niet worden bijgewerkt gedurende fase vernieuwen "
 "omdat het meten van fouten kan beïnvloeden."
 
-#: ekos/align/polaralignmentassistant.cpp:1018
+#: ekos/align/polaralignmentassistant.cpp:1041
 #, kde-format
 msgid "First manual rotation done."
 msgstr "Eerste handmatige rotatie uitgevoerd."
 
-#: ekos/align/polaralignmentassistant.cpp:1023
+#: ekos/align/polaralignmentassistant.cpp:1046
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "Tweede handmatige rotatie uitgevoerd."
 
-#: ekos/align/polaralignmentassistant.cpp:1068
+#: ekos/align/polaralignmentassistant.cpp:1091
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9893,33 +9893,33 @@ msgstr ""
 "Opstelling is synced op de hemelpool. U kunt nu verder gaan met de assistent "
 "voor het uitlijnen op de pool."
 
-#: ekos/align/polaralignmentassistant.cpp:1087
+#: ekos/align/polaralignmentassistant.cpp:1110
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Momentje: WCS-gegevens worden verwerkt..."
 
-#: ekos/align/polaralignmentassistant.cpp:1118
+#: ekos/align/polaralignmentassistant.cpp:1141
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "Verwerken WCS-gegevens is voltooid."
 
-#: ekos/align/polaralignmentassistant.cpp:1127
+#: ekos/align/polaralignmentassistant.cpp:1150
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "WCS-info is nu geldig. Volgende frame wordt opgenomen..."
 
-#: ekos/align/polaralignmentassistant.cpp:1169
+#: ekos/align/polaralignmentassistant.cpp:1192
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "Fout bij verwerken World Coordinate System: %1. Probeer nogmaals."
 
-#: ekos/align/polaralignmentassistant.cpp:1187
+#: ekos/align/polaralignmentassistant.cpp:1210
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: vinden van RK-as is mislukt. Wordt verlaten."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1218
+#: ekos/align/polaralignmentassistant.cpp:1241
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9929,52 +9929,52 @@ msgstr ""
 "<p>De assistent heeft drie afbeeldingen nodig voor het oplossen.  Ekos maakt "
 "nu de eerste afbeelding...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1220
+#: ekos/align/polaralignmentassistant.cpp:1243
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "<p>De <i>eerste</i> afbeelding wordt opgelost...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1222
+#: ekos/align/polaralignmentassistant.cpp:1245
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "<p>De <i>eerste</i> draai van de opstelling wordt gedaan...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1224
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr "<p>Settelen na de <i>eerste</i> draai van de opstelling.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1226
+#: ekos/align/polaralignmentassistant.cpp:1249
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "<p>Settelen na de <i>tweede</i> draai van de opstelling.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1228
+#: ekos/align/polaralignmentassistant.cpp:1251
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>De tweede opname wordt gemaakt...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1230
+#: ekos/align/polaralignmentassistant.cpp:1253
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "<p>De <i>tweede</i> opname wordt opgelost...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1232
+#: ekos/align/polaralignmentassistant.cpp:1255
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>De <i>tweede</i> draai van de opstelling wordt gedaan...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1234
+#: ekos/align/polaralignmentassistant.cpp:1257
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>De derde opname wordt gemaakt...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1236
+#: ekos/align/polaralignmentassistant.cpp:1259
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "<p>De <i>derde</i> opname wordt opgelost...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1239
+#: ekos/align/polaralignmentassistant.cpp:1262
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
@@ -9983,7 +9983,7 @@ msgstr ""
 "<p>Kies uw belichtingstijd & selecteer een methode voor aanpassen. Klik "
 "daarna op <i>vernieuwen</i> om aanpassingen te beginnen.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1241
+#: ekos/align/polaralignmentassistant.cpp:1264
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -9998,7 +9998,7 @@ msgstr ""
 "<i>SterVerplaatsen & Fout berekenen</i> om de overblijvende fout te schatten."
 "</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1244
+#: ekos/align/polaralignmentassistant.cpp:1267
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -10011,7 +10011,7 @@ msgstr ""
 "hebben op bewegen van de knop. Overweeg de resultaten na 2 afbeeldingen te "
 "gebruiken.  Klik op <i>Stop</i> wanneer u klaar bent.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1246
+#: ekos/align/polaralignmentassistant.cpp:1269
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -10024,7 +10024,7 @@ msgstr ""
 "lijn te verplaatsen totdat de geselecteerde ster gecentreerd is binnen de "
 "kruisdraad.</p><p>Klik op <i>Stop</i> wanneer de ster gecentreerd is.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1262
+#: ekos/align/polaralignmentassistant.cpp:1285
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
@@ -29889,17 +29889,17 @@ msgstr ""
 "Slaapstand gedurende %1 tot simulatieklokherstel totdat de volgende "
 "waarneemtaak gereed is... "
 
-#: ekos/scheduler/schedulerprocess.cpp:4707
+#: ekos/scheduler/schedulerprocess.cpp:4704
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "Script voor starten doet het niet, wordt afgebroken..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4712
+#: ekos/scheduler/schedulerprocess.cpp:4709
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "Script voor afsluiten doet het niet, wordt afgebroken..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4773
+#: ekos/scheduler/schedulerprocess.cpp:4770
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "Waarschuwing: Taak '%1' bevat ontoegankelijke rij '%2', is ongeldig."

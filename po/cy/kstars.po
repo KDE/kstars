@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-02 01:50+0000\n"
+"POT-Creation-Date: 2025-01-05 01:53+0000\n"
 "PO-Revision-Date: 2004-02-26 16:58+0000\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -599,7 +599,7 @@ msgstr "Nawr"
 #: dialogs/catalogdetails.cpp:213 dialogs/catalogsdbui.cpp:153
 #: dialogs/catalogsdbui.cpp:189 dialogs/catalogsdbui.cpp:210
 #: dialogs/catalogsdbui.cpp:230 dialogs/catalogsdbui.cpp:248
-#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:793
+#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:813
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Corning"
@@ -6646,7 +6646,7 @@ msgstr ""
 
 #: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
 #: ekos/align/align.cpp:3386 ekos/align/align.cpp:4108
-#: ekos/align/polaralignmentassistant.cpp:650
+#: ekos/align/polaralignmentassistant.cpp:647
 #, fuzzy, kde-format
 msgid "Settling..."
 msgstr "Kettering"
@@ -6846,7 +6846,7 @@ msgstr "URL annilys : %1"
 #: ekos/align/align.cpp:3983 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
 #: ekos/scheduler/schedulerprocess.cpp:2974
-#: ekos/scheduler/schedulerprocess.cpp:4648
+#: ekos/scheduler/schedulerprocess.cpp:4645
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Unable to write to file %1"
@@ -6857,8 +6857,8 @@ msgstr "Methu cadw'r ddelwedd : %1 "
 #: ekos/capture/cameraprocess.cpp:2643 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
-#: ekos/scheduler/schedulerprocess.cpp:4649
-#: ekos/scheduler/schedulerprocess.cpp:4669 indi/drivermanager.cpp:1549
+#: ekos/scheduler/schedulerprocess.cpp:4646
+#: ekos/scheduler/schedulerprocess.cpp:4666 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1399 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7522,7 +7522,7 @@ msgstr "Cadw Lliwiau Cyfredol..."
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2955
 #: ekos/capture/cameraprocess.cpp:2642 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
-#: ekos/scheduler/schedulerprocess.cpp:4668
+#: ekos/scheduler/schedulerprocess.cpp:4665
 #, fuzzy, kde-format
 #| msgid "Could not open file %1."
 msgid "Unable to open file %1"
@@ -9866,117 +9866,117 @@ msgstr "Rock Hill"
 msgid "PAA: Stopping, solver failed too many times."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:616
+#: ekos/align/polaralignmentassistant.cpp:619
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Mount first rotation is complete."
 msgstr "Caliente"
 
-#: ekos/align/polaralignmentassistant.cpp:623
+#: ekos/align/polaralignmentassistant.cpp:626
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
 msgid "Mount second rotation is complete."
 msgstr "Caliente"
 
-#: ekos/align/polaralignmentassistant.cpp:662
+#: ekos/align/polaralignmentassistant.cpp:681
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:747
+#: ekos/align/polaralignmentassistant.cpp:767
 #, kde-format
 msgid ""
 "Warning: Equatorial Grid Lines will not be drawn due to limited resources "
 "mode."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:751
+#: ekos/align/polaralignmentassistant.cpp:771
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Clearing mount Alignment Model..."
 msgstr "Farmington"
 
-#: ekos/align/polaralignmentassistant.cpp:792
+#: ekos/align/polaralignmentassistant.cpp:812
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:842
+#: ekos/align/polaralignmentassistant.cpp:862
 #, fuzzy, kde-format
 msgid "Parking the mount..."
 msgstr "Dewis Dim"
 
-#: ekos/align/polaralignmentassistant.cpp:882
+#: ekos/align/polaralignmentassistant.cpp:905
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:898
-#: ekos/align/polaralignmentassistant.cpp:904
+#: ekos/align/polaralignmentassistant.cpp:921
+#: ekos/align/polaralignmentassistant.cpp:927
 #, fuzzy, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "Methu cadw'r ddelwedd : %1 "
 
-#: ekos/align/polaralignmentassistant.cpp:930
+#: ekos/align/polaralignmentassistant.cpp:953
 #, fuzzy, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "Methu cadw'r ddelwedd : %1 "
 
-#: ekos/align/polaralignmentassistant.cpp:1001
+#: ekos/align/polaralignmentassistant.cpp:1024
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1018
+#: ekos/align/polaralignmentassistant.cpp:1041
 #, fuzzy, kde-format
 msgid "First manual rotation done."
 msgstr "Lleoliad"
 
-#: ekos/align/polaralignmentassistant.cpp:1023
+#: ekos/align/polaralignmentassistant.cpp:1046
 #, fuzzy, kde-format
 msgid "Second manual rotation done."
 msgstr "Lleoliad"
 
-#: ekos/align/polaralignmentassistant.cpp:1068
+#: ekos/align/polaralignmentassistant.cpp:1091
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1087
+#: ekos/align/polaralignmentassistant.cpp:1110
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1118
+#: ekos/align/polaralignmentassistant.cpp:1141
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "WCS data processing is complete."
 msgstr "Mae %1 ar-lein."
 
-#: ekos/align/polaralignmentassistant.cpp:1127
+#: ekos/align/polaralignmentassistant.cpp:1150
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1169
+#: ekos/align/polaralignmentassistant.cpp:1192
 #, fuzzy, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "Cysylltiad"
 
-#: ekos/align/polaralignmentassistant.cpp:1187
+#: ekos/align/polaralignmentassistant.cpp:1210
 #, fuzzy, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "Methu cadw'r ddelwedd : %1 "
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1218
+#: ekos/align/polaralignmentassistant.cpp:1241
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9984,60 +9984,60 @@ msgid ""
 "capturing the first image...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1220
+#: ekos/align/polaralignmentassistant.cpp:1243
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1222
+#: ekos/align/polaralignmentassistant.cpp:1245
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1224
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1226
+#: ekos/align/polaralignmentassistant.cpp:1249
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1228
+#: ekos/align/polaralignmentassistant.cpp:1251
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "<p>Capturing the second image...</p>"
 msgstr "llinell"
 
-#: ekos/align/polaralignmentassistant.cpp:1230
+#: ekos/align/polaralignmentassistant.cpp:1253
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1232
+#: ekos/align/polaralignmentassistant.cpp:1255
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1234
+#: ekos/align/polaralignmentassistant.cpp:1257
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1236
+#: ekos/align/polaralignmentassistant.cpp:1259
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1239
+#: ekos/align/polaralignmentassistant.cpp:1262
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1241
+#: ekos/align/polaralignmentassistant.cpp:1264
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -10046,7 +10046,7 @@ msgid ""
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1244
+#: ekos/align/polaralignmentassistant.cpp:1267
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -10055,7 +10055,7 @@ msgid ""
 "you're finished.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1246
+#: ekos/align/polaralignmentassistant.cpp:1269
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -10064,7 +10064,7 @@ msgid ""
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1262
+#: ekos/align/polaralignmentassistant.cpp:1285
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
@@ -29266,17 +29266,17 @@ msgid ""
 "ready..."
 msgstr "Caliente"
 
-#: ekos/scheduler/schedulerprocess.cpp:4707
+#: ekos/scheduler/schedulerprocess.cpp:4704
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4712
+#: ekos/scheduler/schedulerprocess.cpp:4709
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4773
+#: ekos/scheduler/schedulerprocess.cpp:4770
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
