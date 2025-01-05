@@ -1737,7 +1737,7 @@
       <default>0</default>
    </entry>
    <entry name="FitsCatObjShowNames" type="Bool">
-      <label>Whether to display object names on the Fitsviwer or not.</label>
+      <label>Whether to display object names on the FITS Viewer or not.</label>
       <default>true</default>
    </entry>
 
