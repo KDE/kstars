@@ -3482,6 +3482,7 @@ void Camera::refreshFilterSettings()
         filterManagerB->setEnabled(false);
 
         clearFilterManager();
+        process()->updateFilterInfo();
         return;
     }
 

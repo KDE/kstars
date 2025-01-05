@@ -2472,7 +2472,7 @@ void CameraProcess::updateFilterInfo()
                     }
                 }
                 // Reset filter name in CCD driver
-                else if (activeFilterText.isEmpty())
+                else if (activeFilterText.isEmpty() == false)
                 {
                     // Add debug info since this issue is reported by users. Need to know when it happens.
                     qCDebug(KSTARS_EKOS_CAPTURE) << "No active filter wheel. " << oneDevice->getDeviceName() << " ACTIVE_FILTER is reset.";
