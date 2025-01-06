@@ -1536,7 +1536,6 @@ void FocusAdvisor::resizeDialog()
     for (int i = 0; i < focusAdvTable->horizontalHeader()->count(); i++)
         width += focusAdvTable->columnWidth(i);
     const int height = focusAdvGroupBox->height() + focusAdvTable->height() + focusAdvButtonBox->height();
-    focusAdvTable->horizontalHeader()->height() + focusAdvTable->rowHeight(0);
     this->resize(width, height);
 }
 }
