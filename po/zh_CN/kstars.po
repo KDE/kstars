@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-05 01:53+0000\n"
+"POT-Creation-Date: 2025-01-06 01:57+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6494,18 +6494,18 @@ msgstr "赤纬误差(角秒)"
 msgid "Filter operation failed."
 msgstr "滤镜操作失败。"
 
-#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3938
+#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3939
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "更改焦点偏移 %1 步..."
 
 #: ekos/align/align.cpp:3677 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3943
+#: ekos/capture/camera.cpp:3944
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "更改滤镜至 %1..."
 
-#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3948
+#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3949
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "更换滤镜后自动对焦..."
@@ -13898,12 +13898,12 @@ msgstr "秒"
 msgid "frames"
 msgstr "帧"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4063
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4064
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "将作业添加到序列队列"
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4064
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4065
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "从序列队列中删除作业"
@@ -14092,33 +14092,33 @@ msgstr ""
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3600
+#: ekos/capture/camera.cpp:3601
 #, kde-format
 msgid "Paused..."
 msgstr "暂停..."
 
-#: ekos/capture/camera.cpp:3605
+#: ekos/capture/camera.cpp:3606
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "中天翻转..."
 
-#: ekos/capture/camera.cpp:3606
+#: ekos/capture/camera.cpp:3607
 #, kde-format
 msgid "Meridian flip started"
 msgstr "开始中天翻转"
 
-#: ekos/capture/camera.cpp:3610
+#: ekos/capture/camera.cpp:3611
 #, kde-format
 msgid "Flip complete."
 msgstr "翻转完成。"
 
-#: ekos/capture/camera.cpp:3670
+#: ekos/capture/camera.cpp:3671
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Ramp (°C/min):"
 
-#: ekos/capture/camera.cpp:3676
+#: ekos/capture/camera.cpp:3677
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14128,13 +14128,13 @@ msgstr ""
 "<html><body><p>制冷或加热相机时，每分钟最大的温度变化 。 设0禁用。<p>该设定读"
 "取及存储于 INDI 相机配置。</body></html>"
 
-#: ekos/capture/camera.cpp:3681
+#: ekos/capture/camera.cpp:3682
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "阈值(°C)："
 
-#: ekos/capture/camera.cpp:3687
+#: ekos/capture/camera.cpp:3688
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14144,70 +14144,70 @@ msgstr ""
 "<html><body><p>相机与目标最大温差，大于该温差时启动调节。<p>该设定读取及存储"
 "于 INDI 相机配置。</body></html>"
 
-#: ekos/capture/camera.cpp:3700
+#: ekos/capture/camera.cpp:3701
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "设置温度管控"
 
-#: ekos/capture/camera.cpp:3740
+#: ekos/capture/camera.cpp:3741
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "选择当前观测员"
 
-#: ekos/capture/camera.cpp:3742
+#: ekos/capture/camera.cpp:3743
 #, kde-format
 msgid "Current Observer:"
 msgstr "当前观测员："
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3753 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3754 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "管理观测员"
 
-#: ekos/capture/camera.cpp:3925
+#: ekos/capture/camera.cpp:3926
 #, kde-format
 msgid "Cooler is on"
 msgstr "制冷已打开"
 
-#: ekos/capture/camera.cpp:3925
+#: ekos/capture/camera.cpp:3926
 #, kde-format
 msgid "Cooler is off"
 msgstr "制冷已关闭"
 
-#: ekos/capture/camera.cpp:3955
+#: ekos/capture/camera.cpp:3956
 #, kde-format
 msgid "Filter set to %1."
 msgstr "设置过滤器为 %1。"
 
-#: ekos/capture/camera.cpp:3988
+#: ekos/capture/camera.cpp:3989
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "您确定要重置所有任务状态吗？"
 
-#: ekos/capture/camera.cpp:3988 ekos/capture/cameraprocess.cpp:2763
+#: ekos/capture/camera.cpp:3989 ekos/capture/cameraprocess.cpp:2763
 #, kde-format
 msgid "Reset job status"
 msgstr "重置任务状态"
 
-#: ekos/capture/camera.cpp:4041
+#: ekos/capture/camera.cpp:4042
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "编辑任务 #%1..."
 
-#: ekos/capture/camera.cpp:4044 ekos/scheduler/scheduler.cpp:1299
+#: ekos/capture/camera.cpp:4045 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr "应用作业更改。"
 
-#: ekos/capture/camera.cpp:4045
+#: ekos/capture/camera.cpp:4046
 #, kde-format
 msgid "Cancel job changes."
 msgstr "取消作业更改"
 
-#: ekos/capture/camera.cpp:4058
+#: ekos/capture/camera.cpp:4059
 #, kde-format
 msgid "Editing job canceled."
 msgstr "取消编辑任务"
@@ -35597,9 +35597,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, kde-format
-msgid "Whether to display object names on the Fitsviwer or not."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Automatically display received images in the FITS Viewer"
+msgid "Whether to display object names on the FITS Viewer or not."
+msgstr "自动在 FITS 查看器中显示收到图像"
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1745

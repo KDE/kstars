@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-05 01:53+0000\n"
+"POT-Creation-Date: 2025-01-06 01:57+0000\n"
 "PO-Revision-Date: 2024-11-28 20:16+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -6647,18 +6647,18 @@ msgstr "ΔДекл (дъг. сек.)"
 msgid "Filter operation failed."
 msgstr "Операцията на филтъра е неуспешна."
 
-#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3938
+#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3939
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Промяна на изместването на фокуса с %1 стъпки ..."
 
 #: ekos/align/align.cpp:3677 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3943
+#: ekos/capture/camera.cpp:3944
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Филтърът се сменя на  %1..."
 
-#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3948
+#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3949
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Автоматичен фокус при смяна на филтъра..."
@@ -14524,12 +14524,12 @@ msgstr "сек"
 msgid "frames"
 msgstr "кадри"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4063
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4064
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Добавяне на задание към опашката за последователност"
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4064
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4065
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Премахване на задание от опашката за последователност"
@@ -14732,33 +14732,33 @@ msgstr ""
 msgid "You must set local directory for Locally & Both modes."
 msgstr "Трябва да зададете локална директория за режимите Клиент и И двата."
 
-#: ekos/capture/camera.cpp:3600
+#: ekos/capture/camera.cpp:3601
 #, kde-format
 msgid "Paused..."
 msgstr "На пауза..."
 
-#: ekos/capture/camera.cpp:3605
+#: ekos/capture/camera.cpp:3606
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Обръщане на меридиана..."
 
-#: ekos/capture/camera.cpp:3606
+#: ekos/capture/camera.cpp:3607
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Обръщането на меридиана започна"
 
-#: ekos/capture/camera.cpp:3610
+#: ekos/capture/camera.cpp:3611
 #, kde-format
 msgid "Flip complete."
 msgstr "Обръщането е завършено."
 
-#: ekos/capture/camera.cpp:3670
+#: ekos/capture/camera.cpp:3671
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Рампа (°C/min):"
 
-#: ekos/capture/camera.cpp:3676
+#: ekos/capture/camera.cpp:3677
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14770,13 +14770,13 @@ msgstr ""
 "настройка се чете и съхранява в конфигурацията на драйвера на камерата INDI."
 "</body></html>"
 
-#: ekos/capture/camera.cpp:3681
+#: ekos/capture/camera.cpp:3682
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Прагова стойност (°C):"
 
-#: ekos/capture/camera.cpp:3687
+#: ekos/capture/camera.cpp:3688
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14787,70 +14787,70 @@ msgstr ""
 "температура, която задейства регулирането.<p>Тази настройка се чете и "
 "съхранява в конфигурацията на драйвера на камерата INDI.</body></html>"
 
-#: ekos/capture/camera.cpp:3700
+#: ekos/capture/camera.cpp:3701
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Задаване на температурната регулация"
 
-#: ekos/capture/camera.cpp:3740
+#: ekos/capture/camera.cpp:3741
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Избиране на текущия наблюдател"
 
-#: ekos/capture/camera.cpp:3742
+#: ekos/capture/camera.cpp:3743
 #, kde-format
 msgid "Current Observer:"
 msgstr "Текущ наблюдател:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3753 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3754 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Управление на наблюдатели"
 
-#: ekos/capture/camera.cpp:3925
+#: ekos/capture/camera.cpp:3926
 #, kde-format
 msgid "Cooler is on"
 msgstr "Охлаждането е включено"
 
-#: ekos/capture/camera.cpp:3925
+#: ekos/capture/camera.cpp:3926
 #, kde-format
 msgid "Cooler is off"
 msgstr "Охладителят е изключен"
 
-#: ekos/capture/camera.cpp:3955
+#: ekos/capture/camera.cpp:3956
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Филтърът е настроен на %1."
 
-#: ekos/capture/camera.cpp:3988
+#: ekos/capture/camera.cpp:3989
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Сигурни ли сте, че искате да нулирате състоянието на всички задачи?"
 
-#: ekos/capture/camera.cpp:3988 ekos/capture/cameraprocess.cpp:2763
+#: ekos/capture/camera.cpp:3989 ekos/capture/cameraprocess.cpp:2763
 #, kde-format
 msgid "Reset job status"
 msgstr "Нулиране на състоянието на задачата"
 
-#: ekos/capture/camera.cpp:4041
+#: ekos/capture/camera.cpp:4042
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Редактиране на задания #%1..."
 
-#: ekos/capture/camera.cpp:4044 ekos/scheduler/scheduler.cpp:1299
+#: ekos/capture/camera.cpp:4045 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr "Прилагане на промени в заданието."
 
-#: ekos/capture/camera.cpp:4045
+#: ekos/capture/camera.cpp:4046
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Отмяна на промените в заданието."
 
-#: ekos/capture/camera.cpp:4058
+#: ekos/capture/camera.cpp:4059
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Заданието за редактиране е отменено."
@@ -38143,8 +38143,9 @@ msgstr "От кой каталог да се изтеглят показвани
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, kde-format
-msgid "Whether to display object names on the Fitsviwer or not."
+#, fuzzy, kde-format
+#| msgid "Whether to display object names on the Fitsviwer or not."
+msgid "Whether to display object names on the FITS Viewer or not."
 msgstr "Дали да се показват имена на обекти на Fitsviwer или не."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-05 01:53+0000\n"
+"POT-Creation-Date: 2025-01-06 01:57+0000\n"
 "PO-Revision-Date: 2024-12-30 17:41+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -6655,18 +6655,18 @@ msgstr "dDe (arcsec)"
 msgid "Filter operation failed."
 msgstr "Filteren is mislukt!"
 
-#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3938
+#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3939
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Focus-offset wijzigen in stappen van %1..."
 
 #: ekos/align/align.cpp:3677 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3943
+#: ekos/capture/camera.cpp:3944
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Ander filter: %1..."
 
-#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3948
+#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3949
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Autofocus na filterwissel..."
@@ -14466,12 +14466,12 @@ msgstr "sec"
 msgid "frames"
 msgstr "frames"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4063
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4064
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Taak toevoegen aan wachtrij"
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4064
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4065
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Taak verwijderen uit wachtrij"
@@ -14665,33 +14665,33 @@ msgstr ""
 msgid "You must set local directory for Locally & Both modes."
 msgstr "U moet een lokale map instellen voor modi Lokaal & Beide."
 
-#: ekos/capture/camera.cpp:3600
+#: ekos/capture/camera.cpp:3601
 #, kde-format
 msgid "Paused..."
 msgstr "Tijdelijk gestopt..."
 
-#: ekos/capture/camera.cpp:3605
+#: ekos/capture/camera.cpp:3606
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Meridiaanflip..."
 
-#: ekos/capture/camera.cpp:3606
+#: ekos/capture/camera.cpp:3607
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Meridiaanflip gestart"
 
-#: ekos/capture/camera.cpp:3610
+#: ekos/capture/camera.cpp:3611
 #, kde-format
 msgid "Flip complete."
 msgstr "Flip voltooid."
 
-#: ekos/capture/camera.cpp:3670
+#: ekos/capture/camera.cpp:3671
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Variatie (°C/min):"
 
-#: ekos/capture/camera.cpp:3676
+#: ekos/capture/camera.cpp:3677
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14703,13 +14703,13 @@ msgstr ""
 "instelling wordt gelezen uit en opgeslagen in de configuratie van het "
 "stuurprogramma van de INDI-camera.</body></html>"
 
-#: ekos/capture/camera.cpp:3681
+#: ekos/capture/camera.cpp:3682
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Drempel (°C):"
 
-#: ekos/capture/camera.cpp:3687
+#: ekos/capture/camera.cpp:3688
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14720,70 +14720,70 @@ msgstr ""
 "regulering start.<p>. Deze instelling wordt gelezen uit en opgeslagen in de "
 "configuratie van het stuurprogramma van de INDI-camera</body></html>"
 
-#: ekos/capture/camera.cpp:3700
+#: ekos/capture/camera.cpp:3701
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Temperatuurregulering instellen"
 
-#: ekos/capture/camera.cpp:3740
+#: ekos/capture/camera.cpp:3741
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Selecteer huidige waarnemer"
 
-#: ekos/capture/camera.cpp:3742
+#: ekos/capture/camera.cpp:3743
 #, kde-format
 msgid "Current Observer:"
 msgstr "Huidige waarnemer:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3753 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3754 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Waarnemers beheren"
 
-#: ekos/capture/camera.cpp:3925
+#: ekos/capture/camera.cpp:3926
 #, kde-format
 msgid "Cooler is on"
 msgstr "Koeler is aan"
 
-#: ekos/capture/camera.cpp:3925
+#: ekos/capture/camera.cpp:3926
 #, kde-format
 msgid "Cooler is off"
 msgstr "Koeler is uit"
 
-#: ekos/capture/camera.cpp:3955
+#: ekos/capture/camera.cpp:3956
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Filter om %1 in te stellen"
 
-#: ekos/capture/camera.cpp:3988
+#: ekos/capture/camera.cpp:3989
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Wilt u status van alle taken werkelijk terugzetten?"
 
-#: ekos/capture/camera.cpp:3988 ekos/capture/cameraprocess.cpp:2763
+#: ekos/capture/camera.cpp:3989 ekos/capture/cameraprocess.cpp:2763
 #, kde-format
 msgid "Reset job status"
 msgstr "Taakstatus terugzetten"
 
-#: ekos/capture/camera.cpp:4041
+#: ekos/capture/camera.cpp:4042
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Taak #%1 bewerken..."
 
-#: ekos/capture/camera.cpp:4044 ekos/scheduler/scheduler.cpp:1299
+#: ekos/capture/camera.cpp:4045 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr "Taakwijzigingen toepassen."
 
-#: ekos/capture/camera.cpp:4045
+#: ekos/capture/camera.cpp:4046
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Taakwijzigingen annuleren."
 
-#: ekos/capture/camera.cpp:4058
+#: ekos/capture/camera.cpp:4059
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Taak bewerken geannuleerd."
@@ -37772,8 +37772,9 @@ msgstr "Welke catalog om te tonen objecten uit te halen."
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, kde-format
-msgid "Whether to display object names on the Fitsviwer or not."
+#, fuzzy, kde-format
+#| msgid "Whether to display object names on the Fitsviwer or not."
+msgid "Whether to display object names on the FITS Viewer or not."
 msgstr "Of objectnamen op de Fitsviewer al dan niet worden getoond."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)

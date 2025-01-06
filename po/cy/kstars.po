@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-05 01:53+0000\n"
+"POT-Creation-Date: 2025-01-06 01:57+0000\n"
 "PO-Revision-Date: 2004-02-26 16:58+0000\n"
 "Last-Translator: KD at KGyfieithu <kyfieithu@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -6802,18 +6802,18 @@ msgstr "Parsons"
 msgid "Filter operation failed."
 msgstr "Caliente"
 
-#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3938
+#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3939
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3677 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3943
+#: ekos/capture/camera.cpp:3944
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3948
+#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3949
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
@@ -14379,12 +14379,12 @@ msgstr "Rhag"
 msgid "frames"
 msgstr "Enw:"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4063
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4064
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4064
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4065
 #, fuzzy, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Dewis Dim"
@@ -14587,34 +14587,34 @@ msgstr ""
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3600
+#: ekos/capture/camera.cpp:3601
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3605
+#: ekos/capture/camera.cpp:3606
 #, fuzzy, kde-format
 msgid "Meridian Flip..."
 msgstr "Toggle display of star name labels"
 
-#: ekos/capture/camera.cpp:3606
+#: ekos/capture/camera.cpp:3607
 #, fuzzy, kde-format
 msgid "Meridian flip started"
 msgstr "Toggle display of star name labels"
 
-#: ekos/capture/camera.cpp:3610
+#: ekos/capture/camera.cpp:3611
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "gorffenwyd"
 
-#: ekos/capture/camera.cpp:3670
+#: ekos/capture/camera.cpp:3671
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3676
+#: ekos/capture/camera.cpp:3677
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14622,7 +14622,7 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3681
+#: ekos/capture/camera.cpp:3682
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Freehold"
@@ -14630,7 +14630,7 @@ msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Freehold"
 
-#: ekos/capture/camera.cpp:3687
+#: ekos/capture/camera.cpp:3688
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14638,7 +14638,7 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3700
+#: ekos/capture/camera.cpp:3701
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Tampere"
@@ -14646,70 +14646,70 @@ msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Tampere"
 
-#: ekos/capture/camera.cpp:3740
+#: ekos/capture/camera.cpp:3741
 #, fuzzy, kde-format
 #| msgid "Server"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Gweinydd"
 
-#: ekos/capture/camera.cpp:3742
+#: ekos/capture/camera.cpp:3743
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Current Observer:"
 msgstr "Gweinydd"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3753 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3754 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observers"
 msgstr "Gweinydd"
 
-#: ekos/capture/camera.cpp:3925
+#: ekos/capture/camera.cpp:3926
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3925
+#: ekos/capture/camera.cpp:3926
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3955
+#: ekos/capture/camera.cpp:3956
 #, fuzzy, kde-format
 #| msgid "File saved."
 msgid "Filter set to %1."
 msgstr "Cadwyd y ffeil."
 
-#: ekos/capture/camera.cpp:3988
+#: ekos/capture/camera.cpp:3989
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove %1?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "A ydych yn sicr eich bod am waredu %1?"
 
-#: ekos/capture/camera.cpp:3988 ekos/capture/cameraprocess.cpp:2763
+#: ekos/capture/camera.cpp:3989 ekos/capture/cameraprocess.cpp:2763
 #, fuzzy, kde-format
 msgid "Reset job status"
 msgstr "Lleoliad"
 
-#: ekos/capture/camera.cpp:4041
+#: ekos/capture/camera.cpp:4042
 #, fuzzy, kde-format
 #| msgid "Edit..."
 msgid "Editing job #%1..."
 msgstr "Golygu..."
 
-#: ekos/capture/camera.cpp:4044 ekos/scheduler/scheduler.cpp:1299
+#: ekos/capture/camera.cpp:4045 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:4045
+#: ekos/capture/camera.cpp:4046
 #, fuzzy, kde-format
 msgid "Cancel job changes."
 msgstr "Constellation names:"
 
-#: ekos/capture/camera.cpp:4058
+#: ekos/capture/camera.cpp:4059
 #, fuzzy, kde-format
 #| msgid "Edit..."
 msgid "Editing job canceled."
@@ -36957,9 +36957,11 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, kde-format
-msgid "Whether to display object names on the Fitsviwer or not."
-msgstr ""
+#, fuzzy, kde-format
+#| msgctxt "Image/info menu item (should be translated)"
+#| msgid "Welcome to Mars!"
+msgid "Whether to display object names on the FITS Viewer or not."
+msgstr "Croeso i Fawrth!"
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1745
