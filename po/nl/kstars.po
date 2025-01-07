@@ -8,14 +8,14 @@
 # Jaap Woldringh <jjhwoldringh@kde.nl>, 2004-2015, 2016, 2017, 2018, 2019, 2020.
 # Tom Albers <tomalbers@kde.nl>, 2004.
 # Bram Schoenmakers <bramschoenmakers@kde.nl>, 2005-2007.
-# SPDX-FileCopyrightText: 2009, 2010, 2013-2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Freek de Kruijf <freekdekruijf@kde.nl>
+# SPDX-FileCopyrightText: 2009, 2010, 2013-2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Freek de Kruijf <freekdekruijf@kde.nl>
 # Kristof Bal <kristof.bal@gmail.com>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-06 01:57+0000\n"
-"PO-Revision-Date: 2024-12-30 17:41+0100\n"
+"PO-Revision-Date: 2025-01-06 13:44+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -37772,10 +37772,9 @@ msgstr "Welke catalog om te tonen objecten uit te halen."
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, fuzzy, kde-format
-#| msgid "Whether to display object names on the Fitsviwer or not."
+#, kde-format
 msgid "Whether to display object names on the FITS Viewer or not."
-msgstr "Of objectnamen op de Fitsviewer al dan niet worden getoond."
+msgstr "Of objectnamen op de FITS-viewer al dan niet worden getoond."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1745

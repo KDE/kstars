@@ -1,6 +1,6 @@
 # translation of kstars.po to galician
 #
-# SPDX-FileCopyrightText: 2023, 2024 Adrián Chaves (Gallaecio)
+# SPDX-FileCopyrightText: 2023, 2024, 2025 Adrián Chaves (Gallaecio)
 # mvillarino <mvillarino@users.sourceforge.net>, 2006, 2008, 2009.
 # Xabi G. Feal <xabigf@gmx.net>, 2006, 2007.
 # Xosé <xosecalvo@gmail.com>, 2008, 2009, 2010, 2011, 2012, 2013.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-06 01:57+0000\n"
-"PO-Revision-Date: 2024-12-31 09:32+0100\n"
+"PO-Revision-Date: 2025-01-06 20:36+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -29222,24 +29222,26 @@ msgstr[1] ""
 "O traballo «%1» completouse %2 lotes antes da hora de finalización, "
 "reiniciouse."
 
+# skip-rule: trasno-enable_reverse
 #: ekos/scheduler/schedulerprocess.cpp:496
 #, kde-format
 msgid "Scheduler is awake."
-msgstr "O planificador saíu do modo de espera."
+msgstr "O planificador está activo."
 
+# skip-rule: trasno-enable_reverse
 #: ekos/scheduler/schedulerprocess.cpp:502
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when ready..."
 msgstr ""
-"O planificador saíu do modo de espera. As tarefas iniciaranse en canto estea "
-"preparado…"
+"O planificador está activo. As tarefas iniciaranse en canto estea preparado…"
 
+# skip-rule: trasno-enable_reverse
 #: ekos/scheduler/schedulerprocess.cpp:504
 #, kde-format
 msgid "Scheduler is awake. Jobs shall be started when scheduler is resumed."
 msgstr ""
-"O planificador saíu do modo de espera. As tarefas iniciaranse en canto se "
-"continúe o planificador…"
+"O planificador está activo. As tarefas iniciaranse en canto se continúe o "
+"planificador…"
 
 #: ekos/scheduler/schedulerprocess.cpp:541
 #, kde-format
@@ -37950,8 +37952,7 @@ msgstr "De que catálogo obter os obxectos para amosar."
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, fuzzy, kde-format
-#| msgid "Whether to display object names on the Fitsviwer or not."
+#, kde-format
 msgid "Whether to display object names on the FITS Viewer or not."
 msgstr "Se amosar os nomes dos obxectos no visor de FITS ou non."
 

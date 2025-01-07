@@ -10,13 +10,13 @@
 # Hasan Kıran <sunder67@hotmail.com>, 2013.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2015, 2017, 2018, 2021.
 # Kaan Özdinçer <kaanozdincer@gmail.com>, 2014.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-06 01:57+0000\n"
-"PO-Revision-Date: 2024-12-30 20:16+0300\n"
+"PO-Revision-Date: 2025-01-06 15:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -37716,8 +37716,7 @@ msgstr "Görüntü nesnelerinin hangi katalogdan çekileceği."
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, fuzzy, kde-format
-#| msgid "Whether to display object names on the Fitsviwer or not."
+#, kde-format
 msgid "Whether to display object names on the FITS Viewer or not."
 msgstr ""
 "FITS Görüntüleyicisi’nde nesne adlarının görüntülenip görüntülenmeyeceği."

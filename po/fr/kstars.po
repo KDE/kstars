@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: kstars_3.7.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-06 01:57+0000\n"
-"PO-Revision-Date: 2024-12-17 10:12+0100\n"
+"PO-Revision-Date: 2025-01-06 07:38+0100\n"
 "Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -5292,7 +5292,7 @@ msgstr "Calcul du champ de vision"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:169
 #, kde-format
 msgid "Camera"
-msgstr "Caméra"
+msgstr "Appareil"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5_2)
 #: dialogs/newfov.ui:443
@@ -6660,7 +6660,7 @@ msgstr "Nouvel essai d'acquisition #%1"
 #, kde-format
 msgctxt "@title:window"
 msgid "Align Frame"
-msgstr "Aligner des trames"
+msgstr "Aligner les poses"
 
 #: ekos/align/align.cpp:3512
 #, kde-format
@@ -9990,7 +9990,7 @@ msgstr "Le traitement des données WCS est terminé."
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 "Les informations WCS sont maintenant valables. Acquisition de la prochaine "
-"trame…"
+"pose…"
 
 #: ekos/align/polaralignmentassistant.cpp:1192
 #, kde-format
@@ -10690,7 +10690,7 @@ msgstr "Soustraction"
 #: ekos/analyze/analyze.cpp:3480 ekos/ekos.h:27
 #, kde-format
 msgid "Subframing"
-msgstr "Sous-trame"
+msgstr "En cours de pose"
 
 #: ekos/analyze/analyze.cpp:3482 ekos/ekos.h:28
 #, kde-format
@@ -11957,7 +11957,7 @@ msgstr "En cours…"
 #: ekos/auxiliary/darklibrary.cpp:1366
 #, kde-format
 msgid "Failed to save master frame: %1"
-msgstr "Impossible d'enregistrer la trame maître : %1"
+msgstr "Impossible d'enregistrer la pose maître : %1"
 
 #: ekos/auxiliary/darklibrary.cpp:1387
 #, kde-format
@@ -12086,7 +12086,7 @@ msgstr "4x4"
 #: ekos/capture/camera.ui:1686 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
-msgstr "Nombre de trames"
+msgstr "Nombre de poses"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_34)
@@ -14512,7 +14512,7 @@ msgstr "Durée d'exposition du flat"
 #: ekos/capture/calibrationoptions.ui:156
 #, kde-format
 msgid "Use the frame exposure value"
-msgstr "Utiliser la valeur d'exposition de trame"
+msgstr "Utiliser la valeur d'exposition de la pose"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
 #: ekos/capture/calibrationoptions.ui:159
@@ -14596,7 +14596,7 @@ msgstr "sec"
 #: ekos/guide/opsdither.ui:170 ekos/scheduler/opsalignmentsettings.ui:82
 #, kde-format
 msgid "frames"
-msgstr "trames"
+msgstr "Poses"
 
 #: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4064
 #, kde-format
@@ -14632,7 +14632,7 @@ msgstr "Acquisition d'une trame %2 de %1 secondes…"
 #: ekos/capture/camera.cpp:834
 #, kde-format
 msgid "Capturing %1-second %2 image..."
-msgstr "Acquisition d'une trame %2 de %1 secondes…"
+msgstr "Acquisition d'une pose %2 de %1 secondes…"
 
 #: ekos/capture/camera.cpp:906
 #, kde-format
@@ -14668,7 +14668,7 @@ msgstr "Les modifications ont été appliquées pour la tâche #%1."
 #: ekos/capture/camera.cpp:1002
 #, kde-format
 msgid "Framing..."
-msgstr "Mise en trame…"
+msgstr "En cours de pose…"
 
 #: ekos/capture/camera.cpp:1013
 #, kde-format
@@ -15523,7 +15523,7 @@ msgstr ""
 "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Paramètre<span style=\" "
 "font-weight:704;\"> %T</span> ou <span style=\" font-weight:704;\">%Type</"
-"span> : le type de trame, par exemple : « Light », « Bias », « Dark », "
+"span> : le type de pose, par exemple : « Light », « Bias », « Dark », "
 "« Flat »…</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Paramètre<span style=\" font-weight:704;\"> %e</span> ou <span style=\" "
@@ -15692,7 +15692,7 @@ msgstr "En boucle"
 #: ekos/capture/camera.ui:2406
 #, kde-format
 msgid "Start Framing (Looping)..."
-msgstr "Démarrer l'acquisition de trames (en boucle)…"
+msgstr "Démarrer l'acquisition de poses (en boucle)…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
 #: ekos/capture/camera.ui:2447
@@ -15837,7 +15837,7 @@ msgstr ""
 #: ekos/capture/cameraprocess.cpp:322
 #, kde-format
 msgid "Starting framing..."
-msgstr "Démarrage de l'acquisition des trames…"
+msgstr "Démarrage des poses…"
 
 #: ekos/capture/cameraprocess.cpp:352
 #, kde-format
@@ -15893,8 +15893,8 @@ msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
 "need to run."
 msgstr ""
-"La tâche nécessite des trames %2 de %1 secondes. Elle en a déjà acquis %3/%4 "
-"et n'a pas besoin d'être lancée."
+"La tâche nécessite des poses %2 de %1 secondes. Elle en a déjà %3/%4 et n'a "
+"pas besoin d'être lancée."
 
 #: ekos/capture/cameraprocess.cpp:592
 #, kde-format
@@ -15902,8 +15902,8 @@ msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
 "processed."
 msgstr ""
-"La tâche nécessite des trames %2 de %1 secondes. Elle en a déjà acquis %3/%4 "
-"qui vont être traitées."
+"La tâche nécessite des poses %2 de %1 secondes. Elle en a déjà %3/%4 qui "
+"vont être traitées."
 
 #: ekos/capture/cameraprocess.cpp:605
 #, fuzzy, kde-format
@@ -15923,7 +15923,7 @@ msgstr "Reprise du guidage automatique."
 #: ekos/capture/cameraprocess.cpp:878
 #, kde-format
 msgid "Failed to set sub frame."
-msgstr "Impossible de définir une trame."
+msgstr "Impossible de définir une pose."
 
 #: ekos/capture/cameraprocess.cpp:883
 #, kde-format
@@ -15997,7 +15997,7 @@ msgstr ""
 #: ekos/capture/cameraprocess.cpp:1775
 #, kde-format
 msgid "Received image %1 out of %2."
-msgstr "Trame %1 sur %2 reçue"
+msgstr "Pose %1 sur %2 reçue"
 
 #: ekos/capture/cameraprocess.cpp:1809
 #, kde-format
@@ -16637,7 +16637,7 @@ msgstr "Lumière rouge"
 #: ekos/capture/captureprocessoverlay.ui:371
 #, kde-format
 msgid "<html><head/><body><p>Delete current frame</p></body></html>"
-msgstr "<html><head/><body><p>Supprimez la trame courante</p></body></html>"
+msgstr "<html><head/><body><p>Supprimez la pose courante</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, geometryValue)
 #: ekos/capture/captureprocessoverlay.ui:421
@@ -16832,7 +16832,7 @@ msgstr "Lire la constante de bruit"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:375
 #, kde-format
 msgid "Noise in the sub-exposure from light pollution"
-msgstr "Bruit de la trame provenant de la pollution lumineuse"
+msgstr "Bruit de la pose provenant de la pollution lumineuse"
 
 #. i18n: ectx: property (text), widget (QLabel, subTotalNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:391
@@ -16850,25 +16850,25 @@ msgstr "Électrons de pollution"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:417
 #, kde-format
 msgid "Total noise in the sub-exposure (light pollution + read-noise)"
-msgstr "Bruit total des trames (pollution lumineuse + bruit de lecture)"
+msgstr "Bruit total des poses (pollution lumineuse + bruit de lecture)"
 
 #. i18n: ectx: property (text), widget (QLabel, subShotNoiseLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:433
 #, kde-format
 msgid "Shot Noise"
-msgstr "Bruit de la trame"
+msgstr "Bruit de la pose"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subPollutionElectrons)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:452
 #, kde-format
 msgid "Estimated light pollution electrons in the sub-exposure."
-msgstr "Nombre estimé d'électrons de pollution des trames."
+msgstr "Nombre estimé d'électrons de pollution des poses."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, subExposureTime)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:506
 #, kde-format
 msgid "Duration of Sub-exposure"
-msgstr "Durée de la trame"
+msgstr "Durée de la pose"
 
 #. i18n: ectx: property (text), widget (QLabel, subTimeLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:522
@@ -17045,7 +17045,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Si le décalage de pixels (dithering) global est "
-"activé, décaler toutes les N trames pour cette tâche. Réglez à 0 pour "
+"activé, décaler toutes les N poses pour cette tâche. Réglez à 0 pour "
 "utiliser la fréquence globale de décalage.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceGuideDeviation)
@@ -17207,7 +17207,7 @@ msgid ""
 "Check may result in an Autofocus.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Cochez pour réaliser une vérification du HFR entre les "
-"trames. La vérification peut déclencher une mise au point automatique.</p></"
+"poses. La vérification peut déclencher une mise au point automatique.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusHFR)
@@ -17220,8 +17220,7 @@ msgstr "Nouvelle mise au point avec ΔHFR. Utilisez :"
 #: ekos/capture/limits.ui:305
 #, kde-format
 msgid "Run in-sequence HFR check after this many frames."
-msgstr ""
-"Exécuter une vérification HFR en suivant après ce certain nombre de trames."
+msgstr "Exécuter une vérification HFR en suivant après ce nombre de poses."
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/capture/limits.ui:308
@@ -17237,7 +17236,7 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>Réaliser une vérification du HFR après cette quantité "
-"de trames.</p></body></html>"
+"de poses.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, hFRThresholdPercentage)
 #: ekos/capture/limits.ui:331
@@ -17283,7 +17282,7 @@ msgstr ""
 #: ekos/capture/limits.ui:413
 #, kde-format
 msgid "frames.   HFR:"
-msgstr "trames. HFR :"
+msgstr "poses. HFR :"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsDslrSettings)
 #. i18n: ectx: property (windowTitle), widget (QWidget, OpsMiscSettings)
@@ -17879,7 +17878,7 @@ msgstr "Échec du parcage de la monture. Annulation…"
 #: ekos/capture/sequencejobstate.cpp:528
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
-msgstr "Parcage de la monture avant l'acquisition des trames de calibration…"
+msgstr "Parcage de la monture avant l'acquisition des poses de calibration…"
 
 #: ekos/capture/sequencejobstate.cpp:547
 #, kde-format
@@ -17889,7 +17888,7 @@ msgstr "Échec du parcage du dôme. Annulation…"
 #: ekos/capture/sequencejobstate.cpp:557
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
-msgstr "Parcage du dôme avant acquisition des trames de calibration…"
+msgstr "Parcage du dôme avant acquisition des poses de calibration…"
 
 #: ekos/capture/sequencejobstate.cpp:819
 #, kde-format
@@ -19376,7 +19375,7 @@ msgstr ""
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
-"Échec de la détection d'une étoile. Réinitialiser la trame et essayer à "
+"Échec de la détection d'une étoile. Réinitialiser la pose et essayer à "
 "nouveau."
 
 #: ekos/focus/focus.cpp:3360
@@ -19620,7 +19619,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
-msgstr "Trame de mise au point"
+msgstr "Pose de mise au point"
 
 #: ekos/focus/focus.cpp:5610
 #, kde-format
@@ -19657,13 +19656,13 @@ msgstr "Acquérir une image"
 #: ekos/scheduler/scheduler.ui:193
 #, kde-format
 msgid "Steps:"
-msgstr "Positions"
+msgstr "Étapes"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startLoopB)
 #: ekos/focus/focus.ui:228
 #, kde-format
 msgid "Start framing"
-msgstr "Démarrer l'acquisition des trames en boucle"
+msgstr "Démarrer l'acquisition des poses en boucle"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/focus/focus.ui:248
@@ -19801,8 +19800,7 @@ msgstr "ΔT ="
 #: ekos/focus/focus.ui:870
 #, kde-format
 msgid "Reset focus subframe to full capture"
-msgstr ""
-"Réinitialiser la sous-trame de mise au point à une acquisition complète."
+msgstr "Réinitialiser la pose de mise au point à une acquisition complète."
 
 #. i18n: ectx: property (title), widget (QGroupBox, toolsGroup)
 #: ekos/focus/focus.ui:893
@@ -19838,7 +19836,7 @@ msgid ""
 "completion of the current subframe.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Cochez pour forcer une mise au point automatique à ce "
-"point dans la séquence à la fin de cette trame.</p></body></html>"
+"point dans la séquence à la fin de cette pose.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, forceInSeqAF)
 #: ekos/focus/focus.ui:935
@@ -19866,7 +19864,7 @@ msgid ""
 "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Valeur moyenne du HFR pour la dernière trame</p></"
+"<html><head/><body><p>Valeur moyenne du HFR pour la dernière pose</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
@@ -19882,7 +19880,7 @@ msgid ""
 "<html><head/><body><p>Averaged FWHM value from the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Valeur moyenne de la FWHM de la dernière trame.</p></"
+"<html><head/><body><p>Valeur moyenne de la FWHM de la dernière pose.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -19898,8 +19896,8 @@ msgid ""
 "<html><head/><body><p>Number of stars found in the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Nombre d'étoiles détectées dans la dernière trame.</"
-"p></body></html>"
+"<html><head/><body><p>Nombre d'étoiles détectées dans la dernière pose.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/focus/focus.ui:1159
@@ -20483,13 +20481,13 @@ msgstr ""
 "span>. Pour <span style=\"font-weight:600;\">Linéaire</span>, seul <span "
 "style=\"font-weight:600;\">Classique</span> est disponible.</p><p><span "
 "style=\"font-weight:600;\">Classique</span> : aucun extérieur &quot; "
-"Multiple de pas extérieur &quot;, prend une trame et ensuite se déplace vers "
-"l'intérieur à un taux constant de taille de pas en prenant une trame et en "
+"Multiple de pas extérieur &quot;, prend une pose et ensuite se déplace vers "
+"l'intérieur à un taux constant de taille de pas en prenant une pose et en "
 "l'analysant à chaque étape. Le point exact d'arrêt de la passe dépend des "
 "données, ainsi cette méthode tolère un point de départ plus éloigné de la "
 "position de mise au point, mais au prix de davantage d'étapes.</p><p><span "
 "style=\"font-weight:600;\">Étapes fixes</span> : le moteur se déplace de la "
-"moitié de &quot;Nombre de pas &quot;, prend une trame et ensuite se déplace "
+"moitié de &quot;Nombre de pas &quot;, prend une pose et ensuite se déplace "
 "d'exactement &quot;Nombre de pas &quot;. Cette méthode nécessite de débuter "
 "près de la position de mise au point pour être efficace mais au bénéfice "
 "d'être prévisible en nombre d'étapes.</p><p><span style=\"font-weight:600;"
@@ -20761,7 +20759,7 @@ msgid ""
 "<html><head/><body><p>Number of frames to capture at each focuser position.</"
 "p></body></html>"
 msgstr ""
-"<html><body><p>Nombre de trames à acquérir pour chaque position du moteur de "
+"<html><body><p>Nombre de poses à acquérir pour chaque position du moteur de "
 "mise au point.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusFramesCount)
@@ -20769,7 +20767,7 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:174 ekos/focus/opsfocusprocess.ui:448
 #, kde-format
 msgid " frames"
-msgstr " trames"
+msgstr " poses"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusR2Limit)
 #: ekos/focus/opsfocusprocess.ui:190
@@ -21241,9 +21239,9 @@ msgid ""
 "Linear 1 Pass, the point of optimum focus will also capture this number of "
 "frames."
 msgstr ""
-"Nombre de trames à acquérir pendant une vérification HFR. Pour l'algorithme "
-"linéaire à une passe, ce nombre de trames sera également acquis à la "
-"position optimale de mise au point."
+"Nombre de poses à acquérir pendant une vérification HFR. Pour l'algorithme "
+"linéaire à une passe, ce nombre de poses sera également acquis à la position "
+"optimale de mise au point."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
 #: ekos/focus/opsfocusprocess.ui:490
@@ -21460,7 +21458,7 @@ msgid ""
 "selected.  Check to allow Ekos to select a single star for focus; uncheck to "
 "allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cette option n'est active que quand sous-trame est "
+"<html><head/><body><p>Cette option n'est active que quand Pose est "
 "sélectionnée. Cochez cette case pour permettre à Ekos de choisir une seule "
 "étoile pour la mise au point. ; décochez-là pour permettre à l'opérateur de "
 "choisir lui-même l'étoile à utiliser dans l'afficheur Fits.</p></body></html>"
@@ -21481,7 +21479,7 @@ msgid ""
 "of all stars detected to perform focus. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Sélection de Plein champ pour permettre à la mise au "
-"point d'utiliser plusieurs étoiles (note : sous-trame n'utilise qu'une seule "
+"point d'utiliser plusieurs étoiles (note : Pose n'utilise qu'une seule "
 "étoile). Dans ce mode, Ekos utilisera automatiquement plusieurs étoiles pour "
 "la mise au point et, par exemple, fera une moyenne du HFR de toutes les "
 "étoiles détectées pour réaliser la mise au point.</p></body></html>"
@@ -21514,7 +21512,7 @@ msgstr "Unités d'affichage"
 #: ekos/focus/opsfocussettings.ui:130
 #, kde-format
 msgid "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
-msgstr "<html><body><p>Taille en pixels des sous-trames.</p></body></html>"
+msgstr "<html><body><p>Taille en pixels des poses.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
@@ -21533,7 +21531,7 @@ msgid ""
 "or to allow the user to manually select the star in FitsViewer (when "
 "unchecked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Sélection de la trame de mise au point pour n'utiliser "
+"<html><head/><body><p>Sélection de la pose de mise au point pour n'utiliser "
 "qu'une seule étoile (note : le plein champ utilise plusieurs étoiles). Dans "
 "ce mode, la case à cocher Sélection automatique devient active pour "
 "permettre à Ekos de choisir une étoile (quand cochée) ou pour permettre à "
@@ -21544,7 +21542,7 @@ msgstr ""
 #: ekos/focus/opsfocussettings.ui:164
 #, kde-format
 msgid "Sub Frame"
-msgstr "Sous-trame"
+msgstr "Pose"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGuideSettleTime)
 #: ekos/focus/opsfocussettings.ui:180
@@ -21742,8 +21740,8 @@ msgid ""
 "<html><head/><body><p>Enable Adaptive Focus between subframes. This is an "
 "experimental feature.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Activer la mise au point adaptative entre les sous-"
-"trames. Cette fonctionnalité est encore expérimentale.</p></body></html>"
+"<html><head/><body><p>Activer la mise au point adaptative entre les poses. "
+"Cette fonctionnalité est encore expérimentale.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
 #: ekos/focus/opsfocussettings.ui:541
@@ -22152,7 +22150,7 @@ msgid ""
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
 "La caméra courante pour PHD2 : %1 n'est pas connectée à Ekos. L'image de "
-"l'étoile guide de PHD2 sera reçue mais pas les trames complètes."
+"l'étoile guide de PHD2 sera reçue mais pas les poses complètes."
 
 #: ekos/guide/guide.cpp:430
 #, kde-format
@@ -22162,9 +22160,8 @@ msgid ""
 "using the SubFrame checkbox."
 msgstr ""
 "La caméra actuelle PHD2 %1 est connectée à Ekos. Vous pouvez choisir "
-"d'utiliser des trames complètes externes de guidage ou de ne recevoir que "
-"l'image d'une étoile de guidage PHD2 en utilisant la case à cocher « Sous-"
-"trame »."
+"d'utiliser des poses complètes externes de guidage ou de ne recevoir que "
+"l'image d'une étoile de guidage PHD2 en utilisant la case à cocher « Poses »."
 
 #: ekos/guide/guide.cpp:578
 #, kde-format
@@ -22372,9 +22369,9 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 "Pour recevoir des images de PHD2 autre que l'image de l'étoile de guidage, "
-"le paramètre « Sous-trame » doit être désactivé. Sa désactivation vous "
-"permet maintenant de faire des acquisitions d'images. Vous pouvez le "
-"réactiver avant le guidage."
+"le paramètre Pose doit être désactivé. Sa désactivation vous permet "
+"maintenant de faire des acquisitions d'images. Vous pouvez le réactiver "
+"avant le guidage."
 
 #: ekos/guide/guide.cpp:3204
 #, kde-format
@@ -22430,20 +22427,20 @@ msgid ""
 "it to take a full frame again. <br/>Please note: 'SEP Multi Star' <span "
 "style=\" font-weight:600;\">cannot</span> use subframe.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Utiliser des sous-trames de l'image autour de l'étoile "
-"de guidage. Ou, avec PHD2, recevez l'image de l'étoile de guidage au lieu de "
-"la trame complète de l'image. Pour l'assistant de guidage interne, avant de "
-"cocher cette option, vous devez <span style=\" font-weight:600;\">d'abord</"
-"span> acquérir une image et sélectionner une étoile de guidage. Décochez "
-"cette option pour recevoir une trame complète à nouveau.<br/>Veuillez noter "
-"que SEP Multi Star ne peut <span style=\"font-weight:600;\">pas</span> "
-"utiliser de sous-trames.</p></body></html>"
+"<html><head/><body><p>Utiliser une partie de la pose de l'image autour de "
+"l'étoile de guidage. Ou, avec PHD2, recevez l'image de l'étoile de guidage "
+"au lieu de la pose complète de l'image. Pour l'assistant de guidage interne, "
+"avant de cocher cette option, vous devez <span style=\" font-weight:600;"
+"\">d'abord</span> acquérir une image et sélectionner une étoile de guidage. "
+"Décochez cette option pour recevoir une pose complète à nouveau.<br/"
+">Veuillez noter que SEP Multi Star ne peut <span style=\"font-weight:600;"
+"\">pas</span> utiliser de partie de la pose.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:279
 #, kde-format
 msgid "Subframe"
-msgstr "Sous-trame"
+msgstr "Pose"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eastRAGuideEnabled)
 #: ekos/guide/guide.ui:301
@@ -22981,12 +22978,12 @@ msgstr "Étoile trouvée pour le guidage."
 #: ekos/guide/internalguide/calibrationprocess.cpp:202
 #, kde-format
 msgid "Calibrating RA Out"
-msgstr "Calibration AD extérieur en cours"
+msgstr "Calibration AD vers l'extérieur en cours"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:241
 #, kde-format
 msgid "RA drifting reverse..."
-msgstr "Dérive AD inversée…"
+msgstr "Dérive AD en arrière…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:247
 #: ekos/guide/internalguide/calibrationprocess.cpp:385
@@ -23002,12 +22999,12 @@ msgstr ""
 #: ekos/guide/internalguide/calibrationprocess.cpp:250
 #, kde-format
 msgid "Calibration Failed: Drift too short."
-msgstr "Échec de la calibration : décalage trop court."
+msgstr "Échec de la calibration : dérive trop courte."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:279
 #, kde-format
 msgid "Calibrating RA In"
-msgstr "Calibration AD Intérieur en cours"
+msgstr "Calibration AD vers l'intérieur en cours"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:336
 #, kde-format
@@ -23044,23 +23041,23 @@ msgstr "Dérive DEC en avant…"
 #: ekos/guide/internalguide/calibrationprocess.cpp:604
 #, kde-format
 msgid "Calibration Failed: drift too short."
-msgstr "Échec de la calibration : décalage trop court."
+msgstr "Échec de la calibration : dérive trop courte."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:408
 #: ekos/guide/internalguide/calibrationprocess.cpp:425
 #, kde-format
 msgid "Calibrating DEC Backlash"
-msgstr "Calibration de la réaction DEC en cours"
+msgstr "Calibration du jeu en DEC en cours"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:434
 #, kde-format
 msgid "Calibrating DEC Out"
-msgstr "Calibration DEC Extérieur en cours"
+msgstr "Calibration DEC vers l'extérieur en cours"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:470
 #, kde-format
 msgid "DEC drifting reverse..."
-msgstr "Dérive DEC inversée…"
+msgstr "Dérive DEC en arrière…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:480
 #: ekos/guide/internalguide/calibrationprocess.cpp:568
@@ -23087,7 +23084,7 @@ msgstr[1] ""
 #: ekos/guide/internalguide/calibrationprocess.cpp:513
 #, kde-format
 msgid "Calibrating DEC In"
-msgstr "Calibration DEC Intérieur en cours"
+msgstr "Calibration DEC vers l'intérieur en cours"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:586
 #, kde-format
@@ -23495,8 +23492,7 @@ msgstr ""
 #: ekos/guide/opsdither.ui:99
 #, kde-format
 msgid "Move locked guiding square location after frame capture"
-msgstr ""
-"Déplacer le carré de guidage verrouillé après l'acquisition de la trame"
+msgstr "Déplacer le carré de guidage verrouillé après l'acquisition de la pose"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherThreshold)
 #: ekos/guide/opsdither.ui:116
@@ -23518,7 +23514,7 @@ msgstr "Délai décalage PHD2"
 #: ekos/guide/opsdither.ui:157 ekos/guide/opsdither.ui:177
 #, kde-format
 msgid "Dither after this many captured frames in the CCD module"
-msgstr "Décaler après ce nombre de trames acquises dans le module CCD."
+msgstr "Décaler après ce nombre de poses dans le module CCD."
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/guide/opsdither.ui:180 fitsviewer/fitshistogram.cpp:431
@@ -23740,7 +23736,7 @@ msgstr ""
 #: ekos/guide/opsgpg.ui:169
 #, kde-format
 msgid "Intra-frame dark guiding"
-msgstr "Guidage dark intra-trame"
+msgstr "Guidage à l'aide d'une partie de la pose dark"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgs1a)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GPGEstimatePeriod)
@@ -24736,37 +24732,37 @@ msgstr "Le périphérique %1 est connecté."
 #: ekos/manager.cpp:1659
 #, kde-format
 msgid "%1 filter is online."
-msgstr "Le filtre %1 est connecté."
+msgstr "Le périphérique %1 est connecté."
 
 #: ekos/manager.cpp:1668
 #, kde-format
 msgid "%1 focuser is online."
-msgstr "Le moteur de mise au point %1 est connecté."
+msgstr "Le module moteur de mise au point du périphérique %1 est connecté."
 
 #: ekos/manager.cpp:1675
 #, kde-format
 msgid "Rotator %1 is online."
-msgstr "Le rotateur %1 est connecté."
+msgstr "Le module rotateur du périphérique %1 est connecté."
 
 #: ekos/manager.cpp:1691
 #, kde-format
 msgid "%1 Weather is online."
-msgstr "La météo %1 est connectée."
+msgstr "Le module météo du périphérique %1 est connectée."
 
 #: ekos/manager.cpp:1698
 #, kde-format
 msgid "%1 GPS is online."
-msgstr "Le GPS %1 est connecté."
+msgstr "Le module GPS du périphérique %1 est connecté."
 
 #: ekos/manager.cpp:1707
 #, kde-format
 msgid "%1 Dust cap is online."
-msgstr "Le bouchon anti-poussière %1 est connecté."
+msgstr "Le module capuchon du périphérique %1 est connecté."
 
 #: ekos/manager.cpp:1714
 #, kde-format
 msgid "%1 Light box is online."
-msgstr "La boîte à lumière %1 est connectée."
+msgstr "Le module boîte à lumière du périphérique %1 est connectée."
 
 #: ekos/manager.cpp:1864
 #, kde-format
@@ -24782,7 +24778,7 @@ msgstr "CCD"
 #: ekos/manager.cpp:2487
 #, kde-format
 msgid "Guider port from %1 is ready."
-msgstr "Le port du guide depuis %1 est prêt."
+msgstr "Le port du guide de %1 est prêt."
 
 #: ekos/manager.cpp:2676
 #, kde-format
@@ -25613,7 +25609,7 @@ msgstr "Erreur %1. Veuillez consulter le journal INDI pour plus de détails."
 #: ekos/observatory/observatory.cpp:335 ekos/observatory/observatory.cpp:342
 #, kde-format
 msgid "Rolloff roof"
-msgstr "Rouler le toit"
+msgstr "Toit à l'arret"
 
 #: ekos/observatory/observatory.cpp:265
 #, kde-format
@@ -25656,7 +25652,7 @@ msgstr "Dé-parquer"
 #: ekos/observatory/observatory.cpp:294
 #, kde-format
 msgid "Rolloff roof is closing..."
-msgstr "Fermeture du toit en cours…"
+msgstr "Fermeture du toit…"
 
 #: ekos/observatory/observatory.cpp:298
 #, kde-format
@@ -26598,7 +26594,7 @@ msgstr "Aux 4"
 #: ekos/profileeditor.ui:460
 #, kde-format
 msgid "Camera 2:"
-msgstr "Caméra 2"
+msgstr "Caméra guide"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, aux1Label)
 #: ekos/profileeditor.ui:467
@@ -26677,7 +26673,7 @@ msgstr "Aux 2"
 #: ekos/profileeditor.ui:621
 #, kde-format
 msgid "Camera 1:"
-msgstr "Caméra 1"
+msgstr "Caméra imageur"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, weatherLabel)
 #: ekos/profileeditor.ui:691
@@ -27271,7 +27267,7 @@ msgid ""
 "<html><head/><body><p align=\"justify\">Width of the frame produced by the "
 "camera, in pixels.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Largeur de la trame produite par la "
+"<html><head/><body><p align=\"justify\">Largeur de la pose produite par la "
 "caméra, en pixels.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, cameraWSpin)
@@ -27289,7 +27285,7 @@ msgid ""
 "<html><head/><body><p align=\"justify\">Height of the frame produced by the "
 "camera, in pixels.</p></body></html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Hauteur de la trame produite par la "
+"<html><head/><body><p align=\"justify\">Hauteur de la pose produite par la "
 "caméra, en pixels.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
@@ -28342,7 +28338,7 @@ msgid ""
 msgstr ""
 "Nombre d'images enregistrées pour la tâche, en fonction de la séquence de la "
 "tâche.\n"
-"Il s'agit d'un résumé, d'autres types de trames spécifiques peuvent être "
+"Il s'agit d'un résumé, d'autres types de poses spécifiques peuvent être "
 "nécessaires pour terminer le travail."
 
 #: ekos/scheduler/scheduler.cpp:184
@@ -29987,22 +29983,22 @@ msgid ""
 "Job '%1' is proceeding directly to capture stage because only calibration "
 "frames are pending."
 msgstr ""
-"La tâche « %1 » réalise directement la phase d'acquisition parce que les "
-"trames de calibration sont en attente."
+"La tâche %1 réalise directement la phase d'acquisition parce que les poses "
+"de calibration sont en attente."
 
 #: ekos/scheduler/schedulerprocess.cpp:2776
 #: ekos/scheduler/schedulerprocess.cpp:3567
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
-"Attention : la tâche « %1 » pour la procédure d'alignement a échoué. Tâche "
+"Attention : la tâche %1 pour la procédure d'alignement a échoué. Tâche "
 "marquée annulée."
 
 #: ekos/scheduler/schedulerprocess.cpp:2802
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr ""
-"Attention : la tâche « %1 » pour la procédure d'acquisition a échoué. Tâche "
+"Attention : la tâche %1 pour la procédure d'acquisition a échoué. Tâche "
 "marquée annulée."
 
 #: ekos/scheduler/schedulerprocess.cpp:2827
@@ -30010,30 +30006,30 @@ msgstr ""
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
-"Attention : la tâche « %1 » pour la procédure de mise au point a échoué. "
-"Tâche marquée annulée."
+"Attention : la tâche %1 pour la procédure de mise au point a échoué. Tâche "
+"marquée annulée."
 
 #: ekos/scheduler/schedulerprocess.cpp:2851
 #: ekos/scheduler/schedulerprocess.cpp:3638
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
-"Attention : la tâche « %1 » pour la procédure de guidage a échoué. Tâche "
-"marquée annulée."
+"Attention : la tâche %1 pour la procédure de guidage a échoué. Tâche marquée "
+"annulée."
 
 #: ekos/scheduler/schedulerprocess.cpp:2875
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr ""
-"Attention: la tâche « %1 » a perdu la connexion à la monture. Tentative de "
+"Attention: la tâche %1 a perdu la connexion à la monture. Tentative de "
 "reconnexion."
 
 #: ekos/scheduler/schedulerprocess.cpp:2892
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr ""
-"Attention : la tâche « %1 » a perdu la connexion au dôme. Tentative de "
+"Attention : la tâche %1 a perdu la connexion au dôme. Tentative de "
 "reconnexion."
 
 #: ekos/scheduler/schedulerprocess.cpp:2960
@@ -30059,8 +30055,7 @@ msgstr "Échec du résolveur : %1s %2"
 #: ekos/scheduler/schedulerprocess.cpp:3302
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
-msgstr ""
-"Trame acquise est à %1 minutes d'arc de la cible, réalignement en cours…"
+msgstr "L'image est à %1 minutes d'arc de la cible, réalignement en cours…"
 
 #: ekos/scheduler/schedulerprocess.cpp:3370
 #, kde-format
@@ -32156,7 +32151,7 @@ msgid ""
 "Automatically scales the sliders for the subFrame.\n"
 "Uncheck to leave them unchanged when you pan around."
 msgstr ""
-"Met automatiquement à l'échelle les curseurs de la sous-trame.\n"
+"Met automatiquement à l'échelle les curseurs de la pose.\n"
 "Décochez cette case pour qu'ils restent inchangés lorsque vous effectuez un "
 "panoramique."
 
@@ -32180,17 +32175,17 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:150
 #, kde-format
 msgid "Shows the x, y coordinates of star centers in the frame"
-msgstr "Affiche les coordonnées en x,y des centres des étoiles dans la trame."
+msgstr "Affiche les coordonnées en x,y des centres des étoiles dans l'image."
 
 #: fitsviewer/starprofileviewer.cpp:154
 #, kde-format
 msgid "Shows the HFR of stars in the frame"
-msgstr "Affiche le HFR des étoiles dans la trame"
+msgstr "Affiche le HFR des étoiles dans l'image"
 
 #: fitsviewer/starprofileviewer.cpp:168
 #, kde-format
 msgid "Shows the peak values of star centers in the frame"
-msgstr "Affiche les valeurs de pic du centre des étoiles dans la trame."
+msgstr "Affiche les valeurs de pic du centre des étoiles dans l'image"
 
 #: fitsviewer/starprofileviewer.cpp:172
 #, kde-format
@@ -33445,13 +33440,13 @@ msgstr ""
 #, kde-format
 msgid "Record stream until this many frames are captured"
 msgstr ""
-"Enregistrer le flux jusqu'à ce que ce nombre de trames soient acquises."
+"Enregistrer le flux jusqu'à ce que ce nombre de poses soient atteintes."
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
 #: indi/recordingoptions.ui:166
 #, kde-format
 msgid "Frames:"
-msgstr "Trames"
+msgstr "Poses"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:191
@@ -33542,7 +33537,7 @@ msgstr "Options d'enregistrement…"
 #: indi/streamform.ui:114
 #, kde-format
 msgid "Reset Frame"
-msgstr "Réinitialiser la trame"
+msgstr "Réinitialiser la pose"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
 #: indi/streamform.ui:143
@@ -33597,13 +33592,13 @@ msgstr "Déplacer la zone zoomée vers la gauche ou vers la droite"
 #: indi/streamform.ui:326 indi/streamform.ui:342
 #, kde-format
 msgid "Video frame duration in seconds"
-msgstr "Durée des trames vidéo exprimée en secondes."
+msgstr "Durée des vidéo exprimée en secondes."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/streamform.ui:329
 #, kde-format
 msgid "Frame(s):"
-msgstr "Trame(s)"
+msgstr "Pose(s)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
 #: indi/streamform.ui:370
@@ -33615,13 +33610,13 @@ msgstr "Appliquer une valeur « FPS » et relancer le flux."
 #: indi/streamform.ui:393
 #, kde-format
 msgid "FPS:"
-msgstr "Trames/s"
+msgstr "Poses/s"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, avgFPS)
 #: indi/streamform.ui:406
 #, kde-format
 msgid "Average FPS"
-msgstr "Moyenne Trames/s"
+msgstr "Moyenne Poses/s"
 
 #: indi/streamwg.cpp:60
 #, kde-format
@@ -37436,7 +37431,7 @@ msgstr "Retard de l'animation pour XPlanet"
 #: kstars.kcfg:1349
 #, kde-format
 msgid "How long to pause between frames in the XPlanet Animation"
-msgstr "Durée de pause entre les trames dans l'animation XPlanet"
+msgstr "Durée de pause entre les poses dans l'animation XPlanet"
 
 #. i18n: ectx: label, entry (XplanetWidth), group (Xplanet)
 #. i18n: ectx: whatsthis, entry (XplanetWidth), group (Xplanet)
@@ -39005,8 +39000,7 @@ msgstr ""
 #, kde-format
 msgid "Capture flat frames at the same focus position of light frames."
 msgstr ""
-"Acquérir les flats avec la même position de mise au point que les trames "
-"lumineuses."
+"Acquérir les flats avec la même position de mise au point que les poses."
 
 #. i18n: ectx: label, entry (HFRThresholdPercentage), group (Capture)
 #: kstars.kcfg:2090
@@ -39029,7 +39023,7 @@ msgstr "Algorithme de vérification HFR durant la séquence"
 #, kde-format
 msgid "Run In-Sequence HFR check after this many frames."
 msgstr ""
-"Exécuter à la suite la vérification HFR après ce certain nombre de trames."
+"Exécuter à la suite la vérification HFR après ce certain nombre de poses."
 
 #. i18n: ectx: label, entry (AutoStretch), group (Capture)
 #: kstars.kcfg:2102
@@ -39159,13 +39153,13 @@ msgstr "Parquer le dôme à la calibration"
 #, kde-format
 msgid "Capture calibration frames at the specified exposures."
 msgstr ""
-"Acquérir les trames de calibration avec la durée d'exposition spécifiée.."
+"Acquérir les poses de calibration avec la durée d'exposition spécifiée.."
 
 #. i18n: ectx: label, entry (CaptureCalibrationUseADU), group (Capture)
 #: kstars.kcfg:2176
 #, kde-format
 msgid "Capture calibration frames using ADU threshold."
-msgstr "Acquérir les trames de calibration en utilisant le seuil ADU."
+msgstr "Acquérir les poses de calibration en utilisant le seuil ADU."
 
 #. i18n: ectx: label, entry (CaptureCalibrationADUValue), group (Capture)
 #: kstars.kcfg:2180
@@ -39183,7 +39177,7 @@ msgstr "Tolérance ADU désirée du flat."
 #: kstars.kcfg:2188
 #, kde-format
 msgid "Capture calibration frames using Sky Flats."
-msgstr "Acquérir les trames de calibration en utilisant les flats du ciel."
+msgstr "Acquérir les poses de calibration en utilisant les flats du ciel."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:2194
@@ -39255,15 +39249,15 @@ msgstr "Filtre par défaut pour la roue à filtres"
 #, kde-format
 msgid "Take a dark frame and subtract it before running autofocus operation."
 msgstr ""
-"Prendre une trame sombre et la soustraire avant de lancer l'opération de "
-"mise au point automatique."
+"Prendre une pose sombre et la soustraire avant de lancer l'opération de mise "
+"au point automatique."
 
 #. i18n: ectx: label, entry (FocusSubFrame), group (Focus)
 #: kstars.kcfg:2226
 #, kde-format
 msgid "Subframe the focus star during the autofocus procedure."
 msgstr ""
-"Sous-tramer l'étoile de mise au point durant la procédure de mise au point "
+"Poser sur l'étoile de mise au point durant la procédure de mise au point "
 "automatique."
 
 #. i18n: ectx: label, entry (FocusBoxSize), group (Focus)
@@ -39288,7 +39282,7 @@ msgid ""
 "performance decreases as the number of stars increases."
 msgstr ""
 "Mesurer la valeur moyenne du HFR de toutes les étoiles combinées dans une "
-"trame complète. Cette méthode utilise par défaut la détection centroïde, "
+"image complète. Cette méthode utilise par défaut la détection centroïde, "
 "mais peut aussi utiliser la détection SEP. Sa performance diminue à mesure "
 "que le nombre d'étoiles augmente."
 
@@ -39325,7 +39319,7 @@ msgid ""
 "may also have an inherent filter."
 msgstr ""
 "Pendant la mise au point de plein champ, les étoiles se trouvant à "
-"l'intérieur de ce pourcentage de la trame sont filtrées hors du calcul HFR "
+"l'intérieur de ce pourcentage de l'image sont filtrées hors du calcul HFR "
 "(0 % par défaut). Les algorithmes de détection peuvent également avoir un "
 "filtre inhérent."
 
@@ -39344,7 +39338,7 @@ msgid ""
 "algorithms may also have an inherent filter."
 msgstr ""
 "Lors de la mise au point en plein champ, les étoiles étant en dehors de ce "
-"pourcentage de la trame sont filtrées en dehors du calcul HFR (100 % par "
+"pourcentage de l'image sont filtrées en dehors du calcul HFR (100 % par "
 "défaut). Les algorithmes de détection peuvent également avoir un filtre "
 "inhérent."
 
@@ -39484,7 +39478,7 @@ msgstr ""
 #, kde-format
 msgid "How many frames to average over at each step in the Autofocus process."
 msgstr ""
-"Le nombre de trames à utiliser pour la moyenne dans le processus de mise au "
+"Le nombre de poses à utiliser pour la moyenne dans le processus de mise au "
 "point automatique."
 
 #. i18n: ectx: whatsthis, entry (focusHFRFramesCount), group (Focus)
@@ -39492,7 +39486,7 @@ msgstr ""
 #, kde-format
 msgid "How many frames to average over when performing in-sequence HFR Check."
 msgstr ""
-"Le nombre de trames à utiliser pour la moyenne dans le processus de "
+"Le nombre de poses à utiliser pour la moyenne dans le processus de "
 "vérification HFR."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
@@ -39540,8 +39534,8 @@ msgid ""
 "Factor to multiply focus exposure by for out of focus frames when using "
 "Donut Buster."
 msgstr ""
-"Facteur de multiplication pour la durée d'exposition pour les trames hors "
-"mise au point lors de l'utilisation du Donut Busting."
+"Facteur de multiplication pour la durée d'exposition des poses hors mise au "
+"point lors de l'utilisation du Donut Busting."
 
 #. i18n: ectx: label, entry (focusOutlierRejection), group (Focus)
 #: kstars.kcfg:2369
@@ -40575,13 +40569,13 @@ msgstr ""
 #: kstars.kcfg:2922
 #, kde-format
 msgid "Take dark frame for autoguider images."
-msgstr "Prendre une trame sombre comme images de guidage automatique."
+msgstr "Prendre une pose sombre comme images de guidage automatique."
 
 #. i18n: ectx: label, entry (GuideSubframe), group (Guide)
 #: kstars.kcfg:2926
 #, kde-format
 msgid "Subframe guide image around selected region"
-msgstr "Sous-trame de l'image de guidage autour de la région sélectionnée"
+msgstr "Pose de l'image de guidage autour de la région sélectionnée"
 
 #. i18n: ectx: label, entry (DitherPixels), group (Guide)
 #: kstars.kcfg:2930
@@ -40597,7 +40591,7 @@ msgstr ""
 #: kstars.kcfg:2934
 #, kde-format
 msgid "Dither after this many frames."
-msgstr "Effectuer une diffusion d'erreurs après ce nombre de trames."
+msgstr "Effectuer une diffusion d'erreurs après ce nombre de poses."
 
 #. i18n: ectx: label, entry (DitherThreshold), group (Guide)
 #: kstars.kcfg:2942
@@ -73826,19 +73820,19 @@ msgstr "Taux d'images"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame Type"
-msgstr "Type de trame"
+msgstr "Type de pose"
 
 #: libindi_strings.cpp:197
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame Values"
-msgstr "Valeurs de trames"
+msgstr "Valeurs de pose"
 
 #: libindi_strings.cpp:198
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frame"
-msgstr "Image"
+msgstr "Pose"
 
 #: libindi_strings.cpp:199
 #, kde-kuit-format
@@ -73850,7 +73844,7 @@ msgstr "Type d'image"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Frames"
-msgstr "Trames"
+msgstr "Poses"
 
 #: libindi_strings.cpp:201
 #, kde-kuit-format
@@ -74960,7 +74954,7 @@ msgstr "Enregistrement (durée)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Record (Frames)"
-msgstr "Enregistrement (trames)"
+msgstr "Enregistrement (pose)"
 
 #: libindi_strings.cpp:387
 #, kde-kuit-format
@@ -76325,7 +76319,7 @@ msgstr "Joseph McGee"
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
-"Calculatrice de la durée d'exposition des trames fondée sur le travail du Dr "
+"Calculatrice de la durée d'exposition des poses fondée sur le travail du Dr "
 "Robin Glover"
 
 #: main.cpp:195
@@ -77862,9 +77856,9 @@ msgid ""
 "autofocus by examining frames. This can consume a lot of storage space.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Enregistrer les trames de mise au point automatique. "
+"<html><head/><body><p>Enregistrer les poses de mise au point automatique. "
 "Activer uniquement pour dépanner la mise au point automatique par examen des "
-"trames. Cela peut consommer un grand volume d'enregistrement.</p></body></"
+"poses. Cela peut consommer un grand volume d'enregistrement.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
@@ -77881,10 +77875,10 @@ msgid ""
 "troubleshoot guider by examining frames. This can consume a lot of storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enregistrer les trames internes de l'assistant de "
+"<html><head/><body><p>Enregistrer les poses internes de l'assistant de "
 "guidage. Activer uniquement pour dépanner l'assistant de guidage par examen "
-"des trames. Cela peut consommer un grand volume d'enregistrement.</p></"
-"body></html>"
+"des poses. Cela peut consommer un grand volume d'enregistrement.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveGuideImages)
 #: options/opsdeveloper.ui:53
@@ -77900,9 +77894,9 @@ msgid ""
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enregistrer les trames internes de l'alignement. "
+"<html><head/><body><p>Enregistrer les poses internes de l'alignement. "
 "Activer uniquement pour dépanner l'assistant d'alignement par l'examen des "
-"trames. Cela peut consommer un grand volume d'enregistrement.</p></body></"
+"poses. Cela peut consommer un grand volume d'enregistrement.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveAlignImages)
@@ -77919,9 +77913,9 @@ msgid ""
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enregistrer les trames échouées de l'alignement. "
+"<html><head/><body><p>Enregistrer les poses échouées de l'alignement. "
 "Activer uniquement pour dépanner l'assistant d'alignement par l'examen des "
-"trames. Cela peut consommer un grand volume d'enregistrement.</p></body></"
+"poses. Cela peut consommer un grand volume d'enregistrement.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
@@ -88526,7 +88520,7 @@ msgstr "Retard d'animation"
 #: xplanet/opsxplanet.ui:183
 #, kde-format
 msgid "The delay between frames for the animation"
-msgstr "La durée entre deux trames d'animation"
+msgstr "La durée entre deux poses d'animation"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_XplanetUseFIFO)
 #: xplanet/opsxplanet.ui:216
