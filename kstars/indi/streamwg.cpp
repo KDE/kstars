@@ -78,9 +78,9 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
 
     collimationOptionsB->setIcon(QIcon::fromTheme("run-build-prune"));
     connect(collimationOptionsB, &QPushButton::clicked, this, [this]()
-            {
-                CollimationOverlayOptions::Instance(this)->openEditor();
-            });
+    {
+        CollimationOverlayOptions::Instance(this)->openEditor();
+    });
 
     collimationB->setIcon(QIcon::fromTheme("crosshairs"));
     connect(CollimationOverlayOptions::Instance(this), SIGNAL(updated()), videoFrame, SLOT(modelChanged()));
@@ -115,12 +115,12 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     optionsB->setIcon(QIcon::fromTheme("run-build"));
     resetFrameB->setIcon(QIcon::fromTheme("view-restore"));
 
-    connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
+    connect(resetFrameB, &QPushButton::clicked, this, &StreamWG::resetFrame);
 
     recordB->setIcon(recordIcon);
 
-    connect(recordB, SIGNAL(clicked()), this, SLOT(toggleRecord()));
-    connect(ccd, SIGNAL(videoRecordToggled(bool)), this, SLOT(updateRecordStatus(bool)));
+    connect(recordB, &QPushButton::clicked, this, &StreamWG::toggleRecord);
+    connect(ccd, &ISD::Camera::videoRecordToggled, this, &StreamWG::updateRecordStatus);
 
     connect(videoFrame, &VideoWG::newSelection, this, &StreamWG::setStreamingFrame);
     connect(videoFrame, &VideoWG::imageChanged, this, &StreamWG::imageChanged);
@@ -406,7 +406,19 @@ void StreamWG::newFrame(INDI::Property prop)
 
 void StreamWG::resetFrame()
 {
-    m_Camera->resetStreamingFrame();
+    double exposure = 0;
+    if (m_Camera->getStreamExposure(&exposure))
+    {
+        m_Camera->setVideoStreamEnabled(false);
+        m_Camera->setStreamExposure(exposure);
+        m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD)->resetFrame();
+        QTimer::singleShot(1000, this, [&]()
+        {
+            m_Camera->setVideoStreamEnabled(true);
+        });
+    }
+    else
+        m_Camera->resetStreamingFrame();
 }
 
 void StreamWG::setStreamingFrame(QRect newFrame)
@@ -427,7 +439,19 @@ void StreamWG::setStreamingFrame(QRect newFrame)
         w++;
     }
 
-    m_Camera->setStreamingFrame(newFrame.x(), newFrame.y(), w, newFrame.height());
+    double exposure = 0;
+    if (m_Camera->getStreamExposure(&exposure))
+    {
+        m_Camera->setVideoStreamEnabled(false);
+        m_Camera->setStreamExposure(exposure);
+        m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD)->setFrame(newFrame.x(), newFrame.y(), w, newFrame.height());
+        QTimer::singleShot(1000, this, [&]()
+        {
+            m_Camera->setVideoStreamEnabled(true);
+        });
+    }
+    else
+        m_Camera->setStreamingFrame(newFrame.x(), newFrame.y(), w, newFrame.height());
 }
 
 void StreamWG::updateFPS(double instantFPS, double averageFPS)
