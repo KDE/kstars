@@ -186,6 +186,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Joseph McGee"), i18n("Sub-exposure calculator based on Dr Robin Glover's work"));
 
     KAboutData::setApplicationData(aboutData);
+    QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("kstars")));
 
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
