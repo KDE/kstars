@@ -30,6 +30,16 @@ class Message : public QObject
 
         bool isConnected() const;
 
+        struct PendingProperty
+        {
+            QString device;
+            QString name;
+            bool operator==(const PendingProperty &other) const
+            {
+                return device == other.device && name == other.name;
+            }
+        };
+
         // Module Status Updates
         void updateMountStatus(const QJsonObject &status, bool throttle = false);
         void updateCaptureStatus(const QJsonObject &status);
@@ -81,7 +91,7 @@ class Message : public QObject
         void sendGuideSettings(const QVariantMap &settings);
 
         // Focus
-        void sendFocusSettings(const QVariantMap &settings);                
+        void sendFocusSettings(const QVariantMap &settings);
 
         // Mount
         void sendMountSettings(const QVariantMap &settings);
@@ -138,7 +148,7 @@ class Message : public QObject
 
         // Connection
         void onConnected();
-        void onDisconnected();        
+        void onDisconnected();
 
         // Communication
         void onTextReceived(const QString &);
@@ -150,7 +160,7 @@ class Message : public QObject
         void sendStates();
 
         // Capture
-        void processCaptureCommands(const QString &command, const QJsonObject &payload);        
+        void processCaptureCommands(const QString &command, const QJsonObject &payload);
         void sendTemperature(double value);
 
         // Mount
@@ -224,11 +234,11 @@ class Message : public QObject
 
         QObject *findObject(const QString &name);
         void invokeMethod(QObject *context, const QJsonObject &payload);
-        #if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
         bool parseArgument(QVariant::Type type, const QVariant &arg, QMetaMethodArgument &genericArg, SimpleTypes &types);
-        #else
+#else
         bool parseArgument(QVariant::Type type, const QVariant &arg, QGenericArgument &genericArg, SimpleTypes &types);
-        #endif
+#endif
         Ekos::Manager *m_Manager { nullptr };
         QVector<QSharedPointer<NodeManager>> m_NodeManagers;
 
@@ -240,13 +250,13 @@ class Message : public QObject
         QSize m_ViewSize;
         double m_CurrentZoom {100};
 
-        QSet<INDI::Property *> m_PendingProperties;
+        QSet<PendingProperty> m_PendingProperties;
         QTimer m_PendingPropertiesTimer;
         QTimer m_DebouncedSend;
         QMap<QString, QVariantMap> m_DebouncedMap;
 
         QDateTime m_ThrottleTS;
-        CatalogsDB::DBManager m_DSOManager;        
+        CatalogsDB::DBManager m_DSOManager;
 
         typedef enum
         {
@@ -260,5 +270,10 @@ class Message : public QObject
         // Throttle interval
         static const uint16_t THROTTLE_INTERVAL = 1000;
 };
+
+inline uint qHash(const Message::PendingProperty &key, uint seed = 0) noexcept
+{
+    return qHash(key.device, seed) ^ qHash(key.name, seed);
+}
 
 }

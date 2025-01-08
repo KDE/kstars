@@ -54,6 +54,18 @@ Message::Message(Ekos::Manager *manager, QVector<QSharedPointer<NodeManager>> &n
     }
 
     connect(manager, &Ekos::Manager::newModule, this, &Message::sendModuleState);
+    connect(INDIListener::Instance(), &INDIListener::deviceRemoved,
+            this, [this](const QSharedPointer<ISD::GenericDevice> &device)
+    {
+        // Clear any pending properties for this device
+        QMutableSetIterator<PendingProperty> it(m_PendingProperties);
+        while (it.hasNext())
+        {
+            const auto &pending = it.next();
+            if (pending.device == device->getDeviceName())
+                it.remove();
+        }
+    });
 
     m_ThrottleTS = QDateTime::currentDateTime();
 
@@ -2673,8 +2685,9 @@ void Message::processUpdateProperty(INDI::Property prop)
         QSet<QString> subProps = m_PropertySubscriptions[prop.getDeviceName()];
         if (subProps.contains(prop.getName()))
         {
-            m_PendingProperties.remove(prop);
-            m_PendingProperties.insert(prop);
+            PendingProperty pending{prop.getDeviceName(), prop.getName()};
+            m_PendingProperties.remove(pending);
+            m_PendingProperties.insert(pending);
         }
     }
 }
@@ -2703,16 +2716,35 @@ void Message::setPendingPropertiesEnabled(bool enabled)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void Message::sendPendingProperties()
 {
-    for (auto &prop : m_PendingProperties)
+    // Group properties by device to minimize device lookups
+    QMap<QString, QSet<QString>> deviceProperties;
+
+    // First pass - group by device
+    for (const auto &pending : m_PendingProperties)
+        deviceProperties[pending.device].insert(pending.name);
+
+    // Second pass - process each device's properties
+    for (auto it = deviceProperties.constBegin(); it != deviceProperties.constEnd(); ++it)
     {
-        if (prop->isValid())
+        QSharedPointer<ISD::GenericDevice> device;
+        // Only lookup device once for all its properties
+        if (INDIListener::findDevice(it.key(), device))
         {
-            QJsonObject propObject;
-            ISD::propertyToJson(*prop, propObject);
-            sendResponse(commands[DEVICE_PROPERTY_GET], propObject);
+            // Process all properties for this device
+            for (const auto &propName : it.value())
+            {
+                auto prop = device->getProperty(propName);
+                if (prop)
+                {
+                    QJsonObject propObject;
+                    ISD::propertyToJson(prop, propObject);
+                    sendResponse(commands[DEVICE_PROPERTY_GET], propObject);
+                }
+            }
         }
     }
 
+    // Clear all pending properties
     m_PendingProperties.clear();
 }
 
