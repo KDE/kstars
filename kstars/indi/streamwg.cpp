@@ -144,7 +144,7 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
             WESlider->setEnabled(true);
             // Set it twice!
             m_Camera->sendNewProperty(tvp);
-            QTimer::singleShot(1000, this, [ &, tvp]()
+            QTimer::singleShot(DELAY, this, [ &, tvp]()
             {
                 m_Camera->sendNewProperty(tvp);
             });
@@ -192,10 +192,10 @@ StreamWG::StreamWG(ISD::Camera *ccd) : QDialog(KStars::Instance())
     {
         if (m_Camera)
         {
-            m_Camera->setStreamExposure(targetFrameDurationSpin->value());
             m_Camera->setVideoStreamEnabled(false);
-            QTimer::singleShot(1000, this, [&]()
+            QTimer::singleShot(DELAY, this, [&]()
             {
+                m_Camera->setStreamExposure(targetFrameDurationSpin->value());
                 m_Camera->setVideoStreamEnabled(true);
             });
         }
@@ -410,10 +410,10 @@ void StreamWG::resetFrame()
     if (m_Camera->getStreamExposure(&exposure))
     {
         m_Camera->setVideoStreamEnabled(false);
-        m_Camera->setStreamExposure(exposure);
-        m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD)->resetFrame();
-        QTimer::singleShot(1000, this, [&]()
+        QTimer::singleShot(DELAY, this, [ &, exposure]()
         {
+            m_Camera->setStreamExposure(exposure);
+            m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD)->resetFrame();
             m_Camera->setVideoStreamEnabled(true);
         });
     }
@@ -432,21 +432,22 @@ void StreamWG::setStreamingFrame(QRect newFrame)
     if (newFrame.width() < 5 || newFrame.height() < 5)
         return;
 
-    int w = newFrame.width();
-    // Must be divisable by 4
-    while (w % 4)
-    {
-        w++;
-    }
+    // Adjust X,Y in reference to existing frame.
+    int x, y, w, h;
+    m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD)->getFrame(&x, &y, &w, &h);
+    auto subX = newFrame.x() + x;
+    auto subY = newFrame.y() + y;
+    auto subW = newFrame.width();
+    auto subH = newFrame.width();
 
     double exposure = 0;
     if (m_Camera->getStreamExposure(&exposure))
     {
         m_Camera->setVideoStreamEnabled(false);
-        m_Camera->setStreamExposure(exposure);
-        m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD)->setFrame(newFrame.x(), newFrame.y(), w, newFrame.height());
-        QTimer::singleShot(1000, this, [&]()
+        QTimer::singleShot(DELAY, this, [ &, exposure, subX, subY, subW, subH]()
         {
+            m_Camera->setStreamExposure(exposure);
+            m_Camera->getChip(ISD::CameraChip::PRIMARY_CCD)->setFrame(subX, subY, subW, subH);
             m_Camera->setVideoStreamEnabled(true);
         });
     }

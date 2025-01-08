@@ -107,4 +107,6 @@ class StreamWG : public QDialog, public Ui::streamForm
 
         // Options panels
         RecordOptions *options;
+
+        static constexpr uint32_t DELAY {500};
 };
