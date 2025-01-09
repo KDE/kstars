@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-06 01:57+0000\n"
+"POT-Creation-Date: 2025-01-09 01:54+0000\n"
 "PO-Revision-Date: 2010-03-14 21:56+0530\n"
 "Last-Translator: Danishka Navin\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -16765,12 +16765,12 @@ msgstr ""
 msgid "Offline"
 msgstr ""
 
-#: ekos/ekoslive/message.cpp:747
+#: ekos/ekoslive/message.cpp:759
 #, kde-format
 msgid "target"
 msgstr ""
 
-#: ekos/ekoslive/message.cpp:1003
+#: ekos/ekoslive/message.cpp:1015
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""

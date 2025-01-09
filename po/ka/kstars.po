@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-06 01:57+0000\n"
+"POT-Creation-Date: 2025-01-09 01:54+0000\n"
 "PO-Revision-Date: 2024-07-07 08:45+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -16774,12 +16774,12 @@ msgstr "ონლაინ"
 msgid "Offline"
 msgstr "გათიშული"
 
-#: ekos/ekoslive/message.cpp:747
+#: ekos/ekoslive/message.cpp:759
 #, kde-format
 msgid "target"
 msgstr "მიზანი"
 
-#: ekos/ekoslive/message.cpp:1003
+#: ekos/ekoslive/message.cpp:1015
 #, kde-format
 msgid "Mosaic import failed."
 msgstr ""
