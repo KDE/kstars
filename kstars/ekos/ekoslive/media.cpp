@@ -691,9 +691,7 @@ void Media::registerCameras()
     process->disconnect(this);
     connect(process, &Ekos::CameraProcess::newView, this, [this](const QSharedPointer<FITSView> &view)
     {
-        QString uuid = QUuid::createUuid().toString();
-        uuid = uuid.remove(re);
-        sendView(view, uuid);
+        sendView(view, view->imageData()->objectName());
     });
 }
 
