@@ -14602,10 +14602,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #: ekos/capture/camera.ui:2731
-#, fuzzy, kde-format
-#| msgid "<b>Port:</b>"
+#, kde-format
 msgid "<b>Progress</b>"
-msgstr "<b>Port:</b>"
+msgstr "<b>Průběh</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
 #: ekos/capture/camera.ui:2760
@@ -19248,11 +19247,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:289
-#, fuzzy, kde-format
-#| msgctxt "City in Wisconsin USA"
-#| msgid "Boscobel"
+#, kde-format
 msgid "Sobel"
-msgstr "Boscobel"
+msgstr "Sobel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:294
@@ -19495,11 +19492,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusDenoise)
 #: ekos/focus/opsfocusprocess.ui:694
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Boise"
+#, kde-format
 msgid "Denoise"
-msgstr "Boise"
+msgstr "Zrušit šum"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:709
@@ -25784,7 +25779,7 @@ msgstr "Plánovaný čas"
 #: ekos/scheduler/scheduler.cpp:433
 #, kde-format
 msgid "Jobs"
-msgstr ""
+msgstr "Úlohy"
 
 #: ekos/scheduler/scheduler.cpp:433
 #, fuzzy, kde-format
@@ -78558,10 +78553,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
 #: tools/imagingplanner.cpp:188 tools/imagingplanner.ui:1935
-#, fuzzy, kde-format
-#| msgid "Ignore"
+#, kde-format
 msgid "Ignored"
-msgstr "Ignorovat"
+msgstr "Ignorováno"
 
 #: tools/imagingplanner.cpp:977
 #, fuzzy, kde-format
@@ -78571,9 +78565,7 @@ msgid "Imaging Planner"
 msgstr "Plánovač pozorování"
 
 #: tools/imagingplanner.cpp:1122
-#, fuzzy, kde-format
-#| msgctxt "Altitude"
-#| msgid "Alt"
+#, kde-format
 msgid "Alt"
 msgstr "Alt"
 
@@ -78784,10 +78776,9 @@ msgid "Successfully marked %1 objects as read"
 msgstr "%1 objekt byl úspěšně přidán do katalogu uživatelských dat."
 
 #: tools/imagingplanner.cpp:3230
-#, fuzzy, kde-format
-#| msgid "Input file:"
+#, kde-format
 msgid "Empty file"
-msgstr "Vstupní soubor:"
+msgstr "Prázdný soubor"
 
 #: tools/imagingplanner.cpp:3239
 #, fuzzy, kde-format
@@ -78912,11 +78903,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, userNotesLabel)
 #: tools/imagingplanner.ui:719
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Note"
+#, kde-format
 msgid "Note:"
-msgstr "Poznámka"
+msgstr "Poznámka:"
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, userNotesEdit)
 #: tools/imagingplanner.ui:745
@@ -79012,11 +79001,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel2)
 #: tools/imagingplanner.ui:1175 tools/imagingplanner.ui:1500
-#, fuzzy, kde-format
-#| msgctxt "City in Western Australia Australia"
-#| msgid "Pearce"
+#, kde-format
 msgid "Search"
-msgstr "Pearce"
+msgstr "Hledat"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton2)
@@ -79046,11 +79033,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia2)
 #: tools/imagingplanner.ui:1229 tools/imagingplanner.ui:1554
-#, fuzzy, kde-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Wikipedia Page"
+#, kde-format
 msgid "Wikipedia"
-msgstr "Stránka Wikipedie"
+msgstr "Wikipedie"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages2)
@@ -79094,24 +79079,21 @@ msgstr "Požadováno"
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
 #: tools/imagingplanner.ui:1312
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Radius:"
-msgstr "Poloměr"
+msgstr "Poloměr:"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1327
-#, fuzzy, kde-format
-#| msgid "Min: %1"
+#, kde-format
 msgid "Min:"
-msgstr "Min: %1"
+msgstr "Min:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
 #: tools/imagingplanner.ui:1375
-#, fuzzy, kde-format
-#| msgid "Max: %1"
+#, kde-format
 msgid "Max:"
-msgstr "Max: %1"
+msgstr "Max:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAstrobinDetailsButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFilterTypesButton)
@@ -79137,10 +79119,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel2)
 #: tools/imagingplanner.ui:1700 tools/imagingplanner.ui:2104
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filters"
-msgstr "Filtr"
+msgstr "Filtry"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minHoursLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minHours)
