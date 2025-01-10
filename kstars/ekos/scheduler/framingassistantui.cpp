@@ -654,7 +654,7 @@ void FramingAssistantUI::createJobs()
             {"sequenceEdit", oneSequence},
             {"schedulerTrackStep", ui->trackStepCheck->isChecked()},
             {"schedulerFocusStep", shouldFocus},
-            {"schedulerFocusStep", shouldAlign},
+            {"schedulerAlignStep", shouldAlign},
             {"schedulerGuideStep", ui->guideStepCheck->isChecked()}
         };
 
