@@ -16,7 +16,7 @@ if(WCSLIB_FOUND)
   include_directories( ${WCSLIB_INCLUDE_DIR} )
 endif(WCSLIB_FOUND)
 
-if (BUILD_QT5)
+if (QT_MAJOR_VERSION STREQUAL "5")
     FIND_PACKAGE(Qt5Test REQUIRED)
     SET( TEST_LIBRARIES
         Qt5::Core
@@ -26,7 +26,7 @@ if (BUILD_QT5)
         Qt5::Core
         Qt5::Test
     )
-else(BUILD_QT5)
+else(QT_MAJOR_VERSION STREQUAL "5")
     FIND_PACKAGE(Qt6Test REQUIRED)
     SET( TEST_LIBRARIES
         Qt6::Core
@@ -36,7 +36,7 @@ else(BUILD_QT5)
         Qt6::Core
         Qt6::Test
     )
-endif(BUILD_QT5)
+endif()
 
 SET( TEST_LIBRARIES
         ${TEST_LIBRARIES}

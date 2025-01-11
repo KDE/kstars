@@ -1250,7 +1250,7 @@ set(kstarslite_SRCS ${kstarslite_SRCS} ${fits_klite_SRCS} ${hough_SRCS} ${fits2_
 IF (NOT ANDROID)
     # GSL
     find_package(GSL REQUIRED)
-    IF(BUILD_QT5)
+    IF(QT_MAJOR_VERSION STREQUAL "5")
        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.SimClock.xml simclock.h SimClock)
        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.FOV.xml fov.h FOV)
@@ -1260,7 +1260,7 @@ IF (NOT ANDROID)
        qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.FOV.xml fov.h FOV)
     ENDIF()
     IF (INDI_FOUND)
-        IF(BUILD_QT5)
+        IF(QT_MAJOR_VERSION STREQUAL "5")
             # INDI
             qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
             qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.GenericDevice.xml indi/indistd.h ISD::GenericDevice)
@@ -1343,7 +1343,7 @@ IF (NOT ANDROID)
     Eigen3::Eigen
     GSL::gsl
     )
-    if (BUILD_QT5)
+    if (QT_MAJOR_VERSION STREQUAL "5")
         target_link_libraries(KStarsLib
         KF5::Crash
         KF5::I18n
@@ -1512,7 +1512,7 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-kstars.png
 )
 
-if (BUILD_QT5)
+if (QT_MAJOR_VERSION STREQUAL "5")
     qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
 else()
     qt6_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
@@ -1669,11 +1669,11 @@ install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if(NOT APPLE) # The desktop file is not needed on MacOS and the other two are bundled above
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-IF(BUILD_QT5)
+IF(QT_MAJOR_VERSION STREQUAL "5")
   install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 else()
   install(FILES kstars.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
-endif(BUILD_QT5)
+endif()
 endif(NOT APPLE)
 
 if(INDI_FOUND)
