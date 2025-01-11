@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-09 01:54+0000\n"
+"POT-Creation-Date: 2025-01-11 01:49+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -75213,64 +75213,64 @@ msgstr ""
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Taevakujutise salvestamine faili."
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "Script to execute."
 msgstr "Käivitatav skript."
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "Width of sky image."
 msgstr "Taevakujutise laius."
 
-#: main.cpp:198
+#: main.cpp:199
 #, kde-format
 msgid "Height of sky image."
 msgstr "Taevakujutise kõrgus."
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Date and time."
 msgstr "Kuupäev ja kellaaeg."
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Käivitamine peatatud kellaga."
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "Avatavad FITS-failid."
 
-#: main.cpp:239 printing/foveditordialog.cpp:176
+#: main.cpp:240 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "%1 failivormingu parsimine nurjus; see pidanuks olema PNG."
 
-#: main.cpp:297
+#: main.cpp:298
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 "Määratud kuupäeva string on vigane: %1. Selle asemel kasutatakse CPU "
 "kuupäeva/kellaaega."
 
-#: main.cpp:328
+#: main.cpp:329
 #, kde-format
 msgid "Script executed."
 msgstr "Skript on käivitatud."
 
-#: main.cpp:332
+#: main.cpp:333
 #, kde-format
 msgid "Could not execute script."
 msgstr "Skripti käivitamine nurjus."
 
-#: main.cpp:356
+#: main.cpp:357
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Kasutatakse CPU kuupäeva/aega."

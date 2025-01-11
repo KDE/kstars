@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-09 01:54+0000\n"
+"POT-Creation-Date: 2025-01-11 01:49+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -77743,64 +77743,64 @@ msgstr "Joseph McGee"
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr "Calculadora de sub-exposição com base no trabalho de Robin Glover"
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Gravar a imagem do céu para um ficheiro."
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "Script to execute."
 msgstr "O programa a executar."
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "Width of sky image."
 msgstr "Largura da imagem do céu."
 
-#: main.cpp:198
+#: main.cpp:199
 #, kde-format
 msgid "Height of sky image."
 msgstr "Altura da imagem do céu."
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Date and time."
 msgstr "Data e hora."
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Começar com o relógio parado."
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "Os ficheiros de FITS a abrir."
 
-#: main.cpp:239 printing/foveditordialog.cpp:176
+#: main.cpp:240 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Não foi possível interpretar o formato de imagem %1; assumindo PNG."
 
-#: main.cpp:297
+#: main.cpp:298
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 "O texto da data fornecido é inválido: %1. A usar a data/hora do CPU em "
 "alternativa."
 
-#: main.cpp:328
+#: main.cpp:329
 #, kde-format
 msgid "Script executed."
 msgstr "Programa executado."
 
-#: main.cpp:332
+#: main.cpp:333
 #, kde-format
 msgid "Could not execute script."
 msgstr "Não foi possível executar o programa."
 
-#: main.cpp:356
+#: main.cpp:357
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "A usar a data/hora do CPU em alternativa."

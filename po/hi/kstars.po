@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-09 01:54+0000\n"
+"POT-Creation-Date: 2025-01-11 01:49+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -83822,69 +83822,69 @@ msgstr ""
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 
-#: main.cpp:195
+#: main.cpp:196
 #, fuzzy, kde-format
 #| msgid "Dump sky image to file"
 msgid "Dump sky image to file."
 msgstr "आकाश छवि फ़ाइल में डम्प करें"
 
-#: main.cpp:196
+#: main.cpp:197
 #, fuzzy, kde-format
 #| msgid "Script to execute"
 msgid "Script to execute."
 msgstr "चलाने के लिए स्क्रिप्ट"
 
-#: main.cpp:197
+#: main.cpp:198
 #, fuzzy, kde-format
 #| msgid "Width of sky image"
 msgid "Width of sky image."
 msgstr "आकाश छवि की चौड़ाई"
 
-#: main.cpp:198
+#: main.cpp:199
 #, fuzzy, kde-format
 #| msgid "Height of sky image"
 msgid "Height of sky image."
 msgstr "आकाश छवि की ऊंचाई"
 
-#: main.cpp:199
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Date and time"
 msgid "Date and time."
 msgstr "तिथि और समय"
 
-#: main.cpp:200
+#: main.cpp:201
 #, fuzzy, kde-format
 #| msgid "Start with clock paused"
 msgid "Start with clock paused."
 msgstr "बन्द घड़ी के साथ प्रारंभ करें"
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:239 printing/foveditordialog.cpp:176
+#: main.cpp:240 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "%1 की छवि फार्मेट की व्याख्या नहीं कर सका, PNG माना गया."
 
-#: main.cpp:297
+#: main.cpp:298
 #, fuzzy, kde-format
 #| msgid "Using CPU date/time instead."
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr "बदले में सीपीयू तिथि/समय उपयोग में लिया जा रहा है."
 
-#: main.cpp:328
+#: main.cpp:329
 #, kde-format
 msgid "Script executed."
 msgstr "स्क्रिप्ट चलाया."
 
-#: main.cpp:332
+#: main.cpp:333
 #, kde-format
 msgid "Could not execute script."
 msgstr "स्क्रिप्ट चला नहीं सका."
 
-#: main.cpp:356
+#: main.cpp:357
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "बदले में सीपीयू तिथि/समय उपयोग में लिया जा रहा है."

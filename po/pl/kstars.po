@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1699772 $
+# Version: $Revision: 1699968 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-09 01:54+0000\n"
+"POT-Creation-Date: 2025-01-11 01:49+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -76183,62 +76183,62 @@ msgstr "Joseph McGee"
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr "Kalkulator podnaświetlenia oparty na pracy Dr'aa Robin'a Glover'a"
 
-#: main.cpp:195
+#: main.cpp:196
 #, kde-format
 msgid "Dump sky image to file."
 msgstr "Zrzuć obraz nieba do pliku."
 
-#: main.cpp:196
+#: main.cpp:197
 #, kde-format
 msgid "Script to execute."
 msgstr "Skrypt do wykonania."
 
-#: main.cpp:197
+#: main.cpp:198
 #, kde-format
 msgid "Width of sky image."
 msgstr "Szerokość obrazu nieba."
 
-#: main.cpp:198
+#: main.cpp:199
 #, kde-format
 msgid "Height of sky image."
 msgstr "Wysokość obrazu nieba."
 
-#: main.cpp:199
+#: main.cpp:200
 #, kde-format
 msgid "Date and time."
 msgstr "Data i czas."
 
-#: main.cpp:200
+#: main.cpp:201
 #, kde-format
 msgid "Start with clock paused."
 msgstr "Rozpocznij z zatrzymanym zegarem."
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr "Plik(i) FITS do otwarcia."
 
-#: main.cpp:239 printing/foveditordialog.cpp:176
+#: main.cpp:240 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Nie udało się rozpoznać formatu obrazu %1, przyjęto PNG."
 
-#: main.cpp:297
+#: main.cpp:298
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr "Podany ciąg znakowy daty jest nieprawidłowy: %1. Użyto daty/czasu CPU."
 
-#: main.cpp:328
+#: main.cpp:329
 #, kde-format
 msgid "Script executed."
 msgstr "Skrypt zakończony."
 
-#: main.cpp:332
+#: main.cpp:333
 #, kde-format
 msgid "Could not execute script."
 msgstr "Nie można wykonać skryptu."
 
-#: main.cpp:356
+#: main.cpp:357
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Nastąpi użycie daty i czasu procesora."

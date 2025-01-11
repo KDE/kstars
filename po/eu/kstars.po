@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-09 01:54+0000\n"
+"POT-Creation-Date: 2025-01-11 01:49+0000\n"
 "PO-Revision-Date: 2024-04-04 13:25+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -82676,69 +82676,69 @@ msgstr ""
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 
-#: main.cpp:195
+#: main.cpp:196
 #, fuzzy, kde-format
 #| msgid "Dump sky image to file"
 msgid "Dump sky image to file."
 msgstr "Irauli zeruko irudia fitxategira"
 
-#: main.cpp:196
+#: main.cpp:197
 #, fuzzy, kde-format
 #| msgid "Script to execute"
 msgid "Script to execute."
 msgstr "Exekutatzeko script-a"
 
-#: main.cpp:197
+#: main.cpp:198
 #, fuzzy, kde-format
 #| msgid "Width of sky image"
 msgid "Width of sky image."
 msgstr "Zeruaren irudiaren zabalera"
 
-#: main.cpp:198
+#: main.cpp:199
 #, fuzzy, kde-format
 #| msgid "Height of sky image"
 msgid "Height of sky image."
 msgstr "Zeruaren irudiaren altuera"
 
-#: main.cpp:199
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Date and time"
 msgid "Date and time."
 msgstr "Data eta ordua"
 
-#: main.cpp:200
+#: main.cpp:201
 #, fuzzy, kde-format
 #| msgid "Start with clock paused"
 msgid "Start with clock paused."
 msgstr "Hasi erlojua geldirik dagoela"
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:239 printing/foveditordialog.cpp:176
+#: main.cpp:240 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Ezin da %1-(r)en irudi formatua prozesatu; PNG dela suposatu da."
 
-#: main.cpp:297
+#: main.cpp:298
 #, fuzzy, kde-format
 #| msgid "Using CPU date/time instead."
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr "Honen ordez, PUZ-aren data/ordua erabiltzen."
 
-#: main.cpp:328
+#: main.cpp:329
 #, kde-format
 msgid "Script executed."
 msgstr "Script-a exekutatu da."
 
-#: main.cpp:332
+#: main.cpp:333
 #, kde-format
 msgid "Could not execute script."
 msgstr "Ezin da script-a exekutatu."
 
-#: main.cpp:356
+#: main.cpp:357
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Honen ordez, PUZ-aren data/ordua erabiltzen."

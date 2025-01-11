@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-09 01:54+0000\n"
+"POT-Creation-Date: 2025-01-11 01:49+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -78418,70 +78418,70 @@ msgstr ""
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 
-#: main.cpp:195
+#: main.cpp:196
 #, fuzzy, kde-format
 #| msgid "Dump sky image to file"
 msgid "Dump sky image to file."
 msgstr "Αποτύπωση εικόνας του ουρανού σε αρχείο"
 
-#: main.cpp:196
+#: main.cpp:197
 #, fuzzy, kde-format
 #| msgid "Script to execute"
 msgid "Script to execute."
 msgstr "Σενάριο για εκτέλεση"
 
-#: main.cpp:197
+#: main.cpp:198
 #, fuzzy, kde-format
 #| msgid "Width of sky image"
 msgid "Width of sky image."
 msgstr "Πλάτος της εικόνας του ουρανού"
 
-#: main.cpp:198
+#: main.cpp:199
 #, fuzzy, kde-format
 #| msgid "Height of sky image"
 msgid "Height of sky image."
 msgstr "Ύψος της εικόνας του ουρανού"
 
-#: main.cpp:199
+#: main.cpp:200
 #, fuzzy, kde-format
 #| msgid "Date and time"
 msgid "Date and time."
 msgstr "Ημερομηνία και ώρα"
 
-#: main.cpp:200
+#: main.cpp:201
 #, fuzzy, kde-format
 #| msgid "Start with clock paused"
 msgid "Start with clock paused."
 msgstr "Έναρξη με το ρολόι σε παύση"
 
-#: main.cpp:203
+#: main.cpp:204
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:239 printing/foveditordialog.cpp:176
+#: main.cpp:240 printing/foveditordialog.cpp:176
 #, kde-format
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr ""
 "Αδυναμία ανάλυσης της μορφής της εικόνας %1: θεώρηση ότι πρόκειται για PNG."
 
-#: main.cpp:297
+#: main.cpp:298
 #, fuzzy, kde-format
 #| msgid "Using CPU date/time instead."
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr "Χρήση ημερομηνίας του υπολογιστή."
 
-#: main.cpp:328
+#: main.cpp:329
 #, kde-format
 msgid "Script executed."
 msgstr "Το σενάριο εκτελέστηκε."
 
-#: main.cpp:332
+#: main.cpp:333
 #, kde-format
 msgid "Could not execute script."
 msgstr "Αδυναμία εκτέλεσης του σεναρίου."
 
-#: main.cpp:356
+#: main.cpp:357
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr "Χρήση ημερομηνίας του υπολογιστή."
