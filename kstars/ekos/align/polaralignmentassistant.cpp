@@ -603,10 +603,8 @@ void PolarAlignmentAssistant::setPAHStage(Stage stage)
 
 void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleDuration)
 {
-    // Check how many degrees between current and target
-    double deltaAngle = std::abs(ra.deltaAngle(targetPAH.ra()).Degrees());
     // Check how many degrees travelled so far from starting point
-    double traveledAngle = std::abs(ra.deltaAngle(m_StartCoord.ra()).Degrees());
+    double traveledAngle = ra.deltaAngle(m_StartCoord.ra()).Degrees();
 
     QString rotProgressMessage;
     QString rotDoneMessage;
@@ -615,14 +613,14 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
 
     if (m_PAHStage == PAH_FIRST_ROTATE)
     {
-        rotProgressMessage = "First mount rotation remaining degrees:";
+        rotProgressMessage = "First mount rotation completed degrees:";
         rotDoneMessage = i18n("Mount first rotation is complete.");
         nextCapture = PAH_SECOND_CAPTURE;
         nextSettle = PAH_FIRST_SETTLE;
     }
     else if (m_PAHStage == PAH_SECOND_ROTATE)
     {
-        rotProgressMessage = "Second mount rotation remaining degrees:";
+        rotProgressMessage = "Second mount rotation completed degrees:";
         rotDoneMessage = i18n("Mount second rotation is complete.");
         nextCapture = PAH_THIRD_CAPTURE;
         nextSettle = PAH_SECOND_SETTLE;
@@ -653,37 +651,32 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
         }
     };
 
-
     if (m_PAHStage == PAH_FIRST_ROTATE || m_PAHStage == PAH_SECOND_ROTATE)
     {
         // only wait for telescope to slew to new position if manual slewing is switched off
         if(!pAHManualSlew->isChecked())
         {
-            qCDebug(KSTARS_EKOS_ALIGN) << rotProgressMessage << deltaAngle << traveledAngle;
-            if (deltaAngle <= PAH_ROTATION_THRESHOLD)
-            {
-                settle();
-            }
-            // If for some reason we didn't stop, let's stop if we get too far
-            else if (traveledAngle > pAHRotation->value() * 1.1)
+            qCDebug(KSTARS_EKOS_ALIGN) << rotProgressMessage << traveledAngle;
+
+            // Allow for some travel angle to get started first
+            if (std::abs(traveledAngle) > 0.5)
             {
                 bool goingWest = pAHDirection->currentIndex() == 0;
-                auto diff = ra.deltaAngle(m_StartCoord.ra()).Degrees();
-                // If negative and direction is west then rotation is OK but maybe speed is too fast
-                // and opposite is true
-                if ((diff < 0 && goingWest) || (diff > 0 && !goingWest))
-                {
-                    settle();
-                }
-                else
+                // traveledAngle < 0 --> Going West
+                // traveledAngle > 0 --> Going East
+                // #1 Check for reversed direction
+                if ( (traveledAngle < 0 && !goingWest) || (traveledAngle > 0 && goingWest))
                 {
                     m_CurrentTelescope->abort();
                     emit newLog(i18n("Mount aborted. Reverse RA axis direction and try again."));
                     stopPAHProcess();
                 }
+                // #2 Check if we travelled almost 90% of the desired rotation or more
+                // then stop
+                else if (std::abs(traveledAngle) > pAHRotation->value() * 0.90)
+                    settle();
             }
-            return;
-        } // endif not manual slew
+        }
     }
 }
 
