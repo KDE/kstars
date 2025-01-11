@@ -905,7 +905,6 @@ class Align : public QWidget, public Ui::Align
         // Telescope Settings
         double m_EffectiveFocalLength = -1;
         bool m_isRateSynced = false;
-        bool domeReady = true;
 
         // CCD Exposure Looping
         bool m_RememberCameraFastExposure = { false };

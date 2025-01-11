@@ -822,7 +822,7 @@ bool Align::syncTelescopeInfo()
 
     if (m_isRateSynced == false)
     {
-        auto speed = m_Settings["PAHMountSpeed"];
+        auto speed = m_Settings["pAHMountSpeed"];
         auto slewRates = m_Mount->slewRates();
         if (speed.isValid())
         {
@@ -1517,7 +1517,7 @@ bool Align::captureAndSolve(bool initialCall)
 
     double seqExpose = alignExposure->value();
 
-    ISD::CameraChip *targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
+    auto targetChip = m_Camera->getChip(useGuideHead ? ISD::CameraChip::GUIDE_CCD : ISD::CameraChip::PRIMARY_CCD);
 
     if (m_FocusState >= FOCUS_PROGRESS)
     {
@@ -1531,6 +1531,14 @@ bool Align::captureAndSolve(bool initialCall)
     {
         appendLogText(i18n("Cannot capture while CCD exposure is in progress. Retrying in %1 seconds...",
                            CAPTURE_RETRY_DELAY / 1000));
+        m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
+        return true;
+    }
+
+    if (m_Dome && m_Dome->isMoving())
+    {
+        qCWarning(KSTARS_EKOS_ALIGN) << "Cannot capture while dome is in motion. Retrying in" <<  CAPTURE_RETRY_DELAY / 1000 <<
+                                     "seconds...";
         m_CaptureTimer.start(CAPTURE_RETRY_DELAY);
         return true;
     }
@@ -2671,13 +2679,6 @@ void Align::updateProperty(INDI::Property prop)
                     //generateArgs();
                 }
 
-                // If dome is syncing, wait until it stops
-                if (m_Dome && m_Dome->isMoving())
-                {
-                    domeReady = false;
-                    return;
-                }
-
                 // If we are looking for celestial pole
                 if (m_wasSlewStarted && matchPAHStage(PAA::PAH_FIND_CP))
                 {
@@ -2866,17 +2867,6 @@ void Align::updateProperty(INDI::Property prop)
         else if (m_estimateRotatorTimeFrame) // Estimate time frame during first timeout
         {
             m_RotatorTimeFrame = RotatorUtils::Instance()->calcTimeFrame(RAngle);
-        }
-    }
-    else if (prop.isNameMatch("DOME_MOTION"))
-    {
-        // If dome is not ready and state is now
-        if (domeReady == false && prop.getState() == IPS_OK)
-        {
-            domeReady = true;
-            // trigger process number for mount so that it proceeds with normal workflow since
-            // it was stopped by dome not being ready
-            handleMountStatus();
         }
     }
     else if (prop.isNameMatch("TELESCOPE_MOTION_NS") || prop.isNameMatch("TELESCOPE_MOTION_WE"))
