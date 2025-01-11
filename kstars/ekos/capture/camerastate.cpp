@@ -397,6 +397,7 @@ bool CameraState::checkDithering()
         return false;
 
     if ( (Options::ditherEnabled() || Options::ditherNoGuiding())
+            && (m_activeJob != nullptr && m_activeJob->getCoreProperty(SequenceJob::SJ_DitherPerJobEnabled).toBool())
             // 2017-09-20 Jasem: No need to dither after post meridian flip guiding
             && getMeridianFlipState()->getMeridianFlipStage() != MeridianFlipState::MF_GUIDING
             // We must be either in guide mode or if non-guide dither (via pulsing) is enabled

@@ -658,6 +658,7 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
     m_CoreProperties[SJ_ROI] = QRect(0, 0, 0, 0);
     m_CoreProperties[SJ_EnforceTemperature] = false;
     m_CoreProperties[SJ_GuiderActive] = false;
+    m_CoreProperties[SJ_DitherPerJobEnabled] = true;
     m_CoreProperties[SJ_DitherPerJobFrequency] = 0;
     m_CoreProperties[SJ_Encoding] = "FITS";
 
@@ -801,7 +802,14 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
         }
         else if (!strcmp(tagXMLEle(ep), "GuideDitherPerJob"))
         {
-            setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, cLocale.toInt(pcdataXMLEle(ep)));
+            const int value = cLocale.toInt(pcdataXMLEle(ep));
+            if (value >= 0)
+            {
+                setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, value);
+                setCoreProperty(SequenceJob::SJ_DitherPerJobEnabled, true);
+            }
+            else
+                setCoreProperty(SequenceJob::SJ_DitherPerJobEnabled, false);
         }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
@@ -970,6 +978,8 @@ void SequenceJob::loadFrom(XMLEle *root, const QString &targetName, SequenceJobT
 void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
 {
     auto roi = getCoreProperty(SequenceJob::SJ_ROI).toRect();
+    auto ditherPerJobEnabled = getCoreProperty(SequenceJob::SJ_DitherPerJobEnabled).toBool();
+    auto ditherPerJobFrequency = getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt();
 
     outstream << "<Job>" << Qt::endl;
 
@@ -1009,7 +1019,7 @@ void SequenceJob::saveTo(QTextStream &outstream, const QLocale &cLocale) const
     if (getScript(SCRIPT_POST_JOB).isEmpty() == false)
         outstream << "<PostJobScript>" << getScript(SCRIPT_POST_JOB) << "</PostJobScript>" << Qt::endl;
     outstream << "<GuideDitherPerJob>"
-              << cLocale.toString(getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt()) << "</GuideDitherPerJob>" <<
+              << cLocale.toString(ditherPerJobEnabled ? ditherPerJobFrequency : -1) << "</GuideDitherPerJob>" <<
               Qt::endl;
     outstream << "<FITSDirectory>" << getCoreProperty(SequenceJob::SJ_LocalDirectory).toString() << "</FITSDirectory>" <<
               Qt::endl;

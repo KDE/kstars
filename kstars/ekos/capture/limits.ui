@@ -51,13 +51,6 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="4" colspan="2">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>frames</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="4">
        <widget class="QSpinBox" name="guideDeviationReps">
         <property name="enabled">
@@ -172,9 +165,19 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QCheckBox" name="enableDitherPerJob">
         <property name="text">
          <string>Dither per job every:</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3" colspan="3">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>frames</string>
         </property>
        </widget>
       </item>

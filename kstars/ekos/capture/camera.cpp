@@ -1483,6 +1483,7 @@ void Camera::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePrev
     job->setCoreProperty(SequenceJob::SJ_PlaceholderFormat, placeholderFormatT->text());
     job->setCoreProperty(SequenceJob::SJ_PlaceholderSuffix, formatSuffixN->value());
 
+    job->setCoreProperty(SequenceJob::SJ_DitherPerJobEnabled, m_LimitsUI->enableDitherPerJob->isChecked());
     job->setCoreProperty(SequenceJob::SJ_DitherPerJobFrequency, m_LimitsUI->guideDitherPerJobFrequency->value());
 
     auto placeholderPath = PlaceholderPath();
@@ -1558,8 +1559,10 @@ void Camera::syncGUIToJob(SequenceJob * job)
         cameraTemperatureN->setValue(job->getTargetTemperature());
 
     // Start guider drift options
-    m_LimitsUI->guideDitherPerJobFrequency->setValue(job->getCoreProperty(
-                SequenceJob::SJ_DitherPerJobFrequency).toInt());
+    m_LimitsUI->enableDitherPerJob->setChecked(job->getCoreProperty(SequenceJob::SJ_DitherPerJobEnabled).toBool());
+    if (m_LimitsUI->enableDitherPerJob->isChecked())
+        m_LimitsUI->guideDitherPerJobFrequency->setValue(job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toInt());
+
     syncLimitSettings();
 
     // Flat field options
@@ -2439,6 +2442,7 @@ QJsonObject Camera::createJsonJob(SequenceJob * job, int currentRow)
     jsonJob.insert("Format", job->getCoreProperty(SequenceJob::SJ_Format).toJsonValue());
     jsonJob.insert("Temperature", job->getTargetTemperature());
     jsonJob.insert("EnforceTemperature", job->getCoreProperty(SequenceJob::SJ_EnforceTemperature).toJsonValue());
+    jsonJob.insert("DitherPerJobEnabled", job->getCoreProperty(SequenceJob::SJ_DitherPerJobEnabled).toJsonValue());
     jsonJob.insert("DitherPerJobFrequency", job->getCoreProperty(SequenceJob::SJ_DitherPerJobFrequency).toJsonValue());
 
     return jsonJob;

@@ -92,6 +92,8 @@ class SequenceJob : public QObject
             // Int
             SJ_DitherPerJobFrequency,
             // Bool
+            SJ_DitherPerJobEnabled,
+            // Bool
             SJ_SkyFlat
         } PropertyID;
 
