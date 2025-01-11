@@ -3,6 +3,7 @@
 # Build dependencies for the custom image are packaged into image definition 'docker/Dockerfile'
 
 stages:
+  - validate
   - build
   - test
   #- test-unstable
@@ -14,6 +15,8 @@ include:
     file:
       - /gitlab-templates/linux.yml
       - /gitlab-templates/windows.yml
+      - /gitlab-templates/linux-qt6.yml
+      - /gitlab-templates/windows-qt6.yml
       #- /gitlab-templates/android.yml
       - /gitlab-templates/craft-appimage.yml
       - /gitlab-templates/craft-windows-x86-64.yml
