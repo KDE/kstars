@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-11 01:49+0000\n"
+"POT-Creation-Date: 2025-01-12 01:59+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -117,7 +117,7 @@ msgid "Ecliptic"
 msgstr "সূর্যপথ"
 
 #: auxiliary/colorscheme.cpp:45 kstarslite/qml/modules/TopMenu.qml:256
-#: projections/equirectangularprojector.cpp:161 projections/projector.cpp:317
+#: projections/equirectangularprojector.cpp:170 projections/projector.cpp:317
 #, kde-format, kde-kuit-format
 msgid "Horizon"
 msgstr "দিগন্ত"
@@ -501,14 +501,14 @@ msgctxt "@title:window"
 msgid "Save Image"
 msgstr "আকাশের ছবি সং&রক্ষণ করো..."
 
-#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3964
+#: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3954
 #: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1350
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "\"%1\" নামে একটি ফাইল ইতিমধ্যেই বিদ্যমান।  সেটির ওপর দিয়েই কি লেখা হবে?"
 
-#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3967
+#: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3957
 #: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1351
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
@@ -584,7 +584,7 @@ msgstr "এখন"
 #: dialogs/catalogdetails.cpp:213 dialogs/catalogsdbui.cpp:153
 #: dialogs/catalogsdbui.cpp:189 dialogs/catalogsdbui.cpp:210
 #: dialogs/catalogsdbui.cpp:230 dialogs/catalogsdbui.cpp:248
-#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:813
+#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:806
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Corinth"
@@ -1136,10 +1136,10 @@ msgstr "সৌরজগৎ‍ প্রদর্শক"
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
 #: skycomponents/skymapcomposite.cpp:599 skyglpainter.cpp:288
-#: skymapdrawabstract.cpp:249 skyobjects/ksplanet.cpp:179
+#: skymapdrawabstract.cpp:248 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
 #: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
-#: skyobjects/skypoint.cpp:414 skyqpainter.cpp:524 skyqpainter.cpp:548
+#: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
 #: tools/imagingplanner.cpp:1514 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
@@ -1158,7 +1158,7 @@ msgstr "সূর্য"
 #: auxiliary/xplanetimageviewer.cpp:203
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:264
 #: skycomponents/skymapcomposite.cpp:601 skyglpainter.cpp:296
-#: skymapdrawabstract.cpp:251 skyobjects/ksplanet.cpp:124
+#: skymapdrawabstract.cpp:250 skyobjects/ksplanet.cpp:124
 #: skyobjects/ksplanet.cpp:159 skyobjects/ksplanet.cpp:363
 #: skyobjects/ksplanet.cpp:405 skyobjects/ksplanetbase.cpp:146
 #: skyqpainter.cpp:534 tools/conjunctions.cpp:50 tools/ksconjunct.cpp:71
@@ -1174,7 +1174,7 @@ msgstr "বুধগ্রহ (মার্কারি)"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Venus)
 #: auxiliary/xplanetimageviewer.cpp:203 options/opssolarsystem.ui:140
-#: skycomponents/skymapcomposite.cpp:603 skymapdrawabstract.cpp:253
+#: skycomponents/skymapcomposite.cpp:603 skymapdrawabstract.cpp:252
 #: skyobjects/ksplanet.cpp:127 skyobjects/ksplanet.cpp:161
 #: skyobjects/ksplanet.cpp:369 skyobjects/ksplanet.cpp:409
 #: skyobjects/ksplanetbase.cpp:146 tools/conjunctions.cpp:51
@@ -1211,7 +1211,7 @@ msgstr "পৃথিবী"
 #: options/opssolarsystem.ui:220 printing/detailstable.cpp:145
 #: printing/detailstable.cpp:162 printing/detailstable.cpp:173
 #: printing/detailstable.cpp:186 printing/pwizobjectselection.cpp:124
-#: skycomponents/skymapcomposite.cpp:605 skymapdrawabstract.cpp:255
+#: skycomponents/skymapcomposite.cpp:605 skymapdrawabstract.cpp:254
 #: skyobjects/ksmoon.cpp:64 skyobjects/ksplanet.cpp:177
 #: skyobjects/ksplanetbase.cpp:204 skyobjects/ksplanetbase.cpp:270
 #: skyobjects/skyobject.cpp:287 skyobjects/skyobject.cpp:367
@@ -1237,7 +1237,7 @@ msgstr "চাঁদ"
 #: auxiliary/xplanetimageviewer.cpp:207
 #: kstarslite/skyitems/skynodes/planetnode.cpp:26 options/opssolarsystem.ui:85
 #: skycomponents/skymapcomposite.cpp:607 skyglpainter.cpp:292
-#: skymapdrawabstract.cpp:257 skyobjects/ksplanet.cpp:130
+#: skymapdrawabstract.cpp:256 skyobjects/ksplanet.cpp:130
 #: skyobjects/ksplanet.cpp:163 skyobjects/ksplanet.cpp:373
 #: skyobjects/ksplanet.cpp:417 skyobjects/ksplanetbase.cpp:146
 #: skyqpainter.cpp:530 tools/conjunctions.cpp:52 tools/ksconjunct.cpp:68
@@ -1265,7 +1265,7 @@ msgstr "মিনেসোটা"
 #: auxiliary/xplanetimageviewer.cpp:209
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:202
 #: skycomponents/skymapcomposite.cpp:609 skyglpainter.cpp:296
-#: skymapdrawabstract.cpp:259 skyobjects/ksplanet.cpp:133
+#: skymapdrawabstract.cpp:258 skyobjects/ksplanet.cpp:133
 #: skyobjects/ksplanet.cpp:165 skyobjects/ksplanet.cpp:377
 #: skyobjects/ksplanet.cpp:421 skyobjects/ksplanetbase.cpp:146
 #: skyqpainter.cpp:534 tools/conjunctions.cpp:53 tools/jmoontool.cpp:107
@@ -1310,8 +1310,8 @@ msgstr "ইউরোপা"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Saturn)
 #: auxiliary/xplanetimageviewer.cpp:211
 #: kstarslite/skyitems/skynodes/planetnode.cpp:30 options/opssolarsystem.ui:56
-#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1383
-#: skymapdrawabstract.cpp:261 skyobjects/ksplanet.cpp:136
+#: skycomponents/skymapcomposite.cpp:611 skyglpainter.cpp:297 skymap.cpp:1381
+#: skymapdrawabstract.cpp:260 skyobjects/ksplanet.cpp:136
 #: skyobjects/ksplanet.cpp:167 skyobjects/ksplanet.cpp:381
 #: skyobjects/ksplanet.cpp:425 skyobjects/ksplanetbase.cpp:147
 #: skyobjects/ksplanetbase.cpp:276 skyqpainter.cpp:535
@@ -1387,7 +1387,7 @@ msgstr "ফনিক্স"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Uranus)
 #: auxiliary/xplanetimageviewer.cpp:213 options/opssolarsystem.ui:312
-#: skycomponents/skymapcomposite.cpp:613 skymapdrawabstract.cpp:263
+#: skycomponents/skymapcomposite.cpp:613 skymapdrawabstract.cpp:262
 #: skyobjects/ksplanet.cpp:139 skyobjects/ksplanet.cpp:169
 #: skyobjects/ksplanet.cpp:391 skyobjects/ksplanet.cpp:429
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:55
@@ -1436,7 +1436,7 @@ msgstr "বার্লিন"
 #. i18n: ectx: property (text), item, widget (QComboBox, PlanetComboBoxBatch)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_Neptune)
 #: auxiliary/xplanetimageviewer.cpp:215 options/opssolarsystem.ui:280
-#: skycomponents/skymapcomposite.cpp:615 skymapdrawabstract.cpp:265
+#: skycomponents/skymapcomposite.cpp:615 skymapdrawabstract.cpp:264
 #: skyobjects/ksplanet.cpp:142 skyobjects/ksplanet.cpp:171
 #: skyobjects/ksplanet.cpp:395 skyobjects/ksplanet.cpp:433
 #: skyobjects/ksplanetbase.cpp:147 tools/conjunctions.cpp:56
@@ -1627,7 +1627,7 @@ msgstr "ঘন্টা"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:354 ekos/scheduler/schedulerjob.cpp:1032
+#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1032
 #, fuzzy, kde-format
 #| msgctxt "minutes"
 #| msgid "mins"
@@ -2795,7 +2795,7 @@ msgstr ""
 "ইউ.আর.এল.-টি বৈধ নয়।  আপনি কি গুগল অনুসন্ধান ইঞ্জিন ব্যবহারের জন্য একটি ব্রাউজার "
 "উইন্ডো খুলতে চান?"
 
-#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3975
+#: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3965
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1248 ekos/capture/camera.cpp:1303
 #: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1954
@@ -4083,7 +4083,7 @@ msgstr "০.০০ পার্সেক"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1795 ekos/capture/camera.cpp:1835
+#: ekos/capture/camera.cpp:1798 ekos/capture/camera.cpp:1838
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:454 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
@@ -5597,7 +5597,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, l_22)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: dialogs/newfov.ui:521 ekos/capture/limits.ui:381
+#: dialogs/newfov.ui:521 ekos/capture/limits.ui:384
 #: ekos/guide/manualdither.ui:48 ekos/guide/opsdither.ui:109
 #: ekos/guide/opsdither.ui:133 ekos/guide/opsguide.ui:517
 #: xplanet/opsxplanet.ui:140
@@ -6561,7 +6561,7 @@ msgstr ""
 "করুন।"
 
 #: ekos/align/align.cpp:1424 ekos/align/align.cpp:1456
-#: ekos/align/align.cpp:2422
+#: ekos/align/align.cpp:2430
 #, kde-format
 msgid "Astrometry alignment failed"
 msgstr ""
@@ -6630,35 +6630,35 @@ msgid ""
 "Cannot capture while CCD exposure is in progress. Retrying in %1 seconds..."
 msgstr ""
 
-#: ekos/align/align.cpp:1551
+#: ekos/align/align.cpp:1559
 #, fuzzy, kde-format
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/align/align.cpp:1565
+#: ekos/align/align.cpp:1573
 #, fuzzy, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/align/align.cpp:1584 ekos/align/align.cpp:3082
+#: ekos/align/align.cpp:1592 ekos/align/align.cpp:3072
 #, kde-format
 msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 
-#: ekos/align/align.cpp:1638 ekos/focus/focus.cpp:1639
+#: ekos/align/align.cpp:1646 ekos/focus/focus.cpp:1639
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Capturing image..."
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/align.cpp:1728 ekos/auxiliary/ledstatuswidget.cpp:71
+#: ekos/align/align.cpp:1736 ekos/auxiliary/ledstatuswidget.cpp:71
 #: ekos/focus/focus.cpp:2777
 #, fuzzy, kde-format
 #| msgid "Image Reduction Process..."
 msgid "Image received."
 msgstr "ছবি ক্ষুদ্রকরণ প্রক্রিয়া..."
 
-#: ekos/align/align.cpp:1858
+#: ekos/align/align.cpp:1866
 #, kde-format
 msgid ""
 "No index files were found on your system in the specified index file "
@@ -6666,104 +6666,104 @@ msgid ""
 "to the list."
 msgstr ""
 
-#: ekos/align/align.cpp:1928
+#: ekos/align/align.cpp:1936
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Solving with blind image scale..."
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/align.cpp:1936
+#: ekos/align/align.cpp:1944
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Solving with blind image position..."
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/align.cpp:1968
+#: ekos/align/align.cpp:1976
 #, fuzzy, kde-format
 msgid "Loaded image does not have pierside information"
 msgstr "ছবি লোড করা যায় নি"
 
-#: ekos/align/align.cpp:1973
+#: ekos/align/align.cpp:1981
 #, kde-format
 msgid "Loaded image was taken on pierside %1"
 msgstr ""
 
-#: ekos/align/align.cpp:2098
+#: ekos/align/align.cpp:2106
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Solver completed after %1 seconds."
 msgstr "সম্পন্ন"
 
-#: ekos/align/align.cpp:2114
+#: ekos/align/align.cpp:2122
 #, kde-format
 msgid "Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4) Parity (%5)"
 msgstr ""
 
-#: ekos/align/align.cpp:2181
+#: ekos/align/align.cpp:2189
 #, kde-format
 msgid ""
 "WCS information updated. Images captured from this point forward shall have "
 "valid WCS."
 msgstr ""
 
-#: ekos/align/align.cpp:2199
+#: ekos/align/align.cpp:2207
 #, kde-format
 msgid ""
 "Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC "
 "(%4) Target Coordinates: RA (%5) DEC (%6)"
 msgstr ""
 
-#: ekos/align/align.cpp:2210
+#: ekos/align/align.cpp:2218
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Target is within %1 degrees of solution coordinates."
 msgstr "খ-মানচিত্রে দূরবীক্ষণ যন্ত্রের অবস্থান প্রদর্শন করো"
 
 #. i18n("Camera offset angle is %1 degrees.", OffsetAngle));
-#: ekos/align/align.cpp:2255
+#: ekos/align/align.cpp:2263
 #, fuzzy, kde-format
 #| msgid "Aperture:"
 msgid "Camera position angle is %1 degrees."
 msgstr "অ্যাপার্চার:"
 
-#: ekos/align/align.cpp:2277 ekos/align/align.cpp:2715
+#: ekos/align/align.cpp:2285 ekos/align/align.cpp:2716
 #, fuzzy, kde-format
 #| msgid "Celestial Coordinates"
 msgid "Astrometry alignment completed successfully"
 msgstr "খ-স্থানাঙ্ক"
 
-#: ekos/align/align.cpp:2299
+#: ekos/align/align.cpp:2307
 #, kde-format
 msgid "Maximum number of iterations reached. Solver failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2328
+#: ekos/align/align.cpp:2336
 #, kde-format
 msgid "Target is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2390
+#: ekos/align/align.cpp:2398
 #, fuzzy, kde-format
 msgid "Saving failed solver image to %1"
 msgstr "বর্তমানে ব্যবহৃত পর্যবেক্ষণ তালিকাকে ডিস্কে সংরক্ষণ করো"
 
-#: ekos/align/align.cpp:2399
+#: ekos/align/align.cpp:2407
 #, kde-format
 msgid "Solver failed. Retrying without scale constraint."
 msgstr ""
 
-#: ekos/align/align.cpp:2409
+#: ekos/align/align.cpp:2417
 #, kde-format
 msgid "Solver failed. Retrying without position constraint."
 msgstr ""
 
-#: ekos/align/align.cpp:2417
+#: ekos/align/align.cpp:2425
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver Failed."
 msgstr "কোন FOV নেই"
 
-#: ekos/align/align.cpp:2420
+#: ekos/align/align.cpp:2428
 #, kde-format
 msgid ""
 "Please check you have sufficient stars in the image, the indicated FOV is "
@@ -6771,42 +6771,42 @@ msgid ""
 "Logging in Setup Tab -> Logs to get detailed information on the failure."
 msgstr ""
 
-#: ekos/align/align.cpp:2479
+#: ekos/align/align.cpp:2487
 #, fuzzy, kde-format
 #| msgid "Aperture:"
 msgid "Setting camera position angle to %1 degrees ..."
 msgstr "অ্যাপার্চার:"
 
-#: ekos/align/align.cpp:2486
+#: ekos/align/align.cpp:2494
 #, kde-format
 msgid "Camera position angle is within acceptable range."
 msgstr ""
 
-#: ekos/align/align.cpp:2500
+#: ekos/align/align.cpp:2508
 #, kde-format
 msgid "Current PA is %1; Target PA is %2; diff: %3"
 msgstr ""
 
-#: ekos/align/align.cpp:2567
+#: ekos/align/align.cpp:2575
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Refresh is complete."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/align/align.cpp:2574 ekos/auxiliary/darklibrary.cpp:1408
+#: ekos/align/align.cpp:2582 ekos/auxiliary/darklibrary.cpp:1408
 #: ekos/focus/focus.cpp:1369
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture aborted."
 msgstr "ছবি ধারণ করো"
 
-#: ekos/align/align.cpp:2580
+#: ekos/align/align.cpp:2588
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Solver aborted after %1 seconds."
 msgstr "FITS ফাইলকে %1-এ সংরক্ষণ করা হয়েছে"
 
-#: ekos/align/align.cpp:2623 ekos/analyze/analyze.cpp:4121
+#: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4121
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:240
 #: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:985
@@ -6816,41 +6816,41 @@ msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
 msgstr ""
 
-#: ekos/align/align.cpp:2686
+#: ekos/align/align.cpp:2687
 #, kde-format
 msgid "Mount completed slewing near celestial pole. Capture again to verify."
 msgstr ""
 
-#: ekos/align/align.cpp:2709
+#: ekos/align/align.cpp:2710
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "Mount is synced to solution coordinates."
 msgstr "খ-মানচিত্রে দূরবীক্ষণ যন্ত্রের অবস্থান প্রদর্শন করো"
 
-#: ekos/align/align.cpp:2745 ekos/align/align.cpp:2763
-#: ekos/align/align.cpp:3386 ekos/align/align.cpp:4108
-#: ekos/align/polaralignmentassistant.cpp:647
+#: ekos/align/align.cpp:2746 ekos/align/align.cpp:2764
+#: ekos/align/align.cpp:3376 ekos/align/align.cpp:4098
+#: ekos/align/polaralignmentassistant.cpp:645
 #, fuzzy, kde-format
 #| msgid "string"
 msgid "Settling..."
 msgstr "পঙ্‌ক্তি"
 
-#: ekos/align/align.cpp:2753
+#: ekos/align/align.cpp:2754
 #, kde-format
 msgid "Slew complete. Target accuracy is not met, running solver again..."
 msgstr ""
 
-#: ekos/align/align.cpp:2755
+#: ekos/align/align.cpp:2756
 #, kde-format
 msgid "Slew complete. Solving Alignment Point. . ."
 msgstr ""
 
-#: ekos/align/align.cpp:2798 ekos/align/align.cpp:2960
+#: ekos/align/align.cpp:2799 ekos/align/align.cpp:2950
 #, kde-format
 msgid "Syncing failed."
 msgstr ""
 
-#: ekos/align/align.cpp:2800
+#: ekos/align/align.cpp:2801
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -6858,49 +6858,49 @@ msgid "Slewing failed."
 msgstr "অন্যান্য"
 
 # FIXME
-#: ekos/align/align.cpp:2844
+#: ekos/align/align.cpp:2845
 #, fuzzy, kde-format
 #| msgid "Position Angle"
 msgid "Rotator reached camera position angle."
 msgstr "অবস্থানসূচক কোণ"
 
-#: ekos/align/align.cpp:2857
+#: ekos/align/align.cpp:2858
 #, kde-format
 msgid ""
 "Rotator failed to arrive at the requested position angle (Deviation %1 "
 "arcmin)."
 msgstr ""
 
-#: ekos/align/align.cpp:2906
+#: ekos/align/align.cpp:2896
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Slew detected, suspend solving..."
 msgstr "ফার্মিংটন"
 
-#: ekos/align/align.cpp:2954
+#: ekos/align/align.cpp:2944
 #, fuzzy, kde-format
 msgid "Syncing to RA (%1) DEC (%2)"
 msgstr "ইনপুট স্থানাঙ্ক"
 
-#: ekos/align/align.cpp:2978
+#: ekos/align/align.cpp:2968
 #, fuzzy, kde-format
 msgid "Slewing to target coordinates: RA (%1) DEC (%2)."
 msgstr "ইনপুট স্থানাঙ্ক"
 
-#: ekos/align/align.cpp:2983
+#: ekos/align/align.cpp:2973
 #, fuzzy, kde-format
 msgid ""
 "Slewing to target coordinates: RA (%1) DEC (%2) is rejected. (see "
 "notification)"
 msgstr "ইনপুট স্থানাঙ্ক"
 
-#: ekos/align/align.cpp:3002
+#: ekos/align/align.cpp:2992
 #, kde-format
 msgid "Ekos job (%1) - Telescope synced"
 msgstr ""
 
-#: ekos/align/align.cpp:3051
+#: ekos/align/align.cpp:3041
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgctxt "@title:window"
@@ -6908,116 +6908,116 @@ msgid "Load Image"
 msgstr "ছবির ইউ.আর.এল. লোড করা হচ্ছে"
 
 # FIXME
-#: ekos/align/align.cpp:3282
+#: ekos/align/align.cpp:3272
 #, fuzzy, kde-format
 msgid "World Coordinate System (WCS) is enabled."
 msgstr "আউটপুট ফাইলের জন্য ঘর নির্বাচন করুন"
 
 # FIXME
-#: ekos/align/align.cpp:3287
+#: ekos/align/align.cpp:3277
 #, fuzzy, kde-format
 msgid "World Coordinate System (WCS) is disabled."
 msgstr "আউটপুট ফাইলের জন্য ঘর নির্বাচন করুন"
 
-#: ekos/align/align.cpp:3306
+#: ekos/align/align.cpp:3296
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture error. Aborting..."
 msgstr "ছবি ধারণ করো"
 
-#: ekos/align/align.cpp:3311 ekos/capture/cameraprocess.cpp:1617
+#: ekos/align/align.cpp:3301 ekos/capture/cameraprocess.cpp:1617
 #: ekos/capture/cameraprocess.cpp:2176
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr ""
 
-#: ekos/align/align.cpp:3437
+#: ekos/align/align.cpp:3427
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgctxt "@title:window"
 msgid "Align Frame"
 msgstr "ফোকাসকৃত বস্তু: "
 
-#: ekos/align/align.cpp:3512
+#: ekos/align/align.cpp:3502
 #, fuzzy, kde-format
 #| msgid "Constellation Name Options"
 msgid "StellarSolver Options"
 msgstr "তারামণ্ডলের নাম সংক্রান্ত অপশন"
 
-#: ekos/align/align.cpp:3517
+#: ekos/align/align.cpp:3507
 #, kde-format
 msgid "External & Online Programs"
 msgstr ""
 
-#: ekos/align/align.cpp:3521
+#: ekos/align/align.cpp:3511
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Scale & Position"
 msgstr "অবস্থান রিসেট করো"
 
-#: ekos/align/align.cpp:3525
+#: ekos/align/align.cpp:3515
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Align Options Profiles Editor"
 msgstr "থাম্বনেইল সম্পাদক"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: ekos/align/align.cpp:3544 ekos/align/opsastrometryindexfiles.ui:329
+#: ekos/align/align.cpp:3534 ekos/align/opsastrometryindexfiles.ui:329
 #, fuzzy, kde-format
 #| msgid "Invalid File"
 msgid "Index Files"
 msgstr "অবৈধ ফাইল"
 
-#: ekos/align/align.cpp:3609 ekos/guide/guidetargetplot.cpp:55
+#: ekos/align/align.cpp:3599 ekos/guide/guidetargetplot.cpp:55
 #, fuzzy, kde-format
 #| msgid "arcmin"
 msgid "dRA (arcsec)"
 msgstr "আর্কমিনিট"
 
-#: ekos/align/align.cpp:3610 ekos/guide/guidetargetplot.cpp:56
+#: ekos/align/align.cpp:3600 ekos/guide/guidetargetplot.cpp:56
 #, fuzzy, kde-format
 #| msgid "arcsecs"
 msgid "dDE (arcsec)"
 msgstr "আর্কসেকেন্ড"
 
-#: ekos/align/align.cpp:3658 ekos/capture/camera.cpp:3438
+#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3442
 #: ekos/focus/focus.cpp:5397
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Filter operation failed."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/align/align.cpp:3670 ekos/capture/camera.cpp:3939
+#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3943
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
-#: ekos/align/align.cpp:3677 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3944
+#: ekos/align/align.cpp:3667 ekos/auxiliary/buildfilteroffsets.cpp:466
+#: ekos/capture/camera.cpp:3948
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3682 ekos/capture/camera.cpp:3949
+#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3953
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Auto focus on filter change..."
 msgstr "সম্পন্ন"
 
-#: ekos/align/align.cpp:3803
+#: ekos/align/align.cpp:3793
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid FOV."
 msgstr "অবৈধ ইউ.আর.এল."
 
-#: ekos/align/align.cpp:3951
+#: ekos/align/align.cpp:3941
 #, fuzzy, kde-format
 #| msgid "Clear all orbit trails"
 msgctxt "@title:window"
 msgid "Export Solution Points"
 msgstr "প্রতিটি কক্ষপথ মুছে ফেলো"
 
-#: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:266
+#: ekos/align/align.cpp:3964 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1247
 #: ekos/capture/camera.cpp:1302 ekos/guide/guidedriftgraph.cpp:478
 #: ekos/scheduler/scheduler.cpp:1953 ekos/scheduler/scheduler.cpp:2063
@@ -7027,7 +7027,7 @@ msgstr "প্রতিটি কক্ষপথ মুছে ফেলো"
 msgid "Invalid URL: %1"
 msgstr "অবৈধ ইউ.আর.এল.: %1"
 
-#: ekos/align/align.cpp:3983 ekos/align/mountmodel.cpp:403
+#: ekos/align/align.cpp:3973 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
 #: ekos/scheduler/schedulerprocess.cpp:2974
 #: ekos/scheduler/schedulerprocess.cpp:4645
@@ -7036,8 +7036,8 @@ msgstr "অবৈধ ইউ.আর.এল.: %1"
 msgid "Unable to write to file %1"
 msgstr "ফাইল থেকে FITS তথ্য পড়া যায় নি।  %1।\n"
 
-#: ekos/align/align.cpp:3984 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2956
+#: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2960
 #: ekos/capture/cameraprocess.cpp:2643 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
@@ -7056,31 +7056,31 @@ msgstr "ফাইল থেকে FITS তথ্য পড়া যায় নি�
 msgid "Could Not Open File"
 msgstr "ফাইল খোলা যায় নি"
 
-#: ekos/align/align.cpp:4005
+#: ekos/align/align.cpp:3995
 #, fuzzy, kde-format
 #| msgid "Error Deleting File"
 msgid "Error in table structure."
 msgstr "ফাইল মোছায় সমস্যা"
 
-#: ekos/align/align.cpp:4014
+#: ekos/align/align.cpp:4004
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "Solution Points Saved as: %1"
 msgstr "অনুভূমিক স্থানাঙ্ক"
 
-#: ekos/align/align.cpp:4031
+#: ekos/align/align.cpp:4021
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Polar Alignment"
 msgstr "ফোকাসকৃত বস্তু: "
 
-#: ekos/align/align.cpp:4585
+#: ekos/align/align.cpp:4575
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capture timed out."
 msgstr "ছবি ধারণ করো"
 
-#: ekos/align/align.cpp:4594
+#: ekos/align/align.cpp:4584
 #, fuzzy, kde-format
 msgid "Capturing still running, Retrying in %1 seconds..."
 msgstr "মিলযুক্ত খ-বস্তু:"
@@ -7705,7 +7705,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "পর্যবেক্ষণ তালিকা"
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2955
+#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2959
 #: ekos/capture/cameraprocess.cpp:2642 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4665
@@ -10058,91 +10058,91 @@ msgstr "কোন FOV নেই"
 msgid "PAA: Stopping, solver failed too many times."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:619
+#: ekos/align/polaralignmentassistant.cpp:617
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Mount first rotation is complete."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/align/polaralignmentassistant.cpp:626
+#: ekos/align/polaralignmentassistant.cpp:624
 #, fuzzy, kde-format
 #| msgid "Client"
 msgid "Mount second rotation is complete."
 msgstr "ক্লায়েন্ট"
 
-#: ekos/align/polaralignmentassistant.cpp:681
+#: ekos/align/polaralignmentassistant.cpp:671
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:767
+#: ekos/align/polaralignmentassistant.cpp:760
 #, kde-format
 msgid ""
 "Warning: Equatorial Grid Lines will not be drawn due to limited resources "
 "mode."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:771
+#: ekos/align/polaralignmentassistant.cpp:764
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Clearing mount Alignment Model..."
 msgstr "ফার্মিংটন"
 
-#: ekos/align/polaralignmentassistant.cpp:812
+#: ekos/align/polaralignmentassistant.cpp:805
 #, fuzzy, kde-format
 #| msgid "Display the telescope position on the sky map"
 msgid "This could cause the telescope to cross the meridian."
 msgstr "খ-মানচিত্রে দূরবীক্ষণ যন্ত্রের অবস্থান প্রদর্শন করো"
 
-#: ekos/align/polaralignmentassistant.cpp:862
+#: ekos/align/polaralignmentassistant.cpp:855
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking the mount..."
 msgstr "বেতার-দূরবীক্ষণ-যন্ত্র"
 
-#: ekos/align/polaralignmentassistant.cpp:905
+#: ekos/align/polaralignmentassistant.cpp:898
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:921
-#: ekos/align/polaralignmentassistant.cpp:927
+#: ekos/align/polaralignmentassistant.cpp:914
+#: ekos/align/polaralignmentassistant.cpp:920
 #, fuzzy, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "ছবি লোড করা যায় নি"
 
-#: ekos/align/polaralignmentassistant.cpp:953
+#: ekos/align/polaralignmentassistant.cpp:946
 #, fuzzy, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "ছবি লোড করা যায় নি"
 
-#: ekos/align/polaralignmentassistant.cpp:1024
+#: ekos/align/polaralignmentassistant.cpp:1017
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1041
+#: ekos/align/polaralignmentassistant.cpp:1034
 #, fuzzy, kde-format
 msgid "First manual rotation done."
 msgstr "অবস্থান রিসেট করো"
 
 # FIXME
-#: ekos/align/polaralignmentassistant.cpp:1046
+#: ekos/align/polaralignmentassistant.cpp:1039
 #, fuzzy, kde-format
 msgid "Second manual rotation done."
 msgstr "অবস্থান ঠিক রাখো"
 
-#: ekos/align/polaralignmentassistant.cpp:1091
+#: ekos/align/polaralignmentassistant.cpp:1084
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1110
+#: ekos/align/polaralignmentassistant.cpp:1103
 #, fuzzy, kde-format
 #| msgid "Please wait while KStars tries to connect to your telescope..."
 msgid "Please wait while WCS data is processed..."
@@ -10150,30 +10150,30 @@ msgstr ""
 "কে-স্টার্স আপনার দূরবীক্ষণ যন্ত্রের সাথে সংযোগ স্থাপনের পূর্ব পর্যন্ত অনুগ্রহপূর্বক অপেক্ষা "
 "করুন..."
 
-#: ekos/align/polaralignmentassistant.cpp:1141
+#: ekos/align/polaralignmentassistant.cpp:1134
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "WCS data processing is complete."
 msgstr "%1 অনলাইনে আছে।"
 
-#: ekos/align/polaralignmentassistant.cpp:1150
+#: ekos/align/polaralignmentassistant.cpp:1143
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1192
+#: ekos/align/polaralignmentassistant.cpp:1185
 #, fuzzy, kde-format
 #| msgid "Date && Location"
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "তারিখ ও অবস্থান"
 
-#: ekos/align/polaralignmentassistant.cpp:1210
+#: ekos/align/polaralignmentassistant.cpp:1203
 #, fuzzy, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "ছবি লোড করা যায় নি"
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1241
+#: ekos/align/polaralignmentassistant.cpp:1234
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -10181,67 +10181,67 @@ msgid ""
 "capturing the first image...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1243
+#: ekos/align/polaralignmentassistant.cpp:1236
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/polaralignmentassistant.cpp:1245
+#: ekos/align/polaralignmentassistant.cpp:1238
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/polaralignmentassistant.cpp:1247
+#: ekos/align/polaralignmentassistant.cpp:1240
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1249
+#: ekos/align/polaralignmentassistant.cpp:1242
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/polaralignmentassistant.cpp:1251
+#: ekos/align/polaralignmentassistant.cpp:1244
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Capturing the second image...</p>"
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/polaralignmentassistant.cpp:1253
+#: ekos/align/polaralignmentassistant.cpp:1246
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/polaralignmentassistant.cpp:1255
+#: ekos/align/polaralignmentassistant.cpp:1248
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/polaralignmentassistant.cpp:1257
+#: ekos/align/polaralignmentassistant.cpp:1250
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/polaralignmentassistant.cpp:1259
+#: ekos/align/polaralignmentassistant.cpp:1252
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: ekos/align/polaralignmentassistant.cpp:1262
+#: ekos/align/polaralignmentassistant.cpp:1255
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1264
+#: ekos/align/polaralignmentassistant.cpp:1257
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -10250,7 +10250,7 @@ msgid ""
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1267
+#: ekos/align/polaralignmentassistant.cpp:1260
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -10259,7 +10259,7 @@ msgid ""
 "you're finished.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1269
+#: ekos/align/polaralignmentassistant.cpp:1262
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -10268,7 +10268,7 @@ msgid ""
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1285
+#: ekos/align/polaralignmentassistant.cpp:1278
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
@@ -12633,7 +12633,7 @@ msgstr "বার্মিংহাম"
 msgid "Waiting..."
 msgstr "অন্যান্য"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:412
+#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:413
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
@@ -14122,7 +14122,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, limitFocusHFRPercentLabel)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:726
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:798
-#: ekos/auxiliary/stellarsolverprofileeditor.ui:819 ekos/capture/limits.ui:368
+#: ekos/auxiliary/stellarsolverprofileeditor.ui:819 ekos/capture/limits.ui:371
 #, no-c-format, kde-format
 msgid "%"
 msgstr ""
@@ -14574,20 +14574,20 @@ msgstr "সেকেন্ড"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/capture/camera.cpp:121 ekos/capture/limits.ui:57
+#: ekos/capture/camera.cpp:121 ekos/capture/limits.ui:180
 #: ekos/guide/opsdither.ui:170 ekos/scheduler/opsalignmentsettings.ui:82
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "frames"
 msgstr "নাম:"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4064
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4068
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Add job to sequence queue"
 msgstr "ধারাবাহিক ছবি ধারণ করো..."
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4065
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4069
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Remove job from sequence queue"
@@ -14678,8 +14678,8 @@ msgstr "ঋতুর ব্যাপ্তি:"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera.cpp:1061 ekos/capture/limits.ui:115
-#: ekos/capture/limits.ui:375 ekos/focus/focus.ui:713
+#: ekos/capture/camera.cpp:1061 ekos/capture/limits.ui:108
+#: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "যে সংখ্যক ছবি তোলা হবে"
@@ -14771,69 +14771,69 @@ msgstr "ধারাবাহিক ছবি ধারণ করো..."
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:1351 ekos/capture/camera.cpp:2434
+#: ekos/capture/camera.cpp:1351 ekos/capture/camera.cpp:2437
 #, fuzzy, kde-format
 #| msgid "Dark Frames"
 msgid "Dark Flat"
 msgstr "অন্ধকার ফ্রেম"
 
-#: ekos/capture/camera.cpp:2097 ekos/scheduler/framingassistant.cpp:221
+#: ekos/capture/camera.cpp:2100 ekos/scheduler/framingassistant.cpp:220
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "ডিফল্ট FITS ডিরেক্টরি:"
 
-#: ekos/capture/camera.cpp:2210
+#: ekos/capture/camera.cpp:2213
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/camera.cpp:2212
+#: ekos/capture/camera.cpp:2215
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Confirmation"
 msgstr "মুছে ফেলার উদ্যোগ নিশ্চিত করুন"
 
-#: ekos/capture/camera.cpp:2411
+#: ekos/capture/camera.cpp:2414
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:2417
+#: ekos/capture/camera.cpp:2420
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3601
+#: ekos/capture/camera.cpp:3605
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3606
+#: ekos/capture/camera.cpp:3610
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian Flip..."
 msgstr "FITS ছবি ধারণের পর স্ব&য়ংক্রিয়ভাবে প্রদর্শন"
 
-#: ekos/capture/camera.cpp:3607
+#: ekos/capture/camera.cpp:3611
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Meridian flip started"
 msgstr "FITS ছবি ধারণের পর স্ব&য়ংক্রিয়ভাবে প্রদর্শন"
 
-#: ekos/capture/camera.cpp:3611
+#: ekos/capture/camera.cpp:3615
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "সম্পন্ন"
 
-#: ekos/capture/camera.cpp:3671
+#: ekos/capture/camera.cpp:3675
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3677
+#: ekos/capture/camera.cpp:3681
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14841,7 +14841,7 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3682
+#: ekos/capture/camera.cpp:3686
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Freehold"
@@ -14849,7 +14849,7 @@ msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "ফ্রিহোল্ড"
 
-#: ekos/capture/camera.cpp:3688
+#: ekos/capture/camera.cpp:3692
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14857,79 +14857,79 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3701
+#: ekos/capture/camera.cpp:3705
 #, fuzzy, kde-format
 #| msgid "Aperture:"
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "অ্যাপার্চার:"
 
-#: ekos/capture/camera.cpp:3741
+#: ekos/capture/camera.cpp:3745
 #, fuzzy, kde-format
 #| msgid "Server"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "সার্ভার"
 
-#: ekos/capture/camera.cpp:3743
+#: ekos/capture/camera.cpp:3747
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Current Observer:"
 msgstr "সার্ভার"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3754 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3758 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Server"
 msgid "Manage Observers"
 msgstr "সার্ভার"
 
-#: ekos/capture/camera.cpp:3926
+#: ekos/capture/camera.cpp:3930
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3926
+#: ekos/capture/camera.cpp:3930
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3956
+#: ekos/capture/camera.cpp:3960
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "FITS ফাইলকে %1-এ সংরক্ষণ করা হয়েছে"
 
-#: ekos/capture/camera.cpp:3989
+#: ekos/capture/camera.cpp:3993
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "আপনি কি %1 লিঙ্কটি অপসারণ করার ব্যাপারে নিশ্চিত?"
 
-#: ekos/capture/camera.cpp:3989 ekos/capture/cameraprocess.cpp:2763
+#: ekos/capture/camera.cpp:3993 ekos/capture/cameraprocess.cpp:2763
 #, fuzzy, kde-format
 #| msgid "Reset Position"
 msgid "Reset job status"
 msgstr "অবস্থান রিসেট করো"
 
-#: ekos/capture/camera.cpp:4042
+#: ekos/capture/camera.cpp:4046
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "লিঙ্ক সম্পাদন করো..."
 
-#: ekos/capture/camera.cpp:4045 ekos/scheduler/scheduler.cpp:1299
+#: ekos/capture/camera.cpp:4049 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:4046
+#: ekos/capture/camera.cpp:4050
 #, fuzzy, kde-format
 #| msgid "Save Changes to FITS?"
 msgid "Cancel job changes."
 msgstr "FITS ফাইলে কৃত পরিবর্তন কি সংরক্ষণ করা হবে?"
 
-#: ekos/capture/camera.cpp:4059
+#: ekos/capture/camera.cpp:4063
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
@@ -15711,8 +15711,8 @@ msgstr "সার্জেন্ট"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZSeeing)
-#: ekos/capture/camera.ui:2814 ekos/capture/limits.ui:121
-#: ekos/capture/limits.ui:157 ekos/focus/cfz.ui:422
+#: ekos/capture/camera.ui:2814 ekos/capture/limits.ui:114
+#: ekos/capture/limits.ui:150 ekos/focus/cfz.ui:422
 #, kde-format
 msgid "\""
 msgstr ""
@@ -16126,136 +16126,136 @@ msgstr "গুজ ক্রিক"
 msgid "Dust cap unparked."
 msgstr "গুজ ক্রিক"
 
-#: ekos/capture/camerastate.cpp:503
+#: ekos/capture/camerastate.cpp:504
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:604
+#: ekos/capture/camerastate.cpp:605
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:617
+#: ekos/capture/camerastate.cpp:618
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:637
+#: ekos/capture/camerastate.cpp:638
 #, fuzzy, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/capture/camerastate.cpp:646
+#: ekos/capture/camerastate.cpp:647
 #, fuzzy, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/capture/camerastate.cpp:653
+#: ekos/capture/camerastate.cpp:654
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:675
+#: ekos/capture/camerastate.cpp:676
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Adaptive focus complete."
 msgstr "সম্পন্ন"
 
-#: ekos/capture/camerastate.cpp:699
+#: ekos/capture/camerastate.cpp:700
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr ""
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:735
+#: ekos/capture/camerastate.cpp:736
 #, fuzzy, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/capture/camerastate.cpp:758
+#: ekos/capture/camerastate.cpp:759
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:762
+#: ekos/capture/camerastate.cpp:763
 #, fuzzy, kde-format
 #| msgid "Current color settings"
 msgid "Limit: %1 mins"
 msgstr "বর্তমান রঙের বৈশিষ্ট্য"
 
-#: ekos/capture/camerastate.cpp:907
+#: ekos/capture/camerastate.cpp:908
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:925
+#: ekos/capture/camerastate.cpp:926
 #, fuzzy, kde-format
 msgid "Guide module timed out."
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#: ekos/capture/camerastate.cpp:957
+#: ekos/capture/camerastate.cpp:958
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:966
+#: ekos/capture/camerastate.cpp:967
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:988
+#: ekos/capture/camerastate.cpp:989
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1002
+#: ekos/capture/camerastate.cpp:1003
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1016
+#: ekos/capture/camerastate.cpp:1017
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1043
+#: ekos/capture/camerastate.cpp:1044
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
 "samples, suspending exposure and waiting for guider up to %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1090
+#: ekos/capture/camerastate.cpp:1091
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1094
+#: ekos/capture/camerastate.cpp:1095
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
 "exposure in %3 seconds."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1109
+#: ekos/capture/camerastate.cpp:1110
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1489
+#: ekos/capture/camerastate.cpp:1490
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1508
+#: ekos/capture/camerastate.cpp:1509
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr ""
 
-#: ekos/capture/camerastate.cpp:1513
+#: ekos/capture/camerastate.cpp:1514
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Post-flip alignment failed. Retrying..."
@@ -16961,15 +16961,15 @@ msgstr "সীমা"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, guideDeviationReps)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceGuideDeviation)
 #. i18n: ectx: property (toolTip), widget (QLabel, limitGuideDeviationLabel)
-#: ekos/capture/limits.ui:67 ekos/capture/limits.ui:131
-#: ekos/capture/limits.ui:167
+#: ekos/capture/limits.ui:60 ekos/capture/limits.ui:124
+#: ekos/capture/limits.ui:160
 #, kde-format
 msgid ""
 "Abort sequence if guiding deviation exceed this value N consecutive times"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, guideDitherPerJobFrequency)
-#: ekos/capture/limits.ui:83
+#: ekos/capture/limits.ui:76
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>If global dither is enabled, then dither every N "
@@ -16978,13 +16978,13 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceGuideDeviation)
-#: ekos/capture/limits.ui:134
+#: ekos/capture/limits.ui:127
 #, fuzzy, kde-format
 msgid "Abort if guide deviation >:"
 msgstr "বিষুবলম্ব"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceStartGuiderDrift)
-#: ekos/capture/limits.ui:147
+#: ekos/capture/limits.ui:140
 #, kde-format
 msgid ""
 "Start capturing only if guide deviation is below the given threshold "
@@ -16992,32 +16992,32 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceStartGuiderDrift)
-#: ekos/capture/limits.ui:150
+#: ekos/capture/limits.ui:143
 #, fuzzy, kde-format
 msgid "Only start if guide deviation <:"
 msgstr "বিষুবলম্ব"
 
 #. i18n: ectx: property (text), widget (QLabel, limitGuideDeviationLabel)
-#: ekos/capture/limits.ui:170
+#: ekos/capture/limits.ui:163
 #, kde-format
 msgid "consecutive times"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/limits.ui:177
+#. i18n: ectx: property (text), widget (QCheckBox, enableDitherPerJob)
+#: ekos/capture/limits.ui:170
 #, fuzzy, kde-format
 msgid "Dither per job every:"
 msgstr "গুজ ক্রিক"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusGroupBox)
-#: ekos/capture/limits.ui:187
+#: ekos/capture/limits.ui:190
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus Limits"
 msgstr "ফোকাসকৃত বস্তু: "
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, hFRCheckAlgorithm)
-#: ekos/capture/limits.ui:193
+#: ekos/capture/limits.ui:196
 #, kde-format
 msgid ""
 "<html><head/><body><p>The HFR Check algorithm:</p><ul style=\"margin-top: "
@@ -17040,28 +17040,28 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
-#: ekos/capture/limits.ui:200
+#: ekos/capture/limits.ui:203
 #, fuzzy, kde-format
 #| msgid "Start Clock"
 msgid "Last Autofocus"
 msgstr "ঘড়ি চালু করো"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
-#: ekos/capture/limits.ui:205
+#: ekos/capture/limits.ui:208
 #, fuzzy, kde-format
 #| msgid "Square"
 msgid "Fixed"
 msgstr "বর্গক্ষেত্র"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
-#: ekos/capture/limits.ui:210
+#: ekos/capture/limits.ui:213
 #, fuzzy, kde-format
 #| msgid "Aperture:"
 msgid "Median Measure"
 msgstr "অ্যাপার্চার:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceAutofocusOnTemperature)
-#: ekos/capture/limits.ui:259
+#: ekos/capture/limits.ui:262
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus when the change in "
@@ -17070,13 +17070,13 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusOnTemperature)
-#: ekos/capture/limits.ui:262
+#: ekos/capture/limits.ui:265
 #, kde-format
 msgid "Refocus if ΔT°  >:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, refocusAfterMeridianFlip)
-#: ekos/capture/limits.ui:269
+#: ekos/capture/limits.ui:272
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus after a Meridian Flip.</"
@@ -17084,14 +17084,14 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, refocusAfterMeridianFlip)
-#: ekos/capture/limits.ui:272 ekos/capture/refocusstate.cpp:68
+#: ekos/capture/limits.ui:275 ekos/capture/refocusstate.cpp:68
 #, fuzzy, kde-format
 #| msgid "&Automatic display of FITS upon capture"
 msgid "Refocus after meridian flip"
 msgstr "FITS ছবি ধারণের পর স্ব&য়ংক্রিয়ভাবে প্রদর্শন"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceRefocusEveryN)
-#: ekos/capture/limits.ui:282
+#: ekos/capture/limits.ui:285
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Check to force an Autofocus every N minutes.  Timer is "
@@ -17099,14 +17099,14 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceRefocusEveryN)
-#: ekos/capture/limits.ui:285
+#: ekos/capture/limits.ui:288
 #, fuzzy, kde-format
 #| msgid "Update"
 msgid "Refocus every:"
 msgstr "আপডেট করো"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enforceAutofocusHFR)
-#: ekos/capture/limits.ui:295
+#: ekos/capture/limits.ui:298
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Check to perform an HFR Check between Subframes.  The "
@@ -17114,26 +17114,26 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusHFR)
-#: ekos/capture/limits.ui:298
+#: ekos/capture/limits.ui:301
 #, kde-format
 msgid "Refocus on ΔHFR.  Use:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_11)
-#: ekos/capture/limits.ui:305
+#: ekos/capture/limits.ui:308
 #, kde-format
 msgid "Run in-sequence HFR check after this many frames."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/capture/limits.ui:308
+#: ekos/capture/limits.ui:311
 #, fuzzy, kde-format
 #| msgid "Update"
 msgid "Check every:"
 msgstr "আপডেট করো"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, inSequenceCheckFrames)
-#: ekos/capture/limits.ui:318
+#: ekos/capture/limits.ui:321
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Run HFR check after this many sub-frames.</p></body></"
@@ -17141,7 +17141,7 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, hFRThresholdPercentage)
-#: ekos/capture/limits.ui:331
+#: ekos/capture/limits.ui:334
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Specify the % to apply to the HFR Check value "
@@ -17151,7 +17151,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, limitFocusHFRThresholdLabel)
 #. i18n: ectx: property (text), widget (QLabel, focusThresholdLabel)
-#: ekos/capture/limits.ui:344 ekos/focus/opsfocusprocess.ui:474
+#: ekos/capture/limits.ui:347 ekos/focus/opsfocusprocess.ui:474
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Freehold"
@@ -17159,13 +17159,13 @@ msgid "Threshold:"
 msgstr "ফ্রিহোল্ড"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/capture/limits.ui:361
+#: ekos/capture/limits.ui:364
 #, kde-format
 msgid "°C"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, hFRDeviation)
-#: ekos/capture/limits.ui:391
+#: ekos/capture/limits.ui:394
 #, kde-format
 msgid ""
 "<html><head/><body><p>The HFR Check value in pixels. This is an output field "
@@ -17175,7 +17175,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/limits.ui:413
+#: ekos/capture/limits.ui:416
 #, fuzzy, kde-format
 #| msgid "Name:"
 msgid "frames.   HFR:"
@@ -22485,7 +22485,7 @@ msgstr ""
 
 #: ekos/guide/guidedriftgraph.cpp:284 ekos/guide/guidetargetplot.cpp:200
 #: kstarslite/skyitems/horizonitem.cpp:29
-#: skycomponents/horizoncomponent.cpp:118 skymapdrawabstract.cpp:189
+#: skycomponents/horizoncomponent.cpp:118 skymapdrawabstract.cpp:188
 #, kde-format
 msgctxt "North"
 msgid "N"
@@ -22509,7 +22509,7 @@ msgstr "পশ্চিম"
 
 #: ekos/guide/guidedriftgraph.cpp:308 ekos/guide/guidetargetplot.cpp:224
 #: kstarslite/skyitems/horizonitem.cpp:23
-#: skycomponents/horizoncomponent.cpp:112 skymapdrawabstract.cpp:190
+#: skycomponents/horizoncomponent.cpp:112 skymapdrawabstract.cpp:189
 #, kde-format
 msgctxt "East"
 msgid "E"
@@ -26523,7 +26523,7 @@ msgid ""
 "Select Devices"
 msgstr "কিছুই বাছাই করবে না"
 
-#: ekos/scheduler/framingassistant.cpp:539
+#: ekos/scheduler/framingassistant.cpp:538
 #: ekos/scheduler/framingassistantui.cpp:559
 #, fuzzy, kde-format
 #| msgctxt "star name"
@@ -26533,7 +26533,7 @@ msgid_plural " Scheduler jobs"
 msgstr[0] "গৌতম"
 msgstr[1] "গৌতম"
 
-#: ekos/scheduler/framingassistant.cpp:541
+#: ekos/scheduler/framingassistant.cpp:540
 #: ekos/scheduler/framingassistantui.cpp:561
 #, kde-format
 msgid " (first only)"
@@ -85510,17 +85510,17 @@ msgstr "ফিল্ড-অব-ভিউ প্রতীকের আকৃত�
 msgid "FOV to use for star hopping (in arcminutes):"
 msgstr ""
 
-#: skymap.cpp:912
+#: skymap.cpp:910
 #, kde-format
 msgid "No object selected."
 msgstr "কোন বস্তু বাছাই করা হয় নি।"
 
-#: skymap.cpp:912
+#: skymap.cpp:910
 #, kde-format
 msgid "Object Details"
 msgstr "বস্তুর বিস্তারিত বিবরণ"
 
-#: skymapdrawabstract.cpp:191
+#: skymapdrawabstract.cpp:190
 #, fuzzy, kde-format
 #| msgid "RA:"
 msgctxt "Zenith"
@@ -85832,7 +85832,7 @@ msgstr "দেখাও"
 msgid "unnamed object"
 msgstr "নামহীন বস্তু"
 
-#: skyobjects/skypoint.cpp:622
+#: skyobjects/skypoint.cpp:642
 #, kde-format
 msgid "lat and LST parameters should only be used in KSPlanetBase objects."
 msgstr "lat ও LST পরামিতি শুধুমাত্র KSPlanetBase অবজেক্টে ব্যবহার করা উচিত্‍।"
