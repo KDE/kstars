@@ -12,9 +12,14 @@
       "args": [],
       "stopAtEntry": false,
       "cwd": "${fileDirname}",
-      "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
+      "environment": [
+        {
+          "name": "LD_BIND_NOW",
+          "value": "1"
+        }
+      ],
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",
@@ -25,6 +30,15 @@
           "description": "Set Disassembly Flavor to Intel",
           "text": "-gdb-set disassembly-flavor intel",
           "ignoreFailures": true
+        },
+        {
+          "text": "handle SIGPIPE nostop noprint pass"
+        },
+        {
+          "text": "skip -rfu ^std::.*" // Skip std:: namespace functions
+        },
+        {
+          "text": "skip file memory" // Skip memory header
         }
       ]
     }

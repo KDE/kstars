@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>228</height>
+    <height>257</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,30 +37,27 @@
      <property name="spacing">
       <number>3</number>
      </property>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_15">
-       <property name="toolTip">
-        <string>Cover or uncover telescope dialog timeout in seconds</string>
-       </property>
-       <property name="text">
-        <string>Dialog timeout:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="toolTip">
-        <string>Maximum acceptable difference between requested and measured temperature set point. When the temperature threshold is below this value, the temperature set point request is deemed successful.</string>
-       </property>
-       <property name="text">
-        <string>Temperature threshold:</string>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="2">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>° C</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="label_14">
+       <property name="text">
+        <string>seconds</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_17">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimal duration of a meridian flip in seconds. Increase this value if Ekos reports that a meridian flip has failed because the pier side did not change. A good estimation for this value is at least 50% of the typical duration of a meridian flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Minimal meridian flip duration: </string>
        </property>
       </widget>
      </item>
@@ -77,17 +74,13 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="label_16">
-       <property name="text">
-        <string>seconds</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="kcfg_GuidingSettle">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_13">
        <property name="toolTip">
-        <string>Wait this many seconds after guiding is resumed before starting capture</string>
+        <string>Wait this many seconds after guiding is resumed to stabilize the guiding performance before capture.</string>
+       </property>
+       <property name="text">
+        <string>Guiding settle:</string>
        </property>
       </widget>
      </item>
@@ -107,20 +100,30 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_13">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
        <property name="toolTip">
-        <string>Wait this many seconds after guiding is resumed to stabilize the guiding performance before capture.</string>
+        <string>Maximum acceptable difference between requested and measured temperature set point. When the temperature threshold is below this value, the temperature set point request is deemed successful.</string>
        </property>
        <property name="text">
-        <string>Guiding settle:</string>
+        <string>Temperature threshold:</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="label_14">
+     <item row="4" column="2">
+      <widget class="QLabel" name="label_18">
        <property name="text">
         <string>seconds</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_15">
+       <property name="toolTip">
+        <string>Cover or uncover telescope dialog timeout in seconds</string>
+       </property>
+       <property name="text">
+        <string>Dialog timeout:</string>
        </property>
       </widget>
      </item>
@@ -137,17 +140,7 @@
        </property>
       </spacer>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_17">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimal duration of a meridian flip in seconds. Increase this value if Ekos reports that a meridian flip has failed because the pier side did not change. A good estimation for this value is at least 50% of the typical duration of a meridian flip.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>Minimal meridian flip duration: </string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QSpinBox" name="kcfg_MinFlipDuration">
        <property name="maximum">
         <number>360</number>
@@ -160,8 +153,45 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="kcfg_GuidingSettle">
+       <property name="toolTip">
+        <string>Wait this many seconds after guiding is resumed before starting capture</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="label_16">
+       <property name="text">
+        <string>seconds</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="toolTip">
+        <string>Maximum number of seconds to wait before aborting the capture if operations like filter wheel changes or meridian flips take too long</string>
+       </property>
+       <property name="text">
+        <string>Capture Operations Timeout</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QSpinBox" name="kcfg_CaptureOperationsTimeout">
+       <property name="minimum">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <number>900</number>
+       </property>
+       <property name="value">
+        <number>120</number>
+       </property>
+      </widget>
+     </item>
      <item row="3" column="2">
-      <widget class="QLabel" name="label_18">
+      <widget class="QLabel" name="label_4">
        <property name="text">
         <string>seconds</string>
        </property>

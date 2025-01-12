@@ -317,6 +317,8 @@ class SequenceJobState: public QObject
         bool autoFocusReady;
         // Capturing mode, necessary for the display in the FITS viewer
         FITSMode m_fitsMode;
+        // Capture Operations Timeout
+        QTimer m_CaptureOperationsTimer;
         // ////////////////////////////////////////////////////////////////////
         // flat preparation attributes
         // ////////////////////////////////////////////////////////////////////

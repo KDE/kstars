@@ -22,6 +22,27 @@ SequenceJobState::SequenceJobState(const QSharedPointer<CameraState> &sharedStat
     {
         emit flatSyncFocus(targetFilterID);
     });
+
+    // Monitor capture operations timeout
+    m_CaptureOperationsTimer.setSingleShot(false);
+    m_CaptureOperationsTimer.setInterval(Options::captureOperationsTimeout() * 1000);
+    connect(&m_CaptureOperationsTimer, &QTimer::timeout, this, [this]()
+    {
+        // If camera is paused, stop timer completely.
+        if (m_CameraState->isCapturePausing())
+        {
+            m_CaptureOperationsTimer.stop();
+            return;
+        }
+
+        // If preparation is not complete by now, let should abort.
+        if (!preparationCompleted())
+        {
+            emit newLog(i18n("Capture operations timed out after %1 seconds.", Options::captureOperationsTimeout()));
+            m_CaptureOperationsTimer.stop();
+            emit prepareComplete(false);
+        }
+    });
 }
 
 void SequenceJobState::setFrameType(CCDFrameType frameType)
@@ -37,6 +58,7 @@ void SequenceJobState::initPreparation(bool isPreview)
     m_status      = JOB_BUSY;
     m_isPreview   = isPreview;
     wpScopeStatus = WP_NONE;
+    m_CaptureOperationsTimer.start();
 }
 
 void SequenceJobState::prepareLightFrameCapture(bool enforceCCDTemp, bool isPreview)
@@ -126,6 +148,7 @@ bool SequenceJobState::initCapture(CCDFrameType frameType, bool isPreview, bool 
     m_PreparationState = PREP_INIT_CAPTURE;
     autoFocusReady = isAutofocusReady;
     m_fitsMode = mode;
+    m_CaptureOperationsTimer.start();
 
     //check for setting the target filter
     prepareTargetFilter(frameType, isPreview);
@@ -149,7 +172,10 @@ void SequenceJobState::checkAllActionsReady()
 {
     // ignore events if preparation is already completed
     if (preparationCompleted())
+    {
+        m_CaptureOperationsTimer.stop();
         return;
+    }
 
     switch (m_PreparationState)
     {

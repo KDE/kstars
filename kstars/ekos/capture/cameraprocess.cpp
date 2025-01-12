@@ -335,6 +335,8 @@ void CameraProcess::stopCapturing(CaptureState targetState)
 {
     clearFlatCache();
 
+    m_CaptureOperationsTimer.invalidate();
+
     state()->resetAlignmentRetries();
     //seqTotalCount   = 0;
     //seqCurrentCount = 0;
@@ -703,7 +705,7 @@ void CameraProcess::executeJob()
     if (!activeCamera() || !devices()->getActiveChip())
     {
         checkCamera();
-        QTimer::singleShot(1000, this, &CameraProcess::executeJob);
+        checkCaptureOperationsTimeout(std::bind(&CameraProcess::executeJob, this));
         return;
     }
 
@@ -741,6 +743,7 @@ void CameraProcess::executeJob()
 
     }
 
+    m_CaptureOperationsTimer.invalidate();
     updatePreCaptureCalibrationStatus();
 
 }
@@ -876,17 +879,17 @@ void CameraProcess::captureStarted(CaptureResult rc)
 
         case CAPTURE_FRAME_ERROR:
             emit newLog(i18n("Failed to set sub frame."));
-            emit stopCapturing(CAPTURE_ABORTED);
+            stopCapturing(CAPTURE_ABORTED);
             break;
 
         case CAPTURE_BIN_ERROR:
             emit newLog((i18n("Failed to set binning.")));
-            emit stopCapturing(CAPTURE_ABORTED);
+            stopCapturing(CAPTURE_ABORTED);
             break;
 
         case CAPTURE_FOCUS_ERROR:
             emit newLog((i18n("Cannot capture while focus module is busy.")));
-            emit stopCapturing(CAPTURE_ABORTED);
+            stopCapturing(CAPTURE_ABORTED);
             break;
     }
 }
@@ -897,7 +900,9 @@ void CameraProcess::checkNextExposure()
     // if starting the next exposure did not succeed due to pending jobs running,
     // we retry after 1 second
     if (started == IPS_BUSY)
-        QTimer::singleShot(1000, this, &CameraProcess::checkNextExposure);
+    {
+        checkCaptureOperationsTimeout(std::bind(&CameraProcess::checkNextExposure, this));
+    }
 }
 
 IPState CameraProcess::captureImageWithDelay()
@@ -1016,6 +1021,7 @@ IPState CameraProcess::resumeSequence()
                 activeCamera()->setFastExposureEnabled(false);
             }
 
+            m_CaptureOperationsTimer.invalidate();
             checkNextExposure();
 
         }
@@ -1340,7 +1346,7 @@ void CameraProcess::updatePreCaptureCalibrationStatus()
         return;
     else if (rc == IPS_BUSY)
     {
-        QTimer::singleShot(1000, this, &CameraProcess::updatePreCaptureCalibrationStatus);
+        checkCaptureOperationsTimeout(std::bind(&CameraProcess::updatePreCaptureCalibrationStatus, this));
         return;
     }
 
@@ -1774,6 +1780,9 @@ void CameraProcess::updateCompletedCaptureCountersAction()
     // report that the image has been received
     emit newLog(i18n("Received image %1 out of %2.", activeJob()->getCompleted(),
                      activeJob()->getCoreProperty(SequenceJob::SJ_Count).toInt()));
+
+    // Invalidate the timer so that it would be restart next time it is triggered.
+    m_CaptureOperationsTimer.invalidate();
 }
 
 IPState CameraProcess::updateImageMetadataAction(QSharedPointer<FITSData> imageData)
@@ -1872,7 +1881,10 @@ void CameraProcess::scriptFinished(int exitCode, QProcess::ExitStatus status)
             if (activeJob() && activeJob()->getStatus() == JOB_IDLE)
                 prepareJobExecution();
             else
+            {
+                m_CaptureOperationsTimer.invalidate();
                 checkNextExposure();
+            }
             break;
 
         case SCRIPT_POST_CAPTURE:
@@ -2068,10 +2080,7 @@ void CameraProcess::removeDevice(const QSharedPointer<ISD::GenericDevice> &devic
         if (INDIListener::findDevice(name, generic))
             DarkLibrary::Instance()->removeDevice(generic);
 
-        QTimer::singleShot(1000, this, [this]()
-        {
-            checkCamera();
-        });
+        QTimer::singleShot(1000, this, &CameraProcess::checkCamera);
     }
 
     // Filter Wheels
@@ -2895,7 +2904,7 @@ void CameraProcess::restartCamera(const QString &name)
     connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, name]()
     {
         KSMessageBox::Instance()->disconnect(this);
-        emit stopCapturing(CAPTURE_ABORTED);
+        stopCapturing(CAPTURE_ABORTED);
         emit driverTimedout(name);
     });
     connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [this]()
@@ -3037,4 +3046,25 @@ ISD::Camera *CameraProcess::activeCamera()
 {
     return devices()->getActiveCamera();
 }
+
+void CameraProcess::checkCaptureOperationsTimeout(const std::function<void()> &slot)
+{
+    // If invalid, validate it by starting the timer.
+    if (m_CaptureOperationsTimer.isValid() == false)
+        m_CaptureOperationsTimer.start();
+
+    // If we are paused, then restart time.
+    if (state()->getCaptureState() == CAPTURE_PAUSED)
+        m_CaptureOperationsTimer.restart();
+
+    // If capture operations timer exceeds timeout, then abort.
+    if (m_CaptureOperationsTimer.elapsed() >= Options::captureOperationsTimeout() * 1000)
+    {
+        emit newLog(i18n("Capture operations timed out after %1 seconds.", Options::captureOperationsTimeout()));
+        stopCapturing(CAPTURE_ABORTED);
+    }
+    else
+        QTimer::singleShot(1000, this, slot);
+}
+
 } // Ekos namespace
