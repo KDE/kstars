@@ -29,7 +29,7 @@ SequenceJobState::SequenceJobState(const QSharedPointer<CameraState> &sharedStat
     connect(&m_CaptureOperationsTimer, &QTimer::timeout, this, [this]()
     {
         // If camera is paused, stop timer completely.
-        if (m_CameraState->isCapturePausing())
+        if (m_CameraState->isCapturePausing() || m_PreparationState == PREP_COMPLETED || m_PreparationState == PREP_NONE)
         {
             m_CaptureOperationsTimer.stop();
             return;
