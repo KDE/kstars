@@ -3341,7 +3341,7 @@
        <label>If Analyze is running and Ekos is disconnected then reconnected, a new .analyze file will be created and written to, and the graphs in Analyze will only show the new session.</label>
        <default>true</default>
     </entry>
-    <entry name="AnalyzeAlternativeImageDirectory" type="String">
+    <entry name="AnalyzeAlternativeDirectoryName" type="String">
        <label>Alternative directory to use for searching for analyze image files.</label>
        <default></default>
     </entry>
