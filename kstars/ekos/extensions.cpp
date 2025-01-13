@@ -1,11 +1,13 @@
 #include "extensions.h"
 #include "auxiliary/kspaths.h"
+#include "kstars_debug.h"
 #include "version.h"
 
 #include <QDir>
 #include <QIcon>
 #include <QDebug>
 #include <QProcess>
+
 
 extensions::extensions(QObject *parent) : QObject{ parent }
 {

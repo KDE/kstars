@@ -27,31 +27,22 @@ OpsEkos::OpsEkos() : QTabWidget(KStars::Instance())
             KSNotification::info(i18n("You must restart KStars for this change to take effect."));
     });
 
-    if (Options::analyzeAlternativeImageDirectory().size() == 0)
-        Options::setAnalyzeAlternativeImageDirectory(QDir::homePath());
-
-    kcfg_AnalyzeAlternativeDirectoryName->setText(Options::analyzeAlternativeImageDirectory());
 
     connect(analyzeAlternativeDirectoryB, &QPushButton::clicked, [this] ()
     {
-        QString dir = QFileDialog::getExistingDirectory(
-                          this, i18n("Set an alternate base directory for Analyze's captured images"),
-                          QDir::homePath(),
-                          QFileDialog::ShowDirsOnly);
-        if (dir.size() > 0)
-        {
-            Options::setAnalyzeAlternativeImageDirectory(dir);
-            kcfg_AnalyzeAlternativeDirectoryName->setText(Options::analyzeAlternativeImageDirectory());
-        }
+        auto dir = QFileDialog::getExistingDirectory(
+                       this, i18n("Set an alternate base directory for Analyze's captured images"),
+                       QDir::homePath(),
+                       QFileDialog::ShowDirsOnly);
+        if (!dir.isEmpty())
+            kcfg_AnalyzeAlternativeDirectoryName->setText(dir);
     });
     connect(kcfg_AnalyzeAlternativeDirectoryName, &QLineEdit::editingFinished, [this] ()
     {
-        const QString &text = kcfg_AnalyzeAlternativeDirectoryName->text();
+        auto text = kcfg_AnalyzeAlternativeDirectoryName->text();
 
         QFileInfo newdir(text);
         if (text.size() > 0 && newdir.exists() && newdir.isDir())
-            Options::setAnalyzeAlternativeImageDirectory(text);
-        else
-            kcfg_AnalyzeAlternativeDirectoryName->setText(Options::analyzeAlternativeImageDirectory());
+            kcfg_AnalyzeAlternativeDirectoryName->setText(text);
     });
 }

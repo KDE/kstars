@@ -14,8 +14,7 @@
 #include "kssun.h"
 #include "Options.h"
 #include "skymapcomposite.h"
-
-#include <QDebug>
+#include "kstars_debug.h"
 
 #include <cmath>
 #include <typeinfo>

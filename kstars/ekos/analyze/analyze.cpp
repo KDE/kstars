@@ -222,7 +222,7 @@ bool filterStripeBrush(const QString &filter, QBrush *brush)
 // the full path where the file was found.
 QString findFilename(const QString &filename)
 {
-    const QString &alternateDirectory = Options::analyzeAlternativeImageDirectory();
+    const QString &alternateDirectory = Options::analyzeAlternativeDirectoryName();
 
     // Try the origial full path.
     QFileInfo info(filename);

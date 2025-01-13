@@ -3343,7 +3343,7 @@
     </entry>
     <entry name="AnalyzeAlternativeDirectoryName" type="String">
        <label>Alternative directory to use for searching for analyze image files.</label>
-       <default></default>
+       <default code="true">QDir::homePath()</default>
     </entry>
     <entry name="AnalyzeHFR" type="Bool">
       <whatsthis>Display HFR on the Analyze Statistics Plot.</whatsthis>
