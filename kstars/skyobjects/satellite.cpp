@@ -1131,7 +1131,7 @@ int Satellite::sgp4(double tsince)
 
     if (mrt < 1.0)
     {
-        qDebug() << Q_FUNC_INFO << "Satellite has decayed";
+        qCDebug(KSTARS) << Q_FUNC_INFO << "Satellite has decayed";
         return (6);
     }
 
