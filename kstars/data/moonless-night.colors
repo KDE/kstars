@@ -38,3 +38,4 @@
 #FFAA00 :SensorFOVColor
 #FFFFFF :HIPSGridColor
 #00FF00 :FITSObjectLabelColor
+#445566 :DomeColor

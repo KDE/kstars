@@ -518,3 +518,74 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, ISD::Dome::Shutte
     return argument;
 }
 
+double ISD::Dome::getDomeRadius() const
+{
+    auto nvp = getNumber("DOME_MEASUREMENTS");
+    if (nvp)
+    {
+        auto radius = nvp->findWidgetByName("DM_DOME_RADIUS");
+        if (radius)
+            return radius->getValue();
+    }
+    return 0;
+}
+
+double ISD::Dome::getShutterWidth() const
+{
+    auto nvp = getNumber("DOME_MEASUREMENTS");
+    if (nvp)
+    {
+        auto width = nvp->findWidgetByName("DM_SHUTTER_WIDTH");
+        if (width)
+            return width->getValue();
+    }
+    return 0;
+}
+
+double ISD::Dome::getNorthDisplacement() const
+{
+    auto nvp = getNumber("DOME_MEASUREMENTS");
+    if (nvp)
+    {
+        auto north = nvp->findWidgetByName("DM_NORTH_DISPLACEMENT");
+        if (north)
+            return north->getValue();
+    }
+    return 0;
+}
+
+double ISD::Dome::getEastDisplacement() const
+{
+    auto nvp = getNumber("DOME_MEASUREMENTS");
+    if (nvp)
+    {
+        auto east = nvp->findWidgetByName("DM_EAST_DISPLACEMENT");
+        if (east)
+            return east->getValue();
+    }
+    return 0;
+}
+
+double ISD::Dome::getUpDisplacement() const
+{
+    auto nvp = getNumber("DOME_MEASUREMENTS");
+    if (nvp)
+    {
+        auto up = nvp->findWidgetByName("DM_UP_DISPLACEMENT");
+        if (up)
+            return up->getValue();
+    }
+    return 0;
+}
+
+double ISD::Dome::getOTAOffset() const
+{
+    auto nvp = getNumber("DOME_MEASUREMENTS");
+    if (nvp)
+    {
+        auto ota = nvp->findWidgetByName("DM_OTA_OFFSET");
+        if (ota)
+            return ota->getValue();
+    }
+    return 0;
+}

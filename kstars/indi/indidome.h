@@ -188,6 +188,42 @@ class Dome : public ConcreteDevice
             return controlShutter(false);
         }
 
+        /**
+         * @brief getDomeRadius Get the dome radius in meters
+         * @return Dome radius value, or 0 if not available
+         */
+        double getDomeRadius() const;
+
+        /**
+         * @brief getShutterWidth Get the shutter width in meters
+         * @return Shutter width value, or 0 if not available
+         */
+        double getShutterWidth() const;
+
+        /**
+         * @brief getNorthDisplacement Get the north displacement in meters
+         * @return North displacement value, or 0 if not available
+         */
+        double getNorthDisplacement() const;
+
+        /**
+         * @brief getEastDisplacement Get the east displacement in meters
+         * @return East displacement value, or 0 if not available
+         */
+        double getEastDisplacement() const;
+
+        /**
+         * @brief getUpDisplacement Get the up displacement in meters
+         * @return Up displacement value, or 0 if not available
+         */
+        double getUpDisplacement() const;
+
+        /**
+         * @brief getOTAOffset Get the OTA offset in meters
+         * @return OTA offset value, or 0 if not available
+         */
+        double getOTAOffset() const;
+
     signals:
         void newStatus(ISD::Dome::Status status);
         void newParkStatus(ISD::ParkStatus status);

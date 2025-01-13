@@ -67,6 +67,7 @@ ColorScheme::ColorScheme() : FileName()
     appendItem("SolverFOVColor", i18n("Solver FOV"), "#FFFFFF");
     appendItem("SensorFOVColor", i18n("Sensor FOV"), "#FFAA00");
     appendItem("HIPSGridColor", i18n("HiPS Grid"), "#FFFFFF");
+    appendItem("DomeColor", i18n("Dome Slit"), "#445566");
     appendItem("FITSObjectLabelColor", i18n("FITS Image Object Label"), "#00FF00");
     appendItem("FITSObjectHighlightLabelColor", i18n("FITS Image Object Highlight Label"), "#FF0000");
 

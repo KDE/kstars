@@ -43,6 +43,7 @@
 #include "indi/driverinfo.h"
 #include "indi/indistd.h"
 #include "indi/indimount.h"
+#include "indi/indidome.h"
 #endif
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
@@ -83,6 +84,8 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
 
     drawTelescopeSymbols(p);
 
+    drawDomeSlits(p);
+
     drawZoomBox(p);
 
     if (m_SkyMap->rotationStart.x() > 0 && m_SkyMap->rotationStart.y() > 0)
@@ -102,6 +105,120 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
     }
 }
 
+void SkyMapDrawAbstract::drawDomeSlits(QPainter &psky)
+{
+#ifdef HAVE_INDI
+    if (INDIListener::Instance()->size() == 0)
+        return;
+
+    QColor domeColor = m_KStarsData->colorScheme()->colorNamed("DomeColor");
+    domeColor.setAlpha(64);
+    psky.setPen(Qt::NoPen);
+    psky.setBrush(domeColor);
+
+    for (auto &oneDevice : INDIListener::devices())
+    {
+        if (!(oneDevice->getDriverInterface() & INDI::BaseDevice::DOME_INTERFACE) || oneDevice->isConnected() == false)
+            continue;
+
+        auto dome = oneDevice->getDome();
+        if (!dome)
+            continue;
+
+        // Get dome measurements and position
+        double shutterWidth = dome->getShutterWidth();
+        double azimuth = dome->position();
+
+        if (shutterWidth <= 0)
+            continue;
+
+        // Calculate angular width in degrees
+        double radius = dome->getDomeRadius();
+        if (radius <= 0)
+            continue;
+
+        // Calculate circumference
+        double circumference = 2 * M_PI * radius;
+        // Convert shutter width to degrees
+        double angularWidth = (shutterWidth / circumference) * 360.0;
+        double halfWidth = angularWidth / 2.0;
+
+        // Create path for the slit
+        QPainterPath path;
+        // Points along each edge
+        const int steps = 50;
+        // Extra points for smooth top curve
+        const int topSteps = 20;
+
+        // Create points along left edge from horizon to 90 degrees
+        bool started = false;
+        for (int i = 0; i <= steps; i++)
+        {
+            double alt = (90.0 * i) / steps;
+
+            SkyPoint point;
+            point.setAz(dms(azimuth - halfWidth));
+            point.setAlt(dms(alt));
+            point.HorizontalToEquatorialNow();
+
+            bool visible;
+            QPointF screen = m_SkyMap->m_proj->toScreen(&point, true, &visible);
+            if (visible)
+            {
+                if (!started)
+                {
+                    path.moveTo(screen);
+                    started = true;
+                }
+                else
+                {
+                    path.lineTo(screen);
+                }
+            }
+        }
+
+        // Create smooth curve at the top
+        for (int i = 0; i <= topSteps; i++)
+        {
+            double fraction = double(i) / topSteps;
+            double az = azimuth - halfWidth + angularWidth * fraction;
+
+            SkyPoint point;
+            point.setAz(dms(az));
+            point.setAlt(dms(90.0));
+            point.HorizontalToEquatorialNow();
+
+            bool visible;
+            QPointF screen = m_SkyMap->m_proj->toScreen(&point, true, &visible);
+            if (visible)
+                path.lineTo(screen);
+        }
+
+        // Create points along right edge from 90 degrees back to horizon
+        for (int i = steps; i >= 0; i--)
+        {
+            double alt = (90.0 * i) / steps;
+
+            SkyPoint point;
+            point.setAz(dms(azimuth + halfWidth));
+            point.setAlt(dms(alt));
+            point.HorizontalToEquatorialNow();
+
+            bool visible;
+            QPointF screen = m_SkyMap->m_proj->toScreen(&point, true, &visible);
+            if (visible)
+                path.lineTo(screen);
+        }
+
+        // Close the path
+        path.closeSubpath();
+
+        // Draw the filled slit
+        psky.fillPath(path, domeColor);
+    }
+#endif
+}
+
 void SkyMapDrawAbstract::drawAngleRuler(QPainter &p)
 {
     //FIXME use sky painter.
@@ -117,14 +234,14 @@ void SkyMapDrawAbstract::drawOrientationArrows(QPainter &p)
 {
     auto* data = m_KStarsData;
     const SkyPoint centerSkyPoint = m_SkyMap->m_proj->fromScreen(
-                                                                 p.viewport().center(),
-                                                                 data);
+                                        p.viewport().center(),
+                                        data);
 
     QPointF centerScreenPoint = p.viewport().center();
     double northRotation = m_SkyMap->m_proj->findNorthPA(
-                                                         &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
+                               &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
     double zenithRotation = m_SkyMap->m_proj->findZenithPA(
-                                                           &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
+                                &centerSkyPoint, centerScreenPoint.x(), centerScreenPoint.y());
 
     QColor overlayColor(data->colorScheme()->colorNamed("CompassColor"));
     p.setPen(Qt::NoPen);
@@ -152,7 +269,8 @@ void SkyMapDrawAbstract::drawOrientationArrows(QPainter &p)
         arrowhead.lineTo(-radius / 30.f, radius / 7.5f);
         arrowhead.lineTo(radius / 30.f, radius / 7.5f);
         arrowhead.lineTo(0.f, 0.f);
-        arrowhead.addText(QPointF(-1.1 * fontMetrics.averageCharWidth() * marker.size(), radius / 7.5f + 1.2f * fontMetrics.ascent()),
+        arrowhead.addText(QPointF(-1.1 * fontMetrics.averageCharWidth() * marker.size(),
+                                  radius / 7.5f + 1.2f * fontMetrics.ascent()),
                           QFont(), marker);
         transform.translate(0, -radius);
         arrowhead = transform.map(arrowhead);
@@ -305,7 +423,7 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
         {
             oneFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed("SensorFOVColor").name());
             SkyPoint centerSkyPoint = SkyMap::Instance()->projector()->fromScreen(psky.viewport().center(),
-                                                                                  KStarsData::Instance());
+                                      KStarsData::Instance());
             QPointF screenSkyPoint = psky.viewport().center();
             double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(),
                                    screenSkyPoint.y());
