@@ -1,6 +1,6 @@
 # translation of kstars.po to Swedish
 #
-# SPDX-FileCopyrightText: 2002, 2023, 2024 Stefan Asserhäll <stefan.asserhall@gmail.com>
+# SPDX-FileCopyrightText: 2002, 2023, 2024, 2025 Stefan Asserhäll <stefan.asserhall@gmail.com>
 # Stefan Asserhäll <stefan.asserhall@gmail.com>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
 # Stefan Asserhall <stefan.asserhall@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Arve Eriksson <031299870@telia.com>, 2011.
@@ -9,14 +9,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-12 01:59+0000\n"
-"PO-Revision-Date: 2024-12-03 21:42+0100\n"
+"PO-Revision-Date: 2025-01-12 22:04+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -4405,10 +4405,9 @@ msgid "(nothing)"
 msgstr "(ingenting)"
 
 #: dialogs/finddialog.cpp:491
-#, fuzzy, kde-format
-#| msgid "Search the Internet for %1"
+#, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "Sök på Internet efter %1"
+msgstr "Sök på Internet efter \"%1\""
 
 #: dialogs/finddialog.cpp:499
 #, kde-format
@@ -14422,10 +14421,9 @@ msgid "Autofocus failed."
 msgstr "Automatisk fokusering misslyckades."
 
 #: ekos/capture/camera.cpp:828
-#, fuzzy, kde-format
-#| msgid "Capturing %1-second %2 image..."
+#, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
-msgstr "Tar %1-sekunders %2 bild..."
+msgstr "Tar %1 x %2-sekunders %3 video..."
 
 #: ekos/capture/camera.cpp:834
 #, kde-format
@@ -14479,10 +14477,9 @@ msgid "Expose (-/-):"
 msgstr "Exponera (-/-):"
 
 #: ekos/capture/camera.cpp:1061
-#, fuzzy, kde-format
-#| msgid "Duration of night for selected date"
+#, kde-format
 msgid "Duration of the video sequence"
-msgstr "Nattens längd för valt datum"
+msgstr "Videosekvensens längd"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
@@ -14500,17 +14497,14 @@ msgid "Duration:"
 msgstr "Längd:"
 
 #: ekos/capture/camera.cpp:1063
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Exposure time in seconds of a single video frame"
-msgstr "Exponeringstid i sekunder"
+msgstr "Exponeringstid i sekunder för en enskild videobildruta"
 
 #: ekos/capture/camera.cpp:1064
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the exposure time in seconds for individual images, if applicable"
+#, kde-format
 msgid "Exposure time in seconds for individual images"
-msgstr "Ställ in exponeringstid i sekunder för enskilda bilder, om det behövs"
+msgstr "Exponeringstid i sekunder för enskilda bilder"
 
 #: ekos/capture/camera.cpp:1079
 #, kde-format
@@ -14591,16 +14585,14 @@ msgid "Confirmation"
 msgstr "Bekräftelse"
 
 #: ekos/capture/camera.cpp:2414
-#, fuzzy, kde-format
-#| msgid "You must set remote directory for Local & Both modes."
+#, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
-msgstr "Fjärrkatalog måste anges för lokalt och båda lägen."
+msgstr "Lokal- eller fjärrkatalog måste anges för fjärrläge och båda lägen."
 
 #: ekos/capture/camera.cpp:2420
-#, fuzzy, kde-format
-#| msgid "You must set local directory for Client & Both modes."
+#, kde-format
 msgid "You must set local directory for Locally & Both modes."
-msgstr "Lokal katalog måste anges för klient och båda lägen."
+msgstr "Lokal katalog måste anges för lokalt läge och båda lägen."
 
 #: ekos/capture/camera.cpp:3605
 #, kde-format
@@ -15059,29 +15051,23 @@ msgstr "Fördröjning:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, videoDurationSB)
 #: ekos/capture/camera.ui:1653
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of iterations the entire sequence should be "
-#| "repeated.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Duration of the video sequence (in seconds or number "
 "of frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Antal iterationer som hela sekvensen ska upprepas.</"
-"p></body></html>"
+"<html><head/><body><p>Videosekvensens längd (i sekunder eller antal "
+"bildrutor).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoDurationUnitCB)
 #: ekos/capture/camera.ui:1669
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Units of the video duration (seconds or number of "
 "frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Storlek på mellanrummet mellan plattorna.</p></body></"
-"html>"
+"<html><head/><body><p>Videolängdens enhet (sekunder eller antal bildrutor).</"
+"p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1696
@@ -15688,14 +15674,9 @@ msgstr ""
 "att behandlas."
 
 #: ekos/capture/cameraprocess.cpp:605
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#| "processed."
+#, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
-msgstr ""
-"Jobb kräver %1-sekunders %2 bilder, har redan %3/%4 tagna bilder och kommer "
-"att behandlas."
+msgstr "Jobb kräver %1 x %2-sekunders %3 video och kommer att behandlas."
 
 #: ekos/capture/cameraprocess.cpp:834
 #, kde-format
@@ -20590,6 +20571,53 @@ msgid ""
 "planetary.  This is an experimental feature that requires openCV to be "
 "installed.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Välj måttet som ska användas vid anpassning av en "
+"engångslinjär kurva:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
+"span>: Halvflödesradie. Använder en algoritm för att beräkna en cirkelradie "
+"centrerad på stjärnans tyngdpunkt som inkapslar halva stjärnans flöde.</"
+"li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Justerad HFR</span>: "
+"Justerad halvflödesradie. Normaliserar HFR för toppintensitet. </li></ul><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">FBHM</span>: Full bredd halva maximum. Kurvan anpassar en PSF "
+"till varje stjärntyngdpunkt och använder kurvan för att beräkna FBHM. </"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"> <span style=\" font-"
+"weight:600;\">Antal stjärnor</span>: Antal stjärnor. Antalet detekterade "
+"stjärnor vid optimal fokus är maximalt. </li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"> <span style=\" font-weight:600;\">Fourier</span>: "
+"Fouriereffektberäkning. Använder Fouriereffektberäkningsmetoden som "
+"utvecklats av Tan och Schulz i https://arxiv.org/pdf/2201.12466.pdf. Vid "
+"optimal fokusering är effekten i frekvensrummet [resultat av "
+"fouriertransformen] maximal. </li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"> <span style=\" font-weight:600;\">Standardavvikelse</span>: "
+"Använder variansen/medelvärdet av bildpunkterna. Det är avsett för "
+"stjärnfält. Det är en experimentell funktion som kräver att openCV är "
+"installerat.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block- indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Sobel</span>: Använder Sobel "
+"kantdetekteringsalgoritm. Den är avsedd för annat än stjärnfält, t.ex. "
+"solen, månen eller planeter. Det är en experimentell funktion som kräver att "
+"openCV är installerat.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block- indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Laplace: </span>Använder Laplace "
+"kantdetekteringsalgoritm. Den är avsedd för annat än stjärnfält, t.ex. "
+"solen, månen eller planeter. Det är en experimentell funktion som kräver att "
+"openCV är installerat.</li></ul><ul style=\"margin-top: 0px; margin-bottom: "
+"0px; margin-left: 0px; margin-right: 0px; - qt-list-indent: 1;\"><li style="
+"\" margin-top:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Canny: </span>Använder "
+"Canny kantdetekteringsalgoritm. Den är avsedd för annat än stjärnfält, t.ex. "
+"solen, månen eller planeter. Det är en experimentell funktion som kräver att "
+"openCV är installerat.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:264
@@ -35702,55 +35730,55 @@ msgstr "Klockans tillstånd (går eller står stilla)"
 #: kstars.kcfg:946
 #, kde-format
 msgid "Should the imaging Planner tool process open clusters."
-msgstr ""
+msgstr "Ska bildplaneringsverktyget behandla öppna stjärnhopar."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptNebula), group (ImagingPlanner)
 #: kstars.kcfg:950
 #, kde-format
 msgid "Should the imaging Planner tool process nebulae."
-msgstr ""
+msgstr "Ska bildplaneringsverktyget behandla nebulosor."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGlobularCluster), group (ImagingPlanner)
 #: kstars.kcfg:954
 #, kde-format
 msgid "Should the imaging Planner tool process globular clusters."
-msgstr ""
+msgstr "Ska bildplaneringsverktyget behandla klotformiga stjärnhopar."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptPlanetary), group (ImagingPlanner)
 #: kstars.kcfg:958
 #, kde-format
 msgid "Should the imaging Planner tool process planetary nebulae."
-msgstr ""
+msgstr "Ska bildplaneringsverktyget behandla planetära nebulosor."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptSupernovaRemnant), group (ImagingPlanner)
 #: kstars.kcfg:962
 #, kde-format
 msgid "Should the imaging Planner tool process supernova remnants."
-msgstr ""
+msgstr "Ska bildplaneringsverktyget behandla supernovarester."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGalaxy), group (ImagingPlanner)
 #: kstars.kcfg:966
 #, kde-format
 msgid "Should the imaging Planner tool process galaxies."
-msgstr ""
+msgstr "Ska bildplaneringsverktyget behandla galaxer."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGalaxyCluster), group (ImagingPlanner)
 #: kstars.kcfg:970
 #, kde-format
 msgid "Should the imaging Planner tool process galaxy clusters."
-msgstr ""
+msgstr "Ska bildplaneringsverktyget behandla öppna galaxhopar."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptDarkNebula), group (ImagingPlanner)
 #: kstars.kcfg:974
 #, kde-format
 msgid "Should the imaging Planner tool process dark nebulae."
-msgstr ""
+msgstr "Ska bildplaneringsverktyget behandla mörka nebulosor."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptOther), group (ImagingPlanner)
 #: kstars.kcfg:978
 #, kde-format
 msgid "Should the imaging Planner tool process other types."
-msgstr ""
+msgstr "Ska bildplaneringsverktyget behandla andra typer."
 
 #. i18n: ectx: label, entry (AstrobinAward), group (ImagingPlanner)
 #: kstars.kcfg:982
@@ -35759,36 +35787,40 @@ msgid ""
 "Should the imaging Planner tool required an award when searching for an "
 "object in Astrobin."
 msgstr ""
+"Ska bildplaneringsverkyget kräva ett pris vis sökning efter ett objekt på "
+"AstroBin."
 
 #. i18n: ectx: label, entry (AstrobinMinRadius), group (ImagingPlanner)
 #: kstars.kcfg:986
 #, kde-format
 msgid "Minimum radius of image (degrees) when searching Astrobin"
-msgstr ""
+msgstr "Minimal bildradie (grader) vid sökning på AstroBin"
 
 #. i18n: ectx: label, entry (AstrobinMaxRadius), group (ImagingPlanner)
 #: kstars.kcfg:990
 #, kde-format
 msgid "Maximum radius of image (degrees) when searching Astrobin"
-msgstr ""
+msgstr "Maximal bildradie (grader) vid sökning på AstroBin"
 
 #. i18n: ectx: label, entry (ImagingPlannerUseArtificialHorizon), group (ImagingPlanner)
 #: kstars.kcfg:994
 #, kde-format
 msgid "Use the system's artificial horizon for calculating imaging hours."
-msgstr ""
+msgstr "Använd systemets artificiella horisont för att beräkna tagningstimmar."
 
 #. i18n: ectx: label, entry (ImagingPlannerMinHours), group (ImagingPlanner)
 #: kstars.kcfg:998
 #, kde-format
 msgid "Objects are only shown if they can be imaged for this many hours."
-msgstr ""
+msgstr "Objekt visas bara om de kan observeras så här många timmar."
 
 #. i18n: ectx: label, entry (ImagingPlannerMinAltitude), group (ImagingPlanner)
 #: kstars.kcfg:1002
 #, kde-format
 msgid "For imaging hours calculation, object must be above this altitude."
 msgstr ""
+"För beräkning av tagningstimmar måste objektet vara ovanför den här "
+"elevationen."
 
 #. i18n: ectx: label, entry (ImagingPlannerMinMoonSeparation), group (ImagingPlanner)
 #: kstars.kcfg:1006
@@ -35797,6 +35829,8 @@ msgid ""
 "For imaging hours calculation, object must be more than this far from the "
 "moon."
 msgstr ""
+"För beräkning av tagningstimmar måste objektet vara mer än så här långt bort "
+"från månen."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowPicked), group (ImagingPlanner)
 #: kstars.kcfg:1010
@@ -35805,6 +35839,8 @@ msgid ""
 "Show the objects that are marked picked (don't show those that are not "
 "picked)."
 msgstr ""
+"Visa objekten som är markerade som utvalda (visa inte de som inte är "
+"utvalda)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotPicked), group (ImagingPlanner)
 #: kstars.kcfg:1014
@@ -35813,6 +35849,8 @@ msgid ""
 "Show the objects that are not marked picked (don't show those that are "
 "picked)."
 msgstr ""
+"Visa objekten som inte är markerade som utvalda (visa inte de som är "
+"utvalda)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCarePicked), group (ImagingPlanner)
 #: kstars.kcfg:1018
@@ -35820,6 +35858,8 @@ msgstr ""
 msgid ""
 "Object display doesn't depend on whether objects are marked picked or not."
 msgstr ""
+"Visning av objekt beror inte på om objekten är markerade som utvalda eller "
+"inte."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowKeyword), group (ImagingPlanner)
 #: kstars.kcfg:1022
@@ -35828,6 +35868,8 @@ msgid ""
 "Show the objects that have the keyword in their notes (and don't show those "
 "that don't)."
 msgstr ""
+"Visa objekten som har nyckelordet i sina anteckningar (och visa inte de som "
+"inte har det)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotKeyword), group (ImagingPlanner)
 #: kstars.kcfg:1026
@@ -35836,6 +35878,8 @@ msgid ""
 "Show the objects that don't have the keyword in their notes (and don't show "
 "those that do)."
 msgstr ""
+"Visa objekten som inte har nyckelordet i sina anteckningar (och visa inte de "
+"som har det)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareKeyword), group (ImagingPlanner)
 #: kstars.kcfg:1030
@@ -35844,12 +35888,14 @@ msgid ""
 "Object display doesn't depend on whether or not objects have the keyword in "
 "their notes."
 msgstr ""
+"Visning av objekt beror inte på om objekten har nyckelordet i sina "
+"anteckningar."
 
 #. i18n: ectx: label, entry (ImagingPlannerKeyword), group (ImagingPlanner)
 #: kstars.kcfg:1034
 #, kde-format
 msgid "Keyword used for the keyword filter."
-msgstr ""
+msgstr "Nyckelord använt för nyckelordsfiltret."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowImaged), group (ImagingPlanner)
 #: kstars.kcfg:1038
@@ -35858,6 +35904,8 @@ msgid ""
 "Show the objects that are marked imaged (don't show those that are not "
 "marked imaged)."
 msgstr ""
+"Visa objekten som är markerade som avbildade (visa inte de som inte är "
+"markerade som avbildade)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotImaged), group (ImagingPlanner)
 #: kstars.kcfg:1042
@@ -35866,6 +35914,8 @@ msgid ""
 "Show the objects that are not marked imaged (don't show those that are "
 "marked imaged)."
 msgstr ""
+"Visa objekten som inte är markerade som avbildade (visa inte de som är "
+"markerade som avbildade)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareImaged), group (ImagingPlanner)
 #: kstars.kcfg:1046
@@ -35873,6 +35923,8 @@ msgstr ""
 msgid ""
 "Object display doesn't depend on whether objects are marked imaged or not."
 msgstr ""
+"Visning av objekt beror inte på om objekten är markerade som avbildade eller "
+"inte."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowAdded), group (ImagingPlanner)
 #: kstars.kcfg:1050
@@ -35881,6 +35933,7 @@ msgid ""
 "Show the objects that have been added (and don't show those that have not "
 "been added)."
 msgstr ""
+"Visa objekten som har lagts till (och visa inte de som inte har lagts till)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotAdded), group (ImagingPlanner)
 #: kstars.kcfg:1054
@@ -35889,13 +35942,14 @@ msgid ""
 "Show the objects that have not been added (and don't show those that have "
 "been added."
 msgstr ""
+"Visa objekten som inte har lagts till (och visa inte de som har lagts till)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareAdded), group (ImagingPlanner)
 #: kstars.kcfg:1058
 #, kde-format
 msgid ""
 "Object display doesn't depend on whether objects have been added or not."
-msgstr ""
+msgstr "Visning av objekt beror inte på om objekten har lagts till eller inte."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1062
@@ -35904,6 +35958,7 @@ msgid ""
 "Show the objects that have been ignored (and don't show those that have not "
 "been ignored)."
 msgstr ""
+"Visa objekten som har ignorerats (och visa inte de som inte har ignorerats)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1066
@@ -35912,55 +35967,56 @@ msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
 msgstr ""
+"Visa objekten som inte har ignorerats (och visa inte de som har ignorerats)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1070
 #, kde-format
 msgid ""
 "Object display doesn't depend on whether objects have been ignored or not."
-msgstr ""
+msgstr "Visning av objekt beror inte på om objekten har ignorerats eller inte."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideAstrobinDetails), group (ImagingPlanner)
 #: kstars.kcfg:1074
 #, kde-format
 msgid "Hide the imaging planner's Astrobin search details section."
-msgstr ""
+msgstr "Dölj bildplaneringens AstroBin sökinformationssektion"
 
 #. i18n: ectx: label, entry (ImagingPlannerHideFilters), group (ImagingPlanner)
 #: kstars.kcfg:1078
 #, kde-format
 msgid "Hide the imaging planner's filters section."
-msgstr ""
+msgstr "Dölj bildplaneringens filtersektion."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideImage), group (ImagingPlanner)
 #: kstars.kcfg:1082
 #, kde-format
 msgid "Hide the imaging planner's image section."
-msgstr ""
+msgstr "Dölj bildplaneringens bildsektion."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideAltitudeGraph), group (ImagingPlanner)
 #: kstars.kcfg:1086
 #, kde-format
 msgid "Hide the imaging planner's altitude graph."
-msgstr ""
+msgstr "Dölj bildplaneringens elevationsdiagram."
 
 #. i18n: ectx: label, entry (ImagingPlannerCatalogPath), group (ImagingPlanner)
 #: kstars.kcfg:1090
 #, kde-format
 msgid "File path to the most recent catalog loaded by the Imaging Planner."
-msgstr ""
+msgstr "Filsökväg till den senaste katalogen inläst av bildplaneringen."
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
 #, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr ""
+msgstr "Förflytta till markerade objekt på himmelskartan."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
 #, kde-format
 msgid "Make the Imaging Planner tool an independent window."
-msgstr ""
+msgstr "Gör bildplaneringsverktyget till ett oberoende fönster."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1104
@@ -37486,8 +37542,7 @@ msgstr "Vilken katalog som visningsobjekt ska hämtas från."
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, fuzzy, kde-format
-#| msgid "Whether to display object names on the Fitsviwer or not."
+#, kde-format
 msgid "Whether to display object names on the FITS Viewer or not."
 msgstr "Om objektnamn ska visas i FITS-visningen eller inte."
 
@@ -81907,6 +81962,42 @@ msgid ""
 "indent:0px;\">You can export (and later import) regions using the export/"
 "import region buttons.</li></ul></body></html>"
 msgstr ""
+"<html><head/><body><p>Artificiell horisont används för att definiera <span "
+"style=\" font-weight:600;\">områden</span> på himmelskartan som är <span "
+"style=\" font-style :italic;\">blockerade</span> från din utsiktsplats (t."
+"ex. av höga träd eller byggnader). Områden kan vara regioner över eller "
+"under linjesegment som du anger. </p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin -top:12px margin-bottom:0px; -qt-block-indent:0; text-"
+"indent:0px;\">För att rita ett <span style=\" font-weight:600;\">område</"
+"span> anger du en lista med <span style=\" font- weight:600;\">Punkter</"
+"span> (<span style=\" font-style:italic;\">minst</span> 2) som anger "
+"konturen av ett blockerat områdes överdel (<span style=\" font-weight:600;"
+"\">blockering är under</span> linjerna).</li><ul style=\"margin-top: 0px; "
+"margin-left: 0px; 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Inställning av "
+"<span style=\" font-style:italic;\">tak- eller fönsterläge</span> för en "
+"lista med punkter ställer istället in <span style=\" font-weight:600;"
+"\">blockeringen ovanför</span> linjerna.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; -qt-block-indent:0; text-indent:0px;"
+"\">Lägg till punkterna manuellt, eller hellre genom att välja dem på "
+"himmelskartan efter att ha klickat på knappen <span style=\" font-style:"
+"italic;\">Välj punkter</span>. </li>< /ul><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\">Aktivera ett område genom att <span style=\" font-style:"
+"italic;\">markera dess ruta</span>. </li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\">När du väljer ett område visas dess punkter på himmelskartan. "
+"</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">När du är klar klickar du "
+"på <span style=\" font-style:italic;\">Verkställ</span>.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Det är lättare att definiera områden när "
+"de används tillsammans med funktionen för terrängbakgrund.</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\">Du kan exportera (och senare importera) "
+"områden med hjälp av knapparna för att exportera och importera områden.</"
+"li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.cpp:177 tools/imagingplanner.ui:1878
@@ -81940,7 +82031,7 @@ msgstr "Elev"
 #: tools/imagingplanner.cpp:1123
 #, kde-format
 msgid "Const"
-msgstr ""
+msgstr "Konstant"
 
 #: tools/imagingplanner.cpp:1123
 #, kde-format
@@ -81951,6 +82042,8 @@ msgstr "Koord"
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
+"Objektnamn. Klicka på rubriken för att sortera i stigande eller fallande "
+"ordning."
 
 #: tools/imagingplanner.cpp:1127
 #, kde-format
@@ -81958,22 +82051,30 @@ msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
+"Antal timmar som objektet kan observeras. Klicka på rubriken för att sortera "
+"i stigande eller fallande ordning."
 
 #: tools/imagingplanner.cpp:1129
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
+"Objekttyp. Klicka på rubriken för att sortera i stigande eller fallande "
+"ordning."
 
 #: tools/imagingplanner.cpp:1131
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
+"Maximal objektdimension (bågminuter). Klicka på rubriken för att sortera i "
+"stigande eller fallande ordning."
 
 #: tools/imagingplanner.cpp:1133
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
+"Maximal elevation. Klicka på rubriken för att sortera i stigande eller "
+"fallande ordning."
 
 #: tools/imagingplanner.cpp:1135
 #, kde-format
@@ -81981,41 +82082,47 @@ msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
+"Månens vinkelseparation vid midnatt. Klicka på rubriken för att sortera i "
+"stigande eller fallande ordning."
 
 #: tools/imagingplanner.cpp:1137
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
+"Stjärnbild. Klicka på rubriken för att sortera i stigande eller fallande "
+"ordning."
 
 #: tools/imagingplanner.cpp:1139
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
+"RA/Dek-koordinater. Klicka på rubriken för att sortera i stigande eller "
+"fallande ordning."
 
 #: tools/imagingplanner.cpp:1558
 #, kde-format
 msgid "No match for \"%1\""
-msgstr ""
+msgstr "Ingen träff för \"%1\""
 
 #: tools/imagingplanner.cpp:1622
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
-msgstr ""
+msgstr "Öppna en webbläsare med den första länken i anteckningen: %1"
 
 #: tools/imagingplanner.cpp:1627
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
-msgstr ""
+msgstr "Öppna en webbläsare med den andra länken i anteckningen: %1"
 
 #: tools/imagingplanner.cpp:1632
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
-msgstr ""
+msgstr "Öppna en webbläsare med den tredje länken i anteckningen: %1"
 
 #: tools/imagingplanner.cpp:1929
 #, kde-format
 msgid "Updating tables..."
-msgstr ""
+msgstr "Uppdaterar tabeller..."
 
 #: tools/imagingplanner.cpp:2124
 #, kde-format
@@ -82023,152 +82130,158 @@ msgid ""
 "You need to load a catalog to start using this tool.\n"
 "See Data -> Download New Data..."
 msgstr ""
+"Du måste läsa in en katalog för att börja använda verktyget.\n"
+"Se Data -> Ladda ner nya data..."
 
 #: tools/imagingplanner.cpp:2125
 #, kde-format
 msgid "No Catalog!"
-msgstr ""
+msgstr "Ingen katalog."
 
 #: tools/imagingplanner.cpp:2171
 #, kde-format
 msgid "Select an object."
-msgstr ""
+msgstr "Välj ett objekt."
 
 #: tools/imagingplanner.cpp:2173
 #, kde-format
 msgid "Check Filters to unhide objects."
-msgstr ""
+msgstr "Kontrollera filter för att sluta dölja objekt."
 
 #: tools/imagingplanner.cpp:2175
 #, kde-format
 msgid "Load a Catalog."
-msgstr ""
+msgstr "Läs in en katalog."
 
 #: tools/imagingplanner.cpp:2353
 #, kde-format
 msgid "Loading Catalogs..."
-msgstr ""
+msgstr "Läser in kataloger..."
 
 #: tools/imagingplanner.cpp:2659
 #, kde-format
 msgid "Transits"
-msgstr ""
+msgstr "Övergångar"
 
 #: tools/imagingplanner.cpp:2664 tools/imagingplanner.cpp:2668
 #, kde-format
 msgid "Sets at"
-msgstr ""
+msgstr "Går ner"
 
 #: tools/imagingplanner.cpp:2675 tools/imagingplanner.cpp:2679
 #, kde-format
 msgid "Rises at"
-msgstr ""
+msgstr "Går upp"
 
 #: tools/imagingplanner.cpp:2686 tools/imagingplanner.cpp:2692
 #, kde-format
 msgid "Rises"
-msgstr ""
+msgstr "Går upp"
 
 #: tools/imagingplanner.cpp:2688 tools/imagingplanner.cpp:2694
 #, kde-format
 msgid "Sets"
-msgstr ""
+msgstr "Går ner"
 
 #: tools/imagingplanner.cpp:2798 tools/imagingplanner.cpp:3054
 #, kde-format
 msgid "objects"
-msgstr ""
+msgstr "objekt"
 
 #: tools/imagingplanner.cpp:3050
 #, kde-format
 msgid "%1, %2 and %3 other objects"
-msgstr ""
+msgstr "%1, %2 och %3 andra objekt"
 
 #: tools/imagingplanner.cpp:3058 tools/imagingplanner.cpp:3062
 #, kde-format
 msgid "Mark %1 as NOT imaged"
-msgstr ""
+msgstr "Markera %1 som inte avbildat"
 
 #: tools/imagingplanner.cpp:3059 tools/imagingplanner.cpp:3064
 #, kde-format
 msgid "Mark %1 as already imaged"
-msgstr ""
+msgstr "Markera %1 som redan avbildat"
 
 #: tools/imagingplanner.cpp:3068 tools/imagingplanner.cpp:3072
 #, kde-format
 msgid "Un-pick %1"
-msgstr ""
+msgstr "Välj inte %1"
 
 #: tools/imagingplanner.cpp:3069 tools/imagingplanner.cpp:3074
 #, kde-format
 msgid "Pick %1"
-msgstr ""
+msgstr "Välj %1"
 
 #: tools/imagingplanner.cpp:3079 tools/imagingplanner.cpp:3084
 #, kde-format
 msgid "Stop ignoring %1"
-msgstr ""
+msgstr "Sluta ignorera %1"
 
 #: tools/imagingplanner.cpp:3080 tools/imagingplanner.cpp:3086
 #, kde-format
 msgid "Ignore %1"
-msgstr ""
+msgstr "Ignorera %1"
 
 #: tools/imagingplanner.cpp:3089
 #, kde-format
 msgid "Center %1 on SkyMap"
-msgstr ""
+msgstr "Centrera %1 på himmelskartan"
 
 #: tools/imagingplanner.cpp:3228
 #, kde-format
 msgid "Successfully marked %1 objects as read"
-msgstr ""
+msgstr "Markerade %1 objekt som lästa med lyckat resultat."
 
 #: tools/imagingplanner.cpp:3230
 #, kde-format
 msgid "Empty file"
-msgstr ""
+msgstr "Tom fil"
 
 #: tools/imagingplanner.cpp:3239
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
-msgstr ""
+msgstr "Misslyckades markera alla objekten som avbildade: %1"
 
 #: tools/imagingplanner.cpp:3241
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
-msgstr ""
+msgstr "Misslyckades markera %1 objekt som avbildade, inklusive: %2"
 
 #: tools/imagingplanner.cpp:3243
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
+"Markerade %1 objekt som avbildade med lyckat resultat. Misslyckades med %2: "
+"%3"
 
 #: tools/imagingplanner.cpp:3246
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
+"Markerade %1 objekt som avbildade med lyckat resultat. Misslyckades med %2, "
+"inklusive följande:   %3"
 
 #: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3463
 #, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
-msgstr ""
+msgstr "Kunde tyvärr inte öppna filen: \"%1\""
 
 #: tools/imagingplanner.cpp:3370
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
-msgstr ""
+msgstr "Katalogfilen finns tyvärr inte: \"%1\""
 
 #: tools/imagingplanner.cpp:3444
 #, kde-format
 msgid "%1/%2: Adding %3"
-msgstr ""
+msgstr "%1/%2: Lägger till %3"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:77
 #, kde-format
 msgid "Search for an object in the table."
-msgstr ""
+msgstr "Sök efter ett objekt i tabellen."
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, SearchText)
 #. i18n: ectx: property (title), widget (QGroupBox, ObjectBox)
@@ -82181,67 +82294,68 @@ msgstr "Objektnamn"
 #: tools/imagingplanner.ui:214
 #, kde-format
 msgid "Select an Object"
-msgstr ""
+msgstr "Välj ett objekt"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backOneDay)
 #: tools/imagingplanner.ui:302
 #, kde-format
 msgid "Back one day"
-msgstr ""
+msgstr "Bakåt en dag"
 
 #. i18n: ectx: property (displayFormat), widget (QDateEdit, DateEdit)
 #: tools/imagingplanner.ui:319
 #, kde-format
 msgid "dd/MM/yy"
-msgstr ""
+msgstr "yy-MM-dd"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, forwardOneDay)
 #: tools/imagingplanner.ui:347
 #, kde-format
 msgid "Forward one day"
-msgstr ""
+msgstr "Framåt en dag"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
 #, kde-format
 msgid "Open options menu."
-msgstr ""
+msgstr "Visa alternativmeny."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
 #, kde-format
 msgid "Open web documentation."
-msgstr ""
+msgstr "Visa webbdokumentation."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
 #: tools/imagingplanner.ui:565
 #, kde-format
 msgid "Create/Edit some user notes for this object"
-msgstr ""
+msgstr "Skapa eller redigera några användaranteckningar för objektet"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesDoneButton)
 #: tools/imagingplanner.ui:597
 #, kde-format
 msgid "Done creating/editing some user notes for this object"
 msgstr ""
+"Klar med att skapa eller redigera några användaranteckningar för objektet"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink)
 #: tools/imagingplanner.ui:629
 #, kde-format
 msgid "Open a browser with the 1st link in this note."
-msgstr ""
+msgstr "Öppna en webbläsare med den första länken i anteckningen."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink2)
 #: tools/imagingplanner.ui:661
 #, kde-format
 msgid "Open a browser with the 2nd link in this note."
-msgstr ""
+msgstr "Öppna en webbläsare med den andra länken i anteckningen."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink3)
 #: tools/imagingplanner.ui:693
 #, kde-format
 msgid "Open a browser with the 3rd link in this note."
-msgstr ""
+msgstr "Öppna en webbläsare med den tredje länken i anteckningen."
 
 #. i18n: ectx: property (text), widget (QLabel, userNotesLabel)
 #: tools/imagingplanner.ui:719
@@ -82259,13 +82373,13 @@ msgstr "Skriv in anteckningar här"
 #: tools/imagingplanner.ui:810
 #, kde-format
 msgid "Minimize the altitude vs time graph."
-msgstr ""
+msgstr "Minimera elevation mot tid-diagrammet."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAltitudeGraphB)
 #: tools/imagingplanner.ui:905
 #, kde-format
 msgid "Maximize the altitude vs time graph."
-msgstr ""
+msgstr "Maximera elevation mot tid-diagrammet."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HiddenAltitudeGraphLabel)
 #: tools/imagingplanner.ui:937
@@ -82286,6 +82400,8 @@ msgid ""
 "<html><head/><body><p>Use the system's artificial horizon for calculating "
 "imaging hours.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Använd systemets artificiella horisont för att beräkna "
+"tagningstimmar.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useArtificialHorizon)
 #: tools/imagingplanner.ui:983
@@ -82301,6 +82417,8 @@ msgid ""
 "For imaging hours calculation, object must be at least at this altitude (and "
 "above any artificial horizon in use)."
 msgstr ""
+"För beräkning av tagningstimmar måste objektet åtminstone vara på den här "
+"elevationen (och ovanför eventuell artificiell horisont som används)."
 
 #. i18n: ectx: property (text), widget (QLabel, minAltitudeLabel)
 #: tools/imagingplanner.ui:999
@@ -82316,25 +82434,27 @@ msgid ""
 "For imaging hours calculation, object must be at least this far from the "
 "moon."
 msgstr ""
+"För beräkning av tagningstimmar måste objektet vara åtminstone så här långt "
+"bort från månen."
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1046
 #, kde-format
 msgid "Min Moon º"
-msgstr ""
+msgstr "Min måne º"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAstrobinDetailsButton)
 #: tools/imagingplanner.ui:1140
 #, kde-format
 msgid "Minimize the Astrobin search details section"
-msgstr ""
+msgstr "Minimera AstroBin sökinformationssektionen"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel2)
 #: tools/imagingplanner.ui:1172 tools/imagingplanner.ui:1497
 #, kde-format
 msgid "Select a button to search for the selected object on the internet."
-msgstr ""
+msgstr "Välj en knapp för att söka efter det valda objektet på Internet."
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel2)
@@ -82351,13 +82471,15 @@ msgid ""
 "Search Astrobin for the selected object using the search constraints in this "
 "section."
 msgstr ""
+"Sök efter det markerade objektet på AstroBin med användning av "
+"sökbegränsningarna i den här sektionen."
 
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton2)
 #: tools/imagingplanner.ui:1202 tools/imagingplanner.ui:1527
 #, kde-format
 msgid "Astrobin"
-msgstr ""
+msgstr "AstroBin"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia2)
@@ -82378,21 +82500,21 @@ msgstr "Wikipedia"
 #: tools/imagingplanner.ui:1253 tools/imagingplanner.ui:1578
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC/IC images."
-msgstr ""
+msgstr "Sök på Professor Seligmans nätplats efter NGC/IC-bilder."
 
 #. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages)
 #. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages2)
 #: tools/imagingplanner.ui:1256 tools/imagingplanner.ui:1581
 #, kde-format
 msgid "NGC/IC"
-msgstr ""
+msgstr "NGC/IC"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad2)
 #: tools/imagingplanner.ui:1280 tools/imagingplanner.ui:1605
 #, kde-format
 msgid "Search Simbad."
-msgstr ""
+msgstr "Sök på Simbad."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1290
@@ -82401,18 +82523,20 @@ msgid ""
 "<html><head/><body><p>Required one of the Astrobin awards when searching "
 "Astrobin images.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Kräver ett av priserna på Astrobin vid sökning i "
+"bilder.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1293
 #, kde-format
 msgid "Awards Required"
-msgstr ""
+msgstr "Priser krävs"
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
 #: tools/imagingplanner.ui:1312
 #, kde-format
 msgid "Radius:"
-msgstr ""
+msgstr "Radie:"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1327
@@ -82431,13 +82555,13 @@ msgstr "Max:"
 #: tools/imagingplanner.ui:1465 tools/imagingplanner.ui:2069
 #, kde-format
 msgid "Maximize the Astrobin search details section"
-msgstr ""
+msgstr "Maximera AstroBin sökinformationssektionen"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideFilterTypesButton)
 #: tools/imagingplanner.ui:1671
 #, kde-format
 msgid "Minimize the Filters section"
-msgstr ""
+msgstr "Minimera filtersektionen"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel2)
@@ -82445,7 +82569,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "Constrain the list of object on the left by the filters in this section."
-msgstr ""
+msgstr "Begränsa objektlistan till vänster med filtren i den här sektionen."
 
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel2)
@@ -82460,13 +82584,13 @@ msgstr "Filter"
 #, kde-format
 msgid ""
 "Objects are only shown if they can be imaged for at least this many hours."
-msgstr ""
+msgstr "Objekt visas bara om de kan observeras åtminstone så här många timmar."
 
 #. i18n: ectx: property (text), widget (QLabel, minHoursLabel)
 #: tools/imagingplanner.ui:1719
 #, kde-format
 msgid "Min Hours:"
-msgstr ""
+msgstr "Minimalt antal timmar:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OpenClusterCB)
 #: tools/imagingplanner.ui:1748
@@ -82474,18 +82598,19 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Hide open clusters if unchecked.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dölj öppna stjärnhopar om avmarkerat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, OpenClusterCB)
 #: tools/imagingplanner.ui:1751
 #, kde-format
 msgid "Open Cl"
-msgstr ""
+msgstr "Open Cl"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, NebulaCB)
 #: tools/imagingplanner.ui:1758
 #, kde-format
 msgid "<html><head/><body><p>Hide nebulae if unchecked.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Dölj nebulosor om avmarkerat.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GlobularClusterCB)
 #: tools/imagingplanner.ui:1768
@@ -82493,6 +82618,8 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Hide globular clusters if unchecked.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dölj klotformiga stjärnhopar om avmarkerat.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1778
@@ -82500,6 +82627,8 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dölj planetära nebulosor om avmarkerat.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
 #: tools/imagingplanner.ui:1788
@@ -82507,31 +82636,33 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Hide supernova remnants if unchecked.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dölj supernovarester om avmarkerat.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyCB)
 #: tools/imagingplanner.ui:1798
 #, kde-format
 msgid "<html><head/><body><p>Hide galaxies if unchecked.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Dölj galaxer om avmarkerat.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyClusterCB)
 #: tools/imagingplanner.ui:1808
 #, kde-format
 msgid ""
 "<html><head/><body><p>Hide galaxy clusters if unchecked.</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Dölj galaxhopar om avmarkerat.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyClusterCB)
 #: tools/imagingplanner.ui:1811
 #, kde-format
 msgid "Galaxy Cl"
-msgstr ""
+msgstr "Galaxy Cl"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, DarkNebulaCB)
 #: tools/imagingplanner.ui:1818
 #, kde-format
 msgid "<html><head/><body><p>Hide dark nebulae if unchecked.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dölj mörka nebulosor om avmarkerat.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OtherCB)
 #: tools/imagingplanner.ui:1828
@@ -82539,6 +82670,7 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Hide other object types if unchecked.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Dölj andra objekttyper om avmarkerat.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pickedCB)
 #: tools/imagingplanner.ui:1845
@@ -82547,6 +82679,8 @@ msgid ""
 "<html><head/><body><p>Show the objects that are marked picked (don't show "
 "those that are not picked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visa objekten som är markerade som utvalda (visa inte "
+"de som inte är utvalda).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notPickedCB)
 #: tools/imagingplanner.ui:1855
@@ -82555,12 +82689,14 @@ msgid ""
 "<html><head/><body><p>Show the objects that are not marked picked (don't "
 "show those that are picked).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visa objekten som inte är markerade som utvalda (visa "
+"inte de som är utvalda).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notPickedCB)
 #: tools/imagingplanner.ui:1858
 #, kde-format
 msgid "Not Picked"
-msgstr "Inte valt"
+msgstr "Inte valda"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCarePickedCB)
 #: tools/imagingplanner.ui:1865
@@ -82569,6 +82705,8 @@ msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked picked or not.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visning av objekt beror inte på om objekten är "
+"markerade som utvalda eller inte.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dontCarePickedCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareImagedCB)
@@ -82578,7 +82716,7 @@ msgstr ""
 #: tools/imagingplanner.ui:1955 tools/imagingplanner.ui:1985
 #, kde-format
 msgid "Don't care"
-msgstr ""
+msgstr "Spelar ingen roll"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.ui:1875
@@ -82587,6 +82725,8 @@ msgid ""
 "<html><head/><body><p>Show the objects that are marked imaged (and don't "
 "show those that are not marked previously imaged).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visa objekten som är markerade som avbildade (och visa "
+"inte de som inte är markerade som tidigare avbildade).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notImagedCB)
 #: tools/imagingplanner.ui:1885
@@ -82595,12 +82735,14 @@ msgid ""
 "<html><head/><body><p>Show the objects that are not marked imaged (and don't "
 "show those that are marked previously imaged).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visa objekten som inte är markerade som avbildade "
+"(visa inte de som är markerade som avbildade).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notImagedCB)
 #: tools/imagingplanner.ui:1888
 #, kde-format
 msgid "Not imaged"
-msgstr "Inte avbildat"
+msgstr "Inte avbildade"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareImagedCB)
 #: tools/imagingplanner.ui:1895
@@ -82609,6 +82751,8 @@ msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked previously imaged or not.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visning av objekt beror inte på om objekten är "
+"markerade som tidigare avbildade eller inte.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:1922
@@ -82617,12 +82761,14 @@ msgid ""
 "Load a file listing the names of already imaged objects--one name per line. "
 "This adds to the list of imaged object, it does not replace them."
 msgstr ""
+"Läs in en fil med namnen på redan avbildade objekt. Ett namn per rad. De "
+"läggs till i listan över avbildade objekt, de ersätter dem inte."
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:1925
 #, kde-format
 msgid "Load Imaged"
-msgstr ""
+msgstr "Läs in avbildade"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ignoredCB)
 #: tools/imagingplanner.ui:1932
@@ -82631,6 +82777,8 @@ msgid ""
 "<html><head/><body><p>Show the objects that have been ignored (and don't "
 "show those that have not been ignored).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visa objekten som har ignorerats (och visa inte de som "
+"inte har ignorerats).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notIgnoredCB)
 #: tools/imagingplanner.ui:1942
@@ -82639,12 +82787,14 @@ msgid ""
 "<html><head/><body><p>Show the objects that have not been ignored (and don't "
 "show those that have been ignored).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visa objekten som inte har ignorerats (och visa inte "
+"de som har ignorerats).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notIgnoredCB)
 #: tools/imagingplanner.ui:1945
 #, kde-format
 msgid "Not ignored"
-msgstr "Inte ignorerat"
+msgstr "Inte ignorerade"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareIgnoredCB)
 #: tools/imagingplanner.ui:1952
@@ -82653,6 +82803,8 @@ msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects have "
 "been ignored or not.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visning av objekt beror inte på om objekten har "
+"ignorerats eller inte.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, keywordCB)
 #: tools/imagingplanner.ui:1962
@@ -82661,6 +82813,8 @@ msgid ""
 "<html><head/><body><p>Show the objects that have the (case-sensitive) "
 "keyword in their notes (and don't show those that don't).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visa objekten som har nyckelordet i sina anteckningar "
+"(och visa inte de som inte har det).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notKeywordCB)
 #: tools/imagingplanner.ui:1972
@@ -82669,12 +82823,15 @@ msgid ""
 "<html><head/><body><p>Show the objects that don't have the (case-sensitive) "
 "keyword in their notes (and don't show those that do).</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visa objekten som inte har (det skiftlägeskänsliga) "
+"nyckelordet i sina anteckningar (och visa inte de som har det).</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notKeywordCB)
 #: tools/imagingplanner.ui:1975
 #, kde-format
 msgid "Not keyword"
-msgstr ""
+msgstr "Inte nyckelord"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareKeywordCB)
 #: tools/imagingplanner.ui:1982
@@ -82683,6 +82840,8 @@ msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether or not "
 "objects have the keyword in their notes.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Visning av objekt beror inte på om objekten har "
+"nyckelordet i sina anteckningar.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2003
@@ -82690,6 +82849,8 @@ msgstr ""
 msgid ""
 "Enter the (case-sensitive) keyword to be used for the checkboxes to the left."
 msgstr ""
+"Ange det (skiftlägeskänsliga) nyckelordet som ska användas av kryssrutorna "
+"till vänster."
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2006
@@ -82701,7 +82862,7 @@ msgstr "Skriv in nyckelord här"
 #: tools/imagingplanner.ui:2164
 #, kde-format
 msgid "Minimize the image section"
-msgstr ""
+msgstr "Minimera bildsektionen"
 
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
@@ -82728,13 +82889,13 @@ msgstr "Läs in katalog"
 #: tools/imagingplanner.ui:2351
 #, kde-format
 msgid "Maximize the image section"
-msgstr ""
+msgstr "Maximera bildsektionen"
 
 #: tools/imagingplanneroptions.cpp:25
 #, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr ""
+msgstr "Bildplaneringsalternativ"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
@@ -82743,6 +82904,8 @@ msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Förflytta till markerade objekt på himmelskartan.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
@@ -82757,6 +82920,8 @@ msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Gör bildplaneringsverktyget till ett oberoende "
+"fönster. Får effekt efter nästa omstart.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
