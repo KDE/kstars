@@ -7,19 +7,29 @@
 #pragma once
 
 #include <QString>
-#include <KLazyLocalizedString>
 #include "dms.h"
+
+#include <ki18n_version.h>
+#if KI18N_VERSION >= QT_VERSION_CHECK(5, 89, 0)
+#include <KLazyLocalizedString>
+#define kde_translate kli18n
+#else
+#include <KLocalizedString>
+#define kde_translate ki18n
+#endif
 
 typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE, FITS_CALIBRATE, FITS_ALIGN, FITS_UNKNOWN } FITSMode;
 
 // Focus States
 static const QList<KLazyLocalizedString> FITSModes =
-    { kli18n("Normal"),
-      kli18n("Focus"),
-      kli18n("Guide"),
-      kli18n("Calibrate"),
-      kli18n("Align"),
-      kli18n("Unknown")};
+{
+    kde_translate("Normal"),
+    kde_translate("Focus"),
+    kde_translate("Guide"),
+    kde_translate("Calibrate"),
+    kde_translate("Align"),
+    kde_translate("Unknown")
+};
 
 const QString getFITSModeStringString(FITSMode mode);
 

@@ -8,7 +8,15 @@
 #pragma once
 
 #include <parameters.h>
+
+#include <ki18n_version.h>
+#if KI18N_VERSION >= QT_VERSION_CHECK(5, 89, 0)
 #include <KLazyLocalizedString>
+#define kde_translate kli18n
+#else
+#include <KLocalizedString>
+#define kde_translate ki18n
+#endif
 
 namespace Ekos
 {
@@ -24,10 +32,10 @@ typedef enum
 
 static const QList<KLazyLocalizedString> ProfileGroupNames =
 {
-     kli18n("Align"),
-     kli18n("Focus"),
-     kli18n("Guide"),
-     kli18n("HFR")
+    kde_translate("Align"),
+    kde_translate("Focus"),
+    kde_translate("Guide"),
+    kde_translate("HFR")
 };
 
 QList<SSolver::Parameters> getDefaultFocusOptionsProfiles();

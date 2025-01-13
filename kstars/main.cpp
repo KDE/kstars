@@ -24,7 +24,16 @@
 #include <KAboutData>
 #include <KCrash>
 #endif
+
+#include <ki18n_version.h>
+#if KI18N_VERSION >= QT_VERSION_CHECK(5, 89, 0)
 #include <KLazyLocalizedString>
+#define kde_translate kli18n
+#else
+#include <KLocalizedString>
+#define kde_translate ki18n
+#endif
+
 
 #if defined(Q_OS_MACOS)
 #include <ksnotification.h>
@@ -46,8 +55,8 @@
 #endif
 
 #ifndef KSTARS_LITE
-static const auto description =  kli18n("Desktop Planetarium");
-static const auto notice      =  kli18n("Some images in KStars are for non-commercial use only. See README.images.");
+static const auto description =  kde_translate("Desktop Planetarium");
+static const auto notice      =  kde_translate("Some images in KStars are for non-commercial use only. See README.images.");
 #endif
 
 #if defined(Q_OS_ANDROID)
