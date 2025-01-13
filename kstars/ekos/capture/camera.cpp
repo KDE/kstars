@@ -269,7 +269,6 @@ void Camera::initCamera()
 
     connect(&m_DebounceTimer, &QTimer::timeout, this, &Camera::settleSettings);
 
-    connect(m_FilterManager.get(), &FilterManager::ready, this, &Camera::updateCurrentFilterPosition);
     connect(FilterPosCombo,
             static_cast<void(QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged),
             [ = ]()
