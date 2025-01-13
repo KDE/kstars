@@ -21,7 +21,11 @@
 typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE, FITS_CALIBRATE, FITS_ALIGN, FITS_UNKNOWN } FITSMode;
 
 // Focus States
+#if KI18N_VERSION >= QT_VERSION_CHECK(5, 89, 0)
 static const QList<KLazyLocalizedString> FITSModes =
+#else
+static const QList<KLocalizedString> FITSModes =
+#endif
 {
     kde_translate("Normal"),
     kde_translate("Focus"),

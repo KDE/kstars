@@ -30,7 +30,11 @@ typedef enum
     HFRProfiles
 } ProfileGroup;
 
+#if KI18N_VERSION >= QT_VERSION_CHECK(5, 89, 0)
 static const QList<KLazyLocalizedString> ProfileGroupNames =
+#else
+static const QList<KLocalizedString> ProfileGroupNames =
+#endif
 {
     kde_translate("Align"),
     kde_translate("Focus"),
