@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-12 01:59+0000\n"
+"POT-Creation-Date: 2025-01-14 01:53+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -427,7 +427,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1294
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1293
 #: ekos/scheduler/scheduler.cpp:2054
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -794,7 +794,6 @@ msgstr "Neizdevās rakstīt uz lietotāja žurnāla failu"
 #: ekos/scheduler/framingassistantui.cpp:198
 #: ekos/scheduler/framingassistantui.cpp:856
 #: ekos/scheduler/framingassistantui.cpp:875 skyobjects/ksplanetbase.h:60
-#: skyobjects/skyobject.h:24
 #, kde-format
 msgid "unnamed"
 msgstr "nenosaukts"
@@ -1093,7 +1092,7 @@ msgstr "Saules sistēmas skatītājs"
 #: skycomponents/skymapcomposite.cpp:599 skyglpainter.cpp:288
 #: skymapdrawabstract.cpp:248 skyobjects/ksplanet.cpp:179
 #: skyobjects/ksplanetbase.cpp:270 skyobjects/kssun.cpp:17
-#: skyobjects/satellite.cpp:1224 skyobjects/skyobject.cpp:287
+#: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
 #: tools/imagingplanner.cpp:1514 tools/jmoontool.cpp:106
@@ -2483,9 +2482,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
 #: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1575
-#: ekos/scheduler/scheduler.cpp:2234 fitsviewer/fitscommon.h:22
-#: fitsviewer/fitshistogram.cpp:781 fitsviewer/fitshistogramcommand.cpp:267
-#: indi/indigroup.cpp:30 skycomponents/constellationboundarylines.cpp:293
+#: ekos/scheduler/scheduler.cpp:2234 fitsviewer/fitshistogram.cpp:781
+#: fitsviewer/fitshistogramcommand.cpp:267 indi/indigroup.cpp:30
+#: skycomponents/constellationboundarylines.cpp:293
 #: skyobjects/skyobject.cpp:435
 #, kde-format
 msgid "Unknown"
@@ -2729,7 +2728,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3965
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
-#: ekos/capture/camera.cpp:1248 ekos/capture/camera.cpp:1303
+#: ekos/capture/camera.cpp:1247 ekos/capture/camera.cpp:1302
 #: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1954
 #: ekos/scheduler/scheduler.cpp:2064 fitsviewer/fitstab.cpp:1013
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -4010,7 +4009,7 @@ msgstr "0.0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1798 ekos/capture/camera.cpp:1838
+#: ekos/capture/camera.cpp:1797 ekos/capture/camera.cpp:1837
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:454 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
@@ -6769,25 +6768,25 @@ msgstr "loka sekundes"
 msgid "dDE (arcsec)"
 msgstr "loka sekundes"
 
-#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3442
+#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3441
 #: ekos/focus/focus.cpp:5397
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Filter operation failed."
 msgstr "Kalibrēšana"
 
-#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3943
+#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3942
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr ""
 
 #: ekos/align/align.cpp:3667 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3948
+#: ekos/capture/camera.cpp:3947
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr ""
 
-#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3953
+#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3952
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Auto focus on filter change..."
@@ -6808,8 +6807,8 @@ msgid "Export Solution Points"
 msgstr "Soltleiksitija"
 
 #: ekos/align/align.cpp:3964 ekos/align/mountmodel.cpp:266
-#: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1247
-#: ekos/capture/camera.cpp:1302 ekos/guide/guidedriftgraph.cpp:478
+#: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1246
+#: ekos/capture/camera.cpp:1301 ekos/guide/guidedriftgraph.cpp:478
 #: ekos/scheduler/scheduler.cpp:1953 ekos/scheduler/scheduler.cpp:2063
 #: fitsviewer/fitstab.cpp:1012 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6827,7 +6826,7 @@ msgid "Unable to write to file %1"
 msgstr "Neizdevās saglabāt attēlu: %1 "
 
 #: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2960
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2959
 #: ekos/capture/cameraprocess.cpp:2643 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2975
 #: ekos/scheduler/schedulerprocess.cpp:3321
@@ -7500,7 +7499,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Novērojamo saraksts"
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2959
+#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2958
 #: ekos/capture/cameraprocess.cpp:2642 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3320
 #: ekos/scheduler/schedulerprocess.cpp:4665
@@ -10515,19 +10514,17 @@ msgstr "Neizdevās dzēst failu: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, focusStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/opslogs.ui:370
-#: ekos/auxiliary/stellarsolverprofile.h:28 ekos/manager.cpp:2199
-#: ekos/manager/focusprogresswidget.ui:101
+#: ekos/manager.cpp:2199 ekos/manager/focusprogresswidget.ui:101
 #: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
-#: fitsviewer/fitscommon.h:18 fitsviewer/fitsviewer.cpp:471
+#: fitsviewer/fitsviewer.cpp:471
 #, kde-format
 msgid "Focus"
 msgstr "Fokuss"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
-#: ekos/analyze/analyze.cpp:2280 ekos/auxiliary/stellarsolverprofile.h:27
-#: ekos/manager.cpp:2155 ekos/scheduler/framingassistant.ui:1262
-#: ekos/scheduler/scheduler.ui:242 fitsviewer/fitscommon.h:21
+#: ekos/analyze/analyze.cpp:2280 ekos/manager.cpp:2155
+#: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:242
 #: fitsviewer/fitsviewer.cpp:479
 #, fuzzy, kde-format
 #| msgid "Focus"
@@ -10539,10 +10536,9 @@ msgstr "Fokuss"
 #. i18n: ectx: property (text), widget (QCheckBox, guideStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2281 ekos/auxiliary/opslogs.ui:120
-#: ekos/auxiliary/stellarsolverprofile.h:29 ekos/guide/guide.cpp:58
-#: ekos/guide/guide.ui:263 ekos/manager.cpp:2420
+#: ekos/guide/guide.cpp:58 ekos/guide/guide.ui:263 ekos/manager.cpp:2420
 #: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
-#: fitsviewer/fitscommon.h:19 fitsviewer/fitsviewer.cpp:475
+#: fitsviewer/fitsviewer.cpp:475
 #, kde-format
 msgid "Guide"
 msgstr ""
@@ -11934,7 +11930,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
-#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.cpp:1062
+#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.cpp:1061
 #: ekos/capture/camera.ui:1686 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
@@ -12497,7 +12493,7 @@ msgstr "Autofokusa opcijas"
 msgid "Aligning..."
 msgstr "Fokuss"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:852
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:851
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibrating..."
@@ -13500,14 +13496,6 @@ msgstr ""
 msgid "Set for HFR estimation on most stars."
 msgstr ""
 
-#. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
-#. i18n: ectx: property (text), widget (QTableWidget, statsTable)
-#: ekos/auxiliary/stellarsolverprofile.h:30 ekos/focus/opsfocusprocess.ui:259
-#: fitsviewer/statform.ui:81
-#, kde-format
-msgid "HFR"
-msgstr ""
-
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:32
 #, fuzzy, kde-format
@@ -14436,61 +14424,61 @@ msgstr "sek."
 msgid "frames"
 msgstr "Kadrs:"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4068
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4067
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4069
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4068
 #, fuzzy, kde-format
 #| msgid "Select object from list"
 msgid "Remove job from sequence queue"
 msgstr "Izvēlieties objektu no saraksta"
 
-#: ekos/capture/camera.cpp:520
+#: ekos/capture/camera.cpp:519
 #, fuzzy, kde-format
 #| msgid "Download New Data..."
 msgid "Downloading..."
 msgstr "Lejupielādēt jaunus datus..."
 
-#: ekos/capture/camera.cpp:636 ekos/capture/camera.cpp:637
+#: ekos/capture/camera.cpp:635 ekos/capture/camera.cpp:636
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Focus complete."
 msgstr "Autofokusa opcijas"
 
-#: ekos/capture/camera.cpp:641
+#: ekos/capture/camera.cpp:640
 #, fuzzy, kde-format
 #| msgid "Autofocus Options"
 msgid "Autofocus failed."
 msgstr "Autofokusa opcijas"
 
-#: ekos/capture/camera.cpp:828
+#: ekos/capture/camera.cpp:827
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgid "Capturing %1 x %2-second %3 video..."
 msgstr "Tvert"
 
-#: ekos/capture/camera.cpp:834
+#: ekos/capture/camera.cpp:833
 #, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:906
+#: ekos/capture/camera.cpp:905
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:909
+#: ekos/capture/camera.cpp:908
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
 "started."
 msgstr ""
 
-#: ekos/capture/camera.cpp:944
+#: ekos/capture/camera.cpp:943
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
@@ -14498,19 +14486,19 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ekos/capture/camera.cpp:989
+#: ekos/capture/camera.cpp:988
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr ""
 
-#: ekos/capture/camera.cpp:1002
+#: ekos/capture/camera.cpp:1001
 #, fuzzy, kde-format
 #| msgctxt "City in Alabama USA"
 #| msgid "Birmingham"
 msgid "Framing..."
 msgstr "Birmingema"
 
-#: ekos/capture/camera.cpp:1013
+#: ekos/capture/camera.cpp:1012
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
@@ -14518,13 +14506,13 @@ msgid "Captured image received"
 msgstr "Kadrs"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:1031 ekos/capture/camera.ui:2679
+#: ekos/capture/camera.cpp:1030 ekos/capture/camera.ui:2679
 #, fuzzy, kde-format
 #| msgid "Expose:"
 msgid "Expose (-/-):"
 msgstr "Eksponēt:"
 
-#: ekos/capture/camera.cpp:1061
+#: ekos/capture/camera.cpp:1060
 #, kde-format
 msgid "Duration of the video sequence"
 msgstr ""
@@ -14532,164 +14520,164 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera.cpp:1061 ekos/capture/limits.ui:108
+#: ekos/capture/camera.cpp:1060 ekos/capture/limits.ui:108
 #: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera.cpp:1062 indi/recordingoptions.ui:40
+#: ekos/capture/camera.cpp:1061 indi/recordingoptions.ui:40
 #, fuzzy, kde-format
 #| msgid "Duration:"
 msgid "Duration:"
 msgstr "Ilgums:"
 
-#: ekos/capture/camera.cpp:1063
+#: ekos/capture/camera.cpp:1062
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure time in seconds of a single video frame"
 msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 
-#: ekos/capture/camera.cpp:1064
+#: ekos/capture/camera.cpp:1063
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure time in seconds for individual images"
 msgstr "Sākt kameras/CCD ekpozīciju. Ilgums sekundēs."
 
-#: ekos/capture/camera.cpp:1079
+#: ekos/capture/camera.cpp:1078
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Stop Sequence"
 msgstr "Biežums:"
 
-#: ekos/capture/camera.cpp:1085
+#: ekos/capture/camera.cpp:1084
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgid "Resume Sequence"
 msgstr "Biežums:"
 
-#: ekos/capture/camera.cpp:1116
+#: ekos/capture/camera.cpp:1115
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting temperature to %1 °C..."
 msgstr "Iestatīt mērķa CCD mikroshēmas temperatūru."
 
-#: ekos/capture/camera.cpp:1117
+#: ekos/capture/camera.cpp:1116
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Set Temp to %1 °C..."
 msgstr "Iestatīt mērķa CCD mikroshēmas temperatūru."
 
-#: ekos/capture/camera.cpp:1121
+#: ekos/capture/camera.cpp:1120
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Ielādē zvaigznes"
 
-#: ekos/capture/camera.cpp:1122
+#: ekos/capture/camera.cpp:1121
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:1126
+#: ekos/capture/camera.cpp:1125
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Iestatīt mērķa CCD mikroshēmas temperatūru."
 
-#: ekos/capture/camera.cpp:1127
+#: ekos/capture/camera.cpp:1126
 #, fuzzy, kde-format
 #| msgid "Set Time..."
 msgid "Set Camera to %1 deg..."
 msgstr "Ausmas Laiks..."
 
-#: ekos/capture/camera.cpp:1239
+#: ekos/capture/camera.cpp:1238
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Novērojamo saraksts"
 
-#: ekos/capture/camera.cpp:1272
+#: ekos/capture/camera.cpp:1271
 #, fuzzy, kde-format
 #| msgid "Select object from list"
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Izvēlieties objektu no saraksta"
 
-#: ekos/capture/camera.cpp:1294
+#: ekos/capture/camera.cpp:1293
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr ""
 
-#: ekos/capture/camera.cpp:1351 ekos/capture/camera.cpp:2437
+#: ekos/capture/camera.cpp:1350 ekos/capture/camera.cpp:2436
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Frame"
 msgid "Dark Flat"
 msgstr "Kadrs"
 
-#: ekos/capture/camera.cpp:2100 ekos/scheduler/framingassistant.cpp:220
+#: ekos/capture/camera.cpp:2099 ekos/scheduler/framingassistant.cpp:220
 #, fuzzy, kde-format
 #| msgid "FITS Save"
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS saglabāšana"
 
-#: ekos/capture/camera.cpp:2213
+#: ekos/capture/camera.cpp:2212
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr ""
 
-#: ekos/capture/camera.cpp:2215
+#: ekos/capture/camera.cpp:2214
 #, fuzzy, kde-format
 #| msgid "Configuration"
 msgid "Confirmation"
 msgstr "Konfigurācija"
 
-#: ekos/capture/camera.cpp:2414
+#: ekos/capture/camera.cpp:2413
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:2420
+#: ekos/capture/camera.cpp:2419
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3605
+#: ekos/capture/camera.cpp:3604
 #, kde-format
 msgid "Paused..."
 msgstr ""
 
-#: ekos/capture/camera.cpp:3610
+#: ekos/capture/camera.cpp:3609
 #, fuzzy, kde-format
 #| msgctxt "City in Maine USA"
 #| msgid "Greenville"
 msgid "Meridian Flip..."
 msgstr "Grīnvila"
 
-#: ekos/capture/camera.cpp:3611
+#: ekos/capture/camera.cpp:3610
 #, fuzzy, kde-format
 #| msgctxt "City in Maine USA"
 #| msgid "Greenville"
 msgid "Meridian flip started"
 msgstr "Grīnvila"
 
-#: ekos/capture/camera.cpp:3615
+#: ekos/capture/camera.cpp:3614
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Flip complete."
 msgstr "pabeigti"
 
-#: ekos/capture/camera.cpp:3675
+#: ekos/capture/camera.cpp:3674
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3681
+#: ekos/capture/camera.cpp:3680
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14697,7 +14685,7 @@ msgid ""
 "the INDI camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3686
+#: ekos/capture/camera.cpp:3685
 #, fuzzy, kde-format
 #| msgctxt "City in Sierra Leone"
 #| msgid "Freetown"
@@ -14705,7 +14693,7 @@ msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Frītauna"
 
-#: ekos/capture/camera.cpp:3692
+#: ekos/capture/camera.cpp:3691
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14713,78 +14701,78 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3705
+#: ekos/capture/camera.cpp:3704
 #, fuzzy, kde-format
 #| msgid "Set the target CCD chip temperature."
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Iestatīt mērķa CCD mikroshēmas temperatūru."
 
-#: ekos/capture/camera.cpp:3745
+#: ekos/capture/camera.cpp:3744
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Novērotājs:"
 
-#: ekos/capture/camera.cpp:3747
+#: ekos/capture/camera.cpp:3746
 #, fuzzy, kde-format
 #| msgid "Observer:"
 msgid "Current Observer:"
 msgstr "Novērotājs:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3758 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3757 oal/execute.cpp:38 oal/observeradd.ui:26
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observers"
 msgstr "Novērotājs"
 
-#: ekos/capture/camera.cpp:3930
+#: ekos/capture/camera.cpp:3929
 #, kde-format
 msgid "Cooler is on"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3930
+#: ekos/capture/camera.cpp:3929
 #, kde-format
 msgid "Cooler is off"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3960
+#: ekos/capture/camera.cpp:3959
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Filter set to %1."
 msgstr "FITS fails saglabāts uz %1"
 
-#: ekos/capture/camera.cpp:3993
+#: ekos/capture/camera.cpp:3992
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to remove the %1 link?"
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Vai tiešām vēlaties dzēst saiti %1?"
 
-#: ekos/capture/camera.cpp:3993 ekos/capture/cameraprocess.cpp:2763
+#: ekos/capture/camera.cpp:3992 ekos/capture/cameraprocess.cpp:2763
 #, kde-format
 msgid "Reset job status"
 msgstr ""
 
-#: ekos/capture/camera.cpp:4046
+#: ekos/capture/camera.cpp:4045
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job #%1..."
 msgstr "Labot saiti..."
 
-#: ekos/capture/camera.cpp:4049 ekos/scheduler/scheduler.cpp:1299
+#: ekos/capture/camera.cpp:4048 ekos/scheduler/scheduler.cpp:1299
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
 
-#: ekos/capture/camera.cpp:4050
+#: ekos/capture/camera.cpp:4049
 #, fuzzy, kde-format
 #| msgid "Save changes"
 msgid "Cancel job changes."
 msgstr "Saglabāt izmaiņas"
 
-#: ekos/capture/camera.cpp:4063
+#: ekos/capture/camera.cpp:4062
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Editing job canceled."
@@ -17243,14 +17231,14 @@ msgstr "Grīnvila"
 msgid "Use flip command if supported by mount"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseSummaryPreview)
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:202
 #, fuzzy, kde-format
 #| msgid "Display in FITS Viewer"
 msgid "Display received FITS in the Summary screen preview window."
 msgstr "Parādīt FITS skatītāju"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseSummaryPreview)
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_useSummaryPreview)
 #: ekos/capture/opsmiscsettings.ui:205
 #, kde-format
 msgid "Summary screen preview"
@@ -20652,6 +20640,13 @@ msgid ""
 "algorithm.  It is intended for non-stellar fields,  e.g. Solar,  Lunar or "
 "planetary.  This is an experimental feature that requires openCV to be "
 "installed.</li></ul></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
+#. i18n: ectx: property (text), widget (QTableWidget, statsTable)
+#: ekos/focus/opsfocusprocess.ui:259 fitsviewer/statform.ui:81
+#, kde-format
+msgid "HFR"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
@@ -25625,7 +25620,7 @@ msgstr "Fokuss"
 msgid "You must restart KStars for this change to take effect."
 msgstr ""
 
-#: ekos/opsekos.cpp:38
+#: ekos/opsekos.cpp:34
 #, kde-format
 msgid "Set an alternate base directory for Analyze's captured images"
 msgstr ""
@@ -29722,17 +29717,6 @@ msgstr "Apraksts"
 msgid "Object Type Comments"
 msgstr "Objekta tips"
 
-#: fitsviewer/fitscommon.h:17
-#, fuzzy
-#| msgctxt "Country name"
-#| msgid "Germany"
-msgid "Normal"
-msgstr "Vācija"
-
-#: fitsviewer/fitscommon.h:20
-msgid "Calibrate"
-msgstr "Kalibrēt"
-
 #: fitsviewer/fitsdata.cpp:270
 #, fuzzy, kde-format
 #| msgid "Error: Unable to save image: %1 "
@@ -33281,8 +33265,7 @@ msgstr "Rādīt DSS attēlu"
 #: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:991
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
-#: skycomponents/starcomponent.cpp:518 skyobjects/skyobject.h:26
-#: skyobjects/starobject.cpp:633
+#: skycomponents/starcomponent.cpp:518 skyobjects/starobject.cpp:633
 #, kde-format
 msgid "star"
 msgstr "zvaigzne"
@@ -39890,7 +39873,7 @@ msgid ""
 "only show the new session."
 msgstr ""
 
-#. i18n: ectx: label, entry (AnalyzeAlternativeImageDirectory), group (Analyze)
+#. i18n: ectx: label, entry (AnalyzeAlternativeDirectoryName), group (Analyze)
 #: kstars.kcfg:3345
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
@@ -74302,12 +74285,12 @@ msgstr "Pabeigts"
 msgid "About"
 msgstr "Džibutija"
 
-#: kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:105
+#: kstarslite/qml/dialogs/AboutDialog.qml:28 main.cpp:114
 #, kde-format, kde-kuit-format
 msgid "KStars"
 msgstr "KStars"
 
-#: kstarslite/qml/dialogs/AboutDialog.qml:37 main.cpp:49
+#: kstarslite/qml/dialogs/AboutDialog.qml:37
 #, kde-kuit-format
 msgid "Desktop Planetarium"
 msgstr "Darbvirsmas planetārijs"
@@ -79158,24 +79141,14 @@ msgctxt "string from libindi, used in the config dialog"
 msgid "warm"
 msgstr ""
 
-#: main.cpp:50
-#, fuzzy
-#| msgid ""
-#| "Some images in KStars are for non-commercial use only.  See README.images."
-msgid ""
-"Some images in KStars are for non-commercial use only. See README.images."
-msgstr ""
-"Daži KStars ietvertie attēli ir paredzēti tikai nekomerciālai izmantošanai. "
-"Skatiet README.images."
-
-#: main.cpp:72
+#: main.cpp:81
 #, kde-format
 msgid ""
 "Sorry, without a KStars Data Directory, KStars cannot operate. Exiting "
 "program now."
 msgstr ""
 
-#: main.cpp:107
+#: main.cpp:116
 #, kde-format
 msgid ""
 " (c), The KStars Team\n"
@@ -79183,7 +79156,7 @@ msgid ""
 "The Gaussian Process Guider Algorithm: (c) 2014-2017 Max Planck Society"
 msgstr ""
 
-#: main.cpp:109
+#: main.cpp:118
 #, kde-format
 msgctxt "Build number followed by copyright notice"
 msgid ""
@@ -79194,382 +79167,382 @@ msgid ""
 "%3"
 msgstr ""
 
-#: main.cpp:116
+#: main.cpp:125
 #, kde-format
 msgid "Jason Harris"
 msgstr "Jason Harris"
 
-#: main.cpp:116
+#: main.cpp:125
 #, kde-format
 msgid "Original Author"
 msgstr ""
 
-#: main.cpp:118
+#: main.cpp:127
 #, kde-format
 msgid "Jasem Mutlaq"
 msgstr "Jasem Mutlaq"
 
-#: main.cpp:118
+#: main.cpp:127
 #, kde-format
 msgid "Current Maintainer"
 msgstr ""
 
-#: main.cpp:122
+#: main.cpp:131
 #, kde-format
 msgid "Akarsh Simha"
 msgstr "Akarsh Simha"
 
-#: main.cpp:124
+#: main.cpp:133
 #, fuzzy, kde-format
 #| msgctxt "City in Connecticut USA"
 #| msgid "Manchester"
 msgid "Robert Lancaster"
 msgstr "Mančestera"
 
-#: main.cpp:125
+#: main.cpp:134
 #, kde-format
 msgid "FITSViewer & Ekos Improvements. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:136
 #, kde-format
 msgid "Eric Dejouhanet"
 msgstr ""
 
-#: main.cpp:128
+#: main.cpp:137
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "Ekos Scheduler Improvements"
 msgstr "Novērojamo saraksts"
 
-#: main.cpp:129
+#: main.cpp:138
 #, kde-format
 msgid "Wolfgang Reissenberger"
 msgstr ""
 
-#: main.cpp:131
+#: main.cpp:140
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "Ekos Scheduler & Observatory Improvements"
 msgstr "Novērojamo saraksts"
 
-#: main.cpp:132
+#: main.cpp:141
 #, kde-format
 msgid "Hy Murveit"
 msgstr ""
 
-#: main.cpp:133
+#: main.cpp:142
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgid "FITS, Focus, Guide Improvements"
 msgstr "Novērojamo saraksts"
 
-#: main.cpp:134
+#: main.cpp:143
 #, fuzzy, kde-format
 #| msgid "Horizontal Coordinates"
 msgid "John Evans"
 msgstr "Horizontālās koordinātes"
 
-#: main.cpp:135
+#: main.cpp:144
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Focus algorithms"
 msgstr "FITS fails saglabāts uz %1"
 
-#: main.cpp:138
+#: main.cpp:147
 #, kde-format
 msgid "Csaba Kertesz"
 msgstr ""
 
-#: main.cpp:140
+#: main.cpp:149
 #, kde-format
 msgid "Binary Asteroid List, DSO Database & Catalogs"
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:150
 #, kde-format
 msgid "Artem Fedoskin"
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:150
 #, fuzzy, kde-format
 #| msgid "KStars"
 msgid "KStars Lite"
 msgstr "KStars"
 
-#: main.cpp:143
+#: main.cpp:152
 #, kde-format
 msgid "James Bowlin"
 msgstr "James Bowlin"
 
-#: main.cpp:144
+#: main.cpp:153
 #, kde-format
 msgid "Pablo de Vicente"
 msgstr "Pablo de Vicente"
 
-#: main.cpp:145
+#: main.cpp:154
 #, kde-format
 msgid "Thomas Kabelmann"
 msgstr "Thomas Kabelmann"
 
-#: main.cpp:146
+#: main.cpp:155
 #, kde-format
 msgid "Heiko Evermann"
 msgstr "Heiko Evermann"
 
-#: main.cpp:148
+#: main.cpp:157
 #, kde-format
 msgid "Carsten Niehaus"
 msgstr "Carsten Niehaus"
 
-#: main.cpp:149
+#: main.cpp:158
 #, kde-format
 msgid "Mark Hollomon"
 msgstr "Mark Hollomon"
 
-#: main.cpp:150
+#: main.cpp:159
 #, kde-format
 msgid "Alexey Khudyakov"
 msgstr "Alexey Khudyakov"
 
-#: main.cpp:151
+#: main.cpp:160
 #, kde-format
 msgid "M&eacute;d&eacute;ric Boquien"
 msgstr "M&eacute;d&eacute;ric Boquien"
 
-#: main.cpp:153
+#: main.cpp:162
 #, kde-format
 msgid "J&eacute;r&ocirc;me Sonrier"
 msgstr "J&eacute;r&ocirc;me Sonrier"
 
-#: main.cpp:155
+#: main.cpp:164
 #, kde-format
 msgid "Prakash Mohan"
 msgstr "Prakash Mohan"
 
-#: main.cpp:156
+#: main.cpp:165
 #, kde-format
 msgid "Victor Cărbune"
 msgstr "Victor Cărbune"
 
-#: main.cpp:157
+#: main.cpp:166
 #, kde-format
 msgid "Henry de Valence"
 msgstr "Henry de Valence"
 
-#: main.cpp:158
+#: main.cpp:167
 #, kde-format
 msgid "Samikshan Bairagya"
 msgstr "Samikshan Bairagya"
 
-#: main.cpp:160
+#: main.cpp:169
 #, kde-format
 msgid "Rafał Kułaga"
 msgstr "Rafał Kułaga"
 
-#: main.cpp:161
+#: main.cpp:170
 #, kde-format
 msgid "Rishab Arora"
 msgstr ""
 
-#: main.cpp:165
+#: main.cpp:174
 #, kde-format
 msgid "Valery Kharitonov"
 msgstr "Valery Kharitonov"
 
-#: main.cpp:166
+#: main.cpp:175
 #, kde-format
 msgid "Converted labels containing technical terms to links to documentation"
 msgstr ""
 
-#: main.cpp:167
+#: main.cpp:176
 #, kde-format
 msgid "Ana-Maria Constantin"
 msgstr "Ana-Maria Constantin"
 
-#: main.cpp:168
+#: main.cpp:177
 #, kde-format
 msgid "Technical documentation on Astronomy and KStars"
 msgstr ""
 
-#: main.cpp:169
+#: main.cpp:178
 #, kde-format
 msgid "Andrew Stepanenko"
 msgstr "Andrew Stepanenko"
 
-#: main.cpp:170
+#: main.cpp:179
 #, kde-format
 msgid "Guiding code based on lin_guider"
 msgstr ""
 
-#: main.cpp:171
+#: main.cpp:180
 #, kde-format
 msgid "Nuno Pinheiro"
 msgstr ""
 
-#: main.cpp:171
+#: main.cpp:180
 #, kde-format
 msgid "Artwork"
 msgstr ""
 
-#: main.cpp:173
+#: main.cpp:182
 #, fuzzy, kde-format
 #| msgid "Akarsh Simha"
 msgid "Utkarsh Simha"
 msgstr "Akarsh Simha"
 
-#: main.cpp:174
+#: main.cpp:183
 #, kde-format
 msgid "Improvements to observation plan execution, star hopper etc."
 msgstr ""
 
-#: main.cpp:175
+#: main.cpp:184
 #, kde-format
 msgid "Daniel Holler"
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:185
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos/INDI."
 msgstr ""
 
-#: main.cpp:178
+#: main.cpp:187
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "St. Lucia"
 msgid "Stephane Lucas"
 msgstr "Sv. Lūcija"
 
-#: main.cpp:179
+#: main.cpp:188
 #, kde-format
 msgid "Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port"
 msgstr ""
 
-#: main.cpp:180
+#: main.cpp:189
 #, kde-format
 msgid "Yuri Fabirovsky"
 msgstr ""
 
-#: main.cpp:181
+#: main.cpp:190
 #, kde-format
 msgid "Splash screen for both regular KStars and KStars Lite."
 msgstr ""
 
-#: main.cpp:182
+#: main.cpp:191
 #, kde-format
 msgid "Jamie Smith"
 msgstr ""
 
-#: main.cpp:182
+#: main.cpp:191
 #, kde-format
 msgid "KStars OSX Port."
 msgstr ""
 
-#: main.cpp:183
+#: main.cpp:192
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Count"
 msgid "Patrick Molenaar"
 msgstr "Skaits"
 
-#: main.cpp:183
+#: main.cpp:192
 #, kde-format
 msgid "Bahtinov Focus Assistant."
 msgstr ""
 
-#: main.cpp:184
+#: main.cpp:193
 #, kde-format
 msgid "Philipp Auersperg-Castell"
 msgstr ""
 
-#: main.cpp:184
+#: main.cpp:193
 #, fuzzy, kde-format
 #| msgid "Supernovae"
 msgid "Supernovae daily updates"
 msgstr "Pārnovas"
 
-#: main.cpp:185
+#: main.cpp:194
 #, kde-format
 msgid "Tony Schriber"
 msgstr ""
 
-#: main.cpp:185
+#: main.cpp:194
 #, kde-format
 msgid "Rotator Dialog improvements"
 msgstr ""
 
-#: main.cpp:186
+#: main.cpp:195
 #, kde-format
 msgid "Joseph McGee"
 msgstr ""
 
-#: main.cpp:186
+#: main.cpp:195
 #, kde-format
 msgid "Sub-exposure calculator based on Dr Robin Glover's work"
 msgstr ""
 
-#: main.cpp:196
+#: main.cpp:205
 #, fuzzy, kde-format
 #| msgid "Export sky image"
 msgid "Dump sky image to file."
 msgstr "Eksportēt debesu attēlu"
 
-#: main.cpp:197
+#: main.cpp:206
 #, fuzzy, kde-format
 #| msgid "Script to execute"
 msgid "Script to execute."
 msgstr "Izpildāmais skripts"
 
-#: main.cpp:198
+#: main.cpp:207
 #, fuzzy, kde-format
 #| msgid "Width of sky image"
 msgid "Width of sky image."
 msgstr "Debesu attēla platums"
 
-#: main.cpp:199
+#: main.cpp:208
 #, fuzzy, kde-format
 #| msgid "Height of sky image"
 msgid "Height of sky image."
 msgstr "Debesu attēla augstums"
 
-#: main.cpp:200
+#: main.cpp:209
 #, fuzzy, kde-format
 #| msgid "Date and time"
 msgid "Date and time."
 msgstr "Datums un laiks"
 
-#: main.cpp:201
+#: main.cpp:210
 #, kde-format
 msgid "Start with clock paused."
 msgstr ""
 
-#: main.cpp:204
+#: main.cpp:213
 #, kde-format
 msgid "FITS file(s) to open."
 msgstr ""
 
-#: main.cpp:240 printing/foveditordialog.cpp:176
+#: main.cpp:249 printing/foveditordialog.cpp:176
 #, fuzzy, kde-format
 #| msgid "Could not upload image to remote location: %1"
 msgid "Could not parse image format of %1; assuming PNG."
 msgstr "Neizdevās augšupielādēt attēlu uz attālināto vietu: %1"
 
-#: main.cpp:298
+#: main.cpp:307
 #, kde-format
 msgid "Supplied date string is invalid: %1. Using CPU date/time instead."
 msgstr ""
 
-#: main.cpp:329
+#: main.cpp:338
 #, kde-format
 msgid "Script executed."
 msgstr "Skripts izpildīts"
 
-#: main.cpp:333
+#: main.cpp:342
 #, kde-format
 msgid "Could not execute script."
 msgstr "Neizdevās izpildīt skriptu."
 
-#: main.cpp:357
+#: main.cpp:366
 #, kde-format
 msgid "Using CPU date/time instead."
 msgstr ""
@@ -83489,33 +83462,33 @@ msgctxt "Universal time"
 msgid "UT"
 msgstr "UL:"
 
-#: skyobjects/satellite.cpp:1237
+#: skyobjects/satellite.cpp:1236
 #, kde-format
 msgid "Success"
 msgstr ""
 
-#: skyobjects/satellite.cpp:1241
+#: skyobjects/satellite.cpp:1240
 #, kde-format
 msgid "Eccentricity >= 1.0 or < -0.001"
 msgstr ""
 
-#: skyobjects/satellite.cpp:1244
+#: skyobjects/satellite.cpp:1243
 #, kde-format
 msgid "Mean motion less than 0.0"
 msgstr ""
 
-#: skyobjects/satellite.cpp:1247
+#: skyobjects/satellite.cpp:1246
 #, kde-format
 msgid "Semi-latus rectum < 0.0"
 msgstr ""
 
-#: skyobjects/satellite.cpp:1250
+#: skyobjects/satellite.cpp:1249
 #, fuzzy, kde-format
 #| msgid "Satellite name"
 msgid "Satellite has decayed"
 msgstr "Pavadoņa nosaukums"
 
-#: skyobjects/satellite.cpp:1253
+#: skyobjects/satellite.cpp:1252
 #, fuzzy, kde-format
 #| msgid "Unknown Type"
 msgid "Unknown error"
@@ -83702,10 +83675,6 @@ msgstr ""
 #, kde-format
 msgid "Show"
 msgstr "Rādīt"
-
-#: skyobjects/skyobject.h:25
-msgid "unnamed object"
-msgstr "nenosaukts objekts"
 
 #: skyobjects/skypoint.cpp:642
 #, kde-format
@@ -91256,6 +91225,28 @@ msgstr "Fona krāsa:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr ""
+
+#, fuzzy
+#~| msgctxt "Country name"
+#~| msgid "Germany"
+#~ msgid "Normal"
+#~ msgstr "Vācija"
+
+#~ msgid "Calibrate"
+#~ msgstr "Kalibrēt"
+
+#, fuzzy
+#~| msgid ""
+#~| "Some images in KStars are for non-commercial use only.  See README."
+#~| "images."
+#~ msgid ""
+#~ "Some images in KStars are for non-commercial use only. See README.images."
+#~ msgstr ""
+#~ "Daži KStars ietvertie attēli ir paredzēti tikai nekomerciālai "
+#~ "izmantošanai. Skatiet README.images."
+
+#~ msgid "unnamed object"
+#~ msgstr "nenosaukts objekts"
 
 #, fuzzy
 #~| msgid "Capture"
