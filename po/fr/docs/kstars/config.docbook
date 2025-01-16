@@ -1590,7 +1590,7 @@
 >Superposition d'image</guilabel
 >, vous devriez voir les nouveaux fichiers dans la table. Leur état sera positionné à <guilabel
 >Non traité</guilabel
->. Seules les images en état  <guilabel
+>. Seules les images en état <guilabel
 >Ok</guilabel
 > sont affichées sur la carte du ciel. La raison en est que &kstars; a besoin de connaître la position du ciel, la taille et l'orientation de ces images pour pouvoir les afficher. Pour modifier l'état à <guilabel
 >Ok</guilabel
@@ -1610,7 +1610,7 @@
 >Non traité</guilabel
 >, puis cliquez sur <guibutton
 >Résoudre</guibutton
->.) Il est possible qu'en sélectionnant plusieurs images, certaines échouent à être résolues. </para>
+>). Il est possible qu'en sélectionnant plusieurs images, certaines échouent à être résolues. </para>
 <para
 >La résolution de ces images peut se révéler difficile. En effet, le système n'a aucune information sur la position et l'échelle de l'image, il résout à l'aveugle. Pour améliorer les chances de succès, vous pouvez indiquer la position approximative du centre de l'image dans le ciel en AD/DEC dans les colonnes <guilabel
 >AD</guilabel

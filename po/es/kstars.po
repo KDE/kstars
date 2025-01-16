@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-15 01:51+0000\n"
-"PO-Revision-Date: 2025-01-06 17:59+0100\n"
+"PO-Revision-Date: 2025-01-16 01:00+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -248,11 +248,9 @@ msgid "HiPS Grid"
 msgstr "Cuadrícula HiPS"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dome Simulator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Simulador de cúpula"
+msgstr "Ventana de la cúpula"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -16094,10 +16092,9 @@ msgid "Driver Restart"
 msgstr "Reinicio del controlador"
 
 #: ekos/capture/cameraprocess.cpp:3063 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "Sistema de identificación interrumpido tras %1 segundos."
+msgstr "Las operaciones de captura han expirado tras %1 segundos."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
@@ -17382,13 +17379,15 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long"
 msgstr ""
+"Número máximo de segundos que se debe esperar antes de interrumpir la "
+"captura si operaciones como los cambios de la rueda de filtros o las "
+"inversiones de meridiano tardan demasiado."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Timeout:"
+#, kde-format
 msgid "Capture Operations Timeout"
-msgstr "Tiempo de espera de la captura:"
+msgstr "Operaciones de captura expiradas"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:205
@@ -38967,6 +38966,9 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long."
 msgstr ""
+"Número máximo de segundos que se debe esperar antes de interrumpir la "
+"captura si operaciones como los cambios de la rueda de filtros o las "
+"inversiones de meridiano tardan demasiado."
 
 #. i18n: ectx: label, entry (MinFlipDuration), group (Capture)
 #: kstars.kcfg:2153

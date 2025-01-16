@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-15 01:51+0000\n"
-"PO-Revision-Date: 2025-01-06 15:01+0300\n"
+"PO-Revision-Date: 2025-01-15 12:11+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -258,11 +258,9 @@ msgid "HiPS Grid"
 msgstr "HiPS Izgarası"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dome Simulator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Kubbe Benzetimcisi"
+msgstr "Kubbe Yarığı"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -15934,10 +15932,9 @@ msgid "Driver Restart"
 msgstr "Sürücüyü Yeniden Başlat"
 
 #: ekos/capture/cameraprocess.cpp:3063 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "Çözücü %1 saniye ardından iptal edildi."
+msgstr "Yakalama işlemleri %1 saniyeden sonra zaman aşımına uğradı."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
@@ -17190,13 +17187,14 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long"
 msgstr ""
+"Süzgeç tekerleği değişiklikleri veya meridyen çevirmeleri gibi işlemler çok "
+"uzun sürerse yakalamayı iptal etmeden önce beklenecek en çok saniye sayısı."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Timeout:"
+#, kde-format
 msgid "Capture Operations Timeout"
-msgstr "Yakalama zaman aşımı:"
+msgstr "Yakalama işlemleri zaman aşımı"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:205
@@ -38453,6 +38451,8 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long."
 msgstr ""
+"Süzgeç tekerleği değişiklikleri veya meridyen çevirmeleri gibi işlemler çok "
+"uzun sürerse yakalamayı iptal etmeden önce beklenecek en çok saniye sayısı."
 
 #. i18n: ectx: label, entry (MinFlipDuration), group (Capture)
 #: kstars.kcfg:2153

@@ -31,7 +31,7 @@
           </listitem>
           <listitem>
             <para
->Le fichier de configuration. C'est un fichier texte qui définit les entrées nécessaires et optionnelles pour cette extension. Il doit se nommer de la même manière que le fichier exécutable avec .conf comme extension. </para>
+>Le fichier de configuration. C'est un fichier de texte définissant les entrées nécessaires et optionnelles pour cette extension. Il doit se nommer de la même manière que le fichier exécutable avec « .conf » comme extension. </para>
             <para
 >Il est obligatoire que le fichier de configuration contient une ligne débutant par <emphasis role="bold"
 >minimum_kstars_version=n.n.n</emphasis
@@ -45,7 +45,7 @@
           </listitem>
           <listitem>
             <para
->Le fichier icône, si présent, doit être nommé de la même manière que l'exécutable avec l'extension appropriée pour le format de l'image. Les formats .jpg, .bmp, .gif, .png et .svg sont gérées. Cette icône, si fournie, sera utilisée dans la boîte de sélection des extensions. </para>
+>Le fichier d'icône, si présent, doit être nommé de la même manière que l'exécutable avec l'extension appropriée pour le format de l'image. Les formats « jpg », « bmp », « gif », « png » et « svg » sont pris en charge. Cette icône, si fournie, sera utilisée dans la boîte de sélection des extensions. </para>
           </listitem>
         </itemizedlist>
         <para
@@ -75,13 +75,13 @@
           </listitem>
           <listitem>
             <para
->Toutes les interactions avec KStars/Ekos/Indi doivent être réalisées via l'interface DBus. Des outils utiles pour interroger, surveiller et comprendre DBus incluent <ulink url="https://wiki.gnome.org/Apps/DFeet"
+>Toutes les interactions avec KStars/Ekos/Indi doivent être réalisées via l'interface D-Bus. Des outils utiles pour interroger, surveiller et comprendre D-Bus incluent <ulink url="https://wiki.gnome.org/Apps/DFeet"
 >D-Feet</ulink
 > et <ulink url="https://gitlab.freedesktop.org/bustle/bustle"
 >Bustle</ulink
 >. </para>
             <para
->On pourrait avoir l'impression au début que l'utilisation du système de Qt DBus Adaptors serait bien plus simple que l'utilisation direct de l'Interface/Messages de Qt DBus et KStars fournit les définitions xml nécessaires. Toutefois, il y a actuellement une utilisation importantes de types personnalisés dont la définition est combinée avec d'autres informations dans les sources de KStars. Cela conduit à un grand ensemble de fichiers de KStars qui nécessite une inclusion depuis l'extension afin de pouvoir utiliser les Qt DBus Adaptors. Ce problème sera, espérons-le, adresser dans le futur. </para>
+>On pourrait avoir l'impression au début que l'utilisation du système d'adaptateurs de Qt pour D-Bus serait bien plus simple que l'utilisation direct de l'Interface/Messages de Qt D-Bus et KStars fournit les définitions « xml » nécessaires. Toutefois, il y a actuellement une utilisation importante de types personnalisés dont la définition est combinée avec d'autres informations dans les sources de KStars. Cela conduit à un grand ensemble de fichiers de KStars qui nécessite une inclusion depuis l'extension afin de pouvoir utiliser les adaptateur de Qt pour D-Bus. Ce problème sera, espérons-le, adresser dans le futur. </para>
           </listitem>
         </itemizedlist>
 	</sect2>

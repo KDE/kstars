@@ -1,19 +1,18 @@
 # Translation of kstars.po to Catalan
 # Copyright (C) 2003-2025 This_file_is_part_of_KDE
 #
-# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Ivan Lloro Boada <antispam@wanadoo.es>, 2004.
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # David Gil, <al016950@yahoo.es>, 2004.
 # Orestes Mas Casals <orestes@tsc.upc.edu>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
-# Josep M. Ferrer <txemaq@gmail.com>, 2025.
+# Josep M. Ferrer <txemaq@gmail.com>, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-15 01:51+0000\n"
-"PO-Revision-Date: 2025-01-06 10:47+0100\n"
+"PO-Revision-Date: 2025-01-15 10:40+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -263,11 +262,9 @@ msgid "HiPS Grid"
 msgstr "Quadrícula del HiPS"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dome Simulator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Simulador de la cúpula"
+msgstr "Finestra de la cúpula"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -16118,10 +16115,10 @@ msgid "Driver Restart"
 msgstr "Reinicia el controlador"
 
 #: ekos/capture/cameraprocess.cpp:3063 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "S'ha interromput el solucionador després de %1 segons."
+msgstr ""
+"Les operacions de captura han excedit el temps límit després de %1 segons."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
@@ -17408,13 +17405,15 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long"
 msgstr ""
+"Nombre màxim de segons a esperar abans d'interrompre la captura si les "
+"operacions com els canvis a la roda de filtres o les inversions de meridià "
+"triguen massa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Timeout:"
+#, kde-format
 msgid "Capture Operations Timeout"
-msgstr "Temps d'espera de la captura:"
+msgstr "Temps d'espera de les operacions de captura"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:205
@@ -39063,6 +39062,9 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long."
 msgstr ""
+"Nombre màxim de segons a esperar abans d'interrompre la captura si les "
+"operacions com els canvis a la roda de filtres o les inversions de meridià "
+"triguen massa."
 
 #. i18n: ectx: label, entry (MinFlipDuration), group (Capture)
 #: kstars.kcfg:2153

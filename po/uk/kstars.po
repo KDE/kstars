@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-15 01:51+0000\n"
-"PO-Revision-Date: 2025-01-06 09:04+0200\n"
+"PO-Revision-Date: 2025-01-15 11:05+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -251,11 +251,9 @@ msgid "HiPS Grid"
 msgstr "Ґратка HiPS"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dome Simulator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Імітатор купола"
+msgstr "Щілина купола"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -16065,10 +16063,9 @@ msgid "Driver Restart"
 msgstr "Перезапуск драйвера"
 
 #: ekos/capture/cameraprocess.cpp:3063 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "Розв'язування перервано за %1 секунд."
+msgstr "Перевищено час очікування на дію із захоплення знімка за %1 секунд."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
@@ -17348,13 +17345,15 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long"
 msgstr ""
+"Максимальна кількість секунд очікування до переривання захоплення знімка, "
+"якщо дії, подібні до зміни барабана фільтрів або переходу за меридіаном, "
+"тривають надто довго"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Timeout:"
+#, kde-format
 msgid "Capture Operations Timeout"
-msgstr "Час очікування на захоплення:"
+msgstr "Час очікування на дії з захоплення"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:205
@@ -38811,6 +38810,9 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long."
 msgstr ""
+"Максимальна кількість секунд очікування до переривання захоплення знімка, "
+"якщо дії, подібні до зміни барабана фільтрів або переходу за меридіаном, "
+"тривають надто довго."
 
 #. i18n: ectx: label, entry (MinFlipDuration), group (Capture)
 #: kstars.kcfg:2153

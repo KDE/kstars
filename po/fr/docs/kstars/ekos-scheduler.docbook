@@ -255,7 +255,7 @@
         <para
 >Il est important de noter que les séquences d'acquisitions dépendent dans une certaine mesure de la roue à filtre et de l'appareil utilisé (p. ex. les noms de filtre, les valeur d'ISO possible, …). Cet outil, qui n'est pas connecté aux pilotes de périphériques, n'a pas accès à cette information. Au contraire, il utilise les valeurs de la dernière connexion des périphériques à l'onglet d'acquisition. Il ne fait ainsi pas de sens de créer un fichier « .esq » pour un appareil ou une roue à filtres différents que celui utilisé lors de la dernière connexion. Il faudra attendre que la tâche de la séquence soit terminée et modifier le fichier « .esl » directement dans l'onglet d'acquisition. </para>
         <para
->Il est également recommandé de ne pas écraser les fichiers « .esq » pendant que les tâches de l'ordonnanceur utilisent ces mêmes fichiers. (C'est bien de le faire pendant que l'ordonnanceur est en cours mais pas si cette tâche particulière est en exécution). En effet, cela désynchroniserait l'ordonnanceur et les modules d'acquisition, puisqu'ils lisent ces fichiers à des moments différents. Vous devriez plutôt enregistrer sous un nom différent et ensuite modifier la tâche pour utiliser ce nouveau fichier .esq. </para>
+>Il est également recommandé de ne pas écraser les fichiers « .esq » pendant que les tâches de l'ordonnanceur utilisent ces mêmes fichiers. (C'est bien de le faire pendant que l'ordonnanceur est en cours mais pas si cette tâche particulière est en exécution). En effet, cela désynchroniserait l'ordonnanceur et les modules d'acquisition, puisqu'ils lisent ces fichiers à des moments différents. Vous devriez plutôt enregistrer sous un nom différent et ensuite modifier la tâche pour utiliser ce nouveau fichier « .esq ». </para>
         </important>
      </sect3
 >          
@@ -532,7 +532,7 @@ exit(0)
                 <para
 ><emphasis role="bold"
 >Confirmation du matériel</emphasis
-> : Ekos tente de charger les réglages du matériel depuis INDI. En cas d'échec, il faut saisir les paramètres du matériel tels que longueur focale du télescope, les dimensions du capteur CCD (largeur, hauteur, taille des pixels). Ces réglages seront enregistrés pour les sessions futures. </para>
+> : tentative de chargement par Ekos les réglages du matériel depuis INDI. En cas d'échec, il faut saisir les paramètres du matériel tels que longueur focale du télescope, les dimensions du capteur CCD (largeur, hauteur, taille des pixels). Ces réglages seront enregistrés pour les sessions futures. </para>
             <screenshot>
             <screeninfo
 >Confirmer le matériel </screeninfo>

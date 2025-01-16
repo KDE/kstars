@@ -21,7 +21,7 @@
 </mediaobject>
 </screenshot>
 <para
->Cet outil aide les utilisateurs à choisir les objets à photographier. Ils peuvent télécharger des catalogues d'objets recommandés et aussi créer leur propre catalogue. L'outil calcule quand les objets peuvent être acquis pour une nuit définie en tenant compte de contraintes telles que l'altitude minimale, le terrain et la séparation de la Lune. Il peut trier les objets selon plusieurs dimensions telles que le nombre d'heure d'acquisition pour la nuit (en tenant compte de la géographie de l'utilisateur, de contraintes et également de l'horizon artificiel), son altitude au méridien, la distance à la Lune, sa constellation, son nom et son type. On peut aussi filtrer les objets selon plusieurs critères comme le type d'objet, s'il a déjà été photographié, les mots-clé ajoutés par l'utilisateur, s'il a été sélectionné, l'intérêt de l'utilisateur, etc.). Cet outil aide les utilisateurs dans leur recherche en affichant de petites images de l'objet, sa position dans le ciel et fournit des liens vers des sites contenant davantage d'informations et d'images. Il permet également d'ajouter des notes aux objets et d'en sélectionner certains pour plus tard. Il peut être utilisé avec d'autres que le module d'acquisition d'Ekos ou tout autre outil d'acquisition. Cependant, il n'interagit actuellement pas avec ce dernier ; il ne fait qu'aider l'utilisateur à choisir les objets à photographier. </para>
+>Cet outil aide les utilisateurs à choisir les objets à photographier. Ils peuvent télécharger des catalogues d'objets recommandés et aussi créer leur propre catalogue. L'outil calcule quand les objets peuvent être acquis pour une nuit définie en tenant compte de contraintes telles que l'altitude minimale, le terrain et la séparation de la Lune. Il peut trier les objets selon plusieurs dimensions telles que le nombre d'heure d'acquisition pour la nuit (en tenant compte de la géographie de l'utilisateur, de contraintes et également de l'horizon artificiel), son altitude au méridien, la distance à la Lune, sa constellation, son nom et son type. On peut aussi filtrer les objets selon plusieurs critères comme le type d'objet, s'il a déjà été photographié, les mots clé ajoutés par l'utilisateur, s'il a été sélectionné, l'intérêt de l'utilisateur, etc.). Cet outil aide les utilisateurs dans leur recherche en affichant de petites images de l'objet, sa position dans le ciel et fournit des liens vers des sites contenant davantage d'informations et d'images. Il permet également d'ajouter des notes aux objets et d'en sélectionner certains pour plus tard. Il peut être utilisé avec d'autres que le module d'acquisition d'Ekos ou tout autre outil d'acquisition. Cependant, il n'interagit actuellement pas avec ce dernier ; il ne fait qu'aider l'utilisateur à choisir les objets à photographier. </para>
 <sect2 id="imagingplanner-objecttable">
 <title
 >La table des objets</title>
@@ -62,7 +62,7 @@
 <title
 >Date, Heure et Géographie</title>
 <para
->La date d'analyse peut être modifiée en haut à droite de l'outil. On peut avance ou reculer d'un jour avec le bouton de droite. On peut également entrer une date arbitraire dans la boîte en saisir manuellement une date. L'illumination de la Lune est affichée à gauche de la date. </para>
+>La date d'analyse peut être modifiée en haut à droite de l'outil. On peut avance ou reculer d'un jour avec le bouton de droite. On peut également saisir une date arbitraire dans la boîte en saisir manuellement une date. L'illumination de la Lune est affichée à gauche de la date. </para>
 <para
 >L'heure utilisée (par exemple, pour la position de l'objet dans la carte du ciel) et la géographie/localisation utilisées pour déterminer la position céleste de l'objet sont prises à partir des valeurs utilisées dans KStars. Pour changer votre emplacement, allez dans le menu <menuchoice
 ><guimenu
@@ -184,7 +184,7 @@
 <title
 >Filtres</title>
 <para
->Il existe plusieurs façons de filtrer les objets affichés dans le tableau des objets du planificateur d'acquisition. Le filtrage des objets les retire du tableau, mais ils peuvent être récupérés à nouveau en modifiant le filtre. Notez que la section des filtres peut être masquée ou affichée en cliquant sur le petit bouton à gauche de la section des filtres. </para>
+>Il existe plusieurs façons de filtrer les objets affichés dans le tableau des objets du planificateur d'acquisition. Le filtrage des objets les retire du tableau, mais ils peuvent être retrouvés à nouveau en modifiant le filtre. Notez que la section des filtres peut être masquée ou affichée en cliquant sur le petit bouton à gauche de la section des filtres. </para>
 <itemizedlist>
 <listitem
 ><para
@@ -198,19 +198,19 @@
 ></listitem
 ><listitem
 ><para
->Cocher « Choisi » affichera uniquement les objets « choisis ». De même, cocher « Non choisi » affichera uniquement les objets non « choisis ». Cocher « Peu importe » dans la ligne « Choisi » rendra l'état « choisi » sans importance dans le filtrage des objets du tableau. </para
+>La sélection de « Choisi » affichera uniquement les objets « choisis ». De même, la sélection de « Non choisi » affichera uniquement les objets marqué comme non « Non choisi »». Cocher « Peu importe » dans la ligne « Choisi » rendra l'état « Choisi » sans importance dans le filtrage des objets du tableau. </para
 ></listitem
 ><listitem
 ><para
->Similaire à « Choisi », « Photographié » permet d'afficher ou non les objets étiquetés comme ayant été précédemment photographiés. </para
+>Similaire à « Choisi », « Photographié » permet d'afficher ou non les objets étiquetés comme ayant été précédemment photographiés. </para
 ></listitem
 ><listitem
 ><para
->Ignoré permet d'afficher ou non les objets étiquetés comme « Ignoré ». </para
+>Ignoré permet d'afficher ou non les objets étiquetés comme « Ignoré ». </para
 ></listitem
 ><listitem
 ><para
->La recherche par mot-clé à l'intérieur des notes que l'utilisateur a ajoutées à l'objet, et renvoie « vrai » si un mot de la note correspond au mot-clé (voir la section Informations sur l'objet ci-dessus). </para
+>La recherche par mot clé à l'intérieur des notes que l'utilisateur a ajoutées à l'objet, et renvoie « VRAI » si un mot de la note correspond au mot clé (Voir la section Informations sur l'objet ci-dessus). </para
 ></listitem>
 </itemizedlist>
 <para
@@ -278,7 +278,7 @@
 ></listitem
 ><listitem
 ><para
->Si vous utilisez une carte du ciel basée sur HiPS, vous voudrez probablement des copies locales des données DSS pour accélérer le rendu de la carte du ciel. Voir <menuchoice
+>Si vous utilisez une carte du ciel reposant sur HiPS, vous voudrez probablement des copies locales des données DSS pour accélérer le rendu de la carte du ciel. Voir <menuchoice
 ><guimenu
 >Affichage</guimenu
 > <guimenuitem
@@ -290,7 +290,7 @@
 > <guimenuitem
 >Cache</guimenuitem
 ></menuchoice
->, activez le cache et entrez l'emplacement de votre copie locale des données. Les données sont disponibles sur https://irsa.ipac.caltech.edu/data/hips/CDS/DSS2/color/Norder1 … /Norder7 et une autre ressource est https://coochey.net/?p=699. </para
+>, activez le cache et saisissez l'emplacement de votre copie locale des données. Les données sont disponibles sur https://irsa.ipac.caltech.edu/data/hips/CDS/DSS2/color/Norder1 … /Norder7 et une autre ressource est https://coochey.net/?p=699. </para
 ></listitem
 ><listitem
 ><para
@@ -306,7 +306,7 @@
 > <guimenuitem
 >Caméra</guimenuitem
 ></menuchoice
->, et entrez la longueur focale de vos optiques ainsi que les spécifications de la caméra. </para
+> et saisissez la longueur focale de vos optiques ainsi que les spécifications de la caméra. </para
 ></listitem
 ><listitem
 ><para
@@ -377,7 +377,7 @@
 >    
 </itemizedlist>
 <para
->Si vous voulez ajouter vos propres objets au catalogue existant, vous pouvez le faire en créant votre propre catalogue, par exemple sur votre bureau dans un fichier .csv, et en incluant la première ligne avec le catalogue existant et une ligne LoadCatalog, puis en listant vos nouveaux objets dans les lignes suivantes. Vous exécuteriez ensuite le bouton « Charger le catalogue » sur votre nouveau fichier .csv. </para>
+>Si vous voulez ajouter vos propres objets au catalogue existant, vous pouvez le faire en créant votre propre catalogue, par exemple sur votre bureau dans un fichier au format « csv » et en incluant la première ligne avec le catalogue existant et une ligne « LoadCatalog », puis en listant vos nouveaux objets dans les lignes suivantes. Vous exécuteriez ensuite le bouton « Charger le catalogue » sur votre nouveau fichier au format « csv ». </para>
 </sect3>
 <sect3 id="imagingplanner-catalogs-loading">
  <title
@@ -391,7 +391,7 @@
 > <guimenuitem
 >Télécharger de nouvelles données…</guimenuitem
 ></menuchoice
-> sont enregistrés dans le répertoire de données standard de KStars, mais les catalogues peuvent être lus depuis n'importe quel emplacement. </para
+> sont enregistrés dans le dossier des données standards de KStars. Cependant, les catalogues peuvent être lus depuis n'importe quel emplacement. </para
 ></listitem
 ><listitem
 ><para
