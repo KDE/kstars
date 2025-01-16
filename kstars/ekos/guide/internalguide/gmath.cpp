@@ -420,7 +420,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
                 if (k == GUIDE_RA)
                     pulseDirection = arcsecDrift > 0 ? RA_DEC_DIR : RA_INC_DIR;
                 else
-                    pulseDirection = arcsecDrift > 0 ? DEC_INC_DIR : DEC_DEC_DIR; // GUIDE_DEC.
+                    pulseDirection = arcsecDrift > 0 ? DEC_DEC_DIR : DEC_INC_DIR;
             }
             else
                 pulseDirection = NO_DIR;
@@ -579,9 +579,9 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         calibration.convertToPixels(-raDrift, -decDrift, &data.raDistance, &data.decDistance);
 
         const double raGuideFactor = out_params.pulse_dir[GUIDE_RA] == NO_DIR ?
-                                     0 : (out_params.pulse_dir[GUIDE_RA] == RA_DEC_DIR ? -1.0 : 1.0);
+                                     0 : (out_params.pulse_dir[GUIDE_RA] == RA_INC_DIR ? 1.0 : -1.0);
         const double decGuideFactor = out_params.pulse_dir[GUIDE_DEC] == NO_DIR ?
-                                      0 : (out_params.pulse_dir[GUIDE_DEC] == DEC_INC_DIR ? -1.0 : 1.0);
+                                      0 : (out_params.pulse_dir[GUIDE_DEC] == DEC_INC_DIR ? 1.0 : -1.0);
 
         // Phd2LogViewer wants these in pixels instead of arcseconds, so normalizing them, but
         // that will be wrong for non-square pixels. They should really accept arcsecond units.

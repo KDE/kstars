@@ -533,9 +533,6 @@ void GuideDriftGraph::setAxisDelta(double ra, double de)
     // Time since timer started.
     double key = guideElapsedTimer.elapsed() / 1000.0;
 
-    // similar to same operation in Guide::setAxisDelta
-    ra = -ra;
-
     graph(GuideGraph::G_RA)->addData(key, ra);
     graph(GuideGraph::G_DEC)->addData(key, de);
 

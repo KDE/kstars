@@ -273,6 +273,10 @@ void Guide::clearCalibrationGraphs()
     calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->data()->clear(); //Backlash
     calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->data()->clear(); //DEC out
     calibrationPlot->graph(GuideGraph::G_RA_PULSE)->data()->clear(); //DEC back
+    calRALabel->setVisible(false);
+    calRAArrow->setVisible(false);
+    calDECLabel->setVisible(false);
+    calDECArrow->setVisible(false);
     calibrationPlot->replot();
 }
 
@@ -1567,10 +1571,13 @@ void Guide::setAutoStarEnabled(bool enable)
 void Guide::clearCalibration()
 {
     calibrationComplete = false;
+    if (m_GuiderInstance->clearCalibration())
+    {
+        clearCalibrationB->setEnabled(false);
+        appendLogText(i18n("Calibration is cleared."));
+    }
 
-    m_GuiderInstance->clearCalibration();
 
-    appendLogText(i18n("Calibration is cleared."));
 }
 
 void Guide::setStatus(Ekos::GuideState newState)
@@ -2182,8 +2189,6 @@ void Guide::setAxisDelta(double ra, double de)
     // if(guiderType == GUIDE_PHD2 && state != GUIDE_GUIDING)
     //     setStatus(GUIDE_GUIDING);
 
-    ra = -ra;  //The ra is backwards in sign from how it should be displayed on the graph.
-
     int currentNumPoints = driftGraph->graph(GuideGraph::G_RA)->dataCount();
     guideSlider->setMaximum(currentNumPoints);
     if(graphOnLatestPt)
@@ -2202,7 +2207,10 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
     switch (type)
     {
         case GuideInterface::RA_OUT:
-            calibrationPlot->graph(GuideGraph::G_RA)->addData(dx, dy);
+            calibrationPlot->graph(GuideGraph::G_RA)->addData(dx, dy);   
+            break;
+        case GuideInterface::RA_OUT_OK:
+            drawRADECAxis(calRALabel, calRAArrow, dx, dy);
             break;
         case GuideInterface::RA_IN:
             calibrationPlot->graph(GuideGraph::G_DEC)->addData(dx, dy);
@@ -2213,6 +2221,9 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
         case GuideInterface::DEC_OUT:
             calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->addData(dx, dy);
             break;
+        case GuideInterface::DEC_OUT_OK:
+            drawRADECAxis(calDECLabel, calDECArrow, dx, dy);
+            break;
         case GuideInterface::DEC_IN:
             calibrationPlot->graph(GuideGraph::G_RA_PULSE)->addData(dx, dy);
             break;
@@ -2221,6 +2232,20 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
     }
     calLabel->setText(message);
     calibrationPlot->replot();
+}
+
+void Guide::drawRADECAxis(QCPItemText *Label, QCPItemLine *Arrow, const double xEnd, const double yEnd)
+{
+
+    Arrow->start->setCoords(0, 0);
+    Arrow->end->setCoords(xEnd, yEnd);
+    Arrow->setHead(QCPLineEnding::esSpikeArrow);
+    Label->position->setCoords(xEnd, yEnd);
+    Label->setColor(Qt::white);
+    yEnd > 0 ? Label->setPositionAlignment(Qt::AlignHCenter | Qt::AlignBottom) :
+             Label->setPositionAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    Arrow->setVisible(true);
+    Label->setVisible(true);
 }
 
 void Guide::setAxisSigma(double ra, double de)
@@ -2787,8 +2812,8 @@ void Guide::initCalibrationPlot()
     calibrationPlot->xAxis->grid()->setZeroLinePen(QPen(Qt::gray));
     calibrationPlot->yAxis->grid()->setZeroLinePen(QPen(Qt::gray));
 
-    calibrationPlot->xAxis->setLabel(i18n("x (pixels)"));
-    calibrationPlot->yAxis->setLabel(i18n("y (pixels)"));
+    calibrationPlot->xAxis->setLabel(i18n("dx (pixels)"));
+    calibrationPlot->yAxis->setLabel(i18n("dy (pixels)"));
 
     calibrationPlot->xAxis->setRange(-20, 20);
     calibrationPlot->yAxis->setRange(-20, 20);
@@ -2799,34 +2824,37 @@ void Guide::initCalibrationPlot()
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_RA)->setLineStyle(QCPGraph::lsNone);
     calibrationPlot->graph(GuideGraph::G_RA)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
-            QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 6));
-    calibrationPlot->graph(GuideGraph::G_RA)->setName("RA out");
+                           QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2),
+                           QBrush(), 6));
+    calibrationPlot->graph(GuideGraph::G_RA)->setName("RA+");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_DEC)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(GuideGraph::G_DEC)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::white, 2),
-            QBrush(), 4));
-    calibrationPlot->graph(GuideGraph::G_DEC)->setName("RA in");
+    calibrationPlot->graph(GuideGraph::G_DEC)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
+                           QPen(Qt::white, 2),
+                           QBrush(), 4));
+    calibrationPlot->graph(GuideGraph::G_DEC)->setName("RA-");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlus, QPen(Qt::white,
-            2),
-            QBrush(), 6));
+    calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlus,
+                           QPen(Qt::white, 2),
+                           QBrush(), 6));
     calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setName("Backlash");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
     calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
-            QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 6));
-    calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->setName("DEC out");
+                           QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2),
+                           QBrush(), 6));
+    calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->setName("DEC+");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setLineStyle(QCPGraph::lsNone);
-    calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, QPen(Qt::yellow,
-            2),
-            QBrush(), 4));
-    calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setName("DEC in");
+    calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
+                           QPen(Qt::yellow, 2),
+                           QBrush(), 4));
+    calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setName("DEC-");
 
     calLabel = new QCPItemText(calibrationPlot);
     calLabel->setColor(QColor(255, 255, 255));
@@ -2836,6 +2864,26 @@ void Guide::initCalibrationPlot()
     calLabel->setText("");
     calLabel->setFont(QFont(font().family(), 10));
     calLabel->setVisible(true);
+
+    calRALabel = new QCPItemText(calibrationPlot);
+    calRALabel->setText("RA");
+    calRALabel->setColor(Qt::white);
+    calRALabel->setPen(QPen(Qt::white, 1)); // Draw frame
+    calRALabel->setVisible(false);
+    calRAArrow = new QCPItemLine(calibrationPlot);
+    calRAArrow->setPen(QPen(Qt::white, 1));
+    calRAArrow->setHead(QCPLineEnding::esSpikeArrow);
+    calRAArrow->setVisible(false);
+
+    calDECLabel = new QCPItemText(calibrationPlot);
+    calDECLabel->setText("DEC");
+    calDECLabel->setColor(Qt::white); // Draw frame
+    calDECLabel->setPen(QPen(Qt::white, 1));
+    calDECLabel->setVisible(false);
+    calDECArrow = new QCPItemLine(calibrationPlot);
+    calDECArrow->setPen(QPen(Qt::white, 1));
+    calDECArrow->setHead(QCPLineEnding::esSpikeArrow);
+    calDECArrow->setVisible(false);
 
     calibrationPlot->resize(190, 190);
     calibrationPlot->replot();

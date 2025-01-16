@@ -134,7 +134,8 @@ CalibrationTest calTest1 =
         { 106.989433, 86.010635, GuideDirection::DEC_DEC_DIR, 1100, GuideState::GUIDE_CALIBRATING },
         { 105.983643, 85.992851, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCCESS }
     },
-    /*raAngle*/ 270.642141, /*decAngle*/357.982581, /*raMsPerPx*/ 1365.201045, /*decMsPerPx*/1777.789432, /*decSwap*/true
+    //*raAngle*/ 270.642141, /*decAngle*/357.982581, /*raMsPerPx*/ 1365.201045, /*decMsPerPx*/1777.789432, /*decSwap*/true
+    /*raAngle*/ 89.357859, /*decAngle*/2.017419, /*raMsPerPx*/ 1365.201045, /*decMsPerPx*/1777.789432, /*decSwap*/true
 };
 
 // Similar successful calibration. Because of the long (5000ms) pulses, hits the maxMove limit before the 10 iterations.
@@ -173,7 +174,8 @@ CalibrationTest calTest2 =
         { 158.015213, 63.022118, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
         { 156.009674, 62.980377, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCCESS }
     },
-    /*raAngle*/ 270.220776, /*decAngle*/359.956572, /*raMsPerPx*/ 1759.773729, /*decMsPerPx*/2187.595339, /*decSwap*/true
+    //*raAngle*/ 270.220776, /*decAngle*/359.956572, /*raMsPerPx*/ 1759.773729, /*decMsPerPx*/2187.595339, /*decSwap*/true
+    /*raAngle*/ 89.779224, /*decAngle*/0.043488, /*raMsPerPx*/ 1759.773729, /*decMsPerPx*/2187.595339, /*decSwap*/true
 };
 
 // Standard successful calibration. Limited by the 25 max-move (had binning 1x1).
@@ -207,7 +209,8 @@ CalibrationTest calTest3 =
         {451.027283, 56.041237, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
         {447.000793, 56.051575, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCCESS }
     },
-    /*raAngle*/ 269.977814, /*decAngle*/359.995686, /*raMsPerPx*/ 861.989870, /*decMsPerPx*/1070.726035, /*decSwap*/true
+    //*raAngle*/ 269.977814, /*decAngle*/359.995686, /*raMsPerPx*/ 861.989870, /*decMsPerPx*/1070.726035, /*decSwap*/true
+    /*raAngle*/ 90.02286, /*decAngle*/0.004314, /*raMsPerPx*/ 861.989870, /*decMsPerPx*/1070.726035, /*decSwap*/true
 };
 
 // Like above, but tricked the simulator to move in the opposite dec direction --> decSwap = false.
@@ -242,7 +245,8 @@ CalibrationTest calTest4 =
         {151.995514, 251.071701, GuideDirection::DEC_DEC_DIR, 5000, GuideState::GUIDE_CALIBRATING },
         {157.012283, 251.060547, GuideDirection::NO_DIR, 0, GuideState::GUIDE_CALIBRATION_SUCCESS }
     },
-    /*raAngle*/ 270.017435, /*decAngle*/180.151901, /*raMsPerPx*/ 833.739546, /*decMsPerPx*/1112.338058, /*decSwap*/false
+    //*raAngle*/ 270.017435, /*decAngle*/180.151901, /*raMsPerPx*/ 833.739546, /*decMsPerPx*/1112.338058, /*decSwap*/false
+    /*raAngle*/ 89.982564, /*decAngle*/179.848098, /*raMsPerPx*/ 833.739546, /*decMsPerPx*/1112.338058, /*decSwap*/false
 };
 
 

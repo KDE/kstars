@@ -15,9 +15,13 @@ Calibration::Calibration()
     ROT_Z = GuiderUtils::Matrix(0);
 }
 
+// Set angle
 void Calibration::setAngle(double rotationAngle)
 {
     angle = rotationAngle;
+    // Matrix is set a priori to NEGATIVE angle, because we want a CCW rotation in the
+    // left hand system of the sensor coordinate system.
+    // Rotation is used in guidestars::computeStarDrift() and guidestars::getDrift()
     ROT_Z = GuiderUtils::RotateZ(-M_PI * angle / 180.0);
 }
 
@@ -82,7 +86,7 @@ GuiderUtils::Vector Calibration::rotateToRaDec(const GuiderUtils::Vector &input)
 {
     GuiderUtils::Vector in;
     in.x = input.x;
-    in.y = -input.y;
+    in.y = input.y;
     return (in * ROT_Z);
 }
 
@@ -141,8 +145,6 @@ double Calibration::decPulseMillisecondsPerArcsecond() const
 double Calibration::calculateRotation(double x, double y)
 {
     double phi;
-
-    y = -y;
 
     //if( (!GuiderUtils::Vector(delta_x, delta_y, 0)) < 2.5 )
     // JM 2015-12-10: Lower threshold to 1 pixel
@@ -210,24 +212,24 @@ bool Calibration::calculate1D(double dx, double dy, int RATotalPulse)
 bool Calibration::calculate2D(
     double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y,
     double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y,
-    bool *swap_dec, int RATotalPulse, int DETotalPulse)
+    bool *reverse_dec_dir, int RATotalPulse, int DETotalPulse)
 {
     return calculate2D((end_ra_x - start_ra_x),
                        (end_ra_y - start_ra_y),
                        (end_dec_x - start_dec_x),
                        (end_dec_y - start_dec_y),
-                       swap_dec, RATotalPulse, DETotalPulse);
+                       reverse_dec_dir, RATotalPulse, DETotalPulse);
 }
 bool Calibration::calculate2D(
     double ra_dx, double ra_dy, double dec_dx, double dec_dy,
-    bool *swap_dec, int RATotalPulse, int DETotalPulse)
+    bool *reverse_dec_dir, int RATotalPulse, int DETotalPulse)
 {
-    const double raArcsecondsX = ra_dx * xArcsecondsPerPixel();
-    const double raArcsecondsY = ra_dy * yArcsecondsPerPixel();
-    const double decArcsecondsX = dec_dx * xArcsecondsPerPixel();
-    const double decArcsecondsY = dec_dy * yArcsecondsPerPixel();
-    const double raArcseconds = std::hypot(raArcsecondsX, raArcsecondsY);
-    const double decArcseconds = std::hypot(decArcsecondsX, decArcsecondsY);
+    const double raArcsecondsdX = ra_dx * xArcsecondsPerPixel();
+    const double raArcsecondsdY = ra_dy * yArcsecondsPerPixel();
+    const double decArcsecondsdX = dec_dx * xArcsecondsPerPixel();
+    const double decArcsecondsdY = dec_dy * yArcsecondsPerPixel();
+    const double raArcseconds = std::hypot(raArcsecondsdX, raArcsecondsdY);
+    const double decArcseconds = std::hypot(decArcsecondsdX, decArcsecondsdY);
     if (raArcseconds < .1 || decArcseconds < .1 || RATotalPulse <= 0 || DETotalPulse <= 0)
     {
         qCDebug(KSTARS_EKOS_GUIDE)
@@ -240,22 +242,22 @@ bool Calibration::calculate2D(
     double phi_dec = 0; // angle calculated by GUIDE_DEC drift
     double phi     = 0;
 
-    GuiderUtils::Vector ra_vect  = GuiderUtils::Normalize(GuiderUtils::Vector(raArcsecondsX, -raArcsecondsY, 0));
-    GuiderUtils::Vector dec_vect = GuiderUtils::Normalize(GuiderUtils::Vector(decArcsecondsX, -decArcsecondsY, 0));
+    GuiderUtils::Vector ra_vect  = GuiderUtils::Normalize(GuiderUtils::Vector(raArcsecondsdX, raArcsecondsdY, 0));
+    GuiderUtils::Vector dec_vect = GuiderUtils::Normalize(GuiderUtils::Vector(decArcsecondsdX, decArcsecondsdY, 0));
 
-    GuiderUtils::Vector try_increase = dec_vect * GuiderUtils::RotateZ(M_PI / 2);
-    GuiderUtils::Vector try_decrease = dec_vect * GuiderUtils::RotateZ(-M_PI / 2);
+    GuiderUtils::Vector dec_vect_rotated_CCW = dec_vect * GuiderUtils::RotateZ(M_PI / 2);
+    GuiderUtils::Vector dec_vect_rotated_CW = dec_vect * GuiderUtils::RotateZ(-M_PI / 2);
 
-    double cos_increase = try_increase & ra_vect;
-    double cos_decrease = try_decrease & ra_vect;
+    double scalar_product_CCW = dec_vect_rotated_CCW & ra_vect;
+    double scalar_product_CW = dec_vect_rotated_CW & ra_vect;
 
-    bool do_increase = cos_increase > cos_decrease ? true : false;
+    bool ra_dec_is_CW_system = scalar_product_CCW > scalar_product_CW ? true : false;
 
-    phi_ra = calculateRotation(raArcsecondsX, raArcsecondsY);
+    phi_ra = calculateRotation(raArcsecondsdX, raArcsecondsdY);
     if (phi_ra < 0)
         return false;
 
-    phi_dec = calculateRotation(decArcsecondsX, decArcsecondsY);
+    phi_dec = calculateRotation(decArcsecondsdX, decArcsecondsdY);
     if (phi_dec < 0)
         return false;
 
@@ -263,9 +265,9 @@ bool Calibration::calculate2D(
     calibrationAngleRA = phi_ra;
     calibrationAngleDEC = phi_dec;
 
-    if (do_increase)
+    if (ra_dec_is_CW_system)
         phi_dec += 90;
-    else
+    else // ra-dec is standard CCW system
         phi_dec -= 90;
 
     if (phi_dec > 360)
@@ -292,9 +294,9 @@ bool Calibration::calculate2D(
     setAngle(phi);
     calibrationAngle = phi;
 
-    // check DEC
-    if (swap_dec)
-        *swap_dec = decSwap = do_increase ? false : true;
+    // check DEC: Make standard CCW coordinate system
+    if (reverse_dec_dir)
+        *reverse_dec_dir = decSwap = ra_dec_is_CW_system;
     calibrationDecSwap = decSwap;
 
     if (RATotalPulse > 0)

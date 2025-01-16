@@ -66,9 +66,11 @@ class GuideInterface : public QObject
         {
             RA_IN,
             RA_OUT,
+            RA_OUT_OK,
             BACKLASH,
             DEC_IN,
             DEC_OUT,
+            DEC_OUT_OK,
             CALIBRATION_MESSAGE_ONLY
         };
 

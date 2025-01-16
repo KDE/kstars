@@ -561,6 +561,10 @@ class Guide : public QWidget, public Ui::Guide
         // Driver
         void reconnectDriver(const QString &camera, QVariantMap settings);
 
+        // Calibration plot of RA- and DEC-axis
+        void drawRADECAxis(QCPItemText *Label, QCPItemLine *Arrow, const double dx, const double dy);
+
+
         // Operation Stack
         QStack<GuideState> operationStack;
 
@@ -676,7 +680,12 @@ class Guide : public QWidget, public Ui::Guide
         //This connection storage is so that the connection can be disconnected after enforcement
         QMetaObject::Connection guideConnect;
 
-        QCPItemText *calLabel  { nullptr };
+        // Some layer items
+        QCPItemText *calLabel { nullptr }; // Title
+        QCPItemText *calRALabel { nullptr }; // RA axis ...
+        QCPItemLine *calRAArrow { nullptr }; // ... with direction
+        QCPItemText *calDECLabel { nullptr }; // DEC axis ...
+        QCPItemLine *calDECArrow { nullptr }; // ... with direction
 
         // The scales of these zoom levels are defined in Guide::zoomX().
         static constexpr int defaultXZoomLevel = 3;

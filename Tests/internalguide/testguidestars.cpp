@@ -88,40 +88,44 @@ void TestGuideStars::basicTest()
     CompareFloat(as.x, arcsecondsPerPixel * x1);
     CompareFloat(as.y, arcsecondsPerPixel * y1);
 
-    // Test computeStarDrift(), computing the distance between two stars in arcseconds.
-    double dx = 2.5, dy = -0.7;
+    // Test computeStarDrift(), computing the distance between two stars in arcseconds
+    // using standard sensor coordinate system (x right and y down, 0 upper left, e.g left hand system)
+    // and full circle angle. Note: SetAngle() creates rotation matrix with reversed sign!
+    double dx = 2.5, dy = 0.7;
     Edge refStar = makeEdge(x1, y1);
     Edge star = makeEdge(x1 + dx, y1 + dy);
     double dRa, dDec;
     g.computeStarDrift(star, refStar, &dRa, &dDec);
-    // Since the angle is 0, x differences should be reflected in RA, and y in DEC.
+    // +dx <-> RA increase, +dy <-> DEC increase
     CompareFloat(dRa, dx * arcsecondsPerPixel);
-    // Y is inverted, because y=0 is at the top.
-    CompareFloat(dDec, -dy * arcsecondsPerPixel);
+    CompareFloat(dDec, dy * arcsecondsPerPixel);
 
-    // Change the angle to 90, 180 and -90 degrees
+    // Change the angle CW to 90, 180 and 270 degrees
     angle = 90.0;
     cal.setAngle(angle);
     g.setCalibration(cal);
     g.computeStarDrift(star, refStar, &dRa, &dDec);
+    // +dx <-> DEC decrease, +dy <-> RA increase
     CompareFloat(-dDec, dx * arcsecondsPerPixel);
-    CompareFloat(dRa, -dy * arcsecondsPerPixel);
+    CompareFloat(dRa, dy * arcsecondsPerPixel);
 
     angle = 180.0;
     cal.setAngle(angle);
     g.setCalibration(cal);
     g.computeStarDrift(star, refStar, &dRa, &dDec);
+    // +dx <-> RA decrease, +dy <-> DEC decrease
     CompareFloat(-dRa, dx * arcsecondsPerPixel);
-    CompareFloat(-dDec, -dy * arcsecondsPerPixel);
+    CompareFloat(-dDec, dy * arcsecondsPerPixel);
 
-    angle = -90.0;
+    angle = 270.0;
     cal.setAngle(angle);
     g.setCalibration(cal);
     g.computeStarDrift(star, refStar, &dRa, &dDec);
+    // +dx <-> DEC increase, +dy <-> RA decrease
     CompareFloat(dDec, dx * arcsecondsPerPixel);
-    CompareFloat(-dRa, -dy * arcsecondsPerPixel);
+    CompareFloat(-dRa, dy * arcsecondsPerPixel);
 
-    // Use angle -90 so changes in x are changes in RA, and y --> -DEC.
+    // Use angle 0 so changes in x are changes in RA, and y in DEC.
     angle = 0.0;
     cal.setAngle(angle);
     g.setCalibration(cal);
@@ -179,18 +183,18 @@ void TestGuideStars::basicTest()
     CompareFloat(dRa, 0);
     CompareFloat(dDec, 0);
 
-    // Move the reticle 1 pixel in x, should result in a drift of "arcsecondsPerPixel" in RA
+    // Move the reticle 1 pixel in x should increase RA
     // and 0 in DEC.
     success = g.getDrift(1, 99, 70, &dRa, &dDec);
     QVERIFY(success);
     CompareFloat(dRa, arcsecondsPerPixel);
     CompareFloat(dDec, 0);
 
-    // Similarly 2 pixels upward in y would affect DEC.
+    // Similarly 2 pixels upward in y shoud increase DEC.
     success = g.getDrift(1, 100, 68, &dRa, &dDec);
     QVERIFY(success);
     CompareFloat(dRa, 0);
-    CompareFloat(dDec, -2 * arcsecondsPerPixel);
+    CompareFloat(dDec, 2 * arcsecondsPerPixel);
 
     // Finally, since the drift is the median drift of the guide stars,
     // we move half up and half down and the middle will control the drift.
@@ -210,7 +214,7 @@ void TestGuideStars::basicTest()
     success = g.getDrift(1, 100, 70, &dRa, &dDec);
     QVERIFY(success);
     CompareFloat(dRa, 0.5 * arcsecondsPerPixel);
-    CompareFloat(dDec, -0.75 * arcsecondsPerPixel);
+    CompareFloat(dDec, 0.75 * arcsecondsPerPixel);
 
     // We don't accept multi-star drifts where the reference stars are too far (> 2 a-s)
     // from the guide-star drift. Here we move the guide star so it's different than
@@ -221,7 +225,7 @@ void TestGuideStars::basicTest()
     success = g.getDrift(1, 100, 70, &dRa, &dDec);
     QVERIFY(success);
     CompareFloat(dRa, 5 * arcsecondsPerPixel);
-    CompareFloat(dDec, -6 * arcsecondsPerPixel);
+    CompareFloat(dDec, 6 * arcsecondsPerPixel);
 
     // This should fail if either there aren't enough reference stars (< 2)
 
@@ -376,9 +380,10 @@ void TestGuideStars::calibrationTest()
 
     // Test saving and restoring the calibration.
 
-    // This should set the angle to 270 and keep raRate.
+    // This should set the angle to 90° and keep raRate.
+    // (RA-Dec is CCW system with 0° at x-axis!)
     cal.calculate1D(0, 10, raMillisecondsPerPixel * 10);
-    angle = 270;
+    angle = 90;
     int binX = 2, binY = 3;
     double pixSzW = .005, pixSzH = .006;
     cal.setParameters(pixSzW, pixSzH, focal_length, binX, binY, side, ra, dec);
@@ -426,25 +431,25 @@ void TestGuideStars::calibrationTest()
     QCOMPARE(cal2.declinationSwapEnabled(), false);
     // This tests that the rotation matrix got adjusted with the angle.
     cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
-    CompareFloat(-px.y, rdx);
-    CompareFloat(px.x, rdy);
+    CompareFloat(px.y, rdx);
+    CompareFloat(px.x, -rdy);
 
-    // If we are now west, the angle should change by 180 degrees and dec-swap should invert.
+    // If we are now west, the angle should have changed by +180 degrees and dec-swap should invert.
     QVERIFY(cal2.restore(encodedCal, ISD::Mount::PIER_WEST, reverseDecOnPierChange, binning, binning));
-    QCOMPARE(cal2.getAngle(), angle - 180.0);
+    QCOMPARE(cal2.getAngle(), angle + 180.0);
     QCOMPARE(cal2.declinationSwapEnabled(), true);
     cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
-    CompareFloat(-px.y, -rdx);
-    CompareFloat(px.x, -rdy);
+    CompareFloat(px.y, rdx);
+    CompareFloat(px.x, rdy);
 
     // Set the user option to reverse DEC on pier-side change.
     reverseDecOnPierChange = true;
     QVERIFY(cal2.restore(encodedCal, ISD::Mount::PIER_WEST, reverseDecOnPierChange, binning, binning));
-    QCOMPARE(cal2.getAngle(), angle - 180.0);
+    QCOMPARE(cal2.getAngle(), angle + 180.0);
     QCOMPARE(cal2.declinationSwapEnabled(), false);
     cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
-    CompareFloat(-px.y, -rdx);
-    CompareFloat(px.x, -rdy);
+    CompareFloat(px.y, rdx); // same as above because px(1,0,0)!! Perhaps we should use another test vector?
+    CompareFloat(px.x, rdy);
     reverseDecOnPierChange = false;
 
     // If we go back east, the angle and decSwap should revert to their original values.
@@ -452,28 +457,27 @@ void TestGuideStars::calibrationTest()
     QCOMPARE(cal2.getAngle(), angle);
     QCOMPARE(cal2.declinationSwapEnabled(), false);
     cal2.rotateToRaDec(px.x, px.y, &rdx, &rdy);
-    CompareFloat(-px.y, rdx);
-    CompareFloat(px.x, rdy);
+    CompareFloat(px.y, rdx);
+    CompareFloat(px.x, -rdy);
 
     // Should not restore if the pier is unknown.
     QVERIFY(!cal2.restore(encodedCal, ISD::Mount::PIER_UNKNOWN, reverseDecOnPierChange, binning, binning));
 
     // Calculate the rotation.
     // Compute the angle the coordinates passed in make with the x-axis.
-    // Oddly, though, the method first negates the y-coorainate (as images have y=0 on
-    // top). So, account for that. Test in all 4 quadrents. Returns values 0-360 degrees.
+    // "toDegrees()" changes PAs of atan2() to full circle angle.
     double x = 5.0, y = -7.0;
-    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(y, x)));
     x = -8.3, y = -2.4;
-    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(y, x)));
     x = -10.3, y = 8.2;
-    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(y, x)));
     x = 1.7, y = 8.2;
-    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(y, x)));
     x = 0, y = -8.0;
-    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(y, x)));
     x = 10, y = 0;
-    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(-y, x)));
+    QCOMPARE(Calibration::calculateRotation(x, y), toDegrees(atan2(y, x)));
     // Short vectors (size less than 1.0) should return -1.
     x = .10, y = .20;
     QCOMPARE(Calibration::calculateRotation(x, y), -1.0);
@@ -493,7 +497,7 @@ void TestGuideStars::calibrationTest()
     side = ISD::Mount::PIER_WEST;
     cal.setParameters(pixSzW, pixSzH, focal_length, binX, binY, side, ra, dec);
     cal.calculate1D(x, y, pulseLength);
-    CompareFloat(cal.getAngle(), toDegrees(atan2(-y, x)));
+    CompareFloat(cal.getAngle(), toDegrees(atan2(y, x)));
     CompareFloat(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), pulseLength / std::hypot(x, y));
 
     // 2-D calibrations take coordinates and pulse lengths for both axes.
@@ -511,40 +515,40 @@ void TestGuideStars::calibrationTest()
     cal.calculate2D(ra_x, ra_y, dec_x, dec_y, &swap, ra_pulse, dec_pulse);
     QCOMPARE(cal.raPulseMillisecondsPerArcsecond() * cal.xArcsecondsPerPixel(), ra_factor);
     QCOMPARE(cal.decPulseMillisecondsPerArcsecond() * cal.yArcsecondsPerPixel(), dec_factor);
-    QCOMPARE(cal.getAngle(), toDegrees(atan2(-ra_y, ra_x)));
+    QCOMPARE(cal.getAngle(), toDegrees(atan2(ra_y, ra_x)));
     QCOMPARE(swap, false);
 
-    // Above we created a calibration where movement of size 1.0 along the x-axis in pixels
-    // gets rotated towards -16,16 but keeps its original length.
-    // Note, a 45-degree vector of length 1.0 has size length of sqrt(2)/2 in x and y.
+    // Note: SetAngle() creates rotation matrix with reversed sign:
+    // Hence even if calculate2D() above creates a calibration rotation of +135° in right hand system,
+    // rotateToRaDec() rotates (1,0) by -135° to (-size1side,-size1side) in right hand system.
     const double size1side = sqrt(2.0) / 2.0;
     cal.rotateToRaDec(1.0, 0.0, &rdx, &rdy);
     CompareFloat(rdx, -size1side);
-    CompareFloat(rdy, size1side);
-    // Similarly, a move (in dec) of size 1 down the y-axis would rotate toward -12,-12
+    CompareFloat(rdy, -size1side);
+    // Similarly, (0,-1) rotated by -135° would rotate toward (-size1side,size1side)
     cal.rotateToRaDec(0.0, -1.0, &rdx, &rdy);
     CompareFloat(rdx, -size1side);
-    CompareFloat(rdy, -size1side);
+    CompareFloat(rdy, size1side);
 
     // If we restored this on the EAST side
     QVERIFY(cal.restore(cal.serialize(), ISD::Mount::PIER_EAST, reverseDecOnPierChange, binning, binning));
     // ...RA moves should be inverted
     cal.rotateToRaDec(1.0, 0.0, &rdx, &rdy);
     CompareFloat(rdx, size1side);
-    CompareFloat(rdy, -size1side);
+    CompareFloat(rdy, size1side);
     // ...and DEC moves should also invert.
     cal.rotateToRaDec(0.0, -1.0, &rdx, &rdy);
     CompareFloat(rdx, size1side);
-    CompareFloat(rdy, size1side);
+    CompareFloat(rdy, -size1side);
 
     // If we then move back to the WEST side, we should get the original results.
     QVERIFY(cal.restore(cal.serialize(), ISD::Mount::PIER_WEST, reverseDecOnPierChange, binning, binning));
     cal.rotateToRaDec(1.0, 0.0, &rdx, &rdy);
     CompareFloat(rdx, -size1side);
-    CompareFloat(rdy, size1side);
+    CompareFloat(rdy, -size1side);
     cal.rotateToRaDec(0.0, -1.0, &rdx, &rdy);
     CompareFloat(rdx, -size1side);
-    CompareFloat(rdy, -size1side);
+    CompareFloat(rdy, size1side);
 
     // Test adjusting the RA rate according to DEC.
 

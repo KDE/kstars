@@ -199,8 +199,8 @@ void CalibrationProcess::startState()
 
 void CalibrationProcess::raOutState(double cur_x, double cur_y)
 {
-    addCalibrationUpdate(GuideInterface::RA_OUT, i18n("Calibrating RA Out"),
-                         cur_x - start_x1, cur_y - start_y1);
+    QString Info = QString("RA+ (%1, %2)").arg((cur_x - start_x1), 0, 'f', 1).arg((cur_y - start_y1), 0, 'f', 1);
+    addCalibrationUpdate(GuideInterface::RA_OUT, Info, cur_x - start_x1, cur_y - start_y1);
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << ra_iterations << ": STAR " << cur_x << "," << cur_y;
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << ra_iterations << " Direction: RA_INC_DIR" << " Duration: "
@@ -234,6 +234,8 @@ void CalibrationProcess::raOutState(double cur_x, double cur_y)
 
         ra_distance = 0;
         backlash = 0;
+
+        addCalibrationUpdate(GuideInterface::RA_OUT_OK, Info, cur_x - start_x1, cur_y - start_y1);
 
         addPulse(RA_DEC_DIR, last_pulse);
         ra_iterations++;
@@ -276,8 +278,9 @@ void CalibrationProcess::raOutState(double cur_x, double cur_y)
 
 void CalibrationProcess::raInState(double cur_x, double cur_y)
 {
-    addCalibrationUpdate(GuideInterface::RA_IN, i18n("Calibrating RA In"),
-                         cur_x - start_x1, cur_y - start_y1);
+    QString Info = QString("RA-  (%1, %2)").arg((cur_x - start_x1), 0, 'f', 1).arg((cur_y - start_y1), 0, 'f', 1);
+    addCalibrationUpdate(GuideInterface::RA_IN, Info, cur_x - start_x1, cur_y - start_y1);
+
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << ra_iterations << ": STAR " << cur_x << "," << cur_y;
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << ra_iterations << " Direction: RA_DEC_DIR" << " Duration: "
                                << last_pulse << " ms.";
@@ -431,8 +434,8 @@ void CalibrationProcess::decBacklashState(double cur_x, double cur_y)
 
 void CalibrationProcess::decOutState(double cur_x, double cur_y)
 {
-    addCalibrationUpdate(GuideInterface::DEC_OUT, i18n("Calibrating DEC Out"),
-                         cur_x - start_x1, cur_y - start_y1);
+    QString Info = QString("DE+  (%1, %2)").arg((cur_x - start_x1), 0, 'f', 1).arg((cur_y - start_y1), 0, 'f', 1);
+    addCalibrationUpdate(GuideInterface::DEC_OUT, Info, cur_x - start_x1, cur_y - start_y1);
 
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << dec_iterations << ": STAR " << cur_x << "," << cur_y;
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration " << dec_iterations << " Direction: DEC_INC_DIR" <<
@@ -465,6 +468,8 @@ void CalibrationProcess::decOutState(double cur_x, double cur_y)
         tempCalibration.calculate1D(start_x2, start_y2, end_x2, end_y2, de_total_pulse);
 
         de_distance = 0;
+
+        addCalibrationUpdate(GuideInterface::DEC_OUT_OK, Info, cur_x - start_x1, cur_y - start_y1);
 
         addPulse(DEC_DEC_DIR, last_pulse);
         addLogStatus(i18n("DEC drifting reverse..."));
@@ -510,8 +515,8 @@ void CalibrationProcess::decOutState(double cur_x, double cur_y)
 
 void CalibrationProcess::decInState(double cur_x, double cur_y)
 {
-    addCalibrationUpdate(GuideInterface::DEC_IN, i18n("Calibrating DEC In"),
-                         cur_x - start_x1, cur_y - start_y1);
+    QString Info = QString("DE-  (%1, %2)").arg((cur_x - start_x1), 0, 'f', 1).arg((cur_y - start_y1), 0, 'f', 1);
+    addCalibrationUpdate(GuideInterface::DEC_IN, Info, cur_x - start_x1, cur_y - start_y1);
 
     // Star position resulting from LAST guiding pulse to mount
     qCDebug(KSTARS_EKOS_GUIDE) << "Iteration #" << dec_iterations << ": STAR " << cur_x << "," << cur_y;
@@ -575,21 +580,21 @@ void CalibrationProcess::decInState(double cur_x, double cur_y)
         return;
     }
 
-    bool swap_dec = false;
+    bool reverse_dec_dir = false;
     // calc orientation
     if (calibration->calculate2D(start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2,
-                                 &swap_dec, ra_total_pulse, de_total_pulse))
+                                 &reverse_dec_dir, ra_total_pulse, de_total_pulse))
     {
+        double rotation = calibration->getAngle();
+        QString success = QString("Calibration OK\n Rotation = %1").arg(rotation, 0, 'f', 1);
+        addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n(success.toLatin1().data()));
+
         calibration->save();
         calibrationStage = CAL_IDLE;
-        if (swap_dec)
-            addLogStatus(i18n("DEC swap enabled."));
-        else
-            addLogStatus(i18n("DEC swap disabled."));
+        if (reverse_dec_dir)
+            addLogStatus(i18n("DEC direction reversed (RA-DEC is now standard CCW-system)."));
 
         addStatus(Ekos::GUIDE_CALIBRATION_SUCCESS);
-
-        addCalibrationUpdate(GuideInterface::CALIBRATION_MESSAGE_ONLY, i18n("Calibration Successful"));
 
         // Below converts from ms/arcsecond to arcseconds/second.
         if (guideLog)

@@ -916,10 +916,10 @@ void InternalGuider::emitAxisPulse(const cproc_out_params * out)
     if(out->pulse_dir[GUIDE_DEC] == NO_DIR)
         dePulse = 0;
     //If the pulse was in the Negative direction, it should have a negative sign.
-    if(out->pulse_dir[GUIDE_RA] == RA_INC_DIR)
+    if(out->pulse_dir[GUIDE_RA] == RA_DEC_DIR)
         raPulse = -raPulse;
     //If the pulse was in the Negative direction, it should have a negative sign.
-    if(out->pulse_dir[GUIDE_DEC] == DEC_INC_DIR)
+    if(out->pulse_dir[GUIDE_DEC] == DEC_DEC_DIR)
         dePulse = -dePulse;
 
     emit newAxisPulse(raPulse, dePulse);

@@ -50,14 +50,14 @@ bool Guider::doPulse(GuideDirection dir, int msecs)
 
     switch (dir)
     {
-        case RA_INC_DIR:
+        case RA_INC_DIR: // RA is positive E of N!)
             npulse = raPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_W");
+            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_E");
             break;
 
         case RA_DEC_DIR:
             npulse = raPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_E");
+            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_W");
             break;
 
         case DEC_INC_DIR:
