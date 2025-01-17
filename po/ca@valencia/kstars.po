@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-15 01:51+0000\n"
+"POT-Creation-Date: 2025-01-17 01:51+0000\n"
 "PO-Revision-Date: 2025-01-07 17:55+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3904,7 +3904,7 @@ msgstr "0,0 pc"
 #: ekos/capture/camera.cpp:1797 ekos/capture/camera.cpp:1837
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
-#: ekos/focus/focus.cpp:454 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
+#: ekos/focus/focus.cpp:454 ekos/guide/guide.cpp:699 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
@@ -6579,7 +6579,7 @@ msgstr "S'ha interromput el solucionador després de %1 segons."
 
 #: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4121
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:240
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1225 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:985
 #: ekos/scheduler/schedulerprocess.cpp:3499
 #, kde-format
@@ -16219,7 +16219,7 @@ msgstr ""
 "el controlador."
 
 #: ekos/capture/cameraprocess.cpp:2132 ekos/focus/focus.cpp:5567
-#: ekos/guide/guide.cpp:992
+#: ekos/guide/guide.cpp:996
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "S'ha excedit el temps d'exposició. Es reinicia l'exposició…"
@@ -22383,7 +22383,7 @@ msgstr "Tramat"
 msgid "GPG RA Guider"
 msgstr "Sistema de guiatge GPG de l'AR"
 
-#: ekos/guide/guide.cpp:420
+#: ekos/guide/guide.cpp:424
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
@@ -22392,7 +22392,7 @@ msgstr ""
 "Càmera actual de PHD2: %1, no està connectada amb Ekos. Es rebrà la Imatge "
 "de l'estrela guia de PHD2, però no els fotogrames externs complets de guia."
 
-#: ekos/guide/guide.cpp:430
+#: ekos/guide/guide.cpp:434
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -22403,157 +22403,157 @@ msgstr ""
 "utilitzar els fotogrames externs complets o només rebre la imatge de "
 "l'estrela guia de PHD2 utilitzant la casella de selecció «Submarc»."
 
-#: ekos/guide/guide.cpp:578
+#: ekos/guide/guide.cpp:582
 #, kde-format
 msgid "Connection to the guide CCD is lost."
 msgstr "S'ha perdut la connexió amb CCD guia."
 
-#: ekos/guide/guide.cpp:816
+#: ekos/guide/guide.cpp:820
 #, kde-format
 msgid "Error: lost connection to CCD."
 msgstr "S'ha produït un error: s'ha perdut la connexió amb CCD."
 
-#: ekos/guide/guide.cpp:986
+#: ekos/guide/guide.cpp:990
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "S'ha excedit el temps d'exposició, però està suspesa. S'ignora…"
 
-#: ekos/guide/guide.cpp:1014
+#: ekos/guide/guide.cpp:1018
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "S'ha excedit el temps d'exposició. S'interromp el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1016
+#: ekos/guide/guide.cpp:1020
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "S'ha excedit el temps d'exposició. S'interromp el tramat."
 
-#: ekos/guide/guide.cpp:1018
+#: ekos/guide/guide.cpp:1022
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "S'ha excedit el temps d'exposició. S'interromp el calibratge."
 
-#: ekos/guide/guide.cpp:1027
+#: ekos/guide/guide.cpp:1031
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "S'ha excedit el temps d'exposició. Es torna a iniciar el controlador."
 
-#: ekos/guide/guide.cpp:1375
+#: ekos/guide/guide.cpp:1379
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr "La muntura es troba aparcada. Desaparqueu-la per a iniciar el guiatge."
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
-#: ekos/guide/guide.cpp:1478
+#: ekos/guide/guide.cpp:1482
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 "S'ha detectat un canvi al costat del moll de la muntura. Es neteja el "
 "calibratge."
 
-#: ekos/guide/guide.cpp:1492
+#: ekos/guide/guide.cpp:1496
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "La muntura s'està movent. S'està restablint el calibratge…"
 
-#: ekos/guide/guide.cpp:1508
+#: ekos/guide/guide.cpp:1512
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "S'està aparcant la muntura. S'interromp el guiatge…"
 
-#: ekos/guide/guide.cpp:1510
+#: ekos/guide/guide.cpp:1514
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "S'està orientant la muntura. S'interromp el guiatge…"
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1577
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "S'ha netejat el calibratge."
 
-#: ekos/guide/guide.cpp:1594
+#: ekos/guide/guide.cpp:1601
 #, kde-format
 msgid "External guider connected."
 msgstr "S'ha connectat un sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1612
+#: ekos/guide/guide.cpp:1619
 #, kde-format
 msgid "External guider disconnected."
 msgstr "S'ha desconnectat el sistema de guiatge extern."
 
-#: ekos/guide/guide.cpp:1629
+#: ekos/guide/guide.cpp:1636
 #, kde-format
 msgid "Calibration completed."
 msgstr "S'ha completat el calibratge."
 
-#: ekos/guide/guide.cpp:1647
+#: ekos/guide/guide.cpp:1654
 #, kde-format
 msgid "Calibration started."
 msgstr "S'ha iniciat el calibratge."
 
-#: ekos/guide/guide.cpp:1654
+#: ekos/guide/guide.cpp:1661
 #, kde-format
 msgid "Guiding resumed."
 msgstr "S'ha représ el guiatge."
 
-#: ekos/guide/guide.cpp:1657
+#: ekos/guide/guide.cpp:1664
 #, kde-format
 msgid "Autoguiding started."
 msgstr "S'ha iniciat el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1669
+#: ekos/guide/guide.cpp:1676
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "S'ha interromput el guiatge automàtic."
 
-#: ekos/guide/guide.cpp:1674
+#: ekos/guide/guide.cpp:1681
 #, kde-format
 msgid "Guiding suspended."
 msgstr "S'ha suspés el guiatge."
 
-#: ekos/guide/guide.cpp:1683
+#: ekos/guide/guide.cpp:1690
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Tramat manual en curs."
 
-#: ekos/guide/guide.cpp:1687
+#: ekos/guide/guide.cpp:1694
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Tramat en curs."
 
-#: ekos/guide/guide.cpp:1691
+#: ekos/guide/guide.cpp:1698
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Posicionament del posttramat durant %1 segon…"
 msgstr[1] "Posicionament del posttramat durant %1 segons…"
 
-#: ekos/guide/guide.cpp:1696
+#: ekos/guide/guide.cpp:1703
 #, kde-format
 msgid "Dithering failed."
 msgstr "Ha fallat el tramat."
 
-#: ekos/guide/guide.cpp:1707
+#: ekos/guide/guide.cpp:1714
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "S'ha completat amb èxit el tramat."
 
-#: ekos/guide/guide.cpp:1753
+#: ekos/guide/guide.cpp:1760
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "No s'admet l'agrupament %1x%1 del guiatge."
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1782
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "No s'ha pogut fer l'exposició. Es reinicia l'exposició…"
 
-#: ekos/guide/guide.cpp:1901
+#: ekos/guide/guide.cpp:1908
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "No es pot canviar el tipus del sistema de guiatge mentre està actiu."
 
-#: ekos/guide/guide.cpp:1992
+#: ekos/guide/guide.cpp:1999
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -22562,37 +22562,39 @@ msgstr ""
 "Avís: Està actiu el reinici del calibratge del guiatge. Es recomana "
 "desseleccionar esta opció per a PHD2."
 
-#: ekos/guide/guide.cpp:2376
+#: ekos/guide/guide.cpp:2401
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "No s'ha pogut iniciar el calibratge."
 
-#: ekos/guide/guide.cpp:2527
+#: ekos/guide/guide.cpp:2552
 #, kde-format
 msgid "Auto star selected."
 msgstr "Estrela seleccionada automàticament."
 
-#: ekos/guide/guide.cpp:2531
+#: ekos/guide/guide.cpp:2556
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "No s'ha pogut seleccionar una estrela automàtica."
 
-#: ekos/guide/guide.cpp:2540
+#: ekos/guide/guide.cpp:2565
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleccioneu una estrela guia que s'haja de calibrar."
 
-#: ekos/guide/guide.cpp:2790
-#, kde-format
-msgid "x (pixels)"
+#: ekos/guide/guide.cpp:2815
+#, fuzzy, kde-format
+#| msgid "x (pixels)"
+msgid "dx (pixels)"
 msgstr "x (píxels)"
 
-#: ekos/guide/guide.cpp:2791
-#, kde-format
-msgid "y (pixels)"
+#: ekos/guide/guide.cpp:2816
+#, fuzzy, kde-format
+#| msgid "y (pixels)"
+msgid "dy (pixels)"
 msgstr "y (píxels)"
 
-#: ekos/guide/guide.cpp:2907 ekos/guide/guide.cpp:3033
+#: ekos/guide/guide.cpp:2955 ekos/guide/guide.cpp:3081
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -22603,7 +22605,7 @@ msgstr ""
 "quan feu el guiatge."
 
 # skip-rule: punctuation-period-no
-#: ekos/guide/guide.cpp:2911 ekos/guide/guide.cpp:3037
+#: ekos/guide/guide.cpp:2959 ekos/guide/guide.cpp:3085
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -22615,7 +22617,7 @@ msgstr ""
 "activar les captures d'imatge. La podreu tornar a seleccionar abans del "
 "guiatge."
 
-#: ekos/guide/guide.cpp:3204
+#: ekos/guide/guide.cpp:3252
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No es pot canviar el tren òptic actual mentre PHD2 està connectat"
@@ -23145,8 +23147,8 @@ msgstr "deriva (seg. d'arc)"
 msgid "pulse (ms)"
 msgstr "pols (ms)"
 
-#: ekos/guide/guidedriftgraph.cpp:226 ekos/guide/guidedriftgraph.cpp:628
-#: ekos/guide/guidedriftgraph.cpp:703
+#: ekos/guide/guidedriftgraph.cpp:226 ekos/guide/guidedriftgraph.cpp:625
+#: ekos/guide/guidedriftgraph.cpp:700
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -23160,8 +23162,8 @@ msgstr ""
 "tr><tr><td>Dec:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</"
 "td></tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 
-#: ekos/guide/guidedriftgraph.cpp:245 ekos/guide/guidedriftgraph.cpp:644
-#: ekos/guide/guidedriftgraph.cpp:719
+#: ekos/guide/guidedriftgraph.cpp:245 ekos/guide/guidedriftgraph.cpp:641
+#: ekos/guide/guidedriftgraph.cpp:716
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -23232,19 +23234,14 @@ msgstr "Deriva de l'AR cap avant…"
 msgid "Guide Star found."
 msgstr "S'ha trobat l'estrela guia."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:202
-#, kde-format
-msgid "Calibrating RA Out"
-msgstr "S'està calibrant l'eixida de l'AR"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:241
+#: ekos/guide/internalguide/calibrationprocess.cpp:243
 #, kde-format
 msgid "RA drifting reverse..."
 msgstr "Deriva de l'AR cap arrere…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:247
-#: ekos/guide/internalguide/calibrationprocess.cpp:385
-#: ekos/guide/internalguide/calibrationprocess.cpp:603
+#: ekos/guide/internalguide/calibrationprocess.cpp:249
+#: ekos/guide/internalguide/calibrationprocess.cpp:388
+#: ekos/guide/internalguide/calibrationprocess.cpp:608
 #, kde-format
 msgid ""
 "Calibration rejected. Star drift is too short. Check for mount, cable, or "
@@ -23253,22 +23250,17 @@ msgstr ""
 "Calibratge rebutjat. La deriva de l'estrela és massa xicoteta. Comproveu si "
 "hi ha problemes amb la muntura, el cable o de rebot."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:250
+#: ekos/guide/internalguide/calibrationprocess.cpp:252
 #, kde-format
 msgid "Calibration Failed: Drift too short."
 msgstr "Ha fallat el calibratge: la deriva és massa xicoteta."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:279
-#, kde-format
-msgid "Calibrating RA In"
-msgstr "S'està calibrant l'entrada de l'AR"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:336
+#: ekos/guide/internalguide/calibrationprocess.cpp:339
 #, kde-format
 msgid "Calibration Failed: couldn't reach start."
 msgstr "Ha fallat el calibratge: no s'ha pogut arribar fins a l'inici."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:337
+#: ekos/guide/internalguide/calibrationprocess.cpp:340
 #, kde-format
 msgid ""
 "Guide RA: Scope cannot reach the start point after %1 iteration. Possible "
@@ -23283,47 +23275,42 @@ msgstr[1] ""
 "Guia AR: L'instrument de visió no ha pogut assolir el punt inicial després "
 "de %1 iteracions. Possible problema de la muntura o del rebot…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:356
+#: ekos/guide/internalguide/calibrationprocess.cpp:359
 #, kde-format
 msgid "DEC backlash..."
 msgstr "Rebot de la Dec…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:369
-#: ekos/guide/internalguide/calibrationprocess.cpp:422
+#: ekos/guide/internalguide/calibrationprocess.cpp:372
+#: ekos/guide/internalguide/calibrationprocess.cpp:425
 #, kde-format
 msgid "DEC drifting forward..."
 msgstr "Deriva de la Dec cap avant…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:388
-#: ekos/guide/internalguide/calibrationprocess.cpp:604
+#: ekos/guide/internalguide/calibrationprocess.cpp:391
+#: ekos/guide/internalguide/calibrationprocess.cpp:609
 #, kde-format
 msgid "Calibration Failed: drift too short."
 msgstr "Ha fallat el calibratge: la deriva és massa xicoteta."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:408
-#: ekos/guide/internalguide/calibrationprocess.cpp:425
+#: ekos/guide/internalguide/calibrationprocess.cpp:411
+#: ekos/guide/internalguide/calibrationprocess.cpp:428
 #, kde-format
 msgid "Calibrating DEC Backlash"
 msgstr "S'està calibrant el rebot de la Dec"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:434
-#, kde-format
-msgid "Calibrating DEC Out"
-msgstr "S'està calibrant l'eixida de la Dec"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:470
+#: ekos/guide/internalguide/calibrationprocess.cpp:475
 #, kde-format
 msgid "DEC drifting reverse..."
 msgstr "Deriva de la Dec cap arrere…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:480
-#: ekos/guide/internalguide/calibrationprocess.cpp:568
+#: ekos/guide/internalguide/calibrationprocess.cpp:485
+#: ekos/guide/internalguide/calibrationprocess.cpp:573
 #, kde-format
 msgid "Calibration Failed: couldn't reach start point."
 msgstr "Ha fallat el calibratge: no s'ha pogut arribar fins al punt d'inici."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:481
-#: ekos/guide/internalguide/calibrationprocess.cpp:570
+#: ekos/guide/internalguide/calibrationprocess.cpp:486
+#: ekos/guide/internalguide/calibrationprocess.cpp:575
 #, kde-format
 msgid ""
 "Guide DEC: Scope cannot reach the start point after %1 iteration.\n"
@@ -23340,25 +23327,10 @@ msgstr[1] ""
 "de %1 iteracions.\n"
 "Possible problema de la muntura o del rebot…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:513
+#: ekos/guide/internalguide/calibrationprocess.cpp:595
 #, kde-format
-msgid "Calibrating DEC In"
-msgstr "S'està calibrant l'entrada de la Dec"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:586
-#, kde-format
-msgid "DEC swap enabled."
-msgstr "S'ha activat l'intercanvi de la Dec."
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:588
-#, kde-format
-msgid "DEC swap disabled."
-msgstr "S'ha desactivat l'intercanvi de la Dec."
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:592
-#, kde-format
-msgid "Calibration Successful"
-msgstr "Calibratge correcte"
+msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
+msgstr ""
 
 #: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
@@ -23696,10 +23668,10 @@ msgstr ""
 
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
-#. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
-#: ekos/guide/opscalibration.ui:411 kstars.kcfg:3147
-#, kde-format
-msgid "Reverse DEC on pier-side change when reusing calibration."
+#: ekos/guide/opscalibration.ui:411
+#, fuzzy, kde-format
+#| msgid "Reverse DEC on pier-side change when reusing calibration."
+msgid "Accept reversed DEC on pier-side change reusing calibration."
 msgstr ""
 "Invertix la Dec en canviar el costat del moll quan es torne a emprar el "
 "calibratge."
@@ -41175,6 +41147,15 @@ msgid "Guider may re-use guiding calibration if one is available."
 msgstr ""
 "El sistema de guiatge pot tornar a emprar el calibratge del guiatge si n'hi "
 "ha un de disponible."
+
+# Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
+#. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
+#: kstars.kcfg:3147
+#, kde-format
+msgid "Reverse DEC on pier-side change when reusing calibration."
+msgstr ""
+"Invertix la Dec en canviar el costat del moll quan es torne a emprar el "
+"calibratge."
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
 #: kstars.kcfg:3151
@@ -89487,6 +89468,27 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
+
+#~ msgid "Calibrating RA Out"
+#~ msgstr "S'està calibrant l'eixida de l'AR"
+
+#~ msgid "Calibrating RA In"
+#~ msgstr "S'està calibrant l'entrada de l'AR"
+
+#~ msgid "Calibrating DEC Out"
+#~ msgstr "S'està calibrant l'eixida de la Dec"
+
+#~ msgid "Calibrating DEC In"
+#~ msgstr "S'està calibrant l'entrada de la Dec"
+
+#~ msgid "DEC swap enabled."
+#~ msgstr "S'ha activat l'intercanvi de la Dec."
+
+#~ msgid "DEC swap disabled."
+#~ msgstr "S'ha desactivat l'intercanvi de la Dec."
+
+#~ msgid "Calibration Successful"
+#~ msgstr "Calibratge correcte"
 
 #~ msgid "Normal"
 #~ msgstr "Normal"

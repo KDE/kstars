@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-15 01:51+0000\n"
+"POT-Creation-Date: 2025-01-17 01:51+0000\n"
 "PO-Revision-Date: 2025-01-15 11:05+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -3855,7 +3855,7 @@ msgstr "0,0 пк"
 #: ekos/capture/camera.cpp:1797 ekos/capture/camera.cpp:1837
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
-#: ekos/focus/focus.cpp:454 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
+#: ekos/focus/focus.cpp:454 ekos/guide/guide.cpp:699 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
@@ -6482,7 +6482,7 @@ msgstr "Розв'язування перервано за %1 секунд."
 
 #: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4121
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:240
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1225 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:985
 #: ekos/scheduler/schedulerprocess.cpp:3499
 #, kde-format
@@ -15969,7 +15969,7 @@ msgstr ""
 "перевищує 3, драйвер буде перезапущено."
 
 #: ekos/capture/cameraprocess.cpp:2132 ekos/focus/focus.cpp:5567
-#: ekos/guide/guide.cpp:992
+#: ekos/guide/guide.cpp:996
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Перевищено час експонування. Виконуємо повторну спробу…"
@@ -22038,7 +22038,7 @@ msgstr "Малий рух"
 msgid "GPG RA Guider"
 msgstr "Наведення за ПС GPG"
 
-#: ekos/guide/guide.cpp:420
+#: ekos/guide/guide.cpp:424
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
@@ -22048,7 +22048,7 @@ msgstr ""
 "напрямної зірки PHD2, але не зможе отримати повні кадри зовнішнього "
 "наведення."
 
-#: ekos/guide/guide.cpp:430
+#: ekos/guide/guide.cpp:434
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -22059,125 +22059,125 @@ msgstr ""
 "використанням повних зовнішніх кадрів наведення і простим отриманням "
 "зображення напрямної зірки PHD2 за допомогою пункту кадрування."
 
-#: ekos/guide/guide.cpp:578
+#: ekos/guide/guide.cpp:582
 #, kde-format
 msgid "Connection to the guide CCD is lost."
 msgstr "З'єднання з ПЗЗ наведення втрачено."
 
-#: ekos/guide/guide.cpp:816
+#: ekos/guide/guide.cpp:820
 #, kde-format
 msgid "Error: lost connection to CCD."
 msgstr "Помилка: втрачено з'єднання з ПЗЗ."
 
-#: ekos/guide/guide.cpp:986
+#: ekos/guide/guide.cpp:990
 #, kde-format
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr ""
 "Перевищення часу очікування експонування, але обробку призупинено. Ігноруємо…"
 
-#: ekos/guide/guide.cpp:1014
+#: ekos/guide/guide.cpp:1018
 #, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr ""
 "Перевищення часу очікування експонування. Перериваємо автоматичне наведення."
 
-#: ekos/guide/guide.cpp:1016
+#: ekos/guide/guide.cpp:1020
 #, kde-format
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "Перевищення часу очікування експонування. Перериваємо малий рух."
 
-#: ekos/guide/guide.cpp:1018
+#: ekos/guide/guide.cpp:1022
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "Перевищення часу очікування експонування. Перериваємо калібрування."
 
-#: ekos/guide/guide.cpp:1027
+#: ekos/guide/guide.cpp:1031
 #, kde-format
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Перевищено час експонування. Забагато. Перезапускаємо драйвер."
 
-#: ekos/guide/guide.cpp:1375
+#: ekos/guide/guide.cpp:1379
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 "Лафет запарковано. Зніміть лафет з паркування, щоб розпочати наведення."
 
-#: ekos/guide/guide.cpp:1478
+#: ekos/guide/guide.cpp:1482
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr "Виявлено зміну боку стійки. Вилучаємо дані калібрування."
 
-#: ekos/guide/guide.cpp:1492
+#: ekos/guide/guide.cpp:1496
 #, kde-format
 msgid "Mount is moving. Resetting calibration..."
 msgstr "Лафет рухається. Скидаємо калібрування…"
 
-#: ekos/guide/guide.cpp:1508
+#: ekos/guide/guide.cpp:1512
 #, kde-format
 msgid "Mount is parking. Aborting guide..."
 msgstr "Лафет паркується! Перериваємо наведення…"
 
-#: ekos/guide/guide.cpp:1510
+#: ekos/guide/guide.cpp:1514
 #, kde-format
 msgid "Mount is slewing. Aborting guide..."
 msgstr "Лафет рухається! Перериваємо наведення…"
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1577
 #, kde-format
 msgid "Calibration is cleared."
 msgstr "Дані калібрування вилучено."
 
-#: ekos/guide/guide.cpp:1594
+#: ekos/guide/guide.cpp:1601
 #, kde-format
 msgid "External guider connected."
 msgstr "З'єднано зовнішнє наведення."
 
-#: ekos/guide/guide.cpp:1612
+#: ekos/guide/guide.cpp:1619
 #, kde-format
 msgid "External guider disconnected."
 msgstr "Від'єднано зовнішнє наведення."
 
-#: ekos/guide/guide.cpp:1629
+#: ekos/guide/guide.cpp:1636
 #, kde-format
 msgid "Calibration completed."
 msgstr "Калібрування завершено."
 
-#: ekos/guide/guide.cpp:1647
+#: ekos/guide/guide.cpp:1654
 #, kde-format
 msgid "Calibration started."
 msgstr "Розпочато калібрування."
 
-#: ekos/guide/guide.cpp:1654
+#: ekos/guide/guide.cpp:1661
 #, kde-format
 msgid "Guiding resumed."
 msgstr "Наведення відновлено."
 
-#: ekos/guide/guide.cpp:1657
+#: ekos/guide/guide.cpp:1664
 #, kde-format
 msgid "Autoguiding started."
 msgstr "Розпочато автонаведення."
 
-#: ekos/guide/guide.cpp:1669
+#: ekos/guide/guide.cpp:1676
 #, kde-format
 msgid "Autoguiding aborted."
 msgstr "Автонаведення перервано."
 
-#: ekos/guide/guide.cpp:1674
+#: ekos/guide/guide.cpp:1681
 #, kde-format
 msgid "Guiding suspended."
 msgstr "Наведення призупинено."
 
-#: ekos/guide/guide.cpp:1683
+#: ekos/guide/guide.cpp:1690
 #, kde-format
 msgid "Manual dithering in progress."
 msgstr "Виконуємо малий рух вручну."
 
-#: ekos/guide/guide.cpp:1687
+#: ekos/guide/guide.cpp:1694
 #, kde-format
 msgid "Dithering in progress."
 msgstr "Виконуємо малий рух."
 
-#: ekos/guide/guide.cpp:1691
+#: ekos/guide/guide.cpp:1698
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
@@ -22186,32 +22186,32 @@ msgstr[1] "Встановлення після малого руху за %1 с�
 msgstr[2] "Встановлення після малого руху за %1 секунд…"
 msgstr[3] "Встановлення після малого руху за секунду…"
 
-#: ekos/guide/guide.cpp:1696
+#: ekos/guide/guide.cpp:1703
 #, kde-format
 msgid "Dithering failed."
 msgstr "Помилка під час малого руху!"
 
-#: ekos/guide/guide.cpp:1707
+#: ekos/guide/guide.cpp:1714
 #, kde-format
 msgid "Dithering completed successfully."
 msgstr "Малий рух успішно завершено."
 
-#: ekos/guide/guide.cpp:1753
+#: ekos/guide/guide.cpp:1760
 #, kde-format
 msgid "%1x%1 guide binning is not supported."
 msgstr "Підтримки кроків напрямної %1⨯%1 не передбачено."
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1782
 #, kde-format
 msgid "Exposure failed. Restarting exposure..."
 msgstr "Не вдалося виконати експонування. Виконуємо повторну спробу…"
 
-#: ekos/guide/guide.cpp:1901
+#: ekos/guide/guide.cpp:1908
 #, kde-format
 msgid "Cannot change guider type while active."
 msgstr "Не можна змінювати тип засобу наведення під час наведення."
 
-#: ekos/guide/guide.cpp:1992
+#: ekos/guide/guide.cpp:1999
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
@@ -22220,37 +22220,39 @@ msgstr ""
 "Увага! Увімкнено скидання даних калібрування наведення. Рекомендуємо "
 "вимкнути його для PHD2."
 
-#: ekos/guide/guide.cpp:2376
+#: ekos/guide/guide.cpp:2401
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "Не вдалося запустити процедуру калібрування!"
 
-#: ekos/guide/guide.cpp:2527
+#: ekos/guide/guide.cpp:2552
 #, kde-format
 msgid "Auto star selected."
 msgstr "Автоматично вибрано зірку."
 
-#: ekos/guide/guide.cpp:2531
+#: ekos/guide/guide.cpp:2556
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "Не вдалося автоматично вибрати зірку."
 
-#: ekos/guide/guide.cpp:2540
+#: ekos/guide/guide.cpp:2565
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Виберіть зірку для наведення під час калібрування"
 
-#: ekos/guide/guide.cpp:2790
-#, kde-format
-msgid "x (pixels)"
+#: ekos/guide/guide.cpp:2815
+#, fuzzy, kde-format
+#| msgid "x (pixels)"
+msgid "dx (pixels)"
 msgstr "x (у точках)"
 
-#: ekos/guide/guide.cpp:2791
-#, kde-format
-msgid "y (pixels)"
+#: ekos/guide/guide.cpp:2816
+#, fuzzy, kde-format
+#| msgid "y (pixels)"
+msgid "dy (pixels)"
 msgstr "y (у точках)"
 
-#: ekos/guide/guide.cpp:2907 ekos/guide/guide.cpp:3033
+#: ekos/guide/guide.cpp:2955 ekos/guide/guide.cpp:3081
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -22260,7 +22262,7 @@ msgstr ""
 "зображення. Але, попри це, ви зможете бачити зображення напрямної зірки під "
 "час наведення."
 
-#: ekos/guide/guide.cpp:2911 ekos/guide/guide.cpp:3037
+#: ekos/guide/guide.cpp:2959 ekos/guide/guide.cpp:3085
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -22272,7 +22274,7 @@ msgstr ""
 "цього пункту, щоб уможливити захоплення зображень. Ви можете знову позначити "
 "цей пункт безпосередньо перед наведенням."
 
-#: ekos/guide/guide.cpp:3204
+#: ekos/guide/guide.cpp:3252
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "Неможливо змінити активний оптичний тракт, доки з'єднано PHD2"
@@ -22781,8 +22783,8 @@ msgstr "зсув (кут. сек.)"
 msgid "pulse (ms)"
 msgstr "пульсація (мс)"
 
-#: ekos/guide/guidedriftgraph.cpp:226 ekos/guide/guidedriftgraph.cpp:628
-#: ekos/guide/guidedriftgraph.cpp:703
+#: ekos/guide/guidedriftgraph.cpp:226 ekos/guide/guidedriftgraph.cpp:625
+#: ekos/guide/guidedriftgraph.cpp:700
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -22796,8 +22798,8 @@ msgstr ""
 "tr><tr><td>Схил.:</td><td>%3 \"</td></tr><tr><td>СКВ:   </td><td>%4 \"</td></"
 "tr><tr><td>ССШ:   </td><td>%5 \"</td></tr></table>"
 
-#: ekos/guide/guidedriftgraph.cpp:245 ekos/guide/guidedriftgraph.cpp:644
-#: ekos/guide/guidedriftgraph.cpp:719
+#: ekos/guide/guidedriftgraph.cpp:245 ekos/guide/guidedriftgraph.cpp:641
+#: ekos/guide/guidedriftgraph.cpp:716
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -22868,19 +22870,14 @@ msgstr "Зсування ПС у прямому напрямку…"
 msgid "Guide Star found."
 msgstr "Знайдено напрямну зірку"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:202
-#, kde-format
-msgid "Calibrating RA Out"
-msgstr "Калібруємо вихідне ПС"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:241
+#: ekos/guide/internalguide/calibrationprocess.cpp:243
 #, kde-format
 msgid "RA drifting reverse..."
 msgstr "Зсування ПС у зворотному напрямку…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:247
-#: ekos/guide/internalguide/calibrationprocess.cpp:385
-#: ekos/guide/internalguide/calibrationprocess.cpp:603
+#: ekos/guide/internalguide/calibrationprocess.cpp:249
+#: ekos/guide/internalguide/calibrationprocess.cpp:388
+#: ekos/guide/internalguide/calibrationprocess.cpp:608
 #, kde-format
 msgid ""
 "Calibration rejected. Star drift is too short. Check for mount, cable, or "
@@ -22889,22 +22886,17 @@ msgstr ""
 "У калібруванні відмовлено. Зсув зірок є надто малим. Перевірте, чи немає "
 "проблем із лафетом, кабелем або люфтом."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:250
+#: ekos/guide/internalguide/calibrationprocess.cpp:252
 #, kde-format
 msgid "Calibration Failed: Drift too short."
 msgstr "Помилка калібрування: надто малий зсув."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:279
-#, kde-format
-msgid "Calibrating RA In"
-msgstr "Калібруємо вхідне ПС"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:336
+#: ekos/guide/internalguide/calibrationprocess.cpp:339
 #, kde-format
 msgid "Calibration Failed: couldn't reach start."
 msgstr "Помилка калібрування: не вдалося досягти початку."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:337
+#: ekos/guide/internalguide/calibrationprocess.cpp:340
 #, kde-format
 msgid ""
 "Guide RA: Scope cannot reach the start point after %1 iteration. Possible "
@@ -22925,47 +22917,42 @@ msgstr[3] ""
 "ПС наведення: телескопові не вдалося досягти початкової точки за одну "
 "ітерацію. Ймовірно, маємо проблеми з лафетом або люфтом…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:356
+#: ekos/guide/internalguide/calibrationprocess.cpp:359
 #, kde-format
 msgid "DEC backlash..."
 msgstr "Люфт за СХИЛ…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:369
-#: ekos/guide/internalguide/calibrationprocess.cpp:422
+#: ekos/guide/internalguide/calibrationprocess.cpp:372
+#: ekos/guide/internalguide/calibrationprocess.cpp:425
 #, kde-format
 msgid "DEC drifting forward..."
 msgstr "Зсування Схил. у прямому напрямку…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:388
-#: ekos/guide/internalguide/calibrationprocess.cpp:604
+#: ekos/guide/internalguide/calibrationprocess.cpp:391
+#: ekos/guide/internalguide/calibrationprocess.cpp:609
 #, kde-format
 msgid "Calibration Failed: drift too short."
 msgstr "Помилка калібрування: надто малий зсув."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:408
-#: ekos/guide/internalguide/calibrationprocess.cpp:425
+#: ekos/guide/internalguide/calibrationprocess.cpp:411
+#: ekos/guide/internalguide/calibrationprocess.cpp:428
 #, kde-format
 msgid "Calibrating DEC Backlash"
 msgstr "Калібруємо люфт за Схил."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:434
-#, kde-format
-msgid "Calibrating DEC Out"
-msgstr "Калібруємо вихідне Схил."
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:470
+#: ekos/guide/internalguide/calibrationprocess.cpp:475
 #, kde-format
 msgid "DEC drifting reverse..."
 msgstr "Зсування Схил. у зворотному напрямку…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:480
-#: ekos/guide/internalguide/calibrationprocess.cpp:568
+#: ekos/guide/internalguide/calibrationprocess.cpp:485
+#: ekos/guide/internalguide/calibrationprocess.cpp:573
 #, kde-format
 msgid "Calibration Failed: couldn't reach start point."
 msgstr "Помилка калібрування: не вдалося досягти початкової точки."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:481
-#: ekos/guide/internalguide/calibrationprocess.cpp:570
+#: ekos/guide/internalguide/calibrationprocess.cpp:486
+#: ekos/guide/internalguide/calibrationprocess.cpp:575
 #, kde-format
 msgid ""
 "Guide DEC: Scope cannot reach the start point after %1 iteration.\n"
@@ -22990,25 +22977,10 @@ msgstr[3] ""
 "ітерацію.\n"
 "Ймовірно, маємо проблеми з лафетом або люфтом…"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:513
+#: ekos/guide/internalguide/calibrationprocess.cpp:595
 #, kde-format
-msgid "Calibrating DEC In"
-msgstr "Калібруємо вхідне Схил."
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:586
-#, kde-format
-msgid "DEC swap enabled."
-msgstr "Увімкнено заміну місця схилення."
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:588
-#, kde-format
-msgid "DEC swap disabled."
-msgstr "Вимкнено заміну місця схилення."
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:592
-#, kde-format
-msgid "Calibration Successful"
-msgstr "Успішне калібрування"
+msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
+msgstr ""
 
 #: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
@@ -23338,10 +23310,10 @@ msgstr ""
 "визначити експериментально.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
-#. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
-#: ekos/guide/opscalibration.ui:411 kstars.kcfg:3147
-#, kde-format
-msgid "Reverse DEC on pier-side change when reusing calibration."
+#: ekos/guide/opscalibration.ui:411
+#, fuzzy, kde-format
+#| msgid "Reverse DEC on pier-side change when reusing calibration."
+msgid "Accept reversed DEC on pier-side change reusing calibration."
 msgstr ""
 "Обернене значення Схил при зміні боку стійки, якщо повторно використовуються "
 "дані калібрування."
@@ -40475,6 +40447,14 @@ msgid "Guider may re-use guiding calibration if one is available."
 msgstr ""
 "Засіб наведення може повторно використати калібрування наведення, якщо таке "
 "доступне."
+
+#. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
+#: kstars.kcfg:3147
+#, kde-format
+msgid "Reverse DEC on pier-side change when reusing calibration."
+msgstr ""
+"Обернене значення Схил при зміні боку стійки, якщо повторно використовуються "
+"дані калібрування."
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
 #: kstars.kcfg:3151
@@ -88412,6 +88392,27 @@ msgstr "Колір тла:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
+
+#~ msgid "Calibrating RA Out"
+#~ msgstr "Калібруємо вихідне ПС"
+
+#~ msgid "Calibrating RA In"
+#~ msgstr "Калібруємо вхідне ПС"
+
+#~ msgid "Calibrating DEC Out"
+#~ msgstr "Калібруємо вихідне Схил."
+
+#~ msgid "Calibrating DEC In"
+#~ msgstr "Калібруємо вхідне Схил."
+
+#~ msgid "DEC swap enabled."
+#~ msgstr "Увімкнено заміну місця схилення."
+
+#~ msgid "DEC swap disabled."
+#~ msgstr "Вимкнено заміну місця схилення."
+
+#~ msgid "Calibration Successful"
+#~ msgstr "Успішне калібрування"
 
 #~ msgid "Normal"
 #~ msgstr "Звичайний"

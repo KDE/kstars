@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-15 01:51+0000\n"
+"POT-Creation-Date: 2025-01-17 01:51+0000\n"
 "PO-Revision-Date: 2024-07-27 13:28+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4003,7 +4003,7 @@ msgstr "0.0 pc"
 #: ekos/capture/camera.cpp:1797 ekos/capture/camera.cpp:1837
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
-#: ekos/focus/focus.cpp:454 ekos/guide/guide.cpp:695 ekos/guide/guide.ui:569
+#: ekos/focus/focus.cpp:454 ekos/guide/guide.cpp:699 ekos/guide/guide.ui:569
 #: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
 #, kde-format
 msgid "--"
@@ -6625,7 +6625,7 @@ msgstr "識別器在 %1 秒後中止"
 
 #: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4121
 #: ekos/capture/capture.cpp:318 ekos/focus/focusmodule.cpp:240
-#: ekos/guide/guide.cpp:1221 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
+#: ekos/guide/guide.cpp:1225 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:985
 #: ekos/scheduler/schedulerprocess.cpp:3499
 #, kde-format
@@ -16350,7 +16350,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 
 #: ekos/capture/cameraprocess.cpp:2132 ekos/focus/focus.cpp:5567
-#: ekos/guide/guide.cpp:992
+#: ekos/guide/guide.cpp:996
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Restarting exposure..."
@@ -22832,14 +22832,14 @@ msgstr "移動"
 msgid "GPG RA Guider"
 msgstr "赤經導引錯誤"
 
-#: ekos/guide/guide.cpp:420
+#: ekos/guide/guide.cpp:424
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
 
-#: ekos/guide/guide.cpp:430
+#: ekos/guide/guide.cpp:434
 #, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
@@ -22847,226 +22847,226 @@ msgid ""
 "using the SubFrame checkbox."
 msgstr ""
 
-#: ekos/guide/guide.cpp:578
+#: ekos/guide/guide.cpp:582
 #, kde-format
 msgid "Connection to the guide CCD is lost."
 msgstr "到引導 CCD 的連線已遺失。"
 
-#: ekos/guide/guide.cpp:816
+#: ekos/guide/guide.cpp:820
 #, fuzzy, kde-format
 #| msgid "Error: Lost connection to CCD."
 msgid "Error: lost connection to CCD."
 msgstr "錯誤：失去與 CCD 的連線。"
 
-#: ekos/guide/guide.cpp:986
+#: ekos/guide/guide.cpp:990
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "開始相機/CCD 曝光。期間以秒為單位。"
 
-#: ekos/guide/guide.cpp:1014
+#: ekos/guide/guide.cpp:1018
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Autoguide."
 msgstr "開始相機/CCD 曝光。期間以秒為單位。"
 
-#: ekos/guide/guide.cpp:1016
+#: ekos/guide/guide.cpp:1020
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Dithering."
 msgstr "開始相機/CCD 曝光。期間以秒為單位。"
 
-#: ekos/guide/guide.cpp:1018
+#: ekos/guide/guide.cpp:1022
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "Exposure timeout. Aborting Calibration."
 msgstr "開始相機/CCD 曝光。期間以秒為單位。"
 
-#: ekos/guide/guide.cpp:1027
+#: ekos/guide/guide.cpp:1031
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "自動對焦失敗。將中止曝光..."
 
-#: ekos/guide/guide.cpp:1375
+#: ekos/guide/guide.cpp:1379
 #, kde-format
 msgid "The mount is parked. Unpark to start guiding."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1478
+#: ekos/guide/guide.cpp:1482
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1492
+#: ekos/guide/guide.cpp:1496
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is moving. Resetting calibration..."
 msgstr "旋轉回原來位置中..."
 
-#: ekos/guide/guide.cpp:1508
+#: ekos/guide/guide.cpp:1512
 #, fuzzy, kde-format
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount is parking. Aborting guide..."
 msgstr "Mount Ekar"
 
-#: ekos/guide/guide.cpp:1510
+#: ekos/guide/guide.cpp:1514
 #, fuzzy, kde-format
 #| msgid "Slewing back to original position..."
 msgid "Mount is slewing. Aborting guide..."
 msgstr "旋轉回原來位置中..."
 
-#: ekos/guide/guide.cpp:1573
+#: ekos/guide/guide.cpp:1577
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration is cleared."
 msgstr "靈敏度校正完成。"
 
-#: ekos/guide/guide.cpp:1594
+#: ekos/guide/guide.cpp:1601
 #, kde-format
 msgid "External guider connected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1612
+#: ekos/guide/guide.cpp:1619
 #, kde-format
 msgid "External guider disconnected."
 msgstr ""
 
-#: ekos/guide/guide.cpp:1629
+#: ekos/guide/guide.cpp:1636
 #, kde-format
 msgid "Calibration completed."
 msgstr "靈敏度校正完成。"
 
-#: ekos/guide/guide.cpp:1647
+#: ekos/guide/guide.cpp:1654
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Calibration started."
 msgstr "靈敏度校正完成。"
 
-#: ekos/guide/guide.cpp:1654
+#: ekos/guide/guide.cpp:1661
 #, kde-format
 msgid "Guiding resumed."
 msgstr "引導已回復。"
 
-#: ekos/guide/guide.cpp:1657
+#: ekos/guide/guide.cpp:1664
 #, kde-format
 msgid "Autoguiding started."
 msgstr "自動引導已啟動。"
 
-#: ekos/guide/guide.cpp:1669
+#: ekos/guide/guide.cpp:1676
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "Autoguiding aborted."
 msgstr "自動引導已啟動。"
 
-#: ekos/guide/guide.cpp:1674
+#: ekos/guide/guide.cpp:1681
 #, kde-format
 msgid "Guiding suspended."
 msgstr "引導已暫停。"
 
-#: ekos/guide/guide.cpp:1683
+#: ekos/guide/guide.cpp:1690
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Manual dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:1687
+#: ekos/guide/guide.cpp:1694
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "Dithering in progress."
 msgstr "Dome Creek"
 
-#: ekos/guide/guide.cpp:1691
+#: ekos/guide/guide.cpp:1698
 #, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] ""
 
-#: ekos/guide/guide.cpp:1696
+#: ekos/guide/guide.cpp:1703
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Dithering failed."
 msgstr "移動中..."
 
-#: ekos/guide/guide.cpp:1707
+#: ekos/guide/guide.cpp:1714
 #, fuzzy, kde-format
 #| msgid "Post flip re-alignment completed successfully."
 msgid "Dithering completed successfully."
 msgstr "後翻轉重新調校已成功完成。"
 
-#: ekos/guide/guide.cpp:1753
+#: ekos/guide/guide.cpp:1760
 #, fuzzy, kde-format
 #| msgid "Bit depth %1 is not supported."
 msgid "%1x%1 guide binning is not supported."
 msgstr "不支援 %1 影像深度。"
 
-#: ekos/guide/guide.cpp:1775
+#: ekos/guide/guide.cpp:1782
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Exposure failed. Restarting exposure..."
 msgstr "自動對焦失敗。將中止曝光..."
 
-#: ekos/guide/guide.cpp:1901
+#: ekos/guide/guide.cpp:1908
 #, fuzzy, kde-format
 #| msgid "Autofocus in progress..."
 msgid "Cannot change guider type while active."
 msgstr "自動對焦處理中..."
 
-#: ekos/guide/guide.cpp:1992
+#: ekos/guide/guide.cpp:1999
 #, kde-format
 msgid ""
 "Warning: Reset Guiding Calibration is enabled. It is recommended to turn "
 "this option off for PHD2."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2376
+#: ekos/guide/guide.cpp:2401
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Calibration failed to start."
 msgstr "自動校正失敗。"
 
-#: ekos/guide/guide.cpp:2527
+#: ekos/guide/guide.cpp:2552
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Auto star selected."
 msgstr "偵測到 %1 個星體。"
 
-#: ekos/guide/guide.cpp:2531
+#: ekos/guide/guide.cpp:2556
 #, fuzzy, kde-format
 #| msgid "Set box size to select a focus star."
 msgid "Failed to select an auto star."
 msgstr "設定盒尺寸以便選擇對焦的星體。"
 
-#: ekos/guide/guide.cpp:2540
+#: ekos/guide/guide.cpp:2565
 #, fuzzy, kde-format
 #| msgid "2. Select guide star"
 msgid "Select a guide star to calibrate."
 msgstr "2. 選擇導引星體"
 
-#: ekos/guide/guide.cpp:2790
+#: ekos/guide/guide.cpp:2815
 #, fuzzy, kde-format
 #| msgid "pixels"
-msgid "x (pixels)"
+msgid "dx (pixels)"
 msgstr "像素"
 
-#: ekos/guide/guide.cpp:2791
+#: ekos/guide/guide.cpp:2816
 #, fuzzy, kde-format
 #| msgid "pixels"
-msgid "y (pixels)"
+msgid "dy (pixels)"
 msgstr "像素"
 
-#: ekos/guide/guide.cpp:2907 ekos/guide/guide.cpp:3033
+#: ekos/guide/guide.cpp:2955 ekos/guide/guide.cpp:3081
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
 "images.  But you will still see the Guide Star Image when you guide."
 msgstr ""
 
-#: ekos/guide/guide.cpp:2911 ekos/guide/guide.cpp:3037
+#: ekos/guide/guide.cpp:2959 ekos/guide/guide.cpp:3085
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -23074,7 +23074,7 @@ msgid ""
 "enable it before Guiding"
 msgstr ""
 
-#: ekos/guide/guide.cpp:3204
+#: ekos/guide/guide.cpp:3252
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr ""
@@ -23611,8 +23611,8 @@ msgstr "赤經（弧分）"
 msgid "pulse (ms)"
 msgstr "焦距 (mm)"
 
-#: ekos/guide/guidedriftgraph.cpp:226 ekos/guide/guidedriftgraph.cpp:628
-#: ekos/guide/guidedriftgraph.cpp:703
+#: ekos/guide/guidedriftgraph.cpp:226 ekos/guide/guidedriftgraph.cpp:625
+#: ekos/guide/guidedriftgraph.cpp:700
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -23623,8 +23623,8 @@ msgid ""
 "tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 msgstr ""
 
-#: ekos/guide/guidedriftgraph.cpp:245 ekos/guide/guidedriftgraph.cpp:644
-#: ekos/guide/guidedriftgraph.cpp:719
+#: ekos/guide/guidedriftgraph.cpp:245 ekos/guide/guidedriftgraph.cpp:641
+#: ekos/guide/guidedriftgraph.cpp:716
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -23695,21 +23695,15 @@ msgstr "GUIDE_RA 漂移中..."
 msgid "Guide Star found."
 msgstr "導引器"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:202
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibrating RA Out"
-msgstr "靈敏度校正"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:241
+#: ekos/guide/internalguide/calibrationprocess.cpp:243
 #, fuzzy, kde-format
 #| msgid "GUIDE_RA Drifting..."
 msgid "RA drifting reverse..."
 msgstr "GUIDE_RA 漂移中..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:247
-#: ekos/guide/internalguide/calibrationprocess.cpp:385
-#: ekos/guide/internalguide/calibrationprocess.cpp:603
+#: ekos/guide/internalguide/calibrationprocess.cpp:249
+#: ekos/guide/internalguide/calibrationprocess.cpp:388
+#: ekos/guide/internalguide/calibrationprocess.cpp:608
 #, fuzzy, kde-format
 #| msgid "Calibration rejected. Star drift is too short."
 msgid ""
@@ -23717,25 +23711,19 @@ msgid ""
 "backlash problems."
 msgstr "校正被拒絕。星體漂移過短。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:250
+#: ekos/guide/internalguide/calibrationprocess.cpp:252
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Calibration Failed: Drift too short."
 msgstr "自動校正失敗。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:279
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibrating RA In"
-msgstr "靈敏度校正"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:336
+#: ekos/guide/internalguide/calibrationprocess.cpp:339
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Calibration Failed: couldn't reach start."
 msgstr "自動校正失敗。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:337
+#: ekos/guide/internalguide/calibrationprocess.cpp:340
 #, fuzzy, kde-format
 #| msgid ""
 #| "GUIDE_RA: Scope cannot reach the start point after %1 iteration.\n"
@@ -23753,55 +23741,49 @@ msgstr[0] ""
 "GUIDE_RA：在 %1 次循環後，望遠鏡仍然無法到達起始點。\n"
 "可能是掛載或磁碟的問題..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:356
+#: ekos/guide/internalguide/calibrationprocess.cpp:359
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Backlash"
 msgid "DEC backlash..."
 msgstr "後座力"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:369
-#: ekos/guide/internalguide/calibrationprocess.cpp:422
+#: ekos/guide/internalguide/calibrationprocess.cpp:372
+#: ekos/guide/internalguide/calibrationprocess.cpp:425
 #, fuzzy, kde-format
 #| msgid "GUIDE_DEC drifting..."
 msgid "DEC drifting forward..."
 msgstr "GUIDE_DEC 漂移中..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:388
-#: ekos/guide/internalguide/calibrationprocess.cpp:604
+#: ekos/guide/internalguide/calibrationprocess.cpp:391
+#: ekos/guide/internalguide/calibrationprocess.cpp:609
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Calibration Failed: drift too short."
 msgstr "自動校正失敗。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:408
-#: ekos/guide/internalguide/calibrationprocess.cpp:425
+#: ekos/guide/internalguide/calibrationprocess.cpp:411
+#: ekos/guide/internalguide/calibrationprocess.cpp:428
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Calibrating DEC Backlash"
 msgstr "靈敏度校正"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:434
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibrating DEC Out"
-msgstr "靈敏度校正"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:470
+#: ekos/guide/internalguide/calibrationprocess.cpp:475
 #, fuzzy, kde-format
 #| msgid "GUIDE_DEC drifting..."
 msgid "DEC drifting reverse..."
 msgstr "GUIDE_DEC 漂移中..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:480
-#: ekos/guide/internalguide/calibrationprocess.cpp:568
+#: ekos/guide/internalguide/calibrationprocess.cpp:485
+#: ekos/guide/internalguide/calibrationprocess.cpp:573
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Calibration Failed: couldn't reach start point."
 msgstr "自動校正失敗。"
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:481
-#: ekos/guide/internalguide/calibrationprocess.cpp:570
+#: ekos/guide/internalguide/calibrationprocess.cpp:486
+#: ekos/guide/internalguide/calibrationprocess.cpp:575
 #, fuzzy, kde-format
 #| msgid ""
 #| "GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\n"
@@ -23819,27 +23801,10 @@ msgstr[0] ""
 "GUIDE_DEC：在 %1 次循環後，望遠鏡仍然無法到達起始點。\n"
 "可能是掛載或磁碟的問題..."
 
-#: ekos/guide/internalguide/calibrationprocess.cpp:513
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibrating DEC In"
-msgstr "靈敏度校正"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:586
+#: ekos/guide/internalguide/calibrationprocess.cpp:595
 #, kde-format
-msgid "DEC swap enabled."
-msgstr "赤緯交換已開啟。"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:588
-#, kde-format
-msgid "DEC swap disabled."
-msgstr "赤緯機換已關閉。"
-
-#: ekos/guide/internalguide/calibrationprocess.cpp:592
-#, fuzzy, kde-format
-#| msgid "Calibration"
-msgid "Calibration Successful"
-msgstr "靈敏度校正"
+msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
+msgstr ""
 
 #: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
@@ -24175,10 +24140,9 @@ msgid ""
 msgstr "<html><head/><body><p>抓取影像前強制設定溫度值</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
-#. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
-#: ekos/guide/opscalibration.ui:411 kstars.kcfg:3147
+#: ekos/guide/opscalibration.ui:411
 #, kde-format
-msgid "Reverse DEC on pier-side change when reusing calibration."
+msgid "Accept reversed DEC on pier-side change reusing calibration."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
@@ -41477,6 +41441,12 @@ msgstr "望遠鏡已完成子午線翻轉。"
 #| msgid "Telescope completed the meridian flip."
 msgid "Guider may re-use guiding calibration if one is available."
 msgstr "望遠鏡已完成子午線翻轉。"
+
+#. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
+#: kstars.kcfg:3147
+#, kde-format
+msgid "Reverse DEC on pier-side change when reusing calibration."
+msgstr ""
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
 #: kstars.kcfg:3151
@@ -89813,6 +89783,37 @@ msgstr "背景顏色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "設定背景顏色。"
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibrating RA Out"
+#~ msgstr "靈敏度校正"
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibrating RA In"
+#~ msgstr "靈敏度校正"
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibrating DEC Out"
+#~ msgstr "靈敏度校正"
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibrating DEC In"
+#~ msgstr "靈敏度校正"
+
+#~ msgid "DEC swap enabled."
+#~ msgstr "赤緯交換已開啟。"
+
+#~ msgid "DEC swap disabled."
+#~ msgstr "赤緯機換已關閉。"
+
+#, fuzzy
+#~| msgid "Calibration"
+#~ msgid "Calibration Successful"
+#~ msgstr "靈敏度校正"
 
 #, fuzzy
 #~| msgctxt "City in Oklahoma USA"
