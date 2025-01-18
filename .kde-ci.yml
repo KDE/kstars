@@ -28,4 +28,3 @@ Options:
   in-source-build: False
   setup-dbus-session: True
   setup-x-environment: True
-  cmake-options: --trace-expand --debug-find
