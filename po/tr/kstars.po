@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-17 01:51+0000\n"
-"PO-Revision-Date: 2025-01-15 12:11+0300\n"
+"PO-Revision-Date: 2025-01-17 14:21+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -22017,16 +22017,14 @@ msgid "Select a guide star to calibrate."
 msgstr "Kalibre etmek için bir kılavuz yıldız seçin."
 
 #: ekos/guide/guide.cpp:2815
-#, fuzzy, kde-format
-#| msgid "x (pixels)"
+#, kde-format
 msgid "dx (pixels)"
-msgstr "x (piksel)"
+msgstr "dx (piksel)"
 
 #: ekos/guide/guide.cpp:2816
-#, fuzzy, kde-format
-#| msgid "y (pixels)"
+#, kde-format
 msgid "dy (pixels)"
-msgstr "y (piksel)"
+msgstr "dy (piksel)"
 
 #: ekos/guide/guide.cpp:2955 ekos/guide/guide.cpp:3081
 #, kde-format
@@ -22739,7 +22737,7 @@ msgstr[1] ""
 #: ekos/guide/internalguide/calibrationprocess.cpp:595
 #, kde-format
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
-msgstr ""
+msgstr "DEC yönü tersine çevrildi (RA-DEC artık standart CCW sistemidir)."
 
 #: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
@@ -23067,12 +23065,11 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid "Accept reversed DEC on pier-side change reusing calibration."
 msgstr ""
-"Kalibrasyonu yeniden kullanırken iskele tarafındaki değişiklikte DEC’yi "
-"tersine çevir"
+"Kalibrasyonu yeniden kullanımında iskele tarafındaki değişiklikte tersine "
+"çevrilmiş DEC’i kabul edin."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43

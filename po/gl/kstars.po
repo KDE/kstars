@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-17 01:51+0000\n"
-"PO-Revision-Date: 2025-01-06 20:36+0100\n"
+"PO-Revision-Date: 2025-01-17 07:38+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -254,11 +254,9 @@ msgid "HiPS Grid"
 msgstr "Grade de HiPS"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dome Simulator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Simulador de bóveda"
+msgstr "Rañura de bóveda"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -818,6 +816,7 @@ msgstr ""
 "No paquete do aplicativo non se atopou ningún directorio de datos "
 "predeterminado."
 
+# skip-rule: trasno/2012_support
 #: auxiliary/kswizard.cpp:280
 #, kde-format
 msgid ""
@@ -5932,6 +5931,7 @@ msgid "The KStars Data Directory called kstars should be located at:"
 msgstr ""
 "O directorio de datos de KStars, chamado kstars, debería estar situado en:"
 
+# skip-rule: trasno/2012_support
 #. i18n: ectx: property (text), widget (QLabel, dataPath)
 #: dialogs/wizdata.ui:83
 #, kde-format
@@ -16016,10 +16016,9 @@ msgid "Driver Restart"
 msgstr "Reinicio de controlador"
 
 #: ekos/capture/cameraprocess.cpp:3063 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "O resolvente interrompeuse despois de %1 segundos."
+msgstr "As operacións de captura superaron o límite de tempo tras %1 segundos."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
@@ -17297,13 +17296,15 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long"
 msgstr ""
+"Número máximo de segundos que agardar antes de interromper a captura se "
+"operacións como cambios da roda de filtro ou voltas do meridiano tardan "
+"demasiado."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Timeout:"
+#, kde-format
 msgid "Capture Operations Timeout"
-msgstr "Tempo límite de captura:"
+msgstr "Tempo límite de operacións de captura"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:205
@@ -26724,7 +26725,7 @@ msgid ""
 "<html><head/><body><p>Using Ekos locally on Windows is not supported. You "
 "must connect to a remote gadget to control devices.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Non se pode usar Ekos localmente en Windows. Debe "
+"<html><head/><body><p>Non se permite usar Ekos localmente en Windows. Debe "
 "conectarse a un trebello remoto para controlar dispositivos.</p></body></"
 "html>"
 
@@ -38433,7 +38434,7 @@ msgstr "Restabelecer o modelo de montura tras a volta do meridiano."
 #: kstars.kcfg:2031
 #, kde-format
 msgid "Use Forced meridian flips if supported."
-msgstr "Usar «Voltas do meridiano forzadas» se se pode."
+msgstr "Usar «Voltas do meridiano forzadas» se se permite."
 
 #. i18n: ectx: label, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:2035
@@ -38675,6 +38676,9 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long."
 msgstr ""
+"Número máximo de segundos que agardar antes de interromper a captura se "
+"operacións como cambios da roda de filtro ou voltas do meridiano tardan "
+"demasiado."
 
 #. i18n: ectx: label, entry (MinFlipDuration), group (Capture)
 #: kstars.kcfg:2153
@@ -84742,8 +84746,8 @@ msgid ""
 "Stars and objects whose names KStars does not know are not supported in the "
 "observing lists"
 msgstr ""
-"As estrelas e obxectos cuxo nome KStars descoñeza non poden usarse nas "
-"listas de observación."
+"As estrelas e obxectos cuxo nome KStars descoñeza non se permiten nas listas "
+"de observación."
 
 #: tools/observinglist.cpp:276
 #, kde-format

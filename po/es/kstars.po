@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-17 01:51+0000\n"
-"PO-Revision-Date: 2025-01-16 01:00+0100\n"
+"PO-Revision-Date: 2025-01-17 22:57+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -22298,16 +22298,14 @@ msgid "Select a guide star to calibrate."
 msgstr "Seleccione una estrella guía para calibrar."
 
 #: ekos/guide/guide.cpp:2815
-#, fuzzy, kde-format
-#| msgid "x (pixels)"
+#, kde-format
 msgid "dx (pixels)"
-msgstr "x (píxeles)"
+msgstr "dx (píxeles)"
 
 #: ekos/guide/guide.cpp:2816
-#, fuzzy, kde-format
-#| msgid "y (pixels)"
+#, kde-format
 msgid "dy (pixels)"
-msgstr "y (píxeles)"
+msgstr "dy (píxeles)"
 
 #: ekos/guide/guide.cpp:2955 ekos/guide/guide.cpp:3081
 #, kde-format
@@ -23026,6 +23024,8 @@ msgstr[1] ""
 #, kde-format
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr ""
+"Dirección DEC invertida (la AR-DEC es ahora  el sistema antihorario "
+"estándar)."
 
 #: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
@@ -23362,12 +23362,11 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid "Accept reversed DEC on pier-side change reusing calibration."
 msgstr ""
-"Invertir la DEC cuando cambia el lado de la columna al volver a usar la "
-"calibración."
+"Aceptar DEC invertida cuando cambia el lado de la columna al volver a usar "
+"la calibración."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
