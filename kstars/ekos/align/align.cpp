@@ -1151,9 +1151,9 @@ void Align::calculateFOV()
     if (m_PolarAlignmentAssistant != nullptr)
         m_PolarAlignmentAssistant->setEnabled(fovOK);
 
-    if (opsAstrometry->kcfg_AstrometryUseImageScale->isChecked())
+    if (Options::astrometryUseImageScale())
     {
-        int unitType = opsAstrometry->kcfg_AstrometryImageScaleUnits->currentIndex();
+        auto unitType = Options::astrometryImageScaleUnits();
 
         // Degrees
         if (unitType == 0)
