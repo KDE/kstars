@@ -996,6 +996,9 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
                     path = tempFile.fileName();
                 }
             }
+            // Path for filedata is relative to home directory.
+            else
+                path = QDir::homePath() + QDir::separator() + path;
 
             // Write file data if we have a valid path
             if (success && !path.isEmpty())
