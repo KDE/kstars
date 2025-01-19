@@ -33,7 +33,7 @@
     <number>3</number>
    </property>
    <item row="1" column="1">
-    <widget class="QDoubleSpinBox" name="alignCheckThreshold">
+    <widget class="QDoubleSpinBox" name="kcfg_AlignCheckThreshold">
      <property name="maximum">
       <double>3600.000000000000000</double>
      </property>
@@ -63,7 +63,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QSpinBox" name="alignCheckFrequency">
+    <widget class="QSpinBox" name="kcfg_AlignCheckFrequency">
      <property name="maximum">
       <number>100</number>
      </property>
@@ -84,14 +84,14 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QCheckBox" name="resetMountModelOnAlignFail">
+    <widget class="QCheckBox" name="kcfg_ResetMountModelOnAlignFail">
      <property name="text">
       <string>Reset mount model on alignment failure</string>
      </property>
     </widget>
    </item>
    <item row="5" column="0" colspan="2">
-    <widget class="QCheckBox" name="realignAfterCalibrationFailure">
+    <widget class="QCheckBox" name="kcfg_RealignAfterCalibrationFailure">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If guiding calibration fails then restart alignment process before proceeding to guiding recalibration process again. This can help recenter the target object in the field of view if the calibration process strayed too far off.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
@@ -101,14 +101,14 @@
     </widget>
    </item>
    <item row="3" column="0" colspan="2">
-    <widget class="QCheckBox" name="resetMountModelBeforeJob">
+    <widget class="QCheckBox" name="kcfg_ResetMountModelBeforeJob">
      <property name="text">
       <string>Reset mount model before starting each job:</string>
      </property>
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QCheckBox" name="forceAlignmentBeforeJob">
+    <widget class="QCheckBox" name="kcfg_ForceAlignmentBeforeJob">
      <property name="toolTip">
       <string>If Align is enabled, scheduler would initiate a realignment procedure before restarting any jobs even if guiding is active.</string>
      </property>

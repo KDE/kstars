@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OpsCleanupSettings</class>
- <widget class="QWidget" name="OpsCleanupSettings">
+ <class>OpsScriptsSettings</class>
+ <widget class="QWidget" name="OpsScriptsSettings">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>216</width>
-    <height>58</height>
+    <height>84</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@
     <number>3</number>
    </property>
    <item>
-    <widget class="QCheckBox" name="stopEkosAfterShutdown">
+    <widget class="QCheckBox" name="kcfg_StopEkosAfterShutdown">
      <property name="toolTip">
       <string>After shutdown procedure is successfully executed, stop INDI and Ekos.</string>
      </property>
@@ -43,7 +43,17 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="shutdownScriptTerminatesINDI">
+    <widget class="QCheckBox" name="kcfg_AlwaysExecuteStartupScript">
+     <property name="toolTip">
+      <string>Observatory startup script is normally only executed if Ekos is offline. Enable this option to start it whenever scheduler is starting up.</string>
+     </property>
+     <property name="text">
+      <string>Always Execute Startup Script</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="kcfg_ShutdownScriptTerminatesINDI">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the shutdown script terminates INDI server, enable this option so that no disconnection errors are generated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>

@@ -421,22 +421,20 @@ void Scheduler::prepareGUI ()
 #endif
 
     m_OpsOffsetSettings = new OpsOffsetSettings();
-    KPageWidgetItem *page = dialog->addPage(m_OpsOffsetSettings, i18n("Offset"), nullptr, i18n("Scheduler Offset"), false);
+    KPageWidgetItem *page = dialog->addPage(m_OpsOffsetSettings, i18n("Offset"));
     page->setIcon(QIcon::fromTheme("configure"));
 
     m_OpsAlignmentSettings = new OpsAlignmentSettings();
-    page = dialog->addPage(m_OpsAlignmentSettings, i18n("Alignment"), nullptr, i18n("Scheduler Alignment"), false);
+    page = dialog->addPage(m_OpsAlignmentSettings, i18n("Alignment"));
     page->setIcon(QIcon::fromTheme("transform-move"));
 
-
     m_OpsJobsSettings = new OpsJobsSettings();
-    page = dialog->addPage(m_OpsJobsSettings, i18n("Jobs"), nullptr, i18n("Scheduler Jobs"), false);
+    page = dialog->addPage(m_OpsJobsSettings, i18n("Jobs"));
     page->setIcon(QIcon::fromTheme("view-calendar-workweek-symbolic"));
 
-    m_OpsCleanupSettings = new OpsCleanupSettings();
-    page = dialog->addPage(m_OpsCleanupSettings, i18n("Cleanup"), nullptr, i18n("Scheduler Cleanup"), false);
-    page->setIcon(QIcon::fromTheme("edit-clear-history"));
-
+    m_OpsScriptsSettings = new OpsScriptsSettings();
+    page = dialog->addPage(m_OpsScriptsSettings, i18n("Scripts"));
+    page->setIcon(QIcon::fromTheme("document-properties"));
 }
 void Scheduler::watchJobChanges(bool enable)
 {

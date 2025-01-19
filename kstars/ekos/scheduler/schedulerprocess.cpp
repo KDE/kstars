@@ -1899,7 +1899,7 @@ bool SchedulerProcess::checkStartupState()
             //QDBusReply<int> isEkosStarted;
             //isEkosStarted = ekosInterface->call(QDBus::AutoDetect, "getEkosStartingStatus");
             //if (isEkosStarted.value() == Ekos::Success)
-            if (moduleState()->ekosCommunicationStatus() == Ekos::Success)
+            if (Options::alwaysExecuteStartupScript() == false && moduleState()->ekosCommunicationStatus() == Ekos::Success)
             {
                 if (moduleState()->startupScriptURL().isEmpty() == false)
                     appendLogText(i18n("Ekos is already started, skipping startup script..."));

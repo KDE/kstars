@@ -30,7 +30,7 @@
     <number>3</number>
    </property>
    <item row="2" column="0">
-    <widget class="QCheckBox" name="preemptiveShutdown">
+    <widget class="QCheckBox" name="kcfg_PreemptiveShutdown">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
@@ -40,7 +40,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QDoubleSpinBox" name="preDawnTime"/>
+    <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
    </item>
    <item row="4" column="1">
     <widget class="QDoubleSpinBox" name="kcfg_DawnOffset">
@@ -66,10 +66,10 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QDoubleSpinBox" name="leadTime"/>
+    <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
    </item>
    <item row="3" column="1">
-    <widget class="QDoubleSpinBox" name="duskOffset">
+    <widget class="QDoubleSpinBox" name="kcfg_DuskOffset">
      <property name="minimum">
       <double>-24.000000000000000</double>
      </property>
@@ -112,7 +112,7 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QDoubleSpinBox" name="preemptiveShutdownTime">
+    <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>

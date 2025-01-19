@@ -13,7 +13,7 @@
 #include "opsoffsetsettings.h"
 #include "opsalignmentsettings.h"
 #include "opsjobssettings.h"
-#include "opscleanupsettings.h"
+#include "opsscriptssettings.h"
 #include "schedulertypes.h"
 #include "ekos/align/align.h"
 #include "indi/indiweather.h"
@@ -58,7 +58,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         friend class FramingAssistantUI;
 
-public:
+    public:
 
         /** @brief Columns, in the same order as UI. */
         typedef enum
@@ -118,7 +118,7 @@ public:
         OpsOffsetSettings *m_OpsOffsetSettings { nullptr };
         OpsAlignmentSettings *m_OpsAlignmentSettings { nullptr };
         OpsJobsSettings *m_OpsJobsSettings { nullptr };
-        OpsCleanupSettings *m_OpsCleanupSettings { nullptr };
+        OpsScriptsSettings *m_OpsScriptsSettings { nullptr };
 
 
         /** DBUS interface function.
@@ -149,7 +149,7 @@ public:
 
         // TODO: This section of static public and private methods should someday
         // be moved from Scheduler and placed in a separate class,
-        // e.g. SchedulerPlanner or SchedulerJobEval        
+        // e.g. SchedulerPlanner or SchedulerJobEval
         /**
          * @brief Remove a job from current table row.
          * @param index
@@ -216,8 +216,8 @@ public:
         // Settings
         QVariantMap getAllSettings() const;
         void setAllSettings(const QVariantMap &settings);
-        
-private:
+
+    private:
 
         void setAlgorithm(int alg);
 
@@ -231,7 +231,7 @@ private:
          */
         bool jobChangesAreWatched { false };
 
-protected:
+    protected:
 
         /** @internal Enables signal watch on SchedulerJob form values in order to apply changes to current job.
           * @param enable is the toggle flag, true to watch for changes, false to ignore them.
@@ -265,7 +265,7 @@ protected:
          */
         void updateCellStyle(SchedulerJob *job, QTableWidgetItem *cell);
 
-protected slots:
+    protected slots:
 
         /**
          * @brief checkInterfaceReady Sometimes syncProperties() is not sufficient since the ready signal could have fired already
@@ -428,7 +428,7 @@ protected slots:
              */
         void checkTwilightWarning(bool enabled);
 
-signals:
+    signals:
         void newStatus(Ekos::SchedulerState state);
         void weatherChanged(ISD::Weather::Status state);
         void newTarget(const QString &);
@@ -441,7 +441,7 @@ signals:
         void jobsUpdated(QJsonArray jobsList);
         void settingsUpdated(const QVariantMap &settings);
 
-private:
+    private:
         /**
          * @brief handleJobsUpdated Update UI when jobs have been updated
          * @param jobsList

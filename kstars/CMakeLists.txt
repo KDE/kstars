@@ -127,7 +127,7 @@ if (INDI_FOUND)
             ekos/scheduler/framingassistant.ui
             ekos/scheduler/scheduleraltitudegraph.ui
             ekos/scheduler/opsalignmentsettings.ui
-            ekos/scheduler/opscleanupsettings.ui
+            ekos/scheduler/opsscriptssettings.ui
             ekos/scheduler/opsoffsetsettings.ui
             ekos/scheduler/opsjobssettings.ui
             # Capture
@@ -295,7 +295,7 @@ if (INDI_FOUND)
             ekos/scheduler/greedyscheduler.cpp
             ekos/scheduler/scheduleraltitudegraph.cpp
             ekos/scheduler/opsalignmentsettings.cpp
-            ekos/scheduler/opscleanupsettings.cpp
+            ekos/scheduler/opsscriptssettings.cpp
             ekos/scheduler/opsjobssettings.cpp
             ekos/scheduler/opsoffsetsettings.cpp
 

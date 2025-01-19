@@ -3115,6 +3115,10 @@
           <label>After shutdown procedure is successfully executed, shutdown INDI and Ekos.</label>
           <default>true</default>
     </entry>
+    <entry name="AlwaysExecuteStartupScript" type="Bool">
+          <label>Always execute startup script regardless of Ekos status.</label>
+          <default>false</default>
+    </entry>
     <entry name="ShutdownScriptTerminatesINDI" type="Bool">
           <label>Whether shutdown script, if exists, terminates INDI server in the process.</label>
           <default>false</default>
