@@ -1,7 +1,24 @@
 {
-    "cmake.configureArgs": [
-        "-DBUILD_TESTING=OFF",
-        "-DBUILD_DOCS=OFF",
-    ]
+  "cmake.configureArgs": ["-DBUILD_TESTING=OFF", "-DBUILD_DOCS=OFF"],
+  "files.associations": {
+    "*.js": "javascriptreact",
+    "*.tcc": "cpp",
+    "system_error": "cpp",
+    "random": "cpp",
+    "fstream": "cpp",
+    "iostream": "cpp",
+    "istream": "cpp",
+    "limits": "cpp",
+    "new": "cpp",
+    "ostream": "cpp",
+    "ratio": "cpp",
+    "stdexcept": "cpp",
+    "streambuf": "cpp",
+    "functional": "cpp",
+    "regex": "cpp",
+    "expected": "cpp",
+    "format": "cpp",
+    "tuple": "cpp",
+    "core": "cpp"
+  }
 }
-

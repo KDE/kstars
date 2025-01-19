@@ -10,6 +10,7 @@
 #include "kstars.h"
 #include "ksmessagebox.h"
 #include "kstarsdata.h"
+#include "ksnotification.h"
 #include "opscalibration.h"
 #include "opsguide.h"
 #include "opsdither.h"
@@ -1295,7 +1296,13 @@ bool Guide::calibrate()
     {
         if (!m_Camera)
         {
-            qCCritical(KSTARS_EKOS_GUIDE) << "No camera detected. Check optical trains.";
+            KSNotification::error(i18n("No camera detected. Check camera in optical trains."));
+            return false;
+        }
+
+        if (!m_Guider)
+        {
+            KSNotification::error(i18n("No guider detected. Check guide-via in optical trains."));
             return false;
         }
 
@@ -2207,7 +2214,7 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
     switch (type)
     {
         case GuideInterface::RA_OUT:
-            calibrationPlot->graph(GuideGraph::G_RA)->addData(dx, dy);   
+            calibrationPlot->graph(GuideGraph::G_RA)->addData(dx, dy);
             break;
         case GuideInterface::RA_OUT_OK:
             drawRADECAxis(calRALabel, calRAArrow, dx, dy);
@@ -2243,7 +2250,7 @@ void Guide::drawRADECAxis(QCPItemText *Label, QCPItemLine *Arrow, const double x
     Label->position->setCoords(xEnd, yEnd);
     Label->setColor(Qt::white);
     yEnd > 0 ? Label->setPositionAlignment(Qt::AlignHCenter | Qt::AlignBottom) :
-             Label->setPositionAlignment(Qt::AlignHCenter | Qt::AlignTop);
+    Label->setPositionAlignment(Qt::AlignHCenter | Qt::AlignTop);
     Arrow->setVisible(true);
     Label->setVisible(true);
 }
@@ -2824,36 +2831,36 @@ void Guide::initCalibrationPlot()
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_RA)->setLineStyle(QCPGraph::lsNone);
     calibrationPlot->graph(GuideGraph::G_RA)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
-                           QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2),
-                           QBrush(), 6));
+            QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2),
+            QBrush(), 6));
     calibrationPlot->graph(GuideGraph::G_RA)->setName("RA+");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_DEC)->setLineStyle(QCPGraph::lsNone);
     calibrationPlot->graph(GuideGraph::G_DEC)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
-                           QPen(Qt::white, 2),
-                           QBrush(), 4));
+            QPen(Qt::white, 2),
+            QBrush(), 4));
     calibrationPlot->graph(GuideGraph::G_DEC)->setName("RA-");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
     calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlus,
-                           QPen(Qt::white, 2),
-                           QBrush(), 6));
+            QPen(Qt::white, 2),
+            QBrush(), 6));
     calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->setName("Backlash");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
     calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,
-                           QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2),
-                           QBrush(), 6));
+            QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2),
+            QBrush(), 6));
     calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->setName("DEC+");
 
     calibrationPlot->addGraph();
     calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setLineStyle(QCPGraph::lsNone);
     calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
-                           QPen(Qt::yellow, 2),
-                           QBrush(), 4));
+            QPen(Qt::yellow, 2),
+            QBrush(), 4));
     calibrationPlot->graph(GuideGraph::G_RA_PULSE)->setName("DEC-");
 
     calLabel = new QCPItemText(calibrationPlot);
