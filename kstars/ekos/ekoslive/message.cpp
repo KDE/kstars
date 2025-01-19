@@ -977,31 +977,54 @@ void Message::processSchedulerCommands(const QString &command, const QJsonObject
     }
     else if (command == commands[SCHEDULER_LOAD_FILE])
     {
-        QString path;
+        QString path = payload["filepath"].toString();
+        bool success = true;
+
         if (payload.contains("filedata"))
         {
-            QTemporaryFile file;
-            if (file.open())
+            // Get path from temporary file if needed
+            if (path.isEmpty())
             {
-                file.setAutoRemove(false);
-                path = file.fileName();
-                file.write(payload["filedata"].toString().toUtf8());
-                file.close();
+                QTemporaryFile tempFile;
+                if (!tempFile.open())
+                {
+                    success = false;
+                }
+                else
+                {
+                    tempFile.setAutoRemove(false);
+                    path = tempFile.fileName();
+                }
+            }
+
+            // Write file data if we have a valid path
+            if (success && !path.isEmpty())
+            {
+                QFile file(path);
+                if (!file.open(QIODevice::WriteOnly) ||
+                        file.write(payload["filedata"].toString().toUtf8()) == -1)
+                {
+                    success = false;
+                }
             }
         }
-        else
-            path = payload["filepath"].toString();
 
-        if (!path.isEmpty())
+        // Load the file if we have a path
+        if (success && !path.isEmpty())
         {
-            auto result = scheduler->loadFile(QUrl::fromLocalFile(path));
-            QJsonObject response =
-            {
-                {"result", result},
-                {"path", path}
-            };
-            sendResponse(commands[SCHEDULER_LOAD_FILE], response);
+            success = scheduler->loadFile(QUrl::fromLocalFile(path));
         }
+
+        QJsonObject response
+        {
+            {"result", success}
+        };
+        if (success && !path.isEmpty())
+        {
+            response["path"] = path;
+        }
+
+        sendResponse(commands[SCHEDULER_LOAD_FILE], response);
     }
     else if(command == commands[SCHEDULER_START_JOB])
     {
