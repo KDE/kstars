@@ -188,6 +188,12 @@ class Scheduler : public QWidget, public Ui::Scheduler
 
         QJsonObject getSchedulerSettings();
 
+        /**
+        * @brief settleSettings Run this function after timeout from debounce timer to update database
+        * and emit settingsChanged signal. This is required so we don't overload output.
+        */
+        void settleSettings();
+
         // the state machine
         QSharedPointer<SchedulerModuleState> moduleState() const
         {
@@ -571,6 +577,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
         QTimer m_JobUpdateDebounce;
         QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;
+        QTimer m_DebounceTimer;
 
         // Altitude Graph
         QPointer<SchedulerAltitudeGraph> m_altitudeGraph;

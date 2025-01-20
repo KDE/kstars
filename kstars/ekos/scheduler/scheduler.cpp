@@ -145,6 +145,11 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     //RA box should be HMS-style
     raBox->setUnits(dmsBox::HOURS);
 
+    // Setup Debounce timer to limit over-activation of settings changes
+    m_DebounceTimer.setInterval(500);
+    m_DebounceTimer.setSingleShot(true);
+    connect(&m_DebounceTimer, &QTimer::timeout, this, &Scheduler::settleSettings);
+
     /* FIXME: Find a way to have multi-line tooltips in the .ui file, then move the widget configuration there - what about i18n? */
 
     queueTable->setToolTip(
@@ -2618,6 +2623,7 @@ void Scheduler::syncSettings()
 
     QString key;
     QVariant value;
+    bool removeKey = false;
 
     if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
     {
@@ -2638,12 +2644,15 @@ void Scheduler::syncSettings()
     else if ( (rb = qobject_cast<QRadioButton*>(sender())))
     {
         key = rb->objectName();
+        // N.B. We need to remove radio button false from local settings
+        // since we need to only have the exclusive key present
         if (rb->isChecked() == false)
         {
-            m_Settings.remove(key);
-            return;
+            removeKey = true;
+            value = false;
         }
-        value = true;
+        else
+            value = true;
     }
     else if ( (cbox = qobject_cast<QComboBox*>(sender())))
     {
@@ -2664,10 +2673,22 @@ void Scheduler::syncSettings()
     // Save immediately
     Options::self()->setProperty(key.toLatin1(), value);
 
-    m_Settings[key] = value;
+    if (removeKey)
+        m_Settings.remove(key);
+    else
+        m_Settings[key] = value;
     m_GlobalSettings[key] = value;
 
+    m_DebounceTimer.start();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::settleSettings()
+{
     emit settingsUpdated(getAllSettings());
+    Options::self()->save();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
