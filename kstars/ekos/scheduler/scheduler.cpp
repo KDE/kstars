@@ -322,6 +322,7 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     {
         schedulerProfileCombo->setCurrentText(moduleState()->currentProfile());
     });
+    connect(schedulerProfileCombo, &QComboBox::currentTextChanged, process().data(), &SchedulerProcess::setProfile);
     // Connect to process engine
     connect(process().data(), &SchedulerProcess::schedulerStopped, this, &Scheduler::schedulerStopped);
     connect(process().data(), &SchedulerProcess::schedulerPaused, this, &Scheduler::handleSetPaused);
