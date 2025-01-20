@@ -696,8 +696,11 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
     }
     else if (nextObservationTime > Options::leadTime() * 60)
     {
-        appendLogText(i18n("Sleeping until observation job %1 is ready at %2...", job->getName(),
-                           now.addSecs(nextObservationTime + 1).toString()));
+        auto log = i18n("Sleeping until observation job %1 is ready at %2", job->getName(),
+                        now.addSecs(nextObservationTime + 1).toString());
+        appendLogText(log);
+        KSNotification::event(QLatin1String("SchedulerSleeping"), log, KSNotification::Scheduler,
+                              KSNotification::Info);
 
         // Warn the user if the next job is really far away - 60/5 = 12 times the lead time
         if (nextObservationTime > Options::leadTime() * 60 * 12 && !Options::preemptiveShutdown())
