@@ -632,23 +632,22 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
         m_CurrentTelescope->StopWE();
         emit newLog(rotDoneMessage);
 
-        if (settleDuration <= 0)
+        int settleDurationMsec = settleDuration;
+
+        // Always settle at least a second!
+        // It is not obvious to users that the align settle field is also used for polar alignment.
+        if (settleDurationMsec <= 1000)
+            settleDurationMsec = 2000;
+
+        setPAHStage(nextSettle);
+        updateDisplay(m_PAHStage, getPAHMessage());
+
+        emit newLog(i18n("Settling..."));
+        QTimer::singleShot(settleDurationMsec, [nextCapture, this]()
         {
             setPAHStage(nextCapture);
             updateDisplay(m_PAHStage, getPAHMessage());
-        }
-        else
-        {
-            setPAHStage(nextSettle);
-            updateDisplay(m_PAHStage, getPAHMessage());
-
-            emit newLog(i18n("Settling..."));
-            QTimer::singleShot(settleDuration, [nextCapture, this]()
-            {
-                setPAHStage(nextCapture);
-                updateDisplay(m_PAHStage, getPAHMessage());
-            });
-        }
+        });
     };
 
     if (m_PAHStage == PAH_FIRST_ROTATE || m_PAHStage == PAH_SECOND_ROTATE)
