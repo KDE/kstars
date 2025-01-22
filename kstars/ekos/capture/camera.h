@@ -653,8 +653,6 @@ private:
      */
     void syncGUIToJob(SequenceJob *job);
 
-    void syncFrameType(const QString &name);
-
     void syncCameraInfo();
 
     // create a new row in the job table and fill it with the given job's values

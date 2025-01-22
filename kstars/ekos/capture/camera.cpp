@@ -1644,26 +1644,6 @@ void Camera::syncGUIToJob(SequenceJob * job)
     }
 }
 
-void Camera::syncFrameType(const QString &name)
-{
-    if (!activeCamera() || name != activeCamera()->getDeviceName())
-        return;
-
-    QStringList frameTypes = process()->frameTypes();
-
-    captureTypeS->clear();
-
-    if (frameTypes.isEmpty())
-        captureTypeS->setEnabled(false);
-    else
-    {
-        captureTypeS->setEnabled(true);
-        captureTypeS->addItems(frameTypes);
-        ISD::CameraChip *tChip = devices()->getActiveCamera()->getChip(ISD::CameraChip::PRIMARY_CCD);
-        captureTypeS->setCurrentIndex(tChip->getFrameType());
-    }
-}
-
 void Camera::syncCameraInfo()
 {
     if (!activeCamera())

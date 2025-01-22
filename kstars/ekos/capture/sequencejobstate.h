@@ -73,6 +73,8 @@ class SequenceJobState: public QObject
         typedef enum
         {
             WP_NONE,           /* slewing to wall position not started */
+            WP_UNPARKING,      /* unpark before slewing                */
+            WP_UNPARKED,       /* scope unparked, ready to slew        */
             WP_SLEWING,        /* slewing to wall position started     */
             WP_SLEW_COMPLETED, /* wall position reached                */
             WP_TRACKING_BUSY,  /* turning tracking off running         */

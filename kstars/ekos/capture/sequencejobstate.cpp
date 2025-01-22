@@ -489,14 +489,41 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
 {
     if (m_CameraState->hasTelescope)
     {
-        if (wpScopeStatus < WP_SLEWING)
+        // check if mount is unparked and unpark if necessary
+        if (wpScopeStatus < WP_UNPARKED)
+        {
+            switch (m_CameraState->getScopeParkState())
+            {
+                case ISD::PARK_ERROR:
+                    emit newLog(i18n("Parking mount failed, aborting..."));
+                    emit abortCapture();
+                    return IPS_ALERT;
+                case ISD::PARK_UNPARKING:
+                case ISD::PARK_PARKING:
+                    return IPS_BUSY;
+                case ISD::PARK_PARKED:
+                    // unpark the scope
+                    wpScopeStatus = WP_UNPARKING;
+                    emit setScopeParked(false);
+                    return IPS_BUSY;
+                case ISD::PARK_UNKNOWN:
+                    // retrieve the mount park state
+                    emit readCurrentMountParkState();
+                    return IPS_BUSY;
+                case ISD::PARK_UNPARKED:
+                    wpScopeStatus = WP_UNPARKED;
+                    break;
+            }
+            return IPS_BUSY;
+        }
+        else if (wpScopeStatus < WP_SLEWING)
         {
             wallCoord.HorizontalToEquatorial(KStarsData::Instance()->lst(),
                                              KStarsData::Instance()->geo()->lat());
             wpScopeStatus = WP_SLEWING;
             emit slewTelescope(wallCoord);
             emit newLog(i18n("Mount slewing to wall position (az =%1 alt =%2)",
-                             wallCoord.alt().toDMSString(), wallCoord.az().toDMSString()));
+                             wallCoord.az().toDMSString(), wallCoord.alt().toDMSString()));
             return IPS_BUSY;
         }
         // wait until actions completed
