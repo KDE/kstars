@@ -83,11 +83,6 @@ CameraProcess::CameraProcess(QSharedPointer<CameraState> newModuleState,
 
 bool CameraProcess::setMount(ISD::Mount *device)
 {
-    if (devices()->mount() && devices()->mount() == device)
-    {
-        updateTelescopeInfo();
-        return false;
-    }
 
     if (devices()->mount())
         devices()->mount()->disconnect(state().data());
@@ -100,7 +95,6 @@ bool CameraProcess::setMount(ISD::Mount *device)
     devices()->mount()->disconnect(this);
     connect(devices()->mount(), &ISD::Mount::newTargetName, this, &CameraProcess::captureTarget);
 
-    updateTelescopeInfo();
     return true;
 }
 
@@ -139,7 +133,6 @@ bool CameraProcess::setDustCap(ISD::DustCap *device)
     devices()->setDustCap(device);
     state()->setDustCapState(CAP_UNKNOWN);
 
-    updateFilterInfo();
     return true;
 
 }
@@ -1932,9 +1925,6 @@ void CameraProcess::selectCamera(QString name)
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
     if (activeCamera() && trainID.isValid())
     {
-
-        if (devices()->filterWheel())
-            updateFilterInfo();
         if (activeCamera() && activeCamera()->getDeviceName() == name)
             checkCamera();
 
@@ -2434,63 +2424,6 @@ void CameraProcess::clearFlatCache()
 {
     ADURaw.clear();
     ExpRaw.clear();
-}
-
-void CameraProcess::updateTelescopeInfo()
-{
-    if (devices()->mount() && activeCamera() && devices()->mount()->isConnected())
-    {
-        // Camera to current telescope
-        auto activeDevices = activeCamera()->getText("ACTIVE_DEVICES");
-        if (activeDevices)
-        {
-            auto activeTelescope = activeDevices->findWidgetByName("ACTIVE_TELESCOPE");
-            if (activeTelescope)
-            {
-                activeTelescope->setText(devices()->mount()->getDeviceName().toLatin1().constData());
-                activeCamera()->sendNewProperty(activeDevices);
-            }
-        }
-    }
-
-}
-
-void CameraProcess::updateFilterInfo()
-{
-    QList<ISD::ConcreteDevice *> all_devices;
-    if (activeCamera())
-        all_devices.append(activeCamera());
-    if (devices()->dustCap())
-        all_devices.append(devices()->dustCap());
-
-    for (auto &oneDevice : all_devices)
-    {
-        auto activeDevices = oneDevice->getText("ACTIVE_DEVICES");
-        if (activeDevices)
-        {
-            auto activeFilter = activeDevices->findWidgetByName("ACTIVE_FILTER");
-            if (activeFilter)
-            {
-                QString activeFilterText = QString(activeFilter->getText());
-                if (devices()->filterWheel())
-                {
-                    if (activeFilterText != devices()->filterWheel()->getDeviceName())
-                    {
-                        activeFilter->setText(devices()->filterWheel()->getDeviceName().toLatin1().constData());
-                        oneDevice->sendNewProperty(activeDevices);
-                    }
-                }
-                // Reset filter name in CCD driver
-                else if (activeFilterText.isEmpty() == false)
-                {
-                    // Add debug info since this issue is reported by users. Need to know when it happens.
-                    qCDebug(KSTARS_EKOS_CAPTURE) << "No active filter wheel. " << oneDevice->getDeviceName() << " ACTIVE_FILTER is reset.";
-                    activeFilter->setText("");
-                    oneDevice->sendNewProperty(activeDevices);
-                }
-            }
-        }
-    }
 }
 
 QString Ekos::CameraProcess::createTabTitle(const FITSMode &captureMode, const QString &deviceName)

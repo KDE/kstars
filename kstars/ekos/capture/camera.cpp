@@ -840,9 +840,6 @@ void Camera::captureImageStarted()
 {
     if (devices()->filterWheel() != nullptr)
     {
-        // JM 2021.08.23 Call filter info to set the active filter wheel in the camera driver
-        // so that it may snoop on the active filter
-        process()->updateFilterInfo();
         updateCurrentFilterPosition();
     }
 
@@ -3465,7 +3462,6 @@ void Camera::refreshFilterSettings()
         filterManagerB->setEnabled(false);
 
         clearFilterManager();
-        process()->updateFilterInfo();
         return;
     }
 
@@ -3475,8 +3471,6 @@ void Camera::refreshFilterSettings()
     filterManagerB->setEnabled(true);
 
     setupFilterManager();
-
-    process()->updateFilterInfo();
 
     const auto labels = process()->filterLabels();
     FilterPosCombo->addItems(labels);

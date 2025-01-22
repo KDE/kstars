@@ -577,21 +577,10 @@ class CameraProcess : public QObject
         void clearFlatCache();
 
         /**
-         * @brief updateTelescopeInfo Update the scope information in the camera's
-         * INDI driver.
-         */
-        void updateTelescopeInfo();
-
-        /**
-         * @brief updateFilterInfo Update the filter information in the INDI
-         * drivers of the current camera and dust cap
-         */
-        void updateFilterInfo();
-
-        /**
          * @brief updateFITSViewer display new image in the configured FITSViewer tab.
          */
-        void updateFITSViewer(const QSharedPointer<FITSData> data, const FITSMode &captureMode, const FITSScale &captureFilter, const QString &filename, const QString &deviceName);
+        void updateFITSViewer(const QSharedPointer<FITSData> data, const FITSMode &captureMode, const FITSScale &captureFilter,
+                              const QString &filename, const QString &deviceName);
         void updateFITSViewer(const QSharedPointer<FITSData> data, ISD::CameraChip *tChip, const QString &filename);
 
         // ////////////////////////////////////////////////////////////////////
