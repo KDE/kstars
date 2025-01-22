@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-21 01:51+0000\n"
+"POT-Creation-Date: 2025-01-22 01:51+0000\n"
 "PO-Revision-Date: 2024-11-28 20:16+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -546,7 +546,7 @@ msgstr "Не"
 #: dialogs/catalogdetails.cpp:213 dialogs/catalogsdbui.cpp:153
 #: dialogs/catalogsdbui.cpp:189 dialogs/catalogsdbui.cpp:210
 #: dialogs/catalogsdbui.cpp:230 dialogs/catalogsdbui.cpp:248
-#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:806
+#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:805
 #, kde-format
 msgid "Warning"
 msgstr "Предупреждение"
@@ -9846,13 +9846,13 @@ msgstr "Първото завъртане на монтажа е завърше�
 msgid "Mount second rotation is complete."
 msgstr "Второто завъртане на монтажа е завършено."
 
-#: ekos/align/polaralignmentassistant.cpp:671
+#: ekos/align/polaralignmentassistant.cpp:670
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
 msgstr ""
 "Монтирането е прекъснато. Обърнете посоката на оста RA и опитайте отново."
 
-#: ekos/align/polaralignmentassistant.cpp:760
+#: ekos/align/polaralignmentassistant.cpp:759
 #, kde-format
 msgid ""
 "Warning: Equatorial Grid Lines will not be drawn due to limited resources "
@@ -9861,39 +9861,39 @@ msgstr ""
 "Предупреждение: Линиите на екваториалната мрежа няма да бъдат изчертани "
 "поради зададения режим на ограничени ресурси."
 
-#: ekos/align/polaralignmentassistant.cpp:764
+#: ekos/align/polaralignmentassistant.cpp:763
 #, kde-format
 msgid "Clearing mount Alignment Model..."
 msgstr "Изчистване на модела за подравняване на монтажа..."
 
-#: ekos/align/polaralignmentassistant.cpp:805
+#: ekos/align/polaralignmentassistant.cpp:804
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Това може да накара телескопа да пресече меридиана."
 
-#: ekos/align/polaralignmentassistant.cpp:855
+#: ekos/align/polaralignmentassistant.cpp:854
 #, kde-format
 msgid "Parking the mount..."
 msgstr "Паркиране на монтировката..."
 
-#: ekos/align/polaralignmentassistant.cpp:898
+#: ekos/align/polaralignmentassistant.cpp:897
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr ""
 "Моля, изчакайте, докато монтировката завърши завъртането към RA (%1) DE (%2)"
 
-#: ekos/align/polaralignmentassistant.cpp:914
-#: ekos/align/polaralignmentassistant.cpp:920
+#: ekos/align/polaralignmentassistant.cpp:913
+#: ekos/align/polaralignmentassistant.cpp:919
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "PAA: Неуспешно намиране на коригиран пиксел."
 
-#: ekos/align/polaralignmentassistant.cpp:946
+#: ekos/align/polaralignmentassistant.cpp:945
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "PAA: Неуспешно намиране на центъра на RA ос."
 
-#: ekos/align/polaralignmentassistant.cpp:1017
+#: ekos/align/polaralignmentassistant.cpp:1016
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
@@ -9903,17 +9903,17 @@ msgstr ""
 "фазата на опресняване, тъй като това може да повлияе на грешките при "
 "измерванията."
 
-#: ekos/align/polaralignmentassistant.cpp:1034
+#: ekos/align/polaralignmentassistant.cpp:1033
 #, kde-format
 msgid "First manual rotation done."
 msgstr "Извършено е първо ръчно завъртане."
 
-#: ekos/align/polaralignmentassistant.cpp:1039
+#: ekos/align/polaralignmentassistant.cpp:1038
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "Извършено е второ ръчно завъртане."
 
-#: ekos/align/polaralignmentassistant.cpp:1084
+#: ekos/align/polaralignmentassistant.cpp:1083
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9922,34 +9922,34 @@ msgstr ""
 "Монтировката е синхронизирана с небесния полюс. Сега можете да продължите "
 "процедурата на помощника за полярно подравняване."
 
-#: ekos/align/polaralignmentassistant.cpp:1103
+#: ekos/align/polaralignmentassistant.cpp:1102
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Моля, изчакайте, докато WCS данните се обработят..."
 
-#: ekos/align/polaralignmentassistant.cpp:1134
+#: ekos/align/polaralignmentassistant.cpp:1133
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "Обработката на WCS данни е завършена."
 
-#: ekos/align/polaralignmentassistant.cpp:1143
+#: ekos/align/polaralignmentassistant.cpp:1142
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr "Информацията за WCS вече е валидна. Заснемане на следващия кадър..."
 
-#: ekos/align/polaralignmentassistant.cpp:1185
+#: ekos/align/polaralignmentassistant.cpp:1184
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
 "Неуспешна обработка на световната координатна система: %1. Опитайте пак."
 
-#: ekos/align/polaralignmentassistant.cpp:1203
+#: ekos/align/polaralignmentassistant.cpp:1202
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: Неуспешно намиране на оста RA. Отказване."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1234
+#: ekos/align/polaralignmentassistant.cpp:1233
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9959,52 +9959,52 @@ msgstr ""
 "<p>Асистентът изисква три изображения, за да намери решение. Ekos вече "
 "заснема първото изображение...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1236
+#: ekos/align/polaralignmentassistant.cpp:1235
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "<p>Решаване на  <i>първото</i>изображение...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1238
+#: ekos/align/polaralignmentassistant.cpp:1237
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "<p>Изпълнява се <i>първото</i> завъртане на монтировката...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1240
+#: ekos/align/polaralignmentassistant.cpp:1239
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr "<p>Стабилизиране след <i>първата</i> ротация на монтировката...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1242
+#: ekos/align/polaralignmentassistant.cpp:1241
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "<p>Стабилизиране след <i>втората</i> ротация на монтировката...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1244
+#: ekos/align/polaralignmentassistant.cpp:1243
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>Заснемане на второто изображение...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1246
+#: ekos/align/polaralignmentassistant.cpp:1245
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "<p>Решаване на <i>второто</i> изображение...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1248
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>Изпълнение на <i>втората</i> ротация на монтировката...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1250
+#: ekos/align/polaralignmentassistant.cpp:1249
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>Заснемане на <i>третото</i> и окончателно изображение...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1252
+#: ekos/align/polaralignmentassistant.cpp:1251
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "<p>Решаване на <i>третото</i> изображение...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1255
+#: ekos/align/polaralignmentassistant.cpp:1254
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
@@ -10013,7 +10013,7 @@ msgstr ""
 "<p>Изберете времето за експозиция и изберете метод за настройка. След това "
 "щракнете върху <i>опресняване</i>, за да започнете корекциите.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1257
+#: ekos/align/polaralignmentassistant.cpp:1256
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -10027,7 +10027,7 @@ msgstr ""
 "репозицията на вектора за корекция. Използвайте метода <i>MoveStar & Calc "
 "Error</i> за оценка на оставащата грешка.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1260
+#: ekos/align/polaralignmentassistant.cpp:1259
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -10041,7 +10041,7 @@ msgstr ""
 "използването на резултатите след 2 изображения.  Щракнете върху <i>Стоп</i>, "
 "когато приключите.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1262
+#: ekos/align/polaralignmentassistant.cpp:1261
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -10055,7 +10055,7 @@ msgstr ""
 "центрира в кръстосания мерник.</p><p>Щракнете върху <i>Стоп</i> когато "
 "звездата е центрирана.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1278
+#: ekos/align/polaralignmentassistant.cpp:1277
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""

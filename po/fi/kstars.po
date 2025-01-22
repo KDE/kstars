@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-21 01:51+0000\n"
+"POT-Creation-Date: 2025-01-22 01:51+0000\n"
 "PO-Revision-Date: 2024-11-21 20:29+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -580,7 +580,7 @@ msgstr "Ei"
 #: dialogs/catalogdetails.cpp:213 dialogs/catalogsdbui.cpp:153
 #: dialogs/catalogsdbui.cpp:189 dialogs/catalogsdbui.cpp:210
 #: dialogs/catalogsdbui.cpp:230 dialogs/catalogsdbui.cpp:248
-#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:806
+#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:805
 #, kde-format
 msgid "Warning"
 msgstr "Varoitus"
@@ -9865,109 +9865,109 @@ msgstr "Caliente"
 msgid "Mount second rotation is complete."
 msgstr "Caliente"
 
-#: ekos/align/polaralignmentassistant.cpp:671
+#: ekos/align/polaralignmentassistant.cpp:670
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:760
+#: ekos/align/polaralignmentassistant.cpp:759
 #, kde-format
 msgid ""
 "Warning: Equatorial Grid Lines will not be drawn due to limited resources "
 "mode."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:764
+#: ekos/align/polaralignmentassistant.cpp:763
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Farmington"
 msgid "Clearing mount Alignment Model..."
 msgstr "Farmington"
 
-#: ekos/align/polaralignmentassistant.cpp:805
+#: ekos/align/polaralignmentassistant.cpp:804
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:855
+#: ekos/align/polaralignmentassistant.cpp:854
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking the mount..."
 msgstr "Radioteleskooppi"
 
-#: ekos/align/polaralignmentassistant.cpp:898
+#: ekos/align/polaralignmentassistant.cpp:897
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:914
-#: ekos/align/polaralignmentassistant.cpp:920
+#: ekos/align/polaralignmentassistant.cpp:913
+#: ekos/align/polaralignmentassistant.cpp:919
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "Kuvan lataus epäonnistui"
 
-#: ekos/align/polaralignmentassistant.cpp:946
+#: ekos/align/polaralignmentassistant.cpp:945
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "PAA: Failed to find RA Axis center."
 msgstr "Kuvan lataus epäonnistui"
 
-#: ekos/align/polaralignmentassistant.cpp:1017
+#: ekos/align/polaralignmentassistant.cpp:1016
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1034
+#: ekos/align/polaralignmentassistant.cpp:1033
 #, fuzzy, kde-format
 msgid "First manual rotation done."
 msgstr "Poiston varmistus"
 
-#: ekos/align/polaralignmentassistant.cpp:1039
+#: ekos/align/polaralignmentassistant.cpp:1038
 #, fuzzy, kde-format
 msgid "Second manual rotation done."
 msgstr "epsilon"
 
-#: ekos/align/polaralignmentassistant.cpp:1084
+#: ekos/align/polaralignmentassistant.cpp:1083
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1103
+#: ekos/align/polaralignmentassistant.cpp:1102
 #, fuzzy, kde-format
 #| msgid "Please wait while KStars tries to connect to your telescope..."
 msgid "Please wait while WCS data is processed..."
 msgstr "Odota kun KStars yrittää saada yhteyden kaukoputkeesi…"
 
-#: ekos/align/polaralignmentassistant.cpp:1134
+#: ekos/align/polaralignmentassistant.cpp:1133
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "WCS data processing is complete."
 msgstr "%1 on kytketty."
 
-#: ekos/align/polaralignmentassistant.cpp:1143
+#: ekos/align/polaralignmentassistant.cpp:1142
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1185
+#: ekos/align/polaralignmentassistant.cpp:1184
 #, fuzzy, kde-format
 #| msgid "Date && Location"
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr "Päivämäärä && sijainti"
 
-#: ekos/align/polaralignmentassistant.cpp:1203
+#: ekos/align/polaralignmentassistant.cpp:1202
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "Kuvan lataus epäonnistui"
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1234
+#: ekos/align/polaralignmentassistant.cpp:1233
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9975,67 +9975,67 @@ msgid ""
 "capturing the first image...</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1236
+#: ekos/align/polaralignmentassistant.cpp:1235
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "Ladataan kuvia..."
 
-#: ekos/align/polaralignmentassistant.cpp:1238
+#: ekos/align/polaralignmentassistant.cpp:1237
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "Ladataan kuvia..."
 
-#: ekos/align/polaralignmentassistant.cpp:1240
+#: ekos/align/polaralignmentassistant.cpp:1239
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1242
+#: ekos/align/polaralignmentassistant.cpp:1241
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr "Ladataan kuvia..."
 
-#: ekos/align/polaralignmentassistant.cpp:1244
+#: ekos/align/polaralignmentassistant.cpp:1243
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Capturing the second image...</p>"
 msgstr "Ladataan kuvia..."
 
-#: ekos/align/polaralignmentassistant.cpp:1246
+#: ekos/align/polaralignmentassistant.cpp:1245
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "Ladataan kuvia..."
 
-#: ekos/align/polaralignmentassistant.cpp:1248
+#: ekos/align/polaralignmentassistant.cpp:1247
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "Ladataan kuvia..."
 
-#: ekos/align/polaralignmentassistant.cpp:1250
+#: ekos/align/polaralignmentassistant.cpp:1249
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "Ladataan kuvia..."
 
-#: ekos/align/polaralignmentassistant.cpp:1252
+#: ekos/align/polaralignmentassistant.cpp:1251
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "Ladataan kuvia..."
 
-#: ekos/align/polaralignmentassistant.cpp:1255
+#: ekos/align/polaralignmentassistant.cpp:1254
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1257
+#: ekos/align/polaralignmentassistant.cpp:1256
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -10044,7 +10044,7 @@ msgid ""
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1260
+#: ekos/align/polaralignmentassistant.cpp:1259
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -10053,7 +10053,7 @@ msgid ""
 "you're finished.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1262
+#: ekos/align/polaralignmentassistant.cpp:1261
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -10062,7 +10062,7 @@ msgid ""
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
 
-#: ekos/align/polaralignmentassistant.cpp:1278
+#: ekos/align/polaralignmentassistant.cpp:1277
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
