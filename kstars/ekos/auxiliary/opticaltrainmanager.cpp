@@ -609,6 +609,9 @@ bool OpticalTrainManager::removeOpticalTrain(const QString &name)
 bool OpticalTrainManager::syncDelegatesToDevices()
 {
     auto changed = false;
+    // Must block signals otherwise all the combo boxes will fire signals that should not be processed.
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        oneWidget->blockSignals(true);
 
     // Mounts
     auto mounts = INDIListener::devicesByInterface(INDI::BaseDevice::TELESCOPE_INTERFACE);
@@ -714,6 +717,10 @@ bool OpticalTrainManager::syncDelegatesToDevices()
     guiderComboBox->clear();
     guiderComboBox->addItems(QStringList() << "--" << values);
     guiderComboBox->setCurrentText(currentGuider);
+
+    // Restore all signals
+    for (auto &oneWidget : findChildren<QComboBox*>())
+        oneWidget->blockSignals(false);
 
     return changed;
 }
