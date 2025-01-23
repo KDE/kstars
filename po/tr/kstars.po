@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-22 01:51+0000\n"
+"POT-Creation-Date: 2025-01-23 01:49+0000\n"
 "PO-Revision-Date: 2025-01-21 10:36+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -422,7 +422,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1293
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1290
 #: ekos/scheduler/scheduler.cpp:2058
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2666,7 +2666,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3965
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
-#: ekos/capture/camera.cpp:1247 ekos/capture/camera.cpp:1302
+#: ekos/capture/camera.cpp:1244 ekos/capture/camera.cpp:1299
 #: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1958
 #: ekos/scheduler/scheduler.cpp:2068 fitsviewer/fitstab.cpp:1013
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -2963,7 +2963,7 @@ msgstr "Tür Eşlemleme"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
-#: ekos/capture/cameraprocess.cpp:2507 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2440 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -3857,7 +3857,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1797 ekos/capture/camera.cpp:1837
+#: ekos/capture/camera.cpp:1774 ekos/capture/camera.cpp:1814
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:454 ekos/guide/guide.cpp:700 ekos/guide/guide.ui:569
@@ -6274,8 +6274,8 @@ msgstr ""
 msgid "Error: lost connection to filter wheel."
 msgstr "Hata: Süzgeç tekerleğine olan bağlantı kesildi."
 
-#: ekos/align/align.cpp:1506 ekos/capture/cameraprocess.cpp:220
-#: ekos/capture/cameraprocess.cpp:640 ekos/focus/focus.cpp:5510
+#: ekos/align/align.cpp:1506 ekos/capture/cameraprocess.cpp:213
+#: ekos/capture/cameraprocess.cpp:633 ekos/focus/focus.cpp:5510
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6585,8 +6585,8 @@ msgstr "Dünya Koordinat Sistemi (WCS) devre dışı."
 msgid "Capture error. Aborting..."
 msgstr "Yakalama hatası. İptal ediliyor…"
 
-#: ekos/align/align.cpp:3301 ekos/capture/cameraprocess.cpp:1623
-#: ekos/capture/cameraprocess.cpp:2185
+#: ekos/align/align.cpp:3301 ekos/capture/cameraprocess.cpp:1616
+#: ekos/capture/cameraprocess.cpp:2175
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "№%1. yakalama denemesi yeniden başlatılıyor"
@@ -6633,24 +6633,24 @@ msgstr "dRA (yaydak)"
 msgid "dDE (arcsec)"
 msgstr "dDE (yaysan)"
 
-#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3441
+#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3418
 #: ekos/focus/focus.cpp:5397
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Süzme işlemi başarısız oldu."
 
-#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3942
+#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3916
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Odak ofseti %1 adım kadar değiştiriliyor…"
 
 #: ekos/align/align.cpp:3667 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3947
+#: ekos/capture/camera.cpp:3921
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Süzgeç %1 olarak değiştiriliyor…"
 
-#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3952
+#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3926
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Süzgeç değişikliğinde kendiliğinden odaklanıyor…"
@@ -6667,8 +6667,8 @@ msgid "Export Solution Points"
 msgstr "Çözüm Noktalarını Dışa Aktar"
 
 #: ekos/align/align.cpp:3964 ekos/align/mountmodel.cpp:266
-#: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1246
-#: ekos/capture/camera.cpp:1301 ekos/guide/guidedriftgraph.cpp:478
+#: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1243
+#: ekos/capture/camera.cpp:1298 ekos/guide/guidedriftgraph.cpp:478
 #: ekos/scheduler/scheduler.cpp:1957 ekos/scheduler/scheduler.cpp:2067
 #: fitsviewer/fitstab.cpp:1012 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6685,8 +6685,8 @@ msgid "Unable to write to file %1"
 msgstr "%1 dosyasına yazılamadı."
 
 #: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2959
-#: ekos/capture/cameraprocess.cpp:2652 ekos/capture/sequencequeue.cpp:33
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2936
+#: ekos/capture/cameraprocess.cpp:2585 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:2978
 #: ekos/scheduler/schedulerprocess.cpp:3324
 #: ekos/scheduler/schedulerprocess.cpp:4649
@@ -7337,8 +7337,8 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Ekos Hizalama Listesini Aç"
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2958
-#: ekos/capture/cameraprocess.cpp:2651 ekos/capture/sequencequeue.cpp:32
+#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2935
+#: ekos/capture/cameraprocess.cpp:2584 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3323
 #: ekos/scheduler/schedulerprocess.cpp:4668
 #, kde-format
@@ -11950,7 +11950,7 @@ msgstr "4 × 4"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
-#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.cpp:1061
+#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.cpp:1058
 #: ekos/capture/camera.ui:1686 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
@@ -12489,7 +12489,7 @@ msgstr "Süzgeç değiştiriliyor…"
 msgid "Aligning..."
 msgstr "Hizalanıyor…"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:851
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:848
 #, kde-format
 msgid "Calibrating..."
 msgstr "Kalibre ediliyor…"
@@ -12874,7 +12874,7 @@ msgstr "İkincil"
 msgid "Tertiary"
 msgstr "Üçüncül"
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1237
+#: ekos/auxiliary/opticaltrainmanager.cpp:1244
 #, kde-format
 msgid ""
 "Missing device detected (%1). Please reconfigure the optical trains before "
@@ -12883,7 +12883,7 @@ msgstr ""
 "Eksik aygıt algılandı (%1). Daha ileri gitmeden önce lütfen optik katarları "
 "yeniden yapılandırın."
 
-#: ekos/auxiliary/opticaltrainmanager.cpp:1244
+#: ekos/auxiliary/opticaltrainmanager.cpp:1251
 #, kde-format
 msgid ""
 "Missing devices detected (%1). Please reconfigure the optical trains before "
@@ -14427,12 +14427,12 @@ msgstr "san"
 msgid "frames"
 msgstr "kare"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4067
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4041
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "İşi sekans kuyruğuna ekle"
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4068
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4042
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "İşi sekans kuyruğundan kaldır"
@@ -14462,7 +14462,7 @@ msgstr "%1 × %2 saniyelik %3 video yakalanıyor…"
 msgid "Capturing %1-second %2 image..."
 msgstr "%1 saniyelik %2 görseli yakalanıyor…"
 
-#: ekos/capture/camera.cpp:905
+#: ekos/capture/camera.cpp:902
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
@@ -14471,7 +14471,7 @@ msgstr ""
 "Uyarı: Sıralı odaklama seçildi; ancak kendiliğinden odaklama işlemi "
 "başlatılmadı."
 
-#: ekos/capture/camera.cpp:908
+#: ekos/capture/camera.cpp:905
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
@@ -14480,35 +14480,35 @@ msgstr ""
 "Uyarı: Sıcaklık farkı denetimi seçildi; ancak kendiliğinden odaklama işlemi "
 "başlatılmadı."
 
-#: ekos/capture/camera.cpp:943
+#: ekos/capture/camera.cpp:940
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
 msgstr[0] "1 karanlık düzler işi oluşturuldu."
 msgstr[1] "%1 karanlık düzler işi oluşturuldu."
 
-#: ekos/capture/camera.cpp:988
+#: ekos/capture/camera.cpp:985
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "№%1. iş değişiklikleri uygulandı."
 
-#: ekos/capture/camera.cpp:1001
+#: ekos/capture/camera.cpp:998
 #, kde-format
 msgid "Framing..."
 msgstr "Kareleniyor…"
 
-#: ekos/capture/camera.cpp:1012
+#: ekos/capture/camera.cpp:1009
 #, kde-format
 msgid "Captured image received"
 msgstr "Yakalanan görsel alındı"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:1030 ekos/capture/camera.ui:2679
+#: ekos/capture/camera.cpp:1027 ekos/capture/camera.ui:2679
 #, kde-format
 msgid "Expose (-/-):"
 msgstr "Pozlama (−/−):"
 
-#: ekos/capture/camera.cpp:1060
+#: ekos/capture/camera.cpp:1057
 #, kde-format
 msgid "Duration of the video sequence"
 msgstr "Video sekansının süresi"
@@ -14516,144 +14516,144 @@ msgstr "Video sekansının süresi"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera.cpp:1060 ekos/capture/limits.ui:108
+#: ekos/capture/camera.cpp:1057 ekos/capture/limits.ui:108
 #: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "Yakalanacak görsel sayısı"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera.cpp:1061 indi/recordingoptions.ui:40
+#: ekos/capture/camera.cpp:1058 indi/recordingoptions.ui:40
 #, kde-format
 msgid "Duration:"
 msgstr "Süre:"
 
-#: ekos/capture/camera.cpp:1062
+#: ekos/capture/camera.cpp:1059
 #, kde-format
 msgid "Exposure time in seconds of a single video frame"
 msgstr "Tek bir video karesinin saniye türünden pozlama zamanı"
 
-#: ekos/capture/camera.cpp:1063
+#: ekos/capture/camera.cpp:1060
 #, kde-format
 msgid "Exposure time in seconds for individual images"
 msgstr "Tekil görseller için saniye türünden pozlama zamanı"
 
-#: ekos/capture/camera.cpp:1078
+#: ekos/capture/camera.cpp:1075
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Sekansı Durdur"
 
-#: ekos/capture/camera.cpp:1084
+#: ekos/capture/camera.cpp:1081
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Sekansı Sürdür"
 
-#: ekos/capture/camera.cpp:1115
+#: ekos/capture/camera.cpp:1112
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Sıcaklık %1 °C olarak ayarlanıyor…"
 
-#: ekos/capture/camera.cpp:1116
+#: ekos/capture/camera.cpp:1113
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Sıcaklığı %1 °C Olarak Ayarla…"
 
-#: ekos/capture/camera.cpp:1120
+#: ekos/capture/camera.cpp:1117
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Kılavuzun %1” altına kayması bekleniyor…"
 
-#: ekos/capture/camera.cpp:1121
+#: ekos/capture/camera.cpp:1118
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "Kılavuzun %1” Altında Olmasını Bekle…"
 
-#: ekos/capture/camera.cpp:1125
+#: ekos/capture/camera.cpp:1122
 #, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Kamera, doğunun %1 derece kuzeyine ayarlanıyor…"
 
-#: ekos/capture/camera.cpp:1126
+#: ekos/capture/camera.cpp:1123
 #, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "Kamerayı %1 Dereceye Ayarla…"
 
-#: ekos/capture/camera.cpp:1238
+#: ekos/capture/camera.cpp:1235
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Ekos Sekansı Kuyruğunu Aç"
 
-#: ekos/capture/camera.cpp:1271
+#: ekos/capture/camera.cpp:1268
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Ekos Sekansı Kuyruğunu Kaydet"
 
-#: ekos/capture/camera.cpp:1293
+#: ekos/capture/camera.cpp:1290
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Sekans kuyruğu kaydedilemedi"
 
-#: ekos/capture/camera.cpp:1350 ekos/capture/camera.cpp:2436
+#: ekos/capture/camera.cpp:1347 ekos/capture/camera.cpp:2413
 #, kde-format
 msgid "Dark Flat"
 msgstr "Karanlık Düz"
 
-#: ekos/capture/camera.cpp:2099 ekos/scheduler/framingassistant.cpp:220
+#: ekos/capture/camera.cpp:2076 ekos/scheduler/framingassistant.cpp:220
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "FITS Kayıt Dizini"
 
-#: ekos/capture/camera.cpp:2212
+#: ekos/capture/camera.cpp:2189
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "%1 yapılandırması öntanımlılara sıfırlansın mı?"
 
-#: ekos/capture/camera.cpp:2214
+#: ekos/capture/camera.cpp:2191
 #, kde-format
 msgid "Confirmation"
 msgstr "Onay"
 
-#: ekos/capture/camera.cpp:2413
+#: ekos/capture/camera.cpp:2390
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
 "Yerel veya uzak dizini hem uzak hem de her iki kip için ayarlamalısınız."
 
-#: ekos/capture/camera.cpp:2419
+#: ekos/capture/camera.cpp:2396
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr "Yerel dizini hem yerel hem de her iki kip için ayarlamalısınız."
 
-#: ekos/capture/camera.cpp:3604
+#: ekos/capture/camera.cpp:3578
 #, kde-format
 msgid "Paused..."
 msgstr "Duraklatıldı…"
 
-#: ekos/capture/camera.cpp:3609
+#: ekos/capture/camera.cpp:3583
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Meridyen Geçişi…"
 
-#: ekos/capture/camera.cpp:3610
+#: ekos/capture/camera.cpp:3584
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Meridyen geçişi başladı"
 
-#: ekos/capture/camera.cpp:3614
+#: ekos/capture/camera.cpp:3588
 #, kde-format
 msgid "Flip complete."
 msgstr "Döndürme tamamlandı."
 
-#: ekos/capture/camera.cpp:3674
+#: ekos/capture/camera.cpp:3648
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Rampa (°C/en düşük):"
 
-#: ekos/capture/camera.cpp:3680
+#: ekos/capture/camera.cpp:3654
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14664,13 +14664,13 @@ msgstr ""
 "sıcaklık değişimi. Devre dışı bırakmak için sıfıra ayarlayın.<p>Bu ayar INDI "
 "kamera sürücüsü yapılandırmasından okunur ve burada depolanır.</body></html>"
 
-#: ekos/capture/camera.cpp:3685
+#: ekos/capture/camera.cpp:3659
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Eşik (°C):"
 
-#: ekos/capture/camera.cpp:3691
+#: ekos/capture/camera.cpp:3665
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14681,70 +14681,70 @@ msgstr ""
 "en yüksek fark.<p>Bu ayar, INDI kamera sürücüsü yapılandırmasından okunur ve "
 "burada depolanır.</body></html>"
 
-#: ekos/capture/camera.cpp:3704
+#: ekos/capture/camera.cpp:3678
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Sıcaklık Regülasyonunu Ayarla"
 
-#: ekos/capture/camera.cpp:3744
+#: ekos/capture/camera.cpp:3718
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Geçerli Gözlemciyi Seç"
 
-#: ekos/capture/camera.cpp:3746
+#: ekos/capture/camera.cpp:3720
 #, kde-format
 msgid "Current Observer:"
 msgstr "Geçerli gözlemci:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3757 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3731 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Gözlemcileri Yönet"
 
-#: ekos/capture/camera.cpp:3929
+#: ekos/capture/camera.cpp:3903
 #, kde-format
 msgid "Cooler is on"
 msgstr "Soğutucu açık"
 
-#: ekos/capture/camera.cpp:3929
+#: ekos/capture/camera.cpp:3903
 #, kde-format
 msgid "Cooler is off"
 msgstr "Soğutucu kapalı"
 
-#: ekos/capture/camera.cpp:3959
+#: ekos/capture/camera.cpp:3933
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Süzgeç %1 olarak ayarlandı."
 
-#: ekos/capture/camera.cpp:3992
+#: ekos/capture/camera.cpp:3966
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Tüm işlerin durumunu sıfırlamak istediğinizden emin misiniz?"
 
-#: ekos/capture/camera.cpp:3992 ekos/capture/cameraprocess.cpp:2772
+#: ekos/capture/camera.cpp:3966 ekos/capture/cameraprocess.cpp:2705
 #, kde-format
 msgid "Reset job status"
 msgstr "İş durumunu sıfırla"
 
-#: ekos/capture/camera.cpp:4045
+#: ekos/capture/camera.cpp:4019
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "№%1. iş düzenleniyor…"
 
-#: ekos/capture/camera.cpp:4048 ekos/scheduler/scheduler.cpp:1303
+#: ekos/capture/camera.cpp:4022 ekos/scheduler/scheduler.cpp:1303
 #, kde-format
 msgid "Apply job changes."
 msgstr "İş değişikliklerini uygulayın."
 
-#: ekos/capture/camera.cpp:4049
+#: ekos/capture/camera.cpp:4023
 #, kde-format
 msgid "Cancel job changes."
 msgstr "İş değişikliklerini iptal edin."
 
-#: ekos/capture/camera.cpp:4062
+#: ekos/capture/camera.cpp:4036
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Düzenleme işi iptal edildi."
@@ -14968,7 +14968,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Karanlık ve düz karelerin kendiliğinden kalibrasyon seçenekleri"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1165 ekos/capture/cameraprocess.cpp:2520
+#: ekos/capture/camera.ui:1165 ekos/capture/cameraprocess.cpp:2453
 #: ekos/guide/guide.cpp:70
 #, kde-format
 msgid "Calibration"
@@ -15612,86 +15612,86 @@ msgstr "Yeni bir sekans dosyasına kaydet"
 msgid "Save As..."
 msgstr "Farklı Kaydet…"
 
-#: ekos/capture/cameraprocess.cpp:221 ekos/capture/cameraprocess.cpp:641
+#: ekos/capture/cameraprocess.cpp:214 ekos/capture/cameraprocess.cpp:634
 #, kde-format
 msgid "Image Transfer"
 msgstr "Görsel Aktarımı"
 
-#: ekos/capture/cameraprocess.cpp:242
+#: ekos/capture/cameraprocess.cpp:235
 #, kde-format
 msgid "Sequence resumed."
 msgstr "Sekans sürdürüldü."
 
-#: ekos/capture/cameraprocess.cpp:278
+#: ekos/capture/cameraprocess.cpp:271
 #, kde-format
 msgid "No pending jobs found. Please add a job to the sequence queue."
 msgstr "Bekleyen iş yok. Lütfen sekans kuyruğuna bir iş ekleyin."
 
-#: ekos/capture/cameraprocess.cpp:292
+#: ekos/capture/cameraprocess.cpp:285
 #, kde-format
 msgid "No new job created."
 msgstr "Oluşturulan yeni iş yok."
 
-#: ekos/capture/cameraprocess.cpp:315 ekos/capture/cameraprocess.cpp:891
+#: ekos/capture/cameraprocess.cpp:308 ekos/capture/cameraprocess.cpp:884
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "Oda modülü meşgulken yakalama yapılamıyor."
 
-#: ekos/capture/cameraprocess.cpp:322
+#: ekos/capture/cameraprocess.cpp:315
 #, kde-format
 msgid "Starting framing..."
 msgstr "Kareleme başlatılıyor…"
 
-#: ekos/capture/cameraprocess.cpp:354
+#: ekos/capture/cameraprocess.cpp:347
 #, kde-format
 msgid "CCD capture suspended"
 msgstr "CCD yakalaması askıya alındı"
 
-#: ekos/capture/cameraprocess.cpp:359
+#: ekos/capture/cameraprocess.cpp:352
 #, kde-format
 msgid "CCD capture complete"
 msgstr "CCD yakalaması tamamlandı"
 
-#: ekos/capture/cameraprocess.cpp:364
+#: ekos/capture/cameraprocess.cpp:357
 #, kde-format
 msgid "Framing stopped"
 msgstr "Kareleme durduruldu"
 
-#: ekos/capture/cameraprocess.cpp:364 ekos/capture/cameraprocess.cpp:369
+#: ekos/capture/cameraprocess.cpp:357 ekos/capture/cameraprocess.cpp:362
 #, kde-format
 msgid "CCD capture stopped"
 msgstr "CCD yakalaması durduruldu"
 
-#: ekos/capture/cameraprocess.cpp:449
+#: ekos/capture/cameraprocess.cpp:442
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr "Yalnızca kare yakalaması sürerken duraklatma yapılabilir."
 
-#: ekos/capture/cameraprocess.cpp:456
+#: ekos/capture/cameraprocess.cpp:449
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr "Geçerli pozlama tamamlandıktan sonra sekans duraklatılacaktır."
 
-#: ekos/capture/cameraprocess.cpp:469
+#: ekos/capture/cameraprocess.cpp:462
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
 "Algılanan kamera yok. Katar yapılandırmasını ve bağlantı ayarlarını "
 "denetleyin."
 
-#: ekos/capture/cameraprocess.cpp:494
+#: ekos/capture/cameraprocess.cpp:487
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 "Önizlemeler için kullanılabilir görünüm yok. FITS Görüntüleyicisi "
 "etkinleştirilsin mi?"
 
-#: ekos/capture/cameraprocess.cpp:495
+#: ekos/capture/cameraprocess.cpp:488
 #, kde-format
 msgid "Display preview"
 msgstr "Önizlemeyi Görüntüle"
 
-#: ekos/capture/cameraprocess.cpp:579
+#: ekos/capture/cameraprocess.cpp:572
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
@@ -15700,7 +15700,7 @@ msgstr ""
 "İş %1 saniyelik %2 görsel gerektiriyor, halihazırda %3/%4 yakalama var ve "
 "çalıştırılmasına gerek yok."
 
-#: ekos/capture/cameraprocess.cpp:594
+#: ekos/capture/cameraprocess.cpp:587
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
@@ -15709,32 +15709,32 @@ msgstr ""
 "İş, %1 saniyelik %2 görsel gerektiriyor, yakalanmış %3/%4 kare var ve "
 "işlenecek."
 
-#: ekos/capture/cameraprocess.cpp:607
+#: ekos/capture/cameraprocess.cpp:600
 #, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr "İş, %1 × %2 saniyelik %3 video gerektiriyor ve işlenecek."
 
-#: ekos/capture/cameraprocess.cpp:837
+#: ekos/capture/cameraprocess.cpp:830
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Kendiliğinden kılavuzluk sürdürüldü."
 
-#: ekos/capture/cameraprocess.cpp:881
+#: ekos/capture/cameraprocess.cpp:874
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Alt kare ayarlanamadı."
 
-#: ekos/capture/cameraprocess.cpp:886
+#: ekos/capture/cameraprocess.cpp:879
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Gruplama ayarlanamadı."
 
-#: ekos/capture/cameraprocess.cpp:1046
+#: ekos/capture/cameraprocess.cpp:1039
 #, kde-format
 msgid "file saved to %1"
 msgstr "Dosya %1 konumuna kaydedildi"
 
-#: ekos/capture/cameraprocess.cpp:1056
+#: ekos/capture/cameraprocess.cpp:1049
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -15743,122 +15743,122 @@ msgstr ""
 "Görsel %1 konumuna yazılamadı\n"
 "Lütfen klasörü, dosya adını ve izinlerini denetleyin."
 
-#: ekos/capture/cameraprocess.cpp:1058
+#: ekos/capture/cameraprocess.cpp:1051
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Görsel Yazılamadı"
 
-#: ekos/capture/cameraprocess.cpp:1283
+#: ekos/capture/cameraprocess.cpp:1276
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Uzak görsel %1 konumuna kaydedildi"
 
-#: ekos/capture/cameraprocess.cpp:1309
+#: ekos/capture/cameraprocess.cpp:1302
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Kendiliğinden kılavuzluk askıya alındı."
 
-#: ekos/capture/cameraprocess.cpp:1339
+#: ekos/capture/cameraprocess.cpp:1332
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Uyarı: Kalibrasyon işlemi zamanından önce sonlandırıldı."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1405
+#: ekos/capture/cameraprocess.cpp:1398
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD yakalama sekansı tamamlandı"
 
-#: ekos/capture/cameraprocess.cpp:1462
+#: ekos/capture/cameraprocess.cpp:1455
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Hata: CCD bağlantısı kayboldu."
 
-#: ekos/capture/cameraprocess.cpp:1490
+#: ekos/capture/cameraprocess.cpp:1483
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "FITS olmayan görsellerde ADU düzeyleri hesaplanamıyor."
 
-#: ekos/capture/cameraprocess.cpp:1615 ekos/capture/cameraprocess.cpp:2177
+#: ekos/capture/cameraprocess.cpp:1608 ekos/capture/cameraprocess.cpp:2167
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr "Yakalama başarısız. Ayrıntılar için INDI Denetim Paneli’ne bakın."
 
-#: ekos/capture/cameraprocess.cpp:1715
+#: ekos/capture/cameraprocess.cpp:1708
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "İndirme zamanı: %1 sn, yeni indirme zamanı tahmini: %2 sn"
 
-#: ekos/capture/cameraprocess.cpp:1781
+#: ekos/capture/cameraprocess.cpp:1774
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "%1/%2 görsel alındı."
 
-#: ekos/capture/cameraprocess.cpp:1818
+#: ekos/capture/cameraprocess.cpp:1811
 #, kde-format
 msgid "Captured %1"
 msgstr "%1 yakalandı"
 
-#: ekos/capture/cameraprocess.cpp:1824
+#: ekos/capture/cameraprocess.cpp:1817
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "UYARI: %2 içinde kalmış ve potansiyel olarak bilinmeyen yer tutucular %1"
 
-#: ekos/capture/cameraprocess.cpp:1865
+#: ekos/capture/cameraprocess.cpp:1858
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Yakalama betiği %1 yürütülüyor"
 
-#: ekos/capture/cameraprocess.cpp:1880
+#: ekos/capture/cameraprocess.cpp:1873
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Yakalama öncesi betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:1891
+#: ekos/capture/cameraprocess.cpp:1884
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Yakalama sonrası betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:1903
+#: ekos/capture/cameraprocess.cpp:1896
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Meridyen geçişi işleniyor…"
 
-#: ekos/capture/cameraprocess.cpp:1913
+#: ekos/capture/cameraprocess.cpp:1906
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "İş öncesi betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:1918
+#: ekos/capture/cameraprocess.cpp:1911
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "İş sonrası betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:2107 ekos/focus/focus.cpp:5562
+#: ekos/capture/cameraprocess.cpp:2097 ekos/focus/focus.cpp:5562
 #: ekos/focus/focus.cpp:5586
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Pozlama zaman aşımı. İptal ediliyor…"
 
-#: ekos/capture/cameraprocess.cpp:2114
+#: ekos/capture/cameraprocess.cpp:2104
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Pozlama zaman aşımı. 3’ten fazlası algılandı, sürücü yeniden başlatılacak."
 
-#: ekos/capture/cameraprocess.cpp:2132 ekos/focus/focus.cpp:5567
+#: ekos/capture/cameraprocess.cpp:2122 ekos/focus/focus.cpp:5567
 #: ekos/guide/guide.cpp:997
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Pozlama zaman aşımı. Pozlama yeniden başlatılıyor…"
 
-#: ekos/capture/cameraprocess.cpp:2158
+#: ekos/capture/cameraprocess.cpp:2148
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Pozlama zaman aşımı. Çok fazla oldu. İptal ediliyor…"
 
-#: ekos/capture/cameraprocess.cpp:2236
+#: ekos/capture/cameraprocess.cpp:2226
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -15867,44 +15867,44 @@ msgstr ""
 "Düz kalibrasyonu başarısız oldu. ADU %2 istemesine rağmen yakalanan görsel "
 "yalnızca %1 bit."
 
-#: ekos/capture/cameraprocess.cpp:2247
+#: ekos/capture/cameraprocess.cpp:2237
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr "Geçerli görsel doymuş (%1). Sonraki pozlama %2 saniye içinde olacak."
 
-#: ekos/capture/cameraprocess.cpp:2269
+#: ekos/capture/cameraprocess.cpp:2259
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr "Geçerli ADU %1, ADU tolerans erimi içinde."
 
-#: ekos/capture/cameraprocess.cpp:2298
+#: ekos/capture/cameraprocess.cpp:2288
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
 "manually."
 msgstr "Eniyi pozlama ayarları hesaplanamıyor; lütfen düzleri elle yakalayın."
 
-#: ekos/capture/cameraprocess.cpp:2306
+#: ekos/capture/cameraprocess.cpp:2296
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Geçerli ADU %1. Sonraki pozlama %2 saniye içinde olacak."
 
-#: ekos/capture/cameraprocess.cpp:2504
+#: ekos/capture/cameraprocess.cpp:2437
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Önizlemesi"
 
-#: ekos/capture/cameraprocess.cpp:2515 ekos/capture/cameraprocess.cpp:2517
+#: ekos/capture/cameraprocess.cpp:2448 ekos/capture/cameraprocess.cpp:2450
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Düz Kalibrasyon"
 
-#: ekos/capture/cameraprocess.cpp:2721
+#: ekos/capture/cameraprocess.cpp:2654
 #, kde-format
 msgid "Sequence paused."
 msgstr "Sekans duraklatıldı."
 
-#: ekos/capture/cameraprocess.cpp:2771
+#: ekos/capture/cameraprocess.cpp:2704
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -15913,7 +15913,7 @@ msgstr ""
 "Tüm işler tamamlandı. Tüm işlerin durumunu sıfırlamak ve yakalamayı yeniden "
 "başlatmak istiyor musunuz?"
 
-#: ekos/capture/cameraprocess.cpp:2785
+#: ekos/capture/cameraprocess.cpp:2718
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -15922,17 +15922,17 @@ msgstr ""
 "Uyarı: “Başlarken sekansı her zaman sıfırla” etkin ve sekans sayısını "
 "sıfırlar."
 
-#: ekos/capture/cameraprocess.cpp:2915
+#: ekos/capture/cameraprocess.cpp:2848
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "%1 kamera sürücüsünü yeniden başlatmak istediğinizden emin misiniz?"
 
-#: ekos/capture/cameraprocess.cpp:2916
+#: ekos/capture/cameraprocess.cpp:2849
 #, kde-format
 msgid "Driver Restart"
 msgstr "Sürücüyü Yeniden Başlat"
 
-#: ekos/capture/cameraprocess.cpp:3063 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:2996 ekos/capture/sequencejobstate.cpp:41
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr "Yakalama işlemleri %1 saniyeden sonra zaman aşımına uğradı."
@@ -17604,7 +17604,7 @@ msgstr "Düz Kare"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Karanlık bir poz elde etmek için teleskopun üzerini örtün."
 
-#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:645
+#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:672
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Toz kapağı açılıyor…"
@@ -17614,53 +17614,53 @@ msgstr "Toz kapağı açılıyor…"
 msgid "Parking dust cap..."
 msgstr "Toz kapağı park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:527
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Işık kutusu ışığı açılıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:527
-#: ekos/capture/sequencejobstate.cpp:631
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:658
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Işık kutusu ışığı kapatılıyor…"
 
-#: ekos/capture/sequencejobstate.cpp:498
-#, kde-format
-msgid "Mount slewing to wall position (az =%1 alt =%2)"
-msgstr "Kaide, duvar konumuna çevriliyor (az =%1 yük = %2)…"
-
-#: ekos/capture/sequencejobstate.cpp:510
-#, kde-format
-msgid "Slew to wall position complete, stop tracking."
-msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
-
-#: ekos/capture/sequencejobstate.cpp:514
-#, kde-format
-msgid "Slew to wall position complete, tracking stopped."
-msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
-
-#: ekos/capture/sequencejobstate.cpp:545
+#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:572
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Kaideyi park başarısız oldu, iptal ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:525
+#, kde-format
+msgid "Mount slewing to wall position (az =%1 alt =%2)"
+msgstr "Kaide, duvar konumuna çevriliyor (az =%1 yük = %2)…"
+
+#: ekos/capture/sequencejobstate.cpp:537
+#, kde-format
+msgid "Slew to wall position complete, stop tracking."
+msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
+
+#: ekos/capture/sequencejobstate.cpp:541
+#, kde-format
+msgid "Slew to wall position complete, tracking stopped."
+msgstr "Duvar konumuna çevirme tamamlandı; izleme durduruldu."
+
+#: ekos/capture/sequencejobstate.cpp:581
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Kalibrasyon kareleri yakalama öncesinde kaide park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:573
+#: ekos/capture/sequencejobstate.cpp:600
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Kubbeyi park etme başarısız, iptal ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:583
+#: ekos/capture/sequencejobstate.cpp:610
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Kalibrasyon kareleri yakalama öncesinde kubbe park ediliyor…"
 
-#: ekos/capture/sequencejobstate.cpp:845
+#: ekos/capture/sequencejobstate.cpp:872
 #, kde-format
 msgid "Light box on."
 msgstr "Işık kutusu açık."
