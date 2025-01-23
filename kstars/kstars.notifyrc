@@ -950,6 +950,7 @@ Action=Sound
 [Event/SchedulerSleeping]
 Name=Scheduler Sleeping
 Name[ca]=El programador està en repòs
+Name[ca@valencia]=El programador està en repòs
 Name[es]=Planificador en reposo
 Name[nl]=Planner slaapt
 Name[sl]=Razporejevalnik v spanju
