@@ -1527,7 +1527,12 @@ void Camera::syncGUIToJob(SequenceJob * job)
         return;
     }
 
-    const auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
+    auto roi = job->getCoreProperty(SequenceJob::SJ_ROI).toRect();
+    // If ROI is not valid, use maximum resolution
+    if (roi.isNull() || !roi.isValid())
+    {
+        roi = QRect(captureFrameXN->minimum(), captureFrameYN->minimum(), captureFrameWN->maximum(), captureFrameHN->maximum());
+    }
 
     captureTypeS->setCurrentIndex(job->getFrameType());
     captureFormatS->setCurrentText(job->getCoreProperty(SequenceJob::SJ_Format).toString());
