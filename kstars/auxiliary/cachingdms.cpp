@@ -172,15 +172,31 @@ CachingDms &CachingDms::operator=(const CachingDms &o)
 // all, but only floating point multiplications and
 // addition/subtraction instead.
 // The only caveat is that error can accumulate if used repeatedly!
+// Due to FPE cosine tends to overshoot with very small angels, so
+// a special small angle approximation is used.
 
 CachingDms operator+(const CachingDms &a, const CachingDms &b)
 {
-    return CachingDms(a.Degrees() + b.Degrees(), sinA * cosB + cosA * sinB, cosA * cosB - sinA * sinB);
+    double SumD = a.Degrees() + b.Degrees();
+    if (std::fabs(SumD) < 1)
+    {   // Small angle approximation: sinx ~ x and cos ~ 1 - (x*x)/2
+        double SumR = a.radians() + b.radians();
+        return CachingDms(SumD, SumR, 1 - (SumR*SumR)/2);
+    }
+    else
+        return CachingDms(SumD, sinA * cosB + cosA * sinB, cosA * cosB - sinA * sinB);
 }
 
 CachingDms operator-(const CachingDms &a, const CachingDms &b)
 {
-    return CachingDms(a.Degrees() - b.Degrees(), sinA * cosB - cosA * sinB, cosA * cosB + sinA * sinB);
+    double DiffD = a.Degrees() - b.Degrees();
+    if (std::fabs(DiffD) < 1)
+    {   // Small angle approximation: sinx ~ x and cos ~ 1 - (x*x)/2
+        double DiffR = a.radians() - b.radians();
+        return CachingDms(DiffD, DiffR, 1 - (DiffR*DiffR)/2);
+    }
+    else
+        return CachingDms(DiffD, sinA * cosB - cosA * sinB, cosA * cosB + sinA * sinB);
 }
 
 CachingDms operator+(const dms &a, const CachingDms &b)
