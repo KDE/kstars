@@ -14,6 +14,7 @@
 #include <QTcpSocket>
 #include <QTemporaryFile>
 #include <QFuture>
+#include <QMutex>
 
 #include <memory>
 
@@ -48,10 +49,12 @@ class ServerManager : public QObject
 
         void setPendingDrivers(QList<QSharedPointer<DriverInfo>> drivers)
         {
+            QMutexLocker locker(&m_PendingMutex);
             m_PendingDrivers = drivers;
         }
-        const QList<QSharedPointer<DriverInfo>> &pendingDrivers() const
+        QList<QSharedPointer<DriverInfo>> pendingDrivers() const
         {
+            QMutexLocker locker(&m_PendingMutex);
             return m_PendingDrivers;
         }
 
@@ -59,12 +62,14 @@ class ServerManager : public QObject
         void stopDriver(const QSharedPointer<DriverInfo> &driver);
         bool restartDriver(const QSharedPointer<DriverInfo> &driver);
 
-        const QList<QSharedPointer<DriverInfo>> &managedDrivers() const
+        QList<QSharedPointer<DriverInfo>> managedDrivers() const
         {
+            QMutexLocker locker(&m_DriverMutex);
             return m_ManagedDrivers;
         }
         bool contains(const QSharedPointer<DriverInfo> &driver)
         {
+            QMutexLocker locker(&m_DriverMutex);
             return m_ManagedDrivers.contains(driver);
         }
 
@@ -81,6 +86,7 @@ class ServerManager : public QObject
 
         int size()
         {
+            QMutexLocker locker(&m_DriverMutex);
             return m_ManagedDrivers.size();
         }
 
@@ -100,9 +106,13 @@ class ServerManager : public QObject
 
         ServerMode mode { SERVER_CLIENT };
 
+        // Protected by m_DriverMutex for concurrent access from main thread and QtConcurrent thread
         QList<QSharedPointer<DriverInfo>> m_ManagedDrivers;
-
         QList<QSharedPointer<DriverInfo>> m_PendingDrivers;
+
+        mutable QMutex m_DriverMutex;
+        mutable QMutex m_PendingMutex;
+
 
         QFile indiFIFO;
 

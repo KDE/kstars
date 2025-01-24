@@ -152,10 +152,14 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
     {
         QString uniqueLabel;
         QString label = driver->getUniqueLabel();
-        int nset = std::count_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [label](auto & oneDriver)
+        int nset = 0;
         {
-            return label == oneDriver->getUniqueLabel();
-        });
+            QMutexLocker locker(&m_DriverMutex);
+            nset = std::count_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [label](auto & oneDriver)
+            {
+                return label == oneDriver->getUniqueLabel();
+            });
+        }
         if (nset > 0)
         {
             uniqueLabel = QString("%1 %2").arg(label).arg(nset + 1);
@@ -163,8 +167,11 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
         }
     }
 
-    m_ManagedDrivers.append(driver);
-    driver->setServerManager(this);
+    {
+        QMutexLocker locker(&m_DriverMutex);
+        m_ManagedDrivers.append(driver);
+        driver->setServerManager(this);
+    }
 
     QString driversDir    = Options::indiDriversDir();
     QString indiServerDir = QFileInfo(Options::indiServer()).dir().path();
@@ -278,10 +285,13 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
     }
 
     // Remove driver from pending list.
-    m_PendingDrivers.erase(std::remove_if(m_PendingDrivers.begin(), m_PendingDrivers.end(), [driver](const auto & oneDriver)
     {
-        return driver == oneDriver;
-    }), m_PendingDrivers.end());
+        QMutexLocker locker(&m_PendingMutex);
+        m_PendingDrivers.erase(std::remove_if(m_PendingDrivers.begin(), m_PendingDrivers.end(), [driver](const auto & oneDriver)
+        {
+            return driver == oneDriver;
+        }), m_PendingDrivers.end());
+    }
     emit driverStarted(driver);
 }
 
@@ -301,10 +311,13 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
     driver->setServerState(false);
     driver->setPort(driver->getUserPort());
 
-    m_ManagedDrivers.erase(std::remove_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [exec](const auto & driver)
     {
-        return driver->getExecutable() == exec;
-    }));
+        QMutexLocker locker(&m_DriverMutex);
+        m_ManagedDrivers.erase(std::remove_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [exec](const auto & driver)
+        {
+            return driver->getExecutable() == exec;
+        }));
+    }
     emit driverStopped(driver);
 }
 
@@ -326,14 +339,21 @@ bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
     }
     else
     {
-        qCDebug(KSTARS_INDI) << "restartDriver with no cm, and " << m_ManagedDrivers.size() << " drivers. Trying to remove: " <<
-                             label;
+        int size = 0;
+        {
+            QMutexLocker locker(&m_DriverMutex);
+            size = m_ManagedDrivers.size();
+        }
+        qCDebug(KSTARS_INDI) << "restartDriver with no cm, and " << size << " drivers. Trying to remove: " << label;
         cm = DriverManager::Instance()->getClientManager(driver);
         const auto exec = driver->getExecutable();
-        m_ManagedDrivers.erase(std::remove_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [exec](const auto & driver)
         {
-            return driver->getExecutable() == exec;
-        }));
+            QMutexLocker locker(&m_DriverMutex);
+            m_ManagedDrivers.erase(std::remove_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(), [exec](const auto & driver)
+            {
+                return driver->getExecutable() == exec;
+            }));
+        }
     }
 
     // Wait 1 second before starting the driver again.
@@ -346,8 +366,11 @@ bool ServerManager::restartDriver(const QSharedPointer<DriverInfo> &driver)
             return;
         }
         cm->appendManagedDriver(driver);
-        if (m_ManagedDrivers.contains(driver) == false)
-            m_ManagedDrivers.append(driver);
+        {
+            QMutexLocker locker(&m_DriverMutex);
+            if (m_ManagedDrivers.contains(driver) == false)
+                m_ManagedDrivers.append(driver);
+        }
         driver->setServerManager(this);
 
         QTextStream out(&indiFIFO);
@@ -406,9 +429,12 @@ void ServerManager::stop()
     if (serverProcess.get() == nullptr)
         return;
 
-    for (auto &device : m_ManagedDrivers)
     {
-        device->reset();
+        QMutexLocker locker(&m_DriverMutex);
+        for (auto &device : m_ManagedDrivers)
+        {
+            device->reset();
+        }
     }
 
     qCDebug(KSTARS_INDI) << "Stopping INDI Server " << host << "@" << port;
@@ -460,24 +486,31 @@ void ServerManager::processStandardError()
 
         //KSNotification::info(i18n("KStars detected INDI driver %1 crashed. Please check INDI server log in the Device Manager.", driverName));
 
-        auto crashedDriver = std::find_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(),
-                                          [driverExec](QSharedPointer<DriverInfo> dv)
+        QSharedPointer<DriverInfo> crashedDriverInfo;
         {
-            return dv->getExecutable() == driverExec;
-        });
+            QMutexLocker locker(&m_DriverMutex);
+            auto crashedDriver = std::find_if(m_ManagedDrivers.begin(), m_ManagedDrivers.end(),
+                                              [driverExec](QSharedPointer<DriverInfo> dv)
+            {
+                return dv->getExecutable() == driverExec;
+            });
 
-        if (crashedDriver != m_ManagedDrivers.end())
+            if (crashedDriver != m_ManagedDrivers.end())
+                crashedDriverInfo = *crashedDriver;
+        }
+
+        if (crashedDriverInfo)
         {
-            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, crashedDriver]()
+            connect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, [this, crashedDriverInfo]()
             {
                 //QObject::disconnect(KSMessageBox::Instance(), &KSMessageBox::accepted, this, nullptr);
                 KSMessageBox::Instance()->disconnect(this);
-                restartDriver(*crashedDriver);
+                restartDriver(crashedDriverInfo);
             });
 
-            QString label = (*crashedDriver)->getUniqueLabel();
+            QString label = crashedDriverInfo->getUniqueLabel();
             if (label.isEmpty())
-                label = (*crashedDriver)->getExecutable();
+                label = crashedDriverInfo->getExecutable();
             KSMessageBox::Instance()->warningContinueCancel(i18n("INDI Driver <b>%1</b> crashed. Restart it?",
                     label), i18n("Driver crash"), 10);
         }
