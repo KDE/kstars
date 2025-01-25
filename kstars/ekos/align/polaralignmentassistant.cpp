@@ -605,6 +605,15 @@ void PolarAlignmentAssistant::processMountRotation(const dms &ra, double settleD
 {
     // Check how many degrees travelled so far from starting point
     double traveledAngle = ra.deltaAngle(m_StartCoord.ra()).Degrees();
+    bool goingWest = pAHDirection->currentIndex() == 0;
+
+    // Handle RA wrap-around
+    // When going west: If current RA is much larger than start RA, we crossed the boundary
+    // When going east: If current RA is much smaller than start RA, we crossed the boundary
+    if (goingWest && (ra.Hours() - m_StartCoord.ra().Hours() > 12))
+        traveledAngle = (ra.Hours() - 24 - m_StartCoord.ra().Hours()) * 15;
+    else if (!goingWest && (m_StartCoord.ra().Hours() - ra.Hours() > 12))
+        traveledAngle = ((ra.Hours() + 24) - m_StartCoord.ra().Hours()) * 15;
 
     QString rotProgressMessage;
     QString rotDoneMessage;
