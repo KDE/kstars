@@ -13,6 +13,7 @@
 
 #include <QDockWidget>
 #include <QtDBus/qtdbusglobal.h>
+#include <QtDBus/QDBusVariant>
 #ifdef HAVE_CFITSIO
 #include <QPointer>
 #endif
@@ -340,9 +341,16 @@ class KStars : public KXmlGuiWindow
         /** DBUS interface function.
              * @param name the name of the option to query
              * @return the current value of the named option
-             * @note Deprecated because it's not clear how to list the options
+             * @note Check kstars.kcfg for all supported options.
              */
-        Q_DECL_DEPRECATED Q_SCRIPTABLE QString getOption(const QString &name);
+        Q_SCRIPTABLE QDBusVariant getOption(const QString &name);
+
+        /** DBUS interface function.
+             * @param name the name of the option to set
+             * @param value value of the option
+             * @note Check kstars.kcfg for all supported options.
+             */
+        Q_SCRIPTABLE Q_NOREPLY void setOption(const QString &name, const QDBusVariant &value);
 
         /** DBUS interface function. Get the focus information as XML.
          */

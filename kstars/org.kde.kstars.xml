@@ -85,6 +85,15 @@
       <arg name="value" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="getOption">
+      <arg name="name" type="s" direction="in"/>
+      <arg type="v" direction="out"/>
+    </method>
+    <method name="setOption">
+      <arg name="name" type="s" direction="in"/>
+      <arg name="value" type="v" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="getFocusInformationXML">
       <arg type="s" direction="out"/>
     </method>

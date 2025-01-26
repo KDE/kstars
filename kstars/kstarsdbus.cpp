@@ -372,24 +372,32 @@ void KStars::writeConfig()
     data()->StoredDate = data()->lt();
 }
 
-QString KStars::getOption(const QString &name)
+QDBusVariant KStars::getOption(const QString &name)
 {
     //Some config items are not stored in the Options object while
     //the program is running; catch these here and returntheir current value.
     if (name == "FocusRA")
     {
-        return QString::number(map()->focus()->ra().Hours(), 'f', 6);
+        return QDBusVariant(QString::number(map()->focus()->ra().Hours(), 'f', 6));
     }
     if (name == "FocusDec")
     {
-        return QString::number(map()->focus()->dec().Degrees(), 'f', 6);
+        return QDBusVariant(QString::number(map()->focus()->dec().Degrees(), 'f', 6));
     }
 
-    KConfigSkeletonItem *it = Options::self()->findItem(name);
-    if (it)
-        return it->property().toString();
-    else
-        return QString();
+    auto propertyName = name;
+    // Ensure first letter is always small-case so that Options can return the correct info
+    propertyName[0] = propertyName.at(0).toLower();
+
+    return QDBusVariant(Options::self()->property(propertyName.toLatin1().constData()));
+}
+
+void KStars::setOption(const QString &name, const QDBusVariant &value)
+{
+    auto propertyName = name;
+    // Ensure first letter is always small-case so that Options can set the correct info
+    propertyName[0] = propertyName.at(0).toLower();
+    Options::self()->setProperty(propertyName.toLatin1().constData(), value.variant());
 }
 
 QString KStars::getFocusInformationXML()
