@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-25 01:56+0000\n"
+"POT-Creation-Date: 2025-01-26 01:52+0000\n"
 "PO-Revision-Date: 2025-01-21 12:02+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -543,7 +543,7 @@ msgstr "No"
 #: dialogs/catalogdetails.cpp:213 dialogs/catalogsdbui.cpp:153
 #: dialogs/catalogsdbui.cpp:189 dialogs/catalogsdbui.cpp:210
 #: dialogs/catalogsdbui.cpp:230 dialogs/catalogsdbui.cpp:248
-#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:805
+#: dialogs/catalogsdbui.cpp:283 ekos/align/polaralignmentassistant.cpp:814
 #, kde-format
 msgid "Warning"
 msgstr "Advertencia"
@@ -6531,7 +6531,7 @@ msgstr "La montura se ha sincronizado con las coordenadas de la solución."
 
 #: ekos/align/align.cpp:2746 ekos/align/align.cpp:2764
 #: ekos/align/align.cpp:3376 ekos/align/align.cpp:4098
-#: ekos/align/polaralignmentassistant.cpp:645
+#: ekos/align/polaralignmentassistant.cpp:654
 #, kde-format
 msgid "Settling..."
 msgstr "Estabilizando..."
@@ -9864,24 +9864,24 @@ msgid "PAA: Stopping, solver failed too many times."
 msgstr ""
 "PAA: Deteniendo, el sistema de identificación ha fallado demasiadas veces."
 
-#: ekos/align/polaralignmentassistant.cpp:617
+#: ekos/align/polaralignmentassistant.cpp:626
 #, kde-format
 msgid "Mount first rotation is complete."
 msgstr "La primera rotación de la montura se ha completado."
 
-#: ekos/align/polaralignmentassistant.cpp:624
+#: ekos/align/polaralignmentassistant.cpp:633
 #, kde-format
 msgid "Mount second rotation is complete."
 msgstr "La segunda rotación de la montura se ha completado."
 
-#: ekos/align/polaralignmentassistant.cpp:670
+#: ekos/align/polaralignmentassistant.cpp:679
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
 msgstr ""
 "Se ha interrumpido la montura. Invierta la dirección del eje de AR y vuelva "
 "a probar."
 
-#: ekos/align/polaralignmentassistant.cpp:759
+#: ekos/align/polaralignmentassistant.cpp:768
 #, kde-format
 msgid ""
 "Warning: Equatorial Grid Lines will not be drawn due to limited resources "
@@ -9890,39 +9890,39 @@ msgstr ""
 "Advertencia: no se mostrarán las líneas de la cuadrícula ecuatorial por "
 "estar activo el modo de recursos limitados."
 
-#: ekos/align/polaralignmentassistant.cpp:763
+#: ekos/align/polaralignmentassistant.cpp:772
 #, kde-format
 msgid "Clearing mount Alignment Model..."
 msgstr "Borrando el modelo de alineación de la montura..."
 
-#: ekos/align/polaralignmentassistant.cpp:804
+#: ekos/align/polaralignmentassistant.cpp:813
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
 msgstr "Esto puede hacer que el telescopio cruce el meridiano."
 
-#: ekos/align/polaralignmentassistant.cpp:854
+#: ekos/align/polaralignmentassistant.cpp:863
 #, kde-format
 msgid "Parking the mount..."
 msgstr "Aparcando la montura..."
 
-#: ekos/align/polaralignmentassistant.cpp:897
+#: ekos/align/polaralignmentassistant.cpp:906
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
 msgstr ""
 "Por favor, espere hasta que la montura termine de rotar hasta AR (%1) DE (%2)"
 
-#: ekos/align/polaralignmentassistant.cpp:913
-#: ekos/align/polaralignmentassistant.cpp:919
+#: ekos/align/polaralignmentassistant.cpp:922
+#: ekos/align/polaralignmentassistant.cpp:928
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
 msgstr "PAA: No ha sido posible encontrar el píxel correcto."
 
-#: ekos/align/polaralignmentassistant.cpp:945
+#: ekos/align/polaralignmentassistant.cpp:954
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
 msgstr "PAA: No ha sido posible encontrar el centro del eje de AR."
 
-#: ekos/align/polaralignmentassistant.cpp:1016
+#: ekos/align/polaralignmentassistant.cpp:1025
 #, kde-format
 msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
@@ -9931,17 +9931,17 @@ msgstr ""
 "La alineación polar no se puede actualizar durante la fase de refresco "
 "porque podría afectar a las medidas de error."
 
-#: ekos/align/polaralignmentassistant.cpp:1033
+#: ekos/align/polaralignmentassistant.cpp:1042
 #, kde-format
 msgid "First manual rotation done."
 msgstr "Primera rotación manual terminada."
 
-#: ekos/align/polaralignmentassistant.cpp:1038
+#: ekos/align/polaralignmentassistant.cpp:1047
 #, kde-format
 msgid "Second manual rotation done."
 msgstr "Segunda rotación manual terminada."
 
-#: ekos/align/polaralignmentassistant.cpp:1083
+#: ekos/align/polaralignmentassistant.cpp:1092
 #, kde-format
 msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
@@ -9950,36 +9950,36 @@ msgstr ""
 "La montura está sincronizada con el polo celeste. Ahora puede continuar el "
 "procedimiento del asistente de alineación polar."
 
-#: ekos/align/polaralignmentassistant.cpp:1102
+#: ekos/align/polaralignmentassistant.cpp:1111
 #, kde-format
 msgid "Please wait while WCS data is processed..."
 msgstr "Por favor, espere mientras se procesan los datos WCS..."
 
-#: ekos/align/polaralignmentassistant.cpp:1133
+#: ekos/align/polaralignmentassistant.cpp:1142
 #, kde-format
 msgid "WCS data processing is complete."
 msgstr "El procesamiento de los datos WCS se ha completado."
 
-#: ekos/align/polaralignmentassistant.cpp:1142
+#: ekos/align/polaralignmentassistant.cpp:1151
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
 msgstr ""
 "La información de WCS ya es válida. Capturando el siguiente fotograma..."
 
-#: ekos/align/polaralignmentassistant.cpp:1184
+#: ekos/align/polaralignmentassistant.cpp:1193
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
 "El procesamiento del sistema de coordenadas mundiales ha fallado: %1. Pruebe "
 "otra vez."
 
-#: ekos/align/polaralignmentassistant.cpp:1202
+#: ekos/align/polaralignmentassistant.cpp:1211
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
 msgstr "PAA: No se ha podido encontrar el eje de AR. Saliendo."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
-#: ekos/align/polaralignmentassistant.cpp:1233
+#: ekos/align/polaralignmentassistant.cpp:1242
 #: ekos/align/polaralignmentassistant.ui:212
 #, kde-format
 msgid ""
@@ -9989,54 +9989,54 @@ msgstr ""
 "<p>El asistente necesita tres imágenes para encontrar una solución. Ekos "
 "está capturando ahora la primera imagen...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1235
+#: ekos/align/polaralignmentassistant.cpp:1244
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
 msgstr "<p>Resolviendo la <i>primera</i> imagen...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1237
+#: ekos/align/polaralignmentassistant.cpp:1246
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
 msgstr "<p>Ejecutando la <i>primera</i> rotación de la montura...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1239
+#: ekos/align/polaralignmentassistant.cpp:1248
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
 msgstr ""
 "<p>Estabilizando después de la <i>primera</i> rotación de la montura.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1241
+#: ekos/align/polaralignmentassistant.cpp:1250
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
 msgstr ""
 "<p>Estabilizando después de la <i>segunda</i> rotación de la montura.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1243
+#: ekos/align/polaralignmentassistant.cpp:1252
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
 msgstr "<p>Capturando la segunda imagen...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1245
+#: ekos/align/polaralignmentassistant.cpp:1254
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
 msgstr "<p>Resolviendo la <i>segunda</i> imagen...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1247
+#: ekos/align/polaralignmentassistant.cpp:1256
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
 msgstr "<p>Ejecutando la <i>segunda</i> rotación de la montura...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1249
+#: ekos/align/polaralignmentassistant.cpp:1258
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
 msgstr "<p>Capturando la <i>tercera</i> y última imagen...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1251
+#: ekos/align/polaralignmentassistant.cpp:1260
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
 msgstr "<p>Resolviendo la <i>tercera</i> imagen...</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1254
+#: ekos/align/polaralignmentassistant.cpp:1263
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Then click "
@@ -10045,7 +10045,7 @@ msgstr ""
 "<p>Escoja el tiempo de exposición y seleccione un método de ajuste. A "
 "continuación, pulse <i>Actualizar</i> para iniciar los ajustes.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1256
+#: ekos/align/polaralignmentassistant.cpp:1265
 #, kde-format
 msgid ""
 "<p>Choose your exposure time & select an adjustment method. Click "
@@ -10059,7 +10059,7 @@ msgstr ""
 "el vector de corrección. Use el método <i>Mover estrella y calcular error</"
 "i> para estimar el error restante.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1259
+#: ekos/align/polaralignmentassistant.cpp:1268
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude and Azimuth knobs</i> to reduce the polar "
@@ -10073,7 +10073,7 @@ msgstr ""
 "de los resultados tras dos imágenes. Pulse <i>Detener</i> cuando haya "
 "terminado.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1261
+#: ekos/align/polaralignmentassistant.cpp:1270
 #, kde-format
 msgid ""
 "<p>Adjust mount's <i>Altitude knob</i> to move the star along the yellow "
@@ -10087,7 +10087,7 @@ msgstr ""
 "centrada dentro de la cruceta.</p><p>Pulse <i>Detener</i> cuando la estrella "
 "esté centrada.</p>"
 
-#: ekos/align/polaralignmentassistant.cpp:1277
+#: ekos/align/polaralignmentassistant.cpp:1286
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
