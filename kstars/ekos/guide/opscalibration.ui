@@ -408,7 +408,7 @@
       <string/>
      </property>
      <property name="text">
-      <string>Accept reversed DEC on pier-side change reusing calibration.</string>
+      <string>Reverse DEC guide pulses when changing pier-side and reusing calibration.</string>
      </property>
     </widget>
    </item>
