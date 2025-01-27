@@ -37,10 +37,42 @@ ProfileEditor::ProfileEditor(QWidget *w) : QDialog(w)
 
     pi = nullptr;
 
-    m_MountModel = new QStandardItemModel(this);
-    m_CameraModel = new QStandardItemModel(this);
-    m_GuiderModel = new QStandardItemModel(this);
-    m_FocuserModel = new QStandardItemModel(this);
+    // Initialize device map
+    m_Devices =
+    {
+        {"Mount", {ui->mountCombo, new QStandardItemModel(this), QString(), {KSTARS_TELESCOPE}}},
+        {"CCD", {ui->ccdCombo, new QStandardItemModel(this), QString(), {KSTARS_CCD}}},
+        {"Guider", {ui->guiderCombo, new QStandardItemModel(this), QString(), {KSTARS_CCD}}},
+        {"Focuser", {ui->focuserCombo, new QStandardItemModel(this), QString(), {KSTARS_FOCUSER}}},
+        {"Filter", {ui->filterCombo, new QStandardItemModel(this), QString(), {KSTARS_FILTER}}},
+        {"AO", {ui->AOCombo, new QStandardItemModel(this), QString(), {KSTARS_ADAPTIVE_OPTICS}}},
+        {"Dome", {ui->domeCombo, new QStandardItemModel(this), QString(), {KSTARS_DOME}}},
+        {"Weather", {ui->weatherCombo, new QStandardItemModel(this), QString(), {KSTARS_WEATHER}}},
+        {
+            "Aux1", {
+                ui->aux1Combo, new QStandardItemModel(this), QString(),
+                {KSTARS_AUXILIARY, KSTARS_CCD, KSTARS_FOCUSER, KSTARS_FILTER, KSTARS_WEATHER, KSTARS_SPECTROGRAPHS, KSTARS_DETECTORS}
+            }
+        },
+        {
+            "Aux2", {
+                ui->aux2Combo, new QStandardItemModel(this), QString(),
+                {KSTARS_AUXILIARY, KSTARS_CCD, KSTARS_FOCUSER, KSTARS_FILTER, KSTARS_WEATHER, KSTARS_SPECTROGRAPHS, KSTARS_DETECTORS}
+            }
+        },
+        {
+            "Aux3", {
+                ui->aux3Combo, new QStandardItemModel(this), QString(),
+                {KSTARS_AUXILIARY, KSTARS_CCD, KSTARS_FOCUSER, KSTARS_FILTER, KSTARS_WEATHER, KSTARS_SPECTROGRAPHS, KSTARS_DETECTORS}
+            }
+        },
+        {
+            "Aux4", {
+                ui->aux4Combo, new QStandardItemModel(this), QString(),
+                {KSTARS_AUXILIARY, KSTARS_CCD, KSTARS_FOCUSER, KSTARS_FILTER, KSTARS_WEATHER, KSTARS_SPECTROGRAPHS, KSTARS_DETECTORS}
+            }
+        }
+    };
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
@@ -269,7 +301,8 @@ void ProfileEditor::saveProfile()
 
 void ProfileEditor::setRemoteMode(bool enable)
 {
-    loadDrivers(); //This is needed to reload the drivers because some may not be available locally
+    //This is needed to reload the drivers because some may not be available locally
+    loadDrivers();
 
     ui->remoteHost->setEnabled(enable);
     ui->remoteHostLabel->setEnabled(enable);
@@ -513,161 +546,15 @@ QString ProfileEditor::getTooltip(const QSharedPointer<DriverInfo> &driver)
 
 void ProfileEditor::loadDrivers()
 {
-    // We need to save this now since we have two models for the mounts
-    QString selectedMount = ui->mountCombo->currentText();
-    QString selectedCamera = ui->ccdCombo->currentText();
-    QString selectedGuider = ui->guiderCombo->currentText();
-    QString selectedFocuser = ui->focuserCombo->currentText();
-    QString selectedAux1 = ui->aux1Combo->currentText();
-    QString selectedAux2 = ui->aux2Combo->currentText();
-    QString selectedAux3 = ui->aux3Combo->currentText();
-    QString selectedAux4 = ui->aux4Combo->currentText();
-
-    QVector<QComboBox *> boxes;
-    boxes.append(ui->mountCombo);
-    boxes.append(ui->ccdCombo);
-    boxes.append(ui->guiderCombo);
-    boxes.append(ui->AOCombo);
-    boxes.append(ui->focuserCombo);
-    boxes.append(ui->filterCombo);
-    boxes.append(ui->domeCombo);
-    boxes.append(ui->weatherCombo);
-    boxes.append(ui->aux1Combo);
-    boxes.append(ui->aux2Combo);
-    boxes.append(ui->aux3Combo);
-    boxes.append(ui->aux4Combo);
-
-    QVector<QString> selectedItems;
-
-    for (QComboBox *box : boxes)
-    {
-        selectedItems.append(box->currentText());
-        box->clear();
-        box->addItem("--");
-        box->setMaxVisibleItems(20);
-    }
-
-    QIcon remoteIcon = QIcon::fromTheme("network-modem");
-
-    // Create the model
-    delete (m_MountModel);
-    m_MountModel = new QStandardItemModel(this);
-    delete (m_CameraModel);
-    m_CameraModel = new QStandardItemModel(this);
-    delete (m_GuiderModel);
-    m_GuiderModel = new QStandardItemModel(this);
-    delete (m_FocuserModel);
-    m_FocuserModel = new QStandardItemModel(this);
-    delete (m_Aux1Model);
-    m_Aux1Model = new QStandardItemModel(this);
-    delete (m_Aux2Model);
-    m_Aux2Model = new QStandardItemModel(this);
-    delete (m_Aux3Model);
-    m_Aux3Model = new QStandardItemModel(this);
-    delete (m_Aux4Model);
-    m_Aux4Model = new QStandardItemModel(this);
-
     const bool isLocal = ui->localMode->isChecked();
-    const QList<DeviceFamily> auxFamily = QList<DeviceFamily>()
-                                          << KSTARS_AUXILIARY
-                                          << KSTARS_CCD
-                                          << KSTARS_FOCUSER
-                                          << KSTARS_FILTER
-                                          << KSTARS_WEATHER
-                                          << KSTARS_SPECTROGRAPHS
-                                          << KSTARS_DETECTORS;
 
-    populateManufacturerCombo(m_MountModel, ui->mountCombo, selectedMount, isLocal, QList<DeviceFamily>() << KSTARS_TELESCOPE);
-    populateManufacturerCombo(m_CameraModel, ui->ccdCombo, selectedCamera, isLocal, QList<DeviceFamily>() << KSTARS_CCD);
-    populateManufacturerCombo(m_GuiderModel, ui->guiderCombo, selectedGuider, isLocal, QList<DeviceFamily>() << KSTARS_CCD);
-    populateManufacturerCombo(m_FocuserModel, ui->focuserCombo, selectedFocuser, isLocal,
-                              QList<DeviceFamily>() << KSTARS_FOCUSER);
-    populateManufacturerCombo(m_Aux1Model, ui->aux1Combo, selectedAux1, isLocal, auxFamily);
-    populateManufacturerCombo(m_Aux2Model, ui->aux2Combo, selectedAux2, isLocal, auxFamily);
-    populateManufacturerCombo(m_Aux3Model, ui->aux3Combo, selectedAux3, isLocal, auxFamily);
-    populateManufacturerCombo(m_Aux4Model, ui->aux4Combo, selectedAux4, isLocal, auxFamily);
-
-    for (QSharedPointer<DriverInfo>driver : DriverManager::Instance()->getDrivers())
+    // Save current selections and update models
+    for (auto &device : m_Devices)
     {
-        bool locallyAvailable = false;
-        QIcon icon;
-        if (driver->getAuxInfo().contains("LOCALLY_AVAILABLE"))
-            locallyAvailable = driver->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
-        if (!locallyAvailable)
-        {
-            if (ui->localMode->isChecked())
-                continue;
-            else
-                icon = remoteIcon;
-        }
-
-        QString toolTipText = getTooltip(driver);
-
-        switch (driver->getType())
-        {
-            case KSTARS_CCD:
-                break;
-
-            case KSTARS_ADAPTIVE_OPTICS:
-            {
-                ui->AOCombo->addItem(icon, driver->getLabel());
-                ui->AOCombo->setItemData(ui->AOCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-            }
-            break;
-
-            case KSTARS_FOCUSER:
-                break;
-
-            case KSTARS_FILTER:
-            {
-                ui->filterCombo->addItem(icon, driver->getLabel());
-                ui->filterCombo->setItemData(ui->filterCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-            }
-            break;
-
-            case KSTARS_DOME:
-            {
-                ui->domeCombo->addItem(icon, driver->getLabel());
-                ui->domeCombo->setItemData(ui->domeCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-            }
-            break;
-
-            case KSTARS_WEATHER:
-            {
-                ui->weatherCombo->addItem(icon, driver->getLabel());
-                ui->weatherCombo->setItemData(ui->weatherCombo->count() - 1, toolTipText, Qt::ToolTipRole);
-            }
-            break;
-
-            case KSTARS_AUXILIARY:
-            case KSTARS_SPECTROGRAPHS:
-            case KSTARS_DETECTORS:
-                break;
-
-            default:
-                continue;
-        }
-    }
-
-    // Skip mount/ccd/guider/focuser since we handled it above
-    for (int i = 4; i < boxes.count(); i++)
-    {
-        QComboBox *box           = boxes.at(i);
-        QString selectedItemText = selectedItems.at(i);
-        int index                = box->findText(selectedItemText);
-        if (index == -1)
-        {
-            if (ui->localMode->isChecked())
-                box->setCurrentIndex(0);
-            else
-                box->addItem(remoteIcon, selectedItemText);
-        }
-        else
-        {
-            box->setCurrentIndex(index);
-        }
-
-        box->model()->sort(0);
+        device.selectedDriver = device.combo->currentText();
+        delete device.model;
+        device.model = new QStandardItemModel(this);
+        populateManufacturerCombo(device.model, device.combo, device.selectedDriver, isLocal, device.families);
     }
 }
 

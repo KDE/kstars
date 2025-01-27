@@ -70,13 +70,17 @@ class ProfileEditor : public QDialog
         void scanIP(const QString &ip);
         void clearAllRequests();
 
+        struct DeviceInfo
+        {
+            QComboBox *combo;
+            QStandardItemModel *model;
+            QString selectedDriver;
+            QList<DeviceFamily> families;
+        };
+
         ProfileEditorUI *ui { nullptr };
         QSharedPointer<ProfileInfo> pi;
-        QStandardItemModel *m_MountModel { nullptr };
-        QStandardItemModel *m_CameraModel { nullptr };
-        QStandardItemModel *m_GuiderModel { nullptr };
-        QStandardItemModel *m_FocuserModel { nullptr };
-        QStandardItemModel *m_Aux1Model { nullptr }, *m_Aux2Model { nullptr }, *m_Aux3Model { nullptr }, *m_Aux4Model { nullptr };
+        QMap<QString, DeviceInfo> m_Devices;
         uint8_t m_INDIHub { 0 };
 
         QPointer<QProgressDialog> m_ProgressDialog;
