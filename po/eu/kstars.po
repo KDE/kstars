@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-26 01:52+0000\n"
+"POT-Creation-Date: 2025-01-27 01:57+0000\n"
 "PO-Revision-Date: 2024-04-04 13:25+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -76278,7 +76278,7 @@ msgstr "hego-mendebaldea"
 msgid "northwest"
 msgstr "ipar-mendebaldea"
 
-#: kstarsdbus.cpp:1018
+#: kstarsdbus.cpp:1026
 #, fuzzy, kde-format
 #| msgid "Print Sky"
 msgctxt "@title:window"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-26 01:52+0000\n"
+"POT-Creation-Date: 2025-01-27 01:57+0000\n"
 "PO-Revision-Date: 2025-01-07 14:53+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -69501,7 +69501,7 @@ msgstr "sudokcidente"
 msgid "northwest"
 msgstr "nordokcidento"
 
-#: kstarsdbus.cpp:1018
+#: kstarsdbus.cpp:1026
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"

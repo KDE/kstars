@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-26 01:52+0000\n"
-"PO-Revision-Date: 2025-01-25 12:18+0100\n"
+"POT-Creation-Date: 2025-01-27 01:57+0000\n"
+"PO-Revision-Date: 2025-01-26 19:41+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5332,6 +5332,7 @@ msgstr "An dos píxeles:"
 msgid "Size of chip or film, in millimeters"
 msgstr "O tamaño do chip ou filme, en milímetros"
 
+# skip-rule: trasno-device_reverse
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, cameraPixelSizeW)
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, cameraPixelSizeH)
 #. i18n: ectx: property (whatsThis), widget (QDoubleSpinBox, WaveLength)
@@ -5356,6 +5357,7 @@ msgstr ""
 msgid "µm"
 msgstr "µm"
 
+# skip-rule: trasno-device_reverse
 #. i18n: ectx: property (whatsThis), widget (QPushButton, ComputeCameraFOV)
 #: dialogs/newfov.ui:634
 #, kde-format
@@ -6272,6 +6274,7 @@ msgstr ""
 "Faltan a abertura e a distancia focal do telescopio; comproba a "
 "configuración do tren óptico e inténtao de novo."
 
+# skip-rule: trasno-device_reverse
 #: ekos/align/align.cpp:1478
 #, kde-format
 msgid ""
@@ -7996,6 +7999,7 @@ msgstr "Abre o perfil de opcións seleccionado no editor de perfís de opcións.
 msgid "Alignment Options"
 msgstr "Opcións de aliñamento"
 
+# skip-rule: trasno-device_reverse
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometrySolverWCS)
 #: ekos/align/opsalign.ui:230
 #, kde-format
@@ -8827,11 +8831,12 @@ msgstr ""
 msgid "Open"
 msgstr "Abrir"
 
+# skip-rule: trasno-device_reverse
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: ekos/align/opsastrometryindexfiles.ui:295
 #, kde-format
 msgid "Current CCD FOV: "
-msgstr "Campo de visión actual do dispositivo de carga acoplada:"
+msgstr "Campo de visión actual do dispositivo de carga acoplada (CCD):"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_24)
 #: ekos/align/opsastrometryindexfiles.ui:302
@@ -15128,6 +15133,7 @@ msgstr ""
 msgid "Tº"
 msgstr "T°"
 
+# skip-rule: trasno-device_reverse
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
 #: ekos/capture/camera.ui:1507
 #, kde-format
@@ -15843,6 +15849,7 @@ msgstr "Aviso: o proceso de calibración rematouse de maneira prematura."
 msgid "CCD capture sequence completed"
 msgstr "Completouse a secuencia de captura do CCD."
 
+# skip-rule: trasno-device_reverse
 #: ekos/capture/cameraprocess.cpp:1455
 #, kde-format
 msgid "Error: Lost connection to CCD."
@@ -18958,6 +18965,7 @@ msgstr "Por fin se atopou a orixe de temperatura %1"
 msgid "No Focuser connected."
 msgstr "Non hai ningún enfocador conectado."
 
+# skip-rule: trasno-device_reverse
 #: ekos/focus/focus.cpp:1025 ekos/focus/focus.cpp:4556
 #, kde-format
 msgid "No CCD connected."
@@ -22003,11 +22011,13 @@ msgstr ""
 "os fotogramas de guía externos completos ou simplemente recibir a imaxe de "
 "estrela guía de PHD2 usando a caixa para marcar de «Recorte»."
 
+# skip-rule: trasno-device_reverse
 #: ekos/guide/guide.cpp:583
 #, kde-format
 msgid "Connection to the guide CCD is lost."
 msgstr "Perdeuse a conexión ao dispositivo de carga acoplada (CCD) de guía."
 
+# skip-rule: trasno-device_reverse
 #: ekos/guide/guide.cpp:821
 #, kde-format
 msgid "Error: lost connection to CCD."
@@ -24281,6 +24291,7 @@ msgctxt "@title:window"
 msgid "Ekos"
 msgstr "Ekos"
 
+# skip-rule: trasno-device_reverse
 #: ekos/manager.cpp:931 ekos/manager.cpp:957
 #, kde-format
 msgid "Ekos requires at least one CCD or Guider to operate."
@@ -24473,7 +24484,7 @@ msgstr "Detivéronse os servizos de INDI."
 #: ekos/manager.cpp:1548
 #, kde-format
 msgid "Remote devices established."
-msgstr "Estabelecéronse os servizos remotos."
+msgstr "Estabelecéronse os dispositivos remotos."
 
 #: ekos/manager.cpp:1550
 #, kde-format
@@ -25263,8 +25274,7 @@ msgstr "Fontes"
 #: ekos/mount/mount.ui:807
 #, kde-format
 msgid "Enable time synchronization upon connection between KStars and INDI"
-msgstr ""
-"Activar a sincronización de hora ao conectar KStars con dispositivos INDI."
+msgstr "Activar a sincronización de hora ao conectar KStars con INDI."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
 #: ekos/mount/mount.ui:823
@@ -25273,8 +25283,7 @@ msgid ""
 "Enable geographic location synchronization upon connection between KStars "
 "and INDI"
 msgstr ""
-"Activar a sincronización de situación xeográfica ao conectar KStars con "
-"dispositivos INDI."
+"Activar a sincronización de situación xeográfica ao conectar KStars con INDI."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAlignmentModelB)
 #: ekos/mount/mount.ui:857
@@ -39629,6 +39638,7 @@ msgstr ""
 "O rotor acepta unha rotación de 180° do ángulo de posición tras a volta da "
 "montura."
 
+# skip-rule: trasno-device_reverse
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2670
 #, kde-format
@@ -39636,9 +39646,9 @@ msgid ""
 "World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in "
 "captured CCD images."
 msgstr ""
-"Sistema de coordenadas mundial (SCM). O sistema de coordenadas mundial úsase "
-"para codificar as coordenadas de ascensión recta (α) e declinación (δ) das "
-"imaxes capturadas mediante dispositivos de carga acoplada (CCD)."
+"Sistema de coordenadas mundial (SCM). Úsase para codificar as coordenadas de "
+"ascensión recta (α) e declinación (δ) das imaxes capturadas mediante "
+"dispositivos de carga acoplada (CCD)."
 
 #. i18n: ectx: label, entry (AstrometrySolverOverlay), group (Align)
 #: kstars.kcfg:2674
@@ -70199,7 +70209,7 @@ msgstr "suroeste"
 msgid "northwest"
 msgstr "noroeste"
 
-#: kstarsdbus.cpp:1018
+#: kstarsdbus.cpp:1026
 #, kde-format
 msgctxt "@title:window"
 msgid "Print Sky"

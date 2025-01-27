@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-26 01:52+0000\n"
-"PO-Revision-Date: 2025-01-23 12:51+0100\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"POT-Creation-Date: 2025-01-27 01:57+0000\n"
+"PO-Revision-Date: 2025-01-26 20:59+0100\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -240,17 +240,17 @@ msgstr "Navidezno obzorje"
 #: auxiliary/colorscheme.cpp:65
 #, kde-format
 msgid "RA Guide Error"
-msgstr "Napaka vodnika rekt."
+msgstr "Napaka vodila RA"
 
 #: auxiliary/colorscheme.cpp:66
 #, kde-format
 msgid "DEC Guide Error"
-msgstr "Napaka vodnika dekl."
+msgstr "Napaka vodila DEC"
 
 #: auxiliary/colorscheme.cpp:67 ekos/align/align.cpp:107
 #, kde-format
 msgid "Solver FOV"
-msgstr "Vidno polje reševalnika"
+msgstr "Reševalnik vidnega polja"
 
 #: auxiliary/colorscheme.cpp:68
 #, kde-format
@@ -263,9 +263,9 @@ msgid "HiPS Grid"
 msgstr "Mreža HiPS"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dome Slit"
-msgstr "Razporek kupole"
+msgstr "Reža kupole"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -273,9 +273,9 @@ msgid "FITS Image Object Label"
 msgstr "Oznake objektov slik FITS"
 
 #: auxiliary/colorscheme.cpp:72
-#, fuzzy, kde-format
+#, kde-format
 msgid "FITS Image Object Highlight Label"
-msgstr "Oznaka označevanja slikovnega predmeta FITS"
+msgstr "Oznaka označevanja slikovnega objekta FITS"
 
 #: auxiliary/colorscheme.cpp:138 kstarsdata.cpp:1071 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:741
@@ -526,7 +526,7 @@ msgstr "Zamodejno zapiranje v …"
 #: kstarslite/qml/modules/TimePage.qml:553
 #, kde-format, kde-kuit-format
 msgid "Ok"
-msgstr "OK"
+msgstr "V redu"
 
 #: auxiliary/ksmessagebox.h:35
 #, kde-format
@@ -807,7 +807,7 @@ msgstr "&Naprej >"
 #: tools/obslistwizard.cpp:39
 #, kde-format
 msgid "< &Back"
-msgstr "< Na&zaj"
+msgstr "< Nazaj"
 
 #. i18n: ectx: property (text), widget (QPushButton, PAHManualDone)
 #: auxiliary/kswizard.cpp:80 ekos/align/manualrotator.cpp:47
@@ -867,7 +867,7 @@ msgid "North Down"
 msgstr "Sever dol"
 
 #: auxiliary/skymapview.cpp:91
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "Set the sky-map view to match a Schmidt-Cassegrain telescope with erecting "
 "prism pointed upwards"
@@ -1015,7 +1015,7 @@ msgstr "Izbirnik sličic"
 #: tools/eclipsetool.ui:183
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr "%p %"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: auxiliary/thumbnailpicker.ui:72
@@ -1033,7 +1033,7 @@ msgstr "Trenutna sličica:"
 #: auxiliary/thumbnailpicker.ui:181
 #, kde-format
 msgid "Edit Ima&ge..."
-msgstr "&Uredi sliko …"
+msgstr "Uredi sliko…"
 
 #. i18n: ectx: property (text), widget (QPushButton, UnsetButton)
 #: auxiliary/thumbnailpicker.ui:188
@@ -3125,7 +3125,7 @@ msgstr "Objekt"
 #: dialogs/viewsdialog.ui:100
 #, kde-format
 msgid "Edit..."
-msgstr "Uredi …"
+msgstr "Uredi…"
 
 #. i18n: ectx: property (text), widget (QPushButton, remove_object)
 #. i18n: ectx: property (text), widget (QPushButton, removeButton)
@@ -3209,12 +3209,12 @@ msgstr "Uredi"
 #: fitsviewer/solveInfo.ui:66 skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
 msgid "RA"
-msgstr "Rekt."
+msgstr "RA"
 
 #: dialogs/catalogobjectlistmodel.cpp:69
 #, kde-format
 msgid "Dec"
-msgstr "Dekl."
+msgstr "Dec"
 
 #: dialogs/catalogobjectlistmodel.cpp:71
 #, kde-format
@@ -4510,7 +4510,7 @@ msgstr "Višina mora biti med -90,0 in 90,0."
 #: dialogs/focusdialog.ui:36
 #, kde-format
 msgid "RA/Dec"
-msgstr "Rekt./Dekl."
+msgstr "RA/Dec"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, decLabel)
 #: dialogs/focusdialog.ui:61 ekos/manager.ui:880
@@ -5029,7 +5029,7 @@ msgstr "Pridobi položaj"
 #: dialogs/locationdialog.ui:516
 #, kde-format
 msgid "&Clear Fields"
-msgstr "&Počisti polja"
+msgstr "Počisti polja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddCityButton)
 #: dialogs/locationdialog.ui:545
@@ -5675,7 +5675,7 @@ msgstr "Dodaj/uredi pogled"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, viewNameLineEdit)
 #: dialogs/newview.ui:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "9x50 RACI finder on Dob"
 msgstr "Iskalnik 9x50 RACI na Dobu"
 
@@ -5700,13 +5700,13 @@ msgstr "Azimutna"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: dialogs/newview.ui:86
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "**Note:** Choose mount type \"Altazimuth\" when visually observing through "
 "SCTs / refractors, irrespective of the actual mounting."
 msgstr ""
 "**Opomba:** Pri vizualnem opazovanju skozi SCT / refraktorje izberite vrsto "
-"nosilca »Altazimut«, ne glede na dejansko montažo."
+"montaže \"Altazimut\", ne glede na dejansko montažo."
 
 #. i18n: ectx: property (text), widget (QRadioButton, correctViewType)
 #: dialogs/newview.ui:108
@@ -5764,40 +5764,40 @@ msgstr "Teleskopi z okularjem na vrhu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: dialogs/newview.ui:223
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The human silhouette indicates on which side of the telescope the observer "
 "is assumed to stand."
 msgstr ""
-"Človeška silhueta kaže, na kateri strani teleskopa naj bi opazovalec stal."
+"Človeška silhueta kaže, na kateri strani teleskopa naj bi stal opazovalec."
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/newview.ui:259
-#, fuzzy, kde-format
+#, kde-format
 msgid "(Preview shows view down a Newtonian's tube)"
-msgstr "(predogled prikazuje pogled navzdol po newtonski cevi)"
+msgstr "(Predogled prikazuje pogled navzdol po Newtonovi cevi)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: dialogs/newview.ui:269
-#, fuzzy, kde-format
+#, kde-format
 msgid "(Preview shows view of the back of an SCT)"
-msgstr "(predogled prikazuje pogled hrbtne strani SCT)"
+msgstr "(Predogled prikazuje pogled z zadnje stran SCT)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, disableErectObserverCheckBox)
 #: dialogs/newview.ui:281
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Display mounted on the telescope (also check this if using a camera instead "
 "of visual observation)"
 msgstr ""
-"Zaslon, nameščen na teleskopu (preverite tudi, če namesto opazovanja z "
-"gledanjem uporabljate kamero)"
+"Zaslon nameščen na teleskopu (to preverite tudi, če uporabljate kamero "
+"namesto vizualnega opazovanja)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fieldOfViewCheckBox)
 #: dialogs/newview.ui:303
-#, fuzzy, kde-format
+#, kde-format
 msgid "Also set the field of view"
-msgstr "Nastavite tudi vidno polje"
+msgstr "Nastavi tudi vidno polje"
 
 #: dialogs/timedialog.cpp:39
 #, kde-format
@@ -5814,7 +5814,7 @@ msgstr "Nastavi čas"
 #: dialogs/timedialog.cpp:58
 #, kde-format
 msgid "UTC Now"
-msgstr "Sedaj (UČ)"
+msgstr "Sedaj (UTC)"
 
 #. i18n: ectx: property (text), widget (QPushButton, NowButton)
 #: dialogs/timedialog.cpp:58 kstarslite/qml/modules/TimePage.qml:436
@@ -5826,12 +5826,10 @@ msgid "Now"
 msgstr "Sedaj"
 
 #: dialogs/viewsdialog.cpp:41
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Sky Map Views"
-msgstr ""
-"Upravljanje pogledov zvezdne karte/zemljevida neba (poenoti po celem kstars."
-"po)"
+msgstr "Upravljaj poglede Sky Map"
 
 #: dialogs/viewsdialog.cpp:198
 #, kde-format
@@ -5851,19 +5849,19 @@ msgid "Conflicting View Name"
 msgstr "Sporno ime pogleda"
 
 #: dialogs/viewsdialog.cpp:322
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "There already exists a view with the name you attempted to use. Please "
 "choose a different name for this view."
 msgstr ""
-"Obstaja že pogled z imenom, ki ste ga poskušali uporabiti. Izberite drugo "
+"Pogled z imenom, ki ste ga poskušali uporabiti, že obstaja. Izberite drugo "
 "ime za ta pogled."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ViewsDialog)
 #: dialogs/viewsdialog.ui:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edit Sky Map Views"
-msgstr "Uredi poglede zemljevida neba/zvezdne karte"
+msgstr "Uredi poglede zvezdne karte"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewButton)
 #: dialogs/viewsdialog.ui:65
@@ -70763,7 +70761,7 @@ msgstr "jugozahod"
 msgid "northwest"
 msgstr "severozahod"
 
-#: kstarsdbus.cpp:1018
+#: kstarsdbus.cpp:1026
 #, fuzzy, kde-format
 #| msgid "Print Sky"
 msgctxt "@title:window"
