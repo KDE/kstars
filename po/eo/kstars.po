@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-27 01:57+0000\n"
+"POT-Creation-Date: 2025-01-28 01:54+0000\n"
 "PO-Revision-Date: 2025-01-07 14:53+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -22971,7 +22971,8 @@ msgstr ""
 #: ekos/guide/opscalibration.ui:411
 #, fuzzy, kde-format
 #| msgid "Reverse DEC on pier-side change when reusing calibration."
-msgid "Accept reversed DEC on pier-side change reusing calibration."
+msgid ""
+"Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr "Inversa DEC ĉe moleoflanka ŝanĝo dum reuzo de kalibrado."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
@@ -25695,23 +25696,23 @@ msgstr "Alternativa Bilddosierujo:"
 msgid "Set the alternative image directory for Analyze"
 msgstr "Meti la alternativan bilddosierujon por Analyze"
 
-#: ekos/profileeditor.cpp:49
+#: ekos/profileeditor.cpp:81
 #, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Profila Redaktoro"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:149
 #, kde-format
 msgid "Cannot save an empty profile."
 msgstr "Ne povas konservi malplenan profilon."
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:161
 #, kde-format
 msgid "Profile name already exists."
 msgstr "Profilnomo jam ekzistas."
 
-#: ekos/profileeditor.cpp:506
+#: ekos/profileeditor.cpp:539
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
@@ -25720,7 +25721,7 @@ msgstr ""
 "<nobr>Havebla kiel <b>Fora</b> pelilo. Por uzi loke, instalu la respondan "
 "pelilon.<nobr/>"
 
-#: ekos/profileeditor.cpp:508
+#: ekos/profileeditor.cpp:541
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -25728,23 +25729,23 @@ msgid ""
 msgstr "<nobr><b>Etikedo</b>: %1 ━ <b>Pelilo</b>: %2 ━ <b>Rulo</b>: %3<nobr/>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:809 ekos/profileeditor.ui:369
+#: ekos/profileeditor.cpp:696 ekos/profileeditor.ui:369
 #, kde-format
 msgid "Internal"
 msgstr "Interna"
 
-#: ekos/profileeditor.cpp:900
+#: ekos/profileeditor.cpp:787
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Skananta Reton"
 
-#: ekos/profileeditor.cpp:901
+#: ekos/profileeditor.cpp:788
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Skananta reton por INDI-Retaj Administrantoj..."
 
-#: ekos/profileeditor.cpp:965
+#: ekos/profileeditor.cpp:852
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Trovis INDI-Retan Administranton ĉe %1"
@@ -87473,6 +87474,11 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
+
+#, fuzzy
+#~| msgid "Reverse DEC on pier-side change when reusing calibration."
+#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
+#~ msgstr "Inversa DEC ĉe moleoflanka ŝanĝo dum reuzo de kalibrado."
 
 #~ msgid "Scheduler Offset"
 #~ msgstr "Planil-Deŝovo"

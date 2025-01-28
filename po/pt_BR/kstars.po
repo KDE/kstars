@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-27 01:57+0000\n"
+"POT-Creation-Date: 2025-01-28 01:54+0000\n"
 "PO-Revision-Date: 2021-10-26 14:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -23767,7 +23767,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
 #, kde-format
-msgid "Accept reversed DEC on pier-side change reusing calibration."
+msgid ""
+"Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
@@ -26637,33 +26638,33 @@ msgstr "Pasta de dados do KStars"
 msgid "Set the alternative image directory for Analyze"
 msgstr ""
 
-#: ekos/profileeditor.cpp:49
+#: ekos/profileeditor.cpp:81
 #, fuzzy, kde-format
 #| msgid "Profile Editor"
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Editor de perfis"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:149
 #, fuzzy, kde-format
 #| msgid "Cannot save an empty profile!"
 msgid "Cannot save an empty profile."
 msgstr "Não é possível salvar um perfil vazio!"
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:161
 #, fuzzy, kde-format
 #| msgid "A file named \"%1\" already exists. Overwrite it?"
 msgid "Profile name already exists."
 msgstr "Já existe um arquivo chamado \"%1\". Deseja sobrescrevê-lo?"
 
-#: ekos/profileeditor.cpp:506
+#: ekos/profileeditor.cpp:539
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:508
+#: ekos/profileeditor.cpp:541
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -26671,26 +26672,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:809 ekos/profileeditor.ui:369
+#: ekos/profileeditor.cpp:696 ekos/profileeditor.ui:369
 #, fuzzy, kde-format
 #| msgid "Interval:"
 msgid "Internal"
 msgstr "Intervalo:"
 
-#: ekos/profileeditor.cpp:900
+#: ekos/profileeditor.cpp:787
 #, fuzzy, kde-format
 #| msgid "Artwork"
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Arte"
 
-#: ekos/profileeditor.cpp:901
+#: ekos/profileeditor.cpp:788
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server!"
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Não foi possível conectar ao servidor INDI remoto!"
 
-#: ekos/profileeditor.cpp:965
+#: ekos/profileeditor.cpp:852
 #, fuzzy, kde-format
 #| msgid "INDI Server Start Port"
 msgid "Found INDI Web Manager at %1"

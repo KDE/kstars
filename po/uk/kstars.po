@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-27 01:57+0000\n"
+"POT-Creation-Date: 2025-01-28 01:54+0000\n"
 "PO-Revision-Date: 2025-01-21 14:36+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -23322,11 +23322,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, kde-format
-msgid "Accept reversed DEC on pier-side change reusing calibration."
+#, fuzzy, kde-format
+#| msgid "Reverse DEC on pier-side change when reusing calibration."
+msgid ""
+"Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
-"Приймати обернене значення Схил при зміні боку стійки при повторному "
-"використанні калібрування."
+"Обернене значення Схил при зміні боку стійки, якщо повторно використовуються "
+"дані калібрування."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -26091,23 +26093,23 @@ msgstr "Альтернативний каталог зображень: "
 msgid "Set the alternative image directory for Analyze"
 msgstr "Встановити альтернативний каталог файлів зображень для аналізу"
 
-#: ekos/profileeditor.cpp:49
+#: ekos/profileeditor.cpp:81
 #, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Редактор профілів"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:149
 #, kde-format
 msgid "Cannot save an empty profile."
 msgstr "Не можна зберігати порожній профіль!"
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:161
 #, kde-format
 msgid "Profile name already exists."
 msgstr "Профіль із такою назвою вже існує."
 
-#: ekos/profileeditor.cpp:506
+#: ekos/profileeditor.cpp:539
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
@@ -26116,7 +26118,7 @@ msgstr ""
 "<nobr>Доступний як <b>Віддалений</b> драйвер. Для локального використання "
 "встановіть відповідний драйвер на ваш комп'ютер.<nobr/>"
 
-#: ekos/profileeditor.cpp:508
+#: ekos/profileeditor.cpp:541
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -26126,23 +26128,23 @@ msgstr ""
 "%3<nobr/>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:809 ekos/profileeditor.ui:369
+#: ekos/profileeditor.cpp:696 ekos/profileeditor.ui:369
 #, kde-format
 msgid "Internal"
 msgstr "Вбудований"
 
-#: ekos/profileeditor.cpp:900
+#: ekos/profileeditor.cpp:787
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Виконуємо пошуку у мережі"
 
-#: ekos/profileeditor.cpp:901
+#: ekos/profileeditor.cpp:788
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Шукаємо засоби вебкерування INDI у мережі…"
 
-#: ekos/profileeditor.cpp:965
+#: ekos/profileeditor.cpp:852
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Знайдено засіб вебкерування INDI — %1"
@@ -88400,6 +88402,11 @@ msgstr "Колір тла:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
+
+#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
+#~ msgstr ""
+#~ "Приймати обернене значення Схил при зміні боку стійки при повторному "
+#~ "використанні калібрування."
 
 #~ msgid "Scheduler Offset"
 #~ msgstr "Зсув планування"

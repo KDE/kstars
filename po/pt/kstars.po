@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-27 01:57+0000\n"
+"POT-Creation-Date: 2025-01-28 01:54+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -24933,7 +24933,8 @@ msgstr ""
 #: ekos/guide/opscalibration.ui:411
 #, fuzzy, kde-format
 #| msgid "Reverse DEC on pier-side change when reusing calibration."
-msgid "Accept reversed DEC on pier-side change reusing calibration."
+msgid ""
+"Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
 "Inverter a DEC se for detectada uma mudança lateral ao reutilizar a "
 "calibração."
@@ -27731,23 +27732,23 @@ msgstr "Definir a pasta de base dos ficheiros de imagens alternativas"
 msgid "Set the alternative image directory for Analyze"
 msgstr "Definir a pasta de base dos ficheiros de imagens alternativas"
 
-#: ekos/profileeditor.cpp:49
+#: ekos/profileeditor.cpp:81
 #, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Editor de Perfis"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:149
 #, kde-format
 msgid "Cannot save an empty profile."
 msgstr "Não é possível gravar um perfil vazio."
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:161
 #, kde-format
 msgid "Profile name already exists."
 msgstr "O nome do perfil já existe."
 
-#: ekos/profileeditor.cpp:506
+#: ekos/profileeditor.cpp:539
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
@@ -27756,7 +27757,7 @@ msgstr ""
 "<nobr/>Disponível como Controlador <b>Remoto</b>. Para o usar a nível local, "
 "instale o controlador correspondente.<nobr/>"
 
-#: ekos/profileeditor.cpp:508
+#: ekos/profileeditor.cpp:541
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -27766,23 +27767,23 @@ msgstr ""
 "b>: %3<nobr/>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:809 ekos/profileeditor.ui:369
+#: ekos/profileeditor.cpp:696 ekos/profileeditor.ui:369
 #, kde-format
 msgid "Internal"
 msgstr "Interno"
 
-#: ekos/profileeditor.cpp:900
+#: ekos/profileeditor.cpp:787
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "A Pesquisar na Rede"
 
-#: ekos/profileeditor.cpp:901
+#: ekos/profileeditor.cpp:788
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "A pesquisar na rede por Gestores Web do INDI..."
 
-#: ekos/profileeditor.cpp:965
+#: ekos/profileeditor.cpp:852
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Foi Detectado um Gestor Web de INDI em %1"
@@ -90358,6 +90359,13 @@ msgstr "Cor de fundo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Define a cor do fundo."
+
+#, fuzzy
+#~| msgid "Reverse DEC on pier-side change when reusing calibration."
+#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
+#~ msgstr ""
+#~ "Inverter a DEC se for detectada uma mudança lateral ao reutilizar a "
+#~ "calibração."
 
 #, fuzzy
 #~| msgid "Scheduler paused."

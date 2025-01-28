@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-27 01:57+0000\n"
-"PO-Revision-Date: 2025-01-08 00:37+0100\n"
+"POT-Creation-Date: 2025-01-28 01:54+0000\n"
+"PO-Revision-Date: 2025-01-21 21:43+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -262,11 +262,9 @@ msgid "HiPS Grid"
 msgstr "Griglia HIPS"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dome Simulator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Simulatore cupola"
+msgstr "Fessura cupola"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -16095,10 +16093,9 @@ msgid "Driver Restart"
 msgstr "Riavvio driver"
 
 #: ekos/capture/cameraprocess.cpp:2996 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "Risolutore interrotto dopo %1 secondi."
+msgstr "Operazioni di acquisizione scaduti dopo %1 secondi."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
@@ -17379,13 +17376,15 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long"
 msgstr ""
+"Numero massimo di secondi di attesa prima di interrompere l'acquisizione, se "
+"le operazioni quali cambi di ruota portafiltri o inversioni del meridiano "
+"occupano troppo tempo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Timeout:"
+#, kde-format
 msgid "Capture Operations Timeout"
-msgstr "Tempo massimo acquisizione:"
+msgstr "Tempo massimo operazioni di acquisizione"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:205
@@ -22148,13 +22147,9 @@ msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Tempo scaduto. Troppi. Riavvio del driver."
 
 #: ekos/guide/guide.cpp:1299
-#, fuzzy, kde-format
-#| msgid ""
-#| "No camera detected. Check train configuration and connection settings."
+#, kde-format
 msgid "No camera detected. Check camera in optical trains."
-msgstr ""
-"Nessuna fotocamera rilevata. Verifica la configurazione del gruppo e le "
-"impostazioni di connessione."
+msgstr "Nessuna fotocamera rilevata. Verifica la fotocamera nei gruppi ottici."
 
 #: ekos/guide/guide.cpp:1305
 #, kde-format
@@ -22305,16 +22300,14 @@ msgid "Select a guide star to calibrate."
 msgstr "Seleziona una stella guida per calibrare."
 
 #: ekos/guide/guide.cpp:2822
-#, fuzzy, kde-format
-#| msgid "x (pixels)"
+#, kde-format
 msgid "dx (pixels)"
-msgstr "x (pixel)"
+msgstr "dx (pixel)"
 
 #: ekos/guide/guide.cpp:2823
-#, fuzzy, kde-format
-#| msgid "y (pixels)"
+#, kde-format
 msgid "dy (pixels)"
-msgstr "y (pixel)"
+msgstr "dy (pixel)"
 
 #: ekos/guide/guide.cpp:2962 ekos/guide/guide.cpp:3088
 #, kde-format
@@ -23032,7 +23025,7 @@ msgstr[1] ""
 #: ekos/guide/internalguide/calibrationprocess.cpp:595
 #, kde-format
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
-msgstr ""
+msgstr "Direzione DEC inversa (AR-DEC è ora sistema antiorario standard)."
 
 #: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
@@ -23372,7 +23365,8 @@ msgstr ""
 #: ekos/guide/opscalibration.ui:411
 #, fuzzy, kde-format
 #| msgid "Reverse DEC on pier-side change when reusing calibration."
-msgid "Accept reversed DEC on pier-side change reusing calibration."
+msgid ""
+"Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
 "Inverti DEC sul cambio dello stato di puntamento quando riutilizzi la "
 "calibrazione."
@@ -26151,23 +26145,23 @@ msgstr "Cartella delle immagini alternativa: "
 msgid "Set the alternative image directory for Analyze"
 msgstr "Imposta la cartella delle immagini alternativa per Analyze"
 
-#: ekos/profileeditor.cpp:49
+#: ekos/profileeditor.cpp:81
 #, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Editor dei profili"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:149
 #, kde-format
 msgid "Cannot save an empty profile."
 msgstr "Impossibile salvare un profilo vuoto."
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:161
 #, kde-format
 msgid "Profile name already exists."
 msgstr "Il nome del profilo esiste già."
 
-#: ekos/profileeditor.cpp:506
+#: ekos/profileeditor.cpp:539
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
@@ -26176,7 +26170,7 @@ msgstr ""
 "<nobr>Disponibile come driver <b>remoto</b>. Per usarlo localmente, installa "
 "il driver corrispondente.<nobr/>"
 
-#: ekos/profileeditor.cpp:508
+#: ekos/profileeditor.cpp:541
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -26186,23 +26180,23 @@ msgstr ""
 "%3<nobr/>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:809 ekos/profileeditor.ui:369
+#: ekos/profileeditor.cpp:696 ekos/profileeditor.ui:369
 #, kde-format
 msgid "Internal"
 msgstr "Interno"
 
-#: ekos/profileeditor.cpp:900
+#: ekos/profileeditor.cpp:787
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Scansione della rete"
 
-#: ekos/profileeditor.cpp:901
+#: ekos/profileeditor.cpp:788
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Scansione della rete alla ricerca di INDI Web Manager..."
 
-#: ekos/profileeditor.cpp:965
+#: ekos/profileeditor.cpp:852
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "INDI Web Manager trovato in %1"
@@ -28161,14 +28155,15 @@ msgid ""
 "Observatory startup script is normally only executed if Ekos is offline. "
 "Enable this option to start it whenever scheduler is starting up."
 msgstr ""
+"Lo script di avvio dell'osservatorio è normalmente eseguito soltanto se Ekos "
+"è fuori linea.Abilita questa opzione per avviarlo ogniqualvolta il "
+"pianificatore si sta avviando."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysExecuteStartupScript)
 #: ekos/scheduler/opsscriptssettings.ui:51
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Startup Script"
+#, kde-format
 msgid "Always Execute Startup Script"
-msgstr "Seleziona script di avvio"
+msgstr "Esegui sempre lo script di avvio"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
 #: ekos/scheduler/opsscriptssettings.ui:58
@@ -29441,11 +29436,9 @@ msgstr ""
 "montatura non è pronto il processo."
 
 #: ekos/scheduler/schedulerprocess.cpp:699
-#, fuzzy, kde-format
-#| msgid "Sleeping until observation job %1 is ready at %2..."
+#, kde-format
 msgid "Sleeping until observation job %1 is ready at %2"
-msgstr ""
-"In attesa fino a quando il lavoro di osservazione %1 è pronto alle %2 ..."
+msgstr "In attesa fino a quando il lavoro di osservazione %1 è pronto alle %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:710
 #, kde-format
@@ -38935,6 +38928,9 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long."
 msgstr ""
+"Numero massimo di secondi di attesa prima di interrompere l'acquisizione, se "
+"le operazioni quali cambi di ruota portafiltri o inversioni del meridiano "
+"occupano troppo tempo."
 
 #. i18n: ectx: label, entry (MinFlipDuration), group (Capture)
 #: kstars.kcfg:2153
@@ -40561,7 +40557,7 @@ msgstr ""
 #: kstars.kcfg:3119
 #, kde-format
 msgid "Always execute startup script regardless of Ekos status."
-msgstr ""
+msgstr "Esegui sempre lo script di avvio a prescindere dallo stato di Ekos."
 
 #. i18n: ectx: label, entry (ShutdownScriptTerminatesINDI), group (Scheduler)
 #: kstars.kcfg:3123
@@ -88584,6 +88580,11 @@ msgstr "Colore di fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Imposta il colore dello sfondo."
+
+#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
+#~ msgstr ""
+#~ "Accetta DEC inverso sul cambio dello stato di puntamento riutilizzando la "
+#~ "calibrazione."
 
 #~ msgid "Scheduler Offset"
 #~ msgstr "Scostamento del pianificatore"

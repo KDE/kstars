@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-27 01:57+0000\n"
+"POT-Creation-Date: 2025-01-28 01:54+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -22894,7 +22894,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
 #, kde-format
-msgid "Accept reversed DEC on pier-side change reusing calibration."
+msgid ""
+"Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
@@ -25594,32 +25595,32 @@ msgstr "يۆنىلىش"
 msgid "Set the alternative image directory for Analyze"
 msgstr ""
 
-#: ekos/profileeditor.cpp:49
+#: ekos/profileeditor.cpp:81
 #, fuzzy, kde-format
 #| msgid "Select None"
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "ھەممىنى تاللىما"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:149
 #, kde-format
 msgid "Cannot save an empty profile."
 msgstr ""
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:161
 #, fuzzy, kde-format
 #| msgid "A file named \"%1\" already exists. Overwrite it?"
 msgid "Profile name already exists."
 msgstr "\"%1\" ئاتلىق ھۆججەت مەۋجۇت. ئۇنى قاپلىۋېتەمسىز؟"
 
-#: ekos/profileeditor.cpp:506
+#: ekos/profileeditor.cpp:539
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:508
+#: ekos/profileeditor.cpp:541
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -25627,25 +25628,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:809 ekos/profileeditor.ui:369
+#: ekos/profileeditor.cpp:696 ekos/profileeditor.ui:369
 #, fuzzy, kde-format
 #| msgid "Interval:"
 msgid "Internal"
 msgstr "ئىنتېرۋال:"
 
-#: ekos/profileeditor.cpp:900
+#: ekos/profileeditor.cpp:787
 #, fuzzy, kde-format
 #| msgid "Artwork"
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "سەنئەت بۇيۇمى"
 
-#: ekos/profileeditor.cpp:901
+#: ekos/profileeditor.cpp:788
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:965
+#: ekos/profileeditor.cpp:852
 #, fuzzy, kde-format
 #| msgid "Device Manager"
 msgid "Found INDI Web Manager at %1"

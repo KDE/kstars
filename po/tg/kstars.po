@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-27 01:57+0000\n"
+"POT-Creation-Date: 2025-01-28 01:54+0000\n"
 "PO-Revision-Date: 2021-09-09 23:34-0700\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik Language Support\n"
@@ -22798,7 +22798,8 @@ msgstr "Ҷустуҷӯи объект"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
 #, kde-format
-msgid "Accept reversed DEC on pier-side change reusing calibration."
+msgid ""
+"Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
@@ -25446,31 +25447,31 @@ msgstr "Каталоги FITS нобаён:"
 msgid "Set the alternative image directory for Analyze"
 msgstr ""
 
-#: ekos/profileeditor.cpp:49
+#: ekos/profileeditor.cpp:81
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Ягон чизро интихоб накардан"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:149
 #, fuzzy, kde-format
 msgid "Cannot save an empty profile."
 msgstr "Дохил кардан ба рӯйхат"
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:161
 #, fuzzy, kde-format
 #| msgid "A file named \"%1\" already exists. Overwrite it?"
 msgid "Profile name already exists."
 msgstr "Файл бо номи \"%1\"аллакай вуҷуд дорад. Шумо мехоҳед ӯро иваз кунед?"
 
-#: ekos/profileeditor.cpp:506
+#: ekos/profileeditor.cpp:539
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
 "corresponding driver.<nobr/>"
 msgstr ""
 
-#: ekos/profileeditor.cpp:508
+#: ekos/profileeditor.cpp:541
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -25478,26 +25479,26 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:809 ekos/profileeditor.ui:369
+#: ekos/profileeditor.cpp:696 ekos/profileeditor.ui:369
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Vernal"
 msgid "Internal"
 msgstr "Вернал"
 
-#: ekos/profileeditor.cpp:900
+#: ekos/profileeditor.cpp:787
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:901
+#: ekos/profileeditor.cpp:788
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Қодир ба сар додани сервери INDI нестам: хатогии порт."
 
-#: ekos/profileeditor.cpp:965
+#: ekos/profileeditor.cpp:852
 #, fuzzy, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Даргоҳи видео:"

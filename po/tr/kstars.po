@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-27 01:57+0000\n"
+"POT-Creation-Date: 2025-01-28 01:54+0000\n"
 "PO-Revision-Date: 2025-01-21 10:36+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -23076,11 +23076,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, kde-format
-msgid "Accept reversed DEC on pier-side change reusing calibration."
+#, fuzzy, kde-format
+#| msgid "Reverse DEC on pier-side change when reusing calibration."
+msgid ""
+"Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
-"Kalibrasyonu yeniden kullanımında iskele tarafındaki değişiklikte tersine "
-"çevrilmiş DEC’i kabul edin."
+"Kalibrasyonu yeniden kullanırken iskele tarafındaki değişiklikte DEC’yi "
+"tersine çevir"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -25819,23 +25821,23 @@ msgstr "Alternatif görsel dizini: "
 msgid "Set the alternative image directory for Analyze"
 msgstr "Analyze için olan alternatif görsel dizinini ayarla"
 
-#: ekos/profileeditor.cpp:49
+#: ekos/profileeditor.cpp:81
 #, kde-format
 msgctxt "@title:window"
 msgid "Profile Editor"
 msgstr "Profil Düzenleyicisi"
 
-#: ekos/profileeditor.cpp:117
+#: ekos/profileeditor.cpp:149
 #, kde-format
 msgid "Cannot save an empty profile."
 msgstr "Boş bir profil kaydedilemez."
 
-#: ekos/profileeditor.cpp:129
+#: ekos/profileeditor.cpp:161
 #, kde-format
 msgid "Profile name already exists."
 msgstr "Profil adı halihazırda var."
 
-#: ekos/profileeditor.cpp:506
+#: ekos/profileeditor.cpp:539
 #, kde-format
 msgid ""
 "<nobr>Available as <b>Remote</b> Driver. To use locally, install the "
@@ -25844,7 +25846,7 @@ msgstr ""
 "<nobr><b>Uzak</b> sürücü olarak kullanılabilir. Yerel olarak kullanmak için "
 "gerekli sürücüyü kurun.<nobr/>"
 
-#: ekos/profileeditor.cpp:508
+#: ekos/profileeditor.cpp:541
 #, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
@@ -25854,23 +25856,23 @@ msgstr ""
 "%3<nobr/>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
-#: ekos/profileeditor.cpp:809 ekos/profileeditor.ui:369
+#: ekos/profileeditor.cpp:696 ekos/profileeditor.ui:369
 #, kde-format
 msgid "Internal"
 msgstr "İçsel"
 
-#: ekos/profileeditor.cpp:900
+#: ekos/profileeditor.cpp:787
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Ağ Taranıyor"
 
-#: ekos/profileeditor.cpp:901
+#: ekos/profileeditor.cpp:788
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "INDI web yöneticileri için ağ taranıyor…"
 
-#: ekos/profileeditor.cpp:965
+#: ekos/profileeditor.cpp:852
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "%1 konumunda INDI web yöneticisi bulundu"
@@ -87803,6 +87805,11 @@ msgstr "Arka plan rengi:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Arka plan rengini ayarlayın."
+
+#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
+#~ msgstr ""
+#~ "Kalibrasyonu yeniden kullanımında iskele tarafındaki değişiklikte tersine "
+#~ "çevrilmiş DEC’i kabul edin."
 
 #~ msgid "Scheduler Offset"
 #~ msgstr "Zamanlayıcı Ofseti"
