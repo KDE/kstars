@@ -2221,9 +2221,13 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
             break;
         case GuideInterface::RA_IN:
             calibrationPlot->graph(GuideGraph::G_DEC)->addData(dx, dy);
+            calDecArrowStartX = dx;
+            calDecArrowStartY = dy;
             break;
         case GuideInterface::BACKLASH:
             calibrationPlot->graph(GuideGraph::G_RA_HIGHLIGHT)->addData(dx, dy);
+            calDecArrowStartX = dx;
+            calDecArrowStartY = dy;
             break;
         case GuideInterface::DEC_OUT:
             calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->addData(dx, dy);
@@ -2244,7 +2248,7 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
 void Guide::drawRADECAxis(QCPItemText *Label, QCPItemLine *Arrow, const double xEnd, const double yEnd)
 {
 
-    Arrow->start->setCoords(0, 0);
+    Arrow->start->setCoords(calDecArrowStartX, calDecArrowStartY);
     Arrow->end->setCoords(xEnd, yEnd);
     Arrow->setHead(QCPLineEnding::esSpikeArrow);
     Label->position->setCoords(xEnd, yEnd);
@@ -2891,6 +2895,9 @@ void Guide::initCalibrationPlot()
     calDECArrow->setPen(QPen(Qt::white, 1));
     calDECArrow->setHead(QCPLineEnding::esSpikeArrow);
     calDECArrow->setVisible(false);
+
+    calDecArrowStartX = 0;
+    calDecArrowStartY = 0;
 
     calibrationPlot->resize(190, 190);
     calibrationPlot->replot();

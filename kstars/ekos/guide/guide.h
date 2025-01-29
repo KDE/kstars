@@ -686,6 +686,9 @@ class Guide : public QWidget, public Ui::Guide
         QCPItemLine *calRAArrow { nullptr }; // ... with direction
         QCPItemText *calDECLabel { nullptr }; // DEC axis ...
         QCPItemLine *calDECArrow { nullptr }; // ... with direction
+        double calDecArrowStartX { 0 };
+        double calDecArrowStartY { 0 };
+
 
         // The scales of these zoom levels are defined in Guide::zoomX().
         static constexpr int defaultXZoomLevel = 3;
