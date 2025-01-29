@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-28 01:54+0000\n"
-"PO-Revision-Date: 2025-01-21 18:07+0100\n"
+"PO-Revision-Date: 2025-01-28 21:19+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -22336,7 +22336,7 @@ msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
-"PHD2: Establiu els paràmetres de CCD del telescopi en PHD2, l'escala de "
+"PHD2: Establiu els paràmetres de CCD i del telescopi a PHD2, l'escala de "
 "píxels no és vàlida."
 
 #: ekos/guide/externalguide/phd2.cpp:895
@@ -23683,13 +23683,12 @@ msgstr ""
 # Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
-"Invertix la Dec en canviar el costat del moll quan es torne a emprar el "
-"calibratge."
+"Invertix els polsos del guiatge DEC en canviar el costat del moll i "
+"reutilitzar el calibratge."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -89484,9 +89483,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-# Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
-#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
-#~ msgstr ""
-#~ "Accepta la Dec invertida en canviar el costat del moll reutilitzant el "
-#~ "calibratge."
