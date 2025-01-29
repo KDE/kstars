@@ -10,6 +10,9 @@
 #include <QDateTime>
 #include "indi/indimount.h"
 
+#define CAL_VERSION     "Cal v1.1"
+#define CAL_VERSION_1_0 "Cal v1.0"
+
 Calibration::Calibration()
 {
     ROT_Z = GuiderUtils::Matrix(0);
@@ -339,6 +342,7 @@ void Calibration::setDeclinationSwapEnabled(bool value)
                                .arg(calibrationDecSwap ? "T" : "F");
     decSwap = value;
 }
+
 QString Calibration::serialize() const
 {
     QDateTime now = QDateTime::currentDateTime();
@@ -346,13 +350,13 @@ QString Calibration::serialize() const
     QString raStr = std::isnan(calibrationRA.Degrees()) ? "" : calibrationRA.toDMSString(false, true, true);
     QString decStr = std::isnan(calibrationDEC.Degrees()) ? "" : calibrationDEC.toHMSString(true, true);
     QString s =
-        QString("Cal v1.0,bx=%1,by=%2,pw=%3,ph=%4,fl=%5,ang=%6,angR=%7,angD=%8,"
+        QString("%16,bx=%1,by=%2,pw=%3,ph=%4,fl=%5,ang=%6,angR=%7,angD=%8,"
                 "ramspas=%9,decmspas=%10,swap=%11,ra=%12,dec=%13,side=%14,when=%15,calEnd")
         .arg(subBinX).arg(subBinY).arg(ccd_pixel_width).arg(ccd_pixel_height)
         .arg(focalMm).arg(calibrationAngle).arg(calibrationAngleRA)
         .arg(calibrationAngleDEC).arg(raPulseMsPerArcsecond)
         .arg(decPulseMsPerArcsecond).arg(calibrationDecSwap ? 1 : 0)
-        .arg(raStr).arg(decStr).arg(static_cast<int>(calibrationPierSide)).arg(dateStr);
+        .arg(raStr).arg(decStr).arg(static_cast<int>(calibrationPierSide)).arg(dateStr).arg(CAL_VERSION);
     return s;
 }
 
@@ -387,7 +391,15 @@ bool Calibration::restore(const QString &encoding)
     QStringList items = encoding.split(',');
     if (items.size() != 17) return false;
     int i = 0;
-    if (items[i] != "Cal v1.0") return false;
+
+    bool fixOldCalibration = false;
+    if (items[i] == CAL_VERSION_1_0)
+    {
+        fixOldCalibration = true;
+    }
+    else if (items[i] == CAL_VERSION) fixOldCalibration = false;
+    else return false;
+
     if (!parseInt(items[++i], "bx=", &subBinX)) return false;
     if (!parseInt(items[++i], "by=", &subBinY)) return false;
     if (!parseDouble(items[++i], "pw=", &ccd_pixel_width)) return false;
@@ -426,6 +438,11 @@ bool Calibration::restore(const QString &encoding)
     int tempInt;
     if (!parseInt(items[++i], "swap=", &tempInt)) return false;
     decSwap = static_cast<bool>(tempInt);
+    if (fixOldCalibration)
+    {
+        qCDebug(KSTARS_EKOS_GUIDE) << QString("Modifying v1.0 calibration");
+        decSwap = !decSwap;
+    }
     calibrationDecSwap = decSwap;
     QString tempStr;
     if (!parseString(items[++i], "ra=", &tempStr)) return false;

@@ -26,6 +26,15 @@
 // Qt version calming
 #include <qtendl.h>
 
+#include <QRandomGenerator>
+namespace
+{
+QRandomGenerator generator;
+double getNoise(double maxAbsVal)
+{
+    return (maxAbsVal - generator.bounded(maxAbsVal * 2));
+}
+}
 GuiderUtils::Vector cgmath::findLocalStarPosition(QSharedPointer<FITSData> &imageData,
         QSharedPointer<GuideView> &guideView, bool firstFrame)
 {
@@ -539,6 +548,15 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
                                 targetPosition.x, targetPosition.y,
                                 &multiStarRADrift, &multiStarDECDrift))
         {
+#ifdef DEBUG_ADD_NOISE
+            const double raNoise = getNoise(.75);
+            const double decNoise = getNoise(.75);
+            multiStarRADrift += raNoise;
+            multiStarDECDrift += decNoise;
+            qCDebug(KSTARS_EKOS_GUIDE)
+                    << "Added guide noise arcsecs" << "RA" << raNoise << "DEC" << decNoise;
+            fprintf(stderr, "Add guide noise arcsecs %.1f %.1f\n", raNoise, decNoise);
+#endif
             qCDebug(KSTARS_EKOS_GUIDE) << QString("MultiStar drift: RA %1 DEC %2")
                                        .arg(multiStarRADrift, 0, 'f', 2)
                                        .arg(multiStarDECDrift, 0, 'f', 2);
