@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-28 01:54+0000\n"
-"PO-Revision-Date: 2025-01-28 12:44+0100\n"
+"POT-Creation-Date: 2025-01-30 01:53+0000\n"
+"PO-Revision-Date: 2025-01-29 12:52+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -7546,7 +7546,7 @@ msgstr ""
 "<ul>\n"
 "<li><b>Cualquier estrella:</b> El asistente busca la estrella más cercana.</"
 "li>\n"
-"<li><b>Cualquier objeto:</b>  El asistente busca el objeto más cercano de "
+"<li><b>Cualquier objeto:</b> El asistente busca el objeto más cercano de "
 "cualquier tipo.</li>\n"
 "<li><b>Estrellas con nombre</b> El asistente busca la estrella más cercana "
 "de la lista de estrellas actualmente visible. Tenga en cuenta que la primera "
@@ -7555,7 +7555,7 @@ msgstr ""
 "</li>\n"
 "<li><b>DEC fija:</b> El asistente genera todos los puntos en la DEC escogida."
 "</li>\n"
-"<li><b>Cuadrícula fija:</b>  El asistente usa la cuadrícula original sin "
+"<li><b>Cuadrícula fija:</b> El asistente usa la cuadrícula original sin "
 "intentar hacerla coincidir con los objetos.</li>\n"
 "</ul>\n"
 "</body></html>"
@@ -18567,9 +18567,8 @@ msgid ""
 "td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></table></font>"
 msgstr ""
 "<style>table { background-color: white;}</style><font "
-"color='%1'><table><tr><td>Cuadrícula: </td><td>%2 (%3)</td></"
-"tr><tr><td>Pos:  </td><td>%4</td></tr><tr><td>Val:  </td><td>%5</td></tr></"
-"table></font>"
+"color='%1'><table><tr><td>Cuadrícula: </td><td>%2 (%3)</td></tr><tr><td>Pos: "
+"</td><td>%4</td></tr><tr><td>Val: </td><td>%5</td></tr></table></font>"
 
 #: ekos/focus/adaptivefocus.cpp:152
 #, kde-format
@@ -18926,13 +18925,13 @@ msgstr ""
 "margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Frente "
 "de onda:</span> Usa la fórmula, CFZ = 4 t λ f<span style=\" vertical-align:"
-"super;\">2</span>.  Fórmula derivada de la teoría de aberración del frente "
-"de onda. Alguien ha sugerido t=1/3 e incluso t=1/10.</li></ul><ul style="
+"super;\">2</span>. Fórmula derivada de la teoría de aberración del frente de "
+"onda. Alguien ha sugerido t=1/3 e incluso t=1/10.</li></ul><ul style="
 "\"margin-top: 0px;  margin-bottom: 0px; margin-left: 0px; margin-right: 0px; "
 "-qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">Gold:</span> Usa la fórmula, CFZ = 0,00225 √τ θ "
-"f<span style=\" vertical-align:super;\">2. </span>A.  Consulte http://www."
+"f<span style=\" vertical-align:super;\">2. </span>A. Consulte http://www."
 "goldastro.com/goldfocus/ncfz.php para más detalles.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
@@ -22291,37 +22290,37 @@ msgstr ""
 "Advertencia: está activado el reinicio de la calibración de guiado. Se le "
 "recomienda desactivar esta opción para PHD2."
 
-#: ekos/guide/guide.cpp:2408
+#: ekos/guide/guide.cpp:2412
 #, kde-format
 msgid "Calibration failed to start."
 msgstr "No se ha podido iniciar la calibración."
 
-#: ekos/guide/guide.cpp:2559
+#: ekos/guide/guide.cpp:2563
 #, kde-format
 msgid "Auto star selected."
 msgstr "Estrella seleccionada automáticamente."
 
-#: ekos/guide/guide.cpp:2563
+#: ekos/guide/guide.cpp:2567
 #, kde-format
 msgid "Failed to select an auto star."
 msgstr "No se ha podido seleccionar una estrella automáticamente."
 
-#: ekos/guide/guide.cpp:2572
+#: ekos/guide/guide.cpp:2576
 #, kde-format
 msgid "Select a guide star to calibrate."
 msgstr "Seleccione una estrella guía para calibrar."
 
-#: ekos/guide/guide.cpp:2822
+#: ekos/guide/guide.cpp:2826
 #, kde-format
 msgid "dx (pixels)"
 msgstr "dx (píxeles)"
 
-#: ekos/guide/guide.cpp:2823
+#: ekos/guide/guide.cpp:2827
 #, kde-format
 msgid "dy (pixels)"
 msgstr "dy (píxeles)"
 
-#: ekos/guide/guide.cpp:2962 ekos/guide/guide.cpp:3088
+#: ekos/guide/guide.cpp:2969 ekos/guide/guide.cpp:3095
 #, kde-format
 msgid ""
 "The PHD2 camera is not available to Ekos, so you cannot see the captured "
@@ -22331,7 +22330,7 @@ msgstr ""
 "imágenes capturadas. Aún así, podrá seguir viendo la imagen de la estrella "
 "guía cuando esté realizando guiado."
 
-#: ekos/guide/guide.cpp:2966 ekos/guide/guide.cpp:3092
+#: ekos/guide/guide.cpp:2973 ekos/guide/guide.cpp:3099
 #, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
@@ -22342,7 +22341,7 @@ msgstr ""
 "quitar la marca de selección de «Subfotograma». Quítela ahora para permitir "
 "la captura de imágenes. Puede volver a marcarla antes de realizar un guiado."
 
-#: ekos/guide/guide.cpp:3259
+#: ekos/guide/guide.cpp:3266
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
 msgstr "No se puede cambiar el tren óptico activo mientras PHD2 esté conectado"
@@ -23306,7 +23305,7 @@ msgid ""
 "<html><head/><body><p>Remove the effect of DEC backlash when calibrating "
 "guider.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Eliminar el efecto de rebote de DEC al calibrar el  "
+"<html><head/><body><p>Eliminar el efecto de rebote de DEC al calibrar el "
 "sistema de guiado.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
