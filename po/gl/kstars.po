@@ -2447,13 +2447,13 @@ msgstr "Información de tamaño en minutos de arco"
 #: dialogs/addcatalogobject.ui:146
 #, kde-format
 msgid "Major axis:"
-msgstr "Eixo maior:"
+msgstr "Eixe maior:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: dialogs/addcatalogobject.ui:157
 #, kde-format
 msgid "Minor axis:"
-msgstr "Eixo menor:"
+msgstr "Eixe menor:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: dialogs/addcatalogobject.ui:176 ekos/capture/capture.cpp:107
@@ -3246,12 +3246,12 @@ msgstr "Identificador"
 #: dialogs/catalogobjectlistmodel.cpp:79
 #, kde-format
 msgid "Major Axis"
-msgstr "Eixo maior"
+msgstr "Eixe maior"
 
 #: dialogs/catalogobjectlistmodel.cpp:81
 #, kde-format
 msgid "Minor Axis"
-msgstr "Eixo menor"
+msgstr "Eixe menor"
 
 #: dialogs/catalogobjectlistmodel.cpp:83
 #, kde-format
@@ -10990,8 +10990,8 @@ msgid ""
 "axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Os pulsos de guía da ascensión recta (α) en "
-"milisegundos. Prema aquí para ver este eixo nos valores do eixo esquerdo. "
-"Clic duplo para actualizar o eixo.</p></body></html>"
+"milisegundos. Prema aquí para ver este eixe nos valores do eixe esquerdo. "
+"Clic duplo para actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decPulseCB)
 #: ekos/analyze/analyze.ui:674
@@ -11012,8 +11012,8 @@ msgid ""
 "axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Os pulsos de guía da declinación (δ) en milisegundos. "
-"Prema aquí para ver este eixo nos valores do eixo esquerdo. Clic duplo para "
-"actualizar o eixo.</p></body></html>"
+"Prema aquí para ver este eixe nos valores do eixe esquerdo. Clic duplo para "
+"actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, driftCB)
 #: ekos/analyze/analyze.ui:721
@@ -11104,8 +11104,8 @@ msgid ""
 "click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>O nivel de a luz de fondo do ceo (que SEP calcula a "
-"partir das imaxes de guía). Preme aquí para ver este eixo nos valores do "
-"eixo esquerdo. Clic duplo para actualizar o eixo.</p></body></html>"
+"partir das imaxes de guía). Preme aquí para ver este eixe nos valores do "
+"eixe esquerdo. Clic duplo para actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numStarsCB)
 #: ekos/analyze/analyze.ui:856
@@ -11140,8 +11140,8 @@ msgid ""
 "axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>O número de estrelas detectadas nas imaxes de guía. "
-"Preme aquí para ver este eixo nos valores do eixo esquerdo. Clic duplo para "
-"actualizar o eixo.</p></body></html>"
+"Preme aquí para ver este eixe nos valores do eixe esquerdo. Clic duplo para "
+"actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, snrCB)
 #: ekos/analyze/analyze.ui:903
@@ -11168,8 +11168,8 @@ msgid ""
 "axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>A relación sinal/ruído (SNR) da estrela de guía. Preme "
-"aquí para ver este eixo nos valores do eixo esquerdo. Clic duplo para "
-"actualizar o eixo.</p></body></html>"
+"aquí para ver este eixe nos valores do eixe esquerdo. Clic duplo para "
+"actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountRaCB)
 #: ekos/analyze/analyze.ui:950
@@ -11190,8 +11190,8 @@ msgid ""
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>A ascensión recta (α) onde apunta o telescopio, en "
-"«HMS» (horas, minutos, segundos). Prema aquí para ver este eixo nos valores "
-"do eixo esquerdo. Clic duplo para actualizar o eixo.</p></body></html>"
+"«HMS» (horas, minutos, segundos). Prema aquí para ver este eixe nos valores "
+"do eixe esquerdo. Clic duplo para actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountDecCB)
 #: ekos/analyze/analyze.ui:997
@@ -11212,8 +11212,8 @@ msgid ""
 "left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>A declinación (δ) onde apunta o telescopio, en «graos:"
-"minutos de arco:segundos de arco». Prema aquí para ver este eixo nos valores "
-"do eixo esquerdo. Clic duplo para actualizar o eixo.</p></body></html>"
+"minutos de arco:segundos de arco». Prema aquí para ver este eixe nos valores "
+"do eixe esquerdo. Clic duplo para actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:1044
@@ -11239,7 +11239,7 @@ msgid ""
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>O acimut do telescopio (en graos). Preme aquí para ver "
-"este eixo nos valores do eixo esquerdo. Clic duplo para actualizar o eixo.</"
+"este eixe nos valores do eixe esquerdo. Clic duplo para actualizar o eixe.</"
 "p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, altCB)
@@ -11266,8 +11266,8 @@ msgid ""
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>A altitude do telescopio (en graos). Preme aquí para "
-"ver este eixo nos valores do eixo esquerdo. Clic duplo para actualizar o "
-"eixo.</p></body></html>"
+"ver este eixe nos valores do eixe esquerdo. Clic duplo para actualizar o "
+"eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pierSideCB)
 #: ekos/analyze/analyze.ui:1138
@@ -11294,8 +11294,8 @@ msgid ""
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>O lado de observación (esquerdo) da montura. Preme "
-"aquí para ver este eixo nos valores do eixo esquerdo. Clic duplo para "
-"actualizar o eixo.</p></body></html>"
+"aquí para ver este eixe nos valores do eixe esquerdo. Clic duplo para "
+"actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountHaCB)
 #: ekos/analyze/analyze.ui:1185
@@ -11320,8 +11320,8 @@ msgid ""
 "axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>O valor de ángulo horario da montura. Preme aquí para "
-"ver este eixo nos valores do eixo esquerdo. Clic duplo para actualizar o "
-"eixo.</p></body></html>"
+"ver este eixe nos valores do eixe esquerdo. Clic duplo para actualizar o "
+"eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, hfrCB)
 #: ekos/analyze/analyze.ui:1232
@@ -11348,8 +11348,8 @@ msgid ""
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>O raio de medio fluxo (en píxeles) das imaxes "
-"capturadas. Preme aquí para ver este eixo nos valores do eixo esquerdo. Clic "
-"duplo para actualizar o eixo.</p></body></html>"
+"capturadas. Preme aquí para ver este eixe nos valores do eixe esquerdo. Clic "
+"duplo para actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, numCaptureStarsCB)
 #: ekos/analyze/analyze.ui:1273
@@ -11370,8 +11370,8 @@ msgid ""
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Representar o número de estrelas detectadas nas imaxes "
-"capturadas. Preme aquí para ver este eixo nos valores do eixo esquerdo. Clic "
-"duplo para actualizar o eixo.</p></body></html>"
+"capturadas. Preme aquí para ver este eixe nos valores do eixe esquerdo. Clic "
+"duplo para actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, medianCB)
 #: ekos/analyze/analyze.ui:1314
@@ -11398,8 +11398,8 @@ msgid ""
 "axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Representar a mostra mediana das imaxes capturadas. "
-"Preme aquí para ver este eixo nos valores do eixo esquerdo. Clic duplo para "
-"actualizar o eixo.</p></body></html>"
+"Preme aquí para ver este eixe nos valores do eixe esquerdo. Clic duplo para "
+"actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eccentricityCB)
 #: ekos/analyze/analyze.ui:1355
@@ -11426,8 +11426,8 @@ msgid ""
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Representar a excentricidade de estrela mediana das "
-"imaxes capturadas. Preme aquí para ver este eixo nos valores do eixo "
-"esquerdo. Clic duplo para actualizar o eixo.</p></body></html>"
+"imaxes capturadas. Preme aquí para ver este eixe nos valores do eixe "
+"esquerdo. Clic duplo para actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, temperatureCB)
 #: ekos/analyze/analyze.ui:1396
@@ -11450,8 +11450,8 @@ msgid ""
 "axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Representar a temperatura ambiente. Preme aquí para "
-"ver este eixo nos valores do eixo esquerdo. Clic duplo para actualizar o "
-"eixo.</p></body></html>"
+"ver este eixe nos valores do eixe esquerdo. Clic duplo para actualizar o "
+"eixe.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCCB)
 #: ekos/analyze/analyze.ui:1443
@@ -11511,8 +11511,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Representar a distancia entre a imaxe capturada "
 "resolta con placas e a posición de destino en arcos de segundo. Debe "
-"activarse nas opcións do planificador. Preme aquí para ver este eixo nos "
-"valores do eixo esquerdo. Clic duplo para actualizar o eixo.</p></body></"
+"activarse nas opcións do planificador. Preme aquí para ver este eixe nos "
+"valores do eixe esquerdo. Clic duplo para actualizar o eixe.</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusPositionCB)
@@ -11539,8 +11539,8 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>Representar a posición da solución de enfoque "
-"automático. Preme aquí para ver este eixo nos valores do eixo esquerdo. Clic "
-"duplo para actualizar o eixo.</p></body></html>"
+"automático. Preme aquí para ver este eixe nos valores do eixe esquerdo. Clic "
+"duplo para actualizar o eixe.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, detailsCB)
 #. i18n: ectx: property (text), widget (QPushButton, DetailsButton)
@@ -22641,13 +22641,13 @@ msgstr "RMS"
 #: ekos/guide/guide.ui:1349
 #, kde-format
 msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
-msgstr "<html><head/><body><p>Achegar no eixo X.</p></body></html>"
+msgstr "<html><head/><body><p>Achegar no eixe X.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomOutXB)
 #: ekos/guide/guide.ui:1377
 #, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
-msgstr "<html><head/><body><p>Afastar no eixo X.</p></body></html>"
+msgstr "<html><head/><body><p>Afastar no eixe X.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/guide/guide.ui:1403
@@ -25737,7 +25737,7 @@ msgid ""
 "<html><head/><body><p>Scale the value axis to the current value range.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Axustar a escala do eixo de valores ao intervalo de "
+"<html><head/><body><p>Axustar a escala do eixe de valores ao intervalo de "
 "valores actual.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoscaleValuesCB)
@@ -40200,37 +40200,37 @@ msgstr "Tramar incluso mentres non se guía."
 #: kstars.kcfg:2978
 #, kde-format
 msgid "Enable autoguiding in the RA axis."
-msgstr "Activar a guía automática no eixo de ascensión recta (α)."
+msgstr "Activar a guía automática no eixe de ascensión recta (α)."
 
 #. i18n: ectx: label, entry (DECGuideEnabled), group (Guide)
 #: kstars.kcfg:2982
 #, kde-format
 msgid "Enable autoguiding in the DEC axis."
-msgstr "Activar a guía automática no eixo de declinación (δ)."
+msgstr "Activar a guía automática no eixe de declinación (δ)."
 
 #. i18n: ectx: label, entry (NorthDECGuideEnabled), group (Guide)
 #: kstars.kcfg:2986
 #, kde-format
 msgid "Enable North autoguiding in the DEC axis."
-msgstr "Activar a guía automática do norte no eixo de declinación (δ)."
+msgstr "Activar a guía automática do norte no eixe de declinación (δ)."
 
 #. i18n: ectx: label, entry (SouthDECGuideEnabled), group (Guide)
 #: kstars.kcfg:2990
 #, kde-format
 msgid "Enable South autoguiding in the DEC axis."
-msgstr "Activar a guía automática do sur no eixo de declinación (δ)."
+msgstr "Activar a guía automática do sur no eixe de declinación (δ)."
 
 #. i18n: ectx: label, entry (EastRAGuideEnabled), group (Guide)
 #: kstars.kcfg:2994
 #, kde-format
 msgid "Enable East autoguiding in the RA axis."
-msgstr "Activar a guía automática do leste no eixo de ascensión recta (α)."
+msgstr "Activar a guía automática do leste no eixe de ascensión recta (α)."
 
 #. i18n: ectx: label, entry (WestRAGuideEnabled), group (Guide)
 #: kstars.kcfg:2998
 #, kde-format
 msgid "Enable West autoguiding in the RA axis."
-msgstr "Activar a guía automática do oeste no eixo de ascensión recta (α)."
+msgstr "Activar a guía automática do oeste no eixe de ascensión recta (α)."
 
 #. i18n: ectx: label, entry (GuiderAccuracyThreshold), group (Guide)
 #: kstars.kcfg:3077
@@ -40894,7 +40894,7 @@ msgstr ""
 #, kde-format
 msgid "Stored Y-axis upper and lower limits for the Analyze Stats Plot."
 msgstr ""
-"Límites superior e inferior do eixo y almacenados para a representación das "
+"Límites superior e inferior do eixe y almacenados para a representación das "
 "estatísticas de análise."
 
 #. i18n: ectx: label, entry (LastServer), group (INDI Lite)
@@ -41236,7 +41236,7 @@ msgstr "Estado meteorolóxico relevante para o estado do observatorio."
 #, kde-format
 msgid "Scale the sensor graph value axis to the values range."
 msgstr ""
-"Axustar a escala do eixo de valores do gráfico do sensor ao intervalo de "
+"Axustar a escala do eixe de valores do gráfico do sensor ao intervalo de "
 "valores."
 
 #. i18n: ectx: label, entry (ASTAPExecutable), group (ASTAP)
@@ -72823,7 +72823,7 @@ msgstr "δ D:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Declination axis"
-msgstr "Eixo de declinación (δ)"
+msgstr "Eixe de declinación (δ)"
 
 #: libindi_strings.cpp:104
 #, kde-kuit-format
@@ -73657,7 +73657,7 @@ msgstr "Coordenadas horizontais"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Hour axis"
-msgstr "Eixo horario"
+msgstr "Eixe horario"
 
 #: libindi_strings.cpp:246
 #, kde-kuit-format
