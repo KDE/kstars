@@ -30,6 +30,7 @@ class TestDeltaRA : public QObject
         void crossZeroTest();
         void edgeCasesTest();
         void negativeValuesTest();
+        void deltaAngleTest();
 };
 
 TestDeltaRA::TestDeltaRA() : QObject()
@@ -102,6 +103,97 @@ void TestDeltaRA::negativeValuesTest()
     p4.setRA(-1.0);
     const double delta2 = fabs(p3.ra().deltaAngle(p4.ra()).Degrees());
     QVERIFY(qAbs(delta2 - 15.0) < 0.001);
+}
+
+bool checkAnswer(double result, double answer)
+{
+    // they're both 180, or both 0, who cares about the sign.
+    if (fabs(fabs(result) - 180) < .0001 && fabs(fabs(answer) - 180) < .0001) return true;
+    if (fabs(result) < .0001 && fabs(answer) < .0001) return true;
+
+    return fabs(result - answer) < .0001;
+}
+
+void TestDeltaRA::deltaAngleTest()
+{
+    for (double a1 = -720; a1 <= 720; a1 += 5.0)
+    {
+        const dms d1(a1);
+        constexpr double increment = 5.0;
+
+        // Go forward 180 degrees
+        for (double x = 0.0; x <= 180.0; x += increment)
+        {
+            const double a2 = a1 + x;
+            const dms d2(a2);
+            const double result = d1.deltaAngle(d2).Degrees();
+            const double answer = -x;
+            QVERIFY(checkAnswer(result, answer));
+        }
+        // Go forward from 180 to 360 degrees
+        for (double x = 0.0; x <= 30;/*180.0;*/ x += increment)
+        {
+            const double a2 = a1 + 180.0 + x;
+            const dms d2(a2);
+            const double result = d1.deltaAngle(d2).Degrees();
+            const double answer = 180.0 - x;
+            QVERIFY(checkAnswer(result, answer));
+        }
+        // Go forward from 360 to 540 degrees
+        for (double x = 0.0; x <= 180.0; x += increment)
+        {
+            const double a2 = a1 + 360.0 + x;
+            const dms d2(a2);
+            const double result = d1.deltaAngle(d2).Degrees();
+            const double answer = -x;
+            QVERIFY(checkAnswer(result, answer));
+        }
+        // Go forward from 540 to 720 degrees
+        for (double x = 0.0; x <= 180.0; x += increment)
+        {
+            const double a2 = a1 + 540.0 + x;
+            const dms d2(a2);
+            const double result = d1.deltaAngle(d2).Degrees();
+            const double answer = 180 - x;
+            QVERIFY(checkAnswer(result, answer));
+        }
+        // Go backward 180 degrees
+        for (double x = 0.0; x >= -180.0; x -= increment)
+        {
+            const double a2 = a1 + x;
+            const dms d2(a2);
+            const double result = d1.deltaAngle(d2).Degrees();
+            const double answer = -x;
+            QVERIFY(checkAnswer(result, answer));
+        }
+        // Go backward from 180 to 360 degrees
+        for (double x = 0.0; x >= -180.0; x -= increment)
+        {
+            const double a2 = a1 + x - 180.0;
+            const dms d2(a2);
+            const double result = d1.deltaAngle(d2).Degrees();
+            const double answer = -(180 + x);
+            QVERIFY(checkAnswer(result, answer));
+        }
+        // Go backward from 360 to 540 degrees
+        for (double x = 0.0; x >= -180.0; x -= increment)
+        {
+            const double a2 = a1 + x - 360.0;
+            const dms d2(a2);
+            const double result = d1.deltaAngle(d2).Degrees();
+            const double answer = -x;
+            QVERIFY(checkAnswer(result, answer));
+        }
+        // Go backward from 540 to 720 degrees
+        for (double x = 0.0; x >= -180.0; x -= increment)
+        {
+            const double a2 = a1 + x - 540.0;
+            const dms d2(a2);
+            const double result = d1.deltaAngle(d2).Degrees();
+            const double answer = -(180 + x);
+            QVERIFY(checkAnswer(result, answer));
+        }
+    }
 }
 
 QTEST_GUILESS_MAIN(TestDeltaRA)

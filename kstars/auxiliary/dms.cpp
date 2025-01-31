@@ -275,10 +275,10 @@ const dms dms::deltaAngle(dms angle) const
         angleDiff += 360;
     // angleDiff in the range [180,360]
     if (angleDiff > 180)
-        return dms(360 - angleDiff);
+        return dms(-(360 - angleDiff));
     // angleDiff in the range [-360,-180]
     else if (angleDiff < -180)
-        return dms(-(360 + angleDiff));
+        return dms(360 + angleDiff);
     // angleDiff in the range [-180,180]
     else
         return dms(angleDiff);

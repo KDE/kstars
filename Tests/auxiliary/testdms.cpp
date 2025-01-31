@@ -155,21 +155,28 @@ void TestDMS::testSubstraction()
 
 void TestDMS::testDeltaAngle()
 {
-    // Diff 359 and 1 should be 2 (shortest path normalized)
-    dms sub = dms(359).deltaAngle(dms(1));
-    QVERIFY(sub.Degrees() == 2.);
+    // DeltaAngle should be positive counter-clockwise and negative clockwise.
+    dms sub = dms(1).deltaAngle(dms(10));
+    QVERIFY(sub.Degrees() == -9.);
 
-    // Diff 1 to 350 is -11
+    sub = dms(10).deltaAngle(dms(1));
+    QVERIFY(sub.Degrees() == 9.);
+
+    // Diff 359 and 1 (CW) should be -2 (shortest path normalized)
+    sub = dms(359).deltaAngle(dms(1));
+    QVERIFY(sub.Degrees() == -2.);
+
+    // Diff 1 to 350 is 11 (CCW)
     sub = dms(1).deltaAngle(dms(350));
-    QVERIFY(sub.Degrees() == -11.);
+    QVERIFY(sub.Degrees() == 11.);
 
-    // Diff 310 and 110 should be 160
+    // Diff 310 and 110 should be -160 (CW)
     sub = dms(310).deltaAngle(dms(110));
-    QVERIFY(sub.Degrees() == 160.0);
-
-    // Diff 100 and 300 should be -160 (NOT -200) since 160 is the shorest path CCW
-    sub = dms(100).deltaAngle(dms(300));
     QVERIFY(sub.Degrees() == -160.0);
+
+    // Diff 100 and 300 (CCW) should be 160 (NOT -200) since 160 is the shorest path
+    sub = dms(110).deltaAngle(dms(310));
+    QVERIFY(sub.Degrees() == 160.0);
 }
 
 void TestDMS::testUnitTransition()
