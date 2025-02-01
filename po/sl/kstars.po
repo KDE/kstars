@@ -9,14 +9,14 @@
 # Gregor Rakar <gregor.rakar@kiss.si>, 2003, 2004, 2005.
 # SPDX-FileCopyrightText: 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2024 Jure Repinc <jlp@holodeck1.com>
 # Andrej Mernik <andrejm@ubuntu.si>, 2012, 2013, 2014, 2015, 2016.
-# SPDX-FileCopyrightText: 2020, 2022, 2023, 2024 Matjaž Jeran <matjaz.jeran@amis.net>
+# SPDX-FileCopyrightText: 2020, 2022, 2023, 2024, 2025 Matjaž Jeran <matjaz.jeran@amis.net>
 # Martin Srebotnjak <miles@filmsi.net>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-01-30 01:53+0000\n"
-"PO-Revision-Date: 2025-01-27 11:05+0100\n"
+"PO-Revision-Date: 2025-01-31 15:17+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Lokalize 24.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4267,7 +4267,7 @@ msgstr "Navpično"
 #: dialogs/exportimagedialog.cpp:96
 #, kde-format
 msgid "Full legend"
-msgstr "Celotna legenda"
+msgstr "Polna legenda"
 
 #: dialogs/exportimagedialog.cpp:96 printing/pwizfovconfig.cpp:55
 #, kde-format
@@ -4362,13 +4362,13 @@ msgstr "Osončje"
 #: tools/conjunctions.cpp:104
 #, kde-format
 msgid "Open Clusters"
-msgstr "Razsute kopice"
+msgstr "Odprte kopice"
 
 #: dialogs/finddialog.cpp:40 kstarslite/dialogs/finddialoglite.cpp:29
 #: tools/conjunctions.cpp:105
 #, kde-format
 msgid "Globular Clusters"
-msgstr "Kroglaste kopice"
+msgstr "Globularne kopice"
 
 #: dialogs/finddialog.cpp:41 kstarslite/dialogs/finddialoglite.cpp:30
 #: tools/conjunctions.cpp:106
@@ -4391,7 +4391,7 @@ msgstr "Najdi objekt"
 #: dialogs/finddialog.cpp:87
 #, kde-format
 msgid "Details..."
-msgstr "Podrobnosti …"
+msgstr "Podrobnosti…"
 
 #: dialogs/finddialog.cpp:191
 #, kde-format
@@ -4416,7 +4416,7 @@ msgstr "Aarseth-Brewington (1989 W1)"
 #: dialogs/finddialog.cpp:325
 #, kde-format
 msgid "Search the Internet for %1"
-msgstr "Preiščite internet za %1"
+msgstr "Preišči internet za %1"
 
 #: dialogs/finddialog.cpp:326
 #, kde-format
@@ -4427,7 +4427,7 @@ msgstr "(nič)"
 #: dialogs/finddialog.cpp:491
 #, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "Iskanje po internetu za »%1«"
+msgstr "Iskanje po internetu za \"%1\""
 
 #: dialogs/finddialog.cpp:499
 #, kde-format
@@ -4489,7 +4489,7 @@ msgstr "Deklinacija mora biti med -90,0 in 90,0."
 #: tools/flagmanager.cpp:191
 #, kde-format
 msgid "Invalid Coordinate Data"
-msgstr "Neveljavne koordinate"
+msgstr "Neveljavni podatki koordinat"
 
 #: dialogs/focusdialog.cpp:141
 #, kde-format
@@ -4708,7 +4708,7 @@ msgstr "m"
 #, kde-format
 msgctxt "@title:window"
 msgid "Telescope Focal Length Calculator"
-msgstr "Računalo goriščne razdalje daljnogleda"
+msgstr "Kalkulator goriščne razdalje teleskopa"
 
 #: dialogs/fovdialog.cpp:414
 #, kde-format
@@ -4751,14 +4751,14 @@ msgid ""
 "Add a new field-of-view (FOV) symbol to the list.  You can define the size, "
 "shape, and color of the new symbol."
 msgstr ""
-"Dodajanje novega znaka vidnega polja na seznam. Določite mu lahko velikost, "
-"obliko in barvo."
+"Dodajanje novega znaka vidnega polja (VP) na seznam.  Določite mu lahko "
+"velikost, obliko in barvo."
 
 #. i18n: ectx: property (text), widget (QPushButton, NewButton)
 #: dialogs/fovdialog.ui:60 dialogs/viewsdialog.ui:71
 #, kde-format
 msgid "New..."
-msgstr "Nov …"
+msgstr "Novo…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, EditButton)
 #: dialogs/fovdialog.ui:83
@@ -4773,7 +4773,7 @@ msgid ""
 "Press this button to modify the highlighted FOV symbol.  You can change its "
 "size, shape and color."
 msgstr ""
-"Kliknite ta gumb za spreminjanje poudarjenega znaka vidnega polja. "
+"Kliknite ta gumb za spreminjanje poudarjenega znaka vidnega polja.  "
 "Spremenite mu lahko velikost, obliko in barvo."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveButton)
@@ -4799,7 +4799,7 @@ msgstr "Nastavi zemljepisno lego"
 #: dialogs/locationdialog.cpp:101 dialogs/locationdialog.ui:461
 #, kde-format
 msgid "DST rule:"
-msgstr "Pravilo PČ:"
+msgstr "Pravilo poletnega časa:"
 
 #: dialogs/locationdialog.cpp:146 dialogs/locationdialog.cpp:206
 #: dialogs/locationdialog.cpp:512
@@ -5489,15 +5489,15 @@ msgstr "Vidno polje:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FOVEditRotation)
 #: dialogs/newfov.ui:1048
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<p>Frame rotation with respect to Celestial Pole. Zero degrees indicates "
 "that <b>UP</b> is pointing directly at the pole. 90 degrees indicates that "
 "<b>UP</b> is rotated 90 degrees clockwise with respect to the pole.</p>"
 msgstr ""
-"<p>Vrtenje okvirja glede na nebesni pol. Nič stopinj kaže, da <b>UP</b> kaže "
-"neposredno na pol. 90 stopinj kaže, da <b>se UP</b> vrti za 90 stopinj v "
-"smeri urinega kazalca glede na pol.</p>"
+"<p>Vrtenje okvirja glede na nebesni pol. Nič stopinj kaže, da <b>GOR</b> "
+"kaže neposredno na pol. 90 stopinj kaže, da <b>se GOR</b> vrti za 90 stopinj "
+"v smeri urinega kazalca glede na pol.</p>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, FOVEditRotation)
 #. i18n: ectx: property (text), widget (QLineEdit, FOVEditOffsetY)
@@ -5624,7 +5624,7 @@ msgid ""
 "\n"
 "Circle, Square, Crosshairs, Bullseye."
 msgstr ""
-"Kliknite za izbor lika vidnega polja. Mogoči liki so:\n"
+"Kliknite za izbor lika vidnega polja.  Mogoči liki so:\n"
 "\n"
 "Krog, Kvadrat, Namerilni križ, Tarča"
 
@@ -6346,12 +6346,12 @@ msgstr "Reševanje s položajem slepe slike…"
 #: ekos/align/align.cpp:1976
 #, fuzzy, kde-format
 msgid "Loaded image does not have pierside information"
-msgstr "Naložena slika nima podatkov o strani stebra"
+msgstr "Naložena slika nima podatkov o strani pomola"
 
 #: ekos/align/align.cpp:1981
 #, fuzzy, kde-format
 msgid "Loaded image was taken on pierside %1"
-msgstr "Naložena slika je bila posneta na strani stebra %1"
+msgstr "Naložena slika je bila posneta na strani pomola %1"
 
 #: ekos/align/align.cpp:2106
 #, kde-format
@@ -6499,7 +6499,7 @@ msgstr "Montaža je usklajena s koordinatami rešitve."
 #: ekos/align/polaralignmentassistant.cpp:654
 #, kde-format
 msgid "Settling..."
-msgstr "Poravnava..."
+msgstr "Poravnavanje..."
 
 #: ekos/align/align.cpp:2754
 #, kde-format
@@ -6718,7 +6718,7 @@ msgstr "Točke rešitve shranjene kot: %1"
 #: ekos/align/align.cpp:4021
 #, kde-format
 msgid "Polar Alignment"
-msgstr "Poravnava na pol"
+msgstr "Poravnava na severnico"
 
 #: ekos/align/align.cpp:4575
 #, kde-format
@@ -6801,7 +6801,7 @@ msgstr "Dejanje reševalnika"
 #: ekos/align/align.ui:187
 #, kde-format
 msgid "Synchronize the telescope to the solution coordinates"
-msgstr "Uskladi daljnogled na koordinate rešitve"
+msgstr "Uskladi teleskop na koordinate rešitve"
 
 #. i18n: ectx: property (text), widget (QRadioButton, syncR)
 #: ekos/align/align.ui:193
@@ -6816,7 +6816,7 @@ msgid ""
 "Synchronize the telescope to the solution coordinates and then slew to the "
 "target coordinates"
 msgstr ""
-"Uskladi daljnogled na koordinate rešitve in ga nato obrni na koordinate cilja"
+"Uskladi teleskop na koordinate rešitve in ga nato obrni na koordinate cilja"
 
 #. i18n: ectx: property (text), widget (QRadioButton, slewR)
 #: ekos/align/align.ui:212
@@ -6834,13 +6834,13 @@ msgstr "Samo reši"
 #: ekos/align/align.ui:228
 #, kde-format
 msgid "&Nothing"
-msgstr "&Ne naredi ničesar"
+msgstr "&Nič"
 
 #. i18n: ectx: property (title), widget (QGroupBox, telescopeCoordinateGroup)
 #: ekos/align/align.ui:243
 #, kde-format
 msgid "Telescope Coordinates (JNow)"
-msgstr "Koordinate daljnogleda (JNow)"
+msgstr "Koordinate teleskopa (JNow)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignAccuracyThreshold)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
@@ -6851,9 +6851,9 @@ msgid ""
 "Plate solver shall be repeatedly executed until the solution coordinates are "
 "below the accuracy threshold"
 msgstr ""
-"Prag natančnosti v ločnih sekundah med rešitvijo in koordinatami cilja. "
-"Samodejno določanje položaja bo se izvajalo, dokler so koordinate rešitve "
-"nad pragom natančnosti"
+"Prag natančnosti v ločnih sekundah med koordinatami rešitve in cilja. "
+"Reševalnik plošč se ponovljeno izvaja, dokler koordinate rešitve niso pod "
+"pragom natančnosti"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignSettlingTime)
@@ -6863,14 +6863,14 @@ msgid ""
 "After telescope completes slewing, wait until it settles for this many "
 "milliseconds before capturing the next image."
 msgstr ""
-"Po zaključku obračanja daljnogleda se počaka, da se ta umiri za toliko "
-"milisekund pred zajemom naslednje slike."
+"Po zaključku obračanja teleskopa počakaj, da se poravna za toliko milisekund "
+"pred zajemom naslednje slike."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/align/align.ui:300
 #, kde-format
 msgid "Settle:"
-msgstr "Umiri:"
+msgstr "Poravnaj:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/align/align.ui:337
@@ -6928,7 +6928,7 @@ msgstr "Kot vrtenja slike, vzhodno od severa"
 #: ekos/align/align.ui:442
 #, kde-format
 msgid "PA:"
-msgstr "PK:"
+msgstr "PA:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, PAOut)
 #: ekos/align/align.ui:449
@@ -6940,7 +6940,7 @@ msgstr "Položajni kot v stopinjah, vzhodno od severa"
 #: ekos/align/align.ui:469
 #, kde-format
 msgid "FL:"
-msgstr "GR:"
+msgstr "FL:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, FocalLengthOut)
 #: ekos/align/align.ui:476
@@ -7012,20 +7012,21 @@ msgstr "Zdr.:"
 #: ekos/align/align.ui:583 ekos/focus/focus.ui:660 ekos/guide/guide.ui:166
 #, kde-format
 msgid "Show in FITS Viewer..."
-msgstr "Pokaži v pregledovalniku FITS …"
+msgstr "Pokaži v pregledovalniku FITS…"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
 #: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:215
 #: ekos/guide/guide.ui:237
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subtract dark frame. Create dark frames or defect maps "
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Odštej posnetek teme. Če posnetek teme ni na voljo, se "
-"nov posnetek teme zajame in shrani za prihodnjo uporabo.</p></body></html>"
+"<html><head/><body><p>Odštej posnetek teme. Ustvari temne posnetke ali "
+"preslikave napak v orodju knjižnice teme v modulu za zajemanje.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
@@ -7039,7 +7040,7 @@ msgstr "Temno"
 #: ekos/align/align.ui:609
 #, kde-format
 msgid "Camera binning"
-msgstr "Združevanje fotoaparata"
+msgstr "Združevanje kamere"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, toggleFullScreenB)
 #: ekos/align/align.ui:628 ekos/focus/focus.ui:638
@@ -7115,7 +7116,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Če je označeno, se za poravnavo uporabi trenutno "
 "izbrani filter. </p><p>Če želite za poravnavo uporabiti določen (fiksni) "
-"filter, pustite odkljukano in filter izberite ročno.</p></body></html>"
+"filter, pustite neoznačeno in filter izberite ročno.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignUseCurrentFilter)
 #: ekos/align/align.ui:744
@@ -7219,7 +7220,7 @@ msgid ""
 "results that you do not need any more.  It can clean up clutter on both the "
 "graph and table."
 msgstr ""
-"Odstranite izbrano vrstico iz tabele rešitev.  To je lahko koristno, da se "
+"Odstrani izbrano vrstico iz tabele rešitev.  To je lahko koristno, da se "
 "znebite rezultatov, ki dejansko niso rešitve in/ali rezultatov, ki jih ne "
 "potrebujete več.  Lahko počisti navlako tako na grafu kot na tabeli."
 
@@ -7230,8 +7231,8 @@ msgid ""
 "Export all of the solutions in the Solution Results table to CSV file of "
 "your choosing for further analysis in a spreadsheet."
 msgstr ""
-"Izvozite vse rešitve v tabeli Rezultati rešitve v datoteko CSV, ki jo "
-"izberete za nadaljnjo analizo v preglednici."
+"Izvozi vse rešitve v tabeli Rezultati rešitve v datoteko CSV, ki jo izberete "
+"za nadaljnjo analizo v preglednici."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, autoScaleGraphB)
 #: ekos/align/align.ui:1025
@@ -7247,7 +7248,7 @@ msgid ""
 "list of points to go to and solve. It can aid in building a pointing model "
 "for better accuracy."
 msgstr ""
-"Zaženite orodje modela montaže. To orodje vam omogoča, da vnaprej  ustvarite "
+"Zaženite orodje modela montaže. To orodje vam omogoča, da vnaprej ustvarite "
 "seznam točk, ki jih želite obiskati in rešiti. To lahko pomaga pri gradnji "
 "modela usmerjenosti za boljšo natančnost."
 
@@ -7316,13 +7317,13 @@ msgstr ""
 #: ekos/align/manualrotator.ui:58
 #, kde-format
 msgid "Current PA"
-msgstr "Trenutni PK"
+msgstr "Trenutna PA"
 
 #. i18n: ectx: property (text), widget (QLabel, targetRotationL)
 #: ekos/align/manualrotator.ui:78
 #, kde-format
 msgid "Target PA"
-msgstr "Ciljni PK"
+msgstr "Ciljna PA"
 
 #. i18n: ectx: property (text), widget (QPushButton, takeImageB)
 #: ekos/align/manualrotator.ui:128
@@ -7350,7 +7351,7 @@ msgid ""
 "Deprecated sequence file format version %1. Please construct a new sequence "
 "file."
 msgstr ""
-"Opuščena vrsta datoteke zaporedja (različica %1). Ustvarite novo datoteko "
+"Opuščena vrsta datoteke zaporedja različice %1. Ustvari novo datoteko "
 "zaporedja."
 
 #: ekos/align/mountmodel.cpp:369
@@ -7372,7 +7373,7 @@ msgstr "Seznam poravnav shranjen v %1"
 #: ekos/align/mountmodel.cpp:544 ekos/align/mountmodel.cpp:552
 #, kde-format
 msgid "DEC is below the altitude limit"
-msgstr "DEC je pod mejo nadmorske višine"
+msgstr "DEC je pod mejo višine"
 
 #: ekos/align/mountmodel.cpp:631
 #, kde-format
@@ -7412,7 +7413,7 @@ msgid ""
 "report the pointing model errors.  Do you wish to continue?"
 msgstr ""
 "V modulu Poravnaj je za dejanje reševalca izbrano »Nič«.  To pomeni, da "
-"orodje modela montaže ne bo usklajevalo/poravnalo vašega stojala, temveč bo "
+"orodje modela montaže ne bo usklajevalo/poravnalo vaše montaže, temveč bo "
 "samo poročalo o napakah usmerjevalnega modela.  Ali želite nadaljevati?"
 
 #: ekos/align/mountmodel.cpp:1014
@@ -7454,11 +7455,11 @@ msgid ""
 "mount.</p>"
 msgstr ""
 "<p>To orodje vam lahko pomaga zgraditi boljši model usmerjanja tako, da "
-"usmeri nosilec na različne točke na nebu in reši zajete slike. To lahko "
-"poveča natančnost vaših usmerjanj. Da je to možno, mora biti vaš nosilec "
-"sposoben izboljšati svoj notranji model usmerjanja po vsakem "
+"usmeri montažo na različne točke na nebu in reši zajete slike. To lahko "
+"poveča natančnost vaših usmerjanj. Da je to možno, mora biti vaša montaža "
+"sposobna izboljšati svoj notranji model usmerjanja po vsakem "
 "<b>Usklajevanju</b>, ki ga je zahteval Ekos. Če temu ni tako, potem to "
-"orodje ni primerno za vaš nosilec.</p>"
+"orodje ni primerno za vašo montažo.</p>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/align/mountmodel.ui:48
@@ -7496,7 +7497,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Izberite vrsto objektov/točk, ki naj jih doda čarovnik."
 "</p><p><span style=\" font-weight:600;\">Opomba:</span> vse možnosti razen "
-"Fiksna dekl. se začnejo z mrežo točk rekt./dekl.</p>\n"
+"Fiksna DEC se začnejo z mrežo točk RA/DEC</p>\n"
 "<ul>\n"
 "<li><b>Katerekoli zvezde:</b> Čarovnik išče najbližjo zvezdo.</li>\n"
 "<li><b>Katerikoli objekt:</b>  Čarovnik išče najbližji objekt katere koli "
@@ -7566,7 +7567,7 @@ msgid ""
 "applies to the Fixed DEC Option."
 msgstr ""
 "Deklinacija točk, ki bodo ustvarjene.  Ta možnost velja le za izbiro Fiksna "
-"dekl."
+"DEC."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/align/mountmodel.ui:133
@@ -7620,8 +7621,7 @@ msgid ""
 msgstr ""
 "Število točk, ki naj jih čarovnik ustvari. Če je to število manjše od 5, "
 "bodo ustvarjene na isti deklinaciji. Po tem bodo enakomerno porazdeljene po "
-"rektascenziji in deklinaciji. Opomba: če je izbrano »Fiksna dekl.«, bodo vse "
-"točke na isti deklinaciji."
+"RA in DEC. Opomba: če je izbrano Fiksna DEC, bodo vse točke na isti DEC."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/align/mountmodel.ui:219
@@ -7748,23 +7748,22 @@ msgstr ""
 "modela stojala vašega daljnogleda.  Če želite dodati ali odstraniti točke, "
 "lahko uporabite zgornje gumbe.  Če želite zagnati, ustaviti ali ustaviti "
 "rutino modela stojala, lahko uporabite spodnje gumbe.  Neposredno lahko "
-"urejate deklinacijo ali rektascenzijo za določeno točko v celicah.  "
-"Prepričajte se, da sledite obliki uu:mm:ss. Ime objekta je na voljo samo kot "
-"pomoč in se ne uporablja.  Če želite spremeniti vrstni red točk poravnave, "
-"lahko vrstico povlečete navzgor ali navzdol z navpično glavo za to vrstico, "
-"na levi strani tabele."
+"urejate RA ali DEC za določeno točko v celicah.  Prepričajte se, da sledite "
+"obliki hh:mm:ss. Ime objekta je na voljo samo kot pomoč in se ne uporablja.  "
+"Če želite spremeniti vrstni red točk poravnave, lahko vrstico povlečete "
+"navzgor ali navzdol z navpično glavo za to vrstico, na levi strani tabele."
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:448
 #, kde-format
 msgid "RA (J2000)"
-msgstr "Rekt. (J2000)"
+msgstr "RA (J2000)"
 
 #. i18n: ectx: property (text), widget (QTableWidget, alignTable)
 #: ekos/align/mountmodel.ui:453
 #, kde-format
 msgid "DEC (J2000)"
-msgstr "Dekl. (J2000)"
+msgstr "DEC (J2000)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadAlignB)
 #: ekos/align/mountmodel.ui:491
@@ -7980,8 +7979,8 @@ msgid ""
 "enable World Coordinate System (WCS). WCS is used to encode RA/DEC "
 "coordinates in captured CCD images."
 msgstr ""
-"Omogoči svetovni koordinatni sistem (WCS). WCS se uporablja za kodiranje "
-"koordinat rekt./dekl. v slikah zajetih s CCD kamerami."
+"omogoči svetovni koordinatni sistem (WCS). WCS se uporablja za kodiranje "
+"koordinat RA/DEC v slikah zajetih s CCD kamerami."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometrySolverWCS)
 #: ekos/align/opsalign.ui:233
@@ -8055,7 +8054,7 @@ msgstr "<html><head/><body><p>Prag odstopanja kota rotacije</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
@@ -8064,8 +8063,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Pravila zrcaljenja</"
 "span> določajo, kako se rotator odzove na zrcaljenje ali če rezultat "
-"reševanja referenčne slike poroča drugačno stran stebra od dejanske strani "
-"stebra nosilca.</p></body></html>"
+"reševanja referenčne slike poroča drugačno stran pomola od dejanske strani "
+"pomola montaže.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
@@ -8085,9 +8084,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Ohrani kot "
 "rotatorja</span> bo ohranilo položaj rotatorja. Rotator ostane nedejaven, "
-"zato se fotoaparat oz. kamera praktično obrne za 180°.</p><p>Večina sodobnih "
-"programov za obdelavo astronomskih slik lahko obdeluje &quot;"
-"prezrcaljene&quot; slike.</p></body></html>"
+"zato se kamera praktično obrne za 180°.</p><p>Večina sodobnih programov za "
+"obdelavo astronomskih slik lahko obdeluje &quot;prezrcaljene&quot; slike.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_AstrometryFlipRotationAllowed)
 #: ekos/align/opsalign.ui:339
@@ -8113,13 +8112,13 @@ msgstr ""
 #: ekos/align/opsalign.ui:356
 #, kde-format
 msgid "Preserve position angle"
-msgstr "Ohrani kot položaja"
+msgstr "Ohranjaj kot položaja"
 
 #: ekos/align/opsastap.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Select ASTAP executable"
-msgstr "Izberite izvršljivo datoteko ASTAP"
+msgstr "Izberi izvršljivo datoteko ASTAP"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (title), widget (QGroupBox, Options)
@@ -8131,7 +8130,7 @@ msgstr "Možnosti"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ASTAPDownSampleValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPDownSample)
 #: ekos/align/opsastap.ui:40 ekos/align/opsastap.ui:124
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Down sample prior to solving. Also called binning. A "
 "zero value will result in auto selection downsampling.</p></body></html>"
@@ -8235,7 +8234,7 @@ msgstr ""
 #: ekos/align/opsastrometry.ui:50
 #, kde-format
 msgid "L"
-msgstr "N"
+msgstr "L"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AstrometryUseImageScale)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverUseScale)
@@ -8278,7 +8277,7 @@ msgstr ""
 #: ekos/align/opsastrometry.ui:86
 #, kde-format
 msgid "u"
-msgstr "e"
+msgstr "u"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_42)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_13)
@@ -8304,7 +8303,7 @@ msgstr ""
 #: ekos/scheduler/framingassistant.ui:703
 #, kde-format
 msgid "H"
-msgstr "V"
+msgstr "H"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, updateScale)
 #: ekos/align/opsastrometry.ui:124
@@ -8380,19 +8379,19 @@ msgstr "Nizko"
 #: ekos/align/opsastrometry.ui:295
 #, kde-format
 msgid "dw"
-msgstr "s.š."
+msgstr "dw"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_AstrometryImageScaleUnits)
 #: ekos/align/opsastrometry.ui:300
 #, kde-format
 msgid "aw"
-msgstr "l.š."
+msgstr "aw"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_AstrometryImageScaleUnits)
 #: ekos/align/opsastrometry.ui:305
 #, kde-format
 msgid "app"
-msgstr "l.s./p"
+msgstr "app"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/align/opsastrometry.ui:316
@@ -8579,7 +8578,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.cpp:447
 #, kde-format
 msgid "%1 download cancelled."
-msgstr "Prejem %1 je preklican."
+msgstr "Prenos %1 je preklican."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format
@@ -8598,15 +8597,12 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Napaka dovoljenja v mapi Astrometry"
 
 #: ekos/align/opsastrometryindexfiles.cpp:554
-#, fuzzy, kde-format
-#| msgid ""
-#| "The selected Index File directory does not exist.  Please either create "
-#| "it or choose another."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
 msgstr ""
-"Izbrani imenik datotek s kazalom ne obstaja.  Ustvarite ga ali izberite "
+"Izbrani imenik datotek s kazalom ne obstaja. Ustvarite ga ali izberite "
 "drugega."
 
 #: ekos/align/opsastrometryindexfiles.cpp:569
@@ -8621,7 +8617,7 @@ msgstr ""
 #: ekos/align/opsastrometryindexfiles.cpp:571
 #, kde-format
 msgid "Install File(s)"
-msgstr "Namesti datoteke"
+msgstr "Namesti datoteko/e"
 
 #: ekos/align/opsastrometryindexfiles.cpp:610
 #, kde-format
@@ -9530,7 +9526,7 @@ msgstr "Privzeto za Linux"
 #: ekos/align/opsprograms.ui:37
 #, kde-format
 msgid "Linux KStars Internal "
-msgstr "Linux KStars notranje"
+msgstr "Linux KStars notranje "
 
 #. i18n: ectx: property (text), item, widget (QComboBox, defaultPathSelector)
 #: ekos/align/opsprograms.ui:42
@@ -9560,7 +9556,7 @@ msgstr "Krajevni program SExtractor"
 #: ekos/align/opsprograms.ui:69
 #, kde-format
 msgid "sextractor binary:"
-msgstr "Izvršljiva datoteka sextractor:"
+msgstr "izvršljiva datoteka sextractor:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_SextractorBinary)
 #: ekos/align/opsprograms.ui:76
@@ -9654,19 +9650,19 @@ msgstr "Spletni Astrometry.net ali oddaljeni ANSVR"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
 "astrometry.net)</p></body></html>"
 msgstr ""
-"<html><body><p>Velikost podframa za omejitev zajemanja na, v pikslih.</p></"
-"body></html>"
+"<html><body><p>Shema in kataloški del URL (npr. https://nova.astrometry."
+"net)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
 #, kde-format
 msgid "API URL:"
-msgstr "Lokacija:"
+msgstr "API URL:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/align/opsprograms.ui:224
@@ -9685,7 +9681,7 @@ msgstr ""
 #: ekos/align/opsprograms.ui:244
 #, kde-format
 msgid "API Key"
-msgstr "Ključ za programski vmesnik"
+msgstr "Ključ za API"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/align/opsprograms.ui:254
@@ -9716,7 +9712,7 @@ msgstr "Prvo obračanje"
 #: ekos/align/polaralignmentassistant.cpp:33
 #, kde-format
 msgid "First Settle"
-msgstr "Prva umiritev"
+msgstr "Prva poravnava"
 
 #: ekos/align/polaralignmentassistant.cpp:34
 #, kde-format
@@ -9736,7 +9732,7 @@ msgstr "Drugo vrtenje"
 #: ekos/align/polaralignmentassistant.cpp:37
 #, kde-format
 msgid "Second Settle"
-msgstr "Druga umiritev"
+msgstr "Druga poravnava"
 
 #: ekos/align/polaralignmentassistant.cpp:38
 #, kde-format
@@ -9751,7 +9747,7 @@ msgstr "Tretja rešitev"
 #: ekos/align/polaralignmentassistant.cpp:40
 #, kde-format
 msgid "Select Star"
-msgstr "Izberi zvezdo"
+msgstr "Izberite zvezdo"
 
 #: ekos/align/polaralignmentassistant.cpp:41
 #, kde-format
@@ -9767,7 +9763,7 @@ msgstr "Osveževanje zaključeno"
 #, kde-format
 msgid "<p>Polar Alignment tool requires a German Equatorial Mount.</p>"
 msgstr ""
-"<p>Orodje za polarno poravnavo zahteva nemški ekvatorialni nosilec.</p>"
+"<p>Orodje za polarno poravnavo zahteva nemško ekvatorialno montažo.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:188
 #, kde-format
@@ -9792,19 +9788,17 @@ msgstr "PAA: Ustavljanje, reševalniku je prevečkrat spodletelo."
 #: ekos/align/polaralignmentassistant.cpp:626
 #, kde-format
 msgid "Mount first rotation is complete."
-msgstr "Prvo obračanje nosilca je zaključeno."
+msgstr "Prvo obračanje montaže je zaključeno."
 
 #: ekos/align/polaralignmentassistant.cpp:633
 #, kde-format
 msgid "Mount second rotation is complete."
-msgstr "Drugo obračanje nosilca je zaključeno."
+msgstr "Drugo obračanje montaže je zaključeno."
 
 #: ekos/align/polaralignmentassistant.cpp:679
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
-msgstr ""
-"Nosilec je prekinil. Preobrnitev smeri osi rektascenzije in ponovno "
-"poskušanje."
+msgstr "Montaža je prekinila. Preobrnitev smeri osi RA in ponovni poskus."
 
 #: ekos/align/polaralignmentassistant.cpp:768
 #, kde-format
@@ -9818,35 +9812,33 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.cpp:772
 #, kde-format
 msgid "Clearing mount Alignment Model..."
-msgstr "Brisanje modela poravnave nosilca …"
+msgstr "Čiščenje modela poravnave montaže…"
 
 #: ekos/align/polaralignmentassistant.cpp:813
 #, kde-format
 msgid "This could cause the telescope to cross the meridian."
-msgstr "To lahko povzroči, da daljnogled prečka poldnevnik."
+msgstr "To lahko povzroči, da teleskop prečka poldnevnik."
 
 #: ekos/align/polaralignmentassistant.cpp:863
 #, kde-format
 msgid "Parking the mount..."
-msgstr "Parkiranje nosilca …"
+msgstr "Parkiranje montaže…"
 
 #: ekos/align/polaralignmentassistant.cpp:906
 #, kde-format
 msgid "Please wait until mount completes rotating to RA (%1) DE (%2)"
-msgstr ""
-"Prosimo, počakajte, da nosilec zaključi obračanje do rektascenzije (%1) "
-"deklinacije (%2)"
+msgstr "Počakajte, da montaža zaključi obračanje do RA (%1) DE (%2)"
 
 #: ekos/align/polaralignmentassistant.cpp:922
 #: ekos/align/polaralignmentassistant.cpp:928
 #, kde-format
 msgid "PAA: Failed to findCorrectedPixel."
-msgstr "PAA: Iskanje popravljen slikovne pike (findCorrectedPixel) ni uspelo."
+msgstr "PAA: Iskanje popravljene slikovne pike (findCorrectedPixel) ni uspelo."
 
 #: ekos/align/polaralignmentassistant.cpp:954
 #, kde-format
 msgid "PAA: Failed to find RA Axis center."
-msgstr "PAA: Iskanje središča osi rektascenzije ni uspelo."
+msgstr "PAA: Iskanje središča osi RA ni uspelo."
 
 #: ekos/align/polaralignmentassistant.cpp:1025
 #, kde-format
@@ -9873,13 +9865,13 @@ msgid ""
 "Mount is synced to celestial pole. You can now continue Polar Alignment "
 "Assistant procedure."
 msgstr ""
-"Nosilec je usklajen z nebesnim tečajem. Zdaj lahko nadaljujete postopek "
+"Montaža je usklajena z nebesnim tečajem. Zdaj lahko nadaljujete postopek "
 "pomočnika za polarno poravnavo."
 
 #: ekos/align/polaralignmentassistant.cpp:1111
 #, kde-format
 msgid "Please wait while WCS data is processed..."
-msgstr "Počakajte, da se podatki WCS obdelajo …"
+msgstr "Počakajte, da se podatki WCS obdelajo…"
 
 #: ekos/align/polaralignmentassistant.cpp:1142
 #, kde-format
@@ -9889,18 +9881,19 @@ msgstr "Obdelava podatkov WCS je končana."
 #: ekos/align/polaralignmentassistant.cpp:1151
 #, kde-format
 msgid "WCS info is now valid. Capturing next frame..."
-msgstr "Podatki WCS so zdaj veljavni. Zajemanje naslednje slike …"
+msgstr "Podatki WCS so zdaj veljavni. Zajemanje naslednje slike..."
 
 #: ekos/align/polaralignmentassistant.cpp:1193
 #, kde-format
 msgid "Failed to process World Coordinate System: %1. Try again."
 msgstr ""
-"Obdelovanje svetovnega koordinatnega sistema ni uspelo: %1. Poskusite znova."
+"Obdelovanje svetovnega koordinatnega sistema (WCS) ni uspelo: %1. Poskusite "
+"znova."
 
 #: ekos/align/polaralignmentassistant.cpp:1211
 #, kde-format
 msgid "PAA: Failed to find the RA axis. Quitting."
-msgstr "PAA: Iskanje osi rektascenzije ni uspelo. Končujem."
+msgstr "PAA: Iskanje osi RA ni uspelo. Končujem."
 
 #. i18n: ectx: property (text), widget (QLabel, PAHMessageText)
 #: ekos/align/polaralignmentassistant.cpp:1242
@@ -9911,27 +9904,27 @@ msgid ""
 "capturing the first image...</p>"
 msgstr ""
 "<p>Pomočnik potrebuje tri slike, da najde rešitev.  Ekos zdaj zajema prvo "
-"sliko …</p>"
+"sliko…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1244
 #, kde-format
 msgid "<p>Solving the <i>first</i> image...</p>"
-msgstr "<p>Reševanje <i>prve</i> slike …</p>"
+msgstr "<p>Reševanje <i>prve</i> slike…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1246
 #, kde-format
 msgid "<p>Executing the <i>first</i> mount rotation...</p>"
-msgstr "<p>Izvajanje <i>prvega</i> obračanja nosilca …</p>"
+msgstr "<p>Izvajanje <i>prvega</i> obračanja montaže…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1248
 #, kde-format
 msgid "<p>Settling after the <i>first</i> mount rotation.</p>"
-msgstr "<p>Ustalitev po <i>prvem</i> obračanju nosilca.</p>"
+msgstr "<p>Poravnava po <i>prvem</i> obračanju montaže.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1250
 #, kde-format
 msgid "<p>Settling after the <i>second</i> mount rotation.</p>"
-msgstr "<p>Ustalitev po <i>drugem</i> obračanju nosilca.</p>"
+msgstr "<p>Poravnava po <i>drugem</i> obračanju montaže.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1252
 #, kde-format
@@ -9946,17 +9939,17 @@ msgstr "<p>Reševanje <i>druge</i> slike …</p>"
 #: ekos/align/polaralignmentassistant.cpp:1256
 #, kde-format
 msgid "<p>Executing the <i>second</i> mount rotation...</p>"
-msgstr "<p>Izvajanje <i>drugega</i> obračanja nosilca …</p>"
+msgstr "<p>Izvajanje <i>drugega</i> obračanja montaže…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1258
 #, kde-format
 msgid "<p>Capturing the <i>third</i> and final image...</p>"
-msgstr "<p>Zajemanje <i>tretje</i> in zadnje slike …</p>"
+msgstr "<p>Zajemanje <i>tretje</i> in zadnje slike…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1260
 #, kde-format
 msgid "<p>Solving the <i>third</i> image...</p>"
-msgstr "<p>Reševanje <i>tretje</i> slike …</p>"
+msgstr "<p>Reševanje <i>tretje</i> slike…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1263
 #, kde-format
@@ -9989,7 +9982,7 @@ msgid ""
 "movement. Consider using results after 2 images.  Click <i>Stop</i> when "
 "you're finished.</p>"
 msgstr ""
-"<p>Nastavite <i>gumba za nastavitev višine in azimuta</i> na nosilcu, da "
+"<p>Nastavite <i>gumba za nastavitev višine in azimuta</i> na montaži, da "
 "zmanjšate napako pri polarni poravnavi.</p><p>Bodite potrpežljivi, "
 "premikanje gumbov lahko vpliva na rešitev plošče. Razmislite o uporabi "
 "rezultatov po dveh slikah.  Ko zaključite, kliknite <i>Zaustavi</i>.</p>"
@@ -10002,10 +9995,10 @@ msgid ""
 "until the selected star is centered within the crosshair.</p><p>Click "
 "<i>Stop</i> when the star is centered.</p>"
 msgstr ""
-"<p>Nastavite <i>gumb za višino</i>, da premaknete zvezdo vzdolž rumene črte, "
-"nato nastavite <i>gumb za azimut</i>, da jo premaknete vzdolž zelene črte, "
-"dokler izbrana zvezda ni v središču križca.</p><p>Ko je zvezda izostrena, "
-"kliknite <i>Zaustavi</i>.</p>"
+"<p>Nastavite <i>gumb za višino</i> na montaži, da premaknete zvezdo vzdolž "
+"rumene črte, nato nastavite <i>gumb za azimut</i>, da jo premaknete vzdolž "
+"zelene črte, dokler izbrana zvezda ni v središču namerilnega križca.</"
+"p><p>Ko je zvezda izostrena, kliknite <i>Zaustavi</i>.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1286
 #, kde-format
@@ -10021,8 +10014,8 @@ msgid ""
 "Equatorial Mount</p><p>2. Wide FOV &gt; 1 degrees</p><p>For small FOVs, use "
 "the Legacy Polar Alignment Tool.</p>"
 msgstr ""
-"<p>Orodje za pomoč pri polarni poravnavo zahteva naslednje:</p><p>1. Nemški "
-"ekvatorialni nosilec</p><p>2. Široko vidno polje &gt; 1 stopinje</p><p>Za "
+"<p>Orodje za pomoč pri polarni poravnavo zahteva naslednje:</p><p>1. Nemško "
+"ekvatorialno montažo</p><p>2. Široko vidno polje &gt; 1 stopinje</p><p>Za "
 "majhna vidna polja uporabite starejše orodje za polarno poravnavo.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, introText)
@@ -10036,10 +10029,10 @@ msgid ""
 "<span style=\" font-weight:600;\">Start</span> to begin the polar alignment "
 "process.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Postavite svoj ekvatorialni nosilec ali (a) v domači "
+"<html><head/><body><p>Postavite svojo ekvatorialno montažo ali (a) v domači "
 "položaj in ga usmerite proti nebesnemu tečaju ali (b) kateri koli točki čim "
 "bližje poldnevniku. Izberite <span style=\" font-weight:600;\">smer in</"
-"span> hitrost <span style=\" font-weight:600;\"> </span>nosilca in kliknite "
+"span> hitrost <span style=\" font-weight:600;\"> </span>montaže in kliknite "
 "<span style=\" font-weight:600;\">Začni</span> , da začnete postopek polarne "
 "poravnave.</p></body></html>"
 
@@ -10051,9 +10044,9 @@ msgid ""
 "be 10 arcmins or wider. 60+ arcminutes is recommended.</span></p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Onemogočeno: VP mora "
-"biti 10 ločnih minut ali širše. Priporočeno je 60+ ločnih minut.</span></p></"
-"body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Onemogočeno: vidno "
+"polje mora biti 10 ločnih minut ali širše. Priporočeno je 60+ ločnih minut.</"
+"span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, directionLabel)
 #: ekos/align/polaralignmentassistant.ui:106
@@ -10111,7 +10104,7 @@ msgstr "Ročno obračanje"
 #: ekos/align/polaralignmentassistant.ui:262
 #, kde-format
 msgid "Please rotate your mount in RA"
-msgstr "Prosimo, obrnite nosilec po rektascenziji"
+msgstr "Obrni montažo v RA"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHRefreshB)
 #: ekos/align/polaralignmentassistant.ui:337
@@ -10120,8 +10113,8 @@ msgid ""
 "Start the refresh phase--where image captures loop while you adjust the "
 "altitude and azimuth knobs to correct polar alignment."
 msgstr ""
-"Začnite fazo osveževanja — kjer se zajemanje slik ponavlja, medtem ko "
-"prilagajate gumbe višine in azimuta za popravo polarne poravnave."
+"Začni fazo osveževanja — kjer se zajemanje slik ponavlja, medtem ko "
+"prilagajate gumbe višine in azimuta za popravek polarne poravnave."
 
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshB)
@@ -10275,7 +10268,7 @@ msgstr "Skupna napaka polarne poravnave, ocenjena po nedavnih prilagoditvah."
 #: ekos/align/polaralignmentassistant.ui:649
 #, kde-format
 msgid "Updated Err:"
-msgstr "Nova napaka:"
+msgstr "Posodobljena napaka:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAlt)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAlt)
@@ -10349,7 +10342,7 @@ msgstr "Obrni"
 #: ekos/align/polaralignwidget.ui:357 ekos/manager.cpp:333
 #, kde-format
 msgid "Setup"
-msgstr "Nastavitve"
+msgstr "Nastavi"
 
 #. i18n: ectx: property (text), widget (QLabel, PAadjust)
 #: ekos/align/polaralignwidget.ui:397
@@ -10384,7 +10377,7 @@ msgstr "Ni dovolj pomnilnika za datoteko %1."
 #: ekos/align/remoteastrometryparser.cpp:102
 #, kde-format
 msgid "Starting remote solver..."
-msgstr "Zaganjanje oddaljenega reševalnika …"
+msgstr "Zaganjanje oddaljenega reševalnika…"
 
 #: ekos/align/remoteastrometryparser.cpp:112
 #, kde-format
@@ -10634,7 +10627,7 @@ msgstr "Razprševanje uspešno"
 #: ekos/analyze/analyze.cpp:3504 ekos/ekos.h:39
 #, kde-format
 msgid "Settling"
-msgstr "Umirjanje"
+msgstr "Poravnava"
 
 #. i18n: ectx: property (text), widget (QLabel, timelineLabel)
 #: ekos/analyze/analyze.ui:50
@@ -10654,7 +10647,7 @@ msgstr "Vhod:"
 msgid ""
 "<html><head/><body><p>Display the previous .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Prikažite prejšnjo datoteko .analyze.</p></body></html>"
+"<html><head/><body><p>Prikaži prejšnjo datoteko .analyze.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevFileB)
 #: ekos/analyze/analyze.ui:126
@@ -10667,8 +10660,7 @@ msgstr "<<"
 #, kde-format
 msgid "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Prikažite naslednjo datoteko .analyze.</p></body></"
-"html>"
+"<html><head/><body><p>Prikaži naslednjo datoteko .analyze.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextFileB)
 #: ekos/analyze/analyze.ui:148
@@ -10684,7 +10676,7 @@ msgid ""
 "current Ekos session, or it can be read from a file.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Izberite vhod za izris. To je lahko trenutna seja "
-"Ekos, lahko pa se bere iz datoteke.</p></body></html>"
+"Ekos, lahko pa se prebere iz datoteke.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, fullWidthCB)
 #: ekos/analyze/analyze.ui:205
@@ -10743,7 +10735,7 @@ msgid ""
 "(on its left). Keyboard: control-left.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Premakne iz izbrane seje v predhodno sejo (na levi "
-"strani). Tipkovnica: Ctrl+Levo.</p></body></html>"
+"strani). Tipkovnica: Ctrl-Levo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, prevSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailPrevButton)
@@ -10796,8 +10788,8 @@ msgid ""
 "<html><head/><body><p>Zoom out on the x-axis on the Timeline and Statistics "
 "plots. That is, show a longer time period.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Oddaljite os x na izrisih Časovni trak in Statistika. "
-"To je, pokažite daljše časovno obdobje.</p></body></html>"
+"<html><head/><body><p>Oddalji os x na izrisih Časovni trak in Statistika. To "
+"je, pokaži daljše časovno obdobje.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextSessionB)
 #: ekos/analyze/analyze.ui:402
@@ -10806,8 +10798,8 @@ msgid ""
 "<html><head/><body><p>Move from the selected session to its next session (on "
 "its right). Keyboard: control-right.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Premakne iz izbrane seje v naslednjo sejo (na desni "
-"strani) Tipkovnica: Ctrl+Desno.</p></body></html>"
+"<html><head/><body><p>Premakni iz izbrane seje v naslednjo sejo (na desni "
+"strani) Tipkovnica: Ctrl-Desno.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextSessionB)
 #. i18n: ectx: property (text), widget (QPushButton, focusDetailNextButton)
@@ -10827,15 +10819,15 @@ msgid ""
 "future (scroll to right) sections of the Timeline and Statistics plot.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Če je mogoče, prikažite prejšnje (pomaknite se na "
-"levo) ali prihodnje (pomaknite se na desno) odseke na izrisih Časovni trak "
-"in Statistika.</p></body></html>"
+"<html><head/><body><p>Če je mogoče, prikaži prejšnje (pomakni se na levo) "
+"ali prihodnje (pomakni se na desno) odseke na izrisih Časovni trak in "
+"Statistika.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label2)
 #: ekos/analyze/analyze.ui:496
 #, kde-format
 msgid "Guide:"
-msgstr "Vodnik:"
+msgstr "Vodilo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, mountLabel)
@@ -10844,7 +10836,7 @@ msgstr "Vodnik:"
 #: ekos/profileeditor.ui:658
 #, kde-format
 msgid "Mount:"
-msgstr "Stojalo:"
+msgstr "Montaža:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/analyze/analyze.ui:532
@@ -10877,10 +10869,10 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Napaka zanosa v rektascenziji (rekt.) v ločnih "
-"sekundah. Kliknite tukaj, če si želite ogledati to os na vrednostih leve "
-"osi. Deli os z napakami rekt./dekl., zanašanjem in vrednostmi KKP. "
-"Dvokliknite, če želite posodobiti os.</p></body></html>"
+"<html><head/><body><p>Napaka zanosa v rektascenziji (RA) v ločnih sekundah. "
+"Kliknite tukaj, če si želite ogledati to os na vrednostih leve osi. Deli os "
+"z napakami RA/DEC, zanašanjem in vrednostmi KKP. Dvokliknite, če želite "
+"posodobiti os.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, decCB)
 #: ekos/analyze/analyze.ui:586
@@ -10889,7 +10881,7 @@ msgid ""
 "<html><head/><body><p>Plot the declination (DEC) drift error in arc-seconds."
 "</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj napako zanosa v deklinaciji (dekl.) v ločnih "
+"<html><head/><body><p>Izrisuj napako zanosa v deklinaciji (DEC) v ločnih "
 "sekundah.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, decCB)
@@ -10909,9 +10901,9 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Napaka zanosa v deklinaciji (dekl.) v ločnih sekundah. "
+"<html><head/><body><p>Napaka zanosa v deklinaciji (DEC) v ločnih sekundah. "
 "Kliknite tukaj, če si želite ogledati to os na vrednostih leve osi. Deli os "
-"z napakami rekt./dekl., zanašanjem in vrednostmi KKP. Dvokliknite, če želite "
+"z napakami RA/DEC, zanašanjem in vrednostmi KKP. Dvokliknite, če želite "
 "posodobiti os.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, raPulseCB)
@@ -10921,8 +10913,8 @@ msgid ""
 "<html><head/><body><p>Plot the right ascension (RA) guide pulses in "
 "milliseconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj napako zanosa v rektascenziji (rekt.) v ločnih "
-"sekundah.</p></body></html>"
+"<html><head/><body><p>Nariši vodilne impulze rektascenzije (RA) v "
+"milisekundah.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raPulseCB)
 #: ekos/analyze/analyze.ui:633
@@ -10938,7 +10930,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Impulzi vodnika rektascenzije (rekt.) v milisekundah. "
+"<html><head/><body><p>Impulzi vodnika rektascenzije (RA) v milisekundah. "
 "Kliknite sem, da prikažete to os med vrednostmi leve osi. Dvokliknite, da "
 "posodobite os.</p></body></html>"
 
@@ -10949,7 +10941,7 @@ msgid ""
 "<html><head/><body><p>Plot the declination (DEC) guide pulses in "
 "milliseconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj impulze vodnika deklinacije (dekl.) v "
+"<html><head/><body><p>Izrisuj impulze vodnika deklinacije (DEC) v "
 "milisekundah.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, decPulseOut)
@@ -10960,7 +10952,7 @@ msgid ""
 "Click here to view this axis on left-axis values. Double click to update "
 "axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Impulzi vodnika deklinacije (dekl.) v milisekundah. "
+"<html><head/><body><p>Impulzi vodnika deklinacije (DEC) v milisekundah. "
 "Kliknite sem, da prikažete to os med vrednostmi leve osi. Dvokliknite, da "
 "posodobite os.</p></body></html>"
 
@@ -10971,8 +10963,8 @@ msgid ""
 "<html><head/><body><p>Plot the combined RA and DEC drift error in arc-"
 "seconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj združeno napako zdrsa v deklinaciji in "
-"rektascenziji v ločnih sekundah.</p></body></html>"
+"<html><head/><body><p>Izrisuj združeno napako zdrsa v RA in DEC v ločnih "
+"sekundah.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, driftCB)
 #: ekos/analyze/analyze.ui:727
@@ -10988,10 +10980,10 @@ msgid ""
 "Click here to view this axis on left-axis values. Shares axis with RA/DEC "
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Združena napaka zdrsa rekt. in dekl. v ločnih "
-"sekundah. Kliknite sem za prikaz te osi med vrednostmi leve osi. Deli os z "
-"napakami rekt. in dekl., zdrsom in vrednostmi KKP. Dvokliknite za "
-"posodobitev osi.</p></body></html>"
+"<html><head/><body><p>Združena napaka zdrsa RA in DEC v ločnih sekundah. "
+"Kliknite sem za prikaz te osi med vrednostmi leve osi. Deli os z napako RA/"
+"DEC, zdrsom in vrednostmi KKP. Dvokliknite za posodobitev osi.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, rmsCB)
 #: ekos/analyze/analyze.ui:768
@@ -11002,15 +10994,15 @@ msgid ""
 "samples.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Izrisuj vrednost korena kvadrata povprečja (KKP) "
-"združenega zdrsa v deklinaciji in rektascenziji v ločnih sekundah, "
-"povprečenih čez približno zadnjih 40 vzorcev.</p></body></html>"
+"združenega zdrsa v RA in DEC v ločnih sekundah, povprečenih čez približno "
+"zadnjih 40 vzorcev.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCB)
 #. i18n: ectx: property (text), widget (QCheckBox, rmsCCB)
 #: ekos/analyze/analyze.ui:774 ekos/analyze/analyze.ui:1449
-#, fuzzy, kde-format
+#, kde-format
 msgid "rms"
-msgstr "rms"
+msgstr "kks"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, rmsOut)
 #: ekos/analyze/analyze.ui:787
@@ -11022,10 +11014,10 @@ msgid ""
 "error, drift, and RMS values. Double click to update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Vrednost korena kvadrata povprečja (KKP) združenega "
-"zdrsa v deklinaciji in rektascenziji v ločnih sekundah, povprečenih čez "
-"približno zadnjih 40 vzorcev. Kliknite sem za prikaz te osi med vrednostmi "
-"leve osi. Deli os z napakami rekt. in dekl., zdrsom in vrednostmi KKP. "
-"Dvokliknite za posodobitev osi.</p></body></html>"
+"zdrsa RA in DEC v ločnih sekundah, povprečenih čez približno zadnjih 40 "
+"vzorcev. Kliknite sem za prikaz te osi med vrednostmi leve osi. Deli os z "
+"napako RA/DEC, zdrsom in vrednostmi KKP. Dvokliknite za posodobitev osi.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, skyBgCB)
 #: ekos/analyze/analyze.ui:815
@@ -11103,9 +11095,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, snrCB)
 #: ekos/analyze/analyze.ui:909
-#, fuzzy, kde-format
+#, kde-format
 msgid "snr"
-msgstr "snr"
+msgstr "rsš"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, snrOut)
 #: ekos/analyze/analyze.ui:922
@@ -11126,8 +11118,8 @@ msgid ""
 "<html><head/><body><p>Plot the Right Ascension (RA) where the telescope is "
 "pointing.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj rektascenzijo (rekt.) usmerjenosti daljnogleda."
-"</p></body></html>"
+"<html><head/><body><p>Izrisuj rektascenzijo (RA) usmerjenosti teleskopa.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountRaOut)
 #: ekos/analyze/analyze.ui:975
@@ -11137,9 +11129,9 @@ msgid ""
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Rektascenzija (rekt.) v urah, minutah in sekundah "
-"usmerjenosti daljnogleda. Kliknite sem, da prikažete to os med vrednostmi "
-"leve osi. Dvokliknite, da posodobite os.</p></body></html>"
+"<html><head/><body><p>Rektascenzija (RA) v urah, minutah in sekundah "
+"usmerjenosti teleskopa. Kliknite sem, da prikažete to os med vrednostmi leve "
+"osi. Dvokliknite, da posodobite os.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountDecCB)
 #: ekos/analyze/analyze.ui:997
@@ -11148,8 +11140,8 @@ msgid ""
 "<html><head/><body><p>Plot the Declination (DEC) in where the telescope is "
 "pointing.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj deklinacijo (dekl.) usmerjenosti daljnogleda.</"
-"p></body></html>"
+"<html><head/><body><p>Izrisuj deklinacijo (DEC) usmerjenosti teleskopa.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountDecOut)
 #: ekos/analyze/analyze.ui:1022
@@ -11159,9 +11151,9 @@ msgid ""
 "seconds where the telescope is pointing. Click here to view this axis on "
 "left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Deklinacija (dekl.) v stopinjah, ločnih minutah in "
-"ločnih sekundah usmerjenosti daljnogleda. Kliknite sem, da prikažete to os "
-"med vrednostmi leve osi. Dvokliknite, da posodobite os.</p></body></html>"
+"<html><head/><body><p>Deklinacija (DEC) v stopinjah, ločnih minutah in "
+"ločnih sekundah usmerjenosti teleskopa. Kliknite sem, da prikažete to os med "
+"vrednostmi leve osi. Dvokliknite, da posodobite os.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:1044
@@ -11170,8 +11162,7 @@ msgid ""
 "<html><head/><body><p>Plot the telescope's azimuth (degrees).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj azimut daljnogleda (stopinje).</p></body></"
-"html>"
+"<html><head/><body><p>Izrisuj azimut teleskopa (stopinje).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, azCB)
 #: ekos/analyze/analyze.ui:1050
@@ -11186,7 +11177,7 @@ msgid ""
 "<html><head/><body><p>The telescope's azimuth (degrees). Click here to view "
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Azimut daljnogleda (stopinje). Kliknite sem, da "
+"<html><head/><body><p>Azimut teleskopa (stopinje). Kliknite sem, da "
 "prikažete to os med vrednostmi leve osi. Dvokliknite, da posodobite os.</p></"
 "body></html>"
 
@@ -11197,8 +11188,7 @@ msgid ""
 "<html><head/><body><p>Plot the telescope's altitude (degrees).</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj višino daljnogleda (stopinje).</p></body></"
-"html>"
+"<html><head/><body><p>Izrisuj višino teleskopa (stopinje).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, altCB)
 #: ekos/analyze/analyze.ui:1097
@@ -11213,7 +11203,7 @@ msgid ""
 "<html><head/><body><p>The telescope's altitude (degrees). Click here to view "
 "this axis on left-axis values. Double click to update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Višina daljnogleda (stopinje). Kliknite sem, da "
+"<html><head/><body><p>Višina teleskopa (stopinje). Kliknite sem, da "
 "prikažete to os med vrednostmi leve osi. Dvokliknite, da posodobite os.</p></"
 "body></html>"
 
@@ -11224,8 +11214,8 @@ msgid ""
 "<html><head/><body><p>Plot the mount's pier side (left) -> where the mount "
 "is pointing.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj stran stebra nosilca (levo) → kam je usmerjen "
-"nosilec.</p></body></html>"
+"<html><head/><body><p>Izrisuj stran stojala montaže (levo) → kam je "
+"usmerjena montaža.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pierSideCB)
 #: ekos/analyze/analyze.ui:1144
@@ -11241,9 +11231,9 @@ msgid ""
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Stran stebra nosilca (levo) → kam je usmerjen nosilec. "
-"Kliknite sem, da prikažete to os med vrednostmi leve osi. Dvokliknite, da "
-"posodobite os.</p></body></html>"
+"<html><head/><body><p>Stran stojala montaže (levo) → kam je usmerjena "
+"montaža. Kliknite sem, da prikažete to os med vrednostmi leve osi. "
+"Dvokliknite, da posodobite os.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, mountHaCB)
 #: ekos/analyze/analyze.ui:1185
@@ -15371,7 +15361,7 @@ msgstr ""
 "li></ul><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
 "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Vsebnik <span style="
 "\" font-weight:600;\">%P</span> ali <span style=\" font-weight:600;\">"
-"%pierside</span>: stran stebra trenutnega nosilca.</li><li style=\" margin-"
+"%pierside</span>: stran stojala trenutne montaže.</li><li style=\" margin-"
 "top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\">Vsebnik <span style=\" font-weight:704;\">%s*</"
 "span> ali <span style=\" font-weight:704;\">%sequence</span>: določilnik "
@@ -15530,7 +15520,7 @@ msgstr ""
 #: ekos/capture/camera.ui:2623
 #, kde-format
 msgid "Pause Sequence"
-msgstr "Zaustavite zaporedje"
+msgstr "Zaustavi zaporedje"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/capture/camera.ui:2666
@@ -15601,14 +15591,14 @@ msgstr "Naloži …"
 #: ekos/capture/camera.ui:2883
 #, kde-format
 msgid "Save to a new sequence file"
-msgstr "Shranite v novo datoteko zaporedja"
+msgstr "Shrani v novo datoteko zaporedja"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqSaveAsB)
 #. i18n: ectx: property (text), widget (QPushButton, AddPreset)
 #: ekos/capture/camera.ui:2886 options/opscolors.ui:217
 #, kde-format
 msgid "Save As..."
-msgstr "Shrani kot …"
+msgstr "Shrani kot…"
 
 #: ekos/capture/cameraprocess.cpp:214 ekos/capture/cameraprocess.cpp:634
 #, kde-format
@@ -15630,7 +15620,7 @@ msgstr ""
 #: ekos/capture/cameraprocess.cpp:285
 #, kde-format
 msgid "No new job created."
-msgstr "Ustvarjeno ni bilo nobeno novo opravilo."
+msgstr "Ustvarjenega ni bilo nobenega novega opravila."
 
 #: ekos/capture/cameraprocess.cpp:308 ekos/capture/cameraprocess.cpp:884
 #, kde-format
@@ -15708,13 +15698,9 @@ msgstr ""
 "Opravilo zahteva %1-sekundne slike %2, ima %3/%4 zajemov in bo obdelano."
 
 #: ekos/capture/cameraprocess.cpp:600
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#| "processed."
+#, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
-msgstr ""
-"Opravilo zahteva %1-sekundne slike %2, ima %3/%4 zajemov in bo obdelano."
+msgstr "Opravilo zahteva %1 x %2-sekundni %3 video in bo obdelan."
 
 #: ekos/capture/cameraprocess.cpp:830
 #, kde-format
@@ -15758,7 +15744,7 @@ msgstr "Oddaljena slika shranjena v %1"
 #: ekos/capture/cameraprocess.cpp:1302
 #, kde-format
 msgid "Autoguiding suspended."
-msgstr "Samodejno vodenje v pripravljenosti."
+msgstr "Samodejno vodenje je prekinjeno."
 
 #: ekos/capture/cameraprocess.cpp:1332
 #, kde-format
@@ -15824,7 +15810,7 @@ msgstr "Skript po zajemanju se je končal s kodo %1."
 #: ekos/capture/cameraprocess.cpp:1896
 #, kde-format
 msgid "Processing meridian flip..."
-msgstr "Obdelovanje obrata čez poldnevnik …"
+msgstr "Obdelovanje obrata čez poldnevnik…"
 
 #: ekos/capture/cameraprocess.cpp:1906
 #, kde-format
@@ -15843,7 +15829,7 @@ msgid "Exposure timeout. Aborting..."
 msgstr "Čas za osvetlitev je potekel. Prekinjanje …"
 
 #: ekos/capture/cameraprocess.cpp:2104
-#, fuzzy, kde-format
+#, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Časovna omejitev ekspozicije. Zaznane so bile več kot 3, gonilnik bo znova "
@@ -15897,7 +15883,7 @@ msgstr "Trenutna ADE je %1. Naslednja osvetlitev je %2 sekund."
 #: ekos/capture/cameraprocess.cpp:2437
 #, kde-format
 msgid "%1 Preview"
-msgstr "Predogled %1"
+msgstr "%1 Predogled"
 
 #: ekos/capture/cameraprocess.cpp:2448 ekos/capture/cameraprocess.cpp:2450
 #, kde-format
@@ -15938,17 +15924,16 @@ msgid "Driver Restart"
 msgstr "Ponovni zagon gonilnika"
 
 #: ekos/capture/cameraprocess.cpp:2996 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "Reševalnik je prekinil po %1 sekundah."
+msgstr "Operacije zajemanja so potekle po %1 sekundah."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
 msgid ""
 "Warning: Guide deviation is selected but autoguide process was not started."
 msgstr ""
-"Opozorilo: izbran je odklon vodenja, vendar postopek samodejnega vodenja ni "
+"Opozorilo: Izbran je odklon vodenja, vendar postopek samodejnega vodenja ni "
 "bil zagnan."
 
 #: ekos/capture/camerastate.cpp:214
@@ -16001,18 +15986,18 @@ msgstr "Obrat čez poldnevnik je uspešno zaključen"
 #: ekos/capture/camerastate.cpp:605
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
-msgstr "Izvajanje ponovnega umerjanja in vodenja po obratu …"
+msgstr "Izvajanje ponovnega umerjanja in vodenja po obratu…"
 
 #: ekos/capture/camerastate.cpp:618
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
-msgstr "Napaka umerjanja po obratu čez poldnevnik. Ponovno zaganjanje …"
+msgstr "Napaka umerjanja po obratu čez poldnevnik. Ponovno zaganjanje…"
 
 #: ekos/capture/camerastate.cpp:638
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr ""
-"Samodejno vodenje zaustavljeno. Čakanje na zaključek samodejnega ostrenja …"
+"Samodejno vodenje zaustavljeno. Čakanje na zaključek samodejnega ostrenja…"
 
 #: ekos/capture/camerastate.cpp:647
 #, kde-format
@@ -16022,29 +16007,28 @@ msgstr "Samodejno vodenje zaustavljeno. Prekinjanje …"
 #: ekos/capture/camerastate.cpp:654
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
-msgstr "Napaka umerjanja po obratu čez poldnevnik. Prekinjanje …"
+msgstr "Napaka umerjanja po obratu čez poldnevnik. Prekinjanje…"
 
 #: ekos/capture/camerastate.cpp:676
 #, kde-format
 msgid "Adaptive focus complete."
-msgstr "Prilagodljivo ostrenje zaključeno."
+msgstr "Prilagodljivo fokusiranje zaključeno."
 
 #: ekos/capture/camerastate.cpp:700
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
-msgstr "Samodejno ostrenje ni uspelo. Prekinjanje osvetljevanja …"
+msgstr "Samodejno fokusiranje ni uspelo. Prekinjanje osvetljevanja…"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:736
-#, fuzzy, kde-format
-#| msgid "Dither complete. Resuming in %1 seconds..."
+#, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
-msgstr "Razprševanje uspešno. Nadaljevanje po %1 sekundah …"
+msgstr "Fokusiranje uspešno. Nadaljevanje po %1 sekundah…"
 
 #: ekos/capture/camerastate.cpp:759
 #, kde-format
 msgid "Limit: %1 °C"
-msgstr "Omejitev: %1 °C"
+msgstr "Omejitev: %1°C"
 
 #: ekos/capture/camerastate.cpp:763
 #, kde-format
@@ -16054,7 +16038,7 @@ msgstr "Omejitev: %1min."
 #: ekos/capture/camerastate.cpp:908
 #, kde-format
 msgid "Performing post flip re-alignment..."
-msgstr "Izvajanje ponovne poravnave po obratu …"
+msgstr "Izvajanje ponovne poravnave po obratu…"
 
 #: ekos/capture/camerastate.cpp:926
 #, kde-format
@@ -16135,7 +16119,7 @@ msgstr "Poravnava po obratu ni uspela."
 #: ekos/capture/camerastate.cpp:1514
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
-msgstr "Poravnava po obratu ni uspela. Poskušanje znova …"
+msgstr "Poravnava po obratu ni uspela. Ponovno poskušanje…"
 
 #: ekos/capture/capture.cpp:67
 #, kde-format
@@ -16148,7 +16132,7 @@ msgstr ""
 #: ekos/capture/capture.cpp:111
 #, kde-format
 msgid "DSLR"
-msgstr "DZR"
+msgstr "DSLR"
 
 #: ekos/capture/capture.cpp:477 ekos/focus/focusmodule.cpp:402
 #, kde-format
@@ -16156,10 +16140,9 @@ msgid "Camera %1 is busy. Abort to close?"
 msgstr "Kamera %1 je zasedena. Ali želite prekiniti za zaprtje?"
 
 #: ekos/capture/capture.cpp:478 ekos/focus/focusmodule.cpp:403
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stop capturing"
-msgstr "Ustavi snemanje"
+msgstr "Ustavi zajemanje"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:479 ekos/focus/focusmodule.cpp:403
@@ -16309,7 +16292,7 @@ msgstr "Če želite nadaljevati, odstranite pokrov z daljnogleda."
 #: ekos/capture/capturedeviceadaptor.cpp:671
 #, kde-format
 msgid "Telescope Covered"
-msgstr "Daljnogled prekrit"
+msgstr "Teleskop prekrit"
 
 #: ekos/capture/capturedeviceadaptor.cpp:803
 #, kde-format
@@ -16325,7 +16308,7 @@ msgstr "Osvetlitev teme"
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
 msgid "Dithering..."
-msgstr "Razprševanje …"
+msgstr "Razprševanje…"
 
 #: ekos/capture/capturepreviewwidget.cpp:185
 #, kde-format
@@ -16384,7 +16367,7 @@ msgstr "<ojačitev>"
 #: ekos/capture/captureprocessoverlay.ui:227
 #, kde-format
 msgid "dd.mm.yyyy hh:mm"
-msgstr "dd.mm.llll uu:mm"
+msgstr "dd.mm.yyyy hh:mm"
 
 #. i18n: ectx: property (text), widget (QLabel, historyCountsLabel)
 #: ekos/capture/captureprocessoverlay.ui:242
@@ -16500,7 +16483,7 @@ msgstr ""
 "<html><head/><body><p>Spodaj izpolnite zahtevane podatke. To je enkratna "
 "nastavitev. Te vrednosti lahko pridobite iz priročnika za kamero ali iz "
 "spletnih virov, kot je <a href=\"https://www.digicamdb.com/\"> <span style="
-"\" text-decoration: underline; color:#007af4;\">zbirka  podatkov digitalnih "
+"\" text-decoration: underline; color:#007af4;\">zbirka podatkov digitalnih "
 "kamer</span></a>.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
@@ -16509,7 +16492,7 @@ msgstr ""
 msgid ""
 "<html><head/><body><p>Sensor resolution in pixels (W x H)</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ločljivost senzorja v pikah (Š × W)</p></body></html>"
+"<html><head/><body><p>Ločljivost senzorja v pikah (Š × V)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/dslrinfo.ui:61
@@ -17116,21 +17099,17 @@ msgstr "Počisti informacije o DZR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_17)
 #: ekos/capture/opsmiscsettings.ui:57
-#, fuzzy, no-c-format, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Minimal duration of a meridian flip. Checks if the  "
-#| "meridian fip has been completed will be postponed until the configured "
-#| "duration has past since the meridian flip has been started.</p></body></"
-#| "html>"
+#, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Minimal duration of a meridian flip in seconds. "
 "Increase this value if Ekos reports that a meridian flip has failed because "
 "the pier side did not change. A good estimation for this value is at least "
 "50% of the typical duration of a meridian flip.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Minimalno trajanje obrata čez poldnevnik. Preverjanja, "
-"ali je bil obrat čez poldnevnik dokončan, bodo preložena, dokler prilagojeno "
-"trajanje ne mine od začetka obrata čez poldnevnik.</p></body></html>"
+"<html><head/><body><p>Minimalno trajanje obrata čez poldnevnik v sekundah. "
+"Povečajte to vrednost, če Ekos sporoči, da obrat čez poldnevnik ni uspel, "
+"ker se stran podnožja ni spremenila. Dobra ocena za to vrednost je vsaj 50 % "
+"tipičnega trajanja obrata čez poldnevnik.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: ekos/capture/opsmiscsettings.ui:60
@@ -17151,10 +17130,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/capture/opsmiscsettings.ui:83
-#, fuzzy, kde-format
-#| msgid "Guiding rate"
+#, kde-format
 msgid "Guiding settle:"
-msgstr "Hitrost premikanja"
+msgstr "Vodenje poravnave:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/capture/opsmiscsettings.ui:106
@@ -17190,11 +17168,9 @@ msgstr "Časovna omejitev okna:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GuidingSettle)
 #: ekos/capture/opsmiscsettings.ui:159
-#, fuzzy, kde-format
+#, kde-format
 msgid "Wait this many seconds after guiding is resumed before starting capture"
-msgstr ""
-"Počakajte toliko sekund po tem, ko se nadaljuje s smernicami, preden začnete "
-"zajemati"
+msgstr "Počakaj toliko sekund po nadaljevanju vodenja pred začetkom zajema"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:173
@@ -17739,7 +17715,7 @@ msgstr "Menjanje filtra"
 #: ekos/ekos.h:73
 #, kde-format
 msgid "Guider Settling"
-msgstr "Umirjanje vodnika"
+msgstr "Poravnavanje vodnika"
 
 #: ekos/ekos.h:74
 #, kde-format
@@ -19074,12 +19050,12 @@ msgstr[3] "Samodejno ostrenje zaključeno po %1 ponovitvah."
 #: ekos/focus/focus.cpp:2513
 #, kde-format
 msgid "Settling for %1s..."
-msgstr "Umirjanje za %1 s …"
+msgstr "Poravnavanje za %1s..."
 
 #: ekos/focus/focus.cpp:2521
 #, kde-format
 msgid "Settling complete."
-msgstr "Umirjanje zaključeno."
+msgstr "Poravnava zaključena."
 
 #: ekos/focus/focus.cpp:2534
 #, kde-format
@@ -20317,14 +20293,14 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/opsfocusmechanics.ui:185
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Settle time (in seconds) after moving the focuser "
 "before capturing the next image during Auto Focus and after an Adaptive "
 "Focus movement.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Čas umirjanja (v sekundah) po premikanju ostrilnika, "
-"preden zajamete naslednjo sliko med samodejnim ostrenjem in po premiku "
+"<html><head/><body><p>Čas poravnave (v sekundah) po premikanju fokuserja, "
+"pred zajemom naslednje slike med samodejnim ostrenjem in po premiku "
 "prilagodljivega ostrenja.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
@@ -20365,9 +20341,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/focus/opsfocusmechanics.ui:270
-#, fuzzy, kde-format
+#, kde-format
 msgid "Focuser Settle:"
-msgstr "Poravnava ostrilnika:"
+msgstr "Poravnava fokuserja:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/opsfocusmechanics.ui:286
@@ -21288,9 +21264,9 @@ msgstr "Okvir:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/focus/opsfocussettings.ui:92
-#, fuzzy, kde-format
+#, kde-format
 msgid "Guide Settle:"
-msgstr "Umiritev vodila:"
+msgstr "Poravnava vodila:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/focus/opsfocussettings.ui:111
@@ -21337,13 +21313,13 @@ msgstr "Podposnetek"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGuideSettleTime)
 #: ekos/focus/opsfocussettings.ui:180
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Wait this many seconds after autofocus completes "
 "before resuming guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Počakajte toliko sekund, potem ko premaknete fokusnik, "
-"preden zajamete naslednjo sliko med samodejnim fokusom.</p></body></html>"
+"<html><head/><body><p>Počakaj toliko sekund po zaključku samodejnega "
+"ostrenja, preden se nadaljuje z vodenjem.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
 #: ekos/focus/opsfocussettings.ui:199
@@ -21737,15 +21713,14 @@ msgid "Calibration Data Flipped."
 msgstr "Podatki umerjanja obrnjeni."
 
 #: ekos/guide/externalguide/phd2.cpp:403
-#, fuzzy, kde-format
-#| msgid "PHD2: Star Selected."
+#, kde-format
 msgid "PHD2: SettleDone."
-msgstr "PHD2: zvezda izbrana."
+msgstr "PHD2: Poravnava izvedena."
 
 #: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
 msgid "PHD2: Settling failed (%1)."
-msgstr "PHD2: poravnava ni uspela (%1)."
+msgstr "PHD2: Poravnava ni uspela (%1)."
 
 #: ekos/guide/externalguide/phd2.cpp:433
 #, fuzzy, kde-format
@@ -21754,9 +21729,9 @@ msgstr ""
 "PhD2: Prišlo je do napake pri stresanju, vendar nadaljujte s smernicami."
 
 #: ekos/guide/externalguide/phd2.cpp:442
-#, fuzzy, kde-format
+#, kde-format
 msgid "PHD2: Settling failed, aborted."
-msgstr "PhD2: Poravnava ni uspela, prekinila."
+msgstr "PhD2: Poravnava ni uspela, prekinjena."
 
 #: ekos/guide/externalguide/phd2.cpp:448
 #, kde-format
@@ -21794,9 +21769,9 @@ msgid "PHD2: Star Selected."
 msgstr "PHD2: zvezda izbrana."
 
 #: ekos/guide/externalguide/phd2.cpp:657
-#, fuzzy, kde-format
+#, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
-msgstr "PHD2: Vodenje … Čakanje na poravnavo …"
+msgstr "PHD2: Vodenje…čakanje na poravnavo…"
 
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
@@ -21997,9 +21972,9 @@ msgid "The mount is parked. Unpark to start guiding."
 msgstr "Nosilec je parkiran. Odparkirajte ga, da začnete z vodenjem."
 
 #: ekos/guide/guide.cpp:1489
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pier side change detected. Clearing calibration."
-msgstr "Zaznana je sprememba strani pomola. Čiščenje kalibracije."
+msgstr "Zaznana je sprememba strani podnožja. Čiščenje kalibracije."
 
 #: ekos/guide/guide.cpp:1503
 #, kde-format
@@ -22072,7 +22047,7 @@ msgid "Dithering in progress."
 msgstr "Razprševanje poteka."
 
 #: ekos/guide/guide.cpp:1705
-#, kde-format
+#, fuzzy, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Umirjanje po razprševanju za %1 sekund …"
@@ -23180,8 +23155,8 @@ msgid ""
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Shranite in poskusite znova uporabiti kalibracije. To "
-"deluje le na nasprotnih straneh meridiana, če je pomol lahko samodejno "
-"določen iz vašega nosilca. Zgoraj navedena možnost »Reset Guide on Slew« je "
+"deluje le na nasprotnih straneh meridiana, če je podnožje lahko samodejno "
+"določeno iz vaše montaže. Zgoraj navedena možnost »Reset Guide on Slew« je "
 "treba počistiti, da se to poskusi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
@@ -23192,7 +23167,7 @@ msgstr "Če je mogoče, shranjujte in ponovno uporabljajte kalibracijo vodnika."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>When re-using a calibration, reverse the DEC angle if "
 "the current pier side differs from the one at calibration. This only applies "
@@ -23200,16 +23175,17 @@ msgid ""
 "that should be researched. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ko ponovno uporabite kalibracijo, obrnite kot DEC, če "
-"se trenutna pomol stran razlikuje od trenutne pomola pri kalibraciji. To "
-"velja le pri ponovno uporabi kalibracij. Vrednost, ki jo potrebujete, je "
-"lastnost vašega nosilca, ki jo je treba raziskati. </p></body></html>"
+"se trenutna stran podnožja razlikuje od trenutne strani podnožja pri "
+"kalibraciji. To velja le pri ponovno uporabi kalibracij. Vrednost, ki jo "
+"potrebujete, je lastnost vaše montaže, ki jo je treba raziskati. </p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
 #, fuzzy, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
-msgstr "Ob vnožju umerjanja obrnite DEC ob pomolu."
+msgstr "Ob vnožju umerjanja obrnite DEC ob podnožju."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -23244,9 +23220,6 @@ msgstr "Samodejni prag"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherTimeout)
 #: ekos/guide/opsdither.ui:89
 #, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Maximum telescope altitude limit. If the telescope "
-#| "is above this limit, it will be commanded to stop.</p></body></html>"
 msgid ""
 "<html><head/><body><p>Maximum allowable distance for dithering to be "
 "considered settled (PHD2 only).</p></body></html>"
@@ -24886,10 +24859,10 @@ msgid "Meridian flip in %1"
 msgstr "Obrat čez poldnevnik čez %1"
 
 #: ekos/manager/meridianflipstate.cpp:259
-#, fuzzy, kde-format
+#, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
-"Obrat čez poldnevnik je spodletel - čas je prekratek, stran pomola neznana."
+"Obrat čez poldnevnik je spodletel - čas je prekratek, stran podnožja neznana."
 
 #: ekos/manager/meridianflipstate.cpp:283
 #, kde-format
@@ -25186,7 +25159,7 @@ msgstr "Najv. viš.:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:308
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount Hour Angle limit. Once "
 "enabled, Ekos monitors the mount's hour angle while slewing or tracking. If "
@@ -25195,11 +25168,11 @@ msgid ""
 "turned off. Requires a mount that reports the pier side correctly.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Omogočite ali onemogočite omejitev ura za namestitev. "
-"Ko je omogočeno, Ekos spremlja kot ure nosilca med zamahom ali sledenjem. Če "
-"nosilec zamahne/sledi mimo meje, medtem ko je pomolska stran v stanju, ki "
-"tega ne dopušča, se mu zapoveda, da se ustavi in izklopi sledenje. Zahteva "
-"nosilec, ki pravilno poroča o strani pomola.</p></body></html>"
+"<html><head/><body><p>Omogoči ali onemogoči omejitev urnega kota namestitve. "
+"Ko je omogočen, Ekos spremlja urni kot montaže med obračanjem ali sledenjem. "
+"Če montaža zavije/sledi čez mejo, medtem ko je stran podnožja v stanju, ki "
+"tega ne dovoljuje, se mu ukaže, da se ustavi in ​​sledenje se izklopi. "
+"Potrebna je montaža, ki pravilno poroča o strani podnožja.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:311
@@ -34906,7 +34879,7 @@ msgid ""
 "\" button in the Geographic Location window)."
 msgstr ""
 "Dvo-črkovna koda pravila, ki določa, kdaj se začne in konča poletni čas "
-"(pravila si lahko ogledate s klikom gumba »Razloži pravila za poletni čas« v "
+"(pravila si lahko ogledate s klikom gumba »Razloži pravila poletnega časa« v "
 "oknu Zemljepisna lega)."
 
 #. i18n: ectx: label, entry (UseAnimatedSlewing), group (View)
@@ -38611,10 +38584,9 @@ msgstr "Položajni kot"
 
 #. i18n: ectx: label, entry (PAPierSide), group (Capture)
 #: kstars.kcfg:1966
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position angle calibration pier side"
-msgstr "Položajni kot"
+msgstr "Stran podnožja za kalibracijo kota položaja"
 
 #. i18n: ectx: label, entry (GuideDeviation), group (Capture)
 #: kstars.kcfg:1969
@@ -40715,9 +40687,10 @@ msgstr "Daljnogled je uspešno izvedel zrcaljenje poldnevnika."
 
 #. i18n: ectx: label, entry (ReverseDecOnPierSideChange), group (Scheduler)
 #: kstars.kcfg:3151
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reverse DEC on pier-side change when reusing calibration."
-msgstr "Ob vnožju umerjanja obrnite DEC ob pomolu."
+msgstr ""
+"Obrni DEC pri spremembi strani podnožja pri ponovni uporabi kalibracije."
 
 #. i18n: ectx: label, entry (GuideCalibrationBacklash), group (Scheduler)
 #: kstars.kcfg:3155
@@ -72030,10 +72003,9 @@ msgid "UT offset: "
 msgstr "Odmik od UČ: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:334
-#, fuzzy, kde-kuit-format
-#| msgid "DST rule:"
+#, kde-kuit-format
 msgid "DST rule: "
-msgstr "Pravilo PČ:"
+msgstr "Pravilo poletnega časa: "
 
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:352
 #: kstarslite/qml/dialogs/LocationDialog.qml:139
@@ -74947,12 +74919,10 @@ msgid "Philips Webcam"
 msgstr "Spletna kamera Philips"
 
 #: libindi_strings.cpp:354
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Nebraska USA"
-#| msgid "Pierce"
+#, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Pier Side"
-msgstr "Pierce"
+msgstr "Stran podnožja"
 
 #: libindi_strings.cpp:355
 #, kde-kuit-format
