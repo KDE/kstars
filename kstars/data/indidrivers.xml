@@ -33,15 +33,19 @@
         </device>
         <device label="LX200 OnStep" manufacturer="OnStep">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.23</version>
+            <version>1.24</version>
         </device>
         <device label="WARPDRIVE" manufacturer="WarpAstron">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.23</version>
+            <version>1.24</version>
         </device>
         <device label="UMi" manufacturer="ProxiSky">
             <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
-            <version>1.23</version>
+            <version>1.24</version>
+        </device>
+        <device label="EM31Pro" manufacturer="Emcan Astro">
+            <driver name="LX200 OnStep">indi_lx200_OnStep</driver>
+            <version>1.24</version>
         </device>
         <device label="LX200 OpenAstroTech" manufacturer="OpenAstroTech">
             <driver name="LX200 OpenAstroTech">indi_lx200_OpenAstroTech</driver>
@@ -85,11 +89,19 @@
         </device>
         <device label="ZWO AM5 WiFi" manufacturer="ZWO">
             <driver name="ZWO AM5">indi_lx200am5</driver>
-            <version>1.2</version>
+            <version>1.3</version>
         </device>
         <device label="ZWO AM5 USB" manufacturer="ZWO">
             <driver name="ZWO AM5">indi_lx200am5</driver>
-            <version>1.2</version>
+            <version>1.3</version>
+        </device>
+        <device label="ZWO AM3 WiFi" manufacturer="ZWO">
+            <driver name="ZWO AM5">indi_lx200am5</driver>
+            <version>1.3</version>
+        </device>
+        <device label="ZWO AM3 USB" manufacturer="ZWO">
+            <driver name="ZWO AM5">indi_lx200am5</driver>
+            <version>1.3</version>
         </device>
         <device label="Celestron GPS" manufacturer="Celestron">
             <driver name="Celestron GPS">indi_celestron_gps</driver>
@@ -845,6 +857,10 @@
             <driver name="Waveshare Relay">indi_wavesharemodbus_relay</driver>
             <version>1.0</version>
         </device>
+        <device label="IPX800v4" manufacturer="CGE Electronics">
+            <driver name="IPX800v4">indi_ipx800v4</driver>
+            <version>1.0</version>
+        </device>
     </devGroup>
     <devGroup group="Domes">
         <device label="ScopeDome Dome" manufacturer="ScopeDome">
@@ -984,28 +1000,40 @@
     </devGroup>
 </driversList>
 <driversList>
+    <devGroup group="Auxiliary">
+        <device label="ASI Power">
+            <driver name="ASI Power">indi_asi_power</driver>
+            <version>0.95</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
     <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true" manufacturer="ZWO">
             <driver name="ZWO CCD">indi_asi_ccd</driver>
-            <version>2.4</version>
+            <version>2.5</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="ZWO EFW" mdpd="true" manufacturer="ZWO">
             <driver name="ZWO EFW">indi_asi_wheel</driver>
-            <version>2.4</version>
+            <version>2.5</version>
         </device>
     </devGroup>
     <devGroup group="Focusers">
         <device label="ZWO EAF" manufacturer="ZWO">
             <driver name="ZWO EAF">indi_asi_focuser</driver>
-            <version>2.4</version>
+            <version>2.5</version>
+        </device>
+        <device label="ZWO CAA" mdpd="true" manufacturer="ZWO">
+            <driver name="ZWO CAA">indi_asi_rotator</driver>
+            <version>2.5</version>
         </device>
     </devGroup>
     <devGroup group="Auxiliary">
         <device label="ZWO ST4" manufacturer="ZWO">
             <driver name="ZWO ST4">indi_asi_st4</driver>
-            <version>2.4</version>
+            <version>2.5</version>
         </device>
     </devGroup>
 </driversList>
@@ -1094,6 +1122,14 @@
         <device label="BRESSER Messier EXOS-2 EQ GoTo" manufacturer="BRESSER">
             <driver name="BRESSER Messier Exos-2 EQ GoTo">indi_bresserexos2</driver>
             <version>0.901</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Cam90 CCD" mdpd="true">
+            <driver name="Cam90 CCD">indi_cam90_ccd</driver>
+            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -1237,6 +1273,10 @@
             <driver name="AHP GT Mount">indi_ahpgt_telescope</driver>
             <version>1.3</version>
         </device>
+        <device label="Wave 150i" manufacturer="SkyWatcher">
+            <driver name="EQMod Mount">indi_eqmod_telescope</driver>
+            <version>1.3</version>
+        </device>
     </devGroup>
 </driversList>
 <driversList>
@@ -1289,6 +1329,14 @@
 </driversList>
 <driversList>
     <devGroup group="CCDs">
+        <device label="Generic CCD" mdpd="true" manufacturer="Simulator">
+            <driver name="Generic CCD">indi_generic_ccd</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="CCDs">
         <device label="Canon DSLR" mdpd="true" manufacturer="DSLRs">
             <driver name="Canon DSLR">indi_canon_ccd</driver>
             <version>3.4</version>
@@ -1317,6 +1365,14 @@
 </driversList>
 <driversList>
     <devGroup group="Auxiliary">
+        <device label="GPIO">
+            <driver name="GPIO">indi_gpio</driver>
+            <version>0.2</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Auxiliary">
         <device label="GPSD">
             <driver name="GPSD">indi_gpsd</driver>
             <version>0.6</version>
@@ -1340,14 +1396,6 @@
         <device label="iNova PLX">
             <driver name="iNova PLX">indi_inovaplx_ccd</driver>
             <version>1.4</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="CCDs">
-        <device label="LibCamera" manufacturer="Raspberry PI">
-            <driver name="LibCamera">indi_libcamera_ccd</driver>
-            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -1473,25 +1521,25 @@
     <devGroup group="CCDs">
         <device label="PlayerOne CCD" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne CCD">indi_playerone_ccd</driver>
-            <version>1.16</version>
+            <version>1.17</version>
         </device>
         <device label="PlayerOne Camera 1" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.16</version>
+            <version>1.17</version>
         </device>
         <device label="PlayerOne Camera 2" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.16</version>
+            <version>1.17</version>
         </device>
         <device label="PlayerOne Camera 3" manufacturer="PlayerOne">
             <driver name="PlayerOne Camera">indi_playerone_single_ccd</driver>
-            <version>1.16</version>
+            <version>1.17</version>
         </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="PlayerOne EFW" mdpd="true" manufacturer="PlayerOne">
             <driver name="PlayerOne EFW">indi_playerone_wheel</driver>
-            <version>1.16</version>
+            <version>1.17</version>
         </device>
     </devGroup>
 </driversList>
@@ -1534,6 +1582,14 @@
         <device label="RTKLIB Precise Positioning">
             <driver name="RTKLIB Precise Positioning">indi_rtklib</driver>
             <version>0.1</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Spectrographs">
+        <device label="RTL-SDR" mdpd="false">
+            <driver name="RTL-SDR">indi_rtlsdr</driver>
+            <version>1.0</version>
         </device>
     </devGroup>
 </driversList>
@@ -1663,6 +1719,10 @@
             <driver name="Meade">indi_meadecam_ccd</driver>
             <version>2.1</version>
         </device>
+        <device label="Svbonycam" mdpd="true" manufacturer="SVBONY">
+            <driver name="SVBONY2">indi_svbonycam_ccd</driver>
+            <version>2.1</version>
+        </device>
     </devGroup>
     <devGroup group="Filter Wheels">
         <device label="Toupcam EFW" mdpd="true" manufacturer="Toupcam">
@@ -1703,6 +1763,10 @@
         </device>
         <device label="Meadecam EFW" mdpd="true" manufacturer="Meade">
             <driver name="Meade">indi_meadecam_wheel</driver>
+            <version>2.1</version>
+        </device>
+        <device label="Svbonycam EFW" mdpd="true" manufacturer="SVBONY">
+            <driver name="SVBONY2">indi_svbonycam_wheel</driver>
             <version>2.1</version>
         </device>
     </devGroup>
@@ -1747,6 +1811,10 @@
             <driver name="Meade">indi_meadecam_focuser</driver>
             <version>2.1</version>
         </device>
+        <device label="Svbonycam AAF" mdpd="true" manufacturer="SVBONY">
+            <driver name="SVBONY2">indi_svbonycam_focuser</driver>
+            <version>2.1</version>
+        </device>
     </devGroup>
 </driversList>
 <driversList>
@@ -1774,26 +1842,10 @@
     </devGroup>
 </driversList>
 <driversList>
-    <devGroup group="Auxiliary">
-        <device label="ASI Power">
-            <driver name="ASI Power">indi_asi_power</driver>
-            <version>0.95</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
     <devGroup group="CCDs">
         <device label="Cam90 CCD" mdpd="true">
             <driver name="Cam90 CCD">indi_cam90_ccd</driver>
             <version>1.0</version>
-        </device>
-    </devGroup>
-</driversList>
-<driversList>
-    <devGroup group="Auxiliary">
-        <device label="GPIO">
-            <driver name="GPIO">indi_gpio</driver>
-            <version>0.1</version>
         </device>
     </devGroup>
 </driversList>
@@ -1805,11 +1857,4 @@
         </device>
     </devGroup>
 </driversList>
-<driversList>
-    <devGroup group="CCDs">
-        <device label="Generic CCD" mdpd="true" manufacturer="Simulator">
-            <driver name="Generic CCD">indi_generic_ccd</driver>
-            <version>1.0</version>
-        </device>
-    </devGroup>
-</driversList>
+

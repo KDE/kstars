@@ -4,6 +4,91 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.5
+
+c255f61c9 2025-01-31 Hy Murveit           Fix bug in dms::deltaAngle()                                                                                                                          
+7c1bb9f2b 2025-01-29 Hy Murveit           Fix calibration plot dec arrow                                                                                                                        
+ea181c91b 2025-01-28 Hy Murveit           Fix issue where old calibrations were broken                                                                                                          
+b5b856f55 2025-01-28 Hy Murveit           Change Options::CaptureOperationsTimeout() to 5 minutes                                                                                               
+e634c8cc4 2025-01-27 Jasem Mutlaq         Use manufacturers for all equipment types in the Profile Editor. This should fix multiple issues including seamless switching between Local and Remo..
+65c97f1ba 2025-01-26 Hy Murveit           Fix English for guiding option                                                                                                                        
+ba5a83da3 2025-01-26 Jasem Mutlaq         Add generic DBus methods to set and get any KStars option defined in kstars.kcfg                                                                      
+4cc451509 2025-01-25 Jasem Mutlaq         Account for traveledAngle wrap around                                                                                                                 
+89d7e111b 2025-01-24 Jasem Mutlaq         If ROI is null or invalid, use maximum available resolution.                                                                                          
+21f00cfe8 2025-01-24 Jasem Mutlaq         Use Mutex to protect resources accessed from multiple threads to prevent crashes.                                                                     
+b0e021333 2025-01-24 Toni Schriber        Prevent overshooting cosine in calculation of CachingDms                                                                                              
+dc469f532 2025-01-22 Jasem Mutlaq         Remove obsolete ACTIVE_DEVICES updates now that OpticalTrainManager takes care of them.                                                               
+a4cb058a7 2025-01-22 Jasem Mutlaq         Fix repeated signals getting triggered before we are not blocking them when clearing and filling combo boxes.                                         
+a56be5fb2 2025-01-22 Wolfgang Reissenberger Bugfix for flats with wall position                                                                                                                   
+de4f9e9f5 2025-01-21 Hy Murveit           Add mandatory settle to PAA                                                                                                                           
+a705515b8 2025-01-20 Jasem Mutlaq         Fix a couple more issues with scheduler options. Radio buttons need to be saved when updated and need to debounce saving                              
+ec6e79877 2025-01-20 Jasem Mutlaq         Fix issue where profile changes is not communicated to process state                                                                                  
+79b42c556 2025-01-20 Jasem Mutlaq         Add SchedulerSleeping event                                                                                                                           
+ea7846f5f 2025-01-19 Jasem Mutlaq         Path if relative to home directory for filedata                                                                                                       
+faa0eb899 2025-01-19 Jasem Mutlaq         Fix bug where we use the wrong unit type, should use options only                                                                                     
+ef5a1f004 2025-01-19 Jasem Mutlaq         Improve scheduler loading to handle both scenarios when it is data only or data+url                                                                   
+d62c63f42 2025-01-19 Jasem Mutlaq         Add error message in case either camera or guider is not online when calibration is started.                                                          
+a29c4be19 2025-01-19 Jasem Mutlaq         Add option to enable startup script executation regardless of Ekos status. Fix all scheduler settings to use kcfg_ prefix                             
+5aa8f19d8 2025-01-18 Ben Cooksley         Remove CMake trace/debug logs from CI runs.                                                                                                           
+4ec72235a 2025-01-16 Toni Schriber        Reuse calibration after rotation: Part 1                                                                                                              
+8b0d74fbe 2025-01-13 Jasem Mutlaq         Add support for drawing dome slit on the sky map                                                                                                      
+9fea66ff0 2025-01-12 Jasem Mutlaq         If preparing state is already completed or none, then stop timer as well.                                                                             
+d11d2cad4 2025-01-12 Jasem Mutlaq         Handle timeouts for various capture operations to avoid getting stuck without aborting capture                                                        
+ac3460528 2025-01-13 Jasem Mutlaq         Fix analyze analyzeAlternativeDirectoryName issue. Fix QCDebug includes.                                                                              
+7e568b371 2025-01-13 Jasem Mutlaq         use qCDebug instead of generic qDebug                                                                                                                 
+475099bb7 2025-01-13 Jasem Mutlaq         Fix warning due to incoccrect option name                                                                                                             
+c6d984c9e 2025-01-13 Jasem Mutlaq         Correct config name                                                                                                                                   
+7e8abfad8 2025-01-13 Jasem Mutlaq         Filter manager is null by this stage, do not connect.                                                                                                 
+9537156ed 2025-01-13 Jasem Mutlaq         Fix two more places where we used KLazyLocalizedString                                                                                                
+ccfd5d78c 2025-01-13 Jasem Mutlaq         Make it compile on KDE Frameworks prior to 5.89                                                                                                       
+0a646c3bb 2025-01-11 Jasem Mutlaq         Simplify checking for reversed and completed conditions when processing mount rotation.                                                               
+ca7a3249f 2025-01-11 Jasem Mutlaq         Fix typo and better handling for dome. Do not prevent handling of mount status update even if dome is in motion. We only care about capturing which ..
+17a38e9eb 2024-11-12 Akarsh Simha         Fix right-click popup menu on deep stars                                                                                                              
+998607c33 2025-01-10 Jasem Mutlaq         Fix Mosaic Assistant setting focus in scheduler when it should not.                                                                                   
+2d8c03830 2025-01-10 Jasem Mutlaq         Use better name                                                                                                                                       
+791182579 2025-01-11 Wolfgang Reissenberger Dithering disabling per job                                                                                                                           
+c4db9133e 2025-01-07 György Balló         Set window icon                                                                                                                                       
+58a13e50c 2025-01-09 Jasem Mutlaq         Need to use imageData UUID when sending view                                                                                                          
+13587d94e 2025-01-08 Jasem Mutlaq         Fix video subframing                                                                                                                                  
+a51e6d550 2025-01-08 Jasem Mutlaq         Add more protections when sending pending properties                                                                                                  
+3ab677382 2025-01-07 Jasem Mutlaq         For cameras that support streaming exposure setting, we should ROI the camera frame, not just the streaming frame. This should result significantly ..
+9b67e9a12 2025-01-06 John Evans           focusadvisor code warning fix                                                                                                                         
+c29ccb9e3 2025-01-05 Oliver Kellogg       kstars/kstars.kcfg (FitsCatObjShowNames) : fix typo in `FITS Viewer`.                                                                                 
+5c23230f2 2025-01-05 Wolfgang Reissenberger Clear active filter if Camera has no Filter Wheel                                                                                                     
+3179e4ba8 2025-01-05 Jasem Mutlaq         Add safety checks to prevent over travel for mounts during PAA                                                                                        
+075d4cece 2025-01-04 Jasem Mutlaq         Do not use RAWPrefix when creating mosaic sequences. Add warning when loading a sequence file with RAWPrefix as it is no longer used and been replac..
+c1fcce5f5 2025-01-01 John Evans           Prevent Aberration Inspector from using curvefit Quadratic                                                                                            
+a73f0e8dc 2025-01-01 Jasem Mutlaq         Revert part of ea004a10af9fab962db336f07f82cf5d3f49d9be as it causes a regression with WCS data in the FITS Viewer                                    
+1344dfb48 2025-01-01 Jasem Mutlaq         Fix crash when paths are empty                                                                                                                        
+25d7ea35e 2025-01-01 Hy Murveit           Make imaging planner more stable--disable UI during catalog loads                                                                                     
+aed4e55a1 2024-12-31 John Evans           Allow framing on all focus measures                                                                                                                   
+741fde9ae 2024-12-29 John Evans           Enable Focuser Controls when Camera Disconnected                                                                                                      
+a28263631 2024-12-29 Hy Murveit           Add warning when searching the internet in find dialog                                                                                                
+32efece55 2024-12-29 Hy Murveit           Fix bug with pierside placeholder when it is used for a directory                                                                                     
+5a594088d 2024-12-28 Jasem Mutlaq         Use setChecked insteasd of click for radio and check boxes to fix some corner issues reported by Toni and John                                        
+5fd8dd393 2024-12-27 Hy Murveit           fix sequence editor crash                                                                                                                             
+04c1a51c6 2024-12-28 Wolfgang Reissenberger Bugfix Focus Options                                                                                                                                  
+1c15c8c7e 2024-12-27 Wolfgang Reissenberger Remote directory default handling                                                                                                                     
+ef9b92955 2024-12-25 Jasem Mutlaq         Do not load image buffer when not required                                                                                                            
+3aa36ce74 2024-12-25 Jasem Mutlaq         Add recommended extension                                                                                                                             
+ab81b37a0 2024-12-25 Jasem Mutlaq         Add vscode files to help prospective developers in setting up KStars under VS Code                                                                    
+a1d62ed37 2024-12-24 Jasem Mutlaq         Remove extranous options that disables KConfigDialog functions                                                                                        
+938e91306 2024-12-24 Jasem Mutlaq         Attempt at fix capture settings in Ekos                                                                                                               
+6565e4862 2024-12-17 Hy Murveit           Add START_AT scheduler test                                                                                                                           
+53c0b4183 2024-12-15 Hy Murveit           Fix abell planetary nebula lookup                                                                                                                     
+3753e1a8a 2024-12-14 Wolfgang Reissenberger Capture Video Sequences                                                                                                                               
+270fc2c50 2024-12-12 Jasem Mutlaq         Fix crash on closing KStars caused by this line for some reason                                                                                       
+d44fb7abc 2024-12-12 Jasem Mutlaq         If focuser is not ready, we must immediately resolve syncAbsoluteFocusPosition otherwise the capture pipeline will get stuck in the Preparing stage   
+a8ccbecd6 2024-12-10 Jasem Mutlaq         Fix crash with what is interesting tool due to incorrect version import                                                                               
+7acd3d7c5 2024-12-09 Hy Murveit           Try to solidify ImagingPlanner                                                                                                                        
+b83f83a6f 2024-12-09 Jasem Mutlaq         Fix language issues by using KLazyLocalizedString since the application context is not set yet                                                        
+09fde1264 2024-12-08 Wolfgang Reissenberger Do not modify start button when suspended                                                                                                             
+b1af4a0d0 2024-11-29 Hy Murveit           PAA: new adjustment estimate                                                                                                                          
+5d5f1c132 2024-12-08 Jasem Mutlaq         Use a dedicated timer to prevent QEventDispatcherWin32::registerTimer: Failed to create a timer issue reported on Windows                             
+361815d24 2024-12-08 Jasem Mutlaq         Starting KStars v3.7.5 development cycle                                                                                                              
+868f8c3eb 2024-12-08 Jasem Mutlaq         FilterManager should emit failed when the filter change operation fails or times out with a hard-defined value of 30 seconds. Fixed issues with filt..
+058cd5ea1 2024-12-07 Jasem Mutlaq         Fix Dark library remove all                                                                                                                           
+
 3.7.4 (PLANNER):
 
 276510114 2024-12-03 Jasem Mutlaq         INDI drivers sync
