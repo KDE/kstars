@@ -49,9 +49,6 @@
 
 #define DPRINTF if (false) fprintf
 
-// For now, skip the threading. It is more stable this way.
-// #define THREADED_LOAD_CATALOG
-
 // Data columns in the model.
 // Must agree with the header string near the start of initialize()
 // and the if/else-if test values in addCatalogItem().
@@ -2349,9 +2346,8 @@ bool ImagingPlanner::eventFilter(QObject * obj, QEvent * event)
     if (m_InitialLoad && event->type() == QEvent::Paint)
     {
         m_InitialLoad = false;
-        // Load the initial catalog in another thread.
         setStatus(i18n("Loading Catalogs..."));
-        loadInitialCatalog();
+        QTimer::singleShot(100, this, &ImagingPlanner::loadInitialCatalog);
         return false;
     }
 
@@ -3284,21 +3280,6 @@ void ImagingPlanner::loadCatalogViaMenu()
 
 void ImagingPlanner::loadCatalog(const QString &path)
 {
-#ifdef THREADED_LOAD_CATALOG
-    // All this below in order to keep the UI active while loading.
-    m_LoadCatalogs = QtConcurrent::run([this, path]()
-    {
-        loadCatalogFromFile(path);
-    });
-    m_LoadCatalogsWatcher = new QFutureWatcher<void>(this);
-    m_LoadCatalogsWatcher->setFuture(m_LoadCatalogs);
-    connect(m_LoadCatalogsWatcher, &QFutureWatcher<void>::finished,
-            [this]()
-    {
-        catalogLoaded();
-        disconnect(m_LoadCatalogsWatcher);
-    });
-#else
     removeEventFilters();
 
     // This tool seems to occassionally crash when UI interactions happen during catalog loading
@@ -3317,7 +3298,6 @@ void ImagingPlanner::loadCatalog(const QString &path)
 
     m_loadingCatalog = false;
     installEventFilters();
-#endif
 }
 
 CatalogImageInfo::CatalogImageInfo(const QString &csv)
@@ -3431,9 +3411,7 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
                 numMissingImage++;
                 DPRINTF(stderr, "No catalog image for %s\n", info.m_Name.toLatin1().data());
             }
-#ifndef THREADED_LOAD_CATALOG
             QCoreApplication::processEvents();
-#endif
         }
         inputFile.close();
 
