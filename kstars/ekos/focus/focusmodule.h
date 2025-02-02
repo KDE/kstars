@@ -132,7 +132,7 @@ public:
         // ////////////////////////////////////////////////////////////////////
         // Module logging
         // ////////////////////////////////////////////////////////////////////
-        void clearLog();
+        Q_INVOKABLE void clearLog();
         void appendLogText(const QString &logtext);
         void appendFocusLogText(const QString &lines);
 
