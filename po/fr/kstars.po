@@ -18,13 +18,13 @@
 # MORELLI <robert.morelli@laposte.net>, 2022.
 # Thomas Vergnaud <thomas.vergnaud@mailo.eu>, 2023.
 # Johnny Jazeix <jazeix@gmail.com>, 2023.
-# Steve <stax@ik.me>, 2022, 2023, 2024.
+# Steve <stax@ik.me>, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-30 01:53+0000\n"
-"PO-Revision-Date: 2025-01-06 07:38+0100\n"
+"POT-Creation-Date: 2025-02-03 01:51+0000\n"
+"PO-Revision-Date: 2025-02-02 11:07+0100\n"
 "Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -273,11 +273,9 @@ msgid "HiPS Grid"
 msgstr "Grille HiPS"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dome Simulator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Simulateur de dôme"
+msgstr "Fente du dôme"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -1080,7 +1078,7 @@ msgstr "Simulateur XPlanet pour le système solaire : %1"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1514 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1511 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1157,8 +1155,8 @@ msgstr "Terre"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1122 tools/imagingplanner.cpp:1489
-#: tools/imagingplanner.cpp:2653 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1119 tools/imagingplanner.cpp:1486
+#: tools/imagingplanner.cpp:2649 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2724,7 +2722,7 @@ msgstr "Ne pas naviguer"
 msgid "Show webpage about "
 msgstr "Afficher la page web sur "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2796
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2792
 #, kde-format
 msgid "object"
 msgstr "objet"
@@ -2849,7 +2847,7 @@ msgstr "Cliquez sur une couleur pour la modifier…"
 msgid "Degrees"
 msgstr "Degrés"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1122
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1119
 #, kde-format
 msgid "Hours"
 msgstr "Heures"
@@ -2898,7 +2896,7 @@ msgstr "Texte"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1122
+#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1119
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3260,7 +3258,7 @@ msgstr "Mag"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1122 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1119 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -4461,8 +4459,7 @@ msgid "(nothing)"
 msgstr "(rien)"
 
 #: dialogs/finddialog.cpp:491
-#, fuzzy, kde-format
-#| msgid "Search the Internet for %1"
+#, kde-format
 msgid "Searching the internet for \"%1\""
 msgstr "Chercher %1 sur Internet"
 
@@ -8687,10 +8684,9 @@ msgstr ""
 "soit le fichier n'est pas accessible, soit vous n'êtes pas connecté."
 
 #: ekos/align/opsastrometryindexfiles.cpp:447
-#, fuzzy, kde-format
-#| msgid "Edit Link..."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "Modifier un lien..."
+msgstr "Téléchargement %1 annulé."
 
 #: ekos/align/opsastrometryindexfiles.cpp:482
 #, kde-format
@@ -14621,10 +14617,9 @@ msgid "Autofocus failed."
 msgstr "Erreur de la mise au point automatique."
 
 #: ekos/capture/camera.cpp:827
-#, fuzzy, kde-format
-#| msgid "Capturing %1-second %2 image..."
+#, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
-msgstr "Acquisition d'une trame %2 de %1 secondes…"
+msgstr "Acquisition d'une vidéo %3 avec %1 x %2 secondes…"
 
 #: ekos/capture/camera.cpp:833
 #, kde-format
@@ -14679,10 +14674,9 @@ msgid "Expose (-/-):"
 msgstr "Exposition (-/-)"
 
 #: ekos/capture/camera.cpp:1057
-#, fuzzy, kde-format
-#| msgid "Duration of night for selected date"
+#, kde-format
 msgid "Duration of the video sequence"
-msgstr "Durée de la nuit pour la date sélectionnée"
+msgstr "Durée de la séquence vidéo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
@@ -14700,24 +14694,19 @@ msgid "Duration:"
 msgstr "Durée"
 
 #: ekos/capture/camera.cpp:1059
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Exposure time in seconds of a single video frame"
-msgstr "Durée d'exposition en secondes"
+msgstr "Durée d'exposition en secondes d'une vidéo"
 
 #: ekos/capture/camera.cpp:1060
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the exposure time in seconds for individual images, if applicable"
+#, kde-format
 msgid "Exposure time in seconds for individual images"
-msgstr ""
-"Définir le temps de pose en secondes pour les images individuelles, si "
-"applicable"
+msgstr "Durée d'exposition en secondes des images individuelles"
 
 #: ekos/capture/camera.cpp:1075
 #, kde-format
 msgid "Stop Sequence"
-msgstr "Arrêter une séquence"
+msgstr "Arrêter la séquence"
 
 #: ekos/capture/camera.cpp:1081
 #, kde-format
@@ -14793,18 +14782,17 @@ msgid "Confirmation"
 msgstr "Confirmation"
 
 #: ekos/capture/camera.cpp:2395
-#, fuzzy, kde-format
-#| msgid "You must set remote directory for Local & Both modes."
+#, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
-"Vous devez définir un dossier distant pour les modes « Client et Les Deux »."
+"Vous devez définir un dossier distant pour les modes « À distance et Les "
+"Deux »."
 
 #: ekos/capture/camera.cpp:2401
-#, fuzzy, kde-format
-#| msgid "You must set local directory for Client & Both modes."
+#, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr ""
-"Vous devez définir un dossier local pour les modes « Client et Les Deux »."
+"Vous devez définir un dossier local pour les modes « Local et Les Deux »."
 
 #: ekos/capture/camera.cpp:3583
 #, kde-format
@@ -15266,28 +15254,23 @@ msgstr "Délai"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, videoDurationSB)
 #: ekos/capture/camera.ui:1653
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Duration of the video sequence (in seconds or number "
 "of frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre de chiffres utilisés dans le nom du fichier "
-"comme numéro de séquence.</p></body></html>"
+"<html><head/><body><p>Durée de la séquence vidéo (en secondes ou nombre de "
+"trames)</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoDurationUnitCB)
 #: ekos/capture/camera.ui:1669
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Units of the video duration (seconds or number of "
 "frames).</p></body></html>"
 msgstr ""
-"<html><body><p>Taille de la séparation entre les tuiles.</p></body></html>"
+"<html><body><p>Unité de la durée de la vidéo (soit secondes soit nombre de "
+"trames)</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1696
@@ -15904,14 +15887,11 @@ msgstr ""
 "vont être traitées."
 
 #: ekos/capture/cameraprocess.cpp:600
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
-#| "processed."
+#, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr ""
-"La tâche nécessite des trames %2 de %1 secondes. Elle en a déjà acquis %3/%4 "
-"qui vont être traitées."
+"La tâche nécessite %1 poses de %2 secondes pour la vidéo %3 et seront "
+"traitées."
 
 #: ekos/capture/cameraprocess.cpp:830
 #, kde-format
@@ -16142,10 +16122,9 @@ msgid "Driver Restart"
 msgstr "Redémarrage du pilote"
 
 #: ekos/capture/cameraprocess.cpp:2996 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "La résolution a été annulée après %1 secondes."
+msgstr "L'acquisition a dépassé le délai d'attente après %1 secondes."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
@@ -17428,11 +17407,13 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long"
 msgstr ""
+"Nombre maximum de secondes à attendre avant d'interrompre l'acquisition si "
+"des opérations comme le changement de filtres ou un retournement au méridien "
+"prennent trop de temps."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Timeout:"
+#, kde-format
 msgid "Capture Operations Timeout"
 msgstr "Délai d'acquisition maximal"
 
@@ -22225,18 +22206,15 @@ msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Durée d'exposition écoulée. Trop d'essais. Redémarrage du pilote…"
 
 #: ekos/guide/guide.cpp:1299
-#, fuzzy, kde-format
-#| msgid ""
-#| "No camera detected. Check train configuration and connection settings."
+#, kde-format
 msgid "No camera detected. Check camera in optical trains."
-msgstr ""
-"Aucun appareil détecté. Veuillez vérifier la configuration du train et les "
-"réglages de connexion."
+msgstr "Aucun appareil détecté. Veuillez vérifier la caméra du train optique."
 
 #: ekos/guide/guide.cpp:1305
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
 msgstr ""
+"Aucun guide détecté. Veuillez vérifier guide-via dans les trains optiques."
 
 #: ekos/guide/guide.cpp:1386
 #, kde-format
@@ -22382,16 +22360,14 @@ msgid "Select a guide star to calibrate."
 msgstr "Sélectionner une étoile de guidage à calibrer."
 
 #: ekos/guide/guide.cpp:2826
-#, fuzzy, kde-format
-#| msgid "x (pixels)"
+#, kde-format
 msgid "dx (pixels)"
-msgstr "x (pixels)"
+msgstr "dx (pixels)"
 
 #: ekos/guide/guide.cpp:2827
-#, fuzzy, kde-format
-#| msgid "y (pixels)"
+#, kde-format
 msgid "dy (pixels)"
-msgstr "y (pixels)"
+msgstr "dy (pixels)"
 
 #: ekos/guide/guide.cpp:2969 ekos/guide/guide.cpp:3095
 #, kde-format
@@ -23112,6 +23088,7 @@ msgstr[1] ""
 #, kde-format
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr ""
+"Direction DEC inversée (AD-DEC est maintenant un système CCW standard)."
 
 #: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
@@ -23452,13 +23429,12 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
-"Inverser DEC si modification du côté du pied lors de la réutilisation d'une "
-"calibration"
+"Inverser les pulses en DEC du guide si modification du côté du pied lors de "
+"la réutilisation d'une calibration"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -28259,14 +28235,15 @@ msgid ""
 "Observatory startup script is normally only executed if Ekos is offline. "
 "Enable this option to start it whenever scheduler is starting up."
 msgstr ""
+"Le script de démarrage de l'observatoire ne s'exécute normalement que "
+"lorsqu'Ekos est hors ligne. Activer cette option pour le démarrer dès que "
+"l'ordonnanceur est lancé."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysExecuteStartupScript)
 #: ekos/scheduler/opsscriptssettings.ui:51
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Startup Script"
+#, kde-format
 msgid "Always Execute Startup Script"
-msgstr "Sélectionner le script de démarrage"
+msgstr "Toujours exécuter le script de démarrage"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
 #: ekos/scheduler/opsscriptssettings.ui:58
@@ -29538,10 +29515,9 @@ msgstr ""
 "jusqu'à ce que la prochaine tâche soit prête."
 
 #: ekos/scheduler/schedulerprocess.cpp:699
-#, fuzzy, kde-format
-#| msgid "Sleeping until observation job %1 is ready at %2..."
+#, kde-format
 msgid "Sleeping until observation job %1 is ready at %2"
-msgstr "En attente que la tâche d'observation « %1 » soit prête à %2…"
+msgstr "En attente que la tâche d'observation « %1 » soit prête à %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:710
 #, kde-format
@@ -30988,7 +30964,7 @@ msgid "Distance"
 msgstr "Distance"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1122
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1119
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Taille"
@@ -38370,8 +38346,7 @@ msgstr "Le catalogue duquel chercher les objets à afficher"
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, fuzzy, kde-format
-#| msgid "Whether to display object names on the Fitsviwer or not."
+#, kde-format
 msgid "Whether to display object names on the FITS Viewer or not."
 msgstr "S'il faut afficher le nom des objets dans l'afficheur Fits."
 
@@ -39115,6 +39090,9 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long."
 msgstr ""
+"Nombre maximum de secondes à attendre avant l'interruption de l'acquisition "
+"si des opérations comme le changement de filtres ou un retournement au "
+"méridien prennent trop de temps."
 
 #. i18n: ectx: label, entry (MinFlipDuration), group (Capture)
 #: kstars.kcfg:2153
@@ -40767,6 +40745,7 @@ msgstr ""
 #, kde-format
 msgid "Always execute startup script regardless of Ekos status."
 msgstr ""
+"Toujours exécuter les scripts de démarrage indépendamment de l'état d'Ekos."
 
 #. i18n: ectx: label, entry (ShutdownScriptTerminatesINDI), group (Scheduler)
 #: kstars.kcfg:3123
@@ -70978,10 +70957,9 @@ msgid "Observation Planner"
 msgstr "Planificateur d'observations"
 
 #: kstarsinit.cpp:456
-#, fuzzy, kde-format
-#| msgid "Mosaic Planner"
+#, kde-format
 msgid "Imaging Planner"
-msgstr "Planificateur de mosaïque"
+msgstr "Planificateur d'acquisition"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -82248,8 +82226,8 @@ msgid "Object Set"
 msgstr "Coucher"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2670
-#: tools/imagingplanner.cpp:2681 tools/imagingplanner.cpp:2696
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2666
+#: tools/imagingplanner.cpp:2677 tools/imagingplanner.cpp:2692
 #, kde-format
 msgid "Transit"
 msgstr "Transit"
@@ -83368,50 +83346,50 @@ msgstr ""
 "boutons Exporter et Importer.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:177 tools/imagingplanner.ui:1878
+#: tools/imagingplanner.cpp:174 tools/imagingplanner.ui:1878
 #, kde-format
 msgid "Imaged"
 msgstr "Acquis"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:1848
+#: tools/imagingplanner.cpp:179 tools/imagingplanner.ui:1848
 #, kde-format
 msgid "Picked"
 msgstr "Choisi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:188 tools/imagingplanner.ui:1935
+#: tools/imagingplanner.cpp:185 tools/imagingplanner.ui:1935
 #, kde-format
 msgid "Ignored"
 msgstr "Ignoré"
 
-#: tools/imagingplanner.cpp:977
+#: tools/imagingplanner.cpp:974
 #, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "Planificateur d'acquisition"
 
-#: tools/imagingplanner.cpp:1122
+#: tools/imagingplanner.cpp:1119
 #, kde-format
 msgid "Alt"
 msgstr "Hauteur"
 
-#: tools/imagingplanner.cpp:1123
+#: tools/imagingplanner.cpp:1120
 #, kde-format
 msgid "Const"
 msgstr "Constante"
 
-#: tools/imagingplanner.cpp:1123
+#: tools/imagingplanner.cpp:1120
 #, kde-format
 msgid "Coord"
 msgstr "Coordonnées"
 
-#: tools/imagingplanner.cpp:1125
+#: tools/imagingplanner.cpp:1122
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr "Nom de l'objet -- cliquer sur l'en-tête pour trier."
 
-#: tools/imagingplanner.cpp:1127
+#: tools/imagingplanner.cpp:1124
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
@@ -83419,24 +83397,24 @@ msgid ""
 msgstr ""
 "Nombre possible d'heure d'acquisition -- cliquer sur l'en-tête pour trier."
 
-#: tools/imagingplanner.cpp:1129
+#: tools/imagingplanner.cpp:1126
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr "Type d'objet -- cliquer sur l'en-tête pour trier."
 
-#: tools/imagingplanner.cpp:1131
+#: tools/imagingplanner.cpp:1128
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 "Dimension maximale de l'objet (arcmin) -- cliquer sur l'en-tête pour trier."
 
-#: tools/imagingplanner.cpp:1133
+#: tools/imagingplanner.cpp:1130
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr "Altitude max -- cliquer sur l'en-tête pour trier."
 
-#: tools/imagingplanner.cpp:1135
+#: tools/imagingplanner.cpp:1132
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
@@ -83444,42 +83422,42 @@ msgid ""
 msgstr ""
 "Séparation angulaire de la Lune à minuit -- cliquer sur l'en-tête pour trier."
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:1134
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr "Constellation -- cliquer sur l'en-tête pour trier."
 
-#: tools/imagingplanner.cpp:1139
+#: tools/imagingplanner.cpp:1136
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr "Coordonnées AD/DEC -- cliquer sur l'en-tête pour trier."
 
-#: tools/imagingplanner.cpp:1558
+#: tools/imagingplanner.cpp:1555
 #, kde-format
 msgid "No match for \"%1\""
 msgstr "Pas de résultat pour %1"
 
-#: tools/imagingplanner.cpp:1622
+#: tools/imagingplanner.cpp:1619
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr "Ouvrir un navigateur avec le premier lien de cette note : %1"
 
-#: tools/imagingplanner.cpp:1627
+#: tools/imagingplanner.cpp:1624
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr "Ouvrir un navigateur avec le deuxième lien de cette note : %1"
 
-#: tools/imagingplanner.cpp:1632
+#: tools/imagingplanner.cpp:1629
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr "Ouvrir un navigateur avec le troisième lien de cette note : %1"
 
-#: tools/imagingplanner.cpp:1929
+#: tools/imagingplanner.cpp:1926
 #, kde-format
 msgid "Updating tables..."
 msgstr "Mise à jour des tables…"
 
-#: tools/imagingplanner.cpp:2124
+#: tools/imagingplanner.cpp:2121
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -83488,144 +83466,144 @@ msgstr ""
 "Vous devez charger un catalogue pour pouvoir utiliser cet outil.\n"
 "Voir Données -> Télécharger de nouvelles données…"
 
-#: tools/imagingplanner.cpp:2125
+#: tools/imagingplanner.cpp:2122
 #, kde-format
 msgid "No Catalog!"
 msgstr "Pas de catalogue !"
 
-#: tools/imagingplanner.cpp:2171
+#: tools/imagingplanner.cpp:2168
 #, kde-format
 msgid "Select an object."
 msgstr "Sélectionner un objet."
 
-#: tools/imagingplanner.cpp:2173
+#: tools/imagingplanner.cpp:2170
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr "Vérifier les filtres pour afficher les objets."
 
-#: tools/imagingplanner.cpp:2175
+#: tools/imagingplanner.cpp:2172
 #, kde-format
 msgid "Load a Catalog."
 msgstr "Charger un catalogue."
 
-#: tools/imagingplanner.cpp:2353
+#: tools/imagingplanner.cpp:2349
 #, kde-format
 msgid "Loading Catalogs..."
 msgstr "Un catalogue est en train d'être chargé…"
 
-#: tools/imagingplanner.cpp:2659
+#: tools/imagingplanner.cpp:2655
 #, kde-format
 msgid "Transits"
 msgstr "Transits"
 
-#: tools/imagingplanner.cpp:2664 tools/imagingplanner.cpp:2668
+#: tools/imagingplanner.cpp:2660 tools/imagingplanner.cpp:2664
 #, kde-format
 msgid "Sets at"
 msgstr "Se couche à"
 
-#: tools/imagingplanner.cpp:2675 tools/imagingplanner.cpp:2679
+#: tools/imagingplanner.cpp:2671 tools/imagingplanner.cpp:2675
 #, kde-format
 msgid "Rises at"
 msgstr "Se lève à"
 
-#: tools/imagingplanner.cpp:2686 tools/imagingplanner.cpp:2692
+#: tools/imagingplanner.cpp:2682 tools/imagingplanner.cpp:2688
 #, kde-format
 msgid "Rises"
 msgstr "Lever"
 
-#: tools/imagingplanner.cpp:2688 tools/imagingplanner.cpp:2694
+#: tools/imagingplanner.cpp:2684 tools/imagingplanner.cpp:2690
 #, kde-format
 msgid "Sets"
 msgstr "Coucher"
 
-#: tools/imagingplanner.cpp:2798 tools/imagingplanner.cpp:3054
+#: tools/imagingplanner.cpp:2794 tools/imagingplanner.cpp:3050
 #, kde-format
 msgid "objects"
 msgstr "objets"
 
-#: tools/imagingplanner.cpp:3050
+#: tools/imagingplanner.cpp:3046
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 et %3 autres objets"
 
-#: tools/imagingplanner.cpp:3058 tools/imagingplanner.cpp:3062
+#: tools/imagingplanner.cpp:3054 tools/imagingplanner.cpp:3058
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr "Marquer %1 comme NON acquise"
 
-#: tools/imagingplanner.cpp:3059 tools/imagingplanner.cpp:3064
+#: tools/imagingplanner.cpp:3055 tools/imagingplanner.cpp:3060
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr "Marquer %1 comme déjà acquise"
 
-#: tools/imagingplanner.cpp:3068 tools/imagingplanner.cpp:3072
+#: tools/imagingplanner.cpp:3064 tools/imagingplanner.cpp:3068
 #, kde-format
 msgid "Un-pick %1"
 msgstr "Non choisi %1"
 
-#: tools/imagingplanner.cpp:3069 tools/imagingplanner.cpp:3074
+#: tools/imagingplanner.cpp:3065 tools/imagingplanner.cpp:3070
 #, kde-format
 msgid "Pick %1"
 msgstr "Choisi %1"
 
-#: tools/imagingplanner.cpp:3079 tools/imagingplanner.cpp:3084
+#: tools/imagingplanner.cpp:3075 tools/imagingplanner.cpp:3080
 #, kde-format
 msgid "Stop ignoring %1"
 msgstr "Arrêter d'ignorer %1"
 
-#: tools/imagingplanner.cpp:3080 tools/imagingplanner.cpp:3086
+#: tools/imagingplanner.cpp:3076 tools/imagingplanner.cpp:3082
 #, kde-format
 msgid "Ignore %1"
 msgstr "Ignorer %1"
 
-#: tools/imagingplanner.cpp:3089
+#: tools/imagingplanner.cpp:3085
 #, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "Centrer %1 sur la carte"
 
-#: tools/imagingplanner.cpp:3228
+#: tools/imagingplanner.cpp:3224
 #, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "Les %1 objets ont été marqués comme lus"
 
-#: tools/imagingplanner.cpp:3230
+#: tools/imagingplanner.cpp:3226
 #, kde-format
 msgid "Empty file"
 msgstr "Fichier vide"
 
-#: tools/imagingplanner.cpp:3239
+#: tools/imagingplanner.cpp:3235
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "Échec du marquage de tous ces objets acquis : %1"
 
-#: tools/imagingplanner.cpp:3241
+#: tools/imagingplanner.cpp:3237
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr "Échec du marquage des %1 objets acquis, en incluant : %2"
 
-#: tools/imagingplanner.cpp:3243
+#: tools/imagingplanner.cpp:3239
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr "Succès du marquage des %1 objets acquis. Échec pour %2 : %3"
 
-#: tools/imagingplanner.cpp:3246
+#: tools/imagingplanner.cpp:3242
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 "Succès du marquage des %1 objets acquis. Échec pour %2 en incluant ceux-ci : "
 "%3"
 
-#: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3463
+#: tools/imagingplanner.cpp:3248 tools/imagingplanner.cpp:3441
 #, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Désolé, impossible d'ouvrir le fichier %1"
 
-#: tools/imagingplanner.cpp:3370
+#: tools/imagingplanner.cpp:3350
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr "Désolé, le fichier catalogue n'existe pas : %1"
 
-#: tools/imagingplanner.cpp:3444
+#: tools/imagingplanner.cpp:3422
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr "%1/%2 : ajout de %3"

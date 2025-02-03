@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-01-30 01:53+0000\n"
+"POT-Creation-Date: 2025-02-03 01:51+0000\n"
 "PO-Revision-Date: 2025-01-07 14:53+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
@@ -1059,7 +1059,7 @@ msgstr "Simulilo de Sunsistemo XPlanet: %1"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1514 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1511 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1136,8 +1136,8 @@ msgstr "Tero"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1122 tools/imagingplanner.cpp:1489
-#: tools/imagingplanner.cpp:2653 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1119 tools/imagingplanner.cpp:1486
+#: tools/imagingplanner.cpp:2649 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2677,7 +2677,7 @@ msgstr "Ne Foliumi"
 msgid "Show webpage about "
 msgstr "Montri TTT-paĝon pri"
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2796
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2792
 #, kde-format
 msgid "object"
 msgstr "objekto"
@@ -2802,7 +2802,7 @@ msgstr "Alklaku koloron por ŝanĝi ĝin..."
 msgid "Degrees"
 msgstr "Gradoj"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1122
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1119
 #, kde-format
 msgid "Hours"
 msgstr "Horoj"
@@ -2851,7 +2851,7 @@ msgstr "Teksto"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1122
+#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1119
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3213,7 +3213,7 @@ msgstr "Mag"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1122 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1119 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -30297,7 +30297,7 @@ msgid "Distance"
 msgstr "Distanco"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1122
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1119
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Grandeco"
@@ -80893,8 +80893,8 @@ msgid "Object Set"
 msgstr "Objekto Aro"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2670
-#: tools/imagingplanner.cpp:2681 tools/imagingplanner.cpp:2696
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2666
+#: tools/imagingplanner.cpp:2677 tools/imagingplanner.cpp:2692
 #, kde-format
 msgid "Transit"
 msgstr "Transiro"
@@ -81989,50 +81989,50 @@ msgstr ""
 "butonoj.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:177 tools/imagingplanner.ui:1878
+#: tools/imagingplanner.cpp:174 tools/imagingplanner.ui:1878
 #, kde-format
 msgid "Imaged"
 msgstr "Bildigita"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:1848
+#: tools/imagingplanner.cpp:179 tools/imagingplanner.ui:1848
 #, kde-format
 msgid "Picked"
 msgstr "Elektita"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:188 tools/imagingplanner.ui:1935
+#: tools/imagingplanner.cpp:185 tools/imagingplanner.ui:1935
 #, kde-format
 msgid "Ignored"
 msgstr "Ignorita"
 
-#: tools/imagingplanner.cpp:977
+#: tools/imagingplanner.cpp:974
 #, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "Bildiga Planisto"
 
-#: tools/imagingplanner.cpp:1122
+#: tools/imagingplanner.cpp:1119
 #, kde-format
 msgid "Alt"
 msgstr "Alt"
 
-#: tools/imagingplanner.cpp:1123
+#: tools/imagingplanner.cpp:1120
 #, kde-format
 msgid "Const"
 msgstr "Konst"
 
-#: tools/imagingplanner.cpp:1123
+#: tools/imagingplanner.cpp:1120
 #, kde-format
 msgid "Coord"
 msgstr "Koord"
 
-#: tools/imagingplanner.cpp:1125
+#: tools/imagingplanner.cpp:1122
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr "Objekta Nomo--klaku kaplinion por ordigi kreske/malkreske."
 
-#: tools/imagingplanner.cpp:1127
+#: tools/imagingplanner.cpp:1124
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
@@ -82041,12 +82041,12 @@ msgstr ""
 "Nombro da horoj la objekto povas esti bildigita - alklaku kaplinion por "
 "ordigi kreske/malkreske."
 
-#: tools/imagingplanner.cpp:1129
+#: tools/imagingplanner.cpp:1126
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr "Objekto-Tipo--klaku kaplinion por ordigi kreske/malkreske."
 
-#: tools/imagingplanner.cpp:1131
+#: tools/imagingplanner.cpp:1128
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
@@ -82054,12 +82054,12 @@ msgstr ""
 "Maksimuma objekta dimensio (arcmin) -- alklaku kaplinion por ordigi kreske/"
 "malkreske."
 
-#: tools/imagingplanner.cpp:1133
+#: tools/imagingplanner.cpp:1130
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr "Maksimuma alteco -- alklaku kaplinion por ordigi kreske/malkreske."
 
-#: tools/imagingplanner.cpp:1135
+#: tools/imagingplanner.cpp:1132
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
@@ -82068,42 +82068,42 @@ msgstr ""
 "Luna angula disiĝo je noktomezo - alklaku kaplinion por ordigi kreske/"
 "malkreske."
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:1134
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr "Konstelacio -- alklaku kaplinion por ordigi kreske/malkreske."
 
-#: tools/imagingplanner.cpp:1139
+#: tools/imagingplanner.cpp:1136
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr "Koordinatoj RA/DEC -- alklaku kaplinion por ordigi kreske/malkreske."
 
-#: tools/imagingplanner.cpp:1558
+#: tools/imagingplanner.cpp:1555
 #, kde-format
 msgid "No match for \"%1\""
 msgstr "Neniu kongruo por \"%1\""
 
-#: tools/imagingplanner.cpp:1622
+#: tools/imagingplanner.cpp:1619
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr "Malfermi retumilon kun la unua ligilo en ĉi tiu noto: %1"
 
-#: tools/imagingplanner.cpp:1627
+#: tools/imagingplanner.cpp:1624
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr "Malfermi retumilon kun la dua ligilo en ĉi tiu noto: %1"
 
-#: tools/imagingplanner.cpp:1632
+#: tools/imagingplanner.cpp:1629
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr "Malfermi retumilon kun la 3-a ligilo en ĉi tiu noto: %1"
 
-#: tools/imagingplanner.cpp:1929
+#: tools/imagingplanner.cpp:1926
 #, kde-format
 msgid "Updating tables..."
 msgstr "Ĝisdatigas tabelojn..."
 
-#: tools/imagingplanner.cpp:2124
+#: tools/imagingplanner.cpp:2121
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -82112,144 +82112,144 @@ msgstr ""
 "Vi devas ŝargi katalogon por komenci uzi ĉi tiun ilon.\n"
 "Vidu Datumoj -> Elŝuti Novajn Datumojn..."
 
-#: tools/imagingplanner.cpp:2125
+#: tools/imagingplanner.cpp:2122
 #, kde-format
 msgid "No Catalog!"
 msgstr "Neniu Katalogo!"
 
-#: tools/imagingplanner.cpp:2171
+#: tools/imagingplanner.cpp:2168
 #, kde-format
 msgid "Select an object."
 msgstr "Elektu objekton."
 
-#: tools/imagingplanner.cpp:2173
+#: tools/imagingplanner.cpp:2170
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr "Kontroli Filtrilojn por malkaŝi objektojn."
 
-#: tools/imagingplanner.cpp:2175
+#: tools/imagingplanner.cpp:2172
 #, kde-format
 msgid "Load a Catalog."
 msgstr "Ŝargu Katalogon."
 
-#: tools/imagingplanner.cpp:2353
+#: tools/imagingplanner.cpp:2349
 #, kde-format
 msgid "Loading Catalogs..."
 msgstr "Ŝargante katalogojn..."
 
-#: tools/imagingplanner.cpp:2659
+#: tools/imagingplanner.cpp:2655
 #, kde-format
 msgid "Transits"
 msgstr "Transiroj"
 
-#: tools/imagingplanner.cpp:2664 tools/imagingplanner.cpp:2668
+#: tools/imagingplanner.cpp:2660 tools/imagingplanner.cpp:2664
 #, kde-format
 msgid "Sets at"
 msgstr "Malleviĝas je"
 
-#: tools/imagingplanner.cpp:2675 tools/imagingplanner.cpp:2679
+#: tools/imagingplanner.cpp:2671 tools/imagingplanner.cpp:2675
 #, kde-format
 msgid "Rises at"
 msgstr "Leviĝas je"
 
-#: tools/imagingplanner.cpp:2686 tools/imagingplanner.cpp:2692
+#: tools/imagingplanner.cpp:2682 tools/imagingplanner.cpp:2688
 #, kde-format
 msgid "Rises"
 msgstr "Leviĝas"
 
-#: tools/imagingplanner.cpp:2688 tools/imagingplanner.cpp:2694
+#: tools/imagingplanner.cpp:2684 tools/imagingplanner.cpp:2690
 #, kde-format
 msgid "Sets"
 msgstr "Aroj"
 
-#: tools/imagingplanner.cpp:2798 tools/imagingplanner.cpp:3054
+#: tools/imagingplanner.cpp:2794 tools/imagingplanner.cpp:3050
 #, kde-format
 msgid "objects"
 msgstr "objektoj"
 
-#: tools/imagingplanner.cpp:3050
+#: tools/imagingplanner.cpp:3046
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 kaj %3 aliaj objektoj"
 
-#: tools/imagingplanner.cpp:3058 tools/imagingplanner.cpp:3062
+#: tools/imagingplanner.cpp:3054 tools/imagingplanner.cpp:3058
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr "Marki %1 kiel NE bildigita"
 
-#: tools/imagingplanner.cpp:3059 tools/imagingplanner.cpp:3064
+#: tools/imagingplanner.cpp:3055 tools/imagingplanner.cpp:3060
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr "Marki %1 kiel jam bildigita"
 
-#: tools/imagingplanner.cpp:3068 tools/imagingplanner.cpp:3072
+#: tools/imagingplanner.cpp:3064 tools/imagingplanner.cpp:3068
 #, kde-format
 msgid "Un-pick %1"
 msgstr "Malelekti %1"
 
-#: tools/imagingplanner.cpp:3069 tools/imagingplanner.cpp:3074
+#: tools/imagingplanner.cpp:3065 tools/imagingplanner.cpp:3070
 #, kde-format
 msgid "Pick %1"
 msgstr "Elekti %1"
 
-#: tools/imagingplanner.cpp:3079 tools/imagingplanner.cpp:3084
+#: tools/imagingplanner.cpp:3075 tools/imagingplanner.cpp:3080
 #, kde-format
 msgid "Stop ignoring %1"
 msgstr "Ĉesi ignori %1"
 
-#: tools/imagingplanner.cpp:3080 tools/imagingplanner.cpp:3086
+#: tools/imagingplanner.cpp:3076 tools/imagingplanner.cpp:3082
 #, kde-format
 msgid "Ignore %1"
 msgstr "Ignori %1"
 
-#: tools/imagingplanner.cpp:3089
+#: tools/imagingplanner.cpp:3085
 #, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "Centri %1 sur SkyMap"
 
-#: tools/imagingplanner.cpp:3228
+#: tools/imagingplanner.cpp:3224
 #, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "Sukcese markis %1 objektoj kiel legitaj"
 
-#: tools/imagingplanner.cpp:3230
+#: tools/imagingplanner.cpp:3226
 #, kde-format
 msgid "Empty file"
 msgstr "Malplena dosiero"
 
-#: tools/imagingplanner.cpp:3239
+#: tools/imagingplanner.cpp:3235
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "Malsukcesis marki ĉiujn ĉi tiujn objektojn bildigitajn: %1"
 
-#: tools/imagingplanner.cpp:3241
+#: tools/imagingplanner.cpp:3237
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr "Malsukcesis marki %1 objektojn bildigitajn, inkluzive de: %2"
 
-#: tools/imagingplanner.cpp:3243
+#: tools/imagingplanner.cpp:3239
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr "Sukcesis marki %1 objektojn bildigitajn. Malsukcesis kun %2: %3"
 
-#: tools/imagingplanner.cpp:3246
+#: tools/imagingplanner.cpp:3242
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 "Sukcesis marki %1 objektojn bildigitajn. Malsukcesis kun %2 inkluzive de ĉi "
 "tiuj: %3"
 
-#: tools/imagingplanner.cpp:3252 tools/imagingplanner.cpp:3463
+#: tools/imagingplanner.cpp:3248 tools/imagingplanner.cpp:3441
 #, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Pardonu, ne eblis malfermi dosieron: \"%1\""
 
-#: tools/imagingplanner.cpp:3370
+#: tools/imagingplanner.cpp:3350
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr "Pardonu, katalogo-dosiero ne ekzistas: \"%1\""
 
-#: tools/imagingplanner.cpp:3444
+#: tools/imagingplanner.cpp:3422
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr "%1/%2: Aldono de %3"
