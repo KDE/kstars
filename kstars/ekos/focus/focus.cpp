@@ -1445,6 +1445,7 @@ void Focus::stop(Ekos::FocusState completionState)
     m_FocuserReconnectCounter = 0;
 
     opticalTrainCombo->setEnabled(true);
+    trainB->setEnabled(true);
     resetDonutProcessing();
     inAutoFocus = false;
     inAdjustFocus = false;
@@ -4686,7 +4687,8 @@ void Focus::resetButtons()
 // - Curve fit is not Quadratic (which uses an old curve fitting approach not enabled for Aberration Inspector)
 bool Focus::canAbInsStart()
 {
-    return canAbsMove && m_FocusAlgorithm == FOCUS_LINEAR1PASS && m_currentImageMask == FOCUS_MASK_MOSAIC && m_CurveFit != CurveFitting::FOCUS_QUADRATIC;
+    return canAbsMove && m_FocusAlgorithm == FOCUS_LINEAR1PASS && m_currentImageMask == FOCUS_MASK_MOSAIC
+           && m_CurveFit != CurveFitting::FOCUS_QUADRATIC;
 }
 
 // Disable input widgets during an Autofocus run. Keep a record so after the AF run, widgets can be re-enabled
