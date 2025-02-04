@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-03 01:51+0000\n"
-"PO-Revision-Date: 2025-02-02 22:25+0100\n"
+"PO-Revision-Date: 2025-02-03 23:03+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -486,7 +486,7 @@ msgstr "Shrani sliko"
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
-msgstr "Datoteka z imenom »%1« že obstaja. Ali jo prepišem?"
+msgstr "Datoteka z imenom \"%1\" že obstaja. Ali jo prepišem?"
 
 #: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3957
 #: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1351
@@ -924,7 +924,7 @@ msgstr "(območje obreza bo nastavljeno na 200x200)"
 #: auxiliary/thumbnailpicker.cpp:136
 #, kde-format
 msgid "Loading images..."
-msgstr "Nalaganje slik …"
+msgstr "Nalaganje slik…"
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #: auxiliary/thumbnailpicker.cpp:170 auxiliary/thumbnailpicker.ui:24
@@ -1039,7 +1039,7 @@ msgstr "Uredi sliko…"
 #: auxiliary/thumbnailpicker.ui:188
 #, kde-format
 msgid "Unset Image"
-msgstr "Odstrani sliko"
+msgstr "Odstavi sliko"
 
 #: auxiliary/xplanetimageviewer.cpp:186 auxiliary/xplanetimageviewer.cpp:894
 #, kde-format
@@ -6296,13 +6296,13 @@ msgstr ""
 msgid "Cannot capture while rotator is busy: Time delay estimate started..."
 msgstr ""
 "V času, ko je rotator dejaven, ni mogoče zajeti. Pričetek ocene časovnega "
-"zamika …"
+"zamika…"
 
 #: ekos/align/align.cpp:1573
 #, kde-format
 msgid "Cannot capture while rotator is busy: Retrying in %1 seconds..."
 msgstr ""
-"V času, ko je rotator dejaven, ni mogoče zajeti. Ponoven poskus čez %1 s …"
+"V času, ko je rotator dejaven, ni mogoče zajeti. Ponoven poskus čez %1 s…"
 
 #: ekos/align/align.cpp:1592 ekos/align/align.cpp:3072
 #, kde-format
@@ -6344,14 +6344,14 @@ msgid "Solving with blind image position..."
 msgstr "Reševanje s položajem slepe slike…"
 
 #: ekos/align/align.cpp:1976
-#, fuzzy, kde-format
+#, kde-format
 msgid "Loaded image does not have pierside information"
-msgstr "Naložena slika nima podatkov o strani pomola"
+msgstr "Naložena slika nima podatkov o strani stojala"
 
 #: ekos/align/align.cpp:1981
-#, fuzzy, kde-format
+#, kde-format
 msgid "Loaded image was taken on pierside %1"
-msgstr "Naložena slika je bila posneta na strani pomola %1"
+msgstr "Naložena slika je bila posneta na strani stojala %1"
 
 #: ekos/align/align.cpp:2106
 #, kde-format
@@ -8054,7 +8054,7 @@ msgstr "<html><head/><body><p>Prag odstopanja kota rotacije</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:326
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Flip Policy</span> "
 "determines how the rotator reacts after a flip or if the result of a solved "
@@ -8063,8 +8063,8 @@ msgid ""
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Pravila zrcaljenja</"
 "span> določajo, kako se rotator odzove na zrcaljenje ali če rezultat "
-"reševanja referenčne slike poroča drugačno stran pomola od dejanske strani "
-"pomola montaže.</p></body></html>"
+"reševanja referenčne slike poroča drugačno stran stojala od dejanske strani "
+"stojala montaže.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/align/opsalign.ui:329
@@ -8130,14 +8130,14 @@ msgstr "Možnosti"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ASTAPDownSampleValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPDownSample)
 #: ekos/align/opsastap.ui:40 ekos/align/opsastap.ui:124
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Down sample prior to solving. Also called binning. A "
 "zero value will result in auto selection downsampling.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Pred reševanjem prevzorči navzdol. Imenuje se tudi "
-"grupiranje. Ničelna vrednost bo povzročila samodejno izbiranje prevzorčenja "
-"navzdol.</p></body></html>"
+"<html><head/><body><p>Zmanjšanje vzorca pred reševanjem. Imenuje se tudi "
+"združevanje. Ničelna vrednost bo povzročila zmanjšanje vzorčenja samodejnega "
+"izbora.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_ASTAPExecutable)
 #: ekos/align/opsastap.ui:62
@@ -8170,7 +8170,7 @@ msgstr "Izvršljiva datoteka"
 #: ekos/align/opsastap.ui:127
 #, kde-format
 msgid "Down Sample"
-msgstr "Prevzorči navzdol"
+msgstr "Zmanjšan vzorec"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ASTAPUpdateFITS)
 #: ekos/align/opsastap.ui:137
@@ -8203,9 +8203,9 @@ msgid ""
 "window will be large with overlap but it can slow down solving.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Izboljšajte zanesljivost reševanja v nekaterih "
-"primerih. Iskalno okno bo veliko in s prekrivanjem, vendar lahko upočasni "
-"reševanje.</p></body></html>"
+"<html><head/><body><p>Izboljšaj zanesljivost reševanja v nekaterih primerih. "
+"Iskalno okno bo veliko in s prekrivanjem, vendar lahko upočasni reševanje.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ASTAPLargeSearchWindow)
 #: ekos/align/opsastap.ui:166
@@ -8227,8 +8227,8 @@ msgid ""
 "The lower end of the imager scale, calculated as a little smaller than the "
 "shorter dimension of the image."
 msgstr ""
-"Spodnji konec merila obdelovalnika slik, izračunan kot malo manjši od krajše "
-"mere slike."
+"Spodnji konec lestvice obdelovalnika slik, izračunan kot malo manjši od "
+"krajše mere slike."
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_41)
 #: ekos/align/opsastrometry.ui:50
@@ -8247,8 +8247,8 @@ msgid ""
 "Set image scale to speed up solver as it does not have to search index files "
 "of different image scales."
 msgstr ""
-"Nastavite slikovno merilo, da pospešite reševanje, saj potem ni treba iskati "
-"po kazalnih datotekah drugih slikovnih meril."
+"Nastavi merilo slike, za pospeševanje reševanja, saj potem ni treba iskati "
+"po kazalnih datotekah drugih meril slik."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUseImageScale)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsSolverUseScale)
@@ -8269,8 +8269,8 @@ msgid ""
 msgstr ""
 "<p>Enote meja zgornjega merila obdelovalnika slik.</p>\n"
 "<ul>\n"
-"<li>s.š.: stopinje širine</li>\n"
-"<li>l.š.: ločne minute širine</li>\n"
+"<li>dw: stopinje širine</li>\n"
+"<li>aw: ločne minute širine</li>\n"
 "</ul>"
 
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_50)
@@ -8312,7 +8312,7 @@ msgid ""
 "Update Image Scale Bounds from the currently active camera and telescope "
 "combination."
 msgstr ""
-"Posodobi meje merila slik iz trenutno aktivne kombinacije fotoaparata in "
+"Posodobi meje merila slik iz trenutno aktivne kombinacije kamere in "
 "teleskopa."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
@@ -8329,7 +8329,7 @@ msgid ""
 "updated."
 msgstr ""
 "Samodejno posodobi vrednosti merila slike, ko se posodobijo parametri CCD in/"
-"ali nosilca."
+"ali montaže."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryAutoUpdateImageScale)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryAutoUpdatePosition)
@@ -8356,11 +8356,11 @@ msgid ""
 "<li>app: arcsecs per pixel</li>\n"
 "</ul>"
 msgstr ""
-"<p>Enote zgornjih mej merila lestvice obdelovalnika slik.</p>\n"
+"<p>Enote zgornjih meja merila lestvice obdelovalnika slik.</p>\n"
 "<ul>\n"
-"<li>s.š.: stopinje širine</li>\n"
-"<li>l.š.: ločne minute širine</li>\n"
-"<li>l.s./p: ločne sekunde na slikovno piko</li>\n"
+"<li>dw: stopinje širine</li>\n"
+"<li>aw.: ločne minute širine</li>\n"
+"<li>app: ločne sekunde na slikovno piko</li>\n"
 "</ul>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
@@ -8407,7 +8407,7 @@ msgid ""
 "Set estimated position to speed up astrometry solver as it does not have to "
 "search in other areas of the sky."
 msgstr ""
-"Nastavite ocenjen položaj, da pospešite reševalnik astrometry.net, saj mu ni "
+"Nastavi ocenjen položaj za pospešitev reševalnika astrometry.net, saj mu ni "
 "treba iskati na drugih območjih neba."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryUsePosition)
@@ -8501,7 +8501,7 @@ msgstr "4"
 #: ekos/align/opsastrometry.ui:505
 #, kde-format
 msgid "Automatically update position coordinates when mount completes slewing."
-msgstr "Samodejno posodobi koordinate položaja, ko nosilec konča z obračanjem."
+msgstr "Samodejno posodobi koordinate položaja, ko montaža konča z obračanjem."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, positionWarningLabel)
 #: ekos/align/opsastrometry.ui:536
@@ -8518,7 +8518,7 @@ msgid ""
 msgstr ""
 "Ne uporabi funkcije Uskladi, ko je izbrana možnost Obrni na cilj. Za odpravo "
 "neskladnosti uporabi diferencialno obračanje. To je uporabno na nekaterih "
-"nosilcih (npr. Paramount)."
+"montažah (npr. Paramount)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AstrometryDifferentialSlewing)
 #: ekos/align/opsastrometry.ui:560
@@ -8535,7 +8535,7 @@ msgstr "Prenosi onemogočeni, to ni imenik, je seznam vseh datotek s kazalom."
 #: ekos/align/opsastrometryindexfiles.cpp:198
 #, kde-format
 msgid "Downloads Enabled, the directory exists and is writeable."
-msgstr "Prenosi omogočeni, imenik obstaja in vanj je moč pisati."
+msgstr "Prenosi sem omogočeni, imenik obstaja in vanj je moč pisati."
 
 #: ekos/align/opsastrometryindexfiles.cpp:200
 #, kde-format
@@ -8587,7 +8587,7 @@ msgstr "Napaka pisanja datoteke"
 #: ekos/align/opsastrometryindexfiles.cpp:496
 #, kde-format
 msgid "%1 download complete."
-msgstr "Prejem %1 je končan."
+msgstr "Prenos sem %1 je končan."
 
 #: ekos/align/opsastrometryindexfiles.cpp:502
 #: ekos/align/opsastrometryindexfiles.cpp:641
@@ -8795,7 +8795,7 @@ msgstr "Odpri"
 #: ekos/align/opsastrometryindexfiles.ui:295
 #, kde-format
 msgid "Current CCD FOV: "
-msgstr "Trenutno VP CCD: "
+msgstr "Trenutni VP CCD: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_24)
 #: ekos/align/opsastrometryindexfiles.ui:302
@@ -9845,8 +9845,8 @@ msgid ""
 "Polar-alignment star cannot be updated during refresh phase as it might "
 "affect error measurements."
 msgstr ""
-"Zvezde polarne poravnave ni mogoče posodobiti med fazo osveževanja, saj "
-"lahko vpliva na meritve napak."
+"Poravnave s Severnico ni mogoče posodobiti med fazo osveževanja, saj lahko "
+"vpliva na meritve napak."
 
 #: ekos/align/polaralignmentassistant.cpp:1042
 #, kde-format
@@ -9865,7 +9865,7 @@ msgid ""
 "Assistant procedure."
 msgstr ""
 "Montaža je usklajena z nebesnim tečajem. Zdaj lahko nadaljujete postopek "
-"pomočnika za polarno poravnavo."
+"pomočnika poravnavo s Severnico."
 
 #: ekos/align/polaralignmentassistant.cpp:1111
 #, kde-format
@@ -9928,12 +9928,12 @@ msgstr "<p>Poravnava po <i>drugem</i> obračanju montaže.</p>"
 #: ekos/align/polaralignmentassistant.cpp:1252
 #, kde-format
 msgid "<p>Capturing the second image...</p>"
-msgstr "<p>Zajemanje druge slike …</p>"
+msgstr "<p>Zajemanje druge slike…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1254
 #, kde-format
 msgid "<p>Solving the <i>second</i> image...</p>"
-msgstr "<p>Reševanje <i>druge</i> slike …</p>"
+msgstr "<p>Reševanje <i>druge</i> slike…</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1256
 #, kde-format
@@ -9957,7 +9957,7 @@ msgid ""
 "<i>refresh</i> to begin adjustments.</p>"
 msgstr ""
 "<p>Izberite čas osvetlitve in način prilagoditve. Nato kliknite <i>Osveži</"
-"i> in začnite s prilagoditvami.</p>"
+"i>, da začnete s prilagoditvami.</p>"
 
 #: ekos/align/polaralignmentassistant.cpp:1265
 #, kde-format
@@ -9968,7 +9968,7 @@ msgid ""
 "<i>MoveStar & Calc Error</i> method to estimate the remaining error.</p>"
 msgstr ""
 "<p>Izberite čas osvetlitve in način prilagoditve. Nato kliknite <i>Osveži</"
-"i> in začnite.</p><p>Korekcijski trikotnik je narisan zgoraj. <i>Povečajte "
+"i> da začnete.</p><p>Korekcijski trikotnik je narisan zgoraj. <i>Povečajte "
 "in izberite svetlo zvezdo</i>, da spremenite položaj vektorja popravka. Za "
 "oceno preostale napake uporabite metodo <i>Premik zvezde in izračun napake</"
 "i>.</p>"
@@ -9982,7 +9982,7 @@ msgid ""
 "you're finished.</p>"
 msgstr ""
 "<p>Nastavite <i>gumba za nastavitev višine in azimuta</i> na montaži, da "
-"zmanjšate napako pri polarni poravnavi.</p><p>Bodite potrpežljivi, "
+"zmanjšate napako pri poravnavi s Severnico.</p><p>Bodite potrpežljivi, "
 "premikanje gumbov lahko vpliva na rešitev plošče. Razmislite o uporabi "
 "rezultatov po dveh slikah.  Ko zaključite, kliknite <i>Zaustavi</i>.</p>"
 
@@ -10003,7 +10003,8 @@ msgstr ""
 #, kde-format
 msgid "Cannot change to MoveStar algorithm once refresh has begun"
 msgstr ""
-"Sprememba na algoritem »Premik zvezde« po začetku osveževanja ni več možna"
+"Sprememba na algoritem Premik zvezde (MoveStar) po začetku osveževanja ni "
+"več možna"
 
 #. i18n: ectx: property (toolTip), widget (QStackedWidget, PAHWidgets)
 #: ekos/align/polaralignmentassistant.ui:44
@@ -10013,9 +10014,10 @@ msgid ""
 "Equatorial Mount</p><p>2. Wide FOV &gt; 1 degrees</p><p>For small FOVs, use "
 "the Legacy Polar Alignment Tool.</p>"
 msgstr ""
-"<p>Orodje za pomoč pri polarni poravnavo zahteva naslednje:</p><p>1. Nemško "
-"ekvatorialno montažo</p><p>2. Široko vidno polje &gt; 1 stopinje</p><p>Za "
-"majhna vidna polja uporabite starejše orodje za polarno poravnavo.</p>"
+"<p>Orodje za pomoč pri poravnavo s Severnico zahteva naslednje:</p><p>1. "
+"Nemško ekvatorialno montažo</p><p>2. Široko vidno polje &gt; 1 stopinje</"
+"p><p>Za majhna vidna polja uporabite starejše orodje za poravnavo s "
+"Severnico.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, introText)
 #: ekos/align/polaralignmentassistant.ui:78
@@ -10029,11 +10031,11 @@ msgid ""
 "process.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Postavite svojo ekvatorialno montažo ali (a) v domači "
-"položaj in ga usmerite proti nebesnemu tečaju ali (b) kateri koli točki čim "
+"položaj in jo usmerite proti nebesnemu tečaju ali (b) kateri koli točki čim "
 "bližje poldnevniku. Izberite <span style=\" font-weight:600;\">smer in</"
 "span> hitrost <span style=\" font-weight:600;\"> </span>montaže in kliknite "
-"<span style=\" font-weight:600;\">Začni</span> , da začnete postopek polarne "
-"poravnave.</p></body></html>"
+"<span style=\" font-weight:600;\">Začni</span>, da začnete postopek "
+"poravnave s Severnico.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, FOVDisabledLabel)
 #: ekos/align/polaralignmentassistant.ui:88
@@ -10057,7 +10059,7 @@ msgstr "Smer:"
 #: ekos/align/polaralignmentassistant.ui:116
 #, kde-format
 msgid "Mount direction"
-msgstr "Smer nosilca"
+msgstr "Smer montaže"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHDirection)
 #. i18n: ectx: property (text), item, widget (QComboBox, MountPierside)
@@ -10065,7 +10067,7 @@ msgstr "Smer nosilca"
 #: ekos/capture/rotatorsettings.ui:261
 #, kde-format
 msgid "West"
-msgstr "Zahodno"
+msgstr "Zahod"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, pAHDirection)
 #. i18n: ectx: property (text), item, widget (QComboBox, MountPierside)
@@ -10073,7 +10075,7 @@ msgstr "Zahodno"
 #: ekos/capture/rotatorsettings.ui:266
 #, kde-format
 msgid "East"
-msgstr "Vzhodno"
+msgstr "Vzhod"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, pAHRotation)
 #: ekos/align/polaralignmentassistant.ui:136
@@ -10091,7 +10093,7 @@ msgstr "Hitrost:"
 #: ekos/align/polaralignmentassistant.ui:168
 #, kde-format
 msgid "Toggle for manual slewing with non-GOTO mounts"
-msgstr "Preklopite za ročno obračanje z ne-GOTO nosilci"
+msgstr "Preklopi na ročno obračanje z ne-GOTO montažami"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pAHManualSlew)
 #: ekos/align/polaralignmentassistant.ui:171
@@ -10113,7 +10115,7 @@ msgid ""
 "altitude and azimuth knobs to correct polar alignment."
 msgstr ""
 "Začni fazo osveževanja — kjer se zajemanje slik ponavlja, medtem ko "
-"prilagajate gumbe višine in azimuta za popravek polarne poravnave."
+"prilagajate gumbe višine in azimuta za popravek poravnavo s Severnico."
 
 #. i18n: ectx: property (text), widget (QPushButton, PAHRefreshB)
 #. i18n: ectx: property (text), widget (QPushButton, refreshB)
@@ -10211,8 +10213,8 @@ msgid ""
 "Polar Alignment total error measured by the 3 exposures at the start of the "
 "polar-alignment procedure."
 msgstr ""
-"Skupna napaka polarne poravnave, izmerjena s 3 osvetlitvami na začetku "
-"postopka polarne poravnave."
+"Skupna napaka poravnave s Severnico, izmerjena s 3 osvetlitvami na začetku "
+"postopka poravnave s Severnico."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorTotal)
 #: ekos/align/polaralignmentassistant.ui:504
@@ -10229,8 +10231,8 @@ msgid ""
 "Polar Alignment altitude error measured by the 3 exposures at the start of "
 "the polar-alignment procedure."
 msgstr ""
-"Napaka v višini polarne poravnave, izmerjena s 3 osvetlitvami na začetku "
-"postopka polarne poravnave."
+"Napaka v višini poravnave s Severnico, izmerjena s 3 osvetlitvami na začetku "
+"postopka poravnave s Severnico."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHOrigErrorAlt)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -10252,8 +10254,8 @@ msgid ""
 "Polar Alignment azimuth error measured by the 3 exposures at the start of "
 "the polar-alignment procedure."
 msgstr ""
-"Napaka v azimutu polarne poravnave, izmerjena s 3 osvetlitvami na začetku "
-"postopka polarne poravnave."
+"Napaka v azimutu poravnave s Severnico, izmerjena s 3 osvetlitvami na "
+"začetku postopka poravnave s Severnico."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorTotal)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorTotal)
@@ -10261,7 +10263,8 @@ msgstr ""
 #: ekos/align/polaralignmentassistant.ui:671
 #, kde-format
 msgid "Polar Alignment total error estimated after recent adjustments."
-msgstr "Skupna napaka polarne poravnave, ocenjena po nedavnih prilagoditvah."
+msgstr ""
+"Skupna napaka poravnave s Severnico, ocenjena po nedavnih prilagoditvah."
 
 #. i18n: ectx: property (text), widget (QLabel, label_PAHUpdatedErrorTotal)
 #: ekos/align/polaralignmentassistant.ui:649
@@ -10275,7 +10278,8 @@ msgstr "Posodobljena napaka:"
 #: ekos/align/polaralignmentassistant.ui:715
 #, kde-format
 msgid "Polar Alignment altitude error estimated after recent adjustments."
-msgstr "Napaka v višini polarne poravnave, ocenjena po nedavnih prilagoditvah."
+msgstr ""
+"Napaka v višini poravnave s Severnico ocenjena po nedavnih prilagoditvah."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_PAHUpdatedErrorAz)
 #. i18n: ectx: property (toolTip), widget (QLabel, PAHUpdatedErrorAz)
@@ -10284,7 +10288,7 @@ msgstr "Napaka v višini polarne poravnave, ocenjena po nedavnih prilagoditvah."
 #, kde-format
 msgid "Polar Alignment azimuth error estimated after recent adjustments."
 msgstr ""
-"Napaka v azimutu polarne poravnave, ocenjena po nedavnih prilagoditvah."
+"Napaka v azimutu poravnave s Severnico ocenjena po nedavnih prilagoditvah."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, PAHStartB)
 #. i18n: ectx: property (text), widget (QPushButton, PAHStartB)
@@ -10460,7 +10464,7 @@ msgstr "Začasne slikovne datoteke ni moč prikazati: %1"
 #: fitsviewer/fitsviewer.cpp:471
 #, kde-format
 msgid "Focus"
-msgstr "Ostrenje"
+msgstr "Fokus"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
@@ -10495,13 +10499,13 @@ msgstr "Zrcaljenje"
 #: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2345 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
-msgstr "Stojalo"
+msgstr "Montaža"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/analyze/analyze.cpp:2284 ekos/capture/capturecountswidget.ui:473
 #, kde-format
 msgid "Job"
-msgstr "Posel"
+msgstr "Opravilo"
 
 #: ekos/analyze/analyze.cpp:2575
 #, kde-format
@@ -10510,7 +10514,7 @@ msgid ""
 "You won't get HFR values without it. Once you set it, newly captured images "
 "will have their HFRs computed."
 msgstr ""
-"Možnost »Samodejno izračunaj PPT« v meniju možnosti FITS v KStars ni "
+"Možnost \"Samodejno izračunaj PPT\" v meniju možnosti FITS v KStars ni "
 "nastavljena. Brez nje ne boste dobili vrednosti PPT. Ko jo nastavite, bodo "
 "za novo zajete slike izračunane njihove vrednosti PPT."
 
@@ -10521,7 +10525,7 @@ msgid ""
 "You won't get # stars in capture image values without it. Once you set it, "
 "newly captured images will have their stars detected."
 msgstr ""
-"Možnost »Samodejno izračunaj PPT« v meniju možnosti FITS v KStars ni "
+"Možnost \"Samodejno izračunaj PPT\" v meniju možnosti FITS v KStars ni "
 "nastavljena. Brez nje ne boste dobili števila zvezd v zajetih slikah. Ko jo "
 "nastavite, bodo na novo zajetih slikah zaznane zvezde."
 
@@ -10850,7 +10854,7 @@ msgid ""
 "<html><head/><body><p>Plot the right ascension (RA) drift error in arc-"
 "seconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj napako zanosa v rektascenziji (rekt.) v ločnih "
+"<html><head/><body><p>Izrisuj napako zanosa v rektascenziji (RA) v ločnih "
 "sekundah.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, raCB)
@@ -11213,7 +11217,7 @@ msgid ""
 "<html><head/><body><p>Plot the mount's pier side (left) -> where the mount "
 "is pointing.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izrisuj stran stojala montaže (levo) → kam je "
+"<html><head/><body><p>Izrisuj stran stojala montaže (levo)  -> kamor je "
 "usmerjena montaža.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pierSideCB)
@@ -11230,7 +11234,7 @@ msgid ""
 "pointing. Click here to view this axis on left-axis values. Double click to "
 "update axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Stran stojala montaže (levo) → kam je usmerjena "
+"<html><head/><body><p>Stran stojala montaže (levo) -> kamor je usmerjena "
 "montaža. Kliknite sem, da prikažete to os med vrednostmi leve osi. "
 "Dvokliknite, da posodobite os.</p></body></html>"
 
@@ -11271,7 +11275,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, hfrCB)
 #: ekos/analyze/analyze.ui:1238
-#, fuzzy, kde-format
+#, kde-format
 msgid "hfr"
 msgstr "hfr"
 
@@ -11462,7 +11466,7 @@ msgstr ""
 #: ekos/analyze/analyze.ui:1543
 #, kde-format
 msgid "focus"
-msgstr "ostrenje"
+msgstr "fokus"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, focusPositionOut)
 #: ekos/analyze/analyze.ui:1556
@@ -11719,7 +11723,7 @@ msgstr ""
 #: ekos/auxiliary/buildfilteroffsets.cpp:731
 #, kde-format
 msgid "Aborting Autofocus..."
-msgstr "Prekinjanje samodejnega ostrenja …"
+msgstr "Prekinjanje samodejnega ostrenja…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, buildOffsetsDialog)
 #: ekos/auxiliary/buildfilteroffsets.ui:23
@@ -11741,7 +11745,7 @@ msgstr ""
 #: ekos/auxiliary/buildfilteroffsets.ui:48
 #, kde-format
 msgid "Adapt Focus"
-msgstr "Prilagodi ostrenje"
+msgstr "Prilagodi fokus"
 
 #: ekos/auxiliary/darklibrary.cpp:97
 #, kde-format
@@ -12263,7 +12267,7 @@ msgstr ""
 #: ekos/auxiliary/filtermanager.cpp:116
 #, kde-format
 msgid "Filter exposure time during focus"
-msgstr "Čas osvetlitve filtra med ostrenjem"
+msgstr "Čas osvetlitve filtra med fokusiranjem"
 
 #: ekos/auxiliary/filtermanager.cpp:117
 #: ekos/capture/capturecountswidget.cpp:183
@@ -12335,13 +12339,13 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
-"Število oznak na eno °C povečanja temperature. +ve za premikanje ostrilnika "
+"Število oznak na eno °C povečanja temperature. +ve za premikanje fokuserja "
 "navzven"
 
 #: ekos/auxiliary/filtermanager.cpp:144
 #, kde-format
 msgid "Ticks / °C"
-msgstr "Oznake/°C"
+msgstr "Oznake / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:147
 #, kde-format
@@ -12349,13 +12353,13 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
-"Število oznak na stopinjo povečanje višine. +ve za premikanje ostrilnika "
+"Število oznak na stopinjo povečanje višine. +ve za premikanje fokuserja "
 "navzven"
 
 #: ekos/auxiliary/filtermanager.cpp:148
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr "Oznake/°Viš."
+msgstr "Oznake / °Viš."
 
 #: ekos/auxiliary/filtermanager.cpp:150
 #, kde-format
@@ -12375,7 +12379,7 @@ msgstr "Nastavite filter na %1. Ali je filter nastavljen?"
 #: ekos/auxiliary/filtermanager.cpp:563
 #, kde-format
 msgid "Confirm Filter"
-msgstr "Potrditev filtra"
+msgstr "Potrdi filter"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
@@ -12421,10 +12425,9 @@ msgid ""
 "focuser is moved to the same focus point as light frames.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Če se uporablja kolo s filtri in absolutno-položajni "
-"ostrilnik, si vedno zapomni položaj ostrenja postopka samodejnega ostrenja "
-"za svetlobne okvirje v vsakem filtru. Preden se zajame ravni okvir, se "
-"ostrilnik premakne na isto točko ostrenja kot svetlobni okvirji.</p></body></"
-"html>"
+"fokuser, si vedno zapomni položaj ostrenja postopka samodejnega ostrenja za "
+"svetlobne okvirje v vsakem filtru. Preden se zajame ravni okvir, se fokuser "
+"premakne na isto točko ostrenja kot svetlobni okvirji.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FlatSyncFocus)
 #: ekos/auxiliary/filtersettings.ui:117
@@ -12445,7 +12448,7 @@ msgstr "Zaključeno"
 #: ekos/auxiliary/ledstatuswidget.cpp:40
 #, kde-format
 msgid "Preparing..."
-msgstr "Pripravljanje …"
+msgstr "Pripravljanje…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:43
 #, kde-format
@@ -12453,10 +12456,9 @@ msgid "Waiting..."
 msgstr "Čakanje …"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:413
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "Razprševanje uspešno."
+msgstr "Zahtevano je razprševanje..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -12526,12 +12528,7 @@ msgstr "Počisti vse dnevnike"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/auxiliary/opslogs.ui:59
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. "
-#| "Only enable the necessary logs to help in diagnosing specific problems. "
-#| "Logs consume resources and may slow the system down. Turn off logs when "
-#| "no longer used.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable Logs to diagnose issues with Ekos and INDI. If "
 "your system is resource limited, e.g. Raspberry Pi with SD Card, then only "
@@ -12540,9 +12537,10 @@ msgid ""
 "system down.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Omogoči dnevnike za diagnosticiranje težav z Ekos in "
-"INDI. Omogočite le potrebne dnevnike za pomoč pri diagnosticiranju določenih "
-"težav. Dnevniki uporabljajo vire in lahko upočasnijo sistem. Izklopite "
-"dnevnike, ko se ne potrebujejo več.</p></body></html>"
+"INDI. Če je vaš sistem je omejen z viri, npr. Raspberry Pi s kartico SD, "
+"potem omogočite potrebne dnevnike samo za pomoč pri diagnosticiranju "
+"določenih težav in jih izklopite, ko jih ne potrebujete več. Dnevniki "
+"porabljajo vire in lahko upočasnijo delovanje sistema.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/auxiliary/opslogs.ui:71
@@ -12603,7 +12601,7 @@ msgstr "Omogoči običajni razhroščevalni izpis"
 #: ekos/auxiliary/opslogs.ui:143 options/opsadvanced.ui:241
 #, kde-format
 msgid "Reg&ular"
-msgstr "Ob&ičajno"
+msgstr "Običajno"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/auxiliary/opslogs.ui:156 options/opsadvanced.ui:290
@@ -12621,7 +12619,7 @@ msgstr "Onemogoči vse izpisovanje dnevnika"
 #: ekos/auxiliary/opslogs.ui:173 options/opsadvanced.ui:270
 #, kde-format
 msgid "&Disable"
-msgstr "On&emogoči"
+msgstr "Onemogoči"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_INDILogging)
 #: ekos/auxiliary/opslogs.ui:186
@@ -12752,7 +12750,7 @@ msgstr "Omogoči podrobni razhroščevalni izpis"
 #: ekos/auxiliary/opslogs.ui:334 options/opsadvanced.ui:307
 #, kde-format
 msgid "&Verbose"
-msgstr "Podro&bni izpis"
+msgstr "Podrobni izpis"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDetectorLogging)
 #: ekos/auxiliary/opslogs.ui:344
@@ -12784,14 +12782,14 @@ msgstr "Beleži dejavnost modula za ostrenje Ekos"
 #: ekos/auxiliary/opslogs.ui:380 ekos/focus/focus.ui:134
 #, kde-format
 msgid "Focuser"
-msgstr "Ostrilnik"
+msgstr "Fokuser"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIRotatorLogging)
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opslogs.ui:390 ekos/capture/camera.ui:970
 #, kde-format
 msgid "Rotator"
-msgstr "Vrtilnik"
+msgstr "Rotator"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
 #: ekos/auxiliary/opslogs.ui:400
@@ -13067,14 +13065,14 @@ msgstr "Vodi z:"
 #: ekos/auxiliary/opticaltrains.ui:321
 #, kde-format
 msgid "Select a mechanized focuser if any."
-msgstr "Izberite mehanizirani ostrilnik, če ga uporabljate."
+msgstr "Izberite mehanizirani fokuser, če ga uporabljate."
 
 #. i18n: ectx: property (text), widget (QLabel, focusLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/auxiliary/opticaltrains.ui:324 ekos/profileeditor.ui:651
 #, kde-format
 msgid "Focuser:"
-msgstr "Ostrilnik:"
+msgstr "Fokuser:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, reducerSpinBox)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -13090,13 +13088,13 @@ msgstr "x"
 #: ekos/auxiliary/opticaltrains.ui:356
 #, kde-format
 msgid "Select a mechanized rotator if any."
-msgstr "Izberite mehanizirani vrtilnik, če ga uporabljate."
+msgstr "Izberite mehanizirani rotator, če ga uporabljate."
 
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
 #: ekos/auxiliary/opticaltrains.ui:359
 #, kde-format
 msgid "Rotator:"
-msgstr "Vrtilnik:"
+msgstr "Rotator:"
 
 #. i18n: ectx: property (text), widget (QPushButton, opticalElementsB)
 #: ekos/auxiliary/opticaltrains.ui:411
@@ -15319,8 +15317,8 @@ msgstr ""
 "</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Vsebnik <span style=\" "
 "font-weight:704;\">%T</span> ali <span style=\" font-weight:704;\">%Type</"
-"span>: vrsta slike, npr.: »Svetloba«, »Pristranskost«, »Tema«, »Plosko« …</"
-"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"span>: vrsta slike, npr.: \"Svetla\", \"Pristrana\", \"Temna\", \"Ploska\" …"
+"</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Vsebnik <span style=\" "
 "font-weight:704;\">%e</span> ali <span style=\" font-weight:704;\">"
 "%exposure</span>: trajanje osvetlitve v sekundah s pripono »_sekund«.</"
@@ -17107,7 +17105,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Minimalno trajanje obrata čez poldnevnik v sekundah. "
 "Povečajte to vrednost, če Ekos sporoči, da obrat čez poldnevnik ni uspel, "
-"ker se stran podnožja ni spremenila. Dobra ocena za to vrednost je vsaj 50 % "
+"ker se stran stojala ni spremenila. Dobra ocena za to vrednost je vsaj 50 % "
 "tipičnega trajanja obrata čez poldnevnik.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
@@ -17325,22 +17323,21 @@ msgid ""
 "indicates an unknown pierside. This is normal if the mount is parked. </p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Trenutna stran podnožja montaže. Rdeč okvir nakazuje "
-"neznano stran montaže. To je normalno, če je montaža parkirana.</p></body></"
+"<html><head/><body><p>Trenutna stran stojala montaže. Rdeč okvir nakazuje "
+"neznano stran stojala. To je normalno, če je montaža parkirana.</p></body></"
 "html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/capture/rotatorsettings.ui:233
 #, kde-format
 msgid "Current Pierside"
-msgstr "Trenutna stran podnožja"
+msgstr "Trenutna stran stojala"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, MountPierside)
 #: ekos/capture/rotatorsettings.ui:257
 #, kde-format
 msgid "<html><head/><body><p>Current pierside of the mount</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Trenutna stran podnožja montaže</p></body></html>"
+msgstr "<html><head/><body><p>Trenutna stran stojala montaže</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraOffset)
 #: ekos/capture/rotatorsettings.ui:289
@@ -17360,11 +17357,11 @@ msgid ""
 "Settings&quot;.</span></p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Pravila zrcaljenja</"
-"span> določajo, kako se vrtilnik odzove na zrcaljenje ali če rezultat "
-"reševanja referenčne slike poroča drugačno stran stebra od dejanske strani "
-"stebra nosilca.</p><p>Pravila zrcaljenja lahko spremenite v <span style=\" "
-"font-weight:600;\">Možnosti poravnave</span><span style=\" font-size:12pt;"
-"\"> pod »Nastavitve rotatorja«.</span></p></body></html>"
+"span> določajo, kako se rotator odzove na zrcaljenje ali če rezultat "
+"reševanja referenčne slike poroča drugačno stran stojala od dejanske strani "
+"stojala.</p><p>Pravila zrcaljenja lahko spremenite v <span style=\" font-"
+"weight:600;\">Možnosti poravnave</span><span style=\" font-size:12pt;\"> pod "
+"»Nastavitve rotatorja«.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/capture/rotatorsettings.ui:336
@@ -17387,10 +17384,10 @@ msgid ""
 "angle) respective to North on pierside WEST or respective to South on "
 "pierside EAST.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Surovi kot polnega kroga vrtilne naprave rotatorja, ki "
-"se izračuna kot razlika začetnega položaja rotatorja (kota nič) glede na "
-"severno za zahodno stran podnožja ali glede na jug za vzhodno stran podnožja."
-"</p></body></html>"
+"<html><head/><body><p>Surovi kot polnega kroga naprave rotatorja, ki se "
+"izračuna kot razlika začetnega položaja rotatorja (kot nič) glede na severno "
+"za zahodno stran stojala ali glede na jug za vzhodno stran stojala.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/rotatorsettings.ui:385
@@ -17713,7 +17710,7 @@ msgstr "Nastavljanje temperature"
 #: ekos/ekos.h:74
 #, kde-format
 msgid "Setting Rotator"
-msgstr "Nastavljanje vrtilnika"
+msgstr "Nastavljanje rotatorja"
 
 #: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2230
 #, kde-format
@@ -18605,12 +18602,12 @@ msgid ""
 "The step size = distance_in_microns / number_steps.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Nastavite velikost koraka (v mikronih) svojega "
-"ostrilnika. To izračunate tako, da ostrilnik premaknete z enega konca hoda "
-"na drugega (pri tem pazite, da ostrilnika ne potisnete čez njegove meje). "
-"Čim natančneje izmerite razdaljo, na katero se premakne vlečna cev (npr. s "
+"ostrilnika. To izračunate tako, da fokuser premaknete z enega konca hoda na "
+"drugega (pri tem pazite, da fokuserja ne potisnete čez njegove meje). Čim "
+"natančneje izmerite razdaljo, na katero se premakne vlečna cev (npr. s "
 "ščipalkami), in jo pretvorite v mikrone. Zapišite, za koliko korakov ste "
-"premaknili ostrilnik. Velikost koraka = razdalja_v_mikronih / "
-"število_korakov.</p></body></html>"
+"premaknili fokuser. Velikost koraka = razdalja_v_mikronih / število_korakov."
+"</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZStepSize)
 #: ekos/focus/cfz.ui:394
@@ -18975,7 +18972,7 @@ msgstr "Ostrenje %2 po %1 ms…"
 #: ekos/focus/focus.cpp:1826
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
-msgstr "Ostrilnik se še vedno ne odziva. Prekinjanje …"
+msgstr "Fokuser se še vedno ne odziva. Prekinjanje …"
 
 #: ekos/focus/focus.cpp:1833
 #, kde-format
@@ -18992,12 +18989,12 @@ msgstr "Čas za premik ostrenja je potekel (%1). Ostrenje na %2 korake …"
 #: ekos/focus/focus.cpp:1890
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
-msgstr "Poskus ponovne vzpostavitve povezave z ostrilnikom: %1"
+msgstr "Poskus ponovne vzpostavitve povezave s fokuserjem: %1"
 
 #: ekos/focus/focus.cpp:1899
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
-msgstr "Ostrilnika ni mogoče ponovno povezati: %1. Prekinitev …"
+msgstr "Fokuserja ni mogoče ponovno povezati: %1. Prekinitev …"
 
 #: ekos/focus/focus.cpp:1957 ekos/focus/focus.cpp:1964
 #, kde-format
@@ -19113,7 +19110,7 @@ msgstr "Zaganjanje inšpektorja odklona za %1 …"
 #: ekos/focus/focus.cpp:3406
 #, kde-format
 msgid "Starting scan for initial focuser position."
-msgstr "Začenjanje preiskovanja za začetni položaj ostrilnika."
+msgstr "Začenjanje preiskovanja za začetni položaj fokuserja."
 
 #: ekos/focus/focus.cpp:3407
 #, kde-format
@@ -19210,7 +19207,7 @@ msgstr "Najdena polinomska rešitev @ %1"
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
-"Ostrilnik se ne more premakniti naprej, dosežene so omejitve naprave. "
+"Fokuser se ne more premakniti naprej, dosežene so omejitve naprave. "
 "Samodejno ostrenje je prekinjeno."
 
 #: ekos/focus/focus.cpp:3858
@@ -19249,12 +19246,12 @@ msgstr ""
 #: ekos/focus/focus.cpp:4456 ekos/focus/focus.cpp:4531
 #, kde-format
 msgid "Focuser error, check INDI panel."
-msgstr "Napaka ostrilnika. Preverite ploščo INDI."
+msgstr "Napaka fokuserja. Preverite ploščo INDI."
 
 #: ekos/focus/focus.cpp:4187 ekos/focus/focus.cpp:4317
 #, kde-format
 msgid "Simulate focuser comms failure..."
-msgstr "Oponašanje napake komunikacije z ostrilnikom …"
+msgstr "Oponašanje napake komunikacije s fokuserjem…"
 
 #: ekos/focus/focus.cpp:4278 ekos/focus/focus.cpp:4365
 #: ekos/focus/focus.cpp:4437 ekos/focus/focus.cpp:4478
@@ -19330,7 +19327,7 @@ msgstr "Izbrane ni bilo nobene zvezde. Prekinjanje …"
 #: ekos/focus/focus.cpp:5091
 #, kde-format
 msgid "Focuser already at %1..."
-msgstr "Ostrilnik je že pri %1 …"
+msgstr "Fokuser je že pri %1 …"
 
 #: ekos/focus/focus.cpp:5190
 #, fuzzy, kde-format
@@ -19405,7 +19402,7 @@ msgstr "Začni postopek samodejnega ostrenja"
 #: ekos/focus/focus.ui:303
 #, kde-format
 msgid "Current absolute focuser position"
-msgstr "Trenutni absolutni položaj ostrilnika"
+msgstr "Trenutni absolutni položaj fokuserja"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, absTicksSpin)
 #: ekos/focus/focus.ui:331
@@ -19423,7 +19420,7 @@ msgstr "Pojdi na absolutni položaj ostrenja"
 #: ekos/focus/focus.ui:376
 #, kde-format
 msgid "Stop focuser motion"
-msgstr "Ustavi gibanje ostrilnika"
+msgstr "Ustavi gibanje fokuserja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:407
@@ -19463,7 +19460,7 @@ msgstr "Trajanje osvetlitve v sekundah"
 #: ekos/focus/focus.ui:554
 #, kde-format
 msgid "Select focuser temperature source"
-msgstr "Izberite vir temperature ostrilnika"
+msgstr "Izberite vir temperature fokuserja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
 #: ekos/focus/focus.ui:592
@@ -19475,7 +19472,7 @@ msgstr "Nastavitve filtra …"
 #: ekos/focus/focus.ui:614
 #, kde-format
 msgid "Focuser temperature source"
-msgstr "Vir temperature ostrilnika"
+msgstr "Vir temperature fokuserja"
 
 #. i18n: ectx: property (text), widget (QLabel, temperatureSourceLabel)
 #: ekos/focus/focus.ui:617
@@ -19633,7 +19630,7 @@ msgstr "  Pono.:"
 #: ekos/focus/focus.ui:1172
 #, kde-format
 msgid "<html><body><p>Focuser iteration.</p></body></html>"
-msgstr "<html><body><p>Ponovitev ostrilnika.</p></body></html>"
+msgstr "<html><body><p>Ponovitev fokuserja.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, relativeProfileB)
 #: ekos/focus/focus.ui:1207
@@ -20164,7 +20161,7 @@ msgid ""
 "field sets the Indi Focuser Backlash field and can be set either here or on "
 "the Indi Control Panel.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Za ostrilnike, ki se zavedajo mrtvega teka, je to "
+"<html><head/><body><p>Za fokuserje, ki se zavedajo mrtvega teka, je to "
 "količina, ki jo je treba uporabiti pri obračanju smeri gibanja. Nastavite na "
 "0, da to onemogočite.</p><p>Običajno je nastavljen »Mrtvi tek« ali "
 "»Prekritje SO«.</p><p>To nastavi polje »Mrtvi tek ostrilnika Indi« in ga "
@@ -20184,7 +20181,7 @@ msgstr "Časovna omejitev zajema:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusWalk)
 #: ekos/focus/opsfocusmechanics.ui:113
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of walk for the focuser to take when "
 "using <span style=\" font-weight:600;\">Linear 1 Pass</span>.  For <span "
@@ -20210,13 +20207,13 @@ msgstr ""
 "style=\" font-weight:600;\">linearnega enojnega prehoda</span>.  Za <span "
 "style=\" font-weight:600;\">linearno</span> je na voljo le <span style=\" "
 "font-weight:600;\">klasično</span>.</p><p>Klasično<span style=\" font-"
-"weight:600;\">:</span> ostrilnik stopi ven &quot;Izstopi korak več&quot; "
+"weight:600;\">:</span> fokuser stopi ven &quot;Izstopi korak več&quot; "
 "korakov, sprejme okvir in nato koraka skozi ostrino pri stalnem koraku "
 "velikosti ob in analiziranje okvirjev na vsakem koraku. Natančna točka, na "
 "kateri se prehod ustavi, je odvisna od podatkov, zato je ta sprehod "
 "toleranten, da se začne dlje od ostrine, vendar na račun dodatnih korakov.</"
-"p><p><span style=\" font-weight:600;\">Fiksni koraki</span>: ostrilnik "
-"koraka iz polovice &quot;Število korakov&quot;, sprejme okvir in nato koraka "
+"p><p><span style=\" font-weight:600;\">Fiksni koraki</span>: fokuser koraka "
+"iz polovice &quot;Število korakov&quot;, sprejme okvir in nato koraka "
 "natanko &quot;Število korakov&quot;. To hojo je treba začeti blizu ostrine, "
 "da bi bila učinkovita, vendar je predvidljiva pri številu izvedenih korakov. "
 "Ta hoja je poskusna.</p><p><span style=\" font-weight:600;\">Premešani OKO</"
@@ -20254,7 +20251,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
 #: ekos/focus/opsfocusmechanics.ui:166
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Provides backlash overscan in ticks for outward "
 "focuser movements during an Autofocus run. This is in addition to any Driver "
@@ -20264,13 +20261,13 @@ msgid ""
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Poudarja povratni odziv presežnega zajema slike v "
-"oznakah za premike ostrilnika navzven med izvajanjem samodejnega ostrenja.To "
+"oznakah za premike fokuserja navzven med izvajanjem samodejnega ostrenja.To "
 "je dodatek k morebitnemu povratnemu odzivu gonilnika, ki ga zagotavlja "
 "gonilnik naprave in je nastavljen v polju Povratni odziv gonilnika. "
 "Nastavite na 0, če ga želite onemogočiti. </p><p>Če je nastavljen, se "
-"presežni zajem AF uporablja za vse premike ostrilnika, ki jih sproži modul "
-"za ostrenje.</p><p>Tipično je nastavljen bodisi povratni odziv ostrilnika "
-"bodisi prekritje SO.</p></body></html>"
+"presežni zajem AF uporablja za vse premike fokuserja, ki jih sproži modul za "
+"ostrenje.</p><p>Tipično je nastavljen bodisi povratni odziv fokuserja bodisi "
+"prekritje SO.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/opsfocusmechanics.ui:185
@@ -20328,11 +20325,7 @@ msgstr "Poravnava fokuserja:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/opsfocusmechanics.ui:286
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Initial</b> step size in ticks to cause a noticeable change in HFR "
-#| "value. For timer based focuser, it is the initial time in milliseconds to "
-#| "move the focuser inward or outward"
+#, kde-format
 msgid ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Initial Step Size</"
 "span> in ticks to cause a noticeable change in HFR value. For timer based "
@@ -20341,7 +20334,7 @@ msgid ""
 msgstr ""
 "<b>Začetna</b> velikost koraka v delih, ki bo povzročila zaznavno spremembo "
 "za vrednost HFR. Za ostrilce s časomeri je to začetni čas v milisekundah za "
-"premik ostrilnika navznoter ali navzven"
+"premik fokuserja navznoter ali navzven"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
 #. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
@@ -20409,7 +20402,7 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Zakasnitev med dokončanjem gibanja navzven pri "
-"prekritju in začetkom gibanja navznoter. Za večino ostrilnikov je 0 s v redu."
+"prekritju in začetkom gibanja navznoter. Za večino fokuserjev je 0 s v redu."
 "</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
@@ -21466,17 +21459,17 @@ msgstr " oznak"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMaxMove)
 #: ekos/focus/opsfocussettings.ui:500
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>The maximum total Adaptive focuser movement between "
 "Autofocus runs.  If this value is hit,  adaptive focusing is suspended.  The "
 "purpose of this control is to handle runaway adaptive focusing.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Najvišji skupni premik prilagodljivega ostrilnika med "
+"<html><head/><body><p>Najvišji skupni premik prilagodljivega fokuserja med "
 "posameznimi zagoni samodejnega ostrenja.  Če je ta vrednost dosežena, se "
 "adaptivno ostrenje prekine.  Namen tega nadzora je obvladovanje pobeglega "
-"prilagodljivega ostrenja.</p></body></html>"
+"prilagodljivega fokusiranja.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptive)
 #: ekos/focus/opsfocussettings.ui:525
@@ -21955,7 +21948,7 @@ msgstr "Nosilec je parkiran. Odparkirajte ga, da začnete z vodenjem."
 #: ekos/guide/guide.cpp:1489
 #, kde-format
 msgid "Pier side change detected. Clearing calibration."
-msgstr "Zaznana je sprememba strani podnožja. Čiščenje kalibracije."
+msgstr "Zaznana je sprememba strani stojala. Čiščenje kalibracije."
 
 #: ekos/guide/guide.cpp:1503
 #, kde-format
@@ -23128,7 +23121,7 @@ msgstr "Ponastavi umerjanje vodnika po vsakem nosilec"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Store and attempt to reuse calibrations. This only "
 "works on opposite sides of the meridian if the pier-side can be "
@@ -23136,7 +23129,7 @@ msgid ""
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Shranite in poskusite znova uporabiti kalibracije. To "
-"deluje le na nasprotnih straneh meridiana, če je podnožje lahko samodejno "
+"deluje le na nasprotnih straneh meridiana, če je stojalo lahko samodejno "
 "določeno iz vaše montaže. Zgoraj navedena možnost »Reset Guide on Slew« je "
 "treba počistiti, da se to poskusi.</p></body></html>"
 
@@ -23156,17 +23149,19 @@ msgid ""
 "that should be researched. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Ko ponovno uporabite kalibracijo, obrnite kot DEC, če "
-"se trenutna stran podnožja razlikuje od trenutne strani podnožja pri "
+"se trenutna stran stojala razlikuje od trenutne strani stojala pri "
 "kalibraciji. To velja le pri ponovno uporabi kalibracij. Vrednost, ki jo "
 "potrebujete, je lastnost vaše montaže, ki jo je treba raziskati. </p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
-msgstr "Ob vnožju umerjanja obrnite DEC ob podnožju."
+msgstr ""
+"Obrni impulze vodila DEC pri menjavi strani stojala in ponovni uporabi "
+"kalibracije."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -24516,13 +24511,12 @@ msgstr "Filter %1 je povezan."
 #: ekos/manager.cpp:1668
 #, kde-format
 msgid "%1 focuser is online."
-msgstr "ostrilnik %1 je povezan."
+msgstr "fokuser %1 je povezan."
 
 #: ekos/manager.cpp:1675
-#, fuzzy, kde-format
-#| msgid "%1 is online."
+#, kde-format
 msgid "Rotator %1 is online."
-msgstr "%1 je povezana."
+msgstr "Rotator %1 je povezan."
 
 #: ekos/manager.cpp:1691
 #, fuzzy, kde-format
@@ -24537,10 +24531,9 @@ msgid "%1 GPS is online."
 msgstr "%1 je povezana."
 
 #: ekos/manager.cpp:1707
-#, fuzzy, kde-format
-#| msgid "%1 focuser is online."
+#, kde-format
 msgid "%1 Dust cap is online."
-msgstr "ostrilnik %1 je povezan."
+msgstr "%1 Pokrov proti prahu je na spletu."
 
 #: ekos/manager.cpp:1714
 #, fuzzy, kde-format
@@ -24843,7 +24836,7 @@ msgstr "Obrat čez poldnevnik čez %1"
 #, kde-format
 msgid "Assuming meridian flip completed, but pier side unknown."
 msgstr ""
-"Obrat čez poldnevnik je spodletel - čas je prekratek, stran podnožja neznana."
+"Obrat čez poldnevnik je spodletel - čas je prekratek, stran stojala neznana."
 
 #: ekos/manager/meridianflipstate.cpp:283
 #, kde-format
@@ -25150,9 +25143,9 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Omogoči ali onemogoči omejitev urnega kota namestitve. "
 "Ko je omogočen, Ekos spremlja urni kot montaže med obračanjem ali sledenjem. "
-"Če montaža zavije/sledi čez mejo, medtem ko je stran podnožja v stanju, ki "
+"Če montaža zavije/sledi čez mejo, medtem ko je stran stojala v stanju, ki "
 "tega ne dovoljuje, se mu ukaže, da se ustavi in ​​sledenje se izklopi. "
-"Potrebna je montaža, ki pravilno poroča o strani podnožja.</p></body></html>"
+"Potrebna je montaža, ki pravilno poroča o strani stojala.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
 #: ekos/mount/mount.ui:311
@@ -34730,10 +34723,9 @@ msgstr "Omogoči običajno beleženje"
 
 #. i18n: ectx: label, entry (INDIRotatorLogging), group (indi)
 #: kstars.kcfg:306
-#, fuzzy, kde-format
-#| msgid "Enable Verbose Logging"
+#, kde-format
 msgid "Enable INDI Rotator logging"
-msgstr "Omogoči podrobno beleženje"
+msgstr "Omogoči beleženje rotatorja INDI"
 
 #. i18n: ectx: label, entry (INDIGPSLogging), group (indi)
 #: kstars.kcfg:310
@@ -38523,11 +38515,11 @@ msgstr "Privzeti gonilnik za kupolo"
 
 #. i18n: ectx: label, entry (SyncFOVPA), group (Capture)
 #: kstars.kcfg:1954
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sync FOV indicator Position Angle with Rotator Settings Position Angle"
 msgstr ""
-"Sinhroniziraj položajni kot kazalnika VP s kotom položaja nastavitev "
-"rotatorja"
+"Sinhroniziraj kazalnik vidnega polja položajnega kota z nastavitvijo "
+"položajnega kota rotatorja"
 
 #. i18n: ectx: label, entry (PAMultiplier), group (Capture)
 #: kstars.kcfg:1958
@@ -38547,7 +38539,7 @@ msgstr "Položajni kot"
 #: kstars.kcfg:1966
 #, kde-format
 msgid "Position angle calibration pier side"
-msgstr "Stran podnožja za kalibracijo kota položaja"
+msgstr "Stran stojala za kalibracijo kota položaja"
 
 #. i18n: ectx: label, entry (GuideDeviation), group (Capture)
 #: kstars.kcfg:1969
@@ -39063,10 +39055,9 @@ msgstr "Nastavi navpično združevanje fotoaparata s CCD med načinom ostrenja."
 
 #. i18n: ectx: label, entry (FocusGain), group (Focus)
 #: kstars.kcfg:2212
-#, fuzzy, kde-format
-#| msgid "Default Focuser tolerance value"
+#, kde-format
 msgid "Default Focuser gain value"
-msgstr "Privzeta vrednost tolerance ostrilnika"
+msgstr "Privzeta vrednost tolerance fokuserja"
 
 #. i18n: ectx: whatsthis, entry (FocusGain), group (Focus)
 #: kstars.kcfg:2213
@@ -39081,10 +39072,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FocusISO), group (Focus)
 #: kstars.kcfg:2217
-#, fuzzy, kde-format
-#| msgid "Default Focuser tolerance value"
+#, kde-format
 msgid "Default Focuser Camera ISO value"
-msgstr "Privzeta vrednost tolerance ostrilnika"
+msgstr "Privzeta vrednost ISO fokuserja kamere"
 
 #. i18n: ectx: label, entry (DefaultFocusTemperatureSource), group (Focus)
 #: kstars.kcfg:2220
@@ -39117,7 +39107,7 @@ msgstr ""
 #: kstars.kcfg:2234
 #, kde-format
 msgid "Default Focuser star selection box size"
-msgstr "Privzeta velikost okvirja ostrilnika za izbor zvezde"
+msgstr "Privzeta velikost okvirja fokuserja za izbor zvezde"
 
 #. i18n: ectx: whatsthis, entry (FocusBoxSize), group (Focus)
 #: kstars.kcfg:2235
@@ -39236,32 +39226,32 @@ msgstr "Ali je način prilagodljivega ostrenja omogočen."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:2293
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "When using Adaptive Focusing the minimum allowable focuser move in ticks."
 msgstr ""
-"Pri uporabi prilagodljivega ostrenja: najmanjši dovoljen premik ostrilnika v "
+"Pri uporabi prilagodljivega ostrenja: najmanjši dovoljen premik fokuserja v "
 "označbah/črticah."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptStart), group (Focus)
 #: kstars.kcfg:2297
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Whether to adapt the focuser starting position at the beginning of an "
 "Autofocus run."
 msgstr ""
-"Ali prilagoditi izhodiščni položaj ostrilnika na začetku izvajanja "
+"Ali prilagoditi izhodiščni položaj fokuserja na začetku izvajanja "
 "samodejnega ostrenja."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMaxMove), group (Focus)
 #: kstars.kcfg:2301
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "When using Adaptive Focusing the maximum total allowable focuser move in "
 "ticks."
 msgstr ""
 "Pri uporabi prilagodljivega ostrenja največji dovoljen skupen premik "
-"ostrilnika v črticah."
+"fokuserja v črticah."
 
 #. i18n: ectx: label, entry (FocusDetection), group (Focus)
 #: kstars.kcfg:2306
@@ -39366,10 +39356,10 @@ msgstr "Ali uporabiti uteži v postopku umerjanja krivulje."
 
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2365
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether to use Donut Busting functionality during Autofocus."
 msgstr ""
-"Ali prilagoditi izhodiščni položaj ostrilnika na začetku izvajanja "
+"Ali prilagoditi izhodiščni položaj fokuserja na začetku izvajanja "
 "samodejnega ostrenja."
 
 #. i18n: ectx: label, entry (FocusTimeDilation), group (Focus)
@@ -39393,22 +39383,22 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2377
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Whether to use scan for optimum start position at the start of Autofocus."
 msgstr ""
-"Ali želite uporabiti pregled za optimalni izhodiščni položaj ostrilnika na "
-"začetku izvajanja samodejnega ostrenja."
+"Ali želite uporabiti pregled za optimalni izhodiščni položaj fokuserja na "
+"začetku izvajanja samodejnega fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (focusScanAlwaysOn), group (Focus)
 #: kstars.kcfg:2381
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Whether scan for start position is always used or just after an Autofocus "
 "failure."
 msgstr ""
-"Ali prilagoditi izhodiščni položaj ostrilnika na začetku izvajanja "
-"samodejnega ostrenja."
+"Ali prilagoditi izhodiščni položaj fokuserja na začetku izvajanja "
+"samodejnega fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2385
@@ -39439,7 +39429,7 @@ msgstr "Velikost jedra Gaussove zabrisanosti."
 #: kstars.kcfg:2397
 #, kde-format
 msgid "Default Focuser tolerance value"
-msgstr "Privzeta vrednost tolerance ostrilnika"
+msgstr "Privzeta vrednost tolerance fokuserja"
 
 #. i18n: ectx: whatsthis, entry (FocusTolerance), group (Focus)
 #: kstars.kcfg:2398
@@ -39450,7 +39440,7 @@ msgid ""
 "Adjustment of this value is necessary to prevent the focusing algorithm from "
 "oscillating back and forth."
 msgstr ""
-"Toleranca določa odstotek razlike med trenutnim položajem ostrilnika in "
+"Toleranca določa odstotek razlike med trenutnim položajem fokuserja in "
 "najmanjšim doseženim med postopkom ostrenja. Prilagoditev te vrednosti je "
 "potrebna, da se ostrilnemu algoritmu prepreči nenehno premikanje naprej in "
 "nazaj."
@@ -39477,7 +39467,7 @@ msgstr ""
 #: kstars.kcfg:2411
 #, kde-format
 msgid "Default Focuser step ticks"
-msgstr "Privzeti deli korakov ostrilnika"
+msgstr "Privzeti deli korakov fokuserja"
 
 #. i18n: ectx: whatsthis, entry (FocusTicks), group (Focus)
 #: kstars.kcfg:2412
@@ -39487,8 +39477,8 @@ msgid ""
 "that when the focuser moves TICKS steps, the difference in HFR is more than "
 "0.1 pixels. Lower the value when you are close to optimal focus."
 msgstr ""
-"Velikost korakov absolutnega ostrilnika. Deli korakov, naj bi bili "
-"prilagojeni tako, da je razlika v HFR ob premiku ostrilnika za en del "
+"Velikost korakov absolutnega fokuserja. Deli korakov, naj bi bili "
+"prilagojeni tako, da je razlika v HFR ob premiku fokuserja za en del "
 "korakov, več kot 0.1 slikovnih točk. Ko ste blizu optimalnega žarišča, "
 "znižajte vrednost."
 
@@ -39513,13 +39503,13 @@ msgstr ""
 #: kstars.kcfg:2424
 #, kde-format
 msgid "Maximum Focus Travel Distance"
-msgstr "Največja razdalja potovanja ostrilnika"
+msgstr "Največja razdalja potovanja fokuserja"
 
 #. i18n: ectx: whatsthis, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2425
 #, kde-format
 msgid "Set the maximum travel distance of an absolute focuser."
-msgstr "Nastavi največjo razdaljo potovanja absolutnega ostrilnika."
+msgstr "Nastavi največjo razdaljo potovanja absolutnega fokuserja."
 
 #. i18n: ectx: whatsthis, entry (FocusMaxSingleStep), group (Focus)
 #: kstars.kcfg:2429
@@ -39542,13 +39532,13 @@ msgstr "Količina presežka slike pri samodejnem ostrenju."
 
 #. i18n: ectx: whatsthis, entry (FocusOverscanDelay), group (Focus)
 #: kstars.kcfg:2441
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Delay between outward and inward movements of an AF Overscan. For most "
 "focusers set 0s."
 msgstr ""
 "Zakasnitev med premiki navzven in navznoter pri prekritju SO. Za večino "
-"ostrilnikov nastavite 0 s."
+"fokuserjev nastavite 0 s."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2449
@@ -39904,9 +39894,9 @@ msgstr "Privzeto združevanje osi Y CCD-ja v načinu poravnave"
 
 #. i18n: ectx: whatsthis, entry (AstrometryUseRotator), group (Align)
 #: kstars.kcfg:2658
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use rotator when performing load and slew."
-msgstr "Pri izvajanju obremenitve in zamaha uporabite rotator."
+msgstr "Uporabi rotator, kadar se izvaja nalaganje in vrtenje."
 
 #. i18n: ectx: whatsthis, entry (AstrometryRotatorThreshold), group (Align)
 #: kstars.kcfg:2662
@@ -39920,9 +39910,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (AstrometryFlipRotationAllowed), group (Align)
 #: kstars.kcfg:2666
-#, fuzzy, kde-format
+#, kde-format
 msgid "PA 180° rotation for rotator is accepted after mount flip."
-msgstr "PA 180°-rotacija za rotator po sprejetju zrcaljenja za montažo."
+msgstr "PA 180°-rotacija za rotator po sprejetju zrcaljenja montaže."
 
 #. i18n: ectx: label, entry (AstrometrySolverWCS), group (Align)
 #: kstars.kcfg:2670
@@ -41153,9 +41143,9 @@ msgstr "Prikaz nadmorske višine na analizah statističnih načrtov."
 
 #. i18n: ectx: whatsthis, entry (AnalyzePierSide), group (Analyze)
 #: kstars.kcfg:3445
-#, fuzzy, kde-format
+#, kde-format
 msgid "Display PierSide on the Analyze Statistics Plot."
-msgstr "Prikaz PierSide na analizi statističnega načrta."
+msgstr "Prikaži stran stojala na grafu statistične analize."
 
 #. i18n: ectx: label, entry (AnalyzeStatsYAxis), group (Analyze)
 #: kstars.kcfg:3449
@@ -73652,7 +73642,7 @@ msgstr "Odziv"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Field De-rotator"
-msgstr "Kompenzator vrtenja polja"
+msgstr "De-rotator polja"
 
 #: libindi_strings.cpp:157
 #, kde-kuit-format
@@ -73824,7 +73814,7 @@ msgstr "Goriščna razdalja (mm)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus Control"
-msgstr "Nadzor ostrilnika"
+msgstr "Nadzor fokuserja"
 
 #: libindi_strings.cpp:185
 #, kde-kuit-format
@@ -73842,13 +73832,13 @@ msgstr "Ostrilec ven"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus Speed"
-msgstr "Hitrost ostrilnika"
+msgstr "Hitrost fokuserja"
 
 #: libindi_strings.cpp:188
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focus Timer"
-msgstr "Časomer ostrilnika"
+msgstr "Časomer fokuserja"
 
 #: libindi_strings.cpp:189
 #, kde-kuit-format
@@ -73866,7 +73856,7 @@ msgstr "Ostrilec ven"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focuser Simulator"
-msgstr "Simulator ostrilnika"
+msgstr "Simulator fokuserja "
 
 #: libindi_strings.cpp:192
 #, kde-kuit-format
@@ -74866,7 +74856,7 @@ msgstr "Spletna kamera Philips"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Pier Side"
-msgstr "Stran podnožja"
+msgstr "Stran stojala"
 
 #: libindi_strings.cpp:355
 #, kde-kuit-format
@@ -76755,9 +76745,9 @@ msgstr "Abs. položaj:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
 #: oal/equipmentwriter.ui:1078
-#, fuzzy, kde-format
+#, kde-format
 msgid "Focus alt:"
-msgstr "Višina ostrilnika:"
+msgstr "Višina fokuserja:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
 #: oal/equipmentwriter.ui:1101
