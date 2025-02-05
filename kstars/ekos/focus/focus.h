@@ -1099,7 +1099,7 @@ public slots:
         // R2 as a measure of how well the curve fits the datapoints. Passed to the V-curve graph for display
         double R2 = 0;
         // Counter to retry the auto focus run if the R2Limit has not been reached
-        int R2Retries = 0;
+        int m_R2Retries = 0;
         // Counter to retry starting focus operation (autofocus, adjust focus, etc) if the focuser is still active
         int m_StartRetries = 0;
         // Reason code for the Autofocus run - passed to Analyze
