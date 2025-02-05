@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-03 01:51+0000\n"
+"POT-Creation-Date: 2025-02-05 01:54+0000\n"
 "PO-Revision-Date: 2025-02-02 11:07+0100\n"
 "Last-Translator: steve <stax@ik.me>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -6333,7 +6333,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Erreur : perte de connexion à la roue à filtres."
 
 #: ekos/align/align.cpp:1506 ekos/capture/cameraprocess.cpp:213
-#: ekos/capture/cameraprocess.cpp:633 ekos/focus/focus.cpp:5510
+#: ekos/capture/cameraprocess.cpp:633 ekos/focus/focus.cpp:5512
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6375,13 +6375,13 @@ msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Aucun pilote distant d'astrométrie détecté. Basculement vers StellarSolver."
 
-#: ekos/align/align.cpp:1646 ekos/focus/focus.cpp:1639
+#: ekos/align/align.cpp:1646 ekos/focus/focus.cpp:1640
 #, kde-format
 msgid "Capturing image..."
 msgstr "Acquisition d'une image…"
 
 #: ekos/align/align.cpp:1736 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2777
+#: ekos/focus/focus.cpp:2778
 #, kde-format
 msgid "Image received."
 msgstr "Image reçue."
@@ -6704,7 +6704,7 @@ msgid "dDE (arcsec)"
 msgstr "dDEC (secondes d'arc)"
 
 #: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3423
-#: ekos/focus/focus.cpp:5397
+#: ekos/focus/focus.cpp:5399
 #, kde-format
 msgid "Filter operation failed."
 msgstr "L'opération de filtrage a échoué."
@@ -16018,8 +16018,8 @@ msgstr "Le script d'initialisation de la tâche s'est terminé avec le code %1."
 msgid "Post job script finished with code %1."
 msgstr "Le script de fin de tâche s'est terminé avec le code de %1."
 
-#: ekos/capture/cameraprocess.cpp:2097 ekos/focus/focus.cpp:5562
-#: ekos/focus/focus.cpp:5586
+#: ekos/capture/cameraprocess.cpp:2097 ekos/focus/focus.cpp:5564
+#: ekos/focus/focus.cpp:5588
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Durée d'exposition écoulée. Annulation…"
@@ -16031,7 +16031,7 @@ msgstr ""
 "Délai d'exposition. Plus de 3 délais ont été détecté, le pilote sera "
 "redémarré."
 
-#: ekos/capture/cameraprocess.cpp:2122 ekos/focus/focus.cpp:5567
+#: ekos/capture/cameraprocess.cpp:2122 ekos/focus/focus.cpp:5569
 #: ekos/guide/guide.cpp:997
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -19079,7 +19079,7 @@ msgstr "Enfin, la source de température pour %1 a été trouvée."
 msgid "No Focuser connected."
 msgstr "Aucun dispositif de mise au point connecté."
 
-#: ekos/focus/focus.cpp:1025 ekos/focus/focus.cpp:4556
+#: ekos/focus/focus.cpp:1025 ekos/focus/focus.cpp:4557
 #, kde-format
 msgid "No CCD connected."
 msgstr "Aucun CCD connecté."
@@ -19113,16 +19113,16 @@ msgstr ""
 "Boucle de mise au point intérieure en cours, mise au point automatique "
 "rejetée."
 
-#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4912
-#: ekos/focus/focus.cpp:5187
+#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4914
+#: ekos/focus/focus.cpp:5189
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Ajuster la mise au point"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4914
-#: ekos/focus/focus.cpp:5187 ekos/focus/opsfocussettings.ui:448
+#: ekos/focus/focus.cpp:1065 ekos/focus/focus.cpp:4916
+#: ekos/focus/focus.cpp:5189 ekos/focus/opsfocussettings.ui:448
 #: ekos/focus/opsfocussettings.ui:528
 #, kde-format
 msgid "Adaptive Focus"
@@ -19167,303 +19167,303 @@ msgstr "Détection de l'étoile en cours, nouvel essai dans 1 seconde…"
 msgid "Autofocus aborted."
 msgstr "Annulation de la mise au point automatique."
 
-#: ekos/focus/focus.cpp:1531
+#: ekos/focus/focus.cpp:1532
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Erreur : aucune caméra détectée."
 
-#: ekos/focus/focus.cpp:1538
+#: ekos/focus/focus.cpp:1539
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Erreur : perte de connexion à la caméra."
 
-#: ekos/focus/focus.cpp:1559
+#: ekos/focus/focus.cpp:1560
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Erreur : aucune roue à filtres détectée."
 
-#: ekos/focus/focus.cpp:1565
+#: ekos/focus/focus.cpp:1566
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Erreur : perte de connexion à la roue à filtres."
 
-#: ekos/focus/focus.cpp:1683
+#: ekos/focus/focus.cpp:1684
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "À la position de mise au point minimale %1…"
 
-#: ekos/focus/focus.cpp:1694
+#: ekos/focus/focus.cpp:1695
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "Déplacement vers la position de mise au point minimale %1…"
 
-#: ekos/focus/focus.cpp:1703
+#: ekos/focus/focus.cpp:1704
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "À la position de mise au point maximale %1…"
 
-#: ekos/focus/focus.cpp:1714
+#: ekos/focus/focus.cpp:1715
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "Déplacement vers la position maximale de mise au point %1…"
 
-#: ekos/focus/focus.cpp:1741
+#: ekos/focus/focus.cpp:1742
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Erreur : aucun moteur de mise au point détecté."
 
-#: ekos/focus/focus.cpp:1748
+#: ekos/focus/focus.cpp:1749
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Erreur : connexion au moteur de mise au point perdue."
 
-#: ekos/focus/focus.cpp:1762
+#: ekos/focus/focus.cpp:1763
 #, kde-format
 msgid "outward"
 msgstr "extérieure"
 
-#: ekos/focus/focus.cpp:1762
+#: ekos/focus/focus.cpp:1763
 #, kde-format
 msgid "inward"
 msgstr "intérieure"
 
-#: ekos/focus/focus.cpp:1779
+#: ekos/focus/focus.cpp:1780
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "Mise au point %2 par pas de %1…"
 
-#: ekos/focus/focus.cpp:1785
+#: ekos/focus/focus.cpp:1786
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "Mise au point %2 par pas de %1…"
 msgstr[1] "Mise au point %2 par pas de %1…"
 
-#: ekos/focus/focus.cpp:1791
+#: ekos/focus/focus.cpp:1792
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "Mise au point %2 de %1 ms…"
 
-#: ekos/focus/focus.cpp:1826
+#: ekos/focus/focus.cpp:1827
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr ""
 "Le délai du moteur de mise au point expire encore. Annulation en cours…"
 
-#: ekos/focus/focus.cpp:1833
+#: ekos/focus/focus.cpp:1834
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Expiration du délai alloué à la mise au point automatique (%1). Redémarrage "
 "du pilote de mise au point %2"
 
-#: ekos/focus/focus.cpp:1844
+#: ekos/focus/focus.cpp:1845
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Expiration du délai alloué à la mise au point automatique (%1). Procédure en "
 "%2 étapes…"
 
-#: ekos/focus/focus.cpp:1890
+#: ekos/focus/focus.cpp:1891
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Tentative de reconnexion au moteur de mise au point : %1"
 
-#: ekos/focus/focus.cpp:1899
+#: ekos/focus/focus.cpp:1900
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr ""
 "Reconnexion au moteur de mise au point impossible : %1. Annulation en cours…"
 
-#: ekos/focus/focus.cpp:1957 ekos/focus/focus.cpp:1964
+#: ekos/focus/focus.cpp:1958 ekos/focus/focus.cpp:1965
 #, kde-format
 msgid "Detection complete."
 msgstr "Détection terminée."
 
-#: ekos/focus/focus.cpp:2236
+#: ekos/focus/focus.cpp:2237
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Détection des sources…"
 
-#: ekos/focus/focus.cpp:2345
+#: ekos/focus/focus.cpp:2346
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "L'opération de mise au point automatique s'est terminée avec succès."
 
-#: ekos/focus/focus.cpp:2359
+#: ekos/focus/focus.cpp:2360
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Échec de l'opération de mise au point automatique"
 
-#: ekos/focus/focus.cpp:2427
+#: ekos/focus/focus.cpp:2428
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "Procédure de mise au point terminée après %1 itération."
 msgstr[1] "Procédure de mise au point terminée après %1 itérations."
 
-#: ekos/focus/focus.cpp:2513
+#: ekos/focus/focus.cpp:2514
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "Stabilisation pour %1 s…"
 
-#: ekos/focus/focus.cpp:2521
+#: ekos/focus/focus.cpp:2522
 #, kde-format
 msgid "Settling complete."
 msgstr "Stabilisation terminée."
 
-#: ekos/focus/focus.cpp:2534
+#: ekos/focus/focus.cpp:2535
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Échec de la mise au point automatique. Retour à la position initiale %1."
 
-#: ekos/focus/focus.cpp:2571
+#: ekos/focus/focus.cpp:2572
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "Image FITS reçue. Aucune étoile détectée."
 
-#: ekos/focus/focus.cpp:2839
+#: ekos/focus/focus.cpp:2840
 #, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "Acquisition terminée. Sélectionnez une région d'intérêt."
 
-#: ekos/focus/focus.cpp:2880
+#: ekos/focus/focus.cpp:2881
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr ""
 "Échec de la sélection automatique d'une étoile. Veuillez en choisir une "
 "manuellement."
 
-#: ekos/focus/focus.cpp:2974
+#: ekos/focus/focus.cpp:2975
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Acquisition terminée. Sélectionnez une étoile pour la mise au point."
 
-#: ekos/focus/focus.cpp:3005
+#: ekos/focus/focus.cpp:3006
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
 "Aucune étoile détectée, durant le test HFR. Lancement d'une nouvelle "
 "acquisition…"
 
-#: ekos/focus/focus.cpp:3025
+#: ekos/focus/focus.cpp:3026
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "HFR %1 > limite %2"
 
-#: ekos/focus/focus.cpp:3150
+#: ekos/focus/focus.cpp:3151
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Échec de la mise au point automatique : maximum d'itérations %1 atteint"
 
-#: ekos/focus/focus.cpp:3161 ekos/focus/focus.cpp:3423
-#: ekos/focus/focus.cpp:4019
+#: ekos/focus/focus.cpp:3162 ekos/focus/focus.cpp:3424
+#: ekos/focus/focus.cpp:4020
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Aucune étoile détectée, nouvelle acquisition…"
 
-#: ekos/focus/focus.cpp:3167 ekos/focus/focus.cpp:4025
+#: ekos/focus/focus.cpp:3168 ekos/focus/focus.cpp:4026
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr ""
 "Échec de la détection d'une étoile à la position %1. Poursuite de la "
 "détection…"
 
-#: ekos/focus/focus.cpp:3173 ekos/focus/focus.cpp:4031
+#: ekos/focus/focus.cpp:3174 ekos/focus/focus.cpp:4032
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Échec de la détection d'une étoile. Réinitialiser la pose et essayer à "
 "nouveau."
 
-#: ekos/focus/focus.cpp:3360
+#: ekos/focus/focus.cpp:3361
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Incapable de lancer l'exécution %1 de l'inspecteur d'aberration…"
 
-#: ekos/focus/focus.cpp:3380
+#: ekos/focus/focus.cpp:3381
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Exécution %1 de l'inspecteur d'aberration…"
 
-#: ekos/focus/focus.cpp:3406
+#: ekos/focus/focus.cpp:3407
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr ""
 "Démarrage du balayage pour déterminer la position initiale du moteur de mise "
 "au point."
 
-#: ekos/focus/focus.cpp:3407
+#: ekos/focus/focus.cpp:3408
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Balayage pour déterminer la position initiale…"
 
-#: ekos/focus/focus.cpp:3429
+#: ekos/focus/focus.cpp:3430
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Échec de la détection d'étoiles. Abandon…"
 
-#: ekos/focus/focus.cpp:3438
+#: ekos/focus/focus.cpp:3439
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Position initiale du balayage : maximum d'itérations %1 atteint"
 
-#: ekos/focus/focus.cpp:3456
+#: ekos/focus/focus.cpp:3457
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Balayage pour déterminer la position initiale %1/%2"
 
-#: ekos/focus/focus.cpp:3470
+#: ekos/focus/focus.cpp:3471
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Aucun minimum de balayage - élargissement de la recherche…"
 
-#: ekos/focus/focus.cpp:3483
+#: ekos/focus/focus.cpp:3484
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Position initiale %1 trouvée"
 
-#: ekos/focus/focus.cpp:3484
+#: ekos/focus/focus.cpp:3485
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Position initiale %1 trouvée"
 
-#: ekos/focus/focus.cpp:3553
+#: ekos/focus/focus.cpp:3554
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr ""
 "Échec de la régression de la courbe R2=%1 focusR2Limit=%2, nouvel essai…"
 
-#: ekos/focus/focus.cpp:3555
+#: ekos/focus/focus.cpp:3556
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R²=%1 < Limite=%2"
 
-#: ekos/focus/focus.cpp:3563
+#: ekos/focus/focus.cpp:3564
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "La régression de la courbe a échoué à nouveau R2=%1 focusR2Limit=%2, mais "
 "poursuite…"
 
-#: ekos/focus/focus.cpp:3573
+#: ekos/focus/focus.cpp:3574
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Abandon de l'algorithme de mise au point automatique linéaire : %1"
 
-#: ekos/focus/focus.cpp:3608
+#: ekos/focus/focus.cpp:3609
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "Image FITS reçue. HFR = %1 @ %2. Delta (%3%)"
 
-#: ekos/focus/focus.cpp:3610
+#: ekos/focus/focus.cpp:3611
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "Image FITS reçue. HFR = %1 @ %2"
 
-#: ekos/focus/focus.cpp:3671
+#: ekos/focus/focus.cpp:3672
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19472,26 +19472,26 @@ msgstr ""
 "Le changement de HFR est trop petit. Essayez d'augmenter la taille de pas ou "
 "de diminuer la tolérance."
 
-#: ekos/focus/focus.cpp:3678
+#: ekos/focus/focus.cpp:3679
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr ""
 "Impossible de détecter une étoile focalisée dans l'image. Acquérir une image "
 "et sélectionner une étoile à focaliser."
 
-#: ekos/focus/focus.cpp:3783
+#: ekos/focus/focus.cpp:3784
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "Solution polynomiale trouvée @ %1"
 
-#: ekos/focus/focus.cpp:3847
+#: ekos/focus/focus.cpp:3848
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Le moteur de mise au point ne peut aller plus loin. Les limites du "
 "périphérique sont atteintes. La mise au point automatique est abandonnée."
 
-#: ekos/focus/focus.cpp:3858
+#: ekos/focus/focus.cpp:3859
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -19499,22 +19499,22 @@ msgstr ""
 "Fluctuations instables. Veuillez essayer d'augmenter la taille initiale du "
 "pas ou le temps d'exposition."
 
-#: ekos/focus/focus.cpp:3868
+#: ekos/focus/focus.cpp:3869
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Impasse ! Veuillez essayer à nouveau avec des paramètres différents."
 
-#: ekos/focus/focus.cpp:3897
+#: ekos/focus/focus.cpp:3898
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr "Limite maximale de course atteinte. Mise au point interrompue."
 
-#: ekos/focus/focus.cpp:4004
+#: ekos/focus/focus.cpp:4005
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "Image FITS reçue. HFR = %1. Delta (%2 %) Min HFR (%3)"
 
-#: ekos/focus/focus.cpp:4008
+#: ekos/focus/focus.cpp:4009
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19522,116 +19522,116 @@ msgstr ""
 "La mise au point automatique n'a pas réussi à atteindre une mise au point "
 "correcte. Essayez d'ajuster la valeur de tolérance."
 
-#: ekos/focus/focus.cpp:4103 ekos/focus/focus.cpp:4126
-#: ekos/focus/focus.cpp:4301 ekos/focus/focus.cpp:4384
-#: ekos/focus/focus.cpp:4456 ekos/focus/focus.cpp:4531
+#: ekos/focus/focus.cpp:4104 ekos/focus/focus.cpp:4127
+#: ekos/focus/focus.cpp:4302 ekos/focus/focus.cpp:4385
+#: ekos/focus/focus.cpp:4457 ekos/focus/focus.cpp:4532
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Erreur de mise au point, vérifiez le panneau INDI."
 
-#: ekos/focus/focus.cpp:4187 ekos/focus/focus.cpp:4317
+#: ekos/focus/focus.cpp:4188 ekos/focus/focus.cpp:4318
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Échec de la simulation de la mise au point automatique…"
 
-#: ekos/focus/focus.cpp:4278 ekos/focus/focus.cpp:4365
-#: ekos/focus/focus.cpp:4437 ekos/focus/focus.cpp:4478
+#: ekos/focus/focus.cpp:4279 ekos/focus/focus.cpp:4366
+#: ekos/focus/focus.cpp:4438 ekos/focus/focus.cpp:4479
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Nouveau démarrage du processus de mise au point automatique…"
 
-#: ekos/focus/focus.cpp:4572
+#: ekos/focus/focus.cpp:4573
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Démarrage de l'exposition en continue…"
 
-#: ekos/focus/focus.cpp:4882
+#: ekos/focus/focus.cpp:4884
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Désactivation de la sélection automatique d'étoiles car la boîte de dialogue "
 "de sélection d'étoiles a été déplacée manuellement."
 
-#: ekos/focus/focus.cpp:4888
+#: ekos/focus/focus.cpp:4890
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Une étoile à focaliser est sélectionnée."
 
-#: ekos/focus/focus.cpp:4890
+#: ekos/focus/focus.cpp:4892
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "Une région d'intérêt est sélectionnée."
 
-#: ekos/focus/focus.cpp:4910
+#: ekos/focus/focus.cpp:4912
 #, kde-format
 msgid "Autofocus"
 msgstr "Mise au point automatique"
 
-#: ekos/focus/focus.cpp:4918
+#: ekos/focus/focus.cpp:4920
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Vérification de la requête de la mise au point automatique - 10 secondes "
 "d'attente pour que %1 soit terminé."
 
-#: ekos/focus/focus.cpp:4926
+#: ekos/focus/focus.cpp:4928
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr ""
 "Rejet de la vérification de la requête de la mise au point automatique - %1 "
 "en cours"
 
-#: ekos/focus/focus.cpp:4939
+#: ekos/focus/focus.cpp:4941
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 "Vérification de la mise au point ignorée - la mesure de l'étoile doit être "
 "fondée sur une étoile"
 
-#: ekos/focus/focus.cpp:4944
+#: ekos/focus/focus.cpp:4946
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "Acquisition d'une image pour vérification du HFR…"
 
-#: ekos/focus/focus.cpp:5074
+#: ekos/focus/focus.cpp:5076
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Aucune étoile détectée. Utilisation de la dernière position connue…"
 
-#: ekos/focus/focus.cpp:5080
+#: ekos/focus/focus.cpp:5082
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Aucune étoile sélectionnée. Annulation…"
 
-#: ekos/focus/focus.cpp:5091
+#: ekos/focus/focus.cpp:5093
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Le moteur de mise au point se trouve déjà à la position %1…"
 
-#: ekos/focus/focus.cpp:5190
+#: ekos/focus/focus.cpp:5192
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Requête d'ajustement de la mise au point - 10 secondes d'attente pour que %1 "
 "soit terminé."
 
-#: ekos/focus/focus.cpp:5224
+#: ekos/focus/focus.cpp:5226
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Pose de mise au point"
 
-#: ekos/focus/focus.cpp:5610
+#: ekos/focus/focus.cpp:5612
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Impossible d'enregistrer une image. Annulation en cours…"
 
-#: ekos/focus/focus.cpp:5625 ekos/focus/focus.cpp:5650
+#: ekos/focus/focus.cpp:5627 ekos/focus/focus.cpp:5652
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Échec de l'exposition. Annulation…"
 
-#: ekos/focus/focus.cpp:5942
+#: ekos/focus/focus.cpp:5944
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
