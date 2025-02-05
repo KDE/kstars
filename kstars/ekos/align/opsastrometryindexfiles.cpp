@@ -153,6 +153,79 @@ void OpsAstrometryIndexFiles::removeDirectoryFromList(QString directory)
     }
 }
 
+void OpsAstrometryIndexFiles::downloadSingleIndexFile(const QString &indexFileName)
+{
+    QStringList astrometryDataDirs = Options::astrometryIndexFolderList();
+    if (astrometryDataDirs.isEmpty())
+    {
+        KSNotification::sorry(i18n("No index file directories configured."), i18n("Error"), 10);
+        return;
+    }
+
+    // Skip first directory if it's "All Sources"
+    if (astrometryDataDirs.count() > 1)
+        astrometryDataDirs.removeFirst();
+
+    // Check if file exists in any directory
+    for (const QString &dir : astrometryDataDirs)
+    {
+        QDir directory(dir);
+        if (directory.exists())
+        {
+            if (fileCountMatches(directory, indexFileName))
+            {
+                return;
+            }
+        }
+    }
+
+    QString astrometryDataDir = findFirstWritableDir();
+    if (astrometryDataDir.isEmpty())
+    {
+        KSNotification::sorry(i18n("No writable index file directory found."), i18n("Error"), 10);
+        return;
+    }
+
+    if (!astrometryIndicesAreAvailable())
+    {
+        KSNotification::sorry(i18n("Could not contact Astrometry Index Server."), i18n("Error"), 10);
+        return;
+    }
+
+    QString BASE_URL;
+    if (indexURL->text().endsWith("/"))
+        BASE_URL = indexURL->text();
+    else
+        BASE_URL = indexURL->text() + "/";
+
+    QString URL;
+    if (indexFileName.startsWith(QLatin1String("index-41")))
+        URL = BASE_URL + "4100/" + indexFileName;
+    else if (indexFileName.startsWith(QLatin1String("index-42")))
+        URL = BASE_URL + "4200/" + indexFileName;
+    else if (indexFileName.startsWith(QLatin1String("index-52")))
+        URL = "https://portal.nersc.gov/project/cosmo/temp/dstn/index-5200/LITE/" + indexFileName;
+    else
+        return;
+
+    QString filePath = astrometryDataDir + '/' + indexFileName;
+    QString fileNumString = indexFileName.mid(8, 2);
+
+    // Find the checkbox for this index series
+    QString indexName = indexFileName;
+    indexName.replace('-', '_');
+    indexName = indexName.left(10);
+    QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
+    if (!indexCheckBox)
+        return;
+
+    double fileSize = 1E11 * qPow(astrometryIndex.key(fileNumString), -1.909);
+    downloadIndexFile(URL, filePath, indexFileName, 0, 0, fileSize);
+
+    // Update UI after download completes
+    slotUpdate();
+}
+
 void OpsAstrometryIndexFiles::slotUpdate()
 {
     QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
@@ -359,7 +432,7 @@ bool OpsAstrometryIndexFiles::astrometryIndicesAreAvailable()
     return wasSuccessful;
 }
 
-void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QString &fileN, QCheckBox *checkBox,
+void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QString &fileN, const QString &indexSeriesName,
         int currentIndex, int maxIndex, double fileSize)
 {
     QElapsedTimer downloadTime;
@@ -369,13 +442,16 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
     if (currentIndex < 10)
         indexString = '0' + indexString;
 
-    QString indexSeriesName             = checkBox->text().remove('&');
-    QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(indexSeriesName.replace('-', '_').left(10) + "_progress");
-    QLabel *indexDownloadInfo           = findChild<QLabel *>(indexSeriesName.replace('-', '_').left(10) + "_info");
-    QPushButton *indexDownloadCancel    = findChild<QPushButton *>(indexSeriesName.replace('-', '_').left(10) + "_cancel");
-    QLabel *indexDownloadPerc    = findChild<QLabel *>(indexSeriesName.replace('-', '_').left(10) + "_perc");
+    QString uiIndexName = indexSeriesName;
+    uiIndexName.replace('-', '_');
+    uiIndexName = uiIndexName.left(10);
 
-    setDownloadInfoVisible(indexSeriesName, checkBox, true);
+    QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(uiIndexName + "_progress");
+    QLabel *indexDownloadInfo = findChild<QLabel *>(uiIndexName + "_info");
+    QPushButton *indexDownloadCancel = findChild<QPushButton *>(uiIndexName + "_cancel");
+    QLabel *indexDownloadPerc = findChild<QLabel *>(uiIndexName + "_perc");
+
+    setDownloadInfoVisible(indexSeriesName, true);
 
     if(indexDownloadInfo)
     {
@@ -434,7 +510,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
             response->abort();
             response->deleteLater();
         }
-        setDownloadInfoVisible(indexSeriesName, checkBox, false);
+        setDownloadInfoVisible(indexSeriesName, false);
     });
     timeoutTimer.start(timeout);
 
@@ -450,7 +526,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
             response->abort();
             response->deleteLater();
         }
-        setDownloadInfoVisible(indexSeriesName, checkBox, false);
+        setDownloadInfoVisible(indexSeriesName, false);
     });
 
     *replyConnection = connect(response, &QNetworkReply::finished, this,
@@ -460,7 +536,7 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
         if(response)
         {
             disconnectDownload(cancelConnection, replyConnection, percentConnection);
-            setDownloadInfoVisible(indexSeriesName, checkBox, false);
+            setDownloadInfoVisible(indexSeriesName, false);
             response->deleteLater();
             if (response->error() != QNetworkReply::NoError)
             {
@@ -507,19 +583,21 @@ void OpsAstrometryIndexFiles::downloadIndexFile(const QString &URL, const QStrin
                 slotUpdate();
             }
             else
-                downloadIndexFile(URL, fileN, checkBox, currentIndex + 1, maxIndex, fileSize);
+                downloadIndexFile(URL, fileN, indexSeriesName, currentIndex + 1, maxIndex, fileSize);
         }
     });
 }
 
-void OpsAstrometryIndexFiles::setDownloadInfoVisible(QString indexSeriesName, QCheckBox *checkBox, bool set)
+void OpsAstrometryIndexFiles::setDownloadInfoVisible(const QString &indexSeriesName, bool set)
 {
-    Q_UNUSED(checkBox);
+    QString uiIndexName = indexSeriesName;
+    uiIndexName.replace('-', '_');
+    uiIndexName = uiIndexName.left(10);
 
-    QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(indexSeriesName.replace('-', '_').left(10) + "_progress");
-    QLabel *indexDownloadInfo           = findChild<QLabel *>(indexSeriesName.replace('-', '_').left(10) + "_info");
-    QPushButton *indexDownloadCancel    = findChild<QPushButton *>(indexSeriesName.replace('-', '_').left(10) + "_cancel");
-    QLabel *indexDownloadPerc          = findChild<QLabel *>(indexSeriesName.replace('-', '_').left(10) + "_perc");
+    QProgressBar *indexDownloadProgress = findChild<QProgressBar *>(uiIndexName + "_progress");
+    QLabel *indexDownloadInfo = findChild<QLabel *>(uiIndexName + "_info");
+    QPushButton *indexDownloadCancel = findChild<QPushButton *>(uiIndexName + "_cancel");
+    QLabel *indexDownloadPerc = findChild<QLabel *>(uiIndexName + "_perc");
     if (indexDownloadProgress)
         indexDownloadProgress->setVisible(set);
     if (indexDownloadInfo)
@@ -548,7 +626,18 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
         return;
 
     QString astrometryDataDir = indexLocations->currentText();
-    if(!QFileInfo::exists(astrometryDataDir))
+
+    // If "All Sources" is selected, find first writable directory
+    if (indexLocations->currentIndex() == 0 && indexLocations->count() > 1)
+    {
+        astrometryDataDir = findFirstWritableDir();
+        if (astrometryDataDir.isEmpty())
+        {
+            KSNotification::sorry(i18n("No writable index file directory found."), i18n("Error"), 10);
+            return;
+        }
+    }
+    else if (!QFileInfo::exists(astrometryDataDir))
     {
         KSNotification::sorry(
             i18n("The selected Index File directory does not exist. Please either create it or choose another."), i18n("Sorry"), 10);
@@ -603,7 +692,7 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
                                               -1.909); //This estimates the file size based on skymark size obtained from the index number.
                 if(maxIndex != 0)
                     fileSize /= maxIndex; //FileSize is divided between multiple files for some index series.
-                downloadIndexFile(URL, filePath, checkBox, 0, maxIndex, fileSize);
+                downloadIndexFile(URL, filePath, indexSeriesName, 0, maxIndex, fileSize);
             }
             else
             {
@@ -644,5 +733,26 @@ void OpsAstrometryIndexFiles::downloadOrDeleteIndexFiles(bool checked)
             }
         }
     }
+}
+
+QString OpsAstrometryIndexFiles::findFirstWritableDir()
+{
+    QStringList astrometryDataDirs = Options::astrometryIndexFolderList();
+    if (astrometryDataDirs.isEmpty())
+        return QString();
+
+    // Skip first directory if it's "All Sources"
+    if (astrometryDataDirs.count() > 1)
+        astrometryDataDirs.removeFirst();
+
+    // Find first writable directory
+    for (const QString &dir : astrometryDataDirs)
+    {
+        QFileInfo dirInfo(dir);
+        if (dirInfo.exists() && dirInfo.isWritable())
+            return dir;
+    }
+
+    return QString();
 }
 }
