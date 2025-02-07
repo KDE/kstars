@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-06 01:52+0000\n"
-"PO-Revision-Date: 2025-01-28 12:07+0100\n"
+"PO-Revision-Date: 2025-02-06 11:37+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8563,13 +8563,13 @@ msgstr "Gebruik differentieel draaien in plaats van syncen"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #, kde-format
 msgid "No index file directories configured."
-msgstr ""
+msgstr "Geen mappen voor indexbestanden geconfigureerd."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "No writable index file directory found."
-msgstr ""
+msgstr "Geen beschrijfbare map voor indexbestand gevonden."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:699

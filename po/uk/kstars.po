@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-06 01:52+0000\n"
-"PO-Revision-Date: 2025-01-28 10:00+0200\n"
+"PO-Revision-Date: 2025-02-06 08:45+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -8588,13 +8588,13 @@ msgstr "Використовувати диференціальне наведе
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #, kde-format
 msgid "No index file directories configured."
-msgstr ""
+msgstr "Не налаштовано каталогів файлів покажчика."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "No writable index file directory found."
-msgstr ""
+msgstr "Не знайдено придатних до запису каталогів файлів покажчика."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:699

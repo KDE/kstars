@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-06 01:52+0000\n"
-"PO-Revision-Date: 2025-01-29 16:42+0100\n"
+"PO-Revision-Date: 2025-02-06 18:29+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -8524,13 +8524,13 @@ msgstr "Använd differentiell förflyttning istället för synkronisering"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #, kde-format
 msgid "No index file directories configured."
-msgstr ""
+msgstr "Inga kataloger för indexfiler inställda."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "No writable index file directory found."
-msgstr ""
+msgstr "Ingen skrivbar katalog för indexfiler hittades."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:699

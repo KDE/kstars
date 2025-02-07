@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-06 01:52+0000\n"
-"PO-Revision-Date: 2025-01-29 12:52+0100\n"
+"PO-Revision-Date: 2025-02-06 11:11+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -8601,13 +8601,15 @@ msgstr "Usar desplazamiento diferencial en lugar de sincronizar"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #, kde-format
 msgid "No index file directories configured."
-msgstr ""
+msgstr "No se han configurado directorios de archivos de índice."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "No writable index file directory found."
 msgstr ""
+"No se ha encontrado ningún directorio de archivos de índice con permisos de "
+"escritura."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:699
