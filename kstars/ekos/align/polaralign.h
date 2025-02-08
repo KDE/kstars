@@ -92,7 +92,10 @@ class PolarAlign
 
         // Returns the mount's azimuth and altitude error given the known geographic location
         // and the azimuth center and altitude center computed in findAxis().
+        // The first version uses the internal variables azimuthCenter & altitudeCenter as the 
+        // calculated axis, and the 2nd takes new values as inputs.
         void calculateAzAltError(double *azError, double *altError) const;
+        void calculateAzAltErrorFromAzAlt(double *azError, double *altError, double az, double alt) const;
 
         // Given the current axis, fill in azError and altError with the polar alignment
         // error, if a star at location pixel were move in the camera view to pixel2.

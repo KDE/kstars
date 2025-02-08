@@ -26,6 +26,19 @@ struct Solution
     int year, month, day, hour, minute, second;
 };
 
+struct RefreshSolution
+{
+    double azErr, altErr;
+    double azAdj, altAdj;
+};
+
+namespace
+{
+void runRefreshCoords(const QVector<Solution> &ps,
+                      const QVector<RefreshSolution> &refreshSolutions,
+                      const QVector<Solution> &rs);
+}
+
 // A set of 3 solutions for the polar alignment.
 struct PaaData
 {
@@ -205,6 +218,7 @@ void runPAA(const GeoLocation &geo, const PaaData &data, bool eastToTheRight = t
 
 void TestPolarAlign::testRunPAA()
 {
+    Options::setUseRefraction(false);
     const GeoLocation siliconValley(dms(-122, 10), dms(37, 26, 30));
     const GeoLocation dallas(dms(-96, 49), dms(32, 46, 45));
     const GeoLocation kuwait(dms(47, 59), dms(29, 22, 43));
@@ -594,55 +608,72 @@ void TestPolarAlign::testRunPAA()
         {215.61283, -50.20872, 39.26446, 0.75801, 2022, 04, 07, 20, 03, 37},
         1924, 1452, -1, -1
     });
+    Options::setUseRefraction(true);
 }
-
-struct RefreshSolution
-{
-    double azErr, altErr;
-    double azAdj, altAdj;
-};
 
 void TestPolarAlign::testRefreshCoords()
 {
     const GeoLocation siliconValley(dms(-122, 10), dms(37, 26, 30));
 
     // Taken from the 5/29 log. Times are UTC, so Pacific + 7.
-    Solution p1 = {211.174, 60.8994, 69.66035, 0.39157, 2022, 5, 30, 5, 11, 11 };
-    Solution p2 = {233.324, 60.632,  69.66035, 0.39157, 2022, 5, 30, 5, 11, 34 };
-    Solution p3 = {254.451, 60.3434, 69.66035, 0.39157, 2022, 5, 30, 5, 11, 57 };
+    Solution p1 = { 211.174, 60.8994, 69.66035, 0.39157, 2022, 5, 30, 5, 11, 11 };
+    Solution p2 = { 233.324, 60.632, 69.66035, 0.39157, 2022, 5, 30, 5, 11, 34 };
+    Solution p3 = { 254.451, 60.3434, 69.66035, 0.39157, 2022, 5, 30, 5, 11, 57 };
 
-    QVector<Solution> ps = {p1, p2, p3};
+    QVector<Solution> ps = { p1, p2, p3 };
 
     // right at start Estimated current adjustment: Az 0.0' Alt 0.0' residual 4a-s"
-    Solution r1 =  {254.454,  60.346, 0, 0.391548, 2022, 5, 30, 5, 13, 3 };
+    Solution r1 = { 254.454, 60.346, 0, 0.391548, 2022, 5, 30, 5, 13, 3 };
     // refresh 25, Estimated current adjustment: Az 0.0' Alt -28.0' residual 23a-s"
-    Solution r2 =  {253.841,  60.054, 0, 0.391548, 2022, 5, 30, 5, 14, 31 };
+    Solution r2 = { 253.841, 60.054, 0, 0.391548, 2022, 5, 30, 5, 14, 31 };
     // refresh 26, Estimated current adjustment: Az 0.0' Alt -28.0' residual 26a-s"
-    Solution r3 =  {253.842,  60.054, 0, 0.391548, 2022, 5, 30, 5, 14, 34 };
+    Solution r3 = { 253.842, 60.054, 0, 0.391548, 2022, 5, 30, 5, 14, 34 };
 
     // refresh 27, Estimated current adjustment: Az 11.0' Alt -23.0' residual 220a-s"
-    Solution r4 =  {253.769,  60.207, 0, 0.391548, 2022, 5, 30, 5, 14, 48 };
+    Solution r4 = { 253.769, 60.207, 0, 0.391548, 2022, 5, 30, 5, 14, 48 };
     // refresh 28, Estimated current adjustment: Az 10.0' Alt -22.0' residual 265a-s"
-    Solution r5 =  {253.769,  60.206, 0, 0.391548, 2022, 5, 30, 5, 14, 52 };
+    Solution r5 = { 253.769, 60.206, 0, 0.391548, 2022, 5, 30, 5, 14, 52 };
     // refresh 29, Estimated current adjustment: Az 17.0' Alt -19.0' residual 409a-s"
-    Solution r6 =  {253.724,  60.297, 0, 0.391548, 2022, 5, 30, 5, 15, 2 };
+    Solution r6 = { 253.724, 60.297, 0, 0.391548, 2022, 5, 30, 5, 15, 2 };
     // refresh 36, Estimated current adjustment: Az 27.0' Alt -15.0' residual 607a-s"
-    Solution r7 =  {253.656,  60.429, 0, 0.391548, 2022, 5, 30, 5, 15, 28 };
+    Solution r7 = { 253.656, 60.429, 0, 0.391548, 2022, 5, 30, 5, 15, 28 };
 
-    QVector<Solution> rs = {r1, r2, r3, r4, r5, r6, r7};
-
-    QVector<RefreshSolution> refreshSolutions =
-    {
+    QVector<Solution> rs                                = { r1, r2, r3, r4, r5, r6, r7 };
+    QVector<RefreshSolution> refreshSolutionsRefraction = {
         // az error| alt error| az adjust | alt adjust
-        { 0.629487, -0.469193, -0.000067, 0.001065 },
-        { 0.707756, -0.075023,  0.078280, 0.395236},
-        { 0.709591, -0.076599,  0.080115, 0.393659},
-        { 0.534866, -0.147954, -0.094609, 0.322305},
-        { 0.537361, -0.148551, -0.092115, 0.321708},
-        { 0.432694, -0.190294, -0.196782, 0.279964},
-        { 0.282837, -0.252307, -0.346639, 0.217952}
+        { 0.630721, -0.455916, -0.000036, 0.001041 },
+        { 0.709075, -0.061926, 0.078317, 0.395031 },
+        { 0.710912, -0.063503, 0.080155, 0.393454 },
+        { 0.536222, -0.134853, -0.094535, 0.322104 },
+        { 0.538719, -0.135451, -0.092038, 0.321506 },
+        { 0.434074, -0.177192, -0.196683, 0.279764 },
+        { 0.284254, -0.239206, -0.346503, 0.217751 }
     };
 
+    QVector<RefreshSolution> refreshSolutionsNoRefraction = {
+        // az error| alt error| az adjust | alt adjust
+        { 0.629487, -0.469193, -0.000067, 0.001065 },
+        { 0.707756, -0.075023, 0.078280, 0.395236 },
+        { 0.709591, -0.076599, 0.080115, 0.393659 },
+        { 0.534866, -0.147954, -0.094609, 0.322305 },
+        { 0.537361, -0.148551, -0.092115, 0.321708 },
+        { 0.432694, -0.190294, -0.196782, 0.279964 },
+        { 0.282837, -0.252307, -0.346639, 0.217952 }
+    };
+
+    Options::setUseRefraction(false);
+    runRefreshCoords(ps, refreshSolutionsNoRefraction, rs);
+    Options::setUseRefraction(true);
+    runRefreshCoords(ps, refreshSolutionsRefraction, rs);
+}
+
+namespace
+{
+void runRefreshCoords(const QVector<Solution> &ps,
+                      const QVector<RefreshSolution> &refreshSolutions,
+                      const QVector<Solution> &rs)
+{
+    const GeoLocation siliconValley(dms(-122, 10), dms(37, 26, 30));
 
     PolarAlign polarAlign(&siliconValley);
     foreach (const Solution &p, ps)
@@ -669,7 +700,8 @@ void TestPolarAlign::testRefreshCoords()
         SkyPoint solution;
         SkyPoint refreshPoint(r.ra / 15.0, r.dec);
         double azErr, altErr, azAdjustment, altAdjustment;
-        polarAlign.processRefreshCoords(refreshPoint, newTime, &azErr, &altErr, &azAdjustment, &altAdjustment);
+        polarAlign.processRefreshCoords(refreshPoint, newTime, &azErr, &altErr,
+                                        &azAdjustment, &altAdjustment);
 
         constexpr double smallError = .01;
         QVERIFY(fabs(azErr - refreshSolutions[i].azErr) < smallError);
@@ -679,6 +711,7 @@ void TestPolarAlign::testRefreshCoords()
         i++;
     }
 }
+} // namespace
 
 void TestPolarAlign::getAzAlt(const KStarsDateTime &time, const GeoLocation &geo,
                               const QPointF &pixel, double ra, double dec, double orientation,
