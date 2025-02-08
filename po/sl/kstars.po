@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-06 01:52+0000\n"
-"PO-Revision-Date: 2025-02-06 21:24+0100\n"
+"PO-Revision-Date: 2025-02-07 18:16+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Poedit 3.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -10623,7 +10623,7 @@ msgid "Reacquiring"
 msgstr "Ponovno zajemanje"
 
 #: ekos/analyze/analyze.cpp:3496 ekos/ekos.h:35 ekos/ekos.h:73
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dithering"
 msgstr "Stresanje"
 
@@ -10631,17 +10631,17 @@ msgstr "Stresanje"
 #: ekos/analyze/analyze.cpp:3498 ekos/ekos.h:36 ekos/guide/manualdither.ui:14
 #, kde-format
 msgid "Manual Dithering"
-msgstr "Ročno razprševanje"
+msgstr "Ročno stresanje"
 
 #: ekos/analyze/analyze.cpp:3500 ekos/ekos.h:37
 #, kde-format
 msgid "Dithering error"
-msgstr "Napaka razprševanja"
+msgstr "Napaka stresanja"
 
 #: ekos/analyze/analyze.cpp:3502 ekos/ekos.h:38
 #, kde-format
 msgid "Dithering successful"
-msgstr "Razprševanje uspešno"
+msgstr "Stresanje uspešno"
 
 #: ekos/analyze/analyze.cpp:3504 ekos/ekos.h:39
 #, kde-format
@@ -11701,7 +11701,7 @@ msgstr "(ΔT=%1)"
 #: ekos/auxiliary/buildfilteroffsets.cpp:615
 #, kde-format
 msgid "(%1 ticks)"
-msgstr "(%1 oznak)"
+msgstr "(%1 črtic)"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:614
 #, kde-format
@@ -12355,13 +12355,13 @@ msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
 "movement"
 msgstr ""
-"Število oznak na eno °C povečanja temperature. +ve za premikanje fokuserja "
+"Število črtic na eno °C povečanja temperature. +ve za premikanje fokuserja "
 "navzven"
 
 #: ekos/auxiliary/filtermanager.cpp:144
 #, kde-format
 msgid "Ticks / °C"
-msgstr "Oznake / °C"
+msgstr "Črtic / °C"
 
 #: ekos/auxiliary/filtermanager.cpp:147
 #, kde-format
@@ -12369,13 +12369,13 @@ msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
 "movement"
 msgstr ""
-"Število oznak na stopinjo povečanje višine. +ve za premikanje fokuserja "
+"Število črtic na stopinjo povečanje višine. +ve za premikanje fokuserja "
 "navzven"
 
 #: ekos/auxiliary/filtermanager.cpp:148
 #, kde-format
 msgid "Ticks / °Alt"
-msgstr "Oznake / °Viš."
+msgstr "Črtic / °Viš."
 
 #: ekos/auxiliary/filtermanager.cpp:150
 #, kde-format
@@ -12474,7 +12474,7 @@ msgstr "Čakanje …"
 #: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:413
 #, kde-format
 msgid "Dithering requested..."
-msgstr "Zahtevano je razprševanje..."
+msgstr "Zahtevano je stresanje..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -15941,29 +15941,29 @@ msgstr ""
 #: ekos/capture/camerastate.cpp:214
 #, kde-format
 msgid "Dithering succeeded."
-msgstr "Razprševanje uspešno."
+msgstr "Stresanje uspešno."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:221
 #, kde-format
 msgid "Dither complete. Resuming in %1 seconds..."
-msgstr "Razprševanje uspešno. Nadaljevanje po %1 sekundah…"
+msgstr "Stresanje uspešno. Nadaljevanje po %1 sekundah…"
 
 #: ekos/capture/camerastate.cpp:229
 #, kde-format
 msgid "Dither complete."
-msgstr "Razprševanje zaključeno."
+msgstr "Stresanje zaključeno."
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:243
 #, kde-format
 msgid "Warning: Dithering failed. Resuming in %1 seconds..."
-msgstr "Opozorilo: Razprševanje ni uspelo. Nadaljevanje po %1 sekundah…"
+msgstr "Opozorilo: Stresanje ni uspelo. Nadaljevanje po %1 sekundah…"
 
 #: ekos/capture/camerastate.cpp:252
 #, kde-format
 msgid "Warning: Dithering failed."
-msgstr "Opozorilo: Razprševanje ni uspelo."
+msgstr "Opozorilo: Stresanje ni uspelo."
 
 #: ekos/capture/camerastate.cpp:292
 #, kde-format
@@ -16310,7 +16310,7 @@ msgstr "Osvetlitev teme"
 #: ekos/capture/capturemodulestate.cpp:403
 #, kde-format
 msgid "Dithering..."
-msgstr "Razprševanje…"
+msgstr "Stresanje..."
 
 #: ekos/capture/capturepreviewwidget.cpp:185
 #, kde-format
@@ -16807,9 +16807,9 @@ msgid ""
 "number of frames for this job. Set to 0 to use global dither frequency.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Če je omogočeno globalno razprševanje, potem naj za to "
-"opravilo razprševanje poteka vsake toliko posnetkov. Nastavite na 0, da se "
-"uporabi globalna frekvenca razprševanja.</p></body></html>"
+"<html><head/><body><p>Če je omogočeno globalno stresanje, potem naj za to "
+"opravilo stresanja poteka vsake toliko posnetkov. Nastavite na 0, da se "
+"uporabi globalna frekvenca stresanja.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceGuideDeviation)
 #: ekos/capture/limits.ui:127
@@ -16842,7 +16842,7 @@ msgstr "zaporedno-krat"
 #: ekos/capture/limits.ui:170
 #, kde-format
 msgid "Dither per job every:"
-msgstr "Razprši na opravilo vsakih:"
+msgstr "Stresaj na opravilo vsakih:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusGroupBox)
 #: ekos/capture/limits.ui:190
@@ -17928,7 +17928,7 @@ msgstr "Rešitev"
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
 msgid "Delta (ticks)"
-msgstr "Delta (oznake)"
+msgstr "Delta (črtic)"
 
 #: ekos/focus/aberrationinspector.cpp:93
 #, kde-format
@@ -17958,7 +17958,7 @@ msgstr "Rešitev fokuserja"
 #: ekos/focus/aberrationinspector.cpp:101
 #, kde-format
 msgid "Delta from central tile in ticks"
-msgstr "Delta od osrednjega dela v oznakah"
+msgstr "Delta od osrednjega dela v črticah"
 
 #: ekos/focus/aberrationinspector.cpp:102
 #, kde-format
@@ -20230,13 +20230,13 @@ msgid ""
 "movements initiated by the Focus module.</p><p>Typically either Focuser "
 "Backlash or AF Overscan is set.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zagotavlja povratno skeniranje v oznakah za "
-"navzvenpremikanje fokusiranja med samodejnim fokusiranjem. To je poleg "
-"katerega koli gonilnikazračnosti, ki ga zagotavlja gonilnik naprave in je "
-"nastavljen v polju zračnost gonilnika.Nastavite na 0, da onemogočite. </"
-"p><p>Če je nastavljeno, se AF Overscan uporabi za vse fokuserjepremike, ki "
-"jih sproži modul Focus.</p><p>Običajno je nastavljen bodisi zračnost "
-"fokuserja ali AF Overscan.</p></body></html>"
+"<html><head/><body><p>Zagotavlja povratno skeniranje v črticah za navzven "
+"premikanje fokusiranja med samodejnim fokusiranjem. To je poleg katerega "
+"koli gonilnika zračnosti, ki ga zagotavlja gonilnik naprave in je nastavljen "
+"v polju zračnost gonilnika.Nastavite na 0, da onemogočite. </p><p>Če je "
+"nastavljeno, se AF Overscan uporabi za vse fokuserje premike, ki jih sproži "
+"modul Focus.</p><p>Običajno je nastavljen bodisi zračnost fokuserja ali AF "
+"Overscan.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
 #: ekos/focus/opsfocusmechanics.ui:185
@@ -20302,7 +20302,7 @@ msgid ""
 "or outward</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\" font-weight:600;\">Začetna velikost "
-"koraka</span> v oznakah, da povzroči opazno spremembo vrednosti OKO. Za "
+"koraka</span> v črticah, da povzroči opazno spremembo vrednosti OKO. Za "
 "fokuser na podlagi časovnika je začetni čas v milisekundah za premik "
 "fokuserja navznoter ali navzven</p></body></html>"
 
@@ -21259,7 +21259,7 @@ msgstr "slik. točke"
 #: ekos/focus/opsfocussettings.ui:234
 #, kde-format
 msgid "Arc Seconds"
-msgstr "ločne sekunde"
+msgstr "Ločne sekunde"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:260
@@ -21379,7 +21379,7 @@ msgstr ""
 #: ekos/focus/opsfocussettings.ui:478 ekos/focus/opsfocussettings.ui:503
 #, kde-format
 msgid " ticks"
-msgstr " oznak"
+msgstr " črtic"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMaxMove)
 #: ekos/focus/opsfocussettings.ui:500
@@ -21423,14 +21423,15 @@ msgstr "Najmanjši premik:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/opsfocussettings.ui:563
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
 "the Adaptive Focus settings. This is an experimental feature.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Pred zajemom nastavite kot ciljnega položaja.</p></"
-"body></html>"
+"<html><head/><body><p>Prilagodi začetni položaj samodejnega fokusiranja "
+"glede na nastavitve filtra in prilagodljivega fokusiranja. To je "
+"eksperimentalna zmožnost.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
 #: ekos/focus/opsfocussettings.ui:566
@@ -21527,13 +21528,12 @@ msgstr "Ni bilo mogoče dobiti drsenja rekt./dekl."
 #: ekos/guide/externalguide/linguider.cpp:267
 #, kde-format
 msgid "Failed to set dither range."
-msgstr "Območja razprševanja ni bilo mogoče nastaviti."
+msgstr "Območja stresanja ni bilo mogoče nastaviti."
 
 #: ekos/guide/externalguide/phd2.cpp:135
-#, fuzzy, kde-format
+#, kde-format
 msgid "PHD2: There was no dithering response from PHD2, but continue guiding."
-msgstr ""
-"PHD2: Ni bilo odvrajočega odziva iz PHD2, ampak nadaljujte s smernicami."
+msgstr "PHD2: Ni bilo tresočega odziva iz PHD2, ampak nadaljuj s vodenjem."
 
 #: ekos/guide/externalguide/phd2.cpp:151
 #, fuzzy, kde-format
@@ -21625,10 +21625,9 @@ msgid "PHD2: Settling failed (%1)."
 msgstr "PHD2: Poravnava ni uspela (%1)."
 
 #: ekos/guide/externalguide/phd2.cpp:433
-#, fuzzy, kde-format
+#, kde-format
 msgid "PHD2: There was a dithering error, but continue guiding."
-msgstr ""
-"PhD2: Prišlo je do napake pri stresanju, vendar nadaljujte s smernicami."
+msgstr "PhD2: Prišlo je do napake pri stresanju, vendar nadaljuj z vodenjem."
 
 #: ekos/guide/externalguide/phd2.cpp:442
 #, kde-format
@@ -21678,7 +21677,7 @@ msgstr "PHD2: Vodenje…čakanje na umiritev..."
 #: ekos/guide/externalguide/phd2.cpp:661
 #, kde-format
 msgid "PHD2: Dithering successful."
-msgstr "Razprševanje uspešno."
+msgstr "PHD2: Stresanje uspešno."
 
 #: ekos/guide/externalguide/phd2.cpp:667
 #, kde-format
@@ -21721,9 +21720,9 @@ msgid "PHD2: Looping Exposures."
 msgstr "PHD2: Ponavljanje osvetlitev."
 
 #: ekos/guide/externalguide/phd2.cpp:720
-#, fuzzy, kde-format
+#, kde-format
 msgid "PHD2: Dithering started."
-msgstr "PHD2: Začelo se je razprševanje."
+msgstr "PHD2: Začelo se je stresanje."
 
 #: ekos/guide/externalguide/phd2.cpp:748
 #, kde-format
@@ -21731,14 +21730,14 @@ msgid "PHD2: Calibration is cleared"
 msgstr "PHD2: Umerjanje je počiščeno."
 
 #: ekos/guide/externalguide/phd2.cpp:844
-#, fuzzy, kde-format
+#, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
-msgstr "PHD2: NAČIN VODNIKA DEC je nastavljen na: %1"
+msgstr "PHD2: Način vodnika DEC je nastavljen na: %1"
 
 #: ekos/guide/externalguide/phd2.cpp:854
-#, fuzzy, kde-format
+#, kde-format
 msgid "PHD2: Exposure Time set to: "
-msgstr "PHD2: Čas izpostavljenosti je nastavljen na: "
+msgstr "PHD2: Čas osvetlitve nastavi na:"
 
 #: ekos/guide/externalguide/phd2.cpp:862
 #, kde-format
@@ -21746,17 +21745,18 @@ msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Veljavni časi osvetlitev: Samodejno, "
 
 #: ekos/guide/externalguide/phd2.cpp:893
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
-"PHD2: Nastavite parametre CCD in teleskopa v PHD2, Merilo piksla ni veljavno."
+"PHD2: Nastavi parametre CCD in teleskopa v PHD2, merilo slikovnih pik je "
+"neveljavno."
 
 #: ekos/guide/externalguide/phd2.cpp:895
-#, fuzzy, kde-format
+#, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
-msgstr "PHD2: Razmerje sl. točk je %1 ločnih sekunnd na sl. točko"
+msgstr "PHD2: Merilo slikovnih pik je %1 ločna sekunda na slikovno piko"
 
 #: ekos/guide/externalguide/phd2.cpp:1010
 #, kde-format
@@ -21792,32 +21792,32 @@ msgstr "PHD2: Odklapljam opremo. . ."
 #: ekos/guide/guide.cpp:74 ekos/guide/opsdither.ui:102
 #, kde-format
 msgid "Dither"
-msgstr "Razprši"
+msgstr "Stresaj"
 
 #: ekos/guide/guide.cpp:78
-#, fuzzy, kde-format
+#, kde-format
 msgid "GPG RA Guider"
 msgstr "Vodnik GPG RA"
 
 #: ekos/guide/guide.cpp:425
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is not connected to Ekos.  The PHD2 Guide Star "
 "Image will be received, but the full external guide frames cannot."
 msgstr ""
-"Trenutna kamera PHD2: %1 ni povezana z ekosom.  Prejeli bomo sliko vodnika "
-"PHD2 Star, vendar popolnih zunanjih okvirjev vodnika ni mogoče."
+"Trenutna kamera PHD2: %1, ni povezana z Ekosom. Vodilna zvezda PHD2Slika bo "
+"prejeta, ne pa celotni zunanji vodilni okvirji."
 
 #: ekos/guide/guide.cpp:435
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "PHD2's current camera: %1, is connected to Ekos.  You can select whether to "
 "use the full external guide frames or just receive the PHD2 Guide Star Image "
 "using the SubFrame checkbox."
 msgstr ""
-"Trenutna kamera PHD2: %1, IS je povezana z Ekosom.  Izberete lahko, ali "
-"želite uporabiti polne zunanje okvirje vodnika ali pa samo prejeti sliko "
-"zvezde vodnika PHD2 s potrditvenim poljem SubFrame."
+"Trenutna kamera PHD2: %1 je povezana z Ekosom. Izberete lahko, ali "
+"želiteuporabiti polne okvirje zunanjih vodil ali samo prejeti sliko PHD2 "
+"vodilne zvezdez uporabo potrditvenega polja podposnetka."
 
 #: ekos/guide/guide.cpp:583
 #, kde-format
@@ -21835,14 +21835,14 @@ msgid "Exposure timeout, but suspended. Ignoring..."
 msgstr "Čas za osvetlitev je potekel, vendar je prekinjena. Prezrto bo …"
 
 #: ekos/guide/guide.cpp:1019
-#, fuzzy, kde-format
+#, kde-format
 msgid "Exposure timeout. Aborting Autoguide."
-msgstr "Časovna uganka izpostavljenosti. Ugašam Avtoguide."
+msgstr "Časovna omejitev osvetlitve. Prekinitev samodejnega vodenja."
 
 #: ekos/guide/guide.cpp:1021
-#, fuzzy, kde-format
+#, kde-format
 msgid "Exposure timeout. Aborting Dithering."
-msgstr "Časovna uganka izpostavljenosti. Prekinitev ditheringa."
+msgstr "Časovna omejitev osvetlitve. Prekinitev stresanja."
 
 #: ekos/guide/guide.cpp:1023
 #, kde-format
@@ -21856,10 +21856,9 @@ msgstr ""
 "Čas za osvetlitev je potekel. Preveč poskusov. Ponovno zaganjanje gonilnika."
 
 #: ekos/guide/guide.cpp:1299
-#, fuzzy, kde-format
+#, kde-format
 msgid "No camera detected. Check camera in optical trains."
-msgstr ""
-"Kamera ni zaznana. Preverite prilagoditev vlaka in nastavitve povezave."
+msgstr "Ni zaznane kamere. Preverite kamero v optiki."
 
 #: ekos/guide/guide.cpp:1305
 #, fuzzy, kde-format
@@ -21939,31 +21938,31 @@ msgstr "Vodenje v pripravljenosti."
 #: ekos/guide/guide.cpp:1697
 #, kde-format
 msgid "Manual dithering in progress."
-msgstr "Ročno razprševanje poteka."
+msgstr "Ročno stresanje v teku."
 
 #: ekos/guide/guide.cpp:1701
 #, kde-format
 msgid "Dithering in progress."
-msgstr "Razprševanje poteka."
+msgstr "Stresanje v teku."
 
 #: ekos/guide/guide.cpp:1705
 #, fuzzy, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
-msgstr[0] "Umirjanje po razprševanju za %1 sekund …"
-msgstr[1] "Umirjanje po razprševanju za %1 sekundo …"
-msgstr[2] "Umirjanje po razprševanju za %1 sekundi …"
-msgstr[3] "Umirjanje po razprševanju za %1 sekunde …"
+msgstr[0] "Umirjanje po stresanju za %1 sekund…"
+msgstr[1] "Umirjanje po stresanju za %1 sekund…"
+msgstr[2] "Umirjanje po stresanju za %1 sekund…"
+msgstr[3] "Umirjanje po stresanju za %1 sekund…"
 
 #: ekos/guide/guide.cpp:1710
 #, kde-format
 msgid "Dithering failed."
-msgstr "Razprševanje ni uspelo."
+msgstr "Stresanje ni uspelo."
 
 #: ekos/guide/guide.cpp:1721
 #, kde-format
 msgid "Dithering completed successfully."
-msgstr "Razprševanje se je uspešno zaključilo."
+msgstr "Stresanje se je uspešno zaključilo."
 
 #: ekos/guide/guide.cpp:1767
 #, fuzzy, kde-format
@@ -22079,7 +22078,7 @@ msgstr "Očisti podatke umerjanja."
 #: ekos/guide/guide.ui:217
 #, kde-format
 msgid "Manual Dither"
-msgstr "Ročno razprševanje"
+msgstr "Ročno stresanje"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:276
@@ -22739,18 +22738,18 @@ msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr "Smer DEC obrnjena (RA-DEC je zdaj standardni sistem v NSUK)."
 
 #: ekos/guide/internalguide/internalguider.cpp:539
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
-"Opozorilo: Dithering ni uspel. Autoguiding se nadaljuje, kot je določeno v "
-"možnostih v primeru okvare."
+"Opozorilo: Stresanje ni uspelo. Samovodenje se bo nadaljevalo, kot je "
+"nastavljeno v možnostihv primeru izpada stresanja."
 
 #: ekos/guide/internalguide/internalguider.cpp:609
 #, kde-format
 msgid "Warning: Manual Dithering failed."
-msgstr "Opozorilo: Ročno razprševanje ni uspelo."
+msgstr "Opozorilo: Ročno stresanje ni uspelo."
 
 #: ekos/guide/internalguide/internalguider.cpp:659
 #, kde-format
@@ -23096,33 +23095,33 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherSettle)
 #. i18n: ectx: label, entry (DitherSettle), group (Guide)
 #: ekos/guide/opsdither.ui:62 ekos/guide/opsdither.ui:147 kstars.kcfg:2942
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "After dither is successful, wait for this many seconds before proceeding."
-msgstr "Ko je dither uspešen, počakajte toliko sekund, preden nadaljujete."
+msgstr ""
+"Po tem ko je stresanje uspešno, počakaj toliko sekund pred nadaljevanjem."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/guide/opsdither.ui:65
 #, kde-format
 msgid "Settle"
-msgstr "Čakaj na umiritev"
+msgstr "Umiri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: ekos/guide/opsdither.ui:82
-#, fuzzy, kde-format
-#| msgid "Auto Threshold"
+#, kde-format
 msgid "PHD2 Dither Threshold"
-msgstr "Samodejni prag"
+msgstr "PHD2 prag stresanja"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherTimeout)
 #: ekos/guide/opsdither.ui:89
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum allowable distance for dithering to be "
 "considered settled (PHD2 only).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Najvišja meja višine teleskopa. Če je teleskop nad to "
-"mejo, bo zaustavljen.</p></body></html>"
+"<html><head/><body><p>Največja dovoljena razdalja, da tresenje velja za "
+"umirjeno (samo PHD2).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherEnabled)
 #: ekos/guide/opsdither.ui:99
@@ -23140,16 +23139,16 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/guide/opsdither.ui:140
-#, fuzzy, kde-format
+#, kde-format
 msgid "PHD2 Dither Timeout"
-msgstr "PhD2 Časovna dohodnost dither"
+msgstr "PHD2 Časovna omejitev stresanja"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherFrames)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_15)
 #: ekos/guide/opsdither.ui:157 ekos/guide/opsdither.ui:177
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dither after this many captured frames in the CCD module"
-msgstr "Dither po toliko ujetih okvirjev v CCD modulu"
+msgstr "Stresaj po tem številu zajetih posnetkov v modulu CCD"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/guide/opsdither.ui:180 fitsviewer/fitshistogram.cpp:431
@@ -23161,12 +23160,13 @@ msgstr "Frekvenca"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_3)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherMaxIterations)
 #: ekos/guide/opsdither.ui:187 ekos/guide/opsdither.ui:197
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Maximum dithering iteration attempts before giving up</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Največji poskusi ukinitve pred obupom</p></body></html>"
+"<html><head/><body><p>Največje število poskusov ponavljanja tresenja pred "
+"prenehanjem</p></telo></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/guide/opsdither.ui:190
@@ -23176,7 +23176,7 @@ msgstr "Največje število iteracij"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherWithOnePulse)
 #: ekos/guide/opsdither.ui:212
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked, dithering amount is randomly generated, "
 "pulses are sent, but the resultant pixel dithering amount is not enforced so "
@@ -23184,58 +23184,57 @@ msgid ""
 "dither amount is random anyway. It is necessary when 2-D dither is required "
 "but guiding is only done in one axis.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Če se preveri, se naključno ustvari količina "
-"diteringa, pošljejo se impulzi, vendar se rezultatska količina za ditering "
-"piksla ne izvrši tako, da se pošlje samo en dither impulz. To je hitreje, in "
-"priporoča kot znesek dither je naključna tako ali tako. Potrebno je, kadar "
-"je potrebna 2-D dither, vendar je vanje opravljeno samo v eni osi.</p></"
-"body></html>"
+"<html><head/><body><p>Če je odkljukano, je količina stresanja ustvarjena "
+"naključno,impulzi so poslani, vendar posledična količina stresanja slikovnih "
+"pik ni uveljavljena, poslan je samo en impulz za stresanje. To je hitreje in "
+"priporočljivo ker je količina stresanja tako ali tako naključna. To je "
+"potrebno, kadar je zahtevano 2-D stresanje, a se vodenje izvaja samo v eni "
+"osi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherWithOnePulse)
 #: ekos/guide/opsdither.ui:215
-#, fuzzy, kde-format
-#| msgid "Manual Dither"
+#, kde-format
 msgid "One Pulse Dither"
-msgstr "Ročno razprševanje"
+msgstr "Eno-pulzno stresanje"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherFailAbortsAutoGuide)
 #: ekos/guide/opsdither.ui:222
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked, autoguiding is aborted when dithering "
 "fails. Otherwise, guiding resumes normally.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Če je preverjanje odjavnjeno, se samodejno preklopi, "
-"ko ne uspe. V nasprotnem primeru se običajno nadaljuje s smernicami.</p></"
-"body></html>"
+"<html><head/><body><p>Če je odkljukano, je samodejno vodenje prekinjeno "
+"kadar tresenje ne uspe. Sicer se vodenje nadaljuje normalno.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherFailAbortsAutoGuide)
 #: ekos/guide/opsdither.ui:225
-#, fuzzy, kde-format
+#, kde-format
 msgid "Abort Autoguide on failure"
-msgstr "Prekini autoguide ob napaki"
+msgstr "Prekini samodejno vodenje ob napaki"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_DitherNoGuiding)
 #: ekos/guide/opsdither.ui:234
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Perform dithering when not guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Pri neusmerjanju opravite dithering.</p></body></html>"
+"<html><head/><body><p>Izvajaj tresenje, kadar ni vodenja.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DitherNoGuiding)
 #: ekos/guide/opsdither.ui:237
-#, fuzzy, kde-format
+#, kde-format
 msgid "Non-Guide Dither Pulse"
-msgstr "Pulz dither dither, ki ni vodnik"
+msgstr "Nevodilni impulz stresanja"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_DitherNoGuidingPulse)
 #: ekos/guide/opsdither.ui:244
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Pulse length in milliseconds to command mount motion in a random direction"
 msgstr ""
-"Dolžina impulza v milisekunah za vodenje gibanja nosilca v naključni smeri"
+"Dolžina impulza v milisekundah za ukaz gibanja montaže v naključni smeri"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/guide/opsdither.ui:260
@@ -25931,12 +25930,13 @@ msgstr ""
 "uporabljati, namestite ustrezni gonilnik.<nobr/></nobr>"
 
 #: ekos/profileeditor.cpp:541
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<nobr><b>Label</b>: %1 &#9473; <b>Driver</b>: %2 &#9473; <b>Exec</b>: "
 "%3<nobr/>"
 msgstr ""
-"<nobr>Oznaka<b>: %</b>1 ━ <b>gonilnik</b>: %2 ━ <b>Exec</b>: %3<nobr/></nobr>"
+"<nobr><b>Oznaka</b>: %1 &#9473; <b>Gonilnik</b>: %2 &#9473; <b>Exec</b>: "
+"%3<nobr/>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, guideTypeCombo)
 #: ekos/profileeditor.cpp:696 ekos/profileeditor.ui:369
@@ -26770,14 +26770,14 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useJoystickCheck)
 #: ekos/profilewizard.ui:1045
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use INDI Joystick driver to enable control of mounts, "
 "domes, and focusers with any compatible game pad.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Uporabite gonilnik INDI Joystick, da omogočite nadzor "
-"nad nosilci, domes in focuserji s katero koli združljivo igralno podlogo.</"
-"p></body></html>"
+"nad montažami, kupolami in fokuserji s katero koli združljivo igralno "
+"podlogo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useJoystickCheck)
 #: ekos/profilewizard.ui:1048
@@ -30757,10 +30757,9 @@ msgid "Type Code"
 msgstr "Vrsta"
 
 #: fitsviewer/fitstab.cpp:766
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "Type Label"
-msgstr "BesedilnaOznaka"
+msgstr "Vrsta Oznake"
 
 #: fitsviewer/fitstab.cpp:768 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
@@ -32573,7 +32572,7 @@ msgstr "Dodaj novega"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/customdrivers.ui:210
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>To create an <span style=\" font-weight:600;\">Alias</"
 "span> from an existing driver, select an existing driver and then only "
@@ -32581,7 +32580,7 @@ msgid ""
 "style=\" font-weight:600;\"> Add.</span></p></body></html>"
 msgstr ""
 "<html><head/><body><p>Če želite ustvariti <span style=\" font-weight:600;"
-"\">vzdevk</span> iz obstoječega gonilnika, izberite obstoječi gonilnik in "
+"\">vzdevek</span> iz obstoječega gonilnika, izberite obstoječi gonilnik in "
 "nato samo spremenite oznako <span style=\" font-weight:600;\">in pritisnite "
 "</span><span style=\" font-weight:600;\"> Dodaj.</span></p></body></html>"
 
@@ -36890,7 +36889,7 @@ msgstr "Barva obzorja"
 #: kstars.kcfg:1228
 #, kde-format
 msgid "The color for the horizon line and opaque ground."
-msgstr "Barva črte obzorja in zapolnjenih tal."
+msgstr "Barva črte obzorja in neprozornih tal."
 
 #. i18n: ectx: label, entry (LocalMeridianColor), group (Colors)
 #: kstars.kcfg:1232
@@ -36901,10 +36900,9 @@ msgstr "Barva obzorja"
 
 #. i18n: ectx: whatsthis, entry (LocalMeridianColor), group (Colors)
 #: kstars.kcfg:1233
-#, fuzzy, kde-format
-#| msgid "The color for the ecliptic line."
+#, kde-format
 msgid "The color for the local meridian line."
-msgstr "Barva črte ekliptike."
+msgstr "Barva za črto lokalnega poldnevnika."
 
 #. i18n: ectx: label, entry (MilkyWayWColor), group (Colors)
 #: kstars.kcfg:1237
@@ -38490,8 +38488,8 @@ msgid ""
 "Set global dither frequency to this value when starting a job. Set 0 to use "
 "global value."
 msgstr ""
-"Nastavite splošno frekvenco stresanja na to vrednost, ko se začne opravilo. "
-"Nastavite 0 za uporabo splošne vrednosti."
+"Nastavi globalno frekvenco stresanja na to vrednost, ko se začne opravilo. "
+"Nastavite 0 za uporabo globalne vrednosti."
 
 #. i18n: ectx: label, entry (HFRDeviation), group (Capture)
 #: kstars.kcfg:1988
@@ -39353,7 +39351,7 @@ msgstr ""
 #: kstars.kcfg:2411
 #, kde-format
 msgid "Default Focuser step ticks"
-msgstr "Privzeti deli korakov fokuserja"
+msgstr "Privzete črtice korakov fokuserja"
 
 #. i18n: ectx: whatsthis, entry (FocusTicks), group (Focus)
 #: kstars.kcfg:2412
@@ -39363,8 +39361,8 @@ msgid ""
 "that when the focuser moves TICKS steps, the difference in HFR is more than "
 "0.1 pixels. Lower the value when you are close to optimal focus."
 msgstr ""
-"Velikost korakov absolutnega fokuserja. Deli korakov, naj bi bili "
-"prilagojeni tako, da je razlika v HFR ob premiku fokuserja za en del "
+"Velikost korakov absolutnega fokuserja. Deli korakov ČRTICE, naj bi bile "
+"prilagojene tako, da je razlika v HFR ob premiku fokuserja za en del "
 "korakov, več kot 0.1 slikovnih točk. Ko ste blizu optimalnega žarišča, "
 "znižajte vrednost."
 
@@ -40282,13 +40280,13 @@ msgid ""
 "mode."
 msgstr ""
 "Koliko slikovnih točk naj bo med zaporednimi osvetlitvami v načinu "
-"samodejnega razprševanja."
+"samodejnega stresanja."
 
 #. i18n: ectx: label, entry (DitherFrames), group (Guide)
 #: kstars.kcfg:2938
 #, kde-format
 msgid "Dither after this many frames."
-msgstr "Razprši po tem številu posnetkov."
+msgstr "Stresaj po tem številu posnetkov."
 
 #. i18n: ectx: label, entry (DitherThreshold), group (Guide)
 #: kstars.kcfg:2946
@@ -40300,34 +40298,29 @@ msgstr "Največja razdalja (piksli) za vodilo, ki se šteje za umirjeno."
 #: kstars.kcfg:2950
 #, kde-format
 msgid "Time limit (seconds) on dithering to settle down."
-msgstr "Časovna omejitev (sekunde) na razprševanju za umiritev."
+msgstr "Časovna omejitev (sekund) pri stresanju za umiritev."
 
 #. i18n: ectx: label, entry (DitherMaxIterations), group (Guide)
 #: kstars.kcfg:2954
-#, fuzzy, kde-format
+#, kde-format
 msgid "How many dithering attempts to undertake before giving up."
-msgstr "Koliko omejevalnih poskusov je treba opraviti pred vdajo."
+msgstr "Koliko poskusov tresenja narediti pred prenehanjem."
 
 #. i18n: ectx: label, entry (DitherNoGuidingPulse), group (Guide)
 #: kstars.kcfg:2958
-#, fuzzy, kde-format
-#| msgid ""
-#| "Pulse duration in milliseconds used for guiding pulses during calibration "
-#| "stage."
+#, kde-format
 msgid "Pulse length in milliseconds used for non-guiding dither."
-msgstr ""
-"Trajanje pulza v milisekundah, uporabljeno za vodilne pulze med umerjanjem."
+msgstr "Dolžina impulza v milisekundah uporabljena za neusmerjevalno tresenje."
 
 #. i18n: ectx: label, entry (DitherFailAbortsAutoGuide), group (Guide)
 #: kstars.kcfg:2962
-#, fuzzy, kde-format
-#| msgid "Dithering failed. Autoguiding aborted."
+#, kde-format
 msgid "If dithering fails then abort autoguide."
-msgstr "Razprševanje ni uspelo. Samodejno vodenje prekinjeno."
+msgstr "Če tresenje ne uspe, prekini samodejno vodenje."
 
 #. i18n: ectx: label, entry (DitherWithOnePulse), group (Guide)
 #: kstars.kcfg:2966
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Dithering amount is randomly generated, pulses are sent, but the resultant "
 "pixel dithering amount is not enforced, so only the one dither pulse is "
@@ -40335,24 +40328,23 @@ msgid ""
 "is necessary when 2-D dither is required but guiding is only done in one "
 "axis."
 msgstr ""
-"Naključno generiramo količino, pošiljamo impulze, vendar se rezultatska "
-"količina za ditering piksla ne izvrši, zato se pošlje samo en dither impulz. "
-"To je hitreje, in priporoča kot znesek dither je naključna tako ali tako. "
-"Potrebno je, kadar je potrebna 2-D dither, vendar je vanje opravljeno samo v "
-"eni osi."
+"Količina tresenja je ustvarjena naključno, impulzi se pošljejo, a rezultat "
+"količina tresenja slikovnih pik ni uveljavljena, zato je poslan samo en "
+"impulz tresenja. To je hitreje in priporočljivo, saj je količina tresenja "
+"tako ali tako naključna. To je potrebno, ko je zahtevano 2-D tresenje, a se "
+"vodenje izvaja samo v eni osi."
 
 #. i18n: ectx: label, entry (DitherEnabled), group (Guide)
 #: kstars.kcfg:2970
 #, kde-format
 msgid "Use Auto Dithering when guiding."
-msgstr "Med vodenjem uporabi samodejno razprševanje."
+msgstr "Uporabi samodejno tresenje med vodenjem"
 
 #. i18n: ectx: label, entry (DitherNoGuiding), group (Guide)
 #: kstars.kcfg:2974
-#, fuzzy, kde-format
-#| msgid "Use Auto Dithering when guiding."
+#, kde-format
 msgid "Perform dithering even when not guiding."
-msgstr "Med vodenjem uporabi samodejno razprševanje."
+msgstr "Izvajaj tresenje tudi, kadar ne vodiš."
 
 #. i18n: ectx: label, entry (RAGuideEnabled), group (Guide)
 #: kstars.kcfg:2978
@@ -74319,7 +74311,7 @@ msgstr "Najv. potovanje"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Maximum Tick"
-msgstr "Največja oznaka"
+msgstr "Največja črtica"
 
 #: libindi_strings.cpp:294
 #, kde-kuit-format
@@ -74349,7 +74341,7 @@ msgstr "Messier"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Minimum Tick"
-msgstr "Najmanjša oznaka"
+msgstr "Najmanjša črtica"
 
 #: libindi_strings.cpp:299
 #, kde-kuit-format
@@ -74407,7 +74399,7 @@ msgstr "Koraki motorja"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Motor steps per tick"
-msgstr "Koraki motorja na oznako"
+msgstr "Koraki motorja na črtico"
 
 #: libindi_strings.cpp:308
 #, kde-kuit-format
@@ -75503,7 +75495,7 @@ msgstr "Theta S:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Ticks"
-msgstr "Oznake"
+msgstr "Črtice"
 
 #: libindi_strings.cpp:485
 #, kde-kuit-format
@@ -76587,13 +76579,13 @@ msgstr "Višina fokuserja:"
 #: oal/equipmentwriter.ui:1101
 #, kde-format
 msgid "Ticks per C:"
-msgstr "Oznak na stopinjo C:"
+msgstr "Črtic na stopinjo C:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
 #: oal/equipmentwriter.ui:1118
 #, kde-format
 msgid "Ticks per Alt:"
-msgstr "Oznak na višino:"
+msgstr "Črtic na višino:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
 #: oal/equipmentwriter.ui:1142
