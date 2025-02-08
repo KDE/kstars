@@ -112,10 +112,8 @@ class Capture : public QWidget, public Ui::Capture
              * @{
             */
 
-
         /** DBUS interface function.
-             * select the CCD device from the available CCD drivers.
-             * @param device The CCD device name
+             * @return device The CCD device name
              */
         Q_SCRIPTABLE QString camera();
 
@@ -346,10 +344,7 @@ class Capture : public QWidget, public Ui::Capture
         /** DBUS interface function.
              * Clear in-sequence focus settings. It sets the autofocus HFR to zero so that next autofocus value is remembered for the in-sequence focusing.
              */
-        Q_SCRIPTABLE Q_NOREPLY void clearAutoFocusHFR()
-        {
-            mainCamera()->clearAutoFocusHFR();
-        }
+        Q_SCRIPTABLE Q_NOREPLY void clearAutoFocusHFR(const QString &trainname);
 
         /** DBUS interface function.
              * Jobs will NOT be checked for progress against the file system and will be always assumed as new jobs.

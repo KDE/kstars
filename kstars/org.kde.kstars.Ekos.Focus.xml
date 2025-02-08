@@ -1,70 +1,99 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Focus">
-  <property name="opticalTrain" type="s" access="readwrite"/>
-  <property name="camera" type="s" access="readwrite"/>
-  <property name="filterWheel" type="s" access="readwrite"/>
-  <property name="filter" type="s" access="readwrite"/>
-  <property name="focuser" type="s" access="readwrite"/>
-  <property name="HFR" type="d" access="read"/>
-  <property name="logText" type="as" access="read"/>
-  <property name="status" type="i" access="read">
-    <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::FocusState"/>
-  </property>
+    <method name="camera">
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="filterWheel">
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="filter">
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="setFilter">
+      <arg name="filter" type="s" direction="in"/>
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="focuser">
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="status">
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="(i)" direction="out"/>
+      <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::FocusState"/>
+    </method>
     <method name="start">
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
     </method>
     <method name="abort">
+      <arg name="trainname" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="capture">
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg name="trainname" type="s" direction="in"/>
+      <arg name="settleTime" type="d" direction="in"/>
+      <arg type="b" direction="out"/>
     </method>
     <method name="focusIn">
+      <arg name="trainname" type="s" direction="in"/>
       <arg type="b" direction="out"/>
       <arg name="ms" type="i" direction="in"/>
     </method>    
     <method name="focusOut">
+      <arg name="trainname" type="s" direction="in"/>
       <arg type="b" direction="out"/>
       <arg name="ms" type="i" direction="in"/>
-    </method>
-    <method name="focusOut">
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="checkFocus">
       <arg name="requiredHFR" type="d" direction="in"/>
+      <arg name="trainname" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="canAutoFocus">
+      <arg name="trainname" type="s" direction="in"/>
       <arg type="b" direction="out"/>
-    </method>    
+    </method>
+    <method name="useFullField">
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
+    </method>
     <method name="setBinning">
       <arg name="binX" type="i" direction="in"/>
       <arg name="binY" type="i" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
     </method>
     <method name="setAutoStarEnabled">
       <arg name="enable" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
     </method>
     <method name="setAutoSubFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg name="trainname" type="s" direction="in"/>
+      <arg type="b" direction="out"/>
     </method>
     <method name="setAutoFocusParameters">
+      <arg name="trainname" type="s" direction="in"/>
       <arg name="boxSize" type="i" direction="in"/>
       <arg name="stepSize" type="i" direction="in"/>
       <arg name="maxTravel" type="i" direction="in"/>
       <arg name="tolerance" type="d" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+      <arg type="b" direction="out"/>
     </method>
     <method name="resetFrame">
+      <arg name="trainname" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <signal name="newStatus">
         <arg name="status" type="(i)" direction="out"/>
         <arg name="trainname" type="s" direction="out"/>
-        <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="Ekos::FocusState"/>
         <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="Ekos::FocusState"/>
     </signal>
     <signal name="newLog">

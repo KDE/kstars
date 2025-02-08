@@ -6,6 +6,7 @@
 
 #include "focusmodule.h"
 #include "focus.h"
+#include "focusadaptor.h"
 
 #include "Options.h"
 #include "auxiliary/ksmessagebox.h"
@@ -49,6 +50,12 @@ FocusModule::FocusModule()
 
     // Create main focuser
     addFocuser();
+
+    // Register DBus
+    qRegisterMetaType<FocusState>("FocusState");
+    qDBusRegisterMetaType<FocusState>();
+    new FocusAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Focus", this);
 }
 
 FocusModule::~FocusModule()
@@ -68,6 +75,166 @@ QSharedPointer<Focus> &FocusModule::focuser(int i)
 
 }
 
+QString FocusModule::filterWheel(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->filterWheel();
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return "";
+    }
+}
+
+bool FocusModule::setFilter(const QString &filter, const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->setFilter(filter);
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+QString FocusModule::filter(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->filter();
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return "";
+    }
+}
+
+double FocusModule::getHFR(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->getHFR();
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return -1.0;
+    }
+}
+
+bool FocusModule::setExposure(double value, const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+    {
+        m_Focusers[id]->setExposure(value);
+        return true;
+    }
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+double FocusModule::exposure(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->exposure();
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return -1.0;
+    }
+}
+
+bool FocusModule::canAutoFocus(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->canAutoFocus();
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+bool FocusModule::useFullField(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->useFullField();
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+bool FocusModule::setBinning(int binX, int binY, const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+    {
+        m_Focusers[id]->setBinning(binX, binY);
+        return true;
+    }
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+bool FocusModule::setAutoStarEnabled(bool enable, const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+    {
+        m_Focusers[id]->setAutoStarEnabled(enable);
+        return true;
+    }
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+bool FocusModule::setAutoSubFrameEnabled(bool enable, const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+    {
+        m_Focusers[id]->setAutoSubFrameEnabled(enable);
+        return true;
+    }
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+bool FocusModule::setAutoFocusParameters(const QString &trainname, int boxSize, int stepSize, int maxTravel,
+        double tolerance)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+    {
+        m_Focusers[id]->setAutoFocusParameters(boxSize, stepSize, maxTravel, tolerance);
+        return true;
+    }
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
 QSharedPointer<Focus> FocusModule::mainFocuser()
 {
     if (m_Focusers.size() <= 0)
@@ -77,6 +244,21 @@ QSharedPointer<Focus> FocusModule::mainFocuser()
         m_Focusers.append(newFocuser);
     }
     return m_Focusers[0];
+}
+
+int FocusModule::findFocuser(const QString &trainname, bool addIfNecessary)
+{
+    for (int pos = 0; pos < m_Focusers.count(); pos++)
+        if (m_Focusers[pos]->opticalTrain() == trainname)
+            return pos;
+
+    if (addIfNecessary)
+    {
+        addFocuser(trainname);
+        return m_Focusers.count() - 1;
+    }
+    else
+        return -1;
 }
 
 void FocusModule::checkFocus(double requiredHFR, const QString &trainname)
@@ -201,6 +383,42 @@ void FocusModule::setMountCoords(const SkyPoint &position, ISD::Mount::PierSide 
         focuser->setMountCoords(position, pierSide, ha);
 }
 
+FocusState FocusModule::status(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->status();
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return FocusState::FOCUS_IDLE;
+    }
+}
+
+QString FocusModule::camera(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->camera();
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return "";
+    }
+}
+
+QString FocusModule::focuser(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->focuser();
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return "";
+    }
+}
+
 bool FocusModule::addTemperatureSource(const QSharedPointer<ISD::GenericDevice> &device)
 {
     if (device.isNull())
@@ -272,6 +490,61 @@ void FocusModule::appendFocusLogText(const QString &lines)
             out << QDateTime::currentDateTime().toString("yyyy-MM-dd, hh:mm:ss, ") << lines;
             out.flush();
         }
+    }
+
+}
+
+bool FocusModule::start(const QString &trainname)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+    {
+        m_Focusers[id]->start();
+        return true;
+    }
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+bool FocusModule::capture(const QString &trainname, double settleTime)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+    {
+        m_Focusers[id]->capture(settleTime);
+        return true;
+    }
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+bool FocusModule::focusIn(const QString &trainname, int ms)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->focusIn(ms);
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
+    }
+}
+
+bool FocusModule::focusOut(const QString &trainname, int ms)
+{
+    int id = findFocuser(trainname, true);
+    if (0 <= id && id < m_Focusers.count())
+        return m_Focusers[id]->focusOut(ms);
+    else
+    {
+        qCWarning(KSTARS_EKOS_FOCUS) << "Unknown focuser ID:" << id;
+        return false;
     }
 
 }

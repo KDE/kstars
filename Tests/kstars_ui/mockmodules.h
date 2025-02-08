@@ -37,43 +37,70 @@ class MockFocus : public QObject
 {
         Q_OBJECT
         Q_CLASSINFO("D-Bus Interface", "org.kde.mockkstars.MockEkos.MockFocus")
-        Q_PROPERTY(Ekos::FocusState status READ status NOTIFY newStatus)
     public:
         MockFocus();
 
-        Q_SCRIPTABLE Q_NOREPLY void start()
+        Q_SCRIPTABLE bool start(const QString &trainname)
         {
+            Q_UNUSED(trainname);
             fprintf(stderr, "MockFocus::start called\n");
             setStatus(Ekos::FOCUS_PROGRESS);
+            return true;
         }
-        Q_SCRIPTABLE Q_NOREPLY void abort()
+        Q_SCRIPTABLE Q_NOREPLY void abort(const QString &trainname)
         {
+            Q_UNUSED(trainname);
             fprintf(stderr, "MockFocus::abort called\n");
             setStatus(Ekos::FOCUS_IDLE);
         }
-        Q_SCRIPTABLE Q_NOREPLY bool canAutoFocus()
+        Q_SCRIPTABLE Q_NOREPLY bool canAutoFocus(const QString &trainname)
         {
+            Q_UNUSED(trainname);
             fprintf(stderr, "MockFocus::canAutoFocus called\n");
             return true;
         }
 
         // Seems like the calibrationAutoStar is the one that's used!
-        Q_SCRIPTABLE Q_NOREPLY void setAutoStarEnabled(bool enable)
+        Q_SCRIPTABLE bool setAutoStarEnabled(bool enable, const QString &trainname)
         {
             Q_UNUSED(enable);
+            Q_UNUSED(trainname);
             fprintf(stderr, "MockFocus::setAutoStarEnabled called\n");
+            return true;
         }
 
-        Q_SCRIPTABLE Q_NOREPLY void resetFrame()
+        Q_SCRIPTABLE Q_NOREPLY void resetFrame(const QString &trainname)
         {
+            Q_UNUSED(trainname);
             fprintf(stderr, "MockFocus::ResetFrame called\n");
             isReset = true;
         }
 
         bool isReset = false;
 
-        Q_SCRIPTABLE Ekos::FocusState status()
+        Q_SCRIPTABLE bool useFullField(const QString &trainname)
         {
+            Q_UNUSED(trainname);
+            return true;
+        }
+
+        Q_SCRIPTABLE bool setFilter(const QString &filter, const QString &trainname)
+        {
+            Q_UNUSED(trainname);
+            m_filter = filter;
+            return true;
+        }
+        Q_SCRIPTABLE QString filter(const QString &trainname)
+        {
+            Q_UNUSED(trainname);
+            return m_filter;
+        }
+
+        QString m_filter = "Red";
+
+        Q_SCRIPTABLE Ekos::FocusState status(const QString &trainname = "MockCamera")
+        {
+            Q_UNUSED(trainname);
             return m_Status;
         }
 
@@ -198,6 +225,7 @@ class MockCapture : public QObject
         Q_CLASSINFO("D-Bus Interface", "org.kde.mockkstars.MockEkos.MockCapture")
         Q_PROPERTY(Ekos::CaptureState status READ status NOTIFY newStatus)
         Q_PROPERTY(QString targetName MEMBER m_TargetName)
+        Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
         Q_PROPERTY(bool coolerControl READ hasCoolerControl WRITE setCoolerControl)
 
 
@@ -235,6 +263,15 @@ class MockCapture : public QObject
             return true;
         }
 
+        Q_SCRIPTABLE QString opticalTrain() const
+        {
+            return m_opticalTrain;
+        }
+        Q_SCRIPTABLE Q_NOREPLY void setOpticalTrain(const QString &value)
+        {
+            m_opticalTrain = value;
+        }
+
         void sendReady()
         {
             emit ready();
@@ -260,7 +297,7 @@ class MockCapture : public QObject
         {
             fprintf(stderr, "%d @@@MockCapture::start(%s)\n", __LINE__, train.toLocal8Bit().data());
             setStatus(CAPTURE_CAPTURING);
-            return("MockCamera");
+            return(m_opticalTrain);
         }
 
     signals:
@@ -270,6 +307,7 @@ class MockCapture : public QObject
 
     private:
         QString m_TargetName;
+        QString m_opticalTrain = "MockCamera";
         Ekos::CaptureState m_Status { CAPTURE_IDLE };
         bool m_CoolerControl { false };
 };

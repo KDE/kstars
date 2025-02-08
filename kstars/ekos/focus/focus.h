@@ -53,15 +53,6 @@ class StellarSolverProfileEditor;
 class Focus : public QWidget, public Ui::Focus
 {
         Q_OBJECT
-        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Focus")
-        Q_PROPERTY(Ekos::FocusState status READ status NOTIFY newStatus)
-        Q_PROPERTY(QString opticalTrain READ opticalTrain WRITE setOpticalTrain)
-        Q_PROPERTY(QString camera READ camera)
-        Q_PROPERTY(QString focuser READ focuser)
-        Q_PROPERTY(QString filterWheel READ filterWheel)
-        Q_PROPERTY(QString filter READ filter WRITE setFilter)
-        Q_PROPERTY(double HFR READ getHFR NOTIFY newHFR)
-        Q_PROPERTY(double exposure READ exposure WRITE setExposure)
 
         // AdaptiveFocus and FocusAdvisor are friend classes so they can access methods in Focus
         friend class AdaptiveFocus;
@@ -123,6 +114,14 @@ class Focus : public QWidget, public Ui::Focus
         Q_SCRIPTABLE bool canAutoFocus()
         {
             return (m_FocusType == FOCUS_AUTO);
+        }
+
+        /** DBUS interface function.
+         * @return Returns True if current focuser uses the full field for focusing
+         */
+        Q_SCRIPTABLE bool useFullField()
+        {
+            return m_OpsFocusSettings->focusUseFullField->isChecked();
         }
 
         /** DBUS interface function.

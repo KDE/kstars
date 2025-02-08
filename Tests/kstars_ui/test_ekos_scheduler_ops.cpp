@@ -212,7 +212,9 @@ void TestEkosSchedulerOps::testBasics()
 
     // Verify the mocks can use the DBUS.
     QVERIFY(!focuser->isReset);
-    scheduler->process()->focusInterface()->call(QDBus::AutoDetect, "resetFrame");
+    QList<QVariant> dBusArgs;
+    dBusArgs.append("MockCamera");
+    scheduler->process()->focusInterface()->callWithArgumentList(QDBus::AutoDetect, "resetFrame", dBusArgs);
 
     //qApp->processEvents();  // this fails, is it because dbus calls are on a separate thread?
     QTest::qWait(10 * QWAIT_TIME);

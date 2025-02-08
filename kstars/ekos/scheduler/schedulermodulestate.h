@@ -381,23 +381,29 @@ public:
     }
     bool increaseCaptureFailureCount();
 
-    uint8_t focusFailureCount() const
+    uint8_t focusFailureCount(const QString &trainname) const
     {
-        return m_focusFailureCount;
+        return m_focusFailureCount[trainname];
+    }
+    void resetFocusFailureCount(const QString &trainname)
+    {
+        m_focusFailureCount[trainname] = 0;
     }
     void resetFocusFailureCount()
     {
-        m_focusFailureCount = 0;
+        m_focusFailureCount.clear();
     }
-    bool increaseFocusFailureCount();
+    bool increaseFocusFailureCount(const QString &trainname);
 
-    bool autofocusCompleted() const
+    bool increaseAllFocusFailureCounts();
+
+    bool autofocusCompleted(const QString &trainname) const;
+    void setAutofocusCompleted(const QString &trainname, bool value);
+    bool autofocusCompleted() const;
+
+    void resetAutofocusCompleted()
     {
-        return m_autofocusCompleted;
-    }
-    void setAutofocusCompleted(bool value)
-    {
-        m_autofocusCompleted = value;
+        m_autofocusCompleted.clear();
     }
 
     uint8_t guideFailureCount() const
@@ -706,7 +712,7 @@ private:
 
     // Check if initial autofocus is completed and do not run autofocus until
     // there is a change is telescope position/alignment.
-    bool m_autofocusCompleted { false };
+    QMap <QString, bool> m_autofocusCompleted;
 
     // Used when solving position every nth capture.
     uint32_t m_solverIteration {0};
@@ -735,7 +741,7 @@ private:
     // Keep track of Ekos capture module failures
     uint8_t m_captureFailureCount { 0 };
     // Keep track of Ekos focus module failures
-    uint8_t m_focusFailureCount { 0 };
+    QMap <QString, uint8_t> m_focusFailureCount;
     // Keep track of Ekos guide module failures
     uint8_t m_guideFailureCount { 0 };
     // Keep track of Ekos align module failures

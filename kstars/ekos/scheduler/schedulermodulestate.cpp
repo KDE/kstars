@@ -317,9 +317,50 @@ bool SchedulerModuleState::increaseCaptureFailureCount()
     return (++m_captureFailureCount <= MAX_FAILURE_ATTEMPTS);
 }
 
-bool SchedulerModuleState::increaseFocusFailureCount()
+bool SchedulerModuleState::increaseFocusFailureCount(const QString &trainname)
 {
-    return (++m_focusFailureCount <= MAX_FAILURE_ATTEMPTS);
+    return (++m_focusFailureCount[trainname] <= MAX_FAILURE_ATTEMPTS);
+}
+
+bool SchedulerModuleState::increaseAllFocusFailureCounts()
+{
+    bool result = true;
+
+    // if one of the counters is beyond the threshold, we return false.
+    for (QMap<QString, bool>::const_iterator it = m_autofocusCompleted.cbegin(); it != m_autofocusCompleted.cend(); it++)
+        result &= increaseFocusFailureCount(it.key());
+
+    return result;
+}
+
+bool SchedulerModuleState::autofocusCompleted(const QString &trainname) const
+{
+    if (!trainname.isEmpty())
+        return m_autofocusCompleted[trainname];
+    else
+        return autofocusCompleted();
+}
+
+void SchedulerModuleState::setAutofocusCompleted(const QString &trainname, bool value)
+{
+    if (!trainname.isEmpty())
+        m_autofocusCompleted[trainname] = value;
+    else
+        m_autofocusCompleted.clear();
+}
+
+bool SchedulerModuleState::autofocusCompleted() const
+{
+    if (m_autofocusCompleted.isEmpty())
+        return false;
+
+    for (QMap<QString, bool>::const_iterator it = m_autofocusCompleted.cbegin(); it != m_autofocusCompleted.cend(); it++)
+    {
+        if (it.value() == false)
+            return false;
+    }
+    // all are completed
+    return true;
 }
 
 bool SchedulerModuleState::increaseGuideFailureCount()

@@ -2,6 +2,7 @@
 <node>
   <interface name="org.kde.mockkstars.MockEkos.MockCapture">
     <property name="targetName" type="s" access="readwrite"/>
+    <property name="opticalTrain" type="s" access="readwrite"/>
     <property name="coolerControl" type="b" access="readwrite"/>
     <property name="status" type="i" access="read">
         <annotation name="org.qtproject.QtDBus.QtTypeName" value="Ekos::CaptureState"/>

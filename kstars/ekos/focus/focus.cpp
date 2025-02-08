@@ -82,12 +82,6 @@ Focus::Focus(int id) : QWidget()
     // #1a Prepare UI
     prepareGUI();
 
-    // #2 Register DBus
-    qRegisterMetaType<Ekos::FocusState>("Ekos::FocusState");
-    qDBusRegisterMetaType<Ekos::FocusState>();
-    new FocusAdaptor(this);
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Focus", this);
-
     // #3 Init connections
     initConnections();
 

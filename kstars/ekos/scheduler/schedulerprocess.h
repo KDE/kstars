@@ -744,6 +744,10 @@ private:
      */
     void checkDomeParkingStatus();
 
+    /**
+     * @brief startFocusing Start focusing on the job
+     */
+    void startFocusing(SchedulerJob *job);
     // ////////////////////////////////////////////////////////////////////
     // device handling
     // ////////////////////////////////////////////////////////////////////

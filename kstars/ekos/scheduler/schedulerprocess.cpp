@@ -581,7 +581,7 @@ void SchedulerProcess::stop()
 
     moduleState()->setActiveJob(nullptr);
     moduleState()->resetFailureCounters();
-    moduleState()->setAutofocusCompleted(false);
+    moduleState()->resetAutofocusCompleted();
 
     // If soft shutdown, we return for now
     if (moduleState()->preemptiveShutdown())
@@ -767,7 +767,6 @@ void SchedulerProcess::startSlew()
 void SchedulerProcess::startFocusing()
 {
     Q_ASSERT_X(nullptr != activeJob(), __FUNCTION__, "Job starting focusing must be valid");
-
     // 2017-09-30 Jasem: We're skipping post align focusing now as it can be performed
     // when first focus request is made in capture module
     if (activeJob()->getStage() == SCHEDSTAGE_RESLEWING_COMPLETE ||
@@ -782,67 +781,15 @@ void SchedulerProcess::startFocusing()
         return;
     }
 
-    // Check if autofocus is supported
-    QDBusReply<bool> focusModeReply;
-    focusModeReply = focusInterface()->call(QDBus::AutoDetect, "canAutoFocus");
-
-    if (focusModeReply.error().type() != QDBusError::NoError)
+    if (activeJob()->getOpticalTrain() != "")
+        m_activeJobs.insert(activeJob()->getOpticalTrain(), activeJob());
+    else
     {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' canAutoFocus request received DBUS error: %2").arg(
-                                              activeJob()->getName(), QDBusError::errorString(focusModeReply.error().type()));
-        if (!manageConnectionLoss())
+        QVariant opticalTrain = captureInterface()->property("opticalTrain");
+
+        if (opticalTrain.isValid() == false)
         {
-            activeJob()->setState(SCHEDJOB_ERROR);
-            findNextJob();
-        }
-        return;
-    }
-
-    if (focusModeReply.value() == false)
-    {
-        appendLogText(i18n("Warning: job '%1' is unable to proceed with autofocus, not supported.", activeJob()->getName()));
-        activeJob()->setStepPipeline(
-            static_cast<SchedulerJob::StepPipeline>(activeJob()->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
-        moduleState()->updateJobStage(SCHEDSTAGE_FOCUS_COMPLETE);
-        getNextAction();
-        return;
-    }
-
-    // Clear the HFR limit value set in the capture module
-    captureInterface()->call(QDBus::AutoDetect, "clearAutoFocusHFR");
-
-    QDBusMessage reply;
-
-    // We always need to reset frame first
-    if ((reply = focusInterface()->call(QDBus::AutoDetect, "resetFrame")).type() == QDBusMessage::ErrorMessage)
-    {
-        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' resetFrame request received DBUS error: %2").arg(
-                                              activeJob()->getName(), reply.errorMessage());
-        if (!manageConnectionLoss())
-        {
-            activeJob()->setState(SCHEDJOB_ERROR);
-            findNextJob();
-        }
-        return;
-    }
-
-
-    // If we have a LIGHT filter set, let's set it.
-    if (!activeJob()->getInitialFilter().isEmpty())
-    {
-        focusInterface()->setProperty("filter", activeJob()->getInitialFilter());
-    }
-
-    // Set autostar if full field option is false
-    if (Options::focusUseFullField() == false)
-    {
-        QList<QVariant> autoStar;
-        autoStar.append(true);
-        if ((reply = focusInterface()->callWithArgumentList(QDBus::AutoDetect, "setAutoStarEnabled", autoStar)).type() ==
-                QDBusMessage::ErrorMessage)
-        {
-            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setAutoFocusStar request received DBUS error: %1").arg(
-                                                  activeJob()->getName(), reply.errorMessage());
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' opticalTrain request failed.").arg(activeJob()->getName());
             if (!manageConnectionLoss())
             {
                 activeJob()->setState(SCHEDJOB_ERROR);
@@ -850,23 +797,162 @@ void SchedulerProcess::startFocusing()
             }
             return;
         }
+        // use the default optical train for the active job
+        m_activeJobs.insert(opticalTrain.toString(), activeJob());
+        activeJob()->setOpticalTrain(opticalTrain.toString());
+    }
+
+    // start focusing of the lead job
+    startFocusing(activeJob());
+    // start focusing of all follower jobds
+    foreach (auto follower, activeJob()->followerJobs())
+    {
+        m_activeJobs.insert(follower->getOpticalTrain(), follower);
+        startFocusing(follower);
+    }
+}
+
+
+void SchedulerProcess::startFocusing(SchedulerJob *job)
+{
+
+    // Check if autofocus is supported
+    QDBusReply<bool> boolReply;
+    QList<QVariant> dBusArgs;
+    dBusArgs.append(job->getOpticalTrain());
+    boolReply = focusInterface()->callWithArgumentList(QDBus::AutoDetect, "canAutoFocus", dBusArgs);
+
+    if (boolReply.error().type() != QDBusError::NoError)
+    {
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' canAutoFocus request received DBUS error: %2").arg(
+                                              job->getName(), QDBusError::errorString(boolReply.error().type()));
+        if (!manageConnectionLoss())
+        {
+            job->setState(SCHEDJOB_ERROR);
+            findNextJob();
+        }
+        return;
+    }
+
+    if (boolReply.value() == false)
+    {
+        appendLogText(i18n("Warning: job '%1' is unable to proceed with autofocus, not supported.", job->getName()));
+        job->setStepPipeline(
+            static_cast<SchedulerJob::StepPipeline>(job->getStepPipeline() & ~SchedulerJob::USE_FOCUS));
+        moduleState()->setAutofocusCompleted(job->getOpticalTrain(), true);
+        if (moduleState()->autofocusCompleted())
+        {
+            moduleState()->updateJobStage(SCHEDSTAGE_FOCUS_COMPLETE);
+            getNextAction();
+            return;
+        }
+    }
+
+    QDBusMessage reply;
+
+    // Clear the HFR limit value set in the capture module
+    if ((reply = captureInterface()->callWithArgumentList(QDBus::AutoDetect, "clearAutoFocusHFR",
+                 dBusArgs)).type() == QDBusMessage::ErrorMessage)
+    {
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' clearAutoFocusHFR request received DBUS error: %2").arg(
+                                              job->getName(), reply.errorMessage());
+        if (!manageConnectionLoss())
+        {
+            job->setState(SCHEDJOB_ERROR);
+            findNextJob();
+        }
+        return;
+    }
+
+    // We always need to reset frame first
+    if ((reply = focusInterface()->callWithArgumentList(QDBus::AutoDetect, "resetFrame",
+                 dBusArgs)).type() == QDBusMessage::ErrorMessage)
+    {
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' resetFrame request received DBUS error: %2").arg(
+                                              job->getName(), reply.errorMessage());
+        if (!manageConnectionLoss())
+        {
+            job->setState(SCHEDJOB_ERROR);
+            findNextJob();
+        }
+        return;
+    }
+
+
+    // If we have a LIGHT filter set, let's set it.
+    if (!job->getInitialFilter().isEmpty())
+    {
+        dBusArgs.clear();
+        dBusArgs.append(job->getInitialFilter());
+        dBusArgs.append(job->getOpticalTrain());
+        if ((reply = focusInterface()->callWithArgumentList(QDBus::AutoDetect, "setFilter",
+                     dBusArgs)).type() == QDBusMessage::ErrorMessage)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setFilter request received DBUS error: %1").arg(
+                                                  job->getName(), reply.errorMessage());
+            if (!manageConnectionLoss())
+            {
+                job->setState(SCHEDJOB_ERROR);
+                findNextJob();
+            }
+            return;
+        }
+    }
+
+    dBusArgs.clear();
+    dBusArgs.append(job->getOpticalTrain());
+    boolReply = focusInterface()->callWithArgumentList(QDBus::AutoDetect, "useFullField", dBusArgs);
+
+    if (boolReply.error().type() != QDBusError::NoError)
+    {
+        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' useFullField request received DBUS error: %2").arg(
+                                              job->getName(), QDBusError::errorString(boolReply.error().type()));
+        if (!manageConnectionLoss())
+        {
+            job->setState(SCHEDJOB_ERROR);
+            findNextJob();
+        }
+        return;
+    }
+
+    if (boolReply.value() == false)
+    {
+        // Set autostar if full field option is false
+        dBusArgs.clear();
+        dBusArgs.append(true);
+        dBusArgs.append(job->getOpticalTrain());
+        if ((reply = focusInterface()->callWithArgumentList(QDBus::AutoDetect, "setAutoStarEnabled", dBusArgs)).type() ==
+                QDBusMessage::ErrorMessage)
+        {
+            qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' setAutoFocusStar request received DBUS error: %1").arg(
+                                                  job->getName(), reply.errorMessage());
+            if (!manageConnectionLoss())
+            {
+                job->setState(SCHEDJOB_ERROR);
+                findNextJob();
+            }
+            return;
+        }
     }
 
     // Start auto-focus
-    if ((reply = focusInterface()->call(QDBus::AutoDetect, "start")).type() == QDBusMessage::ErrorMessage)
+    dBusArgs.clear();
+    dBusArgs.append(job->getOpticalTrain());
+    if ((reply = focusInterface()->callWithArgumentList(QDBus::AutoDetect, "start",
+                 dBusArgs)).type() == QDBusMessage::ErrorMessage)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' startFocus request received DBUS error: %2").arg(
-                                              activeJob()->getName(), reply.errorMessage());
+                                              job->getName(), reply.errorMessage());
         if (!manageConnectionLoss())
         {
-            activeJob()->setState(SCHEDJOB_ERROR);
+            job->setState(SCHEDJOB_ERROR);
             findNextJob();
         }
         return;
     }
 
     moduleState()->updateJobStage(SCHEDSTAGE_FOCUSING);
-    appendLogText(i18n("Job '%1' is focusing.", activeJob()->getName()));
+    appendLogText(i18n("Job '%1' is focusing.", job->getName()));
     moduleState()->startCurrentOperationTimer();
 }
 
@@ -2815,25 +2901,45 @@ void SchedulerProcess::checkJobStageEpilogue()
             // Let's make sure focus module does not become unresponsive
             if (moduleState()->getCurrentOperationMsec() > static_cast<int>(FOCUS_INACTIVITY_TIMEOUT))
             {
-                QVariant const status = focusInterface()->property("status");
-                Ekos::FocusState focusStatus = static_cast<Ekos::FocusState>(status.toInt());
-
-                if (focusStatus == Ekos::FOCUS_IDLE || focusStatus == Ekos::FOCUS_WAITING)
+                bool success = true;
+                foreach (const QString trainname, m_activeJobs.keys())
                 {
-                    if (moduleState()->increaseFocusFailureCount())
+                    QList<QVariant> dbusargs;
+                    dbusargs.append(trainname);
+                    QDBusReply<Ekos::FocusState> statusReply = focusInterface()->callWithArgumentList(QDBus::AutoDetect, "status", dbusargs);
+                    if (statusReply.error().type() != QDBusError::NoError)
                     {
-                        qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus module timed out. Restarting request...";
-                        startFocusing();
+                        qCCritical(KSTARS_EKOS_SCHEDULER) << QString("Warning: job '%1' status request received DBUS error: %2").arg(
+                                                              m_activeJobs[trainname]->getName(), QDBusError::errorString(statusReply.error().type()));
+                        success = false;
                     }
-                    else
+                    if (success == false && !manageConnectionLoss())
                     {
-                        appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking aborted.", activeJob()->getName()));
-                        activeJob()->setState(SCHEDJOB_ABORTED);
+                        activeJob()->setState(SCHEDJOB_ERROR);
                         findNextJob();
+                        return;
+                    }
+                    Ekos::FocusState focusStatus = statusReply.value();
+                    if (focusStatus == Ekos::FOCUS_IDLE || focusStatus == Ekos::FOCUS_WAITING)
+                    {
+                        if (moduleState()->increaseFocusFailureCount(trainname))
+                        {
+                            qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus module timed out. Restarting request...";
+                            startFocusing(m_activeJobs[trainname]);
+                        }
+                        else
+                            success = false;
                     }
                 }
-                else moduleState()->startCurrentOperationTimer();
+
+                if (success == false)
+                {
+                    appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking aborted.", activeJob()->getName()));
+                    activeJob()->setState(SCHEDJOB_ABORTED);
+                    findNextJob();
+                }
             }
+            else moduleState()->startCurrentOperationTimer();
             break;
 
         case SCHEDSTAGE_GUIDING:
@@ -2952,7 +3058,7 @@ bool SchedulerProcess::executeJob(SchedulerJob * job)
 
     // Reset autofocus so that focus step is applied properly when checked
     // When the focus step is not checked, the capture module will eventually run focus periodically
-    moduleState()->setAutofocusCompleted(false);
+    moduleState()->setAutofocusCompleted(job->getOpticalTrain(), false);
 
     qCInfo(KSTARS_EKOS_SCHEDULER) << "Executing Job " << activeJob()->getName();
 
@@ -3794,12 +3900,16 @@ void SchedulerProcess::setCaptureStatus(CaptureState status, const QString &trai
 
 void SchedulerProcess::setFocusStatus(FocusState status, const QString &trainname)
 {
-    Q_UNUSED(trainname)
-
     if (moduleState()->schedulerState() == SCHEDULER_PAUSED || activeJob() == nullptr)
         return;
 
-    qCDebug(KSTARS_EKOS_SCHEDULER) << "Focus State" << Ekos::getFocusStatusString(status);
+    qCDebug(KSTARS_EKOS_SCHEDULER) << "Train " << trainname << "focus state" << Ekos::getFocusStatusString(status);
+
+    // ensure that there is an active job with the given train name
+    if (m_activeJobs.contains(trainname) == false)
+        return;
+
+    SchedulerJob *currentJob = m_activeJobs[trainname];
 
     /* If current job is scheduled and has not started yet, wait */
     if (SCHEDJOB_SCHEDULED == activeJob()->getState())
@@ -3814,30 +3924,29 @@ void SchedulerProcess::setFocusStatus(FocusState status, const QString &trainnam
         // Is focus complete?
         if (status == Ekos::FOCUS_COMPLETE)
         {
-            appendLogText(i18n("Job '%1' focusing is complete.", activeJob()->getName()));
+            appendLogText(i18n("Job '%1' focusing train '%2' is complete.", currentJob->getName(), trainname));
 
-            moduleState()->setAutofocusCompleted(true);
+            moduleState()->setAutofocusCompleted(trainname, true);
 
-            moduleState()->updateJobStage(SCHEDSTAGE_FOCUS_COMPLETE);
-
-            getNextAction();
+            if (moduleState()->autofocusCompleted())
+            {
+                moduleState()->updateJobStage(SCHEDSTAGE_FOCUS_COMPLETE);
+                getNextAction();
+            }
         }
         else if (status == Ekos::FOCUS_FAILED || status == Ekos::FOCUS_ABORTED)
         {
-            appendLogText(i18n("Warning: job '%1' focusing failed.", activeJob()->getName()));
+            appendLogText(i18n("Warning: job '%1' focusing failed.", currentJob->getName()));
 
-            if (moduleState()->increaseFocusFailureCount())
+            if (moduleState()->increaseFocusFailureCount(trainname))
             {
-                appendLogText(i18n("Job '%1' is restarting its focusing procedure.", activeJob()->getName()));
-                // Reset frame to original size.
-                focusInterface()->call(QDBus::AutoDetect, "resetFrame");
-                // Restart focusing
-                qCDebug(KSTARS_EKOS_SCHEDULER) << "startFocusing on 6883";
-                startFocusing();
+                appendLogText(i18n("Job '%1' for train '%2' is restarting its focusing procedure.", currentJob->getName(), trainname));
+                startFocusing(currentJob);
             }
             else
             {
-                appendLogText(i18n("Warning: job '%1' focusing procedure failed, marking aborted.", activeJob()->getName()));
+                appendLogText(i18n("Warning: job '%1' on train '%2' focusing procedure failed, marking aborted.", activeJob()->getName(),
+                                   trainname));
                 activeJob()->setState(SCHEDJOB_ABORTED);
 
                 findNextJob();

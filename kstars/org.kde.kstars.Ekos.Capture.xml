@@ -120,6 +120,7 @@
       <arg type="i" direction="out"/>
     </method>
     <method name="clearAutoFocusHFR">
+      <arg name="trainname" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="ignoreSequenceHistory">

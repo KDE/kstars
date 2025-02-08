@@ -113,6 +113,14 @@ void Capture::setupOptions()
 
 
 }
+
+void Capture::clearAutoFocusHFR(const QString &trainname)
+{
+    int pos = findCamera(trainname, false);
+    if (pos >= 0)
+        camera(pos)->clearAutoFocusHFR();
+}
+
 QSharedPointer<Camera> Capture::addCamera()
 {
     QSharedPointer<Camera> newCamera;
@@ -388,6 +396,8 @@ bool Capture::setVideoLimits(uint16_t maxBufferSize, uint16_t maxPreviewFPS)
 
     return mainCameraDevices()->getActiveCamera()->setStreamLimits(maxBufferSize, maxPreviewFPS);
 }
+
+
 
 QString Capture::start(QString train)
 {
