@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-09 01:50+0000\n"
-"PO-Revision-Date: 2025-02-06 11:11+0100\n"
+"PO-Revision-Date: 2025-02-09 23:52+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -30114,10 +30114,9 @@ msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Trabajo (%1) - Captura terminada"
 
 #: ekos/scheduler/schedulerprocess.cpp:3927
-#, fuzzy, kde-format
-#| msgid "Job '%1' focusing is complete."
+#, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
-msgstr "El enfoque del trabajo «%1» se ha completado."
+msgstr "El tren de enfoque «%2» del trabajo «%1» se ha completado."
 
 #: ekos/scheduler/schedulerprocess.cpp:3939
 #, kde-format
@@ -30125,19 +30124,18 @@ msgid "Warning: job '%1' focusing failed."
 msgstr "Advertencia: el enfoque del trabajo «%1» ha fallado."
 
 #: ekos/scheduler/schedulerprocess.cpp:3943
-#, fuzzy, kde-format
-#| msgid "Job '%1' is restarting its focusing procedure."
+#, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
-msgstr "Reiniciando el proceso de enfoque automático del trabajo «%1»"
+msgstr ""
+"El trabajo «%1» para el tren «%2» está reiniciando su proceso de enfoque."
 
 #: ekos/scheduler/schedulerprocess.cpp:3948
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr ""
-"Advertencia: el procedimiento de enfoque del trabajo «%1» ha fallado. Se "
-"marca como interrumpido."
+"Advertencia: el procedimiento de enfoque del trabajo «%1» en el tren «%2» ha "
+"fallado. Se marca como interrumpido."
 
 #: ekos/scheduler/schedulerprocess.cpp:3978
 #, kde-format

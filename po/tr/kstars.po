@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-09 01:50+0000\n"
-"PO-Revision-Date: 2025-02-06 08:48+0300\n"
+"PO-Revision-Date: 2025-02-09 12:53+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -29681,10 +29681,9 @@ msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] İş (%1) — Yakalama bitti"
 
 #: ekos/scheduler/schedulerprocess.cpp:3927
-#, fuzzy, kde-format
-#| msgid "Job '%1' focusing is complete."
+#, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
-msgstr "“%1” işi odaklaması tamamlandı."
+msgstr "“%2” katarına odaklı “%1” işi tamamlandı."
 
 #: ekos/scheduler/schedulerprocess.cpp:3939
 #, kde-format
@@ -29692,18 +29691,18 @@ msgid "Warning: job '%1' focusing failed."
 msgstr "Uyarı: “%1” işi odaklaması başarısız oldu."
 
 #: ekos/scheduler/schedulerprocess.cpp:3943
-#, fuzzy, kde-format
-#| msgid "Job '%1' is restarting its focusing procedure."
+#, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
-msgstr "“%1” işinin odaklama prosedürü yeniden başlatılıyor."
+msgstr ""
+"“%2” katarı için olan “%1” işi odaklama prosedürünü yeniden başlatıyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:3948
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr ""
-"Uyarı: “%1” işinin odaklama prosedürü başarısız oldu, imleme iptal ediliyor."
+"Uyarı: “%2” katarı için olan “%1” işi odaklama prosedürü başarısız oldu; "
+"imleme durduruluyor."
 
 #: ekos/scheduler/schedulerprocess.cpp:3978
 #, kde-format

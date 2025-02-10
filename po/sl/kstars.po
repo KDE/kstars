@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-09 01:50+0000\n"
-"PO-Revision-Date: 2025-02-08 22:00+0100\n"
+"PO-Revision-Date: 2025-02-09 22:40+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -17427,10 +17427,10 @@ msgid ""
 "angle.</p><p>The position angle is measured East of North in degrees.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Nastavitev kota položaja kamere mora "
-"premaknitirotator. Merilnik odraža stanje rotatorja. Odvisno odnatančnosti "
-"rotatorja lahko pride do odstopanja v končnem položajukota.</p><p>Kot "
-"položaja se meri vzhodno od severa v stopinjah.</p></telo></html>"
+"<html><head/><body><p>Nastavitev kota položaja kamere mora premakniti "
+"rotator. Merilnik odraža stanje rotatorja. Odvisno od natančnosti rotatorja "
+"lahko pride do odstopanja v končnem položaju kota.</p><p>Kot položaja se "
+"meri vzhodno od severa v stopinjah.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/rotatorsettings.ui:452
@@ -22028,21 +22028,20 @@ msgstr ""
 "še vedno boste videli sliko vodilne zvezde, ko boste vodili."
 
 #: ekos/guide/guide.cpp:2973 ekos/guide/guide.cpp:3099
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "To receive PHD2 images other than the Guide Star Image, SubFrame must be "
 "unchecked.  Unchecking it now to enable your image captures.  You can re-"
 "enable it before Guiding"
 msgstr ""
-"Če želite prejemati slike PHD2, ki niso slika zvezde vodnika, je treba "
-"počistiti potrditev podslike.  Zdaj ga odkljukajte, da omogočite zajemanje "
-"slik.  Lahko ga ponovno omogočite, preden uporabite vodenje"
+"Za sprejem slik PHD2, ki niso slika vodilne zvezde, mora biti podsličica "
+"neodkljukana. Zdaj počistite to polje, da omogočite zajem slik. Lahko ga "
+"ponovno omogočite pred vodenjem"
 
 #: ekos/guide/guide.cpp:3266
 #, kde-format
 msgid "Cannot change active optical train while PHD2 is connected"
-msgstr ""
-"Ni mogoče zamenjati aktivnega optičnega vlaka medtem ko je povezan PHD2."
+msgstr "Ni mogoče zamenjati aktivnega optike, medtem ko je povezana s PHD2"
 
 #. i18n: ectx: property (title), widget (QGroupBox, controlGroupBox)
 #: ekos/guide/guide.ui:95
@@ -22082,7 +22081,7 @@ msgstr "Ročno stresanje"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:276
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Subframe the image around the guide star. Or for PHD2, "
 "receive the Guide Star Image instead of the full image frame. For the "
@@ -22091,18 +22090,19 @@ msgid ""
 "it to take a full frame again. <br/>Please note: 'SEP Multi Star' <span "
 "style=\" font-weight:600;\">cannot</span> use subframe.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Podframiranje slike okoli zvezde vodnika. Ali pa za "
-"PHD2 prejmete Sliko zvezde vodnika namesto polnega okvirja slike. Preden "
-"preverite to možnost, morate najprej zajeti sliko in izbrati zvezdo <span "
-"style=\" font-weight:600;\"></span> vodnika. Počistite to, da bo spet poln "
-"okvir.<br/>Upoštevajte: \"SEP Multi Star\" <span style=\" font-weight:600;"
-"\">ne more</span> uporabljati podframa.</p></body></html>"
+"<html><head/><body><p>Uokviri sliko okoli vodilne zvezde. Ali za PHD2, "
+"prejmite sliko vodilne zvezde namesto celotnega posnetka. Preden označite "
+"možnost notranjega vodnika, morate <span style=\" font-weight:600;"
+"\">najprej</span> zajeti sliko in izbrati vodilno zvezdo. Počistite to "
+"polje, da znova posnamete celotni posnetek. <br/>Upoštevajte: 'SEP Multi "
+"Star' <span style=\" font-weight:600;\">ne more</span> uporabiti podokvirja."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, guideSubframe)
 #: ekos/guide/guide.ui:279
 #, kde-format
 msgid "Subframe"
-msgstr "Podposnetek"
+msgstr "Podokvir"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, eastRAGuideEnabled)
 #: ekos/guide/guide.ui:301
@@ -22470,65 +22470,67 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, latestCheck)
 #: ekos/guide/guide.ui:1426
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the latest guide data and autoscroll "
 "the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Preverite, ali želite prikazati najnovejše podatke "
-"vodnika in samodejno pomakniti graf.</p></body></html>"
+"<html><head/><body><p>Odkljukajte za prikaz najnovejših podatkov vodnika in "
+"samodejnega premikanjagrafa.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
 #: ekos/guide/guide.ui:1429
-#, fuzzy, kde-format
+#, kde-format
 msgid "Max "
-msgstr "Maks."
+msgstr "Max"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideAutoScaleGraphB)
 #: ekos/guide/guide.ui:1449
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Autoscale both Guide Graphs to their default scale. If "
 "any points are located outside this range, the view is expanded to include "
 "them (with the exception of the time axis in the drift graphics).</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Samodejno prestavi oba vodilna grafa na privzeto "
-"lestvico. Če so kakšne točke zunaj tega obsega, je pogled razširjen tako, da "
-"jih vključuje (z izjemo časovne osi v drift grafiki).</p></body></html>"
+"<html><head/><body><p>Samodejno prilagodi oba vodilna grafikona na privzeto "
+"merilo. če se katerekoli točke nahajajo zunaj tega obsega, se pogled razširi "
+"tako, da jih vključuje (z izjemo časovne osi v grafu drsenja).</p></telo></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
 #: ekos/guide/guide.ui:1471
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Export the guide data from the current session to a "
 "CSV file readable by a spreadsheet program.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izvozite podatke vodnika iz trenutne seje v datoteko "
+"<html><head/><body><p>Izvozit podatke vodnika iz trenutne seje v datoteko "
 "CSV, ki jo bere program preglednice.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideDataClearB)
 #: ekos/guide/guide.ui:1493
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Počistite vse nedavne podatke o vodniku.</p></body></"
+"<html><head/><body><p>Počisti vse nedavne podatke o vodniku.</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guiderAccuracyThreshold)
 #: ekos/guide/guide.ui:1509
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Set the desired guiding accuracy in the Drift Plot. "
 "The number represents the radius of the green concentric circle in "
 "arcseconds.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nastavite želeno natančnost v Drift Plot. Število "
-"predstavlja polmer zelenega koncentričnega kroga v lokih.</p></body></html>"
+"<html><head/><body><p>Nastavi želeno natančnost v grafu zdrsa. Število "
+"predstavlja polmer zelenega koncentričnega kroga v ločnih sekundah.</p></"
+"body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:69
-#, fuzzy, kde-format
+#, kde-format
 msgid "drift (arcsec)"
 msgstr "drsenje (ločne s)"
 
@@ -22539,7 +22541,7 @@ msgstr "pulz (ms)"
 
 #: ekos/guide/guidedriftgraph.cpp:226 ekos/guide/guidedriftgraph.cpp:625
 #: ekos/guide/guidedriftgraph.cpp:700
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
 "deviation in arcseconds; %4 is the RMS error in arcseconds; %5 is the SNR"
@@ -22554,7 +22556,7 @@ msgstr ""
 
 #: ekos/guide/guidedriftgraph.cpp:245 ekos/guide/guidedriftgraph.cpp:641
 #: ekos/guide/guidedriftgraph.cpp:716
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
 "deviation in arcseconds; %4 is the RMS error in arcseconds; %5 is the SNR; "
@@ -22567,8 +22569,8 @@ msgid ""
 msgstr ""
 "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>RA:   </td><td>%2 \"</td></"
 "tr><tr><td>DE:   </td><td>%3 \"</td></tr><tr><td>RMS:   </td><td>%4 \"</td></"
-"tr><tr><td>SNR:   </td><td>%5 \"</td></tr><tr><td>Ra impulz:   </td><td>%6 "
-"ms</td></tr><tr><td>DE Pulse:   </td><td>%7 ms</td></tr></table>"
+"tr><tr><td>SNR:   </td><td>%5 \"</td></tr><tr><td>RA impulz:   </td><td>%6 "
+"ms</td></tr><tr><td>DE impulz:   </td><td>%7 ms</td></tr></table>"
 
 #: ekos/guide/guidedriftgraph.cpp:284 ekos/guide/guidetargetplot.cpp:200
 #: kstarslite/skyitems/horizonitem.cpp:29
@@ -22603,23 +22605,21 @@ msgid "E"
 msgstr "V"
 
 #: ekos/guide/guidedriftgraph.cpp:456
-#, fuzzy, kde-format
-#| msgid "Export Guide Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Export Guide Data"
-msgstr "Izvozi podatke o vodenju"
+msgstr "Izvozi podatke o vodniku"
 
 #. i18n: ectx: property (text), widget (QLabel, preparingStateLabel)
 #: ekos/guide/guidestatewidget.ui:51
-#, fuzzy, kde-format
-#| msgid "Preparing"
+#, kde-format
 msgid "Prep"
-msgstr "INPUT/OUTPUT/MESSAGE so lahko podani le po PREP_ENCRYPT"
+msgstr "Prep"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:178
 #, kde-format
 msgid "RA drifting forward..."
-msgstr "Drsenje rekt. v smeri naprej …"
+msgstr "RA zdrsavanje naprej…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:182
 #, kde-format
@@ -22629,26 +22629,26 @@ msgstr "Najdena vodilna zvezda."
 #: ekos/guide/internalguide/calibrationprocess.cpp:243
 #, kde-format
 msgid "RA drifting reverse..."
-msgstr "Drsenje rekt. v smeri nazaj …"
+msgstr "RA zdrsavanje nazaj…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:249
 #: ekos/guide/internalguide/calibrationprocess.cpp:388
 #: ekos/guide/internalguide/calibrationprocess.cpp:608
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Calibration rejected. Star drift is too short. Check for mount, cable, or "
 "backlash problems."
 msgstr ""
-"Umerjanje zavrnjeno. Drsenje zvezde je prekratko. Preverite, ali so težave s "
-"montažo, kabelsko ali backlash."
+"Umerjanje zavrnjeno. Drsenje zvezde je prekratko. Preverite, ali so težave z "
+"montažo, kabli ali zračnostjo."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:252
-#, fuzzy, kde-format
+#, kde-format
 msgid "Calibration Failed: Drift too short."
-msgstr "Kalibracija ni uspela: drsenje prekratko."
+msgstr "Umerjanje ni uspelo: Zdrsavanje prekratko."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:339
-#, fuzzy, kde-format
+#, kde-format
 msgid "Calibration Failed: couldn't reach start."
 msgstr "Umerjanje ni uspelo: ni bilo mogoče doseči začetka."
 
@@ -22674,36 +22674,36 @@ msgstr[3] ""
 "težave s montažo ali zračnostjo…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:359
-#, fuzzy, kde-format
+#, kde-format
 msgid "DEC backlash..."
-msgstr "DEC backlash…"
+msgstr "DEC zračnost..."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:372
 #: ekos/guide/internalguide/calibrationprocess.cpp:425
 #, kde-format
 msgid "DEC drifting forward..."
-msgstr "Drsenje dekl. v smeri naprej …"
+msgstr "DEC zdrsavanje naprej…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:391
 #: ekos/guide/internalguide/calibrationprocess.cpp:609
-#, fuzzy, kde-format
+#, kde-format
 msgid "Calibration Failed: drift too short."
-msgstr "Kalibracija ni uspela: zanašanje prekratko."
+msgstr "Umerjanje ni uspelo: zdrsavanje prekratko."
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:411
 #: ekos/guide/internalguide/calibrationprocess.cpp:428
-#, fuzzy, kde-format
+#, kde-format
 msgid "Calibrating DEC Backlash"
-msgstr "Umerjanje DEC backlash"
+msgstr "Umerjanje zračnosti DEC"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:475
 #, kde-format
 msgid "DEC drifting reverse..."
-msgstr "Drsenje dekl. v smeri nazaj …"
+msgstr "DEC zdrsavanje nazaj…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:485
 #: ekos/guide/internalguide/calibrationprocess.cpp:573
-#, fuzzy, kde-format
+#, kde-format
 msgid "Calibration Failed: couldn't reach start point."
 msgstr "Umerjanje ni uspelo: ni bilo mogoče doseči začetne točke."
 
@@ -22730,9 +22730,9 @@ msgstr[3] ""
 "Možne težave s montažo ali zračnostjo…"
 
 #: ekos/guide/internalguide/calibrationprocess.cpp:595
-#, fuzzy, kde-format
+#, kde-format
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
-msgstr "Smer DEC obrnjena (RA-DEC je zdaj standardni sistem v NSUK)."
+msgstr "Smer DEC obrnjena (RA-DEC je zdaj standardni sistem CCW)."
 
 #: ekos/guide/internalguide/internalguider.cpp:539
 #, kde-format
@@ -22773,16 +22773,14 @@ msgstr ""
 "ali skrajšati trajanje pulza."
 
 #: ekos/guide/internalguide/internalguider.cpp:740
-#, fuzzy, kde-format
-#| msgid "Guide Star found."
+#, kde-format
 msgid "Guide Star lost."
-msgstr "Najdena vodilna zvezda."
+msgstr "Vodilna zvezda izgubljena."
 
 #: ekos/guide/internalguide/internalguider.cpp:772
-#, fuzzy, kde-format
-#| msgid "Guiding calibration restored"
+#, kde-format
 msgid "Guiding calibration failed"
-msgstr "Umerjanje vodenja je obnovljeno"
+msgstr "Umerjanje vodenja neuspelo"
 
 #: ekos/guide/internalguide/internalguider.cpp:779
 #, kde-format
@@ -22792,17 +22790,17 @@ msgstr "Umerjanje vodenja se je uspešno zaključilo"
 #: ekos/guide/internalguide/internalguider.cpp:1107
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
-msgstr "Sled za vodilno zvezdo se je izgubila. Iščem vodilno zvezdo…"
+msgstr "Sled za vodilno zvezdo se je izgubila. Iščem vodilne zvezde…"
 
 #: ekos/guide/internalguide/internalguider.cpp:1109
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
-msgstr "Vrednost praga delta RMS je presegala. Iskanje zvezd vodnikov…"
+msgstr "Vrednost praga delta RMS je prekoračena. Iskanje vodilnih zvezd..."
 
 #: ekos/guide/internalguide/internalguider.cpp:1293
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
-msgstr "Ni uspelo najti nobenih primernih zvezd vodnikov. Prekinitev…"
+msgstr "Ni uspelo najti nobenih primernih vodilnih zvezd. Prekinitev…"
 
 #. i18n: ectx: property (text), widget (QRadioButton, magnitudeR)
 #: ekos/guide/manualdither.ui:22 fitsviewer/fitstab.cpp:769
@@ -22813,123 +22811,113 @@ msgstr "Magnituda"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManualPulse)
 #: ekos/guide/manualpulse.ui:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Manual Pulse"
-msgstr "Ročni zamah"
+msgstr "Ročni impulz"
 
 #. i18n: ectx: property (text), widget (QPushButton, northPulseB)
 #: ekos/guide/manualpulse.ui:37
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "North"
+#, kde-format
 msgid "North / DE+"
-msgstr "Sever"
+msgstr "Sever / DE+"
 
 #. i18n: ectx: property (text), widget (QPushButton, westPulseB)
 #: ekos/guide/manualpulse.ui:46
 #, kde-format
 msgid "West / RA-"
-msgstr "Zahod / rekt.-"
+msgstr "Zahod / RA-"
 
 #. i18n: ectx: property (text), widget (QPushButton, eastPulseB)
 #: ekos/guide/manualpulse.ui:66
 #, kde-format
 msgid "East / RA+"
-msgstr "Vzhod / rekt.+"
+msgstr "Vzhod / RA+"
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
 #: ekos/guide/manualpulse.ui:75
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "South"
+#, kde-format
 msgid "South / DE-"
-msgstr "Jug"
+msgstr "Jug  / DE-"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_29)
 #: ekos/guide/manualpulse.ui:86 ekos/guide/opscalibration.ui:60
 #, kde-format
 msgid "Pulse:"
-msgstr "Pulz:"
+msgstr "Impulz:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, pulseDuration)
 #: ekos/guide/manualpulse.ui:93
-#, fuzzy, kde-format
-#| msgid " s"
+#, kde-format
 msgid " ms"
-msgstr " s"
+msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/manualpulse.ui:112
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "RA Offset\":"
-msgstr "Odmik X:"
+msgstr "RA Odmik\":"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/guide/manualpulse.ui:126
-#, fuzzy, kde-format
-#| msgid "X Offset:"
+#, kde-format
 msgid "DE Offset\":"
-msgstr "Odmik X:"
+msgstr "DE Odmik\":"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_29)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationPulseDuration)
 #: ekos/guide/opscalibration.ui:57 ekos/guide/opscalibration.ui:83
-#, fuzzy, kde-format
-#| msgid "Initial declination:"
+#, kde-format
 msgid "Initial pulse size for calibration."
-msgstr "Začetna deklinacija:"
+msgstr "Začetna velikost impulza za umerjanje."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_AutoModeIterations)
 #: ekos/guide/opscalibration.ui:67
-#, fuzzy, kde-format
-#| msgid "Maximum number of iterations reached. Solver failed."
+#, kde-format
 msgid "Maximum number of iterations calibration should use per phase."
-msgstr "Doseženo je bilo največje število ponovitev. Reševalnik je spodletel."
+msgstr "Največje število ponovitev, ki naj bi ga umerjanje uporabilo na fazo."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: ekos/guide/opscalibration.ui:102
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Maximum number of iterations calibration should use per phase. It may use "
 "fewer (if max move is reached)."
 msgstr ""
-"Največje število umerjanja iteracije je treba uporabiti na fazo. Lahko "
-"uporabi manj (če je dosežen max move)."
+"Največje število ponovitev, ki naj bi umerjanje uporabilo na fazo. Lahko "
+"uporabi manj (če je dosežen največji premik)."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/guide/opscalibration.ui:105
-#, fuzzy, kde-format
-#| msgid "Max. Iterations"
+#, kde-format
 msgid "Max Iterations:"
-msgstr "Največ ponovitev"
+msgstr "Maksimum ponovitev:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label1)
 #: ekos/guide/opscalibration.ui:112
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Maximum number of pixels the calibration should move. Once it exceeds this "
 "amount, it will finish the calibration phase.  It may move less if  max "
 "iterations is reached."
 msgstr ""
-"Največje število pik se mora umerjanje premakniti. Ko bo ta znesek "
-"preraščal, bo končal fazo kalibracije.  Če dosežete največje število "
-"ponovitev, se lahko premakne manj."
+"Največje število slikovnih pik, ki jih mora premakniti umerjanje. Ko enkrat "
+"preseže tokoličino, bo končal fazo umerjanja. Lahko se premakne manj, če je "
+"doseženo maksimalno število ponovitev."
 
 #. i18n: ectx: property (text), widget (QLabel, label1)
 #: ekos/guide/opscalibration.ui:115
-#, fuzzy, kde-format
+#, kde-format
 msgid "Max move (px):"
-msgstr "Največja poteza (px):"
+msgstr "Največji premik (px):"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_CalibrationMaxMove)
 #. i18n: ectx: label, entry (CalibrationMaxMove), group (Guide)
 #: ekos/guide/opscalibration.ui:122 kstars.kcfg:2862
-#, fuzzy, kde-format
-#| msgid "Maximum number of iterations reached. Solver failed."
+#, kde-format
 msgid "Maximum number of pixels the calibration should move (approximate)."
-msgstr "Doseženo je bilo največje število ponovitev. Reševalnik je spodletel."
+msgstr ""
+"Največje število slikovnih pik, ki jih mora premakniti umerjanje (približno)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_TwoAxisEnabled)
 #: ekos/guide/opscalibration.ui:143
@@ -22958,17 +22946,15 @@ msgstr "Mreža"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_26)
 #: ekos/guide/opscalibration.ui:175
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "X position of the guide star"
-msgstr "Položaj okvirja s podatki o času."
+msgstr "Položaj X vodilne zvezde"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_27)
 #: ekos/guide/opscalibration.ui:192
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Y position of the guide star"
-msgstr "Položaj okvirja s podatki o času."
+msgstr "Položaj Y vodilne zvezde"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/guide/opscalibration.ui:223
@@ -22996,45 +22982,45 @@ msgstr "ms/ločne sekunde"
 
 #. i18n: ectx: property (text), widget (QLabel, dec_cal_degrees_unit)
 #: ekos/guide/opscalibration.ui:332
-#, fuzzy, kde-format
+#, kde-format
 msgid "degrees (swapped)"
-msgstr "stopnje (zamenjane)"
+msgstr "stopinje (zamenjane)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
 #: ekos/guide/opscalibration.ui:366
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Remove the effect of DEC backlash when calibrating "
 "guider.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Odstrani učinek upora DEC pri kalibraciji vodila.</p></"
-"body></html>"
+"<html><head/><body><p>Odstrani učinek zračnosti DEC pri umerjanju vodila.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_GuideCalibrationBacklash)
 #: ekos/guide/opscalibration.ui:372
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove DEC backlash in guide calibration"
-msgstr "Odstranite upor DEC pri kalibraciji vodnika"
+msgstr "Odstrani zračnost DEC pri umerjanju vodnika"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:379
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked,  always re-calibrate when guiding is "
 "started. This is often not necessary when a good quality calibration has "
 "previously been done and the guide camera has not been rotated or re-"
 "installed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Če ste preverili, vedno ponovno kalibrirajte, ko je "
-"zagnano s smernicami. To pogosto ni potrebno, če je bila pred tem opravljena "
-"dobra kalibracija kakovosti in ko vodilna kamera ni bila zasukana ali "
-"ponovno nameščena.</p></body></html>"
+"<html><head/><body><p>Če je odkljukano, vedno znova umeri, ko se je "
+"vodenjezačelo. To pogosto ni potrebno, kadar je opravljeno kakovostno "
+"umerjanje in kamera vodila ni bila zavrtena ali ponovno nameščena.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ResetGuideCalibration)
 #: ekos/guide/opscalibration.ui:385
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reset Guide Calibration After Each Mount Slew"
-msgstr "Ponastavi umerjanje vodnika po vsakem nosilec"
+msgstr "Ponovno nastavi umerjanje vodnika po vsakem obračanju montaže"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:392
@@ -23045,16 +23031,16 @@ msgid ""
 "automatically determined from your mount. The \"Reset Guide on Slew\" option "
 "above must be unchecked for this to be attempted.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Shranite in poskusite znova uporabiti kalibracije. To "
-"deluje le na nasprotnih straneh meridiana, če je stojalo lahko samodejno "
-"določeno iz vaše montaže. Zgoraj navedena možnost »Reset Guide on Slew« je "
-"treba počistiti, da se to poskusi.</p></body></html>"
+"<html><head/><body><p>Shrani in poskusi znova uporabiti umerjanja. To deluje "
+"le na nasprotnih straneh meridiana, če je stojalo lahko samodejno določeno "
+"iz vaše montaže. Zgoraj navedena možnost »Reset Guide on Slew« je treba "
+"počistiti, da se to da poskusiti.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReuseGuideCalibration)
 #: ekos/guide/opscalibration.ui:398
-#, fuzzy, kde-format
+#, kde-format
 msgid "Store and reuse guide calibration when possible."
-msgstr "Če je mogoče, shranjujte in ponovno uporabljajte kalibracijo vodnika."
+msgstr "Shrani in ponovno uporabi umerjanje vodnika, kadar je to mogoče."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:405
@@ -23065,11 +23051,10 @@ msgid ""
 "when re-using calibrations. The value you need is a property of your mount "
 "that should be researched. </p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ko ponovno uporabite kalibracijo, obrnite kot DEC, če "
-"se trenutna stran stojala razlikuje od trenutne strani stojala pri "
-"kalibraciji. To velja le pri ponovno uporabi kalibracij. Vrednost, ki jo "
-"potrebujete, je lastnost vaše montaže, ki jo je treba raziskati. </p></"
-"body></html>"
+"<html><head/><body><p>Ko ponovno uporabite umerjanje, obrnite kot DEC, če se "
+"trenutna stran stojala razlikuje od trenutne strani stojala pri umerjanju. "
+"To velja le pri ponovno uporabi umerjanj. Vrednost, ki jo potrebujete, je "
+"lastnost vaše montaže, ki jo je treba raziskati. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
@@ -23163,7 +23148,7 @@ msgid ""
 "p></body></html>"
 msgstr ""
 "<html><head/><body><p>Največje število poskusov ponavljanja tresenja pred "
-"prenehanjem</p></telo></html>"
+"prenehanjem</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/guide/opsdither.ui:190
@@ -23426,32 +23411,7 @@ msgstr "Ekspertne nastavitve"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_gpgas0a)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_GPGSE0KLengthScale)
 #: ekos/guide/opsgpg.ui:352 ekos/guide/opsgpg.ui:370
-#, fuzzy, kde-format
-#| msgid ""
-#| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#| "REC-html40/strict.dtd\">\n"
-#| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#| "css\">\n"
-#| "p, li { white-space: pre-wrap; }\n"
-#| "</style></head><body style=\" font-family:'Sans'; font-size:10pt; font-"
-#| "weight:400; font-style:normal;\">\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Select field of view "
-#| "capture method. There are two methods: manual and star hopping-based.</"
-#| "p>\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">In <span style=\" font-"
-#| "weight:600;\">manual method</span> you navigate the sky map to find the "
-#| "objects of interest, then capture multiple fields of view representations."
-#| "</p>\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Star hopping-based method </span>automatically captures FOV "
-#| "snapshots using star hopping. This is experimental feature.</p>\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Once you have selected "
-#| "field of view capture method, press <span style=\" font-weight:600;"
-#| "\">Next</span>.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Length scale of the long range kernel in seconds.</"
 "p><p>This \n"
@@ -23471,29 +23431,23 @@ msgid ""
 "ul><p>This should probably be several\n"
 "          times larger than the major period.</p></body></html>"
 msgstr ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'Sans'; font-size:10pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Izberite način zajema "
-"vidnega polja. Na voljo sta dva načina: ročni in skakanje po zvezdah.</p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Pri <span style=\" font-"
-"weight:600;\">ročnem načinu</span> se sami sprehajate po zvezdni karti in "
-"iščete zanimive objekte ter nato zajamete več vidnih polj.</p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Način skakanja po zvezdah</span> samodejno zajame posnetke "
-"vidnih polj in pri tem skače od zvezde do zvezde. Ta zmožnost je še v "
-"poskusni fazi.</p>\n"
-"<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Ko izberete način zajema "
-"vidnih polj, pritisnite <span style=\" font-weight:600;\">Naprej</span>.</"
-"p></body></html>"
+"<html><head/><body><p>Lestvica dolžine jedra dolgega dosega v sekundah.</"
+"p><p>Ta \n"
+"          parameter upošteva dolgoročni odmik v periodični napaki na "
+"lestvici več glavnih obdobij. To je lahko posledica na\n"
+"          primer:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
+"left: 0px; margin-right: 0px; -qt-list-indent:\n"
+"          1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0;\n"
+"          text-indent:0px;\">Harmonična interakcija med zobniki v celotnem "
+"prenosu,</li><li style=\"\n"
+"          margin-top:12px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Sprememba v\n"
+"          lnalaganju zaradi gravitacije,</li><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px;\n"
+"          -qt-block-indent:0; text-indent:0px;\">Thermal variations.</li></"
+"ul><p>To bi moralo biti nekaj kratl\n"
+"          večje od glavne periode.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas0a)
 #: ekos/guide/opsgpg.ui:355
@@ -23648,7 +23602,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_gpgas4a)
 #: ekos/guide/opsgpg.ui:510
-#, fuzzy, kde-format
+#, kde-format
 msgid "Short-range Length Scale"
 msgstr "Dolžinska lestvica kratkega dosega"
 
@@ -23663,7 +23617,7 @@ msgid ""
 "          scale.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Varianca signala jedra kratkega \n"
-"          dosega.</p><p><br/></p><p>Koliko se kratkoročni šum spreminja v "
+"          dosega.</p><p><br/></p><p>Za koliko se kratkoročni šum spreminja v "
 "kratkoročnem\n"
 "          merilu.</p></body></html>"
 
@@ -23904,34 +23858,34 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Program bo iskal v kvadratni spirali okoli začetnega "
 "položaja vse do tega polmera.</p></body></html> <html><head/><body><p>Če je "
-"odkljukano, poskušamo biti bolj odporni na dvojne zvezdetako, da si iz "
-"referenc z več zvezdami izmisli položaj vodilne zvezde.</p></telo></html>"
+"odkljukano, poskušamo biti bolj odporni na dvojne zvezde tako, da si iz "
+"referenc z več zvezdami izmisli položaj vodilne zvezde.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:427
-#, fuzzy, kde-format
+#, kde-format
 msgid "Invent Multi-Star Guide Star (experimental)"
-msgstr "Izmisli si položaj vodilne zvezde iz sklicev na več zvezd (poskusno)"
+msgstr "Izumi Multi-Star vodilno zvezdo (eksperimentalno)"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:437
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked and the internal guider is run, a log file "
 "is saved in the default logging directory. This is not a debug log, it is "
 "meant for user's to improve logging and can be viewed with phd2logview.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Če ste preverili in se zažene notranji vodnik, se "
-"dnevniška datoteka shrani v privzeti imenik za beleženje. To ni dnevnik "
-"odpravljanja napak, namenjen je uporabniku za izboljšanje sečnje in si ga "
-"lahko ogledate s phd2logview.</p></body></html>"
+"<html><head/><body><p>Če je odkljukano in se zažene notranji vodnik, se "
+"datoteka dnevnikashrani v privzeti imenik za beleženje. To ni dnevnik "
+"odpravljanja napak, ampak jenamenjen uporabnikom za izboljšanje beleženja in "
+"si ga je mogoče ogledati s programom phd2logview.</p></telo></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:440
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save Internal Guider User Log"
-msgstr "Shrani uporabniški dnevnik internega vodnika"
+msgstr "Shrani interni uporabniški dnevnik vodnika"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_GuideAlgorithm)
 #: ekos/guide/opsguide.ui:464
@@ -23955,20 +23909,20 @@ msgstr "Samodejni prag"
 #: ekos/guide/opsguide.ui:484
 #, kde-format
 msgid "No Threshold"
-msgstr "Brez pragu"
+msgstr "Brez praga"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_GuideAlgorithm)
 #: ekos/guide/opsguide.ui:489
-#, fuzzy, kde-format
+#, kde-format
 msgid "SEP Multi Star (recommended)"
 msgstr "SEP Multi Star (priporočeno)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:497
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The algorithm that tracks guide stars and determines the guide deviation."
-msgstr "Algoritem, ki sledi zvezdam vodnika in določa odklon vodnika."
+msgstr "Algoritem, ki sledi vodilnim zvezdam in določa odklon vodnika."
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:500
@@ -23980,25 +23934,25 @@ msgstr "Algoritem"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
 #. i18n: ectx: label, entry (MinDetectionsSEPMultistar), group (Guide)
 #: ekos/guide/opsguide.ui:537 ekos/guide/opsguide.ui:589 kstars.kcfg:2902
-#, fuzzy, kde-format
+#, kde-format
 msgid "Minimum number of stars detected for SEP MultiStar to initialize."
-msgstr "Najmanjše število zvezd, odkritih za sep MultiStar za inicializacijo."
+msgstr "Najmanjše število zaznanih zvezd za inicializacijo SEP MultiStar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: ekos/guide/opsguide.ui:592
-#, fuzzy, kde-format
+#, kde-format
 msgid "Min MultiStar Star Detections"
-msgstr "Min Večstar zvezdne zaznave"
+msgstr "Najmanjše število zaznavanj zvezd MultiStar"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_16)
 #: ekos/guide/opsguide.ui:605
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>[PHD2] If calibration takes more time than this many "
 "seconds, abort guiding.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>[PHD2] Če kalibracija traja več časa kot to veliko "
-"sekund, prekinite peljav.</p></body></html>"
+"<html><head/><body><p>[PHD2] Če umerjanje traja več časa kot toliko sekund, "
+"prekini vodenje.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/guide/opsguide.ui:608
@@ -24008,7 +23962,7 @@ msgstr "Čas za umerjanje je potekel"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseGuideHead)
 #: ekos/guide/opsguide.ui:615
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>If the camera used for guiding has a dedicated guiding "
 "chip, you can decide which of the camera chips should be used for guiding: "
@@ -24016,25 +23970,25 @@ msgid ""
 "chip, this option is ignored.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Če ima kamera, ki se uporablja za vodenje, namenski "
-"čip za vodenje, se lahko odločite, kateri od čipov fotoaparata naj se "
-"uporabi za vodenje: primarni čip ali čip za vodenje.</p><p>Za fotoaparate, "
-"ki imajo samo en čip, se ta možnost ne upošteva.</p></body></html>"
+"čip za vodenje, se lahko odločite, kateri od čipov kamere naj se uporabi za "
+"vodenje: primarni čip ali čip za vodenje.</p><p>Za kamere, ki imajo samo en "
+"čip, je ta možnost prezrta.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseGuideHead)
 #: ekos/guide/opsguide.ui:618
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use dedicated Guiding Chip for Guiding"
 msgstr "Uporabi namenski vodilni čip za vodenje"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, INDIHub)
 #: ekos/indihub.ui:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "INDI Hub Settings"
 msgstr "Nastavitve vozlišča INDI"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/indihub.ui:59
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
@@ -24044,57 +23998,58 @@ msgid ""
 "\">indihub.space</span></a></h2></body></html>"
 msgstr ""
 "<html><head/><body><h2 style=\" margin-top:16px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Skupna "
-"<span style=\" font-size:x-large; font-weight:600;\">raba dostopa do "
-"opazovalnega </span> indihub.space <a href=\"https://indihub.space\"><span "
-"style=\" font-size:x-large; font-weight:600; text-decoration: underline; "
-"color:#007af4;\"></span></a></h2></body></html>"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-size:x-large; font-weight:600;\">Deli dostop do svojega "
+"observatorija </span><a href=\"https://indihub.space\"><span style=\" font-"
+"size:x-large; font-weight:600; text-decoration: underline; color:#007af4;"
+"\">indihub.space</span></a></h2></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, solorR)
 #: ekos/indihub.ui:94
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Use you equipment without opening remote access but equipment is still "
 "connected to INDIHUB-network and all images taken are contributed for "
 "scientific purposes."
 msgstr ""
-"Uporabljajte opremo brez odpiranja oddaljenega dostopa, vendar je oprema še "
-"vedno povezana z INDIHUB-omrežjem in vse slike, posnete, so prispevane v "
+"Uporabljaj svojo opremo brez odpiranja oddaljenega dostopa, vendar je oprema "
+"še vedno povezana z omrežjem INDIHUB in vse posnete slike so prispevane v "
 "znanstvene namene."
 
 #. i18n: ectx: property (text), widget (QRadioButton, solorR)
 #: ekos/indihub.ui:97
-#, fuzzy, kde-format
+#, kde-format
 msgid "Solo"
 msgstr "Solo"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, shareR)
 #: ekos/indihub.ui:107
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Open remote access to your equipment via INDIHUB-"
 "network of telescopes, so you can provide remote imaging sessions to your "
 "guests.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Odprite oddaljen dostop do vaše opreme preko INDIHUB-"
-"omrežja teleskopov, tako da lahko gostom zagotovite oddaljene seje slikanja."
+"<html><head/><body><p>Odpri oddaljen dostop do vaše opreme preko omrežja "
+"teleskopov INDIHUB, tako da lahko gostom zagotovite oddaljene seje slikanja."
 "</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, shareR)
 #: ekos/indihub.ui:110
-#, fuzzy, kde-format
+#, kde-format
 msgid "Share"
 msgstr "Deli"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, roboticR)
 #: ekos/indihub.ui:120
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Open remote access to your equipment to be controlled "
 "by scheduler running in INDIHUB-cloud (experimental).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Odprite oddaljen dostop do opreme, ki jo upravlja "
-"urnik, ki deluje v INDIHUB-oblaku (eksperimentalno).</p></body></html>"
+"<html><head/><body><p>Odpri oddaljen dostop do opreme, ki jo upravlja "
+"razporejevalnik, ki deluje v oblaku INDIHUB (eksperimentalno).</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, roboticR)
 #: ekos/indihub.ui:123
@@ -24114,7 +24069,7 @@ msgid "Connection in progress. Click to abort."
 msgstr "Povezovanje je v teku. Kliknite, če ga želite prekiniti."
 
 #: ekos/manager.cpp:262
-#, fuzzy, kde-format
+#, kde-format
 msgid "Logging"
 msgstr "Beleženje"
 
@@ -24125,44 +24080,44 @@ msgid "Analyze"
 msgstr "Analiziraj"
 
 #: ekos/manager.cpp:388
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extension '%1' failed to start, aborting"
-msgstr "Razširitev »%1« se ni zagnala, sledi prekinjanje"
+msgstr "Razširitev '%1' se ni zagnala, sledi prekinjanje"
 
 #: ekos/manager.cpp:402
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extension '%1' failed to stop, abort enabled"
-msgstr "Razširitev »%1« se ni ustavila, prekinitev je omogočena"
+msgstr "Razširitev '%1' se ni ustavila, prekinitev je omogočena"
 
 #: ekos/manager.cpp:411
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extension '%1' aborting"
-msgstr "Razširitev »%1« se prekinja"
+msgstr "Razširitev '%1' se prekinja"
 
 #: ekos/manager.cpp:421
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extension '%1' start requested"
-msgstr "Zahtevan začetek razširitve »%1«"
+msgstr "Zahtevan začetek razširitve '%1'"
 
 #: ekos/manager.cpp:426
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extension '%1' started"
-msgstr "Opravilo »%1« je prekinjeno."
+msgstr "Opravilo '%1' se je zagnalo."
 
 #: ekos/manager.cpp:434
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extension '%1' stop requested"
-msgstr "Zahtevan zaključek razširitve »%1«"
+msgstr "Zahtevana zaustavitev razširitve '%1'"
 
 #: ekos/manager.cpp:439
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extension '%1' stopped"
-msgstr "Opravilo »%1« je prekinjeno."
+msgstr "Opravilo '%1'je zaustavljeno"
 
 #: ekos/manager.cpp:455
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extension '%1': %2"
-msgstr "Razširitev »%1«: %2"
+msgstr "Razširitev '%1': %2"
 
 #: ekos/manager.cpp:720
 #, kde-format
@@ -24176,24 +24131,23 @@ msgid "Ekos requires at least one CCD or Guider to operate."
 msgstr "Ekos za delovanje potrebuje vsaj en CCD ali vodnika."
 
 #: ekos/manager.cpp:1020
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Ekos detected that PTP Camera is running and may prevent a Canon or Nikon "
 "camera from connecting to Ekos. Do you want to quit PTP Camera now?"
 msgstr ""
-"Podjetje Ekos je zaznalo, da kamera PTP deluje in lahko prepreči povezavo "
-"fotoaparata Canon ali Nikon s sistemom Ekos. Ali želite pustiti fotoaparat "
-"PTP zdaj?"
+"Ekos je zaznal, da kamera PTP deluje in lahko prepreči, da bi se kamera "
+"Canon ali Nikon povezala z Ekos. Ali želite zdaj zapreti kamero PTP?"
 
 #: ekos/manager.cpp:1021
 #, kde-format
 msgid "PTP Camera"
-msgstr "PTP fotoaparat"
+msgstr "PTP kamera"
 
 #: ekos/manager.cpp:1035
 #, kde-format
 msgid "Starting INDI services..."
-msgstr "Zaganjanje storitev INDI …"
+msgstr "Zaganjanje storitev INDI…"
 
 #: ekos/manager.cpp:1066
 #, kde-format
@@ -24247,23 +24201,23 @@ msgid "INDI services started on port %1. Please connect devices."
 msgstr "Storitve INDI so bile zagnane na vratih %1. Povežite naprave."
 
 #: ekos/manager.cpp:1185
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "INDI services started. Connection to remote INDI server %1:%2 is successful. "
 "Waiting for devices..."
 msgstr ""
-"Storitve INDI zagnane. Povezava z oddaljenim strežnikom INDI je bila "
-"uspešna. Čakanje na naprave …"
+"Storitve INDI zagnane. Povezava z oddaljenim strežnikom INDI %1:%2 je "
+"uspešna. Čakanje na naprave…"
 
 #: ekos/manager.cpp:1195
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to connect to local INDI server %1:%2"
-msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI."
+msgstr "Ni se bilo mogoče povezati z lokalnim strežnikom INDI %1:%2"
 
 #: ekos/manager.cpp:1197
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to connect to remote INDI server %1:%2"
-msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI."
+msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI %1:%2"
 
 #: ekos/manager.cpp:1210
 #, kde-format
@@ -24276,22 +24230,21 @@ msgid "Lost connection to remote INDI server %1:%2"
 msgstr "Izgubljena povezava z oddaljenim strežnikom INDI %1:%2"
 
 #: ekos/manager.cpp:1289
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Failed to connect to %1. Please ensure device is connected and powered on."
 msgstr ""
-"Ni mogoče vzpostaviti:\n"
-"%1\n"
-"Prepričajte se, da je naprava povezana in vklopljena."
+"Povezava z %1 ni uspela. Prepričajte se, da je naprava povezana in "
+"vklopljena."
 
 #: ekos/manager.cpp:1291
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Failed to connect to \n"
 "%1\n"
 "Please ensure each device is connected and powered on."
 msgstr ""
-"Ni mogoče vzpostaviti:\n"
+"Ni se mogoče povezati z:\n"
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
@@ -24321,29 +24274,29 @@ msgid ""
 msgstr ""
 "Ni mogoče vzpostaviti naslednjih naprav:\n"
 "%1\n"
-"Prepričajte se, da so naprave povezane in vklopljene."
+"Prepričajte se, da je vsaka naprava povezana in vklopljena."
 
 #: ekos/manager.cpp:1357
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Unable to remotely establish:\n"
 "%1\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
-"Ni mogoče vzpostaviti:\n"
+"Ni mogoče oddaljeno vzpostaviti:\n"
 "%1\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
 #: ekos/manager.cpp:1365
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Unable to remotely establish the following devices:\n"
 "%1\n"
 "Please ensure each device is connected and powered on."
 msgstr ""
-"Ni mogoče vzpostaviti naslednjih naprav:\n"
+"Ni mogoče oddaljeno vzpostaviti naslednjih naprav:\n"
 "%1\n"
-"Prepričajte se, da so naprave povezane in vklopljene."
+"Prepričajte se, da je vsaka naprava povezana in vklopljena."
 
 #: ekos/manager.cpp:1423
 #, kde-format
@@ -24371,13 +24324,12 @@ msgid "Remote devices established. Please connect devices."
 msgstr "Oddaljene naprava so bile vzpostavljene. Povežite naprave."
 
 #: ekos/manager.cpp:1614
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "%1 failed to connect.\n"
 "Please ensure the device is connected and powered on."
 msgstr ""
-"Ni mogoče vzpostaviti:\n"
-"%1\n"
+"%1 se ne more povezati:\n"
 "Prepričajte se, da je naprava povezana in vklopljena."
 
 #: ekos/manager.cpp:1621
@@ -24407,14 +24359,14 @@ msgid "Rotator %1 is online."
 msgstr "Rotator %1 je povezan."
 
 #: ekos/manager.cpp:1691
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 Weather is online."
-msgstr "Filter %1 je povezan."
+msgstr "%1 vreme je povezano."
 
 #: ekos/manager.cpp:1698
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 GPS is online."
-msgstr "%1 je povezana."
+msgstr "%1 GPS je povezano."
 
 #: ekos/manager.cpp:1707
 #, kde-format
@@ -24422,9 +24374,9 @@ msgid "%1 Dust cap is online."
 msgstr "%1 Pokrov proti prahu je na spletu."
 
 #: ekos/manager.cpp:1714
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 Light box is online."
-msgstr "Filter %1 je povezan."
+msgstr "%1 svetlobni okvir je povezan."
 
 #: ekos/manager.cpp:1864
 #, kde-format
@@ -24463,24 +24415,24 @@ msgid "Failed to update site location to %1. City not found."
 msgstr "Ni bilo mogoče posodobiti položaja mesta v %1. Mesto ni bilo najdeno."
 
 #: ekos/manager.cpp:3004
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enabling debug logging for %1..."
 msgstr "Omogočanje dnevnika odpravljanja napak za %1…"
 
 #: ekos/manager.cpp:3012
-#, fuzzy, kde-format
+#, kde-format
 msgid "Disabling debug logging for %1..."
-msgstr "Onemogočenje dnevnika odpravljanja napak za %1 …"
+msgstr "Onemogočanje dnevnika odpravljanja napak za %1…"
 
 #: ekos/manager.cpp:3040
-#, fuzzy, kde-format
+#, kde-format
 msgid "Re-enabling debug logging for %1..."
-msgstr "Ponovno omogočanje dnevnika odpravljanja napak za %1 …"
+msgstr "Ponovno omogočanje dnevnika odpravljanja napak za %1…"
 
 #: ekos/manager.cpp:3052
-#, fuzzy, kde-format
+#, kde-format
 msgid "Re-disabling debug logging for %1..."
-msgstr "Ponovno onemogočitev dnevnika odpravljanja napak za %1 …"
+msgstr "Ponovno onemogočanje dnevnika odpravljanja napak za %1…"
 
 #: ekos/manager.cpp:3748
 #, kde-format
@@ -24550,9 +24502,9 @@ msgstr "2. Zaženite in zaustavite Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosLiveB)
 #: ekos/manager.ui:392
-#, fuzzy, kde-format
+#, kde-format
 msgid "Ekos Live..."
-msgstr "Ekos v živo …"
+msgstr "Ekos v živo…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
 #: ekos/manager.ui:420 kstarsinit.cpp:539
@@ -24562,10 +24514,9 @@ msgstr "Nadzorna plošča INDI…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, portSelectorB)
 #: ekos/manager.ui:448
-#, fuzzy, kde-format
+#, kde-format
 msgid "<html><head/><body><p>Devices Port Selector...</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Uporabi reševalnik astrometry.net</p></body></html>"
+msgstr "<html><head/><body><p>Izbirnik vrat naprav...</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsB)
 #: ekos/manager.ui:476
@@ -24593,15 +24544,15 @@ msgstr "3. Vzpostavite in prekinite povezave z napravami"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
+#, kde-format
 msgid "Extensions"
-msgstr "Mere"
+msgstr "Razširitve"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687
-#, fuzzy, kde-format
+#, kde-format
 msgid "Start selected extension"
-msgstr "vrednost izbrane možnosti"
+msgstr "Zaženi izbrano razširitev"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
@@ -24635,39 +24586,39 @@ msgstr "Možnosti …"
 
 #. i18n: ectx: property (toolTip), widget (FocusProfilePlot, profilePlot)
 #: ekos/manager/focusprogresswidget.ui:275
-#, fuzzy, kde-format
+#, kde-format
 msgid "Focus HFR profile"
-msgstr "Profil ostrenja HFR"
+msgstr "Profil fokusa HFR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusStarView)
 #. i18n: ectx: property (text), widget (QLabel, focusStarView)
 #: ekos/manager/focusprogresswidget.ui:293
 #: ekos/manager/focusprogresswidget.ui:300
-#, fuzzy, kde-format
+#, kde-format
 msgid "Focus star"
-msgstr "Zvezda v žarišču"
+msgstr "Zvezda v fokusu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/manager/guidemanager.ui:92
-#, fuzzy, kde-format
+#, kde-format
 msgid "Guide: "
 msgstr "Vodilo: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: ekos/manager/guidemanager.ui:180
-#, fuzzy, kde-format
+#, kde-format
 msgid "Total RMS: "
-msgstr "Skupni RMS\":"
+msgstr "Skupni RMS: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: ekos/manager/guidemanager.ui:239
-#, fuzzy, kde-format
+#, kde-format
 msgid " σRA: "
 msgstr " σRA: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/manager/guidemanager.ui:310
-#, fuzzy, kde-format
+#, kde-format
 msgid "σDEC: "
 msgstr "σDEC: "
 
@@ -24751,12 +24702,12 @@ msgstr "Stanje: nedejavno"
 #: ekos/manager/meridianflipstate.cpp:429
 #, kde-format
 msgid "Meridian flip planned..."
-msgstr "Obrat čez poldnevnik načrtovan …"
+msgstr "Obrat čez poldnevnik načrtovan…"
 
 #: ekos/manager/meridianflipstate.cpp:433
 #, kde-format
 msgid "Meridian flip waiting..."
-msgstr "Obrat čez poldnevnik na čakanju …"
+msgstr "Obrat čez poldnevnik na čakanju…"
 
 #: ekos/manager/meridianflipstate.cpp:437
 #, kde-format
@@ -24766,7 +24717,7 @@ msgstr "Obrat čez poldnevnik pripravljen za začetek …"
 #: ekos/manager/meridianflipstate.cpp:441
 #, kde-format
 msgid "Meridian flip running..."
-msgstr "Obrat čez poldnevnik je v teku …"
+msgstr "Obrat čez poldnevnik je v teku…"
 
 #: ekos/manager/meridianflipstate.cpp:445
 #, kde-format
@@ -24780,33 +24731,33 @@ msgid "Meridian Flip Status"
 msgstr "Stanje obrata čez poldnevnik"
 
 #: ekos/mount/mount.cpp:100
-#, fuzzy, kde-format
+#, kde-format
 msgid "Are you sure you want to clear all mount configurations?"
-msgstr "Ali ste prepričani, da želite počistiti vse konfiguracije namestitve?"
+msgstr "Ali ste prepričani, da želite počistiti vse konfiguracije montaže?"
 
 #: ekos/mount/mount.cpp:101
 #, kde-format
 msgid "Mount Configuration"
-msgstr "Nastavitve stativa"
+msgstr "Nastavitve montaže"
 
 #: ekos/mount/mount.cpp:480 ekos/mount/mount.cpp:488
-#, fuzzy, kde-format
+#, kde-format
 msgid "Are you sure you want to turn off mount tracking?"
-msgstr "Ali ste prepričani, da želite izklopiti sledenje nosilca?"
+msgstr "Ali ste prepričani, da želite izklopiti sledenje montaže?"
 
 #: ekos/mount/mount.cpp:481 ekos/mount/mount.cpp:489
-#, fuzzy, kde-format
+#, kde-format
 msgid "Mount Tracking"
-msgstr "Sledenje stativa"
+msgstr "Sledenje montaže"
 
 #: ekos/mount/mount.cpp:482
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Da"
 
 #: ekos/mount/mount.cpp:483
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
 msgstr "Ne"
@@ -24816,14 +24767,14 @@ msgstr "Ne"
 msgid ""
 "Telescope altitude is below minimum altitude limit of %1. Aborting motion..."
 msgstr ""
-"Višina teleskopa je pod najnižjo mejo višine: %1. Prekinjanje premikanja …"
+"Višina teleskopa je pod najnižjo mejo višine: %1. Prekinjanje premikanja…"
 
 #: ekos/mount/mount.cpp:556
 #, kde-format
 msgid ""
 "Telescope altitude is above maximum altitude limit of %1. Aborting motion..."
 msgstr ""
-"Višina teleskopa je nad najvišjo mejo višine: %1. Prekinjanje premikanja …"
+"Višina teleskopa je nad najvišjo mejo višine: %1. Prekinjanje premikanja…"
 
 #: ekos/mount/mount.cpp:607
 #, kde-format
@@ -24834,13 +24785,13 @@ msgstr ""
 "Višina teleskopa je nad najvišjo mejo višine: %1. Prekinjanje premikanja…"
 
 #: ekos/mount/mount.cpp:742
-#, fuzzy, kde-format
+#, kde-format
 msgid "Meridian flip set inactive during polar alignment."
 msgstr ""
 "Obrat čez poldnevnik je nastavljen na neaktivnega med polarno poravnavo."
 
 #: ekos/mount/mount.cpp:756
-#, fuzzy, kde-format
+#, kde-format
 msgid "Polar alignment motions finished, meridian flip activated."
 msgstr "Premiki polarne poravnave končani, obrat čez poldnevnik aktiviran."
 
@@ -24881,7 +24832,7 @@ msgid "Warning! Parking time is more than 12 hours away."
 msgstr "Opozorilo! Parkiranje je oddaljeno več kot 12 ur."
 
 #: ekos/mount/mount.cpp:1313
-#, fuzzy, kde-format
+#, kde-format
 msgid "Caution: do not use Auto Park while scheduler is active."
 msgstr ""
 "Previdno: ne uporabljajte samodejnega parkiranja, medtem ko je "
