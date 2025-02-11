@@ -4346,10 +4346,9 @@ msgid "(nothing)"
 msgstr "(nic)"
 
 #: dialogs/finddialog.cpp:491
-#, fuzzy, kde-format
-#| msgid "Search in internet"
+#, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "Vyhledat na internetu"
+msgstr ""
 
 #: dialogs/finddialog.cpp:499
 #, kde-format
@@ -8212,10 +8211,9 @@ msgid ""
 msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:523
-#, fuzzy, kde-format
-#| msgid "Downloading comets updates..."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "Stahují se aktualizace komet..."
+msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:558
 #, kde-format
@@ -8223,10 +8221,9 @@ msgid "File Write Error"
 msgstr "Chyba při zápisu do souboru"
 
 #: ekos/align/opsastrometryindexfiles.cpp:572
-#, fuzzy, kde-format
-#| msgid "Downloading comets updates..."
+#, kde-format
 msgid "%1 download complete."
-msgstr "Stahují se aktualizace komet..."
+msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:578
 #: ekos/align/opsastrometryindexfiles.cpp:730
@@ -13666,10 +13663,9 @@ msgid "Expose (-/-):"
 msgstr ""
 
 #: ekos/capture/camera.cpp:1057
-#, fuzzy, kde-format
-#| msgid "Duration of night for selected date"
+#, kde-format
 msgid "Duration of the video sequence"
-msgstr "Délka noci pro zvolené datum"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
@@ -13687,20 +13683,14 @@ msgid "Duration:"
 msgstr "Doba trvání:"
 
 #: ekos/capture/camera.cpp:1059
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the exposure time in seconds for individual images, if applicable"
+#, kde-format
 msgid "Exposure time in seconds of a single video frame"
 msgstr ""
-"Zadejte čas expozice jednotlivých obrázků v sekundách, pokud je to vhodné"
 
 #: ekos/capture/camera.cpp:1060
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the exposure time in seconds for individual images, if applicable"
+#, kde-format
 msgid "Exposure time in seconds for individual images"
 msgstr ""
-"Zadejte čas expozice jednotlivých obrázků v sekundách, pokud je to vhodné"
 
 #: ekos/capture/camera.cpp:1075
 #, kde-format
@@ -14238,25 +14228,19 @@ msgstr "Prodleva:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, videoDurationSB)
 #: ekos/capture/camera.ui:1653
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Duration of the video sequence (in seconds or number "
 "of frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoDurationUnitCB)
 #: ekos/capture/camera.ui:1669
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Units of the video duration (seconds or number of "
 "frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1696
@@ -16136,10 +16120,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Settings"
+#, kde-format
 msgid "Capture Operations Timeout"
-msgstr "Nastavení sejmutí"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:205
@@ -17675,10 +17658,9 @@ msgid "Discarding Autofocus start request - %1 in progress."
 msgstr ""
 
 #: ekos/focus/focus.cpp:1232
-#, fuzzy, kde-format
-#| msgid "Auto close in ..."
+#, kde-format
 msgid "Autofocus starting..."
-msgstr "Automaticky přiblížit..."
+msgstr ""
 
 #: ekos/focus/focus.cpp:1246
 #, kde-format
@@ -18060,10 +18042,9 @@ msgid "Focus star is selected."
 msgstr ""
 
 #: ekos/focus/focus.cpp:4887
-#, fuzzy, kde-format
-#| msgid "No object selected."
+#, kde-format
 msgid "Region of interest is selected."
-msgstr "Nebyl vybrán žádný objekt."
+msgstr ""
 
 #: ekos/focus/focus.cpp:4907
 #, kde-format
@@ -18086,10 +18067,9 @@ msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
 #: ekos/focus/focus.cpp:4941
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing to check HFR..."
-msgstr "Zachytávám obrázek..."
+msgstr ""
 
 #: ekos/focus/focus.cpp:5071
 #, kde-format
@@ -19292,18 +19272,15 @@ msgstr "Sobel"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:294
-#, fuzzy, kde-format
-#| msgid "Gaussian"
+#, kde-format
 msgid "Laplassian"
-msgstr "Gaussovo"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:299
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgid "Canny"
-msgstr "Cannes"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusDetection)
 #: ekos/focus/opsfocusprocess.ui:313
@@ -20457,16 +20434,14 @@ msgid "Select a guide star to calibrate."
 msgstr ""
 
 #: ekos/guide/guide.cpp:2826
-#, fuzzy, kde-format
-#| msgid "x (pixels)"
+#, kde-format
 msgid "dx (pixels)"
-msgstr "x (pixelů)"
+msgstr ""
 
 #: ekos/guide/guide.cpp:2827
-#, fuzzy, kde-format
-#| msgid "x (pixels)"
+#, kde-format
 msgid "dy (pixels)"
-msgstr "x (pixelů)"
+msgstr ""
 
 #: ekos/guide/guide.cpp:2969 ekos/guide/guide.cpp:3095
 #, kde-format
@@ -23796,10 +23771,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:44
-#, fuzzy, kde-format
-#| msgid "Load device configuration:"
+#, kde-format
 msgid "Load device Configuration"
-msgstr "Načíst nastavení zařízení:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
 #: ekos/opsekos.ui:65
@@ -30978,10 +30952,9 @@ msgid "View in What's Interesting"
 msgstr "Pohled v Co je zajímavé"
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "Přidat objekt..."
+msgstr ""
 
 #: kspopupmenu.cpp:458
 #, kde-format
@@ -33391,16 +33364,11 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1066
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is required and must be installed "
-#| "for the solver to work correctly.</p></body></html>"
+#, kde-format
 msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor je potřeba a aby řešitel "
-"fungoval správně, musí být nainstalován.</p></body></html>"
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1070
@@ -33441,10 +33409,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
-#| msgid "Draw extra deep-sky objects in the sky map?"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Zobrazit na hvězdné mapě další objekty hlubokého vesmíru?"
+msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
@@ -67066,10 +67033,9 @@ msgid "Observation Planner"
 msgstr "Plánovač pozorování"
 
 #: kstarsinit.cpp:456
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgid "Imaging Planner"
-msgstr "Plánovač pozorování"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -76307,32 +76273,27 @@ msgid "Unknown Type"
 msgstr "Neznámý typ"
 
 #: skyobjects/skyobject.cpp:399
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#, kde-format
 msgid "Open Clr"
-msgstr "Otevřená hvězdokupa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, GlobularClusterCB)
 #: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1771
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Globalstar"
+#, kde-format
 msgid "Globular"
-msgstr "Globalstar"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, NebulaCB)
 #: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1761
-#, fuzzy, kde-format
-#| msgid "Nebulae"
+#, kde-format
 msgid "Nebula"
-msgstr "Mlhoviny"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, PlanetaryCB)
 #: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1781
-#, fuzzy, kde-format
-#| msgid "Planet"
+#, kde-format
 msgid "Planetary"
-msgstr "Planeta"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, SupernovaRemnantCB)
 #: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1791
@@ -76341,17 +76302,15 @@ msgid "Remnant"
 msgstr ""
 
 #: skyobjects/skyobject.cpp:419
-#, fuzzy, kde-format
-#| msgid "Galaxy Cluster"
+#, kde-format
 msgid "Galaxy Clr"
-msgstr "Hvězdokupa"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
 #: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:1821
-#, fuzzy, kde-format
-#| msgid "Dark Nebula"
+#, kde-format
 msgid "Dark Neb"
-msgstr "Temná mlhovina"
+msgstr ""
 
 #: skyobjects/skyobject.cpp:449
 #, kde-format
@@ -78427,11 +78386,10 @@ msgid "%1 region is invalid."
 msgstr "%1 oblast je neplatná."
 
 #: tools/horizonmanager.cpp:551
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
-msgstr "Umělý horizont"
+msgstr ""
 
 #: tools/horizonmanager.cpp:667
 #, kde-format
@@ -78553,10 +78511,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.cpp:174 tools/imagingplanner.ui:1878
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "Imaged"
-msgstr "Obrázek"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
 #: tools/imagingplanner.cpp:179 tools/imagingplanner.ui:1848
@@ -78571,11 +78528,10 @@ msgid "Ignored"
 msgstr "Ignorováno"
 
 #: tools/imagingplanner.cpp:974
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
-msgstr "Plánovač pozorování"
+msgstr ""
 
 #: tools/imagingplanner.cpp:1119
 #, kde-format
@@ -78583,17 +78539,14 @@ msgid "Alt"
 msgstr "Alt"
 
 #: tools/imagingplanner.cpp:1120
-#, fuzzy, kde-format
-#| msgctxt "City in Alberta Canada"
-#| msgid "Consort"
+#, kde-format
 msgid "Const"
-msgstr "Consort"
+msgstr ""
 
 #: tools/imagingplanner.cpp:1120
-#, fuzzy, kde-format
-#| msgid "Coordinates"
+#, kde-format
 msgid "Coord"
-msgstr "Souřadnice"
+msgstr ""
 
 #: tools/imagingplanner.cpp:1122
 #, kde-format
@@ -78661,10 +78614,9 @@ msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
 #: tools/imagingplanner.cpp:1926
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Updating tables..."
-msgstr "Hledám hvězdy..."
+msgstr ""
 
 #: tools/imagingplanner.cpp:2121
 #, kde-format
@@ -78674,16 +78626,14 @@ msgid ""
 msgstr ""
 
 #: tools/imagingplanner.cpp:2122
-#, fuzzy, kde-format
-#| msgid "NGC Catalog"
+#, kde-format
 msgid "No Catalog!"
-msgstr "Katalog NGC"
+msgstr ""
 
 #: tools/imagingplanner.cpp:2168
-#, fuzzy, kde-format
-#| msgid "Select this object"
+#, kde-format
 msgid "Select an object."
-msgstr "Vybrat tento objekt"
+msgstr ""
 
 #: tools/imagingplanner.cpp:2170
 #, kde-format
@@ -78691,40 +78641,34 @@ msgid "Check Filters to unhide objects."
 msgstr ""
 
 #: tools/imagingplanner.cpp:2172
-#, fuzzy, kde-format
-#| msgid "Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "Katalog"
+msgstr ""
 
 #: tools/imagingplanner.cpp:2349
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading Catalogs..."
-msgstr "Načítání obrázků..."
+msgstr ""
 
 #: tools/imagingplanner.cpp:2655
-#, fuzzy, kde-format
-#| msgid "Transit"
+#, kde-format
 msgid "Transits"
-msgstr "Kulminace"
+msgstr ""
 
 #: tools/imagingplanner.cpp:2660 tools/imagingplanner.cpp:2664
-#, fuzzy, kde-format
-#| msgid "Sets at: %1"
+#, kde-format
 msgid "Sets at"
-msgstr "Zapadá v: %1"
+msgstr ""
 
 #: tools/imagingplanner.cpp:2671 tools/imagingplanner.cpp:2675
-#, fuzzy, kde-format
-#| msgid "Rises at: %1"
+#, kde-format
 msgid "Rises at"
-msgstr "Vychází v: %1"
+msgstr ""
 
 #: tools/imagingplanner.cpp:2682 tools/imagingplanner.cpp:2688
-#, fuzzy, kde-format
-#| msgid "Rise:"
+#, kde-format
 msgid "Rises"
-msgstr "Východ:"
+msgstr ""
 
 #: tools/imagingplanner.cpp:2684 tools/imagingplanner.cpp:2690
 #, kde-format
@@ -78732,16 +78676,14 @@ msgid "Sets"
 msgstr ""
 
 #: tools/imagingplanner.cpp:2794 tools/imagingplanner.cpp:3050
-#, fuzzy, kde-format
-#| msgid "object"
+#, kde-format
 msgid "objects"
-msgstr "objekt"
+msgstr ""
 
 #: tools/imagingplanner.cpp:3046
-#, fuzzy, kde-format
-#| msgid "%1, %2 and %3"
+#, kde-format
 msgid "%1, %2 and %3 other objects"
-msgstr "%1, %2 a %3"
+msgstr ""
 
 #: tools/imagingplanner.cpp:3054 tools/imagingplanner.cpp:3058
 #, kde-format
@@ -78764,29 +78706,24 @@ msgid "Pick %1"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3075 tools/imagingplanner.cpp:3080
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stop ignoring %1"
-msgstr "Zastavit nahrávání"
+msgstr ""
 
 #: tools/imagingplanner.cpp:3076 tools/imagingplanner.cpp:3082
-#, fuzzy, kde-format
-#| msgid "Ignore"
+#, kde-format
 msgid "Ignore %1"
-msgstr "Ignorovat"
+msgstr ""
 
 #: tools/imagingplanner.cpp:3085
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "Vystředit na mapě"
+msgstr ""
 
 #: tools/imagingplanner.cpp:3224
-#, fuzzy, kde-format
-#| msgid "Successfully added %1 object to the user catalog."
-#| msgid_plural "Successfully added %1 objects to the user catalog."
+#, kde-format
 msgid "Successfully marked %1 objects as read"
-msgstr "%1 objekt byl úspěšně přidán do katalogu uživatelských dat."
+msgstr ""
 
 #: tools/imagingplanner.cpp:3226
 #, kde-format
@@ -78794,10 +78731,9 @@ msgid "Empty file"
 msgstr "Prázdný soubor"
 
 #: tools/imagingplanner.cpp:3235
-#, fuzzy, kde-format
-#| msgid "Add a name label to the object named %1."
+#, kde-format
 msgid "Failed marking all of these objects imaged: %1"
-msgstr "Přidat popisek s názvem objektu pojmenovaném %1."
+msgstr ""
 
 #: tools/imagingplanner.cpp:3237
 #, kde-format
@@ -78815,10 +78751,9 @@ msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3248 tools/imagingplanner.cpp:3441
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
-msgstr "Nelze otevřít soubor %1"
+msgstr ""
 
 #: tools/imagingplanner.cpp:3350
 #, kde-format
@@ -78845,24 +78780,21 @@ msgstr "Název objektu"
 
 #. i18n: ectx: property (text), widget (QLabel, statusLabel)
 #: tools/imagingplanner.ui:214
-#, fuzzy, kde-format
-#| msgid "Select Object..."
+#, kde-format
 msgid "Select an Object"
-msgstr "Vybrat objekt..."
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backOneDay)
 #: tools/imagingplanner.ui:302
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Back one day"
-msgstr "Pozadí"
+msgstr ""
 
 #. i18n: ectx: property (displayFormat), widget (QDateEdit, DateEdit)
 #: tools/imagingplanner.ui:319
-#, fuzzy, kde-format
-#| msgid "dd/MM/yyyy"
+#, kde-format
 msgid "dd/MM/yy"
-msgstr "dd/MM/yyyy"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, forwardOneDay)
 #: tools/imagingplanner.ui:347
@@ -78872,10 +78804,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
-#, fuzzy, kde-format
-#| msgid "Option Name"
+#, kde-format
 msgid "Open options menu."
-msgstr "Název volby"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
@@ -78885,10 +78816,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
 #: tools/imagingplanner.ui:565
-#, fuzzy, kde-format
-#| msgid "Set Observing Notes for the Object:"
+#, kde-format
 msgid "Create/Edit some user notes for this object"
-msgstr "Poznámky pozorovatele objektu:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesDoneButton)
 #: tools/imagingplanner.ui:597
@@ -78940,33 +78870,29 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HiddenAltitudeGraphLabel)
 #: tools/imagingplanner.ui:937
-#, fuzzy, kde-format
-#| msgid "Altitude vs. Time"
+#, kde-format
 msgid "Altitude vs Time graph."
-msgstr "Výška vs. čas"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, HiddenAltitudeGraphLabel)
 #: tools/imagingplanner.ui:940
-#, fuzzy, kde-format
-#| msgid "Altitude vs. Time"
+#, kde-format
 msgid "Altitude vs Time graph"
-msgstr "Výška vs. čas"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useArtificialHorizon)
 #: tools/imagingplanner.ui:980
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use the system's artificial horizon for calculating "
 "imaging hours.</p></body></html>"
-msgstr "<html><head/><body><p>Přiblížit pro osu X.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, useArtificialHorizon)
 #: tools/imagingplanner.ui:983
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgid "Artificial horizon"
-msgstr "Umělý horizont"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltitudeLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minAltitude)
@@ -79030,11 +78956,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton2)
 #: tools/imagingplanner.ui:1202 tools/imagingplanner.ui:1527
-#, fuzzy, kde-format
-#| msgctxt "City in Ontario Canada"
-#| msgid "Armstrong"
+#, kde-format
 msgid "Astrobin"
-msgstr "Armstrong"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia2)
@@ -79067,28 +78991,23 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad2)
 #: tools/imagingplanner.ui:1280 tools/imagingplanner.ui:1605
-#, fuzzy, kde-format
-#| msgid "Akarsh Simha"
+#, kde-format
 msgid "Search Simbad."
-msgstr "Akarsh Simha"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1290
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Required one of the Astrobin awards when searching "
 "Astrobin images.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1293
-#, fuzzy, kde-format
-#| msgid "Required"
+#, kde-format
 msgid "Awards Required"
-msgstr "Požadováno"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
 #: tools/imagingplanner.ui:1312
@@ -79146,129 +79065,97 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minHoursLabel)
 #: tools/imagingplanner.ui:1719
-#, fuzzy, kde-format
-#| msgid "24 Hours"
+#, kde-format
 msgid "Min Hours:"
-msgstr "24 hodin"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OpenClusterCB)
 #: tools/imagingplanner.ui:1748
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide open clusters if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>Jste skoro na konci...</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, OpenClusterCB)
 #: tools/imagingplanner.ui:1751
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#, kde-format
 msgid "Open Cl"
-msgstr "Otevřená hvězdokupa"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, NebulaCB)
 #: tools/imagingplanner.ui:1758
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Hide nebulae if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GlobularClusterCB)
 #: tools/imagingplanner.ui:1768
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>You're almost done...</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide globular clusters if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>Jste skoro na konci...</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1778
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
 #: tools/imagingplanner.ui:1788
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide supernova remnants if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyCB)
 #: tools/imagingplanner.ui:1798
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Hide galaxies if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyClusterCB)
 #: tools/imagingplanner.ui:1808
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide galaxy clusters if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyClusterCB)
 #: tools/imagingplanner.ui:1811
-#, fuzzy, kde-format
-#| msgid "Galaxy"
+#, kde-format
 msgid "Galaxy Cl"
-msgstr "Galaxie"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, DarkNebulaCB)
 #: tools/imagingplanner.ui:1818
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Hide dark nebulae if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OtherCB)
 #: tools/imagingplanner.ui:1828
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide other object types if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pickedCB)
 #: tools/imagingplanner.ui:1845
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>What do you want to name your profile?</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are marked picked (don't show "
 "those that are not picked).</p></body></html>"
-msgstr "<html><head/><body><p>Jak chcete váš profil nazvat?</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notPickedCB)
 #: tools/imagingplanner.ui:1855
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are not marked picked (don't "
 "show those that are picked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notPickedCB)
 #: tools/imagingplanner.ui:1858
@@ -79278,16 +79165,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCarePickedCB)
 #: tools/imagingplanner.ui:1865
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This displays the path to the folder for the "
-#| "Astrometry Index Files on your computer.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked picked or not.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zde je zobrazena cesta k indexovým souborům pro "
-"Astrometrii na vašem počítači.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dontCarePickedCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareImagedCB)
@@ -79317,23 +79199,17 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, notImagedCB)
 #: tools/imagingplanner.ui:1888
-#, fuzzy, kde-format
-#| msgid "(No Image)"
+#, kde-format
 msgid "Not imaged"
-msgstr "(Žádný obrázek)"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareImagedCB)
 #: tools/imagingplanner.ui:1895
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This displays the path to the folder for the "
-#| "Astrometry Index Files on your computer.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked previously imaged or not.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zde je zobrazena cesta k indexovým souborům pro "
-"Astrometrii na vašem počítači.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:1922
@@ -79345,24 +79221,17 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:1925
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Image"
+#, kde-format
 msgid "Load Imaged"
-msgstr "Načíst obrázek"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ignoredCB)
 #: tools/imagingplanner.ui:1932
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is required and must be installed "
-#| "for the solver to work correctly.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have been ignored (and don't "
 "show those that have not been ignored).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor je potřeba a aby řešitel "
-"fungoval správně, musí být nainstalován.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notIgnoredCB)
 #: tools/imagingplanner.ui:1942
@@ -79374,23 +79243,17 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, notIgnoredCB)
 #: tools/imagingplanner.ui:1945
-#, fuzzy, kde-format
-#| msgid "Not Sure"
+#, kde-format
 msgid "Not ignored"
-msgstr "Nejsem si jistý"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareIgnoredCB)
 #: tools/imagingplanner.ui:1952
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This displays the path to the folder for the "
-#| "Astrometry Index Files on your computer.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects have "
 "been ignored or not.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zde je zobrazena cesta k indexovým souborům pro "
-"Astrometrii na vašem počítači.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, keywordCB)
 #: tools/imagingplanner.ui:1962
@@ -79410,23 +79273,17 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, notKeywordCB)
 #: tools/imagingplanner.ui:1975
-#, fuzzy, kde-format
-#| msgid "Keyword"
+#, kde-format
 msgid "Not keyword"
-msgstr "Klíčové slovo"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareKeywordCB)
 #: tools/imagingplanner.ui:1982
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This displays the path to the folder for the "
-#| "Astrometry Index Files on your computer.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether or not "
 "objects have the keyword in their notes.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zde je zobrazena cesta k indexovým souborům pro "
-"Astrometrii na vašem počítači.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2003
@@ -79437,10 +79294,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2006
-#, fuzzy, kde-format
-#| msgid "Enter name for the script"
+#, kde-format
 msgid "Enter keyword here"
-msgstr "Zadejte název skriptu"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideImageButton)
 #: tools/imagingplanner.ui:2164
@@ -79451,79 +79307,63 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
 #: tools/imagingplanner.ui:2190 tools/imagingplanner.ui:2377
-#, fuzzy, kde-format
-#| msgid "Catalog name:"
+#, kde-format
 msgid "Catalog Image"
-msgstr "Název katalogu:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton2)
 #: tools/imagingplanner.ui:2228 tools/imagingplanner.ui:2409
-#, fuzzy, kde-format
-#| msgid "Downloads new data"
+#, kde-format
 msgid "Load a new catalog"
-msgstr "Stahují se nová data"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton2)
 #: tools/imagingplanner.ui:2231 tools/imagingplanner.ui:2412
-#, fuzzy, kde-format
-#| msgid "Catalog"
+#, kde-format
 msgid "Load Catalog"
-msgstr "Katalog"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showImageButton)
 #: tools/imagingplanner.ui:2351
-#, fuzzy, kde-format
-#| msgid "Save the image to disk"
+#, kde-format
 msgid "Maximize the image section"
-msgstr "Uložit obrázek na disk"
+msgstr ""
 
 #: tools/imagingplanneroptions.cpp:25
-#, fuzzy, kde-format
-#| msgid "Observation Planner"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr "Plánovač pozorování"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Draw extra deep-sky objects in the sky map?"
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "Zobrazit na hvězdné mapě další objekty hlubokého vesmíru?"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This displays the path to the folder for the "
-#| "Astrometry Index Files on your computer.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Zde je zobrazena cesta k indexovým souborům pro "
-"Astrometrii na vašem počítači.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
-#, fuzzy, kde-format
-#| msgctxt "City in Kansas USA"
-#| msgid "Independence"
+#, kde-format
 msgid "Independent Window"
-msgstr "Independence"
+msgstr ""
 
 #: tools/jmoontool.cpp:30
 #, kde-format
@@ -83884,95 +83724,3 @@ msgstr "Barva pozadí:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte barvu pozadí."
-
-#, fuzzy
-#~| msgid "Scheduler"
-#~ msgid "Scheduler Offset"
-#~ msgstr "Plánovač"
-
-#, fuzzy
-#~| msgid "Scheduled Time"
-#~ msgid "Scheduler Alignment"
-#~ msgstr "Plánovaný čas"
-
-#, fuzzy
-#~| msgid "Scheduler"
-#~ msgid "Scheduler Jobs"
-#~ msgstr "Plánovač"
-
-#~ msgid "Cleanup"
-#~ msgstr "Úklid"
-
-#, fuzzy
-#~| msgid "Scheduler"
-#~ msgid "Scheduler Cleanup"
-#~ msgstr "Plánovač"
-
-#~ msgid "Normal"
-#~ msgstr "Normální"
-
-#~ msgid "Calibrate"
-#~ msgstr "Kalibrovat"
-
-#~ msgid "unnamed object"
-#~ msgstr "nepojmenovaný objekt"
-
-#, fuzzy
-#~| msgid "Capture"
-#~ msgid "Capture Misc"
-#~ msgstr "Zachytávat"
-
-#, fuzzy
-#~| msgid "Capture"
-#~ msgid "Capture DSLR"
-#~ msgstr "Zachytávat"
-
-#, fuzzy
-#~| msgid "Could not import the objects."
-#~ msgid "Could not find that object"
-#~ msgstr "Objekty nelze importovat."
-
-#, fuzzy
-#~| msgid "Add a name label to the object named %1."
-#~ msgid "Add an object to the object list on the left."
-#~ msgstr "Přidat popisek s názvem objektu pojmenovaném %1."
-
-#, fuzzy
-#~| msgid "Add Object..."
-#~ msgid "Add Object"
-#~ msgstr "Přidat objekt..."
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Image as"
-#~ msgstr "Uložit obrázek jako"
-
-#~ msgctxt "Export image"
-#~ msgid "Export"
-#~ msgstr "Exportovat"
-
-#~ msgid "Invert view"
-#~ msgstr "Obrátit pohled"
-
-#~ msgid "Flip view"
-#~ msgstr "Otočit pohled"
-
-#~ msgid "Fetch DSS image"
-#~ msgstr "Stáhnout obrázek DSS"
-
-#~ msgid "Flipped"
-#~ msgstr "Otočeno"
-
-#~ msgid "Preset:"
-#~ msgstr "Přednastavení:"
-
-#~ msgid "Progress"
-#~ msgstr "Průběh"
-
-#~ msgid "Repeat:"
-#~ msgstr "Opakovat:"
-
-#~ msgid "Configuration"
-#~ msgstr "Nastavení"
-
-#~ msgid "Scheduling"
-#~ msgstr "Plánování"
