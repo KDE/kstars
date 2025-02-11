@@ -701,83 +701,72 @@ void ProfileEditor::setSettings(const QJsonObject &profile)
 
     m_INDIHub = profile["indihub"].toInt(m_INDIHub);
 
-    // Drivers
-    const QString mount = profile["mount"].toString("--");
-    if (mount == "--")
-        ui->mountCombo->setCurrentIndex(0);
-    else
-    {
-        ui->mountCombo->addItem(mount);
-        ui->mountCombo->setCurrentIndex(ui->mountCombo->count() - 1);
-    }
+    const bool isLocal = ui->localMode->isChecked();
 
-    const QString ccd = profile["ccd"].toString("--");
-    if (ccd == "--")
-        ui->ccdCombo->setCurrentIndex(0);
-    else
+    // Helper function to set combo box value
+    auto setComboValue = [this, isLocal](QComboBox * combo, const QString & value)
     {
-        ui->ccdCombo->addItem(ccd);
-        ui->ccdCombo->setCurrentIndex(ui->ccdCombo->count() - 1);
-    }
+        if (value.isEmpty() || value == "--")
+        {
+            combo->setCurrentIndex(0);
+            return;
+        }
 
-    const QString guider = profile["guider"].toString("--");
-    if (guider == "--")
-        ui->guiderCombo->setCurrentIndex(0);
-    else
-    {
-        ui->guiderCombo->addItem(guider);
-        ui->guiderCombo->setCurrentIndex(ui->guiderCombo->count() - 1);
-    }
+        // For local mode, search through manufacturer groups
+        if (isLocal)
+        {
+            QAbstractItemModel *model = combo->model();
+            // Search through manufacturer groups
+            for (int i = 0; i < model->rowCount(); i++)
+            {
+                QModelIndex parent = model->index(i, 0);
+                // Skip non-manufacturer items (like --)
+                if (model->hasChildren(parent))
+                {
+                    // Search through drivers under this manufacturer
+                    for (int j = 0; j < model->rowCount(parent); j++)
+                    {
+                        QModelIndex child = model->index(j, 0, parent);
+                        if (model->data(child).toString() == value)
+                        {
+                            // Set the manufacturer as root and select the driver
+                            combo->setRootModelIndex(parent);
+                            combo->setCurrentIndex(j);
+                            combo->setRootModelIndex(QModelIndex());
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            // For remote mode, first try to find the driver
+            int index = combo->findText(value);
+            if (index >= 0)
+                combo->setCurrentIndex(index);
+            else
+            {
+                // If not found, add it
+                combo->addItem(value);
+                combo->setCurrentIndex(combo->count() - 1);
+            }
+        }
+    };
 
-    const QString focuser = profile["focuser"].toString("--");
-    if (focuser == "--")
-        ui->focuserCombo->setCurrentIndex(0);
-    else
-    {
-        ui->focuserCombo->addItem(focuser);
-        ui->focuserCombo->setCurrentIndex(ui->focuserCombo->count() - 1);
-    }
-
-    ui->filterCombo->setCurrentText(profile["filter"].toString("--"));
-    ui->AOCombo->setCurrentText(profile["ao"].toString("--"));
-    ui->domeCombo->setCurrentText(profile["dome"].toString("--"));
-    ui->weatherCombo->setCurrentText(profile["weather"].toString("--"));
-
-    const auto aux1 = profile["aux1"].toString("--");
-    if (aux1.isEmpty() || aux1 == "--")
-        ui->aux1Combo->setCurrentIndex(0);
-    else
-    {
-        ui->aux1Combo->addItem(aux1);
-        ui->aux1Combo->setCurrentIndex(ui->aux1Combo->count() - 1);
-    }
-
-    const auto aux2 = profile["aux2"].toString("--");
-    if (aux2.isEmpty() || aux2 == "--")
-        ui->aux2Combo->setCurrentIndex(0);
-    else
-    {
-        ui->aux2Combo->addItem(aux2);
-        ui->aux2Combo->setCurrentIndex(ui->aux2Combo->count() - 1);
-    }
-
-    const auto aux3 = profile["aux3"].toString("--");
-    if (aux3.isEmpty() || aux3 == "--")
-        ui->aux3Combo->setCurrentIndex(0);
-    else
-    {
-        ui->aux3Combo->addItem(aux3);
-        ui->aux3Combo->setCurrentIndex(ui->aux3Combo->count() - 1);
-    }
-
-    const auto aux4 = profile["aux4"].toString("--");
-    if (aux4.isEmpty() || aux4 == "--")
-        ui->aux4Combo->setCurrentIndex(0);
-    else
-    {
-        ui->aux4Combo->addItem(aux4);
-        ui->aux4Combo->setCurrentIndex(ui->aux4Combo->count() - 1);
-    }
+    // Set all device combos
+    setComboValue(ui->mountCombo, profile["mount"].toString("--"));
+    setComboValue(ui->ccdCombo, profile["ccd"].toString("--"));
+    setComboValue(ui->guiderCombo, profile["guider"].toString("--"));
+    setComboValue(ui->focuserCombo, profile["focuser"].toString("--"));
+    setComboValue(ui->filterCombo, profile["filter"].toString("--"));
+    setComboValue(ui->AOCombo, profile["ao"].toString("--"));
+    setComboValue(ui->domeCombo, profile["dome"].toString("--"));
+    setComboValue(ui->weatherCombo, profile["weather"].toString("--"));
+    setComboValue(ui->aux1Combo, profile["aux1"].toString("--"));
+    setComboValue(ui->aux2Combo, profile["aux2"].toString("--"));
+    setComboValue(ui->aux3Combo, profile["aux3"].toString("--"));
+    setComboValue(ui->aux4Combo, profile["aux4"].toString("--"));
 }
 
 void ProfileEditor::scanNetwork()
