@@ -994,7 +994,7 @@ void ObservingList::saveCurrentList()
         {
             QString message = i18n("Do you want to save the current session?");
             if (KMessageBox::warningContinueCancel(this, message, i18n("Save Current session?"), KStandardGuiItem::save(),
-                                           KStandardGuiItem::discard()) == KMessageBox::Continue)
+                                                   KStandardGuiItem::discard()) == KMessageBox::Continue)
                 slotSaveSession();
         }
     }
@@ -1171,7 +1171,7 @@ void ObservingList::slotSaveSession(bool nativeSave)
     {
         QString message = i18n("Could not open file %1.  Try a different filename?", f.fileName());
         if (KMessageBox::warningContinueCancel(nullptr, message, i18n("Could Not Open File"), KGuiItem(i18n("Try Different")),
-                                      KGuiItem(i18n("Do Not Try"))) == KMessageBox::Continue)
+                                               KGuiItem(i18n("Do Not Try"))) == KMessageBox::Continue)
         {
             m_listFileName.clear();
             slotSaveSessionAs(nativeSave);
@@ -1237,6 +1237,13 @@ void ObservingList::plot(SkyObject *o)
     ui->avt->setMoonIllum(ksal->getMoonIllum());
     ui->avt->update();
     KPlotObject *po = new KPlotObject(Qt::white, KPlotObject::Lines, 2.0);
+    // update the coordinates is only necessary for elements of our solar system
+    if (o->isSolarSystem())
+    {
+        KSNumbers numbers(ut.djd());
+        CachingDms LST = geo->GSTtoLST(geo->LTtoUT(ut).gst());
+        o->updateCoords(&numbers, true, geo->lat(), &LST, true);
+    }
     for (double h = -12.0; h <= 12.0; h += 0.5)
     {
         po->addPoint(h, findAltitude(o, (h + DayOffset * 24.0)));
@@ -1512,8 +1519,9 @@ void ObservingList::slotImageViewer()
 
 void ObservingList::slotDeleteAllImages()
 {
-    if (KMessageBox::warningContinueCancel(nullptr, i18n("This will delete all saved images. Are you sure you want to do this?"),
-                                  i18n("Delete All Images")) == KMessageBox::Cancel)
+    if (KMessageBox::warningContinueCancel(nullptr,
+                                           i18n("This will delete all saved images. Are you sure you want to do this?"),
+                                           i18n("Delete All Images")) == KMessageBox::Cancel)
         return;
     ui->ImagePreview->setCursor(Qt::ArrowCursor);
     ui->SearchImage->setEnabled(false);
