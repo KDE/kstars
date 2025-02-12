@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 01:50+0000\n"
+"POT-Creation-Date: 2025-02-12 01:51+0000\n"
 "PO-Revision-Date: 2025-01-29 08:05+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -26069,18 +26069,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Interna"
 
-#: ekos/profileeditor.cpp:787
+#: ekos/profileeditor.cpp:776
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Examinando a rede"
 
-#: ekos/profileeditor.cpp:788
+#: ekos/profileeditor.cpp:777
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Examinando a rede en busca de xestores web de INDI…"
 
-#: ekos/profileeditor.cpp:852
+#: ekos/profileeditor.cpp:841
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Atopouse un xestor web de INDI en %1"

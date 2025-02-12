@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 01:50+0000\n"
+"POT-Creation-Date: 2025-02-12 01:51+0000\n"
 "PO-Revision-Date: 2009-02-23 19:53+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -26012,19 +26012,19 @@ msgstr ""
 msgid "Internal"
 msgstr "वर्नल"
 
-#: ekos/profileeditor.cpp:787
+#: ekos/profileeditor.cpp:776
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:788
+#: ekos/profileeditor.cpp:777
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Scanning network for INDI Web Managers..."
 msgstr "आईएनडीआई सर्वर चालू नइ कर सकिसः पोर्ट गलती."
 
-#: ekos/profileeditor.cpp:852
+#: ekos/profileeditor.cpp:841
 #, fuzzy, kde-format
 #| msgid "INDI Video port"
 msgid "Found INDI Web Manager at %1"

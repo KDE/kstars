@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 01:50+0000\n"
+"POT-Creation-Date: 2025-02-12 01:51+0000\n"
 "PO-Revision-Date: 2024-10-08 14:43+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -23903,18 +23903,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Vnitřní"
 
-#: ekos/profileeditor.cpp:787
+#: ekos/profileeditor.cpp:776
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:788
+#: ekos/profileeditor.cpp:777
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:852
+#: ekos/profileeditor.cpp:841
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr ""

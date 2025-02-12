@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 01:50+0000\n"
+"POT-Creation-Date: 2025-02-12 01:51+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -26441,20 +26441,20 @@ msgstr ""
 msgid "Internal"
 msgstr "Intern"
 
-#: ekos/profileeditor.cpp:787
+#: ekos/profileeditor.cpp:776
 #, fuzzy, kde-format
 #| msgid "Artwork"
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Grafikdesign"
 
-#: ekos/profileeditor.cpp:788
+#: ekos/profileeditor.cpp:777
 #, fuzzy, kde-format
 #| msgid "Failed to connect to remote INDI server!"
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Fehler beim Verbinden zum entfernen INDI-Server"
 
-#: ekos/profileeditor.cpp:852
+#: ekos/profileeditor.cpp:841
 #, fuzzy, kde-format
 #| msgid "INDI Filter port"
 msgid "Found INDI Web Manager at %1"

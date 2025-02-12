@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 01:50+0000\n"
+"POT-Creation-Date: 2025-02-12 01:51+0000\n"
 "PO-Revision-Date: 2025-01-22 18:47+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -25102,18 +25102,18 @@ msgstr ""
 msgid "Internal"
 msgstr "داخلي"
 
-#: ekos/profileeditor.cpp:787
+#: ekos/profileeditor.cpp:776
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:788
+#: ekos/profileeditor.cpp:777
 #, fuzzy, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "خطأ في تشغيل خادم INDI: خطأ في المنفذ"
 
-#: ekos/profileeditor.cpp:852
+#: ekos/profileeditor.cpp:841
 #, fuzzy, kde-format
 #| msgid "INDI Web Manager port"
 msgid "Found INDI Web Manager at %1"

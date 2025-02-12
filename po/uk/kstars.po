@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 01:50+0000\n"
+"POT-Creation-Date: 2025-02-12 01:51+0000\n"
 "PO-Revision-Date: 2025-02-09 08:29+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -26148,18 +26148,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Вбудований"
 
-#: ekos/profileeditor.cpp:787
+#: ekos/profileeditor.cpp:776
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Виконуємо пошуку у мережі"
 
-#: ekos/profileeditor.cpp:788
+#: ekos/profileeditor.cpp:777
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "Шукаємо засоби вебкерування INDI у мережі…"
 
-#: ekos/profileeditor.cpp:852
+#: ekos/profileeditor.cpp:841
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "Знайдено засіб вебкерування INDI — %1"

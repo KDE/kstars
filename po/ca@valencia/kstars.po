@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 01:50+0000\n"
-"PO-Revision-Date: 2025-02-06 18:07+0100\n"
+"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"PO-Revision-Date: 2025-02-11 19:21+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -26543,18 +26543,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Intern"
 
-#: ekos/profileeditor.cpp:787
+#: ekos/profileeditor.cpp:776
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr "Exploreu la xarxa"
 
-#: ekos/profileeditor.cpp:788
+#: ekos/profileeditor.cpp:777
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr "S'està explorant la xarxa buscant gestors web d'INDI…"
 
-#: ekos/profileeditor.cpp:852
+#: ekos/profileeditor.cpp:841
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr "S'ha trobat un gestor web d'INDI a %1"
@@ -30464,10 +30464,9 @@ msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Tasca (%1): S'ha finalitzat la captura"
 
 #: ekos/scheduler/schedulerprocess.cpp:3927
-#, fuzzy, kde-format
-#| msgid "Job '%1' focusing is complete."
+#, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
-msgstr "S'ha completat l'enfocament de la tasca «%1»."
+msgstr "S'ha completat l'enfocament de la tasca «%1» del tren «%2»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3939
 #, kde-format
@@ -30475,19 +30474,18 @@ msgid "Warning: job '%1' focusing failed."
 msgstr "Avís: ha fallat l'enfocament de la tasca «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3943
-#, fuzzy, kde-format
-#| msgid "Job '%1' is restarting its focusing procedure."
+#, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
-msgstr "S'està reiniciant el procediment d'enfocament de la tasca «%1»."
+msgstr ""
+"S'està reiniciant el procediment d'enfocament de la tasca «%1» del tren «%2»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3948
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr ""
-"Avís: el procediment d'enfocament de la tasca «%1» ha fallat, es marca com a "
-"interrompuda."
+"Avís: el procediment d'enfocament de la tasca «%1» del tren «%2» ha fallat, "
+"es marca com a interrompuda."
 
 #: ekos/scheduler/schedulerprocess.cpp:3978
 #, kde-format
