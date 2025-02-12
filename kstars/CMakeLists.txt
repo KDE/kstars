@@ -1286,7 +1286,7 @@ IF (NOT ANDROID)
             # Ekos
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/manager.h Ekos::Manager)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
-            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
+            qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focusmodule.h Ekos::FocusModule)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
