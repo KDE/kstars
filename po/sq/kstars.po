@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -84397,48 +84397,48 @@ msgstr "Mos e Provo"
 msgid "Please wait while adding objects..."
 msgstr "Ju lutemi prisni ndërkohë që ngarkojmë skedarin FITS..."
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, fuzzy, kde-format
 #| msgid "arcminutes"
 msgid "Specify image height (arcminutes): "
 msgstr "arcminuta"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Specify version: "
 msgstr "Kap Imazihn"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Daily Solar Images"
 msgid "Failed to download DSS/SDSS image."
 msgstr "Imazhe të Përditshme Diellore"
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, fuzzy, kde-format
 #| msgid "Toggle flags"
 msgid "Delete All Images"
 msgstr "Ndërro flamurët"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Image Chooser"

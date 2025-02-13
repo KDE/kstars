@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -87762,43 +87762,43 @@ msgstr "Ekki reyna"
 msgid "Please wait while adding objects..."
 msgstr ""
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, fuzzy, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr "<i>arcmin</i>"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 msgid "Specify version: "
 msgstr "Ljósop:"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 msgid "Failed to download DSS/SDSS image."
 msgstr "Gat ekki vistað mynd: %1 "
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, fuzzy, kde-format
 msgid "Delete All Images"
 msgstr "Velja alla aðalhluti"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, fuzzy, kde-format
 #| msgid "Date && Location"
 msgid "Image Chooser"

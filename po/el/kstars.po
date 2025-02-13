@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2013-02-16 13:09+0200\n"
 "Last-Translator: Dimitris Kardarakos <dimkard@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -87719,49 +87719,49 @@ msgstr "Να μη γίνει δοκιμή"
 msgid "Please wait while adding objects..."
 msgstr "Παρακαλώ περιμένετε την αναταξινόμηση των αστέρων..."
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image width (arcminutes): "
 msgstr "Ορισμός τοποθεσίας εικόνας:"
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image height (arcminutes): "
 msgstr "Ορισμός τοποθεσίας εικόνας:"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify version: "
 msgstr "Ορισμός τοποθεσίας εικόνας:"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Save the downloaded DSS/SDSS images?"
 msgid "Failed to download DSS/SDSS image."
 msgstr "Αποθήκευση των ληφθεισών εικόνων DSS/SDSS; "
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 "Όλες οι αποθηκευμένες εικόνες θα διαγραφούν. Είστε σίγουροι ότι θέλετε να "
 "γίνει κάτι τέτοιο;"
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, kde-format
 msgid "Delete All Images"
 msgstr "Διαγραφή όλων των εικόνων"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "Επιλογέας εικόνας"

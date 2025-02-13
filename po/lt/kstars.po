@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2017-06-25 15:14+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -88992,47 +88992,47 @@ msgstr "Nebandyti"
 msgid "Please wait while adding objects..."
 msgstr "Luktelėkite kol iš naujo indeksuojamos žvaigždės..."
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image width (arcminutes): "
 msgstr "Nurodykite paveikslo vietą:"
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image height (arcminutes): "
 msgstr "Nurodykite paveikslo vietą:"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify version: "
 msgstr "Nurodykite paveikslo vietą:"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to download DSS/SDSS image."
 msgstr "Nepavyko įkelti paveikslo"
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, fuzzy, kde-format
 msgid "Delete All Images"
 msgstr "Trinti visus paveikslėlius"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Chooser"

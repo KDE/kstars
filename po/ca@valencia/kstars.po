@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2025-02-11 19:21+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -86146,43 +86146,43 @@ msgstr "No ho intentes"
 msgid "Please wait while adding objects..."
 msgstr "Espereu mentre s'afigen els objectes…"
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr "Baixada DSS personalitzada"
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr "Especifiqueu l'amplària de la imatge (minuts d'arc): "
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr "Especifiqueu l'alçària de la imatge (minuts d'arc): "
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Specify version: "
 msgstr "Especifiqueu la versió: "
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, kde-format
 msgid "Failed to download DSS/SDSS image."
 msgstr "No s'ha pogut baixar la imatge DSS/SDSS."
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr "Suprimirà totes les imatges guardades. Segur que voleu fer-ho?"
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, kde-format
 msgid "Delete All Images"
 msgstr "Suprimix totes les imatges"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "Selector d'imatges"

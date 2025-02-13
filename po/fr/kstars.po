@@ -1,6 +1,6 @@
 # Translation of kstars.po to French
 # Traduction de kstars.po en français
-# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025 Xavier Besnard <xavier.besnard@kde.org>
 # Matthieu Robin <kde@macolu.org>, 2004, 2005, 2006, 2007.
 # Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2004, 2005.
 # Delafond <gerard@delafond.org>, 2005.
@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars_3.7.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
-"PO-Revision-Date: 2025-02-02 11:07+0100\n"
-"Last-Translator: steve <stax@ik.me>\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
+"PO-Revision-Date: 2025-02-11 19:08+0100\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.2\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -8211,8 +8211,8 @@ msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">L'option Conserver "
 "l'angle de position</span> conserve l'angle de position de l'appareil. Le "
 "rotateur tourne toujours l'appareil vers l'angle de position original de "
-"l'appareil et donc l'image montrera l'arrangement original de l'étoile.</p></"
-"body></html>"
+"l'appareil et donc l'image affichera l'arrangement original de l'étoile.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, FlipRotationNotAllowed)
 #: ekos/align/opsalign.ui:356
@@ -13142,13 +13142,13 @@ msgstr ""
 #: ekos/auxiliary/opticaltrains.ui:206
 #, kde-format
 msgid "Select a mechanized dust cap if any (e.g. FlipFlat)."
-msgstr "Sélectionner un capuchon anti-poussière si existant (p. ex. FlipFlat)."
+msgstr "Sélectionner un capuchon antipoussière si existant (p. ex. FlipFlat)."
 
 #. i18n: ectx: property (text), widget (QLabel, dustCapLlabel)
 #: ekos/auxiliary/opticaltrains.ui:209
 #, kde-format
 msgid "Dust cap:"
-msgstr "Capuchon anti-poussière"
+msgstr "Capuchon antipoussière"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, reducerLabel)
 #: ekos/auxiliary/opticaltrains.ui:229
@@ -15571,7 +15571,7 @@ msgstr ""
 "paramètre est obligatoire et doit être le dernier élément du format.</span></"
 "li></ul><p>Du texte arbitraire peut être ajouté à la chaîne de texte, <span "
 "style=\" font-weight:704;\">à l'exception des caractères % et \\.</span> Le "
-"caractère de chemin / peut être utilisé pour définir les dossiers.</"
+"caractère d'emplacement « / » peut être utilisé pour définir les dossiers.</"
 "p><p>Notes:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
 "0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
@@ -16012,7 +16012,7 @@ msgstr "Exécution du script d'acquisition %1"
 #: ekos/capture/cameraprocess.cpp:1873
 #, kde-format
 msgid "Pre capture script finished with code %1."
-msgstr "Le script de pré-acquisition s'est terminé avec le code %1."
+msgstr "Le script de préacquisition s'est terminé avec le code %1."
 
 #: ekos/capture/cameraprocess.cpp:1884
 #, kde-format
@@ -16180,17 +16180,17 @@ msgstr "Avertissement : échec du décalage."
 #: ekos/capture/camerastate.cpp:292
 #, kde-format
 msgid "Dust cap error."
-msgstr "Erreur du capuchon anti-poussière."
+msgstr "Erreur du capuchon antipoussière."
 
 #: ekos/capture/camerastate.cpp:296
 #, kde-format
 msgid "Dust cap parked."
-msgstr "Parcage du capuchon anti-poussière effectuée."
+msgstr "Parcage du capuchon antipoussière effectuée."
 
 #: ekos/capture/camerastate.cpp:300
 #, kde-format
 msgid "Dust cap unparked."
-msgstr "Ouverture du capuchon anti-poussière."
+msgstr "Ouverture du capuchon antipoussière."
 
 #: ekos/capture/camerastate.cpp:504
 #, kde-format
@@ -17739,7 +17739,7 @@ msgstr "Script de post-acquisition"
 #, kde-format
 msgctxt "@title:window"
 msgid "Pre Capture Script"
-msgstr "Script de pré-acquisition"
+msgstr "Script de préacquisition"
 
 #: ekos/capture/scriptsmanager.cpp:59
 #, kde-format
@@ -17772,7 +17772,7 @@ msgstr "Script exécutable"
 #: ekos/capture/scriptsmanager.ui:67
 #, kde-format
 msgid "Pre-capture script:"
-msgstr "Script de pré-acquisition"
+msgstr "Script de préacquisition"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/capture/scriptsmanager.ui:112
@@ -17853,12 +17853,12 @@ msgstr "Couvrir le télescope pour faire un dark."
 #: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:672
 #, kde-format
 msgid "Unparking dust cap..."
-msgstr "Ouverture du capuchon anti-poussière…"
+msgstr "Ouverture du capuchon antipoussière…"
 
 #: ekos/capture/sequencejobstate.cpp:468
 #, kde-format
 msgid "Parking dust cap..."
-msgstr "Fermeture du capuchon anti-poussière…"
+msgstr "Fermeture du capuchon antipoussière…"
 
 #: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
 #, kde-format
@@ -20933,12 +20933,12 @@ msgid ""
 "planetary.  This is an experimental feature that requires openCV to be "
 "installed.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Choisissez la mesure à utiliser pour la régression "
+"<html><head/><body><p>Sélectionnez la mesure à utiliser pour la régression "
 "linéaire à 1 passe :</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
 "margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</"
-"span>: Half Flux Radius. Utilise un algorithme qui calcule le rayon d'un "
+"span>: « Half Flux Radius ». Utilise un algorithme qui calcule le rayon d'un "
 "cercle centré sur l'étoile et qui englobe la moitié du flux de l'étoile.</"
 "li><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
 "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
@@ -21698,7 +21698,7 @@ msgstr ""
 #: ekos/focus/opsfocussettings.ui:379
 #, kde-format
 msgid "Spacer:"
-msgstr "Écartement"
+msgstr "Séparateur :"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusNoMaskRB)
 #: ekos/focus/opsfocussettings.ui:395
@@ -26218,9 +26218,9 @@ msgid ""
 "reconnected, a new .analyze file will be created and written to, and the "
 "graphs in Analyze will only show the new session.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si le module Analyse est en cours et qu'Ekos est "
-"déconnecté puis reconnecté, un nouveau fichier d'analyse .analyze sera créé "
-"et utilisé, et les graphiques du module Analyse n'afficheront que la "
+"<html><head/><body><p>Si le module « Analyse » est en cours et que Ekos est "
+"déconnecté puis reconnecté, un nouveau fichier d'analyse « .analyze » sera "
+"créé et utilisé, et les graphiques du module Analyse n'afficheront que la "
 "nouvelle session.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AnalyzeRestartWithEkos)
@@ -28294,7 +28294,8 @@ msgstr ""
 "Liste de l'ordonnanceur de tâches.\n"
 "Clic pour sélectionner une tâche dans la liste.\n"
 "Double-clic pour modifier une tâche avec les champs listés sur le côté "
-"gauche.Maj clic pour afficher l'altitude d'une tâche cette nuit."
+"gauche. Touche « Maj » + clic pour afficher l'altitude d'une tâche cette "
+"nuit."
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format
@@ -29136,9 +29137,8 @@ msgstr ""
 "minimale. Dans cette situation, la restriction crépusculaire empêche "
 "l'exécution du travail, à moins que les options Ekos Dawn Offset et Dusk "
 "Offset soient configurées de manière appropriée.</p><p>Notez que l'option de "
-"décalage de pré-aube avance virtuellement l'aube par défaut de 30 minutes "
-"and évitera donc qu'une tâche ne démarre juste avant ce moment.</p></body></"
-"html>"
+"décalage de préaube avance virtuellement l'aube par défaut de 30 minutes and "
+"évitera donc qu'une tâche ne démarre juste avant ce moment.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:1810
@@ -29177,7 +29177,7 @@ msgstr "Chauffage CCD"
 #: ekos/scheduler/scheduler.ui:1867
 #, kde-format
 msgid "Close dust cover"
-msgstr "Fermer le couvercle anti-poussière."
+msgstr "Fermer le couvercle antipoussière."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerCloseDustCover)
 #: ekos/scheduler/scheduler.ui:1870
@@ -29357,7 +29357,7 @@ msgstr "Dé-parquer la monture"
 #: ekos/scheduler/scheduler.ui:2213
 #, kde-format
 msgid "Open dust cover"
-msgstr "Ouvrir le couvercle anti-poussière"
+msgstr "Ouvrir le couvercle antipoussière"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerOpenDustCover)
 #: ekos/scheduler/scheduler.ui:2216
@@ -29764,7 +29764,7 @@ msgstr "Capuchon fermé."
 #: ekos/scheduler/schedulerprocess.cpp:1683
 #, kde-format
 msgid "Cap unparked."
-msgstr "Déblocage du capuchon anti-poussière."
+msgstr "Déblocage du capuchon antipoussière."
 
 #: ekos/scheduler/schedulerprocess.cpp:1695
 #: ekos/scheduler/schedulerprocess.cpp:1924
@@ -29781,7 +29781,7 @@ msgstr "Erreur lors du retrait du capuchon."
 #: ekos/scheduler/schedulerprocess.cpp:1713
 #, kde-format
 msgid "Cap unparking error."
-msgstr "Erreur lors du déblocage du couvercle anti-poussière."
+msgstr "Erreur lors du déblocage du couvercle antipoussière."
 
 #: ekos/scheduler/schedulerprocess.cpp:1755
 #, kde-format
@@ -30264,12 +30264,12 @@ msgstr "La fermeture du capuchon est demandée mais aucun capuchon détecté."
 #: ekos/scheduler/schedulerprocess.cpp:4133
 #, kde-format
 msgid "Parking Cap..."
-msgstr "Fermeture du capuchon anti-poussière…"
+msgstr "Fermeture du capuchon antipoussière…"
 
 #: ekos/scheduler/schedulerprocess.cpp:4139
 #, kde-format
 msgid "Cap already parked."
-msgstr "Capuchon anti-poussière déjà en sécurité."
+msgstr "Capuchon antipoussière déjà en sécurité."
 
 #: ekos/scheduler/schedulerprocess.cpp:4148
 #, kde-format
@@ -30279,12 +30279,12 @@ msgstr "L'ouverture du capuchon est demandée mais aucun capuchon détecté."
 #: ekos/scheduler/schedulerprocess.cpp:4170
 #, kde-format
 msgid "Unparking cap..."
-msgstr "Retrait du capuchon anti-poussière…"
+msgstr "Retrait du capuchon antipoussière…"
 
 #: ekos/scheduler/schedulerprocess.cpp:4176
 #, kde-format
 msgid "Cap already unparked."
-msgstr "Capuchon anti-poussière déjà débloqué."
+msgstr "Capuchon antipoussière déjà débloqué."
 
 #: ekos/scheduler/schedulerprocess.cpp:4185
 #, kde-format
@@ -32016,8 +32016,8 @@ msgid ""
 "Uncheck for non-linear (stretched) images which will help with the star "
 "extraction part of plate solving."
 msgstr ""
-"Cochez pour visualiser les images linéaires (non étirées). C'est le réglage "
-"par défaut. Décochez pour visualiser les images non-linéaires (étirées), ce "
+"Cochez pour afficher les images linéaires (non étirées). C'est le réglage "
+"par défaut. Décochez pour afficher les images non-linéaires (étirées), ce "
 "qui aidera à la partie extraction de la résolution."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsSolverLinear)
@@ -36636,7 +36636,7 @@ msgid ""
 "Show the objects that have the keyword in their notes (and don't show those "
 "that don't)."
 msgstr ""
-"Afficher les objets ayant ce mot-clé dans leurs notes (et ne pas afficher "
+"Afficher les objets ayant ce mot clé dans leurs notes (et ne pas afficher "
 "les autres)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotKeyword), group (ImagingPlanner)
@@ -36646,7 +36646,7 @@ msgid ""
 "Show the objects that don't have the keyword in their notes (and don't show "
 "those that do)."
 msgstr ""
-"Afficher les objets n'ayant pas ce mot-clé dans leurs notes (et ne pas "
+"Afficher les objets n'ayant pas ce mot clé dans leurs notes (et ne pas "
 "afficher les autres)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareKeyword), group (ImagingPlanner)
@@ -36656,7 +36656,7 @@ msgid ""
 "Object display doesn't depend on whether or not objects have the keyword in "
 "their notes."
 msgstr ""
-"L'affichage des objets ne dépend pas du fait d'avoir ou pas ce mot-clé dans "
+"L'affichage des objets ne dépend pas du fait d'avoir ou pas ce mot clé dans "
 "leurs notes."
 
 #. i18n: ectx: label, entry (ImagingPlannerKeyword), group (ImagingPlanner)
@@ -36768,7 +36768,7 @@ msgstr "Cacher le graphique d'altitude de la planification d'acquisition."
 #, kde-format
 msgid "File path to the most recent catalog loaded by the Imaging Planner."
 msgstr ""
-"Chemin vers le catalogue le plus récent chargé par le planificateur "
+"Emplacement du catalogue le plus récent chargé par le planificateur "
 "d'acquisition."
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
@@ -38356,7 +38356,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1732
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "JSON storing the assignment of profile indices to module profiles for the "
+#| "FITS Viewer Solver"
 msgid ""
 "JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
@@ -41007,8 +41010,8 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for closing dust cover on shutdown."
 msgstr ""
-"Case à cocher par défaut de l'ordonnanceur pour la fermeture du bouchon anti-"
-"poussière lors de l'extinction."
+"Case à cocher par défaut de l'ordonnanceur pour la fermeture du bouchon "
+"antipoussière lors de l'extinction."
 
 #. i18n: ectx: label, entry (SchedulerWarmCCD), group (Scheduler)
 #: kstars.kcfg:3254
@@ -41039,8 +41042,8 @@ msgstr ""
 #, kde-format
 msgid "Default scheduler checkbox for opening dust cover on startup."
 msgstr ""
-"Case à cocher par défaut de l'ordonnanceur pour l'ouverture du bouchon anti-"
-"poussière au démarrage."
+"Case à cocher par défaut de l'ordonnanceur pour l'ouverture du bouchon "
+"antipoussière au démarrage."
 
 #. i18n: ectx: label, entry (SchedulerTrackStep), group (Scheduler)
 #: kstars.kcfg:3270
@@ -41194,15 +41197,15 @@ msgid ""
 "analyze file will be created and written to, and the graphs in Analyze will "
 "only show the new session."
 msgstr ""
-"Si le module Analyse est en cours d'exécution et qu'Ekos est déconnecté puis "
-"reconnecté, un nouveau fichier .analyze sera créé et utilisé ; les "
-"graphiques du module Analyze ne montreront que cette nouvelle session."
+"Si le module « Analyse » est en cours d'exécution et que Ekos est déconnecté "
+"puis reconnecté, un nouveau fichier « .analyze » sera créé et utilisé. Les "
+"graphiques du module « Analyse » n'afficheront que cette nouvelle session."
 
 #. i18n: ectx: label, entry (AnalyzeAlternativeDirectoryName), group (Analyze)
 #: kstars.kcfg:3353
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
-msgstr "Dossier alternatif pour la recherche de fichiers image .analyze."
+msgstr "Dossier alternatif pour la recherche de fichiers image « .analyze »."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3357
@@ -73416,7 +73419,7 @@ msgstr "Durée (sec)"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dust Cover"
-msgstr "Capuchon anti-poussière"
+msgstr "Capuchon antipoussière"
 
 #: libindi_strings.cpp:125
 #, kde-kuit-format
@@ -83490,7 +83493,7 @@ msgid ""
 "See Data -> Download New Data..."
 msgstr ""
 "Vous devez charger un catalogue pour pouvoir utiliser cet outil.\n"
-"Voir Données -> Télécharger de nouvelles données…"
+"Voir Données / Télécharger de nouvelles données…"
 
 #: tools/imagingplanner.cpp:2122
 #, kde-format
@@ -84183,7 +84186,7 @@ msgid ""
 "<html><head/><body><p>Show the objects that have the (case-sensitive) "
 "keyword in their notes (and don't show those that don't).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Afficher les objets dont ce mot-clé (dépendant de la "
+"<html><head/><body><p>Afficher les objets dont ce mot clé (dépendant de la "
 "casse) est présent dans leur note (et ne pas afficher les autres).</p></"
 "body></html>"
 
@@ -84194,7 +84197,7 @@ msgid ""
 "<html><head/><body><p>Show the objects that don't have the (case-sensitive) "
 "keyword in their notes (and don't show those that do).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Afficher les objets dont ce mot-clé (dépendant de la "
+"<html><head/><body><p>Afficher les objets dont ce mot clé (dépendant de la "
 "casse) n'est pas présent dans leur note (et ne pas afficher les autres).</"
 "p></body></html>"
 
@@ -84202,7 +84205,7 @@ msgstr ""
 #: tools/imagingplanner.ui:1975
 #, kde-format
 msgid "Not keyword"
-msgstr "Pas un mot-clé"
+msgstr "Aucun mot clé"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareKeywordCB)
 #: tools/imagingplanner.ui:1982
@@ -84212,7 +84215,7 @@ msgid ""
 "objects have the keyword in their notes.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>L'affichage des objets ne dépend pas du fait d'avoir "
-"ou pas ce mot-clé dans leur note.</p></body></html>"
+"ou pas ce mot clé dans leur note.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2003
@@ -84220,14 +84223,14 @@ msgstr ""
 msgid ""
 "Enter the (case-sensitive) keyword to be used for the checkboxes to the left."
 msgstr ""
-"Saisissez le mot-clé (dépendant de la casse) à utiliser pour les cases à "
+"Saisissez le mot clé (dépendant de la casse) à utiliser pour les cases à "
 "cocher sur la gauche."
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2006
 #, kde-format
 msgid "Enter keyword here"
-msgstr "Saisissez le mot-clé ici"
+msgstr "Saisissez le mot clé ici"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideImageButton)
 #: tools/imagingplanner.ui:2164
@@ -85629,45 +85632,45 @@ msgstr "Ne pas essayer"
 msgid "Please wait while adding objects..."
 msgstr "Veuillez patienter pendant l'ajout des objets…"
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr "Téléchargement personnalisé DSS"
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr "Spécifiez la largeur de l'image (en minutes d'arc)"
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr "Spécifiez la hauteur de l'image (en minutes d'arc)"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Specify version: "
 msgstr "Spécifiez la version"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, kde-format
 msgid "Failed to download DSS/SDSS image."
 msgstr "Impossible de télécharger une image DSS / SDSS"
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 "Cette action supprimera toutes les images enregistrées. Voulez-vous vraiment "
 "continuer ?"
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, kde-format
 msgid "Delete All Images"
 msgstr "Supprimer toutes les images"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "Sélecteur d'images"

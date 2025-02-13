@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -87289,43 +87289,43 @@ msgstr "%s സൂക്ഷിക്കുവാന്‍ സാധിച്ച�
 msgid "Please wait while adding objects..."
 msgstr ""
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 msgid "Specify version: "
 msgstr "അവ്യക്ത ചിത്രം"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 msgid "Failed to download DSS/SDSS image."
 msgstr "പൈപ്പ്ലൈന്‍ ലിങ്ക് ചെയ്യുന്നതില്‍ പരാജയം"
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, fuzzy, kde-format
 msgid "Delete All Images"
 msgstr "തുടങ്ങാന്‍ തിരഞ്ഞെടുത്ത് പുറത്ത് കടക്കുക."
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, fuzzy, kde-format
 msgid "Image Chooser"
 msgstr "_ഔട്ട്പുട്ട് ഫോര്‍മാറ്റ്:"

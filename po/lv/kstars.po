@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2012-12-24 16:57+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -88108,48 +88108,48 @@ msgstr "Nemēģināt"
 msgid "Please wait while adding objects..."
 msgstr "Lūdzu, uzgaidiet, kamēr tiek pārindeksētas zvaigznes..."
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image width (arcminutes): "
 msgstr "Norādiet attēla vietu:"
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image height (arcminutes): "
 msgstr "Norādiet attēla vietu:"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify version: "
 msgstr "Norādiet attēla vietu:"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Daily Solar Images"
 msgid "Failed to download DSS/SDSS image."
 msgstr "Ikdienas saules attēli"
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr "Tiks dzēsti visi saglabātie attēli. Vai tiešām vēlaties to darīt?"
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, kde-format
 msgid "Delete All Images"
 msgstr "Dzēst visus attēlus"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "Attēla izvēlētājs"

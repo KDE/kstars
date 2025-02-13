@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -93249,47 +93249,47 @@ msgstr "Керегі жоқ"
 msgid "Please wait while adding objects..."
 msgstr "Жұлдыздарды қайта индекстеуді күте тұрыңыз ..."
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image width (arcminutes): "
 msgstr "Кескіннің файлы:"
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image height (arcminutes): "
 msgstr "Кескіннің файлы:"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify version: "
 msgstr "Кескіннің файлы:"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Save the downloaded DSS/SDSS images?"
 msgid "Failed to download DSS/SDSS image."
 msgstr "Жүктеп алынған DSS/SDSS кескіндер сақталсын ба?"
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr "Бұл бүкіл сақталған кескіндерін өшіреді, бәрібір ме?"
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, kde-format
 msgid "Delete All Images"
 msgstr "Бүкіл кескіндерді өшіру"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "Кескін таңдағышы"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -87684,45 +87684,45 @@ msgstr "ਮੁੜ-ਕੋਸ਼ਿਸ਼ ਨਹੀਂ"
 msgid "Please wait while adding objects..."
 msgstr "ਤਾਰੇ ਮੁੜ-ਇੰਡੈਕਸ ਹੋਣ ਦੀ ਉਡੀਕ ਕਰੋ ਜੀ..."
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 #| msgid "Aperture:"
 msgid "Specify version: "
 msgstr "ਅਪਰਚਰ:"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Unable to save image: %1 "
 msgid "Failed to download DSS/SDSS image."
 msgstr "%1: ਚਿੱਤਰ ਸੰਭਾਲਣ ਲਈ ਅਸਮੱਰਥ"
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, kde-format
 msgid "Delete All Images"
 msgstr "ਸਭ ਚਿੱਤਰ ਹਟਾਓ"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "ਚਿੱਤਰ ਚੋਣਕਾਰ"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
-"PO-Revision-Date: 2025-01-07 14:53+0100\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
+"PO-Revision-Date: 2025-02-12 07:16+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -169,7 +169,7 @@ msgstr "Planedaj spuroj"
 #: auxiliary/colorscheme.cpp:56
 #, kde-format
 msgid "Angular Distance Ruler"
-msgstr "Angula Distanca Reganto"
+msgstr "Angul-Distanca Mezurilo"
 
 #: auxiliary/colorscheme.cpp:57
 #, kde-format
@@ -252,11 +252,9 @@ msgid "HiPS Grid"
 msgstr "HiPS-Krado"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Dome Simulator"
+#, kde-format
 msgid "Dome Slit"
-msgstr "Kupola Simulilo"
+msgstr "Kupola Fendo"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -17148,10 +17146,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Timeout:"
+#, kde-format
 msgid "Capture Operations Timeout"
-msgstr "Kaptotempo:"
+msgstr "Tempolimo de Kaptaj Operacioj"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:205
@@ -21943,16 +21940,14 @@ msgid "Select a guide star to calibrate."
 msgstr "Elektu gvidstelon por kalibri."
 
 #: ekos/guide/guide.cpp:2826
-#, fuzzy, kde-format
-#| msgid "x (pixels)"
+#, kde-format
 msgid "dx (pixels)"
-msgstr "x (rastrumeroj)"
+msgstr "dx (rastrumeroj)"
 
 #: ekos/guide/guide.cpp:2827
-#, fuzzy, kde-format
-#| msgid "y (pixels)"
+#, kde-format
 msgid "dy (pixels)"
-msgstr "y (rastrumeroj)"
+msgstr "dy (rastrumeroj)"
 
 #: ekos/guide/guide.cpp:2969 ekos/guide/guide.cpp:3095
 #, kde-format
@@ -36082,7 +36077,7 @@ msgstr ""
 #: kstars.kcfg:1157
 #, kde-format
 msgid "Color of angular distance ruler"
-msgstr "Koloro de anguldistanca reganto"
+msgstr "Koloro de anguldistanca mezurilo"
 
 #. i18n: ectx: whatsthis, entry (AngularRulerColor), group (Colors)
 #: kstars.kcfg:1158
@@ -84246,45 +84241,45 @@ msgstr "Ne Provi"
 msgid "Please wait while adding objects..."
 msgstr "Bonvolu atendi dum aldonado de objektoj..."
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr "Agordita DSS-Elŝuto"
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr "Specifi bildolarĝon (arkminutoj):"
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr "Specifi bildan altecon (arkminutoj):"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Specify version: "
 msgstr "Specifi version:"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, kde-format
 msgid "Failed to download DSS/SDSS image."
 msgstr "Malsukcesis elŝuti DSS/SDSS-bildon."
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 "Ĉi tio forigos ĉiujn konservitajn bildojn. Ĉu vi certas, ke vi volas fari ĉi "
 "tion?"
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, kde-format
 msgid "Delete All Images"
 msgstr "Forigi Ĉiujn Bildojn"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "Bildo-Elektilo"
@@ -87499,58 +87494,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#, fuzzy
-#~| msgid "Reverse DEC on pier-side change when reusing calibration."
-#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
-#~ msgstr "Inversa DEC ĉe moleoflanka ŝanĝo dum reuzo de kalibrado."
-
-#~ msgid "Scheduler Offset"
-#~ msgstr "Planil-Deŝovo"
-
-#~ msgid "Scheduler Alignment"
-#~ msgstr "Planil-Vicigo"
-
-#~ msgid "Scheduler Jobs"
-#~ msgstr "Labortaskoj de Planilo"
-
-#~ msgid "Cleanup"
-#~ msgstr "Purigado"
-
-#~ msgid "Scheduler Cleanup"
-#~ msgstr "Planil-Purigo"
-
-#~ msgid "Calibrating RA Out"
-#~ msgstr "Kalibrante RA Out"
-
-#~ msgid "Calibrating RA In"
-#~ msgstr "Kalibrante RA In"
-
-#~ msgid "Calibrating DEC Out"
-#~ msgstr "Kalibrante DEC Out"
-
-#~ msgid "Calibrating DEC In"
-#~ msgstr "Kalibrante DEC En"
-
-#~ msgid "DEC swap enabled."
-#~ msgstr "DEC-interŝanĝo ebligita."
-
-#~ msgid "DEC swap disabled."
-#~ msgstr "DEC-interŝanĝo malŝaltita."
-
-#~ msgid "Calibration Successful"
-#~ msgstr "Kalibrado Sukcesa"
-
-#~ msgid "Normal"
-#~ msgstr "Normala"
-
-#~ msgid "Calibrate"
-#~ msgstr "Kalibre"
-
-#~ msgid ""
-#~ "Some images in KStars are for non-commercial use only. See README.images."
-#~ msgstr ""
-#~ "Kelkaj bildoj en KStars estas nur por nekomerca uzo. Vidu README.images."
-
-#~ msgid "unnamed object"
-#~ msgstr "nenomita objekto"

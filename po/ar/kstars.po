@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2025-01-22 18:47+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -82808,44 +82808,44 @@ msgstr "لا تجرّب"
 msgid "Please wait while adding objects..."
 msgstr "الرجاء الانتظار ريثما يتم إضافة الأجرام للقائمة ..."
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 msgid "Customized DSS Download"
 msgstr "تحميل مخصص لصورة DSS"
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, fuzzy, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr "حدّد صورة موقع:"
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, fuzzy, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr "حدّد صورة موقع:"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 msgid "Specify version: "
 msgstr "حدّد صورة موقع:"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Failed to download DSS/SDSS image!"
 msgid "Failed to download DSS/SDSS image."
 msgstr "تحميل صورة DSS/SDSS فشل!"
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, fuzzy, kde-format
 msgid "Delete All Images"
 msgstr "احذف كل الصور"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "اختيار الصورة"

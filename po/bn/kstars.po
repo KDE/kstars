@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -90672,47 +90672,47 @@ msgstr ""
 "কে-স্টার্স আপনার দূরবীক্ষণ যন্ত্রের সাথে সংযোগ স্থাপনের পূর্ব পর্যন্ত অনুগ্রহপূর্বক অপেক্ষা "
 "করুন..."
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image width (arcminutes): "
 msgstr "ছবির অবস্থান লিখুন:"
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify image height (arcminutes): "
 msgstr "ছবির অবস্থান লিখুন:"
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, fuzzy, kde-format
 #| msgid "Specify image location:"
 msgid "Specify version: "
 msgstr "ছবির অবস্থান লিখুন:"
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, fuzzy, kde-format
 msgid "Failed to download DSS/SDSS image."
 msgstr "ছবি লোড করা যায় নি"
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, fuzzy, kde-format
 #| msgid "Select all major bodies"
 msgid "Delete All Images"
 msgstr "সকল প্রধান প্রধান খ-বস্তু বাছাই করো"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, fuzzy, kde-format
 #| msgid "Image Format"
 msgid "Image Chooser"

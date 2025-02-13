@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-12 01:51+0000\n"
-"PO-Revision-Date: 2025-02-11 23:05+0100\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
+"PO-Revision-Date: 2025-02-12 21:14+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -26,15 +26,14 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Višina polja kamere v ločnih minutah."
-"</p><p align=\"justify\">Ta vrednost je izračunana iz informacij o opremi in "
-"določa višino polja, ki ga pokriva ena ploščica mozaika.</p></body></html>"
+"Andrej Vernekar,Gregor Rakar,Jure Repinc,Andrej Mernik,Andrej Žnidaršič,"
+"Mihec Gašperšič,Martin Srebotnjak,Andrej Mernik,Matjaž Jeran"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -11267,7 +11266,7 @@ msgstr ""
 #: ekos/analyze/analyze.ui:1191
 #, kde-format
 msgid "ha"
-msgstr "UK"
+msgstr "ha"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, mountHaOut)
 #: ekos/analyze/analyze.ui:1210
@@ -11858,7 +11857,7 @@ msgstr "Shranjevanje karte z okvarami v %1 ni uspelo"
 #: ekos/auxiliary/darklibrary.cpp:1634
 #, kde-format
 msgid "Optical train doesn't exist for id %1"
-msgstr "Optični vlak ne obstaja za ID %1"
+msgstr "Optika ne obstaja za ID %1"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, DarkLibrary)
 #: ekos/auxiliary/darklibrary.ui:14
@@ -13710,14 +13709,14 @@ msgid ""
 "meant for testing purposes and should only be used by developers"
 msgstr ""
 "Vrsta konvolucijskega filtra, ki ga bo SEP uporabljal za sliko pred "
-"izbiranjem zvezd. Ti filtri so primerljivi z vključenimi filtri v namestitvi "
-"SExtractor, vendar imate tukaj možnost spreminjanja PŠPM. Privzeti filter je "
-"najhitrejši filter, vendar se NE spremeni z nastavitvijo PŠPM, tako da je "
-"najboljši za majhne zvezde. Filter »Po Gaussu« je najboljši za zaznavanje "
-"šibkih objektov. Filter »Mehiški klobuk« je dober na gostih zvezdnih poljih "
-"ali v bližini meglic. Filter Cilinder je dober za razvlečene objekte z nizko "
-"svetilnostjo. Opomba: filter »Po meri« je namenjen le preskušanju, "
-"uporabljajo naj ga samo razvijalci."
+"izbiranjem zvezd.  Ti filtri so primerljivi z vključenimi filtri v "
+"namestitvi SExtractor, vendar imate tukaj možnost spreminjanja PŠPM. "
+"Privzeti filter je najhitrejši filter, vendar se NE spremeni z nastavitvijo "
+"PŠPM, tako da je najboljši za majhne zvezde. Filter »Po Gaussu« je najboljši "
+"za zaznavanje šibkih objektov.  Filter »Mehiški klobuk« je dober na gostih "
+"zvezdnih poljih ali v bližini meglic.  Filter Cilinder je dober za "
+"razvlečene objekte z nizko svetilnostjo.  Opomba: filter »Po meri« je "
+"namenjen le preskušanju, uporabljajo naj ga samo razvijalci"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, convFilter)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:446
@@ -21729,7 +21728,7 @@ msgstr "PHD2: Začelo se je stresanje."
 #: ekos/guide/externalguide/phd2.cpp:748
 #, kde-format
 msgid "PHD2: Calibration is cleared"
-msgstr "PHD2: Umerjanje je počiščeno."
+msgstr "PHD2: Umerjanje je počiščeno"
 
 #: ekos/guide/externalguide/phd2.cpp:844
 #, kde-format
@@ -21739,7 +21738,7 @@ msgstr "PHD2: Način vodnika DEC je nastavljen na: %1"
 #: ekos/guide/externalguide/phd2.cpp:854
 #, kde-format
 msgid "PHD2: Exposure Time set to: "
-msgstr "PHD2: Čas osvetlitve nastavi na:"
+msgstr "PHD2: Čas osvetlitve nastavi na: "
 
 #: ekos/guide/externalguide/phd2.cpp:862
 #, kde-format
@@ -21849,7 +21848,7 @@ msgstr "Časovna omejitev osvetlitve. Prekinitev stresanja."
 #: ekos/guide/guide.cpp:1023
 #, kde-format
 msgid "Exposure timeout. Aborting Calibration."
-msgstr "Čas za osvetlitev je potekel. Prekinjanje kalibracije …"
+msgstr "Čas za osvetlitev je potekel. Prekinjanje kalibracije."
 
 #: ekos/guide/guide.cpp:1032
 #, kde-format
@@ -21948,13 +21947,13 @@ msgid "Dithering in progress."
 msgstr "Stresanje v teku."
 
 #: ekos/guide/guide.cpp:1705
-#, fuzzy, kde-format
+#, kde-format
 msgid "Post-dither settling for %1 second..."
 msgid_plural "Post-dither settling for %1 seconds..."
 msgstr[0] "Umirjanje po stresanju za %1 sekund…"
-msgstr[1] "Umirjanje po stresanju za %1 sekund…"
-msgstr[2] "Umirjanje po stresanju za %1 sekund…"
-msgstr[3] "Umirjanje po stresanju za %1 sekund…"
+msgstr[1] "Umirjanje po stresanju za %1 sekundo…"
+msgstr[2] "Umirjanje po stresanju za %1 sekundi…"
+msgstr[3] "Umirjanje po stresanju za %1 sekunde…"
 
 #: ekos/guide/guide.cpp:1710
 #, kde-format
@@ -22484,7 +22483,7 @@ msgstr ""
 #: ekos/guide/guide.ui:1429
 #, kde-format
 msgid "Max "
-msgstr "Max"
+msgstr "Max "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideAutoScaleGraphB)
 #: ekos/guide/guide.ui:1449
@@ -24104,7 +24103,7 @@ msgstr "Zahtevan začetek razširitve '%1'"
 #: ekos/manager.cpp:426
 #, kde-format
 msgid "Extension '%1' started"
-msgstr "Opravilo '%1' se je zagnalo."
+msgstr "Razširitev '%1' se je zagnala"
 
 #: ekos/manager.cpp:434
 #, kde-format
@@ -24677,7 +24676,7 @@ msgstr ""
 #: ekos/manager/meridianflipstate.cpp:283
 #, kde-format
 msgid "meridian flip failed, retrying in 4 minutes"
-msgstr "Obrat čez poldnevnik je spodletel, ponoven poskus čez 4 minute"
+msgstr "obrat čez poldnevnik je spodletel, ponoven poskus čez 4 minute"
 
 #: ekos/manager/meridianflipstate.cpp:287
 #, kde-format
@@ -25186,7 +25185,7 @@ msgstr "Hitrost"
 #: ekos/mount/mounttargetwidget.ui:155
 #, kde-format
 msgid "RA/DE"
-msgstr "Rekt./dekl."
+msgstr "RA/DE"
 
 #. i18n: ectx: property (text), widget (QRadioButton, horizontalCheckObject)
 #: ekos/mount/mounttargetwidget.ui:168
@@ -26183,7 +26182,7 @@ msgstr "Pomožna št. 4"
 #: ekos/profileeditor.ui:453
 #, kde-format
 msgid "Aux 4:"
-msgstr "Pom 4"
+msgstr "Pom 4:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/profileeditor.ui:460
@@ -26769,7 +26768,7 @@ msgstr ""
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
 msgstr[0] "Opravila razporejevalnika"
-msgstr[1] " Opravilo razporejevalnika"
+msgstr[1] "Opravilo razporejevalnika"
 msgstr[2] " Opravili razporejevalnika"
 msgstr[3] " Opravila razporejevalnika"
 
@@ -30835,10 +30834,9 @@ msgid "Flip Vertical"
 msgstr "Zrcali navpično"
 
 #: fitsviewer/fitsviewer.cpp:134 kstarsinit.cpp:158
-#, fuzzy, kde-format
-#| msgid "Open Logs Directory..."
+#, kde-format
 msgid "Open/Blink Directory"
-msgstr "Odpri mapo dnevnikov …"
+msgstr "Odpri/Bliskni imenik"
 
 #: fitsviewer/fitsviewer.cpp:153
 #, kde-format
@@ -31176,16 +31174,13 @@ msgstr "Vzorčenje navzdol"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AdaptiveSampling)
 #: fitsviewer/opsfits.ui:216
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Enforce temperature value before capturing an "
-#| "image</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically down sample images based on available "
 "resources.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Vsili vrednost temperature pred zajemanjem slike</p></"
-"body></html>"
+"<html><head/><body><p>Samodejno zmanjšaj vzorce slike glede na razpoložljive "
+"vire.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AdaptiveSampling)
 #: fitsviewer/opsfits.ui:219
@@ -31197,15 +31192,15 @@ msgstr "Prilagodljivo vzorčenje"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_StretchPreviewSampling)
 #. i18n: ectx: label, entry (StretchPreviewSampling), group (Capture)
 #: fitsviewer/opsfits.ui:226 fitsviewer/opsfits.ui:236 kstars.kcfg:2106
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Set the coarseness of the preview shown when sliding the fitsviewer's "
 "stretch parameter sliders. 1 is full resolution, but can be slow, 4 would be "
 "coarse resolution and fast."
 msgstr ""
-"Nastavite lahkost predogleda, prikazanega pri drsnih drsnikih parametrov "
-"fitsviewerja. 1 je polna resolucija, vendar je lahko počasna, 4 bi bila "
-"močna resolucija in hitra."
+"Nastavite grobost predogleda, prikazanega pri drsenju drsnikov parametrov "
+"raztezanja fitsviewerja. 1 je polna ločljivost, vendar je lahko počasna, 4 "
+"bi bila groba ločljivost in hitra."
 
 #. i18n: ectx: property (text), widget (QLabel, stretchPreviewSamplingLabel)
 #: fitsviewer/opsfits.ui:229
@@ -31217,13 +31212,13 @@ msgstr "Raztegni predogled:"
 #: fitsviewer/opsfits.ui:255
 #, kde-format
 msgid "Clipping Limits"
-msgstr "Meje porezave"
+msgstr "Meje obreza"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:276
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clipping value for 16-bit values."
-msgstr "Vrednost porezave za 16-bitne vrednosti."
+msgstr "Vrednost obreza za 16-bitne vrednosti."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping64KLabel)
 #: fitsviewer/opsfits.ui:279
@@ -31233,15 +31228,15 @@ msgstr "Prag za 16-bitne:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping64KValue)
 #: fitsviewer/opsfits.ui:286
-#, fuzzy, kde-format
+#, kde-format
 msgid "64K Clipping value."
-msgstr "Vrednost porezave 64K."
+msgstr "Vrednost obreza 64K."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:302
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clipping value for 8-bit values."
-msgstr "Vrednost porezave za 8-bitne vrednosti."
+msgstr "Vrednost obreza za 8-bitne vrednosti."
 
 #. i18n: ectx: property (text), widget (QLabel, clipping256Label)
 #: fitsviewer/opsfits.ui:305
@@ -31251,9 +31246,9 @@ msgstr "Prag za 8-bitne:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_Clipping256Value)
 #: fitsviewer/opsfits.ui:312
-#, fuzzy, kde-format
+#, kde-format
 msgid "Byte Clipping value."
-msgstr "Vrednost porezave bajtov."
+msgstr "Vrednost obreza bajtov."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: fitsviewer/opsfits.ui:333
@@ -31358,14 +31353,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoDebayer)
 #: fitsviewer/opsfits.ui:374
-#, fuzzy, kde-format
-#| msgid "Auto Debayer"
+#, kde-format
 msgid "Auto debayer"
-msgstr "Sam. interpret. bayerjeve matrike"
+msgstr "Samodejna interpret. bayerjeve matrike"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoWCS)
 #: fitsviewer/opsfits.ui:384
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Automatically load World-Coordinate-System (WCS) data "
 "when opening a FITS file.</p><p><span style=\" font-weight:600;\">Warning: "
@@ -31373,11 +31367,11 @@ msgid ""
 "unpredictable behavior resulting in crashes on slower machines.</span></p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Ob odpiranju datoteke FITS samodejno naložite podatke "
-"sistema World-Coordinate-System (WCS).</p><p><span style=\" font-weight:600;"
-"\">Opozorilo: To možnost omogočite le na zelo hitrih strojih, saj lahko "
-"povzroči nepredvidljivo vedenje, ki povzroči strmoglavljenje na počasnejših "
-"strojih.</span></p></body></html>"
+"<html><head/><body><p>Samodejno naloži podatke svetovnega koordinatnega "
+"sistema (WCS) pri odpiranju datoteke FITS.</p><p><span style=\" font-"
+"weight:600;\">Opozorilo: to možnost omogočajte samo na zelo hitrih strojih, "
+"saj lahko povzroči nepredvidljivo vedenje, ki povzroči sesutje na "
+"počasnejših strojih.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoWCS)
 #: fitsviewer/opsfits.ui:387
@@ -31390,7 +31384,8 @@ msgstr "Samodejni WCS"
 #, kde-format
 msgid ""
 "Process 3D (RGB) FITS images. If unchecked, only first channel is processed."
-msgstr "Obdelaj 3D slike FITS (RGB) Če ni označeno, bo obdelan le prvi kanal."
+msgstr ""
+"Obdelaj 3D (RGB) slike FITS. Če ni odkljukano, bo obdelan samo prvi kanal."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_Auto3DCube)
 #: fitsviewer/opsfits.ui:397
@@ -31425,10 +31420,10 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>Izberite katalog, ki ga želite uporabiti za "
-"prepoznavanje objektov na sliki. Privzeta možnost je notranji zemljevid "
-"neba. Zunanji katalogi zahtevajo WCS in dostop do interneta.</p><p><span "
-"style=\" font-weight:600;\">Opozorilo: Poizvedovanje po zunanjih katalogih "
-"je lahko počasno na počasnejših računalnikih.</span></p></body></html>"
+"prepoznavanje objektov na sliki. Privzeta možnost je notranja zvezdna karta. "
+"Zunanji katalogi zahtevajo WCS in dostop do interneta.</p><p><span style=\" "
+"font-weight:600;\">Opozorilo: Poizvedovanje po zunanjih katalogih je lahko "
+"počasno na počasnejših računalnikih.</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: fitsviewer/opsfits.ui:422
@@ -31451,33 +31446,32 @@ msgstr "Izračun HFR-ja slik, naloženih v fitsviewer."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:448
-#, fuzzy, kde-format
+#, kde-format
 msgid "Auto compute HFR"
 msgstr "Samodejno izračunaj HFR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:458
-#, fuzzy, no-c-format, kde-format
+#, no-c-format, kde-format
 msgid ""
 "When computing the HFR, run it quickly by only looking at 25% of the image."
-msgstr ""
-"Pri računalniku HFR ga hitro zaženite tako, da si ogledate le 25% o na sliki."
+msgstr "Ko izračunava HFR, ga zažene hitro in si oglejte le 25 % slike."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:461
-#, fuzzy, kde-format
+#, kde-format
 msgid "Quick HFR"
 msgstr "Hiter HFR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, hfrSepLabel)
 #: fitsviewer/opsfits.ui:476
-#, fuzzy, kde-format
+#, kde-format
 msgid "Set the StellarSolver SEP profile for Capture-image HFR calculations."
-msgstr "Nastavite profil StellarSolver SEP za izračune HFR za zajemanje slik."
+msgstr "Nastavite profil StellarSolver SEP za HFR izračune Capture-image."
 
 #. i18n: ectx: property (text), widget (QLabel, hfrSepLabel)
 #: fitsviewer/opsfits.ui:479
-#, fuzzy, kde-format
+#, kde-format
 msgid "HFR SEP profile:"
 msgstr "Profil HFR SEP:"
 
@@ -31490,16 +31484,15 @@ msgid ""
 "speed up detecting stars. This may significantly speed up source extraction "
 "but may result in unstable operation."
 msgstr ""
-"Omogočite delitev reševalnika StellarSolver. Delitev slike v več niti z "
-"namenom pospešitve zaznave zvezd. To lahko bistveno pospeši izluščenje vira, "
-"vendar lahko povzroči nestabilno delovanje."
+"Omogoči particijo StellarSolver. Razdeli sliko v več niti, da se pospeši "
+"zaznavanje zvezd. To lahko znatno pospeši ekstrakcijo vira, vendar lahko "
+"povzroči nestabilno delovanje."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StellarSolverPartition)
 #: fitsviewer/opsfits.ui:507
-#, fuzzy, kde-format
-#| msgid "StellarSolver Partitioning"
+#, kde-format
 msgid "StellarSolver partitioning"
-msgstr "Delitev reševalnika StellarSolver"
+msgstr "Razdelitev StellarSolverja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SolveButton)
 #: fitsviewer/platesolve.ui:47
@@ -31511,41 +31504,35 @@ msgstr "Sliko rešite s pomočjo spodnjih parametrov."
 #: fitsviewer/platesolve.ui:107
 #, kde-format
 msgid "<p>The units of the imager scale bounds."
-msgstr "<p>Enote za meje merila slikovnika."
+msgstr "<p>Enote meja merila slikovne naprave."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:114
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width º"
-msgstr "Širina slike:"
+msgstr "slika širina º"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:119
-#, fuzzy, kde-format
-#| msgid "Image width:"
+#, kde-format
 msgid "image width '"
-msgstr "Širina slike:"
+msgstr "slika širina '"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:124
-#, fuzzy, kde-format
-#| msgid "arcsecs"
+#, kde-format
 msgid "arcsec/pixel"
-msgstr "ločne sekunde"
+msgstr "ločnih sekund/slikovna točka"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverUsePosition)
 #: fitsviewer/platesolve.ui:145
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set estimated position to speed up astrometry solver as it does not have "
-#| "to search in other areas of the sky."
+#, kde-format
 msgid ""
 "Use the given position to speed up astrometry solver as it does not have to "
 "search in other areas of the sky."
 msgstr ""
-"Nastavite ocenjen položaj, da pospešite reševalnik astrometry.net, saj mu ni "
-"treba iskati na drugih območjih neba."
+"Uporabite dani položaj, da pospešite reševalnik astrometrije, saj mu ni "
+"treba iskati na drugih delih neba."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, UpdatePosition)
 #: fitsviewer/platesolve.ui:170
@@ -31553,55 +31540,51 @@ msgstr ""
 msgid ""
 "Set the approximate RA/DEC positions using the center position of the SkyMap."
 msgstr ""
-"Približne položaje RA/DEC nastavite s središčnim položajem zemljevida SkyMap."
+"Nastavi približne položaje RA/DEC z uporabo sredinskega položaja zvezdne "
+"karte."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngleLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverAngle)
 #: fitsviewer/platesolve.ui:325 fitsviewer/platesolve.ui:341
-#, fuzzy, kde-format
+#, kde-format
 msgid "The solved image position angle, East of North (degrees)."
-msgstr "Magnituda vrtenja v stopinjah"
+msgstr "Rešen položajni kot slike, vzhodno od severa (stopinje)."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfileLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverIndexfile)
 #: fitsviewer/platesolve.ui:361 fitsviewer/platesolve.ui:377
-#, fuzzy, kde-format
+#, kde-format
 msgid "The index file used to solve the image."
-msgstr ""
-"Velikost predpomnilnika RAM v MB, ki se uporablja za shranjevanje "
-"predpomnjenih slik HIPS."
+msgstr "Indeksna datoteka, uporabljena za rešitev slike."
 
 #. i18n: ectx: property (text), widget (QLabel, FitsSolverIndexfileLabel)
 #: fitsviewer/platesolve.ui:364
-#, fuzzy, kde-format
-#| msgid "Index Files"
+#, kde-format
 msgid "Index file"
-msgstr "Indeksne datoteke"
+msgstr "Indeksna datoteka"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FitsSolverProfileLabel)
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverProfile)
 #: fitsviewer/platesolve.ui:403 fitsviewer/platesolve.ui:425
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid "Selects the Options Profile to use for plate solving"
-msgstr "Izbere profil možnosti za uporabo pri reševanju plošč"
+msgstr "Izbere profil možnosti za uporabo za reševanje plošč"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverModule)
 #: fitsviewer/platesolve.ui:447
-#, fuzzy, kde-format
-#| msgid "Selects the Options Profile to use for Plate Solving"
+#, kde-format
 msgid ""
 "Selects the module from which Options Profiles are taken to use for plate "
 "solving"
-msgstr "Izbere profil možnosti za uporabo pri reševanju plošč"
+msgstr ""
+"Izbere modul, iz katerega se vzamejo profili možnosti za uporabo pri "
+"reševanju plošč"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editProfile)
 #: fitsviewer/platesolve.ui:469
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid "Opens the currently selected Profile in the Options Profile Editor"
-msgstr "Odpre trenutno izbrani profil možnosti v urejevalniku profila možnosti"
+msgstr "Odpre trenutno izbrani profil v urejevalniku profilov možnosti"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_FitsSolverLinear)
 #: fitsviewer/platesolve.ui:492
@@ -31611,29 +31594,27 @@ msgid ""
 "Uncheck for non-linear (stretched) images which will help with the star "
 "extraction part of plate solving."
 msgstr ""
-"Preverite, ali so na voljo linearne (neraztegnjene) slike.  To je privzeta "
-"nastavitev.  Počistite nelinearne (raztegnjene) slike, ki bodo pomagale pri "
-"reševanju plošče pri ekstrakciji zvezd."
+"Preveri linearne (neraztegnjene) slike.  To je privzeta nastavitev.  "
+"Počistite polje za nelinearne (raztegnjene) slike, ki bodo pomagale pri delu "
+"ekstrakcije zvezd pri reševanju plošč."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsSolverLinear)
 #: fitsviewer/platesolve.ui:495
-#, fuzzy, kde-format
-#| msgid "Linear Scale"
+#, kde-format
 msgid "Linear Image"
-msgstr "Premo merilo"
+msgstr "Linearna slika"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
-#, fuzzy, kde-format
+#, kde-format
 msgid "DE"
 msgstr "DE"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:76
-#, fuzzy, kde-format
-#| msgid "Auto Scale"
+#, kde-format
 msgid "PixScale"
-msgstr "Samodejno merilo"
+msgstr "Merilo slikovne pike"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:81
@@ -31643,7 +31624,7 @@ msgstr "Vrtenje"
 
 #. i18n: ectx: property (text), widget (QPushButton, solveB)
 #: fitsviewer/solveInfo.ui:99
-#, fuzzy, kde-format
+#, kde-format
 msgid "Solve Image"
 msgstr "Reši sliko"
 
@@ -31657,7 +31638,7 @@ msgstr "Možnosti reševanja"
 #: fitsviewer/solveInfo.ui:113
 #, kde-format
 msgid "Display Log"
-msgstr "Prikaži zapisnik"
+msgstr "Prikaži dnevnik"
 
 #: fitsviewer/starprofileviewer.cpp:29
 #, kde-format
@@ -31665,7 +31646,7 @@ msgid "Pixel Values"
 msgstr "Vrednosti slikovnih točk"
 
 #: fitsviewer/starprofileviewer.cpp:51
-#, fuzzy, kde-format
+#, kde-format
 msgid "Couldn't initialize the OpenGL context."
 msgstr "Ni bilo mogoče inicializirati konteksta OpenGL."
 
@@ -31676,158 +31657,147 @@ msgid "View Star Profile"
 msgstr "Pokaži profil zvezde"
 
 #: fitsviewer/starprofileviewer.cpp:79
-#, fuzzy, kde-format
+#, kde-format
 msgid "Maximum Value on the graph"
 msgstr "Največja vrednost na grafu"
 
 #: fitsviewer/starprofileviewer.cpp:81
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cuttoff Maximum for eliminating hot pixels and bright stars."
-msgstr "Cuttoff Maximum za odpravo vročih pik in svetlih zvezd."
+msgstr ""
+"Odrezan maksimum za odstranjevanje vročih slikovnih pik in svetlih zvezd."
 
 #: fitsviewer/starprofileviewer.cpp:84
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enable or Disable the Max Value Cutoff"
-msgstr "Omogočite ali onemogočite odklop največje vrednosti"
+msgstr "Omogoči ali onemogoči rezanje največje vrednosti"
 
 #: fitsviewer/starprofileviewer.cpp:85
-#, fuzzy, kde-format
-#| msgid "Toggle Ekos"
+#, kde-format
 msgid "Toggle Cutoff"
-msgstr "Preklopi Ekos"
+msgstr "Preklopi rezanje"
 
 #: fitsviewer/starprofileviewer.cpp:89
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sets the Minimum Value on the graph"
 msgstr "Nastavi minimalno vrednost na grafu"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/starprofileviewer.cpp:91 fitsviewer/statform.ui:86
-#, fuzzy, kde-format
-#| msgid "Min."
+#, kde-format
 msgid "Min"
-msgstr "Najm"
+msgstr "Min"
 
 #: fitsviewer/starprofileviewer.cpp:94
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sets the Maximum Value on the graph"
-msgstr "Nastavi največjo vrednost na grafu"
+msgstr "Nastavi maksimalno vrednost na grafu"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/starprofileviewer.cpp:96 fitsviewer/statform.ui:91
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Max"
+#, kde-format
 msgid "Max"
 msgstr "Maks"
 
 #: fitsviewer/starprofileviewer.cpp:99
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sets the Cuttoff Maximum for eliminating hot pixels and bright stars."
-msgstr "Natisne Cuttoff Maximum za odpravo vročih pik in svetlih zvezd."
+msgstr ""
+"Nastavi odrezan maksimum za odpravo vročih slikovnih pik in svetlih zvezd."
 
 #: fitsviewer/starprofileviewer.cpp:101
-#, fuzzy, kde-format
-#| msgid "Count"
+#, kde-format
 msgid "Cut"
 msgstr "Izreži"
 
 #: fitsviewer/starprofileviewer.cpp:105
-#, fuzzy, kde-format
+#, kde-format
 msgid "Minimum Value on the graph"
-msgstr "Najmanjša vrednost na grafu"
+msgstr "Minimalna vrednost na grafu"
 
 #: fitsviewer/starprofileviewer.cpp:108
-#, fuzzy, kde-format
-#| msgid "Auto Scale"
+#, kde-format
 msgid "AutoScale"
 msgstr "Samodejno merilo"
 
 #: fitsviewer/starprofileviewer.cpp:109
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Automatically scales the sliders for the subFrame.\n"
 "Uncheck to leave them unchanged when you pan around."
 msgstr ""
-"Samodejno povleče drsnike za podframe.\n"
-"Počistite, da jih pustite nespremenjene, ko se pomikate."
+"Samodejno spremeni velikost drsnikov za podokvir.\n"
+"Počistite polje, če jih želite pustiti nespremenjene, ko se premikate."
 
 #: fitsviewer/starprofileviewer.cpp:117
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hides and shows the scaling side panel"
-msgstr "Skriva in prikazuje stransko ploščo za razmnoževanja"
+msgstr "Skrije in prikaže stransko ploščo za določanje merila"
 
 #: fitsviewer/starprofileviewer.cpp:128
-#, fuzzy, kde-format
+#, kde-format
 msgid "Changes the type of selection"
 msgstr "Spremeni vrsto izbora"
 
 #: fitsviewer/starprofileviewer.cpp:139
-#, fuzzy, kde-format
+#, kde-format
 msgid "Toggles the slice view when horizontal or vertical items are selected"
 msgstr "Preklopi pogled rezine, ko so izbrani vodoravni ali navpični elementi"
 
 #: fitsviewer/starprofileviewer.cpp:150
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shows the x, y coordinates of star centers in the frame"
-msgstr "Prikazuje x, y koordinate zvezdnih centrov v okvirju"
+msgstr "Prikazuje x, y koordinate zvezdnih centrov v posnetku"
 
 #: fitsviewer/starprofileviewer.cpp:154
-#, fuzzy, kde-format
-#| msgid "Sets the density of stars in the field of view"
+#, kde-format
 msgid "Shows the HFR of stars in the frame"
-msgstr "Nastavi gostoto zvezd v vidnem polju."
+msgstr "Prikazuje HFR zvezd v posnetku"
 
 #: fitsviewer/starprofileviewer.cpp:168
-#, fuzzy, kde-format
+#, kde-format
 msgid "Shows the peak values of star centers in the frame"
-msgstr "Prikazuje vrhovne vrednosti zvezdnih centrov v okvirju"
+msgstr "Prikazuje najvišje vrednosti središč zvezd v posnetku"
 
 #: fitsviewer/starprofileviewer.cpp:172
-#, fuzzy, kde-format
+#, kde-format
 msgid "Changes the sample size shown in the graph"
-msgstr "Spremeni velikost vzorca, prikazano v grafu"
+msgstr "Spremeni velikost vzorca prikazanega v grafu"
 
 #: fitsviewer/starprofileviewer.cpp:183
-#, fuzzy, kde-format
-#| msgid "Failed to set location"
+#, kde-format
 msgid "Zooms the view to preset locations."
-msgstr "Nastavljanje položaja ni uspelo"
+msgstr "Poveča pogled na prednastavljene lokacije."
 
 #: fitsviewer/starprofileviewer.cpp:184
-#, fuzzy, kde-format
-#| msgid "Zoom To Fit"
+#, kde-format
 msgid "ZoomTo"
-msgstr "Prilagodi velikost"
+msgstr "Povečaj na"
 
 #: fitsviewer/starprofileviewer.cpp:185
-#, fuzzy, kde-format
-#| msgctxt "City in Ontario Canada"
-#| msgid "Toronto"
+#, kde-format
 msgid "Front"
-msgstr "Sprednja stran"
+msgstr "Spredaj"
 
 #: fitsviewer/starprofileviewer.cpp:186
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Front High"
-msgstr "Velikost pisave"
+msgstr "Spredaj visoko"
 
 #: fitsviewer/starprofileviewer.cpp:187
-#, fuzzy, kde-format
-#| msgid "Overlay"
+#, kde-format
 msgid "Overhead"
-msgstr "Prekrij"
+msgstr "Nad glavo"
 
 #: fitsviewer/starprofileviewer.cpp:188
-#, fuzzy, kde-format
+#, kde-format
 msgid "Iso. L"
-msgstr "ISO. L"
+msgstr "Iso. L"
 
 #: fitsviewer/starprofileviewer.cpp:189
-#, fuzzy, kde-format
+#, kde-format
 msgid "Iso. R"
-msgstr "ISO. R"
+msgstr "Iso. R"
 
 #: fitsviewer/starprofileviewer.cpp:190
 #, kde-format
@@ -31835,7 +31805,7 @@ msgid "Selected"
 msgstr "Izbrano"
 
 #: fitsviewer/starprofileviewer.cpp:198
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hides and shows the Vertical and Horizontal Selection Sliders"
 msgstr "Skriva in prikazuje drsnike navpičnega in vodoravnega izbora"
 
@@ -31860,9 +31830,9 @@ msgid "Horizontal: "
 msgstr "Vodoravno: "
 
 #: fitsviewer/starprofileviewer.cpp:240
-#, fuzzy, kde-format
+#, kde-format
 msgid "Zooms automatically as the sliders change"
-msgstr "Samodejno poveča, ko se drsniki spreminjajo"
+msgstr "Samodejno prlagodi, ko se drsniki spreminjajo"
 
 #: fitsviewer/starprofileviewer.cpp:252
 #, kde-format
@@ -31870,39 +31840,36 @@ msgid "Changes the color scheme"
 msgstr "Spremembe barvne sheme"
 
 #: fitsviewer/starprofileviewer.cpp:506 fitsviewer/starprofileviewer.cpp:706
-#, fuzzy, kde-format
-#| msgid "P: %1"
+#, kde-format
 msgid "Cut: %1"
-msgstr "Izreži %1"
+msgstr "Izreži: %1"
 
 #: fitsviewer/starprofileviewer.cpp:514 fitsviewer/starprofileviewer.cpp:521
 #: fitsviewer/starprofileviewer.cpp:878
 #, kde-format
 msgid "Max: %1"
-msgstr "Najv.: %1"
+msgstr "Maks: %1"
 
 #: fitsviewer/starprofileviewer.cpp:515 fitsviewer/starprofileviewer.cpp:522
 #: fitsviewer/starprofileviewer.cpp:879
 #, kde-format
 msgid "Min: %1"
-msgstr "Najm.: %1"
+msgstr "Min.: %1"
 
 #: fitsviewer/starprofileviewer.cpp:669
 #, kde-format
 msgid "Selected Pixel: (%1, %2): %3"
-msgstr "Izbrana slik. točka: (%1, %2): %3"
+msgstr "Izbrana slikovna točka: (%1, %2): %3"
 
 #: fitsviewer/starprofileviewer.cpp:708
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Disable"
+#, kde-format
 msgid "Cut Disabled"
-msgstr "Onemogoči"
+msgstr "Rezanje onemogočeno"
 
 #: fitsviewer/starprofileviewer.cpp:904
 #, kde-format
 msgid "Star %1: "
-msgstr "Zvezda %1:"
+msgstr "Zvezda %1: "
 
 #: fitsviewer/starprofileviewer.cpp:907
 #, kde-format
@@ -31910,17 +31877,14 @@ msgid "(%1, %2) "
 msgstr "(%1, %2) "
 
 #: fitsviewer/starprofileviewer.cpp:911
-#, fuzzy, kde-format
-#| msgctxt "Half Flux Radius"
-#| msgid "HFR: %1"
+#, kde-format
 msgid "HFR: %1  "
-msgstr "HFR: %1"
+msgstr "HFR: %1  "
 
 #: fitsviewer/starprofileviewer.cpp:915
-#, fuzzy, kde-format
-#| msgid "P: %1"
+#, kde-format
 msgid "Peak: %1"
-msgstr "P: %1"
+msgstr "Vrh: %1"
 
 #: fitsviewer/starprofileviewer.cpp:930
 #, kde-format
@@ -31929,22 +31893,21 @@ msgstr "Zvezda %1"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/statform.ui:76
-#, fuzzy, kde-format
-#| msgid "Bitpix:"
+#, kde-format
 msgid "Bitpix"
-msgstr "Bitna slika:"
+msgstr "Bitov za slikovno točko"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/statform.ui:96
 #, kde-format
 msgid "Mean"
-msgstr "Povprečna vrednost"
+msgstr "Povprečje"
 
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
 #: fitsviewer/statform.ui:106
 #, kde-format
 msgid "Std. Dev"
-msgstr "Std. odklon"
+msgstr "Standardna deviacija"
 
 #: fitsviewer/summaryfitsview.cpp:26
 #, kde-format
@@ -31960,7 +31923,7 @@ msgstr "Prikaz"
 #: hips/hipsmanager.cpp:100
 #, kde-format
 msgid "Cache"
-msgstr "Predpomnilnik"
+msgstr "Medpomnilnik"
 
 #: hips/opships.cpp:42
 #, kde-format
@@ -31976,7 +31939,7 @@ msgstr "Posodobitev HiPS"
 #: hips/opships.cpp:82
 #, kde-format
 msgid "Downloading HiPS sources..."
-msgstr "Prejemanje virov HiPS …"
+msgstr "Prejemanje virov HiPS…"
 
 #: hips/opships.cpp:156
 #, kde-format
@@ -31986,11 +31949,11 @@ msgstr "Napaka pri prejemanju virov HiPS: %1"
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSNetCache)
 #: hips/opshipscache.ui:42 hips/opshipscache.ui:52
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cache space on hard disk used to store HiPS images."
 msgstr ""
-"Prostor predpomnilnika na trdem disku, ki se uporablja za shranjevanje hips "
-"slik."
+"Prostor predpomnilnika na trdem disku, ki se uporablja za shranjevanje slik "
+"HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: hips/opshipscache.ui:45
@@ -32008,10 +31971,10 @@ msgstr "MB"
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_HIPSMemoryCache)
 #: hips/opshipscache.ui:75 hips/opshipscache.ui:85
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cache space in RAM used to store HiPS images."
 msgstr ""
-"Prostor predpomnilnika v RAM-u, ki se uporablja za shranjevanje hips slik."
+"Prostor predpomnilnika v RAM-u, ki se uporablja za shranjevanje slik HiPS."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: hips/opshipscache.ui:78
@@ -32021,17 +31984,17 @@ msgstr "Pomnilnik:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HIPSUseOfflineSource)
 #: hips/opshipscache.ui:130
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Do not download HiPS from Internet. Use DSS offline storage path to load all "
 "data."
 msgstr ""
-"Ne prenesete HiPS iz interneta. Za nalaganje vseh podatkov uporabite pot "
-"nepovezane shrambe DSS."
+"HiPS ne prenašaj z interneta. Za nalaganje vseh podatkov uporabi pot za "
+"shranjevanje DSS brez povezave."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSUseOfflineSource)
 #: hips/opshipscache.ui:133
-#, fuzzy, kde-format
+#, kde-format
 msgid "DSS Offline Source"
 msgstr "Vir brez povezave DSS"
 
@@ -32043,9 +32006,9 @@ msgstr "Pokaži mrežo HiPS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSPanning)
 #: hips/opshipsdisplay.ui:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show HiPS While Panning"
-msgstr "Pokaži hips med panningom"
+msgstr "Pokaži HiPS med premikanjem"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HIPSBiLinearInterpolation)
 #: hips/opshipsdisplay.ui:31
@@ -32059,12 +32022,11 @@ msgid "Failed to connect to INDI server %1:%2"
 msgstr "Neuspela povezava s strežnikom INDI %1:%2"
 
 #: indi/clientmanager.cpp:328
-#, fuzzy, kde-format
-#| msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected."
+#, kde-format
 msgid "Connection to INDI host at %1 on port %2 lost. Server disconnected: %3"
 msgstr ""
-"Povezava z gostiteljem INDI na %1 na vratih %2 je bila izgubljena. Strežnik "
-"je prekinil povezavo."
+"Povezava z gostiteljem INDI na %1 na vratih %2 je izgubljena. Povezava s "
+"strežnikom je prekinjena: %3"
 
 #: indi/clientmanagerlite.cpp:141 indi/clientmanagerlite.cpp:148
 #: indi/clientmanagerlite.cpp:155 indi/clientmanagerlite.cpp:162
@@ -32114,10 +32076,9 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, collimationOptions)
 #: indi/collimationOptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation Overlay Options"
-msgstr "Možnosti za imena ozvezdij"
+msgstr "Možnosti prekrivka kolimacije"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, addB)
 #: indi/collimationOptions.ui:55
@@ -32129,13 +32090,13 @@ msgstr "Ustvari nov element prekrivanja za kolimacijo"
 #: indi/collimationOptions.ui:78
 #, kde-format
 msgid "Delete the selected Collimation Overlay Element"
-msgstr "Izbrišite izbrani element prekrivanja za kolimacijo"
+msgstr "Izbriši izbrani element prekrivanja za kolimacijo"
 
 #. i18n: ectx: property (toolTip), widget (QListWidget, elementNamesList)
 #: indi/collimationOptions.ui:123
 #, kde-format
 msgid "Collimation Overlay Element name (double click to edit)"
-msgstr "Ime elementa prekrivanja za kolimacijo"
+msgstr "Ime elementa prekrivanja za kolimacijo (dvakrat kliknite za urejanje)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, elementConfigBox)
 #: indi/collimationOptions.ui:143
@@ -32147,21 +32108,19 @@ msgstr "Element prekrivanja za kolimacijo"
 #: indi/collimationOptions.ui:164
 #, kde-format
 msgid "Select whether this Element is enabled or not"
-msgstr "Izberite, ali je ta element omogočen ali ne."
+msgstr "Izberite, ali je ta element omogočen ali ne"
 
 #. i18n: ectx: property (text), widget (QLabel, enableLabel)
 #: indi/collimationOptions.ui:167
-#, fuzzy, kde-format
-#| msgid "Enable"
+#, kde-format
 msgid "Enable:"
-msgstr "Omogoči"
+msgstr "Omogoči:"
 
 #. i18n: ectx: property (text), widget (QPushButton, renameB)
 #: indi/collimationOptions.ui:192
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Rename"
-msgstr "Ime datoteke"
+msgstr "Preimenuj"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nameLabel)
 #: indi/collimationOptions.ui:211
@@ -32175,26 +32134,22 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, colourLabel)
 #: indi/collimationOptions.ui:231
-#, fuzzy, kde-format
-#| msgid "Select color for the FOV symbol"
+#, kde-format
 msgid "Select color for the Element"
-msgstr "Izbor barve za znak VP"
+msgstr "Izberite barvo za element"
 
 #. i18n: ectx: property (text), widget (QLabel, offsetYLabel)
 #. i18n: ectx: property (text), widget (QLabel, sizeYLabel)
 #: indi/collimationOptions.ui:263 indi/collimationOptions.ui:399
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Y"
+#, kde-format
 msgid "Y"
 msgstr "Y"
 
 #. i18n: ectx: property (whatsThis), widget (KColorButton, colourButton)
 #: indi/collimationOptions.ui:293
-#, fuzzy, kde-format
-#| msgid "The color for the constellation names."
+#, kde-format
 msgid "Select a color for the Collimation Overlay Element."
-msgstr "Barva imen za ozvezdja."
+msgstr "Izberite barvo za prekrivni element kolimacije."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:310
@@ -32204,31 +32159,25 @@ msgstr "Nastavite debelino črte, ki se uporablja za risanje elementa."
 
 #. i18n: ectx: property (text), widget (QLabel, thicknessLabel)
 #: indi/collimationOptions.ui:313
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Whiteness"
+#, kde-format
 msgid "Thickness:"
-msgstr "Belina"
+msgstr "Debelina:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, offsetLabel)
 #: indi/collimationOptions.ui:329
-#, fuzzy, kde-format
-#| msgid ""
-#| "Set the Elements offset from its Anchor. For an Anchor Element this is "
-#| "from the center of the image."
+#, kde-format
 msgid ""
 "Set the Element's offset from its Anchor. For an Anchor Element this is from "
 "the center of the image."
 msgstr ""
-"Nastavite odmik elementov od njegovega sidra. Za sidrni element to pomeni iz "
-"središča slike."
+"Nastavi odmik elementa od njegovega sidra. Za sidrni element je to od "
+"sredine slike."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sizeLabel)
 #: indi/collimationOptions.ui:339
-#, fuzzy, kde-format
-#| msgid "Set the width of the xplanet image"
+#, kde-format
 msgid "Set the size of the Element"
-msgstr "Nastavi širino slike xplanet"
+msgstr "Nastavi velikost elementa"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, linkXYB)
 #: indi/collimationOptions.ui:389
@@ -32246,37 +32195,36 @@ msgstr "Izberite vrsto prekrivnega elementa za kolimacijo"
 #: indi/collimationOptions.ui:437
 #, kde-format
 msgid "Select number of occurrences of the object type within this element"
-msgstr "Izberite število pojavitev vrste predmeta v tem elementu."
+msgstr "Izberite število pojavov vrste objekta znotraj tega elementa"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, rotationLabel)
 #: indi/collimationOptions.ui:459
 #, kde-format
 msgid "If there is more than one occurrence set the base rotation angle."
-msgstr "Če je več pojavitev, nastavite kot vrtenja osnove."
+msgstr "Če obstaja več kot en pojav, nastavite osnovni kot vrtenja."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:487
 #, fuzzy, kde-format
 msgid ""
 "Set the Pitch Circle Diameter where there are multiple occurrences (Count >1)"
-msgstr ""
-"Nastavite premer točnega kroga, kjer se nahaja več pojavitev (števec >1)."
+msgstr "Nastavite premer razgibnega kroga, kjer je več pojavitev (števec >1)"
 
 #. i18n: ectx: property (text), widget (QLabel, pcdLabel)
 #: indi/collimationOptions.ui:490
-#, fuzzy, kde-format
+#, kde-format
 msgid "PCD:"
-msgstr "PCD (PK):"
+msgstr "PCD:"
 
 #: indi/customdrivers.cpp:106
-#, fuzzy, kde-format
+#, kde-format
 msgid "Label already exists. Label must be unique."
-msgstr "Nalepka že obstaja. Nalepka mora biti edinstvena."
+msgstr "Oznaka že obstaja. Oznaka mora biti edinstvena."
 
 #: indi/customdrivers.cpp:122
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to add new driver. Is the label unique?"
-msgstr "Dodajanje novega gonilnika ni uspelo. Je etiketa edinstvena?"
+msgstr "Dodajanje novega gonilnika ni uspelo. Je oznaka edinstvena?"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CustomDrivers)
 #: indi/customdrivers.ui:14
@@ -32366,10 +32314,9 @@ msgid "Cannot start INDI server: port error."
 msgstr "Ni mogoče zagnati strežnika INDI: napaka vrat."
 
 #: indi/drivermanager.cpp:365
-#, fuzzy, kde-format
-#| msgid "Failed to connect to remote INDI server."
+#, kde-format
 msgid "Failed to create local INDI server"
-msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI."
+msgstr "Lokalnega strežnika INDI ni bilo mogoče ustvariti"
 
 #: indi/drivermanager.cpp:633 indi/indidriver.cpp:291
 #, kde-format, kde-kuit-format
@@ -32382,16 +32329,13 @@ msgid "Connected to INDI server"
 msgstr "Vzpostavljena povezava s strežnikom INDI"
 
 #: indi/drivermanager.cpp:1021 indi/indidriver.cpp:487
-#, fuzzy, kde-format, kde-kuit-format
-#| msgid ""
-#| "Unable to find INDI Drivers directory: %1\n"
-#| "Please make sure to set the correct path in KStars configuration"
+#, kde-format, kde-kuit-format
 msgid ""
 "Unable to find INDI drivers directory: %1\n"
 "Please make sure to set the correct path in KStars configuration"
 msgstr ""
-"Ni mogoče najti mape z gonilniki INDI: %1\n"
-"Prepričajte se, da je pot pravilno nastavljena v nastavitvah za KStars"
+"Ni mogoče najti imenika gonilnikov INDI: %1\n"
+"Prepričajte se, da ste v konfiguraciji KStars nastavili pravilno pot"
 
 #: indi/drivermanager.cpp:1052 indi/indidriver.cpp:528
 #, kde-format, kde-kuit-format
@@ -32449,7 +32393,7 @@ msgstr "Upravljalnik naprav"
 #: indi/drivermanager.ui:39
 #, kde-format
 msgid "Local/Server"
-msgstr "Krajevno/Strežnik"
+msgstr "Lokalno/Strežnik"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #: indi/drivermanager.ui:61
@@ -32474,7 +32418,7 @@ msgstr "Dnevnik strežnika"
 #: indi/drivermanager.ui:153
 #, kde-format
 msgid "Local"
-msgstr "Krajeven"
+msgstr "Lokalno"
 
 #. i18n: ectx: property (text), widget (QRadioButton, serverR)
 #: indi/drivermanager.ui:169
@@ -32510,13 +32454,13 @@ msgstr "Gostitelji"
 #: indi/drivermanager.ui:297
 #, kde-format
 msgid "Add..."
-msgstr "Dodaj …"
+msgstr "Dodaj…"
 
 #. i18n: ectx: property (text), widget (QPushButton, modifyB)
 #: indi/drivermanager.ui:304
 #, kde-format
 msgid "Modify..."
-msgstr "Spremeni …"
+msgstr "Spremeni…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: indi/drivermanager.ui:340
@@ -32536,8 +32480,8 @@ msgid ""
 "No INDI devices currently running. To run devices, please select devices "
 "from the Device Manager in the devices menu."
 msgstr ""
-"Trenutno ne teče nobena naprava INDI. Za zagon izberite želene naprave v "
-"Upravljalniku naprav."
+"Trenutno ne deluje nobena naprava INDI. Za zagon naprav izberite naprave v "
+"upravljalniku naprav v meniju naprav."
 
 #: indi/indicamera.cpp:463
 #, kde-format
@@ -32577,21 +32521,19 @@ msgid "Moving counter clockwise"
 msgstr "V nasprotni smeri urinega kazalca"
 
 #: indi/indidome.cpp:21 indi/indidustcap.cpp:16
-#, fuzzy, kde-format
-#| msgid "Parking"
+#, kde-format
 msgid "UnParking"
 msgstr "Odparkiranje"
 
 #: indi/indidome.cpp:120
 #, kde-format
 msgid "Dome parking is in progress"
-msgstr "Poteka parkiranje kupole"
+msgstr "Parkiranje kupole v teku"
 
 #: indi/indidome.cpp:132
-#, fuzzy, kde-format
-#| msgid "Unparking mount in progress..."
+#, kde-format
 msgid "Dome unparking is in progress"
-msgstr "Poteka premikanje stojala s parkirišča …"
+msgstr "Odparkiranje kupole v teku"
 
 #: indi/indidome.cpp:144
 #, kde-format
@@ -32601,29 +32543,27 @@ msgstr "Kupola parkirana"
 #: indi/indidome.cpp:164
 #, kde-format
 msgid "Dome unparked"
-msgstr "Kupola ni več parkirana"
+msgstr "Kupola odparkirana"
 
 #: indi/indidome.cpp:241
-#, fuzzy, kde-format
-#| msgid "Unparking mount in progress..."
+#, kde-format
 msgid "Shutter closing is in progress"
-msgstr "Poteka premikanje stojala s parkirišča …"
+msgstr "Zapiranje pokrova v teku"
 
 #: indi/indidome.cpp:249
-#, fuzzy, kde-format
-#| msgid "Unparking mount in progress..."
+#, kde-format
 msgid "Shutter opening is in progress"
-msgstr "Poteka premikanje stojala s parkirišča …"
+msgstr "Odpiranje pokrova v teku"
 
 #: indi/indidome.cpp:257
 #, kde-format
 msgid "Shutter closed"
-msgstr "Zaslonka je zaprta"
+msgstr "Pokrov zaprt"
 
 #: indi/indidome.cpp:265
 #, kde-format
 msgid "Shutter opened"
-msgstr "Zaslonka je odprta"
+msgstr "Pokrov odprt"
 
 #: indi/indidriver.cpp:796
 #, kde-kuit-format
@@ -32648,7 +32588,7 @@ msgstr "Datoteke %1 ni mogoče odpreti za branje"
 #: indi/indielement.cpp:633
 #, kde-format
 msgid "Not enough memory for file %1"
-msgstr "Premalo pomnilnika za datoteko %1"
+msgstr "Ni dovolj pomnilnika za datoteko %1"
 
 #: indi/indilistener.cpp:236
 #, kde-format
@@ -32656,67 +32596,58 @@ msgid "INDI Server Message"
 msgstr "Sporočilo strežnika INDI"
 
 #: indi/indimount.cpp:246
-#, fuzzy, kde-format
-#| msgid "Mount slewing to wall position..."
+#, kde-format
 msgid "Mount is slewing to target location"
-msgstr "Premikanje stojala na zid …"
+msgstr "Montaže se obrača na ciljno lokacijo"
 
 #: indi/indimount.cpp:261
-#, fuzzy, kde-format
-#| msgid "Failed to set location"
+#, kde-format
 msgid "Mount arrived at target location"
-msgstr "Nastavljanje položaja ni uspelo"
+msgstr "Montaža je prispela na ciljno lokacijo"
 
 #: indi/indimount.cpp:334
-#, fuzzy, kde-format
-#| msgid "%1 calibration is complete."
+#, kde-format
 msgid "Mount motion was aborted"
-msgstr "Umerjanje %1 je zaključeno."
+msgstr "Premik montaže je bil prekinjen"
 
 #: indi/indimount.cpp:455
-#, fuzzy, kde-format
-#| msgid "Mount parking error."
+#, kde-format
 msgid "Mount parking failed"
-msgstr "Napaka med parkiranjem stojala."
+msgstr "Parkiranje montaže ni uspelo"
 
 #: indi/indimount.cpp:461
-#, fuzzy, kde-format
-#| msgid "Unparking mount in progress..."
+#, kde-format
 msgid "Mount parking is in progress"
-msgstr "Poteka premikanje stojala s parkirišča …"
+msgstr "Parkiranje montaže je v teku"
 
 #: indi/indimount.cpp:469
-#, fuzzy, kde-format
-#| msgid "Unparking mount in progress..."
+#, kde-format
 msgid "Mount unparking is in progress"
-msgstr "Poteka premikanje stojala s parkirišča …"
+msgstr "Odparkiranje montaže je v teku"
 
 #: indi/indimount.cpp:476
-#, fuzzy, kde-format
-#| msgid "Mount parked."
+#, kde-format
 msgid "Mount parked"
-msgstr "Stojalo parkirano."
+msgstr "Montaže parkirana"
 
 #: indi/indimount.cpp:495
-#, fuzzy, kde-format
-#| msgid "Mount unparked."
+#, kde-format
 msgid "Mount unparked"
-msgstr "Stojalo ni več parkirano."
+msgstr "Montaže odparkirana"
 
 #: indi/indimount.cpp:822
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
-"Opozorilo! Pogled na Sonce brez ustrezne zaščite lahko povzroči "
+"Opozorilo! Gledanje v Sonce brez ustrezne zaščite lahko povzroči "
 "nepopravljive poškodbe oči!"
 
 #: indi/indimount.cpp:823
-#, fuzzy, kde-format
-#| msgid "Warning"
+#, kde-format
 msgid "Sun Warning"
-msgstr "Opozorilo"
+msgstr "Opozorilo pred soncem"
 
 #: indi/indimount.cpp:841
 #, kde-format
@@ -32758,18 +32689,17 @@ msgstr ""
 #: indi/indiproperty.cpp:299
 #, kde-format
 msgid "Upload"
-msgstr "Pošlji"
+msgstr "Pošlji tja"
 
 #: indi/indistd.cpp:408
 #, kde-format
 msgid "GPS Location"
-msgstr "GPS-položaj"
+msgstr "GPS lokacija"
 
 #: indi/indistd.cpp:410
-#, fuzzy, kde-format
-#| msgid "Set Location"
+#, kde-format
 msgid "Mount Location"
-msgstr "Nastavi položaj"
+msgstr "Položaj montaže"
 
 #: indi/indistd.cpp:655
 #, kde-format
@@ -32777,65 +32707,60 @@ msgid "Data file saved to %1"
 msgstr "Podatkovna datoteka shranjena v %1"
 
 #: indi/indiwebmanager.cpp:239
-#, fuzzy, kde-format
-#| msgid "Failed to connect to remote INDI server!"
+#, kde-format
 msgid "Driver %1 failed to start on the remote INDI server."
-msgstr "Ni se bilo mogoče povezati z oddaljenim strežnikom INDI!"
+msgstr "Gonilnika %1 ni bilo mogoče zagnati na oddaljenem strežniku INDI."
 
 #: indi/opsindi.cpp:41
-#, fuzzy, kde-format
-#| msgid "Internal or External INDI Server?"
+#, kde-format
 msgid "Internal or external INDI server?"
 msgstr "Notranji ali zunanji strežnik INDI?"
 
 #: indi/opsindi.cpp:43
-#, fuzzy, kde-format
-#| msgid "Internal or External INDI Drivers?"
+#, kde-format
 msgid "Internal or external INDI drivers?"
 msgstr "Notranji ali zunanji gonilniki INDI?"
 
 #: indi/opsindi.cpp:83 indi/opsindi.cpp:103
-#, fuzzy, kde-format
+#, kde-format
 msgid "You need to restart KStars for this change to take effect."
-msgstr "Če želite začeti veljati, morate znova zagnati KStars."
+msgstr "Za uveljavitev te spremembe morate ponovno zagnati KStars."
 
 #: indi/opsindi.cpp:89
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Default Directory"
-msgstr "Privzeta mapa FITS"
+msgstr "Privzeti imenik FITS"
 
 #: indi/opsindi.cpp:97
 #, kde-format
 msgctxt "@title:window"
 msgid "INDI Drivers Directory"
-msgstr "Mapa z gonilniki INDI"
+msgstr "Imenik z gonilniki INDI"
 
 #: indi/opsindi.cpp:109
-#, fuzzy, kde-format
-#| msgid "Guide Settings"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select INDIHub Agent"
-msgstr "Nastavitve vodnika"
+msgstr "Izberite agenta INDIHub"
 
 #: indi/opsindi.cpp:134
-#, fuzzy, kde-format
-#| msgid "%1 is not a valid INDI server binary!"
+#, kde-format
 msgid "%1 is not a valid INDI server binary."
-msgstr "%1 ni veljavna izvedljiva datoteka strežnika INDI!"
+msgstr "%1 ni veljavna binarna datoteka strežnika INDI."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_indiServerIsInternal)
 #: indi/opsindi.ui:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "INDI Server binary is internal to the application bundle"
-msgstr "INDI Server binarno je interno v paketu aplikacij"
+msgstr "Binarna datoteka strežnika INDI je notranja za paket aplikacij"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_2)
 #. i18n: ectx: property (toolTip), widget (QLabel, videoLabel_3)
 #: indi/opsindi.ui:65 indi/opsindi.ui:102
 #, kde-format
 msgid "Default INDI video port"
-msgstr "Privzeta vrata za video"
+msgstr "Privzeta video vrata INDI"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_2)
 #: indi/opsindi.ui:68
@@ -32845,49 +32770,45 @@ msgstr "Strežnik INDI:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiServer)
 #: indi/opsindi.ui:75
-#, fuzzy, kde-format
-#| msgid "PATH to indiserver binary"
+#, kde-format
 msgid "Path to the indiserver binary"
-msgstr "Pot do programa indiserver"
+msgstr "Pot do binarne datoteke indiserver"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_indiDriversAreInternal)
 #: indi/opsindi.ui:92
-#, fuzzy, kde-format
+#, kde-format
 msgid "INDI Drivers are internal to the application bundle"
-msgstr "InDI Gonilniki so notranji v paketu aplikacij"
+msgstr "Gonilniki INDI so znotraj paketa aplikacij"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel_3)
 #: indi/opsindi.ui:105
-#, fuzzy, kde-format
-#| msgid "INDI Drivers Directory:"
+#, kde-format
 msgid "INDI drivers XML directory:"
-msgstr "Mapa z gonilniki INDI:"
+msgstr "Imenik XML gonilnikov INDI:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_indiDriversDir)
 #: indi/opsindi.ui:112
-#, fuzzy, kde-format
-#| msgid "INDI Drivers Directory"
+#, kde-format
 msgid "Path to the INDI drivers XML directory"
-msgstr "Mapa z gonilniki INDI"
+msgstr "Pot do imenika XML gonilnikov INDI"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/opsindi.ui:154
-#, fuzzy, kde-format
-#| msgid "Guide Settings"
+#, kde-format
 msgid "INDIHub agent:"
-msgstr "Nastavitve vodnika"
+msgstr "INDIHub agent:"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, fitsLabel)
 #: indi/opsindi.ui:193
 #, kde-format
 msgid "Specify where new FITS images are saved once captured and downloaded"
-msgstr "Navedite, kam naj se po zajemu in prejemu shranjujejo slike FITS"
+msgstr "Določite, kam se shranijo nove slike FITS, ko so zajete in prenesene"
 
 #. i18n: ectx: property (text), widget (QLabel, fitsLabel)
 #: indi/opsindi.ui:196
 #, kde-format
 msgid "Default FITS directory:"
-msgstr "Privzeta mapa FITS:"
+msgstr "Privzeti imenik FITS:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_useExternalSkyMap)
 #: indi/opsindi.ui:258
@@ -32902,8 +32823,8 @@ msgid ""
 "Specify range of ports that INDI Server will bind to when starting new "
 "drivers"
 msgstr ""
-"Navedite obseg vrat na katerih bo pri zagonu novih gonilnikov poslušal "
-"strežnik INDI"
+"Določite obseg vrat, na katere se bo strežnik INDI povezal pri zagonu novih "
+"gonilnikov"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: indi/opsindi.ui:307
@@ -32927,7 +32848,7 @@ msgstr "Vrata do:"
 #: indi/opsindi.ui:412
 #, kde-format
 msgid "Display the telescope position on the sky map"
-msgstr "Prikaz smeri teleskopa na zvezdni karti"
+msgstr "Prikaži položaj teleskopa na zvezdni karti"
 
 #. i18n: ectx: property (statusTip), widget (QCheckBox, kcfg_showTargetCrosshair)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_showTargetCrosshair)
@@ -32937,8 +32858,8 @@ msgid ""
 "Display a telescope marker on the sky map in order to track the telescope "
 "motion across the sky."
 msgstr ""
-"Na zvezdni karti prikaži oznako teleskopa, tako da je mogoče spremljati "
-"premikanje teleskopa po nebu."
+"Prikažite oznako teleskopa na zvezdni karti , da sledite gibanju teleskopa "
+"po nebu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showTargetCrosshair)
 #: indi/opsindi.ui:421
@@ -32954,30 +32875,29 @@ msgstr "Odpri okno INDI ob zagonu EKOS"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showINDIwindowInitially)
 #: indi/opsindi.ui:453
-#, fuzzy, kde-format
-#| msgid "INDI window width"
+#, kde-format
 msgid "INDI window on startup"
-msgstr "Širina okna INDI"
+msgstr "Okno INDI ob zagonu"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_messageNotificationINDI)
 #. i18n: ectx: whatsthis, entry (messageNotificationINDI), group (indi)
 #: indi/opsindi.ui:470 kstars.kcfg:207
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show INDI messages as desktop notifications instead of dialogs."
-msgstr "Pokažite INDI sporočila kot namizna obvestila namesto pogovornih oken."
+msgstr ""
+"Pokaži sporočila INDI kot obvestila na namizju namesto pogovornih oken."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_messageNotificationINDI)
 #: indi/opsindi.ui:473
-#, fuzzy, kde-format
-#| msgid "set location"
+#, kde-format
 msgid "Message notifications"
-msgstr "nastavi lego"
+msgstr "Obvestila o sporočilih"
 
 #. i18n: ectx: property (text), widget (QPushButton, showLogsB)
 #: indi/opsindi.ui:496
 #, kde-format
 msgid "Show INDI Logs..."
-msgstr "Pokaži zapisnike INDI …"
+msgstr "Pokaži dnevnike INDI…"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, recordingOptions)
 #: indi/recordingoptions.ui:14
@@ -32988,21 +32908,20 @@ msgstr "Možnosti snemanja"
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordDurationR)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, durationSpin)
 #: indi/recordingoptions.ui:37 indi/recordingoptions.ui:47
-#, fuzzy, kde-format
-#| msgid "Guider exposure duration in seconds."
+#, kde-format
 msgid "Record stream for specified duration in seconds"
-msgstr "Trajanje osvetlitve vodnika v sekundah."
+msgstr "Snemanje toka za določen čas v sekundah"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: indi/recordingoptions.ui:65
-#, fuzzy, kde-format
+#, kde-format
 msgid "Record:"
-msgstr "Zapis:"
+msgstr "Snemaj:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, recordDirectoryEdit)
 #: indi/recordingoptions.ui:91 indi/recordingoptions.ui:115
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body>\n"
 "<p>Set SER video <b>remote</b> directory name. If INDI server is running "
@@ -33019,15 +32938,16 @@ msgid ""
 "</body></html>"
 msgstr ""
 "<html><head/><body>\n"
-"<p>Nastavite SER ime oddaljenega <b>imenika</b> videoposnetka. Če se "
-"strežnik INDI izvaja lokalno, lahko izberete lokalni imenik. Če pa ste "
-"povezani z oddaljenim indi strežnikom, mora biti imenik veljaven imenik v "
-"oddaljenem datotečni sistemu, kjer je shranjen.</p>\n"
-"<p>Imenik zapisov lahko vsebuje nekaj vzorcev, da bodo dinamični:</p>\n"
+"<p>Nastavi video SER <b>oddaljeno</b> ime imenika. Če strežnik INDI teče "
+"lokalno, potem lahko izberete lokalni imenik. Vendar, če ste povezani na "
+"oddaljeni strežnik INDI, potem mora biti imenik veljavni imenik na "
+"oddaljenem datotečnem sistemu, kjer je shranjen.</p>\n"
+"<p>Imeniki snemanja lahko vsebujejo neke vzorce, kar jim omogoča, da so "
+"dinamični:</p>\n"
 "<ul>\n"
 "<li><b>_D_</b> za datum v YYYY-MM-DD.</li>\n"
 "<li><b>_H_</b> za čas v HH:MM:SS.</li>\n"
-"<li><b>_T_</b> za časovni žig ISO8601.</li>\n"
+"<li><b>_T_</b> za časovni žig v ISO8601.</li>\n"
 "<li><b>_F_</b> za ime filtra, če obstaja.</li>\n"
 "</ul>\n"
 "</body></html>"
@@ -33041,7 +32961,7 @@ msgstr "Zaustavi/zaženi"
 #. i18n: ectx: property (toolTip), widget (QLineEdit, recordFilenameEdit)
 #. i18n: ectx: property (toolTip), widget (QLabel, label)
 #: indi/recordingoptions.ui:154 indi/recordingoptions.ui:212
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body>\n"
 "<p>Set SER video file name. Record files may contain some patterns to make "
@@ -33055,7 +32975,7 @@ msgid ""
 "</body></html>"
 msgstr ""
 "<html><head/><body>\n"
-"<p>Nastavite ime video datoteke SER. Datoteke zapisov lahko vsebujejo nekaj "
+"<p>Nastavi ime video datoteke SER. Datoteke posnetkov lahko vsebujejo nekaj "
 "vzorcev, da bodo dinamične:</p>\n"
 "<ul>\n"
 "<li><b>_D_</b> za datum v YYYY-MM-DD.</li>\n"
@@ -33068,28 +32988,27 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordFramesR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, framesSpin)
 #: indi/recordingoptions.ui:163 indi/recordingoptions.ui:173
-#, fuzzy, kde-format
+#, kde-format
 msgid "Record stream until this many frames are captured"
-msgstr "Snemanje toka, dokler se ne ujame toliko okvirjev"
+msgstr "Snemaj tok, dokler ni zajetih toliko sličic"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordFramesR)
 #: indi/recordingoptions.ui:166
-#, fuzzy, kde-format
+#, kde-format
 msgid "Frames:"
-msgstr "Sličice:"
+msgstr "Sličic:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:191
-#, fuzzy, kde-format
+#, kde-format
 msgid "Record stream until manually stopped"
-msgstr "Snemanje toka, dokler se ročno ne ustavi"
+msgstr "Snemaj tok do ročne zaustavitve"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordUntilStoppedR)
 #: indi/recordingoptions.ui:194
-#, fuzzy, kde-format
-#| msgid "Until Stopped"
+#, kde-format
 msgid "Until stopped"
-msgstr "Do ustavitve"
+msgstr "Dokler ni ustavljen"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -33099,10 +33018,9 @@ msgid "File name:"
 msgstr "Ime datoteke:"
 
 #: indi/servermanager.cpp:98
-#, fuzzy, kde-format
-#| msgid "Unable to write to file %1"
+#, kde-format
 msgid "Unable to create INDI FIFO file %1"
-msgstr "V datoteko %1 ni mogoče pisati"
+msgstr "Ni mogoče ustvariti datoteke INDI FIFO %1"
 
 #: indi/servermanager.cpp:126
 #, kde-format
@@ -33110,10 +33028,9 @@ msgid "INDI server failed to start: %1"
 msgstr "Strežnika INDI ni bilo mogoče zagnati: %1"
 
 #: indi/servermanager.cpp:211
-#, fuzzy, kde-format
-#| msgid "Post capture script finished with code %1."
+#, kde-format
 msgid "Pre driver startup script failed with exit code: %1"
-msgstr "Skript po zajemanju se je končal s kodo %1."
+msgstr "Skript pred zagonom gonilnika ni uspel z izhodno kodo: %1"
 
 #: indi/servermanager.cpp:235
 #, kde-format
@@ -33121,25 +33038,23 @@ msgid ""
 "Driver %1 was not found on the system. Please make sure the package that "
 "provides the '%1' binary is installed."
 msgstr ""
-"Gonilnik %1 ni bil najden na sistemu. Poskrbite, da je nameščen paket, ki "
-"vsebuje izvedljivo datoteko »%1«."
+"Gonilnik %1 ni bil najden v sistemu. Prepričajte se, da je nameščen paket, "
+"ki nudi binarno datoteko '%1'."
 
 #: indi/servermanager.cpp:282
-#, fuzzy, kde-format
-#| msgid "Post capture script finished with code %1."
+#, kde-format
 msgid "Post driver startup script failed with exit code: %1"
-msgstr "Skript po zajemanju se je končal s kodo %1."
+msgstr "Skript po zagonu gonilnika ni uspel z izhodno kodo: %1"
 
 #: indi/servermanager.cpp:461
-#, fuzzy, kde-format
-#| msgid "Connection to INDI server at host %1 with port %2 failed."
+#, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
-msgstr "Povezava s strežnikom INDI na gostitelju %1 na vratih %2 ni uspela."
+msgstr "Povezava s strežnikom INDI %1:%2 prekinjena: %3."
 
 #: indi/servermanager.cpp:514
-#, fuzzy, kde-format
+#, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
-msgstr "Gonilnik INDI <b>%1 se</b> je zrušil. Ponovno zagnati?"
+msgstr "Gonilnik INDI <b>%1</b> se je sesul. Naj ga ponovno zaženem?"
 
 #: indi/servermanager.cpp:515
 #, kde-format
@@ -33162,12 +33077,11 @@ msgstr "Začni snemati"
 #: indi/streamform.ui:86
 #, kde-format
 msgid "Recording Options..."
-msgstr "Možnosti snemanja …"
+msgstr "Možnosti snemanja…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
 #: indi/streamform.ui:114
-#, fuzzy, kde-format
-#| msgid "Reset frame"
+#, kde-format
 msgid "Reset Frame"
 msgstr "Ponastavi sličico"
 
@@ -33180,21 +33094,19 @@ msgstr "Preklopi prikaz zvezd"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
-#, fuzzy, kde-format
+#, kde-format
 msgid "Toggle Collimation Overlay"
-msgstr "Preklopi prikaz črt za kolimacijo/poravnavo"
+msgstr "Preklopi plast kolimacije"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationOptionsB)
 #: indi/streamform.ui:193
-#, fuzzy, kde-format
-#| msgid "Constellation Name Options"
+#, kde-format
 msgid "Collimation Overlay Options..."
-msgstr "Možnosti za imena ozvezdij"
+msgstr "Možnosti plasti kolimacije..."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, zoomLevelCombo)
 #: indi/streamform.ui:215
-#, fuzzy, kde-format
-#| msgid "Zoom level:"
+#, kde-format
 msgid "Zoom level"
 msgstr "Raven povečave"
 
@@ -33212,13 +33124,13 @@ msgstr "10×"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, NSSlider)
 #: indi/streamform.ui:257
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move zoomed view Up/Down"
-msgstr "Premakni povečan pogled navzgor/dol"
+msgstr "Premakni povečan pogled gor/dol"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, WESlider)
 #: indi/streamform.ui:282
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move zoomed view Left/Right"
 msgstr "Premakni povečani pogled levo/desno"
 
@@ -33231,15 +33143,15 @@ msgstr "Trajanje sličice videa v sekundah"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: indi/streamform.ui:329
-#, fuzzy, kde-format
+#, kde-format
 msgid "Frame(s):"
 msgstr "Sličic:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, changeFPSB)
 #: indi/streamform.ui:370
-#, fuzzy, kde-format
+#, kde-format
 msgid "Apply FPS and restart stream"
-msgstr "Uporabi FPS in znova zaženi tok"
+msgstr "Uveljavi FPS in znova zaženi tok"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: indi/streamform.ui:393
@@ -33254,19 +33166,16 @@ msgid "Average FPS"
 msgstr "Povprečno sl/s"
 
 #: indi/streamwg.cpp:60
-#, fuzzy, kde-format
-#| msgid "FITS Save Directory"
+#, kde-format
 msgctxt "@title:window"
 msgid "SER Record Directory"
-msgstr "Mapa za shranjevanje FITS"
+msgstr "Imenik za shranjevanje posnetkov SER"
 
 #: indi/streamwg.cpp:105
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Video"
+#, kde-format
 msgctxt "@title:window"
 msgid "%1 Live Video"
-msgstr "Video"
+msgstr "%1 Video v živo"
 
 #: indi/streamwg.cpp:344 indi/streamwg.cpp:391
 #, kde-format
@@ -33310,15 +33219,15 @@ msgid ""
 "<br><br>\n"
 "Please click next to continue."
 msgstr ""
-"Dobrodošli v <b>Čarovniku KStars za nastavitev teleskopa</b>!\n"
+"Dobrodošli v <b>čarovniku za nastavitev teleskopa KStars</b>\n"
 "<br><br>\n"
-"Čarovnik vam bo pomagal pri povezovanju z vašim teleskopom in nadzoru iz "
-"KStars. Vnesti boste morali nekaj osnovnih podatkov.\n"
+"Ta čarovnik vam bo pomagal pri povezovanju s teleskopom in nadzoru iz "
+"KStars. Preveriti boste morali nekaj osnovnih informacij.\n"
 "<br>\n"
-"<br>Za podrobnejše podatke o podpori za teleskope v KStars lahko kadarkoli "
-"kliknete na gumb<tt>Pomoč</tt>.\n"
+"<br>Razširjene informacije o podpori za teleskop v KStars lahko dobite tako, "
+"da kadar koli med čarovnikom pritisnete gumb <tt>pomoč</tt>.\n"
 "<br><br>\n"
-"Za nadaljevanje kliknite »Naprej«."
+"Za nadaljevanje kliknite naprej."
 
 #. i18n: ectx: property (text), widget (QLabel, modelPageLabel)
 #: indi/telescopewizard.ui:199
@@ -33331,8 +33240,8 @@ msgid ""
 msgstr ""
 "<h3>1. Model teleskopa</h3>\n"
 "\n"
-"S spodnjega seznama izberite model svojega teleskopa in nato kliknite gumb "
-"»Naprej«."
+"Na spodnjem seznamu izberite svoj model teleskopa. Po izbiri modela kliknite "
+"Naprej."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: indi/telescopewizard.ui:274
@@ -33343,8 +33252,8 @@ msgid ""
 "Select <tt>LX200 Basic</tt> to control such devices."
 msgstr ""
 "<b>Nasvet</b>\n"
-"<br>Nekateri teleskopi, ki niso od proizvajalca Meade, podpirajo podmnožico "
-"ukazov naprave LX200. Zanje izberite <tt>LX200 Basic</tt>."
+"<br>Nekateri teleskopi, ki niso Meade, podpirajo podnabor nabora ukazov "
+"LX200. Za nadzor takih naprav izberite <tt>LX200 Basic</tt>."
 
 #. i18n: ectx: property (text), widget (QLabel, telescopePageInfo)
 #: indi/telescopewizard.ui:313
@@ -33361,13 +33270,12 @@ msgid ""
 msgstr ""
 "<h3>2. Poravnajte svoj teleskop</h3>\n"
 "\n"
-"Preden lahko nadzirate svoj teleskop iz KStars, ga morate poravnati. Za "
-"navodila si oglejte priročnik za svoj teleskop.\n"
+"Svoj teleskop morate poravnati, preden ga lahko pravilno upravljate s "
+"KStars. Za navodila za poravnavo si oglejte priročnik za teleskop.\n"
 "<br><br>\n"
-"Po uspešni poravnavi povežite vmesnik RS232 na vašem teleskopu s serijskimi "
-"ali USB vrati vašega računalnika.\n"
-"<br><br>\n"
-"Za nadaljevanje kliknite »Naprej«."
+"Po uspešni poravnavi povežite vmesnik RS232 vašega teleskopa s serijskimi "
+"ali vrati USB vašega računalnika.\n"
+"<br><br><br>Kliknite naprej za nadaljevanje."
 
 #. i18n: ectx: property (text), widget (QLabel, localPageLabel)
 #: indi/telescopewizard.ui:347
@@ -33379,17 +33287,17 @@ msgid ""
 "any of the settings are incorrect, you can correct them via the <tt>Set "
 "time</tt> and <tt>Set Location</tt> buttons.\n"
 msgstr ""
-"<h3>3. Preverite krajevne nastavitve</h3>\n"
+"<h3>3. Preverite lokalne nastavitve</h3>\n"
 "\n"
-"Preverite, če so naslednje nastavitve časa, datuma in lege pravilne. Če "
-"katera izmed njih ni pravilna, lahko kliknete na gumb »Nastavi čas« in "
-"»Nastavi lego«.\n"
+"Preverite, ali so naslednje nastavitve časa, datuma in lokacije pravilne. Če "
+"katera od nastavitev ni pravilna, jo lahko popravite z gumboma <tt>Nastavi "
+"čas</tt> in <tt>Nastavi lokacijo</tt>.\n"
 
 #. i18n: ectx: property (text), widget (QLabel, locationLabel)
 #: indi/telescopewizard.ui:410
 #, kde-format
 msgid "<b>Location</b>"
-msgstr "<b>Lega</b>"
+msgstr "<b>Lokacija</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, timeLabel)
 #: indi/telescopewizard.ui:453
@@ -33407,13 +33315,13 @@ msgstr "<b>Datum</b>"
 #: indi/telescopewizard.ui:477
 #, kde-format
 msgid "Set Time..."
-msgstr "Nastavi čas …"
+msgstr "Nastavi čas…"
 
 #. i18n: ectx: property (text), widget (QPushButton, setLocationB)
 #: indi/telescopewizard.ui:484
 #, kde-format
 msgid "Set Location..."
-msgstr "Nastavi lego …"
+msgstr "Nastavi lokacijo…"
 
 #. i18n: ectx: property (text), widget (QLabel, portPageLabel)
 #: indi/telescopewizard.ui:538
@@ -33429,11 +33337,12 @@ msgid ""
 msgstr ""
 "<h3>4. Določite vrata povezave</h3>\n"
 "\n"
-"Vnesite številko vrat, na katera je povezan vaš teleskop. Če imate samo ena "
-"serijska vrata na vašem računalniku, so običajno <tt>/dev/ttyUSB0</tt>\n"
-"<br><br>Če niste prepričani o številki vrat, lahko pustite polje prazno in "
-"KStars bo poskušal skenirati vrata za priključene teleskope. Upoštevajte, da "
-"lahko postopek samodejnega skeniranja traja nekaj minut."
+"Vnesite številko vrat, na katera je povezan vaš teleskop. Če imate v "
+"računalniku samo ena serijska vrata, so vrata običajno <tt>/dev/ttyUSB0</"
+"tt>\n"
+"<br><br>Če niste prepričani glede številke vrat, lahko pustite polje prazno "
+"in KStars bo poskušal prečesati vrata za priključene teleskope. Upoštevajte, "
+"da lahko postopek samodejnega prečesavanja traja nekaj minut. "
 
 #. i18n: ectx: property (text), widget (QLabel, portLabel)
 #: indi/telescopewizard.ui:575
@@ -33444,7 +33353,7 @@ msgstr "<b>Vrata:</b>"
 #: indi/telescopewizardprocess.cpp:103
 #, kde-format
 msgid "Are you sure you want to cancel?"
-msgstr "Ali zares želite preklicati?"
+msgstr "Ali ste prepričani, da želite preklicati?"
 
 #: indi/telescopewizardprocess.cpp:217
 #, kde-format
@@ -33498,12 +33407,12 @@ msgstr "Brez časa zahoda: nadobzornica"
 #: kspopupmenu.cpp:95
 #, kde-format
 msgid "No rise time: Never rises"
-msgstr "Brez časa vzhoda: podobzornica"
+msgstr "Brez časa vzhoda: Nikoli ne vzide"
 
 #: kspopupmenu.cpp:96
 #, kde-format
 msgid "No set time: Never rises"
-msgstr "Brez časa zahoda: podobzornica"
+msgstr "Brez časa zahoda: Nikoli ne vzide"
 
 #: kspopupmenu.cpp:106
 #, kde-format
@@ -33573,12 +33482,12 @@ msgstr "Usredini in sledi"
 #: kspopupmenu.cpp:295 kspopupmenu.cpp:383
 #, kde-format
 msgid "Angular Distance To...            ["
-msgstr "Kotna razdalja do …           ["
+msgstr "Kotna razdalja do…           ["
 
 #: kspopupmenu.cpp:298 kspopupmenu.cpp:386
 #, kde-format
 msgid "Starhop from here to...            "
-msgstr "Po zvezdah skoči od tu do …            "
+msgstr "Po zvezdah skoči od tu do…            "
 
 #: kspopupmenu.cpp:300
 #, kde-format
@@ -33642,15 +33551,14 @@ msgid "View in XPlanet"
 msgstr "Poglej v XPlanet-u"
 
 #: kspopupmenu.cpp:443
-#, fuzzy, kde-format
-#| msgid "What's Interesting..."
+#, kde-format
 msgid "View in What's Interesting"
-msgstr "Kaj je zanimivega …"
+msgstr "Poglej v Kaj je zanimivega"
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "Dodaj zastavico (bližnji predmet) …"
+msgstr "Dodaj zastavico (bližnji objekt)…"
 
 #: kspopupmenu.cpp:458
 #, kde-format
@@ -33670,12 +33578,12 @@ msgstr "Izbriši zastavico"
 #: kspopupmenu.cpp:476
 #, kde-format
 msgid "Edit Flag..."
-msgstr "Uredi zastavico …"
+msgstr "Uredi zastavico…"
 
 #: kspopupmenu.cpp:478
 #, kde-format
 msgid "Delete Flag..."
-msgstr "Izbriši zastavico …"
+msgstr "Izbriši zastavico…"
 
 #: kspopupmenu.cpp:537
 #, kde-format
@@ -33690,7 +33598,7 @@ msgstr "Spletne povezave"
 #: kspopupmenu.cpp:580
 #, kde-format
 msgid "Remove From Local Catalog"
-msgstr "Odstrani iz krajevnega katalog"
+msgstr "Odstrani iz krajevnega kataloga"
 
 #: kspopupmenu.cpp:623
 #, kde-format
@@ -33710,7 +33618,7 @@ msgid "Track satellite"
 msgstr "Sledi satelitu"
 
 #: kspopupmenu.cpp:687
-#, fuzzy, kde-format
+#, kde-format
 msgid "Goto && Set As Parking Position"
 msgstr "Goto && Nastavi kot parkirni položaj"
 
@@ -33731,86 +33639,85 @@ msgid "Stop &Tracking"
 msgstr "Zaustavi s&ledenje"
 
 #: kstars.cpp:323 kstarsactions.cpp:1780 kstarsinit.cpp:270
-#, fuzzy, kde-format
-#| msgid "Switch to star globe view (Equatorial &Coordinates)"
+#, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
-msgstr "Preklopi v prikaz zvezdne krogle (ekvatorialne &koordinate)"
+msgstr "Preklopi v prikaz zvezdne krogle (ekvatorialne koordinate)"
 
 #: kstars.cpp:324 kstarsactions.cpp:1761 kstarsinit.cpp:271
-#, fuzzy, kde-format
-#| msgid "Switch to horizonal view (Horizontal &Coordinates)"
+#, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
-msgstr "Preklopi v prikaz obzorja (horizontalne &koordinate)"
+msgstr "Preklopi na vodoravni pogled (horizontalne koordinate)"
 
 #. i18n: ectx: label, entry (PositionTimeBox), group (GUI)
 #: kstars.kcfg:10
 #, kde-format
 msgid "Position of the time InfoBox."
-msgstr "Položaj okvirja s podatki o času."
+msgstr "Položaj informacijskega okvirja s časom."
 
 #. i18n: ectx: whatsthis, entry (PositionTimeBox), group (GUI)
 #: kstars.kcfg:11
 #, kde-format
 msgid "The screen coordinates of the Time InfoBox."
-msgstr "Zaslonske koordinate okvirja s podatki o času."
+msgstr "Zaslonske koordinate informacijskega okvirja s časom."
 
 #. i18n: ectx: label, entry (PositionFocusBox), group (GUI)
 #: kstars.kcfg:15
 #, kde-format
 msgid "Position of the focus InfoBox."
-msgstr "Položaj okvirja s podatki o smeri pogleda."
+msgstr "Položaj informacijskega okvirja s fokusom."
 
 #. i18n: ectx: whatsthis, entry (PositionFocusBox), group (GUI)
 #: kstars.kcfg:16
 #, kde-format
 msgid "The screen coordinates of the Focus InfoBox."
-msgstr "Zaslonske koordinate okvirja s podatki o smeri pogleda."
+msgstr "Zaslonske koordinate informacijskega okvirja s fokusom."
 
 #. i18n: ectx: label, entry (PositionGeoBox), group (GUI)
 #: kstars.kcfg:20
 #, kde-format
 msgid "Position of the geographic InfoBox."
-msgstr "Položaj okvirja s podatki o zemljepisni legi."
+msgstr "Položaj informacijskega okvirja z geografsko lego."
 
 #. i18n: ectx: whatsthis, entry (PositionGeoBox), group (GUI)
 #: kstars.kcfg:21
 #, kde-format
 msgid "The screen coordinates of the Geographic Location InfoBox."
-msgstr "Zaslonske koordinate okvirja s podatki o zemljepisni legi."
+msgstr "Zaslonske koordinate informacijskega okvirja z geografsko lego."
 
 #. i18n: ectx: label, entry (ShadeTimeBox), group (GUI)
 #: kstars.kcfg:25
 #, kde-format
 msgid "Is the time InfoBox in the \"shaded\" state?"
-msgstr "Ali je okvir s časovnimi podatki v zvitem stanju?"
+msgstr "Ali je čas v informacijskem okvirju v \"osenčenem\" stanju?"
 
 #. i18n: ectx: whatsthis, entry (ShadeTimeBox), group (GUI)
 #: kstars.kcfg:26
 #, kde-format
 msgid "If true, the Time InfoBox will show only its top line of data."
 msgstr ""
-"Če je omogočeno (true), potem okvir s časom prikazuje le vrhnjo vrstico s "
-"podatki."
+"Če je osenčen, potem bo informacijski okvir časa prikazoval samo vrhnjo "
+"vrstico podatkov."
 
 #. i18n: ectx: label, entry (ShadeFocusBox), group (GUI)
 #: kstars.kcfg:30
 #, kde-format
 msgid "Is the focus InfoBox in the \"shaded\" state?"
-msgstr "Ali je okvir s podatki o smeri pogleda v zvitem stanju?"
+msgstr "Ali je fokus v informacijskem okvirju v \"osenčenem\" stanju?"
 
 #. i18n: ectx: whatsthis, entry (ShadeFocusBox), group (GUI)
 #: kstars.kcfg:31
 #, kde-format
 msgid "If true, the Focus InfoBox will show only its top line of data."
 msgstr ""
-"Če je omogočeno (true), potem okvir o smeri pogleda prikazuje le vrhnjo "
-"vrstico s podatki."
+"Če je osenčen, potem bo informacijski okvir fokusa prikazoval samo vrhnjo "
+"vrstico podatkov."
 
 #. i18n: ectx: label, entry (ShadeGeoBox), group (GUI)
 #: kstars.kcfg:35
 #, kde-format
 msgid "Is the geographic InfoBox in the \"shaded\" state?"
-msgstr "Ali je okvir s podatki o zemljepisni legi v zvitem stanju?"
+msgstr ""
+"Ali so geografske koordinate v informacijskem okvirju v \"osenčenem\" stanju?"
 
 #. i18n: ectx: whatsthis, entry (ShadeGeoBox), group (GUI)
 #: kstars.kcfg:36
@@ -33818,63 +33725,63 @@ msgstr "Ali je okvir s podatki o zemljepisni legi v zvitem stanju?"
 msgid ""
 "If true, the Geographic Location InfoBox will show only its top line of data."
 msgstr ""
-"Če je omogočeno (true), potem okvir z zemljepisno lego prikazuje le vrhnjo "
-"vrstico s podatki."
+"Če je osenčen, potem bo informacijski okvir geografskih koordinat prikazoval "
+"samo vrhnjo vrstico podatkov."
 
 #. i18n: ectx: label, entry (ShowInfoBoxes), group (GUI)
 #: kstars.kcfg:40
 #, kde-format
 msgid "Meta-option to toggle display of all InfoBoxes"
-msgstr "Možnost za preklop prikaza vseh okvirjev s podatki"
+msgstr "Meta-možnost za preklop prikaza vseh informacijskih okvirjev"
 
 #. i18n: ectx: whatsthis, entry (ShowInfoBoxes), group (GUI)
 #: kstars.kcfg:41
 #, kde-format
 msgid "Toggles display of all three InfoBoxes."
-msgstr "Preklopi prikaz vseh treh okvirjev s podatki."
+msgstr "Preklopi prikaz vseh treh informacijskih okvirjev."
 
 #. i18n: ectx: label, entry (ShowTimeBox), group (GUI)
 #: kstars.kcfg:45
 #, kde-format
 msgid "Display the time InfoBox?"
-msgstr "Ali naj bo prikazan okvir s časom?"
+msgstr "Naj prikazujem informacijski okvir s časom?"
 
 #. i18n: ectx: whatsthis, entry (ShowTimeBox), group (GUI)
 #: kstars.kcfg:46
 #, kde-format
 msgid "Toggles display of the Time InfoBox."
-msgstr "Preklopi prikaz okvirja s časom."
+msgstr "Preklopi prikaz informacijskega okvirja s časom."
 
 #. i18n: ectx: label, entry (ShowFocusBox), group (GUI)
 #: kstars.kcfg:50
 #, kde-format
 msgid "Display the focus InfoBox?"
-msgstr "Ali naj bo prikazan okvir s smerjo pogleda?"
+msgstr "Naj prikazujem informacijski okvir s fokusom?"
 
 #. i18n: ectx: whatsthis, entry (ShowFocusBox), group (GUI)
 #: kstars.kcfg:51
 #, kde-format
 msgid "Toggles display of the Focus InfoBox."
-msgstr "Preklopi prikaz okvirja s smerjo pogleda."
+msgstr "Preklopi prikaz informacijski okvirja s fokusom."
 
 #. i18n: ectx: label, entry (ShowGeoBox), group (GUI)
 #: kstars.kcfg:55
 #, kde-format
 msgid "Display the geographic InfoBox?"
-msgstr "Ali naj bo prikazan okvir z zemljepisno lego?"
+msgstr "Naj prikazujem informacijski okvir z geografskimi koordinatami?"
 
 #. i18n: ectx: whatsthis, entry (ShowGeoBox), group (GUI)
 #: kstars.kcfg:56
 #, kde-format
 msgid "Toggles display of the Geographic Location InfoBox."
-msgstr "Preklopi prikaz okvirja z zemljepisno lego."
+msgstr "Preklopi prikaz informacijskega okvirja z geografskimi koordinatami."
 
 #. i18n: ectx: label, entry (StickyTimeBox), group (GUI)
 #. i18n: ectx: label, entry (StickyFocusBox), group (GUI)
 #: kstars.kcfg:60 kstars.kcfg:67
 #, kde-format
 msgid "Time InfoBox anchor flag"
-msgstr "Zastavica sidra okvirja s podatki o času"
+msgstr "Zastavica sidra informacijskega okvirja s podatki o času"
 
 #. i18n: ectx: whatsthis, entry (StickyTimeBox), group (GUI)
 #: kstars.kcfg:61
@@ -33884,9 +33791,9 @@ msgid ""
 "anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom "
 "and right edges."
 msgstr ""
-"Ali je okvir s podatki o času zasidran ob rob zaslona? 0 = ni zasidran, 1 = "
-"zasidran ob desni rob, 2 = zasidran ob spodnji rob, 3 = zasidran ob spodnji "
-"in desni rob."
+"Ali je informacijski okvir s podatki o času zasidran ob rob okna? 0 = ni "
+"zasidran, 1 = zasidran ob desni rob, 2 = zasidran ob spodnji rob, 3 = "
+"zasidran ob spodnji in desni rob."
 
 #. i18n: ectx: whatsthis, entry (StickyFocusBox), group (GUI)
 #: kstars.kcfg:68
@@ -33896,15 +33803,16 @@ msgid ""
 "anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom "
 "and right edges."
 msgstr ""
-"Ali je okvir s podatki o smeri pogleda zasidran ob rob zaslona? 0 = ni "
-"zasidran, 1 = zasidran ob desni rob, 2 = zasidran ob spodnji rob, 3 = "
+"Ali je informacijski okvir s podatki o fokusu zasidran ob rob zaslona? 0 = "
+"ni zasidran, 1 = zasidran ob desni rob, 2 = zasidran ob spodnji rob, 3 = "
 "zasidran ob spodnji in desni rob."
 
 #. i18n: ectx: label, entry (StickyGeoBox), group (GUI)
 #: kstars.kcfg:74
 #, kde-format
 msgid "Geographic InfoBox anchor flag"
-msgstr "Zastavica sidra okvirja s podatki o zemljepisni legi"
+msgstr ""
+"Zastavica sidra informacijskega okvirja s podatki o geografskih koordinatah"
 
 #. i18n: ectx: whatsthis, entry (StickyGeoBox), group (GUI)
 #: kstars.kcfg:75
@@ -33914,15 +33822,15 @@ msgid ""
 "anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = "
 "anchored to bottom and right edges."
 msgstr ""
-"Ali je okvir s podatki o zemljepisni legi zasidran ob rob zaslona? 0 = ni "
-"zasidran, 1 = zasidran ob desni rob, 2 = zasidran ob spodnji rob, 3 = "
+"Ali je okvir s podatki o geografskih koordinatah zasidran ob rob zaslona? 0 "
+"= ni zasidran, 1 = zasidran ob desni rob, 2 = zasidran ob spodnji rob, 3 = "
 "zasidran ob spodnji in desni rob."
 
 #. i18n: ectx: label, entry (ShowStatusBar), group (GUI)
 #: kstars.kcfg:81
 #, kde-format
 msgid "Display the statusbar?"
-msgstr "Prikaz vrstice stanja?"
+msgstr "Naj prikazujem vrstico stanja?"
 
 #. i18n: ectx: whatsthis, entry (ShowStatusBar), group (GUI)
 #: kstars.kcfg:82
@@ -33934,7 +33842,7 @@ msgstr "Preklopi prikaz vrstice stanja."
 #: kstars.kcfg:86
 #, kde-format
 msgid "Display Alt/Az coordinates in the statusbar?"
-msgstr "Prikaz koordinat azimuta/višine v vrstici stanja?"
+msgstr "Prikaz koordinat višine in azimuta v vrstici stanja?"
 
 #. i18n: ectx: whatsthis, entry (ShowAltAzField), group (GUI)
 #: kstars.kcfg:87
@@ -33949,7 +33857,7 @@ msgstr ""
 #: kstars.kcfg:91
 #, kde-format
 msgid "Display RA/Dec coordinates in the statusbar?"
-msgstr "Prikaz koordinat rektascenzije/deklinacije v vrstici stanja?"
+msgstr "Naj prikazujem koordinate RA/DEC v vrstici stanja?"
 
 #. i18n: ectx: whatsthis, entry (ShowRADecField), group (GUI)
 #: kstars.kcfg:92
@@ -33965,7 +33873,7 @@ msgstr ""
 #: kstars.kcfg:96
 #, kde-format
 msgid "Display J2000.0 RA/Dec coordinates in the statusbar?"
-msgstr "Prikaz koordinat rekt./dekl. J2000.0 v vrstici stanja?"
+msgstr "Prikaz koordinat RA/Dec J2000.0 v vrstici stanja?"
 
 #. i18n: ectx: whatsthis, entry (ShowJ2000RADecField), group (GUI)
 #: kstars.kcfg:97
@@ -34068,29 +33976,29 @@ msgstr ""
 
 #. i18n: ectx: label, entry (DSOCachePercentage), group (Catalogs)
 #: kstars.kcfg:141
-#, fuzzy, kde-format
+#, kde-format
 msgid "Percentage of the sky to cache DSOs for."
-msgstr "Odstotek neba za predpomnitev DSO za."
+msgstr "Odstotek neba za predpomnitev DSO."
 
 #. i18n: ectx: whatsthis, entry (DSOCachePercentage), group (Catalogs)
 #: kstars.kcfg:145
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The DSOs are loaded from a sqlite database and\n"
 "         cached in memory. This setting regulates how much of the DSOs\n"
 "         will be cached. Turning this value up yields better\n"
 "         performance at the cost of memory."
 msgstr ""
-"DSO-ji so naloženi iz sqlite zbirke podatkov in\n"
+"DSO-ji so naloženi iz zbirke podatkov sqlite in\n"
 "         predpomnjena v pomnilniku. Ta nastavitev ureja, koliko od ZSO\n"
 "         bo predpomnjena. Boljši donosi, če to vrednost povišate\n"
 "         za ceno pomnilnika."
 
 #. i18n: ectx: label, entry (DSOMinZoomFactor), group (Catalogs)
 #: kstars.kcfg:151
-#, fuzzy, kde-format
+#, kde-format
 msgid "Minimum zoom level to render DeepSkyObjects."
-msgstr "Najmanjša raven povečave za under DeepSkyObjects."
+msgstr "Najmanjša raven povečave za upodobitev DeepSkyObjects."
 
 #. i18n: ectx: label, entry (DSOCatalogFilename), group (Catalogs)
 #: kstars.kcfg:157
@@ -34176,43 +34084,41 @@ msgstr "Pokaži okno INDI ob zagonu EKOS."
 
 #. i18n: ectx: label, entry (SaveFocusImages), group (indi)
 #: kstars.kcfg:202
-#, fuzzy, kde-format
-#| msgid "Save the image to disk"
+#, kde-format
 msgid "Save autofocus images on disk?"
-msgstr "Shrani sliko na disk"
+msgstr "Naj shranim samodejno fokusirane slike na disk?"
 
 #. i18n: ectx: label, entry (messageNotificationINDI), group (indi)
 #: kstars.kcfg:206
-#, fuzzy, kde-format
-#| msgid "INDI messages in status &bar"
+#, kde-format
 msgid "INDI message notifications"
-msgstr "Sporočila INDI v &vrstici stanja"
+msgstr "INDI obvestila o sporočilih"
 
 #. i18n: ectx: label, entry (timeSource), group (indi)
 #: kstars.kcfg:211
-#, fuzzy, kde-format
+#, kde-format
 msgid "Master source for time (KStars, Mount, or INDI Device)"
-msgstr "Glavni vir za čas (KStars, nosilec ali naprava INDI)"
+msgstr "Glavni vir za čas (KStars, montaža ali naprava INDI)"
 
 #. i18n: ectx: label, entry (locationSource), group (indi)
 #: kstars.kcfg:215
-#, fuzzy, kde-format
+#, kde-format
 msgid "Master source for location (KStars, Mount, or INDI Device)"
-msgstr "Glavni vir za lokacijo (KStars, nosilec ali naprava INDI)"
+msgstr "Glavni vir za lokacijo (KStars, montaža ali naprava INDI)"
 
 #. i18n: ectx: label, entry (useExternalSkyMap), group (indi)
 #: kstars.kcfg:219
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use an external planetarium software to control mount slews and syncs."
 msgstr ""
-"Uporabite zunanjo programsko opremo planetarija za nadzor nad premiki in "
+"Uporabite zunanjo programsko opremo planetarija za nadzor nad obračanji in "
 "sinhronizacijo montaže."
 
 #. i18n: ectx: label, entry (fitsDir), group (indi)
 #: kstars.kcfg:223
 #, kde-format
 msgid "FITS Default directory"
-msgstr "Privzeta mapa FITS"
+msgstr "Privzeti imenik FITS"
 
 #. i18n: ectx: whatsthis, entry (fitsDir), group (indi)
 #: kstars.kcfg:224
@@ -34222,17 +34128,17 @@ msgstr "Privzeto mesto za shranjevanje datotek FITS"
 
 #. i18n: ectx: label, entry (serverTransferBufferSize), group (indi)
 #: kstars.kcfg:228
-#, fuzzy, kde-format
-#| msgid "INDI Server Start Port"
+#, kde-format
 msgid "INDI Server Transfer Buffer"
-msgstr "Začetna vrata strežnika INDI"
+msgstr "Medpomnilnik za prenos strežnika INDI"
 
 #. i18n: ectx: whatsthis, entry (serverTransferBufferSize), group (indi)
 #: kstars.kcfg:229
-#, fuzzy, kde-format
+#, kde-format
 msgid "Allows drivers to queue buffers not exceeding this size in MB"
 msgstr ""
-"Omogoča voznikom, da v MB v čakalni čakalni redu ne presegajo te velikosti"
+"Gonilnikom omogoča, da medpomnilniki v čakalni vrsti ne presežejo te "
+"velikosti v MB"
 
 #. i18n: ectx: label, entry (serverPortStart), group (indi)
 #: kstars.kcfg:233
@@ -34244,7 +34150,7 @@ msgstr "Začetna vrata strežnika INDI"
 #: kstars.kcfg:234
 #, kde-format
 msgid "INDI server will attempt to bind with ports starting from this port"
-msgstr "Strežnik INDI se bo poskusil povezati na vrata, ki se začnejo tu"
+msgstr "Strežnik INDI se bo poskusil povezavo na vratih, ki se začnejo tu"
 
 #. i18n: ectx: label, entry (serverPortEnd), group (indi)
 #: kstars.kcfg:238
@@ -34256,22 +34162,22 @@ msgstr "Končna vrata strežnika INDI"
 #: kstars.kcfg:239
 #, kde-format
 msgid "INDI server will attempt to bind with ports ending with this port"
-msgstr "Strežnik INDI se bo poskusil povezati na vrata, ki se končajo tu"
+msgstr ""
+"Strežnik INDI se bo poskusil povezati na vrata, ki se končajo s temi vrati"
 
 #. i18n: ectx: label, entry (indiServer), group (indi)
 #. i18n: ectx: whatsthis, entry (indiServer), group (indi)
 #: kstars.kcfg:243 kstars.kcfg:244
 #, kde-format
 msgid "PATH to indiserver binary"
-msgstr "Pot do programa indiserver"
+msgstr "PATH do binarne datoteke indiserver"
 
 #. i18n: ectx: label, entry (INDIHubAgent), group (indi)
 #. i18n: ectx: whatsthis, entry (INDIHubAgent), group (indi)
 #: kstars.kcfg:248 kstars.kcfg:249
-#, fuzzy, kde-format
-#| msgid "PATH to indiserver binary"
+#, kde-format
 msgid "PATH to indihub-agent binary"
-msgstr "Pot do programa indiserver"
+msgstr "PATH do binarne datoteke indihub-agent"
 
 #. i18n: ectx: label, entry (indiServerIsInternal), group (indi)
 #: kstars.kcfg:253
@@ -34284,7 +34190,7 @@ msgstr "Notranji ali zunanji strežnik INDI?"
 #: kstars.kcfg:257 kstars.kcfg:258
 #, kde-format
 msgid "PATH to indi drivers directory"
-msgstr "Pot do mape z gonilniki INDI"
+msgstr "PATH do imenika z gonilniki INDI"
 
 #. i18n: ectx: label, entry (indiDriversAreInternal), group (indi)
 #: kstars.kcfg:262
@@ -34294,71 +34200,63 @@ msgstr "Notranji ali zunanji reševalnik Astrometry?"
 
 #. i18n: ectx: label, entry (streamWindowWidth), group (indi)
 #: kstars.kcfg:266
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video streaming window width"
 msgstr "Širina okna za pretakanje videa"
 
 #. i18n: ectx: label, entry (streamWindowHeight), group (indi)
 #: kstars.kcfg:270
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video streaming window height"
 msgstr "Višina okna za pretakanje videa"
 
 #. i18n: ectx: label, entry (INDIMountLogging), group (indi)
 #: kstars.kcfg:274
-#, fuzzy, kde-format
-#| msgid "Enable Verbose Logging"
+#, kde-format
 msgid "Enable INDI Mount logging"
-msgstr "Omogoči podrobno beleženje"
+msgstr "Omogoči beleženje montaže INDI"
 
 #. i18n: ectx: label, entry (INDIFocuserLogging), group (indi)
 #: kstars.kcfg:278
-#, fuzzy, kde-format
-#| msgid "Enable Verbose Logging"
+#, kde-format
 msgid "Enable INDI Focuser logging"
-msgstr "Omogoči podrobno beleženje"
+msgstr "Omogoči beleženje INDI Focuserja"
 
 #. i18n: ectx: label, entry (INDICCDLogging), group (indi)
 #: kstars.kcfg:282
-#, fuzzy, kde-format
-#| msgid "Enable Verbose Logging"
+#, kde-format
 msgid "Enable INDI CCD logging"
-msgstr "Omogoči podrobno beleženje"
+msgstr "Omogoči beleženje INDI CCD"
 
 #. i18n: ectx: label, entry (INDIFilterWheelLogging), group (indi)
 #: kstars.kcfg:286
-#, fuzzy, kde-format
-#| msgid "Enable Verbose Logging"
+#, kde-format
 msgid "Enable INDI Filter Wheel logging"
-msgstr "Omogoči podrobno beleženje"
+msgstr "Omogoči beleženje INDI kolesa filtra"
 
 #. i18n: ectx: label, entry (INDIDomeLogging), group (indi)
 #: kstars.kcfg:290
-#, fuzzy, kde-format
-#| msgid "Enable Verbose Logging"
+#, kde-format
 msgid "Enable INDI Dome logging"
-msgstr "Omogoči podrobno beleženje"
+msgstr "Omogoči beleženje INDI kupole"
 
 #. i18n: ectx: label, entry (INDIDetectorLogging), group (indi)
 #: kstars.kcfg:294
-#, fuzzy, kde-format
-#| msgid "Enable Verbose Logging"
+#, kde-format
 msgid "Enable INDI Detector logging"
-msgstr "Omogoči podrobno beleženje"
+msgstr "Omogoči beleženje detektorja INDI"
 
 #. i18n: ectx: label, entry (INDIWeatherLogging), group (indi)
 #: kstars.kcfg:298
-#, fuzzy, kde-format
-#| msgid "Enable Regular Logging"
+#, kde-format
 msgid "Enable INDI Weather logging"
-msgstr "Omogoči običajno beleženje"
+msgstr "Omogoči beleženje vremena INDI"
 
 #. i18n: ectx: label, entry (INDIAuxiliaryLogging), group (indi)
 #: kstars.kcfg:302
-#, fuzzy, kde-format
-#| msgid "Enable Regular Logging"
+#, kde-format
 msgid "Enable INDI Auxiliary logging"
-msgstr "Omogoči običajno beleženje"
+msgstr "Omogoči pomožno beleženje INDI"
 
 #. i18n: ectx: label, entry (INDIRotatorLogging), group (indi)
 #: kstars.kcfg:306
@@ -34368,17 +34266,15 @@ msgstr "Omogoči beleženje rotatorja INDI"
 
 #. i18n: ectx: label, entry (INDIGPSLogging), group (indi)
 #: kstars.kcfg:310
-#, fuzzy, kde-format
-#| msgid "Enable Verbose Logging"
+#, kde-format
 msgid "Enable INDI GPS logging"
-msgstr "Omogoči podrobno beleženje"
+msgstr "Omogoči beleženje INDI GPS"
 
 #. i18n: ectx: label, entry (INDIAOLogging), group (indi)
 #: kstars.kcfg:314
-#, fuzzy, kde-format
-#| msgid "Enable Regular Logging"
+#, kde-format
 msgid "Enable INDI Adaptive Optics logging"
-msgstr "Omogoči običajno beleženje"
+msgstr "Omogoči beleženje prilagodljive optike INDI"
 
 #. i18n: ectx: label, entry (CityName), group (Location)
 #: kstars.kcfg:321
@@ -34448,7 +34344,7 @@ msgstr "Zemljepisna širina trenutne zemljepisne lege v decimalnih stopinjah."
 #: kstars.kcfg:346
 #, kde-format
 msgid "Elevation above sea level of geographic location, in meters."
-msgstr "Dvignjenost trenutne zemljepisne lege nad morsko gladino, v metrih."
+msgstr "Nadmorska višina zemljepisne lege, v metrih."
 
 #. i18n: ectx: label, entry (TimeZone), group (Location)
 #: kstars.kcfg:350
@@ -34480,7 +34376,7 @@ msgstr ""
 #: kstars.kcfg:362
 #, kde-format
 msgid "Use animated slewing effects when changing focus position?"
-msgstr "Uporaba animacije obračanja pri spreminjanju usmerjenosti?"
+msgstr "Uporabiti animirane učinke obračanja pri spreminjanju položaja fokusa?"
 
 #. i18n: ectx: whatsthis, entry (UseAnimatedSlewing), group (View)
 #: kstars.kcfg:363
@@ -34489,30 +34385,31 @@ msgid ""
 "If true, focus changes will cause the sky to visibly spin to the new "
 "position. Otherwise, the display will \"snap\" instantly to the new position."
 msgstr ""
-"Če je omogočeno (true), se pri spremembi smeri pogleda prikaz počasi obrne v "
-"novo smer. V nasprotnem primeru se prikaz preusmeri v trenutku."
+"Če je omogočeno, bodo spremembe fokusa povzročile, da se zvezdna karta vidno "
+"zavrtela na nov položaj. Sicer se bo zaslon takoj \"zaskočil\" na nov "
+"položaj."
 
 #. i18n: ectx: label, entry (LeftClickSelectsObject), group (View)
 #: kstars.kcfg:367
-#, fuzzy, kde-format
-#| msgid "Select object from a list"
+#, kde-format
 msgid "Select objects on left click?"
-msgstr "Izberite objekt s seznama"
+msgstr "Izberemo objekte z levim klikom?"
 
 #. i18n: ectx: whatsthis, entry (LeftClickSelectsObject), group (View)
 #: kstars.kcfg:368
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "If true, clicking on the skymap will select the closest object and "
 "highlights it."
 msgstr ""
-"Če je res, bo klik na skymap izbral najbližji predmet in ga izpostavil."
+"Če je omogočeno, bo klik na zemljevid neba izbral najbližji objekt in ga "
+"osvetlil."
 
 #. i18n: ectx: label, entry (DefaultCursor), group (View)
 #: kstars.kcfg:372
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select default Skymap cursor?"
-msgstr "Ali želite privzeti kazalec Skymap?"
+msgstr "Izberite privzeti kazalec zvezdne karte?"
 
 #. i18n: ectx: whatsthis, entry (DefaultCursor), group (View)
 #: kstars.kcfg:373
@@ -34534,14 +34431,14 @@ msgid ""
 "defined FOV indicator names is listed in the \"Settings|FOV Symbols\" menu."
 msgstr ""
 "Imena trenutno izbranih kazalnikov vidnega polja. Seznam določenih "
-"kazalnikov vidnega polja je na voljo v meniju Nastavitve → Znaki vidnega "
-"polja."
+"kazalnikov vidnega polja je na voljo v meniju \"Nastavitve | Znaki vidnega "
+"polja\"."
 
 #. i18n: ectx: label, entry (FadePlanetTrails), group (View)
 #: kstars.kcfg:382
 #, kde-format
 msgid "Fade planet trails to background color?"
-msgstr "Sledi planetov zbledijo v barvo ozadja?"
+msgstr "Naj sledi planetov zbledijo v barvo ozadja?"
 
 #. i18n: ectx: whatsthis, entry (FadePlanetTrails), group (View)
 #: kstars.kcfg:383
@@ -34550,14 +34447,13 @@ msgid ""
 "If true, trails attached to solar system bodies will fade into the "
 "background sky color."
 msgstr ""
-"Če je omogočeno (true), barva sledi objektov osončja zbledi v barvo neba v "
-"ozadju."
+"Če je omogočeno, barva sledi objektov osončja zbledi v barvo neba v ozadju."
 
 #. i18n: ectx: label, entry (FocusRA), group (View)
 #: kstars.kcfg:387
 #, kde-format
 msgid "Right Ascension of focus position"
-msgstr "Rektascenzija položaja žarišča"
+msgstr "Rektascenzija položaja fokusa"
 
 #. i18n: ectx: whatsthis, entry (FocusRA), group (View)
 #: kstars.kcfg:388
@@ -34566,14 +34462,14 @@ msgid ""
 "The right ascension of the initial focus position of the sky map, in decimal "
 "hours. This value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"Rektascenzija začetnega položaja žarišča na zvezdni karti, v decimalnih "
-"urah. Vrednost ni obstojna in se ponastavi ob vsakem izhodu iz programa."
+"Rektascenzija začetnega položaja fokusa na zvezdni karti, v decimalnih urah. "
+"Ta vrednost je neobstojna; ponovno se nastavi vsakič, ko se program zaustavi."
 
 #. i18n: ectx: label, entry (FocusDec), group (View)
 #: kstars.kcfg:392
 #, kde-format
 msgid "Declination of focus position"
-msgstr "Deklinacija položaja žarišča"
+msgstr "Deklinacija položaja fokusa"
 
 #. i18n: ectx: whatsthis, entry (FocusDec), group (View)
 #: kstars.kcfg:393
@@ -34582,14 +34478,15 @@ msgid ""
 "The declination of the initial focus position of the sky map, in decimal "
 "degrees. This value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"Deklinacija začetnega položaja žarišča na zvezdni karti, v decimalnih "
-"stopinjah. Vrednost ni obstojna in se ponastavi ob vsakem izhodu iz programa."
+"Deklinacija začetnega položaja fokusa na zvezdni karti, v decimalnih "
+"stopinjah. Ta vrednost je neobstojna; ponovno se nastavi vsakič, ko se "
+"program zaustavi."
 
 #. i18n: ectx: label, entry (FocusObject), group (View)
 #: kstars.kcfg:397
 #, kde-format
 msgid "Name of focused object"
-msgstr "Ime objekta v žarišču"
+msgstr "Ime objekta v fokusu"
 
 #. i18n: ectx: whatsthis, entry (FocusObject), group (View)
 #: kstars.kcfg:398
@@ -34600,8 +34497,8 @@ msgid ""
 "reset whenever the program shuts down."
 msgstr ""
 "Ime objekta, ki bo ob zagonu v sredini in mu bo sledeno. Če želite, da ni v "
-"žarišču noben objekt, nastavite vrednost na »nothing«. Vrednost ni obstojna "
-"in se ponastavi ob vsakem izhodu iz programa."
+"fokusu nobenega objekta, nastavite vrednost na \"nothing\". Ta vrednost je "
+"neobstojna; ponovno se nastavi vsakič, ko se program zaustavi."
 
 #. i18n: ectx: label, entry (IsTracking), group (View)
 #: kstars.kcfg:402
@@ -34616,14 +34513,14 @@ msgid ""
 "True if the skymap should track on its initial position on startup. This "
 "value is volatile; it is reset whenever the program shuts down."
 msgstr ""
-"Vrednost je »true«, če se ob zagonu sledi začetnem položaju zvezdne karte. "
-"Vrednost ni obstojna in se ponastavi ob vsakem izhodu iz programa."
+"Je vklopljeno, če zvezdna karta ob zagonu sledi začetnem položaju. Ta "
+"vrednost je neobstojna; ponovno se nastavi vsakič, ko se program zaustavi."
 
 #. i18n: ectx: label, entry (HideOnSlew), group (View)
 #: kstars.kcfg:407
 #, kde-format
 msgid "Hide objects while moving?"
-msgstr "Skrivanje objektov med premikanjem karte?"
+msgstr "Naj bodo skriti objekti med premikanjem karte?"
 
 #. i18n: ectx: whatsthis, entry (HideOnSlew), group (View)
 #: kstars.kcfg:408
@@ -34632,15 +34529,15 @@ msgid ""
 "Toggle whether KStars should hide some objects while the display is moving, "
 "for smoother motion."
 msgstr ""
-"Preklopi ali naj bodo med premikanjem zvezdne karte skriti nekateri objekti "
-"in bo premikanje hitrejše."
+"Preklop ali naj KStars med premikanjem zaslona skriva nekatere objekte za "
+"bolj gladko premikanje."
 
 #. i18n: ectx: label, entry (HideCBounds), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideCBounds)
 #: kstars.kcfg:412 options/opsadvanced.ui:763
 #, kde-format
 msgid "Hide constellation boundaries while moving?"
-msgstr "Skrivanje mej ozvezdij med premikanjem karte?"
+msgstr "Naj bodo skrite meje ozvezdij med premikanjem?"
 
 #. i18n: ectx: whatsthis, entry (HideCBounds), group (View)
 #: kstars.kcfg:413
@@ -34649,14 +34546,14 @@ msgid ""
 "Toggle whether constellation boundaries are hidden while the display is in "
 "motion."
 msgstr ""
-"Preklopi ali naj bodo med premikanjem zvezdne karte skrite meje ozvezdij."
+"Preklop ali naj bodo med premikanjem zvezdne karte skrite meje ozvezdij."
 
 #. i18n: ectx: label, entry (HideCLines), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideCLines)
 #: kstars.kcfg:417 options/opsadvanced.ui:734
 #, kde-format
 msgid "Hide constellation lines while moving?"
-msgstr "Skrivanje črt ozvezdij med premikanjem karte?"
+msgstr "Naj bodo skrite črte ozvezdij med premikanjem karte?"
 
 #. i18n: ectx: whatsthis, entry (HideCLines), group (View)
 #: kstars.kcfg:418
@@ -34664,26 +34561,26 @@ msgstr "Skrivanje črt ozvezdij med premikanjem karte?"
 msgid ""
 "Toggle whether constellation lines are hidden while the display is in motion."
 msgstr ""
-"Preklopi ali naj bodo med premikanjem zvezdne karte skrite črte ozvezdij."
+"Preklop ali naj bodo med premikanjem zvezdne karte skrite črte ozvezdij."
 
 #. i18n: ectx: label, entry (SkyCulture), group (View)
 #: kstars.kcfg:422
 #, kde-format
 msgid "Sky culture"
-msgstr "Kultura"
+msgstr "Nebesna kultura"
 
 #. i18n: ectx: whatsthis, entry (SkyCulture), group (View)
 #: kstars.kcfg:423
 #, kde-format
 msgid "Choose sky culture."
-msgstr "Izberite kulturo."
+msgstr "Izberite nebesno kulturo."
 
 #. i18n: ectx: label, entry (HideCNames), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideCNames)
 #: kstars.kcfg:427 options/opsadvanced.ui:773
 #, kde-format
 msgid "Hide constellation names while moving?"
-msgstr "Skrivanje imen ozvezdij med premikanjem karte?"
+msgstr "Naj bodo skrita imena ozvezdij med premikanjem karte?"
 
 #. i18n: ectx: whatsthis, entry (HideCNames), group (View)
 #: kstars.kcfg:428
@@ -34691,14 +34588,14 @@ msgstr "Skrivanje imen ozvezdij med premikanjem karte?"
 msgid ""
 "Toggle whether constellation names are hidden while the display is in motion."
 msgstr ""
-"Preklopi ali naj bodo med premikanjem zvezdne karte skrita imena ozvezdij."
+"Preklop ali naj bodo med premikanjem zvezdne karte skrita imena ozvezdij."
 
 #. i18n: ectx: label, entry (HideGrids), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_HideGrids)
 #: kstars.kcfg:432 options/opsadvanced.ui:747
 #, kde-format
 msgid "Hide coordinate grids while moving?"
-msgstr "Skrivanje koordinatne mreže med premikanjem karte?"
+msgstr "Naj bo skrita koordinatna mreža med premikanjem karte?"
 
 #. i18n: ectx: whatsthis, entry (HideGrids), group (View)
 #: kstars.kcfg:433
@@ -34707,13 +34604,13 @@ msgid ""
 "Toggle whether the coordinate grids are hidden while the display is in "
 "motion."
 msgstr ""
-"Preklopi ali naj bo med premikanjem zvezdne karte skrita koordinatna mreža."
+"Preklop ali naj bo med premikanjem zvezdne karte skrita koordinatna mreža."
 
 #. i18n: ectx: label, entry (HideMilkyWay), group (View)
 #: kstars.kcfg:437
 #, kde-format
 msgid "Hide Milky Way contour while moving?"
-msgstr "Skrivanje obrisa Rimske ceste med premikanjem?"
+msgstr "Naj bo skrit obris Rimske ceste med premikanjem?"
 
 #. i18n: ectx: whatsthis, entry (HideMilkyWay), group (View)
 #: kstars.kcfg:438
@@ -34722,25 +34619,25 @@ msgid ""
 "Toggle whether the Milky Way contour is hidden while the display is in "
 "motion."
 msgstr ""
-"Preklopi ali naj bo med premikanjem zvezdne karte obris Rimske ceste skrit."
+"Preklop ali naj bo skrit obris Rimske ceste med premikanjem zvezdne karte."
 
 #. i18n: ectx: label, entry (HideOther), group (View)
 #: kstars.kcfg:442
 #, kde-format
 msgid "Hide extra objects while moving?"
-msgstr "Skrivanje dodatnih objektov med premikanjem karte?"
+msgstr "Naj bodo skriti dodatni objekti med premikanjem karte?"
 
 #. i18n: ectx: whatsthis, entry (HideOther), group (View)
 #: kstars.kcfg:443
 #, kde-format
 msgid "Toggle whether extra objects are hidden while the display is in motion."
-msgstr "Preklopi skrivanje dodatnih objektov med premikanjem karte."
+msgstr "Preklop skrivanja dodatnih objektov med premikanjem karte."
 
 #. i18n: ectx: label, entry (HidePlanets), group (View)
 #: kstars.kcfg:447
 #, kde-format
 msgid "Hide solar system objects while moving?"
-msgstr "Skrivanje objektov Osončja med premikanjem karte?"
+msgstr "Naj bodo skriti objekti Osončja med premikanjem karte?"
 
 #. i18n: ectx: whatsthis, entry (HidePlanets), group (View)
 #: kstars.kcfg:448
@@ -34749,7 +34646,7 @@ msgid ""
 "Toggle whether solar system objects are hidden while the display is in "
 "motion."
 msgstr ""
-"Preklopi ali naj bodo med premikanjem zvezdne karte skriti vsi objekti "
+"Preklop ali naj bodo med premikanjem zvezdne karte skriti vsi objekti "
 "Osončja."
 
 #. i18n: ectx: label, entry (HideStars), group (View)
@@ -34757,118 +34654,119 @@ msgstr ""
 #: kstars.kcfg:452 options/opsadvanced.ui:677
 #, kde-format
 msgid "Hide faint stars while moving?"
-msgstr "Skrivanje šibkejših zvezd med premikanjem karte?"
+msgstr "Naj bodo skrite šibkejše zvezde med premikanjem karte?"
 
 #. i18n: ectx: whatsthis, entry (HideStars), group (View)
 #: kstars.kcfg:453
 #, kde-format
 msgid "Toggle whether faint stars are hidden while the display is in motion."
-msgstr "Preklopi ali naj bodo med premikanjem šibkejše zvezde skrite."
+msgstr "Preklop ali naj bodo med premikanjem šibkejše zvezde skrite."
 
 #. i18n: ectx: label, entry (HideLabels), group (View)
 #: kstars.kcfg:457
 #, kde-format
 msgid "Hide object name labels while moving?"
-msgstr "Skrivanje imen objektov med premikanjem?"
+msgstr "Naj bodo skrite oznake z imeni objektov med premikanjem?"
 
 #. i18n: ectx: whatsthis, entry (HideLabels), group (View)
 #: kstars.kcfg:458
 #, kde-format
 msgid "Toggle whether name labels are hidden while the display is in motion."
-msgstr "Preklopi skrivanje oznak z imeni objektov med premikanjem karte."
+msgstr "Preklop skrivanja oznak z imeni objektov med premikanjem karte."
 
 #. i18n: ectx: label, entry (ShowAsteroids), group (View)
 #: kstars.kcfg:462
 #, kde-format
 msgid "Draw asteroids in the sky map?"
-msgstr "Izris asteroidov na zvezdni karti?"
+msgstr "Naj bodo narisani asteroidi na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowAsteroids), group (View)
 #: kstars.kcfg:463
 #, kde-format
 msgid "Toggle whether asteroids are drawn in the sky map."
-msgstr "Preklopi ali naj bodo na zvezdni karti izrisani asteroidi."
+msgstr "Preklop ali naj bodo na zvezdni karti izrisani asteroidi."
 
 #. i18n: ectx: label, entry (ShowAsteroidNames), group (View)
 #: kstars.kcfg:467
 #, kde-format
 msgid "Label asteroid names in the sky map?"
-msgstr "Imena asteroidov na zvezdni karti?"
+msgstr "Naj bodo imena asteroidov na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowAsteroidNames), group (View)
 #: kstars.kcfg:468
 #, kde-format
 msgid "Toggle whether asteroid name labels are drawn in the sky map."
-msgstr "Preklopi ali naj bodo na zvezdni karti izrisana imena asteroidov."
+msgstr "Preklop ali naj bodo na zvezdni karti izrisana imena asteroidov."
 
 #. i18n: ectx: label, entry (OrbitalElementsAutoUpdate), group (View)
 #: kstars.kcfg:472
-#, fuzzy, kde-format
-#| msgid "Update recent supernovae list on startup?"
+#, kde-format
 msgid ""
 "Update orbital elements for comets and asteroids from online sources on "
 "startup."
-msgstr "Posodobi seznam za nedavne supernove ob zagonu?"
+msgstr ""
+"Posodobi orbitalne elemente za komete in asteroide iz spletnih virov ob "
+"zagonu."
 
 #. i18n: ectx: label, entry (ShowComets), group (View)
 #: kstars.kcfg:476
 #, kde-format
 msgid "Draw comets in the sky map?"
-msgstr "Izris kometov na zvezdni karti?"
+msgstr "Naj bodo narisani kometi na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowComets), group (View)
 #: kstars.kcfg:477
 #, kde-format
 msgid "Toggle whether comets are drawn in the sky map."
-msgstr "Preklopi ali naj bodo na zvezdni karti izrisani kometi."
+msgstr "Preklop ali naj bodo na zvezdni karti izrisani kometi."
 
 #. i18n: ectx: label, entry (ShowCometComas), group (View)
 #: kstars.kcfg:481
 #, kde-format
 msgid "Draw comet comas in the sky map?"
-msgstr "Izris repov kometov na zvezdni karti?"
+msgstr "Na bodo narisani repi kometov na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowCometComas), group (View)
 #: kstars.kcfg:482
 #, kde-format
 msgid "Toggle whether comet comas are drawn in the sky map."
-msgstr "Preklopi ali naj bodo na zvezdni karti izrisani repi kometov."
+msgstr "Preklop ali naj bodo na zvezdni karti izrisani repi kometov."
 
 #. i18n: ectx: label, entry (ShowCometNames), group (View)
 #: kstars.kcfg:486
 #, kde-format
 msgid "Label comet names in the sky map?"
-msgstr "Imena kometov na zvezdni karti?"
+msgstr "Naj bodo imena kometov na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowCometNames), group (View)
 #: kstars.kcfg:487
 #, kde-format
 msgid "Toggle whether comet name labels are drawn in the sky map."
-msgstr "Preklopi ali naj bodo na zvezdni karti izrisana imena kometov."
+msgstr "Preklop ali naj bodo na zvezdni karti izpisana imena kometov."
 
 #. i18n: ectx: label, entry (ShowSupernovae), group (View)
 #: kstars.kcfg:491
 #, kde-format
 msgid "Draw supernovae in the sky map?"
-msgstr "Ali naj bodo na zvezdni karti izrisane supernove?"
+msgstr "Naj bodo na zvezdni karti izrisane supernove?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovae), group (View)
 #: kstars.kcfg:492
 #, kde-format
 msgid "Toggle whether supernovae are drawn in the sky map."
-msgstr "Preklopi ali naj bodo na zvezdni karti izrisane supernove."
+msgstr "Preklop ali naj bodo na zvezdni karti izrisane supernove."
 
 #. i18n: ectx: label, entry (ShowSupernovaNames), group (View)
 #: kstars.kcfg:496
 #, kde-format
 msgid "Label Supernova Names in the sky map?"
-msgstr "Ali naj bodo supernove na zvezdni karti označene z imeni?"
+msgstr "Naj bodo označena imena supernov na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovaNames), group (View)
 #: kstars.kcfg:497
 #, kde-format
 msgid "Toggle whether supernova name labels are drawn in the sky map."
-msgstr "Preklopi ali naj bodo na zvezdni karti izrisana imena supernov."
+msgstr "Preklop ali naj bodo na zvezdni karti izrisana imena supernov."
 
 #. i18n: ectx: label, entry (MagnitudeLimitShowSupernovae), group (View)
 #: kstars.kcfg:501
@@ -34900,20 +34798,19 @@ msgstr "Največje število dni, ki so minili od zaznave."
 #: kstars.kcfg:517
 #, kde-format
 msgid "Limit Supernovae by zoom limit"
-msgstr "Omeji supernove z omejitvami povečave"
+msgstr "Omeji supernove z omejitvijo povečave"
 
 #. i18n: ectx: whatsthis, entry (LimitSupernovaeByZoom), group (View)
 #: kstars.kcfg:518
 #, kde-format
 msgid "Limit Supernovae by zoom limit."
-msgstr "Omeji supernove z omejitvami povečave."
+msgstr "Omeji supernove z omejitvijo povečave."
 
 #. i18n: ectx: label, entry (SupernovaeHostOnly), group (View)
 #: kstars.kcfg:522
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only supernovae with host"
-msgstr "Pokaži Supernove"
+msgstr "Pokaži samo supernove z gostitelji"
 
 #. i18n: ectx: whatsthis, entry (SupernovaeHostOnly), group (View)
 #: kstars.kcfg:523
@@ -34923,22 +34820,21 @@ msgstr "Pokaži samo supernove, za katere je podana galaksija gostiteljica."
 
 #. i18n: ectx: label, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:527
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only classified supernovae?"
-msgstr "Pokaži Supernove"
+msgstr "Naj bodo prikazane samo klasificirane supernove?"
 
 #. i18n: ectx: whatsthis, entry (SupernovaeClassifiedOnly), group (View)
 #: kstars.kcfg:528
 #, kde-format
 msgid "Show only classified supernovae where the supernova type is given."
-msgstr "Pokaži samo razvrščene supernove, kjer je podana vrsta supernove."
+msgstr "Pokaži samo klasificirane supernove, kjer je podana vrsta supernove."
 
 #. i18n: ectx: label, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:532
 #, kde-format
 msgid "Show supernova alerts?"
-msgstr "Prikažem opozorila za supernove?"
+msgstr "Naj bodo prikazana opozorila za supernove?"
 
 #. i18n: ectx: whatsthis, entry (ShowSupernovaAlerts), group (View)
 #: kstars.kcfg:533
@@ -34962,7 +34858,7 @@ msgstr "Nastavi mejo magnitud za opozorila supernov."
 #: kstars.kcfg:542
 #, kde-format
 msgid "Draw constellation boundaries in the sky map?"
-msgstr "Izris mej ozvezdij na zvezdni karti?"
+msgstr "Naj bodo izrisane mej ozvezdij na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowCBounds), group (View)
 #: kstars.kcfg:543
@@ -34974,7 +34870,7 @@ msgstr "Preklopi ali naj bodo na zvezdni karti izrisane meje ozvezdij."
 #: kstars.kcfg:547
 #, kde-format
 msgid "Highlight the central constellation boundary in the sky map?"
-msgstr "Poudarjanje meje ozvezdja na sredini zvezdne karte?"
+msgstr "Naj bo označena mejo osrednjega ozvezdja na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowHighlightedCBound), group (View)
 #: kstars.kcfg:548
@@ -34983,14 +34879,14 @@ msgid ""
 "Toggle whether constellation boundary containing the central focus point is "
 "highlighted in the sky map."
 msgstr ""
-"Preklopi ali naj bo na zvezdni karti meja ozvezdja, ki vsebuje središčno "
-"točko, poudarjena."
+"Preklopi ali je meja ozvezdja, ki vsebuje osrednjo točko fokusa, označena na "
+"zvezdni karti."
 
 #. i18n: ectx: label, entry (ShowCLines), group (View)
 #: kstars.kcfg:552
 #, kde-format
 msgid "Draw constellation lines in the sky map?"
-msgstr "Izris črt ozvezdij na zvezdni karti?"
+msgstr "Naj bodo izrisane črte ozvezdij na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowCLines), group (View)
 #: kstars.kcfg:553
@@ -35002,7 +34898,7 @@ msgstr "Preklopi ali naj bodo na zvezdni karti izrisane črte ozvezdij."
 #: kstars.kcfg:557
 #, kde-format
 msgid "Draw constellation art in the sky map?"
-msgstr "Izris grafike ozvezdij na zvezdni karti?"
+msgstr "Naj bodo narisane grafike ozvezdij na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowConstellationArt), group (View)
 #: kstars.kcfg:558
@@ -35014,7 +34910,7 @@ msgstr "Preklopi ali naj bodo na zvezdni karti izrisane grafike ozvezdij."
 #: kstars.kcfg:562
 #, kde-format
 msgid "Draw constellation names in the sky map?"
-msgstr "Izris imen ozvezdij na zvezdni karti?"
+msgstr "Naj bodo imena ozvezdij na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowCNames), group (View)
 #: kstars.kcfg:563
@@ -35026,7 +34922,7 @@ msgstr "Preklopi ali naj bodo na zvezdni karti izrisana imena ozvezdij."
 #: kstars.kcfg:567
 #, kde-format
 msgid "Draw \"deep sky\" objects in the sky map?"
-msgstr "Izris objektov globokega neba na zvezdni karti?"
+msgstr "Naj bodo narisani \"objekti globokega\" neba na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSky), group (View)
 #: kstars.kcfg:568
@@ -35039,7 +34935,7 @@ msgstr ""
 #: kstars.kcfg:572
 #, kde-format
 msgid "Draw ecliptic line in the sky map?"
-msgstr "Izris ekliptike na zvezdni karti?"
+msgstr "Naj bo izrisana črta ekliptike na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowEcliptic), group (View)
 #: kstars.kcfg:573
@@ -35051,20 +34947,20 @@ msgstr "Preklopi ali naj bo na zvezdni karti izrisana črta ekliptike."
 #: kstars.kcfg:577
 #, kde-format
 msgid "Draw equator line in the sky map?"
-msgstr "Izris ekvatorja na zvezdni karti?"
+msgstr "Naj bo izrisana črta ekvatorja na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowEquator), group (View)
 #: kstars.kcfg:578
 #, kde-format
 msgid "Toggle whether the equator line is drawn in the sky map."
-msgstr "Preklopi ali naj bo na zvezdni karti izrisan nebesni ekvator."
+msgstr "Preklopi ali naj bo na zvezdni karti izrisan ekvator."
 
 #. i18n: ectx: label, entry (AutoSelectGrid), group (View)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AutoSelectGrid)
 #: kstars.kcfg:582 options/opsguides.ui:262
 #, kde-format
 msgid "Draw grids according to active coordinate system?"
-msgstr "Izriši mreže glede na dejaven koordinatni sistem?"
+msgstr "Naj bodo izrisane mreže glede na dejaven koordinatni sistem?"
 
 #. i18n: ectx: whatsthis, entry (AutoSelectGrid), group (View)
 #: kstars.kcfg:583
@@ -35073,26 +34969,27 @@ msgid ""
 "Coordinate grids will automatically change according to active coordinate "
 "system."
 msgstr ""
-"Koordinatne mreže bodo samodejno spremenjene glede na dejaven koordinatni "
+"Koordinatne mreže se bodo samodejno spremenile glede na dejaven koordinatni "
 "sistem."
 
 #. i18n: ectx: label, entry (ShowEquatorialGrid), group (View)
 #: kstars.kcfg:587
 #, kde-format
 msgid "Draw equatorial coordinate grid in the sky map?"
-msgstr "Izriši ekvatorialno koordinatno mrežo na zvezdni karti?"
+msgstr "Naj bo izrisana ekvatorialna koordinatna mreža na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowEquatorialGrid), group (View)
 #: kstars.kcfg:588
 #, kde-format
 msgid "Toggle whether the equatorial coordinate grid is drawn in the sky map."
-msgstr "Preklopi ali naj bo na zvezdni karti izrisana koordinatna mreža."
+msgstr ""
+"Preklopi ali naj bo na zvezdni karti izrisana ekvatorialna koordinatna mreža."
 
 #. i18n: ectx: label, entry (ShowHorizontalGrid), group (View)
 #: kstars.kcfg:592
 #, kde-format
 msgid "Draw horizontal coordinate grid in the sky map?"
-msgstr "Izriši horizontalno koordinatno mrežo na zvezdni karti?"
+msgstr "Naj bo izrisana horizontalna koordinatna mreža na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowHorizontalGrid), group (View)
 #: kstars.kcfg:593
@@ -35103,35 +35000,33 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowLocalMeridian), group (View)
 #: kstars.kcfg:597
-#, fuzzy, kde-format
-#| msgid "Draw horizon line in the sky map?"
+#, kde-format
 msgid "Draw local meridian line in the sky map?"
-msgstr "Izris črte obzorja na zvezdni karti?"
+msgstr "Na bo narisana črta lokalnega poldnevnika na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowLocalMeridian), group (View)
 #: kstars.kcfg:598
-#, fuzzy, kde-format
-#| msgid "Toggle whether the horizon line is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether the local meridian line is drawn in the sky map."
-msgstr "Preklopi ali naj bo na zvezdni karti izrisana črta obzorja."
+msgstr "Preklopi ali je na zvezdni karti narisana črta lokalnega poldnevnika."
 
 #. i18n: ectx: label, entry (ShowGround), group (View)
 #: kstars.kcfg:602
 #, kde-format
 msgid "Draw opaque ground in the sky map?"
-msgstr "Izris zapolnjenih tal na zvezdni karti?"
+msgstr "Na bodo izrisana neprosojna tla na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowGround), group (View)
 #: kstars.kcfg:603
 #, kde-format
 msgid "Toggle whether the region below the horizon is opaque."
-msgstr "Preklopi ali naj bo območje pod obzorjem zapolnjeno."
+msgstr "Preklopi ali naj bo območje pod obzorjem neprosojno."
 
 #. i18n: ectx: label, entry (ShowHorizon), group (View)
 #: kstars.kcfg:607
 #, kde-format
 msgid "Draw horizon line in the sky map?"
-msgstr "Izris črte obzorja na zvezdni karti?"
+msgstr "Naj bo narisana črta obzorja na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowHorizon), group (View)
 #: kstars.kcfg:608
@@ -35143,7 +35038,7 @@ msgstr "Preklopi ali naj bo na zvezdni karti izrisana črta obzorja."
 #: kstars.kcfg:612
 #, kde-format
 msgid "Draw flags in the sky map?"
-msgstr "Izris zastavic na zvezdni karti?"
+msgstr "Naj bodo izrisane zastavice na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowFlags), group (View)
 #: kstars.kcfg:613
@@ -35153,23 +35048,21 @@ msgstr "Preklopi ali naj bodo na zvezdni karti izrisane zastavice."
 
 #. i18n: ectx: label, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:617
-#, fuzzy, kde-format
-#| msgid "Simulate Eyepiece View"
+#, kde-format
 msgid "Simulate daytime?"
-msgstr "Posnemaj pogled okularja"
+msgstr "Naj bo simuliran dan?"
 
 #. i18n: ectx: whatsthis, entry (SimulateDaytime), group (View)
 #: kstars.kcfg:618
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime."
-msgstr "Če je označeno, bo Mars izrisan na zvezdni karti."
+msgstr "Če je označeno, bo nebo podnevi svetlo."
 
 #. i18n: ectx: label, entry (ShowOther), group (View)
 #: kstars.kcfg:622
 #, kde-format
 msgid "Draw extra deep-sky objects in the sky map?"
-msgstr "Izris dodatnih objektov globokega neba na zvezdni karti?"
+msgstr "Naj bodo narisani dodatni objekti globokega neba na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowOther), group (View)
 #: kstars.kcfg:623
@@ -35183,7 +35076,7 @@ msgstr ""
 #: kstars.kcfg:627
 #, kde-format
 msgid "Draw Milky Way contour in the sky map?"
-msgstr "Izris obrisa Rimske ceste na zvezdni karti?"
+msgstr "Naj bo izrisan obris Rimske ceste na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowMilkyWay), group (View)
 #: kstars.kcfg:628
@@ -35195,7 +35088,7 @@ msgstr "Preklopi ali naj bo na zvezdni karti izrisan obris Rimske ceste."
 #: kstars.kcfg:632
 #, kde-format
 msgid "Fill Milky Way contour? (false means use outline only)"
-msgstr "Zapolnitev obrisa Rimske ceste (false pomeni samo obris)"
+msgstr "Naj bo zapolnjen obris Rimske ceste? (false pomeni samo obris)"
 
 #. i18n: ectx: whatsthis, entry (FillMilkyWay), group (View)
 #: kstars.kcfg:633
@@ -35204,7 +35097,7 @@ msgid ""
 "Toggle whether the Milky Way contour is filled. When this option is false, "
 "the Milky Way is shown as an outline."
 msgstr ""
-"Preklopi ali naj bo obris Rimske ceste zapolnjen. Ko je vrednost »false«, je "
+"Preklopi ali naj bo obris Rimske ceste zapolnjen. Ko je možnost false, je "
 "Rimska cesta prikazana samo z obrisom."
 
 #. i18n: ectx: label, entry (ShowSolarSystem), group (View)
@@ -35220,14 +35113,14 @@ msgid ""
 "Meta-option to control whether all major planets (and the Sun and Moon) are "
 "drawn in the sky map."
 msgstr ""
-"Meta-možnost, ki nadzoruje izris Sonca, Lune ter vseh večjih planetov, ki "
-"bodo prikazani na zvezdni karti."
+"Meta-možnost za nadzor nad tem, ali so vsi večji planeti (ter Sonce in Luna) "
+"narisani na zvezdni karti."
 
 #. i18n: ectx: label, entry (ShowPlanetImages), group (View)
 #: kstars.kcfg:642
 #, kde-format
 msgid "Draw planets as images in the sky map?"
-msgstr "Izris planetov kot slik na zvezdni karti?"
+msgstr "Naj bodo izrisani planeti kot slike na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowPlanetImages), group (View)
 #: kstars.kcfg:643
@@ -35236,14 +35129,14 @@ msgid ""
 "Toggle whether major planets (and the Sun and Moon) are rendered as images "
 "in the sky map."
 msgstr ""
-"Preklopi ali naj bodo večji planeti, Sonce ter Luna na zvezdni karti "
-"prikazani s sliko."
+"Preklopi ali naj bodo večji planeti (in Sonce ter Luna) na zvezdni karti "
+"upodobljeni s sliko."
 
 #. i18n: ectx: label, entry (ShowPlanetNames), group (View)
 #: kstars.kcfg:647
 #, kde-format
 msgid "Label planet names in the sky map?"
-msgstr "Imena planetov na zvezdni karti?"
+msgstr "Naj bodo imena planetov na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowPlanetNames), group (View)
 #: kstars.kcfg:648
@@ -35251,49 +35144,50 @@ msgstr "Imena planetov na zvezdni karti?"
 msgid ""
 "Toggle whether major planets (and the Sun and Moon) are labeled in the sky "
 "map."
-msgstr "Preklopi prikaz imen večjih planetov, Sonca in Lune na zvezdni karti."
+msgstr ""
+"Preklopi, ali so večji planeti (ter Sonce in Luna) označeni na zvezdni karti."
 
 #. i18n: ectx: label, entry (ShowSun), group (View)
 #: kstars.kcfg:652
 #, kde-format
 msgid "Draw Sun in the sky map?"
-msgstr "Izris Sonca na zvezdni karti?"
+msgstr "Naj bo narisano Sonce na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowSun), group (View)
 #: kstars.kcfg:653
 #, kde-format
 msgid "Toggle whether the Sun is drawn in the sky map."
-msgstr "Preklopi izris Sonca na zvezdni karti."
+msgstr "Preklopi, ali je sonce narisano na zvezdni karti."
 
 #. i18n: ectx: label, entry (SunScale), group (View)
 #: kstars.kcfg:657
-#, fuzzy, kde-format
+#, kde-format
 msgid "Increase the size of the Sun by this factor."
-msgstr "Za ta faktor povečajte velikost Sonca."
+msgstr "Povečaj velikost Sonca za ta faktor."
 
 #. i18n: ectx: label, entry (ShowMoon), group (View)
 #: kstars.kcfg:661
 #, kde-format
 msgid "Draw Moon in the sky map?"
-msgstr "Izris Lune na zvezdni karti?"
+msgstr "Naj bo narisana Lune na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowMoon), group (View)
 #: kstars.kcfg:662
 #, kde-format
 msgid "Toggle whether the Moon is drawn in the sky map."
-msgstr "Preklopi izris Lune na zvezdni karti."
+msgstr "Preklopi, ali je Luna narisana na zvezdni karti."
 
 #. i18n: ectx: label, entry (MoonScale), group (View)
 #: kstars.kcfg:666
-#, fuzzy, kde-format
+#, kde-format
 msgid "Increase the size of the Moon by this factor."
-msgstr "Za ta faktor povečajte velikost Lune."
+msgstr "Povečaj velikost Lune za ta faktor."
 
 #. i18n: ectx: label, entry (ShowMercury), group (View)
 #: kstars.kcfg:670
 #, kde-format
 msgid "Draw Mercury in the sky map?"
-msgstr "Izris Merkurja na zvezdni karti?"
+msgstr "Naj bo izrisan Merkur na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowMercury), group (View)
 #: kstars.kcfg:671
@@ -35305,7 +35199,7 @@ msgstr "Preklopi izris Merkurja na zvezdni karti."
 #: kstars.kcfg:675
 #, kde-format
 msgid "Draw Venus in the sky map?"
-msgstr "Izris Venere na zvezdni karti?"
+msgstr "Naj bo narisana Venera na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowVenus), group (View)
 #: kstars.kcfg:676
@@ -35317,7 +35211,7 @@ msgstr "Preklopi izris Venere na zvezdni karti."
 #: kstars.kcfg:680
 #, kde-format
 msgid "Draw Mars in the sky map?"
-msgstr "Izris Marsa na zvezdni karti?"
+msgstr "Naj bo narisan Mars na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowMars), group (View)
 #: kstars.kcfg:681
@@ -35329,7 +35223,7 @@ msgstr "Preklopi izris Marsa na zvezdni karti."
 #: kstars.kcfg:685
 #, kde-format
 msgid "Draw Jupiter in the sky map?"
-msgstr "Izris Jupitra na zvezdni karti?"
+msgstr "Naj bo narisan Jupiter na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowJupiter), group (View)
 #: kstars.kcfg:686
@@ -35341,7 +35235,7 @@ msgstr "Preklopi izris Jupitra na zvezdni karti."
 #: kstars.kcfg:690
 #, kde-format
 msgid "Draw Saturn in the sky map?"
-msgstr "Izris Saturna na zvezdni karti?"
+msgstr "Naj bo narisan Saturn na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowSaturn), group (View)
 #: kstars.kcfg:691
@@ -35353,7 +35247,7 @@ msgstr "Preklopi izris Saturna na zvezdni karti."
 #: kstars.kcfg:695
 #, kde-format
 msgid "Draw Uranus in the sky map?"
-msgstr "Izris Urana na zvezdni karti?"
+msgstr "Naj bo narisan Uran na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowUranus), group (View)
 #: kstars.kcfg:696
@@ -35365,7 +35259,7 @@ msgstr "Preklopi izris Urana na zvezdni karti."
 #: kstars.kcfg:700
 #, kde-format
 msgid "Draw Neptune in the sky map?"
-msgstr "Izris Neptuna na zvezdni karti?"
+msgstr "Naj bo narisan Neptun na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowNeptune), group (View)
 #: kstars.kcfg:701
@@ -35377,19 +35271,19 @@ msgstr "Preklopi izris Neptuna na zvezdni karti."
 #: kstars.kcfg:705
 #, kde-format
 msgid "Draw Pluto in the sky map?"
-msgstr "Izris Plutona na zvezdni karti?"
+msgstr "Naj bo narisan Pluton na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowPluto), group (View)
 #: kstars.kcfg:706
 #, kde-format
 msgid "Toggle whether Pluto is drawn in the sky map."
-msgstr "Preklopi izris Pluton na zvezdni karti."
+msgstr "Preklopi izris Plutona na zvezdni karti."
 
 #. i18n: ectx: label, entry (ShowStars), group (View)
 #: kstars.kcfg:710
 #, kde-format
 msgid "Draw stars in the sky map?"
-msgstr "Izris zvezd na zvezdni karti?"
+msgstr "Naj bodo narisane zvezde na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowStars), group (View)
 #: kstars.kcfg:711
@@ -35401,7 +35295,7 @@ msgstr "Preklopi izris zvezd na zvezdni karti."
 #: kstars.kcfg:715
 #, kde-format
 msgid "Label star magnitudes in the sky map?"
-msgstr "Magnitude zvezd na zvezdni karti?"
+msgstr "Naj bodo označene magnitude zvezd na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowStarMagnitudes), group (View)
 #: kstars.kcfg:716
@@ -35415,7 +35309,7 @@ msgstr ""
 #. i18n: ectx: label, entry (ShowStarsOverHIPS), group (View)
 #. i18n: ectx: whatsthis, entry (ShowStarsOverHIPS), group (View)
 #: kstars.kcfg:720 kstars.kcfg:721
-#, fuzzy, kde-format
+#, kde-format
 msgid "Display catalog stars when HIPS is shown."
 msgstr "Prikaži zvezde kataloga, ko je prikazan HIPS."
 
@@ -35423,7 +35317,7 @@ msgstr "Prikaži zvezde kataloga, ko je prikazan HIPS."
 #: kstars.kcfg:725
 #, kde-format
 msgid "Label star names in the sky map?"
-msgstr "Imena zvezd na zvezdni karti?"
+msgstr "Naj bodo oznake imen zvezd na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowStarNames), group (View)
 #: kstars.kcfg:726
@@ -35435,7 +35329,7 @@ msgstr "Preklopi ali naj bodo na zvezdni karti prikazane oznake imen zvezd."
 #: kstars.kcfg:730
 #, kde-format
 msgid "Label deep-sky object magnitudes in the sky map?"
-msgstr "Magnitude objektov globokega neba na zvezdni karti?"
+msgstr "Naj bodo označene magnitude objektov globokega neba na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyMagnitudes), group (View)
 #: kstars.kcfg:731
@@ -35451,7 +35345,7 @@ msgstr ""
 #: kstars.kcfg:735
 #, kde-format
 msgid "Label deep-sky objects in the sky map?"
-msgstr "Oznake objektov globokega neba na zvezdni karti?"
+msgstr "Naj bodo označeni objekti globokega neba na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowDeepSkyNames), group (View)
 #: kstars.kcfg:736
@@ -35463,10 +35357,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:740
-#, fuzzy, kde-format
-#| msgid "Draw Moon in the sky map?"
+#, kde-format
 msgid "Draw Mosaic Panel in the sky map?"
-msgstr "Izris Lune na zvezdni karti?"
+msgstr "Naj bo narisana plošča mozaika na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:741
@@ -36816,17 +36709,15 @@ msgstr "Barva supernove"
 
 #. i18n: ectx: label, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1302
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroids"
-msgstr "Barva supernove"
+msgstr "Barva asteroidov"
 
 #. i18n: ectx: whatsthis, entry (AsteroidColor), group (Colors)
 #: kstars.kcfg:1303
-#, fuzzy, kde-format
-#| msgid "Color of supernova"
+#, kde-format
 msgid "Color of asteroid"
-msgstr "Barva supernove"
+msgstr "Barva asteroida"
 
 #. i18n: ectx: label, entry (UserLabelColor), group (Colors)
 #: kstars.kcfg:1307
@@ -36909,9 +36800,9 @@ msgstr "Možnost uporabe datoteke FIFO namesto shranjevanja na trdi disk"
 
 #. i18n: ectx: label, entry (XplanetTimeout), group (Xplanet)
 #: kstars.kcfg:1343
-#, fuzzy, kde-format
+#, kde-format
 msgid "XPlanet timeout"
-msgstr "Časovna omejitev XPlanet"
+msgstr "Časovna omejitev XPlaneta"
 
 #. i18n: ectx: whatsthis, entry (XplanetTimeout), group (Xplanet)
 #: kstars.kcfg:1344
@@ -36921,11 +36812,9 @@ msgstr "Kako dolgo čakati na XPlanet, preden obupate v milisekunah"
 
 #. i18n: ectx: label, entry (XplanetAnimationDelay), group (Xplanet)
 #: kstars.kcfg:1348
-#, fuzzy, kde-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Nine Planets Page"
+#, kde-format
 msgid "XPlanet animation delay"
-msgstr "Stran o devetih planetih"
+msgstr "Zamik animacije XPlaneta"
 
 #. i18n: ectx: whatsthis, entry (XplanetAnimationDelay), group (Xplanet)
 #: kstars.kcfg:1349
@@ -37470,18 +37359,19 @@ msgstr "Seznam izbranih satelitov."
 
 #. i18n: ectx: label, entry (KStarsFirstRun), group (General)
 #: kstars.kcfg:1562
-#, fuzzy, kde-format
+#, kde-format
 msgid "Is this the first time running KStars?"
-msgstr "Je to prvič zagon KStarsa?"
+msgstr "Je to prvi zagon KStarsa?"
 
 #. i18n: ectx: whatsthis, entry (KStarsFirstRun), group (General)
 #: kstars.kcfg:1563
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "This allows KStars to perform several operations if it has never been "
 "installed before."
 msgstr ""
-"To omogoča KStarsu, da izvede več operacij, če še nikoli ni bil nameščen."
+"To omogoča KStarsu, da izvede več operacij, če še nikoli prej ni bil "
+"nameščen."
 
 #. i18n: ectx: label, entry (AlwaysRecomputeCoordinates), group (General)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysRecomputeCoordinates)
@@ -85260,43 +85150,43 @@ msgstr "Ne poskusi"
 msgid "Please wait while adding objects..."
 msgstr "Počakajte, poteka dodajanje teles/objektov …"
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr "Prilagojen prejem DSS"
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr "Navedite širino slike (ločne minute): "
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr "Navedite višino slike (ločne minute): "
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Specify version: "
 msgstr "Navedite različico: "
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, kde-format
 msgid "Failed to download DSS/SDSS image."
 msgstr "Ni bilo mogoče prejeti slike DSS/SDSS."
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr "To bo izbrisalo vse shranjene slike. Ali res želite storiti to?"
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, kde-format
 msgid "Delete All Images"
 msgstr "Izbriši vse slike"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "Izbirnik slik"
