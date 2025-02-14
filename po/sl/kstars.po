@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-13 02:03+0000\n"
-"PO-Revision-Date: 2025-02-12 21:14+0100\n"
+"PO-Revision-Date: 2025-02-13 23:21+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -35363,10 +35363,9 @@ msgstr "Naj bo narisana plošča mozaika na zvezdni karti?"
 
 #. i18n: ectx: whatsthis, entry (ShowMosaicPanel), group (View)
 #: kstars.kcfg:741
-#, fuzzy, kde-format
-#| msgid "Toggle whether the Moon is drawn in the sky map."
+#, kde-format
 msgid "Toggle whether the Mosaic Panel are drawn in the sky map."
-msgstr "Preklopi izris Lune na zvezdni karti."
+msgstr "Preklopi, ali je plošča z mozaikom narisana na zvezdni karti."
 
 #. i18n: ectx: label, entry (SlewTimeScale), group (View)
 #: kstars.kcfg:745
@@ -35384,7 +35383,7 @@ msgstr "Časovno merilo nad katerim je obračanje vedno vsiljeno."
 #: kstars.kcfg:750
 #, kde-format
 msgid "InfoBoxes Background fill mode"
-msgstr "Zapolnitev ozadja okvirja s podatki"
+msgstr "Načina polnjenja ozadja informacijskih okvirov"
 
 #. i18n: ectx: whatsthis, entry (BoxBGMode), group (View)
 #: kstars.kcfg:751
@@ -35393,8 +35392,8 @@ msgid ""
 "The background fill mode for the on-screen information boxes: 0=\"no BG\"; 1="
 "\"semi-transparent BG\"; 2=\"opaque BG\""
 msgstr ""
-"Način zapolnitve ozadja zaslonskih okvirjev s podatki: 0 = brez ozadja, 1= "
-"pol-prozorno ozadje, 2 = neprozorno ozadje"
+"Način zapolnitve ozadja zaslonskih okvirjev s podatki: 0=\"brez ozadja\", 1="
+"\"pol-prozorno ozadje\", 2=\"neprozorno ozadje\""
 
 #. i18n: ectx: label, entry (Projection), group (View)
 #: kstars.kcfg:755
@@ -35412,31 +35411,31 @@ msgstr "Algoritem za projiciranje karte."
 #: kstars.kcfg:760
 #, kde-format
 msgid "Use abbreviated constellation names?"
-msgstr "Uporaba okrajšanih imen ozvezdij?"
+msgstr "Naj bodo uporabljena okrajšana imena ozvezdij?"
 
 #. i18n: ectx: whatsthis, entry (UseAbbrevConstellNames), group (View)
 #: kstars.kcfg:761
 #, kde-format
 msgid "Use official IAU abbreviations for constellation names."
-msgstr "Za imena ozvezdij se uporablja uradne okrajšave IAU."
+msgstr "Naj se uporablja uradne okrajšave IAU za imena ozvezdij."
 
 #. i18n: ectx: label, entry (UseLatinConstellNames), group (View)
 #: kstars.kcfg:765
 #, kde-format
 msgid "Use Latin constellation names?"
-msgstr "Uporaba latinskih imen ozvezdij?"
+msgstr "Naj se uporablja latinska imena ozvezdij?"
 
 #. i18n: ectx: whatsthis, entry (UseLatinConstellNames), group (View)
 #: kstars.kcfg:766
 #, kde-format
 msgid "Use Latin constellation names."
-msgstr "Uporablja se latinska imena ozvezdij."
+msgstr "Uporabi latinska imena ozvezdij."
 
 #. i18n: ectx: label, entry (UseLocalConstellNames), group (View)
 #: kstars.kcfg:770
 #, kde-format
 msgid "Use localized constellation names?"
-msgstr "Uporaba slovenskih imen ozvezdij?"
+msgstr "Naj se uporabljajo lokalizirana (slovenska) imena ozvezdij?"
 
 #. i18n: ectx: whatsthis, entry (UseLocalConstellNames), group (View)
 #: kstars.kcfg:771
@@ -35445,14 +35444,14 @@ msgid ""
 "Use localized constellation names (if localized names are not available, "
 "default to Latin names)."
 msgstr ""
-"Uporablja se krajevna imena ozvezdij (če ta niso na voljo, se uporabi "
-"latinska imena)."
+"Uporabi lokalizirana imena ozvezdij (če ta niso na voljo, uporabi latinska "
+"imena)."
 
 #. i18n: ectx: label, entry (UseAltAz), group (View)
 #: kstars.kcfg:775
 #, kde-format
 msgid "Use horizontal coordinate system?"
-msgstr "Uporaba horizontalnega koordinatnega sistema?"
+msgstr "Naj se uporablja horizontalni koordinatni sistem?"
 
 #. i18n: ectx: whatsthis, entry (UseAltAz), group (View)
 #: kstars.kcfg:776
@@ -35461,27 +35460,28 @@ msgid ""
 "Display the sky with horizontal coordinates (when false, equatorial "
 "coordinates will be used)."
 msgstr ""
-"Nebo je prikazano s horizontalnimi koordinatami (če je »false« se "
-"uporabljajo ekvatorialne koordinate)."
+"Nebo je prikazano s horizontalnimi koordinatami (če je false, se uporabljajo "
+"ekvatorialne koordinate)."
 
 #. i18n: ectx: label, entry (UseAutoLabel), group (View)
 #: kstars.kcfg:780
 #, kde-format
 msgid "Automatically label focused object?"
-msgstr "Samodejno ime za objekt v žarišču?"
+msgstr "Naj se samodejno označi objekt v fokusu?"
 
 #. i18n: ectx: whatsthis, entry (UseAutoLabel), group (View)
 #: kstars.kcfg:781
 #, kde-format
 msgid ""
 "Toggle whether a centered object automatically gets a name label attached."
-msgstr "Preklopi samodejno pripenjanje oznake z imenom za usredinjen objekt."
+msgstr ""
+"Preklopite, ali se centriranemu objektu samodejno doda oznaka z imenom."
 
 #. i18n: ectx: label, entry (UseAutoTrail), group (View)
 #: kstars.kcfg:785 tools/scriptbuilder.cpp:664
 #, kde-format
 msgid "Automatically add trail to centered solar system body?"
-msgstr "Samodejno dodaj sled usredinjenemu telesu Osončja?"
+msgstr "Naj se samodejno doda sled centriranemu telesu Osončja?"
 
 #. i18n: ectx: whatsthis, entry (UseAutoTrail), group (View)
 #: kstars.kcfg:786
@@ -35490,27 +35490,27 @@ msgid ""
 "Toggle whether a centered solar system object automatically gets a trail "
 "attached, as long as it remains centered."
 msgstr ""
-"Preklopi samodejno pripenjanje sledi usredinjenemu objektu Osončja (dokler "
-"ostane usredinjen)."
+"Preklopi, ali se centriranemu objektu sončnega sistema samodejno pripne "
+"sled, dokler ostaja centriran."
 
 #. i18n: ectx: label, entry (UseHoverLabel), group (View)
 #: kstars.kcfg:790
 #, kde-format
 msgid "Add temporary label on mouse hover?"
-msgstr "Dodajanje začasne oznake med prehodom miške?"
+msgstr "Naj se doda začasno oznako pri prehodu miške?"
 
 #. i18n: ectx: whatsthis, entry (UseHoverLabel), group (View)
 #: kstars.kcfg:791
 #, kde-format
 msgid ""
 "Toggle whether the object under the mouse cursor gets a transient name label."
-msgstr "Preklopi ali objekt pod miškino kazalko dobi začasno oznako z imenom."
+msgstr "Preklopi, ali objekt pod kazalcem miške dobi prehodno oznako imena."
 
 #. i18n: ectx: label, entry (UseRefraction), group (View)
 #: kstars.kcfg:795
 #, kde-format
 msgid "Correct positions for atmospheric refraction?"
-msgstr "Popravki položajev zaradi loma v ozračju?"
+msgstr "Naj popravim položaje v zaradi loma v ozračju?"
 
 #. i18n: ectx: whatsthis, entry (UseRefraction), group (View)
 #: kstars.kcfg:796
@@ -35519,8 +35519,8 @@ msgid ""
 "Toggle whether object positions are corrected for the effects of atmospheric "
 "refraction (only applies when horizontal coordinates are used)."
 msgstr ""
-"Preklopi popravljanje položajev objektov zaradi loma v ozračju (v veljavi je "
-"le pri uporabi horizontalnih koordinat)."
+"Preklopi, da so položaji predmetov popravljeni glede na učinke atmosferske "
+"refrakcije (velja samo, če se uporabljajo horizontalne koordinate)."
 
 #. i18n: ectx: label, entry (UseRelativistic), group (View)
 #: kstars.kcfg:800
@@ -35561,13 +35561,13 @@ msgstr ""
 #: kstars.kcfg:810
 #, kde-format
 msgid "Zoom Factor, in pixels per radian"
-msgstr "Faktor približanja, v slik. točkah na radian"
+msgstr "Faktor približanja v slikovnih točkah na radian"
 
 #. i18n: ectx: whatsthis, entry (ZoomFactor), group (View)
 #: kstars.kcfg:811
 #, kde-format
 msgid "The zoom level, measured in pixels per radian."
-msgstr "Stopnja približanja, merjena v slik. točkah na radian."
+msgstr "Stopnja približanja merjena v slikovnih točkah na radian."
 
 #. i18n: ectx: label, entry (SkyRotation), group (View)
 #: kstars.kcfg:817
@@ -35589,19 +35589,18 @@ msgstr ""
 
 #. i18n: ectx: label, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:824
-#, fuzzy, kde-format
-#| msgid "Draw Mars in the sky map?"
+#, kde-format
 msgid "Mirrors the sky map"
-msgstr "Izris Marsa na zvezdni karti?"
+msgstr "Prezrcali zvezdno karto"
 
 #. i18n: ectx: whatsthis, entry (MirrorSkyMap), group (View)
 #: kstars.kcfg:825
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enable this if you want the sky map to be mirrored left-right, e.g. to match "
 "the view through an erecting prism."
 msgstr ""
-"To omogočite, če želite, da se zemljevid neba zrcali levo-desno, npr. da se "
+"Omogočite to, če želite, da se zemljevid neba zrcali levo-desno, npr. da se "
 "ujema s pogledom skozi pokončne prizme."
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
@@ -35612,13 +35611,7 @@ msgstr "Orientira karto neba glede na pokončnega opazovalca pri okularju"
 
 #. i18n: ectx: whatsthis, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:830
-#, fuzzy, kde-format
-#| msgid ""
-#| "Enable this if you are using your eye at the eyepiece in an altazimuth "
-#| "mounted Newtonian telescope. This accounts for the fact that the observer "
-#| "stands erect as the telescope moves up and down, so that the orientation "
-#| "of the sky map will track what is seen in your eyepiece once it is set up "
-#| "correctly."
+#, kde-format
 msgid ""
 "Enable this if you are using your eye at the eyepiece in an altazimuth "
 "mounted Newtonian telescope. This accounts for the fact that the observer "
@@ -35628,81 +35621,80 @@ msgid ""
 "the telescope the eyepiece appears when looking from the back of the "
 "telescope"
 msgstr ""
-"To omogočite, če uporabljate oko na okularju v altazimutnem Newtonovem "
-"teleskopu. To upošteva dejstvo, da opazovalec med premikanjem teleskopa "
-"navzgor in navzdol stoji pokonci, tako da bo orientacija zemljevida neba "
-"sledila temu, kar vidite v okularju, ko bo ta pravilno nastavljen."
+"Omogočite to, če opazujete na okularju altazimutno nameščenega Newtonovega "
+"teleskopa. To pojasnjuje dejstvo, da opazovalec stoji pokonci, ko se "
+"teleskop premika gor in dol, tako da bo orientacija zemljevida neba sledila "
+"temu, kar vidite v vašem okularju, ko je ta pravilno nastavljen. Izberite "
+"natančnost korekcije glede na to, na kateri strani teleskopa se okular "
+"prikaže, ko gledate s hrbtne strani teleskopa"
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:836
-#, fuzzy, kde-format
-#| msgid "&Left"
+#, kde-format
 msgid "Left"
 msgstr "Levo"
 
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
 #: kstars.kcfg:839
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Light"
+#, kde-format
 msgid "Right"
-msgstr "Svetlo"
+msgstr "Desno"
 
 #. i18n: ectx: label, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:845
-#, fuzzy, kde-format
+#, kde-format
 msgid "Zoom scroll sensitivity."
-msgstr "Povečajte občutljivost drsnega pomika."
+msgstr "Povečaj občutljivost drsnika."
 
 #. i18n: ectx: whatsthis, entry (ZoomScrollFactor), group (View)
 #: kstars.kcfg:846
-#, fuzzy, kde-format
+#, kde-format
 msgid "When zooming in or out, change zoom speed factor by this multiplier."
 msgstr ""
-"Ko povečate ali pomanjšate, s tem množilnikom spremenite faktor hitrosti "
-"povečave."
+"Ko povečujete ali pomanjšujete, spremenite faktor hitrosti povečave s tem "
+"množiteljem."
 
 #. i18n: ectx: label, entry (MagLimitAsteroid), group (View)
 #. i18n: ectx: property (toolTip), widget (MagnitudeSpinBox, kcfg_MagLimitAsteroid)
 #: kstars.kcfg:852 options/opssolarsystem.ui:447
 #, kde-format
 msgid "Faint limit for asteroids"
-msgstr "Meja svetlosti za asteroide"
+msgstr "Šibka meja svetlosti za asteroide"
 
 #. i18n: ectx: whatsthis, entry (MagLimitAsteroid), group (View)
 #: kstars.kcfg:853
 #, kde-format
 msgid "The faint magnitude limit for drawing asteroids."
-msgstr "Meja magnitud za izrisane asteroide."
+msgstr "Šibka meja magnitude za risanje asteroidov."
 
 #. i18n: ectx: label, entry (MagLimitAsteroidDownload), group (View)
 #: kstars.kcfg:857
-#, fuzzy, kde-format
+#, kde-format
 msgid "Maximum magnitude for asteroids to be downloaded from JPL."
-msgstr "Največja magnituda za asteroide, ki jih je treba prenesti iz JPL."
+msgstr "Največja magnituda za asteroide, ki naj se prenesejo iz JPL."
 
 #. i18n: ectx: whatsthis, entry (MagLimitAsteroidDownload), group (View)
 #: kstars.kcfg:858
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The maximum magnitude (visibility) to filter the asteroid data download from "
 "JPL."
 msgstr ""
-"Največja magnituda (vidnost) za filtriranje prenosa asteroidnih podatkov iz "
+"Največja magnituda (vidnost) za filtriranje prenosa podatkov o asteroidih iz "
 "JPL."
 
 #. i18n: ectx: label, entry (AsteroidLabelDensity), group (View)
 #: kstars.kcfg:862
 #, kde-format
 msgid "Label density for asteroid names"
-msgstr "Meja svetlosti za oznake z imeni asteroidov"
+msgstr "Gostota oznak za imena asteroidov"
 
 #. i18n: ectx: whatsthis, entry (AsteroidLabelDensity), group (View)
 #: kstars.kcfg:863
 #, kde-format
 msgid "Controls the relative number of asteroid name labels drawn in the map."
 msgstr ""
-"Nadzira relativno število oznak z imeni asteroidov, ki so izrisani na karti."
+"Nadzoruje relativno število oznak z imeni asteroidov, narisanih na karti."
 
 #. i18n: ectx: label, entry (MagLimitDrawDeepSky), group (View)
 #: kstars.kcfg:867
@@ -35733,7 +35725,8 @@ msgid ""
 "The faint magnitude limit for drawing deep-sky objects, when fully zoomed "
 "out."
 msgstr ""
-"Meja magnitud za izrisane objekte globokega neba pri najmanjšem približanju."
+"Šibka meja magnitude za risanje predmetov globokega neba, ko so popolnoma "
+"pomanjšani."
 
 #. i18n: ectx: label, entry (ShowUnknownMagObjects), group (View)
 #: kstars.kcfg:877
@@ -35748,27 +35741,26 @@ msgid ""
 "When enabled, objects whose magnitudes are unknown, or not available to "
 "KStars, are drawn irrespective of the faint limits set."
 msgstr ""
-"Če je omogočeno, bodo objekti, katerih magnitude niso poznane ali niso "
-"razpoložljive v KStars, prikazani ne glede na nastavljene omejitve magnitud."
+"Ko je omogočeno, so objekti, katerih velikosti so neznane ali niso na voljo "
+"KStars, narisani ne glede na nastavljene šibke meje."
 
 #. i18n: ectx: label, entry (ShowInlineImages), group (View)
 #: kstars.kcfg:882
-#, fuzzy, kde-format
-#| msgid "Draw Messier objects in the sky map?"
+#, kde-format
 msgid "Draw inline images for some objects on the sky?"
-msgstr "Izris Messierjevih objektov na zvezdni karti?"
+msgstr "Naj bodo narisane vstavljene slike za nekatere predmete na nebu?"
 
 #. i18n: ectx: label, entry (MagLimitDrawStar), group (View)
 #: kstars.kcfg:887
 #, kde-format
 msgid "Faint limit for stars"
-msgstr "Meja svetlosti za zvezde"
+msgstr "Šibka meja svetlosti za zvezde"
 
 #. i18n: ectx: whatsthis, entry (MagLimitDrawStar), group (View)
 #: kstars.kcfg:888
 #, kde-format
 msgid "The faint magnitude limit for drawing stars, when fully zoomed in."
-msgstr "Meja magnitud za izrisane zvezde pri največjem približanju."
+msgstr "Šibka meja magnitude za risanje zvezd, ko je slika popolnoma povečana."
 
 #. i18n: ectx: label, entry (StarDensity), group (View)
 #: kstars.kcfg:892
@@ -35786,19 +35778,20 @@ msgstr "Nastavi gostoto zvezd v vidnem polju"
 #: kstars.kcfg:898
 #, kde-format
 msgid "Faint limit for stars when zoomed out"
-msgstr "Meja svetlosti zvezd pri najmanjšem približanju"
+msgstr "Šibka meja svetlosti za zvezde pri pomanjšanju"
 
 #. i18n: ectx: whatsthis, entry (MagLimitDrawStarZoomOut), group (View)
 #: kstars.kcfg:899
 #, kde-format
 msgid "The faint magnitude limit for drawing stars, when fully zoomed out."
-msgstr "Meja magnitud izrisanih zvezd pri najmanjšem približanju."
+msgstr ""
+"Šibka meja magnitude za risanje zvezd, ko je slika popolnoma pomanjšana."
 
 #. i18n: ectx: label, entry (MagLimitHideStar), group (View)
 #: kstars.kcfg:904
 #, kde-format
 msgid "Faint limit for stars when slewing"
-msgstr "Meja svetlosti za zvezde med obračanjem"
+msgstr "Šibka meja svetlosti za zvezde pri obračanju"
 
 #. i18n: ectx: whatsthis, entry (MagLimitHideStar), group (View)
 #: kstars.kcfg:905
@@ -35807,8 +35800,9 @@ msgid ""
 "The faint magnitude limit for drawing stars, when the map is in motion (only "
 "applicable if faint stars are set to be hidden while the map is in motion)."
 msgstr ""
-"Meja magnitud izrisanih zvezd, ko se karta premika (velja le, če je "
-"nastavljeno skrivanje temnejših zvezd med premikanjem karte)."
+"Meja šibke magnitude za risanje zvezd, ko se zvezdna karta premika (velja "
+"samo, če so šibke zvezde nastavljene tako, da so skrite, medtem ko se karta "
+"premika)."
 
 #. i18n: ectx: label, entry (StarLabelDensity), group (View)
 #: kstars.kcfg:909
@@ -35851,9 +35845,7 @@ msgstr ""
 msgid ""
 "If true, long names (common names) for deep-sky objects are shown in the "
 "labels."
-msgstr ""
-"Če je omogočeno (true). bodo v oznakah prikazana dolga imena objektov "
-"globokega neba."
+msgstr "Če true, bodo v oznakah prikazana dolga imena objektov globokega neba."
 
 #. i18n: ectx: label, entry (LabelFontScaling), group (View)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_XplanetFontSize)
@@ -35864,10 +35856,10 @@ msgstr "Velikost pisave oznak"
 
 #. i18n: ectx: whatsthis, entry (LabelFontScaling), group (View)
 #: kstars.kcfg:925
-#, fuzzy, kde-format
-#| msgid "Select this to use Latin constellation names on the sky map"
+#, kde-format
 msgid "Set this to adjust the font-size of labels placed on the sky map"
-msgstr "Izberite za uporabo latinskih imen ozvezdij na zvezdni karti"
+msgstr ""
+"Nastavite to, če želite prilagoditi velikost pisave oznak na zvezdni karti"
 
 #. i18n: ectx: label, entry (MaxRadCometName), group (View)
 #: kstars.kcfg:929
@@ -35891,7 +35883,7 @@ msgstr "Preklopi na zaledje OpenGL"
 #: kstars.kcfg:935
 #, kde-format
 msgid "Use experimental OpenGL backend (deprecated)."
-msgstr "Uporabi poskusno zaledje OpenGL (opuščeno)."
+msgstr "Uporabi eksperimentalno zaledje OpenGL (opuščeno)."
 
 #. i18n: ectx: label, entry (RunClock), group (View)
 #: kstars.kcfg:939
@@ -35907,67 +35899,67 @@ msgstr "Stanje ure (ali teče, ali ne)"
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptOpenCluster), group (ImagingPlanner)
 #: kstars.kcfg:946
-#, fuzzy, kde-format
+#, kde-format
 msgid "Should the imaging Planner tool process open clusters."
-msgstr "Ali mora orodje za načrtovanje slikanja obdela odprte kopice."
+msgstr "Ali naj orodje za načrtovanje slik obdela odprte kopice."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptNebula), group (ImagingPlanner)
 #: kstars.kcfg:950
-#, fuzzy, kde-format
+#, kde-format
 msgid "Should the imaging Planner tool process nebulae."
-msgstr "Ali naj orodje za načrtovanje slikanja obdela meglice."
+msgstr "Ali naj orodje za načrtovanje slik obdela meglice."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGlobularCluster), group (ImagingPlanner)
 #: kstars.kcfg:954
-#, fuzzy, kde-format
+#, kde-format
 msgid "Should the imaging Planner tool process globular clusters."
-msgstr "Ali naj orodje za načrtovanje slikanja obdela globularne kopice."
+msgstr "Ali naj orodje za načrtovanje slik obdela globularne kopice."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptPlanetary), group (ImagingPlanner)
 #: kstars.kcfg:958
-#, fuzzy, kde-format
+#, kde-format
 msgid "Should the imaging Planner tool process planetary nebulae."
-msgstr "Ali naj orodje za načrtovanje slikanja obdela planetarne meglice."
+msgstr "Ali naj orodje za načrtovanje slik obdela planetarne meglice."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptSupernovaRemnant), group (ImagingPlanner)
 #: kstars.kcfg:962
-#, fuzzy, kde-format
+#, kde-format
 msgid "Should the imaging Planner tool process supernova remnants."
-msgstr "Ali naj orodje za načrtovanje slikanja obdela ostanke supernove."
+msgstr "Ali naj orodje za načrtovanje slik obdela ostanke supernove."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGalaxy), group (ImagingPlanner)
 #: kstars.kcfg:966
-#, fuzzy, kde-format
+#, kde-format
 msgid "Should the imaging Planner tool process galaxies."
-msgstr "Ali naj orodje za načrtovanje slikanja obdela galaksije."
+msgstr "Ali naj orodje za načrtovanje slik obdela galaksije."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptGalaxyCluster), group (ImagingPlanner)
 #: kstars.kcfg:970
-#, fuzzy, kde-format
+#, kde-format
 msgid "Should the imaging Planner tool process galaxy clusters."
-msgstr "Ali naj orodje za načrtovanje slikanja obdela jate galaksij."
+msgstr "Ali naj orodje za načrtovanje slik obdela jate galaksij."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptDarkNebula), group (ImagingPlanner)
 #: kstars.kcfg:974
-#, fuzzy, kde-format
+#, kde-format
 msgid "Should the imaging Planner tool process dark nebulae."
-msgstr "Ali naj orodje za načrtovanje slikanja obdela temne meglice."
+msgstr "Ali naj orodje za načrtovanje slik obdela temne meglice."
 
 #. i18n: ectx: label, entry (ImagingPlannerAcceptOther), group (ImagingPlanner)
 #: kstars.kcfg:978
-#, fuzzy, kde-format
+#, kde-format
 msgid "Should the imaging Planner tool process other types."
-msgstr "Ali naj orodje za načrtovanje slikanja obdela druge vrste."
+msgstr "Ali naj orodje za načrtovanje slik obdela druge vrste."
 
 #. i18n: ectx: label, entry (AstrobinAward), group (ImagingPlanner)
 #: kstars.kcfg:982
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Should the imaging Planner tool required an award when searching for an "
 "object in Astrobin."
 msgstr ""
-"Ali bi orodje za načrtovanje slik zahtevalo nagrado pri iskanju predmeta v "
-"Astrobinu."
+"Ali naj bi orodje za načrtovanje slik zahtevalo nagrado pri iskanju predmeta "
+"v Astrobinu."
 
 #. i18n: ectx: label, entry (AstrobinMinRadius), group (ImagingPlanner)
 #: kstars.kcfg:986
@@ -35983,25 +35975,25 @@ msgstr "Največji polmer slike (stopinje) pri iskanju po Astrobinu"
 
 #. i18n: ectx: label, entry (ImagingPlannerUseArtificialHorizon), group (ImagingPlanner)
 #: kstars.kcfg:994
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use the system's artificial horizon for calculating imaging hours."
-msgstr "Uporabite umetno obzorje sistema za izračun ur zajemanja."
+msgstr "Uporabi sistemski umetni horizont za izračun ur slikanja."
 
 #. i18n: ectx: label, entry (ImagingPlannerMinHours), group (ImagingPlanner)
 #: kstars.kcfg:998
-#, fuzzy, kde-format
+#, kde-format
 msgid "Objects are only shown if they can be imaged for this many hours."
-msgstr "Predmeti so prikazani le, če jih je mogoče zajemati toliko ur."
+msgstr "Objekti so prikazani le, če jih je mogoče zajemati toliko ur."
 
 #. i18n: ectx: label, entry (ImagingPlannerMinAltitude), group (ImagingPlanner)
 #: kstars.kcfg:1002
-#, fuzzy, kde-format
+#, kde-format
 msgid "For imaging hours calculation, object must be above this altitude."
 msgstr "Za izračun ur zajemanja mora biti objekt nad to višino."
 
 #. i18n: ectx: label, entry (ImagingPlannerMinMoonSeparation), group (ImagingPlanner)
 #: kstars.kcfg:1006
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "For imaging hours calculation, object must be more than this far from the "
 "moon."
@@ -36014,7 +36006,7 @@ msgid ""
 "Show the objects that are marked picked (don't show those that are not "
 "picked)."
 msgstr ""
-"Pokaže predmete, ki so označeni kot izbrani (ne pokaže tistih, ki niso "
+"Pokaže objekte, ki so označeni kot izbrani (ne pokaže tistih, ki niso "
 "izbrani)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotPicked), group (ImagingPlanner)
@@ -36024,7 +36016,7 @@ msgid ""
 "Show the objects that are not marked picked (don't show those that are "
 "picked)."
 msgstr ""
-"Pokaže predmete, ki niso označeni kot izbrani (ne pokaže tistih, ki so "
+"Pokaže objekte, ki niso označeni kot izbrani (ne pokaže tistih, ki so "
 "izbrani)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCarePicked), group (ImagingPlanner)
@@ -36033,7 +36025,7 @@ msgstr ""
 msgid ""
 "Object display doesn't depend on whether objects are marked picked or not."
 msgstr ""
-"Prikaz predmeta ni odvisen od tega, ali so predmeti označeni kot izbrani ali "
+"Prikaz objekta ni odvisen od tega, ali so objekti označeni kot izbrani ali "
 "ne."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowKeyword), group (ImagingPlanner)
@@ -36043,7 +36035,7 @@ msgid ""
 "Show the objects that have the keyword in their notes (and don't show those "
 "that don't)."
 msgstr ""
-"Pokažite predmete, ki imajo ključno besedo v svojih zapiskih (in ne pokažite "
+"Pokaži objekte, ki imajo ključno besedo v svojih zapiskih (in ne pokaži "
 "tistih, ki jih nimajo)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotKeyword), group (ImagingPlanner)
@@ -36053,8 +36045,8 @@ msgid ""
 "Show the objects that don't have the keyword in their notes (and don't show "
 "those that do)."
 msgstr ""
-"Pokaže predmete, ki v zapiskih nimajo ključne besede (in ne pokaže tistih, "
-"ki jih imajo)."
+"Pokaži objekte, ki v zapiskih nimajo ključne besede (in ne pokaži tistih, ki "
+"jih imajo)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareKeyword), group (ImagingPlanner)
 #: kstars.kcfg:1030
@@ -36063,7 +36055,7 @@ msgid ""
 "Object display doesn't depend on whether or not objects have the keyword in "
 "their notes."
 msgstr ""
-"Prikaz predmeta ni odvisen od tega, ali imajo predmeti v zapiskih ključno "
+"Prikaz objekta ni odvisen od tega, ali imajo objekti v zapiskih ključno "
 "besedo ali ne."
 
 #. i18n: ectx: label, entry (ImagingPlannerKeyword), group (ImagingPlanner)
@@ -36079,8 +36071,8 @@ msgid ""
 "Show the objects that are marked imaged (don't show those that are not "
 "marked imaged)."
 msgstr ""
-"Pokažite predmete, ki so označeni kot zajeti (ne pokažite tistih, ki niso "
-"označeni zajeti)."
+"Pokaži objekte, ki so označeni kot zajeti (ne kaži tistih, ki niso označeni "
+"kot zajeti)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotImaged), group (ImagingPlanner)
 #: kstars.kcfg:1042
@@ -36089,8 +36081,8 @@ msgid ""
 "Show the objects that are not marked imaged (don't show those that are "
 "marked imaged)."
 msgstr ""
-"Pokažite predmete, ki niso označeni kot zajeti (ne pokaži tistih, ki so "
-"označeni zajeti)."
+"Pokaži objekte, ki niso označeni kot zajeti (ne kaži tistih, ki so označeni "
+"zajeti)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareImaged), group (ImagingPlanner)
 #: kstars.kcfg:1046
@@ -36098,8 +36090,7 @@ msgstr ""
 msgid ""
 "Object display doesn't depend on whether objects are marked imaged or not."
 msgstr ""
-"Prikaz predmeta ni odvisen od tega, ali so predmeti označeni kot zajeti ali "
-"ne."
+"Prikaz objekta ni odvisen od tega, ali so objekti označeni kot zajeti ali ne."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowAdded), group (ImagingPlanner)
 #: kstars.kcfg:1050
@@ -36108,8 +36099,7 @@ msgid ""
 "Show the objects that have been added (and don't show those that have not "
 "been added)."
 msgstr ""
-"Pokažite predmete, ki so bili dodani (in ne pokažite tistih, ki niso bili "
-"dodani)."
+"Pokaži objekte, ki so bili dodani (in ne kaži tistih, ki niso bili dodani)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotAdded), group (ImagingPlanner)
 #: kstars.kcfg:1054
@@ -36118,16 +36108,14 @@ msgid ""
 "Show the objects that have not been added (and don't show those that have "
 "been added."
 msgstr ""
-"Pokažite predmete, ki niso bili dodani (in ne pokažite tistih, ki so bili "
-"dodani)."
+"Pokaži objekte, ki niso bili dodani (in ne kaži tistih, ki so bili dodani)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareAdded), group (ImagingPlanner)
 #: kstars.kcfg:1058
 #, kde-format
 msgid ""
 "Object display doesn't depend on whether objects have been added or not."
-msgstr ""
-"Prikaz predmeta ni odvisen od tega, ali so bili predmeti dodani ali ne."
+msgstr "Prikaz objekta ni odvisen od tega, ali so bili objekti dodani ali ne."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1062
@@ -36136,18 +36124,17 @@ msgid ""
 "Show the objects that have been ignored (and don't show those that have not "
 "been ignored)."
 msgstr ""
-"Pokažite predmete, ki so bili prezrti (in ne pokažite tistih, ki niso bili "
-"prezrti)."
+"Pokaži objekte, ki so bili prezrti (in ne kaži tistih, ki niso bili prezrti)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1066
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
 msgstr ""
-"<html><head/><body><p>Trenutni podatki vremenskih senzorjev. Kliknite na ime "
-"senzorja, da prikažete njegove podatke skozi čas.</p></body></html>"
+"Prikaži objekte, ki niso bili prezrti (in ne kaži tistih, ki so bili "
+"prezrti)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1070
@@ -36155,71 +36142,71 @@ msgstr ""
 msgid ""
 "Object display doesn't depend on whether objects have been ignored or not."
 msgstr ""
-"Prikaz predmetov ni odvisen od tega, ali so bili predmeti prezrti ali ne."
+"Prikaz objektov ni odvisen od tega, ali so bili objekti prezrti ali ne."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideAstrobinDetails), group (ImagingPlanner)
 #: kstars.kcfg:1074
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hide the imaging planner's Astrobin search details section."
 msgstr ""
-"Skrijte razdelek s podrobnostmi iskanja po Astrobinu načrtovalca slikanja."
+"Skrij razdelek s podrobnostmi iskanja po Astrobinu načrtovalnika slikanja."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideFilters), group (ImagingPlanner)
 #: kstars.kcfg:1078
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hide the imaging planner's filters section."
-msgstr "Skrijte razdelek filtrov načrtovalca slikanja."
+msgstr "Skrij razdelek filtrov načrtovalnika slikanja."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideImage), group (ImagingPlanner)
 #: kstars.kcfg:1082
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hide the imaging planner's image section."
-msgstr "Skrijte razdelek slike načrtovalca slikanja."
+msgstr "Skrij razdelek slike načrtovalnika slikanja."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideAltitudeGraph), group (ImagingPlanner)
 #: kstars.kcfg:1086
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hide the imaging planner's altitude graph."
-msgstr "Skrijte višinski graf načrtovalca slikanja."
+msgstr "Skrij višinski graf načrtovalnika slikanja."
 
 #. i18n: ectx: label, entry (ImagingPlannerCatalogPath), group (ImagingPlanner)
 #: kstars.kcfg:1090
-#, fuzzy, kde-format
+#, kde-format
 msgid "File path to the most recent catalog loaded by the Imaging Planner."
 msgstr ""
-"Pot datoteke do najnovejšega kataloga, ki ga naloži načrtovalnik slikanja."
+"Pot datoteke do najnovejšega kataloga, ki ga je naložil načrtovalnik "
+"slikanja."
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1094
-#, fuzzy, kde-format
-#| msgid "Select object from a list"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "Izberite objekt s seznama"
+msgstr "Obrni se na izbrane objekte na zvezdni karti."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1098
-#, fuzzy, kde-format
+#, kde-format
 msgid "Make the Imaging Planner tool an independent window."
-msgstr "Orodje za načrtovanje slikanja naj postane neodvisno okno."
+msgstr "Orodje za načrtovanje slikanja naj ima neodvisno okno."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1104
 #, kde-format
 msgid "Use symbols to label observing list objects"
-msgstr "Uporabi simbole za označbo objektov z opazovalnega seznama"
+msgstr "Uporabite simbole za označevanje objektov seznama opazovanja"
 
 #. i18n: ectx: whatsthis, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1105
 #, kde-format
 msgid ""
 "Objects in the observing list will be highlighted with a symbol in the map."
-msgstr "Objekti z opazovalnega seznama bodo na karti poudarjeni s simbolom."
+msgstr "Objekti s seznama opazovanj bodo na karti poudarjeni s simbolom."
 
 #. i18n: ectx: label, entry (ObsListText), group (ObservingList)
 #: kstars.kcfg:1109
 #, kde-format
 msgid "Use text to label observing list objects"
-msgstr "Uporabi besedilo za označbo objektov z opazovalnega seznama"
+msgstr "Uporabi besedilo za označevanje objektov s seznama opazovanj"
 
 #. i18n: ectx: whatsthis, entry (ObsListText), group (ObservingList)
 #: kstars.kcfg:1110
@@ -36228,14 +36215,13 @@ msgid ""
 "Objects in the observing list will be highlighted with a colored name label "
 "in the map."
 msgstr ""
-"Objekti z opazovalnega seznama bodo na karti poudarjeni z obarvano imensko "
-"oznako."
+"Objekti s seznama opazovanj bodo na karti poudarjeni z obarvano oznako imena."
 
 #. i18n: ectx: label, entry (ObsListPreferDSS), group (ObservingList)
 #: kstars.kcfg:1114
 #, kde-format
 msgid "Prefer Digitized Sky Survey imagery in the observing list"
-msgstr "V seznamu opazovanja naj bodo prednostne slike Digitized Sky Survey"
+msgstr "V seznamu opazovanj naj bodo prednostne slike Digitized Sky Survey"
 
 #. i18n: ectx: whatsthis, entry (ObsListPreferDSS), group (ObservingList)
 #: kstars.kcfg:1115
@@ -36281,13 +36267,14 @@ msgid ""
 "observation."
 msgstr ""
 "To odkljukajte, če uporabljate velik Dobsonov teleskop. Razvrščanje po "
-"odstotkihtrenutne višine je preprost način za določanje, kateri predmeti so "
-"dobro postavljeniza opazovanje. Vendar pa je pri uporabi velikega "
+"odstotkih trenutne višine je preprost način za določanje, kateri predmeti so "
+"dobro postavljeni za opazovanje. Vendar pa je pri uporabi velikega "
 "Dobsonovega teleskopa objekte blizu zenita težko opazovati. Ker sledenje tam "
 "ustreza vrtenje po azimutu, je hkrati kontraintuitivno in zahteva opazovalcu "
 "pogosto premikati lestev. Območje okoli zenita, kjer je to še posebej "
-"zoprno, se imenuje Dobsonova luknja. To potrditveno polje narediopazovalni "
-"seznam obravnavanih objektov, ki so v luknji, ki so neprimerni zaopazovanje."
+"zoprno, se imenuje Dobsonova luknja. To potrditveno polje naredi seznam "
+"opazovanj obravnavanih objektov, ki so v luknji, ki so neprimerni za "
+"opazovanje."
 
 #. i18n: ectx: label, entry (ObsListHoleSize), group (ObservingList)
 #: kstars.kcfg:1129
@@ -36296,7 +36283,7 @@ msgid ""
 "This is the angular distance from the zenith, in degrees, below which you "
 "can easily point your telescope."
 msgstr ""
-"To je kotna razdalja v stopinjah od nadglavišča, pod katero lahko enostavno "
+"To je kotna razdalja v stopinjah od zenita, pod katero lahko enostavno "
 "usmerite vaš teleskop."
 
 #. i18n: ectx: whatsthis, entry (ObsListHoleSize), group (ObservingList)
@@ -36306,19 +36293,19 @@ msgid ""
 "This specifies the angular radius of the Dobsonian hole, i.e. the region "
 "where a large Dobsonian telescope cannot be pointed easily."
 msgstr ""
-"To določa kotni polmer Dobsonove luknje - območja, v katerega boste težko "
-"usmerili velik Dobsonov teleskop."
+"To določa kotni polmer Dobsonove luknje, tj. območje, kamor velikega "
+"Dobsonovega teleskopa ni mogoče zlahka usmeriti."
 
 #. i18n: ectx: label, entry (ObsListCoverage), group (ObservingList)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_8)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, coverage)
 #: kstars.kcfg:1134 tools/obslistwizard.ui:756 tools/obslistwizard.ui:766
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The object must obey the minimum and maximum altitudes at least this much "
 "percentage of the indicated time range."
 msgstr ""
-"Predmet mora ubogati najmanjše in največje razdalje vsaj toliko odstotka "
+"Objekt mora upoštevati najmanjšo in največjo višino vsaj toliko odstotkov "
 "navedenega časovnega razpona."
 
 #. i18n: ectx: label, entry (ColorSchemeFile), group (Colors)
@@ -36332,7 +36319,7 @@ msgstr "Ime barvne sheme"
 #: kstars.kcfg:1145
 #, kde-format
 msgid "Mode for rendering stars"
-msgstr "Način izrisovanja zvezd"
+msgstr "Način upodabljanja zvezd"
 
 #. i18n: ectx: whatsthis, entry (StarColorMode), group (Colors)
 #: kstars.kcfg:1146
@@ -36341,8 +36328,8 @@ msgid ""
 "The method for rendering stars: 0=\"realistic colors\"; 1=\"solid red\"; 2="
 "\"solid black\"; 3=\"solid white\"; 4=\"solid real colors\""
 msgstr ""
-"Način izrisovanja zvezd: 0 = realistične barve, 1 = rdeče, 2 = črne, 3 = "
-"bele, 4 = prave barve"
+"Način upodabljanja zvezd: 0=\"realistične barve\", 1=\"polna rdeča\", 2="
+"\"polna črna\", 3=\"polna bela\", 4=\"polne prave barve\""
 
 #. i18n: ectx: label, entry (StarColorIntensity), group (Colors)
 #: kstars.kcfg:1151
@@ -36356,7 +36343,8 @@ msgstr "Nivo nasičenosti barv zvezd"
 msgid ""
 "The color saturation level of stars (only applicable when using \"realistic "
 "colors\" mode)."
-msgstr "Nivo nasičenosti barv zvezd (velja le v načinu s pravimi barvami)."
+msgstr ""
+"Nivo nasičenosti barv zvezd (velja le v načinu s realističnimi barvami)."
 
 #. i18n: ectx: label, entry (AngularRulerColor), group (Colors)
 #: kstars.kcfg:1157
@@ -36386,7 +36374,7 @@ msgstr "Barva ozadja zaslonskih okvirjev s podatki."
 #: kstars.kcfg:1167
 #, kde-format
 msgid "Text color of InfoBoxes when grabbed with mouse"
-msgstr "Barva besedila okvirjev s podatki, ko so zgrabljeni"
+msgstr "Barva besedila okvirjev s podatki, ko so pograbljeni z miško"
 
 #. i18n: ectx: whatsthis, entry (BoxGrabColor), group (Colors)
 #: kstars.kcfg:1168
@@ -36395,7 +36383,8 @@ msgid ""
 "The text color for the on-screen information boxes, when activated by a "
 "mouse click."
 msgstr ""
-"Barva besedila zaslonskih okvirjev s podatki, ko jih omogočite z miško."
+"Barva besedila zaslonskih okvirjev s podatki, ko jih aktivirate z miškinim "
+"klikom."
 
 #. i18n: ectx: label, entry (BoxTextColor), group (Colors)
 #: kstars.kcfg:1172
@@ -36456,13 +36445,13 @@ msgstr "Barva imen za ozvezdja."
 #: kstars.kcfg:1197
 #, kde-format
 msgid "Color of cardinal compass labels along horizon"
-msgstr "Barva oznak glavnih smeri neba"
+msgstr "Barva glavnih oznak kompasa vzdolž obzorja"
 
 #. i18n: ectx: whatsthis, entry (CompassColor), group (Colors)
 #: kstars.kcfg:1198
 #, kde-format
 msgid "The color for the cardinal compass point labels."
-msgstr "Barva oznak glavnih smeri neba na obzorju."
+msgstr "Barva za glavne oznake točk kompasa."
 
 #. i18n: ectx: label, entry (EclipticColor), group (Colors)
 #: kstars.kcfg:1202
@@ -36486,7 +36475,7 @@ msgstr "Barva ekvatorja"
 #: kstars.kcfg:1208
 #, kde-format
 msgid "The color for the equator line."
-msgstr "Barva črte nebesnega ekvatorja."
+msgstr "Barva črte ekvatorja."
 
 #. i18n: ectx: label, entry (EquatorialGridColor), group (Colors)
 #: kstars.kcfg:1212
@@ -36498,7 +36487,7 @@ msgstr "Barva ekvatorialnih koordinatnih mrež"
 #: kstars.kcfg:1213
 #, kde-format
 msgid "The color for the equatorial coordinate grid lines."
-msgstr "Barva ekvatorialnih koordinatnih mrež."
+msgstr "Barva črt ekvatorialnih koordinatnih mrež."
 
 #. i18n: ectx: label, entry (HorizontalGridColor), group (Colors)
 #: kstars.kcfg:1217
@@ -36510,7 +36499,7 @@ msgstr "Barva horizontalnih koordinatnih mrež"
 #: kstars.kcfg:1218
 #, kde-format
 msgid "The color for the horizontal coordinate grid lines."
-msgstr "Barva horizontalnih koordinatnih mrež."
+msgstr "Barva črt horizontalnih koordinatnih mrež."
 
 #. i18n: ectx: label, entry (SpecialObjectColor), group (Colors)
 #: kstars.kcfg:1222
@@ -36522,7 +36511,7 @@ msgstr "Barva objektov z dodatnimi povezavami"
 #: kstars.kcfg:1223
 #, kde-format
 msgid "The color for objects which have extra URL links available."
-msgstr "Barva objektov, ki imajo dodatne spletne povezave."
+msgstr "Barva objektov, ki imajo na voljo dodatne spletne povezave."
 
 #. i18n: ectx: label, entry (HorizonColor), group (Colors)
 #: kstars.kcfg:1227
@@ -36538,16 +36527,15 @@ msgstr "Barva črte obzorja in neprozornih tal."
 
 #. i18n: ectx: label, entry (LocalMeridianColor), group (Colors)
 #: kstars.kcfg:1232
-#, fuzzy, kde-format
-#| msgid "Color of horizon line"
+#, kde-format
 msgid "Color of local meridian line"
-msgstr "Barva obzorja"
+msgstr "Barva črte lokalnega poldnevnika"
 
 #. i18n: ectx: whatsthis, entry (LocalMeridianColor), group (Colors)
 #: kstars.kcfg:1233
 #, kde-format
 msgid "The color for the local meridian line."
-msgstr "Barva za črto lokalnega poldnevnika."
+msgstr "Barva črte lokalnega poldnevnika."
 
 #. i18n: ectx: label, entry (MilkyWayWColor), group (Colors)
 #: kstars.kcfg:1237
@@ -36623,23 +36611,21 @@ msgstr "Barva ozadja neba."
 
 #. i18n: ectx: label, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1267
-#, fuzzy, kde-format
-#| msgid "Color of supernovae"
+#, kde-format
 msgid "Color of sky during the daytime"
-msgstr "Barva supernov"
+msgstr "Barva neba podnevi"
 
 #. i18n: ectx: whatsthis, entry (SkyColorDaytime), group (Colors)
 #: kstars.kcfg:1268
-#, fuzzy, kde-format
-#| msgid "The color for the sky background."
+#, kde-format
 msgid "The color for the sky background during daytime."
-msgstr "Barva ozadja neba."
+msgstr "Barva za ozadje neba podnevi."
 
 #. i18n: ectx: label, entry (ArtificialHorizonColor), group (Colors)
 #: kstars.kcfg:1272
 #, kde-format
 msgid "Color Artificial Horizon"
-msgstr "Obarvaj navidezno obzorje"
+msgstr "Barva navideznega obzorja"
 
 #. i18n: ectx: whatsthis, entry (ArtificialHorizonColor), group (Colors)
 #: kstars.kcfg:1273
@@ -36735,25 +36721,25 @@ msgstr "Barva uporabniško dodanih oznak objektov."
 #: kstars.kcfg:1312
 #, kde-format
 msgid "Color of RA Guide Error"
-msgstr "Barva napake vodnika: rekt."
+msgstr "Barva napake vodila: RA"
 
 #. i18n: ectx: whatsthis, entry (RAGuideColor), group (Colors)
 #: kstars.kcfg:1313
 #, kde-format
 msgid "The color for RA Guide Error bar in Ekos guide module."
-msgstr "Barva stolpca napake rekt. vodnika v modulu vodenja Ekos."
+msgstr "Barva stolpca napake RA vodila v modulu vodenja Ekos."
 
 #. i18n: ectx: label, entry (DEGuideColor), group (Colors)
 #: kstars.kcfg:1317
 #, kde-format
 msgid "Color of DEC Guide Error"
-msgstr "Barva napake vodnika: dekl."
+msgstr "Barva napake vodila: DEC"
 
 #. i18n: ectx: whatsthis, entry (DEGuideColor), group (Colors)
 #: kstars.kcfg:1318
 #, kde-format
 msgid "The color for DEC Guide Error bar in Ekos guide module."
-msgstr "Barva stolpca napake dekl. vodnika v modulu vodenja Ekos."
+msgstr "Barva stolpca napake DEC vodila v modulu vodenja Ekos."
 
 #. i18n: ectx: label, entry (SolverFOVColor), group (Colors)
 #: kstars.kcfg:1322
@@ -36777,14 +36763,14 @@ msgstr "Notranji ali zunanji XPlanet?"
 #: kstars.kcfg:1333
 #, kde-format
 msgid "Path to xplanet binary"
-msgstr "Pot do programa xplanet"
+msgstr "Pot do binarne datoteke xplanet"
 
 #. i18n: ectx: whatsthis, entry (XplanetPath), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_XplanetPath)
 #: kstars.kcfg:1334 xplanet/opsxplanet.ui:70
 #, kde-format
 msgid "Xplanet binary path"
-msgstr "Pot do programa xplanet"
+msgstr "Pot do binarne datoteke xplanet"
 
 #. i18n: ectx: label, entry (XplanetUseFIFO), group (Xplanet)
 #: kstars.kcfg:1338
@@ -36806,9 +36792,9 @@ msgstr "Časovna omejitev XPlaneta"
 
 #. i18n: ectx: whatsthis, entry (XplanetTimeout), group (Xplanet)
 #: kstars.kcfg:1344
-#, fuzzy, kde-format
+#, kde-format
 msgid "How long to wait for XPlanet before giving up in milliseconds"
-msgstr "Kako dolgo čakati na XPlanet, preden obupate v milisekunah"
+msgstr "Kako dolgo čakati na XPlanet, preden prenehate v milisekunah"
 
 #. i18n: ectx: label, entry (XplanetAnimationDelay), group (Xplanet)
 #: kstars.kcfg:1348
@@ -36818,9 +36804,9 @@ msgstr "Zamik animacije XPlaneta"
 
 #. i18n: ectx: whatsthis, entry (XplanetAnimationDelay), group (Xplanet)
 #: kstars.kcfg:1349
-#, fuzzy, kde-format
+#, kde-format
 msgid "How long to pause between frames in the XPlanet Animation"
-msgstr "Kako dolgo premor med okvirji v animaciji XPlanet"
+msgstr "Kako dolg premor med posnetki v animaciji XPlanet"
 
 #. i18n: ectx: label, entry (XplanetWidth), group (Xplanet)
 #. i18n: ectx: whatsthis, entry (XplanetWidth), group (Xplanet)
@@ -36846,7 +36832,7 @@ msgstr "Pokaži oznako"
 #: kstars.kcfg:1364
 #, kde-format
 msgid "If true, display a label in the upper right corner."
-msgstr "Če je omogočeno (true), bo prikazana oznaka v zgornjem desnem kotu."
+msgstr "Če true, bo prikazana oznaka v zgornjem desnem kotu."
 
 #. i18n: ectx: label, entry (XplanetLabelLocalTime), group (Xplanet)
 #. i18n: ectx: label, entry (XplanetLabelGMT), group (Xplanet)
@@ -36865,7 +36851,7 @@ msgstr "Pokaži krajevni čas."
 #: kstars.kcfg:1374
 #, kde-format
 msgid "Show GMT instead of local time."
-msgstr "Pokaži GMT namesto krajevnega časa."
+msgstr "Pokaži GMT namesto lokalnega časa."
 
 #. i18n: ectx: label, entry (XplanetLabelString), group (Xplanet)
 #: kstars.kcfg:1378
@@ -36910,7 +36896,7 @@ msgstr "Barva oznake"
 #: kstars.kcfg:1389 xplanet/opsxplanet.ui:676
 #, kde-format
 msgid "Set the color for the label."
-msgstr "Nastavite barvo oznake."
+msgstr "Nastavi barvo oznake."
 
 #. i18n: ectx: label, entry (XplanetDateFormat), group (Xplanet)
 #: kstars.kcfg:1393
@@ -37013,7 +36999,7 @@ msgid ""
 "Render the target body as seen from above the specified latitude (in "
 "degrees). The default value is 0."
 msgstr ""
-"Ciljni objekt prikaži, kot je videti z navedene zemljepisne širine (v "
+"Ciljni objekt upodobi, kot je videti z navedene zemljepisne širine (v "
 "stopinjah). Privzeta vrednost je 0."
 
 #. i18n: ectx: label, entry (XplanetLongitude), group (Xplanet)
@@ -37099,13 +37085,13 @@ msgstr "Pot do datoteke s sliko ozadja."
 #: kstars.kcfg:1459
 #, kde-format
 msgid "Use background color"
-msgstr "Uporabi barvo za ozadje"
+msgstr "Uporabi barvo ozadja"
 
 #. i18n: ectx: whatsthis, entry (XplanetBackgroundColor), group (Xplanet)
 #: kstars.kcfg:1460
 #, kde-format
 msgid "Use a color as the background."
-msgstr "Za ozadje uporabi barvo."
+msgstr "Uporabi barvo za ozadje."
 
 #. i18n: ectx: label, entry (XplanetBackgroundColorValue), group (Xplanet)
 #. i18n: ectx: property (toolTip), widget (KColorButton, kcfg_XplanetBackgroundColorValue)
@@ -37168,30 +37154,29 @@ msgstr "Navedite datoteko arc, ki bo izrisana čez zvezde v ozadju."
 #: kstars.kcfg:1484
 #, kde-format
 msgid "Config file"
-msgstr "Nastavitvena datoteka"
+msgstr "Datoteka konfiguracije"
 
 #. i18n: ectx: whatsthis, entry (XplanetConfigFile), group (Xplanet)
 #: kstars.kcfg:1485
 #, kde-format
 msgid "If checked, use a config file."
-msgstr "Če je označeno, bo uporabljena nastavitvena datoteka."
+msgstr "Če je označeno, bo uporabi datoteko config."
 
 #. i18n: ectx: label, entry (XplanetConfigFilePath), group (Xplanet)
 #: kstars.kcfg:1489
 #, kde-format
 msgid "Path to config file"
-msgstr "Pot do nastavitvene datoteke"
+msgstr "Pot do datoteke config"
 
 #. i18n: ectx: whatsthis, entry (XplanetConfigFilePath), group (Xplanet)
 #: kstars.kcfg:1490
 #, kde-format
 msgid "Use the specified configuration file."
-msgstr "Uporabi podano nastavitveno datoteko."
+msgstr "Uporabi podano datoteko konfiguracije."
 
 #. i18n: ectx: label, entry (XplanetFOV), group (Xplanet)
 #: kstars.kcfg:1494
-#, fuzzy, kde-format
-#| msgid "Use kstars's FOV"
+#, kde-format
 msgid "Use KStars's FOV"
 msgstr "Uporabi vidno polje iz KStars"
 
@@ -37330,8 +37315,8 @@ msgid ""
 "If selected, satellites will be draw like stars, otherwise, draw satellites "
 "as small colored square."
 msgstr ""
-"Če je označeno, bodo sateliti izrisani kot zvezde. V nasprotnem primeru bodo "
-"izrisani kot pobarvani kvadratki."
+"Če je označeno, bodo sateliti izrisani kot zvezde, sicer bodo izrisani kot "
+"majhni pobarvani kvadratki."
 
 #. i18n: ectx: label, entry (ShowSatellitesLabels), group (Satellites)
 #: kstars.kcfg:1551
@@ -37405,10 +37390,9 @@ msgstr "Privzeta velikost za slike DSS"
 
 #. i18n: ectx: whatsthis, entry (DefaultDSSImageSize), group (General)
 #: kstars.kcfg:1573
-#, fuzzy, kde-format
-#| msgid "The default size for DSS images downloaded from the internet."
+#, kde-format
 msgid "The default size for DSS images downloaded from the Internet."
-msgstr "Privzeta velikost za slike DSS prejete iz interneta."
+msgstr "Privzeta velikost za slike DSS, prenesene iz interneta."
 
 #. i18n: ectx: label, entry (DSSPadding), group (General)
 #: kstars.kcfg:1577
@@ -37425,8 +37409,8 @@ msgid ""
 "padding added to either dimension of the field."
 msgstr ""
 "Da vključite dele polja zvezd, je dodano dodatno blazinjenje okrog slik DSS "
-"objektov globokega neba. Ta možnost nastavi skupno (obe strani) blazinjenje "
-"dodano h katerikoli dimenziji polja."
+"objektov globokega neba. Ta možnost nastavi skupno (obojestransko) "
+"blazinjenje dodano h katerikoli dimenziji polja."
 
 #. i18n: ectx: label, entry (VerboseLogging), group (General)
 #: kstars.kcfg:1582
@@ -37487,13 +37471,13 @@ msgid ""
 "used by the platform (e.g. Standard Error)."
 msgstr ""
 "Če označite to možnost, bo KStars izpisal razhroščevalna sporočila na "
-"privzeti izhod, ki ga uporablja okolje (npr. izpis standardne napake)."
+"privzeti izhod, ki ga uporablja okolje (npr. v standardno napako)."
 
 #. i18n: ectx: label, entry (LogToFile), group (General)
 #: kstars.kcfg:1602
 #, kde-format
 msgid "Log debug message to a log file"
-msgstr "Izpisuj razhroščevalna sporočila v datoteko"
+msgstr "Izpisuj razhroščevalna sporočila v datoteko dnevnika"
 
 #. i18n: ectx: whatsthis, entry (LogToFile), group (General)
 #: kstars.kcfg:1603
@@ -37531,21 +37515,21 @@ msgstr "Beleži dejavnost modula za ostrenje Ekos."
 
 #. i18n: ectx: label, entry (SaveGuideImages), group (General)
 #: kstars.kcfg:1623
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save Internal Guider images on disk?"
-msgstr "Shrani uporabniški dnevnik internega vodnika"
+msgstr "Naj shranim slike notranjega vodnika na disk?"
 
 #. i18n: ectx: label, entry (SaveAlignImages), group (General)
 #: kstars.kcfg:1627
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save Internal Align images on disk?"
-msgstr "Shrani uporabniški dnevnik internega vodnika"
+msgstr "Naj shranim slike notranje poravnave na disk?"
 
 #. i18n: ectx: label, entry (SaveFailedAlignImages), group (General)
 #: kstars.kcfg:1631
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save Failed Align images on disk?"
-msgstr "Shrani uporabniški dnevnik internega vodnika"
+msgstr "Naj shranim slike neuspešne poravnave na disk?"
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1635
@@ -37563,33 +37547,31 @@ msgstr "Beleži dejavnost modula za poravnavo Ekos."
 #: kstars.kcfg:1643
 #, kde-format
 msgid "Log Ekos Mount Module activity."
-msgstr "Beleži dejavnost modula za stojalo Ekos."
+msgstr "Beleži dejavnost modula za montažo Ekos."
 
 #. i18n: ectx: whatsthis, entry (ObservatoryLogging), group (General)
 #: kstars.kcfg:1647
-#, fuzzy, kde-format
-#| msgid "Log Ekos Capture Module activity."
+#, kde-format
 msgid "Log Ekos Observatory Module activity."
-msgstr "Beleži dejavnost modula za zajem Ekos."
+msgstr "Beleži dejavnost modula observatorija Ekos."
 
 #. i18n: ectx: label, entry (useFITSViewer), group (FITSViewer)
 #: kstars.kcfg:1653
-#, fuzzy, kde-format
-#| msgid "Display all opened FITS images in a single FITS Viewer window."
+#, kde-format
 msgid "Display every image captured in a FITS Viewer window."
-msgstr "Prikaži vse odprte slike FITS v enem oknu pregledovalnika FITS."
+msgstr "Prikaži vsako zajeto sliko v oknu pregledovalnika FITS."
 
 #. i18n: ectx: label, entry (singlePreviewFITS), group (FITSViewer)
 #: kstars.kcfg:1657
 #, kde-format
 msgid "Preview FITS in a single tab?"
-msgstr "Predogled FITS v enem zavihku?"
+msgstr "Naj bo predogled FITS v enem zavihku?"
 
 #. i18n: ectx: label, entry (singleWindowCapturedFITS), group (FITSViewer)
 #: kstars.kcfg:1662
 #, kde-format
 msgid "Display all captured FITS in one window?"
-msgstr "Ali želite prikazati vse zajete FITS v enem oknu?"
+msgstr "Naj bodo prikazane vse zajete FITS v enem oknu?"
 
 #. i18n: ectx: whatsthis, entry (singleWindowCapturedFITS), group (FITSViewer)
 #: kstars.kcfg:1663
@@ -37599,26 +37581,26 @@ msgid ""
 "each camera create its own FITS Viewer instance"
 msgstr ""
 "Prikaži vse zajete slike FITS v enem oknu pregledovalnika FITS. Privzeto bo "
-"vsak fotoaparat ustvaril svoj primerek pregledovalnika FITS"
+"vsaka kamera ustvarila svoj pojavek pregledovalnika FITS"
 
 #. i18n: ectx: label, entry (singleWindowOpenedFITS), group (FITSViewer)
 #: kstars.kcfg:1667
 #, kde-format
 msgid "Display all opened FITS in one window?"
-msgstr "Ali želite prikazati vse odprte FITS v enem oknu?"
+msgstr "Naj bodo prikazane vse odprte FITS v enem oknu?"
 
 #. i18n: ectx: whatsthis, entry (singleWindowOpenedFITS), group (FITSViewer)
 #: kstars.kcfg:1668
 #, kde-format
 msgid "Display all opened FITS images in a single FITS Viewer window."
-msgstr "Prikaži vse odprte slike FITS v enem oknu pregledovalnika FITS."
+msgstr "Prikaži vse odprte slike FITS v enem samem oknu pregledovalnika FITS."
 
 #. i18n: ectx: whatsthis, entry (focusFITSOnNewImage), group (FITSViewer)
 #: kstars.kcfg:1672
 #, kde-format
 msgid ""
 "Bring the FITSViewer window to the foreground when receiving a new image."
-msgstr "Ko prejmete novo sliko, postavite okno FITSViewer v ospredje."
+msgstr "Postavi okno FITSViewer v ospredje, ko prejmete novo sliko."
 
 #. i18n: ectx: label, entry (independentWindowFITS), group (FITSViewer)
 #: kstars.kcfg:1676
@@ -37637,54 +37619,50 @@ msgstr ""
 #: kstars.kcfg:1684
 #, kde-format
 msgid "Process 3D FITS Cube (RGB). If false, only first channel is processed."
-msgstr ""
-"Obdelaj 3D kocko FITS (RGB). Če je nastavljeno na napačno, bo obdelan le "
-"prvi kanal."
+msgstr "Obdelaj 3D kocko FITS (RGB). Če je false, bo obdelan samo prvi kanal."
 
 #. i18n: ectx: label, entry (AutoHFR), group (FITSViewer)
 #: kstars.kcfg:1688
-#, fuzzy, kde-format
-#| msgid "Automatically calibrate selected axes."
+#, kde-format
 msgid "Automatically compute HFRs of fits images"
-msgstr "Samodejno umeri izbrane osi."
+msgstr "Samodejno izračunaj HFR za prileganje slik"
 
 #. i18n: ectx: label, entry (QuickHFR), group (FITSViewer)
 #: kstars.kcfg:1692
-#, fuzzy, no-c-format, kde-format
+#, no-c-format, kde-format
 msgid ""
 "Compute the HFRs of normal images quickly by looking at the center 25% only."
-msgstr ""
-"Hitro izraunajte HFRs normalnih slik tako, da gledate center 25% onely."
+msgstr "Hitro izračunaj HFR običajnih slik s pregledom samo 25 % sredine."
 
 #. i18n: ectx: label, entry (AutoWCS), group (FITSViewer)
 #: kstars.kcfg:1700
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Automatically process World-Coordinate-System (WCS) data when loading a FITS "
 "file."
 msgstr ""
-"Samodejno obdelajte podatke o sistemu World-Coordinate-System (WCS) pri "
+"Samodejna obdelava podatkov svetovnega koordinatnega sistema (WCS) pri "
 "nalaganju datoteke FITS."
 
 #. i18n: ectx: label, entry (LimitedResourcesMode), group (FITSViewer)
 #: kstars.kcfg:1704
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Conserve CPU and memory by disabling all resource-intensive features in FITS "
 "Viewer"
 msgstr ""
-"Ohranite CPU in pomnilnik tako, da onemogočite vse funkcije, intenzivne z "
-"viri v pregledovalnik FITS"
+"Varčuj s procesorjem in pomnilnikom tako, da so v FITS Viewerju onemogočene "
+"vse funkcije, ki zahtevajo veliko virov"
 
 #. i18n: ectx: label, entry (NonLinearHistogram), group (FITSViewer)
 #: kstars.kcfg:1708
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Create histogram from non-linear auto-stretched image rather than linear raw "
 "image data."
 msgstr ""
-"Ustvarite histogram iz ne linearnih samodejno raztegnjenih slik in ne "
-"linearnih surovih slikovnih podatkov."
+"Ustvari histogram iz nelinearne samodejno raztegnjene slike namesto "
+"linearnih neobdelanih slikovnih podatkov."
 
 #. i18n: ectx: label, entry (HIPSOpacity), group (FITSViewer)
 #: kstars.kcfg:1712
@@ -37708,18 +37686,17 @@ msgstr "Odmik Y prekrivanja HPS"
 #: kstars.kcfg:1724
 #, kde-format
 msgid "Options Profile for Fitsviewer Solving."
-msgstr "Profil možnosti za reševanje Fitsviewer."
+msgstr "Profil možnosti za reševanje Fitsviewerja."
 
 #. i18n: ectx: label, entry (FitsSolverModule), group (FITSViewer)
 #: kstars.kcfg:1728
-#, fuzzy, kde-format
-#| msgid "Options Profile for Fitsviewer Solving."
+#, kde-format
 msgid "Module from which profile is taken for Fitsviewer Solving."
-msgstr "Profil možnosti za reševanje Fitsviewer."
+msgstr "Modul, iz katerega je vzet profil za reševanje Fitsviewerja."
 
 #. i18n: ectx: label, entry (FitsSolverProfileIndeces), group (FITSViewer)
 #: kstars.kcfg:1732
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "JSON storing the assignment of profile indices to module profiles for the "
 "FITS Viewer Solver"
@@ -37729,16 +37706,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FitsCatalog), group (FITSViewer)
 #: kstars.kcfg:1736
-#, fuzzy, kde-format
+#, kde-format
 msgid "Which catalog to pull display objects from."
-msgstr "Iz katerega kataloga želite povleči predmete prikaza."
+msgstr "Iz katerega kataloga potegniti objekte prikaza."
 
 #. i18n: ectx: label, entry (FitsCatObjShowNames), group (FITSViewer)
 #: kstars.kcfg:1740
-#, fuzzy, kde-format
-#| msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
+#, kde-format
 msgid "Whether to display object names on the FITS Viewer or not."
-msgstr "Ali prikazati OKO na V-krivulji po izvedbi samodejnega ostrenja."
+msgstr "Ali želite prikazati imena objektov v pregledovalniku FITS ali ne."
 
 #. i18n: ectx: label, entry (FitsSolverUseScale), group (FITSViewer)
 #: kstars.kcfg:1745
@@ -37834,36 +37810,36 @@ msgstr "Profil gonilnikov Ekos"
 #: kstars.kcfg:1813
 #, kde-format
 msgid "Never load device configuration?"
-msgstr "Ali nikoli ne naložim nastavitev naprave?"
+msgstr "Naj nikoli ne naložim konfiguracijo naprave?"
 
 #. i18n: ectx: label, entry (loadConfigOnConnection), group (Ekos)
 #: kstars.kcfg:1817
 #, kde-format
 msgid "Load device configuration upon successful connection?"
-msgstr "Ali naj se ob uspešni povezavi naložijo nastavitve naprave?"
+msgstr "Naj se naloži konfiguracija naprave po uspešni povezavi?"
 
 #. i18n: ectx: label, entry (loadDefaultConfig), group (Ekos)
 #: kstars.kcfg:1821
 #, kde-format
 msgid "Always load device default configuration upon successful connection?"
 msgstr ""
-"Ali naj se ob uspešni povezavi vedno naložijo privzete nastavitve naprave?"
+"Naj se vedno naloži privzeta konfiguracija naprave po uspešni povezavi?"
 
 #. i18n: ectx: label, entry (autoLoadSerialAssistant), group (Ekos)
 #: kstars.kcfg:1825
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Automatically load Serial Port Assistant tool when detecting unmapped serial "
 "ports?"
 msgstr ""
-"Samodejno nalaganje orodja Pomočnik serijskih vrat pri odkrivanju neposlanih "
-"serijskih vrat?"
+"Naj se samodejno naloži orodje Serial Port Assistant, ko zazna nepreslikana "
+"serijska vrata?"
 
 #. i18n: ectx: label, entry (RememberCredentials), group (EkosLive)
 #: kstars.kcfg:1831
 #, kde-format
 msgid "Remember Ekos Live credentials."
-msgstr "Pomni prijavne podatke Ekos Live."
+msgstr "Zapomni si poverilnice Ekos Live."
 
 #. i18n: ectx: label, entry (AutoStartEkosLive), group (EkosLive)
 #: kstars.kcfg:1835
@@ -37879,58 +37855,55 @@ msgstr "Uporabniško ime EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1842
-#, fuzzy, kde-format
-#| msgid "EkosLive username"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "Uporabniško ime EkosLive"
+msgstr "Ime observatorija EkosLive"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1846
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Offline Server"
-msgstr "Ekos storitev v živo"
+msgstr "EkosLive strežnik brez povezave"
 
 #. i18n: ectx: label, entry (EkosLiveOnlineServer), group (EkosLive)
 #: kstars.kcfg:1850
-#, fuzzy, kde-format
-#| msgid "Ekos Live Service"
+#, kde-format
 msgid "EkosLive Online Server"
-msgstr "Ekos storitev v živo"
+msgstr "Spletni strežnik EkosLive"
 
 #. i18n: ectx: label, entry (shutterfulCCDs), group (DarkLibrary)
 #: kstars.kcfg:1875
 #, kde-format
 msgid "List of CCDs with mechanical or electronic shutters."
-msgstr "Seznam CCD-jev z mehansko ali elektronsko zaslonko."
+msgstr "Seznam CCD-jev z mehanskimi ali elektronskimi zaklopi."
 
 #. i18n: ectx: label, entry (shutterlessCCDs), group (DarkLibrary)
 #: kstars.kcfg:1878
 #, kde-format
 msgid "List of CCDs without mechanical or electronic shutters."
-msgstr "Seznam CCD-jev brez mehanske ali elektronske zaslonke."
+msgstr "Seznam CCD-jev brez mehanskih ali elektronskih zaklopov."
 
 #. i18n: ectx: label, entry (UseGraphicalCountsDisplay), group (Manager)
 #: kstars.kcfg:1887
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Use the graphical version for capture/sequence/total counting using round "
 "progress bars."
 msgstr ""
-"Uporabite grafično različico za zajemanje/zaporedje/skupno štetje z "
-"okroglimi vrsticami napredka."
+"Uporabi grafično različico za zajemanje/zaporedje/skupno štetje z uporabo "
+"okroglih vrstic napredka."
 
 #. i18n: ectx: label, entry (MinimumAltLimit), group (Mount)
 #: kstars.kcfg:1893
 #, kde-format
 msgid "Default minimum mount altitude limit"
-msgstr "Privzeta najnižja meja višine stojala"
+msgstr "Privzeta najnižja meja višine montaže"
 
 #. i18n: ectx: label, entry (MaximumAltLimit), group (Mount)
 #: kstars.kcfg:1898
 #, kde-format
 msgid "Default maximum mount altitude limit."
-msgstr "Privzeta najvišja meja višine stojala."
+msgstr "Privzeta najvišja meja višine montaže."
 
 #. i18n: ectx: whatsthis, entry (MaximumAltLimit), group (Mount)
 #: kstars.kcfg:1899
@@ -37939,32 +37912,32 @@ msgid ""
 "Maximum telescope altitude limit. If the telescope is above this limit, it "
 "will be commanded to stop."
 msgstr ""
-"Najvišja meja višine teleskopa. Če je teleskop nad to mejo, bo zaustavljen."
+"Najvišja meja višine teleskopa. Če je teleskop nad to mejo, bo zaukazana "
+"zaustavitev."
 
 #. i18n: ectx: label, entry (EnableAltitudeLimits), group (Mount)
 #: kstars.kcfg:1903
 #, kde-format
 msgid "Enable mount altitude limits."
-msgstr "Omogoči omejitve višine stojala."
+msgstr "Omogoči omejitve višine montaže."
 
 #. i18n: ectx: label, entry (EnableAltitudeLimitsTrackingOnly), group (Mount)
 #: kstars.kcfg:1907
-#, fuzzy, kde-format
+#, kde-format
 msgid "Restrict altitude limits to tracking mode only."
-msgstr "Omejite omejitve nadmorske višine samo na način sledenja."
+msgstr "Omeji višinske omejitve samo na način sledenja."
 
 #. i18n: ectx: label, entry (ConfirmBelowHorizon), group (Mount)
 #: kstars.kcfg:1911
-#, fuzzy, kde-format
+#, kde-format
 msgid "Warn user before command mount to go to a target below horizon."
-msgstr "Opozorilo uporabnika pred ukazom mount iti na cilj pod obzorjem."
+msgstr "Opozori uporabnika pred ukazom, da gre do cilja pod obzorjem."
 
 #. i18n: ectx: label, entry (MeridianFlipOffsetDegrees), group (Mount)
 #: kstars.kcfg:1915
-#, fuzzy, kde-format
-#| msgid "Default hour angle to perform meridian flip"
+#, kde-format
 msgid "Default hour angle to perform meridian flip in degrees."
-msgstr "Privzeti urni kot za izvedbo obrata čez poldnevnik"
+msgstr "Privzeti urni kot za izvedbo preklopa čez poldnevnik v stopinjah."
 
 #. i18n: ectx: whatsthis, entry (MeridianFlipOffsetDegrees), group (Mount)
 #: kstars.kcfg:1916
@@ -37973,16 +37946,15 @@ msgid ""
 "If the target hour angle exceeds this value, Ekos will command a meridian "
 "flip and if successful it will resume guiding and capture operations."
 msgstr ""
-"Če ciljni urni kot presega to vrednost, bo Ekos izvedel obračanje čez "
+"Če ciljni urni kot presega to vrednost, bo Ekos izvedel preklop čez "
 "poldnevnik. V primeru, da bo uspešno, se bodo opravila vodenja in zajemanja "
 "nadaljevala."
 
 #. i18n: ectx: label, entry (MaximumHaLimit), group (Mount)
 #: kstars.kcfg:1920
-#, fuzzy, kde-format
-#| msgid "Default maximum permittable guide deviation"
+#, kde-format
 msgid "Default maximum limit for the hour angle."
-msgstr "Največje dovoljeno odstopanje vodenja"
+msgstr "Privzeta največja omejitev za urni kot."
 
 #. i18n: ectx: whatsthis, entry (MaximumHaLimit), group (Mount)
 #: kstars.kcfg:1921
@@ -37991,87 +37963,82 @@ msgid ""
 "Maximum limit for the hour angle of the telescope. If the hour angle of the "
 "telescope is above this limit, a meridian flip will be forced."
 msgstr ""
-"Najvišja meja urnega kota teleskopa. Če je teleskop nad to mejo, bo "
-"prisiljen v obrat čez poldnevnik."
+"Največja omejitev urnega kota teleskopa. Če je urni kot teleskopa nad to "
+"mejo, se bo izsilil prehod čez poldnevnik."
 
 #. i18n: ectx: label, entry (EnableHaLimit), group (Mount)
 #: kstars.kcfg:1925
-#, fuzzy, kde-format
-#| msgid "Enable mount altitude limits."
+#, kde-format
 msgid "Enable mount hour angle limit."
-msgstr "Omogoči omejitve višine stojala."
+msgstr "Omogoči omejitev urnega kota montaže."
 
 #. i18n: ectx: label, entry (ExecuteMeridianFlip), group (Mount)
 #: kstars.kcfg:1929
 #, kde-format
 msgid "Flips the mount when reaching the meridian, if supported."
-msgstr "Če je podprto, obrne stojalo, ko doseže poldnevnik."
+msgstr "Obrni montažo, ko doseže poldnevnik, če je podprto."
 
 #. i18n: ectx: label, entry (LeftRightReversed), group (Mount)
 #: kstars.kcfg:1933
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reverse the direction of right and left buttons in mount control."
-msgstr "Obrnite smer desnih in levih gumbov pri nadzoru montaže."
+msgstr "Obrni smer desnega in levega gumba pri nadzoru montaže."
 
 #. i18n: ectx: label, entry (UpDownReversed), group (Mount)
 #: kstars.kcfg:1937
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reverse the direction of up and down buttons in mount control."
-msgstr "Obrnite smer gumbov gor in dol pri nadzoru montaže."
+msgstr "Obrni smer gumbov gor in dol pri nadzoru montaže."
 
 #. i18n: ectx: label, entry (ParkEveryDay), group (Mount)
 #: kstars.kcfg:1941
-#, fuzzy, kde-format
-#| msgid "Automatically select the calibration star."
+#, kde-format
 msgid "Automatically start parking timer on startup."
-msgstr "Samodejno izberi zvezdo za umerjanje."
+msgstr "Samodejni zagon parkirnega časovnika ob zagonu."
 
 #. i18n: ectx: label, entry (ParkTime), group (Mount)
 #: kstars.kcfg:1945
-#, fuzzy, kde-format
+#, kde-format
 msgid "Park mount at this time in 12 hour format."
-msgstr "Park nosilec v tem času v 12-urni obliki."
+msgstr "Parkiranje montaže trenutno v 12-urnem formatu."
 
 #. i18n: ectx: label, entry (DefaultObserver), group (Capture)
 #: kstars.kcfg:1951
-#, fuzzy, kde-format
-#| msgid "Default Dome driver"
+#, kde-format
 msgid "Default observer full name."
-msgstr "Privzeti gonilnik za kupolo"
+msgstr "Privzeto polno ime opazovalca."
 
 #. i18n: ectx: label, entry (SyncFOVPA), group (Capture)
 #: kstars.kcfg:1954
 #, kde-format
 msgid "Sync FOV indicator Position Angle with Rotator Settings Position Angle"
 msgstr ""
-"Sinhroniziraj kazalnik vidnega polja položajnega kota z nastavitvijo "
-"položajnega kota rotatorja"
+"Sinhronizacija kota položaja indikatorja vidnega polja z nastavitvami kota "
+"položaja rotatorja"
 
 #. i18n: ectx: label, entry (PAMultiplier), group (Capture)
 #: kstars.kcfg:1958
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position angle multiplier"
-msgstr "Položajni kot"
+msgstr "Množitelj položajnega kota"
 
 #. i18n: ectx: label, entry (PAOffset), group (Capture)
 #: kstars.kcfg:1962
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position angle offset"
-msgstr "Položajni kot"
+msgstr "Odmik kota položaja"
 
 #. i18n: ectx: label, entry (PAPierSide), group (Capture)
 #: kstars.kcfg:1966
 #, kde-format
 msgid "Position angle calibration pier side"
-msgstr "Stran stojala za kalibracijo kota položaja"
+msgstr "Stran stojala kalibracije kota položaja"
 
 #. i18n: ectx: label, entry (GuideDeviation), group (Capture)
 #: kstars.kcfg:1969
 #, kde-format
 msgid "Default maximum permittable guide deviation"
-msgstr "Največje dovoljeno odstopanje vodenja"
+msgstr "Privzeta največja dovoljena deviacija vodila"
 
 #. i18n: ectx: whatsthis, entry (GuideDeviation), group (Capture)
 #: kstars.kcfg:1970
@@ -38080,8 +38047,8 @@ msgid ""
 "If guide deviation exceeds this limit, the exposure will be automatically "
 "aborted and only resumed when the deviation is within this limit."
 msgstr ""
-"Če odstopanje vodenja preseže to omejitev, bo osvetlitev samodejno "
-"prekinjena in nadaljevana le, če bo odstopanje znotraj te omejitve."
+"Če deviacija vodila preseže to mejo, bo osvetlitev samodejno prekinjena in "
+"se nadaljuje šele, ko je deviacija znotraj te meje."
 
 #. i18n: ectx: label, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:1974
@@ -38090,8 +38057,8 @@ msgid ""
 "Number of consecutive samples guide deviation needs to be high to abort "
 "capture."
 msgstr ""
-"Število zaporednih vzorcev, pri katerih mora biti odstopanje vodila veliko, "
-"da se snemanje oz. zajem prekine."
+"Za prekinitev zajemanja mora biti deviacija vodila pri velikem številu "
+"zaporednih vzorcev."
 
 #. i18n: ectx: whatsthis, entry (GuideDeviationReps), group (Capture)
 #: kstars.kcfg:1975
@@ -38100,28 +38067,24 @@ msgid ""
 "Sets the number of consecutive samples guide deviation needs to be high to "
 "abort capture."
 msgstr ""
-"Določi število zaporednih vzorcev, pri katerih mora biti odstopanje vodila "
+"Nastavi število zaporednih vzorcev, pri katerih mora biti deviacija vodila "
 "visoko, da se zajem prekine."
 
 #. i18n: ectx: label, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1979
-#, fuzzy, kde-format
-#| msgid "Default maximum permittable guide deviation"
+#, kde-format
 msgid "Default maximum permittable guide deviation before capture start"
-msgstr "Največje dovoljeno odstopanje vodenja"
+msgstr "Privzeto največja dovoljena deviacija vodila pred začetkom zajema"
 
 #. i18n: ectx: whatsthis, entry (StartGuideDeviation), group (Capture)
 #: kstars.kcfg:1980
-#, fuzzy, kde-format
-#| msgid ""
-#| "If guide deviation exceeds this limit, the exposure will be automatically "
-#| "aborted and only resumed when the deviation is within this limit."
+#, kde-format
 msgid ""
 "If guide deviation exceeds this limit before capture start, starting an "
 "exposure will be suspended until the deviation is within this limit."
 msgstr ""
-"Če odstopanje vodenja preseže to omejitev, bo osvetlitev samodejno "
-"prekinjena in nadaljevana le, če bo odstopanje znotraj te omejitve."
+"Če deviacija vodila preseže to mejo pred začetkom zajemanja, bo začetek "
+"osvetlitve prekinjen, dokler deviacija ne bo znotraj te meje."
 
 #. i18n: ectx: label, entry (GuideDitherPerJobFrequency), group (Capture)
 #: kstars.kcfg:1984
@@ -38137,7 +38100,7 @@ msgstr ""
 #: kstars.kcfg:1988
 #, kde-format
 msgid "Default maximum permittable HFR deviation"
-msgstr "Privzeto največje dovoljeno odstopanje HFR"
+msgstr "Privzeto največja dovoljena deviacija HFR"
 
 #. i18n: ectx: whatsthis, entry (HFRDeviation), group (Capture)
 #: kstars.kcfg:1989
@@ -38146,102 +38109,96 @@ msgid ""
 "If HFR deviation exceeds this limit, the autofocus routine will be "
 "automatically started."
 msgstr ""
-"Če odstopanje HFR preseže to omejitev, bo opravilo samodejnega ostrenja "
-"samodejno zagnano."
+"Če deviacija HFR preseže to omejitev, bo samodejno zagnano opravilo "
+"samodejnega fokusiranja."
 
 #. i18n: ectx: label, entry (MaxFocusTemperatureDelta), group (Capture)
 #: kstars.kcfg:1993
-#, fuzzy, kde-format
-#| msgid "Default maximum mount altitude limit."
+#, kde-format
 msgid "Default maximum focus temperature delta"
-msgstr "Privzeta najvišja meja višine stojala."
+msgstr "Privzeta delta maksimalne temperature fokusa"
 
 #. i18n: ectx: whatsthis, entry (MaxFocusTemperatureDelta), group (Capture)
 #: kstars.kcfg:1994
-#, fuzzy, kde-format
-#| msgid ""
-#| "If HFR deviation exceeds this limit, the autofocus routine will be "
-#| "automatically started."
+#, kde-format
 msgid ""
 "If the temperature change exceeds this limit, the autofocus routine will be "
 "automatically started."
 msgstr ""
-"Če odstopanje HFR preseže to omejitev, bo opravilo samodejnega ostrenja "
-"samodejno zagnano."
+"Če sprememba temperature preseže to mejo, se samodejno zažene rutina "
+"samodejnega fokusiranja."
 
 #. i18n: ectx: label, entry (AutoDark), group (Capture)
 #: kstars.kcfg:1998
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Automatically apply dark subtraction if a suitable dark frame is available."
 msgstr ""
-"Samodejno uporabite odštevanje teme, če je na voljo primeren posnetek teme."
+"Samodejno uporabi odštevanje teme, če je na voljo ustrezen posnetek teme."
 
 #. i18n: ectx: label, entry (EnforceGuideDeviation), group (Capture)
 #: kstars.kcfg:2002
 #, kde-format
 msgid "Enforce guiding deviation limit."
-msgstr "Vsili omejitev odstopanja vodenja."
+msgstr "Vsili omejitev deviacije vodenja."
 
 #. i18n: ectx: label, entry (EnforceAutofocusHFR), group (Capture)
 #: kstars.kcfg:2006
-#, fuzzy, kde-format
-#| msgid "Enforce Autofocus HFR limit."
+#, kde-format
 msgid "Enforce Autofocus on HFR limit."
-msgstr "Vsili omejitev samodejnega ostrenja HFR."
+msgstr "Vsili omejitev samodejnega fokusiranja HFR."
 
 #. i18n: ectx: label, entry (EnforceAutofocusOnTemperature), group (Capture)
 #: kstars.kcfg:2010
 #, kde-format
 msgid "Enforce Autofocus on temperature change."
-msgstr "Vsili samodejno ostrenje ob spremembi temperature."
+msgstr "Vsili samodejno fokusiranje ob spremembi temperature."
 
 #. i18n: ectx: label, entry (EnforceRefocusEveryN), group (Capture)
 #: kstars.kcfg:2014
 #, kde-format
 msgid "Enforce Refocus Every N Minutes."
-msgstr "Vsili samodejno ostrenje vsakih N minut."
+msgstr "Vsili ponovno fokusiranje vsakih N minut."
 
 #. i18n: ectx: label, entry (RefocusEveryN), group (Capture)
 #: kstars.kcfg:2018
 #, kde-format
 msgid "Number of minute between forced refocus attempts"
-msgstr "Število minut med poskusi vsiljenega ponovnega ostrenja"
+msgstr "Število minut med poskusi vsiljenega ponovnega fokusiranja"
 
 #. i18n: ectx: whatsthis, entry (RefocusEveryN), group (Capture)
 #: kstars.kcfg:2019
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Sets the time interval before forced autofocus attempts during a capture "
 "sequence."
 msgstr ""
-"Določa časovni interval pred prisilnim poskusom samodejnega ostrenja v "
+"Nastavi časovni interval pred prisilnim poskusom samodejnega fokusiranja v "
 "zaporedju zajemanja."
 
 #. i18n: ectx: label, entry (RefocusAfterMeridianFlip), group (Capture)
 #: kstars.kcfg:2023
 #, kde-format
 msgid "Refocus after meridian flip is done"
-msgstr "Ponovno izostri po opravljenem obratu čez poldnevnik"
+msgstr "Ponovno fokusiraj po opravljenem obratu čez poldnevnik"
 
 #. i18n: ectx: label, entry (ResetMountModelAfterMeridian), group (Capture)
 #: kstars.kcfg:2027
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reset mount model after meridian flip."
-msgstr "Ponastavite model montaže po obratu čez poldnevnik."
+msgstr "Ponovno nastavi model montaže po obratu čez poldnevnik."
 
 #. i18n: ectx: label, entry (ForcedFlip), group (Capture)
 #: kstars.kcfg:2031
-#, fuzzy, kde-format
-#| msgid "Flips the mount when reaching the meridian, if supported."
+#, kde-format
 msgid "Use Forced meridian flips if supported."
-msgstr "Če je podprto, obrne stojalo, ko doseže poldnevnik."
+msgstr "Uporabi prisilni obrat čez poldnevnik, če je podprt."
 
 #. i18n: ectx: label, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:2035
 #, kde-format
 msgid "Desired flat field ADU"
-msgstr "Želeni ADE ploskega polja"
+msgstr "Želeno plosko polje ADE"
 
 #. i18n: ectx: whatsthis, entry (CalibrationADUValue), group (Capture)
 #: kstars.kcfg:2036
@@ -38284,30 +38241,27 @@ msgstr "Za fotografiranje ploskev na nebu s spreminjajočo se intenzivnostjo."
 
 #. i18n: ectx: label, entry (CalibrationPreActionIndex), group (Capture)
 #: kstars.kcfg:2050
-#, fuzzy, kde-format
-#| msgid "Auto calibration failed."
+#, kde-format
 msgid "ORed list of calibration pre-actions."
-msgstr "Samodejno umerjanje ni uspelo."
+msgstr "Z logičnim ali naveden seznam predhodnih dejanj kalibracije"
 
 #. i18n: ectx: label, entry (CalibrationFlatDurationIndex), group (Capture)
 #: kstars.kcfg:2054
-#, fuzzy, kde-format
+#, kde-format
 msgid "Index of flat duration option."
 msgstr "Indeks možnosti pavšalnega trajanja."
 
 #. i18n: ectx: label, entry (CalibrationWallAz), group (Capture)
 #: kstars.kcfg:2058
-#, fuzzy, kde-format
-#| msgid "Auto calibration failed."
+#, kde-format
 msgid "Azimuth of calibration wall location."
-msgstr "Samodejno umerjanje ni uspelo."
+msgstr "Azimut lokacije stene kalibracije."
 
 #. i18n: ectx: label, entry (CalibrationWallAlt), group (Capture)
 #: kstars.kcfg:2062
-#, fuzzy, kde-format
-#| msgid "Auto calibration failed."
+#, kde-format
 msgid "Altitude of calibration wall location."
-msgstr "Samodejno umerjanje ni uspelo."
+msgstr "Višina lokacije stene kalibracije."
 
 #. i18n: ectx: label, entry (MaxTemperatureDiff), group (Capture)
 #: kstars.kcfg:2066
@@ -38316,74 +38270,75 @@ msgid ""
 "Maximum acceptable difference between requested and measured temperature set "
 "point."
 msgstr ""
-"Največja sprejemljiva razlika med zahtevano in izmerjeno nastavitveno točko "
-"temperature."
+"Maksimalna sprejemljiva razlika med zahtevano in izmerjeno nastavitveno "
+"točko temperature."
 
 #. i18n: ectx: label, entry (MaxStartGuiderDrift), group (Capture)
 #: kstars.kcfg:2070
 #, kde-format
 msgid "Maximum acceptable guider drift allowed before starting capture."
-msgstr "Največji sprejemljivi zdrs vodila, dovoljen pred začetkom zajema."
+msgstr "Maksimalni sprejemljivi zdrs vodila, dovoljen pred začetkom zajema."
 
 #. i18n: ectx: label, entry (EnforceStartGuiderDrift), group (Capture)
 #: kstars.kcfg:2074
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Enforce maximum acceptable guider drift allowed before starting capture."
-msgstr "Pred zagonom zajemanja uveljavite največji sprejemljivi zdrs vodnika."
+msgstr "Preden začetkom zajema uveljavi največji sprejemljivi zamik vodila."
 
 #. i18n: ectx: label, entry (GuidingSettle), group (Capture)
 #: kstars.kcfg:2078
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Wait this many seconds after guiding is resumed before starting capture."
-msgstr "Čas čakanja v sekundah po začetku premikanja, preden se prične zajem."
+msgstr "Počakaj toliko sekund po nadaljevanju vodenja pred začetkom zajema."
 
 #. i18n: ectx: label, entry (AlwaysResetSequenceWhenStarting), group (Capture)
 #: kstars.kcfg:2082
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>When starting to process a sequence list, reset all "
 "capture counts to zero. Scheduler overrides this option when Remember Job "
 "Progress is enabled.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ko začnete obdelati zaporedni seznam, ponastavite vsa "
-"števila zajemanja na nič. Razporejevalnik preglasi to možnost, ko je "
-"omogočen napredek posla.</p></body></html>"
+"<html><head/><body><p>Ko se začne obdelovati seznam zaporedij, ponastavi vsa "
+"števila zajetja na nič. Razporejevalnik preglasi to možnost, ko je omogočeno "
+"možnost Zapomni napredek opravila.</p></body></html>"
 
 #. i18n: ectx: label, entry (FlatSyncFocus), group (Capture)
 #: kstars.kcfg:2086
-#, fuzzy, kde-format
+#, kde-format
 msgid "Capture flat frames at the same focus position of light frames."
-msgstr "Zajemanje ravnih sličic na istem mestu ostrenja svetlobnih sličic."
+msgstr ""
+"Zajemi ploske sličice na enakem položaju fokusiranja kot svetle sličice."
 
 #. i18n: ectx: label, entry (HFRThresholdPercentage), group (Capture)
 #: kstars.kcfg:2090
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Increase autofocus HFR value by this percentage gain and store it in Capture "
 "Module."
 msgstr ""
-"Povečajte vrednost samodejnega ostrenja HFR za takšen odstotek in jo "
+"Povečaj vrednost samodejnega fokusiranja HFR za takšen odstotek in jo "
 "shranite v Modul za zajemanje."
 
 #. i18n: ectx: whatsthis, entry (HFRCheckAlgorithm), group (Capture)
 #: kstars.kcfg:2094
-#, fuzzy, kde-format
+#, kde-format
 msgid "Algorithm for In Sequence HFR Check"
-msgstr "Preverjanje HFR v zaporedju:"
+msgstr "Algoritem za preverjanje HFR v zaporedju"
 
 #. i18n: ectx: label, entry (InSequenceCheckFrames), group (Capture)
 #: kstars.kcfg:2098
-#, fuzzy, kde-format
+#, kde-format
 msgid "Run In-Sequence HFR check after this many frames."
-msgstr "Zaženite preverjanje HFR v zaporedju po toliko okvirih."
+msgstr "Zaženi preverjanje znotraj zaporedja HFR po tem številu sličic."
 
 #. i18n: ectx: label, entry (AutoStretch), group (Capture)
 #: kstars.kcfg:2102
 #, kde-format
 msgid "Perform auto stretch on captured images in FITS Viewer."
-msgstr "Samodejno raztegni zajete slike v pregledovalniku FITS."
+msgstr "Izvedi samodejni razteg zajetih slik v pregledovalniku FITS."
 
 #. i18n: ectx: label, entry (Clipping64KValue), group (Capture)
 #: kstars.kcfg:2110
@@ -38391,8 +38346,8 @@ msgstr "Samodejno raztegni zajete slike v pregledovalniku FITS."
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 16-bit images."
 msgstr ""
-"Najnižja vrednost slikovnih točk, označenih kot porezanih v fitsviewer za 16-"
-"bitne slike."
+"Minimalna vrednost slikovnih točk, označenih kot porezanih v fitsviewer za "
+"16-bitne slike."
 
 #. i18n: ectx: label, entry (Clipping256Value), group (Capture)
 #: kstars.kcfg:2114
@@ -38400,42 +38355,40 @@ msgstr ""
 msgid ""
 "Min value of pixels marked as clipped in the fitsviewer for 8-bit images."
 msgstr ""
-"Najnižja vrednost slikovnih točk, označenih kot porezanih v fitsviewer za 8-"
+"Minimalna vrednost slikovnih točk, označenih kot porezanih v fitsviewer za 8-"
 "bitne slike."
 
 #. i18n: ectx: label, entry (AdaptiveSampling), group (Capture)
 #: kstars.kcfg:2119
-#, fuzzy, kde-format
-#| msgid "Automatically calibrate selected axes."
+#, kde-format
 msgid "Automatically down sample images based on available resources."
-msgstr "Samodejno umeri izbrane osi."
+msgstr "Samodejno zmanjšajte vzorčne slike na podlagi razpoložljivih virov."
 
 #. i18n: ectx: label, entry (useSummaryPreview), group (Capture)
 #: kstars.kcfg:2123
-#, fuzzy, kde-format
-#| msgid "Display all opened FITS images in a single FITS Viewer window."
+#, kde-format
 msgid ""
 "Display every image captured sequence image in the Ekos summary screen "
 "preview window."
-msgstr "Prikaži vse odprte slike FITS v enem oknu pregledovalnika FITS."
+msgstr ""
+"Prikaži vsako sliko zajetega zaporedja v oknu za predogled zaslona povzetka "
+"Ekos."
 
 #. i18n: ectx: label, entry (useDSLRImageViewer), group (Capture)
 #: kstars.kcfg:2127
-#, fuzzy, kde-format
-#| msgid "Display all opened FITS images in a single FITS Viewer window."
+#, kde-format
 msgid "Display every captured DSLR image in the Image Viewer window."
-msgstr "Prikaži vse odprte slike FITS v enem oknu pregledovalnika FITS."
+msgstr "Prikaži vsako zajeto sliko DSLR v oknu pregledovalnika slik."
 
 #. i18n: ectx: label, entry (ForceDSLRPresets), group (Capture)
 #: kstars.kcfg:2131
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Force exposure times to align with DSLR exposure presets. This insures "
 "accurate exposure times for sub-second exposures."
 msgstr ""
-"Prisilite čase izpostavljenosti, da se uskladijo s prednastavitevmi "
-"izpostavljenosti DZR. To zajame točne čase izpostavljenosti za "
-"izpostavljenosti pod sekundo."
+"Prisili čase osvetlitve, da se uskladijo s prednastavitvami osvetlitve DSLR. "
+"To zagotavlja natančne čase osvetlitve za podsekundne osvetlitve."
 
 #. i18n: ectx: label, entry (CaptureDirectory), group (Capture)
 #: kstars.kcfg:2135
@@ -38445,35 +38398,34 @@ msgstr "Pot do mape za zajem, v katero bodo shranjene slike."
 
 #. i18n: ectx: label, entry (PlaceholderFormat), group (Capture)
 #: kstars.kcfg:2138
-#, fuzzy, kde-format
-#| msgid "Enter the filename for the output catalog file"
+#, kde-format
 msgid "How to format captured image filename."
-msgstr "Vnesite ime izhodne datoteke kataloga"
+msgstr "Kako formatirati ime datoteke zajete slike."
 
 #. i18n: ectx: label, entry (RemoteCaptureDirectory), group (Capture)
 #: kstars.kcfg:2142
-#, fuzzy, kde-format
-#| msgid "Local directory to save sequence images"
+#, kde-format
 msgid "Path to remote capture directory to save images."
-msgstr "Krajevna mapa, v katero bodo shranjene slike zaporedja"
+msgstr "Pot do imenika za oddaljeni zajem za shranjevanje slik."
 
 #. i18n: ectx: label, entry (ManualCoverTimeout), group (Capture)
 #: kstars.kcfg:2145
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cover or uncover telescope dialog timeout in seconds."
 msgstr ""
-"Pokrijte ali odkrijte časovno ustavitev pogovornega okna teleskopa v nekaj "
+"Časovna omejitev pogovornega okna za pokritje ali odkrivanje teleskopa v "
 "sekundah."
 
 #. i18n: ectx: label, entry (CaptureOperationsTimeout), group (Capture)
 #: kstars.kcfg:2149
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long."
 msgstr ""
-"Najdaljše število sekund čakanja pred prekinitvijo zajemanja, če operacije, "
-"kot so menjava kolesa filtrov ali obračanje poldnevnikov, trajajo predolgo"
+"Največje število sekund za čakanje pred prekinitvijo zajemanja, če "
+"operacije, kot so menjave filtrskega kolesa ali obračanje poldnevnika, "
+"trajajo predolgo."
 
 #. i18n: ectx: label, entry (MinFlipDuration), group (Capture)
 #: kstars.kcfg:2153
@@ -38485,116 +38437,104 @@ msgstr "Najkrajše trajanje obrata čez poldnevnik."
 #: kstars.kcfg:2157
 #, kde-format
 msgid "Calculate position after captures."
-msgstr "Izračunajte položaj po zajemih."
+msgstr "Izračunaj položaj po zajemih."
 
 #. i18n: ectx: label, entry (CaptureTrainID), group (Capture)
 #: kstars.kcfg:2161
-#, fuzzy, kde-format
+#, kde-format
 msgid "Optical train ID most recently used in Capture."
-msgstr "ID optičnega vlaka, ki je bil nazadnje uporabljen v zajemu."
+msgstr "ID optike, ki je bil nazadnje uporabljena v zajemu."
 
 #. i18n: ectx: label, entry (CaptureCalibrationWall), group (Capture)
 #: kstars.kcfg:2164
-#, fuzzy, kde-format
+#, kde-format
 msgid "Go to specific coordinates on calibration."
-msgstr "Pojdite na določene koordinate pri umerjanju."
+msgstr "Pojdi na določene koordinate pri kalibraciji."
 
 #. i18n: ectx: label, entry (CaptureCalibrationParkMount), group (Capture)
 #: kstars.kcfg:2168
-#, fuzzy, kde-format
+#, kde-format
 msgid "Park mount on calibration."
-msgstr "Časovna uganka izpostavljenosti. Ukinitev kalibracije."
+msgstr "Parkiraj montažo na kalibraciji."
 
 #. i18n: ectx: label, entry (CaptureCalibrationParkDome), group (Capture)
 #: kstars.kcfg:2172
-#, fuzzy, kde-format
-#| msgid "Park dome to home position"
+#, kde-format
 msgid "Park dome on calibration."
-msgstr "Parkiraj kupolo v začetni položaj"
+msgstr "Parkiraj kupolo na kalibraciji."
 
 #. i18n: ectx: label, entry (CaptureCalibrationUseManual), group (Capture)
 #: kstars.kcfg:2176
-#, fuzzy, kde-format
+#, kde-format
 msgid "Capture calibration frames at the specified exposures."
-msgstr "Zajemanje ravnih sličic na istem mestu ostrenja svetlobnih sličic."
+msgstr "Zajemi umeritvene posnetke pri določenih osvetlitvah."
 
 #. i18n: ectx: label, entry (CaptureCalibrationUseADU), group (Capture)
 #: kstars.kcfg:2180
-#, fuzzy, kde-format
+#, kde-format
 msgid "Capture calibration frames using ADU threshold."
-msgstr "Zajemite kalibracijske sličice z uporabo praga ADU."
+msgstr "Zajemi umeritvene posnetke z uporabo praga ADU."
 
 #. i18n: ectx: label, entry (CaptureCalibrationADUValue), group (Capture)
 #: kstars.kcfg:2184
-#, fuzzy, kde-format
-#| msgid "Desired flat field ADU"
+#, kde-format
 msgid "Desired flat frame ADU value."
-msgstr "Želeni ADE ploskega polja"
+msgstr "Želena vrednost ploskega posnetka ADE."
 
 #. i18n: ectx: label, entry (CaptureCalibrationADUTolerance), group (Capture)
 #: kstars.kcfg:2188
-#, fuzzy, kde-format
-#| msgid "Desired flat field ADU"
+#, kde-format
 msgid "Desired flat frame ADU tolerance."
-msgstr "Želeni ADE ploskega polja"
+msgstr "Želena toleranca ploskega posnetka ADE."
 
 #. i18n: ectx: label, entry (CaptureCalibrationSkyFlats), group (Capture)
 #: kstars.kcfg:2192
-#, fuzzy, kde-format
+#, kde-format
 msgid "Capture calibration frames using Sky Flats."
-msgstr "Zajemite kalibracijske sličice z uporabo Sky Flats."
+msgstr "Zajemite kalibracijske posnetke z uporabo Sky Flats."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:2198
-#, fuzzy, kde-format
-#| msgid "Desired absolute focus position"
+#, kde-format
 msgid "The desired focuser position."
-msgstr "Želeni absolutni položaj ostrine"
+msgstr "Želeni položaj fokuserja."
 
 #. i18n: ectx: label, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:2202
-#, fuzzy, kde-format
-#| msgid "Filter exposure time during focus"
+#, kde-format
 msgid "Exposure to use during focus"
-msgstr "Čas osvetlitve filtra med ostenjem"
+msgstr "Čas osvetlitve med fokusiranjem"
 
 #. i18n: ectx: whatsthis, entry (FocusExposure), group (Focus)
 #: kstars.kcfg:2203
-#, fuzzy, kde-format
-#| msgid "Filter exposure time during focus"
+#, kde-format
 msgid "Specifies the length of exposure to use during focus."
-msgstr "Čas osvetlitve filtra med ostenjem"
+msgstr "Določa čas osvetlitve med fokusiranjem."
 
 #. i18n: ectx: label, entry (FocusBinning), group (Focus)
 #: kstars.kcfg:2207
-#, fuzzy, kde-format
-#| msgid "Camera binning"
+#, kde-format
 msgid "Default Camera binning"
-msgstr "Združevanje fotoaparata"
+msgstr "Privzeto združevanje kamere"
 
 #. i18n: ectx: whatsthis, entry (FocusBinning), group (Focus)
 #: kstars.kcfg:2208
-#, fuzzy, kde-format
-#| msgid "Set vertical binning of CCD camera while in focus mode."
+#, kde-format
 msgid "Set binning of camera while in focus mode."
-msgstr "Nastavi navpično združevanje fotoaparata s CCD med načinom ostrenja."
+msgstr "Nastavi združevanje kamere v načinu ostrenja."
 
 #. i18n: ectx: label, entry (FocusGain), group (Focus)
 #: kstars.kcfg:2212
 #, kde-format
 msgid "Default Focuser gain value"
-msgstr "Privzeta vrednost tolerance fokuserja"
+msgstr "Privzeta vrednost ojačenja fokuserja"
 
 #. i18n: ectx: whatsthis, entry (FocusGain), group (Focus)
 #: kstars.kcfg:2213
-#, fuzzy, kde-format
-#| msgid ""
-#| "Specifies exposure value of CCD in seconds when performing plate solving."
+#, kde-format
 msgid ""
 "Specifies gain value of CCD when performing focusing if supported by camera."
-msgstr ""
-"Določa vrednost osvetlitve CCD v sekundah pri izvajanju samodejnega "
-"določanja položaja."
+msgstr "Določa vrednost ojačanja CCD pri fokusiranju, če to kamera podpira."
 
 #. i18n: ectx: label, entry (FocusISO), group (Focus)
 #: kstars.kcfg:2217
@@ -38604,30 +38544,29 @@ msgstr "Privzeta vrednost ISO fokuserja kamere"
 
 #. i18n: ectx: label, entry (DefaultFocusTemperatureSource), group (Focus)
 #: kstars.kcfg:2220
-#, fuzzy, kde-format
-#| msgid "Default align module CCD."
+#, kde-format
 msgid "Default focus module temperature source."
-msgstr "Privzeti modul CCD za poravnavo."
+msgstr "Privzeti vir temperature modula fokusa."
 
 #. i18n: ectx: label, entry (FocusFilter), group (Focus)
 #: kstars.kcfg:2223
-#, fuzzy, kde-format
-#| msgid "Default align module CCD."
+#, kde-format
 msgid "Default Filter Wheel filter"
-msgstr "Privzeti modul CCD za poravnavo."
+msgstr "Privzeti filter filtrskega kolesa"
 
 #. i18n: ectx: label, entry (UseFocusDarkFrame), group (Focus)
 #: kstars.kcfg:2226
 #, kde-format
 msgid "Take a dark frame and subtract it before running autofocus operation."
-msgstr "Pred opravilom samodejnega ostrenja zajemi posnetek teme in ga odštej."
+msgstr ""
+"Pred opravilom samodejnega fokusiranja zajemi posnetek teme in ga odštej."
 
 #. i18n: ectx: label, entry (FocusSubFrame), group (Focus)
 #: kstars.kcfg:2230
 #, kde-format
 msgid "Subframe the focus star during the autofocus procedure."
 msgstr ""
-"Ustvari podposnetek zvezde v žarišču med postopkom samodejnega ostrenja."
+"Ustvari podposnetek zvezde v fokusu med postopkom samodejnega fokusiranja."
 
 #. i18n: ectx: label, entry (FocusBoxSize), group (Focus)
 #: kstars.kcfg:2234
@@ -38639,11 +38578,11 @@ msgstr "Privzeta velikost okvirja fokuserja za izbor zvezde"
 #: kstars.kcfg:2235
 #, kde-format
 msgid "Set box size to select a focus star."
-msgstr "Izberite velikost okvirja za izbor zvezde v žarišču."
+msgstr "Izberi velikost okvirja za izbor zvezde v fokusu."
 
 #. i18n: ectx: label, entry (FocusUseFullField), group (Focus)
 #: kstars.kcfg:2239
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Measure average HFR from all stars combined in a full frame. This method "
 "defaults to the Centroid detection, but can use SEP detection too. Its "
@@ -38655,16 +38594,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FocusNoMaskRB), group (Focus)
 #: kstars.kcfg:2243
-#, fuzzy, kde-format
-#| msgid "Job #%1 changes applied."
+#, kde-format
 msgid "No mask is applied."
-msgstr "Uveljavljene spremembe %1. posla."
+msgstr "Ni uporabljene nobene maske."
 
 #. i18n: ectx: label, entry (focusRingMaskRB), group (Focus)
 #: kstars.kcfg:2247
-#, fuzzy, kde-format
+#, kde-format
 msgid "A ring mask is applied."
-msgstr "Uporabljena je prstanska/obročasta maska."
+msgstr "Uporabljena je obročasta maska."
 
 #. i18n: ectx: label, entry (focusMosaicMaskRB), group (Focus)
 #: kstars.kcfg:2251
@@ -38674,39 +38612,39 @@ msgstr "Uporabljena je mozaična maska."
 
 #. i18n: ectx: label, entry (FocusFullFieldInnerRadius), group (Focus)
 #: kstars.kcfg:2255
-#, fuzzy, kde-format
+#, kde-format
 msgid "Full field inner radius."
-msgstr "Poln polmer notranjega polja."
+msgstr "Notranji polmer polnega polja."
 
 #. i18n: ectx: whatsthis, entry (FocusFullFieldInnerRadius), group (Focus)
 #: kstars.kcfg:2256
-#, fuzzy, no-c-format, kde-format
+#, no-c-format, kde-format
 msgid ""
 "During full field focusing, stars which are inside this percentage of the "
 "frame are filtered out of HFR calculation (default 0%). Detection algorithms "
 "may also have an inherent filter."
 msgstr ""
-"Med ostrenjem polnega polja se zvezde, ki so znotraj tega odstotka okvirja, "
-"filtrirajo iz izračuna HFR (privzeto 0%). Algoritmi za odkrivanje imajo "
-"lahko tudi neločjiv filter."
+"Med fokusiranjem polnega polja se zvezde, ki so znotraj tega odstotka kadra, "
+"izločijo iz izračuna HFR (privzeto 0%). Algoritmi za zaznavanje imajo lahko "
+"tudi lasten filter."
 
 #. i18n: ectx: label, entry (FocusFullFieldOuterRadius), group (Focus)
 #: kstars.kcfg:2260
-#, fuzzy, kde-format
+#, kde-format
 msgid "Full field outer radius."
-msgstr "Poln polmer."
+msgstr "Zunanji polmer polnega polja."
 
 #. i18n: ectx: whatsthis, entry (FocusFullFieldOuterRadius), group (Focus)
 #: kstars.kcfg:2261
-#, fuzzy, no-c-format, kde-format
+#, no-c-format, kde-format
 msgid ""
 "During full field focusing, stars which are outside this percentage of the "
 "frame are filtered out of HFR calculation (default 100%). Detection "
 "algorithms may also have an inherent filter."
 msgstr ""
-"Med ostrenjem polnega polja se zvezde, ki so zunaj tega odstotka okvirja, "
-"filtrirajo iz izračuna HFR (privzetih 100 %). Algoritmi za odkrivanje imajo "
-"lahko tudi neločjiv filter."
+"Med fokusiranjem polnega polja se zvezde, ki so zunaj tega odstotka kadra, "
+"izločijo iz izračuna HFR (privzeto 100%). Algoritmi za zaznavanje imajo "
+"lahko tudi lasten filter."
 
 #. i18n: ectx: label, entry (FocusMosaicTileWidth), group (Focus)
 #: kstars.kcfg:2265
@@ -38724,31 +38662,31 @@ msgstr "Prostor med elementi mozaika za mozaični filter."
 #: kstars.kcfg:2273
 #, kde-format
 msgid "Automatically select a star to focus."
-msgstr "Samodejno izberi zvezdo, ki naj bo v žarišču."
+msgstr "Samodejno izberi zvezdo za fokusiranje."
 
 #. i18n: ectx: label, entry (FocusSuspendGuiding), group (Focus)
 #: kstars.kcfg:2277
 #, kde-format
 msgid "Suspend guiding while autofocus in progress."
-msgstr "Postavi vodenje v pripravljenost, ko je dejavno samodejno ostrenje."
+msgstr "Začasno ustavite vodenje, medtem ko poteka samodejno fokusiranje."
 
 #. i18n: ectx: whatsthis, entry (FocusGuideSettleTime), group (Focus)
 #: kstars.kcfg:2281
 #, kde-format
 msgid "Wait for this many seconds after resuming guide."
-msgstr "Po nadaljevanju vodenja počakaj toliko sekund."
+msgstr "Počakaj toliko sekund po nadaljevanju vodenja."
 
 #. i18n: ectx: whatsthis, entry (FocusUnits), group (Focus)
 #: kstars.kcfg:2285
-#, fuzzy, kde-format
+#, kde-format
 msgid "Display units for HFR and FWHM"
-msgstr "Prikazane enote za HFR in FWHM"
+msgstr "Prikazne enote za HFR in FWHM"
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptive), group (Focus)
 #: kstars.kcfg:2289
 #, kde-format
 msgid "Whether Adaptive Focusing is enabled."
-msgstr "Ali je način prilagodljivega ostrenja omogočen."
+msgstr "Ali je način prilagodljivega fokusiranja omogočen."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMinMove), group (Focus)
 #: kstars.kcfg:2293
@@ -38756,8 +38694,8 @@ msgstr "Ali je način prilagodljivega ostrenja omogočen."
 msgid ""
 "When using Adaptive Focusing the minimum allowable focuser move in ticks."
 msgstr ""
-"Pri uporabi prilagodljivega ostrenja: najmanjši dovoljen premik fokuserja v "
-"označbah/črticah."
+"Pri uporabi prilagodljivega fokusiranja najmanjši dovoljen premik fokuserja "
+"v črticah."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptStart), group (Focus)
 #: kstars.kcfg:2297
@@ -38766,8 +38704,8 @@ msgid ""
 "Whether to adapt the focuser starting position at the beginning of an "
 "Autofocus run."
 msgstr ""
-"Ali prilagoditi izhodiščni položaj fokuserja na začetku izvajanja "
-"samodejnega ostrenja."
+"Ali prilagoditi začetni položaj fokusiranja na začetku samodejnega "
+"fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (focusAdaptiveMaxMove), group (Focus)
 #: kstars.kcfg:2301
@@ -38776,7 +38714,7 @@ msgid ""
 "When using Adaptive Focusing the maximum total allowable focuser move in "
 "ticks."
 msgstr ""
-"Pri uporabi prilagodljivega ostrenja največji dovoljen skupen premik "
+"Pri uporabi prilagodljivega fokusiranja maksimalni dovoljen skupen premik "
 "fokuserja v črticah."
 
 #. i18n: ectx: label, entry (FocusDetection), group (Focus)
@@ -38787,70 +38725,70 @@ msgstr "Algoritem zaznavanja zvezd"
 
 #. i18n: ectx: label, entry (FocusSEPProfile), group (Focus)
 #: kstars.kcfg:2310
-#, fuzzy, kde-format
-#| msgid "Autofocus operation started"
+#, kde-format
 msgid "Focus source extraction profile"
-msgstr "Samodejno ostrenje je zagnano"
+msgstr "Profil ekstrakcije vira fokusa"
 
 #. i18n: ectx: label, entry (FocusAlgorithm), group (Focus)
 #: kstars.kcfg:2313
 #, kde-format
 msgid "Focus process algorithm"
-msgstr "Algoritem procesa ostrenja"
+msgstr "Algoritem procesa fokusiranja"
 
 #. i18n: ectx: whatsthis, entry (FocusCurveFit), group (Focus)
 #: kstars.kcfg:2317
 #, kde-format
 msgid "The type of curve to fit"
-msgstr "Vrsta krivulje za prigleganje"
+msgstr "Vrsta krivulje za prileganje"
 
 #. i18n: ectx: whatsthis, entry (FocusStarMeasure), group (Focus)
 #: kstars.kcfg:2321
-#, fuzzy, kde-format
+#, kde-format
 msgid "The type of star measure to use."
 msgstr "Vrsta merila zvezd, ki ga je treba uporabiti."
 
 #. i18n: ectx: whatsthis, entry (FocusStarPSF), group (Focus)
 #: kstars.kcfg:2325
-#, fuzzy, kde-format
+#, kde-format
 msgid "The type of star PSF to use if curve fitting star profiles."
 msgstr ""
-"Tip zvezdnega PSF, ki ga je treba uporabiti, če je krivuljni profili zvezd, "
-"ki se prilegajo."
+"Vrsta zvezde PSF, ki se uporablja, če se profili zvezd prilegajo krivulji."
 
 #. i18n: ectx: whatsthis, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:2329
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether to use weights in the curve fitting process."
-msgstr "Ali uporabiti uteži v postopku umerjanja krivulje."
+msgstr "Ali uporabiti uteži v postopku prilagajanja krivulje."
 
 #. i18n: ectx: whatsthis, entry (FocusR2Limit), group (Focus)
 #: kstars.kcfg:2333
 #, kde-format
 msgid "The minimum acceptable R2 value of a curve fit."
-msgstr "Najmanjša sprejemljiva vrednost R2 za prilagajanje krivulje."
+msgstr "Minimalns sprejemljiva vrednost R2 za prilagajanje krivulje."
 
 #. i18n: ectx: whatsthis, entry (FocusRefineCurveFit), group (Focus)
 #: kstars.kcfg:2337
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether to refine the curve fit by looking for and discarding outliers."
 msgstr ""
-"Ali je potrebno izpopolniti prileganje krivulje z iskanjem in zavračanjem "
-"odstopanj."
+"Ali je treba izboljšati prileganje krivulje z iskanjem in zavračanjem "
+"osamelcev."
 
 #. i18n: ectx: whatsthis, entry (focusFramesCount), group (Focus)
 #: kstars.kcfg:2341
-#, fuzzy, kde-format
+#, kde-format
 msgid "How many frames to average over at each step in the Autofocus process."
 msgstr ""
-"Koliko sličic povprečiti v vsakem koraku postopka samodejnega ostrenja."
+"Iz koliko sličic izračunati povprečje na vsakem koraku v procesu samodejnega "
+"fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (focusHFRFramesCount), group (Focus)
 #: kstars.kcfg:2345
-#, fuzzy, kde-format
+#, kde-format
 msgid "How many frames to average over when performing in-sequence HFR Check."
 msgstr ""
-"Koliko sličic povprečiti v vsakem koraku postopka samodejnega ostrenja."
+"Iz koliko sličic je treba izračunati povprečje pri izvajanju preverjanja HFR "
+"v zaporedju."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:2349
@@ -38862,7 +38800,7 @@ msgstr "Število vrstic za združevanje pri izračunu Bahtinovega povprečja."
 #: kstars.kcfg:2353
 #, kde-format
 msgid "Gaussian blur sigma value."
-msgstr "Vrednost sigme Gaussove zabrisanosti."
+msgstr "Vrednost sigme Gaussove zamegljenosti."
 
 #. i18n: ectx: label, entry (FocusThreshold), group (Focus)
 #: kstars.kcfg:2357
@@ -38871,22 +38809,20 @@ msgid ""
 "Relative percentage strength of centroid edge pixel strength to average "
 "pixel value."
 msgstr ""
-"Relativen odstotek jakosti robnih slikovnih točk geometrijskega središča, "
-"glede na povprečno vrednost slikovne točke."
+"Relativen odstotek jakosti robnih slikovnih točk centroida glede na "
+"povprečno jakost slikovne točke."
 
 #. i18n: ectx: whatsthis, entry (FocusDenoise), group (Focus)
 #: kstars.kcfg:2361
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether to denoise the focus image before further processing."
-msgstr "Ali uporabiti uteži v postopku umerjanja krivulje."
+msgstr "Ali naj se pred nadaljnjo obdelavo odpravi šum slike v fokusu."
 
 #. i18n: ectx: whatsthis, entry (FocusDonut), group (Focus)
 #: kstars.kcfg:2365
-#, kde-format
+#, fuzzy, kde-format
 msgid "Whether to use Donut Busting functionality during Autofocus."
-msgstr ""
-"Ali prilagoditi izhodiščni položaj fokuserja na začetku izvajanja "
-"samodejnega ostrenja."
+msgstr "Ali naj med samodejnim ostrenjem uporabi funkcijo Donut Busting."
 
 #. i18n: ectx: label, entry (FocusTimeDilation), group (Focus)
 #: kstars.kcfg:2369
@@ -38895,8 +38831,8 @@ msgid ""
 "Factor to multiply focus exposure by for out of focus frames when using "
 "Donut Buster."
 msgstr ""
-"Faktor za pomnožitev ekspozicije izostrenega za neizostrene sličice, ko "
-"uporabljate Izničevalca krofov."
+"Faktor za množenje osvetlitve fokusa za sličice, ki niso izostrene, ko "
+"uporabljate Donut Buster."
 
 #. i18n: ectx: label, entry (focusOutlierRejection), group (Focus)
 #: kstars.kcfg:2373
@@ -38904,8 +38840,8 @@ msgstr ""
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
-"Faktor agresivnosti, ki velja za zavrnitev odstopanja pri uporabi "
-"izničevalca krofov."
+"Faktor agresivnosti, ki se uporabi za zavrnitev osamelcev pri uporabi Donut "
+"Busterja."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2377
@@ -38913,8 +38849,8 @@ msgstr ""
 msgid ""
 "Whether to use scan for optimum start position at the start of Autofocus."
 msgstr ""
-"Ali želite uporabiti pregled za optimalni izhodiščni položaj fokuserja na "
-"začetku izvajanja samodejnega fokusiranja."
+"Ali uporabiti prečesavanje za optimalni začetni položaj na začetku "
+"samodejnega fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (focusScanAlwaysOn), group (Focus)
 #: kstars.kcfg:2381
@@ -38923,33 +38859,33 @@ msgid ""
 "Whether scan for start position is always used or just after an Autofocus "
 "failure."
 msgstr ""
-"Ali prilagoditi izhodiščni položaj fokuserja na začetku izvajanja "
+"Ali se prečesavanje za začetni položaj uporablja vedno ali takoj po napaki "
 "samodejnega fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (focusScanDatapoints), group (Focus)
 #: kstars.kcfg:2385
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Number of datapoints to use during scan when focusScanStartPos is checked."
 msgstr ""
-"Število podatkovnih točk, ki jih je treba uporabiti med pregledom, ko je "
-"focusScanStartPos potrjen."
+"Število podatkovnih točk za uporabo med prečesavanje, ko je potrjen "
+"focusScanStartPos."
 
 #. i18n: ectx: label, entry (focusScanStepSizeFactor), group (Focus)
 #: kstars.kcfg:2389
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Factor to apply to Initial Step Size during scan when focusScanStartPos is "
 "checked."
 msgstr ""
-"Faktor, ki velja za začetno velikost koraka med pregledom, ko je "
-"focusScanStartPos potrjen."
+"Faktor, ki se uporabi za velikost začetnega koraka med prečesavanjem, ko je "
+"potrjen focusScanStartPos."
 
 #. i18n: ectx: label, entry (FocusGaussianKernelSize), group (Focus)
 #: kstars.kcfg:2393
 #, kde-format
 msgid "Gaussian blur kernel size."
-msgstr "Velikost jedra Gaussove zabrisanosti."
+msgstr "Velikost jedra Gaussove zamegljenosti."
 
 #. i18n: ectx: label, entry (FocusTolerance), group (Focus)
 #: kstars.kcfg:2397
@@ -38967,27 +38903,26 @@ msgid ""
 "oscillating back and forth."
 msgstr ""
 "Toleranca določa odstotek razlike med trenutnim položajem fokuserja in "
-"najmanjšim doseženim med postopkom ostrenja. Prilagoditev te vrednosti je "
-"potrebna, da se ostrilnemu algoritmu prepreči nenehno premikanje naprej in "
+"najmanjšim doseženim med postopkom fokusiranja. Prilagoditev te vrednosti je "
+"potrebna, da se algoritmu fokusiranja prepreči nenehno nihanje naprej in "
 "nazaj."
 
 #. i18n: ectx: whatsthis, entry (FocusWalk), group (Focus)
 #: kstars.kcfg:2403
-#, fuzzy, kde-format
-#| msgid "Subframe the focus star during the autofocus procedure."
+#, kde-format
 msgid "The type of walk the focuser will take during an Autofocus run."
 msgstr ""
-"Ustvari podposnetek zvezde v žarišču med postopkom samodejnega ostrenja."
+"Vrsta hoje, ki jo bo opravil fokuser med tekom samodejnega fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (FocusSettleTime), group (Focus)
 #: kstars.kcfg:2407
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Wait for this many seconds after moving the focuser before capturing the "
 "next image during AutoFocus."
 msgstr ""
-"Počakajte toliko sekund, potem ko premaknete fokusnik, preden zajamete "
-"naslednjo sliko med samoosnaževanjem."
+"Počakaj toliko sekund po premiku fokusiranja, preden snemanjem naslednje "
+"slike med samodejnim fokusiranjem."
 
 #. i18n: ectx: label, entry (FocusTicks), group (Focus)
 #: kstars.kcfg:2411
@@ -39003,78 +38938,74 @@ msgid ""
 "that when the focuser moves TICKS steps, the difference in HFR is more than "
 "0.1 pixels. Lower the value when you are close to optimal focus."
 msgstr ""
-"Velikost korakov absolutnega fokuserja. Deli korakov ČRTICE, naj bi bile "
-"prilagojene tako, da je razlika v HFR ob premiku fokuserja za en del "
-"korakov, več kot 0.1 slikovnih točk. Ko ste blizu optimalnega žarišča, "
-"znižajte vrednost."
+"Velikost koraka absolutnega fokuserja. Velikost koraka ČRTIC je treba "
+"prilagoditi tako, da je razlika v HFR večja od 0,1 slikovne pike, ko fokuser "
+"premakne ČRTIC korakov. Znižajte vrednost, ko ste blizu optimalnega fokusa."
 
 #. i18n: ectx: whatsthis, entry (FocusOutSteps), group (Focus)
 #: kstars.kcfg:2416
-#, fuzzy, kde-format
+#, kde-format
 msgid "The number of steps to move outwards for a Classic Autofocus run."
-msgstr ""
-"Število korakov za premik navzven od začetnega položaja izvajanja "
-"samodejnega ostrenja."
+msgstr "Število korakov za pomik navzven za klasično samodejno fokusiranje."
 
 #. i18n: ectx: whatsthis, entry (focusNumSteps), group (Focus)
 #: kstars.kcfg:2420
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "The total number of steps for a Fixed Steps or CFZ Shuffle Autofocus run."
 msgstr ""
-"Število korakov za premik navzven od začetnega položaja izvajanja "
-"samodejnega ostrenja."
+"Skupno število korakov za zagon s fiksnimi koraki ali naključnim samodejnim "
+"fokusiranjem CFZ."
 
 #. i18n: ectx: label, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2424
 #, kde-format
 msgid "Maximum Focus Travel Distance"
-msgstr "Največja razdalja potovanja fokuserja"
+msgstr "Maksimalna razdalja poti fokuserja"
 
 #. i18n: ectx: whatsthis, entry (FocusMaxTravel), group (Focus)
 #: kstars.kcfg:2425
 #, kde-format
 msgid "Set the maximum travel distance of an absolute focuser."
-msgstr "Nastavi največjo razdaljo potovanja absolutnega fokuserja."
+msgstr "Nastavi maksimalno razdaljo poti absolutnega fokuserja."
 
 #. i18n: ectx: whatsthis, entry (FocusMaxSingleStep), group (Focus)
 #: kstars.kcfg:2429
-#, fuzzy, kde-format
-#| msgid "The maximum solar distance for drawing comets."
+#, kde-format
 msgid "The maximum size of a single step."
-msgstr "Največja oddaljenost od Sonca za izris kometov."
+msgstr "Maksimalna velikost posameznega koraka."
 
 #. i18n: ectx: whatsthis, entry (FocusBacklash), group (Focus)
 #: kstars.kcfg:2433
-#, fuzzy, kde-format
+#, kde-format
 msgid "The amount of driver backlash."
-msgstr "Število odzivov voznikov."
+msgstr "Količina zračnosti gonilnika."
 
 #. i18n: ectx: whatsthis, entry (FocusAFOverscan), group (Focus)
 #: kstars.kcfg:2437
-#, fuzzy, kde-format
+#, kde-format
 msgid "The amount of Autofocus Overscan."
-msgstr "Količina presežka slike pri samodejnem ostrenju."
+msgstr "Presežna količina prečesavanja samodejnega fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (FocusOverscanDelay), group (Focus)
 #: kstars.kcfg:2441
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Delay between outward and inward movements of an AF Overscan. For most "
 "focusers set 0s."
 msgstr ""
-"Zakasnitev med premiki navzven in navznoter pri prekritju SO. Za večino "
-"fokuserjev nastavite 0 s."
+"Zamik med premiki AF Overscan navzven in navznoter. Za večino fokuserjev "
+"nastavite 0 s."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2449
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Maximum time in seconds to wait for a focuser to move to desired position "
 "before declaring a timeout."
 msgstr ""
-"Najdaljši čas v sekundah, da počakate, da se fokusnik premakne v želeni "
-"položaj, preden razglasi časovno izmik."
+"Največji čas v sekundah za čakanje, da se fokuser premakne na želeni položaj "
+"pred razglasom časovne omejitve."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAlgorithm), group (Focus)
 #: kstars.kcfg:2454
@@ -39084,10 +39015,10 @@ msgstr "Vrsta algoritma OKO, ki ga želite uporabiti."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTolerance), group (Focus)
 #: kstars.kcfg:2458
-#, fuzzy, kde-format
+#, kde-format
 msgid "The user defined tolerance to use for Classic and Wavefront algos."
 msgstr ""
-"Uporabniško določena toleranca za uporabo algoritma Classic in Wavefront."
+"Uporabniško določena toleranca za uporabo algoritmov Classic in Wavefront."
 
 #. i18n: ectx: whatsthis, entry (focusCFZTau), group (Focus)
 #: kstars.kcfg:2462
@@ -39099,7 +39030,7 @@ msgstr "Uporabniško določena toleranca za uporabo algoritma Gold."
 #: kstars.kcfg:2466
 #, kde-format
 msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
-msgstr "Ali prikazati OKO na V-krivulji po izvedbi samodejnega ostrenja."
+msgstr "Ali prikazati OKO na V-krivulji po izvedbi samodejnega fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (focusCFZWavelength), group (Focus)
 #: kstars.kcfg:2470
@@ -39115,7 +39046,7 @@ msgstr "Premer objektiva teleskopa v mm za uporabo v izračunih OKO."
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2478
-#, fuzzy, kde-format
+#, kde-format
 msgid "The f# to use in the CFZ algo."
 msgstr "F# za uporabo v algoritmu OKO."
 
@@ -39129,63 +39060,56 @@ msgstr "Skupno videnje v ločnih sekundah za uporabo v algoritmu OKO."
 #: kstars.kcfg:2486
 #, kde-format
 msgid "The size of a focuser tick in micrometers."
-msgstr "Širina oznake fokuserja v mikrometrih."
+msgstr "Širina črtice fokuserja v mikrometrih."
 
 #. i18n: ectx: whatsthis, entry (focusAdvHelpOnlyChanges), group (Focus)
 #: kstars.kcfg:2491
 #, kde-format
 msgid "Focus Advisor Help shows only changes."
-msgstr "Pomoč svetovalca za ostrenje pokaže le spremembe."
+msgstr "Pomoč svetovalca za fokusiranje pokaže samo spremembe."
 
 #. i18n: ectx: whatsthis, entry (focusAdvUpdateParams), group (Focus)
 #: kstars.kcfg:2495
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether to run the Focus Advisor Update Parameters function."
-msgstr ""
-"Ali želite sprejemati priporočila svetovalca ostrine glede parametrov "
-"zavihka Postopek/Obdelaj."
+msgstr "Ali naj se zažene funkcija Focus Advisor Update Parameters."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFindStars), group (Focus)
 #: kstars.kcfg:2499
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether to run the Focus Advisor Find Stars function."
-msgstr ""
-"Ali želite sprejemati priporočilo svetovalca ostrine glede velikosti korakov."
+msgstr "Ali naj se zažene funkcija Focus Advisor Find Stars."
 
 #. i18n: ectx: whatsthis, entry (focusAdvCourseAdj), group (Focus)
 #: kstars.kcfg:2503
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether to run the Focus Advisor Course Adjustment function."
-msgstr ""
-"Ali želite sprejemati priporočilo svetovalca ostrine glede velikosti korakov."
+msgstr "Ali naj se zažene funkcija Focus Advisor Course Adjustment."
 
 #. i18n: ectx: whatsthis, entry (focusAdvFineAdj), group (Focus)
 #: kstars.kcfg:2507
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether to run the Focus Advisor Fine Adjustment function."
-msgstr ""
-"Ali želite sprejemati priporočilo svetovalca ostrine glede velikosti korakov."
+msgstr "Ali naj se zažene funkcija Focus Advisor Fine Adjustment."
 
 #. i18n: ectx: label, entry (FocusSplitter), group (Focus)
 #: kstars.kcfg:2512
-#, fuzzy, kde-format
-#| msgid "Position Angle"
+#, kde-format
 msgid "Position of FocusSplitter."
-msgstr "Položajni kot"
+msgstr "Položaj of FocusSplitterja."
 
 #. i18n: ectx: label, entry (rightLayout), group (Focus)
 #: kstars.kcfg:2515
-#, fuzzy, kde-format
-#| msgid "Position of the time InfoBox."
+#, kde-format
 msgid "Position of rightLayout."
-msgstr "Položaj okvirja s podatki o času."
+msgstr "Položaj rightLayout."
 
 #. i18n: ectx: whatsthis, entry (adaptFocusBFO), group (Focus)
 #: kstars.kcfg:2518
 #, kde-format
 msgid "Whether to use Adaptive Focus in the Build Filter Offsets utility."
 msgstr ""
-"Ali naj bo uporabljeno prilagodljivo ostrenje pri orodju gradnje odmikov "
+"Ali naj bo uporabljeno prilagodljivo fokusiranje v orodju gradnje odmikov "
 "filtrov."
 
 #. i18n: ectx: whatsthis, entry (abInsTileSelection), group (Focus)
@@ -39198,33 +39122,33 @@ msgstr "Kateri nabor ploščic naj uporabi Inšpektor aberacije."
 #: kstars.kcfg:2527
 #, kde-format
 msgid "Show Max Min labels on Aberration Inspector graph."
-msgstr "Pokaže oznake Najv in Najm na grafikonu Inšpektorja odklona."
+msgstr "Pokaže oznake Max Min na grafikonu Inšpektorja aberacije."
 
 #. i18n: ectx: label, entry (abInsShowCFZ), group (Focus)
 #: kstars.kcfg:2531
 #, kde-format
 msgid "Show Critical Focus Zone on Aberration Inspector graph."
-msgstr "Pokaže območje kritične ostrine na grafikonu Inšpektorja odklona."
+msgstr "Pokaže območje kritičnega fokusa na grafikonu Inšpektorja aberacije."
 
 #. i18n: ectx: label, entry (abInsOptCentres), group (Focus)
 #: kstars.kcfg:2535
 #, kde-format
 msgid "Whether to optimise tile centres used in Aberration Inspector calcs."
 msgstr ""
-"Ali naj bodo središča ploščic, ki se uporabljajo v izračunih Inšpektorja "
-"aberacije, optimizirana"
+"Ali naj bodo optimizirana središča ploščic, ki se uporabljajo v izračunih "
+"Inšpektorja aberacije."
 
 #. i18n: ectx: label, entry (abInsHSplitter), group (Focus)
 #: kstars.kcfg:2539
-#, fuzzy, kde-format
+#, kde-format
 msgid "Position of HSplitter in Aberration Inspector."
-msgstr "Položaj VdDelilnika v Inšpektorju odklona."
+msgstr "Položaj HSplitterja v Inšpektorju aberacije."
 
 #. i18n: ectx: label, entry (abInsVSplitter), group (Focus)
 #: kstars.kcfg:2542
-#, fuzzy, kde-format
+#, kde-format
 msgid "Position of VSplitter in Aberration Inspector."
-msgstr "Položaj NaDelilnika v Inšpektorju odklona."
+msgstr "Položaj VSplitterja v Inšpektorju aberacije."
 
 #. i18n: ectx: whatsthis, entry (abInsSelection), group (Focus)
 #: kstars.kcfg:2545
@@ -39248,74 +39172,71 @@ msgstr "Prikaz oznak 3D-grafičnega inšpektorja odklona."
 #: kstars.kcfg:2557
 #, kde-format
 msgid "Aberration Inspector 3D graphic show sensor."
-msgstr "Prikaz tipala 3D-grafičnega inšpektorja odklona."
+msgstr "Prikaz tipala 3D-grafičnega inšpektorja aberacije."
 
 #. i18n: ectx: label, entry (abInsPetzvalWire), group (Focus)
 #: kstars.kcfg:2561
-#, fuzzy, kde-format
+#, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval wire."
-msgstr "Prikaz žičnega modela Petzwal 3D-grafičnega inšpektorja odklona."
+msgstr "Prikaz žičnega modela Petzwal 3D-grafičnega inšpektorja aberacije."
 
 #. i18n: ectx: label, entry (abInsPetzvalSurface), group (Focus)
 #: kstars.kcfg:2565
-#, fuzzy, kde-format
+#, kde-format
 msgid "Aberration Inspector 3D graphic show Petzval surface."
-msgstr "Prikaz žičnega površine Petzwal 3D-grafičnega inšpektorja odklona."
+msgstr "Prikaz žičnega površine Petzwal 3D-grafičnega inšpektorja aberacije."
 
 #. i18n: ectx: label, entry (FocusSextractorType), group (StellarSolver)
 #: kstars.kcfg:2571
-#, fuzzy, kde-format
-#| msgid "Internal or External astrometry.cfg?"
+#, kde-format
 msgid "Internal or External Sextractor for Focusing."
-msgstr "Zunanja ali notranja datoteka astrometry.cfg?"
+msgstr "Notranji ali zunanji Sextractor za fokusiranje."
 
 #. i18n: ectx: label, entry (FocusOptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2575
-#, fuzzy, kde-format
+#, kde-format
 msgid "Options Profile for Sextraction when Focusing."
-msgstr "Možnosti Profil za sekstrakcijo pri osredotočanju."
+msgstr "Možnosti profila za sekstrakcijo pri fokusiranju."
 
 #. i18n: ectx: label, entry (HFRSextractorType), group (StellarSolver)
 #: kstars.kcfg:2579
-#, fuzzy, kde-format
-#| msgid "Internal or External astrometry.cfg?"
+#, kde-format
 msgid "Internal or External Sextractor to compute subs HFR."
-msgstr "Zunanja ali notranja datoteka astrometry.cfg?"
+msgstr "Notranji ali zunanji sextractor za izračun podmnožic HFR."
 
 #. i18n: ectx: label, entry (HFROptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2583
-#, fuzzy, kde-format
+#, kde-format
 msgid "Options Profile for Sextraction to compute subs HFR"
-msgstr "Možnosti Profil za Sextraction za računanje pods HFR"
+msgstr "Možnosti profila za sekstraksijo za izračun podmnožic HFR"
 
 #. i18n: ectx: label, entry (GuideSextractorType), group (StellarSolver)
 #: kstars.kcfg:2587
-#, fuzzy, kde-format
-#| msgid "Internal or External astrometry.cfg?"
+#, kde-format
 msgid "Internal or External Sextractor for Guiding."
-msgstr "Zunanja ali notranja datoteka astrometry.cfg?"
+msgstr "Notranji ali zunanji sextractor za vodenje."
 
 #. i18n: ectx: label, entry (GuideOptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2591
-#, fuzzy, kde-format
+#, kde-format
 msgid "Options Profile for Sextraction when Guiding."
-msgstr "Možnosti Profil sekstrakcije pri uvajanju."
+msgstr "Možnosti profila za sekstrakcijo pri vodenju."
 
 #. i18n: ectx: label, entry (SolveSextractorType), group (StellarSolver)
 #: kstars.kcfg:2595
-#, fuzzy, kde-format
+#, kde-format
 msgid "Internal, External, or BuiltIn Sextractor for Solving."
-msgstr "Notranji, zunanji ali vgrajeni Sextractor za reševanje."
+msgstr "Notranji, zunanji ali vgrajeni sextractor za reševanje."
 
 #. i18n: ectx: label, entry (SolverMode), group (StellarSolver)
 #: kstars.kcfg:2599
 #, kde-format
 msgid "Local (0) or Remote (1) solver."
-msgstr "Krajevni (0) ali oddaljeni (1) reševalnik."
+msgstr "Lokalni (0) ali oddaljeni (1) reševalnik."
 
 #. i18n: ectx: label, entry (SolverType), group (StellarSolver)
 #: kstars.kcfg:2603
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Local solving method. 0 for Internal Solver. 1 for Local Astrometry. 2 for "
 "Local ASTAP. 3 for Online Astrometry."
@@ -39325,37 +39246,37 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SolveOptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2607
-#, fuzzy, kde-format
+#, kde-format
 msgid "Options Profile for Solving."
-msgstr "Možnosti Profil za reševanje."
+msgstr "Možnosti profila za reševanje."
 
 #. i18n: ectx: label, entry (LoggerLevel), group (StellarSolver)
 #: kstars.kcfg:2611
-#, fuzzy, kde-format
+#, kde-format
 msgid "Level of verbosity in the log."
-msgstr "Raven verbosity v dnevniku."
+msgstr "Raven podrobnosti v dnevniku."
 
 #. i18n: ectx: label, entry (AstrometryLogToFile), group (StellarSolver)
 #: kstars.kcfg:2615
-#, fuzzy, kde-format
+#, kde-format
 msgid "Whether to log to a file instead."
-msgstr "Ali se prijavite v datoteko."
+msgstr "Ali namesto tega pisanje dnevnika v datoteko."
 
 #. i18n: ectx: label, entry (AstrometryLogFilepath), group (StellarSolver)
 #: kstars.kcfg:2619
-#, fuzzy, kde-format
+#, kde-format
 msgid "Path of the log file to save astrometry logging to."
-msgstr "Pot dnevniške datoteke za shranjevanje zapisovanja astrometrije v."
+msgstr "Pot datoteke dnevnika za shranjevanje dnevnika astrometrije."
 
 #. i18n: ectx: label, entry (AstrometryIndexFolderList), group (StellarSolver)
 #: kstars.kcfg:2623
-#, fuzzy, kde-format
+#, kde-format
 msgid "List of index folder paths."
 msgstr "Seznam poti kazalne mape."
 
 #. i18n: ectx: whatsthis, entry (AstrometryIndexFolderList), group (StellarSolver)
 #: kstars.kcfg:2624
-#, fuzzy, kde-format
+#, kde-format
 msgid "List of folders in which astrometry Index Files can be found."
 msgstr "Seznam map, v katerih je mogoče najti datoteke indeksa astrometrije."
 
@@ -39367,35 +39288,30 @@ msgstr "Privzeta vrednost osvetljenosti poravnave"
 
 #. i18n: ectx: whatsthis, entry (AlignExposure), group (Align)
 #: kstars.kcfg:2631
-#, fuzzy, kde-format
-#| msgid ""
-#| "Specifies exposure value of CCD in seconds when performing plate solving."
+#, kde-format
 msgid ""
 "Specifies exposure value of camera in seconds when performing plate solving."
 msgstr ""
-"Določa vrednost osvetlitve CCD v sekundah pri izvajanju samodejnega "
-"določanja položaja."
+"Določa vrednost osvetlitve kamere v sekundah pri izvajanju samodejnega "
+"reševanja plošče."
 
 #. i18n: ectx: label, entry (AlignBinning), group (Align)
 #: kstars.kcfg:2635
-#, fuzzy, kde-format
-#| msgid "Default CCD Y binning while in alignment mode"
+#, kde-format
 msgid "Default camera binning in alignment mode"
-msgstr "Privzeto združevanje osi Y CCD-ja v načinu poravnave"
+msgstr "Privzeto združevanje kamer v načinu poravnave"
 
 #. i18n: ectx: label, entry (AlignGain), group (Align)
 #: kstars.kcfg:2639
-#, fuzzy, kde-format
-#| msgid "Default CCD Y binning while in alignment mode"
+#, kde-format
 msgid "Default camera gain in alignment mode"
-msgstr "Privzeto združevanje osi Y CCD-ja v načinu poravnave"
+msgstr "Privzeto ojačanja kamere v načinu poravnave"
 
 #. i18n: ectx: label, entry (AlignISO), group (Align)
 #: kstars.kcfg:2643
-#, fuzzy, kde-format
-#| msgid "Default CCD Y binning while in alignment mode"
+#, kde-format
 msgid "Default camera ISO in alignment mode"
-msgstr "Privzeto združevanje osi Y CCD-ja v načinu poravnave"
+msgstr "Privzet ISO kamere v načinu poravnave"
 
 #. i18n: ectx: label, entry (AlignDarkFrame), group (Align)
 #: kstars.kcfg:2647
