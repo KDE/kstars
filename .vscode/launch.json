@@ -41,6 +41,23 @@
           "text": "skip file memory" // Skip memory header
         }
       ]
+    },
+    {
+      "name": "Debug KStars (MacOS)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/bin/KStars.app/Contents/MacOS/kstars",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "environment": [
+        {
+          "name": "DYLD_BIND_AT_LAUNCH",
+          "value": "1"
+        }
+      ]
     }
   ]
 }
