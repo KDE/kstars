@@ -37374,43 +37374,43 @@ msgstr "电调对焦时，等待电调运动到期望位置的最长时间（秒
 #: kstars.kcfg:2454
 #, kde-format
 msgid "The type of CFZ Algorithm to use."
-msgstr ""
+msgstr "使用的 CFZ 算法。"
 
 #. i18n: ectx: whatsthis, entry (focusCFZTolerance), group (Focus)
 #: kstars.kcfg:2458
 #, kde-format
 msgid "The user defined tolerance to use for Classic and Wavefront algos."
-msgstr ""
+msgstr "用户定义的经典和波前算法的宽容度。"
 
 #. i18n: ectx: whatsthis, entry (focusCFZTau), group (Focus)
 #: kstars.kcfg:2462
 #, kde-format
 msgid "The user defined tolerance to use for the Gold algo."
-msgstr ""
+msgstr "用户定义的 Gold 算法宽容度。"
 
 #. i18n: ectx: whatsthis, entry (focusCFZDisplayVCurve), group (Focus)
 #: kstars.kcfg:2466
 #, kde-format
 msgid "Whether to display the CFZ on the v-curve after an Autofocus run."
-msgstr ""
+msgstr "自动对焦后，是否在 v-curve 上显示 CFZ。"
 
 #. i18n: ectx: whatsthis, entry (focusCFZWavelength), group (Focus)
 #: kstars.kcfg:2470
 #, kde-format
 msgid "The wavelength in nm to use in the Gold algo."
-msgstr ""
+msgstr "Gold 算法中的波长(nm)。"
 
 #. i18n: ectx: whatsthis, entry (focusCFZAperture), group (Focus)
 #: kstars.kcfg:2474
 #, kde-format
 msgid "Telescope aperture in mm to use in CFZ calcs."
-msgstr ""
+msgstr "CFZ 计算中的望远镜光圈大小（mm）。"
 
 #. i18n: ectx: whatsthis, entry (focusCFZFNumber), group (Focus)
 #: kstars.kcfg:2478
 #, kde-format
 msgid "The f# to use in the CFZ algo."
-msgstr ""
+msgstr "CFZ 算法的 f#。"
 
 #. i18n: ectx: whatsthis, entry (focusCFZSeeing), group (Focus)
 #: kstars.kcfg:2482
@@ -38081,7 +38081,7 @@ msgstr "校准开始时，终止前的等待秒数。"
 #: kstars.kcfg:2894
 #, kde-format
 msgid "Maximum delta RMS permitted while guiding before aborting."
-msgstr ""
+msgstr "导星中断前允许的最大 RMS 误差。"
 
 #. i18n: ectx: label, entry (GuideMaxHFR), group (Guide)
 #: kstars.kcfg:2898
@@ -38301,14 +38301,14 @@ msgstr ""
 #: kstars.kcfg:3119
 #, kde-format
 msgid "Always execute startup script regardless of Ekos status."
-msgstr ""
+msgstr "无论 Ekos 状态，总是执行开机脚本。"
 
 #. i18n: ectx: label, entry (ShutdownScriptTerminatesINDI), group (Scheduler)
 #: kstars.kcfg:3123
 #, kde-format
 msgid ""
 "Whether shutdown script, if exists, terminates INDI server in the process."
-msgstr ""
+msgstr "如有关机脚本，是否中止进程中的 INDI 服务器。"
 
 #. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
 #: kstars.kcfg:3127
@@ -38416,7 +38416,7 @@ msgstr ""
 msgid ""
 "Offset astronomical dawn by this many hours to relax twilight restriction "
 "when using narrowband filters."
-msgstr ""
+msgstr "偏移天文曙光如此小时，以放宽窄带滤镜的曙光限制。"
 
 #. i18n: ectx: label, entry (DuskOffset), group (Scheduler)
 #: kstars.kcfg:3190
@@ -38424,7 +38424,7 @@ msgstr ""
 msgid ""
 "Offset astronomical dusk by this many hours to relax twilight restriction "
 "when using narrowband filters."
-msgstr ""
+msgstr "偏移天文暮光如此小时，以放宽窄带滤镜的暮光限制。"
 
 #. i18n: ectx: label, entry (TelescopeFocalLength), group (Scheduler)
 #: kstars.kcfg:3194

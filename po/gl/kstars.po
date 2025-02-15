@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-13 02:03+0000\n"
-"PO-Revision-Date: 2025-01-29 08:05+0100\n"
+"PO-Revision-Date: 2025-02-14 08:06+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -32,7 +32,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "mvillarino@users.sourceforge.net, proxecto@trasno.gal, xosecalvo@gmail.com, "
-"adrian@chaves.io"
+"adrian@chaves.gal"
 
 #: auxiliary/colorscheme.cpp:29 kstars.cpp:58
 #, kde-format
@@ -8571,13 +8571,15 @@ msgstr "Usar movemento diferencial en vez de sincronización"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #, kde-format
 msgid "No index file directories configured."
-msgstr ""
+msgstr "Non hai cartafoles de ficheiros de índice configurados."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "No writable index file directory found."
 msgstr ""
+"Non se atopou ningún cartafol de ficheiros de índice no que teña permisos de "
+"escritura."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:699
@@ -29925,10 +29927,9 @@ msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Traballo (%1): A captura rematou."
 
 #: ekos/scheduler/schedulerprocess.cpp:3927
-#, fuzzy, kde-format
-#| msgid "Job '%1' focusing is complete."
+#, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
-msgstr "Completouse o enfoque do traballo «%1». "
+msgstr "Completouse o tren de enfoque «%2» do traballo «%1»."
 
 #: ekos/scheduler/schedulerprocess.cpp:3939
 #, kde-format
@@ -29936,19 +29937,18 @@ msgid "Warning: job '%1' focusing failed."
 msgstr "Aviso: o enfoque do traballo «%1» fallou."
 
 #: ekos/scheduler/schedulerprocess.cpp:3943
-#, fuzzy, kde-format
-#| msgid "Job '%1' is restarting its focusing procedure."
+#, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
-msgstr "O traballo «%1» está reiniciando o seu procedemento de enfoque."
+msgstr ""
+"O traballo «%1» do tren «%2» está reiniciando o seu procedemento de enfoque."
 
 #: ekos/scheduler/schedulerprocess.cpp:3948
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr ""
-"Aviso: o procedemento de enfoque do traballo «%1» fallou, marcando como "
-"interrompido."
+"Aviso: o procedemento de enfoque do traballo «%1» do tren «%2» fallou, "
+"marcando como interrompido."
 
 #: ekos/scheduler/schedulerprocess.cpp:3978
 #, kde-format
