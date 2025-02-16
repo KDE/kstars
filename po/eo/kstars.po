@@ -5,14 +5,14 @@
 # Pierre-Marie Pédrot <pedrotpmx@wanadoo.fr>, 2007.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
 # Axel Rousseau <axel584@gmail.com>, 2015. #zanata
-# SPDX-FileCopyrightText: 2023, 2024 Oliver Kellogg <olivermkellogg@gmail.com>
+# SPDX-FileCopyrightText: 2023-2025 Oliver Kellogg <olivermkellogg@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-13 02:03+0000\n"
-"PO-Revision-Date: 2025-02-12 07:16+0100\n"
+"PO-Revision-Date: 2025-02-15 14:15+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -15893,10 +15893,9 @@ msgid "Driver Restart"
 msgstr "Restarto de Pelilo"
 
 #: ekos/capture/cameraprocess.cpp:2996 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "Solvanto ĉesigita post %1 sekundoj."
+msgstr "Kapt-operacioj eltempiĝis post %1 sekundoj."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
@@ -21787,16 +21786,14 @@ msgid "Exposure timeout. Too many. Restarting driver."
 msgstr "Templimo de elmeto. Tro multaj. Restartigante pelilon..."
 
 #: ekos/guide/guide.cpp:1299
-#, fuzzy, kde-format
-#| msgid ""
-#| "No camera detected. Check train configuration and connection settings."
+#, kde-format
 msgid "No camera detected. Check camera in optical trains."
-msgstr "Neniu fotilo detektita. Kontrolu agordojn de ĉeno kaj konekto."
+msgstr "Neniu fotilo detektita. Kontrolu fotilon en optikaj ĉenoj."
 
 #: ekos/guide/guide.cpp:1305
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
-msgstr ""
+msgstr "Neniu gvidilo detektita. Kontrolu gvidi-per en optikaj ĉenoj."
 
 #: ekos/guide/guide.cpp:1386
 #, kde-format
@@ -22980,11 +22977,11 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
-msgstr "Inversa DEC ĉe moleoflanka ŝanĝo dum reuzo de kalibrado."
+msgstr ""
+"Inversa DEC-gvidilo pulsas dum ŝanĝo de moleoflanko kaj reuzo de kalibrado."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -27687,11 +27684,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysExecuteStartupScript)
 #: ekos/scheduler/opsscriptssettings.ui:51
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Startup Script"
+#, kde-format
 msgid "Always Execute Startup Script"
-msgstr "Elekti Komencan Skripton"
+msgstr "Ĉiam Efektivigi Komencan Skripton"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShutdownScriptTerminatesINDI)
 #: ekos/scheduler/opsscriptssettings.ui:58
@@ -28927,10 +28922,9 @@ msgstr ""
 "preta."
 
 #: ekos/scheduler/schedulerprocess.cpp:699
-#, fuzzy, kde-format
-#| msgid "Sleeping until observation job %1 is ready at %2..."
+#, kde-format
 msgid "Sleeping until observation job %1 is ready at %2"
-msgstr "Dormante ĝis la observa tasko %1 estas preta ĉe %2..."
+msgstr "Dormante ĝis la observa tasko %1 estas preta ĉe %2"
 
 #: ekos/scheduler/schedulerprocess.cpp:710
 #, kde-format
@@ -29514,10 +29508,9 @@ msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Labortasko (%1) - Kapto finiĝis"
 
 #: ekos/scheduler/schedulerprocess.cpp:3927
-#, fuzzy, kde-format
-#| msgid "Job '%1' focusing is complete."
+#, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
-msgstr "La fokuso de la tasko '%1' finiĝis."
+msgstr "Labortasko '%1' fokusante ĉenon '%2' plenumiĝis."
 
 #: ekos/scheduler/schedulerprocess.cpp:3939
 #, kde-format
@@ -29525,18 +29518,17 @@ msgid "Warning: job '%1' focusing failed."
 msgstr "Averto: fokuso de tasko '%1' malsukcesis."
 
 #: ekos/scheduler/schedulerprocess.cpp:3943
-#, fuzzy, kde-format
-#| msgid "Job '%1' is restarting its focusing procedure."
+#, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
-msgstr "Tasko '%1' rekomencas sian fokusan proceduron."
+msgstr "Labortasko '%1' por ĉeno '%2' estas rekomencanta sian fokusproceduron."
 
 #: ekos/scheduler/schedulerprocess.cpp:3948
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr ""
-"Averto: proceduro de fokuso de tasko '%1' malsukcesis, markado ĉesigita."
+"Averto: labortasko '%1' en ĉeno '%2' fokusproceduro malsukcesis, markado "
+"ĉesigita."
 
 #: ekos/scheduler/schedulerprocess.cpp:3978
 #, kde-format

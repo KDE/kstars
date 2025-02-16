@@ -68204,7 +68204,7 @@ msgstr "缩放到角度(&Z)..."
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
-msgstr "镜像显示"
+msgstr "镜像视图"
 
 #: kstarsinit.cpp:290
 #, kde-format

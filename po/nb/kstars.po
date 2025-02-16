@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-09 01:50+0000\n"
+"POT-Creation-Date: 2025-02-13 02:03+0000\n"
 "PO-Revision-Date: 2024-03-09 12:38+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -23903,18 +23903,18 @@ msgstr ""
 msgid "Internal"
 msgstr "Internt"
 
-#: ekos/profileeditor.cpp:787
+#: ekos/profileeditor.cpp:776
 #, kde-format
 msgctxt "@title:window"
 msgid "Scanning Network"
 msgstr ""
 
-#: ekos/profileeditor.cpp:788
+#: ekos/profileeditor.cpp:777
 #, kde-format
 msgid "Scanning network for INDI Web Managers..."
 msgstr ""
 
-#: ekos/profileeditor.cpp:852
+#: ekos/profileeditor.cpp:841
 #, kde-format
 msgid "Found INDI Web Manager at %1"
 msgstr ""
@@ -81001,44 +81001,44 @@ msgstr "Ikke forsøk"
 msgid "Please wait while adding objects..."
 msgstr ""
 
-#: tools/observinglist.cpp:1337 tools/observinglist.cpp:1339
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1344 tools/observinglist.cpp:1346
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Customized DSS Download"
 msgstr ""
 
-#: tools/observinglist.cpp:1337
+#: tools/observinglist.cpp:1344
 #, kde-format
 msgid "Specify image width (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1340
+#: tools/observinglist.cpp:1347
 #, kde-format
 msgid "Specify image height (arcminutes): "
 msgstr ""
 
-#: tools/observinglist.cpp:1349
+#: tools/observinglist.cpp:1356
 #, kde-format
 msgid "Specify version: "
 msgstr ""
 
-#: tools/observinglist.cpp:1386
+#: tools/observinglist.cpp:1393
 #, kde-format
 msgid "Failed to download DSS/SDSS image."
 msgstr ""
 
-#: tools/observinglist.cpp:1515
+#: tools/observinglist.cpp:1523
 #, kde-format
 msgid "This will delete all saved images. Are you sure you want to do this?"
 msgstr ""
 "Dette vil slette alle lagrede bilder. Er du sikker på at du vil gjøre dette?"
 
-#: tools/observinglist.cpp:1516
+#: tools/observinglist.cpp:1524
 #, kde-format
 msgid "Delete All Images"
 msgstr "Slett alle bildene"
 
-#: tools/observinglist.cpp:1613
+#: tools/observinglist.cpp:1621
 #, kde-format
 msgid "Image Chooser"
 msgstr "Bildevelger"
