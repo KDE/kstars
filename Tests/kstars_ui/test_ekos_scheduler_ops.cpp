@@ -143,6 +143,7 @@ void TestEkosSchedulerOps::cleanup()
     align.reset();
     guider.reset();
     ekos.reset();
+    Ekos::SchedulerJob::setHorizon(nullptr);
     scheduler.reset();
     fprintf(stderr, "Test took %.1fs\n", testTimer.elapsed() / 1000.0);
 }
@@ -1101,7 +1102,7 @@ void TestEkosSchedulerOps::testRememberJobProgress()
     completionCondition.repeat = iterations;
     startupJob(geo, startUTime, &dir,
                TestEkosSchedulerHelper::getSchedulerFile(targetObject, m_startupCondition, completionCondition, {true, true, true, true},
-                       false, false, sleepMs, nullptr, {false, false, false, false}),
+                       false, false, 0, 90.0, nullptr, {false, false, false, false}, sleepMs),
                TestEkosSchedulerHelper::getEsqContent(capture_jobs), wakeupTime, currentUTime, sleepMs);
 
     // fetch the expected result from the test data
@@ -1116,14 +1117,14 @@ void TestEkosSchedulerOps::loadGreedySchedule(
     bool first, const QString &targetName,
     const TestEkosSchedulerHelper::StartupCondition &startupCondition,
     const TestEkosSchedulerHelper::CompletionCondition &completionCondition,
-    QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude,
+    QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude, double maxMoonAltitude,
     const TestEkosSchedulerHelper::ScheduleSteps steps, bool enforceTwilight, bool enforceHorizon, int errorDelay)
 {
     SkyObject *object = KStars::Instance()->data()->skyComposite()->findByName(targetName);
     QVERIFY(object != nullptr);
     const QString schedulerXML =
         TestEkosSchedulerHelper::getSchedulerFile(
-            object, startupCondition, completionCondition, steps, enforceTwilight, enforceHorizon, minAltitude,
+            object, startupCondition, completionCondition, steps, enforceTwilight, enforceHorizon, minAltitude, maxMoonAltitude,
             nullptr, {false, false, true, false}, errorDelay);
 
     // Write the scheduler and sequence files.
@@ -1362,6 +1363,36 @@ void TestEkosSchedulerOps::testGreedy()
     Options::setGreedyScheduling(true);
 }
 
+void TestEkosSchedulerOps::testMaxMoonAltitude()
+{
+    // Allow 10 minutes of slop in the schedule. The scheduler simulates every 2 minutes,
+    // so 10 minutes is approx 5 of these timesteps.
+    constexpr int checkScheduleTolerance = 600;
+
+    GeoLocation geo(dms(-122, 10), dms(37, 26, 30), "Silicon Valley", "CA", "USA", -8);
+    // Start the scheduler about 9pm local
+    const QDateTime startUTime = QDateTime(QDate(2021, 4, 21), QTime(4, 0, 0), Qt::UTC);
+    initTimeGeo(geo, startUTime);
+
+    auto schedJob5x120 = QVector<TestEkosSchedulerHelper::CaptureJob>(1, {120, 5, "Red", "."});
+    Options::setGreedyScheduling(true);
+
+    // Write the scheduler and sequence files.
+    QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
+
+    TestEkosSchedulerHelper::StartupCondition asapStartupCondition;
+    TestEkosSchedulerHelper::CompletionCondition finishCompletionCondition;
+    asapStartupCondition.type = Ekos::START_ASAP;
+    finishCompletionCondition.type = Ekos::FINISH_SEQUENCE;
+
+    loadGreedySchedule(true, "Dubhe", asapStartupCondition, finishCompletionCondition, dir, schedJob5x120, 30, 40.0);
+    scheduler->process()->evaluateJobs(false);
+    QVERIFY(checkSchedule(
+    {
+        {"Dubhe", "2021/04/20 23:40", "2021/04/20 23:55"}},
+    scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
+}
+
 void TestEkosSchedulerOps::testGreedyStartAt()
 {
     // Allow 10 minutes of slop in the schedule. The scheduler simulates every 2 minutes,
@@ -1543,13 +1574,13 @@ void TestEkosSchedulerOps::testGreedyAborts()
     const bool enforceHorizon = true;
     const int errorDelay = 3600;
 
-    loadGreedySchedule(true, "M 104", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 36, steps,
+    loadGreedySchedule(true, "M 104", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 36, 90.0, steps,
                        enforceTwilight, enforceHorizon, errorDelay);
-    loadGreedySchedule(false, "NGC 3628", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 45, steps,
+    loadGreedySchedule(false, "NGC 3628", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 45, 90.0, steps,
                        enforceTwilight, enforceHorizon, errorDelay);
-    loadGreedySchedule(false, "M 5", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 30, steps,
+    loadGreedySchedule(false, "M 5", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 30, 90.0, steps,
                        enforceTwilight, enforceHorizon, errorDelay);
-    loadGreedySchedule(false, "M 42", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 42, steps,
+    loadGreedySchedule(false, "M 42", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 42, 90.0, steps,
                        enforceTwilight, enforceHorizon, errorDelay);
 
     // start the scheduler at 1am
@@ -1572,13 +1603,13 @@ void TestEkosSchedulerOps::testGreedyAborts()
     scheduler->process()->getGreedyScheduler()->getSchedule(), checkScheduleTolerance));
 
     // Now load the same schedule, but set the M104 job to have been aborted a minute before.
-    loadGreedySchedule(true, "M 104", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 36, steps,
+    loadGreedySchedule(true, "M 104", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 36, 90.0, steps,
                        enforceTwilight, enforceHorizon, errorDelay);
-    loadGreedySchedule(false, "NGC 3628", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 45, steps,
+    loadGreedySchedule(false, "NGC 3628", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 45, 90.0, steps,
                        enforceTwilight, enforceHorizon, errorDelay);
-    loadGreedySchedule(false, "M 5", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 30, steps,
+    loadGreedySchedule(false, "M 5", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 30, 90.0, steps,
                        enforceTwilight, enforceHorizon, errorDelay);
-    loadGreedySchedule(false, "M 42", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 42, steps,
+    loadGreedySchedule(false, "M 42", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 42, 90.0, steps,
                        enforceTwilight, enforceHorizon, errorDelay);
 
     // Otherwise time changes below will trigger reschedules and mess up test.
@@ -1681,7 +1712,7 @@ void TestEkosSchedulerOps::testArtificialCeiling()
     // Write the scheduler and sequence files.
     QTemporaryDir dir(QStandardPaths::writableLocation(QStandardPaths::HomeLocation) + "/test-XXXXXX");
 
-    loadGreedySchedule(true, "theta Bootis", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 0,
+    loadGreedySchedule(true, "theta Bootis", asapStartupCondition, loopCompletionCondition, dir, schedJob200x60, 0, 90.0,
     {true, true, true, true}, false, true); // min alt = 0, don't enforce twilight
     scheduler->process()->evaluateJobs(false);
 
@@ -1833,9 +1864,9 @@ void TestEkosSchedulerOps::testEstimateTimeBug()
     // Not focusing in these schedule steps.
     TestEkosSchedulerHelper::ScheduleSteps steps = {true, false, true, true};
 
-    loadGreedySchedule(true, "NGC 2359", asapStartupCondition, repeat9, dir, jobLRGB, 20, steps);
-    loadGreedySchedule(false, "NGC 2359", asapStartupCondition, loopCompletionCondition, dir, jobNB, 20, steps);
-    loadGreedySchedule(false, "M 53", asapStartupCondition, loopCompletionCondition, dir, jobLRGB, 20, steps);
+    loadGreedySchedule(true, "NGC 2359", asapStartupCondition, repeat9, dir, jobLRGB, 20, 90.0, steps);
+    loadGreedySchedule(false, "NGC 2359", asapStartupCondition, loopCompletionCondition, dir, jobNB, 20, 90.0, steps);
+    loadGreedySchedule(false, "M 53", asapStartupCondition, loopCompletionCondition, dir, jobLRGB, 20, 90.0, steps);
 
     scheduler->process()->evaluateJobs(false);
 

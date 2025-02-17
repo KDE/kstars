@@ -44,7 +44,7 @@ public:
     static void setupJob(SchedulerJob &job, const QString &name, bool isLead, const QString &group, const QString &train, const dms &ra, const dms &dec,
                          double djd, double rotation, const QUrl &sequenceUrl, const QUrl &fitsUrl, StartupCondition startup,
                          const QDateTime &startupTime, CompletionCondition completion, const QDateTime &completionTime, int completionRepeats,
-                         double minimumAltitude, double minimumMoonSeparation, bool enforceWeather, bool enforceTwilight,
+                         double minimumAltitude, double minimumMoonSeparation, double maxMoonAltitude, bool enforceWeather, bool enforceTwilight,
                          bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide);
 
 

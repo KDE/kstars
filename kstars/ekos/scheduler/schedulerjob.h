@@ -132,6 +132,18 @@ class SchedulerJob
         void setMinMoonSeparation(const double &value);
         /** @} */
 
+        /** @brief Maximal moon altitude to process this job. */
+        /** @{ */
+        double getMaxMoonAltitude() const
+        {
+            if (m_LeadJob != nullptr)
+                return m_LeadJob->getMaxMoonAltitude();
+            else
+                return maxMoonAltitude;
+        }
+        void setMaxMoonAltitude(const double &value);
+        /** @} */
+
         /** @brief Whether to restrict this job to good weather. */
         /** @{ */
         bool getEnforceWeather() const
@@ -525,11 +537,13 @@ class SchedulerJob
         static bool decreasingAltitudeOrder(SchedulerJob const *a, SchedulerJob const *b, QDateTime const &when = QDateTime());
 
         /**
-             * @brief moonSeparationOK return true if angle from target to the Moon is > minMoonSeparation
+             * @brief moonConstraintsOK return true if angle from target to the Moon is > minMoonSeparation and
+             *        the moon's altitude is below the given value.
              * @param when date and time to check the Moon separation, now if omitted.
+             * @param reason pointer to the reason text in case that the check failed
              * @return true if target is separated enough from the Moon.
              */
-        bool moonSeparationOK(QDateTime const &when = QDateTime()) const;
+        bool moonConstraintsOK(QDateTime const &when = QDateTime(), QString *reason = new QString()) const;
 
         /**
              * @brief calculateNextTime calculate the next time constraints are met (or missed).
@@ -749,6 +763,7 @@ private:
 
         double minAltitude { UNDEFINED_ALTITUDE };
         double minMoonSeparation { -1 };
+        double maxMoonAltitude { 90 };
 
         bool enforceWeather { false };
         bool enforceTwilight { false };

@@ -27,7 +27,7 @@ bool TestEkosSchedulerHelper::writeFile(const QString &filename, const QString &
 QString TestEkosSchedulerHelper::getSchedulerFile(const SkyObject *targetObject, const StartupCondition &startupCondition,
         const CompletionCondition &completionCondition,
         ScheduleSteps steps, bool enforceTwilight, bool enforceArtificialHorizon,
-        int minAltitude, QString fitsFile, ShutdownProcedure shutdownProcedure, int errorDelay)
+        int minAltitude, double maxMoonAltitude, QString fitsFile, ShutdownProcedure shutdownProcedure, int errorDelay)
 {
     QString target = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?><SchedulerList version='1.4'><Profile>Default</Profile>"
                              "<Job><Name>%1</Name><Priority>10</Priority><Coordinates><J2000RA>%2</J2000RA>"
@@ -58,7 +58,7 @@ QString TestEkosSchedulerHelper::getSchedulerFile(const SkyObject *targetObject,
                                      completionCondition.atLocalDateTime.toString(Qt::ISODate));
 
     QString parameters = QString("<StartupCondition>%1</StartupCondition>"
-                                 "<Constraints><Constraint value='%4'>MinimumAltitude</Constraint>%2%3"
+                                 "<Constraints><Constraint value='%4'>MinimumAltitude</Constraint>%2%3%11"
                                  "</Constraints><CompletionCondition>%9</CompletionCondition>"
                                  "%5%6%7%8</Steps></Job>"
                                  "<ErrorHandlingStrategy value='1'><delay>%10</delay></ErrorHandlingStrategy><StartupProcedure>"
@@ -71,7 +71,8 @@ QString TestEkosSchedulerHelper::getSchedulerFile(const SkyObject *targetObject,
                          .arg(steps.focus ? "<Step>Focus</Step>" : "")
                          .arg(steps.align ? "<Step>Align</Step>" : "")
                          .arg(steps.guide ? "<Step>Guide</Step>" : "")
-                         .arg(completionConditionStr).arg(errorDelay);
+                         .arg(completionConditionStr).arg(errorDelay)
+                         .arg(maxMoonAltitude < 90 ? QString("<Constraint value='%1'>MoonMaxAltitude</Constraint>").arg(maxMoonAltitude) : "");
 
     QString shutdown = QString("<ShutdownProcedure>%1%2%3%4</ShutdownProcedure></SchedulerList>")
                        .arg(shutdownProcedure.warm_ccd ? "<Procedure>WarmCCD</Procedure>" : "")

@@ -487,7 +487,12 @@ void Scheduler::watchJobChanges(bool enable)
 
     QAbstractButton * const buttons[] =
     {
-        errorHandlingRescheduleErrorsCB
+        errorHandlingRescheduleErrorsCB,
+        schedulerMoonSeparation,
+        schedulerMoonAltitude,
+        schedulerWeather,
+        schedulerAltitude,
+        schedulerHorizon
     };
 
     QSpinBox * const spinBoxes[] =
@@ -499,6 +504,7 @@ void Scheduler::watchJobChanges(bool enable)
     QDoubleSpinBox * const dspinBoxes[] =
     {
         schedulerMoonSeparationValue,
+        schedulerMoonAltitudeMaxValue,
         schedulerAltitudeValue,
         positionAngleSpin,
     };
@@ -888,9 +894,13 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
     if (schedulerAltitude->isChecked())
         altConstraint = schedulerAltitudeValue->value();
 
-    double moonConstraint = -1;
+    double moonSeparation = -1;
     if (schedulerMoonSeparation->isChecked())
-        moonConstraint = schedulerMoonSeparationValue->value();
+        moonSeparation = schedulerMoonSeparationValue->value();
+
+    double moonMaxAltitude = 90;
+    if (schedulerMoonAltitude->isChecked())
+        moonMaxAltitude = schedulerMoonAltitudeMaxValue->value();
 
     QString train = opticalTrainCombo->currentText() == "--" ? "" : opticalTrainCombo->currentText();
 
@@ -905,7 +915,8 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
                              stopCondition, schedulerUntilValue->dateTime(), schedulerExecutionSequencesLimit->value(),
 
                              altConstraint,
-                             moonConstraint,
+                             moonSeparation,
+                             moonMaxAltitude,
                              schedulerWeather->isChecked(),
                              schedulerTwilight->isChecked(),
                              schedulerHorizon->isChecked(),
@@ -1071,7 +1082,7 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
         schedulerAltitudeValue->setValue(DEFAULT_MIN_ALTITUDE);
     }
 
-    if (job->getMinMoonSeparation() >= 0)
+    if (job->getMinMoonSeparation() > 0)
     {
         schedulerMoonSeparation->setChecked(true);
         schedulerMoonSeparationValue->setValue(job->getMinMoonSeparation());
@@ -1080,6 +1091,16 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
     {
         schedulerMoonSeparation->setChecked(false);
         schedulerMoonSeparationValue->setValue(DEFAULT_MIN_MOON_SEPARATION);
+    }
+
+    if (job->getMaxMoonAltitude() < 90)
+    {
+        schedulerMoonAltitude->setChecked(true);
+        schedulerMoonAltitudeMaxValue->setValue(job->getMaxMoonAltitude());
+    }
+    else
+    {
+        schedulerMoonAltitude->setChecked(false);
     }
 
     schedulerWeather->setChecked(job->getEnforceWeather());

@@ -58,7 +58,7 @@ class TestSchedulerUnit : public QObject
                          const dms &ra, const dms &dec, double positionAngle, const QUrl &sequenceUrl,
                          const QUrl &fitsUrl, Ekos::StartupCondition sCond, const QDateTime &sTime, Ekos::CompletionCondition eCond,
                          const QDateTime &eTime, int eReps,
-                         double minAlt, double minMoonSep = 0, bool enforceWeather = false, bool enforceTwilight = true,
+                         double minAlt, double minMoonSep = 0, double maxMoonAlt = 90, bool enforceWeather = false, bool enforceTwilight = true,
                          bool enforceArtificialHorizon = true, bool track = true, bool focus = true, bool align = true, bool guide = true);
 };
 
@@ -148,7 +148,7 @@ void TestSchedulerUnit::runSetupJob(Ekos::SchedulerJob &job, GeoLocation *geo, K
                                     const dms &ra, const dms &dec, double positionAngle, const QUrl &sequenceUrl,
                                     const QUrl &fitsUrl, Ekos::StartupCondition sCond, const QDateTime &sTime,
                                     Ekos::CompletionCondition eCond, const QDateTime &eTime, int eReps,
-                                    double minAlt, double minMoonSep, bool enforceWeather, bool enforceTwilight,
+                                    double minAlt, double minMoonSep, double maxMoonAlt, bool enforceWeather, bool enforceTwilight,
                                     bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
 {
     // Setup the time and geo.
@@ -163,7 +163,7 @@ void TestSchedulerUnit::runSetupJob(Ekos::SchedulerJob &job, GeoLocation *geo, K
                                    sequenceUrl, fitsUrl,
                                    sCond, sTime,
                                    eCond, eTime, eReps,
-                                   minAlt, minMoonSep,
+                                   minAlt, minMoonSep, maxMoonAlt,
                                    enforceWeather, enforceTwilight, enforceArtificialHorizon,
                                    track, focus, align, guide);
     QVERIFY(name == job.getName());
@@ -174,6 +174,7 @@ void TestSchedulerUnit::runSetupJob(Ekos::SchedulerJob &job, GeoLocation *geo, K
     QVERIFY(fitsUrl == job.getFITSFile());
     QVERIFY(minAlt == job.getMinAltitude());
     QVERIFY(minMoonSep == job.getMinMoonSeparation());
+    QVERIFY(maxMoonAlt == job.getMaxMoonAltitude());
     QVERIFY(enforceWeather == job.getEnforceWeather());
     QVERIFY(enforceTwilight == job.getEnforceTwilight());
     QVERIFY(enforceArtificialHorizon == job.getEnforceArtificialHorizon());

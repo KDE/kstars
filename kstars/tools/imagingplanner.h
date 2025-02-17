@@ -244,6 +244,7 @@ protected:
     QPointer<ImagingPlannerPopup> m_PopupMenu;
 
     double m_MinMoon = 30.0;
+    double m_MaxMoonAltitude = 90.0;
     double m_MinAltitude = 30.0;
     double m_MinHours = 0;
     bool m_UseArtificialHorizon = true;

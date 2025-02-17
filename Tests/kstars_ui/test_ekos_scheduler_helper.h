@@ -53,7 +53,7 @@ class TestEkosSchedulerHelper : public TestEkosHelper
 
         static QString getSchedulerFile(const SkyObject *targetObject, const StartupCondition &startupCondition,
                                         const CompletionCondition &completionCondition, ScheduleSteps steps,
-                                        bool enforceTwilight, bool enforceArtificialHorizon, int minAltitude = 30, QString fitsFile = nullptr,
+                                        bool enforceTwilight, bool enforceArtificialHorizon, int minAltitude = 30, double maxMoonAltitude = 90, QString fitsFile = nullptr,
                                         ShutdownProcedure shutdownProcedure = {false, false, true, false}, int errorDelay = 0);
 
         // This is a capture sequence file needed to start up the scheduler. Most fields are ignored by the scheduler,

@@ -365,6 +365,7 @@ void SchedulerUtils_setupJob(Ekos::SchedulerJob &job, const QString &name, bool 
                              const QString &train, const dms &ra, const dms &dec, double djd, double rotation, const QUrl &sequenceUrl,
                              const QUrl &fitsUrl, Ekos::StartupCondition startup, const QDateTime &startupTime, Ekos::CompletionCondition completion,
                              const QDateTime &completionTime, int completionRepeats, double minimumAltitude, double minimumMoonSeparation,
+                             double maxMoonAltitude,
                              bool enforceWeather, bool enforceTwilight, bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
 {
     /* Configure or reconfigure the observation job */
@@ -393,9 +394,9 @@ void SchedulerUtils_setupJob(Ekos::SchedulerJob &job, const QString &name, bool 
         job.setStartAtTime(job.getStartupTime());
 
         // #2 Constraints
-
         job.setMinAltitude(minimumAltitude);
         job.setMinMoonSeparation(minimumMoonSeparation);
+        job.setMaxMoonAltitude(maxMoonAltitude);
 
         // Check enforce weather constraints
         job.setEnforceWeather(enforceWeather);
@@ -436,7 +437,8 @@ void SchedulerUtils_setupJob(Ekos::SchedulerJob &job, const QString &name, bool 
 }
 
 // Sets up a SchedulerJob, used by getRunTimes to see when the target can be imaged.
-void setupJob(Ekos::SchedulerJob &job, const QString name, double minAltitude, double minMoonSeparation, dms ra, dms dec,
+void setupJob(Ekos::SchedulerJob &job, const QString name, double minAltitude, double minMoonSeparation,
+              double maxMoonAltitude, dms ra, dms dec,
               bool useArtificialHorizon)
 {
     double djd = KStars::Instance()->data()->ut().djd();
@@ -451,21 +453,21 @@ void setupJob(Ekos::SchedulerJob &job, const QString name, double minAltitude, d
                             rotation, sequenceURL, QUrl(),
                             Ekos::START_ASAP, QDateTime(),
                             Ekos::FINISH_LOOP, QDateTime(), 1,
-                            minAltitude, minMoonSeparation,
+                            minAltitude, minMoonSeparation, maxMoonAltitude,
                             false, true, useArtificialHorizon,
                             true, true, true, true);
 }
 
 // Computes the times when the given coordinates can be imaged on the date.
 void getRunTimes(const QDate &date, const GeoLocation &geo, double minAltitude, double minMoonSeparation,
-                 const dms &ra, const dms &dec, bool useArtificialHorizon, QVector<QDateTime> *jobStartTimes,
+                 double maxMoonAltitude, const dms &ra, const dms &dec, bool useArtificialHorizon, QVector<QDateTime> *jobStartTimes,
                  QVector<QDateTime> *jobEndTimes)
 {
     jobStartTimes->clear();
     jobEndTimes->clear();
     constexpr int SCHEDULE_RESOLUTION_MINUTES = 10;
     Ekos::SchedulerJob job;
-    setupJob(job, "temp", minAltitude, minMoonSeparation, ra, dec, useArtificialHorizon);
+    setupJob(job, "temp", minAltitude, minMoonSeparation, maxMoonAltitude, ra, dec, useArtificialHorizon);
 
     auto tz = QTimeZone(geo.TZ() * 3600);
 
@@ -502,10 +504,11 @@ void getRunTimes(const QDate &date, const GeoLocation &geo, double minAltitude, 
 
 // Computes the times when the given catalog object can be imaged on the date.
 double getRunHours(const CatalogObject &object, const QDate &date, const GeoLocation &geo, double minAltitude,
-                   double minMoonSeparation, bool useArtificialHorizon)
+                   double minMoonSeparation, double maxMoonAltitude, bool useArtificialHorizon)
 {
     QVector<QDateTime> jobStartTimes, jobEndTimes;
-    getRunTimes(date, geo, minAltitude, minMoonSeparation, object.ra0(), object.dec0(), useArtificialHorizon, &jobStartTimes,
+    getRunTimes(date, geo, minAltitude, minMoonSeparation, maxMoonAltitude, object.ra0(), object.dec0(), useArtificialHorizon,
+                &jobStartTimes,
                 &jobEndTimes);
     if (jobStartTimes.size() == 0 || jobEndTimes.size() == 0)
         return 0;
@@ -1274,6 +1277,8 @@ void ImagingPlanner::initialize()
     m_UseArtificialHorizon = Options::imagingPlannerUseArtificialHorizon();
     ui->minMoon->setValue(Options::imagingPlannerMinMoonSeparation());
     m_MinMoon = Options::imagingPlannerMinMoonSeparation();
+    ui->maxMoonAltitude->setValue(Options::imagingPlannerMaxMoonAltitude());
+    m_MaxMoonAltitude = Options::imagingPlannerMaxMoonAltitude();
     ui->minAltitude->setValue(Options::imagingPlannerMinAltitude());
     m_MinAltitude = Options::imagingPlannerMinAltitude();
     ui->minHours->setValue(Options::imagingPlannerMinHours());
@@ -1295,6 +1300,16 @@ void ImagingPlanner::initialize()
             return;
         m_MinMoon = ui->minMoon->value();
         Options::setImagingPlannerMinMoonSeparation(ui->minMoon->value());
+        Options::self()->save();
+        recompute();
+        updateDisplays();
+    });
+    connect(ui->maxMoonAltitude, &QDoubleSpinBox::editingFinished, [this]()
+    {
+        if (m_MaxMoonAltitude == ui->maxMoonAltitude->value())
+            return;
+        m_MaxMoonAltitude = ui->maxMoonAltitude->value();
+        Options::setImagingPlannerMaxMoonAltitude(ui->maxMoonAltitude->value());
         Options::self()->save();
         recompute();
         updateDisplays();
@@ -1827,7 +1842,7 @@ bool ImagingPlanner::addCatalogItem(const KSAlmanac &ksal, const QString &name, 
         else if (i == HOURS_COLUMN)
         {
             double runHours = getRunHours(*object, getDate(), *getGeo(), ui->minAltitude->value(), ui->minMoon->value(),
-                                          ui->useArtificialHorizon->isChecked());
+                                          ui->maxMoonAltitude->value(), ui->useArtificialHorizon->isChecked());
             auto hoursItem = getItemWithUserRole(QString("%1").arg(runHours, 0, 'f', 1));
             hoursItem->setData(runHours, HOURS_ROLE);
             itemList.append(hoursItem);
@@ -1946,7 +1961,7 @@ void ImagingPlanner::recompute()
             return;
         }
         double runHours = getRunHours(*catalogEntry, getDate(), *getGeo(), ui->minAltitude->value(),
-                                      ui->minMoon->value(), ui->useArtificialHorizon->isChecked());
+                                      ui->minMoon->value(), ui->maxMoonAltitude->value(), ui->useArtificialHorizon->isChecked());
         QString hoursText = QString("%1").arg(runHours, 0, 'f', 1);
         QStandardItem *hItem = new QStandardItem(hoursText);
         hItem->setData(hoursText, Qt::UserRole);
@@ -2715,7 +2730,8 @@ void ImagingPlanner::plotAltitudeGraph(const QDate &date, const dms &ra, const d
     //altitudeGraph->axis(KPlotWidget::TopAxis)->setVisible(false);
 
     QVector<QDateTime> jobStartTimes, jobEndTimes;
-    getRunTimes(date, *getGeo(), ui->minAltitude->value(), ui->minMoon->value(), ra, dec, ui->useArtificialHorizon->isChecked(),
+    getRunTimes(date, *getGeo(), ui->minAltitude->value(), ui->minMoon->value(), ui->maxMoonAltitude->value(), ra, dec,
+                ui->useArtificialHorizon->isChecked(),
                 &jobStartTimes, &jobEndTimes);
 
     auto tz = QTimeZone(getGeo()->TZ() * 3600);
@@ -2730,7 +2746,8 @@ void ImagingPlanner::plotAltitudeGraph(const QDate &date, const dms &ra, const d
     dusk.setTimeZone(tz);
 
     Ekos::SchedulerJob job;
-    setupJob(job, "temp", ui->minAltitude->value(), ui->minMoon->value(), ra, dec, ui->useArtificialHorizon->isChecked());
+    setupJob(job, "temp", ui->minAltitude->value(), ui->minMoon->value(), ui->maxMoonAltitude->value(), ra, dec,
+             ui->useArtificialHorizon->isChecked());
 
     QVector<double> times, alts;
     QDateTime plotStart = dusk;

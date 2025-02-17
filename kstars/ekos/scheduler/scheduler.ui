@@ -10,7 +10,7 @@
     <height>537</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_8" stretch="4,1">
+  <layout class="QVBoxLayout" name="verticalLayout_8" stretch="4,1,0">
    <property name="spacing">
     <number>1</number>
    </property>
@@ -1316,7 +1316,7 @@ font-weight:bold;
     </widget>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,0" columnstretch="1,1,1">
+    <layout class="QGridLayout" name="gridLayoutConditions" rowstretch="0" columnstretch="2,4,3">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -1360,7 +1360,7 @@ font-weight:bold;
          <number>3</number>
         </property>
         <item>
-         <layout class="QGridLayout" name="gridLayout_6" rowstretch="1,1,1,1">
+         <layout class="QGridLayout" name="gridLayout_6" rowstretch="1,1,1,1" columnstretch="2,1">
           <property name="spacing">
            <number>3</number>
           </property>
@@ -1517,7 +1517,7 @@ font-weight:bold;
          <number>3</number>
         </property>
         <item>
-         <layout class="QGridLayout" name="gridLayout" rowstretch="0,0">
+         <layout class="QGridLayout" name="gridLayout" rowstretch="1,1" columnstretch="2,1">
           <property name="spacing">
            <number>3</number>
           </property>
@@ -1624,50 +1624,25 @@ font-weight:bold;
          <number>3</number>
         </property>
         <item>
-         <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,1,1,1,0">
+         <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,1,1,1" columnstretch="1,1,1,1,1" columnminimumwidth="0,0,0,0,0">
           <property name="spacing">
            <number>3</number>
           </property>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="schedulerMoonSeparation">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+          <item row="1" column="2">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="toolTip">
-             <string>The moon separation must remain equal to or higher than the given value.</string>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
             </property>
-            <property name="text">
-             <string>Moon  &gt;: </string>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>10</width>
+              <height>20</height>
+             </size>
             </property>
-            <attribute name="buttonGroup">
-             <string notr="true">constraintButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="schedulerAltitude">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>The object's altitude must remain equal or higher than the given value.</string>
-            </property>
-            <property name="text">
-             <string>Alt &gt;: </string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">constraintButtonGroup</string>
-            </attribute>
-           </widget>
+           </spacer>
           </item>
           <item row="0" column="1">
            <widget class="QDoubleSpinBox" name="schedulerAltitudeValue">
@@ -1688,8 +1663,21 @@ font-weight:bold;
             </property>
            </widget>
           </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="nightTime">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Astronomical dawn and dusk for the Scheduler job currently selected, or for today if no job is selected.&lt;/p&gt;&lt;p&gt;- The first value is &lt;span style=&quot; font-weight:600;&quot;&gt;dusk&lt;/span&gt;, specifically the next local time the Sun sets below an altitude of -18° after the job starts.&lt;/p&gt;&lt;p&gt;- The second value is &lt;span style=&quot; font-weight:600;&quot;&gt;dawn&lt;/span&gt;, specifically the next local time the Sun rises higher than an altitude of -18° after the job starts.&lt;/p&gt;&lt;p&gt;A warning symbol indicates the Sun will not travel below the astronomical dusk boundary after the job starts, and that dawn and dusk times are calculated from its minimal altitude. In that situation, the Twilight restriction prevents job execution unless the Ekos Dawn Offset and Dusk Offset options are configured appropriately.&lt;/p&gt;&lt;p&gt;Note that the Ekos Pre-Dawn Offset option virtually advances dawn by a default of 30 minutes and will thus prevent a job from starting just before that moment.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
           <item row="2" column="0">
-           <widget class="QCheckBox" name="schedulerWeather">
+           <widget class="QCheckBox" name="schedulerTwilight">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1697,10 +1685,13 @@ font-weight:bold;
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Weather conditions must remain safe. When weather conditions become dangerous, shutdown procedure is initiated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;The twilight restriction constrains jobs to execute in astronomical darkness. Use the dusk and dawn offsets in the Ekos Scheduler options to adjust the interval.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
-             <string>Weather:</string>
+             <string>Twilight</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
             <attribute name="buttonGroup">
              <string notr="true">constraintButtonGroup</string>
@@ -1715,6 +1706,9 @@ font-weight:bold;
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The target must be at least this far from the moon.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
             <property name="suffix">
              <string> °</string>
             </property>
@@ -1726,8 +1720,27 @@ font-weight:bold;
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="schedulerTwilight">
+          <item row="1" column="4">
+           <widget class="QDoubleSpinBox" name="schedulerMoonAltitudeMaxValue">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The moon must be lower than this altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="suffix">
+             <string> °</string>
+            </property>
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>90.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>90.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="schedulerAltitude">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -1735,10 +1748,10 @@ font-weight:bold;
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;The twilight restriction constrains jobs to execute in astronomical darkness. Use the dusk and dawn offsets in the Ekos Scheduler options to adjust the interval.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>The object's altitude must remain equal or higher than the given value.</string>
             </property>
             <property name="text">
-             <string>Twilight:</string>
+             <string>Min. Altitude: </string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -1748,7 +1761,17 @@ font-weight:bold;
             </attribute>
            </widget>
           </item>
-          <item row="4" column="0">
+          <item row="1" column="3">
+           <widget class="QCheckBox" name="schedulerMoonAltitude">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The moon must be lower than this altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Moon max alt:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3" colspan="2">
            <widget class="QCheckBox" name="schedulerHorizon">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1770,21 +1793,46 @@ font-weight:bold;
             </attribute>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="weatherLabel">
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="schedulerMoonSeparation">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The target must be at least this far from the moon.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
             <property name="text">
-             <string/>
+             <string>Moon  min. sep.:</string>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
+            <attribute name="buttonGroup">
+             <string notr="true">constraintButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QCheckBox" name="schedulerWeather">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Weather conditions must remain safe. When weather conditions become dangerous, shutdown procedure is initiated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Weather</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">constraintButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QLabel" name="nightTime">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Astronomical dawn and dusk for the Scheduler job currently selected, or for today if no job is selected.&lt;/p&gt;&lt;p&gt;- The first value is &lt;span style=&quot; font-weight:600;&quot;&gt;dusk&lt;/span&gt;, specifically the next local time the Sun sets below an altitude of -18° after the job starts.&lt;/p&gt;&lt;p&gt;- The second value is &lt;span style=&quot; font-weight:600;&quot;&gt;dawn&lt;/span&gt;, specifically the next local time the Sun rises higher than an altitude of -18° after the job starts.&lt;/p&gt;&lt;p&gt;A warning symbol indicates the Sun will not travel below the astronomical dusk boundary after the job starts, and that dawn and dusk times are calculated from its minimal altitude. In that situation, the Twilight restriction prevents job execution unless the Ekos Dawn Offset and Dusk Offset options are configured appropriately.&lt;/p&gt;&lt;p&gt;Note that the Ekos Pre-Dawn Offset option virtually advances dawn by a default of 30 minutes and will thus prevent a job from starting just before that moment.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
+           <widget class="QLabel" name="weatherLabel">
             <property name="text">
              <string/>
             </property>
@@ -1798,7 +1846,313 @@ font-weight:bold;
        </layout>
       </widget>
      </item>
-     <item row="1" column="2">
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayoutStartStop" columnstretch="0,0,0">
+     <item row="0" column="1">
+      <widget class="QGroupBox" name="errorHandlingGroup">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Define what should happen when a job steps into an error or aborts:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Don't re-schedule&lt;/span&gt;: Don't restart the job in case of an error or an abort.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Re-schedule after all terminated&lt;/span&gt;: If a job gets aborted, the scheduler will only re-schedule it if when all jobs are finished or aborted. If this is the case, the scheduler re-schedules all aborted jobs and sleeps for the given delay.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Re-schedule immediately&lt;/span&gt;: As soon as a job gets aborted, the scheduler will re-schedule it and waits the given delay.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;If the option for re-scheduling errors is selected, errors are handled like aborts. Otherwise, jobs that step into an error are never re-scheduled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="title">
+        <string>Aborted Job Management</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QRadioButton" name="errorHandlingDontRestartButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Do not re-schedule aborted jobs.</string>
+            </property>
+            <property name="text">
+             <string>&amp;None</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">errorHandlingButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="errorHandlingRestartQueueButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Re-schedule aborted jobs as soon as all executable jobs are either completed or aborted.</string>
+            </property>
+            <property name="text">
+             <string>&amp;Queue</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">errorHandlingButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="errorHandlingRestartImmediatelyButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Re-schedule an aborted job immediately.</string>
+            </property>
+            <property name="text">
+             <string>I&amp;mmediate</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">errorHandlingButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="errorHandlingRescheduleErrorsCB">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Treat errors like aborts.</string>
+            </property>
+            <property name="text">
+             <string>Re-schedule errors:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="errorHandlingStrategyDelay">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Delay in seconds.</string>
+            </property>
+            <property name="suffix">
+             <string> s wait</string>
+            </property>
+            <property name="maximum">
+             <number>10000</number>
+            </property>
+            <property name="singleStep">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QGroupBox" name="startupGroupBox">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time startup procedure to be executed before starting Ekos. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;before&lt;/span&gt; the startup procedures (e.g. unpark scope), if selected, are executed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="title">
+        <string>Observatory Startup Procedure</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_16">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="schedulerUnparkDome">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Park dome to home position</string>
+            </property>
+            <property name="text">
+             <string>UnPark Dome</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="schedulerUnparkMount">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Park telescope to home position.</string>
+            </property>
+            <property name="text">
+             <string>UnPark Mount</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="schedulerOpenDustCover">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Open dust cover</string>
+            </property>
+            <property name="text">
+             <string>UnCap</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="startupB">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Script:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="schedulerStartupScript">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectStartupScriptB">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item row="0" column="2">
       <widget class="QGroupBox" name="shutdownGroupBox">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -1992,308 +2346,6 @@ font-weight:bold;
        </layout>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QGroupBox" name="errorHandlingGroup">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Define what should happen when a job steps into an error or aborts:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Don't re-schedule&lt;/span&gt;: Don't restart the job in case of an error or an abort.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Re-schedule after all terminated&lt;/span&gt;: If a job gets aborted, the scheduler will only re-schedule it if when all jobs are finished or aborted. If this is the case, the scheduler re-schedules all aborted jobs and sleeps for the given delay.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Re-schedule immediately&lt;/span&gt;: As soon as a job gets aborted, the scheduler will re-schedule it and waits the given delay.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;If the option for re-scheduling errors is selected, errors are handled like aborts. Otherwise, jobs that step into an error are never re-scheduled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="title">
-        <string>Aborted Job Management</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_9">
-        <property name="spacing">
-         <number>1</number>
-        </property>
-        <property name="leftMargin">
-         <number>3</number>
-        </property>
-        <property name="topMargin">
-         <number>3</number>
-        </property>
-        <property name="rightMargin">
-         <number>3</number>
-        </property>
-        <property name="bottomMargin">
-         <number>3</number>
-        </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <item>
-           <widget class="QRadioButton" name="errorHandlingDontRestartButton">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Do not re-schedule aborted jobs.</string>
-            </property>
-            <property name="text">
-             <string>&amp;None</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">errorHandlingButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="errorHandlingRestartQueueButton">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Re-schedule aborted jobs as soon as all executable jobs are either completed or aborted.</string>
-            </property>
-            <property name="text">
-             <string>&amp;Queue</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">errorHandlingButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="errorHandlingRestartImmediatelyButton">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Re-schedule an aborted job immediately.</string>
-            </property>
-            <property name="text">
-             <string>I&amp;mmediate</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">errorHandlingButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <item>
-           <widget class="QCheckBox" name="errorHandlingRescheduleErrorsCB">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Treat errors like aborts.</string>
-            </property>
-            <property name="text">
-             <string>Re-schedule errors:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="errorHandlingStrategyDelay">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Delay in seconds.</string>
-            </property>
-            <property name="suffix">
-             <string> s wait</string>
-            </property>
-            <property name="maximum">
-             <number>10000</number>
-            </property>
-            <property name="singleStep">
-             <number>10</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QGroupBox" name="startupGroupBox">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time startup procedure to be executed before starting Ekos. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;before&lt;/span&gt; the startup procedures (e.g. unpark scope), if selected, are executed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="title">
-        <string>Observatory Startup Procedure</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <property name="spacing">
-         <number>1</number>
-        </property>
-        <property name="leftMargin">
-         <number>3</number>
-        </property>
-        <property name="topMargin">
-         <number>3</number>
-        </property>
-        <property name="rightMargin">
-         <number>3</number>
-        </property>
-        <property name="bottomMargin">
-         <number>3</number>
-        </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_16">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <item>
-           <widget class="QCheckBox" name="schedulerUnparkDome">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Park dome to home position</string>
-            </property>
-            <property name="text">
-             <string>UnPark Dome</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">startupProcedureButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="schedulerUnparkMount">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Park telescope to home position.</string>
-            </property>
-            <property name="text">
-             <string>UnPark Mount</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">startupProcedureButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="schedulerOpenDustCover">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Open dust cover</string>
-            </property>
-            <property name="text">
-             <string>UnCap</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">startupProcedureButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_10">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="startupB">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_12">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="label_8">
-            <property name="text">
-             <string>Script:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="schedulerStartupScript">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="readOnly">
-             <bool>false</bool>
-            </property>
-            <property name="clearButtonEnabled">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="selectStartupScriptB">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
@@ -2337,11 +2389,17 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="shutdownProcedureGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="errorHandlingButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
@@ -2353,12 +2411,6 @@ font-weight:bold;
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="shutdownProcedureGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="errorHandlingButtonGroup"/>
   <buttongroup name="completionButtonGroup"/>
  </buttongroups>
 </ui>

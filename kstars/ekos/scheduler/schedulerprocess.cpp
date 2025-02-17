@@ -3091,7 +3091,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
     QLocale cLocale = QLocale::c();
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << Qt::endl;
-    outstream << "<SchedulerList version='2.0'>" << Qt::endl;
+    outstream << "<SchedulerList version='2.1'>" << Qt::endl;
     // ensure to escape special XML characters
     outstream << "<Profile>" << QString(entityXML(strdup(moduleState()->currentProfile().toStdString().c_str()))) <<
               "</Profile>" << Qt::endl;
@@ -3192,6 +3192,9 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
                           Qt::endl;
             if (job->getMinMoonSeparation() > 0)
                 outstream << "<Constraint value='" << cLocale.toString(job->getMinMoonSeparation()) << "'>MoonSeparation</Constraint>"
+                          << Qt::endl;
+            if (job->getMaxMoonAltitude() < 90)
+                outstream << "<Constraint value='" << cLocale.toString(job->getMaxMoonAltitude()) << "'>MoonMaxAltitude</Constraint>"
                           << Qt::endl;
             if (job->getEnforceWeather())
                 outstream << "<Constraint>EnforceWeather</Constraint>" << Qt::endl;

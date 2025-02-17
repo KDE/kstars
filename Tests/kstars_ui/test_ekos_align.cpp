@@ -413,7 +413,7 @@ bool TestEkosAlign::alignWithScheduler(SkyObject *targetObject, QString fitsTarg
     const QString esqFile = testDir->filePath(QString("test.esq"));
     // create the scheduler file
     const QString schedulerFile = TestEkosSchedulerHelper::getSchedulerFile(targetObject, startupCondition,
-                                  completionCondition, {true, false, true, false}, false, false, 30, fitsTarget);
+                                  completionCondition, {true, false, true, false}, false, false, 30, 90.0, fitsTarget);
     const QString eslFile = testDir->filePath(QString("test.esl"));
     // write both files to the test directory
     KVERIFY_SUB(TestEkosSchedulerHelper::writeSimpleSequenceFiles(schedulerFile, eslFile, sequenceFile, esqFile));

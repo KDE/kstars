@@ -1006,6 +1006,10 @@
          <label>For imaging hours calculation, object must be more than this far from the moon.</label>
          <default>30.0</default>
       </entry>
+      <entry name="ImagingPlannerMaxMoonAltitude" type="Double">
+         <label>For imaging hours calculation, the moon must have an altitude lower than this.</label>
+         <default>90.0</default>
+      </entry>
       <entry name="ImagingPlannerShowPicked" type="Bool">
          <label>Show the objects that are marked picked (don't show those that are not picked).</label>
          <default>false</default>
@@ -3301,12 +3305,20 @@
          <default>true</default>
       </entry>
       <entry name="SchedulerMoonSeparation" type="Bool">
-         <label>Default scheduler checkbox for job moon separation constraints.</label>
+         <label>Default scheduler checkbox for job moon separation constraint.</label>
          <default>false</default>
       </entry>
       <entry name="SchedulerMoonSeparationValue" type="Double">
          <label>Default scheduler job moon separation constraint.</label>
          <default>0</default>
+      </entry>
+      <entry name="SchedulerMoonAltitude" type="Bool">
+         <label>Default scheduler checkbox for job moon altitude constraint.</label>
+         <default>false</default>
+      </entry>
+      <entry name="SchedulerMoonAltitudeMaxValue" type="Double">
+         <label>Default scheduler job moon altitude constraint.</label>
+         <default>90</default>
       </entry>
       <entry name="SchedulerWeather" type="Bool">
          <label>Default scheduler checkbox for job weather constraints.</label>

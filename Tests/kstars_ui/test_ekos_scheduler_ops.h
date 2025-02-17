@@ -64,6 +64,7 @@ class TestEkosSchedulerOps : public QObject
         void testGreedySchedulerRun();
         void testRememberJobProgress();
         void testGreedy();
+        void testMaxMoonAltitude();
         void testGroups();
         void testArtificialCeiling();
         void testGreedyAborts();
@@ -121,11 +122,10 @@ class TestEkosSchedulerOps : public QObject
         int timeTolerance(int seconds);
         bool checkLastSlew(const SkyObject* targetObject);
         void printJobs(const QString &label);
-        void loadGreedySchedule(
-            bool first, const QString &targetName,
+        void loadGreedySchedule(bool first, const QString &targetName,
             const TestEkosSchedulerHelper::StartupCondition &startupCondition,
             const TestEkosSchedulerHelper::CompletionCondition &completionCondition,
-            QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude = 30,
+            QTemporaryDir &dir, const QVector<TestEkosSchedulerHelper::CaptureJob> &captureJob, int minAltitude = 30, double maxMoonAltitude = 90.0,
             const TestEkosSchedulerHelper::ScheduleSteps steps = {true, true, true, true}, bool enforceTwilight = true,
             bool enforceHorizon = true, int errorDelay = 0);
         void makeFitsFiles(const QString &base, int num);

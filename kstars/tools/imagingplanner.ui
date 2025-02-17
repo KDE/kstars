@@ -750,7 +750,7 @@
               </widget>
              </item>
              <item>
-              <spacer name="imageHspacer">
+              <spacer name="imageHspacer_1">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -1040,10 +1040,10 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>For imaging hours calculation, object must be at least this far from the moon.</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For imaging hours calculations, object must be at least the number of degrees in the 1st box away from the moon, and the moon must be below the altitude in the 2nd box.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="text">
-                <string>Min Moon º</string>
+                <string>Moon:</string>
                </property>
               </widget>
              </item>
@@ -1062,10 +1062,10 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>For imaging hours calculation, object must be at least this far from the moon.</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For imaging hours calculations object must be at least this far from the moon.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="suffix">
-                <string> °</string>
+                <string>°</string>
                </property>
                <property name="decimals">
                 <number>0</number>
@@ -1074,6 +1074,25 @@
                 <double>0.000000000000000</double>
                </property>
                <property name="maximum">
+                <double>90.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="5">
+              <widget class="QDoubleSpinBox" name="maxMoonAltitude">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For imaging hours calculations the moon must be lower than this altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="suffix">
+                <string>°</string>
+               </property>
+               <property name="decimals">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <double>90.000000000000000</double>
+               </property>
+               <property name="value">
                 <double>90.000000000000000</double>
                </property>
               </widget>
@@ -2280,7 +2299,7 @@
               </layout>
              </item>
              <item>
-              <spacer name="imageHspacer">
+              <spacer name="imageHspacer_2">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>

@@ -234,6 +234,11 @@ void SchedulerJob::setMinMoonSeparation(const double &value)
     minMoonSeparation = value;
 }
 
+void SchedulerJob::setMaxMoonAltitude(const double &value)
+{
+    maxMoonAltitude = value;
+}
+
 void SchedulerJob::setEnforceWeather(bool value)
 {
     enforceWeather = value;
@@ -605,7 +610,7 @@ bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, 
     return true;
 }
 
-bool SchedulerJob::moonSeparationOK(QDateTime const &when) const
+bool SchedulerJob::moonConstraintsOK(QDateTime const &when, QString *reason) const
 {
     if (moon == nullptr) return true;
 
@@ -626,10 +631,24 @@ bool SchedulerJob::moonSeparationOK(QDateTime const &when) const
 
     CachingDms LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltWhen).gst());
     moon->updateCoords(&numbers, true, SchedulerModuleState::getGeo()->lat(), &LST, true);
+    moon->EquatorialToHorizontal(&LST, SchedulerModuleState::getGeo()->lat());
 
-    double const separation = moon->angularDistanceTo(&o).Degrees();
+    bool const separationOK = (getMinMoonSeparation() < 0 || (moon->angularDistanceTo(&o).Degrees() >= getMinMoonSeparation()));
+    bool const altitudeOK   = (getMaxMoonAltitude() >= 90 || (moon->alt().Degrees() <= getMaxMoonAltitude()));
+    bool result             = separationOK && altitudeOK;
 
-    return (separation >= getMinMoonSeparation());
+    // set the result string if at least one of the constraints is not met
+    if (reason != nullptr && !result)
+    {
+        if (!separationOK && !altitudeOK)
+            *reason = QString("moon separation and altitude");
+        else if (!separationOK)
+            *reason = QString("moon separation");
+        else if (!altitudeOK)
+            *reason = QString("moon altitude");
+    }
+
+    return result;
 }
 
 QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfConstraintsAreMet, int increment,
@@ -700,16 +719,13 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
         {
             // Don't test proximity to dawn in this situation, we only cater for altitude here
 
-            // Continue searching if Moon separation is not good enough
-            if (0 < getMinMoonSeparation() && !moonSeparationOK(ltOffset))
+            // Check moon constraints (moon altitude and distance between target and moon)
+            if (!moonConstraintsOK(ltOffset, checkIfConstraintsAreMet ? nullptr : reason))
             {
                 if (checkIfConstraintsAreMet)
                     continue;
                 else
-                {
-                    if (reason) *reason = QString("moon separation");
                     return ltOffset;
-                }
             }
 
             if (checkIfConstraintsAreMet)
@@ -1071,6 +1087,7 @@ QJsonObject SchedulerJob::toJson() const
         {"completedCount", completedCount},
         {"minAltitude", minAltitude},
         {"minMoonSeparation", minMoonSeparation},
+        {"maxMoonAltitude", maxMoonAltitude},
         {"repeatsRequired", repeatsRequired},
         {"repeatsRemaining", repeatsRemaining},
         {"inSequenceFocus", inSequenceFocus},

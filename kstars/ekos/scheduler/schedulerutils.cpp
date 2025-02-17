@@ -27,7 +27,7 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root, SchedulerJob *leadJob)
     QString name, group, train;
     bool isLead = true;
     dms ra, dec;
-    double rotation = 0.0, minimumAltitude = 0.0, minimumMoonSeparation = 0.0;
+    double rotation = 0.0, minimumAltitude = 0.0, minimumMoonSeparation = 0.0, maxMoonAltitude = 90.0;
     QUrl sequenceURL, fitsURL;
     StartupCondition startup = START_ASAP;
     CompletionCondition completion = FINISH_SEQUENCE;
@@ -105,6 +105,11 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root, SchedulerJob *leadJob)
                     Options::setSchedulerMoonSeparation(true);
                     minimumMoonSeparation = cLocale.toDouble(findXMLAttValu(subEP, "value"));
                 }
+                else if (!strcmp("MoonMaxAltitude", pcdataXMLEle(subEP)))
+                {
+                    Options::setSchedulerMoonAltitude(true);
+                    maxMoonAltitude = cLocale.toDouble(findXMLAttValu(subEP, "value"));
+                }
                 else if (!strcmp("EnforceWeather", pcdataXMLEle(subEP)))
                     enforceWeather = true;
                 else if (!strcmp("EnforceTwilight", pcdataXMLEle(subEP)))
@@ -161,6 +166,7 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root, SchedulerJob *leadJob)
 
                              minimumAltitude,
                              minimumMoonSeparation,
+                             maxMoonAltitude,
                              enforceWeather,
                              enforceTwilight,
                              enforceArtificialHorizon,
@@ -177,7 +183,8 @@ void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, bool isLea
                               const QString &train, const dms &ra, const dms &dec, double djd, double rotation, const QUrl &sequenceUrl,
                               const QUrl &fitsUrl, StartupCondition startup, const QDateTime &startupTime, CompletionCondition completion,
                               const QDateTime &completionTime, int completionRepeats, double minimumAltitude, double minimumMoonSeparation,
-                              bool enforceWeather, bool enforceTwilight, bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
+                              double maxMoonAltitude, bool enforceWeather, bool enforceTwilight, bool enforceArtificialHorizon, bool track, bool focus,
+                              bool align, bool guide)
 {
     /* Configure or reconfigure the observation job */
 
@@ -205,9 +212,9 @@ void SchedulerUtils::setupJob(SchedulerJob &job, const QString &name, bool isLea
         job.setStartAtTime(job.getStartupTime());
 
         // #2 Constraints
-
         job.setMinAltitude(minimumAltitude);
         job.setMinMoonSeparation(minimumMoonSeparation);
+        job.setMaxMoonAltitude(maxMoonAltitude);
 
         // Check enforce weather constraints
         job.setEnforceWeather(enforceWeather);
