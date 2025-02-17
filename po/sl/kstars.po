@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-13 02:03+0000\n"
-"PO-Revision-Date: 2025-02-15 14:56+0100\n"
+"PO-Revision-Date: 2025-02-17 00:52+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22496,7 +22496,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Samodejno prilagodi oba vodilna grafikona na privzeto "
 "merilo. če se katerekoli točke nahajajo zunaj tega obsega, se pogled razširi "
-"tako, da jih vključuje (z izjemo časovne osi v grafu drsenja).</p></telo></"
+"tako, da jih vključuje (z izjemo časovne osi v grafu drsenja).</p></body></"
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
@@ -23880,7 +23880,7 @@ msgstr ""
 "<html><head/><body><p>Če je odkljukano in se zažene notranji vodnik, se "
 "datoteka dnevnikashrani v privzeti imenik za beleženje. To ni dnevnik "
 "odpravljanja napak, ampak jenamenjen uporabnikom za izboljšanje beleženja in "
-"si ga je mogoče ogledati s programom phd2logview.</p></telo></html>"
+"si ga je mogoče ogledati s programom phd2logview.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:440
@@ -24956,7 +24956,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Omejitev največjega urnega kota, če se montaža ni "
 "preklopila.Če je teleskop nad to mejo, bo prejel ukaz, naj se ustavi.</p></"
-"telo></html>"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
 #: ekos/mount/mount.ui:301
@@ -33087,10 +33087,9 @@ msgstr "Ponastavi sličico"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, debayerB)
 #: indi/streamform.ui:143
-#, fuzzy, kde-format
-#| msgid "Toggle stars"
+#, kde-format
 msgid "Toggle Debayer"
-msgstr "Preklopi prikaz zvezd"
+msgstr "Preklopi debayer"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, collimationB)
 #: indi/streamform.ui:165
@@ -44418,11 +44417,10 @@ msgid "Tongan"
 msgstr "Tongan"
 
 #: kstars_i18n.cpp:699
-#, fuzzy, kde-kuit-format
-#| msgid "Asterism"
+#, kde-kuit-format
 msgctxt "Sky Culture"
 msgid "Asterisms"
-msgstr "Asterizem"
+msgstr "Asterizmi"
 
 #: kstars_i18n.cpp:700
 #, kde-kuit-format
@@ -44665,12 +44663,10 @@ msgid "Al Manamah"
 msgstr "Al Manamah"
 
 #: kstars_i18n.cpp:740
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Spain"
-#| msgid "Alicante"
+#, kde-kuit-format
 msgctxt "City in Spain"
 msgid "Alacant"
-msgstr "Alicante"
+msgstr "Alacant"
 
 #: kstars_i18n.cpp:741
 #, kde-kuit-format
@@ -55125,9 +55121,7 @@ msgid "Lübeck"
 msgstr "Lübeck"
 
 #: kstars_i18n.cpp:2483
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Pyungbuk Korea"
-#| msgid "Maando"
+#, kde-kuit-format
 msgctxt "City in Pyŏngbuk North Korea"
 msgid "Maando"
 msgstr "Maando"
@@ -59051,9 +59045,7 @@ msgid "Podor"
 msgstr "Podor"
 
 #: kstars_i18n.cpp:3137
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Gyeongbuk Korea"
-#| msgid "Pohang"
+#, kde-kuit-format
 msgctxt "City in Gyeongbuk South Korea"
 msgid "Pohang"
 msgstr "Pohang"
@@ -59407,9 +59399,7 @@ msgid "Preston"
 msgstr "Preston"
 
 #: kstars_i18n.cpp:3196
-#, fuzzy, kde-kuit-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Preston"
+#, kde-kuit-format
 msgctxt "City in Lancashire United Kingdom"
 msgid "Preston"
 msgstr "Preston"
@@ -76963,8 +76953,8 @@ msgid ""
 "Press this button to remove the highlighted color scheme.  This will only "
 "work on your custom color schemes."
 msgstr ""
-"Kliknite ta gumb za odstranitev poudarjene predloge barvne sheme. Odstranite "
-"lahko samo barvne sheme po meri."
+"Kliknite ta gumb za odstranitev poudarjene predloge barvne sheme. To bo "
+"delovalo samo za barve sheme po meri."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: options/opscolors.ui:239
@@ -76980,81 +76970,75 @@ msgstr "Možnosti razvijalca"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:40
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save autofocus frames. Only enable to troubleshoot "
 "autofocus by examining frames. This can consume a lot of storage space.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Shranite okvirje samodejnega ostranjevanja. Samodejno "
-"ostevanje lahko odpravite le tako, da preučite okvirje. To lahko porabi "
-"veliko prostora za shranjevanje.</p></body></html>"
+"<html><head/><body><p>Shrani posnetke samodejnega ostrenja. Omogoči samo za "
+"odpravljanje težavsamodejno ostrenje s pregledovanjem posnetkov. To lahko "
+"porabi veliko prostora za shranjevanje.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFocusImages)
 #: options/opsdeveloper.ui:43
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save Focus Images"
 msgstr "Shrani slike fokusa"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideImages)
 #: options/opsdeveloper.ui:50
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Guider frames. Only enable to "
 "troubleshoot guider by examining frames. This can consume a lot of storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Shranite okvirje samodejnega ostranjevanja. Samodejno "
-"ostevanje lahko odpravite le tako, da preučite okvirje. To lahko porabi "
+"<html><head/><body><p>Shrani posnetke notranjega vodnika. Samo omogoči "
+"vodnika za odpravljanje težav s pregledovanjem posnetkov. To lahko porabi "
 "veliko prostora za shranjevanje.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveGuideImages)
 #: options/opsdeveloper.ui:53
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Save Guider Images"
-msgstr "Slika vodnika"
+msgstr "Shrani slike vodnika"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:60
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Internal Align frames. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Shranite okvirje samodejnega ostranjevanja. Samodejno "
-"ostevanje lahko odpravite le tako, da preučite okvirje. To lahko porabi "
-"veliko prostora za shranjevanje.</p></body></html>"
+"<html><head/><body><p>Shrani posnetke notranje poravnave. Samo omogoči "
+"odpravljanje težav s poravnavo s pregledovanjem posnetkov. To lahko porabi "
+"nekaj dodatnega prostora za shranjevanje.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveAlignImages)
 #: options/opsdeveloper.ui:63
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Save Align Images"
-msgstr "Slika vodnika"
+msgstr "Shrani slike poravnave"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:70
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Save Align images where align failed. Only enable to "
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Shranite okvirje samodejnega ostranjevanja. Samodejno "
-"ostevanje lahko odpravite le tako, da preučite okvirje. To lahko porabi "
-"veliko prostora za shranjevanje.</p></body></html>"
+"<html><head/><body><p>Shrani slike poravnave, kjer poravnava ni uspela. "
+"Omogoči samo odpravljanje težav s poravnavo s pregledovanjem posnetkov. To "
+"lahko porabi nekaj dodatnega prostora za shranjevanje.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:73
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Guider Image"
+#, kde-format
 msgid "Save Failed Align Images"
-msgstr "Slika vodnika"
+msgstr "Shrani slike neuspelih poravnav"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
@@ -77305,10 +77289,9 @@ msgstr "Če je označeno, bodo zastavice izrisane na zvezdni karti"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SimulateDaytime)
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:294 options/opsguides.ui:297
-#, fuzzy, kde-format
-#| msgid "If checked, Mars will be drawn on the map."
+#, kde-format
 msgid "If checked, sky will be bright during the daytime"
-msgstr "Če je označeno, bo Mars izrisan na zvezdni karti."
+msgstr "Če je odkljukano, bo nebo podnevi svetlo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SimulateDaytime)
 #: options/opsguides.ui:300
@@ -77409,10 +77392,9 @@ msgid "Local meridian"
 msgstr "Lokalni poldnevnik"
 
 #: options/opsimageoverlay.cpp:76
-#, fuzzy, kde-format
-#| msgid "Align Options Profiles Editor"
+#, kde-format
 msgid "Image Overlay Align Options Profiles Editor"
-msgstr "Urejevalnik profilov možnosti poravnave"
+msgstr "Urednik slik profilov možnosti poravnav  prekrivanj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlays)
 #: options/opsimageoverlay.ui:64
@@ -77432,16 +77414,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSelectedImageOverlay)
 #: options/opsimageoverlay.ui:74
-#, fuzzy, kde-format
+#, kde-format
 msgid "Center SkyMap on selection"
-msgstr "Spremeni vrsto izbora"
+msgstr "Centriraj zvezno karto na izbiro"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowImageOverlaysBelowCatalogs)
 #: options/opsimageoverlay.ui:84
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display Image Overlays below catalogs"
-msgstr "Prikaz prekrivanja slik."
+msgstr "Prikaži prekrivne slike pod katalogi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayMaxDimensionLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayMaxDimension)
@@ -77470,21 +77451,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, imageOverlayShowDirButton)
 #: options/opsimageoverlay.ui:156
-#, fuzzy, kde-format
-#| msgid "Directory"
+#, kde-format
 msgid "Overlay Directory..."
-msgstr "Mapa"
+msgstr "Imenik prekrivanja..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, refreshB)
 #: options/opsimageoverlay.ui:175
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Refresh from the overlay directory. Add overlays that "
 "have been added there, and remove overlays that are no longer there.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Trenutni podatki vremenskih senzorjev. Kliknite na ime "
-"senzorja, da prikažete njegove podatke skozi čas.</p></body></html>"
+"<html><head/><body><p>Osveži iz imenika prekrivanja. Dodaj prekrivke, ki so "
+"bilo dodani tja in odstrani prekrivke, ki jih ni več.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, solveButton)
 #: options/opsimageoverlay.ui:250
@@ -77523,15 +77503,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, imageOverlaySolverProfile)
 #: options/opsimageoverlay.ui:266
-#, fuzzy, kde-format
+#, kde-format
 msgid "Selects the Options Profile (from Align) to use for Plate Solving"
-msgstr "Izbere profil možnosti, ki ga želite uporabiti za reševanje plošč"
+msgstr ""
+"Izbere profil možnosti (iz Poravnave), ki ga želite uporabiti za reševanje "
+"plošč"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editAlignProfile)
 #: options/opsimageoverlay.ui:288
-#, fuzzy, kde-format
-#| msgid ""
-#| "Opens the currently selected Options Profile in the Options Profile Editor"
+#, kde-format
 msgid ""
 "Opens the currently selected Align Profile in the Options Profile Editor"
 msgstr "Odpre trenutno izbrani profil možnosti v urejevalniku profila možnosti"
@@ -77549,10 +77529,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayScaleLabel)
 #: options/opsimageoverlay.ui:307
-#, fuzzy, kde-format
-#| msgid "Default"
+#, kde-format
 msgid "Default a-s/px:"
-msgstr "Privzeto"
+msgstr "Privzet a-s/px:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, imageOverlayTimeoutLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_ImageOverlayTimeout)
@@ -77563,8 +77542,7 @@ msgstr "Časovna omejitev za reševanje prekrivne slike na plošči (v sekundah)
 
 #. i18n: ectx: property (text), widget (QLabel, imageOverlayTimeoutLabel)
 #: options/opsimageoverlay.ui:348
-#, fuzzy, kde-format
-#| msgid "Time out:"
+#, kde-format
 msgid "Timeout:"
 msgstr "Časovna omejitev:"
 
@@ -77773,151 +77751,149 @@ msgstr "Če je označeno, bo Sonce izrisano na zvezdni karti."
 #. i18n: ectx: property (text), widget (QLabel, sunLabel)
 #. i18n: ectx: property (text), widget (QLabel, moonLabel)
 #: options/opssolarsystem.ui:168 options/opssolarsystem.ui:230
-#, fuzzy, kde-format
-#| msgid "Use Scale"
+#, kde-format
 msgid "scale:"
-msgstr "Uporabi merilo"
+msgstr "merilo:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:175
-#, fuzzy, kde-format
+#, kde-format
 msgid "Scale of sun rendering."
-msgstr "Merilo izrisa Sonca."
+msgstr "Merilo upodobitve Sonca."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_SunScale)
 #: options/opssolarsystem.ui:178
-#, fuzzy, kde-format
+#, kde-format
 msgid "Increase the size of the sun by this factor."
-msgstr "Za ta faktor povečajte velikost Sonca."
+msgstr "Povečaj velikost sonca s tem faktorjem."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:196
 #, kde-format
 msgid "Draw Jupiter?"
-msgstr "Izrišem Jupiter?"
+msgstr "Naj izrišem Jupiter?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowJupiter)
 #: options/opssolarsystem.ui:199
 #, kde-format
 msgid "If checked, Jupiter will be drawn on the map."
-msgstr "Če je označeno, bo Jupiter izrisan na zvezdni karti."
+msgstr "Če je odkljukano, bo Jupiter izrisan na zvezdni karti."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMoon)
 #: options/opssolarsystem.ui:214
 #, kde-format
 msgid "Draw the Moon?"
-msgstr "Izrišem Luno?"
+msgstr "Naj izrišem Luno?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowMoon)
 #: options/opssolarsystem.ui:217
 #, kde-format
 msgid "If checked, the Moon will be drawn on the map."
-msgstr "Če je označeno, bo Luna izrisana na zvezdni karti."
+msgstr "Če je odkljukano, bo Luna izrisana na zvezdni karti."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:237
-#, fuzzy, kde-format
+#, kde-format
 msgid "Scale of moon rendering."
-msgstr "Merilo izrisa Lune."
+msgstr "Merilo upodabljanja Lune."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_MoonScale)
 #: options/opssolarsystem.ui:240
-#, fuzzy, kde-format
+#, kde-format
 msgid "Increase the size of the moon by this factor."
-msgstr "Za ta faktor povečajte velikost Lune."
+msgstr "Povečaj velikost lune s tem faktorjem."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:258
 #, kde-format
 msgid "Draw Mercury?"
-msgstr "Izrišem Merkur?"
+msgstr "Naj izrišem Merkur?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowMercury)
 #: options/opssolarsystem.ui:261
 #, kde-format
 msgid "If checked, Mercury will be drawn on the map."
-msgstr "Če je označeno, bo Merkur izrisan na zvezdni karti."
+msgstr "Če je odkljukano, bo Merkur izrisan na zvezdni karti."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowNeptune)
 #: options/opssolarsystem.ui:274
 #, kde-format
 msgid "Draw Neptune?"
-msgstr "Izrišem Neptun?"
+msgstr "Naj izrišem Neptun?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowNeptune)
 #: options/opssolarsystem.ui:277
 #, kde-format
 msgid "If checked, Neptune will be drawn on the map."
-msgstr "Če je označeno, bo Neptun izrisan na zvezdni karti."
+msgstr "Če je odkljukano, bo Neptun izrisan na zvezdni karti."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowUranus)
 #: options/opssolarsystem.ui:306
 #, kde-format
 msgid "Draw Uranus?"
-msgstr "Izrišem Uran?"
+msgstr "Naj izrišem Uran?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowUranus)
 #: options/opssolarsystem.ui:309
 #, kde-format
 msgid "If checked, Uranus will be drawn on the map."
-msgstr "Če je označeno, bo Uran izrisan na zvezdni karti."
+msgstr "Če je odkljukano, bo Uran izrisan na zvezdni karti."
 
 #. i18n: ectx: property (title), widget (QGroupBox, MinorBodiesBox)
 #: options/opssolarsystem.ui:343
 #, kde-format
 msgid "Minor Planets"
-msgstr "Mala telesa"
+msgstr "Manjši planeti"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssolarsystem.ui:351
-#, fuzzy, kde-format
-#| msgid "Show asteroids brighter than"
+#, kde-format
 msgid "Download asteroids brighter than:"
-msgstr "Prikaži asteroide svetlejše od"
+msgstr "Prenesi asteroide svetlejše od:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowAsteroids)
 #: options/opssolarsystem.ui:358
 #, kde-format
 msgid "Draw asteroids?"
-msgstr "Izrišem asteroide?"
+msgstr "Naj izrišem asteroide?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAsteroids)
 #: options/opssolarsystem.ui:361
 #, kde-format
 msgid "If checked, asteroids will be drawn on the map"
-msgstr "Če je označeno, bodo asteroidi izrisani na zvezdni karti"
+msgstr "Če je odkljukano, bodo asteroidi izrisani na zvezdni karti"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowComets)
 #: options/opssolarsystem.ui:374
 #, kde-format
 msgid "Draw comets?"
-msgstr "Izrišem komete?"
+msgstr "Naj izrišem komete?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowComets)
 #: options/opssolarsystem.ui:377
 #, kde-format
 msgid "If checked, comets will be drawn on the map"
-msgstr "Če je možnost označeno, bodo kometi izrisani na zvezdni karti"
+msgstr "Če je odkljukano, bodo na karti narisani kometi"
 
 #. i18n: ectx: property (text), widget (QLabel, MagLimitAsteroidDownloadWarning)
 #: options/opssolarsystem.ui:409
-#, fuzzy, kde-format
+#, kde-format
 msgid "This value might result in a big data file and reduced performance."
 msgstr ""
 "Ta vrednost lahko povzroči veliko podatkovno datoteko in zmanjšano "
-"učinkovitost delovanja."
+"zmogljivost."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: options/opssolarsystem.ui:419
 #, kde-format
 msgid "Show asteroids brighter than:"
-msgstr "Prikaži asteroide, svetlejše od:"
+msgstr "Prikaži asteroide svetlejše od:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:426
 #, kde-format
 msgid "Show names of comets near the Sun"
-msgstr "Pokaži imena kometov, ki so dovolj blizu Sonca"
+msgstr "Pokaži imena kometov blizu Sonca"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:429
@@ -77927,8 +77903,9 @@ msgid ""
 "vary in brightness in their orbits, so a faint magnitude is not effective in "
 "this case."
 msgstr ""
-"Če je označeno, bodo kometom, ki so dovolj blizu Sonca pripete oznake z "
-"imenom. Kometi spreminjajo svojo svetlost, ko krožijo po orbiti okoli Sonca."
+"Če je odkljukano, bodo imeli kometi v bližini Sonca pritrjene oznake z "
+"imeni. Kometi se razlikujejo v svetlosti v svojih orbitah, zato šibka "
+"magnituda ni učinkovita v tem primeru."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometNames)
 #: options/opssolarsystem.ui:432
@@ -77956,9 +77933,9 @@ msgid ""
 "Astronomical Units (AU).  1 AU is the distance between the Earth and the "
 "Sun, approximately 150 million km"
 msgstr ""
-"Vnesite največjo oddaljenost kometa od Sonca, da bo zanj dodana oznaka z "
+"Nastavite največjo oddaljenost kometa od Sonca, da bo zanj dodana oznaka z "
 "imenom. Razdalja je v astronomskih enotah (AE). 1 AE je razdalja med Soncem "
-"in Zemljo, približno 150 milijonov kilometrov"
+"in Zemljo približno 150 milijonov kilometrov"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: options/opssolarsystem.ui:504
@@ -77970,13 +77947,13 @@ msgstr "AE"
 #: options/opssolarsystem.ui:525
 #, kde-format
 msgid "Attach name labels to asteroids?"
-msgstr "Pripnem oznake z imenom asteroidom?"
+msgstr "Naj asteroidom pripnem oznake z imenom?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowAsteroidNames)
 #: options/opssolarsystem.ui:528
 #, kde-format
 msgid "If checked, then name labels will be attached to asteroids"
-msgstr "Če je označeno, bodo asteroidom pripete oznake z imenom"
+msgstr "Če je odkljukano, bodo asteroidom pripete oznake z imenom"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowAsteroidNames)
 #: options/opssolarsystem.ui:531
@@ -77986,17 +77963,15 @@ msgstr "Pokaži imena"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowCometComas)
 #: options/opssolarsystem.ui:566
-#, fuzzy, kde-format
-#| msgid "Show Cross Hairs"
+#, kde-format
 msgid "Show comet comas"
-msgstr "Pokaži nitne križe"
+msgstr "Pokaži repe kometov"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_OrbitalElementsAutoUpdate)
 #: options/opssolarsystem.ui:573
-#, fuzzy, kde-format
-#| msgid "Update recent supernovae list on startup?"
+#, kde-format
 msgid "Update orbital element from online sources on startup."
-msgstr "Posodobi seznam za nedavne supernove ob zagonu?"
+msgstr "Posodobi orbitalni element iz spletnih virov ob zagonu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_OrbitalElementsAutoUpdate)
 #: options/opssolarsystem.ui:576
@@ -78008,7 +77983,7 @@ msgstr "Samodejna spletna posodobitev"
 #: options/opssolarsystem.ui:601
 #, kde-format
 msgid "Orbit Trails"
-msgstr "Sledi kroženja"
+msgstr "Sledi krožnice"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_UseAutoTrail)
 #: options/opssolarsystem.ui:607
@@ -78023,8 +77998,8 @@ msgid ""
 "If checked then any solar system body will have a temporary trail attached "
 "while it is centered in the display."
 msgstr ""
-"Če je označeno, bo vsako telo Osončja, ki je v sredini zaslona, za sabo "
-"puščalo začasno sled."
+"Če je odkljukano, bo vsako telo sončnega sistema imelo pritrjeno začasno "
+"sled, ko je na sredini zaslona."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseAutoTrail)
 #: options/opssolarsystem.ui:613
@@ -78044,7 +78019,7 @@ msgstr "Naj barva sledi zbledi v barvo ozadja?"
 msgid ""
 "If checked, the color of the planet trail will be blended into the "
 "background sky color."
-msgstr "Če je označeno, barva sledi zbledi v barvo neba v ozadju."
+msgstr "Če je odkljukano, barva sledi zbledi v barvo neba v ozadju."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FadePlanetTrails)
 #: options/opssolarsystem.ui:631
@@ -78108,7 +78083,7 @@ msgstr "Omeji supernove z omejitvami povečave"
 #: options/opssupernovae.ui:83
 #, kde-format
 msgid "Show supernovae"
-msgstr "Pokaži Supernove"
+msgstr "Pokaži supernove"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: options/opssupernovae.ui:106
@@ -78118,30 +78093,27 @@ msgstr "Določena meja magnitud za opozorila o supernovah:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: options/opssupernovae.ui:113
-#, fuzzy, kde-format
-#| msgid "Download"
+#, kde-format
 msgid "Download URL:"
-msgstr "Prenesi"
+msgstr "URL za prenos:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: options/opssupernovae.ui:120
-#, fuzzy, kde-format
-#| msgid "Angle (dd.d)"
+#, kde-format
 msgid "Age (days):"
-msgstr "Kot (dd.d)"
+msgstr "Starost (dnevi):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeHostOnly)
 #: options/opssupernovae.ui:137
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show only SN with host galaxy given"
-msgstr "Pokaži samo SN s podano galaksijo gostitelja"
+msgstr "Pokaži samo SN z navedeno galaksijo gostiteljico"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SupernovaeClassifiedOnly)
 #: options/opssupernovae.ui:144
-#, fuzzy, kde-format
-#| msgid "Show supernovae"
+#, kde-format
 msgid "Show only classified Supernovae"
-msgstr "Pokaži Supernove"
+msgstr "Prikaži samo klasificirane supernove"
 
 #: options/opsterrain.cpp:53
 #, kde-format
@@ -78181,36 +78153,34 @@ msgstr "Datoteka terena:"
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAzLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainSourceCorrectAz)
 #: options/opsterrain.ui:101 options/opsterrain.ui:117
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rotate terrain in azimuth degrees so north is actually north"
-msgstr "Zasukajte teren v azimutnih stopinjah, tako da je sever dejansko sever"
+msgstr "Obrni teren v stopinjah azimuta, tako da je sever dejansko sever"
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAzLabel)
 #: options/opsterrain.ui:104
-#, fuzzy, kde-format
+#, kde-format
 msgid "Terrain image azimuth correction degrees:"
-msgstr "Stopnje korekcije azimutne slike na terenu:"
+msgstr "Stopinje korekcije azimuta slike terena:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:159
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rotate terrain in altitude degrees so horizon is at 0 degrees altitude"
 msgstr ""
-"Zasukajte teren v višinska stopinjah, tako da je obzorje na 0 stopinj "
-"nadmorske višine"
+"Obrnite teren v višinskih stopinjah, tako da je obzorje na 0 stopinjah višine"
 
 #. i18n: ectx: property (text), widget (QLabel, terrainSourceCorrectAltLabel)
 #: options/opsterrain.ui:162
-#, fuzzy, kde-format
-#| msgid "Geographic Latitude, in degrees."
+#, kde-format
 msgid "Terrain image altitude correction degrees:"
-msgstr "Zemljepisna širina v stopinjah."
+msgstr "Stopinje korekcije višine slike terena:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainSourceCorrectAlt)
 #: options/opsterrain.ui:175
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rotate terrain in altitude degrees so north is actually north"
-msgstr "Zasukajte teren v višinska stopinjah, tako da je sever dejansko sever"
+msgstr "Obrni teren v višinskih stopinjah, tako da je sever dejansko sever"
 
 #. i18n: ectx: property (title), widget (QGroupBox, TerrainSpeedupGroupBox_2)
 #: options/opsterrain.ui:214
@@ -78221,13 +78191,13 @@ msgstr "Možnosti pospeševanja"
 #. i18n: ectx: property (toolTip), widget (QLabel, terrainDownsamplingLabel)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_TerrainDownsampling)
 #: options/opsterrain.ui:228 options/opsterrain.ui:238
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Set the coarseness of the terrain image rendered. 1 is full resolution, but "
 "can be slow, 6 or more would be coarse resolution and fast."
 msgstr ""
-"Postavite hlajenost slike na terenu, ki je prikazana. 1 je polna resolucija, "
-"vendar je lahko počasna, 6 ali več bi bila močna resolucija in hitra."
+"Nastavite grobost upodobljene slike terena. 1 je polna ločljivost, vendar je "
+"lahko počasna, 6 ali več bi bila groba ločljivost in hitra."
 
 #. i18n: ectx: property (text), widget (QLabel, terrainDownsamplingLabel)
 #: options/opsterrain.ui:231
@@ -78239,7 +78209,7 @@ msgstr "Podvzorčenje terena:"
 #: options/opsterrain.ui:272
 #, kde-format
 msgid "Show terrain while panning"
-msgstr "Pokaži teren ob zasuku"
+msgstr "Pokaži teren ob premikanju"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_TerrainSmoothPixels)
 #: options/opsterrain.ui:279
@@ -78293,8 +78263,7 @@ msgid "Date, time and location: "
 msgstr "Datum, čas in lokacija: "
 
 #: printing/foveditordialog.cpp:28
-#, fuzzy, kde-format
-#| msgid "Field of View Snapshot Browser"
+#, kde-format
 msgctxt "@title:window"
 msgid "Field of View Snapshot Browser"
 msgstr "Brskalnik po posnetkih vidnega polja"
@@ -78303,18 +78272,18 @@ msgstr "Brskalnik po posnetkih vidnega polja"
 #: tools/scriptbuilder.cpp:921
 #, kde-format
 msgid "Could not upload file"
-msgstr "Ni bilo mogoče poslati datoteke"
+msgstr "Ni bilo mogoče prenesti datoteke tja"
 
 #: printing/foveditordialog.cpp:247
 #, kde-format
 msgid "FOV (%1/%2): %3 (%4' x %5')"
-msgstr "VP (%1/%2): %3 (%4′ ⨯ %5′)"
+msgstr "VP (%1/%2): %3 (%4' x %5')"
 
 #. i18n: ectx: property (text), widget (QPushButton, recaptureButton)
 #: printing/foveditordialog.ui:154
 #, kde-format
 msgid "Capture again..."
-msgstr "Znova zajemi …"
+msgstr "Znova zajemi…"
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
 #: printing/foveditordialog.ui:174
@@ -78326,12 +78295,12 @@ msgstr "Izbriši posnetek"
 #: printing/foveditordialog.ui:194
 #, kde-format
 msgid "Save to file..."
-msgstr "Shrani v datoteko …"
+msgstr "Shrani v datoteko…"
 
 #: printing/legend.cpp:346 printing/legend.cpp:381 skyobjects/skyobject.cpp:349
 #, kde-format
 msgid "Open Cluster"
-msgstr "Razsuta kopica"
+msgstr "Odprta kopica"
 
 #: printing/legend.cpp:346 printing/legend.cpp:381 skyobjects/skyobject.cpp:377
 #: skyobjects/skyobject.cpp:427
@@ -78909,17 +78878,15 @@ msgid "Io"
 msgstr "Io"
 
 #: skycomponents/asteroidscomponent.cpp:114
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Asterope"
+#, kde-format
 msgctxt "Asteroid name (optional)"
 msgid "Asterope"
-msgstr "Asterope"
+msgstr "Asteropa"
 
 #: skycomponents/asteroidscomponent.cpp:115
 #, kde-format
 msgid " (Asteroid)"
-msgstr " (asteroid)"
+msgstr " (Asteroid)"
 
 #: skycomponents/asteroidscomponent.cpp:264
 #, kde-format
@@ -78929,7 +78896,7 @@ msgstr "Posodobitev asteroidov"
 #: skycomponents/asteroidscomponent.cpp:265
 #, kde-format
 msgid "Downloading asteroids updates..."
-msgstr "Prejemanje posodobitev asteroidov …"
+msgstr "Prejemanje posodobitev asteroidov…"
 
 #: skycomponents/asteroidscomponent.cpp:340
 #: skycomponents/asteroidscomponent.cpp:341
@@ -78941,34 +78908,33 @@ msgstr "Napaka med prejemanjem podatkov asteroidov: %1"
 #: skycomponents/catalogscomponent.cpp:152
 #: skycomponents/catalogscomponent.cpp:368
 #: skycomponents/catalogscomponent.cpp:410
-#, fuzzy, kde-format
-#| msgid "Could not download the file."
+#, kde-format
 msgid "Could not load catalog objects in trixel: %1"
-msgstr "Ni mogoče prejeti datoteke."
+msgstr "Ni bilo mogoče naložiti objektov kataloga v triksel: %1"
 
 #: skycomponents/catalogscomponent.cpp:440
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Import custom and internet resolved objects from the old DSO database into "
 "the new one?"
 msgstr ""
-"Uvažanje predmetov po meri in interneta iz stare zbirke podatkov DSO v novo?"
+"Uvozi objekte po meri in internetno razrešene objekte iz stare zbirke "
+"podatkov DSO v novega?"
 
 #: skycomponents/catalogscomponent.cpp:451
 #: skycomponents/catalogscomponent.cpp:458
 #, kde-format
 msgid "Could not import the objects."
-msgstr "Predmetov ni mogoče uvoziti."
+msgstr "Ni mogoče uvoziti objektov."
 
 #: skycomponents/catalogscomponent.cpp:463
-#, fuzzy, kde-format
-#| msgid "Successfully connected to the server"
+#, kde-format
 msgid "Successfully added %1 object to the user catalog."
 msgid_plural "Successfully added %1 objects to the user catalog."
-msgstr[0] "Uspešno povezan s strežnikom"
-msgstr[1] "Uspešno povezan s strežnikom"
-msgstr[2] "Uspešno povezan s strežnikom"
-msgstr[3] "Uspešno povezan s strežnikom"
+msgstr[0] "Uspešno dodanih %1 objektov v uporabniški katalog."
+msgstr[1] "Uspešno dodanih %1 objektov v uporabniški katalog."
+msgstr[2] "Uspešno dodanih %1 objektov v uporabniški katalog."
+msgstr[3] "Uspešno dodanih %1 objektov v uporabniški katalog."
 
 #: skycomponents/cometscomponent.cpp:83
 #, kde-format
@@ -79016,8 +78982,7 @@ msgid "Creating horizon"
 msgstr "Ustvarjanje obzorja"
 
 #: skycomponents/imageoverlaycomponent.cpp:64
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Filename"
 msgstr "Ime datoteke"
 
@@ -79032,13 +78997,12 @@ msgstr "Kot"
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
 msgid "A-S/px"
-msgstr "A-S/sl. točko"
+msgstr "A-S/px"
 
 #: skycomponents/imageoverlaycomponent.cpp:67
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "EastRight"
-msgstr "Zavrti v desno"
+msgstr "VzhodnoDesno"
 
 #: skycomponents/imageoverlaycomponent.cpp:167
 #, kde-format
@@ -79114,10 +79078,9 @@ msgid "Image Overlays.  %1 images, %2 available."
 msgstr "Prekrivanje slik.  %1 slik, %2 na voljo."
 
 #: skycomponents/imageoverlaycomponent.cpp:461
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading image files..."
-msgstr "Nalaganje slik …"
+msgstr "Nalaganje datotek slik…"
 
 #: skycomponents/imageoverlaycomponent.cpp:467
 #, kde-format
@@ -79125,51 +79088,44 @@ msgid "%1 image files loaded."
 msgstr "%1 naložene slikovne datoteke."
 
 #: skycomponents/imageoverlaycomponent.cpp:529
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Unprocessed"
-msgstr "Obdelava"
+msgstr "Neobdelano"
 
 #: skycomponents/imageoverlaycomponent.cpp:529
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Bad File"
-msgstr "Datoteka"
+msgstr "Slaba datoteka"
 
 #: skycomponents/imageoverlaycomponent.cpp:529
-#, fuzzy, kde-format
-#| msgid "Solver Failed."
+#, kde-format
 msgid "Solve Failed"
-msgstr "Reševalnik ni uspel."
+msgstr "Reševalnik ni uspel"
 
 #: skycomponents/imageoverlaycomponent.cpp:529
-#, fuzzy, kde-format
-#| msgctxt "Constellation name (optional)"
-#| msgid "HOOK"
+#, kde-format
 msgid "OK"
-msgstr "KLJUKA"
+msgstr "V redu"
 
 #: skycomponents/imageoverlaycomponent.cpp:552
-#, fuzzy, kde-format
-#| msgid "Left/Right"
+#, kde-format
 msgid "West-Right"
-msgstr "Levo/Desno"
+msgstr "Zahodno-Desno"
 
 #: skycomponents/imageoverlaycomponent.cpp:553
-#, fuzzy, kde-format
-#| msgid "Rotate Right"
+#, kde-format
 msgid "East-Right"
-msgstr "Zavrti v desno"
+msgstr "Vzhodno-Desno"
 
 #: skycomponents/imageoverlaycomponent.cpp:614
 #, kde-format
 msgid "Solving: %1. %2 in queue."
-msgstr "Reševanje: %1. %2 v čakalni vrsti."
+msgstr "V reševanju: %1. %2 v čakalni vrsti."
 
 #: skycomponents/imageoverlaycomponent.cpp:616
 #, kde-format
 msgid "Solving: %1."
-msgstr "Reševanje: %1."
+msgstr "V reševanju: %1."
 
 #: skycomponents/imageoverlaycomponent.cpp:681
 #, kde-format
@@ -79182,10 +79138,9 @@ msgid "Can't show %1. Image not loaded."
 msgstr "Ni možno prikazati %1. Slika ni naložena."
 
 #: skycomponents/imageoverlaycomponent.cpp:719
-#, fuzzy, kde-format
-#| msgid "Autoguiding aborted."
+#, kde-format
 msgid "Solving aborted."
-msgstr "Samodejno vodenje prekinjeno."
+msgstr "Reševanje prekinjeno."
 
 #: skycomponents/imageoverlaycomponent.cpp:754
 #, kde-format
@@ -79203,27 +79158,24 @@ msgid "Reloading. Image overlays temporarily disabled."
 msgstr "Ponovno nalaganje. Prekrivanje slik je trenutno onemogočeno."
 
 #: skycomponents/imageoverlaycomponent.cpp:810
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Solver timed out in %1s"
-msgstr "Časovna omejitev za reševalnik je potekla."
+msgstr "Časovna omejitev za reševalnik je potekla v %1s"
 
 #: skycomponents/imageoverlaycomponent.cpp:816
-#, fuzzy, kde-format
-#| msgid "Solver failed: %1s"
+#, kde-format
 msgid "Solver failed in %1s"
-msgstr "Reševalnik ni uspel: %1 s"
+msgstr "Reševalnik ni uspel v %1s"
 
 #: skycomponents/imageoverlaycomponent.cpp:829
 #, kde-format
 msgid "Solver success in %1s: RA %2 DEC %3 Scale %4 Angle %5"
-msgstr "Uspeh reševalca v %1s: RA %2; DEC %3; merilo %4; kot %5"
+msgstr "Uspeh reševalnika v %1s: RA %2; DEC %3; Merilo %4; Kot %5"
 
 #: skycomponents/imageoverlaycomponent.cpp:861
-#, fuzzy, kde-format
-#| msgid "No image info available."
+#, kde-format
 msgid "Done solving. %1 available."
-msgstr "Ni razpoložljivih podatkov o sliki."
+msgstr "Končano reševanje. %1 na voljo."
 
 #: skycomponents/linelistindex.cpp:236
 #, kde-format
@@ -79231,9 +79183,9 @@ msgid "Loading %1"
 msgstr "Nalaganje %1"
 
 #: skycomponents/localmeridiancomponent.cpp:20
-#, fuzzy, kde-format
+#, kde-format
 msgid "Local Meridian Component"
-msgstr "Lokalna komponenta meridijana"
+msgstr "Komponenta lokalnega poldnevnika"
 
 #: skycomponents/milkyway.cpp:36 skycomponents/milkyway.cpp:40
 #, kde-format
@@ -79243,19 +79195,18 @@ msgstr "Nalaganje Rimske ceste"
 #: skycomponents/milkyway.cpp:37 skycomponents/milkyway.cpp:41
 #, kde-format
 msgid "Loading Large Magellanic Clouds"
-msgstr "Nalaganje Velikega Magellanovega oblaka"
+msgstr "Nalaganje Velikih Magellanovih oblakov"
 
 #: skycomponents/milkyway.cpp:38 skycomponents/milkyway.cpp:42
 #, kde-format
 msgid "Loading Small Magellanic Clouds"
-msgstr "Nalaganje Malega Magellanovega oblaka"
+msgstr "Nalaganje Malih Magellanovih oblakov"
 
 #: skycomponents/notifyupdatesui.cpp:21
-#, fuzzy, kde-format
-#| msgid "New Supernova(e) discovered!"
+#, kde-format
 msgctxt "@title:window"
 msgid "New Supernova(e) Discovered"
-msgstr "Odkrita je bila nova supernova!"
+msgstr "Odkrita je/so bila/e nova supernova/e"
 
 #: skycomponents/notifyupdatesui.cpp:38
 #, kde-format
@@ -79275,7 +79226,7 @@ msgstr "Vrsta :: %1"
 #: skycomponents/notifyupdatesui.cpp:42
 #, kde-format
 msgid "Position :: RA : %1 Dec : %2"
-msgstr "Položaj :: Rekt. : %1 Dekl. : %2"
+msgstr "Položaj :: RA : %1 Dec : %2"
 
 #: skycomponents/notifyupdatesui.cpp:43
 #, kde-format
@@ -79290,10 +79241,9 @@ msgstr "Obrni karto do tega objekta"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: skycomponents/notifyupdatesui.ui:68
-#, fuzzy, kde-format
-#| msgid "New supernova(e) discovered!"
+#, kde-format
 msgid "New supernova(e) discovered"
-msgstr "Odkrita je bila nova supernova!"
+msgstr "Odkrita je bila nova supernova"
 
 #: skycomponents/satellitescomponent.cpp:47
 #, kde-format
@@ -79308,31 +79258,29 @@ msgstr "Posodabljanje TLE-jev …"
 #: skycomponents/satellitescomponent.cpp:159
 #, kde-format
 msgid "Update %1 satellites"
-msgstr "Posodabljanje satelitov iz skupine %1"
+msgstr "Posodobi %1 satelitov"
 
 #: skycomponents/satellitescomponent.cpp:160
-#, fuzzy, kde-format
-#| msgid "Satellite Orbital Elements Update"
+#, kde-format
 msgctxt "@title:window"
 msgid "Satellite Orbital Elements Update"
-msgstr "Posodobi predmete krožnic satelitov"
+msgstr "Posodobitev elementov krožnic satelitov"
 
 #: skycomponents/skymapcomposite.cpp:127
-#, fuzzy, kde-format
-#| msgid "Failed to load image at %1"
+#, kde-format
 msgid "Failed to load the DSO database."
-msgstr "Ni mogoče naložiti slike v %1"
+msgstr "Nalaganje baze podatkov DSO ni uspelo."
 
 #: skycomponents/skymapcomposite.cpp:135
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Do you want to start over with an empty database?\n"
 "This will move the current DSO database \"%1\"\n"
 "to \"%2\""
 msgstr ""
 "Ali želite začeti znova s prazno zbirko podatkov?\n"
-"S tem se premakne trenutna zbirka podatkov DSO »%1«\n"
-"na »%2«"
+"S tem se premaknilo trenutno zbirka podatkov DSO \"%1\"\n"
+"v \"%2\""
 
 #: skycomponents/solarsystemcomposite.cpp:25
 #, kde-format
@@ -79347,7 +79295,7 @@ msgstr "Nalaganje zvezd"
 #: skycomponents/starcomponent.cpp:166
 #, kde-format
 msgid "Please wait while re-indexing stars..."
-msgstr "Počakajte med ponovnim izgrajevanjem kazala zvezd …"
+msgstr "Počakajte na ponovno izgrajevanje kazala zvezd…"
 
 #: skycomponents/supernovaecomponent.cpp:271
 #, kde-format
@@ -79357,13 +79305,12 @@ msgstr "Posodobitev supernov"
 #: skycomponents/supernovaecomponent.cpp:272
 #, kde-format
 msgid "Downloading Supernovae updates..."
-msgstr "Prejemanje posodobitev supernov …"
+msgstr "Prejemanje posodobitev supernov…"
 
 #: skycomponents/supernovaecomponent.cpp:350
-#, fuzzy, kde-format
-#| msgid "Error downloading asteroids data: %1"
+#, kde-format
 msgid "Error downloading supernova data: %1"
-msgstr "Napaka med prejemanjem podatkov asteroidov: %1"
+msgstr "Napaka pri prenosu podatkov o supernovi: %1"
 
 #: skymap.cpp:404 skymaplite.cpp:355
 #, kde-format
@@ -79377,12 +79324,12 @@ msgid ""
 "Would you like to go there anyway?"
 msgstr ""
 "Zahtevan položaj je pod obzorjem.\n"
-"Ali bi vseeno radi spremenili smer pogleda?"
+"Bi se vseeno usmerili tja?"
 
 #: skymap.cpp:406
 #, kde-format
 msgid "Go Anyway"
-msgstr "Vseeno spremeni"
+msgstr "Vseeno preusmeri"
 
 #: skymap.cpp:407
 #, kde-format
@@ -79390,28 +79337,25 @@ msgid "Keep Position"
 msgstr "Ohrani smer"
 
 #: skymap.cpp:498
-#, fuzzy, kde-format
-#| msgid ""
-#| "Digitized Sky Survey image provided by the Space Telescope Science "
-#| "Institute [public domain]."
+#, kde-format
 msgid ""
 "Digitized Sky Survey image provided by the Space Telescope Science Institute "
 "[free for non-commercial use]."
 msgstr ""
-"Sliko iz Digitized Sky Survey so priskrbeli pri Space Telescope Science "
-"Institute [javna last]."
+"Digitalizirana slika Sky Survey, ki jo je zagotovil Space Telescope Science "
+"Institute [prosto za nekomercialno uporabo]."
 
 #: skymap.cpp:537
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Equatorial & Horizontal Coordinates"
 msgid ""
 "JNow:\t%1\t%2\n"
 "J2000:\t%3\t%4\n"
 "AzAlt:\t%5\t%6"
 msgstr ""
-"JNow: %1 %2\n"
-"J2000: %3 %4\n"
-"AzAlt: %5 %6"
+"JNow:\t%1\t%2\n"
+"J2000:\t%3\t%4\n"
+"AzAlt:\t%5\t%6"
 
 #: skymap.cpp:600
 #, kde-format
@@ -79430,12 +79374,12 @@ msgstr "Kotna razdalja: %1"
 #: skymap.cpp:686
 #, kde-format
 msgid "; Physical distance: %1 pc"
-msgstr "; fizična razdalja: %1 pc"
+msgstr "; Fizična razdalja: %1 pc"
 
 #: skymap.cpp:723
 #, kde-format
 msgid "Star Hopper: Choose a field-of-view"
-msgstr "Skakanje po zvezdah: izberite vidno polje"
+msgstr "Skakanje po zvezdah: Izberite vidno polje"
 
 #: skymap.cpp:724
 #, kde-format
@@ -79463,10 +79407,10 @@ msgid "Object Details"
 msgstr "Podrobnosti o objektu"
 
 #: skymapdrawabstract.cpp:308
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Zenith"
 msgid "Z"
-msgstr "AZ"
+msgstr "Z"
 
 #: skyobjects/jupitermoons.cpp:18
 #, kde-format
@@ -79566,7 +79510,7 @@ msgstr "Uspeh"
 #: skyobjects/satellite.cpp:1240
 #, kde-format
 msgid "Eccentricity >= 1.0 or < -0.001"
-msgstr "Izsrednost >= 1,0 ali < -0,001"
+msgstr "Ekscentričnost >= 1,0 ali < -0,001"
 
 #: skyobjects/satellite.cpp:1243
 #, kde-format
@@ -79646,49 +79590,42 @@ msgid "Unknown Type"
 msgstr "Neznana vrsta"
 
 #: skyobjects/skyobject.cpp:399
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#, kde-format
 msgid "Open Clr"
-msgstr "Razsuta kopica"
+msgstr "Odprta kopica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GlobularClusterCB)
 #: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1771
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Globalstar"
+#, kde-format
 msgid "Globular"
-msgstr "Globalstar"
+msgstr "Globular"
 
 #. i18n: ectx: property (text), widget (QCheckBox, NebulaCB)
 #: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1761
-#, fuzzy, kde-format
-#| msgid "Nebulae"
+#, kde-format
 msgid "Nebula"
-msgstr "Meglice"
+msgstr "Meglica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, PlanetaryCB)
 #: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1781
-#, fuzzy, kde-format
-#| msgid "Planet"
+#, kde-format
 msgid "Planetary"
-msgstr "Planet"
+msgstr "Planetje"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SupernovaRemnantCB)
 #: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1791
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remnant"
 msgstr "Ostanek"
 
 #: skyobjects/skyobject.cpp:419
-#, fuzzy, kde-format
-#| msgid "Galaxy Cluster"
+#, kde-format
 msgid "Galaxy Clr"
-msgstr "Jata galaksij"
+msgstr "Gruča galaksij"
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
 #: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:1821
-#, fuzzy, kde-format
-#| msgid "Dark Nebula"
+#, kde-format
 msgid "Dark Neb"
 msgstr "Temna meglica"
 
@@ -79711,7 +79648,7 @@ msgstr "Prikaži sliko od Spitzer-ja"
 #, kde-format
 msgid "%1: Spitzer Space Telescope, courtesy NASA/JPL-Caltech [public domain]"
 msgstr ""
-"%1: vesoljski teleskop Spitzer, upravlja ga NASA/JPL-Caltech [javna last]"
+"%1: Vesoljski teleskop Spitzer, upravlja ga NASA/JPL-Caltech [javna last]"
 
 #: skyobjects/skyobject.cpp:461
 #, kde-format
@@ -79891,16 +79828,15 @@ msgid "omega"
 msgstr "omega"
 
 #: terrain/terrainrenderer.cpp:366
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to load terrain. Set terrain file in Settings."
-msgstr ""
-"Nalaganje terenov ni uspelo. Nastavite datoteko z tereni v nastavitvah."
+msgstr "Nalaganje terena ni uspelo. Nastavite datoteko terena v nastavitvah."
 
 #: terrain/terrainrenderer.cpp:368
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to load terrain image (%1). Set terrain file in Settings."
 msgstr ""
-"Nalaganje slike terenov (%1) ni uspelo. Nastavite datoteko z tereni v "
+"Ni bilo mogoče naložiti slike terena (%1). Nastavite datoteko terena v "
 "nastavitvah."
 
 #: time/timezonerule.cpp:37
@@ -79931,9 +79867,11 @@ msgid ""
 "\t\t</p>\n"
 "\t\n"
 msgstr ""
-"\t\t<p>Objekte na nebu lahko najdete glede na njihovo ime. Uporabite tipke "
-"»Ctrl+F«, ukaz »Smer → Najdi objekt« ali pa  ustrezen gumb v orodni vrstici."
-"</p>\n"
+"\t\t<p>Objekte na nebu lahko locirate po njihovem imenu.\n"
+"\t\t\tUporabite Ctrl+F, menijski element \"Usmerjanje->Najdi objekt\" ali "
+"\"Najdi objekt\"\n"
+"\t\t\tGumb orodne vrstice.\n"
+"\t\t</p>\n"
 "\t\n"
 
 #. i18n: ectx: @info:tipoftheday
@@ -81053,15 +80991,13 @@ msgstr ""
 "\t\n"
 
 #: tools/altvstime.cpp:48
-#, fuzzy, kde-format
-#| msgid "Altitude vs. Time"
+#, kde-format
 msgctxt "@title:window"
 msgid "Altitude vs. Time"
 msgstr "Višina glede na čas"
 
 #: tools/altvstime.cpp:93
-#, fuzzy, kde-format
-#| msgid "Local Sidereal Time"
+#, kde-format
 msgid "Local Sidereal Time"
 msgstr "Krajevni zvezdni čas"
 
@@ -81073,7 +81009,7 @@ msgstr "Krajevni čas"
 #: tools/altvstime.cpp:159 tools/skycalendar.cpp:51
 #, kde-format
 msgid "&Print..."
-msgstr "Na&tisni …"
+msgstr "Natisni…"
 
 #: tools/altvstime.cpp:160
 #, kde-format
@@ -81081,32 +81017,26 @@ msgid "Print the Altitude vs. time plot"
 msgstr "Natisni graf Višina glede na čas"
 
 #: tools/altvstime.cpp:580 tools/altvstime.cpp:950
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
-#| "deviation in arcseconds"
-#| msgid ""
-#| "<table><tr><td>LT:   </td><td>%1</td></tr><tr><td>RA:   </td><td>%2 \"</"
-#| "td></tr><tr><td>DE:   </td><td>%3 \"</td></tr></table>"
+#, kde-format
 msgid ""
 "<table><tr><th colspan=\"2\">%1</th></tr><tr><td>LST:   </td><td>%3</td></"
 "tr><tr><td>LT:   </td><td>%2</td></tr><tr><td>Altitude:   </td><td>%4</td></"
 "tr></table>"
 msgstr ""
-"<table><tr><td>KČ:   </td><td>%1</td></tr><tr><td>Rekt.:   </td><td>%2 \"</"
-"td></tr><tr><td>Dekl.:   </td><td>%3 \"</td></tr></table>"
+"<table><tr><th colspan=\"2\">%1</th></tr><tr><td>LST:   </td><td>%3</td></"
+"tr><tr><td>LT:   </td><td>%2</td></tr><tr><td>Višina:   </td><td>%4</td></"
+"tr></table>"
 
 #: tools/altvstime.cpp:1406
-#, fuzzy, kde-format
-#| msgid "Print elevation vs time plot"
+#, kde-format
 msgctxt "@title:window"
 msgid "Print elevation vs time plot"
-msgstr "Natisni graf Višina glede na čas"
+msgstr "Natisni graf višine glede na čas"
 
 #: tools/altvstime.cpp:1420
 #, kde-format
 msgid "Elevation vs. Time Plot"
-msgstr "Graf Višina glede na čas"
+msgstr "Graf višine glede na čas"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, nameBox)
 #: tools/altvstime.ui:61
@@ -81176,7 +81106,7 @@ msgstr "Enakonočje:     "
 #: tools/altvstime.ui:237 tools/modcalcsidtime.ui:97
 #, kde-format
 msgid "Local time:"
-msgstr "Krajevni čas:"
+msgstr "Lokalni čas:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, timeSpin)
 #: tools/altvstime.ui:254
@@ -81198,17 +81128,15 @@ msgstr "Višina: "
 
 #. i18n: ectx: property (text), widget (QPushButton, riseButton)
 #: tools/altvstime.ui:338
-#, fuzzy, kde-format
-#| msgid "Object 1"
+#, kde-format
 msgid "Object Rise"
-msgstr "Objekt 1"
+msgstr "Objekt vzhaja"
 
 #. i18n: ectx: property (text), widget (QPushButton, setButton)
 #: tools/altvstime.ui:345
-#, fuzzy, kde-format
-#| msgid "Object 1"
+#, kde-format
 msgid "Object Set"
-msgstr "Objekt 1"
+msgstr "Objekt zahaja"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
 #: tools/altvstime.ui:352 tools/imagingplanner.cpp:2666
@@ -81227,7 +81155,7 @@ msgstr "Datum in lega"
 #: tools/altvstime.ui:445
 #, kde-format
 msgid "Choose City..."
-msgstr "Izberite mesto …"
+msgstr "Izberite mesto…"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: tools/altvstime.ui:458
@@ -81301,7 +81229,7 @@ msgstr "Brskaj po drevesu …"
 #: tools/argchangeviewoption.ui:76
 #, kde-format
 msgid "value for selected option"
-msgstr "vrednost izbrane možnosti"
+msgstr "vrednost za izbrane možnosti"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, OptionValue)
 #: tools/argchangeviewoption.ui:79
@@ -81364,10 +81292,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, FindButton)
 #: tools/argfindobject.ui:47 tools/arglooktoward.ui:116
-#, fuzzy, kde-format
-#| msgid "Any Object"
+#, kde-format
 msgid "Object..."
-msgstr "Predmet …"
+msgstr "Objekt…"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: tools/arglooktoward.ui:30
