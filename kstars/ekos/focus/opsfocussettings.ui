@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>451</width>
-    <height>400</height>
+    <width>601</width>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,25 +23,6 @@
       <property name="spacing">
        <number>6</number>
       </property>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="focusAutoStarEnabled">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This option is only active when Sub Frame is selected.  Check to allow Ekos to select a single star for focus; uncheck to allow the user to select the star to use in FitsViewer.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Auto Select Star</string>
-        </property>
-        <property name="autoRepeatDelay">
-         <number>298</number>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QRadioButton" name="focusUseFullField">
         <property name="sizePolicy">
@@ -80,23 +61,21 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="3">
-       <widget class="QLabel" name="label_18">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="focusUnits">
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display units for HFR and FWHM.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
-        <property name="text">
-         <string>Guide Settle:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="buddy">
-         <cstring>focusGuideSettleTime</cstring>
-        </property>
+        <item>
+         <property name="text">
+          <string>Pixels</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Arc Seconds</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="2" column="0">
@@ -115,6 +94,98 @@
         </property>
         <property name="buddy">
          <cstring>focusUnits</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="focusAutoStarEnabled">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This option is only active when Sub Frame is selected.  Check to allow Ekos to select a single star for focus; uncheck to allow the user to select the star to use in FitsViewer.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Auto Select Star</string>
+        </property>
+        <property name="autoRepeatDelay">
+         <number>298</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QDoubleSpinBox" name="focusGuideSettleTime">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wait this many seconds after autofocus completes before resuming guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="suffix">
+         <string> s</string>
+        </property>
+        <property name="maximum">
+         <double>60.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QRadioButton" name="focusSubFrame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select Sub Frame to make focus to use a single star (note: Full Field uses multiple stars).  In this mode the Auto Select Star checkbox becomes active to allow either Ekos to select a star (when checked) or to allow the user to manually select the star in FitsViewer (when unchecked).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Sub Frame</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QCheckBox" name="useFocusDarkFrame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. Create dark frames or defect maps in the Dark Library tool in the capture module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Dark Frame</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLabel" name="label_18">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Guide Settle:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>focusGuideSettleTime</cstring>
         </property>
        </widget>
       </item>
@@ -149,44 +220,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1" colspan="2">
-       <widget class="QRadioButton" name="focusSubFrame">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select Sub Frame to make focus to use a single star (note: Full Field uses multiple stars).  In this mode the Auto Select Star checkbox becomes active to allow either Ekos to select a star (when checked) or to allow the user to manually select the star in FitsViewer (when unchecked).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string>Sub Frame</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="4">
-       <widget class="QDoubleSpinBox" name="focusGuideSettleTime">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wait this many seconds after autofocus completes before resuming guiding.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="suffix">
-         <string> s</string>
-        </property>
-        <property name="maximum">
-         <double>60.000000000000000</double>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="1">
        <widget class="QCheckBox" name="focusSuspendGuiding">
         <property name="sizePolicy">
@@ -203,8 +236,21 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QCheckBox" name="useFocusDarkFrame">
+      <item row="3" column="0">
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Optimize AF:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="focusAFOptimize">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -212,28 +258,17 @@
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. Create dark frames or defect maps in the Dark Library tool in the capture module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Create an &amp;quot;optimization zone&amp;quot; of this many seconds. When an automated Autofocus run is requested by another process, e.g. Scheduler or Capture, a check is performed on the timestamp of the last successful Autofocus for that filter. If we are within the optimization zone then no Autofocus is run; if outside the zone, Autofocus is run as normal.&lt;/p&gt;&lt;p&gt;Note that filter offsets and Adaptive Focus settings are always honoured.&lt;/p&gt;&lt;p&gt;Set to zero to disable this feature.&lt;/p&gt;&lt;p&gt;NOTE: manually initiated runs will always be performed.&lt;/p&gt;&lt;p&gt;This is currently an experimental feature enabled for Linear and Linear 1 Pass only.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
-        <property name="text">
-         <string>Dark Frame</string>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QComboBox" name="focusUnits">
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display units for HFR and FWHM.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <property name="suffix">
+         <string> s</string>
         </property>
-        <item>
-         <property name="text">
-          <string>Pixels</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Arc Seconds</string>
-         </property>
-        </item>
+        <property name="maximum">
+         <number>1000</number>
+        </property>
        </widget>
       </item>
      </layout>

@@ -488,7 +488,7 @@ public slots:
     signals:
         void newLog(const QString &text);
         void newFocusLog(const QString &text);
-        void newStatus(Ekos::FocusState state, const QString &trainname);
+        void newStatus(Ekos::FocusState state, const QString &trainname, const bool update = true);
         void newHFR(double hfr, int position, bool inAutofocus, const QString &trainname);
         void newFocusTemperatureDelta(double delta, double absTemperature, const QString &trainname);
         void inSequenceAF(bool requested, const QString &trainname);
@@ -496,6 +496,7 @@ public slots:
         void absolutePositionChanged(int value);
         void focusPositionAdjusted();
         void focusAdaptiveComplete(bool success, const QString &trainname);
+        void focusAFOptimise();
 
         void trainChanged();
         void focuserChanged(int id, bool isValid);
@@ -958,6 +959,13 @@ public slots:
          */
         void donutTimeDilation();
 
+        /**
+         * @brief Filter out duplicate Autofocus requests
+         * @param autofocusReason reason for running this Autofocus
+         * @return true means do not run AF (previous run only just completed)
+         */
+        bool checkAFOptimisation(const AutofocusReason autofocusReason);
+
         /// Focuser device needed for focus operation
         ISD::Focuser *m_Focuser { nullptr };
         int m_focuserId;
@@ -1093,6 +1101,8 @@ public slots:
         bool inAdjustFocus { false };
         /// Build offsets is a special case of the Autofocus run
         bool inBuildOffsets { false };
+        /// AF Optimise is a special case of the Autofocus run
+        bool inAFOptimise { false };
         // Target frame dimensions
         //int fx,fy,fw,fh;
         /// If HFR=-1 which means no stars detected, we need to decide how many times should the re-capture process take place before we give up or reverse direction.
@@ -1154,7 +1164,7 @@ public slots:
         {
             return m_state;
         }
-        void setState(FocusState newState);
+        void setState(FocusState newState, const bool update = true);
 
         bool isBusy()
         {

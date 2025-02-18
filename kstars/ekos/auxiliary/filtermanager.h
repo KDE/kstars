@@ -25,6 +25,7 @@ class NotEditableDelegate2dp;
 class DoubleDelegate;
 class IntegerDelegate;
 class ToggleDelegate;
+class DatetimeDelegate;
 
 namespace Ekos
 {
@@ -57,6 +58,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
             FM_LAST_AF_SOLUTION,
             FM_LAST_AF_TEMP,
             FM_LAST_AF_ALT,
+            FM_LAST_AF_DATETIME,
             FM_TICKS_PER_TEMP,
             FM_TICKS_PER_ALT,
             FM_WAVELENGTH
@@ -110,6 +112,14 @@ class FilterManager : public QDialog, public Ui::FilterSettings
          * @return whether function worked or not
          */
         bool getFilterAbsoluteFocusDetails(const QString &name, int &focusPos, double &focusTemp, double &focusAlt) const;
+
+        /**
+         * @brief getAFDatetime get timestamp of the last successful autofocus run
+         * @param name filter name
+         * @param datetime
+         * @return whether function worked or not
+         */
+        bool getAFDatetime(const QString &name, QDateTime &datetime) const;
 
         // Set absolute focus position, if supported, to the current filter absolute focus position.
         bool syncAbsoluteFocusPosition(int index);
@@ -333,6 +343,7 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         QPointer<IntegerDelegate> lastAFSolutionDelegate;
         QPointer<DoubleDelegate> lastAFTempDelegate;
         QPointer<DoubleDelegate> lastAFAltDelegate;
+        QPointer<DatetimeDelegate> lastAFDTDelegate;
         QPointer<DoubleDelegate> ticksPerTempDelegate;
         QPointer<DoubleDelegate> ticksPerAltDelegate;
         QPointer<IntegerDelegate> wavelengthDelegate;

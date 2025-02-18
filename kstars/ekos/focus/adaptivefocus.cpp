@@ -53,7 +53,7 @@ void AdaptiveFocus::runAdaptiveFocus(const int currentPosition, const QString &f
         return;
     }
 
-    if (m_focus->inAutoFocus || m_focus->inFocusLoop || m_focus->inAdjustFocus || m_focus->inBuildOffsets)
+    if (m_focus->inAutoFocus || m_focus->inFocusLoop || m_focus->inAdjustFocus || m_focus->inBuildOffsets || m_focus->inAFOptimise)
     {
         qCDebug(KSTARS_EKOS_FOCUS) << "adaptiveFocus called whilst other focus activity in progress. Ignoring.";
         adaptiveFocusAdmin(currentPosition, false, false);

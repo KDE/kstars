@@ -71,6 +71,7 @@ typedef enum { FOCUS_FAIL_NONE,
                FOCUS_FAIL_CURVEFIT,
                FOCUS_FAIL_ADVISOR_COMPLETE,
                FOCUS_FAIL_ADVISOR_RERUN,
+               FOCUS_FAIL_OPTIMISED_OUT,
                FOCUS_FAIL_MAX_REASONS
              } AutofocusFailReason;
 
@@ -99,6 +100,7 @@ static const QString AutofocusFailReasonStr[FOCUS_FAIL_MAX_REASONS] =
     "Abort Requested",
     "Unable to Fit Curve",
     "Focus Advisor Complete",
-    "Focus Advisor Rerun"
+    "Focus Advisor Rerun",
+    "Focus Optimised Out"
 };
 }

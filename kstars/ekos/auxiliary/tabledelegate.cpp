@@ -13,6 +13,7 @@
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QComboBox>
+#include <QDateTimeEdit>
 #include <QApplication>
 
 QWidget * ToggleDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &) const
@@ -193,4 +194,36 @@ void ComboDelegate::setValues(const QStringList &list)
 {
     m_Values = list;
     m_Values.insert(0, "--");
+}
+
+/////////////////////////////////////////////////////////
+// Datetime Delegate
+/////////////////////////////////////////////////////////
+
+QWidget * DatetimeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &) const
+{
+    QDateTimeEdit *editor = new QDateTimeEdit(parent);
+    editor->setDisplayFormat(format);
+    editor->setMaximumDateTime(QDateTime::fromString(maxDT));
+    editor->setMinimumDateTime(QDateTime::fromString(minDT));
+    editor->setCalendarPopup(calPopup);
+    editor->setFrame(false);
+    return editor;
+}
+
+void DatetimeDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    QDateTime value = index.model()->data(index, Qt::EditRole).toDateTime();
+    dynamic_cast<QDateTimeEdit*>(editor)->setDateTime(value);
+}
+
+void DatetimeDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
+    QDateTime value = dynamic_cast<QDateTimeEdit*>(editor)->dateTime();
+    model->setData(index, value.toString(format), Qt::EditRole);
+}
+
+void DatetimeDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &) const
+{
+    editor->setGeometry(option.rect);
 }

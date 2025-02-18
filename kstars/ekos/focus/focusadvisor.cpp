@@ -156,8 +156,8 @@ bool FocusAdvisor::start()
     if (!m_focus)
         return false;
 
-    if (m_focus->inFocusLoop || m_focus->inAdjustFocus || m_focus->inAutoFocus || m_focus->inBuildOffsets
-            || m_focus->inScanStartPos || inFocusAdvisor())
+    if (m_focus->inFocusLoop || m_focus->inAdjustFocus || m_focus->inAutoFocus || m_focus->inBuildOffsets || m_focus->inAFOptimise ||
+        m_focus->inScanStartPos || inFocusAdvisor())
     {
         m_focus->appendLogText(i18n("Focus Advisor: another focus action in progress. Please try again."));
         return false;
@@ -354,6 +354,10 @@ void FocusAdvisor::setupParams(const QString &OTName)
     // Guide Settle - leave alone
     processParam(m_focus->m_OpsFocusSettings->focusGuideSettleTime->value(), row, m_map,
                  m_focus->m_OpsFocusSettings->focusGuideSettleTime, "Guide Settle");
+
+    // AF Optimize - switch off
+    processParam(0, row, m_map,
+                 m_focus->m_OpsFocusSettings->focusAFOptimize, "AF Optimize");
 
     // Mask
     QString maskCurrent, maskNew;

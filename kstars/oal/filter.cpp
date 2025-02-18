@@ -21,6 +21,7 @@ OAL::Filter::Filter(const QString &id, const filterProperties *fp)
     m_AbsoluteFocusPosition = fp->absFocusPos;
     m_FocusTemperature = fp->focusTemperature;
     m_FocusAltitude = fp->focusAltitude;
+    m_FocusDatetime = fp->focusDatetime;
     m_FocusTicksPerTemp = fp->focusTicksPerTemp;
     m_FocusTicksPerAlt = fp->focusTicksPerAlt;
     m_Wavelength = fp->wavelength;
