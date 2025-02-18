@@ -275,18 +275,20 @@ public slots:
         /** DBUS interface function.
              * Focus inward
              * @param ms If set, focus inward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
+             * @param speedFactor option to multiply the given ms value for faster motion
              */
-        Q_SCRIPTABLE bool focusIn(int ms = -1);
+        Q_SCRIPTABLE bool focusIn(int ms = -1, int speedFactor = 1);
 
         /** DBUS interface function.
              * Focus outward
              * @param ms If set, focus outward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
              */
-        Q_SCRIPTABLE bool focusOut(int ms = -1);
+        Q_SCRIPTABLE bool focusOut(int ms = -1, int speedFactor = 1);
 
         /**
              * @brief checkFocus Given the minimum required HFR, check focus and calculate HFR. If current HFR exceeds required HFR, start autofocus process, otherwise do nothing.
              * @param requiredHFR Minimum HFR to trigger autofocus process.
+             * @param speedFactor option to multiply the given ms value for faster motion
              */
         Q_SCRIPTABLE Q_NOREPLY void checkFocus(double requiredHFR);
 
@@ -710,6 +712,9 @@ public slots:
         void autoFocusLinear();
         void autoFocusRel();
 
+        // events
+        void handleFocusButtonEvent();
+
         // Linear does plotting differently from the rest.
         void plotLinearFocus();
 
@@ -730,6 +735,11 @@ public slots:
             return (canAbsMove || canRelMove || (m_FocusAlgorithm == FOCUS_LINEAR) || (m_FocusAlgorithm == FOCUS_LINEAR1PASS));
         }
         void resetButtons();
+
+        /**
+         * @brief updateButtonColors Change button colors due Shift and Ctrl modifiers
+         */
+        void updateButtonColors(QPushButton *button, bool shift, bool ctrl);
 
         /**
          * @brief returns whether the Aberration Inspector can be used or not

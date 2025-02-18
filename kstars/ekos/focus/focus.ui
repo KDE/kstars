@@ -404,7 +404,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Focus Out. &lt;/p&gt;&lt;p&gt;For SCTs this is usually CW.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Focus Out. Use shift and ctrl key for motion speed up. The factors are configured in the focuser's mechanical options.&lt;/p&gt;&lt;p&gt;For SCTs this is usually CW.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="statusTip">
              <string/>
@@ -436,7 +436,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Focus In. &lt;/p&gt;&lt;p&gt;For SCTs this is usually CCW.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Focus In. Use shift and ctrl key for motion speed up. The factors are configured in the focuser's mechanical options.&lt;/p&gt;&lt;p&gt;For SCTs this is usually CCW.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="statusTip">
              <string/>

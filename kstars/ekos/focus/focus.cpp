@@ -1672,7 +1672,7 @@ void Focus::prepareCapture(ISD::CameraChip *targetChip)
         m_Camera->setGain(focusGain->value());
 }
 
-bool Focus::focusIn(int ms)
+bool Focus::focusIn(int ms, int speedFactor)
 {
     if (currentPosition == absMotionMin)
     {
@@ -1684,6 +1684,10 @@ bool Focus::focusIn(int ms)
     startGotoB->setEnabled(false);
     if (ms <= 0)
         ms = m_OpsFocusMechanics->focusTicks->value();
+
+    // apply speed factor
+    ms *= speedFactor;
+
     if (currentPosition - ms <= absMotionMin)
     {
         ms = currentPosition - absMotionMin;
@@ -1692,7 +1696,7 @@ bool Focus::focusIn(int ms)
     return changeFocus(-ms);
 }
 
-bool Focus::focusOut(int ms)
+bool Focus::focusOut(int ms, int speedFactor)
 {
     if (currentPosition == absMotionMax)
     {
@@ -1704,6 +1708,11 @@ bool Focus::focusOut(int ms)
     startGotoB->setEnabled(false);
     if (ms <= 0)
         ms = m_OpsFocusMechanics->focusTicks->value();
+    ms = m_OpsFocusMechanics->focusTicks->value();
+
+    // apply speed factor
+    ms *= speedFactor;
+
     if (currentPosition + ms >= absMotionMax)
     {
         ms = absMotionMax - currentPosition;
@@ -4076,6 +4085,25 @@ void Focus::autoFocusRel()
     }
 }
 
+void Focus::handleFocusButtonEvent()
+{
+    bool inward = (sender() == focusInB);
+    int speedup = 1;
+    bool shift = QApplication::keyboardModifiers() & Qt::ShiftModifier;
+    bool ctrl  = QApplication::keyboardModifiers() & Qt::ControlModifier;
+    updateButtonColors(inward ? focusInB : focusOutB, shift, ctrl);
+
+    if (shift)
+        speedup *= m_OpsFocusMechanics->speedupShift->value();
+    if (ctrl)
+        speedup *= m_OpsFocusMechanics->speedupCtrl->value();
+
+    if (inward)
+        focusIn(-1, speedup);
+    else
+        focusOut(-1, speedup);
+}
+
 void Focus::autoFocusProcessPositionChange(IPState state)
 {
     if (state == IPS_OK)
@@ -4572,6 +4600,10 @@ void Focus::startFraming()
 
 void Focus::resetButtons()
 {
+    // clear focus button colors
+    updateButtonColors(focusInB, false, false);
+    updateButtonColors(focusOutB, false, false);
+
     if (inFocusLoop)
     {
         startFocusB->setEnabled(false);
@@ -4673,6 +4705,20 @@ void Focus::resetButtons()
         stopGotoB->setEnabled(false);
         focuserGroup->setEnabled(false);
     }
+}
+
+void Focus::updateButtonColors(QPushButton *button, bool shift, bool ctrl)
+{
+    QString stylesheet = "";
+
+    if (shift && ctrl)
+        stylesheet = "background-color: #D32F2F";
+    else if (shift)
+        stylesheet = "background-color: #FFC107";
+    else if (ctrl)
+        stylesheet = "background-color: #FF5722";
+
+    button->setStyleSheet(stylesheet);
 }
 
 // Return whether the Aberration Inspector Start button should be enabled. The pre-requisties are:
@@ -5989,8 +6035,8 @@ void Focus::initConnections()
     connect(stopFocusB, &QPushButton::clicked, this, &Ekos::Focus::abort);
 
     // Focus IN/OUT
-    connect(focusOutB, &QPushButton::clicked, this, &Ekos::Focus::focusOut);
-    connect(focusInB, &QPushButton::clicked, this, &Ekos::Focus::focusIn);
+    connect(focusOutB, &QPushButton::clicked, this, &Ekos::Focus::handleFocusButtonEvent);
+    connect(focusInB, &QPushButton::clicked, this, &Ekos::Focus::handleFocusButtonEvent);
 
     // Capture a single frame
     connect(captureB, &QPushButton::clicked, this, &Ekos::Focus::capture);

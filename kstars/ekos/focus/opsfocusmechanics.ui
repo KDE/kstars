@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>439</width>
-    <height>183</height>
+    <height>212</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QGridLayout" name="gridLayoutMechanics" rowstretch="0,0,0,0,0,0">
+    <layout class="QGridLayout" name="gridLayoutMechanics" rowstretch="0,0,0,0,0,0,0">
      <property name="leftMargin">
       <number>0</number>
      </property>
@@ -25,8 +25,27 @@
      <property name="spacing">
       <number>3</number>
      </property>
-     <item row="2" column="1">
-      <widget class="QDoubleSpinBox" name="focusMaxTravel">
+     <item row="4" column="2">
+      <widget class="QLabel" name="label_8">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>AF Overscan:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>focusAFOverscan</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QDoubleSpinBox" name="focusOutSteps">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -34,59 +53,24 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum travel in steps before the autofocus process aborts&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="decimals">
-        <number>0</number>
+        <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;This number multiplied by initial-step-size is number of outward steps the Linear Focus algorithm moves away from the initial position at the start of focusing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="minimum">
-        <double>10.000000000000000</double>
+        <double>3.000000000000000</double>
        </property>
        <property name="maximum">
-        <double>100000.000000000000000</double>
+        <double>10.000000000000000</double>
        </property>
        <property name="singleStep">
-        <double>1000.000000000000000</double>
+        <double>1.000000000000000</double>
        </property>
        <property name="value">
-        <double>10000.000000000000000</double>
+        <double>5.000000000000000</double>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QSpinBox" name="focusBacklash">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For backlash-aware focusers, the amount of backlash to apply when reversing movement direction. Set to 0 to disable.&lt;/p&gt;&lt;p&gt;Typically either Focuser Backlash or AF Overscan is set.&lt;/p&gt;&lt;p&gt;This field sets the Indi Focuser Backlash field and can be set either here or on the Indi Control Panel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_12">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string/>
-       </property>
-       <property name="text">
-        <string>Max Travel:</string>
-       </property>
-       <property name="buddy">
-        <cstring>focusMaxTravel</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_26">
+     <item row="1" column="2">
+      <widget class="QLabel" name="focusOutStepsLabel">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -94,10 +78,10 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Capture Timeout:</string>
+        <string>Out Step Multiple:</string>
        </property>
        <property name="buddy">
-        <cstring>focusCaptureTimeout</cstring>
+        <cstring>focusOutSteps</cstring>
        </property>
       </widget>
      </item>
@@ -129,77 +113,8 @@
        </item>
       </widget>
      </item>
-     <item row="1" column="3">
-      <widget class="QDoubleSpinBox" name="focusOutSteps">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;This number multiplied by initial-step-size is number of outward steps the Linear Focus algorithm moves away from the initial position at the start of focusing.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="minimum">
-        <double>3.000000000000000</double>
-       </property>
-       <property name="maximum">
-        <double>10.000000000000000</double>
-       </property>
-       <property name="singleStep">
-        <double>1.000000000000000</double>
-       </property>
-       <property name="value">
-        <double>5.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="3">
-      <widget class="QSpinBox" name="focusAFOverscan">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Provides backlash overscan in ticks for outward focuser movements during an Autofocus run. This is in addition to any Driver Backlash provided by the device driver and set in the Driver Backlash field. Set to 0 to disable. &lt;/p&gt;&lt;p&gt;If set, AF Overscan is applied to all focuser movements initiated by the Focus module.&lt;/p&gt;&lt;p&gt;Typically either Focuser Backlash or AF Overscan is set.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="maximum">
-        <number>10000</number>
-       </property>
-       <property name="value">
-        <number>100</number>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QDoubleSpinBox" name="focusSettleTime">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Settle time (in seconds) after moving the focuser before capturing the next image during Auto Focus and after an Adaptive Focus movement.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="suffix">
-        <string> s</string>
-       </property>
-       <property name="decimals">
-        <number>2</number>
-       </property>
-       <property name="maximum">
-        <double>30.000000000000000</double>
-       </property>
-       <property name="value">
-        <double>1.000000000000000</double>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="focusWalkLabel">
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_27">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -207,70 +122,10 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Walk:</string>
+        <string>Motion Timeout:</string>
        </property>
        <property name="buddy">
-        <cstring>focusWalk</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string/>
-       </property>
-       <property name="whatsThis">
-        <string/>
-       </property>
-       <property name="text">
-        <string>Initial Step Size:</string>
-       </property>
-       <property name="buddy">
-        <cstring>focusTicks</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <widget class="QSpinBox" name="focusMaxSingleStep">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum single step size the algorithm is allowed to command as it searches for the critical focus zone. The calculated step size would be limited to this maximum value.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="minimum">
-        <number>10</number>
-       </property>
-       <property name="maximum">
-        <number>100000</number>
-       </property>
-       <property name="value">
-        <number>100000</number>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_9">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Focuser Settle:</string>
-       </property>
-       <property name="buddy">
-        <cstring>focusSettleTime</cstring>
+        <cstring>focusMotionTimeout</cstring>
        </property>
       </widget>
      </item>
@@ -299,118 +154,7 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QSpinBox" name="focusCaptureTimeout">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</string>
-       </property>
-       <property name="suffix">
-        <string> s</string>
-       </property>
-       <property name="minimum">
-        <number>5</number>
-       </property>
-       <property name="maximum">
-        <number>300</number>
-       </property>
-       <property name="value">
-        <number>30</number>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_11">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Driver Backlash:</string>
-       </property>
-       <property name="buddy">
-        <cstring>focusBacklash</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLabel" name="label_8">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>AF Overscan:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="buddy">
-        <cstring>focusAFOverscan</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="focusOutStepsLabel">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Out Step Multiple:</string>
-       </property>
-       <property name="buddy">
-        <cstring>focusOutSteps</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="label_17">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="mouseTracking">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Max Step Size:</string>
-       </property>
-       <property name="buddy">
-        <cstring>focusMaxSingleStep</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_27">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Motion Timeout:</string>
-       </property>
-       <property name="buddy">
-        <cstring>focusMotionTimeout</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
+     <item row="6" column="1">
       <widget class="QSpinBox" name="focusMotionTimeout">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -435,23 +179,7 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="2">
-      <widget class="QLabel" name="label_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>AF Overscan Delay:</string>
-       </property>
-       <property name="buddy">
-        <cstring>focusOverscanDelay</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="3">
+     <item row="5" column="3">
       <widget class="QDoubleSpinBox" name="focusOverscanDelay">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -470,7 +198,250 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="2">
+     <item row="3" column="3">
+      <widget class="QSpinBox" name="focusMaxSingleStep">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum single step size the algorithm is allowed to command as it searches for the critical focus zone. The calculated step size would be limited to this maximum value.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="minimum">
+        <number>10</number>
+       </property>
+       <property name="maximum">
+        <number>100000</number>
+       </property>
+       <property name="value">
+        <number>100000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="3">
+      <widget class="QSpinBox" name="focusAFOverscan">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Provides backlash overscan in ticks for outward focuser movements during an Autofocus run. This is in addition to any Driver Backlash provided by the device driver and set in the Driver Backlash field. Set to 0 to disable. &lt;/p&gt;&lt;p&gt;If set, AF Overscan is applied to all focuser movements initiated by the Focus module.&lt;/p&gt;&lt;p&gt;Typically either Focuser Backlash or AF Overscan is set.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="maximum">
+        <number>10000</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_26">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Capture Timeout:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusCaptureTimeout</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="whatsThis">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Initial Step Size:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusTicks</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="focusWalkLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Walk:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusWalk</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_9">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Focuser Settle:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusSettleTime</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_11">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Driver Backlash:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusBacklash</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QSpinBox" name="focusCaptureTimeout">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Maximum time in seconds to wait for a captured image to be received before declaring a timeout.</string>
+       </property>
+       <property name="suffix">
+        <string> s</string>
+       </property>
+       <property name="minimum">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <number>300</number>
+       </property>
+       <property name="value">
+        <number>30</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="focusMaxTravel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum travel in steps before the autofocus process aborts&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="decimals">
+        <number>0</number>
+       </property>
+       <property name="minimum">
+        <double>10.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>100000.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>1000.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>10000.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLabel" name="label_17">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Max Step Size:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusMaxSingleStep</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_12">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>Max Travel:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusMaxTravel</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QDoubleSpinBox" name="focusSettleTime">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Settle time (in seconds) after moving the focuser before capturing the next image during Auto Focus and after an Adaptive Focus movement.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="suffix">
+        <string> s</string>
+       </property>
+       <property name="decimals">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <double>30.000000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2">
       <widget class="QLabel" name="focusNumStepsLabel">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -486,7 +457,23 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="3">
+     <item row="5" column="2">
+      <widget class="QLabel" name="label_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>AF Overscan Delay:</string>
+       </property>
+       <property name="buddy">
+        <cstring>focusOverscanDelay</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="3">
       <widget class="QSpinBox" name="focusNumSteps">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -505,6 +492,71 @@
        </property>
        <property name="value">
         <number>11</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QSpinBox" name="focusBacklash">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For backlash-aware focusers, the amount of backlash to apply when reversing movement direction. Set to 0 to disable.&lt;/p&gt;&lt;p&gt;Typically either Focuser Backlash or AF Overscan is set.&lt;/p&gt;&lt;p&gt;This field sets the Indi Focuser Backlash field and can be set either here or on the Indi Control Panel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="speedupShiftLabel">
+       <property name="text">
+        <string>Speedup (Shift)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="speedupCtrlLabel">
+       <property name="text">
+        <string>Speedup (Ctrl)</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="speedupShift">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Multiplier for manual focus motions when the shift key is pressed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="suffix">
+        <string> x</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>9999</number>
+       </property>
+       <property name="value">
+        <number>5</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QSpinBox" name="speedupCtrl">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Multiplier for manual focus motions when the control key is pressed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="suffix">
+        <string> x</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>9999</number>
+       </property>
+       <property name="value">
+        <number>5</number>
        </property>
       </widget>
      </item>
