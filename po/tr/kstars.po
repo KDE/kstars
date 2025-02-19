@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-18 01:54+0000\n"
+"POT-Creation-Date: 2025-02-19 01:55+0000\n"
 "PO-Revision-Date: 2025-02-09 12:53+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -426,7 +426,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.cpp:2079
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
-#: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:702
+#: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:699
 #: options/opscolors.ui:204
 #, kde-format, kde-kuit-format
 msgid "Save"
@@ -809,8 +809,8 @@ msgstr "< &Geri"
 #. i18n: ectx: property (text), widget (QPushButton, PAHManualDone)
 #: auxiliary/kswizard.cpp:80 ekos/align/manualrotator.cpp:47
 #: ekos/align/polaralignmentassistant.ui:278 ekos/focus/focusadvisor.cpp:169
-#: ekos/focus/focusadvisor.cpp:753 ekos/focus/focusadvisor.cpp:1148
-#: ekos/focus/focusadvisor.cpp:1393
+#: ekos/focus/focusadvisor.cpp:757 ekos/focus/focusadvisor.cpp:1152
+#: ekos/focus/focusadvisor.cpp:1397
 #, kde-format
 msgid "Done"
 msgstr "Bitti"
@@ -1985,7 +1985,7 @@ msgstr "Hedef:"
 #: data/qml/mount/mountbox.qml:808 dialogs/addcatalogobject.ui:40
 #: dialogs/detaildialog.cpp:315 ekos/capture/camera.ui:767
 #: ekos/mount/mounttargetwidget.ui:148 indi/collimationOptions.ui:427
-#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:983 oal/execute.ui:146
+#: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:977 oal/execute.ui:146
 #: printing/detailstable.cpp:318
 #, kde-format, kde-kuit-format
 msgid "Type:"
@@ -3143,8 +3143,8 @@ msgstr "Düzenle…"
 #: dialogs/catalogdetails.ui:188 dialogs/catalogsdbui.ui:83
 #: dialogs/fovdialog.ui:102 dialogs/viewsdialog.ui:113
 #: indi/customdrivers.ui:154 indi/drivermanager.ui:311
-#: oal/equipmentwriter.ui:432 oal/equipmentwriter.ui:906
-#: oal/equipmentwriter.ui:1243 options/opscolors.ui:230
+#: oal/equipmentwriter.ui:429 oal/equipmentwriter.ui:900
+#: oal/equipmentwriter.ui:1291 options/opscolors.ui:230
 #, kde-format
 msgid "Remove"
 msgstr "Kaldır"
@@ -3185,7 +3185,7 @@ msgstr "Katalog Oluştur/Düzenle"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, textLabelXplanetColor)
 #: dialogs/catalogeditform.ui:79 dialogs/newfov.ui:1246
-#: indi/collimationOptions.ui:234 oal/equipmentwriter.ui:993
+#: indi/collimationOptions.ui:234 oal/equipmentwriter.ui:987
 #: xplanet/opsxplanet.ui:666
 #, kde-format
 msgid "Color:"
@@ -3314,7 +3314,7 @@ msgstr "Bakımcı"
 #. i18n: ectx: property (text), widget (QCheckBox, f_UseAutoFocus)
 #: dialogs/catalogsdbui.cpp:121 dialogs/catalogsdbui.cpp:135
 #: dialogs/catalogsdbui.ui:73 ekos/observatory/observatory.ui:370
-#: oal/equipmentwriter.ui:1149
+#: oal/equipmentwriter.ui:1143
 #, kde-format
 msgid "Enable"
 msgstr "Etkinleştir"
@@ -3865,7 +3865,7 @@ msgstr "0,0 pc"
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:448 ekos/guide/guide.cpp:700 ekos/guide/guide.ui:569
-#: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1163
+#: ekos/guide/guide.ui:693 indi/streamform.ui:418 oal/equipmentwriter.ui:1157
 #, kde-format
 msgid "--"
 msgstr "—"
@@ -5087,7 +5087,7 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
 #. i18n: ectx: attribute (title), widget (QWidget, Eyepiece)
-#: dialogs/newfov.ui:81 oal/equipmentwriter.ui:366
+#: dialogs/newfov.ui:81 oal/equipmentwriter.ui:363
 #, kde-format
 msgid "Eyepiece"
 msgstr "Göz Merceği"
@@ -5132,7 +5132,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, binoApertureUnit)
 #: dialogs/newfov.ui:134 dialogs/newfov.ui:193 dialogs/newfov.ui:477
 #: oal/equipmentwriter.ui:176 oal/equipmentwriter.ui:232
-#: oal/equipmentwriter.ui:448 oal/equipmentwriter.ui:587
+#: oal/equipmentwriter.ui:445 oal/equipmentwriter.ui:584
 #: tools/whatsinteresting/wiequipsettings.ui:213
 #, kde-format
 msgid "mm"
@@ -5434,7 +5434,7 @@ msgstr "m"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel9_3)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1135
+#: dialogs/newfov.ui:882 oal/equipmentwriter.ui:1129
 #, kde-format
 msgid "Wavelength:"
 msgstr "Dalga boyu:"
@@ -6279,7 +6279,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Hata: Süzgeç tekerleğine olan bağlantı kesildi."
 
 #: ekos/align/align.cpp:1506 ekos/capture/cameraprocess.cpp:213
-#: ekos/capture/cameraprocess.cpp:633 ekos/focus/focus.cpp:5507
+#: ekos/capture/cameraprocess.cpp:633 ekos/focus/focus.cpp:5721
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6318,13 +6318,13 @@ msgid "No remote astrometry driver detected, switching to StellarSolver."
 msgstr ""
 "Hiçbir uzak astrometri sürücüsü algılanmadı, StellarSolver’a geçiliyor."
 
-#: ekos/align/align.cpp:1646 ekos/focus/focus.cpp:1635
+#: ekos/align/align.cpp:1646 ekos/focus/focus.cpp:1756
 #, kde-format
 msgid "Capturing image..."
 msgstr "Görsel yakalanıyor…"
 
 #: ekos/align/align.cpp:1736 ekos/auxiliary/ledstatuswidget.cpp:71
-#: ekos/focus/focus.cpp:2773
+#: ekos/focus/focus.cpp:2903
 #, kde-format
 msgid "Image received."
 msgstr "Görsel alındı."
@@ -6467,7 +6467,7 @@ msgid "Refresh is complete."
 msgstr "Yenileme tamamlandı."
 
 #: ekos/align/align.cpp:2582 ekos/auxiliary/darklibrary.cpp:1408
-#: ekos/focus/focus.cpp:1363
+#: ekos/focus/focus.cpp:1483
 #, kde-format
 msgid "Capture aborted."
 msgstr "Yakalama iptal edildi."
@@ -6638,7 +6638,7 @@ msgid "dDE (arcsec)"
 msgstr "dDE (yaysan)"
 
 #: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3423
-#: ekos/focus/focus.cpp:5394
+#: ekos/focus/focus.cpp:5602
 #, kde-format
 msgid "Filter operation failed."
 msgstr "Süzme işlemi başarısız oldu."
@@ -7023,7 +7023,7 @@ msgstr "FITS Görüntüleyicisi’nde Göster…"
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useFocusDarkFrame)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideDarkFrame)
-#: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:215
+#: ekos/align/align.ui:599 ekos/focus/opsfocussettings.ui:166
 #: ekos/guide/guide.ui:237
 #, kde-format
 msgid ""
@@ -11588,22 +11588,22 @@ msgstr "Çıkmak istediğinizden emin misiniz?"
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:114 ekos/capture/camera.ui:2303
-#: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:918
+#: ekos/auxiliary/filtermanager.cpp:118 ekos/capture/camera.ui:2303
+#: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:912
 #, kde-format
 msgid "Filter"
 msgstr "Süzgeç"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:120 ekos/capture/camera.ui:2333
+#: ekos/auxiliary/filtermanager.cpp:124 ekos/capture/camera.ui:2333
 #: ekos/scheduler/scheduler.cpp:430
 #, kde-format
 msgid "Offset"
 msgstr "Ofset"
 
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:128
+#: ekos/auxiliary/filtermanager.cpp:132
 #, kde-format
 msgid "Lock Filter"
 msgstr "Süzgeci Kilitle"
@@ -11836,8 +11836,8 @@ msgstr ""
 "Tüm karanlık kare görsellerini ve verilerini silmek istediğinizden emin "
 "misiniz?"
 
-#: ekos/auxiliary/darklibrary.cpp:1210 ekos/focus/focusadvisor.cpp:653
-#: ekos/focus/focusadvisor.cpp:967 ekos/focus/focusadvisor.cpp:1264
+#: ekos/auxiliary/darklibrary.cpp:1210 ekos/focus/focusadvisor.cpp:657
+#: ekos/focus/focusadvisor.cpp:971 ekos/focus/focusadvisor.cpp:1268
 #, kde-format
 msgid "In progress..."
 msgstr "Sürüyor…"
@@ -12061,7 +12061,7 @@ msgstr "Zaman:"
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: ekos/auxiliary/darklibrary.ui:703 ekos/capture/camera.ui:325
-#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:1003
+#: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:997
 #, kde-format
 msgid "Exposure:"
 msgstr "Pozlandırma:"
@@ -12292,49 +12292,49 @@ msgstr ""
 "Uygun karanlık kare veya kusur haritası bulunamadı. Lütfen yakalama "
 "modülündeki Karanlık Kitaplık sihirbazını çalıştırın."
 
-#: ekos/auxiliary/filtermanager.cpp:116
+#: ekos/auxiliary/filtermanager.cpp:120
 #, kde-format
 msgid "Filter exposure time during focus"
 msgstr "Odak sırasındaki süzgeç pozlama zamanı"
 
-#: ekos/auxiliary/filtermanager.cpp:117
+#: ekos/auxiliary/filtermanager.cpp:121
 #: ekos/capture/capturecountswidget.cpp:183
 #, kde-format
 msgid "Exposure"
 msgstr "Pozlama"
 
-#: ekos/auxiliary/filtermanager.cpp:119
+#: ekos/auxiliary/filtermanager.cpp:123
 #, kde-format
 msgid "Relative offset in steps"
 msgstr "Adım türünden göreceli ofset"
 
-#: ekos/auxiliary/filtermanager.cpp:122
+#: ekos/auxiliary/filtermanager.cpp:126
 #, kde-format
 msgid "Start Auto Focus when filter is activated"
 msgstr "Süzgeç etkinleştirildiğinde kendiliğinden odaklamayı başlat"
 
 #. i18n: ectx: property (text), widget (QPushButton, startFocusB)
-#: ekos/auxiliary/filtermanager.cpp:124 ekos/ekos.h:162 ekos/focus/focus.ui:276
+#: ekos/auxiliary/filtermanager.cpp:128 ekos/ekos.h:162 ekos/focus/focus.ui:276
 #, kde-format
 msgid "Auto Focus"
 msgstr "Kendiliğinden Odakla"
 
-#: ekos/auxiliary/filtermanager.cpp:126
+#: ekos/auxiliary/filtermanager.cpp:130
 #, kde-format
 msgid "Lock specific filter when running Auto Focus"
 msgstr "Kendiliğinden Odaklama çalışırken belirli süzgeci kilitle"
 
-#: ekos/auxiliary/filtermanager.cpp:131
+#: ekos/auxiliary/filtermanager.cpp:135
 #, kde-format
 msgid "Last AF solution. Updated automatically by the autofocus process."
 msgstr "Son AF çözümü. Kendiliğinden odaklama süreci tarafından güncellenir."
 
-#: ekos/auxiliary/filtermanager.cpp:132
+#: ekos/auxiliary/filtermanager.cpp:136
 #, kde-format
 msgid "Last AF Solution"
 msgstr "Son AF Çözümü"
 
-#: ekos/auxiliary/filtermanager.cpp:135
+#: ekos/auxiliary/filtermanager.cpp:139
 #, kde-format
 msgid ""
 "The temperature of the last AF solution. Updated automatically by the "
@@ -12343,12 +12343,12 @@ msgstr ""
 "Son AF çözümünün sıcaklığı. Kendiliğinden odaklama süreci tarafından "
 "güncellenir."
 
-#: ekos/auxiliary/filtermanager.cpp:136
+#: ekos/auxiliary/filtermanager.cpp:140
 #, kde-format
 msgid "Last AF Temp (°C)"
 msgstr "Son AF Sıcaklığı (°C)"
 
-#: ekos/auxiliary/filtermanager.cpp:139
+#: ekos/auxiliary/filtermanager.cpp:143
 #, kde-format
 msgid ""
 "The altitude of the last AF solution. Updated automatically by the autofocus "
@@ -12357,12 +12357,30 @@ msgstr ""
 "Son AF çözümünün yüksekliği. Kendiliğinden odaklama süreci tarafından "
 "güncellenir."
 
-#: ekos/auxiliary/filtermanager.cpp:140
+#: ekos/auxiliary/filtermanager.cpp:144
 #, kde-format
 msgid "Last AF Alt (°Alt)"
 msgstr "Son AF Yüksekliği (°Alt)"
 
-#: ekos/auxiliary/filtermanager.cpp:143
+#: ekos/auxiliary/filtermanager.cpp:147
+#, fuzzy, kde-format
+#| msgid ""
+#| "The altitude of the last AF solution. Updated automatically by the "
+#| "autofocus process."
+msgid ""
+"The datetime of the last AF solution. Updated automatically by the autofocus "
+"process."
+msgstr ""
+"Son AF çözümünün yüksekliği. Kendiliğinden odaklama süreci tarafından "
+"güncellenir."
+
+#: ekos/auxiliary/filtermanager.cpp:148
+#, fuzzy, kde-format
+#| msgid "Last AF Solution"
+msgid "Last AF Datetime"
+msgstr "Son AF Çözümü"
+
+#: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
 msgid ""
 "The number of ticks per °C increase in temperature. +ve for outward focuser "
@@ -12371,12 +12389,12 @@ msgstr ""
 "Sıcaklıktaki °C artımı başına tık sayısı. Dışa doğru odaklama hareketi için "
 "+ve"
 
-#: ekos/auxiliary/filtermanager.cpp:144
+#: ekos/auxiliary/filtermanager.cpp:152
 #, kde-format
 msgid "Ticks / °C"
 msgstr "Tıklar / °C"
 
-#: ekos/auxiliary/filtermanager.cpp:147
+#: ekos/auxiliary/filtermanager.cpp:155
 #, kde-format
 msgid ""
 "The number of ticks per degree increase in altitude. +ve for outward focuser "
@@ -12385,27 +12403,27 @@ msgstr ""
 "Yükseklikteki derece artımı başına tık sayısı. Dışa doğru odaklama hareketi "
 "için +ve"
 
-#: ekos/auxiliary/filtermanager.cpp:148
+#: ekos/auxiliary/filtermanager.cpp:156
 #, kde-format
 msgid "Ticks / °Alt"
 msgstr "Tıklar / °Alt"
 
-#: ekos/auxiliary/filtermanager.cpp:150
+#: ekos/auxiliary/filtermanager.cpp:158
 #, kde-format
 msgid "Mid-point wavelength of filter in nm"
 msgstr "nm türünden süzgecin dalga boyunun orta noktası"
 
-#: ekos/auxiliary/filtermanager.cpp:151
+#: ekos/auxiliary/filtermanager.cpp:159
 #, kde-format
 msgid "Wavelength"
 msgstr "Dalga boyu:"
 
-#: ekos/auxiliary/filtermanager.cpp:562
+#: ekos/auxiliary/filtermanager.cpp:571
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr "Süzgeci %1 olarak ayarlayın. Süzgeç ayarlı mı?"
 
-#: ekos/auxiliary/filtermanager.cpp:563
+#: ekos/auxiliary/filtermanager.cpp:572
 #, kde-format
 msgid "Confirm Filter"
 msgstr "Süzgeci Onayla"
@@ -14930,7 +14948,7 @@ msgstr "Kamera ofseti"
 #. i18n: ectx: property (text), widget (QLabel, offsetLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/capture/camera.ui:871 ekos/capture/captureprocessoverlay.ui:154
-#: indi/collimationOptions.ui:332 oal/equipmentwriter.ui:1032
+#: indi/collimationOptions.ui:332 oal/equipmentwriter.ui:1026
 #, kde-format
 msgid "Offset:"
 msgstr "Ofset:"
@@ -15852,8 +15870,8 @@ msgstr "İş öncesi betiği %1 koduyla bitti."
 msgid "Post job script finished with code %1."
 msgstr "İş sonrası betiği %1 koduyla bitti."
 
-#: ekos/capture/cameraprocess.cpp:2097 ekos/focus/focus.cpp:5559
-#: ekos/focus/focus.cpp:5583
+#: ekos/capture/cameraprocess.cpp:2097 ekos/focus/focus.cpp:5773
+#: ekos/focus/focus.cpp:5797
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Pozlama zaman aşımı. İptal ediliyor…"
@@ -15864,7 +15882,7 @@ msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Pozlama zaman aşımı. 3’ten fazlası algılandı, sürücü yeniden başlatılacak."
 
-#: ekos/capture/cameraprocess.cpp:2122 ekos/focus/focus.cpp:5564
+#: ekos/capture/cameraprocess.cpp:2122 ekos/focus/focus.cpp:5778
 #: ekos/guide/guide.cpp:997
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
@@ -16565,7 +16583,7 @@ msgstr "Gökyüzü Kalitesi"
 #. i18n: ectx: property (toolTip), widget (QLabel, l_FbyD)
 #. i18n: ectx: property (text), widget (QLabel, label51_2)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:105
-#: ekos/guide/guide.ui:700 oal/equipmentwriter.ui:611
+#: ekos/guide/guide.ui:700 oal/equipmentwriter.ui:608
 #, kde-format
 msgid "Focal Ratio"
 msgstr "Odak oranı"
@@ -18593,8 +18611,8 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, overlapSpin)
 #: ekos/focus/cfz.ui:299 ekos/focus/opsfocusprocess.ui:569
-#: ekos/focus/opsfocusprocess.ui:666 ekos/focus/opsfocussettings.ui:326
-#: ekos/focus/opsfocussettings.ui:360 ekos/focus/opsfocussettings.ui:420
+#: ekos/focus/opsfocusprocess.ui:666 ekos/focus/opsfocussettings.ui:361
+#: ekos/focus/opsfocussettings.ui:395 ekos/focus/opsfocussettings.ui:455
 #: ekos/scheduler/framingassistant.ui:879
 #, no-c-format, kde-format
 msgid " %"
@@ -18733,7 +18751,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusCFZAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
-#: ekos/focus/cfz.ui:508 ekos/focus/opsfocusmechanics.ui:117
+#: ekos/focus/cfz.ui:508 ekos/focus/opsfocusmechanics.ui:101
 #: kstarslite/qml/modules/popups/ColorSchemePopup.qml:55
 #, kde-format, kde-kuit-format
 msgid "Classic"
@@ -18848,7 +18866,7 @@ msgstr "En sonunda %1 sıcaklık kaynağı bulundu"
 msgid "No Focuser connected."
 msgstr "Bağlı odaklayıcı yok."
 
-#: ekos/focus/focus.cpp:1019 ekos/focus/focus.cpp:4552
+#: ekos/focus/focus.cpp:1019 ekos/focus/focus.cpp:4741
 #, kde-format
 msgid "No CCD connected."
 msgstr "Bağlı CCD yok."
@@ -18877,17 +18895,17 @@ msgstr "Yapı ofseti halihazırda çalışıyor, kendiliğinden odaklama reddedi
 msgid "In Focus Loop, Autofocus rejected."
 msgstr "Odak döngüsünde; kendiliğinden odaklama reddedildi."
 
-#: ekos/focus/focus.cpp:1059 ekos/focus/focus.cpp:4909
-#: ekos/focus/focus.cpp:5184
+#: ekos/focus/focus.cpp:1059 ekos/focus/focus.cpp:5116
+#: ekos/focus/focus.cpp:5391
 #, kde-format
 msgid "Adjust Focus"
 msgstr "Odağı Ayarla"
 
 #. i18n: ectx: property (title), widget (QGroupBox, adaptiveFocusGroup)
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/focus.cpp:1059 ekos/focus/focus.cpp:4911
-#: ekos/focus/focus.cpp:5184 ekos/focus/opsfocussettings.ui:448
-#: ekos/focus/opsfocussettings.ui:528
+#: ekos/focus/focus.cpp:1059 ekos/focus/focus.cpp:5118
+#: ekos/focus/focus.cpp:5391 ekos/focus/opsfocussettings.ui:483
+#: ekos/focus/opsfocussettings.ui:563
 #, kde-format
 msgid "Adaptive Focus"
 msgstr "Uyarlanır Odak"
@@ -18904,315 +18922,320 @@ msgstr ""
 msgid "Discarding Autofocus start request - %1 in progress."
 msgstr "Kendiliğinden odaklamayı başlatma isteği yok sayılıyor — %1 sürüyor."
 
-#: ekos/focus/focus.cpp:1232
+#: ekos/focus/focus.cpp:1090
+#, kde-format
+msgid "Autofocus request [%1] optimized out."
+msgstr ""
+
+#: ekos/focus/focus.cpp:1247
 #, kde-format
 msgid "Autofocus starting..."
 msgstr "Kendiliğinden odak başlatılıyor…"
 
-#: ekos/focus/focus.cpp:1246
+#: ekos/focus/focus.cpp:1261
 #, kde-format
 msgid "Autofocus operation started"
 msgstr "Kendiliğinden odaklama işlemi başladı"
 
-#: ekos/focus/focus.cpp:1368
+#: ekos/focus/focus.cpp:1488
 #, kde-format
 msgid "Capture in progress, retrying in 1s..."
 msgstr "Yakalama sürüyor, 1 saniye içinde yeniden denenecek…"
 
-#: ekos/focus/focus.cpp:1380
+#: ekos/focus/focus.cpp:1500
 #, kde-format
 msgid "Star detection in progress, retrying in 1s..."
 msgstr "Yıldız algılaması sürüyor, 1 saniye içinde yeniden denenecek…"
 
-#: ekos/focus/focus.cpp:1424
+#: ekos/focus/focus.cpp:1544
 #, kde-format
 msgid "Autofocus aborted."
 msgstr "Kendiliğinden odaklama iptal edildi."
 
-#: ekos/focus/focus.cpp:1527
+#: ekos/focus/focus.cpp:1648
 #, kde-format
 msgid "Error: No Camera detected."
 msgstr "Hata: Algılanan kamera yok."
 
-#: ekos/focus/focus.cpp:1534
+#: ekos/focus/focus.cpp:1655
 #, kde-format
 msgid "Error: Lost connection to Camera."
 msgstr "Hata: Kameraya olan bağlantı koptu."
 
-#: ekos/focus/focus.cpp:1555
+#: ekos/focus/focus.cpp:1676
 #, kde-format
 msgid "Error: No Filter Wheel detected."
 msgstr "Hata: Algılanan süzgeç tekerleği yok."
 
-#: ekos/focus/focus.cpp:1561
+#: ekos/focus/focus.cpp:1682
 #, kde-format
 msgid "Error: Lost connection to Filter Wheel."
 msgstr "Hata: Süzgeç tekerleğine olan bağlantı koptu."
 
-#: ekos/focus/focus.cpp:1679
+#: ekos/focus/focus.cpp:1800
 #, kde-format
 msgid "At minimum focus position %1..."
 msgstr "En düşük odak konumu %1 üzerinde…"
 
-#: ekos/focus/focus.cpp:1690
+#: ekos/focus/focus.cpp:1815
 #, kde-format
 msgid "Moving to minimum focus position %1..."
 msgstr "En düşük odak konumu %1 üzerine hareket ediliyor…"
 
-#: ekos/focus/focus.cpp:1699
+#: ekos/focus/focus.cpp:1824
 #, kde-format
 msgid "At maximum focus position %1..."
 msgstr "En yüksek odak konumu %1 üzerinde…"
 
-#: ekos/focus/focus.cpp:1710
+#: ekos/focus/focus.cpp:1840
 #, kde-format
 msgid "Moving to maximum focus position %1..."
 msgstr "En yüksek odak konumu %1 üzerine hareket ediliyor…"
 
-#: ekos/focus/focus.cpp:1737
+#: ekos/focus/focus.cpp:1867
 #, kde-format
 msgid "Error: No Focuser detected."
 msgstr "Hata: Algılanan odaklayıcı yok."
 
-#: ekos/focus/focus.cpp:1744
+#: ekos/focus/focus.cpp:1874
 #, kde-format
 msgid "Error: Lost connection to Focuser."
 msgstr "Hata: Odaklayıcıya olan bağlantı koptu."
 
-#: ekos/focus/focus.cpp:1758
+#: ekos/focus/focus.cpp:1888
 #, kde-format
 msgid "outward"
 msgstr "dışa"
 
-#: ekos/focus/focus.cpp:1758
+#: ekos/focus/focus.cpp:1888
 #, kde-format
 msgid "inward"
 msgstr "içe"
 
-#: ekos/focus/focus.cpp:1775
+#: ekos/focus/focus.cpp:1905
 #, kde-format
 msgid "Focusing %2 by %1 steps..."
 msgstr "%1 adım %2 odaklanılıyor…"
 
-#: ekos/focus/focus.cpp:1781
+#: ekos/focus/focus.cpp:1911
 #, kde-format
 msgid "Focusing %2 by %1 step..."
 msgid_plural "Focusing %2 by %1 steps..."
 msgstr[0] "%1 adım %2 odaklanılıyor…"
 msgstr[1] "%1 adım %2 odaklanılıyor…"
 
-#: ekos/focus/focus.cpp:1787
+#: ekos/focus/focus.cpp:1917
 #, kde-format
 msgid "Focusing %2 by %1 ms..."
 msgstr "%1 ms %2 odaklanılıyor…"
 
-#: ekos/focus/focus.cpp:1822
+#: ekos/focus/focus.cpp:1952
 #, kde-format
 msgid "Focuser is still timing out. Aborting..."
 msgstr "Odaklayıcı hâlâ zaman aşımına uğruyor. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:1829
+#: ekos/focus/focus.cpp:1959
 #, kde-format
 msgid "Focus motion timed out (%1). Restarting focus driver %2"
 msgstr ""
 "Odak hareketi zaman aşımına uğradı (%1). Odak sürücüsü %2 yeniden "
 "başlatılıyor…"
 
-#: ekos/focus/focus.cpp:1840
+#: ekos/focus/focus.cpp:1970
 #, kde-format
 msgid "Focus motion timed out (%1). Focusing to %2 steps..."
 msgstr ""
 "Odak hareketi zaman aşımına uğradı (%1). %2 adıma yeniden odaklanılıyor…"
 
-#: ekos/focus/focus.cpp:1886
+#: ekos/focus/focus.cpp:2016
 #, kde-format
 msgid "Attempting to reconnect focuser: %1"
 msgstr "Odaklayıcıya yeniden bağlanma deneniyor: %1"
 
-#: ekos/focus/focus.cpp:1895
+#: ekos/focus/focus.cpp:2025
 #, kde-format
 msgid "Cannot reconnect focuser: %1. Aborting..."
 msgstr "Odaklayıcıya yeniden bağlanılamıyor: %1. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:1953 ekos/focus/focus.cpp:1960
+#: ekos/focus/focus.cpp:2083 ekos/focus/focus.cpp:2090
 #, kde-format
 msgid "Detection complete."
 msgstr "Algılama tamamlandı."
 
-#: ekos/focus/focus.cpp:2232
+#: ekos/focus/focus.cpp:2362
 #, kde-format
 msgid "Detecting sources..."
 msgstr "Kaynaklar algılanıyor…"
 
-#: ekos/focus/focus.cpp:2341
+#: ekos/focus/focus.cpp:2471
 #, kde-format
 msgid "Autofocus operation completed successfully"
 msgstr "Kendiliğinden odaklama işlemi başarıyla tamamlandı"
 
-#: ekos/focus/focus.cpp:2355
+#: ekos/focus/focus.cpp:2485
 #, kde-format
 msgid "Autofocus operation failed"
 msgstr "Kendiliğinden odaklam işlemi başarısız oldu"
 
-#: ekos/focus/focus.cpp:2423
+#: ekos/focus/focus.cpp:2553
 #, kde-format
 msgid "Focus procedure completed after %1 iteration."
 msgid_plural "Focus procedure completed after %1 iterations."
 msgstr[0] "%1 yineleme sonrası odak prosedürü tamamlandı."
 msgstr[1] "%1 yineleme sonrası odak prosedürü tamamlandı."
 
-#: ekos/focus/focus.cpp:2509
+#: ekos/focus/focus.cpp:2639
 #, kde-format
 msgid "Settling for %1s..."
 msgstr "%1 sn için yerleşiliyor…"
 
-#: ekos/focus/focus.cpp:2517
+#: ekos/focus/focus.cpp:2647
 #, kde-format
 msgid "Settling complete."
 msgstr "Yerleşim tamamlandı."
 
-#: ekos/focus/focus.cpp:2530
+#: ekos/focus/focus.cpp:2660
 #, kde-format
 msgid "Autofocus failed, moving back to initial focus position %1."
 msgstr ""
 "Kendiliğinden odaklama başarısız oldu, %1 başlangıç odak konumuna geri "
 "dönülüyor."
 
-#: ekos/focus/focus.cpp:2567
+#: ekos/focus/focus.cpp:2697
 #, kde-format
 msgid "FITS received. No stars detected."
 msgstr "FITS alındı. Algılanan yıldız yok."
 
-#: ekos/focus/focus.cpp:2835
+#: ekos/focus/focus.cpp:2965
 #, kde-format
 msgid "Capture complete. Select a region of interest."
 msgstr "Yakalama tamamlandı. Bir ilgi bölgesi seçin."
 
-#: ekos/focus/focus.cpp:2876
+#: ekos/focus/focus.cpp:3006
 #, kde-format
 msgid "Failed to automatically select a star. Please select a star manually."
 msgstr "Kendiliğinden bir yıldız seçilemedi. Lütfen bir tanesini elle seçin."
 
-#: ekos/focus/focus.cpp:2970
+#: ekos/focus/focus.cpp:3100
 #, kde-format
 msgid "Capture complete. Select a star to focus."
 msgstr "Yakalama tamamlandı. Odaklanacak bir yıldız seçin."
 
-#: ekos/focus/focus.cpp:3001
+#: ekos/focus/focus.cpp:3131
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr "HFR sınanırken bir yıldız algılanmadı, yeniden yakalanıyor…"
 
-#: ekos/focus/focus.cpp:3021
+#: ekos/focus/focus.cpp:3151
 #, kde-format
 msgid "HFR %1 > Limit %2"
 msgstr "HFR %1 > Sınır %2"
 
-#: ekos/focus/focus.cpp:3146
+#: ekos/focus/focus.cpp:3276
 #, kde-format
 msgid "Autofocus failed: exceeded max iterations %1"
 msgstr ""
 "Kendiliğinden odaklama başarısız oldu: En yüksek yineleme sayısı %1 aşıldı"
 
-#: ekos/focus/focus.cpp:3157 ekos/focus/focus.cpp:3419
-#: ekos/focus/focus.cpp:4015
+#: ekos/focus/focus.cpp:3287 ekos/focus/focus.cpp:3549
+#: ekos/focus/focus.cpp:4145
 #, kde-format
 msgid "No stars detected, capturing again..."
 msgstr "Algılanan yıldız yok, yeniden yakalanıyor…"
 
-#: ekos/focus/focus.cpp:3163 ekos/focus/focus.cpp:4021
+#: ekos/focus/focus.cpp:3293 ekos/focus/focus.cpp:4151
 #, kde-format
 msgid "Failed to detect any stars at position %1. Continuing..."
 msgstr "%1 konumunda bir yıldız algılanamadı. Sürdürülüyor…"
 
-#: ekos/focus/focus.cpp:3169 ekos/focus/focus.cpp:4027
+#: ekos/focus/focus.cpp:3299 ekos/focus/focus.cpp:4157
 #, kde-format
 msgid "Failed to detect any stars. Reset frame and try again."
 msgstr ""
 "Herhangi bir yıldız algılanamadı. Kareyi sıfırlayın ve yeniden deneyin."
 
-#: ekos/focus/focus.cpp:3356
+#: ekos/focus/focus.cpp:3486
 #, kde-format
 msgid "Unable to launch Aberration Inspector run %1..."
 msgstr "Görüntü Sapması Denetçisi %1. çalıştırması başlatılamıyor…"
 
-#: ekos/focus/focus.cpp:3376
+#: ekos/focus/focus.cpp:3506
 #, kde-format
 msgid "Launching Aberration Inspector run %1..."
 msgstr "Görüntü Sapması Denetçisi %1. çalıştırması başlatılıyor…"
 
-#: ekos/focus/focus.cpp:3402
+#: ekos/focus/focus.cpp:3532
 #, kde-format
 msgid "Starting scan for initial focuser position."
 msgstr "Odaklayıcının başlangıç konumu için tarama başlatılıyor…"
 
-#: ekos/focus/focus.cpp:3403
+#: ekos/focus/focus.cpp:3533
 #, kde-format
 msgid "Scanning for starting position..."
 msgstr "Başlama konumu taranıyor…"
 
-#: ekos/focus/focus.cpp:3425
+#: ekos/focus/focus.cpp:3555
 #, kde-format
 msgid "Failed to detect any stars. Aborting..."
 msgstr "Hiçbir yıldız algılanamadı. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:3434
+#: ekos/focus/focus.cpp:3564
 #, kde-format
 msgid "Scan Start Pos: exceeded max iterations %1"
 msgstr "Tarama başlangıcı konumu: En yüksek yineleme sayısı %1 aşıldı"
 
-#: ekos/focus/focus.cpp:3452
+#: ekos/focus/focus.cpp:3582
 #, kde-format
 msgid "Scanning for starting position %1/%2"
 msgstr "Başlangıç konumu %1/%2 taranıyor…"
 
-#: ekos/focus/focus.cpp:3466
+#: ekos/focus/focus.cpp:3596
 #, kde-format
 msgid "No scan minimum - widening search..."
 msgstr "Tarama en düşüğü yok — arama genişletiliyor…"
 
-#: ekos/focus/focus.cpp:3479
+#: ekos/focus/focus.cpp:3609
 #, kde-format
 msgid "Scan Start Position %1 Found"
 msgstr "Tarama başlangıcı konumu %1 bulundu"
 
-#: ekos/focus/focus.cpp:3480
+#: ekos/focus/focus.cpp:3610
 #, kde-format
 msgid "Scan Start Position %1 found"
 msgstr "Tarama Başlangıcı Konumu %1 Bulundu"
 
-#: ekos/focus/focus.cpp:3549
+#: ekos/focus/focus.cpp:3679
 #, kde-format
 msgid "Curve Fit check failed R2=%1 focusR2Limit=%2 retrying..."
 msgstr "Eğim uyumu denetimi başarısız R2=%1 focusR2Limit=%2 yeniden deneniyor…"
 
-#: ekos/focus/focus.cpp:3551
+#: ekos/focus/focus.cpp:3681
 #, kde-format
 msgid "R2=%1 < Limit=%2"
 msgstr "R2=%1 < Sınır=%2"
 
-#: ekos/focus/focus.cpp:3559
+#: ekos/focus/focus.cpp:3689
 #, kde-format
 msgid "Curve Fit check failed again R2=%1 focusR2Limit=%2 but continuing..."
 msgstr ""
 "Eğim uyumu denetimi yine başarısız R2=%1 focusR2Limit=%2; ancak sürdürülüyor…"
 
-#: ekos/focus/focus.cpp:3569
+#: ekos/focus/focus.cpp:3699
 #, kde-format
 msgid "Linear autofocus algorithm aborted: %1"
 msgstr "Doğrusal kendiliğinden algılama algoritması iptal edildi: %1"
 
-#: ekos/focus/focus.cpp:3604
+#: ekos/focus/focus.cpp:3734
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
 msgstr "FITS alındı. HFR %1 @ %2. Delta (%​%3)"
 
-#: ekos/focus/focus.cpp:3606
+#: ekos/focus/focus.cpp:3736
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
 msgstr "FITS alındı. HFR %1 @ %2."
 
-#: ekos/focus/focus.cpp:3667
+#: ekos/focus/focus.cpp:3797
 #, kde-format
 msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
@@ -19221,24 +19244,24 @@ msgstr ""
 "HFR’deki değişiklik pek küçük; adım boyutunu artırmayı veya toleransı "
 "azaltmayı deneyin."
 
-#: ekos/focus/focus.cpp:3674
+#: ekos/focus/focus.cpp:3804
 #, kde-format
 msgid "Failed to detect focus star in frame. Capture and select a focus star."
 msgstr "Karedeki odak yıldızı algılanamadı. Bir odak yıldızı yakalayıp seçin."
 
-#: ekos/focus/focus.cpp:3779
+#: ekos/focus/focus.cpp:3909
 #, kde-format
 msgid "Found polynomial solution @ %1"
 msgstr "%1 konumunda polinom çözümü bulundu."
 
-#: ekos/focus/focus.cpp:3843
+#: ekos/focus/focus.cpp:3973
 #, kde-format
 msgid "Focuser cannot move further, device limits reached. Autofocus aborted."
 msgstr ""
 "Odaklayıcı daha ileriye gidemiyor, aygıt sınırlarına erişildi. Kendiliğinden "
 "odaklama iptal ediliyor."
 
-#: ekos/focus/focus.cpp:3854
+#: ekos/focus/focus.cpp:3984
 #, kde-format
 msgid ""
 "Unstable fluctuations. Try increasing initial step size or exposure time."
@@ -19246,23 +19269,23 @@ msgstr ""
 "Kararsız dalgalanmalar. İlk adım boyutunu veya pozlama süresini artırmayı "
 "deneyin."
 
-#: ekos/focus/focus.cpp:3864
+#: ekos/focus/focus.cpp:3994
 #, kde-format
 msgid "Deadlock reached. Please try again with different settings."
 msgstr "Tıkanma oluştu. Lütfen farklı bir ayar ile yeniden deneyin."
 
-#: ekos/focus/focus.cpp:3893
+#: ekos/focus/focus.cpp:4023
 #, kde-format
 msgid "Maximum travel limit reached. Autofocus aborted."
 msgstr ""
 "En yüksek hareket sınırına ulaşıldı. Kendiliğinden odaklama iptal ediliyor."
 
-#: ekos/focus/focus.cpp:4000
+#: ekos/focus/focus.cpp:4130
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
 msgstr "FITS alındı. HFR %1. Delta (%​%2), En Düşük HFR (%3)"
 
-#: ekos/focus/focus.cpp:4004
+#: ekos/focus/focus.cpp:4134
 #, kde-format
 msgid ""
 "Autofocus failed to reach proper focus. Try adjusting the tolerance value."
@@ -19270,112 +19293,112 @@ msgstr ""
 "Kendiliğinden odaklama uygun odağa ulaşamadı. Tolerans değerini ayarlamayı "
 "deneyin."
 
-#: ekos/focus/focus.cpp:4099 ekos/focus/focus.cpp:4122
-#: ekos/focus/focus.cpp:4297 ekos/focus/focus.cpp:4380
-#: ekos/focus/focus.cpp:4452 ekos/focus/focus.cpp:4527
+#: ekos/focus/focus.cpp:4248 ekos/focus/focus.cpp:4271
+#: ekos/focus/focus.cpp:4456 ekos/focus/focus.cpp:4549
+#: ekos/focus/focus.cpp:4631 ekos/focus/focus.cpp:4716
 #, kde-format
 msgid "Focuser error, check INDI panel."
 msgstr "Odaklayıcı hatası, INDI panelini denetleyin."
 
-#: ekos/focus/focus.cpp:4183 ekos/focus/focus.cpp:4313
+#: ekos/focus/focus.cpp:4332 ekos/focus/focus.cpp:4472
 #, kde-format
 msgid "Simulate focuser comms failure..."
 msgstr "Odaklayıcı iletişim arızasına benzetiliyor…"
 
-#: ekos/focus/focus.cpp:4274 ekos/focus/focus.cpp:4361
-#: ekos/focus/focus.cpp:4433 ekos/focus/focus.cpp:4474
+#: ekos/focus/focus.cpp:4433 ekos/focus/focus.cpp:4530
+#: ekos/focus/focus.cpp:4612 ekos/focus/focus.cpp:4653
 #, kde-format
 msgid "Restarting autofocus process..."
 msgstr "Kendiliğinden odaklama süreci yeniden başlatılıyor…"
 
-#: ekos/focus/focus.cpp:4568
+#: ekos/focus/focus.cpp:4757
 #, kde-format
 msgid "Starting continuous exposure..."
 msgstr "Sürekli pozlama başlatılıyor…"
 
-#: ekos/focus/focus.cpp:4879
+#: ekos/focus/focus.cpp:5086
 #, kde-format
 msgid "Disabling Auto Star Selection as star selection box was moved manually."
 msgstr ""
 "Yıldız seçim kutusu elle taşındığından Kendiliğinden Yıldız Seçimi devre "
 "dışı bırakılıyor."
 
-#: ekos/focus/focus.cpp:4885
+#: ekos/focus/focus.cpp:5092
 #, kde-format
 msgid "Focus star is selected."
 msgstr "Odak yıldızı seçili."
 
-#: ekos/focus/focus.cpp:4887
+#: ekos/focus/focus.cpp:5094
 #, kde-format
 msgid "Region of interest is selected."
 msgstr "İlgi bölgesi seçili."
 
-#: ekos/focus/focus.cpp:4907
+#: ekos/focus/focus.cpp:5114
 #, kde-format
 msgid "Autofocus"
 msgstr "Kendiliğinden Odaklama"
 
-#: ekos/focus/focus.cpp:4915
+#: ekos/focus/focus.cpp:5122
 #, kde-format
 msgid "Check focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Odak isteğini denetleniyor — %1 işleminin tamamlanması için 10 saniye "
 "bekleniyor."
 
-#: ekos/focus/focus.cpp:4923
+#: ekos/focus/focus.cpp:5130
 #, kde-format
 msgid "Discarding Check Focus request - %1 in progress."
 msgstr "Odak denetleme isteği bırakılıyor — %1 sürüyor."
 
-#: ekos/focus/focus.cpp:4936
+#: ekos/focus/focus.cpp:5143
 #, kde-format
 msgid "Check Focus ignored - Star Measure must be star based"
 msgstr "Odak denetleme yok sayıldı — Yıldız ölçüsü yıldız tabanlı olmalıdır"
 
-#: ekos/focus/focus.cpp:4941
+#: ekos/focus/focus.cpp:5148
 #, kde-format
 msgid "Capturing to check HFR..."
 msgstr "HFR denetlemesi için yakalama yapılıyor…"
 
-#: ekos/focus/focus.cpp:5071
+#: ekos/focus/focus.cpp:5278
 #, kde-format
 msgid "No star was selected. Using last known position..."
 msgstr "Seçili yıldız yok. Son bilinen konum kullanılıyor…"
 
-#: ekos/focus/focus.cpp:5077
+#: ekos/focus/focus.cpp:5284
 #, kde-format
 msgid "No star was selected. Aborting..."
 msgstr "Seçili yıldız yok. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:5088
+#: ekos/focus/focus.cpp:5295
 #, kde-format
 msgid "Focuser already at %1..."
 msgstr "Odaklayıcı halihazırda %1 konumunda…"
 
-#: ekos/focus/focus.cpp:5187
+#: ekos/focus/focus.cpp:5394
 #, kde-format
 msgid "Adjust focus request - Waiting 10sec for %1 to complete."
 msgstr ""
 "Odak isteği ayarlanıyor — %1 işleminin tamamlanması için 10 saniye "
 "bekleniyor."
 
-#: ekos/focus/focus.cpp:5221
+#: ekos/focus/focus.cpp:5428
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
 msgstr "Odak Karesi"
 
-#: ekos/focus/focus.cpp:5607
+#: ekos/focus/focus.cpp:5821
 #, kde-format
 msgid "Failed to save image. Aborting..."
 msgstr "Görsel kaydedilemedi. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:5622 ekos/focus/focus.cpp:5647
+#: ekos/focus/focus.cpp:5836 ekos/focus/focus.cpp:5861
 #, kde-format
 msgid "Exposure failure. Aborting..."
 msgstr "Pozlama hatası. İptal ediliyor…"
 
-#: ekos/focus/focus.cpp:5939
+#: ekos/focus/focus.cpp:6153
 #, kde-format
 msgctxt "@title:window"
 msgid "Relative Profile"
@@ -19446,20 +19469,28 @@ msgstr "Odaklayıcı hareketini durdur"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:407
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
+#| "body></html>"
 msgid ""
-"<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
-"body></html>"
+"<html><head/><body><p>Focus Out. Use shift and ctrl key for motion speed up. "
+"The factors are configured in the focuser's mechanical options.</p><p>For "
+"SCTs this is usually CW.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Dışa odaklanmak. </p><p>SCT’ler için bu genellikle "
 "CW’dir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:439
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
+#| "body></html>"
 msgid ""
-"<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
-"body></html>"
+"<html><head/><body><p>Focus In. Use shift and ctrl key for motion speed up. "
+"The factors are configured in the focuser's mechanical options.</p><p>For "
+"SCTs this is usually CCW.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>İçe odaklanmak. </p><p>SCT’ler için bu genellikle "
 "CCW’dir.</p></body></html>"
@@ -19792,179 +19823,179 @@ msgid "Settings Parameters"
 msgstr "Ayar Parametreleri"
 
 #. i18n: ectx: property (title), widget (QGroupBox, maskGroupBox)
-#: ekos/focus/focusadvisor.cpp:413 ekos/focus/opsfocussettings.ui:245
+#: ekos/focus/focusadvisor.cpp:417 ekos/focus/opsfocussettings.ui:280
 #, kde-format
 msgid "Mask"
 msgstr "Maske"
 
-#: ekos/focus/focusadvisor.cpp:430
+#: ekos/focus/focusadvisor.cpp:434
 #, kde-format
 msgid "Process Parameters"
 msgstr "Süreç Parametreleri"
 
-#: ekos/focus/focusadvisor.cpp:475
+#: ekos/focus/focusadvisor.cpp:479
 #, kde-format
 msgid "Mechanics Parameters"
 msgstr "Mekanikler Parametreleri"
 
-#: ekos/focus/focusadvisor.cpp:640
+#: ekos/focus/focusadvisor.cpp:644
 #, kde-format
 msgid "Focus Advisor aborted due to internal error"
 msgstr "Odak danışmanı bir iç hata nedeniyle durdu"
 
-#: ekos/focus/focusadvisor.cpp:649 ekos/focus/focusadvisor.cpp:956
-#: ekos/focus/focusadvisor.cpp:1260
+#: ekos/focus/focusadvisor.cpp:653 ekos/focus/focusadvisor.cpp:960
+#: ekos/focus/focusadvisor.cpp:1264
 #, kde-format
 msgid "Focus Advisor cannot run with current params"
 msgstr "Odak danışmanı geçerli parametrelerle çalışamıyor"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdvFindStars)
-#: ekos/focus/focusadvisor.cpp:683 ekos/focus/focusadvisor.ui:69
+#: ekos/focus/focusadvisor.cpp:687 ekos/focus/focusadvisor.ui:69
 #, kde-format
 msgid "Find Stars"
 msgstr "Yıldızları bul"
 
-#: ekos/focus/focusadvisor.cpp:685
+#: ekos/focus/focusadvisor.cpp:689
 #, kde-format
 msgid "Find Stars: Scanning for stars..."
 msgstr "Yıldızları Bul: Yıldızlar taranıyor…"
 
-#: ekos/focus/focusadvisor.cpp:687
+#: ekos/focus/focusadvisor.cpp:691
 #, kde-format
 msgid "Find Stars: Failed"
 msgstr "Yıldızları Bul: Başarısız"
 
-#: ekos/focus/focusadvisor.cpp:754
+#: ekos/focus/focusadvisor.cpp:758
 #, kde-format
 msgid "Stars detected, range center %1"
 msgstr "Yıldızlar algılandı, erim merkezi %1"
 
-#: ekos/focus/focusadvisor.cpp:763
+#: ekos/focus/focusadvisor.cpp:767
 #, kde-format
 msgid "Stars detected, range centre %1"
 msgstr "Yıldızlar algılandı, erim merkezi %1"
 
-#: ekos/focus/focusadvisor.cpp:764
+#: ekos/focus/focusadvisor.cpp:768
 #, kde-format
 msgid "Focus Advisor Find Stars completed"
 msgstr "Odak danışmanı yıldız bulumu tamamlandı"
 
-#: ekos/focus/focusadvisor.cpp:812
+#: ekos/focus/focusadvisor.cpp:816
 #, kde-format
 msgid "Find Stars: exceeded max iterations %1"
 msgstr "Yıldızları Bul: En çok %1 yineleme sayısı aşıldı"
 
-#: ekos/focus/focusadvisor.cpp:820 ekos/focus/focusadvisor.cpp:821
+#: ekos/focus/focusadvisor.cpp:824 ekos/focus/focusadvisor.cpp:825
 #, kde-format
 msgid "Stars detected, centering range"
 msgstr "Yıldızlar algılandı, erim ortalanıyor"
 
-#: ekos/focus/focusadvisor.cpp:842
+#: ekos/focus/focusadvisor.cpp:846
 #, kde-format
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
 msgstr "Yıldızları Bul %1. Pas: %2 başlangıcında yıldız yok, taranıyor…"
 
-#: ekos/focus/focusadvisor.cpp:848
+#: ekos/focus/focusadvisor.cpp:852
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: Scanning %3/%4"
 msgstr "Yıldızları Bul %1. Pas Sektör %2: %3/%4 taranıyor"
 
-#: ekos/focus/focusadvisor.cpp:850
+#: ekos/focus/focusadvisor.cpp:854
 #, kde-format
 msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr "Yıldızları Bul %1. Pas: Sektör %2 taranıyor"
 
-#: ekos/focus/focusadvisor.cpp:861
+#: ekos/focus/focusadvisor.cpp:865
 #, kde-format
 msgid "No stars detected"
 msgstr "Algılanan yıldız yok"
 
-#: ekos/focus/focusadvisor.cpp:869
+#: ekos/focus/focusadvisor.cpp:873
 #, kde-format
 msgid "Find Stars Run %1: failed to find any stars"
 msgstr "Yıldızları Bul %1. Pas: Hiçbir yıldız bulunamadı"
 
-#: ekos/focus/focusadvisor.cpp:934
+#: ekos/focus/focusadvisor.cpp:938
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
 msgstr "Yıldızları Bul %1. Pas Sektör %2: %3/%4 taranıyor"
 
-#: ekos/focus/focusadvisor.cpp:941
+#: ekos/focus/focusadvisor.cpp:945
 #, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
 msgstr "Odak Danışmanı Yıldızları Bul %1. Pas: Odaklayıcı hareket ettirilemedi"
 
-#: ekos/focus/focusadvisor.cpp:963
+#: ekos/focus/focusadvisor.cpp:967
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment aborted after %1 runs"
 msgstr "Odak danışmanı kaba ayarı %1 pas sonrasında iptal edildi"
 
-#: ekos/focus/focusadvisor.cpp:980
+#: ekos/focus/focusadvisor.cpp:984
 #, kde-format
 msgid "Coarse Adjustment Scan..."
 msgstr "Kaba ayar taraması…"
 
-#: ekos/focus/focusadvisor.cpp:1008
+#: ekos/focus/focusadvisor.cpp:1012
 #, kde-format
 msgid "Coarse Adjustment"
 msgstr "Kaba Ayar"
 
-#: ekos/focus/focusadvisor.cpp:1014 ekos/focus/focusadvisor.cpp:1228
+#: ekos/focus/focusadvisor.cpp:1018 ekos/focus/focusadvisor.cpp:1232
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment failed to move focuser"
 msgstr "Odak danışmanı kaba ayarı odaklayıcıyı hareket ettiremedi"
 
-#: ekos/focus/focusadvisor.cpp:1024
+#: ekos/focus/focusadvisor.cpp:1028
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment: exceeded max iterations %1"
 msgstr "Odak Danışmanı Kaba Ayarı: %1 en çok deneme aşıldı"
 
-#: ekos/focus/focusadvisor.cpp:1081
+#: ekos/focus/focusadvisor.cpp:1085
 #, kde-format
 msgid "Coarse Adjustment Run %1 scan..."
 msgstr "Kaba ayar pası %1 taraması…"
 
-#: ekos/focus/focusadvisor.cpp:1089
+#: ekos/focus/focusadvisor.cpp:1093
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr "Odak Danışmanı Kaba Ayar Pası %1: Sürdürmek için yetersiz veri"
 
-#: ekos/focus/focusadvisor.cpp:1146
+#: ekos/focus/focusadvisor.cpp:1150
 #, kde-format
 msgid "Max/Min Ratio: %1"
 msgstr "En az/çok oranı: %1"
 
-#: ekos/focus/focusadvisor.cpp:1163
+#: ekos/focus/focusadvisor.cpp:1167
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment completed."
 msgstr "Odak danışmanı kaba ayarı tamamlandı."
 
-#: ekos/focus/focusadvisor.cpp:1184
+#: ekos/focus/focusadvisor.cpp:1188
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment: data quality too poor to continue"
 msgstr "Odak Danışmanı Kaba Ayarı: Sürdürmek için veri kalitesi pek düşük"
 
-#: ekos/focus/focusadvisor.cpp:1218
+#: ekos/focus/focusadvisor.cpp:1222
 #, kde-format
 msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 msgstr "En az/çok oranı: %1, sonraki adım boyutu: %2, sonraki aşırı tarama: %3"
 
-#: ekos/focus/focusadvisor.cpp:1279
+#: ekos/focus/focusadvisor.cpp:1283
 #, kde-format
 msgid "Fine Adjustment"
 msgstr "İnce Ayar"
 
-#: ekos/focus/focusadvisor.cpp:1387
+#: ekos/focus/focusadvisor.cpp:1391
 #, kde-format
 msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
 msgstr "En az/çok oranı: %1, R2: %2, adım boyutu: %3, aşırı tarama: %4"
 
-#: ekos/focus/focusadvisor.cpp:1394
+#: ekos/focus/focusadvisor.cpp:1398
 #, kde-format
 msgid "Focus Advisor Fine Adjustment completed"
 msgstr "Odak danışmanı kaba ayarı tamamlandı."
 
-#: ekos/focus/focusadvisor.cpp:1485
+#: ekos/focus/focusadvisor.cpp:1489
 #, kde-format
 msgid ""
 "Focus Advisor Result (%1): Run: %2 startPos: %3 stepSize: %4 overscan: %5"
@@ -19972,7 +20003,7 @@ msgstr ""
 "Odak danışmanı sonuçları (%1): Çalışma: %2 Başlangıç konumu: %3 Adım boyutu: "
 "%4 Aşırı tarama: %5"
 
-#: ekos/focus/focusadvisor.cpp:1522
+#: ekos/focus/focusadvisor.cpp:1526
 #, kde-format
 msgid "Focus Advisor Result Update: %1"
 msgstr "Odak danışmanı sonucu güncellemesi: %1"
@@ -20125,47 +20156,32 @@ msgid ""
 "</p>"
 msgstr "<p>Ek odaklayıcı ekle</p><p><b>UYARI</b>: Bu özellik deneyseldir!</p>"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
+#. i18n: ectx: property (text), widget (QLabel, label_8)
 #: ekos/focus/opsfocusmechanics.ui:37
 #, kde-format
-msgid ""
-"<html><head/><body><p>Maximum travel in steps before the autofocus process "
-"aborts</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Kendiliğinden odaklama işlemi iptal edilmeden önceki "
-"adımlarla maksimum hareket.</p></body></html>"
+msgid "AF Overscan:"
+msgstr "AF aşırı taraması:"
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
-#: ekos/focus/opsfocusmechanics.ui:65
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
+#: ekos/focus/opsfocusmechanics.ui:56
 #, kde-format
 msgid ""
-"<html><head/><body><p>For backlash-aware focusers, the amount of backlash to "
-"apply when reversing movement direction. Set to 0 to disable.</"
-"p><p>Typically either Focuser Backlash or AF Overscan is set.</p><p>This "
-"field sets the Indi Focuser Backlash field and can be set either here or on "
-"the Indi Control Panel.</p></body></html>"
+"<html><body><p>This number multiplied by initial-step-size is number of "
+"outward steps the Linear Focus algorithm moves away from the initial "
+"position at the start of focusing.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dişli yanak boşluğuna duyarlı odaklayıcılar için "
-"hareket yönü tersine çevrildiğinde uygulanacak dişli yanak boşluğu miktarı. "
-"Devre dışı bırakmak için 0’a ayarlayın.</p><p>Genellikle Odaklayıcı Dişli "
-"Yanak Boşluğu veya AF Aşırı Taraması ayarlanır.</p><p>Bu alan, Indi "
-"Odaklayıcısı Boşluğu alanını ayarlar ve buradan veya Indi Denetim Panelinden "
-"ayarlanabilir.</p></body></html>"
+"<html><body><p>Bu sayının başlangıç ​​adımı boyutuyla çarpımı, Doğrusal "
+"Odaklama algoritmasının odaklanma başlangıcında başlangıç ​​konumundan "
+"uzaklaştığı dışarı doğru adımların sayısıdır.</p></body></html>"
 
-#. i18n: ectx: property (text), widget (QLabel, label_12)
+#. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
 #: ekos/focus/opsfocusmechanics.ui:81
 #, kde-format
-msgid "Max Travel:"
-msgstr "En fazla hareket:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_26)
-#: ekos/focus/opsfocusmechanics.ui:97
-#, kde-format
-msgid "Capture Timeout:"
-msgstr "Yakalama zaman aşımı:"
+msgid "Out Step Multiple:"
+msgstr "Çoklu çıkış adımı:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusWalk)
-#: ekos/focus/opsfocusmechanics.ui:113
+#: ekos/focus/opsfocusmechanics.ui:97
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select the type of walk for the focuser to take when "
@@ -20210,31 +20226,88 @@ msgstr ""
 "tahmin edilebilir.</p><p><br/></p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
-#: ekos/focus/opsfocusmechanics.ui:122
+#: ekos/focus/opsfocusmechanics.ui:106
 #, kde-format
 msgid "Fixed Steps"
 msgstr "Sabit Adımlar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusWalk)
-#: ekos/focus/opsfocusmechanics.ui:127
+#: ekos/focus/opsfocusmechanics.ui:111
 #, kde-format
 msgid "CFZ Shuffle"
 msgstr "CFZ Karıştır"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
+#. i18n: ectx: property (text), widget (QLabel, label_27)
+#: ekos/focus/opsfocusmechanics.ui:125
+#, kde-format
+msgid "Motion Timeout:"
+msgstr "Hareket zaman aşımı:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
 #: ekos/focus/opsfocusmechanics.ui:141
 #, kde-format
 msgid ""
-"<html><body><p>This number multiplied by initial-step-size is number of "
-"outward steps the Linear Focus algorithm moves away from the initial "
-"position at the start of focusing.</p></body></html>"
+"<html><head/><body><p><span style=\" font-weight:600;\">Initial Step Size</"
+"span> in ticks to cause a noticeable change in HFR value. For timer based "
+"focuser, it is the initial time in milliseconds to move the focuser inward "
+"or outward</p></body></html>"
 msgstr ""
-"<html><body><p>Bu sayının başlangıç ​​adımı boyutuyla çarpımı, Doğrusal "
-"Odaklama algoritmasının odaklanma başlangıcında başlangıç ​​konumundan "
-"uzaklaştığı dışarı doğru adımların sayısıdır.</p></body></html>"
+"<html><head/><body><p>HFR değerinde gözle görülür bir değişikliğe neden "
+"olacak biçimde tıklamalardaki <span style=\" font-weight:600;\">başlangıç "
+"adımı boyutu</span>. Zamanlayıcı tabanlı odaklayıcı için odaklayıcıyı içe "
+"veya dışa doğru hareket ettirmenin milisaniye türünden ilk zamanıdır.</p></"
+"body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
+#: ekos/focus/opsfocusmechanics.ui:166
+#, kde-format
+msgid ""
+"<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
+"move to the desired position before declaring a timeout.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Bir zaman aşımı bildirmeden önce odaklayıcının istenen "
+"konuma hareket etmesini beklemek için saniye türünden en çok süre.</p></"
+"body></html>"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, focusMotionTimeout)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusOverscanDelay)
+#. i18n: ectx: property (suffix), widget (QSpinBox, focusCaptureTimeout)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusGuideSettleTime)
+#. i18n: ectx: property (suffix), widget (QSpinBox, focusAFOptimize)
+#: ekos/focus/opsfocusmechanics.ui:169 ekos/focus/opsfocusmechanics.ui:194
+#: ekos/focus/opsfocusmechanics.ui:340 ekos/focus/opsfocusmechanics.ui:431
+#: ekos/focus/opsfocussettings.ui:131 ekos/focus/opsfocussettings.ui:267
+#, kde-format
+msgid " s"
+msgstr " sn"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
+#: ekos/focus/opsfocusmechanics.ui:191
+#, kde-format
+msgid ""
+"<html><head/><body><p>Delay between completing the outward motion of an "
+"Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
+"body></html>"
+msgstr ""
+"<html><head/><body><p>Aşırı Taramanın dışa doğru hareketinin tamamlanması "
+"ile içe doğru hareketin başlatılması arasındaki gecikme. Çoğu odaklayıcı "
+"için 0 saniye iyidir.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
+#: ekos/focus/opsfocusmechanics.ui:210
+#, kde-format
+msgid ""
+"<html><head/><body><p>The maximum single step size the algorithm is allowed "
+"to command as it searches for the critical focus zone. The calculated step "
+"size would be limited to this maximum value.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Algoritmanın kritik odak bölgesini ararken komut "
+"vermesine izin verilen en büyük tek adım boyutu. Hesaplanan adım boyutu bu "
+"en büyük değerle sınırlı olacaktır.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOverscan)
-#: ekos/focus/opsfocusmechanics.ui:166
+#: ekos/focus/opsfocusmechanics.ui:232
 #, kde-format
 msgid ""
 "<html><head/><body><p>Provides backlash overscan in ticks for outward "
@@ -20252,8 +20325,71 @@ msgstr ""
 "odaklayıcı hareketlerine uygulanır.</p><p>Tipik olarak Odaklayıcı Boşluğu "
 "veya AF Aşırı Taraması ayarlanır.</p></body></html>"
 
+#. i18n: ectx: property (text), widget (QLabel, label_26)
+#: ekos/focus/opsfocusmechanics.ui:251
+#, kde-format
+msgid "Capture Timeout:"
+msgstr "Yakalama zaman aşımı:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/focus/opsfocusmechanics.ui:273
+#, kde-format
+msgid "Initial Step Size:"
+msgstr "Başlangıç adımı boyutu:"
+
+#. i18n: ectx: property (text), widget (QLabel, focusWalkLabel)
+#: ekos/focus/opsfocusmechanics.ui:289
+#, kde-format
+msgid "Walk:"
+msgstr "Yürüme:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: ekos/focus/opsfocusmechanics.ui:305
+#, kde-format
+msgid "Focuser Settle:"
+msgstr "Odaklayıcı yerleşimi:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: ekos/focus/opsfocusmechanics.ui:321
+#, kde-format
+msgid "Driver Backlash:"
+msgstr "Sürücü boşluğu:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
+#. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
+#: ekos/focus/opsfocusmechanics.ui:337 kstars.kcfg:2449
+#, kde-format
+msgid ""
+"Maximum time in seconds to wait for a captured image to be received before "
+"declaring a timeout."
+msgstr ""
+"Bir zaman aşımı bildirilmeden önce çekilen bir görselin alınması için "
+"beklenecek saniye türünden en büyük süre."
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusMaxTravel)
+#: ekos/focus/opsfocusmechanics.ui:362
+#, kde-format
+msgid ""
+"<html><head/><body><p>Maximum travel in steps before the autofocus process "
+"aborts</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Kendiliğinden odaklama işlemi iptal edilmeden önceki "
+"adımlarla maksimum hareket.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, label_17)
+#: ekos/focus/opsfocusmechanics.ui:393
+#, kde-format
+msgid "Max Step Size:"
+msgstr "En büyük adım boyutu:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: ekos/focus/opsfocusmechanics.ui:412
+#, kde-format
+msgid "Max Travel:"
+msgstr "En fazla hareket:"
+
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusSettleTime)
-#: ekos/focus/opsfocusmechanics.ui:185
+#: ekos/focus/opsfocusmechanics.ui:428
 #, kde-format
 msgid ""
 "<html><head/><body><p>Settle time (in seconds) after moving the focuser "
@@ -20265,141 +20401,20 @@ msgstr ""
 "odaklayıcıyı hareket ettirdikten sonra bekleme süresini (saniye olarak) "
 "ayarlayın.</p></body></html>"
 
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusSettleTime)
-#. i18n: ectx: property (suffix), widget (QSpinBox, focusCaptureTimeout)
-#. i18n: ectx: property (suffix), widget (QSpinBox, focusMotionTimeout)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusOverscanDelay)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusGuideSettleTime)
-#: ekos/focus/opsfocusmechanics.ui:188 ekos/focus/opsfocusmechanics.ui:314
-#: ekos/focus/opsfocusmechanics.ui:425 ekos/focus/opsfocusmechanics.ui:466
-#: ekos/focus/opsfocussettings.ui:183
-#, kde-format
-msgid " s"
-msgstr " sn"
-
-#. i18n: ectx: property (text), widget (QLabel, focusWalkLabel)
-#: ekos/focus/opsfocusmechanics.ui:210
-#, kde-format
-msgid "Walk:"
-msgstr "Yürüme:"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/focus/opsfocusmechanics.ui:232
-#, kde-format
-msgid "Initial Step Size:"
-msgstr "Başlangıç adımı boyutu:"
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusMaxSingleStep)
-#: ekos/focus/opsfocusmechanics.ui:248
-#, kde-format
-msgid ""
-"<html><head/><body><p>The maximum single step size the algorithm is allowed "
-"to command as it searches for the critical focus zone. The calculated step "
-"size would be limited to this maximum value.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Algoritmanın kritik odak bölgesini ararken komut "
-"vermesine izin verilen en büyük tek adım boyutu. Hesaplanan adım boyutu bu "
-"en büyük değerle sınırlı olacaktır.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, label_9)
-#: ekos/focus/opsfocusmechanics.ui:270
-#, kde-format
-msgid "Focuser Settle:"
-msgstr "Odaklayıcı yerleşimi:"
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusTicks)
-#: ekos/focus/opsfocusmechanics.ui:286
-#, kde-format
-msgid ""
-"<html><head/><body><p><span style=\" font-weight:600;\">Initial Step Size</"
-"span> in ticks to cause a noticeable change in HFR value. For timer based "
-"focuser, it is the initial time in milliseconds to move the focuser inward "
-"or outward</p></body></html>"
-msgstr ""
-"<html><head/><body><p>HFR değerinde gözle görülür bir değişikliğe neden "
-"olacak biçimde tıklamalardaki <span style=\" font-weight:600;\">başlangıç "
-"adımı boyutu</span>. Zamanlayıcı tabanlı odaklayıcı için odaklayıcıyı içe "
-"veya dışa doğru hareket ettirmenin milisaniye türünden ilk zamanıdır.</p></"
-"body></html>"
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusCaptureTimeout)
-#. i18n: ectx: whatsthis, entry (FocusCaptureTimeout), group (Focus)
-#: ekos/focus/opsfocusmechanics.ui:311 kstars.kcfg:2449
-#, kde-format
-msgid ""
-"Maximum time in seconds to wait for a captured image to be received before "
-"declaring a timeout."
-msgstr ""
-"Bir zaman aşımı bildirilmeden önce çekilen bir görselin alınması için "
-"beklenecek saniye türünden en büyük süre."
-
-#. i18n: ectx: property (text), widget (QLabel, label_11)
-#: ekos/focus/opsfocusmechanics.ui:336
-#, kde-format
-msgid "Driver Backlash:"
-msgstr "Sürücü boşluğu:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_8)
-#: ekos/focus/opsfocusmechanics.ui:352
-#, kde-format
-msgid "AF Overscan:"
-msgstr "AF aşırı taraması:"
-
-#. i18n: ectx: property (text), widget (QLabel, focusOutStepsLabel)
-#: ekos/focus/opsfocusmechanics.ui:371
-#, kde-format
-msgid "Out Step Multiple:"
-msgstr "Çoklu çıkış adımı:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_17)
-#: ekos/focus/opsfocusmechanics.ui:390
-#, kde-format
-msgid "Max Step Size:"
-msgstr "En büyük adım boyutu:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_27)
-#: ekos/focus/opsfocusmechanics.ui:406
-#, kde-format
-msgid "Motion Timeout:"
-msgstr "Hareket zaman aşımı:"
-
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusMotionTimeout)
-#: ekos/focus/opsfocusmechanics.ui:422
-#, kde-format
-msgid ""
-"<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
-"move to the desired position before declaring a timeout.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bir zaman aşımı bildirmeden önce odaklayıcının istenen "
-"konuma hareket etmesini beklemek için saniye türünden en çok süre.</p></"
-"body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/focus/opsfocusmechanics.ui:447
-#, kde-format
-msgid "AF Overscan Delay:"
-msgstr "AF aşırı taraması gecikmesi:"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOverscanDelay)
-#: ekos/focus/opsfocusmechanics.ui:463
-#, kde-format
-msgid ""
-"<html><head/><body><p>Delay between completing the outward motion of an "
-"Overscan and starting the inward motion. For most focusers 0 s is fine.</p></"
-"body></html>"
-msgstr ""
-"<html><head/><body><p>Aşırı Taramanın dışa doğru hareketinin tamamlanması "
-"ile içe doğru hareketin başlatılması arasındaki gecikme. Çoğu odaklayıcı "
-"için 0 saniye iyidir.</p></body></html>"
-
 #. i18n: ectx: property (text), widget (QLabel, focusNumStepsLabel)
-#: ekos/focus/opsfocusmechanics.ui:482
+#: ekos/focus/opsfocusmechanics.ui:453
 #, kde-format
 msgid "Number Steps:"
 msgstr "Adım sayısı:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ekos/focus/opsfocusmechanics.ui:469
+#, kde-format
+msgid "AF Overscan Delay:"
+msgstr "AF aşırı taraması gecikmesi:"
+
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
-#: ekos/focus/opsfocusmechanics.ui:498
+#: ekos/focus/opsfocusmechanics.ui:485
 #, kde-format
 msgid ""
 "<html><head/><body><p>The total number of steps to use when Walk is set to "
@@ -20409,6 +20424,74 @@ msgstr ""
 "<html><head/><body><p>Yürüyüş, sabit sayıdaki yürüyüş adımlarından birine "
 "ayarlandığında ve Algoritma Doğrusal 1 Geçiş olduğunda kullanılacak toplam "
 "adım sayısı.</p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusBacklash)
+#: ekos/focus/opsfocusmechanics.ui:507
+#, kde-format
+msgid ""
+"<html><head/><body><p>For backlash-aware focusers, the amount of backlash to "
+"apply when reversing movement direction. Set to 0 to disable.</"
+"p><p>Typically either Focuser Backlash or AF Overscan is set.</p><p>This "
+"field sets the Indi Focuser Backlash field and can be set either here or on "
+"the Indi Control Panel.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Dişli yanak boşluğuna duyarlı odaklayıcılar için "
+"hareket yönü tersine çevrildiğinde uygulanacak dişli yanak boşluğu miktarı. "
+"Devre dışı bırakmak için 0’a ayarlayın.</p><p>Genellikle Odaklayıcı Dişli "
+"Yanak Boşluğu veya AF Aşırı Taraması ayarlanır.</p><p>Bu alan, Indi "
+"Odaklayıcısı Boşluğu alanını ayarlar ve buradan veya Indi Denetim Panelinden "
+"ayarlanabilir.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
+#: ekos/focus/opsfocusmechanics.ui:514
+#, fuzzy, kde-format
+#| msgid "Red Shift:"
+msgid "Speedup (Shift)"
+msgstr "Kızıl kayma:"
+
+#. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
+#: ekos/focus/opsfocusmechanics.ui:521
+#, fuzzy, kde-format
+#| msgid "Speedup options"
+msgid "Speedup (Ctrl)"
+msgstr "Hızlandırma Seçenekleri"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
+#: ekos/focus/opsfocusmechanics.ui:528
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
+#| "body></html>"
+msgid ""
+"<html><head/><body><p>Multiplier for manual focus motions when the shift key "
+"is pressed.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Son karede bulunan yıldızların sayısı.</p></body></"
+"html>"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
+#. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
+#. i18n: ectx: property (suffix), widget (QSpinBox, mosaicWSpin)
+#. i18n: ectx: property (suffix), widget (QSpinBox, mosaicHSpin)
+#: ekos/focus/opsfocusmechanics.ui:531 ekos/focus/opsfocusmechanics.ui:550
+#: ekos/scheduler/framingassistant.ui:629
+#: ekos/scheduler/framingassistant.ui:719
+#, kde-format
+msgid " x"
+msgstr " x"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, speedupCtrl)
+#: ekos/focus/opsfocusmechanics.ui:547
+#, fuzzy, kde-format
+#| msgid ""
+#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
+#| "body></html>"
+msgid ""
+"<html><head/><body><p>Multiplier for manual focus motions when the control "
+"key is pressed.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Son karede bulunan yıldızların sayısı.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -21149,27 +21232,8 @@ msgid "The number of datapoints to use during Scan for Start Position."
 msgstr ""
 "Başlangıç Konumunu Tara sırasında kullanılacak olan veri noktalarının sayısı."
 
-#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/opsfocussettings.ui:35
-#, kde-format
-msgid ""
-"<html><head/><body><p>This option is only active when Sub Frame is "
-"selected.  Check to allow Ekos to select a single star for focus; uncheck to "
-"allow the user to select the star to use in FitsViewer.</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Bu seçenek yalnızca “Alt Kare” seçildiğinde etkindir. "
-"Ekos’un odak için tek bir yıldız seçmesine izin vermek için işaretleyin; "
-"kullanıcının FITS Görüntüleyicisi’nde kullanılacak yıldızı seçmesine izin "
-"vermek için işareti kaldırın.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
-#: ekos/focus/opsfocussettings.ui:38
-#, kde-format
-msgid "Auto Select Star"
-msgstr "Yıldızı kendiliğinden seç"
-
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusUseFullField)
-#: ekos/focus/opsfocussettings.ui:54
+#: ekos/focus/opsfocussettings.ui:35
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select Full Field to allow focus to use multiple stars "
@@ -21184,45 +21248,74 @@ msgstr ""
 "yıldızların HFR’sinin ortalamasını alacaktır.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
-#: ekos/focus/opsfocussettings.ui:57
+#: ekos/focus/opsfocussettings.ui:38
 #, kde-format
 msgid "Full Field"
 msgstr "Tam alan"
 
 #. i18n: ectx: property (text), widget (QLabel, focusBoxSizeLabel)
-#: ekos/focus/opsfocussettings.ui:73
+#: ekos/focus/opsfocussettings.ui:54
 #, kde-format
 msgid "Box:"
 msgstr "Kutu:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/focus/opsfocussettings.ui:92
+#. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
+#: ekos/focus/opsfocussettings.ui:67
 #, kde-format
-msgid "Guide Settle:"
-msgstr "Kılavuz yerleşimi:"
+msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>HFR ve FWHM için görüntüleme birimleri.</p></body></"
+"html>"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
+#: ekos/focus/opsfocussettings.ui:71
+#, kde-format
+msgid "Pixels"
+msgstr "Piksel"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
+#: ekos/focus/opsfocussettings.ui:76
+#, kde-format
+msgid "Arc Seconds"
+msgstr "Yaysaniye"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
-#: ekos/focus/opsfocussettings.ui:111
+#: ekos/focus/opsfocussettings.ui:90
 #, kde-format
 msgid "Display Units:"
 msgstr "Görüntüleme birimleri:"
 
-#. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
-#: ekos/focus/opsfocussettings.ui:130
+#. i18n: ectx: property (toolTip), widget (QCheckBox, focusAutoStarEnabled)
+#: ekos/focus/opsfocussettings.ui:109
 #, kde-format
-msgid "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
+msgid ""
+"<html><head/><body><p>This option is only active when Sub Frame is "
+"selected.  Check to allow Ekos to select a single star for focus; uncheck to "
+"allow the user to select the star to use in FitsViewer.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Alt karenin piksel türünden boyutu.</p></body></html>"
+"<html><head/><body><p>Bu seçenek yalnızca “Alt Kare” seçildiğinde etkindir. "
+"Ekos’un odak için tek bir yıldız seçmesine izin vermek için işaretleyin; "
+"kullanıcının FITS Görüntüleyicisi’nde kullanılacak yıldızı seçmesine izin "
+"vermek için işareti kaldırın.</p></body></html>"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
-#: ekos/focus/opsfocussettings.ui:133 ekos/focus/opsfocussettings.ui:301
+#. i18n: ectx: property (text), widget (QCheckBox, focusAutoStarEnabled)
+#: ekos/focus/opsfocussettings.ui:112
 #, kde-format
-msgid " px"
-msgstr " pks"
+msgid "Auto Select Star"
+msgstr "Yıldızı kendiliğinden seç"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGuideSettleTime)
+#: ekos/focus/opsfocussettings.ui:128
+#, kde-format
+msgid ""
+"<html><head/><body><p>Wait this many seconds after autofocus completes "
+"before resuming guiding.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Kendiliğinden odaklama tamamlandıktan sonra "
+"kılavuzluğu sürdürmeden önce birkaç saniye bekleyin.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusSubFrame)
-#: ekos/focus/opsfocussettings.ui:161
+#: ekos/focus/opsfocussettings.ui:147
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select Sub Frame to make focus to use a single star "
@@ -21239,61 +21332,73 @@ msgstr ""
 ">"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusSubFrame)
-#: ekos/focus/opsfocussettings.ui:164
+#: ekos/focus/opsfocussettings.ui:150
 #, kde-format
 msgid "Sub Frame"
 msgstr "Alt kare"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGuideSettleTime)
-#: ekos/focus/opsfocussettings.ui:180
+#. i18n: ectx: property (text), widget (QCheckBox, useFocusDarkFrame)
+#: ekos/focus/opsfocussettings.ui:169
 #, kde-format
-msgid ""
-"<html><head/><body><p>Wait this many seconds after autofocus completes "
-"before resuming guiding.</p></body></html>"
+msgid "Dark Frame"
+msgstr "Karanlık kare"
+
+#. i18n: ectx: property (text), widget (QLabel, label_18)
+#: ekos/focus/opsfocussettings.ui:182
+#, kde-format
+msgid "Guide Settle:"
+msgstr "Kılavuz yerleşimi:"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusBoxSize)
+#: ekos/focus/opsfocussettings.ui:201
+#, kde-format
+msgid "<html><head/><body><p>Size of the subframe in pixels.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Kendiliğinden odaklama tamamlandıktan sonra "
-"kılavuzluğu sürdürmeden önce birkaç saniye bekleyin.</p></body></html>"
+"<html><head/><body><p>Alt karenin piksel türünden boyutu.</p></body></html>"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, focusBoxSize)
+#. i18n: ectx: property (suffix), widget (QSpinBox, focusMosaicSpace)
+#: ekos/focus/opsfocussettings.ui:204 ekos/focus/opsfocussettings.ui:336
+#, kde-format
+msgid " px"
+msgstr " pks"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/opsfocussettings.ui:199
+#: ekos/focus/opsfocussettings.ui:232
 #, kde-format
 msgid "Suspend Guiding while autofocus in progress"
 msgstr "Kendiliğinden odaklama sürerken kılavuzluğu askıya al"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusSuspendGuiding)
-#: ekos/focus/opsfocussettings.ui:202
+#: ekos/focus/opsfocussettings.ui:235
 #, kde-format
 msgid "Suspend Guiding"
 msgstr "Kılavuzluğu askıya al"
 
-#. i18n: ectx: property (text), widget (QCheckBox, useFocusDarkFrame)
-#: ekos/focus/opsfocussettings.ui:218
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/focus/opsfocussettings.ui:248
 #, kde-format
-msgid "Dark Frame"
-msgstr "Karanlık kare"
-
-#. i18n: ectx: property (toolTip), widget (QComboBox, focusUnits)
-#: ekos/focus/opsfocussettings.ui:225
-#, kde-format
-msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
+msgid "Optimize AF:"
 msgstr ""
-"<html><head/><body><p>HFR ve FWHM için görüntüleme birimleri.</p></body></"
+
+#. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOptimize)
+#: ekos/focus/opsfocussettings.ui:261
+#, kde-format
+msgid ""
+"<html><head/><body><p>Create an &quot;optimization zone&quot; of this many "
+"seconds. When an automated Autofocus run is requested by another process, e."
+"g. Scheduler or Capture, a check is performed on the timestamp of the last "
+"successful Autofocus for that filter. If we are within the optimization zone "
+"then no Autofocus is run; if outside the zone, Autofocus is run as normal.</"
+"p><p>Note that filter offsets and Adaptive Focus settings are always "
+"honoured.</p><p>Set to zero to disable this feature.</p><p>NOTE: manually "
+"initiated runs will always be performed.</p><p>This is currently an "
+"experimental feature enabled for Linear and Linear 1 Pass only.</p></body></"
 "html>"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
-#: ekos/focus/opsfocussettings.ui:229
-#, kde-format
-msgid "Pixels"
-msgstr "Piksel"
-
-#. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
-#: ekos/focus/opsfocussettings.ui:234
-#, kde-format
-msgid "Arc Seconds"
-msgstr "Yaysaniye"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
-#: ekos/focus/opsfocussettings.ui:260
+#: ekos/focus/opsfocussettings.ui:295
 #, kde-format
 msgid ""
 "<html><head/><body><p>Aberration inspector style mask with a 3x3 mosaic "
@@ -21305,13 +21410,13 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusMosaicMaskRB)
-#: ekos/focus/opsfocussettings.ui:263
+#: ekos/focus/opsfocussettings.ui:298
 #, kde-format
 msgid "Mosaic Mask:"
 msgstr "Mozaik maske:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusRingMaskRB)
-#: ekos/focus/opsfocussettings.ui:276
+#: ekos/focus/opsfocussettings.ui:311
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>During Full Field focusing, this controls the size of "
@@ -21326,13 +21431,13 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusRingMaskRB)
-#: ekos/focus/opsfocussettings.ui:279
+#: ekos/focus/opsfocussettings.ui:314
 #, kde-format
 msgid "Ring Mask:"
 msgstr "Halka maske:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMosaicSpace)
-#: ekos/focus/opsfocussettings.ui:295
+#: ekos/focus/opsfocussettings.ui:330
 #, kde-format
 msgid ""
 "<html><head/><body><p>Size of the separator between the tiles.</p></body></"
@@ -21341,7 +21446,7 @@ msgstr ""
 "<html><head/><body><p>Karolar arasındaki ayırıcının boyutu.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusMosaicTileWidth)
-#: ekos/focus/opsfocussettings.ui:320
+#: ekos/focus/opsfocussettings.ui:355
 #, kde-format
 msgid ""
 "<html><head/><body><p>Tiles are squares with an edge length calculated by "
@@ -21355,7 +21460,7 @@ msgstr ""
 "sınırlandırılmıştır.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldInnerRadius)
-#: ekos/focus/opsfocussettings.ui:354
+#: ekos/focus/opsfocussettings.ui:389
 #, kde-format
 msgid ""
 "<html><head/><body><p>Diameter of the inner circle to be excluded from "
@@ -21369,25 +21474,25 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusSpacerLabel)
-#: ekos/focus/opsfocussettings.ui:379
+#: ekos/focus/opsfocussettings.ui:414
 #, kde-format
 msgid "Spacer:"
 msgstr "Boşluklandırıcı:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusNoMaskRB)
-#: ekos/focus/opsfocussettings.ui:395
+#: ekos/focus/opsfocussettings.ui:430
 #, kde-format
 msgid "All stars are used for focusing."
 msgstr "Odaklama için tüm yıldızlar kullanılır."
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusNoMaskRB)
-#: ekos/focus/opsfocussettings.ui:398
+#: ekos/focus/opsfocussettings.ui:433
 #, kde-format
 msgid "Use all stars for focusing"
 msgstr "Odaklama için tüm yıldızları kullan"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusFullFieldOuterRadius)
-#: ekos/focus/opsfocussettings.ui:414
+#: ekos/focus/opsfocussettings.ui:449
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Diameter of the outer circle to be excluded from "
@@ -21399,7 +21504,7 @@ msgstr ""
 "içermek için %​100’e ayarlayın. </p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMinMove)
-#: ekos/focus/opsfocussettings.ui:475
+#: ekos/focus/opsfocussettings.ui:510
 #, kde-format
 msgid ""
 "<html><head/><body><p>The minimum size of an adaptive focus change that will "
@@ -21410,13 +21515,13 @@ msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMinMove)
 #. i18n: ectx: property (suffix), widget (QSpinBox, focusAdaptiveMaxMove)
-#: ekos/focus/opsfocussettings.ui:478 ekos/focus/opsfocussettings.ui:503
+#: ekos/focus/opsfocussettings.ui:513 ekos/focus/opsfocussettings.ui:538
 #, kde-format
 msgid " ticks"
 msgstr " tık"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAdaptiveMaxMove)
-#: ekos/focus/opsfocussettings.ui:500
+#: ekos/focus/opsfocussettings.ui:535
 #, kde-format
 msgid ""
 "<html><head/><body><p>The maximum total Adaptive focuser movement between "
@@ -21430,7 +21535,7 @@ msgstr ""
 "etmektir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptive)
-#: ekos/focus/opsfocussettings.ui:525
+#: ekos/focus/opsfocussettings.ui:560
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable Adaptive Focus between subframes. This is an "
@@ -21440,7 +21545,7 @@ msgstr ""
 "etkinleştirin. Bu deneysel bir özelliktir.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_7)
-#: ekos/focus/opsfocussettings.ui:541
+#: ekos/focus/opsfocussettings.ui:576
 #, kde-format
 msgid ""
 "<html><head/><body><p>Minimum focuser movement when using Adaptive Focus.</"
@@ -21450,13 +21555,13 @@ msgstr ""
 "hareketi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: ekos/focus/opsfocussettings.ui:544
+#: ekos/focus/opsfocussettings.ui:579
 #, kde-format
 msgid "Min Move:"
 msgstr "En küçük hareket:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdaptStart)
-#: ekos/focus/opsfocussettings.ui:563
+#: ekos/focus/opsfocussettings.ui:598
 #, kde-format
 msgid ""
 "<html><head/><body><p>Adapt the Autofocus start position based on filter and "
@@ -21468,13 +21573,13 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusAdaptStart)
-#: ekos/focus/opsfocussettings.ui:566
+#: ekos/focus/opsfocussettings.ui:601
 #, kde-format
 msgid "Adapt Start Pos"
 msgstr "Başlangıç konumunu uyarla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/focus/opsfocussettings.ui:579
+#: ekos/focus/opsfocussettings.ui:614
 #, kde-format
 msgid "Max Total Move:"
 msgstr "En büyük hareket:"
@@ -24893,7 +24998,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: ekos/mount/mount.ui:164 oal/equipmentwriter.ui:502
+#: ekos/mount/mount.ui:164 oal/equipmentwriter.ui:499
 #, kde-format
 msgid "deg"
 msgstr "derece"
@@ -26800,7 +26905,7 @@ msgstr "Milimetre olarak kaide odak uzunluğu"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: ekos/scheduler/framingassistant.ui:77 oal/equipmentwriter.ui:129
-#: oal/equipmentwriter.ui:465
+#: oal/equipmentwriter.ui:462
 #, kde-format
 msgid "Focal length:"
 msgstr "Odak uzunluğu:"
@@ -27076,14 +27181,6 @@ msgstr ""
 "<html><head/><body><p align=\"justify\">Mozaik genişliğindeki karoların "
 "sayısı.</p><p align=\"justify\">Bu değeri değiştirmek, mozaik tarafından "
 "kapsanan alanın genişliğini anında değiştirir.</p></body></html>"
-
-#. i18n: ectx: property (suffix), widget (QSpinBox, mosaicWSpin)
-#. i18n: ectx: property (suffix), widget (QSpinBox, mosaicHSpin)
-#: ekos/scheduler/framingassistant.ui:629
-#: ekos/scheduler/framingassistant.ui:719
-#, kde-format
-msgid " x"
-msgstr " x"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, overlapLabel)
 #: ekos/scheduler/framingassistant.ui:656
@@ -32202,8 +32299,8 @@ msgstr "Üretici:"
 #. i18n: ectx: property (text), widget (QPushButton, NewEyepiece)
 #. i18n: ectx: property (text), widget (QPushButton, NewLens)
 #. i18n: ectx: property (text), widget (QPushButton, NewFilter)
-#: indi/customdrivers.ui:177 oal/equipmentwriter.ui:418
-#: oal/equipmentwriter.ui:892 oal/equipmentwriter.ui:1229
+#: indi/customdrivers.ui:177 oal/equipmentwriter.ui:415
+#: oal/equipmentwriter.ui:886 oal/equipmentwriter.ui:1277
 #, kde-format
 msgid "Add New"
 msgstr "Yeni Ekle"
@@ -75650,9 +75747,9 @@ msgstr "Teleskop"
 #. i18n: ectx: property (text), widget (QLabel, label3_3)
 #. i18n: ectx: property (text), widget (QLabel, label3_2)
 #. i18n: ectx: property (text), widget (QLabel, label4)
-#: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:379
-#: oal/equipmentwriter.ui:573 oal/equipmentwriter.ui:821
-#: oal/equipmentwriter.ui:946
+#: oal/equipmentwriter.ui:73 oal/equipmentwriter.ui:376
+#: oal/equipmentwriter.ui:570 oal/equipmentwriter.ui:815
+#: oal/equipmentwriter.ui:940
 #, kde-format
 msgid "Id:"
 msgstr "Kimlik:"
@@ -75705,9 +75802,9 @@ msgstr "Ritchey-Chretien"
 #. i18n: ectx: property (text), widget (QLabel, label2)
 #. i18n: ectx: property (text), widget (QLabel, label3)
 #. i18n: ectx: property (text), widget (QLabel, scopeModelText)
-#: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:393
-#: oal/equipmentwriter.ui:580 oal/equipmentwriter.ui:868
-#: oal/equipmentwriter.ui:973 tools/whatsinteresting/wiequipsettings.ui:107
+#: oal/equipmentwriter.ui:122 oal/equipmentwriter.ui:390
+#: oal/equipmentwriter.ui:577 oal/equipmentwriter.ui:862
+#: oal/equipmentwriter.ui:967 tools/whatsinteresting/wiequipsettings.ui:107
 #, kde-format
 msgid "Model:"
 msgstr "Model:"
@@ -75717,9 +75814,9 @@ msgstr "Model:"
 #. i18n: ectx: property (text), widget (QLabel, label31_2)
 #. i18n: ectx: property (text), widget (QLabel, label31)
 #. i18n: ectx: property (text), widget (QLabel, label5)
-#: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:386
-#: oal/equipmentwriter.ui:601 oal/equipmentwriter.ui:838
-#: oal/equipmentwriter.ui:963
+#: oal/equipmentwriter.ui:136 oal/equipmentwriter.ui:383
+#: oal/equipmentwriter.ui:598 oal/equipmentwriter.ui:832
+#: oal/equipmentwriter.ui:957
 #, kde-format
 msgid "Vendor:"
 msgstr "Sağlayıcı:"
@@ -75748,69 +75845,69 @@ msgid "Save telescope information"
 msgstr "Teleskop bilgisini kaydet"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewScope)
-#: oal/equipmentwriter.ui:321
+#: oal/equipmentwriter.ui:320
 #, kde-format
 msgid "Clear data and add a new telescope"
 msgstr "Veriyi temizle ve yeni bir teleskop ekle"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveScope)
-#: oal/equipmentwriter.ui:341
+#: oal/equipmentwriter.ui:339
 #, kde-format
 msgid "Remove current telescope"
 msgstr "Geçerli teleskopu kaldır"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: oal/equipmentwriter.ui:372
+#: oal/equipmentwriter.ui:369
 #, kde-format
 msgid "Unit:"
 msgstr "Birim:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddEyepiece)
-#: oal/equipmentwriter.ui:425
+#: oal/equipmentwriter.ui:422
 #, kde-format
 msgid "Save Eyepiece"
 msgstr "Merceği Kaydet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: oal/equipmentwriter.ui:441
+#: oal/equipmentwriter.ui:438
 #, kde-format
 msgid "Apparent FOV:"
 msgstr "Açık görüş alanı:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: oal/equipmentwriter.ui:507
+#: oal/equipmentwriter.ui:504
 #, kde-format
 msgid "rad"
 msgstr "rad"
 
 #. i18n: ectx: attribute (title), widget (QWidget, DSLRLens)
 #. i18n: ectx: property (text), widget (QLabel, label_25)
-#: oal/equipmentwriter.ui:529 oal/equipmentwriter.ui:561
+#: oal/equipmentwriter.ui:526 oal/equipmentwriter.ui:558
 #, kde-format
 msgid "DSLR Lens"
 msgstr "DSLR Mercek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_24)
-#: oal/equipmentwriter.ui:594
+#: oal/equipmentwriter.ui:591
 #, kde-format
 msgid "Focal Length"
 msgstr "Odak Uzunluğu"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51_2)
-#: oal/equipmentwriter.ui:608
+#: oal/equipmentwriter.ui:605
 #, kde-format
 msgid "<html><head/><body><p>Lens Focal Ratio or F-Number</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Mercek odak oranı veya F numarası</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, AddDSLRLens)
-#: oal/equipmentwriter.ui:699
+#: oal/equipmentwriter.ui:696
 #, kde-format
 msgid "<html><head/><body><p>Save DSLR lens information</p></body></html>"
 msgstr "<html><head/><body><p>DSLR mercek bilgisini kaydet</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, NewDSLRLens)
-#: oal/equipmentwriter.ui:732
+#: oal/equipmentwriter.ui:728
 #, kde-format
 msgid ""
 "<html><head/><body><p>Clear data and add a new DSLR lens</p></body></html>"
@@ -75819,91 +75916,104 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, RemoveDSLRLens)
-#: oal/equipmentwriter.ui:752
+#: oal/equipmentwriter.ui:747
 #, kde-format
 msgid "<html><head/><body><p>Remove current DSLR lens</p></body></html>"
 msgstr "<html><head/><body><p>Geçerli DSLR merceği kaldır</p></body></html>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ScopeLens)
-#: oal/equipmentwriter.ui:777
+#: oal/equipmentwriter.ui:771
 #, kde-format
 msgid "Barlow Lens"
 msgstr "Barlow Merceği"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: oal/equipmentwriter.ui:809
+#: oal/equipmentwriter.ui:803
 #, kde-format
 msgid "Enter Details of Barlow/Shapley Lenses"
 msgstr "Barlow/Shapley merceklerinin ayrıntılarını gir"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:848
+#: oal/equipmentwriter.ui:842
 #, kde-format
 msgid "Magnification factor of the Barlow/Shapley lens"
 msgstr "Barlow/Shapley merceğinin büyütme çarpanı"
 
 #. i18n: ectx: property (text), widget (QLabel, label51)
-#: oal/equipmentwriter.ui:851
+#: oal/equipmentwriter.ui:845
 #, kde-format
 msgid "Factor:"
 msgstr "Çarpan:"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddLens)
-#: oal/equipmentwriter.ui:899
+#: oal/equipmentwriter.ui:893
 #, kde-format
 msgid "Save Lens"
 msgstr "Merceği Kaydet"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_18)
-#: oal/equipmentwriter.ui:1029
+#: oal/equipmentwriter.ui:1023
 #, kde-format
 msgid "Filter focus offset"
 msgstr "Odak ofsetini süz"
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: oal/equipmentwriter.ui:1058
+#: oal/equipmentwriter.ui:1052
 #, kde-format
 msgid "Abs. position:"
 msgstr "Mutlak konum:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_28)
-#: oal/equipmentwriter.ui:1078
+#: oal/equipmentwriter.ui:1072
 #, kde-format
 msgid "Focus alt:"
 msgstr "Odak yüksekliği:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_30)
-#: oal/equipmentwriter.ui:1101
+#: oal/equipmentwriter.ui:1095
 #, kde-format
 msgid "Ticks per C:"
 msgstr "C başına tık:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: oal/equipmentwriter.ui:1118
+#: oal/equipmentwriter.ui:1112
 #, kde-format
 msgid "Ticks per Alt:"
 msgstr "Yükseklik başına tık:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: oal/equipmentwriter.ui:1142
+#: oal/equipmentwriter.ui:1136
 #, kde-format
 msgid "Auto focus:"
 msgstr "Kendiliğinden odak:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
-#: oal/equipmentwriter.ui:1156
+#: oal/equipmentwriter.ui:1150
 #, kde-format
 msgid "Locked filter:"
 msgstr "Kilitli süzgeç:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
-#: oal/equipmentwriter.ui:1189
+#: oal/equipmentwriter.ui:1183
 #, kde-format
 msgid "Focus temp:"
 msgstr "Odak sıcaklığı:"
 
+#. i18n: ectx: property (text), widget (QLabel, label_27)
+#: oal/equipmentwriter.ui:1206
+#, fuzzy, kde-format
+#| msgid "Focus alt:"
+msgid "Focus DT:"
+msgstr "Odak yüksekliği:"
+
+#. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
+#: oal/equipmentwriter.ui:1250
+#, kde-format
+msgid "yyyy-MM-dd hh:mm:ss"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
-#: oal/equipmentwriter.ui:1236
+#: oal/equipmentwriter.ui:1284
 #, kde-format
 msgid "Save Filter"
 msgstr "Süzgeci Kaydet"
