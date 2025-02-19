@@ -504,6 +504,7 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
                 case ISD::PARK_PARKED:
                     // unpark the scope
                     wpScopeStatus = WP_UNPARKING;
+                    emit newLog(i18n("Unparking mount..."));
                     emit setScopeParked(false);
                     return IPS_BUSY;
                 case ISD::PARK_UNKNOWN:
@@ -512,6 +513,9 @@ IPState SequenceJobState::checkWallPositionReady(CCDFrameType frametype)
                     return IPS_BUSY;
                 case ISD::PARK_UNPARKED:
                     wpScopeStatus = WP_UNPARKED;
+                    emit newLog(i18n("Mount unparked."));
+                    // check what to do next
+                    checkWallPositionReady(frametype);
                     break;
             }
             return IPS_BUSY;
