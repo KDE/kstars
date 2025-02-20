@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-19 01:55+0000\n"
+"POT-Creation-Date: 2025-02-20 01:53+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -19214,7 +19214,7 @@ msgstr "Imagem Plana"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Tape o telescópio para tirar uma exposição escura."
 
-#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:672
+#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:676
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "A desbloquear a tampa de pó..."
@@ -19224,55 +19224,67 @@ msgstr "A desbloquear a tampa de pó..."
 msgid "Parking dust cap..."
 msgstr "A bloquear a tampa de pó..."
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Ligar a luz da caixa de luz..."
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
-#: ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Desligar a luz da caixa de luz..."
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:572
+#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:576
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "O bloqueio da montagem falhou; a interromper..."
 
-#: ekos/capture/sequencejobstate.cpp:525
+#: ekos/capture/sequencejobstate.cpp:507
+#, fuzzy, kde-format
+#| msgid "Unparking dome..."
+msgid "Unparking mount..."
+msgstr "A desbloquear o Dome..."
+
+#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/scheduler/schedulerprocess.cpp:1770
+#, kde-format
+msgid "Mount unparked."
+msgstr "A montagem ficou desbloqueada."
+
+#: ekos/capture/sequencejobstate.cpp:529
 #, fuzzy, kde-format
 #| msgid "Mount slewing to wall position..."
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "A deslocar a montagem para a posição original..."
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "A deslocação para a posição inicial terminou; a parar o seguimento."
 
-#: ekos/capture/sequencejobstate.cpp:541
+#: ekos/capture/sequencejobstate.cpp:545
 #, fuzzy, kde-format
 #| msgid "Slew to wall position complete, stop tracking."
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "A deslocação para a posição inicial terminou; a parar o seguimento."
 
-#: ekos/capture/sequencejobstate.cpp:581
+#: ekos/capture/sequencejobstate.cpp:585
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "A bloquear a montagem antes da captura das imagens de calibração..."
 
-#: ekos/capture/sequencejobstate.cpp:600
+#: ekos/capture/sequencejobstate.cpp:604
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "O bloqueio do Dome foi mal-sucedido; a interromper..."
 
-#: ekos/capture/sequencejobstate.cpp:610
+#: ekos/capture/sequencejobstate.cpp:614
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "A bloquear o 'dome' antes da captura das imagens de calibração..."
 
-#: ekos/capture/sequencejobstate.cpp:872
+#: ekos/capture/sequencejobstate.cpp:876
 #, kde-format
 msgid "Light box on."
 msgstr "Caixa de luz ligada."
@@ -31455,11 +31467,6 @@ msgstr "Ocorreu um erro no desbloqueio da Tampa."
 #, kde-format
 msgid "Mount parked."
 msgstr "A montagem ficou bloqueada."
-
-#: ekos/scheduler/schedulerprocess.cpp:1770
-#, kde-format
-msgid "Mount unparked."
-msgstr "A montagem ficou desbloqueada."
 
 #: ekos/scheduler/schedulerprocess.cpp:1782
 #, kde-format

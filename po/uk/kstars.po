@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-19 01:55+0000\n"
-"PO-Revision-Date: 2025-02-18 09:57+0200\n"
+"POT-Creation-Date: 2025-02-20 01:53+0000\n"
+"PO-Revision-Date: 2025-02-19 09:42+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -12437,22 +12437,18 @@ msgid "Last AF Alt (°Alt)"
 msgstr "Остання висота АФ (°висоти)"
 
 #: ekos/auxiliary/filtermanager.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "The altitude of the last AF solution. Updated automatically by the "
-#| "autofocus process."
+#, kde-format
 msgid ""
 "The datetime of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"Висота останнього розв'язку АФ. Автоматично оновлюється процесом "
+"Дата і час останнього розв'язку АФ. Автоматично оновлюється процесом "
 "автофокусування."
 
 #: ekos/auxiliary/filtermanager.cpp:148
-#, fuzzy, kde-format
-#| msgid "Last AF Solution"
+#, kde-format
 msgid "Last AF Datetime"
-msgstr "Останній розв'язок АФ"
+msgstr "Остання дата і час АФ"
 
 #: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
@@ -17804,7 +17800,7 @@ msgstr "Кадр плоского поля"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Закрийте об'єктив телескопа, щоб отримати еталонне темне зображення."
 
-#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:672
+#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:676
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Знімаємо пилозахисний ковпак з паркування…"
@@ -17814,57 +17810,69 @@ msgstr "Знімаємо пилозахисний ковпак з паркува
 msgid "Parking dust cap..."
 msgstr "Паркуємо пилозахисний ковпак…"
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Увімкнути світло у підсвічуванні…"
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
-#: ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Вимикаємо світло у підсвічуванні…"
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:572
+#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:576
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Не вдалося запаркувати лафет. Перериваємо обробку…"
 
-#: ekos/capture/sequencejobstate.cpp:525
+#: ekos/capture/sequencejobstate.cpp:507
+#, fuzzy, kde-format
+#| msgid "Unparking dome..."
+msgid "Unparking mount..."
+msgstr "Знімаємо з паркування купол…"
+
+#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/scheduler/schedulerprocess.cpp:1770
+#, kde-format
+msgid "Mount unparked."
+msgstr "Лафет знято з паркування."
+
+#: ekos/capture/sequencejobstate.cpp:529
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Лафет повертається до стіни (аз. =%1 вис. =%2)"
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Наведення на стіну завершено, припиняємо стеження."
 
-#: ekos/capture/sequencejobstate.cpp:541
+#: ekos/capture/sequencejobstate.cpp:545
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Наведення на стіну завершено, стеження припинено."
 
-#: ekos/capture/sequencejobstate.cpp:581
+#: ekos/capture/sequencejobstate.cpp:585
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 "Паркуємо лафет, перш ніж виконувати процедуру захоплення кадрів для "
 "калібрування…"
 
-#: ekos/capture/sequencejobstate.cpp:600
+#: ekos/capture/sequencejobstate.cpp:604
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Не вдалося запаркувати купол. Перериваємо обробку…"
 
-#: ekos/capture/sequencejobstate.cpp:610
+#: ekos/capture/sequencejobstate.cpp:614
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 "Паркуємо купол, перш ніж виконувати процедуру захоплення кадрів для "
 "калібрування…"
 
-#: ekos/capture/sequencejobstate.cpp:872
+#: ekos/capture/sequencejobstate.cpp:876
 #, kde-format
 msgid "Light box on."
 msgstr "Підсвічування увімкнено."
@@ -19105,7 +19113,7 @@ msgstr "Відкидаємо початковий запит автофокус�
 #: ekos/focus/focus.cpp:1090
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
-msgstr ""
+msgstr "Запит автоматичного фокусування [%1] оптимізовано."
 
 #: ekos/focus/focus.cpp:1247
 #, kde-format
@@ -19660,31 +19668,29 @@ msgstr "Припинити рух засобу фокусування"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:407
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Фокусування назовні. </p><p>Для телескопів Шмідта-"
-"Касегрена це зазвичай за годинниковою стрілкою.</p></body></html>"
+"<html><head/><body><p>Фокусування назовні. Скористайтеся клавішами Shift і "
+"Ctrl для пришвидшення руху. Коефіцієнти можна налаштувати у параметрах "
+"механізму фокусування.</p><p>Для телескопів Шмідта-Касегрена це зазвичай за "
+"годинниковою стрілкою.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:439
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CCW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Фокусування всередину. </p><p>Для телескопів Шмідта-"
-"Касегрена це зазвичай проти годинникової стрілки.</p></body></html>"
+"<html><head/><body><p>Фокусування всередину. Скористайтеся клавішами Shift і "
+"Ctrl для пришвидшення руху Коефіцієнти можна налаштувати у параметрах "
+"механізму фокусування.<p>Для телескопів Шмідта-Касегрена це зазвичай проти "
+"годинникової стрілки.</p>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
 #: ekos/focus/focus.ui:471
@@ -20661,30 +20667,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
 #: ekos/focus/opsfocusmechanics.ui:514
-#, fuzzy, kde-format
-#| msgid "Red Shift:"
+#, kde-format
 msgid "Speedup (Shift)"
-msgstr "Червоний зсув:"
+msgstr "Пришвидшення (Shift)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
 #: ekos/focus/opsfocusmechanics.ui:521
-#, fuzzy, kde-format
-#| msgid "Speedup options"
+#, kde-format
 msgid "Speedup (Ctrl)"
-msgstr "Параметри пришвидшення"
+msgstr "Пришвидшення (Ctrl)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
 #: ekos/focus/opsfocusmechanics.ui:528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the shift key "
 "is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Кількість зірок, які знайдено на останньому кадрі.</"
-"p></body></html>"
+"<html><head/><body><p>Множник для рухів фокусування вручну, якщо натиснуто "
+"клавішу Shift.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
@@ -20699,16 +20700,13 @@ msgstr " ⨯ "
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupCtrl)
 #: ekos/focus/opsfocusmechanics.ui:547
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the control "
 "key is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Кількість зірок, які знайдено на останньому кадрі.</"
-"p></body></html>"
+"<html><head/><body><p>Множник для рухів фокусування вручну, якщо натиснуто "
+"клавішу Ctrl.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -21602,7 +21600,7 @@ msgstr "Призупиняти наведення"
 #: ekos/focus/opsfocussettings.ui:248
 #, kde-format
 msgid "Optimize AF:"
-msgstr ""
+msgstr "Оптимізація АФ:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOptimize)
 #: ekos/focus/opsfocussettings.ui:261
@@ -21619,6 +21617,17 @@ msgid ""
 "experimental feature enabled for Linear and Linear 1 Pass only.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Створити &quot;зону оптимізації&quot; на основ цієї "
+"кількості секунд. Коли надходить запит щодо автоматичного запуску "
+"автофокусування від іншого процесу, напр. планувальника або захоплення "
+"зображень, виконується перевірка мітки часу останнього успішного "
+"автофокусування для цього фільтра. Якщо ми знаходимося в зоні оптимізації, "
+"то автофокус не запускається; якщо поза зоною, автофокусування виконується у "
+"звичний спосіб.</p><p>Зверніть увагу, що завжди враховується зміщення "
+"фільтра та налаштування адаптивного фокусування.</p><p>Встановіть значення "
+"нуль, щоб вимкнути цю можливість.</p><p>ПРИМІТКА: запуск вручну виконується "
+"завжди.</p><p>У поточній версії цю експериментальну можливість увімкнено "
+"лише для лінійного та лінійного однопрохідного режимів.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:295
@@ -29774,11 +29783,6 @@ msgstr "Помилка під час зняття кришки з паркува
 #, kde-format
 msgid "Mount parked."
 msgstr "Лафет запарковано."
-
-#: ekos/scheduler/schedulerprocess.cpp:1770
-#, kde-format
-msgid "Mount unparked."
-msgstr "Лафет знято з паркування."
 
 #: ekos/scheduler/schedulerprocess.cpp:1782
 #, kde-format
@@ -76452,16 +76456,15 @@ msgstr "Температура фокусування:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: oal/equipmentwriter.ui:1206
-#, fuzzy, kde-format
-#| msgid "Focus alt:"
+#, kde-format
 msgid "Focus DT:"
-msgstr "Висота фокусування:"
+msgstr "Дата і час фокусування:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
 #: oal/equipmentwriter.ui:1250
 #, kde-format
 msgid "yyyy-MM-dd hh:mm:ss"
-msgstr ""
+msgstr "РРРР-ММ-ДД гг:хх:сс"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1284

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-19 01:55+0000\n"
-"PO-Revision-Date: 2025-02-14 08:06+0100\n"
-"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
+"POT-Creation-Date: 2025-02-20 01:53+0000\n"
+"PO-Revision-Date: 2025-02-19 07:19+0100\n"
+"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
@@ -17762,7 +17762,7 @@ msgstr "Fotograma plano"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Cubrir o telescopio para sacar unha exposición escura."
 
-#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:672
+#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:676
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Desestacionando a cuberta…"
@@ -17772,53 +17772,64 @@ msgstr "Desestacionando a cuberta…"
 msgid "Parking dust cap..."
 msgstr "Estacionando a cuberta…"
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Acender a luz da caixa luminosa…"
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
-#: ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Apagar a luz da caixa luminosa…"
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:572
+#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:576
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "O estacionamento da montura fallou, interrompendo…"
 
-#: ekos/capture/sequencejobstate.cpp:525
+#: ekos/capture/sequencejobstate.cpp:507
+#, kde-format
+msgid "Unparking mount..."
+msgstr "Desestacionando a montaxe…"
+
+#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/scheduler/schedulerprocess.cpp:1770
+#, kde-format
+msgid "Mount unparked."
+msgstr "Desestacionouse a montaxe."
+
+#: ekos/capture/sequencejobstate.cpp:529
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Rotando a montura á posición da parede (ac =%1 alt =%2)"
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Completouse a rotación á posición da parede, deteña o seguimento."
 
-#: ekos/capture/sequencejobstate.cpp:541
+#: ekos/capture/sequencejobstate.cpp:545
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Completouse a rotación á posición da parede, detívose o seguimento."
 
-#: ekos/capture/sequencejobstate.cpp:581
+#: ekos/capture/sequencejobstate.cpp:585
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Estacionando a montaxe antes de calibrar a captura de fotogramas…"
 
-#: ekos/capture/sequencejobstate.cpp:600
+#: ekos/capture/sequencejobstate.cpp:604
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "O estacionamento da bóveda fallou, interrompendo…"
 
-#: ekos/capture/sequencejobstate.cpp:610
+#: ekos/capture/sequencejobstate.cpp:614
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Estacionando a bóveda antes de calibrar a captura de fotogramas…"
 
-#: ekos/capture/sequencejobstate.cpp:872
+#: ekos/capture/sequencejobstate.cpp:876
 #, kde-format
 msgid "Light box on."
 msgstr "A caixa luminosa está acendida."
@@ -28941,35 +28952,31 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1691
-#, fuzzy, kde-format
-#| msgid "Twilight:"
+#, kde-format
 msgid "Twilight"
-msgstr "Crepúsculo:"
+msgstr "Crepúsculo."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonSeparation)
 #: ekos/scheduler/scheduler.ui:1710 ekos/scheduler/scheduler.ui:1805
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The target must be at least this far from the moon.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Baleirar o historial de datos do sensor</p></body></"
-"html>"
+"<html><head/><body><p>O obxectivo ten que estar polo menos a esta distancia "
+"da Lúa.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonAltitudeMaxValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonAltitude)
 #: ekos/scheduler/scheduler.ui:1726 ekos/scheduler/scheduler.ui:1767
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The moon must be lower than this altitude.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Representar o ángulo horario da montura.</p></body></"
-"html>"
+"<html><head/><body><p>A Lúa debe estar por debaixo desta altitude.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1751
@@ -28979,17 +28986,15 @@ msgstr "A altitude do obxecto debe ser igual ou maior que o valor indicado."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1754
-#, fuzzy, kde-format
-#| msgid "Min. Altitude:"
+#, kde-format
 msgid "Min. Altitude: "
-msgstr "Altitude mín.:"
+msgstr "Altitude mín.: "
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonAltitude)
 #: ekos/scheduler/scheduler.ui:1770
-#, fuzzy, kde-format
-#| msgid "Moon  >: "
+#, kde-format
 msgid "Moon max alt:"
-msgstr "Lúa >: "
+msgstr "Alt. máx. da Lúa:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerHorizon)
 #: ekos/scheduler/scheduler.ui:1783
@@ -29009,7 +29014,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:1808
 #, kde-format
 msgid "Moon  min. sep.:"
-msgstr ""
+msgstr "Sep. mín. da Lúa:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerWeather)
 #: ekos/scheduler/scheduler.ui:1824
@@ -29675,11 +29680,6 @@ msgstr "Erro ao desestacionar a cuberta."
 #, kde-format
 msgid "Mount parked."
 msgstr "Estacionouse a montaxe."
-
-#: ekos/scheduler/schedulerprocess.cpp:1770
-#, kde-format
-msgid "Mount unparked."
-msgstr "Desestacionouse a montaxe."
 
 #: ekos/scheduler/schedulerprocess.cpp:1782
 #, kde-format
@@ -36375,14 +36375,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerMaxMoonAltitude), group (ImagingPlanner)
 #: kstars.kcfg:1010
-#, fuzzy, kde-format
-#| msgid "For imaging hours calculation, object must be above this altitude."
+#, kde-format
 msgid ""
 "For imaging hours calculation, the moon must have an altitude lower than "
 "this."
 msgstr ""
-"Para o cálculo de horas da toma de imaxes, o obxecto debe estar sobre a "
-"altitude."
+"Para o cálculo de horas da toma de imaxes, a Lúa debe ter unha altitude "
+"inferior a esta."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowPicked), group (ImagingPlanner)
 #: kstars.kcfg:1014
@@ -40795,11 +40794,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
 #: kstars.kcfg:3308
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job moon separation constraints."
+#, kde-format
 msgid "Default scheduler checkbox for job moon separation constraint."
 msgstr ""
-"Caixa para marcar predeterminada do planificador para as restricións de "
+"Caixa para marcar predeterminada do planificador para a restrición de "
 "separación lunar de traballos."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
@@ -40811,19 +40809,18 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitude), group (Scheduler)
 #: kstars.kcfg:3316
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job altitude constraints."
+#, kde-format
 msgid "Default scheduler checkbox for job moon altitude constraint."
 msgstr ""
-"Caixa para marcar predeterminada do planificador para as restricións de "
-"altitude de traballos."
+"Caixa para marcar predeterminada do planificador para a restrición de "
+"altitude lunar de traballos."
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitudeMaxValue), group (Scheduler)
 #: kstars.kcfg:3320
-#, fuzzy, kde-format
-#| msgid "Default scheduler job altitude constraint."
+#, kde-format
 msgid "Default scheduler job moon altitude constraint."
-msgstr "Restrición predeterminada de altitude de traballos do planificador."
+msgstr ""
+"Restrición predeterminada de altitude lunar de traballos do planificador."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
@@ -83377,46 +83374,42 @@ msgid ""
 "least the number of degrees in the 1st box away from the moon, and the moon "
 "must be below the altitude in the 2nd box.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Para os cálculos de horas da toma de imaxes, o obxecto "
+"debe estar polo menos aos graos da primeira caixa de distancia da Lúa, e a "
+"Lúa debe estar por debaixo da altitude da segunda caixa.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1046
-#, fuzzy, kde-format
-#| msgid "Moon"
+#, kde-format
 msgid "Moon:"
-msgstr "Lúa"
+msgstr "Lúa:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minMoon)
 #: tools/imagingplanner.ui:1065
-#, fuzzy, kde-format
-#| msgid ""
-#| "For imaging hours calculation, object must be at least this far from the "
-#| "moon."
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations object must be at least "
 "this far from the moon.</p></body></html>"
 msgstr ""
-"Para o cálculo de horas da toma de imaxes, o obxecto debe estar polo menos a "
-"esta distancia da Lúa."
+"<html><head/><body><p>Para os cálculos de horas da toma de imaxes, o obxecto "
+"debe estar polo menos a esta distancia da Lúa.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minMoon)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1068 tools/imagingplanner.ui:1087
-#, fuzzy, kde-format
-#| msgid "°C"
+#, kde-format
 msgid "°"
-msgstr "°C"
+msgstr "°"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1084
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations the moon must be lower "
 "than this altitude.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Representar o ángulo horario da montura.</p></body></"
-"html>"
+"<html><head/><body><p>Para os cálculos de horas da toma de imaxes, a Lúa "
+"debe estar por debaixo desta altitude.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAstrobinDetailsButton)
 #: tools/imagingplanner.ui:1159
@@ -114992,9 +114985,6 @@ msgstr "Indicar a cor do fondo."
 #~ msgstr "Tsih"
 
 #~ msgid "Unparking mount in progress..."
-#~ msgstr "Desestacionando a montaxe…"
-
-#~ msgid "Unparking mount..."
 #~ msgstr "Desestacionando a montaxe…"
 
 #~ msgid "Add observation job to list."

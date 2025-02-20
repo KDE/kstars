@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-19 01:55+0000\n"
+"POT-Creation-Date: 2025-02-20 01:53+0000\n"
 "PO-Revision-Date: 2010-09-25 18:49-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -17970,7 +17970,7 @@ msgstr "マーカーファイルを使う"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:672
+#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:676
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Unparking dust cap..."
@@ -17982,61 +17982,75 @@ msgstr "電波望遠鏡"
 msgid "Parking dust cap..."
 msgstr "電波望遠鏡"
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
-#: ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:572
+#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:576
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking mount failed, aborting..."
 msgstr "電波望遠鏡"
 
-#: ekos/capture/sequencejobstate.cpp:525
+#: ekos/capture/sequencejobstate.cpp:507
+#, fuzzy, kde-format
+#| msgid "Radiotelescope"
+msgid "Unparking mount..."
+msgstr "電波望遠鏡"
+
+#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/scheduler/schedulerprocess.cpp:1770
+#, fuzzy, kde-format
+#| msgctxt "City in Italy"
+#| msgid "Mount Ekar"
+msgid "Mount unparked."
+msgstr "エカル山"
+
+#: ekos/capture/sequencejobstate.cpp:529
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Slew to wall position complete, stop tracking."
 msgstr "カリエンテ"
 
-#: ekos/capture/sequencejobstate.cpp:541
+#: ekos/capture/sequencejobstate.cpp:545
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "カリエンテ"
 
-#: ekos/capture/sequencejobstate.cpp:581
+#: ekos/capture/sequencejobstate.cpp:585
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "開始:"
 
-#: ekos/capture/sequencejobstate.cpp:600
+#: ekos/capture/sequencejobstate.cpp:604
 #, fuzzy, kde-format
 #| msgid "Radiotelescope"
 msgid "Parking dome failed, aborting..."
 msgstr "電波望遠鏡"
 
-#: ekos/capture/sequencejobstate.cpp:610
+#: ekos/capture/sequencejobstate.cpp:614
 #, fuzzy, kde-format
 #| msgid "Starting on:"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "開始:"
 
-#: ekos/capture/sequencejobstate.cpp:872
+#: ekos/capture/sequencejobstate.cpp:876
 #, kde-format
 msgid "Light box on."
 msgstr ""
@@ -29615,13 +29629,6 @@ msgstr "エカル山"
 #| msgctxt "City in Italy"
 #| msgid "Mount Ekar"
 msgid "Mount parked."
-msgstr "エカル山"
-
-#: ekos/scheduler/schedulerprocess.cpp:1770
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Ekar"
-msgid "Mount unparked."
 msgstr "エカル山"
 
 #: ekos/scheduler/schedulerprocess.cpp:1782

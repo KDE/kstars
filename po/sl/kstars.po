@@ -3,7 +3,6 @@
 # $Id$
 # $Source$
 #
-#
 # Andrej Vernekar <andrej.vernekar@moj.net>, 2002, 2003.
 # Gregor Rakar <gregor.rakar@kiss.si>, 2003, 2004, 2005.
 # SPDX-FileCopyrightText: 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2024 Jure Repinc <jlp@holodeck1.com>
@@ -12,26 +11,33 @@
 # Martin Srebotnjak <miles@filmsi.net>, 2022.
 #
 # Seznam kratic in terminov:
+# Auto debayer
 # AF overscan
+# CFZ - critical focus zone     OKO - okolje kritičnega ostrenja
+# CFZ Shuffle                   Premešani OKO
+# Donut Buster                  Izničevalec obročev
+# FITS - Flexible Image Transport System
 # FOV - field of view           VP - vidno polje
 # GPG - Gaussian Process Guider
 # GSC - Guide Star Catalog
 # FWHM - Full Width Half Maximum
 # HFR Adj - Adjusted Half Flux Radius
 # optical train - optika
-# PSF
-# Sky Flat
+# PSF - point spread function
+# SCT - Schmidt–Cassegrain Telescope
+# Sky Flat                      Slika ravnega polja
 # RMS - root-mean-squared       KKP - koren kvadrata povprečja
 # SNR - signal-to-noise ratio   RSŠ - razmerje med signalom in šumom
-# scope - iskalo?
+# scope                         spektiv
+# SEP - Source Extraction and Photometry
 # SEP Multi Star
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-19 01:55+0000\n"
-"PO-Revision-Date: 2025-02-18 14:08+0100\n"
+"POT-Creation-Date: 2025-02-20 01:53+0000\n"
+"PO-Revision-Date: 2025-02-19 16:48+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -41,7 +47,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3571,7 +3577,7 @@ msgstr "%1 AE"
 #, kde-format
 msgctxt "angular size in arcminutes"
 msgid "%1 arcmin"
-msgstr "%1 loč. min."
+msgstr "%1 ločnih min."
 
 #: dialogs/detaildialog.cpp:281 kstarslite/dialogs/detaildialoglite.cpp:193
 #: printing/detailstable.cpp:195
@@ -3822,7 +3828,7 @@ msgstr "Velikost:"
 #: dialogs/details_data.ui:307
 #, kde-format
 msgid "0.0 arcmin"
-msgstr "0,0 loč. min."
+msgstr "0,0 ločnih min."
 
 #. i18n: ectx: property (text), widget (KSHelpLabel, BVLabel)
 #: dialogs/details_data.ui:332
@@ -5498,7 +5504,7 @@ msgstr "Izračunaj ŠŽPM"
 #: dialogs/newfov.ui:1061 ekos/align/opsalign.ui:319
 #, kde-format
 msgid "arcmin"
-msgstr "loč. min."
+msgstr "ločnih min."
 
 #. i18n: ectx: property (text), widget (QLabel, fieldoFviewLabel)
 #: dialogs/newfov.ui:1041
@@ -6646,12 +6652,12 @@ msgstr "Indeksne datoteke"
 #: ekos/align/align.cpp:3599 ekos/guide/guidetargetplot.cpp:55
 #, kde-format
 msgid "dRA (arcsec)"
-msgstr "dRA (ločne s)"
+msgstr "dRA (ločne sek)"
 
 #: ekos/align/align.cpp:3600 ekos/guide/guidetargetplot.cpp:56
 #, kde-format
 msgid "dDE (arcsec)"
-msgstr "dDE (ločne s)"
+msgstr "dDE (ločne sek)"
 
 #: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3423
 #: ekos/focus/focus.cpp:5602
@@ -11308,7 +11314,7 @@ msgstr ""
 #: ekos/analyze/analyze.ui:1238
 #, kde-format
 msgid "hfr"
-msgstr "hfr"
+msgstr "ppt"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, hfrOut)
 #: ekos/analyze/analyze.ui:1251
@@ -12966,10 +12972,10 @@ msgid ""
 "optical elements, tap the <span style=\" font-weight:600;\">Telescope &amp; "
 "Lens</span> button.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Izberite iskalo ali lečje, ki je uporabljeno v optiki. "
-"To je obvezna izbira za vse optike.</p><p>Da dodate, uredite ali izbrišete "
-"optične elemente, kliknite gumb <span style=\" font-weight:600;\">Teleskop "
-"in lečje</span>.</p></body></html>"
+"<html><head/><body><p>Izberite spektiv ali lečje, ki je uporabljeno v "
+"optiki. To je obvezna izbira za vse optike.</p><p>Da dodate, uredite ali "
+"izbrišete optične elemente, kliknite gumb <span style=\" font-weight:600;"
+"\">Teleskop in lečje</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, scopeLabel)
 #: ekos/auxiliary/opticaltrains.ui:150
@@ -14428,7 +14434,7 @@ msgstr ""
 #: ekos/capture/calibrationoptions.ui:229
 #, kde-format
 msgid "Sky flats"
-msgstr "Ploske slike neba"
+msgstr "Slike ravnega polja"
 
 #: ekos/capture/camera.cpp:109 ekos/capture/camera.cpp:111
 #, kde-format
@@ -17621,7 +17627,7 @@ msgstr "Ploski posnetek"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Pokrij teleskop za zajem posnetka teme."
 
-#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:672
+#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:676
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Odparkiranje proti-prašnega pokrova …"
@@ -17631,53 +17637,65 @@ msgstr "Odparkiranje proti-prašnega pokrova …"
 msgid "Parking dust cap..."
 msgstr "Parkiranje proti-prašnega pokrova…"
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Prižiganje luči svetilne škatle…"
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
-#: ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Ugašanje luči svetilne škatle…"
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:572
+#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:576
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Parkiranje stojala ni uspelo. Prekinjanje…"
 
-#: ekos/capture/sequencejobstate.cpp:525
+#: ekos/capture/sequencejobstate.cpp:507
+#, fuzzy, kde-format
+#| msgid "Unparking dome..."
+msgid "Unparking mount..."
+msgstr "Odparkiranje kupole…"
+
+#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/scheduler/schedulerprocess.cpp:1770
+#, kde-format
+msgid "Mount unparked."
+msgstr "Montaža odparkirana."
+
+#: ekos/capture/sequencejobstate.cpp:529
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Obračanje stojala v smer zidu (az. = %1, viš. = %2)"
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Obračanje v smer zidu zaključeno, ustavljanje sledenja."
 
-#: ekos/capture/sequencejobstate.cpp:541
+#: ekos/capture/sequencejobstate.cpp:545
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Obračanje v smer zidu zaključeno, sledenje ustavljeno."
 
-#: ekos/capture/sequencejobstate.cpp:581
+#: ekos/capture/sequencejobstate.cpp:585
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Parkiranje stojala pred zajemom umeritvenih posnetkov…"
 
-#: ekos/capture/sequencejobstate.cpp:600
+#: ekos/capture/sequencejobstate.cpp:604
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Parkiranje kupole ni uspelo, prekinjanje…"
 
-#: ekos/capture/sequencejobstate.cpp:610
+#: ekos/capture/sequencejobstate.cpp:614
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Parkiranje kupole pred zajemom umeritvenih posnetkov …"
 
-#: ekos/capture/sequencejobstate.cpp:872
+#: ekos/capture/sequencejobstate.cpp:876
 #, kde-format
 msgid "Light box on."
 msgstr "Svetilna škatla prižgana."
@@ -19213,12 +19231,12 @@ msgstr "Linearni algoritem samodejnega fokusiranja prekinjen: %1"
 #: ekos/focus/focus.cpp:3734
 #, kde-format
 msgid "FITS received. HFR %1 @ %2. Delta (%3%)"
-msgstr "Prejeta slika FITS. HFR %1 @ %2. Delta (%3%)"
+msgstr "Prejeta slika FITS. PPT %1 @ %2. Delta (%3%)"
 
 #: ekos/focus/focus.cpp:3736
 #, kde-format
 msgid "FITS received. HFR %1 @ %2."
-msgstr "Prejeta slika FITS. HFR %1 @ %2."
+msgstr "Prejeta slika FITS. PPT %1 @ %2."
 
 #: ekos/focus/focus.cpp:3797
 #, kde-format
@@ -19226,7 +19244,7 @@ msgid ""
 "Change in HFR is too small. Try increasing the step size or decreasing the "
 "tolerance."
 msgstr ""
-"Sprememba HFR je premajhna. Poskusite povečati velikost koraka ali zmanjšati "
+"Sprememba PPT je premajhna. Poskusite povečati velikost koraka ali zmanjšati "
 "toleranco."
 
 #: ekos/focus/focus.cpp:3804
@@ -19270,7 +19288,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:4130
 #, kde-format
 msgid "FITS received. HFR %1. Delta (%2%) Min HFR (%3)"
-msgstr "Prejeta slika FITS. HFR %1. Delta (%2%), najm. HFR (%3)"
+msgstr "Prejeta slika FITS. PPT %1. Delta (%2%), najm. PPT (%3)"
 
 #: ekos/focus/focus.cpp:4134
 #, kde-format
@@ -19342,7 +19360,7 @@ msgstr "Preverjanje fokusa prezrto - Mera zvezde mora sloneti na zvezdi"
 #: ekos/focus/focus.cpp:5148
 #, kde-format
 msgid "Capturing to check HFR..."
-msgstr "Zajemanje za preverjanje HFR…"
+msgstr "Zajemanje za preverjanje PPT…"
 
 #: ekos/focus/focus.cpp:5278
 #, kde-format
@@ -19734,7 +19752,7 @@ msgstr "Prekritje"
 #: ekos/focus/focusadvisor.cpp:98
 #, kde-format
 msgid "AF Overscan"
-msgstr "Prekritje SO"
+msgstr "Prekritje avtofokusa"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: ekos/focus/focusadvisor.cpp:101 fitsviewer/catalogobjecttypefilter.ui:77
@@ -20161,7 +20179,7 @@ msgstr ""
 #: ekos/focus/opsfocusmechanics.ui:37
 #, kde-format
 msgid "AF Overscan:"
-msgstr "Prekritje SO:"
+msgstr "Prekritje avtofokusa:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
 #: ekos/focus/opsfocusmechanics.ui:56
@@ -20320,9 +20338,9 @@ msgstr ""
 "premikanje fokusiranja med samodejnim fokusiranjem. To je poleg katerega "
 "koli gonilnika zračnosti, ki ga zagotavlja gonilnik naprave in je nastavljen "
 "v polju zračnost gonilnika.Nastavite na 0, da onemogočite. </p><p>Če je "
-"nastavljeno, se AF Overscan uporabi za vse fokuserje premike, ki jih sproži "
-"modul Focus.</p><p>Običajno je nastavljen bodisi zračnost fokuserja ali AF "
-"Overscan.</p></body></html>"
+"nastavljeno, se prekritje avtofokusa uporabi za vse premike fokuserja, ki "
+"jih sproži modul Focus.</p><p>Običajno je nastavljen bodisi Zračnost "
+"fokuserja ali Prekritje avtofokusa.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/focus/opsfocusmechanics.ui:251
@@ -20409,7 +20427,7 @@ msgstr "Število korakov:"
 #: ekos/focus/opsfocusmechanics.ui:469
 #, kde-format
 msgid "AF Overscan Delay:"
-msgstr "Zamik prekritja SO:"
+msgstr "Zamik prekritja avtofokusa:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/opsfocusmechanics.ui:485
@@ -20436,8 +20454,8 @@ msgstr ""
 "<html><head/><body><p>Za fokuserje, ki zaznavajo zračnost, količina "
 "zračnosti, ki se uporabi pri obračanju smeri gibanja. Nastavite na 0, če "
 "želite onemogočiti.</p><p>Običajno je nastavljena Zračnost fokuserja ali "
-"Prekritje SO.</p><p>To polje nastavi polje Indi Focuser Backlash in ga lahko "
-"nastavite tukaj ali na nadzorni plošči Indi.</p></body></html>"
+"Prekritje avtofokusa.</p><p>To polje nastavi polje Indi zračnost fokuserja "
+"in ga lahko nastavite tukaj ali na nadzorni plošči Indi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
 #: ekos/focus/opsfocusmechanics.ui:514
@@ -20500,7 +20518,7 @@ msgstr "Mera:"
 #: ekos/focus/opsfocusprocess.ui:86
 #, kde-format
 msgid "PSF:"
-msgstr "PSF:"
+msgstr "PSF (Point Spread Function):"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarPSF)
 #: ekos/focus/opsfocusprocess.ui:96
@@ -20514,7 +20532,7 @@ msgid ""
 "Gaussian. This is an experimental feature.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Vrsta PSF, ki ga je treba uporabiti, ko je merilo "
-"nastavljeno na FWHM:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"nastavljeno na PŠPM:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
 "margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
@@ -20584,10 +20602,10 @@ msgid ""
 "Linear 1 Pass algorithm. </p></body></html>"
 msgstr ""
 "<html><head/><body><p>Odkljukajte, če želite uporabiti standardno deviacijo "
-"zvezde HFR ali FWHM kot utež algoritma za prileganje krivulje. Če ni "
+"zvezde PPT ali PŠPM kot utež algoritma za prileganje krivulje. Če ni "
 "potrjeno, imajo vse podatkovne točke enako utež. Trenutno je na voljo samo "
 "pri uporabi polnega polja (več zvezd) in prileganja krivulje hiperbole ali "
-"parabole v okviru algoritma linearnega enojnega prehoda. </p></body></html>"
+"parabole v okviru algoritma linearnega 1 prehoda. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusUseWeights)
 #: ekos/focus/opsfocusprocess.ui:218
@@ -20650,7 +20668,7 @@ msgstr "Parabola"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:255
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the Measure to use when fitting a curve for "
 "Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
@@ -20699,52 +20717,54 @@ msgid ""
 "planetary.  This is an experimental feature that requires openCV to be "
 "installed.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Select the Measure to use when fitting a curve for "
-"Linear 1 Pass:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-"
-"left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">HFR</span>: "
-"Half Flux Radius. Uses an algorithm to calculate the radius of a circle "
-"centred on the star centroid that encapsulates half the star's flux.</li><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">HFR Adj</span>: Adjusted Half Flux "
-"Radius. Normalises the HFR for peak intensity. </li></ul><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">FWHM</span>: "
-"Full Width Half Maximum. Curve fits a PSF to each star centroid and uses the "
-"curve to calculate the FWHM. </li><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\"># Stars</span>: Number of "
-"stars. The number of detected stars at optimum focus will be a maximum. </"
-"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Izberite ukrep, ki ga boste uporabili pri namestitvi "
+"krivulje za Linearni 1 prehod:</p><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Fourier</span>: Fourier power calculation. Uses the Fourier "
-"Transform Power approach developed by Tan and Schulz in https://arxiv.org/"
-"pdf/2201.12466.pdf. At optimum focus the power in frequency space [result of "
-"the fourier transform] will be a maximum. </li><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-weight:600;\">StdDev</span>: Uses "
-"variance / mean of image pixels. It is intended for star fields. This is an "
-"experimental feature that requires openCV to be installed.</li><li style=\" "
+"weight:600;\">PPT (HFR)</span>: Polmer polovice toka (Half Flux Radius). "
+"Uporablja algoritem za izračun polmera kroga na centroidu zvezde, ki zajame "
+"polovico toka zvezde.</li><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Sobel</"
-"span>: Uses the Sobel Edge Detection algorithm.  It is intended for non-"
-"stellar fields,  e.g. Solar,  Lunar or planetary.  This is an experimental "
-"feature that requires openCV to be installed.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Laplassian: </"
-"span>Uses the Laplassian Edge Detection algorithm.  It is intended for non-"
-"stellar fields,  e.g. Solar,  Lunar or planetary.  This is an experimental "
-"feature that requires openCV to be installed.</li></ul><ul style=\"margin-"
-"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Pril. "
+"PPT (HFR Adj)</span>: Prilagojeni polmer polovice toka. Normalizira PPT za "
+"največjo intenzivnost.</li></ul><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">PŠPM (FWHM)</span>: Polna "
+"širina polovice maksimuma (Full Width Half Maximum). Krivulja se prilagodi "
+"PSF centroidu vsake zvezde in uporabi krivuljo, da izračuna PŠPM.</li><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Št. zvezd</span>: Število zvezd. Ko je število zaznanih zvezd "
+"z optimalnim fokusom največje.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Fourier</span>: Fourierjev "
+"izračun moči. Uporablja Fourierjevo  transformacijo moči, ki sta jo razvila "
+"Tan in Schulz v https://arxiv.org/pdf/2201.12466.pdf. Pri optimalnem fokusu "
+"bo moč v frekvenčnem prostoru [rezultat fourierjeve transformacije] "
+"maksimalna. </li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Canny: </span>Uses the Canny Edge Detection "
-"algorithm.  It is intended for non-stellar fields,  e.g. Solar,  Lunar or "
-"planetary.  This is an experimental feature that requires openCV to be "
-"installed.</li></ul></body></html>"
+"style=\" font-weight:600;\">StdDev</span>: Uporablja varianco / povprečjem "
+"slikovnih točk slike. Namenjeno je za zvezdna polja. To je eksperimentalna "
+"zmožnost, ki zahteva nameščen openCV.</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Sobel</span>: Uporablja "
+"Sobelov algoritem zaznavanja EBEL EDGE. Je namenjen ne-zvezdnim poljem, npr. "
+"sončnim, lunarnim ali planetarnim. To je eksperimentalna zmožnost, ki "
+"zahteva nameščen openCV.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Laplassov: </span>Uporablja "
+"Laplassov algoritem zaznavanja robov. Je namenjen za ne-zvezdna polja, npr. "
+"solarna,  lunarna ali planetarna.  To je eksperimentalna zmožnost, ki "
+"zahteva nameščen openCV.</li></ul><ul style=\"margin-top: 0px; margin-"
+"bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li "
+"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Canny: </span>Uporablja Cannyjev algoritem zaznavanja robov. "
+"Je namenjen za ne-zvezdna polja, npr. solarna,  Lunarna ali planetarna.  To "
+"je eksperimentalna zmožnost, ki zahteva nameščen openCV.</li></ul></body></"
+"html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #. i18n: ectx: property (text), widget (QTableWidget, statsTable)
@@ -20755,13 +20775,13 @@ msgstr "PPT"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:264
-#, fuzzy, kde-format
+#, kde-format
 msgid "HFR Adj"
-msgstr "HFR Adj"
+msgstr "Pril. PPT"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:269
-#, fuzzy, kde-format
+#, kde-format
 msgid "FWHM"
 msgstr "PŠPM"
 
@@ -20919,15 +20939,15 @@ msgid ""
 "doing a 2nd pass,  moves straight to the minimum HFR value calculated.  Use "
 "Curve Fit of Hyperbola or Parabola.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Select focus process algorithm:</p><ul style=\"margin-"
-"top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
+"<html><head/><body><p>Izberi algoritem procesa fokusiranja:</p><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\" font-weight:600;\">Iterativni</span>: Na začetku premika fokuser z "
 "diskretnimi koraki z določeno velikostjo koraka. Ko je izračunan naklon "
 "krivulje, so nadaljnje izračunane velikosti koraka za doseganje optimalne "
-"rešitve. Algoritem se ustavi, ko je izmerjeni HFR znotraj odstotnega "
-"odstopanja najmanjšega HFR, zabeleženega v postopku.</li><li style=\" margin-"
+"rešitve. Algoritem se ustavi, ko je izmerjeni PPT znotraj odstotnega "
+"odstopanja najmanjšega PPT, zabeleženega v postopku.</li><li style=\" margin-"
 "top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
 "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Polinomski</"
 "span>: Začne se z iterativno metodo. Ob prehodu na drugo stran V-krivulje, "
@@ -20938,15 +20958,15 @@ msgstr ""
 "indent:0px;\"><span style=\" font-weight:600;\">Linearni</span>: Vzorci se "
 "redno fokusirajo navznoter z uporabo 2. prehoda. Algoritem je lahko počasen, "
 "vendar je bolj odporen na  učinek zračnosti. Začnite z fokuserjem blizu "
-"dobrega fokusa. Nastavite začetno velikost koraka in max potovanje za želeni "
-"interval vzorčenja in obseg okoli položaja začetnega fokusa. Toleranca mora "
-"biti okoli 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Linearni 1 prehod</span>: Se začne kot <span "
-"style=\" font-weight:600;\">Linearni</span> a se po zaključku 1. prehoda "
-"namesto drugega prehoda premakne naravnost na najmanjšo izračunano vrednost "
-"HFR. Uporabi prileganje krivulje hiperbole ali parabole.</li></ul></body></"
-"html>"
+"dobrega fokusa. Nastavite začetno velikost koraka in maks potovanje za "
+"želeni interval vzorčenja in obseg okoli položaja začetnega fokusa. "
+"Toleranca mora biti okoli 5%.</li><li style=\" margin-top:0px; margin-"
+"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Linearni 1 prehod</span>: Se "
+"začne kot <span style=\" font-weight:600;\">Linearni</span> a se po "
+"zaključku 1. prehoda namesto drugega prehoda premakne naravnost na najmanjšo "
+"izračunano vrednost PPT. Uporabi prileganje krivulje hiperbole ali parabole."
+"</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/opsfocusprocess.ui:380
@@ -21005,7 +21025,7 @@ msgstr "Omejitev R²:"
 #: ekos/focus/opsfocusprocess.ui:432
 #, kde-format
 msgid "Average HFR Check:"
-msgstr "Preverjanje povprečnega HFR:"
+msgstr "Preverjanje povprečnega PPT:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusHFRFramesCount)
 #: ekos/focus/opsfocusprocess.ui:445
@@ -21016,7 +21036,7 @@ msgid ""
 "frames."
 msgstr ""
 "Število sličic, ki jih je treba zajeti pri izvajanju zaporedja preverjanja "
-"HFR. Če uporabljate Linearni 1-prehod, bo točka optimalnega fokusiranja "
+"PPT. Če uporabljate Linearni 1-prehod, bo točka optimalnega fokusiranja "
 "zajela tudi to število sličic."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusGaussianKernelSize)
@@ -21112,14 +21132,14 @@ msgid ""
 "defocused.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Odkljukajte, ali želite omogočiti funkcionalnost "
-"izničenja obročev. Uporabljajte na teleskopih s centralno oviro, ki "
-"ustvarjajo zvezde v obliki obročev, ko niso izostreni.</p></body></html>"
+"izničenja kolobarjev. Uporabljajte na teleskopih s centralno oviro, ki "
+"ustvarjajo zvezde v obliki kolobarjev, ko niso izostreni.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:712
 #, kde-format
 msgid "Donut Buster"
-msgstr "Izničevalec obročev"
+msgstr "Uničevalec kolobarjev"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/focus/opsfocusprocess.ui:736
@@ -21234,7 +21254,7 @@ msgstr ""
 "<html><head/><body><p>Izberite možnost Celotno polje, da omogočite "
 "fokusiranje z več zvezdami (opomba: pri podsličici se uporablja ena sama "
 "zvezda).  V tem načinu bo Ekos med samodejnim fokusiranjem samodejno izbral "
-"več zvezd in za izvedbo fokusiranja na primer povprečil HFR vseh zaznanih "
+"več zvezd in za izvedbo fokusiranja na primer povprečil PPT vseh zaznanih "
 "zvezd. </p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
@@ -21254,13 +21274,13 @@ msgstr "Okvir:"
 #, kde-format
 msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Prikazovalne enote za HFR in FWHM.</p></body></html>"
+"<html><head/><body><p>Prikazovalne enote za PPT in FWHM.</p></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/opsfocussettings.ui:71
 #, kde-format
 msgid "Pixels"
-msgstr "slik. točke"
+msgstr "Slik. točke"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
 #: ekos/focus/opsfocussettings.ui:76
@@ -21674,7 +21694,7 @@ msgstr "Povezovanje s strežnikom PHD2 na gostitelju: %1 na vratih %2. . ."
 #: ekos/guide/externalguide/phd2.cpp:192
 #, kde-format
 msgid "Connecting to PHD2 Host: %1, on port %2. . ."
-msgstr "Povezovanje s strežnikom PHD2 na %1 in vratih %2…"
+msgstr "Povezovanje s strežnikom PHD2 na %1 in vratih %2. . ."
 
 #: ekos/guide/externalguide/phd2.cpp:247
 #, kde-format
@@ -22658,7 +22678,7 @@ msgstr ""
 #: ekos/guide/guidedriftgraph.cpp:69
 #, kde-format
 msgid "drift (arcsec)"
-msgstr "drsenje (ločne s)"
+msgstr "drsenje (ločne sek.)"
 
 #: ekos/guide/guidedriftgraph.cpp:70
 #, kde-format
@@ -22787,7 +22807,7 @@ msgid_plural ""
 "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible "
 "mount or backlash problems..."
 msgstr[0] ""
-"Vodilo RA: Iskalo ne more doseči začetne točke po %1 ponovitvah. Možne "
+"Vodilo RA: Spektiv ne more doseči začetne točke po %1 ponovitvah. Možne "
 "težave s montažo ali zračnostjo…"
 msgstr[1] ""
 "Vodilo RA: Iskalo ne more doseči začetne točke po %1 ponovitvi. Možne težave "
@@ -22843,7 +22863,7 @@ msgid_plural ""
 "GUIDE DEC: Scope cannot reach the start point after %1 iterations.\n"
 "Possible mount or backlash problems..."
 msgstr[0] ""
-"Vodilo DEC: Iskalo ne more doseči začetne točke po %1 ponovitvah.\n"
+"Vodilo DEC: Spektiv ne more doseči začetne točke po %1 ponovitvah.\n"
 "Možne težave s montažo ali zračnostjo…"
 msgstr[1] ""
 "Vodilo DEC: Iskalo ne more doseči začetne točke po %1 ponovitvi.\n"
@@ -23929,13 +23949,13 @@ msgstr "Profil SEP"
 #: ekos/guide/opsguide.ui:368 ekos/guide/opsguide.ui:384
 #, kde-format
 msgid "Maximum HFR allowed for SEP MultiStar guide star."
-msgstr "Največji HFR dovoljen za vodilno zvezdo SEP MultiStar."
+msgstr "Največji PPT dovoljen za vodilno zvezdo SEP MultiStar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: ekos/guide/opsguide.ui:387
 #, kde-format
 msgid "Max MultiStar HFR"
-msgstr "Max MultiStar HFR"
+msgstr "Max MultiStar PPT"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: ekos/guide/opsguide.ui:414
@@ -24683,7 +24703,7 @@ msgstr "Možnosti …"
 #: ekos/manager/focusprogresswidget.ui:275
 #, kde-format
 msgid "Focus HFR profile"
-msgstr "Profil fokusa HFR"
+msgstr "Profil fokusa PPT"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, focusStarView)
 #. i18n: ectx: property (text), widget (QLabel, focusStarView)
@@ -24732,7 +24752,7 @@ msgstr "vodilna zvezda"
 #: ekos/manager/meridianflipstate.cpp:133
 #, kde-format
 msgid "Meridian flip inactive (no scope connected)"
-msgstr "Obrat čez poldnevnik je nedejaven (iskalo ni povezano)"
+msgstr "Obrat čez poldnevnik je nedejaven (spektiv ni povezan)"
 
 #: ekos/manager/meridianflipstate.cpp:140
 #, kde-format
@@ -26852,7 +26872,7 @@ msgid ""
 "Create Profile &&\n"
 "Select Devices"
 msgstr ""
-"Ustvarite profil\n"
+"Ustvari profil\n"
 "Izberite naprave"
 
 #: ekos/scheduler/framingassistant.cpp:538
@@ -26860,8 +26880,8 @@ msgstr ""
 #, kde-format
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
-msgstr[0] "Opravila razporejevalnika"
-msgstr[1] "Opravilo razporejevalnika"
+msgstr[0] " Opravila razporejevalnika"
+msgstr[1] " Opravilo razporejevalnika"
 msgstr[2] " Opravili razporejevalnika"
 msgstr[3] " Opravila razporejevalnika"
 
@@ -29443,11 +29463,6 @@ msgstr "Napaka med odparkiranjem pokrova."
 msgid "Mount parked."
 msgstr "Montaža parkirana."
 
-#: ekos/scheduler/schedulerprocess.cpp:1770
-#, kde-format
-msgid "Mount unparked."
-msgstr "Montaža odparkirana."
-
 #: ekos/scheduler/schedulerprocess.cpp:1782
 #, kde-format
 msgid ""
@@ -30018,7 +30033,7 @@ msgid ""
 "procedures currently set in its sequence will not occur."
 msgstr ""
 "Opozorilo: opravilo '%1' ima onemogočen korak fokusa, periodični in/ali "
-"postopki HFR, ki so trenutno nastavljeni v njegovem zaporedju, se ne bodo "
+"postopki PPT, ki so trenutno nastavljeni v njegovem zaporedju, se ne bodo "
 "pojavili."
 
 #: ekos/scheduler/schedulerutils.cpp:478
@@ -30999,7 +31014,7 @@ msgstr "Pregledovalnik FITS za KStars"
 #, kde-format
 msgid "HFR:%2 Ecc:%3 %1 star."
 msgid_plural "HFR:%2 Ecc:%3 %1 stars."
-msgstr[0] "HFR=%2 Ecc=%3 %1 zvezd."
+msgstr[0] "PPT:%2 Ecc=%3 %1 zvezde."
 msgstr[1] "HFR=%2 Ecc=%3 %1 zvezda."
 msgstr[2] "HFR=%2 Ecc=%3 %1 zvezdi."
 msgstr[3] "HFR=%2 Ecc=%3 %1 zvezde."
@@ -31008,7 +31023,7 @@ msgstr[3] "HFR=%2 Ecc=%3 %1 zvezde."
 #, kde-format
 msgid "HFR:%2, %1 star."
 msgid_plural "HFR:%2, %1 stars."
-msgstr[0] "HFR:%2, %1 zvezd."
+msgstr[0] "PPT:%2, %1 zvezd."
 msgstr[1] "HFR:%2, %1 zvezda."
 msgstr[2] "HFR:%2, %1 zvezdi."
 msgstr[3] "HFR:%2, %1 zvezde."
@@ -31143,7 +31158,7 @@ msgstr "Obdelava %1…"
 #: fitsviewer/opsfits.cpp:110
 #, kde-format
 msgid "HFR Options Profile Editor"
-msgstr "Urejevalnik profilov možnosti HFR"
+msgstr "Urejevalnik profilov možnosti PPT"
 
 #. i18n: ectx: property (title), widget (QGroupBox, FITSViewerGroup)
 #: fitsviewer/opsfits.ui:45
@@ -31346,32 +31361,7 @@ msgstr "Samodejno raztegni"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_LimitedResourcesMode)
 #: fitsviewer/opsfits.ui:361
-#, fuzzy, kde-format
-#| msgid ""
-#| "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#| "REC-html40/strict.dtd\">\n"
-#| "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#| "css\">\n"
-#| "p, li { white-space: pre-wrap; }\n"
-#| "</style></head><body style=\" font-family:'Sans'; font-size:10pt; font-"
-#| "weight:400; font-style:normal;\">\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Select field of view "
-#| "capture method. There are two methods: manual and star hopping-based.</"
-#| "p>\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">In <span style=\" font-"
-#| "weight:600;\">manual method</span> you navigate the sky map to find the "
-#| "objects of interest, then capture multiple fields of view representations."
-#| "</p>\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Star hopping-based method </span>automatically captures FOV "
-#| "snapshots using star hopping. This is experimental feature.</p>\n"
-#| "<p style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\">Once you have selected "
-#| "field of view capture method, press <span style=\" font-weight:600;"
-#| "\">Next</span>.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Enable limited resource mode to turn off any resource-"
 "intensive operations:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
@@ -31389,21 +31379,22 @@ msgid ""
 "\"><span style=\" font-weight:600;\">3D Cube</span>: RGB images will not be "
 "processed. Only grayscale images are shown.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Enable limited resource mode to turn off any resource-"
-"intensive operations:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
+"<html><head/><body><p>Omogoči način omejenega vira, da izklopite vse vire "
+"intenzivnih operacij:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; "
 "margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" "
 "margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Auto "
-"debayer</span>: Bayered images will not be debayered. Only grayscale images "
-"are shown.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"debayer</span>: Bayered images will not be debayered. Prikazane so samo "
+"slike v sivini.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Auto WCS</span>: World Coordinate System data "
-"will not be processed. WCS maps sky coordinates to image coordinates. "
-"Equatorial grid lines, object identification, and telescope slew within an "
-"image are disabled.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">3D Cube</span>: RGB images will not be "
-"processed. Only grayscale images are shown.</li></ul></body></html>"
+"style=\" font-weight:600;\">Auto WCS</span>: Podatki WCS svetovnega "
+"koordinatnega sistemane bodo obdelani. WCS preslika nebesne koordinate na "
+"koordinate na sliki. Ekvatorske črte mreže, identifikacija objekta in "
+"obračanje teleskopa na sliki so onemogočeni.</li><li style=\" margin-"
+"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">3D kocka</"
+"span>: Slike RGB ne bodo obdelane. Prikazane so samo slike v sivini.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_LimitedResourcesMode)
 #: fitsviewer/opsfits.ui:364
@@ -31510,38 +31501,38 @@ msgstr "Zvezdna karta"
 #: fitsviewer/opsfits.ui:445
 #, kde-format
 msgid "Compute the HFR of images loaded into fitsviewer."
-msgstr "Izračun HFR-ja slik, naloženih v fitsviewer."
+msgstr "Izračun PPT-ja slik, naloženih v fitsviewer."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:448
 #, kde-format
 msgid "Auto compute HFR"
-msgstr "Samodejno izračunaj HFR"
+msgstr "Samodejno izračunaj PPT"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:458
 #, no-c-format, kde-format
 msgid ""
 "When computing the HFR, run it quickly by only looking at 25% of the image."
-msgstr "Ko izračunava HFR, ga zažene hitro in si oglejte le 25 % slike."
+msgstr "Ko izračunava PPT, ga zažene hitro in si oglejte le 25 % slike."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:461
 #, kde-format
 msgid "Quick HFR"
-msgstr "Hiter HFR"
+msgstr "Hiter PPT"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, hfrSepLabel)
 #: fitsviewer/opsfits.ui:476
 #, kde-format
 msgid "Set the StellarSolver SEP profile for Capture-image HFR calculations."
-msgstr "Nastavite profil StellarSolver SEP za HFR izračune Capture-image."
+msgstr "Nastavite profil StellarSolver SEP za PPT izračune Capture-image."
 
 #. i18n: ectx: property (text), widget (QLabel, hfrSepLabel)
 #: fitsviewer/opsfits.ui:479
 #, kde-format
 msgid "HFR SEP profile:"
-msgstr "Profil HFR SEP:"
+msgstr "Profil PPT SEP:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StellarSolverPartition)
 #. i18n: ectx: label, entry (StellarSolverPartition), group (FITSViewer)
@@ -31820,7 +31811,7 @@ msgstr "Prikazuje x, y koordinate zvezdnih centrov v posnetku"
 #: fitsviewer/starprofileviewer.cpp:154
 #, kde-format
 msgid "Shows the HFR of stars in the frame"
-msgstr "Prikazuje HFR zvezd v posnetku"
+msgstr "Prikazuje PPT zvezd v posnetku"
 
 #: fitsviewer/starprofileviewer.cpp:168
 #, kde-format
@@ -31947,7 +31938,7 @@ msgstr "(%1, %2) "
 #: fitsviewer/starprofileviewer.cpp:911
 #, kde-format
 msgid "HFR: %1  "
-msgstr "HFR: %1  "
+msgstr "PPT: %1  "
 
 #: fitsviewer/starprofileviewer.cpp:915
 #, kde-format
@@ -37700,14 +37691,14 @@ msgstr "Obdelaj 3D kocko FITS (RGB). Če je false, bo obdelan samo prvi kanal."
 #: kstars.kcfg:1692
 #, kde-format
 msgid "Automatically compute HFRs of fits images"
-msgstr "Samodejno izračunaj HFR za prileganje slik"
+msgstr "Samodejno izračunaj PPT za prileganje slik"
 
 #. i18n: ectx: label, entry (QuickHFR), group (FITSViewer)
 #: kstars.kcfg:1696
 #, no-c-format, kde-format
 msgid ""
 "Compute the HFRs of normal images quickly by looking at the center 25% only."
-msgstr "Hitro izračunaj HFR običajnih slik s pregledom samo 25 % sredine."
+msgstr "Hitro izračunaj PPT običajnih slik s pregledom samo 25 % sredine."
 
 #. i18n: ectx: label, entry (AutoWCS), group (FITSViewer)
 #: kstars.kcfg:1704
@@ -37849,7 +37840,7 @@ msgstr "Premer objektiva razpoložljivega dvogleda"
 #: kstars.kcfg:1787
 #, kde-format
 msgid "Index of selected scope from list of scopes"
-msgstr "Kazalo izbranega iskala iz seznama iskal"
+msgstr "Kazalo izbranega spektiva iz seznama spektivov"
 
 #. i18n: ectx: label, entry (EkosWindowWidth), group (Ekos)
 #: kstars.kcfg:1793
@@ -38175,7 +38166,7 @@ msgstr ""
 #: kstars.kcfg:1992
 #, kde-format
 msgid "Default maximum permittable HFR deviation"
-msgstr "Privzeto največja dovoljena deviacija HFR"
+msgstr "Privzeto največja dovoljena deviacija PPT"
 
 #. i18n: ectx: whatsthis, entry (HFRDeviation), group (Capture)
 #: kstars.kcfg:1993
@@ -38184,7 +38175,7 @@ msgid ""
 "If HFR deviation exceeds this limit, the autofocus routine will be "
 "automatically started."
 msgstr ""
-"Če deviacija HFR preseže to omejitev, bo samodejno zagnano opravilo "
+"Če deviacija PPT preseže to omejitev, bo samodejno zagnano opravilo "
 "samodejnega fokusiranja."
 
 #. i18n: ectx: label, entry (MaxFocusTemperatureDelta), group (Capture)
@@ -38221,7 +38212,7 @@ msgstr "Vsili omejitev deviacije vodenja."
 #: kstars.kcfg:2010
 #, kde-format
 msgid "Enforce Autofocus on HFR limit."
-msgstr "Vsili omejitev samodejnega fokusiranja HFR."
+msgstr "Vsili omejitev samodejnega fokusiranja PPT."
 
 #. i18n: ectx: label, entry (EnforceAutofocusOnTemperature), group (Capture)
 #: kstars.kcfg:2014
@@ -38303,10 +38294,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:2049
-#, fuzzy, kde-format
-#| msgid "Dark Flat"
+#, kde-format
 msgid "Sky Flat"
-msgstr "Ploska tema"
+msgstr "Slika ravnega polja"
 
 #. i18n: ectx: whatsthis, entry (CalibrationSkyFlat), group (Capture)
 #: kstars.kcfg:2050
@@ -38318,7 +38308,7 @@ msgstr "Za fotografiranje ploskev na nebu s spreminjajočo se intenzivnostjo."
 #: kstars.kcfg:2054
 #, kde-format
 msgid "ORed list of calibration pre-actions."
-msgstr "Z logičnim ali naveden seznam predhodnih dejanj kalibracije"
+msgstr "Z logičnim ali naveden seznam predhodnih dejanj kalibracije."
 
 #. i18n: ectx: label, entry (CalibrationFlatDurationIndex), group (Capture)
 #: kstars.kcfg:2058
@@ -38394,20 +38384,20 @@ msgid ""
 "Increase autofocus HFR value by this percentage gain and store it in Capture "
 "Module."
 msgstr ""
-"Povečaj vrednost samodejnega fokusiranja HFR za takšen odstotek in jo "
+"Povečaj vrednost samodejnega fokusiranja PPT za takšen odstotek in jo "
 "shranite v Modul za zajemanje."
 
 #. i18n: ectx: whatsthis, entry (HFRCheckAlgorithm), group (Capture)
 #: kstars.kcfg:2098
 #, kde-format
 msgid "Algorithm for In Sequence HFR Check"
-msgstr "Algoritem za preverjanje HFR v zaporedju"
+msgstr "Algoritem za preverjanje PPT v zaporedju"
 
 #. i18n: ectx: label, entry (InSequenceCheckFrames), group (Capture)
 #: kstars.kcfg:2102
 #, kde-format
 msgid "Run In-Sequence HFR check after this many frames."
-msgstr "Zaženi preverjanje znotraj zaporedja HFR po tem številu sličic."
+msgstr "Zaženi preverjanje znotraj zaporedja PPT po tem številu sličic."
 
 #. i18n: ectx: label, entry (AutoStretch), group (Capture)
 #: kstars.kcfg:2106
@@ -38566,7 +38556,7 @@ msgstr "Želena toleranca ploskega posnetka ADE."
 #: kstars.kcfg:2196
 #, kde-format
 msgid "Capture calibration frames using Sky Flats."
-msgstr "Zajemite kalibracijske posnetke z uporabo Sky Flats."
+msgstr "Zajemite kalibracijske posnetke z uporabo slik ravnega polja."
 
 #. i18n: ectx: whatsthis, entry (AbsTicksSpin), group (Focus)
 #: kstars.kcfg:2202
@@ -38663,7 +38653,7 @@ msgid ""
 "defaults to the Centroid detection, but can use SEP detection too. Its "
 "performance decreases as the number of stars increases."
 msgstr ""
-"Merjenje povprečnega HFR iz vseh zvezd, združenih v polnem okviru. Ta metoda "
+"Merjenje povprečnega PPT iz vseh zvezd, združenih v polnem okviru. Ta metoda "
 "je privzeta za zaznavanje centroidov, vendar lahko uporablja tudi zaznavanje "
 "SEP. Njegova učinkovitost se zmanjšuje, ko se število zvezd povečuje."
 
@@ -38718,7 +38708,7 @@ msgid ""
 "algorithms may also have an inherent filter."
 msgstr ""
 "Med fokusiranjem polnega polja se zvezde, ki so zunaj tega odstotka kadra, "
-"izločijo iz izračuna HFR (privzeto 100%). Algoritmi za zaznavanje imajo "
+"izločijo iz izračuna PPT (privzeto 100%). Algoritmi za zaznavanje imajo "
 "lahko tudi lasten filter."
 
 #. i18n: ectx: label, entry (FocusMosaicTileWidth), group (Focus)
@@ -38755,7 +38745,7 @@ msgstr "Počakaj toliko sekund po nadaljevanju vodenja."
 #: kstars.kcfg:2289
 #, kde-format
 msgid "Display units for HFR and FWHM"
-msgstr "Prikazne enote za HFR in FWHM"
+msgstr "Prikazne enote za PPT in FWHM"
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptive), group (Focus)
 #: kstars.kcfg:2293
@@ -38827,7 +38817,7 @@ msgstr "Vrsta merila zvezd, ki ga je treba uporabiti."
 #, kde-format
 msgid "The type of star PSF to use if curve fitting star profiles."
 msgstr ""
-"Vrsta zvezde PSF, ki se uporablja, če se profili zvezd prilegajo krivulji."
+"Vrsta zvezdine PSF, ki se uporablja, če se profili zvezd prilegajo krivulji."
 
 #. i18n: ectx: whatsthis, entry (FocusUseWeights), group (Focus)
 #: kstars.kcfg:2333
@@ -38862,7 +38852,7 @@ msgstr ""
 #, kde-format
 msgid "How many frames to average over when performing in-sequence HFR Check."
 msgstr ""
-"Iz koliko sličic je treba izračunati povprečje pri izvajanju preverjanja HFR "
+"Iz koliko sličic je treba izračunati povprečje pri izvajanju preverjanja PPT "
 "v zaporedju."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
@@ -38897,7 +38887,8 @@ msgstr "Ali naj se pred nadaljnjo obdelavo odpravi šum slike v fokusu."
 #: kstars.kcfg:2369
 #, kde-format
 msgid "Whether to use Donut Busting functionality during Autofocus."
-msgstr "Ali naj med samodejnim fokusiranjem uporabi zmožnost Donut Busting."
+msgstr ""
+"Ali naj med samodejnim fokusiranjem uporabi zmožnost uničenja kolobarjev"
 
 #. i18n: ectx: label, entry (FocusTimeDilation), group (Focus)
 #: kstars.kcfg:2373
@@ -38907,7 +38898,7 @@ msgid ""
 "Donut Buster."
 msgstr ""
 "Faktor za množenje osvetlitve izostritve za posnetke, ki niso izostreni, ko "
-"uporabljateDonut Buster."
+"uporabljate uničevalnik kolobarjev."
 
 #. i18n: ectx: label, entry (focusOutlierRejection), group (Focus)
 #: kstars.kcfg:2377
@@ -38915,8 +38906,8 @@ msgstr ""
 msgid ""
 "Aggressiveness factor to apply to outlier rejection when using Donut Buster."
 msgstr ""
-"Faktor agresivnosti, ki se uporabi za zavrnitev osamelcev pri uporabi Donut "
-"Busterja."
+"Faktor agresivnosti, ki se uporabi za zavrnitev osamelcev pri uporabi "
+"uničevalnika kolobarjev."
 
 #. i18n: ectx: whatsthis, entry (focusScanStartPos), group (Focus)
 #: kstars.kcfg:2381
@@ -39014,7 +39005,7 @@ msgid ""
 "0.1 pixels. Lower the value when you are close to optimal focus."
 msgstr ""
 "Velikost koraka absolutnega fokuserja. Velikost koraka ČRTIC je treba "
-"prilagoditi tako, da je razlika v HFR večja od 0,1 slikovne pike, ko fokuser "
+"prilagoditi tako, da je razlika v PPT večja od 0,1 slikovne pike, ko fokuser "
 "premakne ČRTIC korakov. Znižajte vrednost, ko ste blizu optimalnega fokusa."
 
 #. i18n: ectx: whatsthis, entry (FocusOutSteps), group (Focus)
@@ -39064,13 +39055,13 @@ msgstr "Presežna količina prečesavanja samodejnega fokusiranja."
 
 #. i18n: ectx: whatsthis, entry (FocusOverscanDelay), group (Focus)
 #: kstars.kcfg:2445
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Delay between outward and inward movements of an AF Overscan. For most "
 "focusers set 0s."
 msgstr ""
-"Zamik med premiki AF Overscan navzven in navznoter. Za večino fokuserjev "
-"nastavite 0 s."
+"Zamik med premiki prekritja avtofokusa navzven in navznoter. Za večino "
+"fokuserjev nastavite 0 s."
 
 #. i18n: ectx: whatsthis, entry (FocusMotionTimeout), group (Focus)
 #: kstars.kcfg:2453
@@ -39277,13 +39268,13 @@ msgstr "Možnosti profila za sekstrakcijo pri fokusiranju."
 #: kstars.kcfg:2583
 #, kde-format
 msgid "Internal or External Sextractor to compute subs HFR."
-msgstr "Notranji ali zunanji sextractor za izračun podmnožic HFR."
+msgstr "Notranji ali zunanji sextractor za izračun podmnožic PPT."
 
 #. i18n: ectx: label, entry (HFROptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2587
 #, kde-format
 msgid "Options Profile for Sextraction to compute subs HFR"
-msgstr "Možnosti profila za sekstraksijo za izračun podmnožic HFR"
+msgstr "Možnosti profila za sekstraksijo za izračun podmnožic PPT"
 
 #. i18n: ectx: label, entry (GuideSextractorType), group (StellarSolver)
 #: kstars.kcfg:2591
@@ -39840,7 +39831,7 @@ msgstr "Maksimalna dovoljena delta KKS med vodenjem pred prekinitvijo."
 #: kstars.kcfg:2902
 #, kde-format
 msgid "Maximum HFR permitted for SEP MultiStar guide star."
-msgstr "Maksimalna dovoljena vrednost HFR za sep MultiStar vodilno zvezdo."
+msgstr "Maksimalna dovoljena vrednost PPT za sep MultiStar vodilno zvezdo."
 
 #. i18n: ectx: label, entry (MaxMultistarReferenceStars), group (Guide)
 #: kstars.kcfg:2910
@@ -39955,7 +39946,7 @@ msgstr ""
 #: kstars.kcfg:2974
 #, kde-format
 msgid "Use Auto Dithering when guiding."
-msgstr "Uporabi samodejno stresanje med vodenjem"
+msgstr "Uporabi samodejno stresanje med vodenjem."
 
 #. i18n: ectx: label, entry (DitherNoGuiding), group (Guide)
 #: kstars.kcfg:2978
@@ -39991,7 +39982,7 @@ msgstr "Omogoči samodejno vodenje (jug) v osi DEC."
 #: kstars.kcfg:2998
 #, kde-format
 msgid "Enable East autoguiding in the RA axis."
-msgstr "Omogoči vzhodno samodejno vodenje v osi RA"
+msgstr "Omogoči vzhodno samodejno vodenje v osi RA."
 
 #. i18n: ectx: label, entry (WestRAGuideEnabled), group (Guide)
 #: kstars.kcfg:3002
@@ -40498,7 +40489,7 @@ msgstr "Nadomestni imenik za iskanje slikovnih datotek za analizo."
 #: kstars.kcfg:3369
 #, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
-msgstr "Prikaži HFR na grafu analize statistike."
+msgstr "Prikaži PPT na grafu analize statistike."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
 #: kstars.kcfg:3373
@@ -40699,7 +40690,7 @@ msgstr "Uporabi bilinearno interpolacijo pri upodabljanju slik HiPS?"
 #: kstars.kcfg:3495
 #, kde-format
 msgid "Show HiPS grid on the sky map."
-msgstr "Prikaži mrežo HiPS na zvezdni karti?"
+msgstr "Prikaži mrežo HiPS na zvezdni karti."
 
 #. i18n: ectx: label, entry (HIPSPanning), group (HIPS)
 #: kstars.kcfg:3499
@@ -70647,7 +70638,7 @@ msgid ""
 msgstr ""
 "Izberite to možnost za pokončni pogled na zemljevid neba, kjer je sever (v "
 "načinu ekvatorialnih koordinat) ali zenit (v načinu horizontalnih koordinat) "
-"navpično navzgor. To bi bila naravna izbira za iskalo s pokončno sliko ali "
+"navpično navzgor. To bi bila naravna izbira za spektiv s pokončno sliko ali "
 "pogled s prostimi očmi."
 
 #: kstarsinit.cpp:753
@@ -70659,9 +70650,9 @@ msgid ""
 "down. This would be the natural choice for an inverted image finder scope, "
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
-"Izberite to možnost za obrnjen pogled na zemljevid neba, kjer je sever (v "
+"Izberite to možnost za obrnjen pogled na zvezdno karto, kjer je sever (v "
 "načinu ekvatorialnih koordinat) ali zenit (v načinu horizontalnih koordinat) "
-"navpično navzdol. To bi bila naravna izbira za iskalo z obrnjeno sliko, "
+"navpično navzdol. To bi bila naravna izbira za spektiv z obrnjeno sliko, "
 "refraktor/cassegrain brez erektorske prizme ali Dobsonov teleskop."
 
 #: kstarsinit.cpp:758
@@ -72519,7 +72510,7 @@ msgstr "Razhroščevanje"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Dec (arcmin)"
-msgstr "Dekl. (loč. min.)"
+msgstr "Dekl. (ločne min.)"
 
 #: libindi_strings.cpp:101
 #, kde-kuit-format
@@ -73053,7 +73044,7 @@ msgstr "Fokuser ven"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Focuser Simulator"
-msgstr "Simulator fokuserja "
+msgstr "Simulator fokuserja"
 
 #: libindi_strings.cpp:192
 #, kde-kuit-format
@@ -73989,7 +73980,7 @@ msgstr "Položaj parkiranja"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Park Scope"
-msgstr "Parkiraj iskalo"
+msgstr "Parkiraj spektiv"
 
 #: libindi_strings.cpp:349
 #, kde-kuit-format
@@ -74157,13 +74148,13 @@ msgstr "Rekt. U:M:S"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "RA (arcmin)"
-msgstr "Rekt. (loč. min.)"
+msgstr "Rekt. (ločne min.)"
 
 #: libindi_strings.cpp:377
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "RA (arcsecs/s)"
-msgstr "RA (loč. sek/s)"
+msgstr "RA (ločne sek/s)"
 
 #: libindi_strings.cpp:378
 #, kde-kuit-format
@@ -75111,7 +75102,7 @@ msgstr "Y"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "app. to refracted"
-msgstr "Navid. v lomljene"
+msgstr "navid. v lomljene"
 
 #: libindi_strings.cpp:536
 #, kde-kuit-format
@@ -87100,7 +87091,7 @@ msgstr ""
 "Vnesite kot v stopinjah. Kot lahko izrazite s celim številom (»12«) ali s "
 "številom s plavajočo vejico (»12,33«). Vnesete lahko tudi vrednosti za "
 "stopinje, ločne minute in ločne sekunde, ki jih razmejite s presledkom ali z "
-"dvopičjem (»12 20«, »12 20,0«, »12:20«, »12:20:00«)."
+"dvopičjem (\"12:20\",  \"12:20:00\", \"12 20\", \"12 20 00.0\", itd.)."
 
 #: widgets/dmsbox.cpp:73
 #, kde-format
@@ -87129,7 +87120,7 @@ msgstr ""
 #, kde-format
 msgctxt "angular size in arcminutes"
 msgid "%1 x %2 arcmin"
-msgstr "%1 × %2 loč. min."
+msgstr "%1 × %2 ločnih min."
 
 #. i18n: ectx: property (text), widget (QToolButton, previousYear)
 #. i18n: ectx: property (text), widget (QToolButton, previousMonth)
@@ -87669,10 +87660,10 @@ msgid ""
 "xplanet.sourceforge.net/maps.php\">http://xplanet.sourceforge.net/maps.php</"
 "a> "
 msgstr ""
-"XPlanet za pravilno delovanje potrebuje karte. Veliko kart planetov ni "
-"priloženo. Nekaj ​​jih morate prenesti, da bi dobili celotno vsebino prednosti "
-"XPlaneta. To je dobro mesto za začetek: <a href=\"http://xplanet.sourceforge."
-"net/maps.php\">http://xplanet.sourceforge.net/maps.php</a>"
+"XPlanet za pravilno delovanje potrebuje karte.  Veliko kart planetov ni "
+"priloženo.  Nekaj ​​jih morate prenesti, da bi dobili celotno vsebino "
+"prednosti XPlaneta.  To je dobro mesto za začetek: <a href=\"http://xplanet."
+"sourceforge.net/maps.php\">http://xplanet.sourceforge.net/maps.php</a> "
 
 #. i18n: ectx: property (text), widget (QPushButton, openXPlanetMaps)
 #: xplanet/opsxplanet.ui:543

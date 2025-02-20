@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1703227 $
+# Version: $Revision: 1703418 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-19 01:55+0000\n"
+"POT-Creation-Date: 2025-02-20 01:53+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -17916,7 +17916,7 @@ msgstr "Płaska klatka"
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr "Przykryj teleskop, aby przechwycić ciemną klatkę."
 
-#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:672
+#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:676
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr "Wyparkowywanie zaślepki..."
@@ -17926,55 +17926,66 @@ msgstr "Wyparkowywanie zaślepki..."
 msgid "Parking dust cap..."
 msgstr "Parkowanie zaślepki..."
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
 #, kde-format
 msgid "Turn light box light on..."
 msgstr "Włącz światło w skrzynce świetlnej..."
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
-#: ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr "Wyłącz światło w skrzynce świetlnej..."
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:572
+#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:576
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr "Niepowodzenie przy parkowaniu montażu, przerywanie..."
 
-#: ekos/capture/sequencejobstate.cpp:525
+#: ekos/capture/sequencejobstate.cpp:507
+#, kde-format
+msgid "Unparking mount..."
+msgstr "Wyparkowywanie montażu..."
+
+#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/scheduler/schedulerprocess.cpp:1770
+#, kde-format
+msgid "Mount unparked."
+msgstr "Montaż wyparkowany."
+
+#: ekos/capture/sequencejobstate.cpp:529
 #, fuzzy, kde-format
 #| msgid "Mount slewing to wall position..."
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr "Obracanie montażu do położenia na ścianie..."
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr "Ukończono obracanie do położenia na ścianie, zatrzymaj śledzenie."
 
-#: ekos/capture/sequencejobstate.cpp:541
+#: ekos/capture/sequencejobstate.cpp:545
 #, fuzzy, kde-format
 #| msgid "Slew to wall position complete, stop tracking."
 msgid "Slew to wall position complete, tracking stopped."
 msgstr "Ukończono obracanie do położenia na ścianie, zatrzymaj śledzenie."
 
-#: ekos/capture/sequencejobstate.cpp:581
+#: ekos/capture/sequencejobstate.cpp:585
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr "Parkowanie montażu przed przechwytywaniem klatek do kalibracji..."
 
-#: ekos/capture/sequencejobstate.cpp:600
+#: ekos/capture/sequencejobstate.cpp:604
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr "Niepowodzenie przy parkowaniu kopuły, przerywanie..."
 
-#: ekos/capture/sequencejobstate.cpp:610
+#: ekos/capture/sequencejobstate.cpp:614
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "Parkowanie kopuły przed przechwytywaniem klatek do kalibracji..."
 
-#: ekos/capture/sequencejobstate.cpp:872
+#: ekos/capture/sequencejobstate.cpp:876
 #, kde-format
 msgid "Light box on."
 msgstr "Skrzynka świetlna jest włączona"
@@ -30093,11 +30104,6 @@ msgstr "Błąd wyparkowywania zaślepki."
 #, kde-format
 msgid "Mount parked."
 msgstr "Montaż zaparkowany."
-
-#: ekos/scheduler/schedulerprocess.cpp:1770
-#, kde-format
-msgid "Mount unparked."
-msgstr "Montaż wyparkowany."
 
 #: ekos/scheduler/schedulerprocess.cpp:1782
 #, kde-format
@@ -115664,9 +115670,6 @@ msgstr "Ustaw barwę tła."
 
 #~ msgid "Unparking mount in progress..."
 #~ msgstr "Wyparkowywanie montażu w trakcie..."
-
-#~ msgid "Unparking mount..."
-#~ msgstr "Wyparkowywanie montażu..."
 
 #~ msgid "Add observation job to list."
 #~ msgstr "Dodaj obserwację do listy zadań."
