@@ -868,7 +868,7 @@ bool Focus::setCamera(ISD::Camera *device)
     }
 
     auto isConnected = m_Camera && m_Camera->isConnected();
-    focuserGroup->setEnabled(isConnected);
+    focuserGroup->setEnabled(isConnected || (m_Focuser && m_Focuser->isConnected()));
     ccdGroup->setEnabled(isConnected);
     toolsGroup->setEnabled(isConnected);
 
@@ -4832,6 +4832,8 @@ void Focus::resetButtons()
     captureB->setEnabled(enableCaptureButtons);
     resetFrameB->setEnabled(enableCaptureButtons);
     startLoopB->setEnabled(enableCaptureButtons);
+    startFocusB->setEnabled(enableCaptureButtons);
+
 
     if (cameraConnected)
     {
@@ -4848,7 +4850,6 @@ void Focus::resetButtons()
     {
         focusOutB->setEnabled(true);
         focusInB->setEnabled(true);
-        startFocusB->setEnabled(cameraConnected && m_FocusType == FOCUS_AUTO);
         startAbInsB->setEnabled(canAbInsStart());
         stopFocusB->setEnabled(!enableCaptureButtons);
         startGotoB->setEnabled(canAbsMove);
@@ -4859,12 +4860,11 @@ void Focus::resetButtons()
     {
         focusOutB->setEnabled(false);
         focusInB->setEnabled(false);
-        startFocusB->setEnabled(false);
         startAbInsB->setEnabled(false);
         stopFocusB->setEnabled(false);
         startGotoB->setEnabled(false);
         stopGotoB->setEnabled(false);
-        focuserGroup->setEnabled(false);
+        focuserGroup->setEnabled(cameraConnected);
     }
 }
 
@@ -7742,6 +7742,7 @@ void Focus::refreshOpticalTrain()
     }
 
     opticalTrainCombo->blockSignals(false);
+    resetButtons();
 }
 
 // Function to set member variables based on Optical Train's attached scope
