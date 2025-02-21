@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-19 01:55+0000\n"
+"POT-Creation-Date: 2025-02-20 01:53+0000\n"
 "PO-Revision-Date: 2023-07-29 12:39+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -16475,7 +16475,7 @@ msgstr ""
 msgid "Cover the telescope in order to take a dark exposure."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:672
+#: ekos/capture/sequencejobstate.cpp:468 ekos/capture/sequencejobstate.cpp:676
 #, kde-format
 msgid "Unparking dust cap..."
 msgstr ""
@@ -16485,53 +16485,64 @@ msgstr ""
 msgid "Parking dust cap..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
 #, kde-format
 msgid "Turn light box light on..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:554
-#: ekos/capture/sequencejobstate.cpp:658
+#: ekos/capture/sequencejobstate.cpp:480 ekos/capture/sequencejobstate.cpp:558
+#: ekos/capture/sequencejobstate.cpp:662
 #, kde-format
 msgid "Turn light box light off..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:572
+#: ekos/capture/sequencejobstate.cpp:498 ekos/capture/sequencejobstate.cpp:576
 #, kde-format
 msgid "Parking mount failed, aborting..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:525
+#: ekos/capture/sequencejobstate.cpp:507
+#, kde-format
+msgid "Unparking mount..."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:516
+#: ekos/scheduler/schedulerprocess.cpp:1770
+#, kde-format
+msgid "Mount unparked."
+msgstr ""
+
+#: ekos/capture/sequencejobstate.cpp:529
 #, kde-format
 msgid "Mount slewing to wall position (az =%1 alt =%2)"
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:537
+#: ekos/capture/sequencejobstate.cpp:541
 #, kde-format
 msgid "Slew to wall position complete, stop tracking."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:541
+#: ekos/capture/sequencejobstate.cpp:545
 #, kde-format
 msgid "Slew to wall position complete, tracking stopped."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:581
+#: ekos/capture/sequencejobstate.cpp:585
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:600
+#: ekos/capture/sequencejobstate.cpp:604
 #, kde-format
 msgid "Parking dome failed, aborting..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:610
+#: ekos/capture/sequencejobstate.cpp:614
 #, kde-format
 msgid "Parking dome prior to calibration frames capture..."
 msgstr ""
 
-#: ekos/capture/sequencejobstate.cpp:872
+#: ekos/capture/sequencejobstate.cpp:876
 #, kde-format
 msgid "Light box on."
 msgstr ""
@@ -27026,11 +27037,6 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1755
 #, kde-format
 msgid "Mount parked."
-msgstr ""
-
-#: ekos/scheduler/schedulerprocess.cpp:1770
-#, kde-format
-msgid "Mount unparked."
 msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:1782

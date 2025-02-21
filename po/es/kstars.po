@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-20 01:53+0000\n"
-"PO-Revision-Date: 2025-02-20 00:42+0100\n"
+"PO-Revision-Date: 2025-02-20 23:29+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -17866,10 +17866,9 @@ msgid "Parking mount failed, aborting..."
 msgstr "Ha fallado el aparcamiento de la montura. Interrumpiendo…"
 
 #: ekos/capture/sequencejobstate.cpp:507
-#, fuzzy, kde-format
-#| msgid "Unparking dome..."
+#, kde-format
 msgid "Unparking mount..."
-msgstr "Desaparcando la cúpula…"
+msgstr "Desaparcando la montura…"
 
 #: ekos/capture/sequencejobstate.cpp:516
 #: ekos/scheduler/schedulerprocess.cpp:1770

@@ -12,7 +12,9 @@
 #
 # Seznam kratic in terminov:
 # Auto debayer
+# AF - auto focus
 # AF overscan
+# AFOV - Angular Field of View  NVP         https://en.wikipedia.org/wiki/Field_of_view
 # CFZ - critical focus zone     OKO - okolje kritičnega ostrenja
 # CFZ Shuffle                   Premešani OKO
 # Donut Buster                  Izničevalec obročev
@@ -20,7 +22,7 @@
 # FOV - field of view           VP - vidno polje
 # GPG - Gaussian Process Guider
 # GSC - Guide Star Catalog
-# FWHM - Full Width Half Maximum
+# FWHM - Full Width Half Maximum  PŠPM - Polna širina polovice maksimuma
 # HFR Adj - Adjusted Half Flux Radius
 # optical train - optika
 # PSF - point spread function
@@ -37,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-20 01:53+0000\n"
-"PO-Revision-Date: 2025-02-19 16:48+0100\n"
+"PO-Revision-Date: 2025-02-20 11:05+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -12371,21 +12373,18 @@ msgid "Last AF Alt (°Alt)"
 msgstr "Zadnja višina SO (°)"
 
 #: ekos/auxiliary/filtermanager.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "The altitude of the last AF solution. Updated automatically by the "
-#| "autofocus process."
+#, kde-format
 msgid ""
 "The datetime of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"Višina zadnje rešitve SO. Samodejno posodobil postopek samodejnega ostrenja."
+"Datum in čas zadnje rešitve SO. Samodejno posodobljen v postopku samodejnega "
+"fokusiranja."
 
 #: ekos/auxiliary/filtermanager.cpp:148
-#, fuzzy, kde-format
-#| msgid "Last AF Solution"
+#, kde-format
 msgid "Last AF Datetime"
-msgstr "Zadnja rešitev SO"
+msgstr "Datum in čas zadnjega SO"
 
 #: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
@@ -17654,10 +17653,9 @@ msgid "Parking mount failed, aborting..."
 msgstr "Parkiranje stojala ni uspelo. Prekinjanje…"
 
 #: ekos/capture/sequencejobstate.cpp:507
-#, fuzzy, kde-format
-#| msgid "Unparking dome..."
+#, kde-format
 msgid "Unparking mount..."
-msgstr "Odparkiranje kupole…"
+msgstr "Odparkiranje montaže..."
 
 #: ekos/capture/sequencejobstate.cpp:516
 #: ekos/scheduler/schedulerprocess.cpp:1770
@@ -18431,7 +18429,7 @@ msgstr "Prilagodljivo fokusiranje ne more premakniti fokuserja"
 #, kde-format
 msgid "Adaptive start point, last AF solution outside Max Travel, ignoring"
 msgstr ""
-"Prilagodljiva začetna točka, zadnja rešitev AF izven najdaljše poti, prezrto"
+"Prilagodljiva začetna točka, zadnja rešitev SO izven najdaljše poti, prezrto"
 
 #: ekos/focus/adaptivefocus.cpp:377
 #, kde-format
@@ -18441,7 +18439,7 @@ msgstr "Prilagodljiva začetna točka, vir temperature ni na voljo"
 #: ekos/focus/adaptivefocus.cpp:379
 #, kde-format
 msgid "Adaptive start point, no temperature for last AF solution"
-msgstr "Prilagodljiva začetna točka, brez temperature za zadnjo rešitev AF"
+msgstr "Prilagodljiva začetna točka, brez temperature za zadnjo rešitev SO"
 
 #: ekos/focus/adaptivefocus.cpp:386
 #, kde-format
@@ -18451,7 +18449,7 @@ msgstr "Prilagodljiva začetna točka, zelo velika delta temperature, prezrto"
 #: ekos/focus/adaptivefocus.cpp:398
 #, kde-format
 msgid "Adaptive start point, no alt recorded for last AF solution"
-msgstr "Prilagodljiva začetna točka, ni zabeležene višine za zadnjo rešitev AF"
+msgstr "Prilagodljiva začetna točka, ni zabeležene višine za zadnjo rešitev SO"
 
 #: ekos/focus/adaptivefocus.cpp:400
 #, kde-format
@@ -18920,7 +18918,7 @@ msgstr "Zavračanje zahteve za začetek samodejnega fokusiranja - %1 v teku."
 #: ekos/focus/focus.cpp:1090
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
-msgstr ""
+msgstr "Zahtevek za samodejni fokus [%1] optimiziran navzven."
 
 #: ekos/focus/focus.cpp:1247
 #, kde-format
@@ -19469,32 +19467,29 @@ msgstr "Ustavi gibanje fokuserja"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:407
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Fokusiranje navzven.</p><p>Za teleskope Schmidt–"
-"Cassegrain je to običajno v smeri urinega kazalca.</p></body></html>"
+"<html> <head/> <body> <p>Fokusirano navzven. Uporabite tipki Shift in Ctrl "
+"za pospešeno gibanje. Faktorji so konfigurirani v mehanskih možnostih "
+"fokuserja.</p> <p>Za teleskope Schmidt–Cassegrain je to ponavadi v smeri "
+"urinega kazalca.</p> </body> </html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:439
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CCW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Ostrenje navznoter.</p><p>Za teleskope Schmidt–"
-"Cassegrain je to običajno v nasprotni smeri urinega kazalca.</p></body></"
-"html>"
+"<html> <head/> <body> <p>Fokusirano navznoter. Uporabite tipki Shift in Ctrl "
+"za pospešeno gibanje. Faktorji so konfigurirani v mehanskih možnostih "
+"fokuserja.</p> <p>Za teleskope Schmidt–Cassegrain je to ponavadi v nasprotni "
+"smeri urinega kazalca.</p> </body> </html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
 #: ekos/focus/focus.ui:471
@@ -19617,7 +19612,7 @@ msgstr ""
 #: ekos/focus/focus.ui:935
 #, kde-format
 msgid "Force AF"
-msgstr "Vsili samodejno fokusiranje"
+msgstr "Vsili SO"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/focus/focus.ui:1001
@@ -19752,7 +19747,7 @@ msgstr "Prekritje"
 #: ekos/focus/focusadvisor.cpp:98
 #, kde-format
 msgid "AF Overscan"
-msgstr "Prekritje avtofokusa"
+msgstr "Prekritje SO"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: ekos/focus/focusadvisor.cpp:101 fitsviewer/catalogobjecttypefilter.ui:77
@@ -20179,7 +20174,7 @@ msgstr ""
 #: ekos/focus/opsfocusmechanics.ui:37
 #, kde-format
 msgid "AF Overscan:"
-msgstr "Prekritje avtofokusa:"
+msgstr "Prekritje SO:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusOutSteps)
 #: ekos/focus/opsfocusmechanics.ui:56
@@ -20340,7 +20335,7 @@ msgstr ""
 "v polju zračnost gonilnika.Nastavite na 0, da onemogočite. </p><p>Če je "
 "nastavljeno, se prekritje avtofokusa uporabi za vse premike fokuserja, ki "
 "jih sproži modul Focus.</p><p>Običajno je nastavljen bodisi Zračnost "
-"fokuserja ali Prekritje avtofokusa.</p></body></html>"
+"fokuserja ali Prekritje SO.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: ekos/focus/opsfocusmechanics.ui:251
@@ -20427,7 +20422,7 @@ msgstr "Število korakov:"
 #: ekos/focus/opsfocusmechanics.ui:469
 #, kde-format
 msgid "AF Overscan Delay:"
-msgstr "Zamik prekritja avtofokusa:"
+msgstr "Zamik prekritja SO:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusNumSteps)
 #: ekos/focus/opsfocusmechanics.ui:485
@@ -20454,35 +20449,30 @@ msgstr ""
 "<html><head/><body><p>Za fokuserje, ki zaznavajo zračnost, količina "
 "zračnosti, ki se uporabi pri obračanju smeri gibanja. Nastavite na 0, če "
 "želite onemogočiti.</p><p>Običajno je nastavljena Zračnost fokuserja ali "
-"Prekritje avtofokusa.</p><p>To polje nastavi polje Indi zračnost fokuserja "
-"in ga lahko nastavite tukaj ali na nadzorni plošči Indi.</p></body></html>"
+"Prekritje SO.</p><p>To polje nastavi polje Indi zračnost fokuserja in ga "
+"lahko nastavite tukaj ali na nadzorni plošči Indi.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
 #: ekos/focus/opsfocusmechanics.ui:514
-#, fuzzy, kde-format
-#| msgid "Red Shift:"
+#, kde-format
 msgid "Speedup (Shift)"
-msgstr "Rdeči premik:"
+msgstr "Pospešeno gibanje (Shift)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
 #: ekos/focus/opsfocusmechanics.ui:521
-#, fuzzy, kde-format
-#| msgid "Speedup options"
+#, kde-format
 msgid "Speedup (Ctrl)"
-msgstr "Možnosti pospeševanja"
+msgstr "Pospešeno gibanje (Ctrl)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
 #: ekos/focus/opsfocusmechanics.ui:528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the shift key "
 "is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Število zvezd, najdenih v zadnjem posnetku.</p></"
-"body></html>"
+"<html><head/><body><p>Množitelj za ročne gibe fokusa, ko je pritisnjena "
+"tipka Shift.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
@@ -20497,16 +20487,13 @@ msgstr " x"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupCtrl)
 #: ekos/focus/opsfocusmechanics.ui:547
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the control "
 "key is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Število zvezd, najdenih v zadnjem posnetku.</p></"
-"body></html>"
+"<html><head/><body> <p>Množitelj za ročne gibe fokusa, ko je pritisnjena "
+"tipka control.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -21388,7 +21375,7 @@ msgstr "Postavi vodenje v pripravljenost"
 #: ekos/focus/opsfocussettings.ui:248
 #, kde-format
 msgid "Optimize AF:"
-msgstr ""
+msgstr "Optimiziraj SO:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOptimize)
 #: ekos/focus/opsfocussettings.ui:261
@@ -21405,6 +21392,16 @@ msgid ""
 "experimental feature enabled for Linear and Linear 1 Pass only.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Ustvari &quot;območje optimizacije&quot; od toliko "
+"sekund. Ko drug proces zahteva samodejni zagon samodejnega fokusiranja, npr. "
+"razporejevalnik ali zajemalnik, se izvede preverjanje časovnega žiga "
+"zadnjega uspešnega samodejnega fokusiranja za ta filter. Če smo v območju "
+"optimizacije,potem se samodejno fokusiranje ne zažene; če smo zunaj območja, "
+"se samodejno fokusiranje izvaja kot običajno.</p><p>Upoštevajte, da so "
+"odmiki filtra in nastavitve prilagodljivega fokusiranja vednospoštovani.</"
+"p><p>Nastavite na nič, da onemogočite to funkcijo.</p><p>OPOMBA: ročnozačeti "
+"zagoni bodo vedno izvedeni.</p><p>To je trenutno poskusna funkcija je "
+"omogočena samo za linearni in linearni 1 prehod.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:295
@@ -75897,16 +75894,15 @@ msgstr "Temp. fokusa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: oal/equipmentwriter.ui:1206
-#, fuzzy, kde-format
-#| msgid "Focus alt:"
+#, kde-format
 msgid "Focus DT:"
-msgstr "Višina fokuserja:"
+msgstr "DT fokusa:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
 #: oal/equipmentwriter.ui:1250
 #, kde-format
 msgid "yyyy-MM-dd hh:mm:ss"
-msgstr ""
+msgstr "yyyy-MM-dd hh:mm:ss"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1284
