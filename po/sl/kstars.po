@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-20 01:53+0000\n"
-"PO-Revision-Date: 2025-02-20 11:05+0100\n"
+"PO-Revision-Date: 2025-02-21 11:17+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -70236,7 +70236,7 @@ msgstr "Višina glede na čas"
 #: kstarsinit.cpp:463
 #, kde-format
 msgid "What's up Tonight"
-msgstr "Kaj je danes na nebu"
+msgstr "Kaj je nocoj na nebu"
 
 #: kstarsinit.cpp:472
 #, kde-format
@@ -86610,7 +86610,7 @@ msgstr "Velikost: %1"
 #, kde-format
 msgctxt "@title:window"
 msgid "What's up Tonight"
-msgstr "Kaj je danes na nebu"
+msgstr "Kaj je nocoj na nebu"
 
 #: tools/wutdialog.cpp:70 tools/wutdialog.cpp:650
 #, kde-format

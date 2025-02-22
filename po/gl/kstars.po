@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-20 01:53+0000\n"
-"PO-Revision-Date: 2025-02-19 07:19+0100\n"
+"PO-Revision-Date: 2025-02-21 07:22+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -5722,7 +5722,7 @@ msgid ""
 "SCTs / refractors, irrespective of the actual mounting."
 msgstr ""
 "**Nota:** Escolla o tipo de montura «Altazimutal» ao observar visualmente "
-"mediante SCT ou reflectores, independentemente da montura que use."
+"mediante SCT ou reflectores, independentemente da montaxe que use."
 
 #. i18n: ectx: property (text), widget (QRadioButton, correctViewType)
 #: dialogs/newview.ui:108
@@ -6208,7 +6208,7 @@ msgstr "Esgotouse o tempo límite do resolvente."
 #: ekos/align/align.cpp:844
 #, kde-format
 msgid "Mount does not support syncing."
-msgstr "A montaxe non permite facer sincronizacións."
+msgstr "A montura non permite facer sincronizacións."
 
 #: ekos/align/align.cpp:1049
 #, kde-format
@@ -6782,7 +6782,7 @@ msgstr "Capturar e resolver"
 #, kde-format
 msgid "Load a FITS image and solve. Slew mount to image central coordinates."
 msgstr ""
-"Cargar unha imaxe FITS e resolver. Mover a montaxe ás coordenadas centrais "
+"Cargar unha imaxe FITS e resolver. Mover a montura ás coordenadas centrais "
 "da imaxe."
 
 #. i18n: ectx: property (text), widget (QPushButton, loadSlewB)
@@ -7428,7 +7428,7 @@ msgstr "Baleirar os puntos de aliñamento"
 #: ekos/align/mountmodel.cpp:967
 #, kde-format
 msgid "The Mount Model Tool is Reset."
-msgstr "Restabeleceuse a ferramenta de modelo de montaxe."
+msgstr "Restabeleceuse a ferramenta de modelo de montura."
 
 #: ekos/align/mountmodel.cpp:1004
 #, kde-format
@@ -7443,8 +7443,8 @@ msgid ""
 "report the pointing model errors.  Do you wish to continue?"
 msgstr ""
 "No módulo de aliñamento selecciónase «Nada» para a acción de resolvente. "
-"Isto significa que a ferramenta de modelo de montaxe non sincronizará ou "
-"aliñará a montaxe senón que só informará dos erros de modelo de apuntamento. "
+"Isto significa que a ferramenta de modelo de montura non sincronizará ou "
+"aliñará a montura senón que só informará dos erros de modelo de apuntamento. "
 "Quere continuar?"
 
 #: ekos/align/mountmodel.cpp:1014
@@ -7455,17 +7455,17 @@ msgstr "Só informar do modelo de apuntamento?"
 #: ekos/align/mountmodel.cpp:1031
 #, kde-format
 msgid "The Mount Model Tool is Starting."
-msgstr "Está iniciándose a ferramenta de modelo de montaxe."
+msgstr "Está iniciándose a ferramenta de modelo de montura."
 
 #: ekos/align/mountmodel.cpp:1040
 #, kde-format
 msgid "The Mount Model Tool is Paused."
-msgstr "Detívose a ferramenta de modelo de montaxe."
+msgstr "Detívose a ferramenta de modelo de montura."
 
 #: ekos/align/mountmodel.cpp:1099
 #, kde-format
 msgid "The Mount Model Tool is Finished."
-msgstr "Rematou a ferramenta de modelo de montaxe."
+msgstr "Rematou a ferramenta de modelo de montura."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, mountModel)
 #. i18n: ectx: property (windowTitle), widget (QDialog, OpsAstrometryIndexFiles)
@@ -9861,7 +9861,7 @@ msgstr "Completouse a segunda rotación da montura."
 #, kde-format
 msgid "Mount aborted. Reverse RA axis direction and try again."
 msgstr ""
-"Interrompeuse a montaxe. Inverta a dirección do eixe de α e inténteo de novo."
+"Interrompeuse a montura. Inverta a dirección do eixe de α e inténteo de novo."
 
 #: ekos/align/polaralignmentassistant.cpp:768
 #, kde-format
@@ -9885,7 +9885,7 @@ msgstr "Isto podería facer que o telescopio cruce o meridiano."
 #: ekos/align/polaralignmentassistant.cpp:863
 #, kde-format
 msgid "Parking the mount..."
-msgstr "Estacionando a montaxe…"
+msgstr "Estacionando a montura…"
 
 #: ekos/align/polaralignmentassistant.cpp:906
 #, kde-format
@@ -10566,7 +10566,7 @@ msgstr "Voltear"
 #: ekos/auxiliary/opslogs.ui:413 ekos/manager.cpp:2345 ekos/manager.ui:778
 #, kde-format
 msgid "Mount"
-msgstr "Montaxe"
+msgstr "Montura"
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
 #: ekos/analyze/analyze.cpp:2284 ekos/capture/capturecountswidget.ui:473
@@ -10913,7 +10913,7 @@ msgstr "Guía:"
 #: ekos/profileeditor.ui:658
 #, kde-format
 msgid "Mount:"
-msgstr "Montaxe:"
+msgstr "Montura:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: ekos/analyze/analyze.ui:532
@@ -12429,22 +12429,18 @@ msgid "Last AF Alt (°Alt)"
 msgstr "Última altitude (°Alt) de enfoque automático"
 
 #: ekos/auxiliary/filtermanager.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "The altitude of the last AF solution. Updated automatically by the "
-#| "autofocus process."
+#, kde-format
 msgid ""
 "The datetime of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"A altitude da última solución de enfoque automático. O proceso de enfoque "
+"A data e hora da última solución de enfoque automático. O proceso de enfoque "
 "automático actualízaa automaticamente."
 
 #: ekos/auxiliary/filtermanager.cpp:148
-#, fuzzy, kde-format
-#| msgid "Last AF Solution"
+#, kde-format
 msgid "Last AF Datetime"
-msgstr "Última solución de enfoque automático"
+msgstr "Última data e hora de enfoque automático"
 
 #: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
@@ -12927,7 +12923,7 @@ msgstr "Controladores:"
 #: ekos/auxiliary/opslogs.ui:410
 #, kde-format
 msgid "Log Ekos Mount module activity"
-msgstr "Rexistrar a actividade do módulo de montaxe de Ekos."
+msgstr "Rexistrar a actividade do módulo de montura de Ekos."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_showINDIMessages)
 #: ekos/auxiliary/opslogs.ui:428 indi/opsindi.ui:431
@@ -14431,7 +14427,7 @@ msgstr "Parede de destino."
 #: ekos/capture/calibrationoptions.ui:103 ekos/scheduler/scheduler.ui:2246
 #, kde-format
 msgid "Park Mount"
-msgstr "Estacionar a montaxe"
+msgstr "Estacionar a montura"
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationParkDome)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertDomeCB)
@@ -17791,13 +17787,13 @@ msgstr "O estacionamento da montura fallou, interrompendo…"
 #: ekos/capture/sequencejobstate.cpp:507
 #, kde-format
 msgid "Unparking mount..."
-msgstr "Desestacionando a montaxe…"
+msgstr "Desestacionando a montura…"
 
 #: ekos/capture/sequencejobstate.cpp:516
 #: ekos/scheduler/schedulerprocess.cpp:1770
 #, kde-format
 msgid "Mount unparked."
-msgstr "Desestacionouse a montaxe."
+msgstr "Desestacionouse a montura."
 
 #: ekos/capture/sequencejobstate.cpp:529
 #, kde-format
@@ -17817,7 +17813,7 @@ msgstr "Completouse a rotación á posición da parede, detívose o seguimento."
 #: ekos/capture/sequencejobstate.cpp:585
 #, kde-format
 msgid "Parking mount prior to calibration frames capture..."
-msgstr "Estacionando a montaxe antes de calibrar a captura de fotogramas…"
+msgstr "Estacionando a montura antes de calibrar a captura de fotogramas…"
 
 #: ekos/capture/sequencejobstate.cpp:604
 #, kde-format
@@ -19076,7 +19072,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:1090
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
-msgstr ""
+msgstr "Retirouse a solicitude de enfoque automático (%1) por optimización."
 
 #: ekos/focus/focus.cpp:1247
 #, kde-format
@@ -19631,31 +19627,27 @@ msgstr "Deter o movemento do enfocador"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:407
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Afastar o enfoque. </p><p>Para os SCT isto adoita ser "
-"CW.</p></body></html>"
+"<html><head/><body><p>Afastar o enfoque. Use as teclas Maiús e Ctrl para "
+"acelerar o movemento. Os factores están configurados nas opcións mecánicas "
+"do enfocador.</p><p>Para os SCT isto adoita ser CW.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:439
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CCW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Achegar o enfoque. </p><p>Para os SCT isto adoita ser "
-"AH.</p></body></html>"
+"<html><head/><body><p>Achegar o enfoque. Use as teclas Maiús e Ctrl para "
+"acelerar o movemento. Os factores están configurados nas opcións mecánicas "
+"do enfocador.</p><p>Para os SCT isto adoita ser AH.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
 #: ekos/focus/focus.ui:471
@@ -20630,30 +20622,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
 #: ekos/focus/opsfocusmechanics.ui:514
-#, fuzzy, kde-format
-#| msgid "Red Shift:"
+#, kde-format
 msgid "Speedup (Shift)"
-msgstr "Desprazamento vermello:"
+msgstr "Aceleración (Maiús)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
 #: ekos/focus/opsfocusmechanics.ui:521
-#, fuzzy, kde-format
-#| msgid "Speedup options"
+#, kde-format
 msgid "Speedup (Ctrl)"
-msgstr "Opcións de aceleración"
+msgstr "Aceleración (Ctrl)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
 #: ekos/focus/opsfocusmechanics.ui:528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the shift key "
 "is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Número de estrelas atopadas no último fotograma.</p></"
-"body></html>"
+"<html><head/><body><p>Multiplicador dos movementos manuais de enfoque cando "
+"a tecla Maiús está premida.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
@@ -20668,16 +20655,13 @@ msgstr " ×"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupCtrl)
 #: ekos/focus/opsfocusmechanics.ui:547
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the control "
 "key is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Número de estrelas atopadas no último fotograma.</p></"
-"body></html>"
+"<html><head/><body><p>Multiplicador dos movementos manuais de enfoque cando "
+"a tecla Ctrl está premida.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -21563,7 +21547,7 @@ msgstr "Suspender a guía."
 #: ekos/focus/opsfocussettings.ui:248
 #, kde-format
 msgid "Optimize AF:"
-msgstr ""
+msgstr "Optimizar o enfoque automático:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOptimize)
 #: ekos/focus/opsfocussettings.ui:261
@@ -21580,6 +21564,18 @@ msgid ""
 "experimental feature enabled for Linear and Linear 1 Pass only.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Crear unha «zona de optimización» con esta cantidade "
+"de segundos. Cando outro proceso solicita unha execución automatizada do "
+"enfoque automático, p. ex. o planificador ou a captura, realízase unha "
+"comprobación da data e hora do último enfoque automático do filtro "
+"correspondente. En caso de estar dentro da zona de optimización, non se "
+"executa o enfoque automático; se está fóra da zona, o enfoque automático "
+"execútase como normalmente.</p><p>Teña en conta que sempre se respectan os "
+"desprazamentos do filtro e as opcións de enfoque adaptativo.</p><p>Defínase "
+"co valor 0 para desactivar a funcionalidade.</p><p>Nota: as execucións "
+"iniciadas manualmente sempre se realizan.</p><p>Actualmente esta "
+"funcionalidade é experimental, e só está activada para «Linear» e «1 pasada "
+"linear».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:295
@@ -25126,7 +25122,7 @@ msgstr "Non foi posíbel baleirar o modelo de aliñamento."
 #: ekos/mount/mount.cpp:1272 ekos/scheduler/schedulerprocess.cpp:4213
 #, kde-format
 msgid "Mount already parked."
-msgstr "A montaxe xa está estacionada."
+msgstr "A montura xa está estacionada."
 
 #: ekos/mount/mount.cpp:1297
 #, kde-format
@@ -28556,7 +28552,7 @@ msgid ""
 msgstr ""
 "Seleccionar un ficheiro FITS opcional para o aliñamento. Ao usar FITS, "
 "indique o obxecto ou as coordenadas estimadas que se usan para rotar a "
-"montaxe."
+"montura."
 
 #. i18n: ectx: property (text), widget (QLabel, FITSLabel)
 #: ekos/scheduler/scheduler.ui:150
@@ -29185,7 +29181,7 @@ msgstr "Estacionar o telescopio na posición inicial."
 #: ekos/scheduler/scheduler.ui:2055
 #, kde-format
 msgid "UnPark Mount"
-msgstr "Desestacionar a montaxe"
+msgstr "Desestacionar a montura"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerOpenDustCover)
 #: ekos/scheduler/scheduler.ui:2071
@@ -29421,7 +29417,7 @@ msgid ""
 "ready."
 msgstr ""
 "O traballo «%1» está programado para executarse ás %2. Estacionando a "
-"montaxe ata que a tarefa estea lista."
+"montura ata que a tarefa estea lista."
 
 #: ekos/scheduler/schedulerprocess.cpp:699
 #, kde-format
@@ -29679,7 +29675,7 @@ msgstr "Erro ao desestacionar a cuberta."
 #: ekos/scheduler/schedulerprocess.cpp:1755
 #, kde-format
 msgid "Mount parked."
-msgstr "Estacionouse a montaxe."
+msgstr "Estacionouse a montura."
 
 #: ekos/scheduler/schedulerprocess.cpp:1782
 #, kde-format
@@ -29717,7 +29713,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1850
 #, kde-format
 msgid "Mount unparking error."
-msgstr "Erro ao desestacionar a montaxe."
+msgstr "Erro ao desestacionar a montura."
 
 #: ekos/scheduler/schedulerprocess.cpp:1829
 #, kde-format
@@ -29732,7 +29728,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1844
 #, kde-format
 msgid "Mount parking error."
-msgstr "Erro ao estacionar a montaxe."
+msgstr "Erro ao estacionar a montura."
 
 #: ekos/scheduler/schedulerprocess.cpp:1901
 #, kde-format
@@ -30179,7 +30175,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:4246
 #, kde-format
 msgid "Parking mount in progress..."
-msgstr "Estacionando a montaxe…"
+msgstr "Estacionando a montura…"
 
 #: ekos/scheduler/schedulerprocess.cpp:4260
 #, kde-format
@@ -30190,7 +30186,7 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:4286
 #, kde-format
 msgid "Mount already unparked."
-msgstr "A montaxe xa está desestacionada."
+msgstr "A montura xa está desestacionada."
 
 #: ekos/scheduler/schedulerprocess.cpp:4384
 #, kde-format
@@ -32907,27 +32903,27 @@ msgstr "Mensaxe do servidor de INDI"
 #: indi/indimount.cpp:246
 #, kde-format
 msgid "Mount is slewing to target location"
-msgstr "A montaxe está movéndose ao lugar de destino."
+msgstr "A montura está movéndose ao lugar de destino."
 
 #: indi/indimount.cpp:261
 #, kde-format
 msgid "Mount arrived at target location"
-msgstr "A montaxe chegou ao lugar de destino."
+msgstr "A montura chegou ao lugar de destino."
 
 #: indi/indimount.cpp:334
 #, kde-format
 msgid "Mount motion was aborted"
-msgstr "Interrompeuse o movemento da montaxe."
+msgstr "Interrompeuse o movemento da montura."
 
 #: indi/indimount.cpp:455
 #, kde-format
 msgid "Mount parking failed"
-msgstr "O estacionamento da montaxe fallou."
+msgstr "O estacionamento da montura fallou."
 
 #: indi/indimount.cpp:461
 #, kde-format
 msgid "Mount parking is in progress"
-msgstr "Estase estacionando a montaxe."
+msgstr "Estase estacionando a montura."
 
 #: indi/indimount.cpp:469
 #, kde-format
@@ -32937,7 +32933,7 @@ msgstr "O desestacionamento da montura está en progreso"
 #: indi/indimount.cpp:476
 #, kde-format
 msgid "Mount parked"
-msgstr "Completouse o estacionamento da montaxe."
+msgstr "Completouse o estacionamento da montura."
 
 #: indi/indimount.cpp:495
 #, kde-format
@@ -37940,7 +37936,7 @@ msgstr "Rexistrar a actividade do módulo de aliñamento de Ekos."
 #: kstars.kcfg:1647
 #, kde-format
 msgid "Log Ekos Mount Module activity."
-msgstr "Rexistrar a actividade do módulo de montaxe de Ekos."
+msgstr "Rexistrar a actividade do módulo de montura de Ekos."
 
 #. i18n: ectx: whatsthis, entry (ObservatoryLogging), group (General)
 #: kstars.kcfg:1651
@@ -40064,7 +40060,7 @@ msgstr ""
 #, kde-format
 msgid "Speed to set mount in Polar Alignment Assistant Tool."
 msgstr ""
-"Velocidade para definir na montaxe na ferramenta de asistente de aliñamento "
+"Velocidade para definir na montura na ferramenta de asistente de aliñamento "
 "polar."
 
 #. i18n: ectx: label, entry (PAHRotaion), group (Align)
@@ -74211,14 +74207,14 @@ msgstr "Pasos do motor por marca"
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Mount coordinates"
-msgstr "Coordenadas da montaxe"
+msgstr "Coordenadas da montura"
 
 # skip-rule: mecanografía-maiúscula-tras-punto
 #: libindi_strings.cpp:309
 #, kde-kuit-format
 msgctxt "string from libindi, used in the config dialog"
 msgid "Mount init."
-msgstr "Preparación da montaxe"
+msgstr "Preparación da montura"
 
 #: libindi_strings.cpp:310
 #, kde-kuit-format
@@ -76377,16 +76373,15 @@ msgstr "Temperatura do enfoque:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: oal/equipmentwriter.ui:1206
-#, fuzzy, kde-format
-#| msgid "Focus alt:"
+#, kde-format
 msgid "Focus DT:"
-msgstr "Alt. do enfoque:"
+msgstr "Data e hora do enfoque:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
 #: oal/equipmentwriter.ui:1250
 #, kde-format
 msgid "yyyy-MM-dd hh:mm:ss"
-msgstr ""
+msgstr "yyyy-MM-dd hh:mm:ss"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1284
