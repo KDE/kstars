@@ -25,7 +25,7 @@ public:
 
     explicit RotatorSettings(QWidget *parent);
 
-    void   initRotator(const QString &train, Ekos::CaptureDeviceAdaptor *CaptureDA, ISD::Rotator *device);
+    void   initRotator(const QString &train, const QSharedPointer<Ekos::CaptureDeviceAdaptor> CaptureDA, ISD::Rotator *device);
     void   updateRotator(double RAngle);
     void   updateGauge(double Angle);
     void   updateGaugeZeroPos(ISD::Mount::PierSide Pierside);
@@ -41,7 +41,7 @@ public:
 
 private:
     // Capture adaptor instance to access functions
-    Ekos::CaptureDeviceAdaptor *m_CaptureDA {nullptr};
+    QSharedPointer<Ekos::CaptureDeviceAdaptor> m_CaptureDA;
     // Rotator Device
     ISD::Rotator *m_Rotator = {nullptr};
     void   setFlipPolicy(const int index);

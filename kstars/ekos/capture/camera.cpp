@@ -2903,8 +2903,7 @@ void Camera::setRotator(QString name)
     if (!name.isEmpty())  // start real rotator
     {
         Manager::Instance()->getRotatorController(name, m_RotatorControlPanel);
-        m_RotatorControlPanel->initRotator(opticalTrainCombo->currentText(), devices().data(),
-                                           Rotator);
+        m_RotatorControlPanel->initRotator(opticalTrainCombo->currentText(), devices(), Rotator);
         connect(rotatorB, &QPushButton::clicked, this, [this]()
         {
             m_RotatorControlPanel->show();

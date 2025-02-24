@@ -103,7 +103,8 @@ RotatorSettings::RotatorSettings(QWidget *parent) : QDialog(parent)
     MountPierside->setDisabled(true);  // only show pierside for information
 }
 
-void RotatorSettings::initRotator(const QString &train, Ekos::CaptureDeviceAdaptor *CaptureDA, ISD::Rotator *device)
+void RotatorSettings::initRotator(const QString &train, const QSharedPointer<Ekos::CaptureDeviceAdaptor> CaptureDA,
+                                  ISD::Rotator *device)
 {
     m_CaptureDA = CaptureDA;
     RotatorUtils::Instance()->initRotatorUtils(train);
