@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-20 01:53+0000\n"
+"POT-Creation-Date: 2025-02-24 10:44+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -7866,24 +7866,24 @@ msgstr "dAR (arcsec)"
 msgid "dDE (arcsec)"
 msgstr "dDE (arcsec)"
 
-#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3423
+#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3422
 #: ekos/focus/focus.cpp:5602
 #, kde-format
 msgid "Filter operation failed."
 msgstr "A operação do filtro foi mal-sucedida."
 
-#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3921
+#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3920
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "A ajustar o deslocamento da focagem em %1 passos..."
 
 #: ekos/align/align.cpp:3667 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3926
+#: ekos/capture/camera.cpp:3925
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "A mudar o filtro para %1..."
 
-#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3931
+#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3930
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Focagem automática com a mudança de filtros..."
@@ -7918,7 +7918,7 @@ msgid "Unable to write to file %1"
 msgstr "Não é possível gravar no ficheiro %1"
 
 #: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2941
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2940
 #: ekos/capture/cameraprocess.cpp:2585 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:3084
 #: ekos/scheduler/schedulerprocess.cpp:3433
@@ -8590,7 +8590,7 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Abrir a Lista de Alinhamento do Ekos"
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2940
+#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2939
 #: ekos/capture/cameraprocess.cpp:2584 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3432
 #: ekos/scheduler/schedulerprocess.cpp:4780
@@ -15866,12 +15866,12 @@ msgstr "s"
 msgid "frames"
 msgstr "imagens"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4046
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4045
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Adicionar a tarefa à fila da sequência"
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4047
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4046
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Remover a tarefa da fila da sequência"
@@ -16075,27 +16075,27 @@ msgstr "Tem de definir a pasta remota para os modos Local & Remoto."
 msgid "You must set local directory for Locally & Both modes."
 msgstr "Tem de definir a pasta local para os modos Cliente & Ambos."
 
-#: ekos/capture/camera.cpp:3583
+#: ekos/capture/camera.cpp:3582
 #, kde-format
 msgid "Paused..."
 msgstr "Em pausa..."
 
-#: ekos/capture/camera.cpp:3588
+#: ekos/capture/camera.cpp:3587
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Inverter o Meridiano..."
 
-#: ekos/capture/camera.cpp:3589
+#: ekos/capture/camera.cpp:3588
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Inversão do meridiano iniciada"
 
-#: ekos/capture/camera.cpp:3593
+#: ekos/capture/camera.cpp:3592
 #, kde-format
 msgid "Flip complete."
 msgstr "A inversão terminou."
 
-#: ekos/capture/camera.cpp:3653
+#: ekos/capture/camera.cpp:3652
 #, fuzzy, kde-format
 #| msgctxt "Temperature ramp celcius per minute"
 #| msgid "Ramp (C/min):"
@@ -16103,7 +16103,7 @@ msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Rampa (C/min):"
 
-#: ekos/capture/camera.cpp:3659
+#: ekos/capture/camera.cpp:3658
 #, fuzzy, kde-format
 #| msgid ""
 #| "Maximum temperature change per minute when cooling or warming the camera. "
@@ -16116,14 +16116,14 @@ msgstr ""
 "A mudança máxima de temperatura por minuto ao arrefecer ou ao aquecer a "
 "câmara. Configure como zero para desactivar."
 
-#: ekos/capture/camera.cpp:3664
+#: ekos/capture/camera.cpp:3663
 #, fuzzy, kde-format
 #| msgid "Threshold:"
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Limiar:"
 
-#: ekos/capture/camera.cpp:3670
+#: ekos/capture/camera.cpp:3669
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -16131,70 +16131,70 @@ msgid ""
 "camera driver configuration.</body></html>"
 msgstr ""
 
-#: ekos/capture/camera.cpp:3683
+#: ekos/capture/camera.cpp:3682
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Definir a Regulação da Temperatura"
 
-#: ekos/capture/camera.cpp:3723
+#: ekos/capture/camera.cpp:3722
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Seleccionar o Observador Actual"
 
-#: ekos/capture/camera.cpp:3725
+#: ekos/capture/camera.cpp:3724
 #, kde-format
 msgid "Current Observer:"
 msgstr "Observador Actual:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3736 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3735 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Gerir os Observadores"
 
-#: ekos/capture/camera.cpp:3908
+#: ekos/capture/camera.cpp:3907
 #, kde-format
 msgid "Cooler is on"
 msgstr "O arrefecimento está ligado"
 
-#: ekos/capture/camera.cpp:3908
+#: ekos/capture/camera.cpp:3907
 #, kde-format
 msgid "Cooler is off"
 msgstr "O arrefecimento está desligado"
 
-#: ekos/capture/camera.cpp:3938
+#: ekos/capture/camera.cpp:3937
 #, kde-format
 msgid "Filter set to %1."
 msgstr "O filtro foi definido no %1."
 
-#: ekos/capture/camera.cpp:3971
+#: ekos/capture/camera.cpp:3970
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Tem a certeza que deseja repor o estado de todas as tarefas?"
 
-#: ekos/capture/camera.cpp:3971 ekos/capture/cameraprocess.cpp:2705
+#: ekos/capture/camera.cpp:3970 ekos/capture/cameraprocess.cpp:2705
 #, kde-format
 msgid "Reset job status"
 msgstr "Repor o estado da tarefa"
 
-#: ekos/capture/camera.cpp:4024
+#: ekos/capture/camera.cpp:4023
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "A editar a tarefa #%1..."
 
-#: ekos/capture/camera.cpp:4027 ekos/scheduler/scheduler.cpp:1324
+#: ekos/capture/camera.cpp:4026 ekos/scheduler/scheduler.cpp:1324
 #, kde-format
 msgid "Apply job changes."
 msgstr "Aplicar as modificações da tarefa."
 
-#: ekos/capture/camera.cpp:4028
+#: ekos/capture/camera.cpp:4027
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Cancelar as alterações da tarefa."
 
-#: ekos/capture/camera.cpp:4041
+#: ekos/capture/camera.cpp:4040
 #, kde-format
 msgid "Editing job canceled."
 msgstr "A tarefa de edição foi cancelada."
@@ -18870,7 +18870,7 @@ msgstr ""
 "O Ekos irá focar de novo assim que possível; o último procedimento foi há %1 "
 "segundos."
 
-#: ekos/capture/rotatorsettings.cpp:123
+#: ekos/capture/rotatorsettings.cpp:124
 #, kde-format
 msgid "Initial rotator angle %1° is read in successfully."
 msgstr ""
