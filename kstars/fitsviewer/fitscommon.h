@@ -109,7 +109,7 @@ struct CatObjType
 };
 
 static constexpr int CAT_OBJ_MAX_DEPTH = 5;
-static constexpr int MAX_CAT_OBJ_TYPES = 149;
+static constexpr int MAX_CAT_OBJ_TYPES = 153;
 static CatObjType catObjTypes[MAX_CAT_OBJ_TYPES] =
 {
     // STARS
@@ -245,6 +245,10 @@ static CatObjType catObjTypes[MAX_CAT_OBJ_TYPES] =
     {2, "QSO", "Q?", "QSO", "Quasar", ""},
     {3, "Bla", "Bz?", "Blazar", "Blazar", ""},
     {4, "BLL", "BL?", "BLLac", "BL Lac", ""},
+    {1, "GiP", "", "GinPair", "Galaxy in Pair of Galaxies", ""},
+    {1, "GiG", "", "GtowardsGroup", "Galaxy towards a Group of Galaxies", ""},
+    {1, "GiC", "", "GtowardsCl", "Galaxy towards a Cluster of Galaxies", ""},
+    {2, "BiC", "", "BrightestCG", "Brightest Galaxy in a Cluster (of Galaxies (BCG)", ""},
 
     // SETS OF GALAXIES
     {0, "IG", "", "InteractingG", "Interacting Galaxies", ""},
