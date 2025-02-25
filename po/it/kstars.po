@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-24 10:44+0000\n"
-"PO-Revision-Date: 2025-01-21 21:43+0100\n"
+"PO-Revision-Date: 2025-02-15 11:59+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -8615,13 +8615,13 @@ msgstr "Usa la rotazione differenziale invece della sincronizzazione"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #, kde-format
 msgid "No index file directories configured."
-msgstr ""
+msgstr "Non è stata trovata alcuna cartella dei file indice configurata."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "No writable index file directory found."
-msgstr ""
+msgstr "Non è stata trovata alcuna cartella dei file indice scrivibile."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:699
@@ -23497,13 +23497,12 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ReverseDecOnPierSideChange)
 #: ekos/guide/opscalibration.ui:411
-#, fuzzy, kde-format
-#| msgid "Reverse DEC on pier-side change when reusing calibration."
+#, kde-format
 msgid ""
 "Reverse DEC guide pulses when changing pier-side and reusing calibration."
 msgstr ""
-"Inverti DEC sul cambio dello stato di puntamento quando riutilizzi la "
-"calibrazione."
+"Inverti gli impulsi guida DEC quando cambi lo stato di puntamento e "
+"riutilizzi la calibrazione."
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DitherPixels)
 #: ekos/guide/opsdither.ui:43
@@ -30213,10 +30212,9 @@ msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Processo (%1) - acquisizione completata"
 
 #: ekos/scheduler/schedulerprocess.cpp:3930
-#, fuzzy, kde-format
-#| msgid "Job '%1' focusing is complete."
+#, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
-msgstr "La procedura di messa a fuoco del processo «%1» è completata."
+msgstr "Il processo «%1» di messa a fuoco del gruppo ottico «%2» è completata."
 
 #: ekos/scheduler/schedulerprocess.cpp:3942
 #, kde-format
@@ -30226,19 +30224,19 @@ msgstr ""
 "successo."
 
 #: ekos/scheduler/schedulerprocess.cpp:3946
-#, fuzzy, kde-format
-#| msgid "Job '%1' is restarting its focusing procedure."
+#, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
-msgstr "Il processo «%1» sta riavviando la sua procedura di messa a fuoco."
+msgstr ""
+"Il processo «%1» per il gruppo ottico «%2» sta riavviando la sua procedura "
+"di messa a fuoco."
 
 #: ekos/scheduler/schedulerprocess.cpp:3951
-#, fuzzy, kde-format
-#| msgid "Warning: job '%1' focusing procedure failed, marking aborted."
+#, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr ""
-"Attenzione: la procedura di messa a fuoco del processo «%1» non è riuscita, "
-"la contrassegno come interrotta."
+"Attenzione: la procedura di messa a fuoco del processo «%1» sul gruppo "
+"ottico «%2» non è riuscita, la contrassegno come interrotta."
 
 #: ekos/scheduler/schedulerprocess.cpp:3981
 #, kde-format
