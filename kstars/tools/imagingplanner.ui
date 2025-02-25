@@ -432,6 +432,154 @@
          </layout>
         </item>
         <item>
+         <widget class="QFrame" name="DevelFrame">
+          <property name="visible">
+           <bool>false</bool>
+          </property>
+          <layout class="QHBoxLayout" name="DevelLayout">
+           <item>
+            <widget class="QLabel" name="DevelLabel">
+             <property name="text">
+               <string>
+                 Catalog Development:
+              </string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="DevelDownsampleButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Downsample</string>
+             </property>
+             <property name="toolTip">
+              <string>For catalog development</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="DevelCheckTargetsButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Check</string>
+             </property>
+             <property name="toolTip">
+              <string>For catalog development</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="DevelCheckCatalogButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Catalog</string>
+             </property>
+             <property name="toolTip">
+              <string>For catalog development</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="DevelCheckTargetsPrevButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>For catalog development</string>
+             </property>
+             <property name="icon">
+              <iconset theme="arrow-left">
+               <normaloff>.</normaloff>.</iconset>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="DevelCheckTargetsNextButton">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>For catalog development</string>
+             </property>
+             <property name="icon">
+              <iconset theme="arrow-right">
+               <normaloff>.</normaloff>.</iconset>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
          <widget class="QFrame" name="ObjectInfoFrameH">
           <property name="frameShape">
            <enum>QFrame::Box</enum>

@@ -172,6 +172,8 @@ protected:
     QString defaultDirectory() const;
     QString findDefaultCatalog() const;
     bool getKStarsCatalogObject(const QString &name, CatalogObject *catObject);
+    bool internetNameSearch(const QString &name, bool abellPlanetary, int abellNumber, CatalogObject * catObject);
+
     bool addCatalogItem(const KSAlmanac &ksal, const QString &name, int flags = 0);
     QUrl getAstrobinUrl(const QString &target, bool requireAwards, bool requireSomeFilters, double minRadius, double maxRadius);
     void popupAstrobin(const QString &target);
@@ -224,7 +226,8 @@ protected:
     void adjustWindowSize();
 
     // Used for debugging the object lists.
-    void checkTargets();
+    void checkTargets(bool justCheckCurrentCatalog = false);
+    void checkTargets2(bool backwards = false);
 
     ImagingPlannerUI *ui { nullptr };
 

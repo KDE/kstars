@@ -574,17 +574,26 @@ QByteArray pack(const QString &input)
     return arr;
 }
 
-QString massageObjectName(const QString &name)
+
+// Turn the first space to a dash and remove the rest of the spaces
+QString replaceSpaceWith(const QString &name, const QString &replacement)
 {
-    // Remove any spaces, but "sh2 " becomes "sh2-".
-    // TODO: Is there a more general way to do this?
-    auto newStr = name;
-    if (newStr.startsWith("sh2 ", Qt::CaseInsensitive))
-        newStr = newStr.replace(0, 4, "sh2-");
-    newStr =  newStr.replace(' ', "");
-    return newStr;
+    QString result = name;
+
+    // Replace the first space with a dash
+    QRegularExpression firstSpaceRegex(QStringLiteral(" "));
+    QRegularExpressionMatch firstMatch = firstSpaceRegex.match(result);
+    if (firstMatch.hasMatch())
+    {
+        result.replace(firstMatch.capturedStart(), 1, replacement);
+        // Remove all remaining spaces
+        QRegularExpression remainingSpacesRegex(QStringLiteral(" "));
+        result.replace(remainingSpacesRegex, QStringLiteral(""));
+    }
+    return result;
 }
 
+// This function is just used in catalog development. Output to stderr.
 bool downsampleImageFiles(const QString &baseDir, int maxHeight)
 {
     QString fn = "Test.txt";
@@ -668,7 +677,12 @@ void replaceByteArrayChars(QByteArray &bInput, char cc, const QByteArray &substi
 // with the object name.
 QString findObjectImage(const QString &name)
 {
-    QString massagedName = massageObjectName(name);
+    // Remove any spaces, but "sh2 " becomes "sh2-"
+    auto massagedName = name;
+    if (massagedName.startsWith("sh2 ", Qt::CaseInsensitive))
+        massagedName = massagedName.replace(0, 4, "sh2-");
+    massagedName =  massagedName.replace(' ', "");
+
     QDir dir(KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     QStringList nameFilter;
     nameFilter << QString("*%1.png").arg(massagedName) << QString("*%1.jpg").arg(massagedName);
@@ -1192,6 +1206,29 @@ void ImagingPlanner::initialize()
     connect(ui->searchSimbad, &QPushButton::clicked, this, &ImagingPlanner::searchSimbad);
     connect(ui->searchSimbad2, &QPushButton::clicked, this, &ImagingPlanner::searchSimbad);
 
+    // These buttons are in the "hidden" catalog development section
+    connect(ui->DevelCheckTargetsButton, &QPushButton::clicked, this, &ImagingPlanner::checkTargets);
+    connect(ui->DevelCheckCatalogButton, &QPushButton::clicked, this, [this]()
+    {
+        checkTargets(true);
+    });
+    connect(ui->DevelCheckTargetsNextButton, &QPushButton::clicked, this, &ImagingPlanner::checkTargets2);
+    connect(ui->DevelCheckTargetsPrevButton, &QPushButton::clicked, this, [this]()
+    {
+        checkTargets2(true);
+    });
+    connect(ui->DevelDownsampleButton, &QPushButton::clicked, this, [this]()
+    {
+        QString dir = QFileDialog::getExistingDirectory(this, tr("Downsample Directory"));
+        if (!dir.isEmpty())
+        {
+            if (downsampleImageFiles(dir, 300))
+                fprintf(stderr, "downsampling succeeded\n");
+            else
+                fprintf(stderr, "downsampling failed\n");
+        }
+    });
+
     // Always start with hiding the details.
     Options::setImagingPlannerHideAstrobinDetails(true);
     setupHideButtons(&Options::imagingPlannerHideAstrobinDetails, &Options::setImagingPlannerHideAstrobinDetails,
@@ -1400,7 +1437,6 @@ void ImagingPlanner::initialize()
 
     adjustWindowSize();
 
-    connect(ui->helpButton, &QPushButton::clicked, this, &ImagingPlanner::getHelp);
     connect(ui->optionsButton, &QPushButton::clicked, this, &ImagingPlanner::openOptionsMenu);
 
     // Since we thread the loading of catalogs, need to connect the thread back to UI.
@@ -1430,6 +1466,7 @@ void ImagingPlanner::installEventFilters()
     ui->ImagePreview->installEventFilter(this);
     ui->CatalogView->viewport()->installEventFilter(this);
     ui->CatalogView->installEventFilter(this);
+    ui->helpButton->installEventFilter(this);
 }
 
 void ImagingPlanner::removeEventFilters()
@@ -1441,7 +1478,7 @@ void ImagingPlanner::removeEventFilters()
     ui->ImagePreviewCredit->removeEventFilter(this);
     ui->ImagePreview->removeEventFilter(this);
     ui->CatalogView->viewport()->removeEventFilter(this);
-    ui->CatalogView->removeEventFilter(this);
+    ui->helpButton->removeEventFilter(this);
 }
 
 void ImagingPlanner::openOptionsMenu()
@@ -1454,39 +1491,6 @@ void ImagingPlanner::openOptionsMenu()
 // KDE KHelpClient::invokeHelp() doesn't seem to work.
 void ImagingPlanner::getHelp()
 {
-#if 0
-    // This code can be turned on to check out the targets, but should normally be off.
-    checkTargets();
-    return;
-#endif
-
-#if 0
-    // This code can be turned on to downsame the png images and convert them to jpg
-    if (downsampleImageFiles("/home/hy/Desktop/SharedFolder/PLANNER_IMAGES/MESSIER", 300))
-        fprintf(stderr, "downsampling succeeded\n");
-    else
-        fprintf(stderr, "downsampling failed\n");
-
-    if (downsampleImageFiles("/home/hy/Desktop/SharedFolder/PLANNER_IMAGES/OTHER", 300))
-        fprintf(stderr, "downsampling succeeded\n");
-    else
-        fprintf(stderr, "downsampling failed\n");
-
-    if (downsampleImageFiles("/home/hy/Desktop/SharedFolder/PLANNER_IMAGES/CALDWELL", 300))
-        fprintf(stderr, "downsampling succeeded\n");
-    else
-        fprintf(stderr, "downsampling failed\n");
-
-    if (downsampleImageFiles("/home/hy/Desktop/SharedFolder/PLANNER_IMAGES/AWARDS", 300))
-        fprintf(stderr, "downsampling succeeded\n");
-    else
-        fprintf(stderr, "downsampling failed\n");
-
-    if (downsampleImageFiles("/home/hy/Desktop/SharedFolder/PLANNER_IMAGES/HERSCHEL12", 300))
-        fprintf(stderr, "downsampling succeeded\n");
-    else
-        fprintf(stderr, "downsampling failed\n");
-#endif
     focusOnTable();
     const QUrl url("https://docs.kde.org/trunk5/en/kstars/kstars/kstars.pdf#tool-imaging-planner");
     if (!url.isEmpty())
@@ -1644,9 +1648,73 @@ void ImagingPlanner::setupNotesLinks(const QString &notes)
         ui->userNotesOpenLink3->setToolTip(i18n("Open a browser with the 3rd link in this note: %1", link));
 }
 
+bool ImagingPlanner::internetNameSearch(const QString &name, bool abellPlanetary, int abellNumber,
+                                        CatalogObject * catObject)
+{
+    DPRINTF(stderr, "***** internetNameSearch(%s)\n", name.toLatin1().data());
+    QElapsedTimer timer;
+    timer.start();
+    QString filteredName = name;
+    // The resolveName search is touchy about the dash.
+    if (filteredName.startsWith("sh2", Qt::CaseInsensitive))
+        filteredName.replace(QRegularExpression("sh2\\s*-?", QRegularExpression::CaseInsensitiveOption), "sh2-");
+    QString resolverName = filteredName;
+    if (abellPlanetary)
+    {
+        // Use "PN A66 ##" instead of "Abell ##" for name resolver
+        resolverName = QString("PN A66 %1").arg(abellNumber);
+    }
+
+    const auto &cedata = NameResolver::resolveName(resolverName);
+    if (!cedata.first)
+        return false;
+
+    CatalogObject object = cedata.second;
+    if (abellPlanetary)
+    {
+        if (object.name() == object.name2())
+            object.setName2(filteredName);
+        object.setName(filteredName);
+    }
+
+    m_manager.add_object(CatalogsDB::user_catalog_id, object);
+    const auto &added_object =
+        m_manager.get_object(object.getId(), CatalogsDB::user_catalog_id);
+
+    if (added_object.first)
+    {
+        *catObject = KStarsData::Instance()
+                     ->skyComposite()
+                     ->catalogsComponent()
+                     ->insertStaticObject(added_object.second);
+    }
+
+    DPRINTF(stderr, "***** Found %s using name resolver (%.1fs)\n", name.toLatin1().data(),
+            timer.elapsed() / 1000.0);
+    return true;
+}
+
+bool isAbellPlanetary(const QString &name, int *number)
+{
+    *number = -1;
+    if (name.startsWith("Abell", Qt::CaseInsensitive))
+    {
+        QRegularExpression abellRE("Abell\\s*(\\d+)\\s*", QRegularExpression::CaseInsensitiveOption);
+        auto match = abellRE.match(name);
+        if (match.hasMatch())
+        {
+            *number = match.captured(1).toInt();
+            if (*number <= 86)
+                return true;
+        }
+    }
+    return false;
+}
+
 // Given an object name, return the KStars catalog object.
 bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject * catObject)
 {
+    DPRINTF(stderr, "getKStarsCatalogObject(%s)\n", name.toLatin1().data());
     // find_objects_by_name is much faster with exactMatchOnly=true.
     // Therefore, since most will match exactly given the string pre-processing,
     // first try exact=true, and if that fails, follow up with exact=false.
@@ -1656,19 +1724,8 @@ bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject *
 
     // Don't accept objects that are Abell, have number <= 86 and are galaxy clusters.
     // Those were almost definitely planetary nebulae confused by Simbad/NameResolver.
-    int abellNumber = -1;
-    bool abellPlanetary = false;
-    if (name.startsWith("Abell", Qt::CaseInsensitive))
-    {
-        QRegularExpression abellRE("Abell\\s*(\\d+)\\s*", QRegularExpression::CaseInsensitiveOption);
-        auto match = abellRE.match(filteredName);
-        if (match.hasMatch())
-        {
-            abellNumber = match.captured(1).toInt();
-            if (abellNumber <= 86)
-                abellPlanetary = true;
-        }
-    }
+    int abellNumber = 0;
+    bool abellPlanetary = isAbellPlanetary(name, &abellNumber);
     if (objs.size() > 0 && abellPlanetary && objs.front().type() == SkyObject::GALAXY_CLUSTER)
         objs.clear();
 
@@ -1708,67 +1765,47 @@ bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject *
     if (objs.size() == 0 && !abellPlanetary)
         objs = m_manager.find_objects_by_name(filteredName.toLower(), 20, false);
     if (objs.size() == 0)
-    {
-        QElapsedTimer timer;
-        timer.start();
-        // The resolveName search is touchy about the dash.
-        if (filteredName.startsWith("sh2", Qt::CaseInsensitive))
-            filteredName.replace(QRegularExpression("sh2\\s*-?", QRegularExpression::CaseInsensitiveOption), "sh2-");
-        QString resolverName = filteredName;
-        if (abellPlanetary)
-        {
-            // Use "PN A66 ##" instead of "Abell ##" for name resolver
-            resolverName = QString("PN A66 %1").arg(abellNumber);
-        }
-
-        const auto &cedata = NameResolver::resolveName(resolverName);
-        if (!cedata.first)
-            return false;
-
-        CatalogObject object = cedata.second;
-        if (abellPlanetary)
-        {
-            if (object.name() == object.name2())
-                object.setName2(filteredName);
-            object.setName(filteredName);
-        }
-
-        m_manager.add_object(CatalogsDB::user_catalog_id, object);
-        const auto &added_object =
-            m_manager.get_object(object.getId(), CatalogsDB::user_catalog_id);
-
-        if (added_object.first)
-        {
-            *catObject = KStarsData::Instance()
-                         ->skyComposite()
-                         ->catalogsComponent()
-                         ->insertStaticObject(added_object.second);
-        }
-
-        DPRINTF(stderr, "***** Found %s using name resolver (%.1fs)\n", name.toLatin1().data(),
-                timer.elapsed() / 1000.0);
-        return true;
-    }
+        return internetNameSearch(filteredName, abellPlanetary,  abellNumber, catObject);
 
     if (objs.size() == 0)
         return false;
 
     // If there is more than one match, see if there's an exact match in name, name2, or longname.
     *catObject = objs.front();
-    if (objs.size() > 1)
+    if (objs.size() >= 1)
     {
+        bool foundIt = false;
         QString addSpace = filteredName;
         addSpace.append(" ");
+        QString addComma = filteredName;
+        addComma.append(",");
         for (const auto &obj : objs)
         {
             if ((filteredName.compare(obj.name(), Qt::CaseInsensitive) == 0) ||
                     (filteredName.compare(obj.name2(), Qt::CaseInsensitive) == 0) ||
                     obj.longname().contains(addSpace, Qt::CaseInsensitive) ||
+                    obj.longname().contains(addComma, Qt::CaseInsensitive) ||
                     obj.longname().endsWith(filteredName, Qt::CaseInsensitive))
             {
                 *catObject = obj;
+                foundIt = true;
                 break;
             }
+        }
+        if (!foundIt)
+        {
+            if (objs.size() == 1)
+                DPRINTF(stderr, " ========> \"%s\" had 1 match \"%s\", but not trusting it!!!!\n", name.toLatin1().data(),
+                        objs.front().name().toLatin1().data());
+
+            if (internetNameSearch(filteredName, abellPlanetary,  abellNumber, catObject))
+                return true;
+
+            DPRINTF(stderr, "Didn't find %s (%s) -- Not using name \"%s\" name2 \"%s\" longname \"%s\"\n",
+                    name.toLatin1().data(), filteredName.toLatin1().data(), catObject->name().toLatin1().data(),
+                    catObject->name2().toLatin1().data(),
+                    catObject->longname().toLatin1().data());
+            return false;
         }
     }
     return true;
@@ -2020,72 +2057,249 @@ void ImagingPlanner::recompute()
     updateStatus();
 }
 
-// Debugging/development method.
-// Use this to sanitize the list of catalog objects.
-// enable in header also
-void ImagingPlanner::checkTargets()
+// This section used in catalog development--methods checkTargets() and checkTargets2().
+// CheckTargets() either reads in a file of target names, one per line, and sees if they
+// can be found, and also computes distances between these targets and existing catalog
+// targets, and other new targets. It can also work with just catalog targets.
+// CheckTargets2() helps with browsing these objects on the SkyMap using flags.
+namespace
 {
+bool ALREADY_CHECKING = false;
+int ALREADY_CHECKING_INDEX = -1;
+QList<CatalogObject> addedObjects;
+struct ObjectNeighbor
+{
+    CatalogObject object;
+    double distance;
+    QString neighbor;
+    ObjectNeighbor(CatalogObject o, double d, QString nei) : object(o), distance(d), neighbor(nei) {}
+};
+QList<ObjectNeighbor> sortedAddedObjects;
+}  // namespace
+
+// CheckTargets2() browses the objects read in in checkTargets().
+void ImagingPlanner::checkTargets2(bool backwards)
+{
+    if (ALREADY_CHECKING)
+    {
+        if (backwards)
+            ALREADY_CHECKING_INDEX--;
+        else
+            ALREADY_CHECKING_INDEX++;
+
+        if (sortedAddedObjects.size() == 0)
+        {
+            fprintf(stderr, "No TARGETS\n");
+            return;
+        }
+        if (ALREADY_CHECKING_INDEX >= sortedAddedObjects.size())
+            ALREADY_CHECKING_INDEX = 0;
+        else if (ALREADY_CHECKING_INDEX < 0)
+            ALREADY_CHECKING_INDEX = sortedAddedObjects.size() - 1;
+        KStarsDateTime time = KStarsData::Instance()->clock()->utc();
+        dms lst = getGeo()->GSTtoLST(time.gst());
+        CatalogObject &o = sortedAddedObjects[ALREADY_CHECKING_INDEX].object;
+        o.EquatorialToHorizontal(&lst, getGeo()->lat());
+        fprintf(stderr, "%d: %s\n", ALREADY_CHECKING_INDEX, o.name().toLatin1().data());
+
+        // Doing this to avoid the pop-up warning that an object is below the ground.
+        bool keepGround = Options::showGround();
+        bool keepAnimatedSlew = Options::useAnimatedSlewing();
+        Options::setShowGround(false);
+        Options::setUseAnimatedSlewing(false);
+        SkyMap::Instance()->setClickedObject(&o);
+        SkyMap::Instance()->setClickedPoint(&o);
+        SkyMap::Instance()->slotCenter();
+        Options::setShowGround(keepGround);
+        Options::setUseAnimatedSlewing(keepAnimatedSlew);
+    }
+}
+
+// Puts flags on all existing and proposed catalog targets, computes distances,
+// and sets up some browsing in the above method.
+void ImagingPlanner::checkTargets(bool justCheckCurrentCatalog)
+{
+    if (ALREADY_CHECKING)
+    {
+        checkTargets2(false);
+        return;
+    }
+    ALREADY_CHECKING = true;
+
+    // Put flags for all existing targets.
     FlagComponent *flags = KStarsData::Instance()->skyComposite()->flags();
-
-    fprintf(stderr, "****************** check objects (%d)***************\n", flags->size());
     for (int i = flags->size() - 1; i >= 0; --i) flags->remove(i);
-    fprintf(stderr, "Removed, now %d\n", flags->size());
-    QList<QString> targets;
     int rows = m_CatalogModel->rowCount();
-    QVector<bool> accepted(rows);
 
-
+    int numFlags = 0;
     for (int i = 0; i < rows; ++i)
     {
         const QString &name = m_CatalogModel->item(i, NAME_COLUMN)->text();
-        targets.push_back(name);
-        accepted[i] = getObject(name) != nullptr;
-
         auto object = getObject(name);
         if (object)
         {
+            numFlags++;
             flags->add(SkyPoint(object->ra(), object->dec()), "J2000.0", "", name, Qt::red);
-            fprintf(stderr, "%d ", i);
         }
-
     }
-    for (int i = 0; i < targets.size(); ++i)
+    fprintf(stderr, "Added %d flags\n", numFlags);
+
+
+    // Read a file with a list of proposed new targets.
+    QList<QString> targets;
+    QList<QString> newObjects;
+    if (!justCheckCurrentCatalog)
     {
-        if (accepted[i])
+        QString fileName = QFileDialog::getOpenFileName(this,
+                           tr("Targets Filename"), QDir::homePath(), tr("Any files (*)"));
+        if (fileName.isEmpty())
+            return;
+        QFile inputFile(fileName);
+        if (inputFile.open(QIODevice::ReadOnly))
         {
-            auto objectName = targets[i];
-            auto object = getObject(objectName);
-            object->setRA(object->ra0());
-            object->setDec(object->dec0());
-            for (int j = 0; j < targets.size(); ++j)
+            QTextStream in(&inputFile);
+            while (!in.atEnd())
             {
-                if (i == j) continue;
-                if (!accepted[j]) continue;
-                auto name2 = targets[j];
-                auto object2 = getObject(name2);
-                object2->setRA(object2->ra0());
-                object2->setDec(object2->dec0());
-                const dms dist = object->angularDistanceTo(object2);
-                const double arcsecDist = dist.Degrees() * 3600.0;
-                if (arcsecDist < 120)
-                {
-                    fprintf(stderr, "dist %10s (%s %s) to %10s (%s %s) = %.0f\"      %s\n",
-                            objectName.toLatin1().data(),
-                            object->ra().toHMSString().toLatin1().data(),
-                            object->dec().toDMSString().toLatin1().data(),
-                            name2.toLatin1().data(),
-                            object2->ra().toHMSString().toLatin1().data(),
-                            object2->dec().toDMSString().toLatin1().data(),
-                            arcsecDist, object->longname().toLatin1().data());
-                }
+                const QString line = in.readLine().trimmed();
+                if (line.size() > 0 && line[0] != '#' && newObjects.indexOf(line) == -1)
+                    newObjects.push_back(line);
+            }
+            inputFile.close();
+        }
+        if (newObjects.size() == 0)
+        {
+            fprintf(stderr, "No New Targets\n");
+            return;
+        }
+    }
+
+    QList<CatalogObject> addedObjects;
+    sortedAddedObjects.clear();
+
+    int count = 0, good = 0;
+    for (int i = 0; i < rows; ++i)
+    {
+        const QString &name = m_CatalogModel->item(i, NAME_COLUMN)->text();
+        count++;
+        auto o = getObject(name);
+        if (o != nullptr)
+        {
+            good++;
+            addedObjects.push_back(*o);
+        }
+        targets.push_back(name);
+    }
+    fprintf(stderr, "********** %d/%d targets found. %d unique test objects\n", good, count, newObjects.size());
+
+    // First we add all the new objects that aren't already existing, and that can be found by KStars, to a
+    // list. This is done so we can find distances to the nearest other one.
+    if (!justCheckCurrentCatalog)
+    {
+        fprintf(stderr, "Adding: ");
+        for (const auto &name : newObjects)
+        {
+            if (getObject(name) != nullptr)
+            {
+                fprintf(stderr, "0 %s ** EXISTS!\n", name.toLatin1().data());
+                continue;
+            }
+            CatalogObject object;
+            if (!getKStarsCatalogObject(name, &object))
+            {
+                fprintf(stderr, "0 %s ** COULD NOT FIND IT\n", name.toLatin1().data());
+                continue;
+            }
+            object.setRA(object.ra0());
+            object.setDec(object.dec0());
+            if (name.compare(object.name(), Qt::CaseInsensitive) != 0)
+            {
+                fprintf(stderr, "%s had primary name %s -- reverting.\n",
+                        name.toLatin1().data(), object.name().toLatin1().data());
+                object.setName(name);
+            }
+            fprintf(stderr, "%s ", name.toLatin1().data());
+            fflush(stderr);
+            addedObjects.push_back(object);
+        }
+        fprintf(stderr, "\n--------------------------------------------------------\n");
+    }
+
+    // AddedObjects may actually contain the current catalog if justCheckCurrentCatalog is true.
+    for (int i = 0; i < addedObjects.size(); ++i)
+    {
+        auto &object = addedObjects[i];
+        double closest = 1e9;
+        QString closestName;
+        for (int j = 0; j < targets.size(); ++j)
+        {
+            if (justCheckCurrentCatalog && i == j)
+                continue;
+            auto name2 = targets[j];
+            auto object2 = getObject(name2);
+            if (object2 == nullptr)
+            {
+                fprintf(stderr, "********************************************************* O2 for targets[%d]: %s null!\n", j,
+                        name2.toLatin1().data());
+                break;
+            }
+            object2->setRA(object2->ra0());
+            object2->setDec(object2->dec0());
+            const dms dist = object.angularDistanceTo(object2);
+            const double arcsecDist = dist.Degrees() * 3600.0;
+            if (closest > arcsecDist)
+            {
+                closest = arcsecDist;
+                closestName = name2;
             }
         }
+
+        sortedAddedObjects.push_back(ObjectNeighbor(addedObjects[i], closest, closestName));
+        // Also check the new objects -- not quite right see line below:
+        // 702.8 c 7 ** OK (closest 703' ic 5148) (closestNew 0' IC 1459)
+
+        if (justCheckCurrentCatalog)
+        {
+            fprintf(stderr, "%7.1f %-10s closest %s\n", closest / 60.0, object.name().toLatin1().data(),
+                    closestName.toLatin1().data());
+        }
+        else
+        {
+            double closestNew = 1e9;
+            QString closestNewName;
+            for (int j = 0; j < addedObjects.size() - 1; ++j)
+            {
+                if (i == j) continue;
+                auto object2 = addedObjects[j];
+                object2.setRA(object2.ra0());
+                object2.setDec(object2.dec0());
+                const dms dist = object.angularDistanceTo(&object2);
+                const double arcsecDist = dist.Degrees() * 3600.0;
+                if (closestNew > arcsecDist)
+                {
+                    closestNew = arcsecDist;
+                    closestNewName = object2.name();
+                }
+            }
+            fprintf(stderr, "%7.1f %-10s (closest %s) (closestNew %5.0f' %-10s)\n",
+                    closest / 60.0, object.name().toLatin1().data(), closestName.toLatin1().data(),
+                    closestNew / 60, closestNewName.toLatin1().data());
+            flags->add(SkyPoint(object.ra(), object.dec()), "J2000.0", "", QString("%1").arg(object.name()), Qt::yellow);
+        }
     }
-
-    fprintf(stderr, "Done\n");
-
-    // Clean up.
-    ///clearObjects();
+    std::sort(sortedAddedObjects.begin(), sortedAddedObjects.end(),
+              [](const ObjectNeighbor & a, const ObjectNeighbor & b)
+    {
+        return a.distance > b.distance;
+    });
+    if (justCheckCurrentCatalog)
+    {
+        fprintf(stderr, "Sorted: ------------------------------------------\n");
+        for (const auto &o : sortedAddedObjects)
+            fprintf(stderr, "%7.1f %-10s closest %s\n",
+                    o.distance / 60.0, o.object.name().toLatin1().data(),
+                    o.neighbor.toLatin1().data());
+    }
+    fprintf(stderr, "DONE. ------------------------------------------\n");
 }
 
 // This is the top-level ImagingPlanning catalog directory.
@@ -2255,7 +2469,7 @@ QUrl ImagingPlanner::getAstrobinUrl(const QString &target, bool requireAwards, b
 
 void ImagingPlanner::popupAstrobin(const QString &target)
 {
-    QString newStr = massageObjectName(target);
+    QString newStr = replaceSpaceWith(target, "-");
     if (newStr.isEmpty()) return;
 
     const QUrl url = getAstrobinUrl(newStr, Options::astrobinAward(), false, Options::astrobinMinRadius(),
@@ -2271,7 +2485,7 @@ void ImagingPlanner::searchNGCICImages()
     auto o = currentCatalogObject();
     if (!o)
     {
-        fprintf(stderr, "NULL object sent to searchNGCICImages.\n");
+        DPRINTF(stderr, "NULL object sent to searchNGCICImages.\n");
         return;
     }
     int num = -1;
@@ -2298,10 +2512,17 @@ void ImagingPlanner::searchSimbad()
     focusOnTable();
     QString name = currentObjectName();
 
-    if (name.startsWith("sh2"))
+    int abellNumber = 0;
+    bool abellPlanetary = isAbellPlanetary(name, &abellNumber);
+    if (abellPlanetary)
+        name = QString("PN A66 %1").arg(abellNumber);
+    else if (name.startsWith("sh2", Qt::CaseInsensitive))
         name.replace(QRegularExpression("sh2\\s*"), "sh2-");
     else if (name.startsWith("hickson", Qt::CaseInsensitive))
-        name.replace(QRegularExpression("hickson\\s*"), "HCG");
+    {
+        name.replace(0, 7, "HCG");
+        name.replace(' ', "");
+    }
     else
         name.replace(' ', "");
 
@@ -2319,29 +2540,15 @@ void ImagingPlanner::searchWikipedia()
     QString name = currentObjectName();
     if (name.isEmpty())
     {
-        fprintf(stderr, "NULL object sent to Wikipedia.\n");
+        DPRINTF(stderr, "NULL object sent to Wikipedia.\n");
         return;
     }
 
-    QString massagedName = name;
     if (name.startsWith("m ", Qt::CaseInsensitive))
-        massagedName = QString("Messier_%1").arg(name.mid(2, -1));
-    else if (name.startsWith("ngc ", Qt::CaseInsensitive))
-        massagedName = QString("NGC_%1").arg(name.mid(4, -1));
-    else if (name.startsWith("ic ", Qt::CaseInsensitive))
-        massagedName = QString("IC_%1").arg(name.mid(3, -1));
-    else if (name.startsWith("sh2 ", Qt::CaseInsensitive))
-        massagedName = QString("sh2-%1").arg(name.mid(4, -1));
-    else if (name.startsWith("Abell ",  Qt::CaseInsensitive))
-        massagedName = QString("Abell_%1").arg(name.mid(6, -1));
-    else
-    {
-        QString backupSearch = QString("%1/w/index.php?search=%2")
-                               .arg(wikipediaAddress).arg(massageObjectName(name));
-        return;
-    }
-    QDesktopServices::openUrl(
-        QUrl(QString("%1/wiki/%2").arg(wikipediaAddress).arg(massagedName)));
+        name = QString("Messier_%1").arg(name.mid(2, -1));
+    QString urlStr = QString("%1/w/index.php?search=%2").arg(wikipediaAddress).arg(replaceSpaceWith(name, "_"));
+    QDesktopServices::openUrl(QUrl(urlStr));
+    return;
 }
 
 void ImagingPlanner::searchAstrobin()
@@ -2358,6 +2565,7 @@ bool ImagingPlanner::eventFilter(QObject * obj, QEvent * event)
     if (m_loadingCatalog)
         return false;
 
+    // Load the catalog on tool startup.
     if (m_InitialLoad && event->type() == QEvent::Paint)
     {
         m_InitialLoad = false;
@@ -2366,12 +2574,31 @@ bool ImagingPlanner::eventFilter(QObject * obj, QEvent * event)
         return false;
     }
 
-    // Right click on object in catalog view brings up this menu.
     QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
-    if ((obj == ui->CatalogView->viewport()) &&
-            //            (ui->CatalogView->currentIndex().row() >= 0) &&
+
+    if ((obj == ui->helpButton) &&
+            (mouseEvent->button() == Qt::LeftButton) &&
             (event->type() == QEvent::MouseButtonRelease) &&
-            (mouseEvent->button() == Qt::RightButton))
+            (mouseEvent->modifiers() & Qt::KeyboardModifier::ShiftModifier) &&
+            (mouseEvent->modifiers() & Qt::KeyboardModifier::ControlModifier) &&
+            (mouseEvent->modifiers() & Qt::KeyboardModifier::AltModifier))
+    {
+        // Development code to help browse new catalog entries.
+        // "Secret" keyboard modifies hijack the help button to reveal/hide the development buttons.
+        ui->DevelFrame->setVisible(!ui->DevelFrame->isVisible());
+        return false;
+    }
+    else if (obj == ui->helpButton && (event->type() == QEvent::MouseButtonRelease))
+    {
+        // Standard use of the help button.
+        getHelp();
+        return false;
+    }
+
+    // Right click on object in catalog view brings up this menu.
+    else if ((obj == ui->CatalogView->viewport()) &&
+             (event->type() == QEvent::MouseButtonRelease) &&
+             (mouseEvent->button() == Qt::RightButton))
     {
         int numImaged = 0, numNotImaged = 0, numPicked = 0, numNotPicked = 0, numIgnored = 0, numNotIgnored = 0;
         QStringList selectedNames;
@@ -2601,7 +2828,6 @@ void ImagingPlanner::selectionChanged(const QItemSelection &selected, const QIte
         else
             ui->ImagePreview->setPixmap(QPixmap::fromImage(image.second));
     }
-
 }
 
 void ImagingPlanner::updateDisplays()
@@ -3315,6 +3541,16 @@ void ImagingPlanner::loadCatalog(const QString &path)
 
     m_loadingCatalog = false;
     installEventFilters();
+
+    // Select and display the first row
+    if (m_CatalogSortModel->rowCount() > 0)
+    {
+        auto name = m_CatalogSortModel->index(0, 0).data().toString();
+        scrollToName(name);
+        QItemSelection selection, deselection;
+        selection.select(m_CatalogSortModel->index(0, 0), m_CatalogSortModel->index(0, 0));
+        selectionChanged(selection, deselection);
+    }
 }
 
 CatalogImageInfo::CatalogImageInfo(const QString &csv)
