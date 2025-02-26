@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-02-24 10:44+0000\n"
-"PO-Revision-Date: 2025-02-18 16:58+0100\n"
+"PO-Revision-Date: 2025-02-20 20:42+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -12598,22 +12598,18 @@ msgid "Last AF Alt (°Alt)"
 msgstr "Alt. (°Alt) de l'últim EA"
 
 #: ekos/auxiliary/filtermanager.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "The altitude of the last AF solution. Updated automatically by the "
-#| "autofocus process."
+#, kde-format
 msgid ""
 "The datetime of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"L'altitud de l'última solució d'EA. El procés d'enfocament automàtic l'ha "
-"actualitzat automàticament."
+"La data i hora de l'última solució d'EA. El procés d'enfocament automàtic "
+"l'ha actualitzat automàticament."
 
 #: ekos/auxiliary/filtermanager.cpp:148
-#, fuzzy, kde-format
-#| msgid "Last AF Solution"
+#, kde-format
 msgid "Last AF Datetime"
-msgstr "Última solució d'EA"
+msgstr "Data i hora de l'últim EA"
 
 #: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
@@ -18119,10 +18115,9 @@ msgid "Parking mount failed, aborting..."
 msgstr "No s'ha pogut fer l'aparcament de la muntura. S'interromp…"
 
 #: ekos/capture/sequencejobstate.cpp:507
-#, fuzzy, kde-format
-#| msgid "Unparking dome..."
+#, kde-format
 msgid "Unparking mount..."
-msgstr "S'està desaparcant la cúpula…"
+msgstr "S'està desaparcant la muntura…"
 
 #: ekos/capture/sequencejobstate.cpp:516
 #: ekos/scheduler/schedulerprocess.cpp:1770
@@ -19423,7 +19418,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:1090
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
-msgstr ""
+msgstr "S'ha optimitzat la sol·licitud d'enfocament automàtic [%1]."
 
 #: ekos/focus/focus.cpp:1247
 #, kde-format
@@ -19991,31 +19986,29 @@ msgstr "Para el moviment de l'enfocador."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:407
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enfoca cap enfora. </p><p>Per als SCT, açò normalment "
-"és en sentit horari.</p></body></html>"
+"<html><head/><body><p>Enfoca cap enfora. Utilitzeu les tecles «Majús» i "
+"«Ctrl» per a la velocitat del moviment. Els factors es configuren a les "
+"opcions mecàniques de l'enfocador.</p><p>Per als SCT, açò normalment és en "
+"sentit horari.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:439
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CCW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Enfoca cap endins.</p><p>Per als SCT, açò normalment "
-"és en sentit antihorari.</p></body></html>"
+"<html><head/><body><p>Enfoca cap endins. Utilitzeu les tecles «Majús» i "
+"«Ctrl» per a la velocitat del moviment. Els factors es configuren a les "
+"opcions mecàniques de l'enfocador.</p><p>Per als SCT, açò normalment és en "
+"sentit antihorari.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
 #: ekos/focus/focus.ui:471
@@ -20998,30 +20991,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
 #: ekos/focus/opsfocusmechanics.ui:514
-#, fuzzy, kde-format
-#| msgid "Red Shift:"
+#, kde-format
 msgid "Speedup (Shift)"
-msgstr "Desplaçament cap al roig:"
+msgstr "Acceleració («Majús»)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
 #: ekos/focus/opsfocusmechanics.ui:521
-#, fuzzy, kde-format
-#| msgid "Speedup options"
+#, kde-format
 msgid "Speedup (Ctrl)"
-msgstr "Opcions d'acceleració"
+msgstr "Acceleració («Ctrl»)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
 #: ekos/focus/opsfocusmechanics.ui:528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the shift key "
 "is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre d'estreles trobades en l'últim fotograma.</p></"
-"body></html>"
+"<html><head/><body><p>Multiplicador per als moviments manuals de "
+"l'enfocament quan es prem la tecla «Majús».</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
@@ -21036,16 +21024,13 @@ msgstr " x"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupCtrl)
 #: ekos/focus/opsfocusmechanics.ui:547
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the control "
 "key is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Nombre d'estreles trobades en l'últim fotograma.</p></"
-"body></html>"
+"<html><head/><body><p>Multiplicador per als moviments manuals de "
+"l'enfocament quan es prem la tecla «Ctrl».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -21953,7 +21938,7 @@ msgstr "Suspén el guiatge"
 #: ekos/focus/opsfocussettings.ui:248
 #, kde-format
 msgid "Optimize AF:"
-msgstr ""
+msgstr "Optimitza l'EA:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOptimize)
 #: ekos/focus/opsfocussettings.ui:261
@@ -21970,6 +21955,18 @@ msgid ""
 "experimental feature enabled for Linear and Linear 1 Pass only.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Es crearà una «zona d'optimització» durant estos "
+"segons. Quan un altre procés sol·licite un enfocament automàtic "
+"automatitzat, p. ex., el «Programador» o la «Captura», es realitzarà una "
+"comprovació de la marca horària de l'últim enfocament automàtic amb èxit "
+"d'este filtre. Si s'està dins de la zona d'optimització, no s'executarà "
+"l'enfocament automàtic. Si s'està fora de la zona, l'enfocament automàtic "
+"s'executarà amb normalitat.</p><p>Cal tindre en compte que el desplaçament "
+"del filtre i la configuració de l'enfocament adaptatiu es complixen sempre.</"
+"p><p>Establiu-la a zero per a desactivar esta característica.</p><p>Nota: "
+"sempre es realitzaran les execucions iniciades manualment.</p><p>Actualment, "
+"es tracta d'una característica experimental habilitada només per al «Lineal "
+"d'1 pas» i «Lineal».</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:295
@@ -28688,7 +28685,7 @@ msgstr ""
 "Llista del programador de tasques.\n"
 "Feu-hi clic per a editar una tasca.\n"
 "Feu doble clic per a editar una tasca amb els camps de l'esquerra.\n"
-"Premeu «Majús + clic» per a veure l'altitud d'una tasca esta nit."
+"Premeu «Majús+clic» per a veure l'altitud d'una tasca esta nit."
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format
@@ -72028,8 +72025,8 @@ msgid ""
 "arbitrary"
 msgstr ""
 "Este mode se selecciona automàticament si gireu manualment el mapa celeste "
-"amb l'acció del ratolí «Maj+Arrossega», per a informar-vos que l'orientació "
-"és arbitrària"
+"amb l'acció del ratolí «Majús+Arrossega», per a informar-vos que "
+"l'orientació és arbitrària"
 
 #: kstarsinit.cpp:769
 #, kde-format
@@ -77308,16 +77305,15 @@ msgstr "Temp. d'enfocament:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: oal/equipmentwriter.ui:1206
-#, fuzzy, kde-format
-#| msgid "Focus alt:"
+#, kde-format
 msgid "Focus DT:"
-msgstr "Alt. d'enfocament:"
+msgstr "DH de l'enfocament:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
 #: oal/equipmentwriter.ui:1250
 #, kde-format
 msgid "yyyy-MM-dd hh:mm:ss"
-msgstr ""
+msgstr "dd/MM/aaaa hh:mm:ss"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1284
@@ -83261,7 +83257,7 @@ msgstr ""
 "especificada. \n"
 "\n"
 "Tan sols es poden emprar tecles simples, no podeu emprar tecles "
-"modificadores com «Ctrl» o «Maj». Escriviu «space» per a especificar la "
+"modificadores com «Ctrl» o «Majús». Escriviu «space» per a especificar la "
 "barra espaiadora, o la tecla que corresponga en qualsevol altre cas."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
