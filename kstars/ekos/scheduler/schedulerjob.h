@@ -49,7 +49,7 @@ class SchedulerJob
             bool isDarkFlat = false;
             QMap<SequenceJob::PropertyID, QVariant> properties;
             JobProgress() {}
-            JobProgress(int numCompleted, const SequenceJob *job)
+            JobProgress(int numCompleted, const QSharedPointer<SequenceJob> &job)
                 : numCompleted(numCompleted), type(job->getFrameType()),
                   isDarkFlat(job->jobType() == SequenceJob::JOBTYPE_DARKFLAT),
                   properties(job->getCoreProperties()) {};
@@ -487,7 +487,7 @@ class SchedulerJob
         {
             m_Progress.clear();
         }
-        void addProgress(int numCompleted, const SequenceJob *job)
+        void addProgress(int numCompleted, const QSharedPointer<SequenceJob> &job)
         {
             m_Progress.append(JobProgress(numCompleted, job));
         }

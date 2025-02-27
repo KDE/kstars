@@ -4834,14 +4834,14 @@ void SchedulerProcess::readProcessOutput()
 
 bool SchedulerProcess::canCountCaptures(const SchedulerJob &job)
 {
-    QList<SequenceJob*> seqjobs;
+    QList<QSharedPointer<SequenceJob>> seqjobs;
     bool hasAutoFocus = false;
     SchedulerJob tempJob = job;
     if (SchedulerUtils::loadSequenceQueue(tempJob.getSequenceFile().toLocalFile(), &tempJob, seqjobs, hasAutoFocus,
                                           nullptr) == false)
         return false;
 
-    for (const SequenceJob *oneSeqJob : seqjobs)
+    for (auto oneSeqJob : seqjobs)
     {
         if (oneSeqJob->getUploadMode() == ISD::Camera::UPLOAD_REMOTE)
             return false;
@@ -4874,7 +4874,7 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
         // It is useful for properly calling addProgress().
         CapturedFramesMap newJobFramesCount;
 
-        QList<SequenceJob*> seqjobs;
+        QList<QSharedPointer<SequenceJob>> seqjobs;
         bool hasAutoFocus = false;
 
         //oneJob->setLightFramesRequired(false);
@@ -4890,7 +4890,7 @@ void SchedulerProcess::updateCompletedJobsCount(bool forced)
 
         oneJob->clearProgress();
         /* Enumerate the SchedulerJob's SequenceJobs to count captures stored for each */
-        for (SequenceJob *oneSeqJob : seqjobs)
+        for (auto oneSeqJob : seqjobs)
         {
             /* Only consider captures stored on client (Ekos) side */
             /* FIXME: ask the remote for the file count */

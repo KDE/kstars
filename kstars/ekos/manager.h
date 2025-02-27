@@ -478,8 +478,8 @@ class Manager : public QDialog, public Ui::Manager
 
         // Capture Summary
         void updateCaptureStatus(CaptureState status, const QString &trainname);
-        void updateCaptureProgress(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename = "");
-        void updateExposureProgress(SequenceJob *job, const QString &trainname);
+        void updateCaptureProgress(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data, const QString &devicename = "");
+        void updateExposureProgress(const QSharedPointer<SequenceJob> &job, const QString &trainname);
         void updateCaptureCountDown();
 
         // Focus summary

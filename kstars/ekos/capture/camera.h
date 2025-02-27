@@ -192,7 +192,7 @@ public:
      * @param filenamePreview if the job is to generate a preview filename
      * @return pointer to job created or nullptr otherwise.
      */
-    SequenceJob *createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH,
+    QSharedPointer<SequenceJob> createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH,
                            FilenamePreviewType filenamePreview = FILENAME_NOT_PREVIEW);
 
         /**
@@ -330,7 +330,7 @@ public:
     }
 
     // shortcut for the active job
-    SequenceJob *activeJob() const
+    const QSharedPointer<SequenceJob> &activeJob()
     {
         return state()->getActiveJob();
     }
@@ -437,9 +437,9 @@ signals:
     void ready();
     void requestAction(int cameraID, CaptureWorkflowActionType action);
     void refreshCamera(uint id, bool isValid);
-    void newExposureProgress(SequenceJob *job, const QString &trainname);
+    void newExposureProgress(const QSharedPointer<SequenceJob> &job, const QString &trainname);
     void newDownloadProgress(double, const QString &trainname);
-    void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &trainname);
+    void newImage(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data, const QString &trainname);
     void captureTarget(QString targetName);
     void captureComplete(const QVariantMap &metadata, const QString &trainname);
     void resetNonGuidedDither();
@@ -564,7 +564,7 @@ private:
      * @brief addJob Add a new job to the UI. This is used when a job is loaded from a capture sequence file. In
      * contrast to {@see #createJob()}, the job's attributes are taken from the file and only the UI gehts updated.
      */
-    void addJob(SequenceJob *job);
+    void addJob(const QSharedPointer<SequenceJob> &job);
 
     /**
      * @brief jobEditFinished Editing of an existing job finished, update its
@@ -608,7 +608,7 @@ private:
     /**
      * @brief jobPrepared Select the job that is currently in preparation.
      */
-    void jobPrepared(SequenceJob *job);
+    void jobPrepared(const QSharedPointer<SequenceJob> &job);
 
     /**
      * @brief Set the name of the target to be captured.
@@ -641,27 +641,27 @@ private:
      * @param job as identifier for the row
      * @param full if false, then only the status and the counter will be updated.
      */
-    void updateJobTable(SequenceJob *job, bool full = false);
+    void updateJobTable(const QSharedPointer<SequenceJob> &job, bool full = false);
 
     /**
      * @brief updateJobFromUI Update all job attributes from the UI settings.
      */
-    void updateJobFromUI(SequenceJob *job, FilenamePreviewType filenamePreview = FILENAME_NOT_PREVIEW);
+    void updateJobFromUI(const QSharedPointer<SequenceJob> &job, FilenamePreviewType filenamePreview = FILENAME_NOT_PREVIEW);
 
     /**
      * @brief syncGUIToJob Update UI to job settings
      */
-    void syncGUIToJob(SequenceJob *job);
+    void syncGUIToJob(const QSharedPointer<SequenceJob> &job);
 
     void syncCameraInfo();
 
     // create a new row in the job table and fill it with the given job's values
-    void createNewJobTableRow(SequenceJob *job);
+    void createNewJobTableRow(const QSharedPointer<SequenceJob> &job);
 
     /**
      * @brief Update the style of the job's row, depending on the job's state
      */
-    void updateRowStyle(SequenceJob *job);
+    void updateRowStyle(const QSharedPointer<SequenceJob> &job);
 
     /**
      * @brief updateCellStyle Update the cell's style. If active is true, set a bold and italic font and
@@ -761,10 +761,10 @@ private:
     }
 
     // check if the upload paths are filled correctly
-    bool checkUploadPaths(FilenamePreviewType filenamePreview, SequenceJob *job);
+    bool checkUploadPaths(FilenamePreviewType filenamePreview, const QSharedPointer<SequenceJob> &job);
 
     // Create a Json job from the current job table row
-    QJsonObject createJsonJob(SequenceJob *job, int currentRow);
+    QJsonObject createJsonJob(const QSharedPointer<SequenceJob> &job, int currentRow);
 
     /**
      * @return Returns true if an ongoing capture is a preview capture.
@@ -785,7 +785,7 @@ private:
     /**
      * @brief updateJobTableCountCell Update the job counter in the job table of a sigle job
      */
-    void updateJobTableCountCell(SequenceJob *job, QTableWidgetItem *countCell);
+    void updateJobTableCountCell(const QSharedPointer<SequenceJob> &job, QTableWidgetItem *countCell);
 
     void cullToDSLRLimits();
 

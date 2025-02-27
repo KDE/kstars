@@ -468,7 +468,7 @@ void Camera::initCamera()
     connect(m_cameraProcess.data(), &CameraProcess::refreshCamera, this, &Camera::updateCamera);
     connect(m_cameraProcess.data(), &CameraProcess::sequenceChanged, this, &Camera::sequenceChanged);
     connect(m_cameraProcess.data(), &CameraProcess::addJob, this, &Camera::addJob);
-    connect(m_cameraProcess.data(), &CameraProcess::newExposureProgress, this, [&](SequenceJob * job)
+    connect(m_cameraProcess.data(), &CameraProcess::newExposureProgress, this, [&](const QSharedPointer<SequenceJob> &job)
     {
         emit newExposureProgress(job, opticalTrain());
     });
@@ -476,7 +476,8 @@ void Camera::initCamera()
     {
         emit updateDownloadProgress(downloadTimeLeft, opticalTrain());
     });
-    connect(m_cameraProcess.data(), &CameraProcess::newImage, this, [&](SequenceJob * job, const QSharedPointer<FITSData> data)
+    connect(m_cameraProcess.data(), &CameraProcess::newImage, this, [&](const QSharedPointer<SequenceJob> &job,
+            const QSharedPointer<FITSData> data)
     {
         emit newImage(job, data, opticalTrain());
     });
@@ -860,7 +861,7 @@ void Camera::jobExecutionPreparationStarted()
         updateStartButtons(true, false);
 }
 
-void Camera::jobPrepared(SequenceJob * job)
+void Camera::jobPrepared(const QSharedPointer<SequenceJob> &job)
 {
     int index = state()->allJobs().indexOf(job);
     if (index >= 0)
@@ -958,7 +959,7 @@ void Camera::updateCaptureCountDown(int deltaMillis)
         jobRemainingTime->setText("--:--:--");
 }
 
-void Camera::addJob(SequenceJob * job)
+void Camera::addJob(const QSharedPointer<SequenceJob> &job)
 {
     // create a new row
     createNewJobTableRow(job);
@@ -970,7 +971,7 @@ void Camera::editJobFinished()
         QCWARNING << "Editing finished, but no row selected!";
 
     int currentRow = queueTable->currentRow();
-    SequenceJob *job = state()->allJobs().at(currentRow);
+    const QSharedPointer<SequenceJob> job = state()->allJobs().at(currentRow);
     updateJobFromUI(job);
 
     // full update to the job table row
@@ -987,9 +988,7 @@ void Camera::editJobFinished()
 
 void Camera::imageCapturingCompleted()
 {
-    SequenceJob *thejob = activeJob();
-
-    if (!thejob)
+    if (activeJob().isNull())
         return;
 
     // In case we're framing, let's return quickly to continue the process.
@@ -1005,16 +1004,16 @@ void Camera::imageCapturingCompleted()
         DarkLibrary::Instance()->disconnect(this);
 
     // Do not display notifications for very short captures
-    if (thejob->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() >= 1)
+    if (activeJob()->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() >= 1)
         KSNotification::event(QLatin1String("EkosCaptureImageReceived"), i18n("Captured image received"),
                               KSNotification::Capture);
 
     // If it was initially set as pure preview job and NOT as preview for calibration
-    if (thejob->jobType() == SequenceJob::JOBTYPE_PREVIEW)
+    if (activeJob()->jobType() == SequenceJob::JOBTYPE_PREVIEW)
         return;
 
     /* The image progress has now one more capture */
-    imgProgress->setValue(thejob->getCompleted());
+    imgProgress->setValue(activeJob()->getCompleted());
 }
 
 void Camera::captureStopped()
@@ -1130,9 +1129,10 @@ void Camera::updatePrepareState(CaptureState prepareState)
     }
 }
 
-SequenceJob *Camera::createJob(SequenceJob::SequenceJobType jobtype, FilenamePreviewType filenamePreview)
+QSharedPointer<SequenceJob> Camera::createJob(SequenceJob::SequenceJobType jobtype,
+        FilenamePreviewType filenamePreview)
 {
-    SequenceJob *job = new SequenceJob(devices(), state(), jobtype);
+    QSharedPointer<SequenceJob> job = QSharedPointer<SequenceJob>(new SequenceJob(devices(), state(), jobtype));
 
     updateJobFromUI(job, filenamePreview);
 
@@ -1142,7 +1142,7 @@ SequenceJob *Camera::createJob(SequenceJob::SequenceJobType jobtype, FilenamePre
 
     // check if the upload paths are correct
     if (checkUploadPaths(filenamePreview, job) == false)
-        return nullptr;
+        return QSharedPointer<SequenceJob>();
 
     // all other jobs will be added to the job list
     state()->allJobs().append(job);
@@ -1177,15 +1177,13 @@ bool Camera::removeJob(int index)
     if (state()->allJobs().empty())
         return true;
 
-    SequenceJob * job = state()->allJobs().at(index);
+    QSharedPointer<SequenceJob> job = state()->allJobs().at(index);
     // remove completed frame counts from frame count map
     state()->removeCapturedFrameCount(job->getSignature(), job->getCompleted());
     // remove the job
     state()->allJobs().removeOne(job);
     if (job == activeJob())
         state()->setActiveJob(nullptr);
-
-    delete job;
 
     if (queueTable->rowCount() == 0)
         removeFromQueueB->setEnabled(false);
@@ -1307,11 +1305,11 @@ void Camera::saveSequenceQueueAs()
     saveSequenceQueue();
 }
 
-void Camera::updateJobTable(SequenceJob * job, bool full)
+void Camera::updateJobTable(const QSharedPointer<SequenceJob> &job, bool full)
 {
-    if (job == nullptr)
+    if (job.isNull())
     {
-        QListIterator<SequenceJob *> iter(state()->allJobs());
+        QListIterator<QSharedPointer<SequenceJob>> iter(state()->allJobs());
         while (iter.hasNext())
             updateJobTable(iter.next(), full);
     }
@@ -1387,7 +1385,7 @@ void Camera::updateJobTable(SequenceJob * job, bool full)
     }
 }
 
-void Camera::updateJobFromUI(SequenceJob * job, FilenamePreviewType filenamePreview)
+void Camera::updateJobFromUI(const QSharedPointer<SequenceJob> &job, FilenamePreviewType filenamePreview)
 {
     job->setCoreProperty(SequenceJob::SJ_Format, captureFormatS->currentText());
     job->setCoreProperty(SequenceJob::SJ_Encoding, captureEncodingS->currentText());
@@ -1518,7 +1516,7 @@ void Camera::checkUploadMode(int index)
     generatePreviewFilename();
 }
 
-void Camera::syncGUIToJob(SequenceJob * job)
+void Camera::syncGUIToJob(const QSharedPointer<SequenceJob> &job)
 {
     if (job == nullptr)
     {
@@ -1848,7 +1846,7 @@ void Camera::syncCameraInfo()
     }
 }
 
-void Camera::createNewJobTableRow(SequenceJob * job)
+void Camera::createNewJobTableRow(const QSharedPointer<SequenceJob> &job)
 {
     int currentRow = queueTable->rowCount();
     queueTable->insertRow(currentRow);
@@ -1907,9 +1905,9 @@ void Camera::createNewJobTableRow(SequenceJob * job)
     removeFromQueueB->setEnabled(true);
 }
 
-void Camera::updateRowStyle(SequenceJob * job)
+void Camera::updateRowStyle(const QSharedPointer<SequenceJob> &job)
 {
-    if (job == nullptr)
+    if (job.isNull())
         return;
 
     // find the job's row
@@ -2041,7 +2039,7 @@ void Camera::moveJob(bool up)
         queueTable->setItem(currentRow, i, counterpart);
     }
 
-    SequenceJob * job = state()->allJobs().takeAt(currentRow);
+    QSharedPointer<SequenceJob> job = state()->allJobs().takeAt(currentRow);
 
     state()->allJobs().removeOne(job);
     state()->allJobs().insert(destinationRow, job);
@@ -2384,7 +2382,7 @@ void Camera::loadGlobalSettings()
     setSettings(settings);
 }
 
-bool Camera::checkUploadPaths(FilenamePreviewType filenamePreview, SequenceJob *job)
+bool Camera::checkUploadPaths(FilenamePreviewType filenamePreview, const QSharedPointer<SequenceJob> &job)
 {
     // only relevant if we do not generate file name previews
     if (filenamePreview != FILENAME_NOT_PREVIEW)
@@ -2405,9 +2403,9 @@ bool Camera::checkUploadPaths(FilenamePreviewType filenamePreview, SequenceJob *
     return true;
 }
 
-QJsonObject Camera::createJsonJob(SequenceJob * job, int currentRow)
+QJsonObject Camera::createJsonJob(const QSharedPointer<SequenceJob> &job, int currentRow)
 {
-    if (job == nullptr)
+    if (job.isNull())
         return QJsonObject();
 
     QJsonObject jsonJob = {{"Status", "Idle"}};
@@ -2469,8 +2467,8 @@ QString Camera::previewFilename(FilenamePreviewType previewType)
     else
     {
         // create temporarily a sequence job
-        SequenceJob *m_job = createJob(SequenceJob::JOBTYPE_PREVIEW, previewType);
-        if (m_job == nullptr)
+        QSharedPointer<SequenceJob> m_job = createJob(SequenceJob::JOBTYPE_PREVIEW, previewType);
+        if (m_job.isNull())
             return previewText;
 
         QString previewSeq;
@@ -2504,7 +2502,7 @@ QString Camera::previewFilename(FilenamePreviewType previewType)
     return previewText;
 }
 
-void Camera::updateJobTableCountCell(SequenceJob * job, QTableWidgetItem * countCell)
+void Camera::updateJobTableCountCell(const QSharedPointer<SequenceJob> &job, QTableWidgetItem * countCell)
 {
     countCell->setText(QString("%L1/%L2").arg(job->getCompleted()).arg(job->getCoreProperty(SequenceJob::SJ_Count).toInt()));
 }
@@ -2980,7 +2978,6 @@ void Camera::clearSequenceQueue()
     state()->setActiveJob(nullptr);
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
-    qDeleteAll(state()->allJobs());
     state()->allJobs().clear();
 
     while (state()->getSequence().count())
@@ -3957,8 +3954,8 @@ void Camera::resetJobs()
     // If a job is selected for edit, reset only that job
     if (m_JobUnderEdit == true)
     {
-        SequenceJob * job = state()->allJobs().at(queueTable->currentRow());
-        if (nullptr != job)
+        QSharedPointer<SequenceJob> job = state()->allJobs().at(queueTable->currentRow());
+        if (!job.isNull())
         {
             job->resetStatus();
             updateJobTable(job);
@@ -3973,7 +3970,7 @@ void Camera::resetJobs()
             return;
         }
 
-        foreach (SequenceJob * job, state()->allJobs())
+        foreach (auto job, state()->allJobs())
         {
             job->resetStatus();
             updateJobTable(job);
@@ -3995,7 +3992,7 @@ bool Camera::selectJob(QModelIndex i)
     if (i.row() < 0 || (i.row() + 1) > state()->allJobs().size())
         return false;
 
-    SequenceJob * job = state()->allJobs().at(i.row());
+    QSharedPointer<SequenceJob> job = state()->allJobs().at(i.row());
 
     if (job == nullptr || job->jobType() == SequenceJob::JOBTYPE_DARKFLAT)
         return false;

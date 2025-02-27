@@ -318,7 +318,7 @@ uint16_t SchedulerUtils::fillCapturedFramesMap(const CapturedFramesMap &expected
     return totalCompletedCount;
 }
 
-void SchedulerUtils::updateLightFramesRequired(SchedulerJob * oneJob, const QList<SequenceJob *> &seqjobs,
+void SchedulerUtils::updateLightFramesRequired(SchedulerJob * oneJob, const QList<QSharedPointer<SequenceJob> > &seqjobs,
         const CapturedFramesMap &framesCount)
 {
     bool lightFramesRequired = false;
@@ -330,7 +330,7 @@ void SchedulerUtils::updateLightFramesRequired(SchedulerJob * oneJob, const QLis
             // Step 1: determine expected frames
             SchedulerUtils::calculateExpectedCapturesMap(seqjobs, expected);
             // Step 2: compare with already captured frames
-            for (SequenceJob *oneSeqJob : seqjobs)
+            for (auto oneSeqJob : seqjobs)
             {
                 QString const signature = oneSeqJob->getSignature();
                 /* If frame is LIGHT, how many do we have left? */
@@ -349,9 +349,9 @@ void SchedulerUtils::updateLightFramesRequired(SchedulerJob * oneJob, const QLis
     oneJob->setLightFramesRequired(lightFramesRequired);
 }
 
-SequenceJob *SchedulerUtils::processSequenceJobInfo(XMLEle * root, SchedulerJob * schedJob)
+QSharedPointer<SequenceJob> SchedulerUtils::processSequenceJobInfo(XMLEle * root, SchedulerJob * schedJob)
 {
-    SequenceJob *job = new SequenceJob(root, schedJob->getName());
+    QSharedPointer<SequenceJob> job = QSharedPointer<SequenceJob>(new SequenceJob(root, schedJob->getName()));
     if (schedJob)
     {
         if (FRAME_LIGHT == job->getFrameType())
@@ -361,13 +361,13 @@ SequenceJob *SchedulerUtils::processSequenceJobInfo(XMLEle * root, SchedulerJob 
     }
 
     auto placeholderPath = Ekos::PlaceholderPath();
-    placeholderPath.processJobInfo(job);
+    placeholderPath.processJobInfo(job.get());
 
     return job;
 }
 
-bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob * schedJob, QList<SequenceJob *> &jobs,
-                                       bool &hasAutoFocus, ModuleLogger * logger)
+bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob,
+                                       QList<QSharedPointer<SequenceJob>> &jobs, bool &hasAutoFocus, ModuleLogger * logger)
 {
     QFile sFile;
     sFile.setFileName(fileURL);
@@ -396,7 +396,7 @@ bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob * sc
                     hasAutoFocus = (!strcmp(findXMLAttValu(ep, "enabled"), "true"));
                 else if (!strcmp(tagXMLEle(ep), "Job"))
                 {
-                    SequenceJob *thisJob = processSequenceJobInfo(ep, schedJob);
+                    QSharedPointer<SequenceJob> thisJob = processSequenceJobInfo(ep, schedJob);
                     jobs.append(thisJob);
                     if (jobs.count() == 1)
                     {
@@ -415,7 +415,6 @@ bool SchedulerUtils::loadSequenceQueue(const QString &fileURL, SchedulerJob * sc
         {
             if (logger != nullptr) logger->appendLogText(QString(errmsg));
             delLilXML(xmlParser);
-            qDeleteAll(jobs);
             return false;
         }
     }
@@ -429,7 +428,7 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFram
     static SchedulerJob *jobWarned = nullptr;
 
     // Load the sequence job associated with the argument scheduler job.
-    QList<SequenceJob *> seqJobs;
+    QList<QSharedPointer<SequenceJob>> seqJobs;
     bool hasAutoFocus = false;
     bool result = loadSequenceQueue(schedJob->getSequenceFile().toLocalFile(), schedJob, seqJobs, hasAutoFocus, logger);
     if (result == false)
@@ -472,7 +471,7 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFram
                                    completedIterations);
     schedJob->setCompletedIterations(completedIterations);
     // Loop through sequence jobs to calculate the number of required frames and estimate duration.
-    foreach (SequenceJob *seqJob, seqJobs)
+    foreach (auto seqJob, seqJobs)
     {
         // FIXME: find a way to actually display the filter name.
         QString seqName = i18n("Job '%1' %2x%3\" %4", schedJob->getName(), seqJob->getCoreProperty(SequenceJob::SJ_Count).toInt(),
@@ -484,7 +483,6 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFram
             qCInfo(KSTARS_EKOS_SCHEDULER) <<
                                           QString("%1 duration cannot be estimated time since the sequence saves the files remotely.").arg(seqName);
             schedJob->setEstimatedTime(-2);
-            qDeleteAll(seqJobs);
             return true;
         }
 
@@ -537,7 +535,7 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFram
                                               captures_completed).arg(QFileInfo(signature).path());
 
             // Enumerate sequence jobs to check how many captures are completed overall in the same storage as the current one
-            foreach (SequenceJob *prevSeqJob, seqJobs)
+            foreach (auto prevSeqJob, seqJobs)
             {
                 // Enumerate seqJobs up to the current one
                 if (seqJob == prevSeqJob)
@@ -628,8 +626,6 @@ bool SchedulerUtils::estimateJobTime(SchedulerJob * schedJob, const CapturedFram
     // only in case we remember the job progress, we change the completion count
     if (rememberJobProgress)
         schedJob->setCompletedCount(totalCompletedCount);
-
-    qDeleteAll(seqJobs);
 
     schedJob->setEstimatedTimePerRepeat(imagingTimePerRepeat);
     schedJob->setEstimatedTimeLeftThisRepeat(imagingTimeLeftThisRepeat);
@@ -733,7 +729,7 @@ int SchedulerUtils::timeHeuristics(const SchedulerJob * schedJob)
 
 }
 
-uint16_t SchedulerUtils::calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs,
+uint16_t SchedulerUtils::calculateExpectedCapturesMap(const QList<QSharedPointer<SequenceJob>> &seqJobs,
         CapturedFramesMap &expected)
 {
     uint16_t capturesPerRepeat = 0;

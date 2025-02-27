@@ -129,7 +129,7 @@ void PlaceholderPath::processJobInfo(SequenceJob *job)
     job->setCoreProperty(SequenceJob::SJ_Signature, signature);
 }
 
-void PlaceholderPath::updateFullPrefix(SequenceJob *job, const QString &targetName)
+void PlaceholderPath::updateFullPrefix(const QSharedPointer <SequenceJob> &job, const QString &targetName)
 {
     QString imagePrefix = KSUtils::sanitize(targetName);
     QString fullPrefix = constructPrefix(job, imagePrefix);
@@ -137,7 +137,7 @@ void PlaceholderPath::updateFullPrefix(SequenceJob *job, const QString &targetNa
     job->setCoreProperty(SequenceJob::SJ_FullPrefix, fullPrefix);
 }
 
-QString PlaceholderPath::constructPrefix(const SequenceJob *job, const QString &imagePrefix)
+QString PlaceholderPath::constructPrefix(const QSharedPointer<SequenceJob> &job, const QString &imagePrefix)
 {
     CCDFrameType frameType = job->getFrameType();
     auto placeholderFormat = job->getCoreProperty(SequenceJob::SJ_PlaceholderFormat).toString();

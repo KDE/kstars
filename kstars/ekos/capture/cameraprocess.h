@@ -240,7 +240,7 @@ class CameraProcess : public QObject
          * where the event receiver reports whether one has been added successfully
          * and of which type it was.
          */
-        void jobCreated(SequenceJob *newJob);
+        void jobCreated(QSharedPointer<SequenceJob> newJob);
 
         /**
          * @brief capturePreview Capture a preview (single or looping ones)
@@ -266,13 +266,13 @@ class CameraProcess : public QObject
          * - Prepare the selected job ({@see #prepareJob(SequenceJob *)})
          * @param job selected sequence job
          */
-        void startJob(SequenceJob *job);
+        void startJob(const QSharedPointer<SequenceJob> &job);
 
         /**
          * @brief prepareJob Update the counters of existing frames and continue with prepareActiveJob(), if there exist less
          *        images than targeted. If enough images exist, continue with processJobCompletion().
          */
-        void prepareJob(SequenceJob *job);
+        void prepareJob(const QSharedPointer<SequenceJob> &job);
 
         /**
          * @brief prepareActiveJobStage1 Check for pre job script to execute. If none, move to stage 2
@@ -625,7 +625,7 @@ class CameraProcess : public QObject
         /**
          * @brief findExecutableJob find next job to be executed
          */
-        SequenceJob *findNextPendingJob();
+        const QSharedPointer<SequenceJob> findNextPendingJob();
 
         //  Based on  John Burkardt LLSQ (LGPL)
         void llsq(QVector<double> x, QVector<double> y, double &a, double &b);
@@ -697,22 +697,22 @@ class CameraProcess : public QObject
 
     signals:
         // controls for capture execution
-        void addJob (SequenceJob *job);
+        void addJob (const QSharedPointer<SequenceJob> &job);
         void createJob(SequenceJob::SequenceJobType jobtype = SequenceJob::JOBTYPE_BATCH);
         void jobStarting();
         void stopCapture(CaptureState targetState = CAPTURE_IDLE);
         void captureAborted(double exposureSeconds);
         void captureStopped();
         void requestAction(CaptureWorkflowActionType action);
-        void syncGUIToJob(SequenceJob *job);
+        void syncGUIToJob(const QSharedPointer<SequenceJob> &job);
         void updateFrameProperties(int reset);
-        void updateJobTable(SequenceJob *job, bool full = false);
+        void updateJobTable(const QSharedPointer<SequenceJob> &job, bool full = false);
         void jobExecutionPreparationStarted();
-        void jobPrepared(SequenceJob *job);
+        void jobPrepared(const QSharedPointer<SequenceJob> &job);
         void captureImageStarted();
         void captureTarget(QString targetName);
         void captureRunning();
-        void newExposureProgress(SequenceJob *job);
+        void newExposureProgress(const QSharedPointer<SequenceJob> &job);
         void newDownloadProgress(double downloadTimeLeft);
         void downloadingFrame();
         void updateCaptureCountDown(int deltaMS);
@@ -725,7 +725,7 @@ class CameraProcess : public QObject
         void processingFITSfinished(bool success);
         void rotatorReverseToggled(bool enabled);
         // communication with other modules
-        void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
+        void newImage(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data);
         void newView(const QSharedPointer<FITSView> &view);
         void suspendGuiding();
         void resumeGuiding();
@@ -780,7 +780,7 @@ class CameraProcess : public QObject
         /**
          * @brief activeJob Shortcut to the active job held in the state machine
          */
-        SequenceJob *activeJob()
+        const QSharedPointer<SequenceJob> &activeJob()
         {
             return  state()->getActiveJob();
         }

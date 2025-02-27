@@ -68,8 +68,8 @@ void CapturePreviewWidget::shareMountModule(Ekos::Mount *module)
     connect(m_mountModule, &Ekos::Mount::newTargetName, this, &CapturePreviewWidget::setTargetName);
 }
 
-void CapturePreviewWidget::updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data,
-        const QString &trainname)
+void CapturePreviewWidget::updateJobProgress(const QSharedPointer<Ekos::SequenceJob> &job,
+        const QSharedPointer<FITSData> &data, const QString &trainname)
 {
     // ensure that we have all camera device names in the selection
     if (!m_trainNames.contains(trainname))
@@ -325,7 +325,7 @@ void CapturePreviewWidget::selectedTrainChanged(QString newName)
     }
 }
 
-void CapturePreviewWidget::updateExposureProgress(Ekos::SequenceJob *job, const QString &trainname)
+void CapturePreviewWidget::updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &trainname)
 {
     if (trainname == trainSelectionCB->currentText())
         captureCountsWidget->updateExposureProgress(job, trainname);

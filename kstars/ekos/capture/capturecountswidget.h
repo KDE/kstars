@@ -39,7 +39,7 @@ public slots:
      * @param job currently active job
      * @param devicename device name of the camera reporting exposure process
      */
-    void updateExposureProgress(Ekos::SequenceJob *job, const QString &devicename);
+    void updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &devicename);
 
     /**
      * @brief display the download progress

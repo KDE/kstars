@@ -70,7 +70,7 @@ public:
      * @param framesCount map capture signature -> frame count
      * @return true iff the job need to capture light frames
      */
-    static void updateLightFramesRequired(SchedulerJob *oneJob, const QList<SequenceJob *> &seqjobs, const CapturedFramesMap &framesCount);
+    static void updateLightFramesRequired(SchedulerJob *oneJob, const QList<QSharedPointer<SequenceJob> > &seqjobs, const CapturedFramesMap &framesCount);
 
     /**
      * @brief processJobInfo a utility used by loadSequenceQueue() to help it read a capture sequence file
@@ -78,7 +78,7 @@ public:
      * @param schedJob the SchedulerJob is modified accoring to the contents of the sequence queue
      * @return a capture sequence
      */
-    static SequenceJob *processSequenceJobInfo(XMLEle *root, SchedulerJob *schedJob);
+    static QSharedPointer<SequenceJob> processSequenceJobInfo(XMLEle *root, SchedulerJob *schedJob);
 
     /**
          * @brief loadSequenceQueue Loads what's necessary to estimate job completion time from a capture sequence queue file
@@ -89,7 +89,7 @@ public:
          * @param logger module logging utility
          */
 
-    static bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob *> &jobs, bool &hasAutoFocus, ModuleLogger *logger);
+    static bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<QSharedPointer<SequenceJob> > &jobs, bool &hasAutoFocus, ModuleLogger *logger);
 
     /**
          * @brief estimateJobTime Estimates the time the job takes to complete based on the sequence file and what modules to utilize during the observation run.
@@ -114,7 +114,7 @@ public:
      * @param expected map to be filled
      * @return total expected number of captured frames of a single run of all jobs
      */
-    static uint16_t calculateExpectedCapturesMap(const QList<SequenceJob *> &seqJobs, CapturedFramesMap &expected);
+    static uint16_t calculateExpectedCapturesMap(const QList<QSharedPointer<SequenceJob> > &seqJobs, CapturedFramesMap &expected);
 
     /**
          * @brief findAltitude Find altitude given a specific time

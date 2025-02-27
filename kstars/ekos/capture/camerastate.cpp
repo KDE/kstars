@@ -41,7 +41,7 @@ CameraState::CameraState(QObject *parent): QObject{parent}
     init();
 }
 
-QList<SequenceJob *> &CameraState::allJobs()
+QList<QSharedPointer<SequenceJob>> &CameraState::allJobs()
 {
     return m_sequenceQueue->allJobs();
 }
@@ -57,7 +57,7 @@ void CameraState::setSequenceURL(const QUrl &newSequenceURL)
     placeholderPath().setSeqFilename(QFileInfo(newSequenceURL.toLocalFile()));
 }
 
-void CameraState::setActiveJob(SequenceJob *value)
+void CameraState::setActiveJob(const QSharedPointer<SequenceJob> &value)
 {
     // do nothing if active job is not changed
     if (m_activeJob == value)
@@ -66,8 +66,8 @@ void CameraState::setActiveJob(SequenceJob *value)
     // clear existing job connections
     if (m_activeJob != nullptr)
     {
-        disconnect(this, nullptr, m_activeJob, nullptr);
-        disconnect(m_activeJob, nullptr, this, nullptr);
+        disconnect(this, nullptr, m_activeJob.get(), nullptr);
+        disconnect(m_activeJob.get(), nullptr, this, nullptr);
         // ensure that the device adaptor does not send any new events
         m_activeJob->disconnectDeviceAdaptor();
     }
@@ -81,13 +81,13 @@ void CameraState::setActiveJob(SequenceJob *value)
         // connect job with device adaptor events
         m_activeJob->connectDeviceAdaptor();
         // forward signals to the sequence job
-        connect(this, &CameraState::newGuiderDrift, m_activeJob, &SequenceJob::updateGuiderDrift);
+        connect(this, &CameraState::newGuiderDrift, m_activeJob.get(), &SequenceJob::updateGuiderDrift);
         // react upon sequence job signals
-        connect(m_activeJob, &SequenceJob::prepareState, this, &CameraState::updatePrepareState);
-        connect(m_activeJob, &SequenceJob::prepareComplete, this, &CameraState::setPrepareComplete, Qt::UniqueConnection);
-        connect(m_activeJob, &SequenceJob::abortCapture, this, &CameraState::abortCapture);
-        connect(m_activeJob, &SequenceJob::captureStarted, this, &CameraState::captureStarted);
-        connect(m_activeJob, &SequenceJob::newLog, this, &CameraState::newLog);
+        connect(m_activeJob.get(), &SequenceJob::prepareState, this, &CameraState::updatePrepareState);
+        connect(m_activeJob.get(), &SequenceJob::prepareComplete, this, &CameraState::setPrepareComplete, Qt::UniqueConnection);
+        connect(m_activeJob.get(), &SequenceJob::abortCapture, this, &CameraState::abortCapture);
+        connect(m_activeJob.get(), &SequenceJob::captureStarted, this, &CameraState::captureStarted);
+        connect(m_activeJob.get(), &SequenceJob::newLog, this, &CameraState::newLog);
         // forward the devices and attributes
         m_activeJob->updateDeviceStates();
         m_activeJob->setAutoFocusReady(getRefocusState()->isAutoFocusReady());
@@ -97,7 +97,7 @@ void CameraState::setActiveJob(SequenceJob *value)
 
 int CameraState::activeJobID()
 {
-    if (m_activeJob == nullptr)
+    if (m_activeJob.isNull())
         return -1;
 
     for (int i = 0; i < allJobs().count(); i++)
@@ -323,7 +323,6 @@ void CameraState::setMeridianFlipState(QSharedPointer<MeridianFlipState> state)
     if (! mf_state.isNull())
     {
         mf_state->disconnect(this);
-        mf_state->deleteLater();
     }
 
     mf_state = state;
@@ -1064,7 +1063,7 @@ void CameraState::setGuideDeviation(double deviation_rms)
     }
 
     // Find the first aborted job
-    SequenceJob *abortedJob = nullptr;
+    QSharedPointer<SequenceJob> abortedJob;
     for(auto &job : allJobs())
     {
         if (job->getStatus() == JOB_ABORTED)
@@ -1123,7 +1122,7 @@ int CameraState::pendingJobCount()
 {
     int completedJobs = 0;
 
-    foreach (SequenceJob * job, allJobs())
+    foreach (auto job, allJobs())
     {
         if (job->getStatus() == JOB_DONE)
             completedJobs++;
@@ -1137,7 +1136,7 @@ QString CameraState::jobState(int id)
 {
     if (id < allJobs().count())
     {
-        SequenceJob * job = allJobs().at(id);
+        const QSharedPointer<SequenceJob> &job = allJobs().at(id);
         return job->getStatusString();
     }
 
@@ -1149,7 +1148,7 @@ QString CameraState::jobFilterName(int id)
 {
     if (id < allJobs().count())
     {
-        SequenceJob * job = allJobs().at(id);
+        const QSharedPointer<SequenceJob> &job = allJobs().at(id);
         return job->getCoreProperty(SequenceJob::SJ_Filter).toString();
     }
 
@@ -1161,7 +1160,7 @@ CCDFrameType CameraState::jobFrameType(int id)
 {
     if (id < allJobs().count())
     {
-        SequenceJob * job = allJobs().at(id);
+        const QSharedPointer<SequenceJob> &job = allJobs().at(id);
         return job->getFrameType();
     }
 
@@ -1172,7 +1171,7 @@ int CameraState::jobImageProgress(int id)
 {
     if (id < allJobs().count())
     {
-        SequenceJob * job = allJobs().at(id);
+        const QSharedPointer<SequenceJob> &job = allJobs().at(id);
         return job->getCompleted();
     }
 
@@ -1183,7 +1182,7 @@ int CameraState::jobImageCount(int id)
 {
     if (id < allJobs().count())
     {
-        SequenceJob * job = allJobs().at(id);
+        const QSharedPointer<SequenceJob> &job = allJobs().at(id);
         return job->getCoreProperty(SequenceJob::SJ_Count).toInt();
     }
 
@@ -1194,7 +1193,7 @@ double CameraState::jobExposureProgress(int id)
 {
     if (id < allJobs().count())
     {
-        SequenceJob * job = allJobs().at(id);
+        const QSharedPointer<SequenceJob> &job = allJobs().at(id);
         return job->getExposeLeft();
     }
 
@@ -1205,7 +1204,7 @@ double CameraState::jobExposureDuration(int id)
 {
     if (id < allJobs().count())
     {
-        SequenceJob * job = allJobs().at(id);
+        const QSharedPointer<SequenceJob> &job = allJobs().at(id);
         return job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
     }
 
@@ -1217,7 +1216,7 @@ double CameraState::progressPercentage()
     int totalImageCount     = 0;
     int totalImageCompleted = 0;
 
-    foreach (SequenceJob * job, allJobs())
+    foreach (auto job, allJobs())
     {
         totalImageCount += job->getCoreProperty(SequenceJob::SJ_Count).toInt();
         totalImageCompleted += job->getCompleted();
@@ -1247,7 +1246,7 @@ int CameraState::overallRemainingTime()
     int remaining = 0;
     double estimatedDownloadTime = averageDownloadTime();
 
-    foreach (SequenceJob * job, allJobs())
+    foreach (auto job, allJobs())
         remaining += job->getJobRemainingTime(estimatedDownloadTime);
 
     return remaining;
@@ -1263,7 +1262,7 @@ QString CameraState::sequenceQueueStatus()
 
     int idle = 0, error = 0, complete = 0, aborted = 0, running = 0;
 
-    foreach (SequenceJob * job, allJobs())
+    foreach (auto job, allJobs())
     {
         switch (job->getStatus())
         {
@@ -1343,7 +1342,7 @@ void CameraState::setCalibrationSettings(const QJsonObject &settings)
     setSkyFlat(skyflat);
 }
 
-bool CameraState::setDarkFlatExposure(SequenceJob *job)
+bool CameraState::setDarkFlatExposure(const QSharedPointer<SequenceJob> &job)
 {
     const auto darkFlatFilter = job->getCoreProperty(SequenceJob::SJ_Filter).toString();
     const auto darkFlatBinning = job->getCoreProperty(SequenceJob::SJ_Binning).toPoint();

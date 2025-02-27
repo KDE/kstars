@@ -51,7 +51,7 @@ void CaptureCountsWidget::setCurrentTrainName(const QString &name)
     showCurrentCameraInfo();
 }
 
-void CaptureCountsWidget::updateExposureProgress(Ekos::SequenceJob *job, const QString &devicename)
+void CaptureCountsWidget::updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &devicename)
 {
     imageCountDown[devicename].setHMS(0, 0, 0);
     imageCountDown[devicename] = imageCountDown[devicename].addSecs(int(std::round(job->getExposeLeft())));

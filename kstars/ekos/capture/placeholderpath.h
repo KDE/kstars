@@ -65,7 +65,7 @@ class PlaceholderPath
          * @param sequence job to be processed
          * @param targetname name of the celestial target
          */
-        void updateFullPrefix(SequenceJob *job, const QString &targetName);
+        void updateFullPrefix(const QSharedPointer<SequenceJob> &job, const QString &targetName);
 
         /**
          * @brief constructPrefix creates the prefix for the SequenceJob
@@ -73,7 +73,7 @@ class PlaceholderPath
          * @param imagePrefix sequence job prefix string
          * @return QString containing the processed prefix string
          */
-        QString constructPrefix(const SequenceJob *job, const QString &imagePrefix);
+        QString constructPrefix(const QSharedPointer<SequenceJob> &job, const QString &imagePrefix);
 
         /**
          * @brief generateFilename performs the data for tag substituion in the filename

@@ -125,7 +125,7 @@ class DarkLibrary : public QDialog, public Ui::DarkLibrary
         void trainChanged();
 
     public slots:
-        void processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data);
+        void processNewImage(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data);
         void updateProperty(INDI::Property prop);
         void loadIndexInView(int row);
         void clearRow(int row = -1);

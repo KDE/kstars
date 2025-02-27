@@ -719,8 +719,8 @@ public slots:
         void dither();
         void resetNonGuidedDither();
         void captureTarget(QString targetName);
-        void newImage(SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &trainname);
-        void newExposureProgress(SequenceJob *job, const QString &trainname);
+        void newImage(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data, const QString &trainname);
+        void newExposureProgress(const QSharedPointer<SequenceJob> &job, const QString &trainname);
         void newDownloadProgress(double, const QString &trainname);
         void sequenceChanged(const QJsonArray &sequence);
         void settingsUpdated(const QVariantMap &settings);        
@@ -763,7 +763,7 @@ public slots:
             return mainCamera()->devices();
         }
         // shortcut for the active job
-        SequenceJob *activeJob() const
+        const QSharedPointer<SequenceJob> &activeJob()
         {
             return mainCameraState()->getActiveJob();
         }

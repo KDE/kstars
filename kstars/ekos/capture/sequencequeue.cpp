@@ -163,7 +163,7 @@ bool SequenceQueue::load(const QString &fileURL, const QString &targetName,
                 }
                 else
                 {
-                    auto job = new SequenceJob(devices, state, SequenceJob::JOBTYPE_BATCH, ep, targetName);
+                    auto job = QSharedPointer<SequenceJob>(new SequenceJob(devices, state, SequenceJob::JOBTYPE_BATCH, ep, targetName));
                     m_allJobs.append(job);
                 }
             }

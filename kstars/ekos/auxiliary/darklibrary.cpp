@@ -484,7 +484,7 @@ bool DarkLibrary::cacheDarkFrameFromFile(const QString &filename)
 ///////////////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////////////
-void DarkLibrary::processNewImage(SequenceJob *job, const QSharedPointer<FITSData> &data)
+void DarkLibrary::processNewImage(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data)
 {
     Q_UNUSED(data)
     if (job->getStatus() == JOB_IDLE)

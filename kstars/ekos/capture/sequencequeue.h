@@ -42,7 +42,7 @@ class SequenceQueue : public QObject
         void setOptions();
         void loadOptions();
 
-        QList<SequenceJob *> &allJobs()
+        QList<QSharedPointer<SequenceJob>> &allJobs()
         {
             return m_allJobs;
         }
@@ -149,7 +149,7 @@ class SequenceQueue : public QObject
     private:
 
         // list of all sequence jobs
-        QList<SequenceJob *> m_allJobs;
+        QList<QSharedPointer<SequenceJob>> m_allJobs;
         // URL where the sequence queue file is stored.
         QUrl m_SequenceURL;
 

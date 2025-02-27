@@ -2806,7 +2806,7 @@ void Manager::updateCaptureStatus(Ekos::CaptureState status, const QString &trai
     ekosLiveClient.get()->message()->updateCaptureStatus(cStatus);
 }
 
-void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointer<FITSData> &data,
+void Manager::updateCaptureProgress(const QSharedPointer<SequenceJob> &job, const QSharedPointer<FITSData> &data,
                                     const QString &trainname)
 {
     capturePreview->updateJobProgress(job, data, trainname);
@@ -2832,7 +2832,7 @@ void Manager::updateCaptureProgress(Ekos::SequenceJob * job, const QSharedPointe
     }
 }
 
-void Manager::updateExposureProgress(Ekos::SequenceJob * job, const QString &trainname)
+void Manager::updateExposureProgress(const QSharedPointer<SequenceJob> &job, const QString &trainname)
 {
     QJsonObject status
     {

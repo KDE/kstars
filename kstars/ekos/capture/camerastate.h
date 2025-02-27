@@ -57,18 +57,18 @@ class CameraState: public QObject
         // ////////////////////////////////////////////////////////////////////
         // sequence jobs
         // ////////////////////////////////////////////////////////////////////
-        QList<SequenceJob *> &allJobs();
+        QList<QSharedPointer<SequenceJob> > &allJobs();
 
         QSharedPointer<SequenceQueue> getSequenceQueue()
         {
             return m_sequenceQueue;
         }
 
-        SequenceJob *getActiveJob() const
+        const QSharedPointer<SequenceJob> &getActiveJob()
         {
             return m_activeJob;
         }
-        void setActiveJob(SequenceJob *value);
+        void setActiveJob(const QSharedPointer<SequenceJob> &value);
 
         const QUrl &sequenceURL() const;
         void setSequenceURL(const QUrl &newSequenceURL);
@@ -694,7 +694,7 @@ class CameraState: public QObject
          * calculation results are discarded since Ekos does not save this information to the sequene file.
          * Possible solution is to write to a local config file to keep this information persist between sessions.
          */
-        bool setDarkFlatExposure(SequenceJob *job);
+        bool setDarkFlatExposure(const QSharedPointer<SequenceJob> &job);
 
         /**
          * @brief checkSeqBoundary Determine the next file number sequence.
@@ -987,7 +987,7 @@ signals:
         // Container for the list of SequenceJobs.
         QSharedPointer<SequenceQueue> m_sequenceQueue;
         // Currently active sequence job.
-        SequenceJob *m_activeJob { nullptr };
+        QSharedPointer<SequenceJob> m_activeJob;
         // pointer to the image data
         QSharedPointer<FITSData> m_ImageData;
         // CCD Chip frame settings

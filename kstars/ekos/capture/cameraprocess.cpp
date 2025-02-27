@@ -261,7 +261,7 @@ void CameraProcess::startNextPendingJob()
 {
     if (state()->allJobs().count() > 0)
     {
-        SequenceJob *nextJob = findNextPendingJob();
+        QSharedPointer<SequenceJob> nextJob = findNextPendingJob();
         if (nextJob != nullptr)
         {
             startJob(nextJob);
@@ -278,9 +278,9 @@ void CameraProcess::startNextPendingJob()
     }
 }
 
-void CameraProcess::jobCreated(SequenceJob *newJob)
+void CameraProcess::jobCreated(QSharedPointer<SequenceJob> newJob)
 {
-    if (newJob == nullptr)
+    if (newJob.isNull())
     {
         emit newLog(i18n("No new job created."));
         return;
@@ -393,8 +393,6 @@ void CameraProcess::stopCapturing(CaptureState targetState)
         else
         {
             state()->allJobs().removeOne(activeJob());
-            // Delete preview job
-            activeJob()->deleteLater();
             // Clear active job
             state()->setActiveJob(nullptr);
         }
@@ -449,13 +447,13 @@ void CameraProcess::pauseCapturing()
     emit newLog(i18n("Sequence shall be paused after current exposure is complete."));
 }
 
-void CameraProcess::startJob(SequenceJob *job)
+void CameraProcess::startJob(const QSharedPointer<SequenceJob> &job)
 {
     state()->initCapturePreparation();
     prepareJob(job);
 }
 
-void CameraProcess::prepareJob(SequenceJob * job)
+void CameraProcess::prepareJob(const QSharedPointer<SequenceJob> &job)
 {
     if (activeCamera() == nullptr || activeCamera()->isConnected() == false)
     {
@@ -730,7 +728,7 @@ void CameraProcess::executeJob()
         {
             auto placeholderPath = PlaceholderPath();
             // Make sure to update Full Prefix as exposure value was changed
-            placeholderPath.processJobInfo(activeJob());
+            placeholderPath.processJobInfo(activeJob().get());
             state()->setNextSequenceID(1);
         }
 
@@ -1072,7 +1070,7 @@ void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const 
     else
         state()->imageData().reset();
 
-    const SequenceJob *job = activeJob();
+    const QSharedPointer<SequenceJob> job = activeJob();
     // If there is no active job, ignore
     if (job == nullptr)
     {
@@ -1179,9 +1177,9 @@ void CameraProcess::processFITSData(const QSharedPointer<FITSData> &data, const 
     // image has been received and processed successfully.
     state()->setCaptureState(CAPTURE_IMAGE_RECEIVED);
     // processing finished successfully
-    SequenceJob *thejob = activeJob();
+    const QSharedPointer<SequenceJob> thejob = activeJob();
 
-    if (thejob == nullptr)
+    if (thejob.isNull())
         return;
 
     // If fast exposure is off, disconnect exposure progress
@@ -1410,7 +1408,7 @@ void CameraProcess::processJobCompletion2()
 
 IPState CameraProcess::startNextJob()
 {
-    SequenceJob * next_job = nullptr;
+    QSharedPointer<SequenceJob> next_job;
 
     for (auto &oneJob : state()->allJobs())
     {
@@ -2260,7 +2258,7 @@ bool CameraProcess::checkFlatCalibration(QSharedPointer<FITSData> imageData, dou
             activeCamera()->setUploadMode(activeJob()->getUploadMode());
             auto placeholderPath = PlaceholderPath();
             // Make sure to update Full Prefix as exposure value was changed
-            placeholderPath.processJobInfo(activeJob());
+            placeholderPath.processJobInfo(activeJob().get());
             // Mark calibration as complete
             activeJob()->setCalibrationStage(SequenceJobState::CAL_CALIBRATION_COMPLETE);
 
@@ -2664,9 +2662,9 @@ bool CameraProcess::checkPausing(CaptureContinueAction continueAction)
     return false;
 }
 
-SequenceJob *CameraProcess::findNextPendingJob()
+const QSharedPointer<SequenceJob> CameraProcess::findNextPendingJob()
 {
-    SequenceJob * first_job = nullptr;
+    QSharedPointer<SequenceJob> first_job;
 
     // search for idle or aborted jobs
     for (auto &job : state()->allJobs())
@@ -2680,7 +2678,7 @@ SequenceJob *CameraProcess::findNextPendingJob()
 
     // If there are no idle nor aborted jobs, question is whether to reset and restart
     // Scheduler will start a non-empty new job each time and doesn't use this execution path
-    if (first_job == nullptr)
+    if (first_job.isNull())
     {
         // If we have at least one job that are in error, bail out, even if ignoring job progress
         for (auto &job : state()->allJobs())
@@ -2693,7 +2691,7 @@ SequenceJob *CameraProcess::findNextPendingJob()
                     if (state()->getCaptureDelayTimer().interval() <= 0)
                         state()->getCaptureDelayTimer().setInterval(1000);
                 }
-                return nullptr;
+                return QSharedPointer<SequenceJob>();
             }
         }
 

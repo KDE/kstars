@@ -320,7 +320,7 @@ namespace
 {
 // compareCaptureSequeuce() is a utility to use the CaptureJobDetails structure as a truth value
 // to see if the capture sequeuce was loaded properly.
-void compareCaptureSequence(const QList<CaptureJobDetails> &details, const QList<Ekos::SequenceJob *> &jobs)
+void compareCaptureSequence(const QList<CaptureJobDetails> &details, const QList<QSharedPointer<Ekos::SequenceJob>> &jobs)
 {
     QVERIFY(details.size() == jobs.size());
     for (int i = 0; i < jobs.size(); ++i)
@@ -343,7 +343,7 @@ void TestSchedulerUnit::loadSequenceQueueTest()
     // Create a new Ekos::SchedulerJob and pass in a null moon pointer.
     Ekos::SchedulerJob schedJob(nullptr);
 
-    QList<Ekos::SequenceJob *> jobs;
+    QList<QSharedPointer<Ekos::SequenceJob>> jobs;
     bool hasAutoFocus = false;
     // Read in the 9 filters file.
     // The last arg is for logging. Use nullptr for testing.
@@ -434,12 +434,12 @@ void TestSchedulerUnit::estimateJobTimeTest()
     // 1. Explicitly load the capture jobs
     job.setStartupCondition(Ekos::START_ASAP);
     job.setCompletionCondition(Ekos::FINISH_SEQUENCE);
-    QList<Ekos::SequenceJob *> jobs;
+    QList<QSharedPointer<Ekos::SequenceJob>> jobs;
     bool hasAutoFocus = false;
     // The last arg is for logging. Use nullptr for testing.
     QVERIFY(Ekos::SchedulerUtils::loadSequenceQueue(seqFile9Filters, &job, jobs, hasAutoFocus, nullptr));
     // 2. Get the signiture of the first job
-    SequenceJob *seqJob = jobs[0];
+    QSharedPointer<SequenceJob> &seqJob = jobs[0];
     seqJob->setCoreProperty(Ekos::SequenceJob::SJ_TargetName, job.getName());
     auto placeholderPath = Ekos::PlaceholderPath();
     QString signature = placeholderPath.generateSequenceFilename(*seqJob, true, true, 1, ".fits", "", false, true);

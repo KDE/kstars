@@ -38,7 +38,7 @@ public:
      * @brief display information about the currently running job
      * @param currently active job
      */
-    void updateJobProgress(Ekos::SequenceJob *job, const QSharedPointer<FITSData> &data, const QString &devicename);
+    void updateJobProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QSharedPointer<FITSData> &data, const QString &devicename);
 
     /**
      * @brief update the preview image from a file
@@ -106,7 +106,7 @@ public slots:
 
 private:
 
-    void updateExposureProgress(Ekos::SequenceJob *job, const QString &devicename);
+    void updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &devicename);
     void updateDownloadProgress(double downloadTimeLeft, const QString &devicename);
 
     QSharedPointer<Ekos::SchedulerModuleState> m_schedulerModuleState = nullptr;
