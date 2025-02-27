@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-24 10:44+0000\n"
+"POT-Creation-Date: 2025-02-27 01:51+0000\n"
 "PO-Revision-Date: 2013-11-16 05:16+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -1112,7 +1112,7 @@ msgstr "Күн жүйесін қарау құралы"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1526 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1530 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1189,8 +1189,8 @@ msgstr "Жер"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1122 tools/imagingplanner.cpp:1501
-#: tools/imagingplanner.cpp:2664 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1136 tools/imagingplanner.cpp:1505
+#: tools/imagingplanner.cpp:2890 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2767,7 +2767,7 @@ msgstr "Керегі жоқ"
 msgid "Show webpage about "
 msgstr "Келесі туралы веб-парақ көрсетілсін:"
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:2809
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3035
 #, kde-format
 msgid "object"
 msgstr "нысан"
@@ -2894,7 +2894,7 @@ msgstr ""
 msgid "Degrees"
 msgstr "градус"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1122
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1136
 #, fuzzy, kde-format
 #| msgid "hours"
 msgid "Hours"
@@ -2948,7 +2948,7 @@ msgstr "Мәтін"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1122
+#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1136
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3343,7 +3343,7 @@ msgstr "Шамасы"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1122 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1136 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -3470,7 +3470,9 @@ msgctxt "@title:window"
 msgid "Export Catalog"
 msgstr "Каталогты импорттау"
 
+#. i18n: ectx: property (text), widget (QPushButton, DevelCheckCatalogButton)
 #: dialogs/catalogsdbui.cpp:176 dialogs/catalogsdbui.cpp:196
+#: tools/imagingplanner.ui:508
 #, fuzzy, kde-format
 #| msgid "Catalogs"
 msgid "Catalog"
@@ -27561,7 +27563,7 @@ msgstr "Атик"
 
 #. i18n: ectx: property (text), widget (QPushButton, equipmentOtherB)
 #. i18n: ectx: property (text), widget (QCheckBox, OtherCB)
-#: ekos/profilewizard.ui:432 tools/imagingplanner.ui:1850
+#: ekos/profilewizard.ui:432 tools/imagingplanner.ui:1998
 #, fuzzy, kde-format
 #| msgctxt "Satellite group name"
 #| msgid "Other"
@@ -29592,8 +29594,8 @@ msgstr "Шоқжұлдыздар"
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, AstrobinMinRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, AstrobinMaxRadius)
 #: ekos/scheduler/scheduler.ui:1656 ekos/scheduler/scheduler.ui:1713
-#: ekos/scheduler/scheduler.ui:1729 tools/imagingplanner.ui:1021
-#: tools/imagingplanner.ui:1368 tools/imagingplanner.ui:1416
+#: ekos/scheduler/scheduler.ui:1729 tools/imagingplanner.ui:1169
+#: tools/imagingplanner.ui:1516 tools/imagingplanner.ui:1564
 #, kde-format
 msgid " °"
 msgstr ""
@@ -31369,7 +31371,7 @@ msgstr "Ридинг"
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #. i18n: ectx: property (text), widget (QCheckBox, keywordCB)
-#: fitsviewer/fitsheaderdialog.ui:48 tools/imagingplanner.ui:1984
+#: fitsviewer/fitsheaderdialog.ui:48 tools/imagingplanner.ui:2132
 #, kde-format
 msgid "Keyword"
 msgstr "Түйінді сөз"
@@ -31607,7 +31609,7 @@ msgstr "Португалия"
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
 #: fitsviewer/fitstab.cpp:762 fitsviewer/opsfits.ui:435
-#: tools/imagingplanner.ui:1302 tools/imagingplanner.ui:1627
+#: tools/imagingplanner.ui:1450 tools/imagingplanner.ui:1775
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Simbad"
@@ -31640,7 +31642,7 @@ msgid "Distance"
 msgstr "Қашықтығы:"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1122
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1136
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
@@ -87135,7 +87137,7 @@ msgstr "Аса жаңаның қалдығы"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyCB)
 #: printing/legend.cpp:368 printing/legend.cpp:403 skyobjects/skyobject.cpp:359
-#: skyobjects/skyobject.cpp:409 tools/imagingplanner.ui:1820
+#: skyobjects/skyobject.cpp:409 tools/imagingplanner.ui:1968
 #, kde-format
 msgid "Galaxy"
 msgstr "Галактика"
@@ -88392,7 +88394,7 @@ msgid "Open Clr"
 msgstr "Шашыранды шоғыр"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GlobularClusterCB)
-#: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1790
+#: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1938
 #, fuzzy, kde-format
 #| msgctxt "Satellite group name"
 #| msgid "Globalstar"
@@ -88400,21 +88402,21 @@ msgid "Globular"
 msgstr "Globalstar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, NebulaCB)
-#: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1780
+#: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1928
 #, fuzzy, kde-format
 #| msgid "Nebulae"
 msgid "Nebula"
 msgstr "Тұмандықтар"
 
 #. i18n: ectx: property (text), widget (QCheckBox, PlanetaryCB)
-#: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1800
+#: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1948
 #, fuzzy, kde-format
 #| msgid "Planet"
 msgid "Planetary"
 msgstr "Планета"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SupernovaRemnantCB)
-#: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1810
+#: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1958
 #, kde-format
 msgid "Remnant"
 msgstr ""
@@ -88426,7 +88428,7 @@ msgid "Galaxy Clr"
 msgstr "Галактика шоғыры"
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
-#: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:1840
+#: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:1988
 #, fuzzy, kde-format
 #| msgid "Dark Nebula"
 msgid "Dark Neb"
@@ -89931,8 +89933,8 @@ msgid "Object Set"
 msgstr "Нысан"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2681
-#: tools/imagingplanner.cpp:2692 tools/imagingplanner.cpp:2707
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2907
+#: tools/imagingplanner.cpp:2918 tools/imagingplanner.cpp:2933
 #, fuzzy, kde-format
 #| msgid "Transit:"
 msgid "Transit"
@@ -91128,286 +91130,286 @@ msgstr ""
 "</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:174 tools/imagingplanner.ui:1897
+#: tools/imagingplanner.cpp:174 tools/imagingplanner.ui:2045
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Imaged"
 msgstr "Кескін"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:179 tools/imagingplanner.ui:1867
+#: tools/imagingplanner.cpp:179 tools/imagingplanner.ui:2015
 #, kde-format
 msgid "Picked"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:185 tools/imagingplanner.ui:1954
+#: tools/imagingplanner.cpp:185 tools/imagingplanner.ui:2102
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignored"
 msgstr "Елемеу"
 
-#: tools/imagingplanner.cpp:977
+#: tools/imagingplanner.cpp:991
 #, fuzzy, kde-format
 #| msgid "Observation Planner"
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "Бақылау жоспарлағышы"
 
-#: tools/imagingplanner.cpp:1122
+#: tools/imagingplanner.cpp:1136
 #, fuzzy, kde-format
 #| msgctxt "Altitude"
 #| msgid "Alt"
 msgid "Alt"
 msgstr "Биікт"
 
-#: tools/imagingplanner.cpp:1123
+#: tools/imagingplanner.cpp:1137
 #, fuzzy, kde-format
 #| msgctxt "City in Alberta Canada"
 #| msgid "Consort"
 msgid "Const"
 msgstr "Консорт"
 
-#: tools/imagingplanner.cpp:1123
+#: tools/imagingplanner.cpp:1137
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "EQ Coord"
 msgid "Coord"
 msgstr "Экв.коорд."
 
-#: tools/imagingplanner.cpp:1125
+#: tools/imagingplanner.cpp:1139
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1127
+#: tools/imagingplanner.cpp:1141
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1129
+#: tools/imagingplanner.cpp:1143
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1131
+#: tools/imagingplanner.cpp:1145
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1133
+#: tools/imagingplanner.cpp:1147
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1135
+#: tools/imagingplanner.cpp:1149
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:1151
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1139
+#: tools/imagingplanner.cpp:1153
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1570
+#: tools/imagingplanner.cpp:1574
 #, fuzzy, kde-format
 #| msgctxt "%1 is a location on earth"
 #| msgid "Almanac for %1"
 msgid "No match for \"%1\""
 msgstr "%1 күнтізбесі"
 
-#: tools/imagingplanner.cpp:1634
+#: tools/imagingplanner.cpp:1638
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1639
+#: tools/imagingplanner.cpp:1643
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1644
+#: tools/imagingplanner.cpp:1648
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1941
+#: tools/imagingplanner.cpp:1978
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Updating tables..."
 msgstr "Кескінді жүктеу..."
 
-#: tools/imagingplanner.cpp:2136
+#: tools/imagingplanner.cpp:2350
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "See Data -> Download New Data..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2137
+#: tools/imagingplanner.cpp:2351
 #, fuzzy, kde-format
 #| msgid "Catalogs"
 msgid "No Catalog!"
 msgstr "Каталогтар"
 
-#: tools/imagingplanner.cpp:2183
+#: tools/imagingplanner.cpp:2397
 #, fuzzy, kde-format
 #| msgid "Select object..."
 msgid "Select an object."
 msgstr "Нысанды таңдау..."
 
-#: tools/imagingplanner.cpp:2185
+#: tools/imagingplanner.cpp:2399
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2187
+#: tools/imagingplanner.cpp:2401
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Load a Catalog."
 msgstr "Каталогты жүктеу..."
 
-#: tools/imagingplanner.cpp:2364
+#: tools/imagingplanner.cpp:2572
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Loading Catalogs..."
 msgstr "Каталогты жүктеу..."
 
-#: tools/imagingplanner.cpp:2670
+#: tools/imagingplanner.cpp:2896
 #, fuzzy, kde-format
 #| msgid "Transit:"
 msgid "Transits"
 msgstr "Шарықтауы:"
 
-#: tools/imagingplanner.cpp:2675 tools/imagingplanner.cpp:2679
+#: tools/imagingplanner.cpp:2901 tools/imagingplanner.cpp:2905
 #, fuzzy, kde-format
 #| msgid "Sets at: %1"
 msgid "Sets at"
 msgstr "Батуы: %1"
 
-#: tools/imagingplanner.cpp:2686 tools/imagingplanner.cpp:2690
+#: tools/imagingplanner.cpp:2912 tools/imagingplanner.cpp:2916
 #, fuzzy, kde-format
 #| msgid "Rises at: %1"
 msgid "Rises at"
 msgstr "Шығуы: %1"
 
-#: tools/imagingplanner.cpp:2697 tools/imagingplanner.cpp:2703
+#: tools/imagingplanner.cpp:2923 tools/imagingplanner.cpp:2929
 #, fuzzy, kde-format
 #| msgid "Rise:"
 msgid "Rises"
 msgstr "Шығу:"
 
-#: tools/imagingplanner.cpp:2699 tools/imagingplanner.cpp:2705
+#: tools/imagingplanner.cpp:2925 tools/imagingplanner.cpp:2931
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:2811 tools/imagingplanner.cpp:3067
+#: tools/imagingplanner.cpp:3037 tools/imagingplanner.cpp:3293
 #, fuzzy, kde-format
 #| msgid "object"
 msgid "objects"
 msgstr "нысан"
 
-#: tools/imagingplanner.cpp:3063
+#: tools/imagingplanner.cpp:3289
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 және %3"
 
-#: tools/imagingplanner.cpp:3071 tools/imagingplanner.cpp:3075
+#: tools/imagingplanner.cpp:3297 tools/imagingplanner.cpp:3301
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3072 tools/imagingplanner.cpp:3077
+#: tools/imagingplanner.cpp:3298 tools/imagingplanner.cpp:3303
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3081 tools/imagingplanner.cpp:3085
+#: tools/imagingplanner.cpp:3307 tools/imagingplanner.cpp:3311
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3082 tools/imagingplanner.cpp:3087
+#: tools/imagingplanner.cpp:3308 tools/imagingplanner.cpp:3313
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3092 tools/imagingplanner.cpp:3097
+#: tools/imagingplanner.cpp:3318 tools/imagingplanner.cpp:3323
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop ignoring %1"
 msgstr "Қа&дағалауды тоқтату"
 
-#: tools/imagingplanner.cpp:3093 tools/imagingplanner.cpp:3099
+#: tools/imagingplanner.cpp:3319 tools/imagingplanner.cpp:3325
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "Елемеу"
 
-#: tools/imagingplanner.cpp:3102
+#: tools/imagingplanner.cpp:3328
 #, fuzzy, kde-format
 #| msgid "Center in Map"
 msgid "Center %1 on SkyMap"
 msgstr "Карта ортасына"
 
-#: tools/imagingplanner.cpp:3241
+#: tools/imagingplanner.cpp:3467
 #, fuzzy, kde-format
 #| msgid "Name of the remote INDI focuser device."
 msgid "Successfully marked %1 objects as read"
 msgstr "Қашық INDI тоғыс келтіргіш құрылғының атауы."
 
-#: tools/imagingplanner.cpp:3243
+#: tools/imagingplanner.cpp:3469
 #, fuzzy, kde-format
 #| msgid "Input file:"
 msgid "Empty file"
 msgstr "Кіріс файлы:"
 
-#: tools/imagingplanner.cpp:3252
+#: tools/imagingplanner.cpp:3478
 #, fuzzy, kde-format
 #| msgid "Add a name label to the object named %1."
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "%1 деген нысанның жарлығын көрсету."
 
-#: tools/imagingplanner.cpp:3254
+#: tools/imagingplanner.cpp:3480
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3256
+#: tools/imagingplanner.cpp:3482
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3259
+#: tools/imagingplanner.cpp:3485
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3265 tools/imagingplanner.cpp:3458
+#: tools/imagingplanner.cpp:3491 tools/imagingplanner.cpp:3694
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "%1 деген файл ашылмады"
 
-#: tools/imagingplanner.cpp:3367
+#: tools/imagingplanner.cpp:3603
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3439
+#: tools/imagingplanner.cpp:3675
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
@@ -91467,39 +91469,74 @@ msgstr "Параметрдің атауы"
 msgid "Open web documentation."
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, DevelLabel)
+#: tools/imagingplanner.ui:445
+#, kde-format
+msgid ""
+"\n"
+"                 Catalog Development:\n"
+"              "
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, DevelDownsampleButton)
+#: tools/imagingplanner.ui:464
+#, fuzzy, kde-format
+#| msgid "Delete all Images"
+msgid "Downsample"
+msgstr "Бүкіл кескіндерді өшіру"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, DevelDownsampleButton)
+#. i18n: ectx: property (toolTip), widget (QPushButton, DevelCheckTargetsButton)
+#. i18n: ectx: property (toolTip), widget (QPushButton, DevelCheckCatalogButton)
+#. i18n: ectx: property (toolTip), widget (QPushButton, DevelCheckTargetsPrevButton)
+#. i18n: ectx: property (toolTip), widget (QPushButton, DevelCheckTargetsNextButton)
+#: tools/imagingplanner.ui:467 tools/imagingplanner.ui:489
+#: tools/imagingplanner.ui:511 tools/imagingplanner.ui:536
+#: tools/imagingplanner.ui:568
+#, kde-format
+msgid "For catalog development"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, DevelCheckTargetsButton)
+#: tools/imagingplanner.ui:486
+#, fuzzy, kde-format
+#| msgid "Check URL"
+msgid "Check"
+msgstr "URL-ді тексеру"
+
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
-#: tools/imagingplanner.ui:565
+#: tools/imagingplanner.ui:713
 #, fuzzy, kde-format
 #| msgid "Set observing notes for the object:"
 msgid "Create/Edit some user notes for this object"
 msgstr "Нысанға арналған жазулары:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesDoneButton)
-#: tools/imagingplanner.ui:597
+#: tools/imagingplanner.ui:745
 #, kde-format
 msgid "Done creating/editing some user notes for this object"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink)
-#: tools/imagingplanner.ui:629
+#: tools/imagingplanner.ui:777
 #, kde-format
 msgid "Open a browser with the 1st link in this note."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink2)
-#: tools/imagingplanner.ui:661
+#: tools/imagingplanner.ui:809
 #, kde-format
 msgid "Open a browser with the 2nd link in this note."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesOpenLink3)
-#: tools/imagingplanner.ui:693
+#: tools/imagingplanner.ui:841
 #, kde-format
 msgid "Open a browser with the 3rd link in this note."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, userNotesLabel)
-#: tools/imagingplanner.ui:719
+#: tools/imagingplanner.ui:867
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Note"
@@ -91507,41 +91544,41 @@ msgid "Note:"
 msgstr "Жазба"
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, userNotesEdit)
-#: tools/imagingplanner.ui:745
+#: tools/imagingplanner.ui:893
 #, kde-format
 msgid "Enter notes here"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAltitudeGraphB)
-#: tools/imagingplanner.ui:810
+#: tools/imagingplanner.ui:958
 #, fuzzy, kde-format
 #| msgid "Print the Altitude vs. time plot"
 msgid "Minimize the altitude vs time graph."
 msgstr "Биіктік-Уақыт графигін басу"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAltitudeGraphB)
-#: tools/imagingplanner.ui:905
+#: tools/imagingplanner.ui:1053
 #, fuzzy, kde-format
 #| msgid "Print the Altitude vs. time plot"
 msgid "Maximize the altitude vs time graph."
 msgstr "Биіктік-Уақыт графигін басу"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HiddenAltitudeGraphLabel)
-#: tools/imagingplanner.ui:937
+#: tools/imagingplanner.ui:1085
 #, fuzzy, kde-format
 #| msgid "Altitude vs. Time"
 msgid "Altitude vs Time graph."
 msgstr "Биіктік/Уақыт"
 
 #. i18n: ectx: property (text), widget (QLabel, HiddenAltitudeGraphLabel)
-#: tools/imagingplanner.ui:940
+#: tools/imagingplanner.ui:1088
 #, fuzzy, kde-format
 #| msgid "Altitude vs. Time"
 msgid "Altitude vs Time graph"
 msgstr "Биіктік/Уақыт"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useArtificialHorizon)
-#: tools/imagingplanner.ui:980
+#: tools/imagingplanner.ui:1128
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91550,7 +91587,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useArtificialHorizon)
-#: tools/imagingplanner.ui:983
+#: tools/imagingplanner.ui:1131
 #, fuzzy, kde-format
 #| msgid "Color of horizon line"
 msgid "Artificial horizon"
@@ -91558,7 +91595,7 @@ msgstr "Көкжиек сызығының түсі"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltitudeLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minAltitude)
-#: tools/imagingplanner.ui:996 tools/imagingplanner.ui:1018
+#: tools/imagingplanner.ui:1144 tools/imagingplanner.ui:1166
 #, kde-format
 msgid ""
 "For imaging hours calculation, object must be at least at this altitude (and "
@@ -91566,7 +91603,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minAltitudeLabel)
-#: tools/imagingplanner.ui:999
+#: tools/imagingplanner.ui:1147
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Main Control"
@@ -91574,7 +91611,7 @@ msgid "Min alt"
 msgstr "Негізгі басқару"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minMoonLabel)
-#: tools/imagingplanner.ui:1043
+#: tools/imagingplanner.ui:1191
 #, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations, object must be at "
@@ -91583,14 +91620,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
-#: tools/imagingplanner.ui:1046
+#: tools/imagingplanner.ui:1194
 #, fuzzy, kde-format
 #| msgid "Moon"
 msgid "Moon:"
 msgstr "Ай"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minMoon)
-#: tools/imagingplanner.ui:1065
+#: tools/imagingplanner.ui:1213
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91600,14 +91637,14 @@ msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minMoon)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, maxMoonAltitude)
-#: tools/imagingplanner.ui:1068 tools/imagingplanner.ui:1087
+#: tools/imagingplanner.ui:1216 tools/imagingplanner.ui:1235
 #, fuzzy, kde-format
 #| msgid "%1° %2"
 msgid "°"
 msgstr "%1° %2"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxMoonAltitude)
-#: tools/imagingplanner.ui:1084
+#: tools/imagingplanner.ui:1232
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91616,21 +91653,21 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAstrobinDetailsButton)
-#: tools/imagingplanner.ui:1159
+#: tools/imagingplanner.ui:1307
 #, kde-format
 msgid "Minimize the Astrobin search details section"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel2)
-#: tools/imagingplanner.ui:1191 tools/imagingplanner.ui:1516
+#: tools/imagingplanner.ui:1339 tools/imagingplanner.ui:1664
 #, kde-format
 msgid "Select a button to search for the selected object on the internet."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel2)
-#: tools/imagingplanner.ui:1194 tools/imagingplanner.ui:1519
+#: tools/imagingplanner.ui:1342 tools/imagingplanner.ui:1667
 #, fuzzy, kde-format
 #| msgid "Auto Stretch"
 msgid "Search"
@@ -91638,7 +91675,7 @@ msgstr "Автосозу"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton2)
-#: tools/imagingplanner.ui:1218 tools/imagingplanner.ui:1543
+#: tools/imagingplanner.ui:1366 tools/imagingplanner.ui:1691
 #, kde-format
 msgid ""
 "Search Astrobin for the selected object using the search constraints in this "
@@ -91647,7 +91684,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton2)
-#: tools/imagingplanner.ui:1221 tools/imagingplanner.ui:1546
+#: tools/imagingplanner.ui:1369 tools/imagingplanner.ui:1694
 #, fuzzy, kde-format
 #| msgid "Astrometry.net"
 msgid "Astrobin"
@@ -91655,7 +91692,7 @@ msgstr "Astrometry.net"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia2)
-#: tools/imagingplanner.ui:1245 tools/imagingplanner.ui:1570
+#: tools/imagingplanner.ui:1393 tools/imagingplanner.ui:1718
 #, fuzzy, kde-format
 #| msgid "No Description found for selected sky-object"
 msgid "Search Wikipedia for the selected object."
@@ -91663,7 +91700,7 @@ msgstr "Таңдалған аспан нысанның сипаттамасы т
 
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia2)
-#: tools/imagingplanner.ui:1248 tools/imagingplanner.ui:1573
+#: tools/imagingplanner.ui:1396 tools/imagingplanner.ui:1721
 #, fuzzy, kde-format
 #| msgctxt "Image/info menu item (should be translated)"
 #| msgid "Wikipedia Page"
@@ -91672,28 +91709,28 @@ msgstr "Уикипедия парағы"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages2)
-#: tools/imagingplanner.ui:1272 tools/imagingplanner.ui:1597
+#: tools/imagingplanner.ui:1420 tools/imagingplanner.ui:1745
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC/IC images."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages)
 #. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages2)
-#: tools/imagingplanner.ui:1275 tools/imagingplanner.ui:1600
+#: tools/imagingplanner.ui:1423 tools/imagingplanner.ui:1748
 #, kde-format
 msgid "NGC/IC"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad2)
-#: tools/imagingplanner.ui:1299 tools/imagingplanner.ui:1624
+#: tools/imagingplanner.ui:1447 tools/imagingplanner.ui:1772
 #, fuzzy, kde-format
 #| msgid "Search satellites"
 msgid "Search Simbad."
 msgstr "Серіктерді іздеу"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, AstrobinAward)
-#: tools/imagingplanner.ui:1309
+#: tools/imagingplanner.ui:1457
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91702,46 +91739,46 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, AstrobinAward)
-#: tools/imagingplanner.ui:1312
+#: tools/imagingplanner.ui:1460
 #, kde-format
 msgid "Awards Required"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
-#: tools/imagingplanner.ui:1331
+#: tools/imagingplanner.ui:1479
 #, fuzzy, kde-format
 #| msgid "Radius:"
 msgid "Radius:"
 msgstr "Радиусы:"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
-#: tools/imagingplanner.ui:1346
+#: tools/imagingplanner.ui:1494
 #, kde-format
 msgid "Min:"
 msgstr "Мин.:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
-#: tools/imagingplanner.ui:1394
+#: tools/imagingplanner.ui:1542
 #, kde-format
 msgid "Max:"
 msgstr "Макс.:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAstrobinDetailsButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFilterTypesButton)
-#: tools/imagingplanner.ui:1484 tools/imagingplanner.ui:2088
+#: tools/imagingplanner.ui:1632 tools/imagingplanner.ui:2236
 #, kde-format
 msgid "Maximize the Astrobin search details section"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideFilterTypesButton)
-#: tools/imagingplanner.ui:1690
+#: tools/imagingplanner.ui:1838
 #, kde-format
 msgid "Minimize the Filters section"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel2)
-#: tools/imagingplanner.ui:1716 tools/imagingplanner.ui:2120
+#: tools/imagingplanner.ui:1864 tools/imagingplanner.ui:2268
 #, kde-format
 msgid ""
 "Constrain the list of object on the left by the filters in this section."
@@ -91749,7 +91786,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel2)
-#: tools/imagingplanner.ui:1719 tools/imagingplanner.ui:2123
+#: tools/imagingplanner.ui:1867 tools/imagingplanner.ui:2271
 #, fuzzy, kde-format
 #| msgid "Filters:"
 msgid "Filters"
@@ -91757,21 +91794,21 @@ msgstr "Сүзгілер:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minHoursLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minHours)
-#: tools/imagingplanner.ui:1732 tools/imagingplanner.ui:1751
+#: tools/imagingplanner.ui:1880 tools/imagingplanner.ui:1899
 #, kde-format
 msgid ""
 "Objects are only shown if they can be imaged for at least this many hours."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minHoursLabel)
-#: tools/imagingplanner.ui:1738
+#: tools/imagingplanner.ui:1886
 #, fuzzy, kde-format
 #| msgid "hours"
 msgid "Min Hours:"
 msgstr "сағат"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OpenClusterCB)
-#: tools/imagingplanner.ui:1767
+#: tools/imagingplanner.ui:1915
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91779,21 +91816,21 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, OpenClusterCB)
-#: tools/imagingplanner.ui:1770
+#: tools/imagingplanner.ui:1918
 #, fuzzy, kde-format
 #| msgid "Open Cluster"
 msgid "Open Cl"
 msgstr "Шашыранды шоғыр"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, NebulaCB)
-#: tools/imagingplanner.ui:1777
+#: tools/imagingplanner.ui:1925
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid "<html><head/><body><p>Hide nebulae if unchecked.</p></body></html>"
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GlobularClusterCB)
-#: tools/imagingplanner.ui:1787
+#: tools/imagingplanner.ui:1935
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91801,7 +91838,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
-#: tools/imagingplanner.ui:1797
+#: tools/imagingplanner.ui:1945
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91809,7 +91846,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
-#: tools/imagingplanner.ui:1807
+#: tools/imagingplanner.ui:1955
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91817,14 +91854,14 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyCB)
-#: tools/imagingplanner.ui:1817
+#: tools/imagingplanner.ui:1965
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid "<html><head/><body><p>Hide galaxies if unchecked.</p></body></html>"
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyClusterCB)
-#: tools/imagingplanner.ui:1827
+#: tools/imagingplanner.ui:1975
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91832,21 +91869,21 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyClusterCB)
-#: tools/imagingplanner.ui:1830
+#: tools/imagingplanner.ui:1978
 #, fuzzy, kde-format
 #| msgid "Galaxy"
 msgid "Galaxy Cl"
 msgstr "Галактика"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, DarkNebulaCB)
-#: tools/imagingplanner.ui:1837
+#: tools/imagingplanner.ui:1985
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid "<html><head/><body><p>Hide dark nebulae if unchecked.</p></body></html>"
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OtherCB)
-#: tools/imagingplanner.ui:1847
+#: tools/imagingplanner.ui:1995
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91854,7 +91891,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.ui:1864
+#: tools/imagingplanner.ui:2012
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91863,7 +91900,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notPickedCB)
-#: tools/imagingplanner.ui:1874
+#: tools/imagingplanner.ui:2022
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91872,14 +91909,14 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notPickedCB)
-#: tools/imagingplanner.ui:1877
+#: tools/imagingplanner.ui:2025
 #, fuzzy, kde-format
 #| msgid "Does not rise"
 msgid "Not Picked"
 msgstr "Шықпайды"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCarePickedCB)
-#: tools/imagingplanner.ui:1884
+#: tools/imagingplanner.ui:2032
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91891,14 +91928,14 @@ msgstr "Есеп шығарғыштың қосымша параметрлері"
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareImagedCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareIgnoredCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareKeywordCB)
-#: tools/imagingplanner.ui:1887 tools/imagingplanner.ui:1917
-#: tools/imagingplanner.ui:1974 tools/imagingplanner.ui:2004
+#: tools/imagingplanner.ui:2035 tools/imagingplanner.ui:2065
+#: tools/imagingplanner.ui:2122 tools/imagingplanner.ui:2152
 #, kde-format
 msgid "Don't care"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.ui:1894
+#: tools/imagingplanner.ui:2042
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91907,7 +91944,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notImagedCB)
-#: tools/imagingplanner.ui:1904
+#: tools/imagingplanner.ui:2052
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91916,14 +91953,14 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notImagedCB)
-#: tools/imagingplanner.ui:1907
+#: tools/imagingplanner.ui:2055
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgid "Not imaged"
 msgstr "Кескін URL-лерін жүктеу"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareImagedCB)
-#: tools/imagingplanner.ui:1914
+#: tools/imagingplanner.ui:2062
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91932,7 +91969,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadImagedB)
-#: tools/imagingplanner.ui:1941
+#: tools/imagingplanner.ui:2089
 #, kde-format
 msgid ""
 "Load a file listing the names of already imaged objects--one name per line. "
@@ -91940,14 +91977,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
-#: tools/imagingplanner.ui:1944
+#: tools/imagingplanner.ui:2092
 #, fuzzy, kde-format
 #| msgid "Loading Image URLs"
 msgid "Load Imaged"
 msgstr "Кескін URL-лерін жүктеу"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.ui:1951
+#: tools/imagingplanner.ui:2099
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91956,7 +91993,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notIgnoredCB)
-#: tools/imagingplanner.ui:1961
+#: tools/imagingplanner.ui:2109
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91965,14 +92002,14 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notIgnoredCB)
-#: tools/imagingplanner.ui:1964
+#: tools/imagingplanner.ui:2112
 #, fuzzy, kde-format
 #| msgid "Does not rise"
 msgid "Not ignored"
 msgstr "Шықпайды"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareIgnoredCB)
-#: tools/imagingplanner.ui:1971
+#: tools/imagingplanner.ui:2119
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91981,7 +92018,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, keywordCB)
-#: tools/imagingplanner.ui:1981
+#: tools/imagingplanner.ui:2129
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91990,7 +92027,7 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notKeywordCB)
-#: tools/imagingplanner.ui:1991
+#: tools/imagingplanner.ui:2139
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -91999,14 +92036,14 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notKeywordCB)
-#: tools/imagingplanner.ui:1994
+#: tools/imagingplanner.ui:2142
 #, fuzzy, kde-format
 #| msgid "Keyword"
 msgid "Not keyword"
 msgstr "Түйінді сөз"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareKeywordCB)
-#: tools/imagingplanner.ui:2001
+#: tools/imagingplanner.ui:2149
 #, fuzzy, kde-format
 #| msgid "Additional options to be the solver"
 msgid ""
@@ -92015,28 +92052,28 @@ msgid ""
 msgstr "Есеп шығарғыштың қосымша параметрлері"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, keywordEdit)
-#: tools/imagingplanner.ui:2022
+#: tools/imagingplanner.ui:2170
 #, kde-format
 msgid ""
 "Enter the (case-sensitive) keyword to be used for the checkboxes to the left."
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
-#: tools/imagingplanner.ui:2025
+#: tools/imagingplanner.ui:2173
 #, fuzzy, kde-format
 #| msgid "Enter name for the script"
 msgid "Enter keyword here"
 msgstr "Скрипттің атауын келтіріңіз"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideImageButton)
-#: tools/imagingplanner.ui:2183
+#: tools/imagingplanner.ui:2331
 #, kde-format
 msgid "Minimize the image section"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
-#: tools/imagingplanner.ui:2209 tools/imagingplanner.ui:2396
+#: tools/imagingplanner.ui:2357 tools/imagingplanner.ui:2544
 #, fuzzy, kde-format
 #| msgid "Catalog name:"
 msgid "Catalog Image"
@@ -92044,7 +92081,7 @@ msgstr "Каталогтың атауы:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton2)
-#: tools/imagingplanner.ui:2247 tools/imagingplanner.ui:2428
+#: tools/imagingplanner.ui:2395 tools/imagingplanner.ui:2576
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Load a new catalog"
@@ -92052,14 +92089,14 @@ msgstr "Каталогты жүктеу..."
 
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton2)
-#: tools/imagingplanner.ui:2250 tools/imagingplanner.ui:2431
+#: tools/imagingplanner.ui:2398 tools/imagingplanner.ui:2579
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Load Catalog"
 msgstr "Каталогты жүктеу..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showImageButton)
-#: tools/imagingplanner.ui:2370
+#: tools/imagingplanner.ui:2518
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Maximum travel"
