@@ -40,6 +40,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QImage>
+#include <QNetworkReply>
 #include <QRegularExpression>
 #include <QSortFilterProxyModel>
 #include <QStandardItemModel>
@@ -978,7 +979,7 @@ QDate ImagingPlanner::getDate() const
     return ui->DateEdit->date();
 }
 
-ImagingPlanner::ImagingPlanner() : QDialog(nullptr), m_manager{ CatalogsDB::dso_db_path() }
+ImagingPlanner::ImagingPlanner() : QDialog(nullptr), m_networkManager(this), m_manager{ CatalogsDB::dso_db_path() }
 {
     ui = new ImagingPlannerUI(this);
 
@@ -1201,8 +1202,8 @@ void ImagingPlanner::initialize()
     connect(ui->astrobinButton2, &QPushButton::clicked, this, &ImagingPlanner::searchAstrobin);
     connect(ui->searchWikipedia, &QPushButton::clicked, this, &ImagingPlanner::searchWikipedia);
     connect(ui->searchWikipedia2, &QPushButton::clicked, this, &ImagingPlanner::searchWikipedia);
-    connect(ui->searchNGCICImages, &QPushButton::clicked, this, &ImagingPlanner::searchNGCICImages);
-    connect(ui->searchNGCICImages2, &QPushButton::clicked, this, &ImagingPlanner::searchNGCICImages);
+    connect(ui->searchSpecialWebPageImages, &QPushButton::clicked, this, &ImagingPlanner::searchSpecialWebPageImages);
+    connect(ui->searchSpecialWebPageImages2, &QPushButton::clicked, this, &ImagingPlanner::searchSpecialWebPageImages);
     connect(ui->searchSimbad, &QPushButton::clicked, this, &ImagingPlanner::searchSimbad);
     connect(ui->searchSimbad2, &QPushButton::clicked, this, &ImagingPlanner::searchSimbad);
 
@@ -2478,35 +2479,167 @@ void ImagingPlanner::popupAstrobin(const QString &target)
         QDesktopServices::openUrl(url);
 }
 
-// Popup a browser on the Professor Segilman website https://cseligman.com
-void ImagingPlanner::searchNGCICImages()
+// Returns true if the url will result in a successful get, 
+// Times out after 3 seconds.
+// Used for the special search button because some of the object
+// web pages for vdb don't exist.
+bool ImagingPlanner::checkIfPageExists(const QString &urlString)
 {
-    focusOnTable();
-    auto o = currentCatalogObject();
-    if (!o)
+    if (urlString.isEmpty())
+        return false;
+
+    QUrl url(urlString);
+    QNetworkRequest request(url);
+    QNetworkReply *reply = m_networkManager.get(request);
+
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+
+    QTimer timer;
+    timer.setSingleShot(true);
+    timer.setInterval(3000); // 3 seconds timeout
+
+    connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    timer.start();
+    loop.exec();
+    timer.stop();
+
+    if (reply->error() == QNetworkReply::NoError)
     {
-        DPRINTF(stderr, "NULL object sent to searchNGCICImages.\n");
-        return;
+        reply->deleteLater();
+        fprintf(stderr, "checkIfPageExists --> success\n");
+        return true;
     }
-    int num = -1;
-    if (o->name().startsWith("ngc", Qt::CaseInsensitive))
+    else if (timer.isActive() )
     {
-        num = o->name().mid(3).toInt();
-        QString urlString = QString("https://cseligman.com/text/atlas/ngc%1%2.htm#%3").arg(num / 100).arg(
-                                num % 100 < 50 ? "" : "a").arg(num);
-        QDesktopServices::openUrl(QUrl(urlString));
-        return;
+        reply->deleteLater();
+        fprintf(stderr, "checkIfPageExists --> it doesn't exist\n");
+        return false;
     }
-    else if (o->name().startsWith("ic", Qt::CaseInsensitive))
+    else
     {
-        num = o->name().mid(2).toInt();
-        QString urlString = QString("https://cseligman.com/text/atlas/ic%1%2.htm#ic%3").arg(num / 100).arg(
-                                num % 100 < 50 ? "" : "a").arg(num);
-        QDesktopServices::openUrl(QUrl(urlString));
-        return;
+        reply->deleteLater();
+        fprintf(stderr, "checkIfPageExists --> timed out\n");
+        return false;
     }
 }
 
+// Changes the label and tooltop on the searchSpecialWebPages buttons,
+// depending on the current object, whose name is passed in.
+void ImagingPlanner::adjustSpecialWebPageButton(const QString &name)
+{
+    QString catalog, toolTip, label;
+    if (name.startsWith("ngc", Qt::CaseInsensitive))
+    {
+        catalog = "ngc";
+        toolTip = i18n("Search the Professor Seligman online site for NGC images.");
+    }
+    else if (name.startsWith("ic", Qt::CaseInsensitive))
+    {
+        catalog = "ic";
+        toolTip = i18n("Search the Professor Seligman online site for information about IC objects..");
+    }
+    else if (name.startsWith("sh2", Qt::CaseInsensitive))
+    {
+        catalog = "sh2";
+        label = "Sharpless";
+        toolTip = i18n("Search the galaxymap.org online site for information about Sharpless2 objects.");
+    }
+    else if (name.startsWith("m", Qt::CaseInsensitive))
+    {
+        catalog = "m";
+        label = "Messier";
+        toolTip = i18n("Search Nasa's online site for information about Messier objects..");
+    }
+    else if (name.startsWith("vdb", Qt::CaseInsensitive)) {
+        catalog = "vdb";
+        toolTip = i18n("Search Emil Ivanov's online site for information about VDB objects.");
+    }
+    if (!catalog.isEmpty())
+    {
+        const QString numberPart = name.mid(catalog.size()).trimmed();
+        if (!label.isEmpty()) catalog = label;
+        bool ok;
+        const int num = numberPart.toInt(&ok);
+        Q_UNUSED(num);
+        if (ok)
+        {
+            ui->searchSpecialWebPageImages->setText(catalog);
+            ui->searchSpecialWebPageImages2->setText(catalog);
+            ui->searchSpecialWebPageImages->setEnabled(true);
+            ui->searchSpecialWebPageImages2->setEnabled(true);
+            ui->searchSpecialWebPageImages->setToolTip(toolTip);
+            ui->searchSpecialWebPageImages2->setToolTip(toolTip);
+            return;
+        }
+    }
+    ui->searchSpecialWebPageImages->setText("");
+    ui->searchSpecialWebPageImages2->setText("");
+    ui->searchSpecialWebPageImages->setEnabled(false);
+    ui->searchSpecialWebPageImages2->setEnabled(false);
+    ui->searchSpecialWebPageImages->setToolTip("");
+    ui->searchSpecialWebPageImages2->setToolTip("");
+
+}
+
+void ImagingPlanner::searchSpecialWebPageImages()
+{
+    focusOnTable();
+    const QString objectName = currentObjectName();
+    QString urlString;
+    bool ok;
+    if (objectName.startsWith("ngc", Qt::CaseInsensitive))
+    {
+        const QString numberPart = objectName.mid(3).trimmed();
+        const int num = numberPart.toInt(&ok);
+        if (ok)
+            urlString = QString("https://cseligman.com/text/atlas/ngc%1%2.htm#%3")
+                        .arg(num / 100).arg(num % 100 < 50 ? "" : "a").arg(num);
+    }
+    else if (objectName.startsWith("ic", Qt::CaseInsensitive))
+    {
+        const QString numberPart = objectName.mid(2).trimmed();
+        const int num = numberPart.toInt(&ok);
+        if (ok)
+            urlString = QString("https://cseligman.com/text/atlas/ic%1%2.htm#ic%3")
+                        .arg(num / 100).arg(num % 100 < 50 ? "" : "a").arg(num);
+    }
+    else if (objectName.startsWith("sh2", Qt::CaseInsensitive))
+    {
+        const QString numberPart = objectName.mid(3).trimmed();
+        const int num = numberPart.toInt(&ok);
+        if (ok)
+            urlString = QString("http://galaxymap.org/cat/view/sharpless/%1").arg(num);
+    }
+    else if (objectName.startsWith("m", Qt::CaseInsensitive))
+    {
+        const QString numberPart = objectName.mid(1).trimmed();
+        const int num = numberPart.toInt(&ok);
+        if (ok)
+            urlString = QString("https://science.nasa.gov/mission/hubble/science/"
+                                "explore-the-night-sky/hubble-messier-catalog/messier-%1").arg(num);
+    }
+    else if (objectName.startsWith("vdb", Qt::CaseInsensitive))
+    {
+        const QString numberPart = objectName.mid(3).trimmed();
+        const int num = numberPart.toInt(&ok);
+        if (ok)
+        {
+            urlString = QString("https://www.irida-observatory.org/CCD/VdB%1/VdB%1.html").arg(num);
+            if (checkIfPageExists(urlString))
+                fprintf(stderr, "It exists\n");
+            else
+            {
+                fprintf(stderr, "It doesn't exist\n");
+                urlString = "https://www.emilivanov.com/CCD%20Images/Catalog_VdB.htm";
+            }
+
+        }
+
+    }
+    if (!urlString.isEmpty())
+        QDesktopServices::openUrl(QUrl(urlString));
+}
 void ImagingPlanner::searchSimbad()
 {
     focusOnTable();
@@ -2828,6 +2961,7 @@ void ImagingPlanner::selectionChanged(const QItemSelection &selected, const QIte
         else
             ui->ImagePreview->setPixmap(QPixmap::fromImage(image.second));
     }
+    adjustSpecialWebPageButton(currentObjectName());
 }
 
 void ImagingPlanner::updateDisplays()

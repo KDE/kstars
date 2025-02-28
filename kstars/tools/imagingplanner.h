@@ -8,13 +8,15 @@
 
 #include "ui_imagingplanner.h"
 #include "catalogsdb.h"
-#include <QPointer>
+
 #include <QDialog>
 #include <QDir>
 #include <QFuture>
 #include <QFutureWatcher>
-#include <QSortFilterProxyModel>
 #include <QMenu>
+#include <QNetworkAccessManager>
+#include <QPointer>
+#include <QSortFilterProxyModel>
 
 class QStandardItemModel;
 class QStandardItem;
@@ -123,7 +125,8 @@ protected slots:
     void searchAstrobin();
     void searchWikipedia();
     void searchSimbad();
-    void searchNGCICImages();
+    void searchSpecialWebPageImages();
+ 
     void recompute();
     void sorry(const QString &message);
 
@@ -228,6 +231,10 @@ protected:
     // Used for debugging the object lists.
     void checkTargets(bool justCheckCurrentCatalog = false);
     void checkTargets2(bool backwards = false);
+
+    void adjustSpecialWebPageButton(const QString &name);
+    bool checkIfPageExists(const QString &urlString);
+    QNetworkAccessManager m_networkManager;
 
     ImagingPlannerUI *ui { nullptr };
 
