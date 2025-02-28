@@ -717,7 +717,9 @@ void SequenceJobState::setCurrentFilterID(int value)
         return;
 
     m_CameraState->currentFilterID = value;
-    if (isInitialized(CAPTURE_ACTION_FILTER) == false && value != targetFilterID)
+    // Signal the FilterManager if we need a new targetFilterID or a new autofocus on that filter
+    if (isInitialized(CAPTURE_ACTION_FILTER) == false &&
+                            (value != targetFilterID || m_filterPolicy & FilterManager::AUTOFOCUS_POLICY))
     {
         // mark filter preparation action
         // TODO introduce settle time

@@ -352,6 +352,10 @@ class FilterManager : public QDialog, public Ui::FilterSettings
         FilterPolicy m_Policy = { ALL_POLICIES };
 
         bool m_ConfirmationPending { false };
+
+        // Keep track of Autofocus failures
+        void setAutofocusStatus(Ekos::FocusState focusState);
+        QMap<QString, bool> m_LastAFFailed;
 };
 
 }

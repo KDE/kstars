@@ -391,7 +391,10 @@ void CaptureDeviceAdaptor::connectFilterManager(SequenceJobState *state)
 
     connect(state, &SequenceJobState::changeFilterPosition, this, &CaptureDeviceAdaptor::setFilterPosition);
     connect(state, &SequenceJobState::readFilterPosition, this, &CaptureDeviceAdaptor::updateFilterPosition);
-    connect(this, &CaptureDeviceAdaptor::filterIdChanged, state, &SequenceJobState::setCurrentFilterID);
+    // JEE Make this signal a QueuedConnection to avoid a loop between Capture and FilterManager. This loop can occur where
+    // Capture thinks a filter change or Autofocus is required so signals FilterManager. FilterManager then determines what
+    // is required and if its nothing then immediately signals done to Capture.
+    connect(this, &CaptureDeviceAdaptor::filterIdChanged, state, &SequenceJobState::setCurrentFilterID, Qt::QueuedConnection);
 
     if (m_FilterManager.isNull() == false)
         connect(m_FilterManager.get(), &FilterManager::newStatus, state, &SequenceJobState::setFilterStatus);
