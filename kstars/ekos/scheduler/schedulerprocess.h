@@ -125,6 +125,12 @@ public:
     bool shouldSchedulerSleep(SchedulerJob *job);
 
     /**
+     * @brief mountCoords read the equatorial coordinates from the mount
+     * @return {RA, DEC}
+     */
+    SkyPoint mountCoords();
+
+    /**
      * @brief startSlew DBus call for initiating slew
      */
     Q_SCRIPTABLE Q_NOREPLY void startSlew();

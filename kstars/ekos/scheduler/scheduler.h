@@ -466,14 +466,29 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void processFITSSelection(const QUrl &url);
 
         /**
+         * @brief processCoordinates Parse coordinate values from UI.
+         * @return true if both values are valid
+         */
+        bool processCoordinates(dms &ra, dms &dec);
+
+        /**
          * @brief updateProfiles React upon changed profiles and update the UI
          */
         void updateProfiles();
 
         /**
+         * @brief readCoordsFromUI Helper function reading the target coordinates from the UI.
+         */
+        bool readCoordsFromUI();
+
+        /**
          * @brief updateStageLabel Helper function that updates the stage label.
          */
         void updateJobStageUI(SchedulerJobStage stage);
+
+        // Target coordinates
+        void setTargetCoords(const dms ra, const dms dec, bool isJ2000 = true);
+        void displayTargetCoords();
 
         ////////////////////////////////////////////////////////////////////
         /// Settings
@@ -553,6 +568,8 @@ class Scheduler : public QWidget, public Ui::Scheduler
         int jobUnderEdit { -1 };
         /// Pointer to Geographic location
         GeoLocation *geo { nullptr };
+        /// Current target coordinates
+        SkyPoint targetCoords;
 
         /// Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
         //QTimer weatherTimer;

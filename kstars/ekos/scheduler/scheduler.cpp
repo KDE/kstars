@@ -249,6 +249,9 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     connect(shutdownB, &QPushButton::clicked, process().data(), &SchedulerProcess::runShutdownProcedure);
 
     connect(selectObjectB, &QPushButton::clicked, this, &Scheduler::selectObject);
+    connect(epochCB, &QComboBox::currentTextChanged, this, &Scheduler::displayTargetCoords);
+    connect(raBox, &QLineEdit::editingFinished, this, &Scheduler::readCoordsFromUI);
+    connect(decBox, &QLineEdit::editingFinished, this, &Scheduler::readCoordsFromUI);
     connect(selectFITSB, &QPushButton::clicked, this, &Scheduler::selectFITS);
     connect(loadSequenceB, &QPushButton::clicked, this, &Scheduler::selectSequence);
     connect(selectStartupScriptB, &QPushButton::clicked, this, &Scheduler::selectStartupScript);
@@ -382,10 +385,19 @@ void Scheduler::setupScheduler(const QString &ekosPathStr, const QString &ekosIn
     {
         SkyPoint center = SkyMap::Instance()->getCenterPoint();
         //center.deprecess(KStarsData::Instance()->updateNum());
-        center.catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
-        raBox->show(center.ra0());
-        decBox->show(center.dec0());
+        //center.catalogueCoord(KStarsData::Instance()->updateNum()->julianDay());
+        setTargetCoords(center.ra(), center.dec(), false);
     });
+    copySkyCenterB->setIcon(QIcon::fromTheme("snap-orthogonal"));
+
+    connect(copyMountTargetB, &QPushButton::clicked, this, [this]()
+    {
+        const SkyPoint coords = process()->mountCoords();
+
+        if (coords.isValid())
+            setTargetCoords(coords.ra(), coords.dec(), false);
+    });
+    copyMountTargetB->setIcon(QIcon(":/icons/ekos_mount_simple.png"));
 
     connect(editSequenceB, &QPushButton::clicked, this, [this]()
     {
@@ -630,8 +642,7 @@ void Scheduler::addObject(SkyObject *object)
         }
 
         nameEdit->setText(finalObjectName);
-        raBox->show(object->ra0());
-        decBox->show(object->dec0());
+        setTargetCoords(object->ra0(), object->dec0());
 
         setDirty();
     }
@@ -719,8 +730,7 @@ void Scheduler::processFITSSelection(const QUrl &url)
         deDMS = dms::fromString(objectde_str, true);
     }
 
-    raBox->show(raDMS);
-    decBox->show(deDMS);
+    setTargetCoords(raDMS, deDMS);
 
     char object_str[256] = {0};
     if (fits_read_key(fptr, TSTRING, "OBJECT", object_str, comment, &status))
@@ -732,6 +742,23 @@ void Scheduler::processFITSSelection(const QUrl &url)
     {
         nameEdit->setText(object_str);
     }
+}
+
+bool Scheduler::processCoordinates(dms &ra, dms &dec)
+{
+
+    bool raOk = false, decOk = false;
+    ra = raBox->createDms(&raOk);
+    dec = decBox->createDms(&decOk);
+
+    if (raOk == false)
+        process()->appendLogText(i18n("Warning: RA value %1 is invalid.", raBox->text()));
+
+    if (decOk == false)
+        process()->appendLogText(i18n("Warning: DEC value %1 is invalid.", decBox->text()));
+
+    // success
+    return (raOk && decOk);
 }
 
 void Scheduler::setSequence(const QString &sequenceFileURL)
@@ -857,21 +884,9 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
         return false;
     }
 
-    bool raOk = false, decOk = false;
-    dms /*const*/ ra(raBox->createDms(&raOk));
-    dms /*const*/ dec(decBox->createDms(&decOk));
-
-    if (raOk == false)
-    {
-        process()->appendLogText(i18n("Warning: RA value %1 is invalid.", raBox->text()));
+    // Read target coordinates from the UI
+    if (readCoordsFromUI() == false)
         return false;
-    }
-
-    if (decOk == false)
-    {
-        process()->appendLogText(i18n("Warning: DEC value %1 is invalid.", decBox->text()));
-        return false;
-    }
 
     /* Configure or reconfigure the observation job */
     fitsURL = QUrl::fromLocalFile(fitsEdit->text());
@@ -907,7 +922,7 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
     // The reason for this kitchen-sink function is to separate the UI from the
     // job setup, to allow for testing.
     SchedulerUtils::setupJob(*job, nameEdit->text(), leadFollowerSelectionCB->currentIndex() == INDEX_LEAD, groupEdit->text(),
-                             train, ra, dec,
+                             train, targetCoords.ra0(), targetCoords.dec0(),
                              KStarsData::Instance()->ut().djd(),
                              positionAngleSpin->value(), sequenceURL, fitsURL,
 
@@ -928,6 +943,21 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
 
     // success
     updateJobTable(job);
+    return true;
+}
+
+bool Scheduler::readCoordsFromUI()
+{
+    dms ra, dec;
+    if (processCoordinates(ra, dec) == false)
+    {
+        // invalidate the target coordinates, targetCoords.isValid() will return false
+        targetCoords = SkyPoint();
+        return false;
+    }
+
+    // Take over the current coordinates if valid, taking the selected epoch into account
+    setTargetCoords(ra, dec, epochCB->currentText() == "J2000");
     return true;
 }
 
@@ -1047,8 +1077,7 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
     nameEdit->setText(job->getName());
     groupEdit->setText(job->getGroup());
 
-    raBox->show(job->getTargetCoords().ra0());
-    decBox->show(job->getTargetCoords().dec0());
+    setTargetCoords(job->getTargetCoords().ra0(), job->getTargetCoords().dec0());
 
     // fitsURL/sequenceURL are not part of UI, but the UI serves as model, so keep them here for now
     fitsURL = job->getFITSFile().isEmpty() ? QUrl() : job->getFITSFile();
@@ -2277,6 +2306,7 @@ void Scheduler::interfaceReady(QDBusInterface *iface)
             schedulerUnparkMount->setEnabled(canMountPark.toBool());
             schedulerParkMount->setEnabled(canMountPark.toBool());
         }
+        copyMountTargetB->setEnabled(true);
     }
     else if (iface == process()->capInterface())
     {
@@ -2838,6 +2868,48 @@ void Scheduler::setAllSettings(const QVariantMap &settings)
     // Restablish connections
     connectSettings();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////////////////
+void Scheduler::setTargetCoords(const dms ra, const dms dec, bool isJ2000)
+{
+    if (isJ2000)
+    {
+        targetCoords.setRA0(ra);
+        targetCoords.setDec0(dec);
+        targetCoords.apparentCoord(static_cast<long double>(J2000), KStarsData::Instance()->updateNum()->julianDay());
+    }
+    else
+    {
+        targetCoords.setRA(ra);
+        targetCoords.setDec(dec);
+        SkyPoint J2000Coord(targetCoords.ra(), targetCoords.dec());
+        J2000Coord.catalogueCoord(KStars::Instance()->data()->ut().djd());
+        targetCoords.setRA0(J2000Coord.ra());
+        targetCoords.setDec0(J2000Coord.dec());
+    }
+
+    displayTargetCoords();
+}
+void Scheduler::displayTargetCoords()
+{
+    // do nothing if the coordinates are invalid
+    if (targetCoords.isValid() == false)
+        return;
+
+    if (epochCB->currentText() == "J2000")
+    {
+        raBox->show(targetCoords.ra0());
+        decBox->show(targetCoords.dec0());
+    }
+    else
+    {
+        raBox->show(targetCoords.ra());
+        decBox->show(targetCoords.dec());
+    }
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///

@@ -4325,6 +4325,28 @@ void SchedulerProcess::unParkMount()
     }
 }
 
+SkyPoint SchedulerProcess::mountCoords()
+{
+    QVariant var = mountInterface()->property("equatorialCoords");
+
+    // result must be two double values
+    if (var.isValid() == false || var.canConvert<QList<double>>() == false)
+    {
+        qCCritical(KSTARS_EKOS_SCHEDULER) << "Warning: reading equatorial coordinates received an unexpected value:" << var;
+        return SkyPoint();
+    }
+    // check if we received exactly two values
+    const QList<double> coords = var.value<QList<double>>();
+    if (coords.size() != 2)
+    {
+        qCCritical(KSTARS_EKOS_SCHEDULER) << "Warning: reading equatorial coordinates received" << coords.size() <<
+                                          "instead of 2 values: " << coords;
+        return SkyPoint();
+    }
+
+    return SkyPoint(coords[0], coords[1]);
+}
+
 bool SchedulerProcess::isMountParked()
 {
     if (mountInterface().isNull())

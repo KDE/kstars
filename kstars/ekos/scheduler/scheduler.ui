@@ -586,16 +586,6 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label">
-            <property name="toolTip">
-             <string>Target coordinates in J2000 Epoch</string>
-            </property>
-            <property name="text">
-             <string>J2000:</string>
-            </property>
-           </widget>
-          </item>
           <item row="7" column="0">
            <widget class="QLabel" name="label_9">
             <property name="toolTip">
@@ -657,6 +647,22 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="copyMountTargetB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Fill coordinates with current mount position.</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset theme="kstars_flag"/>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item row="3" column="0">
@@ -681,6 +687,20 @@
           </item>
           <item row="3" column="2">
            <widget class="QComboBox" name="opticalTrainCombo"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QComboBox" name="epochCB">
+            <item>
+             <property name="text">
+              <string>J2000</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>JNow</string>
+             </property>
+            </item>
+           </widget>
           </item>
          </layout>
         </item>
@@ -2389,17 +2409,12 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="shutdownProcedureGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
@@ -2411,6 +2426,11 @@ font-weight:bold;
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="shutdownProcedureGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="errorHandlingButtonGroup"/>
  </buttongroups>
 </ui>
