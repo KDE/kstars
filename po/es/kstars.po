@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-27 01:51+0000\n"
-"PO-Revision-Date: 2025-02-20 23:29+0100\n"
+"POT-Creation-Date: 2025-02-28 01:53+0000\n"
+"PO-Revision-Date: 2025-02-27 12:29+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -413,7 +413,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, AddDSLRLens)
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
-#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1290
+#: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1288
 #: ekos/scheduler/scheduler.cpp:2079
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
@@ -2679,7 +2679,7 @@ msgstr ""
 
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3965
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
-#: ekos/capture/camera.cpp:1244 ekos/capture/camera.cpp:1299
+#: ekos/capture/camera.cpp:1242 ekos/capture/camera.cpp:1297
 #: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1979
 #: ekos/scheduler/scheduler.cpp:2089 fitsviewer/fitstab.cpp:1013
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
@@ -2976,7 +2976,7 @@ msgstr "Mapeado del tipo"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
-#: ekos/capture/cameraprocess.cpp:2440 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2438 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -3872,7 +3872,7 @@ msgstr "0,0 pc"
 #: ekos/auxiliary/darklibrary.ui:693 ekos/auxiliary/darklibrary.ui:713
 #: ekos/auxiliary/darklibrary.ui:733 ekos/auxiliary/darklibrary.ui:753
 #: ekos/auxiliary/darklibrary.ui:773 ekos/auxiliary/darklibrary.ui:793
-#: ekos/capture/camera.cpp:1779 ekos/capture/camera.cpp:1819
+#: ekos/capture/camera.cpp:1777 ekos/capture/camera.cpp:1817
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:898
 #: ekos/capture/sequenceeditor.cpp:133 ekos/capture/sequenceeditor.cpp:136
 #: ekos/focus/focus.cpp:448 ekos/guide/guide.cpp:700 ekos/guide/guide.ui:569
@@ -6299,7 +6299,7 @@ msgid "Error: lost connection to filter wheel."
 msgstr "Error: se ha perdido la conexión con la rueda de filtros."
 
 #: ekos/align/align.cpp:1506 ekos/capture/cameraprocess.cpp:213
-#: ekos/capture/cameraprocess.cpp:633 ekos/focus/focus.cpp:5721
+#: ekos/capture/cameraprocess.cpp:631 ekos/focus/focus.cpp:5721
 #, kde-format
 msgid ""
 "Image transfer is disabled for this camera. Would you like to enable it?"
@@ -6628,8 +6628,8 @@ msgstr "El sistema de coordenadas mundial (WCS) está desactivado."
 msgid "Capture error. Aborting..."
 msgstr "Error de captura. Interrumpiendo…"
 
-#: ekos/align/align.cpp:3301 ekos/capture/cameraprocess.cpp:1616
-#: ekos/capture/cameraprocess.cpp:2175
+#: ekos/align/align.cpp:3301 ekos/capture/cameraprocess.cpp:1614
+#: ekos/capture/cameraprocess.cpp:2173
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Reiniciando intento de captura #%1"
@@ -6676,24 +6676,24 @@ msgstr "dAR (segundos de arco)"
 msgid "dDE (arcsec)"
 msgstr "dDE (segundos de arco)"
 
-#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3422
+#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3419
 #: ekos/focus/focus.cpp:5602
 #, kde-format
 msgid "Filter operation failed."
 msgstr "La operación de filtrado ha fallado."
 
-#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3920
+#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3917
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "Cambiando el desplazamiento de enfoque en %1 pasos…"
 
 #: ekos/align/align.cpp:3667 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3925
+#: ekos/capture/camera.cpp:3922
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "Cambiando el filtro a %1…"
 
-#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3930
+#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3927
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "Enfoque automático al cambiar filtros…"
@@ -6710,8 +6710,8 @@ msgid "Export Solution Points"
 msgstr "Exportar los puntos de la solución"
 
 #: ekos/align/align.cpp:3964 ekos/align/mountmodel.cpp:266
-#: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1243
-#: ekos/capture/camera.cpp:1298 ekos/guide/guidedriftgraph.cpp:478
+#: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1241
+#: ekos/capture/camera.cpp:1296 ekos/guide/guidedriftgraph.cpp:478
 #: ekos/scheduler/scheduler.cpp:1978 ekos/scheduler/scheduler.cpp:2088
 #: fitsviewer/fitstab.cpp:1012 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6728,8 +6728,8 @@ msgid "Unable to write to file %1"
 msgstr "No se puede escribir en el archivo %1 "
 
 #: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
-#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2940
-#: ekos/capture/cameraprocess.cpp:2585 ekos/capture/sequencequeue.cpp:33
+#: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2938
+#: ekos/capture/cameraprocess.cpp:2583 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:3084
 #: ekos/scheduler/schedulerprocess.cpp:3433
 #: ekos/scheduler/schedulerprocess.cpp:4761
@@ -7386,8 +7386,8 @@ msgctxt "@title:window"
 msgid "Open Ekos Alignment List"
 msgstr "Abrir lista de alineación de Ekos"
 
-#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2939
-#: ekos/capture/cameraprocess.cpp:2584 ekos/capture/sequencequeue.cpp:32
+#: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2937
+#: ekos/capture/cameraprocess.cpp:2582 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3432
 #: ekos/scheduler/schedulerprocess.cpp:4780
 #, kde-format
@@ -12070,7 +12070,7 @@ msgstr "4x4"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
-#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.cpp:1058
+#: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.cpp:1057
 #: ekos/capture/camera.ui:1686 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
@@ -12613,7 +12613,7 @@ msgstr "Preparando…"
 msgid "Waiting..."
 msgstr "En espera…"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:413
+#: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:412
 #, kde-format
 msgid "Dithering requested..."
 msgstr "Desvío solicitado…"
@@ -12633,7 +12633,7 @@ msgstr "Cambio de filtro…"
 msgid "Aligning..."
 msgstr "Alineando…"
 
-#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:848
+#: ekos/auxiliary/ledstatuswidget.cpp:61 ekos/capture/camera.cpp:849
 #, kde-format
 msgid "Calibrating..."
 msgstr "Calibrando…"
@@ -14594,42 +14594,42 @@ msgstr "seg"
 msgid "frames"
 msgstr "fotogramas"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4045
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4042
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "Añadir trabajo a la cola de secuencias"
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4046
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4043
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "Eliminar trabajo de la cola de secuencias"
 
-#: ekos/capture/camera.cpp:519
+#: ekos/capture/camera.cpp:520
 #, kde-format
 msgid "Downloading..."
 msgstr "Descargando…"
 
-#: ekos/capture/camera.cpp:635 ekos/capture/camera.cpp:636
+#: ekos/capture/camera.cpp:636 ekos/capture/camera.cpp:637
 #, kde-format
 msgid "Focus complete."
 msgstr "Enfoque completado."
 
-#: ekos/capture/camera.cpp:640
+#: ekos/capture/camera.cpp:641
 #, kde-format
 msgid "Autofocus failed."
 msgstr "El enfoque automático ha fallado."
 
-#: ekos/capture/camera.cpp:827
+#: ekos/capture/camera.cpp:828
 #, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
 msgstr "Capturando %1 x %2 segundos vídeo de %3…"
 
-#: ekos/capture/camera.cpp:833
+#: ekos/capture/camera.cpp:834
 #, kde-format
 msgid "Capturing %1-second %2 image..."
 msgstr "Capturando la imagen %2 de %1 segundos…"
 
-#: ekos/capture/camera.cpp:902
+#: ekos/capture/camera.cpp:903
 #, kde-format
 msgid ""
 "Warning: in-sequence focusing is selected but autofocus process was not "
@@ -14638,7 +14638,7 @@ msgstr ""
 "Advertencia: se ha seleccionado un enfoque en la secuencia, pero no se ha "
 "iniciado el proceso de enfoque automático."
 
-#: ekos/capture/camera.cpp:905
+#: ekos/capture/camera.cpp:906
 #, kde-format
 msgid ""
 "Warning: temperature delta check is selected but autofocus process was not "
@@ -14647,35 +14647,35 @@ msgstr ""
 "Advertencia: se ha seleccionado la comprobación de la delta de temperatura, "
 "pero no se ha iniciado el proceso de enfoque automático."
 
-#: ekos/capture/camera.cpp:940
+#: ekos/capture/camera.cpp:941
 #, kde-format
 msgid "One dark flats job was created."
 msgid_plural "%1 dark flats jobs were created."
 msgstr[0] "Se ha creado %1 trabajo de plano oscuro."
 msgstr[1] "Se han creado %1 trabajos de planos oscuros."
 
-#: ekos/capture/camera.cpp:985
+#: ekos/capture/camera.cpp:986
 #, kde-format
 msgid "Job #%1 changes applied."
 msgstr "Aplicados los cambios del trabajo #%1."
 
-#: ekos/capture/camera.cpp:998
+#: ekos/capture/camera.cpp:997
 #, kde-format
 msgid "Framing..."
 msgstr "Encuadre…"
 
-#: ekos/capture/camera.cpp:1009
+#: ekos/capture/camera.cpp:1008
 #, kde-format
 msgid "Captured image received"
 msgstr "Se ha recibido la imagen capturada"
 
 #. i18n: ectx: property (text), widget (QLabel, frameInfoLabel)
-#: ekos/capture/camera.cpp:1027 ekos/capture/camera.ui:2679
+#: ekos/capture/camera.cpp:1026 ekos/capture/camera.ui:2679
 #, kde-format
 msgid "Expose (-/-):"
 msgstr "Exposición (-/-):"
 
-#: ekos/capture/camera.cpp:1057
+#: ekos/capture/camera.cpp:1056
 #, kde-format
 msgid "Duration of the video sequence"
 msgstr "Duración de la secuencia de vídeo"
@@ -14683,144 +14683,144 @@ msgstr "Duración de la secuencia de vídeo"
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_2_5)
 #. i18n: ectx: property (toolTip), widget (QLabel, FilterPosLabel)
-#: ekos/capture/camera.cpp:1057 ekos/capture/limits.ui:108
+#: ekos/capture/camera.cpp:1056 ekos/capture/limits.ui:108
 #: ekos/capture/limits.ui:378 ekos/focus/focus.ui:713
 #, kde-format
 msgid "Number of images to capture"
 msgstr "Número de imágenes que se deben capturar"
 
 #. i18n: ectx: property (text), widget (QRadioButton, recordDurationR)
-#: ekos/capture/camera.cpp:1058 indi/recordingoptions.ui:40
+#: ekos/capture/camera.cpp:1057 indi/recordingoptions.ui:40
 #, kde-format
 msgid "Duration:"
 msgstr "Duración:"
 
-#: ekos/capture/camera.cpp:1059
+#: ekos/capture/camera.cpp:1058
 #, kde-format
 msgid "Exposure time in seconds of a single video frame"
 msgstr "Tiempo de exposición de un fotograma de vídeo en segundos"
 
-#: ekos/capture/camera.cpp:1060
+#: ekos/capture/camera.cpp:1059
 #, kde-format
 msgid "Exposure time in seconds for individual images"
 msgstr "Tiempo de exposición en segundos para imágenes individuales"
 
-#: ekos/capture/camera.cpp:1075
+#: ekos/capture/camera.cpp:1074
 #, kde-format
 msgid "Stop Sequence"
 msgstr "Detener secuencia"
 
-#: ekos/capture/camera.cpp:1081
+#: ekos/capture/camera.cpp:1080
 #, kde-format
 msgid "Resume Sequence"
 msgstr "Continuar secuencia"
 
-#: ekos/capture/camera.cpp:1112
+#: ekos/capture/camera.cpp:1111
 #, kde-format
 msgid "Setting temperature to %1 °C..."
 msgstr "Fijando la temperatura a %1 °C…"
 
-#: ekos/capture/camera.cpp:1113
+#: ekos/capture/camera.cpp:1112
 #, kde-format
 msgid "Set Temp to %1 °C..."
 msgstr "Fijar la temperatura a %1 °C…"
 
-#: ekos/capture/camera.cpp:1117
+#: ekos/capture/camera.cpp:1116
 #, kde-format
 msgid "Waiting for guide drift below %1\"..."
 msgstr "Esperando que la deriva de guiado esté por debajo de %1\"…"
 
-#: ekos/capture/camera.cpp:1118
+#: ekos/capture/camera.cpp:1117
 #, kde-format
 msgid "Wait for Guider < %1\"..."
 msgstr "Esperando guiado < %1\"…"
 
-#: ekos/capture/camera.cpp:1122
+#: ekos/capture/camera.cpp:1121
 #, kde-format
 msgid "Setting camera to %1 degrees E of N..."
 msgstr "Fijando la cámara a %1 grados al E del N…"
 
-#: ekos/capture/camera.cpp:1123
+#: ekos/capture/camera.cpp:1122
 #, kde-format
 msgid "Set Camera to %1 deg..."
 msgstr "Ajustar la cámara a %1 grados…"
 
-#: ekos/capture/camera.cpp:1235
+#: ekos/capture/camera.cpp:1233
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Sequence Queue"
 msgstr "Abrir cola de secuencias de Ekos"
 
-#: ekos/capture/camera.cpp:1268
+#: ekos/capture/camera.cpp:1266
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Sequence Queue"
 msgstr "Guardar cola de secuencias de Ekos"
 
-#: ekos/capture/camera.cpp:1290
+#: ekos/capture/camera.cpp:1288
 #, kde-format
 msgid "Failed to save sequence queue"
 msgstr "Ha ocurrido un error al guardar la cola de secuencias"
 
-#: ekos/capture/camera.cpp:1347 ekos/capture/camera.cpp:2418
+#: ekos/capture/camera.cpp:1345 ekos/capture/camera.cpp:2416
 #, kde-format
 msgid "Dark Flat"
 msgstr "Plano oscuro"
 
-#: ekos/capture/camera.cpp:2081 ekos/scheduler/framingassistant.cpp:220
+#: ekos/capture/camera.cpp:2079 ekos/scheduler/framingassistant.cpp:220
 #, kde-format
 msgctxt "@title:window"
 msgid "FITS Save Directory"
 msgstr "Directorio para guardar FITS"
 
-#: ekos/capture/camera.cpp:2194
+#: ekos/capture/camera.cpp:2192
 #, kde-format
 msgid "Reset %1 configuration to default?"
 msgstr "¿Reiniciar la configuración de %1 a sus valores por omisión?"
 
-#: ekos/capture/camera.cpp:2196
+#: ekos/capture/camera.cpp:2194
 #, kde-format
 msgid "Confirmation"
 msgstr "Confirmación"
 
-#: ekos/capture/camera.cpp:2395
+#: ekos/capture/camera.cpp:2393
 #, kde-format
 msgid "You must set local or remote directory for Remotely & Both modes."
 msgstr ""
 "Debe definir un directorio local o remoto para los modos «Remoto» y «Ambos»."
 
-#: ekos/capture/camera.cpp:2401
+#: ekos/capture/camera.cpp:2399
 #, kde-format
 msgid "You must set local directory for Locally & Both modes."
 msgstr "Debe definir un directorio local para los modos «Local» y «Ambos»."
 
-#: ekos/capture/camera.cpp:3582
+#: ekos/capture/camera.cpp:3579
 #, kde-format
 msgid "Paused..."
 msgstr "En pausa…"
 
-#: ekos/capture/camera.cpp:3587
+#: ekos/capture/camera.cpp:3584
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "Inversión de meridiano…"
 
-#: ekos/capture/camera.cpp:3588
+#: ekos/capture/camera.cpp:3585
 #, kde-format
 msgid "Meridian flip started"
 msgstr "Inversión de meridiano iniciada"
 
-#: ekos/capture/camera.cpp:3592
+#: ekos/capture/camera.cpp:3589
 #, kde-format
 msgid "Flip complete."
 msgstr "Inversión completada."
 
-#: ekos/capture/camera.cpp:3652
+#: ekos/capture/camera.cpp:3649
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Incremento (°C/min):"
 
-#: ekos/capture/camera.cpp:3658
+#: ekos/capture/camera.cpp:3655
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14831,13 +14831,13 @@ msgstr ""
 "calienta la cámara. Definir a cero para desactivarlo.<p>Este ajuste se lee y "
 "guarda en la configuración del controlador de cámara INDI.</body></html>"
 
-#: ekos/capture/camera.cpp:3663
+#: ekos/capture/camera.cpp:3660
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "Umbral (°C):"
 
-#: ekos/capture/camera.cpp:3669
+#: ekos/capture/camera.cpp:3666
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14848,70 +14848,70 @@ msgstr ""
 "objetivo para disparar la regulación.<p>Este ajuste se lee y guarda en la "
 "configuración del controlador de cámara INDI.</body></html>"
 
-#: ekos/capture/camera.cpp:3682
+#: ekos/capture/camera.cpp:3679
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "Definir la regulación de la temperatura"
 
-#: ekos/capture/camera.cpp:3722
+#: ekos/capture/camera.cpp:3719
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "Seleccionar el observador actual"
 
-#: ekos/capture/camera.cpp:3724
+#: ekos/capture/camera.cpp:3721
 #, kde-format
 msgid "Current Observer:"
 msgstr "Observador actual:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3735 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3732 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "Gestionar observadores"
 
-#: ekos/capture/camera.cpp:3907
+#: ekos/capture/camera.cpp:3904
 #, kde-format
 msgid "Cooler is on"
 msgstr "Refrigerador encendido"
 
-#: ekos/capture/camera.cpp:3907
+#: ekos/capture/camera.cpp:3904
 #, kde-format
 msgid "Cooler is off"
 msgstr "Refrigerador apagado"
 
-#: ekos/capture/camera.cpp:3937
+#: ekos/capture/camera.cpp:3934
 #, kde-format
 msgid "Filter set to %1."
 msgstr "Filtro asignado a %1."
 
-#: ekos/capture/camera.cpp:3970
+#: ekos/capture/camera.cpp:3967
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "¿Seguro que desea reiniciar el estado de todos los trabajos?"
 
-#: ekos/capture/camera.cpp:3970 ekos/capture/cameraprocess.cpp:2705
+#: ekos/capture/camera.cpp:3967 ekos/capture/cameraprocess.cpp:2703
 #, kde-format
 msgid "Reset job status"
 msgstr "Reiniciar el estado de los trabajos"
 
-#: ekos/capture/camera.cpp:4023
+#: ekos/capture/camera.cpp:4020
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "Editando trabajo #%1…"
 
-#: ekos/capture/camera.cpp:4026 ekos/scheduler/scheduler.cpp:1324
+#: ekos/capture/camera.cpp:4023 ekos/scheduler/scheduler.cpp:1324
 #, kde-format
 msgid "Apply job changes."
 msgstr "Aplicar cambios del trabajo."
 
-#: ekos/capture/camera.cpp:4027
+#: ekos/capture/camera.cpp:4024
 #, kde-format
 msgid "Cancel job changes."
 msgstr "Cancelar cambios del trabajo."
 
-#: ekos/capture/camera.cpp:4040
+#: ekos/capture/camera.cpp:4037
 #, kde-format
 msgid "Editing job canceled."
 msgstr "Edición de trabajo cancelada"
@@ -15136,7 +15136,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Opciones de calibración automática de fotogramas oscuros y planos"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1165 ekos/capture/cameraprocess.cpp:2453
+#: ekos/capture/camera.ui:1165 ekos/capture/cameraprocess.cpp:2451
 #: ekos/guide/guide.cpp:70
 #, kde-format
 msgid "Calibration"
@@ -15790,7 +15790,7 @@ msgstr "Guardar en un nuevo archivo de secuencia"
 msgid "Save As..."
 msgstr "Guardar como…"
 
-#: ekos/capture/cameraprocess.cpp:214 ekos/capture/cameraprocess.cpp:634
+#: ekos/capture/cameraprocess.cpp:214 ekos/capture/cameraprocess.cpp:632
 #, kde-format
 msgid "Image Transfer"
 msgstr "Transferencia de imagen"
@@ -15812,7 +15812,7 @@ msgstr ""
 msgid "No new job created."
 msgstr "No se ha creado ningún trabajo nuevo."
 
-#: ekos/capture/cameraprocess.cpp:308 ekos/capture/cameraprocess.cpp:884
+#: ekos/capture/cameraprocess.cpp:308 ekos/capture/cameraprocess.cpp:882
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "No se puede capturar mientras el módulo de enfoque está ocupado."
@@ -15842,37 +15842,37 @@ msgstr "Encuadre detenido"
 msgid "CCD capture stopped"
 msgstr "Captura CCD detenida"
 
-#: ekos/capture/cameraprocess.cpp:442
+#: ekos/capture/cameraprocess.cpp:440
 #, kde-format
 msgid "Pausing only possible while frame capture is running."
 msgstr ""
 "La pausa solo es posible cuando está en marcha la captura de fotogramas."
 
-#: ekos/capture/cameraprocess.cpp:449
+#: ekos/capture/cameraprocess.cpp:447
 #, kde-format
 msgid "Sequence shall be paused after current exposure is complete."
 msgstr "La secuencia se debe pausar tras completar la exposición actual."
 
-#: ekos/capture/cameraprocess.cpp:462
+#: ekos/capture/cameraprocess.cpp:460
 #, kde-format
 msgid "No camera detected. Check train configuration and connection settings."
 msgstr ""
 "No se ha detectado ninguna cámara. Compruebe la configuración del tren y los "
 "ajustes de conexión."
 
-#: ekos/capture/cameraprocess.cpp:487
+#: ekos/capture/cameraprocess.cpp:485
 #, kde-format
 msgid "No view available for previews. Enable FITS viewer?"
 msgstr ""
 "No hay ninguna vista disponible para las vistas previas. ¿Activar el visor "
 "FITS?"
 
-#: ekos/capture/cameraprocess.cpp:488
+#: ekos/capture/cameraprocess.cpp:486
 #, kde-format
 msgid "Display preview"
 msgstr "Mostrar vista previa"
 
-#: ekos/capture/cameraprocess.cpp:572
+#: ekos/capture/cameraprocess.cpp:570
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has already %3/%4 captures and does not "
@@ -15881,7 +15881,7 @@ msgstr ""
 "El trabajo necesita imágenes %2 de %1 segundos y ya tiene %3/%4 capturas, "
 "por lo que no se necesita su ejecución."
 
-#: ekos/capture/cameraprocess.cpp:587
+#: ekos/capture/cameraprocess.cpp:585
 #, kde-format
 msgid ""
 "Job requires %1-second %2 images, has %3/%4 frames captured and will be "
@@ -15890,33 +15890,33 @@ msgstr ""
 "El trabajo necesita imágenes %2 de %1 segundos y ya tiene %3/%4 capturas, "
 "por lo que se procesará."
 
-#: ekos/capture/cameraprocess.cpp:600
+#: ekos/capture/cameraprocess.cpp:598
 #, kde-format
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr ""
 "El trabajo necesita %1 x %2 segundos vídeo de %3, por lo que se procesará."
 
-#: ekos/capture/cameraprocess.cpp:830
+#: ekos/capture/cameraprocess.cpp:828
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Continuando el guiado automático."
 
-#: ekos/capture/cameraprocess.cpp:874
+#: ekos/capture/cameraprocess.cpp:872
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Error al fijar la división del fotograma."
 
-#: ekos/capture/cameraprocess.cpp:879
+#: ekos/capture/cameraprocess.cpp:877
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Ha ocurrido un error al fijar el binning."
 
-#: ekos/capture/cameraprocess.cpp:1039
+#: ekos/capture/cameraprocess.cpp:1037
 #, kde-format
 msgid "file saved to %1"
 msgstr "archivo guardado en %1"
 
-#: ekos/capture/cameraprocess.cpp:1049
+#: ekos/capture/cameraprocess.cpp:1047
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -15925,129 +15925,129 @@ msgstr ""
 "No se ha podido escribir la imagen en %1\n"
 "Compruebe la carpeta, el archivo y los permisos."
 
-#: ekos/capture/cameraprocess.cpp:1051
+#: ekos/capture/cameraprocess.cpp:1049
 #, kde-format
 msgid "Image Write Failed"
 msgstr "La escritura de la imagen ha fallado"
 
-#: ekos/capture/cameraprocess.cpp:1276
+#: ekos/capture/cameraprocess.cpp:1274
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Imagen remota guardada en %1"
 
-#: ekos/capture/cameraprocess.cpp:1302
+#: ekos/capture/cameraprocess.cpp:1300
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Guiado automático suspendido."
 
-#: ekos/capture/cameraprocess.cpp:1332
+#: ekos/capture/cameraprocess.cpp:1330
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Advertencia: el proceso de calibración ha terminado prematuramente."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1398
+#: ekos/capture/cameraprocess.cpp:1396
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "Secuencia de captura CCD completada"
 
-#: ekos/capture/cameraprocess.cpp:1455
+#: ekos/capture/cameraprocess.cpp:1453
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Error: se ha perdido la conexión al CCD."
 
-#: ekos/capture/cameraprocess.cpp:1483
+#: ekos/capture/cameraprocess.cpp:1481
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr "No se pueden calcular los niveles de ADU en imágenes que no sean FITS."
 
-#: ekos/capture/cameraprocess.cpp:1608 ekos/capture/cameraprocess.cpp:2167
+#: ekos/capture/cameraprocess.cpp:1606 ekos/capture/cameraprocess.cpp:2165
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "La captura ha fallado. Compruebe el panel de control de INDI para más "
 "detalles."
 
-#: ekos/capture/cameraprocess.cpp:1708
+#: ekos/capture/cameraprocess.cpp:1706
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr ""
 "Tiempo de descarga: %1 s, Nueva estimación del tiempo de descarga: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1774
+#: ekos/capture/cameraprocess.cpp:1772
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Recibida imagen %1 de %2."
 
-#: ekos/capture/cameraprocess.cpp:1811
+#: ekos/capture/cameraprocess.cpp:1809
 #, kde-format
 msgid "Captured %1"
 msgstr "Se ha capturado %1"
 
-#: ekos/capture/cameraprocess.cpp:1817
+#: ekos/capture/cameraprocess.cpp:1815
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr ""
 "Advertencia: etiquetas de sustitución restantes y potencialmente "
 "desconocidas %1 en %2"
 
-#: ekos/capture/cameraprocess.cpp:1858
+#: ekos/capture/cameraprocess.cpp:1856
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Ejecutando guion de captura %1"
 
-#: ekos/capture/cameraprocess.cpp:1873
+#: ekos/capture/cameraprocess.cpp:1871
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "El guion previo a la captura ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:1884
+#: ekos/capture/cameraprocess.cpp:1882
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "El guion posterior a la captura ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:1896
+#: ekos/capture/cameraprocess.cpp:1894
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Procesando la inversión de meridiano…"
 
-#: ekos/capture/cameraprocess.cpp:1906
+#: ekos/capture/cameraprocess.cpp:1904
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "El guion previo al trabajo ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:1911
+#: ekos/capture/cameraprocess.cpp:1909
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "El guion posterior al trabajo ha terminado con el código %1."
 
-#: ekos/capture/cameraprocess.cpp:2097 ekos/focus/focus.cpp:5773
+#: ekos/capture/cameraprocess.cpp:2095 ekos/focus/focus.cpp:5773
 #: ekos/focus/focus.cpp:5797
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "El tiempo de exposición se ha agotado. Interrumpiendo…"
 
-#: ekos/capture/cameraprocess.cpp:2104
+#: ekos/capture/cameraprocess.cpp:2102
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "El tiempo de exposición se ha agotado. Detectado más de 3 veces. Se "
 "reiniciará el controlador."
 
-#: ekos/capture/cameraprocess.cpp:2122 ekos/focus/focus.cpp:5778
+#: ekos/capture/cameraprocess.cpp:2120 ekos/focus/focus.cpp:5778
 #: ekos/guide/guide.cpp:997
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "El tiempo de exposición se ha agotado. Reiniciando la exposición…"
 
-#: ekos/capture/cameraprocess.cpp:2148
+#: ekos/capture/cameraprocess.cpp:2146
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr ""
 "El tiempo de exposición se ha agotado. Detectado muchas veces. "
 "Interrumpiendo…"
 
-#: ekos/capture/cameraprocess.cpp:2226
+#: ekos/capture/cameraprocess.cpp:2224
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16056,20 +16056,20 @@ msgstr ""
 "La calibración plana ha fallado. La imagen capturada es de solo %1 bits, "
 "mientras que la ADU necesaria es de %2."
 
-#: ekos/capture/cameraprocess.cpp:2237
+#: ekos/capture/cameraprocess.cpp:2235
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "La imagen actual está saturada (%1). La siguiente exposición es de %2 "
 "segundos."
 
-#: ekos/capture/cameraprocess.cpp:2259
+#: ekos/capture/cameraprocess.cpp:2257
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "El ADU actual de %1 está en el intervalo de tolerancia del ADU objetivo."
 
-#: ekos/capture/cameraprocess.cpp:2288
+#: ekos/capture/cameraprocess.cpp:2286
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16078,27 +16078,27 @@ msgstr ""
 "No ha sido posible calcular los ajustes de exposición óptimos. Por favor, "
 "capture los planos de forma manual."
 
-#: ekos/capture/cameraprocess.cpp:2296
+#: ekos/capture/cameraprocess.cpp:2294
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "El ADU actual es de %1. La siguiente exposición es de %2 segundos."
 
-#: ekos/capture/cameraprocess.cpp:2437
+#: ekos/capture/cameraprocess.cpp:2435
 #, kde-format
 msgid "%1 Preview"
 msgstr "Vista previa de %1"
 
-#: ekos/capture/cameraprocess.cpp:2448 ekos/capture/cameraprocess.cpp:2450
+#: ekos/capture/cameraprocess.cpp:2446 ekos/capture/cameraprocess.cpp:2448
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Calibración plana"
 
-#: ekos/capture/cameraprocess.cpp:2654
+#: ekos/capture/cameraprocess.cpp:2652
 #, kde-format
 msgid "Sequence paused."
 msgstr "Secuencia en pausa."
 
-#: ekos/capture/cameraprocess.cpp:2704
+#: ekos/capture/cameraprocess.cpp:2702
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16107,7 +16107,7 @@ msgstr ""
 "Se han completado todos los trabajos. ¿Seguro que desea reiniciar el estado "
 "de todos los trabajos y de la captura?"
 
-#: ekos/capture/cameraprocess.cpp:2718
+#: ekos/capture/cameraprocess.cpp:2716
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16116,17 +16116,17 @@ msgstr ""
 "Advertencia: la opción «Reiniciar siempre la secuencia al empezar» está "
 "activada y reinicia los contadores de la secuencia."
 
-#: ekos/capture/cameraprocess.cpp:2848
+#: ekos/capture/cameraprocess.cpp:2846
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "¿Está seguro de que desea reiniciar el controlador de la cámara %1?"
 
-#: ekos/capture/cameraprocess.cpp:2849
+#: ekos/capture/cameraprocess.cpp:2847
 #, kde-format
 msgid "Driver Restart"
 msgstr "Reinicio del controlador"
 
-#: ekos/capture/cameraprocess.cpp:2996 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:2994 ekos/capture/sequencejobstate.cpp:41
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr "Las operaciones de captura han expirado tras %1 segundos."
@@ -16181,111 +16181,111 @@ msgstr "Cubierta antipolvo aparcada."
 msgid "Dust cap unparked."
 msgstr "Cubierta antipolvo desaparcada."
 
-#: ekos/capture/camerastate.cpp:504
+#: ekos/capture/camerastate.cpp:503
 #, kde-format
 msgid "Meridian flip is successfully completed"
 msgstr "La inversión del meridiano se ha completado con éxito"
 
-#: ekos/capture/camerastate.cpp:605
+#: ekos/capture/camerastate.cpp:604
 #, kde-format
 msgid "Performing post flip re-calibration and guiding..."
 msgstr "Realizando calibración y guiado posterior a la inversión de meridiano…"
 
-#: ekos/capture/camerastate.cpp:618
+#: ekos/capture/camerastate.cpp:617
 #, kde-format
 msgid "Post meridian flip calibration error. Restarting..."
 msgstr ""
 "Error de calibración posterior a la inversión de meridiano. Reiniciando…"
 
-#: ekos/capture/camerastate.cpp:638
+#: ekos/capture/camerastate.cpp:637
 #, kde-format
 msgid "Autoguiding stopped. Waiting for autofocus to finish..."
 msgstr ""
 "Guiado automático detenido. Esperando la finalización del enfoque automático…"
 
-#: ekos/capture/camerastate.cpp:647
+#: ekos/capture/camerastate.cpp:646
 #, kde-format
 msgid "Autoguiding stopped. Aborting..."
 msgstr "Guiado automático detenido. Interrumpiendo…"
 
-#: ekos/capture/camerastate.cpp:654
+#: ekos/capture/camerastate.cpp:653
 #, kde-format
 msgid "Post meridian flip calibration error. Aborting..."
 msgstr ""
 "Error de calibración posterior a la inversión de meridiano. Interrumpiendo…"
 
-#: ekos/capture/camerastate.cpp:676
+#: ekos/capture/camerastate.cpp:675
 #, kde-format
 msgid "Adaptive focus complete."
 msgstr "Enfoque adaptativo completado."
 
-#: ekos/capture/camerastate.cpp:700
+#: ekos/capture/camerastate.cpp:699
 #, kde-format
 msgid "Autofocus failed. Aborting exposure..."
 msgstr "El enfoque automático ha fallado. Interrumpiendo la exposición…"
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
-#: ekos/capture/camerastate.cpp:736
+#: ekos/capture/camerastate.cpp:735
 #, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
 msgstr "Enfoque completado. Se continúa en %1 segundos…"
 
-#: ekos/capture/camerastate.cpp:759
+#: ekos/capture/camerastate.cpp:758
 #, kde-format
 msgid "Limit: %1 °C"
 msgstr "Límite: %1 °C"
 
-#: ekos/capture/camerastate.cpp:763
+#: ekos/capture/camerastate.cpp:762
 #, kde-format
 msgid "Limit: %1 mins"
 msgstr "Límite: %1 min"
 
-#: ekos/capture/camerastate.cpp:908
+#: ekos/capture/camerastate.cpp:907
 #, kde-format
 msgid "Performing post flip re-alignment..."
 msgstr "Realizando la alineación posterior a la inversión de meridiano…"
 
-#: ekos/capture/camerastate.cpp:926
+#: ekos/capture/camerastate.cpp:925
 #, kde-format
 msgid "Guide module timed out."
 msgstr "Se ha agotado el tiempo del módulo de guiado."
 
-#: ekos/capture/camerastate.cpp:958
+#: ekos/capture/camerastate.cpp:957
 #, kde-format
 msgid "Initial guiding deviation %1 below limit value of %2 arcsecs"
 msgstr ""
 "La desviación de guiado inicial %1 está por debajo del valor límite de %2 "
 "segundos de arco"
 
-#: ekos/capture/camerastate.cpp:967
+#: ekos/capture/camerastate.cpp:966
 #, kde-format
 msgid "Initial guiding deviation %1 exceeded limit value of %2 arcsecs"
 msgstr ""
 "La desviación de guiado inicial %1 excede el valor límite de %2 segundos de "
 "arco"
 
-#: ekos/capture/camerastate.cpp:989
+#: ekos/capture/camerastate.cpp:988
 #, kde-format
 msgid "Post meridian flip calibration completed successfully."
 msgstr ""
 "La calibración posterior a la inversión de meridiano se ha completado con "
 "éxito."
 
-#: ekos/capture/camerastate.cpp:1003
+#: ekos/capture/camerastate.cpp:1002
 #, kde-format
 msgid "Guiding deviation at capture startup %1 exceeded limit %2 arcsecs."
 msgstr ""
 "La desviación de guiado al inicio de la captura %1 excede el límite de %2 "
 "segundos de arco."
 
-#: ekos/capture/camerastate.cpp:1017
+#: ekos/capture/camerastate.cpp:1016
 #, kde-format
 msgid "Guiding deviation at capture startup %1 below limit value of %2 arcsecs"
 msgstr ""
 "La desviación de guiado al inicio de la captura %1 está por debajo del valor "
 "límite de %2 segundos de arco"
 
-#: ekos/capture/camerastate.cpp:1044
+#: ekos/capture/camerastate.cpp:1043
 #, kde-format
 msgid ""
 "Guiding deviation %1 exceeded limit value of %2 arcsecs for %4 consecutive "
@@ -16295,7 +16295,7 @@ msgstr ""
 "para %4 muestras consecutivas. Suspendiendo la exposición y esperando al "
 "sistema de guiado hasta %3 segundos."
 
-#: ekos/capture/camerastate.cpp:1091
+#: ekos/capture/camerastate.cpp:1090
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16304,7 +16304,7 @@ msgstr ""
 "La desviación de guiado %1 está ahora por debajo del valor límite de %2 "
 "segundos de arco. Continuando con la exposición."
 
-#: ekos/capture/camerastate.cpp:1095
+#: ekos/capture/camerastate.cpp:1094
 #, kde-format
 msgid ""
 "Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming "
@@ -16313,26 +16313,26 @@ msgstr ""
 "La desviación de guiado %1 está ahora por debajo del valor límite de %2 "
 "segundos de arco. Continuando con la exposición en %3 segundos."
 
-#: ekos/capture/camerastate.cpp:1110
+#: ekos/capture/camerastate.cpp:1109
 #, kde-format
 msgid "Guiding deviation %1 is still higher than limit value of %2 arcsecs."
 msgstr ""
 "La desviación de guiado %1 sigue siendo superior al valor límite de %2 "
 "segundos de arco."
 
-#: ekos/capture/camerastate.cpp:1490
+#: ekos/capture/camerastate.cpp:1489
 #, kde-format
 msgid "Post flip re-alignment completed successfully."
 msgstr ""
 "La alineación posterior a la inversión de meridiano se ha completado con "
 "éxito."
 
-#: ekos/capture/camerastate.cpp:1509
+#: ekos/capture/camerastate.cpp:1508
 #, kde-format
 msgid "Post-flip alignment failed."
 msgstr "La alineación posterior a la alineación ha fallado."
 
-#: ekos/capture/camerastate.cpp:1514
+#: ekos/capture/camerastate.cpp:1513
 #, kde-format
 msgid "Post-flip alignment failed. Retrying..."
 msgstr ""
@@ -30433,7 +30433,7 @@ msgstr ""
 msgid "Unable to open sequence queue file '%1'"
 msgstr "No se puede abrir el archivo de cola se secuencias «%1»"
 
-#: ekos/scheduler/schedulerutils.cpp:450
+#: ekos/scheduler/schedulerutils.cpp:449
 #, kde-format
 msgid ""
 "Warning: Job '%1' has its focus step disabled, periodic and/or HFR "
@@ -30443,7 +30443,7 @@ msgstr ""
 "procedimientos periódico y/o HFR definidos en la actualidad en su secuencia "
 "no ocurrirán"
 
-#: ekos/scheduler/schedulerutils.cpp:478
+#: ekos/scheduler/schedulerutils.cpp:477
 #, kde-format
 msgid "Job '%1' %2x%3\" %4"
 msgstr "Trabajo «%1» %2x%3\" %4"
@@ -83579,11 +83579,13 @@ msgid ""
 "                 Catalog Development:\n"
 "              "
 msgstr ""
+"\n"
+"                 Desarrollo del catálogo:\n"
+"              "
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelDownsampleButton)
 #: tools/imagingplanner.ui:464
-#, fuzzy, kde-format
-#| msgid "DownSample"
+#, kde-format
 msgid "Downsample"
 msgstr "Submuestreo"
 
@@ -83597,14 +83599,13 @@ msgstr "Submuestreo"
 #: tools/imagingplanner.ui:568
 #, kde-format
 msgid "For catalog development"
-msgstr ""
+msgstr "Para el desarrollo del catálogo"
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelCheckTargetsButton)
 #: tools/imagingplanner.ui:486
-#, fuzzy, kde-format
-#| msgid "Check URL"
+#, kde-format
 msgid "Check"
-msgstr "Comprobar URL"
+msgstr "Comprobar"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
 #: tools/imagingplanner.ui:713
@@ -88856,2667 +88857,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid ""
-#~ "The moon separation must remain equal to or higher than the given value."
-#~ msgstr ""
-#~ "La separación de la luna debe permanecer igual o superior al valor "
-#~ "indicado."
-
-#~ msgid "Alt >: "
-#~ msgstr "Alt >: "
-
-#~ msgid "Min Moon º"
-#~ msgstr "Mín. º de Luna"
-
-#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
-#~ msgstr ""
-#~ "Aceptar DEC invertida cuando cambia el lado de la columna al volver a "
-#~ "usar la calibración."
-
-#~ msgid "Scheduler Offset"
-#~ msgstr "Desplazamiento del planificador"
-
-#~ msgid "Scheduler Alignment"
-#~ msgstr "Alineación del planificador"
-
-#~ msgid "Scheduler Jobs"
-#~ msgstr "Trabajos del planificador"
-
-#~ msgid "Cleanup"
-#~ msgstr "Limpieza"
-
-#~ msgid "Scheduler Cleanup"
-#~ msgstr "Limpieza del planificador"
-
-#~ msgid "Calibrating RA Out"
-#~ msgstr "Calibrando salida de AR"
-
-#~ msgid "Calibrating RA In"
-#~ msgstr "Calibrando entrada de AR"
-
-#~ msgid "Calibrating DEC Out"
-#~ msgstr "Calibrando salida de DEC"
-
-#~ msgid "Calibrating DEC In"
-#~ msgstr "Calibrando entrada de DEC"
-
-#~ msgid "DEC swap enabled."
-#~ msgstr "Intercambio de DEC activado."
-
-#~ msgid "DEC swap disabled."
-#~ msgstr "Intercambio de DEC desactivado."
-
-#~ msgid "Calibration Successful"
-#~ msgstr "Calibración terminada con éxito"
-
-#~ msgid "Normal"
-#~ msgstr "Normal"
-
-#~ msgid "Calibrate"
-#~ msgstr "Calibrar"
-
-#~ msgid ""
-#~ "Some images in KStars are for non-commercial use only. See README.images."
-#~ msgstr ""
-#~ "Algunas imágenes de KStars son únicamente para uso no comercial. Consulte "
-#~ "README.images."
-
-#~ msgid "unnamed object"
-#~ msgstr "Objeto sin nombre"
-
-#~ msgid "Capture Misc"
-#~ msgstr "Captura miscelánea"
-
-#~ msgid "Capture DSLR"
-#~ msgstr "Captura DSLR"
-
-#~ msgid "Imaging Planner (experimental)"
-#~ msgstr "Planificador de obtención de imágenes (experimental)"
-
-#~ msgid "Add Flag..."
-#~ msgstr "Añadir indicador..."
-
-#~ msgid ""
-#~ "Due to a known issue in the kde frameworks, updating already downloaded "
-#~ "items is currently not possible. <br> Please uninstall and reinstall them "
-#~ "to update."
-#~ msgstr ""
-#~ "Debido a un problema conocido en KDE Frameworks, la actualización de "
-#~ "elementos ya descargados no es posible en la actualidad.<br>Desinstálelos "
-#~ "y vuelva a instalarlos para actualizarlos."
-
-#, fuzzy
-#~| msgid "Could not import the objects."
-#~ msgid "Could not find that object"
-#~ msgstr "No se ha podido importar los objetos."
-
-#, fuzzy
-#~| msgid "Cap already parked."
-#~ msgid "%1 already there"
-#~ msgstr "La tapa ya está aparcada."
-
-#, fuzzy
-#~| msgid "Add a name label to the object named %1."
-#~ msgid "Add an object to the object list on the left."
-#~ msgstr "Añadir etiqueta de nombre al objeto denominado %1."
-
-#, fuzzy
-#~| msgid "Add Object..."
-#~ msgid "Add Object"
-#~ msgstr "Añadir objeto..."
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#~| "that have been added there, and remove overlays that are no longer there."
-#~| "</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Show the objects that have been added (and don't "
-#~ "show those that have not been added).</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Actualizar usando el directorio de capas. Añadir "
-#~ "las capas que se hayan añadido allí y eliminar las capas que ya no estén "
-#~ "en él.</p></body></html>"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#~| "that have been added there, and remove overlays that are no longer there."
-#~| "</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Show the objects that have not been added (and "
-#~ "don't show those that have been added).</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Actualizar usando el directorio de capas. Añadir "
-#~ "las capas que se hayan añadido allí y eliminar las capas que ya no estén "
-#~ "en él.</p></body></html>"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Object display doesn't depend on whether objects "
-#~ "have been add or not.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Marque esto para mostrar el sensor.</p></body></"
-#~ "html>"
-
-#~ msgid "Simulate Eyepiece View"
-#~ msgstr "Simular la vista del ocular"
-
-#~ msgid "Attempt to determine from image"
-#~ msgstr "Intentar determinar desde la imagen"
-
-#~ msgid "Eyepiece View: Choose a field-of-view"
-#~ msgstr "Vista del ocular: elija un campo visual"
-
-#~ msgid "FOV to render eyepiece view for:"
-#~ msgstr "Campo visual con el que mostrar la vista del ocular:"
-
-#~ msgctxt "@title:window"
-#~ msgid "Export eyepiece view"
-#~ msgstr "Exportar la vista del ocular"
-
-#~ msgid "Overlay orientation vs. time ticks: "
-#~ msgstr "Superponer las marcas de orientación frente a tiempo:"
-
-#~ msgid "Towards Zenith"
-#~ msgstr "Hacia el cenit"
-
-#~ msgid "Dobsonian View"
-#~ msgstr "Vista de Dobson"
-
-#~ msgid ""
-#~ "Note: This overlay makes sense only if the view was generated in alt/az "
-#~ "mode with a preset such as Refractor or Vanilla"
-#~ msgstr ""
-#~ "Nota: Esta capa solo tiene sentido si la vista se ha generado en modo Atl/"
-#~ "Ac con un preajuste como el «Refractor» o el «Estándar»"
-
-#~ msgid ""
-#~ "Note: This overlay  makes sense only if the view was generated in alt/az "
-#~ "mode with a preset such as Dobsonian"
-#~ msgstr ""
-#~ "Nota: Esta capa solo tiene sentido si la vista se ha generado en modo Atl/"
-#~ "Ac con un preajuste como el de «Dobson»"
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Image as"
-#~ msgstr "Guardar imagen como"
-
-#~ msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
-#~ msgstr "Archivos de imagen (*.png *.jpg *.xpm *.bmp *.gif)"
-
-#~ msgctxt "@title:window"
-#~ msgid "Eyepiece Field View"
-#~ msgstr "Campo visual del ocular"
-
-#~ msgctxt "Export image"
-#~ msgid "Export"
-#~ msgstr "Exportar"
-
-#~ msgid "Invert view"
-#~ msgstr "Invertir vista"
-
-#~ msgid "Flip view"
-#~ msgstr "Voltear vista"
-
-#~ msgid "Fetch DSS image"
-#~ msgstr "Obtener imagen DSS"
-
-#~ msgid "Vanilla"
-#~ msgstr "Estándar"
-
-#~ msgid "Flipped"
-#~ msgstr "Invertido"
-
-#~ msgid "Dobsonian"
-#~ msgstr "De Dobson"
-
-#~ msgid "Preset:"
-#~ msgstr "Ajuste automático:"
-
-#~ msgid "Eyepiece view"
-#~ msgstr "Vista del ocular"
-
-#~ msgid "Autofocus in progress..."
-#~ msgstr "Enfoque automático en proceso..."
-
-#~ msgid "Please wait until image capture is complete..."
-#~ msgstr "Por favor, espere hasta que se complete la captura de la imagen..."
-
-#~ msgid "Progress #%1"
-#~ msgstr "Avance #%1"
-
-#~ msgid "Progress"
-#~ msgstr "Avance"
-
-#~ msgid "Repeat:"
-#~ msgstr "Repetir:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Repetir toda la secuencia indefinidamente.</p></"
-#~ "body></html>"
-
-#~ msgid ""
-#~ "Job is looping with %1-second %2 frames infinitely, has %3 frames "
-#~ "captured and will be processed."
-#~ msgstr ""
-#~ "El trabajo se está ejecutando en bucle con %2 fotogramas de %1 segundo de "
-#~ "manera infinita, tiene %3 fotogramas capturados y se procesarán."
-
-#~ msgid "Configuration"
-#~ msgstr "Configuración"
-
-#~ msgid "Offsets"
-#~ msgstr "Desplazamientos"
-
-#~ msgid "Scheduling"
-#~ msgstr "Planificación"
-
-#~ msgid ""
-#~ "<html><head/><body><p>If selected, take the already existing frames that "
-#~ "satisfy each job's signature and capture only the missing ones.</"
-#~ "p><p>Otherwise, of not selected, restart capturing with all counters set "
-#~ "to zero.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Si está seleccionada, tomar los fotogramas ya "
-#~ "existentes que satisfacen la firma de cada trabajo y capturar solo los "
-#~ "que faltan.</p><p>En caso contrario, o si no está seleccionada, reiniciar "
-#~ "la captura con todos los contadores a cero.</p></body></html>"
-
-#~ msgid "AZ/AL"
-#~ msgstr "AZ/AL"
-
-#~ msgid "Displays the Tip of the Day"
-#~ msgstr "Muestra el consejo del día"
-
-#~ msgid ""
-#~ "When In Sequence, force an Autofocus at the end of the current subframe."
-#~ msgstr ""
-#~ "En una secuencia, forzar un enfoque automático al final del subfotograma "
-#~ "actual."
-
-#~ msgid "Updated base parameters"
-#~ msgstr "Parámetros base actualizados"
-
-#~ msgid "Find Stars: Starting scan for stars..."
-#~ msgstr "Encontrar estrellas: iniciando búsqueda de estrellas..."
-
-#~ msgid "Find Stars: Jump size %1"
-#~ msgstr "Encontrar estrellas: tamaño de salto %1"
-
-#~ msgid "Detected %1 stars at %2"
-#~ msgstr "Se han detectado %1 estrellas en %2"
-
-#~ msgid "Find Stars: Stars detected, centring range"
-#~ msgstr "Encontrar estrellas: estrellas detectadas, intervalo de centrado"
-
-#~ msgid "Find Stars Run %1: Failed"
-#~ msgstr "Ejecución %1 de encontrar estrellas: ha fallado"
-
-#~ msgid "Pre Autofocus: Failed"
-#~ msgstr "Enfoque automático previo: ha fallado"
-
-#~ msgid "Pre Autofocus: exceeded max iterations %1"
-#~ msgstr ""
-#~ "Enfoque automático previo: se ha excedido el número máximo de %1 "
-#~ "iteraciones"
-
-#~ msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
-#~ msgstr ""
-#~ "Ejecución de ajuste aproximado: %1 Inicio: %2 Sobreexploración: %3 Tamaño "
-#~ "de paso: %4"
-
-#~ msgid "Overscan estimate: %1 ticks"
-#~ msgstr "Estimación de sobreexploración: %1 pulsos"
-
-#~ msgid "Coarse Adj: Failed"
-#~ msgstr "Ajuste aproximado: ha fallado"
-
-#~ msgid "Autofocus parameter adjustment"
-#~ msgstr "Ajuste de parámetros de enfoque automático"
-
-#~ msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
-#~ msgstr ""
-#~ "Tamaño de paso del ajuste del asesor de enfoque: %1->%2 Sobreexploración "
-#~ "de AF: %3->%4"
-
-#~ msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
-#~ msgstr ""
-#~ "Reintento de enfoque automático: Tamaño de paso %1 Sobreexploración de AF "
-#~ "%2"
-
-#~ msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-#~ msgstr ""
-#~ "Enfoque automático completo: tamaño de paso %1 Sobreexploración de AF %2"
-
-#~ msgid "Astronomical Twilight Warning"
-#~ msgstr "Advertencia de crepúsculo astronómico"
-
-#~ msgid "API URL"
-#~ msgstr "URL de la API"
-
-#~ msgid ""
-#~ "<html><head/><body><p>The rotator gauge displays the actual camera "
-#~ "position angle (yellow) and the raw rotator angle (gray). Be sure to "
-#~ "calibrate the rotator (syncing rotator angle to zero at piersie WEST) "
-#~ "after a fresh mount of the rotator in order to have a reasonable display."
-#~ "</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El indicador del rotador muestra el ángulo de "
-#~ "posición real de la cámara (amarillo) y el ángulo del rotador sin "
-#~ "procesar (gris). Asegúrese de calibrar el rotador (sincronizando el "
-#~ "ángulo del rotador a cero en el lado de la columna OESTE) después de un "
-#~ "nuevo montaje del rotador para tener una visualización razonable.</p></"
-#~ "body></html>"
-
-#~ msgid "Donut Buster (WARNING: Experimental Feature)"
-#~ msgstr "Reductor de dónut (ADVERTENCIA: función experimental)"
-
-#~ msgid ""
-#~ "When Scan for Start Position is checked this is the number of datapoints "
-#~ "to use."
-#~ msgstr ""
-#~ "Cuando se marca «Buscar posición de inicio», este es el número de puntos "
-#~ "de datos que se utilizarán."
-
-#~ msgid "Astrometry:"
-#~ msgstr "Astrometry:"
-
-#~ msgid "The Logging Level for StellarSolver and Astrometry.net"
-#~ msgstr "El nivel de registro para StellarSolver y Astrometry.net"
-
-#~ msgid "LOG_NONE"
-#~ msgstr "LOG_NONE"
-
-#~ msgid "LOG_ERROR"
-#~ msgstr "LOG_ERROR"
-
-#~ msgid "LOG_MSG"
-#~ msgstr "LOG_MSG"
-
-#~ msgid "LOG_VERB"
-#~ msgstr "LOG_VERB"
-
-#~ msgid "LOG_ALL"
-#~ msgstr "LOG_ALL"
-
-#~ msgid ""
-#~ "Option to log astrometry messages to a separate file.  If you select "
-#~ "LOG_ALL you REALLY want to check this box."
-#~ msgstr ""
-#~ "Opción para registrar mensajes de Astrometry en un archivo separado. Si "
-#~ "selecciona LOG_ALL, debería marcar esta casilla."
-
-#~ msgid " Separate Log File:"
-#~ msgstr "Archivo de registro separado:"
-
-#~ msgid "The external Log File for astrometry logging"
-#~ msgstr "El archivo de registro externo para Astrometry"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone. Make sure you configure the CFZ tab to give an appropriate value "
-#~ "for your system.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El tamaño del paso se puede establecer al valor "
-#~ "predeterminado de la zona de enfoque crítica. Asegúrese de configurar la "
-#~ "pestaña «CFZ» para proporcionar un valor apropiado para su sistema.</p></"
-#~ "body></html>"
-
-#~ msgid "Focus Advisor:"
-#~ msgstr "Asesor de enfoque:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone..</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El tamaño del paso se puede establecer de forma "
-#~ "predeterminada a la zona de enfoque crítico.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Update Focus Parameters to Focus Advisor "
-#~ "suggestions where the associated Update box is checked.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Actualizar los parámetros de enfoque con las "
-#~ "sugerencias del asesor de enfoque donde la casilla «Actualizar» asociada "
-#~ "esté marcada.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Launch the Focus Advisor Help dialog.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Lanzar el diálogo de ayuda del asesor de enfoque.</"
-#~ "p></body></html>"
-
-#~ msgid ""
-#~ "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#~ "It will not necessarily give you the perfect combination of parameters, "
-#~ "you will need to experiment yourself, but it will give you a basic set of "
-#~ "parameters to achieve focus.\n"
-#~ "\n"
-#~ "FA will recommend values for the majority of parameters. A few, however, "
-#~ "will need extra work from you to setup. These are identified below along "
-#~ "with a basic explanation of how to set them.\n"
-#~ "\n"
-#~ "The first step is to set backlash. Your focuser manual will likely "
-#~ "explain how to do this. Once you have a value for backlash for your "
-#~ "system, set either the Backlash field to have the driver perform backlash "
-#~ "compensation or the AF Overscan field to have Autofocus perform backlash "
-#~ "compensation. Set only one field and set the other to 0. If you are "
-#~ "unsure which to set, AF Overscan is recommended.\n"
-#~ "\n"
-#~ "The second step is to set Step Size. If you are aware of an approximate "
-#~ "value enter it here otherwise this can be defaulted from the Critical "
-#~ "Focus Zone (CFZ) for your equipment - so configure this now in the CFZ "
-#~ "tab and restart Focus Advisor.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "El asesor de enfoque (FA) está diseñado para ayudarle con los parámetros "
-#~ "de enfoque.\n"
-#~ "No necesariamente le dará la combinación perfecta de parámetros. Tendrá "
-#~ "que experimentar usted mismo, pero le proporcionará un conjunto básico de "
-#~ "parámetros para lograr el enfoque.\n"
-#~ "\n"
-#~ "FA recomendará valores para la mayoría de los parámetros. No obstante, "
-#~ "algunos de ellos necesitarán de un trabajo de configuración adicional por "
-#~ "su parte. Dichos parámetros se identifican a continuación junto con una "
-#~ "explicación básica sobre cómo configurarlos.\n"
-#~ "\n"
-#~ "El primer paso es definir el rebote. Es probable que el manual de su "
-#~ "enfocador le indique cómo hacerlo. Tras conseguir un valor de rebote para "
-#~ "su sistema, defina uno de los campos «Rebote» (para que el controlador "
-#~ "realice la compensación de rebote) o «Sobreexploración de AF» (para que "
-#~ "el enfoque automático realice la compensación de rebote). Defina solo uno "
-#~ "de esos campos y use el valor 0 para el otro. Si tiene dudas sobre cuál "
-#~ "de ellos debe definir, se recomienda «Sobreexploración de AF».\n"
-#~ "\n"
-#~ "El segundo paso es definir el tamaño del paso. Si conoce un valor "
-#~ "aproximado, introdúzcalo aquí; en caso contrario, se puede usar el valor "
-#~ "predeterminado de la zona de enfoque crítica (CFZ) de su equipo (por lo "
-#~ "que debería configurarla ahora en la pestaña CFZ y reiniciar el asesor de "
-#~ "enfoque).\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "The third step is to set the remaining focus parameters to sensible "
-#~ "values. Focus Advisor will suggest values for 5 categories of parameters. "
-#~ "Check the associated Update box to accept these recommendations when you "
-#~ "press Update Params.\n"
-#~ "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#~ "e.g. unity gain.\n"
-#~ "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#~ "3. Focus Process (Options Popup): These all have recommendations.\n"
-#~ "4. Focus Mechanics (Options Popup): Note Step Size is dealt with above.\n"
-#~ "5. SEP Parameters (Options Popup): Set the appropriate profile to its "
-#~ "default values.\n"
-#~ "\n"
-#~ "Now move the focuser to approximate focus and select a broadband filter, "
-#~ "e.g. Luminance\n"
-#~ "You are now ready to start an Autofocus run."
-#~ msgstr ""
-#~ "El tercer paso es ajustar el resto de parámetros de enfoque a valores "
-#~ "razonables. El asesor de enfoque sugerirá valores para 5 categorías de "
-#~ "parámetros. Marque la casilla «Actualizar» asociada para aceptar dichas "
-#~ "recomendaciones cuando pulse «Actualizar parámetros».\n"
-#~ "1. Propiedades de la cámara (tenga en cuenta que deberá asegurar que "
-#~ "«Ganancia» está ajustada de forma apropiada; por ejemplo, ganancia "
-#~ "unitaria).\n"
-#~ "2. Preferencias de enfoque (ventana emergente de opciones): todos sus "
-#~ "parámetros poseen recomendaciones.\n"
-#~ "3. Proceso del enfoque (ventana emergente de opciones): todos sus "
-#~ "parámetros poseen recomendaciones.\n"
-#~ "4. Mecánica del enfoque (ventana emergente de opciones): recuerde que el "
-#~ "«Tamaño del paso» se trata como se ha dicho anteriormente.\n"
-#~ "5. Parámetros SEP (ventana emergente de opciones): defina el perfil "
-#~ "adecuado a sus valores predeterminados.\n"
-#~ "\n"
-#~ "Ahora mueva el enfocador a un enfoque aproximado y seleccione un filtro "
-#~ "de banda ancha (por ejemplo, luminancia).\n"
-#~ "Ya está preparado para iniciar una ejecución de enfoque automático."
-
-#~ msgid "Focus Advisor recommended step size"
-#~ msgstr "Tamaño de paso recomendado por el asesor de enfoque"
-
-#~ msgid "Focus Advisor recommended Out Step Multiple"
-#~ msgstr "El asesor de enfoque recomienda el «Múltiplo de pasos de salida»"
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Camera and Filter Wheel "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Indica si se debe aceptar la recomendación del asesor de enfoque en los "
-#~ "parámetros de la cámara y de la rueda de filtros."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Settings Tab Parameters."
-#~ msgstr ""
-#~ "Indica si se debe aceptar la recomendación del asesor de enfoque en los "
-#~ "parámetros de la pestaña «Preferencias»."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Mechanics Tab "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Indica si se debe aceptar la recomendación del asesor de enfoque en los "
-#~ "parámetros de la pestaña «Mecánica»."
-
-#~ msgid ""
-#~ "<html><body><p>Do not permit jobs to be scheduled less than this many "
-#~ "degrees before the altitude restriction. Actual execution proceeds until "
-#~ "the altitude limit.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>No permitir que se programen trabajos por debajo de "
-#~ "estos grados antes de la restricción de altitud. La ejecución actual "
-#~ "continúa hasta el límite de altitud.</p></body></html>"
-
-#~ msgid "Setting altitude cutoff:"
-#~ msgstr "Ajuste de recorte de altitud:"
-
-#~ msgid ""
-#~ "Do not permit jobs to be scheduled less than this many degrees before the "
-#~ "altitude restriction. Actual execution proceeds until the altitude limit."
-#~ msgstr ""
-#~ "No permitir que se programen trabajos por debajo de estos grados antes de "
-#~ "la restricción de altitud. La ejecución actual continúa hasta el límite "
-#~ "de altitud."
-
-#~ msgid ""
-#~ "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
-#~ msgstr ""
-#~ "Solicitud de inicio de enfoque automático: esperando 10 segundos para que "
-#~ "se complete el enfoque adaptativo."
-
-#~ msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
-#~ msgstr ""
-#~ "Descartando solicitud de inicio de enfoque automático: el enfoque "
-#~ "adaptativo está en curso."
-
-#~ msgid "Time Source:"
-#~ msgstr "Fuente horaria:"
-
-#~ msgid "Location Source:"
-#~ msgstr "Fuente de ubicación:"
-
-#~ msgid "DEC:"
-#~ msgstr "Dec:"
-
-#~ msgid "ALT:"
-#~ msgstr "Alt:"
-
-#~ msgid "Hour Angle"
-#~ msgstr "Ángulo horario"
-
-#~ msgid "Local Sidereal TIme"
-#~ msgstr "Tiempo sidéreo local"
-
-#~ msgid "LST:"
-#~ msgstr "LST:"
-
-#~ msgid ""
-#~ "Action to take if solver if successful (Sync, Slew to Target, or None)"
-#~ msgstr ""
-#~ "Acción a realizar si el sistema de identificación tiene éxito "
-#~ "(sincronizar, mover hasta el objetivo o ninguna)"
-
-#~ msgid "Capturing image again..."
-#~ msgstr "Volviendo a capturar la imagen..."
-
-#~ msgid "Exposure failure. Restarting exposure..."
-#~ msgstr "La exposición ha fallado. Reiniciando la exposición..."
-
-#~| msgid "Calibration"
-#~ msgid "Calibraton"
-#~ msgstr "Calibración"
-
-#~ msgid "<b>File Settings</b>"
-#~ msgstr "<b>Preferencias de archivo</b>"
-
-#~ msgid "Darks..."
-#~ msgstr "Fotogramas oscuros..."
-
-#~ msgid "Limits..."
-#~ msgstr "Límites..."
-
-#~ msgid "Scripts..."
-#~ msgstr "Guiones..."
-
-#~ msgid ""
-#~ "GPS driver detected. KStars and mount time and location settings are now "
-#~ "synced to the GPS driver."
-#~ msgstr ""
-#~ "Controlador de GPS detectado. KStars y los ajustes de hora y posición de "
-#~ "la montura se sincronizan ahora con el controlador del GPS."
-
-#~ msgid ""
-#~ "GPS is detected. Do you want to switch time and location source to GPS?"
-#~ msgstr ""
-#~ "GPS detectado. ¿Desea cambiar la fuente de hora y de posición a GPS?"
-
-#~ msgid "GPS Settings"
-#~ msgstr "Preferencias de GPS"
-
-#~ msgid "%1 file saved to %2"
-#~ msgstr "%1 archivo guardado en %2"
-
-#~ msgid ""
-#~ "Select time and location synchronization settings between KStars and INDI "
-#~ "Devices"
-#~ msgstr ""
-#~ "Seleccione las preferencias de sincronización de hora y posición entre "
-#~ "KStars y los dispositivos INDI"
-
-#~ msgid "Time && Location Updates"
-#~ msgstr "Actualizaciones de hora y posición"
-
-#~ msgid ""
-#~ "<html><head/><body><p>KStars is the master source for time and location "
-#~ "settings. All INDI devices time and locations settings are synchronized "
-#~ "to KStars settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>KStars es la fuente maestra para las preferencias "
-#~ "de hora y posición. Los ajustes de hora y posición de todos los "
-#~ "dispositivos INDI se sincronizan con los ajustes de KStars.</p></body></"
-#~ "html>"
-
-#~ msgid "KStars updates all devices"
-#~ msgstr "KStars actualiza todos los dispositivos"
-
-#~ msgid ""
-#~ "Synchronize KStars date and time automatically from the update source."
-#~ msgstr ""
-#~ "Sincronizar la hora y fecha de KStars automáticamente desde la fuente de "
-#~ "actualización."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Mount handset is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with controller settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Los dispositivos de montura es la fuente maestra "
-#~ "para las preferencias de hora y posición. Los ajustes de hora y posición "
-#~ "de KStars se sincronizan con los ajustes del controlador.</p></body></"
-#~ "html>"
-
-#~ msgid "Mount updates KStars"
-#~ msgstr "Las monturas actualizan KStars"
-
-#~ msgid "Synchronize KStars location settings from the update source."
-#~ msgstr ""
-#~ "Sincronizar las preferencias de posición de KStars desde la fuente de "
-#~ "actualización."
-
-#~ msgid "Location"
-#~ msgstr "Posición"
-
-#~ msgid ""
-#~ "<html><head/><body><p>GPS driver is the master source of time and "
-#~ "location settings. KStars time and location settings are synchronized "
-#~ "with GPS settings.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El controlador GPS es la fuente maestra para las "
-#~ "preferencias de hora y posición. Los ajustes de hora y posición de KStars "
-#~ "se sincronizan con los ajustes de GPS.</p></body></html>"
-
-#~ msgid "GPS updates KStars"
-#~ msgstr "El GPS actualiza KStars"
-
-#~ msgid "Use KStars time and location for synchronization?"
-#~ msgstr "¿Usar hora y posición de KStars para sincronización?"
-
-#~ msgid "Use mount time and location for synchronization?"
-#~ msgstr "¿Usar hora y posición de la montura para sincronización?"
-
-#~ msgid "Use GPS time and location for synchronization?"
-#~ msgstr "¿Usar la hora y posición del GPS para sincronización?"
-
-#~ msgid ""
-#~ "Subtract dark frame. If no suitable dark frame is available, a dark frame "
-#~ "shall be captured."
-#~ msgstr ""
-#~ "Restar fotograma oscuro. Si no se dispone de un fotograma oscuro "
-#~ "adecuado, se debe capturar un fotograma oscuro."
-
-#~ msgid "Use dark frames from the library."
-#~ msgstr "Usar fotogramas oscuros de la biblioteca."
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "The sun"
-#~ msgstr "El Sol"
-
-#~ msgid "The moon"
-#~ msgstr "La Luna"
-
-#~ msgid "Camera frame types when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Tipos de fotogramas de la cámara cuando se usa el editor de esq "
-#~ "independiente."
-
-#~ msgid "Camera frame formats when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Formatos de fotogramas de la cámara cuando se usa el editor de esq "
-#~ "independiente."
-
-#~ msgid "Camera frame encodings when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Codificaciones de fotogramas de la cámara cuando se usa el editor de esq "
-#~ "independiente."
-
-#~ msgid "Camera ISOs when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Valores ISO de la cámara cuando se usa el editor de esq independiente."
-
-#~ msgid "Camera ISO choice when using stand-alone esq editor."
-#~ msgstr ""
-#~ "Elección de ISO de la cámara cuando se usa el editor de esq independiente."
-
-#~ msgid "Filter names when using stand-alone esq editor."
-#~ msgstr "Nombres de filtros cuando se usa el editor de esq independiente."
-
-#~ msgid ""
-#~ "Width,Height of sensor size remembered for stand-alone esq editor, and "
-#~ "Gain/Offset keywords."
-#~ msgstr ""
-#~ "Anchura,Altura del tamaño del sensor recordado para el editor de esq "
-#~ "independiente y palabras clave de ganancia/desplazamiento."
-
-#, fuzzy
-#~| msgid "Camera frame formats when using stand-alone esq editor."
-#~ msgid "Camera temperature properties for stand-alone esq editor."
-#~ msgstr ""
-#~ "Formatos de fotogramas de la cámara cuando se usa el editor de esq "
-#~ "independiente."
-
-#~ msgid "Local time that the CaptureStandAlone options were set."
-#~ msgstr ""
-#~ "Hora local a la que se han configurado las opciones de CaptureStandAlone."
-
-#~ msgid ""
-#~ "First use of Optical Train: %1. Would you like Focus Advisor to optimise "
-#~ "parameters?"
-#~ msgstr ""
-#~ "Primer uso del tren óptico: %1. ¿Le gustaría que el asesor de enfoque "
-#~ "optimizara los parámetros?"
-
-#~ msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
-#~ msgstr "<html><head/><body><p>Tamaño máximo de paso:</p></body></html>"
-
-#~ msgid "Wall coordinates are invalid."
-#~ msgstr "Las coordenadas del muro no son válidas."
-
-#~ msgid ""
-#~ "<html><head/><body><p>A good figure to start with is 5. An exception is "
-#~ "if you have a scope with a central obstruction that turns stars to donuts "
-#~ "when they are out of focus. When this happens the system will struggle to "
-#~ "identify stars correctly. To avoid this situation reduce either the step "
-#~ "size or the number of steps.</p><p>To check this situation, start at "
-#~ "focus and move away by &quot;step size&quot; * &quot;number of "
-#~ "steps&quot; steps. Take a focus frame and zoom in on the fitsviewer to "
-#~ "see whether stars appear as stars or donuts.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Un buen número para empezar es 5. Una excepción es "
-#~ "si tiene un telescopio con una obstrucción central que convierte las "
-#~ "estrellas en rosquillas cuando están fuera del foco. Cuando esto sucede, "
-#~ "el sistema tendrá dificultades para identificar las estrellas "
-#~ "correctamente. Para evitar esta situación, reduzca el tamaño del paso o "
-#~ "el número de pasos.</p><p>Para comprobar esta situación, empiece en el "
-#~ "foco y mueva hacia afuera «tamaño de paso» * «número de pasos». Tome "
-#~ "fotograma de enfoque y amplíe en el visor FITS para ver si las estrellas "
-#~ "aparecen como estrellas o como rosquillas.</p></body></html>"
-
-#~ msgid ""
-#~ "Autofocus failed to reach proper focus. Try increasing tolerance value."
-#~ msgstr ""
-#~ "El enfoque automático no ha conseguido un enfoque apropiado. Pruebe a "
-#~ "aumentar el valor de tolerancia."
-
-#~ msgid ""
-#~ " You have a scope with a central obstruction so be careful not to move "
-#~ "too far away from focus as stars will appear as donuts and will not be "
-#~ "detected properly. Experiment by finding focus and moving Step Size * Out "
-#~ "Step Multiple ticks away from focus and take a focus frame. Zoom in to "
-#~ "observe star detection. If it is poor then move the focuser back towards "
-#~ "focus until star detection is acceptable. Adjust Out Step Multiple to "
-#~ "correspond to this range of focuser motion."
-#~ msgstr ""
-#~ "Tiene un telescopio con una obstrucción central, por lo que debería tener "
-#~ "cuidado de no alejarse demasiado del foco, ya que las estrellas "
-#~ "aparecerían como rosquillas y no se detectarían correctamente. "
-#~ "Experimente encontrando el foco y moviendo «Tamaño de paso * Múltiplo de "
-#~ "pasos de salida» pasos fuera del foco y haga un encuadre de enfoque. "
-#~ "Acérquese para observar la detección de estrellas. Si es pobre, mueva el "
-#~ "enfocador hacia atrás hasta que la detección de estrellas sea aceptable. "
-#~ "Ajuste el «Múltiplo de paso de salida» para que se corresponda con este "
-#~ "intervalo de movimiento del enfocador."
-
-#~ msgid "Whether to accept Focus Advisor recommendation on Out Step Multiple."
-#~ msgstr ""
-#~ "Indica si se debe aceptar la recomendación del asesor de enfoque sobre el "
-#~ "«Múltiplo de pasos de salida»."
-
-#~ msgid "CCD capture aborted"
-#~ msgstr "Captura CCD interrumpida"
-
-#~ msgid "PHD2: Guiding resumed."
-#~ msgstr "PHD2: Continuando el guiado automático."
-
-#~ msgid "No job running"
-#~ msgstr "Ningún trabajo en ejecución"
-
-#~ msgid "Open FITS"
-#~ msgstr "Abrir FITS"
-
-#~ msgid "No Target - Please pick an object."
-#~ msgstr "Ningún objetivo. Escoja un objeto."
-
-#~ msgid "Focus Out"
-#~ msgstr "Enfocar hacia fuera"
-
-#~ msgid "Focus In"
-#~ msgstr "Enfocar hacia dentro"
-
-#~ msgid "Toggle full screen"
-#~ msgstr "Conmutar pantalla completa"
-
-#~ msgid "Help"
-#~ msgstr "Ayuda"
-
-#~ msgid "Directory"
-#~ msgstr "Directorio"
-
-#~ msgid "Save capture sequence"
-#~ msgstr "Guardar secuencia de capturas"
-
-#~ msgid "Load"
-#~ msgstr "Cargar"
-
-#~ msgid ""
-#~ "Perform autofocusing once Half-Flux-Radius (HFR) value exceeds this limit"
-#~ msgstr ""
-#~ "Realizar enfoque automático cuando el valor de HFR exceda este límite"
-
-#~ msgid "Autofocus if HFR >"
-#~ msgstr "Enfoque automático si la HFR >"
-
-#~ msgid ""
-#~ "Warning: HFR-based autofocus is set but option \"Save Sequence HFR Value "
-#~ "to File\" is not enabled. Current HFR value will not be written to "
-#~ "sequence file."
-#~ msgstr ""
-#~ "Advertencia: el enfoque automático basado en la HFR está activado, pero "
-#~ "la opción «Guardar el valor HFR de la secuencia en el archivo» no está "
-#~ "activado. El valor HFR actual no se escribirá en el archivo de la "
-#~ "secuencia."
-
-#~ msgid "AZ"
-#~ msgstr "AC"
-
-#~ msgid "ALT"
-#~ msgstr "ALT"
-
-#~ msgid "HA"
-#~ msgstr "HA"
-
-#~ msgid "LST"
-#~ msgstr "LST"
-
-#~ msgid "Purge all configuration"
-#~ msgstr "Purgar toda la configuración"
-
-#~ msgid "In-Sequence Focus"
-#~ msgstr "Enfoque en secuencia"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Set HFR Threshold percentage gain. When an "
-#~ "autofocus operation is completed, the autofocus HFR value is increased by "
-#~ "this threshold percentage value and stored within the capture module. If "
-#~ "In-Sequence-Focus is engaged, the autofocus module only performs "
-#~ "autofocusing procedure if current HFR value exceeds the capture module "
-#~ "HFR threshold. Increase value to permit more relaxed changes in HFR "
-#~ "values without requiring a full autofocus run.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Definir la ganancia del porcentaje del umbral de "
-#~ "HFR. Cuando se completa una operación de enfoque automático, el valor de "
-#~ "HFR de enfoque automático se aumenta este valor de porcentaje de umbral y "
-#~ "se guarda en el módulo de captura. Si se ha activado el enfoque para la "
-#~ "secuencia, el módulo de enfoque automático solo realizará el "
-#~ "procedimiento de enfoque automático si el valor de HFR actual excede el "
-#~ "umbral de HFR del módulo de captura. Aumente este valor para permitir "
-#~ "cambios más relajados en valores de HFR sin necesitar un proceso de "
-#~ "enfoque automático completo.</p></body></html>"
-
-#~ msgid "HFR threshold modifier:"
-#~ msgstr "Modificador de umbral de HFR:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Calculate median focus value after each autofocus "
-#~ "operation is complete. If the autofocus results become progressively "
-#~ "worse with time, the median value shall reflect this trend and prevent "
-#~ "unnecessary autofocus operations when the seeing conditions deteriorate.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Calcular el valor del enfoque por la mediana tras "
-#~ "completar cada operación de enfoque automático. Si el resultado del "
-#~ "enfoque automático empeora con el tiempo, el valor de la mediana debe "
-#~ "reflejar esta tendencia y prevenir operaciones innecesarias de enfoque "
-#~ "automático cuando se deterioran las condiciones de visibilidad.</p></"
-#~ "body></html>"
-
-#~ msgid "Use median focus"
-#~ msgstr "Usar enfoque por mediana"
-
-#~ msgid ""
-#~ "<html><head/><body><p>In-sequence HFR threshold value controls when the "
-#~ "autofocus process is started. If the measured HFR value exceeds the HFR "
-#~ "threshold, autofocus process is initiated. If the HFR threshold value is "
-#~ "zero initially (default), then the autofocus process best HFR value is "
-#~ "used to set the new HFR threshold, after applying the HFR threshold "
-#~ "modifier percentage. This new HFR threshold is then used for subsequent "
-#~ "In-Sequence focus checks. If this option is enabled, the HFR threshold "
-#~ "value is constant and gets saved to the sequence file.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El valor de umbral de HFR en secuencia controla "
-#~ "cuándo se inicia el proceso de enfoque automático. Si el valor de HFR "
-#~ "medido excede el umbral de HFR, se inicia el proceso de enfoque "
-#~ "automático. Si el valor del umbral de HFR es cero inicialmente (por "
-#~ "omisión), se usa el mejor valor de HFR del proceso de enfoque automático "
-#~ "para ajustar el nuevo umbral de HFR, tras aplicar el porcentaje "
-#~ "modificador del umbral de HFR. A partir de ese momento se usa este nuevo "
-#~ "umbral de HFR para las siguientes comprobaciones de enfoque automático en "
-#~ "secuencia. Si se activa esta opción, el valor del umbral de HFR es "
-#~ "constante y se guarda en el archivo de la secuencia.</p></body></html>"
-
-#~ msgid "Save sequence HFR value to file"
-#~ msgstr "Guardar el valor de HFR de la secuencia en el archivo"
-
-#~ msgid "Capture sequence file editor"
-#~ msgstr "Editor de archivos de secuencia de captura"
-
-#~ msgid "Save schedule"
-#~ msgstr "Guardar planificación"
-
-#~ msgid "O&n"
-#~ msgstr "E&ncendido"
-
-#~ msgid "File name"
-#~ msgstr "Nombre de archivo"
-
-#~ msgid "Recording options"
-#~ msgstr "Opciones de grabación"
-
-#~ msgid "Collimation overlay options"
-#~ msgstr "Opciones para la capa de colimación"
-
-#~ msgid ""
-#~ "Calculate median focus value after each autofocus operation is complete."
-#~ msgstr ""
-#~ "Calcular el valor del enfoque por la mediana tras completar cada "
-#~ "operación de enfoque automático."
-
-#~ msgid ""
-#~ "When saving a sequence file, save current HFR threshold value. By "
-#~ "default, zero value is used."
-#~ msgstr ""
-#~ "Cuando se guarda un archivo de secuencia, guardar en él el valor del "
-#~ "umbral de HFR actual. Por omisión se usa el valor cero."
-
-#~ msgid "Timeout"
-#~ msgstr "Tiempo de espera"
-
-#~ msgid "Adaptive Focus: Temp delta %1 ticks; Alt delta %2 ticks"
-#~ msgstr "Enfoque adaptativo: Delta Temp %1 pulsos; delta Alt %2 pulsos"
-
-#~ msgid "Inspector"
-#~ msgstr "Inspector"
-
-#~ msgid ""
-#~ "<html><head/><body><p>General Focus Settings parameters.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Parámetros generales de los ajustes de enfoque.</"
-#~ "p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Focus parameters to do with the Autofocus process.</"
-#~ "p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Parámetros de enfoque relacionados con el proceso "
-#~ "de enfoque automático.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Focus parameters to do with the mechanics of moving "
-#~ "the focuser.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Parámetros de enfoque relacionados con la mecánica "
-#~ "del movimiento del enfocador.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Parameters to do with configuring the Critical "
-#~ "Focus Zone (CFZ). This is not necessary for Autofocus, but provides "
-#~ "useful information.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Parámetros relacionados con la configuración de la "
-#~ "zona de enfoque crítico (CFZ). No son necesarios para el enfoque "
-#~ "automático, aunque proporcionan información útil.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Focus Advisor help utility to assist with setting "
-#~ "up Focus parameters.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Utilidad «Asesor de enfoque», que ayuda a "
-#~ "configurar los parámetros de enfoque.</p></body></html>"
-
-#~ msgid ""
-#~ "Warning: You cannot add or modify a job while the scheduler is running."
-#~ msgstr ""
-#~ "Advertencia: No puede añadir ni modificar un trabajo mientras esté "
-#~ "ejecutando el planificador."
-
-#~ msgid ""
-#~ "Warning: you cannot add or modify a job while the scheduler is running."
-#~ msgstr ""
-#~ "Advertencia: No puede añadir ni modificar un trabajo mientras esté "
-#~ "ejecutando el planificador."
-
-#~ msgid ""
-#~ "Focus mask type: 0 = All stars used when focusing, 1 = ring mask, 2 = 3x3 "
-#~ "mosaic style mask"
-#~ msgstr ""
-#~ "Tipo de máscara de enfoque: 0 = se usan todas las estrellas al enfocar, 1 "
-#~ "= máscara de anillo, 2 = máscara de estilo mosaico 3x3."
-
-#, fuzzy
-#~| msgid "Color:"
-#~ msgid "Colour:"
-#~ msgstr "Color:"
-
-#~ msgid "Differential slewing complete."
-#~ msgstr "Desplazamiento diferencial completado."
-
-#~ msgctxt "Half Flux Radius"
-#~ msgid "HFR: %1"
-#~ msgstr "HFR: %1"
-
-#~ msgid "Scope/Lense:"
-#~ msgstr "Telescopio/lente:"
-
-#~ msgid "Specify the source the flat field evenly illuminated light source"
-#~ msgstr ""
-#~ "Indicar el origen de la fuente de luz de iluminación uniforme del campo "
-#~ "plano"
-
-#~ msgid "Flat Source"
-#~ msgstr "Fuente plana"
-
-#~ msgid "Light source triggered by the user manually"
-#~ msgstr "Fuente de luz encendida manualmente por el usuario"
-
-#~ msgid ""
-#~ "For dark and bias frames, close the dust cap before proceeding. For flat "
-#~ "frames, close the dust cap and turn on the light source."
-#~ msgstr ""
-#~ "Para fotogramas oscuros y ponderados, cerrar la cubierta antipolvo antes "
-#~ "de continuar. Para fotogramas planos, cerrar la cubierta antipolvo y "
-#~ "encender la fuente de luz."
-
-#~ msgid "Dust Cover with Built-in Flat Light"
-#~ msgstr "Cubierta antipolvo con luz tenue integrada"
-
-#~ msgid ""
-#~ "For dark and bias frames, close the dust cap before proceeding. For flat "
-#~ "frames, open the dust cap and turn on the light source."
-#~ msgstr ""
-#~ "Para fotogramas oscuros y ponderados, cerrar la cubierta antipolvo antes "
-#~ "de continuar. Para fotogramas planos, abrir la cubierta antipolvo y "
-#~ "encender la fuente de luz."
-
-#~ msgid "Dust Cover with External Flat Light"
-#~ msgstr "Cubierta antipolvo con luz tenue externa"
-
-#~ msgid "Use Dawn and Dusk light"
-#~ msgstr "Usar luz del amanecer y del anochecer"
-
-#~ msgid "Dawn/Dusk"
-#~ msgstr "Amanecer/anochecer"
-
-#~ msgid "Index of flat source option."
-#~ msgstr "Índice de la opción de fuente plana."
-
-#~ msgid "Warning: Filter %1 not found in filter wheel."
-#~ msgstr ""
-#~ "Advertencia: no se ha encontrado el filtro %1 en la rueda de filtros."
-
-#~ msgid "Maximum difference between camera and target temperatures"
-#~ msgstr "Diferencia máxima entre las temperaturas de la cámara y objetivo"
-
-#~ msgid ""
-#~ "<p>To disable rotation validation, uncheck the Rotator option in "
-#~ "Alignment Options.</p>"
-#~ msgstr ""
-#~ "<p>Para desactivar la validación de la rotación, desmarque la opción del "
-#~ "«Rotador» en las opciones de alineación.</p>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Use automatic or manual rotation control when using "
-#~ "Load &amp; Slew. For automatic control, the mechanized rotator is "
-#~ "commanded to rotate to match the desired position angle. For manual "
-#~ "control, the user is asked to manually rotate the camera until the "
-#~ "desired position angle is reached.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Usar el control de rotación automático o manual al "
-#~ "utilizar «Cargar y desplazar». Con el control automático, se le ordena al "
-#~ "rotador mecanizado que gire hasta alcanzar el ángulo de posición deseado. "
-#~ "Con el control manual, se le solicita al usuario que rote la cámara a "
-#~ "mano hasta alcanzar el ángulo de posición deseado.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>The camera position angle is saved to a sequence "
-#~ "capture job. On execution of the job the camera is rotated to the "
-#~ "specified position angle.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El ángulo de posición de la cámara se guarda en un "
-#~ "trabajo de captura de secuencia. Al ejecutar el trabajo, la cámara gira "
-#~ "al ángulo de posición indicado.</p></body></html>"
-
-#~ msgid "Save Camera Position Angle to Sequence Job"
-#~ msgstr ""
-#~ "Guardar el ángulo de la posición de la cámara en el trabajo de secuencia"
-
-#~ msgid ""
-#~ "Warning: job '%1' has startup time %2 resulting in a negative score, and "
-#~ "will be marked invalid when processed."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» tiene una hora de inicio %2 que resulta en "
-#~ "una puntuación negativa, por lo que se marcará como no válido cuando se "
-#~ "procese."
-
-#~ msgid ""
-#~ "Warning: job '%1' at row %2 might require a specific startup time or a "
-#~ "different priority, as currently they will start in order of insertion in "
-#~ "the table"
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» de la fila %2 puede necesitar una hora de "
-#~ "inicio específica o una prioridad diferente, ya que en la actualidad se "
-#~ "iniciará en el orden de inserción en la tabla."
-
-#~ msgid "All jobs aborted. Waiting %1 seconds to re-schedule."
-#~ msgstr ""
-#~ "Se han interrumpido todos los trabajos. Esperando %1 segundos para volver "
-#~ "a programarlos."
-
-#~ msgid "No jobs left in the scheduler queue."
-#~ msgstr "No quedan trabajos en la cola del planificador."
-
-#~ msgid "Only %1 jobs left in the scheduler queue, rescheduling those."
-#~ msgstr ""
-#~ "Solo quedan %1 trabajos en la cola del planificador. Se vuelven a "
-#~ "programar."
-
-#~ msgid ""
-#~ "Warning: job '%1' has fixed startup time %2 set in the past, marking "
-#~ "invalid."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» tiene una hora de inicio fija %2 definida en "
-#~ "el pasado. Se marca como no válido."
-
-#~ msgid ""
-#~ "Warning: job '%1' has a fixed start time incompatible with its twilight "
-#~ "restriction, marking invalid."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» tiene una hora de inicio fija que es "
-#~ "incompatible con su restricción de crepúsculo. Se marca como no válido."
-
-#~ msgid ""
-#~ "Warning: job '%1' has a fixed start time incompatible with its altitude "
-#~ "restriction, marking invalid."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» tiene una hora de inicio fija que no es "
-#~ "compatible con su restricción de altitud. Se marca como no válido."
-
-#~ msgid ""
-#~ "Warning: job '%1' has a fixed start time incompatible with its Moon "
-#~ "separation restriction, marking invalid."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» tiene una hora de inicio fija que es "
-#~ "incompatible con su restricción de separación de la Luna. Se marca como "
-#~ "no válido."
-
-#~ msgid ""
-#~ "Warning: job '%1' has fixed startup time %2 unachievable due to the "
-#~ "completion time of its previous sibling, marking invalid."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» tiene una hora de inicio fija %2 que es "
-#~ "imposible debido a la hora de terminación de su predecesor. Se marca como "
-#~ "no válido."
-
-#~ msgid ""
-#~ "Warning: Job '%1' cannot start because its previous sibling has no "
-#~ "completion time, marking invalid."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» no se puede iniciar porque su predecesor no "
-#~ "tiene hora de terminación. Se marca como no válido."
-
-#~ msgid ""
-#~ "Warning: job '%1' execution overlaps daylight, it will be interrupted at "
-#~ "dawn and rescheduled on next night time."
-#~ msgstr ""
-#~ "Advertencia: la ejecución del trabajo «%1» se superpone con el amanecer. "
-#~ "Se interrumpirá al amanecer y se volverá a programar cuando vuelva a "
-#~ "anochecer."
-
-#~ msgid ""
-#~ "Warning: job '%1' requires culmination offset of %2 minutes, not "
-#~ "achievable, marking invalid."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» necesita un desplazamiento de culminación de "
-#~ "%2 minutos, que no se puede realizar. Se marca como no válido."
-
-#~ msgid ""
-#~ "Warning: job '%1' requires minimum altitude %2 and Moon separation %3, "
-#~ "not achievable, marking invalid."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» necesita una altitud mínima de %2 y una "
-#~ "separación de la Luna de %3, que no se puede realizar. Se marca como no "
-#~ "válido."
-
-#~ msgid ""
-#~ "Warning: job '%1' is constrained by the start time of the next job, and "
-#~ "cannot finish in time, marking aborted."
-#~ msgstr ""
-#~ "Advertencia: el trabajo «%1» está restringido por la hora de inicio del "
-#~ "siguiente trabajo y no se puede terminar a tiempo. Se marca como "
-#~ "interrumpido."
-
-#~ msgid ""
-#~ "Job '%1' completion time (%2) could not be achieved before start up time "
-#~ "(%3)"
-#~ msgstr ""
-#~ "La hora de terminación (%2) del trabajo «%1» no se puede alcanzar antes "
-#~ "de la hora de inicio (%3)."
-
-#~ msgid "No jobs left in the scheduler queue after schedule cleanup."
-#~ msgstr ""
-#~ "No quedan trabajos en la cola del planificador tras el borrado de la "
-#~ "programación."
-
-#~ msgid "Job '%1' reached completion time %2, stopping."
-#~ msgstr ""
-#~ "El trabajo «%1» ha alcanzado su hora de finalización %2. Deteniendo..."
-
-#~ msgid ""
-#~ "Job '%1' current altitude (%2 degrees) fails constraints, marking idle."
-#~ msgstr ""
-#~ "La altitud actual del trabajo «%1» (%2 grados) no satisface las "
-#~ "restricciones. Se marca como inactivo."
-
-#~ msgid ""
-#~ "Job '%2' current moon separation (%1 degrees) is lower than minimum "
-#~ "constraint (%3 degrees), marking idle."
-#~ msgstr ""
-#~ "La separación actual de la Luna del trabajo «%2» (%1 grados) es menor que "
-#~ "la restricción mínima (%3 grados). Se marca como inactivo."
-
-#~ msgid ""
-#~ "Job '%3' is now approaching astronomical twilight rise limit at %1 (%2 "
-#~ "minutes safety margin), marking idle."
-#~ msgstr ""
-#~ "El trabajo «%3» se está aproximando al límite de inicio del crepúsculo "
-#~ "astronómico a las %1 (%2 minutos de margen de seguridad). Se marca como "
-#~ "inactivo."
-
-#~ msgid "Priority:"
-#~ msgstr "Prioridad:"
-
-#~ msgid ""
-#~ "Assigned priority to each job with 1 being the highest priority and 20 "
-#~ "being the lowest priority"
-#~ msgstr ""
-#~ "Prioridad asignada a cada trabajo (1 es la más alta y 20 la más baja)"
-
-#~ msgid "Score"
-#~ msgstr "Puntuación"
-
-#~ msgid "Est. Duration"
-#~ msgstr "Duración estimada"
-
-#~ msgid ""
-#~ "Start the observation job when the object reaches culmination adjusted "
-#~ "for the offset value in minutes. By default, the observation job runs 60 "
-#~ "minutes prior to culmination."
-#~ msgstr ""
-#~ "Iniciar el trabajo de observación cuando el objeto alcanza la culminación "
-#~ "ajustada por el valor de desplazamiento en minutos. Por omisión, el "
-#~ "trabajo de observación se ejecuta 60 minutos antes de la culminación."
-
-#~ msgid "Cul&mination Offset"
-#~ msgstr "Desplaza&miento de culminación"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Offset in minutes to start imaging before or after "
-#~ "culmination time.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Desplazamiento en minutos para iniciar la captura "
-#~ "de imágenes antes o después del tiempo de culminación.</p></body></html>"
-
-#~ msgid " min"
-#~ msgstr " min"
-
-#~ msgid ""
-#~ "Current score for job '%1', from its altitude, moon separation and sky "
-#~ "darkness.\n"
-#~ "Negative if adequate altitude is not achieved yet or if there is no "
-#~ "proper observation time today.\n"
-#~ "The Scheduler will refresh scores when picking a new candidate job."
-#~ msgstr ""
-#~ "Puntuación actual para el trabajo «%1», según su altitud, separación de "
-#~ "la Luna y oscuridad del cielo.\n"
-#~ "Es negativa si aún no se ha alcanzado la altitud adecuada o si hoy no "
-#~ "existe una hora de observación adecuada.\n"
-#~ "El planificador actualizará las puntuaciones cuando se escoja un nuevo "
-#~ "trabajo candidato."
-
-#~ msgid ""
-#~ "Time interval from the job which precedes job '%1'.\n"
-#~ "Adjust the Lead Time in Ekos options to increase that duration and leave "
-#~ "time for jobs to complete.\n"
-#~ "Rearrange jobs to minimize that duration and optimize your imaging time."
-#~ msgstr ""
-#~ "Intervalo de tiempo desde el trabajo que precede al trabajo «%1».\n"
-#~ "Ajuste el tiempo de preparación en las opciones de Ekos para aumentar "
-#~ "esta duración y dejar tiempo para que los trabajos se completen.\n"
-#~ "Organice los trabajos para minimizar esta duración y optimizar el tiempo "
-#~ "de captura."
-
-#~ msgid ""
-#~ "Duration job '%1' will take to complete when started, as estimated by the "
-#~ "Scheduler.\n"
-#~ "Depends on the actions to be run, and the sequence job to be processed."
-#~ msgstr ""
-#~ "Duración que el trabajo «%1» tardará en completarse cuando se inicie, "
-#~ "estimado por el planificador.\n"
-#~ "Depende de las acciones a ejecutar y del trabajo de secuencia a procesar."
-
-#~ msgid "Cannot start framing while focus module is busy."
-#~ msgstr ""
-#~ "No se puede empezar a encuadrar mientras el módulo de enfoque está "
-#~ "ocupado."
-
-#~ msgid "Adaptive focus failed. Continuing..."
-#~ msgstr "El enfoque adaptativo ha fallado. Continuando..."
-
-#~ msgid "Add the filter name to the capture file name."
-#~ msgstr "Añadir el nombre del filtro al nombre de archivo de la captura."
-
-#~ msgid "Add the capture duration to the capture file name."
-#~ msgstr ""
-#~ "Añadir la duración de la captura al nombre de archivo de la captura."
-
-#~ msgid "Add the capture timestamp to the capture file name."
-#~ msgstr ""
-#~ "Añadir la marca de fecha y hora de la captura al nombre de archivo de la "
-#~ "captura."
-
-#~ msgid ""
-#~ "Options for the method of Star Extraction.  Internal SEP uses an internal "
-#~ "library in KStars, External Sextractor requires an external program, and "
-#~ "Built In uses whatever default Star Extraction process your selected "
-#~ "solving method uses."
-#~ msgstr ""
-#~ "Opciones para el método de extracción de estrellas. «SEP interno» usa una "
-#~ "biblioteca interna de KStars, «SExtractor externo» necesita un programa "
-#~ "externo, y «Extracción de estrellas integrada» usa el proceso "
-#~ "predeterminado de extracción de estrellas que use el método de "
-#~ "identificación que haya seleccionado."
-
-#~ msgid ""
-#~ "Use JPEG format, instead of FITS, to upload images to the online "
-#~ "astrometry.net service"
-#~ msgstr ""
-#~ "Usar el formato JPEG en lugar de FITS para enviar imágenes al servicio en "
-#~ "línea astrometry.net"
-
-#~ msgid "Upload JPG"
-#~ msgstr "Enviar JPG"
-
-#~ msgid "Process stopped. Yes to restart, No to abort"
-#~ msgstr "Proceso detenido. «Sí» para reiniciar, «No» para interrumpir."
-
-#~ msgid "A problem occurred. Yes to retry, No to abort"
-#~ msgstr ""
-#~ "Ha ocurrido un problema. «Sí» para volver a intentarlo, «No» para "
-#~ "interrumpir."
-
-#~ msgid ""
-#~ "<html><head/><body><p><span style=\" font-weight:600;\">Classic</span>: "
-#~ "Start jobs that meet the constraints by priority and score.</p><p><span "
-#~ "style=\" font-weight:600;\">Greedy</span>: Always attempt to run a job. "
-#~ "It picks the highest priority job that can run according to its "
-#~ "constraints. Priority is assigned according to row in table above. Higher "
-#~ "row has higher priority. It will interrupt running jobs if a higher "
-#~ "priority job can run.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p><span style=\" font-weight:600;\">Clásica</span>: "
-#~ "Empezar los trabajos que cumplan las restricciones por prioridad y "
-#~ "puntuación.</p><p><span style=\" font-weight:600;\">Voraz</span>: "
-#~ "Intentar ejecutar un trabajo siempre. Se selecciona el trabajo con la "
-#~ "prioridad más alta que pueda ejecutarse según sus restricciones. La "
-#~ "prioridad se asigna según la fila de la tabla superior. Cuanto más arriba "
-#~ "esté la línea, mayor será la prioridad. Interrumpirá los trabajos en "
-#~ "ejecución si se puede ejecutar un trabajo con una prioridad más alta.</"
-#~ "p></body></html>"
-
-#~ msgid "Greedy"
-#~ msgstr "Voraz"
-
-#~ msgid "Mosaic Job Creator"
-#~ msgstr "Creador de trabajo de mosaico"
-
-#~ msgid "↓ Equipment"
-#~ msgstr "↓ Equipo"
-
-#~ msgid "↓ FOV"
-#~ msgstr "↓ Campo visual"
-
-#~ msgid "↓ Jobs"
-#~ msgstr "↓ Trabajos"
-
-#~ msgid "↓ Output"
-#~ msgstr "↓ Salida"
-
-#~ msgid ""
-#~ "<html><head/><body><p align=\"justify\">Total number of Scheduler jobs "
-#~ "required to cover the mosaic field, and that the tool will produce.</p></"
-#~ "body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p align=\"justify\">Número total de trabajos "
-#~ "programados necesarios para cubrir el campo del mosaico que producirá la "
-#~ "herramienta.</p></body></html>"
-
-#~ msgid ""
-#~ "Number of scheduler jobs required to capture the mosaic image. Click "
-#~ "update to calculate it"
-#~ msgstr ""
-#~ "Número de trabajos del planificador necesarios para capturar la imagen en "
-#~ "mosaico. Haga clic para actualizar el cálculo."
-
-#~ msgid "Job Count:"
-#~ msgstr "Cuenta de trabajos:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>This sky chart shows the expected distribution of "
-#~ "mosaic tiles.</p><p><span style=\" font-style:italic;\">Note:</span> this "
-#~ "version of the Mosaic Tool uses a simple plane projection and lacks "
-#~ "precision when declination is higher than 70 degrees. Carefully overlap "
-#~ "your tiles to avoid holes.</p><p>• The setting &quot;Overlap&quot; "
-#~ "controls how tiles are overlaid, its effect can be seen with "
-#~ "transparency. Tiles are then distributed as a grid from setting &quot;"
-#~ "Mosaic Grid&quot;. They are rendered in transparent green and match the "
-#~ "field of the camera from setting &quot;Camera FOV&quot;.</p><p>• The "
-#~ "extent of the mosaic field matches the setting &quot;Mosaic FOV&quot; and "
-#~ "is rendered as a red background to help you fill holes by adjusting "
-#~ "overlap.</p><p>• The job options allow you to execute the mount alignment "
-#~ "or the focus adjustment once out of several iterations only. This checks "
-#~ "or doesn't check the relevant Scheduler job steps. You may leave those to "
-#~ "zero if you use a mount model in Align or configure periodic re-focus in "
-#~ "Capture.</p><p>• Top-right numbers in tiles indicate the order in which "
-#~ "Scheduler jobs will be created. Setting targets are captured first, from "
-#~ "west to east. Center numbers indicate the coordinates of the target of "
-#~ "the job that will be generated for each tile. Bottom numbers indicate the "
-#~ "angle those tiles are shifted compared to the center of the mosaic.</"
-#~ "p><p>The suggested order of actions is to:</p><p>1. Fetch or enter "
-#~ "equipment information.<br/>2. Configure the tile overlap.<br/>3. "
-#~ "Configure the extent of the mosaic by adjusting its grid.<br/>4. Adjust "
-#~ "the alignment and focus job options.<br/>5. Choose an output folder, "
-#~ "where sequence and scheduler job lists will be written.<br/>6. Accept the "
-#~ "dialog.</p><p>Use the overlap percentage to control the area over which "
-#~ "adjacent tiles may be stitched:</p><p>• <span style=\" font-weight:600;"
-#~ "\">0-10%</span> if you plan to register your frames over a synthetic "
-#~ "field built from catalog stars.</p><p>• <span style=\" font-weight:600;"
-#~ "\">10-20%</span> if you plan to stitch adjacent frames by aligning the "
-#~ "stars in their overlapping sky patches.</p><p>• <span style=\" font-"
-#~ "weight:600;\">50-80%</span> if you plan to process a single stack with "
-#~ "the frames produced by the mosaic jobs.</p><p align=\"justify\">Changing "
-#~ "the overlap value immediately updates the number of tiles in order to "
-#~ "cover the mosaic field entirely. The generated tiles may thus cover more "
-#~ "field than required. For this reason, the overlap should be the first "
-#~ "setting to consider. To recompute the field covered by the mosaic from "
-#~ "the number of tiles considering the current overlap, click 'Cover FOV'.</"
-#~ "p><p align=\"justify\">When processing a single stack, <span style=\" "
-#~ "font-weight:600;\">50%</span> and <span style=\" font-weight:600;\">75%</"
-#~ "span> are interesting overlap values. You may want to increase these "
-#~ "slightly to work around tile rotation, apply cropping while capturing or "
-#~ "before stacking, or avoid flat frame calibration artifacts on borders. If "
-#~ "your sequence contains a single exposure, configure the mosaic to achieve "
-#~ "a minimum of 13 layers at the center of the mosaic, as this will allow "
-#~ "stacking with the winsorized sigma rejection method. As illustrations:</"
-#~ "p><p align=\"justify\">• A 5x5 mosaic with an overlap of 80% has 25 "
-#~ "subframes at its center.<br/>• A 4x4 mosaic with an overlap of 75% has 16 "
-#~ "subframes at its center.<br/>• A 3x3 mosaic with an overlap of 66.6% has "
-#~ "9 subframes at its center, and will require two passes.</p><p align="
-#~ "\"justify\">Note that overlapped mosaic tiles may suffer from large-scale "
-#~ "gradients, which will require additional processing after calibration and "
-#~ "before stacking. Thus, capture mosaics in really dark skies and avoid "
-#~ "placing your object of interest on the border of a tile.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Este mapa del cielo muestra la distribución "
-#~ "esperada de baldosas de mosaico.</p><p><span style=\" font-style:italic;"
-#~ "\">Nota:</span> esta versión de la herramienta de mosaico usa una "
-#~ "proyección plana sencilla y carece precisión cuando la declinación supera "
-#~ "los 70 grados. Solape con cuidado las baldosas para evitar huecos.</"
-#~ "p><p>• La preferencia «Solapamiento» controla cómo se solapan las "
-#~ "baldosas y su efecto se puede observar con transparencia. Las baldosas se "
-#~ "distribuyen a continuación como una cuadrícula desde la preferencia "
-#~ "«Cuadrícula del mosaico». Se muestran en verde transparente y coinciden "
-#~ "con el campo de la cámara de la preferencia «Campo visual de la cámara».</"
-#~ "p><p>• La extensión del campo del mosaico coincide con la preferencia "
-#~ "«Campo visual del mosaico» y se muestra como un fondo rojo para ayudarle "
-#~ "a rellenar los huecos ajustando el solapamiento.</p><p>• Las opciones del "
-#~ "trabajo le permiten ejecutar la alineación de la montura o el ajuste del "
-#~ "enfoque tras unas cuantas iteraciones. Marque o desmarque los pasos "
-#~ "relevantes del trabajo del planificador. Puede dejarlos a cero si usa un "
-#~ "modelo de montura en «Alinear», o configurar un reenfoque periódico en "
-#~ "«Captura».</p><p>• Los números que hay en la parte superior derecha de "
-#~ "las baldosas indican el orden de creación de los trabajos del "
-#~ "planificador. Los objetivos definidos se capturan primero, de oeste a "
-#~ "este. Los números del centro indican las coordenadas del objetivo del "
-#~ "trabajo que se generará para cada baldosa. Los números de la parte "
-#~ "inferior indican el ángulo que se han desplazado estas baldosas con "
-#~ "respecto al centro del mosaico.</p><p>El orden de acciones sugerido es:</"
-#~ "p><p>1. Obtener o introducir la información del equipo.<br/>2. Configurar "
-#~ "el solapamiento de las baldosas.<br/>3. Configurar la extensión del "
-#~ "mosaico ajustando su cuadrícula.<br/>4. Ajustar las opciones de "
-#~ "alineación y de enfoque.<br/>5. Escoger una carpeta de salida para "
-#~ "escribir las listas de trabajos de la secuencia y del planificador.<br/"
-#~ ">6. Aceptar el diálogo.</p><p>Use el porcentaje de solapamiento para "
-#~ "controlar el área sobre la que se pueden unir las baldosas adyacentes:</"
-#~ "p><p>• <span style=\" font-weight:600;\">0-10%</span> si planea registrar "
-#~ "los fotogramas sobre un campo sintético creado a partir de las estrellas "
-#~ "del catálogo.</p><p>• <span style=\" font-weight:600;\">10-20%</span> su "
-#~ "planea unir los fotogramas adyacentes alineando las estrellas de las "
-#~ "regiones de cielo solapado.</p><p>• <span style=\" font-weight:600;"
-#~ "\">50-80%</span> si planea procesar una única pila con los fotogramas "
-#~ "producidos por los trabajos del mosaico.</p><p align=\"justify\">Al "
-#~ "cambiar el valor de solapamiento se actualiza el número de baldosas de "
-#~ "forma inmediata para cubrir completamente el campo del mosaico. Las "
-#~ "baldosas generadas pueden cubrir más campo del necesario. Por este "
-#~ "motivo, el solapamiento debe ser el primer ajuste a considerar. Para "
-#~ "volver a calcular el campo cubierto por el mosaico a partir del número de "
-#~ "baldosas teniendo en cuenta el solapamiento actual, pulse «Cubrir campo "
-#~ "visual».</p><p align=\"justify\">Al procesar una única pila, <span style="
-#~ "\" font-weight:600;\">50%</span> y <span style=\" font-weight:600;\">75%</"
-#~ "span> son valores de solapamiento interesantes. Es posible que desee "
-#~ "aumentarlo ligeramente para corregir la rotación de las baldosas, aplicar "
-#~ "recorte al capturar o antes de apilar, o para evitar defectos de "
-#~ "calibración de fotograma plano en los bordes. Si la secuencia contiene "
-#~ "una única exposición, configure el mosaico para conseguir un mínimo de 13 "
-#~ "capas en el centro del mosaico, ya que esto le permitirá apilar con el "
-#~ "método de rechazo de sigma winsorizada. Como ilustraciones:</p><p align="
-#~ "\"justify\">• Un mosaico de 5x5 con un solapamiento del 80% tiene 25 "
-#~ "subfotogramas en el centro.<br/>• Un mosaico de 4x4 con un solapamiento "
-#~ "de 75% tiene 16 subfotogramas en el centro.<br/>• Un mosaico de 3x3 con "
-#~ "un solapamiento del 66.6% tiene 9 subfotogramas en el centro, y requerirá "
-#~ "dos pasadas.</p><p align=\"justify\">Tenga en cuenta que las baldosas del "
-#~ "mosaico que se solapan pueden sufrir de degradados a gran escala, lo que "
-#~ "necesitará un procesamiento adicional tras la calibración y antes del "
-#~ "apilamiento. De este modo, capture mosaicos en cielos realmente oscuros y "
-#~ "evite situar el objeto de interés en el borde de una baldosa.</p></body></"
-#~ "html>"
-
-#~ msgid "Do you want to keep the existing jobs in the mosaic schedule?"
-#~ msgstr "¿Desea mantener los trabajos existentes en mosaico de programación?"
-
-#~ msgid "Error saving mosaic file %1. Please reload job."
-#~ msgstr ""
-#~ "Ha ocurrido un error al guardar el archivo de mosaico %1. Por favor, "
-#~ "vuelva a cargar el trabajo."
-
-#, fuzzy
-#~| msgid "Se&quence completion"
-#~ msgid "Repeat after completion"
-#~ msgstr "Terminación de la sec&uencia"
-
-#~ msgid "Executing post capture script %1"
-#~ msgstr "Ejecutando guion %1 tras la captura..."
-
-#~ msgid "Executing post job script %1"
-#~ msgstr "Ejecutando guion %1 tras el trabajo..."
-
-#~ msgid "Executing pre job script %1"
-#~ msgstr "Ejecutando guion %1 previo al trabajo..."
-
-#~ msgid "Resuming sequence..."
-#~ msgstr "Se reanuda la secuencia..."
-
-#~ msgid "Guider:"
-#~ msgstr "Sistema de guiado:"
-
-#~ msgid "Teritary"
-#~ msgstr "Terciario"
-
-#~ msgctxt "City in Spain"
-#~ msgid "Elche"
-#~ msgstr "Elche"
-
-#~ msgctxt "City in Spain"
-#~ msgid "Lérida"
-#~ msgstr "Lérida"
-
-#, fuzzy
-#~| msgid ""
-#~| "<html><head/><body><p>Maximum travel in steps before the autofocus "
-#~| "process aborts</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Subframe around the focus star during the autofocus "
-#~ "procedure.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Recorrido máximo en pasos antes de que se "
-#~ "interrumpa el proceso de enfoque automático.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Measure average HFR from all stars combined in a "
-#~ "full frame. This method defaults to the Centroid detection, but can use "
-#~ "SEP detection too. Its performance decreases as the number of stars "
-#~ "increases.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Medir la HFR media desde todas las estrellas "
-#~ "combinadas en un fotograma completo. Este método usa por omisión la "
-#~ "detección centroide, pero también puede usar la detección SEP. Su "
-#~ "rendimiento decae a medida que aumenta el número de estrellas.</p></"
-#~ "body></html>"
-
-#~ msgid "Automatically select the best focus star from the image"
-#~ msgstr "Seleccionar automáticamente la mejor estrella enfocada de la imagen"
-
-#~ msgid "Rotator Utilities: Mount %1 is not ready!"
-#~ msgstr "Utilidades del rotador: La montura %1 no está preparada."
-
-#~ msgid "Are you sure you want to stop the polar alignment process?"
-#~ msgstr "¿Seguro que desea detener el proceso de alineación polar?"
-
-#~ msgid "Polar Alignment Assistant"
-#~ msgstr "Asistente de alineación polar"
-
-#~ msgid "An implementation of Dr Robin Glover's exposure calculation"
-#~ msgstr "Una implementación del cálculo de exposición del Dr. Robin Glover"
-
-#~ msgid "Username or password is missing."
-#~ msgstr "Falta el nombre de usuario o la contraseña."
-
-#~ msgid "Connect to EkosLive on the Cloud. Requires Internet connection."
-#~ msgstr "Conectar con EkosLive en la nube. Necesita una conexión a Internet."
-
-#~ msgid "Connects to EkosLive offline."
-#~ msgstr "Conecta con EkosLive sin conexión."
-
-#~ msgid "Whether EkosLive connection mode is online."
-#~ msgstr "Si el modo de conexión de EkosLive está en línea."
-
-#~ msgid ""
-#~ "Rotator failed to arrive at the requested position angle. Try to reverse "
-#~ "rotation direction in Rotator Settings."
-#~ msgstr ""
-#~ "El rotador no ha podido alcanzar el ángulo de posición solicitado. Pruebe "
-#~ "a invertir la dirección del rotador en las preferencias del rotador."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Set the <span style=\" font-weight:600;\">desired</"
-#~ "span> target position angle for a sequence job. Click OK then add the "
-#~ "sequence job to the sequence queue. When the job is executed, the "
-#~ "position angle is first set to this target value prior to capturing the "
-#~ "image.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Define el ángulo de la posición de destino <span "
-#~ "style=\"font-weight:600;\">deseado</span> para un trabajo de secuencia. "
-#~ "Pulse «Aceptar» y añada el trabajo de secuencia a la cola de secuencias. "
-#~ "Cuando se ejecute el trabajo, el ángulo de la posición se ajusta primero "
-#~ "a este valor de destino antes de capturar la imagen.</p></body></html>"
-
-#~ msgid "Add to Job"
-#~ msgstr "Añadir al trabajo"
-
-#~ msgid "Reverse rotator direction"
-#~ msgstr "Invertir la dirección del rotador"
-
-#~ msgid "Rotator Angle Control"
-#~ msgstr "Control del ángulo del rotador"
-
-#~ msgid "Raw Angle:"
-#~ msgstr "Ángulo bruto:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Position Angle (PA) is defined as degrees E of N. "
-#~ "Zero degrees indicate frame <span style=\" font-weight:600;\">UP</span> "
-#~ "points directly toward the celestial pole. 90 degrees indicate frame "
-#~ "<span style=\" font-weight:600;\">UP</span> points 90 degrees counter-"
-#~ "clockwise with respect to the celestial pole.</p><p>PA is calculated from "
-#~ "raw rotator angle plus modifiers to match the rotation angle as measured "
-#~ "by astrometry. Enter the modifiers manually or solve an image in the "
-#~ "Align Module to generate them automatically.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El ángulo de posición (AP) se define como grados al "
-#~ "E del N. Cero grados indica que <span style=\" font-weight:600;\">ARRIBA</"
-#~ "span> del fotograma apunta directamente hacia el polo celestial. 90 "
-#~ "grados indica que <span style=\" font-weight:600;\">ARRIBA</span> del "
-#~ "fotograma apunta 90 grados en sentido contrario a las agujas del reloj "
-#~ "con respecto al polo celestial.</p><p>El AP se calcula desde el ángulo en "
-#~ "bruto del rotador más modificadores para que coincida con el ángulo de "
-#~ "rotación como se mide en Astrometry. Introduzca los modificadores "
-#~ "manualmente o resuelva la imagen en el módulo de alineación para "
-#~ "generarlos automáticamente.</p></body></html>"
-
-#~ msgid "Position Angle Control"
-#~ msgstr "Control del ángulo de posición"
-
-#~ msgid "Sky Angle:"
-#~ msgstr "Ángulo celeste:"
-
-#~ msgid "Subframe around the focus star during the autofocus procedure"
-#~ msgstr ""
-#~ "Dividir el fotograma alrededor de la estrella enfocada durante el "
-#~ "procedimiento de enfoque automático"
-
-#~ msgid "Annulus:"
-#~ msgstr "Corona circular:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Use the sky map of KStars for controlling telescope "
-#~ "slews and syncs.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Usar el mapa del cielo de KStars para controlar el "
-#~ "desplazamiento y la sincronización del telescopio.</p></body></html>"
-
-#~ msgid "KStars Sky Map"
-#~ msgstr "Mapa del cielo de KStars"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Use an external planetarium software to control "
-#~ "mount slews and syncs.</p><p><span style=\" font-weight:600;\">WARNING</"
-#~ "span>: this feature is experimental!</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Usar software de planetario externo para controlar "
-#~ "los desplazamientos y la sincronización de la montura.</p><p><span style="
-#~ "\" font-weight:600;\">ADVERTENCIA</span>: esta función es experimental.</"
-#~ "p></body></html>"
-
-#~ msgid "Use the KStars sky map to control mount slews and syncs."
-#~ msgstr ""
-#~ "Usar el mapa del cielo de KStars para controlar el desplazamiento y la "
-#~ "sincronización de la montura."
-
-#~ msgid "Flat Focus Position"
-#~ msgstr "Posición de enfoque plano"
-
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 steps..."
-#~ msgstr ""
-#~ "Se ha agotado el tiempo del movimiento de enfoque (%1). Enfocando %3 en "
-#~ "%2 pasos..."
-
-#~ msgid "Focus motion timed out (%1). Focusing %3 by %2 ms..."
-#~ msgstr ""
-#~ "Se ha agotado el tiempo del movimiento de enfoque (%1). Enfocando %3 en "
-#~ "%2 ms..."
-
-#~ msgid "Wait this many seconds before resuming guiding."
-#~ msgstr "Esperar estos segundos antes de continuar con el guiado."
-
-#~ msgid ""
-#~ "<html><body><p>During full field focusing, stars which are inside this "
-#~ "percentage of the frame are filtered out of HFR calculation (default 0%). "
-#~ "Detection algorithms may also have an inherent filter.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Durante el enfoque de campo completo, las estrellas que "
-#~ "estén dentro de este porcentaje del fotograma se excluyen del cálculo de "
-#~ "HFR (por omisión, el 0%). Los algoritmos de detección también pueden "
-#~ "tener un filtro inherente.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><body><p>During full field focusing, stars which are outside this "
-#~ "percentage of the frame are filtered out of HFR calculation (default "
-#~ "100%). Detection algorithms may also have an inherent filter.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><body><p>Durante el enfoque de campo completo, las estrellas que "
-#~ "estén fuera de este porcentaje del fotograma se excluyen del cálculo de "
-#~ "HFR (por omisión, el 100%). Los algoritmos de detección también pueden "
-#~ "tener un filtro inherente.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Used in the device driver for backlash-aware "
-#~ "focusers,  the amount of backlash to apply when reversing movement "
-#~ "direction. </p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Se usa en el controlador de dispositivo para enfocadores "
-#~ "que tengan en cuenta el rebote. Es la cantidad de rebote que se aplica al "
-#~ "invertir la dirección del movimiento.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Enable to have AutoFocus perform Overscan Backlash "
-#~ "Compensation by the number of ticks specified. Set to 0 to disable.  "
-#~ "Overscan backlash and Driver Backlash are independent.</p><p>Used by "
-#~ "Linear and Linear 1 Pass algorithms.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Activar que el enfoque automático realice "
-#~ "compensación de rebotes de sobreexploración por el número de pulsos "
-#~ "indicado. Defínalo a 0 para desactivarlo. El rebote de sobreexploración y "
-#~ "el rebote del controlador son independientes.</p><p>Lo usan los "
-#~ "algoritmos lineal y lineal de un paso.</p></body></html>"
-
-#~ msgid "HFR: "
-#~ msgstr "HFR: "
-
-#~ msgid ""
-#~ "<html><body><p>HFR value in pixels consolidated at the current focuser "
-#~ "position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Valor HFR en píxeles consolidado en la posición actual del "
-#~ "enfocador.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><body><p>Number of stars used for HFR computation at the current "
-#~ "focuser position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><body><p>Número de estrellas usado para el cálculo HFR en la "
-#~ "posición actual del enfocador.</p></body></html>"
-
-#~ msgid "Iteration: "
-#~ msgstr "Repeticiones: "
-
-#~ msgid "Relative Profile..."
-#~ msgstr "Perfil relativo..."
-
-#~ msgid "Clear Data"
-#~ msgstr "Borrar datos"
-
-#~ msgid "Initial Focus Out Steps"
-#~ msgstr "Pasos iniciales de enfoque de salida"
-
-#~ msgid ""
-#~ "Number of outward steps (this number multiplied by initial-step-size) the "
-#~ "Linear Focus algorithm moves away from the initial position at the start "
-#~ "of focusing."
-#~ msgstr ""
-#~ "Número de pasos hacia afuera (este número multiplicado por el tamaño de "
-#~ "paso inicial) que el algoritmo de enfoque lineal mueve desde la posición "
-#~ "inicial durante el inicio del enfoque."
-
-#~ msgid "Focus backlash in steps. Zero disables backlash compensation."
-#~ msgstr ""
-#~ "Rebote del enfoque en pasos. Cero desactiva la compensación de rebote."
-
-#~ msgid "Number of focus frames to average for HFR calculations."
-#~ msgstr "Número de fotogramas a promediar para cálculos de HFR."
-
-#~ msgid "Maximum single step the focus algorithm is permitted to command."
-#~ msgstr ""
-#~ "Número máximo de pasos individuales que puede ordenar el algoritmo de "
-#~ "enfoque."
-
-#~ msgid "Default focus exposure time when no filters are used."
-#~ msgstr ""
-#~ "Tiempo de exposición por omisión del enfoque cuando no se usan filtros."
-
-#~ msgid "Curve Type."
-#~ msgstr "Tipo de curva."
-
-#~ msgid "Acceptable limit on R2 from curve fit."
-#~ msgstr "Límite aceptable en R2 del ajuste de la curva."
-
-#~ msgid "Equatorial Gridines"
-#~ msgstr "Cuadrícula ecuatorial"
-
-#~ msgid "Analyze Log (*.analyze);;All Files (*)"
-#~ msgstr "Registro de Analyze (*.analyze);;Todos los archivos (*)"
-
-#~ msgid "Local preview"
-#~ msgstr "Vista previa local"
-
-#~ msgid "Preview:"
-#~ msgstr "Vista previa:"
-
-#~ msgid "Remote preview"
-#~ msgstr "Vista previa remota"
-
-#~ msgid "AF Backlash Comp"
-#~ msgstr "Compensación de rebotes en enfoque automático"
-
-#~ msgid "Backlash:"
-#~ msgstr "Rebote:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>The combined RA and DEC drift error in arc-seconds."
-#~ "</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El error de deriva combinado de AR y de DEC en "
-#~ "arcosegundos.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>The root-mean-squared (RMS) value of the combined "
-#~ "RA and DEC drift in arc-seconds, averaged on approximately the past 40 "
-#~ "samples.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>El valor de la media cuadrática (RMS) de la deriva "
-#~ "combinada de AR y de DEC en arcosegundos, promediado sobre las últimas 40 "
-#~ "muestras, aproximadamente.</p></body></html>"
-
-#~ msgid "center RA:"
-#~ msgstr "Centrar AR:"
-
-#~ msgid "center Dec:"
-#~ msgstr "Centrar Dec:"
-
-#~ msgid "Telescope cover"
-#~ msgstr "Cubierta del telescopio"
-
-#~ msgid "Flat field light source"
-#~ msgstr "Fuente de luz del campo plano"
-
-#~ msgid "Telescope or Lens"
-#~ msgstr "Telescopio o lente"
-
-#~ msgid "Guider"
-#~ msgstr "Sistema de guiado"
-
-#~ msgid "Device receiving guiding correction pulses"
-#~ msgstr "Dispositivo que va a recibir los pulsos de corrección de guiado"
-
-#~ msgid ""
-#~ "Post-capture script to be executed after an image is captured. The "
-#~ "capture sequence is resumed when the script is executed successfully."
-#~ msgstr ""
-#~ "Guion a ejecutar tras capturar una imagen. La secuencia de captura "
-#~ "continúa cuando el guion se ejecuta con éxito."
-
-#~ msgid "Postfix:"
-#~ msgstr "Sufijo:"
-
-#~ msgid "Append the active filter slot to the prefix"
-#~ msgstr "Añadir la ranura del filtro activo al prefijo"
-
-#~ msgid "Append the expose duration to the prefix"
-#~ msgstr "Añadir la duración de la exposición al prefijo"
-
-#~ msgid "Append time stamp to the prefix"
-#~ msgstr "Añadir marca temporal al prefijo"
-
-#~ msgid "TS"
-#~ msgstr "TS"
-
-#~ msgid "Local directory to save sequence images"
-#~ msgstr "Directorio local donde guardar secuencias de imágenes"
-
-#~ msgid ""
-#~ "<p>Prefix is used to generate file names ( e.g. M42_HA_240_secs_001."
-#~ "fits)</p>\n"
-#~ "<ul>\n"
-#~ "<li><strong>Target</strong>: Target Name (e.g. M42)</li>\n"
-#~ "<li><strong>Filter</strong>: When using a filter wheel, the filter name "
-#~ "is appended to the file name (e.g. HA)</li>\n"
-#~ "<li><strong>Duration</strong>: Capture duration is appended to the file "
-#~ "name (e.g. 240_secs)</li>\n"
-#~ "<li><strong>TS</strong>: ISO 8601 timestamp is appended to the file name "
-#~ "(e.g. 2016-10-20T22:42:10)</li>\n"
-#~ "</ul>"
-#~ msgstr ""
-#~ "<p>Se usa un prefijo para generar los nombres de los archivos (por "
-#~ "ejemplo, M42_HA_240_secs_001.fits)</p>\n"
-#~ "<ul>\n"
-#~ "<li><strong>Objetivo</strong>: nombre del objetivo (por ejemplo, M42)</"
-#~ "li>\n"
-#~ "<li><strong>Filtro</strong>: cuando se usa una rueda de filtros, el "
-#~ "nombre del filtro se añade al nombre de archivo (por ejemplo, HA)</li>\n"
-#~ "<li><strong>Duración</strong>: la duración de la captura se añade al "
-#~ "nombre de archivo (por ejemplo, 240_secs)</li>\n"
-#~ "<li><strong>TS</strong>: se añaden al nombre del archivo marcas de tiempo "
-#~ "ISO 8601 (por ejemplo, 2016-10-20T22:42:10)</li>\n"
-#~ "</ul>"
-
-#~ msgid "Prefix:"
-#~ msgstr "Prefijo:"
-
-#~ msgid "Cannot run startup procedure while INDI devices are not online."
-#~ msgstr ""
-#~ "No se puede ejecutar el proceso de arranque mientras los dispositivos "
-#~ "INDI estén desconectados."
-
-#~ msgid "CCD:"
-#~ msgstr "CCD:"
-
-#~ msgid "High priority and altitude jobs are executed first"
-#~ msgstr "Los trabajos con alta prioridad y mayor altitud se ejecutan primero"
-
-#~ msgid "Sort jobs by altitude and priority"
-#~ msgstr "Ordenar trabajos por altitud y prioridad"
-
-#~ msgid ""
-#~ "Move selected job one line up in the list.\n"
-#~ "Order only affect observation jobs that are scheduled to start at the "
-#~ "same time.\n"
-#~ "Not available if option \"Sort jobs by Altitude and Priority\" is set."
-#~ msgstr ""
-#~ "Mover el trabajo seleccionado una línea arriba en la lista.\n"
-#~ "El orden solo afecta a los trabajos de observación que se han planificado "
-#~ "para que empiecen al mismo tiempo.\n"
-#~ "No está disponible si se ha activado la opción «Ordenar trabajos por "
-#~ "altitud y prioridad»."
-
-#~ msgid ""
-#~ "Move selected job one line down in the list.\n"
-#~ "Order only affect observation jobs that are scheduled to start at the "
-#~ "same time.\n"
-#~ "Not available if option \"Sort jobs by Altitude and Priority\" is set."
-#~ msgstr ""
-#~ "Mover el trabajo seleccionado una línea abajo en la lista.\n"
-#~ "El orden solo afecta a los trabajos de observación que se han planificado "
-#~ "para que empiecen al mismo tiempo.\n"
-#~ "No está disponible si se ha activado la opción «Ordenar trabajos por "
-#~ "altitud y prioridad»."
-
-#~ msgid "Sort scheduler jobs by priority and altitude."
-#~ msgstr "Ordenar los trabajos del planificador por prioridad y altitud."
-
-#~ msgid "Aliases for filter wheel slots."
-#~ msgstr "Apodos para las ranuras de la rueda de filtros."
-
-#~ msgid "List of the aliases for filter wheel slots."
-#~ msgstr "Lista de apodos para las ranuras de la rueda de filtros."
-
-#~ msgid "Differential slewing complete. Astrometric solver is successful."
-#~ msgstr ""
-#~ "Se ha completado el desplazamiento diferencial. El sistema de "
-#~ "identificación astrométrico ha tenido éxito."
-
-#~ msgid "Meridian flip slew started..."
-#~ msgstr "Movimiento de inversión de meridiano iniciado..."
-
-#~ msgid ""
-#~ "Swap DEC direction pulses. This value is determined automatically from "
-#~ "the calibration procedure, only override if necessary."
-#~ msgstr ""
-#~ "Intercambiar pulsos de dirección de DEC. Este valor se determina "
-#~ "automáticamente en el proceso de calibración. Redefínalo únicamente si es "
-#~ "necesario."
-
-#~ msgid "Swap"
-#~ msgstr "Intercambiar"
-
-#~ msgid ""
-#~ "Guide binning size index (0 to 3) corresponding to binning (1x1 to 4x4)."
-#~ msgstr ""
-#~ "Índice de tamaño del «binning» de guiado (de 0 a 3) correspondiente al "
-#~ "«binning» (de 1x1 a 4x4)."
-
-#~ msgid "Meridian flip inactive"
-#~ msgstr "Inversión de meridiano inactiva"
-
-#~ msgid "Meridian flip waiting."
-#~ msgstr "Inversión de meridiano en espera."
-
-#~ msgid "Meridian flip started."
-#~ msgstr "Inversión de meridiano iniciada."
-
-#~ msgid "List of cameras that prefer dark subtraction noise removal method."
-#~ msgstr ""
-#~ "Lista de cámaras que prefieren el método de eliminación de ruido por "
-#~ "sustracción oscura."
-
-#~ msgid "List of cameras that prefer defect map noise removal method."
-#~ msgstr ""
-#~ "Lista de cámaras que prefieren el método de eliminación de ruido del mapa "
-#~ "de defectos."
-
-#~ msgid "pier side label"
-#~ msgstr "etiqueta del lado de la columna"
-
-#~| msgid "Default hour angle to perform meridian flip"
-#~ msgid "Default hour angle to perform meridian flip (obsolete)"
-#~ msgstr ""
-#~ "Ángulo horario por omisión para realizar una inversión de meridiano "
-#~ "(obsoleto)"
-
-#~ msgid "Mount: "
-#~ msgstr "Montura: "
-
-#~ msgid "Status: inactive (parked)"
-#~ msgstr "Estado: inactivo (aparcado)"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Set Hour Angle unit to Degrees. If the mount is "
-#~ "configured to flip at 5 degrees, set the value in Ekos to 3 degrees less "
-#~ "(2 degrees).</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Definir la unidad de ángulo horario en grados. Si "
-#~ "la montura está configurada para realizar una inversión a 5 grados, "
-#~ "ajuste el valor en Ekos a 3 grados menos (2 grados).</p></body></html>"
-
-#~ msgid "Set Hour Angle unit to Hours"
-#~ msgstr "Usar horas como unidad del ángulo horario"
-
-#~ msgid "Sets the display unit for meridian flip to degrees."
-#~ msgstr "Usar grados como unidad de inversión de meridiano en la pantalla."
-
-#~ msgid ""
-#~ "Use specified filter index when performing astrometry regardless of "
-#~ "current filter settings."
-#~ msgstr ""
-#~ "Usar el índice de filtro especificado durante la astrometría sin tener en "
-#~ "cuenta las preferencias actuales sobre filtros."
-
-#~ msgid ""
-#~ "Index of telescope type to be used when guiding. 0 for Primary, 1 for "
-#~ "Guide"
-#~ msgstr ""
-#~ "Índice del tipo de telescopio a usar cuando se guía: 0 para el primario, "
-#~ "1 para el de guía"
-
-#~ msgid ""
-#~ "Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128)."
-#~ msgstr ""
-#~ "Índice de tamaño del cuadrado de guiado (de 0 a 4) correspondiente a los "
-#~ "tamaños en píxeles (de 8 a 128)."
-
-#~ msgid ""
-#~ "Effect FITS filter index corresponding to the available image enhancing "
-#~ "filters."
-#~ msgstr ""
-#~ "Índice del filtro FITS del efecto correspondiente a los filtros de mejora "
-#~ "de imagen disponibles."
-
-#~ msgid "Default CCD binning index while in alignment mode"
-#~ msgstr "Índice de binning por omisión del CCD en el modo de alineación"
-
-#~ msgid ""
-#~ "Set binning index of CCD camera while in alignment mode. Default values "
-#~ "0-3 corresponding to 1x1 to 4x4 binning. 4 is max binning."
-#~ msgstr ""
-#~ "Definir el índice de binning de la cámara CCD en el modo de alineación. "
-#~ "Los valores predeterminados de 0 a 3 corresponden a binning de 1x1 a 4x4. "
-#~ "El máximo binning es 4."
-
-#~ msgid "Set gain of camera while in alignment mode."
-#~ msgstr "Define la ganancia de la cámara en el modo de alineación."
-
-#~ msgid ""
-#~ "Index of telescope type to be used when solving an image. 0 for Primary, "
-#~ "1 for Guide"
-#~ msgstr ""
-#~ "Índice del tipo de telescopio a usar cuando se resuelva una imagen: 0 "
-#~ "para el primario, 1 para el de guía"
-
-#~ msgid "Train"
-#~ msgstr "Tren"
-
-#~ msgid ""
-#~ "Warning: Only use filter '%1' for preview as it may interfere with "
-#~ "autofocus operation."
-#~ msgstr ""
-#~ "Advertencia: use el filtro «%1» solo para la vista previa, ya que puede "
-#~ "interferir con la operación de enfoque automático."
-
-#~ msgid "CCD && Filter Wheel"
-#~ msgstr "CCD y rueda de filtros"
-
-#~ msgid "Effect:"
-#~ msgstr "Efecto:"
-
-#~ msgid "Default CCD X binning in focus mode"
-#~ msgstr "Binning X  por omisión del CCD en el modo de enfoque"
-
-#~ msgid "Set horizontal binning of CCD camera while in focus mode."
-#~ msgstr ""
-#~ "Fija el binning horizontal de la cámara CCD para el modo de enfoque."
-
-#~ msgid "Default CCD Y binning in focus mode"
-#~ msgstr "Binning Y por omisión del CCD en el modo de enfoque"
-
-#~ msgid "Image filter to be applied to focus image upon loading."
-#~ msgstr "Filtro de imagen a aplicar a la imagen de enfoque tras cargarla."
-
-#~ msgid "Refreshing weather data failed."
-#~ msgstr "La actualización de los datos meteorológicos ha fallado."
-
-#~ msgid "auto scale values"
-#~ msgstr "escalar valores automáticamente"
-
-#~ msgid "Default capture module CCD."
-#~ msgstr "CCD por omisión del módulo de captura."
-
-#~ msgid "Default capture module filter wheel."
-#~ msgstr "Rueda de filtros por omisión del módulo de captura."
-
-#~ msgid "Default focus module CCD."
-#~ msgstr "CCD por omisión del módulo de enfoque."
-
-#~ msgid "Default focus module focuser."
-#~ msgstr "Enfocador por omisión del módulo de enfoque."
-
-#~ msgid "Default focus module filter wheel."
-#~ msgstr "Rueda de filtros por omisión del módulo de enfoque."
-
-#~ msgid "Default align module CCD."
-#~ msgstr "CCD por omisión del módulo de alineación."
-
-#~ msgid "Default guide module CCD."
-#~ msgstr "CCD por omisión del módulo de guiado."
-
-#~ msgid "Default guide module guider Driver."
-#~ msgstr "Controlador del sistema de guiado por omisión del módulo de guiado."
-
-#~ msgctxt "No driver"
-#~ msgid "None"
-#~ msgstr "Ninguno"
-
-#~ msgctxt "F-Number, Focal length, Aperture"
-#~ msgid ""
-#~ "<nobr>F<b>%1</b> Focal length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</"
-#~ "sup></nobr>"
-#~ msgstr ""
-#~ "<nobr>F<b>%1</b> Distancia focal: <b>%2</b> mm Apertura: <b>%3</b> "
-#~ "mm<sup>2</sup></nobr>"
-
-#~ msgid ""
-#~ "Select which telescope to use when performing Field of View calculations."
-#~ msgstr ""
-#~ "Seleccione el telescopio a usar para realizar cálculos de campo visual."
-
-#~ msgid "Guide Scope"
-#~ msgstr "Telescopio guía"
-
-#~ msgid "FW:"
-#~ msgstr "Rueda de filtros:"
-
-#~ msgid "Are you imaging with %1 using your primary telescope?"
-#~ msgstr "¿Está capturando imágenes con %1 usando el telescopio primario?"
-
-#~ msgid "Telescope Type"
-#~ msgstr "Tipo de telescopio"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Set FOV indicator Position Angle to match Target "
-#~ "Position Angle</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Hacer que el ángulo de posición del indicador de "
-#~ "campo visual coincida con el ángulo de posición de destino</p></body></"
-#~ "html>"
-
-#~ msgid "Sync FOV to PA"
-#~ msgstr "Sincronizar el campo visual a la AP"
-
-#~ msgid "Rotate camera 180 degrees after meridian flip"
-#~ msgstr "Rotar la cámara 180 grados tras la inversión de meridiano"
-
-#~ msgid "Rotate After Meridian Flip"
-#~ msgstr "Rotar tras la inversión de meridiano"
-
-#~ msgid "Rotator angle multiplier"
-#~ msgstr "Multiplicador del ángulo del rotador"
-
-#~ msgid "Rotator angle offset"
-#~ msgstr "Desplazamiento del ángulo del rotador"
-
-#~ msgid "="
-#~ msgstr "="
-
-#~ msgid "Select guide camera."
-#~ msgstr "Seleccionar cámara de guía."
-
-#~ msgid "Scope:"
-#~ msgstr "Telescopio:"
-
-#~ msgid "YYxYY"
-#~ msgstr "YYxYY"
-
-#~ msgid "%1 guide scope"
-#~ msgstr "Telescopio guía %1"
-
-#~ msgid ""
-#~ "Error syncing telescope info. Please fill telescope aperture and focal "
-#~ "length."
-#~ msgstr ""
-#~ "Ha ocurrido un error al sincronizar la información del telescopio. Por "
-#~ "favor, introduzca la apertura y la longitud focal del telescopio."
-
-#~ msgid ""
-#~ "Error syncing telescope info. Check INDI control panel for more details."
-#~ msgstr ""
-#~ "Ha ocurrido un error al sincronizar la información del telescopio. "
-#~ "Compruebe el panel de control de INDI para más detalles."
-
-#~ msgid "Telescope info updated successfully."
-#~ msgstr "La información del telescopio se ha actualizado con éxito."
-
-#~ msgid "Warning: Overriding %1 configuration."
-#~ msgstr "Advertencia: se está ignorando la configuración de %1."
-
-#~ msgid "Primary Telescope"
-#~ msgstr "Telescopio primario"
-
-#~ msgid "Guide Telescope"
-#~ msgstr "Telescopio guía"
-
-#~ msgid "Configurations"
-#~ msgstr "Configuraciones"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Scope configuration index. You can define up to 6 "
-#~ "different combinations of primary and secondary scopes.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Índice de configuración del telescopio. Puede "
-#~ "definir hasta 6 combinaciones diferentes de los telescopios primario y "
-#~ "secundario.</p></body></html>"
-
-#~ msgid "Configuration label"
-#~ msgstr "Etiqueta de configuración"
-
-#~ msgid "Save telescope information in configuration file"
-#~ msgstr "Guarda información del telescopio en el archivo de configuración"
-
-#~ msgid "Save Telescope Info"
-#~ msgstr "Guardar información del telescopio"
-
-#~ msgid "Use scope data from INDI"
-#~ msgstr "Usar datos del telescopio de INDI"
-
-#~ msgid "Select Telescopes"
-#~ msgstr "Seleccionar telescopios"
-
-#~ msgid "Primary:"
-#~ msgstr "Primario:"
-
-#~ msgid "Lens"
-#~ msgstr "Lente"
-
-#~ msgctxt "New Lens"
-#~ msgid "Add New"
-#~ msgstr "Añadir nueva"
-
-#~ msgid ""
-#~ "<p>Polar Alignment Helper tool requires the following:</p><p>1. German "
-#~ "Equatorial Mount</p><p>2. FOV &gt; 0.5 degrees</p><p>For small FOVs, use "
-#~ "the Legacy Polar Alignment Tool.</p>"
-#~ msgstr ""
-#~ "<p>La herramienta de alineación polar necesita lo siguiente:</p><p>1. "
-#~ "Montura ecuatorial alemana</p><p>2. Campo visual &gt; 0,5 grados</"
-#~ "p><p>Para campos visuales pequeños, use la herramienta de alineación "
-#~ "polar antigua.</p>"
-
-#~ msgid "Focal"
-#~ msgstr "Focal"
-
-#~ msgid "Aperture"
-#~ msgstr "Apertura"
-
-#~ msgid "F/D"
-#~ msgstr "F/D"
-
-#~ msgid "FOV"
-#~ msgstr "Campo visual"
-
-#~ msgid "RA RMS\""
-#~ msgstr "AR RMS\""
-
-#~ msgid "DEC Guiding RMS error"
-#~ msgstr "Error RMS de guiado de DEC"
-
-#~ msgid "DE RMS\""
-#~ msgstr "DE RMS\""
-
-#~ msgid "<b>Guide SNR</b>"
-#~ msgstr "<b>Guía SNR</b>"
-
-#~ msgid "Drift Graphics"
-#~ msgstr "Gráficos de deriva"
-
-#~ msgid "Turn dust cap light on..."
-#~ msgstr "Encender la luz de la cubierta antipolvo..."
-
-#~ msgid "Turn dust cap light off..."
-#~ msgstr "Apagar la luz de la cubierta antipolvo..."
-
-#~ msgid "Dust cap light on."
-#~ msgstr "Luz de la cubierta antipolvo encendida."
-
-#~ msgid "Slew && Set As Parking Position"
-#~ msgstr "Desplazar y definir como posición de aparcamiento"
-
-#~ msgid "Center Crosshair"
-#~ msgstr "Centrar la cruceta"
-
-#~ msgid "Via:"
-#~ msgstr "Vía:"
-
-#~ msgid "Effects"
-#~ msgstr "Efectos"
-
-#~ msgid "Length scale of the long range kernel."
-#~ msgstr "Escala de longitud de largo alcance del núcleo."
-
-#~ msgid "Long-range kernel signal variance"
-#~ msgstr "Varianza de señal de largo alcance del núcleo"
-
-#~ msgid "Periodic Kernel length scale"
-#~ msgstr "Escala de longitud periódica del núcleo"
-
-#~ msgid "Periodic kernel signal variance"
-#~ msgstr "Varianza de señal periódica del núcleo"
-
-#~ msgid "Length scale of the short-range kernel"
-#~ msgstr "Escala de longitud del núcleo de corto alcance"
-
-#~ msgid "Short-range kernel signal variance"
-#~ msgstr "Varianza de señal del núcleo de corto alcance"
-
-#~ msgid "Rot:"
-#~ msgstr "Rot:"
-
-#~ msgctxt "@title:window"
-#~ msgid "Error"
-#~ msgstr "Error"
-
-#~ msgid "Connection to INDI server locally on port %1 failed."
-#~ msgstr "La conexión al servidor INDI local en el puerto %1 ha fallado."
-
-#~ msgid "Connection to INDI host at %1 on port %2 encountered an error: %3."
-#~ msgstr ""
-#~ "La conexión al servidor INDI en %1 en el puerto %2 ha encontrado un "
-#~ "error: %3."
-
-#~ msgid "Invalid host port %1"
-#~ msgstr "Puerto %1 del servidor no válido"
-
-#~ msgid "FITS Open"
-#~ msgstr "FITS abierto"
-
-#~ msgid "Debayer error"
-#~ msgstr "Error de «debayering»"
-
-#~ msgid "Rotator Control:"
-#~ msgstr "Control del rotador:"
-
-#~ msgid "Cancel Load && Slew"
-#~ msgstr "Cancelar cargar y mover"
-
-#~ msgid "Scripts Manager"
-#~ msgstr "Gestor de guiones"
-
-#, fuzzy
-#~| msgid "e.g. PGC 54559"
-#~ msgid "e.g. PGC"
-#~ msgstr "por ejemplo, PGC 54559"
-
-#~ msgid "Mount aborted. Please restart the process and reduce the speed."
-#~ msgstr ""
-#~ "Montura interrumpida. Por favor, reinicie el proceso y reduzca la "
-#~ "velocidad."
-
-#~ msgid ""
-#~ "Set the faint magnitude limits for NGC / Messier objects when zoomed in "
-#~ "and zoomed out. \n"
-#~ "These magnitude limits do not affect IC objects, as the magnitudes for "
-#~ "many IC objects are undefined."
-#~ msgstr ""
-#~ "Fijar los límites de la magnitud más débil para objetos NGC y Messier "
-#~ "cuando se amplían o reducen.\n"
-#~ "Estos límites de magnitud no afectan a objetos IC, ya que las magnitudes "
-#~ "de muchos objetos IC no están definidas."
-
-#~ msgid ""
-#~ "World Coordinate System (WCS) is enabled. CCD rotation must be set either "
-#~ "manually in the CCD driver or by solving an image before proceeding to "
-#~ "capture any further images, otherwise the WCS information may be invalid."
-#~ msgstr ""
-#~ "El sistema de coordenadas mundial (WCS) está activado. Se debe fijar la "
-#~ "rotación CCD de forma manual en el controlador CCD o resolviendo una "
-#~ "imagen antes de realizar más capturas; en caso contrario, es posible que "
-#~ "la información WCS no sea válida."
-
-#~ msgid "Select Refresh"
-#~ msgstr "Actualización de la selección"
-
-#~ msgid ""
-#~ "<p>Executing the <span style=\" font-style:italic;\">first</span> mount "
-#~ "rotation...</p>"
-#~ msgstr ""
-#~ "<p>Ejecutando la <span style=\" font-style:italic;\">primera</span> "
-#~ "rotación de la montura...</p>"
-
-#~ msgid "Error Occurred"
-#~ msgstr "Ha ocurrido un error"
-
-#~ msgid ""
-#~ "Angle between expected perfectly aligned mount center and the actual "
-#~ "center"
-#~ msgstr ""
-#~ "Ángulo entre el centro de la montura alineado perfectamente que se espera "
-#~ "y el centro real"
-
-#~ msgid "Polar Error:"
-#~ msgstr "Error polar:"
-
-#~ msgid ""
-#~ "<p>Correction triangle is plotted above. <span style=\" font-weight:600;"
-#~ "\">Zoom in and select a bright star </span> to reposition the correction "
-#~ "vector. <span style=\" font-weight:600;\">Click Next </span> when done.</"
-#~ "p>"
-#~ msgstr ""
-#~ "<p>El triángulo de corrección se muestra encima. <span style=\" font-"
-#~ "weight:600;\">Amplíe y Seleccione una estrella brillante</span> para "
-#~ "volver a posicionar el vector de corrección. <span style=\" font-"
-#~ "weight:600;\">Pulse «Siguiente»</span> cuando haya terminado.</p>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Click <span style=\" font-weight:600;\">Refresh</"
-#~ "span> to begin continuous capture at the given exposure duration. Adjust "
-#~ "mount's <span style=\" font-weight:600;\">Altitude knob</span> to move "
-#~ "the star along the <span style=\" font-weight:600; color:#ffff50;"
-#~ "\">Yellow</span> line, then adjust the <span style=\" font-weight:600;"
-#~ "\">Azimuth knob</span> to move it along the <span style=\" font-"
-#~ "weight:600; color:#00ff00;\">Green</span> line until the selected star is "
-#~ "centered within the crosshair. Click <span style=\" font-weight:600;"
-#~ "\">Done</span> when the star is centered.</p><p>Use <span style=\" font-"
-#~ "weight:600;\">Update PA Error</span> to estimate the remaining error as "
-#~ "you adjust the star position.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Pulse <span style=\" font-weight:600;\">Actualizar</"
-#~ "span> para empezar la captura continua con la duración de exposición "
-#~ "indicada. Ajuste <span style=\" font-weight:600;\">el mando de altitud</"
-#~ "span> de la montura para mover la estrella a lo largo de la línea <span "
-#~ "style=\" font-weight:600; color:#ffff50;\">amarilla</span>. A "
-#~ "continuación ajuste <span style=\" font-weight:600;\">el mando de acimut</"
-#~ "span> de la montura para moverla a lo largo de la línea <span style=\" "
-#~ "font-weight:600; color:#00ff00;\">verde</span> hasta que la estrella "
-#~ "seleccionada esté centrada dentro de la cruceta. Pulse <span style=\" "
-#~ "font-weight:600;\">Terminado</span> cuando la estrella esté centrada.</"
-#~ "p><p>Use <span style=\" font-weight:600;\">Actualizar error de AP</span> "
-#~ "para estimar el error restante cuando ajuste la posición de la estrella.</"
-#~ "p></body></html>"
-
-#~ msgid "Refresh iteration number."
-#~ msgstr "Actualizar el número de la repetición."
-
-#~ msgid ""
-#~ "Re-estimates the new polar-alignment error after refresh exposures. Will "
-#~ "help you see what your new polar alignment error is, but takes compute "
-#~ "resources and can slow down the exposure rate."
-#~ msgstr ""
-#~ "Vuelve a estimar el nuevo error de alineación polar tras refrescar las "
-#~ "exposiciones. Le ayudará a ver cuál es el nuevo error de alineación "
-#~ "polar, pero necesita recursos de cálculo y puede ralentizar la frecuencia "
-#~ "de exposición."
-
-#~ msgid "Update PA Error"
-#~ msgstr "Actualizar error de AP"
-
-#~ msgid "<p>Calculating WCS for the first image...</p>"
-#~ msgstr "<p>Calculando WCS para la primera imagen...</p>"
-
-#~ msgid "<p>Calculating WCS for the second image...</p>"
-#~ msgstr "<p>Calculando WCS para la segunda imagen...</p>"
-
-#~ msgid "<p>Calculating WCS for the third image...</p>"
-#~ msgstr "<p>Calculando WCS para la tercera imagen...</p>"
-
-#~ msgid ""
-#~ "<p>Settling after the <span style=\" font-style:italic;\">first</span> "
-#~ "mount rotation.</p>"
-#~ msgstr ""
-#~ "<p>Estabilizando tras la <span style=\" font-style:italic;\">primera</"
-#~ "span> rotación de la montura.</p>"
-
-#~ msgid ""
-#~ "<p>Settling after the <span style=\" font-style:italic;\">second</span> "
-#~ "mount rotation.</p>"
-#~ msgstr ""
-#~ "<p>Estabilizando tras la <span style=\" font-style:italic;\">segunda</"
-#~ "span> rotación de la montura.</p>"
-
-#~ msgid "Non-Critical File Not Found: %1"
-#~ msgstr "Archivo no crítico no encontrado: %1"
-
-#~ msgid ""
-#~ "The file %1 could not be found. KStars can still run without this file. "
-#~ "KStars search for this file in following locations:\n"
-#~ "\n"
-#~ "\t%2\n"
-#~ "\n"
-#~ "It appears that you setup is broken. Press Continue to run KStars without "
-#~ "this file "
-#~ msgstr ""
-#~ "No se puede encontrar el archivo %1. KStars puede ejecutarse sin este "
-#~ "archivo. KStars busca este archivo en las siguientes ubicaciones:\n"
-#~ "\n"
-#~ "\t%2\n"
-#~ "\n"
-#~ "Parece que su configuración está incompleta. Pulse «Continuar» para "
-#~ "ejecutar KStars sin este archivo "
-
-#~ msgid ""
-#~ "<html><head/><body><p align=\"justify\">Open the Mosaic Tool.</p><p align="
-#~ "\"justify\">The Mosaic Tool requires a target with valid coordinates in "
-#~ "the left panel, and a valid sequence file.</p><p align=\"justify\">The "
-#~ "target will be used as center for the mosaic and the sequence will be "
-#~ "assigned to all tiles of the mosaic.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p align=\"justify\">Abrir la herramienta de mosaico.</"
-#~ "p><p align=\"justify\">La herramienta de mosaico necesita un objetivo con "
-#~ "coordenadas válidas en el panel de la izquierda y un archivo de secuencia "
-#~ "válido.</p><p align=\"justify\">El objetivo se usará como centro del "
-#~ "mosaico y la secuencia se asignará a todas las baldosas del mosaico.</p></"
-#~ "body></html>"
-
-#~ msgid "Current Rotation"
-#~ msgstr "Rotación actual"
-
-#~ msgid "Target Rotation"
-#~ msgstr "Rotación deseada"
-
-#~ msgid "Select CCD Rotation."
-#~ msgstr "Seleccionar rotación de CCD."
-
-#~ msgid "CCD Rotation"
-#~ msgstr "Rotación de CCD"
