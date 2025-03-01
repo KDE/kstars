@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-02-28 01:53+0000\n"
+"POT-Creation-Date: 2025-03-01 02:05+0000\n"
 "PO-Revision-Date: 2010-06-08 15:49+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -219,7 +219,7 @@ msgid "Asteroids"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerHorizon)
-#: auxiliary/colorscheme.cpp:64 ekos/scheduler/scheduler.ui:1786
+#: auxiliary/colorscheme.cpp:64 ekos/scheduler/scheduler.ui:1806
 #: skycomponents/artificialhorizoncomponent.cpp:142
 #, kde-format
 msgid "Artificial Horizon"
@@ -410,7 +410,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1288
-#: ekos/scheduler/scheduler.cpp:2079
+#: ekos/scheduler/scheduler.cpp:2108
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:699
@@ -578,7 +578,7 @@ msgstr "បោះបង់"
 #: ekos/align/opsastrometryindexfiles.cpp:730 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1204 ekos/manager.cpp:1219 ekos/manager.cpp:1249
-#: ekos/scheduler/scheduler.cpp:1599 fitsviewer/solveInfo.ui:86
+#: ekos/scheduler/scheduler.cpp:1628 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:32
 #: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
 #: skycomponents/imageoverlaycomponent.cpp:529
@@ -1046,7 +1046,7 @@ msgstr ""
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1530 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1531 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1123,8 +1123,8 @@ msgstr ""
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1136 tools/imagingplanner.cpp:1505
-#: tools/imagingplanner.cpp:2890 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1137 tools/imagingplanner.cpp:1506
+#: tools/imagingplanner.cpp:3024 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2015,10 +2015,10 @@ msgstr "ស្ថានភាព"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:688 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1592
-#: ekos/scheduler/scheduler.cpp:2244 ekos/scheduler/scheduler.cpp:2481
-#: ekos/scheduler/scheduler.cpp:2489 ekos/scheduler/scheduler.cpp:2499
-#: ekos/scheduler/scheduler.ui:1307 indi/indidome.cpp:20
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1621
+#: ekos/scheduler/scheduler.cpp:2273 ekos/scheduler/scheduler.cpp:2511
+#: ekos/scheduler/scheduler.cpp:2519 ekos/scheduler/scheduler.cpp:2529
+#: ekos/scheduler/scheduler.ui:1327 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
 msgid "Idle"
@@ -2355,8 +2355,8 @@ msgid "Check if magnitude is unknown"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1600
-#: ekos/scheduler/scheduler.cpp:2259 fitsviewer/fitshistogram.cpp:781
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1629
+#: ekos/scheduler/scheduler.cpp:2288 fitsviewer/fitshistogram.cpp:781
 #: fitsviewer/fitshistogramcommand.cpp:267 indi/indigroup.cpp:30
 #: skycomponents/constellationboundarylines.cpp:293
 #: skyobjects/skyobject.cpp:435
@@ -2601,8 +2601,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3965
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1242 ekos/capture/camera.cpp:1297
-#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:1979
-#: ekos/scheduler/scheduler.cpp:2089 fitsviewer/fitstab.cpp:1013
+#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:2008
+#: ekos/scheduler/scheduler.cpp:2118 fitsviewer/fitstab.cpp:1013
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, fuzzy, kde-format
 msgid "Invalid URL"
@@ -2624,7 +2624,7 @@ msgstr "កុំ​ព្យាយាម"
 msgid "Show webpage about "
 msgstr "បង្ហាញ​រូបភាព​​នៃ"
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3035
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3169
 #, fuzzy, kde-format
 msgid "object"
 msgstr "វត្ថុ"
@@ -2747,7 +2747,7 @@ msgstr ""
 msgid "Degrees"
 msgstr "ដឺក្រេ"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1136
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1137
 #, fuzzy, kde-format
 msgid "Hours"
 msgstr "ម៉ោង"
@@ -2797,7 +2797,7 @@ msgstr "អត្ថបទ"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1136
+#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1137
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, fuzzy, kde-format
@@ -3143,7 +3143,7 @@ msgstr "កែសម្រួល"
 #: dialogs/catalogobjectlistmodel.cpp:67 ekos/align/align.ui:909
 #: ekos/align/opsastrometry.ui:409 ekos/guide/guide.ui:424
 #: ekos/guide/opscalibration.ui:235 ekos/guide/opsguide.ui:138
-#: ekos/scheduler/scheduler.ui:620 fitsviewer/platesolve.ui:187
+#: ekos/scheduler/scheduler.ui:610 fitsviewer/platesolve.ui:187
 #: fitsviewer/solveInfo.ui:66 skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
 msgid "RA"
@@ -3162,8 +3162,8 @@ msgstr "អតិបរមា"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
-#: ekos/scheduler/scheduler.ui:1114 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1136 tools/observinglist.cpp:94
+#: ekos/scheduler/scheduler.ui:1134 indi/drivermanager.ui:327
+#: tools/imagingplanner.cpp:1137 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, fuzzy, kde-format
 msgid "Name"
@@ -4472,7 +4472,9 @@ msgstr "ទីតាំង ៖"
 
 #. i18n: ectx: property (text), widget (QPushButton, JNowB)
 #. i18n: ectx: property (text), widget (QRadioButton, jnowCheckObject)
+#. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
 #: dialogs/focusdialog.ui:74 ekos/mount/mountpositionwidget.ui:197
+#: ekos/scheduler/scheduler.ui:700
 #, kde-format
 msgid "JNow"
 msgstr ""
@@ -4485,7 +4487,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, J2000B)
 #. i18n: ectx: property (text), widget (QRadioButton, j2000CheckObject)
+#. i18n: ectx: property (text), item, widget (QComboBox, epochCB)
 #: dialogs/focusdialog.ui:84 ekos/mount/mountpositionwidget.ui:207
+#: ekos/scheduler/scheduler.ui:695
 #, kde-format
 msgid "J2000"
 msgstr ""
@@ -6469,7 +6473,7 @@ msgstr "ជម្រះ បញ្ជី"
 #: ekos/align/align.cpp:3964 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1241
 #: ekos/capture/camera.cpp:1296 ekos/guide/guidedriftgraph.cpp:478
-#: ekos/scheduler/scheduler.cpp:1978 ekos/scheduler/scheduler.cpp:2088
+#: ekos/scheduler/scheduler.cpp:2007 ekos/scheduler/scheduler.cpp:2117
 #: fitsviewer/fitstab.cpp:1012 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -6479,7 +6483,7 @@ msgstr ""
 #: ekos/align/align.cpp:3973 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
 #: ekos/scheduler/schedulerprocess.cpp:3083
-#: ekos/scheduler/schedulerprocess.cpp:4760
+#: ekos/scheduler/schedulerprocess.cpp:4782
 #, fuzzy, kde-format
 msgid "Unable to write to file %1"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
@@ -6489,8 +6493,8 @@ msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡ�
 #: ekos/capture/cameraprocess.cpp:2583 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:3084
 #: ekos/scheduler/schedulerprocess.cpp:3433
-#: ekos/scheduler/schedulerprocess.cpp:4761
-#: ekos/scheduler/schedulerprocess.cpp:4781 indi/drivermanager.cpp:1549
+#: ekos/scheduler/schedulerprocess.cpp:4783
+#: ekos/scheduler/schedulerprocess.cpp:4803 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1399 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -6535,7 +6539,7 @@ msgstr "របារ​ឧបករណ៍"
 #. i18n: ectx: property (text), widget (QLabel, opticalTrainLabel)
 #: ekos/align/align.ui:32 ekos/auxiliary/darklibrary.ui:49
 #: ekos/capture/camera.ui:57 ekos/focus/focus.ui:68 ekos/guide/guide.ui:44
-#: ekos/mount/mount.ui:432 ekos/scheduler/scheduler.ui:668
+#: ekos/mount/mount.ui:432 ekos/scheduler/scheduler.ui:674
 #, fuzzy, kde-format
 msgid "Train:"
 msgstr "ម៉ាស្សាល​"
@@ -6952,7 +6956,7 @@ msgstr ""
 #: ekos/align/align.ui:914 ekos/align/opsastrometry.ui:389
 #: ekos/guide/guide.ui:342 ekos/guide/guide.ui:1263
 #: ekos/guide/opscalibration.ui:300 ekos/guide/opsguide.ui:128
-#: ekos/scheduler/scheduler.ui:640 fitsviewer/platesolve.ui:232
+#: ekos/scheduler/scheduler.ui:630 fitsviewer/platesolve.ui:232
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, fuzzy, kde-format
 msgid "DEC"
@@ -7106,7 +7110,7 @@ msgstr "បន្ថែម"
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2937
 #: ekos/capture/cameraprocess.cpp:2582 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3432
-#: ekos/scheduler/schedulerprocess.cpp:4780
+#: ekos/scheduler/schedulerprocess.cpp:4802
 #, fuzzy, kde-format
 msgid "Unable to open file %1"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
@@ -9910,7 +9914,7 @@ msgid "Parking"
 msgstr "កំពុង​អាន"
 
 #: ekos/analyze/analyze.cpp:134 ekos/analyze/analyze.cpp:153 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:2245 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:2274 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr ""
@@ -10034,7 +10038,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3468 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1598
+#: ekos/scheduler/scheduler.cpp:1627
 #, fuzzy, kde-format
 msgid "Aborted"
 msgstr "អ្នក​និពន្ធ ៖"
@@ -10050,7 +10054,7 @@ msgid "Disconnected"
 msgstr "ផ្ដាច់"
 
 #: ekos/analyze/analyze.cpp:3474 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2258
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2287
 #, fuzzy, kde-format
 msgid "Capturing"
 msgstr "ការ​កំណត់"
@@ -10092,7 +10096,7 @@ msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:2256
+#: ekos/scheduler/scheduler.cpp:2285
 #, fuzzy, kde-format
 msgid "Guiding"
 msgstr "ណែនាំ"
@@ -10926,7 +10930,7 @@ msgstr "តម្រង"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
 #: ekos/auxiliary/filtermanager.cpp:124 ekos/capture/camera.ui:2333
-#: ekos/scheduler/scheduler.cpp:430
+#: ekos/scheduler/scheduler.cpp:442
 #, kde-format
 msgid "Offset"
 msgstr ""
@@ -11697,12 +11701,12 @@ msgstr ""
 msgid "Wavelength"
 msgstr "ប្រវែង​រលក ៖"
 
-#: ekos/auxiliary/filtermanager.cpp:571
+#: ekos/auxiliary/filtermanager.cpp:574
 #, kde-format
 msgid "Set filter to %1. Is filter set?"
 msgstr ""
 
-#: ekos/auxiliary/filtermanager.cpp:572
+#: ekos/auxiliary/filtermanager.cpp:575
 #, fuzzy, kde-format
 msgid "Confirm Filter"
 msgstr "កំហុស​​​បើក​​ឯកសារ​"
@@ -11881,7 +11885,7 @@ msgstr "កំណត់ពេល ៖"
 #. i18n: ectx: property (title), widget (QGroupBox, weatherBox)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerWeather)
 #: ekos/auxiliary/opslogs.ui:100 ekos/observatory/observatory.ui:742
-#: ekos/observatory/observatory.ui:813 ekos/scheduler/scheduler.ui:1827
+#: ekos/observatory/observatory.ui:813 ekos/scheduler/scheduler.ui:1847
 #, fuzzy, kde-format
 msgid "Weather"
 msgstr "កណ្ដាល"
@@ -12031,7 +12035,7 @@ msgid "Log Ekos Alignment module activity"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
-#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:434
+#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:446
 #, fuzzy, kde-format
 msgid "Alignment"
 msgstr "ផ្សេងៗ"
@@ -13471,7 +13475,7 @@ msgstr "ខាង​កើត"
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationParkMount)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerParkMount)
-#: ekos/capture/calibrationoptions.ui:103 ekos/scheduler/scheduler.ui:2246
+#: ekos/capture/calibrationoptions.ui:103 ekos/scheduler/scheduler.ui:2266
 #, fuzzy, kde-format
 msgid "Park Mount"
 msgstr "ចំនួន ៖"
@@ -13481,7 +13485,7 @@ msgstr "ចំនួន ៖"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningDomeCB)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerParkDome)
 #: ekos/capture/calibrationoptions.ui:110 ekos/observatory/observatory.ui:944
-#: ekos/observatory/observatory.ui:1079 ekos/scheduler/scheduler.ui:2268
+#: ekos/observatory/observatory.ui:1079 ekos/scheduler/scheduler.ui:2288
 #, fuzzy, kde-format
 msgid "Park Dome"
 msgstr "រក្សា​ទុក"
@@ -13869,7 +13873,7 @@ msgstr ""
 msgid "Editing job #%1..."
 msgstr "កែសម្រួល​តំណ"
 
-#: ekos/capture/camera.cpp:4023 ekos/scheduler/scheduler.cpp:1324
+#: ekos/capture/camera.cpp:4023 ekos/scheduler/scheduler.cpp:1353
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
@@ -14159,7 +14163,7 @@ msgstr "ម៉ាស៊ីន​បម្រើ"
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
 #: ekos/capture/camera.ui:1362 ekos/profileeditor.ui:721
-#: ekos/scheduler/scheduler.cpp:442
+#: ekos/scheduler/scheduler.cpp:454
 #, fuzzy, kde-format
 msgid "Scripts"
 msgstr "ស្គ្រីប​ថ្មី"
@@ -14478,7 +14482,7 @@ msgstr "កំណែ"
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/camera.ui:2298 ekos/ekoslive/ekoslivedialog.ui:119
-#: ekos/mount/mount.ui:655 ekos/scheduler/scheduler.ui:1119
+#: ekos/mount/mount.ui:655 ekos/scheduler/scheduler.ui:1139
 #: indi/drivermanager.ui:66 indi/drivermanager.ui:322
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, fuzzy, kde-format
@@ -15283,22 +15287,22 @@ msgstr "ពេលវេលា​មូលដ្ឋាន"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:670
+#: ekos/capture/capturedeviceadaptor.cpp:673
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:671
+#: ekos/capture/capturedeviceadaptor.cpp:674
 #, fuzzy, kde-format
 msgid "Telescope Covered"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/capture/capturedeviceadaptor.cpp:803
+#: ekos/capture/capturedeviceadaptor.cpp:806
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:804
+#: ekos/capture/capturedeviceadaptor.cpp:807
 #: ekos/capture/sequencejobstate.cpp:439
 #, fuzzy, kde-format
 msgid "Dark Exposure"
@@ -16458,7 +16462,7 @@ msgid "In Progress"
 msgstr "វឌ្ឍនភាព"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1597
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1626
 #, fuzzy, kde-format
 msgid "Complete"
 msgstr "គណនា"
@@ -16545,7 +16549,7 @@ msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 msgid "Parking dome prior to calibration frames capture..."
 msgstr "កាល​បរិច្ឆេទ​ចាប់​ផ្ដើម ៖"
 
-#: ekos/capture/sequencejobstate.cpp:876
+#: ekos/capture/sequencejobstate.cpp:878
 #, kde-format
 msgid "Light box on."
 msgstr ""
@@ -16582,7 +16586,7 @@ msgstr "ផ្សេងៗ"
 msgid "Image Received"
 msgstr "ព័ត៌មាន"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2248
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2277
 #, fuzzy, kde-format
 msgid "Focusing"
 msgstr "ពេលវេលា​មូលដ្ឋាន"
@@ -16612,7 +16616,7 @@ msgstr "ម៉ាស៊ីន​ថត​រូប"
 msgid "Setting Rotator"
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2251
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2280
 #, fuzzy, kde-format
 msgid "Aligning"
 msgstr "ផ្សេងៗ"
@@ -16663,7 +16667,7 @@ msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 msgid "Startup"
 msgstr "ចាប់ផ្ដើម "
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1595
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1624
 #, fuzzy, kde-format
 msgid "Running"
 msgstr "ទីតាំង ៖"
@@ -22649,7 +22653,7 @@ msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: ekos/manager.ui:129 ekos/profilewizard.ui:937
-#: ekos/scheduler/scheduler.ui:605
+#: ekos/scheduler/scheduler.ui:595
 #, fuzzy, kde-format
 msgid "Profile:"
 msgstr "ប្រទេស:"
@@ -22747,7 +22751,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/manager.ui:850 ekos/scheduler/scheduler.ui:1135
+#: ekos/manager.ui:850 ekos/scheduler/scheduler.ui:1155
 #: kstarslite/qml/dialogs/DetailsDialog.qml:269 tools/altvstime.cpp:98
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Altitude"
@@ -23720,7 +23724,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2406
+#: ekos/scheduler/scheduler.cpp:2436
 #, fuzzy, kde-format
 msgid "Stop Scheduler"
 msgstr "ផ្កាយ"
@@ -24525,7 +24529,7 @@ msgstr "សកម្មភាព ៖"
 
 #. i18n: ectx: property (text), widget (QPushButton, equipmentOtherB)
 #. i18n: ectx: property (text), widget (QCheckBox, OtherCB)
-#: ekos/profilewizard.ui:432 tools/imagingplanner.ui:1998
+#: ekos/profilewizard.ui:432 tools/imagingplanner.ui:2010
 #, fuzzy, kde-format
 msgid "Other"
 msgstr "ផ្សេងៗ"
@@ -25405,7 +25409,7 @@ msgstr "សេណេហ្គាល់"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, schedulerExecutionSequencesLimit)
 #: ekos/scheduler/framingassistant.ui:1575
-#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1452
+#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1472
 #, kde-format
 msgid "Restart job until it is executed this many times."
 msgstr ""
@@ -25418,35 +25422,35 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, sequenceCompletionR)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerCompleteSequences)
-#: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1411
+#: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1431
 #, kde-format
 msgid "The observation job is completed when the sequence is complete."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, sequenceCompletionR)
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerCompleteSequences)
-#: ekos/scheduler/framingassistant.ui:1594 ekos/scheduler/scheduler.ui:1414
+#: ekos/scheduler/framingassistant.ui:1594 ekos/scheduler/scheduler.ui:1434
 #, fuzzy, kde-format
 msgid "Se&quence completion"
 msgstr "កំណែ"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, repeatsSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, schedulerExecutionSequencesLimit)
-#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1455
+#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1475
 #, fuzzy, kde-format
 msgid " runs"
 msgstr "ប្រ៊ុយណេ"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, loopCompletionR)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerUntilTerminated)
-#: ekos/scheduler/framingassistant.ui:1635 ekos/scheduler/scheduler.ui:1477
+#: ekos/scheduler/framingassistant.ui:1635 ekos/scheduler/scheduler.ui:1497
 #, kde-format
 msgid "Restart the sequence job indefinitely."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, loopCompletionR)
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerUntilTerminated)
-#: ekos/scheduler/framingassistant.ui:1638 ekos/scheduler/scheduler.ui:1480
+#: ekos/scheduler/framingassistant.ui:1638 ekos/scheduler/scheduler.ui:1500
 #, kde-format
 msgid "Repeat &until terminated"
 msgstr ""
@@ -25463,13 +25467,13 @@ msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "១"
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:752
+#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:779
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "កណ្ដាល"
 
-#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:754
+#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:781
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr ""
@@ -25781,7 +25785,7 @@ msgid ""
 "before completion.\n"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:181 ekos/scheduler/scheduler.cpp:1726
+#: ekos/scheduler/scheduler.cpp:181 ekos/scheduler/scheduler.cpp:1755
 #, kde-format
 msgid ""
 "Count of captures stored for the job, based on its sequence job.\n"
@@ -25822,7 +25826,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:374 ekos/scheduler/scheduler.cpp:2205
+#: ekos/scheduler/scheduler.cpp:377 ekos/scheduler/scheduler.cpp:2234
 #: ekos/scheduler/schedulerprocess.cpp:3519
 #, kde-format
 msgid ""
@@ -25830,77 +25834,77 @@ msgid ""
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:438
+#: ekos/scheduler/scheduler.cpp:450
 #, kde-format
 msgid "Jobs"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:642
+#: ekos/scheduler/scheduler.cpp:653
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "រក្សា​ទុក."
 
-#: ekos/scheduler/scheduler.cpp:692
+#: ekos/scheduler/scheduler.cpp:703
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:711
+#: ekos/scheduler/scheduler.cpp:722
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:762
+#: ekos/scheduler/scheduler.cpp:755
+#, fuzzy, kde-format
+msgid "Warning: RA value %1 is invalid."
+msgstr "កាល​បរិច្ឆេទ​បញ្ចប់ ៖"
+
+#: ekos/scheduler/scheduler.cpp:758
+#, fuzzy, kde-format
+msgid "Warning: DEC value %1 is invalid."
+msgstr "កាល​បរិច្ឆេទ​បញ្ចប់ ៖"
+
+#: ekos/scheduler/scheduler.cpp:789
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
-#: ekos/scheduler/scheduler.cpp:764 ekos/scheduler/scheduler.cpp:779
+#: ekos/scheduler/scheduler.cpp:791 ekos/scheduler/scheduler.cpp:806
 #, fuzzy, kde-format
 msgid "Script (*)"
 msgstr "ស្គ្រីប​ថ្មី"
 
-#: ekos/scheduler/scheduler.cpp:777
+#: ekos/scheduler/scheduler.cpp:804
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
-#: ekos/scheduler/scheduler.cpp:843
+#: ekos/scheduler/scheduler.cpp:870
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:849
+#: ekos/scheduler/scheduler.cpp:876
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:856
+#: ekos/scheduler/scheduler.cpp:883
 #, fuzzy, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "កាល​បរិច្ឆេទ​ចាប់​ផ្ដើម ៖"
 
-#: ekos/scheduler/scheduler.cpp:866
-#, fuzzy, kde-format
-msgid "Warning: RA value %1 is invalid."
-msgstr "កាល​បរិច្ឆេទ​បញ្ចប់ ៖"
-
-#: ekos/scheduler/scheduler.cpp:872
-#, fuzzy, kde-format
-msgid "Warning: DEC value %1 is invalid."
-msgstr "កាល​បរិច្ឆេទ​បញ្ចប់ ៖"
-
-#: ekos/scheduler/scheduler.cpp:1002
+#: ekos/scheduler/scheduler.cpp:1032
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
 "may consider the same storage for captures."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1010
+#: ekos/scheduler/scheduler.cpp:1040
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -25908,162 +25912,162 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1018
+#: ekos/scheduler/scheduler.cpp:1048
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1206
+#: ekos/scheduler/scheduler.cpp:1235
 #, fuzzy, kde-format
 msgid "%1 %2 %3"
 msgstr "ផ្កាយ​"
 
-#: ekos/scheduler/scheduler.cpp:1289
+#: ekos/scheduler/scheduler.cpp:1318
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1318
+#: ekos/scheduler/scheduler.cpp:1347
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1593
+#: ekos/scheduler/scheduler.cpp:1622
 #, kde-format
 msgid "Evaluating"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1594
+#: ekos/scheduler/scheduler.cpp:1623
 #, fuzzy, kde-format
 msgid "Scheduled"
 msgstr "កំណត់ពេល ៖"
 
-#: ekos/scheduler/scheduler.cpp:1596
+#: ekos/scheduler/scheduler.cpp:1625
 #, fuzzy, kde-format
 msgid "Invalid"
 msgstr "URL មិន​ត្រឹមត្រូវ"
 
-#: ekos/scheduler/scheduler.cpp:1878
+#: ekos/scheduler/scheduler.cpp:1907
 #, fuzzy, kde-format
 msgid "Scheduler pause planned..."
 msgstr "ឯកសារ​ត្រូវ​បាន​រក្សាទុក"
 
-#: ekos/scheduler/scheduler.cpp:1882
+#: ekos/scheduler/scheduler.cpp:1911
 #, fuzzy, kde-format
 msgid "Resume Scheduler"
 msgstr "កំណត់ពេល ៖"
 
-#: ekos/scheduler/scheduler.cpp:1897
+#: ekos/scheduler/scheduler.cpp:1926
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1927
+#: ekos/scheduler/scheduler.cpp:1956
 #, fuzzy, kde-format
 msgid "Scheduler aborted."
 msgstr "ឯកសារ​ត្រូវ​បាន​រក្សាទុក"
 
-#: ekos/scheduler/scheduler.cpp:1936
+#: ekos/scheduler/scheduler.cpp:1965
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1944 ekos/scheduler/scheduler.ui:1179
+#: ekos/scheduler/scheduler.cpp:1973 ekos/scheduler/scheduler.ui:1199
 #, fuzzy, kde-format
 msgid "Start Scheduler"
 msgstr "ផ្កាយ"
 
-#: ekos/scheduler/scheduler.cpp:1967
+#: ekos/scheduler/scheduler.cpp:1996
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "បន្ថែម"
 
-#: ekos/scheduler/scheduler.cpp:2060
+#: ekos/scheduler/scheduler.cpp:2089
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "បន្ថែម"
 
-#: ekos/scheduler/scheduler.cpp:2079
+#: ekos/scheduler/scheduler.cpp:2108
 #, fuzzy, kde-format
 msgid "Failed to save scheduler list"
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/scheduler/scheduler.cpp:2223
+#: ekos/scheduler/scheduler.cpp:2252
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2246
+#: ekos/scheduler/scheduler.cpp:2275
 #, fuzzy, kde-format
 msgid "Slew complete"
 msgstr "គណនា"
 
-#: ekos/scheduler/scheduler.cpp:2250
+#: ekos/scheduler/scheduler.cpp:2279
 #, fuzzy, kde-format
 msgid "Focus complete"
 msgstr "គណនា"
 
-#: ekos/scheduler/scheduler.cpp:2252
+#: ekos/scheduler/scheduler.cpp:2281
 #, fuzzy, kde-format
 msgid "Align complete"
 msgstr "គណនា"
 
-#: ekos/scheduler/scheduler.cpp:2253
+#: ekos/scheduler/scheduler.cpp:2282
 #, fuzzy, kde-format
 msgid "Repositioning"
 msgstr "ទីតាំង"
 
-#: ekos/scheduler/scheduler.cpp:2254
+#: ekos/scheduler/scheduler.cpp:2283
 #, fuzzy, kde-format
 msgid "Repositioning complete"
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
-#: ekos/scheduler/scheduler.cpp:2257
+#: ekos/scheduler/scheduler.cpp:2286
 #, fuzzy, kde-format
 msgid "Guiding complete"
 msgstr "គណនា"
 
-#: ekos/scheduler/scheduler.cpp:2336
+#: ekos/scheduler/scheduler.cpp:2366
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2340
+#: ekos/scheduler/scheduler.cpp:2370
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2344
+#: ekos/scheduler/scheduler.cpp:2374
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2362
+#: ekos/scheduler/scheduler.cpp:2392
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2371
+#: ekos/scheduler/scheduler.cpp:2401
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2394
+#: ekos/scheduler/scheduler.cpp:2424
 #, fuzzy, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "ឯកសារ​ត្រូវ​បាន​រក្សាទុក"
 
-#: ekos/scheduler/scheduler.cpp:2457
+#: ekos/scheduler/scheduler.cpp:2487
 #, fuzzy, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
-#: ekos/scheduler/scheduler.cpp:2461
+#: ekos/scheduler/scheduler.cpp:2491
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""
@@ -26177,26 +26181,20 @@ msgstr ""
 msgid "Position Angle in Degrees"
 msgstr "មុំ​ទីតាំង"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label)
-#: ekos/scheduler/scheduler.ui:592
-#, kde-format
-msgid "Target coordinates in J2000 Epoch"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/scheduler/scheduler.ui:595
-#, kde-format
-msgid "J2000:"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QLabel, label_9)
-#: ekos/scheduler/scheduler.ui:602
+#: ekos/scheduler/scheduler.ui:592
 #, fuzzy, kde-format
 msgid "Ekos Device Profile"
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
+#. i18n: ectx: property (toolTip), widget (QPushButton, copyMountTargetB)
+#: ekos/scheduler/scheduler.ui:656
+#, kde-format
+msgid "Fill coordinates with current mount position."
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QLabel, trainLabel)
-#: ekos/scheduler/scheduler.ui:665
+#: ekos/scheduler/scheduler.ui:671
 #, kde-format
 msgid ""
 "Optical train to be used for this scheduler job within the Capture module."
@@ -26204,25 +26202,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: ekos/scheduler/scheduler.ui:678 indi/customdrivers.ui:120
+#: ekos/scheduler/scheduler.ui:684 indi/customdrivers.ui:120
 #, kde-format
 msgid "*"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, mosaicB)
-#: ekos/scheduler/scheduler.ui:911
+#: ekos/scheduler/scheduler.ui:931
 #, fuzzy, kde-format
 msgid "Open the Mosaic Planner..."
 msgstr "ការ​តភ្ជាប់"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, editSequenceB)
-#: ekos/scheduler/scheduler.ui:939
+#: ekos/scheduler/scheduler.ui:959
 #, fuzzy, kde-format
 msgid "Capture Sequence File Editor..."
 msgstr "កណ្ដាល"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueAppendB)
-#: ekos/scheduler/scheduler.ui:990
+#: ekos/scheduler/scheduler.ui:1010
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Load schedule from file and append "
@@ -26230,7 +26228,7 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
-#: ekos/scheduler/scheduler.ui:1024
+#: ekos/scheduler/scheduler.ui:1044
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Load schedule from file and replace "
@@ -26238,43 +26236,43 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
-#: ekos/scheduler/scheduler.ui:1052
+#: ekos/scheduler/scheduler.ui:1072
 #, fuzzy, kde-format
 msgid "Save Schedule..."
 msgstr "បន្ថែម"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
-#: ekos/scheduler/scheduler.ui:1086
+#: ekos/scheduler/scheduler.ui:1106
 #, fuzzy, kde-format
 msgid "Save Schedule As..."
 msgstr "បន្ថែម"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1130
+#: ekos/scheduler/scheduler.ui:1150
 #, fuzzy, kde-format
 msgid "Captures"
 msgstr "ការ​កំណត់"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1140
+#: ekos/scheduler/scheduler.ui:1160
 #, fuzzy, kde-format
 msgid "Start Time"
 msgstr "កំណត់ពេល ៖"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1145
+#: ekos/scheduler/scheduler.ui:1165
 #, fuzzy, kde-format
 msgid "End Time"
 msgstr "ពេល​វេលា​"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/scheduler/scheduler.ui:1218
+#: ekos/scheduler/scheduler.ui:1238
 #, fuzzy, kde-format
 msgid "Pause Scheduler"
 msgstr "កំណត់ពេល ៖"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerRepeatEverything)
-#: ekos/scheduler/scheduler.ui:1268
+#: ekos/scheduler/scheduler.ui:1288
 #, kde-format
 msgid ""
 "<html><head/><body><p>Repeat all scheduled jobs as soon as all jobs have "
@@ -26285,13 +26283,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerRepeatEverything)
-#: ekos/scheduler/scheduler.ui:1271
+#: ekos/scheduler/scheduler.ui:1291
 #, fuzzy, kde-format
 msgid "Repeat all jobs"
 msgstr "ជម្រះ បញ្ជី"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, executionSequenceLimit)
-#: ekos/scheduler/scheduler.ui:1278
+#: ekos/scheduler/scheduler.ui:1298
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Limit number of iterations the scheduler will execute "
@@ -26300,67 +26298,67 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, executionSequenceLimit)
-#: ekos/scheduler/scheduler.ui:1281
+#: ekos/scheduler/scheduler.ui:1301
 #, fuzzy, kde-format
 msgid " times"
 msgstr "កំណត់ពេល ៖"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
-#: ekos/scheduler/scheduler.ui:1341
+#: ekos/scheduler/scheduler.ui:1361
 #, kde-format
 msgid "Job Completion Conditions"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerRepeatSequences)
-#: ekos/scheduler/scheduler.ui:1376
+#: ekos/scheduler/scheduler.ui:1396
 #, kde-format
 msgid "&Repeat for:"
 msgstr ""
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, schedulerUntilValue)
-#: ekos/scheduler/scheduler.ui:1392
+#: ekos/scheduler/scheduler.ui:1412
 #, kde-format
 msgid "dd/MM/yy hh:mm"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerUntil)
-#: ekos/scheduler/scheduler.ui:1433
+#: ekos/scheduler/scheduler.ui:1453
 #, kde-format
 msgid "Terminate the job on the given date and time."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerUntil)
-#: ekos/scheduler/scheduler.ui:1436
+#: ekos/scheduler/scheduler.ui:1456
 #, kde-format
 msgid "Repeat &until:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroup)
-#: ekos/scheduler/scheduler.ui:1501
+#: ekos/scheduler/scheduler.ui:1521
 #, kde-format
 msgid "Job Startup Conditions"
 msgstr ""
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, startupTimeEdit)
-#: ekos/scheduler/scheduler.ui:1533
+#: ekos/scheduler/scheduler.ui:1553
 #, kde-format
 msgid "dd/MM hh:mm"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, startupTimeConditionR)
-#: ekos/scheduler/scheduler.ui:1549
+#: ekos/scheduler/scheduler.ui:1569
 #, kde-format
 msgid "Start the job on the specified date and time"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, startupTimeConditionR)
-#: ekos/scheduler/scheduler.ui:1552
+#: ekos/scheduler/scheduler.ui:1572
 #, kde-format
 msgid "O&n:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, asapConditionR)
-#: ekos/scheduler/scheduler.ui:1568
+#: ekos/scheduler/scheduler.ui:1588
 #, kde-format
 msgid ""
 "Start the observation job as soon as all the constraints, if any, are met. "
@@ -26368,13 +26366,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, asapConditionR)
-#: ekos/scheduler/scheduler.ui:1571
+#: ekos/scheduler/scheduler.ui:1591
 #, kde-format
 msgid "ASAP"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, contraintsGroup)
-#: ekos/scheduler/scheduler.ui:1608
+#: ekos/scheduler/scheduler.ui:1628
 #, fuzzy, kde-format
 msgid "Job Constraints"
 msgstr "ឈ្មោះ​ធម្មតា"
@@ -26385,15 +26383,15 @@ msgstr "ឈ្មោះ​ធម្មតា"
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minAltitude)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, AstrobinMinRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, AstrobinMaxRadius)
-#: ekos/scheduler/scheduler.ui:1656 ekos/scheduler/scheduler.ui:1713
-#: ekos/scheduler/scheduler.ui:1729 tools/imagingplanner.ui:1169
-#: tools/imagingplanner.ui:1516 tools/imagingplanner.ui:1564
+#: ekos/scheduler/scheduler.ui:1676 ekos/scheduler/scheduler.ui:1733
+#: ekos/scheduler/scheduler.ui:1749 tools/imagingplanner.ui:1169
+#: tools/imagingplanner.ui:1522 tools/imagingplanner.ui:1570
 #, kde-format
 msgid " °"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nightTime)
-#: ekos/scheduler/scheduler.ui:1669
+#: ekos/scheduler/scheduler.ui:1689
 #, kde-format
 msgid ""
 "<html><head/><body><p>Astronomical dawn and dusk for the Scheduler job "
@@ -26413,7 +26411,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTwilight)
-#: ekos/scheduler/scheduler.ui:1688
+#: ekos/scheduler/scheduler.ui:1708
 #, kde-format
 msgid ""
 "<html><body><p>The twilight restriction constrains jobs to execute in "
@@ -26422,14 +26420,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
-#: ekos/scheduler/scheduler.ui:1691
+#: ekos/scheduler/scheduler.ui:1711
 #, fuzzy, kde-format
 msgid "Twilight"
 msgstr "កម្ពស់​ ៖"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonSeparation)
-#: ekos/scheduler/scheduler.ui:1710 ekos/scheduler/scheduler.ui:1805
+#: ekos/scheduler/scheduler.ui:1730 ekos/scheduler/scheduler.ui:1825
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>The target must be at least this far from the moon.</"
@@ -26438,7 +26436,7 @@ msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonAltitudeMaxValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonAltitude)
-#: ekos/scheduler/scheduler.ui:1726 ekos/scheduler/scheduler.ui:1767
+#: ekos/scheduler/scheduler.ui:1746 ekos/scheduler/scheduler.ui:1787
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>The moon must be lower than this altitude.</p></body></"
@@ -26446,25 +26444,25 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerAltitude)
-#: ekos/scheduler/scheduler.ui:1751
+#: ekos/scheduler/scheduler.ui:1771
 #, kde-format
 msgid "The object's altitude must remain equal or higher than the given value."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
-#: ekos/scheduler/scheduler.ui:1754
+#: ekos/scheduler/scheduler.ui:1774
 #, fuzzy, kde-format
 msgid "Min. Altitude: "
 msgstr "រយៈទទឹង ៖"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonAltitude)
-#: ekos/scheduler/scheduler.ui:1770
+#: ekos/scheduler/scheduler.ui:1790
 #, fuzzy, kde-format
 msgid "Moon max alt:"
 msgstr "ព្រះចន្ទ"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerHorizon)
-#: ekos/scheduler/scheduler.ui:1783
+#: ekos/scheduler/scheduler.ui:1803
 #, kde-format
 msgid ""
 "<html><body><p>The artificial horizon restriction constrains the altitude of "
@@ -26474,13 +26472,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonSeparation)
-#: ekos/scheduler/scheduler.ui:1808
+#: ekos/scheduler/scheduler.ui:1828
 #, kde-format
 msgid "Moon  min. sep.:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerWeather)
-#: ekos/scheduler/scheduler.ui:1824
+#: ekos/scheduler/scheduler.ui:1844
 #, kde-format
 msgid ""
 "<html><head/><body><p>Weather conditions must remain safe. When weather "
@@ -26489,7 +26487,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, errorHandlingGroup)
-#: ekos/scheduler/scheduler.ui:1856
+#: ekos/scheduler/scheduler.ui:1876
 #, kde-format
 msgid ""
 "<html><head/><body><p>Define what should happen when a job steps into an "
@@ -26513,25 +26511,25 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, errorHandlingGroup)
-#: ekos/scheduler/scheduler.ui:1859
+#: ekos/scheduler/scheduler.ui:1879
 #, fuzzy, kde-format
 msgid "Aborted Job Management"
 msgstr "ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingDontRestartButton)
-#: ekos/scheduler/scheduler.ui:1891
+#: ekos/scheduler/scheduler.ui:1911
 #, fuzzy, kde-format
 msgid "Do not re-schedule aborted jobs."
 msgstr "ឯកសារ​ត្រូវ​បាន​រក្សាទុក"
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingDontRestartButton)
-#: ekos/scheduler/scheduler.ui:1894
+#: ekos/scheduler/scheduler.ui:1914
 #, fuzzy, kde-format
 msgid "&None"
 msgstr "គ្មាន"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartQueueButton)
-#: ekos/scheduler/scheduler.ui:1910
+#: ekos/scheduler/scheduler.ui:1930
 #, kde-format
 msgid ""
 "Re-schedule aborted jobs as soon as all executable jobs are either completed "
@@ -26539,49 +26537,49 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartQueueButton)
-#: ekos/scheduler/scheduler.ui:1913
+#: ekos/scheduler/scheduler.ui:1933
 #, kde-format
 msgid "&Queue"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
-#: ekos/scheduler/scheduler.ui:1929
+#: ekos/scheduler/scheduler.ui:1949
 #, kde-format
 msgid "Re-schedule an aborted job immediately."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
-#: ekos/scheduler/scheduler.ui:1932
+#: ekos/scheduler/scheduler.ui:1952
 #, kde-format
 msgid "I&mmediate"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
-#: ekos/scheduler/scheduler.ui:1955
+#: ekos/scheduler/scheduler.ui:1975
 #, kde-format
 msgid "Treat errors like aborts."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
-#: ekos/scheduler/scheduler.ui:1958
+#: ekos/scheduler/scheduler.ui:1978
 #, fuzzy, kde-format
 msgid "Re-schedule errors:"
 msgstr "កំណត់ពេល ៖"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingStrategyDelay)
-#: ekos/scheduler/scheduler.ui:1971
+#: ekos/scheduler/scheduler.ui:1991
 #, fuzzy, kde-format
 msgid "Delay in seconds."
 msgstr "វិនាទី"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, errorHandlingStrategyDelay)
-#: ekos/scheduler/scheduler.ui:1974
+#: ekos/scheduler/scheduler.ui:1994
 #, fuzzy, kde-format
 msgid " s wait"
 msgstr "គុយវ៉ែត"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, startupGroupBox)
-#: ekos/scheduler/scheduler.ui:1992
+#: ekos/scheduler/scheduler.ui:2012
 #, kde-format
 msgid ""
 "<html><head/><body><p>One-time startup procedure to be executed before "
@@ -26591,58 +26589,58 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroupBox)
-#: ekos/scheduler/scheduler.ui:1995
+#: ekos/scheduler/scheduler.ui:2015
 #, fuzzy, kde-format
 msgid "Observatory Startup Procedure"
 msgstr "ផ្កាយ"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerUnparkDome)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerParkDome)
-#: ekos/scheduler/scheduler.ui:2030 ekos/scheduler/scheduler.ui:2265
+#: ekos/scheduler/scheduler.ui:2050 ekos/scheduler/scheduler.ui:2285
 #, kde-format
 msgid "Park dome to home position"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerUnparkDome)
-#: ekos/scheduler/scheduler.ui:2033
+#: ekos/scheduler/scheduler.ui:2053
 #, fuzzy, kde-format
 msgid "UnPark Dome"
 msgstr "ផ្កា​ភ្លើង​"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerUnparkMount)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerParkMount)
-#: ekos/scheduler/scheduler.ui:2052 ekos/scheduler/scheduler.ui:2243
+#: ekos/scheduler/scheduler.ui:2072 ekos/scheduler/scheduler.ui:2263
 #, fuzzy, kde-format
 msgid "Park telescope to home position."
 msgstr "មិន​អាច​បើក​ឯកសារ %1 បាន​ឡើយ ។"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerUnparkMount)
-#: ekos/scheduler/scheduler.ui:2055
+#: ekos/scheduler/scheduler.ui:2075
 #, fuzzy, kde-format
 msgid "UnPark Mount"
 msgstr "ផ្កា​ភ្លើង​"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerOpenDustCover)
-#: ekos/scheduler/scheduler.ui:2071
+#: ekos/scheduler/scheduler.ui:2091
 #, fuzzy, kde-format
 msgid "Open dust cover"
 msgstr "រង្វង់"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerOpenDustCover)
-#: ekos/scheduler/scheduler.ui:2074
+#: ekos/scheduler/scheduler.ui:2094
 #, kde-format
 msgid "UnCap"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: ekos/scheduler/scheduler.ui:2117 ekos/scheduler/scheduler.ui:2311
+#: ekos/scheduler/scheduler.ui:2137 ekos/scheduler/scheduler.ui:2331
 #, fuzzy, kde-format
 msgid "Script:"
 msgstr "ស្គ្រីប​ថ្មី"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
-#: ekos/scheduler/scheduler.ui:2164
+#: ekos/scheduler/scheduler.ui:2184
 #, kde-format
 msgid ""
 "<html><head/><body><p>One-time shutdown procedure to be executed after all "
@@ -26652,31 +26650,31 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
-#: ekos/scheduler/scheduler.ui:2167
+#: ekos/scheduler/scheduler.ui:2187
 #, kde-format
 msgid "Observatory Shutdown Procedure"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerWarmCCD)
-#: ekos/scheduler/scheduler.ui:2202
+#: ekos/scheduler/scheduler.ui:2222
 #, kde-format
 msgid "Turn off CCD cooler."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerWarmCCD)
-#: ekos/scheduler/scheduler.ui:2205
+#: ekos/scheduler/scheduler.ui:2225
 #, kde-format
 msgid "Warm CCD"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerCloseDustCover)
-#: ekos/scheduler/scheduler.ui:2221
+#: ekos/scheduler/scheduler.ui:2241
 #, kde-format
 msgid "Close dust cover"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerCloseDustCover)
-#: ekos/scheduler/scheduler.ui:2224
+#: ekos/scheduler/scheduler.ui:2244
 #, fuzzy, kde-format
 msgid "Cap"
 msgstr "ម៉ាស៊ីន​ថត​រូប"
@@ -27507,54 +27505,54 @@ msgstr ""
 msgid "Mount already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4384
+#: ekos/scheduler/schedulerprocess.cpp:4406
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4407
+#: ekos/scheduler/schedulerprocess.cpp:4429
 #, fuzzy, kde-format
 msgid "Parking dome..."
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
-#: ekos/scheduler/schedulerprocess.cpp:4413
+#: ekos/scheduler/schedulerprocess.cpp:4435
 #, kde-format
 msgid "Dome already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4423
+#: ekos/scheduler/schedulerprocess.cpp:4445
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4443
+#: ekos/scheduler/schedulerprocess.cpp:4465
 #, fuzzy, kde-format
 msgid "Unparking dome..."
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
-#: ekos/scheduler/schedulerprocess.cpp:4449
+#: ekos/scheduler/schedulerprocess.cpp:4471
 #, kde-format
 msgid "Dome already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4530
+#: ekos/scheduler/schedulerprocess.cpp:4552
 #, fuzzy, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
 "ready..."
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
 
-#: ekos/scheduler/schedulerprocess.cpp:4819
+#: ekos/scheduler/schedulerprocess.cpp:4841
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4824
+#: ekos/scheduler/schedulerprocess.cpp:4846
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4885
+#: ekos/scheduler/schedulerprocess.cpp:4907
 #, fuzzy, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr "ម៉ាស៊ីន​ភ្ញៀវ"
@@ -27932,7 +27930,7 @@ msgstr "កំពុង​អាន"
 
 #. i18n: ectx: property (text), widget (QTableWidget, tableWidget)
 #. i18n: ectx: property (text), widget (QCheckBox, keywordCB)
-#: fitsviewer/fitsheaderdialog.ui:48 tools/imagingplanner.ui:2132
+#: fitsviewer/fitsheaderdialog.ui:48 tools/imagingplanner.ui:2144
 #, fuzzy, kde-format
 msgid "Keyword"
 msgstr "ពាក្យ​គន្លឹះ"
@@ -28146,7 +28144,7 @@ msgstr "ព័រទុយហ្គាល់"
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
 #: fitsviewer/fitstab.cpp:762 fitsviewer/opsfits.ui:435
-#: tools/imagingplanner.ui:1450 tools/imagingplanner.ui:1775
+#: tools/imagingplanner.ui:1456 tools/imagingplanner.ui:1787
 #, kde-format
 msgid "Simbad"
 msgstr ""
@@ -28172,7 +28170,7 @@ msgid "Distance"
 msgstr "ចម្ងាយ ៖"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1136
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1137
 #, fuzzy, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "ទំហំ ៖"
@@ -75229,7 +75227,7 @@ msgstr "កំណែ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyCB)
 #: printing/legend.cpp:368 printing/legend.cpp:403 skyobjects/skyobject.cpp:359
-#: skyobjects/skyobject.cpp:409 tools/imagingplanner.ui:1968
+#: skyobjects/skyobject.cpp:409 tools/imagingplanner.ui:1980
 #, kde-format
 msgid "Galaxy"
 msgstr ""
@@ -76429,27 +76427,27 @@ msgid "Open Clr"
 msgstr "រង្វង់"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GlobularClusterCB)
-#: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1938
+#: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1950
 #, fuzzy, kde-format
 msgid "Globular"
 msgstr "រង្វង់"
 
 #. i18n: ectx: property (text), widget (QCheckBox, NebulaCB)
-#: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1928
+#: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1940
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Nebula"
 msgstr "ឈ្មោះ​ភព"
 
 #. i18n: ectx: property (text), widget (QCheckBox, PlanetaryCB)
-#: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1948
+#: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1960
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Planetary"
 msgstr "ឈ្មោះ​ភព"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SupernovaRemnantCB)
-#: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1958
+#: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1970
 #, kde-format
 msgid "Remnant"
 msgstr ""
@@ -76460,7 +76458,7 @@ msgid "Galaxy Clr"
 msgstr "រង្វង់"
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
-#: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:1988
+#: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:2000
 #, fuzzy, kde-format
 #| msgid "Planet Name"
 msgid "Dark Neb"
@@ -77635,8 +77633,8 @@ msgid "Object Set"
 msgstr "វត្ថុ"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:2907
-#: tools/imagingplanner.cpp:2918 tools/imagingplanner.cpp:2933
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3041
+#: tools/imagingplanner.cpp:3052 tools/imagingplanner.cpp:3067
 #, fuzzy, kde-format
 msgid "Transit"
 msgstr "ថ្លា"
@@ -78615,262 +78613,290 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:174 tools/imagingplanner.ui:2045
+#: tools/imagingplanner.cpp:175 tools/imagingplanner.ui:2057
 #, fuzzy, kde-format
 msgid "Imaged"
 msgstr "រូបភាព"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:179 tools/imagingplanner.ui:2015
+#: tools/imagingplanner.cpp:180 tools/imagingplanner.ui:2027
 #, kde-format
 msgid "Picked"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:185 tools/imagingplanner.ui:2102
+#: tools/imagingplanner.cpp:186 tools/imagingplanner.ui:2114
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignored"
 msgstr "មិន​អើពើ"
 
-#: tools/imagingplanner.cpp:991
+#: tools/imagingplanner.cpp:992
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "ការ​តភ្ជាប់"
 
-#: tools/imagingplanner.cpp:1136
+#: tools/imagingplanner.cpp:1137
 #, fuzzy, kde-format
 msgid "Alt"
 msgstr "ជំនួស"
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:1138
 #, fuzzy, kde-format
 msgid "Const"
 msgstr "បម្លែង"
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:1138
 #, fuzzy, kde-format
 #| msgid "Coordinate Grid"
 msgid "Coord"
 msgstr "ក្រឡា​ចត្រង្គ​កូអរដោណេ"
 
-#: tools/imagingplanner.cpp:1139
+#: tools/imagingplanner.cpp:1140
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1141
+#: tools/imagingplanner.cpp:1142
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1143
+#: tools/imagingplanner.cpp:1144
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1145
+#: tools/imagingplanner.cpp:1146
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1147
+#: tools/imagingplanner.cpp:1148
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1149
+#: tools/imagingplanner.cpp:1150
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1151
+#: tools/imagingplanner.cpp:1152
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1153
+#: tools/imagingplanner.cpp:1154
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1574
+#: tools/imagingplanner.cpp:1575
 #, kde-format
 msgid "No match for \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:1638
+#: tools/imagingplanner.cpp:1639
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1643
+#: tools/imagingplanner.cpp:1644
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1648
+#: tools/imagingplanner.cpp:1649
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1978
+#: tools/imagingplanner.cpp:1979
 #, fuzzy, kde-format
 msgid "Updating tables..."
 msgstr "ផ្ទុកឡើង"
 
-#: tools/imagingplanner.cpp:2350
+#: tools/imagingplanner.cpp:2351
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "See Data -> Download New Data..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2351
+#: tools/imagingplanner.cpp:2352
 #, fuzzy, kde-format
 msgid "No Catalog!"
 msgstr "ចាប់ផ្ដើម "
 
-#: tools/imagingplanner.cpp:2397
+#: tools/imagingplanner.cpp:2398
 #, fuzzy, kde-format
 msgid "Select an object."
 msgstr "​មិន​ជ្រើស​អ្វី​ទាំងអស់"
 
-#: tools/imagingplanner.cpp:2399
+#: tools/imagingplanner.cpp:2400
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2401
+#: tools/imagingplanner.cpp:2402
 #, fuzzy, kde-format
 #| msgid "Import Catalog"
 msgid "Load a Catalog."
 msgstr "នាំចូល​កាតាឡុក"
 
-#: tools/imagingplanner.cpp:2572
+#: tools/imagingplanner.cpp:2535
+#, kde-format
+msgid "Search the Professor Seligman online site for NGC images."
+msgstr ""
+
+#: tools/imagingplanner.cpp:2540
+#, kde-format
+msgid ""
+"Search the Professor Seligman online site for information about IC objects.."
+msgstr ""
+
+#: tools/imagingplanner.cpp:2546
+#, kde-format
+msgid ""
+"Search the galaxymap.org online site for information about Sharpless2 "
+"objects."
+msgstr ""
+
+#: tools/imagingplanner.cpp:2552
+#, kde-format
+msgid "Search Nasa's online site for information about Messier objects.."
+msgstr ""
+
+#: tools/imagingplanner.cpp:2556
+#, kde-format
+msgid "Search Emil Ivanov's online site for information about VDB objects."
+msgstr ""
+
+#: tools/imagingplanner.cpp:2705
 #, fuzzy, kde-format
 #| msgid "Import Catalog"
 msgid "Loading Catalogs..."
 msgstr "នាំចូល​កាតាឡុក"
 
-#: tools/imagingplanner.cpp:2896
+#: tools/imagingplanner.cpp:3030
 #, fuzzy, kde-format
 msgid "Transits"
 msgstr "ថ្លា"
 
-#: tools/imagingplanner.cpp:2901 tools/imagingplanner.cpp:2905
+#: tools/imagingplanner.cpp:3035 tools/imagingplanner.cpp:3039
 #, fuzzy, kde-format
 msgid "Sets at"
 msgstr "កំណត់ពេល ៖"
 
-#: tools/imagingplanner.cpp:2912 tools/imagingplanner.cpp:2916
+#: tools/imagingplanner.cpp:3046 tools/imagingplanner.cpp:3050
 #, fuzzy, kde-format
 msgid "Rises at"
 msgstr "ព្រះ​អាទិត្យ​រះ ៖ "
 
-#: tools/imagingplanner.cpp:2923 tools/imagingplanner.cpp:2929
+#: tools/imagingplanner.cpp:3057 tools/imagingplanner.cpp:3063
 #, fuzzy, kde-format
 msgid "Rises"
 msgstr "ព្រះ​អាទិត្យ​រះ ៖ "
 
-#: tools/imagingplanner.cpp:2925 tools/imagingplanner.cpp:2931
+#: tools/imagingplanner.cpp:3059 tools/imagingplanner.cpp:3065
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3037 tools/imagingplanner.cpp:3293
+#: tools/imagingplanner.cpp:3171 tools/imagingplanner.cpp:3427
 #, fuzzy, kde-format
 msgid "objects"
 msgstr "វត្ថុ"
 
-#: tools/imagingplanner.cpp:3289
+#: tools/imagingplanner.cpp:3423
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3297 tools/imagingplanner.cpp:3301
+#: tools/imagingplanner.cpp:3431 tools/imagingplanner.cpp:3435
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3298 tools/imagingplanner.cpp:3303
+#: tools/imagingplanner.cpp:3432 tools/imagingplanner.cpp:3437
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3307 tools/imagingplanner.cpp:3311
+#: tools/imagingplanner.cpp:3441 tools/imagingplanner.cpp:3445
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3308 tools/imagingplanner.cpp:3313
+#: tools/imagingplanner.cpp:3442 tools/imagingplanner.cpp:3447
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3318 tools/imagingplanner.cpp:3323
+#: tools/imagingplanner.cpp:3452 tools/imagingplanner.cpp:3457
 #, fuzzy, kde-format
 msgid "Stop ignoring %1"
 msgstr "កំពុង​អាន"
 
-#: tools/imagingplanner.cpp:3319 tools/imagingplanner.cpp:3325
+#: tools/imagingplanner.cpp:3453 tools/imagingplanner.cpp:3459
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "មិន​អើពើ"
 
-#: tools/imagingplanner.cpp:3328
+#: tools/imagingplanner.cpp:3462
 #, fuzzy, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "កណ្ដាល"
 
-#: tools/imagingplanner.cpp:3467
+#: tools/imagingplanner.cpp:3601
 #, fuzzy, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "តភ្ជាប់"
 
-#: tools/imagingplanner.cpp:3469
+#: tools/imagingplanner.cpp:3603
 #, fuzzy, kde-format
 msgid "Empty file"
 msgstr "ប្រទេស:"
 
-#: tools/imagingplanner.cpp:3478
+#: tools/imagingplanner.cpp:3612
 #, fuzzy, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "បន្ថែម."
 
-#: tools/imagingplanner.cpp:3480
+#: tools/imagingplanner.cpp:3614
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3482
+#: tools/imagingplanner.cpp:3616
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3485
+#: tools/imagingplanner.cpp:3619
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3491 tools/imagingplanner.cpp:3694
+#: tools/imagingplanner.cpp:3625 tools/imagingplanner.cpp:3828
 #, fuzzy, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "មិន​អាច​បើក​ឯកសារ %1បាន​ឡើយ​"
 
-#: tools/imagingplanner.cpp:3603
+#: tools/imagingplanner.cpp:3737
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3675
+#: tools/imagingplanner.cpp:3809
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
@@ -79099,21 +79125,21 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel2)
-#: tools/imagingplanner.ui:1339 tools/imagingplanner.ui:1664
+#: tools/imagingplanner.ui:1339 tools/imagingplanner.ui:1670
 #, kde-format
 msgid "Select a button to search for the selected object on the internet."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel2)
-#: tools/imagingplanner.ui:1342 tools/imagingplanner.ui:1667
+#: tools/imagingplanner.ui:1342 tools/imagingplanner.ui:1673
 #, fuzzy, kde-format
 msgid "Search"
 msgstr "​លីនេអ៊ែរ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton2)
-#: tools/imagingplanner.ui:1366 tools/imagingplanner.ui:1691
+#: tools/imagingplanner.ui:1366 tools/imagingplanner.ui:1697
 #, kde-format
 msgid ""
 "Search Astrobin for the selected object using the search constraints in this "
@@ -79122,48 +79148,48 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton2)
-#: tools/imagingplanner.ui:1369 tools/imagingplanner.ui:1694
+#: tools/imagingplanner.ui:1369 tools/imagingplanner.ui:1700
 #, fuzzy, kde-format
 msgid "Astrobin"
 msgstr "យក​ចេញ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia2)
-#: tools/imagingplanner.ui:1393 tools/imagingplanner.ui:1718
+#: tools/imagingplanner.ui:1393 tools/imagingplanner.ui:1724
 #, kde-format
 msgid "Search Wikipedia for the selected object."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia2)
-#: tools/imagingplanner.ui:1396 tools/imagingplanner.ui:1721
+#: tools/imagingplanner.ui:1396 tools/imagingplanner.ui:1727
 #, kde-format
 msgid "Wikipedia"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages)
-#. i18n: ectx: property (toolTip), widget (QPushButton, searchNGCICImages2)
-#: tools/imagingplanner.ui:1420 tools/imagingplanner.ui:1745
+#. i18n: ectx: property (toolTip), widget (QPushButton, searchSpecialWebPageImages)
+#. i18n: ectx: property (toolTip), widget (QPushButton, searchSpecialWebPageImages2)
+#: tools/imagingplanner.ui:1426 tools/imagingplanner.ui:1757
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC/IC images."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages)
-#. i18n: ectx: property (text), widget (QPushButton, searchNGCICImages2)
-#: tools/imagingplanner.ui:1423 tools/imagingplanner.ui:1748
+#. i18n: ectx: property (text), widget (QPushButton, searchSpecialWebPageImages)
+#. i18n: ectx: property (text), widget (QPushButton, searchSpecialWebPageImages2)
+#: tools/imagingplanner.ui:1429 tools/imagingplanner.ui:1760
 #, kde-format
 msgid "NGC/IC"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad2)
-#: tools/imagingplanner.ui:1447 tools/imagingplanner.ui:1772
+#: tools/imagingplanner.ui:1453 tools/imagingplanner.ui:1784
 #, fuzzy, kde-format
 msgid "Search Simbad."
 msgstr "អេង វណ្ណៈ"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, AstrobinAward)
-#: tools/imagingplanner.ui:1457
+#: tools/imagingplanner.ui:1463
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Required one of the Astrobin awards when searching "
@@ -79171,45 +79197,45 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (text), widget (QCheckBox, AstrobinAward)
-#: tools/imagingplanner.ui:1460
+#: tools/imagingplanner.ui:1466
 #, kde-format
 msgid "Awards Required"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
-#: tools/imagingplanner.ui:1479
+#: tools/imagingplanner.ui:1485
 #, fuzzy, kde-format
 msgid "Radius:"
 msgstr "វិទ្យុ"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
-#: tools/imagingplanner.ui:1494
+#: tools/imagingplanner.ui:1500
 #, fuzzy, kde-format
 msgid "Min:"
 msgstr "អប្ប ៖"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
-#: tools/imagingplanner.ui:1542
+#: tools/imagingplanner.ui:1548
 #, fuzzy, kde-format
 msgid "Max:"
 msgstr "អតិ ៖"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAstrobinDetailsButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFilterTypesButton)
-#: tools/imagingplanner.ui:1632 tools/imagingplanner.ui:2236
+#: tools/imagingplanner.ui:1638 tools/imagingplanner.ui:2248
 #, kde-format
 msgid "Maximize the Astrobin search details section"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideFilterTypesButton)
-#: tools/imagingplanner.ui:1838
+#: tools/imagingplanner.ui:1850
 #, kde-format
 msgid "Minimize the Filters section"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, FiltersLabel2)
-#: tools/imagingplanner.ui:1864 tools/imagingplanner.ui:2268
+#: tools/imagingplanner.ui:1876 tools/imagingplanner.ui:2280
 #, kde-format
 msgid ""
 "Constrain the list of object on the left by the filters in this section."
@@ -79217,99 +79243,99 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel2)
-#: tools/imagingplanner.ui:1867 tools/imagingplanner.ui:2271
+#: tools/imagingplanner.ui:1879 tools/imagingplanner.ui:2283
 #, fuzzy, kde-format
 msgid "Filters"
 msgstr "តម្រង ៖"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minHoursLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minHours)
-#: tools/imagingplanner.ui:1880 tools/imagingplanner.ui:1899
+#: tools/imagingplanner.ui:1892 tools/imagingplanner.ui:1911
 #, kde-format
 msgid ""
 "Objects are only shown if they can be imaged for at least this many hours."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minHoursLabel)
-#: tools/imagingplanner.ui:1886
+#: tools/imagingplanner.ui:1898
 #, fuzzy, kde-format
 msgid "Min Hours:"
 msgstr "ម៉ោង"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OpenClusterCB)
-#: tools/imagingplanner.ui:1915
+#: tools/imagingplanner.ui:1927
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Hide open clusters if unchecked.</p></body></html>"
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (text), widget (QCheckBox, OpenClusterCB)
-#: tools/imagingplanner.ui:1918
+#: tools/imagingplanner.ui:1930
 #, fuzzy, kde-format
 msgid "Open Cl"
 msgstr "រង្វង់"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, NebulaCB)
-#: tools/imagingplanner.ui:1925
+#: tools/imagingplanner.ui:1937
 #, fuzzy, kde-format
 msgid "<html><head/><body><p>Hide nebulae if unchecked.</p></body></html>"
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GlobularClusterCB)
-#: tools/imagingplanner.ui:1935
+#: tools/imagingplanner.ui:1947
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Hide globular clusters if unchecked.</p></body></html>"
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
-#: tools/imagingplanner.ui:1945
+#: tools/imagingplanner.ui:1957
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
-#: tools/imagingplanner.ui:1955
+#: tools/imagingplanner.ui:1967
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Hide supernova remnants if unchecked.</p></body></html>"
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyCB)
-#: tools/imagingplanner.ui:1965
+#: tools/imagingplanner.ui:1977
 #, fuzzy, kde-format
 msgid "<html><head/><body><p>Hide galaxies if unchecked.</p></body></html>"
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyClusterCB)
-#: tools/imagingplanner.ui:1975
+#: tools/imagingplanner.ui:1987
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Hide galaxy clusters if unchecked.</p></body></html>"
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyClusterCB)
-#: tools/imagingplanner.ui:1978
+#: tools/imagingplanner.ui:1990
 #, fuzzy, kde-format
 msgid "Galaxy Cl"
 msgstr "រង្វង់"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, DarkNebulaCB)
-#: tools/imagingplanner.ui:1985
+#: tools/imagingplanner.ui:1997
 #, fuzzy, kde-format
 msgid "<html><head/><body><p>Hide dark nebulae if unchecked.</p></body></html>"
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OtherCB)
-#: tools/imagingplanner.ui:1995
+#: tools/imagingplanner.ui:2007
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Hide other object types if unchecked.</p></body></html>"
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.ui:2012
+#: tools/imagingplanner.ui:2024
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are marked picked (don't show "
@@ -79317,7 +79343,7 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notPickedCB)
-#: tools/imagingplanner.ui:2022
+#: tools/imagingplanner.ui:2034
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are not marked picked (don't "
@@ -79325,13 +79351,13 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notPickedCB)
-#: tools/imagingplanner.ui:2025
+#: tools/imagingplanner.ui:2037
 #, fuzzy, kde-format
 msgid "Not Picked"
 msgstr "កុំ​ព្យាយាម"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCarePickedCB)
-#: tools/imagingplanner.ui:2032
+#: tools/imagingplanner.ui:2044
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
@@ -79342,14 +79368,14 @@ msgstr "របារ​ឧបករណ៍"
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareImagedCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareIgnoredCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareKeywordCB)
-#: tools/imagingplanner.ui:2035 tools/imagingplanner.ui:2065
-#: tools/imagingplanner.ui:2122 tools/imagingplanner.ui:2152
+#: tools/imagingplanner.ui:2047 tools/imagingplanner.ui:2077
+#: tools/imagingplanner.ui:2134 tools/imagingplanner.ui:2164
 #, kde-format
 msgid "Don't care"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.ui:2042
+#: tools/imagingplanner.ui:2054
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are marked imaged (and don't "
@@ -79357,7 +79383,7 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notImagedCB)
-#: tools/imagingplanner.ui:2052
+#: tools/imagingplanner.ui:2064
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are not marked imaged (and don't "
@@ -79365,13 +79391,13 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notImagedCB)
-#: tools/imagingplanner.ui:2055
+#: tools/imagingplanner.ui:2067
 #, fuzzy, kde-format
 msgid "Not imaged"
 msgstr "រូបភាព"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareImagedCB)
-#: tools/imagingplanner.ui:2062
+#: tools/imagingplanner.ui:2074
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
@@ -79379,7 +79405,7 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadImagedB)
-#: tools/imagingplanner.ui:2089
+#: tools/imagingplanner.ui:2101
 #, kde-format
 msgid ""
 "Load a file listing the names of already imaged objects--one name per line. "
@@ -79387,13 +79413,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
-#: tools/imagingplanner.ui:2092
+#: tools/imagingplanner.ui:2104
 #, fuzzy, kde-format
 msgid "Load Imaged"
 msgstr "រូបភាព"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.ui:2099
+#: tools/imagingplanner.ui:2111
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have been ignored (and don't "
@@ -79401,7 +79427,7 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notIgnoredCB)
-#: tools/imagingplanner.ui:2109
+#: tools/imagingplanner.ui:2121
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have not been ignored (and don't "
@@ -79409,13 +79435,13 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notIgnoredCB)
-#: tools/imagingplanner.ui:2112
+#: tools/imagingplanner.ui:2124
 #, fuzzy, kde-format
 msgid "Not ignored"
 msgstr "កុំ​ព្យាយាម"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareIgnoredCB)
-#: tools/imagingplanner.ui:2119
+#: tools/imagingplanner.ui:2131
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects have "
@@ -79423,7 +79449,7 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, keywordCB)
-#: tools/imagingplanner.ui:2129
+#: tools/imagingplanner.ui:2141
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have the (case-sensitive) "
@@ -79431,7 +79457,7 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notKeywordCB)
-#: tools/imagingplanner.ui:2139
+#: tools/imagingplanner.ui:2151
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that don't have the (case-sensitive) "
@@ -79439,13 +79465,13 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notKeywordCB)
-#: tools/imagingplanner.ui:2142
+#: tools/imagingplanner.ui:2154
 #, fuzzy, kde-format
 msgid "Not keyword"
 msgstr "ពាក្យ​គន្លឹះ"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareKeywordCB)
-#: tools/imagingplanner.ui:2149
+#: tools/imagingplanner.ui:2161
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether or not "
@@ -79453,27 +79479,27 @@ msgid ""
 msgstr "របារ​ឧបករណ៍"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, keywordEdit)
-#: tools/imagingplanner.ui:2170
+#: tools/imagingplanner.ui:2182
 #, kde-format
 msgid ""
 "Enter the (case-sensitive) keyword to be used for the checkboxes to the left."
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
-#: tools/imagingplanner.ui:2173
+#: tools/imagingplanner.ui:2185
 #, kde-format
 msgid "Enter keyword here"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideImageButton)
-#: tools/imagingplanner.ui:2331
+#: tools/imagingplanner.ui:2343
 #, kde-format
 msgid "Minimize the image section"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
-#: tools/imagingplanner.ui:2357 tools/imagingplanner.ui:2544
+#: tools/imagingplanner.ui:2369 tools/imagingplanner.ui:2556
 #, fuzzy, kde-format
 #| msgid "Catalog Preview"
 msgid "Catalog Image"
@@ -79481,7 +79507,7 @@ msgstr "មើល​កាតាឡុក​ជាមុន"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton2)
-#: tools/imagingplanner.ui:2395 tools/imagingplanner.ui:2576
+#: tools/imagingplanner.ui:2407 tools/imagingplanner.ui:2588
 #, fuzzy, kde-format
 #| msgid "Import Catalog"
 msgid "Load a new catalog"
@@ -79489,14 +79515,14 @@ msgstr "នាំចូល​កាតាឡុក"
 
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton2)
-#: tools/imagingplanner.ui:2398 tools/imagingplanner.ui:2579
+#: tools/imagingplanner.ui:2410 tools/imagingplanner.ui:2591
 #, fuzzy, kde-format
 #| msgid "Import Catalog"
 msgid "Load Catalog"
 msgstr "នាំចូល​កាតាឡុក"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showImageButton)
-#: tools/imagingplanner.ui:2518
+#: tools/imagingplanner.ui:2530
 #, fuzzy, kde-format
 msgid "Maximize the image section"
 msgstr "រយៈទទឹង ៖"
