@@ -9,6 +9,7 @@
 #include "skypoint.h"
 #include "schedulertypes.h"
 #include "ekos/capture/sequencejob.h"
+#include "greedyscheduler.h"
 
 #include <QUrl>
 #include <QMap>
@@ -683,6 +684,23 @@ class SchedulerJob
             return m_AltitudeFormatted;
         }
 
+        void clearSimulatedSchedule()
+        {
+            m_SimulatedSchedule.clear();
+        }
+        void setSimulatedSchedule(const QList<GreedyScheduler::JobSchedule> &schedule)
+        {
+            m_SimulatedSchedule = schedule;
+        }
+        void appendSimulatedSchedule(const GreedyScheduler::JobSchedule &jobSchedule)
+        {
+            m_SimulatedSchedule.append(jobSchedule);
+        }
+        const QList<GreedyScheduler::JobSchedule> &getSimulatedSchedule() const
+        {
+            return m_SimulatedSchedule;
+        }
+
 private:
         bool runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk,
                 QDateTime *nextPossibleSuccess = nullptr) const;
@@ -797,6 +815,9 @@ private:
 
         // Used to display human-readable job progress.
         QList<JobProgress> m_Progress;
+
+        // An estimate as to when this job might run.
+        QList<GreedyScheduler::JobSchedule> m_SimulatedSchedule;
 
         // This class is used to cache the results computed in getNextPossibleStartTime()
         // which is called repeatedly by the Greedy scheduler.

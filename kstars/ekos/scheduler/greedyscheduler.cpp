@@ -549,6 +549,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         *newJob = *job;
         // clear follower job lists to avoid links to existing jobs
         newJob->followerJobs().clear();
+        newJob->clearSimulatedSchedule();
         copiedJobs.append(newJob);
         job->setStopTime(QDateTime());
     }
@@ -590,7 +591,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         // job might preempt it, why it would be preempted.
         // Note: 4th arg, fullSchedule, must be false or we'd loop forever.
         SchedulerJob *selectedJob = selectNextJob(
-                                        simJobs, simTime, nullptr, DONT_SIMULATE, &jobStartTime, &jobInterruptTime, &interruptReason);
+            simJobs, simTime, nullptr, DONT_SIMULATE, &jobStartTime, &jobInterruptTime, &interruptReason);
         if (selectedJob == nullptr)
             break;
 
@@ -763,6 +764,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
             TEST_PRINT(stderr, "%d  %s\n", __LINE__, QString("   job %1 is complete")
                        .arg(selectedJob->getName()).toLatin1().data());
         }
+        selectedJob->appendSimulatedSchedule(JobSchedule(nullptr, jobStartTime, jobStopTime, stopReason));
         schedule.append(JobSchedule(jobs[copiedJobs.indexOf(selectedJob)], jobStartTime, jobStopTime, stopReason));
         simEndTime = jobStopTime;
         simTime = jobStopTime.addSecs(60);
@@ -816,6 +818,7 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
             // Can't set the standard completionTime as it affects getEstimatedTime()
             jobs[i]->setStopTime(copiedJobs[i]->getStopTime());
             jobs[i]->setStopReason(copiedJobs[i]->getStopReason());
+            jobs[i]->setSimulatedSchedule(copiedJobs[i]->getSimulatedSchedule());
         }
     }
     // This should go after above loop. unsetEvaluation calls setState() which clears

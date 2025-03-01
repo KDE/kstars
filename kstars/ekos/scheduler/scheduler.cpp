@@ -3095,27 +3095,32 @@ void Scheduler::handleAltitudeGraph(int index)
     m_altitudeGraph->setTitle(job->getName());
     m_altitudeGraph->plot(SchedulerModuleState::getGeo(), &ksal, times, alts);
 
-    // Create a 2nd plot overlaying the first, that is the first interval that the job is scheduled to run.
-    auto startTime = (job->getState() == SCHEDJOB_BUSY) ? job->getStateTime() : job->getStartupTime();
-    if (startTime.isValid() && startTime < plotEnd && job->getStopTime().isValid())
+    // Create additional plots overlaying the first, that are the intervals that the job is scheduled to run.
+    for (const auto &jobSchedule : job->getSimulatedSchedule())
     {
-        auto stopTime = job->getStopTime();
-        if (startTime < plotStart) startTime = plotStart;
-        if (stopTime > plotEnd)
-            stopTime = plotEnd;
-
-        QVector<double> runTimes, runAlts;
-        auto t = startTime;
-        while (t.secsTo(stopTime) > 0)
+        auto startTime = jobSchedule.startTime;
+        auto stopTime = jobSchedule.stopTime;
+        if (startTime.isValid() && startTime < plotEnd && stopTime.isValid() && stopTime > plotStart)
         {
-            double alt = SchedulerUtils::findAltitude(job->getTargetCoords(), t);
-            runAlts.push_back(alt);
-            double hour = midnight.secsTo(t) / 3600.0;
-            runTimes.push_back(hour);
-            t = t.addSecs(60 * 10);
-        }
+            if (startTime < plotStart) startTime = plotStart;
+            if (stopTime > plotEnd)
+                stopTime = plotEnd;
 
-        m_altitudeGraph->plot(SchedulerModuleState::getGeo(), &ksal, runTimes, runAlts, true);
+            QVector<double> runTimes, runAlts;
+            auto t = startTime;
+            while (t.secsTo(stopTime) >= 0)
+            {
+                double alt = SchedulerUtils::findAltitude(job->getTargetCoords(), t);
+                runAlts.push_back(alt);
+                double hour = midnight.secsTo(t) / 3600.0;
+                runTimes.push_back(hour);
+                int secsToStop = t.secsTo(stopTime);
+                if (secsToStop <= 0) break;
+                t = t.addSecs(std::min(60 * 1, secsToStop)); 
+            }
+
+            m_altitudeGraph->plot(SchedulerModuleState::getGeo(), &ksal, runTimes, runAlts, true);
+        }
     }
     m_altitudeGraph->show();
 }
