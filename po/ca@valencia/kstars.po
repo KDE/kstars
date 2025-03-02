@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 02:05+0000\n"
-"PO-Revision-Date: 2025-02-27 19:55+0100\n"
+"PO-Revision-Date: 2025-03-01 20:09+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -29213,10 +29213,9 @@ msgstr "Perfil de dispositiu d'Ekos."
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyMountTargetB)
 #: ekos/scheduler/scheduler.ui:656
-#, fuzzy, kde-format
-#| msgid "Update coordinates to the current telescope position"
+#, kde-format
 msgid "Fill coordinates with current mount position."
-msgstr "Actualitza les coordenades a la posició actual del telescopi."
+msgstr "Emplena les coordenades amb la posició actual de la muntura."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, trainLabel)
 #: ekos/scheduler/scheduler.ui:671
@@ -31490,7 +31489,7 @@ msgstr "Mida de la coordenada major de l'objecte en minuts d'arc"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
-msgstr "Guardada de FITS"
+msgstr "Guardeu FITS"
 
 #: fitsviewer/fitstab.cpp:1002
 #, kde-format
@@ -31975,7 +31974,8 @@ msgid ""
 "instead of a dedicated window to each camera."
 msgstr ""
 "Mostra les imatges FITS capturades per totes les càmeres en una única "
-"finestra del visor, en lloc d'una finestra dedicada per a cada càmera."
+"finestra del visor de FITS, en lloc d'una finestra dedicada per a cada "
+"càmera."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowCapturedFITS)
 #: fitsviewer/opsfits.ui:86
@@ -31990,8 +31990,8 @@ msgid ""
 "Display opened FITS images in a single FITS Viewer window instead of a "
 "dedicated window to each file."
 msgstr ""
-"Mostra les imatges FITS obertes en una única finestra del visor en lloc "
-"d'una finestra dedicada per a cada fitxer."
+"Mostra les imatges FITS obertes en una única finestra del visor de FITS en "
+"lloc d'una finestra dedicada per a cada fitxer."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowOpenedFITS)
 #: fitsviewer/opsfits.ui:102
@@ -38735,8 +38735,9 @@ msgid ""
 "Display all captured FITS images in a single FITS Viewer window. By default "
 "each camera create its own FITS Viewer instance"
 msgstr ""
-"Mostra totes les imatges FITS capturades en una única finestra del visor. De "
-"manera predeterminada, cada càmera crearà la seua pròpia instància del visor."
+"Mostra totes les imatges FITS capturades en una única finestra del visor de "
+"FITS. De manera predeterminada, cada càmera crearà la seua pròpia instància "
+"del visor de FITS."
 
 #. i18n: ectx: label, entry (singleWindowOpenedFITS), group (FITSViewer)
 #: kstars.kcfg:1671
@@ -38748,7 +38749,9 @@ msgstr "Voleu que es mostren totes les FITS obertes en una finestra?"
 #: kstars.kcfg:1672
 #, kde-format
 msgid "Display all opened FITS images in a single FITS Viewer window."
-msgstr "Mostra totes les imatges FITS obertes en una única finestra del visor."
+msgstr ""
+"Mostra totes les imatges FITS obertes en una única finestra del visor de "
+"FITS."
 
 #. i18n: ectx: whatsthis, entry (focusFITSOnNewImage), group (FITSViewer)
 #: kstars.kcfg:1676
@@ -84174,21 +84177,19 @@ msgid "Load a Catalog."
 msgstr "Carrega un catàleg."
 
 #: tools/imagingplanner.cpp:2535
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr ""
-"Es busca al lloc web en línia del professor Seligman per a les imatges NGC/"
-"IC."
+"Es busca en el lloc web en línia del professor Seligman per a les imatges "
+"NGC."
 
 #: tools/imagingplanner.cpp:2540
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
 msgstr ""
-"Es busca al lloc web en línia del professor Seligman per a les imatges NGC/"
-"IC."
+"Es busca en el lloc web en línia del professor Seligman per a informació "
+"sobre els objectes IC."
 
 #: tools/imagingplanner.cpp:2546
 #, kde-format
@@ -84196,16 +84197,22 @@ msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
+"Es busca en el lloc en línia galaxymap.org per a informació sobre els "
+"objectes Sharpless2."
 
 #: tools/imagingplanner.cpp:2552
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
+"Es busca en el lloc en línia de la NASA per a informació sobre els objectes "
+"Messier."
 
 #: tools/imagingplanner.cpp:2556
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
+"Es busca en el lloc en línia de l'Emil Ivanov per a informació sobre els "
+"objectes VDB."
 
 #: tools/imagingplanner.cpp:2705
 #, kde-format
@@ -84623,8 +84630,8 @@ msgstr "Wikipedia"
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC/IC images."
 msgstr ""
-"Es busca al lloc web en línia del professor Seligman per a les imatges NGC/"
-"IC."
+"Es busca en el lloc web en línia del professor Seligman per a les imatges "
+"NGC/IC."
 
 #. i18n: ectx: property (text), widget (QPushButton, searchSpecialWebPageImages)
 #. i18n: ectx: property (text), widget (QPushButton, searchSpecialWebPageImages2)
@@ -89764,10 +89771,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-# skip-rule: punctuation-period-no
-#~ msgid "Target coordinates in J2000 Epoch"
-#~ msgstr "Coordenades de l'objectiu en l'època J2000."
-
-#~ msgid "J2000:"
-#~ msgstr "J2000:"

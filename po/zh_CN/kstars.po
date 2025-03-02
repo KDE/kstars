@@ -27385,10 +27385,9 @@ msgstr "Ekos 设备配置文件"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyMountTargetB)
 #: ekos/scheduler/scheduler.ui:656
-#, fuzzy, kde-format
-#| msgid "Update coordinates to the current telescope position"
+#, kde-format
 msgid "Fill coordinates with current mount position."
-msgstr "更新坐标至望远镜当前指向"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, trainLabel)
 #: ekos/scheduler/scheduler.ui:671
@@ -85439,9 +85438,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Target coordinates in J2000 Epoch"
-#~ msgstr "目标坐标使用 J2000 历元"
-
-#~ msgid "J2000:"
-#~ msgstr "J2000:"

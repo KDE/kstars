@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 02:05+0000\n"
-"PO-Revision-Date: 2025-02-27 08:25+0200\n"
+"PO-Revision-Date: 2025-03-01 09:08+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -28780,10 +28780,9 @@ msgstr "Профіль пристроїв Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyMountTargetB)
 #: ekos/scheduler/scheduler.ui:656
-#, fuzzy, kde-format
-#| msgid "Update coordinates to the current telescope position"
+#, kde-format
 msgid "Fill coordinates with current mount position."
-msgstr "Оновити координати поточного розташування телескопа."
+msgstr "Заповнити поля координат за поточним розташуванням лафета."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, trainLabel)
 #: ekos/scheduler/scheduler.ui:671
@@ -83186,17 +83185,17 @@ msgid "Load a Catalog."
 msgstr "Завантажити каталог."
 
 #: tools/imagingplanner.cpp:2535
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
-msgstr "Шукати зображення NGC/IC на сайті професора Селіджмена."
+msgstr "Шукати зображення NGC на сайті професора Селіджмена."
 
 #: tools/imagingplanner.cpp:2540
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
-msgstr "Шукати зображення NGC/IC на сайті професора Селіджмена."
+msgstr ""
+"Виконати пошук на сайті професора Селіджмена відомостей щодо об'єктів "
+"каталогу IC."
 
 #: tools/imagingplanner.cpp:2546
 #, kde-format
@@ -83204,16 +83203,17 @@ msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
+"Виконати пошук на сайті galaxymap.org щодо відомостей об'єктів Sharpless2."
 
 #: tools/imagingplanner.cpp:2552
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
-msgstr ""
+msgstr "Виконати пошук на сайті NASA відомостей щодо об'єктів каталогу Месьє."
 
 #: tools/imagingplanner.cpp:2556
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
-msgstr ""
+msgstr "Виконати пошук на сайті Еміля Іванова відомостей щодо об'єктів VDB."
 
 #: tools/imagingplanner.cpp:2705
 #, kde-format

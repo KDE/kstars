@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 02:05+0000\n"
-"PO-Revision-Date: 2025-02-15 11:59+0100\n"
+"PO-Revision-Date: 2025-02-28 20:27+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.1\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12479,22 +12479,18 @@ msgid "Last AF Alt (°Alt)"
 msgstr "Alt dell'ultima AF (°Alt)"
 
 #: ekos/auxiliary/filtermanager.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "The altitude of the last AF solution. Updated automatically by the "
-#| "autofocus process."
+#, kde-format
 msgid ""
 "The datetime of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"L'altitudine della soluzione dell'ultima AF. Aggiornata automaticamente dal "
+"Data e ora della soluzione dell'ultima AF. Aggiornata automaticamente dal "
 "processo di messa a fuoco automatica."
 
 #: ekos/auxiliary/filtermanager.cpp:148
-#, fuzzy, kde-format
-#| msgid "Last AF Solution"
+#, kde-format
 msgid "Last AF Datetime"
-msgstr "Soluzione dell'ultima AF"
+msgstr "DataOra dell'ultima AF"
 
 #: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
@@ -17874,10 +17870,9 @@ msgid "Parking mount failed, aborting..."
 msgstr "Parcheggio della montatura non riuscito, interruzione..."
 
 #: ekos/capture/sequencejobstate.cpp:507
-#, fuzzy, kde-format
-#| msgid "Unparking dome..."
+#, kde-format
 msgid "Unparking mount..."
-msgstr "Sparcheggio della cupola..."
+msgstr "Sparcheggio della montatura..."
 
 #: ekos/capture/sequencejobstate.cpp:516
 #: ekos/scheduler/schedulerprocess.cpp:1770
@@ -19163,12 +19158,12 @@ msgstr "Richiesta avvio messa a fuoco automatica scartata - %1 in corso."
 #: ekos/focus/focus.cpp:1090
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
-msgstr ""
+msgstr "Richiesta di messa a fuoco automatica [%1] ottimizzata."
 
 #: ekos/focus/focus.cpp:1247
 #, kde-format
 msgid "Autofocus starting..."
-msgstr "Avvio della messa a fuoco..."
+msgstr "Avvio della messa a fuoco automatica..."
 
 #: ekos/focus/focus.cpp:1261
 #, kde-format
@@ -19714,31 +19709,29 @@ msgstr "Ferma il movimento del focheggiatore"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:407
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Messa a fuoco out. </p><p>Per SCT è in genere in senso "
-"orario.</p></body></html>"
+"<html><head/><body><p>Messa a fuoco out. Usa i tasti Maiusc e Ctrl per "
+"cambiare la velocità di movimento. I fattori sono configurati nelle opzioni "
+"meccaniche del focheggiatore.</p><p>Per SCT è in genere in senso orario.</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:439
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CCW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Messa a fuoco in. </p><p>Per SCT è in genere in senso "
-"antiorario.</p></body></html>"
+"<html><head/><body><p>Messa a fuoco in. Usa i tasti Maiusc e Ctrl per "
+"cambiare la velocità di movimento. I fattori sono configurati nelle opzioni "
+"meccaniche del focheggiatore.</p><p>Per SCT è in genere in senso antiorario."
+"</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
 #: ekos/focus/focus.ui:471
@@ -20721,30 +20714,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
 #: ekos/focus/opsfocusmechanics.ui:514
-#, fuzzy, kde-format
-#| msgid "Red Shift:"
+#, kde-format
 msgid "Speedup (Shift)"
-msgstr "Spostamento verso il rosso:"
+msgstr "Accelerazione (Maiusc)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
 #: ekos/focus/opsfocusmechanics.ui:521
-#, fuzzy, kde-format
-#| msgid "Speedup options"
+#, kde-format
 msgid "Speedup (Ctrl)"
-msgstr "Opzioni di accelerazione"
+msgstr "Accelerazione (Ctrl)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
 #: ekos/focus/opsfocusmechanics.ui:528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the shift key "
 "is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Numero di stelle trovate nell'ultima immagine.</p></"
-"body></html>"
+"<html><head/><body><p>Moltiplicatore per movimenti di messa a fuoco manuale "
+"quando viene premuto il tasto Maiusc.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
@@ -20759,16 +20747,13 @@ msgstr " x"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupCtrl)
 #: ekos/focus/opsfocusmechanics.ui:547
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the control "
 "key is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Numero di stelle trovate nell'ultima immagine.</p></"
-"body></html>"
+"<html><head/><body><p>Moltiplicatore per movimenti di messa a fuoco manuale "
+"quando viene premuto il tasto Ctrl.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -21664,7 +21649,7 @@ msgstr "Sospendi guida"
 #: ekos/focus/opsfocussettings.ui:248
 #, kde-format
 msgid "Optimize AF:"
-msgstr ""
+msgstr "Ottimizza messa a fuoco automatica:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOptimize)
 #: ekos/focus/opsfocussettings.ui:261
@@ -21681,6 +21666,19 @@ msgid ""
 "experimental feature enabled for Linear and Linear 1 Pass only.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Crea una &quot;zona di ottimizzazione&quot; di questo "
+"numero di secondi. Quando viene richiesta l'esecuzione di una Messa a fuoco "
+"automatica automatizzata da un altro processo, per es. Pianificatore o "
+"Acquisizione, viene eseguito un controllo sulla data e ora dell'ultima messa "
+"a fuoco automatica avvenuta correttamente per quel filtro. Se si è "
+"all'interno della zona di ottimizzazione, non viene eseguita alcuna messa a "
+"fuoco automatica; se si è al di fuori della zona, la messa a fuoco "
+"automatica viene eseguita nel modo normale.</p><p>Nota che le compensazioni "
+"del filtro e le impostazioni della Messa a fuoco adattiva vengono sempre "
+"rispettate.</p><p>Imposta a zero per disabilitare questa funzionalità.</"
+"p><p>NOTA: le esecuzioni iniziate manualmente sono sempre eseguite.</p><p>Al "
+"momento questa funzionalità è sperimentale ed è abilitata soltanto per Passo "
+"lineare e Passo lineare 1.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:295
@@ -29113,35 +29111,31 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1711
-#, fuzzy, kde-format
-#| msgid "Twilight:"
+#, kde-format
 msgid "Twilight"
-msgstr "Crepuscolo:"
+msgstr "Crepuscolo"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonSeparation)
 #: ekos/scheduler/scheduler.ui:1730 ekos/scheduler/scheduler.ui:1825
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The target must be at least this far from the moon.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Cancella la cronologia dei dati del sensore</p></"
-"body></html>"
+"<html><head/><body><p>Il soggetto deve stare lontano dalla Luna almeno di "
+"questo valore.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonAltitudeMaxValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonAltitude)
 #: ekos/scheduler/scheduler.ui:1746 ekos/scheduler/scheduler.ui:1787
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The moon must be lower than this altitude.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Traccia il valore dell'angolo orario della montatura.</"
-"p></body></html>"
+"<html><head/><body><p>La luna deve essere più bassa di questa altezza.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1771
@@ -29152,17 +29146,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1774
-#, fuzzy, kde-format
-#| msgid "Min. Altitude:"
+#, kde-format
 msgid "Min. Altitude: "
-msgstr "Altezza min.:"
+msgstr "Altezza min.: "
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonAltitude)
 #: ekos/scheduler/scheduler.ui:1790
-#, fuzzy, kde-format
-#| msgid "Moon  >: "
+#, kde-format
 msgid "Moon max alt:"
-msgstr "Luna  >: "
+msgstr "Alt. max Luna:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerHorizon)
 #: ekos/scheduler/scheduler.ui:1803
@@ -29182,7 +29174,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:1828
 #, kde-format
 msgid "Moon  min. sep.:"
-msgstr ""
+msgstr "Sep. min. Luna:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerWeather)
 #: ekos/scheduler/scheduler.ui:1844
@@ -36581,14 +36573,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerMaxMoonAltitude), group (ImagingPlanner)
 #: kstars.kcfg:1010
-#, fuzzy, kde-format
-#| msgid "For imaging hours calculation, object must be above this altitude."
+#, kde-format
 msgid ""
 "For imaging hours calculation, the moon must have an altitude lower than "
 "this."
 msgstr ""
-"Per il calcolo delle ore di riprese fotografiche, l'oggetto deve essere "
-"sopra questa altezza."
+"Per il calcolo delle ore di riprese fotografiche, la Luna deve avere "
+"un'altezza inferiore a questa."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowPicked), group (ImagingPlanner)
 #: kstars.kcfg:1014
@@ -41066,11 +41057,10 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparation), group (Scheduler)
 #: kstars.kcfg:3308
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job moon separation constraints."
+#, kde-format
 msgid "Default scheduler checkbox for job moon separation constraint."
 msgstr ""
-"Casella di controllo predefinita del pianificatore per i vincoli di "
+"Casella di controllo predefinita del pianificatore per il vincolo di "
 "separazione lunare del processo."
 
 #. i18n: ectx: label, entry (SchedulerMoonSeparationValue), group (Scheduler)
@@ -41082,19 +41072,18 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitude), group (Scheduler)
 #: kstars.kcfg:3316
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job altitude constraints."
+#, kde-format
 msgid "Default scheduler checkbox for job moon altitude constraint."
 msgstr ""
-"Casella di controllo predefinita del pianificatore per i vincoli di "
-"altitudine del processo."
+"Casella di controllo predefinita del pianificatore per il vincolo di altezza "
+"lunare del processo."
 
 #. i18n: ectx: label, entry (SchedulerMoonAltitudeMaxValue), group (Scheduler)
 #: kstars.kcfg:3320
-#, fuzzy, kde-format
-#| msgid "Default scheduler job altitude constraint."
+#, kde-format
 msgid "Default scheduler job moon altitude constraint."
-msgstr "Vincolo di altitudine per il processo del pianificatore predefinito."
+msgstr ""
+"Vincolo di altezza lunare per il processo del pianificatore predefinito."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
@@ -76634,16 +76623,15 @@ msgstr "Temp. messa a fuoco:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: oal/equipmentwriter.ui:1206
-#, fuzzy, kde-format
-#| msgid "Focus alt:"
+#, kde-format
 msgid "Focus DT:"
-msgstr "Messa a fuoco Alt:"
+msgstr "Messa a fuoco DT:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
 #: oal/equipmentwriter.ui:1250
 #, kde-format
 msgid "yyyy-MM-dd hh:mm:ss"
-msgstr ""
+msgstr "aaaa-MM-gg hh:mm:ss"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1284
@@ -83600,13 +83588,15 @@ msgid ""
 "                 Catalog Development:\n"
 "              "
 msgstr ""
+"\n"
+"                 Sviluppo del catalogo:\n"
+"              "
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelDownsampleButton)
 #: tools/imagingplanner.ui:464
-#, fuzzy, kde-format
-#| msgid "downsample"
+#, kde-format
 msgid "Downsample"
-msgstr "sottocampiona"
+msgstr "Sottocampiona"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DevelDownsampleButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, DevelCheckTargetsButton)
@@ -83618,7 +83608,7 @@ msgstr "sottocampiona"
 #: tools/imagingplanner.ui:568
 #, kde-format
 msgid "For catalog development"
-msgstr ""
+msgstr "Per lo sviluppo del catalogo"
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelCheckTargetsButton)
 #: tools/imagingplanner.ui:486
@@ -83675,25 +83665,25 @@ msgstr "Inserisci le note qui"
 #: tools/imagingplanner.ui:958
 #, kde-format
 msgid "Minimize the altitude vs time graph."
-msgstr "Minimizza il grafico altitudine/tempo."
+msgstr "Minimizza il grafico altezza/tempo."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAltitudeGraphB)
 #: tools/imagingplanner.ui:1053
 #, kde-format
 msgid "Maximize the altitude vs time graph."
-msgstr "Minimizza il grafico altitudine/tempo."
+msgstr "Massimizza il grafico altezza/tempo."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HiddenAltitudeGraphLabel)
 #: tools/imagingplanner.ui:1085
 #, kde-format
 msgid "Altitude vs Time graph."
-msgstr "Grafico Altitudine/Tempo."
+msgstr "Grafico Altezza/Tempo."
 
 #. i18n: ectx: property (text), widget (QLabel, HiddenAltitudeGraphLabel)
 #: tools/imagingplanner.ui:1088
 #, kde-format
 msgid "Altitude vs Time graph"
-msgstr "Grafico Altitudine/Tempo"
+msgstr "Grafico Altezza/Tempo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useArtificialHorizon)
 #: tools/imagingplanner.ui:1128
@@ -83736,46 +83726,44 @@ msgid ""
 "least the number of degrees in the 1st box away from the moon, and the moon "
 "must be below the altitude in the 2nd box.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Per i calcoli delle ore di riprese fotografiche, "
+"l'oggetto deve stare lontano dalla luna almeno il numero di gradi indicati "
+"nel primo riquadro, e la luna deve trovarsi sotto l'altezza indicata nel "
+"secondo riquadro.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1194
-#, fuzzy, kde-format
-#| msgid "Moon"
+#, kde-format
 msgid "Moon:"
-msgstr "Luna"
+msgstr "Luna:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minMoon)
 #: tools/imagingplanner.ui:1213
-#, fuzzy, kde-format
-#| msgid ""
-#| "For imaging hours calculation, object must be at least this far from the "
-#| "moon."
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations object must be at least "
 "this far from the moon.</p></body></html>"
 msgstr ""
-"Per il calcolo delle ore di riprese fotografiche, l'oggetto deve essere "
-"stare lontano dalla Luna almeno di questo valore."
+"<html><head/><body><p>Per i calcoli delle ore di riprese fotografiche "
+"l'oggetto deve stare lontano dalla Luna almeno di questo valore.</p></body></"
+"html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minMoon)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1216 tools/imagingplanner.ui:1235
-#, fuzzy, kde-format
-#| msgid "°C"
+#, kde-format
 msgid "°"
-msgstr "°C"
+msgstr "°"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1232
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the mount's hour angle value.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations the moon must be lower "
 "than this altitude.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Traccia il valore dell'angolo orario della montatura.</"
-"p></body></html>"
+"<html><head/><body><p>Per i calcoli delle ore di riprese fotografiche la "
+"luna deve essere più bassa di questa altezza.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAstrobinDetailsButton)
 #: tools/imagingplanner.ui:1307
