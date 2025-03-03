@@ -23,17 +23,22 @@ SchedulerAltitudeGraph::SchedulerAltitudeGraph(QWidget *parent) :
 
 void SchedulerAltitudeGraph::setTitle(const QString &title)
 {
-    //setWindowTitle(title);
-    ui->label->setText(title);
+    setWindowTitle(title);
 }
 
 // If scheduledRun is true, you previously needed to call plot with it false.
 // It doesn't makes sense to call it with false after a call with it true,
 // as that would wipe out the data from the previous call.
 void SchedulerAltitudeGraph::plot(const GeoLocation *geo, KSAlmanac *ksal,
-                                  const QVector<double> &times, const QVector<double> &alts, bool scheduledRun)
+                                  const QVector<double> &times, const QVector<double> &alts)
 {
-    ui->avt->plot(geo, ksal, times, alts, scheduledRun);
+    ui->avt->plot(geo, ksal, times, alts);
+}
+
+void SchedulerAltitudeGraph::plotOverlay(const QVector<double> &times, const QVector<double> &alts, int penWidth,
+        Qt::GlobalColor color)
+{
+    ui->avt->plotOverlay(times, alts, penWidth, color);
 }
 
 SchedulerAltitudeGraph::~SchedulerAltitudeGraph()

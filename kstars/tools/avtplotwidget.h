@@ -93,7 +93,10 @@ class AVTPlotWidget : public KPlotWidget
      * @param overlay Should be false on first plot. If overlaying a 2nd plot, set to true then.
      */
     void plot(const GeoLocation *geo, KSAlmanac *ksal,
-              const QVector<double> &times, const QVector<double> &alts, bool overlay);
+              const QVector<double> &times, const QVector<double> &alts, bool overlay = false);
+
+    void plotOverlay(const QVector<double> &times, const QVector<double> &alts,
+                     int penWidth = 5, Qt::GlobalColor color = Qt::green);
 
   protected:
     /**

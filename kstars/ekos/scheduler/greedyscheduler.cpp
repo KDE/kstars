@@ -228,6 +228,8 @@ void GreedyScheduler::prepareJobsForEvaluation(
             job->setState(SCHEDJOB_COMPLETE, true);
             continue;
         }
+        TEST_PRINT(stderr, "JOB %s estimated time: %ld state %d\n", job->getName().toLatin1().data(), job->getEstimatedTime(),
+                   job->getState());
     }
 }
 
@@ -302,6 +304,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
         QDateTime *nextInterruption, QString *interruptReason,
         const QMap<QString, uint16_t> *capturedFramesCount)
 {
+    TEST_PRINT(stderr, "selectNextJob(%s)\n", now.toString().toLatin1().data());
     // Don't schedule a job that will be preempted in less than MIN_RUN_SECS.
     constexpr int MIN_RUN_SECS = 10 * 60;
 
@@ -320,18 +323,26 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
         SchedulerJob * const job = jobs[i];
         const bool evaluatingCurrentJob = (currentJob && (job == currentJob));
 
+        TEST_PRINT(stderr, " considering %s (%s)\n", job->getName().toLatin1().data(), evaluatingCurrentJob ? "evaluating" : "");
+
         if (!allowJob(job, rescheduleAbortsImmediate, rescheduleAbortsQueue, rescheduleErrors))
+        {
+            TEST_PRINT(stderr, "  not allowed\n");
             continue;
+        }
 
         // If the job state is abort or error, might have to delay the first possible start time.
         QDateTime startSearchingtAt = firstPossibleStart(
                                           job, now, rescheduleAbortsQueue, abortDelaySeconds, rescheduleErrors, errorDelaySeconds);
 
+        TEST_PRINT(stderr, "  start searching at %s\n", startSearchingtAt.toString().toLatin1().data());
         // Find the first time this job can meet all its constraints.
         // I found that passing in an "until" 4th argument actually hurt performance, as it reduces
         // the effectiveness of the cache that getNextPossibleStartTime uses.
         const QDateTime startTime = job->getNextPossibleStartTime(startSearchingtAt, SCHEDULE_RESOLUTION_MINUTES,
                                     evaluatingCurrentJob);
+        TEST_PRINT(stderr, "  startTime %s\n", startTime.toString().toLatin1().data());
+
         if (startTime.isValid())
         {
             if (nextJob == nullptr)
@@ -444,6 +455,7 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
         // - that group mnember is behind the selected job's iteration.
         if (nextJob && !nextJob->getGroup().isEmpty() && Options::greedyScheduling() && nextJob->getCompletedIterations() > 0)
         {
+            TEST_PRINT(stderr, "      Considering GROUPS (%d jobs) selected %s\n", jobs.size(), nextJob->getName().toLatin1().data());
             // Iterate through the jobs list, first finding the selected job, the looking at all jobs after that.
             bool foundSelectedJob = false;
             for (int i = 0; i < jobs.size(); ++i)
@@ -455,6 +467,11 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                     continue;
                 }
 
+                TEST_PRINT(stderr, "        Job %s (group %s) %s (%d vs %d iterations) %s\n",
+                           job->getName().toLatin1().data(),  (job->getGroup() != nextJob->getGroup()) ? "Different" : "Same",
+                           foundSelectedJob ? "Found" : "not found yet",
+                           job->getCompletedIterations(), nextJob->getCompletedIterations(),
+                           allowJob(job, rescheduleAbortsImmediate, rescheduleAbortsQueue, rescheduleErrors) ? "allowed" : "not allowed");
                 // Only jobs with lower priority than nextJob--higher priority jobs already have been considered and rejected.
                 // Only consider jobs in the same group as nextJob
                 // Only consider jobs with fewer iterations than nextJob.
@@ -590,8 +607,8 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         // Find the next job to be scheduled, when it starts, and when a higher priority
         // job might preempt it, why it would be preempted.
         // Note: 4th arg, fullSchedule, must be false or we'd loop forever.
-        SchedulerJob *selectedJob = selectNextJob(
-            simJobs, simTime, nullptr, DONT_SIMULATE, &jobStartTime, &jobInterruptTime, &interruptReason);
+        SchedulerJob *selectedJob =
+            selectNextJob(simJobs, simTime, nullptr, DONT_SIMULATE, &jobStartTime, &jobInterruptTime, &interruptReason);
         if (selectedJob == nullptr)
             break;
 
@@ -623,7 +640,10 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         if (nextStartAtTime.isValid() &&
                 (!constraintStopTime.isValid() ||
                  nextStartAtTime.secsTo(constraintStopTime) < 0))
+        {
             constraintStopTime = nextStartAtTime;
+            TEST_PRINT(stderr, "%d   %s\n", __LINE__, QString("  job will be interrupted by a START_AT job").toLatin1().data());
+        }
 
         QString constraintReason;
         // Get the time that this next job would fail its constraints, and a human-readable explanation.
@@ -635,6 +655,8 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         TEST_PRINT(stderr, "%d   %s\n", __LINE__,     QString("  constraint \"%1\" reason \"%2\"")
                    .arg(jobConstraintTime.toString("MM/dd hh:mm")).arg(constraintReason).toLatin1().data());
         QDateTime jobCompletionTime;
+        TEST_PRINT(stderr, "%d   %s\n", __LINE__,
+                   QString("  estimated time = %1").arg(selectedJob->getEstimatedTime()).toLatin1().data());
         if (selectedJob->getEstimatedTime() > 0)
         {
             // Estimate when the job might complete, if it was allowed to run without interruption.
@@ -678,8 +700,15 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
             int secsLeftThisRepeat = (workDone[selectedJob] < leftThisRepeat) ?
                                      leftThisRepeat - workDone[selectedJob] : secsPerRepeat;
 
+            TEST_PRINT(stderr, "%d   %s\n", __LINE__, QString("  sec per repeat %1 sec left this repeat %2")
+                       .arg(secsPerRepeat).arg(secsLeftThisRepeat).toLatin1().data());
+
             if (workDone[selectedJob] == 0)
+            {
                 secsLeftThisRepeat += selectedJob->getEstimatedStartupTime();
+                TEST_PRINT(stderr, "%d   %s\n", __LINE__, QString("  adding %1 to secsLeftThisRepeat")
+                           .arg(selectedJob->getEstimatedStartupTime()).arg(secsLeftThisRepeat).toLatin1().data());
+            }
 
             // If it would finish a repeat, run one repeat and see if it would still be scheduled.
             if (secsLeftThisRepeat > 0 &&
@@ -751,8 +780,8 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
         else
         {
             TEST_PRINT(stderr, "%d  %s\n", __LINE__, QString("  Added: %1 %2 -> %3 %4 work done %5s")
-                       .arg(selectedJob->getName()).arg(selectedJob->getStartupTime().toString("MM/dd hh:mm"))
-                       .arg(selectedJob->getStopTime().toString("MM/dd hh:mm")).arg(selectedJob->getStopReason())
+                       .arg(selectedJob->getName()).arg(jobStartTime.toString("MM/dd hh:mm"))
+                       .arg(jobStopTime.toString("MM/dd hh:mm")).arg(stopReason)
                        .arg(workDone[selectedJob]).toLatin1().data());
         }
 

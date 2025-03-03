@@ -29,7 +29,8 @@ class SchedulerAltitudeGraph : public QDialog
         ~SchedulerAltitudeGraph();
 
     void plot(const GeoLocation *geo, KSAlmanac *ksal,
-              const QVector<double> &times, const QVector<double> &alts, bool scheduledRun = false);
+              const QVector<double> &times, const QVector<double> &alts);
+    void plotOverlay(const QVector<double> &times, const QVector<double> &alts, int penWidth = 5, Qt::GlobalColor = Qt::green);
     void setTitle(const QString &name);
 
     private:

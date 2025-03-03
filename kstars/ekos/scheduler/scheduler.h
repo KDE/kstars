@@ -599,5 +599,6 @@ class Scheduler : public QWidget, public Ui::Scheduler
         // Altitude Graph
         QPointer<SchedulerAltitudeGraph> m_altitudeGraph;
         void handleAltitudeGraph(int index);
+        void handleAltitudeGraphs();
 };
 }

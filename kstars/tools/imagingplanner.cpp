@@ -2479,7 +2479,7 @@ void ImagingPlanner::popupAstrobin(const QString &target)
         QDesktopServices::openUrl(url);
 }
 
-// Returns true if the url will result in a successful get, 
+// Returns true if the url will result in a successful get.
 // Times out after 3 seconds.
 // Used for the special search button because some of the object
 // web pages for vdb don't exist.
@@ -2551,7 +2551,8 @@ void ImagingPlanner::adjustSpecialWebPageButton(const QString &name)
         label = "Messier";
         toolTip = i18n("Search Nasa's online site for information about Messier objects..");
     }
-    else if (name.startsWith("vdb", Qt::CaseInsensitive)) {
+    else if (name.startsWith("vdb", Qt::CaseInsensitive))
+    {
         catalog = "vdb";
         toolTip = i18n("Search Emil Ivanov's online site for information about VDB objects.");
     }
@@ -3131,7 +3132,7 @@ void ImagingPlanner::plotAltitudeGraph(const QDate &date, const dms &ra, const d
         t = t.addSecs(60 * 10);
     }
 
-    altitudeGraph->plot(getGeo(), &ksal, times, alts, false);
+    altitudeGraph->plot(getGeo(), &ksal, times, alts);
 
     for (int i = 0; i < jobStartTimes.size(); ++i)
     {
@@ -3157,7 +3158,7 @@ void ImagingPlanner::plotAltitudeGraph(const QDate &date, const dms &ra, const d
             runTimes.push_back(hour);
             t = t.addSecs(60 * 10);
         }
-        altitudeGraph->plot(getGeo(), &ksal, runTimes, runAlts, true);
+        altitudeGraph->plotOverlay(runTimes, runAlts);
     }
 }
 

@@ -439,6 +439,23 @@ void AVTPlotWidget::plot(const GeoLocation *geo, KSAlmanac *ksal,
     update();
 }
 
+void AVTPlotWidget::plotOverlay(const QVector<double> &times, const QVector<double> &alts, int penWidth,
+                                Qt::GlobalColor color)
+{
+    KPlotObject *po = new KPlotObject(Qt::white, KPlotObject::Lines, 2);
+
+    QPen pen;
+    pen.setWidth(penWidth);
+    pen.setColor(color);
+    po->setLinePen(pen);
+
+    for (int i = 0; i < times.size(); ++i)
+        po->addPoint(times[i], alts[i]);
+    addPlotObject(po);
+
+    update();
+}
+
 void AVTPlotWidget::setAltitudeAxis(double min, double max)
 {
     if (min < max)
