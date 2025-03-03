@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-01 02:05+0000\n"
-"PO-Revision-Date: 2025-02-28 07:09+0100\n"
+"PO-Revision-Date: 2025-03-02 09:12+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -387,7 +387,7 @@ msgstr "A imaxe gardouse en %1."
 #: tools/scriptbuilder.cpp:920
 #, kde-format
 msgid "Could not upload image to remote location: %1"
-msgstr "Non foi posíbel enviar a imaxe á localización remota: %1"
+msgstr "Non foi posíbel subir a imaxe á localización remota: %1"
 
 #: auxiliary/imageexporter.cpp:236
 #, kde-format
@@ -15312,7 +15312,7 @@ msgid ""
 "where the remote images are saved to. By default, all captured images are "
 "saved <span style=\" font-style:italic;\">Locally</span>.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccionar como enviar as imaxes capturadas:</p><ol "
+"<html><head/><body><p>Seleccionar como subir as imaxes capturadas:</p><ol "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
 "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
@@ -19075,6 +19075,7 @@ msgstr ""
 "Descartouse a solicitude de inicio de enfoque automático. Hai un %1 en "
 "marcha."
 
+# skip-rule: trasno-remove_reverse
 #: ekos/focus/focus.cpp:1090
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
@@ -28680,10 +28681,9 @@ msgstr "Perfil de dispositivo de Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyMountTargetB)
 #: ekos/scheduler/scheduler.ui:656
-#, fuzzy, kde-format
-#| msgid "Update coordinates to the current telescope position"
+#, kde-format
 msgid "Fill coordinates with current mount position."
-msgstr "Actualizar as coordenadas para a posición actual do telescopio"
+msgstr "Encher as coordenadas da posición actual da montura."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, trainLabel)
 #: ekos/scheduler/scheduler.ui:671
@@ -40045,7 +40045,7 @@ msgid ""
 "Use JPEG format, instead of FITS, to upload images to the astrometry.net "
 "online service."
 msgstr ""
-"Usar o formato JPEG (en vez de FITS) para enviar imaxes ao servizo en "
+"Usar o formato JPEG (en vez de FITS) para subir imaxes ao servizo en "
 "Internet astrometry.net."
 
 #. i18n: ectx: label, entry (AstrometryTimeout), group (Align)
@@ -78880,7 +78880,7 @@ msgstr "Navegador de instantáneas de campo de visión"
 #: tools/scriptbuilder.cpp:921
 #, kde-format
 msgid "Could not upload file"
-msgstr "Non foi posíbel enviar o ficheiro"
+msgstr "Non foi posíbel subir o ficheiro"
 
 #: printing/foveditordialog.cpp:247
 #, kde-format
@@ -79417,7 +79417,7 @@ msgstr "Exportar"
 #: printing/pwizprint.cpp:126
 #, kde-format
 msgid "Could not upload file to remote location: %1"
-msgstr "Non foi posíbel enviar o ficheiro á localización remota: %1"
+msgstr "Non foi posíbel subir o ficheiro á localización remota: %1"
 
 #. i18n: ectx: property (text), widget (QLabel, stepTitle)
 #: printing/pwizprint.ui:77
@@ -83094,17 +83094,15 @@ msgid "Load a Catalog."
 msgstr "Gardar un catálogo."
 
 #: tools/imagingplanner.cpp:2535
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
-msgstr "Buscar imaxes NGC ou IC no sitio web do profesor Seligman."
+msgstr "Buscar imaxes NGC no sitio web do profesor Seligman."
 
 #: tools/imagingplanner.cpp:2540
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
-msgstr "Buscar imaxes NGC ou IC no sitio web do profesor Seligman."
+msgstr "Buscar información sobre obxectos no sitio web do profesor Seligman."
 
 #: tools/imagingplanner.cpp:2546
 #, kde-format
@@ -83112,16 +83110,17 @@ msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
+"Buscar información sobre obxectos de Shaprless2 no sitio web galaxymap.org."
 
 #: tools/imagingplanner.cpp:2552
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
-msgstr ""
+msgstr "Buscar información sobre obxectos de Messier no sitio web da Nasa."
 
 #: tools/imagingplanner.cpp:2556
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
-msgstr ""
+msgstr "Buscar información sobre obxectos de VDB no sitio web de Emil Ivanov."
 
 #: tools/imagingplanner.cpp:2705
 #, kde-format
