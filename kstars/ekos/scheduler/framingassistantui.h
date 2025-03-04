@@ -68,6 +68,11 @@ class FramingAssistantUI : public QDialog
          */
         void goAndSolve();
 
+        /**
+         * @brief goAndRotate Set position angle then go and solve.
+         */
+        void goAndRotate();
+
         void createJobs();
         // Select sequence file
         void selectSequence();

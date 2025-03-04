@@ -84,6 +84,7 @@ class Align : public QWidget, public Ui::Align
         Q_PROPERTY(QString filterWheel READ filterWheel)
         Q_PROPERTY(QString filter READ filter WRITE setFilter)
         Q_PROPERTY(double exposure READ exposure WRITE setExposure)
+        Q_PROPERTY(double targetPositionAngle MEMBER m_TargetPositionAngle)
         Q_PROPERTY(QList<double> fov READ fov)
         Q_PROPERTY(QList<double> cameraInfo READ cameraInfo)
         Q_PROPERTY(QList<double> telescopeInfo READ telescopeInfo)

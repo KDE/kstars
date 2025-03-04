@@ -98,6 +98,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     if (Ekos::Manager::Instance()->ekosStatus() == Ekos::Success)
     {
         ui->goSolveB->setEnabled(true);
+        ui->goRotateB->setEnabled(true);
         connect(Ekos::Manager::Instance()->mountModule(), &Ekos::Mount::newStatus, this, &Ekos::FramingAssistantUI::setMountState,
                 Qt::UniqueConnection);
         connect(Ekos::Manager::Instance()->alignModule(), &Ekos::Align::newStatus, this, &Ekos::FramingAssistantUI::setAlignState,
@@ -106,6 +107,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
     connect(Ekos::Manager::Instance(), &Ekos::Manager::ekosStatusChanged, this, [this](Ekos::CommunicationStatus status)
     {
         ui->goSolveB->setEnabled(status == Ekos::Success);
+        ui->goRotateB->setEnabled(status == Ekos::Success);
 
         // GO AND SOLVE
         if (status == Ekos::Success)
@@ -117,6 +119,7 @@ FramingAssistantUI::FramingAssistantUI(): QDialog(KStars::Instance()), ui(new Ui
         }
     });
     connect(ui->goSolveB, &QPushButton::clicked, this, &Ekos::FramingAssistantUI::goAndSolve);
+    connect(ui->goRotateB, &QPushButton::clicked, this, &Ekos::FramingAssistantUI::goAndRotate);
 
     // Import
     connect(ui->importB, &QPushButton::clicked, this, &Ekos::FramingAssistantUI::selectImport);
@@ -569,6 +572,7 @@ void FramingAssistantUI::goAndSolve()
     {
         m_GOTOSolvePending = false;
         ui->goSolveB->setStyleSheet("border: 1px outset yellow");
+        ui->goRotateB->setStyleSheet("border: 1px outset yellow");
         Ekos::Manager::Instance()->alignModule()->captureAndSolve();
     }
     // Otherwise, initiate GOTO
@@ -577,8 +581,15 @@ void FramingAssistantUI::goAndSolve()
         Ekos::Manager::Instance()->alignModule()->setSolverAction(Ekos::Align::GOTO_SLEW);
         Ekos::Manager::Instance()->mountModule()->gotoTarget(m_CenterPoint);
         ui->goSolveB->setStyleSheet("border: 1px outset magenta");
+        ui->goRotateB->setStyleSheet("border: 1px outset magenta");
         m_GOTOSolvePending = true;
     }
+}
+
+void FramingAssistantUI::goAndRotate()
+{
+    Ekos::Manager::Instance()->alignModule()->setProperty("targetPositionAngle", ui->positionAngleSpin->value());
+    goAndSolve();
 }
 
 void FramingAssistantUI::createJobs()
@@ -676,6 +687,7 @@ void FramingAssistantUI::setMountState(ISD::Mount::Status value)
     {
         m_GOTOSolvePending = false;
         ui->goSolveB->setStyleSheet("border: 1px outset yellow");
+        ui->goRotateB->setStyleSheet("border: 1px outset yellow");
         Ekos::Manager::Instance()->alignModule()->captureAndSolve();
     }
 }
@@ -685,9 +697,15 @@ void FramingAssistantUI::setAlignState(AlignState value)
     m_AlignState = value;
 
     if (m_AlignState == Ekos::ALIGN_COMPLETE)
+    {
         ui->goSolveB->setStyleSheet("border: 1px outset green");
+        ui->goRotateB->setStyleSheet("border: 1px outset green");
+    }
     else if (m_AlignState == Ekos::ALIGN_ABORTED || m_AlignState == Ekos::ALIGN_FAILED)
+    {
         ui->goSolveB->setStyleSheet("border: 1px outset red");
+        ui->goRotateB->setStyleSheet("border: 1px outset red");
+    }
 }
 
 void FramingAssistantUI::selectSequence()
