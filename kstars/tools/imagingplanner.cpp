@@ -1771,7 +1771,7 @@ bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject *
     if (objs.size() == 0)
         return false;
 
-    // If there is more than one match, see if there's an exact match in name, name2, or longname.
+    // If there's a match, see if there's an exact match in name, name2, or longname.
     *catObject = objs.front();
     if (objs.size() >= 1)
     {
@@ -1780,13 +1780,18 @@ bool ImagingPlanner::getKStarsCatalogObject(const QString &name, CatalogObject *
         addSpace.append(" ");
         QString addComma = filteredName;
         addComma.append(",");
+        QString sh2Fix = filteredName;
+        sh2Fix.replace(QRegularExpression("sh2 ", QRegularExpression::CaseInsensitiveOption), "sh2-");
         for (const auto &obj : objs)
         {
             if ((filteredName.compare(obj.name(), Qt::CaseInsensitive) == 0) ||
                     (filteredName.compare(obj.name2(), Qt::CaseInsensitive) == 0) ||
                     obj.longname().contains(addSpace, Qt::CaseInsensitive) ||
                     obj.longname().contains(addComma, Qt::CaseInsensitive) ||
-                    obj.longname().endsWith(filteredName, Qt::CaseInsensitive))
+                    obj.longname().endsWith(filteredName, Qt::CaseInsensitive) ||
+                    (sh2Fix.compare(obj.name(), Qt::CaseInsensitive) == 0) ||
+                    (sh2Fix.compare(obj.name2(), Qt::CaseInsensitive) == 0)
+               )
             {
                 *catObject = obj;
                 foundIt = true;
@@ -3722,8 +3727,9 @@ CatalogImageInfo::CatalogImageInfo(const QString &csv)
 //                    last one is Attribution Non-Commercial hare-Alike Creative Commons
 // Currently ID is mandatory, if there is an image filename, then Author,Link,and License
 //   are also required, though could be blank.
-// Comment lines start with #
-// Can include another catalog with "LoadCatalog FILENAME"
+// - Comment lines start with #
+// - Can include another catalog with "LoadCatalog FILENAME"
+// - Can request loading a provided KStars DSO catalog with "LoadDSOCatalog FILENAME"
 void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
 {
     QFile inputFile(path);
@@ -3781,6 +3787,32 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
                     }
                     if (catFullPath != path)
                         loadCatalogFromFile(catFullPath, false);
+                }
+                continue;
+            }
+            if (info.m_Name.startsWith("LoadDSOCatalog"))
+            {
+                // This line isn't a normal entry, but rather points to a DSO catalog
+                // (that is, a standard KStars sky-object catalog)
+                // which may be helpful to avoid a lot fetching of coordinates from online sources.
+                QRegularExpression re("^LoadDSOCatalog\\s+(\\S+)", QRegularExpression::CaseInsensitiveOption);
+                auto match = re.match(info.m_Name);
+                if (match.hasMatch())
+                {
+                    QString catFilename = match.captured(1);
+                    if (catFilename.isEmpty()) continue;
+                    QFileInfo info(catFilename);
+
+                    QString catFullPath = catFilename;
+                    if (!info.isAbsolute())
+                    {
+                        QString catDir = QFileInfo(path).absolutePath();
+                        catFullPath = QString("%1%2%3").arg(catDir)
+                                      .arg(QDir::separator()).arg(match.captured(1));
+                    }
+                    std::pair<bool, QString> out = m_manager.import_catalog(catFullPath, false);
+                    DPRINTF(stderr, "Load of KStars catalog %s %s%s\n", catFullPath.toLatin1().data(),
+                            out.first ? "succeeded." : "failed: ", out.second.toLatin1().data());
                 }
                 continue;
             }
