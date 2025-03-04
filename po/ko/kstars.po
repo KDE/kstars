@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-01 02:05+0000\n"
+"POT-Creation-Date: 2025-03-04 01:54+0000\n"
 "PO-Revision-Date: 2021-06-10 01:56+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -419,7 +419,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1288
-#: ekos/scheduler/scheduler.cpp:2108
+#: ekos/scheduler/scheduler.cpp:2114
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:699
@@ -588,7 +588,7 @@ msgstr "취소"
 #: ekos/align/opsastrometryindexfiles.cpp:730 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1204 ekos/manager.cpp:1219 ekos/manager.cpp:1249
-#: ekos/scheduler/scheduler.cpp:1628 fitsviewer/solveInfo.ui:86
+#: ekos/scheduler/scheduler.cpp:1634 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:32
 #: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
 #: skycomponents/imageoverlaycomponent.cpp:529
@@ -1148,7 +1148,7 @@ msgstr "지구"
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
 #: tools/imagingplanner.cpp:1137 tools/imagingplanner.cpp:1506
-#: tools/imagingplanner.cpp:3024 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:3025 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2076,9 +2076,9 @@ msgstr "상태:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:688 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1621
-#: ekos/scheduler/scheduler.cpp:2273 ekos/scheduler/scheduler.cpp:2511
-#: ekos/scheduler/scheduler.cpp:2519 ekos/scheduler/scheduler.cpp:2529
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1627
+#: ekos/scheduler/scheduler.cpp:2279 ekos/scheduler/scheduler.cpp:2517
+#: ekos/scheduler/scheduler.cpp:2525 ekos/scheduler/scheduler.cpp:2535
 #: ekos/scheduler/scheduler.ui:1327 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
@@ -2444,8 +2444,8 @@ msgid "Check if magnitude is unknown"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1629
-#: ekos/scheduler/scheduler.cpp:2288 fitsviewer/fitshistogram.cpp:781
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1635
+#: ekos/scheduler/scheduler.cpp:2294 fitsviewer/fitshistogram.cpp:781
 #: fitsviewer/fitshistogramcommand.cpp:267 indi/indigroup.cpp:30
 #: skycomponents/constellationboundarylines.cpp:293
 #: skyobjects/skyobject.cpp:435
@@ -2695,8 +2695,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3965
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1242 ekos/capture/camera.cpp:1297
-#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:2008
-#: ekos/scheduler/scheduler.cpp:2118 fitsviewer/fitstab.cpp:1013
+#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:2014
+#: ekos/scheduler/scheduler.cpp:2124 fitsviewer/fitstab.cpp:1013
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -2717,7 +2717,7 @@ msgstr "검색하지 않음"
 msgid "Show webpage about "
 msgstr "다음의 웹 페이지 표시"
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3169
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3170
 #, kde-format
 msgid "object"
 msgstr "천체"
@@ -6809,7 +6809,7 @@ msgstr "전체 궤도 궤적 지우기"
 #: ekos/align/align.cpp:3964 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1241
 #: ekos/capture/camera.cpp:1296 ekos/guide/guidedriftgraph.cpp:478
-#: ekos/scheduler/scheduler.cpp:2007 ekos/scheduler/scheduler.cpp:2117
+#: ekos/scheduler/scheduler.cpp:2013 ekos/scheduler/scheduler.cpp:2123
 #: fitsviewer/fitstab.cpp:1012 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10498,7 +10498,7 @@ msgid "Parking"
 msgstr "Peking"
 
 #: ekos/analyze/analyze.cpp:134 ekos/analyze/analyze.cpp:153 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:2274 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:2280 indi/indimount.cpp:30
 #, fuzzy, kde-format
 #| msgid "Slew Scope"
 msgid "Slewing"
@@ -10636,7 +10636,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3468 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1627
+#: ekos/scheduler/scheduler.cpp:1633
 #, fuzzy, kde-format
 #| msgctxt "City in Manitoba Canada"
 #| msgid "Arborg"
@@ -10656,7 +10656,7 @@ msgid "Disconnected"
 msgstr "연결 끊기"
 
 #: ekos/analyze/analyze.cpp:3474 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2287
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2293
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Capturing"
@@ -10709,7 +10709,7 @@ msgstr "Caliente"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:2285
+#: ekos/scheduler/scheduler.cpp:2291
 #, fuzzy, kde-format
 #| msgid "Guides"
 msgid "Guiding"
@@ -11642,7 +11642,7 @@ msgstr "필터"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
 #: ekos/auxiliary/filtermanager.cpp:124 ekos/capture/camera.ui:2333
-#: ekos/scheduler/scheduler.cpp:442
+#: ekos/scheduler/scheduler.cpp:443
 #, kde-format
 msgid "Offset"
 msgstr ""
@@ -12868,7 +12868,7 @@ msgid "Log Ekos Alignment module activity"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
-#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:446
+#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:447
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Alignment"
@@ -14876,7 +14876,7 @@ msgstr "위치 초기화"
 msgid "Editing job #%1..."
 msgstr "링크 편집..."
 
-#: ekos/capture/camera.cpp:4023 ekos/scheduler/scheduler.cpp:1353
+#: ekos/capture/camera.cpp:4023 ekos/scheduler/scheduler.cpp:1359
 #, kde-format
 msgid "Apply job changes."
 msgstr ""
@@ -15199,7 +15199,7 @@ msgstr "관찰자"
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
 #: ekos/capture/camera.ui:1362 ekos/profileeditor.ui:721
-#: ekos/scheduler/scheduler.cpp:454
+#: ekos/scheduler/scheduler.cpp:455
 #, fuzzy, kde-format
 #| msgid "Script name:"
 msgid "Scripts"
@@ -17723,7 +17723,7 @@ msgid "In Progress"
 msgstr "진행"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1626
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1632
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Complete"
@@ -17869,7 +17869,7 @@ msgstr "기타"
 msgid "Image Received"
 msgstr "이미지 캡처"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2277
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2283
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Focusing"
@@ -17905,7 +17905,7 @@ msgstr "대상 CCD 칩 온도 설정."
 msgid "Setting Rotator"
 msgstr "별 선택"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2280
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2286
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Aligning"
@@ -17967,7 +17967,7 @@ msgstr "일괄작업 모드"
 msgid "Startup"
 msgstr "시작(&S)"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1624
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1630
 #, fuzzy, kde-format
 #| msgid "Batch Mode"
 msgid "Running"
@@ -25757,7 +25757,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2436
+#: ekos/scheduler/scheduler.cpp:2442
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Stop Scheduler"
@@ -27655,14 +27655,14 @@ msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "1"
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:779
+#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:780
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "주파수:"
 
-#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:781
+#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:782
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr ""
@@ -27952,10 +27952,11 @@ msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
 "Double click to edit a job with the left-hand fields.\n"
-"Shift click to view a job's altitude tonight."
+"Shift click to view a job's altitude tonight.\n"
+"Shift-Control click to view altitudes for all jobs"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:164
+#: ekos/scheduler/scheduler.cpp:165
 #, kde-format
 msgid ""
 "Current status of the job, managed by the Scheduler.\n"
@@ -27967,7 +27968,7 @@ msgid ""
 "were stored, including repeats."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:169
+#: ekos/scheduler/scheduler.cpp:170
 #, kde-format
 msgid ""
 "Current altitude of the target of the job.\n"
@@ -27975,7 +27976,7 @@ msgid ""
 "A setting target is indicated with an arrow going down."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:173
+#: ekos/scheduler/scheduler.cpp:174
 #, kde-format
 msgid ""
 "Startup time of the job, as estimated by the Scheduler.\n"
@@ -27983,7 +27984,7 @@ msgid ""
 "Fixed time from user or culmination time is marked with a chronometer symbol."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:177
+#: ekos/scheduler/scheduler.cpp:178
 #, kde-format
 msgid ""
 "Completion time for the job, as estimated by the Scheduler.\n"
@@ -27992,7 +27993,7 @@ msgid ""
 "before completion.\n"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:181 ekos/scheduler/scheduler.cpp:1755
+#: ekos/scheduler/scheduler.cpp:182 ekos/scheduler/scheduler.cpp:1761
 #, kde-format
 msgid ""
 "Count of captures stored for the job, based on its sequence job.\n"
@@ -28000,31 +28001,31 @@ msgid ""
 "complete the job."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:189
+#: ekos/scheduler/scheduler.cpp:190
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
 "Job properties are copied in the edition fields before removal."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:193
+#: ekos/scheduler/scheduler.cpp:194
 #, fuzzy, kde-format
 #| msgid "Clear all selected items in the list"
 msgid "Move selected job one line up in the list.\n"
 msgstr "목록에서 전체 선택된 항목 지우기"
 
-#: ekos/scheduler/scheduler.cpp:196
+#: ekos/scheduler/scheduler.cpp:197
 #, fuzzy, kde-format
 #| msgid "Clear all selected items in the list"
 msgid "Move selected job one line down in the list.\n"
 msgstr "목록에서 전체 선택된 항목 지우기"
 
-#: ekos/scheduler/scheduler.cpp:200
+#: ekos/scheduler/scheduler.cpp:201
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:204
+#: ekos/scheduler/scheduler.cpp:205
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -28035,7 +28036,7 @@ msgid ""
 "evaluates jobs."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:377 ekos/scheduler/scheduler.cpp:2234
+#: ekos/scheduler/scheduler.cpp:378 ekos/scheduler/scheduler.cpp:2240
 #: ekos/scheduler/schedulerprocess.cpp:3519
 #, kde-format
 msgid ""
@@ -28043,85 +28044,85 @@ msgid ""
 "the Greedy algorithm."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:450
+#: ekos/scheduler/scheduler.cpp:451
 #, kde-format
 msgid "Jobs"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:653
+#: ekos/scheduler/scheduler.cpp:654
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "FITS 열기..."
 
-#: ekos/scheduler/scheduler.cpp:703
+#: ekos/scheduler/scheduler.cpp:704
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:722
+#: ekos/scheduler/scheduler.cpp:723
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:755
+#: ekos/scheduler/scheduler.cpp:756
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: RA value %1 is invalid."
 msgstr "%1 은 온라인"
 
-#: ekos/scheduler/scheduler.cpp:758
+#: ekos/scheduler/scheduler.cpp:759
 #, fuzzy, kde-format
 #| msgid "%1 is online."
 msgid "Warning: DEC value %1 is invalid."
 msgstr "%1 은 온라인"
 
-#: ekos/scheduler/scheduler.cpp:789
+#: ekos/scheduler/scheduler.cpp:790
 #, fuzzy, kde-format
 #| msgid "multiple star"
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "다중성"
 
-#: ekos/scheduler/scheduler.cpp:791 ekos/scheduler/scheduler.cpp:806
+#: ekos/scheduler/scheduler.cpp:792 ekos/scheduler/scheduler.cpp:807
 #, fuzzy, kde-format
 #| msgid "Script Data"
 msgid "Script (*)"
 msgstr "스크립트 자료"
 
-#: ekos/scheduler/scheduler.cpp:804
+#: ekos/scheduler/scheduler.cpp:805
 #, fuzzy, kde-format
 #| msgid "Select a category:"
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "카테고리 선택:"
 
-#: ekos/scheduler/scheduler.cpp:870
+#: ekos/scheduler/scheduler.cpp:871
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Warning: Target name is required."
 msgstr "겉보기 좌표:"
 
-#: ekos/scheduler/scheduler.cpp:876
+#: ekos/scheduler/scheduler.cpp:877
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:883
+#: ekos/scheduler/scheduler.cpp:884
 #, fuzzy, kde-format
 #| msgid "Apparent coordinates:"
 msgid "Warning: Target coordinates are required."
 msgstr "겉보기 좌표:"
 
-#: ekos/scheduler/scheduler.cpp:1032
+#: ekos/scheduler/scheduler.cpp:1033
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
 "may consider the same storage for captures."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1040
+#: ekos/scheduler/scheduler.cpp:1041
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -28129,182 +28130,182 @@ msgid ""
 "disable option 'Remember job progress')"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1048
+#: ekos/scheduler/scheduler.cpp:1049
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1235
+#: ekos/scheduler/scheduler.cpp:1236
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1 %2 %3"
 msgstr "%1, %2 과 %3"
 
-#: ekos/scheduler/scheduler.cpp:1318
+#: ekos/scheduler/scheduler.cpp:1319
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1347
+#: ekos/scheduler/scheduler.cpp:1353
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1622
+#: ekos/scheduler/scheduler.cpp:1628
 #, kde-format
 msgid "Evaluating"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1623
+#: ekos/scheduler/scheduler.cpp:1629
 #, fuzzy, kde-format
 #| msgid "Scheduled Time"
 msgid "Scheduled"
 msgstr "예정된 시간"
 
-#: ekos/scheduler/scheduler.cpp:1625
+#: ekos/scheduler/scheduler.cpp:1631
 #, fuzzy, kde-format
 #| msgid "Invalid URL"
 msgid "Invalid"
 msgstr "부적합한 URL"
 
-#: ekos/scheduler/scheduler.cpp:1907
+#: ekos/scheduler/scheduler.cpp:1913
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler pause planned..."
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/scheduler/scheduler.cpp:1911
+#: ekos/scheduler/scheduler.cpp:1917
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Schedar"
 msgid "Resume Scheduler"
 msgstr "쉐다르(여왕의 가슴)"
 
-#: ekos/scheduler/scheduler.cpp:1926
+#: ekos/scheduler/scheduler.cpp:1932
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:1956
+#: ekos/scheduler/scheduler.cpp:1962
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler aborted."
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/scheduler/scheduler.cpp:1965
+#: ekos/scheduler/scheduler.cpp:1971
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1973 ekos/scheduler/scheduler.ui:1199
+#: ekos/scheduler/scheduler.cpp:1979 ekos/scheduler/scheduler.ui:1199
 #, fuzzy, kde-format
 #| msgid "Stars"
 msgid "Start Scheduler"
 msgstr "별"
 
-#: ekos/scheduler/scheduler.cpp:1996
+#: ekos/scheduler/scheduler.cpp:2002
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "관찰 목록"
 
-#: ekos/scheduler/scheduler.cpp:2089
+#: ekos/scheduler/scheduler.cpp:2095
 #, fuzzy, kde-format
 #| msgid "Observing List"
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "관찰 목록"
 
-#: ekos/scheduler/scheduler.cpp:2108
+#: ekos/scheduler/scheduler.cpp:2114
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to save scheduler list"
 msgstr "이미지 읽어오기 실패"
 
-#: ekos/scheduler/scheduler.cpp:2252
+#: ekos/scheduler/scheduler.cpp:2258
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
 "during daylight. This can cause irreversible damage to your equipment!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2275
+#: ekos/scheduler/scheduler.cpp:2281
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Slew complete"
 msgstr "완료됨"
 
-#: ekos/scheduler/scheduler.cpp:2279
+#: ekos/scheduler/scheduler.cpp:2285
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Focus complete"
 msgstr "완료됨"
 
-#: ekos/scheduler/scheduler.cpp:2281
+#: ekos/scheduler/scheduler.cpp:2287
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Align complete"
 msgstr "완료됨"
 
-#: ekos/scheduler/scheduler.cpp:2282
+#: ekos/scheduler/scheduler.cpp:2288
 #, fuzzy, kde-format
 #| msgid "Opposition"
 msgid "Repositioning"
 msgstr "충"
 
-#: ekos/scheduler/scheduler.cpp:2283
+#: ekos/scheduler/scheduler.cpp:2289
 #, fuzzy, kde-format
 #| msgctxt "City in Nevada USA"
 #| msgid "Caliente"
 msgid "Repositioning complete"
 msgstr "Caliente"
 
-#: ekos/scheduler/scheduler.cpp:2286
+#: ekos/scheduler/scheduler.cpp:2292
 #, fuzzy, kde-format
 #| msgid "completed"
 msgid "Guiding complete"
 msgstr "완료됨"
 
-#: ekos/scheduler/scheduler.cpp:2366
+#: ekos/scheduler/scheduler.cpp:2372
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2370
+#: ekos/scheduler/scheduler.cpp:2376
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2374
+#: ekos/scheduler/scheduler.cpp:2380
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2392
+#: ekos/scheduler/scheduler.cpp:2398
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2401
+#: ekos/scheduler/scheduler.cpp:2407
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 
-#: ekos/scheduler/scheduler.cpp:2424
+#: ekos/scheduler/scheduler.cpp:2430
 #, fuzzy, kde-format
 #| msgid "FITS file saved to %1"
 msgid "Scheduler is in sleep mode"
 msgstr "FITS 파일을 %1로 저장"
 
-#: ekos/scheduler/scheduler.cpp:2487
+#: ekos/scheduler/scheduler.cpp:2493
 #, fuzzy, kde-format
 #| msgid "Select Input Coordinates"
 msgid "Manual startup procedure completed successfully."
 msgstr "입력 좌표 선택"
 
-#: ekos/scheduler/scheduler.cpp:2491
+#: ekos/scheduler/scheduler.cpp:2497
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr ""
@@ -28970,12 +28971,6 @@ msgstr "카프(손바닥)"
 #| msgid "Altitude:"
 msgid "Altitude Graph"
 msgstr "고도:"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/scheduler/scheduleraltitudegraph.ui:32
-#, kde-format
-msgid "Altitude Graph for ZZZZZ"
-msgstr ""
 
 #: ekos/scheduler/schedulerjob.cpp:345
 #, kde-format
@@ -81849,8 +81844,8 @@ msgid "Object Set"
 msgstr "전체"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3041
-#: tools/imagingplanner.cpp:3052 tools/imagingplanner.cpp:3067
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3042
+#: tools/imagingplanner.cpp:3053 tools/imagingplanner.cpp:3068
 #, fuzzy, kde-format
 #| msgid "Transit:"
 msgid "Transit"
@@ -83087,141 +83082,141 @@ msgstr ""
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2556
+#: tools/imagingplanner.cpp:2557
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2705
+#: tools/imagingplanner.cpp:2706
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Loading Catalogs..."
 msgstr "카탈로그 읽어오기..."
 
-#: tools/imagingplanner.cpp:3030
+#: tools/imagingplanner.cpp:3031
 #, fuzzy, kde-format
 #| msgid "Transit:"
 msgid "Transits"
 msgstr "남중:"
 
-#: tools/imagingplanner.cpp:3035 tools/imagingplanner.cpp:3039
+#: tools/imagingplanner.cpp:3036 tools/imagingplanner.cpp:3040
 #, fuzzy, kde-format
 #| msgid "Sets at: %1"
 msgid "Sets at"
 msgstr "지는 시간: %1"
 
-#: tools/imagingplanner.cpp:3046 tools/imagingplanner.cpp:3050
+#: tools/imagingplanner.cpp:3047 tools/imagingplanner.cpp:3051
 #, fuzzy, kde-format
 #| msgid "Rises at: %1"
 msgid "Rises at"
 msgstr "뜨는 시간: %1"
 
-#: tools/imagingplanner.cpp:3057 tools/imagingplanner.cpp:3063
+#: tools/imagingplanner.cpp:3058 tools/imagingplanner.cpp:3064
 #, fuzzy, kde-format
 #| msgid "Rise:"
 msgid "Rises"
 msgstr "일출:"
 
-#: tools/imagingplanner.cpp:3059 tools/imagingplanner.cpp:3065
+#: tools/imagingplanner.cpp:3060 tools/imagingplanner.cpp:3066
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3171 tools/imagingplanner.cpp:3427
+#: tools/imagingplanner.cpp:3172 tools/imagingplanner.cpp:3428
 #, fuzzy, kde-format
 #| msgid "object"
 msgid "objects"
 msgstr "천체"
 
-#: tools/imagingplanner.cpp:3423
+#: tools/imagingplanner.cpp:3424
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 과 %3"
 
-#: tools/imagingplanner.cpp:3431 tools/imagingplanner.cpp:3435
+#: tools/imagingplanner.cpp:3432 tools/imagingplanner.cpp:3436
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3432 tools/imagingplanner.cpp:3437
+#: tools/imagingplanner.cpp:3433 tools/imagingplanner.cpp:3438
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3441 tools/imagingplanner.cpp:3445
+#: tools/imagingplanner.cpp:3442 tools/imagingplanner.cpp:3446
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3442 tools/imagingplanner.cpp:3447
+#: tools/imagingplanner.cpp:3443 tools/imagingplanner.cpp:3448
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3452 tools/imagingplanner.cpp:3457
+#: tools/imagingplanner.cpp:3453 tools/imagingplanner.cpp:3458
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop ignoring %1"
 msgstr "추적 중지(&T)"
 
-#: tools/imagingplanner.cpp:3453 tools/imagingplanner.cpp:3459
+#: tools/imagingplanner.cpp:3454 tools/imagingplanner.cpp:3460
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "무시"
 
-#: tools/imagingplanner.cpp:3462
+#: tools/imagingplanner.cpp:3463
 #, fuzzy, kde-format
 #| msgid "Center in Map"
 msgid "Center %1 on SkyMap"
 msgstr "천구 중앙"
 
-#: tools/imagingplanner.cpp:3601
+#: tools/imagingplanner.cpp:3602
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Successfully marked %1 objects as read"
 msgstr "INDI 서버 시작할 수 없음: 포트 오류."
 
-#: tools/imagingplanner.cpp:3603
+#: tools/imagingplanner.cpp:3604
 #, fuzzy, kde-format
 #| msgid "Input file:"
 msgid "Empty file"
 msgstr "입력 파일:"
 
-#: tools/imagingplanner.cpp:3612
+#: tools/imagingplanner.cpp:3613
 #, fuzzy, kde-format
 #| msgid "Add a name label to the object named %1."
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "이름 라벨을 %1 천체 이름에 더하기."
 
-#: tools/imagingplanner.cpp:3614
+#: tools/imagingplanner.cpp:3615
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3616
+#: tools/imagingplanner.cpp:3617
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3619
+#: tools/imagingplanner.cpp:3620
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3625 tools/imagingplanner.cpp:3828
+#: tools/imagingplanner.cpp:3626 tools/imagingplanner.cpp:3829
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr " %1 파일을 열 수 없습니다"
 
-#: tools/imagingplanner.cpp:3737
+#: tools/imagingplanner.cpp:3738
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3809
+#: tools/imagingplanner.cpp:3810
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
