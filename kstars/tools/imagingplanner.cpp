@@ -86,18 +86,14 @@ enum ColumnNames
 
 /**********************************************************
 TODO/Ideas:
-
-Filter by size
-Organize the various methods that massage object names (see sh2 and Abell).
-Log at bottom
-Imaging time constraint in hours calc
-Think about moving some or all of the filtering to menus in the column headers
-Norder download link, sort of:
-  https://indilib.org/forum/general/11766-dss-offline-hips.html?start=0
-See if I can just use UserRole or UserRole+1 for the non-display roles.
-Altitude graph has some replicated code with the scheduler
-Weird timezone stuff when setting kstars to a timezone that's not the system's timezone.
-Add a catalog name, and display it
+- Filter by size
+- Log at bottom
+- Imaging time constraint in hours calc
+- Move some or all of the filtering to menus in the column headers
+- Just use UserRole or UserRole+1 for the non-display roles.
+- Altitude graph has some replicated code with the scheduler
+- Weird timezone stuff when setting kstars to a timezone that's not the system's timezone.
+- Add a catalog name, and display it
 ***********************************************************/
 
 namespace
@@ -765,8 +761,6 @@ double getMaxAltitude(const KSAlmanac &ksal, const QDate &date, GeoLocation *geo
     auto t = start;
     t.setTimeZone(tz);
     QDateTime maxTime = t;
-
-    // 1.8 here
 
     while (t.secsTo(end) > 0)
     {
@@ -3665,7 +3659,7 @@ void ImagingPlanner::loadCatalog(const QString &path)
 {
     removeEventFilters();
 
-    // This tool seems to occassionally crash when UI interactions happen during catalog loading
+    // This tool occassionally crashed when UI interactions happen during catalog loading.
     // Don't know why, but disabling that, and re-enabling after load below.
     setEnabled(false);
     setFixedSize(this->width(), this->height());
@@ -3730,6 +3724,7 @@ CatalogImageInfo::CatalogImageInfo(const QString &csv)
 // - Comment lines start with #
 // - Can include another catalog with "LoadCatalog FILENAME"
 // - Can request loading a provided KStars DSO catalog with "LoadDSOCatalog FILENAME"
+// - Can request removing a KStars DSO catalog given its ID (presumably an old version).
 void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
 {
     QFile inputFile(path);
@@ -3747,10 +3742,10 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
     QStringList objectNames;
     if (inputFile.open(QIODevice::ReadOnly))
     {
-        auto tz = QTimeZone(getGeo()->TZ() * 3600);
-        KStarsDateTime midnight = KStarsDateTime(getDate().addDays(1), QTime(0, 1));
-        KStarsDateTime ut  = getGeo()->LTtoUT(KStarsDateTime(midnight));
-        KSAlmanac ksal(ut, getGeo());
+        const auto tz = QTimeZone(getGeo()->TZ() * 3600);
+        const KStarsDateTime midnight = KStarsDateTime(getDate().addDays(1), QTime(0, 1));
+        const KStarsDateTime ut  = getGeo()->LTtoUT(KStarsDateTime(midnight));
+        const KSAlmanac ksal(ut, getGeo());
 
         if (reset)
         {
@@ -3764,24 +3759,25 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
         while (!in.atEnd())
         {
             CatalogImageInfo info(in.readLine().trimmed());
-            if (info.m_Name.isEmpty())
+            const QString name = info.m_Name;
+            if (name.isEmpty())
                 continue;
-            if (info.m_Name.startsWith("LoadCatalog"))
+            if (name.startsWith("LoadCatalog"))
             {
                 // This line isn't a normal entry, but rather points to another catalog.
                 // Load that catalog and then skip this line.
                 QRegularExpression re("^LoadCatalog\\s+(\\S+)", QRegularExpression::CaseInsensitiveOption);
-                auto match = re.match(info.m_Name);
+                const auto match = re.match(name);
                 if (match.hasMatch())
                 {
-                    QString catFilename = match.captured(1);
+                    const QString catFilename = match.captured(1);
                     if (catFilename.isEmpty()) continue;
-                    QFileInfo info(catFilename);
+                    const QFileInfo fInfo(catFilename);
 
                     QString catFullPath = catFilename;
-                    if (!info.isAbsolute())
+                    if (!fInfo.isAbsolute())
                     {
-                        QString catDir = QFileInfo(path).absolutePath();
+                        const QString catDir = QFileInfo(path).absolutePath();
                         catFullPath = QString("%1%2%3").arg(catDir)
                                       .arg(QDir::separator()).arg(match.captured(1));
                     }
@@ -3790,23 +3786,23 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
                 }
                 continue;
             }
-            if (info.m_Name.startsWith("LoadDSOCatalog"))
+            if (name.startsWith("LoadDSOCatalog"))
             {
                 // This line isn't a normal entry, but rather points to a DSO catalog
                 // (that is, a standard KStars sky-object catalog)
                 // which may be helpful to avoid a lot fetching of coordinates from online sources.
                 QRegularExpression re("^LoadDSOCatalog\\s+(\\S+)", QRegularExpression::CaseInsensitiveOption);
-                auto match = re.match(info.m_Name);
+                const auto match = re.match(name);
                 if (match.hasMatch())
                 {
-                    QString catFilename = match.captured(1);
+                    const QString catFilename = match.captured(1);
                     if (catFilename.isEmpty()) continue;
-                    QFileInfo info(catFilename);
+                    const QFileInfo fInfo(catFilename);
 
                     QString catFullPath = catFilename;
-                    if (!info.isAbsolute())
+                    if (!fInfo.isAbsolute())
                     {
-                        QString catDir = QFileInfo(path).absolutePath();
+                        const QString catDir = QFileInfo(path).absolutePath();
                         catFullPath = QString("%1%2%3").arg(catDir)
                                       .arg(QDir::separator()).arg(match.captured(1));
                     }
@@ -3816,7 +3812,29 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
                 }
                 continue;
             }
-            objectNames.append(info.m_Name);
+            if (name.startsWith("RemoveDSOCatalog"))
+            {
+                // This line isn't a normal entry, but rather points to an ID of an old DSO catalog
+                // which presumably a current DSO Catalog replaces.
+                QRegularExpression re("^RemoveDSOCatalog\\s+(\\S+)", QRegularExpression::CaseInsensitiveOption);
+                const auto match = re.match(name);
+                if (match.hasMatch())
+                {
+                    const QString catIDstr = match.captured(1);
+                    if (catIDstr.isEmpty()) continue;
+
+                    bool ok;
+                    const int catID = catIDstr.toInt(&ok);
+                    if (ok && m_manager.catalog_exists(catID))
+                    {
+                        const std::pair<bool, QString> out = m_manager.remove_catalog(catID);
+                        DPRINTF(stderr, "Removal of out-of-date catalog %d %s%s\n", catID,
+                                out.first ? "succeeded." : "failed: ", out.second.toLatin1().data());    
+                    }                
+                }
+                continue;
+            }
+            objectNames.append(name);
             if (!info.m_Filename.isEmpty())
             {
                 numWithImage++;
@@ -3829,7 +3847,7 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
             else
             {
                 numMissingImage++;
-                DPRINTF(stderr, "No catalog image for %s\n", info.m_Name.toLatin1().data());
+                DPRINTF(stderr, "No catalog image for %s\n", name.toLatin1().data());
             }
             QCoreApplication::processEvents();
         }
@@ -3851,10 +3869,6 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
         m_numMissingImage += numMissingImage;
         DPRINTF(stderr, "Catalog %s: %d of %d have catalog images\n",
                 path.toLatin1().data(), numWithImage, numWithImage + numMissingImage);
-
-        // Clear the old maps? Probably earlier in this method:
-        // E.g. m_CatalogImageInfoMap?? n_CatalogHash???
-        // When m_CatalogHash is not cleared, then the add fails currently.
     }
     else
     {
