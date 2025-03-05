@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-04 01:54+0000\n"
+"POT-Creation-Date: 2025-03-05 02:22+0000\n"
 "PO-Revision-Date: 2006-04-24 00:45-0500\n"
 "Last-Translator: Progga <progga@BengaLinux.Org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -641,7 +641,7 @@ msgstr ""
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:643
-#: ekos/scheduler/framingassistantui.cpp:770
+#: ekos/scheduler/framingassistantui.cpp:788
 #, kde-format
 msgid "Sorry"
 msgstr ""
@@ -850,10 +850,10 @@ msgstr ""
 msgid "Cannot write %s %1: %2"
 msgstr ""
 
-#: auxiliary/ksutils.cpp:1824 ekos/scheduler/framingassistantui.cpp:183
-#: ekos/scheduler/framingassistantui.cpp:198
-#: ekos/scheduler/framingassistantui.cpp:856
-#: ekos/scheduler/framingassistantui.cpp:875 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1824 ekos/scheduler/framingassistantui.cpp:186
+#: ekos/scheduler/framingassistantui.cpp:201
+#: ekos/scheduler/framingassistantui.cpp:874
+#: ekos/scheduler/framingassistantui.cpp:893 skyobjects/ksplanetbase.h:60
 #, kde-format
 msgid "unnamed"
 msgstr "নামহীন"
@@ -1150,7 +1150,7 @@ msgstr "সৌরজগৎ‍ প্রদর্শক"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1531 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1525 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1227,8 +1227,8 @@ msgstr "পৃথিবী"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1137 tools/imagingplanner.cpp:1506
-#: tools/imagingplanner.cpp:3025 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1131 tools/imagingplanner.cpp:1500
+#: tools/imagingplanner.cpp:3024 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2831,7 +2831,7 @@ msgstr "ব্রাউজ করবে না"
 msgid "Show webpage about "
 msgstr "এই বিষয়ের ওপর ওয়েবপেজ প্রদর্শন করো - "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3170
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3169
 #, kde-format
 msgid "object"
 msgstr "বস্তু"
@@ -2962,7 +2962,7 @@ msgstr "ছবি পরিবর্তনের জন্য ক্লিক �
 msgid "Degrees"
 msgstr "এভারগ্রিন"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1137
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1131
 #, fuzzy, kde-format
 #| msgid "hour"
 msgid "Hours"
@@ -3016,7 +3016,7 @@ msgstr "টেক্সট"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1137
+#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1131
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3403,7 +3403,7 @@ msgstr "উজ্জ্বলতা"
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1134 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1137 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1131 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -8583,14 +8583,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_42)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#. i18n: ectx: property (text), widget (QLabel, cameraHFOVLabel)
-#. i18n: ectx: property (text), widget (QLabel, targetFOVHLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
+#. i18n: ectx: property (text), widget (QLabel, targetFOVHLabel)
+#. i18n: ectx: property (text), widget (QLabel, cameraHFOVLabel)
 #: ekos/align/opsastrometry.ui:105 ekos/scheduler/framingassistant.ui:190
 #: ekos/scheduler/framingassistant.ui:275
-#: ekos/scheduler/framingassistant.ui:464
-#: ekos/scheduler/framingassistant.ui:551
-#: ekos/scheduler/framingassistant.ui:703
+#: ekos/scheduler/framingassistant.ui:559
+#: ekos/scheduler/framingassistant.ui:665
+#: ekos/scheduler/framingassistant.ui:783
 #, kde-format
 msgid "H"
 msgstr ""
@@ -10737,7 +10737,7 @@ msgstr "এই ফাইলটি মোছা যায় নি: %1"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/opslogs.ui:370
 #: ekos/manager.cpp:2199 ekos/manager/focusprogresswidget.ui:101
-#: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
+#: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:289
 #: fitsviewer/fitsviewer.cpp:471
 #, kde-format
 msgid "Focus"
@@ -10746,7 +10746,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/manager.cpp:2155
-#: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:242
+#: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:242
 #: fitsviewer/fitsviewer.cpp:479
 #, fuzzy, kde-format
 #| msgid "Focused on: "
@@ -10759,7 +10759,7 @@ msgstr "ফোকাসকৃত বস্তু: "
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2281 ekos/auxiliary/opslogs.ui:120
 #: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2420
-#: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
+#: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:264
 #: fitsviewer/fitsviewer.cpp:475
 #, fuzzy, kde-format
 #| msgid "Guides"
@@ -12785,7 +12785,7 @@ msgstr "পর্যবেক্ষণ তালিকা"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:338
-#: ekos/scheduler/framingassistantui.cpp:668
+#: ekos/scheduler/framingassistantui.cpp:679
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Schedar"
@@ -18767,7 +18767,7 @@ msgstr ""
 #: ekos/focus/cfz.ui:299 ekos/focus/opsfocusprocess.ui:569
 #: ekos/focus/opsfocusprocess.ui:666 ekos/focus/opsfocussettings.ui:361
 #: ekos/focus/opsfocussettings.ui:395 ekos/focus/opsfocussettings.ui:455
-#: ekos/scheduler/framingassistant.ui:879
+#: ekos/scheduler/framingassistant.ui:449
 #, no-c-format, kde-format
 msgid " %"
 msgstr ""
@@ -19569,7 +19569,7 @@ msgstr "ছবি ধারণ করো"
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/focus/focus.ui:209 ekos/scheduler/framingassistant.ui:1281
+#: ekos/focus/focus.ui:209 ekos/scheduler/framingassistant.ui:1295
 #: ekos/scheduler/scheduler.ui:193
 #, kde-format
 msgid "Steps:"
@@ -20586,8 +20586,8 @@ msgstr "মিলযুক্ত খ-বস্তু:"
 #. i18n: ectx: property (suffix), widget (QSpinBox, mosaicWSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, mosaicHSpin)
 #: ekos/focus/opsfocusmechanics.ui:531 ekos/focus/opsfocusmechanics.ui:550
-#: ekos/scheduler/framingassistant.ui:629
-#: ekos/scheduler/framingassistant.ui:719
+#: ekos/scheduler/framingassistant.ui:530
+#: ekos/scheduler/framingassistant.ui:575
 #, fuzzy, kde-format
 #| msgid "xi"
 msgid " x"
@@ -26645,7 +26645,7 @@ msgid ""
 msgstr "কিছুই বাছাই করবে না"
 
 #: ekos/scheduler/framingassistant.cpp:538
-#: ekos/scheduler/framingassistantui.cpp:559
+#: ekos/scheduler/framingassistantui.cpp:562
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Schedar"
@@ -26655,7 +26655,7 @@ msgstr[0] "গৌতম"
 msgstr[1] "গৌতম"
 
 #: ekos/scheduler/framingassistant.cpp:540
-#: ekos/scheduler/framingassistantui.cpp:561
+#: ekos/scheduler/framingassistantui.cpp:564
 #, kde-format
 msgid " (first only)"
 msgstr ""
@@ -26722,13 +26722,13 @@ msgstr "ক্যামেরা"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, cameraWFOVLabel)
 #. i18n: ectx: property (text), widget (QLabel, targetFOVWLabel)
+#. i18n: ectx: property (text), widget (QLabel, cameraWFOVLabel)
 #: ekos/scheduler/framingassistant.ui:151
 #: ekos/scheduler/framingassistant.ui:239
-#: ekos/scheduler/framingassistant.ui:613
-#: ekos/scheduler/framingassistant.ui:770
-#: ekos/scheduler/framingassistant.ui:831
+#: ekos/scheduler/framingassistant.ui:514
+#: ekos/scheduler/framingassistant.ui:620
+#: ekos/scheduler/framingassistant.ui:732
 #: kstarslite/qml/indi/modules/MotionControl.qml:130
 #, fuzzy, kde-format, kde-kuit-format
 #| msgctxt "West"
@@ -26812,7 +26812,7 @@ msgid "Fetch"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToSelectGridB)
-#: ekos/scheduler/framingassistant.ui:350
+#: ekos/scheduler/framingassistant.ui:349
 #, kde-format
 msgid "Go to Grid Selection page"
 msgstr ""
@@ -26820,105 +26820,42 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, nextToSelectGridB)
 #. i18n: ectx: property (text), widget (QPushButton, backToSelectGrid)
 #. i18n: ectx: property (text), widget (QPushButton, backToAdjustGridB)
-#: ekos/scheduler/framingassistant.ui:353
-#: ekos/scheduler/framingassistant.ui:1129
-#: ekos/scheduler/framingassistant.ui:1669
+#: ekos/scheduler/framingassistant.ui:352
+#: ekos/scheduler/framingassistant.ui:1146
+#: ekos/scheduler/framingassistant.ui:1681
 #, fuzzy, kde-format
 msgid "Select Grid"
 msgstr "কিছুই বাছাই করবে না"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fovGroup)
-#: ekos/scheduler/framingassistant.ui:394
+#: ekos/scheduler/framingassistant.ui:392
 #, fuzzy, kde-format
 msgid "↓ Select Grid"
 msgstr "কিছুই বাছাই করবে না"
 
-#. i18n: ectx: property (whatsThis), widget (QSlider, transparencySlider)
-#: ekos/scheduler/framingassistant.ui:421
-#, fuzzy, kde-format
-#| msgid "Adjust time step"
-msgid "Adjust tiles transparency"
-msgstr "সময়-ধাপ (timestep) নির্দিষ্ট করুন"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
-#: ekos/scheduler/framingassistant.ui:440
+#. i18n: ectx: property (toolTip), widget (QLabel, overlapLabel)
+#: ekos/scheduler/framingassistant.ui:422
 #, kde-format
-msgid ""
-"Camera's rotation angle (East of North) in degrees. To measure the angle, "
-"solve an image and use the astrometry solver solution's rotation angle"
+msgid "Percentage of overlap between two neighbouring images"
 msgstr ""
 
-# FIXME
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/scheduler/framingassistant.ui:443
-#, fuzzy, kde-format
-#| msgid "Position Angle"
-msgid "Position Angle:"
-msgstr "অবস্থানসূচক কোণ"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraHFOVSpin)
-#: ekos/scheduler/framingassistant.ui:483
+#. i18n: ectx: property (text), widget (QLabel, overlapLabel)
+#: ekos/scheduler/framingassistant.ui:425
 #, kde-format
-msgid ""
-"<html><head/><body><p align=\"justify\">Field height of the camera in "
-"arcminutes.</p><p align=\"justify\">This value is computed from the "
-"equipment information, and defines the height of the field covered by one "
-"tile of the mosaic.</p></body></html>"
+msgid "Overlap:"
 msgstr ""
 
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraHFOVSpin)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetHFOVSpin)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraWFOVSpin)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetWFOVSpin)
-#: ekos/scheduler/framingassistant.ui:489
-#: ekos/scheduler/framingassistant.ui:570
-#: ekos/scheduler/framingassistant.ui:795
-#: ekos/scheduler/framingassistant.ui:850
-#, kde-format
-msgid "'"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QLabel, targetFOVLabel)
-#: ekos/scheduler/framingassistant.ui:504
-#, kde-format
-msgid ""
-"Final mosaic field of view size in arc minutes. Click update to calculate it "
-"or enter it manually."
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, targetFOVLabel)
-#: ekos/scheduler/framingassistant.ui:507
-#, kde-format
-msgid "Mosaic FOV:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, reverseOddRows)
-#: ekos/scheduler/framingassistant.ui:522
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, overlapSpin)
+#: ekos/scheduler/framingassistant.ui:446
 #, fuzzy, kde-format
 msgid ""
-"<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
-"moves minimally between jobs (S-shape).</p></body></html>"
+"<html><head/><body><p align=\"justify\">Overlap between each tile of the "
+"mosaic. See the main help icon in the corner of the sky chart.</p></body></"
+"html>"
 msgstr "মিলযুক্ত খ-বস্তু:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
-#: ekos/scheduler/framingassistant.ui:525
-#, fuzzy, kde-format
-#| msgid "Altitude:"
-msgid "Minimum mount move"
-msgstr "উন্নতি:"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetHFOVSpin)
-#: ekos/scheduler/framingassistant.ui:567
-#, kde-format
-msgid ""
-"<html><head/><body><p align=\"justify\">Minimum field height that the mosaic "
-"must cover, in arcminutes.</p><p align=\"justify\">Modifying this value "
-"immediately changes the number of tiles on the mosaic height. </p></body></"
-"html>"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/scheduler/framingassistant.ui:590
+#: ekos/scheduler/framingassistant.ui:475
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Recompute the mosaic field from the "
@@ -26926,14 +26863,28 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetB)
-#: ekos/scheduler/framingassistant.ui:593
+#: ekos/scheduler/framingassistant.ui:478
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Cover FOV"
 msgstr "কোন FOV নেই"
 
+#. i18n: ectx: property (toolTip), widget (QLabel, label)
+#. i18n: ectx: property (toolTip), widget (QLabel, label_6)
+#: ekos/scheduler/framingassistant.ui:493
+#: ekos/scheduler/framingassistant.ui:1105
+#, kde-format
+msgid "Specify the number of rows and columns of the final mosaic image"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/scheduler/framingassistant.ui:496
+#, kde-format
+msgid "Mosaic Grid:"
+msgstr ""
+
 #. i18n: ectx: property (toolTip), widget (QSpinBox, mosaicWSpin)
-#: ekos/scheduler/framingassistant.ui:626
+#: ekos/scheduler/framingassistant.ui:527
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Number of tiles on the mosaic width."
@@ -26941,40 +26892,8 @@ msgid ""
 "of the field covered by the mosaic.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QLabel, overlapLabel)
-#: ekos/scheduler/framingassistant.ui:656
-#, kde-format
-msgid "Percentage of overlap between two neighbouring images"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, overlapLabel)
-#: ekos/scheduler/framingassistant.ui:659
-#, kde-format
-msgid "Overlap:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/scheduler/framingassistant.ui:666
-#, fuzzy, kde-format
-#| msgid "Transparent"
-msgid "Tile Transparency:"
-msgstr "স্বচ্ছ"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, cameraFOVLabel)
-#: ekos/scheduler/framingassistant.ui:682
-#, kde-format
-msgid "Camera FOV in arc minutes as determined from equipment parameters above"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, cameraFOVLabel)
-#: ekos/scheduler/framingassistant.ui:685
-#, fuzzy, kde-format
-#| msgid "Camera"
-msgid "Camera FOV:"
-msgstr "ক্যামেরা"
-
 #. i18n: ectx: property (toolTip), widget (QSpinBox, mosaicHSpin)
-#: ekos/scheduler/framingassistant.ui:716
+#: ekos/scheduler/framingassistant.ui:572
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Number of tiles on the mosaic height."
@@ -26982,40 +26901,22 @@ msgid ""
 "of the field covered by the mosaic.</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label)
-#. i18n: ectx: property (toolTip), widget (QLabel, label_6)
-#: ekos/scheduler/framingassistant.ui:743
-#: ekos/scheduler/framingassistant.ui:1088
-#, kde-format
-msgid "Specify the number of rows and columns of the final mosaic image"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/scheduler/framingassistant.ui:746
-#, kde-format
-msgid "Mosaic Grid:"
-msgstr ""
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraWFOVSpin)
-#: ekos/scheduler/framingassistant.ui:789
+#. i18n: ectx: property (toolTip), widget (QLabel, targetFOVLabel)
+#: ekos/scheduler/framingassistant.ui:596
 #, kde-format
 msgid ""
-"<html><head/><body><p align=\"justify\">Field width of the camera in "
-"arcminutes.</p><p align=\"justify\">This value is computed from the "
-"equipment information, and defines the width of the field covered by one "
-"tile of the mosaic.</p></body></html>"
+"Final mosaic field of view size in arc minutes. Click update to calculate it "
+"or enter it manually."
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, transparencyAuto)
-#: ekos/scheduler/framingassistant.ui:807
-#, fuzzy, kde-format
-#| msgid "Auto"
-msgctxt "Transparency"
-msgid "Auto"
-msgstr "স্বয়ংক্রিয়"
+#. i18n: ectx: property (text), widget (QLabel, targetFOVLabel)
+#: ekos/scheduler/framingassistant.ui:599
+#, kde-format
+msgid "Mosaic FOV:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetWFOVSpin)
-#: ekos/scheduler/framingassistant.ui:847
+#: ekos/scheduler/framingassistant.ui:636
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Minimum field width that the mosaic "
@@ -27024,17 +26925,122 @@ msgid ""
 "html>"
 msgstr ""
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, overlapSpin)
-#: ekos/scheduler/framingassistant.ui:876
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetWFOVSpin)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetHFOVSpin)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraWFOVSpin)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraHFOVSpin)
+#: ekos/scheduler/framingassistant.ui:639
+#: ekos/scheduler/framingassistant.ui:684
+#: ekos/scheduler/framingassistant.ui:757
+#: ekos/scheduler/framingassistant.ui:808
+#, kde-format
+msgid "'"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetHFOVSpin)
+#: ekos/scheduler/framingassistant.ui:681
+#, kde-format
+msgid ""
+"<html><head/><body><p align=\"justify\">Minimum field height that the mosaic "
+"must cover, in arcminutes.</p><p align=\"justify\">Modifying this value "
+"immediately changes the number of tiles on the mosaic height. </p></body></"
+"html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, cameraFOVLabel)
+#: ekos/scheduler/framingassistant.ui:705
+#, kde-format
+msgid "Camera FOV in arc minutes as determined from equipment parameters above"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, cameraFOVLabel)
+#: ekos/scheduler/framingassistant.ui:708
+#, fuzzy, kde-format
+#| msgid "Camera"
+msgid "Camera FOV:"
+msgstr "ক্যামেরা"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraWFOVSpin)
+#: ekos/scheduler/framingassistant.ui:751
+#, kde-format
+msgid ""
+"<html><head/><body><p align=\"justify\">Field width of the camera in "
+"arcminutes.</p><p align=\"justify\">This value is computed from the "
+"equipment information, and defines the width of the field covered by one "
+"tile of the mosaic.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraHFOVSpin)
+#: ekos/scheduler/framingassistant.ui:802
+#, kde-format
+msgid ""
+"<html><head/><body><p align=\"justify\">Field height of the camera in "
+"arcminutes.</p><p align=\"justify\">This value is computed from the "
+"equipment information, and defines the height of the field covered by one "
+"tile of the mosaic.</p></body></html>"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
+#: ekos/scheduler/framingassistant.ui:820
+#, kde-format
+msgid ""
+"Camera's rotation angle (East of North) in degrees. To measure the angle, "
+"solve an image and use the astrometry solver solution's rotation angle"
+msgstr ""
+
+# FIXME
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ekos/scheduler/framingassistant.ui:823
+#, fuzzy, kde-format
+#| msgid "Position Angle"
+msgid "Position Angle:"
+msgstr "অবস্থানসূচক কোণ"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, goRotateB)
+#: ekos/scheduler/framingassistant.ui:836
+#, kde-format
+msgid "Go to center and rotate to match this position angle"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#: ekos/scheduler/framingassistant.ui:855
+#, fuzzy, kde-format
+#| msgid "Transparent"
+msgid "Tile Transparency:"
+msgstr "স্বচ্ছ"
+
+#. i18n: ectx: property (whatsThis), widget (QSlider, transparencySlider)
+#: ekos/scheduler/framingassistant.ui:865
+#, fuzzy, kde-format
+#| msgid "Adjust time step"
+msgid "Adjust tiles transparency"
+msgstr "সময়-ধাপ (timestep) নির্দিষ্ট করুন"
+
+#. i18n: ectx: property (text), widget (QCheckBox, transparencyAuto)
+#: ekos/scheduler/framingassistant.ui:884
+#, fuzzy, kde-format
+#| msgid "Auto"
+msgctxt "Transparency"
+msgid "Auto"
+msgstr "স্বয়ংক্রিয়"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, reverseOddRows)
+#: ekos/scheduler/framingassistant.ui:902
 #, fuzzy, kde-format
 msgid ""
-"<html><head/><body><p align=\"justify\">Overlap between each tile of the "
-"mosaic. See the main help icon in the corner of the sky chart.</p></body></"
-"html>"
+"<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
+"moves minimally between jobs (S-shape).</p></body></html>"
 msgstr "মিলযুক্ত খ-বস্তু:"
 
+#. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
+#: ekos/scheduler/framingassistant.ui:905
+#, fuzzy, kde-format
+#| msgid "Altitude:"
+msgid "Minimum mount move"
+msgstr "উন্নতি:"
+
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
-#: ekos/scheduler/framingassistant.ui:897
+#: ekos/scheduler/framingassistant.ui:917
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Orientation of the camera field of "
@@ -27042,76 +27048,76 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, positionAngleSpin)
-#: ekos/scheduler/framingassistant.ui:900
+#: ekos/scheduler/framingassistant.ui:920
 #, fuzzy, kde-format
 msgid " East of North"
 msgstr "বিষ্ণুতারা (ক্যাস্টর)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToEquipmentB)
-#: ekos/scheduler/framingassistant.ui:934
+#: ekos/scheduler/framingassistant.ui:954
 #, kde-format
 msgid "Go to equipment selection page"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, backToEquipmentB)
-#: ekos/scheduler/framingassistant.ui:937
+#: ekos/scheduler/framingassistant.ui:957
 #, fuzzy, kde-format
 #| msgid "Configure Hidden Objects"
 msgid "Confirm Equipment"
 msgstr "আড়ালকৃত বস্তু কনফিগার করো"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, importB)
-#: ekos/scheduler/framingassistant.ui:961
+#: ekos/scheduler/framingassistant.ui:980
 #, kde-format
 msgid "Import Mosaic from Telescopius"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, importB)
-#: ekos/scheduler/framingassistant.ui:964
+#: ekos/scheduler/framingassistant.ui:983
 #, fuzzy, kde-format
 #| msgid "Import Catalog"
 msgid "Import..."
 msgstr "ক্যাটালগ আমদানি করো"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recenterB)
-#: ekos/scheduler/framingassistant.ui:971
+#: ekos/scheduler/framingassistant.ui:990
 #, kde-format
 msgid "Reset mosaic center to sky map center"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, recenterB)
-#: ekos/scheduler/framingassistant.ui:974
+#: ekos/scheduler/framingassistant.ui:993
 #, fuzzy, kde-format
 msgid "Recenter"
 msgstr "কেন্দ্রে আনো (&ক)"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToAdjustGrid)
-#: ekos/scheduler/framingassistant.ui:985
+#: ekos/scheduler/framingassistant.ui:1003
 #, kde-format
 msgid "Go to grid adjustment page"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, nextToAdjustGrid)
-#: ekos/scheduler/framingassistant.ui:988
+#: ekos/scheduler/framingassistant.ui:1006
 #, kde-format
 msgid "Adjust Grid"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, fovGroup_2)
-#: ekos/scheduler/framingassistant.ui:1029
+#: ekos/scheduler/framingassistant.ui:1046
 #, kde-format
 msgid "↓ Adjust Grid"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/scheduler/framingassistant.ui:1091
+#: ekos/scheduler/framingassistant.ui:1108
 #, fuzzy, kde-format
 #| msgid "Comets"
 msgid "J2000 Center"
 msgstr "ধূমকেতু"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/scheduler/framingassistant.ui:1101
+#: ekos/scheduler/framingassistant.ui:1118
 #, kde-format
 msgid ""
 "Adjust Grid center by manually entering the J2000 center or by dragging the "
@@ -27120,41 +27126,41 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToSelectGrid)
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToAdjustGridB)
-#: ekos/scheduler/framingassistant.ui:1126
-#: ekos/scheduler/framingassistant.ui:1666
+#: ekos/scheduler/framingassistant.ui:1143
+#: ekos/scheduler/framingassistant.ui:1678
 #, kde-format
 msgid "Go to grid selection page"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, goSolveB)
-#: ekos/scheduler/framingassistant.ui:1156
+#: ekos/scheduler/framingassistant.ui:1172
 #, kde-format
 msgid "Go and plate solve mosaic center"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, goSolveB)
-#: ekos/scheduler/framingassistant.ui:1159
+#: ekos/scheduler/framingassistant.ui:1175
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Go && Solve"
 msgstr "ছবি ধারণ করো"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToJobsB)
-#: ekos/scheduler/framingassistant.ui:1170
+#: ekos/scheduler/framingassistant.ui:1185
 #, kde-format
 msgid "Go to scheduler job creation page"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, nextToJobsB)
 #. i18n: ectx: property (text), widget (QPushButton, createJobsB)
-#: ekos/scheduler/framingassistant.ui:1173
-#: ekos/scheduler/framingassistant.ui:1699
+#: ekos/scheduler/framingassistant.ui:1188
+#: ekos/scheduler/framingassistant.ui:1710
 #, kde-format
 msgid "Create Jobs"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, jobsGroup)
-#: ekos/scheduler/framingassistant.ui:1211
+#: ekos/scheduler/framingassistant.ui:1225
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Schedar"
@@ -27162,13 +27168,13 @@ msgid "↓Create  Scheduler Jobs"
 msgstr "গৌতম"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
-#: ekos/scheduler/framingassistant.ui:1223
+#: ekos/scheduler/framingassistant.ui:1237
 #, kde-format
 msgid "Perform calibration and autoguiding before proceeding to the next step."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, directoryEdit)
-#: ekos/scheduler/framingassistant.ui:1236
+#: ekos/scheduler/framingassistant.ui:1250
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Filesystem folder where the "
@@ -27177,13 +27183,13 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sequenceLabel)
-#: ekos/scheduler/framingassistant.ui:1243 ekos/scheduler/scheduler.ui:304
+#: ekos/scheduler/framingassistant.ui:1257 ekos/scheduler/scheduler.ui:304
 #, kde-format
 msgid "Ekos Sequence File"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/scheduler/framingassistant.ui:1246
+#: ekos/scheduler/framingassistant.ui:1260
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Sequence: <span style=\" color:#ff0000;\">*</span></"
@@ -27191,40 +27197,40 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
-#: ekos/scheduler/framingassistant.ui:1259
+#: ekos/scheduler/framingassistant.ui:1273
 #, kde-format
 msgid ""
 "Perform alignment using astrometry solver before proceeding to the next step."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#: ekos/scheduler/framingassistant.ui:1278
+#: ekos/scheduler/framingassistant.ui:1292
 #, kde-format
 msgid "Select which steps to execute before starting the capture process."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, alignEveryLabel)
-#: ekos/scheduler/framingassistant.ui:1294
+#: ekos/scheduler/framingassistant.ui:1308
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Align Every"
 msgstr "ফোকাসকৃত বস্তু: "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadSequenceB)
-#: ekos/scheduler/framingassistant.ui:1313 ekos/scheduler/scheduler.ui:78
+#: ekos/scheduler/framingassistant.ui:1327 ekos/scheduler/scheduler.ui:78
 #, fuzzy, kde-format
 #| msgid "Capture Image Sequence..."
 msgid "Load the image sequence queue."
 msgstr "ধারাবাহিক ছবি ধারণ করো..."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetEdit)
-#: ekos/scheduler/framingassistant.ui:1333
+#: ekos/scheduler/framingassistant.ui:1346
 #, kde-format
 msgid "M 31"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
-#: ekos/scheduler/framingassistant.ui:1346
+#: ekos/scheduler/framingassistant.ui:1359
 #, kde-format
 msgid "Slew to the target and track it before proceeding to the next step."
 msgstr ""
@@ -27232,14 +27238,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, trackStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTrackStep)
 #. i18n: ectx: property (text), widget (QCheckBox, CheckTrack)
-#: ekos/scheduler/framingassistant.ui:1352 ekos/scheduler/scheduler.ui:220
+#: ekos/scheduler/framingassistant.ui:1365 ekos/scheduler/scheduler.ui:220
 #: tools/argsettrack.ui:38
 #, kde-format
 msgid "Track"
 msgstr "অনুসরণ করো"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/scheduler/framingassistant.ui:1362
+#: ekos/scheduler/framingassistant.ui:1375
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></p></"
@@ -27247,20 +27253,20 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (text), widget (QLabel, focusEveryLabel)
-#: ekos/scheduler/framingassistant.ui:1375
+#: ekos/scheduler/framingassistant.ui:1388
 #, fuzzy, kde-format
 #| msgid "Focused on: "
 msgid "Focus Every"
 msgstr "ফোকাসকৃত বস্তু: "
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
-#: ekos/scheduler/framingassistant.ui:1411
+#: ekos/scheduler/framingassistant.ui:1423
 #, kde-format
 msgid "Directory to save sequence images"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
-#: ekos/scheduler/framingassistant.ui:1417
+#: ekos/scheduler/framingassistant.ui:1429
 #, fuzzy, kde-format
 msgid ""
 "<html><head/><body><p>Directory: <span style=\" color:#ff0000;\">*</span></"
@@ -27268,32 +27274,32 @@ msgid ""
 msgstr "মিলযুক্ত খ-বস্তু:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
-#: ekos/scheduler/framingassistant.ui:1424
+#: ekos/scheduler/framingassistant.ui:1436
 #, kde-format
 msgid "Perform alignment every N jobs."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
-#: ekos/scheduler/framingassistant.ui:1443
+#: ekos/scheduler/framingassistant.ui:1455
 #, kde-format
 msgid "Perform autofocus every N jobs."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
-#: ekos/scheduler/framingassistant.ui:1484
+#: ekos/scheduler/framingassistant.ui:1496
 #, kde-format
 msgid "Perform autofocusing before proceeding to the next step."
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
-#: ekos/scheduler/framingassistant.ui:1522 ekos/scheduler/scheduler.ui:358
+#: ekos/scheduler/framingassistant.ui:1534 ekos/scheduler/scheduler.ui:358
 #, fuzzy, kde-format
 msgid "Group:"
 msgstr "আর্মার"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
-#: ekos/scheduler/framingassistant.ui:1534
+#: ekos/scheduler/framingassistant.ui:1546
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Select a group name. Useful if you "
@@ -27304,7 +27310,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
-#: ekos/scheduler/framingassistant.ui:1563
+#: ekos/scheduler/framingassistant.ui:1575
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Montreal"
@@ -27314,29 +27320,29 @@ msgstr "মন্ট্রিল"
 #. i18n: ectx: property (toolTip), widget (QRadioButton, repeatCompletionR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, schedulerExecutionSequencesLimit)
-#: ekos/scheduler/framingassistant.ui:1575
-#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1472
+#: ekos/scheduler/framingassistant.ui:1587
+#: ekos/scheduler/framingassistant.ui:1622 ekos/scheduler/scheduler.ui:1472
 #, fuzzy, kde-format
 #| msgid "Set the system clock to the specified Local Time."
 msgid "Restart job until it is executed this many times."
 msgstr "সিস্টেমের ঘড়িতে উল্লেখকৃত স্থানীয় সময় ব্যবহার করো।"
 
 #. i18n: ectx: property (text), widget (QRadioButton, repeatCompletionR)
-#: ekos/scheduler/framingassistant.ui:1578
+#: ekos/scheduler/framingassistant.ui:1590
 #, kde-format
 msgid "&Repeat for"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, sequenceCompletionR)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerCompleteSequences)
-#: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1431
+#: ekos/scheduler/framingassistant.ui:1603 ekos/scheduler/scheduler.ui:1431
 #, kde-format
 msgid "The observation job is completed when the sequence is complete."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, sequenceCompletionR)
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerCompleteSequences)
-#: ekos/scheduler/framingassistant.ui:1594 ekos/scheduler/scheduler.ui:1434
+#: ekos/scheduler/framingassistant.ui:1606 ekos/scheduler/scheduler.ui:1434
 #, fuzzy, kde-format
 #| msgid "Supernova Remnant"
 msgid "Se&quence completion"
@@ -27344,7 +27350,7 @@ msgstr "সুপারনোভার অবশিষ্টাংশ"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, repeatsSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, schedulerExecutionSequencesLimit)
-#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1475
+#: ekos/scheduler/framingassistant.ui:1625 ekos/scheduler/scheduler.ui:1475
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "New Brunswick"
@@ -27353,60 +27359,60 @@ msgstr "নিউ ব্রুন্সউইক"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, loopCompletionR)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerUntilTerminated)
-#: ekos/scheduler/framingassistant.ui:1635 ekos/scheduler/scheduler.ui:1497
+#: ekos/scheduler/framingassistant.ui:1647 ekos/scheduler/scheduler.ui:1497
 #, kde-format
 msgid "Restart the sequence job indefinitely."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, loopCompletionR)
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerUntilTerminated)
-#: ekos/scheduler/framingassistant.ui:1638 ekos/scheduler/scheduler.ui:1500
+#: ekos/scheduler/framingassistant.ui:1650 ekos/scheduler/scheduler.ui:1500
 #, kde-format
 msgid "Repeat &until terminated"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, createJobsB)
-#: ekos/scheduler/framingassistant.ui:1696
+#: ekos/scheduler/framingassistant.ui:1707
 #, kde-format
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:749
+#: ekos/scheduler/framingassistantui.cpp:238 fitsviewer/fitsview.cpp:749
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:780
+#: ekos/scheduler/framingassistantui.cpp:713 ekos/scheduler/scheduler.cpp:780
 #, fuzzy, kde-format
 #| msgid "Frequency:"
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "কম্পাঙ্ক:"
 
-#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:782
+#: ekos/scheduler/framingassistantui.cpp:715 ekos/scheduler/scheduler.cpp:782
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:709
+#: ekos/scheduler/framingassistantui.cpp:727
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "ইনপুট নির্বাচন করো"
 
-#: ekos/scheduler/framingassistantui.cpp:711
+#: ekos/scheduler/framingassistantui.cpp:729
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr ""
 
-#: ekos/scheduler/framingassistantui.cpp:770
+#: ekos/scheduler/framingassistantui.cpp:788
 #, fuzzy, kde-format
 #| msgid "Equatorial geocentric coordinates"
 msgid "Import must contain center coordinates."
 msgstr "নিরক্ষীয় ভূকেন্দ্রিক স্থানাঙ্ক"
 
-#: ekos/scheduler/framingassistantui.cpp:849
+#: ekos/scheduler/framingassistantui.cpp:867
 #, fuzzy, kde-format
 #| msgid "Default FITS directory:"
 msgctxt "@title:window"
@@ -30306,7 +30312,7 @@ msgid "Distance"
 msgstr "দূরত্ব:"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1137
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1131
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
@@ -87477,8 +87483,8 @@ msgid "Object Set"
 msgstr "খ-বস্তু"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3042
-#: tools/imagingplanner.cpp:3053 tools/imagingplanner.cpp:3068
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3041
+#: tools/imagingplanner.cpp:3052 tools/imagingplanner.cpp:3067
 #, fuzzy, kde-format
 msgid "Transit"
 msgstr "অতিক্রম কাল:"
@@ -88564,27 +88570,27 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:175 tools/imagingplanner.ui:2057
+#: tools/imagingplanner.cpp:171 tools/imagingplanner.ui:2057
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Imaged"
 msgstr "ছবি"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:180 tools/imagingplanner.ui:2027
+#: tools/imagingplanner.cpp:176 tools/imagingplanner.ui:2027
 #, kde-format
 msgid "Picked"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:186 tools/imagingplanner.ui:2114
+#: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:2114
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignored"
 msgstr "অগ্রাহ্য"
 
 # FIXME
-#: tools/imagingplanner.cpp:992
+#: tools/imagingplanner.cpp:986
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dyer Observatory"
@@ -88592,279 +88598,279 @@ msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "ডিয়ের মানমন্দির"
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:1131
 #, fuzzy, kde-format
 #| msgctxt "Altitude"
 #| msgid "Alt"
 msgid "Alt"
 msgstr "উন্নতি"
 
-#: tools/imagingplanner.cpp:1138
+#: tools/imagingplanner.cpp:1132
 #, fuzzy, kde-format
 msgid "Const"
 msgstr "কনকর্ড"
 
-#: tools/imagingplanner.cpp:1138
+#: tools/imagingplanner.cpp:1132
 #, fuzzy, kde-format
 msgid "Coord"
 msgstr "সমস্যাযুক্ত স্থানাংক"
 
-#: tools/imagingplanner.cpp:1140
+#: tools/imagingplanner.cpp:1134
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1142
+#: tools/imagingplanner.cpp:1136
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1144
+#: tools/imagingplanner.cpp:1138
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1146
+#: tools/imagingplanner.cpp:1140
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1148
+#: tools/imagingplanner.cpp:1142
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1150
+#: tools/imagingplanner.cpp:1144
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1152
+#: tools/imagingplanner.cpp:1146
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1154
+#: tools/imagingplanner.cpp:1148
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1575
+#: tools/imagingplanner.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Almanac"
 msgid "No match for \"%1\""
 msgstr "পঞ্জিকা"
 
-#: tools/imagingplanner.cpp:1639
+#: tools/imagingplanner.cpp:1633
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1644
+#: tools/imagingplanner.cpp:1638
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1649
+#: tools/imagingplanner.cpp:1643
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1979
+#: tools/imagingplanner.cpp:1978
 #, fuzzy, kde-format
 #| msgid "Loading images..."
 msgid "Updating tables..."
 msgstr "ছবি লোড করা হচ্ছে..."
 
-#: tools/imagingplanner.cpp:2351
+#: tools/imagingplanner.cpp:2350
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "See Data -> Download New Data..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2352
+#: tools/imagingplanner.cpp:2351
 #, fuzzy, kde-format
 #| msgid "Catalogs"
 msgid "No Catalog!"
 msgstr "তালিকা"
 
-#: tools/imagingplanner.cpp:2398
+#: tools/imagingplanner.cpp:2397
 #, fuzzy, kde-format
 msgid "Select an object."
 msgstr "বস্তুর ধরন নির্বাচন করুন:"
 
-#: tools/imagingplanner.cpp:2400
+#: tools/imagingplanner.cpp:2399
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2402
+#: tools/imagingplanner.cpp:2401
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Load a Catalog."
 msgstr "ক্যাটালগ লোড করো..."
 
-#: tools/imagingplanner.cpp:2535
+#: tools/imagingplanner.cpp:2534
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2540
+#: tools/imagingplanner.cpp:2539
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2546
+#: tools/imagingplanner.cpp:2545
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2552
+#: tools/imagingplanner.cpp:2551
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2557
+#: tools/imagingplanner.cpp:2556
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2706
+#: tools/imagingplanner.cpp:2705
 #, fuzzy, kde-format
 #| msgid "Load Catalog..."
 msgid "Loading Catalogs..."
 msgstr "ক্যাটালগ লোড করো..."
 
-#: tools/imagingplanner.cpp:3031
+#: tools/imagingplanner.cpp:3030
 #, fuzzy, kde-format
 msgid "Transits"
 msgstr "অতিক্রম কাল:"
 
-#: tools/imagingplanner.cpp:3036 tools/imagingplanner.cpp:3040
+#: tools/imagingplanner.cpp:3035 tools/imagingplanner.cpp:3039
 #, fuzzy, kde-format
 #| msgid "Sets at: %1"
 msgid "Sets at"
 msgstr "অস্ত: %1"
 
-#: tools/imagingplanner.cpp:3047 tools/imagingplanner.cpp:3051
+#: tools/imagingplanner.cpp:3046 tools/imagingplanner.cpp:3050
 #, fuzzy, kde-format
 #| msgid "Rises at: %1"
 msgid "Rises at"
 msgstr "উদয়: %1"
 
-#: tools/imagingplanner.cpp:3058 tools/imagingplanner.cpp:3064
+#: tools/imagingplanner.cpp:3057 tools/imagingplanner.cpp:3063
 #, fuzzy, kde-format
 msgid "Rises"
 msgstr "উদয়ের সময়:"
 
-#: tools/imagingplanner.cpp:3060 tools/imagingplanner.cpp:3066
+#: tools/imagingplanner.cpp:3059 tools/imagingplanner.cpp:3065
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3172 tools/imagingplanner.cpp:3428
+#: tools/imagingplanner.cpp:3171 tools/imagingplanner.cpp:3427
 #, fuzzy, kde-format
 #| msgid "object"
 msgid "objects"
 msgstr "বস্তু"
 
-#: tools/imagingplanner.cpp:3424
+#: tools/imagingplanner.cpp:3423
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3432 tools/imagingplanner.cpp:3436
+#: tools/imagingplanner.cpp:3431 tools/imagingplanner.cpp:3435
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3433 tools/imagingplanner.cpp:3438
+#: tools/imagingplanner.cpp:3432 tools/imagingplanner.cpp:3437
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3442 tools/imagingplanner.cpp:3446
+#: tools/imagingplanner.cpp:3441 tools/imagingplanner.cpp:3445
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3443 tools/imagingplanner.cpp:3448
+#: tools/imagingplanner.cpp:3442 tools/imagingplanner.cpp:3447
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3453 tools/imagingplanner.cpp:3458
+#: tools/imagingplanner.cpp:3452 tools/imagingplanner.cpp:3457
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop ignoring %1"
 msgstr "&অনুসরণ বন্ধ করো"
 
-#: tools/imagingplanner.cpp:3454 tools/imagingplanner.cpp:3460
+#: tools/imagingplanner.cpp:3453 tools/imagingplanner.cpp:3459
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "অগ্রাহ্য"
 
 # FIXME
-#: tools/imagingplanner.cpp:3463
+#: tools/imagingplanner.cpp:3462
 #, fuzzy, kde-format
 #| msgid "Center in Map"
 msgid "Center %1 on SkyMap"
 msgstr "মানচিত্রকে কেন্দ্রে আনো"
 
-#: tools/imagingplanner.cpp:3602
+#: tools/imagingplanner.cpp:3601
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Successfully marked %1 objects as read"
 msgstr "INDI সার্ভার চালু করা যাচ্ছে না : পোর্ট ত্রুটি।"
 
-#: tools/imagingplanner.cpp:3604
+#: tools/imagingplanner.cpp:3603
 #, fuzzy, kde-format
 msgid "Empty file"
 msgstr "ইনপুট ফাইল..."
 
-#: tools/imagingplanner.cpp:3613
+#: tools/imagingplanner.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Add time stamp to the file name"
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "ফাইলের নামের সাথে টাইম স্ট্যাম্প যোগ করো"
 
-#: tools/imagingplanner.cpp:3615
+#: tools/imagingplanner.cpp:3614
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3617
+#: tools/imagingplanner.cpp:3616
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3620
+#: tools/imagingplanner.cpp:3619
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3626 tools/imagingplanner.cpp:3829
+#: tools/imagingplanner.cpp:3625 tools/imagingplanner.cpp:3875
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "%1 নামক ফাইলটি খোলা যায় নি"
 
-#: tools/imagingplanner.cpp:3738
+#: tools/imagingplanner.cpp:3739
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3810
+#: tools/imagingplanner.cpp:3860
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""

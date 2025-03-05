@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-04 01:54+0000\n"
-"PO-Revision-Date: 2025-03-01 09:08+0200\n"
+"POT-Creation-Date: 2025-03-05 02:22+0000\n"
+"PO-Revision-Date: 2025-03-04 08:41+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -595,7 +595,7 @@ msgstr "Помилка"
 
 #: auxiliary/ksmessagebox.h:40 auxiliary/ksnotification.h:45
 #: ekos/align/opsastrometryindexfiles.cpp:643
-#: ekos/scheduler/framingassistantui.cpp:770
+#: ekos/scheduler/framingassistantui.cpp:788
 #, kde-format
 msgid "Sorry"
 msgstr "Вибачте"
@@ -777,10 +777,10 @@ msgstr "Не вдалося виконати unpack_thumb %1: %2"
 msgid "Cannot write %s %1: %2"
 msgstr "Не вдалося записати %s %1: %2"
 
-#: auxiliary/ksutils.cpp:1824 ekos/scheduler/framingassistantui.cpp:183
-#: ekos/scheduler/framingassistantui.cpp:198
-#: ekos/scheduler/framingassistantui.cpp:856
-#: ekos/scheduler/framingassistantui.cpp:875 skyobjects/ksplanetbase.h:60
+#: auxiliary/ksutils.cpp:1824 ekos/scheduler/framingassistantui.cpp:186
+#: ekos/scheduler/framingassistantui.cpp:201
+#: ekos/scheduler/framingassistantui.cpp:874
+#: ekos/scheduler/framingassistantui.cpp:893 skyobjects/ksplanetbase.h:60
 #, kde-format
 msgid "unnamed"
 msgstr "без назви"
@@ -1061,7 +1061,7 @@ msgstr "Імітатор Сонячної системи XPlanet: %1"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1531 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1525 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1138,8 +1138,8 @@ msgstr "Земля"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1137 tools/imagingplanner.cpp:1506
-#: tools/imagingplanner.cpp:3025 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1131 tools/imagingplanner.cpp:1500
+#: tools/imagingplanner.cpp:3024 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2686,7 +2686,7 @@ msgstr "Не відкривати"
 msgid "Show webpage about "
 msgstr "Показати вебсторінку про "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3170
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3169
 #, kde-format
 msgid "object"
 msgstr "об'єкт"
@@ -2811,7 +2811,7 @@ msgstr "Клацніть на кольорі, щоб змінити його…"
 msgid "Degrees"
 msgstr "°"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1137
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1131
 #, kde-format
 msgid "Hours"
 msgstr "Години"
@@ -2862,7 +2862,7 @@ msgstr "Текст"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1137
+#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1131
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3224,7 +3224,7 @@ msgstr "Вел."
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1134 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1137 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1131 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -8354,14 +8354,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLineEdit, lineEdit_42)
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#. i18n: ectx: property (text), widget (QLabel, cameraHFOVLabel)
-#. i18n: ectx: property (text), widget (QLabel, targetFOVHLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_12)
+#. i18n: ectx: property (text), widget (QLabel, targetFOVHLabel)
+#. i18n: ectx: property (text), widget (QLabel, cameraHFOVLabel)
 #: ekos/align/opsastrometry.ui:105 ekos/scheduler/framingassistant.ui:190
 #: ekos/scheduler/framingassistant.ui:275
-#: ekos/scheduler/framingassistant.ui:464
-#: ekos/scheduler/framingassistant.ui:551
-#: ekos/scheduler/framingassistant.ui:703
+#: ekos/scheduler/framingassistant.ui:559
+#: ekos/scheduler/framingassistant.ui:665
+#: ekos/scheduler/framingassistant.ui:783
 #, kde-format
 msgid "H"
 msgstr "В"
@@ -10548,7 +10548,7 @@ msgstr "Не вдалося показати тимчасовий файл зо�
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerFocusStep)
 #: ekos/analyze/analyze.cpp:2279 ekos/auxiliary/opslogs.ui:370
 #: ekos/manager.cpp:2199 ekos/manager/focusprogresswidget.ui:101
-#: ekos/scheduler/framingassistant.ui:1490 ekos/scheduler/scheduler.ui:289
+#: ekos/scheduler/framingassistant.ui:1502 ekos/scheduler/scheduler.ui:289
 #: fitsviewer/fitsviewer.cpp:471
 #, kde-format
 msgid "Focus"
@@ -10557,7 +10557,7 @@ msgstr "Фокус"
 #. i18n: ectx: property (text), widget (QCheckBox, alignStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAlignStep)
 #: ekos/analyze/analyze.cpp:2280 ekos/manager.cpp:2155
-#: ekos/scheduler/framingassistant.ui:1262 ekos/scheduler/scheduler.ui:242
+#: ekos/scheduler/framingassistant.ui:1276 ekos/scheduler/scheduler.ui:242
 #: fitsviewer/fitsviewer.cpp:479
 #, kde-format
 msgid "Align"
@@ -10569,7 +10569,7 @@ msgstr "Вирівнювання"
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerGuideStep)
 #: ekos/analyze/analyze.cpp:2281 ekos/auxiliary/opslogs.ui:120
 #: ekos/guide/guide.cpp:59 ekos/guide/guide.ui:263 ekos/manager.cpp:2420
-#: ekos/scheduler/framingassistant.ui:1226 ekos/scheduler/scheduler.ui:264
+#: ekos/scheduler/framingassistant.ui:1240 ekos/scheduler/scheduler.ui:264
 #: fitsviewer/fitsviewer.cpp:475
 #, kde-format
 msgid "Guide"
@@ -12682,7 +12682,7 @@ msgstr "Записувати до журналу дії у модулі план
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerLogging)
 #: ekos/auxiliary/opslogs.ui:90 ekos/manager.cpp:338
-#: ekos/scheduler/framingassistantui.cpp:668
+#: ekos/scheduler/framingassistantui.cpp:679
 #, kde-format
 msgid "Scheduler"
 msgstr "Планування"
@@ -18802,7 +18802,7 @@ msgstr ""
 #: ekos/focus/cfz.ui:299 ekos/focus/opsfocusprocess.ui:569
 #: ekos/focus/opsfocusprocess.ui:666 ekos/focus/opsfocussettings.ui:361
 #: ekos/focus/opsfocussettings.ui:395 ekos/focus/opsfocussettings.ui:455
-#: ekos/scheduler/framingassistant.ui:879
+#: ekos/scheduler/framingassistant.ui:449
 #, no-c-format, kde-format
 msgid " %"
 msgstr " %"
@@ -19623,7 +19623,7 @@ msgstr "Захопити зображення"
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/focus/focus.ui:209 ekos/scheduler/framingassistant.ui:1281
+#: ekos/focus/focus.ui:209 ekos/scheduler/framingassistant.ui:1295
 #: ekos/scheduler/scheduler.ui:193
 #, kde-format
 msgid "Steps:"
@@ -20697,8 +20697,8 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, mosaicWSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, mosaicHSpin)
 #: ekos/focus/opsfocusmechanics.ui:531 ekos/focus/opsfocusmechanics.ui:550
-#: ekos/scheduler/framingassistant.ui:629
-#: ekos/scheduler/framingassistant.ui:719
+#: ekos/scheduler/framingassistant.ui:530
+#: ekos/scheduler/framingassistant.ui:575
 #, kde-format
 msgid " x"
 msgstr " ⨯ "
@@ -27171,7 +27171,7 @@ msgstr ""
 "вибрати пристрої"
 
 #: ekos/scheduler/framingassistant.cpp:538
-#: ekos/scheduler/framingassistantui.cpp:559
+#: ekos/scheduler/framingassistantui.cpp:562
 #, kde-format
 msgid " Scheduler job"
 msgid_plural " Scheduler jobs"
@@ -27181,7 +27181,7 @@ msgstr[2] " завдань планувальника"
 msgstr[3] " завдання планувальника"
 
 #: ekos/scheduler/framingassistant.cpp:540
-#: ekos/scheduler/framingassistantui.cpp:561
+#: ekos/scheduler/framingassistantui.cpp:564
 #, kde-format
 msgid " (first only)"
 msgstr " (лише перший)"
@@ -27244,13 +27244,13 @@ msgstr "Камера:"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#. i18n: ectx: property (text), widget (QLabel, cameraWFOVLabel)
 #. i18n: ectx: property (text), widget (QLabel, targetFOVWLabel)
+#. i18n: ectx: property (text), widget (QLabel, cameraWFOVLabel)
 #: ekos/scheduler/framingassistant.ui:151
 #: ekos/scheduler/framingassistant.ui:239
-#: ekos/scheduler/framingassistant.ui:613
-#: ekos/scheduler/framingassistant.ui:770
-#: ekos/scheduler/framingassistant.ui:831
+#: ekos/scheduler/framingassistant.ui:514
+#: ekos/scheduler/framingassistant.ui:620
+#: ekos/scheduler/framingassistant.ui:732
 #: kstarslite/qml/indi/modules/MotionControl.qml:130
 #, kde-format, kde-kuit-format
 msgid "W"
@@ -27341,7 +27341,7 @@ msgid "Fetch"
 msgstr "Отримати"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToSelectGridB)
-#: ekos/scheduler/framingassistant.ui:350
+#: ekos/scheduler/framingassistant.ui:349
 #, kde-format
 msgid "Go to Grid Selection page"
 msgstr "Перейти до сторінки вибору сітки"
@@ -27349,117 +27349,44 @@ msgstr "Перейти до сторінки вибору сітки"
 #. i18n: ectx: property (text), widget (QPushButton, nextToSelectGridB)
 #. i18n: ectx: property (text), widget (QPushButton, backToSelectGrid)
 #. i18n: ectx: property (text), widget (QPushButton, backToAdjustGridB)
-#: ekos/scheduler/framingassistant.ui:353
-#: ekos/scheduler/framingassistant.ui:1129
-#: ekos/scheduler/framingassistant.ui:1669
+#: ekos/scheduler/framingassistant.ui:352
+#: ekos/scheduler/framingassistant.ui:1146
+#: ekos/scheduler/framingassistant.ui:1681
 #, kde-format
 msgid "Select Grid"
 msgstr "Виберіть сітку"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fovGroup)
-#: ekos/scheduler/framingassistant.ui:394
+#: ekos/scheduler/framingassistant.ui:392
 #, kde-format
 msgid "↓ Select Grid"
 msgstr "↓ Виберіть сітку"
 
-#. i18n: ectx: property (whatsThis), widget (QSlider, transparencySlider)
-#: ekos/scheduler/framingassistant.ui:421
+#. i18n: ectx: property (toolTip), widget (QLabel, overlapLabel)
+#: ekos/scheduler/framingassistant.ui:422
 #, kde-format
-msgid "Adjust tiles transparency"
-msgstr "Скоригувати прозорість плиток"
+msgid "Percentage of overlap between two neighbouring images"
+msgstr "Частка у відсотках перекриття між двома сусідніми зображеннями"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
-#: ekos/scheduler/framingassistant.ui:440
+#. i18n: ectx: property (text), widget (QLabel, overlapLabel)
+#: ekos/scheduler/framingassistant.ui:425
+#, kde-format
+msgid "Overlap:"
+msgstr "Накладання:"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, overlapSpin)
+#: ekos/scheduler/framingassistant.ui:446
 #, kde-format
 msgid ""
-"Camera's rotation angle (East of North) in degrees. To measure the angle, "
-"solve an image and use the astrometry solver solution's rotation angle"
-msgstr ""
-"Кут обертанні фотоапарата (на схід від півночі) у градусах. Щоб виміряти "
-"кут, виконайте астрометричну прив'язку зображення і скористайтеся кутом "
-"обертання із астрометричного розв'язку."
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/scheduler/framingassistant.ui:443
-#, kde-format
-msgid "Position Angle:"
-msgstr "Позиційний кут:"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraHFOVSpin)
-#: ekos/scheduler/framingassistant.ui:483
-#, kde-format
-msgid ""
-"<html><head/><body><p align=\"justify\">Field height of the camera in "
-"arcminutes.</p><p align=\"justify\">This value is computed from the "
-"equipment information, and defines the height of the field covered by one "
-"tile of the mosaic.</p></body></html>"
-msgstr ""
-"<html><head/><body><p align=\"justify\">Висота поля камери у кутових мінутах."
-"</p><p align=\"justify\">Це значення буде обчислено на основі даних щодо "
-"обладнання. Воно визначає висоту поля, яку покриває одна плитка мозаїки.</"
-"p></body></html>"
-
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraHFOVSpin)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetHFOVSpin)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraWFOVSpin)
-#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetWFOVSpin)
-#: ekos/scheduler/framingassistant.ui:489
-#: ekos/scheduler/framingassistant.ui:570
-#: ekos/scheduler/framingassistant.ui:795
-#: ekos/scheduler/framingassistant.ui:850
-#, kde-format
-msgid "'"
-msgstr "'"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, targetFOVLabel)
-#: ekos/scheduler/framingassistant.ui:504
-#, kde-format
-msgid ""
-"Final mosaic field of view size in arc minutes. Click update to calculate it "
-"or enter it manually."
-msgstr ""
-"Остаточне поле зору мозаїки у кутових мінутах. Натисніть «Оновити», щоб "
-"обчислити його, або вкажіть його вручну."
-
-#. i18n: ectx: property (text), widget (QLabel, targetFOVLabel)
-#: ekos/scheduler/framingassistant.ui:507
-#, kde-format
-msgid "Mosaic FOV:"
-msgstr "Поле зору мозаїки:"
-
-#. i18n: ectx: property (toolTip), widget (QCheckBox, reverseOddRows)
-#: ekos/scheduler/framingassistant.ui:522
-#, kde-format
-msgid ""
-"<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
-"moves minimally between jobs (S-shape).</p></body></html>"
-msgstr ""
-"<html><head/><body><p>Якщо позначено, упорядковує плитки мозаїки, щоб лафет "
-"мінімально пересувався між завданнями (за формою літери «S»).</p></body></"
-"html>"
-
-#. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
-#: ekos/scheduler/framingassistant.ui:525
-#, kde-format
-msgid "Minimum mount move"
-msgstr "Мінімальне пересування лафета"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetHFOVSpin)
-#: ekos/scheduler/framingassistant.ui:567
-#, kde-format
-msgid ""
-"<html><head/><body><p align=\"justify\">Minimum field height that the mosaic "
-"must cover, in arcminutes.</p><p align=\"justify\">Modifying this value "
-"immediately changes the number of tiles on the mosaic height. </p></body></"
+"<html><head/><body><p align=\"justify\">Overlap between each tile of the "
+"mosaic. See the main help icon in the corner of the sky chart.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Мінімальна висота поля, яку має "
-"покривати мозаїка, у кутових мінутах.</p><p align=\"justify\">Зміна цього "
-"значення призведе до негайної зміни кількості плиток за висотою мозаїки.</"
-"p></body></html>"
+"<html><head/><body><p align=\"justify\">Перекриття між плитками мозаїки. "
+"Див. основну піктограму довідки у куті карти зоряного неба.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/scheduler/framingassistant.ui:590
+#: ekos/scheduler/framingassistant.ui:475
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Recompute the mosaic field from the "
@@ -27469,13 +27396,28 @@ msgstr ""
 "кількістю плиток.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetB)
-#: ekos/scheduler/framingassistant.ui:593
+#: ekos/scheduler/framingassistant.ui:478
 #, kde-format
 msgid "Cover FOV"
 msgstr "Покрити поле зору"
 
+#. i18n: ectx: property (toolTip), widget (QLabel, label)
+#. i18n: ectx: property (toolTip), widget (QLabel, label_6)
+#: ekos/scheduler/framingassistant.ui:493
+#: ekos/scheduler/framingassistant.ui:1105
+#, kde-format
+msgid "Specify the number of rows and columns of the final mosaic image"
+msgstr ""
+"Вкажіть кількість рядків і стовпчиків у остаточному мозаїчному зображенні"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: ekos/scheduler/framingassistant.ui:496
+#, kde-format
+msgid "Mosaic Grid:"
+msgstr "Сітка мозаїки:"
+
 #. i18n: ectx: property (toolTip), widget (QSpinBox, mosaicWSpin)
-#: ekos/scheduler/framingassistant.ui:626
+#: ekos/scheduler/framingassistant.ui:527
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Number of tiles on the mosaic width."
@@ -27486,40 +27428,8 @@ msgstr ""
 "</p><p align=\"justify\">Внесення змін до цього значення призведе до "
 "негайної зміни ширини поля, яке буде покрито мозаїкою.</p></body></html>"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, overlapLabel)
-#: ekos/scheduler/framingassistant.ui:656
-#, kde-format
-msgid "Percentage of overlap between two neighbouring images"
-msgstr "Частка у відсотках перекриття між двома сусідніми зображеннями"
-
-#. i18n: ectx: property (text), widget (QLabel, overlapLabel)
-#: ekos/scheduler/framingassistant.ui:659
-#, kde-format
-msgid "Overlap:"
-msgstr "Накладання:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/scheduler/framingassistant.ui:666
-#, kde-format
-msgid "Tile Transparency:"
-msgstr "Прозорість плиток:"
-
-#. i18n: ectx: property (toolTip), widget (QLabel, cameraFOVLabel)
-#: ekos/scheduler/framingassistant.ui:682
-#, kde-format
-msgid "Camera FOV in arc minutes as determined from equipment parameters above"
-msgstr ""
-"Поле зору камери у кутових мінутах, як його визначено з вказаних вище "
-"параметрів обладнання"
-
-#. i18n: ectx: property (text), widget (QLabel, cameraFOVLabel)
-#: ekos/scheduler/framingassistant.ui:685
-#, kde-format
-msgid "Camera FOV:"
-msgstr "Поле зору камери:"
-
 #. i18n: ectx: property (toolTip), widget (QSpinBox, mosaicHSpin)
-#: ekos/scheduler/framingassistant.ui:716
+#: ekos/scheduler/framingassistant.ui:572
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Number of tiles on the mosaic height."
@@ -27530,44 +27440,24 @@ msgstr ""
 "</p><p align=\"justify\">Внесення змін до цього значення призведе до "
 "негайної зміни висоти поля, яке буде покрито мозаїкою.</p></body></html>"
 
-#. i18n: ectx: property (toolTip), widget (QLabel, label)
-#. i18n: ectx: property (toolTip), widget (QLabel, label_6)
-#: ekos/scheduler/framingassistant.ui:743
-#: ekos/scheduler/framingassistant.ui:1088
-#, kde-format
-msgid "Specify the number of rows and columns of the final mosaic image"
-msgstr ""
-"Вкажіть кількість рядків і стовпчиків у остаточному мозаїчному зображенні"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: ekos/scheduler/framingassistant.ui:746
-#, kde-format
-msgid "Mosaic Grid:"
-msgstr "Сітка мозаїки:"
-
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraWFOVSpin)
-#: ekos/scheduler/framingassistant.ui:789
+#. i18n: ectx: property (toolTip), widget (QLabel, targetFOVLabel)
+#: ekos/scheduler/framingassistant.ui:596
 #, kde-format
 msgid ""
-"<html><head/><body><p align=\"justify\">Field width of the camera in "
-"arcminutes.</p><p align=\"justify\">This value is computed from the "
-"equipment information, and defines the width of the field covered by one "
-"tile of the mosaic.</p></body></html>"
+"Final mosaic field of view size in arc minutes. Click update to calculate it "
+"or enter it manually."
 msgstr ""
-"<html><head/><body><p align=\"justify\">Ширина поля камери у кутових мінутах."
-"</p><p align=\"justify\">Це значення буде обчислено на основі даних щодо "
-"обладнання. Воно визначає ширину поля, яку покриває одна плитка мозаїки.</"
-"p></body></html>"
+"Остаточне поле зору мозаїки у кутових мінутах. Натисніть «Оновити», щоб "
+"обчислити його, або вкажіть його вручну."
 
-#. i18n: ectx: property (text), widget (QCheckBox, transparencyAuto)
-#: ekos/scheduler/framingassistant.ui:807
+#. i18n: ectx: property (text), widget (QLabel, targetFOVLabel)
+#: ekos/scheduler/framingassistant.ui:599
 #, kde-format
-msgctxt "Transparency"
-msgid "Auto"
-msgstr "Авто"
+msgid "Mosaic FOV:"
+msgstr "Поле зору мозаїки:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetWFOVSpin)
-#: ekos/scheduler/framingassistant.ui:847
+#: ekos/scheduler/framingassistant.ui:636
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Minimum field width that the mosaic "
@@ -27580,19 +27470,135 @@ msgstr ""
 "значення призведе до негайної зміни кількості плиток за висотою мозаїки.</"
 "p></body></html>"
 
-#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, overlapSpin)
-#: ekos/scheduler/framingassistant.ui:876
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetWFOVSpin)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, targetHFOVSpin)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraWFOVSpin)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, cameraHFOVSpin)
+#: ekos/scheduler/framingassistant.ui:639
+#: ekos/scheduler/framingassistant.ui:684
+#: ekos/scheduler/framingassistant.ui:757
+#: ekos/scheduler/framingassistant.ui:808
+#, kde-format
+msgid "'"
+msgstr "'"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, targetHFOVSpin)
+#: ekos/scheduler/framingassistant.ui:681
 #, kde-format
 msgid ""
-"<html><head/><body><p align=\"justify\">Overlap between each tile of the "
-"mosaic. See the main help icon in the corner of the sky chart.</p></body></"
+"<html><head/><body><p align=\"justify\">Minimum field height that the mosaic "
+"must cover, in arcminutes.</p><p align=\"justify\">Modifying this value "
+"immediately changes the number of tiles on the mosaic height. </p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p align=\"justify\">Перекриття між плитками мозаїки. "
-"Див. основну піктограму довідки у куті карти зоряного неба.</p></body></html>"
+"<html><head/><body><p align=\"justify\">Мінімальна висота поля, яку має "
+"покривати мозаїка, у кутових мінутах.</p><p align=\"justify\">Зміна цього "
+"значення призведе до негайної зміни кількості плиток за висотою мозаїки.</"
+"p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, cameraFOVLabel)
+#: ekos/scheduler/framingassistant.ui:705
+#, kde-format
+msgid "Camera FOV in arc minutes as determined from equipment parameters above"
+msgstr ""
+"Поле зору камери у кутових мінутах, як його визначено з вказаних вище "
+"параметрів обладнання"
+
+#. i18n: ectx: property (text), widget (QLabel, cameraFOVLabel)
+#: ekos/scheduler/framingassistant.ui:708
+#, kde-format
+msgid "Camera FOV:"
+msgstr "Поле зору камери:"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraWFOVSpin)
+#: ekos/scheduler/framingassistant.ui:751
+#, kde-format
+msgid ""
+"<html><head/><body><p align=\"justify\">Field width of the camera in "
+"arcminutes.</p><p align=\"justify\">This value is computed from the "
+"equipment information, and defines the width of the field covered by one "
+"tile of the mosaic.</p></body></html>"
+msgstr ""
+"<html><head/><body><p align=\"justify\">Ширина поля камери у кутових мінутах."
+"</p><p align=\"justify\">Це значення буде обчислено на основі даних щодо "
+"обладнання. Воно визначає ширину поля, яку покриває одна плитка мозаїки.</"
+"p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraHFOVSpin)
+#: ekos/scheduler/framingassistant.ui:802
+#, kde-format
+msgid ""
+"<html><head/><body><p align=\"justify\">Field height of the camera in "
+"arcminutes.</p><p align=\"justify\">This value is computed from the "
+"equipment information, and defines the height of the field covered by one "
+"tile of the mosaic.</p></body></html>"
+msgstr ""
+"<html><head/><body><p align=\"justify\">Висота поля камери у кутових мінутах."
+"</p><p align=\"justify\">Це значення буде обчислено на основі даних щодо "
+"обладнання. Воно визначає висоту поля, яку покриває одна плитка мозаїки.</"
+"p></body></html>"
+
+#. i18n: ectx: property (toolTip), widget (QLabel, label_2)
+#: ekos/scheduler/framingassistant.ui:820
+#, kde-format
+msgid ""
+"Camera's rotation angle (East of North) in degrees. To measure the angle, "
+"solve an image and use the astrometry solver solution's rotation angle"
+msgstr ""
+"Кут обертанні фотоапарата (на схід від півночі) у градусах. Щоб виміряти "
+"кут, виконайте астрометричну прив'язку зображення і скористайтеся кутом "
+"обертання із астрометричного розв'язку."
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: ekos/scheduler/framingassistant.ui:823
+#, kde-format
+msgid "Position Angle:"
+msgstr "Позиційний кут:"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, goRotateB)
+#: ekos/scheduler/framingassistant.ui:836
+#, kde-format
+msgid "Go to center and rotate to match this position angle"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#: ekos/scheduler/framingassistant.ui:855
+#, kde-format
+msgid "Tile Transparency:"
+msgstr "Прозорість плиток:"
+
+#. i18n: ectx: property (whatsThis), widget (QSlider, transparencySlider)
+#: ekos/scheduler/framingassistant.ui:865
+#, kde-format
+msgid "Adjust tiles transparency"
+msgstr "Скоригувати прозорість плиток"
+
+#. i18n: ectx: property (text), widget (QCheckBox, transparencyAuto)
+#: ekos/scheduler/framingassistant.ui:884
+#, kde-format
+msgctxt "Transparency"
+msgid "Auto"
+msgstr "Авто"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, reverseOddRows)
+#: ekos/scheduler/framingassistant.ui:902
+#, kde-format
+msgid ""
+"<html><head/><body><p>When checked, orders mosaic tiles so that the mount "
+"moves minimally between jobs (S-shape).</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Якщо позначено, упорядковує плитки мозаїки, щоб лафет "
+"мінімально пересувався між завданнями (за формою літери «S»).</p></body></"
+"html>"
+
+#. i18n: ectx: property (text), widget (QCheckBox, reverseOddRows)
+#: ekos/scheduler/framingassistant.ui:905
+#, kde-format
+msgid "Minimum mount move"
+msgstr "Мінімальне пересування лафета"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, positionAngleSpin)
-#: ekos/scheduler/framingassistant.ui:897
+#: ekos/scheduler/framingassistant.ui:917
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Orientation of the camera field of "
@@ -27602,73 +27608,73 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, positionAngleSpin)
-#: ekos/scheduler/framingassistant.ui:900
+#: ekos/scheduler/framingassistant.ui:920
 #, kde-format
 msgid " East of North"
 msgstr " Схід від півночі"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToEquipmentB)
-#: ekos/scheduler/framingassistant.ui:934
+#: ekos/scheduler/framingassistant.ui:954
 #, kde-format
 msgid "Go to equipment selection page"
 msgstr "Перейти до сторінки вибору обладнання"
 
 #. i18n: ectx: property (text), widget (QPushButton, backToEquipmentB)
-#: ekos/scheduler/framingassistant.ui:937
+#: ekos/scheduler/framingassistant.ui:957
 #, kde-format
 msgid "Confirm Equipment"
 msgstr "Підтвердити обладнання"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, importB)
-#: ekos/scheduler/framingassistant.ui:961
+#: ekos/scheduler/framingassistant.ui:980
 #, kde-format
 msgid "Import Mosaic from Telescopius"
 msgstr "Імпортувати мозаїку з Telescopius"
 
 #. i18n: ectx: property (text), widget (QPushButton, importB)
-#: ekos/scheduler/framingassistant.ui:964
+#: ekos/scheduler/framingassistant.ui:983
 #, kde-format
 msgid "Import..."
 msgstr "Імпортувати…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, recenterB)
-#: ekos/scheduler/framingassistant.ui:971
+#: ekos/scheduler/framingassistant.ui:990
 #, kde-format
 msgid "Reset mosaic center to sky map center"
 msgstr "Відновити центр мозаїки у центрі карти неба"
 
 #. i18n: ectx: property (text), widget (QPushButton, recenterB)
-#: ekos/scheduler/framingassistant.ui:974
+#: ekos/scheduler/framingassistant.ui:993
 #, kde-format
 msgid "Recenter"
 msgstr "Переобчислити центр"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToAdjustGrid)
-#: ekos/scheduler/framingassistant.ui:985
+#: ekos/scheduler/framingassistant.ui:1003
 #, kde-format
 msgid "Go to grid adjustment page"
 msgstr "Перейти до сторінки коригування сітки"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextToAdjustGrid)
-#: ekos/scheduler/framingassistant.ui:988
+#: ekos/scheduler/framingassistant.ui:1006
 #, kde-format
 msgid "Adjust Grid"
 msgstr "Скоригувати сітку"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fovGroup_2)
-#: ekos/scheduler/framingassistant.ui:1029
+#: ekos/scheduler/framingassistant.ui:1046
 #, kde-format
 msgid "↓ Adjust Grid"
 msgstr "↓ Скоригувати сітку"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: ekos/scheduler/framingassistant.ui:1091
+#: ekos/scheduler/framingassistant.ui:1108
 #, kde-format
 msgid "J2000 Center"
 msgstr "Центр J2000"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: ekos/scheduler/framingassistant.ui:1101
+#: ekos/scheduler/framingassistant.ui:1118
 #, kde-format
 msgid ""
 "Adjust Grid center by manually entering the J2000 center or by dragging the "
@@ -27679,52 +27685,52 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToSelectGrid)
 #. i18n: ectx: property (toolTip), widget (QPushButton, backToAdjustGridB)
-#: ekos/scheduler/framingassistant.ui:1126
-#: ekos/scheduler/framingassistant.ui:1666
+#: ekos/scheduler/framingassistant.ui:1143
+#: ekos/scheduler/framingassistant.ui:1678
 #, kde-format
 msgid "Go to grid selection page"
 msgstr "Перейти до сторінки вибору сітки"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, goSolveB)
-#: ekos/scheduler/framingassistant.ui:1156
+#: ekos/scheduler/framingassistant.ui:1172
 #, kde-format
 msgid "Go and plate solve mosaic center"
 msgstr "Перейти і розв'язати за центром мозаїки"
 
 #. i18n: ectx: property (text), widget (QPushButton, goSolveB)
-#: ekos/scheduler/framingassistant.ui:1159
+#: ekos/scheduler/framingassistant.ui:1175
 #, kde-format
 msgid "Go && Solve"
 msgstr "Перейти і розв'язати"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, nextToJobsB)
-#: ekos/scheduler/framingassistant.ui:1170
+#: ekos/scheduler/framingassistant.ui:1185
 #, kde-format
 msgid "Go to scheduler job creation page"
 msgstr "Перейти до сторінки створення завдань планувальника"
 
 #. i18n: ectx: property (text), widget (QPushButton, nextToJobsB)
 #. i18n: ectx: property (text), widget (QPushButton, createJobsB)
-#: ekos/scheduler/framingassistant.ui:1173
-#: ekos/scheduler/framingassistant.ui:1699
+#: ekos/scheduler/framingassistant.ui:1188
+#: ekos/scheduler/framingassistant.ui:1710
 #, kde-format
 msgid "Create Jobs"
 msgstr "Створити завдання"
 
 #. i18n: ectx: property (title), widget (QGroupBox, jobsGroup)
-#: ekos/scheduler/framingassistant.ui:1211
+#: ekos/scheduler/framingassistant.ui:1225
 #, kde-format
 msgid "↓Create  Scheduler Jobs"
 msgstr "↓Створити завдання планувальника"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, guideStepCheck)
-#: ekos/scheduler/framingassistant.ui:1223
+#: ekos/scheduler/framingassistant.ui:1237
 #, kde-format
 msgid "Perform calibration and autoguiding before proceeding to the next step."
 msgstr "Виконати калібрування і автонаведення до переходу до наступного кроку."
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, directoryEdit)
-#: ekos/scheduler/framingassistant.ui:1236
+#: ekos/scheduler/framingassistant.ui:1250
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Filesystem folder where the "
@@ -27736,13 +27742,13 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, sequenceLabel)
-#: ekos/scheduler/framingassistant.ui:1243 ekos/scheduler/scheduler.ui:304
+#: ekos/scheduler/framingassistant.ui:1257 ekos/scheduler/scheduler.ui:304
 #, kde-format
 msgid "Ekos Sequence File"
 msgstr "файл послідовності Ekos"
 
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/scheduler/framingassistant.ui:1246
+#: ekos/scheduler/framingassistant.ui:1260
 #, kde-format
 msgid ""
 "<html><head/><body><p>Sequence: <span style=\" color:#ff0000;\">*</span></"
@@ -27752,7 +27758,7 @@ msgstr ""
 "span></p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, alignStepCheck)
-#: ekos/scheduler/framingassistant.ui:1259
+#: ekos/scheduler/framingassistant.ui:1273
 #, kde-format
 msgid ""
 "Perform alignment using astrometry solver before proceeding to the next step."
@@ -27761,31 +27767,31 @@ msgstr ""
 "наступного кроку."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
-#: ekos/scheduler/framingassistant.ui:1278
+#: ekos/scheduler/framingassistant.ui:1292
 #, kde-format
 msgid "Select which steps to execute before starting the capture process."
 msgstr "Виберіть, які кроки слід виконувати перед запуском процесу захоплення."
 
 #. i18n: ectx: property (text), widget (QLabel, alignEveryLabel)
-#: ekos/scheduler/framingassistant.ui:1294
+#: ekos/scheduler/framingassistant.ui:1308
 #, kde-format
 msgid "Align Every"
 msgstr "Вирівнювання кожні"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadSequenceB)
-#: ekos/scheduler/framingassistant.ui:1313 ekos/scheduler/scheduler.ui:78
+#: ekos/scheduler/framingassistant.ui:1327 ekos/scheduler/scheduler.ui:78
 #, kde-format
 msgid "Load the image sequence queue."
 msgstr "Завантажити чергу послідовності зображень."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetEdit)
-#: ekos/scheduler/framingassistant.ui:1333
+#: ekos/scheduler/framingassistant.ui:1346
 #, kde-format
 msgid "M 31"
 msgstr "M 31"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, trackStepCheck)
-#: ekos/scheduler/framingassistant.ui:1346
+#: ekos/scheduler/framingassistant.ui:1359
 #, kde-format
 msgid "Slew to the target and track it before proceeding to the next step."
 msgstr "Навестися на ціль і стежити за нею до переходу до наступного кроку."
@@ -27793,14 +27799,14 @@ msgstr "Навестися на ціль і стежити за нею до пе
 #. i18n: ectx: property (text), widget (QCheckBox, trackStepCheck)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTrackStep)
 #. i18n: ectx: property (text), widget (QCheckBox, CheckTrack)
-#: ekos/scheduler/framingassistant.ui:1352 ekos/scheduler/scheduler.ui:220
+#: ekos/scheduler/framingassistant.ui:1365 ekos/scheduler/scheduler.ui:220
 #: tools/argsettrack.ui:38
 #, kde-format
 msgid "Track"
 msgstr "Стежити"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: ekos/scheduler/framingassistant.ui:1362
+#: ekos/scheduler/framingassistant.ui:1375
 #, kde-format
 msgid ""
 "<html><head/><body><p>Target: <span style=\" color:#ff0000;\">*</span></p></"
@@ -27810,19 +27816,19 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusEveryLabel)
-#: ekos/scheduler/framingassistant.ui:1375
+#: ekos/scheduler/framingassistant.ui:1388
 #, kde-format
 msgid "Focus Every"
 msgstr "Фокусування кожні"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
-#: ekos/scheduler/framingassistant.ui:1411
+#: ekos/scheduler/framingassistant.ui:1423
 #, kde-format
 msgid "Directory to save sequence images"
 msgstr "Каталог для збереження послідовності зображень"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
-#: ekos/scheduler/framingassistant.ui:1417
+#: ekos/scheduler/framingassistant.ui:1429
 #, kde-format
 msgid ""
 "<html><head/><body><p>Directory: <span style=\" color:#ff0000;\">*</span></"
@@ -27832,32 +27838,32 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, alignEvery)
-#: ekos/scheduler/framingassistant.ui:1424
+#: ekos/scheduler/framingassistant.ui:1436
 #, kde-format
 msgid "Perform alignment every N jobs."
 msgstr "Виконувати вирівнювання кожні N завдань."
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusEvery)
-#: ekos/scheduler/framingassistant.ui:1443
+#: ekos/scheduler/framingassistant.ui:1455
 #, kde-format
 msgid "Perform autofocus every N jobs."
 msgstr "Виконувати автоматичне фокусування кожні N завдань."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusStepCheck)
-#: ekos/scheduler/framingassistant.ui:1484
+#: ekos/scheduler/framingassistant.ui:1496
 #, kde-format
 msgid "Perform autofocusing before proceeding to the next step."
 msgstr "Виконати автофокусування до переходу до наступного кроку."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
-#: ekos/scheduler/framingassistant.ui:1522 ekos/scheduler/scheduler.ui:358
+#: ekos/scheduler/framingassistant.ui:1534 ekos/scheduler/scheduler.ui:358
 #, kde-format
 msgid "Group:"
 msgstr "Група:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, groupEdit)
-#: ekos/scheduler/framingassistant.ui:1534
+#: ekos/scheduler/framingassistant.ui:1546
 #, kde-format
 msgid ""
 "<html><head/><body><p align=\"justify\">Select a group name. Useful if you "
@@ -27874,7 +27880,7 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
-#: ekos/scheduler/framingassistant.ui:1563
+#: ekos/scheduler/framingassistant.ui:1575
 #, kde-format
 msgid "Completion Condition:"
 msgstr "Умова завершення:"
@@ -27882,8 +27888,8 @@ msgstr "Умова завершення:"
 #. i18n: ectx: property (toolTip), widget (QRadioButton, repeatCompletionR)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, schedulerExecutionSequencesLimit)
-#: ekos/scheduler/framingassistant.ui:1575
-#: ekos/scheduler/framingassistant.ui:1610 ekos/scheduler/scheduler.ui:1472
+#: ekos/scheduler/framingassistant.ui:1587
+#: ekos/scheduler/framingassistant.ui:1622 ekos/scheduler/scheduler.ui:1472
 #, kde-format
 msgid "Restart job until it is executed this many times."
 msgstr ""
@@ -27891,14 +27897,14 @@ msgstr ""
 "разів."
 
 #. i18n: ectx: property (text), widget (QRadioButton, repeatCompletionR)
-#: ekos/scheduler/framingassistant.ui:1578
+#: ekos/scheduler/framingassistant.ui:1590
 #, kde-format
 msgid "&Repeat for"
 msgstr "П&овторювати"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, sequenceCompletionR)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerCompleteSequences)
-#: ekos/scheduler/framingassistant.ui:1591 ekos/scheduler/scheduler.ui:1431
+#: ekos/scheduler/framingassistant.ui:1603 ekos/scheduler/scheduler.ui:1431
 #, kde-format
 msgid "The observation job is completed when the sequence is complete."
 msgstr ""
@@ -27906,72 +27912,72 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, sequenceCompletionR)
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerCompleteSequences)
-#: ekos/scheduler/framingassistant.ui:1594 ekos/scheduler/scheduler.ui:1434
+#: ekos/scheduler/framingassistant.ui:1606 ekos/scheduler/scheduler.ui:1434
 #, kde-format
 msgid "Se&quence completion"
 msgstr "Завершення пос&лідовності"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, repeatsSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, schedulerExecutionSequencesLimit)
-#: ekos/scheduler/framingassistant.ui:1613 ekos/scheduler/scheduler.ui:1475
+#: ekos/scheduler/framingassistant.ui:1625 ekos/scheduler/scheduler.ui:1475
 #, kde-format
 msgid " runs"
 msgstr " пусків"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, loopCompletionR)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerUntilTerminated)
-#: ekos/scheduler/framingassistant.ui:1635 ekos/scheduler/scheduler.ui:1497
+#: ekos/scheduler/framingassistant.ui:1647 ekos/scheduler/scheduler.ui:1497
 #, kde-format
 msgid "Restart the sequence job indefinitely."
 msgstr "Перезапускати завдання послідовності."
 
 #. i18n: ectx: property (text), widget (QRadioButton, loopCompletionR)
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerUntilTerminated)
-#: ekos/scheduler/framingassistant.ui:1638 ekos/scheduler/scheduler.ui:1500
+#: ekos/scheduler/framingassistant.ui:1650 ekos/scheduler/scheduler.ui:1500
 #, kde-format
 msgid "Repeat &until terminated"
 msgstr "Циклічне повторення до п&ереривання"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, createJobsB)
-#: ekos/scheduler/framingassistant.ui:1696
+#: ekos/scheduler/framingassistant.ui:1707
 #, kde-format
 msgid "Create scheduler jobs to execute the mosaic plan"
 msgstr "Створити заплановані завдання для виконання плану мозаїки"
 
-#: ekos/scheduler/framingassistantui.cpp:235 fitsviewer/fitsview.cpp:749
+#: ekos/scheduler/framingassistantui.cpp:238 fitsviewer/fitsview.cpp:749
 #, kde-format
 msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "%1%"
 
-#: ekos/scheduler/framingassistantui.cpp:695 ekos/scheduler/scheduler.cpp:780
+#: ekos/scheduler/framingassistantui.cpp:713 ekos/scheduler/scheduler.cpp:780
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Виберіть чергу послідовності"
 
-#: ekos/scheduler/framingassistantui.cpp:697 ekos/scheduler/scheduler.cpp:782
+#: ekos/scheduler/framingassistantui.cpp:715 ekos/scheduler/scheduler.cpp:782
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "черга послідовності Ekos (*.esq)"
 
-#: ekos/scheduler/framingassistantui.cpp:709
+#: ekos/scheduler/framingassistantui.cpp:727
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Mosaic Import"
 msgstr "Вибір імпортування мозаїки"
 
-#: ekos/scheduler/framingassistantui.cpp:711
+#: ekos/scheduler/framingassistantui.cpp:729
 #, kde-format
 msgid "Telescopius CSV (*.csv)"
 msgstr "CSV Telescopius (*.csv)"
 
-#: ekos/scheduler/framingassistantui.cpp:770
+#: ekos/scheduler/framingassistantui.cpp:788
 #, kde-format
 msgid "Import must contain center coordinates."
 msgstr "Імпортовані дані мають містити координати центра."
 
-#: ekos/scheduler/framingassistantui.cpp:849
+#: ekos/scheduler/framingassistantui.cpp:867
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Jobs Directory"
@@ -28259,12 +28265,7 @@ msgid "Follower"
 msgstr "Наступник"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -28277,7 +28278,9 @@ msgstr ""
 "Двічі клацніть, щоб змінити завдання за допомогою розташованих ліворуч "
 "полів.\n"
 "Клацніть із утриманням натиснутою клавіші Shift, щоб переглянути поточний "
-"графік висоти завдання."
+"графік висоти завдання.\n"
+"Клацніть із утриманням натиснутими клавіш Shift і Ctrl, щоб переглянути "
+"висоти для усіх завдань."
 
 #: ekos/scheduler/scheduler.cpp:165
 #, kde-format
@@ -30966,7 +30969,7 @@ msgid "Distance"
 msgstr "Відстань"
 
 #: fitsviewer/fitstab.cpp:770 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1137
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1131
 #, kde-format, kde-kuit-format
 msgid "Size"
 msgstr "Розмір"
@@ -81928,8 +81931,8 @@ msgid "Object Set"
 msgstr "Захід об'єкта"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3042
-#: tools/imagingplanner.cpp:3053 tools/imagingplanner.cpp:3068
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3041
+#: tools/imagingplanner.cpp:3052 tools/imagingplanner.cpp:3067
 #, kde-format
 msgid "Transit"
 msgstr "Кульмінація"
@@ -83032,52 +83035,52 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:175 tools/imagingplanner.ui:2057
+#: tools/imagingplanner.cpp:171 tools/imagingplanner.ui:2057
 #, kde-format
 msgid "Imaged"
 msgstr "Знято"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:180 tools/imagingplanner.ui:2027
+#: tools/imagingplanner.cpp:176 tools/imagingplanner.ui:2027
 #, kde-format
 msgid "Picked"
 msgstr "Вибрано"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:186 tools/imagingplanner.ui:2114
+#: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:2114
 #, kde-format
 msgid "Ignored"
 msgstr "Ігноровано"
 
-#: tools/imagingplanner.cpp:992
+#: tools/imagingplanner.cpp:986
 #, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "Планувальник зйомки"
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:1131
 #, kde-format
 msgid "Alt"
 msgstr "Вис"
 
-#: tools/imagingplanner.cpp:1138
+#: tools/imagingplanner.cpp:1132
 #, kde-format
 msgid "Const"
 msgstr "Const"
 
-#: tools/imagingplanner.cpp:1138
+#: tools/imagingplanner.cpp:1132
 #, kde-format
 msgid "Coord"
 msgstr "Коорд"
 
-#: tools/imagingplanner.cpp:1140
+#: tools/imagingplanner.cpp:1134
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 "Назва об'єкта — натисніть заголовок, щоб упорядкувати за зростанням або "
 "спаданням."
 
-#: tools/imagingplanner.cpp:1142
+#: tools/imagingplanner.cpp:1136
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
@@ -83086,14 +83089,14 @@ msgstr ""
 "Кількість годин, протягом яких об'єкт можна знімати — натисніть заголовок, "
 "щоб упорядкувати за зростанням або спаданням."
 
-#: tools/imagingplanner.cpp:1144
+#: tools/imagingplanner.cpp:1138
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 "Тип об'єкта — натисніть заголовок, щоб упорядкувати за зростанням або "
 "спаданням."
 
-#: tools/imagingplanner.cpp:1146
+#: tools/imagingplanner.cpp:1140
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
@@ -83101,14 +83104,14 @@ msgstr ""
 "Максимальні розміри об'єкта (у кут. мін.) — натисніть заголовок, щоб "
 "упорядкувати за зростанням або спаданням."
 
-#: tools/imagingplanner.cpp:1148
+#: tools/imagingplanner.cpp:1142
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 "Максимальна висота — натисніть заголовок, щоб упорядкувати за зростанням або "
 "спаданням."
 
-#: tools/imagingplanner.cpp:1150
+#: tools/imagingplanner.cpp:1144
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
@@ -83117,45 +83120,45 @@ msgstr ""
 "Кутова відстань від місяця опівночі — натисніть заголовок, щоб упорядкувати "
 "за зростанням або спаданням."
 
-#: tools/imagingplanner.cpp:1152
+#: tools/imagingplanner.cpp:1146
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 "Сузір'я — натисніть заголовок, щоб упорядкувати за зростанням або спаданням."
 
-#: tools/imagingplanner.cpp:1154
+#: tools/imagingplanner.cpp:1148
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 "Координати ПС/Схил — натисніть заголовок, щоб упорядкувати за зростанням або "
 "спаданням."
 
-#: tools/imagingplanner.cpp:1575
+#: tools/imagingplanner.cpp:1569
 #, kde-format
 msgid "No match for \"%1\""
 msgstr "Немає відповідників «%1»"
 
-#: tools/imagingplanner.cpp:1639
+#: tools/imagingplanner.cpp:1633
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr "Відкрити навігатор із першим посиланням у цій нотатці: %1"
 
-#: tools/imagingplanner.cpp:1644
+#: tools/imagingplanner.cpp:1638
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr "Відкрити навігатор із другим посиланням у цій нотатці: %1"
 
-#: tools/imagingplanner.cpp:1649
+#: tools/imagingplanner.cpp:1643
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr "Відкрити навігатор із третім посиланням у цій нотатці: %1"
 
-#: tools/imagingplanner.cpp:1979
+#: tools/imagingplanner.cpp:1978
 #, kde-format
 msgid "Updating tables..."
 msgstr "Оновлення таблиць…"
 
-#: tools/imagingplanner.cpp:2351
+#: tools/imagingplanner.cpp:2350
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -83164,32 +83167,32 @@ msgstr ""
 "Вам слід завантажити каталог, щоб почати користуватися цим інструментом.\n"
 "Див. «Дані -> Отримати нові дані…»"
 
-#: tools/imagingplanner.cpp:2352
+#: tools/imagingplanner.cpp:2351
 #, kde-format
 msgid "No Catalog!"
 msgstr "Немає каталогу!"
 
-#: tools/imagingplanner.cpp:2398
+#: tools/imagingplanner.cpp:2397
 #, kde-format
 msgid "Select an object."
 msgstr "Вибрати об'єкт."
 
-#: tools/imagingplanner.cpp:2400
+#: tools/imagingplanner.cpp:2399
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr "Скористайтеся «Фільтрами» для показу об'єктів."
 
-#: tools/imagingplanner.cpp:2402
+#: tools/imagingplanner.cpp:2401
 #, kde-format
 msgid "Load a Catalog."
 msgstr "Завантажити каталог."
 
-#: tools/imagingplanner.cpp:2535
+#: tools/imagingplanner.cpp:2534
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr "Шукати зображення NGC на сайті професора Селіджмена."
 
-#: tools/imagingplanner.cpp:2540
+#: tools/imagingplanner.cpp:2539
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
@@ -83197,7 +83200,7 @@ msgstr ""
 "Виконати пошук на сайті професора Селіджмена відомостей щодо об'єктів "
 "каталогу IC."
 
-#: tools/imagingplanner.cpp:2546
+#: tools/imagingplanner.cpp:2545
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
@@ -83205,133 +83208,133 @@ msgid ""
 msgstr ""
 "Виконати пошук на сайті galaxymap.org щодо відомостей об'єктів Sharpless2."
 
-#: tools/imagingplanner.cpp:2552
+#: tools/imagingplanner.cpp:2551
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr "Виконати пошук на сайті NASA відомостей щодо об'єктів каталогу Месьє."
 
-#: tools/imagingplanner.cpp:2557
+#: tools/imagingplanner.cpp:2556
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr "Виконати пошук на сайті Еміля Іванова відомостей щодо об'єктів VDB."
 
-#: tools/imagingplanner.cpp:2706
+#: tools/imagingplanner.cpp:2705
 #, kde-format
 msgid "Loading Catalogs..."
 msgstr "Завантаження каталогів…"
 
-#: tools/imagingplanner.cpp:3031
+#: tools/imagingplanner.cpp:3030
 #, kde-format
 msgid "Transits"
 msgstr "Кульмінації"
 
-#: tools/imagingplanner.cpp:3036 tools/imagingplanner.cpp:3040
+#: tools/imagingplanner.cpp:3035 tools/imagingplanner.cpp:3039
 #, kde-format
 msgid "Sets at"
 msgstr "Заходить"
 
-#: tools/imagingplanner.cpp:3047 tools/imagingplanner.cpp:3051
+#: tools/imagingplanner.cpp:3046 tools/imagingplanner.cpp:3050
 #, kde-format
 msgid "Rises at"
 msgstr "Сходить"
 
-#: tools/imagingplanner.cpp:3058 tools/imagingplanner.cpp:3064
+#: tools/imagingplanner.cpp:3057 tools/imagingplanner.cpp:3063
 #, kde-format
 msgid "Rises"
 msgstr "Сходить"
 
-#: tools/imagingplanner.cpp:3060 tools/imagingplanner.cpp:3066
+#: tools/imagingplanner.cpp:3059 tools/imagingplanner.cpp:3065
 #, kde-format
 msgid "Sets"
 msgstr "Заходить"
 
-#: tools/imagingplanner.cpp:3172 tools/imagingplanner.cpp:3428
+#: tools/imagingplanner.cpp:3171 tools/imagingplanner.cpp:3427
 #, kde-format
 msgid "objects"
 msgstr "об'єкти"
 
-#: tools/imagingplanner.cpp:3424
+#: tools/imagingplanner.cpp:3423
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 і %3 інших об'єктів"
 
-#: tools/imagingplanner.cpp:3432 tools/imagingplanner.cpp:3436
+#: tools/imagingplanner.cpp:3431 tools/imagingplanner.cpp:3435
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr "Позначити %1 як НЕ зняте"
 
-#: tools/imagingplanner.cpp:3433 tools/imagingplanner.cpp:3438
+#: tools/imagingplanner.cpp:3432 tools/imagingplanner.cpp:3437
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr "Позначити %1 як вже зняте"
 
-#: tools/imagingplanner.cpp:3442 tools/imagingplanner.cpp:3446
+#: tools/imagingplanner.cpp:3441 tools/imagingplanner.cpp:3445
 #, kde-format
 msgid "Un-pick %1"
 msgstr "Скасувати вибір %1"
 
-#: tools/imagingplanner.cpp:3443 tools/imagingplanner.cpp:3448
+#: tools/imagingplanner.cpp:3442 tools/imagingplanner.cpp:3447
 #, kde-format
 msgid "Pick %1"
 msgstr "Вибрати %1"
 
-#: tools/imagingplanner.cpp:3453 tools/imagingplanner.cpp:3458
+#: tools/imagingplanner.cpp:3452 tools/imagingplanner.cpp:3457
 #, kde-format
 msgid "Stop ignoring %1"
 msgstr "Припинити ігнорування %1"
 
-#: tools/imagingplanner.cpp:3454 tools/imagingplanner.cpp:3460
+#: tools/imagingplanner.cpp:3453 tools/imagingplanner.cpp:3459
 #, kde-format
 msgid "Ignore %1"
 msgstr "Ігнорувати %1"
 
-#: tools/imagingplanner.cpp:3463
+#: tools/imagingplanner.cpp:3462
 #, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "Розмістити %1 у центрі карти неба"
 
-#: tools/imagingplanner.cpp:3602
+#: tools/imagingplanner.cpp:3601
 #, kde-format
 msgid "Successfully marked %1 objects as read"
 msgstr "Успішно позначено %1 об'єктів як прочитане"
 
-#: tools/imagingplanner.cpp:3604
+#: tools/imagingplanner.cpp:3603
 #, kde-format
 msgid "Empty file"
 msgstr "Порожній файл"
 
-#: tools/imagingplanner.cpp:3613
+#: tools/imagingplanner.cpp:3612
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr "Не вдалося позначити усі ці об'єкти як зняті: %1"
 
-#: tools/imagingplanner.cpp:3615
+#: tools/imagingplanner.cpp:3614
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr "Не вдалося позначити %1 об'єктів як зняте, включно з: %2"
 
-#: tools/imagingplanner.cpp:3617
+#: tools/imagingplanner.cpp:3616
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr "Успішно позначено %1 знятих об'єктів. Не вдалося для %2: %3"
 
-#: tools/imagingplanner.cpp:3620
+#: tools/imagingplanner.cpp:3619
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 "Успішно позначено %1 знятих об'єктів. Не вдалося для %2, зокрема цих: %3"
 
-#: tools/imagingplanner.cpp:3626 tools/imagingplanner.cpp:3829
+#: tools/imagingplanner.cpp:3625 tools/imagingplanner.cpp:3875
 #, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Вибачте, не вдалося відкрити файл: «%1»"
 
-#: tools/imagingplanner.cpp:3738
+#: tools/imagingplanner.cpp:3739
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr "Вибачте, файла каталогу не існує: «%1»"
 
-#: tools/imagingplanner.cpp:3810
+#: tools/imagingplanner.cpp:3860
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr "%1 з %2: додавання %3"
