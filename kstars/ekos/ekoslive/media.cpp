@@ -48,7 +48,6 @@ Media::Media(Ekos::Manager * manager, QVector<QSharedPointer<NodeManager>> &node
         connect(nodeManager->media(), &Node::onBinaryReceived, this, &Media::onBinaryReceived);
     }
 
-    connect(this, &Media::newMetadata, this, &Media::uploadMetadata);
     connect(this, &Media::newImage, this, [this](const QByteArray & image)
     {
         uploadImage(image);
@@ -699,14 +698,6 @@ void Media::resetPolarView()
 {
     this->correctionVector = QLineF();
     m_Manager->alignModule()->zoomAlignView();
-}
-
-void Media::uploadMetadata(const QByteArray &metadata)
-{
-    for (auto &nodeManager : m_NodeManagers)
-    {
-        nodeManager->media()->sendTextMessage(metadata);
-    }
 }
 
 void Media::uploadImage(const QByteArray &image)

@@ -34,7 +34,7 @@ class Media : public QObject
 
         // Ekos Media Message to User
         void sendFile(const QString &filename, const QString &uuid);
-        void sendData(const QSharedPointer<FITSData> &data, const QString &uuid);        
+        void sendData(const QSharedPointer<FITSData> &data, const QString &uuid);
         void sendView(const QSharedPointer<FITSView> &view, const QString &uuid);
         void sendUpdatedFrame(const QSharedPointer<FITSView> &view);
         void sendModuleFrame(const QSharedPointer<FITSView> &view);
@@ -47,7 +47,6 @@ class Media : public QObject
         void disconnected();
 
         void newBoundingRect(QRect rect, QSize view, double currentZoom);
-        void newMetadata(const QByteArray &metadata);
         void newImage(const QByteArray &image);
 
     public slots:
@@ -68,14 +67,13 @@ class Media : public QObject
     private slots:
         // Connection
         void onConnected();
-        void onDisconnected();        
+        void onDisconnected();
 
         // Communication
         void onTextReceived(const QString &message);
         void onBinaryReceived(const QByteArray &message);
 
         // Metadata and Image upload
-        void uploadMetadata(const QByteArray &metadata);
         void uploadImage(const QByteArray &image);
 
     private:
