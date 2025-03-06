@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 02:22+0000\n"
-"PO-Revision-Date: 2025-03-02 09:12+0100\n"
+"PO-Revision-Date: 2025-03-05 07:00+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -28168,12 +28168,7 @@ msgid "Follower"
 msgstr "Seguimento"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -28184,7 +28179,8 @@ msgstr ""
 "Lista do planificador de tarefas.\n"
 "Prema para seleccionar un traballo na lista.\n"
 "Prema dúas veces para editar un traballo cos campos da esquerda.\n"
-"Maiús + clic para ver a altitude dun traballo esta noite."
+"Maiús + clic para ver a altitude dun traballo esta noite.\n"
+"Maiús + Ctrl + clic para ver as altitudes de todos os traballos."
 
 #: ekos/scheduler/scheduler.cpp:165
 #, kde-format

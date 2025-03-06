@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 02:22+0000\n"
-"PO-Revision-Date: 2025-03-04 14:28+0100\n"
+"PO-Revision-Date: 2025-03-05 11:20+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -27320,10 +27320,9 @@ msgstr "Positiehoek:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, goRotateB)
 #: ekos/scheduler/framingassistant.ui:836
-#, fuzzy, kde-format
-#| msgid "Set FOV indicator Position Angle to match this Position Angle"
+#, kde-format
 msgid "Go to center and rotate to match this position angle"
-msgstr "Stel de positiehoek van het GV in op deze positiehoek"
+msgstr "Ga naar het centrum en draai om op deze positiehoek uit te komen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/scheduler/framingassistant.ui:855
