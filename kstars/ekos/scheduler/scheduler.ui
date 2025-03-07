@@ -1116,55 +1116,74 @@
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="queueTable">
-          <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
+         <widget class="QSplitter" name="tableLayout">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="rowCount">
-           <number>0</number>
-          </property>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Name</string>
+          <widget class="QTableWidget" name="queueTable">
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Status</string>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
            </property>
-           <property name="font">
-            <font>
-             <weight>50</weight>
-             <bold>false</bold>
-            </font>
+           <property name="rowCount">
+            <number>0</number>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Captures</string>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <column>
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Status</string>
+            </property>
+            <property name="font">
+             <font>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Captures</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Altitude</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Start Time</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>End Time</string>
+            </property>
+           </column>
+          </widget>
+          <widget class="Ekos::SchedulerAltitudeGraph" name="altGraph" native="true">
+           <property name="enabled">
+            <bool>true</bool>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Altitude</string>
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
            </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Start Time</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>End Time</string>
-           </property>
-          </column>
+          </widget>
          </widget>
         </item>
         <item>
@@ -2376,6 +2395,12 @@ font-weight:bold;
    <extends>QLineEdit</extends>
    <header>widgets/dmsbox.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+    <class>Ekos::SchedulerAltitudeGraph</class>
+    <extends>QFrame</extends>
+    <header>ekos/scheduler/scheduleraltitudegraph.h</header>
+    <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>

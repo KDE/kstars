@@ -49,13 +49,6 @@ class AltVsTime : public QDialog
     ~AltVsTime() override;
 
     /**
-     * Determine the limits for the sideral time axis, using
-     * the sidereal time at midnight for the current date
-     * and location settings.
-     */
-    void setLSTLimits();
-
-    /**
      * Set the AltVsTime Date according to the current Date
      * in the KStars main window.  Currently, this is only
      * used in the ctor to initialize the Date.
@@ -67,15 +60,6 @@ class AltVsTime : public QDialog
      * current setting in the Date widget.
      */
     KStarsDateTime getDate();
-
-    /**
-     * Determine the time of sunset and sunrise for the current
-     * date and location settings.  Convert the times to doubles,
-     * expressing the times as fractions of a full day.
-     * Calls AVTPlotWidget::setSunRiseSetTimes() to send the
-     * numbers to the plot widget.
-     */
-    void computeSunRiseSetTimes();
 
     /**
      * Parse a string as an epoch number.  If the string can't
@@ -183,9 +167,6 @@ class AltVsTime : public QDialog
     void slotPrint();
 
   private:
-    /** @short find start of dawn, end of dusk, maximum and minimum elevation of the sun */
-    void setDawnDusk();
-
     AltVsTimeUI *avtUI { nullptr };
 
     GeoLocation *geo { nullptr };

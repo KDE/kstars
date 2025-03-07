@@ -6,36 +6,49 @@
 
 #pragma once
 
-#include <QDialog>
+#include "ui_scheduleraltitudegraph.h"
+
 #include "ekos/ekos.h"
 
-class GeoLocation;
-class KStarsDateTime;
-class KSAlmanac;
-
-namespace Ui
-{
-class SchedulerAltitudeGraph;
-}
+#include <QFrame>
+#include <QDateTime>
 
 namespace Ekos
 {
-class SchedulerAltitudeGraph : public QDialog
+
+class SchedulerModuleState;
+
+class SchedulerAltitudeGraph : public QFrame, public Ui::SchedulerAltitudeGraph
 {
         Q_OBJECT
 
     public:
-        explicit SchedulerAltitudeGraph(QWidget *parent = nullptr);
-        ~SchedulerAltitudeGraph();
+      SchedulerAltitudeGraph(QWidget * parent = nullptr);
 
-    void plot(const GeoLocation *geo, KSAlmanac *ksal,
-              const QVector<double> &times, const QVector<double> &alts);
-    void plotOverlay(const QVector<double> &times, const QVector<double> &alts, int penWidth = 5, Qt::GlobalColor = Qt::green);
-    void setTitle(const QString &name);
+      // Must be called at setup to point to the scheduler state.
+      void setState(QSharedPointer<SchedulerModuleState> state);
+
+      // Plots the graph.
+      void plot();
+
+      // Calls plot, but only if it hasn't been called in the past 120s.
+      void tickle();
 
     private:
-        Ui::SchedulerAltitudeGraph *ui;
-};
+      void setup();
+      void handleButtons(bool disable = false);
 
+      QSharedPointer<SchedulerModuleState> m_State;
+
+      // Last time we plotted.
+      QDateTime m_AltitudeGraphUpdateTime;
+
+      // Tells plot to increment the day to be plotted by this many days.
+      int m_AltGraphDay { 0 };
+
+    protected slots:
+        void next();
+        void prev();
+};
 }
 

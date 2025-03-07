@@ -92,11 +92,20 @@ class AVTPlotWidget : public KPlotWidget
      * @param alts the altitudes (y-axis) of the plot
      * @param overlay Should be false on first plot. If overlaying a 2nd plot, set to true then.
      */
-    void plot(const GeoLocation *geo, KSAlmanac *ksal,
-              const QVector<double> &times, const QVector<double> &alts, bool overlay = false);
+    void plot(const GeoLocation *geo, KSAlmanac *ksal, const QVector<double> &times,
+              const QVector<double> &alts, int lineWidth = 2, Qt::GlobalColor color = Qt::white);
 
     void plotOverlay(const QVector<double> &times, const QVector<double> &alts,
-                     int penWidth = 5, Qt::GlobalColor color = Qt::green);
+                     int lineWidth = 5, Qt::GlobalColor color = Qt::green);
+
+    /**
+     * Sets the plot index which whose altitude is displayed when clicking on the graph.
+     * @param lineIndex the plot index whose altitude should be displayed when the plot is clicked.
+     */
+    void setCurrentLine(int lineIndex);
+
+    void disableAxis(KPlotWidget::Axis axisToDisable);
+
 
   protected:
     /**
@@ -135,4 +144,6 @@ class AVTPlotWidget : public KPlotWidget
     double altitudeAxisMax { 90.0 };
     QPoint MousePoint;
     const GeoLocation *geo { nullptr };
+
+    int currentLine { 0 };
 };

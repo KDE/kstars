@@ -174,9 +174,9 @@ AltVsTime::AltVsTime(QWidget *parent) : QDialog(parent)
     avtUI->longBox->show(geo->lng());
     avtUI->latBox->show(geo->lat());
 
-    computeSunRiseSetTimes();
-    setLSTLimits();
-    setDawnDusk();
+    //computeSunRiseSetTimes();
+    //setLSTLimits();
+    //setDawnDusk();
 
     connect(avtUI->View->yAxis, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onYRangeChanged(QCPRange)));
     connect(avtUI->View->xAxis2, SIGNAL(rangeChanged(QCPRange)), this, SLOT(onXRangeChanged(QCPRange)));
@@ -847,82 +847,6 @@ void AltVsTime::slotMarkTransitTime()
     }
 }
 
-void AltVsTime::computeSunRiseSetTimes()
-{
-    //Determine the time of sunset and sunrise for the desired date and location
-    //expressed as doubles, the fraction of a full day.
-
-    /* KSAlmanac ksal(getDate(), geo); */
-
-    /* ... */
-}
-
-//FIXME
-/*
-void AltVsTime::mouseOverLine(QMouseEvent *event){
-    // Get the mouse position's coordinates relative to axes:
-    double x = avtUI->View->xAxis->pixelToCoord(event->pos().x());
-    double y = avtUI->View->yAxis->pixelToCoord(event->pos().y());
-    // Save the actual values:
-    double yValue = y;
-    double xValue = x;
-    // The offset used for the Y axis: top/bottom
-    int offset = 3;
-    // Compute the Y axis maximum value:
-    int yAxisMaxValue = maxAlt + offset;
-    // Compute the X axis minimum and maximum values:
-    int xAxisMinValue = 43200;
-    int xAxisMaxValue = 129600;
-    // Ignore the upper and left margins:
-    y = yAxisMaxValue - y;
-    x -= xAxisMinValue;
-    // We make a copy to gradient background in order to have one set of lines at a time:
-    // Otherwise, the chart would have been covered by lines
-    QPixmap copy = gradient->copy(gradient->rect());
-    // If ZOOM is not active, then draw the gold lines that indicate current mouse pisition:
-    if(avtUI->View->xAxis->range().size() == 86400){
-        QPainter p;
-
-        p.begin(&copy);
-        p.setPen( QPen( QBrush("gold"), 2, Qt::SolidLine ) );
-
-        // Get the gradient background's width and height:
-        int pW = gradient->rect().width();
-        int pH = gradient->rect().height();
-
-        // Compute the real coordinates within the chart:
-        y = (y*pH/2)/yAxisMaxValue;
-        x = (x*pW)/(xAxisMaxValue-xAxisMinValue);
-
-        // Draw the horizontal line (altitude):
-        p.drawLine( QLineF( 0.5, y, avtUI->View->rect().width()-0.5,y ) );
-        // Draw the altitude value:
-        p.setPen( QPen( QBrush("gold"), 3, Qt::SolidLine ) );
-        p.drawText( 25, y + 15, QString::number(yValue,'f',2) + QChar(176) );
-        p.setPen( QPen( QBrush("gold"), 1, Qt::SolidLine ) );
-        // Draw the vertical line (time):
-        p.drawLine( QLineF( x, 0.5, x, avtUI->View->rect().height()-0.5 ) );
-        // Compute and draw the time value:
-        QTime localTime(0,0,0,0);
-        localTime = localTime.addSecs(int(xValue));
-        p.save();
-        p.translate( x + 10, pH - 20 );
-        p.rotate(-90);
-        p.setPen( QPen( QBrush("gold"), 3, Qt::SolidLine ) );
-        p.drawText( 5, 5, QLocale().toString( localTime, QLocale::ShortFormat ) ); // short format necessary to avoid false time-zone labeling
-        p.restore();
-        p.end();
-    }
-    // Refresh the background:
-    background->setScaled(false);
-    background->setScaled(true, Qt::IgnoreAspectRatio);
-    background->setPixmap(copy);
-
-    avtUI->View->update();
-    avtUI->View->replot();
-}
-*/
-
 void AltVsTime::mouseOverLine(QMouseEvent *event)
 {
     double x                            = avtUI->View->xAxis->pixelToCoord(event->localPos().x());
@@ -986,9 +910,9 @@ void AltVsTime::slotUpdateDateLoc()
     CachingDms LST       = geo->GSTtoLST(today.gst());
 
     //First determine time of sunset and sunrise
-    computeSunRiseSetTimes();
+    // computeSunRiseSetTimes();
     // Determine dawn/dusk time and min/max sun elevation
-    setDawnDusk();
+    // setDawnDusk();
 
     for (int i = 0; i < pList.count(); ++i)
     {
@@ -1106,7 +1030,7 @@ void AltVsTime::slotUpdateDateLoc()
     else
         DayOffset = 0;
 
-    setLSTLimits();
+    //setLSTLimits();
     slotHighlight(avtUI->PlotList->currentRow());
     avtUI->View->update();
 
@@ -1127,22 +1051,6 @@ void AltVsTime::slotChooseCity()
         }
     }
     delete ld;
-}
-
-// FIXME: should we remove this method?
-void AltVsTime::setLSTLimits()
-{
-    /*
-    //UT at noon on target date
-    KStarsDateTime ut = getDate().addSecs(((double)DayOffset + 0.5)*86400.);
-
-    dms lst = geo->GSTtoLST(ut.gst());
-    double h1 = lst.Hours();
-    if(h1 > 12.0)
-        h1 -= 24.0;
-    double h2 = h1 + 24.0;
-    avtUI->View->setSecondaryLimits(h1, h2, -90.0, 90.0);
-    */
 }
 
 void AltVsTime::showCurrentDate()
@@ -1370,20 +1278,6 @@ double AltVsTime::getEpoch(const QString &eName)
         return 2000.0;
     }
     return epoch;
-}
-
-void AltVsTime::setDawnDusk()
-{
-    /* TODO */
-
-    /*
-    KSAlmanac almanac(getDate(), geo);
-
-    avtUI->View->setDawnDuskTimes(almanac.getDawnAstronomicalTwilight(), almanac.getDuskAstronomicalTwilight());
-    avtUI->View->setMinMaxSunAlt(almanac.getSunMinAlt(), almanac.getSunMaxAlt());
-    */
-
-    /* ... */
 }
 
 void AltVsTime::slotPrint()

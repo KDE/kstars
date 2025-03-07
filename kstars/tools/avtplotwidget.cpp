@@ -341,8 +341,8 @@ void AVTPlotWidget::paintEvent(QPaintEvent *e)
 
         double h = (MousePoint.x() * plotDuration) / pW - (12.0 - noonOffset);
         double a = 0;
-        if (plotObjects().size() > 0)
-            a = findYValue(plotObjects()[0], h);
+        if (currentLine >= 0 && currentLine < plotObjects().size())
+            a = findYValue(plotObjects()[currentLine], h);
         p.drawText(15, 15, QString::number(a, 'f', 1) + QChar(176));
 
         if (h < 0.0)
@@ -358,6 +358,12 @@ void AVTPlotWidget::paintEvent(QPaintEvent *e)
     }
 
     p.end();
+}
+
+void AVTPlotWidget::setCurrentLine(int index)
+{
+    if (index >= 0 && index < plotObjects().size())
+        currentLine = index;
 }
 
 void AVTPlotWidget::setDawnDuskTimes(double da, double du)
@@ -400,37 +406,38 @@ void AVTPlotWidget::setPlotExtent(double offset, double duration)
     plotDuration = duration;
 }
 
-void AVTPlotWidget::plot(const GeoLocation *geo, KSAlmanac *ksal,
-                         const QVector<double> &times, const QVector<double> &alts, bool overlay)
+void AVTPlotWidget::disableAxis(KPlotWidget::Axis axisToDisable)
 {
-    KPlotObject *po = new KPlotObject(Qt::white, KPlotObject::Lines, 2);
-    if (overlay)
-    {
-        QPen pen;
-        pen.setWidth(5);
-        pen.setColor(Qt::green);
-        po->setLinePen(pen);
-    }
-    else
-    {
-        setLimits(times[0], times.last(), altitudeAxisMin, altitudeAxisMax);
-        setSecondaryLimits(times[0], times.last(), altitudeAxisMin, altitudeAxisMax);
-        axis(KPlotWidget::BottomAxis)->setTickLabelFormat('t');
-        axis(KPlotWidget::TopAxis)->setTickLabelFormat('t');
-        axis(KPlotWidget::TopAxis)->setTickLabelsShown(true);
-        setGeoLocation(geo);
+    axis(axisToDisable)->setVisible(false);
+}
 
-        setSunRiseSetTimes(ksal->getSunRise(), ksal->getSunSet());
-        setDawnDuskTimes(ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight());
-        setMinMaxSunAlt(ksal->getSunMinAlt(), ksal->getSunMaxAlt());
-        setMoonRiseSetTimes(ksal->getMoonRise(), ksal->getMoonSet());
-        setMoonIllum(ksal->getMoonIllum());
+void AVTPlotWidget::plot(const GeoLocation *geo, KSAlmanac *ksal, const QVector<double> &times,
+                         const QVector<double> &alts, int lineWidth, Qt::GlobalColor color)
+{
+    KPlotObject *po = new KPlotObject(color, KPlotObject::Lines, lineWidth);
+    QPen pen;
+    pen.setWidth(lineWidth);
+    pen.setColor(color);
+    po->setLinePen(pen);
 
-        const double noonOffset = times[0] - -12;
-        const double plotDuration = times.last() - times[0];
-        setPlotExtent(noonOffset, plotDuration);
-        removeAllPlotObjects();
-    }
+    currentLine = 0;
+    setLimits(times[0], times.last(), altitudeAxisMin, altitudeAxisMax);
+    setSecondaryLimits(times[0], times.last(), altitudeAxisMin, altitudeAxisMax);
+    axis(KPlotWidget::BottomAxis)->setTickLabelFormat('t');
+    axis(KPlotWidget::TopAxis)->setTickLabelFormat('t');
+    axis(KPlotWidget::TopAxis)->setTickLabelsShown(true);
+    setGeoLocation(geo);
+
+    setSunRiseSetTimes(ksal->getSunRise(), ksal->getSunSet());
+    setDawnDuskTimes(ksal->getDawnAstronomicalTwilight(), ksal->getDuskAstronomicalTwilight());
+    setMinMaxSunAlt(ksal->getSunMinAlt(), ksal->getSunMaxAlt());
+    setMoonRiseSetTimes(ksal->getMoonRise(), ksal->getMoonSet());
+    setMoonIllum(ksal->getMoonIllum());
+
+    const double noonOffset = times[0] - -12;
+    const double plotDuration = times.last() - times[0];
+    setPlotExtent(noonOffset, plotDuration);
+    removeAllPlotObjects();
 
     for (int i = 0; i < times.size(); ++i)
         po->addPoint(times[i], alts[i]);
@@ -439,13 +446,12 @@ void AVTPlotWidget::plot(const GeoLocation *geo, KSAlmanac *ksal,
     update();
 }
 
-void AVTPlotWidget::plotOverlay(const QVector<double> &times, const QVector<double> &alts, int penWidth,
+void AVTPlotWidget::plotOverlay(const QVector<double> &times, const QVector<double> &alts, int lineWidth,
                                 Qt::GlobalColor color)
 {
-    KPlotObject *po = new KPlotObject(Qt::white, KPlotObject::Lines, 2);
-
+    KPlotObject *po = new KPlotObject(Qt::white, KPlotObject::Lines, lineWidth);
     QPen pen;
-    pen.setWidth(penWidth);
+    pen.setWidth(lineWidth);
     pen.setColor(color);
     po->setLinePen(pen);
 

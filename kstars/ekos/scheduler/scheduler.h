@@ -45,7 +45,6 @@ class GreedyScheduler;
 class SchedulerProcess;
 class SchedulerModuleState;
 class SequenceEditor;
-class SchedulerAltitudeGraph;
 
 /**
  * @brief The Ekos scheduler is a simple scheduler class to orchestrate automated multi object observation jobs.
@@ -595,10 +594,5 @@ class Scheduler : public QWidget, public Ui::Scheduler
         QVariantMap m_Settings;
         QVariantMap m_GlobalSettings;
         QTimer m_DebounceTimer;
-
-        // Altitude Graph
-        QPointer<SchedulerAltitudeGraph> m_altitudeGraph;
-        void handleAltitudeGraph(int index);
-        void handleAltitudeGraphs();
 };
 }
