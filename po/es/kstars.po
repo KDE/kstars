@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-05 02:22+0000\n"
-"PO-Revision-Date: 2025-03-01 11:15+0100\n"
+"PO-Revision-Date: 2025-03-06 20:04+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -27625,7 +27625,7 @@ msgstr "Ángulo de posición:"
 #: ekos/scheduler/framingassistant.ui:836
 #, kde-format
 msgid "Go to center and rotate to match this position angle"
-msgstr ""
+msgstr "Ir al centro y rotar para que coincida con este ángulo de posición."
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/scheduler/framingassistant.ui:855
@@ -28334,12 +28334,7 @@ msgid "Follower"
 msgstr "Siguiente"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight."
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -28350,7 +28345,8 @@ msgstr ""
 "Lista del planificador de trabajos.\n"
 "Haga clic para seleccionar un trabajo de la lista.\n"
 "Doble clic para editar un trabajo con los campos de la izquierda.\n"
-"Mayúsculas+clic para ver la altitud de un trabajo de esta noche."
+"Mayúsculas+clic para ver la altitud de un trabajo de esta noche.\n"
+"Mayúsculas+Control+ clic para ver las altitudes de todos los trabajos."
 
 #: ekos/scheduler/scheduler.cpp:165
 #, kde-format
