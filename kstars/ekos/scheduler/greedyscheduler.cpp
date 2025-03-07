@@ -847,7 +847,8 @@ QDateTime GreedyScheduler::simulate(const QList<SchedulerJob *> &jobs, const QDa
             // Can't set the standard completionTime as it affects getEstimatedTime()
             jobs[i]->setStopTime(copiedJobs[i]->getStopTime());
             jobs[i]->setStopReason(copiedJobs[i]->getStopReason());
-            jobs[i]->setSimulatedSchedule(copiedJobs[i]->getSimulatedSchedule());
+            if (simType == SIMULATE)
+                jobs[i]->setSimulatedSchedule(copiedJobs[i]->getSimulatedSchedule());
         }
     }
     // This should go after above loop. unsetEvaluation calls setState() which clears
