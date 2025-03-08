@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-05 02:22+0000\n"
+"POT-Creation-Date: 2025-03-08 02:03+0000\n"
 "PO-Revision-Date: 2025-03-05 08:47+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -219,7 +219,7 @@ msgid "Asteroids"
 msgstr "Астероїди"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerHorizon)
-#: auxiliary/colorscheme.cpp:64 ekos/scheduler/scheduler.ui:1806
+#: auxiliary/colorscheme.cpp:64 ekos/scheduler/scheduler.ui:1825
 #: skycomponents/artificialhorizoncomponent.cpp:142
 #, kde-format
 msgid "Artificial Horizon"
@@ -417,7 +417,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SavePreset)
 #: auxiliary/imageviewer.cpp:134 ekos/align/mountmodel.cpp:386
 #: ekos/auxiliary/buildfilteroffsets.cpp:343 ekos/capture/camera.cpp:1288
-#: ekos/scheduler/scheduler.cpp:2114
+#: ekos/scheduler/scheduler.cpp:2103
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:88
 #: kstarslite/qml/dialogs/helpers/LocationEdit.qml:375
 #: oal/equipmentwriter.ui:291 oal/equipmentwriter.ui:699
@@ -585,7 +585,7 @@ msgstr "Скасувати"
 #: ekos/align/opsastrometryindexfiles.cpp:730 ekos/analyze/analyze.cpp:140
 #: ekos/analyze/analyze.cpp:142 ekos/capture/sequencejob.cpp:24
 #: ekos/manager.cpp:1204 ekos/manager.cpp:1219 ekos/manager.cpp:1249
-#: ekos/scheduler/scheduler.cpp:1634 fitsviewer/solveInfo.ui:86
+#: ekos/scheduler/scheduler.cpp:1623 fitsviewer/solveInfo.ui:86
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:32
 #: kstarsactions.cpp:511 kstarsactions.cpp:519 kstarsactions.cpp:529
 #: skycomponents/imageoverlaycomponent.cpp:529
@@ -2040,10 +2040,10 @@ msgstr "Стан:"
 #: ekos/ekos.h:20 ekos/ekos.h:71 ekos/ekos.h:118 ekos/ekos.h:138
 #: ekos/ekos.h:161 ekos/ekos.h:198 ekos/guide/guidestatewidget.ui:38
 #: ekos/manager.cpp:688 ekos/manager/guidemanager.cpp:135
-#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1627
-#: ekos/scheduler/scheduler.cpp:2279 ekos/scheduler/scheduler.cpp:2517
-#: ekos/scheduler/scheduler.cpp:2525 ekos/scheduler/scheduler.cpp:2535
-#: ekos/scheduler/scheduler.ui:1327 indi/indidome.cpp:20
+#: ekos/manager/guidemanager.ui:117 ekos/scheduler/scheduler.cpp:1616
+#: ekos/scheduler/scheduler.cpp:2268 ekos/scheduler/scheduler.cpp:2507
+#: ekos/scheduler/scheduler.cpp:2515 ekos/scheduler/scheduler.cpp:2525
+#: ekos/scheduler/scheduler.ui:1346 indi/indidome.cpp:20
 #: indi/indidustcap.cpp:16 indi/indimount.cpp:30
 #, kde-format, kde-kuit-format
 msgid "Idle"
@@ -2418,8 +2418,8 @@ msgid "Check if magnitude is unknown"
 msgstr "Позначте, якщо величина є невідомою"
 
 #. i18n: ectx: property (text), widget (QCheckBox, magUnknown)
-#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1635
-#: ekos/scheduler/scheduler.cpp:2294 fitsviewer/fitshistogram.cpp:781
+#: dialogs/addcatalogobject.ui:113 ekos/scheduler/scheduler.cpp:1624
+#: ekos/scheduler/scheduler.cpp:2283 fitsviewer/fitshistogram.cpp:781
 #: fitsviewer/fitshistogramcommand.cpp:267 indi/indigroup.cpp:30
 #: skycomponents/constellationboundarylines.cpp:293
 #: skyobjects/skyobject.cpp:435
@@ -2664,8 +2664,8 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3965
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1242 ekos/capture/camera.cpp:1297
-#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:2014
-#: ekos/scheduler/scheduler.cpp:2124 fitsviewer/fitstab.cpp:1013
+#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:2003
+#: ekos/scheduler/scheduler.cpp:2113 fitsviewer/fitstab.cpp:1013
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
 msgid "Invalid URL"
@@ -3223,7 +3223,7 @@ msgstr "Вел."
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
-#: ekos/scheduler/scheduler.ui:1134 indi/drivermanager.ui:327
+#: ekos/scheduler/scheduler.ui:1144 indi/drivermanager.ui:327
 #: tools/imagingplanner.cpp:1131 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
@@ -6689,7 +6689,7 @@ msgstr "Експорт точок розв'язку"
 #: ekos/align/align.cpp:3964 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1241
 #: ekos/capture/camera.cpp:1296 ekos/guide/guidedriftgraph.cpp:478
-#: ekos/scheduler/scheduler.cpp:2013 ekos/scheduler/scheduler.cpp:2123
+#: ekos/scheduler/scheduler.cpp:2002 ekos/scheduler/scheduler.cpp:2112
 #: fitsviewer/fitstab.cpp:1012 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
 #, kde-format
@@ -10490,7 +10490,7 @@ msgid "Parking"
 msgstr "Паркування"
 
 #: ekos/analyze/analyze.cpp:134 ekos/analyze/analyze.cpp:153 ekos/ekos.h:140
-#: ekos/scheduler/scheduler.cpp:2280 indi/indimount.cpp:30
+#: ekos/scheduler/scheduler.cpp:2269 indi/indimount.cpp:30
 #, kde-format
 msgid "Slewing"
 msgstr "Обертання"
@@ -10621,7 +10621,7 @@ msgstr ""
 #: ekos/analyze/analyze.cpp:3468 ekos/auxiliary/ledstatuswidget.cpp:78
 #: ekos/capture/sequencejob.cpp:24 ekos/ekos.h:21 ekos/ekos.h:72
 #: ekos/ekos.h:119 ekos/ekos.h:139 ekos/ekos.h:199
-#: ekos/scheduler/scheduler.cpp:1633
+#: ekos/scheduler/scheduler.cpp:1622
 #, kde-format
 msgid "Aborted"
 msgstr "Перервано"
@@ -10637,7 +10637,7 @@ msgid "Disconnected"
 msgstr "Від'єднано"
 
 #: ekos/analyze/analyze.cpp:3474 ekos/auxiliary/ledstatuswidget.cpp:68
-#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2293
+#: ekos/ekos.h:24 ekos/ekos.h:71 ekos/scheduler/scheduler.cpp:2282
 #, kde-format
 msgid "Capturing"
 msgstr "Захоплення"
@@ -10679,7 +10679,7 @@ msgstr "Калібровано"
 
 #. i18n("Calibrating");
 #: ekos/analyze/analyze.cpp:3490 ekos/ekos.h:32
-#: ekos/scheduler/scheduler.cpp:2291
+#: ekos/scheduler/scheduler.cpp:2280
 #, kde-format
 msgid "Guiding"
 msgstr "Наведення"
@@ -11668,7 +11668,7 @@ msgstr "Фільтр"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
 #: ekos/auxiliary/filtermanager.cpp:124 ekos/capture/camera.ui:2333
-#: ekos/scheduler/scheduler.cpp:443
+#: ekos/scheduler/scheduler.cpp:444
 #, kde-format
 msgid "Offset"
 msgstr "Зсув"
@@ -12692,7 +12692,7 @@ msgstr "Планування"
 #. i18n: ectx: property (title), widget (QGroupBox, weatherBox)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerWeather)
 #: ekos/auxiliary/opslogs.ui:100 ekos/observatory/observatory.ui:742
-#: ekos/observatory/observatory.ui:813 ekos/scheduler/scheduler.ui:1847
+#: ekos/observatory/observatory.ui:813 ekos/scheduler/scheduler.ui:1866
 #, kde-format
 msgid "Weather"
 msgstr "Метеорологія"
@@ -12845,7 +12845,7 @@ msgid "Log Ekos Alignment module activity"
 msgstr "Записувати до журналу дії у модулі вирівнювання Ekos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlignmentLogging)
-#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:447
+#: ekos/auxiliary/opslogs.ui:308 ekos/scheduler/scheduler.cpp:448
 #, kde-format
 msgid "Alignment"
 msgstr "Вирівнювання"
@@ -14452,7 +14452,7 @@ msgstr "Стіна переходу"
 
 #. i18n: ectx: property (text), widget (QCheckBox, captureCalibrationParkMount)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerParkMount)
-#: ekos/capture/calibrationoptions.ui:103 ekos/scheduler/scheduler.ui:2266
+#: ekos/capture/calibrationoptions.ui:103 ekos/scheduler/scheduler.ui:2285
 #, kde-format
 msgid "Park Mount"
 msgstr "Запаркувати лафет"
@@ -14462,7 +14462,7 @@ msgstr "Запаркувати лафет"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningDomeCB)
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerParkDome)
 #: ekos/capture/calibrationoptions.ui:110 ekos/observatory/observatory.ui:944
-#: ekos/observatory/observatory.ui:1079 ekos/scheduler/scheduler.ui:2288
+#: ekos/observatory/observatory.ui:1079 ekos/scheduler/scheduler.ui:2307
 #, kde-format
 msgid "Park Dome"
 msgstr "Запаркувати купол"
@@ -14876,7 +14876,7 @@ msgstr "Скинути запис стану для завдання"
 msgid "Editing job #%1..."
 msgstr "Редагуємо завдання %1…"
 
-#: ekos/capture/camera.cpp:4023 ekos/scheduler/scheduler.cpp:1359
+#: ekos/capture/camera.cpp:4023 ekos/scheduler/scheduler.cpp:1348
 #, kde-format
 msgid "Apply job changes."
 msgstr "Застосувати зміни у завданні."
@@ -15169,7 +15169,7 @@ msgstr "Керування сценаріями послідовностей д�
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
 #: ekos/capture/camera.ui:1362 ekos/profileeditor.ui:721
-#: ekos/scheduler/scheduler.cpp:455
+#: ekos/scheduler/scheduler.cpp:456
 #, kde-format
 msgid "Scripts"
 msgstr "Скрипти"
@@ -15597,7 +15597,7 @@ msgstr "Зберегти захоплену послідовність зобр�
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/camera.ui:2298 ekos/ekoslive/ekoslivedialog.ui:119
-#: ekos/mount/mount.ui:655 ekos/scheduler/scheduler.ui:1139
+#: ekos/mount/mount.ui:655 ekos/scheduler/scheduler.ui:1149
 #: indi/drivermanager.ui:66 indi/drivermanager.ui:322
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
@@ -17786,7 +17786,7 @@ msgid "In Progress"
 msgstr "Виконується"
 
 #: ekos/capture/sequencejob.cpp:25 ekos/ekos.h:75 ekos/ekos.h:118
-#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1632
+#: ekos/ekos.h:138 ekos/scheduler/scheduler.cpp:1621
 #, kde-format
 msgid "Complete"
 msgstr "Завершено"
@@ -17916,7 +17916,7 @@ msgstr "Очікуємо"
 msgid "Image Received"
 msgstr "Зображення отримано"
 
-#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2283
+#: ekos/ekos.h:73 ekos/scheduler/scheduler.cpp:2272
 #, kde-format
 msgid "Focusing"
 msgstr "Фокусування"
@@ -17946,7 +17946,7 @@ msgstr "Встановлюємо температуру"
 msgid "Setting Rotator"
 msgstr "Встановлюємо засіб обертання"
 
-#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2286
+#: ekos/ekos.h:74 ekos/scheduler/scheduler.cpp:2275
 #, kde-format
 msgid "Aligning"
 msgstr "Вирівнюємо"
@@ -17997,7 +17997,7 @@ msgstr "Зсув фокусування"
 msgid "Startup"
 msgstr "Запуск"
 
-#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1630
+#: ekos/ekos.h:198 ekos/scheduler/scheduler.cpp:1619
 #, kde-format
 msgid "Running"
 msgstr "Запускаємо"
@@ -24944,7 +24944,7 @@ msgstr "Запустити вибране розширення"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, altLabel)
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/manager.ui:850 ekos/scheduler/scheduler.ui:1155
+#: ekos/manager.ui:850 ekos/scheduler/scheduler.ui:1165
 #: kstarslite/qml/dialogs/DetailsDialog.qml:269 tools/altvstime.cpp:98
 #, kde-format, kde-kuit-format
 msgid "Altitude"
@@ -25993,7 +25993,7 @@ msgstr "Закрити затвор"
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertSchedulerCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningSchedulerCB)
 #: ekos/observatory/observatory.ui:951 ekos/observatory/observatory.ui:1086
-#: ekos/scheduler/scheduler.cpp:2442
+#: ekos/scheduler/scheduler.cpp:2431
 #, kde-format
 msgid "Stop Scheduler"
 msgstr "Припинити виконання плану"
@@ -27889,7 +27889,7 @@ msgstr "Умова завершення:"
 #. i18n: ectx: property (toolTip), widget (QSpinBox, repeatsSpin)
 #. i18n: ectx: property (toolTip), widget (QSpinBox, schedulerExecutionSequencesLimit)
 #: ekos/scheduler/framingassistant.ui:1587
-#: ekos/scheduler/framingassistant.ui:1622 ekos/scheduler/scheduler.ui:1472
+#: ekos/scheduler/framingassistant.ui:1622 ekos/scheduler/scheduler.ui:1491
 #, kde-format
 msgid "Restart job until it is executed this many times."
 msgstr ""
@@ -27904,7 +27904,7 @@ msgstr "П&овторювати"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, sequenceCompletionR)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerCompleteSequences)
-#: ekos/scheduler/framingassistant.ui:1603 ekos/scheduler/scheduler.ui:1431
+#: ekos/scheduler/framingassistant.ui:1603 ekos/scheduler/scheduler.ui:1450
 #, kde-format
 msgid "The observation job is completed when the sequence is complete."
 msgstr ""
@@ -27912,28 +27912,28 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, sequenceCompletionR)
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerCompleteSequences)
-#: ekos/scheduler/framingassistant.ui:1606 ekos/scheduler/scheduler.ui:1434
+#: ekos/scheduler/framingassistant.ui:1606 ekos/scheduler/scheduler.ui:1453
 #, kde-format
 msgid "Se&quence completion"
 msgstr "Завершення пос&лідовності"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, repeatsSpin)
 #. i18n: ectx: property (suffix), widget (QSpinBox, schedulerExecutionSequencesLimit)
-#: ekos/scheduler/framingassistant.ui:1625 ekos/scheduler/scheduler.ui:1475
+#: ekos/scheduler/framingassistant.ui:1625 ekos/scheduler/scheduler.ui:1494
 #, kde-format
 msgid " runs"
 msgstr " пусків"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, loopCompletionR)
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerUntilTerminated)
-#: ekos/scheduler/framingassistant.ui:1647 ekos/scheduler/scheduler.ui:1497
+#: ekos/scheduler/framingassistant.ui:1647 ekos/scheduler/scheduler.ui:1516
 #, kde-format
 msgid "Restart the sequence job indefinitely."
 msgstr "Перезапускати завдання послідовності."
 
 #. i18n: ectx: property (text), widget (QRadioButton, loopCompletionR)
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerUntilTerminated)
-#: ekos/scheduler/framingassistant.ui:1650 ekos/scheduler/scheduler.ui:1500
+#: ekos/scheduler/framingassistant.ui:1650 ekos/scheduler/scheduler.ui:1519
 #, kde-format
 msgid "Repeat &until terminated"
 msgstr "Циклічне повторення до п&ереривання"
@@ -27950,13 +27950,13 @@ msgctxt "%1 is the value, % is the percent sign"
 msgid "%1%"
 msgstr "%1%"
 
-#: ekos/scheduler/framingassistantui.cpp:713 ekos/scheduler/scheduler.cpp:780
+#: ekos/scheduler/framingassistantui.cpp:713 ekos/scheduler/scheduler.cpp:781
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Sequence Queue"
 msgstr "Виберіть чергу послідовності"
 
-#: ekos/scheduler/framingassistantui.cpp:715 ekos/scheduler/scheduler.cpp:782
+#: ekos/scheduler/framingassistantui.cpp:715 ekos/scheduler/scheduler.cpp:783
 #, kde-format
 msgid "Ekos Sequence Queue (*.esq)"
 msgstr "черга послідовності Ekos (*.esq)"
@@ -28265,13 +28265,17 @@ msgid "Follower"
 msgstr "Наступник"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Job scheduler list.\n"
+#| "Click to select a job in the list.\n"
+#| "Double click to edit a job with the left-hand fields.\n"
+#| "Shift click to view a job's altitude tonight.\n"
+#| "Shift-Control click to view altitudes for all jobs"
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
 "Double click to edit a job with the left-hand fields.\n"
-"Shift click to view a job's altitude tonight.\n"
-"Shift-Control click to view altitudes for all jobs"
 msgstr ""
 "Список плану завдань.\n"
 "Клацніть, щоб вибрати завдання у списку.\n"
@@ -28282,7 +28286,7 @@ msgstr ""
 "Клацніть із утриманням натиснутими клавіш Shift і Ctrl, щоб переглянути "
 "висоти для усіх завдань."
 
-#: ekos/scheduler/scheduler.cpp:165
+#: ekos/scheduler/scheduler.cpp:164
 #, kde-format
 msgid ""
 "Current status of the job, managed by the Scheduler.\n"
@@ -28301,7 +28305,7 @@ msgstr ""
 "Якщо визначено завершений стан, засіб планування переконався, що усі "
 "послідовності знімків збережено, включено із повторами."
 
-#: ekos/scheduler/scheduler.cpp:170
+#: ekos/scheduler/scheduler.cpp:169
 #, kde-format
 msgid ""
 "Current altitude of the target of the job.\n"
@@ -28312,7 +28316,7 @@ msgstr ""
 "Ціль, яка сходить, позначена стрілкою вгору.\n"
 "Ціль, яка заходить, позначена стрілкою вниз."
 
-#: ekos/scheduler/scheduler.cpp:174
+#: ekos/scheduler/scheduler.cpp:173
 #, kde-format
 msgid ""
 "Startup time of the job, as estimated by the Scheduler.\n"
@@ -28324,7 +28328,7 @@ msgstr ""
 "Фіксований час, вказаний користувачем, або час кульмінації буде позначено "
 "символом секундоміра. "
 
-#: ekos/scheduler/scheduler.cpp:178
+#: ekos/scheduler/scheduler.cpp:177
 #, kde-format
 msgid ""
 "Completion time for the job, as estimated by the Scheduler.\n"
@@ -28337,7 +28341,7 @@ msgstr ""
 "Позначка попередження означає, що висота об'єкта на момент завершення "
 "завдання може призвести до передчасного завершення виконання завдання.\n"
 
-#: ekos/scheduler/scheduler.cpp:182 ekos/scheduler/scheduler.cpp:1761
+#: ekos/scheduler/scheduler.cpp:181 ekos/scheduler/scheduler.cpp:1750
 #, kde-format
 msgid ""
 "Count of captures stored for the job, based on its sequence job.\n"
@@ -28349,7 +28353,7 @@ msgstr ""
 "Це резюме. Для завершення завдання можуть знадобитися кадри специфічних "
 "типів."
 
-#: ekos/scheduler/scheduler.cpp:190
+#: ekos/scheduler/scheduler.cpp:189
 #, kde-format
 msgid ""
 "Remove selected job from the observation list.\n"
@@ -28358,24 +28362,24 @@ msgstr ""
 "Вилучити позначене завдання зі списку спостереження.\n"
 "Властивості завдання буде скопійовано до полів редагування до вилучення."
 
-#: ekos/scheduler/scheduler.cpp:194
+#: ekos/scheduler/scheduler.cpp:193
 #, kde-format
 msgid "Move selected job one line up in the list.\n"
 msgstr "Пересунути позначене завдання на рядок вище у списку.\n"
 
-#: ekos/scheduler/scheduler.cpp:197
+#: ekos/scheduler/scheduler.cpp:196
 #, kde-format
 msgid "Move selected job one line down in the list.\n"
 msgstr "Пересунути позначене завдання на рядок нижче у списку.\n"
 
-#: ekos/scheduler/scheduler.cpp:201
+#: ekos/scheduler/scheduler.cpp:200
 #, kde-format
 msgid "Reset state and force reevaluation of all observation jobs."
 msgstr ""
 "Скинути стан і примусово переобчислити параметри усіх завдань зі "
 "спостереження."
 
-#: ekos/scheduler/scheduler.cpp:205
+#: ekos/scheduler/scheduler.cpp:204
 #, kde-format
 msgid ""
 "Reset state and sort observation jobs per altitude and movement in sky, "
@@ -28393,7 +28397,7 @@ msgstr ""
 "Зауважте, що алгоритм спочатку обчислює висоти у потрібний момент часу, а "
 "потім виконує оцінку пріоритетності завдань."
 
-#: ekos/scheduler/scheduler.cpp:378 ekos/scheduler/scheduler.cpp:2240
+#: ekos/scheduler/scheduler.cpp:377 ekos/scheduler/scheduler.cpp:2229
 #: ekos/scheduler/schedulerprocess.cpp:3519
 #, kde-format
 msgid ""
@@ -28403,70 +28407,70 @@ msgstr ""
 "Попередження: класичний алгоритм планування вважається застарілим. "
 "Перемикаємося на «жадібний» алгоритм."
 
-#: ekos/scheduler/scheduler.cpp:451
+#: ekos/scheduler/scheduler.cpp:452
 #, kde-format
 msgid "Jobs"
 msgstr "Завдання"
 
-#: ekos/scheduler/scheduler.cpp:654
+#: ekos/scheduler/scheduler.cpp:655
 #, kde-format
 msgctxt "@title:window"
 msgid "Select FITS/XISF Image"
 msgstr "Виберіть зображення FITS/XISF"
 
-#: ekos/scheduler/scheduler.cpp:704
+#: ekos/scheduler/scheduler.cpp:705
 #, kde-format
 msgid "FITS header: cannot find OBJCTRA (%1)."
 msgstr "Заголовок FITS: не знайдено OBJCTRA (%1)."
 
-#: ekos/scheduler/scheduler.cpp:723
+#: ekos/scheduler/scheduler.cpp:724
 #, kde-format
 msgid "FITS header: cannot find OBJCTDEC (%1)."
 msgstr "Заголовок FITS: не знайдено OBJCTDEC (%1)."
 
-#: ekos/scheduler/scheduler.cpp:756
+#: ekos/scheduler/scheduler.cpp:757
 #, kde-format
 msgid "Warning: RA value %1 is invalid."
 msgstr "Увага! Значення прямого сходження %1 є некоректним."
 
-#: ekos/scheduler/scheduler.cpp:759
+#: ekos/scheduler/scheduler.cpp:760
 #, kde-format
 msgid "Warning: DEC value %1 is invalid."
 msgstr "Увага! Значення схилення %1 є некоректним."
 
-#: ekos/scheduler/scheduler.cpp:790
+#: ekos/scheduler/scheduler.cpp:791
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Startup Script"
 msgstr "Виберіть скрипт запуску"
 
-#: ekos/scheduler/scheduler.cpp:792 ekos/scheduler/scheduler.cpp:807
+#: ekos/scheduler/scheduler.cpp:793 ekos/scheduler/scheduler.cpp:808
 #, kde-format
 msgid "Script (*)"
 msgstr "скрипт (*)"
 
-#: ekos/scheduler/scheduler.cpp:805
+#: ekos/scheduler/scheduler.cpp:806
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
 msgstr "Виберіть скрипт вимикання"
 
-#: ekos/scheduler/scheduler.cpp:871
+#: ekos/scheduler/scheduler.cpp:872
 #, kde-format
 msgid "Warning: Target name is required."
 msgstr "Попередження: потрібна назва цілі."
 
-#: ekos/scheduler/scheduler.cpp:877
+#: ekos/scheduler/scheduler.cpp:878
 #, kde-format
 msgid "Warning: Sequence file is required."
 msgstr "Попередження: потрібен файл послідовності."
 
-#: ekos/scheduler/scheduler.cpp:884
+#: ekos/scheduler/scheduler.cpp:885
 #, kde-format
 msgid "Warning: Target coordinates are required."
 msgstr "Попередження: потрібні координати цілі."
 
-#: ekos/scheduler/scheduler.cpp:1033
+#: ekos/scheduler/scheduler.cpp:1034
 #, kde-format
 msgid ""
 "Warning: job '%1' at row %2 has a duplicate target at row %3, the scheduler "
@@ -28476,7 +28480,7 @@ msgstr ""
 "планування може використовувати те саме сховище даних для захоплення "
 "зображень!"
 
-#: ekos/scheduler/scheduler.cpp:1041
+#: ekos/scheduler/scheduler.cpp:1042
 #, kde-format
 msgid ""
 "Warning: jobs '%1' at row %2 and %3 probably require a different repeat "
@@ -28487,93 +28491,93 @@ msgstr ""
 "кількість повторів, оскільки зараз їх буде завершено одночасно за %4 пакетів "
 "(або зніміть позначку з пункту «Запам'ятовувати дані щодо поступу завдань»)"
 
-#: ekos/scheduler/scheduler.cpp:1049
+#: ekos/scheduler/scheduler.cpp:1050
 #, kde-format
 msgid "Skipped checking for duplicates."
 msgstr "Пропущено пошук дублікатів."
 
-#: ekos/scheduler/scheduler.cpp:1236
+#: ekos/scheduler/scheduler.cpp:1237
 #, kde-format
 msgid "%1 %2 %3"
 msgstr "%1 %2 %3"
 
-#: ekos/scheduler/scheduler.cpp:1319
+#: ekos/scheduler/scheduler.cpp:1320
 #, kde-format
 msgid "Stop editing of job #%1, resetting to original value."
 msgstr "Завершення редагування завдання %1. Відновлюємо початкове значення."
 
-#: ekos/scheduler/scheduler.cpp:1353
+#: ekos/scheduler/scheduler.cpp:1342
 #, kde-format
 msgid "Use edition fields to create a new job in the observation list."
 msgstr ""
 "Скористайтеся полями для редагування для створення запису завдання у списку "
 "спостереження."
 
-#: ekos/scheduler/scheduler.cpp:1628
+#: ekos/scheduler/scheduler.cpp:1617
 #, kde-format
 msgid "Evaluating"
 msgstr "Оцінюємо"
 
-#: ekos/scheduler/scheduler.cpp:1629
+#: ekos/scheduler/scheduler.cpp:1618
 #, kde-format
 msgid "Scheduled"
 msgstr "Заплановано"
 
-#: ekos/scheduler/scheduler.cpp:1631
+#: ekos/scheduler/scheduler.cpp:1620
 #, kde-format
 msgid "Invalid"
 msgstr "Некоректно"
 
-#: ekos/scheduler/scheduler.cpp:1913
+#: ekos/scheduler/scheduler.cpp:1902
 #, kde-format
 msgid "Scheduler pause planned..."
 msgstr "Заплановано призупинення плану…"
 
-#: ekos/scheduler/scheduler.cpp:1917
+#: ekos/scheduler/scheduler.cpp:1906
 #, kde-format
 msgid "Resume Scheduler"
 msgstr "Відновити виконання плану"
 
-#: ekos/scheduler/scheduler.cpp:1932
+#: ekos/scheduler/scheduler.cpp:1921
 #, kde-format
 msgid "Observatory is in the shutdown process"
 msgstr "Обсерваторія виконує процедуру завершення роботи"
 
-#: ekos/scheduler/scheduler.cpp:1962
+#: ekos/scheduler/scheduler.cpp:1951
 #, kde-format
 msgid "Scheduler aborted."
 msgstr "Виконання плану перервано."
 
-#: ekos/scheduler/scheduler.cpp:1971
+#: ekos/scheduler/scheduler.cpp:1960
 #, kde-format
 msgid "Scheduler is in shutdown until next job is ready"
 msgstr ""
 "Планувальник у стані вимкнення до моменту приготування до наступного завдання"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/scheduler/scheduler.cpp:1979 ekos/scheduler/scheduler.ui:1199
+#: ekos/scheduler/scheduler.cpp:1968 ekos/scheduler/scheduler.ui:1218
 #, kde-format
 msgid "Start Scheduler"
 msgstr "Запустити планувальник"
 
-#: ekos/scheduler/scheduler.cpp:2002
+#: ekos/scheduler/scheduler.cpp:1991
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Ekos Scheduler List"
 msgstr "Відкриття списку планування Ekos"
 
-#: ekos/scheduler/scheduler.cpp:2095
+#: ekos/scheduler/scheduler.cpp:2084
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Ekos Scheduler List"
 msgstr "Збереження списку планування Ekos"
 
-#: ekos/scheduler/scheduler.cpp:2114
+#: ekos/scheduler/scheduler.cpp:2103
 #, kde-format
 msgid "Failed to save scheduler list"
 msgstr "Не вдалося зберегти список планування"
 
-#: ekos/scheduler/scheduler.cpp:2258
+#: ekos/scheduler/scheduler.cpp:2247
 #, kde-format
 msgid ""
 "Turning off astronomical twilight check may cause the observatory to run "
@@ -28583,72 +28587,72 @@ msgstr ""
 "обсерваторії в умовах денного освітлення. Така робота може призвести до "
 "невиправного ушкодження вашого обладнання!"
 
-#: ekos/scheduler/scheduler.cpp:2281
+#: ekos/scheduler/scheduler.cpp:2270
 #, kde-format
 msgid "Slew complete"
 msgstr "Обертання завершено"
 
-#: ekos/scheduler/scheduler.cpp:2285
+#: ekos/scheduler/scheduler.cpp:2274
 #, kde-format
 msgid "Focus complete"
 msgstr "Фокусування завершено"
 
-#: ekos/scheduler/scheduler.cpp:2287
+#: ekos/scheduler/scheduler.cpp:2276
 #, kde-format
 msgid "Align complete"
 msgstr "Вирівнювання завершено"
 
-#: ekos/scheduler/scheduler.cpp:2288
+#: ekos/scheduler/scheduler.cpp:2277
 #, kde-format
 msgid "Repositioning"
 msgstr "Зміна позиції"
 
-#: ekos/scheduler/scheduler.cpp:2289
+#: ekos/scheduler/scheduler.cpp:2278
 #, kde-format
 msgid "Repositioning complete"
 msgstr "Зміну позиції завершено"
 
-#: ekos/scheduler/scheduler.cpp:2292
+#: ekos/scheduler/scheduler.cpp:2281
 #, kde-format
 msgid "Guiding complete"
 msgstr "Наведення завершено"
 
-#: ekos/scheduler/scheduler.cpp:2372
+#: ekos/scheduler/scheduler.cpp:2361
 #, kde-format
 msgid "Weather conditions are OK."
 msgstr "Погодні умови є СПРИЯТЛИВИМИ."
 
-#: ekos/scheduler/scheduler.cpp:2376
+#: ekos/scheduler/scheduler.cpp:2365
 #, kde-format
 msgid "Warning: weather conditions are in the WARNING zone."
 msgstr "Попередження! Погодні умови можуть змінитися на НЕСПРИЯТЛИВІ!"
 
-#: ekos/scheduler/scheduler.cpp:2380
+#: ekos/scheduler/scheduler.cpp:2369
 #, kde-format
 msgid "Caution: weather conditions are in the DANGER zone!"
 msgstr "Увага! Погодні умови перебувають у зоні РИЗИКУ!"
 
-#: ekos/scheduler/scheduler.cpp:2398
+#: ekos/scheduler/scheduler.cpp:2387
 #, kde-format
 msgid "Weather conditions in warning zone"
 msgstr "Погодні умови близькі до несприятливих"
 
-#: ekos/scheduler/scheduler.cpp:2407
+#: ekos/scheduler/scheduler.cpp:2396
 #, kde-format
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr "Погодні умови є критичними. Вимикання обсерваторії не уникнути."
 
-#: ekos/scheduler/scheduler.cpp:2430
+#: ekos/scheduler/scheduler.cpp:2419
 #, kde-format
 msgid "Scheduler is in sleep mode"
 msgstr "Планувальник перебуває у режимі сну"
 
-#: ekos/scheduler/scheduler.cpp:2493
+#: ekos/scheduler/scheduler.cpp:2483
 #, kde-format
 msgid "Manual startup procedure completed successfully."
 msgstr "Процедуру запуску вручну успішно завершено."
 
-#: ekos/scheduler/scheduler.cpp:2497
+#: ekos/scheduler/scheduler.cpp:2487
 #, kde-format
 msgid "Manual startup procedure terminated due to errors."
 msgstr "Процедуру запуску вручну перервано через помилки."
@@ -28854,31 +28858,31 @@ msgid "Save Schedule As..."
 msgstr "Зберегти розклад як…"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1150
+#: ekos/scheduler/scheduler.ui:1160
 #, kde-format
 msgid "Captures"
 msgstr "Захоплення"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1160
+#: ekos/scheduler/scheduler.ui:1170
 #, kde-format
 msgid "Start Time"
 msgstr "Час початку"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/scheduler/scheduler.ui:1165
+#: ekos/scheduler/scheduler.ui:1175
 #, kde-format
 msgid "End Time"
 msgstr "Час завершення"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/scheduler/scheduler.ui:1238
+#: ekos/scheduler/scheduler.ui:1257
 #, kde-format
 msgid "Pause Scheduler"
 msgstr "Призупинити виконання плану"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerRepeatEverything)
-#: ekos/scheduler/scheduler.ui:1288
+#: ekos/scheduler/scheduler.ui:1307
 #, kde-format
 msgid ""
 "<html><head/><body><p>Repeat all scheduled jobs as soon as all jobs have "
@@ -28894,13 +28898,13 @@ msgstr ""
 "завдань Ekos.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerRepeatEverything)
-#: ekos/scheduler/scheduler.ui:1291
+#: ekos/scheduler/scheduler.ui:1310
 #, kde-format
 msgid "Repeat all jobs"
 msgstr "Повторити усі завдання"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, executionSequenceLimit)
-#: ekos/scheduler/scheduler.ui:1298
+#: ekos/scheduler/scheduler.ui:1317
 #, kde-format
 msgid ""
 "<html><head/><body><p>Limit number of iterations the scheduler will execute "
@@ -28913,67 +28917,67 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, executionSequenceLimit)
-#: ekos/scheduler/scheduler.ui:1301
+#: ekos/scheduler/scheduler.ui:1320
 #, kde-format
 msgid " times"
 msgstr " разів"
 
 #. i18n: ectx: property (title), widget (QGroupBox, completionGroup)
-#: ekos/scheduler/scheduler.ui:1361
+#: ekos/scheduler/scheduler.ui:1380
 #, kde-format
 msgid "Job Completion Conditions"
 msgstr "Умови завершення завдання"
 
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerRepeatSequences)
-#: ekos/scheduler/scheduler.ui:1396
+#: ekos/scheduler/scheduler.ui:1415
 #, kde-format
 msgid "&Repeat for:"
 msgstr "П&овторювати:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, schedulerUntilValue)
-#: ekos/scheduler/scheduler.ui:1412
+#: ekos/scheduler/scheduler.ui:1431
 #, kde-format
 msgid "dd/MM/yy hh:mm"
 msgstr "dd-MM-yy hh:mm"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, schedulerUntil)
-#: ekos/scheduler/scheduler.ui:1453
+#: ekos/scheduler/scheduler.ui:1472
 #, kde-format
 msgid "Terminate the job on the given date and time."
 msgstr "Перервати виконання завдання у вказаний день і час."
 
 #. i18n: ectx: property (text), widget (QRadioButton, schedulerUntil)
-#: ekos/scheduler/scheduler.ui:1456
+#: ekos/scheduler/scheduler.ui:1475
 #, kde-format
 msgid "Repeat &until:"
 msgstr "Повторювати &доки:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroup)
-#: ekos/scheduler/scheduler.ui:1521
+#: ekos/scheduler/scheduler.ui:1540
 #, kde-format
 msgid "Job Startup Conditions"
 msgstr "Умови запуску завдання"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, startupTimeEdit)
-#: ekos/scheduler/scheduler.ui:1553
+#: ekos/scheduler/scheduler.ui:1572
 #, kde-format
 msgid "dd/MM hh:mm"
 msgstr "dd-MM hh:mm"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, startupTimeConditionR)
-#: ekos/scheduler/scheduler.ui:1569
+#: ekos/scheduler/scheduler.ui:1588
 #, kde-format
 msgid "Start the job on the specified date and time"
 msgstr "Розпочати завдання у вказаний день і час"
 
 #. i18n: ectx: property (text), widget (QRadioButton, startupTimeConditionR)
-#: ekos/scheduler/scheduler.ui:1572
+#: ekos/scheduler/scheduler.ui:1591
 #, kde-format
 msgid "O&n:"
 msgstr "&О:"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, asapConditionR)
-#: ekos/scheduler/scheduler.ui:1588
+#: ekos/scheduler/scheduler.ui:1607
 #, kde-format
 msgid ""
 "Start the observation job as soon as all the constraints, if any, are met. "
@@ -28983,13 +28987,13 @@ msgstr ""
 "такі встановлено. Спершу буде виконано зйомку найкращого варіанта цілі."
 
 #. i18n: ectx: property (text), widget (QRadioButton, asapConditionR)
-#: ekos/scheduler/scheduler.ui:1591
+#: ekos/scheduler/scheduler.ui:1610
 #, kde-format
 msgid "ASAP"
 msgstr "Якнайшвидше"
 
 #. i18n: ectx: property (title), widget (QGroupBox, contraintsGroup)
-#: ekos/scheduler/scheduler.ui:1628
+#: ekos/scheduler/scheduler.ui:1647
 #, kde-format
 msgid "Job Constraints"
 msgstr "Обмеження завдання"
@@ -29000,15 +29004,15 @@ msgstr "Обмеження завдання"
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minAltitude)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, AstrobinMinRadius)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, AstrobinMaxRadius)
-#: ekos/scheduler/scheduler.ui:1676 ekos/scheduler/scheduler.ui:1733
-#: ekos/scheduler/scheduler.ui:1749 tools/imagingplanner.ui:1169
+#: ekos/scheduler/scheduler.ui:1695 ekos/scheduler/scheduler.ui:1752
+#: ekos/scheduler/scheduler.ui:1768 tools/imagingplanner.ui:1169
 #: tools/imagingplanner.ui:1522 tools/imagingplanner.ui:1570
 #, kde-format
 msgid " °"
 msgstr " °"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nightTime)
-#: ekos/scheduler/scheduler.ui:1689
+#: ekos/scheduler/scheduler.ui:1708
 #, kde-format
 msgid ""
 "<html><head/><body><p>Astronomical dawn and dusk for the Scheduler job "
@@ -29044,7 +29048,7 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTwilight)
-#: ekos/scheduler/scheduler.ui:1708
+#: ekos/scheduler/scheduler.ui:1727
 #, kde-format
 msgid ""
 "<html><body><p>The twilight restriction constrains jobs to execute in "
@@ -29057,14 +29061,14 @@ msgstr ""
 "засобі планування Ekos, щоб скоригувати цей проміжок часу.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
-#: ekos/scheduler/scheduler.ui:1711
+#: ekos/scheduler/scheduler.ui:1730
 #, kde-format
 msgid "Twilight"
 msgstr "Сутінки"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonSeparation)
-#: ekos/scheduler/scheduler.ui:1730 ekos/scheduler/scheduler.ui:1825
+#: ekos/scheduler/scheduler.ui:1749 ekos/scheduler/scheduler.ui:1844
 #, kde-format
 msgid ""
 "<html><head/><body><p>The target must be at least this far from the moon.</"
@@ -29075,7 +29079,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonAltitudeMaxValue)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonAltitude)
-#: ekos/scheduler/scheduler.ui:1746 ekos/scheduler/scheduler.ui:1787
+#: ekos/scheduler/scheduler.ui:1765 ekos/scheduler/scheduler.ui:1806
 #, kde-format
 msgid ""
 "<html><head/><body><p>The moon must be lower than this altitude.</p></body></"
@@ -29085,25 +29089,25 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerAltitude)
-#: ekos/scheduler/scheduler.ui:1771
+#: ekos/scheduler/scheduler.ui:1790
 #, kde-format
 msgid "The object's altitude must remain equal or higher than the given value."
 msgstr "Висота об'єкта має залишатися рівною або вищою за вказане значення."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
-#: ekos/scheduler/scheduler.ui:1774
+#: ekos/scheduler/scheduler.ui:1793
 #, kde-format
 msgid "Min. Altitude: "
 msgstr "Мінімальна висота: "
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonAltitude)
-#: ekos/scheduler/scheduler.ui:1790
+#: ekos/scheduler/scheduler.ui:1809
 #, kde-format
 msgid "Moon max alt:"
 msgstr "Макс. вис. міс.:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerHorizon)
-#: ekos/scheduler/scheduler.ui:1803
+#: ekos/scheduler/scheduler.ui:1822
 #, kde-format
 msgid ""
 "<html><body><p>The artificial horizon restriction constrains the altitude of "
@@ -29116,13 +29120,13 @@ msgstr ""
 "пункт штучного горизонту у меню «Параметри» KStars.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonSeparation)
-#: ekos/scheduler/scheduler.ui:1828
+#: ekos/scheduler/scheduler.ui:1847
 #, kde-format
 msgid "Moon  min. sep.:"
 msgstr "Мін. відст. від Міс.:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerWeather)
-#: ekos/scheduler/scheduler.ui:1844
+#: ekos/scheduler/scheduler.ui:1863
 #, kde-format
 msgid ""
 "<html><head/><body><p>Weather conditions must remain safe. When weather "
@@ -29134,7 +29138,7 @@ msgstr ""
 "</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, errorHandlingGroup)
-#: ekos/scheduler/scheduler.ui:1876
+#: ekos/scheduler/scheduler.ui:1895
 #, kde-format
 msgid ""
 "<html><head/><body><p>Define what should happen when a job steps into an "
@@ -29180,25 +29184,25 @@ msgstr ""
 "сталися помилки, не додаватимуться до розкладу повторно.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, errorHandlingGroup)
-#: ekos/scheduler/scheduler.ui:1879
+#: ekos/scheduler/scheduler.ui:1898
 #, kde-format
 msgid "Aborted Job Management"
 msgstr "Керування завданнями перервано"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingDontRestartButton)
-#: ekos/scheduler/scheduler.ui:1911
+#: ekos/scheduler/scheduler.ui:1930
 #, kde-format
 msgid "Do not re-schedule aborted jobs."
 msgstr "Не планувати повторно перервані завдання."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingDontRestartButton)
-#: ekos/scheduler/scheduler.ui:1914
+#: ekos/scheduler/scheduler.ui:1933
 #, kde-format
 msgid "&None"
 msgstr "Н&емає"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartQueueButton)
-#: ekos/scheduler/scheduler.ui:1930
+#: ekos/scheduler/scheduler.ui:1949
 #, kde-format
 msgid ""
 "Re-schedule aborted jobs as soon as all executable jobs are either completed "
@@ -29208,49 +29212,49 @@ msgstr ""
 "переривання усіх придатних до виконання завдань з розкладу."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartQueueButton)
-#: ekos/scheduler/scheduler.ui:1933
+#: ekos/scheduler/scheduler.ui:1952
 #, kde-format
 msgid "&Queue"
 msgstr "Поставити до &черги"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
-#: ekos/scheduler/scheduler.ui:1949
+#: ekos/scheduler/scheduler.ui:1968
 #, kde-format
 msgid "Re-schedule an aborted job immediately."
 msgstr "Повторно запланувати перерване завдання без затримки."
 
 #. i18n: ectx: property (text), widget (QRadioButton, errorHandlingRestartImmediatelyButton)
-#: ekos/scheduler/scheduler.ui:1952
+#: ekos/scheduler/scheduler.ui:1971
 #, kde-format
 msgid "I&mmediate"
 msgstr "&Негайно"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
-#: ekos/scheduler/scheduler.ui:1975
+#: ekos/scheduler/scheduler.ui:1994
 #, kde-format
 msgid "Treat errors like aborts."
 msgstr "Вважати помилки перериваннями."
 
 #. i18n: ectx: property (text), widget (QCheckBox, errorHandlingRescheduleErrorsCB)
-#: ekos/scheduler/scheduler.ui:1978
+#: ekos/scheduler/scheduler.ui:1997
 #, kde-format
 msgid "Re-schedule errors:"
 msgstr "Повторно планувати помилкові:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, errorHandlingStrategyDelay)
-#: ekos/scheduler/scheduler.ui:1991
+#: ekos/scheduler/scheduler.ui:2010
 #, kde-format
 msgid "Delay in seconds."
 msgstr "Затримка у секундах."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, errorHandlingStrategyDelay)
-#: ekos/scheduler/scheduler.ui:1994
+#: ekos/scheduler/scheduler.ui:2013
 #, kde-format
 msgid " s wait"
 msgstr " с очікування"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, startupGroupBox)
-#: ekos/scheduler/scheduler.ui:2012
+#: ekos/scheduler/scheduler.ui:2031
 #, kde-format
 msgid ""
 "<html><head/><body><p>One-time startup procedure to be executed before "
@@ -29265,58 +29269,58 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, startupGroupBox)
-#: ekos/scheduler/scheduler.ui:2015
+#: ekos/scheduler/scheduler.ui:2034
 #, kde-format
 msgid "Observatory Startup Procedure"
 msgstr "Процедура запуску обсерваторії"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerUnparkDome)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerParkDome)
-#: ekos/scheduler/scheduler.ui:2050 ekos/scheduler/scheduler.ui:2285
+#: ekos/scheduler/scheduler.ui:2069 ekos/scheduler/scheduler.ui:2304
 #, kde-format
 msgid "Park dome to home position"
 msgstr "Запаркувати купол на нульову позицію"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerUnparkDome)
-#: ekos/scheduler/scheduler.ui:2053
+#: ekos/scheduler/scheduler.ui:2072
 #, kde-format
 msgid "UnPark Dome"
 msgstr "Зняти з паркування купол"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerUnparkMount)
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerParkMount)
-#: ekos/scheduler/scheduler.ui:2072 ekos/scheduler/scheduler.ui:2263
+#: ekos/scheduler/scheduler.ui:2091 ekos/scheduler/scheduler.ui:2282
 #, kde-format
 msgid "Park telescope to home position."
 msgstr "Запаркувати телескоп на нульову позицію."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerUnparkMount)
-#: ekos/scheduler/scheduler.ui:2075
+#: ekos/scheduler/scheduler.ui:2094
 #, kde-format
 msgid "UnPark Mount"
 msgstr "Зняти з паркування лафет"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerOpenDustCover)
-#: ekos/scheduler/scheduler.ui:2091
+#: ekos/scheduler/scheduler.ui:2110
 #, kde-format
 msgid "Open dust cover"
 msgstr "Відкрити протипилову кришку"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerOpenDustCover)
-#: ekos/scheduler/scheduler.ui:2094
+#: ekos/scheduler/scheduler.ui:2113
 #, kde-format
 msgid "UnCap"
 msgstr "Зняти кришку"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: ekos/scheduler/scheduler.ui:2137 ekos/scheduler/scheduler.ui:2331
+#: ekos/scheduler/scheduler.ui:2156 ekos/scheduler/scheduler.ui:2350
 #, kde-format
 msgid "Script:"
 msgstr "Скрипт:"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, shutdownGroupBox)
-#: ekos/scheduler/scheduler.ui:2184
+#: ekos/scheduler/scheduler.ui:2203
 #, kde-format
 msgid ""
 "<html><head/><body><p>One-time shutdown procedure to be executed after all "
@@ -29331,40 +29335,34 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
-#: ekos/scheduler/scheduler.ui:2187
+#: ekos/scheduler/scheduler.ui:2206
 #, kde-format
 msgid "Observatory Shutdown Procedure"
 msgstr "Процедура вимикання обсерваторії"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerWarmCCD)
-#: ekos/scheduler/scheduler.ui:2222
+#: ekos/scheduler/scheduler.ui:2241
 #, kde-format
 msgid "Turn off CCD cooler."
 msgstr "Вимкнути охолоджувач ПЗЗ."
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerWarmCCD)
-#: ekos/scheduler/scheduler.ui:2225
+#: ekos/scheduler/scheduler.ui:2244
 #, kde-format
 msgid "Warm CCD"
 msgstr "Розігріти ПЗЗ"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerCloseDustCover)
-#: ekos/scheduler/scheduler.ui:2241
+#: ekos/scheduler/scheduler.ui:2260
 #, kde-format
 msgid "Close dust cover"
 msgstr "Закрити протипилову кришку"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerCloseDustCover)
-#: ekos/scheduler/scheduler.ui:2244
+#: ekos/scheduler/scheduler.ui:2263
 #, kde-format
 msgid "Cap"
 msgstr "Кришка"
-
-#. i18n: ectx: property (windowTitle), widget (QDialog, SchedulerAltitudeGraph)
-#: ekos/scheduler/scheduleraltitudegraph.ui:14
-#, kde-format
-msgid "Altitude Graph"
-msgstr "Графік висоти"
 
 #: ekos/scheduler/schedulerjob.cpp:345
 #, kde-format
@@ -81808,7 +81806,7 @@ msgstr "&Друкувати…"
 msgid "Print the Altitude vs. time plot"
 msgstr "Надрукувати графік висоти від часу"
 
-#: tools/altvstime.cpp:580 tools/altvstime.cpp:950
+#: tools/altvstime.cpp:580 tools/altvstime.cpp:874
 #, kde-format
 msgid ""
 "<table><tr><th colspan=\"2\">%1</th></tr><tr><td>LST:   </td><td>%3</td></"
@@ -81819,13 +81817,13 @@ msgstr ""
 "tr><tr><td>МЧ:   </td><td>%2</td></tr><tr><td>Висота:   </td><td>%4</td></"
 "tr></table>"
 
-#: tools/altvstime.cpp:1406
+#: tools/altvstime.cpp:1300
 #, kde-format
 msgctxt "@title:window"
 msgid "Print elevation vs time plot"
 msgstr "Вивести графік висоти від часу"
 
-#: tools/altvstime.cpp:1420
+#: tools/altvstime.cpp:1314
 #, kde-format
 msgid "Elevation vs. Time Plot"
 msgstr "Графік висоти від часу"
@@ -88679,6 +88677,9 @@ msgstr "Колір тла:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Встановити колір тла."
+
+#~ msgid "Altitude Graph"
+#~ msgstr "Графік висоти"
 
 #~ msgid "Altitude Graph for ZZZZZ"
 #~ msgstr "Графік висоти для ZZZZZ"
