@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-08 02:03+0000\n"
-"PO-Revision-Date: 2025-03-05 11:20+0100\n"
+"PO-Revision-Date: 2025-03-08 10:57+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -28021,13 +28021,7 @@ msgid "Follower"
 msgstr "Volger"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight.\n"
-#| "Shift-Control click to view altitudes for all jobs"
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -28036,8 +28030,6 @@ msgstr ""
 "Lijst voor de taakplanner. \n"
 "Klik als u een taak wilt kiezen in de lijst.\n"
 "Dubbelklik als u een taak wilt bewerken in de velden links.\n"
-"Shift-klik om de hoogte van een job vannacht te bekijken.\n"
-"Shift-Ctrl klik om hoogten voor alle taken te bekijken"
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format

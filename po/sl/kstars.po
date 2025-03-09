@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-08 02:03+0000\n"
-"PO-Revision-Date: 2025-03-05 06:39+0100\n"
+"PO-Revision-Date: 2025-03-08 07:09+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -27966,13 +27966,7 @@ msgid "Follower"
 msgstr "Sledilec"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight.\n"
-#| "Shift-Control click to view altitudes for all jobs"
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -27981,9 +27975,6 @@ msgstr ""
 "Seznam razporejevalnika opravil.\n"
 "Kliknite, da izberete opravilo na seznamu.\n"
 "Dvokliknite za urejanje opravila z levimi polji.\n"
-"Pritisnite tipko Dvigalka in kliknite, če si želite ogledati višino opravila "
-"nocoj.\n"
-"Dvigalka-Kontrolka klik za ogled višine za vsa opravila"
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format

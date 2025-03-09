@@ -1,4 +1,4 @@
-# Translation of kstars to Spanish
+# Spanish translations for kstars.po package.
 #
 # SPDX-FileCopyrightText: 2002, 2003, 2004 Miguel Revilla Rodríguez <yo@miguelrevilla.com>
 # SPDX-FileCopyrightText: 2002, 2003, 2004, 2005, 2006, 2007, 2008 Pablo de Vicente <p.devicente@wanadoo.es>
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-08 02:03+0000\n"
-"PO-Revision-Date: 2025-03-06 20:04+0100\n"
+"PO-Revision-Date: 2025-03-09 02:07+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -28334,13 +28334,7 @@ msgid "Follower"
 msgstr "Siguiente"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight.\n"
-#| "Shift-Control click to view altitudes for all jobs"
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -28349,8 +28343,6 @@ msgstr ""
 "Lista del planificador de trabajos.\n"
 "Haga clic para seleccionar un trabajo de la lista.\n"
 "Doble clic para editar un trabajo con los campos de la izquierda.\n"
-"Mayúsculas+clic para ver la altitud de un trabajo de esta noche.\n"
-"Mayúsculas+Control+ clic para ver las altitudes de todos los trabajos."
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format
@@ -88891,15 +88883,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid "Altitude Graph"
-#~ msgstr "Gráfico de altitud"
-
-#~ msgid "Altitude Graph for ZZZZZ"
-#~ msgstr "Gráfico de altitud para ZZZZZ"
-
-#~ msgid "Target coordinates in J2000 Epoch"
-#~ msgstr "Coordenadas de destino en la época J2000"
-
-#~ msgid "J2000:"
-#~ msgstr "J2000:"

@@ -85427,6 +85427,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Altitude Graph"
-#~ msgstr "高度图"

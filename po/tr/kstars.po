@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-08 02:03+0000\n"
-"PO-Revision-Date: 2025-03-08 00:15+0300\n"
+"PO-Revision-Date: 2025-03-08 14:33+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -27969,13 +27969,7 @@ msgid "Follower"
 msgstr "Takipçi"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight.\n"
-#| "Shift-Control click to view altitudes for all jobs"
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -27983,9 +27977,7 @@ msgid ""
 msgstr ""
 "İş zamanlayıcısı listesi.\n"
 "Listeden bir iş seçmek için tıklayın.\n"
-"Bir işi düzenlemek için çift tıklayın ve sol taraftaki alanları kullanın.\n"
-"Bir işin bugünkü yüksekliğini görüntülemek için Üst Karakter ile tıklayın.\n"
-"Tüm işlerin yüksekliğini görüntülemek için Kontrol+Üst Karakter ile tıklayın."
+"Sol taraftaki alanlarla bir işi düzenlemek için çift tıklayın.\n"
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format

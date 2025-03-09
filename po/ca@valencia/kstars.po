@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-08 02:03+0000\n"
-"PO-Revision-Date: 2025-03-05 16:16+0100\n"
+"PO-Revision-Date: 2025-03-08 20:26+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -28687,22 +28687,15 @@ msgid "Follower"
 msgstr "Seguidor"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight.\n"
-#| "Shift-Control click to view altitudes for all jobs"
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
 "Double click to edit a job with the left-hand fields.\n"
 msgstr ""
 "Llista del programador de tasques.\n"
-"Feu-hi clic per a editar una tasca.\n"
+"Feu-hi clic per a seleccionar una tasca.\n"
 "Feu-hi doble clic per a editar una tasca amb els camps de l'esquerra.\n"
-"Premeu «Majús+Ctrl» per a veure les altituds de totes les tasques."
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format
@@ -89770,6 +89763,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Altitude Graph"
-#~ msgstr "Gràfic d'altitud"
