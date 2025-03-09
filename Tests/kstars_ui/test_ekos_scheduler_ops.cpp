@@ -129,6 +129,10 @@ void TestEkosSchedulerOps::init()
     Options::setDuskOffset(0);
     Options::setSchedulerAlgorithm(Ekos::ALGORITHM_GREEDY);
     Options::setGreedyScheduling(true);
+
+    // Tests were originally constructed with 48 hour schedules.
+    // Now that they run 72 hours, that would invalidate many schedules.
+    scheduler->process()->getGreedyScheduler()->setSimHours(48);
 }
 
 void TestEkosSchedulerOps::cleanup()

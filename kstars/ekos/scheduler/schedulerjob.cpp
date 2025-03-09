@@ -575,29 +575,39 @@ bool SchedulerJob::decreasingAltitudeOrder(SchedulerJob const *job1, SchedulerJo
     return (A_is_setting && B_is_setting) ? altA < altB : altB < altA;
 }
 
-bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason) const
+bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason,
+        double *margin) const
 {
     if (m_LeadJob != nullptr)
-        return m_LeadJob->satisfiesAltitudeConstraint(azimuth, altitude, altitudeReason);
-
-    // Check the mount's altitude constraints.
-    if (Options::enableAltitudeLimits() &&
-            (altitude < Options::minimumAltLimit() ||
-             altitude > Options::maximumAltLimit()))
+        return m_LeadJob->satisfiesAltitudeConstraint(azimuth, altitude, altitudeReason, margin);
+    if (margin) *margin = 90;
+    if (Options::enableAltitudeLimits())
     {
-        if (altitudeReason != nullptr)
+        // Check the mount's altitude constraints.
+        if (margin)
+            *margin = std::min(fabs(altitude - Options::minimumAltLimit()),
+                               fabs(altitude - Options::maximumAltLimit()));
+        if (altitude < Options::minimumAltLimit() || altitude > Options::maximumAltLimit())
         {
-            if (altitude < Options::minimumAltLimit())
-                *altitudeReason = QString("altitude %1 < mount altitude limit %2")
-                                  .arg(altitude, 0, 'f', 1).arg(Options::minimumAltLimit(), 0, 'f', 1);
-            else
-                *altitudeReason = QString("altitude %1 > mount altitude limit %2")
-                                  .arg(altitude, 0, 'f', 1).arg(Options::maximumAltLimit(), 0, 'f', 1);
+            if (altitudeReason != nullptr)
+            {
+                if (altitude < Options::minimumAltLimit())
+                    *altitudeReason = QString("altitude %1 < mount altitude limit %2")
+                                      .arg(altitude, 0, 'f', 1).arg(Options::minimumAltLimit(), 0, 'f', 1);
+                else
+                    *altitudeReason = QString("altitude %1 > mount altitude limit %2")
+                                      .arg(altitude, 0, 'f', 1).arg(Options::maximumAltLimit(), 0, 'f', 1);
+            }
+            return false;
         }
-        return false;
     }
+
+    const double minAltitude = getMinAltitude();
+    if (margin)
+        *margin = std::min(*margin, fabs(minAltitude - altitude));
+
     // Check the global min-altitude constraint.
-    if (altitude < getMinAltitude())
+    if (altitude < minAltitude)
     {
         if (altitudeReason != nullptr)
             *altitudeReason = QString("altitude %1 < minAltitude %2").arg(altitude, 0, 'f', 1).arg(getMinAltitude(), 0, 'f', 1);
@@ -605,14 +615,24 @@ bool SchedulerJob::satisfiesAltitudeConstraint(double azimuth, double altitude, 
     }
     // Check the artificial horizon.
     if (getHorizon() != nullptr && enforceArtificialHorizon)
-        return getHorizon()->isAltitudeOK(azimuth, altitude, altitudeReason);
+    {
+        double horizonMargin;
+        bool ok = getHorizon()->isAltitudeOK(azimuth, altitude, altitudeReason, &horizonMargin);
+        if (margin && horizonMargin >= 0 && horizonMargin < *margin)
+            *margin = horizonMargin;
+        return ok;
+    }
 
     return true;
 }
 
-bool SchedulerJob::moonConstraintsOK(QDateTime const &when, QString *reason) const
+bool SchedulerJob::moonConstraintsOK(QDateTime const &when, QString *reason, double *margin) const
 {
-    if (moon == nullptr) return true;
+    if (margin)
+        *margin = 90;
+
+    if ((moon == nullptr) || ((getMinMoonSeparation() <= 0) && (getMaxMoonAltitude() >= 90)))
+        return true;
 
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
@@ -633,9 +653,25 @@ bool SchedulerJob::moonConstraintsOK(QDateTime const &when, QString *reason) con
     moon->updateCoords(&numbers, true, SchedulerModuleState::getGeo()->lat(), &LST, true);
     moon->EquatorialToHorizontal(&LST, SchedulerModuleState::getGeo()->lat());
 
-    bool const separationOK = (getMinMoonSeparation() < 0 || (moon->angularDistanceTo(&o).Degrees() >= getMinMoonSeparation()));
-    bool const altitudeOK   = (getMaxMoonAltitude() >= 90 || (moon->alt().Degrees() <= getMaxMoonAltitude()));
-    bool result             = separationOK && altitudeOK;
+    bool separationOK = true;
+    if (getMinMoonSeparation() > 0)
+    {
+        const double val = moon->angularDistanceTo(&o).Degrees() - getMinMoonSeparation();
+        separationOK = val >= 0;
+        if (margin)
+            *margin = fabs(val);
+    }
+
+    bool altitudeOK = true;
+    if (getMaxMoonAltitude() < 90)
+    {
+        const double val = moon->alt().Degrees() - getMaxMoonAltitude();
+        altitudeOK = val <= 0;
+        if (margin)
+            *margin = std::min(*margin, fabs(val));
+    }
+
+    bool result = separationOK && altitudeOK;
 
     // set the result string if at least one of the constraints is not met
     if (reason != nullptr && !result)
@@ -647,7 +683,6 @@ bool SchedulerJob::moonConstraintsOK(QDateTime const &when, QString *reason) con
         else if (!altitudeOK)
             *reason = QString("moon altitude");
     }
-
     return result;
 }
 
@@ -655,7 +690,6 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
         QString *reason, bool runningJob, const QDateTime &until) const
 {
     // FIXME: block calculating target coordinates at a particular time is duplicated in several places
-
     // Retrieve the argument date/time, or fall back to current time - don't use QDateTime's timezone!
     KStarsDateTime ltWhen(when.isValid() ?
                           Qt::UTC == when.timeSpec() ? SchedulerModuleState::getGeo()->UTtoLT(KStarsDateTime(when)) : when :
@@ -670,12 +704,17 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
     // Calculate the UT at the argument time
     KStarsDateTime const ut = SchedulerModuleState::getGeo()->LTtoUT(ltWhen);
 
-    auto maxMinute = 1e8;
+    int maxMinute = 1e8;
     if (!runningJob && until.isValid())
         maxMinute = when.secsTo(until) / 60;
 
     if (maxMinute > 24 * 60)
         maxMinute = 24 * 60;
+
+    unsigned int nextAltCheck = 0;
+    bool inSkip = false;
+    int skipStart = 0;
+    constexpr int MAX_SKIP = 30;
 
     // Within the next 24 hours, search when the job target matches the altitude and moon constraints
     for (unsigned int minute = 0; minute < maxMinute; minute += increment)
@@ -695,6 +734,8 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
                     if (minutesToSuccess > 0)
                         minute += minutesToSuccess;
                 }
+                nextAltCheck = 0;
+                inSkip = false;
                 continue;
             }
             else
@@ -704,38 +745,84 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
             }
         }
 
-        // Update RA/DEC of the target for the current fraction of the day
-        KSNumbers numbers(ltOffset.djd());
-        o.updateCoordsNow(&numbers);
-
-        // Compute local sidereal time for the current fraction of the day, calculate altitude
-        CachingDms const LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltOffset).gst());
-        o.EquatorialToHorizontal(&LST, SchedulerModuleState::getGeo()->lat());
-        double const altitude = o.alt().Degrees();
-        double const azimuth = o.az().Degrees();
-
-        bool const altitudeOK = satisfiesAltitudeConstraint(azimuth, altitude, reason);
-        if (altitudeOK)
+        if (minute >= nextAltCheck)
         {
-            // Don't test proximity to dawn in this situation, we only cater for altitude here
+            double margin;
+            const bool altAndMoonOK = checkAltitudeAndMoon(o, ltOffset, reason, &margin);
+            bool done = ((checkIfConstraintsAreMet && altAndMoonOK) || (!checkIfConstraintsAreMet && !altAndMoonOK));
 
-            // Check moon constraints (moon altitude and distance between target and moon)
-            if (!moonConstraintsOK(ltOffset, checkIfConstraintsAreMet ? nullptr : reason))
+            if (done && inSkip)
             {
-                if (checkIfConstraintsAreMet)
-                    continue;
-                else
-                    return ltOffset;
+                // If we skipped ahead, and when we come to the end of the skip and the code looks to exit,
+                // perhaps the skip was too aggressive (unlikely, but can happen in odd situations).
+                // We re-do the skipped iterations here.
+
+                // Just in case
+                if (minute - skipStart <= MAX_SKIP)
+                {
+                    for (unsigned int min = skipStart; min < minute; min += increment)
+                    {
+                        KStarsDateTime const lt(ltWhen.addSecs(min * 60));
+                        // don't need to test twilight--that was not skipped.
+                        const bool checkOK = checkAltitudeAndMoon(o, lt, reason, nullptr);
+                        if ((checkIfConstraintsAreMet && checkOK) || (!checkIfConstraintsAreMet && !checkOK))
+                        {
+                            // Found an earlier return.
+                            return lt;
+                        }
+                    }
+                }
             }
 
-            if (checkIfConstraintsAreMet)
+            if (done)
                 return ltOffset;
-        }
-        else if (!checkIfConstraintsAreMet)
-            return ltOffset;
-    }
 
+            // If we've exceeded the margin by a lot, no need to check again for several minutes.
+            if (margin > 15)
+            {
+                inSkip = true;
+                skipStart = minute + increment;
+                nextAltCheck = minute + MAX_SKIP;
+            }
+            else if (margin > 5)
+            {
+                inSkip = true;
+                skipStart = minute + increment;
+                nextAltCheck = minute + 16;
+            }
+            else
+            {
+                inSkip = false;
+                skipStart = minute + increment;
+            }
+        }
+    }
     return QDateTime();
+}
+
+bool SchedulerJob::checkAltitudeAndMoon(SkyObject o, const KStarsDateTime &ltOffset, QString *reason, double *margin) const
+{
+    // Update RA/DEC of the target for the current fraction of the day
+    KSNumbers numbers(ltOffset.djd());
+    o.updateCoordsNow(&numbers);
+
+    // Compute local sidereal time for the current fraction of the day, calculate altitude
+    CachingDms const LST = SchedulerModuleState::getGeo()->GSTtoLST(SchedulerModuleState::getGeo()->LTtoUT(ltOffset).gst());
+    o.EquatorialToHorizontal(&LST, SchedulerModuleState::getGeo()->lat());
+    double const altitude = o.alt().Degrees();
+    double const azimuth = o.az().Degrees();
+
+    bool const altitudeOK = satisfiesAltitudeConstraint(azimuth, altitude, reason, margin);
+    if (altitudeOK)
+    {
+        // Check moon constraints (moon altitude and distance between target and moon)
+        double moonMargin;
+        bool moonConstraint = moonConstraintsOK(ltOffset, reason, &moonMargin);
+        if (margin)
+            *margin = std::min(*margin, moonMargin);
+        return moonConstraint;
+    }
+    return false;
 }
 
 bool SchedulerJob::runsDuringAstronomicalNightTime(const QDateTime &time,

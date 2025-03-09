@@ -544,7 +544,7 @@ class SchedulerJob
              * @param reason pointer to the reason text in case that the check failed
              * @return true if target is separated enough from the Moon.
              */
-        bool moonConstraintsOK(QDateTime const &when = QDateTime(), QString *reason = new QString()) const;
+        bool moonConstraintsOK(QDateTime const &when = QDateTime(), QString *reason = new QString(), double *margin = nullptr) const;
 
         /**
              * @brief calculateNextTime calculate the next time constraints are met (or missed).
@@ -558,6 +558,8 @@ class SchedulerJob
                                            const QDateTime &until = QDateTime()) const;
         QDateTime getNextEndTime(const QDateTime &start, int increment = 1, QString *reason = nullptr,
                                  const QDateTime &until = QDateTime()) const;
+        bool checkAltitudeAndMoon(SkyObject o, const KStarsDateTime &ltOffset, QString *reason, double *margin) const;
+
 
         /**
              * @brief getNextAstronomicalTwilightDawn
@@ -600,7 +602,7 @@ class SchedulerJob
              * @param altitudeReason a human-readable string explaining why false was returned.
             * @return true if this altitude is permissible for this job
              */
-        bool satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason = nullptr) const;
+        bool satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason = nullptr, double *margin = nullptr) const;
 
         /**
          * @brief setInitialFilter Set initial filter used in the capture sequence. This is used to pass to focus module.

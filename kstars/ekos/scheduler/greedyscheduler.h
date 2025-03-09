@@ -128,6 +128,10 @@ class GreedyScheduler : public QObject
         static void printJobs(const QList<SchedulerJob *> &jobs, const QDateTime &time, const QString &label = "");
         static void printSchedule(const QList<JobSchedule> &schedule);
         static QString jobScheduleString(const JobSchedule &jobSchedule);
+        void setSimHours(int hours)
+        {
+            SIM_HOURS = hours;
+        }
 
     private:
 
@@ -191,6 +195,9 @@ class GreedyScheduler : public QObject
         // The time of the last simulation in checkJob().
         // We don't simulate too frequently.
         QDateTime m_LastCheckJobSim;
+
+        // How long the simulations run.
+        int SIM_HOURS = 72;
 };
 
 }  // namespace Ekos

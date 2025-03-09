@@ -27,7 +27,7 @@ SchedulerJob *SchedulerUtils::createJob(XMLEle *root, SchedulerJob *leadJob)
     QString name, group, train;
     bool isLead = true;
     dms ra, dec;
-    double rotation = 0.0, minimumAltitude = 0.0, minimumMoonSeparation = 0.0, maxMoonAltitude = 90.0;
+    double rotation = 0.0, minimumAltitude = 0.0, minimumMoonSeparation = -1, maxMoonAltitude = 90.0;
     QUrl sequenceURL, fitsURL;
     StartupCondition startup = START_ASAP;
     CompletionCondition completion = FINISH_SEQUENCE;

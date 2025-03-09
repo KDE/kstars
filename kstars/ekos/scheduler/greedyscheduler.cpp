@@ -108,7 +108,7 @@ bool GreedyScheduler::checkJob(const QList<SchedulerJob *> &jobs,
     // Simulating in checkJob() is only done to update the schedule which is a GUI convenience.
     // Do it only if its quick and not more frequently than once per minute.
     SimulationType simType = SIMULATE_EACH_JOB_ONCE;
-    if (m_SimSeconds > 0.2 ||
+    if (m_SimSeconds > 0.5 ||
             (m_LastCheckJobSim.isValid() && m_LastCheckJobSim.secsTo(now) < 60))
         simType = DONT_SIMULATE;
 
@@ -151,6 +151,7 @@ void GreedyScheduler::prepareJobsForEvaluation(
     // Remove some finished jobs from eval.
     foreach (SchedulerJob *job, jobs)
     {
+        job->clearSimulatedSchedule();
         switch (job->getCompletionCondition())
         {
             case FINISH_AT:
@@ -525,10 +526,10 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
 
     QElapsedTimer simTimer;
     simTimer.start();
-    constexpr int twoDays = 48 * 3600;
+    const int simDays = SIM_HOURS * 3600;
     if (simType != DONT_SIMULATE && nextJob != nullptr)
     {
-        QDateTime simulationLimit = now.addSecs(twoDays);
+        QDateTime simulationLimit = now.addSecs(simDays);
         schedule.clear();
         QDateTime simEnd = simulate(jobs, now, simulationLimit, capturedFramesCount, simType);
 
@@ -543,8 +544,10 @@ SchedulerJob *GreedyScheduler::selectNextJob(const QList<SchedulerJob *> &jobs, 
                 simEnd = simulate(jobs, simEnd, simulationLimit, nullptr, simType);
             }
         }
+        m_SimSeconds = simTimer.elapsed() / 1000.0;
+        TEST_PRINT(stderr, "********************************* simulate(%s,%d) took %.3fs\n",
+                   simType == SIMULATE ? "SIM" : "ONLY_1", SIM_HOURS, m_SimSeconds);
     }
-    m_SimSeconds = simTimer.elapsed() / 1000.0;
 
     return nextJob;
 }

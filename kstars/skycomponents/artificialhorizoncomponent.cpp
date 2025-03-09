@@ -829,47 +829,65 @@ const ArtificialHorizonEntity *ArtificialHorizon::getConstraintBelow(double azim
     return entity;
 }
 
-bool ArtificialHorizon::isAltitudeOK(double azimuthDegrees, double altitudeDegrees, QString *reason) const
+bool ArtificialHorizon::isAltitudeOK(double azimuthDegrees, double altitudeDegrees, QString *reason,
+                                     double *margin) const
 {
     if (noCeilingConstraints)
     {
         const double constraint = altitudeConstraint(azimuthDegrees);
-        if (altitudeDegrees >= constraint)
+        const double diff = altitudeDegrees - constraint;
+        if (margin)
+            *margin = fabs(diff);
+        if (diff >= 0)
             return true;
         if (reason != nullptr)
             *reason = QString("altitude %1 < horizon %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
         return false;
     }
-    else
-        return isVisible(azimuthDegrees, altitudeDegrees, reason);
+    return isVisible(azimuthDegrees, altitudeDegrees, reason, margin);
 }
 
 // An altitude is blocked (not visible) if either:
 // - there are constraints above and the closest above constraint is not a ceiling, or
 // - there are constraints below and the closest below constraint is a ceiling.
-bool ArtificialHorizon::isVisible(double azimuthDegrees, double altitudeDegrees, QString *reason) const
+bool ArtificialHorizon::isVisible(double azimuthDegrees, double altitudeDegrees, QString *reason, double *margin) const
 {
+    if (margin)
+        *margin = 90;
     const ArtificialHorizonEntity *above = getConstraintAbove(azimuthDegrees, altitudeDegrees);
+    bool ignoreMe;
     if (above != nullptr && !above->ceiling())
     {
-        if (reason != nullptr)
+        if (reason != nullptr || margin != nullptr)
         {
-            bool ignoreMe;
             double constraint = above->altitudeConstraint(azimuthDegrees, &ignoreMe);
-            *reason = QString("altitude %1 < horizon %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
+            if (reason)
+                *reason = QString("altitude %1 < horizon %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
+            if (margin)
+                *margin = fabs(altitudeDegrees - constraint);
         }
         return false;
     }
     const ArtificialHorizonEntity *below = getConstraintBelow(azimuthDegrees, altitudeDegrees);
     if (below != nullptr && below->ceiling())
     {
-        if (reason != nullptr)
+        if (reason != nullptr || margin != nullptr)
         {
-            bool ignoreMe;
             double constraint = below->altitudeConstraint(azimuthDegrees, &ignoreMe);
-            *reason = QString("altitude %1 > ceiling %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
+            if (reason)
+                *reason = QString("altitude %1 > ceiling %2").arg(altitudeDegrees, 0, 'f', 1).arg(constraint, 0, 'f', 1);
+            if (margin)
+                *margin = fabs(altitudeDegrees - constraint);
         }
         return false;
+    }
+    if (margin)
+    {
+        // we're ok on one or both margins, but how close?
+        if (below && !below->ceiling())
+            *margin = fabs(altitudeDegrees - below->altitudeConstraint(azimuthDegrees, &ignoreMe));
+        if (above && above->ceiling())
+            *margin = std::min(*margin, fabs(altitudeDegrees - above->altitudeConstraint(azimuthDegrees, &ignoreMe)));
     }
     return true;
 }
