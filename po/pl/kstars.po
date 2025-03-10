@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1704514 $
+# Version: $Revision: 1704733 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 02:03+0000\n"
+"POT-Creation-Date: 2025-03-10 02:02+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -1544,7 +1544,7 @@ msgstr "miesiące"
 msgid "days"
 msgstr "dni"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1050
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1137
 #, kde-format
 msgid "hours"
 msgstr "godziny"
@@ -1552,7 +1552,7 @@ msgstr "godziny"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1048
+#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1135
 #, kde-format
 msgid "minutes"
 msgstr "minuty"
@@ -1575,7 +1575,7 @@ msgstr "minuty"
 #: ekos/guide/opsdither.ui:126 ekos/guide/opsgpg.ui:139
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
-#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1046
+#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1133
 #, kde-format
 msgid "seconds"
 msgstr "sekundy"
@@ -28285,7 +28285,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Wybierz katalog zadań"
 
-#: ekos/scheduler/greedyscheduler.cpp:170
+#: ekos/scheduler/greedyscheduler.cpp:171
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "Zadanie '%1' nie ma więcej czynności wsadowych."
@@ -29698,13 +29698,13 @@ msgstr "Zaślep"
 msgid "Ekos job failed (%1)"
 msgstr "Niepowodzenie zadania Ekos (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:1026
+#: ekos/scheduler/schedulerjob.cpp:1113
 #, fuzzy, kde-format
 #| msgid "Dark Flat"
 msgid "DarkFlat"
 msgstr "Ciemny płaski"
 
-#: ekos/scheduler/schedulerjob.cpp:1057
+#: ekos/scheduler/schedulerjob.cpp:1144
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Images"

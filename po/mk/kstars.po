@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 02:03+0000\n"
+"POT-Creation-Date: 2025-03-10 02:02+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -1595,7 +1595,7 @@ msgstr "месец"
 msgid "days"
 msgstr "денови"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1050
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1137
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Tours"
@@ -1605,7 +1605,7 @@ msgstr "Tours"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1048
+#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1135
 #, fuzzy, kde-format
 #| msgctxt "minutes"
 #| msgid "mins"
@@ -1630,7 +1630,7 @@ msgstr "минути"
 #: ekos/guide/opsdither.ui:126 ekos/guide/opsgpg.ui:139
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
-#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1046
+#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1133
 #, fuzzy, kde-format
 #| msgctxt "seconds"
 #| msgid "secs"
@@ -26694,7 +26694,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Влезен избор"
 
-#: ekos/scheduler/greedyscheduler.cpp:170
+#: ekos/scheduler/greedyscheduler.cpp:171
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -27924,12 +27924,12 @@ msgstr "Каспер"
 msgid "Ekos job failed (%1)"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:1026
+#: ekos/scheduler/schedulerjob.cpp:1113
 #, fuzzy, kde-format
 msgid "DarkFlat"
 msgstr "Име на ѕвезда"
 
-#: ekos/scheduler/schedulerjob.cpp:1057
+#: ekos/scheduler/schedulerjob.cpp:1144
 #, fuzzy, kde-format
 msgid "images"
 msgstr "Слика"

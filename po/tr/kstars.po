@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 02:03+0000\n"
+"POT-Creation-Date: 2025-03-10 02:02+0000\n"
 "PO-Revision-Date: 2025-03-08 14:33+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -1524,7 +1524,7 @@ msgstr "ay"
 msgid "days"
 msgstr "gün"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1050
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1137
 #, kde-format
 msgid "hours"
 msgstr "saat"
@@ -1532,7 +1532,7 @@ msgstr "saat"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1048
+#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1135
 #, kde-format
 msgid "minutes"
 msgstr "dakika"
@@ -1555,7 +1555,7 @@ msgstr "dakika"
 #: ekos/guide/opsdither.ui:126 ekos/guide/opsgpg.ui:139
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
-#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1046
+#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1133
 #, kde-format
 msgid "seconds"
 msgstr "saniye"
@@ -27691,7 +27691,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "İşle Dizini Seç"
 
-#: ekos/scheduler/greedyscheduler.cpp:170
+#: ekos/scheduler/greedyscheduler.cpp:171
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "“%1” işinde kalan toplu iş yok."
@@ -29047,12 +29047,12 @@ msgstr "Sınır"
 msgid "Ekos job failed (%1)"
 msgstr "Ekos işi başarısız (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:1026
+#: ekos/scheduler/schedulerjob.cpp:1113
 #, kde-format
 msgid "DarkFlat"
 msgstr "Koyu Düz"
 
-#: ekos/scheduler/schedulerjob.cpp:1057
+#: ekos/scheduler/schedulerjob.cpp:1144
 #, kde-format
 msgid "images"
 msgstr "görseller"

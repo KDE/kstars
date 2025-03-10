@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 02:03+0000\n"
-"PO-Revision-Date: 2025-02-28 20:27+0100\n"
+"POT-Creation-Date: 2025-03-10 02:02+0000\n"
+"PO-Revision-Date: 2025-03-07 12:37+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1538,7 +1538,7 @@ msgstr "mesi"
 msgid "days"
 msgstr "giorni"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1050
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1137
 #, kde-format
 msgid "hours"
 msgstr "ore"
@@ -1546,7 +1546,7 @@ msgstr "ore"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1048
+#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1135
 #, kde-format
 msgid "minutes"
 msgstr "minuti"
@@ -1569,7 +1569,7 @@ msgstr "minuti"
 #: ekos/guide/opsdither.ui:126 ekos/guide/opsgpg.ui:139
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
-#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1046
+#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1133
 #, kde-format
 msgid "seconds"
 msgstr "secondi"
@@ -27606,6 +27606,7 @@ msgstr "Angolo di posizione:"
 #, kde-format
 msgid "Go to center and rotate to match this position angle"
 msgstr ""
+"Vai al centro e ruota in modo da corrispondere a quest'angolo di posizione"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/scheduler/framingassistant.ui:855
@@ -28033,7 +28034,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Seleziona cartella dei processi"
 
-#: ekos/scheduler/greedyscheduler.cpp:170
+#: ekos/scheduler/greedyscheduler.cpp:171
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "Il processo «%1» ha completato le serie."
@@ -28850,10 +28851,9 @@ msgstr "Profilo del dispositivo Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, copyMountTargetB)
 #: ekos/scheduler/scheduler.ui:656
-#, fuzzy, kde-format
-#| msgid "Update coordinates to the current telescope position"
+#, kde-format
 msgid "Fill coordinates with current mount position."
-msgstr "Aggiorna le coordinate alla posizione attuale del telescopio"
+msgstr "Riempi le coordinate con la posizione attuale della montatura."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, trainLabel)
 #: ekos/scheduler/scheduler.ui:671
@@ -29427,12 +29427,12 @@ msgstr "Metti il coperchio"
 msgid "Ekos job failed (%1)"
 msgstr "Processo di Ekos non riuscito (%1)"
 
-#: ekos/scheduler/schedulerjob.cpp:1026
+#: ekos/scheduler/schedulerjob.cpp:1113
 #, kde-format
 msgid "DarkFlat"
 msgstr "Dark flat"
 
-#: ekos/scheduler/schedulerjob.cpp:1057
+#: ekos/scheduler/schedulerjob.cpp:1144
 #, kde-format
 msgid "images"
 msgstr "immagini"
@@ -83377,17 +83377,17 @@ msgid "Load a Catalog."
 msgstr "Carica un catalogo."
 
 #: tools/imagingplanner.cpp:2534
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
-msgstr "Ricerca nel sito del Professor Seligman le immagini NGC/IC."
+msgstr "Ricerca nel sito del Professor Seligman le immagini NGC."
 
 #: tools/imagingplanner.cpp:2539
-#, fuzzy, kde-format
-#| msgid "Search the Professor Seligman online site for NGC/IC images."
+#, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
-msgstr "Ricerca nel sito del Professor Seligman le immagini NGC/IC."
+msgstr ""
+"Ricerca nel sito del Professor Seligman per ottenere informazioni sugli "
+"oggetti IC."
 
 #: tools/imagingplanner.cpp:2545
 #, kde-format
@@ -83395,16 +83395,20 @@ msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
+"Ricerca nel sito galaxymap.org per ottenere informazioni sugli oggetti "
+"Sharpless2."
 
 #: tools/imagingplanner.cpp:2551
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
+"Ricerca nel sito della Nasa per ottenere informazioni sugli oggetti Messier."
 
 #: tools/imagingplanner.cpp:2556
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
+"Ricerca nel sito di Emil Ivanov per ottenere informazioni sugli oggetti VDB."
 
 #: tools/imagingplanner.cpp:2705
 #, kde-format

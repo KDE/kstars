@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-08 02:03+0000\n"
+"POT-Creation-Date: 2025-03-10 02:02+0000\n"
 "PO-Revision-Date: 2007-02-24 13:11+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -1491,7 +1491,7 @@ msgstr "Bulan"
 msgid "days"
 msgstr "hari"
 
-#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1050
+#: auxiliary/xplanetimageviewer.cpp:445 ekos/scheduler/schedulerjob.cpp:1137
 #, fuzzy, kde-format
 msgid "hours"
 msgstr " jam"
@@ -1499,7 +1499,7 @@ msgstr " jam"
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #. i18n: ectx: property (text), widget (QLabel, textLabel_1_2_7)
 #: auxiliary/xplanetimageviewer.cpp:446 ekos/auxiliary/darklibrary.ui:236
-#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1048
+#: ekos/capture/limits.ui:357 ekos/scheduler/schedulerjob.cpp:1135
 #, fuzzy, kde-format
 msgid "minutes"
 msgstr "Baki masa: %s minit"
@@ -1522,7 +1522,7 @@ msgstr "Baki masa: %s minit"
 #: ekos/guide/opsdither.ui:126 ekos/guide/opsgpg.ui:139
 #: ekos/guide/opsgpg.ui:306 ekos/guide/opsgpg.ui:383 ekos/guide/opsgpg.ui:456
 #: ekos/guide/opsgpg.ui:539 ekos/guide/opsguide.ui:308
-#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1046
+#: ekos/guide/opsguide.ui:407 ekos/scheduler/schedulerjob.cpp:1133
 #, fuzzy, kde-format
 msgid "seconds"
 msgstr "Saat Failover"
@@ -25640,7 +25640,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Default Pilihan Direktori:"
 
-#: ekos/scheduler/greedyscheduler.cpp:170
+#: ekos/scheduler/greedyscheduler.cpp:171
 #, fuzzy, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "Bandar nama"
@@ -26825,14 +26825,14 @@ msgstr "Nama Volum _Logikal:"
 msgid "Ekos job failed (%1)"
 msgstr ""
 
-#: ekos/scheduler/schedulerjob.cpp:1026
+#: ekos/scheduler/schedulerjob.cpp:1113
 #, fuzzy, kde-format
 msgid "DarkFlat"
 msgstr ""
 "%d bingkai\n"
 "Saizfail: %lu B"
 
-#: ekos/scheduler/schedulerjob.cpp:1057
+#: ekos/scheduler/schedulerjob.cpp:1144
 #, fuzzy, kde-format
 msgid "images"
 msgstr "Imej"
