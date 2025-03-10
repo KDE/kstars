@@ -549,6 +549,7 @@ void Observatory::initWeather()
 {
     enableWeather(true);
     weatherBox->setEnabled(true);
+    setWeatherSource(weatherSourceCombo->currentText());
 
     connect(m_WeatherSource, &ISD::Weather::newStatus, this, &Ekos::Observatory::setWeatherStatus);
     connect(m_WeatherSource, &ISD::Weather::newData, this, &Ekos::Observatory::newWeatherData);
