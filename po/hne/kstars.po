@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:02+0000\n"
+"POT-Creation-Date: 2025-03-11 01:56+0000\n"
 "PO-Revision-Date: 2009-02-23 19:53+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -6712,7 +6712,7 @@ msgstr "एफआईटीएस फाइल ल %1 मं सहेजिस"
 #: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4121
 #: ekos/capture/capture.cpp:326 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1226 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
-#: ekos/observatory/observatory.cpp:985
+#: ekos/observatory/observatory.cpp:986
 #: ekos/scheduler/schedulerprocess.cpp:3611
 #, fuzzy, kde-format
 #| msgid "%1 and %2"
@@ -24865,8 +24865,8 @@ msgstr "एफआईटीएस के अपने अपन प्रदर�
 msgid "Telescope completed the meridian flip."
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1061
-#: ekos/observatory/observatory.cpp:1072
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1062
+#: ekos/observatory/observatory.cpp:1073
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
 #, fuzzy, kde-format
@@ -25537,34 +25537,34 @@ msgstr "बन्द घड़ी के साथ चालू करव"
 msgid "Shutter is closing..."
 msgstr "सेटिंग (&S)"
 
-#: ekos/observatory/observatory.cpp:713
+#: ekos/observatory/observatory.cpp:714
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1 = %2 @ %3"
 msgstr "%1, %2 अउ %3"
 
-#: ekos/observatory/observatory.cpp:764
+#: ekos/observatory/observatory.cpp:765
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "C Western"
 msgid "Weather is OK"
 msgstr "सी पस्चिमी"
 
-#: ekos/observatory/observatory.cpp:770
+#: ekos/observatory/observatory.cpp:771
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Saratov"
 msgid "Weather Warning"
 msgstr "सारातोव"
 
-#: ekos/observatory/observatory.cpp:776
+#: ekos/observatory/observatory.cpp:777
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "C Western"
 msgid "Weather Alert"
 msgstr "सी पस्चिमी"
 
-#: ekos/observatory/observatory.cpp:1058 ekos/observatory/observatory.cpp:1069
+#: ekos/observatory/observatory.cpp:1059 ekos/observatory/observatory.cpp:1070
 #: ekos/observatory/observatoryweathermodel.cpp:156
 #: ekos/observatory/observatoryweathermodel.cpp:180
 #, kde-format

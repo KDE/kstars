@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:02+0000\n"
+"POT-Creation-Date: 2025-03-11 01:56+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6354,7 +6354,7 @@ msgstr "解析中止，用时 %1 秒。"
 #: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4121
 #: ekos/capture/capture.cpp:326 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1226 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
-#: ekos/observatory/observatory.cpp:985
+#: ekos/observatory/observatory.cpp:986
 #: ekos/scheduler/schedulerprocess.cpp:3611
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -23872,8 +23872,8 @@ msgstr "中天翻转成功完成。"
 msgid "Telescope completed the meridian flip."
 msgstr "望远镜完成过中天翻转。"
 
-#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1061
-#: ekos/observatory/observatory.cpp:1072
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1062
+#: ekos/observatory/observatory.cpp:1073
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
 #, kde-format
@@ -24474,27 +24474,27 @@ msgstr "快门已关闭。"
 msgid "Shutter is closing..."
 msgstr "快门正在关闭..."
 
-#: ekos/observatory/observatory.cpp:713
+#: ekos/observatory/observatory.cpp:714
 #, kde-format
 msgid "%1 = %2 @ %3"
 msgstr "%1 = %2 @ %3"
 
-#: ekos/observatory/observatory.cpp:764
+#: ekos/observatory/observatory.cpp:765
 #, kde-format
 msgid "Weather is OK"
 msgstr "天气尚可"
 
-#: ekos/observatory/observatory.cpp:770
+#: ekos/observatory/observatory.cpp:771
 #, kde-format
 msgid "Weather Warning"
 msgstr "天气警告"
 
-#: ekos/observatory/observatory.cpp:776
+#: ekos/observatory/observatory.cpp:777
 #, kde-format
 msgid "Weather Alert"
 msgstr "天气警报"
 
-#: ekos/observatory/observatory.cpp:1058 ekos/observatory/observatory.cpp:1069
+#: ekos/observatory/observatory.cpp:1059 ekos/observatory/observatory.cpp:1070
 #: ekos/observatory/observatoryweathermodel.cpp:156
 #: ekos/observatory/observatoryweathermodel.cpp:180
 #, kde-format

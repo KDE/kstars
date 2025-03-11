@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1704733 $
+# Version: $Revision: 1704811 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:02+0000\n"
+"POT-Creation-Date: 2025-03-11 01:56+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -6528,7 +6528,7 @@ msgstr "Program rozwiązujący przerwał po %1 sekundach."
 #: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4121
 #: ekos/capture/capture.cpp:326 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1226 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
-#: ekos/observatory/observatory.cpp:985
+#: ekos/observatory/observatory.cpp:986
 #: ekos/scheduler/schedulerprocess.cpp:3611
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -25385,8 +25385,8 @@ msgstr "Pomyślnie obrócono o południk."
 msgid "Telescope completed the meridian flip."
 msgstr "Teleskop ukończył obrót o południk."
 
-#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1061
-#: ekos/observatory/observatory.cpp:1072
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1062
+#: ekos/observatory/observatory.cpp:1073
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
 #, kde-format
@@ -26018,27 +26018,27 @@ msgstr "Migawka jest zamknięta."
 msgid "Shutter is closing..."
 msgstr "Migawka zamyka się..."
 
-#: ekos/observatory/observatory.cpp:713
+#: ekos/observatory/observatory.cpp:714
 #, kde-format
 msgid "%1 = %2 @ %3"
 msgstr "%1 = %2 @ %3"
 
-#: ekos/observatory/observatory.cpp:764
+#: ekos/observatory/observatory.cpp:765
 #, kde-format
 msgid "Weather is OK"
 msgstr "Pogoda jest OK"
 
-#: ekos/observatory/observatory.cpp:770
+#: ekos/observatory/observatory.cpp:771
 #, kde-format
 msgid "Weather Warning"
 msgstr "Ostrzeżenie pogodowe"
 
-#: ekos/observatory/observatory.cpp:776
+#: ekos/observatory/observatory.cpp:777
 #, kde-format
 msgid "Weather Alert"
 msgstr "Powiadomienie pogodowe"
 
-#: ekos/observatory/observatory.cpp:1058 ekos/observatory/observatory.cpp:1069
+#: ekos/observatory/observatory.cpp:1059 ekos/observatory/observatory.cpp:1070
 #: ekos/observatory/observatoryweathermodel.cpp:156
 #: ekos/observatory/observatoryweathermodel.cpp:180
 #, kde-format

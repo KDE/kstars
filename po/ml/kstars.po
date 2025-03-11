@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-10 02:02+0000\n"
+"POT-Creation-Date: 2025-03-11 01:56+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -6477,7 +6477,7 @@ msgstr "നിര്‍ദ്ദേശങ്ങള്‍ ഈ സ്ക്രി�
 #: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4121
 #: ekos/capture/capture.cpp:326 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1226 ekos/manager.cpp:2051 ekos/mount/mount.cpp:765
-#: ekos/observatory/observatory.cpp:985
+#: ekos/observatory/observatory.cpp:986
 #: ekos/scheduler/schedulerprocess.cpp:3611
 #, fuzzy, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -23727,8 +23727,8 @@ msgstr "തീയതി കാണിക്കേണ്ട വിധം: "
 msgid "Telescope completed the meridian flip."
 msgstr ""
 
-#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1061
-#: ekos/observatory/observatory.cpp:1072
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1062
+#: ekos/observatory/observatory.cpp:1073
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
 #, fuzzy, kde-format
@@ -24355,29 +24355,29 @@ msgstr ""
 msgid "Shutter is closing..."
 msgstr "string"
 
-#: ekos/observatory/observatory.cpp:713
+#: ekos/observatory/observatory.cpp:714
 #, fuzzy, kde-format
 msgid "%1 = %2 @ %3"
 msgstr "ടിവിയും റേഡിയോയും"
 
-#: ekos/observatory/observatory.cpp:764
+#: ekos/observatory/observatory.cpp:765
 #, fuzzy, kde-format
 msgid "Weather is OK"
 msgstr "പാശ്ചാത്യം"
 
-#: ekos/observatory/observatory.cpp:770
+#: ekos/observatory/observatory.cpp:771
 #, fuzzy, kde-format
 #| msgctxt "star name"
 #| msgid "Sadatoni"
 msgid "Weather Warning"
 msgstr "സദാറ്റോണി"
 
-#: ekos/observatory/observatory.cpp:776
+#: ekos/observatory/observatory.cpp:777
 #, fuzzy, kde-format
 msgid "Weather Alert"
 msgstr "പാശ്ചാത്യം"
 
-#: ekos/observatory/observatory.cpp:1058 ekos/observatory/observatory.cpp:1069
+#: ekos/observatory/observatory.cpp:1059 ekos/observatory/observatory.cpp:1070
 #: ekos/observatory/observatoryweathermodel.cpp:156
 #: ekos/observatory/observatoryweathermodel.cpp:180
 #, kde-format
