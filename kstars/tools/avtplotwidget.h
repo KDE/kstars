@@ -93,10 +93,11 @@ class AVTPlotWidget : public KPlotWidget
      * @param overlay Should be false on first plot. If overlaying a 2nd plot, set to true then.
      */
     void plot(const GeoLocation *geo, KSAlmanac *ksal, const QVector<double> &times,
-              const QVector<double> &alts, int lineWidth = 2, Qt::GlobalColor color = Qt::white);
+              const QVector<double> &alts, int lineWidth = 2, Qt::GlobalColor color = Qt::white,
+              const QString &label = "");
 
     void plotOverlay(const QVector<double> &times, const QVector<double> &alts,
-                     int lineWidth = 5, Qt::GlobalColor color = Qt::green);
+                     int lineWidth = 5, Qt::GlobalColor color = Qt::green, const QString &label = "");
 
     /**
      * Sets the plot index which whose altitude is displayed when clicking on the graph.
@@ -115,6 +116,9 @@ class AVTPlotWidget : public KPlotWidget
      */
     void mouseMoveEvent(QMouseEvent *e) override;
 
+    /** Used to catch tooltip event, otherwise calls parent */
+    bool event(QEvent *event) override;
+
     /** Simply calls mouseMoveEvent(). */
     void mousePressEvent(QMouseEvent *e) override;
 
@@ -124,7 +128,20 @@ class AVTPlotWidget : public KPlotWidget
     /** Redraw the plot. */
     void paintEvent(QPaintEvent *e) override;
 
-  private:    
+  private:
+    struct Tip
+    {
+        QList<QPointF> points;
+        QString label;
+        Tip(const QList<QPointF> &p, const QString &l) : points(p), label(l) {}
+        Tip() {};
+    };
+    QList<Tip> tips;
+
+
+    QPointF toXY(double vx, double vy);
+    void displayToolTip(const QPoint &pos, const QPoint &globalPos);
+
     int convertCoords(double xCoord);
 
     // The times below (SunRise, SunSet, Dawn, Dusk, MoonRise, MoonSet) are all in fractional
@@ -144,6 +161,8 @@ class AVTPlotWidget : public KPlotWidget
     double altitudeAxisMax { 90.0 };
     QPoint MousePoint;
     const GeoLocation *geo { nullptr };
+
+    double xMin = 0, xMax = 0;
 
     int currentLine { 0 };
 };

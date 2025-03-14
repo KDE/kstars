@@ -171,9 +171,9 @@ void SchedulerAltitudeGraph::plot()
 
         const int lineWidth = (index == currentPosition) ? 2 : 1;
         if (index == 0)
-            altGraph->plot(SchedulerModuleState::getGeo(), &ksal, times, alts, lineWidth, Qt::white);
+            altGraph->plot(SchedulerModuleState::getGeo(), &ksal, times, alts, lineWidth, Qt::white, job->getName());
         else
-            altGraph->plotOverlay(times, alts, lineWidth, Qt::white);
+            altGraph->plotOverlay(times, alts, lineWidth, Qt::white, job->getName());
     }
 
     altGraph->setCurrentLine(currentPosition);
@@ -190,12 +190,14 @@ void SchedulerAltitudeGraph::plot()
         {
             auto startTime = jobSchedule.startTime;
             auto stopTime = jobSchedule.stopTime;
+            if (!startTime.isValid())
+                continue;
+            if (startTime < plotStart)
+                startTime = plotStart;
+            if (!stopTime.isValid() || stopTime > plotEnd)
+                stopTime = plotEnd;
             if (startTime.isValid() && startTime < plotEnd && stopTime.isValid() && stopTime > plotStart)
             {
-                if (startTime < plotStart) startTime = plotStart;
-                if (stopTime > plotEnd)
-                    stopTime = plotEnd;
-
                 QVector<double> runTimes, runAlts;
                 auto t = startTime;
                 while (t.secsTo(stopTime) >= 0)

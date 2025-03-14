@@ -10,15 +10,16 @@
 #include "Options.h"
 
 #include <QWidget>
+#include <QDebug>
+#include <QLinearGradient>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QTime>
-#include <QLinearGradient>
+#include <QToolTip>
 
 #include <KLocalizedString>
 #include <kplotobject.h>
 #include <kplotpoint.h>
-#include <QDebug>
 
 #include "kplotaxis.h"
 #include "ksalmanac.h"
@@ -35,8 +36,9 @@ void AVTPlotWidget::mousePressEvent(QMouseEvent *e)
     mouseMoveEvent(e);
 }
 
-void AVTPlotWidget::mouseDoubleClickEvent(QMouseEvent *)
+void AVTPlotWidget::mouseDoubleClickEvent(QMouseEvent *e)
 {
+    Q_UNUSED(e);
     MousePoint = QPoint(-1, -1);
     update();
 }
@@ -63,8 +65,47 @@ void AVTPlotWidget::mouseMoveEvent(QMouseEvent *e)
     Ycursor -= topPadding();
 
     MousePoint = QPoint(Xcursor, Ycursor);
+    displayToolTip(e->pos(), e->globalPos());
     update();
 }
+
+bool AVTPlotWidget::event(QEvent *event)
+{
+    if (event->type() == QEvent::ToolTip)
+    {
+        QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
+        displayToolTip(helpEvent->pos(), helpEvent->globalPos());
+        return true;
+    }
+    return QWidget::event(event);
+}
+
+// Map logical data coordinates to mouse coordinates.
+QPointF AVTPlotWidget::toXY(double vx, double vy)
+{
+    QRectF plotArea = pixRect();
+    double px = leftPadding() + ((vx - xMin) * plotArea.width()) / (xMax - xMin);
+    // Top of the plot is y=0
+    double py = topPadding() + ((altitudeAxisMax - vy) * plotArea.height()) / (altitudeAxisMax - altitudeAxisMin);
+    return QPointF(px, py);
+}
+
+void AVTPlotWidget::displayToolTip(const QPoint &pos, const QPoint &globalPos)
+{
+    for (const auto &tip : tips)
+    {
+        for (const auto &pt : tip.points)
+        {
+            if (qAbs(pt.x() - pos.x()) < 5 && qAbs(pt.y() - pos.y()) < 5)
+            {
+                QToolTip::showText(globalPos, tip.label, this, QRect(), 3000);
+                return;
+            }
+        }
+    }
+    QToolTip::hideText();
+}
+
 
 // All the int coordinates (rise, set) need to be converted from hours relative to midnight
 // into graph coordinates before calling this.
@@ -412,16 +453,13 @@ void AVTPlotWidget::disableAxis(KPlotWidget::Axis axisToDisable)
 }
 
 void AVTPlotWidget::plot(const GeoLocation *geo, KSAlmanac *ksal, const QVector<double> &times,
-                         const QVector<double> &alts, int lineWidth, Qt::GlobalColor color)
+                         const QVector<double> &alts, int lineWidth, Qt::GlobalColor color, const QString &label)
 {
-    KPlotObject *po = new KPlotObject(color, KPlotObject::Lines, lineWidth);
-    QPen pen;
-    pen.setWidth(lineWidth);
-    pen.setColor(color);
-    po->setLinePen(pen);
-
     currentLine = 0;
-    setLimits(times[0], times.last(), altitudeAxisMin, altitudeAxisMax);
+    xMin = times[0];
+    xMax = times.last();
+    setLimits(xMin, xMax, altitudeAxisMin, altitudeAxisMax);
+
     setSecondaryLimits(times[0], times.last(), altitudeAxisMin, altitudeAxisMax);
     axis(KPlotWidget::BottomAxis)->setTickLabelFormat('t');
     axis(KPlotWidget::TopAxis)->setTickLabelFormat('t');
@@ -439,26 +477,33 @@ void AVTPlotWidget::plot(const GeoLocation *geo, KSAlmanac *ksal, const QVector<
     setPlotExtent(noonOffset, plotDuration);
     removeAllPlotObjects();
 
-    for (int i = 0; i < times.size(); ++i)
-        po->addPoint(times[i], alts[i]);
-    addPlotObject(po);
-
-    update();
+    tips.clear();
+    plotOverlay(times, alts, lineWidth, color, label);
 }
 
 void AVTPlotWidget::plotOverlay(const QVector<double> &times, const QVector<double> &alts, int lineWidth,
-                                Qt::GlobalColor color)
+                                Qt::GlobalColor color, const QString &label)
 {
-    KPlotObject *po = new KPlotObject(Qt::white, KPlotObject::Lines, lineWidth);
+    KPlotObject *po = new KPlotObject(color, KPlotObject::Lines, lineWidth);
     QPen pen;
     pen.setWidth(lineWidth);
     pen.setColor(color);
     po->setLinePen(pen);
 
+    Tip tip;
+    tip.label = label;
     for (int i = 0; i < times.size(); ++i)
+    {
         po->addPoint(times[i], alts[i]);
+        if (!label.isEmpty())
+        {
+            QPointF p = toXY(times[i], alts[i]);
+            tip.points.append(p);
+        }
+    }
     addPlotObject(po);
-
+    if (!label.isEmpty())
+        tips.append(tip);
     update();
 }
 

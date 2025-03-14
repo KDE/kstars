@@ -704,7 +704,7 @@ QDateTime SchedulerJob::calculateNextTime(QDateTime const &when, bool checkIfCon
     // Calculate the UT at the argument time
     KStarsDateTime const ut = SchedulerModuleState::getGeo()->LTtoUT(ltWhen);
 
-    int maxMinute = 1e8;
+    unsigned int maxMinute = 1e8;
     if (!runningJob && until.isValid())
         maxMinute = when.secsTo(until) / 60;
 
