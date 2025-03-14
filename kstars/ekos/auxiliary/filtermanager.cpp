@@ -417,7 +417,7 @@ void FilterManager::refreshFilterPosition()
 bool FilterManager::setFilterPosition(uint8_t position, FilterPolicy policy)
 {
     // Position 1 to Max
-    if (position > m_ActiveFilters.count())
+    if (position > m_ActiveFilters.count() || m_currentFilterPosition < 1 || position < 1)
         return false;
 
     m_Policy = policy;
