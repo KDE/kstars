@@ -31,6 +31,16 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QCheckBox" name="StartSolvingImmediatelyCB">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start solving immediately after taking a screenshot, instead of waiting for the Solve button to be pressed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>Start Solving Immediately</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

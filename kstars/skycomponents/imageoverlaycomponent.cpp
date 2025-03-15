@@ -326,7 +326,10 @@ void ImageOverlayComponent::draw(SkyPainter *skyp)
 {
 #if !defined(KSTARS_LITE)
     if (m_Initialized)
+    {
         skyp->drawImageOverlay(&m_Overlays);
+        skyp->drawImageOverlay(&m_TemporaryOverlays);
+    }
 #else
     Q_UNUSED(skyp);
 #endif
@@ -468,6 +471,11 @@ void ImageOverlayComponent::loadImageFileLoop()
     // Restore editing for the table.
     m_ImageOverlayTable->setEditTriggers(m_EditTriggers);
     m_Initialized = true;
+}
+
+void ImageOverlayComponent::addTemporaryImageOverlay(const ImageOverlay &overlay)
+{
+    m_TemporaryOverlays.push_back(overlay);
 }
 
 QImage *ImageOverlayComponent::loadImageFile (const QString &fullFilename, bool mirror)

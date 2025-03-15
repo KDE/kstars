@@ -7,7 +7,6 @@
 #include "fitstab.h"
 
 #include "QtNetwork/qnetworkreply.h"
-#include "auxiliary/kspaths.h"
 #include "fitsdata.h"
 #include "fitshistogramcommand.h"
 #include "fitsview.h"
@@ -15,6 +14,7 @@
 #include "ksnotification.h"
 #include "kstars.h"
 #include "Options.h"
+#include "platesolve.h"
 #include "ui_fitsheaderdialog.h"
 #include "ui_statform.h"
 #include "fitsstretchui.h"
@@ -23,18 +23,12 @@
 #include <QFileDialog>
 #include <QClipboard>
 #include <QIcon>
-#include "ekos/auxiliary/stellarsolverprofile.h"
-#include "ekos/auxiliary/stellarsolverprofileeditor.h"
 
 #include <fits_debug.h>
 #include "fitscommon.h"
 #include <QDesktopServices>
 #include <QUrl>
 #include <QDialog>
-
-QPointer<Ekos::StellarSolverProfileEditor> FITSTab::m_ProfileEditor;
-QPointer<KConfigDialog> FITSTab::m_EditorDialog;
-QPointer<KPageWidgetItem> FITSTab::m_ProfileEditorPage;
 
 constexpr int CAT_OBJ_SORT_ROLE = Qt::UserRole + 1;
 
@@ -46,7 +40,7 @@ FITSTab::FITSTab(FITSViewer *parent) : QWidget(parent)
     undoStack->clear();
     connect(undoStack, SIGNAL(cleanChanged(bool)), this, SLOT(modifyFITSState(bool)));
 
-    m_PlateSolveWidget = new QDialog(this);
+    m_PlateSolve.reset(new PlateSolve(this));
     m_CatalogObjectWidget = new QDialog(this);
     statWidget = new QDialog(this);
     fitsHeaderDialog = new QDialog(this);
@@ -127,33 +121,6 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
         fitsTools = new QToolBox();
 
         stat.setupUi(statWidget);
-        m_PlateSolveUI.setupUi(m_PlateSolveWidget);
-
-        m_PlateSolveUI.editProfile->setIcon(QIcon::fromTheme("document-edit"));
-        m_PlateSolveUI.editProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-        const QString EditorID = "FITSSolverProfileEditor";
-        if (!m_EditorDialog)
-        {
-            // These are static, shared by all FITS Viewer tabs.
-            m_EditorDialog = new KConfigDialog(nullptr, EditorID, Options::self());
-            m_ProfileEditor = new Ekos::StellarSolverProfileEditor(nullptr, Ekos::AlignProfiles, m_EditorDialog.data());
-            m_ProfileEditorPage = m_EditorDialog->addPage(m_ProfileEditor.data(),
-                                  i18n("FITS Viewer Solver Profiles Editor"));
-        }
-
-        connect(m_PlateSolveUI.editProfile, &QAbstractButton::clicked, this, [this, EditorID]
-        {
-            m_ProfileEditor->loadProfile(m_PlateSolveUI.kcfg_FitsSolverProfile->currentText());
-            KConfigDialog * d = KConfigDialog::exists(EditorID);
-            if(d)
-            {
-                d->setCurrentPage(m_ProfileEditorPage);
-                d->show();
-            }
-        });
-
-        connect(m_PlateSolveUI.SolveButton, &QPushButton::clicked, this, &FITSTab::extractImage);
 
         for (int i = 0; i <= STAT_STDDEV; i++)
         {
@@ -168,10 +135,10 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
                 stat.statsTable->setSpan(i, 0, 1, 3);
         }
 
-        fitsTools->addItem(statWidget, i18n("Statistics"));
+        connect(m_PlateSolve.get(), &PlateSolve::clicked, this, &FITSTab::extractImage);
 
-        fitsTools->addItem(m_PlateSolveWidget, i18n("Plate Solving"));
-        initSolverUI();
+        fitsTools->addItem(statWidget, i18n("Statistics"));
+        fitsTools->addItem(m_PlateSolve.get(), i18n("Plate Solving"));
 
         // Setup the Catalog Object page
         m_CatalogObjectUI.setupUi(m_CatalogObjectWidget);
@@ -201,7 +168,6 @@ bool FITSTab::setupView(FITSMode mode, FITSScale filter)
 
         fitsSplitter->addWidget(scrollFitsPanel);
         fitsSplitter->addWidget(m_View.get());
-
 
         //This code allows the fitsTools to start in a closed state
         fitsSplitter->setSizes(QList<int>() << 0 << m_View->width() );
@@ -1062,410 +1028,29 @@ void FITSTab::setAutoStretch()
         m_View->setAutoStretchParams();
 }
 
-namespace
-{
-const QList<SSolver::Parameters> getSSolverParametersList(Ekos::ProfileGroup module)
-{
-    QString savedProfiles;
-    switch(module)
-    {
-        case Ekos::AlignProfiles:
-        default:
-            savedProfiles = QDir(KSPaths::writableLocation(
-                                     QStandardPaths::AppLocalDataLocation)).filePath("SavedAlignProfiles.ini");
-            return QFile(savedProfiles).exists() ?
-                   StellarSolver::loadSavedOptionsProfiles(savedProfiles) :
-                   Ekos::getDefaultAlignOptionsProfiles();
-            break;
-        case Ekos::FocusProfiles:
-            savedProfiles = QDir(KSPaths::writableLocation(
-                                     QStandardPaths::AppLocalDataLocation)).filePath("SavedFocusProfiles.ini");
-            return QFile(savedProfiles).exists() ?
-                   StellarSolver::loadSavedOptionsProfiles(savedProfiles) :
-                   Ekos::getDefaultFocusOptionsProfiles();
-            break;
-        case Ekos::GuideProfiles:
-            savedProfiles = QDir(KSPaths::writableLocation(
-                                     QStandardPaths::AppLocalDataLocation)).filePath("SavedGuideProfiles.ini");
-            return QFile(savedProfiles).exists() ?
-                   StellarSolver::loadSavedOptionsProfiles(savedProfiles) :
-                   Ekos::getDefaultGuideOptionsProfiles();
-            break;
-        case Ekos::HFRProfiles:
-            savedProfiles = QDir(KSPaths::writableLocation(
-                                     QStandardPaths::AppLocalDataLocation)).filePath("SavedHFRProfiles.ini");
-            return QFile(savedProfiles).exists() ?
-                   StellarSolver::loadSavedOptionsProfiles(savedProfiles) :
-                   Ekos::getDefaultHFROptionsProfiles();
-            break;
-    }
-}
-} // namespace
-
-void FITSTab::setupSolver(bool extractOnly)
-{
-    auto parameters = getSSolverParametersList(static_cast<Ekos::ProfileGroup>(Options::fitsSolverModule())).at(
-                          m_PlateSolveUI.kcfg_FitsSolverProfile->currentIndex());
-    parameters.search_radius = m_PlateSolveUI.kcfg_FitsSolverRadius->value();
-    if (extractOnly)
-    {
-        if (!m_PlateSolveUI.kcfg_FitsSolverLinear->isChecked())
-        {
-            // If image is non-linear seed the threshold offset with the background using median pixel value. Note
-            // that there is a bug in the median calculation due to an issue compiling on Mac that means that not
-            // all datatypes are supported by the median calculation. If median is zero use the mean instead.
-            double offset = m_View->imageData()->getAverageMedian();
-            if (offset <= 0.0)
-                offset = m_View->imageData()->getAverageMean();
-            parameters.threshold_offset = offset;
-        }
-
-        m_Solver.reset(new SolverUtils(parameters, parameters.solverTimeLimit, SSolver::EXTRACT),  &QObject::deleteLater);
-        connect(m_Solver.get(), &SolverUtils::done, this, &FITSTab::extractorDone, Qt::UniqueConnection);
-    }
-    else
-    {
-        // If image is non-linear then set the offset to the average background in the image
-        // which was found in the first solver (extract only) run.
-        if (m_Solver && !m_PlateSolveUI.kcfg_FitsSolverLinear->isChecked())
-            parameters.threshold_offset = m_Solver->getBackground().global;
-
-        m_Solver.reset(new SolverUtils(parameters, parameters.solverTimeLimit, SSolver::SOLVE),  &QObject::deleteLater);
-        connect(m_Solver.get(), &SolverUtils::done, this, &FITSTab::solverDone, Qt::UniqueConnection);
-    }
-
-    const int imageWidth = m_View->imageData()->width();
-    const int imageHeight = m_View->imageData()->height();
-    if (m_PlateSolveUI.kcfg_FitsSolverUseScale->isChecked() && imageWidth != 0 && imageHeight != 0)
-    {
-        const double scale = m_PlateSolveUI.kcfg_FitsSolverScale->value();
-        double lowScale = scale * 0.8;
-        double highScale = scale * 1.2;
-
-        // solver utils uses arcsecs per pixel only
-        const int units = m_PlateSolveUI.kcfg_FitsSolverImageScaleUnits->currentIndex();
-        if (units == SSolver::DEG_WIDTH)
-        {
-            lowScale = (lowScale * 3600) / std::max(imageWidth, imageHeight);
-            highScale = (highScale * 3600) / std::min(imageWidth, imageHeight);
-        }
-        else if (units == SSolver::ARCMIN_WIDTH)
-        {
-            lowScale = (lowScale * 60) / std::max(imageWidth, imageHeight);
-            highScale = (highScale * 60) / std::min(imageWidth, imageHeight);
-        }
-
-        m_Solver->useScale(m_PlateSolveUI.kcfg_FitsSolverUseScale->isChecked(), lowScale, highScale);
-    }
-    else m_Solver->useScale(false, 0, 0);
-
-    if (m_PlateSolveUI.kcfg_FitsSolverUsePosition->isChecked())
-    {
-        bool ok;
-        const dms ra = m_PlateSolveUI.FitsSolverEstRA->createDms(&ok);
-        bool ok2;
-        const dms dec = m_PlateSolveUI.FitsSolverEstDec->createDms(&ok2);
-        if (ok && ok2)
-            m_Solver->usePosition(true, ra.Degrees(), dec.Degrees());
-        else
-            m_Solver->usePosition(false, 0, 0);
-    }
-    else m_Solver->usePosition(false, 0, 0);
-}
-
-// If it is currently solving an image, then cancel the solve.
-// Otherwise start solving.
 void FITSTab::extractImage()
 {
-    if (m_Solver.get() && m_Solver->isRunning())
+    connect(m_PlateSolve.get(), &PlateSolve::extractorSuccess, this, [this]()
     {
-        m_PlateSolveUI.SolveButton->setText(i18n("Aborting..."));
-        m_Solver->abort();
-        return;
-    }
-    m_PlateSolveUI.SolveButton->setText(i18n("Cancel"));
-
-    setupSolver(true);
-
-    m_PlateSolveUI.FitsSolverAngle->setText("");
-    m_PlateSolveUI.FitsSolverIndexfile->setText("");
-    m_PlateSolveUI.Solution1->setText(i18n("Extracting..."));
-    m_PlateSolveUI.Solution2->setText("");
-
-    m_Solver->runSolver(m_View->imageData());
-}
-
-void FITSTab::solveImage()
-{
-    if (m_Solver.get() && m_Solver->isRunning())
-    {
-        m_PlateSolveUI.SolveButton->setText(i18n("Aborting..."));
-        m_Solver->abort();
-        return;
-    }
-    m_PlateSolveUI.SolveButton->setText(i18n("Cancel"));
-
-    setupSolver(false);
-
-    m_PlateSolveUI.Solution2->setText(i18n("Solving..."));
-
-    m_Solver->runSolver(m_View->imageData());
-}
-
-void FITSTab::extractorDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds)
-{
-    Q_UNUSED(solution);
-    disconnect(m_Solver.get(), &SolverUtils::done, this, &FITSTab::extractorDone);
-    m_PlateSolveUI.Solution2->setText("");
-
-    if (timedOut)
-    {
-        const QString result = i18n("Extractor timed out: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1));
-        m_PlateSolveUI.Solution1->setText(result);
-
-        // Can't run the solver. Just reset.
-        m_PlateSolveUI.SolveButton->setText("Solve");
-        return;
-    }
-    else if (!success)
-    {
-        const QString result = i18n("Extractor failed: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1));
-        m_PlateSolveUI.Solution1->setText(result);
-
-        // Can't run the solver. Just reset.
-        m_PlateSolveUI.SolveButton->setText(i18n("Solve"));
-        return;
-    }
-    else
-    {
-        const QString starStr = i18n("Extracted %1 stars (%2 unfiltered) in %3s",
-                                     m_Solver->getNumStarsFound(),
-                                     m_Solver->getBackground().num_stars_detected,
-                                     QString("%1").arg(elapsedSeconds, 0, 'f', 1));
-        m_PlateSolveUI.Solution1->setText(starStr);
-
-        // Set the stars in the FITSData object so the user can view them.
-        const QList<FITSImage::Star> &starList = m_Solver->getStarList();
-        QList<Edge*> starCenters;
-        starCenters.reserve(starList.size());
-        for (int i = 0; i < starList.size(); i++)
-        {
-            const auto &star = starList[i];
-            Edge *oneEdge = new Edge();
-            oneEdge->x = star.x;
-            oneEdge->y = star.y;
-            oneEdge->val = star.peak;
-            oneEdge->sum = star.flux;
-            oneEdge->HFR = star.HFR;
-            oneEdge->width = star.a;
-            oneEdge->numPixels = star.numPixels;
-            if (star.a > 0)
-                // See page 63 to find the ellipticity equation for SEP.
-                // http://astroa.physics.metu.edu.tr/MANUALS/sextractor/Guide2source_extractor.pdf
-                oneEdge->ellipticity = 1 - star.b / star.a;
-            else
-                oneEdge->ellipticity = 0;
-
-            starCenters.append(oneEdge);
-        }
-        m_View->imageData()->setStarCenters(starCenters);
         m_View->updateFrame();
-
-        // Now run the solver.
-        solveImage();
-    }
-}
-
-void FITSTab::solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds)
-{
-    disconnect(m_Solver.get(), &SolverUtils::done, this, &FITSTab::solverDone);
-    m_PlateSolveUI.SolveButton->setText("Solve");
-
-    if (m_Solver->isRunning())
-        qCDebug(KSTARS_FITS) << "solverDone called, but it is still running.";
-
-    if (timedOut)
+        m_PlateSolve->solveImage(m_View->imageData());
+    });
+    connect(m_PlateSolve.get(), &PlateSolve::extractorFailed, this, [this]()
     {
-        const QString result = i18n("Solver timed out: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1));
-        m_PlateSolveUI.Solution2->setText(result);
-    }
-    else if (!success)
+        disconnect(m_PlateSolve.get());
+    });
+    connect(m_PlateSolve.get(), &PlateSolve::solverFailed, this, [this]()
     {
-        const QString result = i18n("Solver failed: %1s", QString("%L1").arg(elapsedSeconds, 0, 'f', 1));
-        m_PlateSolveUI.Solution2->setText(result);
-    }
-    else
+        disconnect(m_PlateSolve.get());
+    });
+    connect(m_PlateSolve.get(), &PlateSolve::solverSuccess, this, [this]()
     {
-        const bool eastToTheRight = solution.parity == FITSImage::POSITIVE ? false : true;
-        m_View->imageData()->injectWCS(solution.orientation, solution.ra, solution.dec, solution.pixscale, eastToTheRight);
-        m_View->imageData()->loadWCS();
         m_View->syncWCSState();
         if (m_View->areObjectsShown())
             // Requery Objects based on new plate solved solution
             m_View->imageData()->searchObjects();
-
-        const QString result = QString("Solved in %1s").arg(elapsedSeconds, 0, 'f', 1);
-        const double solverPA = KSUtils::rotationToPositionAngle(solution.orientation);
-        m_PlateSolveUI.FitsSolverAngle->setText(QString("%1º").arg(solverPA, 0, 'f', 2));
-
-        int indexUsed = -1, healpixUsed = -1;
-        m_Solver->getSolutionHealpix(&indexUsed, &healpixUsed);
-        if (indexUsed < 0)
-            m_PlateSolveUI.FitsSolverIndexfile->setText("");
-        else
-            m_PlateSolveUI.FitsSolverIndexfile->setText(
-                QString("%1%2")
-                .arg(indexUsed)
-                .arg(healpixUsed >= 0 ? QString("-%1").arg(healpixUsed) : QString("")));;
-
-        // Set the scale widget to the current result
-        const int imageWidth = m_View->imageData()->width();
-        const int units = m_PlateSolveUI.kcfg_FitsSolverImageScaleUnits->currentIndex();
-        if (units == SSolver::DEG_WIDTH)
-            m_PlateSolveUI.kcfg_FitsSolverScale->setValue(solution.pixscale * imageWidth / 3600.0);
-        else if (units == SSolver::ARCMIN_WIDTH)
-            m_PlateSolveUI.kcfg_FitsSolverScale->setValue(solution.pixscale * imageWidth / 60.0);
-        else
-            m_PlateSolveUI.kcfg_FitsSolverScale->setValue(solution.pixscale);
-
-        // Set the ra and dec widgets to the current result
-        m_PlateSolveUI.FitsSolverEstRA->show(dms(solution.ra));
-        m_PlateSolveUI.FitsSolverEstDec->show(dms(solution.dec));
-
-        m_PlateSolveUI.Solution2->setText(result);
-    }
+        disconnect(m_PlateSolve.get());
+    });
+    m_PlateSolve->extractImage(m_View->imageData());
 }
 
-// Each module can default to its own profile index. These two methods retrieves and saves
-// the values in a JSON string using an Options variable.
-int FITSTab::getProfileIndex(int moduleIndex)
-{
-    if (moduleIndex < 0 || moduleIndex >= Ekos::ProfileGroupNames.size())
-        return 0;
-    const QString moduleName = Ekos::ProfileGroupNames[moduleIndex].toString();
-    const QString str = Options::fitsSolverProfileIndeces();
-    const QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
-    if (doc.isNull() || !doc.isObject())
-        return 0;
-    const QJsonObject indeces = doc.object();
-    return indeces[moduleName].toString().toInt();
-}
-
-void FITSTab::setProfileIndex(int moduleIndex, int profileIndex)
-{
-    if (moduleIndex < 0 || moduleIndex >= Ekos::ProfileGroupNames.size())
-        return;
-    QString str = Options::fitsSolverProfileIndeces();
-    QJsonDocument doc = QJsonDocument::fromJson(str.toUtf8());
-    if (doc.isNull() || !doc.isObject())
-    {
-        QJsonObject initialIndeces;
-        for (int i = 0; i < Ekos::ProfileGroupNames.size(); i++)
-        {
-            QString name = Ekos::ProfileGroupNames[i].toString();
-            if (name == "Align")
-                initialIndeces[name] = QString::number(Options::solveOptionsProfile());
-            else if (name == "Guide")
-                initialIndeces[name] = QString::number(Options::guideOptionsProfile());
-            else if (name == "HFR")
-                initialIndeces[name] = QString::number(Options::hFROptionsProfile());
-            else // Focus has a weird setting, just default to 0
-                initialIndeces[name] = "0";
-        }
-        doc = QJsonDocument(initialIndeces);
-    }
-
-    QJsonObject indeces = doc.object();
-    indeces[Ekos::ProfileGroupNames[moduleIndex].toString()] = QString::number(profileIndex);
-    doc = QJsonDocument(indeces);
-    Options::setFitsSolverProfileIndeces(QString(doc.toJson()));
-}
-
-void FITSTab::setupProfiles(int moduleIndex)
-{
-    if (moduleIndex < 0 || moduleIndex >= Ekos::ProfileGroupNames.size())
-        return;
-    Ekos::ProfileGroup profileGroup = static_cast<Ekos::ProfileGroup>(moduleIndex);
-    Options::setFitsSolverModule(moduleIndex);
-
-    // Set up the profiles' menu.
-    const QList<SSolver::Parameters> optionsList = getSSolverParametersList(profileGroup);
-    m_PlateSolveUI.kcfg_FitsSolverProfile->clear();
-    for(auto &param : optionsList)
-        m_PlateSolveUI.kcfg_FitsSolverProfile->addItem(param.listName);
-
-    m_ProfileEditor->setProfileGroup(profileGroup, false);
-
-    // Restore the stored options.
-    m_PlateSolveUI.kcfg_FitsSolverProfile->setCurrentIndex(getProfileIndex(Options::fitsSolverModule()));
-
-    m_ProfileEditorPage->setHeader(QString("FITS Viewer Solver %1 Profiles Editor")
-                                   .arg(Ekos::ProfileGroupNames[moduleIndex].toString()));
-}
-
-void FITSTab::initSolverUI()
-{
-    // Init the modules combo box.
-    m_PlateSolveUI.kcfg_FitsSolverModule->clear();
-    for (int i = 0; i < Ekos::ProfileGroupNames.size(); i++)
-        m_PlateSolveUI.kcfg_FitsSolverModule->addItem(Ekos::ProfileGroupNames[i].toString());
-    m_PlateSolveUI.kcfg_FitsSolverModule->setCurrentIndex(Options::fitsSolverModule());
-
-    setupProfiles(Options::fitsSolverModule());
-
-    // Change the profiles combo box whenever the modules combo changes
-    connect(m_PlateSolveUI.kcfg_FitsSolverModule, QOverload<int>::of(&QComboBox::activated), this, &FITSTab::setupProfiles);
-
-    m_PlateSolveUI.kcfg_FitsSolverUseScale->setChecked(Options::fitsSolverUseScale());
-    m_PlateSolveUI.kcfg_FitsSolverScale->setValue(Options::fitsSolverScale());
-    m_PlateSolveUI.kcfg_FitsSolverImageScaleUnits->setCurrentIndex(Options::fitsSolverImageScaleUnits());
-
-    m_PlateSolveUI.kcfg_FitsSolverUsePosition->setChecked(Options::fitsSolverUsePosition());
-    m_PlateSolveUI.kcfg_FitsSolverRadius->setValue(Options::fitsSolverRadius());
-
-    m_PlateSolveUI.FitsSolverEstRA->setUnits(dmsBox::HOURS);
-    m_PlateSolveUI.FitsSolverEstDec->setUnits(dmsBox::DEGREES);
-
-    // Save the values of user controls when the user changes them.
-    connect(m_PlateSolveUI.kcfg_FitsSolverProfile, QOverload<int>::of(&QComboBox::activated), [this](int index)
-    {
-        setProfileIndex(m_PlateSolveUI.kcfg_FitsSolverModule->currentIndex(), index);
-    });
-
-    connect(m_PlateSolveUI.kcfg_FitsSolverUseScale, &QCheckBox::stateChanged, this, [](int state)
-    {
-        Options::setFitsSolverUseScale(state);
-    });
-    connect(m_PlateSolveUI.kcfg_FitsSolverScale, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [](double value)
-    {
-        Options::setFitsSolverScale(value);
-    });
-    connect(m_PlateSolveUI.kcfg_FitsSolverImageScaleUnits, QOverload<int>::of(&QComboBox::activated), [](int index)
-    {
-        Options::setFitsSolverImageScaleUnits(index);
-    });
-
-    connect(m_PlateSolveUI.kcfg_FitsSolverUsePosition, &QCheckBox::stateChanged, this, [](int state)
-    {
-        Options::setFitsSolverUsePosition(state);
-    });
-
-    connect(m_PlateSolveUI.kcfg_FitsSolverRadius, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [](double value)
-    {
-        Options::setFitsSolverRadius(value);
-    });
-    connect(m_PlateSolveUI.UpdatePosition, &QPushButton::clicked, this, [&]()
-    {
-        const auto center = SkyMap::Instance()->getCenterPoint();
-        m_PlateSolveUI.FitsSolverEstRA->show(center.ra());
-        m_PlateSolveUI.FitsSolverEstDec->show(center.dec());
-    });
-
-    // Warn if the user is not using the internal StellarSolver solver.
-    const SSolver::SolverType type = static_cast<SSolver::SolverType>(Options::solverType());
-    if(type != SSolver::SOLVER_STELLARSOLVER)
-    {
-        m_PlateSolveUI.Solution2->setText(i18n("Warning! This tool only supports the internal StellarSolver solver."));
-        m_PlateSolveUI.Solution1->setText(i18n("Change to that in the Ekos Align options menu."));
-    }
-}

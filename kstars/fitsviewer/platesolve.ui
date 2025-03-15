@@ -35,7 +35,7 @@
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_1">
-      <item row="0" column="0" colspan="3">
+      <item row="0" column="0">
        <widget class="QPushButton" name="SolveButton">
         <property name="maximumSize">
          <size>
@@ -48,6 +48,19 @@
         </property>
         <property name="text">
          <string>Solve</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="2">
+       <widget class="QPushButton" name="auxButton">
+        <property name="visible">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string></string>
+        </property>
+        <property name="text">
+         <string>Aux</string>
         </property>
        </widget>
       </item>
@@ -523,6 +536,19 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="plateSolveImage">
+     <property name="visible">
+      <bool>false</bool>
+     </property>
+      <property name="maximumSize">
+       <size>
+        <width>100000</width>
+        <height>300</height>
+       </size>
+     </property>     
     </widget>
    </item>
    <item>

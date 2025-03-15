@@ -22,6 +22,8 @@ class QStandardItemModel;
 class QStandardItem;
 class ImagingPlannerPopup;
 class KSMoon;
+class PlateSolve;
+class ScreenCapture;
 
 // These are used to communicate with the database.
 class ImagingPlannerDBEntry
@@ -119,6 +121,7 @@ class ImagingPlanner : public QDialog
 
     void centerOnSkymap();
     void reallyCenterOnSkymap();
+    void takeScreenshot();
 
 protected slots:
     void slotClose();
@@ -265,6 +268,16 @@ protected:
     bool m_loadingCatalog = false;
 
     QMap<QString, CatalogImageInfo> m_CatalogImageInfoMap;
+
+    QSharedPointer<PlateSolve> m_PlateSolve;
+    QSharedPointer<ScreenCapture> m_CaptureWidget;
+    QString m_ScreenShotFilename;
+    QImage m_ScreenShotImage;
+    void extractImage();
+
+public slots:
+    void captureRegion(const QImage &screenshot);
+
 };
 
 class ImagingPlannerPopup : public QMenu

@@ -429,6 +429,7 @@ if (CFITSIO_FOUND)
         fitsviewer/fitsviewer.cpp
         fitsviewer/stretch.cpp
         fitsviewer/fitstab.cpp
+        fitsviewer/platesolve.cpp
         fitsviewer/fitsdebayer.cpp
         fitsviewer/opsfits.cpp
         )
@@ -947,6 +948,7 @@ set(kstars_extra_SRCS
     texturemanager.cpp
     #to minimize number of indef KSTARS_LITE
     skypainter.cpp    
+    auxiliary/screencapture.cpp    
     )
 
 SET(kstars_extra_kstars_SRCS

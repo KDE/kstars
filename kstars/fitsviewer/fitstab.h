@@ -16,7 +16,6 @@
 #include <QWidget>
 #include "ui_fitsheaderdialog.h"
 #include "ui_statform.h"
-#include "ui_platesolve.h"
 #include "ui_catalogobject.h"
 #include "ui_catalogobjecttypefilter.h"
 #include <QFuture>
@@ -25,7 +24,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <memory>
-#include "ekos/auxiliary/solverutils.h"
 #include <KConfigDialog>
 #include <QNetworkAccessManager>
 #include <QStandardItemModel>
@@ -35,6 +33,7 @@ class FITSView;
 class FITSViewer;
 class FITSData;
 class FITSStretchUI;
+class PlateSolve;
 
 namespace Ekos
 {
@@ -156,7 +155,7 @@ class FITSTab : public QWidget
         void ZoomDefault();
         void displayStats(bool roi = false);
         void extractImage();
-        void solveImage();
+
     protected:
         virtual void closeEvent(QCloseEvent *ev) override;
 
@@ -177,9 +176,6 @@ class FITSTab : public QWidget
         /// The Statistics Panel
         QPointer<QDialog> statWidget;
         Ui::statForm stat;
-        /// The Plate Solving UI
-        QPointer<QDialog> m_PlateSolveWidget;
-        Ui::PlateSolveUI m_PlateSolveUI;
         /// Catalog Object UI
         QPointer<QDialog> m_CatalogObjectWidget;
         Ui::CatalogObjectUI m_CatalogObjectUI;
@@ -204,15 +200,6 @@ class FITSTab : public QWidget
         int uid { 0 };
 
         std::unique_ptr<FITSStretchUI> stretchUI;
-
-        // Used for solving an image.
-        void setupSolver(bool extractOnly = false);
-        void solverDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
-        void extractorDone(bool timedOut, bool success, const FITSImage::Solution &solution, double elapsedSeconds);
-        void initSolverUI();
-        void setupProfiles(int profileIndex);
-        int getProfileIndex(int moduleIndex);
-        void setProfileIndex(int moduleIndex, int profileIndex);
 
         // Used for catalog table processing
         typedef enum { CAT_NUM,
@@ -255,16 +242,10 @@ class FITSTab : public QWidget
         int m_CatalogObjectItem { 0 };
         QStandardItemModel m_CatObjModel;
 
-        QSharedPointer<SolverUtils> m_Solver;
-
         QList<QString> m_BlinkFilenames;
         int m_BlinkIndex { 0 };
 
-        // The StellarSolverProfileEditor is shared among all tabs of all FITS Viewers.
-        // They all edit the same (align) profiles.
-        static QPointer<Ekos::StellarSolverProfileEditor> m_ProfileEditor;
-        static QPointer<KConfigDialog> m_EditorDialog;
-        static QPointer<KPageWidgetItem> m_ProfileEditorPage;
+        QSharedPointer<PlateSolve> m_PlateSolve;
 
     signals:
         void debayerToggled(bool);

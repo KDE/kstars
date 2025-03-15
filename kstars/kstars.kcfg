@@ -1102,6 +1102,11 @@
          <label>Make the Imaging Planner tool an independent window.</label>
          <default>true</default>
       </entry>
+      <entry name="ImagingPlannerStartSolvingImmediately" type="Bool">
+         <label>Start solving immediately after taking a screenshot.</label>
+         <whatsthis>Start solving immediately after taking a screenshot, instead of waiting for the Solve button to be pressed.</whatsthis>
+         <default>false</default>
+      </entry>
    </group>
    <group name="ObservingList">
       <entry name="ObsListSymbol" type="Bool">

@@ -34,6 +34,7 @@ class ImagingPlannerOptions : public QDialog
   private slots:
     void slotIndependentWindow(bool checked);
     void slotCenterOnSkyMap(bool checked);
+    void slotStartSolvingImmediately(bool checked);
 
   private:
     ImagingPlannerOptionsUI *ui { nullptr };

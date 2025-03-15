@@ -7,6 +7,7 @@
 #include "imagingplanner.h"
 
 #include "artificialhorizoncomponent.h"
+#include "auxiliary/screencapture.h"
 #include "auxiliary/thememanager.h"
 #include "catalogscomponent.h"
 #include "constellationboundarylines.h"
@@ -21,6 +22,7 @@
 #include "flagcomponent.h"
 
 #include "nameresolver.h"
+#include "imageoverlaycomponent.h"
 #include "imagingplanneroptions.h"
 #include "kplotwidget.h"
 #include "kplotobject.h"
@@ -32,6 +34,7 @@
 #include "kstars.h"
 #include "ksuserdb.h"
 #include "kstarsdata.h"
+#include "fitsviewer/platesolve.h"
 #include "skymap.h"
 #include "skymapcomposite.h"
 
@@ -41,6 +44,7 @@
 #include <QFileDialog>
 #include <QImage>
 #include <QNetworkReply>
+#include <QPixmap>
 #include <QRegularExpression>
 #include <QSortFilterProxyModel>
 #include <QStandardItemModel>
@@ -1446,6 +1450,16 @@ void ImagingPlanner::initialize()
     // Install the event filters. Put them at the end of initialize so
     // the event filter isn't called until initialize is complete.
     installEventFilters();
+
+    m_PlateSolve.reset(new PlateSolve(this));
+    m_PlateSolve->enableAuxButton("Retake screenshot",
+                                  "Retake the screenshot of the object if you're having issues solving.");
+    connect(m_PlateSolve.get(), &PlateSolve::clicked, this, &ImagingPlanner::extractImage, Qt::UniqueConnection);
+    connect(m_PlateSolve.get(), &PlateSolve::auxClicked, this, [this]()
+    {
+        m_PlateSolve->abort();
+        takeScreenshot();
+    }, Qt::UniqueConnection);
 }
 
 void ImagingPlanner::installEventFilters()
@@ -2532,19 +2546,16 @@ bool ImagingPlanner::checkIfPageExists(const QString &urlString)
     if (reply->error() == QNetworkReply::NoError)
     {
         reply->deleteLater();
-        fprintf(stderr, "checkIfPageExists --> success\n");
         return true;
     }
     else if (timer.isActive() )
     {
         reply->deleteLater();
-        fprintf(stderr, "checkIfPageExists --> it doesn't exist\n");
         return false;
     }
     else
     {
         reply->deleteLater();
-        fprintf(stderr, "checkIfPageExists --> timed out\n");
         return false;
     }
 }
@@ -2652,14 +2663,8 @@ void ImagingPlanner::searchSpecialWebPageImages()
         if (ok)
         {
             urlString = QString("https://www.irida-observatory.org/CCD/VdB%1/VdB%1.html").arg(num);
-            if (checkIfPageExists(urlString))
-                fprintf(stderr, "It exists\n");
-            else
-            {
-                fprintf(stderr, "It doesn't exist\n");
+            if (!checkIfPageExists(urlString))
                 urlString = "https://www.emilivanov.com/CCD%20Images/Catalog_VdB.htm";
-            }
-
         }
 
     }
@@ -3486,6 +3491,9 @@ void ImagingPlannerPopup::init(ImagingPlanner * planner, const QStringList &name
 
     addSeparator();
     addAction(i18n("Center %1 on SkyMap", names[0]), planner, &ImagingPlanner::reallyCenterOnSkymap);
+    addSeparator();
+    addAction(i18n("Screenshot some image of %1, plate-solve it, and temporarily place it on the SkyMap", names[0]), planner,
+              &ImagingPlanner::takeScreenshot);
 
 }
 
@@ -3907,3 +3915,125 @@ void ImagingPlanner::sorry(const QString &message)
     KSNotification::sorry(message);
 }
 
+void ImagingPlanner::captureRegion(const QImage &screenshot)
+{
+    if (m_PlateSolve.get()) disconnect(m_PlateSolve.get());
+
+    // This code to convert the screenshot to a FITSData is, of course, convoluted.
+    // TODO: improve it.
+    m_ScreenShotImage = screenshot;
+    QString temporaryPath = QDir(KSPaths::writableLocation(QStandardPaths::TempLocation) + QDir::separator() +
+                                 qAppName()).path();
+    QString tempQImage = QDir(temporaryPath).filePath("screenshot.png");
+    m_ScreenShotImage.save(tempQImage);
+    FITSData::ImageToFITS(tempQImage, "png", m_ScreenShotFilename);
+    this->raise();
+    this->activateWindow();
+
+    if (!m_PlateSolve.get())
+        m_PlateSolve.reset(new PlateSolve(this));
+
+    m_PlateSolve->setImageDisplay(m_ScreenShotImage);
+    if (currentCatalogObject())
+    {
+        m_PlateSolve->setPosition(*currentCatalogObject());
+        m_PlateSolve->setUsePosition(true);
+        m_PlateSolve->setUseScale(false);
+        m_PlateSolve->setLinear(false);
+        reallyCenterOnSkymap();
+    }
+
+    m_PlateSolve->setWindowTitle(QString("Plate Solve for %1").arg(currentObjectName()));
+    m_PlateSolve->show();
+    if (Options::imagingPlannerStartSolvingImmediately())
+        extractImage();
+}
+
+void ImagingPlanner::takeScreenshot()
+{
+    if (!currentCatalogObject())
+        return;
+
+    const QString messageID = "ImagingPlannerScreenShotInfo";
+    const QString screenshotInfo =
+        QString("<p><b>Taking a screenshot of %1 for the SkyMap</b></p>"
+                "<p>This allows you to screenshot/copy a good example image of %1 from another application, "
+                "such as a browser viewing %1 on Astrobin. It then plate-solves that screenshot and overlays "
+                "it temporarily on the SkyMap.</p>"
+                "<p>You can use this to help you frame your future %1 capture. "
+                "The SkyMap overlay will only be visible in the current KStars session.</p>"
+                "<p>In order to do this, you should make the image you wish to copy visible "
+                "on your screen now, before clicking OK. After you click OK you will see the mouse pointer change "
+                "to the screenshot pointer. You then drag your mouse over the part of the %1 image "
+                "you wish to copy. If you check do-not-ask-again, then you must make sure that your desired image "
+                "is already visible before you run this.</p>"
+                "<p>After you take your screenshot, the system will bring up a menu to help plate-solve the image. "
+                "Click SOLVE on that menu to start the process, unless it is automatically started. "
+                "Once successfully plate-solved, your image will be overlayed onto the SkyMap.").arg(currentObjectName());
+    const int result = KMessageBox::questionYesNo(this, screenshotInfo, "ScreenShot",
+                       KGuiItem("OK"), KGuiItem("Cancel"), messageID);
+    if (result != KMessageBox::Yes)
+    {
+        // Don't remember the cancel response.
+        KMessageBox::enableMessage(messageID);
+        disconnect(m_CaptureWidget.get());
+        m_CaptureWidget.reset();
+        this->raise();
+        this->activateWindow();
+        return;
+    }
+
+    if (m_CaptureWidget.get()) disconnect(m_CaptureWidget.get());
+    m_CaptureWidget.reset(new ScreenCapture());
+    QObject::connect(m_CaptureWidget.get(), &ScreenCapture::areaSelected,
+                     this, &ImagingPlanner::captureRegion, Qt::UniqueConnection);
+    disconnect(m_CaptureWidget.get(), &ScreenCapture::aborted, nullptr, nullptr);
+    QObject::connect(m_CaptureWidget.get(), &ScreenCapture::aborted, this, [this]()
+    {
+        disconnect(m_CaptureWidget.get());
+        m_CaptureWidget.reset();
+        this->raise();
+        this->activateWindow();
+    }, Qt::UniqueConnection);
+    m_CaptureWidget->show();
+}
+
+void ImagingPlanner::extractImage()
+{
+    disconnect(m_PlateSolve.get(), &PlateSolve::solverFailed, nullptr, nullptr);
+    connect(m_PlateSolve.get(), &PlateSolve::solverFailed, this, [this]()
+    {
+        disconnect(m_PlateSolve.get());
+    }, Qt::UniqueConnection);
+    disconnect(m_PlateSolve.get(), &PlateSolve::solverSuccess, nullptr, nullptr);
+    connect(m_PlateSolve.get(), &PlateSolve::solverSuccess, this, [this]()
+    {
+        disconnect(m_PlateSolve.get());
+        const FITSImage::Solution &solution = m_PlateSolve->solution();
+        ImageOverlay overlay;
+        overlay.m_Orientation = solution.orientation;
+        overlay.m_RA = solution.ra;
+        overlay.m_DEC = solution.dec;
+        overlay.m_ArcsecPerPixel = solution.pixscale;
+        overlay.m_EastToTheRight = solution.parity;
+        overlay.m_Status = ImageOverlay::AVAILABLE;
+
+        const bool mirror = !solution.parity;
+        const int scaleWidth = std::min(m_ScreenShotImage.width(), Options::imageOverlayMaxDimension());
+        QImage *processedImg = new QImage;
+        if (mirror)
+            *processedImg = m_ScreenShotImage.mirrored(true, false).scaledToWidth(scaleWidth); // It's reflected horizontally.
+        else
+            *processedImg = m_ScreenShotImage.scaledToWidth(scaleWidth);
+        overlay.m_Img.reset(processedImg);
+        overlay.m_Width = processedImg->width();
+        overlay.m_Height = processedImg->height();
+        KStarsData::Instance()->skyComposite()->imageOverlay()->show();
+        KStarsData::Instance()->skyComposite()->imageOverlay()->addTemporaryImageOverlay(overlay);
+        centerOnSkymap();
+        KStars::Instance()->activateWindow();
+        KStars::Instance()->raise();
+        m_PlateSolve->close();
+    }, Qt::UniqueConnection);
+    m_PlateSolve->solveImage(m_ScreenShotFilename);
+}

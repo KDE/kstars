@@ -83,6 +83,9 @@ class ImageOverlayComponent : public QObject, public SkyComponent
     const QList<ImageOverlay> imageOverlays() const {
         return m_Overlays;
     }
+    const QList<ImageOverlay> temporaryImageOverlays() const {
+        return m_TemporaryOverlays;
+    }
 
     public slots:
     void startSolving();
@@ -93,6 +96,7 @@ class ImageOverlayComponent : public QObject, public SkyComponent
     {
         return m_Directory;
     };
+    void addTemporaryImageOverlay(const ImageOverlay &overlay);
 
  signals:
     void updateLog(const QString &message);
@@ -130,6 +134,7 @@ private:
     bool m_Initialized = false;
 
     QList<ImageOverlay> m_Overlays;
+    QList<ImageOverlay> m_TemporaryOverlays;
     QMap<QString, int> m_Filenames;
     QSharedPointer<SolverUtils> m_Solver;
     QList<int> m_RowsToSolve;
