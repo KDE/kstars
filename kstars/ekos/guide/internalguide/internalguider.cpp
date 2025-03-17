@@ -40,11 +40,6 @@ InternalGuider::InternalGuider()
     connect(pmath.get(), &cgmath::newStarPosition, this, &InternalGuider::newStarPosition);
     connect(pmath.get(), &cgmath::guideStats, this, &InternalGuider::guideStats);
 
-    // Do this so that stored calibration will be visible on the
-    // guide options menu. Calibration will get restored again when needed.
-    pmath->getMutableCalibration()->restore(
-        pierSide, Options::reverseDecOnPierSideChange(), subBinX, subBinY, nullptr);
-
     state = GUIDE_IDLE;
     m_DitherOrigin = QVector3D(0, 0, 0);
 
@@ -915,10 +910,11 @@ void InternalGuider::emitAxisPulse(const cproc_out_params * out)
     //If the pulse was not sent to the mount, it should have 0 value
     if(out->pulse_dir[GUIDE_DEC] == NO_DIR)
         dePulse = 0;
-    //If the pulse was in the Negative direction, it should have a negative sign.
-    if(out->pulse_dir[GUIDE_RA] == RA_DEC_DIR)
+    //If the pulse was to the east, it should have a negative sign.
+    //(Tracking pulse has to be decreased.)
+    if(out->pulse_dir[GUIDE_RA] == RA_INC_DIR)
         raPulse = -raPulse;
-    //If the pulse was in the Negative direction, it should have a negative sign.
+    //If the pulse was to the south, it should have a negative sign.
     if(out->pulse_dir[GUIDE_DEC] == DEC_DEC_DIR)
         dePulse = -dePulse;
 
@@ -1016,6 +1012,9 @@ bool InternalGuider::processGuiding()
     // code, but don't think they should broadcast the newAxisDelta which might
     // interrup a capture.
     if (state < GUIDE_DITHERING)
+        // out->delta[] is saved as STAR drift in the camera sensor coordinate system in
+        // gmath->processAxis(). To get these values in the RADEC system they have to be negated.
+        // But we want the MOUNT drift (cf. PHD2) and hence the values have to be negated once more! So...
         emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
 
     emitAxisPulse(out);

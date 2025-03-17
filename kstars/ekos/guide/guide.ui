@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>754</width>
+    <width>794</width>
     <height>598</height>
    </rect>
   </property>
@@ -1133,7 +1133,7 @@
            </property>
            <widget class="QWidget" name="tab_2">
             <attribute name="title">
-             <string>Drift Plot</string>
+             <string>Mount Drift</string>
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <property name="leftMargin">
@@ -1342,6 +1342,7 @@
                <property name="font">
                 <font>
                  <pointsize>16</pointsize>
+                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1370,6 +1371,7 @@
                <property name="font">
                 <font>
                  <pointsize>16</pointsize>
+                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>

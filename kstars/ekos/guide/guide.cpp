@@ -2233,7 +2233,7 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
             calibrationPlot->graph(GuideGraph::G_DEC_HIGHLIGHT)->addData(dx, dy);
             break;
         case GuideInterface::DEC_OUT_OK:
-            drawRADECAxis(calDECLabel, calDECArrow, dx, dy);
+            drawRADECAxis(calDECLabel, calDECArrow, dx - calDecArrowStartX, dy - calDecArrowStartY);
             break;
         case GuideInterface::DEC_IN:
             calibrationPlot->graph(GuideGraph::G_RA_PULSE)->addData(dx, dy);
@@ -2247,8 +2247,8 @@ void Guide::calibrationUpdate(GuideInterface::CalibrationUpdateType type, const 
 
 void Guide::drawRADECAxis(QCPItemText *Label, QCPItemLine *Arrow, const double xEnd, const double yEnd)
 {
-
-    Arrow->start->setCoords(calDecArrowStartX, calDecArrowStartY);
+    // let start coordinate system always from origin (see DEC_OUT_OK vector translation above!)
+    Arrow->start->setCoords(0, 0);
     Arrow->end->setCoords(xEnd, yEnd);
     Arrow->setHead(QCPLineEnding::esSpikeArrow);
     Label->position->setCoords(xEnd, yEnd);

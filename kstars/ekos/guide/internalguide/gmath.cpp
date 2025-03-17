@@ -409,7 +409,7 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
         const double integralResponse = drift_integral[k] * in_params.integral_gain[k] * arcsecPerMsPulse;
         pulseLength = std::min(fabs(proportionalResponse + integralResponse), maxPulseMilliseconds);
 
-        // calc direction
+        // calculation of correcting mount pulse
         // We do not send pulse if direction is disabled completely, or if direction in a specific axis (e.g. N or S) is disabled
         if (!in_params.enabled[k] || // This axis not enabled
                 // Positive direction of this axis not enabled.
@@ -426,6 +426,8 @@ void cgmath::processAxis(const int k, const bool dithering, const bool darkGuide
             const double pulseArcSec = pulseConverter > 0 ? pulseLength / pulseConverter : 0;
             if (pulseArcSec >= in_params.min_pulse_arcsec[k])
             {
+                // Star drifts are based on pixel differences of the star position in the camera sensor coordinate
+                // system: To correct a star drift > 0 the mount has to move in decreasing RA- & DEC-direction
                 if (k == GUIDE_RA)
                     pulseDirection = arcsecDrift > 0 ? RA_DEC_DIR : RA_INC_DIR;
                 else
@@ -593,11 +595,11 @@ void cgmath::performProcessing(Ekos::GuideState state, QSharedPointer<FITSData> 
         // Note--these don't include the multistar algorithm, but the below ra/dec ones do.
         data.dx = starPosition.x - targetPosition.x;
         data.dy = starPosition.y - targetPosition.y;
-        // Above computes position - reticle. Should the reticle-position, so negate.
+        // Above computes position - reticle (star drift), but we want the mount drift, so negate.
         calibration.convertToPixels(-raDrift, -decDrift, &data.raDistance, &data.decDistance);
 
         const double raGuideFactor = out_params.pulse_dir[GUIDE_RA] == NO_DIR ?
-                                     0 : (out_params.pulse_dir[GUIDE_RA] == RA_INC_DIR ? 1.0 : -1.0);
+                                     0 : (out_params.pulse_dir[GUIDE_RA] == RA_INC_DIR ? -1.0 : 1.0);
         const double decGuideFactor = out_params.pulse_dir[GUIDE_DEC] == NO_DIR ?
                                       0 : (out_params.pulse_dir[GUIDE_DEC] == DEC_INC_DIR ? 1.0 : -1.0);
 
@@ -656,7 +658,8 @@ void cgmath::emitStats()
     const double skyBG = hasGuidestars ? guideStars.skybackground().mean : 0;
     const int numStars = hasGuidestars ? guideStars.skybackground().starsDetected : 0;  // wait for rob's release
 
-    emit guideStats(-out_params.delta[GUIDE_RA], -out_params.delta[GUIDE_DEC],
+    // analyze.cpp uses only one RA/DEC-axis (up:+, down:-), hence RA is negated.
+    emit guideStats(-out_params.delta[GUIDE_RA], out_params.delta[GUIDE_DEC],
                     pulseRA, pulseDEC, snr, skyBG, numStars);
 }
 

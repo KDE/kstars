@@ -46,6 +46,14 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     yAxis->setLabelColor(Qt::white);
     yAxis2->setLabelColor(Qt::white);
 
+    RApulseAxis = axisRect()->addAxis(QCPAxis::atRight, 0);
+    RApulseAxis->setVisible(false);
+    RApulseAxis->setRange(-150, 150);
+
+    DECpulseAxis = axisRect()->addAxis(QCPAxis::atLeft, 0);
+    DECpulseAxis->setVisible(false);
+    DECpulseAxis->setRange(-150, 150);
+
     snrAxis = axisRect()->addAxis(QCPAxis::atLeft, 0);
     snrAxis->setVisible(false);
     // This will be reset to the actual data values.
@@ -66,18 +74,26 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     yAxis2->setTickLabelFont(QFont(font().family(), 9));
     yAxis->setLabelPadding(1);
     yAxis2->setLabelPadding(1);
-    yAxis->setLabel(i18n("drift (arcsec)"));
-    yAxis2->setLabel(i18n("pulse (ms)"));
+    yAxis->setLabel(i18n("Mount DE Drift (arcsec)"));
+    yAxis2->setLabel(i18n("Mount RA Drift (arcsec)"));
 
     setupNSEWLabels();
 
-    int scale =
-        50;  //This is a scaling value between the left and the right axes of the driftGraph, it could be stored in kstars kcfg
-
-    //Sets the default ranges
+    // Sets the default ranges
     xAxis->setRange(0, 120, Qt::AlignRight);
+    // DEC-axis
     yAxis->setRange(-3, 3);
-    yAxis2->setRange(-3 * scale, 3 * scale);
+    // RA-axis
+    yAxis2->setRange(-3, 3);
+    yAxis2->setRangeReversed(true);
+    // Make DEC-axis transfer its range to RA-axis maintaining reversed range
+    connect(yAxis, static_cast<void (QCPAxis::*)(const QCPRange&)>(&QCPAxis::rangeChanged),
+            this, [ = ](QCPRange newRange)
+    {
+        yAxis2->setRangeLower(-newRange.upper);
+        yAxis2->setRangeUpper(-newRange.lower);
+    });
+
 
     //This sets up the legend
     legend->setVisible(true);
@@ -86,36 +102,40 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     legend->setBrush(QBrush(Qt::black));
     legend->setIconSize(4, 12);
     legend->setFillOrder(QCPLegend::foColumnsFirst);
-    axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignLeft | Qt::AlignBottom);
+    axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignHCenter | Qt::AlignBottom);
 
     // RA Curve
-    addGraph(xAxis, yAxis);
-    graph(GuideGraph::G_RA)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+    addGraph(xAxis, yAxis2);
+    graph(GuideGraph::G_RA)->setPen(QPen(KStarsData::Instance()->colorScheme()
+                                         ->colorNamed("RAGuideError")));
     graph(GuideGraph::G_RA)->setName("RA");
     graph(GuideGraph::G_RA)->setLineStyle(QCPGraph::lsLine);
 
     // DE Curve
     addGraph(xAxis, yAxis);
-    graph(GuideGraph::G_DEC)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+    graph(GuideGraph::G_DEC)->setPen(QPen(KStarsData::Instance()->colorScheme()
+                                          ->colorNamed("DEGuideError")));
     graph(GuideGraph::G_DEC)->setName("DE");
     graph(GuideGraph::G_DEC)->setLineStyle(QCPGraph::lsLine);
 
     // RA highlighted Point
-    addGraph(xAxis, yAxis);
+    addGraph(xAxis, yAxis2);
     graph(GuideGraph::G_RA_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
-    graph(GuideGraph::G_RA_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+    graph(GuideGraph::G_RA_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()
+                                                   ->colorScheme()->colorNamed("RAGuideError")));
     graph(GuideGraph::G_RA_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
             QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"), 2), QBrush(), 10));
 
     // DE highlighted Point
     addGraph(xAxis, yAxis);
     graph(GuideGraph::G_DEC_HIGHLIGHT)->setLineStyle(QCPGraph::lsNone);
-    graph(GuideGraph::G_DEC_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+    graph(GuideGraph::G_DEC_HIGHLIGHT)->setPen(QPen(KStarsData::Instance()
+                                                    ->colorScheme()->colorNamed("DEGuideError")));
     graph(GuideGraph::G_DEC_HIGHLIGHT)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssPlusCircle,
             QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"), 2), QBrush(), 10));
 
     // RA Pulse
-    addGraph(xAxis, yAxis2);
+    addGraph(xAxis, RApulseAxis);
     QColor raPulseColor(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError"));
     raPulseColor.setAlpha(75);
     graph(GuideGraph::G_RA_PULSE)->setPen(QPen(raPulseColor));
@@ -124,7 +144,7 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     graph(GuideGraph::G_RA_PULSE)->setLineStyle(QCPGraph::lsStepLeft);
 
     // DEC Pulse
-    addGraph(xAxis, yAxis2);
+    addGraph(xAxis, DECpulseAxis);
     QColor dePulseColor(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError"));
     dePulseColor.setAlpha(75);
     graph(GuideGraph::G_DEC_PULSE)->setPen(QPen(dePulseColor));
@@ -177,7 +197,7 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     graph(GuideGraph::G_SNR)->setVisible(Options::sNRDisplayedOnGuideGraph()); //SNR
     setRMSVisibility();
 
-    updateCorrectionsScaleVisibility();
+    // updateCorrectionsScaleVisibility();
 }
 
 void GuideDriftGraph::guideHistory(int sliderValue, bool graphOnLatestPt)
@@ -283,7 +303,7 @@ void GuideDriftGraph::setupNSEWLabels()
     northLabel->setFont(QFont(font().family(), 9));
     northLabel->setText(i18nc("North", "N"));
     northLabel->position->setType(QCPItemPosition::ptViewportRatio);
-    northLabel->position->setCoords(0.7, 0.12);
+    northLabel->position->setCoords(0.15, 0.12);
     northLabel->setVisible(true);
 
     QCPItemText *southLabel = new QCPItemText(this);
@@ -291,7 +311,7 @@ void GuideDriftGraph::setupNSEWLabels()
     southLabel->setFont(QFont(font().family(), 9));
     southLabel->setText(i18nc("South", "S"));
     southLabel->position->setType(QCPItemPosition::ptViewportRatio);
-    southLabel->position->setCoords(0.7, 0.8);
+    southLabel->position->setCoords(0.15, 0.85);
     southLabel->setVisible(true);
 
     QCPItemText *westLabel = new QCPItemText(this);
@@ -299,7 +319,7 @@ void GuideDriftGraph::setupNSEWLabels()
     westLabel->setFont(QFont(font().family(), 9));
     westLabel->setText(i18nc("West", "W"));
     westLabel->position->setType(QCPItemPosition::ptViewportRatio);
-    westLabel->position->setCoords(0.78, 0.12);
+    westLabel->position->setCoords(0.85, 0.12);
     westLabel->setVisible(true);
 
     QCPItemText *eastLabel = new QCPItemText(this);
@@ -307,7 +327,7 @@ void GuideDriftGraph::setupNSEWLabels()
     eastLabel->setFont(QFont(font().family(), 9));
     eastLabel->setText(i18nc("East", "E"));
     eastLabel->position->setType(QCPItemPosition::ptViewportRatio);
-    eastLabel->position->setCoords(0.8, 0.8);
+    eastLabel->position->setCoords(0.85, 0.85);
     eastLabel->setVisible(true);
 
 }
@@ -315,6 +335,7 @@ void GuideDriftGraph::setupNSEWLabels()
 void GuideDriftGraph::autoScaleGraphs()
 {
     yAxis->setRange(-3, 3);
+    yAxis2->setRange(-3, 3);
     // First bool below is only_enlarge, 2nd is only look at values that are visible in X.
     // Net result is all RA & DEC points within the times being plotted should be visible.
     // This is only called when the autoScale button is pressed.
@@ -351,8 +372,10 @@ void GuideDriftGraph::zoomOutX()
 
 void GuideDriftGraph::setCorrectionGraphScale(int value)
 {
-    yAxis2->setRange(yAxis->range().lower * value,
-                     yAxis->range().upper * value);
+    RApulseAxis->setRange(yAxis->range().lower * value,
+                   yAxis->range().upper * value);
+    DECpulseAxis->setRange(yAxis->range().lower * value,
+                   yAxis->range().upper * value);
     replot();
 }
 
@@ -394,12 +417,12 @@ void GuideDriftGraph::toggleShowPlot(GuideGraph::DRIFT_GRAPH_INDICES plot, bool 
         case GuideGraph::G_RA_PULSE:
             Options::setRACorrDisplayedOnGuideGraph(isChecked);
             graph(GuideGraph::G_RA_PULSE)->setVisible(isChecked);
-            updateCorrectionsScaleVisibility();
+            // updateCorrectionsScaleVisibility();
             break;
         case GuideGraph::G_DEC_PULSE:
             Options::setDECorrDisplayedOnGuideGraph(isChecked);
             graph(GuideGraph::G_DEC_PULSE)->setVisible(isChecked);
-            updateCorrectionsScaleVisibility();
+            // updateCorrectionsScaleVisibility();
             break;
         case GuideGraph::G_SNR:
             Options::setSNRDisplayedOnGuideGraph(isChecked);

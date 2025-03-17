@@ -58,6 +58,9 @@ GuideTargetPlot::GuideTargetPlot(QWidget *parent) : QCustomPlot (parent)
     xAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
     yAxis->setRange(-accuracyRadius * 3, accuracyRadius * 3);
 
+    // RA positive from west to east
+    xAxis->setRangeReversed(true);
+
     setInteractions(QCP::iRangeZoom);
     setInteraction(QCP::iRangeDrag, true);
 

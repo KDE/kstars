@@ -490,11 +490,15 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
             snr = jsonEvent["SNR"].toDouble();
 
             if (RADirection == "East")
-                pulse_ra = -pulse_ra;  //West Direction is Positive, East is Negative
+                //If the pulse was to the east, it should have a negative sign.
+                //(Tracking pulse has to be decreased.)
+                pulse_ra = -pulse_ra;
             if (DECDirection == "South")
-                pulse_dec = -pulse_dec; //South Direction is Negative, North is Positive
+                //If the pulse was to the south, it should have a negative sign.
+                pulse_dec = -pulse_dec; 
 
-            //If the pixelScale is properly set from PHD2, the second block of code is not needed, but if not, we will attempt to calculate the ra and dec error without it.
+            //If the pixelScale is properly set from PHD2, the second block of code is not needed,
+            //but if not, we will attempt to calculate the ra and dec error without it.
             if (pixelScale != 0)
             {
                 diff_ra_arcsecs = diff_ra_pixels * pixelScale;
@@ -514,12 +518,17 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 errorLog.append(QPointF(diff_ra_arcsecs, diff_de_arcsecs));
                 if(errorLog.size() > 50)
                     errorLog.remove(0);
-
+                // diff_xx_arcsecs is saved as STAR drift in the camera sensor coordinate system.
+                // To get these values in the RADEC system they have to be negated.
+                // But PHD2 displays the MOUNT drift and hence the values have to be negated once more!
+                // Guide graph in EKOS handles the reversed direction of RA-coordinate.
                 emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
                 emit newAxisPulse(pulse_ra, pulse_dec);
 
                 // Does PHD2 real a sky background or num-stars measure?
-                emit guideStats(diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec,
+                // analyze.cpp uses only one RA/DEC-axis (up:+, down:-), hence RA is negated
+                // to handle the reversed direction of RA-coordinate.
+                emit guideStats(-diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec,
                                 std::isfinite(snr) ? snr : 0, 0, 0);
 
                 double total_sqr_RA_error = 0.0;

@@ -41,9 +41,9 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="westPulseB">
+        <widget class="QPushButton" name="eastPulseB">
          <property name="text">
-          <string>West / RA-</string>
+          <string>East / RA+</string>
          </property>
         </widget>
        </item>
@@ -61,9 +61,9 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="eastPulseB">
+        <widget class="QPushButton" name="westPulseB">
          <property name="text">
-          <string>East / RA+</string>
+          <string>West / RA-</string>
          </property>
         </widget>
        </item>
@@ -140,7 +140,8 @@
         <string>Reset</string>
        </property>
        <property name="icon">
-        <iconset theme="edit-clear"/>
+        <iconset theme="edit-clear">
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>

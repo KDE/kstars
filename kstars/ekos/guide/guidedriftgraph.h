@@ -71,6 +71,8 @@ private:
 
     // Axis for the SNR part of the driftGraph. Qt owns this pointer's memory.
     QCPAxis *snrAxis;
+    QCPAxis *RApulseAxis;
+    QCPAxis *DECpulseAxis;
 
     // Guide timer
     QTime guideTimer;
