@@ -889,10 +889,23 @@ void SequenceJobState::dustCapStateChanged(ISD::DustCap::Status status)
     switch (status)
     {
         case ISD::DustCap::CAP_ERROR:
+            emit newLog(i18n("Dust cap error occurred."));
             emit abortCapture();
             break;
+        case ISD::DustCap::CAP_IDLE:
+            emit newLog(i18n("Dust cap is idle."));
+            break;
+        case ISD::DustCap::CAP_PARKED:
+            emit newLog(i18n("Dust cap is parked."));
+            break;
+        case ISD::DustCap::CAP_PARKING:
+            emit newLog(i18n("Dust cap is parking..."));
+            break;
+        case ISD::DustCap::CAP_UNPARKING:
+            emit newLog(i18n("Dust cap is unparking..."));
+            break;
         default:
-            // do nothing
+            emit newLog(i18n("Dust cap status unknown."));
             break;
     }
 
