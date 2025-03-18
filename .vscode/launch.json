@@ -35,12 +35,14 @@
           "text": "handle SIGPIPE nostop noprint pass"
         },
         {
-          "text": "skip -rfu ^std::.*" // Skip std:: namespace functions
+          "text": "skip -rfu ^std::.*"
         },
         {
-          "text": "skip file memory" // Skip memory header
+          "text": "skip file memory"
         }
-      ]
+      ],
+      "visualizerFile": "${workspaceFolder}/.vscode/qt5.natvis.xml",
+      "showDisplayString": true
     },
     {
       "name": "Debug KStars (MacOS)",
@@ -57,7 +59,8 @@
           "name": "DYLD_BIND_AT_LAUNCH",
           "value": "1"
         }
-      ]
+      ],
+      "visualizerFile": "./qt.natvis.xml"
     }
   ]
 }
