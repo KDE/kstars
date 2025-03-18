@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-11 01:56+0000\n"
+"POT-Creation-Date: 2025-03-18 01:57+0000\n"
 "PO-Revision-Date: 2025-01-31 13:13+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -468,7 +468,7 @@ msgid "Save Image"
 msgstr "Запазване на изображението"
 
 #: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3954
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1350
+#: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1350
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
@@ -476,7 +476,7 @@ msgstr ""
 "Вече има файл с име \"%1\". Сигурни ли сте, че искате да бъде презаписан?"
 
 #: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3957
-#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1351
+#: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1351
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -2672,7 +2672,7 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3965
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1242 ekos/capture/camera.cpp:1297
-#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:2003
+#: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2003
 #: ekos/scheduler/scheduler.cpp:2113 fitsviewer/fitstab.cpp:1013
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
@@ -6691,7 +6691,7 @@ msgstr "Експортиране на точките на решението"
 
 #: ekos/align/align.cpp:3964 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1241
-#: ekos/capture/camera.cpp:1296 ekos/guide/guidedriftgraph.cpp:478
+#: ekos/capture/camera.cpp:1296 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2002 ekos/scheduler/scheduler.cpp:2112
 #: fitsviewer/fitstab.cpp:1012 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6700,7 +6700,7 @@ msgid "Invalid URL: %1"
 msgstr "Невалиден адрес: %1"
 
 #: ekos/align/align.cpp:3973 ekos/align/mountmodel.cpp:403
-#: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
+#: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3083
 #: ekos/scheduler/schedulerprocess.cpp:4782
 #, kde-format
@@ -6710,7 +6710,7 @@ msgstr "Не може да се записва във файл %1"
 #: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2938
 #: ekos/capture/cameraprocess.cpp:2583 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:3084
+#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3084
 #: ekos/scheduler/schedulerprocess.cpp:3433
 #: ekos/scheduler/schedulerprocess.cpp:4783
 #: ekos/scheduler/schedulerprocess.cpp:4803 indi/drivermanager.cpp:1549
@@ -17855,6 +17855,42 @@ msgstr "Паркиране на купола преди заснемане на 
 msgid "Light box on."
 msgstr "Включена е светлинната кутия."
 
+#: ekos/capture/sequencejobstate.cpp:892
+#, fuzzy, kde-format
+#| msgid "Dust cap error."
+msgid "Dust cap error occurred."
+msgstr "Грешка в противопраховата капачка."
+
+#: ekos/capture/sequencejobstate.cpp:896
+#, fuzzy, kde-format
+#| msgid "%1 Dust cap is online."
+msgid "Dust cap is idle."
+msgstr "%1 Защитната капачка е онлайн."
+
+#: ekos/capture/sequencejobstate.cpp:899
+#, fuzzy, kde-format
+#| msgid "Dust cap parked."
+msgid "Dust cap is parked."
+msgstr "Противопрахова капачка е паркирана."
+
+#: ekos/capture/sequencejobstate.cpp:902
+#, fuzzy, kde-format
+#| msgid "%1 is parking..."
+msgid "Dust cap is parking..."
+msgstr "%1 се паркира..."
+
+#: ekos/capture/sequencejobstate.cpp:905
+#, fuzzy, kde-format
+#| msgid "%1 is unparking..."
+msgid "Dust cap is unparking..."
+msgstr "%1 се освобождава..."
+
+#: ekos/capture/sequencejobstate.cpp:908
+#, fuzzy, kde-format
+#| msgid "Dust cap unparked."
+msgid "Dust cap status unknown."
+msgstr "Противопраховият капак е разпаркиран."
+
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
 msgid ""
@@ -21994,107 +22030,107 @@ msgstr "PHD2: Установяването е завършено, гидиран
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "PHD2: Намерена е звезда, гидирането се възобновява..."
 
-#: ekos/guide/externalguide/phd2.cpp:559
+#: ekos/guide/externalguide/phd2.cpp:568
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr "PHD2 %1: %2"
 
-#: ekos/guide/externalguide/phd2.cpp:613
+#: ekos/guide/externalguide/phd2.cpp:622
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr "PHD2: Завъртане на експозиции Спряно."
 
-#: ekos/guide/externalguide/phd2.cpp:618
+#: ekos/guide/externalguide/phd2.cpp:627
 #, kde-format
 msgid "PHD2: Guiding Stopped."
 msgstr "PHD2: Гидирането е спряно."
 
-#: ekos/guide/externalguide/phd2.cpp:637
+#: ekos/guide/externalguide/phd2.cpp:646
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr "PHD2: Задаване на позиция на заключване."
 
-#: ekos/guide/externalguide/phd2.cpp:648
+#: ekos/guide/externalguide/phd2.cpp:657
 #, kde-format
 msgid "PHD2: Star Selected."
 msgstr "PHD2: Избрана е звезда."
 
-#: ekos/guide/externalguide/phd2.cpp:657
+#: ekos/guide/externalguide/phd2.cpp:666
 #, kde-format
 msgid "PHD2: Guiding...waiting for settle..."
 msgstr "PHD2: Изчакване на гидирането да се стабизилизира."
 
-#: ekos/guide/externalguide/phd2.cpp:661
+#: ekos/guide/externalguide/phd2.cpp:670
 #, kde-format
 msgid "PHD2: Dithering successful."
 msgstr "Успешно дитериране на PHD2."
 
-#: ekos/guide/externalguide/phd2.cpp:667
+#: ekos/guide/externalguide/phd2.cpp:676
 #, kde-format
 msgid "PHD2: Guiding started."
 msgstr "PHD2: Гидирането започна."
 
-#: ekos/guide/externalguide/phd2.cpp:678
+#: ekos/guide/externalguide/phd2.cpp:687
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr "PHD2: Загубена позиция на заключване, продължаване на калибрирането."
 
-#: ekos/guide/externalguide/phd2.cpp:684
+#: ekos/guide/externalguide/phd2.cpp:693
 #, kde-format
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "PHD2: Изгубена звезда. Опит за повторно получаване за %1s."
 
-#: ekos/guide/externalguide/phd2.cpp:690
+#: ekos/guide/externalguide/phd2.cpp:699
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr "PHD2: Загубена позиция на заключване."
 
-#: ekos/guide/externalguide/phd2.cpp:696
+#: ekos/guide/externalguide/phd2.cpp:705
 #, kde-format
 msgid "PHD2: Guiding paused."
 msgstr "PHD2: Гидирането е на пауза."
 
-#: ekos/guide/externalguide/phd2.cpp:701
+#: ekos/guide/externalguide/phd2.cpp:710
 #, kde-format
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "PHD2: Калибриране, изчакване след %1s."
 
-#: ekos/guide/externalguide/phd2.cpp:710
+#: ekos/guide/externalguide/phd2.cpp:719
 #, kde-format
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "PHD2: Калибрирането се превърна в цикъл, неуспешно."
 
-#: ekos/guide/externalguide/phd2.cpp:714
+#: ekos/guide/externalguide/phd2.cpp:723
 #, kde-format
 msgid "PHD2: Looping Exposures."
 msgstr "PHD2: Циклични експозиции."
 
-#: ekos/guide/externalguide/phd2.cpp:720
+#: ekos/guide/externalguide/phd2.cpp:729
 #, kde-format
 msgid "PHD2: Dithering started."
 msgstr "PHD2: Дитърингът започна."
 
-#: ekos/guide/externalguide/phd2.cpp:748
+#: ekos/guide/externalguide/phd2.cpp:757
 #, kde-format
 msgid "PHD2: Calibration is cleared"
 msgstr "PHD2: Калибрирането е изчистено"
 
-#: ekos/guide/externalguide/phd2.cpp:844
+#: ekos/guide/externalguide/phd2.cpp:853
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr "PHD2: Режимът на гидирането DEC е настроен на: %1"
 
-#: ekos/guide/externalguide/phd2.cpp:854
+#: ekos/guide/externalguide/phd2.cpp:863
 #, kde-format
 msgid "PHD2: Exposure Time set to: "
 msgstr "PHD2: Време на експозиция, зададено на:"
 
-#: ekos/guide/externalguide/phd2.cpp:862
+#: ekos/guide/externalguide/phd2.cpp:871
 #, kde-format
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "PHD2: Валидно време на експозиция: Автоматично,"
 
-#: ekos/guide/externalguide/phd2.cpp:893
+#: ekos/guide/externalguide/phd2.cpp:902
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
@@ -22103,37 +22139,37 @@ msgstr ""
 "PHD2: Моля, задайте параметрите на CCD и телескопа в PHD2, Pixel Scale е "
 "невалиден."
 
-#: ekos/guide/externalguide/phd2.cpp:895
+#: ekos/guide/externalguide/phd2.cpp:904
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr "PHD2: Мащабът на пиксела е %1 arcsec на пиксел"
 
-#: ekos/guide/externalguide/phd2.cpp:1010
+#: ekos/guide/externalguide/phd2.cpp:1019
 #, kde-format
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "PHD2 грешка: необработено \"%1\""
 
-#: ekos/guide/externalguide/phd2.cpp:1143
-#: ekos/guide/externalguide/phd2.cpp:1161
-#: ekos/guide/externalguide/phd2.cpp:1312
-#: ekos/guide/externalguide/phd2.cpp:1427
-#: ekos/guide/externalguide/phd2.cpp:1456
-#: ekos/guide/externalguide/phd2.cpp:1485
+#: ekos/guide/externalguide/phd2.cpp:1152
+#: ekos/guide/externalguide/phd2.cpp:1170
+#: ekos/guide/externalguide/phd2.cpp:1321
+#: ekos/guide/externalguide/phd2.cpp:1436
+#: ekos/guide/externalguide/phd2.cpp:1465
+#: ekos/guide/externalguide/phd2.cpp:1494
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr "Грешка на PHD2: Оборудването не е свързано."
 
-#: ekos/guide/externalguide/phd2.cpp:1305
+#: ekos/guide/externalguide/phd2.cpp:1314
 #, kde-format
 msgid "PHD2: Guiding is already running."
 msgstr "PHD2: Гидирането вече в в ход."
 
-#: ekos/guide/externalguide/phd2.cpp:1371
+#: ekos/guide/externalguide/phd2.cpp:1380
 #, kde-format
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "PHD2: Свързване на оборудване. . ."
 
-#: ekos/guide/externalguide/phd2.cpp:1373
+#: ekos/guide/externalguide/phd2.cpp:1382
 #, kde-format
 msgid "PHD2: Disconnecting Equipment. . ."
 msgstr "PHD2: Изключване на оборудване. . ."
@@ -22705,9 +22741,11 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1136
-#, kde-format
-msgid "Drift Plot"
-msgstr "Диаграма на дрейфа"
+#, fuzzy, kde-format
+#| msgctxt "City in Italy"
+#| msgid "Mount Mario"
+msgid "Mount Drift"
+msgstr "Монте Марио"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1171
@@ -22801,25 +22839,25 @@ msgid "RMS"
 msgstr "RMS"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomInXB)
-#: ekos/guide/guide.ui:1349
+#: ekos/guide/guide.ui:1350
 #, kde-format
 msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
 msgstr "<html><head/><body><p>Увеличете мащаба за оста X.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomOutXB)
-#: ekos/guide/guide.ui:1377
+#: ekos/guide/guide.ui:1379
 #, kde-format
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
 msgstr "<html><head/><body><p>\fНамалете мащаба за оста X.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/guide/guide.ui:1403
+#: ekos/guide/guide.ui:1405
 #, kde-format
 msgid "Trace:"
 msgstr "Проследяване:"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, guideSlider)
-#: ekos/guide/guide.ui:1410
+#: ekos/guide/guide.ui:1412
 #, kde-format
 msgid ""
 "<html><head/><body><p>Drag the slider to scroll through guide history while "
@@ -22833,7 +22871,7 @@ msgstr ""
 "последните данни и да превъртат графиката автоматично.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1426
+#: ekos/guide/guide.ui:1428
 #, kde-format
 msgid ""
 "<html><head/><body><p>Check to display the latest guide data and autoscroll "
@@ -22843,13 +22881,13 @@ msgstr ""
 "от гидирането и да се превърта автоматично графиката.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1429
+#: ekos/guide/guide.ui:1431
 #, kde-format
 msgid "Max "
 msgstr "Макс. "
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideAutoScaleGraphB)
-#: ekos/guide/guide.ui:1449
+#: ekos/guide/guide.ui:1451
 #, kde-format
 msgid ""
 "<html><head/><body><p>Autoscale both Guide Graphs to their default scale. If "
@@ -22863,7 +22901,7 @@ msgstr ""
 "времето в графиката на дрейфа).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
-#: ekos/guide/guide.ui:1471
+#: ekos/guide/guide.ui:1473
 #, kde-format
 msgid ""
 "<html><head/><body><p>Export the guide data from the current session to a "
@@ -22874,7 +22912,7 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideDataClearB)
-#: ekos/guide/guide.ui:1493
+#: ekos/guide/guide.ui:1495
 #, kde-format
 msgid ""
 "<html><head/><body><p>Clear all the recent guide data.</p></body></html>"
@@ -22883,7 +22921,7 @@ msgstr ""
 "body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guiderAccuracyThreshold)
-#: ekos/guide/guide.ui:1509
+#: ekos/guide/guide.ui:1511
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set the desired guiding accuracy in the Drift Plot. "
@@ -22894,18 +22932,20 @@ msgstr ""
 "дрейфа. Числото представлява радиуса на зеления концентричен кръг в дъгови "
 "секунди.</p></body></html>"
 
-#: ekos/guide/guidedriftgraph.cpp:69
-#, kde-format
-msgid "drift (arcsec)"
+#: ekos/guide/guidedriftgraph.cpp:77
+#, fuzzy, kde-format
+#| msgid "drift (arcsec)"
+msgid "Mount DE Drift (arcsec)"
 msgstr "изместване (дъг/сек)"
 
-#: ekos/guide/guidedriftgraph.cpp:70
-#, kde-format
-msgid "pulse (ms)"
-msgstr "пулс (ms)"
+#: ekos/guide/guidedriftgraph.cpp:78
+#, fuzzy, kde-format
+#| msgid "drift (arcsec)"
+msgid "Mount RA Drift (arcsec)"
+msgstr "изместване (дъг/сек)"
 
-#: ekos/guide/guidedriftgraph.cpp:226 ekos/guide/guidedriftgraph.cpp:625
-#: ekos/guide/guidedriftgraph.cpp:700
+#: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
+#: ekos/guide/guidedriftgraph.cpp:723
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -22919,8 +22959,8 @@ msgstr ""
 "tr><tr><td>DE:   </td><td>%3 </td></tr><tr><td>RMS:   </td><td>%4 </td></"
 "tr><tr><td>SNR:   </td><td>%5 </td></tr></table>"
 
-#: ekos/guide/guidedriftgraph.cpp:245 ekos/guide/guidedriftgraph.cpp:641
-#: ekos/guide/guidedriftgraph.cpp:716
+#: ekos/guide/guidedriftgraph.cpp:265 ekos/guide/guidedriftgraph.cpp:664
+#: ekos/guide/guidedriftgraph.cpp:739
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -22937,7 +22977,7 @@ msgstr ""
 "tr><tr><td>SNR:   </td><td>%5 </td></tr><tr><td>RA Pulse:   </td><td>%6 ms</"
 "td></tr><tr><td>DE Pulse:   </td><td>%7 ms</td></tr></table>"
 
-#: ekos/guide/guidedriftgraph.cpp:284 ekos/guide/guidetargetplot.cpp:200
+#: ekos/guide/guidedriftgraph.cpp:304 ekos/guide/guidetargetplot.cpp:203
 #: kstarslite/skyitems/horizonitem.cpp:29
 #: skycomponents/horizoncomponent.cpp:118 skymapdrawabstract.cpp:306
 #, kde-format
@@ -22945,7 +22985,7 @@ msgctxt "North"
 msgid "N"
 msgstr "С"
 
-#: ekos/guide/guidedriftgraph.cpp:292 ekos/guide/guidetargetplot.cpp:208
+#: ekos/guide/guidedriftgraph.cpp:312 ekos/guide/guidetargetplot.cpp:211
 #: kstarslite/skyitems/horizonitem.cpp:25
 #: skycomponents/horizoncomponent.cpp:114
 #, kde-format
@@ -22953,7 +22993,7 @@ msgctxt "South"
 msgid "S"
 msgstr "Ю"
 
-#: ekos/guide/guidedriftgraph.cpp:300 ekos/guide/guidetargetplot.cpp:216
+#: ekos/guide/guidedriftgraph.cpp:320 ekos/guide/guidetargetplot.cpp:219
 #: kstarslite/skyitems/horizonitem.cpp:27
 #: skycomponents/horizoncomponent.cpp:116
 #, kde-format
@@ -22961,7 +23001,7 @@ msgctxt "West"
 msgid "W"
 msgstr "З"
 
-#: ekos/guide/guidedriftgraph.cpp:308 ekos/guide/guidetargetplot.cpp:224
+#: ekos/guide/guidedriftgraph.cpp:328 ekos/guide/guidetargetplot.cpp:227
 #: kstarslite/skyitems/horizonitem.cpp:23
 #: skycomponents/horizoncomponent.cpp:112 skymapdrawabstract.cpp:307
 #, kde-format
@@ -22969,7 +23009,7 @@ msgctxt "East"
 msgid "E"
 msgstr "И"
 
-#: ekos/guide/guidedriftgraph.cpp:456
+#: ekos/guide/guidedriftgraph.cpp:479
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Guide Data"
@@ -23089,7 +23129,7 @@ msgstr[1] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr "DEC посоката е обърната (RA-DEC вече е стандартна система CCW)."
 
-#: ekos/guide/internalguide/internalguider.cpp:539
+#: ekos/guide/internalguide/internalguider.cpp:534
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -23098,29 +23138,29 @@ msgstr ""
 "Предупреждение: Неуспешно дитериране. В случай на неуспешно дитериране "
 "автоматичното насочване продължава, както е зададено в опциите."
 
-#: ekos/guide/internalguide/internalguider.cpp:609
+#: ekos/guide/internalguide/internalguider.cpp:604
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Предупреждение: Ръчният дитъринг е неуспешен."
 
-#: ekos/guide/internalguide/internalguider.cpp:659
+#: ekos/guide/internalguide/internalguider.cpp:654
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Липсва информация за %1. Моля, задайте стойностите в контролния панел на "
 "INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:660
+#: ekos/guide/internalguide/internalguider.cpp:655
 #, kde-format
 msgid "Missing Information"
 msgstr "Липсваща информация"
 
-#: ekos/guide/internalguide/internalguider.cpp:685
+#: ekos/guide/internalguide/internalguider.cpp:680
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Калибрирането на водачите е възстановено"
 
-#: ekos/guide/internalguide/internalguider.cpp:737
+#: ekos/guide/internalguide/internalguider.cpp:732
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -23129,33 +23169,33 @@ msgstr ""
 "Загубих следите на водещата звезда. Опитайте да увеличите размера на "
 "квадрата или да намалите продължителността на импулса."
 
-#: ekos/guide/internalguide/internalguider.cpp:740
+#: ekos/guide/internalguide/internalguider.cpp:735
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Изгубена е направляващата звезда."
 
-#: ekos/guide/internalguide/internalguider.cpp:772
+#: ekos/guide/internalguide/internalguider.cpp:767
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Калибрирането на насочването е неуспешно"
 
-#: ekos/guide/internalguide/internalguider.cpp:779
+#: ekos/guide/internalguide/internalguider.cpp:774
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Успешно завършено калибриране на гидирането"
 
-#: ekos/guide/internalguide/internalguider.cpp:1107
+#: ekos/guide/internalguide/internalguider.cpp:1106
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Изгубена следа на водещата звезда. Търсене на водещи звезди..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1109
+#: ekos/guide/internalguide/internalguider.cpp:1108
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Превишена е праговата стойност на Delta RMS. Търсене на водещи звезди..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1293
+#: ekos/guide/internalguide/internalguider.cpp:1292
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Неуспешно намиране на подходящи водещи звезди. Прекъсване..."
@@ -23179,17 +23219,17 @@ msgstr "Ръчна пулсация"
 msgid "North / DE+"
 msgstr "Север /DEC+"
 
-#. i18n: ectx: property (text), widget (QPushButton, westPulseB)
-#: ekos/guide/manualpulse.ui:46
-#, kde-format
-msgid "West / RA-"
-msgstr "Запад / RA-"
-
 #. i18n: ectx: property (text), widget (QPushButton, eastPulseB)
-#: ekos/guide/manualpulse.ui:66
+#: ekos/guide/manualpulse.ui:46
 #, kde-format
 msgid "East / RA+"
 msgstr "Изток / RA+"
+
+#. i18n: ectx: property (text), widget (QPushButton, westPulseB)
+#: ekos/guide/manualpulse.ui:66
+#, kde-format
+msgid "West / RA-"
+msgstr "Запад / RA-"
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
 #: ekos/guide/manualpulse.ui:75
@@ -88676,6 +88716,12 @@ msgstr "Цвят на фона:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Задаване на цвета на фона."
+
+#~ msgid "Drift Plot"
+#~ msgstr "Диаграма на дрейфа"
+
+#~ msgid "pulse (ms)"
+#~ msgstr "пулс (ms)"
 
 #~ msgid "Altitude Graph"
 #~ msgstr "Графика на височина"

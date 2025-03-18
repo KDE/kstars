@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-11 01:56+0000\n"
+"POT-Creation-Date: 2025-03-18 01:57+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -477,14 +477,14 @@ msgid "Save Image"
 msgstr "Kép mentése"
 
 #: auxiliary/imageviewer.cpp:319 ekos/align/align.cpp:3954
-#: ekos/guide/guidedriftgraph.cpp:468 kstarsactions.cpp:1350
+#: ekos/guide/guidedriftgraph.cpp:491 kstarsactions.cpp:1350
 #: printing/pwizprint.cpp:77 tools/scriptbuilder.cpp:879
 #, kde-format
 msgid "A file named \"%1\" already exists. Overwrite it?"
 msgstr "Már létezik \"%1\" nevű fájl. Felül szeretné írni?"
 
 #: auxiliary/imageviewer.cpp:322 ekos/align/align.cpp:3957
-#: ekos/guide/guidedriftgraph.cpp:471 kstarsactions.cpp:1351
+#: ekos/guide/guidedriftgraph.cpp:494 kstarsactions.cpp:1351
 #: printing/pwizprint.cpp:78 tools/scriptbuilder.cpp:882
 #, kde-format
 msgid "Overwrite File?"
@@ -2679,7 +2679,7 @@ msgstr ""
 #: dialogs/addlinkdialog.cpp:60 ekos/align/align.cpp:3965
 #: ekos/align/mountmodel.cpp:267 ekos/align/mountmodel.cpp:393
 #: ekos/capture/camera.cpp:1242 ekos/capture/camera.cpp:1297
-#: ekos/guide/guidedriftgraph.cpp:479 ekos/scheduler/scheduler.cpp:2003
+#: ekos/guide/guidedriftgraph.cpp:502 ekos/scheduler/scheduler.cpp:2003
 #: ekos/scheduler/scheduler.cpp:2113 fitsviewer/fitstab.cpp:1013
 #: tools/scriptbuilder.cpp:832 tools/scriptbuilder.cpp:930
 #, kde-format
@@ -6877,7 +6877,7 @@ msgstr "Az összes nyomvonal törlése"
 
 #: ekos/align/align.cpp:3964 ekos/align/mountmodel.cpp:266
 #: ekos/align/mountmodel.cpp:392 ekos/capture/camera.cpp:1241
-#: ekos/capture/camera.cpp:1296 ekos/guide/guidedriftgraph.cpp:478
+#: ekos/capture/camera.cpp:1296 ekos/guide/guidedriftgraph.cpp:501
 #: ekos/scheduler/scheduler.cpp:2002 ekos/scheduler/scheduler.cpp:2112
 #: fitsviewer/fitstab.cpp:1012 tools/scriptbuilder.cpp:832
 #: tools/scriptbuilder.cpp:929
@@ -6886,7 +6886,7 @@ msgid "Invalid URL: %1"
 msgstr "Érvénytelen URL: %1"
 
 #: ekos/align/align.cpp:3973 ekos/align/mountmodel.cpp:403
-#: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:487
+#: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
 #: ekos/scheduler/schedulerprocess.cpp:3083
 #: ekos/scheduler/schedulerprocess.cpp:4782
 #, kde-format
@@ -6896,7 +6896,7 @@ msgstr "A(z) %1 fájl nem írható"
 #: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2938
 #: ekos/capture/cameraprocess.cpp:2583 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:488 ekos/scheduler/schedulerprocess.cpp:3084
+#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3084
 #: ekos/scheduler/schedulerprocess.cpp:3433
 #: ekos/scheduler/schedulerprocess.cpp:4783
 #: ekos/scheduler/schedulerprocess.cpp:4803 indi/drivermanager.cpp:1549
@@ -17946,6 +17946,47 @@ msgstr "Autofókusz folyamatban..."
 msgid "Light box on."
 msgstr ""
 
+#: ekos/capture/sequencejobstate.cpp:892
+#, fuzzy, kde-format
+#| msgctxt "City in British Columbia Canada"
+#| msgid "Dome Creek"
+msgid "Dust cap error occurred."
+msgstr "Dome Creek"
+
+#: ekos/capture/sequencejobstate.cpp:896
+#, fuzzy, kde-format
+#| msgid "%1 is online."
+msgid "Dust cap is idle."
+msgstr "%1 elérhető."
+
+#: ekos/capture/sequencejobstate.cpp:899
+#, fuzzy, kde-format
+#| msgctxt "City in British Columbia Canada"
+#| msgid "Dome Creek"
+msgid "Dust cap is parked."
+msgstr "Dome Creek"
+
+#: ekos/capture/sequencejobstate.cpp:902
+#, fuzzy, kde-format
+#| msgctxt "City in British Columbia Canada"
+#| msgid "Dome Creek"
+msgid "Dust cap is parking..."
+msgstr "Dome Creek"
+
+#: ekos/capture/sequencejobstate.cpp:905
+#, fuzzy, kde-format
+#| msgctxt "City in British Columbia Canada"
+#| msgid "Dome Creek"
+msgid "Dust cap is unparking..."
+msgstr "Dome Creek"
+
+#: ekos/capture/sequencejobstate.cpp:908
+#, fuzzy, kde-format
+#| msgctxt "City in British Columbia Canada"
+#| msgid "Dome Creek"
+msgid "Dust cap status unknown."
+msgstr "Dome Creek"
+
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
 msgid ""
@@ -22008,164 +22049,164 @@ msgstr "Vezetés indítása"
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "Vezetés indítása"
 
-#: ekos/guide/externalguide/phd2.cpp:559
+#: ekos/guide/externalguide/phd2.cpp:568
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:613
+#: ekos/guide/externalguide/phd2.cpp:622
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:618
+#: ekos/guide/externalguide/phd2.cpp:627
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "PHD2: Guiding Stopped."
 msgstr "Automata küövetés megállt."
 
-#: ekos/guide/externalguide/phd2.cpp:637
+#: ekos/guide/externalguide/phd2.cpp:646
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:648
+#: ekos/guide/externalguide/phd2.cpp:657
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "PHD2: Star Selected."
 msgstr "%1 csillag felismerve."
 
-#: ekos/guide/externalguide/phd2.cpp:657
+#: ekos/guide/externalguide/phd2.cpp:666
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Guiding...waiting for settle..."
 msgstr "Vezetés indítása"
 
-#: ekos/guide/externalguide/phd2.cpp:661
+#: ekos/guide/externalguide/phd2.cpp:670
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Dithering successful."
 msgstr "Vezetés indítása"
 
-#: ekos/guide/externalguide/phd2.cpp:667
+#: ekos/guide/externalguide/phd2.cpp:676
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Guiding started."
 msgstr "Vezetés indítása"
 
-#: ekos/guide/externalguide/phd2.cpp:678
+#: ekos/guide/externalguide/phd2.cpp:687
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:684
+#: ekos/guide/externalguide/phd2.cpp:693
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "Vezetés indítása"
 
-#: ekos/guide/externalguide/phd2.cpp:690
+#: ekos/guide/externalguide/phd2.cpp:699
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:696
+#: ekos/guide/externalguide/phd2.cpp:705
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "PHD2: Guiding paused."
 msgstr "Automata küövetés megállt."
 
-#: ekos/guide/externalguide/phd2.cpp:701
+#: ekos/guide/externalguide/phd2.cpp:710
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "Kalibrálás"
 
-#: ekos/guide/externalguide/phd2.cpp:710
+#: ekos/guide/externalguide/phd2.cpp:719
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "Kalibrálás befejezve."
 
-#: ekos/guide/externalguide/phd2.cpp:714
+#: ekos/guide/externalguide/phd2.cpp:723
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Looping Exposures."
 msgstr "Vezetés indítása"
 
-#: ekos/guide/externalguide/phd2.cpp:720
+#: ekos/guide/externalguide/phd2.cpp:729
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Dithering started."
 msgstr "Vezetés indítása"
 
-#: ekos/guide/externalguide/phd2.cpp:748
+#: ekos/guide/externalguide/phd2.cpp:757
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "PHD2: Calibration is cleared"
 msgstr "Kalibrálás befejezve."
 
-#: ekos/guide/externalguide/phd2.cpp:844
+#: ekos/guide/externalguide/phd2.cpp:853
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:854
+#: ekos/guide/externalguide/phd2.cpp:863
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "PHD2: Exposure Time set to: "
 msgstr ""
 "A kamera/CCD exponálásának elkezdése. Az időtartam másodpercben értendő."
 
-#: ekos/guide/externalguide/phd2.cpp:862
+#: ekos/guide/externalguide/phd2.cpp:871
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Total Exposure Time (ms)"
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "Teljes exponálási idő"
 
-#: ekos/guide/externalguide/phd2.cpp:893
+#: ekos/guide/externalguide/phd2.cpp:902
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:895
+#: ekos/guide/externalguide/phd2.cpp:904
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1010
+#: ekos/guide/externalguide/phd2.cpp:1019
 #, fuzzy, kde-format
 #| msgid "Error"
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "Hiba"
 
-#: ekos/guide/externalguide/phd2.cpp:1143
-#: ekos/guide/externalguide/phd2.cpp:1161
-#: ekos/guide/externalguide/phd2.cpp:1312
-#: ekos/guide/externalguide/phd2.cpp:1427
-#: ekos/guide/externalguide/phd2.cpp:1456
-#: ekos/guide/externalguide/phd2.cpp:1485
+#: ekos/guide/externalguide/phd2.cpp:1152
+#: ekos/guide/externalguide/phd2.cpp:1170
+#: ekos/guide/externalguide/phd2.cpp:1321
+#: ekos/guide/externalguide/phd2.cpp:1436
+#: ekos/guide/externalguide/phd2.cpp:1465
+#: ekos/guide/externalguide/phd2.cpp:1494
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1305
+#: ekos/guide/externalguide/phd2.cpp:1314
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Guiding is already running."
 msgstr "Vezetés indítása"
 
-#: ekos/guide/externalguide/phd2.cpp:1371
+#: ekos/guide/externalguide/phd2.cpp:1380
 #, fuzzy, kde-format
 #| msgid "Define Equipment"
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "Felszerelés meghatározása"
 
-#: ekos/guide/externalguide/phd2.cpp:1373
+#: ekos/guide/externalguide/phd2.cpp:1382
 #, fuzzy, kde-format
 #| msgid "Disconnecting INDI devices..."
 msgid "PHD2: Disconnecting Equipment. . ."
@@ -22777,10 +22818,10 @@ msgstr "A megadott beállítófájl használata"
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1136
 #, fuzzy, kde-format
-#| msgctxt "City in Ontario Canada"
-#| msgid "Driftwood"
-msgid "Drift Plot"
-msgstr "Driftwood"
+#| msgctxt "City in Italy"
+#| msgid "Mount Mario"
+msgid "Mount Drift"
+msgstr "Mount Mario"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1171
@@ -22871,28 +22912,28 @@ msgid "RMS"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomInXB)
-#: ekos/guide/guide.ui:1349
+#: ekos/guide/guide.ui:1350
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>Zoom in for the X-Axis.</p></body></html>"
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideZoomOutXB)
-#: ekos/guide/guide.ui:1377
+#: ekos/guide/guide.ui:1379
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: ekos/guide/guide.ui:1403
+#: ekos/guide/guide.ui:1405
 #, fuzzy, kde-format
 #| msgid "Track"
 msgid "Trace:"
 msgstr "Követés"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, guideSlider)
-#: ekos/guide/guide.ui:1410
+#: ekos/guide/guide.ui:1412
 #, kde-format
 msgid ""
 "<html><head/><body><p>Drag the slider to scroll through guide history while "
@@ -22902,7 +22943,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1426
+#: ekos/guide/guide.ui:1428
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -22911,13 +22952,13 @@ msgid ""
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (text), widget (QCheckBox, latestCheck)
-#: ekos/guide/guide.ui:1429
+#: ekos/guide/guide.ui:1431
 #, kde-format
 msgid "Max "
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideAutoScaleGraphB)
-#: ekos/guide/guide.ui:1449
+#: ekos/guide/guide.ui:1451
 #, kde-format
 msgid ""
 "<html><head/><body><p>Autoscale both Guide Graphs to their default scale. If "
@@ -22927,7 +22968,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideSaveDataB)
-#: ekos/guide/guide.ui:1471
+#: ekos/guide/guide.ui:1473
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -22936,7 +22977,7 @@ msgid ""
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideDataClearB)
-#: ekos/guide/guide.ui:1493
+#: ekos/guide/guide.ui:1495
 #, fuzzy, kde-format
 #| msgid "Use the specified configuration file"
 msgid ""
@@ -22944,7 +22985,7 @@ msgid ""
 msgstr "A megadott beállítófájl használata"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, guiderAccuracyThreshold)
-#: ekos/guide/guide.ui:1509
+#: ekos/guide/guide.ui:1511
 #, kde-format
 msgid ""
 "<html><head/><body><p>Set the desired guiding accuracy in the Drift Plot. "
@@ -22952,21 +22993,22 @@ msgid ""
 "arcseconds.</p></body></html>"
 msgstr ""
 
-#: ekos/guide/guidedriftgraph.cpp:69
+#: ekos/guide/guidedriftgraph.cpp:77
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "RA (arcmin)"
-msgid "drift (arcsec)"
+msgid "Mount DE Drift (arcsec)"
 msgstr "RA (szögperc)"
 
-#: ekos/guide/guidedriftgraph.cpp:70
+#: ekos/guide/guidedriftgraph.cpp:78
 #, fuzzy, kde-format
-#| msgid "Focal Length (mm)"
-msgid "pulse (ms)"
-msgstr "Fókusztávolság (mm)."
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "RA (arcmin)"
+msgid "Mount RA Drift (arcsec)"
+msgstr "RA (szögperc)"
 
-#: ekos/guide/guidedriftgraph.cpp:226 ekos/guide/guidedriftgraph.cpp:625
-#: ekos/guide/guidedriftgraph.cpp:700
+#: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
+#: ekos/guide/guidedriftgraph.cpp:723
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -22977,8 +23019,8 @@ msgid ""
 "tr><tr><td>SNR:   </td><td>%5 \"</td></tr></table>"
 msgstr ""
 
-#: ekos/guide/guidedriftgraph.cpp:245 ekos/guide/guidedriftgraph.cpp:641
-#: ekos/guide/guidedriftgraph.cpp:716
+#: ekos/guide/guidedriftgraph.cpp:265 ekos/guide/guidedriftgraph.cpp:664
+#: ekos/guide/guidedriftgraph.cpp:739
 #, kde-format
 msgctxt ""
 "Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE "
@@ -22991,7 +23033,7 @@ msgid ""
 "ms</td></tr><tr><td>DE Pulse:   </td><td>%7 ms</td></tr></table>"
 msgstr ""
 
-#: ekos/guide/guidedriftgraph.cpp:284 ekos/guide/guidetargetplot.cpp:200
+#: ekos/guide/guidedriftgraph.cpp:304 ekos/guide/guidetargetplot.cpp:203
 #: kstarslite/skyitems/horizonitem.cpp:29
 #: skycomponents/horizoncomponent.cpp:118 skymapdrawabstract.cpp:306
 #, kde-format
@@ -22999,7 +23041,7 @@ msgctxt "North"
 msgid "N"
 msgstr "É"
 
-#: ekos/guide/guidedriftgraph.cpp:292 ekos/guide/guidetargetplot.cpp:208
+#: ekos/guide/guidedriftgraph.cpp:312 ekos/guide/guidetargetplot.cpp:211
 #: kstarslite/skyitems/horizonitem.cpp:25
 #: skycomponents/horizoncomponent.cpp:114
 #, kde-format
@@ -23007,7 +23049,7 @@ msgctxt "South"
 msgid "S"
 msgstr "D"
 
-#: ekos/guide/guidedriftgraph.cpp:300 ekos/guide/guidetargetplot.cpp:216
+#: ekos/guide/guidedriftgraph.cpp:320 ekos/guide/guidetargetplot.cpp:219
 #: kstarslite/skyitems/horizonitem.cpp:27
 #: skycomponents/horizoncomponent.cpp:116
 #, kde-format
@@ -23015,7 +23057,7 @@ msgctxt "West"
 msgid "W"
 msgstr "NY"
 
-#: ekos/guide/guidedriftgraph.cpp:308 ekos/guide/guidetargetplot.cpp:224
+#: ekos/guide/guidedriftgraph.cpp:328 ekos/guide/guidetargetplot.cpp:227
 #: kstarslite/skyitems/horizonitem.cpp:23
 #: skycomponents/horizoncomponent.cpp:112 skymapdrawabstract.cpp:307
 #, kde-format
@@ -23023,7 +23065,7 @@ msgctxt "East"
 msgid "E"
 msgstr "K"
 
-#: ekos/guide/guidedriftgraph.cpp:456
+#: ekos/guide/guidedriftgraph.cpp:479
 #, fuzzy, kde-format
 #| msgid "Override Data"
 msgctxt "@title:window"
@@ -23141,73 +23183,73 @@ msgstr[1] ""
 msgid "DEC direction reversed (RA-DEC is now standard CCW-system)."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:539
+#: ekos/guide/internalguide/internalguider.cpp:534
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:609
+#: ekos/guide/internalguide/internalguider.cpp:604
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Warning: Manual Dithering failed."
 msgstr "Egyéb"
 
-#: ekos/guide/internalguide/internalguider.cpp:659
+#: ekos/guide/internalguide/internalguider.cpp:654
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:660
+#: ekos/guide/internalguide/internalguider.cpp:655
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Missing Information"
 msgstr "Jellemzők"
 
-#: ekos/guide/internalguide/internalguider.cpp:685
+#: ekos/guide/internalguide/internalguider.cpp:680
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Guiding calibration restored"
 msgstr "Kalibrálás"
 
-#: ekos/guide/internalguide/internalguider.cpp:737
+#: ekos/guide/internalguide/internalguider.cpp:732
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
 "pulse duration."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:740
+#: ekos/guide/internalguide/internalguider.cpp:735
 #, fuzzy, kde-format
 #| msgid "Guider"
 msgid "Guide Star lost."
 msgstr "Vezető"
 
-#: ekos/guide/internalguide/internalguider.cpp:772
+#: ekos/guide/internalguide/internalguider.cpp:767
 #, fuzzy, kde-format
 #| msgid "Calibration"
 msgid "Guiding calibration failed"
 msgstr "Kalibrálás"
 
-#: ekos/guide/internalguide/internalguider.cpp:779
+#: ekos/guide/internalguide/internalguider.cpp:774
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Guiding calibration completed successfully"
 msgstr "Kalibrálás befejezve."
 
-#: ekos/guide/internalguide/internalguider.cpp:1107
+#: ekos/guide/internalguide/internalguider.cpp:1106
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1109
+#: ekos/guide/internalguide/internalguider.cpp:1108
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:1293
+#: ekos/guide/internalguide/internalguider.cpp:1292
 #, fuzzy, kde-format
 #| msgid "Failed to load image"
 msgid "Failed to find any suitable guide stars. Aborting..."
@@ -23235,16 +23277,16 @@ msgstr "Kézi kék"
 msgid "North / DE+"
 msgstr "Észak"
 
-#. i18n: ectx: property (text), widget (QPushButton, westPulseB)
+#. i18n: ectx: property (text), widget (QPushButton, eastPulseB)
 #: ekos/guide/manualpulse.ui:46
 #, kde-format
-msgid "West / RA-"
+msgid "East / RA+"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, eastPulseB)
+#. i18n: ectx: property (text), widget (QPushButton, westPulseB)
 #: ekos/guide/manualpulse.ui:66
 #, kde-format
-msgid "East / RA+"
+msgid "West / RA-"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, southPulseB)
@@ -94109,6 +94151,17 @@ msgid "Set the color for the background."
 msgstr "A háttérszín beállítása."
 
 #, fuzzy
+#~| msgctxt "City in Ontario Canada"
+#~| msgid "Driftwood"
+#~ msgid "Drift Plot"
+#~ msgstr "Driftwood"
+
+#, fuzzy
+#~| msgid "Focal Length (mm)"
+#~ msgid "pulse (ms)"
+#~ msgstr "Fókusztávolság (mm)."
+
+#, fuzzy
 #~| msgid "Altitude:"
 #~ msgid "Altitude Graph"
 #~ msgstr "Magasság:"
@@ -95424,12 +95477,6 @@ msgstr "A háttérszín beállítása."
 #~| msgid "Radiotelescope"
 #~ msgid "Turn dust cap light off..."
 #~ msgstr "Rádióteleszkóp"
-
-#, fuzzy
-#~| msgctxt "City in British Columbia Canada"
-#~| msgid "Dome Creek"
-#~ msgid "Dust cap light on."
-#~ msgstr "Dome Creek"
 
 #~ msgid "Center Crosshair"
 #~ msgstr "Szálkereszt középen"
