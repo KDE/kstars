@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-18 01:57+0000\n"
-"PO-Revision-Date: 2025-03-08 08:35+0200\n"
+"PO-Revision-Date: 2025-03-18 15:59+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -17883,40 +17883,34 @@ msgid "Light box on."
 msgstr "Підсвічування увімкнено."
 
 #: ekos/capture/sequencejobstate.cpp:892
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "Dust cap error occurred."
-msgstr "Помилка при роботі з пилозахисним ковпаком."
+msgstr "Сталася помилка при роботі з пилозахисним ковпаком."
 
 #: ekos/capture/sequencejobstate.cpp:896
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is idle."
-msgstr "Протипиловий ковпак %1 активний."
+msgstr "Протипиловий ковпак неактивний."
 
 #: ekos/capture/sequencejobstate.cpp:899
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust cap is parked."
 msgstr "Пилозахисний ковпак запарковано."
 
 #: ekos/capture/sequencejobstate.cpp:902
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust cap is parking..."
-msgstr "Паркуємо %1…"
+msgstr "Паркуємо пилозахисний ковпак…"
 
 #: ekos/capture/sequencejobstate.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust cap is unparking..."
-msgstr "Знімаємо з паркування %1…"
+msgstr "Знімаємо з паркування пилозахисний ковпак…"
 
 #: ekos/capture/sequencejobstate.cpp:908
-#, fuzzy, kde-format
-#| msgid "Dust cap light on."
+#, kde-format
 msgid "Dust cap status unknown."
-msgstr "Світло у пилозахисному ковпаку увімкнено."
+msgstr "Стан пилозахисного ковпака не відомий."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -22764,11 +22758,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1136
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "Маунт-Маріо"
+msgstr "Зсув лафета"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1171
@@ -22957,16 +22949,14 @@ msgstr ""
 "</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "зсув (кут. сек.)"
+msgstr "Зсув лафета за Схил (кут. с.)"
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "зсув (кут. сек.)"
+msgstr "Зсув лафета за ПС (кут. с.)"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
