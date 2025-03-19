@@ -674,11 +674,22 @@ void cgmath::calculateRmsError(void)
     int count = std::min(iterationCounter, static_cast<unsigned int>(CIRCULAR_BUFFER_SIZE));
     for (int k = GUIDE_RA; k <= GUIDE_DEC; k++)
     {
-        double sqr_avg = 0;
-        for (int i = 0; i < count; ++i)
-            sqr_avg += drift[k][i] * drift[k][i];
+        // Calculate RMS using PHD2's formula: sqrt((n * sumYSq - sumY * sumY) / (n * n))
+        double sumY = 0;
+        double sumYSq = 0;
 
-        out_params.sigma[k] = sqrt(sqr_avg / (double)count);
+        for (int i = 0; i < count; ++i)
+        {
+            sumY += drift[k][i];
+            sumYSq += drift[k][i] * drift[k][i];
+        }
+
+        // Use PHD2's formula for population standard deviation
+        double variance = (count * sumYSq - sumY * sumY) / (count * count);
+        if (variance >= 0.0)
+            out_params.sigma[k] = 2 * sqrt(variance);
+        else
+            out_params.sigma[k] = 0.0;
     }
 }
 
@@ -727,4 +738,3 @@ void cproc_out_params::reset(void)
         sigma[k]        = 0;
     }
 }
-

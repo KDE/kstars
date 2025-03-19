@@ -19,6 +19,7 @@
     "expected": "cpp",
     "format": "cpp",
     "tuple": "cpp",
-    "core": "cpp"
+    "core": "cpp",
+    "cmath": "cpp"
   }
 }

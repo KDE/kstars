@@ -495,7 +495,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 pulse_ra = -pulse_ra;
             if (DECDirection == "South")
                 //If the pulse was to the south, it should have a negative sign.
-                pulse_dec = -pulse_dec; 
+                pulse_dec = -pulse_dec;
 
             //If the pixelScale is properly set from PHD2, the second block of code is not needed,
             //but if not, we will attempt to calculate the ra and dec error without it.
@@ -515,9 +515,13 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
 
             if (std::isfinite(diff_ra_arcsecs) && std::isfinite(diff_de_arcsecs))
             {
+                // Always add to error log
                 errorLog.append(QPointF(diff_ra_arcsecs, diff_de_arcsecs));
-                if(errorLog.size() > 50)
+                if(errorLog.size() > 100)
                     errorLog.remove(0);
+
+                qCDebug(KSTARS_EKOS_GUIDE) << "PHD2: Error log size:" << errorLog.size();
+
                 // diff_xx_arcsecs is saved as STAR drift in the camera sensor coordinate system.
                 // To get these values in the RADEC system they have to be negated.
                 // But PHD2 displays the MOUNT drift and hence the values have to be negated once more!
@@ -531,17 +535,68 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent, const QByteArray &line
                 emit guideStats(-diff_ra_arcsecs, diff_de_arcsecs, pulse_ra, pulse_dec,
                                 std::isfinite(snr) ? snr : 0, 0, 0);
 
-                double total_sqr_RA_error = 0.0;
-                double total_sqr_DE_error = 0.0;
+                // Calculate population standard deviation (sigma) like PHD2 does
+                // PHD2 uses the formula: sqrt((n * sum(y²) - sum(y)²) / (n * n))
 
-                for (auto &point : errorLog)
+                // Convert to pixels first if we have a valid pixel scale
+                QVector<QPointF> pixelErrorLog;
+                if (pixelScale > 0)
                 {
-                    total_sqr_RA_error += point.x() * point.x();
-                    total_sqr_DE_error += point.y() * point.y();
+                    for (auto &point : errorLog)
+                    {
+                        // Convert from arcseconds to pixels
+                        pixelErrorLog.append(QPointF(point.x() / pixelScale, point.y() / pixelScale));
+                    }
+                }
+                else
+                {
+                    // If no pixel scale, just use the original values
+                    pixelErrorLog = errorLog;
                 }
 
-                emit newAxisSigma(sqrt(total_sqr_RA_error / errorLog.size()), sqrt(total_sqr_DE_error / errorLog.size()));
+                // Calculate using the same formula as PHD2's GetPopulationSigma()
+                double n = pixelErrorLog.size();
 
+                // Calculate sums for RA
+                double sumY_RA = 0.0;
+                double sumYSq_RA = 0.0;
+                for (auto &point : pixelErrorLog)
+                {
+                    sumY_RA += point.x();
+                    sumYSq_RA += point.x() * point.x();
+                }
+
+                // Calculate sums for DEC
+                double sumY_DEC = 0.0;
+                double sumYSq_DEC = 0.0;
+                for (auto &point : pixelErrorLog)
+                {
+                    sumY_DEC += point.y();
+                    sumYSq_DEC += point.y() * point.y();
+                }
+
+                // Calculate population sigma using PHD2's formula
+                double ra_sigma_pixels = 0.0;
+                double de_sigma_pixels = 0.0;
+
+                if (n > 1)
+                {
+                    double variance_RA = (n * sumYSq_RA - sumY_RA * sumY_RA) / (n * n);
+                    double variance_DEC = (n * sumYSq_DEC - sumY_DEC * sumY_DEC) / (n * n);
+
+                    if (variance_RA >= 0.0)
+                        ra_sigma_pixels = sqrt(variance_RA);
+
+                    if (variance_DEC >= 0.0)
+                        de_sigma_pixels = sqrt(variance_DEC);
+                }
+
+                // Convert back to arcseconds for display
+                double ra_sigma_arcsec = (pixelScale > 0) ? ra_sigma_pixels * pixelScale : ra_sigma_pixels;
+                double de_sigma_arcsec = (pixelScale > 0) ? de_sigma_pixels * pixelScale : de_sigma_pixels;
+
+                // Emit the values in arcseconds
+                emit newAxisSigma(ra_sigma_arcsec, de_sigma_arcsec);
             }
             //Note that if it is receiving full size remote images, it should not get the guide star image.
             //But if it is not getting the full size images, or if the current camera is not in Ekos, it should get the guide star image

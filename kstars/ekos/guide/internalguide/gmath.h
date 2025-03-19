@@ -196,9 +196,9 @@ class cgmath : public QObject
 
         // processing
         // Drift is a circular buffer of the arcsecond drift for the 2 channels.
-        // It will be initialized with a double array of size 50.
+        // It will be initialized with a double array of size 100 (default PHD2 value).
         // driftUpto points to the index of the next value to be written.
-        static constexpr int CIRCULAR_BUFFER_SIZE = 50;
+        static constexpr int CIRCULAR_BUFFER_SIZE = 100;
         double *drift[2];
         uint32_t driftUpto[2];
 
