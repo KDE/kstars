@@ -578,6 +578,33 @@ void SkyMap::mouseMoveEvent(QMouseEvent *e)
         }
     }
 
+    // Are we setting the fov rotation?
+    if (fovRotationStart.x() > 0 && fovRotationStart.y() > 0)
+    {
+        // stop the operation if the user let go of SHIFT or ALT or CONTROL
+        if (!((e->modifiers() & Qt::ShiftModifier) && (e->modifiers() & Qt::ControlModifier) && (e->modifiers() & Qt::AltModifier)))
+        {
+            fovRotationStart = QPoint(); // invalidate
+            fovRotationStartAngle = dms(); // NaN
+            slewing = false;
+            forceUpdate();
+            return;
+        }
+        else
+        {
+            // Compute the rotation
+            const float start_x = fovRotationStart.x() - width() / 2.0f;
+            const float start_y = height() / 2.0f - fovRotationStart.y();
+
+            const float curr_x = e->pos().x() - width() / 2.0f;
+            const float curr_y = height() / 2.0f - e->pos().y();
+
+            const dms angle {(std::atan2(curr_y, curr_x) - std::atan2(start_y, start_x)) / dms::DegToRad };
+            setExtraFovRotation((fovRotationStartAngle - angle).Degrees());
+            return;
+        }
+    }
+
     if (projector()->unusablePoint(e->pos()))
         return; // break if point is unusable
 
@@ -737,6 +764,16 @@ void SkyMap::mouseReleaseEvent(QMouseEvent *e)
         return;
     }
 
+    // Are we setting the fov rotation?
+    if (fovRotationStart.x() > 0 && fovRotationStart.y() > 0)
+    {
+        fovRotationStart = QPoint(); // invalidate
+        fovRotationStartAngle = dms(); // NaN
+        slewing = false;
+        forceUpdateNow();
+        return;
+    }
+
     //false if double-clicked, because it's unset there.
     if (mouseButtonDown)
     {
@@ -759,6 +796,18 @@ void SkyMap::mouseReleaseEvent(QMouseEvent *e)
 
 void SkyMap::mousePressEvent(QMouseEvent *e)
 {
+    if ((e->modifiers() & Qt::ControlModifier) && (e->modifiers() & Qt::ShiftModifier) && (e->modifiers() & Qt::AltModifier)
+            && (e->button() == Qt::LeftButton))
+    {
+        // FOV rotation mode
+        fovRotationStart = e->pos();
+        fovRotationStartAngle = dms(Options::skyRotation());
+        slewing = true;
+        setFovRotationMouseCursor();
+        forceUpdate();
+        return;
+    }
+
     m_MousePointPressed = m_MousePoint;
 
     KStars *kstars = KStars::Instance();

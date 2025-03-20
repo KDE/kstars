@@ -74,7 +74,7 @@ void SkyMapDrawAbstract::drawOverlays(QPainter &p, bool drawFov)
                 double northRotation = SkyMap::Instance()->projector()->findNorthPA(&centerSkyPoint, screenSkyPoint.x(),
                                        screenSkyPoint.y());
                 fov->setCenter(centerSkyPoint);
-                fov->setNorthPA(northRotation);
+                fov->setNorthPA(northRotation + m_SkyMap->extraFovRotation());
             }
             fov->draw(p, Options::zoomFactor());
         }

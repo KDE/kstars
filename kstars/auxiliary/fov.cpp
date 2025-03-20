@@ -325,7 +325,10 @@ void FOV::draw(QPainter &p, float zoomFactor)
             if (m_imageDisplay)
                 p.drawImage(targetRect, m_image);
 
+            // Draw the field-of-view
             p.drawRect(targetRect);
+
+            // Draw an arrow pointing straight up from the point-of-view of the image sensor.
             p.drawRect(center.x(), center.y() - (3 * pixelSizeY / 5), pixelSizeX / 40, pixelSizeX / 10);
             p.drawLine(center.x() - pixelSizeX / 30, center.y() - (3 * pixelSizeY / 5), center.x() + pixelSizeX / 20,
                        center.y() - (3 * pixelSizeY / 5));
@@ -336,6 +339,7 @@ void FOV::draw(QPainter &p, float zoomFactor)
 
             if (name().size() > 0)
             {
+                // Draw the name and field-of-view.
                 setNameFont();
                 QRect nameRect(targetRect.topLeft().x(), targetRect.topLeft().y() - (pixelSizeY / 8), targetRect.width() / 2,
                                pixelSizeX / 10);
@@ -348,6 +352,23 @@ void FOV::draw(QPainter &p, float zoomFactor)
                                pixelSizeX / 10);
                 p.drawText(sizeRect, Qt::AlignCenter, QString("%1'x%2'").arg(QString::number(m_sizeX, 'f', 1), QString::number(m_sizeY, 'f',
                            1)));
+
+                // Draw the angle (East of North) above the tip of the arrow.
+                // The extra FOV rotation angle is clockwise positive, but we want to display angles E of N
+                double angleEoN = m_PA - KStars::Instance()->map()->extraFovRotation();
+                while (angleEoN < -180) angleEoN += 360.0;
+                while (angleEoN >  180) angleEoN -= 360.0;
+                QString rotationString = QString("%1º EoN").arg(angleEoN, 0, 'f', 2);
+                QFont rFont = p.font();
+                auto pSize = rFont.pixelSize() / 2;
+                if (pSize > 1)
+                {
+                    rFont.setPixelSize(rFont.pixelSize() / 2);
+                    p.setFont(rFont);
+                    QRect rotRect(targetRect.center().x() - pixelSizeX / 10,
+                                  center.y() - (0.8 * pixelSizeY), pixelSizeX / 4, pixelSizeX / 10);
+                    p.drawText(rotRect, Qt::AlignCenter, rotationString);
+                }
             }
         }
         break;

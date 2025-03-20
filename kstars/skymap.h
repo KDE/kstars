@@ -364,6 +364,14 @@ class SkyMap : public QGraphicsView
 
         SkyPoint getCenterPoint();
 
+        /** @short Sets the extra rotation applied to FOV symbols (before correction) to the given angle. */
+        void setExtraFovRotation(double angle);
+
+        /** @short Gets the extra rotation applied to FOV symbols. */
+        double extraFovRotation() const {
+            return m_fovExtraRotation;
+        }
+
     public slots:
         /** Recalculates the positions of objects in the sky, and then repaints the sky map.
              * If the positions don't need to be recalculated, use update() instead of forceUpdate().
@@ -663,6 +671,9 @@ class SkyMap : public QGraphicsView
         /** @short Sets the shape of the mouse cursor to a rotation symbol. */
         void setRotationMouseCursor();
 
+        /** @short Sets the shape of the mouse cursor to a fov rotation symbol. */
+        void setFovRotationMouseCursor();
+
         /** Calculate the zoom factor for the given keyboard modifier
              */
         double zoomFactor(const int modifier);
@@ -737,6 +748,9 @@ class SkyMap : public QGraphicsView
         QPoint rotationStart;
         dms rotationStartAngle;
 
+        QPoint fovRotationStart;
+        dms fovRotationStartAngle;
+
         double m_Scale;
 
         KStarsData *data { nullptr };
@@ -790,4 +804,7 @@ class SkyMap : public QGraphicsView
         static SkyMap *pinstance;
         /// Good to keep the original ruler start-point for purposes of dynamic_cast
         const SkyPoint *m_rulerStartPoint { nullptr };
+
+        // Extra rotation applied to FOV symbols.
+        double m_fovExtraRotation { 0.0 };
 };

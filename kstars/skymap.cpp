@@ -114,6 +114,39 @@ QBitmap rotationCursorBitmap(int width)
     return b;
 }
 
+// Draw bitmap for rotation cursor
+QBitmap fovRotationCursorBitmap(int width)
+{
+    constexpr int size = 32;
+    constexpr int mx = size / 2;
+    QBitmap b(size, size);
+    b.fill(Qt::color0);
+    const int pad = 4;
+
+    QPainter p;
+    p.begin(&b);
+    p.setPen(QPen(Qt::color1, width));
+
+    QPainterPath arc1;
+    arc1.moveTo(mx, pad);
+    arc1.arcTo(QRect(pad, pad, size - 2 * pad, size - 2 * pad), 90, 90);
+    auto arcEnd1 = arc1.currentPosition();
+    arc1.lineTo(arcEnd1.x() - pad / 2, arcEnd1.y() - pad);
+    p.drawPath(arc1);
+
+    QPainterPath arc2;
+    arc2.moveTo(mx, size - pad);
+    arc2.arcTo(QRect(pad, pad, size - 2 * pad, size - 2 * pad), 270, 90);
+    auto arcEnd2 = arc2.currentPosition();
+    arc2.lineTo(arcEnd2.x() + pad / 2, arcEnd2.y() + pad);
+    p.drawPath(arc2);
+
+    p.drawRect(size * .375, size * .375, size * .25, size * .25);
+
+    p.end();
+    return b;
+}
+
 // Draw bitmap for default cursor. Width is size of pen to draw with.
 QBitmap defaultCursorBitmap(int width)
 {
@@ -1250,6 +1283,13 @@ void SkyMap::slotSetSkyRotation(double angle)
     forceUpdate();
 }
 
+void SkyMap::setExtraFovRotation(double angle)
+{
+    angle = dms(angle).reduce().Degrees();
+    m_fovExtraRotation = angle;
+    forceUpdate();
+}
+
 void SkyMap::setupProjector()
 {
     //Update View Parameters for projection
@@ -1310,6 +1350,15 @@ void SkyMap::setRotationMouseCursor()
     mouseDragCursor = false;
     QBitmap cursor = rotationCursorBitmap(2);
     QBitmap mask   = rotationCursorBitmap(4);
+    setCursor(QCursor(cursor, mask));
+}
+
+void SkyMap::setFovRotationMouseCursor()
+{
+    mouseMoveCursor = false;
+    mouseDragCursor = false;
+    QBitmap cursor = fovRotationCursorBitmap(2);
+    QBitmap mask   = fovRotationCursorBitmap(4);
     setCursor(QCursor(cursor, mask));
 }
 
