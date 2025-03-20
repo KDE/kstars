@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-18 01:57+0000\n"
+"POT-Creation-Date: 2025-03-20 01:59+0000\n"
 "PO-Revision-Date: 2019-10-15 11:11+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -23407,163 +23407,163 @@ msgstr "Автогидирование запущено."
 msgid "PHD2: Star found, guiding is resuming..."
 msgstr "Гидирование возобновлено."
 
-#: ekos/guide/externalguide/phd2.cpp:568
+#: ekos/guide/externalguide/phd2.cpp:623
 #, kde-format
 msgid "PHD2 %1: %2"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:622
+#: ekos/guide/externalguide/phd2.cpp:677
 #, kde-format
 msgid "PHD2: Looping Exposures Stopped."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:627
+#: ekos/guide/externalguide/phd2.cpp:682
 #, fuzzy, kde-format
 #| msgid "Autoguiding stopped."
 msgid "PHD2: Guiding Stopped."
 msgstr "Автогидирование остановлено."
 
-#: ekos/guide/externalguide/phd2.cpp:646
+#: ekos/guide/externalguide/phd2.cpp:701
 #, kde-format
 msgid "PHD2: Lock Position Set."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:657
+#: ekos/guide/externalguide/phd2.cpp:712
 #, fuzzy, kde-format
 #| msgid "%1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "PHD2: Star Selected."
 msgstr "%1 звезда обнаружена."
 
-#: ekos/guide/externalguide/phd2.cpp:666
+#: ekos/guide/externalguide/phd2.cpp:721
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "PHD2: Guiding...waiting for settle..."
 msgstr "Гидирование возобновлено."
 
-#: ekos/guide/externalguide/phd2.cpp:670
+#: ekos/guide/externalguide/phd2.cpp:725
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Dithering successful."
 msgstr "Автогидирование запущено."
 
-#: ekos/guide/externalguide/phd2.cpp:676
+#: ekos/guide/externalguide/phd2.cpp:731
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Guiding started."
 msgstr "Автогидирование запущено."
 
-#: ekos/guide/externalguide/phd2.cpp:687
+#: ekos/guide/externalguide/phd2.cpp:742
 #, kde-format
 msgid "PHD2: Lock Position Lost, continuing calibration."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:693
+#: ekos/guide/externalguide/phd2.cpp:748
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "PHD2: Star Lost. Trying to reacquire for %1s."
 msgstr "Гидирование возобновлено."
 
-#: ekos/guide/externalguide/phd2.cpp:699
+#: ekos/guide/externalguide/phd2.cpp:754
 #, kde-format
 msgid "PHD2: Lock Position Lost."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:705
+#: ekos/guide/externalguide/phd2.cpp:760
 #, fuzzy, kde-format
 #| msgid "Guiding suspended."
 msgid "PHD2: Guiding paused."
 msgstr "Гидирование приостановлено."
 
-#: ekos/guide/externalguide/phd2.cpp:710
+#: ekos/guide/externalguide/phd2.cpp:765
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "PHD2: Calibrating, timing out in %1s."
 msgstr "Автоматическая калибровка не получилась."
 
-#: ekos/guide/externalguide/phd2.cpp:719
+#: ekos/guide/externalguide/phd2.cpp:774
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "PHD2: Calibration turned to looping, failed."
 msgstr "Калибровка завершена."
 
-#: ekos/guide/externalguide/phd2.cpp:723
+#: ekos/guide/externalguide/phd2.cpp:778
 #, fuzzy, kde-format
 #| msgid "Guiding resumed."
 msgid "PHD2: Looping Exposures."
 msgstr "Гидирование возобновлено."
 
-#: ekos/guide/externalguide/phd2.cpp:729
+#: ekos/guide/externalguide/phd2.cpp:784
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Dithering started."
 msgstr "Автогидирование запущено."
 
-#: ekos/guide/externalguide/phd2.cpp:757
+#: ekos/guide/externalguide/phd2.cpp:812
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "PHD2: Calibration is cleared"
 msgstr "Калибровка завершена."
 
-#: ekos/guide/externalguide/phd2.cpp:853
+#: ekos/guide/externalguide/phd2.cpp:908
 #, kde-format
 msgid "PHD2: DEC Guide Mode is Set to: %1"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:863
+#: ekos/guide/externalguide/phd2.cpp:918
 #, fuzzy, kde-format
 #| msgid "Start Camera/CCD exposure. The duration is in seconds."
 msgid "PHD2: Exposure Time set to: "
 msgstr "Выдержка камеры/ПЗС в секундах."
 
-#: ekos/guide/externalguide/phd2.cpp:871
+#: ekos/guide/externalguide/phd2.cpp:926
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Total Exposure Time (ms)"
 msgid "PHD2: Valid Exposure Times: Auto, "
 msgstr "Полное время экспозиции (мс)"
 
-#: ekos/guide/externalguide/phd2.cpp:902
+#: ekos/guide/externalguide/phd2.cpp:957
 #, kde-format
 msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:904
+#: ekos/guide/externalguide/phd2.cpp:959
 #, kde-format
 msgid "PHD2: Pixel Scale is %1 arcsec per pixel"
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1019
+#: ekos/guide/externalguide/phd2.cpp:1074
 #, fuzzy, kde-format
 #| msgid "Az Error:"
 msgid "PHD2 Error: unhandled '%1'"
 msgstr "Ошибка азимута:"
 
-#: ekos/guide/externalguide/phd2.cpp:1152
-#: ekos/guide/externalguide/phd2.cpp:1170
-#: ekos/guide/externalguide/phd2.cpp:1321
-#: ekos/guide/externalguide/phd2.cpp:1436
-#: ekos/guide/externalguide/phd2.cpp:1465
-#: ekos/guide/externalguide/phd2.cpp:1494
+#: ekos/guide/externalguide/phd2.cpp:1207
+#: ekos/guide/externalguide/phd2.cpp:1225
+#: ekos/guide/externalguide/phd2.cpp:1376
+#: ekos/guide/externalguide/phd2.cpp:1491
+#: ekos/guide/externalguide/phd2.cpp:1520
+#: ekos/guide/externalguide/phd2.cpp:1549
 #, kde-format
 msgid "PHD2 Error: Equipment not connected."
 msgstr ""
 
-#: ekos/guide/externalguide/phd2.cpp:1314
+#: ekos/guide/externalguide/phd2.cpp:1369
 #, fuzzy, kde-format
 #| msgid "Autoguiding started."
 msgid "PHD2: Guiding is already running."
 msgstr "Автогидирование запущено."
 
-#: ekos/guide/externalguide/phd2.cpp:1380
+#: ekos/guide/externalguide/phd2.cpp:1435
 #, fuzzy, kde-format
 #| msgid "Configure Equipment"
 msgid "PHD2: Connecting Equipment. . ."
 msgstr "Настройка оборудования"
 
-#: ekos/guide/externalguide/phd2.cpp:1382
+#: ekos/guide/externalguide/phd2.cpp:1437
 #, fuzzy, kde-format
 #| msgid "Disconnecting INDI devices..."
 msgid "PHD2: Disconnecting Equipment. . ."
