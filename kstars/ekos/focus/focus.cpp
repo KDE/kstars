@@ -757,6 +757,9 @@ void Focus::checkFocuser()
     {
         getAbsFocusPosition();
 
+        if (m_FilterManager)
+            m_FilterManager->setFocusAbsolutePosition(currentPosition);
+
         absTicksSpin->setEnabled(true);
         absTicksLabel->setEnabled(true);
         startGotoB->setEnabled(true);
