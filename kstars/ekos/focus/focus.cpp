@@ -1087,7 +1087,7 @@ void Focus::runAutoFocus(AutofocusReason autofocusReason, const QString &reasonI
     // focuser move to complete before completing the Autofocus.
     if ((m_FocusAlgorithm == FOCUS_LINEAR || m_FocusAlgorithm == FOCUS_LINEAR1PASS) && checkAFOptimisation(autofocusReason))
     {
-        appendLogText(i18n("Autofocus request [%1] optimized out.",filter()));
+        appendLogText(i18n("Autofocus request [%1] optimized out.", filter()));
         if (!inAFOptimise)
             completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_OPTIMISED_OUT);
         return;
@@ -1330,7 +1330,7 @@ bool Focus::checkAFOptimisation(const AutofocusReason autofocusReason)
     if (!m_FilterManager->getAFDatetime(filterToUse, lastAFDatetime))
     {
         qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 unable to get last Autofocus run timestamp on %2")
-                                      .arg(__FUNCTION__).arg(filterToUse);
+                                   .arg(__FUNCTION__).arg(filterToUse);
         return dontRunAF;
     }
 
@@ -1352,7 +1352,7 @@ bool Focus::checkAFOptimisation(const AutofocusReason autofocusReason)
         {
             // Unable to get the last AF run information for the filter
             qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 unable to get last Autofocus info on %2")
-                                              .arg(__FUNCTION__).arg(filterToUse);
+                                       .arg(__FUNCTION__).arg(filterToUse);
             return dontRunAF;
         }
         // Do some sanity checks on lastPos
@@ -1361,7 +1361,7 @@ bool Focus::checkAFOptimisation(const AutofocusReason autofocusReason)
         if (position < minTravelLimit || position > maxTravelLimit)
         {
             qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 Bad last Autofocus solution found on %2")
-                                              .arg(__FUNCTION__).arg(position);
+                                       .arg(__FUNCTION__).arg(position);
             return dontRunAF;
         }
 
@@ -1387,7 +1387,7 @@ bool Focus::checkAFOptimisation(const AutofocusReason autofocusReason)
         // Focuser at correct position so nothing more to do
         dontRunAF = true;
         qCDebug(KSTARS_EKOS_FOCUS) << QString("Autofocus (%1) on %2 optimised out by Autofocus at %3")
-                     .arg(AutofocusReasonStr[autofocusReason]).arg(filterToUse).arg(lastAFDatetime.toString());
+                                   .arg(AutofocusReasonStr[autofocusReason]).arg(filterToUse).arg(lastAFDatetime.toString());
     }
     else
     {
@@ -1396,9 +1396,9 @@ bool Focus::checkAFOptimisation(const AutofocusReason autofocusReason)
         {
             inAFOptimise = dontRunAF = true;
             qCDebug(KSTARS_EKOS_FOCUS) << QString("Autofocus (%1) on %2 optimised out by Autofocus at %3."
-                                                          " Current Position %4, Target Position %5")
-                                                .arg(AutofocusReasonStr[autofocusReason]).arg(filterToUse)
-                                                .arg(lastAFDatetime.toString()).arg(currentPosition).arg(position);
+                                                  " Current Position %4, Target Position %5")
+                                       .arg(AutofocusReasonStr[autofocusReason]).arg(filterToUse)
+                                       .arg(lastAFDatetime.toString()).arg(currentPosition).arg(position);
         }
         else
             qCDebug(KSTARS_EKOS_FOCUS) << QString("%1 unable to move focuser... trying full Autofocus").arg(__FUNCTION__);
@@ -5542,6 +5542,9 @@ void Focus::setupFilterManager()
 
     // Update focuser absolute position.
     connect(this, &Focus::absolutePositionChanged, m_FilterManager.get(), &FilterManager::setFocusAbsolutePosition);
+    // Set initial focuser position if we have one
+    if (m_Focuser && m_Focuser->isConnected() && currentPosition >= 0)
+        m_FilterManager->setFocusAbsolutePosition(currentPosition);
 
     // Update Filter Manager state
     connect(this, &Focus::newStatus, this, [this](Ekos::FocusState state, const QString trainname, const bool update)
