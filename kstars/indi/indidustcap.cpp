@@ -9,6 +9,7 @@
 
 #include "indidustcap.h"
 #include "dustcapadaptor.h"
+#include "ksnotification.h"
 
 namespace ISD
 {
@@ -138,6 +139,9 @@ bool DustCap::park()
     parkSW->setState(ISS_ON);
     sendNewProperty(parkSP);
 
+    KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Dust Cap is parking"), KSNotification::Observatory,
+                          KSNotification::Info);
+
     return true;
 }
 
@@ -154,6 +158,9 @@ bool DustCap::unpark()
     parkSP->reset();
     parkSW->setState(ISS_ON);
     sendNewProperty(parkSP);
+
+    KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Dust Cap is unparking"), KSNotification::Observatory,
+                          KSNotification::Info);
 
     return true;
 }

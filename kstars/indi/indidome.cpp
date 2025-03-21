@@ -13,6 +13,7 @@
 #include "indidome.h"
 #include "kstars.h"
 #include "domeadaptor.h"
+#include "ksnotification.h"
 
 namespace ISD
 {
@@ -318,6 +319,9 @@ bool Dome::park()
     parkSW->setState(ISS_ON);
     sendNewProperty(parkSP);
 
+    KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Dome is parking"), KSNotification::Observatory,
+                          KSNotification::Info);
+
     return true;
 }
 
@@ -336,6 +340,9 @@ bool Dome::unpark()
     parkSP->reset();
     parkSW->setState(ISS_ON);
     sendNewProperty(parkSP);
+
+    KSNotification::event(QLatin1String("IndiServerMessage"), i18n("Dome is unparking"), KSNotification::Observatory,
+                          KSNotification::Info);
 
     return true;
 }
