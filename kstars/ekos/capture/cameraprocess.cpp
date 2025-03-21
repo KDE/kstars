@@ -1540,7 +1540,17 @@ void CameraProcess::captureImage()
         auto remoteUpload = state()->placeholderPath().generateSequenceFilename(*activeJob(), false, true, 1, "", "",  false,
                             false);
 
+        // First try with the system's directory separator
         auto lastSeparator = remoteUpload.lastIndexOf(QDir::separator());
+
+#if defined(Q_OS_WIN)
+        // On Windows, also check for forward slash as INDI paths use forward slashes
+        // even on Windows systems
+        int lastForwardSlash = remoteUpload.lastIndexOf('/');
+        if (lastForwardSlash > lastSeparator)
+            lastSeparator = lastForwardSlash;
+#endif
+
         auto remoteDirectory = remoteUpload.mid(0, lastSeparator);
         auto remoteFilename = remoteUpload.mid(lastSeparator + 1);
         activeJob()->setCoreProperty(SequenceJob::SJ_RemoteFormatDirectory, remoteDirectory);
@@ -1967,16 +1977,17 @@ void CameraProcess::checkCamera()
 void CameraProcess::syncDSLRToTargetChip(const QString &model)
 {
     auto pos = std::find_if(state()->DSLRInfos().begin(),
-                            state()->DSLRInfos().end(), [model](const QMap<QString, QVariant> &oneDSLRInfo)
+                            auto pos = std::find_if(state()->DSLRInfos().begin(),
+                                       state()->DSLRInfos().end(), [model](const QMap<QString, QVariant> &oneDSLRInfo)
     {
         return (oneDSLRInfo["Model"] == model);
     });
 
     // Sync Pixel Size
     if (pos != state()->DSLRInfos().end())
-    {
-        auto camera = *pos;
-        devices()->getActiveChip()->setImageInfo(camera["Width"].toInt(),
+{
+    auto camera = *pos;
+    devices()->getActiveChip()->setImageInfo(camera["Width"].toInt(),
                 camera["Height"].toInt(),
                 camera["PixelW"].toDouble(),
                 camera["PixelH"].toDouble(),
