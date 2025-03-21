@@ -2309,16 +2309,40 @@ QString ImagingPlanner::defaultDirectory() const
            + QDir::separator() + "ImagingPlanner";
 }
 
+namespace
+{
+
+bool sortOldest(const QFileInfo &file1, const QFileInfo &file2)
+{
+    return file1.birthTime() < file2.birthTime();
+}
+
+QFileInfoList findDefaultDirectories()
+{
+    QString kstarsDir = KSPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    QDir kDir(kstarsDir);
+    kDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot);
+    QStringList nameFilters;
+    nameFilters << "ImagingPlanner*";
+    QFileInfoList dirs1 = kDir.entryInfoList(nameFilters);
+
+    QString ipDir = kstarsDir + QDir::separator() + "ImagingPlanner";
+    QFileInfoList dirs2 = QDir(ipDir).entryInfoList(QStringList(), QDir::NoDotAndDotDot | QDir::AllDirs);
+
+    dirs1.append(dirs2);
+    std::sort(dirs1.begin(), dirs1.end(), sortOldest);
+    return dirs1;
+}
+}  // namespace
+
 // The default catalog is one loaded by the "Data -> Download New Data..." menu.
 // Search the default directory for a ImagingPlanner subdirectory
 QString ImagingPlanner::findDefaultCatalog() const
 {
-    const QFileInfoList subDirs = QDir(defaultDirectory()).entryInfoList(
-                                      QStringList(), QDir::NoDotAndDotDot | QDir::AllDirs);
-    for (int i = 0; i < subDirs.size(); i++)
+    QFileInfoList subDirs = findDefaultDirectories();
+    for( const auto &dd : subDirs)
     {
-        // Found a possible catalog directory. Will pick the first one we find with .csv files.
-        const QDir subDir(subDirs[i].absoluteFilePath());
+        QDir subDir(dd.absoluteFilePath());
         const QStringList csvFilter({"*.csv"});
         const QFileInfoList files = subDir.entryInfoList(csvFilter, QDir::NoDotAndDotDot | QDir::Files);
         if (files.size() > 0)
@@ -2347,7 +2371,10 @@ void ImagingPlanner::loadInitialCatalog()
         catalog = findDefaultCatalog();
     if (catalog.isEmpty())
     {
-        KSNotification::sorry(i18n("You need to load a catalog to start using this tool.\nSee Data -> Download New Data..."));
+        KSNotification::sorry(
+            i18n("You need to load a catalog to start using this tool.\n"
+                 "Use the Load Catalog button if you have one.\n"
+                 "See Data -> Download New Data if not..."));
         setStatus(i18n("No Catalog!"));
     }
     else
@@ -2405,7 +2432,7 @@ void ImagingPlanner::updateStatus()
 }
 
 // This runs when the window gets a show event.
-void ImagingPlanner::showEvent(QShowEvent *e)
+void ImagingPlanner::showEvent(QShowEvent * e)
 {
     // ONLY run for first ever show
     if (m_initialShow == false)
@@ -3631,7 +3658,7 @@ void ImagingPlanner::addCatalogImageInfo(const CatalogImageInfo &info)
     m_CatalogImageInfoMap[info.m_Name.toLower()] = info;
 }
 
-bool ImagingPlanner::findCatalogImageInfo(const QString &name, CatalogImageInfo *info)
+bool ImagingPlanner::findCatalogImageInfo(const QString &name, CatalogImageInfo * info)
 {
     auto result = m_CatalogImageInfoMap.find(name.toLower());
     if (result == m_CatalogImageInfoMap.end())
@@ -3829,8 +3856,8 @@ void ImagingPlanner::loadCatalogFromFile(QString path, bool reset)
                     {
                         const std::pair<bool, QString> out = m_manager.remove_catalog(catID);
                         DPRINTF(stderr, "Removal of out-of-date catalog %d %s%s\n", catID,
-                                out.first ? "succeeded." : "failed: ", out.second.toLatin1().data());    
-                    }                
+                                out.first ? "succeeded." : "failed: ", out.second.toLatin1().data());
+                    }
                 }
                 continue;
             }
