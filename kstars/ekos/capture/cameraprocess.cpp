@@ -1977,17 +1977,16 @@ void CameraProcess::checkCamera()
 void CameraProcess::syncDSLRToTargetChip(const QString &model)
 {
     auto pos = std::find_if(state()->DSLRInfos().begin(),
-                            auto pos = std::find_if(state()->DSLRInfos().begin(),
-                                       state()->DSLRInfos().end(), [model](const QMap<QString, QVariant> &oneDSLRInfo)
+                            state()->DSLRInfos().end(), [model](const QMap<QString, QVariant> &oneDSLRInfo)
     {
         return (oneDSLRInfo["Model"] == model);
     });
 
     // Sync Pixel Size
     if (pos != state()->DSLRInfos().end())
-{
-    auto camera = *pos;
-    devices()->getActiveChip()->setImageInfo(camera["Width"].toInt(),
+    {
+        auto camera = *pos;
+        devices()->getActiveChip()->setImageInfo(camera["Width"].toInt(),
                 camera["Height"].toInt(),
                 camera["PixelW"].toDouble(),
                 camera["PixelH"].toDouble(),
