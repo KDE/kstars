@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 01:59+0000\n"
-"PO-Revision-Date: 2025-03-08 20:26+0100\n"
+"POT-Creation-Date: 2025-03-21 01:59+0000\n"
+"PO-Revision-Date: 2025-03-19 09:32+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -16727,22 +16727,27 @@ msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 "Canvia la pantalla al mode gràfic de visualització del nombre de captures."
 
-#: ekos/capture/capturedeviceadaptor.cpp:673
+#: ekos/capture/capturedeviceadaptor.cpp:422
+#, kde-format
+msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
+msgstr ""
+
+#: ekos/capture/capturedeviceadaptor.cpp:675
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Elimina la funda del telescopi per tal de continuar."
 
-#: ekos/capture/capturedeviceadaptor.cpp:674
+#: ekos/capture/capturedeviceadaptor.cpp:676
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescopi cobert"
 
-#: ekos/capture/capturedeviceadaptor.cpp:806
+#: ekos/capture/capturedeviceadaptor.cpp:808
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "%1 té un obturador?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:807
+#: ekos/capture/capturedeviceadaptor.cpp:809
 #: ekos/capture/sequencejobstate.cpp:439
 #, kde-format
 msgid "Dark Exposure"
@@ -18175,40 +18180,34 @@ msgid "Light box on."
 msgstr "Caixa de llum encesa."
 
 #: ekos/capture/sequencejobstate.cpp:892
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "Dust cap error occurred."
-msgstr "S'ha produït un error de la tapa per la pols."
+msgstr "S'ha produït un error a la tapa per la pols."
 
 #: ekos/capture/sequencejobstate.cpp:896
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is idle."
-msgstr "La tapa per la pols «%1» està en línia."
+msgstr "La tapa per la pols està en espera."
 
 #: ekos/capture/sequencejobstate.cpp:899
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust cap is parked."
 msgstr "La tapa per la pols està aparcada."
 
 #: ekos/capture/sequencejobstate.cpp:902
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust cap is parking..."
-msgstr "S'està aparcant %1…"
+msgstr "S'està aparcant la tapa per la pols…"
 
 #: ekos/capture/sequencejobstate.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust cap is unparking..."
-msgstr "S'està desaparcant %1…"
+msgstr "S'està desaparcant la tapa per la pols…"
 
 #: ekos/capture/sequencejobstate.cpp:908
-#, fuzzy, kde-format
-#| msgid "Dust cap unparked."
+#, kde-format
 msgid "Dust cap status unknown."
-msgstr "La tapa per la pols està desaparcada."
+msgstr "Estat desconegut de la tapa per la pols."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -23132,11 +23131,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1136
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "Mount Mario"
+msgstr "Deriva de la muntura"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1171
@@ -23325,16 +23322,14 @@ msgstr ""
 "segons d'arc.</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "deriva (seg. d'arc)"
+msgstr "Deriva de la Dec de la muntura (seg. d'arc)"
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "deriva (seg. d'arc)"
+msgstr "Deriva de l'AR de la muntura (seg. d'arc)"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
@@ -89803,9 +89798,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Drift Plot"
-#~ msgstr "Traçat de la deriva"
-
-#~ msgid "pulse (ms)"
-#~ msgstr "pols (ms)"

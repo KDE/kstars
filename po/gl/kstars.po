@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 01:59+0000\n"
-"PO-Revision-Date: 2025-03-05 07:00+0100\n"
+"POT-Creation-Date: 2025-03-21 01:59+0000\n"
+"PO-Revision-Date: 2025-03-20 08:20+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.2\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -16434,22 +16434,27 @@ msgstr ""
 "Cambiar a visualización ao modo gráfico de visualización de números de "
 "capturas."
 
-#: ekos/capture/capturedeviceadaptor.cpp:673
+#: ekos/capture/capturedeviceadaptor.cpp:422
+#, kde-format
+msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
+msgstr ""
+
+#: ekos/capture/capturedeviceadaptor.cpp:675
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Retirar a cobertura do telescopio para continuar."
 
-#: ekos/capture/capturedeviceadaptor.cpp:674
+#: ekos/capture/capturedeviceadaptor.cpp:676
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescopio cuberto"
 
-#: ekos/capture/capturedeviceadaptor.cpp:806
+#: ekos/capture/capturedeviceadaptor.cpp:808
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Ten %1 unha persiana?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:807
+#: ekos/capture/capturedeviceadaptor.cpp:809
 #: ekos/capture/sequencejobstate.cpp:439
 #, kde-format
 msgid "Dark Exposure"
@@ -17837,40 +17842,34 @@ msgid "Light box on."
 msgstr "A caixa luminosa está acendida."
 
 #: ekos/capture/sequencejobstate.cpp:892
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "Dust cap error occurred."
-msgstr "Erro de cuberta."
+msgstr "Produciuse un erro de cuberta."
 
 #: ekos/capture/sequencejobstate.cpp:896
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is idle."
-msgstr "A cuberta de %1 está en liña."
+msgstr "A cuberta está desocupada."
 
 #: ekos/capture/sequencejobstate.cpp:899
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust cap is parked."
-msgstr "Estacionouse a cuberta."
+msgstr "A cuberta está estacionada."
 
 #: ekos/capture/sequencejobstate.cpp:902
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust cap is parking..."
-msgstr "%1 está estacionándose…"
+msgstr "A cuberta está estacionándose…"
 
 #: ekos/capture/sequencejobstate.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust cap is unparking..."
-msgstr "%1 está desestacionándose…"
+msgstr "A cuberta está desestacionándose…"
 
 #: ekos/capture/sequencejobstate.cpp:908
-#, fuzzy, kde-format
-#| msgid "Dust cap unparked."
+#, kde-format
 msgid "Dust cap status unknown."
-msgstr "Desestacionouse a cuberta anti po."
+msgstr "Descoñécese o estado da cuberta."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -22716,11 +22715,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1136
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "Monte Mario"
+msgstr "Deriva da montura"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1171
@@ -22909,16 +22906,14 @@ msgstr ""
 "segundos de arco.</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "desvío (minutos de arco)"
+msgstr "Deriva da montura en δ (segundos de arco)"
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "desvío (minutos de arco)"
+msgstr "Deriva da montura en α (segundos de arco)"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
@@ -27511,7 +27506,7 @@ msgstr "Ángulo da posición:"
 #: ekos/scheduler/framingassistant.ui:836
 #, kde-format
 msgid "Go to center and rotate to match this position angle"
-msgstr ""
+msgstr "Vaia ao centro e rote para coincidir con este ángulo de posición."
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/scheduler/framingassistant.ui:855
@@ -28208,13 +28203,7 @@ msgid "Follower"
 msgstr "Seguimento"
 
 #: ekos/scheduler/scheduler.cpp:156
-#, fuzzy, kde-format
-#| msgid ""
-#| "Job scheduler list.\n"
-#| "Click to select a job in the list.\n"
-#| "Double click to edit a job with the left-hand fields.\n"
-#| "Shift click to view a job's altitude tonight.\n"
-#| "Shift-Control click to view altitudes for all jobs"
+#, kde-format
 msgid ""
 "Job scheduler list.\n"
 "Click to select a job in the list.\n"
@@ -28223,8 +28212,6 @@ msgstr ""
 "Lista do planificador de tarefas.\n"
 "Prema para seleccionar un traballo na lista.\n"
 "Prema dúas veces para editar un traballo cos campos da esquerda.\n"
-"Maiús + clic para ver a altitude dun traballo esta noite.\n"
-"Maiús + Ctrl + clic para ver as altitudes de todos os traballos."
 
 #: ekos/scheduler/scheduler.cpp:164
 #, kde-format
