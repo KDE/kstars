@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 01:53+0000\n"
-"PO-Revision-Date: 2025-03-21 09:13+0200\n"
+"PO-Revision-Date: 2025-03-22 09:43+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -33014,28 +33014,24 @@ msgid "Modify Host"
 msgstr "Редагувати сервер"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "Пилозахисний ковпак запарковано."
+msgstr "Пилозахисний ковпак запарковано"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "Пилозахисний ковпак запарковано."
+msgstr "Пилозахисний ковпак знято з паркування"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "Dust cap is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "Паркуємо пилозахисний ковпак…"
+msgstr "Паркуємо пилозахисний ковпак"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "Dust cap is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "Знімаємо з паркування пилозахисний ковпак…"
+msgstr "Знімаємо з паркування пилозахисний ковпак"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -83208,17 +83204,15 @@ msgid "Updating tables..."
 msgstr "Оновлення таблиць…"
 
 #: tools/imagingplanner.cpp:2375
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "Вам слід завантажити каталог, щоб почати користуватися цим інструментом.\n"
-"Див. «Дані -> Отримати нові дані…»"
+"Скористайтеся кнопкою «Завантажити каталог», якщо у вас він є.\n"
+"Див. «Дані -> Отримати нові дані…», якщо це не так…"
 
 #: tools/imagingplanner.cpp:2378
 #, kde-format

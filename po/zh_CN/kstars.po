@@ -31382,28 +31382,24 @@ msgid "Modify Host"
 msgstr "修改主机"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "防尘盖已关闭。"
+msgstr ""
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap unparked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "防尘盖已开启。"
+msgstr ""
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "防尘盖已关闭。"
+msgstr ""
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "Dust cap unparked."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "防尘盖已开启。"
+msgstr ""
 
 #: indi/indielement.cpp:351
 #, kde-format

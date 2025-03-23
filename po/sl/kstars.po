@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 01:53+0000\n"
-"PO-Revision-Date: 2025-03-21 06:32+0100\n"
+"PO-Revision-Date: 2025-03-22 11:03+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -32662,28 +32662,24 @@ msgid "Modify Host"
 msgstr "Spremeni gostitelja"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "Proti-prašni pokrov je parkiran."
+msgstr "Proti-prašni pokrov je parkiran"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "Proti-prašni pokrov je parkiran."
+msgstr "Proti-prašni pokrov je odparkiran"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "Dust cap is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "Proti-prašni pokrov je v parkiranju..."
+msgstr "Proti-prašni pokrov je v parkiranju"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "Dust cap is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "Proti-prašni pokrov je v odparkiranju..."
+msgstr "Proti-prašni pokrov je v odparkiranju"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -82554,17 +82550,15 @@ msgid "Updating tables..."
 msgstr "Posodabljanje tabel ..."
 
 #: tools/imagingplanner.cpp:2375
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
-"Če želite začeti uporabljati to orodje, morate naložiti katalog.\n"
-"Glejte Podatki -> Prenesi nove podatke ..."
+"Za uporabo tega orodja morate naložiti katalog.\n"
+"Uporabite gumb Naloži katalog, če ga imate.\n"
+"Glejte Podatki -> Prenesi nove podatke, če ne..."
 
 #: tools/imagingplanner.cpp:2378
 #, kde-format

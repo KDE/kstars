@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 01:53+0000\n"
-"PO-Revision-Date: 2025-03-21 09:36+0100\n"
+"PO-Revision-Date: 2025-03-22 22:13+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -33118,28 +33118,24 @@ msgid "Modify Host"
 msgstr "Modifica la màquina"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "La tapa per la pols està aparcada."
+msgstr "La tapa per la pols està aparcada"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "La tapa per la pols està aparcada."
+msgstr "La tapa per la pols està desaparcada"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "Dust cap is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "La tapa per la pols s'està aparcant..."
+msgstr "La tapa per la pols s'està aparcant"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "Dust cap is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "La tapa per la pols s'està desaparcant..."
+msgstr "La tapa per la pols s'està desaparcant"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -83623,17 +83619,15 @@ msgid "Updating tables..."
 msgstr "S'estan actualitzant les taules..."
 
 #: tools/imagingplanner.cpp:2375
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "Cal carregar un catàleg per a començar a utilitzar aquesta eina.\n"
-"Vegeu Dades -> Baixa dades noves..."
+"Feu servir el botó Carrega el catàleg si en teniu un.\n"
+"Si no, vegeu Dades -> Descarrega dades noves..."
 
 #: tools/imagingplanner.cpp:2378
 #, kde-format

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 01:53+0000\n"
-"PO-Revision-Date: 2025-03-19 09:32+0100\n"
+"PO-Revision-Date: 2025-03-22 15:58+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6189,7 +6189,7 @@ msgstr ""
 "KStars, com ara imatges d'objectes Messier o un catàleg NGC/IC més complet. "
 "Premeu el botó <b>Descarrega dades addicionals…</b> per a fer-ho.</"
 "p><p>També podeu utilitzar esta eina més tard escollint <b>Descarrega dades "
-"noves</b> des del menú «<b>Fitxer</b>».</p>"
+"noves…</b> des del menú «<b>Fitxer</b>».</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, DownloadButton)
 #: dialogs/wizdownload.ui:128
@@ -16731,6 +16731,8 @@ msgstr ""
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
+"El gestor de filtres encara no està inicialitzat. Falta la roda de filtres "
+"del tren?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:675
 #, kde-format
@@ -33479,28 +33481,24 @@ msgid "Modify Host"
 msgstr "Modifica l'amfitrió"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is parked"
 msgstr "La tapa per la pols està aparcada."
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "La tapa per la pols està aparcada."
+msgstr "La tapa per la pols està desaparcada."
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "Dust cap is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "S'està aparcant la tapa per la pols…"
+msgstr "S'està aparcant la tapa per la pols"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "Dust cap is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "S'està desaparcant la tapa per la pols…"
+msgstr "S'està desaparcant la tapa per la pols"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -82005,7 +82003,7 @@ msgid ""
 msgstr ""
 "\t\t<p>Si voleu la informació orbital més recent d'asteroides i cometes\n"
 "\t\t\t(incloent-hi la dels objectes descoberts darrerament), aneu sovint a\n"
-"\t\t\tl'eina «Descarrega dades» («Dades -> Descarrega dades noves» o «Ctrl"
+"\t\t\tl'eina «Descarrega dades» («Dades -> Descarrega dades noves…» o «Ctrl"
 "+N»)\n"
 "\t\t\tper tal d'obtindre les efemèrides actualitzades.\n"
 "\t\t</p>\n"
@@ -82297,7 +82295,7 @@ msgstr ""
 "\t\t<p>De manera predeterminada, KStars es distribuïx amb un catàleg "
 "d'estreles fins a magnitud 8. Podeu baixar catàlegs addicionals d'estreles "
 "(Tycho-2 i USNO NOMAD) per a mostrar fins a 100 milions d'estreles de "
-"magnitud 16 utilitzant l'opció «Dades -> Descarrega dades noves».\n"
+"magnitud 16 utilitzant l'opció «Dades -> Descarrega dades noves…».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -84199,17 +84197,14 @@ msgid "Updating tables..."
 msgstr "S'estan actualitzant les taules…"
 
 #: tools/imagingplanner.cpp:2375
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "Caldrà que carregueu un catàleg per a començar a emprar esta eina.\n"
-"«Vegeu les dades -> Descarrega dades noves…»"
+"Vegeu «Dades -> Descarrega dades noves…»"
 
 #: tools/imagingplanner.cpp:2378
 #, kde-format

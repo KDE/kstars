@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 01:53+0000\n"
-"PO-Revision-Date: 2025-03-18 23:41+0100\n"
+"PO-Revision-Date: 2025-03-22 13:13+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -16366,6 +16366,7 @@ msgstr ""
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
+"Filterbeheerder is nog niet geïnitialiseerd. Filterwiel ontbreekt in trein?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:675
 #, kde-format
@@ -32691,28 +32692,24 @@ msgid "Modify Host"
 msgstr "Host wijzigen"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "Stofkap in geparkeerd."
+msgstr "Stofkap in geparkeerd"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "Stofkap in geparkeerd."
+msgstr "Stofkap is weggehaald"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "Dust cap is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "Stofkap wordt geparkeerd..."
+msgstr "Stofkap wordt geparkeerd"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "Dust cap is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "Stofkap wordt uit geparkeerde toestand gehaald..."
+msgstr "Stofkap wordt weggehaald"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -82855,17 +82852,15 @@ msgid "Updating tables..."
 msgstr "Tabellen bijwerken..."
 
 #: tools/imagingplanner.cpp:2375
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "U moet een catalogus laden om met dit hulpmiddel te beginnen.\n"
-"Zie Gegevens -> Nieuwe gegevens downloaden..."
+"Gebruik de knop Catalogus laden als u er een heeft.\n"
+"Zie Gegevens -> Nieuwe gegevens downloaden indien niet..."
 
 #: tools/imagingplanner.cpp:2378
 #, kde-format

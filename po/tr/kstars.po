@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 01:53+0000\n"
-"PO-Revision-Date: 2025-03-21 13:43+0300\n"
+"PO-Revision-Date: 2025-03-22 15:24+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -32634,26 +32634,22 @@ msgid "Modify Host"
 msgstr "Makinede Değişiklik Yap"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "Toz kapağı park edilmiş."
+msgstr "Toz kapağı park edilmiş"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "Toz kapağı park edilmiş."
+msgstr "Toz kapağı park edilmemiş"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "Dust cap is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
 msgstr "Toz kapağı park ediliyor…"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "Dust cap is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
 msgstr "Toz kapağı parktan çıkıyor…"
 
@@ -82652,17 +82648,15 @@ msgid "Updating tables..."
 msgstr "Tablolar güncelleniyor…"
 
 #: tools/imagingplanner.cpp:2375
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "Bu aracı kullanmaya başlamak için bir katalog yüklemeniz gerekir.\n"
-"“Veri → Yeni Veri İndir…” yolunu izleyin."
+"Bir kataloğunuz varsa “Katalog Yükle” düğmesini kullanın.\n"
+"Yoksa “Veri → Yeni Veri İndir…” yolunu izleyin."
 
 #: tools/imagingplanner.cpp:2378
 #, kde-format
