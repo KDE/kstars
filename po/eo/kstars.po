@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 01:53+0000\n"
-"PO-Revision-Date: 2025-03-17 21:10+0100\n"
+"PO-Revision-Date: 2025-03-23 14:42+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -8509,13 +8509,13 @@ msgstr "Uzu diferencigan svingadon anstataŭ sinkronigi"
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #, kde-format
 msgid "No index file directories configured."
-msgstr ""
+msgstr "Neniuj indeksdosieraj dosierujoj agordiĝis."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "No writable index file directory found."
-msgstr ""
+msgstr "Neniu skribebla indeksdosiera dosierujo troviĝis."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:699
@@ -16274,6 +16274,8 @@ msgstr "Ŝalti vidigon al la grafika reĝimo de kaptokalkuloj."
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
+"Filtrila administrilo ankoraŭ ne pravaloriziĝis. Ĉu filtrila rado mankas en "
+"ĉeno?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:675
 #, kde-format
@@ -17653,40 +17655,34 @@ msgid "Light box on."
 msgstr "Lumkesto ŝaltita."
 
 #: ekos/capture/sequencejobstate.cpp:892
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "Dust cap error occurred."
-msgstr "Polvĉapa eraro."
+msgstr "Polvĉapa eraro okazis."
 
 #: ekos/capture/sequencejobstate.cpp:896
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is idle."
-msgstr "%1 Polvkapo estas enreta."
+msgstr "Polvĉapo estas senlabora."
 
 #: ekos/capture/sequencejobstate.cpp:899
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust cap is parked."
-msgstr "Polvĉapo parkita."
+msgstr "Polvĉapo estas parkita."
 
 #: ekos/capture/sequencejobstate.cpp:902
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust cap is parking..."
-msgstr "%1 parkas..."
+msgstr "Polvĉapo estas parkanta..."
 
 #: ekos/capture/sequencejobstate.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust cap is unparking..."
-msgstr "%1 malparkas..."
+msgstr "Polvĉapo estas malparkanta..."
 
 #: ekos/capture/sequencejobstate.cpp:908
-#, fuzzy, kde-format
-#| msgid "Dust cap unparked."
+#, kde-format
 msgid "Dust cap status unknown."
-msgstr "Polvĉapo neparkita."
+msgstr "Polvĉapo statuso nekonatas."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -18900,7 +18896,7 @@ msgstr "Forĵetante Aŭtofokusan ekigopeton - %1 en progreso."
 #: ekos/focus/focus.cpp:1093
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
-msgstr ""
+msgstr "Aŭtofokusa alpeto [%1] foroptimumiĝis."
 
 #: ekos/focus/focus.cpp:1250
 #, kde-format
@@ -21319,7 +21315,7 @@ msgstr "Ĉesigi Gvidadon"
 #: ekos/focus/opsfocussettings.ui:248
 #, kde-format
 msgid "Optimize AF:"
-msgstr ""
+msgstr "Optimumigi AF:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOptimize)
 #: ekos/focus/opsfocussettings.ui:261
@@ -22422,11 +22418,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1136
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "Mount Mario"
+msgstr "Muntaĵa Drivo"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1171
@@ -22612,16 +22606,14 @@ msgstr ""
 "arksekundoj.</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "drivo (arksec)"
+msgstr "DE-Drivo de Muntaĵo (arksek)"
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "drivo (arksec)"
+msgstr "RA-Drivo de Muntaĵo (arksek)"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
@@ -32444,28 +32436,24 @@ msgid "Modify Host"
 msgstr "Modifi Gastiganton"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "Polvĉapo parkita."
+msgstr "Polvĉapo estas parkita"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "Polvĉapo parkita."
+msgstr "Polvĉapo estas malparkita"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "%1 parkas..."
+msgstr "Polvĉapo estas parkanta"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "%1 malparkas..."
+msgstr "Polvĉapo estas malparkanta"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -82317,17 +82305,15 @@ msgid "Updating tables..."
 msgstr "Ĝisdatigas tabelojn..."
 
 #: tools/imagingplanner.cpp:2375
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "Vi devas ŝargi katalogon por komenci uzi ĉi tiun ilon.\n"
-"Vidu Datumoj -> Elŝuti Novajn Datumojn..."
+"Uzu la butonon Ŝargi Katalogon se vi havas tian.\n"
+"Vidu Datumoj -> Elŝuti Novajn Datumojn se ne..."
 
 #: tools/imagingplanner.cpp:2378
 #, kde-format
@@ -87777,9 +87763,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid "Drift Plot"
-#~ msgstr "Driva Diagramo"
-
-#~ msgid "pulse (ms)"
-#~ msgstr "pulso (ms)"

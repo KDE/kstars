@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-22 01:53+0000\n"
-"PO-Revision-Date: 2025-03-18 12:12+0100\n"
+"PO-Revision-Date: 2025-03-23 02:44+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -16515,6 +16515,8 @@ msgstr ""
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
+"Todavía no se ha inicializado el gestor de filtros. ¿Falta la rueda de "
+"filtros del tren?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:675
 #, kde-format
@@ -33087,28 +33089,24 @@ msgid "Modify Host"
 msgstr "Modificar servidor"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "La cubierta antipolvo está aparcada."
+msgstr "La cubierta antipolvo está aparcada"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap is parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "La cubierta antipolvo está aparcada."
+msgstr "La cubierta antipolvo está desaparcada"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "Dust cap is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "La cubierta antipolvo se está aparcando…"
+msgstr "La cubierta antipolvo se está aparcando"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "Dust cap is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "La cubierta antipolvo se está desaparcando…"
+msgstr "La cubierta antipolvo se está desaparcando"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -83420,17 +83418,15 @@ msgid "Updating tables..."
 msgstr "Actualizando tablas…"
 
 #: tools/imagingplanner.cpp:2375
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "Debe cargar un catálogo para poder usar esta herramienta.\n"
-"Consulte «Datos -> Descargar nuevos datos…»."
+"Use el botón «Cargar catálogo» si tiene alguno.\n"
+"En caso contrario, consulte «Datos -> Descargar nuevos datos…»."
 
 #: tools/imagingplanner.cpp:2378
 #, kde-format
