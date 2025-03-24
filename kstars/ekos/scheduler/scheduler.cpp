@@ -504,7 +504,6 @@ void Scheduler::watchJobChanges(bool enable)
         errorHandlingRescheduleErrorsCB,
         schedulerMoonSeparation,
         schedulerMoonAltitude,
-        schedulerWeather,
         schedulerAltitude,
         schedulerHorizon
     };
@@ -934,7 +933,6 @@ bool Scheduler::fillJobFromUI(SchedulerJob *job)
                              altConstraint,
                              moonSeparation,
                              moonMaxAltitude,
-                             schedulerWeather->isChecked(),
                              schedulerTwilight->isChecked(),
                              schedulerHorizon->isChecked(),
 
@@ -1133,8 +1131,6 @@ void Scheduler::syncGUIToJob(SchedulerJob *job)
     {
         schedulerMoonAltitude->setChecked(false);
     }
-
-    schedulerWeather->setChecked(job->getEnforceWeather());
 
     schedulerTwilight->blockSignals(true);
     schedulerTwilight->setChecked(job->getEnforceTwilight());
@@ -2317,19 +2313,6 @@ void Scheduler::interfaceReady(QDBusInterface *iface)
             schedulerOpenDustCover->setEnabled(false);
         }
     }
-    else if (iface == process()->weatherInterface())
-    {
-        QVariant status = process()->weatherInterface()->property("status");
-        if (status.isValid())
-        {
-            // auto newStatus = static_cast<ISD::Weather::Status>(status.toInt());
-            // if (newStatus != m_moduleState->weatherStatus())
-            //     setWeatherStatus(newStatus);
-            schedulerWeather->setEnabled(true);
-        }
-        else
-            schedulerWeather->setEnabled(false);
-    }
     else if (iface == process()->domeInterface())
     {
         QVariant canDomePark = process()->domeInterface()->property("canPark");
@@ -2412,7 +2395,6 @@ void Scheduler::handleSchedulerSleeping(bool shutdown, bool sleep)
 {
     if (shutdown)
     {
-        schedulerWeather->setEnabled(false);
         weatherLabel->hide();
     }
     if (sleep)

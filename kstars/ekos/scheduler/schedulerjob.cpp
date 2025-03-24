@@ -238,11 +238,6 @@ void SchedulerJob::setMaxMoonAltitude(const double &value)
     maxMoonAltitude = value;
 }
 
-void SchedulerJob::setEnforceWeather(bool value)
-{
-    enforceWeather = value;
-}
-
 void SchedulerJob::setStopTime(const QDateTime &value)
 {
     stopTime = value;

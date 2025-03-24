@@ -657,6 +657,40 @@ bool SchedulerProcess::shouldSchedulerSleep(SchedulerJob * job)
     if (getGreedyScheduler()->getScheduledJob() != job)
         return false;
 
+    // Check weather status before starting the job, if we're not already in preemptive shutdown
+    if (Options::schedulerWeather())
+    {
+        ISD::Weather::Status weatherStatus = moduleState()->weatherStatus();
+        if (weatherStatus == ISD::Weather::WEATHER_WARNING || weatherStatus == ISD::Weather::WEATHER_ALERT)
+        {
+            // If we're already in preemptive shutdown, give up on this job
+            if (moduleState()->weatherGracePeriodActive())
+            {
+                appendLogText(i18n("Job '%1' cannot start because weather status is %2 and grace period is over.",
+                                   job->getName(), (weatherStatus == ISD::Weather::WEATHER_WARNING) ? i18n("Warning") : i18n("Alert")));
+                activeJob()->setState(SCHEDJOB_ERROR);
+                moduleState()->setWeatherGracePeriodActive(false);
+                findNextJob();
+                return true;
+            }
+
+            QDateTime wakeupTime = SchedulerModuleState::getLocalTime().addSecs(Options::schedulerWeatherGracePeriod() * 60);
+
+            appendLogText(i18n("Job '%1' cannot start because weather status is %2. Waiting until weather improves or until %3",
+                               job->getName(), (weatherStatus == ISD::Weather::WEATHER_WARNING) ? i18n("Warning") : i18n("Alert"),
+                               wakeupTime.toString()));
+
+
+            moduleState()->setWeatherGracePeriodActive(true);
+            moduleState()->enablePreemptiveShutdown(wakeupTime);
+            checkShutdownState();
+            emit schedulerSleeping(true, true);
+            return true;
+        }
+    }
+    else
+        moduleState()->setWeatherGracePeriodActive(false);
+
     // If start up procedure is complete and the user selected pre-emptive shutdown, let us check if the next observation time exceed
     // the pre-emptive shutdown time in hours (default 2). If it exceeds that, we perform complete shutdown until next job is ready
     if (moduleState()->startupState() == STARTUP_COMPLETE &&
@@ -1545,22 +1579,26 @@ bool SchedulerProcess::completeShutdown()
             && checkINDIState() == false)
         return false;
 
-    // Disconnect INDI if required first
-    if (moduleState()->indiState() != INDI_IDLE && Options::stopEkosAfterShutdown())
+    // If we are in weather grace period, never shutdown completely
+    if (moduleState()->weatherGracePeriodActive() == false)
     {
-        disconnectINDI();
-        return false;
-    }
+        // Disconnect INDI if required first
+        if (moduleState()->indiState() != INDI_IDLE && Options::stopEkosAfterShutdown())
+        {
+            disconnectINDI();
+            return false;
+        }
 
-    // If Ekos is not done stopping, try again later
-    if (moduleState()->ekosState() == EKOS_STOPPING && checkEkosState() == false)
-        return false;
+        // If Ekos is not done stopping, try again later
+        if (moduleState()->ekosState() == EKOS_STOPPING && checkEkosState() == false)
+            return false;
 
-    // Stop Ekos if required.
-    if (moduleState()->ekosState() != EKOS_IDLE && Options::stopEkosAfterShutdown())
-    {
-        stopEkos();
-        return false;
+        // Stop Ekos if required.
+        if (moduleState()->ekosState() != EKOS_IDLE && Options::stopEkosAfterShutdown())
+        {
+            stopEkos();
+            return false;
+        }
     }
 
     if (moduleState()->shutdownState() == SHUTDOWN_COMPLETE)
@@ -3196,8 +3234,6 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
             if (job->getMaxMoonAltitude() < 90)
                 outstream << "<Constraint value='" << cLocale.toString(job->getMaxMoonAltitude()) << "'>MoonMaxAltitude</Constraint>"
                           << Qt::endl;
-            if (job->getEnforceWeather())
-                outstream << "<Constraint>EnforceWeather</Constraint>" << Qt::endl;
             if (job->getEnforceTwilight())
                 outstream << "<Constraint>EnforceTwilight</Constraint>" << Qt::endl;
             if (job->getEnforceArtificialHorizon())
@@ -3603,6 +3639,9 @@ bool SchedulerProcess::appendEkosScheduleList(const QString &fileURL)
 
 void SchedulerProcess::appendLogText(const QString &logentry)
 {
+    if (logentry.isEmpty())
+        return;
+
     /* FIXME: user settings for log length */
     int const max_log_count = 2000;
     if (moduleState()->logText().size() > max_log_count)
@@ -4057,21 +4096,46 @@ void SchedulerProcess::setWeatherStatus(ISD::Weather::Status status)
     if (newStatus == moduleState()->weatherStatus())
         return;
 
+    ISD::Weather::Status oldStatus = moduleState()->weatherStatus();
     moduleState()->setWeatherStatus(newStatus);
 
-    // Shutdown scheduler if it was started and not already in shutdown
-    // and if weather checkbox is checked.
-    if (activeJob() && activeJob()->getEnforceWeather() && moduleState()->weatherStatus() == ISD::Weather::WEATHER_ALERT
-            && moduleState()->schedulerState() != Ekos::SCHEDULER_IDLE && moduleState()->schedulerState() != Ekos::SCHEDULER_SHUTDOWN)
+    // If we're in a preemptive shutdown due to weather and weather improves, wake up
+    if (moduleState()->preemptiveShutdown() &&
+            oldStatus != ISD::Weather::WEATHER_OK &&
+            newStatus == ISD::Weather::WEATHER_OK)
     {
-        appendLogText(i18n("Starting shutdown procedure due to severe weather."));
+        appendLogText(i18n("Weather has improved. Resuming operations."));
+        moduleState()->setWeatherGracePeriodActive(false);
+        wakeUpScheduler();
+    }
+    // Check if the weather enforcement is on and weather is critical
+    else if (activeJob() && Options::schedulerWeather() && (newStatus == ISD::Weather::WEATHER_ALERT &&
+             moduleState()->schedulerState() != Ekos::SCHEDULER_IDLE &&
+             moduleState()->schedulerState() != Ekos::SCHEDULER_SHUTDOWN))
+    {
+        appendLogText(i18n("Weather alert detected. Starting soft shutdown procedure."));
+
+        // Abort current job but keep it in the queue
         if (activeJob())
         {
             activeJob()->setState(SCHEDJOB_ABORTED);
             stopCurrentJobAction();
         }
+
+        // Park mount, dome, etc. but don't exit completely
+        // Set up preemptive shutdown with the grace period window to wait for weather to improve
+        QDateTime wakeupTime = SchedulerModuleState::getLocalTime().addSecs(Options::schedulerWeatherGracePeriod() * 60);
+        moduleState()->setWeatherGracePeriodActive(true);
+        moduleState()->enablePreemptiveShutdown(wakeupTime);
+
+        appendLogText(i18n("Observatory scheduled for soft shutdown until weather improves or until %1.",
+                           wakeupTime.toString()));
+
+        // Initiate shutdown procedure
+        emit schedulerSleeping(true, true);
         checkShutdownState();
     }
+
     // forward weather state
     emit newWeatherStatus(status);
 }

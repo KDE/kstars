@@ -363,7 +363,7 @@ void SchedulerUtils_setupJob(Ekos::SchedulerJob &job, const QString &name, bool 
                              const QUrl &fitsUrl, Ekos::StartupCondition startup, const QDateTime &startupTime, Ekos::CompletionCondition completion,
                              const QDateTime &completionTime, int completionRepeats, double minimumAltitude, double minimumMoonSeparation,
                              double maxMoonAltitude,
-                             bool enforceWeather, bool enforceTwilight, bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
+                             bool enforceTwilight, bool enforceArtificialHorizon, bool track, bool focus, bool align, bool guide)
 {
     /* Configure or reconfigure the observation job */
 
@@ -396,7 +396,6 @@ void SchedulerUtils_setupJob(Ekos::SchedulerJob &job, const QString &name, bool 
         job.setMaxMoonAltitude(maxMoonAltitude);
 
         // Check enforce weather constraints
-        job.setEnforceWeather(enforceWeather);
         // twilight constraints
         job.setEnforceTwilight(enforceTwilight);
         job.setEnforceArtificialHorizon(enforceArtificialHorizon);
@@ -451,7 +450,7 @@ void setupJob(Ekos::SchedulerJob &job, const QString name, double minAltitude, d
                             Ekos::START_ASAP, QDateTime(),
                             Ekos::FINISH_LOOP, QDateTime(), 1,
                             minAltitude, minMoonSeparation, maxMoonAltitude,
-                            false, true, useArtificialHorizon,
+                            true, useArtificialHorizon,
                             true, true, true, true);
 }
 

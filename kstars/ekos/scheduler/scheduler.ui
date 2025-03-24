@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>950</width>
-    <height>537</height>
+    <width>967</width>
+    <height>543</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8" stretch="4,1,0">
@@ -81,8 +81,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="folder">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
@@ -163,8 +162,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="search">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="search"/>
             </property>
            </widget>
           </item>
@@ -320,8 +318,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="folder">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="folder"/>
             </property>
            </widget>
           </item>
@@ -344,8 +341,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="snap-orthogonal">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="snap-orthogonal"/>
             </property>
            </widget>
           </item>
@@ -962,8 +958,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="document-edit">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="document-edit"/>
             </property>
            </widget>
           </item>
@@ -1150,7 +1145,6 @@
             </property>
             <property name="font">
              <font>
-              <weight>50</weight>
               <bold>false</bold>
              </font>
             </property>
@@ -1176,7 +1170,7 @@
             </property>
            </column>
           </widget>
-          <widget class="Ekos::SchedulerAltitudeGraph" name="altGraph" native="true">
+          <widget class="Ekos::SchedulerAltitudeGraph" name="altGraph">
            <property name="enabled">
             <bool>true</bool>
            </property>
@@ -1646,10 +1640,7 @@ font-weight:bold;
        <property name="title">
         <string>Job Constraints</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_7">
-        <property name="spacing">
-         <number>3</number>
-        </property>
+       <layout class="QGridLayout" name="gridLayout_3">
         <property name="leftMargin">
          <number>3</number>
         </property>
@@ -1662,225 +1653,202 @@ font-weight:bold;
         <property name="bottomMargin">
          <number>3</number>
         </property>
-        <item>
-         <layout class="QGridLayout" name="gridLayout_5" rowstretch="1,1,1,1" columnstretch="1,1,1,1,1" columnminimumwidth="0,0,0,0,0">
-          <property name="spacing">
-           <number>3</number>
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="schedulerAltitude">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
           </property>
-          <item row="1" column="2">
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>10</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="1">
-           <widget class="QDoubleSpinBox" name="schedulerAltitudeValue">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="suffix">
-             <string> °</string>
-            </property>
-            <property name="minimum">
-             <double>-15.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>89.900000000000006</double>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="nightTime">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Astronomical dawn and dusk for the Scheduler job currently selected, or for today if no job is selected.&lt;/p&gt;&lt;p&gt;- The first value is &lt;span style=&quot; font-weight:600;&quot;&gt;dusk&lt;/span&gt;, specifically the next local time the Sun sets below an altitude of -18° after the job starts.&lt;/p&gt;&lt;p&gt;- The second value is &lt;span style=&quot; font-weight:600;&quot;&gt;dawn&lt;/span&gt;, specifically the next local time the Sun rises higher than an altitude of -18° after the job starts.&lt;/p&gt;&lt;p&gt;A warning symbol indicates the Sun will not travel below the astronomical dusk boundary after the job starts, and that dawn and dusk times are calculated from its minimal altitude. In that situation, the Twilight restriction prevents job execution unless the Ekos Dawn Offset and Dusk Offset options are configured appropriately.&lt;/p&gt;&lt;p&gt;Note that the Ekos Pre-Dawn Offset option virtually advances dawn by a default of 30 minutes and will thus prevent a job from starting just before that moment.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QCheckBox" name="schedulerTwilight">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;The twilight restriction constrains jobs to execute in astronomical darkness. Use the dusk and dawn offsets in the Ekos Scheduler options to adjust the interval.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Twilight</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">constraintButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="schedulerMoonSeparationValue">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The target must be at least this far from the moon.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="suffix">
-             <string> °</string>
-            </property>
-            <property name="maximum">
-             <double>180.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>10.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="4">
-           <widget class="QDoubleSpinBox" name="schedulerMoonAltitudeMaxValue">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The moon must be lower than this altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="suffix">
-             <string> °</string>
-            </property>
-            <property name="decimals">
-             <number>2</number>
-            </property>
-            <property name="maximum">
-             <double>90.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>90.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="schedulerAltitude">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>The object's altitude must remain equal or higher than the given value.</string>
-            </property>
-            <property name="text">
-             <string>Min. Altitude: </string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">constraintButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QCheckBox" name="schedulerMoonAltitude">
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The moon must be lower than this altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Moon max alt:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3" colspan="2">
-           <widget class="QCheckBox" name="schedulerHorizon">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;The artificial horizon restriction constrains the altitude of the target to be above the artificial horizon, if any are defined and enabled. See the artificial horizon item in the KStars Settings menu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Artificial Horizon</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">constraintButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="schedulerMoonSeparation">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The target must be at least this far from the moon.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Moon  min. sep.:</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">constraintButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QCheckBox" name="schedulerWeather">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Weather conditions must remain safe. When weather conditions become dangerous, shutdown procedure is initiated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="text">
-             <string>Weather</string>
-            </property>
-            <attribute name="buttonGroup">
-             <string notr="true">constraintButtonGroup</string>
-            </attribute>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="weatherLabel">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-         </layout>
+          <property name="toolTip">
+           <string>The object's altitude must remain equal or higher than the given value.</string>
+          </property>
+          <property name="text">
+           <string>Min. Altitude: </string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">constraintButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QDoubleSpinBox" name="schedulerAltitudeValue">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="suffix">
+           <string> °</string>
+          </property>
+          <property name="minimum">
+           <double>-15.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>89.900000000000006</double>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3" colspan="2">
+         <widget class="QCheckBox" name="schedulerHorizon">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;The artificial horizon restriction constrains the altitude of the target to be above the artificial horizon, if any are defined and enabled. See the artificial horizon item in the KStars Settings menu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Artificial Horizon</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">constraintButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="schedulerMoonSeparation">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The target must be at least this far from the moon.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Moon  min. sep.:</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">constraintButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QDoubleSpinBox" name="schedulerMoonSeparationValue">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The target must be at least this far from the moon.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="suffix">
+           <string> °</string>
+          </property>
+          <property name="maximum">
+           <double>180.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>10.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>13</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="3">
+         <widget class="QCheckBox" name="schedulerMoonAltitude">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The moon must be lower than this altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Moon max alt:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <widget class="QDoubleSpinBox" name="schedulerMoonAltitudeMaxValue">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The moon must be lower than this altitude.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="suffix">
+           <string> °</string>
+          </property>
+          <property name="decimals">
+           <number>2</number>
+          </property>
+          <property name="maximum">
+           <double>90.000000000000000</double>
+          </property>
+          <property name="value">
+           <double>90.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="schedulerTwilight">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;The twilight restriction constrains jobs to execute in astronomical darkness. Use the dusk and dawn offsets in the Ekos Scheduler options to adjust the interval.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Twilight</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">constraintButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="nightTime">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Astronomical dawn and dusk for the Scheduler job currently selected, or for today if no job is selected.&lt;/p&gt;&lt;p&gt;- The first value is &lt;span style=&quot; font-weight:600;&quot;&gt;dusk&lt;/span&gt;, specifically the next local time the Sun sets below an altitude of -18° after the job starts.&lt;/p&gt;&lt;p&gt;- The second value is &lt;span style=&quot; font-weight:600;&quot;&gt;dawn&lt;/span&gt;, specifically the next local time the Sun rises higher than an altitude of -18° after the job starts.&lt;/p&gt;&lt;p&gt;A warning symbol indicates the Sun will not travel below the astronomical dusk boundary after the job starts, and that dawn and dusk times are calculated from its minimal altitude. In that situation, the Twilight restriction prevents job execution unless the Ekos Dawn Offset and Dusk Offset options are configured appropriately.&lt;/p&gt;&lt;p&gt;Note that the Ekos Pre-Dawn Offset option virtually advances dawn by a default of 30 minutes and will thus prevent a job from starting just before that moment.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3" colspan="2">
+         <widget class="QLabel" name="weatherLabel">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -2397,10 +2365,10 @@ font-weight:bold;
    <container>1</container>
   </customwidget>
   <customwidget>
-    <class>Ekos::SchedulerAltitudeGraph</class>
-    <extends>QFrame</extends>
-    <header>ekos/scheduler/scheduleraltitudegraph.h</header>
-    <container>1</container>
+   <class>Ekos::SchedulerAltitudeGraph</class>
+   <extends>QFrame</extends>
+   <header>ekos/scheduler/scheduleraltitudegraph.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -2434,28 +2402,28 @@ font-weight:bold;
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="constraintButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
+  <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="errorHandlingButtonGroup"/>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="stepsButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="startupButtonGroup"/>
  </buttongroups>
 </ui>

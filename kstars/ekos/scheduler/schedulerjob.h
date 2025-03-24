@@ -145,18 +145,6 @@ class SchedulerJob
         void setMaxMoonAltitude(const double &value);
         /** @} */
 
-        /** @brief Whether to restrict this job to good weather. */
-        /** @{ */
-        bool getEnforceWeather() const
-        {
-            if (m_LeadJob != nullptr)
-                return m_LeadJob->getEnforceWeather();
-            else
-                return enforceWeather;
-        }
-        void setEnforceWeather(bool value);
-        /** @} */
-
         /** @brief Mask of actions to process for this job. */
         /** @{ */
         StepPipeline getStepPipeline() const
@@ -544,7 +532,8 @@ class SchedulerJob
              * @param reason pointer to the reason text in case that the check failed
              * @return true if target is separated enough from the Moon.
              */
-        bool moonConstraintsOK(QDateTime const &when = QDateTime(), QString *reason = new QString(), double *margin = nullptr) const;
+        bool moonConstraintsOK(QDateTime const &when = QDateTime(), QString *reason = new QString(),
+        double *margin = nullptr) const;
 
         /**
              * @brief calculateNextTime calculate the next time constraints are met (or missed).
@@ -602,7 +591,8 @@ class SchedulerJob
              * @param altitudeReason a human-readable string explaining why false was returned.
             * @return true if this altitude is permissible for this job
              */
-        bool satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason = nullptr, double *margin = nullptr) const;
+        bool satisfiesAltitudeConstraint(double azimuth, double altitude, QString *altitudeReason = nullptr,
+                                         double *margin = nullptr) const;
 
         /**
          * @brief setInitialFilter Set initial filter used in the capture sequence. This is used to pass to focus module.
@@ -703,7 +693,7 @@ class SchedulerJob
             return m_SimulatedSchedule;
         }
 
-private:
+    private:
         bool runsDuringAstronomicalNightTimeInternal(const QDateTime &time, QDateTime *minDawnDusk,
                 QDateTime *nextPossibleSuccess = nullptr) const;
 
@@ -785,7 +775,6 @@ private:
         double minMoonSeparation { -1 };
         double maxMoonAltitude { 90 };
 
-        bool enforceWeather { false };
         bool enforceTwilight { false };
         bool enforceArtificialHorizon { false };
 

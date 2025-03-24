@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>227</width>
-    <height>151</height>
+    <height>180</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,19 +39,10 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
-   </item>
-   <item row="4" column="1">
-    <widget class="QDoubleSpinBox" name="kcfg_DawnOffset">
-     <property name="minimum">
-      <double>-24.000000000000000</double>
-     </property>
-     <property name="maximum">
-      <double>24.000000000000000</double>
-     </property>
-     <property name="singleStep">
-      <double>0.500000000000000</double>
+   <item row="2" column="1">
+    <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -65,10 +56,33 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
+   <item row="6" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item row="3" column="1">
+   <item row="1" column="0">
+    <widget class="QLabel" name="preDawnLabel">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>Pre-dawn:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
+   </item>
+   <item row="4" column="1">
     <widget class="QDoubleSpinBox" name="kcfg_DuskOffset">
      <property name="minimum">
       <double>-24.000000000000000</double>
@@ -81,17 +95,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="preDawnLabel">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="text">
-      <string>Pre-dawn:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QLabel" name="dawnOffsetLabel">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dawn by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -101,7 +105,23 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="3" column="1">
+    <widget class="QSpinBox" name="kcfg_SchedulerWeatherGracePeriod">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>120</number>
+     </property>
+     <property name="value">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
+   </item>
+   <item row="4" column="0">
     <widget class="QLabel" name="duskOffsetLabel">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Offset astronomical dusk by this many hours. This positive or negative value adjusts the twilight restriction.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -111,25 +131,28 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   <item row="5" column="1">
+    <widget class="QDoubleSpinBox" name="kcfg_DawnOffset">
+     <property name="minimum">
+      <double>-24.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>24.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.500000000000000</double>
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Orientation::Vertical</enum>
+   <item row="3" column="0">
+    <widget class="QCheckBox" name="kcfg_SchedulerWeather">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Enable Weather-Based Scheduling:&lt;/span&gt; Prevents new jobs from starting during weather warnings or alerts. Existing jobs continue during warnings, but are aborted during alerts. System initiates a soft shutdown and waits for improved conditions or grace period expiration, after which the current job is terminated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
+     <property name="text">
+      <string>Weather grace period</string>
      </property>
-    </spacer>
+    </widget>
    </item>
   </layout>
  </widget>

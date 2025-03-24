@@ -3321,8 +3321,12 @@
          <default>90</default>
       </entry>
       <entry name="SchedulerWeather" type="Bool">
-         <label>Default scheduler checkbox for job weather constraints.</label>
+         <label>Default scheduler checkbox for weather constraints.</label>
          <default>false</default>
+      </entry>
+      <entry name="SchedulerWeatherGracePeriod" type="UInt">
+         <label>Wait this many minutes for the weather to improve before giving up.</label>
+         <default>10</default>
       </entry>
       <entry name="SchedulerTwilight" type="Bool">
          <label>Default scheduler checkbox for job twilight constraints.</label>
