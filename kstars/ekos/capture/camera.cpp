@@ -190,7 +190,7 @@ void Ekos::Camera::init()
 
     // init connections and load settings
     initCamera();
-    refreshOpticalTrain();
+    initOpticalTrain();
 }
 
 Camera::~Camera()
@@ -3125,27 +3125,36 @@ void Camera::setAllSettings(const QVariantMap &settings, const QVariantMap * sta
 
 void Camera::setupOpticalTrainManager()
 {
-    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Camera::refreshOpticalTrain);
+    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, [this]()
+    {
+        const int current = opticalTrainCombo->currentIndex();
+        initOpticalTrain();
+        if (current < opticalTrainCombo->count())
+            selectOpticalTrain(opticalTrainCombo->itemText(current));
+    });
     connect(trainB, &QPushButton::clicked, this, [this]()
     {
         OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
     });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
-        ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain,
-                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
-        refreshOpticalTrain();
+        const int id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index));
+        // remember only the train ID from the first Capture tab
+        if (!m_standAlone && cameraId() == 0)
+        {
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::CaptureOpticalTrain, id);
+        }
+        refreshOpticalTrain(id);
         emit trainChanged();
     });
 }
 
-void Camera::refreshOpticalTrain()
+void Camera::initOpticalTrain()
 {
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
     trainB->setEnabled(true);
-
     QVariant trainID = ProfileSettings::Instance()->getOneSetting(ProfileSettings::CaptureOpticalTrain);
     if (m_standAlone || trainID.isValid())
     {
@@ -3159,33 +3168,39 @@ void Camera::refreshOpticalTrain()
             id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
         }
 
-        auto name = OpticalTrainManager::Instance()->name(id);
-
-        opticalTrainCombo->setCurrentText(name);
-        if (!m_standAlone)
-            process()->refreshOpticalTrain(name);
-
-        // Load train settings
-        // This needs to be done near the start of this function as methods further down
-        // cause settings to be updated, which in turn interferes with the persistence and
-        // setup of settings in OpticalTrainSettings
-        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Capture);
-        if (settings.isValid())
-        {
-            auto map = settings.toJsonObject().toVariantMap();
-            if (map != m_settings)
-            {
-                QVariantMap standAloneSettings = copyStandAloneSettings(m_settings);
-                m_settings.clear();
-                setAllSettings(map, &standAloneSettings);
-            }
-        }
-        else
-            setSettings(m_GlobalSettings);
+        refreshOpticalTrain(id);
     }
-
     opticalTrainCombo->blockSignals(false);
+}
+
+void Camera::refreshOpticalTrain(const int id)
+{
+    auto name = OpticalTrainManager::Instance()->name(id);
+
+    opticalTrainCombo->setCurrentText(name);
+    if (!m_standAlone)
+        process()->refreshOpticalTrain(name);
+
+    // Load train settings
+    // This needs to be done near the start of this function as methods further down
+    // cause settings to be updated, which in turn interferes with the persistence and
+    // setup of settings in OpticalTrainSettings
+    OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+    auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Capture);
+    if (settings.isValid())
+    {
+        auto map = settings.toJsonObject().toVariantMap();
+        if (map != m_settings)
+        {
+            QVariantMap standAloneSettings = copyStandAloneSettings(m_settings);
+            m_settings.clear();
+            setAllSettings(map, &standAloneSettings);
+        }
+    }
+    else
+    {
+        setSettings(m_GlobalSettings);
+    }
 }
 
 void Camera::selectOpticalTrain(QString name)

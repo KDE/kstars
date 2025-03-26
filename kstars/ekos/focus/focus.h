@@ -874,7 +874,8 @@ public slots:
         void resetAdaptiveFocus(bool enabled);
 
         void setupOpticalTrainManager();
-        void refreshOpticalTrain();
+        void initOpticalTrain();
+        void refreshOpticalTrain(const int id);
 
         /**
          * @brief set member valiables for the scope attached to the current Optical Train

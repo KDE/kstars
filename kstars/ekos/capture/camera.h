@@ -262,7 +262,8 @@ public:
     // Optical Train handling
     // ////////////////////////////////////////////////////////////////////
     void setupOpticalTrainManager();
-    void refreshOpticalTrain();
+    void initOpticalTrain();
+    void refreshOpticalTrain(const int id);
 
 
     QString opticalTrain() const

@@ -168,7 +168,7 @@ Focus::Focus(int id) : QWidget()
     });
 
     setupOpticalTrainManager();
-    refreshOpticalTrain();
+    initOpticalTrain();
 
     // Needs to be done once
     connectFilterManager();
@@ -2017,7 +2017,7 @@ void Focus::reconnectFocuser(const QString &focuser)
     if (m_Focuser && m_Focuser->getDeviceName() == focuser)
     {
         appendLogText(i18n("Attempting to reconnect focuser: %1", focuser));
-        refreshOpticalTrain();
+        initOpticalTrain();
         completeFocusProcedure(Ekos::FOCUS_ABORTED, Ekos::FOCUS_FAIL_FOCUSER_ERROR);
         return;
     }
@@ -7642,23 +7642,34 @@ bool Focus::syncControl(const QVariantMap &settings, const QString &key, QWidget
 
 void Focus::setupOpticalTrainManager()
 {
-    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, &Focus::refreshOpticalTrain);
+    connect(OpticalTrainManager::Instance(), &OpticalTrainManager::updated, this, [this]()
+    {
+        // remember current train selection
+        const int current = opticalTrainCombo->currentIndex();
+        initOpticalTrain();
+        // restore current train selection if available
+        if (current >= 0 & current < opticalTrainCombo->count())
+            opticalTrainCombo->setCurrentIndex(current);
+    });
     connect(trainB, &QPushButton::clicked, this, [this]()
     {
         OpticalTrainManager::Instance()->openEditor(opticalTrainCombo->currentText());
     });
     connect(opticalTrainCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index)
     {
-        ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain,
-                OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index)));
-        refreshOpticalTrain();
+        const int id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(index));
+        // remember only the train ID from the first Focus tab
+        if (m_focuserId == 0)
+        {
+            ProfileSettings::Instance()->setOneSetting(ProfileSettings::FocusOpticalTrain, id);
+        }
+        refreshOpticalTrain(id);
         emit trainChanged();
     });
 }
 
-void Focus::refreshOpticalTrain()
+void Focus::initOpticalTrain()
 {
-    bool validSettings = false;
     opticalTrainCombo->blockSignals(true);
     opticalTrainCombo->clear();
     opticalTrainCombo->addItems(OpticalTrainManager::Instance()->getTrainNames());
@@ -7676,78 +7687,84 @@ void Focus::refreshOpticalTrain()
             qCWarning(KSTARS_EKOS_FOCUS) << "Optical train doesn't exist for id" << id;
             id = OpticalTrainManager::Instance()->id(opticalTrainCombo->itemText(0));
         }
-
-        auto name = OpticalTrainManager::Instance()->name(id);
-
-        opticalTrainCombo->setCurrentText(name);
-
-        // Load train settings
-        // This needs to be done near the start of this function as methods further down
-        // cause settings to be updated, which in turn interferes with the persistence and
-        // setup of settings in OpticalTrainSettings
-        OpticalTrainSettings::Instance()->setOpticalTrainID(id);
-
-        auto focuser = OpticalTrainManager::Instance()->getFocuser(name);
-        setFocuser(focuser);
-
-        auto scope = OpticalTrainManager::Instance()->getScope(name);
-        double reducer = OpticalTrainManager::Instance()->getReducer(name);
-        setScopeDetails(scope, reducer);
-
-        auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
-        if (settings.isValid())
-        {
-            validSettings = true;
-            auto map = settings.toJsonObject().toVariantMap();
-            if (map != m_Settings)
-            {
-                m_Settings.clear();
-                setAllSettings(map);
-            }
-        }
-
-        auto camera = OpticalTrainManager::Instance()->getCamera(name);
-        if (camera)
-        {
-            opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
-
-            // Get the pixel size of the active camera for later calculations
-            auto nvp = camera->getNumber("CCD_INFO");
-            if (!nvp)
-            {
-                m_CcdPixelSizeX = 0.0;
-                m_CcdWidth = m_CcdHeight = 0;
-            }
-            else
-            {
-                auto np = nvp->findWidgetByName("CCD_PIXEL_SIZE_X");
-                if (np)
-                    m_CcdPixelSizeX = np->getValue();
-                np = nvp->findWidgetByName("CCD_MAX_X");
-                if (np)
-                    m_CcdWidth = np->getValue();
-                np = nvp->findWidgetByName("CCD_MAX_Y");
-                if (np)
-                    m_CcdHeight = np->getValue();
-            }
-        }
-        setCamera(camera);
-
-        auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
-        setFilterWheel(filterWheel);
-
-        // Update calcs for the CFZ based on the new OT
-        resetCFZToOT();
-
-        // JM 2024.03.16 Also use focus advisor on new profiles
-        if (!validSettings)
-        {
-            focusAdvisor->setupParams(name);
-            focusAdvisor->updateParams();
-        }
+        refreshOpticalTrain(id);
     }
 
     opticalTrainCombo->blockSignals(false);
+}
+
+void Focus::refreshOpticalTrain(const int id)
+{
+    bool validSettings = false;
+    auto name = OpticalTrainManager::Instance()->name(id);
+
+    opticalTrainCombo->setCurrentText(name);
+
+    // Load train settings
+    // This needs to be done near the start of this function as methods further down
+    // cause settings to be updated, which in turn interferes with the persistence and
+    // setup of settings in OpticalTrainSettings
+    OpticalTrainSettings::Instance()->setOpticalTrainID(id);
+
+    auto focuser = OpticalTrainManager::Instance()->getFocuser(name);
+    setFocuser(focuser);
+
+    auto scope = OpticalTrainManager::Instance()->getScope(name);
+    double reducer = OpticalTrainManager::Instance()->getReducer(name);
+    setScopeDetails(scope, reducer);
+
+    auto settings = OpticalTrainSettings::Instance()->getOneSetting(OpticalTrainSettings::Focus);
+    if (settings.isValid())
+    {
+        validSettings = true;
+        auto map = settings.toJsonObject().toVariantMap();
+        if (map != m_Settings)
+        {
+            m_Settings.clear();
+            setAllSettings(map);
+        }
+    }
+
+    auto camera = OpticalTrainManager::Instance()->getCamera(name);
+    if (camera)
+    {
+        opticalTrainCombo->setToolTip(QString("%1 @ %2").arg(camera->getDeviceName(), scope["name"].toString()));
+
+        // Get the pixel size of the active camera for later calculations
+        auto nvp = camera->getNumber("CCD_INFO");
+        if (!nvp)
+        {
+            m_CcdPixelSizeX = 0.0;
+            m_CcdWidth = m_CcdHeight = 0;
+        }
+        else
+        {
+            auto np = nvp->findWidgetByName("CCD_PIXEL_SIZE_X");
+            if (np)
+                m_CcdPixelSizeX = np->getValue();
+            np = nvp->findWidgetByName("CCD_MAX_X");
+            if (np)
+                m_CcdWidth = np->getValue();
+            np = nvp->findWidgetByName("CCD_MAX_Y");
+            if (np)
+                m_CcdHeight = np->getValue();
+        }
+    }
+    setCamera(camera);
+
+    auto filterWheel = OpticalTrainManager::Instance()->getFilterWheel(name);
+    setFilterWheel(filterWheel);
+
+    // Update calcs for the CFZ based on the new OT
+    resetCFZToOT();
+
+    // JM 2024.03.16 Also use focus advisor on new profiles
+    if (!validSettings)
+    {
+        focusAdvisor->setupParams(name);
+        focusAdvisor->updateParams();
+    }
+
     resetButtons();
 }
 
