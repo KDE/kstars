@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-25 01:54+0000\n"
-"PO-Revision-Date: 2025-03-22 13:13+0100\n"
+"PO-Revision-Date: 2025-03-26 00:23+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -28017,13 +28017,18 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:700;\">Schakel op weer "
+"gebaseerde planning in:</span> Voorkomt nieuwe jobs om te starten tijdens "
+"weerwaarschuwingen of alerts. Bestaande jobs gaan door tijdens "
+"waarschuwingen, maar worden afgebroken tijdens alerts. Systeem initieert een "
+"zacht afsluiting en wacht op verbeterde condities of aflopen van een "
+"respijtperiode, waarna de huidige job wordt beëindigd.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Weerwaarschuwing"
+msgstr "Respijtperiode van weer"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -29275,12 +29280,12 @@ msgstr "Taak '%1' is niet verwerkt na einde taakplanner. Wordt afgebroken."
 msgid ""
 "Job '%1' cannot start because weather status is %2 and grace period is over."
 msgstr ""
+"Job '%1' kan niet starten omdat de status van het weer %2 is en de "
+"respijtperiode is voorbij."
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
 msgstr "Alert"
 
@@ -29290,6 +29295,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"Job '%1' kan niet starten omdat de status van het weer %2 is. Wachten totdat "
+"het weer verbetert of tot %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:701
 #, kde-format
@@ -29978,22 +29985,23 @@ msgstr ""
 "actief is. Wordt afgebroken."
 
 #: ekos/scheduler/schedulerprocess.cpp:4107
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "Parkeren van de koepel is mislukt. Bewerking wordt herstart..."
+msgstr "Weer is verbeterd. Bewerking wordt herstart."
 
 #: ekos/scheduler/schedulerprocess.cpp:4116
-#, fuzzy, kde-format
-#| msgid "Scheduler complete. Starting shutdown procedure..."
+#, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
-msgstr "Plannen is gereed. Afsluiten wordt gestart..."
+msgstr ""
+"Weather alert gedetecteerd. Procedure van zacht afsluiten wordt gestart."
 
 #: ekos/scheduler/schedulerprocess.cpp:4131
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
+"Waarneemstation is gepland om zacht af te sluiten totdat het weer verbeterd "
+"of tot %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4156
 #, kde-format
@@ -40644,17 +40652,16 @@ msgstr "Standaard beperkingen voor maanhoogte van planningtaak."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
-msgstr "Standaard keuzevak voor planner voor beperkingen voor weer van taak."
+msgstr "Standaard keuzevak voor planner voor weerbeperkingen."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3328
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
-msgstr "Aantal dither-pogingen te doen voordat dit wordt opgegeven."
+msgstr ""
+"Dit aantal minuten wachten op het weer om te verbeteren alvorens op te geven."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3332

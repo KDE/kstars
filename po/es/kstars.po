@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-25 01:54+0000\n"
-"PO-Revision-Date: 2025-03-23 02:44+0100\n"
+"PO-Revision-Date: 2025-03-26 02:25+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -14718,7 +14718,7 @@ msgstr "Detener secuencia"
 #: ekos/capture/camera.cpp:1080
 #, kde-format
 msgid "Resume Sequence"
-msgstr "Continuar secuencia"
+msgstr "Reanudar secuencia"
 
 #: ekos/capture/camera.cpp:1111
 #, kde-format
@@ -15803,7 +15803,7 @@ msgstr "Transferencia de imagen"
 #: ekos/capture/cameraprocess.cpp:235
 #, kde-format
 msgid "Sequence resumed."
-msgstr "Se continúa con la secuencia."
+msgstr "Se ha reanudado la secuencia."
 
 #: ekos/capture/cameraprocess.cpp:271
 #, kde-format
@@ -15904,7 +15904,7 @@ msgstr ""
 #: ekos/capture/cameraprocess.cpp:828
 #, kde-format
 msgid "Autoguiding resumed."
-msgstr "Continuando el guiado automático."
+msgstr "Se ha reanudado el guiado automático."
 
 #: ekos/capture/cameraprocess.cpp:872
 #, kde-format
@@ -17369,8 +17369,8 @@ msgid ""
 "Wait this many seconds after guiding is resumed to stabilize the guiding "
 "performance before capture."
 msgstr ""
-"Tiempo de espera en segundos tras continuar con el guiado para estabilizar "
-"el rendimiento de guiado antes de capturar."
+"Tiempo de espera en segundos tras reanudar el guiado para estabilizar el "
+"rendimiento de guiado antes de capturar."
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: ekos/capture/opsmiscsettings.ui:83
@@ -17415,7 +17415,7 @@ msgstr "Tiempo de espera del diálogo:"
 #, kde-format
 msgid "Wait this many seconds after guiding is resumed before starting capture"
 msgstr ""
-"Esperar estos segundos tras continuar el guiado antes de empezar a capturar"
+"Esperar estos segundos tras reanudar el guiado antes de empezar a capturar"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:173
@@ -18080,7 +18080,7 @@ msgstr "Ejecutando"
 #: ekos/ekos.h:199
 #, kde-format
 msgid "Shutdown"
-msgstr "Parada"
+msgstr "Apagado"
 
 #: ekos/ekos.h:200
 #, kde-format
@@ -22394,7 +22394,7 @@ msgstr "Calibración iniciada."
 #: ekos/guide/guide.cpp:1668
 #, kde-format
 msgid "Guiding resumed."
-msgstr "Continuando el guiado automático."
+msgstr "Se ha reanudado el guiado automático."
 
 #: ekos/guide/guide.cpp:1671
 #, kde-format
@@ -28195,7 +28195,7 @@ msgid ""
 "<html><head/><body><p>When processing a scheduled job, resume the sequence "
 "starting from the last image present in storage.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Al procesar un trabajo planificado, continuar la "
+"<html><head/><body><p>Al procesar un trabajo planificado, reanudar la "
 "secuencia empezando por la última imagen presente en el almacenamiento.</p></"
 "body></html>"
 
@@ -28231,21 +28231,21 @@ msgid ""
 "operations once the next job is ready.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>En caso de que no exista ningún trabajo planificado "
-"durante este número de horas, realizar un procedimiento de parada completa y "
-"reiniciar las operaciones del observatorio en cuanto esté preparado el "
+"durante este número de horas, realizar un procedimiento de apagado completo "
+"y reiniciar las operaciones del observatorio en cuanto esté preparado el "
 "siguiente trabajo.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PreemptiveShutdown)
 #: ekos/scheduler/opsoffsetsettings.ui:38
 #, kde-format
 msgid "Pre-emptive shutdown:"
-msgstr "Parada preventiva:"
+msgstr "Apagado preventivo:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_PreemptiveShutdownTime)
 #: ekos/scheduler/opsoffsetsettings.ui:45
 #, kde-format
 msgid "<html><head/><body><p>Pre-emptive shutdown hours</p></body></html>"
-msgstr "<html><head/><body><p>Horas de parada preventiva</p></body></html>"
+msgstr "<html><head/><body><p>Horas de apagado preventivo</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, leadTimeLabel)
 #: ekos/scheduler/opsoffsetsettings.ui:52
@@ -28331,26 +28331,32 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:700;\">Activar programación "
+"basada en las condiciones meteorológicas:</span> Impide que empiecen nuevos "
+"trabajos durante las advertencias y alertas meteorológicas. Los trabajos "
+"existentes continúan durante las advertencias, aunque se interrumpen durante "
+"las alertas. El sistema inicia un apagado suave y espera a que mejoren las "
+"condiciones o a que expire el período de gracia, tras el que se terminará el "
+"trabajo actual.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Advertencia meteorológica"
+msgstr "Período de gracia meteorológica"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
 #, kde-format
 msgid "After shutdown procedure is successfully executed, stop INDI and Ekos."
 msgstr ""
-"Tras ejecutar con éxito el procedimiento de parada, detener INDI y Ekos."
+"Tras ejecutar con éxito el procedimiento de apagado, detener INDI y Ekos."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:41
 #, kde-format
 msgid "Stop Ekos after shutdown"
-msgstr "Detener Ekos tras parar"
+msgstr "Detener Ekos tras apagar"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysExecuteStartupScript)
 #: ekos/scheduler/opsscriptssettings.ui:48
@@ -28375,7 +28381,7 @@ msgid ""
 "<html><head/><body><p>If the shutdown script terminates INDI server, enable "
 "this option so that no disconnection errors are generated.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Si el guion de parada finaliza el servidor INDI, "
+"<html><head/><body><p>Si el guion de apagado finaliza el servidor INDI, "
 "active esta opción para que no se generen errores de desconexión.</p></"
 "body></html>"
 
@@ -28383,7 +28389,7 @@ msgstr ""
 #: ekos/scheduler/opsscriptssettings.ui:61
 #, kde-format
 msgid "Shutdown script terminates INDI"
-msgstr "El guion de parada finaliza INDI"
+msgstr "El guion de apagado finaliza INDI"
 
 #: ekos/scheduler/scheduler.cpp:129
 #, kde-format
@@ -28569,7 +28575,7 @@ msgstr "Guion (*)"
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Shutdown Script"
-msgstr "Seleccionar guion de parada"
+msgstr "Seleccionar guion de apagado"
 
 #: ekos/scheduler/scheduler.cpp:871
 #, kde-format
@@ -28653,7 +28659,7 @@ msgstr "Pausa del planificador programada…"
 #: ekos/scheduler/scheduler.cpp:1902
 #, kde-format
 msgid "Resume Scheduler"
-msgstr "Continuar planificador"
+msgstr "Reanudar el planificador"
 
 #: ekos/scheduler/scheduler.cpp:1917
 #, kde-format
@@ -28759,7 +28765,7 @@ msgstr "Las condiciones meteorológicas están en la zona de advertencia"
 msgid "Weather conditions are critical. Observatory shutdown is imminent"
 msgstr ""
 "Las condiciones meteorológicas son críticas. El apagado del observatorio es "
-"inminente"
+"inminente."
 
 #: ekos/scheduler/scheduler.cpp:2401
 #, kde-format
@@ -29442,17 +29448,17 @@ msgid ""
 "weight:600; text-decoration: underline;\">after</span> the shutdown "
 "procedures (e.g. parking), if selected, are completed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Procedimiento de parada a ejecutar una única vez tras "
-"completar todos los trabajos planificados. El guion se ejecuta <span style="
-"\" font-weight:600; text-decoration: underline;\">después</span> de los "
-"procedimientos de parada (por ejemplo, aparcamiento), si está seleccionado.</"
-"p></body></html>"
+"<html><head/><body><p>Procedimiento de apagado que se ejecuta una única vez "
+"tras completar todos los trabajos planificados. El guion se ejecuta <span "
+"style=\" font-weight:600; text-decoration: underline;\">después</span> de "
+"los procedimientos de apagado (por ejemplo, aparcamiento), si está "
+"seleccionado.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, shutdownGroupBox)
 #: ekos/scheduler/scheduler.ui:2174
 #, kde-format
 msgid "Observatory Shutdown Procedure"
-msgstr "Procedimiento de parada del observatorio"
+msgstr "Procedimiento de apagado del observatorio"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerWarmCCD)
 #: ekos/scheduler/scheduler.ui:2209
@@ -29511,7 +29517,7 @@ msgstr "Advertencia: El URL del guion de arranque %1 no es válido."
 #: ekos/scheduler/schedulerprocess.cpp:95
 #, kde-format
 msgid "Warning: shutdown script URL %1 is not valid."
-msgstr "Advertencia: El URL del guion de parada %1 no es válido."
+msgstr "Advertencia: la URL del guion de apagado %1 no es válida."
 
 #: ekos/scheduler/schedulerprocess.cpp:106
 #, kde-format
@@ -29621,14 +29627,14 @@ msgstr ""
 msgid ""
 "Job '%1' cannot start because weather status is %2 and grace period is over."
 msgstr ""
+"El trabajo «%1» no puede empezar porque el estado meteorológico es %2 y el "
+"período de gracia ha terminado."
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Alert"
+msgstr "Alerta"
 
 #: ekos/scheduler/schedulerprocess.cpp:679
 #, kde-format
@@ -29636,6 +29642,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"El trabajo «%1» no puede empezar porque el estado meteorológico es %2. "
+"Esperando a que mejoren las condiciones meteorológicas o hasta %3."
 
 #: ekos/scheduler/schedulerprocess.cpp:701
 #, kde-format
@@ -29668,7 +29676,7 @@ msgid ""
 "Shutdown."
 msgstr ""
 "Advertencia: el trabajo «%1» está a %2 de ahora. Es posible que quiera "
-"activar la parada preventiva."
+"activar el apagado preventivo."
 
 #: ekos/scheduler/schedulerprocess.cpp:797
 #, kde-format
@@ -29876,12 +29884,12 @@ msgstr ""
 #: ekos/scheduler/schedulerprocess.cpp:1605
 #, kde-format
 msgid "Shutdown complete."
-msgstr "Parada completada."
+msgstr "Apagado completado."
 
 #: ekos/scheduler/schedulerprocess.cpp:1607
 #, kde-format
 msgid "Shutdown procedure failed, aborting..."
-msgstr "Ha fallado el procedimiento de parada. Interrumpiendo…"
+msgstr "Ha fallado el procedimiento de apagado. Interrumpiendo…"
 
 #: ekos/scheduler/schedulerprocess.cpp:1711
 #, kde-format
@@ -30043,17 +30051,17 @@ msgstr "Procedimiento de arranque terminado."
 #: ekos/scheduler/schedulerprocess.cpp:2378
 #, kde-format
 msgid "Warning: executing shutdown procedure manually..."
-msgstr "Advertencia: ejecutando el procedimiento de parada manualmente…"
+msgstr "Advertencia: ejecutando el procedimiento de apagado manualmente…"
 
 #: ekos/scheduler/schedulerprocess.cpp:2384
 #, kde-format
 msgid "Are you sure you want to execute the shutdown procedure manually?"
-msgstr "¿Seguro que desea ejecutar el procedimiento de parada manualmente?"
+msgstr "¿Seguro que quiere ejecutar el procedimiento de apagado manualmente?"
 
 #: ekos/scheduler/schedulerprocess.cpp:2429
 #, kde-format
 msgid "Shutdown procedure terminated."
-msgstr "Procedimiento de parada terminado."
+msgstr "Procedimiento de apagado terminado."
 
 #: ekos/scheduler/schedulerprocess.cpp:2436
 #, kde-format
@@ -30355,31 +30363,34 @@ msgstr ""
 "«%1» está activo. Interrumpiendo…"
 
 #: ekos/scheduler/schedulerprocess.cpp:4107
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "El aparcamiento de la cúpula ha fallado. Reiniciando la operación…"
+msgstr ""
+"Las condiciones meteorológicas han mejorado. Se reanudan las operaciones."
 
 #: ekos/scheduler/schedulerprocess.cpp:4116
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
 msgstr ""
+"Alerta meteorológica detectada. Iniciando procedimiento de apagado suave."
 
 #: ekos/scheduler/schedulerprocess.cpp:4131
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
+"Observatorio programado para un apagado suave hasta que mejoren las "
+"condiciones meteorológicas o hasta %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4156
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
-msgstr "El procedimiento de parada manual ha finalizado con éxito."
+msgstr "El procedimiento de apagado manual ha finalizado con éxito."
 
 #: ekos/scheduler/schedulerprocess.cpp:4162
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
-msgstr "El procedimiento de parada manual ha terminado debido a errores."
+msgstr "El procedimiento de apagado manual ha terminado debido a errores."
 
 #: ekos/scheduler/schedulerprocess.cpp:4177
 #, kde-format
@@ -30485,7 +30496,7 @@ msgstr "Ha fallado el guion de arranque. Interrumpiendo…"
 #: ekos/scheduler/schedulerprocess.cpp:4910
 #, kde-format
 msgid "Shutdown script failed, aborting..."
-msgstr "Ha fallado el guion de parada. Interrumpiendo…"
+msgstr "El guion de apagado ha fallado. Interrumpiendo…"
 
 #: ekos/scheduler/schedulerprocess.cpp:4971
 #, kde-format
@@ -38682,7 +38693,7 @@ msgid ""
 "flip and if successful it will resume guiding and capture operations."
 msgstr ""
 "Si el ángulo horario final excede de este valor, Ekos ordenará una inversión "
-"de meridiano y, si termina con éxito, continuará las operaciones de guiado y "
+"de meridiano y, si termina con éxito, reanudará las operaciones de guiado y "
 "de captura."
 
 #. i18n: ectx: label, entry (MaximumHaLimit), group (Mount)
@@ -39040,7 +39051,7 @@ msgstr ""
 msgid ""
 "Wait this many seconds after guiding is resumed before starting capture."
 msgstr ""
-"Esperar estos segundos tras continuar el guiado antes de empezar a capturar."
+"Esperar estos segundos tras reanudar el guiado antes de empezar a capturar."
 
 #. i18n: ectx: label, entry (AlwaysResetSequenceWhenStarting), group (Capture)
 #: kstars.kcfg:2086
@@ -40805,7 +40816,7 @@ msgstr "Registrar la actividad del módulo de planificación de Ekos."
 msgid ""
 "After shutdown procedure is successfully executed, shutdown INDI and Ekos."
 msgstr ""
-"Tras ejecutar con éxito el procedimiento de parada, apagar INDI y Ekos."
+"Tras ejecutar con éxito el procedimiento de apagado, apagar INDI y Ekos."
 
 #. i18n: ectx: label, entry (AlwaysExecuteStartupScript), group (Scheduler)
 #: kstars.kcfg:3123
@@ -40820,16 +40831,16 @@ msgstr ""
 msgid ""
 "Whether shutdown script, if exists, terminates INDI server in the process."
 msgstr ""
-"Si el guion de parada, si existe, finaliza el servidor INDI durante el "
-"proceso."
+"Indica si el guion de apagado, si existe, finaliza el servidor INDI durante "
+"el proceso."
 
 #. i18n: ectx: label, entry (PreemptiveShutdown), group (Scheduler)
 #: kstars.kcfg:3131
 #, kde-format
 msgid "Perform pre-emptive shutdown if no jobs are due for a number of hours."
 msgstr ""
-"Realizar una parada preventiva si no existen trabajos durante un número de "
-"horas."
+"Realizar un apagado preventivo si no existen trabajos durante cierto número "
+"de horas."
 
 #. i18n: ectx: label, entry (ResetMountModelOnAlignFail), group (Scheduler)
 #: kstars.kcfg:3135
@@ -40902,7 +40913,7 @@ msgid ""
 "shutdown."
 msgstr ""
 "Número máximo de horas antes de que se deba ejecutar el siguiente trabajo "
-"para realizar una parada preventiva."
+"para realizar un apagado preventivo."
 
 #. i18n: ectx: label, entry (RememberJobProgress), group (Scheduler)
 #: kstars.kcfg:3174
@@ -40911,7 +40922,7 @@ msgid ""
 "When processing a scheduled job, resume the sequence starting from the last "
 "image present in storage."
 msgstr ""
-"Al procesar un trabajo planificado, continuar la secuencia empezando por la "
+"Al procesar un trabajo planificado, reanudar la secuencia empezando por la "
 "última imagen presente en el almacenamiento."
 
 #. i18n: ectx: label, entry (GreedyScheduling), group (Scheduler)
@@ -41177,19 +41188,19 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
 msgstr ""
 "Casilla predeterminada del planificador para las restricciones de "
-"condiciones meteorológicas del trabajo."
+"condiciones meteorológicas."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3328
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
-msgstr "El número de intentos de desvío a llevar a cabo antes de rendirse."
+msgstr ""
+"Minutos de espera para que mejoren las condiciones meteorológicas antes de "
+"rendirse."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3332
@@ -70784,7 +70795,7 @@ msgstr "Ejecutar el reloj en tiempo real"
 #: kstarsinit.cpp:218
 #, kde-format
 msgid "Resume Clock"
-msgstr "Continuar el reloj"
+msgstr "Reanudar el reloj"
 
 #: kstarsinit.cpp:218
 #, kde-format
@@ -88989,17 +89000,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Weather conditions must remain safe. When weather "
-#~ "conditions become dangerous, shutdown procedure is initiated.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Las condiciones meteorológicas deben seguir siendo "
-#~ "favorables. Si las condiciones meteorológicas se vuelven adversas, se "
-#~ "iniciará el procedimiento de parada.</p></body></html>"
-
-#~ msgid "Starting shutdown procedure due to severe weather."
-#~ msgstr ""
-#~ "Iniciando el procedimiento de parada debido a condiciones meteorológicas "
-#~ "adversas."

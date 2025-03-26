@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-25 01:54+0000\n"
-"PO-Revision-Date: 2025-03-22 22:13+0100\n"
+"PO-Revision-Date: 2025-03-25 10:30+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -28349,13 +28349,19 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:700;\">Activa la "
+"planificació basada en la meteorologia:</span> Evita que s'iniciïn tasques "
+"noves durant les alertes o avisos meteorològics. Les tasques existents "
+"continuen durant els avisos, però s'interrompen durant les alertes. El "
+"sistema inicia una aturada suau i espera que millorin les condicions o que "
+"venci el període de gràcia, després de la qual cosa la tasca actual s'acaba."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Avís meteorològic"
+msgstr "Període de gràcia meteorològic"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -29629,14 +29635,14 @@ msgstr ""
 msgid ""
 "Job '%1' cannot start because weather status is %2 and grace period is over."
 msgstr ""
+"La tasca «%1» no es pot iniciar perquè l'estat del temps meteorològic és %2 "
+"i el període de gràcia ha acabat."
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Alert"
+msgstr "Alerta"
 
 #: ekos/scheduler/schedulerprocess.cpp:679
 #, kde-format
@@ -29644,6 +29650,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"La tasca «%1» no es pot iniciar perquè l'estat del temps meteorològic és %2. "
+"S'espera fins que millori la meteorologia o fins a %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:701
 #, kde-format
@@ -30361,21 +30369,24 @@ msgstr ""
 "tasca «%1». S'interromp."
 
 #: ekos/scheduler/schedulerprocess.cpp:4107
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "Ha fallat en aparcar la cúpula. S'està tornant a iniciar l'operació..."
+msgstr "La meteorologia ha millorat. Es reprenen les operacions."
 
 #: ekos/scheduler/schedulerprocess.cpp:4116
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
 msgstr ""
+"S'ha detectat una alerta meteorològica. S'inicia el procediment d'aturada "
+"suau."
 
 #: ekos/scheduler/schedulerprocess.cpp:4131
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
+"Observatori planificat per a l'aturada suau fins que millori la meteorologia "
+"o fins a %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4156
 #, kde-format
@@ -41274,20 +41285,19 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
 msgstr ""
-"Casella de selecció predeterminada del programador per a la restricció "
-"meteorològica de la tasca."
+"Casella de selecció predeterminada del programador per a restriccions "
+"meteorològiques."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3328
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
 msgstr ""
-"Nombre d'intents d'iteració de tramat que s'efectuaran abans de renunciar."
+"Nombre de minuts d'espera per a que millori la meteorologia abans de "
+"renunciar."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3332
@@ -89223,632 +89233,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Estableix el color de fons."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Weather conditions must remain safe. When weather "
-#~ "conditions become dangerous, shutdown procedure is initiated.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Les condicions meteorològiques han de seguir sent "
-#~ "favorables. Si es tornen adverses, s'iniciarà el procediment de tancament."
-#~ "</p></body></html>"
-
-#~ msgid "Starting shutdown procedure due to severe weather."
-#~ msgstr ""
-#~ "S'està iniciant el procediment de tancament a causa de condicions "
-#~ "meteorològiques adverses."
-
-#~ msgid "Drift Plot"
-#~ msgstr "Traçat de la deriva"
-
-#~ msgid "pulse (ms)"
-#~ msgstr "pols (ms)"
-
-#~ msgid "Altitude Graph"
-#~ msgstr "Gràfic d'altitud"
-
-#~ msgid "Altitude Graph for ZZZZZ"
-#~ msgstr "Gràfic d'altitud de ZZZZZ"
-
-#~ msgid "Target coordinates in J2000 Epoch"
-#~ msgstr "Coordenades de l'objectiu en l'època J2000"
-
-#~ msgid "J2000:"
-#~ msgstr "J2000:"
-
-#~ msgid ""
-#~ "The moon separation must remain equal to or higher than the given value."
-#~ msgstr ""
-#~ "La separació de la Lluna ha de romandre igual o més alta que el valor "
-#~ "indicat."
-
-#~ msgid "Alt >: "
-#~ msgstr "Alt >: "
-
-#~ msgid "Min Moon º"
-#~ msgstr "Lluna min º"
-
-# Pier side = https://www.gralak.com/apdriver/help/pier_side.htm
-#~ msgid "Accept reversed DEC on pier-side change reusing calibration."
-#~ msgstr ""
-#~ "Accepta el Dec invertit en canviar el costat del moll reutilitzant el "
-#~ "calibratge."
-
-#~ msgid "Scheduler Offset"
-#~ msgstr "Desplaçament del programador"
-
-#~ msgid "Scheduler Alignment"
-#~ msgstr "Alineació del programador"
-
-#~ msgid "Scheduler Jobs"
-#~ msgstr "Tasques del programador"
-
-#~ msgid "Cleanup"
-#~ msgstr "Neteja"
-
-#~ msgid "Scheduler Cleanup"
-#~ msgstr "Neteja del programador"
-
-#~ msgid "Calibrating RA Out"
-#~ msgstr "S'està calibrant la sortida de l'AR"
-
-#~ msgid "Calibrating RA In"
-#~ msgstr "S'està calibrant l'entrada de l'AR"
-
-#~ msgid "Calibrating DEC Out"
-#~ msgstr "S'està calibrant la sortida de la Dec"
-
-#~ msgid "Calibrating DEC In"
-#~ msgstr "S'està calibrant l'entrada de la Dec"
-
-#~ msgid "DEC swap enabled."
-#~ msgstr "S'ha activat l'intercanvi de la Dec."
-
-#~ msgid "DEC swap disabled."
-#~ msgstr "S'ha desactivat l'intercanvi de la Dec."
-
-#~ msgid "Calibration Successful"
-#~ msgstr "Calibratge correcte"
-
-#~ msgid "Normal"
-#~ msgstr "Normal"
-
-#~ msgid "Calibrate"
-#~ msgstr "Calibra"
-
-#~ msgid ""
-#~ "Some images in KStars are for non-commercial use only. See README.images."
-#~ msgstr ""
-#~ "Algunes imatges del KStars tan sols són per a ús no comercial. Consulteu "
-#~ "el fitxer «README.images»."
-
-#~ msgid "unnamed object"
-#~ msgstr "objecte sense nom"
-
-#~ msgid "Capture Misc"
-#~ msgstr "Miscel·lània de la captura"
-
-#~ msgid "Capture DSLR"
-#~ msgstr "Captura DSLR"
-
-#~ msgid "Imaging Planner (experimental)"
-#~ msgstr "Planificador d'obtenció d'imatges (experimental)"
-
-#~ msgid "Add Flag..."
-#~ msgstr "Afegeix un indicador..."
-
-#~ msgid ""
-#~ "Due to a known issue in the kde frameworks, updating already downloaded "
-#~ "items is currently not possible. <br> Please uninstall and reinstall them "
-#~ "to update."
-#~ msgstr ""
-#~ "Per un problema conegut als Frameworks de KDE, actualment no és possible "
-#~ "l'actualització d'elements ja baixats. <br> Cal que els desinstal·leu i "
-#~ "els torneu a instal·lar per a actualitzar-los."
-
-#~ msgid "Added"
-#~ msgstr "Afegit"
-
-#~| msgid "Could not import the objects."
-#~ msgid "Could not find that object"
-#~ msgstr "No s'ha pogut trobar aquest objecte"
-
-#~| msgid "Cap already parked."
-#~ msgid "%1 already there"
-#~ msgstr "%1 ja és allí"
-
-#~| msgid "Add a name label to the object named %1."
-#~ msgid "Add an object to the object list on the left."
-#~ msgstr "Afegeix una objecte a la llista d'objectes de l'esquerra."
-
-#~| msgid "Add Object..."
-#~ msgid "Add Object"
-#~ msgstr "Afegeix un objecte"
-
-#~| msgid ""
-#~| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#~| "that have been added there, and remove overlays that are no longer there."
-#~| "</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Show the objects that have been added (and don't "
-#~ "show those that have not been added).</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Mostra els objectes que s'han afegit (i no mostra "
-#~ "els que no s'han afegit).</p></body></html>"
-
-#~| msgid ""
-#~| "<html><head/><body><p>Refresh from the overlay directory. Add overlays "
-#~| "that have been added there, and remove overlays that are no longer there."
-#~| "</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Show the objects that have not been added (and "
-#~ "don't show those that have been added).</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Mostra els objectes que no s'han afegit (i no "
-#~ "mostra els que s'han afegit).</p></body></html>"
-
-#~ msgid "Not added"
-#~ msgstr "No afegit"
-
-#~| msgid ""
-#~| "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
-#~ msgid ""
-#~ "<html><head/><body><p>Object display doesn't depend on whether objects "
-#~ "have been add or not.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>La visualització dels objectes no depèn de si els "
-#~ "objectes s'han afegit o no.</p></body></html>"
-
-#~ msgid "Simulate Eyepiece View"
-#~ msgstr "Simula la vista de l'ocular"
-
-#~ msgid "Attempt to determine from image"
-#~ msgstr "Intenta determinar a partir de la imatge"
-
-#~ msgid "Eyepiece View: Choose a field-of-view"
-#~ msgstr "Vista de l'ocular: Escolliu un camp de visió"
-
-#~ msgid "FOV to render eyepiece view for:"
-#~ msgstr "CDV per al qual es representa la vista de l'ocular:"
-
-#~ msgctxt "@title:window"
-#~ msgid "Export eyepiece view"
-#~ msgstr "Exportació de la vista d'ocular"
-
-#~ msgid "Overlay orientation vs. time ticks: "
-#~ msgstr "Sobreposar les marques d'orientació en funció del temps:"
-
-#~ msgid "Towards Zenith"
-#~ msgstr "Cap al zenit"
-
-#~ msgid "Dobsonian View"
-#~ msgstr "Vista de Dobson"
-
-#~ msgid ""
-#~ "Note: This overlay makes sense only if the view was generated in alt/az "
-#~ "mode with a preset such as Refractor or Vanilla"
-#~ msgstr ""
-#~ "Nota: Aquesta superposició només té sentint si la vista s'ha generat en "
-#~ "mode alt/az amb un valor predefinit com a Refractor o Estàndard"
-
-#~ msgid ""
-#~ "Note: This overlay  makes sense only if the view was generated in alt/az "
-#~ "mode with a preset such as Dobsonian"
-#~ msgstr ""
-#~ "Nota: Aquesta superposició només té sentint si la vista s'ha generat en "
-#~ "mode alt/az amb un valor predefinit com a Dobson"
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Image as"
-#~ msgstr "Desament de la imatge com a"
-
-#~ msgid "Image files (*.png *.jpg *.xpm *.bmp *.gif)"
-#~ msgstr "Fitxers d'imatge (*png *.jpg *.xpm *.bmp *.gif)"
-
-#~ msgctxt "@title:window"
-#~ msgid "Eyepiece Field View"
-#~ msgstr "Camp de visió de l'ocular"
-
-#~ msgctxt "Export image"
-#~ msgid "Export"
-#~ msgstr "Exporta"
-
-#~ msgid "Invert view"
-#~ msgstr "Inverteix la vista"
-
-#~ msgid "Flip view"
-#~ msgstr "Capgira la vista"
-
-#~ msgid "Fetch DSS image"
-#~ msgstr "Obtén la imatge DSS"
-
-#~ msgid "Vanilla"
-#~ msgstr "Estàndard"
-
-#~ msgid "Flipped"
-#~ msgstr "Invertida"
-
-#~ msgid "Dobsonian"
-#~ msgstr "Dobson"
-
-#~ msgid "Preset:"
-#~ msgstr "Predefinit:"
-
-#~ msgid "Eyepiece view"
-#~ msgstr "Vista de l'ocular"
-
-#~ msgid "Autofocus in progress..."
-#~ msgstr "Enfocament automàtic en curs..."
-
-#~ msgid "Please wait until image capture is complete..."
-#~ msgstr "Espereu fins que s'hagi completat la captura de la imatge..."
-
-#~ msgid "Progress #%1"
-#~ msgstr "En curs núm. %1"
-
-#~ msgid "Progress"
-#~ msgstr "En curs"
-
-#~ msgid "Repeat:"
-#~ msgstr "Repeteix:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Repeat the entire sequence infinitely.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Repeteix indefinidament la seqüència sencera.</p></"
-#~ "body></html>"
-
-#~ msgid ""
-#~ "Job is looping with %1-second %2 frames infinitely, has %3 frames "
-#~ "captured and will be processed."
-#~ msgstr ""
-#~ "La tasca està fent un bucle amb %2 fotogrames de %1 segons "
-#~ "indefinidament, té %3 fotogrames capturats i es processaran."
-
-#~ msgid "Configuration"
-#~ msgstr "Configuració"
-
-#~ msgid "Offsets"
-#~ msgstr "Desplaçaments"
-
-#~ msgid "Scheduling"
-#~ msgstr "Programació"
-
-#~ msgid ""
-#~ "<html><head/><body><p>If selected, take the already existing frames that "
-#~ "satisfy each job's signature and capture only the missing ones.</"
-#~ "p><p>Otherwise, of not selected, restart capturing with all counters set "
-#~ "to zero.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Si està seleccionat, pren els fotogrames ja "
-#~ "existents que satisfan la signatura de cada tasca i captura només els que "
-#~ "falten.</p><p>En cas contrari, de no seleccionats, reinicieu la captura "
-#~ "amb tots els comptadors establerts a zero.</p></body></html>"
-
-#~ msgid "AZ/AL"
-#~ msgstr "AZ/AL"
-
-#~ msgid "Displays the Tip of the Day"
-#~ msgstr "Mostra el Consell del Dia"
-
-#~ msgid ""
-#~ "When In Sequence, force an Autofocus at the end of the current subframe."
-#~ msgstr ""
-#~ "Quan estigui en seqüència, força un enfocament automàtic al final del "
-#~ "submarc actual."
-
-#~ msgid "Updated base parameters"
-#~ msgstr "Els paràmetres de base s'han actualitzat"
-
-#~ msgid "Find Stars: Starting scan for stars..."
-#~ msgstr "Cerca d'estrelles: s'està iniciant l'exploració d'estrelles..."
-
-#~ msgid "Find Stars: Jump size %1"
-#~ msgstr "Cerca d'estrelles: Salta la mida %1"
-
-#~ msgid "Detected %1 stars at %2"
-#~ msgstr "S'han detectat %1 estrelles a %2"
-
-#~ msgid "Find Stars: Stars detected, centring range"
-#~ msgstr ""
-#~ "Cerca d'estrelles: s'han detectat estrelles, s'està centrant l'interval"
-
-#~ msgid "Find Stars Run %1: Failed"
-#~ msgstr "Execució de la cerca d'estrelles %1: ha fallat"
-
-#~ msgid "Pre Autofocus: Failed"
-#~ msgstr "Preenfocament automàtic: ha fallat"
-
-#~ msgid "Pre Autofocus: exceeded max iterations %1"
-#~ msgstr "Preenfocament automàtic: ha excedit el nombre màxim d'iteracions %1"
-
-#~ msgid "Coarse Adjustment Run: %1 Start: %2 Overscan: %3 Step Size: %4"
-#~ msgstr ""
-#~ "Execució de l'ajust tosc: %1 Inici: %2 Sobreexploració: %3 Mida del pas: "
-#~ "%4"
-
-#~ msgid "Overscan estimate: %1 ticks"
-#~ msgstr "Estimació de la sobreexploració: %1 marques"
-
-#~ msgid "Coarse Adj: Failed"
-#~ msgstr "Ajust tosc: ha fallat"
-
-#~ msgid "Autofocus parameter adjustment"
-#~ msgstr "Ajust dels paràmetres d'enfocament automàtic"
-
-#~ msgid "Focus Advisor adjusting Step Size: %1->%2 AF Overscan: %3->%4"
-#~ msgstr ""
-#~ "Assessor d'enfocament ajustant la mida del pas: %1->%2 Sobreexploració de "
-#~ "l'EA: %3->%4"
-
-#~ msgid "Autofocus retrying: Step Size %1 AF Overscan %2"
-#~ msgstr ""
-#~ "Reintentant l'enfocament automàtic: mida del pas %1 Sobreexploració de "
-#~ "l'EA %2"
-
-#~ msgid "Autofocus complete: Step Size %1 AF Overscan %2"
-#~ msgstr ""
-#~ "Enfocament automàtic completat: Mida del pas %1 Sobreexploració de l'EA %2"
-
-#~ msgid "Astronomical Twilight Warning"
-#~ msgstr "Avís de crepuscle astronòmic"
-
-#~ msgid "API URL"
-#~ msgstr "URL de l'API"
-
-#~ msgid ""
-#~ "<html><head/><body><p>The rotator gauge displays the actual camera "
-#~ "position angle (yellow) and the raw rotator angle (gray). Be sure to "
-#~ "calibrate the rotator (syncing rotator angle to zero at piersie WEST) "
-#~ "after a fresh mount of the rotator in order to have a reasonable display."
-#~ "</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>L'indicador del rotor mostra l'angle de posició "
-#~ "real de la càmera (groc) i l'angle net del rotor (gris). Assegureu-vos de "
-#~ "calibrar el rotor (sincronitzant l'angle del rotor a zero al costat del "
-#~ "moll de l'oest) després de muntar de nou el rotor per tal de tenir una "
-#~ "visualització raonable.</p></body></html>"
-
-#~ msgid "Donut Buster (WARNING: Experimental Feature)"
-#~ msgstr "Reductor de dònuts (AVÍS: Característica experimental)"
-
-#~ msgid ""
-#~ "When Scan for Start Position is checked this is the number of datapoints "
-#~ "to use."
-#~ msgstr ""
-#~ "Quan està marcat Escaneja per a la posició d'inici, aquest serà el nombre "
-#~ "de punts de dades a utilitzar."
-
-#~ msgid "Astrometry:"
-#~ msgstr "Astrometria:"
-
-#~ msgid "The Logging Level for StellarSolver and Astrometry.net"
-#~ msgstr "El nivell d'enregistrament per a l'StellarSolver i l'Astrometry.net"
-
-#~ msgid "LOG_NONE"
-#~ msgstr "LOG_NONE"
-
-#~ msgid "LOG_ERROR"
-#~ msgstr "LOG_ERROR"
-
-#~ msgid "LOG_MSG"
-#~ msgstr "LOG_MSG"
-
-#~ msgid "LOG_VERB"
-#~ msgstr "LOG_VERB"
-
-#~ msgid "LOG_ALL"
-#~ msgstr "LOG_ALL"
-
-#~ msgid ""
-#~ "Option to log astrometry messages to a separate file.  If you select "
-#~ "LOG_ALL you REALLY want to check this box."
-#~ msgstr ""
-#~ "Opció per a enregistrar els missatges d'astrometria a un fitxer separat. "
-#~ "Si se selecciona LOG_ALL «segur» que voldreu activar aquesta casella."
-
-#~ msgid " Separate Log File:"
-#~ msgstr " Fitxer de registre separat:"
-
-#~ msgid "The external Log File for astrometry logging"
-#~ msgstr ""
-#~ "Camí al fitxer d'enregistrament extern per a l'enregistrament "
-#~ "d'astrometria"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone. Make sure you configure the CFZ tab to give an appropriate value "
-#~ "for your system.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>La mida del pas es pot informar de manera "
-#~ "predeterminada a la Zona Crítica d'Enfocament. Assegureu-vos de "
-#~ "configurar la pestanya ZCE per a donar un valor adequat per al vostre "
-#~ "sistema.</p></body></html>"
-
-#~ msgid "Focus Advisor:"
-#~ msgstr "Assessor d'enfocament:"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Step size can be defaulted to the Critical Focus "
-#~ "Zone..</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>La mida del pas es pot informar de manera "
-#~ "predeterminada a la Zona Crítica d'Enfocament.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Update Focus Parameters to Focus Advisor "
-#~ "suggestions where the associated Update box is checked.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Actualitza els paràmetres d'enfocament als "
-#~ "suggeriments per l'assessor d'enfocament on està marcada la casella "
-#~ "d'actualització associada.</p></body></html>"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Launch the Focus Advisor Help dialog.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Llança el diàleg d'ajuda de l'assessor d'enfocament."
-#~ "</p></body></html>"
-
-#~ msgid ""
-#~ "Focus Advisor (FA) is designed to help you with focus parameters.\n"
-#~ "It will not necessarily give you the perfect combination of parameters, "
-#~ "you will need to experiment yourself, but it will give you a basic set of "
-#~ "parameters to achieve focus.\n"
-#~ "\n"
-#~ "FA will recommend values for the majority of parameters. A few, however, "
-#~ "will need extra work from you to setup. These are identified below along "
-#~ "with a basic explanation of how to set them.\n"
-#~ "\n"
-#~ "The first step is to set backlash. Your focuser manual will likely "
-#~ "explain how to do this. Once you have a value for backlash for your "
-#~ "system, set either the Backlash field to have the driver perform backlash "
-#~ "compensation or the AF Overscan field to have Autofocus perform backlash "
-#~ "compensation. Set only one field and set the other to 0. If you are "
-#~ "unsure which to set, AF Overscan is recommended.\n"
-#~ "\n"
-#~ "The second step is to set Step Size. If you are aware of an approximate "
-#~ "value enter it here otherwise this can be defaulted from the Critical "
-#~ "Focus Zone (CFZ) for your equipment - so configure this now in the CFZ "
-#~ "tab and restart Focus Advisor.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "L'assessor d'enfocament (AE) està dissenyat per a ajudar-vos amb els "
-#~ "paràmetres d'enfocament.\n"
-#~ "No us donarà necessàriament la combinació perfecta de paràmetres, haureu "
-#~ "d'experimentar-ho, però us donarà un conjunt bàsic de paràmetres per a "
-#~ "aconseguir l'enfocament.\n"
-#~ "\n"
-#~ "L'AE recomanarà valors per a la majoria dels paràmetres. No obstant això, "
-#~ "alguns necessitaran més treball per la vostra part. Aquests "
-#~ "s'identifiquen a continuació juntament amb una explicació bàsica de com "
-#~ "establir-los.\n"
-#~ "\n"
-#~ "El primer pas és establir el rebot. El manual de l'enfocador probablement "
-#~ "explicarà com fer-ho. Un cop tingueu un valor per al rebot del sistema, "
-#~ "establiu el camp rebot perquè el controlador realitzi la compensació del "
-#~ "rebot o el camp de sobreexploració de l'EA perquè l'enfocament automàtic "
-#~ "realitzi la compensació del rebot. Establiu només un camp i deixeu "
-#~ "l'altre a 0. Si no teniu la seguretat de quin establir, es recomana la "
-#~ "sobreexploració de l'EA.\n"
-#~ "\n"
-#~ "El segon pas és establir la mida del pas. Si coneixeu un valor aproximat, "
-#~ "introduïu-lo aquí. En cas contrari el podeu predeterminar a partir de la "
-#~ "Zona Crítica d'Enfocament (ZCE) del vostre equip, de manera que "
-#~ "configureu-ho ara a la pestanya ZCE i reinicieu l'assessor d'enfocament.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "The third step is to set the remaining focus parameters to sensible "
-#~ "values. Focus Advisor will suggest values for 5 categories of parameters. "
-#~ "Check the associated Update box to accept these recommendations when you "
-#~ "press Update Params.\n"
-#~ "1. Camera Properties - Note you need to ensure Gain is set appropriately, "
-#~ "e.g. unity gain.\n"
-#~ "2. Focus Settings (Options Popup): These all have recommendations.\n"
-#~ "3. Focus Process (Options Popup): These all have recommendations.\n"
-#~ "4. Focus Mechanics (Options Popup): Note Step Size is dealt with above.\n"
-#~ "5. SEP Parameters (Options Popup): Set the appropriate profile to its "
-#~ "default values.\n"
-#~ "\n"
-#~ "Now move the focuser to approximate focus and select a broadband filter, "
-#~ "e.g. Luminance\n"
-#~ "You are now ready to start an Autofocus run."
-#~ msgstr ""
-#~ "El tercer pas és establir els paràmetres d'enfocament restants als valors "
-#~ "adequats. L'assessor d'enfocament suggerirà valors per a 5 categories de "
-#~ "paràmetres. Marqueu la casella s'actualització associada per a acceptar "
-#~ "aquestes recomanacions quan premeu Actualitza els paràmetres.\n"
-#~ "1. Propietats de la càmera: Tingueu en compte que cal assegurar que el "
-#~ "guany s'estableix adequadament, p. ex. guany d'unitat.\n"
-#~ "2. Paràmetres d'enfocament (menú emergent d'opcions): Tots tenen "
-#~ "recomanacions.\n"
-#~ "3. Procés d'enfocament (menú emergent d'opcions): Tots tenen "
-#~ "recomanacions.\n"
-#~ "4. Mecànica de l'enfocament (menú emergent d'opcions): Tingueu en compte "
-#~ "que la Mida del pas es tracten a dalt.\n"
-#~ "5. Paràmetres del SEP (menú emergent d'opcions): Estableix el perfil "
-#~ "apropiat als seus valors predeterminats.\n"
-#~ "\n"
-#~ "Ara moveu l'enfocador per a aproximar el focus i seleccioneu un filtre de "
-#~ "banda ampla, p. ex. Luminància\n"
-#~ "Ara esteu preparat/da per a iniciar una execució d'enfocament automàtic."
-
-#~ msgid "Focus Advisor recommended step size"
-#~ msgstr "Mida de pas recomanada de l'assessor d'enfocament"
-
-#~ msgid "Focus Advisor recommended Out Step Multiple"
-#~ msgstr "Multiplicador de pas exterior recomanat de l'assessor d'enfocament"
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Camera and Filter Wheel "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Si s'ha d'acceptar la recomanació de l'assessor d'enfocament sobre els "
-#~ "paràmetres de la càmera i la roda de filtres."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Settings Tab Parameters."
-#~ msgstr ""
-#~ "Si s'ha d'acceptar la recomanació de l'assessor d'enfocament sobre els "
-#~ "paràmetres de la pestanya de configuració."
-
-#~ msgid ""
-#~ "Whether to accept Focus Advisor recommendation on Mechanics Tab "
-#~ "Parameters."
-#~ msgstr ""
-#~ "Si s'ha d'acceptar la recomanació de l'assessor d'enfocament sobre els "
-#~ "paràmetres de la pestanya de mecànica."
-
-#~ msgid ""
-#~ "<html><body><p>Do not permit jobs to be scheduled less than this many "
-#~ "degrees before the altitude restriction. Actual execution proceeds until "
-#~ "the altitude limit.</p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>No permet que es programin tasques amb menys graus "
-#~ "que aquests abans de la restricció d'altitud. L'execució real continuarà "
-#~ "fins al límit d'altitud.</p></body></html>"
-
-#~ msgid "Setting altitude cutoff:"
-#~ msgstr "Configuració del tall de l'altitud:"
-
-#~ msgid ""
-#~ "Do not permit jobs to be scheduled less than this many degrees before the "
-#~ "altitude restriction. Actual execution proceeds until the altitude limit."
-#~ msgstr ""
-#~ "No permet que es programin tasques amb menys graus que aquests abans de "
-#~ "la restricció d'altitud. L'execució real continuarà fins al límit "
-#~ "d'altitud."
-
-#~ msgid ""
-#~ "Autofocus start request - Waiting 10sec for AdaptiveFocus to complete."
-#~ msgstr ""
-#~ "Sol·licitud d'inici d'enfocament automàtic - S'esperen 10 s per a "
-#~ "completar l'«AdaptativeFocus»."
-
-#~ msgid "Discarding Autofocus start request - AdaptiveFocus in progress."
-#~ msgstr ""
-#~ "Es descarta la sol·licitud d'inici d'enfocament automàtic: "
-#~ "«AdaptiveFocus» en curs."
-
-#~ msgid "Time Source:"
-#~ msgstr "Font de l'hora:"
-
-#~ msgid "Location Source:"
-#~ msgstr "Font de l'emplaçament:"
-
-#~ msgid "DEC:"
-#~ msgstr "Dec:"
-
-#~ msgid "ALT:"
-#~ msgstr "Alt:"
-
-#~ msgid "Hour Angle"
-#~ msgstr "Angle horari"
-
-#~ msgid "Local Sidereal TIme"
-#~ msgstr "Hora sidèria local"
-
-#~ msgid "LST:"
-#~ msgstr "TSL:"

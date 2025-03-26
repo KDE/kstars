@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-25 01:54+0000\n"
-"PO-Revision-Date: 2025-03-22 11:03+0100\n"
+"PO-Revision-Date: 2025-03-25 06:51+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -25487,7 +25487,7 @@ msgstr "Vremensko opozorilo"
 #: ekos/observatory/observatory.cpp:777
 #, kde-format
 msgid "Weather Alert"
-msgstr "Nujno vremensko opozorilo"
+msgstr "Vremenski alarm"
 
 #: ekos/observatory/observatory.cpp:1059 ekos/observatory/observatory.cpp:1070
 #: ekos/observatory/observatoryweathermodel.cpp:156
@@ -25743,7 +25743,7 @@ msgstr "Dejanja"
 #: ekos/observatory/observatory.ui:913
 #, kde-format
 msgid "Ale&rt"
-msgstr "Opozorilo"
+msgstr "Alarm"
 
 #. i18n: ectx: property (text), widget (QCheckBox, weatherAlertShutterCB)
 #. i18n: ectx: property (text), widget (QCheckBox, weatherWarningShutterCB)
@@ -27962,13 +27962,18 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:700;\">Omogoči vremensko "
+"načrtovanje:</span> Preprečuje začetek novih opravil med vremenskimi "
+"opozorili ali alarmi. Obstoječa opravila se med opozorili nadaljujejo, med "
+"alarmi pa se prekinejo. Sistem sproži mehko zaustavitev in počaka na "
+"izboljšane pogoje ali poteku obdobja odloga, po katerem se trenutno opravilo "
+"prekine.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Vremensko opozorilo"
+msgstr "Interval vremenskega odloga"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -29239,14 +29244,14 @@ msgstr ""
 msgid ""
 "Job '%1' cannot start because weather status is %2 and grace period is over."
 msgstr ""
+"Opravila '%1' se ne more zagnati, ker je vremensko stanje %2 in je odloga "
+"konec."
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Alert"
+msgstr "Alarm"
 
 #: ekos/scheduler/schedulerprocess.cpp:679
 #, kde-format
@@ -29254,6 +29259,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"Opravila '%1' ni mogoče zagnati, ker je vremensko stanje %2. Čakanje da se "
+"vreme izboljša ali do %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:701
 #, kde-format
@@ -29952,21 +29959,22 @@ msgstr ""
 "'%1' aktiven. Prekinitev."
 
 #: ekos/scheduler/schedulerprocess.cpp:4107
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "Parkiranje kupole ni uspelo. Ponovni zagon operacije..."
+msgstr "Vreme se je izboljšalo. Nadaljevanje delovanja."
 
 #: ekos/scheduler/schedulerprocess.cpp:4116
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
-msgstr ""
+msgstr "Zaznan vremenski alarm. Zagon postopka mehke zaustavitve."
 
 #: ekos/scheduler/schedulerprocess.cpp:4131
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
+"Observatorij načrtuje mehko zaustavitev, dokler se vreme ne izboljša ali do "
+"%1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4156
 #, kde-format
@@ -40499,18 +40507,15 @@ msgstr "Privzeta omejitev razporejevalnika opravil glede višine Lune."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
-msgstr ""
-"Privzeto potrditveno polje razporejevalnika za vremenske omejitve opravila."
+msgstr "Privzeto potrditveno polje razporejevalnika za vremenske omejitve."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3328
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
-msgstr "Koliko poskusov sttresanja narediti pred prenehanjem."
+msgstr "Počakaj toliko minut, da se vreme izboljša, preden obupate."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3332
@@ -41011,7 +41016,7 @@ msgstr "Se bo odzval na opozorila?"
 #: kstars.kcfg:3607
 #, kde-format
 msgid "Will be reacted upon alerts?"
-msgstr "Se bo odzval na opozorila?"
+msgstr "Se bo odzval na alarme?"
 
 #. i18n: ectx: label, entry (weatherWarningCloseDome), group (Observatory)
 #: kstars.kcfg:3611
@@ -41031,7 +41036,7 @@ msgstr "Ali naj se pokrov zapre, ko se pojavi vremensko opozorilo?"
 #: kstars.kcfg:3619 kstars.kcfg:3631 kstars.kcfg:3635
 #, kde-format
 msgid "Shall the shutter being closed when a weather alert occurs?"
-msgstr "Ali naj bo pokrov zaprt, ko se pojavi vremensko opozorilo?"
+msgstr "Ali naj bo pokrov zaprt, ko se pojavi vremenski alarm?"
 
 #. i18n: ectx: label, entry (weatherWarningDelay), group (Observatory)
 #: kstars.kcfg:3623
@@ -41043,13 +41048,13 @@ msgstr "Zakasnitev odziva na vremensko opozorilo."
 #: kstars.kcfg:3627
 #, kde-format
 msgid "Shall the dome being closed when a weather alert occurs?"
-msgstr "Ali se kupola zapira, ko pride do vremenskega opozorila?"
+msgstr "Ali se kupola zapira, ko pride do vremenskega alarma?"
 
 #. i18n: ectx: label, entry (weatherAlertDelay), group (Observatory)
 #: kstars.kcfg:3639
 #, kde-format
 msgid "Delay for reacting upon a weather alert."
-msgstr "Zakasnitev odziva na vremensko opozorilo."
+msgstr "Zakasnitev odziva na vremenski alarm."
 
 #. i18n: ectx: label, entry (observatoryStatusUseDome), group (Observatory)
 #: kstars.kcfg:3643
@@ -44923,7 +44928,7 @@ msgstr "Aldermaston"
 #, kde-kuit-format
 msgctxt "City in Nunavut Canada"
 msgid "Alert"
-msgstr "Alert"
+msgstr "Alarm"
 
 #: kstars_i18n.cpp:754
 #, kde-kuit-format

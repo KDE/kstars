@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-25 01:54+0000\n"
-"PO-Revision-Date: 2025-03-22 09:43+0200\n"
+"PO-Revision-Date: 2025-03-25 08:34+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -28261,13 +28261,20 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:700;\">Увімкнути планування "
+"на основі погоди:</span> запобігати запуску нових завдань під час "
+"попереджень або сповіщень про погіршення погодних умов. Протягом дії "
+"попереджень виконання наявних завдань продовжуватиметься, але їх буде "
+"припинено, якщо надходитимуть критичні попередження. Система ініціює м'яке "
+"завершення роботи і чекає на поліпшення умов або закінчення періоду "
+"толерантності, після чого виконання поточного завдання припиняється.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Попередження щодо погоди"
+msgstr "Період толерантності для погоди"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -29552,14 +29559,14 @@ msgstr ""
 msgid ""
 "Job '%1' cannot start because weather status is %2 and grace period is over."
 msgstr ""
+"Виконання завдання «%1» неможливо розпочати, оскільки маємо стан погоди %2 і "
+"період толерантності вичерпано."
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Алерт"
+msgstr "Попередження"
 
 #: ekos/scheduler/schedulerprocess.cpp:679
 #, kde-format
@@ -29567,6 +29574,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"Виконання завдання «%1» неможливо розпочати, оскільки маємо стан погоди %2. "
+"Очікуємо на поліпшення погоди або до %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:701
 #, kde-format
@@ -30278,21 +30287,24 @@ msgstr ""
 "Перериваємо обробку."
 
 #: ekos/scheduler/schedulerprocess.cpp:4107
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "Невдале паркування купола. Перезапускаємо дію…"
+msgstr "Погода поліпшилася. Відновлюємо роботу."
 
 #: ekos/scheduler/schedulerprocess.cpp:4116
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
 msgstr ""
+"Виявлено попередження щодо погодних умов. Починаємо процедуру м'якого "
+"вимикання."
 
 #: ekos/scheduler/schedulerprocess.cpp:4131
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
+"Заплановано переведення обсерваторії у стан м'якого вимикання, доки не "
+"поліпшиться погода або до %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4156
 #, kde-format
@@ -41014,18 +41026,17 @@ msgstr "Типове обмеження на висоту місяця для з
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
-msgstr ""
-"Типове позначення пункту планувальника для обмежень на погоду у завданні."
+msgstr "Типове позначення пункту планувальника для обмежень на погоду."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3328
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
-msgstr "Кількість спроб малого руху, які слід виконати."
+msgstr ""
+"Очікувати вказану кількість хвилин на поліпшення погоди, перш ніж "
+"скасовувати роботу."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3332
