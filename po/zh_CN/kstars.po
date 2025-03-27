@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-25 01:54+0000\n"
+"POT-Creation-Date: 2025-03-27 01:57+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6508,24 +6508,24 @@ msgstr "赤经误差(角秒)"
 msgid "dDE (arcsec)"
 msgstr "赤纬误差(角秒)"
 
-#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3419
+#: ekos/align/align.cpp:3648 ekos/capture/camera.cpp:3434
 #: ekos/focus/focus.cpp:5608
 #, kde-format
 msgid "Filter operation failed."
 msgstr "滤镜操作失败。"
 
-#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3917
+#: ekos/align/align.cpp:3660 ekos/capture/camera.cpp:3932
 #, kde-format
 msgid "Changing focus offset by %1 steps..."
 msgstr "更改焦点偏移 %1 步..."
 
 #: ekos/align/align.cpp:3667 ekos/auxiliary/buildfilteroffsets.cpp:466
-#: ekos/capture/camera.cpp:3922
+#: ekos/capture/camera.cpp:3937
 #, kde-format
 msgid "Changing filter to %1..."
 msgstr "更改滤镜至 %1..."
 
-#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3927
+#: ekos/align/align.cpp:3672 ekos/capture/camera.cpp:3942
 #, kde-format
 msgid "Auto focus on filter change..."
 msgstr "更换滤镜后自动对焦..."
@@ -13978,12 +13978,12 @@ msgstr "秒"
 msgid "frames"
 msgstr "帧"
 
-#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4042
+#: ekos/capture/camera.cpp:170 ekos/capture/camera.cpp:4057
 #, kde-format
 msgid "Add job to sequence queue"
 msgstr "将作业添加到序列队列"
 
-#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4043
+#: ekos/capture/camera.cpp:171 ekos/capture/camera.cpp:4058
 #, kde-format
 msgid "Remove job from sequence queue"
 msgstr "从序列队列中删除作业"
@@ -14172,33 +14172,33 @@ msgstr "您必须为”本地 & 均存放“模式设置本地或远程目录。
 msgid "You must set local directory for Locally & Both modes."
 msgstr "您必须为 Locally & Both 模式设置本地目录。"
 
-#: ekos/capture/camera.cpp:3579
+#: ekos/capture/camera.cpp:3594
 #, kde-format
 msgid "Paused..."
 msgstr "暂停..."
 
-#: ekos/capture/camera.cpp:3584
+#: ekos/capture/camera.cpp:3599
 #, kde-format
 msgid "Meridian Flip..."
 msgstr "中天翻转..."
 
-#: ekos/capture/camera.cpp:3585
+#: ekos/capture/camera.cpp:3600
 #, kde-format
 msgid "Meridian flip started"
 msgstr "开始中天翻转"
 
-#: ekos/capture/camera.cpp:3589
+#: ekos/capture/camera.cpp:3604
 #, kde-format
 msgid "Flip complete."
 msgstr "翻转完成。"
 
-#: ekos/capture/camera.cpp:3649
+#: ekos/capture/camera.cpp:3664
 #, kde-format
 msgctxt "Maximum temperature variation over time when regulating."
 msgid "Ramp (°C/min):"
 msgstr "Ramp (°C/min):"
 
-#: ekos/capture/camera.cpp:3655
+#: ekos/capture/camera.cpp:3670
 #, kde-format
 msgid ""
 "<html><body><p>Maximum temperature change per minute when cooling or warming "
@@ -14208,13 +14208,13 @@ msgstr ""
 "<html><body><p>制冷或加热相机时，每分钟最大的温度变化 。 设0禁用。<p>该设定读"
 "取及存储于 INDI 相机配置。</body></html>"
 
-#: ekos/capture/camera.cpp:3660
+#: ekos/capture/camera.cpp:3675
 #, kde-format
 msgctxt "Temperature threshold above which regulation triggers."
 msgid "Threshold (°C):"
 msgstr "阈值(°C)："
 
-#: ekos/capture/camera.cpp:3666
+#: ekos/capture/camera.cpp:3681
 #, kde-format
 msgid ""
 "<html><body><p>Maximum difference between camera and target temperatures "
@@ -14224,70 +14224,70 @@ msgstr ""
 "<html><body><p>相机与目标最大温差，大于该温差时启动调节。<p>该设定读取及存储"
 "于 INDI 相机配置。</body></html>"
 
-#: ekos/capture/camera.cpp:3679
+#: ekos/capture/camera.cpp:3694
 #, kde-format
 msgctxt "@title:window"
 msgid "Set Temperature Regulation"
 msgstr "设置温度管控"
 
-#: ekos/capture/camera.cpp:3719
+#: ekos/capture/camera.cpp:3734
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Current Observer"
 msgstr "选择当前观测员"
 
-#: ekos/capture/camera.cpp:3721
+#: ekos/capture/camera.cpp:3736
 #, kde-format
 msgid "Current Observer:"
 msgstr "当前观测员："
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ObserverAdd)
-#: ekos/capture/camera.cpp:3732 oal/execute.cpp:38 oal/observeradd.ui:26
+#: ekos/capture/camera.cpp:3747 oal/execute.cpp:38 oal/observeradd.ui:26
 #, kde-format
 msgid "Manage Observers"
 msgstr "管理观测员"
 
-#: ekos/capture/camera.cpp:3904
+#: ekos/capture/camera.cpp:3919
 #, kde-format
 msgid "Cooler is on"
 msgstr "制冷已打开"
 
-#: ekos/capture/camera.cpp:3904
+#: ekos/capture/camera.cpp:3919
 #, kde-format
 msgid "Cooler is off"
 msgstr "制冷已关闭"
 
-#: ekos/capture/camera.cpp:3934
+#: ekos/capture/camera.cpp:3949
 #, kde-format
 msgid "Filter set to %1."
 msgstr "设置过滤器为 %1。"
 
-#: ekos/capture/camera.cpp:3967
+#: ekos/capture/camera.cpp:3982
 #, kde-format
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "您确定要重置所有任务状态吗？"
 
-#: ekos/capture/camera.cpp:3967 ekos/capture/cameraprocess.cpp:2713
+#: ekos/capture/camera.cpp:3982 ekos/capture/cameraprocess.cpp:2713
 #, kde-format
 msgid "Reset job status"
 msgstr "重置任务状态"
 
-#: ekos/capture/camera.cpp:4020
+#: ekos/capture/camera.cpp:4035
 #, kde-format
 msgid "Editing job #%1..."
 msgstr "编辑任务 #%1..."
 
-#: ekos/capture/camera.cpp:4023 ekos/scheduler/scheduler.cpp:1344
+#: ekos/capture/camera.cpp:4038 ekos/scheduler/scheduler.cpp:1344
 #, kde-format
 msgid "Apply job changes."
 msgstr "应用作业更改。"
 
-#: ekos/capture/camera.cpp:4024
+#: ekos/capture/camera.cpp:4039
 #, kde-format
 msgid "Cancel job changes."
 msgstr "取消作业更改"
 
-#: ekos/capture/camera.cpp:4037
+#: ekos/capture/camera.cpp:4052
 #, kde-format
 msgid "Editing job canceled."
 msgstr "取消编辑任务"
@@ -26909,10 +26909,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "天气警告"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -28095,11 +28094,9 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "警告"
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:679
 #, kde-format
@@ -28737,10 +28734,9 @@ msgid ""
 msgstr "警告：调度器运行作业'%1'但支架已归位。正在中止。"
 
 #: ekos/scheduler/schedulerprocess.cpp:4107
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "圆顶归位失败，正在重新执行..."
+msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:4116
 #, kde-format
@@ -38796,17 +38792,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
-msgstr "默认调度器的作业天气约束。"
+msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3328
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
-msgstr "放弃抖动前的尝试次数。"
+msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3332
@@ -85533,14 +85527,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Weather conditions must remain safe. When weather "
-#~ "conditions become dangerous, shutdown procedure is initiated.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>天气条件必须保持安全。当天气条件变得危险时，启动关机"
-#~ "程序。</p></body></html>"
-
-#~ msgid "Starting shutdown procedure due to severe weather."
-#~ msgstr "因天气恶劣，启动关机流程。"
