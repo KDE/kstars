@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-27 01:57+0000\n"
-"PO-Revision-Date: 2025-03-16 11:13+0100\n"
+"PO-Revision-Date: 2025-03-21 22:29+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16513,6 +16513,8 @@ msgstr ""
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
+"Il gestore dei filtri non è ancora inizializzato. Ruota portafiltri mancante "
+"nel gruppo?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:675
 #, kde-format
@@ -17925,40 +17927,34 @@ msgid "Light box on."
 msgstr "Scatola luminosa accesa."
 
 #: ekos/capture/sequencejobstate.cpp:892
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "Dust cap error occurred."
-msgstr "Errore del parapolvere."
+msgstr "Si è verificato un errore del parapolvere."
 
 #: ekos/capture/sequencejobstate.cpp:896
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is idle."
-msgstr "Il parapolvere %1 è in linea."
+msgstr "Il parapolvere è inattivo."
 
 #: ekos/capture/sequencejobstate.cpp:899
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust cap is parked."
-msgstr "Parapolvere parcheggiato."
+msgstr "Il parapolvere è parcheggiato."
 
 #: ekos/capture/sequencejobstate.cpp:902
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust cap is parking..."
-msgstr "%1 si sta parcheggiando..."
+msgstr "Il parapolvere si sta parcheggiando..."
 
 #: ekos/capture/sequencejobstate.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust cap is unparking..."
-msgstr "%1 si sta sparcheggiando..."
+msgstr "Il parapolvere si sta sparcheggiando..."
 
 #: ekos/capture/sequencejobstate.cpp:908
-#, fuzzy, kde-format
-#| msgid "Dust cap light on."
+#, kde-format
 msgid "Dust cap status unknown."
-msgstr "Luce del parapolvere accesa."
+msgstr "Lo stato del parapolvere è sconosciuto."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -22824,11 +22820,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1136
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "Monte Mario"
+msgstr "Deriva della montatura"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1171
@@ -23015,16 +23009,14 @@ msgstr ""
 "verde in secondi d'arco.</p></body></html>"
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "deriva (arcosec)"
+msgstr "Deriva DE della montatura (arcosec)"
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgid "drift (arcsec)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "deriva (arcosec)"
+msgstr "Deriva AR della montatura (arcosec)"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
