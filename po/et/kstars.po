@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-27 01:57+0000\n"
+"POT-Creation-Date: 2025-03-29 01:54+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -1993,7 +1993,7 @@ msgid "ZA:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
-#: data/qml/mount/mountbox.qml:671 ekos/capture/camera.ui:1812
+#: data/qml/mount/mountbox.qml:671 ekos/capture/camera.ui:1816
 #, kde-format, kde-kuit-format
 msgid "Target:"
 msgstr "Sihtmärk:"
@@ -2005,7 +2005,7 @@ msgstr "Sihtmärk:"
 #. i18n: ectx: property (text), widget (QLabel, label6)
 #. i18n: ectx: property (text), widget (QLabel, label_22)
 #: data/qml/mount/mountbox.qml:808 dialogs/addcatalogobject.ui:40
-#: dialogs/detaildialog.cpp:315 ekos/capture/camera.ui:767
+#: dialogs/detaildialog.cpp:315 ekos/capture/camera.ui:782
 #: ekos/mount/mounttargetwidget.ui:148 indi/collimationOptions.ui:427
 #: oal/equipmentwriter.ui:198 oal/equipmentwriter.ui:977 oal/execute.ui:146
 #: printing/detailstable.cpp:318
@@ -2870,7 +2870,7 @@ msgstr "Tekst"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2318 tools/imagingplanner.cpp:1130
+#: ekos/capture/camera.ui:2322 tools/imagingplanner.cpp:1130
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -2978,7 +2978,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
-#: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2369
+#: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
 #: ekos/capture/cameraprocess.cpp:2448 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
@@ -3870,7 +3870,7 @@ msgstr "0,0 magnituudi"
 #. i18n: ectx: property (text), widget (QLabel, AngSizeLabel)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_19)
 #. i18n: ectx: property (text), widget (QLabel, sizeLabel)
-#: dialogs/details_data.ui:289 ekos/capture/camera.ui:646
+#: dialogs/details_data.ui:289 ekos/capture/camera.ui:661
 #: indi/collimationOptions.ui:342 printing/detailstable.cpp:326
 #, kde-format
 msgid "Size:"
@@ -4057,7 +4057,7 @@ msgstr "Albeedo:"
 #. i18n: ectx: property (text), widget (QLabel, Albedo)
 #. i18n: ectx: property (text), widget (QLabel, targetDrift)
 #. i18n: ectx: property (text), widget (QLineEdit, AltGeoBox)
-#: dialogs/details_data_comet.ui:218 ekos/capture/camera.ui:2804
+#: dialogs/details_data_comet.ui:218 ekos/capture/camera.ui:2802
 #: tools/modcalcgeod.ui:257
 #, kde-format
 msgid "0.0"
@@ -5383,8 +5383,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_16)
 #. i18n: ectx: property (text), widget (QLabel, captureBinXLabel)
-#: dialogs/newfov.ui:504 dialogs/newfov.ui:559 ekos/capture/camera.ui:453
-#: ekos/capture/camera.ui:574
+#: dialogs/newfov.ui:504 dialogs/newfov.ui:559 ekos/capture/camera.ui:465
+#: ekos/capture/camera.ui:589
 #, kde-format
 msgid "H:"
 msgstr "K:"
@@ -6840,7 +6840,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #. i18n: ectx: property (text), widget (QLabel, opticalTrainLabel)
 #: ekos/align/align.ui:32 ekos/auxiliary/darklibrary.ui:49
-#: ekos/capture/camera.ui:57 ekos/focus/focus.ui:68 ekos/guide/guide.ui:44
+#: ekos/capture/camera.ui:72 ekos/focus/focus.ui:68 ekos/guide/guide.ui:44
 #: ekos/mount/mount.ui:432 ekos/scheduler/scheduler.ui:670
 #, fuzzy, kde-format
 #| msgctxt "City in Spain"
@@ -7114,7 +7114,7 @@ msgstr "Lahendaja valikud"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_21)
 #. i18n: ectx: property (text), widget (QLabel, gainLabel)
 #: ekos/align/align.ui:554 ekos/auxiliary/darklibrary.ui:477
-#: ekos/capture/camera.ui:807 ekos/capture/captureprocessoverlay.ui:296
+#: ekos/capture/camera.ui:822 ekos/capture/captureprocessoverlay.ui:296
 #: ekos/focus/focus.ui:513 ekos/guide/guide.ui:365
 #, kde-format
 msgid "Gain:"
@@ -7155,7 +7155,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
 #. i18n: ectx: property (text), widget (QCheckBox, guideDarkFrame)
-#: ekos/align/align.ui:602 ekos/capture/camera.ui:2595 ekos/guide/guide.ui:240
+#: ekos/align/align.ui:602 ekos/capture/camera.ui:2596 ekos/guide/guide.ui:240
 #, kde-format
 msgid "Dark"
 msgstr "Pimekaader"
@@ -7183,7 +7183,7 @@ msgstr "Särituse kestus sekundites"
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_5)
 #: ekos/align/align.ui:669 ekos/auxiliary/darklibrary.ui:471
-#: ekos/auxiliary/darklibrary.ui:490 ekos/capture/camera.ui:801
+#: ekos/auxiliary/darklibrary.ui:490 ekos/capture/camera.ui:816
 #: ekos/guide/guide.ui:362
 #, fuzzy, kde-format
 #| msgid "Camera binning"
@@ -7194,7 +7194,7 @@ msgstr "Kaamera lahterdamine"
 #. i18n: ectx: property (text), widget (QLabel, filterLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/align/align.ui:685 ekos/capture/camera.ui:679 ekos/focus/focus.ui:719
+#: ekos/align/align.ui:685 ekos/capture/camera.ui:694 ekos/focus/focus.ui:719
 #: ekos/profileeditor.ui:644 fitsviewer/fitsdebayer.ui:22 oal/execute.ui:358
 #, kde-format
 msgid "Filter:"
@@ -7203,7 +7203,7 @@ msgstr "Filter:"
 #. i18n: ectx: property (toolTip), widget (QComboBox, alignISO)
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureISOS)
 #: ekos/align/align.ui:692 ekos/auxiliary/darklibrary.ui:516
-#: ekos/capture/camera.ui:794
+#: ekos/capture/camera.ui:809
 #, fuzzy, kde-format
 #| msgid "Camera FOV:"
 msgid "Camera ISO"
@@ -7227,7 +7227,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, ISOLabel)
 #: ekos/align/align.ui:734 ekos/auxiliary/darklibrary.ui:506
-#: ekos/capture/camera.ui:784 ekos/focus/focus.ui:854
+#: ekos/capture/camera.ui:799 ekos/focus/focus.ui:854
 #, kde-format
 msgid "ISO:"
 msgstr "ISO:"
@@ -11652,7 +11652,7 @@ msgstr "Kas tõesti loobuda?"
 #. i18n: ectx: property (text), widget (QPushButton, filterPB)
 #. i18n: ectx: attribute (title), widget (QWidget, Filter)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:118 ekos/capture/camera.ui:2303
+#: ekos/auxiliary/filtermanager.cpp:118 ekos/capture/camera.ui:2307
 #: fitsviewer/catalogobject.ui:63 oal/equipmentwriter.ui:912
 #, kde-format
 msgid "Filter"
@@ -11660,7 +11660,7 @@ msgstr "Filter"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #: ekos/auxiliary/buildfilteroffsets.cpp:177
-#: ekos/auxiliary/filtermanager.cpp:124 ekos/capture/camera.ui:2333
+#: ekos/auxiliary/filtermanager.cpp:124 ekos/capture/camera.ui:2337
 #: ekos/scheduler/scheduler.cpp:444
 #, kde-format
 msgid "Offset"
@@ -11991,7 +11991,7 @@ msgstr "Efektid"
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_9)
 #. i18n: ectx: property (text), widget (QLabel, binningLabel)
-#: ekos/auxiliary/darklibrary.ui:193 ekos/capture/camera.ui:274
+#: ekos/auxiliary/darklibrary.ui:193 ekos/capture/camera.ui:285
 #: ekos/capture/captureprocessoverlay.ui:433
 #, kde-format
 msgid "Binning:"
@@ -12053,7 +12053,7 @@ msgstr "64x"
 #. i18n: ectx: property (text), widget (QLabel, exposureOptionsLabel)
 #. i18n: ectx: property (text), widget (QLabel, countLabel)
 #: ekos/auxiliary/darklibrary.ui:339 ekos/capture/camera.cpp:1057
-#: ekos/capture/camera.ui:1686 indi/collimationOptions.ui:440
+#: ekos/capture/camera.ui:1691 indi/collimationOptions.ui:440
 #, kde-format
 msgid "Count:"
 msgstr "Arv:"
@@ -12151,7 +12151,7 @@ msgstr "Aeg:"
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #. i18n: ectx: property (text), widget (QLabel, exposureLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: ekos/auxiliary/darklibrary.ui:703 ekos/capture/camera.ui:325
+#: ekos/auxiliary/darklibrary.ui:703 ekos/capture/camera.ui:336
 #: ekos/capture/captureprocessoverlay.ui:284 oal/equipmentwriter.ui:997
 #, kde-format
 msgid "Exposure:"
@@ -12516,7 +12516,7 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, FilterSettings)
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterManagerB)
-#: ekos/auxiliary/filtersettings.ui:20 ekos/capture/camera.ui:359
+#: ekos/auxiliary/filtersettings.ui:20 ekos/capture/camera.ui:370
 #, kde-format
 msgid "Filter Settings"
 msgstr "Filtri seadistused"
@@ -12787,7 +12787,7 @@ msgstr "FITS-i töötlemise logimine"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FITSLogging)
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
-#: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:297
+#: ekos/auxiliary/opslogs.ui:202 ekos/capture/camera.ui:308
 #: kstarsactions.cpp:1165
 #, kde-format
 msgid "FITS"
@@ -12933,7 +12933,7 @@ msgstr "Fokuseerija"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIRotatorLogging)
 #. i18n: ectx: property (text), widget (QLabel, rotatorLabel)
-#: ekos/auxiliary/opslogs.ui:390 ekos/capture/camera.ui:970
+#: ekos/auxiliary/opslogs.ui:390 ekos/capture/camera.ui:985
 #, kde-format
 msgid "Rotator"
 msgstr ""
@@ -14528,7 +14528,7 @@ msgid "Capture Sequence Editor: %1"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, secLabel)
-#: ekos/capture/camera.cpp:120 ekos/capture/camera.ui:2770
+#: ekos/capture/camera.cpp:120 ekos/capture/camera.ui:2768
 #, fuzzy, kde-format
 #| msgctxt "second"
 #| msgid "sec"
@@ -14875,91 +14875,91 @@ msgid "Editing job canceled."
 msgstr "Töö muutmisest loobuti."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, restartCameraB)
-#: ekos/capture/camera.ui:146
+#: ekos/capture/camera.ui:160
 #, fuzzy, kde-format
 #| msgid "Default Weather driver"
 msgid "Restart camera driver"
 msgstr "Ilma vaikimisi draiver"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearConfigurationB)
-#: ekos/capture/camera.ui:178
+#: ekos/capture/camera.ui:191
 #, kde-format
 msgid "Clear camera configuration"
 msgstr "Kaamera seadistuse puhastamine"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFrameB)
-#: ekos/capture/camera.ui:210
+#: ekos/capture/camera.ui:222
 #, kde-format
 msgid "Reset CCD frame & size values to default values"
 msgstr "CCD kaadri ja suuruse väärtuste lähtestamine vaikeväärtustele"
 
 #. i18n: ectx: property (title), widget (QGroupBox, CaptureSettingsGroup)
-#: ekos/capture/camera.ui:247
+#: ekos/capture/camera.ui:258
 #, fuzzy, kde-format
 #| msgid "Filter Settings"
 msgid "Capture Settings"
 msgstr "Filtri seadistused"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_9)
-#: ekos/capture/camera.ui:268
+#: ekos/capture/camera.ui:279
 #, kde-format
 msgid "Horizontal and Vertical binning"
 msgstr "Rõhtne ja püstine lahterdamine"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureFormatS)
-#: ekos/capture/camera.ui:286
+#: ekos/capture/camera.ui:297
 #, fuzzy, kde-format
 #| msgid "Image captured..."
 msgid "Image capture format"
 msgstr "Tehti pilt..."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, captureEncodingS)
-#: ekos/capture/camera.ui:293
+#: ekos/capture/camera.ui:304
 #, fuzzy, kde-format
 #| msgid "Image Transfer Format"
 msgid "Image transfer format"
 msgstr "Pildi ülekande vorming"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, captureEncodingS)
-#: ekos/capture/camera.ui:302
+#: ekos/capture/camera.ui:313
 #, kde-format
 msgid "Native"
 msgstr "Loomupärane"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
-#: ekos/capture/camera.ui:312 ekos/capture/camera.ui:1864
+#: ekos/capture/camera.ui:323 ekos/capture/camera.ui:1868
 #, kde-format
 msgid "Format:"
 msgstr "Vorming:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, filterEditB)
-#: ekos/capture/camera.ui:397
+#: ekos/capture/camera.ui:407
 #, fuzzy, kde-format
 #| msgid "City filter: "
 msgid "Edit filter names"
 msgstr "Linnafilter: "
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_15)
-#: ekos/capture/camera.ui:430
+#: ekos/capture/camera.ui:439
 #, kde-format
 msgid "W:"
 msgstr "L:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOnB)
-#: ekos/capture/camera.ui:498
+#: ekos/capture/camera.ui:513
 #, kde-format
 msgid "Turn cooler on"
 msgstr "Jahuti sisselülitamine"
 
 #. i18n: ectx: property (text), widget (QPushButton, coolerOnB)
-#: ekos/capture/camera.ui:509
+#: ekos/capture/camera.ui:524
 #, kde-format
 msgid "On"
 msgstr "Sees"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, coolerOffB)
-#: ekos/capture/camera.ui:540
+#: ekos/capture/camera.ui:555
 #, kde-format
 msgid "Turn cooler off"
 msgstr "Jahuti väljalülitamine"
@@ -14967,37 +14967,37 @@ msgstr "Jahuti väljalülitamine"
 #. i18n: ectx: property (text), widget (QPushButton, coolerOffB)
 #. i18n: ectx: property (text), widget (QRadioButton, offR)
 #. i18n: ectx: label, entry (ErectObserverCorrection), group (View)
-#: ekos/capture/camera.ui:551 ekos/indihub.ui:84 kstars.kcfg:833
+#: ekos/capture/camera.ui:566 ekos/indihub.ui:84 kstars.kcfg:833
 #, kde-format
 msgid "Off"
 msgstr "Väljas"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinHN)
-#: ekos/capture/camera.ui:587
+#: ekos/capture/camera.ui:602
 #, kde-format
 msgid "Horizontal binning"
 msgstr "Rõhtne lahterdamine"
 
 #. i18n: ectx: property (text), widget (QLabel, captureBinYLabel)
-#: ekos/capture/camera.ui:609
+#: ekos/capture/camera.ui:624
 #, kde-format
 msgid "V:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, captureBinVN)
-#: ekos/capture/camera.ui:622
+#: ekos/capture/camera.ui:637
 #, kde-format
 msgid "Vertical binning"
 msgstr "Püstine lahterdamine"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_12)
-#: ekos/capture/camera.ui:659
+#: ekos/capture/camera.ui:674
 #, kde-format
 msgid "Frame:"
 msgstr "Kaader:"
 
 #. i18n: ectx: property (text), widget (QLabel, coolerLabel)
-#: ekos/capture/camera.ui:666
+#: ekos/capture/camera.ui:681
 #, kde-format
 msgid "Cooler:"
 msgstr "Jahuti:"
@@ -15005,7 +15005,7 @@ msgstr "Jahuti:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_13)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, l_26)
-#: ekos/capture/camera.ui:697 ekos/guide/manualdither.ui:67
+#: ekos/capture/camera.ui:712 ekos/guide/manualdither.ui:67
 #: ekos/guide/opscalibration.ui:178
 #, kde-format
 msgid "X:"
@@ -15014,21 +15014,21 @@ msgstr "X:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_14)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, l_27)
-#: ekos/capture/camera.ui:720 ekos/guide/manualdither.ui:88
+#: ekos/capture/camera.ui:735 ekos/guide/manualdither.ui:88
 #: ekos/guide/opscalibration.ui:195
 #, kde-format
 msgid "Y:"
 msgstr "Y:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentGainLabel)
-#: ekos/capture/camera.ui:825
+#: ekos/capture/camera.ui:840
 #, fuzzy, kde-format
 #| msgid "Current Script"
 msgid "Current camera gain"
 msgstr "Käesolev skript"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureGainN)
-#: ekos/capture/camera.ui:847
+#: ekos/capture/camera.ui:862
 #, fuzzy, kde-format
 #| msgid "Clear camera configuration"
 msgid "Target camera gain"
@@ -15036,7 +15036,7 @@ msgstr "Kaamera seadistuse puhastamine"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/camera.ui:865 ekos/capture/rotatorsettings.ui:400
+#: ekos/capture/camera.ui:880 ekos/capture/rotatorsettings.ui:400
 #, fuzzy, kde-format
 #| msgid "UTC Offset"
 msgid "Camera Offset"
@@ -15045,28 +15045,28 @@ msgstr "UTC erinevus"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_20)
 #. i18n: ectx: property (text), widget (QLabel, offsetLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: ekos/capture/camera.ui:871 ekos/capture/captureprocessoverlay.ui:154
+#: ekos/capture/camera.ui:886 ekos/capture/captureprocessoverlay.ui:154
 #: indi/collimationOptions.ui:332 oal/equipmentwriter.ui:1026
 #, kde-format
 msgid "Offset:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentOffsetLabel)
-#: ekos/capture/camera.ui:889
+#: ekos/capture/camera.ui:904
 #, fuzzy, kde-format
 #| msgid "UTC Offset"
 msgid "Current camera offset"
 msgstr "UTC erinevus"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, captureOffsetN)
-#: ekos/capture/camera.ui:911
+#: ekos/capture/camera.ui:926
 #, fuzzy, kde-format
 #| msgid "UTC Offset"
 msgid "Target camera offset"
 msgstr "UTC erinevus"
 
 #. i18n: ectx: property (text), widget (QLabel, darksLibraryLabel)
-#: ekos/capture/camera.ui:955
+#: ekos/capture/camera.ui:970
 #, fuzzy, kde-format
 #| msgid "Dark Library"
 msgid "Dark Lib."
@@ -15074,19 +15074,19 @@ msgstr "Pimekaadrite teek"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, rotatorB)
 #. i18n: ectx: property (windowTitle), widget (QDialog, RotatorDialog)
-#: ekos/capture/camera.ui:1014 ekos/capture/rotatorsettings.ui:20
+#: ekos/capture/camera.ui:1029 ekos/capture/rotatorsettings.ui:20
 #, kde-format
 msgid "Rotator Control"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCalculationLabel)
-#: ekos/capture/camera.ui:1039
+#: ekos/capture/camera.ui:1053
 #, kde-format
 msgid "Exp. Calc."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, darkLibraryB)
-#: ekos/capture/camera.ui:1061
+#: ekos/capture/camera.ui:1075
 #, fuzzy, kde-format
 #| msgctxt "City in Texas USA"
 #| msgid "Clear Lake City"
@@ -15094,7 +15094,7 @@ msgid "Create and manage Dark Library"
 msgstr "Clear Lake City"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, exposureCalcB)
-#: ekos/capture/camera.ui:1099
+#: ekos/capture/camera.ui:1112
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
 msgid "<html><head/><body><p>Exposure calculator</p></body></html>"
@@ -15102,20 +15102,20 @@ msgstr ""
 "<html><head/><body><p>Sensori andmete ajaloo puhastamine</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, calibrationB)
-#: ekos/capture/camera.ui:1140
+#: ekos/capture/camera.ui:1152
 #, kde-format
 msgid "Dark & Flat frames automatic calibration options"
 msgstr "Pime- ja tasaväljakaadrite automaatse kalibreerimise valikud"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1165 ekos/capture/cameraprocess.cpp:2461
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2461
 #: ekos/guide/guide.cpp:70
 #, kde-format
 msgid "Calibration"
 msgstr "Kalibreerimine"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, generateDarkFlatsB)
-#: ekos/capture/camera.ui:1196
+#: ekos/capture/camera.ui:1207
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
 msgid ""
@@ -15125,27 +15125,27 @@ msgstr ""
 "<html><head/><body><p>Sensori andmete ajaloo puhastamine</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, darksFlatsLabel)
-#: ekos/capture/camera.ui:1221
+#: ekos/capture/camera.ui:1231
 #, fuzzy, kde-format
 #| msgid "Dark Frame"
 msgid "Dark Flats"
 msgstr "Pimekaader"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customValuesB)
-#: ekos/capture/camera.ui:1249
+#: ekos/capture/camera.ui:1259
 #, kde-format
 msgid "Manage INDI sequence properties"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, customValuesLabel)
-#: ekos/capture/camera.ui:1274
+#: ekos/capture/camera.ui:1283
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom Val."
 msgstr "Kohandatud"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, limitsB)
-#: ekos/capture/camera.ui:1290
+#: ekos/capture/camera.ui:1299
 #, fuzzy, kde-format
 #| msgid "Configure Hidden Objects"
 msgid "Configure Guide & Focus limits"
@@ -15153,14 +15153,14 @@ msgstr "Objektide peitmise seadistamine"
 
 #. i18n: ectx: property (text), widget (QLabel, limitsLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
-#: ekos/capture/camera.ui:1315 ekos/mount/mount.ui:183
+#: ekos/capture/camera.ui:1323 ekos/mount/mount.ui:183
 #: tools/scriptbuilder.cpp:685
 #, kde-format
 msgid "Limits"
 msgstr "Piirangud"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, scriptManagerB)
-#: ekos/capture/camera.ui:1337
+#: ekos/capture/camera.ui:1345
 #, fuzzy, kde-format
 #| msgid "Manage Observers"
 msgid "Manage sequence scripts"
@@ -15168,7 +15168,7 @@ msgstr "Vaatlejate haldamine"
 
 #. i18n: ectx: property (text), widget (QLabel, scriptsLabel)
 #. i18n: ectx: property (text), widget (QPushButton, scriptsB)
-#: ekos/capture/camera.ui:1362 ekos/profileeditor.ui:721
+#: ekos/capture/camera.ui:1369 ekos/profileeditor.ui:721
 #: ekos/scheduler/scheduler.cpp:456
 #, fuzzy, kde-format
 #| msgid "Script:"
@@ -15176,19 +15176,19 @@ msgid "Scripts"
 msgstr "Skript:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, temperatureOUT)
-#: ekos/capture/camera.ui:1411
+#: ekos/capture/camera.ui:1418
 #, kde-format
 msgid "Current CCD temperature"
 msgstr "Praegune CCD temperatuur"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, cameraTemperatureN)
-#: ekos/capture/camera.ui:1445
+#: ekos/capture/camera.ui:1452
 #, kde-format
 msgid "Desired CCD temperature"
 msgstr "Soovitav CCD temperatuur"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/camera.ui:1473
+#: ekos/capture/camera.ui:1480
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enforce temperature value before capturing an image</"
@@ -15198,19 +15198,19 @@ msgstr ""
 "p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cameraTemperatureS)
-#: ekos/capture/camera.ui:1476
+#: ekos/capture/camera.ui:1483
 #, kde-format
 msgid "Tº"
 msgstr "Tº"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, setTemperatureB)
-#: ekos/capture/camera.ui:1507
+#: ekos/capture/camera.ui:1514
 #, kde-format
 msgid "Set CCD temperature"
 msgstr "CCD temperatuuri määramine"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, temperatureRegulationB)
-#: ekos/capture/camera.ui:1545
+#: ekos/capture/camera.ui:1551
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Temperature K"
@@ -15218,7 +15218,7 @@ msgid "Temperature regulation"
 msgstr "Temperatuur K"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_8)
-#: ekos/capture/camera.ui:1608
+#: ekos/capture/camera.ui:1613
 #, fuzzy, kde-format
 #| msgid "Delay in seconds between consecutive images"
 msgid "Delay in seconds before capturing an image"
@@ -15226,13 +15226,13 @@ msgstr "Kahe pildi tegemise vaheline intervall"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_8)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/camera.ui:1614 ekos/guide/guide.ui:411
+#: ekos/capture/camera.ui:1619 ekos/guide/guide.ui:411
 #, kde-format
 msgid "Delay:"
 msgstr "Viivitus:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, videoDurationSB)
-#: ekos/capture/camera.ui:1653
+#: ekos/capture/camera.ui:1658
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Select star detection algorithm</p></body></html>"
@@ -15243,7 +15243,7 @@ msgstr ""
 "<html><head/><body><p>Tähe tuvastamise algoritmi valimine</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoDurationUnitCB)
-#: ekos/capture/camera.ui:1669
+#: ekos/capture/camera.ui:1674
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Sensor resolution in pixels (W x H)</p></body></"
@@ -15256,26 +15256,26 @@ msgstr ""
 "html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
-#: ekos/capture/camera.ui:1696
+#: ekos/capture/camera.ui:1701
 #, fuzzy, kde-format
 #| msgid "Filter Settings"
 msgid "File Settings"
 msgstr "Filtri seadistused"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/camera.ui:1724
+#: ekos/capture/camera.ui:1729
 #, kde-format
 msgid "Locally"
 msgstr "Kohalik"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/camera.ui:1729
+#: ekos/capture/camera.ui:1734
 #, kde-format
 msgid "Remotely"
 msgstr "Võrgus"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, fileUploadModeS)
-#: ekos/capture/camera.ui:1734
+#: ekos/capture/camera.ui:1739
 #, kde-format
 msgid "Both"
 msgstr "Mõlemad"
@@ -15283,14 +15283,14 @@ msgstr "Mõlemad"
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
-#: ekos/capture/camera.ui:1745 ekos/mount/mount.ui:371
+#: ekos/capture/camera.ui:1750 ekos/mount/mount.ui:371
 #: ekos/mount/mountcontrolpanel.ui:58 ekos/scheduler/scheduler.cpp:127
 #, kde-format
 msgid "Target"
 msgstr "Sihtmärk"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_18)
-#: ekos/capture/camera.ui:1755
+#: ekos/capture/camera.ui:1760
 #, fuzzy, kde-format
 #| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
 msgid "<html><head/><body><p>Base local capture directory</p></body></html>"
@@ -15299,20 +15299,20 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_18)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: ekos/capture/camera.ui:1761 indi/recordingoptions.ui:94
+#: ekos/capture/camera.ui:1766 indi/recordingoptions.ui:94
 #, kde-format
 msgid "Directory:"
 msgstr "Kataloog:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetFormatB)
-#: ekos/capture/camera.ui:1786
+#: ekos/capture/camera.ui:1791
 #, fuzzy, kde-format
 #| msgid "Reset %1 configuration to default?"
 msgid "Reset placeholder format to default"
 msgstr "Kas lähtestada %1 seadistused vaikeväärtustele?"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, textLabel1_7)
-#: ekos/capture/camera.ui:1806
+#: ekos/capture/camera.ui:1810
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Target is the name of the targetted object.</p><p>It "
@@ -15321,13 +15321,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, fileRemoteDirT)
-#: ekos/capture/camera.ui:1822
+#: ekos/capture/camera.ui:1826
 #, kde-format
 msgid "/home/pi"
 msgstr "/home/pi"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
-#: ekos/capture/camera.ui:1829
+#: ekos/capture/camera.ui:1833
 #, kde-format
 msgid ""
 "<html><head/><body><p>Select how captured images are uploaded:</p><ol style="
@@ -15351,13 +15351,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: ekos/capture/camera.ui:1832
+#: ekos/capture/camera.ui:1836
 #, kde-format
 msgid "Save:"
 msgstr "Salvestamine:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/camera.ui:1842
+#: ekos/capture/camera.ui:1846
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Select star detection algorithm</p></body></html>"
@@ -15368,13 +15368,13 @@ msgstr ""
 "<html><head/><body><p>Tähe tuvastamise algoritmi valimine</p></body></html>"
 
 #. i18n: ectx: property (prefix), widget (QSpinBox, formatSuffixN)
-#: ekos/capture/camera.ui:1845
+#: ekos/capture/camera.ui:1849
 #, no-c-format, kde-format
 msgid "_%s"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, formatLabel)
-#: ekos/capture/camera.ui:1861
+#: ekos/capture/camera.ui:1865
 #, no-c-format, kde-format
 msgid ""
 "<html><head/><body><p>Format is used to define the image file names by the "
@@ -15453,7 +15453,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
-#: ekos/capture/camera.ui:1896
+#: ekos/capture/camera.ui:1900
 #, kde-format
 msgid ""
 "When storing images on remote devices, specify the directory where captured "
@@ -15463,46 +15463,46 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, remoteLabel)
 #. i18n: ectx: property (text), widget (QLabel, remoteDriversLabel)
-#: ekos/capture/camera.ui:1899 ekos/profileeditor.ui:480
+#: ekos/capture/camera.ui:1903 ekos/profileeditor.ui:480
 #, kde-format
 msgid "Remote:"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, sequenceBox)
-#: ekos/capture/camera.ui:1946
+#: ekos/capture/camera.ui:1950
 #, kde-format
 msgid "Sequence Queue"
 msgstr "Sarivõtte jada"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, resetB)
-#: ekos/capture/camera.ui:2130
+#: ekos/capture/camera.ui:2134
 #, kde-format
 msgid "Reset status of all jobs"
 msgstr "Kõigi tööde oleku lähtestamine"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, observerB)
-#: ekos/capture/camera.ui:2155
+#: ekos/capture/camera.ui:2159
 #, fuzzy, kde-format
 #| msgid "Select Observer"
 msgid "Select Observer..."
 msgstr "Vaatleja valimine"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueLoadB)
-#: ekos/capture/camera.ui:2196
+#: ekos/capture/camera.ui:2200
 #, fuzzy, kde-format
 #| msgid "Load the image sequence queue."
 msgid "Load Capture Sequence from File..."
 msgstr "Sarivõtte laadimine."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveB)
-#: ekos/capture/camera.ui:2230
+#: ekos/capture/camera.ui:2234
 #, fuzzy, kde-format
 #| msgid "Capture again..."
 msgid "Save Capture Sequence..."
 msgstr "Tee uuesti pilt..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, queueSaveAsB)
-#: ekos/capture/camera.ui:2264
+#: ekos/capture/camera.ui:2268
 #, fuzzy, kde-format
 #| msgid "Save Current Colors..."
 msgid "Save Capture Sequence As..."
@@ -15513,7 +15513,7 @@ msgstr "Salvesta kehtivad värvid..."
 #. i18n: ectx: property (title), widget (QGroupBox, mountStatusGroup)
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/capture/camera.ui:2298 ekos/ekoslive/ekoslivedialog.ui:119
+#: ekos/capture/camera.ui:2302 ekos/ekoslive/ekoslivedialog.ui:119
 #: ekos/mount/mount.ui:655 ekos/scheduler/scheduler.ui:1144
 #: indi/drivermanager.ui:66 indi/drivermanager.ui:322
 #: skycomponents/imageoverlaycomponent.cpp:66
@@ -15522,31 +15522,31 @@ msgid "Status"
 msgstr "Olek"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/camera.ui:2308
+#: ekos/capture/camera.ui:2312
 #, kde-format
 msgid "Count"
 msgstr "Arv"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/camera.ui:2313
+#: ekos/capture/camera.ui:2317
 #, kde-format
 msgid "Exp"
 msgstr "Säri"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/camera.ui:2323
+#: ekos/capture/camera.ui:2327
 #, kde-format
 msgid "Bin"
 msgstr "Lahter"
 
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
-#: ekos/capture/camera.ui:2328
+#: ekos/capture/camera.ui:2332
 #, kde-format
 msgid "ISO/Gain"
 msgstr "ISO/võimendus"
 
 #. i18n: ectx: property (text), widget (QLabel, videoLabel)
-#: ekos/capture/camera.ui:2354
+#: ekos/capture/camera.ui:2358
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Video"
@@ -15555,39 +15555,39 @@ msgstr "Video"
 
 #. i18n: ectx: property (text), widget (QLabel, loopLabel)
 #. i18n: ectx: property (text), widget (QPushButton, loopB)
-#: ekos/capture/camera.ui:2384 ekos/guide/guide.ui:247
+#: ekos/capture/camera.ui:2388 ekos/guide/guide.ui:247
 #, kde-format
 msgid "Loop"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loopB)
-#: ekos/capture/camera.ui:2406
+#: ekos/capture/camera.ui:2410
 #, kde-format
 msgid "Start Framing (Looping)..."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, startB)
-#: ekos/capture/camera.ui:2447
+#: ekos/capture/camera.ui:2450
 #, kde-format
 msgid "Start Sequence"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, liveVideoB)
-#: ekos/capture/camera.ui:2475 ekos/focus/focus.ui:685
+#: ekos/capture/camera.ui:2478 ekos/focus/focus.ui:685
 #, fuzzy, kde-format
 #| msgid "Live Video"
 msgid "Live Video..."
 msgstr "Live-video"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, previewB)
-#: ekos/capture/camera.ui:2545
+#: ekos/capture/camera.ui:2547
 #, fuzzy, kde-format
 #| msgid "Capture again..."
 msgid "Capture a Preview..."
 msgstr "Tee uuesti pilt..."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, darkB)
-#: ekos/capture/camera.ui:2592
+#: ekos/capture/camera.ui:2593
 #, fuzzy, kde-format
 #| msgid ""
 #| "<html><head/><body><p>Do you want to select additional services?</p></"
@@ -15599,13 +15599,13 @@ msgstr ""
 "<html><head/><body><p>Kas soovid kasutada lisateenusi?</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, pauseB)
-#: ekos/capture/camera.ui:2623
+#: ekos/capture/camera.ui:2624
 #, kde-format
 msgid "Pause Sequence"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, jobLabel)
-#: ekos/capture/camera.ui:2666
+#: ekos/capture/camera.ui:2667
 #, fuzzy, kde-format
 #| msgid "%1 second remaining"
 #| msgid_plural "%1 seconds remaining"
@@ -15619,7 +15619,7 @@ msgstr "%1 sekund jäänud"
 #. i18n: ectx: property (text), widget (QLabel, gr_overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, overallRemainingTime)
 #. i18n: ectx: property (text), widget (QLabel, sequenceRemainingTime)
-#: ekos/capture/camera.ui:2711 ekos/capture/camera.ui:2750
+#: ekos/capture/camera.ui:2710 ekos/capture/camera.ui:2748
 #: ekos/capture/capturecountswidget.ui:188
 #: ekos/capture/capturecountswidget.ui:304
 #: ekos/capture/capturecountswidget.ui:323
@@ -15632,21 +15632,21 @@ msgid "--:--:--"
 msgstr "--:--:--"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
-#: ekos/capture/camera.ui:2731
+#: ekos/capture/camera.ui:2730
 #, fuzzy, kde-format
 #| msgid "<b>Port:</b>"
 msgid "<b>Progress</b>"
 msgstr "<b>Port:</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, avgDownloadLabel)
-#: ekos/capture/camera.ui:2760
+#: ekos/capture/camera.ui:2758
 #, fuzzy, kde-format
 #| msgid "Download"
 msgid "Avg. Download:"
 msgstr "Allalaadimine"
 
 #. i18n: ectx: property (text), widget (QLabel, targetDriftLabel)
-#: ekos/capture/camera.ui:2794
+#: ekos/capture/camera.ui:2792
 #, fuzzy, kde-format
 #| msgid "Target:"
 msgid "Target drift:"
@@ -15656,28 +15656,28 @@ msgstr "Sihtmärk:"
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2_4)
 #. i18n: ectx: property (text), widget (QLabel, startGuiderDriftLabel)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, focusCFZSeeing)
-#: ekos/capture/camera.ui:2814 ekos/capture/limits.ui:114
+#: ekos/capture/camera.ui:2812 ekos/capture/limits.ui:114
 #: ekos/capture/limits.ui:150 ekos/focus/cfz.ui:422
 #, kde-format
 msgid "\""
 msgstr "\""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqLoadB)
-#: ekos/capture/camera.ui:2861
+#: ekos/capture/camera.ui:2859
 #, fuzzy, kde-format
 #| msgid "Load the image sequence queue."
 msgid "Load a new sequence file"
 msgstr "Sarivõtte laadimine."
 
 #. i18n: ectx: property (text), widget (QPushButton, esqLoadB)
-#: ekos/capture/camera.ui:2864
+#: ekos/capture/camera.ui:2862
 #, fuzzy, kde-format
 #| msgid "Loading..."
 msgid "Load..."
 msgstr "Allalaadimine ..."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, esqSaveAsB)
-#: ekos/capture/camera.ui:2883
+#: ekos/capture/camera.ui:2881
 #, fuzzy, kde-format
 #| msgid "Unable to open sequence file %1"
 msgid "Save to a new sequence file"
@@ -15685,7 +15685,7 @@ msgstr "Sarivõttefaili %1 avamine nurjus"
 
 #. i18n: ectx: property (text), widget (QPushButton, esqSaveAsB)
 #. i18n: ectx: property (text), widget (QPushButton, AddPreset)
-#: ekos/capture/camera.ui:2886 options/opscolors.ui:217
+#: ekos/capture/camera.ui:2884 options/opscolors.ui:217
 #, kde-format
 msgid "Save As..."
 msgstr "Salvesta kui ..."
