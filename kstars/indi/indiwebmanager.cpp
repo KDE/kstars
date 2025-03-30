@@ -347,9 +347,7 @@ bool syncProfile(const QSharedPointer<ProfileInfo> &pi)
     }
 
     data    = QJsonDocument(driverArray).toJson();
-    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);
-
-    return true;
+    return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr, &data);
 }
 
 bool startProfile(const QSharedPointer<ProfileInfo> &pi)
@@ -359,17 +357,7 @@ bool startProfile(const QSharedPointer<ProfileInfo> &pi)
 
     // Start profile
     QUrl url(QString("http://%1:%2/api/server/start/%3").arg(pi->host).arg(pi->INDIWebManagerPort).arg(pi->name));
-    getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
-
-    // Make sure drivers are running
-    // Try up to 3 times
-    for (int i = 0; i < 3; i++)
-    {
-        if (areDriversRunning(pi))
-            return true;
-    }
-
-    return false;
+    return getWebManagerResponse(QNetworkAccessManager::PostOperation, url, nullptr);
 }
 
 bool stopProfile(const QSharedPointer<ProfileInfo> &pi)
