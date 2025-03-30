@@ -4,6 +4,63 @@ To produce log below, use:
 
 $ git log --date=short --pretty=format:"%h %ad %<(20)%an %<(150,trunc)%s"
 
+3.7.6
+
+b7839ee0b 2025-03-30 Jasem Mutlaq         Fix issue where remote drivers do not start immediately due to scripts with Pre and Post conditions                                                   
+1068c3b50 2025-03-28 Test User            Possible solution to the camera getting stuck on 99x99 resolution as reported by some users.                                                          
+f3d251ccc 2025-03-26 Wolfgang Reissenberger Remember optical train of first tab                                                                                                                   
+3f212322c 2025-03-24 Jasem Mutlaq         Make scheduler check universal and not job specific.                                                                                                  
+be5b53be7 2025-03-21 Hy Murveit           Clean up loading of default imaging planner catalog                                                                                                   
+df0bd6bc5 2025-03-21 Jasem Mutlaq         Fix compile error                                                                                                                                     
+d71ce10f6 2025-03-21 Jasem Mutlaq         Fix issue with setting remote directory on Windows                                                                                                    
+6dc5f6dd0 2025-03-21 Jasem Mutlaq         Use KSNotification when possible                                                                                                                      
+1b7109585 2025-03-21 Jasem Mutlaq         Set initial focuser position in filter manager if we have one.                                                                                        
+284927893 2025-03-21 Jasem Mutlaq         Add observatory notifcations for dome and dust cap parking and unparking                                                                              
+0a0d123d8 2025-03-21 Yuri Chornoivan      Fix minor typo                                                                                                                                        
+aca732d1d 2025-03-20 Jasem Mutlaq         show notification on critical error in capturedeviceadaptor                                                                                           
+26adae858 2025-03-19 Jasem Mutlaq         Possible fix for PHD2 RMS issue                                                                                                                       
+426c18319 2025-03-18 Jasem Mutlaq         Add qt5 natvis for better display of QString and other Qt containers during debug                                                                     
+5bde74ee8 2025-03-17 Toni Schriber        Use PHD2-scheme (RA/DEC) for graph of guide mount drift (Addendum to  "Reuse calibration after rotation: Part 1)                                      
+5f177eff9 2025-03-17 Klein Jérémie        Feat() : Add logs for dust cap in the capture sequence                                                                                                
+93f95dfbf 2025-03-14 Hy Murveit           Add tooltips to scheduler plot                                                                                                                        
+56aea824c 2025-03-14 Jasem Mutlaq         Add extra protections to prevent crash in setFilterPosition                                                                                           
+2acebb95c 2025-03-10 Ed Lee               Init weather device selection                                                                                                                         
+a5631f0cb 2025-03-09 Hy Murveit           Significant speedups for greedy simulation. Move to 72 hours of sim. Fix bugs...                                                                      
+7f5013c9a 2025-03-06 Hy Murveit           Do not update the stored simulation with a partial simulation                                                                                         
+d96cc1730 2025-03-07 Hy Murveit           Add altitude graph to scheduler table using a QSplitter                                                                                               
+4dfeebe69 2025-03-06 Jasem Mutlaq         Remove obsolete code                                                                                                                                  
+11cc23ba3 2025-03-05 Jasem Mutlaq         Add openCV dependecies to support contrast based focusing                                                                                             
+e83602310 2025-03-04 Hy Murveit           ImagingPlanner--Allow csv files to remove out-of-date DSO catalogs.                                                                                   
+43d45dcbd 2025-03-04 Jasem Mutlaq         Add support to Go and Rotate in Framing Assistant. This would command fast go to target and then followed by rotation to match position angle indica..
+aa222aa04 2025-03-03 Hy Murveit           Add LoadDSOCatalog command to ImagingPlanner files                                                                                                    
+cc035eec4 2025-03-03 Hy Murveit           Add a new mode for scheduler altitude graphs, and some debugging in greedyscheduler                                                                   
+f415807b2 2025-02-28 Hy Murveit           Use all of tonight's sessions in scheduler job plot.                                                                                                  
+1deb67f1e 2025-02-28 John Evans           Fix Scheduler continues after Focus Fail                                                                                                              
+f9174efe1 2025-02-27 Hy Murveit           Imaging Planner: generalizes the ngc/ic search button                                                                                                 
+28e798abc 2025-02-28 Wolfgang Reissenberger Increase flexibility of coordinates in the scheduler                                                                                                  
+596aa1415 2025-02-27 Wolfgang Reissenberger Refactoring SequenceJob handling from raw pointers to QSharedPointer                                                                                  
+47e558261 2025-02-25 Hy Murveit           Imaging planner--add catalog development tools, fix web search issues                                                                                 
+f88868a1c 2025-02-25 John Evans           Update Simbad taxonomy (based on Simbad Update)                                                                                                       
+3a5cef590 2025-02-24 Wolfgang Reissenberger CaptureDeviceAdaptor used as QSharedPointer to avoid crashes                                                                                          
+400b2396f 2025-02-20 John Evans           Allow capture and framing when no focuser connected                                                                                                   
+4a918d5ce 2025-02-19 Wolfgang Reissenberger Bugfix unparking for flat capturing with wall source                                                                                                  
+5322fa8dd 2025-02-18 John Evans           Autofocus Optimisation                                                                                                                                
+274d301c2 2025-02-18 Scarlett Moore       snapcraft: Move to core24/qt6                                                                                                                         
+13d613f31 2025-02-18 Wolfgang Reissenberger Focus speedup with shift and ctrl                                                                                                                     
+a12d28298 2025-02-17 Wolfgang Reissenberger Moon altitude as schedule constraint                                                                                                                  
+e62e0f200 2025-02-15 Jasem Mutlaq         Add MacOS launch                                                                                                                                      
+650baf4ff 2025-02-12 Wolfgang Reissenberger Bugfix for planets in the observinglist                                                                                                               
+065f23467 2025-02-12 Wolfgang Reissenberger Bug fix for Qt6 and new DBus interface for focusing                                                                                                   
+2738cabc6 2025-02-11 Jasem Mutlaq         Fix issue where profile settings were not populated correctly in the editor due to the recent change in using manufacturers for all types.            
+d86ceb3c2 2025-02-08 Wolfgang Reissenberger DBus communication with FocusModule corrected                                                                                                         
+bb9e62216 2025-02-08 Jasem Mutlaq         Starting 3.7.6 development cycle                                                                                                                      
+37633e332 2025-02-08 Hy Murveit           PAA should use refracted altitudes                                                                                                                    
+c2172b4a8 2025-02-02 Salman Naheed        Update focusmodule.h                                                                                                                                  
+65922261a 2025-02-05 John Evans           R2 Reset Retries Bug                                                                                                                                  
+9fd5ed74a 2025-02-05 Jasem Mutlaq         Improve index files download by finding first writable directory                                                                                      
+43ed45ef4 2025-02-04 Wolfgang Reissenberger Enable train edit button when stopping a focus sequence                                                                                               
+7c3ce1d89 2025-02-01 Hy Murveit           ImagingPlanner--delay call to loadInitialCatalog   
+
 3.7.5
 
 c255f61c9 2025-01-31 Hy Murveit           Fix bug in dms::deltaAngle()                                                                                                                          
