@@ -1511,8 +1511,9 @@ void CameraState::setAlignState(AlignState value)
                 else
                 {
                     appendLogText(i18n("Post-flip alignment failed. Retrying..."));
-                    // set back the stage
-                    updateMeridianFlipStage(MeridianFlipState::MF_COMPLETED);
+                    // Do not set back the stage to MF_COMPLETED here,
+                    // as it causes repeated "Meridian flip completed" messages on alignment failures.
+                    // The stage should remain MF_ALIGNING for the retry.
                 }
             }
             break;
