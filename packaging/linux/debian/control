@@ -40,6 +40,7 @@ Build-Depends: cmake,
                libstellarsolver-dev,
                libxisf-dev,
                libcurl4-gnutls-dev,
+               libopencv-dev,
                libopencv-imgproc-dev,
                libopencv-highgui-dev
 Standards-Version: 3.9.3
