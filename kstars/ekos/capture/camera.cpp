@@ -3129,7 +3129,7 @@ void Camera::setupOpticalTrainManager()
     {
         const int current = opticalTrainCombo->currentIndex();
         initOpticalTrain();
-        if (current < opticalTrainCombo->count())
+        if (current >= 0 && current < opticalTrainCombo->count())
             selectOpticalTrain(opticalTrainCombo->itemText(current));
     });
     connect(trainB, &QPushButton::clicked, this, [this]()

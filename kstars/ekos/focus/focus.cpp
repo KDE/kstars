@@ -7648,7 +7648,7 @@ void Focus::setupOpticalTrainManager()
         const int current = opticalTrainCombo->currentIndex();
         initOpticalTrain();
         // restore current train selection if available
-        if (current >= 0 & current < opticalTrainCombo->count())
+        if (current >= 0 && current < opticalTrainCombo->count())
             opticalTrainCombo->setCurrentIndex(current);
     });
     connect(trainB, &QPushButton::clicked, this, [this]()
