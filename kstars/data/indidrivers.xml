@@ -1869,3 +1869,19 @@
         </device>
     </devGroup>
 </driversList>
+<driversList>
+    <devGroup group="CCDs">
+        <device label="Cam90 CCD" mdpd="true">
+            <driver name="Cam90 CCD">indi_cam90_ccd</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
+<driversList>
+    <devGroup group="Spectrographs">
+        <device label="RTL-SDR" mdpd="false">
+            <driver name="RTL-SDR">indi_rtlsdr</driver>
+            <version>1.0</version>
+        </device>
+    </devGroup>
+</driversList>
