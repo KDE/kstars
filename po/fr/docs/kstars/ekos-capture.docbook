@@ -651,7 +651,7 @@
             </mediaobject>
         </screenshot>
         <para
->Pour les trames de champ uniforme (A Plat), vous pouvez régler les options de calibration pour automatiser le processus. Ces options sont conçues pour faciliter l'acquisition automatique des trames de champ uniforme. Elles peuvent également être utilisées pour l'acquisition des trames « Sombre » et « Biais ». Si votre caméra possède un obturateur mécanique, il n'est pas nécessaire de régler ces options sauf si vous souhaitez fermer le bouchon anti-poussière pour vous assurer qu'aucune lumière ne passe dans le tube optique. Pour les trames « A plat », vous devez spécifier la source de lumière, puis une durée d'exposition. La durée peut être spécifiée soit manuellement soit fondé sur un calcul « ADU » (Analog Digital Unit ou pas de quantification). </para>
+>Pour les trames de champ uniforme (A Plat), vous pouvez régler les options de calibration pour automatiser le processus. Ces options sont conçues pour faciliter l'acquisition automatique des trames de champ uniforme. Elles peuvent également être utilisées pour l'acquisition des trames « Sombre » et « Biais ». Si votre caméra possède un obturateur mécanique, il n'est pas nécessaire de régler ces options sauf si vous souhaitez fermer le bouchon antipoussière pour vous assurer qu'aucune lumière ne passe dans le tube optique. Pour les trames « A plat », vous devez spécifier la source de lumière, puis une durée d'exposition. La durée peut être spécifiée soit manuellement soit fondé sur un calcul « ADU » (Analog Digital Unit ou aucune quantification). </para>
         <orderedlist>
             <listitem>
                 <para
@@ -665,14 +665,14 @@
                         <listitem>
                             <para
 ><guilabel
->Bouchon anti-poussière avec source de lumière intégrée</guilabel
-> : pour l'utilisation de ce type d'appareil (p. ex. FlipFlat). Pour les trames « Sombre » et « Biais », veillez à fermer le bouchon anti-poussière avant de commencer. Pour les trames Flat, fermez le bouchon anti-poussière et allumez la source de lumière.</para>
+>Bouchon antipoussière avec source de lumière intégrée</guilabel
+> : pour l'utilisation de ce type d'appareil (p. ex. FlipFlat). Pour les trames « Sombre » et « Biais », veillez à fermer le bouchon antipoussière avant de commencer. Pour les trames « Flat », fermez le bouchon antipoussière et allumez la source de lumière.</para>
                         </listitem>
                         <listitem>
                             <para
 ><guilabel
->Bouchon anti-poussière avec source de lumière externe</guilabel
-> : pour l'utilisation de bouchon anti-poussière avec source de lumière externe. Pour les trames « Sombre » et « Biais », veuillez à fermer le bouchon anti-poussière avant de commencer. Pour les trames Flat, fermez le bouchon anti-poussière et allumer la source de lumière. L'emplacement de la source externe de lumière pour les trames « A plat » est présumée être la position de parcage.</para>
+>Bouchon antipoussière avec source de lumière externe</guilabel
+> : pour l'utilisation de bouchon antipoussière avec source de lumière externe. Pour les trames « Sombre » et « Biais », veuillez à fermer le bouchon antipoussière avant de commencer. Pour les trames Flat, fermez le bouchon antipoussière et allumer la source de lumière. L'emplacement de la source externe de lumière pour les trames « A plat » est présumée être la position de parcage.</para>
                         </listitem>
                         <listitem>
                             <para
@@ -796,7 +796,7 @@
 >Largeur de bande du filtre</guimenu
 > règle la valeur de largeur de bande (en nanomètres) et devrait être réduit de la valeur par défaut de 300 quand un filtre est ajouté au train optique. L'ajout de filtres dans le train optique affectera grandement la durée d'exposition. La plage de valeur part de 300 pour une imagerie sans filtre jusqu'à 2.8 pour un filtre à bande très étroite.</para>
                             <para
->Les filtres tombent généralement dans deux catégories : bande simple et multi-bande. La largeur de bande pour un filtre à bande simple devrait être relativement simple à déterminer ou à estimer. En général, un filtre rouge, vert ou bleu possède une largeur de 100 nanomètres. La documentation des filtres multi-bande contient généralement la largeur de bande (habituellement entre 3 et 12 nm). Mais les largeurs de bande des filtre multi-bande tels que les filtres anti-pollution lumineuses ou ceux spécifiquement conçus pour les nébuleuses peuvent être bien plus difficiles à déterminer puisque leur profil de transmission sont bien plus complexes.</para>
+>Les filtres tombent généralement dans deux catégories : bande simple et multi-bande. La largeur de bande pour un filtre à bande simple devrait être relativement simple à déterminer ou à estimer. En général, un filtre rouge, vert ou bleu possède une largeur de 100 nanomètres. La documentation des filtres multi-bande contient généralement la largeur de bande (habituellement entre 3 et 12 nm). Mais les largeurs de bande des filtre multi-bande tels que les filtres antipollution lumineuses ou ceux spécifiquement conçus pour les nébuleuses peuvent être bien plus difficiles à déterminer puisque leur profil de transmission sont bien plus complexes.</para>
 <para
 >Les filtres ne sont pas 100% efficaces même dans les bandes qu'ils sont censés utiliser. Par conséquent, l'utilisateur du calculateur souhaitera légèrement réduire la valeur de la largeur de bande pour compenser cela. Par exemple, pour un filtre qui est censé posséder une largeur de bande de 100 nm mais dont l'efficacité de transmission n'est que de 92%, une valeur de 92 représentera probablement mieux ce filtre et conduira à une durée d'exposition un peu plus précise. </para>
                             <para

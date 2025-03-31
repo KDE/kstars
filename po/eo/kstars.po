@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-29 01:54+0000\n"
-"PO-Revision-Date: 2025-03-23 14:42+0100\n"
+"PO-Revision-Date: 2025-03-30 23:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -27816,10 +27816,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Vetera Averto"
+msgstr "Vetera prokrastoperiodo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -29061,11 +29060,9 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Alert"
+msgstr "Atentigo"
 
 #: ekos/scheduler/schedulerprocess.cpp:679
 #, kde-format
@@ -29073,6 +29070,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"Laboro '%1' ne povas komenciĝi ĉar veterstato estas %2. Atendante ĝis kiam "
+"la vetero pliboniĝos aŭ ĝis %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:701
 #, kde-format
@@ -29738,10 +29737,9 @@ msgstr ""
 "aktiva. Ĉesigante."
 
 #: ekos/scheduler/schedulerprocess.cpp:4107
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "Kupola parkado malsukcesis. Rekomencante operacion..."
+msgstr "Vetero pliboniĝis. Daŭrigante operaciojn."
 
 #: ekos/scheduler/schedulerprocess.cpp:4116
 #, kde-format
@@ -40220,17 +40218,15 @@ msgstr "Defaŭlta planista lunaltec-limigo de labortasko."
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
-msgstr "Defaŭlta markobutono de planilo por veterlimoj de tasko."
+msgstr "Defaŭlta planila markobutono por veterlimoj."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3328
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
-msgstr "Kiom da malklaraj provoj entrepreni antaŭ rezigni."
+msgstr "Atendi tiom da minutoj ke la vetero pliboniĝu antaŭ ol rezigni."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3332
@@ -87812,15 +87808,3 @@ msgstr "Fona koloro:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Agordu la koloron por la fono."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Weather conditions must remain safe. When weather "
-#~ "conditions become dangerous, shutdown procedure is initiated.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Veterkondiĉoj devas resti sekuraj. Kiam "
-#~ "vetercirkonstancoj fariĝas danĝeraj, la procedo de haltigo estas "
-#~ "komencita.</p></body></html>"
-
-#~ msgid "Starting shutdown procedure due to severe weather."
-#~ msgstr "Komencante malŝaltan proceduron pro severa vetero."

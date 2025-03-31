@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-29 01:54+0000\n"
-"PO-Revision-Date: 2025-03-22 15:58+0100\n"
+"PO-Revision-Date: 2025-03-30 18:48+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -6191,7 +6191,7 @@ msgstr ""
 "KStars, com ara imatges d'objectes Messier o un catàleg NGC/IC més complet. "
 "Premeu el botó <b>Descarrega dades addicionals…</b> per a fer-ho.</"
 "p><p>També podeu utilitzar esta eina més tard escollint <b>Descarrega dades "
-"noves…</b> des del menú «<b>Fitxer</b>».</p>"
+"noves</b> des del menú «<b>Fitxer</b>».</p>"
 
 #. i18n: ectx: property (text), widget (QPushButton, DownloadButton)
 #: dialogs/wizdownload.ui:128
@@ -11964,10 +11964,10 @@ msgid ""
 "th><td>%6</td><td>%7</td><td>%8</td></tr><tr><th>Adapted Pos</th><td>%9</"
 "td></tr></table></body>"
 msgstr ""
-"<head><style>  th, td, caption {white-space: nowrap; padding-left: 5px; "
-"padding-right: 5px;}  th { text-align: left;}  td { text-align: right;}  "
-"caption { text-align: center; vertical-align: top; font-weight: bold; "
-"margin: 0px; padding-bottom: 5px;}</head></style><body><table><caption "
+"<head><style>  th, td, caption {white-space: nowrap; padding-left:5px; "
+"padding-right:5px;}  th {text-align:left;}  td {text-align:right;}  caption "
+"{text-align:center; vertical-align:top; font-weight:bold; margin:0px; "
+"padding-bottom:5px;}</head></style><body><table><caption "
 "align=top>Explicació de l'enfocament adaptatiu</caption><tr><th></"
 "th><th>Posició</th><th>Temperatura (°C)</th><th>Altitud (°Alt)</th></"
 "tr><tr><th>Pos. mesurada</th><td>%1</td><td>%2 %3</td><td>%4 %5</td></"
@@ -15785,7 +15785,7 @@ msgstr ""
 "formes curtes i llargues.</li><li style=\"margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Utilitzeu només la variable de substitució %Datetime a la part del nom de "
-"fitxer del format, no en la definició del camí.</li></ul></body></html>"
+"fitxer del format, no a la definició del camí.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, remoteLabel)
 #: ekos/capture/camera.ui:1900
@@ -28682,13 +28682,19 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\"font-weight:700;\">Activa la "
+"planificació basada en la meteorologia:</span> Evita que s'inicien tasques "
+"noves durant els avisos o alertes meteorològiques. Les tasques existents "
+"continuaran durant els avisos, però s'interrompen durant les alertes. El "
+"sistema iniciarà una parada suau i esperarà fins que milloren les condicions "
+"o que vença el període de gràcia, després del qual finalitzarà la tasca "
+"actual.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Avís meteorològic"
+msgstr "Període de gràcia meteorològic"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -29981,14 +29987,14 @@ msgstr ""
 msgid ""
 "Job '%1' cannot start because weather status is %2 and grace period is over."
 msgstr ""
+"La tasca «%1» no es pot iniciar perquè l'estat del temps meteorològic és %2 "
+"i el període de gràcia ha acabat."
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Alert"
+msgstr "Alerta"
 
 #: ekos/scheduler/schedulerprocess.cpp:679
 #, kde-format
@@ -29996,6 +30002,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"La tasca «%1» no es pot iniciar perquè l'estat del temps meteorològic és %2. "
+"S'esperarà fins que millore la meteorologia o fins a %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:701
 #, kde-format
@@ -30710,21 +30718,24 @@ msgstr ""
 "tasca «%1». S'interromp."
 
 #: ekos/scheduler/schedulerprocess.cpp:4107
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "No s'ha pogut aparcar la cúpula. S'està tornant a iniciar l'operació…"
+msgstr "La meteorologia ha millorat. Es reprenen les operacions."
 
 #: ekos/scheduler/schedulerprocess.cpp:4116
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
 msgstr ""
+"S'ha detectat una alerta meteorològica. S'inicia el procediment de parada "
+"suau."
 
 #: ekos/scheduler/schedulerprocess.cpp:4131
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
+"Observatori planificat per a la parada suau fins que millore la meteorologia "
+"o fins a %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4156
 #, kde-format
@@ -31557,7 +31568,7 @@ msgstr "Mida de la coordenada major de l'objecte en minuts d'arc"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save FITS"
-msgstr "Guardeu FITS"
+msgstr "Guardada de FITS"
 
 #: fitsviewer/fitstab.cpp:1002
 #, kde-format
@@ -32042,8 +32053,7 @@ msgid ""
 "instead of a dedicated window to each camera."
 msgstr ""
 "Mostra les imatges FITS capturades per totes les càmeres en una única "
-"finestra del visor de FITS, en lloc d'una finestra dedicada per a cada "
-"càmera."
+"finestra del visor, en lloc d'una finestra dedicada per a cada càmera."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowCapturedFITS)
 #: fitsviewer/opsfits.ui:86
@@ -32058,8 +32068,8 @@ msgid ""
 "Display opened FITS images in a single FITS Viewer window instead of a "
 "dedicated window to each file."
 msgstr ""
-"Mostra les imatges FITS obertes en una única finestra del visor de FITS en "
-"lloc d'una finestra dedicada per a cada fitxer."
+"Mostra les imatges FITS obertes en una única finestra del visor en lloc "
+"d'una finestra dedicada per a cada fitxer."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_singleWindowOpenedFITS)
 #: fitsviewer/opsfits.ui:102
@@ -33532,12 +33542,12 @@ msgstr "La tapa per la pols està desaparcada."
 #: indi/indidustcap.cpp:78
 #, kde-format
 msgid "Dust Cap is parking"
-msgstr "S'està aparcant la tapa per la pols"
+msgstr "La tapa per la pols està aparcada"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
 #, kde-format
 msgid "Dust Cap is unparking"
-msgstr "S'està desaparcant la tapa per la pols"
+msgstr "La tapa per la pols està desaparcada"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -38823,9 +38833,8 @@ msgid ""
 "Display all captured FITS images in a single FITS Viewer window. By default "
 "each camera create its own FITS Viewer instance"
 msgstr ""
-"Mostra totes les imatges FITS capturades en una única finestra del visor de "
-"FITS. De manera predeterminada, cada càmera crearà la seua pròpia instància "
-"del visor de FITS."
+"Mostra totes les imatges FITS capturades en una única finestra del visor. De "
+"manera predeterminada, cada càmera crearà la seua pròpia instància del visor."
 
 #. i18n: ectx: label, entry (singleWindowOpenedFITS), group (FITSViewer)
 #: kstars.kcfg:1671
@@ -38837,9 +38846,7 @@ msgstr "Voleu que es mostren totes les FITS obertes en una finestra?"
 #: kstars.kcfg:1672
 #, kde-format
 msgid "Display all opened FITS images in a single FITS Viewer window."
-msgstr ""
-"Mostra totes les imatges FITS obertes en una única finestra del visor de "
-"FITS."
+msgstr "Mostra totes les imatges FITS obertes en una única finestra del visor."
 
 #. i18n: ectx: whatsthis, entry (focusFITSOnNewImage), group (FITSViewer)
 #: kstars.kcfg:1676
@@ -41728,20 +41735,19 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
 msgstr ""
-"Casella de selecció predeterminada del programador per a la restricció "
-"meteorològica de la tasca."
+"Casella de selecció predeterminada del programador per a les restriccions "
+"meteorològiques."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3328
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
 msgstr ""
-"Nombre d'intents d'iteració de tramat que s'efectuaran abans de renunciar."
+"Nombre de minuts d'espera per a que millore la meteorologia abans de "
+"renunciar."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3332
@@ -82051,7 +82057,7 @@ msgid ""
 msgstr ""
 "\t\t<p>Si voleu la informació orbital més recent d'asteroides i cometes\n"
 "\t\t\t(incloent-hi la dels objectes descoberts darrerament), aneu sovint a\n"
-"\t\t\tl'eina «Descarrega dades» («Dades -> Descarrega dades noves…» o «Ctrl"
+"\t\t\tl'eina «Descarrega dades» («Dades -> Descarrega dades noves» o «Ctrl"
 "+N»)\n"
 "\t\t\tper tal d'obtindre les efemèrides actualitzades.\n"
 "\t\t</p>\n"
@@ -82343,7 +82349,7 @@ msgstr ""
 "\t\t<p>De manera predeterminada, KStars es distribuïx amb un catàleg "
 "d'estreles fins a magnitud 8. Podeu baixar catàlegs addicionals d'estreles "
 "(Tycho-2 i USNO NOMAD) per a mostrar fins a 100 milions d'estreles de "
-"magnitud 16 utilitzant l'opció «Dades -> Descarrega dades noves…».\n"
+"magnitud 16 utilitzant l'opció «Dades -> Descarrega dades noves».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -89869,17 +89875,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid ""
-#~ "<html><head/><body><p>Weather conditions must remain safe. When weather "
-#~ "conditions become dangerous, shutdown procedure is initiated.</p></body></"
-#~ "html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Les condicions meteorològiques han de seguir sent "
-#~ "favorables. Si es tornen adverses, s'iniciarà el procediment de tancament."
-#~ "</p></body></html>"
-
-#~ msgid "Starting shutdown procedure due to severe weather."
-#~ msgstr ""
-#~ "S'està iniciant el procediment de tancament a causa de condicions "
-#~ "meteorològiques adverses."
