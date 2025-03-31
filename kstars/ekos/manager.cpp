@@ -1186,7 +1186,27 @@ void Manager::setClientStarted(const QString &host, int port)
         }
     }
 
-    QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, &Ekos::Manager::checkINDITimeout);
+    auto maxTimeout = MAX_LOCAL_INDI_TIMEOUT;
+
+    // Parse script, if any
+    QJsonParseError jsonError;
+    QJsonArray profileScripts;
+    QJsonDocument doc = QJsonDocument::fromJson(m_CurrentProfile->scripts, &jsonError);
+
+    // If we have any rules that delay startup of drivers, we need to take that into account
+    // otherwise Ekos would prematurely declare that drivers failed to connect.
+    if (jsonError.error == QJsonParseError::NoError)
+    {
+        profileScripts = doc.array();
+        for (const auto &oneRule : qAsConst(profileScripts))
+        {
+            auto totalDelay = (oneRule["PreDelay"].toDouble(0) + oneRule["PostDelay"].toDouble(0)) * 1000;
+            if (totalDelay >= maxTimeout)
+                maxTimeout = totalDelay + MAX_LOCAL_INDI_TIMEOUT;
+        }
+    }
+
+    QTimer::singleShot(maxTimeout, this, &Ekos::Manager::checkINDITimeout);
 }
 
 void Manager::setClientFailed(const QString &host, int port, const QString &errorMessage)
