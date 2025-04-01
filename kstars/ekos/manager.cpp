@@ -1281,7 +1281,8 @@ void Manager::setClientStarted(const QString &host, int port)
         profileScripts = doc.array();
         for (const auto &oneRule : qAsConst(profileScripts))
         {
-            auto totalDelay = (oneRule["PreDelay"].toDouble(0) + oneRule["PostDelay"].toDouble(0)) * 1000;
+            const auto &oneRuleObj = oneRule.toObject();
+            auto totalDelay = (oneRuleObj["PreDelay"].toDouble(0) + oneRuleObj["PostDelay"].toDouble(0)) * 1000;
             if (totalDelay >= maxTimeout)
                 maxTimeout = totalDelay + MAX_LOCAL_INDI_TIMEOUT;
         }
