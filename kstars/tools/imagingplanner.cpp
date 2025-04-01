@@ -1486,7 +1486,7 @@ void ImagingPlanner::openOptionsMenu()
 void ImagingPlanner::getHelp()
 {
     focusOnTable();
-    const QUrl url("https://docs.kde.org/trunk5/en/kstars/kstars/kstars.pdf#tool-imaging-planner");
+    const QUrl url("https://kstars-docs.kde.org/en/user_manual/tool-imaging-planner.html");
     if (!url.isEmpty())
         QDesktopServices::openUrl(url);
 }
