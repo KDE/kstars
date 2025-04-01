@@ -27,6 +27,7 @@
 #include <ekos_analyze_debug.h>
 #include <KHelpClient>
 #include <version.h>
+#include <QDesktopServices>
 #include <QFileDialog>
 
 // Subclass QCPAxisTickerDateTime, so that times are offset from the start
@@ -2933,11 +2934,9 @@ void Analyze::displayFITS(const QString &filename)
 
 void Analyze::helpMessage()
 {
-#ifdef Q_OS_MACOS  // This is because KHelpClient doesn't seem to be working right on MacOS
-    KStars::Instance()->appHelpActivated();
-#else
-    KHelpClient::invokeHelp(QStringLiteral("tool-ekos.html#ekos-analyze"), QStringLiteral("kstars"));
-#endif
+    const QUrl url("https://kstars-docs.kde.org/en/user_manual/ekos-analyze.html");
+    if (!url.isEmpty())
+        QDesktopServices::openUrl(url);
 }
 
 // This is intended for recording data to file.
