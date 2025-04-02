@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 # Suitable for builds
 RUN apt update && apt -y install --no-install-recommends software-properties-common gpg-agent
-RUN apt update && add-apt-repository ppa:mutlaqja/indinightly
+RUN apt update && add-apt-repository ppa:mutlaqja/ppa
 RUN apt update && apt -y install --no-install-recommends \
       gcc-multilib \
       g++-multilib \
