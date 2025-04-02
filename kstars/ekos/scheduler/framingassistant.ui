@@ -839,7 +839,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="QIcon::ThemeIcon::ObjectRotateLeft"/>
+             <iconset theme="object-rotate-left"/>
             </property>
             <property name="iconSize">
              <size>
