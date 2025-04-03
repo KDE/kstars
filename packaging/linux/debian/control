@@ -39,10 +39,7 @@ Build-Depends: cmake,
                libsecret-1-dev,
                libstellarsolver-dev,
                libxisf-dev,
-               libcurl4-gnutls-dev,
-               libopencv-dev,
-               libopencv-imgproc-dev,
-               libopencv-highgui-dev
+               libcurl4-gnutls-dev
 Standards-Version: 3.9.3
 Homepage: http://edu.kde.org/
 
