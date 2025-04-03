@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-02 01:53+0000\n"
-"PO-Revision-Date: 2025-03-30 18:48+0200\n"
+"PO-Revision-Date: 2025-04-02 12:18+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1404,7 +1404,7 @@ msgstr ""
 #: auxiliary/xplanetimageviewer.cpp:259
 #, kde-format
 msgid "Reset XPlanet Location to the location specified in the XPlanet Options"
-msgstr "Restaura l'emplaçament d'Xplanet a l'especificat a les seues opcions"
+msgstr "Restaura l'emplaçament d'Xplanet a l'especificat en les seues opcions"
 
 #: auxiliary/xplanetimageviewer.cpp:269
 #, kde-format
@@ -3816,7 +3816,7 @@ msgid ""
 "result in permanent eye damage!"
 msgstr ""
 "Perill! La visió del Sol sense els filtres solars suficients és perillós i "
-"pot provocar danys permanents als ulls!"
+"pot provocar danys permanents en els ulls!"
 
 #: dialogs/detaildialog.cpp:1207 dialogs/detaildialog.cpp:1216
 #, kde-format
@@ -4479,7 +4479,7 @@ msgstr "(res)"
 #: dialogs/finddialog.cpp:491
 #, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "Busca «%1» a Internet"
+msgstr "Busca «%1» en Internet"
 
 #: dialogs/finddialog.cpp:499
 #, kde-format
@@ -5481,8 +5481,8 @@ msgid ""
 "The computed FOV angle (in arcminutes) will be displayed in the \"Field of "
 "view\" edit box."
 msgstr ""
-"Este botó calcularà l'angle del camp de visió (CDV) d'uns prismàtic. Primer "
-"haureu d'especificar CDV lineal tal com es menciona als prismàtic.\n"
+"Este botó calcularà l'angle del camp de visió (CDV) d'un prismàtic. Primer "
+"haureu d'especificar CDV lineal tal com es menciona en el prismàtic.\n"
 "\n"
 "L'angle CDV calculat (en minuts d'arc) es mostrarà en el quadro d'edició "
 "«Camp visual»."
@@ -6552,7 +6552,7 @@ msgid ""
 msgstr ""
 "Comproveu que hi haja estreles suficients en la imatge, que CDV indicat siga "
 "correcte i que estiguen instal·lats els fitxers d'índex necessaris. Activeu "
-"la gravació de l'alineació a la pestanya «Configuració -> Registres» per a "
+"la gravació de l'alineació en la pestanya «Configuració -> Registres» per a "
 "obtindre informació detallada de la fallada."
 
 #: ekos/align/align.cpp:2487
@@ -7166,8 +7166,8 @@ msgid ""
 "in the Dark Library tool in the capture module.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Resta el fotograma fosc. Es creen fotogrames foscos o "
-"mapes de defectes a l'eina Biblioteca fosca al mòdul de captura.</p></body></"
-"html>"
+"mapes de defectes en l'eina Biblioteca fosca en el mòdul de captura.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, alignDarkFrame)
 #. i18n: ectx: property (text), widget (QCheckBox, darkB)
@@ -10751,8 +10751,8 @@ msgid ""
 "You won't get HFR values without it. Once you set it, newly captured images "
 "will have their HFRs computed."
 msgstr ""
-"No s'ha establit l'opció «Calcula automàticament l'HFR» en el menú d'opcions "
-"de FITS de KStars. Sense ella no s'obtindran els valors de l'HFR. Una vegada "
+"No s'ha establit l'opció «Calcula automàticament HFR» en el menú d'opcions "
+"de FITS de KStars. Sense ella no s'obtindran els valors d'HFR. Una vegada "
 "establida, les imatges capturades de nou tindran calculat el seu HFR."
 
 #: ekos/analyze/analyze.cpp:2592
@@ -10762,7 +10762,7 @@ msgid ""
 "You won't get # stars in capture image values without it. Once you set it, "
 "newly captured images will have their stars detected."
 msgstr ""
-"No s'ha establit l'opció «Calcula automàticament l'HFR» en el menú d'opcions "
+"No s'ha establit l'opció «Calcula automàticament HFR» en el menú d'opcions "
 "de FITS de KStars. Sense ella no s'obtindran els valors del nombre "
 "d'estreles en la imatge capturada. Una vegada establida, les imatges "
 "capturades de nou tindran les seues estreles detectades."
@@ -11680,7 +11680,7 @@ msgid ""
 "options.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Traça la distància entre la imatge capturada de la "
-"placa resolta i la posició de l'objectiu en segons d'arc. Cal activar-la a "
+"placa resolta i la posició de l'objectiu en segons d'arc. Cal activar-la en "
 "les opcions del programador.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, targetDistanceCB)
@@ -11699,7 +11699,7 @@ msgid ""
 "update axis.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Traça la distància entre la imatge capturada de la "
-"placa resolta i la posició de l'objectiu en segons d'arc. Cal activar-la a "
+"placa resolta i la posició de l'objectiu en segons d'arc. Cal activar-la en "
 "les opcions del programador. Feu clic ací per a veure este eix en els valors "
 "de l'eix esquerre. Feu doble clic per a actualitzar l'eix.</p></body></html>"
 
@@ -12353,7 +12353,7 @@ msgstr "Píxels freds:"
 #: ekos/auxiliary/darklibrary.ui:854
 #, kde-format
 msgid "Enable cold pixel detection in the master dark frame."
-msgstr "Activa la detecció de píxels freds al fotograma fosc mestre."
+msgstr "Activa la detecció de píxels freds en el fotograma fosc mestre."
 
 #. i18n: ectx: property (toolTip), widget (QSlider, aggresivenessHotSlider)
 #: ekos/auxiliary/darklibrary.ui:872
@@ -12369,7 +12369,7 @@ msgstr ""
 #: ekos/auxiliary/darklibrary.ui:903
 #, kde-format
 msgid "Enable detection of hot pixels in the master dark frame."
-msgstr "Activa la detecció de píxels cremats al fotograma fosc mestre."
+msgstr "Activa la detecció de píxels cremats en el fotograma fosc mestre."
 
 #. i18n: ectx: property (toolTip), widget (QSlider, aggresivenessColdSlider)
 #: ekos/auxiliary/darklibrary.ui:921
@@ -12713,7 +12713,7 @@ msgstr ""
 "<html><head/><body><p>Si s'utilitza una roda de filtres i un enfocador de "
 "posició absoluta, llavors sempre es recordarà la posició d'enfocament del "
 "procés d'enfocament automàtic dels fotogrames de llum en cada filtre. Abans "
-"de capturar un fotograma pla, l'enfocador es mourà al mateix punt "
+"de capturar un fotograma pla, l'enfocador es mourà fins al mateix punt "
 "d'enfocament dels fotogrames de llum.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FlatSyncFocus)
@@ -12962,7 +12962,7 @@ msgid ""
 "Log debug messages to default output device used by the platform (e.g. "
 "Standard Error)"
 msgstr ""
-"Registra els missatges de depuració al dispositiu d'eixida predeterminat "
+"Registra els missatges de depuració en el dispositiu d'eixida predeterminat "
 "emprat per la plataforma (p. ex., error estàndard)."
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_LogToDefault)
@@ -13823,7 +13823,7 @@ msgstr "Perfils SEP de guiatge"
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:86
 #, kde-format
 msgid "HFR SEP Profiles"
-msgstr "Perfils SEP de l'HFR"
+msgstr "Perfils SEP d'HFR"
 
 # skip-rule: punctuation-period-no
 #. i18n: ectx: property (toolTip), widget (QPushButton, reloadProfiles)
@@ -14412,7 +14412,7 @@ msgid ""
 msgstr ""
 "El nombre d'estreles que es mantindran inicialment en la llista. Este filtre "
 "està basat en la mida de les estreles. Principalment és útil per a accelerar "
-"l'extracció d'estreles amb l'HFR, com en l'enfocament, el guiatge i el "
+"l'extracció d'estreles amb HFR, com en l'enfocament, el guiatge i el "
 "monitoratge HFR."
 
 #. i18n: ectx: property (text), widget (QLineEdit, initialKeep)
@@ -15781,7 +15781,7 @@ msgstr ""
 "p><p>Notes:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left: "
 "0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; "
 "margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\">Les variables de substitució són sensibles a les seues "
+"text-indent:0px;\">Les variables de substitució són sensibles en les seues "
 "formes curtes i llargues.</li><li style=\"margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
 "\">Utilitzeu només la variable de substitució %Datetime a la part del nom de "
@@ -16898,7 +16898,7 @@ msgid ""
 msgstr ""
 "<html><head/><body><p>Seleccioneu les propietats personalitzades que s'han "
 "d'establir quan s'execute la tasca en seqüència en el mode de treball per "
-"lots. Una vegada establit el valor de la propietat al tauler de control "
+"lots. Una vegada establit el valor de la propietat en el tauler de control "
 "INDI, afegiu-lo a la secció <span style=\"font-weight:600;\">Propietats de "
 "la tasca</span>. Feu clic en <span style=\"font-weight:600;\">Aplica</span> "
 "per a enregistrar els valors de la propietat.</p></body></html>"
@@ -16963,8 +16963,8 @@ msgid ""
 "html>"
 msgstr ""
 "<html><head/><body><p>Distància dels píxels en micròmetres. Per a les "
-"càmeres de píxels quadrats, poseu el mateix valor a la distància horitzontal "
-"i vertical dels píxels.</p></body></html>"
+"càmeres de píxels quadrats, poseu el mateix valor en la distància "
+"horitzontal i vertical dels píxels.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: ekos/capture/dslrinfo.ui:118
@@ -17197,8 +17197,8 @@ msgstr "Gràfic"
 #, kde-format
 msgid "Slope of time to noise ratio curve at current exposure count"
 msgstr ""
-"Pendent de la corba de la relació temps a soroll al comptador de l'exposició "
-"actual."
+"Pendent de la corba de la relació temps a soroll en el comptador de "
+"l'exposició actual."
 
 #. i18n: ectx: property (text), widget (QLabel, exposureCountLabel)
 #: ekos/capture/exposurecalculator/exposurecalculatordialog.ui:876
@@ -17351,7 +17351,7 @@ msgid ""
 "sequenced list and uses the median value as the reference for the next HFR "
 "Check.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>L'algorisme de comprovació de l'HFR:</p><ul style="
+"<html><head/><body><p>L'algorisme de comprovació d'HFR:</p><ul style="
 "\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
 "list-indent:1;\"><li style=\"margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
@@ -17366,9 +17366,9 @@ msgstr ""
 "</li><li style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
 "weight:600;\">Mesura relativa</span>: Este algorisme arreplega els punts de "
-"dades des de l'enfocament automàtic i des de les comprovacions de l'HFR, "
-"manté les dades en una llista seqüenciada i utilitza el valor mitjà com a "
-"referència per a la comprovació següent de l'HFR.</li></ul></body></html>"
+"dades des de l'enfocament automàtic i des de les comprovacions d'HFR, manté "
+"les dades en una llista seqüenciada i utilitza el valor mitjà com a "
+"referència per a la comprovació següent d'HFR.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, hFRCheckAlgorithm)
 #: ekos/capture/limits.ui:203
@@ -17447,9 +17447,9 @@ msgid ""
 "<html><head/><body><p>Check to perform an HFR Check between Subframes.  The "
 "Check may result in an Autofocus.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a realitzar una comprovació de "
-"l'HFR entre els submarcs. La comprovació pot resultar en un enfocament "
-"automàtic.</p></body></html>"
+"<html><head/><body><p>Seleccioneu-la per a realitzar una comprovació d'HFR "
+"entre els submarcs. La comprovació pot resultar en un enfocament automàtic.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enforceAutofocusHFR)
 #: ekos/capture/limits.ui:301
@@ -17462,7 +17462,7 @@ msgstr "Torna a enfocar en ΔHFR. Utilitza:"
 #, kde-format
 msgid "Run in-sequence HFR check after this many frames."
 msgstr ""
-"Executa la comprovació de l'HFR a la seqüència després d'este nombre de "
+"Executa la comprovació d'HFR en la seqüència després d'este nombre de "
 "fotogrames."
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
@@ -17478,8 +17478,8 @@ msgid ""
 "<html><head/><body><p>Run HFR check after this many sub-frames.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Executa la comprovació de l'HFR després d'esta "
-"quantitat de submarcs.</p></body></html>"
+"<html><head/><body><p>Executa la comprovació d'HFR després d'esta quantitat "
+"de submarcs.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, hFRThresholdPercentage)
 #: ekos/capture/limits.ui:334
@@ -17490,8 +17490,8 @@ msgid ""
 "the HFR Check.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>S'ha d'especificar el percentatge que cal aplicar al "
-"valor adequat de comprovació de l'HFR a l'algorisme seleccionat, per a "
-"utilitzar-lo com a llindar per a dur a terme la comprovació de l'HFR.</p></"
+"valor adequat de comprovació d'HFR a l'algorisme seleccionat, per a "
+"utilitzar-lo com a llindar per a dur a terme la comprovació d'HFR.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, limitFocusHFRThresholdLabel)
@@ -17516,10 +17516,10 @@ msgid ""
 "Fixed.  In all cases,  the user can override the system generated value.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>El valor comprovació de l'HFR, en píxels. Este és un "
-"camp d'eixida quan se selecciona «Últim enfocament automàtic» o «Mesura "
-"relativa» i un camp d'entrada per a «Fix». En tots els casos, l'usuari podrà "
-"solapar el valor generat pel sistema.</p></body></html>"
+"<html><head/><body><p>El valor comprovació d'HFR, en píxels. Este és un camp "
+"d'eixida quan se selecciona «Últim enfocament automàtic» o «Mesura relativa» "
+"i un camp d'entrada per a «Fix». En tots els casos, l'usuari podrà solapar "
+"el valor generat pel sistema.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: ekos/capture/limits.ui:416
@@ -17673,7 +17673,7 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long"
 msgstr ""
-"Nombre màxim de segons a esperar abans d'interrompre la captura si les "
+"Nombre màxim de segons que s'esperarà abans d'interrompre la captura si les "
 "operacions com els canvis a la roda de filtres o les inversions de meridià "
 "tarden massa."
 
@@ -17746,7 +17746,7 @@ msgstr "S'ha iniciat el reenfocament pel canvi de temperatura de %1 °C…"
 #: ekos/capture/refocusstate.cpp:76
 #, kde-format
 msgid "In sequence HFR based refocus starting..."
-msgstr "S'inicia el reenfocament basat en l'HFR a la seqüència…"
+msgstr "S'inicia el reenfocament basat en HFR en la seqüència…"
 
 #: ekos/capture/refocusstate.cpp:84
 #, kde-format
@@ -17870,7 +17870,7 @@ msgstr ""
 "o si el resultat d'una imatge de referència resolta informa d'un costat del "
 "moll diferent respecte al costat del moll real de la muntura.</p><p>La "
 "política d'inversió es pot modificar en les <span style=\"font-weight:600;"
-"\">Opcions d'alineació</span><span style=\"font-size:12pt;\"> a «Configureu "
+"\">Opcions d'alineació</span><span style=\"font-size:12pt;\"> en «Configureu "
 "el rotor».</span></p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
@@ -18185,7 +18185,7 @@ msgstr "Caixa de llum encesa."
 #: ekos/capture/sequencejobstate.cpp:892
 #, kde-format
 msgid "Dust cap error occurred."
-msgstr "S'ha produït un error a la tapa per la pols."
+msgstr "S'ha produït un error en la tapa per la pols."
 
 #: ekos/capture/sequencejobstate.cpp:896
 #, kde-format
@@ -18570,8 +18570,8 @@ msgstr "Inspector de l'aberració"
 msgid ""
 "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu-la per a mostrar les etiquetes al gràfic.</"
-"p></body></html>"
+"<html><head/><body><p>Seleccioneu-la per a mostrar les etiquetes en el "
+"gràfic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowLabels)
 #. i18n: ectx: property (text), widget (QCheckBox, abInsLabels)
@@ -18628,7 +18628,7 @@ msgid ""
 "p></body></html>"
 msgstr ""
 "<html><head/><body><p>Seleccioneu-la per a mostrar la «Zona crítica de "
-"l'enfocament» al gràfic.</p></body></html>"
+"l'enfocament» en el gràfic.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, abInsShowCFZ)
 #. i18n: ectx: property (text), widget (QPushButton, cfzB)
@@ -18717,8 +18717,8 @@ msgstr ""
 "</style></head><body style=\"font-family:'.AppleSystemUIFont'; font-"
 "size:13pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Mode de selecció al gràfic "
-"en 3D:</p>\n"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Mode de selecció en el "
+"gràfic en 3D:</p>\n"
 "<p style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">- Cap.</p>\n"
 "<p style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
@@ -19667,7 +19667,7 @@ msgstr "S'ha completat la captura. Seleccioneu l'estrela que s'enfocarà."
 #, kde-format
 msgid "No stars detected while testing HFR, capturing again..."
 msgstr ""
-"No s'ha detectat cap estrela mentre es provava l'HFR. Es torna a capturar…"
+"No s'ha detectat cap estrela mentre es provava HFR. Es torna a capturar…"
 
 #: ekos/focus/focus.cpp:3154
 #, kde-format
@@ -19911,7 +19911,7 @@ msgstr ""
 #: ekos/focus/focus.cpp:5151
 #, kde-format
 msgid "Capturing to check HFR..."
-msgstr "S'està capturant per a comprovar l'HFR…"
+msgstr "S'està capturant per a comprovar HFR…"
 
 #: ekos/focus/focus.cpp:5281
 #, kde-format
@@ -19939,7 +19939,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Focus Frame"
-msgstr "Enquadreu l'enfocament"
+msgstr "Enquadrat de l'enfocament"
 
 #: ekos/focus/focus.cpp:5827
 #, kde-format
@@ -20037,7 +20037,7 @@ msgid ""
 "SCTs this is usually CW.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Enfoca cap enfora. Utilitzeu les tecles «Majús» i "
-"«Ctrl» per a la velocitat del moviment. Els factors es configuren a les "
+"«Ctrl» per a la velocitat del moviment. Els factors es configuren en les "
 "opcions mecàniques de l'enfocador.</p><p>Per als SCT, açò normalment és en "
 "sentit horari.</p></body></html>"
 
@@ -20050,7 +20050,7 @@ msgid ""
 "SCTs this is usually CCW.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Enfoca cap endins. Utilitzeu les tecles «Majús» i "
-"«Ctrl» per a la velocitat del moviment. Els factors es configuren a les "
+"«Ctrl» per a la velocitat del moviment. Els factors es configuren en les "
 "opcions mecàniques de l'enfocador.</p><p>Per als SCT, açò normalment és en "
 "sentit antihorari.</p></body></html>"
 
@@ -20202,8 +20202,8 @@ msgid ""
 "<html><head/><body><p>Averaged HFR value from the last frame.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>Valor de la mitjana de l'HFR de l'últim fotograma.</"
-"p></body></html>"
+"<html><head/><body><p>Valor de la mitjana d'HFR de l'últim fotograma.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_39)
 #: ekos/focus/focus.ui:1094
@@ -20463,18 +20463,19 @@ msgstr "S'han detectat estreles, s'està centrant l'interval"
 #, kde-format
 msgid "Find Stars Run %1: No stars at start %2, scanning..."
 msgstr ""
-"Execució %1 de «Troba les estreles»: no hi ha cap estreles al començament de "
+"Execució %1 de «Troba les estreles»: no hi ha cap estrela al començament de "
 "%2, s'està buscant"
 
 #: ekos/focus/focusadvisor.cpp:852
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: Scanning %3/%4"
-msgstr "Execució %1 de «Troba les estreles» al sector %2: s'està buscant %3/%4"
+msgstr ""
+"Execució %1 de «Troba les estreles» en el sector %2: s'està buscant %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:854
 #, kde-format
 msgid "Find Stars Run %1: Scanning Sector %2"
-msgstr "Execució %1 de «Troba les estreles»: s'està buscant al sector %2"
+msgstr "Execució %1 de «Troba les estreles»: s'està buscant en el sector %2"
 
 #: ekos/focus/focusadvisor.cpp:865
 #, kde-format
@@ -20489,14 +20490,15 @@ msgstr "Execució %1 de «Troba les estreles»: ha fallat en trobar cap estrela"
 #: ekos/focus/focusadvisor.cpp:938
 #, kde-format
 msgid "Find Stars Run %1 Sector %2: scanning %3/%4"
-msgstr "Execució %1 de «Troba les estreles» al sector %2: s'està buscant %3/%4"
+msgstr ""
+"Execució %1 de «Troba les estreles» en el sector %2: s'està buscant %3/%4"
 
 #: ekos/focus/focusadvisor.cpp:945
 #, kde-format
 msgid "Focus Advisor Find Stars run %1: failed to move focuser"
 msgstr ""
-"Execució %1 a «Troba les estreles» de l'Assessor d'enfocament: no s'ha pogut "
-"moure l'enfocador"
+"Execució %1 en «Troba les estreles» de l'Assessor d'enfocament: no s'ha "
+"pogut moure l'enfocador"
 
 #: ekos/focus/focusadvisor.cpp:967
 #, kde-format
@@ -20538,7 +20540,7 @@ msgstr "Execució %1 de busca de l'ajust aproximat…"
 #, kde-format
 msgid "Focus Advisor Coarse Adjustment Run %1: insufficient data to proceed"
 msgstr ""
-"Execució %1 de l'«Ajust aproximat» a l'Assessor d'enfocament: dades "
+"Execució %1 de l'«Ajust aproximat» en Assessor d'enfocament: dades "
 "insuficients per a continuar"
 
 #: ekos/focus/focusadvisor.cpp:1150
@@ -20618,8 +20620,8 @@ msgid ""
 "Focus to see stars in the Focus frame then this step is not neccessary."
 msgstr ""
 "Marqueu-la perquè l'Assessor d'enfocament busque estreles. Si esteu prou a "
-"prop del focus per a veure les estreles a l'Enquadreu l'enfocament, este pas "
-"no serà necessari."
+"prop del focus per a veure les estreles en «Enquadrat de l'enfocament», este "
+"pas no serà necessari."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, focusAdvCoarseAdj)
 #: ekos/focus/focusadvisor.ui:105
@@ -20844,8 +20846,8 @@ msgid ""
 "or outward</p></body></html>"
 msgstr ""
 "<html><head/><body><p><span style=\"font-weight:600;\">Mida del pas inicial</"
-"span> en les marques per a causar un canvi notable en el valor de l'HFR. Per "
-"a un enfocador basat en temporitzador, este és el temps inicial en "
+"span> en les marques per a causar un canvi notable en el valor d'HFR. Per a "
+"un enfocador basat en temporitzador, este és el temps inicial en "
 "mil·lisegons per a moure l'enfocador cap endins o cap enfora.</p></body></"
 "html>"
 
@@ -20856,7 +20858,7 @@ msgid ""
 "<html><head/><body><p>Maximum time in seconds to wait for the focuser to "
 "move to the desired position before declaring a timeout.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Temps màxim en segons per a esperar el moviment de "
+"<html><head/><body><p>Temps màxim en segons que s'esperarà el moviment de "
 "l'enfocador fins a la posició desitjada capturada abans de declarar que s'ha "
 "excedit el temps.</p></body></html>"
 
@@ -21302,8 +21304,8 @@ msgstr ""
 "list-indent:1;\"><li style=\"margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">HFR ajustada</span>: «Adjusted Half Flux "
-"Radius» (Radi de semiflux ajustat). Normalitza l'HFR per a la intensitat "
-"dels pics.</li></ul><li style=\"margin-top:0px; margin-bottom:12px; margin-"
+"Radius» (Radi de semiflux ajustat). Normalitza HFR per a la intensitat dels "
+"pics.</li></ul><li style=\"margin-top:0px; margin-bottom:12px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
 "style=\"font-weight:600;\">FWHM</span>: «Full Width Half Maximum» (amplària "
 "total a la meitat del màxim). La corba, ajusta un PSF a cada centroide "
@@ -21531,29 +21533,28 @@ msgstr ""
 "indent:0px;\"><span style=\"font-weight:600;\">Iteratiu</span>: mou "
 "l'enfocador per passos discrets inicialment decidits per la mida del pas. "
 "Una vegada s'ha calculat el pendent d'una corba, es calcularan més mides de "
-"pas per a arribar fins a una solució òptima. L'algorisme es pararà quan "
-"l'HFR mesurat es trobe dins del percentatge de tolerància de l'HFR mínim "
-"registrat en el procediment.</li><li style=\"margin-top:0px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\"font-weight:600;\">Polinomi</span>: comença amb "
-"el mètode iteratiu. En creuar a l'altre costat de la corba V, es calcularan "
-"els coeficients d'ajust polinomial juntament amb la possible solució mínima. "
-"Este algorisme pot ser més ràpid que l'aproximació purament iterativa "
-"gràcies a un bon conjunt de dades.</li><li style=\"margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\"font-weight:600;\">Lineal</span>: de manera "
-"habitual les mostres s'enfocaran cap endins, utilitzant 2 passos. "
-"L'algorisme pot ser lent, però és més resistent als rebots. Comenceu amb "
-"l'enfocador col·locat prop de l'enfocament bo. Establiu la «Mida del pas "
-"inicial:» i el «Recorregut màx.:» per a l'interval de mostreig desitjat i "
-"l'interval al voltant de la posició d'enfocament inicial. La tolerància "
-"haurà d'estar al voltant del 5%.</li><li style=\"margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\"font-weight:600;\">Lineal d'1 pas</span>: "
-"Comença com el <span style=\"font-weight:600;\">Lineal</span> però després "
-"de completar el 1r pas, en lloc de fer un 2n pas, es mou directament cap al "
-"valor HFR mínim calculat. Utilitzeu l'«Ajust de la corba» d'«Hipèrbola» o de "
-"«Paràbola».</li></ul></body></html>"
+"pas per a arribar fins a una solució òptima. L'algorisme es pararà quan HFR "
+"mesurat es trobe dins del percentatge de tolerància d'HFR mínim registrat en "
+"el procediment.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\"font-weight:600;\">Polinomi</span>: comença amb el mètode iteratiu. "
+"En creuar a l'altre costat de la corba V, es calcularan els coeficients "
+"d'ajust polinomial juntament amb la possible solució mínima. Este algorisme "
+"pot ser més ràpid que l'aproximació purament iterativa gràcies a un bon "
+"conjunt de dades.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\"font-weight:600;\">Lineal</span>: de manera habitual les mostres "
+"s'enfocaran cap endins, utilitzant 2 passos. L'algorisme pot ser lent, però "
+"és més resilient als rebots. Comenceu amb l'enfocador col·locat prop de "
+"l'enfocament bo. Establiu la «Mida del pas inicial:» i el «Recorregut màx.:» "
+"per a l'interval de mostreig desitjat i l'interval al voltant de la posició "
+"d'enfocament inicial. La tolerància haurà d'estar al voltant del 5%.</li><li "
+"style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
+"weight:600;\">Lineal d'1 pas</span>: Comença com el <span style=\"font-"
+"weight:600;\">Lineal</span> però després de completar el 1r pas, en lloc de "
+"fer un 2n pas, es mou directament cap al valor HFR mínim calculat. Utilitzeu "
+"l'«Ajust de la corba» d'«Hipèrbola» o de «Paràbola».</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusAlgorithm)
 #: ekos/focus/opsfocusprocess.ui:380
@@ -21673,9 +21674,10 @@ msgid ""
 "average calculation. Change this value might help to match the Bahtinov "
 "lines on the star pattern more accurate.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Combineu este nombre de files al càlcul de la mitjana "
-"màxima de Bahtinov. Canviant este valor podria ajudar a aparellar amb més "
-"precisió les línies de Bahtinov i el patró de l'estrela.</p></body></html>"
+"<html><head/><body><p>Combineu este nombre de files en el càlcul de la "
+"mitjana màxima de Bahtinov. Canviant este valor podria ajudar a aparellar "
+"amb més precisió les línies de Bahtinov i el patró de l'estrela.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, focusGaussianSigma)
 #: ekos/focus/opsfocusprocess.ui:619
@@ -21848,7 +21850,7 @@ msgstr ""
 "l'enfocament utilitze múltiples estreles (nota: «Submarc» utilitza una sola "
 "estrela). En este mode, Ekos seleccionarà automàticament múltiples estreles "
 "durant l'enfocament automàtic i, per exemple, l'enfocament farà una mitjana "
-"de l'HFR de totes les estreles detectades.</p></body></html>"
+"d'HFR de totes les estreles detectades.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, focusUseFullField)
 #: ekos/focus/opsfocussettings.ui:38
@@ -21867,7 +21869,7 @@ msgstr "Quadro:"
 #, kde-format
 msgid "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Unitats de visualització per a l'HFR i la FWHM.</p></"
+"<html><head/><body><p>Unitats de visualització per a HFR i la FWHM.</p></"
 "body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusUnits)
@@ -22511,7 +22513,7 @@ msgid ""
 "PHD2: Please set CCD and telescope parameters in PHD2, Pixel Scale is "
 "invalid."
 msgstr ""
-"PHD2: Establiu els paràmetres de CCD i del telescopi a PHD2, l'escala de "
+"PHD2: Establiu els paràmetres de CCD i del telescopi en PHD2, l'escala de "
 "píxels no és vàlida."
 
 #: ekos/guide/externalguide/phd2.cpp:959
@@ -23539,7 +23541,8 @@ msgstr "Avís: Ha fallat el tramat manual."
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
-"Falta la informació de %1. Establiu els valors al tauler de control d'INDI."
+"Falta la informació de %1. Establiu els valors en el tauler de control "
+"d'INDI."
 
 #: ekos/guide/internalguide/internalguider.cpp:655
 #, kde-format
@@ -24648,7 +24651,7 @@ msgid ""
 "by inventing a guide star position from the multi-star references.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Si està marcada, s'intentarà ser més resistent a les "
+"<html><head/><body><p>Si està marcada, s'intentarà ser més resilient a les "
 "estreles dobles inventant una posició de l'estrela guia a partir de les "
 "referències de múltiples estreles.</p></body></html>"
 
@@ -24841,7 +24844,7 @@ msgid ""
 "by scheduler running in INDIHUB-cloud (experimental).</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Obri l'accés remot a l'equip perquè es controle amb el "
-"programador executat al núvol INDIHUB (experimental).</p></body></html>"
+"programador executat en el núvol INDIHUB (experimental).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QRadioButton, roboticR)
 #: ekos/indihub.ui:123
@@ -27208,7 +27211,7 @@ msgid ""
 "same network."
 msgstr ""
 "Ha fallat perquè no ha detectat cap giny de StellarMate. Assegureu-vos que "
-"està connectat i a la mateixa xarxa."
+"està connectat i en la mateixa xarxa."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProfileWizard)
 #: ekos/profilewizard.ui:26
@@ -28864,8 +28867,8 @@ msgid ""
 "Note the algorithm first calculates all altitudes using the same time, then "
 "evaluates jobs."
 msgstr ""
-"Restablix l'estat i ordena les tasques d'observació. segons l'altitud i "
-"moviment al cel, utilitzant el temps d'inici de la primera tasca.\n"
+"Restablix l'estat i ordena les tasques d'observació segons l'altitud i "
+"moviment en el cel, utilitzant el temps d'inici de la primera tasca.\n"
 "Esta acció ordena els objectius que es ponen abans que els objectius que "
 "ascendixen, i pot ajudar la planificació en iniciar l'observació.\n"
 "Cal tindre en compte que l'algorisme primer calcula totes les elevacions "
@@ -32007,7 +32010,7 @@ msgstr "S'està processant %1…"
 #: fitsviewer/opsfits.cpp:110
 #, kde-format
 msgid "HFR Options Profile Editor"
-msgstr "Editor dels perfils d'opcions de l'HFR"
+msgstr "Editor dels perfils d'opcions d'HFR"
 
 #. i18n: ectx: property (title), widget (QGroupBox, FITSViewerGroup)
 #: fitsviewer/opsfits.ui:45
@@ -32363,13 +32366,13 @@ msgstr "Mapa celeste"
 #: fitsviewer/opsfits.ui:445
 #, kde-format
 msgid "Compute the HFR of images loaded into fitsviewer."
-msgstr "Calcula l'HFR de les imatges carregades en el visor de FITS."
+msgstr "Calcula HFR de les imatges carregades en el visor de FITS."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoHFR)
 #: fitsviewer/opsfits.ui:448
 #, kde-format
 msgid "Auto compute HFR"
-msgstr "Calcula automàticament l'HFR"
+msgstr "Calcula automàticament HFR"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:458
@@ -32377,7 +32380,7 @@ msgstr "Calcula automàticament l'HFR"
 msgid ""
 "When computing the HFR, run it quickly by only looking at 25% of the image."
 msgstr ""
-"En calcular l'HFR, l'executa ràpidament buscant només el 25% de la imatge."
+"En calcular HFR, l'executa ràpidament buscant només el 25% de la imatge."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_QuickHFR)
 #: fitsviewer/opsfits.ui:461
@@ -32397,7 +32400,7 @@ msgstr ""
 #: fitsviewer/opsfits.ui:479
 #, kde-format
 msgid "HFR SEP profile:"
-msgstr "Perfil SEP de l'HFR:"
+msgstr "Perfil SEP d'HFR:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StellarSolverPartition)
 #. i18n: ectx: label, entry (StellarSolverPartition), group (FITSViewer)
@@ -32590,7 +32593,7 @@ msgstr "Visualització del perfil d'una estrela"
 #: fitsviewer/starprofileviewer.cpp:79
 #, kde-format
 msgid "Maximum Value on the graph"
-msgstr "Valor màxim al gràfic"
+msgstr "Valor màxim en el gràfic"
 
 #: fitsviewer/starprofileviewer.cpp:81
 #, kde-format
@@ -32644,7 +32647,7 @@ msgstr "Retalla"
 #: fitsviewer/starprofileviewer.cpp:105
 #, kde-format
 msgid "Minimum Value on the graph"
-msgstr "Valor mínim al gràfic"
+msgstr "Valor mínim en el gràfic"
 
 #: fitsviewer/starprofileviewer.cpp:108
 #, kde-format
@@ -32686,7 +32689,7 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:154
 #, kde-format
 msgid "Shows the HFR of stars in the frame"
-msgstr "Mostra l'HFR de les estreles en el fotograma"
+msgstr "Mostra HFR de les estreles en el fotograma"
 
 #: fitsviewer/starprofileviewer.cpp:168
 #, kde-format
@@ -32697,7 +32700,7 @@ msgstr ""
 #: fitsviewer/starprofileviewer.cpp:172
 #, kde-format
 msgid "Changes the sample size shown in the graph"
-msgstr "Canvia la mida de la mostra visualitzada al gràfic"
+msgstr "Canvia la mida de la mostra visualitzada en el gràfic"
 
 #: fitsviewer/starprofileviewer.cpp:183
 #, kde-format
@@ -34032,8 +34035,8 @@ msgid ""
 "Driver %1 was not found on the system. Please make sure the package that "
 "provides the '%1' binary is installed."
 msgstr ""
-"El controlador %1 no s'ha trobat al sistema. Assegureu-vos que el paquet que "
-"proporciona el binari «%1» està instal·lat."
+"El controlador %1 no s'ha trobat en el sistema. Assegureu-vos que el paquet "
+"que proporciona el binari «%1» està instal·lat."
 
 #: indi/servermanager.cpp:282
 #, kde-format
@@ -34343,8 +34346,8 @@ msgstr ""
 "<h3>4. Determineu el port de connexió</h3>\n"
 "\n"
 "Introduïu el número del port amb el qual està connectat el telescopi. Si tan "
-"sols teniu un port sèrie al vostre ordinador, usualment este serà <tt>/dev/"
-"ttyUSB0</tt>\n"
+"sols teniu un port sèrie en el vostre ordinador, usualment este serà <tt>/"
+"dev/ttyUSB0</tt>\n"
 "<br><br>Si no esteu segur de quin és el número del port, podreu deixar el "
 "camp buit i KStars intentarà explorar-los per a trobar els telescopis "
 "connectats. Cal tindre present que l'exploració automàtica pot tardar alguns "
@@ -34555,7 +34558,7 @@ msgstr "Afig una traça"
 #: kspopupmenu.cpp:438
 #, kde-format
 msgid "View in XPlanet"
-msgstr "Visualitza al Xplanet"
+msgstr "Visualitza en Xplanet"
 
 #: kspopupmenu.cpp:443
 #, kde-format
@@ -36620,8 +36623,8 @@ msgid ""
 "Toggle whether a centered solar system object automatically gets a trail "
 "attached, as long as it remains centered."
 msgstr ""
-"Canvia quan s'adjuntarà una traça a un objecte del sistema solar centrat al "
-"mapa, mentre romanga centrat."
+"Canvia quan s'adjuntarà una traça a un objecte del sistema solar centrat en "
+"el mapa, mentre romanga centrat."
 
 #. i18n: ectx: label, entry (UseHoverLabel), group (View)
 #: kstars.kcfg:790
@@ -36654,8 +36657,8 @@ msgid ""
 "refraction (only applies when horizontal coordinates are used)."
 msgstr ""
 "Canvia quan s'aplicaran les correccions degudes als efectes de la refracció "
-"atmosfèrica a les posicions dels objectes (només s'aplica si s'utilitzen les "
-"coordenades horitzontals)."
+"atmosfèrica per a les posicions dels objectes (només s'aplica si s'utilitzen "
+"les coordenades horitzontals)."
 
 #. i18n: ectx: label, entry (UseRelativistic), group (View)
 #: kstars.kcfg:800
@@ -37131,20 +37134,20 @@ msgid ""
 "Should the imaging Planner tool required an award when searching for an "
 "object in Astrobin."
 msgstr ""
-"Si l'eina «Planificador de l'obtenció d'imatges» haurà de processar un "
-"objecte a l'Astrobin."
+"Si l'eina «Planificador de l'obtenció d'imatges» haurà de buscar un objecte "
+"en Astrobin."
 
 #. i18n: ectx: label, entry (AstrobinMinRadius), group (ImagingPlanner)
 #: kstars.kcfg:986
 #, kde-format
 msgid "Minimum radius of image (degrees) when searching Astrobin"
-msgstr "Radi mínim de la imatge (en graus) en buscar a l'Astrobin"
+msgstr "Radi mínim de la imatge (en graus) quan es busca en Astrobin"
 
 #. i18n: ectx: label, entry (AstrobinMaxRadius), group (ImagingPlanner)
 #: kstars.kcfg:990
 #, kde-format
 msgid "Maximum radius of image (degrees) when searching Astrobin"
-msgstr "Radi màxim de la imatge (en graus) en buscar a l'Astrobin"
+msgstr "Radi màxim de la imatge (en graus) quan es busca en Astrobin"
 
 #. i18n: ectx: label, entry (ImagingPlannerUseArtificialHorizon), group (ImagingPlanner)
 #: kstars.kcfg:994
@@ -37226,7 +37229,7 @@ msgid ""
 "Show the objects that have the keyword in their notes (and don't show those "
 "that don't)."
 msgstr ""
-"Es mostraran els objectes que tinguen la paraula clau a les seues notes (i "
+"Es mostraran els objectes que tinguen la paraula clau en les seues notes (i "
 "no es mostraran els que no)."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotKeyword), group (ImagingPlanner)
@@ -37236,7 +37239,7 @@ msgid ""
 "Show the objects that don't have the keyword in their notes (and don't show "
 "those that do)."
 msgstr ""
-"Es mostraran els objectes que no tinguen la paraula clau a les seues notes "
+"Es mostraran els objectes que no tinguen la paraula clau en les seues notes "
 "(i no es mostraran els que sí)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareKeyword), group (ImagingPlanner)
@@ -37247,13 +37250,13 @@ msgid ""
 "their notes."
 msgstr ""
 "La visualització dels objectes no dependrà de si els objectes tenen la "
-"paraula clau a les seues notes o no."
+"paraula clau en les seues notes o no."
 
 #. i18n: ectx: label, entry (ImagingPlannerKeyword), group (ImagingPlanner)
 #: kstars.kcfg:1038
 #, kde-format
 msgid "Keyword used for the keyword filter."
-msgstr "La paraula clau emprada al filtre de paraules clau."
+msgstr "La paraula clau emprada per al filtre de paraules clau."
 
 #. i18n: ectx: label, entry (ImagingPlannerShowImaged), group (ImagingPlanner)
 #: kstars.kcfg:1042
@@ -37344,26 +37347,27 @@ msgstr ""
 #, kde-format
 msgid "Hide the imaging planner's Astrobin search details section."
 msgstr ""
-"Oculta la secció detalls de la busca a l'Astrobin al «Planificador de "
+"Oculta la secció detalls de la busca en Astrobin en el «Planificador de "
 "l'obtenció d'imatges»."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideFilters), group (ImagingPlanner)
 #: kstars.kcfg:1082
 #, kde-format
 msgid "Hide the imaging planner's filters section."
-msgstr "Oculta la secció filtres al «Planificador de l'obtenció d'imatges»."
+msgstr "Oculta la secció filtres en el «Planificador de l'obtenció d'imatges»."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideImage), group (ImagingPlanner)
 #: kstars.kcfg:1086
 #, kde-format
 msgid "Hide the imaging planner's image section."
-msgstr "Oculta la secció imatges al «Planificador de l'obtenció d'imatges»."
+msgstr "Oculta la secció imatges en el «Planificador de l'obtenció d'imatges»."
 
 #. i18n: ectx: label, entry (ImagingPlannerHideAltitudeGraph), group (ImagingPlanner)
 #: kstars.kcfg:1090
 #, kde-format
 msgid "Hide the imaging planner's altitude graph."
-msgstr "Oculta el gràfic d'altitud al «Planificador de l'obtenció d'imatges»."
+msgstr ""
+"Oculta el gràfic d'altitud en el «Planificador de l'obtenció d'imatges»."
 
 #. i18n: ectx: label, entry (ImagingPlannerCatalogPath), group (ImagingPlanner)
 #: kstars.kcfg:1094
@@ -37400,7 +37404,8 @@ msgstr ""
 msgid ""
 "Objects in the observing list will be highlighted with a symbol in the map."
 msgstr ""
-"Els objectes de la llista d'observació es ressaltaran amb un símbol al mapa."
+"Els objectes de la llista d'observació es ressaltaran amb un símbol en el "
+"mapa."
 
 #. i18n: ectx: label, entry (ObsListText), group (ObservingList)
 #: kstars.kcfg:1113
@@ -37417,7 +37422,7 @@ msgid ""
 "in the map."
 msgstr ""
 "Els objectes de la llista d'observació es ressaltaran amb una etiqueta "
-"acolorida de nom al mapa."
+"acolorida de nom en el mapa."
 
 #. i18n: ectx: label, entry (ObsListPreferDSS), group (ObservingList)
 #: kstars.kcfg:1118
@@ -38022,8 +38027,7 @@ msgstr "Temps d'espera d'Xplanet"
 #: kstars.kcfg:1348
 #, kde-format
 msgid "How long to wait for XPlanet before giving up in milliseconds"
-msgstr ""
-"Quant temps, en mil·lisegons, s'ha d'esperar Xplanet abans de renunciar."
+msgstr "Quant temps, en mil·lisegons, s'esperarà Xplanet abans de renunciar."
 
 #. i18n: ectx: label, entry (XplanetAnimationDelay), group (Xplanet)
 #: kstars.kcfg:1352
@@ -38373,8 +38377,8 @@ msgstr "Fitxer ARC"
 #, kde-format
 msgid "If checked, use an arc file to be plotted against the background stars."
 msgstr ""
-"Si se selecciona, s'utilitzarà un fitxer ARC que es dibuixarà superposat al "
-"fons estrelat."
+"Si se selecciona, s'utilitzarà un fitxer ARC que es dibuixarà superposat en "
+"el fons estrelat."
 
 #. i18n: ectx: label, entry (XplanetArcFilePath), group (Xplanet)
 #: kstars.kcfg:1483
@@ -38884,7 +38888,7 @@ msgstr ""
 #: kstars.kcfg:1692
 #, kde-format
 msgid "Automatically compute HFRs of fits images"
-msgstr "Calcula automàticament l'HFR de les imatges FITS"
+msgstr "Calcula automàticament HFR de les imatges FITS"
 
 #. i18n: ectx: label, entry (QuickHFR), group (FITSViewer)
 #: kstars.kcfg:1696
@@ -38892,7 +38896,7 @@ msgstr "Calcula automàticament l'HFR de les imatges FITS"
 msgid ""
 "Compute the HFRs of normal images quickly by looking at the center 25% only."
 msgstr ""
-"Calcula ràpidament l'HFR de les imatges normals buscant només el 25% del "
+"Calcula ràpidament HFR de les imatges normals buscant només el 25% del "
 "centre."
 
 #. i18n: ectx: label, entry (AutoWCS), group (FITSViewer)
@@ -39608,21 +39612,21 @@ msgid ""
 "Increase autofocus HFR value by this percentage gain and store it in Capture "
 "Module."
 msgstr ""
-"Augmenta el valor de l'HFR de l'enfocament automàtic per este percentatge de "
+"Augmenta el valor d'HFR de l'enfocament automàtic per este percentatge de "
 "guany i l'emmagatzema en el mòdul «Captura»."
 
 #. i18n: ectx: whatsthis, entry (HFRCheckAlgorithm), group (Capture)
 #: kstars.kcfg:2098
 #, kde-format
 msgid "Algorithm for In Sequence HFR Check"
-msgstr "Algorisme per a la comprovació de l'HFR a la seqüència."
+msgstr "Algorisme per a la comprovació d'HFR en la seqüència."
 
 #. i18n: ectx: label, entry (InSequenceCheckFrames), group (Capture)
 #: kstars.kcfg:2102
 #, kde-format
 msgid "Run In-Sequence HFR check after this many frames."
 msgstr ""
-"Executa la comprovació de l'HFR a la seqüència després d'este nombre de "
+"Executa la comprovació d'HFR en la seqüència després d'este nombre de "
 "fotogrames."
 
 #. i18n: ectx: label, entry (AutoStretch), group (Capture)
@@ -39721,7 +39725,7 @@ msgid ""
 "Maximum number of seconds to wait before aborting the capture if operations "
 "like filter wheel changes or meridian flips take too long."
 msgstr ""
-"Nombre màxim de segons a esperar abans d'interrompre la captura si les "
+"Nombre màxim de segons que s'esperarà abans d'interrompre la captura si les "
 "operacions com els canvis a la roda de filtres o les inversions de meridià "
 "tarden massa."
 
@@ -39896,7 +39900,7 @@ msgid ""
 "defaults to the Centroid detection, but can use SEP detection too. Its "
 "performance decreases as the number of stars increases."
 msgstr ""
-"Mesura la mitjana de l'HFR de totes les estreles combinades en un fotograma "
+"Mesura la mitjana d'HFR de totes les estreles combinades en un fotograma "
 "complet. Este mètode és el predeterminat per a la detecció Centroide, però "
 "també pot utilitzar la detecció SEP. El seu rendiment disminuïx quan el "
 "nombre d'estreles crix."
@@ -39992,7 +39996,7 @@ msgstr "Temps d'espera en segons després que es reprenga el guiatge."
 #: kstars.kcfg:2289
 #, kde-format
 msgid "Display units for HFR and FWHM"
-msgstr "Unitats de visualització per a l'HFR i la FWHM."
+msgstr "Unitats de visualització per a HFR i la FWHM."
 
 #. i18n: ectx: whatsthis, entry (FocusAdaptive), group (Focus)
 #: kstars.kcfg:2293
@@ -40101,7 +40105,7 @@ msgstr ""
 msgid "How many frames to average over when performing in-sequence HFR Check."
 msgstr ""
 "Quants fotogrames s'han de prendre de mitjana quan es porte a terme una "
-"comprovació de l'HFR en seqüència."
+"comprovació d'HFR en seqüència."
 
 #. i18n: ectx: label, entry (FocusMultiRowAverage), group (Focus)
 #: kstars.kcfg:2353
@@ -40327,7 +40331,7 @@ msgid ""
 "Maximum time in seconds to wait for a focuser to move to desired position "
 "before declaring a timeout."
 msgstr ""
-"Temps màxim en segons per a esperar el moviment d'un enfocador fins a la "
+"Temps màxim en segons que s'esperarà el moviment d'un enfocador fins a la "
 "posició desitjada capturada abans de declarar que s'ha excedit el temps."
 
 #. i18n: ectx: whatsthis, entry (focusCFZAlgorithm), group (Focus)
@@ -40465,7 +40469,7 @@ msgstr ""
 #, kde-format
 msgid "Show Critical Focus Zone on Aberration Inspector graph."
 msgstr ""
-"Mostra la «Zona crítica de l'enfocament» al gràfic de l'inspector de "
+"Mostra la «Zona crítica de l'enfocament» en el gràfic de l'inspector de "
 "l'aberració."
 
 #. i18n: ectx: label, entry (abInsOptCentres), group (Focus)
@@ -40545,13 +40549,13 @@ msgstr "Perfil d'opcions de Sextraction quan s'enfoca."
 #: kstars.kcfg:2583
 #, kde-format
 msgid "Internal or External Sextractor to compute subs HFR."
-msgstr "Sextractor intern o extern per a calcular l'HFR dels «subs»."
+msgstr "Sextractor intern o extern per a calcular HFR dels «subs»."
 
 #. i18n: ectx: label, entry (HFROptionsProfile), group (StellarSolver)
 #: kstars.kcfg:2587
 #, kde-format
 msgid "Options Profile for Sextraction to compute subs HFR"
-msgstr "Perfil d'opcions de Sextraction per a calcular l'HFR dels «subs»"
+msgstr "Perfil d'opcions de Sextraction per a calcular HFR dels «subs»"
 
 #. i18n: ectx: label, entry (GuideSextractorType), group (StellarSolver)
 #: kstars.kcfg:2591
@@ -40597,7 +40601,7 @@ msgstr "Perfil d'opcions per a la resolució."
 #: kstars.kcfg:2615
 #, kde-format
 msgid "Level of verbosity in the log."
-msgstr "Nivell de detall al registre."
+msgstr "Nivell de detall en el registre."
 
 #. i18n: ectx: label, entry (AstrometryLogToFile), group (StellarSolver)
 #: kstars.kcfg:2619
@@ -40747,7 +40751,7 @@ msgid ""
 "Time to wait in milliseconds after telescope slewing is complete before "
 "starting the next capture."
 msgstr ""
-"Temps d'espera en mil·lisegons després que es complete l'orientació del "
+"Temps d'espera en mil·lisegons una vegada es complete l'orientació del "
 "telescopi abans d'iniciar la captura següent."
 
 #. i18n: ectx: label, entry (AstrometryUseNoFITS2FITS), group (Align)
@@ -41301,20 +41305,20 @@ msgstr "Llindar de precisió per al gràfic «Guiatge»."
 #: kstars.kcfg:3085
 #, kde-format
 msgid "Display the RA Plot on the Guide Drift Graphics."
-msgstr "Visualitza el traçat AR als «Gràfics de la deriva» del guiatge."
+msgstr "Visualitza el traçat AR en els «Gràfics de la deriva» del guiatge."
 
 #. i18n: ectx: label, entry (DEDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3089
 #, kde-format
 msgid "Display the DEC Plot on the Guide Drift Graphics."
-msgstr "Visualitza el traçat Dec als «Gràfics de la deriva» del guiatge."
+msgstr "Visualitza el traçat Dec en els «Gràfics de la deriva» del guiatge."
 
 #. i18n: ectx: label, entry (RACorrDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3093
 #, kde-format
 msgid "Display the RA Corrections Plot on the Guide Drift Graphics."
 msgstr ""
-"Visualitza el traçat de correccions AR als «Gràfics de la deriva» del "
+"Visualitza el traçat de correccions AR en els «Gràfics de la deriva» del "
 "guiatge."
 
 #. i18n: ectx: label, entry (DECorrDisplayedOnGuideGraph), group (Guide)
@@ -41322,21 +41326,21 @@ msgstr ""
 #, kde-format
 msgid "Display the DEC Corrections Plot on the Guide Drift Graphics."
 msgstr ""
-"Visualitza el traçat de correccions Dec als «Gràfics de la deriva» del "
+"Visualitza el traçat de correccions Dec en els «Gràfics de la deriva» del "
 "guiatge."
 
 #. i18n: ectx: label, entry (SNRDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3101
 #, kde-format
 msgid "Display the SNR Plot on the Guide Drift Graphics."
-msgstr "Visualitza el traçat SNR als «Gràfics de la deriva» del guiatge."
+msgstr "Visualitza el traçat SNR en els «Gràfics de la deriva» del guiatge."
 
 #. i18n: ectx: label, entry (RMSDisplayedOnGuideGraph), group (Guide)
 #: kstars.kcfg:3105
 #, kde-format
 msgid "Display the RMS Error Plot on the Guide Drift Graphics."
 msgstr ""
-"Visualitza el traçat d'error RMS als «Gràfics de la deriva» del guiatge."
+"Visualitza el traçat d'error RMS en els «Gràfics de la deriva» del guiatge."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3111
@@ -41824,14 +41828,14 @@ msgstr ""
 #, kde-format
 msgid "Alternative directory to use for searching for analyze image files."
 msgstr ""
-"Directori alternatiu que s'utilitza per a buscar fitxers d'imatge al procés "
-"Analitza."
+"Directori alternatiu que s'utilitza per a buscar fitxers d'imatge en el "
+"procés Analitza."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeHFR), group (Analyze)
 #: kstars.kcfg:3373
 #, kde-format
 msgid "Display HFR on the Analyze Statistics Plot."
-msgstr "Mostra l'HFR en el traçat «Estadístiques de l'anàlisi»."
+msgstr "Mostra HFR en el traçat «Estadístiques de l'anàlisi»."
 
 #. i18n: ectx: whatsthis, entry (AnalyzeNumCaptureStars), group (Analyze)
 #: kstars.kcfg:3377
@@ -71209,7 +71213,7 @@ msgid ""
 "It appears that your setup is broken."
 msgstr ""
 "No s'ha pogut trobar el fitxer %1. KStars no pot funcionar adequadament "
-"sense este fitxer. KStars el busca a les ubicacions següents:\n"
+"sense este fitxer. KStars el busca en les ubicacions següents:\n"
 "\n"
 "\t%2\n"
 "\n"
@@ -83757,7 +83761,7 @@ msgstr "Conjuncions / Oposicions"
 #: tools/eclipsetool.cpp:130
 #, kde-format
 msgid "View in SkyMap"
-msgstr "Visualitza al mapa celeste"
+msgstr "Visualitza en el mapa celeste"
 
 #: tools/eclipsetool.cpp:137
 #, kde-format
@@ -84447,7 +84451,7 @@ msgstr "%1/%2: S'està afegint %3"
 #: tools/imagingplanner.ui:77
 #, kde-format
 msgid "Search for an object in the table."
-msgstr "Busca un objecte a la taula."
+msgstr "Busca un objecte en la taula."
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, SearchText)
 #. i18n: ectx: property (title), widget (QGroupBox, ObjectBox)
@@ -84679,7 +84683,7 @@ msgstr ""
 #: tools/imagingplanner.ui:1307
 #, kde-format
 msgid "Minimize the Astrobin search details section"
-msgstr "Minimitza la secció detalls de la busca a l'Astrobin"
+msgstr "Minimitza la secció detalls de la busca en Astrobin"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (toolTip), widget (QLabel, SearchLabel2)
@@ -84703,8 +84707,8 @@ msgid ""
 "Search Astrobin for the selected object using the search constraints in this "
 "section."
 msgstr ""
-"Busca a l'Astrobin l'objecte seleccionat emprant les restriccions de busca "
-"en esta secció."
+"Busca en Astrobin l'objecte seleccionat emprant les restriccions de busca en "
+"esta secció."
 
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton2)
@@ -84719,7 +84723,7 @@ msgstr "Astrobin"
 #: tools/imagingplanner.ui:1393 tools/imagingplanner.ui:1724
 #, kde-format
 msgid "Search Wikipedia for the selected object."
-msgstr "Busca l'objecte seleccionat a la Wikipedia."
+msgstr "Busca l'objecte seleccionat en la Wikipedia."
 
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia2)
@@ -84749,7 +84753,7 @@ msgstr "NGC/IC"
 #: tools/imagingplanner.ui:1453 tools/imagingplanner.ui:1784
 #, kde-format
 msgid "Search Simbad."
-msgstr "Busca a Simbad."
+msgstr "Busca en Simbad."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1463
@@ -84758,8 +84762,8 @@ msgid ""
 "<html><head/><body><p>Required one of the Astrobin awards when searching "
 "Astrobin images.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Es requerix un dels premes d'Astrobin en buscar "
-"imatges d'Astrobin.</p></body></html>"
+"<html><head/><body><p>Es requerirà un dels premis d'Astrobin quan es busquen "
+"imatges en Astrobin.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1466
@@ -84790,7 +84794,7 @@ msgstr "Màx.:"
 #: tools/imagingplanner.ui:1638 tools/imagingplanner.ui:2248
 #, kde-format
 msgid "Maximize the Astrobin search details section"
-msgstr "Es maximitzarà la secció detalls de la busca a l'Astrobin."
+msgstr "Es maximitzarà la secció detalls de la busca en Astrobin."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideFilterTypesButton)
 #: tools/imagingplanner.ui:1850
@@ -85066,7 +85070,7 @@ msgid ""
 "keyword in their notes (and don't show those that don't).</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Es mostraran els objectes que tinguen la paraula clau "
-"(distingix entre majúscules i minúscules) a les seues notes (i no es "
+"(distingix entre majúscules i minúscules) en les seues notes (i no es "
 "mostraran els que no la tinguen).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notKeywordCB)
@@ -85077,7 +85081,7 @@ msgid ""
 "keyword in their notes (and don't show those that do).</p></body></html>"
 msgstr ""
 "<html><head/><body><p>Es mostraran els objectes que no tinguen la paraula "
-"clau (distingix entre majúscules i minúscules) a les seues notes (i no es "
+"clau (distingix entre majúscules i minúscules) en les seues notes (i no es "
 "mostraran els que la tinguen).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notKeywordCB)
@@ -85094,7 +85098,7 @@ msgid ""
 "objects have the keyword in their notes.</p></body></html>"
 msgstr ""
 "<html><head/><body><p>La visualització dels objectes no dependrà de si els "
-"objectes tenen la paraula clau a les seues notes o no.</p></body></html>"
+"objectes tenen la paraula clau en les seues notes o no.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2182
@@ -85103,7 +85107,7 @@ msgid ""
 "Enter the (case-sensitive) keyword to be used for the checkboxes to the left."
 msgstr ""
 "Introduïu la paraula clau (distingix entre majúscules i minúscules) que "
-"s'utilitzarà a les caselles de selecció de l'esquerra."
+"s'utilitzarà en les caselles de selecció de l'esquerra."
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2185
@@ -86486,8 +86490,8 @@ msgstr[1] ""
 "No s'han pogut trobar %1 objectes en la base de dades, i s'eliminarà de la "
 "llista d'observacions desitjades. Es recomana que copieu la llista detallada "
 "com a una còpia de seguretat, de manera que després podreu utilitzar la "
-"característica «Afig per lots» al Planificador d'observacions per a tornar-"
-"los a afegir utilitzant una busca d'Internet."
+"característica «Afig per lots» en el Planificador d'observacions per a "
+"tornar-los a afegir utilitzant una busca d'Internet."
 
 #: tools/observinglist.cpp:1160
 #, kde-format

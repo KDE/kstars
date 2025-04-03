@@ -26915,11 +26915,9 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Alert"
+msgstr "Upozornění"
 
 #: ekos/scheduler/schedulerprocess.cpp:679
 #, kde-format
