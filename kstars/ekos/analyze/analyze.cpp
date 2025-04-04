@@ -25,7 +25,6 @@
 #include "qcustomplot.h"
 
 #include <ekos_analyze_debug.h>
-#include <KHelpClient>
 #include <version.h>
 #include <QDesktopServices>
 #include <QFileDialog>
@@ -467,7 +466,6 @@ Analyze::Analyze() : m_YAxisTool(this)
     connect(statsPlot, &QCustomPlot::mouseMove, this, &Analyze::statsMouseMove);
     connect(analyzeSB, &QScrollBar::valueChanged, this, &Analyze::scroll);
     analyzeSB->setRange(0, MAX_SCROLL_VALUE);
-    connect(helpB, &QPushButton::clicked, this, &Analyze::helpMessage);
     connect(keepCurrentCB, &QCheckBox::stateChanged, this, &Analyze::keepCurrent);
 
     setupKeyboardShortcuts(this);
@@ -680,12 +678,6 @@ void Analyze::setupKeyboardShortcuts(QWidget *plot)
     connect(s, &QShortcut::activated, this, &Analyze::statsYZoomIn);
     s = new QShortcut(QKeySequence(QKeySequence::MoveToPreviousLine), plot);
     connect(s, &QShortcut::activated, this, &Analyze::statsYZoomOut);
-    s = new QShortcut(QKeySequence("?"), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::helpMessage);
-    s = new QShortcut(QKeySequence("h"), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::helpMessage);
-    s = new QShortcut(QKeySequence(QKeySequence::HelpContents), plot);
-    connect(s, &QShortcut::activated, this, &Analyze::helpMessage);
 }
 
 Analyze::~Analyze()
@@ -2930,13 +2922,6 @@ void Analyze::displayFITS(const QString &filename)
     }
 
     fitsViewer->show();
-}
-
-void Analyze::helpMessage()
-{
-    const QUrl url("https://kstars-docs.kde.org/en/user_manual/ekos-analyze.html");
-    if (!url.isEmpty())
-        QDesktopServices::openUrl(url);
 }
 
 // This is intended for recording data to file.
