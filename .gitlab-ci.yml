@@ -77,7 +77,7 @@ microsoftstore_qt515:
 # This is the custom build we use until tests are operational in the KDE CI image
 .custom_build:
   interruptible: true
-  image: tallfurryman/kstars-ci:0.12
+  image: tallfurryman/kstars-ci:latest
   variables:
     CCACHE_BASEDIR: "$CI_PROJECT_DIR"
     QT_TEST_TIMEOUT_FUNCTION: "600"
