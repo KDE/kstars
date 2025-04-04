@@ -445,9 +445,6 @@ class Analyze : public QWidget, public Ui::Analyze
         // Opens a FITS file for viewing.
         void displayFITS(const QString &filename);
 
-        // Pop up a help-message window.
-        void helpMessage();
-
         // Write the analyze log file message.
         void saveMessage(const QString &type, const QString &message);
         // low level file writing.

@@ -61,6 +61,7 @@
 
 #include <QFutureWatcher>
 #include <QComboBox>
+#include <QDesktopServices>
 
 #include <ekos_debug.h>
 
@@ -89,7 +90,7 @@ void Manager::release()
     delete _Manager;
 }
 
-Manager::Manager(QWidget * parent) : QDialog(parent)
+Manager::Manager(QWidget * parent) : QDialog(parent), m_networkManager(this)
 {
 #ifdef Q_OS_MACOS
 
@@ -252,6 +253,9 @@ Manager::Manager(QWidget * parent) : QDialog(parent)
     });
     // Save as above, but it appears in all modules
     connect(ekosOptionsB, &QPushButton::clicked, this, &Ekos::Manager::showEkosOptions);
+
+    connect(helpB, &QPushButton::clicked, this, &Ekos::Manager::help);
+    helpB->setIcon(QIcon::fromTheme("help-about"));
 
     // Clear Ekos Log
     connect(clearB, &QPushButton::clicked, this, &Ekos::Manager::clearLog);
@@ -533,6 +537,83 @@ void Manager::hideEvent(QHideEvent * /*event*/)
 
     QAction * a = KStars::Instance()->actionCollection()->action("show_ekos");
     a->setChecked(false);
+}
+
+// Returns true if the url will result in a successful get.
+// Times out after 3 seconds.
+bool Manager::checkIfPageExists(const QString &urlString)
+{
+    if (urlString.isEmpty())
+        return false;
+
+    QUrl url(urlString);
+    QNetworkRequest request(url);
+    QNetworkReply *reply = m_networkManager.get(request);
+
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+
+    QTimer timer;
+    timer.setSingleShot(true);
+    timer.setInterval(3000); // 3 seconds timeout
+
+    connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    timer.start();
+    loop.exec();
+    timer.stop();
+
+    if (reply->error() == QNetworkReply::NoError)
+    {
+        reply->deleteLater();
+        return true;
+    }
+    else if (timer.isActive() )
+    {
+        reply->deleteLater();
+        return false;
+    }
+    else
+    {
+        reply->deleteLater();
+        return false;
+    }
+}
+
+void Manager::help()
+{
+    QString urlStr("https://kstars-docs.kde.org/%1/user_manual/ekos.html");
+    QWidget *widget = toolsWidget->currentWidget();
+    if (widget)
+    {
+        if (widget == alignModule())
+            urlStr = "https://kstars-docs.kde.org/%1/user_manual/ekos-align.html";
+        else if (widget == captureModule())
+            urlStr = "https://kstars-docs.kde.org/%1/user_manual/ekos-capture.html";
+        else if (widget == focusModule())
+            urlStr = "https://kstars-docs.kde.org/%1/user_manual/ekos-focus.html";
+        else if (widget == guideModule())
+            urlStr = "https://kstars-docs.kde.org/%1/user_manual/ekos-guide.html";
+        //else if (widget == mountModule())
+        //    url = "https://kstars-docs.kde.org/%1/user_manual/ekos-mount.html";
+        else if (widget == schedulerModule())
+            urlStr = "https://kstars-docs.kde.org/%1/user_manual/ekos-scheduler.html";
+        //else if (widget == observatoryProcess.get())
+        //    url = "https://kstars-docs.kde.org/%1/user_manual/ekos-observatory.html";
+        else if (widget == analyzeProcess.get())
+            urlStr = "https://kstars-docs.kde.org/%1/user_manual/ekos-analyze.html";
+    }
+    QLocale locale;
+    QString fullStr = QString(urlStr).arg(locale.name());
+    if (!checkIfPageExists(fullStr))
+    {
+        const int underscoreIndex = locale.name().indexOf('_');
+        QString firstPart = locale.name().mid(0, underscoreIndex);
+        fullStr = QString(urlStr).arg(firstPart);
+        if (!checkIfPageExists(fullStr))
+            fullStr = QString(urlStr).arg("en");
+    }
+    if (!fullStr.isEmpty())
+        QDesktopServices::openUrl(QUrl(fullStr));
 }
 
 void Manager::showEvent(QShowEvent * /*event*/)

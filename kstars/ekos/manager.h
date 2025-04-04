@@ -490,6 +490,8 @@ class Manager : public QDialog, public Ui::Manager
         void updateGuideStatus(GuideState status);
         void updateSigmas(double ra, double de);
 
+        void help();
+
     private:
         explicit Manager(QWidget *parent);
         ~Manager() override;
@@ -603,6 +605,10 @@ class Manager : public QDialog, public Ui::Manager
 
         // E.g. Setup, Scheduler, and Analyze.
         int numPermanentTabs { 0 };
+
+        // Used by the help button.
+        bool checkIfPageExists(const QString &urlString);
+        QNetworkAccessManager m_networkManager;
 
         friend class EkosLive::Client;
         friend class EkosLive::Message;
