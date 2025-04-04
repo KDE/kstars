@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 01:53+0000\n"
+"POT-Creation-Date: 2025-04-04 02:00+0000\n"
 "PO-Revision-Date: 2025-03-20 08:20+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -16435,27 +16435,27 @@ msgstr ""
 "Cambiar a visualización ao modo gráfico de visualización de números de "
 "capturas."
 
-#: ekos/capture/capturedeviceadaptor.cpp:422
+#: ekos/capture/capturedeviceadaptor.cpp:423
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:675
+#: ekos/capture/capturedeviceadaptor.cpp:677
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Retirar a cobertura do telescopio para continuar."
 
-#: ekos/capture/capturedeviceadaptor.cpp:676
+#: ekos/capture/capturedeviceadaptor.cpp:678
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescopio cuberto"
 
-#: ekos/capture/capturedeviceadaptor.cpp:808
+#: ekos/capture/capturedeviceadaptor.cpp:810
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Ten %1 unha persiana?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:809
+#: ekos/capture/capturedeviceadaptor.cpp:811
 #: ekos/capture/sequencejobstate.cpp:439
 #, kde-format
 msgid "Dark Exposure"

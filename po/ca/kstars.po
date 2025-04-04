@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 01:53+0000\n"
+"POT-Creation-Date: 2025-04-04 02:00+0000\n"
 "PO-Revision-Date: 2025-03-25 10:30+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -16535,29 +16535,29 @@ msgid "Switch display to the graphical mode of capture counts display."
 msgstr ""
 "Commuta la pantalla al mode gràfic de visualització del nombre de captures."
 
-#: ekos/capture/capturedeviceadaptor.cpp:422
+#: ekos/capture/capturedeviceadaptor.cpp:423
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
 "El gestor de filtres encara no està inicialitzat. Falta el filtre de la roda "
 "del tren?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:675
+#: ekos/capture/capturedeviceadaptor.cpp:677
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Elimina la funda del telescopi per tal de continuar."
 
-#: ekos/capture/capturedeviceadaptor.cpp:676
+#: ekos/capture/capturedeviceadaptor.cpp:678
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescopi cobert"
 
-#: ekos/capture/capturedeviceadaptor.cpp:808
+#: ekos/capture/capturedeviceadaptor.cpp:810
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "El %1 té un obturador?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:809
+#: ekos/capture/capturedeviceadaptor.cpp:811
 #: ekos/capture/sequencejobstate.cpp:439
 #, kde-format
 msgid "Dark Exposure"

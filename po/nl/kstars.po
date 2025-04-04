@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 01:53+0000\n"
+"POT-Creation-Date: 2025-04-04 02:00+0000\n"
 "PO-Revision-Date: 2025-03-26 00:23+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -16363,28 +16363,28 @@ msgstr ""
 "Scherm omschakelen naar de grafische modus van het tonen van het aantal "
 "opnamen."
 
-#: ekos/capture/capturedeviceadaptor.cpp:422
+#: ekos/capture/capturedeviceadaptor.cpp:423
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
 "Filterbeheerder is nog niet geïnitialiseerd. Filterwiel ontbreekt in trein?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:675
+#: ekos/capture/capturedeviceadaptor.cpp:677
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Verwijder lenskap van de telescoop voordat u verder gaat."
 
-#: ekos/capture/capturedeviceadaptor.cpp:676
+#: ekos/capture/capturedeviceadaptor.cpp:678
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescoop bedekt"
 
-#: ekos/capture/capturedeviceadaptor.cpp:808
+#: ekos/capture/capturedeviceadaptor.cpp:810
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "Heeft %1 een sluiter?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:809
+#: ekos/capture/capturedeviceadaptor.cpp:811
 #: ekos/capture/sequencejobstate.cpp:439
 #, kde-format
 msgid "Dark Exposure"

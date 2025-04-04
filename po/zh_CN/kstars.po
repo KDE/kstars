@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 01:53+0000\n"
+"POT-Creation-Date: 2025-04-04 02:00+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -15783,27 +15783,27 @@ msgstr "总计"
 msgid "Switch display to the graphical mode of capture counts display."
 msgstr "切换显示为拍摄计数的图形模式。"
 
-#: ekos/capture/capturedeviceadaptor.cpp:422
+#: ekos/capture/capturedeviceadaptor.cpp:423
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
 
-#: ekos/capture/capturedeviceadaptor.cpp:675
+#: ekos/capture/capturedeviceadaptor.cpp:677
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "移开望远镜盖子以继续。"
 
-#: ekos/capture/capturedeviceadaptor.cpp:676
+#: ekos/capture/capturedeviceadaptor.cpp:678
 #, kde-format
 msgid "Telescope Covered"
 msgstr "望远镜已盖上"
 
-#: ekos/capture/capturedeviceadaptor.cpp:808
+#: ekos/capture/capturedeviceadaptor.cpp:810
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "%1 有快门吗？"
 
-#: ekos/capture/capturedeviceadaptor.cpp:809
+#: ekos/capture/capturedeviceadaptor.cpp:811
 #: ekos/capture/sequencejobstate.cpp:439
 #, kde-format
 msgid "Dark Exposure"

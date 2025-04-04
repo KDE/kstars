@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-02 01:53+0000\n"
-"PO-Revision-Date: 2025-03-21 22:29+0100\n"
+"POT-Creation-Date: 2025-04-04 02:00+0000\n"
+"PO-Revision-Date: 2025-03-29 20:56+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -16509,29 +16509,29 @@ msgstr ""
 "Commuta alla visualizzazione grafica della vista dei conteggi delle "
 "acquisizioni."
 
-#: ekos/capture/capturedeviceadaptor.cpp:422
+#: ekos/capture/capturedeviceadaptor.cpp:423
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
 "Il gestore dei filtri non è ancora inizializzato. Ruota portafiltri mancante "
 "nel gruppo?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:675
+#: ekos/capture/capturedeviceadaptor.cpp:677
 #, kde-format
 msgid "Remove cover from the telescope in order to continue."
 msgstr "Togli la copertura dal telescopio per continuare."
 
-#: ekos/capture/capturedeviceadaptor.cpp:676
+#: ekos/capture/capturedeviceadaptor.cpp:678
 #, kde-format
 msgid "Telescope Covered"
 msgstr "Telescopio coperto"
 
-#: ekos/capture/capturedeviceadaptor.cpp:808
+#: ekos/capture/capturedeviceadaptor.cpp:810
 #, kde-format
 msgid "Does %1 have a shutter?"
 msgstr "%1 ha un otturatore?"
 
-#: ekos/capture/capturedeviceadaptor.cpp:809
+#: ekos/capture/capturedeviceadaptor.cpp:811
 #: ekos/capture/sequencejobstate.cpp:439
 #, kde-format
 msgid "Dark Exposure"
@@ -28318,13 +28318,19 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:700;\">Abilita "
+"pianificazione basata sul meteo:</span> impedisce l'avvio di nuovi processi "
+"durante gli avvisi o le allerte meteo. I processi in corso continuano "
+"durante gli avvisi ma vengono interrotti durante le allerte. Il sistema "
+"inizializza uno spegnimento lento e attende migliori condizioni atmosferiche "
+"o la scadenza del ritardo, dopo cui il processo attivo viene terminato.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Avviso meteo"
+msgstr "Ritardo meteo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -29603,14 +29609,14 @@ msgstr ""
 msgid ""
 "Job '%1' cannot start because weather status is %2 and grace period is over."
 msgstr ""
+"Impossibile avviare il processo «%1» perché la condizione meteorologica è %2 "
+"e il periodo di ritardo è scaduto."
 
 #: ekos/scheduler/schedulerprocess.cpp:670
 #: ekos/scheduler/schedulerprocess.cpp:680
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
-msgstr "Alert"
+msgstr "Allarme"
 
 #: ekos/scheduler/schedulerprocess.cpp:679
 #, kde-format
@@ -29618,6 +29624,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"Impossibile avviare il processo «%1» perché la condizione meteorologica è "
+"%2. Attesa fino al miglioramento del tempo o fino a %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:701
 #, kde-format
@@ -30338,21 +30346,22 @@ msgstr ""
 "processo «%1» è attivo. Interruzione in corso."
 
 #: ekos/scheduler/schedulerprocess.cpp:4107
-#, fuzzy, kde-format
-#| msgid "Dome parking failed. Restarting operation..."
+#, kde-format
 msgid "Weather has improved. Resuming operations."
-msgstr "Parcheggio della cupola non riuscito. Riavvio dell'operazione..."
+msgstr "Il tempo è migliorato. Riavvio delle operazioni."
 
 #: ekos/scheduler/schedulerprocess.cpp:4116
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
-msgstr ""
+msgstr "Rilevata un'allerta meteo. Avvio della procedura di spegnimento lenta."
 
 #: ekos/scheduler/schedulerprocess.cpp:4131
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
+"Osservatorio programmato per lo spegnimento lento fino a che non migliorano "
+"le condizioni meteo o fino a %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4156
 #, kde-format
@@ -33115,28 +33124,24 @@ msgid "Modify Host"
 msgstr "Modifica host"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "Parapolvere parcheggiato."
+msgstr "Il parapolvere è parcheggiato"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "Dust cap parked."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "Parapolvere parcheggiato."
+msgstr "Il parapolvere è sparcheggiato"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "%1 is parking..."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "%1 si sta parcheggiando..."
+msgstr "Il parapolvere si sta parcheggiando"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "%1 is unparking..."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "%1 si sta sparcheggiando..."
+msgstr "Il parapolvere si sta sparcheggiando"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -41181,19 +41186,18 @@ msgstr ""
 
 #. i18n: ectx: label, entry (SchedulerWeather), group (Scheduler)
 #: kstars.kcfg:3324
-#, fuzzy, kde-format
-#| msgid "Default scheduler checkbox for job weather constraints."
+#, kde-format
 msgid "Default scheduler checkbox for weather constraints."
 msgstr ""
 "Casella di controllo predefinita del pianificatore per i vincoli "
-"meteorologici del processo."
+"meteorologici."
 
 #. i18n: ectx: label, entry (SchedulerWeatherGracePeriod), group (Scheduler)
 #: kstars.kcfg:3328
-#, fuzzy, kde-format
-#| msgid "How many dithering attempts to undertake before giving up."
+#, kde-format
 msgid "Wait this many minutes for the weather to improve before giving up."
-msgstr "Quanti tentativi di dithering intraprendere prima di arrendersi."
+msgstr ""
+"Attendi il miglioramento del tempo per questi minuti prima di rinunciare."
 
 #. i18n: ectx: label, entry (SchedulerTwilight), group (Scheduler)
 #: kstars.kcfg:3332
@@ -83452,17 +83456,15 @@ msgid "Updating tables..."
 msgstr "Aggiornamento tabelle..."
 
 #: tools/imagingplanner.cpp:2374
-#, fuzzy, kde-format
-#| msgid ""
-#| "You need to load a catalog to start using this tool.\n"
-#| "See Data -> Download New Data..."
+#, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
 "Use the Load Catalog button if you have one.\n"
 "See Data -> Download New Data if not..."
 msgstr ""
 "Devi caricare un catalogo per iniziare a usare questo strumento.\n"
-"Vedi Dati -> Scarica nuovi dati..."
+"Usa il pulsante Carica catalogo, se ne hai uno.\n"
+"In caso contrario, vedi Dati -> Scarica nuovi dati..."
 
 #: tools/imagingplanner.cpp:2377
 #, kde-format
