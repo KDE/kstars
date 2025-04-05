@@ -26,7 +26,7 @@
         <title
 >Introduction</title>
         <para
->Le module Analyse enregistre et affiche ce qui s'est passé durant une session d'acquisition. C'est-à-dire qu'il ne contrôle pas la session mais plutôt analyse ce qui s'y est passé. Les sessions sont enregistrées dans le dossier <filename class="directory"
+>Le module « Analyse » enregistre et affiche ce qui s'est passé durant une session d'acquisition. C'est-à-dire qu'il ne contrôle pas la session mais plutôt analyse ce qui s'y est passé. Les sessions sont enregistrées dans le dossier <filename class="directory"
 >analyze</filename
 > qui se trouve dans le même dossier que le dossier contenant les fichiers journaux. Les fichiers <literal role="extension"
 >.analyze</literal
@@ -36,14 +36,14 @@
 >Analyse</guilabel
 > peut également afficher les données de la session d'acquisition courante. </para>
         <para
->Lorsqu'une nouvelle session commence (Par exemple, Ekos est déconnecté à l'aube, puis reconnecté au coucher du soleil), le système commence à écrire un nouveau fichier .analyze. (Ce comportement peut être contrôlé à partir des paramètres d'analyse atteints en cliquant sur le bouton des options en bas à droite). </para
+>Lorsqu'une nouvelle session commence (Par exemple, Ekos est déconnecté à l'aube, puis reconnecté au coucher du soleil), le système commence à écrire un nouveau fichier « .analyze ». (Ce comportement peut être contrôlé à partir des paramètres d'analyse atteints en cliquant sur le bouton des options en bas à droite). </para
 >        
         <para
 >Il y a deux graphiques principaux, <guilabel
 >Chronologie</guilabel
 > et <guilabel
 >Statistiques</guilabel
->. Les deux sont synchronisés au sens où ils utilisent le même intervalle de temps de la session Ekos quoique l'axe de x du graphique <guilabel
+>. Les deux sont synchronisés au sens où ils utilisent le même intervalle de temps de la session Ekos quoique l'axe en X du graphique <guilabel
 >Chronologie</guilabel
 > affiche les secondes depuis le début du fichier journal alors que le graphique des <guilabel
 >Statistiques</guilabel
@@ -51,7 +51,7 @@
 >+ / -</guibutton
 > ou la <mousebutton
 >molette</mousebutton
-> de la souris ou encore le raccourci clavier standard (c'est-à-dire zoom avant == <keycombo
+> de la souris ou encore le raccourci clavier standard (C'est-à-dire zoom avant == <keycombo
 >&Ctrl;<keycap
 >+</keycap
 ></keycombo
