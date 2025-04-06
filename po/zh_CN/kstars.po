@@ -30366,11 +30366,9 @@ msgstr "用下面的参数解析图像。"
 
 #. i18n: ectx: property (text), widget (QPushButton, auxButton)
 #: fitsviewer/platesolve.ui:63
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Acrux"
+#, kde-format
 msgid "Aux"
-msgstr "十字架二(Acrux)"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:120
@@ -81159,16 +81157,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is required and must be installed "
-#| "for the solver to work correctly.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Start solving immediately after taking a screenshot, "
 "instead of waiting for the Solve button to be pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>这是必需的索引文件，必须安装才能使解析器正常工作。</"
-"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:40
@@ -85569,6 +85562,3 @@ msgstr "背景颜色："
 #, kde-format
 msgid "Set the color for the background."
 msgstr "设置背景颜色。"
-
-#~ msgid "Help..."
-#~ msgstr "帮助..."

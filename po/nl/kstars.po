@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-05 01:58+0000\n"
-"PO-Revision-Date: 2025-03-26 00:23+0100\n"
+"PO-Revision-Date: 2025-04-05 23:24+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -31659,11 +31659,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, auxButton)
 #: fitsviewer/platesolve.ui:63
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Acrux"
+#, kde-format
 msgid "Aux"
-msgstr "Acrux"
+msgstr "Aux"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:120
@@ -36466,7 +36464,7 @@ msgstr "Maak het hulpmiddel planner van opnamen een onafhankelijk venster."
 #: kstars.kcfg:1106
 #, kde-format
 msgid "Start solving immediately after taking a screenshot."
-msgstr ""
+msgstr "Oplossen onmiddellijk beginnen na het nemen van een schermafdruk."
 
 #. i18n: ectx: whatsthis, entry (ImagingPlannerStartSolvingImmediately), group (ImagingPlanner)
 #: kstars.kcfg:1107
@@ -36475,6 +36473,8 @@ msgid ""
 "Start solving immediately after taking a screenshot, instead of waiting for "
 "the Solve button to be pressed."
 msgstr ""
+"Oplossen onmiddellijk beginnen na het nemen van een schermafdruk, in plaats "
+"van te wachten op het indrukken van de knop Oplossen."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1113
@@ -83068,6 +83068,8 @@ msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr ""
+"Maak een schermafdruk van een afbeelding van %1, plaat-oplos het en plaats "
+"het tijdelijk op de hemelkaart"
 
 #: tools/imagingplanner.cpp:3635
 #, kde-format
@@ -83852,22 +83854,20 @@ msgstr "Onafhankelijk venster"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Multiplier for manual focus motions when the "
-#| "control key is pressed.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Start solving immediately after taking a screenshot, "
 "instead of waiting for the Solve button to be pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Vermenigvuldiger voor handmatige bewegingen wanneer de "
-"toets Ctrl is ingedrukt.</p></body></html>"
+"<html><head/><body><p>Oplossen onmiddellijk beginnen na het nemen van een "
+"schermafdruk, in plaats van te wachten op het indrukken van de knop Oplossen."
+"</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:40
 #, kde-format
 msgid "Start Solving Immediately"
-msgstr ""
+msgstr "Onmiddellijk met oplossen beginnen"
 
 #: tools/jmoontool.cpp:30
 #, kde-format

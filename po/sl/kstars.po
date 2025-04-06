@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-05 01:58+0000\n"
-"PO-Revision-Date: 2025-03-25 06:51+0100\n"
+"PO-Revision-Date: 2025-04-05 08:17+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -49,7 +49,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Poedit 3.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31632,11 +31632,9 @@ msgstr "Sliko rešite s pomočjo spodnjih parametrov."
 
 #. i18n: ectx: property (text), widget (QPushButton, auxButton)
 #: fitsviewer/platesolve.ui:63
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Acrux"
+#, kde-format
 msgid "Aux"
-msgstr "Acrux"
+msgstr "Aux"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:120
@@ -36358,7 +36356,7 @@ msgstr "Orodje za načrtovanje slikanja naj ima neodvisno okno."
 #: kstars.kcfg:1106
 #, kde-format
 msgid "Start solving immediately after taking a screenshot."
-msgstr ""
+msgstr "Začni reševati takoj, po pridobitvi posnetka zaslona."
 
 #. i18n: ectx: whatsthis, entry (ImagingPlannerStartSolvingImmediately), group (ImagingPlanner)
 #: kstars.kcfg:1107
@@ -36367,6 +36365,8 @@ msgid ""
 "Start solving immediately after taking a screenshot, instead of waiting for "
 "the Solve button to be pressed."
 msgstr ""
+"Začni reševati takoj, po pridobitvi posnetka zaslona, ​​namesto čakanja na "
+"pritisk gumba Reši."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1113
@@ -39711,7 +39711,7 @@ msgstr "Pot do lokacije reševalnika astrometry.net."
 #: kstars.kcfg:2771
 #, kde-format
 msgid "astrometry.net wcsinfo binary"
-msgstr "Binarna datoteka wcsinfo za astrometry.net"
+msgstr "Binarna datoteka wcsinfo astrometry.net"
 
 #. i18n: ectx: whatsthis, entry (AstrometryWCSInfo), group (Align)
 #: kstars.kcfg:2772
@@ -82761,7 +82761,7 @@ msgstr "Centriraj %1 na zvezdni karti"
 msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
-msgstr ""
+msgstr "Posnemi sliko %1, jo reši in začasno postavi na zvezdno karto"
 
 #: tools/imagingplanner.cpp:3635
 #, kde-format
@@ -83531,22 +83531,19 @@ msgstr "Neodvisno okno"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Multiplier for manual focus motions when the "
-#| "control key is pressed.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Start solving immediately after taking a screenshot, "
 "instead of waiting for the Solve button to be pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body> <p>Množitelj za ročne gibe fokusa, ko je pritisnjena "
-"tipka control.</p></body></html>"
+"<html><head/><body><p>Začni reševati takoj, po pridobitvi posnetka zaslona, ​​"
+"namesto čakanja na pritisk gumba Reši.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:40
 #, kde-format
 msgid "Start Solving Immediately"
-msgstr ""
+msgstr "Začni reševanje takoj"
 
 #: tools/jmoontool.cpp:30
 #, kde-format

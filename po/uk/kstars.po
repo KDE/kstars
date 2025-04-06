@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-05 01:58+0000\n"
-"PO-Revision-Date: 2025-03-25 08:34+0200\n"
+"PO-Revision-Date: 2025-04-05 14:34+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -31977,11 +31977,9 @@ msgstr "Розв'язати зображення з використанням �
 
 #. i18n: ectx: property (text), widget (QPushButton, auxButton)
 #: fitsviewer/platesolve.ui:63
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Acrux"
+#, kde-format
 msgid "Aux"
-msgstr "Акрукс"
+msgstr "Доп."
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:120
@@ -36749,7 +36747,7 @@ msgstr "Виокремити вікно інструмента плануван�
 #: kstars.kcfg:1106
 #, kde-format
 msgid "Start solving immediately after taking a screenshot."
-msgstr ""
+msgstr "Почати розв'язування негайно після створення знімка."
 
 #. i18n: ectx: whatsthis, entry (ImagingPlannerStartSolvingImmediately), group (ImagingPlanner)
 #: kstars.kcfg:1107
@@ -36758,6 +36756,8 @@ msgid ""
 "Start solving immediately after taking a screenshot, instead of waiting for "
 "the Solve button to be pressed."
 msgstr ""
+"Почати розв'язування негайно після створення знімка, а не чекати на "
+"натискання кнопки «Розв'язати»."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1113
@@ -83422,6 +83422,8 @@ msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr ""
+"Створити зображення %1, розв'язати знімок і тимчасово розташувати його на "
+"карті неба"
 
 #: tools/imagingplanner.cpp:3635
 #, kde-format
@@ -84202,22 +84204,19 @@ msgstr "Незалежне вікно"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Multiplier for manual focus motions when the "
-#| "control key is pressed.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Start solving immediately after taking a screenshot, "
 "instead of waiting for the Solve button to be pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Множник для рухів фокусування вручну, якщо натиснуто "
-"клавішу Ctrl.</p></body></html>"
+"<html><head/><body><p>Почати розв'язування негайно після створення знімка, а "
+"не чекати на натискання кнопки «Розв'язати».</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:40
 #, kde-format
 msgid "Start Solving Immediately"
-msgstr ""
+msgstr "Почати розв'язування негайно"
 
 #: tools/jmoontool.cpp:30
 #, kde-format
