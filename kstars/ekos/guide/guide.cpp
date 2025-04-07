@@ -545,15 +545,15 @@ void Guide::syncCameraInfo()
 
     if (nvp)
     {
-        auto np = nvp->findWidgetByName("CCD_PIXEL_SIZE_X");
+        auto np = nvp.findWidgetByName("CCD_PIXEL_SIZE_X");
         if (np)
             ccdPixelSizeX = np->getValue();
 
-        np = nvp->findWidgetByName( "CCD_PIXEL_SIZE_Y");
+        np = nvp.findWidgetByName( "CCD_PIXEL_SIZE_Y");
         if (np)
             ccdPixelSizeY = np->getValue();
 
-        np = nvp->findWidgetByName("CCD_PIXEL_SIZE_Y");
+        np = nvp.findWidgetByName("CCD_PIXEL_SIZE_Y");
         if (np)
             ccdPixelSizeY = np->getValue();
     }

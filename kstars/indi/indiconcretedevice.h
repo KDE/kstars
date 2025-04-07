@@ -65,15 +65,15 @@ class ConcreteDevice : public GDInterface
             return m_Parent;
         }
 
-        INDI::PropertyView<INumber> *getNumber(const QString &name) const;
+        INDI::PropertyNumber getNumber(const QString &name) const;
         /** @return Return vector text property given its name */
-        INDI::PropertyView<IText>   *getText(const QString &name) const;
+        INDI::PropertyText   getText(const QString &name) const;
         /** @return Return vector switch property given its name */
-        INDI::PropertyView<ISwitch> *getSwitch(const QString &name) const;
+        INDI::PropertySwitch getSwitch(const QString &name) const;
         /** @return Return vector light property given its name */
-        INDI::PropertyView<ILight>  *getLight(const QString &name) const;
+        INDI::PropertyLight  getLight(const QString &name) const;
         /** @return Return vector BLOB property given its name */
-        INDI::PropertyView<IBLOB>   *getBLOB(const QString &name) const;
+        INDI::PropertyBlob   getBLOB(const QString &name) const;
 
         /** @brief Send new property command to server */
         void sendNewProperty(INDI::Property prop);
@@ -103,7 +103,7 @@ class ConcreteDevice : public GDInterface
         virtual void processNumber(INDI::Property) override {}
         virtual void processLight(INDI::Property) override {}
         virtual bool processBLOB(INDI::Property) override
-        {            
+        {
             return false;
         }
         virtual void processMessage(int) override {}
@@ -126,7 +126,7 @@ class ConcreteDevice : public GDInterface
         // Registeration
         void propertyDefined(INDI::Property prop);
         void propertyUpdated(INDI::Property prop);
-        void propertyDeleted(INDI::Property prop);        
+        void propertyDeleted(INDI::Property prop);
 
         void ready();
 

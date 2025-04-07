@@ -668,7 +668,7 @@ void Mount::updateProperty(INDI::Property prop)
 {
     if (prop.isNameMatch("EQUATORIAL_EOD_COORD") || prop.isNameMatch("EQUATORIAL_COORD"))
     {
-        auto nvp = prop.getNumber();
+        INDI::PropertyNumber nvp(prop);
 
         // if the meridian flip state machine is not initialized, return
         if (getMeridianFlipState().isNull())
@@ -677,7 +677,7 @@ void Mount::updateProperty(INDI::Property prop)
         switch (getMeridianFlipState()->getMeridianFlipStage())
         {
             case MeridianFlipState::MF_INITIATED:
-                if (nvp->s == IPS_BUSY && m_Mount != nullptr && m_Mount->isSlewing())
+                if (nvp.getState() == IPS_BUSY && m_Mount != nullptr && m_Mount->isSlewing())
                     getMeridianFlipState()->updateMeridianFlipStage(MeridianFlipState::MF_FLIPPING);
                 break;
 
@@ -687,7 +687,7 @@ void Mount::updateProperty(INDI::Property prop)
     }
     else if (prop.isNameMatch("TELESCOPE_SLEW_RATE"))
     {
-        auto svp = prop.getSwitch();
+        INDI::PropertySwitch svp(prop);
         mountMotion->updateSpeedInfo(svp);
         m_ControlPanel->mountMotion->updateSpeedInfo(svp);
     }

@@ -45,8 +45,8 @@ Device::Device(const QSharedPointer<ISD::GenericDevice> &device, QGridLayout *gr
 //////////////////////////////////////////////////////////////////////////////////////////
 bool Device::initGUI()
 {
-    INDI::Property modeProperty = m_Device->getBaseDevice().getSwitch("CONNECTION_MODE");
-    if (!modeProperty.isValid())
+    INDI::PropertySwitch connectionMode = m_Device->getBaseDevice().getSwitch("CONNECTION_MODE");
+    if (!connectionMode.isValid())
         return false;
 
     m_LED = new KLed;
@@ -67,11 +67,10 @@ bool Device::initGUI()
     m_Grid->addWidget(m_SerialB, m_Row, 2);
     connect(m_SerialB, &QPushButton::clicked, this, [this]()
     {
-        INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice().getSwitch("CONNECTION_MODE"));
-        IUResetSwitch(&connectionMode);
-        connectionMode.at(0)->setState(ISS_ON);
-        connectionMode.at(1)->setState(ISS_OFF);
-        m_Device->sendNewProperty(&connectionMode);
+        INDI::PropertySwitch connectionMode = m_Device->getBaseDevice().getSwitch("CONNECTION_MODE");
+        connectionMode.reset();
+        connectionMode[0].setState(ISS_ON);
+        m_Device->sendNewProperty(connectionMode);
     });
 
     // Network Button
@@ -81,14 +80,12 @@ bool Device::initGUI()
     m_Grid->addWidget(m_NetworkB, m_Row, 3);
     connect(m_NetworkB, &QPushButton::clicked, this, [this]()
     {
-        INDI::PropertyView<ISwitch> connectionMode = *(m_Device->getBaseDevice().getSwitch("CONNECTION_MODE"));
-        IUResetSwitch(&connectionMode);
-        connectionMode.at(0)->setState(ISS_OFF);
-        connectionMode.at(1)->setState(ISS_ON);
-        m_Device->sendNewProperty(&connectionMode);
+        INDI::PropertySwitch connectionMode = m_Device->getBaseDevice().getSwitch("CONNECTION_MODE");
+        connectionMode.reset();
+        connectionMode[1].setState(ISS_ON);
+        m_Device->sendNewProperty(connectionMode);
     });
 
-    INDI::PropertyView<ISwitch> connectionMode = *(modeProperty.getSwitch());
     if (connectionMode.findWidgetByName("CONNECTION_SERIAL"))
     {
         if (m_Device->getBaseDevice().getProperty("SYSTEM_PORTS").isValid())
@@ -98,32 +95,31 @@ bool Device::initGUI()
             m_Ports->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Ignored);
             m_Ports->setToolTip(i18n("Select Serial port"));
 
-            INDI::PropertyView<ISwitch> systemPorts = *(m_Device->getBaseDevice().getSwitch("SYSTEM_PORTS"));
+            INDI::PropertySwitch systemPorts = m_Device->getBaseDevice().getSwitch("SYSTEM_PORTS");
             for (auto &oneSwitch : systemPorts)
                 m_Ports->addItem(oneSwitch.getLabel());
             connect(m_Ports, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
                     [this](int index)
             {
                 // Double check property still exists.
-                INDI::Property systemPorts = m_Device->getBaseDevice().getProperty("SYSTEM_PORTS");
+                INDI::PropertySwitch systemPorts = m_Device->getBaseDevice().getProperty("SYSTEM_PORTS");
                 if (systemPorts.isValid())
                 {
-                    INDI::PropertyView<ISwitch> systemPortsSwitch = *(systemPorts.getSwitch());
-                    IUResetSwitch(&systemPortsSwitch);
-                    systemPortsSwitch.at(index)->setState(ISS_ON);
-                    m_Device->sendNewProperty(&systemPortsSwitch);
+                    systemPorts.reset();
+                    systemPorts[index].setState(ISS_ON);
+                    m_Device->sendNewProperty(systemPorts);
                 }
             });
             // When combo box text changes
             connect(m_Ports->lineEdit(), &QLineEdit::editingFinished, this, [this]()
             {
-                INDI::PropertyView<IText> port = *(m_Device->getBaseDevice().getText("DEVICE_PORT"));
-                port.at(0)->setText(m_Ports->lineEdit()->text().toLatin1().constData());
-                m_Device->sendNewProperty(&port);
+                INDI::PropertyText port = m_Device->getBaseDevice().getText("DEVICE_PORT");
+                port[0].setText(m_Ports->lineEdit()->text().toLatin1().constData());
+                m_Device->sendNewProperty(port);
             });
         }
 
-        if (m_Device->getBaseDevice()->getProperty("DEVICE_BAUD_RATE").isValid())
+        if (m_Device->getBaseDevice().getProperty("DEVICE_BAUD_RATE").isValid())
         {
             m_BaudRates = new QComboBox;
             m_BaudRates->addItems(BAUD_RATES);
@@ -131,10 +127,10 @@ bool Device::initGUI()
             connect(m_BaudRates, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this,
                     [this](int index)
             {
-                INDI::PropertyView<ISwitch> systemBauds = *(m_Device->getBaseDevice().getSwitch("DEVICE_BAUD_RATE"));
-                IUResetSwitch(&systemBauds);
-                systemBauds.at(index)->setState(ISS_ON);
-                m_Device->sendNewProperty(&systemBauds);
+                INDI::PropertySwitch systemBauds = m_Device->getBaseDevice().getSwitch("DEVICE_BAUD_RATE");
+                systemBauds.reset();
+                systemBauds[index].setState(ISS_ON);
+                m_Device->sendNewProperty(systemBauds);
             });
         }
     }
@@ -148,9 +144,9 @@ bool Device::initGUI()
         m_HostName->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Ignored);
         connect(m_HostName, &QLineEdit::editingFinished, this, [this]()
         {
-            INDI::PropertyView<IText> server = *(m_Device->getBaseDevice().getText("DEVICE_ADDRESS"));
-            server.at(0)->setText(m_HostName->text().toLatin1().constData());
-            m_Device->sendNewProperty(&server);
+            INDI::PropertyText server = m_Device->getBaseDevice().getText("DEVICE_ADDRESS");
+            server[0].setText(m_HostName->text().toLatin1().constData());
+            m_Device->sendNewProperty(server);
         });
 
         m_HostPort = new QLineEdit;

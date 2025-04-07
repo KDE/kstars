@@ -13,13 +13,13 @@ bool FilterWheel::setPosition(uint8_t index)
 {
     auto nvp = getNumber("FILTER_SLOT");
 
-    if (!nvp)
+    if (!nvp.isValid())
         return false;
 
-    if (index == static_cast<uint8_t>(nvp->np[0].value))
+    if (index == static_cast<uint8_t>(nvp[0].getValue()))
         return true;
 
-    nvp->at(0)->setValue(index);
+    nvp[0].setValue(index);
 
     sendNewProperty(nvp);
 
@@ -30,14 +30,14 @@ bool FilterWheel::setLabels(const QStringList &names)
 {
     auto tvp = getText("FILTER_NAME");
 
-    if (!tvp)
+    if (!tvp.isValid())
         return false;
 
-    if (names.count() != tvp->count())
+    if (names.count() != tvp.count())
         return false;
 
-    for (uint8_t i = 0; i < tvp->ntp; i++)
-        tvp->at(i)->setText(names[i].toLatin1().constData());
+    for (uint8_t i = 0; i < tvp.count(); i++)
+        tvp[i].setText(names[i].toLatin1().constData());
 
     sendNewProperty(tvp);
     return true;
@@ -46,10 +46,10 @@ bool FilterWheel::setLabels(const QStringList &names)
 bool FilterWheel::confirmFilter()
 {
     auto svp = getSwitch("CONFIRM_FILTER_SET");
-    if (!svp)
+    if (!svp.isValid())
         return false;
 
-    svp->at(0)->setState(ISS_ON);
+    svp[0].setState(ISS_ON);
     sendNewProperty(svp);
     return true;
 }

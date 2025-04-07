@@ -29,57 +29,48 @@ bool Guider::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir
 
 bool Guider::doPulse(GuideDirection dir, int msecs)
 {
-    auto raPulse  = getNumber("TELESCOPE_TIMED_GUIDE_WE");
-    auto decPulse = getNumber("TELESCOPE_TIMED_GUIDE_NS");
-    INDI::PropertyView<INumber> *npulse   = nullptr;
-    INDI::WidgetView<INumber> *dirPulse   = nullptr;
+    INDI::PropertyNumber raPulse  = getNumber("TELESCOPE_TIMED_GUIDE_WE");
+    INDI::PropertyNumber decPulse = getNumber("TELESCOPE_TIMED_GUIDE_NS");
 
     if (!raPulse || !decPulse)
         return false;
 
     if (dir == RA_INC_DIR || dir == RA_DEC_DIR)
     {
-        raPulse->at(0)->setValue(0);
-        raPulse->at(1)->setValue(0);
+        raPulse[0].setValue(0);
+        raPulse[1].setValue(0);
     }
     else
     {
-        decPulse->at(0)->setValue(0);
-        decPulse->at(1)->setValue(0);
+        decPulse[0].setValue(0);
+        decPulse[1].setValue(0);
     }
 
     switch (dir)
     {
         case RA_INC_DIR: // RA is positive E of N!)
-            npulse = raPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_E");
+            raPulse.findWidgetByName("TIMED_GUIDE_E")->setValue(msecs);
+            sendNewProperty(raPulse);
             break;
 
         case RA_DEC_DIR:
-            npulse = raPulse;
-            dirPulse = npulse->findWidgetByName("TIMED_GUIDE_W");
+            raPulse.findWidgetByName("TIMED_GUIDE_W")->setValue(msecs);
+            sendNewProperty(raPulse);
             break;
 
         case DEC_INC_DIR:
-            npulse = decPulse;
-            dirPulse = npulse->findWidgetByName(swapDEC ? "TIMED_GUIDE_S" : "TIMED_GUIDE_N");
+            decPulse.findWidgetByName(swapDEC ? "TIMED_GUIDE_S" : "TIMED_GUIDE_N")->setValue(msecs);
+            sendNewProperty(decPulse);
             break;
 
         case DEC_DEC_DIR:
-            npulse = decPulse;
-            dirPulse = npulse->findWidgetByName(swapDEC ? "TIMED_GUIDE_N" : "TIMED_GUIDE_S");
+            decPulse.findWidgetByName(swapDEC ? "TIMED_GUIDE_N" : "TIMED_GUIDE_S")->setValue(msecs);
+            sendNewProperty(decPulse);
             break;
 
         default:
             return false;
     }
-
-    if (!dirPulse)
-        return false;
-
-    dirPulse->setValue(msecs);
-
-    sendNewProperty(npulse);
 
     return true;
 }

@@ -109,27 +109,27 @@ void ConcreteDevice::processProperties()
     }
 }
 
-INDI::PropertyView<INumber> *ConcreteDevice::getNumber(const QString &name) const
+INDI::PropertyNumber ConcreteDevice::getNumber(const QString &name) const
 {
     return m_Parent->getBaseDevice().getNumber(name.toLatin1().constData());
 }
 
-INDI::PropertyView<IText>   *ConcreteDevice::getText(const QString &name) const
+INDI::PropertyText   ConcreteDevice::getText(const QString &name) const
 {
     return m_Parent->getBaseDevice().getText(name.toLatin1().constData());
 }
 
-INDI::PropertyView<ISwitch> *ConcreteDevice::getSwitch(const QString &name) const
+INDI::PropertySwitch ConcreteDevice::getSwitch(const QString &name) const
 {
     return m_Parent->getBaseDevice().getSwitch(name.toLatin1().constData());
 }
 
-INDI::PropertyView<ILight>  *ConcreteDevice::getLight(const QString &name) const
+INDI::PropertyLight  ConcreteDevice::getLight(const QString &name) const
 {
     return m_Parent->getBaseDevice().getLight(name.toLatin1().constData());
 }
 
-INDI::PropertyView<IBLOB>   *ConcreteDevice::getBLOB(const QString &name) const
+INDI::PropertyBlob   ConcreteDevice::getBLOB(const QString &name) const
 {
     return m_Parent->getBaseDevice().getBLOB(name.toLatin1().constData());
 }

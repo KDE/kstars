@@ -640,66 +640,50 @@ void Mount::centerUnlock()
 
 bool Mount::sendCoords(SkyPoint * ScopeTarget)
 {
-    INumber *RAEle                 = nullptr;
-    INumber *DecEle                = nullptr;
-    INumber *AzEle                 = nullptr;
-    INumber *AltEle                = nullptr;
     double currentRA = 0, currentDEC = 0, currentAlt = 0, currentAz = 0;
-    bool useJ2000(false);
+    bool useJ2000 {false}, useEquatorialCoordinates {false}, useHorizontalCoordinates {false};
 
+    // Can we use Equatorial Coordinates?
+    // Check EOD (JNow) first.
     auto EqProp = getNumber("EQUATORIAL_EOD_COORD");
-    if (!EqProp)
+    // If not found or found but only READ-ONLY permission, check J2000 property.
+    if (!EqProp.isValid() || EqProp.getPermission() == IP_RO)
     {
-        // J2000 Property
-        EqProp = getNumber("EQUATORIAL_COORD");
-        if (EqProp)
+        // Find J2000 Property and its permission
+        auto J2000EQNP = getNumber("EQUATORIAL_COORD");
+        if (J2000EQNP.isValid() && EqProp.getPermission() != IP_RO)
+        {
+            EqProp = J2000EQNP;
+            useEquatorialCoordinates = true;
             useJ2000 = true;
+        }
     }
+    else
+        useEquatorialCoordinates = true;
 
+    // Can we use Horizontal Coordinates?
     auto HorProp = getNumber("HORIZONTAL_COORD");
-
-    if (EqProp && EqProp->getPermission() == IP_RO)
-        EqProp = nullptr;
-
-    if (HorProp && HorProp->getPermission() == IP_RO)
-        HorProp = nullptr;
+    if (HorProp.isValid() && HorProp.getPermission() != IP_RO)
+        useHorizontalCoordinates = true;
 
     //qDebug() << Q_FUNC_INFO << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
 
-    if (EqProp)
+    if (useEquatorialCoordinates)
     {
-        RAEle = EqProp->findWidgetByName("RA");
-        if (!RAEle)
-            return false;
-
-        DecEle = EqProp->findWidgetByName("DEC");
-        if (!DecEle)
-            return false;
-
-        //if (useJ2000)
-        //ScopeTarget->apparentCoord( KStars::Instance()->data()->ut().djd(), static_cast<long double>(J2000));
-
-        currentRA  = RAEle->value;
-        currentDEC = DecEle->value;
+        currentRA  = EqProp.findWidgetByName("RA")->getValue();
+        currentDEC = EqProp.findWidgetByName("DEC")->getValue();
 
         ScopeTarget->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
     }
 
-    if (HorProp)
+    if (useHorizontalCoordinates)
     {
-        AzEle = IUFindNumber(HorProp, "AZ");
-        if (!AzEle)
-            return false;
-        AltEle = IUFindNumber(HorProp, "ALT");
-        if (!AltEle)
-            return false;
-
-        currentAz  = AzEle->value;
-        currentAlt = AltEle->value;
+        currentAz  = HorProp.findWidgetByName("AZ")->getValue();
+        currentAlt = HorProp.findWidgetByName("ALT")->getValue();
     }
 
     /* Could not find either properties! */
-    if (EqProp == nullptr && HorProp == nullptr)
+    if (useEquatorialCoordinates == false && useHorizontalCoordinates == false)
         return false;
 
     // Function for sending the coordinates to the INDI mount device
@@ -718,7 +702,7 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
                 emit newTargetName(QString());
         }
 
-        if (EqProp)
+        if (useEquatorialCoordinates)
         {
             dms ra, de;
 
@@ -745,25 +729,23 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
                 de = ScopeTarget->dec();
             }
 
-            RAEle->value  = ra.Hours();
-            DecEle->value = de.Degrees();
+            EqProp.findWidgetByName("RA")->setValue(ra.Hours());
+            EqProp.findWidgetByName("DEC")->setValue(de.Degrees());
             sendNewProperty(EqProp);
 
-            qCDebug(KSTARS_INDI) << "ISD:Telescope sending coords RA:" << ra.toHMSString() <<
-                                 "(" << RAEle->value << ") DE:" << de.toDMSString() <<
-                                 "(" << DecEle->value << ")";
+            qCDebug(KSTARS_INDI) << "ISD:Telescope sending coords RA:" << ra.toHMSString() << "DE:" << de.toDMSString();
 
-            RAEle->value  = currentRA;
-            DecEle->value = currentDEC;
+            EqProp.findWidgetByName("RA")->setValue(currentRA);
+            EqProp.findWidgetByName("DEC")->setValue(currentDEC);
         }
         // Only send Horizontal Coord property if Equatorial is not available.
-        else if (HorProp)
+        else if (useHorizontalCoordinates)
         {
-            AzEle->value  = ScopeTarget->az().Degrees();
-            AltEle->value = ScopeTarget->alt().Degrees();
+            HorProp.findWidgetByName("AZ")->setValue(ScopeTarget->az().Degrees());
+            HorProp.findWidgetByName("ALT")->setValue(ScopeTarget->alt().Degrees());
             sendNewProperty(HorProp);
-            AzEle->value  = currentAz;
-            AltEle->value = currentAlt;
+            HorProp.findWidgetByName("AZ")->setValue(currentAz);
+            HorProp.findWidgetByName("ALT")->setValue(currentAlt);
         }
 
     };
@@ -860,15 +842,15 @@ bool Mount::sendCoords(SkyPoint * ScopeTarget)
         connect(KSMessageBox::Instance(), &KSMessageBox::rejected, this, [ = ]()
         {
             KSMessageBox::Instance()->disconnect(this);
-            if (EqProp)
+            if (useEquatorialCoordinates)
             {
-                RAEle->value  = currentRA;
-                DecEle->value = currentDEC;
+                EqProp.findWidgetByName("RA")->setValue(currentRA);
+                EqProp.findWidgetByName("DEC")->setValue(currentDEC);
             }
-            if (HorProp)
+            if (useHorizontalCoordinates)
             {
-                AzEle->value  = currentAz;
-                AltEle->value = currentAlt;
+                HorProp.findWidgetByName("AZ")->setValue(currentAz);
+                HorProp.findWidgetByName("ALT")->setValue(currentAlt);
             }
         });
 
@@ -885,11 +867,11 @@ bool Mount::slewDefined()
 {
     auto motionSP = getSwitch("ON_COORD_SET");
 
-    if (motionSP == nullptr)
+    if (!motionSP.isValid())
         return false;
     // A slew will happen if either Track, Slew, or Flip
     // is selected
-    auto sp = motionSP->findOnSwitch();
+    auto sp = motionSP.findOnSwitch();
     if(sp != nullptr &&
             (sp->name == std::string("TRACK") ||
              sp->name == std::string("SLEW") ||

@@ -153,11 +153,9 @@ bool Focuser::canAbsMove()
 
 bool Focuser::moveRel(int steps)
 {
-    INDI::PropertyView<INumber> *focusProp;
-
     if(canManualFocusDriveMove())
     {
-        focusProp = getNumber("manualfocusdrive");
+        auto focusProp = getNumber("manualfocusdrive");
 
         FocusDirection dir;
         if (!getFocusDirection(&dir))
@@ -177,20 +175,20 @@ bool Focuser::moveRel(int steps)
             if (abs(steps) < 2)
                 steps = 2;
         }
+
+        focusProp[0].setValue(steps);
+        sendNewProperty(focusProp);
+        return true;
     }
     else
     {
-        focusProp = getNumber("REL_FOCUS_POSITION");
+        auto focusProp = getNumber("REL_FOCUS_POSITION");
+        focusProp[0].setValue(steps);
+        sendNewProperty(focusProp);
+        return true;
     }
 
-    if (!focusProp)
-        return false;
-
-    focusProp->at(0)->setValue(steps);
-
-    sendNewProperty(focusProp);
-
-    return true;
+    return false;
 }
 
 bool Focuser::canRelMove()

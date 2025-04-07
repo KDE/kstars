@@ -133,16 +133,16 @@ MountMotionWidget::MountMotionWidget(QWidget *parent)
 /////////////////////////////////////////////////////////////////////////////////////////
 ///
 /////////////////////////////////////////////////////////////////////////////////////////
-void MountMotionWidget::syncSpeedInfo(INDI::PropertyView<ISwitch> *svp)
+void MountMotionWidget::syncSpeedInfo(INDI::PropertySwitch svp)
 {
-    if (svp != nullptr)
+    if (svp.isValid())
     {
-        int index = svp->findOnSwitchIndex();
+        int index = svp.findOnSwitchIndex();
         speedSliderObject->setEnabled(true);
-        speedSliderObject->setMaximum(svp->count() - 1);
+        speedSliderObject->setMaximum(svp.count() - 1);
         speedSliderObject->setValue(index);
 
-        speedLabelObject->setText(i18nc(libindi_strings_context, svp->at(index)->getLabel()));
+        speedLabelObject->setText(i18nc(libindi_strings_context, svp[index].getLabel()));
         speedLabelObject->setEnabled(true);
     }
     else
@@ -156,13 +156,13 @@ void MountMotionWidget::syncSpeedInfo(INDI::PropertyView<ISwitch> *svp)
 /////////////////////////////////////////////////////////////////////////////////////////
 ///
 /////////////////////////////////////////////////////////////////////////////////////////
-void MountMotionWidget::updateSpeedInfo(INDI::PropertyView<ISwitch> *svp)
+void MountMotionWidget::updateSpeedInfo(INDI::PropertySwitch svp)
 {
-    if (svp != nullptr)
+    if (svp.isValid())
     {
-        auto index = svp->findOnSwitchIndex();
+        auto index = svp.findOnSwitchIndex();
         speedSliderObject->setProperty("value", index);
-        speedLabelObject->setProperty("text", i18nc(libindi_strings_context, svp->at(index)->getLabel()));
+        speedLabelObject->setProperty("text", i18nc(libindi_strings_context, svp[index].getLabel()));
     }
 }
 
