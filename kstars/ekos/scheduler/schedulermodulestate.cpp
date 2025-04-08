@@ -536,6 +536,7 @@ void SchedulerModuleState::setupNextIteration(SchedulerTimerState nextState, int
         // setup called from inside the iteration timer thread
         setTimerInterval(milliseconds);
     }
+    tickleTimer().stop();
     setIterationSetup(true);
 }
 

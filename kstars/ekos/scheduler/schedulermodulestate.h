@@ -545,6 +545,11 @@ class SchedulerModuleState : public QObject
             return m_iterationTimer;
         }
 
+        QTimer &tickleTimer()
+        {
+            return m_tickleTimer;
+        }
+
         bool iterationSetup() const
         {
             return m_iterationSetup;
@@ -772,6 +777,8 @@ class SchedulerModuleState : public QObject
         bool m_iterationSetup { false };
         // The timer used to wakeup the scheduler between iterations.
         QTimer m_iterationTimer;
+        // The timer used to update the scheduler graph when the scheduler is sleeping.
+        QTimer m_tickleTimer;
         // Counter for how many scheduler iterations have been processed.
         int m_schedulerIteration { 0 };
         // The time when the scheduler first started running iterations.

@@ -546,6 +546,7 @@ void SchedulerProcess::stop()
 
     moduleState()->setupNextIteration(RUN_NOTHING);
     moduleState()->cancelGuidingTimer();
+    moduleState()->tickleTimer().stop();
 
     moduleState()->setSchedulerState(SCHEDULER_IDLE);
     moduleState()->setParkWaitState(PARKWAIT_IDLE);
@@ -2781,6 +2782,24 @@ void SchedulerProcess::iterate()
         return;
 
     connect(&moduleState()->iterationTimer(), &QTimer::timeout, this, &SchedulerProcess::iterate, Qt::UniqueConnection);
+
+    // Update the scheduler's altitude graph every hour, if the scheduler will be sleeping.
+    constexpr int oneHour = 1000 * 3600;
+    moduleState()->tickleTimer().stop();
+    disconnect(&moduleState()->tickleTimer());
+    if (msSleep > oneHour)
+    {
+        connect(&moduleState()->tickleTimer(), &QTimer::timeout, this, [this]()
+        {
+            if (moduleState() && moduleState()->currentlySleeping())
+            {
+                moduleState()->tickleTimer().start(oneHour);
+                emit updateJobTable(nullptr);
+            }
+        }, Qt::UniqueConnection);
+        moduleState()->tickleTimer().setSingleShot(true);
+        moduleState()->tickleTimer().start(oneHour);
+    }
     moduleState()->iterationTimer().setSingleShot(true);
     moduleState()->iterationTimer().start(msSleep);
 
@@ -4618,6 +4637,7 @@ void SchedulerProcess::simClockScaleChanged(float newScale)
         moduleState()->iterationTimer().stop();
         moduleState()->iterationTimer().start(remainingTimeMs.msecsSinceStartOfDay());
     }
+    moduleState()->tickleTimer().stop();
 }
 
 void SchedulerProcess::simClockTimeChanged()

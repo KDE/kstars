@@ -90,7 +90,6 @@ void SchedulerAltitudeGraph::handleButtons(bool disable)
     if (disable)
     {
         m_AltGraphDay = 0;
-        altGraphLabel->setText("");
         altMoveLeftB->setEnabled(false);
         altMoveLeftB->setIcon(QIcon());
         altMoveRightB->setEnabled(false);
@@ -98,7 +97,6 @@ void SchedulerAltitudeGraph::handleButtons(bool disable)
     }
     else if (m_AltGraphDay == 1)
     {
-        altGraphLabel->setText("Tomorrow");
         altMoveLeftB->setEnabled(true);
         altMoveRightB->setEnabled(true);
         altMoveLeftB->setIcon(QIcon::fromTheme("arrow-left"));
@@ -106,7 +104,6 @@ void SchedulerAltitudeGraph::handleButtons(bool disable)
     }
     else if (m_AltGraphDay == 2)
     {
-        altGraphLabel->setText("Day After Tomorrow");
         altMoveLeftB->setEnabled(true);
         altMoveLeftB->setIcon(QIcon::fromTheme("arrow-left"));
         altMoveRightB->setEnabled(false);
@@ -115,7 +112,6 @@ void SchedulerAltitudeGraph::handleButtons(bool disable)
     else
     {
         m_AltGraphDay = 0;
-        altGraphLabel->setText("");
         altMoveLeftB->setEnabled(false);
         altMoveLeftB->setIcon(QIcon());
         altMoveRightB->setEnabled(true);
@@ -130,6 +126,7 @@ void SchedulerAltitudeGraph::plot()
         altGraph->removeAllPlotObjects();
         altGraph->update();
         m_AltGraphDay = 0;
+        altGraphLabel->setText("");
         handleButtons(true);
         return;
     }
@@ -144,6 +141,15 @@ void SchedulerAltitudeGraph::plot()
     // Then we use the midnight before now.
     if (now.secsTo(nextDawn) < now.secsTo(nextDusk) && now.date() == nextDawn.date())
         midnight = KStarsDateTime(now.date(), QTime(0, 1), Qt::LocalTime);
+
+    const QString dayName = m_AltGraphDay == 1 ? i18n("Tomorrow") : (m_AltGraphDay == 2 ? i18n("Day After Tomorrow") :
+                            i18n("Tonight"));
+    const QString plotTitle = QString("%1 -- %2 -- %3")
+                              .arg(midnight.addSecs(-6 * 3600).date().toString("MMM d"))
+                              .arg(dayName)
+                              .arg(midnight.date().toString("MMM d"));
+    altGraphLabel->setText(plotTitle);
+
     const KStarsDateTime ut  = SchedulerModuleState::getGeo()->LTtoUT(KStarsDateTime(midnight));
     KSAlmanac ksal(ut, SchedulerModuleState::getGeo());
 
@@ -151,7 +157,7 @@ void SchedulerAltitudeGraph::plot()
     plotStart = plotStart.addSecs(-1 * 3600);
     auto plotEnd = nextDawn.addSecs(1 * 3600);
 
-    handleButtons();
+    handleButtons(false);
 
     const int currentPosition = m_State->currentPosition();
 
