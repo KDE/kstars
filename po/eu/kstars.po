@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-05 01:58+0000\n"
+"POT-Creation-Date: 2025-04-08 01:59+0000\n"
 "PO-Revision-Date: 2024-04-04 13:25+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -1061,7 +1061,7 @@ msgstr "Eguzki sistema XPlanet simulagailua: %1"
 #: data/qml/whatisinteresting/wiview.qml:146
 #: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:793 indi/indimount.cpp:808 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:775 indi/indimount.cpp:790 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -13048,29 +13048,29 @@ msgid ""
 "Select <b>Serial</b> if your device is connected via Serial to USB adapter."
 msgstr ""
 
-#: ekos/auxiliary/portselector.cpp:78
+#: ekos/auxiliary/portselector.cpp:77
 #, kde-format
 msgid "Network"
 msgstr ""
 
-#: ekos/auxiliary/portselector.cpp:80
+#: ekos/auxiliary/portselector.cpp:79
 #, kde-format
 msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
 msgstr ""
 
-#: ekos/auxiliary/portselector.cpp:99
+#: ekos/auxiliary/portselector.cpp:96
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgid "Select Serial port"
 msgstr "Hautatu izarra"
 
-#: ekos/auxiliary/portselector.cpp:130
+#: ekos/auxiliary/portselector.cpp:126
 #, fuzzy, kde-format
 #| msgid "Select a category:"
 msgid "Select Baud rate"
 msgstr "Hautatu kategoria:"
 
-#: ekos/auxiliary/portselector.cpp:147
+#: ekos/auxiliary/portselector.cpp:143
 #, fuzzy, kde-format
 #| msgid "The Name field cannot be empty"
 msgid "Host name or IP address."
@@ -13078,7 +13078,7 @@ msgstr "Izen eremua ezin da hutsik egon"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/auxiliary/portselector.cpp:157 indi/drivermanager.ui:81
+#: ekos/auxiliary/portselector.cpp:153 indi/drivermanager.ui:81
 #: indi/drivermanager.ui:332
 #, kde-format
 msgid "Port"
@@ -13087,7 +13087,7 @@ msgstr "Ataka"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:217
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:217
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13098,20 +13098,20 @@ msgstr "Konektatu"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:184
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:184
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
 msgid "Disconnect"
 msgstr "Deskonektatu"
 
-#: ekos/auxiliary/portselector.cpp:372
+#: ekos/auxiliary/portselector.cpp:368
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Connect All"
 msgstr "Konektatu"
 
-#: ekos/auxiliary/portselector.cpp:385
+#: ekos/auxiliary/portselector.cpp:381
 #, fuzzy, kde-format
 #| msgctxt "City in Florida USA"
 #| msgid "Port Salerno"
@@ -32772,28 +32772,28 @@ msgstr "Ekar Mendia"
 msgid "Mount unparked"
 msgstr "Ekar Mendia"
 
-#: indi/indimount.cpp:822
+#: indi/indimount.cpp:804
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
 "irreversible eye damage!"
 msgstr ""
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:805
 #, fuzzy, kde-format
 #| msgctxt "City in Iowa USA"
 #| msgid "Corning"
 msgid "Sun Warning"
 msgstr "Corning"
 
-#: indi/indimount.cpp:841
+#: indi/indimount.cpp:823
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
 "%3)."
 msgstr ""
 
-#: indi/indimount.cpp:875
+#: indi/indimount.cpp:857
 #, fuzzy, kde-format
 #| msgid ""
 #| "The requested position is below the horizon.\n"
@@ -32804,7 +32804,7 @@ msgstr ""
 "Eskatutako posizioa zeruertzaren azpian dago.\n"
 "Jarraitu nahi duzu dena den?"
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:858
 #, fuzzy, kde-format
 #| msgid "Telescope port:"
 msgid "Telescope Motion"

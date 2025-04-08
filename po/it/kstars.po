@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-05 01:58+0000\n"
+"POT-Creation-Date: 2025-04-08 01:59+0000\n"
 "PO-Revision-Date: 2025-03-29 20:56+0100\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -1066,7 +1066,7 @@ msgstr "Simulatore del sistema solare XPlanet: %1"
 #: data/qml/whatisinteresting/wiview.qml:146
 #: data/qml/whatisinteresting/wiview.qml:158 dialogs/detaildialog.cpp:212
 #: dialogs/detaildialog.cpp:270 dialogs/detaildialog.cpp:1124
-#: indi/indimount.cpp:793 indi/indimount.cpp:808 options/opssolarsystem.ui:158
+#: indi/indimount.cpp:775 indi/indimount.cpp:790 options/opssolarsystem.ui:158
 #: printing/detailstable.cpp:140 printing/detailstable.cpp:186
 #: printing/pwizobjectselection.cpp:119
 #: skycomponents/planetmoonscomponent.cpp:59
@@ -13284,36 +13284,36 @@ msgstr ""
 "Seleziona <b>Seriale</b> se il tuo dispositivo è collegato tramite "
 "adattatore seriale all'USB."
 
-#: ekos/auxiliary/portselector.cpp:78
+#: ekos/auxiliary/portselector.cpp:77
 #, kde-format
 msgid "Network"
 msgstr "Rete"
 
-#: ekos/auxiliary/portselector.cpp:80
+#: ekos/auxiliary/portselector.cpp:79
 #, kde-format
 msgid "Select <b>Network</b> if your device is connected via Ethernet or WiFi."
 msgstr ""
 "Seleziona <b>Rete</b> se il tuo dispositivo è collegato tramite Ethernet o "
 "WiFi."
 
-#: ekos/auxiliary/portselector.cpp:99
+#: ekos/auxiliary/portselector.cpp:96
 #, kde-format
 msgid "Select Serial port"
 msgstr "Seleziona porta seriale"
 
-#: ekos/auxiliary/portselector.cpp:130
+#: ekos/auxiliary/portselector.cpp:126
 #, kde-format
 msgid "Select Baud rate"
 msgstr "Seleziona velocità in baud"
 
-#: ekos/auxiliary/portselector.cpp:147
+#: ekos/auxiliary/portselector.cpp:143
 #, kde-format
 msgid "Host name or IP address."
 msgstr "Nome host o indirizzo IP."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
-#: ekos/auxiliary/portselector.cpp:157 indi/drivermanager.ui:81
+#: ekos/auxiliary/portselector.cpp:153 indi/drivermanager.ui:81
 #: indi/drivermanager.ui:332
 #, kde-format
 msgid "Port"
@@ -13322,7 +13322,7 @@ msgstr "Porta"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:188 ekos/ekoslive/ekosliveclient.cpp:217
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:217
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13333,19 +13333,19 @@ msgstr "Connetti"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:195 ekos/ekoslive/ekosliveclient.cpp:184
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:184
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
 msgid "Disconnect"
 msgstr "Disconnetti"
 
-#: ekos/auxiliary/portselector.cpp:372
+#: ekos/auxiliary/portselector.cpp:368
 #, kde-format
 msgid "Connect All"
 msgstr "Connetti tutto"
 
-#: ekos/auxiliary/portselector.cpp:385
+#: ekos/auxiliary/portselector.cpp:381
 #, kde-format
 msgctxt "@title:window"
 msgid "Port Selector"
@@ -33205,7 +33205,7 @@ msgstr "Montatura parcheggiata"
 msgid "Mount unparked"
 msgstr "Montatura sparcheggiata"
 
-#: indi/indimount.cpp:822
+#: indi/indimount.cpp:804
 #, kde-format
 msgid ""
 "Warning! Looking at the Sun without proper protection can lead to "
@@ -33214,12 +33214,12 @@ msgstr ""
 "Attenzione: guardare il Sole senza un'apposita protezione può portare a "
 "danni irreversibili."
 
-#: indi/indimount.cpp:823
+#: indi/indimount.cpp:805
 #, kde-format
 msgid "Sun Warning"
 msgstr "Attenzione al Sole"
 
-#: indi/indimount.cpp:841
+#: indi/indimount.cpp:823
 #, kde-format
 msgid ""
 "Requested altitude %1 is outside the specified altitude limit boundary (%2,"
@@ -33227,13 +33227,13 @@ msgid ""
 msgstr ""
 "L'altezza richiesta %1 è oltre il limite di altezza specificato (%2,%3)."
 
-#: indi/indimount.cpp:875
+#: indi/indimount.cpp:857
 #, kde-format
 msgid ""
 "Requested altitude is below the horizon. Are you sure you want to proceed?"
 msgstr "L'altezza richiesta è sotto l'orizzonte. Vuoi davvero procedere?"
 
-#: indi/indimount.cpp:876
+#: indi/indimount.cpp:858
 #, kde-format
 msgid "Telescope Motion"
 msgstr "Movimento telescopio"
