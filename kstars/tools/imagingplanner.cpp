@@ -1461,7 +1461,7 @@ void ImagingPlanner::initialize()
     {
         m_PlateSolve->abort();
         takeScreenshot();
-    }, Qt::UniqueConnection);
+    });
 }
 
 void ImagingPlanner::installEventFilters()
@@ -4004,7 +4004,7 @@ void ImagingPlanner::takeScreenshot()
         m_CaptureWidget.reset();
         this->raise();
         this->activateWindow();
-    }, Qt::UniqueConnection);
+    });
     m_CaptureWidget->show();
 }
 
@@ -4014,7 +4014,7 @@ void ImagingPlanner::extractImage()
     connect(m_PlateSolve.get(), &PlateSolve::solverFailed, this, [this]()
     {
         disconnect(m_PlateSolve.get());
-    }, Qt::UniqueConnection);
+    });
     disconnect(m_PlateSolve.get(), &PlateSolve::solverSuccess, nullptr, nullptr);
     connect(m_PlateSolve.get(), &PlateSolve::solverSuccess, this, [this]()
     {
@@ -4044,6 +4044,6 @@ void ImagingPlanner::extractImage()
         KStars::Instance()->activateWindow();
         KStars::Instance()->raise();
         m_PlateSolve->close();
-    }, Qt::UniqueConnection);
+    });
     m_PlateSolve->solveImage(m_ScreenShotFilename);
 }

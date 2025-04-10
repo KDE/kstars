@@ -97,12 +97,15 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
     QString path            = env.value("PATH", "");
     env.insert("PATH", "/usr/bin:/usr/local/bin:\"" + QCoreApplication::applicationDirPath() + "\":" + path);
 
+    qDebug("Trying to Setup DBus");
+
     QProcess dbusCheck;
     dbusCheck.setProcessEnvironment(env);
 
     QString pluginsDir = QDir(QCoreApplication::applicationDirPath() + "/../PlugIns").absolutePath();
-    QString dbusPlist  = pluginsDir + "/dbus/org.freedesktop.dbus-kstars.plist";
-    QFile file(dbusPlist);
+    QString loadDBusPlist  = pluginsDir + "/dbus/org.freedesktop.dbus-kstars.plist";
+    QString saveDBusPlist = QDir::homePath() + "/Library/LaunchAgents/org.freedesktop.dbus-kstars.plist";
+    QFile file(loadDBusPlist);
     if (file.open(QIODevice::ReadOnly))
     {
         QTextStream in(&file);
@@ -123,17 +126,33 @@ KStars::KStars(bool doSplash, bool clockrun, const QString &startdate)
                                       "/dbus/kstars.conf</string>\n"
                                       "    </array>";
         pListText.replace(currentProgramArgs, newProgramArguments);
-        if (file.open(QIODevice::WriteOnly))
+        QFile file2(saveDBusPlist);
+        if (file2.open(QIODevice::WriteOnly))
         {
-            QTextStream stream(&file);
+            QTextStream stream(&file2);
             stream << pListText;
-            file.close();
+            file2.close();
 
-            dbusCheck.start("chmod 775 " + dbusPlist);
-            dbusCheck.waitForFinished();
-            dbusCheck.start("launchctl load -w \"" + dbusPlist + "\"");
-            dbusCheck.waitForFinished();
-            qDebug("Starting DBus");
+            if(dbusCheck.execute("chmod", QStringList() << "775" << saveDBusPlist ) != 0)
+            {
+                qDebug() << "Attempted Command: chmod " << QStringList() << "775" << saveDBusPlist;
+                qDebug("Error Code: %d", dbusCheck.exitCode());
+                qDebug() << "Output: \n" << dbusCheck.readAllStandardOutput();
+                exit(1);
+            }
+
+            qDebug("DBus Setup Succeeded.  Trying to Start DBus");
+
+            if(dbusCheck.execute("launchctl", QStringList() << "load" << "-w" << saveDBusPlist) != 0)
+            {
+                qDebug() << "Attempted Command: launchctl " << QStringList() << "load" << "-w" << saveDBusPlist;
+                qDebug("Error Code: %d", dbusCheck.exitCode());
+                qDebug() << "Output: \n" << dbusCheck.readAllStandardOutput();
+                exit(1);
+            }
+
+            qDebug("DBus Started");
+
         }
         else
         {

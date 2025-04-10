@@ -89,8 +89,7 @@ void PlateSolve::setup()
             d->setCurrentPage(m_ProfileEditorPage);
             d->show();
         }
-    }, Qt::UniqueConnection);
-
+    });
     connect(SolveButton, &QPushButton::clicked, this, [this]()
     {
         if (m_Solver.get() && m_Solver->isRunning())
@@ -102,8 +101,7 @@ void PlateSolve::setup()
         }
 
         emit clicked();
-    }, Qt::UniqueConnection);
-
+    });
     initSolverUI();
 }
 
@@ -116,7 +114,7 @@ void PlateSolve::enableAuxButton(const QString &label, const QString &toolTip)
     connect(auxButton, &QPushButton::clicked, this, [this]()
     {
         emit auxClicked();
-    }, Qt::UniqueConnection);
+    });
 }
 
 void PlateSolve::disableAuxButton()
@@ -509,7 +507,7 @@ void PlateSolve::initSolverUI()
     connect(kcfg_FitsSolverUseScale, &QCheckBox::stateChanged, this, [](int state)
     {
         Options::setFitsSolverUseScale(state);
-    }, Qt::UniqueConnection);
+    });
     connect(kcfg_FitsSolverScale, QOverload<double>::of(&QDoubleSpinBox::valueChanged), [](double value)
     {
         Options::setFitsSolverScale(value);
@@ -522,18 +520,18 @@ void PlateSolve::initSolverUI()
     connect(kcfg_FitsSolverUsePosition, &QCheckBox::stateChanged, this, [](int state)
     {
         Options::setFitsSolverUsePosition(state);
-    }, Qt::UniqueConnection);
+    });
 
     connect(kcfg_FitsSolverRadius, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [](double value)
     {
         Options::setFitsSolverRadius(value);
-    }, Qt::UniqueConnection);
+    });
     connect(UpdatePosition, &QPushButton::clicked, this, [&]()
     {
         const auto center = SkyMap::Instance()->getCenterPoint();
         FitsSolverEstRA->show(center.ra());
         FitsSolverEstDec->show(center.dec());
-    }, Qt::UniqueConnection);
+    });
 
     // Warn if the user is not using the internal StellarSolver solver.
     const SSolver::SolverType type = static_cast<SSolver::SolverType>(Options::solverType());
