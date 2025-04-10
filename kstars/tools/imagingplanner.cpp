@@ -1448,6 +1448,19 @@ void ImagingPlanner::initialize()
     // Install the event filters. Put them at the end of initialize so
     // the event filter isn't called until initialize is complete.
     installEventFilters();
+<<<<<<< HEAD
+=======
+
+    m_PlateSolve.reset(new PlateSolve(this));
+    m_PlateSolve->enableAuxButton("Retake screenshot",
+                                  "Retake the screenshot of the object if you're having issues solving.");
+    connect(m_PlateSolve.get(), &PlateSolve::clicked, this, &ImagingPlanner::extractImage, Qt::UniqueConnection);
+    connect(m_PlateSolve.get(), &PlateSolve::auxClicked, this, [this]()
+    {
+        m_PlateSolve->abort();
+        takeScreenshot();
+    });
+>>>>>>> 917ca1a13 (Fixing a DBus issue and 2 Qt6 issues)
 }
 
 void ImagingPlanner::installEventFilters()
@@ -3998,7 +4011,7 @@ void ImagingPlanner::takeScreenshot()
         m_CaptureWidget.reset();
         this->raise();
         this->activateWindow();
-    }, Qt::UniqueConnection);
+    });
     m_CaptureWidget->show();
 }
 
@@ -4008,7 +4021,7 @@ void ImagingPlanner::extractImage()
     connect(m_PlateSolve.get(), &PlateSolve::solverFailed, this, [this]()
     {
         disconnect(m_PlateSolve.get());
-    }, Qt::UniqueConnection);
+    });
     disconnect(m_PlateSolve.get(), &PlateSolve::solverSuccess, nullptr, nullptr);
     connect(m_PlateSolve.get(), &PlateSolve::solverSuccess, this, [this]()
     {
@@ -4038,7 +4051,7 @@ void ImagingPlanner::extractImage()
         KStars::Instance()->activateWindow();
         KStars::Instance()->raise();
         m_PlateSolve->close();
-    }, Qt::UniqueConnection);
+    });
     m_PlateSolve->solveImage(m_ScreenShotFilename);
 }
 >>>>>>> 441b9a91c (Fix compile error on Qt6)
