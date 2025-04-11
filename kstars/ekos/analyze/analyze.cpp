@@ -332,30 +332,61 @@ namespace Ekos
 {
 
 // RmsFilter computes the RMS error of a 2-D sequence. Input the x error and y error
-// into newSample(). It returns the sqrt of an approximate moving average of the squared
-// errors roughly averaged over 40 samples--implemented by a simple digital low-pass filter.
+// into newSample(). It returns the sqrt of a moving average of the squared
+// errors averaged over 40 samples.
 // It's used to compute RMS guider errors, where x and y would be RA and DEC errors.
 class RmsFilter
 {
     public:
-        RmsFilter()
-        {
-            constexpr double timeConstant = 40.0;
-            alpha = 1.0 / pow(timeConstant, 0.865);
-        }
-        void resetFilter()
-        {
-            filteredRMS = 0;
-        }
+        RmsFilter(int size = 40) : m_WindowSize(size) {}
+
         double newSample(double x, double y)
         {
-            const double valueSquared = x * x + y * y;
-            filteredRMS = alpha * valueSquared + (1.0 - alpha) * filteredRMS;
-            return sqrt(filteredRMS);
+            m_XData.push_back(x);
+            m_YData.push_back(y);
+            m_XSum += x;
+            m_YSum += y;
+            m_XSumOfSquares += x * x;
+            m_YSumOfSquares += y * y;
+
+            if (m_XData.size() > m_WindowSize)
+            {
+                double oldValue = m_XData.front();
+                m_XData.pop_front();
+                m_XSum -= oldValue;
+                m_XSumOfSquares -= oldValue * oldValue;
+
+                oldValue = m_YData.front();
+                m_YData.pop_front();
+                m_YSum -= oldValue;
+                m_YSumOfSquares -= oldValue * oldValue;
+            }
+            const int size = m_XData.size();
+            if (size < 2)
+                return 0.0;
+
+            const double xVariance = (m_XSumOfSquares - (m_XSum * m_XSum) / size) / (size - 1);
+            const double yVariance = (m_YSumOfSquares - (m_YSum * m_YSum) / size) / (size - 1);
+            return std::sqrt(xVariance * xVariance + yVariance * yVariance);
         }
+
+        void resetFilter()
+        {
+            m_XSum = 0;
+            m_YSum = 0;
+            m_XSumOfSquares = 0;
+            m_YSumOfSquares = 0;
+            m_XData.clear();
+            m_YData.clear();
+        }
+
     private:
-        double alpha { 0 };
-        double filteredRMS { 0 };
+        std::deque<double> m_XData;
+        std::deque<double> m_YData;
+
+        unsigned long m_WindowSize;
+        double m_XSum = 0, m_YSum = 0;
+        double m_XSumOfSquares = 0, m_YSumOfSquares = 0;
 };
 
 bool Analyze::eventFilter(QObject *obj, QEvent *ev)
