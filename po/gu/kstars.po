@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars-gu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-10 01:53+0000\n"
+"POT-Creation-Date: 2025-04-11 01:51+0000\n"
 "PO-Revision-Date: 2009-07-10 16:23+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <kde-i18n-doc@kde.org>\n"
@@ -584,7 +584,7 @@ msgstr "એન્ન અર્બોર"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/platesolve.cpp:217 fitsviewer/platesolve.cpp:253
+#: fitsviewer/platesolve.cpp:215 fitsviewer/platesolve.cpp:251
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -1120,7 +1120,7 @@ msgstr "સિસ્ટમ લૉગ દર્શક"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1538 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1540 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1197,8 +1197,8 @@ msgstr "પૃથ્વી"
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1134 tools/imagingplanner.cpp:1513
-#: tools/imagingplanner.cpp:3055 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:1136 tools/imagingplanner.cpp:1515
+#: tools/imagingplanner.cpp:3057 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -2738,7 +2738,7 @@ msgstr "પ્રયત્ન ન કરો"
 msgid "Show webpage about "
 msgstr "ચિત્ર દર્શક"
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3200
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3202
 #, kde-format
 msgid "object"
 msgstr "વસ્તુ"
@@ -2863,7 +2863,7 @@ msgstr ""
 msgid "Degrees"
 msgstr "ડીગ્રીઓ"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1134
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1136
 #, fuzzy, kde-format
 #| msgid "hour"
 msgid "Hours"
@@ -2916,7 +2916,7 @@ msgstr "લખાણ"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2322 tools/imagingplanner.cpp:1134
+#: ekos/capture/camera.ui:2322 tools/imagingplanner.cpp:1136
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3299,7 +3299,7 @@ msgstr "મહત્તમ."
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1139 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1134 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:1136 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -10169,7 +10169,7 @@ msgstr "ચિત્ર દર્શક"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:284
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:282
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
 #: skycomponents/imageoverlaycomponent.cpp:728
@@ -24048,7 +24048,7 @@ msgstr "શું તમે %1 દૂર કરવા માટે ચોક્�
 msgid "Mount Tracking"
 msgstr "માઉસની ખબર રાખો"
 
-#: ekos/mount/mount.cpp:482
+#: ekos/mount/mount.cpp:482 tools/imagingplanner.cpp:3979
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Menongue"
@@ -24056,7 +24056,7 @@ msgctxt "@action:button"
 msgid "Yes"
 msgstr "મેનોન્ગુએ"
 
-#: ekos/mount/mount.cpp:483
+#: ekos/mount/mount.cpp:483 tools/imagingplanner.cpp:3980
 #, fuzzy, kde-format
 #| msgid "Now"
 msgctxt "@action:button"
@@ -24975,8 +24975,8 @@ msgstr "બીજા"
 msgid "Slaving deactivated."
 msgstr "બીજા"
 
-#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:98
-#: fitsviewer/platesolve.cpp:213 fitsviewer/platesolve.cpp:249
+#: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:97
+#: fitsviewer/platesolve.cpp:211 fitsviewer/platesolve.cpp:247
 #, fuzzy, kde-format
 #| msgid "Center"
 msgid "Aborting..."
@@ -29602,7 +29602,7 @@ msgid "Distance"
 msgstr "અંતર:"
 
 #: fitsviewer/fitstab.cpp:736 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1134
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1136
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
@@ -30450,52 +30450,52 @@ msgstr "હાલની રંગ પધ્ધતિ સંગ્રહ કર�
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "અયોગ્ય ફાઇલનામો"
 
-#: fitsviewer/platesolve.cpp:223
+#: fitsviewer/platesolve.cpp:221
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Extracting..."
 msgstr "બીજા"
 
-#: fitsviewer/platesolve.cpp:257
+#: fitsviewer/platesolve.cpp:255
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Solving..."
 msgstr "ગોઠવણીઓ (&S)"
 
-#: fitsviewer/platesolve.cpp:270
+#: fitsviewer/platesolve.cpp:268
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Extractor timed out: %1s"
 msgstr "તારાઓ લાગે છે"
 
-#: fitsviewer/platesolve.cpp:280
+#: fitsviewer/platesolve.cpp:278
 #, fuzzy, kde-format
 msgid "Extractor failed: %1s"
 msgstr "ભરી નાંખો"
 
-#: fitsviewer/platesolve.cpp:290
+#: fitsviewer/platesolve.cpp:288
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:336
+#: fitsviewer/platesolve.cpp:334
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Solver timed out: %1s"
 msgstr "તારાઓ લાગે છે"
 
-#: fitsviewer/platesolve.cpp:342
+#: fitsviewer/platesolve.cpp:340
 #, fuzzy, kde-format
 msgid "Solver failed: %1s"
 msgstr "ભરી નાંખો"
 
-#: fitsviewer/platesolve.cpp:542
+#: fitsviewer/platesolve.cpp:540
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:543
+#: fitsviewer/platesolve.cpp:541
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -32628,17 +32628,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "તારાઓ"
 
-#: kstars.cpp:315 kstarsactions.cpp:1613 skymap.cpp:463
+#: kstars.cpp:334 kstarsactions.cpp:1613 skymap.cpp:463
 #, fuzzy, kde-format
 msgid "Stop &Tracking"
 msgstr "ઘડિયાળ રૂપરેખાંકિત કરો"
 
-#: kstars.cpp:323 kstarsactions.cpp:1780 kstarsinit.cpp:270
+#: kstars.cpp:342 kstarsactions.cpp:1780 kstarsinit.cpp:270
 #, fuzzy, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "ઇક્વિટોરીઅલ ગુએના"
 
-#: kstars.cpp:324 kstarsactions.cpp:1761 kstarsinit.cpp:271
+#: kstars.cpp:343 kstarsactions.cpp:1761 kstarsinit.cpp:271
 #, fuzzy, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "આડાં ઢોળાવો"
@@ -84715,8 +84715,8 @@ msgid "Object Set"
 msgstr "વસ્તુ"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3072
-#: tools/imagingplanner.cpp:3083 tools/imagingplanner.cpp:3098
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3074
+#: tools/imagingplanner.cpp:3085 tools/imagingplanner.cpp:3100
 #, fuzzy, kde-format
 msgid "Transit"
 msgstr "તારીખ & સમય"
@@ -85723,117 +85723,117 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:175 tools/imagingplanner.ui:2057
+#: tools/imagingplanner.cpp:177 tools/imagingplanner.ui:2057
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Imaged"
 msgstr "ચિત્ર"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:180 tools/imagingplanner.ui:2027
+#: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:2027
 #, kde-format
 msgid "Picked"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:186 tools/imagingplanner.ui:2114
+#: tools/imagingplanner.cpp:188 tools/imagingplanner.ui:2114
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignored"
 msgstr "અવગણો"
 
-#: tools/imagingplanner.cpp:989
+#: tools/imagingplanner.cpp:991
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
 msgstr "સૂચન યાદી"
 
-#: tools/imagingplanner.cpp:1134
+#: tools/imagingplanner.cpp:1136
 #, fuzzy, kde-format
 msgid "Alt"
 msgstr "અલ્ટ"
 
-#: tools/imagingplanner.cpp:1135
+#: tools/imagingplanner.cpp:1137
 #, fuzzy, kde-format
 msgid "Const"
 msgstr "ને પાસેથી મળેલો:"
 
-#: tools/imagingplanner.cpp:1135
+#: tools/imagingplanner.cpp:1137
 #, fuzzy, kde-format
 msgid "Coord"
 msgstr "ઇક્વિટોરીઅલ ગુએના"
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:1139
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1139
+#: tools/imagingplanner.cpp:1141
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1141
+#: tools/imagingplanner.cpp:1143
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1143
+#: tools/imagingplanner.cpp:1145
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1145
+#: tools/imagingplanner.cpp:1147
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1147
+#: tools/imagingplanner.cpp:1149
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1149
+#: tools/imagingplanner.cpp:1151
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1151
+#: tools/imagingplanner.cpp:1153
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1582
+#: tools/imagingplanner.cpp:1584
 #, fuzzy, kde-format
 msgid "No match for \"%1\""
 msgstr "%2 માટે %1 શોધો"
 
-#: tools/imagingplanner.cpp:1646
+#: tools/imagingplanner.cpp:1648
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1651
+#: tools/imagingplanner.cpp:1653
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1656
+#: tools/imagingplanner.cpp:1658
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1991
+#: tools/imagingplanner.cpp:1993
 #, fuzzy, kde-format
 msgid "Updating tables..."
 msgstr "EXR ચિત્રો"
 
-#: tools/imagingplanner.cpp:2388
+#: tools/imagingplanner.cpp:2390
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -85841,183 +85841,183 @@ msgid ""
 "See Data -> Download New Data if not..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2391
+#: tools/imagingplanner.cpp:2393
 #, fuzzy, kde-format
 msgid "No Catalog!"
 msgstr "અલોર સ્ટાર"
 
-#: tools/imagingplanner.cpp:2437
+#: tools/imagingplanner.cpp:2439
 #, fuzzy, kde-format
 msgid "Select an object."
 msgstr "<કોઇ વસ્તુ નહી>"
 
-#: tools/imagingplanner.cpp:2439
+#: tools/imagingplanner.cpp:2441
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2441
+#: tools/imagingplanner.cpp:2443
 #, fuzzy, kde-format
 msgid "Load a Catalog."
 msgstr "CTAN કેટેલોગ"
 
-#: tools/imagingplanner.cpp:2571
+#: tools/imagingplanner.cpp:2573
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2576
+#: tools/imagingplanner.cpp:2578
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2582
+#: tools/imagingplanner.cpp:2584
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2588
+#: tools/imagingplanner.cpp:2590
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2593
+#: tools/imagingplanner.cpp:2595
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2736
+#: tools/imagingplanner.cpp:2738
 #, fuzzy, kde-format
 msgid "Loading Catalogs..."
 msgstr "CTAN કેટેલોગ"
 
-#: tools/imagingplanner.cpp:3061
+#: tools/imagingplanner.cpp:3063
 #, fuzzy, kde-format
 msgid "Transits"
 msgstr "તારીખ & સમય"
 
-#: tools/imagingplanner.cpp:3066 tools/imagingplanner.cpp:3070
+#: tools/imagingplanner.cpp:3068 tools/imagingplanner.cpp:3072
 #, fuzzy, kde-format
 msgid "Sets at"
 msgstr "ઓછામાં ઓછું %1"
 
-#: tools/imagingplanner.cpp:3077 tools/imagingplanner.cpp:3081
+#: tools/imagingplanner.cpp:3079 tools/imagingplanner.cpp:3083
 #, fuzzy, kde-format
 msgid "Rises at"
 msgstr "ઓછામાં ઓછું %1"
 
-#: tools/imagingplanner.cpp:3088 tools/imagingplanner.cpp:3094
+#: tools/imagingplanner.cpp:3090 tools/imagingplanner.cpp:3096
 #, kde-format
 msgid "Rises"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3090 tools/imagingplanner.cpp:3096
+#: tools/imagingplanner.cpp:3092 tools/imagingplanner.cpp:3098
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3202 tools/imagingplanner.cpp:3458
+#: tools/imagingplanner.cpp:3204 tools/imagingplanner.cpp:3460
 #, fuzzy, kde-format
 #| msgid "object"
 msgid "objects"
 msgstr "વસ્તુ"
 
-#: tools/imagingplanner.cpp:3454
+#: tools/imagingplanner.cpp:3456
 #, fuzzy, kde-format
 #| msgid "%1, %2 and %3"
 msgid "%1, %2 and %3 other objects"
 msgstr "%1, %2 અને %3"
 
-#: tools/imagingplanner.cpp:3462 tools/imagingplanner.cpp:3466
+#: tools/imagingplanner.cpp:3464 tools/imagingplanner.cpp:3468
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3463 tools/imagingplanner.cpp:3468
+#: tools/imagingplanner.cpp:3465 tools/imagingplanner.cpp:3470
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3472 tools/imagingplanner.cpp:3476
+#: tools/imagingplanner.cpp:3474 tools/imagingplanner.cpp:3478
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3473 tools/imagingplanner.cpp:3478
+#: tools/imagingplanner.cpp:3475 tools/imagingplanner.cpp:3480
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3483 tools/imagingplanner.cpp:3488
+#: tools/imagingplanner.cpp:3485 tools/imagingplanner.cpp:3490
 #, fuzzy, kde-format
 msgid "Stop ignoring %1"
 msgstr "ઘડિયાળ રૂપરેખાંકિત કરો"
 
-#: tools/imagingplanner.cpp:3484 tools/imagingplanner.cpp:3490
+#: tools/imagingplanner.cpp:3486 tools/imagingplanner.cpp:3492
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "અવગણો"
 
-#: tools/imagingplanner.cpp:3493
+#: tools/imagingplanner.cpp:3495
 #, fuzzy, kde-format
 msgid "Center %1 on SkyMap"
 msgstr "નકશામાં %1 જગ્યા"
 
-#: tools/imagingplanner.cpp:3495
+#: tools/imagingplanner.cpp:3497
 #, kde-format
 msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3635
+#: tools/imagingplanner.cpp:3637
 #, fuzzy, kde-format
 #| msgid "Connect"
 msgid "Successfully marked %1 objects as read"
 msgstr "જોડાઓ"
 
-#: tools/imagingplanner.cpp:3637
+#: tools/imagingplanner.cpp:3639
 #, fuzzy, kde-format
 #| msgid "Input file:"
 msgid "Empty file"
 msgstr "ઈનપુટ ફાઈલ:"
 
-#: tools/imagingplanner.cpp:3646
+#: tools/imagingplanner.cpp:3648
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3648
+#: tools/imagingplanner.cpp:3650
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3650
+#: tools/imagingplanner.cpp:3652
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3653
+#: tools/imagingplanner.cpp:3655
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3659 tools/imagingplanner.cpp:3909
+#: tools/imagingplanner.cpp:3661 tools/imagingplanner.cpp:3911
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "ફાઇલ %1 ખોલી શકાતી નથી"
 
-#: tools/imagingplanner.cpp:3773
+#: tools/imagingplanner.cpp:3775
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3894
+#: tools/imagingplanner.cpp:3896
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""

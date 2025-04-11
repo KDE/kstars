@@ -76,7 +76,7 @@
 >El mòdul «Configuració» i resum</term>
             <listitem>
                 <para
->Com el seu nom indica, ací és on creareu i gestionareu el perfil del vostre equip i connectareu amb els vostres dispositius. També proporciona una vista de resum on el progrés de la captura juntament amb les operacions d'enfocament i guiatge es mostraran en un format compacte per a transmetre a l'usuari la informació més rellevant. </para>
+>Com el seu nom indica, ací és on creareu i gestionareu el perfil del vostre equip i connectareu amb els vostres dispositius. També proporciona una vista de resum on el progrés de la captura juntament amb les operacions d'enfocament i guiatge es mostraran en un format compacte per a transmetre a l'usuari la informació més rellevant. Si hi ha alguna extensió instal·lada, es mostraran els controls de selecció i d'inici/parada. </para>
             </listitem>
         </varlistentry>
         <varlistentry>
@@ -108,7 +108,7 @@
 >El mòdul «Enfocament»</term>
             <listitem>
                 <para
->Mesureu la nitidesa de les vostres imatges en este mòdul, calculant el radi de mig flux (Half-Flux-Radius -HFR-). Com més baix siga l'HFR, la imatge esdevindrà més nítida. Podeu executar este mòdul amb enfocador o sense. Amb un enfocador electrònic, podreu executar una operació d'enfocament automàtic, a on Ekos farà una iteració i calcularà la posició de l'enfocament òptic. </para>
+>Mesureu la nitidesa de les vostres imatges en este mòdul, calculant el radi de mig flux (Half-Flux-Radius -HFR-). Com més baix siga HFR, la imatge esdevindrà més nítida. Podeu executar este mòdul amb enfocador o sense. Amb un enfocador electrònic, podreu executar una operació d'enfocament automàtic, a on Ekos farà una iteració i calcularà la posició de l'enfocament òptic. </para>
             </listitem>
         </varlistentry>
         <varlistentry>

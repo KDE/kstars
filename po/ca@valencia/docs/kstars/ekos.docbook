@@ -138,4 +138,4 @@
 >S'integra amb tots els dispositius natius d'INDI. </para>
     </listitem>
 </itemizedlist
->&tool-ekos-setup; &tool-ekos-user-interface; &tool-ekos-profile-wizard; &tool-ekos-profile-editor; &tool-ekos-logs; &tool-ekos-capture; &tool-ekos-focus; &tool-ekos-guide; &tool-ekos-align; &tool-ekos-scheduler; &tool-ekos-analyze; &tool-ekos-tutorials; </chapter>
+>&tool-ekos-setup; &tool-ekos-user-interface; &tool-ekos-profile-wizard; &tool-ekos-profile-editor; &tool-ekos-logs; &tool-ekos-capture; &tool-ekos-focus; &tool-ekos-guide; &tool-ekos-align; &tool-ekos-scheduler; &tool-ekos-analyze; &tool-ekos-extensions; &tool-ekos-tutorials; </chapter>

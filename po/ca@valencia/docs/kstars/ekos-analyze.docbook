@@ -110,7 +110,7 @@
 > (utilitzant el sistema de guiatge intern amb multiestrela SEP) i <guilabel
 >hfr</guilabel
 > (si teniu <guilabel
->Calcula automàticament l'HFR</guilabel
+>Calcula automàticament HFR</guilabel
 > en les opcions de FITS). Experimenteu amb les altres. </para>
         <para
 >L'eix de l'esquerra que es mostra inicialment només és apropiat per a un error AR/Dec, deriva, error RMS, polsos AR/Dec i HFR, representats en segons d'arc i amb un interval predeterminat de -2 fins a 5 segons d'arc. No obstant açò, quan feu clic damunt d'un dels quadros davall del gràfic d'estadístiques (que mostra el valor d'una estadística) s'establirà l'interval d'esta estadística com l'interval que es mostra en l'eix esquerre. En fer doble clic sobre este quadro, apareixerà un menú que us permetrà ajustar l'interval i el seguiment de l'estadística (&pex;, configurar-lo en automàtic, escriure explícitament l'interval, tornar a configurar-lo en el seu valor predeterminat i també canviar el color del gràfic d'esta estadística). </para>

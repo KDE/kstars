@@ -346,7 +346,7 @@
 >Mantín el nombre:</guilabel
 > es relacionen amb el nombre d'estreles que retorna el sistema. El sistema executarà inicialment el seu algorisme de detecció i trobarà un nombre concret de deteccions possibles. Filtrarà esta llista, mantenint només <guilabel
 >Mantín en l'inici:</guilabel
-> les estreles més brillants. Aleshores executarà la resta del filtratge, incloent calcular l'HFR de totes estes estreles i, finalment, només retornarà una llista de <guilabel
+> les estreles més brillants. Aleshores executarà la resta del filtratge, incloent calcular HFR de totes estes estreles i, finalment, només retornarà una llista de <guilabel
 >Mantín el nombre:</guilabel
 > d'estreles. Cap dels usos (alineació, enfocament automàtic i guiatge) de StellarSolver requerix milers d'estreles per a poder fer la seua faena, i com més estreles es processen, més lenta serà l'operació. Una llista inicial de 1.000 estreles i uns quants centenars d'estreles retornades haurien de ser suficients per a la majoria de les aplicacions.</para
 ></listitem>
@@ -769,7 +769,7 @@
 >Astrometria</emphasis
 >, el qual es pot seleccionar davall el menú desplegable <guilabel
 >Auxiliar</guilabel
->. Açò és aplicable a tots els sistemes operatius i no només a &Windows;. </para>
+>. Açò és aplicable a tots els sistemes operatius i no només en &Windows;. </para>
                 </listitem>
             </varlistentry>
             <varlistentry>

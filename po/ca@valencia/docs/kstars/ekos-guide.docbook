@@ -91,7 +91,7 @@
                 <para
 ><guilabel
 >Quadro</guilabel
->: Açò només és aplicable als algorismes de guiatge diferents del MultiStar, i MultiStar és l'esquema de guiatge recomanat. Mida del quadro que conté l'estrela guia. Seleccioneu una mida adequada que no siga massa gran o massa xicoteta per a l'estrela seleccionada. </para>
+>: Açò només és aplicable als algorismes de guiatge diferents de MultiStar, i MultiStar és l'esquema de guiatge recomanat. Mida del quadro que conté l'estrela guia. Seleccioneu una mida adequada que no siga massa gran o massa xicoteta per a l'estrela seleccionada. </para>
             </listitem>
             <listitem>
                 <para
@@ -206,7 +206,7 @@
                 <para
 >Deixeu l'algorisme al valor predeterminat (<guimenuitem
 >SEP</guimenuitem
-> del MultiStar) en la pestanya <guilabel
+> de MultiStar) en la pestanya <guilabel
 >Processament</guilabel
 > de la pàgina <guilabel
 >Enfocament</guilabel
@@ -275,7 +275,7 @@
         <para
 >Ekos pot utilitzar múltiples algorismes per a determinar la deriva des de la posició de bloqueig (original), però de lluny el més precís és l'algorisme <guilabel
 >SEP</guilabel
-> del MultiStar (predeterminat). Utilitza la posició detectada de moltes estreles (en la configuració anterior, fins a 50) per a determinar la seua millor estimació de la deriva actual. Depén d'una detecció precisa de les estreles. Per tant, pot ser important ajustar els paràmetres de la detecció d'estreles. Comenceu amb el perfil SEP predeterminat per al guiatge i, de manera opcional, editeu els paràmetres si creieu que les estreles no es detecten amb prou precisió. </para>
+> de MultiStar (predeterminat). Utilitza la posició detectada de moltes estreles (en la configuració anterior, fins a 50) per a determinar la seua millor estimació de la deriva actual. Depén d'una detecció precisa de les estreles. Per tant, pot ser important ajustar els paràmetres de la detecció d'estreles. Comenceu amb el perfil SEP predeterminat per al guiatge i, de manera opcional, editeu els paràmetres si creieu que les estreles no es detecten amb prou precisió. </para>
         <para
 >Estos són alguns dels paràmetres que potser voleu ajustar. De nou, hi ha un bon consell a l'hora de triar paràmetres en Internet, p. ex., des de <ulink url="https://openphdguiding.org/PHD2_BestPractices_2019-12.pdf"
 >el passe de diapositives anterior</ulink
@@ -396,6 +396,39 @@
 > amb el seu color que reflectix l'anell concèntric que cau dins. Podeu canviar el radi del cercle verd més intern ajustant la precisió del traçat de la deriva. </para>
     </sect2>
 
+    <sect2 id="guide-multistar">
+        <title
+>Guiatge amb múltiples estreles</title>
+        <screenshot>
+            <screeninfo
+>GPG MultiStar </screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="ekos_guide_multistar_settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+><title
+>Guiatge amb MultiStar</title
+></phrase>
+                </textobject>
+            </mediaobject>
+        </screenshot>
+        <para
+>En el guiatge estàndard, el sistema selecciona una estrela guia. En els sistemes no-MultiStar, els moviments mesurats d'esta estrela en relació amb les seues mesures posicionals originals es convertixen a desplaçaments AR i Dec que són els errors de guiatge de la deriva. En el guiatge MultiStar, el sistema selecciona moltes estreles de referència i mesura tots els seus desplaçaments en relació amb les seues posicions inicials. L'error de guiatge es calcula com el desplaçament mitjà de les estreles de referència individuals des de les seues posicions originals. La màgia que el sistema ha de realitzar és trobar el patró de soroll de 2 dimensions d'estreles de referència a la imatge guia, però trobar este patró és més robust que trobar una sola estrela guia que pot haver-se mogut significativament o no haver-se detectat en absolut. Vos recomanem que trieu esta manera de guiar seleccionant l'algorisme de guiatge <guilabel
+>SEP MultiStar</guilabel
+>. </para>
+        <para
+>Hi ha algunes opcions que potser voldreu considerar. <guilabel
+>HFR màx. de MultiStar</guilabel
+> és el nombre màxim d'estreles de referència que el sistema pot utilitzar. La raó principal per a limitar açò és el cost del càlcul, tot i que no és un càlcul molt car. 50 és una opció bona. L'opció <guilabel
+>Detecció mínima d'estreles de MultiStar</guilabel
+> indica al sistema que es convertisca en una sola estrela guia si hi ha menys que moltes deteccions d'estreles. <guilabel
+>Inventa una estrela guia a partir de múltiples estreles</guilabel
+> hauria de deixar-se marcat, i <guilabel
+>HFR màx. de MultiStar</guilabel
+> és un paràmetre antic que probablement ja té poc efecte. </para>
+    </sect2>
     <sect2 id="guide-gpg">
         <title
 >Guiatge amb GPG</title>

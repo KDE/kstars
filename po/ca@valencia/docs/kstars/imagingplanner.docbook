@@ -1,0 +1,413 @@
+<sect1 id="tool-imaging-planner">
+<title
+>L'eina Planificador de l'obtenció d'imatges</title>
+<indexterm
+><primary
+>Eines</primary>
+<secondary
+>L'eina Planificador de l'obtenció d'imatges</secondary>
+</indexterm>
+<screenshot>
+<screeninfo
+>Eina «Planificador de l'obtenció d'imatges» </screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="imagingplanner.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase
+>Planificador de l'obtenció d'imatges</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para
+>L'eina «Planificador de l'obtenció d'imatges» ajuda els usuaris a triar quins objectes passar a imatge. Els usuaris poden descarregar catàlegs d'objectes recomanats, o bé crear i compartir els seus propis catàlegs. L'eina calcula quan els objectes d'un catàleg de lectura poden ser fotografiats en la nit seleccionada donades les restriccions com l'altitud mínima, el terreny i la separació de la lluna. Pot ordenar els objectes segons diverses dimensions diferents, inclòs el nombre d'hores que un objecte pot ser fotografiat esta nit (indicant la geografia de l'usuari, restriccions i possible horitzó artificial), la seua altitud màxima, la distància de la lluna, la constel·lació, nom i tipus. Els objectes també es poden filtrar per diverses raons (per exemple, el tipus d'objecte, si s'han obtingut imatges prèviament, paraules clau que l'usuari ha afegit, si l'objecte s'ha seleccionat, l'usuari no està interessat, etc.). Esta eina ajuda els usuaris a investigar els objectes mostrant imatges xicotetes dels objectes, mostrant les ubicacions al cel dels objectes en el mapa celeste, i proporcionant enllaços per a seguir a llocs d'Internet amb més informació i imatges. Permet als usuaris adjuntar notes i enllaços cap a objectes, i seleccionar-ne alguns per a la seua consideració posterior. Esta eina es pot utilitzar en conjunció amb el capturador d'imatges d'Ekos o qualsevol altra eina d'obtenció d'imatges. Actualment no interacciona directament amb el capturador d'imatges real. Només ajuda l'usuari a decidir quines imatges ha d'obtindre. </para>
+<sect2 id="imagingplanner-objecttable">
+<title
+>La taula d'objectes</title>
+<para
+>La part esquerra de l'eina Planificador de l'obtenció d'imatges està ocupada principalment per la taula d'objectes. Llista tots els objectes del catàleg carregat, excepte els filtrats; vegeu la secció Filtres davall. Els atributs dels objectes es llisten a les columnes. Es poden seleccionar files, i la informació de la fila seleccionada, el gràfic d'altitud i la imatge es mostren al costat dret de l'eina. </para>
+  <para
+>De manera predeterminada, la taula té un criteri d'ordenació de més hores d'obtenció d'imatges a la part superior. No obstant açò, es pot canviar el criteri d'ordenació fent clic en les capçaleres de les columnes que s'ordenaran per esta columna (amb certs valors predeterminats d'ordenació de columna secundària). En fer clic una altra vegada a la mateixa capçalera de columna s'invertirà el sentit d'ordenació. </para>
+  <para
+>En fer clic dret (o fer clic amb la tecla control) sobre una fila apareix un menú de les operacions que es pot fer amb l'objecte. Es poden seleccionar diverses files (amb la tècnica «clic i després clic amb majúscules») i el menú de clic dret funcionarà en totes les files seleccionades. Les operacions permeten afegir atributs a l'objecte. Les opcions són: </para>
+<itemizedlist>
+<listitem
+><para
+>Triar l'objecte seleccionat (o desmarcar un objecte ja triat). Cal tindre en compte que podeu seleccionar més d'un objecte a la vegada fent clic i després clic amb majúscules. Marcar un objecte com a triat us permetrà més avant mostrar només alguns objectes triats en lloc de tota la taula. Per exemple, es pot dedicar temps a investigar molts objectes, i quan es veu un candidat interessant, es pot marcar com a triat per a un examen posterior. Al cap d'un temps, quan s'ha aconseguit una col·lecció d'objectes triats, es poden mostrar només els objectes triats utilitzant la restricció de filtratge de triat (vegeu Filtres davall). </para
+></listitem
+><listitem
+><para
+>Marcar un objecte com a ja obtinguda la imatge (o desfer-ho). Una vegada més, es pot establir este atribut d'objecte i filtre posterior per a no mostrar-los (o mostrar només-los). </para
+></listitem
+><listitem
+><para
+>Marcar un objecte per a ser ignorat (o desfer açò). Similar a marcar com a ja obtinguda la imatge. </para
+></listitem
+><listitem
+><para
+>Centra l'objecte en el mapa celeste de KStars. Açò té més sentit si l'enfocament automàtic està desactivat al menú d'opcions. </para
+></listitem>
+</itemizedlist>
+<para
+>Els objectes que es marquen com a obtingudes les seues imatges es mostren amb un color de fons diferent de les altres imatges per tal de distingir-les. Esta eina no sap automàticament que heu obtingut la imatge d'un objecte, p. ex., perquè és possible que hàgeu obtingut la imatge amb KStars/Ekos. En lloc d'açò, heu de marcar explícitament un objecte com a obtinguda la seua imatge utilitzant el menú, o utilitzar el botó <guibutton
+>Carrega les imatges obtingudes</guibutton
+> en la secció «Filtres». </para>
+<para
+>Els objectes que estan triats també es mostren de manera diferent. Es mostren en negreta-cursiva i se subratllen per a distingir-los. </para>
+<para
+>La línia de dalt de la taula mostra el nombre de files a la taula i el nombre total d'objectes al catàleg carregat. Els nombres poden ser diferents si es filtren alguns objectes. També hi ha un quadro de busca que trobarà un determinat objecte si es troba a la taula. </para>
+</sect2>
+<sect2 id="imagingplanner-date">
+<title
+>Data, hora i geografia</title>
+<para
+>La data per a la qual es fa l'anàlisi es pot canviar amb els quadros d'entrada de data a la part superior dreta de l'eina. Es pot tornar arrere un dia fent clic en el botó de l'esquerra de la data, i es pot avançar un dia més amb el botó de la dreta. Es pot canviar a una data arbitrària seleccionant el botó de menú de la data, o senzillament editant el text de la data. La il·luminació de la Lluna per a este dia es mostra a l'esquerra de la data. </para>
+<para
+>L'hora emprada (&pex;, per a la posició de l'objecte en el mapa celeste) i la geografia/ubicació utilitzada per a determinar la posició del cel d'un objecte es prenen dels valors que utilitza KStars. Per a canviar la ubicació, aneu fins al menú <menuchoice
+><guimenu
+>Configuració</guimenu
+> <guimenuitem
+>Geografia</guimenuitem
+></menuchoice
+>. Per a canviar l'hora actual, aneu fins al menú <menuchoice
+><guimenu
+>Temps</guimenu
+> <guimenuitem
+>Establix la data i l'hora…</guimenuitem
+></menuchoice
+>. </para>
+</sect2>
+<sect2 id="imagingplanner-options-help">
+<title
+>Opcions i ajuda</title>
+<para
+>Hi ha dos botons a la dreta del control de la data. </para>
+<itemizedlist>
+<listitem
+><para
+>El botó d'opcions «hamburguesa» obri un menú xicotet d'opcions. Actualment el menú conté dues caselles de selecció. Una controla si el sistema orienta el mapa celeste de KStars a les coordenades de l'objecte quan este està seleccionat a la taula. El segon decidix si l'eina és una finestra independent (&ead;, pot anar darrere o davant d'altres finestres de KStars), o si sempre va davant de la finestra principal de KStars. </para
+></listitem
+><listitem
+><para
+>El segon botó, en fer-hi clic, obri este manual de KStars en un navegador web. </para
+></listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="imagingplanner-info">
+<title
+>Informació de l'objecte</title>
+<para
+>La secció d'informació de l'objecte a prop de la part superior de l'esquerra de l'eina mostra informació sobre l'objecte seleccionat. Feu clic damunt d'un objecte i hauríeu de veure esta secció emplenada. </para>
+<itemizedlist>
+<listitem
+><para
+>La línia superior hauria de mostrar el nom principal, el tipus d'objecte i la mida de l'objecte a la línia superior. </para
+></listitem
+><listitem
+><para
+>La 2a línia hauria de mostrar qualsevol nom alternatiu que tinga l'objecte. </para
+></listitem
+><listitem
+><para
+>La 3a línia dona informació de trànsit i separació de la Lluna. </para
+></listitem
+><listitem
+><para
+>L'última línia permet afegir notes sobre l'objecte. Esta informació s'ha d'emmagatzemar de sessió a sessió de KStars a la seua base de dades MySQL, i es pren com a índex el nom de l'objecte. Editeu estes notes fent clic damunt de la icona del llapis a l'esquerra de la línia «Nota». Si afegiu tres URL cap a la nota (recordeu utilitzar http o https a l'inici de l'URL) llavors s'haurien de detectar automàticament i s'afegirà una icona per a navegar per estos URL cap a la línia «Nota». Si la nota que afegiu és massa llarga per a la línia assignada a la secció «Informació de l'objecte», sempre podreu veure la nota completa fent clic en el botó d'edició del llapis. </para
+></listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="imagingplanner-altitudegraph">
+<title
+>El gràfic d'altitud</title>
+<para
+>L'altitud de l'objecte seleccionat actualment es dibuixa en el gràfic «Altitud en funció del temps». El gràfic va des de just abans de la posta de sol fins just després de l'eixida del sol. Notareu un fons fosc durant la nit. També es pot notar un patró ombrejat que indica la il·luminació de la lluna al fons. L'altitud es dibuixa en blanc, però superposada a la part superior és una línia verda més gruixuda que indica quan l'objecte pot ser obtindre la imatge donades les restriccions (vegeu davall la secció Restriccions d'obtenció d'imatges). Per tant, si només veeu una línia d'altitud blanca, no es pot obtindre la imatge de l'objecte. Si veeu una línia verda, llavors estos són els temps i les altituds en què es pot obtindre la imatge de l'objecte. Si feu clic en el gràfic, veureu l'altitud de l'objecte seleccionat que es mostrarà a la part superior esquerra del gràfic. </para>
+</sect2>
+<sect2 id="imagingplanner-constraints">
+<title
+>Restriccions de l'obtenció d'imatges</title>
+<para
+>L'eina «Planificador de l'obtenció d'imatges» calcula quan es podran obtindre les imatges dels objectes durant la nit. Hi ha diverses restriccions que afecten este càlcul. Algunes estan definides en esta eina i algunes són paràmetres de KStars i Ekos que potser cal modificar. </para>
+<itemizedlist>
+<listitem
+><para
+>L'altitud mínima en graus a la qual es pot obtindre la imatge d'un objecte s'indica en el quadro «Alt. mín.». Si canvieu este valor, hauríeu de veure la columna «Hora» recalculada a la taula d'objectes i el gràfic recalculat a la secció «Informació de l'objecte». </para
+></listitem
+><listitem
+><para
+>Similar a l'altitud, podeu canviar l'angle mínim de separació de la Lluna en graus. </para
+></listitem
+><listitem
+><para
+>Si la casella de selecció «Horitzó artificial» està marcada, s'utilitzaran restriccions per a calcular els temps possibles de l'obtenció d'imatges. L'horitzó artificial és la part del cel que està tapada per a l'obtenció d'imatges per construccions o arbres o similars en la ubicació on es troba el telescopi. L'horitzó artificial es configura en un altre lloc de KStars (vegeu l'element de menu <link linkend="settingmenu"
+>Configuració</link
+> i baixeu a <menuchoice
+><guimenu
+>Configuració</guimenu
+> <guimenuitem
+>Horitzó artificial</guimenuitem
+></menuchoice
+>) i en la seua forma més simple, és una llista dels valors d'azimut i altitud. Si feu ús d'esta eina i obteniu imatges des d'una àrea on parts significatives del cel estan tapades, es recomana que configureu i utilitzeu esta característica. Associada amb l'horitzó artificial hi ha la <link linkend="terrain"
+>característica de terreny</link
+> del mapa celeste. Si configureu la imatge del terreny, quan l'eina «Planificador de l'obtenció d'imatges» mostre l'objecte al mapa celeste, veureu quan és relativa al vostre entorn local. Per descomptat, hauríeu d'establir un temps realista per a l'obtenció d'imatges, &ead;, si planifiqueu durant el dia i l'eina està localitzant objectes a l'hora actual, aleshores l'objecte pot estar post, darrere d'edificis o arbres. </para
+></listitem
+><listitem
+><para
+>KStars i Ekos utilitzen temps astronòmics de crepuscle per a restringir els temps de l'obtenció d'imatges. Si utilitzeu els valors predeterminats, no es capturarà cap imatge fora dels temps de crepuscle astronòmic. Si voleu ajustar açò, vegeu la restricció al menú «Desplaçament» del programador d'Ekos: canvieu el «Desplaçament de la posta» a positiu per a iniciar l'obtenció d'imatges més tard o a negatiu per a iniciar-la abans. De la mateixa manera, canvieu el «Desplaçament de l'alba» a positiu per a continuar l'obtenció d'imatges més temps, i a negatiu per a parar-la abans. Estos controls es troben seleccionant <menuchoice
+><guimenu
+>Eines</guimenu
+><guimenuitem
+>Ekos</guimenuitem
+></menuchoice
+> i després fent clic en la pestanya «Programador» (2a per l'esquerra), fent clic en el botó <guibutton
+>Opcions</guibutton
+> a la part inferior dreta i a la pestanya «Desplaçament» a la part superior esquerra. </para
+></listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="imagingplanner-search">
+<title
+>Busca d'imatge/objecte</title>
+<para
+>La secció «Busca» proporciona algunes dreceres per a investigar l'objecte actualment seleccionat. El botó <guibutton
+>Wikipedia</guibutton
+> obri una finestra del navegador a la Viquipèdia utilitzant l'identificador de l'objecte. Similar per a Simbad. El botó <guibutton
+>NGC/IC</guibutton
+> obri una finestra del navegador per al lloc web NGC/IC del Professor Seligman. </para>
+<para
+>El botó <guibutton
+>Astrobin</guibutton
+> utilitza la facilitat de busca Astrobin.com per a realitzar una busca d'imatges una mica més detallada. Podeu fer que busqui imatges a Astrobin amb un radi d'imatge determinat, i requerir que les imatges resultants hagen guanyat «Premes d'Astrobin» com ara la nominació de tria principal, tria principal o imatge del dia. Una vegada navegueu pel lloc web d'Astrobin, podeu, per descomptat, modificar les restriccions de busca d'Astrobin com vulgueu, amb les restriccions i capacitats del lloc web d'Astrobin. Les restriccions de busca d'Astrobin es poden ocultar i exposar utilitzant el botó de l'esquerra de la línia de busca. </para>
+</sect2>
+<sect2 id="imagingplanner-filters">
+<title
+>Filtres</title>
+<para
+>Hi ha diverses maneres de filtrar els objectes que es mostren a la taula d'objectes del «Planificador de l'obtenció d'imatges». El filtratge d'objectes els eliminarà de la taula, però s'hi pot tornar a accedir canviant el filtre. Cal tindre en compte que la secció de filtres es pot ocultar i exposar fent clic en el botó xicotet de l'esquerra de la secció de filtres. </para>
+<itemizedlist>
+<listitem
+><para
+>Els elements es poden filtrar per quantes hores són susceptibles d'obtenció d'imatges esta nit. Canvieu el valor a la casella <guibutton
+>Hores min.:</guibutton
+> i no es mostraran els objectes amb menys hores que este valor. </para
+></listitem
+><listitem
+><para
+>Si es marca o es desmarca un dels tipus d'objecte, els objectes amb estos tipus es mostraran o no. </para
+></listitem
+><listitem
+><para
+>Triat: En marcar-la només es mostraran els objectes «triats». De la mateixa manera, si marqueu «No triat», només es mostraran els objectes que no s'hagen seleccionat. Si marqueu «No importa» a la línia triada, l'estat triat serà irrellevant si un objecte es filtra de la taula. </para
+></listitem
+><listitem
+><para
+>Similar a triat, «Imatge obtinguda» fa que els objectes etiquetats prèviament es mostren o no. </para
+></listitem
+><listitem
+><para
+>Ignorat fa que els objectes etiquetats com a «ignorats» es mostren o no. </para
+></listitem
+><listitem
+><para
+>Busca paraules clau dins de les Notes que l'usuari ha afegit a l'objecte, i és «cert» si veu una paraula a la nota que coincidisca amb la paraula clau (vegeu la secció «Informació de l'objecte» de més amunt). </para
+></listitem>
+</itemizedlist>
+<para
+>El botó <guibutton
+>Carrega les imatges obtingudes</guibutton
+> a la fila d'imatges obtingudes de la secció «Filtres» permet carregar un fitxer d'una imatge obtinguda. Este fitxer és una llista senzilla de noms d'objectes, un per fila, que podeu construir i carregar. En carregar-lo, l'eina farà que es recorden els noms d'estos objectes i els marcarà com a imatges ja obtingudes quan els trobe. Si voleu desfer esta acció, la manera de fer-ho és establir els filtres per a mostrar només els objectes amb imatge obtinguda i, a continuació, utilitzar el menú del clic dret o «Ctrl+fes clic» per a establir els objectes desitjats com a no obtindre les imatges. Podeu accelerar-ho seleccionant molts objectes alhora amb la tècnica de clic i després clic amb majúscules. </para>
+</sect2>
+<sect2 id="imagingplanner-image">
+<title
+>Imatge d'objectes</title>
+<para
+>Si està disponible, es mostrarà una imatge xicoteta de l'objecte seleccionat. En fer clic damunt de la imatge, la línia de crèdit de l'astrofotògraf o la línia de l'URL, si s'ha proporcionat un enllaç s'obrirà un navegador cap a una imatge completa. </para>
+<para
+>Cal tindre en compte que el botó <guibutton
+>Carrega un catàleg</guibutton
+> també es troba en esta secció. </para>
+</sect2>
+<sect2 id="imagingplanner-setup">
+<title
+>Configureu KStars per al «Planificador de l'obtenció d'imatges»</title>
+<para
+>Hi ha diverses maneres de configurar KStars per a millorar la vostra experiència amb esta eina. </para>
+<itemizedlist>
+<listitem
+><para
+>El més important és anar fins a <menuchoice
+><guimenu
+>Dades</guimenu
+> <guimenuitem
+>Descarrega dades noves…</guimenuitem
+></menuchoice
+> i descarregar un catàleg associat amb esta eina. La primera vegada que utilitzeu esta eina haureu de fer clic en el botó «Carrega un catàleg» i carregar el catàleg descarregat. L'eina hauria de descarregar automàticament el catàleg en execucions posteriors. </para
+></listitem
+><listitem
+><para
+>Una altra cosa important a fer, també al menú anterior <menuchoice
+><guimenu
+>Dades</guimenu
+> <guimenuitem
+>Descarrega dades noves…</guimenuitem
+></menuchoice
+>, és descarregar alguns catàlegs d'objectes del cel profund. En particular, els catàlegs NGC IC, OpenNGC, Sharpless, Abell, Lynds i Hickson serien útils. Podeu executar el «Planificador de l'obtenció d'imatges» sense estes baixades (xicotetes), però el temps d'inici de la primera vegada que utilitzeu esta eina serà molt més llarg si no les baixeu. </para
+></listitem
+><listitem
+><para
+>Llegiu la secció anterior «Restriccions de l'obtenció d'imatges» i seguiu els suggeriments que hi ha, de manera que esta eina puga predir millor el temps en el qual es podrà obtindre la imatge d'un objecte durant la data seleccionada. </para
+></listitem
+><listitem
+><para
+>Els objectes seleccionats es poden centrar automàticament a la pantalla del mapa celeste. Si esta visualització és útil, és possible que vulgueu ajustar el zoom de manera que estiga a prop del camp de visió del capturador d'imatges. Els elements de davall també se'ls aplicarà esta visualització del mapa celeste. </para
+></listitem
+><listitem
+><para
+>També és possible que vulgueu establir l'hora a KStars per a reflectir quan estareu obtenint imatges. Vegeu el menú «Temps». </para
+></listitem
+><listitem
+><para
+>Si no heu establit l'hora, és possible que vulgueu ocultar la visualització del terra (si l'heu configurat) i tampoc renderitzar-lo, ja que pot enfosquir l'objecte. Mostreu i oculteu la visualització del terreny al menú «Visualització», i el terra es pot desactivar a <menuchoice
+><guimenu
+>Configuració</guimenu
+> <guimenuitem
+>Guies</guimenuitem
+></menuchoice
+> amb la casella de selecció «Terra opac». </para
+></listitem
+><listitem
+><para
+>Si esteu utilitzant un mapa celeste basat en HiPS, probablement voldreu còpies locals de les dades DSS per a accelerar la renderització del mapa celeste. Vegeu <menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Totes les superposicions del cel de HiPS</guimenuitem
+></menuchoice
+> i davall d'açò <menuchoice
+> <guimenu
+>Configuració de HiPS…</guimenu
+> <guimenuitem
+>Memòria cau</guimenuitem
+></menuchoice
+> i activar la memòria cau i introduir la ubicació de la còpia local de les dades. Les dades estan disponibles a https://irsa.ipac.caltech.edu/data/hips/CDS/DSS2/color/Norder1 … /Norder7 i un altre recurs és https://coochey.net/?p=699 </para
+></listitem
+><listitem
+><para
+>Seria útil crear un «Símbol de CDV» personalitzat per al mapa celeste, el qual serà el mateix que el camp de visió del vostre capturador d'imatges. Vegeu <menuchoice
+><guimenu
+>Configuració</guimenu
+> <guimenuitem
+>Símbols de CDV</guimenuitem
+></menuchoice
+>, i a dins seleccioneu <menuchoice
+><guimenu
+>Nou</guimenu
+> <guimenuitem
+>Càmera</guimenuitem
+></menuchoice
+>, i introduïu la distància focal de l'òptica i les especificacions de la càmera. </para
+></listitem
+><listitem
+><para
+>Potser voleu ajustar el tema de color, &pex;, a <menuchoice
+><guimenu
+>Configuració</guimenu
+> <guimenuitem
+>Temes</guimenuitem
+></menuchoice
+> a «Black Body» si vos agraden els temes foscos. </para
+></listitem>
+</itemizedlist>
+</sect2>
+<sect2 id="imagingplanner-catalogs">
+<title
+>Catàlegs</title>
+<para
+>KStars actualment proporciona un catàleg únic per a la planificació de l'obtenció d'imatges a través de l'element de menú <menuchoice
+><guimenu
+>Dades</guimenu
+> <guimenuitem
+>Descarrega dades noves…</guimenuitem
+></menuchoice
+>. L'esperança és que hi haja catàlegs especialitzats en el futur, i possiblement també catàlegs generats per usuaris. Per tant, el catàleg té un format llegible pels humans. </para>
+<sect3 id="imagingplanner-catalogs-format">
+ <title
+>Format dels catàlegs</title>
+<para
+>El format actualment s'un fitxer separat per comes amb un objecte en cada fila. </para>
+<itemizedlist>
+<listitem
+><para
+>La primera columna és un identificador d'objecte, el qual és el tipus d'identificador que funcionarà amb l'<link linkend="findobjects"
+>eina de «Busca un objecte»</link
+> de KStars. </para
+></listitem
+><listitem
+><para
+>La 2a columna és un nom de fitxer (relatiu a la ubicació del catàleg) on es troba una imatge JPEG d'aproximadament 300x300 de l'objecte. </para
+></listitem
+><listitem
+><para
+>La 3a columna és el nom del fotògraf de la imatge. </para
+></listitem
+><listitem
+><para
+>La 4a és un enllaç cap a una versió més gran de la imatge, </para
+></listitem
+><listitem
+><para
+>La 5a columna és el permís de llicència Creative Commons per a utilitzar la imatge (&pex;, ACC és Reconeixement Creative Commons, ANCSACC és Reconeixement No Comercial Compartir Igual Creative Commons, utilitzant les mateixes convencions que el lloc web Astrobin.com). </para
+></listitem>
+</itemizedlist>
+<para
+>Per a afegir un objecte sense cap imatge, senzillament afegiu l'ID de l'objecte sense comes finals, o un ID de l'objecte seguit de 4 comes, com una d'estes línies (sense cometes): «M 42» o «M 42,,,,». Un exemple de línia completa podria ser: «M 42,M42.jpg,Hy Murveit,https://www.astrobin.com/x4dpey/,ACC». </para>
+<para
+>Hi ha altres files especialitzades possibles: </para>
+<itemizedlist>
+  <listitem
+><para
+>Les files que comencen per # són comentaris.</para
+></listitem
+>    
+  <listitem
+><para
+>Les files que contenen LoadCatalog RELATIVE_CATALOG_FILENAME signifiquen que el contingut de RELATIVE_CATALOG_FILENAME s'ha de llegir com si estiguera en este fitxer de catàleg.</para
+></listitem
+>    
+</itemizedlist>
+<para
+>Si voleu afegir els vostres propis objectes al catàleg existent, podeu fer-ho creant un catàleg propi, diguem al vostre escriptori en un fitxer «.csv», i que tinga a la primera línia una inclusió del catàleg existent amb una línia LoadCatalog, i les línies posteriors amb la llista dels vostres objectes nous. A continuació, executaríeu Load Catalog al fitxer «.csv» nou. </para>
+</sect3>
+<sect3 id="imagingplanner-catalogs-loading">
+ <title
+>Càrrega dels catàlegs</title>
+<itemizedlist>
+<listitem
+><para
+>Els catàlegs llegits de <menuchoice
+><guimenu
+>Dades</guimenu
+> <guimenuitem
+>Descarrega dades noves…</guimenuitem
+></menuchoice
+> s'emmagatzemen al directori de dades estàndard de KStars, però els catàlegs es poden llegir des de qualsevol lloc. </para
+></listitem
+><listitem
+><para
+>Utilitzeu el botó <guibutton
+>Carrega un catàleg</guibutton
+> del «Planificador de l'obtenció d'imatges» per a llegir un catàleg nou. </para
+></listitem
+><listitem
+><para
+>Quan es llig un catàleg, es descartarà el catàleg anterior. </para
+></listitem
+><listitem
+><para
+>Quan s'inicia l'eina, es llig el catàleg que s'ha carregat l'última vegada a la sessió anterior. </para
+></listitem>
+</itemizedlist>
+</sect3>
+</sect2>
+</sect1>
