@@ -600,6 +600,7 @@ void SequenceJob::prepareCapture()
 
 void SequenceJob::processPrepareComplete(bool success)
 {
+    qDebug(KSTARS_EKOS_CAPTURE) << "Sequence job: capture preparation" << (success ? "succeeded" : "failed");
     emit prepareComplete(success);
 }
 

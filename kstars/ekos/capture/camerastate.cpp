@@ -1528,6 +1528,7 @@ void CameraState::setPrepareComplete(bool success)
 
     if (success)
     {
+        qDebug(KSTARS_EKOS_CAPTURE) << "Capture preparation succeeded, start capturing.";
         setCaptureState(CAPTURE_PROGRESS);
         emit executeActiveJob();
     }

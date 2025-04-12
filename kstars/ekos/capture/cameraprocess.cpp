@@ -697,9 +697,11 @@ void CameraProcess::executeJob()
     {
         checkCamera();
         checkCaptureOperationsTimeout(std::bind(&CameraProcess::executeJob, this));
+        qWarning(KSTARS_EKOS_CAPTURE) << "Job execution failed, no active" << (activeCamera() ? "chip" : "camera");
         return;
     }
 
+    qDebug(KSTARS_EKOS_CAPTURE) << "Executing the sequence job.";
     QList<FITSData::Record> FITSHeaders;
     if (Options::defaultObserver().isEmpty() == false)
         FITSHeaders.append(FITSData::Record("Observer", Options::defaultObserver(), "Observer"));
