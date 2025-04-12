@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-11 01:51+0000\n"
-"PO-Revision-Date: 2025-01-31 13:13+0100\n"
+"POT-Creation-Date: 2025-04-12 01:49+0000\n"
+"PO-Revision-Date: 2025-04-11 22:27+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 25.03.70\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2970,7 +2970,7 @@ msgstr "Вид на съпоставянето"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2448 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:323
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -6610,8 +6610,8 @@ msgstr "Световната координатна система (WCS) е де
 msgid "Capture error. Aborting..."
 msgstr "Грешка при заснемане. Прекъсване..."
 
-#: ekos/align/align.cpp:3301 ekos/capture/cameraprocess.cpp:1624
-#: ekos/capture/cameraprocess.cpp:2183
+#: ekos/align/align.cpp:3301 ekos/capture/cameraprocess.cpp:1626
+#: ekos/capture/cameraprocess.cpp:2185
 #, kde-format
 msgid "Restarting capture attempt #%1"
 msgstr "Рестартиране на опита за заснемане #%1"
@@ -6711,7 +6711,7 @@ msgstr "Не може да се записва във файл %1"
 
 #: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2938
-#: ekos/capture/cameraprocess.cpp:2593 ekos/capture/sequencequeue.cpp:33
+#: ekos/capture/cameraprocess.cpp:2595 ekos/capture/sequencequeue.cpp:33
 #: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3141
 #: ekos/scheduler/schedulerprocess.cpp:3488
 #: ekos/scheduler/schedulerprocess.cpp:4867
@@ -7370,7 +7370,7 @@ msgid "Open Ekos Alignment List"
 msgstr "Отваряне на списък за подравняване на Ekos"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2937
-#: ekos/capture/cameraprocess.cpp:2592 ekos/capture/sequencequeue.cpp:32
+#: ekos/capture/cameraprocess.cpp:2594 ekos/capture/sequencequeue.cpp:32
 #: ekos/scheduler/schedulerprocess.cpp:3487
 #: ekos/scheduler/schedulerprocess.cpp:4886
 #, kde-format
@@ -8582,13 +8582,13 @@ msgstr "Използване на диференциално завъртане 
 #: ekos/align/opsastrometryindexfiles.cpp:161
 #, kde-format
 msgid "No index file directories configured."
-msgstr ""
+msgstr "Няма конфигурирани директории за индексни файлове."
 
 #: ekos/align/opsastrometryindexfiles.cpp:185
 #: ekos/align/opsastrometryindexfiles.cpp:636
 #, kde-format
 msgid "No writable index file directory found."
-msgstr ""
+msgstr "Не е намерена директория с индексен файл с възможност за запис."
 
 #: ekos/align/opsastrometryindexfiles.cpp:191
 #: ekos/align/opsastrometryindexfiles.cpp:699
@@ -12440,22 +12440,18 @@ msgid "Last AF Alt (°Alt)"
 msgstr "Последна АФ Alt (°Alt)"
 
 #: ekos/auxiliary/filtermanager.cpp:147
-#, fuzzy, kde-format
-#| msgid ""
-#| "The altitude of the last AF solution. Updated automatically by the "
-#| "autofocus process."
+#, kde-format
 msgid ""
 "The datetime of the last AF solution. Updated automatically by the autofocus "
 "process."
 msgstr ""
-"Височината на последното решение на АФ. Актуализира се автоматично от "
+"Дата и час на последното решение на АФ. Актуализира се автоматично от "
 "процеса на автофокус."
 
 #: ekos/auxiliary/filtermanager.cpp:148
-#, fuzzy, kde-format
-#| msgid "Last AF Solution"
+#, kde-format
 msgid "Last AF Datetime"
-msgstr "Последно решение за автофокус"
+msgstr "Последна дата и час  за автофокус"
 
 #: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
@@ -14852,7 +14848,7 @@ msgstr "Филтърът е настроен на %1."
 msgid "Are you sure you want to reset status of all jobs?"
 msgstr "Сигурни ли сте, че искате да нулирате състоянието на всички задачи?"
 
-#: ekos/capture/camera.cpp:3982 ekos/capture/cameraprocess.cpp:2713
+#: ekos/capture/camera.cpp:3982 ekos/capture/cameraprocess.cpp:2715
 #, kde-format
 msgid "Reset job status"
 msgstr "Нулиране на състоянието на задачата"
@@ -15098,7 +15094,7 @@ msgid "Dark & Flat frames automatic calibration options"
 msgstr "Опции за автоматично калибриране на тъмни и плоски кадри"
 
 #. i18n: ectx: property (text), widget (QLabel, calibrationLabel)
-#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2461
+#: ekos/capture/camera.ui:1176 ekos/capture/cameraprocess.cpp:2463
 #: ekos/guide/guide.cpp:70
 #, kde-format
 msgid "Calibration"
@@ -15770,7 +15766,7 @@ msgstr ""
 msgid "No new job created."
 msgstr "Няма създадени нови задачи."
 
-#: ekos/capture/cameraprocess.cpp:308 ekos/capture/cameraprocess.cpp:882
+#: ekos/capture/cameraprocess.cpp:308 ekos/capture/cameraprocess.cpp:884
 #, kde-format
 msgid "Cannot capture while focus module is busy."
 msgstr "Не може да се заснеме, докато модулът за фокусиране е зает."
@@ -15851,27 +15847,27 @@ msgstr ""
 msgid "Job requires %1 x %2-second %3 video and will be processed."
 msgstr "Задачата изисква %1 x %2-секундни %3 видео и ще бъде обработена."
 
-#: ekos/capture/cameraprocess.cpp:828
+#: ekos/capture/cameraprocess.cpp:830
 #, kde-format
 msgid "Autoguiding resumed."
 msgstr "Автонасочването е възобновено."
 
-#: ekos/capture/cameraprocess.cpp:872
+#: ekos/capture/cameraprocess.cpp:874
 #, kde-format
 msgid "Failed to set sub frame."
 msgstr "Неуспешно задаване на подкадър."
 
-#: ekos/capture/cameraprocess.cpp:877
+#: ekos/capture/cameraprocess.cpp:879
 #, kde-format
 msgid "Failed to set binning."
 msgstr "Неуспешно задаване на бининг."
 
-#: ekos/capture/cameraprocess.cpp:1037
+#: ekos/capture/cameraprocess.cpp:1039
 #, kde-format
 msgid "file saved to %1"
 msgstr "файлът е записан в %1"
 
-#: ekos/capture/cameraprocess.cpp:1047
+#: ekos/capture/cameraprocess.cpp:1049
 #, kde-format
 msgid ""
 "Failed writing image to %1\n"
@@ -15880,125 +15876,125 @@ msgstr ""
 "Неуспешно записване на изображение в %1\n"
 "Моля, проверете папката, името на файла и разрешенията."
 
-#: ekos/capture/cameraprocess.cpp:1049
+#: ekos/capture/cameraprocess.cpp:1051
 #, kde-format
 msgid "Image Write Failed"
 msgstr "Неуспешно записване на изображение"
 
-#: ekos/capture/cameraprocess.cpp:1274
+#: ekos/capture/cameraprocess.cpp:1276
 #, kde-format
 msgid "Remote image saved to %1"
 msgstr "Отдалеченото изображение е запазено в %1"
 
-#: ekos/capture/cameraprocess.cpp:1300
+#: ekos/capture/cameraprocess.cpp:1302
 #, kde-format
 msgid "Autoguiding suspended."
 msgstr "Автоматичното насочване е спряно."
 
-#: ekos/capture/cameraprocess.cpp:1330
+#: ekos/capture/cameraprocess.cpp:1332
 #, kde-format
 msgid "Warning: Calibration process was prematurely terminated."
 msgstr "Предупреждение: Процесът на калибриране е прекратен преждевременно."
 
 #. i18n("CCD capture sequence completed"));
-#: ekos/capture/cameraprocess.cpp:1396
+#: ekos/capture/cameraprocess.cpp:1398
 #, kde-format
 msgid "CCD capture sequence completed"
 msgstr "CCD последователността на заснемане е завършена"
 
-#: ekos/capture/cameraprocess.cpp:1453
+#: ekos/capture/cameraprocess.cpp:1455
 #, kde-format
 msgid "Error: Lost connection to CCD."
 msgstr "Грешка: Загубена връзка с CCD."
 
-#: ekos/capture/cameraprocess.cpp:1481
+#: ekos/capture/cameraprocess.cpp:1483
 #, kde-format
 msgid "Cannot calculate ADU levels in non-FITS images."
 msgstr ""
 "Не може да се изчислят нивата на ADU (analog to digital units) в "
 "изображения, които не са във формат FITS."
 
-#: ekos/capture/cameraprocess.cpp:1616 ekos/capture/cameraprocess.cpp:2175
+#: ekos/capture/cameraprocess.cpp:1618 ekos/capture/cameraprocess.cpp:2177
 #, kde-format
 msgid "Capture failed. Check INDI Control Panel for details."
 msgstr ""
 "Заснемането е неуспешно. Проверете контролния панел на INDI за подробности."
 
-#: ekos/capture/cameraprocess.cpp:1716
+#: ekos/capture/cameraprocess.cpp:1718
 #, kde-format
 msgid "Download Time: %1 s, New Download Time Estimate: %2 s."
 msgstr "Време за изтегляне: %1 s, нова оценка на времето за изтегляне: %2 s."
 
-#: ekos/capture/cameraprocess.cpp:1782
+#: ekos/capture/cameraprocess.cpp:1784
 #, kde-format
 msgid "Received image %1 out of %2."
 msgstr "Получено изображение %1 от %2."
 
-#: ekos/capture/cameraprocess.cpp:1819
+#: ekos/capture/cameraprocess.cpp:1821
 #, kde-format
 msgid "Captured %1"
 msgstr "Изображение %1 е заснето"
 
-#: ekos/capture/cameraprocess.cpp:1825
+#: ekos/capture/cameraprocess.cpp:1827
 #, kde-format
 msgid "WARNING: remaining and potentially unknown placeholders %1 in %2"
 msgstr "ПРЕДУПРЕЖДЕНИЕ: останали и потенциално неизвестни заместители %1 в %2"
 
-#: ekos/capture/cameraprocess.cpp:1866
+#: ekos/capture/cameraprocess.cpp:1868
 #, kde-format
 msgid "Executing capture script %1"
 msgstr "Изпълнява се скрипт за улавяне %1"
 
-#: ekos/capture/cameraprocess.cpp:1881
+#: ekos/capture/cameraprocess.cpp:1883
 #, kde-format
 msgid "Pre capture script finished with code %1."
 msgstr "Скриптът за предварително заснемане завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:1892
+#: ekos/capture/cameraprocess.cpp:1894
 #, kde-format
 msgid "Post capture script finished with code %1."
 msgstr "Скриптът за последващо заснемане завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:1904
+#: ekos/capture/cameraprocess.cpp:1906
 #, kde-format
 msgid "Processing meridian flip..."
 msgstr "Обръщане на меридиана се обработва..."
 
-#: ekos/capture/cameraprocess.cpp:1914
+#: ekos/capture/cameraprocess.cpp:1916
 #, kde-format
 msgid "Pre job script finished with code %1."
 msgstr "Скриптът за предварителна работа завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:1919
+#: ekos/capture/cameraprocess.cpp:1921
 #, kde-format
 msgid "Post job script finished with code %1."
 msgstr "Скриптът за последваща работа завърши с код %1."
 
-#: ekos/capture/cameraprocess.cpp:2105 ekos/focus/focus.cpp:5779
+#: ekos/capture/cameraprocess.cpp:2107 ekos/focus/focus.cpp:5779
 #: ekos/focus/focus.cpp:5803
 #, kde-format
 msgid "Exposure timeout. Aborting..."
 msgstr "Изчакване на експозицията. Прекъсване..."
 
-#: ekos/capture/cameraprocess.cpp:2112
+#: ekos/capture/cameraprocess.cpp:2114
 #, kde-format
 msgid "Exposure timeout. More than 3 have been detected, will restart driver."
 msgstr ""
 "Изчакване на експозицията. Засечени са повече от три опита. Драйверът се "
 "рестартира..."
 
-#: ekos/capture/cameraprocess.cpp:2130 ekos/focus/focus.cpp:5784
+#: ekos/capture/cameraprocess.cpp:2132 ekos/focus/focus.cpp:5784
 #: ekos/guide/guide.cpp:997
 #, kde-format
 msgid "Exposure timeout. Restarting exposure..."
 msgstr "Изчакване на експозицията. Експозицията се рестартира..."
 
-#: ekos/capture/cameraprocess.cpp:2156
+#: ekos/capture/cameraprocess.cpp:2158
 #, kde-format
 msgid "Exposure timeout. Too many. Aborting..."
 msgstr "Времето на изчакване на експозицията изтече. Прекъсване..."
 
-#: ekos/capture/cameraprocess.cpp:2234
+#: ekos/capture/cameraprocess.cpp:2236
 #, kde-format
 msgid ""
 "Flat calibration failed. Captured image is only %1-bit while requested ADU "
@@ -16007,19 +16003,19 @@ msgstr ""
 "Калибрирането с плоско поле е неуспешно. Заснетото изображение е само %1-"
 "битово, а исканото ADU е %2."
 
-#: ekos/capture/cameraprocess.cpp:2245
+#: ekos/capture/cameraprocess.cpp:2247
 #, kde-format
 msgid "Current image is saturated (%1). Next exposure is %2 seconds."
 msgstr ""
 "Текущото изображение е наситено (%1). Следващата експозиция е %2 секунди."
 
-#: ekos/capture/cameraprocess.cpp:2267
+#: ekos/capture/cameraprocess.cpp:2269
 #, kde-format
 msgid "Current ADU %1 within target ADU tolerance range."
 msgstr ""
 "Текущо ADU %1 в рамките на целевия диапазон на допустимите отклонения на ADU."
 
-#: ekos/capture/cameraprocess.cpp:2296
+#: ekos/capture/cameraprocess.cpp:2298
 #, kde-format
 msgid ""
 "Unable to calculate optimal exposure settings, please capture the flats "
@@ -16028,27 +16024,27 @@ msgstr ""
 "При невъзможност за изчисляване на оптимални настройки на експозицията, "
 "моля, заснемете плоските кадри ръчно."
 
-#: ekos/capture/cameraprocess.cpp:2304
+#: ekos/capture/cameraprocess.cpp:2306
 #, kde-format
 msgid "Current ADU is %1 Next exposure is %2 seconds."
 msgstr "Текущото ADU е %1 Следващата експозиция е %2 секунди."
 
-#: ekos/capture/cameraprocess.cpp:2445
+#: ekos/capture/cameraprocess.cpp:2447
 #, kde-format
 msgid "%1 Preview"
 msgstr "%1 Преглед"
 
-#: ekos/capture/cameraprocess.cpp:2456 ekos/capture/cameraprocess.cpp:2458
+#: ekos/capture/cameraprocess.cpp:2458 ekos/capture/cameraprocess.cpp:2460
 #, kde-format
 msgid "Flat Calibration"
 msgstr "Калибриране с плоско поле"
 
-#: ekos/capture/cameraprocess.cpp:2662
+#: ekos/capture/cameraprocess.cpp:2664
 #, kde-format
 msgid "Sequence paused."
 msgstr "Последователността е паузирана."
 
-#: ekos/capture/cameraprocess.cpp:2712
+#: ekos/capture/cameraprocess.cpp:2714
 #, kde-format
 msgid ""
 "All jobs are complete. Do you want to reset the status of all jobs and "
@@ -16057,7 +16053,7 @@ msgstr ""
 "Всички задачи са завършени. Искате ли да нулирате състоянието на всички "
 "задачи и да рестартирате заснемането?"
 
-#: ekos/capture/cameraprocess.cpp:2726
+#: ekos/capture/cameraprocess.cpp:2728
 #, kde-format
 msgid ""
 "Warning: option \"Always Reset Sequence When Starting\" is enabled and "
@@ -16066,17 +16062,17 @@ msgstr ""
 "Предупреждение: опцията \"Винаги нулиране на последователността при "
 "стартиране\" е активирана и нулира броячите на последователността."
 
-#: ekos/capture/cameraprocess.cpp:2856
+#: ekos/capture/cameraprocess.cpp:2858
 #, kde-format
 msgid "Are you sure you want to restart %1 camera driver?"
 msgstr "Сигурни ли сте, че искате да рестартирате %1 драйвер за камера?"
 
-#: ekos/capture/cameraprocess.cpp:2857
+#: ekos/capture/cameraprocess.cpp:2859
 #, kde-format
 msgid "Driver Restart"
 msgstr "Презареждане на драйвера"
 
-#: ekos/capture/cameraprocess.cpp:3004 ekos/capture/sequencejobstate.cpp:41
+#: ekos/capture/cameraprocess.cpp:3006 ekos/capture/sequencejobstate.cpp:41
 #, kde-format
 msgid "Capture operations timed out after %1 seconds."
 msgstr "Времето на операциите за заснемане изтече след %1 секунди."
@@ -16455,6 +16451,8 @@ msgstr ""
 #, kde-format
 msgid "Filter manager is not initilized yet. Filter wheel missing from train?"
 msgstr ""
+"Диспечерът на филтри все още не е инициализиран. Филтърното колело липсва от "
+"системата?"
 
 #: ekos/capture/capturedeviceadaptor.cpp:677
 #, kde-format
@@ -17807,10 +17805,9 @@ msgid "Parking mount failed, aborting..."
 msgstr "Неуспешно монтиране при паркиране, прекъсване..."
 
 #: ekos/capture/sequencejobstate.cpp:507
-#, fuzzy, kde-format
-#| msgid "Unparking dome..."
+#, kde-format
 msgid "Unparking mount..."
-msgstr "Разпаркиране на купола..."
+msgstr "Разпаркиране на монтировката..."
 
 #: ekos/capture/sequencejobstate.cpp:516
 #: ekos/scheduler/schedulerprocess.cpp:1809
@@ -19126,7 +19123,7 @@ msgstr "Отхвърляне на заявка за стартиране на а
 #: ekos/focus/focus.cpp:1093
 #, kde-format
 msgid "Autofocus request [%1] optimized out."
-msgstr ""
+msgstr "Заявката за автофокус [%1] е оптимизирана."
 
 #: ekos/focus/focus.cpp:1250
 #, kde-format
@@ -21627,7 +21624,7 @@ msgstr "Преустановяване на гидирането"
 #: ekos/focus/opsfocussettings.ui:248
 #, kde-format
 msgid "Optimize AF:"
-msgstr ""
+msgstr "Оптимизиране на AF:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, focusAFOptimize)
 #: ekos/focus/opsfocussettings.ui:261
@@ -21644,6 +21641,17 @@ msgid ""
 "experimental feature enabled for Linear and Linear 1 Pass only.</p></body></"
 "html>"
 msgstr ""
+"<html><head/><body><p>Създаване на &quot;зона за оптимизиране&quot; от "
+"секундите. Когато автоматично стартиране на автофокус е поискано от друг "
+"процес, напр. Планиране или Заснемане, се извършва проверка на клеймото за "
+"време на последния успешен автофокус за този филтър. Ако сме в зоната на "
+"оптимизация, тогава не се изпълнява автофокус; ако е извън зоната, "
+"автофокусът се изпълнява както обикновено.</p><p>Имайте предвид, че "
+"отместванията на филтъра и настройките за адаптивен фокус винаги се зачитат."
+"</p><p>Задайте нула, за да деактивирате тази функция.</p><p>ЗАБЕЛЕЖКА: "
+"винаги ще се изпълняват ръчно инициирани процеси.</p><p>Това в момента е "
+"експериментална функция, активирана само за линеен и единично линейно "
+"преминаване.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, focusMosaicMaskRB)
 #: ekos/focus/opsfocussettings.ui:295
@@ -27575,6 +27583,7 @@ msgstr "Позиционен ъгъл:"
 #, kde-format
 msgid "Go to center and rotate to match this position angle"
 msgstr ""
+"Отидете до центъра и завъртете, за да съответства на този ъгъл на позиция"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: ekos/scheduler/framingassistant.ui:855
@@ -28245,6 +28254,13 @@ msgid ""
 "or grace period expiration, after which the current job is terminated.</p></"
 "body></html>"
 msgstr ""
+"<html><head/><body><p><span style=\" font-weight:700;\">Активиране на "
+"график, базиран на времето:</span> Предотвратява стартирането на нови "
+"задания по време на предупреждения или сигнали за лошо време. Съществуващите "
+"задания продължават по време на предупреждения, но се прекъсват по време на "
+"сигнал за лошо време. Системата инициира плавно изключване и изчаква "
+"подобрени условия или изтичане на гратисния период, след което текущата "
+"задача се прекратява.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
@@ -29096,7 +29112,7 @@ msgstr ""
 #: ekos/scheduler/scheduler.ui:1734
 #, kde-format
 msgid "Moon  min. sep.:"
-msgstr ""
+msgstr "Луна мин. септ.:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonAltitude)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonAltitudeMaxValue)
@@ -29410,7 +29426,7 @@ msgstr "Мороу"
 #: ekos/scheduler/scheduleraltitudegraph.cpp:145
 #, kde-format
 msgid "Day After Tomorrow"
-msgstr ""
+msgstr "Вдругиден"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:146
 #, fuzzy, kde-format
@@ -29560,6 +29576,8 @@ msgstr ""
 msgid ""
 "Job '%1' cannot start because weather status is %2 and grace period is over."
 msgstr ""
+"Задачата „%1“ не може да започне, защото състоянието на времето е %2 и "
+"гратисният период е приключил."
 
 #: ekos/scheduler/schedulerprocess.cpp:671
 #: ekos/scheduler/schedulerprocess.cpp:681
@@ -29575,6 +29593,8 @@ msgid ""
 "Job '%1' cannot start because weather status is %2. Waiting until weather "
 "improves or until %3"
 msgstr ""
+"Задачата „%1“ не може да стартира, защото състоянието на времето е %2. "
+"Изчаква се времето да се подобри или докато %3"
 
 #: ekos/scheduler/schedulerprocess.cpp:702
 #, kde-format
@@ -30306,12 +30326,16 @@ msgstr "Паркирането на купола е неуспешно. Рест
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
 msgstr ""
+"Открито е предупреждение за лошо време. Стартиране на процедура за плавно "
+"изключване."
 
 #: ekos/scheduler/schedulerprocess.cpp:4150
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
+"Обсерваторията е планирана за плавно изключване, докато времето се подобри "
+"или до %1."
 
 #: ekos/scheduler/schedulerprocess.cpp:4175
 #, kde-format
@@ -36850,7 +36874,7 @@ msgstr ""
 #: kstars.kcfg:1106
 #, kde-format
 msgid "Start solving immediately after taking a screenshot."
-msgstr ""
+msgstr "Започване на решаване веднага след заснемане на екранна снимка."
 
 #. i18n: ectx: whatsthis, entry (ImagingPlannerStartSolvingImmediately), group (ImagingPlanner)
 #: kstars.kcfg:1107
@@ -36859,6 +36883,8 @@ msgid ""
 "Start solving immediately after taking a screenshot, instead of waiting for "
 "the Solve button to be pressed."
 msgstr ""
+"Започване на решаването веднага след заснемане на екранна снимка, вместо да "
+"се изчака да бъде натиснат бутона Решаване."
 
 #. i18n: ectx: label, entry (ObsListSymbol), group (ObservingList)
 #: kstars.kcfg:1113
@@ -76725,7 +76751,7 @@ msgstr "Височина на фокусиране:"
 #: oal/equipmentwriter.ui:1250
 #, kde-format
 msgid "yyyy-MM-dd hh:mm:ss"
-msgstr ""
+msgstr "гггг-ММ-дд чч:мм:сс"
 
 #. i18n: ectx: property (text), widget (QPushButton, AddFilter)
 #: oal/equipmentwriter.ui:1284
@@ -83380,16 +83406,19 @@ msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
+"Потърсете в онлайн сайта galaxymap.org за информация относно обектите "
+"Sharpless2."
 
 #: tools/imagingplanner.cpp:2590
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
+"Потърсете онлайн сайта на НАСА за информация относно обектите на Месие."
 
 #: tools/imagingplanner.cpp:2595
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
-msgstr ""
+msgstr "Потърсете в онлайн сайта на Емил Иванов информация за VDB обекти."
 
 #: tools/imagingplanner.cpp:2738
 #, kde-format
@@ -83472,6 +83501,8 @@ msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr ""
+"Направете екранна снимка на изображение на %1, разрешете го и го поставете "
+"временно върху SkyMap"
 
 #: tools/imagingplanner.cpp:3637
 #, kde-format
@@ -83576,6 +83607,9 @@ msgid ""
 "                 Catalog Development:\n"
 "              "
 msgstr ""
+"\n"
+"                 Разработване на каталог:\n"
+"              "
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelDownsampleButton)
 #: tools/imagingplanner.ui:464
@@ -83594,7 +83628,7 @@ msgstr "Намаляване на дискретизацията"
 #: tools/imagingplanner.ui:568
 #, kde-format
 msgid "For catalog development"
-msgstr ""
+msgstr "За разработване на каталог"
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelCheckTargetsButton)
 #: tools/imagingplanner.ui:486
@@ -83712,6 +83746,9 @@ msgid ""
 "least the number of degrees in the 1st box away from the moon, and the moon "
 "must be below the altitude in the 2nd box.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>За изчисляване на часове за изображения, обектът "
+"трябва да е поне на броя градуси в 1-во поле от луната, а луната трябва да е "
+"под височината във 2-ро поле.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1194
@@ -84271,7 +84308,7 @@ msgstr ""
 #: tools/imagingplanneroptions.ui:40
 #, kde-format
 msgid "Start Solving Immediately"
-msgstr ""
+msgstr "Започване на решаването незабавно"
 
 #: tools/jmoontool.cpp:30
 #, kde-format
