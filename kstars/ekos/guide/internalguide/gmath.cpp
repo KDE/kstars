@@ -685,7 +685,7 @@ void cgmath::calculateRmsError(void)
         }
 
         // Use PHD2's formula for population standard deviation
-        double variance = (count * sumYSq - sumY * sumY) / (count * count);
+        double variance = count < 2 ? 0 : (count * sumYSq - sumY * sumY) / (count * count);
         if (variance >= 0.0)
             out_params.sigma[k] = sqrt(variance);
         else
