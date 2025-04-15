@@ -15,6 +15,7 @@
 #include <QFileDialog>
 #include <QDialogButtonBox>
 #include <QJsonDocument>
+#include <QLabel>
 
 #include <KLocalizedString>
 
@@ -24,8 +25,22 @@ ProfileScriptDialog::ProfileScriptDialog(const QStringList &drivers, const QByte
     setWindowTitle(i18n("Profile Scripts Editor"));
 
     m_DriversList = drivers;
-
     m_MainLayout = new QVBoxLayout(this);
+
+    QHBoxLayout *labelLayout = new QHBoxLayout;
+    m_DriverLabel = new QLabel(i18n("Driver"), this);
+    m_PreLabel = new QLabel(i18n("Pre start"), this);
+    m_PostLabel = new QLabel(i18n("Post start"), this);
+    m_PreStopLabel = new QLabel(i18n("Pre stop"), this);
+    m_PostStopLabel = new QLabel(i18n("Post stop"), this);
+
+    labelLayout->addWidget(m_DriverLabel);
+    labelLayout->addWidget(m_PreLabel);
+    labelLayout->addWidget(m_PostLabel);
+    labelLayout->addWidget(m_PreStopLabel);
+    labelLayout->addWidget(m_PostStopLabel);
+    m_MainLayout->insertLayout(m_MainLayout->count() - 1, labelLayout);
+
     m_ButtonBox = new QDialogButtonBox(Qt::Horizontal, this);
     m_ButtonBox->addButton(QDialogButtonBox::Save);
     connect(m_ButtonBox, &QDialogButtonBox::accepted, this, &ProfileScriptDialog::generateSettings);
@@ -60,7 +75,7 @@ void ProfileScriptDialog::addRule()
     connect(newItem, &ProfileScript::removedRequested, this, &ProfileScriptDialog::removeRule);
     newItem->setDriverList(remainingDrivers);
     m_ProfileScriptWidgets.append(newItem);
-    m_MainLayout->insertWidget(m_ProfileScriptWidgets.count() - 1, newItem);
+    m_MainLayout->insertWidget(m_MainLayout->count() - 2, newItem);
     adjustSize();
 }
 
@@ -76,13 +91,17 @@ void ProfileScriptDialog::addJSONRule(QJsonObject settings)
     newItem->setProperty("Driver", settings["Driver"].toString());
     newItem->setProperty("PostDelay", settings["PostDelay"].toInt());
     newItem->setProperty("PostScript", settings["PostScript"].toString());
+    newItem->setProperty("StoppingDelay", settings["StoppingDelay"].toInt());
+    newItem->setProperty("StoppingScript", settings["StoppingScript"].toString());
+    newItem->setProperty("StoppedDelay", settings["StoppedDelay"].toInt());
+    newItem->setProperty("StoppedScript", settings["StoppedScript"].toString());
     newItem->setDriverList(m_DriversList);
 
     // Make sure GUI reflects all property changes.
     newItem->syncGUI();
-
     m_ProfileScriptWidgets.append(newItem);
-    m_MainLayout->insertWidget(m_ProfileScriptWidgets.count() - 1, newItem);
+    m_MainLayout->insertWidget(m_MainLayout->count() - 2, newItem);
+
     adjustSize();
 }
 

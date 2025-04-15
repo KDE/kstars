@@ -161,12 +161,12 @@ void DriverInfo::setUniqueLabel(const QString &inUniqueLabel)
     uniqueLabel = inUniqueLabel;
 }
 
-QJsonObject DriverInfo::startupRule() const
+QJsonObject DriverInfo::startupShutdownRule() const
 {
-    return m_StartupRule;
+    return m_StartupShutdownRule;
 }
 
-void DriverInfo::setStartupRule(const QJsonObject &value)
+void DriverInfo::setStartupShutdownRule(const QJsonObject &value)
 {
-    m_StartupRule = value;
+    m_StartupShutdownRule = value;
 }

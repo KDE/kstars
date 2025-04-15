@@ -251,8 +251,8 @@ class DriverInfo : public QObject
         QString manufacturer() const;
         void setManufacturer(const QString &Manufacturer);
 
-        QJsonObject startupRule() const;
-        void setStartupRule(const QJsonObject &value);
+        QJsonObject startupShutdownRule() const;
+        void setStartupShutdownRule(const QJsonObject &value);
 
     private:
         /// Actual device name as defined by INDI server
@@ -294,7 +294,7 @@ class DriverInfo : public QObject
         /// Any additional properties in key, value pairs
         QVariantMap auxInfo;
         QList<DeviceInfo *> devices;
-        QJsonObject m_StartupRule;
+        QJsonObject m_StartupShutdownRule;
 
     signals:
         void deviceStateChanged();

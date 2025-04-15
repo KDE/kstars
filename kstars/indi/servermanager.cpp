@@ -183,8 +183,8 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
         driversDir = QCoreApplication::applicationDirPath() + "/../Resources/DriverSupport";
 #endif
 
-    QJsonObject startupRule = driver->startupRule();
-    auto PreDelay = startupRule["PreDelay"].toInt(0);
+    QJsonObject startupShutdownRule = driver->startupShutdownRule();
+    auto PreDelay = startupShutdownRule["PreDelay"].toInt(0);
 
     // Sleep for PreDelay seconds if required.
     if (PreDelay > 0)
@@ -194,7 +194,7 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
     }
 
     // Startup Script?
-    auto PreScript = startupRule["PreScript"].toString();
+    auto PreScript = startupShutdownRule["PreScript"].toString();
     if (!PreScript.isEmpty())
     {
         QProcess script;
@@ -254,7 +254,7 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
         driver->setPort(port);
     }
 
-    auto PostDelay = startupRule["PostDelay"].toInt(0);
+    auto PostDelay = startupShutdownRule["PostDelay"].toInt(0);
 
     // Sleep for PostDelay seconds if required.
     if (PostDelay > 0)
@@ -265,7 +265,7 @@ void ServerManager::startDriver(const QSharedPointer<DriverInfo> &driver)
     }
 
     // Startup Script?
-    auto PostScript = startupRule["PostScript"].toString();
+    auto PostScript = startupShutdownRule["PostScript"].toString();
     if (!PostScript.isEmpty())
     {
         QProcess script;
@@ -299,6 +299,36 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
 {
     QTextStream out(&indiFIFO);
     const auto exec = driver->getExecutable();
+    QJsonObject startupShutdownRule = driver->startupShutdownRule();
+
+    // Pre Shutdown Script?
+    auto StoppingScript = startupShutdownRule["StoppingScript"].toString();
+    if (!StoppingScript.isEmpty())
+    {
+        QProcess script;
+        QEventLoop loop;
+        QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
+                         &loop, &QEventLoop::quit);
+        QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing pre-shutdown driver script" << StoppingScript;
+        script.start(StoppingScript, QStringList());
+        loop.exec();
+
+        if (script.exitCode() != 0)
+        {
+            emit driverFailed(driver, i18n("Pre driver shutdown script failed with exit code: %1", script.exitCode()));
+            return;
+        }
+    }
+
+    auto StoppingDelay = startupShutdownRule["StoppingDelay"].toInt(0);
+
+    // Sleep for StoppingDelay seconds if required.
+    if (StoppingDelay > 0)
+    {
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing pre-driver shutdown delay for" << StoppingDelay << "second(s)";
+        std::this_thread::sleep_for(std::chrono::seconds(StoppingDelay));
+    }
 
     qCDebug(KSTARS_INDI) << "Stopping INDI Driver " << exec;
 
@@ -317,6 +347,36 @@ void ServerManager::stopDriver(const QSharedPointer<DriverInfo> &driver)
         {
             return driver->getExecutable() == exec;
         }));
+    }
+
+    auto StoppedDelay = startupShutdownRule["StoppedDelay"].toInt(0);
+
+    // Sleep for StoppedDelay seconds if required.
+    if (StoppedDelay > 0)
+    {
+        emit scriptDriverStarted(driver);
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing post-driver shutdown delay for" << StoppedDelay << "second(s)";
+        std::this_thread::sleep_for(std::chrono::seconds(StoppedDelay));
+    }
+
+    // Post Startdown Script?
+    auto StoppedScript = startupShutdownRule["Stoppedcript"].toString();
+    if (!StoppedScript.isEmpty())
+    {
+        QProcess script;
+        QEventLoop loop;
+        QObject::connect(&script, static_cast<void (QProcess::*)(int exitCode, QProcess::ExitStatus status)>(&QProcess::finished),
+                         &loop, &QEventLoop::quit);
+        QObject::connect(&script, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
+        qCDebug(KSTARS_INDI) << driver->getUniqueLabel() << ": Executing post-driver shutdown script" << StoppedScript;
+        script.start(StoppedScript, QStringList());
+        loop.exec();
+
+        if (script.exitCode() != 0)
+        {
+            emit driverFailed(driver, i18n("Post driver shutdown script failed with exit code: %1", script.exitCode()));
+            return;
+        }
     }
     emit driverStopped(driver);
 }

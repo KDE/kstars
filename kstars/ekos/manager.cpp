@@ -1059,7 +1059,7 @@ void Manager::start()
 
         if (matchingDriver != managedDrivers.end())
         {
-            (*matchingDriver)->setStartupRule(oneRule.toObject());
+            (*matchingDriver)->setStartupShutdownRule(oneRule.toObject());
             sortedList.append(*matchingDriver);
         }
     }

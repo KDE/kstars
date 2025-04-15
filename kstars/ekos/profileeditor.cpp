@@ -962,10 +962,10 @@ void ProfileEditor::executeScriptEditor()
     QStringList currentDrivers;
     for (auto &oneCombo : ui->driversGroupBox->findChildren<QComboBox *>())
         currentDrivers << oneCombo->currentText();
-    currentDrivers.removeAll("--");
-    currentDrivers.removeAll("");
     for (auto &oneDriver : ui->remoteDrivers->text().split(","))
         currentDrivers << oneDriver;
+    currentDrivers.removeAll("--");
+    currentDrivers.removeAll("");
     currentDrivers.sort();
     ProfileScriptDialog dialog(currentDrivers, pi->scripts, this);
     dialog.exec();

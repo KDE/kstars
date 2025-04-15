@@ -13,6 +13,7 @@
 class ProfileScript;
 class QVBoxLayout;
 class QDialogButtonBox;
+class QLabel;
 
 class ProfileScriptDialog : public QDialog
 {
@@ -42,6 +43,7 @@ class ProfileScriptDialog : public QDialog
         QDialogButtonBox *m_ButtonBox {nullptr};
         QPushButton *m_AddRuleB {nullptr}, *m_RemoveRuleB {nullptr};
         QStringList m_DriversList;
+        QLabel *m_DriverLabel {nullptr}, *m_PreLabel {nullptr}, *m_PostLabel {nullptr}, *m_PreStopLabel {nullptr}, *m_PostStopLabel;
 
 };
 
