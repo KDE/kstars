@@ -10,6 +10,7 @@
 
 #include "Options.h"
 #include "scheduler.h"
+#include "schedulermodulestate.h"
 #include "ekos/ekos.h"
 #include "ui_scheduler.h"
 #include "schedulerjob.h"
@@ -74,10 +75,37 @@ void GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
             // is more important than the log file (where we can invert when debugging).
             for (int i = schedule.size() - 1; i >= 0; i--)
                 logger->appendLogText(GreedyScheduler::jobScheduleString(schedule[i]));
-            logger->appendLogText(QString("Greedy Scheduler plan for the next 48 hours starting %1 (%2)s:")
+            logger->appendLogText(QString("Scheduler plan for the next 48 hours starting %1 (%2)s:")
                                   .arg(now.toString()).arg(timer.elapsed() / 1000.0));
         }
-        else logger->appendLogText(QString("Greedy Scheduler: empty plan (%1s)").arg(timer.elapsed() / 1000.0));
+        else
+        {
+            if (jobs.size() > 0)
+            {
+                const int numJobs = jobs.size();
+                QString reason;
+                auto now = SchedulerModuleState::getLocalTime().addSecs(12 * 3600);
+                QDateTime soon = now.addSecs(3600);
+                for (int i = numJobs; i > 0; i--)
+                {
+                    const auto &job = jobs[i - 1];
+                    QDateTime nextEnd = job->getNextEndTime(now, SCHEDULE_RESOLUTION_MINUTES, &reason, soon);
+                    logger->appendLogText(QString("(%1) %2: cannot run because: %3").arg(i).arg(job->getName()).arg(reason));
+                }
+                logger->appendLogText(QString("*****************In 12 Hours******************"));
+                now = SchedulerModuleState::getLocalTime();
+                soon = now.addSecs(3600);
+                for (int i = numJobs; i > 0; i--)
+                {
+                    const auto &job = jobs[i - 1];
+                    QDateTime nextEnd = job->getNextEndTime(now, SCHEDULE_RESOLUTION_MINUTES, &reason, soon);
+                    logger->appendLogText(QString("(%1) %2: cannot run because: %3").arg(i).arg(job->getName()).arg(reason));
+                }
+                logger->appendLogText(QString("******************** Now ********************"));
+                logger->appendLogText(QString("To debug, set the time to a time when you believe a job should be runnable."));
+            }
+            logger->appendLogText(QString("Scheduler: Sorry, no jobs are runnable for the next 3 days."));
+        }
     }
     if (scheduledJob != nullptr)
     {
