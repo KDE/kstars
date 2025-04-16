@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-14 01:53+0000\n"
+"POT-Creation-Date: 2025-04-16 01:53+0000\n"
 "PO-Revision-Date: 2025-04-11 22:27+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -26730,34 +26730,114 @@ msgstr ""
 "Забавяне с толкова секунди след стартирането на драйвера, преди да се "
 "изпълни скриптът след драйвера."
 
-#: ekos/profilescript.cpp:57
+#: ekos/profilescript.cpp:56
+#, fuzzy, kde-format
+#| msgid "Delay this many seconds before executing pre driver script."
+msgid ""
+"Delay this many seconds after executing stopping driver script before "
+"stopping driver."
+msgstr ""
+"Забавяне с толкова секунди, преди изпълнение на предварителен скрипт на "
+"драйвера."
+
+#: ekos/profilescript.cpp:65
+#, fuzzy, kde-format
+#| msgid ""
+#| "Delay this many seconds after driver startup before executing post driver "
+#| "script."
+msgid ""
+"Delay this many seconds after driver stopped before executing stopped driver "
+"script."
+msgstr ""
+"Забавяне с толкова секунди след стартирането на драйвера, преди да се "
+"изпълни скриптът след драйвера."
+
+#: ekos/profilescript.cpp:75
 #, kde-format
 msgid "Select script to execute before starting the driver"
 msgstr "Изберете скрипт, който да се изпълни преди стартиране на драйвера"
 
-#: ekos/profilescript.cpp:66
+#: ekos/profilescript.cpp:84
 #, kde-format
 msgid "Select script to execute after starting the driver"
 msgstr "Изберете скрипт, който да се изпълни след стартиране на драйвера"
 
-#: ekos/profilescript.cpp:115
+#: ekos/profilescript.cpp:93
+#, fuzzy, kde-format
+#| msgid "Select script to execute before starting the driver"
+msgid "Select script to execute before stopping the driver"
+msgstr "Изберете скрипт, който да се изпълни преди стартиране на драйвера"
+
+#: ekos/profilescript.cpp:102
+#, fuzzy, kde-format
+#| msgid "Select script to execute after starting the driver"
+msgid "Select script to execute after stopping the driver"
+msgstr "Изберете скрипт, който да се изпълни след стартиране на драйвера"
+
+#: ekos/profilescript.cpp:169
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
 msgstr "Избор на скрипт за изпълнение преди зареждане на драйвер"
 
-#: ekos/profilescript.cpp:121
+#: ekos/profilescript.cpp:175
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
 msgstr "Избор на скрипт за изпълнение след зареждане на драйвер"
 
-#: ekos/profilescriptdialog.cpp:24
+#: ekos/profilescript.cpp:181
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Select Pre Driver Startup Script"
+msgctxt "@title:window"
+msgid "Select Pre Driver Stop Script"
+msgstr "Избор на скрипт за изпълнение преди зареждане на драйвер"
+
+#: ekos/profilescript.cpp:187
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Select Post Driver Startup Script"
+msgctxt "@title:window"
+msgid "Select Post Driver Stop Script"
+msgstr "Избор на скрипт за изпълнение след зареждане на драйвер"
+
+#: ekos/profilescriptdialog.cpp:25
 #, kde-format
 msgid "Profile Scripts Editor"
 msgstr "Редактор на скриптове за профили"
 
+#: ekos/profilescriptdialog.cpp:31
+#, fuzzy, kde-format
+#| msgid "Driver:"
+msgid "Driver"
+msgstr "Драйвер:"
+
+#: ekos/profilescriptdialog.cpp:32
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Restart"
+msgid "Pre start"
+msgstr "Рестартиране"
+
+#: ekos/profilescriptdialog.cpp:33
+#, fuzzy, kde-format
+#| msgid "Focus star"
+msgid "Post start"
+msgstr "Звезда за фокусиране"
+
 #: ekos/profilescriptdialog.cpp:34
+#, kde-format
+msgid "Pre stop"
+msgstr ""
+
+#: ekos/profilescriptdialog.cpp:35
+#, fuzzy, kde-format
+#| msgid "Ekos stopped."
+msgid "Post stop"
+msgstr "Ekos е спрян."
+
+#: ekos/profilescriptdialog.cpp:49
 #, kde-format
 msgid "Add Rule"
 msgstr "Добавяне на правило"
@@ -28011,7 +28091,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Избор на каталог на задания"
 
-#: ekos/scheduler/greedyscheduler.cpp:171
+#: ekos/scheduler/greedyscheduler.cpp:199
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "Заданието \"%1\" няма повече оставащи партиди."
@@ -33600,17 +33680,31 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr "Скриптът за стартиране на драйвера се провали с код за изход: %1"
 
-#: indi/servermanager.cpp:461
+#: indi/servermanager.cpp:319
+#, fuzzy, kde-format
+#| msgid "Pre driver startup script failed with exit code: %1"
+msgid "Pre driver shutdown script failed with exit code: %1"
+msgstr ""
+"Скриптът за предварително стартиране на драйвера се провали с код за изход: "
+"%1"
+
+#: indi/servermanager.cpp:377
+#, fuzzy, kde-format
+#| msgid "Post driver startup script failed with exit code: %1"
+msgid "Post driver shutdown script failed with exit code: %1"
+msgstr "Скриптът за стартиране на драйвера се провали с код за изход: %1"
+
+#: indi/servermanager.cpp:521
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Връзката към INDI сървър %1:%2 прекъсната: %3."
 
-#: indi/servermanager.cpp:514
+#: indi/servermanager.cpp:574
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "Драйверът на INDI <b>%1</b> се срина. Да се рестартира ли отново?"
 
-#: indi/servermanager.cpp:515
+#: indi/servermanager.cpp:575
 #, kde-format
 msgid "Driver crash"
 msgstr "Срив на драйвера"

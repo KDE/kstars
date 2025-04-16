@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-14 01:53+0000\n"
+"POT-Creation-Date: 2025-04-16 01:53+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -26654,37 +26654,105 @@ msgid ""
 "script."
 msgstr ""
 
-#: ekos/profilescript.cpp:57
+#: ekos/profilescript.cpp:56
+#, fuzzy, kde-format
+#| msgid "Delay in seconds between consecutive images"
+msgid ""
+"Delay this many seconds after executing stopping driver script before "
+"stopping driver."
+msgstr "निरंतर छवियों के मध्य सेकंडों में अंतराल."
+
+#: ekos/profilescript.cpp:65
+#, fuzzy, kde-format
+#| msgid "Delay in seconds between consecutive images"
+msgid ""
+"Delay this many seconds after driver stopped before executing stopped driver "
+"script."
+msgstr "निरंतर छवियों के मध्य सेकंडों में अंतराल."
+
+#: ekos/profilescript.cpp:75
 #, kde-format
 msgid "Select script to execute before starting the driver"
 msgstr ""
 
-#: ekos/profilescript.cpp:66
+#: ekos/profilescript.cpp:84
 #, kde-format
 msgid "Select script to execute after starting the driver"
 msgstr ""
 
-#: ekos/profilescript.cpp:115
+#: ekos/profilescript.cpp:93
+#, kde-format
+msgid "Select script to execute before stopping the driver"
+msgstr ""
+
+#: ekos/profilescript.cpp:102
+#, kde-format
+msgid "Select script to execute after stopping the driver"
+msgstr ""
+
+#: ekos/profilescript.cpp:169
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
 msgstr "कोई तारा चुनें"
 
-#: ekos/profilescript.cpp:121
+#: ekos/profilescript.cpp:175
 #, fuzzy, kde-format
 #| msgid "Select a Star"
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
 msgstr "कोई तारा चुनें"
 
-#: ekos/profilescriptdialog.cpp:24
+#: ekos/profilescript.cpp:181
+#, fuzzy, kde-format
+#| msgid "Select a Star"
+msgctxt "@title:window"
+msgid "Select Pre Driver Stop Script"
+msgstr "कोई तारा चुनें"
+
+#: ekos/profilescript.cpp:187
+#, fuzzy, kde-format
+#| msgid "Select a Star"
+msgctxt "@title:window"
+msgid "Select Post Driver Stop Script"
+msgstr "कोई तारा चुनें"
+
+#: ekos/profilescriptdialog.cpp:25
 #, fuzzy, kde-format
 #| msgid "Thumbnail Editor"
 msgid "Profile Scripts Editor"
 msgstr "लघुछवि संपादक "
 
+#: ekos/profilescriptdialog.cpp:31
+#, fuzzy, kde-format
+#| msgid "Driver:"
+msgid "Driver"
+msgstr "ड्राइवर:"
+
+#: ekos/profilescriptdialog.cpp:32
+#, fuzzy, kde-format
+#| msgid "star"
+msgid "Pre start"
+msgstr "तारा"
+
+#: ekos/profilescriptdialog.cpp:33
+#, fuzzy, kde-format
+#| msgid "Focused on: "
+msgid "Post start"
+msgstr "इस पर फ़ोकसः"
+
 #: ekos/profilescriptdialog.cpp:34
+#, kde-format
+msgid "Pre stop"
+msgstr ""
+
+#: ekos/profilescriptdialog.cpp:35
+#, fuzzy, kde-format
+msgid "Post stop"
+msgstr "आकाश की वस्तुएँ लोड की जा रही हैं"
+
+#: ekos/profilescriptdialog.cpp:49
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Regina"
@@ -27867,7 +27935,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "डिफ़ॉल्ट एफआईटीएस डिरेक्ट्री:"
 
-#: ekos/scheduler/greedyscheduler.cpp:171
+#: ekos/scheduler/greedyscheduler.cpp:199
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -33483,18 +33551,28 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:461
+#: indi/servermanager.cpp:319
+#, kde-format
+msgid "Pre driver shutdown script failed with exit code: %1"
+msgstr ""
+
+#: indi/servermanager.cpp:377
+#, kde-format
+msgid "Post driver shutdown script failed with exit code: %1"
+msgstr ""
+
+#: indi/servermanager.cpp:521
 #, fuzzy, kde-format
 #| msgid "Connection to INDI host at %1 on port %2 failed."
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "इंडी होस्ट %1 पर पोर्ट %2 पर कनेक्शन असफल."
 
-#: indi/servermanager.cpp:514
+#: indi/servermanager.cpp:574
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:515
+#: indi/servermanager.cpp:575
 #, fuzzy, kde-format
 #| msgid "Driver:"
 msgid "Driver crash"
@@ -99967,11 +100045,6 @@ msgstr "आकाश के पृष्ठ भूमि का रंग."
 #~| msgid "Color:"
 #~ msgid "_color"
 #~ msgstr "रंगः"
-
-#, fuzzy
-#~| msgid "Driver:"
-#~ msgid "Driver"
-#~ msgstr "ड्राइवर:"
 
 #, fuzzy
 #~| msgctxt "City name (optional, probably does not need a translation)"

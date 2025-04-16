@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-14 01:53+0000\n"
+"POT-Creation-Date: 2025-04-16 01:53+0000\n"
 "PO-Revision-Date: 2020-05-14 11:43+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -26419,37 +26419,106 @@ msgid ""
 "script."
 msgstr ""
 
-#: ekos/profilescript.cpp:57
+#: ekos/profilescript.cpp:56
+#, fuzzy, kde-format
+#| msgid "Wait this many seconds before resuming guiding."
+msgid ""
+"Delay this many seconds after executing stopping driver script before "
+"stopping driver."
+msgstr "Sekundite arv, mida oodata enne gideerimise taasalustamist."
+
+#: ekos/profilescript.cpp:65
+#, fuzzy, kde-format
+#| msgid "Wait this many seconds before resuming guiding."
+msgid ""
+"Delay this many seconds after driver stopped before executing stopped driver "
+"script."
+msgstr "Sekundite arv, mida oodata enne gideerimise taasalustamist."
+
+#: ekos/profilescript.cpp:75
 #, kde-format
 msgid "Select script to execute before starting the driver"
 msgstr ""
 
-#: ekos/profilescript.cpp:66
+#: ekos/profilescript.cpp:84
 #, kde-format
 msgid "Select script to execute after starting the driver"
 msgstr ""
 
-#: ekos/profilescript.cpp:115
+#: ekos/profilescript.cpp:93
+#, kde-format
+msgid "Select script to execute before stopping the driver"
+msgstr ""
+
+#: ekos/profilescript.cpp:102
+#, kde-format
+msgid "Select script to execute after stopping the driver"
+msgstr ""
+
+#: ekos/profilescript.cpp:169
 #, fuzzy, kde-format
 #| msgid "Select Startup Script"
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
 msgstr "Käivitusskripti valimine"
 
-#: ekos/profilescript.cpp:121
+#: ekos/profilescript.cpp:175
 #, fuzzy, kde-format
 #| msgid "Select Startup Script"
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
 msgstr "Käivitusskripti valimine"
 
-#: ekos/profilescriptdialog.cpp:24
+#: ekos/profilescript.cpp:181
+#, fuzzy, kde-format
+#| msgid "Select Startup Script"
+msgctxt "@title:window"
+msgid "Select Pre Driver Stop Script"
+msgstr "Käivitusskripti valimine"
+
+#: ekos/profilescript.cpp:187
+#, fuzzy, kde-format
+#| msgid "Select Startup Script"
+msgctxt "@title:window"
+msgid "Select Post Driver Stop Script"
+msgstr "Käivitusskripti valimine"
+
+#: ekos/profilescriptdialog.cpp:25
 #, fuzzy, kde-format
 #| msgid "Profile Editor"
 msgid "Profile Scripts Editor"
 msgstr "Profiiliredaktor"
 
+#: ekos/profilescriptdialog.cpp:31
+#, kde-format
+msgid "Driver"
+msgstr "Draiver"
+
+#: ekos/profilescriptdialog.cpp:32
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Restart"
+msgid "Pre start"
+msgstr "Käivita uuesti"
+
+#: ekos/profilescriptdialog.cpp:33
+#, fuzzy, kde-format
+#| msgid "Focus Star"
+msgid "Post start"
+msgstr "Fookustäht"
+
 #: ekos/profilescriptdialog.cpp:34
+#, kde-format
+msgid "Pre stop"
+msgstr ""
+
+#: ekos/profilescriptdialog.cpp:35
+#, fuzzy, kde-format
+#| msgid "Ekos stopped."
+msgid "Post stop"
+msgstr "Ekos peatus."
+
+#: ekos/profilescriptdialog.cpp:49
 #, fuzzy, kde-format
 #| msgid "Add Region"
 msgid "Add Rule"
@@ -27677,7 +27746,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Ava logikataloog"
 
-#: ekos/scheduler/greedyscheduler.cpp:171
+#: ekos/scheduler/greedyscheduler.cpp:199
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr ""
@@ -33063,18 +33132,28 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:461
+#: indi/servermanager.cpp:319
+#, kde-format
+msgid "Pre driver shutdown script failed with exit code: %1"
+msgstr ""
+
+#: indi/servermanager.cpp:377
+#, kde-format
+msgid "Post driver shutdown script failed with exit code: %1"
+msgstr ""
+
+#: indi/servermanager.cpp:521
 #, fuzzy, kde-format
 #| msgid "Connection to INDI server at host %1 with port %2 failed."
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Ühendus INDI serveriga masinas %1 pordis %2 nurjus."
 
-#: indi/servermanager.cpp:514
+#: indi/servermanager.cpp:574
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "INDI draiverit <b>%1</b> tabas krahh. Kas käivitada see uuesti?"
 
-#: indi/servermanager.cpp:515
+#: indi/servermanager.cpp:575
 #, kde-format
 msgid "Driver crash"
 msgstr "Draiverit tabas krahh"
@@ -110808,9 +110887,6 @@ msgstr "Värvi määramine taustaks."
 #~| msgid "Color"
 #~ msgid "_color"
 #~ msgstr "Värv"
-
-#~ msgid "Driver"
-#~ msgstr "Draiver"
 
 #, fuzzy
 #~| msgctxt "City in Spain"

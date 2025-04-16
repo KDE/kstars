@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-14 01:53+0000\n"
+"POT-Creation-Date: 2025-04-16 01:53+0000\n"
 "PO-Revision-Date: 2023-07-13 00:41+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -28382,34 +28382,114 @@ msgstr ""
 "Esperar este período em segundos, após iniciar o controlador, antes de "
 "executar o pós-programa do controlador."
 
-#: ekos/profilescript.cpp:57
+#: ekos/profilescript.cpp:56
+#, fuzzy, kde-format
+#| msgid "Delay this many seconds before executing pre driver script."
+msgid ""
+"Delay this many seconds after executing stopping driver script before "
+"stopping driver."
+msgstr ""
+"Esperar este período em segundos antes de executar o pré-programa do "
+"controlador."
+
+#: ekos/profilescript.cpp:65
+#, fuzzy, kde-format
+#| msgid ""
+#| "Delay this many seconds after driver startup before executing post driver "
+#| "script."
+msgid ""
+"Delay this many seconds after driver stopped before executing stopped driver "
+"script."
+msgstr ""
+"Esperar este período em segundos, após iniciar o controlador, antes de "
+"executar o pós-programa do controlador."
+
+#: ekos/profilescript.cpp:75
 #, kde-format
 msgid "Select script to execute before starting the driver"
 msgstr "Seleccione o programa a executar antes de iniciar o controlador"
 
-#: ekos/profilescript.cpp:66
+#: ekos/profilescript.cpp:84
 #, kde-format
 msgid "Select script to execute after starting the driver"
 msgstr "Seleccione o programa a executar depois de iniciar o controlador"
 
-#: ekos/profilescript.cpp:115
+#: ekos/profilescript.cpp:93
+#, fuzzy, kde-format
+#| msgid "Select script to execute before starting the driver"
+msgid "Select script to execute before stopping the driver"
+msgstr "Seleccione o programa a executar antes de iniciar o controlador"
+
+#: ekos/profilescript.cpp:102
+#, fuzzy, kde-format
+#| msgid "Select script to execute after starting the driver"
+msgid "Select script to execute after stopping the driver"
+msgstr "Seleccione o programa a executar depois de iniciar o controlador"
+
+#: ekos/profilescript.cpp:169
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
 msgstr "Seleccionar o Pré-Programa de Arranque do Controlador"
 
-#: ekos/profilescript.cpp:121
+#: ekos/profilescript.cpp:175
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
 msgstr "Seleccionar o Pós-Programa de Arranque do Controlador"
 
-#: ekos/profilescriptdialog.cpp:24
+#: ekos/profilescript.cpp:181
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Select Pre Driver Startup Script"
+msgctxt "@title:window"
+msgid "Select Pre Driver Stop Script"
+msgstr "Seleccionar o Pré-Programa de Arranque do Controlador"
+
+#: ekos/profilescript.cpp:187
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Select Post Driver Startup Script"
+msgctxt "@title:window"
+msgid "Select Post Driver Stop Script"
+msgstr "Seleccionar o Pós-Programa de Arranque do Controlador"
+
+#: ekos/profilescriptdialog.cpp:25
 #, kde-format
 msgid "Profile Scripts Editor"
 msgstr "Editor de Programas do Perfil"
 
+#: ekos/profilescriptdialog.cpp:31
+#, fuzzy, kde-format
+#| msgid "Driver:"
+msgid "Driver"
+msgstr "Controlador:"
+
+#: ekos/profilescriptdialog.cpp:32
+#, fuzzy, kde-format
+#| msgctxt "string from libindi, used in the config dialog"
+#| msgid "Restart"
+msgid "Pre start"
+msgstr "Reiniciar"
+
+#: ekos/profilescriptdialog.cpp:33
+#, fuzzy, kde-format
+#| msgid "Focus star"
+msgid "Post start"
+msgstr "Estrela de focagem"
+
 #: ekos/profilescriptdialog.cpp:34
+#, kde-format
+msgid "Pre stop"
+msgstr ""
+
+#: ekos/profilescriptdialog.cpp:35
+#, fuzzy, kde-format
+#| msgid "Ekos stopped."
+msgid "Post stop"
+msgstr "O Ekos parou."
+
+#: ekos/profilescriptdialog.cpp:49
 #, kde-format
 msgid "Add Rule"
 msgstr "Adicionar uma Regra"
@@ -29666,7 +29746,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Seleccionar a Pasta de Tarefas"
 
-#: ekos/scheduler/greedyscheduler.cpp:171
+#: ekos/scheduler/greedyscheduler.cpp:199
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "A tarefa '%1' não tem mais execuções em falta."
@@ -35326,17 +35406,29 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr "O pós-programa de arranque do controlador terminou com o código: %1"
 
-#: indi/servermanager.cpp:461
+#: indi/servermanager.cpp:319
+#, fuzzy, kde-format
+#| msgid "Pre driver startup script failed with exit code: %1"
+msgid "Pre driver shutdown script failed with exit code: %1"
+msgstr "O pré-programa de arranque do controlador terminou com o código: %1"
+
+#: indi/servermanager.cpp:377
+#, fuzzy, kde-format
+#| msgid "Post driver startup script failed with exit code: %1"
+msgid "Post driver shutdown script failed with exit code: %1"
+msgstr "O pós-programa de arranque do controlador terminou com o código: %1"
+
+#: indi/servermanager.cpp:521
 #, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "A ligação ao servidor de INDI em %1:%2 terminou: %3."
 
-#: indi/servermanager.cpp:514
+#: indi/servermanager.cpp:574
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr "O controlador de INDI <b>%1</b> estoirou. Deseja reiniciá-lo?"
 
-#: indi/servermanager.cpp:515
+#: indi/servermanager.cpp:575
 #, kde-format
 msgid "Driver crash"
 msgstr "Estoiro do controlador"

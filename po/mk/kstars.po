@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-14 01:53+0000\n"
+"POT-Creation-Date: 2025-04-16 01:53+0000\n"
 "PO-Revision-Date: 2007-02-26 21:35+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -25560,34 +25560,99 @@ msgid ""
 "script."
 msgstr ""
 
-#: ekos/profilescript.cpp:57
+#: ekos/profilescript.cpp:56
+#, kde-format
+msgid ""
+"Delay this many seconds after executing stopping driver script before "
+"stopping driver."
+msgstr ""
+
+#: ekos/profilescript.cpp:65
+#, kde-format
+msgid ""
+"Delay this many seconds after driver stopped before executing stopped driver "
+"script."
+msgstr ""
+
+#: ekos/profilescript.cpp:75
 #, kde-format
 msgid "Select script to execute before starting the driver"
 msgstr ""
 
-#: ekos/profilescript.cpp:66
+#: ekos/profilescript.cpp:84
 #, kde-format
 msgid "Select script to execute after starting the driver"
 msgstr ""
 
-#: ekos/profilescript.cpp:115
+#: ekos/profilescript.cpp:93
+#, kde-format
+msgid "Select script to execute before stopping the driver"
+msgstr ""
+
+#: ekos/profilescript.cpp:102
+#, kde-format
+msgid "Select script to execute after stopping the driver"
+msgstr ""
+
+#: ekos/profilescript.cpp:169
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Startup Script"
 msgstr "Влезен избор"
 
-#: ekos/profilescript.cpp:121
+#: ekos/profilescript.cpp:175
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Startup Script"
 msgstr "Влезен избор"
 
-#: ekos/profilescriptdialog.cpp:24
+#: ekos/profilescript.cpp:181
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Select Pre Driver Stop Script"
+msgstr "Влезен избор"
+
+#: ekos/profilescript.cpp:187
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Select Post Driver Stop Script"
+msgstr "Влезен избор"
+
+#: ekos/profilescriptdialog.cpp:25
 #, fuzzy, kde-format
 msgid "Profile Scripts Editor"
 msgstr "Влезен избор"
 
+#: ekos/profilescriptdialog.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "City name (optional, probably does not need a translation)"
+#| msgid "Dover"
+msgid "Driver"
+msgstr "Довер"
+
+#: ekos/profilescriptdialog.cpp:32
+#, fuzzy, kde-format
+#| msgid "star"
+msgid "Pre start"
+msgstr "ѕвезда"
+
+#: ekos/profilescriptdialog.cpp:33
+#, fuzzy, kde-format
+#| msgid "Focused on: "
+msgid "Post start"
+msgstr "Фокусирано на: "
+
 #: ekos/profilescriptdialog.cpp:34
+#, kde-format
+msgid "Pre stop"
+msgstr ""
+
+#: ekos/profilescriptdialog.cpp:35
+#, fuzzy, kde-format
+msgid "Post stop"
+msgstr "Најди објект"
+
+#: ekos/profilescriptdialog.cpp:49
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Regina"
@@ -26729,7 +26794,7 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Влезен избор"
 
-#: ekos/scheduler/greedyscheduler.cpp:171
+#: ekos/scheduler/greedyscheduler.cpp:199
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -32070,17 +32135,27 @@ msgstr ""
 msgid "Post driver startup script failed with exit code: %1"
 msgstr ""
 
-#: indi/servermanager.cpp:461
+#: indi/servermanager.cpp:319
+#, kde-format
+msgid "Pre driver shutdown script failed with exit code: %1"
+msgstr ""
+
+#: indi/servermanager.cpp:377
+#, kde-format
+msgid "Post driver shutdown script failed with exit code: %1"
+msgstr ""
+
+#: indi/servermanager.cpp:521
 #, fuzzy, kde-format
 msgid "Connection to INDI server %1:%2 terminated: %3."
 msgstr "Не можам да стартувам INDI сервер : грешка на портата."
 
-#: indi/servermanager.cpp:514
+#: indi/servermanager.cpp:574
 #, kde-format
 msgid "INDI Driver <b>%1</b> crashed. Restart it?"
 msgstr ""
 
-#: indi/servermanager.cpp:515
+#: indi/servermanager.cpp:575
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Dover"
@@ -95482,12 +95557,6 @@ msgstr "Скриј ги објектите додека се движат"
 #, fuzzy
 #~ msgid "_color"
 #~ msgstr "Земја:"
-
-#, fuzzy
-#~| msgctxt "City name (optional, probably does not need a translation)"
-#~| msgid "Dover"
-#~ msgid "Driver"
-#~ msgstr "Довер"
 
 #, fuzzy
 #~| msgctxt "City name (optional, probably does not need a translation)"
