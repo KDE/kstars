@@ -28,6 +28,16 @@ class CaptureCountsWidget : public QWidget, public Ui::CaptureCountsWidget
 public:
     friend class CapturePreviewWidget;
 
+    typedef struct CaptureCountsStruct
+    {
+        int count { -1 };            /* total frames count */
+        int completed { -1 };        /* captured frames count */
+        double remainingTime { -1 }; /* remaining time to complete (in seconds) */
+        double totalTime { -1 };     /* total exposure time (in seconds) */
+        QTime countDown;             /* timer for countdown to completion */
+        bool changed { true };       /* flag if some value has changed */
+    } CaptureCounts;
+
     explicit CaptureCountsWidget(QWidget *parent = nullptr);
 
     void setCurrentTrainName(const QString &name);
@@ -37,9 +47,9 @@ public slots:
     /**
      * @brief display the progress of the current exposure (remaining time etc.)
      * @param job currently active job
-     * @param devicename device name of the camera reporting exposure process
+     * @param trainname train name of the camera reporting exposure process
      */
-    void updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &devicename);
+    void updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &trainname);
 
     /**
      * @brief display the download progress
@@ -87,16 +97,37 @@ private:
      * @brief showCurrentCameraInfo Display the capturing status informations for the selected camera device
      */
     void showCurrentCameraInfo();
+    /**
+     * @brief refreshCaptureCounters Refresh the display of the counters for sequence, job and overall
+     */
+    void refreshCaptureCounters(const QString &trainname);
+
+    /**
+     * @brief captureState Retrieve the currently known capture state of a given optical train
+     */
+    Ekos::CaptureState captureState(const QString &trainname);
+
+    /**
+     * @brief isCaptureActive Check if the given optical train is currently capturing
+     */
+    bool isCaptureActive(const QString &trainname);
 
     QSharedPointer<Ekos::SchedulerModuleState> m_schedulerModuleState;
     Ekos::Capture *m_captureProcess = nullptr;
 
-    QMap<QString, QTime> imageCountDown;
-    QMap<QString, QTime> sequenceCountDown;
-    QMap<QString, QTime> jobCountDown;
-    QMap<QString, QTime> overallCountDown;
     // current camera train name
     QString m_currentTrainName = "";
+    // is a capture preview active=
+    bool m_isPreview = false;
+    // capture counters
+    QMap<QString, CaptureCounts> imageCounts;
+    QMap<QString, CaptureCounts> sequenceCounts;
+    QMap<QString, CaptureCounts> jobCounts;
+    QMap<QString, CaptureCounts> totalCounts;
+    // capture status per train
+    QMap<QString, Ekos::CaptureState> captureStates;
+    // refresh display of counts
+    void refreshImageCounts(const QString &trainname);
 
     // cache frame data
     QMap<QString, CaptureProcessOverlay::FrameData> m_currentFrame;

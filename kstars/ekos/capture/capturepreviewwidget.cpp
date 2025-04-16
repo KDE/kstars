@@ -323,6 +323,9 @@ void CapturePreviewWidget::selectedTrainChanged(QString newName)
         m_fitsPreview->clearData();
         m_overlay->setEnabled(true);
     }
+    // update counters
+    updateCaptureCountDown(0);
+    captureCountsWidget->refreshCaptureCounters(newName);
 }
 
 void CapturePreviewWidget::updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &trainname)

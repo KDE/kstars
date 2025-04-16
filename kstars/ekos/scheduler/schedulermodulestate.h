@@ -67,10 +67,7 @@ class SchedulerModuleState : public QObject
         }
         void updateProfiles(const QStringList &newProfiles);
 
-        SchedulerJob *activeJob() const
-        {
-            return m_activeJob;
-        }
+        SchedulerJob *activeJob(const QString &trainname = "") const;
         void setActiveJob(SchedulerJob *newActiveJob);
 
         /**

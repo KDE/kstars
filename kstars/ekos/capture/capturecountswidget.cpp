@@ -49,29 +49,54 @@ void CaptureCountsWidget::setCurrentTrainName(const QString &name)
 {
     m_currentTrainName = name;
     showCurrentCameraInfo();
+    refreshCaptureCounters(name);
 }
 
-void CaptureCountsWidget::updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &devicename)
+void CaptureCountsWidget::refreshImageCounts(const QString &trainname)
 {
-    imageCountDown[devicename].setHMS(0, 0, 0);
-    imageCountDown[devicename] = imageCountDown[devicename].addSecs(int(std::round(job->getExposeLeft())));
-    if (imageCountDown[devicename].hour() == 23)
-        imageCountDown[devicename].setHMS(0, 0, 0);
+    if (imageCounts[trainname].changed)
+    {
+        imageProgress->setRange(0, int(std::ceil(imageCounts[trainname].totalTime)));
+        imageProgress->setValue(int(std::ceil(imageCounts[trainname].totalTime - imageCounts[trainname].remainingTime)));
+        gr_imageProgress->setRange(0, int(std::ceil(imageCounts[trainname].totalTime)));
+        gr_imageProgress->setValue(imageProgress->value());
 
-    imageProgress->setRange(0, int(std::ceil(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble())));
-    imageProgress->setValue(int(std::ceil(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble() - job->getExposeLeft())));
-    gr_imageProgress->setRange(0, int(std::ceil(job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble())));
-    gr_imageProgress->setValue(imageProgress->value());
+        frameRemainingTime->setText(imageCounts[trainname].countDown.toString("hh:mm:ss"));
+        gr_frameRemainingTime->setText(frameRemainingTime->text());
+        // clear the changed flag
+        imageCounts[trainname].changed = false;
+    }
+    else if(isCaptureActive(trainname) == false)
+    {
+        imageProgress->setValue(0);
+        gr_imageProgress->setValue(0);
+    }
+}
 
-    frameRemainingTime->setText(imageCountDown[devicename].toString("hh:mm:ss"));
-    gr_frameRemainingTime->setText(frameRemainingTime->text());
+void CaptureCountsWidget::updateExposureProgress(const QSharedPointer<Ekos::SequenceJob> &job, const QString &trainname)
+{
+    imageCounts[trainname].countDown.setHMS(0, 0, 0);
+    imageCounts[trainname].countDown = imageCounts[trainname].countDown.addSecs(int(std::round(job->getExposeLeft())));
+    if (imageCounts[trainname].countDown.hour() == 23)
+        imageCounts[trainname].countDown.setHMS(0, 0, 0);
+
+    const double total = job->getCoreProperty(SequenceJob::SJ_Exposure).toDouble();
+    const double remaining = job->getExposeLeft();
+
+    // changes recognized only if the difference is at least one second (since we update once a second)
+    imageCounts[trainname].changed = fabs(total - imageCounts[trainname].totalTime) >= 1.0 ||
+                                     fabs(remaining - imageCounts[trainname].remainingTime) >= 1.0;
+    imageCounts[trainname].totalTime = total;
+    imageCounts[trainname].remainingTime = remaining;
+
+    refreshImageCounts(trainname);
 }
 
 void CaptureCountsWidget::updateDownloadProgress(double timeLeft, const QString &trainname)
 {
-    imageCountDown[trainname].setHMS(0, 0, 0);
-    imageCountDown[trainname] = imageCountDown[trainname].addSecs(int(std::ceil(timeLeft)));
-    frameRemainingTime->setText(imageCountDown[trainname].toString("hh:mm:ss"));
+    imageCounts[trainname].countDown.setHMS(0, 0, 0);
+    imageCounts[trainname].countDown = imageCounts[trainname].countDown.addSecs(int(std::ceil(timeLeft)));
+    frameRemainingTime->setText(imageCounts[trainname].countDown.toString("hh:mm:ss"));
 }
 
 void CaptureCountsWidget::shareSchedulerState(QSharedPointer<Ekos::SchedulerModuleState> state)
@@ -82,32 +107,32 @@ void CaptureCountsWidget::shareSchedulerState(QSharedPointer<Ekos::SchedulerModu
 void CaptureCountsWidget::updateCaptureCountDown(int delta)
 {
     // update counters of all devices
-    for (const QString &devicename : overallCountDown.keys())
+    for (const QString &trainname : totalCounts.keys())
     {
-        overallCountDown[devicename]  = overallCountDown[devicename].addSecs(delta);
-        jobCountDown[devicename]      = jobCountDown[devicename].addSecs(delta);
-        sequenceCountDown[devicename] = sequenceCountDown[devicename].addSecs(delta);
+        totalCounts[trainname].countDown  = totalCounts[trainname].countDown.addSecs(delta);
+        jobCounts[trainname].countDown      = jobCounts[trainname].countDown.addSecs(delta);
+        sequenceCounts[trainname].countDown = sequenceCounts[trainname].countDown.addSecs(delta);
 
         // ensure that count downs do not overshoot
-        if (overallCountDown[devicename].hour() == 23)
-            overallCountDown[devicename].setHMS(0, 0, 0);
-        if (jobCountDown[devicename].hour() == 23)
-            jobCountDown[devicename].setHMS(0, 0, 0);
-        if (sequenceCountDown[devicename].hour() == 23)
-            sequenceCountDown[devicename].setHMS(0, 0, 0);
+        if (totalCounts[trainname].countDown.hour() == 23)
+            totalCounts[trainname].countDown.setHMS(0, 0, 0);
+        if (jobCounts[trainname].countDown.hour() == 23)
+            jobCounts[trainname].countDown.setHMS(0, 0, 0);
+        if (sequenceCounts[trainname].countDown.hour() == 23)
+            sequenceCounts[trainname].countDown.setHMS(0, 0, 0);
     }
 
     // do not change overall remaining time if scheduler is in endless loop
     if (m_schedulerModuleState == nullptr || m_schedulerModuleState->activeJob() == nullptr ||
             m_schedulerModuleState->activeJob()->getCompletionCondition() != Ekos::FINISH_LOOP)
     {
-        overallRemainingTime->setText(overallCountDown[m_currentTrainName].toString("hh:mm:ss"));
+        overallRemainingTime->setText(totalCounts[m_currentTrainName].countDown.toString("hh:mm:ss"));
         gr_overallRemainingTime->setText(overallRemainingTime->text());
     }
-    if (!m_captureProcess->isActiveJobPreview())
+    if (!m_captureProcess->isActiveJobPreview() && isCaptureActive(m_currentTrainName))
     {
-        jobRemainingTime->setText(jobCountDown[m_currentTrainName].toString("hh:mm:ss"));
-        sequenceRemainingTime->setText(sequenceCountDown[m_currentTrainName].toString("hh:mm:ss"));
+        jobRemainingTime->setText(jobCounts[m_currentTrainName].countDown.toString("hh:mm:ss"));
+        sequenceRemainingTime->setText(sequenceCounts[m_currentTrainName].countDown.toString("hh:mm:ss"));
         gr_sequenceRemainingTime->setText(sequenceRemainingTime->text());
     }
     else
@@ -193,12 +218,13 @@ void CaptureCountsWidget::setFrameInfo(const QString frametype, const QString fi
 
 void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool isPreview, const QString &trainname)
 {
-    overallCountDown[trainname].setHMS(0, 0, 0);
-    bool infinite_loop = false;
-    int total_remaining_time = 0, total_completed = 0, total_count = 0;
-    double total_percentage = 0;
-    // use this value if no scheduler is running and job name otherwise
-    QString total_label = "Total";
+    // store current status
+    captureStates[trainname] = status;
+    // reset total counts
+    totalCounts[trainname].countDown.setHMS(0, 0, 0);
+    totalCounts[trainname].remainingTime = 0;
+    // update the attribute whether the current capture is a preview
+    m_isPreview = isPreview;
 
     // find the corresponding camera
     QSharedPointer<Ekos::Camera> selected_cam;
@@ -220,34 +246,40 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
     // determine total number of frames and completed ones - used either for
     // total numbers if scheduler is not used - and for job figures in the text
     // display if the scheduler is used
-    double capture_total_percentage = selected_cam->state()->progressPercentage();
-    int    capture_remaining_time   = selected_cam->state()->overallRemainingTime();
-    int capture_total_count = 0, capture_total_completed = 0;
+    jobCounts[trainname].remainingTime = selected_cam->state()->overallRemainingTime();
+    jobCounts[trainname].count = 0, jobCounts[trainname].completed = 0;
     for (int i = 0; i < selected_cam->state()->allJobs().count(); i++)
     {
-        capture_total_count     += selected_cam->state()->jobImageCount(i);
-        capture_total_completed += selected_cam->state()->jobImageProgress(i);
+        jobCounts[trainname].count     += selected_cam->state()->jobImageCount(i);
+        jobCounts[trainname].completed += selected_cam->state()->jobImageProgress(i);
     }
 
-
-    if (m_schedulerModuleState != nullptr && m_schedulerModuleState->activeJob() != nullptr)
+    Ekos::SchedulerJob *activeJob = m_schedulerModuleState->activeJob(trainname);
+    if (m_schedulerModuleState != nullptr && activeJob != nullptr)
     {
-        total_label = m_schedulerModuleState->activeJob()->getName();
         // FIXME: accessing the completed count might be one too low due to concurrency of updating the count and this loop
-        total_completed = m_schedulerModuleState->activeJob()->getCompletedCount();
-        total_count     = m_schedulerModuleState->activeJob()->getSequenceCount();
-        infinite_loop   = (m_schedulerModuleState->activeJob()->getCompletionCondition() == Ekos::FINISH_LOOP);
-        if (total_count > 0)
-            total_percentage = (100 * total_completed) / total_count;
-        if (m_schedulerModuleState->activeJob()->getEstimatedTime() > 0)
-            total_remaining_time = int(m_schedulerModuleState->activeJob()->getEstimatedTime());
+        totalCounts[trainname].completed = activeJob->getCompletedCount();
+        totalCounts[trainname].count     = activeJob->getSequenceCount();
+        if (activeJob->getEstimatedTime() > 0)
+            totalCounts[trainname].remainingTime = int(activeJob->getEstimatedTime());
     }
     else
     {
-        total_percentage     = capture_total_percentage;
-        total_remaining_time = capture_remaining_time;
-        total_count          = capture_total_count;
-        total_completed      = capture_total_completed;
+        totalCounts[trainname].remainingTime = jobCounts[trainname].remainingTime;
+        totalCounts[trainname].count         = jobCounts[trainname].count;
+        totalCounts[trainname].completed     = jobCounts[trainname].completed;
+    }
+
+    // update sequence remaining time
+    sequenceCounts[trainname].countDown.setHMS(0, 0, 0);
+    sequenceCounts[trainname].countDown = sequenceCounts[trainname].countDown.addSecs(
+            selected_cam->state()->activeJobRemainingTime());
+
+    // update job remaining time if run from the scheduler
+    if (m_schedulerModuleState != nullptr && activeJob != nullptr)
+    {
+        jobCounts[trainname].countDown.setHMS(0, 0, 0);
+        jobCounts[trainname].countDown = jobCounts[trainname].countDown.addSecs(selected_cam->state()->overallRemainingTime());
     }
 
     switch (status)
@@ -256,47 +288,13 @@ void CaptureCountsWidget::updateCaptureStatus(Ekos::CaptureState status, bool is
             // do nothing
             break;
         case Ekos::CAPTURE_ABORTED:
-            reset();
-            break;
+            refreshImageCounts(trainname);
+            updateCaptureCountDown(0);
+            [[fallthrough]];
         default:
-            if (infinite_loop == true)
-            {
-                overallRemainingTime->setText("--:--:--");
-                gr_overallProgressBar->setValue(0);
-                gr_overallRemainingTime->setText(overallRemainingTime->text());
-            }
-            else
-            {
-                overallCountDown[trainname] = overallCountDown[trainname].addSecs(total_remaining_time);
-                gr_overallProgressBar->setValue(total_percentage);
-            }
-
-            // display overall remainings
-            if (isPreview)
-                overallLabel->setText(QString("%1").arg(total_label));
-            else
-                overallLabel->setText(QString("%1 (%2/%3)")
-                                      .arg(total_label)
-                                      .arg(total_completed)
-                                      .arg(infinite_loop ? QString("-") : QString::number(total_count)));
-            gr_overallLabel->setText(overallLabel->text());
-
-            // update job remaining time if run from the scheduler
-            bool show_job_progress = (m_schedulerModuleState != nullptr && m_schedulerModuleState->activeJob() != nullptr);
-            jobLabel->setVisible(show_job_progress);
-            jobRemainingTime->setVisible(show_job_progress);
-            if (show_job_progress)
-            {
-                jobCountDown[trainname].setHMS(0, 0, 0);
-                jobCountDown[trainname] = jobCountDown[trainname].addSecs(selected_cam->state()->overallRemainingTime());
-                jobLabel->setText(QString("Job (%1/%2)")
-                                  .arg(capture_total_completed)
-                                  .arg(capture_total_count));
-            }
-
-            // update sequence remaining time
-            sequenceCountDown[trainname].setHMS(0, 0, 0);
-            sequenceCountDown[trainname] = sequenceCountDown[trainname].addSecs(selected_cam->state()->activeJobRemainingTime());
+            // update the counter display only for the currently selected train
+            if (m_currentTrainName == trainname)
+                refreshCaptureCounters(trainname);
     }
 }
 
@@ -336,6 +334,73 @@ void CaptureCountsWidget::showCurrentCameraInfo()
 
     gr_sequenceLabel->setText(sequenceLabel->text());
 }
+
+void CaptureCountsWidget::refreshCaptureCounters(const QString &trainname)
+{
+    QString total_label = "Total";
+    bool infinite_loop = false;
+    Ekos::SchedulerJob *activeJob = m_schedulerModuleState->activeJob(trainname);
+    bool isCapturing = isCaptureActive(trainname);
+    if (m_schedulerModuleState != nullptr && activeJob != nullptr)
+    {
+        infinite_loop = (activeJob->getCompletionCondition() == Ekos::FINISH_LOOP);
+        total_label = activeJob->getName();
+    }
+
+    if (infinite_loop == true || isCapturing == false)
+    {
+        overallRemainingTime->setText("--:--:--");
+        gr_overallProgressBar->setRange(0, 1);
+        gr_overallProgressBar->setValue(0);
+        gr_overallRemainingTime->setText(overallRemainingTime->text());
+    }
+    else
+    {
+        totalCounts[trainname].countDown = totalCounts[trainname].countDown.addSecs(totalCounts[trainname].remainingTime);
+        gr_overallProgressBar->setRange(0, totalCounts[trainname].count);
+        gr_overallProgressBar->setValue(totalCounts[trainname].completed);
+    }
+
+    // display overall remainings
+    if (m_isPreview)
+        overallLabel->setText(QString("%1").arg(total_label));
+    else
+        overallLabel->setText(QString("%1 (%2/%3)")
+                              .arg(total_label)
+                              .arg(totalCounts[trainname].completed)
+                              .arg(infinite_loop ? QString("-") : QString::number(totalCounts[trainname].count)));
+    gr_overallLabel->setText(overallLabel->text());
+
+    // update job remaining time if run from the scheduler
+    bool show_job_progress = (m_schedulerModuleState != nullptr && activeJob != nullptr);
+    jobLabel->setVisible(show_job_progress);
+    jobRemainingTime->setVisible(show_job_progress);
+    if (show_job_progress)
+    {
+        jobLabel->setText(QString("Job (%1/%2)")
+                          .arg(jobCounts[trainname].completed)
+                          .arg(jobCounts[trainname].count));
+    }
+}
+
+Ekos::CaptureState CaptureCountsWidget::captureState(const QString &trainname)
+{
+    // initialize to a default state if unknown
+    if (! captureStates.contains(trainname))
+        captureStates[trainname] = Ekos::CAPTURE_IDLE;
+
+    return captureStates[trainname];
+}
+
+bool CaptureCountsWidget::isCaptureActive(const QString &trainname)
+{
+    Ekos::CaptureState state = captureState(trainname);
+    return (state == Ekos::CAPTURE_PROGRESS ||
+            state == Ekos::CAPTURE_CAPTURING ||
+            state == Ekos::CAPTURE_PAUSE_PLANNED ||
+            state == Ekos::CAPTURE_IMAGE_RECEIVED);
+}
+
 
 
 void CaptureCountsWidget::setEnabled(bool enabled)
