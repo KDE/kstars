@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 01:53+0000\n"
-"PO-Revision-Date: 2025-04-09 11:56+0300\n"
+"POT-Creation-Date: 2025-04-17 01:53+0000\n"
+"PO-Revision-Date: 2025-04-16 09:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2964,7 +2964,7 @@ msgstr "Прив'язка типу"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -12373,7 +12373,7 @@ msgid "Filter exposure time during focus"
 msgstr "Тривалість експонування фільтра під час фокусування"
 
 #: ekos/auxiliary/filtermanager.cpp:121
-#: ekos/capture/capturecountswidget.cpp:183
+#: ekos/capture/capturecountswidget.cpp:208
 #, kde-format
 msgid "Exposure"
 msgstr "Експонування"
@@ -16342,7 +16342,7 @@ msgstr "Перервати"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:128
+#: ekos/capture/capturecountswidget.cpp:153
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, kde-format
@@ -16350,7 +16350,7 @@ msgid "Sequence"
 msgstr "Послідовність"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:131
+#: ekos/capture/capturecountswidget.cpp:156
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -26739,26 +26739,22 @@ msgstr ""
 "виконання скрипту обробки після запуску драйвера."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
 msgstr ""
-"Затримати роботу на вказану кількість секунд перед виконанням скрипту "
-"обробки до запуску драйвера."
+"Затримати роботу на вказану кількість секунд після виконання скрипту "
+"зупинення до зупинення драйвера."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Затримати роботу на вказану кількість секунд після запуску драйвера до "
-"виконання скрипту обробки після запуску драйвера."
+"Затримати роботу на вказану кількість секунд після зупинення драйвера до "
+"виконання скрипту обробки після зупинення драйвера."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -26771,16 +26767,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Виберіть скрипт для виконання після запуску драйвера"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Виберіть скрипт для виконання до запуску драйвера"
+msgstr "Виберіть скрипт для виконання до зупинення драйвера"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Виберіть скрипт для виконання після запуску драйвера"
+msgstr "Виберіть скрипт для виконання після зупинення драйвера"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -26795,20 +26789,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Виберіть скрипт для виконання після запуску драйвера"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Виберіть скрипт для виконання до запуску драйвера"
+msgstr "Виберіть скрипт для виконання до зупинення драйвера"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Виберіть скрипт для виконання після запуску драйвера"
+msgstr "Виберіть скрипт для виконання після зупинення драйвера"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -26821,28 +26811,24 @@ msgid "Driver"
 msgstr "Драйвер"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Перезапустити"
+msgstr "До запуску"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Зірка фокусування"
+msgstr "Після запуску"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Перед зупиненням"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "Ekos зупинено."
+msgstr "Після зупинення"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -29509,12 +29495,12 @@ msgstr "Темний кадр"
 msgid "images"
 msgstr "зображення"
 
-#: ekos/scheduler/schedulermodulestate.cpp:164
+#: ekos/scheduler/schedulermodulestate.cpp:182
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr "Не вдалося вилучити поточне запущене завдання «%1»."
 
-#: ekos/scheduler/schedulermodulestate.cpp:170
+#: ekos/scheduler/schedulermodulestate.cpp:188
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr "Не вдалося вилучити завдання. Стан планувальника: %1"
@@ -33657,16 +33643,14 @@ msgid "Post driver startup script failed with exit code: %1"
 msgstr "Помилка скрипту обробки після запуску драйвера, коди виходу: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
-msgstr "Помилка скрипту обробки до запуску драйвера, коди виходу: %1"
+msgstr "Помилка скрипту обробки до зупинення драйвера, коди виходу: %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
-msgstr "Помилка скрипту обробки після запуску драйвера, коди виходу: %1"
+msgstr "Помилка скрипту обробки після вимикання драйвера, коди виходу: %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format

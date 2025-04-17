@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 01:53+0000\n"
+"POT-Creation-Date: 2025-04-17 01:53+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2909,7 +2909,7 @@ msgstr "类型映射"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -11921,7 +11921,7 @@ msgid "Filter exposure time during focus"
 msgstr "对焦时滤镜曝光时间"
 
 #: ekos/auxiliary/filtermanager.cpp:121
-#: ekos/capture/capturecountswidget.cpp:183
+#: ekos/capture/capturecountswidget.cpp:208
 #, kde-format
 msgid "Exposure"
 msgstr "曝光"
@@ -15654,7 +15654,7 @@ msgstr "中止"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:128
+#: ekos/capture/capturecountswidget.cpp:153
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, kde-format
@@ -15662,7 +15662,7 @@ msgid "Sequence"
 msgstr "序列"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:131
+#: ekos/capture/capturecountswidget.cpp:156
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -25465,22 +25465,18 @@ msgid ""
 msgstr "驱动启动后，执行后驱动脚本前的延迟的秒数。"
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
-msgstr "执行驱动脚本前延迟的秒数。"
+msgstr ""
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
-msgstr "驱动启动后，执行后驱动脚本前的延迟的秒数。"
+msgstr ""
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -25493,16 +25489,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "启动驱动后，选择要执行的脚本"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "启动驱动前，选择要执行的脚本"
+msgstr ""
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "启动驱动后，选择要执行的脚本"
+msgstr ""
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -25517,20 +25511,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "选择后驱动脚本"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "选择前驱动启动脚本"
+msgstr ""
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "选择后驱动脚本"
+msgstr ""
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -25538,23 +25528,19 @@ msgid "Profile Scripts Editor"
 msgstr "配置文件脚本编辑器"
 
 #: ekos/profilescriptdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver"
-msgstr "驱动："
+msgstr ""
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "重启启动"
+msgstr ""
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "对焦星"
+msgstr ""
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
@@ -25562,10 +25548,9 @@ msgid "Pre stop"
 msgstr ""
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "Ekos 已停止。"
+msgstr ""
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -28064,12 +28049,12 @@ msgstr "暗平场"
 msgid "images"
 msgstr "图像"
 
-#: ekos/scheduler/schedulermodulestate.cpp:164
+#: ekos/scheduler/schedulermodulestate.cpp:182
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr "不能删除当前运行的作业 '%1'。"
 
-#: ekos/scheduler/schedulermodulestate.cpp:170
+#: ekos/scheduler/schedulermodulestate.cpp:188
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr "不能删除作业。调度器状态：%1"
@@ -31990,16 +31975,14 @@ msgid "Post driver startup script failed with exit code: %1"
 msgstr "驱动后启动脚本失败，退出代码: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
-msgstr "驱动前启动脚本失败，退出代码: %1"
+msgstr ""
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
-msgstr "驱动后启动脚本失败，退出代码: %1"
+msgstr ""
 
 #: indi/servermanager.cpp:521
 #, kde-format

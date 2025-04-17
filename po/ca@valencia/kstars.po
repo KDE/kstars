@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 01:53+0000\n"
-"PO-Revision-Date: 2025-04-10 11:19+0200\n"
+"POT-Creation-Date: 2025-04-17 01:53+0000\n"
+"PO-Revision-Date: 2025-04-16 20:31+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 # Diccionari de termes astronòmics:
@@ -3009,7 +3009,7 @@ msgstr "Tipus de mapatge"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -12535,7 +12535,7 @@ msgid "Filter exposure time during focus"
 msgstr "Temps d'exposició del filtre durant l'enfocament"
 
 #: ekos/auxiliary/filtermanager.cpp:121
-#: ekos/capture/capturecountswidget.cpp:183
+#: ekos/capture/capturecountswidget.cpp:208
 #, kde-format
 msgid "Exposure"
 msgstr "Exposició"
@@ -16589,7 +16589,7 @@ msgstr "Interromp"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:128
+#: ekos/capture/capturecountswidget.cpp:153
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, kde-format
@@ -16597,7 +16597,7 @@ msgid "Sequence"
 msgstr "Seqüència"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:131
+#: ekos/capture/capturecountswidget.cpp:156
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -27143,25 +27143,22 @@ msgstr ""
 "posterior al controlador."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
 msgstr ""
-"Temps d'espera en segons abans d'executar l'script anterior al controlador."
+"Temps d'espera en segons després d'executar l'script de parar el controlador "
+"abans de parar el controlador."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Temps d'espera en segons abans d'iniciar el controlador executant l'script "
-"posterior al controlador."
+"Temps d'espera en segons després que el controlador s'haja parat abans "
+"d'executar l'script del controlador parat."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -27174,16 +27171,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Seleccioneu l'script que s'executarà després d'iniciar el controlador"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Seleccioneu l'script que s'executarà abans d'iniciar el controlador"
+msgstr "Seleccioneu l'script que s'executarà abans de parar el controlador"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Seleccioneu l'script que s'executarà després d'iniciar el controlador"
+msgstr "Seleccioneu l'script que s'executarà després de parar el controlador"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -27198,20 +27193,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Seleccioneu l'script d'inici posterior al controlador"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Seleccioneu l'script d'inici anterior al controlador"
+msgstr "Seleccioneu l'script de parada anterior al controlador"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Seleccioneu l'script d'inici posterior al controlador"
+msgstr "Seleccioneu l'script de parada posterior al controlador"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -27219,34 +27210,29 @@ msgid "Profile Scripts Editor"
 msgstr "Editor de scripts de perfil"
 
 #: ekos/profilescriptdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver"
-msgstr "Controlador:"
+msgstr "Controlador"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Reinicia"
+msgstr "Abans d'iniciar"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Estrela que s'ha d'enfocar"
+msgstr "Després d'iniciar"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Abans de parar"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "S'ha parat Ekos."
+msgstr "Després de parar"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -29953,12 +29939,12 @@ msgstr "PlaFosc"
 msgid "images"
 msgstr "imatges"
 
-#: ekos/scheduler/schedulermodulestate.cpp:164
+#: ekos/scheduler/schedulermodulestate.cpp:182
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr "No s'ha pogut suprimir la tasca actualment en execució «%1»."
 
-#: ekos/scheduler/schedulermodulestate.cpp:170
+#: ekos/scheduler/schedulermodulestate.cpp:188
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr "No s'ha pogut suprimir la tasca. Estat del programador: %1"
@@ -34141,18 +34127,16 @@ msgstr ""
 "L'script d'inici després del controlador ha fallat amb el codi d'eixida: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
 msgstr ""
-"L'script d'inici abans del controlador ha fallat amb el codi d'eixida: %1"
+"L'script de parada abans del controlador ha fallat amb el codi d'eixida: %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
 msgstr ""
-"L'script d'inici després del controlador ha fallat amb el codi d'eixida: %1"
+"L'script de parada després del controlador ha fallat amb el codi d'eixida: %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format
@@ -81829,7 +81813,7 @@ msgstr ""
 "\t\t<p>KStars té un mode de pantalla completa; podeu canviar entre modes "
 "emprant\n"
 "\t\t\tel botó «Mode de pantalla completa» de la barra d'eines, o bé prement "
-"«Ctrl+Maj+F».\n"
+"«Ctrl+Majús+F».\n"
 "\t\t</p>\n"
 "\t\n"
 
@@ -81965,7 +81949,7 @@ msgstr ""
 "«Allunya»\n"
 "\t\t\tde la barra d'eines i estes opcions en el menú «Visualitza».\n"
 "\t\t\tEl nivell d'ampliació es pot escollir manualment amb l'opció\n"
-"\t\t\t«Amplia a una mida angular» del menú Visualitza («Ctrl+Maj+Z»),\n"
+"\t\t\t«Amplia a una mida angular» del menú Visualitza («Ctrl+Majús+Z»),\n"
 "\t\t\ti el podeu establir gràficament tot mantenint premuda la tecla\n"
 "\t\t\t«Ctrl» mentre arrossegueu el ratolí per a definir un rectangle\n"
 "\t\t\tamb les mides noves.\n"

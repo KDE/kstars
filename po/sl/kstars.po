@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 01:53+0000\n"
-"PO-Revision-Date: 2025-04-09 07:27+0200\n"
+"POT-Creation-Date: 2025-04-17 01:53+0000\n"
+"PO-Revision-Date: 2025-04-16 07:20+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2992,7 +2992,7 @@ msgstr "Vrsta preslikave"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -12311,7 +12311,7 @@ msgid "Filter exposure time during focus"
 msgstr "Čas osvetlitve filtra med fokusiranjem"
 
 #: ekos/auxiliary/filtermanager.cpp:121
-#: ekos/capture/capturecountswidget.cpp:183
+#: ekos/capture/capturecountswidget.cpp:208
 #, kde-format
 msgid "Exposure"
 msgstr "Osvetlitev"
@@ -16197,7 +16197,7 @@ msgstr "Prekini"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:128
+#: ekos/capture/capturecountswidget.cpp:153
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, kde-format
@@ -16205,7 +16205,7 @@ msgid "Sequence"
 msgstr "Zaporedje"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:131
+#: ekos/capture/capturecountswidget.cpp:156
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -26453,23 +26453,22 @@ msgstr ""
 "Zakasni toliko sekund po zagonu gonilnika pred izvedbo skripta po gonilniku."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
-msgstr "Zakasni toliko sekund preden izvedbo skripta pred gonilnikom."
+msgstr ""
+"Zakasni toliko sekund po izvedbi zaustavitvenega skripta gonilnika pred "
+"njegovo zaustavitvijo."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Zakasni toliko sekund po zagonu gonilnika pred izvedbo skripta po gonilniku."
+"Zakasni toliko sekund po zaustavitvi gonilnika, preden se izvede skript "
+"ustavljenega gonilnika."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -26482,16 +26481,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Izberi skript za izvedbo po zagonu gonilnika"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Izberi skript za izvedbo pred zagonom gonilnika"
+msgstr "Izberi skript za izvedbo pred ustavitvijo gonilnika"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Izberi skript za izvedbo po zagonu gonilnika"
+msgstr "Izberi skript za izvedbo po zaustavitvi gonilnika"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -26506,20 +26503,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Izberi skript po zagonu gonilnika"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Izberi skript pred zagonom gonilnika"
+msgstr "Izberi skript pred zaustavitvijo gonilnika"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Izberi skript po zagonu gonilnika"
+msgstr "Izberi skript po ustavitvi gonilnika"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -26527,34 +26520,29 @@ msgid "Profile Scripts Editor"
 msgstr "Urejevalnik skriptov profilov"
 
 #: ekos/profilescriptdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver"
-msgstr "Gonilnik:"
+msgstr "Gonilnik"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Znova zaženi"
+msgstr "Pred zagonom"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Zvezda v fokusu"
+msgstr "Po zagonu"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Pred zaustavitvijo"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "Ekos se je ustavil."
+msgstr "Po zaustavitvi"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -29186,12 +29174,12 @@ msgstr "DarkFlat"
 msgid "images"
 msgstr "slike"
 
-#: ekos/scheduler/schedulermodulestate.cpp:164
+#: ekos/scheduler/schedulermodulestate.cpp:182
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr "Trenutno delujočega opravila '%1' ni mogoče izbrisati."
 
-#: ekos/scheduler/schedulermodulestate.cpp:170
+#: ekos/scheduler/schedulermodulestate.cpp:188
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr "Opravila ni mogoče izbrisati. Stanje razporejevalnika: %1"
@@ -33295,16 +33283,14 @@ msgid "Post driver startup script failed with exit code: %1"
 msgstr "Skript po zagonu gonilnika ni uspel z izhodno kodo: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
-msgstr "Skript pred zagonom gonilnika ni uspel z izhodno kodo: %1"
+msgstr "Skript pred zaustavitvijo gonilnika ni uspel z izhodno kodo: %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
-msgstr "Skript po zagonu gonilnika ni uspel z izhodno kodo: %1"
+msgstr "Skript po zaustavitvi gonilnika ni uspel z izhodno kodo: %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format

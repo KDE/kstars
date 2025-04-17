@@ -6,13 +6,13 @@
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # David Gil, <al016950@yahoo.es>, 2004.
 # Orestes Mas Casals <orestes@tsc.upc.edu>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
-# Josep M. Ferrer <txemaq@gmail.com>, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
+# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 01:53+0000\n"
-"PO-Revision-Date: 2025-04-09 10:35+0200\n"
+"POT-Creation-Date: 2025-04-17 01:53+0000\n"
+"PO-Revision-Date: 2025-04-16 11:54+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -2996,7 +2996,7 @@ msgstr "Tipus de mapatge"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -12434,7 +12434,7 @@ msgid "Filter exposure time during focus"
 msgstr "Temps d'exposició del filtre durant l'enfocament"
 
 #: ekos/auxiliary/filtermanager.cpp:121
-#: ekos/capture/capturecountswidget.cpp:183
+#: ekos/capture/capturecountswidget.cpp:208
 #, kde-format
 msgid "Exposure"
 msgstr "Exposició"
@@ -16396,7 +16396,7 @@ msgstr "Interromp"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:128
+#: ekos/capture/capturecountswidget.cpp:153
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, kde-format
@@ -16404,7 +16404,7 @@ msgid "Sequence"
 msgstr "Seqüència"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:131
+#: ekos/capture/capturecountswidget.cpp:156
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -26825,24 +26825,22 @@ msgstr ""
 "l'script postcontrolador."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
-msgstr "Temps d'espera en segons abans d'executar l'script precontrolador."
+msgstr ""
+"Retard en segons després d'executar l'script d'aturada del controlador abans "
+"de l'aturada del controlador."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Temps d'espera en segons després de l'inici del controlador abans d'executar "
-"l'script postcontrolador."
+"Retard en segons després de l'aturada del controlador abans d'executar "
+"l'script d'aturada del controlador."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -26855,16 +26853,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Seleccioneu l'script a executar després d'iniciar el controlador"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Seleccioneu l'script a executar abans d'iniciar el controlador"
+msgstr "Seleccioneu l'script a executar abans de l'aturada del controlador"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Seleccioneu l'script a executar després d'iniciar el controlador"
+msgstr "Seleccioneu l'script a executar després de l'aturada del controlador"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -26879,20 +26875,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Selecció de l'script d'inici postcontrolador"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Selecció de l'script d'inici precontrolador"
+msgstr "Selecció de l'script d'aturada del precontrolador"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Selecció de l'script d'inici postcontrolador"
+msgstr "Selecció de l'script d'aturada del postcontrolador"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -26900,34 +26892,29 @@ msgid "Profile Scripts Editor"
 msgstr "Editor de scripts de perfils"
 
 #: ekos/profilescriptdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver"
-msgstr "Controlador:"
+msgstr "Controlador"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Reinicia"
+msgstr "Preinici"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Estrella a enfocar"
+msgstr "Postinici"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Preaturada"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "S'ha aturat l'Ekos."
+msgstr "Postaturada"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -29595,12 +29582,12 @@ msgstr "PlaFosc"
 msgid "images"
 msgstr "imatges"
 
-#: ekos/scheduler/schedulermodulestate.cpp:164
+#: ekos/scheduler/schedulermodulestate.cpp:182
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr "No s'ha pogut suprimir la tasca actualment en execució «%1»."
 
-#: ekos/scheduler/schedulermodulestate.cpp:170
+#: ekos/scheduler/schedulermodulestate.cpp:188
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr "No s'ha pogut suprimir la tasca. Estat del programador: %1"
@@ -33761,18 +33748,16 @@ msgstr ""
 "L'script d'inici del postcontrolador ha fallat amb el codi de sortida: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
 msgstr ""
-"L'script d'inici del precontrolador ha fallat amb el codi de sortida: %1"
+"L'script d'aturada del precontrolador ha fallat amb el codi de sortida: %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
 msgstr ""
-"L'script d'inici del postcontrolador ha fallat amb el codi de sortida: %1"
+"L'script d'aturada del postcontrolador ha fallat amb el codi de sortida: %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format

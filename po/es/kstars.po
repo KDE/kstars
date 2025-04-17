@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 01:53+0000\n"
-"PO-Revision-Date: 2025-04-09 17:47+0100\n"
+"POT-Creation-Date: 2025-04-17 01:53+0000\n"
+"PO-Revision-Date: 2025-04-16 12:45+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -2978,7 +2978,7 @@ msgstr "Mapeado del tipo"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -12409,7 +12409,7 @@ msgid "Filter exposure time during focus"
 msgstr "Tiempo de exposición del filtro durante el enfoque"
 
 #: ekos/auxiliary/filtermanager.cpp:121
-#: ekos/capture/capturecountswidget.cpp:183
+#: ekos/capture/capturecountswidget.cpp:208
 #, kde-format
 msgid "Exposure"
 msgstr "Exposición"
@@ -16373,7 +16373,7 @@ msgstr "Interrumpir"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:128
+#: ekos/capture/capturecountswidget.cpp:153
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, kde-format
@@ -16381,7 +16381,7 @@ msgid "Sequence"
 msgstr "Secuencia"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:131
+#: ekos/capture/capturecountswidget.cpp:156
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -26805,25 +26805,22 @@ msgstr ""
 "guion posterior al controlador."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
 msgstr ""
-"Esperar estos segundos antes de ejecutar el guion previo al controlador."
+"Esperar estos segundos después de ejecutar el guion de detención del "
+"controlador antes detener el controlador."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Esperar estos segundos tras el inicio del controlador antes de ejecutar el "
-"guion posterior al controlador."
+"Esperar estos segundos tras la detención del controlador antes de ejecutar "
+"el guion de detención del controlador."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -26836,16 +26833,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Seleccione el guion a ejecutar después de iniciar el controlador"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Seleccione el guion a ejecutar antes de iniciar el controlador"
+msgstr "Seleccione el guion a ejecutar antes de detener el controlador"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Seleccione el guion a ejecutar después de iniciar el controlador"
+msgstr "Seleccione el guion a ejecutar después de detener el controlador"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -26860,20 +26855,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Seleccione el guion posterior al inicio del controlador"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Seleccione el guion previo al inicio del controlador"
+msgstr "Seleccione el guion previo a la detención del controlador"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Seleccione el guion posterior al inicio del controlador"
+msgstr "Seleccione el guion posterior a la detención del controlador"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -26881,34 +26872,29 @@ msgid "Profile Scripts Editor"
 msgstr "Editor de guiones de perfil"
 
 #: ekos/profilescriptdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver"
-msgstr "Controlador:"
+msgstr "Controlador"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Reiniciar"
+msgstr "Previo al inicio"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Estrella de enfoque"
+msgstr "Posterior al inicio"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Previo a la detención"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "Se ha detenido Ekos."
+msgstr "Posterior a la detención"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -29587,12 +29573,12 @@ msgstr "Plano oscuro"
 msgid "images"
 msgstr "imágenes"
 
-#: ekos/scheduler/schedulermodulestate.cpp:164
+#: ekos/scheduler/schedulermodulestate.cpp:182
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr "No se puede borrar el trabajo en ejecución «%1»."
 
-#: ekos/scheduler/schedulermodulestate.cpp:170
+#: ekos/scheduler/schedulermodulestate.cpp:188
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr "No se puede borrar el trabajo. Estado del planificador: %1"
@@ -33737,20 +33723,18 @@ msgstr ""
 "salida: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
 msgstr ""
-"El guion previo al inicio del controlador ha fallado con el código de "
+"El guion previo a la detención del controlador ha fallado con el código de "
 "salida: %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
 msgstr ""
-"El guion posterior al inicio del controlador ha fallado con el código de "
-"salida: %1"
+"El guion posterior a la detención del controlador ha fallado con el código "
+"de salida: %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format

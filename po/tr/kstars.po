@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-16 01:53+0000\n"
+"POT-Creation-Date: 2025-04-17 01:53+0000\n"
 "PO-Revision-Date: 2025-04-07 00:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -2969,7 +2969,7 @@ msgstr "Tür Eşlemleme"
 #. i18n: ectx: property (text), widget (QPushButton, preview_button)
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: dialogs/catalogcsvimport.ui:297 ekos/capture/camera.ui:2373
-#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:323
+#: ekos/capture/cameraprocess.cpp:2450 ekos/capture/capturecountswidget.cpp:321
 #: fitsviewer/fitsviewer.cpp:730 fitsviewer/fitsviewer.cpp:731
 #, kde-format
 msgid "Preview"
@@ -12300,7 +12300,7 @@ msgid "Filter exposure time during focus"
 msgstr "Odak sırasındaki süzgeç pozlama zamanı"
 
 #: ekos/auxiliary/filtermanager.cpp:121
-#: ekos/capture/capturecountswidget.cpp:183
+#: ekos/capture/capturecountswidget.cpp:208
 #, kde-format
 msgid "Exposure"
 msgstr "Pozlama"
@@ -16196,7 +16196,7 @@ msgstr "Vazgeç"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_sequenceLabel)
 #. i18n: ectx: property (text), widget (QLabel, sequenceLabel)
-#: ekos/capture/capturecountswidget.cpp:128
+#: ekos/capture/capturecountswidget.cpp:153
 #: ekos/capture/capturecountswidget.ui:124
 #: ekos/capture/capturecountswidget.ui:397
 #, kde-format
@@ -16204,7 +16204,7 @@ msgid "Sequence"
 msgstr "Sekans"
 
 #. i18n: ectx: property (text), widget (QLabel, gr_overallLabel)
-#: ekos/capture/capturecountswidget.cpp:131
+#: ekos/capture/capturecountswidget.cpp:156
 #: ekos/capture/capturecountswidget.ui:140
 #, kde-format
 msgid "Overall"
@@ -26456,24 +26456,22 @@ msgstr ""
 "saniye geciktirin."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
-msgstr "Sürücü öncesi betiğini yürütmeden önce bu kadar saniye geciktirin."
+msgstr ""
+"Sürücüyü durdurma betiğini yürüttükten sonra sürücüyü durdurmadan önce bu "
+"kadar saniye geciktirin."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Sürücü başlangıcı sonrası, sürücü sonrası betiğini yürütmeden önce bu kadar "
-"saniye geciktirin."
+"Sürücü durdurulduktan sonra durdurulan sürücü betiğini çalıştırmadan önce bu "
+"kadar saniye geciktirin."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -26486,16 +26484,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Sürücüyü başlattıktan sonra yürütülecek betiği seç"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Sürücüyü çalıştırmadan önce yürütülecek betiği seç"
+msgstr "Sürücüyü durdurmadan önce yürütülecek betiği seç"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Sürücüyü başlattıktan sonra yürütülecek betiği seç"
+msgstr "Sürücüyü durdurduktan sonra yürütülecek betiği seç"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -26510,20 +26506,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Sürücü Sonrası Başlangıç Betiği Seç"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Sürücü Öncesi Başlangıç Betiği Seç"
+msgstr "Sürücü Öncesi Durdurma Betiği Seç"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Sürücü Sonrası Başlangıç Betiği Seç"
+msgstr "Sürücü Sonrası Durdurma Betiği Seç"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -26531,34 +26523,29 @@ msgid "Profile Scripts Editor"
 msgstr "Profil Betikleri Düzenleyicisi"
 
 #: ekos/profilescriptdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver"
-msgstr "Sürücü:"
+msgstr "Sürücü"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Yeniden Başlat"
+msgstr "Başlangıç öncesi"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Yıldıza odaklan"
+msgstr "Başlangıç sonrası"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Durdurma öncesi"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "Ekos durduruldu."
+msgstr "Durdurma sonrası"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -29194,12 +29181,12 @@ msgstr "Koyu Düz"
 msgid "images"
 msgstr "görseller"
 
-#: ekos/scheduler/schedulermodulestate.cpp:164
+#: ekos/scheduler/schedulermodulestate.cpp:182
 #, kde-format
 msgid "Cannot delete currently running job '%1'."
 msgstr "Şu anda çalışan “%1” işi silinemiyor."
 
-#: ekos/scheduler/schedulermodulestate.cpp:170
+#: ekos/scheduler/schedulermodulestate.cpp:188
 #, kde-format
 msgid "Cannot delete job. Scheduler state: %1"
 msgstr "İş silinemiyor. Zamanlayıcı durumu: %1"
@@ -33274,16 +33261,14 @@ msgid "Post driver startup script failed with exit code: %1"
 msgstr "Sürücü sonrası başlangıç betiği şu çıkış koduyla başarısız oldu: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
-msgstr "Sürücü öncesi başlangıç betiği şu çıkış koduyla başarısız oldu: %1"
+msgstr "Sürücü öncesi kapanma betiği şu çıkış koduyla başarısız oldu: %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
-msgstr "Sürücü sonrası başlangıç betiği şu çıkış koduyla başarısız oldu: %1"
+msgstr "Sürücü sonrası kapanma betiği şu çıkış koduyla başarısız oldu: %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format
