@@ -26948,8 +26948,7 @@ msgid "Profile Scripts Editor"
 msgstr "Éditeur de scripts de profil"
 
 #: ekos/profilescriptdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Driver"
+#, kde-format
 msgid "Driver"
 msgstr "Pilote"
 
