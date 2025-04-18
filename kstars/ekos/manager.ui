@@ -1052,24 +1052,14 @@
          </item>
          <item alignment="Qt::AlignHCenter">
           <widget class="QPushButton" name="helpB">
-           <property name="icon">
-            <iconset theme="help-about">
-             <normaloff>.</normaloff>.</iconset>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="text">
-            <string></string>
+            <string>Manual</string>
            </property>
           </widget>
          </item>

@@ -1047,7 +1047,7 @@ void Manager::start()
 
 
     // Prioritize profile script drivers over other drivers
-    QList<QSharedPointer<DriverInfo>> sortedList;
+    QList<QSharedPointer<DriverInfo >> sortedList;
     for (const auto &oneRule : qAsConst(profileScripts))
     {
         auto driver = oneRule.toObject()["Driver"].toString();
@@ -1145,7 +1145,7 @@ void Manager::start()
             });
 
             KSMessageBox::Instance()->questionYesNo(i18n("Ekos detected an instance of INDI server running. Do you wish to "
-                                                    "shut down the existing instance before starting a new one?"),
+                                                         "shut down the existing instance before starting a new one?"),
                                                     i18n("INDI Server"), 5);
         }
         else
@@ -2180,7 +2180,7 @@ void Manager::clearLog()
     else if (currentWidget == mountModule())
         mountModule()->clearLog();
     else if (currentWidget == schedulerModule())
-        schedulerModule()->moduleState()->clearLog();
+        schedulerModule()->process()->clearLog();
     else if (currentWidget == observatoryProcess.get())
         observatoryProcess->clearLog();
     else if (currentWidget == analyzeProcess.get())
