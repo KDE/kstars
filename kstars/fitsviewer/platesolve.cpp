@@ -126,8 +126,11 @@ void PlateSolve::disableAuxButton()
 void PlateSolve::abort()
 {
     disconnect(&m_Watcher);
-    disconnect(m_Solver.get());
-    m_Solver->abort();
+    if (m_Solver.get())
+    {
+        disconnect(m_Solver.get());
+        m_Solver->abort();
+    }
 }
 
 void PlateSolve::setupSolver(const QSharedPointer<FITSData> &imageData, bool extractOnly)
