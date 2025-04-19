@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-17 01:53+0000\n"
+"POT-Creation-Date: 2025-04-19 01:55+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -14203,7 +14203,8 @@ msgid "Use the frame exposure value"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
-#: ekos/capture/calibrationoptions.ui:159
+#. i18n: ectx: property (text), widget (QPushButton, helpB)
+#: ekos/capture/calibrationoptions.ui:159 ekos/manager.ui:1062
 #, kde-format
 msgid "Manual"
 msgstr ""
@@ -19486,7 +19487,7 @@ msgstr "Në skedar..."
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1214 ekos/manager.ui:1089 fitsviewer/fitstab.cpp:160
+#: ekos/focus/focus.ui:1214 ekos/manager.ui:1079 fitsviewer/fitstab.cpp:160
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -24129,14 +24130,14 @@ msgid "  --"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:1079
+#: ekos/manager.ui:1069
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Advanced Ekos Options"
 msgstr "Pozicioni"
 
 #. i18n: ectx: property (text), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:1082
+#: ekos/manager.ui:1072
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Options..."

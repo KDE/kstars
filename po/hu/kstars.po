@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-17 01:53+0000\n"
+"POT-Creation-Date: 2025-04-19 01:55+0000\n"
 "PO-Revision-Date: 2021-12-10 11:27+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -14555,7 +14555,8 @@ msgid "Use the frame exposure value"
 msgstr "Az alapértelmezett FITS-könyvtár:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
-#: ekos/capture/calibrationoptions.ui:159
+#. i18n: ectx: property (text), widget (QPushButton, helpB)
+#: ekos/capture/calibrationoptions.ui:159 ekos/manager.ui:1062
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Manual"
@@ -20103,7 +20104,7 @@ msgstr "Ív fájl:"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1214 ekos/manager.ui:1089 fitsviewer/fitstab.cpp:160
+#: ekos/focus/focus.ui:1214 ekos/manager.ui:1079 fitsviewer/fitstab.cpp:160
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -24915,14 +24916,14 @@ msgid "  --"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:1079
+#: ekos/manager.ui:1069
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "Advanced Ekos Options"
 msgstr "Beállítások"
 
 #. i18n: ectx: property (text), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:1082
+#: ekos/manager.ui:1072
 #, kde-format
 msgid "Options..."
 msgstr "Beállítások"

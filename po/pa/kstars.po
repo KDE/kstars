@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-17 01:53+0000\n"
+"POT-Creation-Date: 2025-04-19 01:55+0000\n"
 "PO-Revision-Date: 2020-07-21 22:57-0700\n"
 "Last-Translator: A S Alam <aalam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -14331,7 +14331,8 @@ msgid "Use the frame exposure value"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
-#: ekos/capture/calibrationoptions.ui:159
+#. i18n: ectx: property (text), widget (QPushButton, helpB)
+#: ekos/capture/calibrationoptions.ui:159 ekos/manager.ui:1062
 #, fuzzy, kde-format
 #| msgctxt "Country name"
 #| msgid "Vanuatu"
@@ -19786,7 +19787,7 @@ msgstr "ਖਿੱਤੇ"
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1214 ekos/manager.ui:1089 fitsviewer/fitstab.cpp:160
+#: ekos/focus/focus.ui:1214 ekos/manager.ui:1079 fitsviewer/fitstab.cpp:160
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -24515,14 +24516,14 @@ msgid "  --"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:1079
+#: ekos/manager.ui:1069
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "Advanced Ekos Options"
 msgstr "ਚੋਣਾਂ"
 
 #. i18n: ectx: property (text), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:1082
+#: ekos/manager.ui:1072
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "Options..."

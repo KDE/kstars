@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1707270 $
+# Version: $Revision: 1707382 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-17 01:53+0000\n"
+"POT-Creation-Date: 2025-04-19 01:55+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -14493,7 +14493,8 @@ msgid "Use the frame exposure value"
 msgstr "Użyj wartości naświetlenia klatki"
 
 #. i18n: ectx: property (text), widget (QRadioButton, captureCalibrationDurationManual)
-#: ekos/capture/calibrationoptions.ui:159
+#. i18n: ectx: property (text), widget (QPushButton, helpB)
+#: ekos/capture/calibrationoptions.ui:159 ekos/manager.ui:1062
 #, kde-format
 msgid "Manual"
 msgstr "Ręcznie"
@@ -20156,7 +20157,7 @@ msgstr "Profil..."
 #. i18n: ectx: property (text), widget (QPushButton, clearB)
 #. i18n: ectx: property (text), widget (QPushButton, ClearButton)
 #. i18n: ectx: property (text), widget (QPushButton, Clear)
-#: ekos/focus/focus.ui:1214 ekos/manager.ui:1089 fitsviewer/fitstab.cpp:160
+#: ekos/focus/focus.ui:1214 ekos/manager.ui:1079 fitsviewer/fitstab.cpp:160
 #: indi/guimanager.cpp:75 tools/conjunctions.ui:205 tools/eclipsetool.ui:167
 #: tools/modcalcgeod.ui:160
 #, kde-format
@@ -25305,13 +25306,13 @@ msgid "  --"
 msgstr "  --"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:1079
+#: ekos/manager.ui:1069
 #, kde-format
 msgid "Advanced Ekos Options"
 msgstr "Ustawienia rozszerzone Ekos"
 
 #. i18n: ectx: property (text), widget (QPushButton, ekosOptionsB)
-#: ekos/manager.ui:1082
+#: ekos/manager.ui:1072
 #, kde-format
 msgid "Options..."
 msgstr "Opcje..."
