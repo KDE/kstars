@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 01:55+0000\n"
+"POT-Creation-Date: 2025-04-20 01:53+0000\n"
 "PO-Revision-Date: 2009-02-23 19:53+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -601,7 +601,7 @@ msgstr "अरबार्ग"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/platesolve.cpp:215 fitsviewer/platesolve.cpp:251
+#: fitsviewer/platesolve.cpp:218 fitsviewer/platesolve.cpp:254
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10506,7 +10506,7 @@ msgstr "फोटू कैप्चर करव"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:282
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:285
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
 #: skycomponents/imageoverlaycomponent.cpp:728
@@ -24976,7 +24976,7 @@ msgstr "का आप मन सही मं क्लायंट %1 ल म�
 msgid "Mount Tracking"
 msgstr "ट्रैक"
 
-#: ekos/mount/mount.cpp:482 tools/imagingplanner.cpp:3979
+#: ekos/mount/mount.cpp:482
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Yeosu"
@@ -24984,7 +24984,7 @@ msgctxt "@action:button"
 msgid "Yes"
 msgstr "येओसू"
 
-#: ekos/mount/mount.cpp:483 tools/imagingplanner.cpp:3980
+#: ekos/mount/mount.cpp:483
 #, fuzzy, kde-format
 #| msgid "Now"
 msgctxt "@action:button"
@@ -25944,7 +25944,7 @@ msgid "Slaving deactivated."
 msgstr "अन्य"
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:97
-#: fitsviewer/platesolve.cpp:211 fitsviewer/platesolve.cpp:247
+#: fitsviewer/platesolve.cpp:214 fitsviewer/platesolve.cpp:250
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"
@@ -31755,54 +31755,54 @@ msgstr "अभी हाल के रंग सेटिंग"
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "छोटेफोटू संपादक "
 
-#: fitsviewer/platesolve.cpp:221
+#: fitsviewer/platesolve.cpp:224
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Other"
 msgid "Extracting..."
 msgstr "अन्य"
 
-#: fitsviewer/platesolve.cpp:255
+#: fitsviewer/platesolve.cpp:258
 #, fuzzy, kde-format
 #| msgid "&Settings"
 msgid "Solving..."
 msgstr "सेटिंग (&S)"
 
-#: fitsviewer/platesolve.cpp:268
+#: fitsviewer/platesolve.cpp:271
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Extractor timed out: %1s"
 msgstr "तारा लोड करत हे"
 
-#: fitsviewer/platesolve.cpp:278
+#: fitsviewer/platesolve.cpp:281
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Extractor failed: %1s"
 msgstr "एफओवी नइ"
 
-#: fitsviewer/platesolve.cpp:288
+#: fitsviewer/platesolve.cpp:291
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:334
+#: fitsviewer/platesolve.cpp:337
 #, fuzzy, kde-format
 #| msgid "Loading stars"
 msgid "Solver timed out: %1s"
 msgstr "तारा लोड करत हे"
 
-#: fitsviewer/platesolve.cpp:340
+#: fitsviewer/platesolve.cpp:343
 #, fuzzy, kde-format
 #| msgid "No FOV"
 msgid "Solver failed: %1s"
 msgstr "एफओवी नइ"
 
-#: fitsviewer/platesolve.cpp:540
+#: fitsviewer/platesolve.cpp:543
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:541
+#: fitsviewer/platesolve.cpp:544
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -90808,6 +90808,20 @@ msgstr ""
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
+
+#: tools/imagingplanner.cpp:3979
+#, fuzzy, kde-format
+#| msgid "&OK"
+msgctxt "@action:button"
+msgid "OK"
+msgstr "ठीक (&O)"
+
+#: tools/imagingplanner.cpp:3980
+#, fuzzy, kde-format
+#| msgid "Cancel"
+msgctxt "@action:button"
+msgid "Cancel"
+msgstr "खारिज करव"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:77

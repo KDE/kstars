@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 01:55+0000\n"
+"POT-Creation-Date: 2025-04-20 01:53+0000\n"
 "PO-Revision-Date: 2024-11-23 12:49+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -560,7 +560,7 @@ msgstr "Continue"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/platesolve.cpp:215 fitsviewer/platesolve.cpp:251
+#: fitsviewer/platesolve.cpp:218 fitsviewer/platesolve.cpp:254
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10310,7 +10310,7 @@ msgstr "Capture"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:282
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:285
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
 #: skycomponents/imageoverlaycomponent.cpp:728
@@ -24765,13 +24765,13 @@ msgstr "Are you sure you want to turn off mount tracking?"
 msgid "Mount Tracking"
 msgstr "Mount Tracking"
 
-#: ekos/mount/mount.cpp:482 tools/imagingplanner.cpp:3979
+#: ekos/mount/mount.cpp:482
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "Yes"
 
-#: ekos/mount/mount.cpp:483 tools/imagingplanner.cpp:3980
+#: ekos/mount/mount.cpp:483
 #, kde-format
 msgctxt "@action:button"
 msgid "No"
@@ -25681,7 +25681,7 @@ msgid "Slaving deactivated."
 msgstr "Slaving deactivated."
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:97
-#: fitsviewer/platesolve.cpp:211 fitsviewer/platesolve.cpp:247
+#: fitsviewer/platesolve.cpp:214 fitsviewer/platesolve.cpp:250
 #, kde-format
 msgid "Aborting..."
 msgstr "Aborting..."
@@ -31434,47 +31434,47 @@ msgstr "StellarSolver partitioning"
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "FITS Viewer Solver Profiles Editor"
 
-#: fitsviewer/platesolve.cpp:221
+#: fitsviewer/platesolve.cpp:224
 #, kde-format
 msgid "Extracting..."
 msgstr "Extracting..."
 
-#: fitsviewer/platesolve.cpp:255
+#: fitsviewer/platesolve.cpp:258
 #, kde-format
 msgid "Solving..."
 msgstr "Solving..."
 
-#: fitsviewer/platesolve.cpp:268
+#: fitsviewer/platesolve.cpp:271
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "Extractor timed out: %1s"
 
-#: fitsviewer/platesolve.cpp:278
+#: fitsviewer/platesolve.cpp:281
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "Extractor failed: %1s"
 
-#: fitsviewer/platesolve.cpp:288
+#: fitsviewer/platesolve.cpp:291
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "Extracted %1 stars (%2 unfiltered) in %3s"
 
-#: fitsviewer/platesolve.cpp:334
+#: fitsviewer/platesolve.cpp:337
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "Solver timed out: %1s"
 
-#: fitsviewer/platesolve.cpp:340
+#: fitsviewer/platesolve.cpp:343
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "Solver failed: %1s"
 
-#: fitsviewer/platesolve.cpp:540
+#: fitsviewer/platesolve.cpp:543
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr "Warning! This tool only supports the internal StellarSolver solver."
 
-#: fitsviewer/platesolve.cpp:541
+#: fitsviewer/platesolve.cpp:544
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "Change to that in the Ekos Align options menu."
@@ -82588,6 +82588,20 @@ msgstr "Sorry, catalogue file doesn't exist: \"%1\""
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr "%1/%2: Adding %3"
+
+#: tools/imagingplanner.cpp:3979
+#, fuzzy, kde-format
+#| msgid "OK"
+msgctxt "@action:button"
+msgid "OK"
+msgstr "OK"
+
+#: tools/imagingplanner.cpp:3980
+#, fuzzy, kde-format
+#| msgid "Cancel"
+msgctxt "@action:button"
+msgid "Cancel"
+msgstr "Cancel"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:77

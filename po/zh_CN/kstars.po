@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 01:55+0000\n"
+"POT-Creation-Date: 2025-04-20 01:53+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -555,7 +555,7 @@ msgstr "继续"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/platesolve.cpp:215 fitsviewer/platesolve.cpp:251
+#: fitsviewer/platesolve.cpp:218 fitsviewer/platesolve.cpp:254
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -10068,7 +10068,7 @@ msgstr "拍摄"
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:282
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:285
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
 #: skycomponents/imageoverlaycomponent.cpp:728
@@ -23962,13 +23962,13 @@ msgstr "您确定要停止赤道仪跟踪吗？"
 msgid "Mount Tracking"
 msgstr "赤道仪跟踪"
 
-#: ekos/mount/mount.cpp:482 tools/imagingplanner.cpp:3979
+#: ekos/mount/mount.cpp:482
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "是"
 
-#: ekos/mount/mount.cpp:483 tools/imagingplanner.cpp:3980
+#: ekos/mount/mount.cpp:483
 #, kde-format
 msgctxt "@action:button"
 msgid "No"
@@ -24856,7 +24856,7 @@ msgid "Slaving deactivated."
 msgstr "已取消激活从动模式。"
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:97
-#: fitsviewer/platesolve.cpp:211 fitsviewer/platesolve.cpp:247
+#: fitsviewer/platesolve.cpp:214 fitsviewer/platesolve.cpp:250
 #, kde-format
 msgid "Aborting..."
 msgstr "正在中止..."
@@ -30390,47 +30390,47 @@ msgstr "StellarSolver 分区"
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr "FITS 查看器配置编辑器"
 
-#: fitsviewer/platesolve.cpp:221
+#: fitsviewer/platesolve.cpp:224
 #, kde-format
 msgid "Extracting..."
 msgstr "正在解压..."
 
-#: fitsviewer/platesolve.cpp:255
+#: fitsviewer/platesolve.cpp:258
 #, kde-format
 msgid "Solving..."
 msgstr "解析中..."
 
-#: fitsviewer/platesolve.cpp:268
+#: fitsviewer/platesolve.cpp:271
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr "提取器超时： %1s"
 
-#: fitsviewer/platesolve.cpp:278
+#: fitsviewer/platesolve.cpp:281
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr "提取器失败: %1s"
 
-#: fitsviewer/platesolve.cpp:288
+#: fitsviewer/platesolve.cpp:291
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr "提取 %1 星 (%2 unfiltered) 在 %3s"
 
-#: fitsviewer/platesolve.cpp:334
+#: fitsviewer/platesolve.cpp:337
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr "解析器超时：%1s"
 
-#: fitsviewer/platesolve.cpp:340
+#: fitsviewer/platesolve.cpp:343
 #, kde-format
 msgid "Solver failed: %1s"
 msgstr "解析器失败： %1s"
 
-#: fitsviewer/platesolve.cpp:540
+#: fitsviewer/platesolve.cpp:543
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr "警告！这个工具只支持内部 StellarSolver 解析器。"
 
-#: fitsviewer/platesolve.cpp:541
+#: fitsviewer/platesolve.cpp:544
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr "在 Ekos 对齐选项菜单中更改为此选项。"
@@ -80585,6 +80585,20 @@ msgstr ""
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
+
+#: tools/imagingplanner.cpp:3979
+#, fuzzy, kde-format
+#| msgid "OK"
+msgctxt "@action:button"
+msgid "OK"
+msgstr "OK"
+
+#: tools/imagingplanner.cpp:3980
+#, fuzzy, kde-format
+#| msgid "Cancel"
+msgctxt "@action:button"
+msgid "Cancel"
+msgstr "取消"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)
 #: tools/imagingplanner.ui:77

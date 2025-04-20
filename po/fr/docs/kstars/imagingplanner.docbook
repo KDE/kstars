@@ -21,7 +21,7 @@
 </mediaobject>
 </screenshot>
 <para
->Cet outil aide les utilisateurs à choisir les objets à photographier. Ils peuvent télécharger des catalogues d'objets recommandés et aussi créer leur propre catalogue. L'outil calcule quand les objets peuvent être acquis pour une nuit définie en tenant compte de contraintes telles que l'altitude minimale, le terrain et la séparation de la Lune. Il peut trier les objets selon plusieurs dimensions telles que le nombre d'heure d'acquisition pour la nuit (en tenant compte de la géographie de l'utilisateur, de contraintes et également de l'horizon artificiel), son altitude au méridien, la distance à la Lune, sa constellation, son nom et son type. On peut aussi filtrer les objets selon plusieurs critères comme le type d'objet, s'il a déjà été photographié, les mots clé ajoutés par l'utilisateur, s'il a été sélectionné, l'intérêt de l'utilisateur, etc.). Cet outil aide les utilisateurs dans leur recherche en affichant de petites images de l'objet, sa position dans le ciel et fournit des liens vers des sites contenant davantage d'informations et d'images. Il permet également d'ajouter des notes aux objets et d'en sélectionner certains pour plus tard. Il peut être utilisé avec d'autres que le module d'acquisition d'Ekos ou tout autre outil d'acquisition. Cependant, il n'interagit actuellement pas avec ce dernier ; il ne fait qu'aider l'utilisateur à choisir les objets à photographier. </para>
+>Cet outil aide les utilisateurs à choisir les objets à photographier. Ils peuvent télécharger des catalogues d'objets recommandés et aussi créer leur propre catalogue. L'outil calcule quand les objets peuvent être acquis pour une nuit définie en tenant compte de contraintes telles que l'altitude minimale, le terrain et la séparation de la Lune. Il peut trier les objets selon plusieurs dimensions telles que le nombre d'heure d'acquisition pour la nuit (en tenant compte de la géographie de l'utilisateur, de contraintes et également de l'horizon artificiel), son altitude au méridien, la distance à la Lune, sa constellation, son nom et son type. On peut aussi filtrer les objets selon plusieurs critères comme le type d'objet, s'il a déjà été photographié, les mots clé ajoutés par l'utilisateur, s'il a été sélectionné, l'intérêt de l'utilisateur, etc.). Cet outil aide les utilisateurs dans leur recherche en affichant de petites images de l'objet, sa position dans le ciel et fournit des liens vers des sites contenant davantage d'informations et d'images. Il permet également d'ajouter des notes aux objets et d'en sélectionner certains pour plus tard. Il peut être utilisé avec d'autres que le module d'acquisition de Ekos ou tout autre outil d'acquisition. Cependant, il n'interagit actuellement pas avec ce dernier ; il ne fait qu'aider l'utilisateur à choisir les objets à photographier. </para>
 <sect2 id="imagingplanner-objecttable">
 <title
 >La table des objets</title>
@@ -38,7 +38,7 @@
 ></listitem
 ><listitem
 ><para
->Marquer un objet déjà photographier. On peut à nouveau ajouter cet attribut et ensuite filter pour ne pas les afficher (ou n'afficher que ceux-ci). </para
+>Marquer un objet déjà photographier. On peut à nouveau ajouter cet attribut et ensuite filtrer pour ne pas les afficher (ou n'afficher que ceux-ci). </para
 ></listitem
 ><listitem
 ><para
@@ -170,15 +170,15 @@
 <title
 >Recherche d'image/objet</title>
 <para
->La section Recherche fournit des raccourcis pour rechercher l'objet actuellement sélectionné. Le bouton <guibutton
+>La section « Recherche » fournit des raccourcis pour rechercher l'objet actuellement sélectionné. Le bouton <guibutton
 >Wikipedia</guibutton
-> ouvre une fenêtre du navigateur vers Wikipedia en utilisant l'ID de l'objet. Similaire pour Simbad. Le bouton <guibutton
+> ouvre une fenêtre du navigateur vers Wikipedia en utilisant l'identifiant de l'objet. Similaire pour Simbad. Le bouton <guibutton
 >NGC/IC</guibutton
-> ouvre une fenêtre du navigateur pour le site web du Professor Seligman NGC/IC. </para>
+> ouvre une fenêtre du navigateur pour le site Internet du Professeur Seligman NGC / IC. </para>
 <para
 >Le bouton <guibutton
 >Astrobin</guibutton
-> utilise la fonctionnalité de recherche d'Astrobin.com pour effectuer une recherche d'images légèrement plus détaillée. Vous pouvez lui faire rechercher des images dans Astrobin avec un certain rayon d'image, et exiger que les images obtenues aient remporté des « récompenses Astrobin », comme la nomination « top-pick » ou l'image du jour. Une fois que vous naviguez sur le site web d'Astrobin, vous pouvez bien sûr modifier les contraintes de recherche d'Astrobin comme vous le souhaitez, en fonction des contraintes et capacités du site web d'Astrobin. Les contraintes de recherche d'Astrobin peuvent être masquées ou affichées à l'aide du bouton à gauche de la ligne Recherche. </para>
+> utilise la fonctionnalité de recherche de Astrobin.com pour effectuer une recherche d'images légèrement plus détaillée. Vous pouvez lui faire rechercher des images dans Astrobin avec un certain rayon d'image, et exiger que les images obtenues aient remporté des « récompenses Astrobin », comme la nomination « top-pick » ou l'image du jour. Une fois que vous naviguez sur le site Internet de Astrobin, vous pouvez bien sûr modifier les contraintes de recherche de Astrobin comme vous le souhaitez, en fonction des contraintes et capacités du site Internet de Astrobin. Les contraintes de recherche de Astrobin peuvent être masquées ou affichées à l'aide du bouton à gauche de la ligne « Recherche ». </para>
 </sect2>
 <sect2 id="imagingplanner-filters">
 <title
@@ -278,11 +278,11 @@
 ></listitem
 ><listitem
 ><para
->Si vous utilisez une carte du ciel reposant sur HiPS, vous voudrez probablement des copies locales des données DSS pour accélérer le rendu de la carte du ciel. Voir <menuchoice
+>Si vous utilisez une carte du ciel reposant sur HiPS, vous voudrez probablement des copies locales des données DSS pour accélérer le rendu de la carte du ciel. Veuillez consulter  <menuchoice
 ><guimenu
 >Affichage</guimenu
 > <guimenuitem
->HiPS All Sky Survey</guimenuitem
+>Totalité de l'étude du ciel avec HiPS</guimenuitem
 ></menuchoice
 > et sous ce menu, <menuchoice
 ><guimenu
@@ -357,11 +357,11 @@
 ></listitem
 ><listitem
 ><para
->La cinquième colonne est la permission de licence Creative Commons pour utiliser l'image (par exemple, ACC signifie Attribution Creative Commons, ANCSACC signifie Attribution Non-Commercial ShareAlike Creative Commons, en utilisant les mêmes conventions que le site Astrobin.com). </para
+>La cinquième colonne est la permission de licence Creative Commons pour utiliser l'image (par exemple, « ACC » signifie « Attribution Creative Commons », « ANCSACC » signifie « Attribution Non-Commercial ShareAlike Creative Commons », en utilisant les mêmes conventions que le site Astrobin.com). </para
 ></listitem>
 </itemizedlist>
 <para
->Pour ajouter un objet sans image, il suffit d'ajouter l'ID de l'objet sans virgules suivantes, ou un ID d'objet avec 4 virgules suivantes, comme l'une de ces lignes (sans guillemets) : « M 42 », ou « M 42,,,, ». Un exemple de ligne complète pourrait être : « M 42,M_42.jpg,Hy Murveit,https://www.astrobin.com/x4dpey/,ACC ». </para>
+>Pour ajouter un objet sans image, il suffit d'ajouter l'identifiant de l'objet sans virgule suivante, ou un identifiant d'objet avec 4 virgules suivantes, comme l'une de ces lignes (sans guillemet) : « M 42 », ou « M 42,,,, ». Un exemple de ligne complète pourrait être : « M 42,M_42.jpg, Hy Murveit, https://www.astrobin.com/x4dpey/, ACC ». </para>
 <para
 >Il existe quelques autres lignes spécialisées possibles : </para>
 <itemizedlist>
@@ -372,7 +372,7 @@
 >    
   <listitem
 ><para
->Les lignes contenant « LoadCatalog RELATIVE_CATALOG_FILENAME » signifient que le contenu de RELATIVE_CATALOG_FILENAME doit être lu comme s'il faisait partie de ce fichier de catalogue.</para
+>Les lignes contenant « LoadCatalog RELATIVE_CATALOG_FILENAME » signifient que le contenu de « RELATIVE_CATALOG_FILENAME » doit être lu comme s'il faisait partie de ce fichier de catalogue.</para
 ></listitem
 >    
 </itemizedlist>

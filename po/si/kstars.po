@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 01:55+0000\n"
+"POT-Creation-Date: 2025-04-20 01:53+0000\n"
 "PO-Revision-Date: 2010-03-14 21:56+0530\n"
 "Last-Translator: Danishka Navin\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -551,7 +551,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelB)
 #: auxiliary/ksmessagebox.h:38 ekos/align/manualrotator.ui:135
-#: fitsviewer/platesolve.cpp:215 fitsviewer/platesolve.cpp:251
+#: fitsviewer/platesolve.cpp:218 fitsviewer/platesolve.cpp:254
 #: indi/telescopewizardprocess.cpp:219 indi/telescopewizardprocess.cpp:226
 #: kstarslite/qml/dialogs/FindDialog.qml:107
 #: kstarslite/qml/dialogs/helpers/DetailsAddLink.qml:105
@@ -9865,7 +9865,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, SolveButton)
 #. i18n: ectx: property (text), widget (QPushButton, solveButton)
 #: ekos/align/polaralignwidget.ui:77 ekos/align/polaralignwidget.ui:197
-#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:282
+#: ekos/align/polaralignwidget.ui:317 fitsviewer/platesolve.cpp:285
 #: fitsviewer/platesolve.ui:50 options/opsimageoverlay.ui:253
 #: skycomponents/imageoverlaycomponent.cpp:350
 #: skycomponents/imageoverlaycomponent.cpp:728
@@ -23030,13 +23030,13 @@ msgstr ""
 msgid "Mount Tracking"
 msgstr ""
 
-#: ekos/mount/mount.cpp:482 tools/imagingplanner.cpp:3979
+#: ekos/mount/mount.cpp:482
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
 msgstr ""
 
-#: ekos/mount/mount.cpp:483 tools/imagingplanner.cpp:3980
+#: ekos/mount/mount.cpp:483
 #, fuzzy, kde-format
 #| msgctxt "North"
 #| msgid "N"
@@ -23890,7 +23890,7 @@ msgid "Slaving deactivated."
 msgstr ""
 
 #: ekos/observatory/observatorydomemodel.cpp:103 fitsviewer/platesolve.cpp:97
-#: fitsviewer/platesolve.cpp:211 fitsviewer/platesolve.cpp:247
+#: fitsviewer/platesolve.cpp:214 fitsviewer/platesolve.cpp:250
 #, kde-format
 msgid "Aborting..."
 msgstr ""
@@ -29183,49 +29183,49 @@ msgstr ""
 msgid "FITS Viewer Solver Profiles Editor"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:221
+#: fitsviewer/platesolve.cpp:224
 #, kde-format
 msgid "Extracting..."
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:255
+#: fitsviewer/platesolve.cpp:258
 #, fuzzy, kde-format
 #| msgid "Alt:"
 msgid "Solving..."
 msgstr "Alt:"
 
-#: fitsviewer/platesolve.cpp:268
+#: fitsviewer/platesolve.cpp:271
 #, kde-format
 msgid "Extractor timed out: %1s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:278
+#: fitsviewer/platesolve.cpp:281
 #, kde-format
 msgid "Extractor failed: %1s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:288
+#: fitsviewer/platesolve.cpp:291
 #, kde-format
 msgid "Extracted %1 stars (%2 unfiltered) in %3s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:334
+#: fitsviewer/platesolve.cpp:337
 #, kde-format
 msgid "Solver timed out: %1s"
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:340
+#: fitsviewer/platesolve.cpp:343
 #, fuzzy, kde-format
 #| msgid "Alt:"
 msgid "Solver failed: %1s"
 msgstr "Alt:"
 
-#: fitsviewer/platesolve.cpp:540
+#: fitsviewer/platesolve.cpp:543
 #, kde-format
 msgid "Warning! This tool only supports the internal StellarSolver solver."
 msgstr ""
 
-#: fitsviewer/platesolve.cpp:541
+#: fitsviewer/platesolve.cpp:544
 #, kde-format
 msgid "Change to that in the Ekos Align options menu."
 msgstr ""
@@ -79011,6 +79011,18 @@ msgstr ""
 #: tools/imagingplanner.cpp:3896
 #, kde-format
 msgid "%1/%2: Adding %3"
+msgstr ""
+
+#: tools/imagingplanner.cpp:3979
+#, kde-format
+msgctxt "@action:button"
+msgid "OK"
+msgstr ""
+
+#: tools/imagingplanner.cpp:3980
+#, kde-format
+msgctxt "@action:button"
+msgid "Cancel"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, SearchB)

@@ -13,10 +13,10 @@
 		<title
 >Introduction</title>
 	    <para
->Les extensions sont de petits programmes qui peuvent être rajoutés pour interagir avec KStars/Ekos/Indi afin de fournir des fonctions et fonctionnalités supplémentaires. </para>
+>Les extensions sont de petits programmes qui peuvent être rajoutés pour interagir avec KStars / Ekos / INDI afin de fournir des fonctions et fonctionnalités supplémentaires. </para>
 		<note>
 			<para
->Les extensions sont séparées de KStars/Ekos/Indi. Elles ne font pas partie de ce programme. Seule une manière de les appeler est fournie par commodité. Soyez sûr de comprendre les exigences et risques liés à leur utilisation. </para>
+>Les extensions sont séparées de KStars / Ekos / INDI. Elles ne font pas partie de ce programme. Seule une manière de les appeler est fournie par commodité. Soyez sûr de comprendre les exigences et risques liés à leur utilisation. </para>
 		</note>
 	</sect2>
 	<sect2 id="extensions-Requirements">
@@ -27,7 +27,7 @@
 	      <itemizedlist>
 	        <listitem>
 	          <para
->Le fichier programme. C'est un fichier exécutable qui s'exécute sur le système de l'utilisateur. L'utilisateur utilisé pour faire tourner KStars doit posséder les droits d'exécution sur ce fichier. </para>
+>Le fichier programme. C'est un fichier exécutable s'exécutant sur le système de l'utilisateur. L'utilisateur utilisé pour faire tourner KStars doit posséder les droits d'exécution sur ce fichier. </para>
           </listitem>
           <listitem>
             <para
@@ -51,7 +51,7 @@
         <para
 >Tous ces fichiers doivent être copiés dans le dossier de données de KStars, par exemple ~/.local/share/kstars/extensions. </para>
 	    <para
->Les extensions présentes qui ont un fichier de configuration valable et qui ont une version minimale de KStars pas plus élevée que l'installation courante seront détectées au démarrage d'Ekos. Dans le cas contraire, elles ne seront pas affichées dans l'interface utilisateur. Les éléments de l'extension dans l'interface utilisateur seront affichés dans une boîte avec son nom et son icône, ainsi qu'un bouton de démarrage/arrêt. Si l'extension échoue à se fermer après 10 secondes, elle sera réactivée avec un bouton d'abandon qui la forcera à se fermer. Seule une extension peut être utilisée en même temps. </para>
+>Les extensions présentes qui ont un fichier de configuration valable et qui ont une version minimale de KStars pas plus élevée que l'installation courante seront détectées au démarrage de Ekos. Dans le cas contraire, elles ne seront pas affichées dans l'interface utilisateur. Les éléments de l'extension dans l'interface utilisateur seront affichés dans une boîte avec son nom et son icône, ainsi qu'un bouton de démarrage/arrêt. Si l'extension échoue à se fermer après 10 secondes, elle sera réactivée avec un bouton d'abandon qui la forcera à se fermer. Seule une extension peut être utilisée en même temps. </para>
 	</sect2>
 	<sect2 id="extensions-Development">
     <title
@@ -61,8 +61,8 @@
         <itemizedlist>
          <listitem>
             <para
->Les sources de quelques extensions incluant une extension squelette sont disponibles à l'adresse <ulink url="https://github.com/LuckyEddie47/kstars_extensions"
->KStars Extension Github</ulink
+>Quelques sources d'extensions comprenant un exemple de squelette d'extension sont disponibles à l'adresse <ulink url="https://github.com/LuckyEddie47/kstars_extensions"
+>Extension de KStars sur GitHub</ulink
 >. </para>
          </listitem>
          <listitem>
@@ -71,11 +71,11 @@
           </listitem>
           <listitem>
             <para
->La version de KStars est passée à l'extension comme arg(1) de l'appel QProcess. </para>
+>La version de KStars est passée à l'extension comme « arg(1) » de l'appel à « QProcess ». </para>
           </listitem>
           <listitem>
             <para
->Toutes les interactions avec KStars/Ekos/Indi doivent être réalisées via l'interface D-Bus. Des outils utiles pour interroger, surveiller et comprendre D-Bus incluent <ulink url="https://wiki.gnome.org/Apps/DFeet"
+>Toutes les interactions avec KStars / Ekos / INDI doivent être réalisées grâce à l'interface D-Bus. Des outils utiles pour interroger, surveiller et comprendre D-Bus incluent <ulink url="https://wiki.gnome.org/Apps/DFeet"
 >D-Feet</ulink
 > et <ulink url="https://gitlab.freedesktop.org/bustle/bustle"
 >Bustle</ulink
