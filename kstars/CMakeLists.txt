@@ -369,6 +369,8 @@ if (INDI_FOUND)
             ekos/guide/internalguide/gpg.cpp
             ekos/guide/internalguide/calibration.cpp
             ekos/guide/internalguide/guidestars.cpp
+            ekos/guide/internalguide/linearguider.cpp
+            ekos/guide/internalguide/hysteresisguider.cpp
             ekos/guide/guideview.cpp
             # External Guide
             ekos/guide/externalguide/phd2.cpp

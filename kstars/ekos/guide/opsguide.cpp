@@ -33,6 +33,15 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
     editGuideProfile->setIcon(QIcon::fromTheme("document-edit"));
     editGuideProfile->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
+    if (Options::gPGEnabled())
+    {
+        // this option is an old one. Allowing users who have this set to keep their setting.
+        Options::setGPGEnabled(false);
+        Options::setRAGuidePulseAlgorithm(GPG_ALGORITHM);
+        kcfg_RAGuidePulseAlgorithm->setCurrentIndex(static_cast<int>(GPG_ALGORITHM));
+    }
+
+
     connect(editGuideProfile, &QAbstractButton::clicked, this, [this]()
     {
         KConfigDialog *optionsEditor = new KConfigDialog(this, "OptionsProfileEditor", Options::self());
@@ -50,7 +59,57 @@ OpsGuide::OpsGuide() : QFrame(KStars::Instance())
     loadOptionsProfiles();
 
     connect(m_ConfigDialog, &KConfigDialog::settingsChanged, this, &OpsGuide::settingsUpdated);
+}
 
+void OpsGuide::setRAGuidePulseAlg(int index)
+{
+
+    switch (index)
+    {
+        case STANDARD_ALGORITHM:
+            kcfg_RAHysteresis->setDisabled(true);
+            kcfg_RAIntegralGain->setDisabled(false);
+            break;
+        case HYSTERESIS_ALGORITHM:
+            kcfg_RAHysteresis->setDisabled(false);
+            kcfg_RAIntegralGain->setDisabled(true);
+            break;
+        case LINEAR_ALGORITHM:
+            kcfg_RAHysteresis->setDisabled(true);
+            kcfg_RAIntegralGain->setDisabled(true);
+            break;
+        case GPG_ALGORITHM:
+            kcfg_RAHysteresis->setDisabled(true);
+            kcfg_RAIntegralGain->setDisabled(true);
+            break;
+        default:
+            kcfg_RAHysteresis->setDisabled(false);
+            kcfg_RAIntegralGain->setDisabled(false);
+            break;
+    }
+}
+
+void OpsGuide::setDECGuidePulseAlg(int index)
+{
+    switch (index)
+    {
+        case STANDARD_ALGORITHM:
+            kcfg_DECHysteresis->setDisabled(true);
+            kcfg_DECIntegralGain->setDisabled(false);
+            break;
+        case HYSTERESIS_ALGORITHM:
+            kcfg_DECHysteresis->setDisabled(false);
+            kcfg_DECIntegralGain->setDisabled(true);
+            break;
+        case LINEAR_ALGORITHM:
+            kcfg_DECHysteresis->setDisabled(true);
+            kcfg_DECIntegralGain->setDisabled(true);
+            break;
+        default:
+            kcfg_DECHysteresis->setDisabled(false);
+            kcfg_DECIntegralGain->setDisabled(false);
+            break;
+    }
 }
 
 void OpsGuide::loadOptionsProfiles()

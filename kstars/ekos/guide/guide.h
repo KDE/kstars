@@ -417,7 +417,7 @@ class Guide : public QWidget, public Ui::Guide
 
         //void onXscaleChanged( int i );
         //void onYscaleChanged( int i );
-        void onThresholdChanged(int i);
+        void onSettingsUpdated(int starDetectionIndex);
         void onEnableDirRA();
         void onEnableDirDEC();
 

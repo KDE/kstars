@@ -60,7 +60,7 @@ Guide::Guide() : QWidget()
     page->setIcon(QIcon::fromTheme("kstars_guides"));
     connect(opsGuide, &OpsGuide::settingsUpdated, this, [this]()
     {
-        onThresholdChanged(Options::guideAlgorithm());
+        onSettingsUpdated(Options::guideAlgorithm());
         configurePHD2Camera();
         configSEPMultistarOptions(); // due to changes in 'Guide Setting: Algorithm'
         checkUseGuideHead();
@@ -235,7 +235,8 @@ void Guide::guideAfterMeridianFlip()
         clearCalibration();
 
     // GPG guide algorithm should be reset on any slew.
-    if (Options::gPGEnabled())
+    if (guiderType == GUIDE_INTERNAL &&
+            (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM))
         m_GuiderInstance->resetGPG();
 
     guide();
@@ -1209,7 +1210,8 @@ void Guide::setCaptureComplete()
             break;
 
         case GUIDE_SUSPENDED:
-            if (Options::gPGEnabled())
+            if (guiderType == GUIDE_INTERNAL &&
+                    (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM))
                 m_GuiderInstance->guide();
             break;
 
@@ -1509,7 +1511,8 @@ void Guide::setMountStatus(ISD::Mount::Status newState)
             calibrationComplete = false;
         }
         // GPG guide algorithm should be reset on any slew.
-        if (Options::gPGEnabled())
+        if (guiderType == GUIDE_INTERNAL &&
+                (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM))
             m_GuiderInstance->resetGPG();
 
         // If we're guiding, and the mount either slews or parks, then we abort.
@@ -1939,7 +1942,7 @@ bool Guide::setGuiderType(int type)
 
             m_GuiderInstance = internalGuider;
 
-            internalGuider->setSquareAlgorithm(opsGuide->kcfg_GuideAlgorithm->currentIndex());
+            internalGuider->setStarDetectionAlgorithm(opsGuide->kcfg_GuideAlgorithm->currentIndex());
 
             clearCalibrationB->setEnabled(true);
             guideB->setEnabled(true);
@@ -2099,12 +2102,12 @@ void Guide::updateTrackingBoxSize(int currentIndex)
     }
 }
 
-void Guide::onThresholdChanged(int index)
+void Guide::onSettingsUpdated(int starDetectionIndex)
 {
     switch (guiderType)
     {
         case GUIDE_INTERNAL:
-            dynamic_cast<InternalGuider *>(m_GuiderInstance)->setSquareAlgorithm(index);
+            dynamic_cast<InternalGuider *>(m_GuiderInstance)->setStarDetectionAlgorithm(starDetectionIndex);
             break;
 
         default:
@@ -2115,7 +2118,8 @@ void Guide::onThresholdChanged(int index)
 void Guide::onEnableDirRA()
 {
     // If RA guiding is enable or disabled, the GPG should be reset.
-    if (Options::gPGEnabled())
+    if (guiderType == GUIDE_INTERNAL &&
+            (Options::rAGuidePulseAlgorithm() == Ekos::OpsGuide::GPG_ALGORITHM))
         m_GuiderInstance->resetGPG();
 }
 

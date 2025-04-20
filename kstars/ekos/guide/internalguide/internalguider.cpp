@@ -19,6 +19,7 @@
 #include "ekos/auxiliary/stellarsolverprofileeditor.h"
 #include "fitsviewer/fitsdata.h"
 #include "../guideview.h"
+#include "ekos/guide/opsguide.h"
 
 #include <KMessageBox>
 
@@ -357,7 +358,7 @@ bool InternalGuider::dither(double pixels)
 
         pmath->setTargetPosition(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
-        if (Options::gPGEnabled())
+        if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
             // This is the offset in image coordinates, but needs to be converted to RA.
             pmath->getGPG().startDithering(diff_x, diff_y, pmath->getCalibration());
 
@@ -406,7 +407,8 @@ bool InternalGuider::dither(double pixels)
             emit newStatus(state);
         }
 
-        if (Options::gPGEnabled())
+        if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
+
             pmath->getGPG().ditheringSettled(true);
 
         QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
@@ -482,7 +484,7 @@ bool InternalGuider::onePulseDither(double pixels)
 
     pmath->setTargetPosition(m_DitherTargetPosition.x, m_DitherTargetPosition.y);
 
-    if (Options::gPGEnabled())
+    if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
         // This is the offset in image coordinates, but needs to be converted to RA.
         pmath->getGPG().startDithering(diff_x, diff_y, pmath->getCalibration());
 
@@ -514,7 +516,7 @@ bool InternalGuider::onePulseDither(double pixels)
     guideLog.settleStartedInfo();
     emit newStatus(state);
 
-    if (Options::gPGEnabled())
+    if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
         pmath->getGPG().ditheringSettled(true);
 
     QTimer::singleShot(totalMSecs, this, SLOT(setDitherSettled()));
@@ -541,7 +543,7 @@ bool InternalGuider::abortDither()
             emit newStatus(state);
         }
 
-        if (Options::gPGEnabled())
+        if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
             pmath->getGPG().ditheringSettled(false);
 
         QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
@@ -859,11 +861,11 @@ void InternalGuider::setDECSwap(bool enable)
     pmath->getMutableCalibration()->setDeclinationSwapEnabled(enable);
 }
 
-void InternalGuider::setSquareAlgorithm(int index)
+void InternalGuider::setStarDetectionAlgorithm(int index)
 {
     if (index == SEP_MULTISTAR && !pmath->usingSEPMultiStar())
         m_isFirstFrame = true;
-    pmath->setAlgorithmIndex(index);
+    pmath->setStarDetectionAlgorithmIndex(index);
 }
 
 bool InternalGuider::getReticleParameters(double * x, double * y)
@@ -878,7 +880,7 @@ bool InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY,
     this->ccdPixelSizeY    = ccdPixelSizeY;
     this->mountAperture    = mountAperture;
     this->mountFocalLength = mountFocalLength;
-    return pmath->setGuiderParameters(ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength);
+    return pmath->setGuiderParameters(mountAperture);
 }
 
 bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY)
@@ -969,7 +971,7 @@ bool InternalGuider::processGuiding()
 
     if (state == GUIDE_SUSPENDED)
     {
-        if (Options::gPGEnabled())
+        if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
             emit frameCaptureRequested();
         return true;
     }

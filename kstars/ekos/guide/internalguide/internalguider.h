@@ -74,7 +74,7 @@ class InternalGuider : public GuideInterface
         void setStarPosition(QVector3D &starCenter) override;
 
         // Select algorithm
-        void setSquareAlgorithm(int index);
+        void setStarDetectionAlgorithm(int index);
 
         // Reticle Parameters
         bool getReticleParameters(double *x, double *y);

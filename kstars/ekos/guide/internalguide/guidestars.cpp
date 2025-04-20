@@ -338,7 +338,7 @@ GuiderUtils::Vector GuideStars::findGuideStar(const QSharedPointer<FITSData> &im
         if (starCorrespondence.size() > 25) minFraction =  0.33;
         else if (starCorrespondence.size() > 15) minFraction =  0.4;
 
-        Edge foundStar = starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap, true, minFraction);
+        Edge foundStar = starCorrespondence.find(detectedStars, maxStarAssociationDistance, &starMap, false, minFraction);
 
         // Is there a correspondence to the guide star
         // Should we also weight distance to the tracking box?

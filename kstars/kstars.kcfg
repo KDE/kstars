@@ -2847,6 +2847,14 @@
          <label>Which Algorithm to use track guide square (0 smart, 1 SEP, 2 fast, 3 threshold, 4 no threshold, 5 SEP multistar).</label>
          <default>5</default>
       </entry>
+      <entry name="RAGuidePulseAlgorithm" type="UInt">
+         <label>Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 Hysteresis, 2 Linear, 3 GPG).</label>
+         <default>0</default>
+      </entry>
+      <entry name="DECGuidePulseAlgorithm" type="UInt">
+         <label>Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 Hysteresis, 2 Linear).</label>
+         <default>0</default>
+      </entry>
       <entry name="PHD2Host" type="String">
          <label>Host name of external PHD2 service</label>
          <default>localhost</default>
@@ -3110,6 +3118,14 @@
          <label>Display the RMS Error Plot on the Guide Drift Graphics.</label>
          <default>true</default>
       </entry>
+      <entry name="RAHysteresis" type="Double">
+         <label>If > 0, use the hysteresis guider for RA internal guiding with that value.</label>
+         <default>0</default>
+      </entry>      
+      <entry name="DECHysteresis" type="Double">
+         <label>If > 0, use the hysteresis guider for DEC internal guiding with that value.</label>
+         <default>0</default>
+      </entry>      
    </group>
    <group name="Scheduler">
     <entry name="SchedulerAlgorithm" type="UInt">

@@ -29,6 +29,8 @@
 class FITSData;
 class Edge;
 class GuideLog;
+class LinearGuider;
+class HysteresisGuider;
 
 // For now also copied in guidealgorithms.cpp
 #define SMART_THRESHOLD    0
@@ -89,13 +91,12 @@ class cgmath : public QObject
 
         // functions
         bool setVideoParameters(int vid_wd, int vid_ht, int binX, int binY);
-        bool setGuiderParameters(double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal);
+        bool setGuiderParameters(double guider_aperture);
 
         bool setTargetPosition(double x, double y);
         bool getTargetPosition(double *x, double *y) const;
 
-        int getAlgorithmIndex(void) const;
-        void setAlgorithmIndex(int algorithmIndex);
+        void setStarDetectionAlgorithmIndex(int algorithmIndex);
         bool usingSEPMultiStar() const;
 
         GPG &getGPG()
@@ -187,7 +188,7 @@ class cgmath : public QObject
         bool lost_star { false };
 
         /// Index of algorithm used
-        int algorithm { SMART_THRESHOLD };
+        int m_StarDetectionAlgorithm { SMART_THRESHOLD };
 
         // The latest guide star position (x,y on the image),
         // and target position we're trying to keep it aligned to.
@@ -217,6 +218,11 @@ class cgmath : public QObject
         GuideStars guideStars;
 
         std::unique_ptr<GPG> gpg;
+        std::unique_ptr<LinearGuider> m_RALinearGuider;
+        std::unique_ptr<LinearGuider> m_DECLinearGuider;
+        std::unique_ptr<HysteresisGuider> m_RAHysteresisGuider;
+        std::unique_ptr<HysteresisGuider> m_DECHysteresisGuider;
+
         Calibration calibration;
         bool configureInParams(Ekos::GuideState state);
         void updateOutParams(int k, const double arcsecDrift, int pulseLength, GuideDirection pulseDirection);

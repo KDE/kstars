@@ -64,17 +64,97 @@
           <property name="verticalSpacing">
            <number>5</number>
           </property>
-          <item row="2" column="0">
-           <widget class="QLabel" name="l_12">
+          <item row="1" column="0">
+           <widget class="QLabel" name="AlgLabel">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This adds a correction term based on the average of the past 50 guide deviations. For example, if the deviation is consistently negative, this will attempt to compensate. Best to start with 0.0 (no effect) and only use this if necessary.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>The algorithm that computes the guide correction pulses.</string>
             </property>
             <property name="text">
-             <string>Integral gain (0-1.0)</string>
+             <string>Guiding Algorithm</string>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the guide pulse algorithms for RA and DEC.&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Standard&lt;/span&gt;: The traditional proportional guide algorithm. It computes a pulse to correct the computed guide drift. The aggressiveness parameter decides what proportion of the error is corrected. Errors smaller than MinError won't be corrected. Max response limits the largest correction. The hysteresis parameter is not used.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Hysteresis&lt;/span&gt;: Hysteresis is like the standard algorithm but weights in the previous correction according to the hysteresis parameter. Integral gain does not apply.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linear&lt;/span&gt;: This is similar to the PHD2 Lowpass2 algorithm. It computes the error pulses based on a short history of recent errors. This may be applicable to very stable mounts. Hysteresis and Integral gain do not apply.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;GPG&lt;/span&gt;: (RA Only) The GPG algorithm tries to predict periodic error and linear drifts. It uses the aggressiveness, min and max parameters here, and more parameters on the separate GPG tab. Hysteresis and Integral gain do not apply.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
           <item row="1" column="1">
+           <widget class="QComboBox" name="kcfg_RAGuidePulseAlgorithm">
+             <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the guide pulse algorithms for RA.&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Standard&lt;/span&gt;: The traditional proportional guide algorithm. It computes a pulse to correct the computed guide drift. The aggressiveness parameter decides what proportion of the error is corrected. Errors smaller than MinError won't be corrected. Max response limits the largest correction. The hysteresis parameter is not used.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Hysteresis&lt;/span&gt;: Hysteresis is like the standard algorithm but weights in the previous correction according to the hysteresis parameter. Integral gain does not apply.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linear&lt;/span&gt;: This is similar to the PHD2 Lowpass2 algorithm. It computes the error pulses based on a short history of recent errors. This may be applicable to very stable mounts. Hysteresis and Integral gain do not apply.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;GPG&lt;/span&gt;: The GPG algorithm tries to predict periodic error and linear drifts. It uses the aggressiveness, min and max parameters here, and more parameters on the separate GPG tab. Hysteresis and Integral gain do not apply.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <item>
+             <property name="text">
+              <string>Standard</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Hysteresis</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Linear</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>GPG</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="2">
+            <widget class="QComboBox" name="kcfg_DECGuidePulseAlgorithm">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the guide pulse algorithms for DEC.&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Standard&lt;/span&gt;: The traditional proportional guide algorithm. It computes a pulse to correct the computed guide drift. The aggressiveness parameter decides what proportion of the error is corrected. Errors smaller than MinError won't be corrected. Max response limits the largest correction. The hysteresis parameter is not used.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Hysteresis&lt;/span&gt;: Hysteresis is like the standard algorithm but weights in the previous correction according to the hysteresis parameter. Integral gain does not apply.&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Linear&lt;/span&gt;: This is similar to the PHD2 Lowpass2 algorithm. It computes the error pulses based on a short history of recent errors. This may be applicable to very stable mounts. Hysteresis and Integral gain do not apply.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <item>
+             <property name="text">
+              <string>Standard</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Hysteresis</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Linear</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="l_12">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This adds a correction term based on the average of the past 50 guide deviations. For example, if the deviation is consistently negative, this will attempt to compensate. Best to start with 0.0 (no effect) and only use this if necessary. (Only applies to the standard algorithm.)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Integral gain (deprecated)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
            <widget class="QDoubleSpinBox" name="kcfg_RAProportionalGain">
             <property name="decimals">
              <number>2</number>
@@ -90,7 +170,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="l_11">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How aggressively the guider attempts to correct the guide deviations. 1.0 would attempt to fully correct the error. It's best to use an aggressiveness less than 1.0 to avoid oscillations.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -106,7 +186,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
+          <item row="2" column="2">
            <widget class="QDoubleSpinBox" name="kcfg_DECProportionalGain">
             <property name="decimals">
              <number>2</number>
@@ -142,7 +222,7 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
+          <item row="5" column="0">
            <widget class="QLabel" name="l_14">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum guide pulse that is generated by the guider and sent to the mount in arc-second units. That is, the guider will not attempt to move the mount more than this many arc-seconds at any given time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -155,7 +235,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
+          <item row="4" column="1">
            <widget class="QDoubleSpinBox" name="kcfg_RAMinimumPulseArcSec">
             <property name="decimals">
              <number>2</number>
@@ -168,8 +248,11 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QDoubleSpinBox" name="kcfg_RAIntegralGain">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This adds a correction term based on the average of the past 50 guide deviations. For example, if the deviation is consistently negative, this will attempt to compensate. Best to start with 0.0 (no effect) and only use this if necessary. (Only applies to the standard algorithm.)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
             <property name="decimals">
              <number>2</number>
             </property>
@@ -181,7 +264,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
+          <item row="4" column="0">
            <widget class="QLabel" name="l_15">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum guide deviation, in arc-seconds, for which a guide pulse would be sent to the mount. If the guide error is less than this value, then no pulse is sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -194,8 +277,11 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
+          <item row="3" column="2">
            <widget class="QDoubleSpinBox" name="kcfg_DECIntegralGain">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This adds a correction term based on the average of the past 50 guide deviations. For example, if the deviation is consistently negative, this will attempt to compensate. Best to start with 0.0 (no effect) and only use this if necessary. (Only applies to the standard algorithm.)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
             <property name="decimals">
              <number>2</number>
             </property>
@@ -207,7 +293,7 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="2">
+          <item row="5" column="2">
            <widget class="QSpinBox" name="kcfg_DECMaximumPulseArcSec">
             <property name="maximum">
              <number>3600</number>
@@ -217,7 +303,7 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
+          <item row="5" column="1">
            <widget class="QSpinBox" name="kcfg_RAMaximumPulseArcSec">
             <property name="maximum">
              <number>3600</number>
@@ -227,7 +313,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="2">
+          <item row="4" column="2">
            <widget class="QDoubleSpinBox" name="kcfg_DECMinimumPulseArcSec">
             <property name="decimals">
              <number>2</number>
@@ -237,6 +323,60 @@
             </property>
             <property name="singleStep">
              <double>0.100000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="HysteresisGuiderLabel">
+            <property name="text">
+             <string>Hysteresis</string>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sets the hysteresis parameter (only applies to the hysteresis algorithm).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QDoubleSpinBox" name="kcfg_RAHysteresis">
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>0.9</double>
+            </property>
+            <property name="singleStep">
+             <double>0.1</double>
+            </property>
+            <property name="minimum">
+             <double>0.0</double>
+            </property>
+            <property name="value">
+             <double>0.0</double>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sets the RA hysteresis parameter (only applies to the hysteresis algorithm).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2">
+           <widget class="QDoubleSpinBox" name="kcfg_DECHysteresis">
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>0.9</double>
+            </property>
+            <property name="singleStep">
+             <double>0.1</double>
+            </property>
+            <property name="minimum">
+             <double>0.0</double>
+            </property>
+            <property name="value">
+             <double>0.0</double>
+            </property>
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Sets the DEC hysteresis parameter (only applies to the hysteresis algorithm).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -424,7 +564,7 @@
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If checked we try to be more resilient to double stars by inventing a guide star position from the multi-star references.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Invent Multi-Star Guide Star (experimental)</string>
+           <string>Invent Multi-Star Guide Star</string>
           </property>
          </widget>
         </item>
@@ -497,7 +637,7 @@
            <string>The algorithm that tracks guide stars and determines the guide deviation.</string>
           </property>
           <property name="text">
-           <string>Algorithm</string>
+           <string>Star Detection Algorithm</string>
           </property>
          </widget>
         </item>

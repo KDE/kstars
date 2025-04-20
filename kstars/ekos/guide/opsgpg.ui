@@ -70,25 +70,15 @@
         <property name="spacing">
          <number>3</number>
         </property>
-        <item row="0" column="1">
-         <widget class="QCheckBox" name="kcfg_GPGEnabled">
-          <property name="toolTip">
-           <string>Enable the GPG guider for RA guiding.</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
+        <item row="0" column="0" colspan="2">
          <widget class="QLabel" name="label_gpg0">
           <property name="font">
            <font>
             <pointsize>11</pointsize>
            </font>
           </property>
-          <property name="toolTip">
-           <string>Enable the GPG guider for RA guiding.</string>
-          </property>
           <property name="text">
-           <string>Enable GPG</string>
+           <string>Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown</string>
           </property>
          </widget>
         </item>

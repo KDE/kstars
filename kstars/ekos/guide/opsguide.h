@@ -35,8 +35,22 @@ class OpsGuide : public QFrame, public Ui::OpsGuide
         virtual ~OpsGuide() override = default;
         void loadOptionsProfiles();
 
+        // Needs to be same as options for RAGuidePulseAlgorithm and
+        // DECGuidePulseAlgorithm in opsguide.ui
+        enum GuidePulseAlgorithm
+        {
+            STANDARD_ALGORITHM = 0,
+            HYSTERESIS_ALGORITHM,
+            LINEAR_ALGORITHM,
+            GPG_ALGORITHM
+        };
+
     signals:
         void settingsUpdated();
+
+    private slots:
+        void setRAGuidePulseAlg(int index);
+      void setDECGuidePulseAlg(int index);
 
     private:
         KConfigDialog *m_ConfigDialog { nullptr };

@@ -218,9 +218,6 @@ bool GPG::computePulse(double raArcsecError, GuideStars *guideStars,
                        int *pulseLength, GuideDirection *pulseDir,
                        const Calibration &cal, Seconds timeStep)
 {
-    if (!Options::gPGEnabled())
-        return false;
-
     if (fabs(raArcsecError) > MAX_ARCSEC_ERROR)
     {
         if (++gpgSkippedSamples > MAX_SKIPPED_SAMPLES)
@@ -295,7 +292,7 @@ double GPG::convertCorrectionToPulseMilliseconds(const Calibration &cal, int *pu
 bool GPG::darkGuiding(int *pulseLength, GuideDirection *pulseDir, const Calibration &cal,
                       Seconds timeStep)
 {
-    if (!Options::gPGEnabled() || !Options::gPGDarkGuiding())
+    if (!Options::gPGDarkGuiding())
     {
         qCDebug(KSTARS_EKOS_GUIDE) << "dark guiding isn't enabled!";
         return false;
