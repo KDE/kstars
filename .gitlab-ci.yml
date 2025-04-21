@@ -14,12 +14,18 @@ include:
   - project: sysadmin/ci-utilities
     file:
       - /gitlab-templates/linux.yml
+      - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/windows.yml
+      - /gitlab-templates/windows-qt6.yml
       #- /gitlab-templates/android.yml
       - /gitlab-templates/craft-appimage.yml
+      - /gitlab-templates/craft-appimage-qt6.yml
       - /gitlab-templates/craft-windows-x86-64.yml
+      - /gitlab-templates/craft-windows-x86-64-qt6.yml
       - /gitlab-templates/craft-macos-x86-64.yml
+      - /gitlab-templates/craft-macos-x86-64-qt6.yml
       - /gitlab-templates/craft-windows-appx-qt5.yml
+      - /gitlab-templates/craft-windows-appx-qt6.yml
       # - /gitlab-templates/reuse-lint.yml
       # - /gitlab-templates/flatpak.yml
 
@@ -49,11 +55,33 @@ craft_appimage_qt515_x86_64:
   rules:
     - !reference [.craft-recipes, rules]
 
+craft_appimage_qt6_x86_64:
+  needs:
+    - suse_tumbleweed_qt6
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
+      when: always
+    - when: manual
+      allow_failure: true
+
 craft_windows_qt515_x86_64:
   needs:
     - windows_qt515
   rules:
     - !reference [.craft-recipes, rules]
+
+craft_windows_qt6_x86_64:
+  needs:
+    - windows_qt6
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
+      when: always
+    - when: manual
+      allow_failure: true
 
 craft_macos_x86_64:
   timeout: 2h # Signing procedure often exceeds the default 1h
@@ -62,8 +90,22 @@ craft_macos_x86_64:
   rules:
     - !reference [.craft-recipes, rules]
 
+craft_macos_qt6_x86_64:
+  timeout: 2h # Signing procedure often exceeds the default 1h
+  needs:
+    - suse_tumbleweed_qt6 # we don't have a macos check build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      allow_failure: true # MacOS build is unstable
+      when: always
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
+      when: always
+    - when: manual
+      allow_failure: true
+
 # Publishing recipes
 
+# Publishing to Windows store is being discussed
 microsoftstore_qt515:
   needs:
     - craft_windows_qt515_x86_64
