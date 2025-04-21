@@ -58,7 +58,7 @@ craft_appimage_qt515_x86_64:
 
 craft_appimage_qt6_x86_64:
   needs:
-    - suse_tumbleweed_qt6
+    - suse_tumbleweed_qt69
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: always
@@ -75,7 +75,7 @@ craft_windows_qt515_x86_64:
 
 craft_windows_qt6_x86_64:
   needs:
-    - windows_qt6
+    - windows_qt68
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       when: always
