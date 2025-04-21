@@ -94,7 +94,7 @@ craft_macos_x86_64:
 craft_macos_qt6_x86_64:
   timeout: 2h # Signing procedure often exceeds the default 1h
   needs:
-    - suse_tumbleweed_qt6 # we don't have a macos check build
+    - suse_tumbleweed_qt69 # we don't have a macos check build
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
       allow_failure: true # MacOS build is unstable
