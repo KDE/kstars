@@ -2848,11 +2848,11 @@
          <default>5</default>
       </entry>
       <entry name="RAGuidePulseAlgorithm" type="UInt">
-         <label>Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 Hysteresis, 2 Linear, 3 GPG).</label>
+         <label>Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 Hysteresis, 2 Linear, 3 GPG).</label>
          <default>0</default>
       </entry>
       <entry name="DECGuidePulseAlgorithm" type="UInt">
-         <label>Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 Hysteresis, 2 Linear).</label>
+         <label>Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 Hysteresis, 2 Linear).</label>
          <default>0</default>
       </entry>
       <entry name="PHD2Host" type="String">
