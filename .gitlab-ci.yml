@@ -6,6 +6,7 @@ stages:
   - build
   - test
   #- test-unstable
+  - validate
   - deploy
   - publish
 
