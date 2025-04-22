@@ -92,18 +92,29 @@ QPointF AVTPlotWidget::toXY(double vx, double vy)
 
 void AVTPlotWidget::displayToolTip(const QPoint &pos, const QPoint &globalPos)
 {
+    int bestDistSq = 1e6;
+    QString label;
     for (const auto &tip : tips)
     {
         for (const auto &pt : tip.points)
         {
-            if (qAbs(pt.x() - pos.x()) < 5 && qAbs(pt.y() - pos.y()) < 5)
+            const int dx = qAbs(pt.x() - pos.x());
+            const int dy = qAbs(pt.y() - pos.y());
+            if (dx < 5 && dy < 5)
             {
-                QToolTip::showText(globalPos, tip.label, this, QRect(), 3000);
-                return;
+                const int distSq = dx * dx + dy * dy;
+                if (distSq < bestDistSq)
+                {
+                    bestDistSq = distSq;
+                    label = tip.label;
+                }
             }
         }
     }
-    QToolTip::hideText();
+    if (label.isEmpty())
+        QToolTip::hideText();
+    else
+        QToolTip::showText(globalPos, label, this, QRect(), 3000);
 }
 
 
