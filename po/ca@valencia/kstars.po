@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-21 01:53+0000\n"
-"PO-Revision-Date: 2025-04-20 15:42+0200\n"
+"POT-Creation-Date: 2025-04-22 01:55+0000\n"
+"PO-Revision-Date: 2025-04-21 17:22+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -23526,7 +23526,7 @@ msgstr ""
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Pols llarg limitat de %1 ms a %2 ms"
 
 #: ekos/guide/internalguide/internalguider.cpp:536
 #, kde-format
@@ -24089,6 +24089,8 @@ msgstr ""
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
+"Activa GPG a la pestanya Guia, utilitzant el desplegable de l'algorisme de "
+"guiatge de l'AR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -24479,46 +24481,19 @@ msgstr "Paràmetres de control"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr ""
-"L'algorisme que seguix les estreles guia i determina la desviació de la guia."
+msgstr "L'algorisme que calcula els polsos de correcció del guiatge."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Algorisme"
+msgstr "Algorisme del guiatge"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA and DEC.</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -24546,64 +24521,37 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Mètode de detecció d'estreles:</p><ul style=\"margin-"
-"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-list-"
-"indent:1;\"><li style=\"margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">SEP:</span> «Source Extractor and "
-"Photometry» (Extracció de fonts i fotometria), un mètode eficient de "
-"detecció de fonts basat en Source Extractor (Bertin and Arnouts 1996; Bertin "
-"2016). Vegeu <a href=\"https://joss.theoj.org/papers/10.21105/joss.00058.pdf"
-"\"><span style=\"text-decoration:underline; color:#0000ff;\">SEP: Source "
-"Extractor com a biblioteca</span></a> al Journal of Open Source Software.</"
-"li><li style=\"margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Selecciona els algorismes dels polsos de guiatge per a "
+"l'AR i de la Dec.</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-"
+"top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block- "
+"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Estàndard</"
+"span>: L'algorisme tradicional de guiatge proporcional. Calcula un pols per "
+"a corregir la deriva del guiatge calculat. El paràmetre de l'agressivitat "
+"decidix quina proporció de l'error es corregirà. Els errors més petits que "
+"«MinError» no es corregiran. La resposta màxima limita la correcció més "
+"gran. El paràmetre histèresi no s'utilitza.</li><li style=\"margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\"font-weight:600;\">Histèresi</span>: La "
+"histèresi és com l'algorisme estàndard però pondera la correcció prèvia "
+"segons el paràmetre de la histèresi. No s'aplica el guany integral.</li><li "
+"style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">Centroide</span>: una detecció de fonts basada en estimar els "
-"pics del senyal al voltant de la massa de l'estrela.</li><li style=\"margin-"
-"top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Gradient</"
-"span>: un mètode de detecció individual basat en el filtre Sobel filter. "
-"L'anàlisi inicial o de camp complet utilitzarà el SEP en lloc d'este mètode."
-"</li><li style=\"margin-top:12px; margin-bottom:12px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">Llindar</span>: una detecció de font individual basada en "
-"valors dels píxels. L'anàlisi inicial o de camp complet utilitzarà el SEP en "
-"lloc d'este mètode.</li></ul></body></html>"
+"weight:600;\">Lineal</span>: Este és similar a l'algorisme «Lowpass2» de "
+"PHD2. Calcula els polsos d'error en funció d'un historial curt dels errors "
+"recents. Es pot aplicar a muntures molt estables. No s'aplica la histèresi "
+"ni el guany integral.</li><li style=\"margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\"font-weight:600;\">GPG</span>: (Només l'AR) L'algorisme GPG "
+"intenta predir els errors periòdics i les derivacions lineals. Utilitza "
+"agressivitat, uns paràmetres mínims i màxims d'ací i més paràmetres a la "
+"pestanya GPG separada. La histèresi i el guany integral no s'apliquen.</li></"
+"ul></body></html>"
 
 # skip-rule: t-2p_sp
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated,  further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage Tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method.  Upon "
-#| "crossing to the other side of the V-Curve,  polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes.  The algorithm can be slow, but it is more "
-#| "resilient to backlash.  Start with the focuser positioned near good "
-#| "focus.  Set Initial Step Size and Max Travel for the desired sampling "
-#| "interval and range around start focus position.  Tolerance should be "
-#| "around 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Linear 1 Pass</span>: Starts like <span style="
-#| "\" font-weight:600;\">Linear</span> but after completing the 1st pass, "
-#| "instead of doing a 2nd pass,  moves straight to the minimum HFR value "
-#| "calculated.  Use Curve Fit of Hyperbola or Parabola.</li></ul></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -24631,82 +24579,57 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu l'algorisme del procés d'enfocament:</"
-"p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\"font-weight:600;\">Iteratiu</span>: mou "
-"l'enfocador per passos discrets inicialment decidits per la mida del pas. "
-"Una vegada s'ha calculat el pendent d'una corba, es calcularan més mides de "
-"pas per a arribar fins a una solució òptima. L'algorisme es pararà quan HFR "
-"mesurat es trobe dins del percentatge de tolerància d'HFR mínim registrat en "
-"el procediment.</li><li style=\"margin-top:0px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">Polinomi</span>: comença amb el mètode iteratiu. "
-"En creuar a l'altre costat de la corba V, es calcularan els coeficients "
-"d'ajust polinomial juntament amb la possible solució mínima. Este algorisme "
-"pot ser més ràpid que l'aproximació purament iterativa gràcies a un bon "
-"conjunt de dades.</li><li style=\"margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">Lineal</span>: de manera habitual les mostres "
-"s'enfocaran cap endins, utilitzant 2 passos. L'algorisme pot ser lent, però "
-"és més resilient als rebots. Comenceu amb l'enfocador col·locat prop de "
-"l'enfocament bo. Establiu la «Mida del pas inicial:» i el «Recorregut màx.:» "
-"per a l'interval de mostreig desitjat i l'interval al voltant de la posició "
-"d'enfocament inicial. La tolerància haurà d'estar al voltant del 5%.</li><li "
-"style=\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\"font-"
-"weight:600;\">Lineal d'1 pas</span>: Comença com el <span style=\"font-"
-"weight:600;\">Lineal</span> però després de completar el 1r pas, en lloc de "
-"fer un 2n pas, es mou directament cap al valor HFR mínim calculat. Utilitzeu "
-"l'«Ajust de la corba» d'«Hipèrbola» o de «Paràbola».</li></ul></body></html>"
+"<html><head/><body><p>Selecciona els algorismes dels polsos de guiatge per a "
+"l'AR.</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block- indent:0; text-"
+"indent:0px;\"><span style=\"font-weight:600;\">Estàndard</span>: L'algorisme "
+"tradicional de guiatge proporcional. Calcula un pols per a corregir la "
+"deriva del guiatge calculat. El paràmetre de l'agressivitat decidix quina "
+"proporció de l'error es corregirà. Els errors més petits que «MinError» no "
+"es corregiran. La resposta màxima limita la correcció més gran. El paràmetre "
+"histèresi no s'utilitza.</li><li style=\"margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\"font-weight:600;\">Histèresi</span>: La histèresi és com "
+"l'algorisme estàndard però pondera la correcció prèvia segons el paràmetre "
+"de la histèresi. No s'aplica el guany integral.</li><li style=\"margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Lineal</span>: "
+"Este és similar a l'algorisme «Lowpass2» de PHD2. Calcula els polsos d'error "
+"en funció d'un historial curt dels errors recents. Es pot aplicar a muntures "
+"molt estables. No s'aplica la histèresi ni el guany integral.</li><li style="
+"\"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">GPG</"
+"span>: L'algorisme GPG intenta predir els errors periòdics i les derivacions "
+"lineals. Utilitza agressivitat, uns paràmetres mínims i màxims d'ací i més "
+"paràmetres a la pestanya GPG separada. La histèresi i el guany integral no "
+"s'apliquen.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Santander"
+msgstr "Estàndard"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Asterisme"
+msgstr "Histèresi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for DEC.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -24728,33 +24651,33 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccioneu el tipus de corba que s'ajustarà a les "
-"dades:</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
-"margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\"font-weight:600;\">Quadràtica</span>: Utilitza "
-"un ajust polinòmic de grau 2. Esta és l'opció predeterminada i l'única per a "
-"tots els algorismes excepte el lineal d'1 pas.</li><li style=\"margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Hipèrbola</"
-"span>: Ajusta una hipèrbola als punts de dades. Actualment, només estarà "
-"disponible per a l'algorisme lineal d'1 pas.</li><li style=\"margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\"font-weight:600;\">Paràbola</span>: Ajusta "
-"una paràbola als punts de dades. Actualment, només estarà disponible per a "
-"l'algorisme lineal d'1 pas.</li></ul></body></html>"
+"<html><head/><body><p>Selecciona els algorismes dels polsos de guiatge per a "
+"la Dec.</p><ul style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; "
+"margin-right:0px; -qt-list-indent:1;\"><li style=\"margin-top:12px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block- indent:0; text-"
+"indent:0px;\"><span style=\"font-weight:600;\">Estàndard</span>: L'algorisme "
+"tradicional de guiatge proporcional. Calcula un pols per a corregir la "
+"deriva del guiatge calculat. El paràmetre de l'agressivitat decidix quina "
+"proporció de l'error es corregirà. Els errors més petits que «MinError» no "
+"es corregiran. La resposta màxima limita la correcció més gran. El paràmetre "
+"histèresi no s'utilitza.</li><li style=\"margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\"font-weight:600;\">Histèresi</span>: La histèresi és com "
+"l'algorisme estàndard però pondera la correcció prèvia segons el paràmetre "
+"de la histèresi. No s'aplica el guany integral.</li><li style=\"margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Lineal</span>: "
+"Este és similar a l'algorisme «Lowpass2» de PHD2. Calcula els polsos d'error "
+"en funció d'un historial curt dels errors recents. Es pot aplicar a muntures "
+"molt estables. No s'aplica la histèresi ni el guany integral.</li></ul></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECIntegralGain)
 #: ekos/guide/opsguide.ui:150 ekos/guide/opsguide.ui:254
 #: ekos/guide/opsguide.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This adds a correction term based on the average of "
-#| "the past 50 guide deviations. For example, if the deviation is "
-#| "consistently negative, this will attempt to compensate. Best to start "
-#| "with 0.0 (no effect) and only use this if necessary.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This adds a correction term based on the average of "
 "the past 50 guide deviations. For example, if the deviation is consistently "
@@ -24765,14 +24688,14 @@ msgstr ""
 "<html><head/><body><p>Afig un factor de correcció basat en la mitjana de les "
 "últimes 50 desviacions de la guia. Per exemple, si la desviació és negativa "
 "amb coherència, açò ho intentarà compensar. És millor començar per 0,0 "
-"(sense efecte) i només utilitzar-ho si cal.</p></body></html>"
+"(sense efecte) i només utilitzar-ho si cal. (Només s'aplica a l'algorisme "
+"estàndard).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
-#, fuzzy, kde-format
-#| msgid "Integral gain (0-1.0)"
+#, kde-format
 msgid "Integral gain (deprecated)"
-msgstr "Guany integral (0-1,0)"
+msgstr "Guany integral (obsolet)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -24791,7 +24714,7 @@ msgstr ""
 #: ekos/guide/opsguide.ui:179
 #, kde-format
 msgid "Aggressiveness (0-1.0)"
-msgstr "Agressivitat (0-1.0)"
+msgstr "Agressivitat (0-1,0)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_14)
 #: ekos/guide/opsguide.ui:228
@@ -24833,42 +24756,33 @@ msgstr "Error mín. (seg. d'arc)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mida del separador entre les tessel·les.</p></body></"
-"html>"
+"<html><head/><body><p>Establix el paràmetre de la histèresi (només s'aplica "
+"a l'algorisme de la histèresi).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mida del separador entre les tessel·les.</p></body></"
-"html>"
+"<html><head/><body><p>Establix el paràmetre de la histèresi per a l'AR "
+"(només s'aplica a l'algorisme de la histèresi).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Mida del separador entre les tessel·les.</p></body></"
-"html>"
+"<html><head/><body><p>Establix el paràmetre de la histèresi per a la Dec "
+"(només s'aplica a l'algorisme de la histèresi).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24971,10 +24885,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
-#, fuzzy, kde-format
-#| msgid "Invent Multi-Star Guide Star (experimental)"
+#, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr "Inventa una estrela guia a partir de múltiples estreles (experimental)"
+msgstr "Inventa una estrela guia a partir de múltiples estreles"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -25036,8 +24949,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:640
-#, fuzzy, kde-format
-#| msgid "Star detection algorithm"
+#, kde-format
 msgid "Star Detection Algorithm"
 msgstr "Algorisme per a la detecció d'estreles"
 
@@ -41479,19 +41391,29 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RAGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2851
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+#| "Hysteresis, 2 Linear, 3 GPG)."
 msgid ""
-"Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"Quin algorisme s'ha d'utilitzar per a calcular els polsos del guiatge per a "
+"l'AR (0 estàndard, 1 histèresi, 2 lineal, 3 GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2855
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+#| "Hysteresis, 2 Linear)."
 msgid ""
-"Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"Quin algorisme s'ha d'utilitzar per a calcular els polsos del guiatge per a "
+"la Dec (0 estàndard, 1 histèresi, 2 lineal)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2859
@@ -41795,6 +41717,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Si > 0, s'utilitzarà el sistema de guiatge de la histèresi per a l'AR del "
+"guiatge intern amb este valor."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3126
@@ -41802,6 +41726,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Si > 0, s'utilitzarà el sistema de guiatge de la histèresi per a la Dec del "
+"guiatge intern amb este valor."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3132
@@ -90378,9 +90304,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "Enable the GPG guider for RA guiding."
-#~ msgstr "Activa el sistema de guiatge GPG per al guiatge de l'AR."
-
-#~ msgid "Enable GPG"
-#~ msgstr "Activa GPG"

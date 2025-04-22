@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-21 01:53+0000\n"
-"PO-Revision-Date: 2025-04-20 08:30+0300\n"
+"POT-Creation-Date: 2025-04-22 01:55+0000\n"
+"PO-Revision-Date: 2025-04-21 10:59+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -23168,7 +23168,7 @@ msgstr ""
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Обмежено довгу пульсацію у %1 мс до %2 мс"
 
 #: ekos/guide/internalguide/internalguider.cpp:536
 #, kde-format
@@ -23718,6 +23718,8 @@ msgstr ""
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
+"Увімкніть GPG на вкладці «Наведення» за допомогою спадного списку алгоритмів "
+"наведення за ПС"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -24094,47 +24096,19 @@ msgstr "Параметри керування"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr ""
-"Алгоритм для засобів стеження на напрямними зірками та визначення відхилення "
-"при наведенні."
+msgstr "Алгоритм, який обчислює сигнали виправлення наведення."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Алгоритм"
+msgstr "Алгоритм наведення"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA and DEC.</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -24162,63 +24136,37 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Спосіб виявлення зірок:</p><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">ПДФ:</span> видобування початкових даних і "
-"фотометрія (Source Extractor and Photometry), ефективний спосіб виявлення "
-"джерела на основі засобу видобування джерела (Bertin і Arnouts 1996; Bertin "
-"2016). Див. <a href=\"https://joss.theoj.org/papers/10.21105/joss.00058.pdf"
-"\"><span style=\" text-decoration: underline; color:#0000ff;\">SEP: Source "
-"Extractor as a library</span></a> у «Journal of Open Source Software».</"
-"li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Виберіть алгоритми наведення пульсаціями для ПС і Схил."
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Стандартний</span>: "
+"традиційний алгоритм пропорційного наведення. За ним буде обчислено "
+"пульсацію для виправлення обчисленого дрейфу керування. Параметр "
+"агресивності визначає, яку частку помилки буде виправлено. Помилки, менші за "
+"MinError, не буде виправлено. Параметр Максимальної відповіді обмежує "
+"найбільше виправлення. Параметр гістерезису не використовується.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Центроїд</span>: виявлення джерела на основі оцінок маси зірок "
-"навколо піків сигналів.</li><li style=\" margin-top:12px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Градієнт</span>: виявлення "
-"одинарного джерела на основі фільтра Собеля. Початковий або повний аналіз "
-"поля використовуватиме SEP замість цього способу.</li><li style=\" margin-"
-"top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Поріг</span>: "
-"виявлення єдиного джерела на основі значень пікселів. Початковий або повний "
-"аналіз поля використовуватиме SEP замість цього способу.</li></ul></body></"
-"html>"
+"weight:600;\">Гістерезисний</span>: гістерезисний алгоритм подібний до "
+"стандартного, але у ньому попереднє виправлення зважується за параметром "
+"гістерезису. Інтегральне збільшення не застосовується.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Лінійний</span>: цей алгоритм схожий на алгоритм PHD2 Lowpass2. За ним "
+"буде обчислено пульсації похибки на основі короткого журналу нещодавніх "
+"похибок. Це може бути застосовано до дуже стабільних лафетів. Гістерезис та "
+"інтегральне збільшення не застосовуються.</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">GPG</span>: (лише ПС) "
+"за алгоритмом GPG програма намагається передбачити періодичну похибку та "
+"лінійні дрейфи. Тут буде використано параметри агресивності, мінімуму та "
+"максимуму, а також інші параметри на окремій вкладці GPG. Гістерезис та "
+"інтегральне збільшення не застосовуються.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated,  further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage Tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method.  Upon "
-#| "crossing to the other side of the V-Curve,  polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes.  The algorithm can be slow, but it is more "
-#| "resilient to backlash.  Start with the focuser positioned near good "
-#| "focus.  Set Initial Step Size and Max Travel for the desired sampling "
-#| "interval and range around start focus position.  Tolerance should be "
-#| "around 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Linear 1 Pass</span>: Starts like <span style="
-#| "\" font-weight:600;\">Linear</span> but after completing the 1st pass, "
-#| "instead of doing a 2nd pass,  moves straight to the minimum HFR value "
-#| "calculated.  Use Curve Fit of Hyperbola or Parabola.</li></ul></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -24246,84 +24194,59 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Виберіть алгоритм обробки фокусування:</p><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Ітеративний</span>: пересування засобу "
-"фокусування кроками, розмір яких початково задається. Щойно буде визначено "
-"нахил кривої, програма визначить розмір кроку для досягнення оптимального "
-"розв'язку. Роботу алгоритму буде припинено, коли виміряне значення радіуса "
-"половинного потоку (HFR) перебуватиме у межах визначеного у відсотках околу "
-"мінімального радіуса половинного потоку, який було зареєстровано під час "
-"виконання процедури.</li><li style=\" margin-top:0px; margin-bottom:0px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Поліноміальний</span>: починається з "
-"ітеративного методу. Під час переходу на інший бік V-кривої обчислюються "
-"коефіцієнти полінома наближення та можливий мінімальний розв'язок. Цей "
-"алгоритм може працювати швидше за суто ітеративний підхід за якісного набору "
-"даних.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Лінійний</span>: фокусування за зразками всередину у звичайний "
-"спосіб із використанням 2 проходів. Алгоритм може працювати повільно, але є "
-"стійкішим до люфтів. Обробка починається із позиції із майже точним "
-"фокусуванням. Встановіть розмір початкового кроку та максимальний хід для "
-"бажаного інтервалу, а також діапазон навколо початкової позиції фокусування. "
-"Допуск має бути близьким до 5%.</li><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Лінійний однопрохідний</"
-"span>: починається як <span style=\" font-weight:600;\">Лінійний</span>, але "
-"після завершення першого проходу, замість виконання другого проходу, "
-"пересувається безпосередньо до мінімального обчисленого значення РПП (HFR). "
-"Використано апроксимацію кривої гіперболою або параболою.</li></ul></body></"
-"html>"
+"<html><head/><body><p>Виберіть алгоритми наведення пульсаціями для ПС. і "
+"Схил</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Стандартний</span>: "
+"традиційний алгоритм пропорційного наведення. За ним буде обчислено "
+"пульсацію для виправлення обчисленого дрейфу керування. Параметр "
+"агресивності визначає, яку частку помилки буде виправлено. Помилки, менші за "
+"MinError, не буде виправлено. Параметр Максимальної відповіді обмежує "
+"найбільше виправлення. Параметр гістерезису не використовується.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Гістерезисний</span>: гістерезисний алгоритм подібний до "
+"стандартного, але у ньому попереднє виправлення зважується за параметром "
+"гістерезису. Інтегральне збільшення не застосовується.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Лінійний</span>: цей алгоритм схожий на алгоритм PHD2 Lowpass2. За ним "
+"буде обчислено пульсації похибки на основі короткого журналу нещодавніх "
+"похибок. Це може бути застосовано до дуже стабільних лафетів. Гістерезис та "
+"інтегральне збільшення не застосовуються.</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">GPG</span>: за "
+"алгоритмом GPG програма намагається передбачити періодичну похибку та "
+"лінійні дрейфи. Тут буде використано параметри агресивності, мінімуму та "
+"максимуму, а також інші параметри на окремій вкладці GPG. Гістерезис та "
+"інтегральне збільшення не застосовуються.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Сантандер"
+msgstr "Стандартний"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Астеризм"
+msgstr "Гістерезисний"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for DEC.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -24345,34 +24268,35 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Виберіть тип кривої для апроксимації даних:</p><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Квадратична</span>: використати "
-"поліноміальну апроксимацію 2-го порядку. У поточній версії це типовий "
-"варіант, який є єдиним можливим для усіх алгоритмів, окрім лінійного "
-"однопрохідного.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Гіпербола</span>: апроксимація точок даних "
-"гіперболою. Доступна у поточній версії лише для лінійного однопрохідного "
-"алгоритму.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Парабола</span>: апроксимація точок даних "
-"параболою. Доступна у поточній версії лише для лінійного однопрохідного "
-"алгоритму.</li></ul></body></html>"
+"<html><head/><body><p>Виберіть алгоритм пульсації наведення для схилення.</"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Стандартний</span>:  "
+"традиційний алгоритм пропорційного наведення. За ним буде обчислено "
+"пульсацію для виправлення обчисленого дрейфу керування. Параметр "
+"агресивності визначає, яку частку помилки буде виправлено. Помилки, менші за "
+"MinError, не буде виправлено. Параметр Максимальної відповіді обмежує "
+"найбільше виправлення. Параметр гістерезису не використовується.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Гістерезисний</span>: гістерезисний алгоритм подібний до "
+"стандартного, але у ньому попереднє виправлення зважується за параметром "
+"гістерезису. Інтегральне збільшення не застосовується.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Лінійний</span>: за алгоритмом GPG програма намагається передбачити "
+"періодичну похибку та лінійні дрейфи. Тут буде використано параметри "
+"агресивності, мінімуму та максимуму, а також інші параметри на окремій "
+"вкладці GPG. Гістерезис та інтегральне збільшення не застосовуються.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECIntegralGain)
 #: ekos/guide/opsguide.ui:150 ekos/guide/opsguide.ui:254
 #: ekos/guide/opsguide.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This adds a correction term based on the average of "
-#| "the past 50 guide deviations. For example, if the deviation is "
-#| "consistently negative, this will attempt to compensate. Best to start "
-#| "with 0.0 (no effect) and only use this if necessary.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This adds a correction term based on the average of "
 "the past 50 guide deviations. For example, if the deviation is consistently "
@@ -24383,15 +24307,14 @@ msgstr ""
 "<html><head/><body><p>Додає виправлення на основі середнього значення за "
 "попередніми 50 відхиленнями наведення. Наприклад, якщо відхилення є постійно "
 "від'ємним, це виправлення компенсує його. Варто розпочинати зі значення 0,0 "
-"(без виправлення) і використовувати виправлення, лише якщо у цьому є потреба."
-"</p></body></html>"
+"(без виправлення) і використовувати виправлення, лише якщо у цьому є "
+"потреба. (Стосується лише стандартного алгоритму)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
-#, fuzzy, kde-format
-#| msgid "Integral gain (0-1.0)"
+#, kde-format
 msgid "Integral gain (deprecated)"
-msgstr "Інтегральне збільшення (0–1,0)"
+msgstr "Інтегральне збільшення (застаріле)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -24453,36 +24376,33 @@ msgstr "Мін. похибка (кут. сек.)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
-msgstr "<html><head/><body><p>Розмір інтервалу між плитками.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Встановлює параметр гістерезису (стосується лише "
+"гістерезисного алгоритму).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
-msgstr "<html><head/><body><p>Розмір інтервалу між плитками.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Встановлює параметр гістерезису для ПС (стосується "
+"лише гістерезисного алгоритму).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
-msgstr "<html><head/><body><p>Розмір інтервалу між плитками.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>Встановлює параметр гістерезису для схилення "
+"(стосується лише гістерезисного алгоритму).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24587,10 +24507,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
-#, fuzzy, kde-format
-#| msgid "Invent Multi-Star Guide Star (experimental)"
+#, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr "Визначати кратні напрямні зірки (експеримент)"
+msgstr "Визначати кратні напрямні зірки"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -24654,8 +24573,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:640
-#, fuzzy, kde-format
-#| msgid "Star detection algorithm"
+#, kde-format
 msgid "Star Detection Algorithm"
 msgstr "Алгоритм виявлення зірки"
 
@@ -40767,19 +40685,29 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RAGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2851
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+#| "Hysteresis, 2 Linear, 3 GPG)."
 msgid ""
-"Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"Яким алгоритмом слід скористатися для обчислення сигналів наведення для ПС "
+"(0 — стандартний, 1 — гістерезисний, 2 — лінійний, 3 — GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2855
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+#| "Hysteresis, 2 Linear)."
 msgid ""
-"Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"Яким алгоритмом слід скористатися для обчислення сигналів наведення для "
+"схилення (0 — стандартний, 1 — гістерезисний, 2 — лінійний)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2859
@@ -41080,6 +41008,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Якщо > 0, використати гістерезисний спосіб наведення для внутрішнього "
+"наведення за ПС з цим значенням."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3126
@@ -41087,6 +41017,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Якщо > 0, використати гістерезисний спосіб наведення для внутрішнього "
+"наведення за схиленням з цим значенням."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3132

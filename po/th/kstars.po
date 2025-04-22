@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-21 01:53+0000\n"
+"POT-Creation-Date: 2025-04-22 01:55+0000\n"
 "PO-Revision-Date: 2010-12-12 02:08+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -38450,7 +38450,7 @@ msgstr ""
 #: kstars.kcfg:2851
 #, kde-format
 msgid ""
-"Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
 
@@ -38458,7 +38458,7 @@ msgstr ""
 #: kstars.kcfg:2855
 #, kde-format
 msgid ""
-"Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
 

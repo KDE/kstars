@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kcmkonq trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-21 01:53+0000\n"
+"POT-Creation-Date: 2025-04-22 01:55+0000\n"
 "PO-Revision-Date: 2008-12-25 22:33-0500\n"
 "Last-Translator: Manu S Madhav <manusmad@gmail.com>\n"
 "Language-Team: Swathanthra|സ്വതന്ത്ര Malayalam|മലയാളം Computing|കമ്പ്യൂട്ടിങ്ങ് <smc-"
@@ -38283,7 +38283,7 @@ msgstr ""
 #: kstars.kcfg:2851
 #, kde-format
 msgid ""
-"Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
 
@@ -38291,7 +38291,7 @@ msgstr ""
 #: kstars.kcfg:2855
 #, kde-format
 msgid ""
-"Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
 

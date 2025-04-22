@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-21 01:53+0000\n"
-"PO-Revision-Date: 2025-04-20 16:34+0200\n"
+"POT-Creation-Date: 2025-04-22 01:55+0000\n"
+"PO-Revision-Date: 2025-04-21 15:28+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -22967,7 +22967,7 @@ msgstr "Richting van DEC omgekeerd (RA-DEC is nu standaard CCW-systeem)."
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Beperkte lange puls van %1ms tot %2ms"
 
 #: ekos/guide/internalguide/internalguider.cpp:536
 #, kde-format
@@ -23489,7 +23489,7 @@ msgstr ""
 "italic;\">(c) 2014-2017 Max Planck Society</span>, wordt alleen gebruikt "
 "voor volgen in RK. Meeste parameters <br/>kunnen op hun standaardwaarde "
 "blijven. <span style=\" font-weight:600; color:#8ae234;\">GPG aanzetten</"
-"span>  met onderstaand keuzevakje. Kanworden gebruikt met alle algoritmes "
+"span>  met onderstaand keuzevakje. Kan worden gebruikt met alle algoritmes "
 "voor volgster-detectie<br/> maar is vooral getest en wordt aanbevolen met "
 "<span style=\" font-weight:600; color:#8ae234;\">SEP MultiStar</span>. "
 "Verenigt een reactieve<br/>correctie met een agressie diegeregeld wordt "
@@ -23508,6 +23508,8 @@ msgstr ""
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
+"GPG inschakelen op het tabblad Volgen, met gebruik van de afrollijst van het "
+"RA-volgalgoritme"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -23895,45 +23897,19 @@ msgstr "Besturingsparameters"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr "Het algoritme dat volgsterren volgt en de volgafwijking bepaalt."
+msgstr "Het algoritme dat de volgcorrectiepulsen berekend."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Algoritme"
+msgstr "Volgalgoritme"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA and DEC.</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -23961,62 +23937,37 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Methode van sterdetectie:</p><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">SEP:</span> Source Extractor en Photometry, een "
-"efficiënte methode voor brondetectie op basis van Source Extractor (Bertin "
-"en Arnouts 1996; Bertin 2016). Zie <a href=\"https://joss.theoj.org/"
-"papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: underline; "
-"color:#0000ff;\">SEP: Source Extractor als een bibliotheek</span></a> in het "
-"Journal of Open Source Software.</li><li style=\" margin-top:12px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Centroid</span>: een "
-"brondetectie op basis van het schatten van stermassa rondom signaalpieken.</"
-"li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Selecteer de volgpulsalgoritmen voor RA en DEC.</p><ul "
+"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
+"0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Standaard</span>: het traditionele "
+"proportionele volgalgoritme. Het berekent een puls om de berekende volgdrift "
+"te corrigeren. De agressiviteitsparameter bepaalt welke gedeelte van de fout "
+"wordt gecorrigeerd. Fouten kleiner dan Minfout zullen niet gecorrigeerd "
+"worden. Max-respons beperkt de grootste correctie. De hysteresisparameter "
+"wordt niet gebruikt.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Hysteresis</span>: hysteresis is zoals "
+"het standaard algoritme maar weegt in de vorige correctie mee volgens de "
+"hysteresisparameter. Integrale versterking is niet van toepassing.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Gradient</span>: een enkele brondetectie op basis van het "
-"Sobelfilter. Initiële of  full-field analyse gebruikt in plaats hiervan SEP."
-"</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Drempel</span>: een enkele brondetectie op basis van "
-"pixelwaaarden. Initiële of  full-field analyse gebruikt in plaats hiervan "
-"SEP.</li></ul></body></html>"
+"weight:600;\">Linear</span>: Dit is gelijk aan het PHD2 "
+"laagdoorlaatalgoritme. Het berekent de foutpulsen gebaseerd op een korte "
+"geschiedenis van recente fouten. Dit kan van toepassing zijn op erg stabiele "
+"opstellingen. Hysteresis en integrale versterking zijn niet van toepassing.</"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">GPG</span>: (Alleen RA) Het GPG-algoritme probeert de "
+"periodieke fout te voorspellen en lineaire drifts. Het gebruikt de "
+"agressiviteit, de min- and max-parameters hier en meer parameters op het "
+"aparte GPG tabblad. Hysteresis en integrale versterking zijn niet van "
+"toepassing.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated,  further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage Tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method.  Upon "
-#| "crossing to the other side of the V-Curve,  polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes.  The algorithm can be slow, but it is more "
-#| "resilient to backlash.  Start with the focuser positioned near good "
-#| "focus.  Set Initial Step Size and Max Travel for the desired sampling "
-#| "interval and range around start focus position.  Tolerance should be "
-#| "around 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Linear 1 Pass</span>: Starts like <span style="
-#| "\" font-weight:600;\">Linear</span> but after completing the 1st pass, "
-#| "instead of doing a 2nd pass,  moves straight to the minimum HFR value "
-#| "calculated.  Use Curve Fit of Hyperbola or Parabola.</li></ul></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -24044,80 +23995,32 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Selecteer focusalgoritme:</p><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Iteratief</span>: Focusseren met discrete "
-"stappen, aanvankelijk met de stapgrootte. Na berekening van een helling van "
-"de kromme worden verdere optimale stapgroottes berekend. Het algoritme stopt "
-"zodra de gemeten HFR binnen de marge is gekomen van de procedure.</li><li "
-"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Veelterm</span>: Start iteratief. Na het bereiken van de "
-"andere kant van de V-kromme worden de coëfficiënten berekend van de best "
-"passende veelterm, samen met de mogelijk beste oplossing. Bij goede gegevens "
-"kan deze methode veel sneller zijn dan een zuiver iteratieve aanpak.</li><li "
-"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Lineair</span>: Monstert regelmatig focus binnenwaarts in twee "
-"keer. Het algoritme kan langzaam zijn, maar is ongevoeliger voor speling. "
-"Start terwijl de focus al bijna goed is. Stel beginstap in, en de maximale "
-"beweging voor het gewenste monsterinterval en bereik rondom de beginpositie "
-"van de focus. Tolerantie moet ongeveer 5% zijn.</li><li style=\" margin-"
-"top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Lineaire 1 "
-"doorgang</span>: Start als <span style=\" font-weight:600;\">Lineair</span> "
-"maar na voltooien van de 1ste doorgang, in plaats van het doen van een 2de "
-"doorgang, gaat direct naar de minimale berekende HFR waarde. Gebruik Curve "
-"Fit van hyperbool of parabool.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Santander"
+msgstr "Standaard"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Asterisme"
+msgstr "Hysteresis"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for DEC.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -24139,34 +24042,13 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Selecteer het type kromme om de gegevens te fitten:</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Kwadratisch</span>: Gebruikt "
-"een polynoom fit met graad 2.  Dit is nu de standaard optie en nu de enige "
-"optie voor alle algoritmen behalve Lineair 1 doorgang.</li><li style=\" "
-"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Hyperbool</span>: Fit een hyperbool door de gegevenspunten.  Dit is nu de "
-"enige beschikbare voor het algoritme Lineaire 1 doorgang.</li><li style=\" "
-"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Parabool</span>: Fit een parabool door de gegevenspunten.  Dit is nu de "
-"enige beschikbare voor het algoritme Lineaire 1 doorgang.</li></ul></body></"
-"html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECIntegralGain)
 #: ekos/guide/opsguide.ui:150 ekos/guide/opsguide.ui:254
 #: ekos/guide/opsguide.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This adds a correction term based on the average of "
-#| "the past 50 guide deviations. For example, if the deviation is "
-#| "consistently negative, this will attempt to compensate. Best to start "
-#| "with 0.0 (no effect) and only use this if necessary.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This adds a correction term based on the average of "
 "the past 50 guide deviations. For example, if the deviation is consistently "
@@ -24178,14 +24060,14 @@ msgstr ""
 "gemiddelde van de voorbije 50 volgafwijkingen. Als, bijvoorbeeld, de "
 "afwijking consist negatief is, zal dit proberen te compenseren. Het beste is "
 "om te beginnen met 0,0 (geen effect) en dit alleen, indien nodig, te "
-"gebruiken.</p></body></html>"
+"gebruiken. (Alleen van toepassing op het standaard algoritme.)</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
-#, fuzzy, kde-format
-#| msgid "Integral gain (0-1.0)"
+#, kde-format
 msgid "Integral gain (deprecated)"
-msgstr "Integrale versterking (0-1.0)"
+msgstr "Integrale versterking (afgekeurd)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -24246,39 +24128,33 @@ msgstr "Min. fout (arcsec)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><body><p>Grootte van de scheiding tussen de vakken.</p></body></html>"
+"<html><head/><body><p>Zet de hysteresisparameter (alleen van toepassing op "
+"het hysteresisalgoritme).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><body><p>Grootte van de scheiding tussen de vakken.</p></body></html>"
+"<html><head/><body><p>Zet de RA-hysteresisparameter (alleen van toepassing "
+"op het hysteresisalgoritme).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><body><p>Grootte van de scheiding tussen de vakken.</p></body></html>"
+"<html><head/><body><p>Zet de DEC-hysteresisparameter (alleen van toepassing "
+"op het hysteresisalgoritme).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24381,10 +24257,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
-#, fuzzy, kde-format
-#| msgid "Invent Multi-Star Guide Star (experimental)"
+#, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr "Multi-ster gidsster aannemen (experimenteel)"
+msgstr "Multi-ster gidsster aannemen"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -24445,10 +24320,9 @@ msgstr "Het algoritme dat volgsterren volgt en de volgafwijking bepaalt."
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:640
-#, fuzzy, kde-format
-#| msgid "Star detection algorithm"
+#, kde-format
 msgid "Star Detection Algorithm"
-msgstr "Algoritme sterdetectie"
+msgstr "Algoritme voor sterdetectie"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, kcfg_MinDetectionsSEPMultistar)
 #. i18n: ectx: property (toolTip), widget (QLabel, label_22)
@@ -40421,19 +40295,29 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RAGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2851
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+#| "Hysteresis, 2 Linear, 3 GPG)."
 msgid ""
-"Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"Welk algoritme te gebruiken om volgpulsen voor RA te berekenen (0 standaard, "
+"1 Hysteresis, 2 Lineair, 3 GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2855
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+#| "Hysteresis, 2 Linear)."
 msgid ""
-"Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"Welk algoritme te gebruiken om volgpulsen voor DEC te berekenen (0 "
+"standaard, 1 Hysteresis, 2 Lineair)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2859
@@ -40725,6 +40609,7 @@ msgstr "Toon de plot van de RMS in de grafieken voor volgdrift."
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Indien > 0, gebruik de hysteresisvolger voor RA intern volgen met die waarde."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3126
@@ -40732,6 +40617,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Indien > 0, gebruik de hysteresisvolger voor DEC intern volgen met die "
+"waarde."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3132

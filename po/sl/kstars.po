@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-21 01:53+0000\n"
-"PO-Revision-Date: 2025-04-20 07:00+0200\n"
+"POT-Creation-Date: 2025-04-22 01:55+0000\n"
+"PO-Revision-Date: 2025-04-21 07:44+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -49,7 +49,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -22922,7 +22922,7 @@ msgstr "Smer DEC obrnjena (RA-DEC je zdaj standardni sistem CCW)."
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Omejen dolg impulz od %1ms do %2ms"
 
 #: ekos/guide/internalguide/internalguider.cpp:536
 #, kde-format
@@ -23458,7 +23458,7 @@ msgstr ""
 #: ekos/guide/opsgpg.ui:81
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
-msgstr ""
+msgstr "Omogoči GPG na zavihku Vodnik s spustnim menijem algoritma vodenja RA"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -23839,45 +23839,19 @@ msgstr "Nadzorni parametri"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr "Algoritem, ki sledi vodilnim zvezdam in določa odklon vodnika."
+msgstr "Algoritem, ki izračuna korekcijske impulze vodila."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Algoritem"
+msgstr "Algoritem vodenja"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA and DEC.</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -23905,62 +23879,34 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Metoda detekcije zvezde:</p><ul style=\"margin-top: "
-"0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-"indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
+"<html><head/><body><p>Izberi algoritme vodilnega impulza za RA in DEC.</"
+"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
+"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Standard</span>: "
+"Tradicionalni proporcionalni algoritem vodenja. Izračuna impulz, da popravi "
+"izračunani zamik vodila. Parameter agresivnosti določa, kakšen delež napake "
+"je popravljen. Napake, manjše od MinError, ne bodo popravljene. Največji "
+"odziv omejuje največji popravek. Parameter histereze ni uporabljen.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">Histereza</span>: Histereza je podoben standardnemu algoritmu, "
+"a uteži prejšnji popravek glede na parameter histereze. Integralno ojačenje "
+"se ne uveljavi.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, an "
-"efficient source detection method based on Source Extractor (Bertin and "
-"Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-"papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: underline; "
-"color:#0000ff;\">SEP: Source Extractor as a library</span></a> in the "
-"Journal of Open Source Software.</li><li style=\" margin-top:12px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Centroid</span>: zaznavanje "
-"vira na podlagi ocenjevanja zvezdne mase okoli vrhov signala. </li><li style="
-"\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Gradient</span>: zaznavanje enega vira na podlagi Sobelovega filtra. "
-"Začetna analiza ali analiza celotnega polja bo namesto te metode uporabila "
-"SEP. </li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; "
-"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Prag</span>: zaznavanje enega vira na podlagi vrednosti "
-"slikovnih pik. Začetna analiza ali analiza celotnega polja bo namesto te "
-"metode uporabila SEP..</li></ul></body></html>"
+"style=\" font-weight:600;\">Linearno</span>: Ta je podoben algoritmu PHD2 "
+"Lowpass2. V osnovi izračuna impulze napak iz kratke zgodovine nedavnih "
+"napak. To lahko velja za zelo stabilne montaže. Histereze in integralnega "
+"ojačenja se ne uporabi.</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">GPG</span>: (Samo RA) algoritem GPG "
+"poskuša napovedati periodično napako in linearne zdrse. Tukaj uporablja "
+"parametre agresivnosti, min in max in še večparametrov na ločenem zavihku "
+"GPG. Histereze in integralnega ojačenja ne uporabi.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated,  further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage Tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method.  Upon "
-#| "crossing to the other side of the V-Curve,  polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes.  The algorithm can be slow, but it is more "
-#| "resilient to backlash.  Start with the focuser positioned near good "
-#| "focus.  Set Initial Step Size and Max Travel for the desired sampling "
-#| "interval and range around start focus position.  Tolerance should be "
-#| "around 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Linear 1 Pass</span>: Starts like <span style="
-#| "\" font-weight:600;\">Linear</span> but after completing the 1st pass, "
-#| "instead of doing a 2nd pass,  moves straight to the minimum HFR value "
-#| "calculated.  Use Curve Fit of Hyperbola or Parabola.</li></ul></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -23988,81 +23934,56 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Izberi algoritem procesa fokusiranja:</p><ul style="
+"<html><head/><body><p>Izberi algoritme impulza vodila za RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
 "qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Iterativni</span>: Na začetku premika fokuser z "
-"diskretnimi koraki z določeno velikostjo koraka. Ko je izračunan naklon "
-"krivulje, so nadaljnje izračunane velikosti koraka za doseganje optimalne "
-"rešitve. Algoritem se ustavi, ko je izmerjeni PPT znotraj odstotnega "
-"odstopanja najmanjšega PPT, zabeleženega v postopku.</li><li style=\" margin-"
-"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Polinomski</"
-"span>: Začne se z iterativno metodo. Ob prehodu na drugo stran V-krivulje, "
-"so koeficienti polinomskega prileganja izračunani skupaj z možno minimalno "
-"rešitvijo. Ta algoritem je lahko hitrejši od povsem iterativnega pristopa "
-"glede na dober nabor podatkov.</li><li style=\" margin-top:0px; margin-"
+"style=\" font-weight:600;\">Standard</span>: Tradicionalni proporcionalni "
+"algoritem vodenja. Izračuna impulz, da popravi izračunani zamik vodila."
+"Parameter agresivnosti določa delež popravljene napake. Napake, manjše od "
+"MinError, ne bodo popravljane. Največji odziv omeji največji popravek. "
+"Parameter histereze se ne uporablja.</li><li style=\" margin-top:0px; margin-"
 "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Linearni</span>: Vzorci se "
-"redno fokusirajo navznoter z uporabo 2. prehoda. Algoritem je lahko počasen, "
-"vendar je bolj odporen na  učinek zračnosti. Začnite z fokuserjem blizu "
-"dobrega fokusa. Nastavite začetno velikost koraka in maks potovanje za "
-"želeni interval vzorčenja in obseg okoli položaja začetnega fokusa. "
-"Toleranca mora biti okoli 5%.</li><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Linearni 1 prehod</span>: Se "
-"začne kot <span style=\" font-weight:600;\">Linearni</span> a se po "
-"zaključku 1. prehoda namesto drugega prehoda premakne naravnost na najmanjšo "
-"izračunano vrednost PPT. Uporabi prileganje krivulje hiperbole ali parabole."
-"</li></ul></body></html>"
+"indent:0px;\"><span style=\" font-weight:600;\">Hysteresis</span>: Histereza "
+"je podobna standardnemu algoritmu, a uteži prejšnji popravek glede na "
+"parameter histereze. Integralno ojačenje ne velja.</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Linearno</"
+"span>: To je podobno algoritmu PHD2 Lowpass2. V osnovi izračuna impulze "
+"napak iz kratke zgodovine nedavnih napak. To lahko velja za zelo stabilne "
+"montaže. Histereze in integralnega ojačenja ne uporabi.</li><li style=\" "
+"margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">GPG</"
+"span>: Algoritem GPG poskuša predvideti periodične napake in linearne "
+"odmike. Tu uporablja parametre agresivnosti, min in max ter več parametrov "
+"na ločenem zavihku GPG. Histereze in integralnega ojačenja ne uporabi.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Santander"
+msgstr "Standard"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Asterizem"
+msgstr "Histereza"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for DEC.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -24084,33 +24005,32 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Izberite vrsto krivulje, ki se bo prilegala podatkom:</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0px;"
-"\"><span style=\" font-weight:600;\">Kvadratna</span>Uporablja polinomsko "
-"prileganje stopnje 2. To je trenutno privzeta možnost in trenutno edina "
-"možnost za vse algoritme razen za linearni 1 prehod.</li><li style=\" margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; text-indent:0px;\"><span "
-"style=\"font-weight:600;\">Hiperbola</span>: Prilega se hiperboli "
-"podatkovnim točkam. To je trenutno na voljo samo za linearni algoritem 1 "
-"prehoda.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
+"<html><head/><body><p>Izberite algoritme impulza vodila za DEC</p><ul style="
+"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
+"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:0px; margin-"
 "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Parabola</span>: prilagodi parabolo podatkovnim "
-"točkam. To je trenutno na voljo samo za algoritem linearnega 1 prehoda.</"
-"li></ul></body></html>"
+"style=\" font-weight:600;\">Standard</span>: Tradicionalni algoritem "
+"proporcionalnega vodenja. Izračuna impulz, da popravi izračunani zdrs "
+"vodila. Parameter agresivnosti določa, kakšen delež napake je popravljene. "
+"Napake, manjše od MinError, ne bodo popravljane. Največji odziv omejuje "
+"največji popravek. Parameter histereze se ne uporablja.</li><li style=\" "
+"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
+"\">Hysteresis</span>: Histereza je podoben standardnem algoritmu vendar "
+"uteži prejšnji popravek glede na parameter histereze. Integralnega ojačenja "
+"ne uporabi.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-"
+"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
+"style=\" font-weight:600;\">Linearno</span>: Ta je podoben algoritmu PHD2 "
+"Lowpass2. V osnovi izračuna impulze napak iz kratke zgodovine nedavnih "
+"napak. To lahko velja za zelo stabilne montaže. Histereza in integralno "
+"ojačenje se ne uporabi.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECIntegralGain)
 #: ekos/guide/opsguide.ui:150 ekos/guide/opsguide.ui:254
 #: ekos/guide/opsguide.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This adds a correction term based on the average of "
-#| "the past 50 guide deviations. For example, if the deviation is "
-#| "consistently negative, this will attempt to compensate. Best to start "
-#| "with 0.0 (no effect) and only use this if necessary.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This adds a correction term based on the average of "
 "the past 50 guide deviations. For example, if the deviation is consistently "
@@ -24118,17 +24038,17 @@ msgid ""
 "effect) and only use this if necessary. (Only applies to the standard "
 "algorithm.)</p></body></html>"
 msgstr ""
-"<html><head/><body><p>To doda korekcijski izraz na podlagi povprečjazadnjih "
-"50 odstopanj od vodila. Na primer, če je odstopanje doslednonegativno, bo to "
-"poskušalo nadomestiti. Najbolje je začeti z 0,0 (brez učinka) in to "
-"uporabite le, če je potrebno.</p></body></html>"
+"<html><head/><body><p>To doda korekcijski izraz na podlagi povprečja zadnjih "
+"50 odstopanj od vodila. Na primer, če je odstopanje dosledno negativno, bo "
+"to poskušalo nadomestiti. Najbolje je začeti z 0,0 (brez učinka) in to "
+"uporabiti samo, če je potrebno. (Se nanaša samo na standardni algoritem.)</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
-#, fuzzy, kde-format
-#| msgid "Integral gain (0-1.0)"
+#, kde-format
 msgid "Integral gain (deprecated)"
-msgstr "Integralno ojačenje (0-1,0)"
+msgstr "Integralno ojačenje (opuščeno)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -24188,39 +24108,33 @@ msgstr "Minimalna napaka (arcsec)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Velikost distančnika med ploščicami.</p></body></html>"
+"<html><head/><body><p>Nastavi parameter histereze (velja samo za histerezni "
+"algoritem).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Velikost distančnika med ploščicami.</p></body></html>"
+"<html><head/><body><p>Nastavi parameter histereze RA (velja samo za "
+"histerezni algoritem).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Velikost distančnika med ploščicami.</p></body></html>"
+"<html><head/><body><p>Nastavi parameter histereze DEC (velja samo za "
+"histerezni algoritem).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24324,10 +24238,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
-#, fuzzy, kde-format
-#| msgid "Invent Multi-Star Guide Star (experimental)"
+#, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr "Izumi Multi-Star vodilno zvezdo (eksperimentalno)"
+msgstr "Izumi Multi-Star vodilno zvezdo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -24388,8 +24301,7 @@ msgstr "Algoritem, ki sledi vodilnim zvezdam in določa odklon vodnika."
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:640
-#, fuzzy, kde-format
-#| msgid "Star detection algorithm"
+#, kde-format
 msgid "Star Detection Algorithm"
 msgstr "Algoritem zaznavanja zvezd"
 
@@ -40268,19 +40180,29 @@ msgstr ""
 
 #. i18n: ectx: label, entry (RAGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2851
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+#| "Hysteresis, 2 Linear, 3 GPG)."
 msgid ""
-"Which Algorithm to use to compute guiding pulses for RA (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"Kateri algoritem uporabiti za izračun vodilnih impulzov za RA (0 stanadrd, 1 "
+"Histereza, 2 Linearni, 3 GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2855
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+#| "Hysteresis, 2 Linear)."
 msgid ""
-"Which Algorithm to use to compute guiding pulses for DEC (0 stanadrd, 1 "
+"Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"Kateri algoritem uporabiti za izračun vodilnih impulzov za DEC (0 standard, "
+"1 Histereza, 2 Linearni)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2859
@@ -40570,6 +40492,7 @@ msgstr "Prikaži graf napake KKS na grafikonu drsenja vodila."
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Če je > 0, uporabi vodnik histereze za notranje vodenje RA s to vrednostjo."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3126
@@ -40577,6 +40500,7 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Če je > 0, uporabi vodnik histereze za notranje vodenje DEC s to vrednostjo."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3132
