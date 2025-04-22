@@ -48,6 +48,7 @@ InternalGuider::InternalGuider()
 
     m_darkGuideTimer = std::make_unique<QTimer>(this);
     m_captureTimer = std::make_unique<QTimer>(this);
+    m_ditherSettleTimer = std::make_unique<QTimer>(this);
 
     setDarkGuideTimerInterval();
 
@@ -141,6 +142,8 @@ bool InternalGuider::abort()
 {
     // calibrationStage = CAL_IDLE; remove totally when understand trackingStarSelected
 
+    disableDitherSettleTimer();
+
     logFile.close();
     guideLog.endGuiding();
     emit guideInfo("");
@@ -185,6 +188,7 @@ bool InternalGuider::abort()
 
 bool InternalGuider::suspend()
 {
+    disableDitherSettleTimer();
     guideLog.pauseInfo();
     state = GUIDE_SUSPENDED;
 
@@ -411,7 +415,7 @@ bool InternalGuider::dither(double pixels)
 
             pmath->getGPG().ditheringSettled(true);
 
-        QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
+        startDitherSettleTimer(Options::ditherSettle() * 1000);
     }
     else
     {
@@ -519,7 +523,7 @@ bool InternalGuider::onePulseDither(double pixels)
     if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
         pmath->getGPG().ditheringSettled(true);
 
-    QTimer::singleShot(totalMSecs, this, SLOT(setDitherSettled()));
+    startDitherSettleTimer(totalMSecs);
     return true;
 }
 
@@ -546,7 +550,7 @@ bool InternalGuider::abortDither()
         if (Options::rAGuidePulseAlgorithm() == OpsGuide::GPG_ALGORITHM)
             pmath->getGPG().ditheringSettled(false);
 
-        QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
+        startDitherSettleTimer(Options::ditherSettle() * 1000);
         return true;
     }
 }
@@ -592,7 +596,7 @@ bool InternalGuider::processManualDithering()
                 emit newStatus(state);
             }
 
-            QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
+            startDitherSettleTimer(Options::ditherSettle() * 1000);
         }
         else
         {
@@ -612,7 +616,7 @@ bool InternalGuider::processManualDithering()
                 emit newStatus(state);
             }
 
-            QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
+            startDitherSettleTimer(Options::ditherSettle() * 1000);
             return true;
         }
 
@@ -622,13 +626,32 @@ bool InternalGuider::processManualDithering()
     return true;
 }
 
+void InternalGuider::startDitherSettleTimer(int ms)
+{
+    m_ditherSettleTimer->setSingleShot(true);
+    connect(m_ditherSettleTimer.get(), &QTimer::timeout, this, &InternalGuider::setDitherSettled, Qt::UniqueConnection);
+    m_ditherSettleTimer->start(ms);
+}
+
+void InternalGuider::disableDitherSettleTimer()
+{
+    disconnect(m_ditherSettleTimer.get());
+    m_ditherSettleTimer->stop();
+}
+
 void InternalGuider::setDitherSettled()
 {
-    guideLog.settleCompletedInfo();
-    emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+    disableDitherSettleTimer();
 
-    // Back to guiding
-    state = GUIDE_GUIDING;
+    // Shouldn't be in these states, but just in case...
+    if (state != GUIDE_IDLE && state != GUIDE_ABORTED && state != GUIDE_SUSPENDED)
+    {
+        guideLog.settleCompletedInfo();
+        emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+
+        // Back to guiding
+        state = GUIDE_GUIDING;
+    }
 }
 
 bool InternalGuider::calibrate()
@@ -1280,7 +1303,7 @@ bool InternalGuider::reacquire()
                 emit newStatus(state);
             }
 
-            QTimer::singleShot(Options::ditherSettle() * 1000, this, SLOT(setDitherSettled()));
+            startDitherSettleTimer(Options::ditherSettle() * 1000);
         }
         else
         {
