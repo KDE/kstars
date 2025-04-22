@@ -10,6 +10,7 @@ stages:
   - publish
 
 include:
+  - local: '.gitlab-ci/common_rules.yml'
   - project: sysadmin/ci-utilities
     file:
       - /gitlab-templates/linux.yml
@@ -22,59 +23,55 @@ include:
       # - /gitlab-templates/reuse-lint.yml
       # - /gitlab-templates/flatpak.yml
 
+# Jobs
+
 # Android CI is not ready yet
 # android_qt515:
 #   rules:
 #     - when: manual
 #       allow_failure: true
 
-# Craft recipes run as nightly on master
+# Standard build recipes
+
+suse_tumbleweed_qt515:
+  rules:
+    - !reference [.standard-build-recipes, rules]
+
+windows_qt515:
+  rules:
+    - !reference [.standard-build-recipes, rules]
+
+# Craft recipes
+
 craft_appimage_qt515_x86_64:
   needs:
     - suse_tumbleweed_qt515
   rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: always
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
-      when: always
-    - when: manual
-      allow_failure: true
+    - !reference [.craft-recipes, rules]
 
 craft_windows_qt515_x86_64:
   needs:
     - windows_qt515
   rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      when: always
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
-      when: always
-    - when: manual
-      allow_failure: true
+    - !reference [.craft-recipes, rules]
 
 craft_macos_x86_64:
   timeout: 2h # Signing procedure often exceeds the default 1h
   needs:
     - suse_tumbleweed_qt515 # we don't have a macos check build
   rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-      allow_failure: true # MacOS build is unstable
-      when: always
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH =~ /^stable-.*/
-      when: always
-    - when: manual
-      allow_failure: true
+    - !reference [.craft-recipes, rules]
 
-# Publishing to Windows store is being discussed
+# Publishing recipes
+
 microsoftstore_qt515:
   needs:
     - craft_windows_qt515_x86_64
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^stable-.*/
-      when: always
-    - when: manual
-      allow_failure: true
+    - !reference [.publishing-recipes, rules]
 
-# This is the custom build we use until tests are operational in the KDE CI image
+# Custom build recipes - until tests are operational in the KDE CI image
+
 .custom_build:
   interruptible: true
   image: tallfurryman/kstars-ci:latest
@@ -88,11 +85,7 @@ microsoftstore_qt515:
     paths: [ "${CCACHE_DIR}" ]
     when: always
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: always
-    - allow_failure: true
-      when: manual
+    - !reference [.custom-build-recipes, rules]
   before_script:
     - du -hs "${CCACHE_DIR}" || mkdir -p "${CCACHE_DIR}"
     - add-apt-repository --remove ppa:mutlaqja/ppa
@@ -107,6 +100,8 @@ microsoftstore_qt515:
 build:
   stage: build
   extends: .custom_build
+  needs:
+    - suse_tumbleweed_qt515
   script:
     - cd kstars-build
     - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCCACHE_SUPPORT=ON -DBUILD_TESTING=OFF -DBUILD_DOC=OFF ..
