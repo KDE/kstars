@@ -728,7 +728,7 @@ void PHD2::handlePHD2AppState(PHD2State newstate)
                     emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
                     break;
                 default:
-                    emit newLog(i18n("PHD2: Guiding started."));
+                    emit newLog(i18n("PHD2: Guiding running."));
                     abortTimer->stop();
                     emit newStatus(Ekos::GUIDE_GUIDING);
                     break;
@@ -1209,9 +1209,9 @@ bool PHD2::clearCalibration()
         return false;
     }
 
-    QJsonArray args;
+    QJsonObject args;
     //This instructs PHD2 which calibration to clear.
-    args << "mount";
+    args["which"] = "mount";
     sendPHD2Request("clear_calibration", args);
 
     return true;
@@ -1241,8 +1241,7 @@ bool PHD2::dither(double pixels)
         return true;
     }
 
-    QJsonArray args;
-    QJsonObject settle;
+    QJsonObject args, settle;
 
     int ditherTimeout = static_cast<int>(Options::ditherTimeout());
 
@@ -1250,12 +1249,9 @@ bool PHD2::dither(double pixels)
     settle.insert("time", static_cast<int>(Options::ditherSettle()));
     settle.insert("timeout", ditherTimeout);
 
-    // Pixels
-    args << pixels;
-    // RA Only?
-    args << false;
-    // Settle
-    args << settle;
+    args["amount"] = pixels;
+    args["raOnly"] = false;
+    args["settle"] = settle;
 
     isSettling = true;
     isDitherActive = true;
@@ -1352,9 +1348,9 @@ void PHD2::requestStarImage(int size)
         return;
     }
 
-    QJsonArray args2;
-    args2 << size; // This is both the width and height.
-    sendPHD2Request("get_star_image", args2);
+    QJsonObject args;
+    args["size"] = size; // This is both the width and height.
+    sendPHD2Request("get_star_image", args);
 
     starImageRequested = true;
 }
@@ -1378,17 +1374,14 @@ bool PHD2::guide()
         return false;
     }
 
-    QJsonArray args;
-    QJsonObject settle;
+    QJsonObject args, settle;
 
     settle.insert("pixels", static_cast<double>(Options::ditherThreshold()));
     settle.insert("time", static_cast<int>(Options::ditherSettle()));
     settle.insert("timeout", static_cast<int>(Options::ditherTimeout()));
 
-    // Settle param
-    args << settle;
-    // Recalibrate param
-    args << false;
+    args["settle"] = settle;
+    args["recalibrate"] = false;
 
     errorLog.clear();
 
@@ -1426,10 +1419,10 @@ void PHD2::connectEquipment(bool enable)
 
     pixelScale = 0 ;
 
-    QJsonArray args;
+    QJsonObject args;
 
     // connected = enable
-    args << enable;
+    args["connected"] = enable;
 
     if (enable)
         emit newLog(i18n("PHD2: Connecting Equipment. . ."));
@@ -1443,32 +1436,34 @@ void PHD2::connectEquipment(bool enable)
 void PHD2::requestSetDEGuideMode(bool deEnabled, bool nEnabled,
                                  bool sEnabled) //Possible Settings Off, Auto, North, and South
 {
-    QJsonArray args;
+    QJsonObject args;
+    QString value;
 
     if(deEnabled)
     {
         if(nEnabled && sEnabled)
-            args << "Auto";
+            value = "Auto";
         else if(nEnabled)
-            args << "North";
+            value = "North";
         else if(sEnabled)
-            args << "South";
+            value = "South";
         else
-            args << "Off";
+            value = "Off";
     }
     else
     {
-        args << "Off";
+        value = "Off";
     }
 
+    args["mode"] = value;
     sendPHD2Request("set_dec_guide_mode", args);
 }
 
 //set_exposure
 void PHD2::requestSetExposureTime(int time) //Note: time is in milliseconds
 {
-    QJsonArray args;
-    args << time;
+    QJsonObject args;
+    args["exposure"] = time;
     sendPHD2Request("set_exposure", args);
 }
 
@@ -1476,8 +1471,10 @@ void PHD2::requestSetExposureTime(int time) //Note: time is in milliseconds
 void PHD2::setLockPosition(double x, double y)
 {
     // Note: false will mean if a guide star is near the coordinates, it will use that.
-    QJsonArray args;
-    args << x << y << false;
+    QJsonObject args;
+    args["x"] = x;
+    args["y"] = y;
+    args["exact"] = false;
     sendPHD2Request("set_lock_position", args);
 }
 //set_lock_shift_enabled
@@ -1493,12 +1490,10 @@ bool PHD2::suspend()
         return false;
     }
 
-    QJsonArray args;
+    QJsonObject args;
 
-    // Paused param
-    args << true;
-    // FULL param
-    args << "full";
+    args["paused"] = true;
+    args["type"] = "full";
 
     sendPHD2Request("set_paused", args);
 
@@ -1522,10 +1517,10 @@ bool PHD2::resume()
         return false;
     }
 
-    QJsonArray args;
+    QJsonObject args;
 
     // Paused param
-    args << false;
+    args["paused"] = false;
 
     sendPHD2Request("set_paused", args);
 
@@ -1611,7 +1606,7 @@ void PHD2::sendNextRpcCall()
     rpcRequestQueue.pop_front();
 }
 
-void PHD2::sendPHD2Request(const QString &method, const QJsonArray &args)
+void PHD2::sendPHD2Request(const QString &method, const QJsonObject &args)
 {
     assert(methodResults.contains(method));
 

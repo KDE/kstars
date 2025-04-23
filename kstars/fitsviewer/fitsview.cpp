@@ -1950,7 +1950,7 @@ void FITSView::setFirstLoad(bool value)
 
 QPixmap &FITSView::getTrackingBoxPixmap(uint8_t margin)
 {
-    if (trackingBox.isNull())
+    if (trackingBox.isNull() || m_ImageFrame.isNull() || m_ImageFrame->pixmap() == nullptr)
         return trackingBoxPixmap;
 
     // We need to know which rendering strategy updateFrame used to determine the scaling.

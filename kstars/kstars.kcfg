@@ -2891,6 +2891,10 @@
          <label>Automatically select calibration star and perform calibration.</label>
          <default>false</default>
       </entry>
+      <entry name="guideShowFrame" type="Bool">
+         <label>Display guiding frames.</label>
+         <default>true</default>
+      </entry>
       <entry name="GuideAutoSquareSizeEnabled" type="Bool">
          <label>Automatically select the square size based on the selected star width.</label>
          <default>false</default>

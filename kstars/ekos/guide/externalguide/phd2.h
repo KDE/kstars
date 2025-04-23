@@ -229,7 +229,7 @@ class PHD2 : public GuideInterface
 
         QVector<QPointF> errorLog;
 
-        void sendPHD2Request(const QString &method, const QJsonArray &args = QJsonArray());
+        void sendPHD2Request(const QString &method, const QJsonObject &args = QJsonObject());
         void sendRpcCall(QJsonObject &call, PHD2ResultType resultType);
         void sendNextRpcCall();
 
