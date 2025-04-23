@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 01:55+0000\n"
+"POT-Creation-Date: 2025-04-23 01:55+0000\n"
 "PO-Revision-Date: 2025-04-11 22:27+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -23146,7 +23146,7 @@ msgstr "DEC посоката е обърната (RA-DEC вече е станд�
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:536
+#: ekos/guide/internalguide/internalguider.cpp:540
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -23155,29 +23155,29 @@ msgstr ""
 "Предупреждение: Неуспешно дитериране. В случай на неуспешно дитериране "
 "автоматичното насочване продължава, както е зададено в опциите."
 
-#: ekos/guide/internalguide/internalguider.cpp:606
+#: ekos/guide/internalguide/internalguider.cpp:610
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Предупреждение: Ръчният дитъринг е неуспешен."
 
-#: ekos/guide/internalguide/internalguider.cpp:656
+#: ekos/guide/internalguide/internalguider.cpp:679
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Липсва информация за %1. Моля, задайте стойностите в контролния панел на "
 "INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:680
 #, kde-format
 msgid "Missing Information"
 msgstr "Липсваща информация"
 
-#: ekos/guide/internalguide/internalguider.cpp:682
+#: ekos/guide/internalguide/internalguider.cpp:705
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "Калибрирането на водачите е възстановено"
 
-#: ekos/guide/internalguide/internalguider.cpp:734
+#: ekos/guide/internalguide/internalguider.cpp:757
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -23186,33 +23186,33 @@ msgstr ""
 "Загубих следите на водещата звезда. Опитайте да увеличите размера на "
 "квадрата или да намалите продължителността на импулса."
 
-#: ekos/guide/internalguide/internalguider.cpp:737
+#: ekos/guide/internalguide/internalguider.cpp:760
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Изгубена е направляващата звезда."
 
-#: ekos/guide/internalguide/internalguider.cpp:769
+#: ekos/guide/internalguide/internalguider.cpp:792
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "Калибрирането на насочването е неуспешно"
 
-#: ekos/guide/internalguide/internalguider.cpp:776
+#: ekos/guide/internalguide/internalguider.cpp:799
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "Успешно завършено калибриране на гидирането"
 
-#: ekos/guide/internalguide/internalguider.cpp:1108
+#: ekos/guide/internalguide/internalguider.cpp:1131
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Изгубена следа на водещата звезда. Търсене на водещи звезди..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1110
+#: ekos/guide/internalguide/internalguider.cpp:1133
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr ""
 "Превишена е праговата стойност на Delta RMS. Търсене на водещи звезди..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1294
+#: ekos/guide/internalguide/internalguider.cpp:1317
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "Неуспешно намиране на подходящи водещи звезди. Прекъсване..."
@@ -29815,19 +29815,19 @@ msgstr "Затваряне на капака против запрашяване
 msgid "Cap"
 msgstr "Капачка"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:145
+#: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, fuzzy, kde-format
 #| msgctxt "City in Georgia USA"
 #| msgid "Morrow"
 msgid "Tomorrow"
 msgstr "Мороу"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:145
+#: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
 msgid "Day After Tomorrow"
 msgstr "Вдругиден"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:146
+#: ekos/scheduler/scheduleraltitudegraph.cpp:193
 #, fuzzy, kde-format
 #| msgid "Top right"
 msgid "Tonight"

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 01:55+0000\n"
-"PO-Revision-Date: 2025-04-16 12:45+0100\n"
+"POT-Creation-Date: 2025-04-23 01:55+0000\n"
+"PO-Revision-Date: 2025-04-23 00:44+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -23213,9 +23213,9 @@ msgstr ""
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Pulso largo limitado de %1 ms a %2 ms"
 
-#: ekos/guide/internalguide/internalguider.cpp:536
+#: ekos/guide/internalguide/internalguider.cpp:540
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
@@ -23224,29 +23224,29 @@ msgstr ""
 "Advertencia: el desvío ha fallado. El guiado automático continuará según se "
 "haya indicado en las opciones en caso de que falle el desvío."
 
-#: ekos/guide/internalguide/internalguider.cpp:606
+#: ekos/guide/internalguide/internalguider.cpp:610
 #, kde-format
 msgid "Warning: Manual Dithering failed."
 msgstr "Advertencia: El desvío manual ha fallado."
 
-#: ekos/guide/internalguide/internalguider.cpp:656
+#: ekos/guide/internalguide/internalguider.cpp:679
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Se ha perdido la información de %1. Fije los valores en el Panel de control "
 "de INDI."
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:680
 #, kde-format
 msgid "Missing Information"
 msgstr "Falta información"
 
-#: ekos/guide/internalguide/internalguider.cpp:682
+#: ekos/guide/internalguide/internalguider.cpp:705
 #, kde-format
 msgid "Guiding calibration restored"
 msgstr "La calibración de guiado se ha restaurado"
 
-#: ekos/guide/internalguide/internalguider.cpp:734
+#: ekos/guide/internalguide/internalguider.cpp:757
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -23255,32 +23255,32 @@ msgstr ""
 "Se ha perdido el rastro de la estrella guía. Pruebe a aumentar el tamaño del "
 "cuadrado o a reducir la duración del pulso."
 
-#: ekos/guide/internalguide/internalguider.cpp:737
+#: ekos/guide/internalguide/internalguider.cpp:760
 #, kde-format
 msgid "Guide Star lost."
 msgstr "Se ha perdido la estrella guía."
 
-#: ekos/guide/internalguide/internalguider.cpp:769
+#: ekos/guide/internalguide/internalguider.cpp:792
 #, kde-format
 msgid "Guiding calibration failed"
 msgstr "La calibración de guiado ha fallado"
 
-#: ekos/guide/internalguide/internalguider.cpp:776
+#: ekos/guide/internalguide/internalguider.cpp:799
 #, kde-format
 msgid "Guiding calibration completed successfully"
 msgstr "La calibración de guiado se ha completado con éxito"
 
-#: ekos/guide/internalguide/internalguider.cpp:1108
+#: ekos/guide/internalguide/internalguider.cpp:1131
 #, kde-format
 msgid "Lost track of the guide star. Searching for guide stars..."
 msgstr "Se ha perdido el rastro de la estrella guía. Buscando estrellas guías…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1110
+#: ekos/guide/internalguide/internalguider.cpp:1133
 #, kde-format
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
 msgstr "Se ha excedido el valor de umbral RMS delta. Buscando estrellas guías…"
 
-#: ekos/guide/internalguide/internalguider.cpp:1294
+#: ekos/guide/internalguide/internalguider.cpp:1317
 #, kde-format
 msgid "Failed to find any suitable guide stars. Aborting..."
 msgstr "No se ha encontrado ninguna estrella guía adecuada. Interrumpiendo…"
@@ -23764,6 +23764,8 @@ msgstr ""
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
+"Activar GPG en la pestaña «Guiado», usando el desplegable del algoritmo de "
+"guiado de AR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -24151,47 +24153,19 @@ msgstr "Parámetros de control"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr ""
-"El algoritmo que sigue las estrellas guía y determina la desviación de "
-"guiado."
+msgstr "El algoritmo que calcula los pulsos de corrección de guiado."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Algoritmo"
+msgstr "Algoritmo de guiado"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA and DEC.</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -24219,29 +24193,32 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Método de detección de estrellas:</p><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">SEP:</span> «Source Extractor and "
-"Photometry», un eficiente método de detección de fuentes basado en «Source "
-"Extractor» (Bertin y Arnouts 1996; Bertin 2016). Consulte <a href=\"https://"
-"joss.theoj.org/papers/10.21105/joss.00058.pdf\"><span style=\" text-"
-"decoration: underline; color:#0000ff;\">SEP: «Source Extractor» como "
-"biblioteca</span></a> en el «Journal of Open Source Software».</li><li style="
-"\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Centroide</span>: una detección de fuentes basada en la estimación de "
-"masas de estrellas alrededor de picos de señal.</li><li style=\" margin-"
-"top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\"font-weight:600;\">Gradiente</"
-"span>: una detección de fuente única basada en el filtro Sobel. El análisis "
-"inicial y de campo completo usarán SEP en lugar de este método.</li><li "
-"style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Seleccionar los algoritmos de pulsos de guiadoo para "
+"AR y DEC.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: "
+"0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Estándar</span>: El "
+"algoritmo de guiado proporcional tradicional. Calcula un pulso para corregir "
+"la deriva de guiado calculada. El parámetro de agresividad decide la "
+"proporción de error que se corrige. Los errores más pequeños que el «Error "
+"mínimo» no se corregirán. La respuesta «Máxima» limita la corrección más "
+"larga . El parámetro de histéresis no se usa..</li><li style=\" margin-"
+"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
+"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Histéresis</"
+"span>: Es semejante al algoritmo estándar, aunque pondera la corrección "
+"previa según el parámetro de histéresis. No se aplica la ganancia integral.</"
+"li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Umbral</span>: una detección de fuente única basada en valores "
-"de píxeles. El análisis inicial y el de campo completo usarán SEP en lugar "
-"de este método.</li></ul></body></html>"
+"weight:600;\">Lineal</span>: Es similar al algoritmo de paso bajo 2 de PHD2. "
+"Calcula los pulsos de error basándose en un breve historial de errores "
+"recientes. Esto puede ser aplicable a monturas muy estables. La histéresis y "
+"la ganancia integral no son aplicables.</li><li style=\" margin-top:0px; "
+"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">GPG</span>: (Solo AR) "
+"El algoritmo GPG trata de predecir el error periódico para predecir las "
+"derivas de error periódico y lineal. Aquí se usan los parámetros de "
+"agresividad, mínimo y máximo, y otros parámetros en la pestaña GPG. La "
+"histéresis y la ganancia integral no se aplican.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
@@ -24337,28 +24314,24 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Santander"
+msgstr "Estándar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Asterismo"
+msgstr "Histéresis"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
@@ -24423,12 +24396,7 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECIntegralGain)
 #: ekos/guide/opsguide.ui:150 ekos/guide/opsguide.ui:254
 #: ekos/guide/opsguide.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This adds a correction term based on the average of "
-#| "the past 50 guide deviations. For example, if the deviation is "
-#| "consistently negative, this will attempt to compensate. Best to start "
-#| "with 0.0 (no effect) and only use this if necessary.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This adds a correction term based on the average of "
 "the past 50 guide deviations. For example, if the deviation is consistently "
@@ -24439,15 +24407,14 @@ msgstr ""
 "<html><head/><body><p>Esto añade un término de corrección basado en el "
 "promedio de las últimas 50 desviaciones de guiado. Por ejemplo, si la "
 "desviación es constantemente negativa, esto tratará de compensarla. Es mejor "
-"comenzar con 0,0 (sin efecto) y usarlo solo si es necesario.</p></body></"
-"html>"
+"comenzar con 0,0 (sin efecto) y usarlo solo si es necesario. (Solo se aplica "
+"al algoritmo estándar).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
-#, fuzzy, kde-format
-#| msgid "Integral gain (0-1.0)"
+#, kde-format
 msgid "Integral gain (deprecated)"
-msgstr "Ganancia integral (0-1,0)"
+msgstr "Ganancia integral (obsoleto)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -24509,42 +24476,33 @@ msgstr "Error mín. (segundos de arco)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tamaño del separador entre cuadrículas.</p></body></"
-"html>"
+"<html><head/><body><p>Define el parámetro de histéresis (solo se aplica al "
+"algoritmo de histéresis).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tamaño del separador entre cuadrículas.</p></body></"
-"html>"
+"<html><head/><body><p>Define el parámetro de histéresis de AR (solo se "
+"aplica al algoritmo de histéresis).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tamaño del separador entre cuadrículas.</p></body></"
-"html>"
+"<html><head/><body><p>Define el parámetro de histéresis de DEC (solo se "
+"aplica al algoritmo de histéresis).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24647,10 +24605,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
-#, fuzzy, kde-format
-#| msgid "Invent Multi-Star Guide Star (experimental)"
+#, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr "Inventar estrella guía de estrellas múltiples (experimental)"
+msgstr "Inventar estrella guía de estrellas múltiples"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -24714,8 +24671,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:640
-#, fuzzy, kde-format
-#| msgid "Star detection algorithm"
+#, kde-format
 msgid "Star Detection Algorithm"
 msgstr "Algoritmo de detección de estrellas"
 
@@ -29865,17 +29821,17 @@ msgstr "Cerrar la cubierta antipolvo"
 msgid "Cap"
 msgstr "Tapar"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:145
+#: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
 msgid "Tomorrow"
 msgstr "Mañana"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:145
+#: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
 msgid "Day After Tomorrow"
 msgstr "Pasado mañana"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:146
+#: ekos/scheduler/scheduleraltitudegraph.cpp:193
 #, kde-format
 msgid "Tonight"
 msgstr "Esta noche"
@@ -40943,6 +40899,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"El algoritmo que se debe usar para calcular los pulsos de guiado para AR (0 "
+"para estándar, 1 para histéresis, 2 para lineal, 3 para GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2855
@@ -40951,6 +40909,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"El algoritmo que se debe usar para calcular los pulsos de guiado para DEC (0 "
+"para estándar, 1 para histéresis, 2 para lineal)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2859
@@ -41252,6 +41212,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Si es mayor que 0, usar el sistema de guiado de histéresis para guiado "
+"interno de AR con este valor."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3126
@@ -41259,6 +41221,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Si es mayor que 0, usar el sistema de guiado de histéresis para guiado "
+"interno de DEC con este valor."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3132
@@ -84137,15 +84101,13 @@ msgid "%1/%2: Adding %3"
 msgstr "%1/%2: Añadiendo %3"
 
 #: tools/imagingplanner.cpp:3979
-#, fuzzy, kde-format
-#| msgid "OK"
+#, kde-format
 msgctxt "@action:button"
 msgid "OK"
 msgstr "Aceptar"
 
 #: tools/imagingplanner.cpp:3980
-#, fuzzy, kde-format
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Cancelar"
@@ -89502,9 +89464,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid "Enable the GPG guider for RA guiding."
-#~ msgstr "Activar el sistema de guiado GPG para el guiado de AR."
-
-#~ msgid "Enable GPG"
-#~ msgstr "Activar GPG"

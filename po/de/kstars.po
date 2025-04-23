@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 01:55+0000\n"
+"POT-Creation-Date: 2025-04-23 01:55+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -23366,38 +23366,38 @@ msgstr ""
 msgid "Limited long pulse of %1ms to %2ms"
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:536
+#: ekos/guide/internalguide/internalguider.cpp:540
 #, kde-format
 msgid ""
 "Warning: Dithering failed. Autoguiding shall continue as set in the options "
 "in case of dither failure."
 msgstr ""
 
-#: ekos/guide/internalguide/internalguider.cpp:606
+#: ekos/guide/internalguide/internalguider.cpp:610
 #, fuzzy, kde-format
 #| msgid "Dithering..."
 msgid "Warning: Manual Dithering failed."
 msgstr "Dithering ..."
 
-#: ekos/guide/internalguide/internalguider.cpp:656
+#: ekos/guide/internalguide/internalguider.cpp:679
 #, kde-format
 msgid "%1 info are missing. Please set the values in INDI Control Panel."
 msgstr ""
 "Informationen zu %1 fehlen. Bitte stellen Sie die Werte im INDI-Kontrollfeld "
 "ein. "
 
-#: ekos/guide/internalguide/internalguider.cpp:657
+#: ekos/guide/internalguide/internalguider.cpp:680
 #, kde-format
 msgid "Missing Information"
 msgstr "Fehlende Information"
 
-#: ekos/guide/internalguide/internalguider.cpp:682
+#: ekos/guide/internalguide/internalguider.cpp:705
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Guiding calibration restored"
 msgstr "Automatische Kalibrierung ist fehlgeschlagen."
 
-#: ekos/guide/internalguide/internalguider.cpp:734
+#: ekos/guide/internalguide/internalguider.cpp:757
 #, kde-format
 msgid ""
 "Lost track of the guide star. Try increasing the square size or reducing "
@@ -23406,25 +23406,25 @@ msgstr ""
 "Verfolgung des Nachführungssterns wurde verloren. Versuchen Sie die Größe "
 "des Quadrats zu vergrößern und überprüfen Sie die Montierung."
 
-#: ekos/guide/internalguide/internalguider.cpp:737
+#: ekos/guide/internalguide/internalguider.cpp:760
 #, fuzzy, kde-format
 #| msgid "Guider"
 msgid "Guide Star lost."
 msgstr "Nachführung"
 
-#: ekos/guide/internalguide/internalguider.cpp:769
+#: ekos/guide/internalguide/internalguider.cpp:792
 #, fuzzy, kde-format
 #| msgid "Auto calibration failed."
 msgid "Guiding calibration failed"
 msgstr "Automatische Kalibrierung ist fehlgeschlagen."
 
-#: ekos/guide/internalguide/internalguider.cpp:776
+#: ekos/guide/internalguide/internalguider.cpp:799
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Guiding calibration completed successfully"
 msgstr "Der Teleskop-Assistent wurde erfolgreich abgeschlossen."
 
-#: ekos/guide/internalguide/internalguider.cpp:1108
+#: ekos/guide/internalguide/internalguider.cpp:1131
 #, fuzzy, kde-format
 #| msgid "Lost track of the guide star. Aborting guiding..."
 msgid "Lost track of the guide star. Searching for guide stars..."
@@ -23432,7 +23432,7 @@ msgstr ""
 "Verfolgung des Nachführungssterns wurde verloren. Die Nachführung wird "
 "abgebrochen ..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1110
+#: ekos/guide/internalguide/internalguider.cpp:1133
 #, fuzzy, kde-format
 #| msgid "Lost track of the guide star. Aborting guiding..."
 msgid "Delta RMS threshold value exceeded. Searching for guide stars..."
@@ -23440,7 +23440,7 @@ msgstr ""
 "Verfolgung des Nachführungssterns wurde verloren. Die Nachführung wird "
 "abgebrochen ..."
 
-#: ekos/guide/internalguide/internalguider.cpp:1294
+#: ekos/guide/internalguide/internalguider.cpp:1317
 #, fuzzy, kde-format
 #| msgid "Failed to set sub frame."
 msgid "Failed to find any suitable guide stars. Aborting..."
@@ -29969,19 +29969,19 @@ msgstr ""
 msgid "Cap"
 msgstr "Caph"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:145
+#: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, fuzzy, kde-format
 #| msgctxt "City in Georgia USA"
 #| msgid "Morrow"
 msgid "Tomorrow"
 msgstr "Morrow"
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:145
+#: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
 msgid "Day After Tomorrow"
 msgstr ""
 
-#: ekos/scheduler/scheduleraltitudegraph.cpp:146
+#: ekos/scheduler/scheduleraltitudegraph.cpp:193
 #, fuzzy, kde-format
 #| msgid "Top right"
 msgid "Tonight"
