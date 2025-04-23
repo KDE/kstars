@@ -367,7 +367,7 @@ class RmsFilter
 
             const double xVariance = (m_XSumOfSquares - (m_XSum * m_XSum) / size) / (size - 1);
             const double yVariance = (m_YSumOfSquares - (m_YSum * m_YSum) / size) / (size - 1);
-            return std::sqrt(xVariance * xVariance + yVariance * yVariance);
+            return std::sqrt(xVariance + yVariance);
         }
 
         void resetFilter()
