@@ -185,7 +185,7 @@ GuideDriftGraph::GuideDriftGraph(QWidget *parent)
     legend->removeItem(GuideGraph::G_RA_HIGHLIGHT);
 
     setInteractions(QCP::iRangeZoom);
-    axisRect()->setRangeZoom(Qt::Orientation::Vertical);
+    axisRect()->setRangeZoom(Qt::Vertical);
     setInteraction(QCP::iRangeDrag, true);
     //This sets the visibility of graph components to the stored values.
     graph(GuideGraph::G_RA)->setVisible(Options::rADisplayedOnGuideGraph()); //RA data
