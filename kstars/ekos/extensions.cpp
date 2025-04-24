@@ -8,7 +8,6 @@
 #include <QDebug>
 #include <QProcess>
 
-
 extensions::extensions(QObject *parent) : QObject{ parent }
 {
     found = new QMap<QString, extDetails>;
@@ -38,6 +37,20 @@ bool extensions::discover()
     {
         m_Directory = dir.absolutePath();
         QStringList filesExe = dir.entryList(QStringList(), QDir::Files | QDir::Executable);
+        // Remove any conf or icon files that have been made executable from the exe list
+        QStringList imageExtensions = {".conf", ".jpg", ".bmp", ".gif", ".png", ".svg"};
+        for (int i = filesExe.count() - 1; i >= 0; i--)
+        {
+            const QString &filename = filesExe.at(i);
+            for (const QString &ext : imageExtensions)
+            {
+                if (filename.endsWith(ext))
+                {
+                    filesExe.removeAt(i);
+                    break;
+                }
+            }
+        }
         QStringList filesConf = dir.entryList(QStringList() << "*.conf", QDir::Files | QDir::Readable);
         QStringList filesIcons = dir.entryList(QStringList() << "*.jpg" << "*.bmp" << "*.gif" << "*.png" << "*.svg",
                                                QDir::Files | QDir::Readable);
@@ -134,9 +147,9 @@ bool extensions::discover()
                                     }
                                 }
                             }
-                            else qCDebug(KSTARS) << QString("Can't access .conf file %1").arg(exe).append(".conf");
+                            else qCDebug(KSTARS) << QString("Can't access .conf file %1").arg((exe).append(".conf"));
                         }
-                        else qCDebug(KSTARS) << QString(".conf file %1 disappeared").arg(exe).append(".conf");
+                        else qCDebug(KSTARS) << QString(".conf file %1 disappeared").arg((exe).append(".conf"));
 
                         m_ext.tooltip = tooltip;
                         m_ext.icon = icon;
@@ -202,34 +215,21 @@ bool extensions::confValid(const QString &filePath)
                                     KStarsVersionElementInts.append(element.toInt());
                                 }
                             }
-                            if (minVersionElementInts.at(0) <= KStarsVersionElementInts.at(0))
+                            uint minVerTot = ((minVersionElementInts[0] * 10000) +
+                                              (minVersionElementInts[1] * 1000) +
+                                              (minVersionElementInts[2]));
+                            uint KStarsVerTot = ((KStarsVersionElementInts[0] * 10000) +
+                                                 (KStarsVersionElementInts[1] * 1000) +
+                                                 (KStarsVersionElementInts[2]));
+                            if (KStarsVerTot >= minVerTot)
                             {
-                                if (KStarsVersionElementInts.at(0) > minVersionElementInts.at(0))
-                                {
-                                    valid = true;
-                                }
-                                else if (minVersionElementInts.at(1) <= KStarsVersionElementInts.at(1))
-                                {
-                                    if (KStarsVersionElementInts.at(1) > minVersionElementInts.at(1))
-                                    {
-                                        valid = true;
-                                    }
-                                    else if (minVersionElementInts.at(2) <= KStarsVersionElementInts.at(2))
-                                    {
-                                        valid = true;
-                                    }
-                                }
-                            }
-
-                            if (!valid) qCDebug(KSTARS) << QString(".conf file %1 requires a minimum KStars version of %2").arg(filePath, minVersion);
-
+                                valid = true;
+                            } else qCDebug(KSTARS) << QString(".conf file %1 requires a minimum KStars version of %2").arg(filePath, minVersion);
                         }
-                        else qCDebug(KSTARS) << QString(".conf file %1 does not contain a valid minimum_kstars_version string").append(filePath);
                     }
-                    else qCDebug(KSTARS) << QString(".conf file %1 does not contain a valid minimum_kstars_version string").append(filePath);
                 }
-                else qCDebug(KSTARS) << QString(".conf file %1 does not contain a valid minimum_kstars_version string").append(filePath);
             }
+            if (!valid) qCDebug(KSTARS) << QString(".conf file %1 does not contain a valid minimum_kstars_version string").arg(filePath);
         }
         else qCDebug(KSTARS) << QString("Can't access .conf file %1").arg(filePath);
     }
