@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 01:53+0000\n"
-"PO-Revision-Date: 2025-04-23 00:44+0100\n"
+"PO-Revision-Date: 2025-04-24 17:14+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -22147,10 +22147,9 @@ msgid "PHD2: Dithering successful."
 msgstr "PHD2: Desvío terminado con éxito"
 
 #: ekos/guide/externalguide/phd2.cpp:731
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2: El guiado automático ya está en uso."
+msgstr "PHD2: Guiado en funcionamiento."
 
 #: ekos/guide/externalguide/phd2.cpp:742
 #, kde-format
@@ -22396,10 +22395,9 @@ msgid "Guiding resumed."
 msgstr "Se ha reanudado el guiado automático."
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "Se ha reanudado el guiado automático."
+msgstr "Guiado automático en funcionamiento."
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -22700,10 +22698,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Guardar imágenes del sistema de guiado"
+msgstr "Conmutar la imagen del sistema de guiado…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -24231,37 +24228,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated,  further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage Tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method.  Upon "
-#| "crossing to the other side of the V-Curve,  polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes.  The algorithm can be slow, but it is more "
-#| "resilient to backlash.  Start with the focuser positioned near good "
-#| "focus.  Set Initial Step Size and Max Travel for the desired sampling "
-#| "interval and range around start focus position.  Tolerance should be "
-#| "around 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Linear 1 Pass</span>: Starts like <span style="
-#| "\" font-weight:600;\">Linear</span> but after completing the 1st pass, "
-#| "instead of doing a 2nd pass,  moves straight to the minimum HFR value "
-#| "calculated.  Use Curve Fit of Hyperbola or Parabola.</li></ul></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -24289,36 +24256,31 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccionar el algoritmo del proceso de enfoque:</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Reiterativo</span>: Mueve el "
-"enfocador por pasos discretos inicialmente decididos por el tamaño del paso. "
-"Una vez calculada la pendiente de una curva, el tamaño del resto de pasos se "
-"calcula para alcanzar la solución óptima. El algoritmo se detiene cuando la "
-"HFR medida está dentro del porcentaje de tolerancia de la HFR mínima grabada "
-"por el procedimiento.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"<html><head/><body><p>Seleccionar los algoritmos de pulsos de guiado para AR:"
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Estándar</span>: Es el "
+"algoritmo de guiado proporcional tradicional. Calcula un pulso para corregir "
+"la deriva de guiado calculada. El parámetro de agresividad determina la "
+"proporción del error que se corrige. Los errores menores que ErrorMín no se "
+"corrigen. La respuesta máxima limita la corrección máxima. El parámetro de "
+"histéresis no se usa.</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Polinómico</span>: Empieza con el "
-"método reiterativo. Tras cruzar al otro lado de la curva V, se calculan "
-"coeficientes de ajuste polinómicos junto con la solución mínima posible. "
-"Este algoritmo puede ser más rápido que la aproximación puramente "
-"reiterativa si existe un buen conjunto de datos.</li><li style=\"margin-"
-"top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-"
-"indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Lineal</"
-"span>: Prueba el enfoque hacia adentro de un modo normal usando dos pasadas. "
-"El algoritmo puede ser lento, pero es el más resistente a rebotes. Empiece "
-"con el enfocador posicionado cerca de un buen foco. Defina el tamaño del "
-"paso inicial y el recorrido máximo para el intervalo de muestreo deseado y "
-"extiéndalo alrededor de la posición inicial de enfoque. La tolerancia debe "
-"ser alrededor del 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Lineal de 1 paso</span>: Empieza como "
-"<span style=\" font-weight:600;\">Lineal</span> pero, tras completar el "
-"primer paso, en lugar de realizar un segundo paso, se mueve directo hasta el "
-"valor HFR mínimo calculado. Use «Ajuste de curva», «Hipérbola» o «Parábola»."
-"</li></ul></body></html>"
+"\"><span style=\" font-weight:600;\">Histéresis</span>: La histéresis es "
+"similar al algoritmo estándar, pero pondera la corrección previa según el "
+"parámetro de histéresis. No se aplica la ganancia integral.</li><li style="
+"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Lineal</"
+"span>: Es similar al algoritmo paso bajo 2 de PHD2. Calcula los pulsos de "
+"error basándose en un breve historial de errores recientes. Se puede aplicar "
+"a monturas muy estables. La histéresis y la ganancia integral no aplican.</"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">GPG</span>: El algoritmo GPG intenta predecir errores "
+"periódicos y desviaciones lineales. Usa los parámetros de agresividad, "
+"mínimo, máximo y otros parámetros de la pestaña «GPG». La histéresis y la "
+"ganancia integral no se aplican.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
@@ -24344,24 +24306,7 @@ msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for DEC.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -24383,22 +24328,26 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleccione el tipo de curva para ajustarse a los datos:"
-"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
-"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Cuadrática</span>: Usa un "
-"ajuste polinómico de grado 2. En la actualidad, esta es la opción "
-"predeterminada y la única opción para todos los algoritmos, excepto el "
-"«Lineal de 1 paso».</li><li style=\" margin-top:0px; margin-bottom:12px; "
+"<html><head/><body><p>Seleccionar los algoritmos de pulsos de guiado para "
+"DEC:</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Estándar</span>: Es el "
+"algoritmo de guiado proporcional tradicional. Calcula un pulso para corregir "
+"la deriva de guiado calculada. El parámetro de agresividad determina la "
+"proporción del error que se corrige. Los errores menores que ErrorMín no se "
+"corrigen. La respuesta máxima limita la corrección máxima. El parámetro de "
+"histéresis no se usa.</li><li style=\" margin-top:0px; margin-bottom:0px; "
 "margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Hipérbola</span>: Ajusta una hipérbola "
-"a los puntos de los datos. En la actualidad, solo está disponible para el "
-"algoritmo «Lineal de 1 paso».</li><li style=\"margin-top:0px; margin-"
-"bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Parábola</span>: Ajusta una "
-"parábola a los puntos de los datos. Actualmente solo está disponible para el "
-"algoritmo «Lineal de 1 paso».</li></ul></body></html>"
+"\"><span style=\" font-weight:600;\">Histéresis</span>: La histéresis es "
+"similar al algoritmo estándar, pero pondera la corrección previa según el "
+"parámetro de histéresis. No se aplica la ganancia integral.</li><li style="
+"\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
+"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Lineal</"
+"span>: Es similar al algoritmo paso bajo 2 de PHD2. Calcula los pulsos de "
+"error basándose en un breve historial de errores recientes. Se puede aplicar "
+"a monturas muy estables. La histéresis y la ganancia integral no aplican.</"
+"li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
@@ -40977,10 +40926,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2895
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Mostrar capas de imágenes."
+msgstr "Mostrar fotogramas de guiado."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2903
@@ -89480,9 +89428,3 @@ msgstr "Color del fondo:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establecer el color para el fondo."
-
-#~ msgid "PHD2: Guiding started."
-#~ msgstr "PHD2: Guiado automático iniciado."
-
-#~ msgid "Autoguiding started."
-#~ msgstr "Guiado automático iniciado."

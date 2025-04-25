@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 01:53+0000\n"
-"PO-Revision-Date: 2025-04-22 20:29+0200\n"
+"PO-Revision-Date: 2025-04-24 21:56+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -22443,10 +22443,9 @@ msgid "PHD2: Dithering successful."
 msgstr "PHD2: Tramat correcte."
 
 #: ekos/guide/externalguide/phd2.cpp:731
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2: Encara s'està executant el guiatge."
+msgstr "PHD2: S'està executant el guiatge."
 
 #: ekos/guide/externalguide/phd2.cpp:742
 #, kde-format
@@ -22689,10 +22688,9 @@ msgid "Guiding resumed."
 msgstr "S'ha représ el guiatge."
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "S'ha représ el guiatge automàtic."
+msgstr "S'està executant el guiatge automàtic."
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -23001,10 +22999,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Guarda les imatges del sistema de guiatge"
+msgstr "Canvia la imatge del sistema de guiatge…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -41473,10 +41470,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2895
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Mostra les superposicions d'imatges."
+msgstr "Mostra els fotogrames del sistema de guiatge."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2903
@@ -90314,9 +90310,3 @@ msgstr "Color de fons:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Establix el color de fons."
-
-#~ msgid "PHD2: Guiding started."
-#~ msgstr "PHD2: S'ha iniciat el guiatge."
-
-#~ msgid "Autoguiding started."
-#~ msgstr "S'ha iniciat el guiatge automàtic."

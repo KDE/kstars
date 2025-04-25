@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 01:53+0000\n"
-"PO-Revision-Date: 2025-04-22 11:40+0200\n"
+"PO-Revision-Date: 2025-04-24 16:06+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -21915,10 +21915,9 @@ msgid "PHD2: Dithering successful."
 msgstr "PHD2: ditheren is gelukt"
 
 #: ekos/guide/externalguide/phd2.cpp:731
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2: Er wordt al gevolgd."
+msgstr "PHD2: Volgen is actief."
 
 #: ekos/guide/externalguide/phd2.cpp:742
 #, kde-format
@@ -22159,10 +22158,9 @@ msgid "Guiding resumed."
 msgstr "Volgen hervat"
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "Autovolgen hervat."
+msgstr "Automatisch volgen is actief."
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -22459,10 +22457,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Afbeelding voor volgen opslaan"
+msgstr "Afbeelding voor volgen omschakelen..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -40427,10 +40424,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2895
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Overlays van afbeelding tonen."
+msgstr "Frames van volgen tonen."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2903

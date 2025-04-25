@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 01:53+0000\n"
-"PO-Revision-Date: 2025-04-22 06:29+0200\n"
+"PO-Revision-Date: 2025-04-24 07:11+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -21865,10 +21865,9 @@ msgid "PHD2: Dithering successful."
 msgstr "PHD2: Stresanje uspešno."
 
 #: ekos/guide/externalguide/phd2.cpp:731
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2: Vodenje je že v teku."
+msgstr "PHD2: Vodenje v teku."
 
 #: ekos/guide/externalguide/phd2.cpp:742
 #, kde-format
@@ -22107,10 +22106,9 @@ msgid "Guiding resumed."
 msgstr "Vodenje se nadaljuje."
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "Samodejno vodenje se nadaljuje."
+msgstr "Samodejno vodenje teče."
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -22409,10 +22407,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Shrani slike vodnika"
+msgstr "Preklopi sliko vodnika..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -40261,10 +40258,9 @@ msgstr "Samodejno izberi zvezdo za kalibracijo in ga izvedi."
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2895
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Prikaži prekrivanja slik."
+msgstr "Prikaži vodilne sličice."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2903

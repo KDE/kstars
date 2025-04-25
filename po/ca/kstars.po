@@ -6,13 +6,13 @@
 # Albert Astals Cid <aacid@kde.org>, 2004.
 # David Gil, <al016950@yahoo.es>, 2004.
 # Orestes Mas Casals <orestes@tsc.upc.edu>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
-# Josep M. Ferrer <txemaq@gmail.com>, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
+# SPDX-FileCopyrightText: 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 01:53+0000\n"
-"PO-Revision-Date: 2025-04-22 09:44+0200\n"
+"PO-Revision-Date: 2025-04-24 11:30+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 # Diccionari de termes astronòmics:
 # https://www.ub.edu/ubterm/cerca-termes/?cerca=&obra-cerca=68&categoria-
@@ -22177,10 +22177,9 @@ msgid "PHD2: Dithering successful."
 msgstr "PHD2: Tramat correcte."
 
 #: ekos/guide/externalguide/phd2.cpp:731
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2: Encara s'està executant el guiatge."
+msgstr "PHD2: S'està executant el guiatge."
 
 #: ekos/guide/externalguide/phd2.cpp:742
 #, kde-format
@@ -22424,10 +22423,9 @@ msgid "Guiding resumed."
 msgstr "S'ha reprès el guiatge."
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "S'ha reprès el guiatge automàtic."
+msgstr "S'està executant el guiatge automàtic."
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -22726,10 +22724,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Desa les imatges del sistema de guiatge"
+msgstr "Commuta la imatge del sistema de guiatge..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -41019,10 +41016,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2895
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Mostra les superposicions d'imatges."
+msgstr "Mostra els fotogrames del sistema de guiatge."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2903

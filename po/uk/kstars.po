@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-24 01:53+0000\n"
-"PO-Revision-Date: 2025-04-22 09:16+0300\n"
+"PO-Revision-Date: 2025-04-24 11:46+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -22092,10 +22092,9 @@ msgid "PHD2: Dithering successful."
 msgstr "PHD2: успішне розмивання."
 
 #: ekos/guide/externalguide/phd2.cpp:731
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2: наведення вже виконується."
+msgstr "PHD2: виконуємо наведення."
 
 #: ekos/guide/externalguide/phd2.cpp:742
 #, kde-format
@@ -22337,10 +22336,9 @@ msgid "Guiding resumed."
 msgstr "Наведення відновлено."
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "Автонаведення відновлено."
+msgstr "Виконуємо автонаведення."
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -22641,10 +22639,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Зберігати зображення для наведення"
+msgstr "Перемкнути зображення засобу наведення…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -40766,10 +40763,9 @@ msgstr "Автоматично вибирати зірку для калібру
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2895
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Показувати накладки-зображення."
+msgstr "Показувати кадри наведення."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2903
