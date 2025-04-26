@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-24 01:53+0000\n"
+"POT-Creation-Date: 2025-04-26 01:56+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -29799,86 +29799,86 @@ msgstr "缩放图像失败。"
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "已启用资源限制模式，无法进一步放大。"
 
-#: fitsviewer/fitsview.cpp:1841
+#: fitsviewer/fitsview.cpp:1843
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "NCP"
 
-#: fitsviewer/fitsview.cpp:1858
+#: fitsviewer/fitsview.cpp:1860
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2330
 #, kde-format
 msgid "Finding stars..."
 msgstr "查找星点..."
 
-#: fitsviewer/fitsview.cpp:2628
+#: fitsviewer/fitsview.cpp:2630
 #, kde-format
 msgid "Zoom In"
 msgstr "放大"
 
-#: fitsviewer/fitsview.cpp:2631
+#: fitsviewer/fitsview.cpp:2633
 #, kde-format
 msgid "Zoom Out"
 msgstr "缩小"
 
-#: fitsviewer/fitsview.cpp:2634
+#: fitsviewer/fitsview.cpp:2636
 #, kde-format
 msgid "Default Zoom"
 msgstr "默认缩放"
 
-#: fitsviewer/fitsview.cpp:2637
+#: fitsviewer/fitsview.cpp:2639
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "缩放以适应"
 
-#: fitsviewer/fitsview.cpp:2640
+#: fitsviewer/fitsview.cpp:2642
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "切换图像拉伸"
 
-#: fitsviewer/fitsview.cpp:2648 fitsviewer/fitsviewer.cpp:222
+#: fitsviewer/fitsview.cpp:2650 fitsviewer/fitsviewer.cpp:222
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "显示十字线"
 
-#: fitsviewer/fitsview.cpp:2652 fitsviewer/fitsviewer.cpp:235
+#: fitsviewer/fitsview.cpp:2654 fitsviewer/fitsviewer.cpp:235
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "显示像素网格线"
 
-#: fitsviewer/fitsview.cpp:2657 fitsviewer/fitsview.cpp:2766
+#: fitsviewer/fitsview.cpp:2659 fitsviewer/fitsview.cpp:2768
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "检测图像中的星点"
 
-#: fitsviewer/fitsview.cpp:2663
+#: fitsviewer/fitsview.cpp:2665
 #, kde-format
 msgid "View Star Profile..."
 msgstr "查看星点资料..."
 
-#: fitsviewer/fitsview.cpp:2673 fitsviewer/fitsviewer.cpp:241
+#: fitsviewer/fitsview.cpp:2675 fitsviewer/fitsviewer.cpp:241
 #: fitsviewer/fitsviewer.cpp:1311
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "显示赤道网格线"
 
-#: fitsviewer/fitsview.cpp:2679 fitsviewer/fitsviewer.cpp:248
+#: fitsviewer/fitsview.cpp:2681 fitsviewer/fitsviewer.cpp:248
 #: fitsviewer/fitsviewer.cpp:1313
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "使用图像来显示对象"
 
-#: fitsviewer/fitsview.cpp:2685
+#: fitsviewer/fitsview.cpp:2687
 #, kde-format
 msgid "Center Telescope"
 msgstr "居中望远镜"
 
-#: fitsviewer/fitsview.cpp:2691 fitsviewer/fitsviewer.cpp:255
+#: fitsviewer/fitsview.cpp:2693 fitsviewer/fitsviewer.cpp:255
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "叠加 HiPS 图层"

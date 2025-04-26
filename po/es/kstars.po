@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-24 01:53+0000\n"
+"POT-Creation-Date: 2025-04-26 01:56+0000\n"
 "PO-Revision-Date: 2025-04-24 17:14+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -31538,86 +31538,86 @@ msgstr "El escalado de la imagen ha fallado."
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "No se puede ampliar más debido al modo de recursos limitados activo."
 
-#: fitsviewer/fitsview.cpp:1841
+#: fitsviewer/fitsview.cpp:1843
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "PNC"
 
-#: fitsviewer/fitsview.cpp:1858
+#: fitsviewer/fitsview.cpp:1860
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "PSC"
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2330
 #, kde-format
 msgid "Finding stars..."
 msgstr "Buscando estrellas…"
 
-#: fitsviewer/fitsview.cpp:2628
+#: fitsviewer/fitsview.cpp:2630
 #, kde-format
 msgid "Zoom In"
 msgstr "Acercar"
 
-#: fitsviewer/fitsview.cpp:2631
+#: fitsviewer/fitsview.cpp:2633
 #, kde-format
 msgid "Zoom Out"
 msgstr "Alejar"
 
-#: fitsviewer/fitsview.cpp:2634
+#: fitsviewer/fitsview.cpp:2636
 #, kde-format
 msgid "Default Zoom"
 msgstr "Ampliación predeterminada"
 
-#: fitsviewer/fitsview.cpp:2637
+#: fitsviewer/fitsview.cpp:2639
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Ampliar para ajustar"
 
-#: fitsviewer/fitsview.cpp:2640
+#: fitsviewer/fitsview.cpp:2642
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Conmutar estiramiento"
 
-#: fitsviewer/fitsview.cpp:2648 fitsviewer/fitsviewer.cpp:222
+#: fitsviewer/fitsview.cpp:2650 fitsviewer/fitsviewer.cpp:222
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Mostrar cruceta"
 
-#: fitsviewer/fitsview.cpp:2652 fitsviewer/fitsviewer.cpp:235
+#: fitsviewer/fitsview.cpp:2654 fitsviewer/fitsviewer.cpp:235
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Mostrar cuadrícula de píxeles"
 
-#: fitsviewer/fitsview.cpp:2657 fitsviewer/fitsview.cpp:2766
+#: fitsviewer/fitsview.cpp:2659 fitsviewer/fitsview.cpp:2768
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Detectar estrellas en la imagen"
 
-#: fitsviewer/fitsview.cpp:2663
+#: fitsviewer/fitsview.cpp:2665
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Ver el perfil de estrellas…"
 
-#: fitsviewer/fitsview.cpp:2673 fitsviewer/fitsviewer.cpp:241
+#: fitsviewer/fitsview.cpp:2675 fitsviewer/fitsviewer.cpp:241
 #: fitsviewer/fitsviewer.cpp:1311
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostrar cuadrícula ecuatorial"
 
-#: fitsviewer/fitsview.cpp:2679 fitsviewer/fitsviewer.cpp:248
+#: fitsviewer/fitsview.cpp:2681 fitsviewer/fitsviewer.cpp:248
 #: fitsviewer/fitsviewer.cpp:1313
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostrar los objetos de la imagen"
 
-#: fitsviewer/fitsview.cpp:2685
+#: fitsviewer/fitsview.cpp:2687
 #, kde-format
 msgid "Center Telescope"
 msgstr "Centrar el telescopio"
 
-#: fitsviewer/fitsview.cpp:2691 fitsviewer/fitsviewer.cpp:255
+#: fitsviewer/fitsview.cpp:2693 fitsviewer/fitsviewer.cpp:255
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Mostrar la capa HiPS"

@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-24 01:53+0000\n"
+"POT-Creation-Date: 2025-04-26 01:56+0000\n"
 "PO-Revision-Date: 2024-11-21 20:29+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -30661,92 +30661,92 @@ msgstr "Kuvan %1 tallentaminen epäonnistui."
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1841
+#: fitsviewer/fitsview.cpp:1843
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr ""
 
-#: fitsviewer/fitsview.cpp:1858
+#: fitsviewer/fitsview.cpp:1860
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "SCP"
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2330
 #, kde-format
 msgid "Finding stars..."
 msgstr "Etsitään tähtiä…"
 
-#: fitsviewer/fitsview.cpp:2628
+#: fitsviewer/fitsview.cpp:2630
 #, kde-format
 msgid "Zoom In"
 msgstr "Lähennä"
 
-#: fitsviewer/fitsview.cpp:2631
+#: fitsviewer/fitsview.cpp:2633
 #, kde-format
 msgid "Zoom Out"
 msgstr "Loitonna"
 
-#: fitsviewer/fitsview.cpp:2634
+#: fitsviewer/fitsview.cpp:2636
 #, kde-format
 msgid "Default Zoom"
 msgstr "Oletuslähennys"
 
-#: fitsviewer/fitsview.cpp:2637
+#: fitsviewer/fitsview.cpp:2639
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Sovita kokoon"
 
-#: fitsviewer/fitsview.cpp:2640
+#: fitsviewer/fitsview.cpp:2642
 #, fuzzy, kde-format
 #| msgid "Auto Stretch"
 msgid "Toggle Stretch"
 msgstr "Automaattinen venytys"
 
-#: fitsviewer/fitsview.cpp:2648 fitsviewer/fitsviewer.cpp:222
+#: fitsviewer/fitsview.cpp:2650 fitsviewer/fitsviewer.cpp:222
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Näytä ristikko"
 
-#: fitsviewer/fitsview.cpp:2652 fitsviewer/fitsviewer.cpp:235
+#: fitsviewer/fitsview.cpp:2654 fitsviewer/fitsviewer.cpp:235
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Pixel Gridlines"
 msgstr "Näytä satelliitit"
 
-#: fitsviewer/fitsview.cpp:2657 fitsviewer/fitsview.cpp:2766
+#: fitsviewer/fitsview.cpp:2659 fitsviewer/fitsview.cpp:2768
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Tunnista kuvasta tähdet"
 
-#: fitsviewer/fitsview.cpp:2663
+#: fitsviewer/fitsview.cpp:2665
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Arrecife"
 msgid "View Star Profile..."
 msgstr "Arrecife"
 
-#: fitsviewer/fitsview.cpp:2673 fitsviewer/fitsviewer.cpp:241
+#: fitsviewer/fitsview.cpp:2675 fitsviewer/fitsviewer.cpp:241
 #: fitsviewer/fitsviewer.cpp:1311
 #, fuzzy, kde-format
 #| msgid "Equatorial Coordinates"
 msgid "Show Equatorial Gridlines"
 msgstr "Ekvatoriaaliset koordinaatit"
 
-#: fitsviewer/fitsview.cpp:2679 fitsviewer/fitsviewer.cpp:248
+#: fitsviewer/fitsview.cpp:2681 fitsviewer/fitsviewer.cpp:248
 #: fitsviewer/fitsviewer.cpp:1313
 #, fuzzy, kde-format
 #| msgid "Show Objects"
 msgid "Show Objects in Image"
 msgstr "Näytä kohteet"
 
-#: fitsviewer/fitsview.cpp:2685
+#: fitsviewer/fitsview.cpp:2687
 #, kde-format
 msgid "Center Telescope"
 msgstr "Keskitä kaukoputki"
 
-#: fitsviewer/fitsview.cpp:2691 fitsviewer/fitsviewer.cpp:255
+#: fitsviewer/fitsview.cpp:2693 fitsviewer/fitsviewer.cpp:255
 #, fuzzy, kde-format
 #| msgid "Show HiPS Grid"
 msgid "Show HiPS Overlay"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-24 01:53+0000\n"
-"PO-Revision-Date: 2025-04-24 11:30+0200\n"
+"POT-Creation-Date: 2025-04-26 01:56+0000\n"
+"PO-Revision-Date: 2025-04-25 12:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -24290,30 +24290,30 @@ msgid ""
 "body></html>"
 msgstr ""
 "<html><head/><body><p>Selecciona els algorismes dels polsos de guiatge de "
-"l'AR</p><ul style=\"margin-top: px; margin-bottom: px; margin-left: px; "
-"margin-right: px; -qt-list-indent: ;\"><li style=\" margin-top:px; margin-"
-"bottom:px; margin-left:px; margin-right:px; -qt-block- indent:; text-indent:"
-"px;\">Estàndard</span>: L'algorisme tradicional de guia proporcional. "
-"Calcula un pols per a corregir la deriva de la guia calculada. El paràmetre "
-"d'agressivitat decideix quina proporció de l'error es corregeix. Els errors "
-"més petits que MinError no es corregiran. La resposta màxima limita la "
-"correcció més gran. El paràmetre histèresi no s'utilitza.</li><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Histèresi</span>: Histèresi és com l'algorisme estàndard però pondera la "
-"correcció prèvia segons el paràmetre d'histèresi. No s'aplica el guany "
-"integral.</li><li style=\" margin-top:0px; margin-bottom:0px; margin- "
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Lineal</span>: Aquest és similar a l'algorisme "
-"Lowpass2 del PHD2. Calcula els polsos d'error en funció d'un historial curt "
-"dels errors recents. Aquest es pot aplicar a muntures molt estables. No "
-"s'aplica la histèresi ni el guany integral.</li><li style=\" margin-top:0px; "
-"margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
-"text-indent:0px;\"><span style=\" font-weight:600;\">GPG</span>: L'algorisme "
-"GPG intenta predir errors periòdics i derivacions lineals. Utilitza "
-"l'agressivitat, paràmetres mínims i màxims d'aquí i més paràmetres a la "
-"pestanya GPG separada. La histèresi i el guany integral no s'apliquen.</li></"
-"ul></body></html>"
+"l'AR.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Estàndard</span>: "
+"L'algorisme tradicional de guia proporcional. Calcula un pols per a corregir "
+"la deriva de la guia calculada. El paràmetre d'agressivitat decideix quina "
+"proporció de l'error es corregeix. Els errors més petits que MinError no es "
+"corregiran. La resposta màxima limita la correcció més gran. El paràmetre "
+"histèresi no s'utilitza.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Histèresi</span>: Histèresi és com "
+"l'algorisme estàndard però pondera la correcció prèvia segons el paràmetre "
+"d'histèresi. No s'aplica el guany integral.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Lineal</span>: Aquest "
+"és similar a l'algorisme Lowpass2 del PHD2. Calcula els polsos d'error en "
+"funció d'un historial curt dels errors recents. Aquest es pot aplicar a "
+"muntures molt estables. No s'aplica la histèresi ni el guany integral.</"
+"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">GPG</span>: L'algorisme GPG intenta predir errors periòdics i "
+"derivacions lineals. Utilitza l'agressivitat, paràmetres mínims i màxims "
+"d'aquí i més paràmetres a la pestanya GPG separada. La histèresi i el guany "
+"integral no s'apliquen.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
@@ -24362,24 +24362,25 @@ msgid ""
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
 "<html><head/><body><p>Selecciona els algorismes dels polsos de guiatge del "
-"Dec</p><ul style=\"margin-top: px; margin-bottom: px; margin-left: px; "
-"margin-right: px; -qt-list-indent: ;\"><li style=\" margin-top:px; margin-"
-"bottom:px; margin-left:px; margin-right:px; -qt-block- indent:; text-indent:"
-"px;\">Estàndard</span>: L'algorisme tradicional de guia proporcional. "
-"Calcula un pols per a corregir la deriva de la guia calculada. El paràmetre "
-"d'agressivitat decideix quina proporció de l'error es corregeix. Els errors "
-"més petits que MinError no es corregiran. La resposta màxima limita la "
-"correcció més gran. El paràmetre histèresi no s'utilitza.</li><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Histèresi</span>: Histèresi és com l'algorisme estàndard però pondera la "
-"correcció prèvia segons el paràmetre d'histèresi. No s'aplica el guany "
-"integral.</li><li style=\" margin-top:0px; margin-bottom:0px; margin- "
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Lineal</span>: Aquest és similar a l'algorisme "
-"Lowpass2 del PHD2. Calcula els polsos d'error en funció d'un historial curt "
-"dels errors recents. Aquest es pot aplicar a muntures molt estables. No "
-"s'aplica la histèresi ni el guany integral.</li></ul></body></html>"
+"Dec.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Estàndard</span>: "
+"L'algorisme tradicional de guia proporcional. Calcula un pols per a corregir "
+"la deriva de la guia calculada. El paràmetre d'agressivitat decideix quina "
+"proporció de l'error es corregeix. Els errors més petits que MinError no es "
+"corregiran. La resposta màxima limita la correcció més gran. El paràmetre "
+"histèresi no s'utilitza.</li><li style=\" margin-top:0px; margin-bottom:0px; "
+"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
+"\"><span style=\" font-weight:600;\">Histèresi</span>: Histèresi és com "
+"l'algorisme estàndard però pondera la correcció prèvia segons el paràmetre "
+"d'histèresi. No s'aplica el guany integral.</li><li style=\" margin-top:0px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Lineal</span>: Aquest "
+"és similar a l'algorisme Lowpass2 del PHD2. Calcula els polsos d'error en "
+"funció d'un historial curt dels errors recents. Aquest es pot aplicar a "
+"muntures molt estables. No s'aplica la histèresi ni el guany integral.</li></"
+"ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
@@ -31550,86 +31551,86 @@ msgstr "El canvi d'escala de la imatge ha fallat."
 msgid "Cannot zoom in further due to active limited resources mode."
 msgstr "No es pot fer més zoom a causa d'un mode actiu de recursos limitats."
 
-#: fitsviewer/fitsview.cpp:1841
+#: fitsviewer/fitsview.cpp:1843
 #, kde-format
 msgctxt "North Celestial Pole"
 msgid "NCP"
 msgstr "PNC"
 
-#: fitsviewer/fitsview.cpp:1858
+#: fitsviewer/fitsview.cpp:1860
 #, kde-format
 msgctxt "South Celestial Pole"
 msgid "SCP"
 msgstr "PSC"
 
-#: fitsviewer/fitsview.cpp:2328
+#: fitsviewer/fitsview.cpp:2330
 #, kde-format
 msgid "Finding stars..."
 msgstr "S'estan cercant les estrelles..."
 
-#: fitsviewer/fitsview.cpp:2628
+#: fitsviewer/fitsview.cpp:2630
 #, kde-format
 msgid "Zoom In"
 msgstr "Apropa"
 
-#: fitsviewer/fitsview.cpp:2631
+#: fitsviewer/fitsview.cpp:2633
 #, kde-format
 msgid "Zoom Out"
 msgstr "Allunya"
 
-#: fitsviewer/fitsview.cpp:2634
+#: fitsviewer/fitsview.cpp:2636
 #, kde-format
 msgid "Default Zoom"
 msgstr "Zoom predeterminat"
 
-#: fitsviewer/fitsview.cpp:2637
+#: fitsviewer/fitsview.cpp:2639
 #, kde-format
 msgid "Zoom to Fit"
 msgstr "Zoom fins que ajusti"
 
-#: fitsviewer/fitsview.cpp:2640
+#: fitsviewer/fitsview.cpp:2642
 #, kde-format
 msgid "Toggle Stretch"
 msgstr "Alterna l'estirament"
 
-#: fitsviewer/fitsview.cpp:2648 fitsviewer/fitsviewer.cpp:222
+#: fitsviewer/fitsview.cpp:2650 fitsviewer/fitsviewer.cpp:222
 #, kde-format
 msgid "Show Cross Hairs"
 msgstr "Mostra el punt de mira"
 
-#: fitsviewer/fitsview.cpp:2652 fitsviewer/fitsviewer.cpp:235
+#: fitsviewer/fitsview.cpp:2654 fitsviewer/fitsviewer.cpp:235
 #, kde-format
 msgid "Show Pixel Gridlines"
 msgstr "Mostra les línies de la quadrícula de píxels"
 
-#: fitsviewer/fitsview.cpp:2657 fitsviewer/fitsview.cpp:2766
+#: fitsviewer/fitsview.cpp:2659 fitsviewer/fitsview.cpp:2768
 #, kde-format
 msgid "Detect Stars in Image"
 msgstr "Detecta les estrelles a la imatge"
 
-#: fitsviewer/fitsview.cpp:2663
+#: fitsviewer/fitsview.cpp:2665
 #, kde-format
 msgid "View Star Profile..."
 msgstr "Perfil de vista d'estrella..."
 
-#: fitsviewer/fitsview.cpp:2673 fitsviewer/fitsviewer.cpp:241
+#: fitsviewer/fitsview.cpp:2675 fitsviewer/fitsviewer.cpp:241
 #: fitsviewer/fitsviewer.cpp:1311
 #, kde-format
 msgid "Show Equatorial Gridlines"
 msgstr "Mostra les línies de la quadrícula equatorial"
 
-#: fitsviewer/fitsview.cpp:2679 fitsviewer/fitsviewer.cpp:248
+#: fitsviewer/fitsview.cpp:2681 fitsviewer/fitsviewer.cpp:248
 #: fitsviewer/fitsviewer.cpp:1313
 #, kde-format
 msgid "Show Objects in Image"
 msgstr "Mostra els objectes a la imatge"
 
-#: fitsviewer/fitsview.cpp:2685
+#: fitsviewer/fitsview.cpp:2687
 #, kde-format
 msgid "Center Telescope"
 msgstr "Centra el telescopi"
 
-#: fitsviewer/fitsview.cpp:2691 fitsviewer/fitsviewer.cpp:255
+#: fitsviewer/fitsview.cpp:2693 fitsviewer/fitsviewer.cpp:255
 #, kde-format
 msgid "Show HiPS Overlay"
 msgstr "Mostra la superposició del HiPS"
