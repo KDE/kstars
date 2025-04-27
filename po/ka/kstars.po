@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-26 01:56+0000\n"
-"PO-Revision-Date: 2024-07-07 08:45+0200\n"
+"PO-Revision-Date: 2025-04-26 09:16+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -248,10 +248,9 @@ msgid "HiPS Grid"
 msgstr "HiPS ბადე"
 
 #: auxiliary/colorscheme.cpp:70
-#, fuzzy, kde-format
-#| msgid "Dome"
+#, kde-format
 msgid "Dome Slit"
-msgstr "გუმბათი"
+msgstr "გუმბათის ნაპრალი"
 
 #: auxiliary/colorscheme.cpp:71
 #, kde-format
@@ -259,10 +258,9 @@ msgid "FITS Image Object Label"
 msgstr "FITS გამოსახულების ობიექტის ჭდე"
 
 #: auxiliary/colorscheme.cpp:72
-#, fuzzy, kde-format
-#| msgid "FITS Image Object Label"
+#, kde-format
 msgid "FITS Image Object Highlight Label"
-msgstr "FITS გამოსახულების ობიექტის ჭდე"
+msgstr "FITS გამოსახულების ობიექტის გამოკვეთის ჭდე"
 
 #: auxiliary/colorscheme.cpp:138 kstarsdata.cpp:1071 options/opscolors.cpp:58
 #: tools/scriptbuilder.cpp:741
@@ -4360,10 +4358,9 @@ msgid "(nothing)"
 msgstr "(არაფერი)"
 
 #: dialogs/finddialog.cpp:491
-#, fuzzy, kde-format
-#| msgid "Search the Internet for %1"
+#, kde-format
 msgid "Searching the internet for \"%1\""
-msgstr "%1-ის ინტერნეტში მოძებნა"
+msgstr "\"%1\"-ის ინტერნეტში მოძებნა"
 
 #: dialogs/finddialog.cpp:499
 #, kde-format
@@ -6056,10 +6053,11 @@ msgid "<p>Effective field of view size in arcminutes.</p>"
 msgstr "<p>ხედის ზომის ეფექტური ველი, არკწუთებში.</p>"
 
 #: ekos/align/align.cpp:1423
-#, fuzzy, kde-format
-#| msgid "Mount %1 is offline. Please connect and retry again."
+#, kde-format
 msgid "Mount coordinates are invalid. Check mount connection and try again."
-msgstr "ტელესკოპი (%1) გამორთულია. შეაერთეთ და თავიდან სცადეთ."
+msgstr ""
+"სამაგრის კოორდინატები არასწორია. შეამოწმეთ კავშირი სამაგრთან და თავიდან "
+"სცადეთ."
 
 #: ekos/align/align.cpp:1424 ekos/align/align.cpp:1456
 #: ekos/align/align.cpp:2430
@@ -8197,10 +8195,9 @@ msgid ""
 msgstr ""
 
 #: ekos/align/opsastrometryindexfiles.cpp:523
-#, fuzzy, kde-format
-#| msgid "Editing job canceled."
+#, kde-format
 msgid "%1 download cancelled."
-msgstr "დავალების ცვლილებები გაუქმებულია."
+msgstr "%1 გადმოწერა გაუქმდა."
 
 #: ekos/align/opsastrometryindexfiles.cpp:558
 #, kde-format
@@ -8208,10 +8205,9 @@ msgid "File Write Error"
 msgstr "ფაილის ჩაწერის შეცდომა"
 
 #: ekos/align/opsastrometryindexfiles.cpp:572
-#, fuzzy, kde-format
-#| msgid "Shutdown complete."
+#, kde-format
 msgid "%1 download complete."
-msgstr "გამორთვა დასრულდა."
+msgstr "%1 გადმოწერა დასრულდა."
 
 #: ekos/align/opsastrometryindexfiles.cpp:578
 #: ekos/align/opsastrometryindexfiles.cpp:730
@@ -8220,16 +8216,13 @@ msgid "Astrometry Folder Permissions Error"
 msgstr "Astrometry-ის საქაღალდის წვდომების პრობლემა"
 
 #: ekos/align/opsastrometryindexfiles.cpp:643
-#, fuzzy, kde-format
-#| msgid ""
-#| "The Default Astrometry Index File Directory does not exist and was not "
-#| "able to be created."
+#, kde-format
 msgid ""
 "The selected Index File directory does not exist. Please either create it or "
 "choose another."
 msgstr ""
-"Astrometry-ის ინდექსის ფაილების ნაგულისხმევი საქაღალდე არ არსებობს და მისი "
-"შექმნა შეუძლებელია."
+"არჩეული ინდექსის ფაილების საქაღალდე არ არსებობს. ან შექმენით ის, ან სხვა "
+"აირჩიეთ."
 
 #: ekos/align/opsastrometryindexfiles.cpp:658
 #, kde-format
@@ -8409,10 +8402,9 @@ msgstr "ინდექსის ფაილების URL:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, indexURL)
 #: ekos/align/opsastrometryindexfiles.ui:315
-#, fuzzy, kde-format
-#| msgid "http://broiler.astrometry.net/~dstn/"
+#, kde-format
 msgid "http://data.astrometry.net/"
-msgstr "http://broiler.astrometry.net/~dstn/"
+msgstr "http://data.astrometry.net/"
 
 #. i18n: ectx: property (text), widget (QCheckBox, index_5200)
 #: ekos/align/opsastrometryindexfiles.ui:350
@@ -9246,14 +9238,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, kcfg_AstrometryAPIURL)
 #: ekos/align/opsprograms.ui:207
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Scheme and Authority part of URL (e.g. https://nova."
 "astrometry.net)</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ბმულის სქემისა და დომენის ნაწილი (მაგ: https://nova."
+"astrometry.net)</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: ekos/align/opsprograms.ui:217
@@ -11679,10 +11670,9 @@ msgid ""
 msgstr ""
 
 #: ekos/auxiliary/filtermanager.cpp:148
-#, fuzzy, kde-format
-#| msgid "Last AF Solution"
+#, kde-format
 msgid "Last AF Datetime"
-msgstr "ბოლო AF გადაწყვეტა"
+msgstr "ბოლო AF თარიღი და დრო"
 
 #: ekos/auxiliary/filtermanager.cpp:151
 #, kde-format
@@ -11796,10 +11786,9 @@ msgid "Waiting..."
 msgstr "მოლოდინი…"
 
 #: ekos/auxiliary/ledstatuswidget.cpp:46 ekos/capture/camerastate.cpp:412
-#, fuzzy, kde-format
-#| msgid "Dithering succeeded."
+#, kde-format
 msgid "Dithering requested..."
-msgstr "დიზერინგი წარმატებულია."
+msgstr "დიზერინგი მოთხოვნილია..."
 
 #: ekos/auxiliary/ledstatuswidget.cpp:49
 #, kde-format
@@ -13629,10 +13618,9 @@ msgid "Autofocus failed."
 msgstr "ავტოფოკუსის შეცდომა."
 
 #: ekos/capture/camera.cpp:828
-#, fuzzy, kde-format
-#| msgid "<p>Capturing the second image...</p>"
+#, kde-format
 msgid "Capturing %1 x %2-second %3 video..."
-msgstr "<p>მეორე გამოსახულების გადაღება...</p>"
+msgstr "ვიღებ %1 x %2-წამიან %3 ვიდეოს..."
 
 #: ekos/capture/camera.cpp:834
 #, kde-format
@@ -13702,21 +13690,19 @@ msgid "Duration:"
 msgstr "ხანგრძლივობა:"
 
 #: ekos/capture/camera.cpp:1058
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Exposure time in seconds of a single video frame"
-msgstr "ექსპოზიციის დრო წამებში"
+msgstr "ექსპოზიციის დრო წამებში ერთი ვიდეოკადრისთვის"
 
 #: ekos/capture/camera.cpp:1059
-#, fuzzy, kde-format
-#| msgid "Exposure time in seconds"
+#, kde-format
 msgid "Exposure time in seconds for individual images"
-msgstr "ექსპოზიციის დრო წამებში"
+msgstr "ექსპოზიციის დრო წამებში თითოეული გამოსახულებისთვის"
 
 #: ekos/capture/camera.cpp:1074
 #, kde-format
 msgid "Stop Sequence"
-msgstr ""
+msgstr "შეჩერების მიმდევრობა"
 
 #: ekos/capture/camera.cpp:1080
 #, kde-format
@@ -14249,27 +14235,23 @@ msgstr "დაყოვნება:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, videoDurationSB)
 #: ekos/capture/camera.ui:1658
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Duration of the video sequence (in seconds or number "
 "of frames).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ფაილის სახელის მიმდევრობისთვის მისაწერი ციფრების "
-"რაოდენობა.</p></body></html>"
+"<html><head/><body><p>ვიდეომიმდევრობის ხანგრძლივობა (წამებში, ან კადრების "
+"რაოდენობით).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, videoDurationUnitCB)
 #: ekos/capture/camera.ui:1674
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Units of the video duration (seconds or number of "
 "frames).</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ვიდეოს ხანგრძლივობის ერთეული (წამი, ან კადრების "
+"რაოდენობა).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, fileSettingsGroup)
 #: ekos/capture/camera.ui:1701
@@ -14984,10 +14966,9 @@ msgid "Driver Restart"
 msgstr "დრაივერის გადატვირთვა"
 
 #: ekos/capture/cameraprocess.cpp:3006 ekos/capture/sequencejobstate.cpp:41
-#, fuzzy, kde-format
-#| msgid "Solver aborted after %1 seconds."
+#, kde-format
 msgid "Capture operations timed out after %1 seconds."
-msgstr "ამომხსნელი გაითიშა %1 წამის შემდეგ."
+msgstr "ჩაჭერის ოპერაციის მოლოდინის ვადა ამოიწურა %1 წამის შემდეგ."
 
 #: ekos/capture/camerastate.cpp:145
 #, kde-format
@@ -15079,10 +15060,9 @@ msgstr ""
 
 #. i18np since guidingRate is DOUBLE value (e.g. 1.36) so we always use plural with that.
 #: ekos/capture/camerastate.cpp:735
-#, fuzzy, kde-format
-#| msgid "Dither complete. Resuming in %1 seconds..."
+#, kde-format
 msgid "Focus complete. Resuming in %1 seconds..."
-msgstr "დიზერინგი დასრულდა. ვაგრძელებ %1 წამში..."
+msgstr "ფოკუსი დასრულდა. ვაგრძელებ %1 წამში..."
 
 #: ekos/capture/camerastate.cpp:758
 #, kde-format
@@ -15188,10 +15168,9 @@ msgid "Camera %1 is busy. Abort to close?"
 msgstr ""
 
 #: ekos/capture/capture.cpp:488 ekos/focus/focusmodule.cpp:676
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stop capturing"
-msgstr "ვიდეოს ჩაწერის გაჩერება"
+msgstr "ჩაწერის დასრულება"
 
 #. i18n: ectx: property (text), widget (QPushButton, motionAbortButton)
 #: ekos/capture/capture.cpp:489 ekos/focus/focusmodule.cpp:676
@@ -16166,10 +16145,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: ekos/capture/opsmiscsettings.ui:176
-#, fuzzy, kde-format
-#| msgid "Capture Timeout:"
+#, kde-format
 msgid "Capture Operations Timeout"
-msgstr "გადაღების ვადა:"
+msgstr "გადაღების ოპერაციების მოლოდინის ვადა ამოიწურა"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysResetSequenceWhenStarting)
 #: ekos/capture/opsmiscsettings.ui:205
@@ -16391,10 +16369,10 @@ msgstr "კამერის მდებარეობის კუთხე"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, CameraPA)
 #: ekos/capture/rotatorsettings.ui:471
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Camera offset angle</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Current Camera Position Angle</p></body></html>"
-msgstr "<html><head/><body><p>კამერის წანაცვლების კუთხე:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>მიმდინარე კამერის მდებარეობის კუთხე</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, reverseDirection)
 #: ekos/capture/rotatorsettings.ui:557
@@ -16560,10 +16538,9 @@ msgid "Parking mount failed, aborting..."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:507
-#, fuzzy, kde-format
-#| msgid "Unparking %1..."
+#, kde-format
 msgid "Unparking mount..."
-msgstr "%1-ის დამაგრების მოხსნა..."
+msgstr "მიმაგრების პარკინგის მოხსნა..."
 
 #: ekos/capture/sequencejobstate.cpp:516
 #: ekos/scheduler/schedulerprocess.cpp:1809
@@ -16607,40 +16584,34 @@ msgid "Light box on."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:892
-#, fuzzy, kde-format
-#| msgid "Dust cap error."
+#, kde-format
 msgid "Dust cap error occurred."
 msgstr "მტვრის ქუდის შეცდომა."
 
 #: ekos/capture/sequencejobstate.cpp:896
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is idle."
-msgstr "%1 მტვრის ქუდი ონლაინაა."
+msgstr "მტვრის ქუდი უქმეა."
 
 #: ekos/capture/sequencejobstate.cpp:899
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is parked."
-msgstr "%1 მტვრის ქუდი ონლაინაა."
+msgstr "მტვრის ქუდი დაპარკინგებულია."
 
 #: ekos/capture/sequencejobstate.cpp:902
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is parking..."
-msgstr "%1 მტვრის ქუდი ონლაინაა."
+msgstr "მიმდინარეობს მტვრის ქუდის დაპარკინგება..."
 
 #: ekos/capture/sequencejobstate.cpp:905
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap is unparking..."
-msgstr "%1 მტვრის ქუდი ონლაინაა."
+msgstr "მიმდინარეობს მტვრის ქუდის პარკინგიდან მოხსნა..."
 
 #: ekos/capture/sequencejobstate.cpp:908
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust cap status unknown."
-msgstr "%1 მტვრის ქუდი ონლაინაა."
+msgstr "მტვრის ქუდის სტატუსი უცნობია."
 
 #: ekos/capture/sequencequeue.cpp:162
 #, kde-format
@@ -16771,28 +16742,24 @@ msgid "Loading"
 msgstr "იტვირთება"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Starting on:"
+#, kde-format
 msgid "Starting"
-msgstr "დასაწყისი:"
+msgstr "გაშვება"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Start"
+#, kde-format
 msgid "Started"
-msgstr "დაწყება"
+msgstr "გაშვებულია"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stopping"
-msgstr "ვიდეოს ჩაწერის გაჩერება"
+msgstr "გაჩერება"
 
 #: ekos/ekos.h:220
-#, fuzzy, kde-format
-#| msgid "Stop"
+#, kde-format
 msgid "Stopped"
-msgstr "შეჩერება"
+msgstr "გაჩერებულია"
 
 #: ekos/ekoslive/ekosliveclient.cpp:258
 #, kde-format
@@ -16801,10 +16768,9 @@ msgid "Select EkosLive Servers"
 msgstr "აირჩიეთ EkosLive-ის სერვერები"
 
 #: ekos/ekoslive/ekosliveclient.cpp:260
-#, fuzzy, kde-format
-#| msgid "Observatory"
+#, kde-format
 msgid "Observatory:"
-msgstr "ობსერვატორია"
+msgstr "ობსერვატორია:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:261
 #, kde-format
@@ -16817,11 +16783,9 @@ msgid "Online:"
 msgstr "ჩართული:"
 
 #: ekos/ekoslive/ekosliveclient.cpp:263
-#, fuzzy, kde-format
-#| msgctxt "City in Germany"
-#| msgid "Malchin"
+#, kde-format
 msgid "Machine ID:"
-msgstr "მალხინი"
+msgstr "მანქანის ID:"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, EkosLiveDialog)
 #: ekos/ekoslive/ekoslivedialog.ui:14
@@ -17803,10 +17767,9 @@ msgid "Autofocus request [%1] optimized out."
 msgstr ""
 
 #: ekos/focus/focus.cpp:1250
-#, fuzzy, kde-format
-#| msgid "Autofocus aborted."
+#, kde-format
 msgid "Autofocus starting..."
-msgstr "ავტოფოკუსი შეწყვეტილია."
+msgstr "ავტოფოკუსი იწყება..."
 
 #: ekos/focus/focus.cpp:1264
 #, kde-format
@@ -18186,10 +18149,9 @@ msgid "Focus star is selected."
 msgstr ""
 
 #: ekos/focus/focus.cpp:5097
-#, fuzzy, kde-format
-#| msgid "No object selected."
+#, kde-format
 msgid "Region of interest is selected."
-msgstr "ობიექტი მონიშნული არაა."
+msgstr "საინტერესო რეგიონი მონიშნულია."
 
 #: ekos/focus/focus.cpp:5117
 #, kde-format
@@ -18212,10 +18174,9 @@ msgid "Check Focus ignored - Star Measure must be star based"
 msgstr ""
 
 #: ekos/focus/focus.cpp:5151
-#, fuzzy, kde-format
-#| msgid "Capturing image..."
+#, kde-format
 msgid "Capturing to check HFR..."
-msgstr "სურათის გადაღება..."
+msgstr "გადაღება HFR-ის შესამოწმებლად..."
 
 #: ekos/focus/focus.cpp:5281
 #, kde-format
@@ -18324,31 +18285,29 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusOutB)
 #: ekos/focus/focus.ui:407
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus Out. </p><p>For SCTs this is usually CW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus Out. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ფოკუსი გარეთ. </p><p>SCT-ებისთვის, ეს ჩვეულებრივ "
-"საათის მიმართულებისაა.</p></body></html>"
+"<html><head/><body><p>ფოკუსი გარეთ. </p><p>გამოიყენეთ Shift და Ctrl ღილაკები "
+"მოძრაობის ასაჩქარებლად. მასშტაბი მორგებულია ფოკუსერის მექანიკურ "
+"პარამეტრებში. </p><p>SCT-ებისთვის, ეს ჩვეულებრივ საათის მიმართულებისაა.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, focusInB)
 #: ekos/focus/focus.ui:439
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Focus In. </p><p>For SCTs this is usually CCW.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Focus In. Use shift and ctrl key for motion speed up. "
 "The factors are configured in the focuser's mechanical options.</p><p>For "
 "SCTs this is usually CCW.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ფოკუსი. </p><p>SCT-ებისთვის, ეს ჩვეულებრივ საათის "
-"მიმართულების საწინააღმდეგოა.</p></body></html>"
+"<html><head/><body><p>ფოკუსი. </p><p>გამოიყენეთ Shift და Ctrl ღილაკები "
+"მოძრაობის ასაჩქარებლად. მასშტაბი მორგებულია ფოკუსერის მექანიკურ "
+"პარამეტრებში. </p><p>SCT-ებისთვის, ეს ჩვეულებრივ საათის მიმართულებისაა.</p></"
+"body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ccdGroup)
 #: ekos/focus/focus.ui:471
@@ -18549,10 +18508,9 @@ msgid "Clear"
 msgstr "სუფთა ცა"
 
 #: ekos/focus/focusadvisor.cpp:81 ekos/focus/focusadvisor.cpp:82
-#, fuzzy, kde-format
-#| msgid "Selection:"
+#, kde-format
 msgid "Section"
-msgstr "არჩევანი:"
+msgstr "განყოფილება"
 
 #. i18n: ectx: property (text), widget (QLabel, runningStateLabel)
 #. i18n: ectx: property (text), widget (QPushButton, runButtonBatch)
@@ -18566,54 +18524,45 @@ msgid "Run"
 msgstr "გაშვება"
 
 #: ekos/focus/focusadvisor.cpp:86
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Number"
+#, kde-format
 msgid "Run number"
-msgstr "რიცხვი"
+msgstr "გაშვების ნომერი"
 
 #: ekos/focus/focusadvisor.cpp:89
-#, fuzzy, kde-format
-#| msgid "Adapt Start Pos"
+#, kde-format
 msgid "Start Pos"
-msgstr "ადაპტ. საწყ. პოზ"
+msgstr "საწყ. პოზ"
 
 #: ekos/focus/focusadvisor.cpp:90
-#, fuzzy, kde-format
-#| msgid "Target position:"
+#, kde-format
 msgid "Start position"
-msgstr "სამიზნის მდებარეობა:"
+msgstr "საწყისი მდებარეობა"
 
 #: ekos/focus/focusadvisor.cpp:93
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Step/Jump Size"
-msgstr "ბიჯის ზომა:"
+msgstr "ბიჯის/ნახტომის ზომა"
 
 #: ekos/focus/focusadvisor.cpp:94
-#, fuzzy, kde-format
-#| msgid "Step Size:"
+#, kde-format
 msgid "Step Size"
-msgstr "ბიჯის ზომა:"
+msgstr "ბიჯის ზომა"
 
 #: ekos/focus/focusadvisor.cpp:97
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "Overscan"
-msgstr "AF გადასკანირება:"
+msgstr "გადასკანირება"
 
 #: ekos/focus/focusadvisor.cpp:98
-#, fuzzy, kde-format
-#| msgid "AF Overscan:"
+#, kde-format
 msgid "AF Overscan"
-msgstr "AF გადასკანირება:"
+msgstr "AF გადასკანირება"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: ekos/focus/focusadvisor.cpp:101 fitsviewer/catalogobjecttypefilter.ui:77
-#, fuzzy, kde-format
-#| msgid "Comments:"
+#, kde-format
 msgid "Comments"
-msgstr "კომენტარები:"
+msgstr "კომენტარები"
 
 #: ekos/focus/focusadvisor.cpp:102
 #, kde-format
@@ -18651,10 +18600,10 @@ msgid "Focus Advisor proposed value for the parameter"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:162
-#, fuzzy, kde-format
-#| msgid "Another focus action in progress. Please try again."
+#, kde-format
 msgid "Focus Advisor: another focus action in progress. Please try again."
-msgstr "მიმდინარეობს კიდევ ერთი ფოკუსის ქმედება. თავიდან სცადეთ."
+msgstr ""
+"ფოკუსის მრჩეველი: მიმდინარეობს კიდევ ერთი ფოკუსის ქმედება. თავიდან სცადეთ."
 
 #: ekos/focus/focusadvisor.cpp:187
 #, kde-format
@@ -18736,10 +18685,9 @@ msgid "Stars detected, range centre %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:768
-#, fuzzy, kde-format
-#| msgid "Find Stars: Completed"
+#, kde-format
 msgid "Focus Advisor Find Stars completed"
-msgstr "ვარსკვლავების ძებნა: დასრულებულია"
+msgstr "ფოკუსის მრჩეველი ვარსკვლავების ძებნა დასრულებულია"
 
 #: ekos/focus/focusadvisor.cpp:816
 #, kde-format
@@ -18767,10 +18715,9 @@ msgid "Find Stars Run %1: Scanning Sector %2"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:865
-#, fuzzy, kde-format
-#| msgid "Auto star selected."
+#, kde-format
 msgid "No stars detected"
-msgstr "ავტომატური ვარსკვლავი არჩეულია."
+msgstr "ვარსკვლავები აღმოჩენილი არაა"
 
 #: ekos/focus/focusadvisor.cpp:873
 #, kde-format
@@ -18798,10 +18745,9 @@ msgid "Coarse Adjustment Scan..."
 msgstr "უხეში გასწორების სკანირება..."
 
 #: ekos/focus/focusadvisor.cpp:1012
-#, fuzzy, kde-format
-#| msgid "Coarse Adjustment Scan..."
+#, kde-format
 msgid "Coarse Adjustment"
-msgstr "უხეში გასწორების სკანირება..."
+msgstr "უხეში გასწორება"
 
 #: ekos/focus/focusadvisor.cpp:1018 ekos/focus/focusadvisor.cpp:1232
 #, kde-format
@@ -18829,10 +18775,9 @@ msgid "Max/Min Ratio: %1"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1167
-#, fuzzy, kde-format
-#| msgid "Focus Advisor stopped"
+#, kde-format
 msgid "Focus Advisor Coarse Adjustment completed."
-msgstr "ფოკუსის მრჩეველი გაჩერებულია"
+msgstr "ფოკუსის მრჩეველი უხეში გასწორება დასრულდა."
 
 #: ekos/focus/focusadvisor.cpp:1188
 #, kde-format
@@ -18845,11 +18790,9 @@ msgid "Max/Min Ratio: %1, Next Step Size: %2, Next Overscan: %3"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1283
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Image Adjustments"
+#, kde-format
 msgid "Fine Adjustment"
-msgstr "გამოსახულების მორგება"
+msgstr "სიზუსტე"
 
 #: ekos/focus/focusadvisor.cpp:1391
 #, kde-format
@@ -18857,10 +18800,9 @@ msgid "Max/Min Ratio: %1, R2: %2, Step Size: %3, Overscan: %4"
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1398
-#, fuzzy, kde-format
-#| msgid "Focus Advisor stopped"
+#, kde-format
 msgid "Focus Advisor Fine Adjustment completed"
-msgstr "ფოკუსის მრჩეველი გაჩერებულია"
+msgstr "ფოკუსის მრჩეველი ზუსტი გასწორება დასრულდა"
 
 #: ekos/focus/focusadvisor.cpp:1489
 #, kde-format
@@ -18869,10 +18811,9 @@ msgid ""
 msgstr ""
 
 #: ekos/focus/focusadvisor.cpp:1526
-#, fuzzy, kde-format
-#| msgid "Focus Advisor Help"
+#, kde-format
 msgid "Focus Advisor Result Update: %1"
-msgstr "ფოკუსის მრჩევლის დახმარება"
+msgstr "ფოკუსის მრჩევლის შედეგის განახლება: %1"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, focusAdvisorDialog)
 #: ekos/focus/focusadvisor.ui:14
@@ -19247,30 +19188,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
 #: ekos/focus/opsfocusmechanics.ui:514
-#, fuzzy, kde-format
-#| msgid "Red Shift:"
+#, kde-format
 msgid "Speedup (Shift)"
-msgstr "წითლის წანაცვლება:"
+msgstr "ასწრაფება (Shift)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
 #: ekos/focus/opsfocusmechanics.ui:521
-#, fuzzy, kde-format
-#| msgid "Speedup options"
+#, kde-format
 msgid "Speedup (Ctrl)"
-msgstr "აჩქარების მორგება"
+msgstr "აჩქარება (Ctrl)"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
 #: ekos/focus/opsfocusmechanics.ui:528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the shift key "
 "is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ბოლო კადრში აღმოჩენილი ვარსკვლავების რაოდენობა.</p></"
-"body></html>"
+"<html><head/><body><p>მამრავლი ხელით ფოკუსის მოძრაობებისთვის, როცა გიჭირავთ "
+"ღილაკი Shift.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
@@ -19285,16 +19221,13 @@ msgstr " x"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupCtrl)
 #: ekos/focus/opsfocusmechanics.ui:547
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the control "
 "key is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ბოლო კადრში აღმოჩენილი ვარსკვლავების რაოდენობა.</p></"
-"body></html>"
+"<html><head/><body><p>მამრავლი ხელით ფოკუსის მოძრაობებისთვის, როცა გიჭირავთ "
+"ღილაკი Ctrl.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -19513,24 +19446,19 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:289
-#, fuzzy, kde-format
-#| msgctxt "City in Wisconsin USA"
-#| msgid "Boscobel"
+#, kde-format
 msgid "Sobel"
-msgstr "ბოსკობელი"
+msgstr "სობელი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:294
-#, fuzzy, kde-format
-#| msgid "Gaussian"
+#, kde-format
 msgid "Laplassian"
-msgstr "გაუსის"
+msgstr "ლაპლასის"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, focusStarMeasure)
 #: ekos/focus/opsfocusprocess.ui:299
-#, fuzzy, kde-format
-#| msgctxt "City in Alpes Maritimes France"
-#| msgid "Cannes"
+#, kde-format
 msgid "Canny"
 msgstr "კანი"
 
@@ -19763,11 +19691,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, focusDenoise)
 #: ekos/focus/opsfocusprocess.ui:694
-#, fuzzy, kde-format
-#| msgctxt "City in Idaho USA"
-#| msgid "Boise"
+#, kde-format
 msgid "Denoise"
-msgstr "ბოისე"
+msgstr "ხმაურის მოცილება"
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, focusDonut)
 #: ekos/focus/opsfocusprocess.ui:709
@@ -19858,7 +19784,7 @@ msgstr ""
 #: ekos/focus/opsfocusprocess.ui:886
 #, kde-format
 msgid "Always On"
-msgstr ""
+msgstr "ყოველთვის ჩართული"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: ekos/focus/opsfocusprocess.ui:902
@@ -20345,10 +20271,9 @@ msgid "Calibration Data Flipped."
 msgstr ""
 
 #: ekos/guide/externalguide/phd2.cpp:403
-#, fuzzy, kde-format
-#| msgid "PHD2: Star Selected."
+#, kde-format
 msgid "PHD2: SettleDone."
-msgstr "PHD2: ვარსკვლავი არჩეულია."
+msgstr "PHD2: გაჩერება დასრულდა."
 
 #: ekos/guide/externalguide/phd2.cpp:414
 #, kde-format
@@ -20644,11 +20569,9 @@ msgid "Guiding resumed."
 msgstr ""
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgctxt "City in Australia"
-#| msgid "Siding Spring"
+#, kde-format
 msgid "Autoguiding running."
-msgstr "სიდინგ სპრინგი"
+msgstr "მიმდინარეობს ავტომატური წაძღოლა."
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -20730,16 +20653,14 @@ msgid "Select a guide star to calibrate."
 msgstr ""
 
 #: ekos/guide/guide.cpp:2866
-#, fuzzy, kde-format
-#| msgid "x (pixels)"
+#, kde-format
 msgid "dx (pixels)"
-msgstr "x (პიქსელი)"
+msgstr "dx (პიქსელი)"
 
 #: ekos/guide/guide.cpp:2867
-#, fuzzy, kde-format
-#| msgid "y (pixels)"
+#, kde-format
 msgid "dy (pixels)"
-msgstr "y (პიქსელი)"
+msgstr "dy (პიქსელი)"
 
 #: ekos/guide/guide.cpp:3010 ekos/guide/guide.cpp:3138
 #, kde-format
@@ -21054,11 +20975,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1164
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "მაუნთ მარიო"
+msgstr "სამაგრის გაცურება"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1199
@@ -21216,16 +21135,14 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgid "Min error (arcsec)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "მინ შეცდომა (არკწმ)"
+msgstr "სამაგრის DE გასრიალება (არკწმ)"
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgid "Min error (arcsec)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "მინ შეცდომა (არკწმ)"
+msgstr "სამაგრის RA გასრიალება (არკწმ)"
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
@@ -22189,10 +22106,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "ალგორითმი"
+msgstr "გაყოლის ალგორითმი"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
@@ -22259,28 +22175,24 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "სანტანდერი"
+msgstr "სტანდარტული"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asteroids"
+#, kde-format
 msgid "Hysteresis"
-msgstr "ასტეროიდები"
+msgstr "ჰისტერეზი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
@@ -22375,36 +22287,33 @@ msgstr "მინ შეცდომა (არკწმ)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>აყენებს ჰისტერესის პარამეტრს (მხოლოდ ჰისტერესის "
+"ალგორითმისთვის).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>აყენებს RA ჰისტერესის პარამეტრს (მხოლოდ ჰისტერესის "
+"ალგორითმისთვის).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>აყენებს DEC ჰისტერესის პარამეტრს (მხოლოდ ჰისტერესის "
+"ალგორითმისთვის).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -22488,17 +22397,15 @@ msgstr "არკწამი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:564
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to force an Autofocus every N minutes.  Timer "
-#| "is reset at each Autofocus.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>If checked we try to be more resilient to double stars "
 "by inventing a guide star position from the multi-star references.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>ჩართეთ ავტოფოკუსის ძალით გამოსაყენებლად ყოველ N "
-"წუთში.  თაიმერი ყოველი ავტოფოკუსის შემდეგ ნულდება</p></body></html>"
+"<html><head/><body><p>თუ ჩართულია, ჩვენ ვცდით, უფრო გამძლე ვიყოთ ორმაგი "
+"ვარსკვლავების მიმართ გიდი ვარსკვლავის მდებარეობის ინვერსიით "
+"მრავალვარსკვლავიანი მიმართვებიდან</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
@@ -22724,10 +22631,9 @@ msgid "Extension '%1' stop requested"
 msgstr ""
 
 #: ekos/manager.cpp:443
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extension '%1' stopped"
-msgstr "ზომები"
+msgstr "გაფართოება '%1' გაჩერდა"
 
 #: ekos/manager.cpp:459
 #, kde-format
@@ -23134,10 +23040,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #: ekos/manager.ui:609
-#, fuzzy, kde-format
-#| msgid "Dimensions"
+#, kde-format
 msgid "Extensions"
-msgstr "ზომები"
+msgstr "გაფართოებები"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, extensionB)
 #: ekos/manager.ui:687
@@ -23584,10 +23489,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
 #: ekos/mount/mount.ui:354
-#, fuzzy, kde-format
-#| msgid "Tracking"
+#, kde-format
 msgid "Tracking only"
-msgstr "ტრეკინგი"
+msgstr "მხოლოდ ტრეკინგი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: ekos/mount/mount.ui:526
@@ -24092,7 +23996,7 @@ msgstr ""
 #: fitsviewer/fitshistogramcommand.cpp:253
 #, kde-format
 msgid "Auto Scale"
-msgstr ""
+msgstr "ავტომასშტაბი"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearGraphHistory)
 #: ekos/observatory/observatory.ui:859
@@ -24251,10 +24155,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: ekos/opsekos.ui:44
-#, fuzzy, kde-format
-#| msgid "Load device configuration:"
+#, kde-format
 msgid "Load device Configuration"
-msgstr "მოწყობილობის კონფიგურაციის ჩატვირთვა:"
+msgstr "მოწყობილობის კონფიგურაციის ჩატვირთვა"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_neverLoadConfig)
 #: ekos/opsekos.ui:65
@@ -24837,23 +24740,19 @@ msgid "Profile Scripts Editor"
 msgstr "პროფილების სკრიპტების რედაქტორი"
 
 #: ekos/profilescriptdialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "Driver:"
+#, kde-format
 msgid "Driver"
-msgstr "დრაივერი:"
+msgstr "დრაივერი"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "გადატვრთვა"
+msgstr "დაწყებამდე"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Auto Start"
+#, kde-format
 msgid "Post start"
-msgstr "ავტომატური გაშვება"
+msgstr "გაშვების შემდეგ"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
@@ -26062,16 +25961,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_RememberJobProgress)
 #: ekos/scheduler/opsjobssettings.ui:38
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>When processing a scheduled job, resume the sequence "
 "starting from the last image present in storage.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ფაილის სახელის მიმდევრობისთვის მისაწერი ციფრების "
-"რაოდენობა.</p></body></html>"
+"<html><head/><body><p>დაგეგმილი დავალების შესრულებისას საცავში არსებული ბოლო "
+"გამოსახულებიდან დაწყება.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RememberJobProgress)
 #: ekos/scheduler/opsjobssettings.ui:41
@@ -26190,10 +26086,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Warning"
+#, kde-format
 msgid "Weather grace period"
-msgstr "ამინდის გაფრთხილება"
+msgstr "გამოდარების პერიოდი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -26236,11 +26131,9 @@ msgid "Shutdown script terminates INDI"
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:129
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Bellflower"
+#, kde-format
 msgid "Follower"
-msgstr "ბელფლაუერი"
+msgstr "მიმდევარი"
 
 #: ekos/scheduler/scheduler.cpp:156
 #, kde-format
@@ -26885,10 +26778,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1671
-#, fuzzy, kde-format
-#| msgid "Min. Altitude:"
+#, kde-format
 msgid "Min. Altitude: "
-msgstr "მინ. სიმაღლე:"
+msgstr "მინ. სიმაღლე: "
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerAltitudeValue)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
@@ -26916,14 +26808,13 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonSeparation)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
 #: ekos/scheduler/scheduler.ui:1731 ekos/scheduler/scheduler.ui:1750
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Clear sensor data history</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The target must be at least this far from the moon.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>სენსორის მონაცემების ისტორიის გასუფთავება</p></body></"
-"html>"
+"<html><head/><body><p>სამიზნე, სულ ცოტა, ამ დაშორებით უნდა იყოს მთვარიდან.</"
+"p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonSeparation)
 #: ekos/scheduler/scheduler.ui:1734
@@ -26934,21 +26825,19 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonAltitude)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonAltitudeMaxValue)
 #: ekos/scheduler/scheduler.ui:1782 ekos/scheduler/scheduler.ui:1792
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The moon must be lower than this altitude.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>ჩართეთ გრაფიკზე ჭდეების საჩვენებლად.</p></body></html>"
+"<html><head/><body><p>მთვარე ამ სიმაღლეზე ნაკლებზე უნდა იყოს.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonAltitude)
 #: ekos/scheduler/scheduler.ui:1785
-#, fuzzy, kde-format
-#| msgid "Moon  >: "
+#, kde-format
 msgid "Moon max alt:"
-msgstr "მთვარე  >: "
+msgstr "მთვარის მაქს. სიმაღლ:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1817
@@ -26961,10 +26850,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1820
-#, fuzzy, kde-format
-#| msgid "Twilight:"
+#, kde-format
 msgid "Twilight"
-msgstr "ბინდი:"
+msgstr "ბინდი"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, nightTime)
 #: ekos/scheduler/scheduler.ui:1833
@@ -27180,11 +27068,9 @@ msgid "Cap"
 msgstr "ჩამოსაცმელი"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
-#, fuzzy, kde-format
-#| msgctxt "City in Georgia USA"
-#| msgid "Morrow"
+#, kde-format
 msgid "Tomorrow"
-msgstr "მოროუ"
+msgstr "ხვალ"
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:192
 #, kde-format
@@ -27192,10 +27078,9 @@ msgid "Day After Tomorrow"
 msgstr ""
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:193
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Tonight"
-msgstr "ზედა მარჯვენა"
+msgstr "ამაღამ"
 
 #: ekos/scheduler/schedulerjob.cpp:339
 #, kde-format
@@ -27331,9 +27216,7 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:671
 #: ekos/scheduler/schedulerprocess.cpp:681
-#, fuzzy, kde-format
-#| msgctxt "City in Nunavut Canada"
-#| msgid "Alert"
+#, kde-format
 msgid "Alert"
 msgstr "გაფრთხილება"
 
@@ -27822,10 +27705,9 @@ msgstr ""
 
 #: ekos/scheduler/schedulerprocess.cpp:3540
 #: ekos/scheduler/schedulerprocess.cpp:3552
-#, fuzzy, kde-format
-#| msgid "Optical Train"
+#, kde-format
 msgid "Select optical train"
-msgstr "ოპტიკური ანაწყობი"
+msgstr "აირჩიეთ ოპტიკური ანაწყობი"
 
 #: ekos/scheduler/schedulerprocess.cpp:3549
 #, kde-format
@@ -28127,8 +28009,7 @@ msgstr "FITS-ის თავსართი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsCatObjShowNames)
 #: fitsviewer/catalogobject.ui:44
-#, fuzzy, kde-format
-#| msgid "Show names"
+#, kde-format
 msgid "Show Names"
 msgstr "სახელების ჩვენება"
 
@@ -28146,10 +28027,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:48
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Code"
-msgstr "ობიექტის ტიპი:"
+msgstr "ობიექტის ტიპის კოდი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:53
@@ -28165,24 +28045,21 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:64
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Label"
-msgstr "ობიექტის ტიპი:"
+msgstr "ობიექტის ტიპის ჭდე"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:72
-#, fuzzy, kde-format
-#| msgid "Description"
+#, kde-format
 msgid "Object Type Description"
-msgstr "დახასიათება"
+msgstr "ობიექტი ტიპი აღწერა"
 
 #. i18n: ectx: property (toolTip), widget (QTreeWidget, tree)
 #: fitsviewer/catalogobjecttypefilter.ui:80
-#, fuzzy, kde-format
-#| msgid "Object Type:"
+#, kde-format
 msgid "Object Type Comments"
-msgstr "ობიექტის ტიპი:"
+msgstr "ობიექტის ტიპის კომენტარები"
 
 #: fitsviewer/fitsdata.cpp:270
 #, kde-format
@@ -28333,16 +28210,14 @@ msgid "No world coordinate systems found."
 msgstr ""
 
 #: fitsviewer/fitsdata.cpp:3282 fitsviewer/fitsdata.cpp:3390
-#, fuzzy, kde-format
-#| msgid "Error reading image: %1"
+#, kde-format
 msgid "Error querying Simbad"
-msgstr "გამოსახულების წაკითხვის შეცდომა: %1"
+msgstr "Simbad-დან მოთხოვნის შეცდომა"
 
 #: fitsviewer/fitsdata.cpp:3299
-#, fuzzy, kde-format
-#| msgid "Solver timed out."
+#, kde-format
 msgid "Simbad query timed out"
-msgstr "ამომხსნელთან დაკავშირების დრო გავიდა."
+msgstr "Simbad-ის მოთხოვნის მოლოდინის ვადა ამოიწურა"
 
 #: fitsviewer/fitsdata.cpp:4276
 #, kde-format
@@ -28650,10 +28525,9 @@ msgid "Plate Solving"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:145
-#, fuzzy, kde-format
-#| msgid "Catalog Details"
+#, kde-format
 msgid "Catalog Objects"
-msgstr "კატალოგის დეტალები"
+msgstr "კატალოგის ობიექტები"
 
 #: fitsviewer/fitstab.cpp:157
 #, kde-format
@@ -28672,53 +28546,43 @@ msgid "%1 / %2 Simbad objects loaded"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:564
-#, fuzzy, kde-format
-#| msgid "Dithering in progress."
+#, kde-format
 msgid "Simbad query in progress..."
-msgstr "მიმდინარეობს დიზერინგი."
+msgstr "მიმდინარეობს Simbad-ის მოთხოვნის გაგზავნა..."
 
 #: fitsviewer/fitstab.cpp:726
-#, fuzzy, kde-format
-#| msgctxt "City in New Caledonia France"
-#| msgid "Noumea"
+#, kde-format
 msgid "Num"
-msgstr "ნუმეა"
+msgstr "ნუმი"
 
 #: fitsviewer/fitstab.cpp:727
-#, fuzzy, kde-format
-#| msgctxt "Country name"
-#| msgid "Portugal"
+#, kde-format
 msgid "CDS Portal"
-msgstr "პორტუგალია"
+msgstr "CDS პორტალი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (text), widget (QPushButton, searchSimbad2)
 #: fitsviewer/fitstab.cpp:728 fitsviewer/opsfits.ui:435
 #: tools/imagingplanner.ui:1456 tools/imagingplanner.ui:1787
-#, fuzzy, kde-format
-#| msgctxt "Advanced URLs: description or category"
-#| msgid "Simbad"
+#, kde-format
 msgid "Simbad"
 msgstr "სიმბადი"
 
 #: fitsviewer/fitstab.cpp:729
-#, fuzzy, kde-format
-#| msgid "NE"
+#, kde-format
 msgid "NED"
-msgstr "ჩა"
+msgstr "NED"
 
 #: fitsviewer/fitstab.cpp:731
-#, fuzzy, kde-format
-#| msgid "Type"
+#, kde-format
 msgid "Type Code"
-msgstr "ტიპი"
+msgstr "ტიპის კოდი"
 
 #: fitsviewer/fitstab.cpp:732
-#, fuzzy, kde-format
-#| msgid "TextLabel"
+#, kde-format
 msgid "Type Label"
-msgstr "ტექსტური ჭდე"
+msgstr "ტიპის ჭდე"
 
 #: fitsviewer/fitstab.cpp:734 kstarslite/qml/dialogs/DetailsDialog.qml:143
 #, kde-format, kde-kuit-format
@@ -28752,10 +28616,9 @@ msgid "Double click to launch NED browser"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:746
-#, fuzzy, kde-format
-#| msgid "Catalog Details"
+#, kde-format
 msgid "Catalog Object"
-msgstr "კატალოგის დეტალები"
+msgstr "კატალოგის ობიექტი"
 
 #: fitsviewer/fitstab.cpp:748
 #, kde-format
@@ -28774,10 +28637,9 @@ msgid ""
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:753
-#, fuzzy, kde-format
-#| msgid "Planets Coordinates"
+#, kde-format
 msgid "Object coordinates"
-msgstr "პლანეტების კოორდინატები"
+msgstr "ობიექტის კოორდინატები"
 
 #: fitsviewer/fitstab.cpp:754
 #, kde-format
@@ -28785,10 +28647,9 @@ msgid "Object distance in arcmins from the search center"
 msgstr ""
 
 #: fitsviewer/fitstab.cpp:756
-#, fuzzy, kde-format
-#| msgid "Only magnitudes"
+#, kde-format
 msgid "Object V magnitude"
-msgstr "მხოლოდ ვარკსვლავური სიდიდეები"
+msgstr "ობიექტის V ვარსკვლავური სიდიდეები"
 
 #: fitsviewer/fitstab.cpp:757
 #, kde-format
@@ -29468,10 +29329,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: fitsviewer/opsfits.ui:422
-#, fuzzy, kde-format
-#| msgid "Catalog:"
+#, kde-format
 msgid "Object Catalog:"
-msgstr "კატალოგი:"
+msgstr "ობიექტის კატალოგი:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_FitsCatalog)
 #. i18n: ectx: property (title), widget (QGroupBox, skymapGroup)
@@ -29591,11 +29451,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, auxButton)
 #: fitsviewer/platesolve.ui:63
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Acrux"
+#, kde-format
 msgid "Aux"
-msgstr "აკრუქსი"
+msgstr "დამატებით"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:120
@@ -29690,10 +29548,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_FitsSolverLinear)
 #: fitsviewer/platesolve.ui:508
-#, fuzzy, kde-format
-#| msgid "Linear Scale"
+#, kde-format
 msgid "Linear Image"
-msgstr "ხაზოვანი ზრდა"
+msgstr "ხაზოვანი გამოსახულება"
 
 #. i18n: ectx: property (text), widget (QTableWidget, solutionTable)
 #: fitsviewer/solveInfo.ui:71
@@ -30638,28 +30495,24 @@ msgid "Modify Host"
 msgstr "ჰოსტის ჩასწორება"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "%1 მტვრის ქუდი ონლაინაა."
+msgstr "მტვრის ქუდი დაპარკინგებულია"
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "%1 მტვრის ქუდი ონლაინაა."
+msgstr "მტვრის ქუდი დაპარკინგებული არაა"
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "%1 მტვრის ქუდი ონლაინაა."
+msgstr "მიმდინარეობს მტვრის ქუდის დაპარკინგება"
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "%1 Dust cap is online."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "%1 მტვრის ქუდი ონლაინაა."
+msgstr "მიმდინარეობს მტვრის ქუდის პარკინგიდან მოხსნა"
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -31575,10 +31428,9 @@ msgid "View in What's Interesting"
 msgstr "რა არის საინტერესო"
 
 #: kspopupmenu.cpp:456
-#, fuzzy, kde-format
-#| msgid "Add Object..."
+#, kde-format
 msgid "Add Flag (nearby object)..."
-msgstr "ობიექტის დამატება..."
+msgstr "ალმის დამატება (ახლო ობიექტი)..."
 
 #: kspopupmenu.cpp:458
 #, kde-format
@@ -33991,14 +33843,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerShowNotIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1070
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "Show the objects that have not been ignored (and don't show those that have "
 "been ignored)."
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"აჩვენებს ობიექტებს, რომლების გამოტოვებაც არ მომხდარა (და ნაჩვენები არ იქნება "
+"ისინი, რომლებიც გამოტოვებულია)."
 
 #. i18n: ectx: label, entry (ImagingPlannerDontCareIgnored), group (ImagingPlanner)
 #: kstars.kcfg:1074
@@ -34039,10 +33890,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ImagingPlannerCenterOnSkyMap), group (ImagingPlanner)
 #: kstars.kcfg:1098
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Slew to selected objects on the SkyMap."
-msgstr "მოვნიშნო ობიექტები მარცხენა წკაპით?"
+msgstr "მონიშნული ობიექტების შებრუნება ცის რუკაზე."
 
 #. i18n: ectx: label, entry (ImagingPlannerIndependentWindow), group (ImagingPlanner)
 #: kstars.kcfg:1102
@@ -35642,11 +35492,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (EkosLiveObservatory), group (EkosLive)
 #: kstars.kcfg:1851
-#, fuzzy, kde-format
-#| msgctxt "City in Tennessee USA"
-#| msgid "Dyer Observatory"
+#, kde-format
 msgid "EkosLive Observatory Name"
-msgstr "დაიერის ობსერვატორია"
+msgstr "EkosLive ობსერვატორიის სახელი"
 
 #. i18n: ectx: label, entry (EkosLiveOfflineServer), group (EkosLive)
 #: kstars.kcfg:1855
@@ -67724,10 +67572,9 @@ msgid "Observation Planner"
 msgstr ""
 
 #: kstarsinit.cpp:456
-#, fuzzy, kde-format
-#| msgid "Image Transfer"
+#, kde-format
 msgid "Imaging Planner"
-msgstr "გამოსახულების გადაცემა"
+msgstr "გამოსახულების დამგეგმავი"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
 #: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
@@ -69135,7 +68982,7 @@ msgstr ""
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:35
 #, kde-kuit-format
 msgid "Azimuthal Equidistant"
-msgstr ""
+msgstr "აზიმუტალური ეკვიდისტანტი"
 
 #: kstarslite/qml/modules/popups/ProjectionsPopup.qml:36
 #, kde-kuit-format
@@ -73335,10 +73182,9 @@ msgstr "ფოკუსის ტემპ:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: oal/equipmentwriter.ui:1206
-#, fuzzy, kde-format
-#| msgid "Focus alt:"
+#, kde-format
 msgid "Focus DT:"
-msgstr "ფოკუსის ალტ:"
+msgstr "ფოკუსის DT:"
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
 #: oal/equipmentwriter.ui:1250
@@ -76911,32 +76757,27 @@ msgid "Unknown Type"
 msgstr "უცნობი ტიპი"
 
 #: skyobjects/skyobject.cpp:399
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#, kde-format
 msgid "Open Clr"
-msgstr "კლასტერის გახსნა"
+msgstr "Clr-ის გახსნა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GlobularClusterCB)
 #: skyobjects/skyobject.cpp:401 tools/imagingplanner.ui:1950
-#, fuzzy, kde-format
-#| msgctxt "Satellite group name"
-#| msgid "Globalstar"
+#, kde-format
 msgid "Globular"
-msgstr "Globalstar"
+msgstr "სფეროსებრი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, NebulaCB)
 #: skyobjects/skyobject.cpp:403 tools/imagingplanner.ui:1940
-#, fuzzy, kde-format
-#| msgid "Nebulae"
+#, kde-format
 msgid "Nebula"
-msgstr "ნისლეულები"
+msgstr "ნისლეული"
 
 #. i18n: ectx: property (text), widget (QCheckBox, PlanetaryCB)
 #: skyobjects/skyobject.cpp:405 tools/imagingplanner.ui:1960
-#, fuzzy, kde-format
-#| msgid "Planet"
+#, kde-format
 msgid "Planetary"
-msgstr "პლანეტა"
+msgstr "პლანეტარული"
 
 #. i18n: ectx: property (text), widget (QCheckBox, SupernovaRemnantCB)
 #: skyobjects/skyobject.cpp:407 tools/imagingplanner.ui:1970
@@ -76945,17 +76786,15 @@ msgid "Remnant"
 msgstr ""
 
 #: skyobjects/skyobject.cpp:419
-#, fuzzy, kde-format
-#| msgid "Galaxy Cluster"
+#, kde-format
 msgid "Galaxy Clr"
-msgstr "გალაქტიკების კლასტერი"
+msgstr "გალაქტიკა Clr"
 
 #. i18n: ectx: property (text), widget (QCheckBox, DarkNebulaCB)
 #: skyobjects/skyobject.cpp:429 tools/imagingplanner.ui:2000
-#, fuzzy, kde-format
-#| msgid "Dark Nebula"
+#, kde-format
 msgid "Dark Neb"
-msgstr "ბნელი ნისლეული"
+msgstr "ბნელი ნისლ"
 
 #: skyobjects/skyobject.cpp:449
 #, kde-format
@@ -78974,11 +78813,10 @@ msgid "%1 region is invalid."
 msgstr "%1 რეგიონი არასწორია."
 
 #: tools/horizonmanager.cpp:551
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Artificial Horizon"
-msgstr "ხელოვნური ჰორიზონტი"
+msgstr "ხელოვნური ჰორიზონტის შენახვა"
 
 #: tools/horizonmanager.cpp:667
 #, kde-format
@@ -79100,48 +78938,40 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.cpp:177 tools/imagingplanner.ui:2057
-#, fuzzy, kde-format
-#| msgid "Image"
+#, kde-format
 msgid "Imaged"
-msgstr "გამოსახულება"
+msgstr "გამოსახულება აღებულია"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
 #: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:2027
 #, kde-format
 msgid "Picked"
-msgstr ""
+msgstr "არჩეულია"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
 #: tools/imagingplanner.cpp:188 tools/imagingplanner.ui:2114
-#, fuzzy, kde-format
-#| msgid "Ignore"
+#, kde-format
 msgid "Ignored"
-msgstr "იგნორი"
+msgstr "გამოტოვებულია"
 
 #: tools/imagingplanner.cpp:991
-#, fuzzy, kde-format
-#| msgid "Image Transfer"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner"
-msgstr "გამოსახულების გადაცემა"
+msgstr "გამოსახულების დამგეგმავი"
 
 #: tools/imagingplanner.cpp:1136
-#, fuzzy, kde-format
-#| msgctxt "Altitude"
-#| msgid "Alt"
+#, kde-format
 msgid "Alt"
 msgstr "Alt"
 
 #: tools/imagingplanner.cpp:1137
-#, fuzzy, kde-format
-#| msgctxt "City in Alberta Canada"
-#| msgid "Consort"
+#, kde-format
 msgid "Const"
-msgstr "კონსორტი"
+msgstr "კონსტი"
 
 #: tools/imagingplanner.cpp:1137
-#, fuzzy, kde-format
-#| msgid "Coordinates"
+#, kde-format
 msgid "Coord"
 msgstr "კოორდინატები"
 
@@ -79191,11 +79021,9 @@ msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
 #: tools/imagingplanner.cpp:1584
-#, fuzzy, kde-format
-#| msgctxt "%1 is a location on earth"
-#| msgid "Almanac for %1"
+#, kde-format
 msgid "No match for \"%1\""
-msgstr "ალმანახი %1-სთვის"
+msgstr "'%1'-სთვის დამთხვევის გარეშე"
 
 #: tools/imagingplanner.cpp:1648
 #, kde-format
@@ -79213,10 +79041,9 @@ msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
 #: tools/imagingplanner.cpp:1993
-#, fuzzy, kde-format
-#| msgid "Finding stars..."
+#, kde-format
 msgid "Updating tables..."
-msgstr "ვარსკვლავების ძებნა..."
+msgstr "ცხრილების განახლება..."
 
 #: tools/imagingplanner.cpp:2390
 #, kde-format
@@ -79227,16 +79054,14 @@ msgid ""
 msgstr ""
 
 #: tools/imagingplanner.cpp:2393
-#, fuzzy, kde-format
-#| msgid "NGC Catalog"
+#, kde-format
 msgid "No Catalog!"
-msgstr "NGC კატალოგი"
+msgstr "კატალოგი არ არსებობს!"
 
 #: tools/imagingplanner.cpp:2439
-#, fuzzy, kde-format
-#| msgid "Select this object"
+#, kde-format
 msgid "Select an object."
-msgstr "აირჩიეთ ობიექტი"
+msgstr "აირჩიეთ ობიექტი."
 
 #: tools/imagingplanner.cpp:2441
 #, kde-format
@@ -79244,10 +79069,9 @@ msgid "Check Filters to unhide objects."
 msgstr ""
 
 #: tools/imagingplanner.cpp:2443
-#, fuzzy, kde-format
-#| msgid "Catalog"
+#, kde-format
 msgid "Load a Catalog."
-msgstr "კატალოგი"
+msgstr "კატალოგის ჩატვირთვა."
 
 #: tools/imagingplanner.cpp:2573
 #, kde-format
@@ -79278,51 +79102,44 @@ msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 
 #: tools/imagingplanner.cpp:2738
-#, fuzzy, kde-format
-#| msgid "Loading images..."
+#, kde-format
 msgid "Loading Catalogs..."
-msgstr "გამოსახულებების ჩატვირთვა..."
+msgstr "კატალოგების ჩატვირთვა..."
 
 #: tools/imagingplanner.cpp:3063
-#, fuzzy, kde-format
-#| msgid "Transit"
+#, kde-format
 msgid "Transits"
-msgstr "ტრანზიტი"
+msgstr "ტრანზიტები"
 
 #: tools/imagingplanner.cpp:3068 tools/imagingplanner.cpp:3072
-#, fuzzy, kde-format
-#| msgid "Sets at: %1"
+#, kde-format
 msgid "Sets at"
-msgstr "ჩადის %1"
+msgstr "დაისის დრო"
 
 #: tools/imagingplanner.cpp:3079 tools/imagingplanner.cpp:3083
-#, fuzzy, kde-format
-#| msgid "Rises at: %1"
+#, kde-format
 msgid "Rises at"
-msgstr "ამოდის: %1"
+msgstr "აისის დრო"
 
 #: tools/imagingplanner.cpp:3090 tools/imagingplanner.cpp:3096
-#, fuzzy, kde-format
-#| msgid "Rise:"
+#, kde-format
 msgid "Rises"
-msgstr "აისი:"
+msgstr "აისი"
 
 #: tools/imagingplanner.cpp:3092 tools/imagingplanner.cpp:3098
 #, kde-format
 msgid "Sets"
-msgstr ""
+msgstr "სეტები"
 
 #: tools/imagingplanner.cpp:3204 tools/imagingplanner.cpp:3460
-#, fuzzy, kde-format
-#| msgid "object"
+#, kde-format
 msgid "objects"
-msgstr "ობიექტი"
+msgstr "ობიექტები"
 
 #: tools/imagingplanner.cpp:3456
-#, fuzzy, kde-format
-#| msgid "%1, %2 and %3"
+#, kde-format
 msgid "%1, %2 and %3 other objects"
-msgstr "%1, %2 და %3"
+msgstr "%1, %2 და %3 სხვა ობიექტი"
 
 #: tools/imagingplanner.cpp:3464 tools/imagingplanner.cpp:3468
 #, kde-format
@@ -79345,22 +79162,19 @@ msgid "Pick %1"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3485 tools/imagingplanner.cpp:3490
-#, fuzzy, kde-format
-#| msgid "Stop recording"
+#, kde-format
 msgid "Stop ignoring %1"
-msgstr "ვიდეოს ჩაწერის გაჩერება"
+msgstr "%1-ის გამოტოვების შეწყვეტა"
 
 #: tools/imagingplanner.cpp:3486 tools/imagingplanner.cpp:3492
-#, fuzzy, kde-format
-#| msgid "Ignore"
+#, kde-format
 msgid "Ignore %1"
-msgstr "იგნორი"
+msgstr "%1-ის გამოტოვება"
 
 #: tools/imagingplanner.cpp:3495
-#, fuzzy, kde-format
-#| msgid "Center in Map"
+#, kde-format
 msgid "Center %1 on SkyMap"
-msgstr "რუკაზე დაცენტრება"
+msgstr "%1-ის დაცენტრება ცის რუკაზე"
 
 #: tools/imagingplanner.cpp:3497
 #, kde-format
@@ -79375,10 +79189,9 @@ msgid "Successfully marked %1 objects as read"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3639
-#, fuzzy, kde-format
-#| msgid "Input file:"
+#, kde-format
 msgid "Empty file"
-msgstr "შეყვანის ფაილი:"
+msgstr "ცარიელი ფაილი"
 
 #: tools/imagingplanner.cpp:3648
 #, kde-format
@@ -79401,10 +79214,9 @@ msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3661 tools/imagingplanner.cpp:3911
-#, fuzzy, kde-format
-#| msgid "Could not open file %1"
+#, kde-format
 msgid "Sorry, couldn't open file: \"%1\""
-msgstr "ფაილის გახსნის შეცდომა: %1"
+msgstr "ფაილის გახსნის შეცდომა: \"%1\""
 
 #: tools/imagingplanner.cpp:3775
 #, kde-format
@@ -79417,15 +79229,13 @@ msgid "%1/%2: Adding %3"
 msgstr ""
 
 #: tools/imagingplanner.cpp:3979
-#, fuzzy, kde-format
-#| msgid "OK"
+#, kde-format
 msgctxt "@action:button"
 msgid "OK"
 msgstr "დიახ"
 
 #: tools/imagingplanner.cpp:3980
-#, fuzzy, kde-format
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "გაუქმება"
@@ -79445,39 +79255,33 @@ msgstr "ობიექტის სახელი"
 
 #. i18n: ectx: property (text), widget (QLabel, statusLabel)
 #: tools/imagingplanner.ui:214
-#, fuzzy, kde-format
-#| msgid "Select Sky Object"
+#, kde-format
 msgid "Select an Object"
-msgstr "აირჩიეთ ციური ობიექტი"
+msgstr "აირჩიეთ ობიექტი"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, backOneDay)
 #: tools/imagingplanner.ui:302
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Back one day"
-msgstr "ფონი"
+msgstr "ერთი დღით უკან"
 
 #. i18n: ectx: property (displayFormat), widget (QDateEdit, DateEdit)
 #: tools/imagingplanner.ui:319
-#, fuzzy, kde-format
-#| msgid "dd/MM/yyyy"
+#, kde-format
 msgid "dd/MM/yy"
-msgstr "დღ/თვ/წელი"
+msgstr "დდ/თთ/წწ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, forwardOneDay)
 #: tools/imagingplanner.ui:347
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Firmware data"
+#, kde-format
 msgid "Forward one day"
-msgstr "მიკროკოდის მონაცემები"
+msgstr "ერთი დღით წინ"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, optionsButton)
 #: tools/imagingplanner.ui:395
-#, fuzzy, kde-format
-#| msgid "Option Name"
+#, kde-format
 msgid "Open options menu."
-msgstr "პარამეტრი სახელი"
+msgstr "მორგების მენიუს გახსნა."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, helpButton)
 #: tools/imagingplanner.ui:421
@@ -79496,11 +79300,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelDownsampleButton)
 #: tools/imagingplanner.ui:464
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Downey"
+#, kde-format
 msgid "Downsample"
-msgstr "დაუნი"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DevelDownsampleButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, DevelCheckTargetsButton)
@@ -79516,10 +79318,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelCheckTargetsButton)
 #: tools/imagingplanner.ui:486
-#, fuzzy, kde-format
-#| msgid "Check URL"
+#, kde-format
 msgid "Check"
-msgstr "URL-ის შემოწმება"
+msgstr "შემოწმება"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
 #: tools/imagingplanner.ui:713
@@ -79553,11 +79354,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, userNotesLabel)
 #: tools/imagingplanner.ui:867
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Note"
+#, kde-format
 msgid "Note:"
-msgstr "შენიშვნა"
+msgstr "შენიშვნა:"
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, userNotesEdit)
 #: tools/imagingplanner.ui:893
@@ -79579,35 +79378,29 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HiddenAltitudeGraphLabel)
 #: tools/imagingplanner.ui:1085
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Altitude vs Time graph."
-msgstr "სიმაღლე: "
+msgstr "სიმაღლე vs დროის გრაფიკი."
 
 #. i18n: ectx: property (text), widget (QLabel, HiddenAltitudeGraphLabel)
 #: tools/imagingplanner.ui:1088
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Altitude vs Time graph"
-msgstr "სიმაღლე: "
+msgstr "სიმაღლე vs დრო გრაფიკი"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useArtificialHorizon)
 #: tools/imagingplanner.ui:1128
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Use the sky map of KStars for controlling telescope "
-#| "slews and syncs.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use the system's artificial horizon for calculating "
 "imaging hours.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>KStars-ის ცის რუკის გამოყენება ტელესკოპის მობრუნებისა "
-"და სინქრონიზაციისთვის.</p></body></html>"
+"<html><head/><body><p>სისტემის ხელოვნური ჰორიზონტის გამოყენება გამოსახვის "
+"საათების გამოსათვლელად.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, useArtificialHorizon)
 #: tools/imagingplanner.ui:1131
-#, fuzzy, kde-format
-#| msgid "Artificial Horizon"
+#, kde-format
 msgid "Artificial horizon"
 msgstr "ხელოვნური ჰორიზონტი"
 
@@ -79622,10 +79415,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minAltitudeLabel)
 #: tools/imagingplanner.ui:1147
-#, fuzzy, kde-format
-#| msgid "Min Area"
+#, kde-format
 msgid "Min alt"
-msgstr "მინ. ფართობი"
+msgstr "მინ. სიმაღლე"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1191
@@ -79638,42 +79430,36 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1194
-#, fuzzy, kde-format
-#| msgid "Moon"
+#, kde-format
 msgid "Moon:"
-msgstr "მთვარის"
+msgstr "მთვარე:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minMoon)
 #: tools/imagingplanner.ui:1213
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of frames to capture at each focuser "
-#| "position.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations object must be at least "
 "this far from the moon.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ფოკუსერის თითოეულ მდებარეობაზე გადასაღები კადრების "
-"რაოდენობა.</p></body></html>"
+"<html><head/><body><p>გამოსახვის საათების გამოსათვლელად ობიექტი სულ ცოტა, ამ "
+"დაშორებით უნდა იყოს მთვარიდან.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minMoon)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1216 tools/imagingplanner.ui:1235
-#, fuzzy, kde-format
-#| msgid "°C"
+#, kde-format
 msgid "°"
-msgstr "°C"
+msgstr "°"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1232
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations the moon must be lower "
 "than this altitude.</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>გამოსახულების საათების გამოსათვლელად მთვარე ამ "
+"სიმაღლეზე დაბლა უნდა იყოს.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAstrobinDetailsButton)
 #: tools/imagingplanner.ui:1307
@@ -79691,11 +79477,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel)
 #. i18n: ectx: property (text), widget (QLabel, SearchLabel2)
 #: tools/imagingplanner.ui:1342 tools/imagingplanner.ui:1673
-#, fuzzy, kde-format
-#| msgctxt "City in Western Australia Australia"
-#| msgid "Pearce"
+#, kde-format
 msgid "Search"
-msgstr "პირსი"
+msgstr "ძებნა"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, astrobinButton2)
@@ -79709,11 +79493,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton)
 #. i18n: ectx: property (text), widget (QPushButton, astrobinButton2)
 #: tools/imagingplanner.ui:1369 tools/imagingplanner.ui:1700
-#, fuzzy, kde-format
-#| msgctxt "City in Ontario Canada"
-#| msgid "Armstrong"
+#, kde-format
 msgid "Astrobin"
-msgstr "არმსტრონგი"
+msgstr "ასტრობინი"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchWikipedia2)
@@ -79725,11 +79507,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia)
 #. i18n: ectx: property (text), widget (QPushButton, searchWikipedia2)
 #: tools/imagingplanner.ui:1396 tools/imagingplanner.ui:1727
-#, fuzzy, kde-format
-#| msgctxt "Image/info menu item (should be translated)"
-#| msgid "Wikipedia Page"
+#, kde-format
 msgid "Wikipedia"
-msgstr "ვიკიპედიის გვერდი"
+msgstr "Wikipedia"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSpecialWebPageImages)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSpecialWebPageImages2)
@@ -79748,49 +79528,43 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad)
 #. i18n: ectx: property (toolTip), widget (QPushButton, searchSimbad2)
 #: tools/imagingplanner.ui:1453 tools/imagingplanner.ui:1784
-#, fuzzy, kde-format
-#| msgid "Search Radius"
+#, kde-format
 msgid "Search Simbad."
-msgstr "ძებნის რადიუსი"
+msgstr "Simbad-ში ძებნა."
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1463
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Required one of the Astrobin awards when searching "
 "Astrobin images.</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>საჭიროა ერთ-ერთი Astrobin-ის ჯილდო Astrobin-ის "
+"გამოსახულებების ძებნისას.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, AstrobinAward)
 #: tools/imagingplanner.ui:1466
-#, fuzzy, kde-format
-#| msgid "Required"
+#, kde-format
 msgid "Awards Required"
-msgstr "საჭიროა"
+msgstr "საჭირო ჯილდოები"
 
 #. i18n: ectx: property (text), widget (QLabel, radiusLabel)
 #: tools/imagingplanner.ui:1485
-#, fuzzy, kde-format
-#| msgid "Radius"
+#, kde-format
 msgid "Radius:"
-msgstr "რადიუსი"
+msgstr "რადიუსი:"
 
 #. i18n: ectx: property (text), widget (QLabel, minRadiusLabel)
 #: tools/imagingplanner.ui:1500
-#, fuzzy, kde-format
-#| msgid "Min: %1"
+#, kde-format
 msgid "Min:"
-msgstr "მინ: %1"
+msgstr "მინ:"
 
 #. i18n: ectx: property (text), widget (QLabel, maxRadiusLabel)
 #: tools/imagingplanner.ui:1548
-#, fuzzy, kde-format
-#| msgid "Max: %1"
+#, kde-format
 msgid "Max:"
-msgstr "მაქს: %1"
+msgstr "მაქს:"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showAstrobinDetailsButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, showFilterTypesButton)
@@ -79816,10 +79590,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel)
 #. i18n: ectx: property (text), widget (QLabel, FiltersLabel2)
 #: tools/imagingplanner.ui:1879 tools/imagingplanner.ui:2283
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Filters"
-msgstr "ფილტრი"
+msgstr "ფილტრები"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minHoursLabel)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minHours)
@@ -79831,122 +79604,119 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minHoursLabel)
 #: tools/imagingplanner.ui:1898
-#, fuzzy, kde-format
-#| msgid "24 Hours"
+#, kde-format
 msgid "Min Hours:"
-msgstr "24 საათი"
+msgstr "მინ. საათი:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OpenClusterCB)
 #: tools/imagingplanner.ui:1927
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide open clusters if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>ბიჯის ზომა:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ღია კლასტერების დამალვა, თუ ჩართული არაა:</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, OpenClusterCB)
 #: tools/imagingplanner.ui:1930
-#, fuzzy, kde-format
-#| msgid "Open Cluster"
+#, kde-format
 msgid "Open Cl"
-msgstr "კლასტერის გახსნა"
+msgstr "Cl-ის გახსნა"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, NebulaCB)
 #: tools/imagingplanner.ui:1937
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Hide nebulae if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>გამოთვლლი CFZ, ბიჯებში</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ნისლეულების დამალვა, თუ გამორთული არაა.</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GlobularClusterCB)
 #: tools/imagingplanner.ui:1947
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide globular clusters if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>გამოთვლლი CFZ, ბიჯებში</p></body></html>"
+msgstr ""
+"<html><head/><body><p>გლობულური კლასტერების დამალვა, თუ გამორთული არაა.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, PlanetaryCB)
 #: tools/imagingplanner.ui:1957
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display the next .analyze file.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide planetary nebulae if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>შემდეგი .analyze ფაილის ჩვენება..</p></body></html>"
+"<html><head/><body><p>პლანეტარული ნისლეულის დამალვა, თუ გამორთულია.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, SupernovaRemnantCB)
 #: tools/imagingplanner.ui:1967
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display units for HFR and FWHM.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide supernova remnants if unchecked.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>HFR და FWHM-ის საჩვენებელი ერთეული</p></body></html>"
+"<html><head/><body><p>ზეახალი ვარსკვლავის ნარჩენების დამალვა, თუ გამორთულია</"
+"p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyCB)
 #: tools/imagingplanner.ui:1977
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Step size:</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Hide galaxies if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>ბიჯის ზომა:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>გალაქტიტების დამალვა, თუ ჩართული არაა:</p></body></"
+"html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, GalaxyClusterCB)
 #: tools/imagingplanner.ui:1987
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Max Step Size:</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide galaxy clusters if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>მაქს ბიჯის ზომა:</p></body></html>"
+msgstr ""
+"<html><head/><body><p>გალაქტიკის კლასტერების დამალვა, თუ გამორთულია.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, GalaxyClusterCB)
 #: tools/imagingplanner.ui:1990
-#, fuzzy, kde-format
-#| msgid "Galaxy"
+#, kde-format
 msgid "Galaxy Cl"
-msgstr "გალაქტიკა"
+msgstr "გალაქტიკა Cl"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, DarkNebulaCB)
 #: tools/imagingplanner.ui:1997
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>The calculated CFZ in steps.</p></body></html>"
+#, kde-format
 msgid "<html><head/><body><p>Hide dark nebulae if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>გამოთვლლი CFZ, ბიჯებში</p></body></html>"
+msgstr ""
+"<html><head/><body><p>მუქი ნისლეულების დამალვა, თუ გამორთული არაა</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, OtherCB)
 #: tools/imagingplanner.ui:2007
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Plot the ambient temperature.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Hide other object types if unchecked.</p></body></html>"
-msgstr "<html><head/><body><p>გარემოს ტემპერატურის დახატვა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>სხვა ობიექტის ტიპების დამალვა, თუ გამორთულია.</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, pickedCB)
 #: tools/imagingplanner.ui:2024
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are marked picked (don't show "
 "those that are not picked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>აირჩიეთ 3D გრაფიკის ფერის თემა.</p></body></html>"
+"<html><head/><body><p>ჩვენება ობიექტებისა, რომლებიც აღებულადაა მონიშნული "
+"(არაღებულები ნაჩვენები არ იქნება).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notPickedCB)
 #: tools/imagingplanner.ui:2034
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are not marked picked (don't "
 "show those that are picked).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>აირჩიეთ 3D გრაფიკის ფერის თემა.</p></body></html>"
+"<html><head/><body><p>ჩვენება ობიექტებისა, რომლებიც აღებულად არაა მონიშნული "
+"(აღებულები ნაჩვენები არ იქნება).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notPickedCB)
 #: tools/imagingplanner.ui:2037
@@ -79956,12 +79726,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCarePickedCB)
 #: tools/imagingplanner.ui:2044
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked picked or not.</p></body></html>"
-msgstr "<html><head/><body><p>ჩართეთ სენსორის საჩვენებლად</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ობიექტის ჩვენება არაა დამოკიდებული იმაზე, არის ობიექტი "
+"არჩეული, თუ არა</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, dontCarePickedCB)
 #. i18n: ectx: property (text), widget (QCheckBox, dontCareImagedCB)
@@ -79975,46 +79746,40 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, imagedCB)
 #: tools/imagingplanner.ui:2054
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are marked imaged (and don't "
 "show those that are not marked previously imaged).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ჩართეთ გრაფიკზე კრიტიკული ფოკუსის ზონის საჩვენებლად.</"
-"p></body></html>"
+"<html><head/><body><p>ჩვენება ობიექტებისა, რომლებიც დანიშნულია გამოსახულად "
+"(და არ იქნება ნაჩვენები ისინი, რომლების გამოსახულად მონიშნული არაა).</p></"
+"body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notImagedCB)
 #: tools/imagingplanner.ui:2064
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the colour theme of the 3D Graphic.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that are not marked imaged (and don't "
 "show those that are marked previously imaged).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>აირჩიეთ 3D გრაფიკის ფერის თემა.</p></body></html>"
+"<html><head/><body><p>ჩვენება ობიექტებისა, რომლებიც გამოსახულად მონიშნული "
+"არაა (და არ აჩვენო ისინი, რომლებიც არიან გამოსახულები).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notImagedCB)
 #: tools/imagingplanner.ui:2067
-#, fuzzy, kde-format
-#| msgid "(No Image)"
+#, kde-format
 msgid "Not imaged"
-msgstr "(გამოსახულების გარეშე)"
+msgstr "გამოსახულების გარეშე"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareImagedCB)
 #: tools/imagingplanner.ui:2074
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Display the previous .analyze file.</p></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects are "
 "marked previously imaged or not.</p></body></html>"
-msgstr "<html><head/><body><p>წინა .analyze ფაილის ჩვენება..</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ობიექტის ჩვენება არაა დამოკიდებული, იყო თუ არა ობიექტი "
+"გამოსახული.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:2101
@@ -80026,93 +79791,83 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, loadImagedB)
 #: tools/imagingplanner.ui:2104
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Load Image"
+#, kde-format
 msgid "Load Imaged"
-msgstr "გამოსახულების ჩატვირთვა"
+msgstr "გამოსახულის ჩატვირთვა"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ignoredCB)
 #: tools/imagingplanner.ui:2111
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have been ignored (and don't "
 "show those that have not been ignored).</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ჩვენება ობიექტებისა, რომლებიც გამოტოვებულია (და "
+"ნაჩვენები არ იქნება ობიექტები, რომლებიც გამოტოვებული არაა).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notIgnoredCB)
 #: tools/imagingplanner.ui:2121
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have not been ignored (and don't "
 "show those that have been ignored).</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ჩვენება ობიექტებისა, რომლებიც გამოტოვებული არაა (და "
+"ნაჩვენები არ იქნება ობიექტები, რომლებიც გამოტოვებულია).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notIgnoredCB)
 #: tools/imagingplanner.ui:2124
-#, fuzzy, kde-format
-#| msgid "Not Sure"
+#, kde-format
 msgid "Not ignored"
-msgstr "დარწმუნებული არ ვარ"
+msgstr "გამოტოვებული არაა"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareIgnoredCB)
 #: tools/imagingplanner.ui:2131
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether objects have "
 "been ignored or not.</p></body></html>"
-msgstr "<html><head/><body><p>ჩართეთ სენსორის საჩვენებლად</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ობიექტის ჩვენება არაა დამოკიდებული იმაზე, "
+"გამოტოვებულია თუ არა ობიექტი.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, keywordCB)
 #: tools/imagingplanner.ui:2141
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show the Critical Focus Zone on the graph."
-#| "</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that have the (case-sensitive) "
 "keyword in their notes (and don't show those that don't).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ჩართეთ გრაფიკზე კრიტიკული ფოკუსის ზონის საჩვენებლად.</"
-"p></body></html>"
+"<html><head/><body><p>ჩვენება ობიექტებისა, რომლებსაც თავიანთ შენიშვნებში "
+"(რეგისტრზე დამოკიდებული) საკვანძო სიტყვა აქვს (რომლებსაც არ აქვს, ნაჩვენები "
+"არ იქნება).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, notKeywordCB)
 #: tools/imagingplanner.ui:2151
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of digits used to append the sequence number "
-#| "to the filename.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Show the objects that don't have the (case-sensitive) "
 "keyword in their notes (and don't show those that do).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ფაილის სახელის მიმდევრობისთვის მისაწერი ციფრების "
-"რაოდენობა.</p></body></html>"
+"<html><head/><body><p>ჩვენება ობიექტებისა, რომლებსაც მის შენიშვნებში "
+"(რეგისტრზე დამოკიდებული) საკვანძო სიტყვა არ აქვს (და ნაჩვენები არ იქნება "
+"ისინი, რომლებსაც აქვთ).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, notKeywordCB)
 #: tools/imagingplanner.ui:2154
-#, fuzzy, kde-format
-#| msgid "Keyword"
+#, kde-format
 msgid "Not keyword"
-msgstr "საკვანძო სიტყვა"
+msgstr "საკვანძო სიტყვა არაა"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, dontCareKeywordCB)
 #: tools/imagingplanner.ui:2161
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Object display doesn't depend on whether or not "
 "objects have the keyword in their notes.</p></body></html>"
-msgstr "<html><head/><body><p>ფილების გამყოფის ხაზის ზომა.</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ობიექტის ჩვენება დამოკიდებული არაა იმაზე, აქვთ თუ არა "
+"საკვანძო სიტყვა მათ შენიშვნებში.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2182
@@ -80123,10 +79878,9 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QTextEdit, keywordEdit)
 #: tools/imagingplanner.ui:2185
-#, fuzzy, kde-format
-#| msgid "Enter name for the script"
+#, kde-format
 msgid "Enter keyword here"
-msgstr "შეიყვანეთ სკრიპტის სახელი"
+msgstr "შეიყვანეთ საკვანძო სიტყვა"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideImageButton)
 #: tools/imagingplanner.ui:2343
@@ -80137,87 +79891,77 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel)
 #. i18n: ectx: property (text), widget (QLabel, ImageFrameLabel2)
 #: tools/imagingplanner.ui:2369 tools/imagingplanner.ui:2556
-#, fuzzy, kde-format
-#| msgid "Catalog name:"
+#, kde-format
 msgid "Catalog Image"
-msgstr "კატალოგის სახელი:"
+msgstr "კატალოგის გამოსახულება"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, LoadCatalogButton2)
 #: tools/imagingplanner.ui:2407 tools/imagingplanner.ui:2588
-#, fuzzy, kde-format
-#| msgid "Downloads new data"
+#, kde-format
 msgid "Load a new catalog"
-msgstr "ახალი მონაცემების გადმოწერა"
+msgstr "ახალი კატალოგის ჩატვირთვა"
 
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton)
 #. i18n: ectx: property (text), widget (QPushButton, LoadCatalogButton2)
 #: tools/imagingplanner.ui:2410 tools/imagingplanner.ui:2591
-#, fuzzy, kde-format
-#| msgid "Catalog"
+#, kde-format
 msgid "Load Catalog"
-msgstr "კატალოგი"
+msgstr "კატალოგის ჩატვირთვა"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, showImageButton)
 #: tools/imagingplanner.ui:2530
-#, fuzzy, kde-format
-#| msgid "Maximum image dimension:"
+#, kde-format
 msgid "Maximize the image section"
-msgstr "გამოსახულების მაქსიმალური ზომა:"
+msgstr "სურათის განყოფილების მაქსიმალურად გაზრდა"
 
 #: tools/imagingplanneroptions.cpp:25
-#, fuzzy, kde-format
-#| msgid "Image Transfer"
+#, kde-format
 msgctxt "@title:window"
 msgid "Imaging Planner Options"
-msgstr "გამოსახულების გადაცემა"
+msgstr "გამოსახულების დამგეგმავის მორგება"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:17
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Check to show labels on the graph.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Slew to selected objects on the SkyMap.</p></body></"
 "html>"
 msgstr ""
-"<html><head/><body><p>ჩართეთ გრაფიკზე ჭდეების საჩვენებლად.</p></body></html>"
+"<html><head/><body><p>მონიშნული ობიექტების პოვნა ცის რუკაზე.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CenterOnSkyMapCB)
 #: tools/imagingplanneroptions.ui:20
-#, fuzzy, kde-format
-#| msgid "Select objects on left click?"
+#, kde-format
 msgid "Center selected object on SkyMap"
-msgstr "მოვნიშნო ობიექტები მარცხენა წკაპით?"
+msgstr "მონიშნული ობიექტის დაცენტრება ცის რუკაზე"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:27
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Check to display the Sensor.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Make the ImagingPlannerTool an independent window. "
 "Would take effect next restart.</p></body></html>"
-msgstr "<html><head/><body><p>ჩართეთ სენსორის საჩვენებლად</p></body></html>"
+msgstr ""
+"<html><head/><body><p>ImagingPlannerTool-ის გატანა დამოუკიდებელ ფანჯარაში. "
+"ეს ძალაში თავიდან გაშვების შემდეგ შევა.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, IndependentWindowCB)
 #: tools/imagingplanneroptions.ui:30
-#, fuzzy, kde-format
-#| msgid "Independent window"
+#, kde-format
 msgid "Independent Window"
 msgstr "დამოუკიდებელი ფანჯარა"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Number of stars found in the last frame.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Start solving immediately after taking a screenshot, "
 "instead of waiting for the Solve button to be pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>ბოლო კადრში აღმოჩენილი ვარსკვლავების რაოდენობა.</p></"
-"body></html>"
+"<html><head/><body><p>ამოხსნის დაუყოვნებლივი დაიწყება ეკრანის ანაბეჭდის "
+"გადაღების შემდეგ ამოხსნის ღილაკზე დაჭერის მოლოდინის გარეშე.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:40
