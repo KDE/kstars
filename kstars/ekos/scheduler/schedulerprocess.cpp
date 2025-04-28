@@ -161,10 +161,21 @@ void SchedulerProcess::findNextJob()
         // Always reset job stage
         moduleState()->updateJobStage(SCHEDSTAGE_IDLE);
 
-        // restart aborted jobs immediately, if error handling strategy is set to "restart immediately"
+        // Restart aborted jobs immediately, if error handling strategy is set to "restart immediately"
+        // but only if the job could resume.
+        bool canResume = false;
         if (Options::errorHandlingStrategy() == ERROR_RESTART_IMMEDIATELY &&
                 (activeJob()->getState() == SCHEDJOB_ABORTED ||
                  (activeJob()->getState() == SCHEDJOB_ERROR && Options::rescheduleErrors())))
+        {
+            const auto oldState = activeJob()->getState();
+            activeJob()->setState(SCHEDJOB_SCHEDULED);
+            // Need to add a few seconds, since greedy scheduler doesn't like bumping jobs that just changed state.
+            canResume = getGreedyScheduler()->checkJob(moduleState()->jobs(), SchedulerModuleState::getLocalTime().addSecs(30),
+                        activeJob());
+            activeJob()->setState(oldState);
+        }
+        if (canResume)
         {
             // reset the state so that it will be restarted
             activeJob()->setState(SCHEDJOB_SCHEDULED);
@@ -406,7 +417,7 @@ void SchedulerProcess::findNextJob()
     {
         /* Unexpected situation, mitigate by resetting the job and restarting the scheduler timer */
         qCDebug(KSTARS_EKOS_SCHEDULER) << "BUGBUG! Job '" << activeJob()->getName() <<
-                                          "' timer elapsed, but no action to be taken.";
+                                       "' timer elapsed, but no action to be taken.";
 
         // Always reset job stage
         moduleState()->updateJobStage(SCHEDSTAGE_IDLE);
@@ -1354,7 +1365,7 @@ bool SchedulerProcess::checkEkosState()
                 moduleState()->startCurrentOperationTimer();
 
                 qCInfo(KSTARS_EKOS_SCHEDULER) << "Ekos communication status is" << moduleState()->ekosCommunicationStatus() <<
-                                                 "Starting Ekos...";
+                                              "Starting Ekos...";
 
                 return false;
             }
@@ -3151,7 +3162,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
     outstream << "<SchedulerList version='2.1'>" << Qt::endl;
     // ensure to escape special XML characters
     outstream << "<Profile>" << QString(entityXML(strdup(moduleState()->currentProfile().toStdString().c_str()))) <<
-                 "</Profile>" << Qt::endl;
+              "</Profile>" << Qt::endl;
 
     auto tiles = KStarsData::Instance()->skyComposite()->mosaicComponent()->tiles();
     bool useMosaicInfo = !tiles->sequenceFile().isEmpty();
@@ -3214,7 +3225,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
 
         if (! job->getOpticalTrain().isEmpty())
             outstream << "<OpticalTrain>" << QString(entityXML(strdup(job->getOpticalTrain().toStdString().c_str()))) <<
-                         "</OpticalTrain>" << Qt::endl;
+                      "</OpticalTrain>" << Qt::endl;
 
         if (job->isLead() && job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
             outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << Qt::endl;
@@ -3298,7 +3309,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
     outstream << "<StartupProcedure>" << Qt::endl;
     if (moduleState()->startupScriptURL().isEmpty() == false)
         outstream << "<Procedure value='" << moduleState()->startupScriptURL().toString(QUrl::PreferLocalFile) <<
-                     "'>StartupScript</Procedure>" << Qt::endl;
+                  "'>StartupScript</Procedure>" << Qt::endl;
     if (Options::schedulerUnparkDome())
         outstream << "<Procedure>UnparkDome</Procedure>" << Qt::endl;
     if (Options::schedulerUnparkMount())
@@ -3318,7 +3329,7 @@ bool SchedulerProcess::saveScheduler(const QUrl &fileURL)
         outstream << "<Procedure>ParkDome</Procedure>" << Qt::endl;
     if (moduleState()->shutdownScriptURL().isEmpty() == false)
         outstream << "<Procedure value='" << moduleState()->shutdownScriptURL().toString(QUrl::PreferLocalFile) <<
-                     "'>schedulerStartupScript</Procedure>" <<
+                  "'>schedulerStartupScript</Procedure>" <<
                   Qt::endl;
     outstream << "</ShutdownProcedure>" << Qt::endl;
 
@@ -4423,7 +4434,7 @@ SkyPoint SchedulerProcess::mountCoords()
     if (coords.size() != 2)
     {
         qCCritical(KSTARS_EKOS_SCHEDULER) << "Warning: reading equatorial coordinates received" << coords.size() <<
-                                             "instead of 2 values: " << coords;
+                                          "instead of 2 values: " << coords;
         return SkyPoint();
     }
 
@@ -4464,15 +4475,15 @@ bool SchedulerProcess::isMountParked()
         // Deduce state of mount - see getParkingStatus in mount.cpp
         switch (static_cast<ISD::ParkStatus>(parkingStatus.toInt()))
         {
-                //            case Mount::PARKING_OK:     // INDI switch ok, and parked
-                //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
+            //            case Mount::PARKING_OK:     // INDI switch ok, and parked
+            //            case Mount::PARKING_IDLE:   // INDI switch idle, and parked
             case ISD::PARK_PARKED:
                 return true;
 
-                //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
-                //            case Mount::PARKING_ERROR:  // INDI switch error
-                //            case Mount::PARKING_BUSY:   // INDI switch busy
-                //            case Mount::UNPARKING_BUSY: // INDI switch busy
+            //            case Mount::UNPARKING_OK:   // INDI switch idle or ok, and unparked
+            //            case Mount::PARKING_ERROR:  // INDI switch error
+            //            case Mount::PARKING_BUSY:   // INDI switch busy
+            //            case Mount::UNPARKING_BUSY: // INDI switch busy
             default:
                 return false;
         }
