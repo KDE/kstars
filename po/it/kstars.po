@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-26 01:56+0000\n"
-"PO-Revision-Date: 2025-04-10 21:13+0200\n"
+"PO-Revision-Date: 2025-04-22 21:35+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -23213,7 +23213,7 @@ msgstr "Direzione DEC inversa (AR-DEC è ora sistema antiorario standard)."
 #: ekos/guide/internalguide/gmath.cpp:511
 #, kde-format
 msgid "Limited long pulse of %1ms to %2ms"
-msgstr ""
+msgstr "Impulso lungo limitato da %1ms a %2ms"
 
 #: ekos/guide/internalguide/internalguider.cpp:540
 #, kde-format
@@ -24159,20 +24159,15 @@ msgstr "Parametri di controllo"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr ""
-"L'algoritmo che traccia le stelle guida e determina la deviazione della "
-"guida."
+msgstr "L'algoritmo che calcola gli impulsi di correzione della guida."
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Algoritmo"
+msgstr "Algoritmo di guida"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
@@ -24347,28 +24342,24 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:96 ekos/guide/opsguide.ui:132
-#, fuzzy, kde-format
-#| msgctxt "City in Spain"
-#| msgid "Santander"
+#, kde-format
 msgid "Standard"
-msgstr "Santander"
+msgstr "Standard"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asterism"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Asterismo"
+msgstr "Isteresi"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
-#, fuzzy, kde-format
-#| msgid "GPS"
+#, kde-format
 msgid "GPG"
-msgstr "GPS"
+msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
@@ -24452,10 +24443,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
-#, fuzzy, kde-format
-#| msgid "Integral gain (0-1.0)"
+#, kde-format
 msgid "Integral gain (deprecated)"
-msgstr "Guadagno integrale (0-1,0)"
+msgstr "Guadagno integrale (obsoleto)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_11)
 #: ekos/guide/opsguide.ui:176
@@ -24517,42 +24507,33 @@ msgstr "Errore min (sec. d'arco)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dimensione del separatore tra le tessere.</p></body></"
-"html>"
+"<html><head/><body><p>Imposta il parametro di isteresi (si applica solo "
+"all'algoritmo di isteresi).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dimensione del separatore tra le tessere.</p></body></"
-"html>"
+"<html><head/><body><p>Imposta il parametro di isteresi AR (si applica solo "
+"all'algoritmo di isteresi).</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Size of the separator between the tiles.</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Dimensione del separatore tra le tessere.</p></body></"
-"html>"
+"<html><head/><body><p>Imposta il parametro di isteresi DEC (si applica solo "
+"all'algoritmo di isteresi).</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24655,10 +24636,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AlwaysInventGuideStar)
 #: ekos/guide/opsguide.ui:567
-#, fuzzy, kde-format
-#| msgid "Invent Multi-Star Guide Star (experimental)"
+#, kde-format
 msgid "Invent Multi-Star Guide Star"
-msgstr "Inventa stella guida a più stelle (sperimentale)"
+msgstr "Inventa stella guida a più stelle"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_SaveGuideLog)
 #: ekos/guide/opsguide.ui:577
@@ -24722,8 +24702,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, l_19)
 #: ekos/guide/opsguide.ui:640
-#, fuzzy, kde-format
-#| msgid "Star detection algorithm"
+#, kde-format
 msgid "Star Detection Algorithm"
 msgstr "Algoritmo di rilevamento stella"
 
@@ -27118,24 +27097,22 @@ msgstr ""
 "del post-driver."
 
 #: ekos/profilescript.cpp:56
-#, fuzzy, kde-format
-#| msgid "Delay this many seconds before executing pre driver script."
+#, kde-format
 msgid ""
 "Delay this many seconds after executing stopping driver script before "
 "stopping driver."
-msgstr "Ritarda questi secondi prima di eseguire lo script del pre-driver."
+msgstr ""
+"Ritarda questi secondi dopo aver eseguito l'arresto dello script del driver "
+"prima di arrestare il driver."
 
 #: ekos/profilescript.cpp:65
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delay this many seconds after driver startup before executing post driver "
-#| "script."
+#, kde-format
 msgid ""
 "Delay this many seconds after driver stopped before executing stopped driver "
 "script."
 msgstr ""
-"Ritarda questi secondi dopo l'avvio del driver prima di eseguire lo script "
-"del post-driver."
+"Ritarda questi secondi dopo l'arresto del driver prima di eseguire lo script "
+"del driver arrestato."
 
 #: ekos/profilescript.cpp:75
 #, kde-format
@@ -27148,16 +27125,14 @@ msgid "Select script to execute after starting the driver"
 msgstr "Seleziona lo script da eseguire dopo aver avviato il driver"
 
 #: ekos/profilescript.cpp:93
-#, fuzzy, kde-format
-#| msgid "Select script to execute before starting the driver"
+#, kde-format
 msgid "Select script to execute before stopping the driver"
-msgstr "Seleziona lo script da eseguire prima di avviare il driver"
+msgstr "Seleziona lo script da eseguire prima di arrestare il driver"
 
 #: ekos/profilescript.cpp:102
-#, fuzzy, kde-format
-#| msgid "Select script to execute after starting the driver"
+#, kde-format
 msgid "Select script to execute after stopping the driver"
-msgstr "Seleziona lo script da eseguire dopo aver avviato il driver"
+msgstr "Seleziona lo script da eseguire dopo aver arrestato il driver"
 
 #: ekos/profilescript.cpp:169
 #, kde-format
@@ -27172,20 +27147,16 @@ msgid "Select Post Driver Startup Script"
 msgstr "Seleziona script di avvio del post-driver"
 
 #: ekos/profilescript.cpp:181
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Pre Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Pre Driver Stop Script"
-msgstr "Seleziona script di avvio del pre-driver"
+msgstr "Seleziona script di arresto del pre-driver"
 
 #: ekos/profilescript.cpp:187
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select Post Driver Startup Script"
+#, kde-format
 msgctxt "@title:window"
 msgid "Select Post Driver Stop Script"
-msgstr "Seleziona script di avvio del post-driver"
+msgstr "Seleziona script di arresto del post-driver"
 
 #: ekos/profilescriptdialog.cpp:25
 #, kde-format
@@ -27198,28 +27169,24 @@ msgid "Driver"
 msgstr "Driver"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Riavvia"
+msgstr "Pre-avvia"
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Stella a fuoco"
+msgstr "Post-avvia"
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
 msgid "Pre stop"
-msgstr ""
+msgstr "Pre-arresto"
 
 #: ekos/profilescriptdialog.cpp:35
-#, fuzzy, kde-format
-#| msgid "Ekos stopped."
+#, kde-format
 msgid "Post stop"
-msgstr "Ekos arrestato."
+msgstr "Post-arresto"
 
 #: ekos/profilescriptdialog.cpp:49
 #, kde-format
@@ -34042,16 +34009,16 @@ msgid "Post driver startup script failed with exit code: %1"
 msgstr "Script di avvio del post-driver non riuscito con codice di uscita: %1"
 
 #: indi/servermanager.cpp:319
-#, fuzzy, kde-format
-#| msgid "Pre driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Pre driver shutdown script failed with exit code: %1"
-msgstr "Script di avvio del pre-driver non riuscito con codice di uscita: %1"
+msgstr ""
+"Script di spegnimento del pre-driver non riuscito con codice di uscita: %1"
 
 #: indi/servermanager.cpp:377
-#, fuzzy, kde-format
-#| msgid "Post driver startup script failed with exit code: %1"
+#, kde-format
 msgid "Post driver shutdown script failed with exit code: %1"
-msgstr "Script di avvio del post-driver non riuscito con codice di uscita: %1"
+msgstr ""
+"Script di spegnimento del post-driver non riuscito con codice di uscita: %1"
 
 #: indi/servermanager.cpp:521
 #, kde-format
@@ -40952,6 +40919,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for RA (0 standard, 1 "
 "Hysteresis, 2 Linear, 3 GPG)."
 msgstr ""
+"Quale algoritmo utilizzare per calcolare gli impulsi della guida per AR (0 "
+"Standard, 1 Isteresi, 2 Lineare, 3 GPG)."
 
 #. i18n: ectx: label, entry (DECGuidePulseAlgorithm), group (Guide)
 #: kstars.kcfg:2855
@@ -40960,6 +40929,8 @@ msgid ""
 "Which Algorithm to use to compute guiding pulses for DEC (0 standard, 1 "
 "Hysteresis, 2 Linear)."
 msgstr ""
+"Quale algoritmo utilizzare per calcolare gli impulsi della guida per DEC (0 "
+"Standard, 1 Isteresi, 2 Lineare)."
 
 #. i18n: ectx: label, entry (PHD2Host), group (Guide)
 #: kstars.kcfg:2859
@@ -84142,15 +84113,13 @@ msgid "%1/%2: Adding %3"
 msgstr "%1/%2: aggiunta di %3"
 
 #: tools/imagingplanner.cpp:3979
-#, fuzzy, kde-format
-#| msgid "OK"
+#, kde-format
 msgctxt "@action:button"
 msgid "OK"
 msgstr "OK"
 
 #: tools/imagingplanner.cpp:3980
-#, fuzzy, kde-format
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Annulla"
