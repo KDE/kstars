@@ -821,7 +821,8 @@ void Manager::start()
     managedDrivers.clear();
 
     // Set clock to realtime mode
-    KStarsData::Instance()->clock()->setRealTime(true);
+    if (!Options::dontSyncToRealTime())
+        KStarsData::Instance()->clock()->setRealTime(true);
 
     // Reset Ekos Manager
     reset();
@@ -1145,7 +1146,7 @@ void Manager::start()
             });
 
             KSMessageBox::Instance()->questionYesNo(i18n("Ekos detected an instance of INDI server running. Do you wish to "
-                                                         "shut down the existing instance before starting a new one?"),
+                                                    "shut down the existing instance before starting a new one?"),
                                                     i18n("INDI Server"), 5);
         }
         else

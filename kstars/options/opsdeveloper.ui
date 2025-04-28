@@ -74,6 +74,16 @@
           </property>
          </widget>
         </item>
+        <item row="4" column="0">
+         <widget class="QCheckBox" name="kcfg_DontSyncToRealTime">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not sync to the system clock when Ekos is started. This could cause issues for real imaging runs, but can be useful in reproducing/debugging issues.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Don't sync to Real Time on Ekos startup</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

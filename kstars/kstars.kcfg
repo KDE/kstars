@@ -1640,6 +1640,10 @@
          <label>Save Failed Align images on disk?</label>
          <default>false</default>
       </entry>
+      <entry name="DontSyncToRealTime" type="Bool">
+         <label>Don't sync to Real Time on Ekos startup.</label>
+         <default>false</default>
+      </entry>
       <entry name="GuideLogging" type="Bool">
          <whatsthis>Log Ekos Guide Module activity.</whatsthis>
          <default>false</default>
