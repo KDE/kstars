@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-29 01:54+0000\n"
-"PO-Revision-Date: 2025-04-24 21:56+0200\n"
+"PO-Revision-Date: 2025-04-29 21:37+0200\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -39140,7 +39140,7 @@ msgstr "Voleu que es guarden en el disc les imatges de l'alineació fallida?"
 #: kstars.kcfg:1644
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup."
-msgstr ""
+msgstr "No sincronitzes el temps real quan s'inicie Ekos."
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1648
@@ -79021,7 +79021,7 @@ msgid ""
 "autofocus by examining frames. This can consume a lot of storage space.</p></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Guarda els fotogrames de l'enfocament automàtic. "
+"<html><head/><body><p>Guardarà els fotogrames de l'enfocament automàtic. "
 "Seleccioneu-la només per a solucionar problemes de l'enfocament automàtic "
 "examinant els fotogrames. Pot consumir molt espai d'emmagatzematge.</p></"
 "body></html>"
@@ -79040,7 +79040,7 @@ msgid ""
 "troubleshoot guider by examining frames. This can consume a lot of storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Guarda els fotogrames del sistema de guiatge intern. "
+"<html><head/><body><p>Guardarà els fotogrames del sistema de guiatge intern. "
 "Seleccioneu-la només per a solucionar problemes del sistema de guiatge "
 "examinant els fotogrames. Pot consumir molt espai d'emmagatzematge.</p></"
 "body></html>"
@@ -79059,7 +79059,7 @@ msgid ""
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Guarda els fotogrames de l'alineació interna. "
+"<html><head/><body><p>Guardarà els fotogrames de l'alineació interna. "
 "Seleccioneu-la només per a solucionar problemes d'alineació examinant els "
 "fotogrames. Pot consumir espai d'emmagatzematge addicional.</p></body></html>"
 
@@ -79077,9 +79077,9 @@ msgid ""
 "troubleshoot align by examining frames. This can consume some extra storage "
 "space.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Guarda les imatges quan falla l'alineació. Seleccioneu-"
-"la només per a solucionar problemes d'alineació examinant els fotogrames. "
-"Pot consumir espai d'emmagatzematge addicional.</p></body></html>"
+"<html><head/><body><p>Guardarà les imatges quan falle l'alineació. "
+"Seleccioneu-la només per a solucionar problemes d'alineació examinant els "
+"fotogrames. Pot consumir espai d'emmagatzematge addicional.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SaveFailedAlignImages)
 #: options/opsdeveloper.ui:73
@@ -79095,12 +79095,16 @@ msgid ""
 "This could cause issues for real imaging runs, but can be useful in "
 "reproducing/debugging issues.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>No se sincronitzarà amb el rellotge del sistema quan "
+"s'inicie Ekos. Açò podria causar problemes per a les execucions d'imatges "
+"reals, però pot ser útil en la reproducció o la depuració de problemes.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:83
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
-msgstr ""
+msgstr "No sincronitzes el temps real quan s'inicie Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23

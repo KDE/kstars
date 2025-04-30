@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-29 01:54+0000\n"
-"PO-Revision-Date: 2025-04-24 11:46+0300\n"
+"PO-Revision-Date: 2025-04-29 08:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -38459,7 +38459,7 @@ msgstr "Зберігати зображення засобу вирівнюва�
 #: kstars.kcfg:1644
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup."
-msgstr ""
+msgstr "Не синхронізувати із справжнім часом при запуску Ekos."
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1648
@@ -78221,12 +78221,16 @@ msgid ""
 "This could cause issues for real imaging runs, but can be useful in "
 "reproducing/debugging issues.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Не синхронізувати із загальносистемним годинником при "
+"запуску Ekos. Це може спричиняти проблеми із зйомками у справжньому часі, "
+"але може бути корисним для відтворення або діагностики проблем.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:83
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
-msgstr ""
+msgstr "Не синхронізувати із справжнім часом при запуску Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
