@@ -50,6 +50,9 @@
          <property name="title">
           <string>Position</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <property name="leftMargin">
            <number>0</number>
@@ -328,7 +331,7 @@
           <item row="4" column="0" colspan="2">
            <widget class="Line" name="line_2">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
            </widget>
           </item>
@@ -412,7 +415,7 @@
        <item>
         <spacer name="verticalSpacer_3">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -473,8 +476,7 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset theme="document-edit">
-           <normaloff>.</normaloff>.</iconset>
+          <iconset theme="document-edit"/>
          </property>
          <property name="iconSize">
           <size>
@@ -487,7 +489,7 @@
        <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+          <enum>Qt::Orientation::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -551,7 +553,7 @@
         <item>
          <spacer name="horizontalSpacer_4">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -567,13 +569,12 @@
            <font>
             <family>Arial</family>
             <pointsize>26</pointsize>
-            <weight>75</weight>
             <italic>false</italic>
             <bold>true</bold>
            </font>
           </property>
           <property name="frameShape">
-           <enum>QFrame::Box</enum>
+           <enum>QFrame::Shape::Box</enum>
           </property>
           <property name="lineWidth">
            <number>2</number>
@@ -601,8 +602,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset theme="media-playback-start">
-            <normaloff>.</normaloff>.</iconset>
+           <iconset theme="media-playback-start"/>
           </property>
           <property name="iconSize">
            <size>
@@ -630,8 +630,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset theme="media-playback-stop">
-            <normaloff>.</normaloff>.</iconset>
+           <iconset theme="media-playback-stop"/>
           </property>
           <property name="iconSize">
            <size>
@@ -860,8 +859,7 @@ font-weight:bold;
              <string>Clear  Model</string>
             </property>
             <property name="icon">
-             <iconset theme="edit-clear-all">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="edit-clear-all"/>
             </property>
             <property name="iconSize">
              <size>
@@ -877,8 +875,7 @@ font-weight:bold;
              <string>Clear Parking</string>
             </property>
             <property name="icon">
-             <iconset theme="xml-attribute-delete">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="xml-attribute-delete"/>
             </property>
             <property name="iconSize">
              <size>
@@ -894,8 +891,7 @@ font-weight:bold;
              <string>Purge All Configuration</string>
             </property>
             <property name="icon">
-             <iconset theme="delete">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="delete"/>
             </property>
             <property name="iconSize">
              <size>
@@ -911,7 +907,7 @@ font-weight:bold;
        <item>
         <spacer name="verticalSpacer_2">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -927,7 +923,6 @@ font-weight:bold;
       <widget class="QPushButton" name="mountToolBoxB">
        <property name="font">
         <font>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -935,8 +930,7 @@ font-weight:bold;
         <string>Mount Control</string>
        </property>
        <property name="icon">
-        <iconset theme="draw-text">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset theme="draw-text"/>
        </property>
        <property name="iconSize">
         <size>
@@ -960,17 +954,17 @@ font-weight:bold;
    <item>
     <widget class="Line" name="line">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
     </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeType">
-      <enum>QSizePolicy::Expanding</enum>
+      <enum>QSizePolicy::Policy::Expanding</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
