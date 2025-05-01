@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-29 01:54+0000\n"
-"PO-Revision-Date: 2025-04-28 10:48+0300\n"
+"PO-Revision-Date: 2025-04-30 17:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -38038,7 +38038,7 @@ msgstr "Başarısız hizalama görselleri diske kaydedilsin mi?"
 #: kstars.kcfg:1644
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup."
-msgstr ""
+msgstr "Ekos başlangıcında gerçek zamana eşzamanlamayın."
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1648
@@ -77672,12 +77672,16 @@ msgid ""
 "This could cause issues for real imaging runs, but can be useful in "
 "reproducing/debugging issues.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Ekos başlatıldığında sistem zamanına eşzamanlamayın. "
+"Bu, gerçek görselleme pasları için sorunlar yaratabilir; ancak hataları "
+"yeniden oluştururken veya hata ayıklarken kullanışlı olabilir.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:83
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
-msgstr ""
+msgstr "Ekos başlangıcında gerçek zamana eşzamanlama"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23

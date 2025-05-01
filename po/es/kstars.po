@@ -1,4 +1,6 @@
 # Spanish translations for kstars.po package.
+# Copyright (C) 2002-2025 This file is copyright:
+# This file is distributed under the same license as the kstars package.
 #
 # SPDX-FileCopyrightText: 2002, 2003, 2004 Miguel Revilla Rodríguez <yo@miguelrevilla.com>
 # SPDX-FileCopyrightText: 2002, 2003, 2004, 2005, 2006, 2007, 2008 Pablo de Vicente <p.devicente@wanadoo.es>
@@ -8,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-29 01:54+0000\n"
-"PO-Revision-Date: 2025-04-24 17:14+0100\n"
+"PO-Revision-Date: 2025-04-30 19:48+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -38607,7 +38609,7 @@ msgstr "¿Guardar las imágenes de alineación fallidas en el disco?"
 #: kstars.kcfg:1644
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup."
-msgstr ""
+msgstr "No sincronizar con la hora real durante el inicio de Ekos."
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1648
@@ -78382,12 +78384,16 @@ msgid ""
 "This could cause issues for real imaging runs, but can be useful in "
 "reproducing/debugging issues.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>No sincronizar con el reloj del sistema cuando se "
+"inicia Ekos. Esto podría producir problemas con la obtención de imágenes "
+"reales, aunque puede ser de utilidad al reproducir o depurar problemas.</p></"
+"body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:83
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
-msgstr ""
+msgstr "No sincronizar con la hora real durante el inicio de Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
