@@ -56,12 +56,12 @@
 
 #define DPRINTF if (false) fprintf
 
-// Data columns in the model.
-// Must agree with the header string near the start of initialize()
-// and the if/else-if test values in addCatalogItem().
 namespace
 {
-enum ColumnNames
+// Data columns in the model.
+// Must agree with the header QStringList COLUMN_HEADERS below
+// and the if/else-if test values in addCatalogItem().
+enum ColumnEnum
 {
     NAME_COLUMN = 0,
     HOURS_COLUMN,
@@ -74,6 +74,14 @@ enum ColumnNames
     FLAGS_COLUMN,
     NOTES_COLUMN,
     LAST_COLUMN
+};
+
+// The columns at the end of enum ColumnEnum above are not displayed
+// in the table, and thus have no header name.
+const QStringList COLUMN_HEADERS =
+{
+    i18n("Name"), i18n("Hours"), i18n("Type"), i18n("Size"),
+    i18n("Alt"), i18n("Moon"), i18n("Const"), i18n("Coord")
 };
 }
 
@@ -854,9 +862,30 @@ void CatalogFilter::setKeywordConstraints(bool enabled, bool required, const QSt
 
 void CatalogFilter::setSortColumn(int column)
 {
+    // Restore the original column header
+    sourceModel()->setHeaderData(m_SortColumn, Qt::Horizontal, COLUMN_HEADERS[m_SortColumn]);
+
     if (column == m_SortColumn)
         m_ReverseSort = !m_ReverseSort;
     m_SortColumn = column;
+
+    // Adjust the new column's header with the appropriate up/down arrow.
+    QChar arrowChar;
+    switch (m_SortColumn)
+    {
+        case SIZE_COLUMN:
+        case ALTITUDE_COLUMN:
+        case MOON_COLUMN:
+        case HOURS_COLUMN:
+            // The float compare is opposite of the string compare.
+            arrowChar = m_ReverseSort ? QChar(0x25B2) : QChar(0x25BC);
+            break;
+        default:
+            arrowChar = m_ReverseSort ? QChar(0x25BC) : QChar(0x25B2);
+    }
+    sourceModel()->setHeaderData(
+        m_SortColumn, Qt::Horizontal,
+        QString("%1%2").arg(arrowChar).arg(COLUMN_HEADERS[m_SortColumn]));
 }
 
 // The main function used when sorting the table by a column (which is stored in m_SortColumn).
@@ -1132,9 +1161,7 @@ void ImagingPlanner::initialize()
     m_CatalogModel = new QStandardItemModel(0, LAST_COLUMN);
 
     // Setup the labels and tooltips for the header row of the table.
-    m_CatalogModel->setHorizontalHeaderLabels(
-        QStringList() << i18n("Name") << i18n("Hours") << i18n("Type") << i18n("Size") << i18n("Alt") << i18n("Moon") <<
-        i18n("Const") << i18n("Coord"));
+    m_CatalogModel->setHorizontalHeaderLabels(COLUMN_HEADERS);
     m_CatalogModel->horizontalHeaderItem(NAME_COLUMN)->setToolTip(
         i18n("Object Name--click header to sort ascending/descending."));
     m_CatalogModel->horizontalHeaderItem(
@@ -1163,6 +1190,10 @@ void ImagingPlanner::initialize()
     ui->CatalogView->resizeColumnsToContents();
     ui->CatalogView->verticalHeader()->setVisible(false); // Remove the row-number display.
     ui->CatalogView->setColumnHidden(FLAGS_COLUMN, true);
+    // Need to do this twice, because this is an up/down toggle when the user clicks the column header
+    // and we don't want to change the sort order here.
+    m_CatalogSortModel->setSortColumn(HOURS_COLUMN);
+    m_CatalogSortModel->setSortColumn(HOURS_COLUMN);
 
     connect(ui->CatalogView->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &ImagingPlanner::selectionChanged);
