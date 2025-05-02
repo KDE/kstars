@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeedu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-29 01:54+0000\n"
+"POT-Creation-Date: 2025-05-02 01:54+0000\n"
 "PO-Revision-Date: 2021-03-25 15:08-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: kdeshqip\n"
@@ -1120,7 +1120,7 @@ msgstr "Sistemi Diellor"
 #: skyobjects/satellite.cpp:1223 skyobjects/skyobject.cpp:287
 #: skyobjects/skypoint.cpp:434 skyqpainter.cpp:524 skyqpainter.cpp:548
 #: skyqpainter.cpp:550 tools/conjunctions.cpp:58 tools/conjunctions.cpp:296
-#: tools/imagingplanner.cpp:1540 tools/jmoontool.cpp:106
+#: tools/imagingplanner.cpp:1571 tools/jmoontool.cpp:106
 #: tools/modcalcdaylength.ui:109 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:388 tools/modcalcplanets.ui:190
 #: tools/modcalcplanets.ui:614 tools/pvplotwidget.cpp:94
@@ -1197,8 +1197,8 @@ msgstr ""
 #: skyobjects/skyobject.cpp:417 skyqpainter.cpp:525 skyqpainter.cpp:548
 #: skyqpainter.cpp:551 skyqpainter.cpp:573 tools/conjunctions.cpp:59
 #: tools/eclipsetool.cpp:29 tools/eclipsetool/lunareclipsehandler.h:58
-#: tools/imagingplanner.cpp:1136 tools/imagingplanner.cpp:1515
-#: tools/imagingplanner.cpp:3057 tools/ksconjunct.cpp:75
+#: tools/imagingplanner.cpp:84 tools/imagingplanner.cpp:1546
+#: tools/imagingplanner.cpp:3088 tools/ksconjunct.cpp:75
 #: tools/modcalcdaylength.ui:453 tools/modcalcplanets.cpp:262
 #: tools/modcalcplanets.cpp:392 tools/modcalcplanets.ui:185
 #: tools/modcalcplanets.ui:609 tools/whatsinteresting/wiview.cpp:612
@@ -1434,7 +1434,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, LocationLabelBatch)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, locationLabel)
-#: auxiliary/xplanetimageviewer.cpp:246 ekos/mount/mount.ui:826
+#: auxiliary/xplanetimageviewer.cpp:246 ekos/mount/mount.ui:825
 #: oal/execute.ui:41 tools/modcalcaltaz.ui:109 tools/modcalcdaylength.ui:38
 #: tools/modcalcdaylength.ui:792 tools/modcalcsidtime.ui:130
 #: tools/modcalcsidtime.ui:222 tools/modcalcvlsr.ui:81
@@ -2758,7 +2758,7 @@ msgstr "Mos Shfletoni"
 msgid "Show webpage about "
 msgstr "Shfaqni Faqen e Internetit rreth "
 
-#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3202
+#: dialogs/addlinkdialog.h:38 tools/imagingplanner.cpp:3233
 #, fuzzy, kde-format
 #| msgctxt "Index Catalog object"
 #| msgid "IC Object"
@@ -2889,7 +2889,7 @@ msgstr ""
 msgid "Degrees"
 msgstr "gradë"
 
-#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:1136
+#: dialogs/catalogcsvimport.cpp:90 tools/imagingplanner.cpp:83
 #, fuzzy, kde-format
 #| msgctxt "EMAIL OF TRANSLATORS"
 #| msgid "Your emails"
@@ -2947,7 +2947,7 @@ msgstr "Tekst në Kuti Informacioni"
 #. i18n: ectx: property (text), widget (QTableWidget, queueTable)
 #. i18n: ectx: property (text), widget (QTreeWidget, OptionsList)
 #: dialogs/catalogcsvimport.cpp:184 dialogs/catalogobjectlistmodel.cpp:65
-#: ekos/capture/camera.ui:2322 tools/imagingplanner.cpp:1136
+#: ekos/capture/camera.ui:2322 tools/imagingplanner.cpp:83
 #: tools/observinglist.cpp:95 tools/observinglist.cpp:99
 #: tools/optionstreeview.ui:33
 #, kde-format
@@ -3336,7 +3336,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: dialogs/catalogobjectlistmodel.cpp:73 dialogs/catalogsdbui.cpp:25
 #: ekos/scheduler/scheduler.ui:1139 indi/drivermanager.ui:327
-#: tools/imagingplanner.cpp:1136 tools/observinglist.cpp:94
+#: tools/imagingplanner.cpp:83 tools/observinglist.cpp:94
 #: tools/observinglist.cpp:98
 #, kde-format
 msgid "Name"
@@ -4283,7 +4283,7 @@ msgstr "RA (2000.0):"
 #: dialogs/details_position.ui:323 dialogs/details_position.ui:414
 #: dialogs/details_position.ui:470 dialogs/details_position.ui:827
 #: dialogs/details_position.ui:845 dialogs/details_position.ui:863
-#: ekos/mount/mount.ui:582 ekos/mount/mountpositionwidget.ui:90
+#: ekos/mount/mount.ui:583 ekos/mount/mountpositionwidget.ui:90
 #: ekos/mount/mountpositionwidget.ui:117 ekos/mount/mountpositionwidget.ui:178
 #: ekos/mount/mountpositionwidget.ui:249 ekos/mount/mountpositionwidget.ui:310
 #: ekos/mount/mountpositionwidget.ui:337 tools/modcalcangdist.ui:321
@@ -6870,7 +6870,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, opticalTrainLabel)
 #: ekos/align/align.ui:32 ekos/auxiliary/darklibrary.ui:49
 #: ekos/capture/camera.ui:72 ekos/focus/focus.ui:68 ekos/guide/guide.ui:44
-#: ekos/mount/mount.ui:432 ekos/scheduler/scheduler.ui:670
+#: ekos/mount/mount.ui:435 ekos/scheduler/scheduler.ui:670
 #, fuzzy, kde-format
 #| msgid "Print Sky"
 msgid "Train:"
@@ -8076,7 +8076,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PAHAutoPark)
 #. i18n: ectx: property (title), widget (QGroupBox, AutoPark)
-#: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:505
+#: ekos/align/opsalign.ui:253 ekos/mount/mount.ui:507
 #, fuzzy, kde-format
 #| msgid "Auto Scale"
 msgid "Auto Park"
@@ -10428,7 +10428,7 @@ msgstr "Duke ngarkuar FITS"
 
 #. i18n: ectx: property (text), widget (QLabel, trackingLabel)
 #: ekos/analyze/analyze.cpp:138 ekos/analyze/analyze.cpp:157
-#: ekos/mount/mount.ui:784 indi/indidome.cpp:22 indi/indimount.cpp:31
+#: ekos/mount/mount.ui:783 indi/indidome.cpp:22 indi/indimount.cpp:31
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Tracking"
@@ -11945,7 +11945,7 @@ msgstr "asterism"
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #. i18n: ectx: property (text), widget (QCheckBox, useTimeUpdate)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: ekos/auxiliary/darklibrary.ui:680 ekos/mount/mount.ui:810 oal/execute.ui:417
+#: ekos/auxiliary/darklibrary.ui:680 ekos/mount/mount.ui:809 oal/execute.ui:417
 #: printing/loggingform.cpp:41
 #, kde-format
 msgid "Time:"
@@ -12052,7 +12052,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, resetB)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: ekos/auxiliary/darklibrary.ui:982 ekos/focus/focus.ui:873
-#: ekos/guide/manualpulse.ui:140 ekos/mount/mount.ui:836
+#: ekos/guide/manualpulse.ui:140 ekos/mount/mount.ui:835
 #, kde-format
 msgid "Reset"
 msgstr ""
@@ -12851,7 +12851,7 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, trainConfigBox)
 #. i18n: ectx: property (toolTip), widget (QComboBox, opticalTrainCombo)
-#: ekos/auxiliary/opticaltrains.ui:126 ekos/mount/mount.ui:451
+#: ekos/auxiliary/opticaltrains.ui:126 ekos/mount/mount.ui:454
 #, kde-format
 msgid "Optical Train"
 msgstr ""
@@ -13991,7 +13991,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, NoneButton)
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
-#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1927
+#: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1931
 #: kstarsinit.cpp:862 kstarsinit.cpp:863 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
@@ -14906,7 +14906,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, limitsLabel)
 #. i18n: ectx: property (title), widget (QGroupBox, LimitGroup)
-#: ekos/capture/camera.ui:1323 ekos/mount/mount.ui:183
+#: ekos/capture/camera.ui:1323 ekos/mount/mount.ui:186
 #: tools/scriptbuilder.cpp:685
 #, kde-format
 msgid "Limits"
@@ -15028,7 +15028,7 @@ msgstr ""
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, targetNameT)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (title), widget (QGroupBox, targetGroup)
-#: ekos/capture/camera.ui:1750 ekos/mount/mount.ui:371
+#: ekos/capture/camera.ui:1750 ekos/mount/mount.ui:374
 #: ekos/mount/mountcontrolpanel.ui:58 ekos/scheduler/scheduler.cpp:127
 #, fuzzy, kde-format
 #| msgid "Stars"
@@ -15256,7 +15256,7 @@ msgstr "ngelje e një supernova"
 #. i18n: ectx: property (text), widget (QTreeWidget, localTreeWidget)
 #. i18n: ectx: property (text), widget (QTreeWidget, clientTreeWidget)
 #: ekos/capture/camera.ui:2302 ekos/ekoslive/ekoslivedialog.ui:119
-#: ekos/mount/mount.ui:655 ekos/scheduler/scheduler.ui:1144
+#: ekos/mount/mount.ui:654 ekos/scheduler/scheduler.ui:1144
 #: indi/drivermanager.ui:66 indi/drivermanager.ui:322
 #: skycomponents/imageoverlaycomponent.cpp:66
 #, kde-format
@@ -17590,7 +17590,7 @@ msgid "Aligning"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, MeridianFlipGroup)
-#: ekos/ekos.h:75 ekos/mount/mount.ui:82
+#: ekos/ekos.h:75 ekos/mount/mount.ui:85
 #, kde-format
 msgid "Meridian Flip"
 msgstr ""
@@ -24603,7 +24603,7 @@ msgid "Updating master location source to %1."
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, executeMeridianFlip)
-#: ekos/mount/mount.ui:110
+#: ekos/mount/mount.ui:113
 #, kde-format
 msgid ""
 "<html><head/><body><p>Request a meridian flip if the hour angle exceeds the "
@@ -24612,13 +24612,13 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, executeMeridianFlip)
-#: ekos/mount/mount.ui:113
+#: ekos/mount/mount.ui:116
 #, kde-format
 msgid "Flip if HA >:"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, meridianFlipOffsetDegrees)
-#: ekos/mount/mount.ui:129
+#: ekos/mount/mount.ui:132
 #, kde-format
 msgid ""
 "RA position in degrees behind the meridian where the meridian flip should be "
@@ -24627,19 +24627,19 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, degLabel)
 #. i18n: ectx: property (text), item, widget (QComboBox, FovUnit)
-#: ekos/mount/mount.ui:164 oal/equipmentwriter.ui:499
+#: ekos/mount/mount.ui:167 oal/equipmentwriter.ui:499
 #, kde-format
 msgid "deg"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QGroupBox, LimitGroup)
-#: ekos/mount/mount.ui:180
+#: ekos/mount/mount.ui:183
 #, kde-format
 msgid "<html><head/><body><p><br/></p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minimumAltLimit)
-#: ekos/mount/mount.ui:213
+#: ekos/mount/mount.ui:216
 #, kde-format
 msgid ""
 "<html><head/><body><p>Minimum telescope altitude limit. If the telescope is "
@@ -24648,7 +24648,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, minAltLabel)
 #. i18n: ectx: whatsthis, entry (MinimumAltLimit), group (Mount)
-#: ekos/mount/mount.ui:232 kstars.kcfg:1907
+#: ekos/mount/mount.ui:235 kstars.kcfg:1907
 #, kde-format
 msgid ""
 "Minimum telescope altitude limit. If the telescope is below this limit, it "
@@ -24656,7 +24656,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minAltLabel)
-#: ekos/mount/mount.ui:235
+#: ekos/mount/mount.ui:238
 #, fuzzy, kde-format
 #| msgid "Altitude:"
 msgid "Min. Alt:"
@@ -24664,7 +24664,7 @@ msgstr "Lartësia:"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumAltLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:251 ekos/mount/mount.ui:298
+#: ekos/mount/mount.ui:254 ekos/mount/mount.ui:301
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum telescope altitude limit. If the telescope is "
@@ -24673,7 +24673,7 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maximumHaLimit)
 #. i18n: ectx: property (toolTip), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:276 ekos/mount/mount.ui:321
+#: ekos/mount/mount.ui:279 ekos/mount/mount.ui:324
 #, kde-format
 msgid ""
 "<html><head/><body><p>Maximum Hour Angle limit if the mount has not flipped. "
@@ -24682,14 +24682,14 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, maxAltLabel)
-#: ekos/mount/mount.ui:301
+#: ekos/mount/mount.ui:304
 #, fuzzy, kde-format
 #| msgid "Altitude:"
 msgid "Max. Alt:"
 msgstr "Lartësia:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:308
+#: ekos/mount/mount.ui:311
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount Hour Angle limit. Once "
@@ -24701,7 +24701,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableHaLimit)
-#: ekos/mount/mount.ui:311
+#: ekos/mount/mount.ui:314
 #, fuzzy, kde-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
@@ -24709,13 +24709,13 @@ msgid "Enable HA limits"
 msgstr "Hollësitë"
 
 #. i18n: ectx: property (text), widget (QLabel, maxHaLabel)
-#: ekos/mount/mount.ui:324
+#: ekos/mount/mount.ui:327
 #, kde-format
 msgid "Max. HA (hours):"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableAltitudeLimits)
-#: ekos/mount/mount.ui:338
+#: ekos/mount/mount.ui:341
 #, kde-format
 msgid ""
 "<html><head/><body><p>Enable or Disable the mount travel range limits. Once "
@@ -24725,7 +24725,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimits)
-#: ekos/mount/mount.ui:341
+#: ekos/mount/mount.ui:344
 #, fuzzy, kde-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
@@ -24733,7 +24733,7 @@ msgid "Enable Alt limits"
 msgstr "Hollësitë"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
-#: ekos/mount/mount.ui:351
+#: ekos/mount/mount.ui:354
 #, kde-format
 msgid ""
 "<html><head/><body><p>Use altitude limits only while the mount tracking. "
@@ -24744,40 +24744,40 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, enableAltitudeLimitsTrackingOnly)
-#: ekos/mount/mount.ui:354
+#: ekos/mount/mount.ui:357
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Tracking only"
 msgstr "Ndalo &Gjurmimin"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: ekos/mount/mount.ui:526
+#: ekos/mount/mount.ui:528
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Park at:"
 msgstr "Koordinatat"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, parkEveryDay)
-#: ekos/mount/mount.ui:544
+#: ekos/mount/mount.ui:546
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Automatically start the park timer on startup"
 msgstr "Këndi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, parkEveryDay)
-#: ekos/mount/mount.ui:547
+#: ekos/mount/mount.ui:549
 #, kde-format
 msgid "Every day"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, trackOffB)
-#: ekos/mount/mount.ui:681
+#: ekos/mount/mount.ui:680
 #, kde-format
 msgid "OFF"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, trackOnB)
-#: ekos/mount/mount.ui:711
+#: ekos/mount/mount.ui:710
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "SON"
@@ -24786,7 +24786,7 @@ msgstr "DJALI"
 
 #. i18n: ectx: property (text), widget (QPushButton, parkB)
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
-#: ekos/mount/mount.ui:747 ekos/observatory/observatory.cpp:276
+#: ekos/mount/mount.ui:746 ekos/observatory/observatory.cpp:276
 #: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
 #: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:653
 #, kde-format
@@ -24795,7 +24795,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, unparkB)
 #. i18n: ectx: property (text), widget (QPushButton, domeUnpark)
-#: ekos/mount/mount.ui:777 ekos/observatory/observatory.ui:498
+#: ekos/mount/mount.ui:776 ekos/observatory/observatory.ui:498
 #: kspopupmenu.cpp:658
 #, fuzzy, kde-format
 #| msgid "Telescope"
@@ -24803,7 +24803,7 @@ msgid "UnPark"
 msgstr "Teleskopi"
 
 #. i18n: ectx: property (text), widget (QLabel, parkingLabel)
-#: ekos/mount/mount.ui:791
+#: ekos/mount/mount.ui:790
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Parking Status"
@@ -24811,19 +24811,19 @@ msgstr "Teleskopi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_4)
 #. i18n: ectx: attribute (title), widget (QWidget, tab1)
-#: ekos/mount/mount.ui:801 hips/hipsmanager.cpp:104 tools/altvstime.ui:46
+#: ekos/mount/mount.ui:800 hips/hipsmanager.cpp:104 tools/altvstime.ui:46
 #, kde-format
 msgid "Sources"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useTimeUpdate)
-#: ekos/mount/mount.ui:807
+#: ekos/mount/mount.ui:806
 #, kde-format
 msgid "Enable time synchronization upon connection between KStars and INDI"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, useGeographicUpdate)
-#: ekos/mount/mount.ui:823
+#: ekos/mount/mount.ui:822
 #, kde-format
 msgid ""
 "Enable geographic location synchronization upon connection between KStars "
@@ -24831,21 +24831,21 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, clearAlignmentModelB)
-#: ekos/mount/mount.ui:857
+#: ekos/mount/mount.ui:856
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Deletes all mount alignment points"
 msgstr "Teleskopi"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearAlignmentModelB)
-#: ekos/mount/mount.ui:860
+#: ekos/mount/mount.ui:859
 #, fuzzy, kde-format
 #| msgid "Declination"
 msgid "Clear  Model"
 msgstr "Këndi"
 
 #. i18n: ectx: property (text), widget (QPushButton, clearParkingB)
-#: ekos/mount/mount.ui:877
+#: ekos/mount/mount.ui:875
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Clear Parking"
@@ -24853,21 +24853,21 @@ msgstr "Teleskopi"
 
 #. i18n: ectx: property (text), widget (QPushButton, purgeConfigB)
 #. i18n: ectx: property (text), widget (QPushButton, purgeAllConfigB)
-#: ekos/mount/mount.ui:894 options/opsadvanced.ui:387
+#: ekos/mount/mount.ui:891 options/opsadvanced.ui:387
 #, fuzzy, kde-format
 #| msgid "Delete Confirmation"
 msgid "Purge All Configuration"
 msgstr "Fshije Konfirmimin"
 
 #. i18n: ectx: property (text), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.ui:935
+#: ekos/mount/mount.ui:930
 #, fuzzy, kde-format
 #| msgid "Main Toolbar"
 msgid "Mount Control"
 msgstr "Shiriti Kryesor"
 
 #. i18n: ectx: property (shortcut), widget (QPushButton, mountToolBoxB)
-#: ekos/mount/mount.ui:948
+#: ekos/mount/mount.ui:942
 #, kde-format
 msgid "Ctrl+S"
 msgstr ""
@@ -30173,7 +30173,7 @@ msgid "Distance"
 msgstr "Distanca:"
 
 #: fitsviewer/fitstab.cpp:736 fitsviewer/fitsviewer.cpp:1394
-#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:1136
+#: kstarslite/qml/dialogs/DetailsDialog.qml:153 tools/imagingplanner.cpp:83
 #, fuzzy, kde-format, kde-kuit-format
 #| msgid "Size:"
 msgid "Size"
@@ -33330,17 +33330,17 @@ msgctxt "@title:window"
 msgid "KStars"
 msgstr "KStars"
 
-#: kstars.cpp:334 kstarsactions.cpp:1613 skymap.cpp:463
+#: kstars.cpp:334 kstarsactions.cpp:1617 skymap.cpp:463
 #, kde-format
 msgid "Stop &Tracking"
 msgstr "Ndalo &Gjurmimin"
 
-#: kstars.cpp:342 kstarsactions.cpp:1780 kstarsinit.cpp:270
+#: kstars.cpp:342 kstarsactions.cpp:1784 kstarsinit.cpp:270
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr ""
 
-#: kstars.cpp:343 kstarsactions.cpp:1761 kstarsinit.cpp:271
+#: kstars.cpp:343 kstarsactions.cpp:1765 kstarsinit.cpp:271
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr ""
@@ -69911,27 +69911,27 @@ msgstr "Xplanet"
 msgid "Developer"
 msgstr ""
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2028 kstarsinit.cpp:280
+#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:280
 #, fuzzy, kde-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
 msgid "Hide Terrain"
 msgstr "Hollësitë"
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2028 kstarsinit.cpp:281
+#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:281
 #, fuzzy, kde-format
 #| msgctxt "Show Detailed Information Dialog"
 #| msgid "Details"
 msgid "Show Terrain"
 msgstr "Hollësitë"
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2038 kstarsinit.cpp:285
+#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:285
 #, fuzzy, kde-format
 #| msgid "Save Changes to FITS?"
 msgid "Hide Image Overlays"
 msgstr "T@i regjistrojmë ndryshimet e FITS?"
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2038 kstarsinit.cpp:286
+#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:286
 #, fuzzy, kde-format
 #| msgid "Satellite Track"
 msgid "Show Image Overlays"
@@ -70013,36 +70013,46 @@ msgstr "Ndrysho Skemën e Ngjyrave"
 msgid "Do Not Switch"
 msgstr "Mos e Ndrysho"
 
-#: kstarsactions.cpp:1590 kstarsinit.cpp:243
+#: kstarsactions.cpp:1532
+#, kde-format
+msgid "Stop running clock in realtime"
+msgstr ""
+
+#: kstarsactions.cpp:1550 kstarsinit.cpp:198
+#, kde-format
+msgid "Run clock in realtime"
+msgstr ""
+
+#: kstarsactions.cpp:1594 kstarsinit.cpp:243
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "Nis &Gjurmimin"
 
-#: kstarsactions.cpp:1704
+#: kstarsactions.cpp:1708
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 degrees"
 msgstr ""
 
-#: kstarsactions.cpp:1709
+#: kstarsactions.cpp:1713
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcminutes"
 msgstr ""
 
-#: kstarsactions.cpp:1715
+#: kstarsactions.cpp:1719
 #, kde-format
 msgctxt "approximate field of view"
 msgid "Approximate FOV: %1 arcseconds"
 msgstr ""
 
-#: kstarsactions.cpp:1732
+#: kstarsactions.cpp:1736
 #, kde-format
 msgctxt "The user should enter an angle for the field-of-view of the display"
 msgid "Enter Desired Field-of-View Angle"
 msgstr "Vendosn Këndin e Pamjes që Dëshironi"
 
-#: kstarsactions.cpp:1733
+#: kstarsactions.cpp:1737
 #, fuzzy, kde-format
 #| msgctxt ""
 #| "The user should enter an angle for the field-of-view of the display"
@@ -70050,28 +70060,28 @@ msgstr "Vendosn Këndin e Pamjes që Dëshironi"
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Vendosn Këndin e Pamjes që Dëshironi"
 
-#: kstarsactions.cpp:1764 kstarsinit.cpp:740
+#: kstarsactions.cpp:1768 kstarsinit.cpp:740
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "&Veriu"
 
-#: kstarsactions.cpp:1767 kstarsinit.cpp:749
+#: kstarsactions.cpp:1771 kstarsinit.cpp:749
 #, fuzzy, kde-format
 #| msgid "&North"
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "&Veriu"
 
-#: kstarsactions.cpp:1783 kstarsinit.cpp:740
+#: kstarsactions.cpp:1787 kstarsinit.cpp:740
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "&Zeniti"
 
-#: kstarsactions.cpp:1786 kstarsinit.cpp:749
+#: kstarsactions.cpp:1790 kstarsinit.cpp:749
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
@@ -70310,11 +70320,6 @@ msgstr "&Vendose Kohën..."
 #, kde-format
 msgid "Stop &Clock"
 msgstr "Ndale &Orën"
-
-#: kstarsinit.cpp:198
-#, kde-format
-msgid "Run clock in realtime"
-msgstr ""
 
 #: kstarsinit.cpp:218
 #, kde-format
@@ -81718,8 +81723,8 @@ msgid "Object Set"
 msgstr "Objekt IC"
 
 #. i18n: ectx: property (text), widget (QPushButton, transitButton)
-#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3074
-#: tools/imagingplanner.cpp:3085 tools/imagingplanner.cpp:3100
+#: tools/altvstime.ui:352 tools/imagingplanner.cpp:3105
+#: tools/imagingplanner.cpp:3116 tools/imagingplanner.cpp:3131
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Transit"
@@ -82743,125 +82748,125 @@ msgid ""
 "import region buttons.</li></ul></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
-#: tools/imagingplanner.cpp:177 tools/imagingplanner.ui:2057
-#, fuzzy, kde-format
-#| msgid "Image"
-msgid "Imaged"
-msgstr "Imazhi"
-
-#. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
-#: tools/imagingplanner.cpp:182 tools/imagingplanner.ui:2027
-#, kde-format
-msgid "Picked"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
-#: tools/imagingplanner.cpp:188 tools/imagingplanner.ui:2114
-#, fuzzy, kde-format
-#| msgid "Ignore"
-msgid "Ignored"
-msgstr "Injoro"
-
-#: tools/imagingplanner.cpp:991
-#, fuzzy, kde-format
-#| msgid "Server"
-msgctxt "@title:window"
-msgid "Imaging Planner"
-msgstr "Serveri"
-
-#: tools/imagingplanner.cpp:1136
+#: tools/imagingplanner.cpp:84
 #, fuzzy, kde-format
 #| msgctxt "Altitude"
 #| msgid "Alt"
 msgid "Alt"
 msgstr "Alt"
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:84
 #, fuzzy, kde-format
 #| msgctxt "Constellation Name"
 #| msgid "Constell. Name"
 msgid "Const"
 msgstr "Emri i Kostelacionit"
 
-#: tools/imagingplanner.cpp:1137
+#: tools/imagingplanner.cpp:84
 #, fuzzy, kde-format
 #| msgid "Coordinates"
 msgid "Coord"
 msgstr "Koordinatat"
 
-#: tools/imagingplanner.cpp:1139
+#. i18n: ectx: property (text), widget (QCheckBox, imagedCB)
+#: tools/imagingplanner.cpp:185 tools/imagingplanner.ui:2057
+#, fuzzy, kde-format
+#| msgid "Image"
+msgid "Imaged"
+msgstr "Imazhi"
+
+#. i18n: ectx: property (text), widget (QCheckBox, pickedCB)
+#: tools/imagingplanner.cpp:190 tools/imagingplanner.ui:2027
+#, kde-format
+msgid "Picked"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, ignoredCB)
+#: tools/imagingplanner.cpp:196 tools/imagingplanner.ui:2114
+#, fuzzy, kde-format
+#| msgid "Ignore"
+msgid "Ignored"
+msgstr "Injoro"
+
+#: tools/imagingplanner.cpp:1020
+#, fuzzy, kde-format
+#| msgid "Server"
+msgctxt "@title:window"
+msgid "Imaging Planner"
+msgstr "Serveri"
+
+#: tools/imagingplanner.cpp:1166
 #, kde-format
 msgid "Object Name--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1141
+#: tools/imagingplanner.cpp:1168
 #, kde-format
 msgid ""
 "Number of hours the object can be imaged--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1143
+#: tools/imagingplanner.cpp:1170
 #, kde-format
 msgid "Object Type--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1145
+#: tools/imagingplanner.cpp:1172
 #, kde-format
 msgid ""
 "Maximum object dimension (arcmin)--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1147
+#: tools/imagingplanner.cpp:1174
 #, kde-format
 msgid "Maximum altitude--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1149
+#: tools/imagingplanner.cpp:1176
 #, kde-format
 msgid ""
 "Moon angular separation at midnight--click header to sort ascending/"
 "descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1151
+#: tools/imagingplanner.cpp:1178
 #, kde-format
 msgid "Constellation--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1153
+#: tools/imagingplanner.cpp:1180
 #, kde-format
 msgid "RA/DEC coordinates--click header to sort ascending/descending."
 msgstr ""
 
-#: tools/imagingplanner.cpp:1584
+#: tools/imagingplanner.cpp:1615
 #, kde-format
 msgid "No match for \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:1648
+#: tools/imagingplanner.cpp:1679
 #, kde-format
 msgid "Open a browser with the 1st link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1653
+#: tools/imagingplanner.cpp:1684
 #, kde-format
 msgid "Open a browser with the 2nd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1658
+#: tools/imagingplanner.cpp:1689
 #, kde-format
 msgid "Open a browser with the 3rd link in this note: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:1993
+#: tools/imagingplanner.cpp:2024
 #, fuzzy, kde-format
 #| msgid "To file..."
 msgid "Updating tables..."
 msgstr "Në skedar..."
 
-#: tools/imagingplanner.cpp:2390
+#: tools/imagingplanner.cpp:2421
 #, kde-format
 msgid ""
 "You need to load a catalog to start using this tool.\n"
@@ -82869,199 +82874,199 @@ msgid ""
 "See Data -> Download New Data if not..."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2393
+#: tools/imagingplanner.cpp:2424
 #, fuzzy, kde-format
 #| msgid "Catalogs"
 msgid "No Catalog!"
 msgstr "Katalogët"
 
-#: tools/imagingplanner.cpp:2439
+#: tools/imagingplanner.cpp:2470
 #, fuzzy, kde-format
 #| msgid "Solar system object"
 msgid "Select an object."
 msgstr "Objekt i sistemit diellor"
 
-#: tools/imagingplanner.cpp:2441
+#: tools/imagingplanner.cpp:2472
 #, kde-format
 msgid "Check Filters to unhide objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2443
+#: tools/imagingplanner.cpp:2474
 #, fuzzy, kde-format
 #| msgid "Catalogs"
 msgid "Load a Catalog."
 msgstr "Katalogët"
 
-#: tools/imagingplanner.cpp:2573
+#: tools/imagingplanner.cpp:2604
 #, kde-format
 msgid "Search the Professor Seligman online site for NGC images."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2578
+#: tools/imagingplanner.cpp:2609
 #, kde-format
 msgid ""
 "Search the Professor Seligman online site for information about IC objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2584
+#: tools/imagingplanner.cpp:2615
 #, kde-format
 msgid ""
 "Search the galaxymap.org online site for information about Sharpless2 "
 "objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2590
+#: tools/imagingplanner.cpp:2621
 #, kde-format
 msgid "Search Nasa's online site for information about Messier objects.."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2595
+#: tools/imagingplanner.cpp:2626
 #, kde-format
 msgid "Search Emil Ivanov's online site for information about VDB objects."
 msgstr ""
 
-#: tools/imagingplanner.cpp:2738
+#: tools/imagingplanner.cpp:2769
 #, fuzzy, kde-format
 #| msgid "Capture Image"
 msgid "Loading Catalogs..."
 msgstr "Kap Imazihn"
 
-#: tools/imagingplanner.cpp:3063
+#: tools/imagingplanner.cpp:3094
 #, fuzzy, kde-format
 #| msgid "Information"
 msgid "Transits"
 msgstr "Informacioni"
 
-#: tools/imagingplanner.cpp:3068 tools/imagingplanner.cpp:3072
+#: tools/imagingplanner.cpp:3099 tools/imagingplanner.cpp:3103
 #, fuzzy, kde-format
 #| msgctxt "the time at which an object falls below the horizon"
 #| msgid "Set time: %1"
 msgid "Sets at"
 msgstr "Koha e perëndimit: %1"
 
-#: tools/imagingplanner.cpp:3079 tools/imagingplanner.cpp:3083
+#: tools/imagingplanner.cpp:3110 tools/imagingplanner.cpp:3114
 #, fuzzy, kde-format
 #| msgid "Rise time: %1"
 msgid "Rises at"
 msgstr "Koha e lindjes: %1"
 
-#: tools/imagingplanner.cpp:3090 tools/imagingplanner.cpp:3096
+#: tools/imagingplanner.cpp:3121 tools/imagingplanner.cpp:3127
 #, fuzzy, kde-format
 #| msgid "Never rises"
 msgid "Rises"
 msgstr "Nuk ngrohet kurrë"
 
-#: tools/imagingplanner.cpp:3092 tools/imagingplanner.cpp:3098
+#: tools/imagingplanner.cpp:3123 tools/imagingplanner.cpp:3129
 #, kde-format
 msgid "Sets"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3204 tools/imagingplanner.cpp:3460
+#: tools/imagingplanner.cpp:3235 tools/imagingplanner.cpp:3491
 #, fuzzy, kde-format
 #| msgctxt "Index Catalog object"
 #| msgid "IC Object"
 msgid "objects"
 msgstr "Objekt IC"
 
-#: tools/imagingplanner.cpp:3456
+#: tools/imagingplanner.cpp:3487
 #, kde-format
 msgid "%1, %2 and %3 other objects"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3464 tools/imagingplanner.cpp:3468
+#: tools/imagingplanner.cpp:3495 tools/imagingplanner.cpp:3499
 #, kde-format
 msgid "Mark %1 as NOT imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3465 tools/imagingplanner.cpp:3470
+#: tools/imagingplanner.cpp:3496 tools/imagingplanner.cpp:3501
 #, kde-format
 msgid "Mark %1 as already imaged"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3474 tools/imagingplanner.cpp:3478
+#: tools/imagingplanner.cpp:3505 tools/imagingplanner.cpp:3509
 #, kde-format
 msgid "Un-pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3475 tools/imagingplanner.cpp:3480
+#: tools/imagingplanner.cpp:3506 tools/imagingplanner.cpp:3511
 #, kde-format
 msgid "Pick %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3485 tools/imagingplanner.cpp:3490
+#: tools/imagingplanner.cpp:3516 tools/imagingplanner.cpp:3521
 #, fuzzy, kde-format
 #| msgid "Stop &Tracking"
 msgid "Stop ignoring %1"
 msgstr "Ndalo &Gjurmimin"
 
-#: tools/imagingplanner.cpp:3486 tools/imagingplanner.cpp:3492
+#: tools/imagingplanner.cpp:3517 tools/imagingplanner.cpp:3523
 #, fuzzy, kde-format
 #| msgid "Ignore"
 msgid "Ignore %1"
 msgstr "Injoro"
 
-#: tools/imagingplanner.cpp:3495
+#: tools/imagingplanner.cpp:3526
 #, fuzzy, kde-format
 #| msgid "Center && Track"
 msgid "Center %1 on SkyMap"
 msgstr "Qendër && Gjurmo"
 
-#: tools/imagingplanner.cpp:3497
+#: tools/imagingplanner.cpp:3528
 #, kde-format
 msgid ""
 "Screenshot some image of %1, plate-solve it, and temporarily place it on the "
 "SkyMap"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3637
+#: tools/imagingplanner.cpp:3668
 #, fuzzy, kde-format
 #| msgid "Cannot start INDI server: port error."
 msgid "Successfully marked %1 objects as read"
 msgstr "Nuk mundëm të nisim serverin INDI: gabim në port."
 
-#: tools/imagingplanner.cpp:3639
+#: tools/imagingplanner.cpp:3670
 #, fuzzy, kde-format
 #| msgid "Empty sky"
 msgid "Empty file"
 msgstr "Qiell i zbrazët"
 
-#: tools/imagingplanner.cpp:3648
+#: tools/imagingplanner.cpp:3679
 #, kde-format
 msgid "Failed marking all of these objects imaged: %1"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3650
+#: tools/imagingplanner.cpp:3681
 #, kde-format
 msgid "Failed marking %1 objects imaged, including: %2"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3652
+#: tools/imagingplanner.cpp:3683
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3655
+#: tools/imagingplanner.cpp:3686
 #, kde-format
 msgid "Succeeded marking %1 objects imaged. Failed with %2 including these: %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3661 tools/imagingplanner.cpp:3911
+#: tools/imagingplanner.cpp:3692 tools/imagingplanner.cpp:3942
 #, fuzzy, kde-format
 #| msgid "Could not open file %1"
 msgid "Sorry, couldn't open file: \"%1\""
 msgstr "Nuk mund të hapim skedarin %1"
 
-#: tools/imagingplanner.cpp:3775
+#: tools/imagingplanner.cpp:3806
 #, kde-format
 msgid "Sorry, catalog file doesn't exist: \"%1\""
 msgstr ""
 
-#: tools/imagingplanner.cpp:3896
+#: tools/imagingplanner.cpp:3927
 #, kde-format
 msgid "%1/%2: Adding %3"
 msgstr ""
 
-#: tools/imagingplanner.cpp:3979
+#: tools/imagingplanner.cpp:4010
 #, fuzzy, kde-format
 #| msgctxt "Constellation name (optional)"
 #| msgid "HOOK"
@@ -83069,7 +83074,7 @@ msgctxt "@action:button"
 msgid "OK"
 msgstr "GREMÇI"
 
-#: tools/imagingplanner.cpp:3980
+#: tools/imagingplanner.cpp:4011
 #, fuzzy, kde-format
 #| msgid "Cancel"
 msgctxt "@action:button"
