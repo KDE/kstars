@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include <memory>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_sort.h>
