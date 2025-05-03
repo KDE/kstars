@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-02 01:54+0000\n"
-"PO-Revision-Date: 2025-04-29 09:45+0200\n"
+"PO-Revision-Date: 2025-05-02 12:50+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -71042,15 +71042,14 @@ msgid "Do Not Switch"
 msgstr "No commutis"
 
 #: kstarsactions.cpp:1532
-#, fuzzy, kde-format
-#| msgid "Run clock in realtime"
+#, kde-format
 msgid "Stop running clock in realtime"
-msgstr "Executa el rellotge en l'hora real"
+msgstr "Atura l'execució del rellotge en hora real"
 
 #: kstarsactions.cpp:1550 kstarsinit.cpp:198
 #, kde-format
 msgid "Run clock in realtime"
-msgstr "Executa el rellotge en l'hora real"
+msgstr "Executa el rellotge en hora real"
 
 #: kstarsactions.cpp:1594 kstarsinit.cpp:243
 #, kde-format

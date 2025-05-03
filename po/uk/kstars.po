@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-02 01:54+0000\n"
-"PO-Revision-Date: 2025-04-29 08:49+0300\n"
+"PO-Revision-Date: 2025-05-02 09:45+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -70730,10 +70730,9 @@ msgid "Do Not Switch"
 msgstr "Не перемикатися"
 
 #: kstarsactions.cpp:1532
-#, fuzzy, kde-format
-#| msgid "Run clock in realtime"
+#, kde-format
 msgid "Stop running clock in realtime"
-msgstr "Відлік у режимі реального часу"
+msgstr "Зупинити відлік у режимі реального часу"
 
 #: kstarsactions.cpp:1550 kstarsinit.cpp:198
 #, kde-format
