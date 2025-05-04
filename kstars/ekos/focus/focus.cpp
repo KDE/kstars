@@ -7479,11 +7479,15 @@ QVariantMap Focus::getAllSettings() const
     return settings;
 }
 
-void Focus::setAllSettings(const QVariantMap &settings)
+void Focus::setAllSettings(QVariantMap &settings)
 {
     // Disconnect settings that we don't end up calling syncSettings while
     // performing the changes.
     disconnectSyncSettings();
+
+    // The OT Combo is handled outside of focus settings so shouldn't be included in "settings"
+    // Scrub the data just in case
+    settings.remove(opticalTrainCombo->objectName());
 
     for (auto &name : settings.keys())
     {

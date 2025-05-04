@@ -242,7 +242,7 @@ class Focus : public QWidget, public Ui::Focus
 
         // Settings
         QVariantMap getAllSettings() const;
-        void setAllSettings(const QVariantMap &settings);
+        void setAllSettings(QVariantMap &settings);
 
         const QString &opsDialogName() const
         {
