@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-02 01:54+0000\n"
-"PO-Revision-Date: 2025-04-30 19:48+0100\n"
+"PO-Revision-Date: 2025-05-03 18:33+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -70892,10 +70892,9 @@ msgid "Do Not Switch"
 msgstr "No cambiar"
 
 #: kstarsactions.cpp:1532
-#, fuzzy, kde-format
-#| msgid "Run clock in realtime"
+#, kde-format
 msgid "Stop running clock in realtime"
-msgstr "Ejecutar el reloj en tiempo real"
+msgstr "Detener el reloj en tiempo real"
 
 #: kstarsactions.cpp:1550 kstarsinit.cpp:198
 #, kde-format

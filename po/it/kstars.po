@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-05-02 01:54+0000\n"
-"PO-Revision-Date: 2025-04-22 21:35+0200\n"
+"PO-Revision-Date: 2025-05-02 16:20+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -22145,10 +22145,9 @@ msgid "PHD2: Dithering successful."
 msgstr "PHD2: dithering riuscito."
 
 #: ekos/guide/externalguide/phd2.cpp:731
-#, fuzzy, kde-format
-#| msgid "PHD2: Guiding is already running."
+#, kde-format
 msgid "PHD2: Guiding running."
-msgstr "PHD2: la guida è già in esecuzione."
+msgstr "PHD2: guida in esecuzione."
 
 #: ekos/guide/externalguide/phd2.cpp:742
 #, kde-format
@@ -22389,10 +22388,9 @@ msgid "Guiding resumed."
 msgstr "Guida ripresa."
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgid "Autoguiding resumed."
+#, kde-format
 msgid "Autoguiding running."
-msgstr "Guida automatica ripresa."
+msgstr "Guida automatica in esecuzione."
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -22694,10 +22692,9 @@ msgstr "128"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, guideShowFrame)
 #: ekos/guide/guide.ui:543
-#, fuzzy, kde-format
-#| msgid "Save Guider Images"
+#, kde-format
 msgid "Toggle the Guider Image..."
-msgstr "Salva immagini del telescopio guida"
+msgstr "Attiva/disattiva l'immagine del telescopio guida..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, infoGroupScope)
 #: ekos/guide/guide.ui:573
@@ -23771,6 +23768,8 @@ msgstr ""
 #, kde-format
 msgid "Enable GPG on the Guide tab, using the RA Guiding Algorithm pulldown"
 msgstr ""
+"Abilita GPG nella scheda Guida, utilizzando la tendina a discesa "
+"dell'algoritmo di guida AR"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_GPGDarkGuidingInterval)
@@ -24171,30 +24170,7 @@ msgstr "Algoritmo di guida"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Star detection method:</p><ul style=\"margin-top: "
-#| "0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-"
-#| "indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">SEP:</span> Source Extractor and Photometry, "
-#| "an efficient source detection method based on Source Extractor (Bertin "
-#| "and Arnouts 1996; Bertin 2016). See <a href=\"https://joss.theoj.org/"
-#| "papers/10.21105/joss.00058.pdf\"><span style=\" text-decoration: "
-#| "underline; color:#0000ff;\">SEP: Source Extractor as a library</span></a> "
-#| "in the Journal of Open Source Software.</li><li style=\" margin-top:12px; "
-#| "margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-"
-#| "indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Centroid</"
-#| "span>: a source detection based on estimating star mass around signal "
-#| "peaks.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Gradient</span>: a single source detection "
-#| "based on the Sobel filter. Initial or full-field analysis will use SEP "
-#| "instead of this method.</li><li style=\" margin-top:12px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Threshold</span>: a "
-#| "single source detection based on pixel values. Initial or full-field "
-#| "analysis will use SEP instead of this method.</li></ul></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA and DEC.</"
 "p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
@@ -24222,63 +24198,36 @@ msgid ""
 "parameters on the separate GPG tab. Hysteresis and Integral gain do not "
 "apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Metodo di rilevamento delle stelle:</p><ul style="
-"\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
-"qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">SEP:</span> Source Extractor and "
-"Photometry (Estrattore di fonti e fotometria), un metodo di rilevamento "
-"delle fonti efficiente basato su «Source Extractor» (Bertin and Arnouts "
-"1996; Bertin 2016). Vedi <a href=\"https://joss.theoj.org/papers/10.21105/"
-"joss.00058.pdf\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">SEP: Source Extractor as a library</span></a> in Journal of Open Source "
-"Software.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Baricentro</span>: rilevamento delle fonti "
-"basato sulla stima delle masse stellari attorno ai picchi di segnale.</"
-"li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Seleziona gli algoritmi di impulso della guida per AR "
+"e DEC.</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Standard</span>: "
+"l'algoritmo di guida proporzionale tradizionale. Calcola un impulso per "
+"correggere la deriva della guida calcolata. Il parametro di aggressività "
+"decide quale proporzione dell'errore viene corretto. Gli errori più piccoli "
+"dell'errore minimo non saranno corretti. La risposta Max limita la "
+"correzione più grande. Il parametro isteresi non viene utilizzato.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Gradiente</span>: rilevamento di fonte singola basato sul "
-"filtro Sobel. Un'analisi iniziale o a campo intero utilizzerà SEP anziché "
-"questo metodo.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-"
-"left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-"style=\" font-weight:600;\">Soglia</span>: rilevamento di fonte singola "
-"basato sui valori dei pixel. Un'analisi iniziale o a campo intero utilizzerà "
-"SEP anziché questo metodo.</li></ul></body></html>"
+"weight:600;\">Isteresi</span>: è come l'algoritmo standard ma pesa nella "
+"correzione precedente in base al parametro di isteresi. Il guadagno "
+"integrale non viene applicato.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Lineare</span>: è simile "
+"all'algoritmo PHD2 Passa_basso2. Calcola gli impulsi di errore basati su una "
+"breve cronologia degli errori recenti. Ciò può essere applicabile a "
+"montature molto stabili. Isteresi e Guadagno integrale non vengono applicati."
+"</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">GPG</span>: (solo AR) l'algoritmo GPG tenta di predire "
+"l'errore periodico e le derive lineari. Usa qui l'aggressività, i parametri "
+"min e max, e altri parametri sulla scheda GPG separata. Isteresi e Guadagno "
+"integrale non vengono applicati.</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:83
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select focus process algorithm:</p><ul style="
-#| "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-#| "0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-#| "bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Iterative</span>: Moves "
-#| "focuser by discreet steps initially decided by the step size. Once a "
-#| "curve slope is calculated,  further step sizes are calculated to reach "
-#| "optimal solution. The algorithm stops when the measured HFR is within "
-#| "percentage Tolerance of the minimum HFR recorded in the procedure.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Polynomial</span>: Starts with iterative method.  Upon "
-#| "crossing to the other side of the V-Curve,  polynomial fitting "
-#| "coefficients along with possible minimum solution are calculated. This "
-#| "algorithm can be faster than purely iterative approach given a good data "
-#| "set.</li><li style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Linear</span>: Samples focus inward in a regular "
-#| "fashion, using 2 passes.  The algorithm can be slow, but it is more "
-#| "resilient to backlash.  Start with the focuser positioned near good "
-#| "focus.  Set Initial Step Size and Max Travel for the desired sampling "
-#| "interval and range around start focus position.  Tolerance should be "
-#| "around 5%.</li><li style=\" margin-top:0px; margin-bottom:12px; margin-"
-#| "left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span "
-#| "style=\" font-weight:600;\">Linear 1 Pass</span>: Starts like <span style="
-#| "\" font-weight:600;\">Linear</span> but after completing the 1st pass, "
-#| "instead of doing a 2nd pass,  moves straight to the minimum HFR value "
-#| "calculated.  Use Curve Fit of Hyperbola or Parabola.</li></ul></body></"
-#| "html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for RA.</p><ul style="
 "\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -"
@@ -24306,38 +24255,32 @@ msgid ""
 "separate GPG tab. Hysteresis and Integral gain do not apply.</li></ul></"
 "body></html>"
 msgstr ""
-"<html><head/><body><p>Seleziona l'algoritmo del processo di messa a fuoco:</"
-"p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-"right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-"
-"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-"indent:0px;\"><span style=\" font-weight:600;\">Iterativo</span>: sposta il "
-"focheggiatore con passi discreti inizialmente decisi dalla dimensione del "
-"passo. Una volta calcolata una pendenza della curva, vengono calcolate "
-"ulteriori dimensioni del passo in modo da raggiungere la soluzione ottimale. "
-"L'algoritmo si interrompe quando l'HFR misurato rientra nella tolleranza "
-"percentuale dell'HFR minimo registrato nella procedura.</li><li style=\" "
-"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-"
-"block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Polinomiale</span>: si inizia con il metodo iterativo. Al passaggio "
-"all'altro lato della curva V vengono calcolati i coefficienti di adattamento "
-"polinomiale, insieme alla possibile soluzione minima. Questo algoritmo può "
-"essere più veloce dell'approccio puramente iterativo se viene fornito un "
-"buon insieme di dati.</li><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Lineare</span>: i campioni si "
-"concentrano verso l'interno in modo regolare, usando 2 passaggi. L'algoritmo "
-"può anche essere lento ma è più resistente alle reazioni. Inizia con il "
-"focheggiatore posizionato vicino a una buona messa a fuoco. Imposta la "
-"dimensione del passo iniziale e la corsa massima per l'intervallo di "
-"campionamento e l'intervallo desiderati attorno alla posizione di messa a "
-"fuoco iniziale. La tolleranza dovrebbe aggirarsi intorno al 5%.</li><li "
-"style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Seleziona gli algoritmi di impulso della guida per AR."
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Standard</span>: "
+"l'algoritmo di guida proporzionale tradizionale. Calcola un impulso per "
+"correggere la deriva della guida calcolata. Il parametro di aggressività "
+"decide quale proporzione dell'errore viene corretto. Gli errori più piccoli "
+"dell'errore minimo non saranno corretti. La risposta Max limita la "
+"correzione più grande. Il parametro isteresi non viene utilizzato.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Passo lineare 1</span>: inizia come <span style=\" font-"
-"weight:600;\">Lineare</span> ma dopo aver completato il primo passo anziché "
-"eseguire un secondo passo si sposta direttamente al valore HFR minimo "
-"calcolato. Usa Adattamento curva dell'iperbole o della parabola.</li></ul></"
-"body></html>"
+"weight:600;\">Isteresi</span>: è come l'algoritmo standard ma pesa nella "
+"correzione precedente in base al parametro di isteresi. Il guadagno "
+"integrale non viene applicato.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Lineare</span>: è simile "
+"all'algoritmo PHD2 Passa_basso2. Calcola gli impulsi di errore basati su una "
+"breve cronologia degli errori recenti. Ciò può essere applicabile a "
+"montature molto stabili. Isteresi e Guadagno integrale non vengono applicati."
+"</li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
+"margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
+"weight:600;\">GPG</span>: l'algoritmo GPG tenta di predire l'errore "
+"periodico e le derive lineari. Usa qui l'aggressività, i parametri min e "
+"max, e altri parametri sulla scheda GPG separata. Isteresi e Guadagno "
+"integrale non vengono applicati.</li></ul></body></html>"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
@@ -24363,24 +24306,7 @@ msgstr "GPG"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_DECGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Select the type of curve to fit to the data:</p><ul "
-#| "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-"
-#| "right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-"
-#| "bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
-#| "indent:0px;\"><span style=\" font-weight:600;\">Quadratic</span>: Uses a "
-#| "polynomial fit of degree 2. This is currently the default option and "
-#| "currently the only option for all Algorithms except Linear 1 Pass.</"
-#| "li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; "
-#| "margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" "
-#| "font-weight:600;\">Hyperbola</span>: Fits a hyperbola to the data points. "
-#| "This is currently only available for the Linear 1 Pass Algorithm.</li><li "
-#| "style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
-#| "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-#| "weight:600;\">Parabola</span>: Fits a parabola to the data points. This "
-#| "is currently only available for the Linear 1 Pass Algorithm.</li></ul></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Select the guide pulse algorithms for DEC.</p><ul "
 "style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
@@ -24402,33 +24328,34 @@ msgid ""
 "on a short history of recent errors. This may be applicable to very stable "
 "mounts. Hysteresis and Integral gain do not apply.</li></ul></body></html>"
 msgstr ""
-"<html><head/><body><p>Seleziona il tipo di curva da adattare ai dati:</p><ul "
-"style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: "
-"0px; -qt-list-indent: 1;\"><li style=\" margin-top:0px; margin-bottom:12px; "
-"margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"
-"\"><span style=\" font-weight:600;\">Quadratico</span>: usa un adattamento "
-"polinomiale di grado 2. È l'opzione attualmente predefinita ed è attualmente "
-"la sola opzione per tutti gli algoritmi ad eccezione del Passo lineare 1.</"
-"li><li style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-"
+"<html><head/><body><p>Seleziona gli algoritmi di impulso della guida per DEC."
+"</p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; "
+"margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; "
+"margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; "
+"text-indent:0px;\"><span style=\" font-weight:600;\">Standard</span>: "
+"l'algoritmo di guida proporzionale tradizionale. Calcola un impulso per "
+"correggere la deriva della guida calcolata. Il parametro di aggressività "
+"decide quale proporzione dell'errore viene corretto. Gli errori più piccoli "
+"dell'errore minimo non saranno corretti. La risposta Max limita la "
+"correzione più grande. Il parametro isteresi non viene utilizzato.</li><li "
+"style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">Iperbole</span>: adatta un'iperbole ai punti di dati. È "
-"attualmente disponibile solo per l'algoritmo Passo lineare 1.</li><li style="
-"\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -"
-"qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;"
-"\">Parabola</span>: adatta una parabola ai punti di dati. È attualmente "
-"disponibile solo per l'algoritmo Passo lineare 1.</li></ul></body></html>"
+"weight:600;\">Isteresi</span>: è come l'algoritmo standard ma pesa nella "
+"correzione precedente in base al parametro di isteresi. Il guadagno "
+"integrale non viene applicato.</li><li style=\" margin-top:0px; margin-"
+"bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-"
+"indent:0px;\"><span style=\" font-weight:600;\">Lineare</span>: è simile "
+"all'algoritmo PHD2 Passa_basso2. Calcola gli impulsi di errore basati su una "
+"breve cronologia degli errori recenti. Ciò può essere applicabile a "
+"montature molto stabili. Isteresi e Guadagno integrale non vengono applicati."
+"</li></ul></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, l_12)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAIntegralGain)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECIntegralGain)
 #: ekos/guide/opsguide.ui:150 ekos/guide/opsguide.ui:254
 #: ekos/guide/opsguide.ui:283
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This adds a correction term based on the average of "
-#| "the past 50 guide deviations. For example, if the deviation is "
-#| "consistently negative, this will attempt to compensate. Best to start "
-#| "with 0.0 (no effect) and only use this if necessary.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>This adds a correction term based on the average of "
 "the past 50 guide deviations. For example, if the deviation is consistently "
@@ -24439,7 +24366,8 @@ msgstr ""
 "<html><head/><body><p>Aggiunge un termine di correzione basato sulla media "
 "delle ultime 50 deviazioni della guida. Per esempio, se la deviazione è "
 "costantemente negativa, tenterà di compensare. Meglio iniziare con 0,0 "
-"(nessun effetto) e utilizzarlo solo se necessario.</p></body></html>"
+"(nessun effetto) e utilizzarlo solo se necessario (si applica solo "
+"all'algoritmo standard).</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, l_12)
 #: ekos/guide/opsguide.ui:153
@@ -38680,7 +38608,7 @@ msgstr "Salvare sul disco le immagini dell'allineamento non riuscito?"
 #: kstars.kcfg:1644
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup."
-msgstr ""
+msgstr "Non sincronizzare col tempo reale all'avvio di Ekos."
 
 #. i18n: ectx: whatsthis, entry (GuideLogging), group (General)
 #: kstars.kcfg:1648
@@ -40992,10 +40920,9 @@ msgstr "Seleziona automaticamente una stella e avvia la calibrazione."
 
 #. i18n: ectx: label, entry (guideShowFrame), group (Guide)
 #: kstars.kcfg:2899
-#, fuzzy, kde-format
-#| msgid "Display Image Overlays."
+#, kde-format
 msgid "Display guiding frames."
-msgstr "Mostra le sovrapposizioni sulle immagini"
+msgstr "Mostra i fotogrammi di guida."
 
 #. i18n: ectx: label, entry (AutoModeIterations), group (Guide)
 #: kstars.kcfg:2907
@@ -41247,6 +41174,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for RA internal guiding with that value."
 msgstr ""
+"Se > 0, usa il telescopio guida isteresi per la guida interna AR con tale "
+"valore."
 
 #. i18n: ectx: label, entry (DECHysteresis), group (Guide)
 #: kstars.kcfg:3134
@@ -41254,6 +41183,8 @@ msgstr ""
 msgid ""
 "If > 0, use the hysteresis guider for DEC internal guiding with that value."
 msgstr ""
+"Se > 0, usa il telescopio guida isteresi per la guida interna DEC con tale "
+"valore."
 
 #. i18n: ectx: label, entry (SchedulerAlgorithm), group (Scheduler)
 #: kstars.kcfg:3140
@@ -70966,10 +70897,9 @@ msgid "Do Not Switch"
 msgstr "Non cambiare"
 
 #: kstarsactions.cpp:1532
-#, fuzzy, kde-format
-#| msgid "Run clock in realtime"
+#, kde-format
 msgid "Stop running clock in realtime"
-msgstr "Avvia l'orologio in tempo reale"
+msgstr "Ferma l'esecuzione dell'orologio in tempo reale"
 
 #: kstarsactions.cpp:1550 kstarsinit.cpp:198
 #, kde-format
@@ -78467,18 +78397,22 @@ msgid ""
 "This could cause issues for real imaging runs, but can be useful in "
 "reproducing/debugging issues.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>Non sincronizza l'orologio di sistema quando Ekos "
+"viene avviato. Questo potrebbe causare problemi per esecuzioni di scatti "
+"fotografici reali, ma può essere utile in caso di problemi di riproduzione/"
+"debug.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_DontSyncToRealTime)
 #: options/opsdeveloper.ui:83
 #, kde-format
 msgid "Don't sync to Real Time on Ekos startup"
-msgstr ""
+msgstr "Non sincronizzare col tempo reale all'avvio di Ekos"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:23
 #, kde-format
 msgid "Show constellation lines?"
-msgstr "Mostra linee costellazioni?"
+msgstr "Mostrare le linee costellazioni?"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowCLines)
 #: options/opsguides.ui:26
@@ -84232,10 +84166,9 @@ msgstr "Per lo sviluppo del catalogo"
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelCheckTargetsButton)
 #: tools/imagingplanner.ui:486
-#, fuzzy, kde-format
-#| msgid "Check URL"
+#, kde-format
 msgid "Check"
-msgstr "Controlla URL"
+msgstr "Verifica"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, userNotesEditButton)
 #: tools/imagingplanner.ui:713
