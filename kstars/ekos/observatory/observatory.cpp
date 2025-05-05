@@ -121,44 +121,11 @@ bool Observatory::setDome(ISD::Dome *device)
 
     domeBox->setEnabled(true);
 
-    connect(m_Dome, &ISD::Dome::Connected, this, &Ekos::Observatory::startupDome);
-    connect(m_Dome, &ISD::Dome::Disconnected, this, &Ekos::Observatory::shutdownDome);
-
-    connect(m_Dome, &ISD::Dome::newStatus, this, &Ekos::Observatory::setDomeStatus);
-    connect(m_Dome, &ISD::Dome::newParkStatus, this, &Ekos::Observatory::setDomeParkStatus);
-    connect(m_Dome, &ISD::Dome::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
-    connect(m_Dome, &ISD::Dome::positionChanged, this, &Ekos::Observatory::domeAzimuthChanged);
-    connect(m_Dome, &ISD::Dome::newAutoSyncStatus, this, &Ekos::Observatory::showAutoSync);
-
-    // motion controls
-    connect(motionMoveAbsButton, &QCheckBox::clicked, [this]()
-    {
-        m_Dome->setPosition(absoluteMotionSB->value());
-    });
-
-    connect(motionMoveRelButton, &QCheckBox::clicked, [this]()
-    {
-        m_Dome->setRelativePosition(relativeMotionSB->value());
-    });
-
-    // abort button
-    connect(motionAbortButton, &QPushButton::clicked, m_Dome, &ISD::Dome::abort);
-
-
-    // dome motion buttons
-    connect(motionCWButton, &QPushButton::clicked, [ = ](bool checked)
-    {
-        m_Dome->moveDome(ISD::Dome::DOME_CW, checked ? ISD::Dome::MOTION_START : ISD::Dome::MOTION_STOP);
-    });
-    connect(motionCCWButton, &QPushButton::clicked, [ = ](bool checked)
-    {
-        m_Dome->moveDome(ISD::Dome::DOME_CCW, checked ? ISD::Dome::MOTION_START : ISD::Dome::MOTION_STOP);
-    });
+    // Connect signals
+    connectDomeSignals();
 
     if (m_Dome->canPark())
     {
-        connect(domePark, &QPushButton::clicked, m_Dome, &ISD::Dome::park);
-        connect(domeUnpark, &QPushButton::clicked, m_Dome, &ISD::Dome::unpark);
         domePark->setEnabled(true);
         domeUnpark->setEnabled(true);
     }
@@ -253,13 +220,83 @@ void Observatory::startupDome()
     shutterClosed->setEnabled(true);
     shutterOpen->setEnabled(true);
 
+    // Reconnect signals if dome is valid
     if (m_Dome)
-        disconnect(m_Dome);
+        connectDomeSignals();
 
-    // disable the UI controls for dome weather actions
+    // enable the UI controls for dome weather actions
     initWeatherActions(m_Dome && m_WeatherSource);
     statusDefinitionBox->setVisible(true);
     domeBox->setEnabled(true);
+}
+
+void Observatory::connectDomeSignals()
+{
+    if (!m_Dome)
+        return;
+
+    // Disconnect first to avoid duplicate connections if called multiple times
+    disconnect(m_Dome, nullptr, this, nullptr);
+
+    connect(m_Dome, &ISD::Dome::Connected, this, &Ekos::Observatory::startupDome);
+    connect(m_Dome, &ISD::Dome::Disconnected, this, &Ekos::Observatory::shutdownDome);
+
+    connect(m_Dome, &ISD::Dome::newStatus, this, &Ekos::Observatory::setDomeStatus);
+    connect(m_Dome, &ISD::Dome::newParkStatus, this, &Ekos::Observatory::setDomeParkStatus);
+    connect(m_Dome, &ISD::Dome::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
+    connect(m_Dome, &ISD::Dome::positionChanged, this, &Ekos::Observatory::domeAzimuthChanged);
+    connect(m_Dome, &ISD::Dome::newAutoSyncStatus, this, &Ekos::Observatory::showAutoSync);
+
+    // motion controls
+    connect(motionMoveAbsButton, &QCheckBox::clicked, [this]()
+    {
+        m_Dome->setPosition(absoluteMotionSB->value());
+    });
+
+    connect(motionMoveRelButton, &QCheckBox::clicked, [this]()
+    {
+        m_Dome->setRelativePosition(relativeMotionSB->value());
+    });
+
+    // abort button
+    connect(motionAbortButton, &QPushButton::clicked, m_Dome, &ISD::Dome::abort);
+
+    // dome motion buttons
+    connect(motionCWButton, &QPushButton::clicked, [ = ](bool checked)
+    {
+        m_Dome->moveDome(ISD::Dome::DOME_CW, checked ? ISD::Dome::MOTION_START : ISD::Dome::MOTION_STOP);
+    });
+    connect(motionCCWButton, &QPushButton::clicked, [ = ](bool checked)
+    {
+        m_Dome->moveDome(ISD::Dome::DOME_CCW, checked ? ISD::Dome::MOTION_START : ISD::Dome::MOTION_STOP);
+    });
+
+    // Park/Unpark buttons
+    if (m_Dome->canPark())
+    {
+        connect(domePark, &QPushButton::clicked, m_Dome, &ISD::Dome::park);
+        connect(domeUnpark, &QPushButton::clicked, m_Dome, &ISD::Dome::unpark);
+    }
+
+    // Slaving buttons (only if not rolloff)
+    if (!m_Dome->isRolloffRoof())
+    {
+        connect(slavingEnableButton, &QPushButton::clicked, this, [this]()
+        {
+            enableAutoSync(true);
+        });
+        connect(slavingDisableButton, &QPushButton::clicked, this, [this]()
+        {
+            enableAutoSync(false);
+        });
+    }
+
+    // Shutter buttons (only if has shutter)
+    if (m_Dome->hasShutter())
+    {
+        connect(shutterOpen, &QPushButton::clicked, m_Dome, &ISD::Dome::openShutter);
+        connect(shutterClosed, &QPushButton::clicked, m_Dome, &ISD::Dome::closeShutter);
+    }
 }
 
 void Observatory::setDomeStatus(ISD::Dome::Status status)
