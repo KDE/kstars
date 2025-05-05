@@ -121,7 +121,9 @@ bool Observatory::setDome(ISD::Dome *device)
 
     domeBox->setEnabled(true);
 
+    connect(m_Dome, &ISD::Dome::Connected, this, &Ekos::Observatory::startupDome);
     connect(m_Dome, &ISD::Dome::Disconnected, this, &Ekos::Observatory::shutdownDome);
+
     connect(m_Dome, &ISD::Dome::newStatus, this, &Ekos::Observatory::setDomeStatus);
     connect(m_Dome, &ISD::Dome::newParkStatus, this, &Ekos::Observatory::setDomeParkStatus);
     connect(m_Dome, &ISD::Dome::newShutterStatus, this, &Ekos::Observatory::setShutterStatus);
@@ -241,6 +243,23 @@ void Observatory::shutdownDome()
     initWeatherActions(false);
     statusDefinitionBox->setVisible(false);
     domeBox->setEnabled(false);
+}
+
+void Observatory::startupDome()
+{
+    shutterBox->setEnabled(true);
+    domePark->setEnabled(true);
+    domeUnpark->setEnabled(true);
+    shutterClosed->setEnabled(true);
+    shutterOpen->setEnabled(true);
+
+    if (m_Dome)
+        disconnect(m_Dome);
+
+    // disable the UI controls for dome weather actions
+    initWeatherActions(m_Dome && m_WeatherSource);
+    statusDefinitionBox->setVisible(true);
+    domeBox->setEnabled(true);
 }
 
 void Observatory::setDomeStatus(ISD::Dome::Status status)

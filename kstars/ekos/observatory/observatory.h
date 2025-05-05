@@ -129,7 +129,7 @@ class Observatory : public QWidget, public Ui::Observatory
         void updateSensorGraph(const QString &sensor_label, QDateTime now, double value);
 
         // hold all sensor data received from the weather station
-        QJsonArray m_WeatherData;        
+        QJsonArray m_WeatherData;
 
         /**
          * @brief Activate or deactivate the weather warning actions
@@ -178,6 +178,7 @@ class Observatory : public QWidget, public Ui::Observatory
         void domeAzimuthChanged(double position);
 
         void shutdownDome();
+        void startupDome();
 
         void setDomeStatus(ISD::Dome::Status status);
         void setDomeParkStatus(ISD::ParkStatus status);
