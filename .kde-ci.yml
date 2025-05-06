@@ -15,7 +15,6 @@ Dependencies:
     'frameworks/breeze-icons': '@stable-kf6'
     'frameworks/kcrash': '@stable-kf6'
     'frameworks/kdoctools': '@stable-kf6'
-    'frameworks/kinit': '@stable'
     'frameworks/knewstuff': '@stable-kf6'
     'frameworks/knotifications': '@stable-kf6'
     'frameworks/knotifyconfig': '@stable-kf6'
