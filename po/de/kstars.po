@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-02 01:54+0000\n"
+"POT-Creation-Date: 2025-05-06 01:56+0000\n"
 "PO-Revision-Date: 2022-03-13 10:23+0100\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -3760,7 +3760,7 @@ msgid "Never rises"
 msgstr "Geht nie auf"
 
 #: dialogs/detaildialog.cpp:668 dialogs/detaildialog.cpp:669
-#: ekos/observatory/observatory.cpp:174
+#: ekos/observatory/observatory.cpp:143
 #: kstarslite/dialogs/detaildialoglite.cpp:532
 #: kstarslite/dialogs/detaildialoglite.cpp:533 printing/detailstable.cpp:632
 #: printing/detailstable.cpp:633
@@ -6592,7 +6592,7 @@ msgstr "Lösung abgebrochen nach %1 Sekunden."
 #: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:326 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1241 ekos/manager.cpp:2154 ekos/mount/mount.cpp:765
-#: ekos/observatory/observatory.cpp:986
+#: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3680
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -8868,8 +8868,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
-#: ekos/observatory/observatory.cpp:360 ekos/observatory/observatory.cpp:403
-#: ekos/observatory/observatory.cpp:407 ekos/observatory/observatory.cpp:518
+#: ekos/observatory/observatory.cpp:416 ekos/observatory/observatory.cpp:459
+#: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:574
 #: ekos/observatory/observatory.ui:673
 #, kde-format
 msgid "Open"
@@ -10519,7 +10519,7 @@ msgid "Failed to find solver settings."
 msgstr "Binning kann nicht eingestellt werden."
 
 #: ekos/analyze/analyze.cpp:130 ekos/analyze/analyze.cpp:149
-#: ekos/observatory/observatory.cpp:366 indi/indidome.cpp:22
+#: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "City in Australia"
@@ -10528,7 +10528,7 @@ msgid "Parked"
 msgstr "Parkes"
 
 #: ekos/analyze/analyze.cpp:132 ekos/analyze/analyze.cpp:151
-#: ekos/observatory/observatory.cpp:293 ekos/observatory/observatory.cpp:309
+#: ekos/observatory/observatory.cpp:349 ekos/observatory/observatory.cpp:365
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, fuzzy, kde-format
 #| msgctxt "City in China"
@@ -12811,10 +12811,10 @@ msgstr "S&tandard"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDomeLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, domeBox)
 #. i18n: ectx: property (text), widget (QCheckBox, useDomeCB)
-#: ekos/auxiliary/opslogs.ui:245 ekos/observatory/observatory.cpp:254
-#: ekos/observatory/observatory.cpp:265 ekos/observatory/observatory.cpp:305
-#: ekos/observatory/observatory.cpp:320 ekos/observatory/observatory.cpp:335
-#: ekos/observatory/observatory.cpp:342 ekos/observatory/observatory.ui:57
+#: ekos/auxiliary/opslogs.ui:245 ekos/observatory/observatory.cpp:310
+#: ekos/observatory/observatory.cpp:321 ekos/observatory/observatory.cpp:361
+#: ekos/observatory/observatory.cpp:376 ekos/observatory/observatory.cpp:391
+#: ekos/observatory/observatory.cpp:398 ekos/observatory/observatory.ui:57
 #: ekos/observatory/observatory.ui:722
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
@@ -13524,8 +13524,8 @@ msgstr "Sie können jetzt Ihre Ausrüstung verbinden."
 #. i18n: ectx: property (text), widget (QPushButton, shutterClosed)
 #: ekos/auxiliary/serialportassistant.ui:264
 #: ekos/ekoslive/ekoslivedialog.ui:334 ekos/indihub.ui:165
-#: ekos/observatory/observatory.cpp:392 ekos/observatory/observatory.cpp:397
-#: ekos/observatory/observatory.cpp:520 ekos/observatory/observatory.ui:631
+#: ekos/observatory/observatory.cpp:448 ekos/observatory/observatory.cpp:453
+#: ekos/observatory/observatory.cpp:576 ekos/observatory/observatory.ui:631
 #: indi/guimanager.cpp:76 kstarslite/qml/modules/tutorial/TutorialPopup.qml:61
 #, kde-format, kde-kuit-format
 msgid "Close"
@@ -25678,8 +25678,8 @@ msgstr "Umschwenken am Meridian"
 msgid "Telescope completed the meridian flip."
 msgstr "Das Teleskop hat das Umschwenken am Meridian abgeschlossen."
 
-#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1062
-#: ekos/observatory/observatory.cpp:1073
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1118
+#: ekos/observatory/observatory.cpp:1129
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
 #, fuzzy, kde-format
@@ -26047,8 +26047,8 @@ msgstr "EIN"
 
 #. i18n: ectx: property (text), widget (QPushButton, parkB)
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
-#: ekos/mount/mount.ui:746 ekos/observatory/observatory.cpp:276
-#: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
+#: ekos/mount/mount.ui:746 ekos/observatory/observatory.cpp:332
+#: ekos/observatory/observatory.cpp:380 ekos/observatory/observatory.cpp:409
 #: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:653
 #, kde-format
 msgid "Park"
@@ -26199,167 +26199,167 @@ msgstr ""
 msgid "HA/DE"
 msgstr "Rekt/Dekl"
 
-#: ekos/observatory/observatory.cpp:253
+#: ekos/observatory/observatory.cpp:309
 #, kde-format
 msgid "%1 error. See INDI log for details."
 msgstr "Fehler %1, weitere Details im INDI-Protokoll."
 
-#: ekos/observatory/observatory.cpp:254 ekos/observatory/observatory.cpp:265
-#: ekos/observatory/observatory.cpp:305 ekos/observatory/observatory.cpp:320
-#: ekos/observatory/observatory.cpp:335 ekos/observatory/observatory.cpp:342
+#: ekos/observatory/observatory.cpp:310 ekos/observatory/observatory.cpp:321
+#: ekos/observatory/observatory.cpp:361 ekos/observatory/observatory.cpp:376
+#: ekos/observatory/observatory.cpp:391 ekos/observatory/observatory.cpp:398
 #, kde-format
 msgid "Rolloff roof"
 msgstr ""
 
-#: ekos/observatory/observatory.cpp:265
+#: ekos/observatory/observatory.cpp:321
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is idle."
 msgstr "Dome Creek"
 
-#: ekos/observatory/observatory.cpp:275 ekos/observatory/observatory.cpp:328
-#: ekos/observatory/observatory.cpp:397
+#: ekos/observatory/observatory.cpp:331 ekos/observatory/observatory.cpp:384
+#: ekos/observatory/observatory.cpp:453
 #, kde-format
 msgid "Opening"
 msgstr "Öffnen"
 
-#: ekos/observatory/observatory.cpp:276 ekos/observatory/observatory.cpp:324
+#: ekos/observatory/observatory.cpp:332 ekos/observatory/observatory.cpp:380
 #, fuzzy, kde-format
 #| msgctxt "City in China"
 #| msgid "Peking"
 msgid "Unparking"
 msgstr "Peking"
 
-#: ekos/observatory/observatory.cpp:277
+#: ekos/observatory/observatory.cpp:333
 #, fuzzy, kde-format
 #| msgid "Processing..."
 msgid "Rolloff roof opening..."
 msgstr "Verarbeitung läuft ..."
 
-#: ekos/observatory/observatory.cpp:281
+#: ekos/observatory/observatory.cpp:337
 #, fuzzy, kde-format
 #| msgid "Processing..."
 msgid "Dome is moving clockwise..."
 msgstr "Verarbeitung läuft ..."
 
-#: ekos/observatory/observatory.cpp:292 ekos/observatory/observatory.cpp:313
-#: ekos/observatory/observatory.cpp:407
+#: ekos/observatory/observatory.cpp:348 ekos/observatory/observatory.cpp:369
+#: ekos/observatory/observatory.cpp:463
 #, kde-format
 msgid "Closing"
 msgstr "Schließen"
 
-#: ekos/observatory/observatory.cpp:293 ekos/observatory/observatory.cpp:309
-#: ekos/observatory/observatory.cpp:367
+#: ekos/observatory/observatory.cpp:349 ekos/observatory/observatory.cpp:365
+#: ekos/observatory/observatory.cpp:423
 #, fuzzy, kde-format
 #| msgid "Park"
 msgid "Unpark"
 msgstr "Parken"
 
-#: ekos/observatory/observatory.cpp:294
+#: ekos/observatory/observatory.cpp:350
 #, fuzzy, kde-format
 #| msgid "Processing..."
 msgid "Rolloff roof is closing..."
 msgstr "Verarbeitung läuft ..."
 
-#: ekos/observatory/observatory.cpp:298
+#: ekos/observatory/observatory.cpp:354
 #, fuzzy, kde-format
 #| msgid "Processing..."
 msgid "Dome is moving counter clockwise..."
 msgstr "Verarbeitung läuft ..."
 
-#: ekos/observatory/observatory.cpp:305
+#: ekos/observatory/observatory.cpp:361
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is parked."
 msgstr "Dome Creek"
 
-#: ekos/observatory/observatory.cpp:320
+#: ekos/observatory/observatory.cpp:376
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is parking..."
 msgstr "Dome Creek"
 
-#: ekos/observatory/observatory.cpp:335
+#: ekos/observatory/observatory.cpp:391
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is unparking..."
 msgstr "Dome Creek"
 
-#: ekos/observatory/observatory.cpp:342
+#: ekos/observatory/observatory.cpp:398
 #, fuzzy, kde-format
 #| msgctxt "City in British Columbia Canada"
 #| msgid "Dome Creek"
 msgid "%1 is tracking."
 msgstr "Dome Creek"
 
-#: ekos/observatory/observatory.cpp:354
+#: ekos/observatory/observatory.cpp:410
 #, fuzzy, kde-format
 #| msgid "Park"
 msgid "Unparked"
 msgstr "Parken"
 
-#: ekos/observatory/observatory.cpp:373 ekos/observatory/observatory.cpp:402
+#: ekos/observatory/observatory.cpp:429 ekos/observatory/observatory.cpp:458
 #, kde-format
 msgid "Closed"
 msgstr "Geschlossen"
 
-#: ekos/observatory/observatory.cpp:391
+#: ekos/observatory/observatory.cpp:447
 #, kde-format
 msgid "Opened"
 msgstr "Geöffnet"
 
-#: ekos/observatory/observatory.cpp:393
+#: ekos/observatory/observatory.cpp:449
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Shutter Speed"
 msgid "Shutter is open."
 msgstr "Verschlussgeschwindigkeit"
 
-#: ekos/observatory/observatory.cpp:398
+#: ekos/observatory/observatory.cpp:454
 #, kde-format
 msgid "Shutter is opening..."
 msgstr ""
 
-#: ekos/observatory/observatory.cpp:404
+#: ekos/observatory/observatory.cpp:460
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Shutter Speed"
 msgid "Shutter is closed."
 msgstr "Verschlussgeschwindigkeit"
 
-#: ekos/observatory/observatory.cpp:408
+#: ekos/observatory/observatory.cpp:464
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Shutter is closing..."
 msgstr "Einstellungen"
 
-#: ekos/observatory/observatory.cpp:714
+#: ekos/observatory/observatory.cpp:770
 #, kde-format
 msgid "%1 = %2 @ %3"
 msgstr "%1 = %2 @ %3"
 
-#: ekos/observatory/observatory.cpp:765
+#: ekos/observatory/observatory.cpp:821
 #, fuzzy, kde-format
 #| msgid "Weather"
 msgid "Weather is OK"
 msgstr "Wetter"
 
-#: ekos/observatory/observatory.cpp:771
+#: ekos/observatory/observatory.cpp:827
 #, kde-format
 msgid "Weather Warning"
 msgstr "Wetterwarnung"
 
-#: ekos/observatory/observatory.cpp:777
+#: ekos/observatory/observatory.cpp:833
 #, fuzzy, kde-format
 #| msgid "Weather"
 msgid "Weather Alert"
 msgstr "Wetter"
 
-#: ekos/observatory/observatory.cpp:1059 ekos/observatory/observatory.cpp:1070
+#: ekos/observatory/observatory.cpp:1115 ekos/observatory/observatory.cpp:1126
 #: ekos/observatory/observatoryweathermodel.cpp:156
 #: ekos/observatory/observatoryweathermodel.cpp:180
 #, kde-format

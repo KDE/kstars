@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1708145 $
+# Version: $Revision: 1708363 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-02 01:54+0000\n"
+"POT-Creation-Date: 2025-05-06 01:56+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -3696,7 +3696,7 @@ msgid "Never rises"
 msgstr "Nigdy nie wschodzi"
 
 #: dialogs/detaildialog.cpp:668 dialogs/detaildialog.cpp:669
-#: ekos/observatory/observatory.cpp:174
+#: ekos/observatory/observatory.cpp:143
 #: kstarslite/dialogs/detaildialoglite.cpp:532
 #: kstarslite/dialogs/detaildialoglite.cpp:533 printing/detailstable.cpp:632
 #: printing/detailstable.cpp:633
@@ -6530,7 +6530,7 @@ msgstr "Program rozwiązujący przerwał po %1 sekundach."
 #: ekos/align/align.cpp:2631 ekos/analyze/analyze.cpp:4136
 #: ekos/capture/capture.cpp:326 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1241 ekos/manager.cpp:2154 ekos/mount/mount.cpp:765
-#: ekos/observatory/observatory.cpp:986
+#: ekos/observatory/observatory.cpp:1042
 #: ekos/scheduler/schedulerprocess.cpp:3680
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
@@ -8873,8 +8873,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, openIndexFileDirectory)
 #. i18n: ectx: property (text), widget (QPushButton, shutterOpen)
 #: ekos/align/opsastrometryindexfiles.ui:276
-#: ekos/observatory/observatory.cpp:360 ekos/observatory/observatory.cpp:403
-#: ekos/observatory/observatory.cpp:407 ekos/observatory/observatory.cpp:518
+#: ekos/observatory/observatory.cpp:416 ekos/observatory/observatory.cpp:459
+#: ekos/observatory/observatory.cpp:463 ekos/observatory/observatory.cpp:574
 #: ekos/observatory/observatory.ui:673
 #, kde-format
 msgid "Open"
@@ -10483,14 +10483,14 @@ msgid "Failed to find solver settings."
 msgstr "Nie udało się znaleźć ustawień programu rozwiązującego."
 
 #: ekos/analyze/analyze.cpp:130 ekos/analyze/analyze.cpp:149
-#: ekos/observatory/observatory.cpp:366 indi/indidome.cpp:22
+#: ekos/observatory/observatory.cpp:422 indi/indidome.cpp:22
 #: indi/indidustcap.cpp:18 indi/indimount.cpp:31
 #, kde-format
 msgid "Parked"
 msgstr "Zaparkowana"
 
 #: ekos/analyze/analyze.cpp:132 ekos/analyze/analyze.cpp:151
-#: ekos/observatory/observatory.cpp:293 ekos/observatory/observatory.cpp:309
+#: ekos/observatory/observatory.cpp:349 ekos/observatory/observatory.cpp:365
 #: indi/indidome.cpp:22 indi/indidustcap.cpp:17 indi/indimount.cpp:31
 #, kde-format
 msgid "Parking"
@@ -12825,10 +12825,10 @@ msgstr "Domyś&lne"
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_INDIDomeLogging)
 #. i18n: ectx: property (title), widget (QGroupBox, domeBox)
 #. i18n: ectx: property (text), widget (QCheckBox, useDomeCB)
-#: ekos/auxiliary/opslogs.ui:245 ekos/observatory/observatory.cpp:254
-#: ekos/observatory/observatory.cpp:265 ekos/observatory/observatory.cpp:305
-#: ekos/observatory/observatory.cpp:320 ekos/observatory/observatory.cpp:335
-#: ekos/observatory/observatory.cpp:342 ekos/observatory/observatory.ui:57
+#: ekos/auxiliary/opslogs.ui:245 ekos/observatory/observatory.cpp:310
+#: ekos/observatory/observatory.cpp:321 ekos/observatory/observatory.cpp:361
+#: ekos/observatory/observatory.cpp:376 ekos/observatory/observatory.cpp:391
+#: ekos/observatory/observatory.cpp:398 ekos/observatory/observatory.ui:57
 #: ekos/observatory/observatory.ui:722
 #, kde-format
 msgid "Dome"
@@ -13530,8 +13530,8 @@ msgstr "Teraz możesz się podłączyć do swojego sprzętu."
 #. i18n: ectx: property (text), widget (QPushButton, shutterClosed)
 #: ekos/auxiliary/serialportassistant.ui:264
 #: ekos/ekoslive/ekoslivedialog.ui:334 ekos/indihub.ui:165
-#: ekos/observatory/observatory.cpp:392 ekos/observatory/observatory.cpp:397
-#: ekos/observatory/observatory.cpp:520 ekos/observatory/observatory.ui:631
+#: ekos/observatory/observatory.cpp:448 ekos/observatory/observatory.cpp:453
+#: ekos/observatory/observatory.cpp:576 ekos/observatory/observatory.ui:631
 #: indi/guimanager.cpp:76 kstarslite/qml/modules/tutorial/TutorialPopup.qml:61
 #, kde-format, kde-kuit-format
 msgid "Close"
@@ -25754,8 +25754,8 @@ msgstr "Pomyślnie obrócono o południk."
 msgid "Telescope completed the meridian flip."
 msgstr "Teleskop ukończył obrót o południk."
 
-#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1062
-#: ekos/observatory/observatory.cpp:1073
+#: ekos/manager/meridianflipstate.cpp:425 ekos/observatory/observatory.cpp:1118
+#: ekos/observatory/observatory.cpp:1129
 #: ekos/observatory/observatoryweathermodel.cpp:159
 #: ekos/observatory/observatoryweathermodel.cpp:183
 #, kde-format
@@ -26133,8 +26133,8 @@ msgstr "WŁ."
 
 #. i18n: ectx: property (text), widget (QPushButton, parkB)
 #. i18n: ectx: property (text), widget (QPushButton, domePark)
-#: ekos/mount/mount.ui:746 ekos/observatory/observatory.cpp:276
-#: ekos/observatory/observatory.cpp:324 ekos/observatory/observatory.cpp:353
+#: ekos/mount/mount.ui:746 ekos/observatory/observatory.cpp:332
+#: ekos/observatory/observatory.cpp:380 ekos/observatory/observatory.cpp:409
 #: ekos/observatory/observatory.ui:456 kspopupmenu.cpp:653
 #, kde-format
 msgid "Park"
@@ -26272,142 +26272,142 @@ msgstr ""
 msgid "HA/DE"
 msgstr "HA/DE"
 
-#: ekos/observatory/observatory.cpp:253
+#: ekos/observatory/observatory.cpp:309
 #, kde-format
 msgid "%1 error. See INDI log for details."
 msgstr "%1 błąd. Szczegóły w dzienniku INDI."
 
-#: ekos/observatory/observatory.cpp:254 ekos/observatory/observatory.cpp:265
-#: ekos/observatory/observatory.cpp:305 ekos/observatory/observatory.cpp:320
-#: ekos/observatory/observatory.cpp:335 ekos/observatory/observatory.cpp:342
+#: ekos/observatory/observatory.cpp:310 ekos/observatory/observatory.cpp:321
+#: ekos/observatory/observatory.cpp:361 ekos/observatory/observatory.cpp:376
+#: ekos/observatory/observatory.cpp:391 ekos/observatory/observatory.cpp:398
 #, kde-format
 msgid "Rolloff roof"
 msgstr "Zjeżdżający dach"
 
-#: ekos/observatory/observatory.cpp:265
+#: ekos/observatory/observatory.cpp:321
 #, kde-format
 msgid "%1 is idle."
 msgstr "%1 jest bezczynna."
 
-#: ekos/observatory/observatory.cpp:275 ekos/observatory/observatory.cpp:328
-#: ekos/observatory/observatory.cpp:397
+#: ekos/observatory/observatory.cpp:331 ekos/observatory/observatory.cpp:384
+#: ekos/observatory/observatory.cpp:453
 #, kde-format
 msgid "Opening"
 msgstr "Otwieranie"
 
-#: ekos/observatory/observatory.cpp:276 ekos/observatory/observatory.cpp:324
+#: ekos/observatory/observatory.cpp:332 ekos/observatory/observatory.cpp:380
 #, kde-format
 msgid "Unparking"
 msgstr "Wyparkowywanie"
 
-#: ekos/observatory/observatory.cpp:277
+#: ekos/observatory/observatory.cpp:333
 #, kde-format
 msgid "Rolloff roof opening..."
 msgstr "Zjeżdżający dach otwiera się..."
 
-#: ekos/observatory/observatory.cpp:281
+#: ekos/observatory/observatory.cpp:337
 #, kde-format
 msgid "Dome is moving clockwise..."
 msgstr "Kopuła obraca się w prawo..."
 
-#: ekos/observatory/observatory.cpp:292 ekos/observatory/observatory.cpp:313
-#: ekos/observatory/observatory.cpp:407
+#: ekos/observatory/observatory.cpp:348 ekos/observatory/observatory.cpp:369
+#: ekos/observatory/observatory.cpp:463
 #, kde-format
 msgid "Closing"
 msgstr "Zamykanie"
 
-#: ekos/observatory/observatory.cpp:293 ekos/observatory/observatory.cpp:309
-#: ekos/observatory/observatory.cpp:367
+#: ekos/observatory/observatory.cpp:349 ekos/observatory/observatory.cpp:365
+#: ekos/observatory/observatory.cpp:423
 #, kde-format
 msgid "Unpark"
 msgstr "Wyparkuj"
 
-#: ekos/observatory/observatory.cpp:294
+#: ekos/observatory/observatory.cpp:350
 #, kde-format
 msgid "Rolloff roof is closing..."
 msgstr "Zjeżdżający dach zamyka się..."
 
-#: ekos/observatory/observatory.cpp:298
+#: ekos/observatory/observatory.cpp:354
 #, kde-format
 msgid "Dome is moving counter clockwise..."
 msgstr "Kopuła obraca się w lewo..."
 
-#: ekos/observatory/observatory.cpp:305
+#: ekos/observatory/observatory.cpp:361
 #, kde-format
 msgid "%1 is parked."
 msgstr "%1 jest zaparkowana."
 
-#: ekos/observatory/observatory.cpp:320
+#: ekos/observatory/observatory.cpp:376
 #, kde-format
 msgid "%1 is parking..."
 msgstr "%1 parkuje..."
 
-#: ekos/observatory/observatory.cpp:335
+#: ekos/observatory/observatory.cpp:391
 #, kde-format
 msgid "%1 is unparking..."
 msgstr "%1 wyparkowuje..."
 
-#: ekos/observatory/observatory.cpp:342
+#: ekos/observatory/observatory.cpp:398
 #, kde-format
 msgid "%1 is tracking."
 msgstr "%1 śledzi."
 
-#: ekos/observatory/observatory.cpp:354
+#: ekos/observatory/observatory.cpp:410
 #, kde-format
 msgid "Unparked"
 msgstr "Wyparkowana"
 
-#: ekos/observatory/observatory.cpp:373 ekos/observatory/observatory.cpp:402
+#: ekos/observatory/observatory.cpp:429 ekos/observatory/observatory.cpp:458
 #, kde-format
 msgid "Closed"
 msgstr "Zamknięta"
 
-#: ekos/observatory/observatory.cpp:391
+#: ekos/observatory/observatory.cpp:447
 #, kde-format
 msgid "Opened"
 msgstr "Otwarta"
 
-#: ekos/observatory/observatory.cpp:393
+#: ekos/observatory/observatory.cpp:449
 #, kde-format
 msgid "Shutter is open."
 msgstr "Migawka jest otwarta."
 
-#: ekos/observatory/observatory.cpp:398
+#: ekos/observatory/observatory.cpp:454
 #, kde-format
 msgid "Shutter is opening..."
 msgstr "Migawka otwiera się..."
 
-#: ekos/observatory/observatory.cpp:404
+#: ekos/observatory/observatory.cpp:460
 #, kde-format
 msgid "Shutter is closed."
 msgstr "Migawka jest zamknięta."
 
-#: ekos/observatory/observatory.cpp:408
+#: ekos/observatory/observatory.cpp:464
 #, kde-format
 msgid "Shutter is closing..."
 msgstr "Migawka zamyka się..."
 
-#: ekos/observatory/observatory.cpp:714
+#: ekos/observatory/observatory.cpp:770
 #, kde-format
 msgid "%1 = %2 @ %3"
 msgstr "%1 = %2 @ %3"
 
-#: ekos/observatory/observatory.cpp:765
+#: ekos/observatory/observatory.cpp:821
 #, kde-format
 msgid "Weather is OK"
 msgstr "Pogoda jest OK"
 
-#: ekos/observatory/observatory.cpp:771
+#: ekos/observatory/observatory.cpp:827
 #, kde-format
 msgid "Weather Warning"
 msgstr "Ostrzeżenie pogodowe"
 
-#: ekos/observatory/observatory.cpp:777
+#: ekos/observatory/observatory.cpp:833
 #, kde-format
 msgid "Weather Alert"
 msgstr "Powiadomienie pogodowe"
 
-#: ekos/observatory/observatory.cpp:1059 ekos/observatory/observatory.cpp:1070
+#: ekos/observatory/observatory.cpp:1115 ekos/observatory/observatory.cpp:1126
 #: ekos/observatory/observatoryweathermodel.cpp:156
 #: ekos/observatory/observatoryweathermodel.cpp:180
 #, kde-format
