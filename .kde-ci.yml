@@ -4,22 +4,22 @@
 Dependencies:
 - 'on': ['@all']
   'require':
-    'frameworks/extra-cmake-modules': '@stable'
-    'frameworks/kconfig': '@stable'
-    'frameworks/kguiaddons': '@stable'
-    'frameworks/ki18n': '@stable'
-    'frameworks/kplotting': '@stable'
+    'frameworks/extra-cmake-modules': '@stable-kf6'
+    'frameworks/kconfig': '@stable-kf6'
+    'frameworks/kguiaddons': '@stable-kf6'
+    'frameworks/ki18n': '@stable-kf6'
+    'frameworks/kplotting': '@stable-kf6'
 
 - 'on': ['Linux','Windows']
   'require':
-    'frameworks/breeze-icons': '@stable'
-    'frameworks/kcrash': '@stable'
-    'frameworks/kdoctools': '@stable'
-    'frameworks/kinit': '@stable'
-    'frameworks/knewstuff': '@stable'
-    'frameworks/knotifications': '@stable'
-    'frameworks/knotifyconfig': '@stable'
-    'frameworks/kxmlgui': '@stable'
+    'frameworks/breeze-icons': '@stable-kf6'
+    'frameworks/kcrash': '@stable-kf6'
+    'frameworks/kdoctools': '@stable-kf6'
+    'frameworks/kinit': '@stable-kf6'
+    'frameworks/knewstuff': '@stable-kf6'
+    'frameworks/knotifications': '@stable-kf6'
+    'frameworks/knotifyconfig': '@stable-kf6'
+    'frameworks/kxmlgui': '@stable-kf6'
 
 #- 'on': ['Android']
 #  'require':
