@@ -2,7 +2,26 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 Dependencies:
-- 'on': ['@all']
+- 'on': ['Linux/Qt5', 'FreeBSD/Qt5', 'Windows/Qt5', 'macOS/Qt5']
+  'require':
+    'frameworks/extra-cmake-modules': '@stable'
+    'frameworks/kconfig': '@stable'
+    'frameworks/kguiaddons': '@stable'
+    'frameworks/ki18n': '@stable'
+    'frameworks/kinit': '@stable'
+    'frameworks/kplotting': '@stable'
+
+- 'on': ['Linux/Qt5','Windows/Qt5']
+  'require':
+    'frameworks/breeze-icons': '@stable'
+    'frameworks/kcrash': '@stable'
+    'frameworks/kdoctools': '@stable'
+    'frameworks/knewstuff': '@stable'
+    'frameworks/knotifications': '@stable'
+    'frameworks/knotifyconfig': '@stable'
+    'frameworks/kxmlgui': '@stable'
+
+- 'on': ['Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6', 'macOS/Qt6']
   'require':
     'frameworks/extra-cmake-modules': '@stable-kf6'
     'frameworks/kconfig': '@stable-kf6'
@@ -10,7 +29,7 @@ Dependencies:
     'frameworks/ki18n': '@stable-kf6'
     'frameworks/kplotting': '@stable-kf6'
 
-- 'on': ['Linux','Windows']
+- 'on': ['Linux/Qt6','Windows/Qt6']
   'require':
     'frameworks/breeze-icons': '@stable-kf6'
     'frameworks/kcrash': '@stable-kf6'
