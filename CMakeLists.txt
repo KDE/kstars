@@ -249,7 +249,7 @@ MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "https://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
 if (NOT ANDROID)
-    find_package(StellarSolver REQUIRED 2.2)
+    find_package(StellarSolver REQUIRED 2.6)
 endif(NOT ANDROID)
 MACRO_BOOL_TO_01(StellarSolver_FOUND HAVE_STELLARSOLVER)
 
