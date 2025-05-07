@@ -13,7 +13,12 @@ set (KSTARS_BUILD_RELEASE "Beta")
 set (CMAKE_CXX_STANDARD 17)
 
 # Option to choose between Qt5 and Qt6
-option(BUILD_QT5 "Build using Qt5" Off)
+option(BUILD_WITH_QT6 "Build using Qt6" Off)
+option(BUILD_QT5 "Build using Qt5" On)
+
+if(BUILD_WITH_QT6)
+    set(BUILD_QT5 Off)
+endif(BUILD_WITH_QT6)
 
 if(BUILD_QT5)
     set(QT_MIN_VERSION 5.12.7)
