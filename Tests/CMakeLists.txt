@@ -8,9 +8,9 @@ include_directories(
     ${kstars_SOURCE_DIR}/datahandlers
     )
 
-if(STELLARSOLVER_FOUND)
+if(StellarSolver_FOUND)
 include_directories(${STELLARSOLVER_INCLUDE_DIR})
-endif(STELLARSOLVER_FOUND)
+endif(StellarSolver_FOUND)
 
 if(WCSLIB_FOUND)
   include_directories( ${WCSLIB_INCLUDE_DIR} )
@@ -53,6 +53,13 @@ SET( TEST_KSLITE_LIBRARIES
         ${ZLIB_LIBRARIES}
         KStarsLiteLib
 )
+
+if(StellarSolver_FOUND)
+    SET( TEST_LIBRARIES
+            ${TEST_LIBRARIES}
+            StellarSolver::stellarsolver
+    )
+endif(StellarSolver_FOUND)
 
 add_subdirectory(auxiliary)
 add_subdirectory(tools)

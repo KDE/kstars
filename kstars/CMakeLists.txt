@@ -1387,9 +1387,9 @@ IF (NOT ANDROID)
         target_link_libraries(KStarsLib KF6::NotifyConfig)
     endif()
 
-    if (STELLARSOLVER_FOUND)
-	    target_link_libraries(KStarsLib StellarSolver::stellarsolver)
-    endif(STELLARSOLVER_FOUND)
+    if (StellarSolver_FOUND)
+        target_link_libraries(KStarsLib StellarSolver::stellarsolver)
+    endif(StellarSolver_FOUND)
 
     if(NOT WIN32)
         target_link_libraries(KStarsLib m)
