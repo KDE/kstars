@@ -54,13 +54,6 @@ SET( TEST_KSLITE_LIBRARIES
         KStarsLiteLib
 )
 
-if(STELLARSOLVER_FOUND)
-    SET( TEST_LIBRARIES
-            ${TEST_LIBRARIES}
-            ${STELLARSOLVER_LIBRARIES}
-    )
-endif(STELLARSOLVER_FOUND)
-
 add_subdirectory(auxiliary)
 add_subdirectory(tools)
 add_subdirectory(skyobjects)

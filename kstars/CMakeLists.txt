@@ -1296,7 +1296,7 @@ IF (NOT ANDROID)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/schedulerprocess.h Ekos::SchedulerProcess)
             qt6_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Observatory.xml ekos/observatory/observatory.h Ekos::Observatory)
-	ENDIF()
+	    ENDIF()
     ENDIF ()
 
     ki18n_wrap_ui(kstars_SRCS
@@ -1331,44 +1331,44 @@ IF (NOT ANDROID)
     generate_export_header(KStarsLib)
 
     target_link_libraries(KStarsLib
-    LibKSDataHandlers
-    htmesh
-    Qt::Gui
-    Qt::PrintSupport
-    Qt::Sql
-    Qt::Svg
-    Qt::Qml
-    Qt::Quick
-    Qt::Network
-    #Qt::Positioning
-    Qt::Concurrent
-    Qt::WebSockets
-    ${ZLIB_LIBRARIES}
-    Eigen3::Eigen
-    GSL::gsl
+        LibKSDataHandlers
+        htmesh
+        Qt::Gui
+        Qt::PrintSupport
+        Qt::Sql
+        Qt::Svg
+        Qt::Qml
+        Qt::Quick
+        Qt::Network
+        #Qt::Positioning
+        Qt::Concurrent
+        Qt::WebSockets
+        ${ZLIB_LIBRARIES}
+        Eigen3::Eigen
+        GSL::gsl
     )
     if (BUILD_QT5)
         target_link_libraries(KStarsLib
-        KF5::Crash
-        KF5::I18n
-        KF5::NewStuff
-        KF5::KIOFileWidgets
-        KF5::WidgetsAddons
-        KF5::Plotting
-        KF5::Notifications
+            KF5::Crash
+            KF5::I18n
+            KF5::NewStuff
+            KF5::KIOFileWidgets
+            KF5::WidgetsAddons
+            KF5::Plotting
+            KF5::Notifications
         )
     else()
         target_link_libraries(KStarsLib
-        KF6::Crash
-        KF6::I18n
-	KF6::XmlGui
-        KF6::NewStuffWidgets
-        KF6::KIOFileWidgets
-        KF6::WidgetsAddons
-        KF6::Plotting
-        KF6::Notifications
-        Qt6::DBus
-        Qt6::SvgWidgets
+            KF6::Crash
+            KF6::I18n
+            KF6::XmlGui
+            KF6::NewStuffWidgets
+            KF6::KIOFileWidgets
+            KF6::WidgetsAddons
+            KF6::Plotting
+            KF6::Notifications
+            Qt6::DBus
+            Qt6::SvgWidgets
         )
     endif()
 
@@ -1387,9 +1387,9 @@ IF (NOT ANDROID)
         target_link_libraries(KStarsLib KF6::NotifyConfig)
     endif()
 
-    if (StellarSolver_FOUND)
-	target_link_libraries(KStarsLib StellarSolver::stellarsolver)
-    endif(StellarSolver_FOUND)
+    if (STELLARSOLVER_FOUND)
+	    target_link_libraries(KStarsLib StellarSolver::stellarsolver)
+    endif(STELLARSOLVER_FOUND)
 
     if(NOT WIN32)
         target_link_libraries(KStarsLib m)
