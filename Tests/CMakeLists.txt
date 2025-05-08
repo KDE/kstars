@@ -54,6 +54,13 @@ SET( TEST_KSLITE_LIBRARIES
         KStarsLiteLib
 )
 
+if(STELLARSOLVER_FOUND)
+    SET( TEST_LIBRARIES
+            ${TEST_LIBRARIES}
+            ${STELLARSOLVER_LIBRARIES}
+    )
+endif(STELLARSOLVER_FOUND)
+
 add_subdirectory(auxiliary)
 add_subdirectory(tools)
 add_subdirectory(skyobjects)
@@ -79,10 +86,6 @@ add_subdirectory(internalguide)
 endif(NOT WIN32)
 ENDIF(INDI_FOUND)
 ENDIF(CFITSIO_FOUND)
-
-if(STELLARSOLVER_FOUND)
-    include_directories(${STELLARSOLVER_INCLUDE_DIR})
-endif(STELLARSOLVER_FOUND)
 
 IF (UNIX AND NOT APPLE AND CFITSIO_FOUND)
     IF (BUILD_KSTARS_LITE)
