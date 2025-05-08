@@ -35,6 +35,7 @@ class Cloud : public QObject
     signals:
         void connected();
         void disconnected();
+        void globalLogoutTriggered(const QUrl &url);
         void newImage(const QByteArray &image);
 
     public slots:
@@ -43,7 +44,7 @@ class Cloud : public QObject
     private slots:
         // Connection
         void onConnected();
-        void onDisconnected();        
+        void onDisconnected();
 
         // Communication
         void onTextReceived(const QString &message);

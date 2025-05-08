@@ -120,7 +120,23 @@ void Media::onTextReceived(const QString &message)
     const QString command = msgObj["type"].toString();
     const QJsonObject payload = msgObj["payload"].toObject();
 
-    if (command == commands[ALIGN_SET_FILE_EXTENSION])
+    if (command == commands[LOGOUT] || command == commands[SESSION_EXPIRED])
+    {
+        auto node = qobject_cast<Node*>(sender());
+        if (node)
+        {
+            qCInfo(KSTARS_EKOS) << "Media: Received" << command << "from node" << node->url().toDisplayString()
+                                << ". Emitting globalLogoutTriggered signal with URL.";
+            emit globalLogoutTriggered(node->url());
+        }
+        else
+        {
+            qCWarning(KSTARS_EKOS) << "Media: Received" << command << "but could not identify sender node.";
+            emit globalLogoutTriggered(QUrl());
+        }
+        return; // Logout command processed
+    }
+    else if (command == commands[ALIGN_SET_FILE_EXTENSION])
         extension = payload["ext"].toString();
     else if (command == commands[SET_BLOBS])
         m_sendBlobs = msgObj["payload"].toBool();

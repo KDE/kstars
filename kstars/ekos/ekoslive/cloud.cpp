@@ -114,15 +114,26 @@ void Cloud::onTextReceived(const QString &message)
 
         Options::self()->save();
     }
-    else if (command == commands[LOGOUT])
+    else if (command == commands[LOGOUT] || command == commands[SESSION_EXPIRED])
     {
-        for (auto &nodeManager : m_NodeManagers)
+        auto node = qobject_cast<Node*>(sender());
+        if (node)
         {
-            if (nodeManager->cloud() == nullptr)
-                continue;
-
-            nodeManager->cloud()->disconnectServer();
+            qCInfo(KSTARS_EKOS) << "Cloud: Received" << command << "from node" << node->url().toDisplayString()
+                                << ". Emitting globalLogoutTriggered signal with URL.";
+            emit globalLogoutTriggered(node->url());
         }
+        else
+        {
+            qCWarning(KSTARS_EKOS) << "Cloud: Received" << command << "but could not identify sender node.";
+            // Fallback: if sender node can't be identified, emit without URL,
+            // which might trigger a broader logout in the client if not handled carefully.
+            // Or, decide to do nothing if URL is essential. For now, let's emit.
+            emit globalLogoutTriggered(QUrl());
+        }
+        // Do not return here, let other processing for LOGOUT/SESSION_EXPIRED happen if any.
+        // However, typically, after emitting logout, further processing for this command might not be needed.
+        // For now, let's assume the signal emission is the primary action.
     }
 }
 

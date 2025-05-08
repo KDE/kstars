@@ -9,6 +9,7 @@
 
 #include "nodemanager.h"
 #include "version.h"
+#include "ekos_debug.h"
 
 #include <QWebSocket>
 #include <QUrlQuery>
@@ -84,7 +85,15 @@ void NodeManager::setConnected()
 
     // Only emit once all nodes are connected.
     if (isConnected)
+    {
+        // If we were re-authenticating, mark it as complete now that all nodes are connected.
+        if (m_isReauthenticating)
+        {
+            qCInfo(KSTARS_EKOS) << "NodeManager for URL" << m_ServiceURL.toDisplayString() << "successfully re-authenticated and connected all nodes.";
+            setIsReauthenticating(false);
+        }
         emit connected();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -124,6 +133,15 @@ void NodeManager::setCredentials(const QString &username, const QString &passwor
 ///////////////////////////////////////////////////////////////////////////////////////////
 void NodeManager::authenticate()
 {
+    if (m_isReauthenticating)
+    {
+        // Already trying to authenticate this manager, prevent stacking requests.
+        // Log this attempt or decide if it should queue. For now, just return.
+        qCInfo(KSTARS_EKOS) << "NodeManager::authenticate called while already in progress for URL:" << m_ServiceURL.toDisplayString() << ". Ignoring.";
+        return;
+    }
+    // setIsReauthenticating(true); // This will be set by the Client before calling authenticate
+
     QNetworkRequest request;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
@@ -155,6 +173,8 @@ void NodeManager::onResult(QNetworkReply *reply)
         }
 
         m_ReconnectTries = 0;
+        // Reset flag on authentication error
+        setIsReauthenticating(false);
         emit authenticationError(i18n("Error authentication with Ekos Live server: %1", reply->errorString()));
         reply->deleteLater();
         return;
@@ -166,6 +186,8 @@ void NodeManager::onResult(QNetworkReply *reply)
 
     if (error.error != QJsonParseError::NoError)
     {
+        // Reset flag on authentication error (parse error)
+        setIsReauthenticating(false);
         emit authenticationError(i18n("Error parsing server response: %1", error.errorString()));
         reply->deleteLater();
         return;
@@ -175,6 +197,8 @@ void NodeManager::onResult(QNetworkReply *reply)
 
     if (m_AuthResponse["success"].toBool() == false)
     {
+        // Reset flag on authentication error (server denied)
+        setIsReauthenticating(false);
         emit authenticationError(m_AuthResponse["message"].toString());
         reply->deleteLater();
         return;

@@ -139,7 +139,9 @@ void Message::onTextReceived(const QString &message)
     }
     else if (command == commands[LOGOUT] || command == commands[SESSION_EXPIRED])
     {
-        emit expired(node->url());
+        qCInfo(KSTARS_EKOS) << "Received" << command << "from node" << node->url().toDisplayString()
+                            << ". Emitting globalLogoutTriggered signal with URL.";
+        emit globalLogoutTriggered(node->url());
         return;
     }
     else if (command == commands[SET_CLIENT_STATE])

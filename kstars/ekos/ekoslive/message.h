@@ -66,7 +66,7 @@ class Message : public QObject
     signals:
         void connected();
         void disconnected();
-        void expired(const QUrl &url);
+        void globalLogoutTriggered(const QUrl &url);
         void optionsUpdated();
         void resetPolarView();
 

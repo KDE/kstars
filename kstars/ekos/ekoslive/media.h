@@ -45,6 +45,7 @@ class Media : public QObject
     signals:
         void connected();
         void disconnected();
+        void globalLogoutTriggered(const QUrl &url);
 
         void newBoundingRect(QRect rect, QSize view, double currentZoom);
         void newImage(const QByteArray &image);

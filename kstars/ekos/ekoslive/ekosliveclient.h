@@ -72,20 +72,23 @@ class Client : public QDialog, public Ui::EkosLiveDialog
 
     signals:
         void connected();
-        void disconnected();        
+        void disconnected();
 
-    private:
+    private slots:
         void onConnected();
         void onDisconnected();
+        void processGlobalLogoutTrigger(const QUrl &url);
 
-      Ekos::Manager *m_Manager { nullptr };
-      bool m_isConnected {false};
+    private:
+        Ekos::Manager *m_Manager { nullptr };
+        bool m_isConnected {false};
+        bool m_isProcessingGlobalLogout {false};
 
-      QProgressIndicator *pi { nullptr };
-      QVector<QSharedPointer<NodeManager>> m_NodeManagers;
+        QProgressIndicator *pi { nullptr };
+        QVector<QSharedPointer<NodeManager>> m_NodeManagers;
 
-      QPointer<Message> m_Message;
-      QPointer<Media> m_Media;
-      QPointer<Cloud> m_Cloud;
+        QPointer<Message> m_Message;
+        QPointer<Media> m_Media;
+        QPointer<Cloud> m_Cloud;
 };
 }
