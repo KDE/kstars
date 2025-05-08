@@ -44,7 +44,12 @@ Dependencies:
 #- 'on': ['Android']
 #  'require':
 
+Environment:
+  CMAKE_VERBOSE_MAKEFILE: "ON"
+
 Options:
   in-source-build: False
   setup-dbus-session: True
   setup-x-environment: True
+  cmake-options: '--trace'
+  use-ccache: True
