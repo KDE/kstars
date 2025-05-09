@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 01:56+0000\n"
+"POT-Creation-Date: 2025-05-09 01:52+0000\n"
 "PO-Revision-Date: 2009-07-28 20:12+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -12845,7 +12845,7 @@ msgstr "Gátt"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:217
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:307
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -12856,7 +12856,7 @@ msgstr "Tengjast"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:184
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:250
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, fuzzy, kde-format, kde-kuit-format
@@ -17329,33 +17329,33 @@ msgstr "S&töðva eftirför"
 msgid "Stopped"
 msgstr "INDUS"
 
-#: ekos/ekoslive/ekosliveclient.cpp:258
+#: ekos/ekoslive/ekosliveclient.cpp:357
 #, fuzzy, kde-format
 #| msgid "Stop Service"
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Stöðva þjónustu"
 
-#: ekos/ekoslive/ekosliveclient.cpp:260
+#: ekos/ekoslive/ekosliveclient.cpp:359
 #, fuzzy, kde-format
 msgid "Observatory:"
 msgstr "Borg heiti a"
 
-#: ekos/ekoslive/ekosliveclient.cpp:261
+#: ekos/ekoslive/ekosliveclient.cpp:360
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Moline"
 msgid "Offline:"
 msgstr "Moline"
 
-#: ekos/ekoslive/ekosliveclient.cpp:262
+#: ekos/ekoslive/ekosliveclient.cpp:361
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Moline"
 msgid "Online:"
 msgstr "Moline"
 
-#: ekos/ekoslive/ekosliveclient.cpp:263
+#: ekos/ekoslive/ekosliveclient.cpp:362
 #, fuzzy, kde-format
 msgid "Machine ID:"
 msgstr "Borg heiti a"
@@ -17421,24 +17421,24 @@ msgstr "Moline"
 msgid "Offline"
 msgstr "Moline"
 
-#: ekos/ekoslive/message.cpp:759
+#: ekos/ekoslive/message.cpp:761
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Sargent"
 msgid "target"
 msgstr "Sargent"
 
-#: ekos/ekoslive/message.cpp:1041
+#: ekos/ekoslive/message.cpp:1043
 #, fuzzy, kde-format
 msgid "Mosaic import failed."
 msgstr "Vistun myndarinnar %1 mistókst!"
 
-#: ekos/ekoslive/nodemanager.cpp:158
+#: ekos/ekoslive/nodemanager.cpp:178
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr ""
 
-#: ekos/ekoslive/nodemanager.cpp:169
+#: ekos/ekoslive/nodemanager.cpp:191
 #, fuzzy, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Gat ekki vistað mynd: %1 "

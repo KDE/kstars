@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1708363 $
+# Version: $Revision: 1708541 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-06 01:56+0000\n"
+"POT-Creation-Date: 2025-05-09 01:52+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -13314,7 +13314,7 @@ msgstr "Port"
 #. i18n: ectx: property (text), widget (QPushButton, connectB)
 #. i18n: ectx: property (text), widget (QPushButton, externalConnectB)
 #. i18n: ectx: property (text), widget (QPushButton, connectHostB)
-#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:217
+#: ekos/auxiliary/portselector.cpp:184 ekos/ekoslive/ekosliveclient.cpp:307
 #: ekos/ekoslive/ekoslivedialog.ui:327 ekos/guide/guide.ui:329
 #: ekos/manager.ui:563 indi/drivermanager.ui:361
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
@@ -13325,7 +13325,7 @@ msgstr "Połącz"
 #. i18n: ectx: property (text), widget (QPushButton, externalDisconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectB)
 #. i18n: ectx: property (text), widget (QPushButton, disconnectHostB)
-#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:184
+#: ekos/auxiliary/portselector.cpp:191 ekos/ekoslive/ekosliveclient.cpp:250
 #: ekos/guide/guide.ui:391 ekos/manager.ui:579 indi/drivermanager.ui:368
 #: kstarslite/qml/indi/INDIControlPanel.qml:212
 #, kde-format, kde-kuit-format
@@ -18188,29 +18188,29 @@ msgstr "Zatrzymaj nagrywanie"
 msgid "Stopped"
 msgstr "Zatrzymaj"
 
-#: ekos/ekoslive/ekosliveclient.cpp:258
+#: ekos/ekoslive/ekosliveclient.cpp:357
 #, kde-format
 msgctxt "@title:window"
 msgid "Select EkosLive Servers"
 msgstr "Wybierz serwery EkosLive"
 
-#: ekos/ekoslive/ekosliveclient.cpp:260
+#: ekos/ekoslive/ekosliveclient.cpp:359
 #, fuzzy, kde-format
 #| msgid "Observatory"
 msgid "Observatory:"
 msgstr "Obserwatorium"
 
-#: ekos/ekoslive/ekosliveclient.cpp:261
+#: ekos/ekoslive/ekosliveclient.cpp:360
 #, kde-format
 msgid "Offline:"
 msgstr "Odłączony od sieci:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:262
+#: ekos/ekoslive/ekosliveclient.cpp:361
 #, kde-format
 msgid "Online:"
 msgstr "Podłączony do sieci:"
 
-#: ekos/ekoslive/ekosliveclient.cpp:263
+#: ekos/ekoslive/ekosliveclient.cpp:362
 #, fuzzy, kde-format
 #| msgctxt "City in Germany"
 #| msgid "Malchin"
@@ -18271,23 +18271,23 @@ msgstr "Z internetu"
 msgid "Offline"
 msgstr "Bez internetu"
 
-#: ekos/ekoslive/message.cpp:759
+#: ekos/ekoslive/message.cpp:761
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "target"
 msgstr "Cel"
 
-#: ekos/ekoslive/message.cpp:1041
+#: ekos/ekoslive/message.cpp:1043
 #, kde-format
 msgid "Mosaic import failed."
 msgstr "Nie udało się zaimportować mozaiki."
 
-#: ekos/ekoslive/nodemanager.cpp:158
+#: ekos/ekoslive/nodemanager.cpp:178
 #, kde-format
 msgid "Error authentication with Ekos Live server: %1"
 msgstr "Błąd uwierzytelniania z serwerem Ekos Live: %1"
 
-#: ekos/ekoslive/nodemanager.cpp:169
+#: ekos/ekoslive/nodemanager.cpp:191
 #, kde-format
 msgid "Error parsing server response: %1"
 msgstr "Błąd przetwarzania odpowiedzi serwera: %1"
