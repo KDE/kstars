@@ -553,7 +553,7 @@ void FocusModule::removeDevice(const QSharedPointer<ISD::GenericDevice> &deviceR
 {
     // Check in Temperature Sources.
     for (auto &oneSource : m_TemperatureSources)
-        if (oneSource->getDeviceName() == deviceRemoved->getDeviceName())
+        if (!oneSource.isNull() && oneSource->getDeviceName() == deviceRemoved->getDeviceName())
             m_TemperatureSources.removeAll(oneSource);
 
     // publish the change to all focusers

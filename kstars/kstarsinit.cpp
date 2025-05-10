@@ -32,6 +32,7 @@
 #include <KActionMenu>
 #include <KToggleAction>
 #include <KToolBar>
+#include <QActionGroup>
 
 #include <QMenu>
 #include <QStatusBar>
