@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-09 01:52+0000\n"
+"POT-Creation-Date: 2025-05-11 01:57+0000\n"
 "PO-Revision-Date: 2025-05-02 09:45+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -2051,7 +2051,7 @@ msgstr "Стан:"
 msgid "Idle"
 msgstr "Бездіяльність"
 
-#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:468
+#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:469
 #, kde-format, kde-kuit-format
 msgid "What's Interesting..."
 msgstr "Цікаві об'єкти…"
@@ -4353,7 +4353,7 @@ msgstr "Розташування умовних позначень:"
 msgid "Any"
 msgstr "Будь-які"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1139 kstarsinit.cpp:496
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1139 kstarsinit.cpp:497
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:100
@@ -6496,7 +6496,7 @@ msgstr "Розв'язування перервано за %1 секунд."
 #: ekos/capture/capture.cpp:326 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1241 ekos/manager.cpp:2154 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
-#: ekos/scheduler/schedulerprocess.cpp:3680
+#: ekos/scheduler/schedulerprocess.cpp:3683
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6700,8 +6700,8 @@ msgstr "Некоректна адреса: %1"
 
 #: ekos/align/align.cpp:3973 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
-#: ekos/scheduler/schedulerprocess.cpp:3151
-#: ekos/scheduler/schedulerprocess.cpp:4877
+#: ekos/scheduler/schedulerprocess.cpp:3154
+#: ekos/scheduler/schedulerprocess.cpp:4880
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Не вдалося виконати запис до файла %1"
@@ -6709,10 +6709,10 @@ msgstr "Не вдалося виконати запис до файла %1"
 #: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2938
 #: ekos/capture/cameraprocess.cpp:2595 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3152
-#: ekos/scheduler/schedulerprocess.cpp:3499
-#: ekos/scheduler/schedulerprocess.cpp:4878
-#: ekos/scheduler/schedulerprocess.cpp:4898 indi/drivermanager.cpp:1549
+#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3155
+#: ekos/scheduler/schedulerprocess.cpp:3502
+#: ekos/scheduler/schedulerprocess.cpp:4881
+#: ekos/scheduler/schedulerprocess.cpp:4901 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1399 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7372,8 +7372,8 @@ msgstr "Відкриття списку вирівнювання Ekos"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2937
 #: ekos/capture/cameraprocess.cpp:2594 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3498
-#: ekos/scheduler/schedulerprocess.cpp:4897
+#: ekos/scheduler/schedulerprocess.cpp:3501
+#: ekos/scheduler/schedulerprocess.cpp:4900
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Не вдалося відкрити файл %1"
@@ -14256,7 +14256,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
 #: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1931
-#: kstarsinit.cpp:862 kstarsinit.cpp:863 tools/obslistwizard.ui:183
+#: kstarsinit.cpp:863 kstarsinit.cpp:864 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
 msgstr "Немає"
@@ -16365,7 +16365,7 @@ msgstr "Загалом"
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1175 kstarsinit.cpp:478
+#: kstarsactions.cpp:1175 kstarsinit.cpp:479
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -25144,7 +25144,7 @@ msgid "Remove profile"
 msgstr "Вилучити профіль"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customDriversB)
-#: ekos/manager.ui:272 kstarsinit.cpp:536
+#: ekos/manager.ui:272 kstarsinit.cpp:537
 #, kde-format
 msgid "Custom Drivers..."
 msgstr "Нетипові драйвери…"
@@ -25168,7 +25168,7 @@ msgid "Ekos Live..."
 msgstr "Ekos Live…"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
-#: ekos/manager.ui:420 kstarsinit.cpp:539
+#: ekos/manager.ui:420 kstarsinit.cpp:540
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr "Панель керування INDI…"
@@ -25472,7 +25472,7 @@ msgstr "Дані моделі вирівнювання вилучено."
 msgid "Failed to clear Alignment Model."
 msgstr "Не вдалося вилучити дані моделі вирівнювання."
 
-#: ekos/mount/mount.cpp:1272 ekos/scheduler/schedulerprocess.cpp:4307
+#: ekos/mount/mount.cpp:1272 ekos/scheduler/schedulerprocess.cpp:4310
 #, kde-format
 msgid "Mount already parked."
 msgstr "Лафет уже запарковано."
@@ -28752,7 +28752,7 @@ msgstr ""
 "потім виконує оцінку пріоритетності завдань."
 
 #: ekos/scheduler/scheduler.cpp:377 ekos/scheduler/scheduler.cpp:2225
-#: ekos/scheduler/schedulerprocess.cpp:3585
+#: ekos/scheduler/schedulerprocess.cpp:3588
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -30350,37 +30350,37 @@ msgstr ""
 "Завдання «%1» полягає у переході безпосередньо до етапу створення знімків, "
 "оскільки у черзі лише кадри калібрування."
 
-#: ekos/scheduler/schedulerprocess.cpp:2933
-#: ekos/scheduler/schedulerprocess.cpp:3748
+#: ekos/scheduler/schedulerprocess.cpp:2936
+#: ekos/scheduler/schedulerprocess.cpp:3751
 #, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr ""
 "Увага! Процедура вирівнювання у завданні «%1» зазнала невдачі. Позначаємо "
 "завдання перерваним."
 
-#: ekos/scheduler/schedulerprocess.cpp:2959
+#: ekos/scheduler/schedulerprocess.cpp:2962
 #, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr ""
 "Увага! Процедура захоплення зображення у завданні «%1» зазнала невдачі, "
 "позначаємо завдання як перерване."
 
-#: ekos/scheduler/schedulerprocess.cpp:3005
+#: ekos/scheduler/schedulerprocess.cpp:3008
 #, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr ""
 "Увага! Процедура фокусування у завданні «%1» зазнала невдачі. Позначаємо "
 "завдання перерваним."
 
-#: ekos/scheduler/schedulerprocess.cpp:3028
-#: ekos/scheduler/schedulerprocess.cpp:3819
+#: ekos/scheduler/schedulerprocess.cpp:3031
+#: ekos/scheduler/schedulerprocess.cpp:3822
 #, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr ""
 "Увага! Процедура наведення у завданні «%1» зазнала невдачі. Позначаємо "
 "завдання перерваним."
 
-#: ekos/scheduler/schedulerprocess.cpp:3052
+#: ekos/scheduler/schedulerprocess.cpp:3055
 #, kde-format
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
@@ -30388,56 +30388,56 @@ msgstr ""
 "Увага! У завданні «%1» втрачено з'єднання із лафетом. Намагаємося відновити "
 "з'єднання."
 
-#: ekos/scheduler/schedulerprocess.cpp:3069
+#: ekos/scheduler/schedulerprocess.cpp:3072
 #, kde-format
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr ""
 "Увага! У завданні «%1» втрачено з'єднання із куполом. Намагаємося відновити "
 "з'єднання."
 
-#: ekos/scheduler/schedulerprocess.cpp:3137
+#: ekos/scheduler/schedulerprocess.cpp:3140
 #, kde-format
 msgid "Ekos job started (%1)"
 msgstr "Розпочато виконання завдання Ekos (%1)"
 
-#: ekos/scheduler/schedulerprocess.cpp:3338
+#: ekos/scheduler/schedulerprocess.cpp:3341
 #, kde-format
 msgid "Scheduler list saved to %1"
 msgstr "Список планування збережено до %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3443
+#: ekos/scheduler/schedulerprocess.cpp:3446
 #, kde-format
 msgid "Solver timed out: %1s %2"
 msgstr "Час очікування на розв'язок вичерпано: %1 с %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3445
+#: ekos/scheduler/schedulerprocess.cpp:3448
 #, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "Помилка розв'язувача: %1 с %2"
 
-#: ekos/scheduler/schedulerprocess.cpp:3480
+#: ekos/scheduler/schedulerprocess.cpp:3483
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 "Захоплений кадр зсунуто на %1 кутових мінут від цілі, повторне вирівнювання…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3548
+#: ekos/scheduler/schedulerprocess.cpp:3551
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr "Попередження: назва тракту порожня, вибираємо «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3549
+#: ekos/scheduler/schedulerprocess.cpp:3552
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr "Попередження: тракту з назвою %2 не існує, вибираємо «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3551
-#: ekos/scheduler/schedulerprocess.cpp:3563
+#: ekos/scheduler/schedulerprocess.cpp:3554
+#: ekos/scheduler/schedulerprocess.cpp:3566
 #, kde-format
 msgid "Select optical train"
 msgstr "Виберіть оптичний тракт"
 
-#: ekos/scheduler/schedulerprocess.cpp:3560
+#: ekos/scheduler/schedulerprocess.cpp:3563
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
@@ -30446,17 +30446,17 @@ msgstr ""
 "Попередження: немає доступної назви тракту для завдання планувальника, "
 "виберіть назву оптичного тракту вручну."
 
-#: ekos/scheduler/schedulerprocess.cpp:3714
+#: ekos/scheduler/schedulerprocess.cpp:3717
 #, kde-format
 msgid "Job '%1' alignment is complete."
 msgstr "Вирівнювання у завданні «%1» завершено."
 
-#: ekos/scheduler/schedulerprocess.cpp:3733
+#: ekos/scheduler/schedulerprocess.cpp:3736
 #, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Увага! Спроба вирівнювання у завданні «%1» зазнала невдачі."
 
-#: ekos/scheduler/schedulerprocess.cpp:3739
+#: ekos/scheduler/schedulerprocess.cpp:3742
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
@@ -30464,39 +30464,39 @@ msgstr ""
 "Увага! У завданні «%1» примусово скинуто модель лафета після невдалої спроби "
 "вирівнювання №%2."
 
-#: ekos/scheduler/schedulerprocess.cpp:3743
-#: ekos/scheduler/schedulerprocess.cpp:3807
+#: ekos/scheduler/schedulerprocess.cpp:3746
+#: ekos/scheduler/schedulerprocess.cpp:3810
 #, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "Перезапускаємо процес вирівнювання %1…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3779
+#: ekos/scheduler/schedulerprocess.cpp:3782
 #, kde-format
 msgid "Job '%1' guiding is in progress."
 msgstr "Виконуємо наведення у «%1»…"
 
-#: ekos/scheduler/schedulerprocess.cpp:3791
+#: ekos/scheduler/schedulerprocess.cpp:3794
 #, kde-format
 msgid "Warning: job '%1' guiding failed."
 msgstr "Увага! Спроба наведення у %1 зазнала невдачі."
 
-#: ekos/scheduler/schedulerprocess.cpp:3793
+#: ekos/scheduler/schedulerprocess.cpp:3796
 #, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Увага! Не вдалося виконати калібрування у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3812
+#: ekos/scheduler/schedulerprocess.cpp:3815
 #, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr ""
 "Виконуємо завдання «%1», процедуру наведення буде перезапущено за %2 секунд."
 
-#: ekos/scheduler/schedulerprocess.cpp:3865
+#: ekos/scheduler/schedulerprocess.cpp:3868
 #, kde-format
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "[%2] Увага! У завданні «%1» не вдалося захопити ціль."
 
-#: ekos/scheduler/schedulerprocess.cpp:3883
+#: ekos/scheduler/schedulerprocess.cpp:3886
 #, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
@@ -30505,51 +30505,51 @@ msgstr ""
 "[%2] Виконуємо захоплення за завданням «%1», перезапускаємо процедуру "
 "наведення (спроба %3 з %4)."
 
-#: ekos/scheduler/schedulerprocess.cpp:3892
+#: ekos/scheduler/schedulerprocess.cpp:3895
 #, kde-format
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr ""
 "Увага! Процедура захоплення зображення у завданні «%1» зазнала невдачі. "
 "Перезапускаємо процедуру захоплення зображення."
 
-#: ekos/scheduler/schedulerprocess.cpp:3898
+#: ekos/scheduler/schedulerprocess.cpp:3901
 #, kde-format
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr ""
 "[%2] Увага! Процедура захоплення зображення у завданні «%1» зазнала невдачі, "
 "позначаємо завдання як перерване."
 
-#: ekos/scheduler/schedulerprocess.cpp:3911
+#: ekos/scheduler/schedulerprocess.cpp:3914
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr "[%2] Перервано виконання завдання-наступника «%1», перезапускаємо."
 
-#: ekos/scheduler/schedulerprocess.cpp:3917
+#: ekos/scheduler/schedulerprocess.cpp:3920
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr "[%2] Перервано виконання завдання-наступника «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:3925
+#: ekos/scheduler/schedulerprocess.cpp:3928
 #, kde-format
 msgid "[%2] Job (%1) - Capture finished"
 msgstr "[%2] Завдання (%1) — зйомку завершено"
 
-#: ekos/scheduler/schedulerprocess.cpp:3999
+#: ekos/scheduler/schedulerprocess.cpp:4002
 #, kde-format
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "Завершено фокусування у завданні «%1» для тракту «%2»."
 
-#: ekos/scheduler/schedulerprocess.cpp:4011
+#: ekos/scheduler/schedulerprocess.cpp:4014
 #, kde-format
 msgid "Warning: job '%1' focusing failed."
 msgstr "Увага! Помилка фокусування у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:4015
+#: ekos/scheduler/schedulerprocess.cpp:4018
 #, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr "Перезапускаємо процедуру фокусування у завданні «%1» для тракту «%2»."
 
-#: ekos/scheduler/schedulerprocess.cpp:4020
+#: ekos/scheduler/schedulerprocess.cpp:4023
 #, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
@@ -30557,29 +30557,29 @@ msgstr ""
 "Увага! Процедура фокусування у завданні «%1» для тракту «%2» зазнала "
 "невдачі. Позначаємо завдання перерваним."
 
-#: ekos/scheduler/schedulerprocess.cpp:4050
+#: ekos/scheduler/schedulerprocess.cpp:4053
 #, kde-format
 msgid "Job '%1' slew is complete."
 msgstr "Завершено обертання у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:4056
+#: ekos/scheduler/schedulerprocess.cpp:4059
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 "Увага! Обертання у завданні «%1» зазнала невдачі, позначаємо завдання як "
 "перерване через помилки."
 
-#: ekos/scheduler/schedulerprocess.cpp:4062
+#: ekos/scheduler/schedulerprocess.cpp:4065
 #, kde-format
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Увага! Не виявлено обертання для завдання «%1», перезапускаємо."
 
-#: ekos/scheduler/schedulerprocess.cpp:4075
+#: ekos/scheduler/schedulerprocess.cpp:4078
 #, kde-format
 msgid "Job '%1' repositioning is complete."
 msgstr "Завершено зміну позиції у завданні «%1»."
 
-#: ekos/scheduler/schedulerprocess.cpp:4081
+#: ekos/scheduler/schedulerprocess.cpp:4084
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
@@ -30587,13 +30587,13 @@ msgstr ""
 "Увага! Зміна позиції у завданні «%1» зазнала невдачі, позначаємо завдання як "
 "перерване через помилки."
 
-#: ekos/scheduler/schedulerprocess.cpp:4087
+#: ekos/scheduler/schedulerprocess.cpp:4090
 #, kde-format
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Увага! Не виявлено зміни позиції для завдання «%1», перезапускаємо."
 
-#: ekos/scheduler/schedulerprocess.cpp:4101
-#: ekos/scheduler/schedulerprocess.cpp:4112
+#: ekos/scheduler/schedulerprocess.cpp:4104
+#: ekos/scheduler/schedulerprocess.cpp:4115
 #, kde-format
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
@@ -30601,19 +30601,19 @@ msgstr ""
 "Увага! Лафет запарковано під час виконання завдання «%1» планувальника. "
 "Перериваємо обробку."
 
-#: ekos/scheduler/schedulerprocess.cpp:4137
+#: ekos/scheduler/schedulerprocess.cpp:4140
 #, kde-format
 msgid "Weather has improved. Resuming operations."
 msgstr "Погода поліпшилася. Відновлюємо роботу."
 
-#: ekos/scheduler/schedulerprocess.cpp:4146
+#: ekos/scheduler/schedulerprocess.cpp:4149
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
 msgstr ""
 "Виявлено попередження щодо погодних умов. Починаємо процедуру м'якого "
 "вимикання."
 
-#: ekos/scheduler/schedulerprocess.cpp:4161
+#: ekos/scheduler/schedulerprocess.cpp:4164
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
@@ -30621,103 +30621,103 @@ msgstr ""
 "Заплановано переведення обсерваторії у стан м'якого вимикання, доки не "
 "поліпшиться погода або до %1."
 
-#: ekos/scheduler/schedulerprocess.cpp:4186
+#: ekos/scheduler/schedulerprocess.cpp:4189
 #, kde-format
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Процедуру вимикання вручну успішно завершено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4192
+#: ekos/scheduler/schedulerprocess.cpp:4195
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr "Процедуру вимикання вручну перервано через помилки."
 
-#: ekos/scheduler/schedulerprocess.cpp:4207
+#: ekos/scheduler/schedulerprocess.cpp:4210
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 "Надіслано запит щодо паркування протипилової кришки, але протипилових кришок "
 "не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4230
+#: ekos/scheduler/schedulerprocess.cpp:4233
 #, kde-format
 msgid "Parking Cap..."
 msgstr "Паркуємо кришку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4236
+#: ekos/scheduler/schedulerprocess.cpp:4239
 #, kde-format
 msgid "Cap already parked."
 msgstr "Кришку уже запарковано."
 
-#: ekos/scheduler/schedulerprocess.cpp:4245
+#: ekos/scheduler/schedulerprocess.cpp:4248
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 "Надіслано запит щодо зняття протипилової кришки з паркування, але "
 "протипилових кришок не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4267
+#: ekos/scheduler/schedulerprocess.cpp:4270
 #, kde-format
 msgid "Unparking cap..."
 msgstr "Знімаємо з паркування кришку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4273
+#: ekos/scheduler/schedulerprocess.cpp:4276
 #, kde-format
 msgid "Cap already unparked."
 msgstr "Кришку уже знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:4282
+#: ekos/scheduler/schedulerprocess.cpp:4285
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr "Надіслано запит щодо паркування лафета, але лафетів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4340
+#: ekos/scheduler/schedulerprocess.cpp:4343
 #, kde-format
 msgid "Parking mount in progress..."
 msgstr "Паркуємо лафет…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4354
+#: ekos/scheduler/schedulerprocess.cpp:4357
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 "Надіслано запит щодо зняття лафета з паркування, але лафетів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4380
+#: ekos/scheduler/schedulerprocess.cpp:4383
 #, kde-format
 msgid "Mount already unparked."
 msgstr "Лафет уже знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:4500
+#: ekos/scheduler/schedulerprocess.cpp:4503
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr "Надіслано запит щодо паркування купола, але куполів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4523
+#: ekos/scheduler/schedulerprocess.cpp:4526
 #, kde-format
 msgid "Parking dome..."
 msgstr "Паркуємо купол…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4529
+#: ekos/scheduler/schedulerprocess.cpp:4532
 #, kde-format
 msgid "Dome already parked."
 msgstr "Купол уже запарковано."
 
-#: ekos/scheduler/schedulerprocess.cpp:4539
+#: ekos/scheduler/schedulerprocess.cpp:4542
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 "Надіслано запит щодо зняття купола з паркування, але куполів не виявлено."
 
-#: ekos/scheduler/schedulerprocess.cpp:4559
+#: ekos/scheduler/schedulerprocess.cpp:4562
 #, kde-format
 msgid "Unparking dome..."
 msgstr "Знімаємо з паркування купол…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4565
+#: ekos/scheduler/schedulerprocess.cpp:4568
 #, kde-format
 msgid "Dome already unparked."
 msgstr "Купол уже знято з паркування."
 
-#: ekos/scheduler/schedulerprocess.cpp:4646
+#: ekos/scheduler/schedulerprocess.cpp:4649
 #, kde-format
 msgid ""
 "Sleeping for %1 on simulation clock update until next observation job is "
@@ -30726,17 +30726,17 @@ msgstr ""
 "Присипляємо на %1 за годинником оновлення імітації, до того, як буде готове "
 "наступне завдання зі спостереження…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4936
+#: ekos/scheduler/schedulerprocess.cpp:4939
 #, kde-format
 msgid "Startup script failed, aborting..."
 msgstr "Не вдалося виконати скрипт запуску. Перериваємо обробку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:4941
+#: ekos/scheduler/schedulerprocess.cpp:4944
 #, kde-format
 msgid "Shutdown script failed, aborting..."
 msgstr "Не вдалося виконати скрипт завершення роботи. Перериваємо обробку…"
 
-#: ekos/scheduler/schedulerprocess.cpp:5002
+#: ekos/scheduler/schedulerprocess.cpp:5005
 #, kde-format
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
 msgstr ""
@@ -31599,7 +31599,7 @@ msgstr "Віддзеркалити горизонтально"
 msgid "Flip Vertical"
 msgstr "Віддзеркалити вертикально"
 
-#: fitsviewer/fitsviewer.cpp:134 kstarsinit.cpp:158
+#: fitsviewer/fitsviewer.cpp:134 kstarsinit.cpp:159
 #, kde-format
 msgid "Open/Blink Directory"
 msgstr "Відкрити/Переглянути каталог"
@@ -34289,7 +34289,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "Показати знімок DSS"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:991
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:992
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:518 skyobjects/starobject.cpp:633
@@ -34491,12 +34491,12 @@ msgstr "KStars"
 msgid "Stop &Tracking"
 msgstr "&Зупинити стеження"
 
-#: kstars.cpp:342 kstarsactions.cpp:1784 kstarsinit.cpp:270
+#: kstars.cpp:342 kstarsactions.cpp:1784 kstarsinit.cpp:271
 #, kde-format
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Перегляд небесного глобуса (&екваторіальні координати)"
 
-#: kstars.cpp:343 kstarsactions.cpp:1765 kstarsinit.cpp:271
+#: kstars.cpp:343 kstarsactions.cpp:1765 kstarsinit.cpp:272
 #, kde-format
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
 msgstr "Горизонтальний перегляд (горизонтальні &координати)"
@@ -70627,22 +70627,22 @@ msgstr "Xplanet"
 msgid "Developer"
 msgstr "Розробник"
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:280
+#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:281
 #, kde-format
 msgid "Hide Terrain"
 msgstr "Приховати ландшафт"
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:281
+#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:282
 #, kde-format
 msgid "Show Terrain"
 msgstr "Показати ландшафт"
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:285
+#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:286
 #, kde-format
 msgid "Hide Image Overlays"
 msgstr "Приховати зображення-накладки"
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:286
+#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:287
 #, kde-format
 msgid "Show Image Overlays"
 msgstr "Показати зображення-накладки"
@@ -70734,12 +70734,12 @@ msgstr "Не перемикатися"
 msgid "Stop running clock in realtime"
 msgstr "Зупинити відлік у режимі реального часу"
 
-#: kstarsactions.cpp:1550 kstarsinit.cpp:198
+#: kstarsactions.cpp:1550 kstarsinit.cpp:199
 #, kde-format
 msgid "Run clock in realtime"
 msgstr "Відлік у режимі реального часу"
 
-#: kstarsactions.cpp:1594 kstarsinit.cpp:243
+#: kstarsactions.cpp:1594 kstarsinit.cpp:244
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "&Почати стеження"
@@ -70773,25 +70773,25 @@ msgstr "Введіть бажаний кутовий розмір поля зо�
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Введіть кутовий розмір поля зору у градусах:"
 
-#: kstarsactions.cpp:1768 kstarsinit.cpp:740
+#: kstarsactions.cpp:1768 kstarsinit.cpp:741
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Північ з&гори"
 
-#: kstarsactions.cpp:1771 kstarsinit.cpp:749
+#: kstarsactions.cpp:1771 kstarsinit.cpp:750
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Північ в&низу"
 
-#: kstarsactions.cpp:1787 kstarsinit.cpp:740
+#: kstarsactions.cpp:1787 kstarsinit.cpp:741
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "Зеніт з&гори"
 
-#: kstarsactions.cpp:1790 kstarsinit.cpp:749
+#: kstarsactions.cpp:1790 kstarsinit.cpp:750
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Down"
@@ -70986,378 +70986,378 @@ msgctxt "@title:window"
 msgid "Print Sky"
 msgstr "Друк картини неба"
 
-#: kstarsinit.cpp:144
+#: kstarsinit.cpp:145
 #, kde-format
 msgid "Download New Data..."
 msgstr "Отримати нові дані…"
 
-#: kstarsinit.cpp:147
+#: kstarsinit.cpp:148
 #, kde-format
 msgid "Downloads new data"
 msgstr "Отримує нові дані"
 
-#: kstarsinit.cpp:154
+#: kstarsinit.cpp:155
 #, kde-format
 msgid "Open Image(s)..."
 msgstr "Відкрити зображення…"
 
-#: kstarsinit.cpp:163
+#: kstarsinit.cpp:164
 #, kde-format
 msgid "&Save Sky Image..."
 msgstr "&Зберегти зображення неба…"
 
-#: kstarsinit.cpp:170
+#: kstarsinit.cpp:171
 #, kde-format
 msgid "&Run Script..."
 msgstr "З&апустити сценарій…"
 
-#: kstarsinit.cpp:174
+#: kstarsinit.cpp:175
 #, kde-format
 msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
 msgstr "&Майстер друку…"
 
-#: kstarsinit.cpp:183
+#: kstarsinit.cpp:184
 #, kde-format
 msgid "Set Time to &Now"
 msgstr "Встановити &поточний час"
 
-#: kstarsinit.cpp:187
+#: kstarsinit.cpp:188
 #, kde-format
 msgctxt "set Clock to New Time"
 msgid "&Set Time..."
 msgstr "&Встановити час…"
 
-#: kstarsinit.cpp:191
+#: kstarsinit.cpp:192
 #, kde-format
 msgid "Stop &Clock"
 msgstr "&Зупинити годинник"
 
-#: kstarsinit.cpp:218
+#: kstarsinit.cpp:219
 #, kde-format
 msgid "Resume Clock"
 msgstr "Відновити відлік"
 
-#: kstarsinit.cpp:218
+#: kstarsinit.cpp:219
 #, kde-format
 msgid "Stop Clock"
 msgstr "Зупинити відлік"
 
-#: kstarsinit.cpp:224
+#: kstarsinit.cpp:225
 #, kde-format
 msgid "Advance One Step Forward in Time"
 msgstr "Зробити один крок вперед часовою шкалою"
 
-#: kstarsinit.cpp:228
+#: kstarsinit.cpp:229
 #, kde-format
 msgid "Advance One Step Backward in Time"
 msgstr "Зробити один крок назад часовою шкалою"
 
-#: kstarsinit.cpp:233
+#: kstarsinit.cpp:234
 #, kde-format
 msgid "&Zenith"
 msgstr "&Зеніт"
 
-#: kstarsinit.cpp:234
+#: kstarsinit.cpp:235
 #, kde-format
 msgid "&North"
 msgstr "&Північ"
 
-#: kstarsinit.cpp:235
+#: kstarsinit.cpp:236
 #, kde-format
 msgid "&East"
 msgstr "&Схід"
 
-#: kstarsinit.cpp:236
+#: kstarsinit.cpp:237
 #, kde-format
 msgid "&South"
 msgstr "&Південь"
 
-#: kstarsinit.cpp:237
+#: kstarsinit.cpp:238
 #, kde-format
 msgid "&West"
 msgstr "&Захід"
 
-#: kstarsinit.cpp:240
+#: kstarsinit.cpp:241
 #, kde-format
 msgid "&Find Object..."
 msgstr "З&найти об'єкт…"
 
-#: kstarsinit.cpp:247
+#: kstarsinit.cpp:248
 #, kde-format
 msgid "Set Coordinates &Manually..."
 msgstr "Вказати координати в&ручну…"
 
-#: kstarsinit.cpp:259
+#: kstarsinit.cpp:260
 #, kde-format
 msgid "&Default Zoom"
 msgstr "&Типовий масштаб"
 
-#: kstarsinit.cpp:262
+#: kstarsinit.cpp:263
 #, kde-format
 msgid "&Zoom to Angular Size..."
 msgstr "&Встановити кут видимості…"
 
-#: kstarsinit.cpp:276
+#: kstarsinit.cpp:277
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
 msgstr "Віддзеркалений перегляд"
 
-#: kstarsinit.cpp:290
+#: kstarsinit.cpp:291
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr "Азимутальна &Ламберта з рівними площами"
 
-#: kstarsinit.cpp:293
+#: kstarsinit.cpp:294
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr "&Азимутальна рівнодистантна"
 
-#: kstarsinit.cpp:296
+#: kstarsinit.cpp:297
 #, kde-format
 msgid "&Orthographic"
 msgstr "&Ортографічна"
 
-#: kstarsinit.cpp:299
+#: kstarsinit.cpp:300
 #, kde-format
 msgid "&Equirectangular"
 msgstr "&Циліндрична"
 
-#: kstarsinit.cpp:302
+#: kstarsinit.cpp:303
 #, kde-format
 msgid "&Stereographic"
 msgstr "&Стереографічна"
 
-#: kstarsinit.cpp:305
+#: kstarsinit.cpp:306
 #, kde-format
 msgid "&Gnomonic"
 msgstr "&Гномонічна"
 
-#: kstarsinit.cpp:311
+#: kstarsinit.cpp:312
 #, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "Показувати &інформаційні написи"
 
-#: kstarsinit.cpp:316
+#: kstarsinit.cpp:317
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "Показати панель &часу"
 
-#: kstarsinit.cpp:323
+#: kstarsinit.cpp:324
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr "Показати панель &фокуса"
 
-#: kstarsinit.cpp:330
+#: kstarsinit.cpp:331
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "Показати панель &розташування"
 
-#: kstarsinit.cpp:337
+#: kstarsinit.cpp:338
 #, kde-format
 msgid "Show Main Toolbar"
 msgstr "Показати головну панель інструментів"
 
-#: kstarsinit.cpp:339
+#: kstarsinit.cpp:340
 #, kde-format
 msgid "Show View Toolbar"
 msgstr "Панель інструментів перегляду"
 
-#: kstarsinit.cpp:343
+#: kstarsinit.cpp:344
 #, kde-format
 msgid "Show Statusbar"
 msgstr "Показати смужку стану"
 
-#: kstarsinit.cpp:344
+#: kstarsinit.cpp:345
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr "Показати азимут/висоту"
 
-#: kstarsinit.cpp:345
+#: kstarsinit.cpp:346
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr "Показати поле прямого сходження/схилення"
 
-#: kstarsinit.cpp:346
+#: kstarsinit.cpp:347
 #, kde-format
 msgid "Show J2000.0 RA/Dec Field"
 msgstr "Показати поле прямого сходження/схилення для J2000.0"
 
-#: kstarsinit.cpp:353
+#: kstarsinit.cpp:354
 #, kde-format
 msgid "C&olor Schemes"
 msgstr "С&хеми кольорів"
 
-#: kstarsinit.cpp:354
+#: kstarsinit.cpp:355
 #, kde-format
 msgid "&Classic"
 msgstr "&Класичний"
 
-#: kstarsinit.cpp:355
+#: kstarsinit.cpp:356
 #, kde-format
 msgid "&Star Chart"
 msgstr "&Зоряна карта"
 
-#: kstarsinit.cpp:356
+#: kstarsinit.cpp:357
 #, kde-format
 msgid "&Night Vision"
 msgstr "Ні&чне небо"
 
-#: kstarsinit.cpp:357
+#: kstarsinit.cpp:358
 #, kde-format
 msgid "&Moonless Night"
 msgstr "&Безмісячна ніч"
 
-#: kstarsinit.cpp:377
+#: kstarsinit.cpp:378
 #, kde-format
 msgid "&FOV Symbols"
 msgstr "Рамки &поля зору"
 
-#: kstarsinit.cpp:385
+#: kstarsinit.cpp:386
 #, kde-format
 msgid "&Views"
 msgstr "П&ерегляди"
 
-#: kstarsinit.cpp:393
+#: kstarsinit.cpp:394
 #, kde-format
 msgid "HiPS All Sky Overlay"
 msgstr "Накладка HiPS на усе небо"
 
-#: kstarsinit.cpp:400
+#: kstarsinit.cpp:401
 #, kde-format
 msgid "Skymap Orientation"
 msgstr "Орієнтація карти неба"
 
-#: kstarsinit.cpp:406
+#: kstarsinit.cpp:407
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "&Географічне…"
 
-#: kstarsinit.cpp:423
+#: kstarsinit.cpp:424
 #, kde-format
 msgid "Startup Wizard..."
 msgstr "Майстер запуску…"
 
-#: kstarsinit.cpp:428
+#: kstarsinit.cpp:429
 #, kde-format
 msgid "Manage DSO Catalogs"
 msgstr "Керування каталогами віддалених об'єктів"
 
-#: kstarsinit.cpp:432
+#: kstarsinit.cpp:433
 #, kde-format
 msgid "Update Comets Orbital Elements"
 msgstr "Оновити параметри орбіт комет"
 
-#: kstarsinit.cpp:434
+#: kstarsinit.cpp:435
 #, kde-format
 msgid "Update Asteroids Orbital Elements"
 msgstr "Оновити параметри орбіт астероїдів"
 
-#: kstarsinit.cpp:436
+#: kstarsinit.cpp:437
 #, kde-format
 msgid "Update Recent Supernovae Data"
 msgstr "Оновити дані щодо наднових"
 
-#: kstarsinit.cpp:438
+#: kstarsinit.cpp:439
 #, kde-format
 msgid "Update Satellites Orbital Elements"
 msgstr "Оновити параметри орбіт супутників"
 
-#: kstarsinit.cpp:442
+#: kstarsinit.cpp:443
 #, kde-format
 msgid "Calculator"
 msgstr "Калькулятор"
 
-#: kstarsinit.cpp:452
+#: kstarsinit.cpp:453
 #, kde-format
 msgid "Observation Planner"
 msgstr "Планування спостереження"
 
-#: kstarsinit.cpp:456
+#: kstarsinit.cpp:457
 #, kde-format
 msgid "Imaging Planner"
 msgstr "Планувальник зйомки"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
+#: kstarsinit.cpp:461 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "Висота/час"
 
-#: kstarsinit.cpp:463
+#: kstarsinit.cpp:464
 #, kde-format
 msgid "What's up Tonight"
 msgstr "Вечірні події"
 
-#: kstarsinit.cpp:472
+#: kstarsinit.cpp:473
 #, kde-format
 msgid "XPlanet Solar System Simulator"
 msgstr "Імітатор Сонячної системи XPlanet"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:474 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
+#: kstarsinit.cpp:475 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
 msgstr "Небесний календар"
 
-#: kstarsinit.cpp:492
+#: kstarsinit.cpp:493
 #, kde-format
 msgid "Script Builder"
 msgstr "Створення сценаріїв"
 
-#: kstarsinit.cpp:500
+#: kstarsinit.cpp:501
 #, kde-format
 msgid "Jupiter's Moons"
 msgstr "Місяці Юпітера"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:503 options/opsguides.ui:284
+#: kstarsinit.cpp:504 options/opsguides.ui:284
 #, kde-format
 msgid "Flags"
 msgstr "Прапорці"
 
-#: kstarsinit.cpp:506
+#: kstarsinit.cpp:507
 #, kde-format
 msgid "List your &Equipment..."
 msgstr "Створити список &обладнання…"
 
-#: kstarsinit.cpp:508
+#: kstarsinit.cpp:509
 #, kde-format
 msgid "Manage Observer..."
 msgstr "Керування спостерігачами…"
 
-#: kstarsinit.cpp:512
+#: kstarsinit.cpp:513
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr "Штучний горизонт…"
 
-#: kstarsinit.cpp:516
+#: kstarsinit.cpp:517
 #, kde-format
 msgid "Execute the Session Plan..."
 msgstr "Виконати план сеансу…"
 
-#: kstarsinit.cpp:520
+#: kstarsinit.cpp:521
 #, kde-format
 msgid "Polaris Hour Angle..."
 msgstr "Годинний кут Полярної…"
 
-#: kstarsinit.cpp:527
+#: kstarsinit.cpp:528
 #, kde-format
 msgid "Telescope Wizard..."
 msgstr "Майстер налаштування телескопа…"
 
-#: kstarsinit.cpp:532
+#: kstarsinit.cpp:533
 #, kde-format
 msgid "Device Manager..."
 msgstr "Керування пристроями…"
 
-#: kstarsinit.cpp:555
+#: kstarsinit.cpp:556
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -71373,315 +71373,315 @@ msgstr ""
 "Якщо буде вказано часовий крок більший за 10 хвилин, зображення кадрів "
 "формуватиметься з інтервалом «X»."
 
-#: kstarsinit.cpp:564
+#: kstarsinit.cpp:565
 #, kde-format
 msgid "Time step control"
 msgstr "Керування часовим кроком"
 
-#: kstarsinit.cpp:573
+#: kstarsinit.cpp:574
 #, kde-format
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "Зірки"
 
-#: kstarsinit.cpp:575
+#: kstarsinit.cpp:576
 #, kde-format
 msgid "Toggle stars"
 msgstr "Перемикач зірок"
 
-#: kstarsinit.cpp:577
+#: kstarsinit.cpp:578
 #, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "Далекі об'єкти"
 
-#: kstarsinit.cpp:579
+#: kstarsinit.cpp:580
 #, kde-format
 msgid "Toggle deep sky objects"
 msgstr "Перемикач віддалених об'єктів"
 
-#: kstarsinit.cpp:581
+#: kstarsinit.cpp:582
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "Сонячна система"
 
-#: kstarsinit.cpp:583
+#: kstarsinit.cpp:584
 #, kde-format
 msgid "Toggle Solar system objects"
 msgstr "Перемикач об'єктів Сонячної системи"
 
-#: kstarsinit.cpp:585
+#: kstarsinit.cpp:586
 #, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "Лінії сузір'їв"
 
-#: kstarsinit.cpp:587
+#: kstarsinit.cpp:588
 #, kde-format
 msgid "Toggle constellation lines"
 msgstr "Перемикач ліній сузір'їв"
 
-#: kstarsinit.cpp:589
+#: kstarsinit.cpp:590
 #, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "Назви сузір'їв"
 
-#: kstarsinit.cpp:591
+#: kstarsinit.cpp:592
 #, kde-format
 msgid "Toggle constellation names"
 msgstr "Перемикач назв сузір'їв"
 
-#: kstarsinit.cpp:593
+#: kstarsinit.cpp:594
 #, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr "Контури сузір'їв"
 
-#: kstarsinit.cpp:595
+#: kstarsinit.cpp:596
 #, kde-format
 msgid "Toggle constellation boundaries"
 msgstr "Перемикач контурів сузір'їв"
 
-#: kstarsinit.cpp:597
+#: kstarsinit.cpp:598
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr "Зображення сузір'їв (BETA)"
 
-#: kstarsinit.cpp:599
+#: kstarsinit.cpp:600
 #, kde-kuit-format
 msgid "Toggle constellation art (BETA)"
 msgstr "Перемикач зображень сузір'їв (BETA)"
 
-#: kstarsinit.cpp:601
+#: kstarsinit.cpp:602
 #, kde-format
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "Чумацький Шлях"
 
-#: kstarsinit.cpp:603
+#: kstarsinit.cpp:604
 #, kde-format
 msgid "Toggle milky way"
 msgstr "Перемикач Чумацького Шляху"
 
-#: kstarsinit.cpp:605
+#: kstarsinit.cpp:606
 #, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "Сітка екваторіальних коорд."
 
-#: kstarsinit.cpp:607
+#: kstarsinit.cpp:608
 #, kde-format
 msgid "Toggle equatorial coordinate grid"
 msgstr "Перемикач екваторіальної координатної сітки"
 
-#: kstarsinit.cpp:609
+#: kstarsinit.cpp:610
 #, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "Сітка горизонтальних коорд."
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:612
 #, kde-format
 msgid "Toggle horizontal coordinate grid"
 msgstr "Увімкнути або вимкнути показ горизонтальної координатної сітки"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:614
 #, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "Поверхня"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:616
 #, kde-format
 msgid "Toggle opaque ground"
 msgstr "Перемикач прозорості поверхні Землі"
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:618
 #, kde-format
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
 msgstr "День"
 
-#: kstarsinit.cpp:619
+#: kstarsinit.cpp:620
 #, kde-format
 msgid "Toggle daytime simulation"
 msgstr "Увімкнути або вимкнути імітацію дня"
 
-#: kstarsinit.cpp:621
+#: kstarsinit.cpp:622
 #, kde-format
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "Прапорці"
 
-#: kstarsinit.cpp:623
+#: kstarsinit.cpp:624
 #, kde-format
 msgid "Toggle flags"
 msgstr "Перемикач прапорців"
 
-#: kstarsinit.cpp:625
+#: kstarsinit.cpp:626
 #, kde-format
 msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "Супутники"
 
-#: kstarsinit.cpp:627
+#: kstarsinit.cpp:628
 #, kde-format
 msgid "Toggle satellites"
 msgstr "Перемикач супутників"
 
-#: kstarsinit.cpp:629
+#: kstarsinit.cpp:630
 #, kde-format
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "Наднові зірки"
 
-#: kstarsinit.cpp:631
+#: kstarsinit.cpp:632
 #, kde-format
 msgid "Toggle supernovae"
 msgstr "Перемикач наднових"
 
-#: kstarsinit.cpp:633
+#: kstarsinit.cpp:634
 #, kde-format
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr "Цікаві об'єкти"
 
-#: kstarsinit.cpp:635
+#: kstarsinit.cpp:636
 #, kde-format
 msgid "Toggle What's Interesting"
 msgstr "Увімкнути або вимкнути показ списку «Цікаві об'єкти»"
 
-#: kstarsinit.cpp:640
+#: kstarsinit.cpp:641
 #, kde-format
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: kstarsinit.cpp:642
+#: kstarsinit.cpp:643
 #, kde-format
 msgid "Toggle Ekos"
 msgstr "Увімкнути або вимкнути Ekos"
 
-#: kstarsinit.cpp:644
+#: kstarsinit.cpp:645
 #, kde-format
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr "Панель керування INDI"
 
-#: kstarsinit.cpp:646
+#: kstarsinit.cpp:647
 #, kde-format
 msgid "Toggle INDI Control Panel"
 msgstr "Перемикання панелі керування INDI"
 
-#: kstarsinit.cpp:649
+#: kstarsinit.cpp:650
 #, kde-format
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "Переглядач FITS"
 
-#: kstarsinit.cpp:651
+#: kstarsinit.cpp:652
 #, kde-format
 msgid "Toggle FITS Viewer"
 msgstr "Перемикання переглядача FITS"
 
-#: kstarsinit.cpp:655
+#: kstarsinit.cpp:656
 #, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "Поле зору датчика"
 
-#: kstarsinit.cpp:657
+#: kstarsinit.cpp:658
 #, kde-format
 msgid "Toggle Sensor FOV"
 msgstr "Перемикач поля зору датчика"
 
-#: kstarsinit.cpp:662
+#: kstarsinit.cpp:663
 #, kde-format
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr "Панель мозаїки"
 
-#: kstarsinit.cpp:664
+#: kstarsinit.cpp:665
 #, kde-format
 msgid "Toggle Mosaic Panel"
 msgstr "Перемикання панелі мозаїки"
 
-#: kstarsinit.cpp:669
+#: kstarsinit.cpp:670
 #, kde-format
 msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "Керування лафетом"
 
-#: kstarsinit.cpp:671
+#: kstarsinit.cpp:672
 #, kde-format
 msgid "Toggle Mount Control Panel"
 msgstr "Перемикання панелі керування лафетом"
 
-#: kstarsinit.cpp:675
+#: kstarsinit.cpp:676
 #, kde-format
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "Центрувати телескоп"
 
-#: kstarsinit.cpp:677
+#: kstarsinit.cpp:678
 #, kde-format
 msgid "Toggle Lock Telescope Center"
 msgstr "Увімкнути/Вимкнути центральне фіксування фокуса телескопа"
 
-#: kstarsinit.cpp:681
+#: kstarsinit.cpp:682
 #, kde-format
 msgid "Toggle Telescope Tracking"
 msgstr "Увімкнути/Вимкнути стеження телескопом"
 
-#: kstarsinit.cpp:685
+#: kstarsinit.cpp:686
 #, kde-format
 msgid "Slew telescope to the focused object"
 msgstr "Навести телескоп на об'єкт у фокусі"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:690
 #, kde-format
 msgid "Sync telescope to the focused object"
 msgstr "Синхронізувати телескоп із об'єктом у фокусі"
 
-#: kstarsinit.cpp:693
+#: kstarsinit.cpp:694
 #, kde-format
 msgid "Abort telescope motions"
 msgstr "Перервати рухи телескопа"
 
-#: kstarsinit.cpp:698
+#: kstarsinit.cpp:699
 #, kde-format
 msgid "Park telescope"
 msgstr "Паркувати телескоп"
 
-#: kstarsinit.cpp:702
+#: kstarsinit.cpp:703
 #, kde-format
 msgid "Unpark telescope"
 msgstr "Зняти з паркування телескоп"
 
-#: kstarsinit.cpp:708
+#: kstarsinit.cpp:709
 #, kde-format
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "Навести телескоп на позицію вказівника миші"
 
-#: kstarsinit.cpp:711
+#: kstarsinit.cpp:712
 #, kde-format
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "Синхронізувати телескоп із позицією вказівника миші"
 
-#: kstarsinit.cpp:718
+#: kstarsinit.cpp:719
 #, kde-format
 msgid "Park dome"
 msgstr "Запаркувати купол"
 
-#: kstarsinit.cpp:722
+#: kstarsinit.cpp:723
 #, kde-format
 msgid "Unpark dome"
 msgstr "Зняти з паркування купол"
 
-#: kstarsinit.cpp:744
+#: kstarsinit.cpp:745
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -71695,7 +71695,7 @@ msgstr ""
 "координат) розташовано вертикально вгору. Це природній вибір для "
 "прямовисного телескопа пошуку або спостереження неозброєним оком."
 
-#: kstarsinit.cpp:753
+#: kstarsinit.cpp:754
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -71710,14 +71710,14 @@ msgstr ""
 "інвертованого зображення у телескопі пошуку, рефракторі або телескопі "
 "Кассегрена без випрямної призми або добсоніанівському телескопі."
 
-#: kstarsinit.cpp:758
+#: kstarsinit.cpp:759
 #, kde-format
 msgctxt ""
 "Orientation of the sky map is arbitrary as it has been adjusted by the user"
 msgid "Arbitrary"
 msgstr "Довільна"
 
-#: kstarsinit.cpp:762
+#: kstarsinit.cpp:763
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -71729,13 +71729,13 @@ msgstr ""
 "за допомогою комбінації Shift + перетягування вказівника миші, з метою "
 "інформування вас про те, що орієнтація є довільною"
 
-#: kstarsinit.cpp:769
+#: kstarsinit.cpp:770
 #, kde-format
 msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
 msgstr "Без виправлення"
 
-#: kstarsinit.cpp:773
+#: kstarsinit.cpp:774
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -71745,7 +71745,7 @@ msgstr ""
 "Позначте цей пункт, якщо ви використовуєте камеру на телескопі або маєте "
 "змонтовану карту неба на вашому телескопі"
 
-#: kstarsinit.cpp:779
+#: kstarsinit.cpp:780
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -71753,7 +71753,7 @@ msgctxt ""
 msgid "Erect observer correction, left-handed"
 msgstr "Виправлення на висоту спостерігача, ліворуч"
 
-#: kstarsinit.cpp:783
+#: kstarsinit.cpp:784
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -71772,7 +71772,7 @@ msgstr ""
 "разом із телескопом, око спостерігача цього не робить. Типово, має сенс у "
 "поєднанні із орієнтацією із нижнім розташуванням зеніту."
 
-#: kstarsinit.cpp:789
+#: kstarsinit.cpp:790
 #, kde-format
 msgctxt ""
 "Adjust the orientation of the sky map for an erect observer, left-handed "
@@ -71780,7 +71780,7 @@ msgctxt ""
 msgid "Erect observer correction, right-handed"
 msgstr "Виправлення на висоту спостерігача, праворуч"
 
-#: kstarsinit.cpp:793
+#: kstarsinit.cpp:794
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -71799,44 +71799,44 @@ msgstr ""
 "разом із телескопом, око спостерігача цього не робить. Типово, має сенс у "
 "поєднанні із орієнтацією із нижнім розташуванням зеніту."
 
-#: kstarsinit.cpp:817
+#: kstarsinit.cpp:818
 #, kde-format
 msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "Довільний"
 
-#: kstarsinit.cpp:820
+#: kstarsinit.cpp:821
 #, kde-format
 msgid "Edit Views..."
 msgstr "Редагувати перегляди…"
 
-#: kstarsinit.cpp:847
+#: kstarsinit.cpp:848
 #, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "Редагувати рамки поля зору…"
 
-#: kstarsinit.cpp:884
+#: kstarsinit.cpp:885
 #, kde-format
 msgid "HiPS Settings..."
 msgstr "Параметри HiPS…"
 
-#: kstarsinit.cpp:891
+#: kstarsinit.cpp:892
 #, kde-format
 msgid " Welcome to KStars "
 msgstr " Ласкаво просимо до KStars "
 
-#: kstarsinit.cpp:988 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:989 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "без назви"
 
-#: kstarsinit.cpp:1043 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:1044 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr "Початкова позиція знаходиться нижче горизонту"
 
-#: kstarsinit.cpp:1045 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:1046 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
@@ -71845,17 +71845,17 @@ msgstr ""
 "Початкова позиція розташована нижче горизонту.\n"
 "Чи бажаєте ви повернутися до типової позиції?"
 
-#: kstarsinit.cpp:1046
+#: kstarsinit.cpp:1047
 #, kde-format
 msgid "Reset Position"
 msgstr "Очистити позицію"
 
-#: kstarsinit.cpp:1047
+#: kstarsinit.cpp:1048
 #, kde-format
 msgid "Do Not Reset"
 msgstr "Не очищувати"
 
-#: kstarsinit.cpp:1102
+#: kstarsinit.cpp:1103
 #, kde-format
 msgid "&Themes"
 msgstr "&Теми"

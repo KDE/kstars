@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-09 01:52+0000\n"
+"POT-Creation-Date: 2025-05-11 01:57+0000\n"
 "PO-Revision-Date: 2015-01-30 09:02+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <lokal@lugbih.org>\n"
@@ -2133,7 +2133,7 @@ msgstr "Status"
 msgid "Idle"
 msgstr "Miruje"
 
-#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:468
+#: data/qml/whatisinteresting/wiview.qml:36 kstarsinit.cpp:469
 #, kde-format, kde-kuit-format
 msgid "What's Interesting..."
 msgstr "Šta je zanimljivo..."
@@ -4517,7 +4517,7 @@ msgstr "Pozicija legende:"
 msgid "Any"
 msgstr "Bilo koji"
 
-#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1139 kstarsinit.cpp:496
+#: dialogs/finddialog.cpp:38 kstarsactions.cpp:1139 kstarsinit.cpp:497
 #: kstarslite/dialogs/finddialoglite.cpp:27
 #: kstarslite/qml/modules/TopMenu.qml:159 tools/astrocalc.cpp:166
 #: tools/conjunctions.cpp:100
@@ -6678,7 +6678,7 @@ msgstr "Rješavač prekinut nakon %1 sekunde."
 #: ekos/capture/capture.cpp:326 ekos/focus/focusmodule.cpp:458
 #: ekos/guide/guide.cpp:1241 ekos/manager.cpp:2154 ekos/mount/mount.cpp:765
 #: ekos/observatory/observatory.cpp:1042
-#: ekos/scheduler/schedulerprocess.cpp:3680
+#: ekos/scheduler/schedulerprocess.cpp:3683
 #, kde-format
 msgctxt "log entry; %1 is the date, %2 is the text"
 msgid "%1 %2"
@@ -6898,8 +6898,8 @@ msgstr "Neispravan URL: %1"
 
 #: ekos/align/align.cpp:3973 ekos/align/mountmodel.cpp:403
 #: ekos/capture/sequencequeue.cpp:259 ekos/guide/guidedriftgraph.cpp:510
-#: ekos/scheduler/schedulerprocess.cpp:3151
-#: ekos/scheduler/schedulerprocess.cpp:4877
+#: ekos/scheduler/schedulerprocess.cpp:3154
+#: ekos/scheduler/schedulerprocess.cpp:4880
 #, kde-format
 msgid "Unable to write to file %1"
 msgstr "Nije moguće pisati u datoteku %1"
@@ -6907,10 +6907,10 @@ msgstr "Nije moguće pisati u datoteku %1"
 #: ekos/align/align.cpp:3974 ekos/align/mountmodel.cpp:286
 #: ekos/align/mountmodel.cpp:404 ekos/capture/camera.cpp:2938
 #: ekos/capture/cameraprocess.cpp:2595 ekos/capture/sequencequeue.cpp:33
-#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3152
-#: ekos/scheduler/schedulerprocess.cpp:3499
-#: ekos/scheduler/schedulerprocess.cpp:4878
-#: ekos/scheduler/schedulerprocess.cpp:4898 indi/drivermanager.cpp:1549
+#: ekos/guide/guidedriftgraph.cpp:511 ekos/scheduler/schedulerprocess.cpp:3155
+#: ekos/scheduler/schedulerprocess.cpp:3502
+#: ekos/scheduler/schedulerprocess.cpp:4881
+#: ekos/scheduler/schedulerprocess.cpp:4901 indi/drivermanager.cpp:1549
 #: indi/indidriver.cpp:921 kstarsactions.cpp:1399 oal/execute.cpp:320
 #: options/opscolors.cpp:262 tools/modcalcangdist.cpp:132
 #: tools/modcalcapcoord.cpp:142 tools/modcalcdaylength.cpp:258
@@ -7583,8 +7583,8 @@ msgstr "Sekvencijalni red"
 
 #: ekos/align/mountmodel.cpp:285 ekos/capture/camera.cpp:2937
 #: ekos/capture/cameraprocess.cpp:2594 ekos/capture/sequencequeue.cpp:32
-#: ekos/scheduler/schedulerprocess.cpp:3498
-#: ekos/scheduler/schedulerprocess.cpp:4897
+#: ekos/scheduler/schedulerprocess.cpp:3501
+#: ekos/scheduler/schedulerprocess.cpp:4900
 #, kde-format
 msgid "Unable to open file %1"
 msgstr "Nije moguće otvoriti direktorij %1"
@@ -14324,7 +14324,7 @@ msgstr ""
 #: ekos/auxiliary/stellarsolverprofileeditor.ui:946
 #: ekos/focus/aberrationinspector.ui:336 ekos/focus/aberrationinspector.ui:340
 #: indi/drivermanager.cpp:1341 indi/indidriver.cpp:735 kstarsactions.cpp:1931
-#: kstarsinit.cpp:862 kstarsinit.cpp:863 tools/obslistwizard.ui:183
+#: kstarsinit.cpp:863 kstarsinit.cpp:864 tools/obslistwizard.ui:183
 #, kde-format, kde-kuit-format
 msgid "None"
 msgstr "Niti jedan"
@@ -16428,7 +16428,7 @@ msgstr ""
 #: ekos/capture/capturecountswidget.ui:41
 #: ekos/capture/capturepreviewwidget.ui:38 ekos/manager.ui:38
 #: ekos/manager/focusprogresswidget.ui:41 ekos/manager/guidemanager.ui:41
-#: kstarsactions.cpp:1175 kstarsinit.cpp:478
+#: kstarsactions.cpp:1175 kstarsinit.cpp:479
 #, kde-format
 msgid "Ekos"
 msgstr "Ekos"
@@ -24994,7 +24994,7 @@ msgid "Remove profile"
 msgstr "Ukloni trag"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, customDriversB)
-#: ekos/manager.ui:272 kstarsinit.cpp:536
+#: ekos/manager.ui:272 kstarsinit.cpp:537
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Scope Properties"
@@ -25022,7 +25022,7 @@ msgid "Ekos Live..."
 msgstr "Ekos mod"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, indiControlPanelB)
-#: ekos/manager.ui:420 kstarsinit.cpp:539
+#: ekos/manager.ui:420 kstarsinit.cpp:540
 #, kde-format
 msgid "INDI Control Panel..."
 msgstr "Kontrolni panel INDI-ja..."
@@ -25345,7 +25345,7 @@ msgstr "Kalibriranje završeno."
 msgid "Failed to clear Alignment Model."
 msgstr "Polarno poravnanje"
 
-#: ekos/mount/mount.cpp:1272 ekos/scheduler/schedulerprocess.cpp:4307
+#: ekos/mount/mount.cpp:1272 ekos/scheduler/schedulerprocess.cpp:4310
 #, kde-format
 msgid "Mount already parked."
 msgstr ""
@@ -28559,7 +28559,7 @@ msgid ""
 msgstr ""
 
 #: ekos/scheduler/scheduler.cpp:377 ekos/scheduler/scheduler.cpp:2225
-#: ekos/scheduler/schedulerprocess.cpp:3585
+#: ekos/scheduler/schedulerprocess.cpp:3588
 #, kde-format
 msgid ""
 "Warning: The Classic scheduler algorithm has been retired. Switching you to "
@@ -30112,360 +30112,360 @@ msgid ""
 "frames are pending."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:2933
-#: ekos/scheduler/schedulerprocess.cpp:3748
+#: ekos/scheduler/schedulerprocess.cpp:2936
+#: ekos/scheduler/schedulerprocess.cpp:3751
 #, fuzzy, kde-format
 msgid "Warning: job '%1' alignment procedure failed, marking aborted."
 msgstr "Rješavač  pauziran."
 
-#: ekos/scheduler/schedulerprocess.cpp:2959
+#: ekos/scheduler/schedulerprocess.cpp:2962
 #, fuzzy, kde-format
 msgid "Warning: job '%1' capture procedure failed, marking aborted."
 msgstr "Rješavač  pauziran."
 
-#: ekos/scheduler/schedulerprocess.cpp:3005
+#: ekos/scheduler/schedulerprocess.cpp:3008
 #, fuzzy, kde-format
 msgid "Warning: job '%1' focusing procedure failed, marking aborted."
 msgstr "Rješavač  pauziran."
 
-#: ekos/scheduler/schedulerprocess.cpp:3028
-#: ekos/scheduler/schedulerprocess.cpp:3819
+#: ekos/scheduler/schedulerprocess.cpp:3031
+#: ekos/scheduler/schedulerprocess.cpp:3822
 #, fuzzy, kde-format
 msgid "Warning: job '%1' guiding procedure failed, marking aborted."
 msgstr "Rješavač  pauziran."
 
-#: ekos/scheduler/schedulerprocess.cpp:3052
+#: ekos/scheduler/schedulerprocess.cpp:3055
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid ""
 "Warning: job '%1' lost connection to the mount, attempting to reconnect."
 msgstr "Kalibriranje završeno."
 
-#: ekos/scheduler/schedulerprocess.cpp:3069
+#: ekos/scheduler/schedulerprocess.cpp:3072
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' lost connection to the dome, attempting to reconnect."
 msgstr "Kalibriranje završeno."
 
-#: ekos/scheduler/schedulerprocess.cpp:3137
+#: ekos/scheduler/schedulerprocess.cpp:3140
 #, fuzzy, kde-format
 #| msgid "1 star detected."
 #| msgid_plural "%1 stars detected."
 msgid "Ekos job started (%1)"
 msgstr "%1 zvijezda detektovana."
 
-#: ekos/scheduler/schedulerprocess.cpp:3338
+#: ekos/scheduler/schedulerprocess.cpp:3341
 #, fuzzy, kde-format
 #| msgid "File saved to %1"
 msgid "Scheduler list saved to %1"
 msgstr "Datoteka snimljena na %1"
 
-#: ekos/scheduler/schedulerprocess.cpp:3443
+#: ekos/scheduler/schedulerprocess.cpp:3446
 #, fuzzy, kde-format
 #| msgid "Solver timed out."
 msgid "Solver timed out: %1s %2"
 msgstr "Rješavač  pauziran."
 
-#: ekos/scheduler/schedulerprocess.cpp:3445
+#: ekos/scheduler/schedulerprocess.cpp:3448
 #, fuzzy, kde-format
 msgid "Solver failed: %1s %2"
 msgstr "Bez FOV"
 
-#: ekos/scheduler/schedulerprocess.cpp:3480
+#: ekos/scheduler/schedulerprocess.cpp:3483
 #, kde-format
 msgid "Captured frame is %1 arcminutes away from target, re-aligning..."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3548
+#: ekos/scheduler/schedulerprocess.cpp:3551
 #, kde-format
 msgid "Warning: train name is empty, selecting \"%1\"."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3549
+#: ekos/scheduler/schedulerprocess.cpp:3552
 #, kde-format
 msgid "Warning: train name %2 does not exist, selecting \"%1\"."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3551
-#: ekos/scheduler/schedulerprocess.cpp:3563
+#: ekos/scheduler/schedulerprocess.cpp:3554
+#: ekos/scheduler/schedulerprocess.cpp:3566
 #, fuzzy, kde-format
 #| msgctxt "Advanced URLs: description or category"
 #| msgid "Optical"
 msgid "Select optical train"
 msgstr "Optički"
 
-#: ekos/scheduler/schedulerprocess.cpp:3560
+#: ekos/scheduler/schedulerprocess.cpp:3563
 #, kde-format
 msgid ""
 "Warning: no available train name for scheduler job, select the optical train "
 "name manually."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3714
+#: ekos/scheduler/schedulerprocess.cpp:3717
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Job '%1' alignment is complete."
 msgstr "Kalibriranje završeno."
 
-#: ekos/scheduler/schedulerprocess.cpp:3733
+#: ekos/scheduler/schedulerprocess.cpp:3736
 #, fuzzy, kde-format
 msgid "Warning: job '%1' alignment failed."
 msgstr "Rješavač  pauziran."
 
-#: ekos/scheduler/schedulerprocess.cpp:3739
+#: ekos/scheduler/schedulerprocess.cpp:3742
 #, kde-format
 msgid ""
 "Warning: job '%1' forcing mount model reset after failing alignment #%2."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3743
-#: ekos/scheduler/schedulerprocess.cpp:3807
+#: ekos/scheduler/schedulerprocess.cpp:3746
+#: ekos/scheduler/schedulerprocess.cpp:3810
 #, fuzzy, kde-format
 msgid "Restarting %1 alignment procedure..."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3779
+#: ekos/scheduler/schedulerprocess.cpp:3782
 #, fuzzy, kde-format
 #| msgid "Suspend guiding while autofocus in progress."
 msgid "Job '%1' guiding is in progress."
 msgstr "Obustavi navođenje dok je autofokus u toku."
 
-#: ekos/scheduler/schedulerprocess.cpp:3791
+#: ekos/scheduler/schedulerprocess.cpp:3794
 #, fuzzy, kde-format
 #| msgid "Syncing failed."
 msgid "Warning: job '%1' guiding failed."
 msgstr "Sinhronizacija neuspješna."
 
-#: ekos/scheduler/schedulerprocess.cpp:3793
+#: ekos/scheduler/schedulerprocess.cpp:3796
 #, fuzzy, kde-format
 msgid "Warning: job '%1' calibration failed."
 msgstr "Provjera skripte nije uspjela"
 
-#: ekos/scheduler/schedulerprocess.cpp:3812
+#: ekos/scheduler/schedulerprocess.cpp:3815
 #, fuzzy, kde-format
 msgid "Job '%1' is guiding, guiding procedure will be restarted in %2 seconds."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3865
+#: ekos/scheduler/schedulerprocess.cpp:3868
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "[%2] Warning: job '%1' failed to capture target."
 msgstr "Kalibriranje završeno."
 
-#: ekos/scheduler/schedulerprocess.cpp:3883
+#: ekos/scheduler/schedulerprocess.cpp:3886
 #, fuzzy, kde-format
 msgid ""
 "[%2] Job '%1' is capturing, is restarting its guiding procedure (attempt #%3 "
 "of %4)."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/scheduler/schedulerprocess.cpp:3892
+#: ekos/scheduler/schedulerprocess.cpp:3895
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' failed its capture procedure, restarting capture."
 msgstr "Kalibriranje završeno."
 
-#: ekos/scheduler/schedulerprocess.cpp:3898
+#: ekos/scheduler/schedulerprocess.cpp:3901
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "[%2] Warning: job '%1' failed its capture procedure, marking aborted."
 msgstr "Kalibriranje završeno."
 
-#: ekos/scheduler/schedulerprocess.cpp:3911
+#: ekos/scheduler/schedulerprocess.cpp:3914
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted, is restarting."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3917
+#: ekos/scheduler/schedulerprocess.cpp:3920
 #, kde-format
 msgid "[%2] Follower job '%1' has been aborted."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3925
+#: ekos/scheduler/schedulerprocess.cpp:3928
 #, kde-format
 msgid "[%2] Job (%1) - Capture finished"
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:3999
+#: ekos/scheduler/schedulerprocess.cpp:4002
 #, fuzzy, kde-format
 #| msgid "%1 focuser is online."
 msgid "Job '%1' focusing train '%2' is complete."
 msgstr "%1 fokuser je onlajn."
 
-#: ekos/scheduler/schedulerprocess.cpp:4011
+#: ekos/scheduler/schedulerprocess.cpp:4014
 #, fuzzy, kde-format
 #| msgid "Syncing failed."
 msgid "Warning: job '%1' focusing failed."
 msgstr "Sinhronizacija neuspješna."
 
-#: ekos/scheduler/schedulerprocess.cpp:4015
+#: ekos/scheduler/schedulerprocess.cpp:4018
 #, fuzzy, kde-format
 msgid "Job '%1' for train '%2' is restarting its focusing procedure."
 msgstr "Automatsko fokusiranje u toku..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4020
+#: ekos/scheduler/schedulerprocess.cpp:4023
 #, fuzzy, kde-format
 msgid ""
 "Warning: job '%1' on train '%2' focusing procedure failed, marking aborted."
 msgstr "Rješavač  pauziran."
 
-#: ekos/scheduler/schedulerprocess.cpp:4050
+#: ekos/scheduler/schedulerprocess.cpp:4053
 #, fuzzy, kde-format
 #| msgid "%1 filter is online."
 msgid "Job '%1' slew is complete."
 msgstr "%1 filter je onlajn."
 
-#: ekos/scheduler/schedulerprocess.cpp:4056
+#: ekos/scheduler/schedulerprocess.cpp:4059
 #, kde-format
 msgid "Warning: job '%1' slew failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4062
+#: ekos/scheduler/schedulerprocess.cpp:4065
 #, fuzzy, kde-format
 #| msgid "Syncing failed."
 msgid "Warning: job '%1' found not slewing, restarting."
 msgstr "Sinhronizacija neuspješna."
 
-#: ekos/scheduler/schedulerprocess.cpp:4075
+#: ekos/scheduler/schedulerprocess.cpp:4078
 #, fuzzy, kde-format
 #| msgid "%1 focuser is online."
 msgid "Job '%1' repositioning is complete."
 msgstr "%1 fokuser je onlajn."
 
-#: ekos/scheduler/schedulerprocess.cpp:4081
+#: ekos/scheduler/schedulerprocess.cpp:4084
 #, kde-format
 msgid ""
 "Warning: job '%1' repositioning failed, marking terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4087
+#: ekos/scheduler/schedulerprocess.cpp:4090
 #, fuzzy, kde-format
 #| msgid "Syncing failed."
 msgid "Warning: job '%1' found not repositioning, restarting."
 msgstr "Sinhronizacija neuspješna."
 
-#: ekos/scheduler/schedulerprocess.cpp:4101
-#: ekos/scheduler/schedulerprocess.cpp:4112
+#: ekos/scheduler/schedulerprocess.cpp:4104
+#: ekos/scheduler/schedulerprocess.cpp:4115
 #, fuzzy, kde-format
 #| msgid "Cannot switch modes while INDI services are running."
 msgid ""
 "Warning: Mount is parked while scheduler for job '%1' is active. Aborting."
 msgstr "Ne mogu se zamjeniti stanja dok su pokrenutu INDI usluge."
 
-#: ekos/scheduler/schedulerprocess.cpp:4137
+#: ekos/scheduler/schedulerprocess.cpp:4140
 #, fuzzy, kde-format
 #| msgid "Autofocus failed. Aborting exposure..."
 msgid "Weather has improved. Resuming operations."
 msgstr "Autofokus nije uspio.Obustavljanje izlaganja."
 
-#: ekos/scheduler/schedulerprocess.cpp:4146
+#: ekos/scheduler/schedulerprocess.cpp:4149
 #, kde-format
 msgid "Weather alert detected. Starting soft shutdown procedure."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4161
+#: ekos/scheduler/schedulerprocess.cpp:4164
 #, kde-format
 msgid ""
 "Observatory scheduled for soft shutdown until weather improves or until %1."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4186
+#: ekos/scheduler/schedulerprocess.cpp:4189
 #, fuzzy, kde-format
 #| msgid "Telescope Wizard completed successfully."
 msgid "Manual shutdown procedure completed successfully."
 msgstr "Telescope Wizard je uspješno završen."
 
-#: ekos/scheduler/schedulerprocess.cpp:4192
+#: ekos/scheduler/schedulerprocess.cpp:4195
 #, kde-format
 msgid "Manual shutdown procedure terminated due to errors."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4207
+#: ekos/scheduler/schedulerprocess.cpp:4210
 #, kde-format
 msgid "Dust cover park requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4230
+#: ekos/scheduler/schedulerprocess.cpp:4233
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Parking Cap..."
 msgstr "Parkiranje teleskopa..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4236
+#: ekos/scheduler/schedulerprocess.cpp:4239
 #, kde-format
 msgid "Cap already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4245
+#: ekos/scheduler/schedulerprocess.cpp:4248
 #, kde-format
 msgid "Dust cover unpark requested but no dust covers detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4267
+#: ekos/scheduler/schedulerprocess.cpp:4270
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Unparking cap..."
 msgstr "Parkiranje teleskopa..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4273
+#: ekos/scheduler/schedulerprocess.cpp:4276
 #, kde-format
 msgid "Cap already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4282
+#: ekos/scheduler/schedulerprocess.cpp:4285
 #, kde-format
 msgid "Mount park requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4340
+#: ekos/scheduler/schedulerprocess.cpp:4343
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Parking mount in progress..."
 msgstr "Parkiranje teleskopa..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4354
+#: ekos/scheduler/schedulerprocess.cpp:4357
 #, kde-format
 msgid "Mount unpark requested but no mounts detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4380
+#: ekos/scheduler/schedulerprocess.cpp:4383
 #, kde-format
 msgid "Mount already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4500
+#: ekos/scheduler/schedulerprocess.cpp:4503
 #, kde-format
 msgid "Dome park requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4523
+#: ekos/scheduler/schedulerprocess.cpp:4526
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Parking dome..."
 msgstr "Parkiranje teleskopa..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4529
+#: ekos/scheduler/schedulerprocess.cpp:4532
 #, kde-format
 msgid "Dome already parked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4539
+#: ekos/scheduler/schedulerprocess.cpp:4542
 #, kde-format
 msgid "Dome unpark requested but no domes detected."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4559
+#: ekos/scheduler/schedulerprocess.cpp:4562
 #, fuzzy, kde-format
 #| msgid "Parking telescope..."
 msgid "Unparking dome..."
 msgstr "Parkiranje teleskopa..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4565
+#: ekos/scheduler/schedulerprocess.cpp:4568
 #, kde-format
 msgid "Dome already unparked."
 msgstr ""
 
-#: ekos/scheduler/schedulerprocess.cpp:4646
+#: ekos/scheduler/schedulerprocess.cpp:4649
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid ""
@@ -30473,19 +30473,19 @@ msgid ""
 "ready..."
 msgstr "Kalibriranje završeno."
 
-#: ekos/scheduler/schedulerprocess.cpp:4936
+#: ekos/scheduler/schedulerprocess.cpp:4939
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Startup script failed, aborting..."
 msgstr "FITS slika nije uspjela se učitati, prekidam..."
 
-#: ekos/scheduler/schedulerprocess.cpp:4941
+#: ekos/scheduler/schedulerprocess.cpp:4944
 #, fuzzy, kde-format
 #| msgid "FITS image failed to load, aborting..."
 msgid "Shutdown script failed, aborting..."
 msgstr "FITS slika nije uspjela se učitati, prekidam..."
 
-#: ekos/scheduler/schedulerprocess.cpp:5002
+#: ekos/scheduler/schedulerprocess.cpp:5005
 #, fuzzy, kde-format
 #| msgid "Calibration completed."
 msgid "Warning: job '%1' has inaccessible sequence '%2', marking invalid."
@@ -31407,7 +31407,7 @@ msgstr "Horizontalno"
 msgid "Flip Vertical"
 msgstr "Vertikalno"
 
-#: fitsviewer/fitsviewer.cpp:134 kstarsinit.cpp:158
+#: fitsviewer/fitsviewer.cpp:134 kstarsinit.cpp:159
 #, fuzzy, kde-format
 #| msgid "Directory:"
 msgid "Open/Blink Directory"
@@ -34212,7 +34212,7 @@ msgctxt "Digitized Sky Survey"
 msgid "Show DSS Image"
 msgstr "Prikaži DSS sliku"
 
-#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:991
+#: kspopupmenu.cpp:212 kspopupmenu.cpp:341 kstarsinit.cpp:992
 #: kstarslite/dialogs/detaildialoglite.cpp:69 kstarsliteinit.cpp:68
 #: printing/detailstable.cpp:77 printing/pwizobjectselection.cpp:101
 #: skycomponents/starcomponent.cpp:518 skyobjects/starobject.cpp:633
@@ -34429,13 +34429,13 @@ msgstr "KStars"
 msgid "Stop &Tracking"
 msgstr "Zaustavi &praćenje"
 
-#: kstars.cpp:342 kstarsactions.cpp:1784 kstarsinit.cpp:270
+#: kstars.cpp:342 kstarsactions.cpp:1784 kstarsinit.cpp:271
 #, fuzzy, kde-format
 #| msgid "Switch to star globe view (Equatorial &Coordinates)"
 msgid "Switch to Star Globe View (Equatorial &Coordinates)"
 msgstr "Prebaci na pogled zvjezdane kugle (Ekvatorialne &Koordinate)"
 
-#: kstars.cpp:343 kstarsactions.cpp:1765 kstarsinit.cpp:271
+#: kstars.cpp:343 kstarsactions.cpp:1765 kstarsinit.cpp:272
 #, fuzzy, kde-format
 #| msgid "Switch to horizonal view (Horizontal &Coordinates)"
 msgid "Switch to Horizontal View (Horizontal &Coordinates)"
@@ -77414,26 +77414,26 @@ msgstr "Xplanet"
 msgid "Developer"
 msgstr "Revelstoke"
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:280
+#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:281
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Terrassa"
 msgid "Hide Terrain"
 msgstr "Terrassa"
 
-#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:281
+#: kstarsactions.cpp:1208 kstarsactions.cpp:2032 kstarsinit.cpp:282
 #, fuzzy, kde-format
 #| msgid "Show details..."
 msgid "Show Terrain"
 msgstr "Prikaži detalje..."
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:285
+#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:286
 #, fuzzy, kde-format
 #| msgid "Polar Alignment"
 msgid "Hide Image Overlays"
 msgstr "Polarno poravnanje"
 
-#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:286
+#: kstarsactions.cpp:1212 kstarsactions.cpp:2042 kstarsinit.cpp:287
 #, fuzzy, kde-format
 #| msgid "Show satellites"
 msgid "Show Image Overlays"
@@ -77528,13 +77528,13 @@ msgstr "Ne prebacuj"
 msgid "Stop running clock in realtime"
 msgstr "Pokreni sat"
 
-#: kstarsactions.cpp:1550 kstarsinit.cpp:198
+#: kstarsactions.cpp:1550 kstarsinit.cpp:199
 #, fuzzy, kde-format
 #| msgid "Run clock"
 msgid "Run clock in realtime"
 msgstr "Pokreni sat"
 
-#: kstarsactions.cpp:1594 kstarsinit.cpp:243
+#: kstarsactions.cpp:1594 kstarsinit.cpp:244
 #, kde-format
 msgid "Engage &Tracking"
 msgstr "Uključi &praćenje"
@@ -77568,7 +77568,7 @@ msgstr "Unesite željeni ugao vidnog polja"
 msgid "Enter a field-of-view angle in degrees: "
 msgstr "Unesite ugao vidnog polja u stepenima: "
 
-#: kstarsactions.cpp:1768 kstarsinit.cpp:740
+#: kstarsactions.cpp:1768 kstarsinit.cpp:741
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "North"
@@ -77576,7 +77576,7 @@ msgctxt "Orientation of the sky map"
 msgid "North &Up"
 msgstr "Sjever"
 
-#: kstarsactions.cpp:1771 kstarsinit.cpp:749
+#: kstarsactions.cpp:1771 kstarsinit.cpp:750
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Norton"
@@ -77584,14 +77584,14 @@ msgctxt "Orientation of the sky map"
 msgid "North &Down"
 msgstr "Norton"
 
-#: kstarsactions.cpp:1787 kstarsinit.cpp:740
+#: kstarsactions.cpp:1787 kstarsinit.cpp:741
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
 msgid "Zenith &Up"
 msgstr "&Zenit"
 
-#: kstarsactions.cpp:1790 kstarsinit.cpp:749
+#: kstarsactions.cpp:1790 kstarsinit.cpp:750
 #, fuzzy, kde-format
 #| msgid "&Zenith"
 msgctxt "Orientation of the sky map"
@@ -77782,33 +77782,33 @@ msgctxt "@title:window"
 msgid "Print Sky"
 msgstr "Štampaj nebo"
 
-#: kstarsinit.cpp:144
+#: kstarsinit.cpp:145
 #, kde-format
 msgid "Download New Data..."
 msgstr "Skini nove podatke..."
 
-#: kstarsinit.cpp:147
+#: kstarsinit.cpp:148
 #, kde-format
 msgid "Downloads new data"
 msgstr "Skida nove podatke"
 
-#: kstarsinit.cpp:154
+#: kstarsinit.cpp:155
 #, fuzzy, kde-format
 #| msgid "Open FITS..."
 msgid "Open Image(s)..."
 msgstr "Otvori FITS..."
 
-#: kstarsinit.cpp:163
+#: kstarsinit.cpp:164
 #, kde-format
 msgid "&Save Sky Image..."
 msgstr "&Snimi sliku neba..."
 
-#: kstarsinit.cpp:170
+#: kstarsinit.cpp:171
 #, kde-format
 msgid "&Run Script..."
 msgstr "&Pokreni skriptu..."
 
-#: kstarsinit.cpp:174
+#: kstarsinit.cpp:175
 #, fuzzy, kde-format
 #| msgctxt "start Printing Wizard"
 #| msgid "Printing &Wizard"
@@ -77816,366 +77816,366 @@ msgctxt "start Printing Wizard"
 msgid "Printing &Wizard..."
 msgstr "Čaro&bnjak štampe"
 
-#: kstarsinit.cpp:183
+#: kstarsinit.cpp:184
 #, kde-format
 msgid "Set Time to &Now"
 msgstr "Podesi vrijeme na &Sada"
 
-#: kstarsinit.cpp:187
+#: kstarsinit.cpp:188
 #, kde-format
 msgctxt "set Clock to New Time"
 msgid "&Set Time..."
 msgstr "&Postavi vrijeme..."
 
-#: kstarsinit.cpp:191
+#: kstarsinit.cpp:192
 #, kde-format
 msgid "Stop &Clock"
 msgstr "Zaus&tavi sat"
 
-#: kstarsinit.cpp:218
+#: kstarsinit.cpp:219
 #, fuzzy, kde-format
 #| msgid "Run clock"
 msgid "Resume Clock"
 msgstr "Pokreni sat"
 
-#: kstarsinit.cpp:218
+#: kstarsinit.cpp:219
 #, fuzzy, kde-format
 #| msgid "Stop &Clock"
 msgid "Stop Clock"
 msgstr "Zaus&tavi sat"
 
-#: kstarsinit.cpp:224
+#: kstarsinit.cpp:225
 #, fuzzy, kde-format
 #| msgid "Advance one step forward in time"
 msgid "Advance One Step Forward in Time"
 msgstr "Pomjeri jedan korak naprijed u vremenu"
 
-#: kstarsinit.cpp:228
+#: kstarsinit.cpp:229
 #, fuzzy, kde-format
 #| msgid "Advance one step backward in time"
 msgid "Advance One Step Backward in Time"
 msgstr "Pomjeri jedan korak natrag u vremenu"
 
-#: kstarsinit.cpp:233
+#: kstarsinit.cpp:234
 #, kde-format
 msgid "&Zenith"
 msgstr "&Zenit"
 
-#: kstarsinit.cpp:234
+#: kstarsinit.cpp:235
 #, kde-format
 msgid "&North"
 msgstr "&Sjever"
 
-#: kstarsinit.cpp:235
+#: kstarsinit.cpp:236
 #, kde-format
 msgid "&East"
 msgstr "&Istok"
 
-#: kstarsinit.cpp:236
+#: kstarsinit.cpp:237
 #, kde-format
 msgid "&South"
 msgstr "&Jug"
 
-#: kstarsinit.cpp:237
+#: kstarsinit.cpp:238
 #, kde-format
 msgid "&West"
 msgstr "&Zapad"
 
-#: kstarsinit.cpp:240
+#: kstarsinit.cpp:241
 #, kde-format
 msgid "&Find Object..."
 msgstr "&Pronađi objekat..."
 
-#: kstarsinit.cpp:247
+#: kstarsinit.cpp:248
 #, kde-format
 msgid "Set Coordinates &Manually..."
 msgstr "Namjesti koordinate &Ručno..."
 
-#: kstarsinit.cpp:259
+#: kstarsinit.cpp:260
 #, kde-format
 msgid "&Default Zoom"
 msgstr "&Podrazumijevani zoom"
 
-#: kstarsinit.cpp:262
+#: kstarsinit.cpp:263
 #, kde-format
 msgid "&Zoom to Angular Size..."
 msgstr "&Uvećaj na veličinu ugla..."
 
-#: kstarsinit.cpp:276
+#: kstarsinit.cpp:277
 #, kde-format
 msgctxt "Mirror the view of the sky map"
 msgid "Mirrored View"
 msgstr ""
 
-#: kstarsinit.cpp:290
+#: kstarsinit.cpp:291
 #, kde-format
 msgid "&Lambert Azimuthal Equal-area"
 msgstr "&Lambertovo područje jednakog azimuta"
 
-#: kstarsinit.cpp:293
+#: kstarsinit.cpp:294
 #, kde-format
 msgid "&Azimuthal Equidistant"
 msgstr "&Azimutalno odstojanje"
 
-#: kstarsinit.cpp:296
+#: kstarsinit.cpp:297
 #, kde-format
 msgid "&Orthographic"
 msgstr "&Ortografski"
 
-#: kstarsinit.cpp:299
+#: kstarsinit.cpp:300
 #, kde-format
 msgid "&Equirectangular"
 msgstr "J&ednakougaono"
 
-#: kstarsinit.cpp:302
+#: kstarsinit.cpp:303
 #, kde-format
 msgid "&Stereographic"
 msgstr "&Stereografska"
 
-#: kstarsinit.cpp:305
+#: kstarsinit.cpp:306
 #, kde-format
 msgid "&Gnomonic"
 msgstr "&Gnomonička"
 
-#: kstarsinit.cpp:311
+#: kstarsinit.cpp:312
 #, kde-format
 msgctxt "Show the information boxes"
 msgid "Show &Info Boxes"
 msgstr "Prikaži &info-polja"
 
-#: kstarsinit.cpp:316
+#: kstarsinit.cpp:317
 #, kde-format
 msgctxt "Show time-related info box"
 msgid "Show &Time Box"
 msgstr "Prikaži &vrijeme"
 
-#: kstarsinit.cpp:323
+#: kstarsinit.cpp:324
 #, kde-format
 msgctxt "Show focus-related info box"
 msgid "Show &Focus Box"
 msgstr "Prikaži &fokus"
 
-#: kstarsinit.cpp:330
+#: kstarsinit.cpp:331
 #, kde-format
 msgctxt "Show location-related info box"
 msgid "Show &Location Box"
 msgstr "Prikaži &lokaciju"
 
-#: kstarsinit.cpp:337
+#: kstarsinit.cpp:338
 #, kde-format
 msgid "Show Main Toolbar"
 msgstr "Prikaži glavnu traku s alatima"
 
-#: kstarsinit.cpp:339
+#: kstarsinit.cpp:340
 #, kde-format
 msgid "Show View Toolbar"
 msgstr "Prikaži pogled-traku"
 
-#: kstarsinit.cpp:343
+#: kstarsinit.cpp:344
 #, kde-format
 msgid "Show Statusbar"
 msgstr "Prikaži statusnu traku"
 
-#: kstarsinit.cpp:344
+#: kstarsinit.cpp:345
 #, kde-format
 msgid "Show Az/Alt Field"
 msgstr "Prikaži polje Az./Vis."
 
-#: kstarsinit.cpp:345
+#: kstarsinit.cpp:346
 #, kde-format
 msgid "Show RA/Dec Field"
 msgstr "Prikaži polje Rije./Dek."
 
-#: kstarsinit.cpp:346
+#: kstarsinit.cpp:347
 #, fuzzy, kde-format
 #| msgid "Show RA/Dec Field"
 msgid "Show J2000.0 RA/Dec Field"
 msgstr "Prikaži polje Rije./Dek."
 
-#: kstarsinit.cpp:353
+#: kstarsinit.cpp:354
 #, kde-format
 msgid "C&olor Schemes"
 msgstr "P&alete boja"
 
-#: kstarsinit.cpp:354
+#: kstarsinit.cpp:355
 #, kde-format
 msgid "&Classic"
 msgstr "&Klasično"
 
-#: kstarsinit.cpp:355
+#: kstarsinit.cpp:356
 #, kde-format
 msgid "&Star Chart"
 msgstr "&Dijagram zvijezda"
 
-#: kstarsinit.cpp:356
+#: kstarsinit.cpp:357
 #, kde-format
 msgid "&Night Vision"
 msgstr "&Noćni pogled"
 
-#: kstarsinit.cpp:357
+#: kstarsinit.cpp:358
 #, kde-format
 msgid "&Moonless Night"
 msgstr "Noć bez &mjeseca"
 
-#: kstarsinit.cpp:377
+#: kstarsinit.cpp:378
 #, kde-format
 msgid "&FOV Symbols"
 msgstr "&FOV simboli"
 
-#: kstarsinit.cpp:385
+#: kstarsinit.cpp:386
 #, fuzzy, kde-format
 #| msgid "&View"
 msgid "&Views"
 msgstr "&Pogled"
 
-#: kstarsinit.cpp:393
+#: kstarsinit.cpp:394
 #, fuzzy, kde-format
 #| msgid "Polar Alignment"
 msgid "HiPS All Sky Overlay"
 msgstr "Polarno poravnanje"
 
-#: kstarsinit.cpp:400
+#: kstarsinit.cpp:401
 #, fuzzy, kde-format
 #| msgid "Skymap Options"
 msgid "Skymap Orientation"
 msgstr "Opcije karte neba"
 
-#: kstarsinit.cpp:406
+#: kstarsinit.cpp:407
 #, kde-format
 msgctxt "Location on Earth"
 msgid "&Geographic..."
 msgstr "&Geografski..."
 
-#: kstarsinit.cpp:423
+#: kstarsinit.cpp:424
 #, kde-format
 msgid "Startup Wizard..."
 msgstr "Čarobnjak za pokretanje..."
 
-#: kstarsinit.cpp:428
+#: kstarsinit.cpp:429
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Deep Sky Catalogs"
 msgid "Manage DSO Catalogs"
 msgstr "Katalozi dubokog neba"
 
-#: kstarsinit.cpp:432
+#: kstarsinit.cpp:433
 #, fuzzy, kde-format
 #| msgid "Update comets orbital elements"
 msgid "Update Comets Orbital Elements"
 msgstr "Učitaj orbitalne elemente komete"
 
-#: kstarsinit.cpp:434
+#: kstarsinit.cpp:435
 #, fuzzy, kde-format
 #| msgid "Update asteroids orbital elements"
 msgid "Update Asteroids Orbital Elements"
 msgstr "Učitaj orbitalne elemente asteroide"
 
-#: kstarsinit.cpp:436
+#: kstarsinit.cpp:437
 #, fuzzy, kde-format
 #| msgid "Update Recent Supernovae data"
 msgid "Update Recent Supernovae Data"
 msgstr "Učitaj informacije o supernovim"
 
-#: kstarsinit.cpp:438
+#: kstarsinit.cpp:439
 #, fuzzy, kde-format
 #| msgid "Update satellites orbital elements"
 msgid "Update Satellites Orbital Elements"
 msgstr "Ažuriraj satelitske orbitalne elemente."
 
-#: kstarsinit.cpp:442
+#: kstarsinit.cpp:443
 #, kde-format
 msgid "Calculator"
 msgstr "Kalkulator"
 
-#: kstarsinit.cpp:452
+#: kstarsinit.cpp:453
 #, kde-format
 msgid "Observation Planner"
 msgstr "Planer observacije"
 
-#: kstarsinit.cpp:456
+#: kstarsinit.cpp:457
 #, fuzzy, kde-format
 #| msgid "Observation Planner"
 msgid "Imaging Planner"
 msgstr "Planer observacije"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, AltVsTime)
-#: kstarsinit.cpp:460 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
+#: kstarsinit.cpp:461 tools/altvstime.ui:14 tools/obslistpopupmenu.cpp:54
 #, kde-format
 msgid "Altitude vs. Time"
 msgstr "Visina vs. Vrijeme"
 
-#: kstarsinit.cpp:463
+#: kstarsinit.cpp:464
 #, kde-format
 msgid "What's up Tonight"
 msgstr "Šta se dešava večeras"
 
-#: kstarsinit.cpp:472
+#: kstarsinit.cpp:473
 #, fuzzy, kde-format
 #| msgid "Solar System Viewer"
 msgid "XPlanet Solar System Simulator"
 msgstr "Preglednik sunčevog sistema"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, SkyCalendar)
-#: kstarsinit.cpp:474 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
+#: kstarsinit.cpp:475 tools/skycalendar.cpp:438 tools/skycalendar.ui:20
 #, kde-format
 msgid "Sky Calendar"
 msgstr "Nebeski kalendar"
 
-#: kstarsinit.cpp:492
+#: kstarsinit.cpp:493
 #, kde-format
 msgid "Script Builder"
 msgstr "Graditelj skripti"
 
-#: kstarsinit.cpp:500
+#: kstarsinit.cpp:501
 #, kde-format
 msgid "Jupiter's Moons"
 msgstr "Jupiterovi Mjeseci"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFlags)
-#: kstarsinit.cpp:503 options/opsguides.ui:284
+#: kstarsinit.cpp:504 options/opsguides.ui:284
 #, kde-format
 msgid "Flags"
 msgstr "Zastavice"
 
-#: kstarsinit.cpp:506
+#: kstarsinit.cpp:507
 #, fuzzy, kde-format
 msgid "List your &Equipment..."
 msgstr "Definiraj opremu..."
 
-#: kstarsinit.cpp:508
+#: kstarsinit.cpp:509
 #, fuzzy, kde-format
 #| msgid "Observer"
 msgid "Manage Observer..."
 msgstr "Posmatrač"
 
-#: kstarsinit.cpp:512
+#: kstarsinit.cpp:513
 #, kde-format
 msgid "Artificial Horizon..."
 msgstr ""
 
-#: kstarsinit.cpp:516
+#: kstarsinit.cpp:517
 #, fuzzy, kde-format
 #| msgid "Execute the session Plan..."
 msgid "Execute the Session Plan..."
 msgstr "Izvrši sesijski plan..."
 
-#: kstarsinit.cpp:520
+#: kstarsinit.cpp:521
 #, fuzzy, kde-format
 #| msgid "Hour angle:"
 msgid "Polaris Hour Angle..."
 msgstr "Satni ugao:"
 
-#: kstarsinit.cpp:527
+#: kstarsinit.cpp:528
 #, kde-format
 msgid "Telescope Wizard..."
 msgstr "Teleskop čarobnjak..."
 
-#: kstarsinit.cpp:532
+#: kstarsinit.cpp:533
 #, kde-format
 msgid "Device Manager..."
 msgstr "Upravitelj uređajima..."
 
-#: kstarsinit.cpp:555
+#: kstarsinit.cpp:556
 #, kde-format
 msgctxt "Tooltip describing the nature of the time step control"
 msgid ""
@@ -78191,257 +78191,257 @@ msgstr ""
 "Za vremenski korak veći od 10 minuta, okviri se prikazuju u intervalu od \"X"
 "\"."
 
-#: kstarsinit.cpp:564
+#: kstarsinit.cpp:565
 #, kde-format
 msgid "Time step control"
 msgstr "Kontrola vremenskog koraka"
 
-#: kstarsinit.cpp:573
+#: kstarsinit.cpp:574
 #, kde-format
 msgctxt "Toggle Stars in the display"
 msgid "Stars"
 msgstr "Zvijezde"
 
-#: kstarsinit.cpp:575
+#: kstarsinit.cpp:576
 #, kde-format
 msgid "Toggle stars"
 msgstr "Uključi/isključi zvijezde"
 
-#: kstarsinit.cpp:577
+#: kstarsinit.cpp:578
 #, kde-format
 msgctxt "Toggle Deep Sky Objects in the display"
 msgid "Deep Sky"
 msgstr "Udaljeno nebo"
 
-#: kstarsinit.cpp:579
+#: kstarsinit.cpp:580
 #, kde-format
 msgid "Toggle deep sky objects"
 msgstr "Preklopi udaljene nebeske objekte"
 
-#: kstarsinit.cpp:581
+#: kstarsinit.cpp:582
 #, kde-format
 msgctxt "Toggle Solar System objects in the display"
 msgid "Solar System"
 msgstr "Sunčev sistem"
 
-#: kstarsinit.cpp:583
+#: kstarsinit.cpp:584
 #, kde-format
 msgid "Toggle Solar system objects"
 msgstr "Preklopi objekte solarnog sistema"
 
-#: kstarsinit.cpp:585
+#: kstarsinit.cpp:586
 #, kde-format
 msgctxt "Toggle Constellation Lines in the display"
 msgid "Const. Lines"
 msgstr "Linije sazvj."
 
-#: kstarsinit.cpp:587
+#: kstarsinit.cpp:588
 #, kde-format
 msgid "Toggle constellation lines"
 msgstr "Preklopi linije konstelacije"
 
-#: kstarsinit.cpp:589
+#: kstarsinit.cpp:590
 #, kde-format
 msgctxt "Toggle Constellation Names in the display"
 msgid "Const. Names"
 msgstr "Nazivi sazvj."
 
-#: kstarsinit.cpp:591
+#: kstarsinit.cpp:592
 #, kde-format
 msgid "Toggle constellation names"
 msgstr "Preklopi nazive sazvježđa"
 
-#: kstarsinit.cpp:593
+#: kstarsinit.cpp:594
 #, kde-format
 msgctxt "Toggle Constellation Boundaries in the display"
 msgid "C. Boundaries"
 msgstr "Granice s."
 
-#: kstarsinit.cpp:595
+#: kstarsinit.cpp:596
 #, kde-format
 msgid "Toggle constellation boundaries"
 msgstr "Preklopi granice sazvježđa"
 
-#: kstarsinit.cpp:597
+#: kstarsinit.cpp:598
 #, kde-kuit-format
 msgctxt "Toggle Constellation Art in the display"
 msgid "C. Art (BETA)"
 msgstr ""
 
-#: kstarsinit.cpp:599
+#: kstarsinit.cpp:600
 #, fuzzy, kde-kuit-format
 #| msgid "Toggle constellation names"
 msgid "Toggle constellation art (BETA)"
 msgstr "Preklopi nazive sazvježđa"
 
-#: kstarsinit.cpp:601
+#: kstarsinit.cpp:602
 #, kde-format
 msgctxt "Toggle Milky Way in the display"
 msgid "Milky Way"
 msgstr "Mliječni put"
 
-#: kstarsinit.cpp:603
+#: kstarsinit.cpp:604
 #, kde-format
 msgid "Toggle milky way"
 msgstr "Preklopi mliječnu stazu"
 
-#: kstarsinit.cpp:605
+#: kstarsinit.cpp:606
 #, kde-format
 msgctxt "Toggle Equatorial Coordinate Grid in the display"
 msgid "Equatorial coord. grid"
 msgstr "Ekvatorska koord. mreža"
 
-#: kstarsinit.cpp:607
+#: kstarsinit.cpp:608
 #, kde-format
 msgid "Toggle equatorial coordinate grid"
 msgstr "Preklopi ekvatorsku koordinatnu mrežu"
 
-#: kstarsinit.cpp:609
+#: kstarsinit.cpp:610
 #, kde-format
 msgctxt "Toggle Horizontal Coordinate Grid in the display"
 msgid "Horizontal coord. grid"
 msgstr "Horizontalna koord. mreža"
 
-#: kstarsinit.cpp:611
+#: kstarsinit.cpp:612
 #, kde-format
 msgid "Toggle horizontal coordinate grid"
 msgstr "Preklopi horizontalnu koordinatnu mrežu"
 
-#: kstarsinit.cpp:613
+#: kstarsinit.cpp:614
 #, kde-format
 msgctxt "Toggle the opaque fill of the ground polygon in the display"
 msgid "Ground"
 msgstr "Tlo"
 
-#: kstarsinit.cpp:615
+#: kstarsinit.cpp:616
 #, kde-format
 msgid "Toggle opaque ground"
 msgstr "Preklopi neprovidno tlo"
 
-#: kstarsinit.cpp:617
+#: kstarsinit.cpp:618
 #, fuzzy, kde-format
 #| msgid "Local Time"
 msgctxt "Toggle Daytime Simulation"
 msgid "Daytime"
 msgstr "Lokalno vrijeme"
 
-#: kstarsinit.cpp:619
+#: kstarsinit.cpp:620
 #, fuzzy, kde-format
 #| msgid "Toggle flags"
 msgid "Toggle daytime simulation"
 msgstr "Preklopi zastave"
 
-#: kstarsinit.cpp:621
+#: kstarsinit.cpp:622
 #, kde-format
 msgctxt "Toggle flags in the display"
 msgid "Flags"
 msgstr "Zastavice"
 
-#: kstarsinit.cpp:623
+#: kstarsinit.cpp:624
 #, kde-format
 msgid "Toggle flags"
 msgstr "Preklopi zastave"
 
-#: kstarsinit.cpp:625
+#: kstarsinit.cpp:626
 #, kde-format
 msgctxt "Toggle satellites in the display"
 msgid "Satellites"
 msgstr "Sateliti"
 
-#: kstarsinit.cpp:627
+#: kstarsinit.cpp:628
 #, kde-format
 msgid "Toggle satellites"
 msgstr "Preklopi satelite"
 
-#: kstarsinit.cpp:629
+#: kstarsinit.cpp:630
 #, kde-format
 msgctxt "Toggle supernovae in the display"
 msgid "Supernovae"
 msgstr "Supernove"
 
-#: kstarsinit.cpp:631
+#: kstarsinit.cpp:632
 #, kde-format
 msgid "Toggle supernovae"
 msgstr "Preklopi supernove"
 
-#: kstarsinit.cpp:633
+#: kstarsinit.cpp:634
 #, fuzzy, kde-format
 #| msgid "What's Interesting..."
 msgctxt "Toggle What's Interesting"
 msgid "What's Interesting"
 msgstr "Šta je zanimljivo..."
 
-#: kstarsinit.cpp:635
+#: kstarsinit.cpp:636
 #, fuzzy, kde-format
 #| msgid "What's Interesting..."
 msgid "Toggle What's Interesting"
 msgstr "Šta je zanimljivo..."
 
-#: kstarsinit.cpp:640
+#: kstarsinit.cpp:641
 #, fuzzy, kde-format
 #| msgid "Ekos"
 msgctxt "Toggle Ekos in the display"
 msgid "Ekos"
 msgstr "Ekos"
 
-#: kstarsinit.cpp:642
+#: kstarsinit.cpp:643
 #, fuzzy, kde-format
 #| msgid "Toggle stars"
 msgid "Toggle Ekos"
 msgstr "Uključi/isključi zvijezde"
 
-#: kstarsinit.cpp:644
+#: kstarsinit.cpp:645
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgctxt "Toggle the INDI Control Panel in the display"
 msgid "INDI Control Panel"
 msgstr "INDI kontrolni panel"
 
-#: kstarsinit.cpp:646
+#: kstarsinit.cpp:647
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Toggle INDI Control Panel"
 msgstr "INDI kontrolni panel"
 
-#: kstarsinit.cpp:649
+#: kstarsinit.cpp:650
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgctxt "Toggle the FITS Viewer in the display"
 msgid "FITS Viewer"
 msgstr "KStars FITS Preglednik"
 
-#: kstarsinit.cpp:651
+#: kstarsinit.cpp:652
 #, fuzzy, kde-format
 #| msgid "KStars FITS Viewer"
 msgid "Toggle FITS Viewer"
 msgstr "KStars FITS Preglednik"
 
-#: kstarsinit.cpp:655
+#: kstarsinit.cpp:656
 #, fuzzy, kde-format
 msgctxt "Toggle the sensor Field of View"
 msgid "Sensor FOV"
 msgstr "Bez FOV"
 
-#: kstarsinit.cpp:657
+#: kstarsinit.cpp:658
 #, fuzzy, kde-format
 #| msgid "Toggle stars"
 msgid "Toggle Sensor FOV"
 msgstr "Uključi/isključi zvijezde"
 
-#: kstarsinit.cpp:662
+#: kstarsinit.cpp:663
 #, fuzzy, kde-format
 #| msgid "Hopping FOV:"
 msgctxt "Toggle the Mosaic Panel"
 msgid "Mosaic Panel"
 msgstr "Polje pogleda skakanja:"
 
-#: kstarsinit.cpp:664
+#: kstarsinit.cpp:665
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Toggle Mosaic Panel"
 msgstr "INDI kontrolni panel"
 
-#: kstarsinit.cpp:669
+#: kstarsinit.cpp:670
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Movement Control"
@@ -78449,83 +78449,83 @@ msgctxt "Toggle the Mount Control Panel"
 msgid "Mount Control"
 msgstr "Kontrola kretanja"
 
-#: kstarsinit.cpp:671
+#: kstarsinit.cpp:672
 #, fuzzy, kde-format
 #| msgid "INDI Control Panel"
 msgid "Toggle Mount Control Panel"
 msgstr "INDI kontrolni panel"
 
-#: kstarsinit.cpp:675
+#: kstarsinit.cpp:676
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgctxt "Toggle the telescope center lock in display"
 msgid "Center Telescope"
 msgstr "Centriraj na teleskopu"
 
-#: kstarsinit.cpp:677
+#: kstarsinit.cpp:678
 #, fuzzy, kde-format
 msgid "Toggle Lock Telescope Center"
 msgstr "Prečnik radioteleskopa:"
 
-#: kstarsinit.cpp:681
+#: kstarsinit.cpp:682
 #, fuzzy, kde-format
 msgid "Toggle Telescope Tracking"
 msgstr "Prečnik radioteleskopa:"
 
-#: kstarsinit.cpp:685
+#: kstarsinit.cpp:686
 #, fuzzy, kde-format
 #| msgid "Slew map to object"
 msgid "Slew telescope to the focused object"
 msgstr "Zaokret mape ka objektu"
 
-#: kstarsinit.cpp:689
+#: kstarsinit.cpp:690
 #, fuzzy, kde-format
 #| msgid "Slew map to object"
 msgid "Sync telescope to the focused object"
 msgstr "Zaokret mape ka objektu"
 
-#: kstarsinit.cpp:693
+#: kstarsinit.cpp:694
 #, fuzzy, kde-format
 #| msgid "Telescope"
 msgid "Abort telescope motions"
 msgstr "Teleskop"
 
-#: kstarsinit.cpp:698
+#: kstarsinit.cpp:699
 #, fuzzy, kde-format
 msgid "Park telescope"
 msgstr "Spasi teleskop"
 
-#: kstarsinit.cpp:702
+#: kstarsinit.cpp:703
 #, fuzzy, kde-format
 #| msgid "Center in Telescope"
 msgid "Unpark telescope"
 msgstr "Centriraj na teleskopu"
 
-#: kstarsinit.cpp:708
+#: kstarsinit.cpp:709
 #, fuzzy, kde-format
 #| msgid "Slew the telescope to the target coordinates"
 msgid "Slew the telescope to the mouse pointer position"
 msgstr "Namjesti teleskop na odredišne koordinate"
 
-#: kstarsinit.cpp:711
+#: kstarsinit.cpp:712
 #, fuzzy, kde-format
 #| msgid "Synchronize the telescope to the solution coordinates"
 msgid "Sync the telescope to the mouse pointer position"
 msgstr "Sihroniziraj teleskop na koordinate rješenja"
 
-#: kstarsinit.cpp:718
+#: kstarsinit.cpp:719
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Park Scope"
 msgid "Park dome"
 msgstr "Obujam prostora"
 
-#: kstarsinit.cpp:722
+#: kstarsinit.cpp:723
 #, fuzzy, kde-format
 msgid "Unpark dome"
 msgstr "Park"
 
-#: kstarsinit.cpp:744
+#: kstarsinit.cpp:745
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -78535,7 +78535,7 @@ msgid ""
 "eye view."
 msgstr ""
 
-#: kstarsinit.cpp:753
+#: kstarsinit.cpp:754
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -78545,7 +78545,7 @@ msgid ""
 "refractor/cassegrain without erector prism, or Dobsonian."
 msgstr ""
 
-#: kstarsinit.cpp:758
+#: kstarsinit.cpp:759
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Library"
@@ -78554,7 +78554,7 @@ msgctxt ""
 msgid "Arbitrary"
 msgstr "Biblioteka"
 
-#: kstarsinit.cpp:762
+#: kstarsinit.cpp:763
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -78563,7 +78563,7 @@ msgid ""
 "arbitrary"
 msgstr ""
 
-#: kstarsinit.cpp:769
+#: kstarsinit.cpp:770
 #, fuzzy, kde-format
 #| msgctxt "Map projection method"
 #| msgid "No projection"
@@ -78571,7 +78571,7 @@ msgctxt "Do not adjust the orientation of the sky map for an erect observer"
 msgid "No correction"
 msgstr "Bez projekcije"
 
-#: kstarsinit.cpp:773
+#: kstarsinit.cpp:774
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -78579,7 +78579,7 @@ msgid ""
 "display mounted on your telescope"
 msgstr ""
 
-#: kstarsinit.cpp:779
+#: kstarsinit.cpp:780
 #, fuzzy, kde-format
 #| msgid "Target object or direction"
 msgctxt ""
@@ -78588,7 +78588,7 @@ msgctxt ""
 msgid "Erect observer correction, left-handed"
 msgstr "Ciljni objekat ili smjer"
 
-#: kstarsinit.cpp:783
+#: kstarsinit.cpp:784
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -78600,7 +78600,7 @@ msgid ""
 "combine this with Zenith Down orientation."
 msgstr ""
 
-#: kstarsinit.cpp:789
+#: kstarsinit.cpp:790
 #, fuzzy, kde-format
 #| msgid "Target object or direction"
 msgctxt ""
@@ -78609,7 +78609,7 @@ msgctxt ""
 msgid "Erect observer correction, right-handed"
 msgstr "Ciljni objekat ili smjer"
 
-#: kstarsinit.cpp:793
+#: kstarsinit.cpp:794
 #, kde-format
 msgctxt "Orientation of the sky map"
 msgid ""
@@ -78621,7 +78621,7 @@ msgid ""
 "combine this with Zenith Down orientation."
 msgstr ""
 
-#: kstarsinit.cpp:817
+#: kstarsinit.cpp:818
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Library"
@@ -78629,41 +78629,41 @@ msgctxt "Arbitrary Sky Map View"
 msgid "Arbitrary"
 msgstr "Biblioteka"
 
-#: kstarsinit.cpp:820
+#: kstarsinit.cpp:821
 #, fuzzy, kde-format
 #| msgid "Edit Link..."
 msgid "Edit Views..."
 msgstr "Uredi vezu..."
 
-#: kstarsinit.cpp:847
+#: kstarsinit.cpp:848
 #, kde-format
 msgid "Edit FOV Symbols..."
 msgstr "Izmijeni FOV simbole..."
 
-#: kstarsinit.cpp:884
+#: kstarsinit.cpp:885
 #, fuzzy, kde-format
 #| msgctxt "string from libindi, used in the config dialog"
 #| msgid "Simulator Settings"
 msgid "HiPS Settings..."
 msgstr "Podešenja Siulatora"
 
-#: kstarsinit.cpp:891
+#: kstarsinit.cpp:892
 #, kde-format
 msgid " Welcome to KStars "
 msgstr " Dobro došli u KStars "
 
-#: kstarsinit.cpp:988 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
+#: kstarsinit.cpp:989 kstarsliteinit.cpp:65 skymap.cpp:410 skymaplite.cpp:324
 #: widgets/infoboxwidget.cpp:111
 #, kde-format
 msgid "nothing"
 msgstr "ništa"
 
-#: kstarsinit.cpp:1043 kstarsliteinit.cpp:120
+#: kstarsinit.cpp:1044 kstarsliteinit.cpp:120
 #, kde-format
 msgid "Initial Position is Below Horizon"
 msgstr "Početni položaj je ispod horizonta"
 
-#: kstarsinit.cpp:1045 kstarsliteinit.cpp:122
+#: kstarsinit.cpp:1046 kstarsliteinit.cpp:122
 #, kde-format
 msgid ""
 "The initial position is below the horizon.\n"
@@ -78672,17 +78672,17 @@ msgstr ""
 "Početni položaj je ispod horizonta.\n"
 "Želite li se vratiti na osnovni položaj?"
 
-#: kstarsinit.cpp:1046
+#: kstarsinit.cpp:1047
 #, kde-format
 msgid "Reset Position"
 msgstr "Resetuj položaj"
 
-#: kstarsinit.cpp:1047
+#: kstarsinit.cpp:1048
 #, kde-format
 msgid "Do Not Reset"
 msgstr "Ne resetuj"
 
-#: kstarsinit.cpp:1102
+#: kstarsinit.cpp:1103
 #, kde-format
 msgid "&Themes"
 msgstr ""
