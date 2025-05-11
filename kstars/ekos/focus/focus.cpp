@@ -12,8 +12,6 @@
 #if defined(HAVE_OPENCV)
 #include "focusblurriness.h"
 #endif
-#include "aberrationinspector.h"
-#include "aberrationinspectorutils.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
@@ -539,7 +537,7 @@ bool Focus::setFilterWheel(ISD::FilterWheel *device)
     return true;
 }
 
-void Focus::updateTemperatureSources(const QList<QSharedPointer<ISD::GenericDevice>> &temperatureSources)
+void Focus::updateTemperatureSources(const QList<QSharedPointer<ISD::GenericDevice >> &temperatureSources)
 {
     defaultFocusTemperatureSource->blockSignals(true);
     m_TemperatureSources = temperatureSources;
@@ -2220,7 +2218,7 @@ void Focus::getFWHM(const QList<Edge *> &stars, double *FWHM, double *weight)
 
         default:
             qCDebug(KSTARS_EKOS_FOCUS) << "Unknown image buffer datatype " << m_ImageData->getStatistics().dataType <<
-                                       " Cannot calc FWHM";
+                                          " Cannot calc FWHM";
             break;
     }
 }
@@ -2277,7 +2275,7 @@ void Focus::getFourierPower(double *fourierPower, double *weight, const int mosa
 
         default:
             qCDebug(KSTARS_EKOS_FOCUS) << "Unknown image buffer datatype " << m_ImageData->getStatistics().dataType <<
-                                       " Cannot calc Fourier Power";
+                                          " Cannot calc Fourier Power";
             break;
     }
 }
@@ -2337,7 +2335,7 @@ void Focus::getBlurriness(const StarMeasure starMeasure, const bool denoise, dou
 
         default:
             qCDebug(KSTARS_EKOS_FOCUS) << "Unknown image buffer datatype " << m_ImageData->getStatistics().dataType <<
-                                       " Cannot calc Blurriness";
+                                          " Cannot calc Blurriness";
             break;
     }
 #else
@@ -2642,7 +2640,7 @@ void Focus::completeFocusProcedure(FocusState completionState, AutofocusFailReas
         appendLogText(i18n("Settling for %1s...", settleTime));
 
     QTimer::singleShot(settleTime * 1000, this, [ &, settleTime, completionState, autoFocusUsed, inBuildOffsetsUsed, failCode,
-                          failCodeInfo]()
+                       failCodeInfo]()
     {
         settle(completionState, autoFocusUsed, inBuildOffsetsUsed, failCode, failCodeInfo);
 
@@ -2810,7 +2808,7 @@ void Focus::calculateAbInsData()
     ImageMosaicMask *mosaicmask = dynamic_cast<ImageMosaicMask *>(m_FocusView->imageMask().get());
     const QVector<QRect> tiles = mosaicmask->tiles();
     auto stars = m_ImageData->getStarCenters();
-    QVector<QList<Edge *>> tileStars(NUM_TILES);
+    QVector<QList<Edge * >> tileStars(NUM_TILES);
 
     for (int star = 0; star < stars.count(); star++)
     {
@@ -3150,7 +3148,7 @@ void Focus::setHFRComplete()
         else if (currentHFR > minimumRequiredHFR)
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is above required minimum HFR:" << minimumRequiredHFR <<
-                                       ". Starting AutoFocus...";
+                                          ". Starting AutoFocus...";
             QString reasonInfo = i18n("HFR %1 > Limit %2", QString::number(currentHFR, 'f', 2), QString::number(minimumRequiredHFR, 'f',
                                       2));
             minimumRequiredHFR = INVALID_STAR_MEASURE;
@@ -3160,7 +3158,7 @@ void Focus::setHFRComplete()
         else
         {
             qCDebug(KSTARS_EKOS_FOCUS) << "Current HFR:" << currentHFR << "is below required minimum HFR:" << minimumRequiredHFR <<
-                                       ". Autofocus successful.";
+                                          ". Autofocus successful.";
             completeFocusProcedure(Ekos::FOCUS_COMPLETE, Ekos::FOCUS_FAIL_NONE);
         }
 
@@ -5048,7 +5046,7 @@ void Focus::focusStarSelected(int x, int y)
         subFramed = true;
 
         qCDebug(KSTARS_EKOS_FOCUS) << "Frame is subframed. X:" << x << "Y:" << y << "W:" << w << "H:" << h << "binX:" << subBinX <<
-                                   "binY:" << subBinY;
+                                      "binY:" << subBinY;
 
         m_FocusView->setFirstLoad(true);
 
@@ -5882,28 +5880,28 @@ void Focus::syncSettings()
     QString key;
     QVariant value;
 
-    if ( (dsb = qobject_cast<QDoubleSpinBox*>(sender())))
+    if ( (dsb = qobject_cast<QDoubleSpinBox * >(sender())))
     {
         key = dsb->objectName();
         value = dsb->value();
 
     }
-    else if ( (sb = qobject_cast<QSpinBox*>(sender())))
+    else if ( (sb = qobject_cast<QSpinBox * >(sender())))
     {
         key = sb->objectName();
         value = sb->value();
     }
-    else if ( (cb = qobject_cast<QCheckBox*>(sender())))
+    else if ( (cb = qobject_cast<QCheckBox * >(sender())))
     {
         key = cb->objectName();
         value = cb->isChecked();
     }
-    else if ( (gb = qobject_cast<QGroupBox*>(sender())))
+    else if ( (gb = qobject_cast<QGroupBox * >(sender())))
     {
         key = gb->objectName();
         value = gb->isChecked();
     }
-    else if ( (rb = qobject_cast<QRadioButton*>(sender())))
+    else if ( (rb = qobject_cast<QRadioButton * >(sender())))
     {
         key = rb->objectName();
         // Discard false requests
@@ -5914,12 +5912,12 @@ void Focus::syncSettings()
         }
         value = true;
     }
-    else if ( (cbox = qobject_cast<QComboBox*>(sender())))
+    else if ( (cbox = qobject_cast<QComboBox * >(sender())))
     {
         key = cbox->objectName();
         value = cbox->currentText();
     }
-    else if ( (s = qobject_cast<QSplitter*>(sender())))
+    else if ( (s = qobject_cast<QSplitter * >(sender())))
     {
         key = s->objectName();
         // Convert from the QByteArray to QString using Base64
@@ -5955,7 +5953,7 @@ void Focus::loadGlobalSettings()
 
     QVariantMap settings;
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
     {
         if (oneWidget->objectName() == "opticalTrainCombo")
             continue;
@@ -5972,7 +5970,7 @@ void Focus::loadGlobalSettings()
     }
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -5986,7 +5984,7 @@ void Focus::loadGlobalSettings()
     }
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -6000,7 +5998,7 @@ void Focus::loadGlobalSettings()
     }
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -6014,7 +6012,7 @@ void Focus::loadGlobalSettings()
     }
 
     // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
+    for (auto &oneWidget : findChildren<QGroupBox * >())
     {
         if (oneWidget->isCheckable())
         {
@@ -6031,7 +6029,7 @@ void Focus::loadGlobalSettings()
     }
 
     // All Splitters
-    for (auto &oneWidget : findChildren<QSplitter*>())
+    for (auto &oneWidget : findChildren<QSplitter * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -6047,7 +6045,7 @@ void Focus::loadGlobalSettings()
     }
 
     // All Radio buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
     {
         key = oneWidget->objectName();
         value = Options::self()->property(key.toLatin1());
@@ -6086,66 +6084,66 @@ void Focus::checkMosaicMaskLimits()
 void Focus::connectSyncSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         // Don't sync Optical Train combo
         if (oneWidget != opticalTrainCombo)
             connect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         connect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         connect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         connect(oneWidget, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
 
     // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
+    for (auto &oneWidget : findChildren<QGroupBox * >())
         if (oneWidget->isCheckable())
             connect(oneWidget, &QGroupBox::toggled, this, &Ekos::Focus::syncSettings);
 
     // All Splitters
-    for (auto &oneWidget : findChildren<QSplitter*>())
+    for (auto &oneWidget : findChildren<QSplitter * >())
         connect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
 
     // All Radio Buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         connect(oneWidget, &QRadioButton::toggled, this, &Ekos::Focus::syncSettings);
 }
 
 void Focus::disconnectSyncSettings()
 {
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QComboBox::activated), this, &Ekos::Focus::syncSettings);
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         disconnect(oneWidget, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         disconnect(oneWidget, QOverload<int>::of(&QSpinBox::valueChanged), this, &Ekos::Focus::syncSettings);
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         disconnect(oneWidget, &QCheckBox::toggled, this, &Ekos::Focus::syncSettings);
 
     // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
+    for (auto &oneWidget : findChildren<QGroupBox * >())
         if (oneWidget->isCheckable())
             disconnect(oneWidget, &QGroupBox::toggled, this, &Ekos::Focus::syncSettings);
 
     // All Splitters
-    for (auto &oneWidget : findChildren<QSplitter*>())
+    for (auto &oneWidget : findChildren<QSplitter * >())
         disconnect(oneWidget, &QSplitter::splitterMoved, this, &Ekos::Focus::syncSettings);
 
     // All Radio Buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         disconnect(oneWidget, &QRadioButton::toggled, this, &Ekos::Focus::syncSettings);
 }
 
@@ -7448,32 +7446,32 @@ QVariantMap Focus::getAllSettings() const
     QVariantMap settings;
 
     // All Combo Boxes
-    for (auto &oneWidget : findChildren<QComboBox*>())
+    for (auto &oneWidget : findChildren<QComboBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->currentText());
 
     // All Double Spin Boxes
-    for (auto &oneWidget : findChildren<QDoubleSpinBox*>())
+    for (auto &oneWidget : findChildren<QDoubleSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Spin Boxes
-    for (auto &oneWidget : findChildren<QSpinBox*>())
+    for (auto &oneWidget : findChildren<QSpinBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->value());
 
     // All Checkboxes
-    for (auto &oneWidget : findChildren<QCheckBox*>())
+    for (auto &oneWidget : findChildren<QCheckBox * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     // All Checkable Groupboxes
-    for (auto &oneWidget : findChildren<QGroupBox*>())
+    for (auto &oneWidget : findChildren<QGroupBox * >())
         if (oneWidget->isCheckable())
             settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     // All Splitters
-    for (auto &oneWidget : findChildren<QSplitter*>())
+    for (auto &oneWidget : findChildren<QSplitter * >())
         settings.insert(oneWidget->objectName(), QString::fromUtf8(oneWidget->saveState().toBase64()));
 
     // All Radio Buttons
-    for (auto &oneWidget : findChildren<QRadioButton*>())
+    for (auto &oneWidget : findChildren<QRadioButton * >())
         settings.insert(oneWidget->objectName(), oneWidget->isChecked());
 
     return settings;
