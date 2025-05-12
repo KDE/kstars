@@ -83,28 +83,46 @@ void GreedyScheduler::scheduleJobs(const QList<SchedulerJob *> &jobs,
             if (jobs.size() > 0)
             {
                 const int numJobs = jobs.size();
-                QString reason;
-                auto now = SchedulerModuleState::getLocalTime().addSecs(12 * 3600);
-                QDateTime soon = now.addSecs(3600);
+                int numCompletedJobs = 0;
                 for (int i = numJobs; i > 0; i--)
                 {
                     const auto &job = jobs[i - 1];
-                    QDateTime nextEnd = job->getNextEndTime(now, SCHEDULE_RESOLUTION_MINUTES, &reason, soon);
-                    logger->appendLogText(QString("(%1) %2: cannot run because: %3").arg(i).arg(job->getName()).arg(reason));
+                    if (job->getState() == SCHEDJOB_COMPLETE)
+                        numCompletedJobs++;
                 }
-                logger->appendLogText(QString("*****************In 12 Hours******************"));
-                now = SchedulerModuleState::getLocalTime();
-                soon = now.addSecs(3600);
-                for (int i = numJobs; i > 0; i--)
+                if (numCompletedJobs == numJobs)
                 {
-                    const auto &job = jobs[i - 1];
-                    QDateTime nextEnd = job->getNextEndTime(now, SCHEDULE_RESOLUTION_MINUTES, &reason, soon);
-                    logger->appendLogText(QString("(%1) %2: cannot run because: %3").arg(i).arg(job->getName()).arg(reason));
+                    if (numJobs > 1)
+                        logger->appendLogText(i18n("Sorry, no jobs are runnable for the next 3 days. All jobs have completed."));
+                    else if (numJobs == 1)
+                        logger->appendLogText(i18n("Sorry, no jobs are runnable for the next 3 days. Job %1 has completed.", jobs[0]->getName()));
                 }
-                logger->appendLogText(QString("******************** Now ********************"));
-                logger->appendLogText(QString("To debug, set the time to a time when you believe a job should be runnable."));
+                else
+                {
+                    QString reason;
+                    for (int offset = 20; offset >= 0; offset -= 4)
+                    {
+                        auto now = SchedulerModuleState::getLocalTime().addSecs(offset * 3600);
+                        QDateTime soon = now.addSecs(3600);
+                        for (int i = numJobs; i > 0; i--)
+                        {
+                            const auto &job = jobs[i - 1];
+                            if (job->getState() == SCHEDJOB_COMPLETE)
+                                logger->appendLogText(i18n("(%1) Job %2: has completed.", i, job->getName()));
+                            else
+                            {
+                                job->getNextEndTime(now, SCHEDULE_RESOLUTION_MINUTES, &reason, soon);
+                                logger->appendLogText(i18n("(%1) Job %2: cannot run because: %3", i, job->getName(), reason));
+                            }
+                        }
+                        if (offset == 0)
+                            logger->appendLogText(i18n("******************** Now ********************"));
+                        else
+                            logger->appendLogText(i18n("*****************In %1 Hours******************", offset));
+                    }
+                    logger->appendLogText(i18n("Sorry, no jobs are runnable for the next 3 days."));
+                }
             }
-            logger->appendLogText(QString("Scheduler: Sorry, no jobs are runnable for the next 3 days."));
         }
     }
     if (scheduledJob != nullptr)
