@@ -1,0 +1,127 @@
+{
+    "id": "org.kde.kstars",
+    "branch": "master",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.15-24.08",
+    "sdk": "org.kde.Sdk",
+    "command": "kstars",
+    "tags": ["nightly"],
+    "desktop-file-name-suffix": " (Nightly)",
+    "finish-args": ["--share=ipc", "--socket=x11", "--socket=wayland" ],
+    "modules": [
+        {
+            "name": "eigen",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.bz2",
+                    "sha256": "b4c198460eba6f28d34894e3a5710998818515104d6e74e5cc331ce31e46e626",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 666,
+                        "stable-only": true,
+                        "url-template": "https://gitlab.com/libeigen/eigen/-/archive/$version/eigen-$version.tar.bz2"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "gsl",
+            "buildsystem": "autotools",
+            "sources": [ { "type": "git", "url": "git://git.savannah.gnu.org/gsl.git" } ]
+        },
+        {
+            "name" : "cfitsio",
+            "buildsystem" : "cmake-ninja",
+            "builddir" : true,
+            "sources" : [
+                {
+                    "type" : "archive",
+                    "url" : "https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio-4.2.0.tar.gz",
+                    "sha256" : "eba53d1b3f6e345632bb09a7b752ec7ced3d63ec5153a848380f3880c5d61889"
+                }
+            ]
+        },
+        {
+            "name": "wcslib",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://src.rrz.uni-hamburg.de/files/src/wcslib/wcslib-7.10.tar.bz2",
+                    "sha256": "1796b0979df950ba7eae1010b986134067187846892b8e9b3c42d30361c9d929"
+                }
+            ]
+        },
+        {
+            "name": "stellarsolver",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/rlancaste/stellarsolver.git"
+                }
+            ]
+        },
+        {
+            "name": "libev",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://dist.schmorp.de/libev/Attic/libev-4.33.tar.gz",
+                    "sha256": "507eb7b8d1015fbec5b935f34ebed15bf346bed04a11ab82b8eee848c4205aea"
+                }
+            ],
+            "buildsystem": "autotools",
+            "config-opts": []
+        },
+        {
+            "name": "libnova",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://netix.dl.sourceforge.net/project/libnova/libnova/v%200.15.0/libnova-0.15.0.tar.gz?viasf=1",
+                    "sha256": "7c5aa33e45a3e7118d77df05af7341e61784284f1e8d0d965307f1663f415bb1"
+                }
+            ],
+            "buildsystem": "simple",
+            "build-commands": [
+                "autoreconf -fi",
+                "./configure --prefix=/app",
+                "make",
+                "make install"
+            ]
+        },
+        {
+            "name": "libusb",
+            "buildsystem": "autotools",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2",
+                    "sha256": "12ce7a61fc9854d1d2a1ffe095f7b5fac19ddba095c259e6067a46500381b5a5"
+                }
+            ]
+        },
+        {
+            "name": "indi",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DINDI_INSTALL_UDEV_RULES=OFF"
+            ],
+            "sources": [ { "type": "dir", "path": "/home/jasem/Projects/indi" } ]
+        },
+        {
+            "name": "kstars",
+            "buildsystem": "cmake-ninja",
+            "config-opts": [
+                "-DBUILD_DOC=OFF",
+                "-DBUILD_TESTING=OFF"
+            ],
+            "sources": [ { "type": "dir", "path": "/home/jasem/Projects/kstars" } ]
+        }
+    ]
+}

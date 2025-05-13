@@ -1099,7 +1099,7 @@ QString getDefaultPath(const QString &option)
     // The path should accomodate the differences between the different
     // packaging solutions
     QString snap   = QProcessEnvironment::systemEnvironment().value("SNAP");
-    QString flat   = QProcessEnvironment::systemEnvironment().value("FLATPAK_DEST");
+    QString flat   = QProcessEnvironment::systemEnvironment().value("FLATPAK_ID");
     QString appimg = QProcessEnvironment::systemEnvironment().value("APPDIR");
 
     // User prefix is the primary mounting point
@@ -1112,7 +1112,7 @@ QString getDefaultPath(const QString &option)
         prefix = appimg + userPrefix;
     else if (flat.isEmpty() == false)
         // Detect if we are within a Flatpak
-        prefix = flat;
+        prefix = "/app";
     // Detect if we are within a snap
     else if (snap.isEmpty() == false)
         prefix = snap + userPrefix;
