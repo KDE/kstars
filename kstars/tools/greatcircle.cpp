@@ -91,6 +91,8 @@ double GreatCircle::altAtAz(double azDegrees) const
 {
     double az = d2r(azDegrees);
     double alt = atan2(sin(az - lambda0), tan(alpha0));
+    if (r2d(alt) < -90) return 180 + r2d(alt);
+    if (r2d(alt) > 90) return r2d(alt) - 180;
     return r2d(alt);
 }
 

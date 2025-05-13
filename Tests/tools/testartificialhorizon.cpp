@@ -22,6 +22,7 @@
 #include "artificialhorizoncomponent.h"
 #include "linelist.h"
 #include "Options.h"
+#include "greatcircle.h"
 
 class TestArtificialHorizon : public QObject
 {
@@ -37,6 +38,7 @@ class TestArtificialHorizon : public QObject
     private slots:
         void artificialHorizonTest();
         void artificialCeilingTest();
+        void greatCircleTest();
 
     private:
 };
@@ -256,6 +258,38 @@ void TestArtificialHorizon::artificialCeilingTest()
     QVERIFY(checkHorizon(horizon, 306, 48, true, polygons));
     QVERIFY(checkHorizon(horizon, 328, 14, false, polygons));
     QVERIFY(checkHorizon(horizon, 351, 3, false, polygons));
+}
+
+void TestArtificialHorizon::greatCircleTest()
+{
+    double az1 = 290, alt1 = 89.0, az2 = 0, alt2 = 89, target = 300;
+    GreatCircle gc(az1, alt1, az2, alt2);
+    double result = gc.altAtAz(target);
+    QVERIFY(fabs(result - 89.0961) < .001);
+
+    az1 = 290;
+    alt1 = 89.0;
+    az2 = 359.0;
+    alt2 = 89;
+    GreatCircle gc2(az1, alt1, az2, alt2);
+    result = gc2.altAtAz(target);
+    QVERIFY(fabs(result - 89.0943) < .001);
+
+    az1 = 0;
+    alt1 = 89.0;
+    az2 = 290.0;
+    alt2 = 89;
+    GreatCircle gc3(az1, alt1, az2, alt2);
+    result = gc3.altAtAz(target);
+    QVERIFY(fabs(result - 89.0961) < .001);
+
+    az1 = 0;
+    alt1 = 79.0;
+    az2 = 290.0;
+    alt2 = 79;
+    GreatCircle gc4(az1, alt1, az2, alt2);
+    result = gc4.altAtAz(target);
+    QVERIFY(fabs(result - 80.0355) < .001);
 }
 
 QTEST_GUILESS_MAIN(TestArtificialHorizon)
