@@ -2098,6 +2098,10 @@ void ImagingPlanner::recompute()
     }
     // Reconnect the filter to the model.
     m_CatalogSortModel->setSourceModel(m_CatalogModel.data());
+    // Need to do this again, I guess because we disconnected/reconnected above.
+    ui->CatalogView->setColumnHidden(FLAGS_COLUMN, true);
+    ui->CatalogView->setColumnHidden(NOTES_COLUMN, true);
+    ui->CatalogView->resizeColumnsToContents();
 
     DPRINTF(stderr, "Recompute took %.1fs\n", timer.elapsed() / 1000.0);
     updateStatus();
