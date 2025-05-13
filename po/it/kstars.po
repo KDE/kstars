@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-12 01:53+0000\n"
-"PO-Revision-Date: 2025-05-02 16:20+0200\n"
+"POT-Creation-Date: 2025-05-13 02:06+0000\n"
+"PO-Revision-Date: 2025-05-11 13:14+0200\n"
 "Last-Translator: Valter Mura <valtermura@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -22328,7 +22328,7 @@ msgstr "Nessuna fotocamera rilevata. Verifica la fotocamera nei gruppi ottici."
 #: ekos/guide/guide.cpp:1320
 #, kde-format
 msgid "No guider detected. Check guide-via in optical trains."
-msgstr ""
+msgstr "Nessun telescopio guida rilevato. Verifica la guida nei treni ottici."
 
 #: ekos/guide/guide.cpp:1401
 #, kde-format
@@ -28370,7 +28370,44 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Seleziona cartella dei processi"
 
-#: ekos/scheduler/greedyscheduler.cpp:199
+#: ekos/scheduler/greedyscheduler.cpp:96
+#, kde-format
+msgid ""
+"Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:98
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:111
+#, fuzzy, kde-format
+#| msgid "Job '%1' is complete."
+msgid "(%1) Job %2: has completed."
+msgstr "Il processo «%1» è completo."
+
+#: ekos/scheduler/greedyscheduler.cpp:115
+#, kde-format
+msgid "(%1) Job %2: cannot run because: %3"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:119
+#, kde-format
+msgid "******************** Now ********************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:121
+#, kde-format
+msgid "*****************In %1 Hours******************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:123
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "Il processo «%1» ha completato le serie."
@@ -41994,7 +42031,7 @@ msgstr "Se il terreno debba essere disegnato sulla mappa celeste."
 #: kstars.kcfg:3580
 #, kde-format
 msgid "Terrain Skip Speedup"
-msgstr ""
+msgstr "Accelerazione salto terreno"
 
 #. i18n: ectx: whatsthis, entry (TerrainSkipSpeedup), group (Terrain)
 #. i18n: ectx: whatsthis, entry (TerrainTransparencySpeedup), group (Terrain)

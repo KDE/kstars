@@ -1,7 +1,7 @@
 # translation of kstars.po to Polish
 # translation of kstars_merge.po to
 # translation of kstars.po to
-# Version: $Revision: 1708689 $
+# Version: $Revision: 1708744 $
 #
 # Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # Grzegorz Borek <grzebo@poczta.onet.pl>, 2002.
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-12 01:53+0000\n"
+"POT-Creation-Date: 2025-05-13 02:06+0000\n"
 "PO-Revision-Date: 2023-10-29 08:47+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -28733,7 +28733,45 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Wybierz katalog zadań"
 
-#: ekos/scheduler/greedyscheduler.cpp:199
+#: ekos/scheduler/greedyscheduler.cpp:96
+#, kde-format
+msgid ""
+"Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:98
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:111
+#, fuzzy, kde-format
+#| msgid "Job '%1' is complete."
+msgid "(%1) Job %2: has completed."
+msgstr "Ukończono zadanie '%1'."
+
+#: ekos/scheduler/greedyscheduler.cpp:115
+#, fuzzy, kde-format
+#| msgid "Job '%1' cannot run now because of bad weather."
+msgid "(%1) Job %2: cannot run because: %3"
+msgstr "Zadanie '%1' nie może być teraz wykonane ze względu na złą pogodę."
+
+#: ekos/scheduler/greedyscheduler.cpp:119
+#, kde-format
+msgid "******************** Now ********************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:121
+#, kde-format
+msgid "*****************In %1 Hours******************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:123
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "Zadanie '%1' nie ma więcej czynności wsadowych."
@@ -116170,9 +116208,6 @@ msgstr "Ustaw barwę tła."
 
 #~ msgid "KStars::slotFind() - Not enough memory for dialog"
 #~ msgstr "KStars::slotFind() - Brak pamięci dla okna dialogowego"
-
-#~ msgid "Job '%1' cannot run now because of bad weather."
-#~ msgstr "Zadanie '%1' nie może być teraz wykonane ze względu na złą pogodę."
 
 #~ msgid "Job '%1' is due to run as soon as possible."
 #~ msgstr "Zadanie '%1' zostanie rozpoczęte tak szybko jak to możliwe."

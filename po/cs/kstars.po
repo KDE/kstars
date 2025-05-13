@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ktouch\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-12 01:53+0000\n"
+"POT-Creation-Date: 2025-05-13 02:06+0000\n"
 "PO-Revision-Date: 2024-10-08 14:43+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -16532,10 +16532,9 @@ msgid "Parking mount failed, aborting..."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:507
-#, fuzzy, kde-format
-#| msgid "Parking %1..."
+#, kde-format
 msgid "Unparking mount..."
-msgstr "Parkování %1..."
+msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:516
 #: ekos/scheduler/schedulerprocess.cpp:1820
@@ -16584,10 +16583,9 @@ msgid "Dust cap error occurred."
 msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:896
-#, fuzzy, kde-format
-#| msgid "%1 is idle."
+#, kde-format
 msgid "Dust cap is idle."
-msgstr "%1 je nečinný."
+msgstr ""
 
 #: ekos/capture/sequencejobstate.cpp:899
 #, kde-format
@@ -19124,28 +19122,23 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedupShiftLabel)
 #: ekos/focus/opsfocusmechanics.ui:514
-#, fuzzy, kde-format
-#| msgid "Speedup options"
+#, kde-format
 msgid "Speedup (Shift)"
-msgstr "Možnosti zrychlení"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedupCtrlLabel)
 #: ekos/focus/opsfocusmechanics.ui:521
-#, fuzzy, kde-format
-#| msgid "Speedup options"
+#, kde-format
 msgid "Speedup (Ctrl)"
-msgstr "Možnosti zrychlení"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupShift)
 #: ekos/focus/opsfocusmechanics.ui:528
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the shift key "
 "is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupShift)
 #. i18n: ectx: property (suffix), widget (QSpinBox, speedupCtrl)
@@ -19160,14 +19153,11 @@ msgstr " x"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, speedupCtrl)
 #: ekos/focus/opsfocusmechanics.ui:547
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Multiplier for manual focus motions when the control "
 "key is pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, focusStarMeasureLabel)
 #: ekos/focus/opsfocusprocess.ui:34
@@ -20492,11 +20482,9 @@ msgid "Guiding resumed."
 msgstr ""
 
 #: ekos/guide/guide.cpp:1691
-#, fuzzy, kde-format
-#| msgctxt "City in Australia"
-#| msgid "Siding Spring"
+#, kde-format
 msgid "Autoguiding running."
-msgstr "Siding Spring"
+msgstr ""
 
 #: ekos/guide/guide.cpp:1703
 #, kde-format
@@ -20901,11 +20889,9 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: ekos/guide/guide.ui:1164
-#, fuzzy, kde-format
-#| msgctxt "City in Italy"
-#| msgid "Mount Mario"
+#, kde-format
 msgid "Mount Drift"
-msgstr "Mount Mario"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: ekos/guide/guide.ui:1199
@@ -21063,16 +21049,14 @@ msgid ""
 msgstr ""
 
 #: ekos/guide/guidedriftgraph.cpp:77
-#, fuzzy, kde-format
-#| msgid "Min error (arcsec)"
+#, kde-format
 msgid "Mount DE Drift (arcsec)"
-msgstr "Min chyba (arcsec)"
+msgstr ""
 
 #: ekos/guide/guidedriftgraph.cpp:78
-#, fuzzy, kde-format
-#| msgid "Min error (arcsec)"
+#, kde-format
 msgid "Mount RA Drift (arcsec)"
-msgstr "Min chyba (arcsec)"
+msgstr ""
 
 #: ekos/guide/guidedriftgraph.cpp:246 ekos/guide/guidedriftgraph.cpp:648
 #: ekos/guide/guidedriftgraph.cpp:723
@@ -22029,18 +22013,15 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "The algorithm that tracks guide stars and determines the guide deviation."
+#, kde-format
 msgid "The algorithm that computes the guide correction pulses."
-msgstr "Algoritmus sledující vodicí hvězdy a určuje odchylku vedení."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:73
-#, fuzzy, kde-format
-#| msgid "Algorithm"
+#, kde-format
 msgid "Guiding Algorithm"
-msgstr "Algoritmus"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, AlgLabel)
 #: ekos/guide/opsguide.ui:76
@@ -22116,10 +22097,9 @@ msgstr "Standardní"
 #. i18n: ectx: property (text), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:101 ekos/guide/opsguide.ui:137
 #: ekos/guide/opsguide.ui:332
-#, fuzzy, kde-format
-#| msgid "Asteroids"
+#, kde-format
 msgid "Hysteresis"
-msgstr "Asteroidy"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_RAGuidePulseAlgorithm)
 #: ekos/guide/opsguide.ui:111
@@ -22220,36 +22200,27 @@ msgstr "Min chyba (arcsec)"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, HysteresisGuiderLabel)
 #: ekos/guide/opsguide.ui:335
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_RAHysteresis)
 #: ekos/guide/opsguide.ui:357
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the RA hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, kcfg_DECHysteresis)
 #: ekos/guide/opsguide.ui:379
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Sets the DEC hysteresis parameter (only applies to the "
 "hysteresis algorithm).</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: ekos/guide/opsguide.ui:427
@@ -24674,17 +24645,14 @@ msgid "Driver"
 msgstr "Ovladač"
 
 #: ekos/profilescriptdialog.cpp:32
-#, fuzzy, kde-format
-#| msgctxt "string from libindi, used in the config dialog"
-#| msgid "Restart"
+#, kde-format
 msgid "Pre start"
-msgstr "Restartovat"
+msgstr ""
 
 #: ekos/profilescriptdialog.cpp:33
-#, fuzzy, kde-format
-#| msgid "Focus star"
+#, kde-format
 msgid "Post start"
-msgstr "Zaměřit hvězdu"
+msgstr ""
 
 #: ekos/profilescriptdialog.cpp:34
 #, kde-format
@@ -25815,7 +25783,43 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr ""
 
-#: ekos/scheduler/greedyscheduler.cpp:199
+#: ekos/scheduler/greedyscheduler.cpp:96
+#, kde-format
+msgid ""
+"Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:98
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:111
+#, kde-format
+msgid "(%1) Job %2: has completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:115
+#, kde-format
+msgid "(%1) Job %2: cannot run because: %3"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:119
+#, kde-format
+msgid "******************** Now ********************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:121
+#, kde-format
+msgid "*****************In %1 Hours******************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:123
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr ""
@@ -26023,10 +26027,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SchedulerWeather)
 #: ekos/scheduler/opsoffsetsettings.ui:153
-#, fuzzy, kde-format
-#| msgid "Weather Station"
+#, kde-format
 msgid "Weather grace period"
-msgstr "Meteostanice"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_StopEkosAfterShutdown)
 #: ekos/scheduler/opsscriptssettings.ui:38
@@ -26716,10 +26719,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerAltitude)
 #: ekos/scheduler/scheduler.ui:1671
-#, fuzzy, kde-format
-#| msgid "Altitude: "
+#, kde-format
 msgid "Min. Altitude: "
-msgstr "Výška: "
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerAltitudeValue)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
@@ -26747,14 +26749,11 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonSeparation)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonSeparationValue)
 #: ekos/scheduler/scheduler.ui:1731 ekos/scheduler/scheduler.ui:1750
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The target must be at least this far from the moon.</"
 "p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonSeparation)
 #: ekos/scheduler/scheduler.ui:1734
@@ -26765,19 +26764,17 @@ msgstr ""
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerMoonAltitude)
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, schedulerMoonAltitudeMaxValue)
 #: ekos/scheduler/scheduler.ui:1782 ekos/scheduler/scheduler.ui:1792
-#, fuzzy, kde-format
-#| msgid "<html><head/><body><p>Zoom out for the X-Axis.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>The moon must be lower than this altitude.</p></body></"
 "html>"
-msgstr "<html><head/><body><p>Oddálit pro osu X.</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, schedulerMoonAltitude)
 #: ekos/scheduler/scheduler.ui:1785
-#, fuzzy, kde-format
-#| msgid "Moon  >: "
+#, kde-format
 msgid "Moon max alt:"
-msgstr "Měsíc  >: "
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, schedulerTwilight)
 #: ekos/scheduler/scheduler.ui:1817
@@ -27018,10 +27015,9 @@ msgid "Day After Tomorrow"
 msgstr ""
 
 #: ekos/scheduler/scheduleraltitudegraph.cpp:193
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Tonight"
-msgstr "Vpravo nahoře"
+msgstr ""
 
 #: ekos/scheduler/schedulerjob.cpp:339
 #, kde-format
@@ -29395,11 +29391,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, auxButton)
 #: fitsviewer/platesolve.ui:63
-#, fuzzy, kde-format
-#| msgctxt "star name"
-#| msgid "Acrux"
+#, kde-format
 msgid "Aux"
-msgstr "Acrux"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_FitsSolverImageScaleUnits)
 #: fitsviewer/platesolve.ui:120
@@ -30445,28 +30439,24 @@ msgid "Modify Host"
 msgstr "Upravit hostitele"
 
 #: indi/indidustcap.cpp:59
-#, fuzzy, kde-format
-#| msgid "%1 is idle."
+#, kde-format
 msgid "Dust Cap is parked"
-msgstr "%1 je nečinný."
+msgstr ""
 
 #: indi/indidustcap.cpp:67
-#, fuzzy, kde-format
-#| msgid "%1 is idle."
+#, kde-format
 msgid "Dust Cap is unparked"
-msgstr "%1 je nečinný."
+msgstr ""
 
 #: indi/indidustcap.cpp:78
-#, fuzzy, kde-format
-#| msgid "%1 is idle."
+#, kde-format
 msgid "Dust Cap is parking"
-msgstr "%1 je nečinný."
+msgstr ""
 
 #: indi/indidustcap.cpp:86 indi/indidustcap.cpp:171
-#, fuzzy, kde-format
-#| msgid "%1 is idle."
+#, kde-format
 msgid "Dust Cap is unparking"
-msgstr "%1 je nečinný."
+msgstr ""
 
 #: indi/indielement.cpp:351
 #, kde-format
@@ -73201,10 +73191,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_27)
 #: oal/equipmentwriter.ui:1206
-#, fuzzy, kde-format
-#| msgid "Focus"
+#, kde-format
 msgid "Focus DT:"
-msgstr "Zaměření"
+msgstr ""
 
 #. i18n: ectx: property (displayFormat), widget (QDateTimeEdit, f_FocusDatetime)
 #: oal/equipmentwriter.ui:1250
@@ -79461,11 +79450,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, DevelDownsampleButton)
 #: tools/imagingplanner.ui:464
-#, fuzzy, kde-format
-#| msgctxt "City in California USA"
-#| msgid "Downey"
+#, kde-format
 msgid "Downsample"
-msgstr "Downey"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, DevelDownsampleButton)
 #. i18n: ectx: property (toolTip), widget (QPushButton, DevelCheckTargetsButton)
@@ -79591,21 +79578,17 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, minMoonLabel)
 #: tools/imagingplanner.ui:1194
-#, fuzzy, kde-format
-#| msgid "Moon"
+#, kde-format
 msgid "Moon:"
-msgstr "Měsíc"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, minMoon)
 #: tools/imagingplanner.ui:1213
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Do you want to select additional services?</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations object must be at least "
 "this far from the moon.</p></body></html>"
-msgstr "<html><head/><body><p>Chcete zvolit další služby?</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, minMoon)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, maxMoonAltitude)
@@ -79616,14 +79599,11 @@ msgstr "°"
 
 #. i18n: ectx: property (toolTip), widget (QDoubleSpinBox, maxMoonAltitude)
 #: tools/imagingplanner.ui:1232
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>Do you want to select additional services?</p></"
-#| "body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>For imaging hours calculations the moon must be lower "
 "than this altitude.</p></body></html>"
-msgstr "<html><head/><body><p>Chcete zvolit další služby?</p></body></html>"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, hideAstrobinDetailsButton)
 #: tools/imagingplanner.ui:1307
@@ -80068,14 +80048,11 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:37
-#, fuzzy, kde-format
-#| msgid ""
-#| "<html><head/><body><p>This index file is not required.</p></body></html>"
+#, kde-format
 msgid ""
 "<html><head/><body><p>Start solving immediately after taking a screenshot, "
 "instead of waiting for the Solve button to be pressed.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Tento indexový soubor není nutný.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, StartSolvingImmediatelyCB)
 #: tools/imagingplanneroptions.ui:40
@@ -84442,12 +84419,3 @@ msgstr "Barva pozadí:"
 #, kde-format
 msgid "Set the color for the background."
 msgstr "Nastavte barvu pozadí."
-
-#~ msgid "Enable GPG"
-#~ msgstr "Povolit GPG"
-
-#~ msgid "Help..."
-#~ msgstr "Nápověda..."
-
-#~ msgid "J2000:"
-#~ msgstr "J2000:"

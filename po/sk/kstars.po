@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-12 01:53+0000\n"
+"POT-Creation-Date: 2025-05-13 02:06+0000\n"
 "PO-Revision-Date: 2019-08-26 20:34+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -28464,7 +28464,45 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Adresár:"
 
-#: ekos/scheduler/greedyscheduler.cpp:199
+#: ekos/scheduler/greedyscheduler.cpp:96
+#, kde-format
+msgid ""
+"Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:98
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:111
+#, fuzzy, kde-format
+#| msgid "%1 slew is complete."
+msgid "(%1) Job %2: has completed."
+msgstr "Otočenie %1 hotové."
+
+#: ekos/scheduler/greedyscheduler.cpp:115
+#, fuzzy, kde-format
+#| msgid "%1 observation job aborted due to bad weather."
+msgid "(%1) Job %2: cannot run because: %3"
+msgstr "%1 pozorovacia úloha prerušená kvôli zlému počasiu."
+
+#: ekos/scheduler/greedyscheduler.cpp:119
+#, kde-format
+msgid "******************** Now ********************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:121
+#, kde-format
+msgid "*****************In %1 Hours******************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:123
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:217
 #, fuzzy, kde-format
 #| msgid "%1 observation job is due to run as soon as possible."
 msgid "Job '%1' has no more batches remaining."
@@ -97846,11 +97884,6 @@ msgstr "Nastavte farbu pre pozadie."
 
 #~ msgid "KStars::slotFind() - Not enough memory for dialog"
 #~ msgstr "KStars::slotFind() - Nedostatok pamäti pre dialóg"
-
-#, fuzzy
-#~| msgid "%1 observation job aborted due to bad weather."
-#~ msgid "Job '%1' cannot run now because of bad weather."
-#~ msgstr "%1 pozorovacia úloha prerušená kvôli zlému počasiu."
 
 #, fuzzy
 #~| msgid "%1 observation job is due to run as soon as possible."

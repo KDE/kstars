@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-12 01:53+0000\n"
+"POT-Creation-Date: 2025-05-13 02:06+0000\n"
 "PO-Revision-Date: 2021-09-09 23:34-0700\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik Language Support\n"
@@ -27453,7 +27453,44 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Каталоги FITS нобаён:"
 
-#: ekos/scheduler/greedyscheduler.cpp:199
+#: ekos/scheduler/greedyscheduler.cpp:96
+#, kde-format
+msgid ""
+"Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:98
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:111
+#, fuzzy, kde-format
+#| msgid "%1 is online."
+msgid "(%1) Job %2: has completed."
+msgstr "%1 дастрас."
+
+#: ekos/scheduler/greedyscheduler.cpp:115
+#, kde-format
+msgid "(%1) Job %2: cannot run because: %3"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:119
+#, kde-format
+msgid "******************** Now ********************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:121
+#, kde-format
+msgid "*****************In %1 Hours******************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:123
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:217
 #, fuzzy, kde-format
 #| msgctxt "City name (optional, probably does not need a translation)"
 #| msgid "Caliente"

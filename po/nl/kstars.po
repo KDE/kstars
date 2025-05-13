@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-12 01:53+0000\n"
+"POT-Creation-Date: 2025-05-13 02:06+0000\n"
 "PO-Revision-Date: 2025-05-02 12:26+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -28083,7 +28083,45 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Map voor taken selecteren"
 
-#: ekos/scheduler/greedyscheduler.cpp:199
+#: ekos/scheduler/greedyscheduler.cpp:96
+#, kde-format
+msgid ""
+"Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:98
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:111
+#, fuzzy, kde-format
+#| msgid "Job '%1' is complete."
+msgid "(%1) Job %2: has completed."
+msgstr "Taak '%1' is voltooid."
+
+#: ekos/scheduler/greedyscheduler.cpp:115
+#, fuzzy, kde-format
+#| msgid "Job '%1' cannot run now because of bad weather."
+msgid "(%1) Job %2: cannot run because: %3"
+msgstr "Taak '%1' kan nu niet werken wegens slecht weer."
+
+#: ekos/scheduler/greedyscheduler.cpp:119
+#, kde-format
+msgid "******************** Now ********************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:121
+#, kde-format
+msgid "*****************In %1 Hours******************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:123
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "Voor taak '%1' zijn er geen \"batches\" meer over."
@@ -115406,9 +115444,6 @@ msgstr "Instellen van de kleur van de achtergrond."
 #~ msgstr ""
 #~ "Waarschuwing: Taak '%1' is een oneindige herhaling geraakt, waardoor "
 #~ "andere taken mogelijk niet worden uitgevoerd."
-
-#~ msgid "Job '%1' cannot run now because of bad weather."
-#~ msgstr "Taak '%1' kan nu niet werken wegens slecht weer."
 
 #~ msgid "Job '%1' is due to run as soon as possible."
 #~ msgstr "Taak '%1' wordt zo spoedig mogelijk uitgevoerd."

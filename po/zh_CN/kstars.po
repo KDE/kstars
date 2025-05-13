@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-12 01:53+0000\n"
+"POT-Creation-Date: 2025-05-13 02:06+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -26891,7 +26891,44 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "选择作业目录"
 
-#: ekos/scheduler/greedyscheduler.cpp:199
+#: ekos/scheduler/greedyscheduler.cpp:96
+#, kde-format
+msgid ""
+"Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:98
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:111
+#, fuzzy, kde-format
+#| msgid "Job '%1' is complete."
+msgid "(%1) Job %2: has completed."
+msgstr "任务“%1”已完成。"
+
+#: ekos/scheduler/greedyscheduler.cpp:115
+#, kde-format
+msgid "(%1) Job %2: cannot run because: %3"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:119
+#, kde-format
+msgid "******************** Now ********************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:121
+#, kde-format
+msgid "*****************In %1 Hours******************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:123
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:217
 #, kde-format
 msgid "Job '%1' has no more batches remaining."
 msgstr "任务“%1”没有尚未完成的批量任务。"
@@ -52280,7 +52317,7 @@ msgstr "基加利"
 #, kde-kuit-format
 msgctxt "City in Alberta Canada"
 msgid "Kikino"
-msgstr ""
+msgstr "Kikino"
 
 #: kstars_i18n.cpp:2219
 #, kde-kuit-format
@@ -52376,7 +52413,7 @@ msgstr "金沙萨"
 #, kde-kuit-format
 msgctxt "City in Ontario Canada"
 msgid "Kiosk"
-msgstr ""
+msgstr "Kiosk"
 
 #: kstars_i18n.cpp:2235
 #, kde-kuit-format
@@ -64772,7 +64809,7 @@ msgstr "塔斯马尼亚"
 #, kde-kuit-format
 msgctxt "Region/state in Spain"
 msgid "Tenerife"
-msgstr "特纳利夫岛"
+msgstr "特内里费"
 
 #: kstars_i18n.cpp:4301
 #, kde-kuit-format
@@ -77669,7 +77706,7 @@ msgstr "不能显示 %1。没有解析结果。"
 #: skycomponents/imageoverlaycomponent.cpp:694
 #, kde-format
 msgid "Can't show %1. Image not loaded."
-msgstr "不能显示 %1。图像未载入。"
+msgstr "不能显示 %1。图像没有加载。"
 
 #: skycomponents/imageoverlaycomponent.cpp:727
 #, kde-format

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kstars\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-05-12 01:53+0000\n"
+"POT-Creation-Date: 2025-05-13 02:06+0000\n"
 "PO-Revision-Date: 2021-10-26 14:46-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -28784,7 +28784,45 @@ msgctxt "@title:window"
 msgid "Select Jobs Directory"
 msgstr "Pasta:"
 
-#: ekos/scheduler/greedyscheduler.cpp:199
+#: ekos/scheduler/greedyscheduler.cpp:96
+#, kde-format
+msgid ""
+"Sorry, no jobs are runnable for the next 3 days. All jobs have completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:98
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days. Job %1 has completed."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:111
+#, fuzzy, kde-format
+#| msgid "%1 slew is complete."
+msgid "(%1) Job %2: has completed."
+msgstr "O desvio de %1 está completo."
+
+#: ekos/scheduler/greedyscheduler.cpp:115
+#, fuzzy, kde-format
+#| msgid "%1 observation job aborted due to bad weather."
+msgid "(%1) Job %2: cannot run because: %3"
+msgstr "A tarefa de observação de %1 foi interrompida devido ao mau tempo."
+
+#: ekos/scheduler/greedyscheduler.cpp:119
+#, kde-format
+msgid "******************** Now ********************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:121
+#, kde-format
+msgid "*****************In %1 Hours******************"
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:123
+#, kde-format
+msgid "Sorry, no jobs are runnable for the next 3 days."
+msgstr ""
+
+#: ekos/scheduler/greedyscheduler.cpp:217
 #, fuzzy, kde-format
 #| msgid "%1 observation job is due to run as soon as possible."
 msgid "Job '%1' has no more batches remaining."
@@ -97231,11 +97269,6 @@ msgstr "Definir a cor do fundo."
 
 #~ msgid "KStars::slotFind() - Not enough memory for dialog"
 #~ msgstr "KStars::slotFind() - Sem memória suficiente para dialogo"
-
-#, fuzzy
-#~| msgid "%1 observation job aborted due to bad weather."
-#~ msgid "Job '%1' cannot run now because of bad weather."
-#~ msgstr "A tarefa de observação de %1 foi interrompida devido ao mau tempo."
 
 #, fuzzy
 #~| msgid "%1 observation job is due to run as soon as possible."
